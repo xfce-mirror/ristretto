@@ -1,7 +1,8 @@
 bin_PROGRAMS = ristretto
 
 ristretto_SOURCES = \
-	main.c
+	main.c \
+	picture_viewer.c picture_viewer.h
 
 ristretto_CFLAGS = \
 	@GTK_CFLAGS@ \
