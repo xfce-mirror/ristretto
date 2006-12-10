@@ -29,20 +29,12 @@ int main(int argc, char **argv)
 
 	g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
-	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file("test.png", NULL);
-
-	GtkWidget *scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
-
 	GtkWidget *viewer = rstto_picture_viewer_new();
 
-	gtk_container_add(GTK_CONTAINER(scrolledwindow), viewer);
-	gtk_container_add(GTK_CONTAINER(window), scrolledwindow);
+	gtk_container_add(GTK_CONTAINER(window), viewer);
 
-	gtk_widget_show_all(window);
-	gtk_widget_show_all(viewer);
 	gtk_widget_set_size_request(window, 400,300);
-
-	rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
+	gtk_widget_show_all(window);
 
 	gtk_main();
 	return 0;

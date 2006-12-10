@@ -45,8 +45,9 @@ typedef struct _RsttoPictureViewer RsttoPictureViewer;
 
 struct _RsttoPictureViewer
 {
-	GtkViewport        parent;
-	GtkWidget         *image;
+	GtkContainer       parent;
+	GtkHScrollbar     *h_scrollbar;
+	GtkVScrollbar     *v_scrollbar;
 	GdkPixbuf         *src_pixbuf;
 	GdkPixbuf         *dst_pixbuf; /* The pixbuf which ends up on screen */
 	gint               scale;
@@ -56,7 +57,7 @@ typedef struct _RsttoPictureViewerClass RsttoPictureViewerClass;
 
 struct _RsttoPictureViewerClass
 {
-	GtkViewportClass parent_class;
+	GtkContainerClass parent_class;
 };
 
 GType      rstto_picture_viewer_get_type();

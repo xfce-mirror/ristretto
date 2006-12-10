@@ -3,7 +3,7 @@ dnl Copyright (c) 2006
 dnl         The Xfce development team. All rights reserved.
 dnl
 dnl Originally written for Xfce by Benedikt Meurer <benny@xfce.org>
-dnl Modified by Stephan Arts <psybsd@gmail.com>
+dnl Modified by Stephan Arts <stephan@xfce.org>
 dnl
 
 dnl ***************************
@@ -24,7 +24,7 @@ m4_define([ristretto_debug_default], [ifelse(ristretto_version_tag(), [svn], [fu
 AC_COPYRIGHT([Copyright (c) 2006
         The Xfce development team. All rights reserved.
 
-Written for Xfce by Stephan Arts <psybsd@gmail.com>.])
+Written for Xfce by Stephan Arts <stephan@xfce.org>.])
 
 AC_INIT([ristretto], [ristretto_version], [])
 AC_PREREQ([2.50])
@@ -110,6 +110,7 @@ XDT_I18N([@LINGUAS@])
 XDT_CHECK_PACKAGE([GTK], [gtk+-2.0], [2.2.0])
 XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.2.0])
 XDT_CHECK_PACKAGE([GOBJECT], [gobject-2.0], [2.2.0])
+
 
 dnl check for debugging support
 XDT_FEATURE_DEBUG
