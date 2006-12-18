@@ -45,19 +45,23 @@ typedef struct _RsttoPictureViewer RsttoPictureViewer;
 
 struct _RsttoPictureViewer
 {
-	GtkContainer       parent;
-	GtkHScrollbar     *h_scrollbar;
-	GtkVScrollbar     *v_scrollbar;
-	GdkPixbuf         *src_pixbuf;
-	GdkPixbuf         *dst_pixbuf; /* The pixbuf which ends up on screen */
-	gint               scale;
+	GtkWidget        parent;
+	GdkPixbuf        *src_pixbuf;
+	GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
+	GtkAdjustment    *vadjustment;
+	GtkAdjustment    *hadjustment;
+	gint              scale;
 };
 
 typedef struct _RsttoPictureViewerClass RsttoPictureViewerClass;
 
 struct _RsttoPictureViewerClass
 {
-	GtkContainerClass parent_class;
+	GtkWidgetClass  parent_class;
+
+  void (* set_scroll_adjustments) (RsttoPictureViewer *viewer,
+	      GtkAdjustment     *hadjustment,
+	      GtkAdjustment     *vadjustment);
 };
 
 GType      rstto_picture_viewer_get_type();

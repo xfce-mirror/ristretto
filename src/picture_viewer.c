@@ -18,6 +18,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include <gtk/gtkmarshal.h>
 
 #include "picture_viewer.h"
 
@@ -25,6 +26,8 @@ static void
 rstto_picture_viewer_init(RsttoPictureViewer *);
 static void
 rstto_picture_viewer_class_init(RsttoPictureViewerClass *);
+static void
+rstto_picture_viewer_destroy(GtkObject *object);
 
 static void
 rstto_picture_viewer_size_request(GtkWidget *, GtkRequisition *);
@@ -32,17 +35,15 @@ static void
 rstto_picture_viewer_size_allocate(GtkWidget *, GtkAllocation *);
 static void
 rstto_picture_viewer_realize(GtkWidget *);
+static void
+rstto_picture_viewer_unrealize(GtkWidget *);
 static gboolean 
 rstto_picture_viewer_expose(GtkWidget *, GdkEventExpose *);
 
 static void
-rstto_picture_viewer_forall(GtkContainer *, gboolean, GtkCallback, gpointer);
-static void
-rstto_picture_viewer_add(GtkContainer *, GtkWidget *);
-static void
-rstto_picture_viewer_remove(GtkContainer *, GtkWidget *);
+rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *, GtkAdjustment *, GtkAdjustment *);
 
-static GtkContainerClass *rstto_parent_class = NULL;
+static GtkWidgetClass *parent_class = NULL;
 
 GType
 rstto_picture_viewer_get_type ()
@@ -65,7 +66,7 @@ rstto_picture_viewer_get_type ()
 			NULL
 		};
 
-		rstto_picture_viewer_type = g_type_register_static (GTK_TYPE_CONTAINER, "RsttoPictureViewer", &rstto_picture_viewer_info, 0);
+		rstto_picture_viewer_type = g_type_register_static (GTK_TYPE_WIDGET, "RsttoPictureViewer", &rstto_picture_viewer_info, 0);
 	}
 	return rstto_picture_viewer_type;
 }
@@ -73,97 +74,119 @@ rstto_picture_viewer_get_type ()
 static void
 rstto_picture_viewer_init(RsttoPictureViewer *viewer)
 {
-	GTK_WIDGET_SET_FLAGS(viewer, GTK_NO_WINDOW);
+	//GTK_WIDGET_SET_FLAGS(viewer, GTK_NO_WINDOW);
+	viewer->dst_pixbuf = NULL;
 	gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
 
-	viewer->scale = 100;
+	viewer->scale = 50;
 
 	viewer->src_pixbuf = gdk_pixbuf_new_from_file("test.png", NULL);
-	gint width = gdk_pixbuf_get_width(viewer->src_pixbuf);
-	gint height = gdk_pixbuf_get_height(viewer->src_pixbuf);
+	//gint width = gdk_pixbuf_get_width(viewer->src_pixbuf);
+	//gint height = gdk_pixbuf_get_height(viewer->src_pixbuf);
 
-	GtkAdjustment *h_adjustment = (GtkAdjustment *)gtk_adjustment_new(0, 0, width, width*0.1, width*0.9, 0);
-	GtkAdjustment *v_adjustment = (GtkAdjustment *)gtk_adjustment_new(0, 0, height, height*0.1, height*0.9, 0);
+	//GtkAdjustment *h_adjustment = (GtkAdjustment *)gtk_adjustment_new(0, 0, width, width*0.1, width*0.9, 0);
+	//GtkAdjustment *v_adjustment = (GtkAdjustment *)gtk_adjustment_new(0, 0, height, height*0.1, height*0.9, 0);
 
-	viewer->h_scrollbar = (GtkHScrollbar *)gtk_hscrollbar_new(h_adjustment);
-	viewer->v_scrollbar = (GtkVScrollbar *)gtk_vscrollbar_new(v_adjustment);
-
-	viewer->dst_pixbuf = NULL;
-
-	gtk_container_add((GtkContainer *)viewer, (GtkWidget *)viewer->h_scrollbar);
-	gtk_container_add((GtkContainer *)viewer, (GtkWidget *)viewer->v_scrollbar);
-
-	gtk_widget_show((GtkWidget *)viewer->h_scrollbar);
-	gtk_widget_show((GtkWidget *)viewer->v_scrollbar);
 }
 
 static void
 rstto_picture_viewer_class_init(RsttoPictureViewerClass *viewer_class)
 {
 	GtkWidgetClass *widget_class;
-	GtkContainerClass *container_class;
+	GtkObjectClass *object_class;
 
 	widget_class = (GtkWidgetClass*)viewer_class;
-	container_class = (GtkContainerClass*)viewer_class;
+	object_class = (GtkObjectClass*)viewer_class;
+
+	parent_class = g_type_class_peek_parent(viewer_class);
+
+	viewer_class->set_scroll_adjustments = rstto_picture_viewer_set_scroll_adjustments;
 
 	widget_class->realize = rstto_picture_viewer_realize;
+	widget_class->unrealize = rstto_picture_viewer_unrealize;
 	widget_class->expose_event = rstto_picture_viewer_expose;
+
 	widget_class->size_request = rstto_picture_viewer_size_request;
 	widget_class->size_allocate = rstto_picture_viewer_size_allocate;
 
-	container_class->add = rstto_picture_viewer_add;
-	container_class->remove = rstto_picture_viewer_remove;
-	container_class->forall = rstto_picture_viewer_forall;
+	object_class->destroy = rstto_picture_viewer_destroy;
 
-	rstto_parent_class = container_class;
+
+  widget_class->set_scroll_adjustments_signal =
+    g_signal_new ("set_scroll_adjustments",
+		  G_TYPE_FROM_CLASS (object_class),
+		  G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		  G_STRUCT_OFFSET (RsttoPictureViewerClass, set_scroll_adjustments),
+		  NULL, NULL,
+		  gtk_marshal_VOID__POINTER_POINTER,
+		  G_TYPE_NONE, 2,
+		  GTK_TYPE_ADJUSTMENT,
+		  GTK_TYPE_ADJUSTMENT);
+
 }
 
 static void
 rstto_picture_viewer_size_request(GtkWidget *widget, GtkRequisition *requisition)
 {
 	g_debug("size request");
+	requisition->width = 100;
+	requisition->height= 500;
 }
 
 static void
 rstto_picture_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 {
-	GtkAllocation child_allocation;
-	g_debug("size allocate: x:%d y:%d w:%d h:%d", allocation->x, allocation->y, allocation->width, allocation->height);
 	RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER(widget);
-	gtk_widget_set_child_visible(GTK_WIDGET(viewer->h_scrollbar), TRUE);
-	gtk_widget_set_child_visible(GTK_WIDGET(viewer->v_scrollbar), TRUE);
+	gint border_width =  0;//GTK_CONTAINER(widget)->border_width;
+	g_debug("size allocate: x:%d y:%d w:%d h:%d", allocation->x, allocation->y, allocation->width, allocation->height);
 
-	GtkAdjustment *h_adjustment = gtk_range_get_adjustment(GTK_RANGE(viewer->h_scrollbar));
-	h_adjustment->page_size = allocation->width-20;
-	if((h_adjustment->value + h_adjustment->page_size) > h_adjustment->upper)
-		h_adjustment->value = MAX(h_adjustment->upper - h_adjustment->page_size, 0);
-	gtk_range_set_adjustment(GTK_RANGE(viewer->h_scrollbar), h_adjustment);
+	gint width = gdk_pixbuf_get_width(viewer->src_pixbuf);
+	gint height = gdk_pixbuf_get_height(viewer->src_pixbuf);
 
-	GtkAdjustment *v_adjustment = gtk_range_get_adjustment(GTK_RANGE(viewer->v_scrollbar));
-	v_adjustment->page_size = allocation->height-20;
-	if((v_adjustment->value + v_adjustment->page_size) > v_adjustment->upper)
-		v_adjustment->value = MAX(v_adjustment->upper - v_adjustment->page_size, 0);
-	gtk_range_set_adjustment(GTK_RANGE(viewer->v_scrollbar), v_adjustment);
+	viewer->hadjustment = (GtkAdjustment *)gtk_adjustment_new(0, 0, width*viewer->scale, width*viewer->scale*0.1, width*viewer->scale*0.6, allocation->width);
+	viewer->vadjustment = (GtkAdjustment *)gtk_adjustment_new(0, 0, height*viewer->scale, height*viewer->scale*0.1, height*viewer->scale*0.6, allocation->height);
 
-	GdkPixbuf *tmp = gdk_pixbuf_new_subpixbuf(viewer->src_pixbuf, 
-			h_adjustment->value*100/viewer->scale,
-			v_adjustment->value*100/viewer->scale,
-			MIN(h_adjustment->page_size*100/viewer->scale, gdk_pixbuf_get_width(viewer->src_pixbuf)*100/viewer->scale),
-			MIN(v_adjustment->page_size*100/viewer->scale, gdk_pixbuf_get_height(viewer->src_pixbuf)*100/viewer->scale));
 
-	viewer->dst_pixbuf = gdk_pixbuf_scale_simple(tmp, h_adjustment->page_size, v_adjustment->page_size, GDK_INTERP_BILINEAR);
+	GdkPixbuf *tmp_pixbuf = NULL;
+	tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->src_pixbuf,
+	                         viewer->hadjustment->value / viewer->scale, 
+	                         viewer->vadjustment->value / viewer->scale,
+													 viewer->hadjustment->page_size / viewer->scale,
+													 viewer->vadjustment->page_size / viewer->scale);
 
-	child_allocation.x = allocation->width-20;
-	child_allocation.y = allocation->y;
-	child_allocation.width=20;
-	child_allocation.height = allocation->height-20;
-	gtk_widget_size_allocate(GTK_WIDGET(viewer->v_scrollbar), &child_allocation);
+	if(viewer->dst_pixbuf)
+	{
+		g_object_unref(viewer->dst_pixbuf);
+		viewer->dst_pixbuf = NULL;
+	}
+	viewer->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf, viewer->hadjustment->page_size, viewer->vadjustment->page_size, GDK_INTERP_NEAREST);
 
-	child_allocation.x = allocation->x;
-	child_allocation.y = allocation->height-20;
-	child_allocation.width= allocation->width-20;
-	child_allocation.height=20;
-	gtk_widget_size_allocate(GTK_WIDGET(viewer->h_scrollbar), &child_allocation);
+	if(tmp_pixbuf)
+	{
+		g_object_unref(tmp_pixbuf);
+		tmp_pixbuf = NULL;
+	}
+
+
+  widget->allocation = *allocation;
+
+	if (GTK_WIDGET_REALIZED (widget))
+	{
+		g_debug("alloc\n");
+ 		gdk_window_move_resize (widget->window,
+			allocation->x + border_width,
+			allocation->y + border_width,
+			allocation->width - border_width * 2,
+			allocation->height - border_width * 2);
+	}
+
+	/*
+  if (hadjustment_value_changed)
+    gtk_adjustment_value_changed (hadjustment);
+  if (vadjustment_value_changed)
+    gtk_adjustment_value_changed (vadjustment);
+		*/
+
 }
 
 static void
@@ -180,56 +203,64 @@ rstto_picture_viewer_realize(GtkWidget *widget)
 
 	attributes.x = widget->allocation.x;
 	attributes.y = widget->allocation.y;
-	attributes.width = widget->allocation.width-20;
-	attributes.height = widget->allocation.height-20;
+	attributes.width = widget->allocation.width;
+	attributes.height = widget->allocation.height;
 	attributes.wclass = GDK_INPUT_OUTPUT;
 	attributes.window_type = GDK_WINDOW_CHILD;
 	attributes.event_mask = gtk_widget_get_events (widget) | 
-	GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK | 
-	GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK |
-	GDK_POINTER_MOTION_HINT_MASK;
+	GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK;
 	attributes.visual = gtk_widget_get_visual (widget);
 	attributes.colormap = gtk_widget_get_colormap (widget);
 
 	attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
-	widget->window = gdk_window_new (widget->parent->window, &attributes, attributes_mask);
+	widget->window = gdk_window_new (gtk_widget_get_parent_window(widget), &attributes, attributes_mask);
 
   widget->style = gtk_style_attach (widget->style, widget->window);
+	gdk_window_set_user_data (widget->window, widget);
+
+	gtk_style_set_background (widget->style, widget->window, GTK_STATE_ACTIVE);
+}
+
+static void
+rstto_picture_viewer_unrealize(GtkWidget *widget)
+{
+
 }
 
 static gboolean
 rstto_picture_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
 {
 	g_debug("expose");
-  gdk_window_clear_area (widget->window, 0, 0, widget->allocation.width-20, widget->allocation.height-20);
-  (* GTK_WIDGET_CLASS (rstto_parent_class)->expose_event) (widget, event);
+	GdkPixbuf *pixbuf = RSTTO_PICTURE_VIEWER(widget)->dst_pixbuf;
+//GdkPixbuf *pixbuf = RSTTO_PICTURE_VIEWER(widget)->src_pixbuf;
+//	((GtkWidgetClass *)parent_class)->expose_event(widget, event);
+	gdk_draw_pixbuf(GDK_DRAWABLE(widget->window), 
+	                NULL, 
+									pixbuf,
+									0,
+									0,
+									0,
+									0,
+									gdk_pixbuf_get_width(pixbuf),
+									gdk_pixbuf_get_height(pixbuf),
+									GDK_RGB_DITHER_NONE,
+									0,0);
+
 
 	return FALSE;
 }
 
 static void
-rstto_picture_viewer_forall(GtkContainer *container, gboolean include_internals, GtkCallback callback, gpointer callback_data)
+rstto_picture_viewer_destroy(GtkObject *object)
 {
-	RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER(container);
 
-	(*callback)(GTK_WIDGET(viewer->v_scrollbar), callback_data);
-	(*callback)(GTK_WIDGET(viewer->h_scrollbar), callback_data);
 }
 
 static void
-rstto_picture_viewer_add(GtkContainer *container, GtkWidget *child)
+rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *viewer, GtkAdjustment *hadjustment, GtkAdjustment *vadjustment)
 {
-	g_return_if_fail(GTK_IS_WIDGET(child));
-
-	RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER(container);
-
-	gtk_widget_set_parent(child, GTK_WIDGET(viewer));
-}
-
-static void
-rstto_picture_viewer_remove(GtkContainer *container, GtkWidget *child)
-{
-
+	viewer->hadjustment = hadjustment;
+	viewer->vadjustment = vadjustment;
 }
 
 GtkWidget *

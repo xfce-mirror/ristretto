@@ -30,11 +30,14 @@ int main(int argc, char **argv)
 	g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
 	GtkWidget *viewer = rstto_picture_viewer_new();
+	GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
 
-	gtk_container_add(GTK_CONTAINER(window), viewer);
+	gtk_container_add(GTK_CONTAINER(s_window), viewer);
+	gtk_container_add(GTK_CONTAINER(window), s_window);
 
 	gtk_widget_set_size_request(window, 400,300);
 	gtk_widget_show_all(window);
+	gtk_widget_show(viewer);
 
 	gtk_main();
 	return 0;
