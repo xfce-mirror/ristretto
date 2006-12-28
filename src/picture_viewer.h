@@ -45,12 +45,12 @@ typedef struct _RsttoPictureViewer RsttoPictureViewer;
 
 struct _RsttoPictureViewer
 {
-	GtkWidget        parent;
+	GtkWidget         parent;
 	GdkPixbuf        *src_pixbuf;
 	GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
 	GtkAdjustment    *vadjustment;
 	GtkAdjustment    *hadjustment;
-	gint              scale;
+	gdouble           scale;
 };
 
 typedef struct _RsttoPictureViewerClass RsttoPictureViewerClass;
