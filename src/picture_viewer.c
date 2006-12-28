@@ -78,7 +78,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
 	viewer->dst_pixbuf = NULL;
 	gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
 
-	viewer->scale = 1.5;
+	viewer->scale = 1;
 
 	viewer->src_pixbuf = gdk_pixbuf_new_from_file("test.png", NULL);
 	//gint width = gdk_pixbuf_get_width(viewer->src_pixbuf);
@@ -245,8 +245,8 @@ rstto_picture_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
 									pixbuf,
 									0,
 									0,
-									0,
-									0,
+									(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2,
+									(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2,
 									gdk_pixbuf_get_width(pixbuf),
 									gdk_pixbuf_get_height(pixbuf),
 									GDK_RGB_DITHER_NONE,
