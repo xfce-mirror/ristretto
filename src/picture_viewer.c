@@ -43,6 +43,9 @@ rstto_picture_viewer_expose(GtkWidget *, GdkEventExpose *);
 static void
 rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *, GtkAdjustment *, GtkAdjustment *);
 
+static void
+cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureViewer *viewer);
+
 static GtkWidgetClass *parent_class = NULL;
 
 GType
@@ -75,18 +78,14 @@ static void
 rstto_picture_viewer_init(RsttoPictureViewer *viewer)
 {
 	//GTK_WIDGET_SET_FLAGS(viewer, GTK_NO_WINDOW);
+	viewer->cb_value_changed = cb_rstto_picture_viewer_value_changed;
+
 	viewer->dst_pixbuf = NULL;
 	gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
 
-	viewer->scale = 1;
+	viewer->scale = 12;
 
 	viewer->src_pixbuf = gdk_pixbuf_new_from_file("test.png", NULL);
-	//gint width = gdk_pixbuf_get_width(viewer->src_pixbuf);
-	//gint height = gdk_pixbuf_get_height(viewer->src_pixbuf);
-
-//	viewer->hadjustment = (GtkAdjustment *)gtk_adjustment_new(0, 0, 0, 0.1, 0.9, 0);
-//	viewer->vadjustment = (GtkAdjustment *)gtk_adjustment_new(0, 0, 0, 0.1, 0.9, 0);
-
 }
 
 static void
@@ -147,6 +146,10 @@ rstto_picture_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 	viewer->vadjustment->upper = height * viewer->scale;
 	viewer->hadjustment->lower = 0;
 	viewer->vadjustment->lower = 0;
+	viewer->hadjustment->step_increment = 1;
+	viewer->hadjustment->page_increment = 100;
+	viewer->vadjustment->step_increment = 1;
+	viewer->vadjustment->page_increment = 100;
 
 	if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
 	{
@@ -162,8 +165,8 @@ rstto_picture_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 
 	GdkPixbuf *tmp_pixbuf = NULL;
 	tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->src_pixbuf,
-	                         0,
-													 0,
+	                         viewer->hadjustment->value / viewer->scale >= 0? viewer->hadjustment->value / viewer->scale : 0,
+	                         viewer->vadjustment->value / viewer->scale >= 0? viewer->vadjustment->value / viewer->scale : 0,
 													 ((allocation->width/viewer->scale)+1) < width?allocation->width/viewer->scale+1:width,
 													 ((allocation->height/viewer->scale)+1)< height?allocation->height/viewer->scale+1:height);
 
@@ -231,7 +234,6 @@ rstto_picture_viewer_realize(GtkWidget *widget)
 static void
 rstto_picture_viewer_unrealize(GtkWidget *widget)
 {
-
 }
 
 static gboolean
@@ -264,8 +266,36 @@ rstto_picture_viewer_destroy(GtkObject *object)
 static void
 rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *viewer, GtkAdjustment *hadjustment, GtkAdjustment *vadjustment)
 {
+	if(viewer->hadjustment)
+	{
+		g_signal_handlers_disconnect_by_func(viewer->hadjustment, viewer->cb_value_changed, viewer);
+		g_object_unref(viewer->hadjustment);
+	}
+	if(viewer->vadjustment)
+	{
+		g_signal_handlers_disconnect_by_func(viewer->vadjustment, viewer->cb_value_changed, viewer);
+		g_object_unref(viewer->vadjustment);
+	}
+
 	viewer->hadjustment = hadjustment;
 	viewer->vadjustment = vadjustment;
+
+	if(viewer->hadjustment)
+	{
+		g_signal_connect(G_OBJECT(viewer->hadjustment), "value-changed", (GCallback)viewer->cb_value_changed, viewer);
+		g_object_ref(viewer->hadjustment);
+	}
+	if(viewer->vadjustment)
+	{
+		g_signal_connect(G_OBJECT(viewer->vadjustment), "value-changed", (GCallback)viewer->cb_value_changed, viewer);
+		g_object_ref(viewer->vadjustment);
+	}
+}
+
+static void
+cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureViewer *viewer)
+{
+	g_debug("value changed");
 }
 
 GtkWidget *

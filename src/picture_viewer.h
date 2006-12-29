@@ -51,6 +51,7 @@ struct _RsttoPictureViewer
 	GtkAdjustment    *vadjustment;
 	GtkAdjustment    *hadjustment;
 	gdouble           scale;
+	void             (*cb_value_changed)(GtkAdjustment *, RsttoPictureViewer *);
 };
 
 typedef struct _RsttoPictureViewerClass RsttoPictureViewerClass;
