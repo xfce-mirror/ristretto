@@ -256,8 +256,8 @@ rstto_picture_viewer_paint(GtkWidget *widget)
 									pixbuf,
 									0,
 									0,
-									(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2,
-									(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2,
+									(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2,
+									(widget->allocation.height-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2,
 									gdk_pixbuf_get_width(pixbuf),
 									gdk_pixbuf_get_height(pixbuf),
 									GDK_RGB_DITHER_NONE,
@@ -302,8 +302,6 @@ rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *viewer, GtkAdjus
 static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureViewer *viewer)
 {
-	g_debug("value changed");
-
 	gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->src_pixbuf);
 	gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->src_pixbuf);
 
@@ -312,7 +310,7 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureVie
 	                         viewer->hadjustment->value / viewer->scale >= 0? viewer->hadjustment->value / viewer->scale : 0,
 	                         viewer->vadjustment->value / viewer->scale >= 0? viewer->vadjustment->value / viewer->scale : 0,
 													 ((GTK_WIDGET(viewer)->allocation.width/viewer->scale)+1) < width?GTK_WIDGET(viewer)->allocation.width/viewer->scale+1:width,
-													 ((GTK_WIDGET(viewer)->allocation.width/viewer->scale)+1) < height?GTK_WIDGET(viewer)->allocation.width/viewer->scale+1:height);
+													 ((GTK_WIDGET(viewer)->allocation.height/viewer->scale)+1) < height?GTK_WIDGET(viewer)->allocation.height/viewer->scale+1:height);
 
 	if(viewer->dst_pixbuf)
 	{
