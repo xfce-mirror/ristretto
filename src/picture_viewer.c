@@ -88,6 +88,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
 
 	viewer->scale = 12;
 
+	//viewer->src_pixbuf = gdk_pixbuf_new_from_file("test.svg", NULL);
 	viewer->src_pixbuf = gdk_pixbuf_new_from_file("test.png", NULL);
 }
 
@@ -251,6 +252,8 @@ static void
 rstto_picture_viewer_paint(GtkWidget *widget)
 {
 	GdkPixbuf *pixbuf = RSTTO_PICTURE_VIEWER(widget)->dst_pixbuf;
+	/* required for transparent pixbufs... add double buffering to fix flickering*/
+	gdk_window_clear(widget->window);
 	gdk_draw_pixbuf(GDK_DRAWABLE(widget->window), 
 	                NULL, 
 									pixbuf,
