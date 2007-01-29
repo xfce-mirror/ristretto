@@ -51,6 +51,7 @@ struct _RsttoPictureViewer
 	GtkAdjustment    *vadjustment;
 	GtkAdjustment    *hadjustment;
 	gdouble           scale;
+	gboolean          scale_fts; /* Scale image to fit to screen */
 	void             (*cb_value_changed)(GtkAdjustment *, RsttoPictureViewer *);
 };
 
@@ -68,7 +69,8 @@ struct _RsttoPictureViewerClass
 GType      rstto_picture_viewer_get_type();
 
 GtkWidget *rstto_picture_viewer_new();
-void       rstto_picture_viewer_set_pixbuf(RsttoPictureViewer *viewer, GdkPixbuf *);
+void       rstto_picture_viewer_set_pixbuf(RsttoPictureViewer *viewer, GdkPixbuf *pixbuf);
+void       rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale);
 
 
 G_END_DECLS

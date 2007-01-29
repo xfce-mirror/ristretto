@@ -23,19 +23,29 @@
 
 int main(int argc, char **argv)
 {
+	GdkPixbuf *pixbuf;
 	gtk_init(&argc, &argv);
 
 	GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+	if(argc == 2)
+		pixbuf = gdk_pixbuf_new_from_file(argv[1], NULL);
+	else
+		pixbuf = NULL;
+
 
 	g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
 	GtkWidget *viewer = rstto_picture_viewer_new();
 	GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
 
+	rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
+	rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(viewer), 5);
+
+
 	gtk_container_add(GTK_CONTAINER(s_window), viewer);
 	gtk_container_add(GTK_CONTAINER(window), s_window);
 
-	gtk_widget_set_size_request(window, 400,300);
 	gtk_widget_show_all(window);
 	gtk_widget_show(viewer);
 
