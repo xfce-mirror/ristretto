@@ -21,6 +21,15 @@
 
 #include "picture_viewer.h"
 
+static void
+cb_rstto_zoom_fit(GtkToolItem *item, RsttoPictureViewer *viewer);
+static void
+cb_rstto_zoom_100(GtkToolItem *item, RsttoPictureViewer *viewer);
+static void
+cb_rstto_zoom_in(GtkToolItem *item, RsttoPictureViewer *viewer);
+static void
+cb_rstto_zoom_out(GtkToolItem *item, RsttoPictureViewer *viewer);
+
 int main(int argc, char **argv)
 {
 	GdkPixbuf *pixbuf;
@@ -38,17 +47,64 @@ int main(int argc, char **argv)
 
 	GtkWidget *viewer = rstto_picture_viewer_new();
 	GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget *main_vbox = gtk_vbox_new(0, FALSE);
+	GtkWidget *tool_bar = gtk_toolbar_new();
+
+	GtkToolItem *zoom_fit= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_FIT);
+	GtkToolItem *zoom_100= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_100);
+	GtkToolItem *zoom_out= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_OUT);
+	GtkToolItem *zoom_in= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_IN);
 
 	rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
-	rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(viewer), 5);
 
 
 	gtk_container_add(GTK_CONTAINER(s_window), viewer);
-	gtk_container_add(GTK_CONTAINER(window), s_window);
+
+	gtk_box_pack_start(GTK_BOX(main_vbox), s_window, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(main_vbox), tool_bar, FALSE, TRUE, 0);
+	rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(viewer), 1);
+
+	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_fit, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_100, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_out, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_in, 0);
+
+	g_signal_connect(G_OBJECT(zoom_fit), "clicked", G_CALLBACK(cb_rstto_zoom_fit), viewer);
+	g_signal_connect(G_OBJECT(zoom_100), "clicked", G_CALLBACK(cb_rstto_zoom_100), viewer);
+	g_signal_connect(G_OBJECT(zoom_in), "clicked", G_CALLBACK(cb_rstto_zoom_in), viewer);
+	g_signal_connect(G_OBJECT(zoom_out), "clicked", G_CALLBACK(cb_rstto_zoom_out), viewer);
+
+	gtk_container_add(GTK_CONTAINER(window), main_vbox);
 
 	gtk_widget_show_all(window);
 	gtk_widget_show(viewer);
 
 	gtk_main();
 	return 0;
+}
+
+static void
+cb_rstto_zoom_fit(GtkToolItem *item, RsttoPictureViewer *viewer)
+{
+	rstto_picture_viewer_set_scale(viewer, 0);
+}
+
+static void
+cb_rstto_zoom_100(GtkToolItem *item, RsttoPictureViewer *viewer)
+{
+	rstto_picture_viewer_set_scale(viewer, 1);
+}
+
+static void
+cb_rstto_zoom_in(GtkToolItem *item, RsttoPictureViewer *viewer)
+{
+	gdouble scale = rstto_picture_viewer_get_scale(viewer);
+	rstto_picture_viewer_set_scale(viewer, scale*2);
+}
+
+static void
+cb_rstto_zoom_out(GtkToolItem *item, RsttoPictureViewer *viewer)
+{
+	gdouble scale = rstto_picture_viewer_get_scale(viewer);
+	rstto_picture_viewer_set_scale(viewer, scale/2);
 }
