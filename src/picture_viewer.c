@@ -86,7 +86,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
 	viewer->dst_pixbuf = NULL;
 	gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
 
-	viewer->scale = 0.2;
+	viewer->scale = 2;
 
 	//viewer->src_pixbuf = gdk_pixbuf_new_from_file("test.svg", NULL);
 	viewer->src_pixbuf = gdk_pixbuf_new_from_file("test.png", NULL);
@@ -315,8 +315,8 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureVie
 	tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->src_pixbuf,
 	                         viewer->hadjustment->value / viewer->scale >= 0? viewer->hadjustment->value / viewer->scale : 0,
 	                         viewer->vadjustment->value / viewer->scale >= 0? viewer->vadjustment->value / viewer->scale : 0,
-													 ((GTK_WIDGET(viewer)->allocation.width/viewer->scale)+1) < width?GTK_WIDGET(viewer)->allocation.width/viewer->scale+1:width,
-													 ((GTK_WIDGET(viewer)->allocation.height/viewer->scale)+1) < height?GTK_WIDGET(viewer)->allocation.height/viewer->scale+1:height);
+													 ((GTK_WIDGET(viewer)->allocation.width/viewer->scale)) < width?GTK_WIDGET(viewer)->allocation.width/viewer->scale:width,
+													 ((GTK_WIDGET(viewer)->allocation.height/viewer->scale)) < height?GTK_WIDGET(viewer)->allocation.height/viewer->scale:height);
 
 	if(viewer->dst_pixbuf)
 	{
