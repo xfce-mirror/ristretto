@@ -86,7 +86,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
 	viewer->dst_pixbuf = NULL;
 	gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
 
-	viewer->scale = 12;
+	viewer->scale = 0.2;
 
 	//viewer->src_pixbuf = gdk_pixbuf_new_from_file("test.svg", NULL);
 	viewer->src_pixbuf = gdk_pixbuf_new_from_file("test.png", NULL);
@@ -253,18 +253,21 @@ rstto_picture_viewer_paint(GtkWidget *widget)
 {
 	GdkPixbuf *pixbuf = RSTTO_PICTURE_VIEWER(widget)->dst_pixbuf;
 	/* required for transparent pixbufs... add double buffering to fix flickering*/
-	gdk_window_clear(widget->window);
-	gdk_draw_pixbuf(GDK_DRAWABLE(widget->window), 
-	                NULL, 
-									pixbuf,
-									0,
-									0,
-									(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2,
-									(widget->allocation.height-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2,
-									gdk_pixbuf_get_width(pixbuf),
-									gdk_pixbuf_get_height(pixbuf),
-									GDK_RGB_DITHER_NONE,
-									0,0);
+	if(GTK_WIDGET_REALIZED(widget))
+	{
+		gdk_window_clear(widget->window);
+		gdk_draw_pixbuf(GDK_DRAWABLE(widget->window), 
+										NULL, 
+										pixbuf,
+										0,
+										0,
+										(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2,
+										(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2,
+										gdk_pixbuf_get_width(pixbuf),
+										gdk_pixbuf_get_height(pixbuf),
+										GDK_RGB_DITHER_NONE,
+										0,0);
+	}
 }
 
 static void
