@@ -47,6 +47,7 @@ int main(int argc, char **argv)
 
 	GtkWidget *viewer = rstto_picture_viewer_new();
 	GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	GtkWidget *main_vbox = gtk_vbox_new(0, FALSE);
 	GtkWidget *tool_bar = gtk_toolbar_new();
 
@@ -57,12 +58,14 @@ int main(int argc, char **argv)
 
 	rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
 
+	gtk_widget_set_size_request(window, 300, 200);
+
 
 	gtk_container_add(GTK_CONTAINER(s_window), viewer);
 
 	gtk_box_pack_start(GTK_BOX(main_vbox), s_window, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(main_vbox), tool_bar, FALSE, TRUE, 0);
-	rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(viewer), 1);
+	rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(viewer), 0);
 
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_fit, 0);
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_100, 0);
