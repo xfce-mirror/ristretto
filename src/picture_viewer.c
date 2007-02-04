@@ -140,12 +140,8 @@ static void
 rstto_picture_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 {
 	RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER(widget);
-	gint border_width =  0;//GTK_CONTAINER(widget)->border_width;
+	gint border_width =  0;
   widget->allocation = *allocation;
-	if(viewer->scale_fts)
-		rstto_picture_viewer_set_scale(viewer, 0);
-
-	rstto_picture_viewer_refresh(viewer);
 
 	if (GTK_WIDGET_REALIZED (widget))
 	{
@@ -155,6 +151,8 @@ rstto_picture_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 			allocation->width - border_width * 2,
 			allocation->height - border_width * 2);
 	}
+
+	rstto_picture_viewer_refresh(viewer);
 }
 
 static void
@@ -383,8 +381,8 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 		tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->src_pixbuf,
 														 viewer->hadjustment->value / viewer->scale >= 0? viewer->hadjustment->value / viewer->scale : 0,
 														 viewer->vadjustment->value / viewer->scale >= 0? viewer->vadjustment->value / viewer->scale : 0,
-														 ((widget->allocation.width/viewer->scale)+1) < width?widget->allocation.width/viewer->scale+1:width,
-														 ((widget->allocation.height/viewer->scale)+1)< height?widget->allocation.height/viewer->scale+1:height);
+														 ((widget->allocation.width/viewer->scale)) < width?widget->allocation.width/viewer->scale:width,
+														 ((widget->allocation.height/viewer->scale))< height?widget->allocation.height/viewer->scale:height);
 
 		if(viewer->dst_pixbuf)
 		{
