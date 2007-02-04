@@ -65,7 +65,8 @@ int main(int argc, char **argv)
 
 	gtk_box_pack_start(GTK_BOX(main_vbox), s_window, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(main_vbox), tool_bar, FALSE, TRUE, 0);
-	rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(viewer), 0);
+
+	rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(viewer), 1);
 
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_fit, 0);
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_100, 0);
@@ -89,7 +90,7 @@ int main(int argc, char **argv)
 static void
 cb_rstto_zoom_fit(GtkToolItem *item, RsttoPictureViewer *viewer)
 {
-	rstto_picture_viewer_set_scale(viewer, 0);
+	rstto_picture_viewer_fit_scale(viewer);
 }
 
 static void
@@ -102,12 +103,12 @@ static void
 cb_rstto_zoom_in(GtkToolItem *item, RsttoPictureViewer *viewer)
 {
 	gdouble scale = rstto_picture_viewer_get_scale(viewer);
-	rstto_picture_viewer_set_scale(viewer, scale*2);
+	rstto_picture_viewer_set_scale(viewer, scale*1.2);
 }
 
 static void
 cb_rstto_zoom_out(GtkToolItem *item, RsttoPictureViewer *viewer)
 {
 	gdouble scale = rstto_picture_viewer_get_scale(viewer);
-	rstto_picture_viewer_set_scale(viewer, scale/2);
+	rstto_picture_viewer_set_scale(viewer, scale/1.2);
 }

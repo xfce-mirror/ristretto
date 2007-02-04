@@ -72,6 +72,7 @@ GtkWidget *rstto_picture_viewer_new();
 void       rstto_picture_viewer_set_pixbuf(RsttoPictureViewer *viewer, GdkPixbuf *pixbuf);
 void       rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale);
 gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
+gdouble    rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);
 
 
 G_END_DECLS
