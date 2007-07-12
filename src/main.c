@@ -1,6 +1,4 @@
 /*
- *  Copyright (c) 2006 Stephan Arts <stephan@xfce.org>
- *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -18,6 +16,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include <gettext.h>
 
 #include "picture_viewer.h"
 
@@ -29,6 +28,8 @@ static void
 cb_rstto_zoom_in(GtkToolItem *item, RsttoPictureViewer *viewer);
 static void
 cb_rstto_zoom_out(GtkToolItem *item, RsttoPictureViewer *viewer);
+static void
+cb_rstto_open(GtkToolItem *item, RsttoPictureViewer *viewer);
 
 int main(int argc, char **argv)
 {
@@ -55,6 +56,11 @@ int main(int argc, char **argv)
 	GtkToolItem *zoom_100= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_100);
 	GtkToolItem *zoom_out= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_OUT);
 	GtkToolItem *zoom_in= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_IN);
+	GtkToolItem *open = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
+	GtkToolItem *spacer = gtk_tool_item_new();
+
+	gtk_tool_item_set_expand(spacer, TRUE);
+	gtk_tool_item_set_homogeneous(spacer, FALSE);
 
 	rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
 
@@ -72,11 +78,14 @@ int main(int argc, char **argv)
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_100, 0);
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_out, 0);
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_in, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), spacer, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), open, 0);
 
 	g_signal_connect(G_OBJECT(zoom_fit), "clicked", G_CALLBACK(cb_rstto_zoom_fit), viewer);
 	g_signal_connect(G_OBJECT(zoom_100), "clicked", G_CALLBACK(cb_rstto_zoom_100), viewer);
 	g_signal_connect(G_OBJECT(zoom_in), "clicked", G_CALLBACK(cb_rstto_zoom_in), viewer);
 	g_signal_connect(G_OBJECT(zoom_out), "clicked", G_CALLBACK(cb_rstto_zoom_out), viewer);
+	g_signal_connect(G_OBJECT(open), "clicked", G_CALLBACK(cb_rstto_open), viewer);
 
 	gtk_container_add(GTK_CONTAINER(window), main_vbox);
 
@@ -111,4 +120,28 @@ cb_rstto_zoom_out(GtkToolItem *item, RsttoPictureViewer *viewer)
 {
 	gdouble scale = rstto_picture_viewer_get_scale(viewer);
 	rstto_picture_viewer_set_scale(viewer, scale/1.2);
+}
+
+static void
+cb_rstto_open(GtkToolItem *item, RsttoPictureViewer *viewer)
+{
+	GdkPixbuf *pixbuf = NULL;
+	GtkWidget *window = gtk_widget_get_toplevel(GTK_WIDGET(item));
+
+	GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open image"),
+	                                                GTK_WINDOW(window),
+	                                                GTK_FILE_CHOOSER_ACTION_OPEN,
+	                                                GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+	                                                GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+	                                                NULL);
+
+	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+	if(response == GTK_RESPONSE_OK)
+	{
+		pixbuf = gdk_pixbuf_new_from_file(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog)), NULL);
+
+		rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
+	}
+
+	gtk_widget_destroy(dialog);
 }

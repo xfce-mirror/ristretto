@@ -1,0 +1,5 @@
+13-07-2007  Stephan Arts <stephan@xfce.org>
+	* nl.po: Add dutch translation
+	* Makevars: Fix email adress
+	* LINGUAS: Add dutch translation to LINGUAS
+	* ChangeLog: Add ChangeLog file

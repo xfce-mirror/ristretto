@@ -21,7 +21,7 @@ dnl *** Debugging support for SVN snapshots ***
 dnl *******************************************
 m4_define([ristretto_debug_default], [ifelse(ristretto_version_tag(), [svn], [full], [minimum])])
 
-AC_COPYRIGHT([Copyright (c) 2006
+AC_COPYRIGHT([Copyright (c) 2006-2007
         The Xfce development team. All rights reserved.
 
 Written for Xfce by Stephan Arts <stephan@xfce.org>.])

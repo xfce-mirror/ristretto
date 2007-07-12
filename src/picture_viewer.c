@@ -1,6 +1,4 @@
 /*
- *  Copyright (c) 2006 Stephan Arts <stephan@xfce.org>
- *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -116,16 +114,16 @@ rstto_picture_viewer_class_init(RsttoPictureViewerClass *viewer_class)
 	object_class->destroy = rstto_picture_viewer_destroy;
 
 
-  widget_class->set_scroll_adjustments_signal =
-    g_signal_new ("set_scroll_adjustments",
-		  G_TYPE_FROM_CLASS (object_class),
-		  G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		  G_STRUCT_OFFSET (RsttoPictureViewerClass, set_scroll_adjustments),
-		  NULL, NULL,
-		  gtk_marshal_VOID__POINTER_POINTER,
-		  G_TYPE_NONE, 2,
-		  GTK_TYPE_ADJUSTMENT,
-		  GTK_TYPE_ADJUSTMENT);
+	widget_class->set_scroll_adjustments_signal =
+	              g_signal_new ("set_scroll_adjustments",
+	                            G_TYPE_FROM_CLASS (object_class),
+	                            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+	                            G_STRUCT_OFFSET (RsttoPictureViewerClass, set_scroll_adjustments),
+	                            NULL, NULL,
+	                            gtk_marshal_VOID__POINTER_POINTER,
+	                            G_TYPE_NONE, 2,
+	                            GTK_TYPE_ADJUSTMENT,
+	                            GTK_TYPE_ADJUSTMENT);
 
 }
 
@@ -205,21 +203,30 @@ rstto_picture_viewer_paint(GtkWidget *widget)
 	GdkPixbuf *pixbuf = RSTTO_PICTURE_VIEWER(widget)->dst_pixbuf;
 	/* required for transparent pixbufs... add double buffering to fix flickering*/
 	if(GTK_WIDGET_REALIZED(widget))
-	{
-		gdk_window_clear(widget->window);
+	{		  
+		GdkPixmap *buffer = gdk_pixmap_new(NULL, widget->allocation.width, widget->allocation.height, gdk_drawable_get_depth(widget->window));
 		if(pixbuf)
 		{
-			gdk_draw_pixbuf(GDK_DRAWABLE(widget->window), 
+			gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
 			                NULL, 
 			                pixbuf,
 			                0,
 			                0,
 			                (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2,
 			                (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2,
-			                gdk_pixbuf_get_width(pixbuf),
-			                gdk_pixbuf_get_height(pixbuf),
+							gdk_pixbuf_get_width(pixbuf),
+							gdk_pixbuf_get_height(pixbuf),
 			                GDK_RGB_DITHER_NONE,
 			                0,0);
+			gdk_draw_drawable(GDK_DRAWABLE(widget->window), 
+			                gdk_gc_new(widget->window), 
+			                buffer,
+			                0,
+			                0,
+							0,
+							0,
+							widget->allocation.width,
+							widget->allocation.height);
 		}
 	}
 }
