@@ -203,10 +203,7 @@ rstto_picture_viewer_paint(GtkWidget *widget)
 {
 	GdkPixbuf *pixbuf = RSTTO_PICTURE_VIEWER(widget)->dst_pixbuf;
 	GdkColor color;
-	color.pixel = 0;
-	color.red = 0;
-	color.green = 0;
-	color.blue = 0;
+	color.pixel = 0xdddddddd;
 	/* required for transparent pixbufs... add double buffering to fix flickering*/
 	if(GTK_WIDGET_REALIZED(widget))
 	{		  
