@@ -202,10 +202,19 @@ static void
 rstto_picture_viewer_paint(GtkWidget *widget)
 {
 	GdkPixbuf *pixbuf = RSTTO_PICTURE_VIEWER(widget)->dst_pixbuf;
+	GdkColor color;
+	color.pixel = 0;
+	color.red = 0;
+	color.green = 0;
+	color.blue = 0;
 	/* required for transparent pixbufs... add double buffering to fix flickering*/
 	if(GTK_WIDGET_REALIZED(widget))
 	{		  
 		GdkPixmap *buffer = gdk_pixmap_new(NULL, widget->allocation.width, widget->allocation.height, gdk_drawable_get_depth(widget->window));
+		GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(buffer));
+
+		gdk_gc_set_foreground(gc, &color);
+		gdk_draw_rectangle(GDK_DRAWABLE(buffer), gc, TRUE, 0, 0, widget->allocation.width, widget->allocation.height);
 		if(pixbuf)
 		{
 			gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
@@ -219,16 +228,16 @@ rstto_picture_viewer_paint(GtkWidget *widget)
 							gdk_pixbuf_get_height(pixbuf),
 			                GDK_RGB_DITHER_NONE,
 			                0,0);
-			gdk_draw_drawable(GDK_DRAWABLE(widget->window), 
-			                gdk_gc_new(widget->window), 
-			                buffer,
-			                0,
-			                0,
-							0,
-							0,
-							widget->allocation.width,
-							widget->allocation.height);
 		}
+		gdk_draw_drawable(GDK_DRAWABLE(widget->window), 
+		                gdk_gc_new(widget->window), 
+		                buffer,
+		                0,
+		                0,
+						0,
+						0,
+						widget->allocation.width,
+						widget->allocation.height);
 	}
 }
 
