@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = src
+SUBDIRS = src po
 
 desktopdir = $(datadir)/applications
 desktop_in_files = ristretto.desktop.in
@@ -12,6 +12,7 @@ EXTRA_DIST = \
 	intltool-extract.in \
 	intltool-merge.in \
 	intltool-update.in \
+	gettext.h \
 	$(desktop_in_files) \
 	$(pixmaps_DATA) \
 	$(wrapper_DATA)
