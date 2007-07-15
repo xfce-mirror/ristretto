@@ -16,9 +16,16 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
-#include <gettext.h>
+#include <string.h>
+
+#include <thunar-vfs/thunar-vfs.h>
 
 #include "picture_viewer.h"
+
+static ThunarVfsMimeDatabase *mime_dbase = NULL;
+static ThunarVfsPath *working_dir = NULL;
+static GList *file_list = NULL;
+static GList *file_iter = NULL;
 
 static void
 cb_rstto_zoom_fit(GtkToolItem *item, RsttoPictureViewer *viewer);
@@ -28,12 +35,19 @@ static void
 cb_rstto_zoom_in(GtkToolItem *item, RsttoPictureViewer *viewer);
 static void
 cb_rstto_zoom_out(GtkToolItem *item, RsttoPictureViewer *viewer);
+
+static void
+cb_rstto_back(GtkToolItem *item, RsttoPictureViewer *viewer);
+static void
+cb_rstto_forward(GtkToolItem *item, RsttoPictureViewer *viewer);
+
 static void
 cb_rstto_open(GtkToolItem *item, RsttoPictureViewer *viewer);
 
 int main(int argc, char **argv)
 {
 	GdkPixbuf *pixbuf;
+
 
 	#ifdef ENABLE_NLS
 	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
@@ -43,10 +57,38 @@ int main(int argc, char **argv)
 
 	gtk_init(&argc, &argv);
 
+	thunar_vfs_init();
+
+	mime_dbase = thunar_vfs_mime_database_get_default();
+
 	GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
 	if(argc == 2)
+	{
+		ThunarVfsPath *path = thunar_vfs_path_new(argv[1], NULL);
+		working_dir = thunar_vfs_path_get_parent(path);
+		thunar_vfs_path_ref(working_dir);
+		thunar_vfs_path_unref(path);
 		pixbuf = gdk_pixbuf_new_from_file(argv[1], NULL);
+
+		gchar *dir_name = thunar_vfs_path_dup_string(working_dir);
+
+		GDir *dir = g_dir_open(dir_name, 0, NULL);
+		const gchar *filename = g_dir_read_name(dir);
+		while(filename)
+		{
+			ThunarVfsMimeInfo *mime_info = thunar_vfs_mime_database_get_info_for_name(mime_dbase, filename);
+			if(!strcmp(thunar_vfs_mime_info_get_media(mime_info), "image"))
+			{
+				file_list = g_list_prepend(file_list, thunar_vfs_path_relative(working_dir, filename));
+				if(!strcmp(thunar_vfs_path_get_name(THUNAR_VFS_PATH(file_list->data)), argv[1]))
+					file_iter = file_list;
+			}
+			thunar_vfs_mime_info_unref(mime_info);
+			filename = g_dir_read_name(dir);
+		}
+		g_free(dir_name);
+	}
 	else
 		pixbuf = NULL;
 
@@ -62,9 +104,13 @@ int main(int argc, char **argv)
 	GtkToolItem *zoom_fit= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_FIT);
 	GtkToolItem *zoom_100= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_100);
 	GtkToolItem *zoom_out= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_OUT);
-	GtkToolItem *zoom_in= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_IN);
+	GtkToolItem *zoom_in = gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_IN);
+	GtkToolItem *forward = gtk_tool_button_new_from_stock(GTK_STOCK_GO_FORWARD);
+	GtkToolItem *separator = gtk_separator_tool_item_new();
+	GtkToolItem *back = gtk_tool_button_new_from_stock(GTK_STOCK_GO_BACK);
 	GtkToolItem *open = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
 	GtkToolItem *spacer = gtk_tool_item_new();
+
 
 	gtk_tool_item_set_expand(spacer, TRUE);
 	gtk_tool_item_set_homogeneous(spacer, FALSE);
@@ -85,6 +131,9 @@ int main(int argc, char **argv)
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_100, 0);
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_out, 0);
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_in, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), separator, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), forward, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), back, 0);
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), spacer, 0);
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), open, 0);
 
@@ -92,6 +141,8 @@ int main(int argc, char **argv)
 	g_signal_connect(G_OBJECT(zoom_100), "clicked", G_CALLBACK(cb_rstto_zoom_100), viewer);
 	g_signal_connect(G_OBJECT(zoom_in), "clicked", G_CALLBACK(cb_rstto_zoom_in), viewer);
 	g_signal_connect(G_OBJECT(zoom_out), "clicked", G_CALLBACK(cb_rstto_zoom_out), viewer);
+	g_signal_connect(G_OBJECT(forward), "clicked", G_CALLBACK(cb_rstto_forward), viewer);
+	g_signal_connect(G_OBJECT(back), "clicked", G_CALLBACK(cb_rstto_back), viewer);
 	g_signal_connect(G_OBJECT(open), "clicked", G_CALLBACK(cb_rstto_open), viewer);
 
 	gtk_container_add(GTK_CONTAINER(window), main_vbox);
@@ -145,10 +196,79 @@ cb_rstto_open(GtkToolItem *item, RsttoPictureViewer *viewer)
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 	if(response == GTK_RESPONSE_OK)
 	{
-		pixbuf = gdk_pixbuf_new_from_file(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog)), NULL);
+		const gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+
+		ThunarVfsPath *path = thunar_vfs_path_new(filename, NULL);
+		if(working_dir)
+			thunar_vfs_path_unref(working_dir);
+		working_dir = thunar_vfs_path_get_parent(path);
+		thunar_vfs_path_ref(working_dir);
+		thunar_vfs_path_unref(path);
+
+		g_list_foreach(file_list, (GFunc)thunar_vfs_path_unref, NULL);
+		g_list_free(file_list);
+		file_list = file_iter = NULL;
+
+		gchar *dir_name = thunar_vfs_path_dup_string(working_dir);
+
+		GDir *dir = g_dir_open(dir_name, 0, NULL);
+		const gchar *_filename = g_dir_read_name(dir);
+		while(_filename)
+		{
+			ThunarVfsMimeInfo *mime_info = thunar_vfs_mime_database_get_info_for_name(mime_dbase, _filename);
+			if(!strcmp(thunar_vfs_mime_info_get_media(mime_info), "image"))
+			{
+				file_list = g_list_prepend(file_list, thunar_vfs_path_relative(working_dir, _filename));
+				if(!strcmp(thunar_vfs_path_get_name(THUNAR_VFS_PATH(file_list->data)), _filename))
+					file_iter = file_list;
+			}
+			thunar_vfs_mime_info_unref(mime_info);
+			_filename = g_dir_read_name(dir);
+		}
+		g_free(dir_name);
+
+		pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
 
 		rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
 	}
 
 	gtk_widget_destroy(dialog);
+}
+
+static void
+cb_rstto_forward(GtkToolItem *item, RsttoPictureViewer *viewer)
+{
+	GdkPixbuf *pixbuf;
+	file_iter = g_list_next(file_iter);
+	if(!file_iter)
+		file_iter = file_list;
+
+	if(file_iter)
+	{
+		gchar *filename = thunar_vfs_path_dup_string(file_iter->data);
+
+		pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+
+		rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
+		g_free(filename);
+	}
+}
+
+static void
+cb_rstto_back(GtkToolItem *item, RsttoPictureViewer *viewer)
+{
+	GdkPixbuf *pixbuf;
+	file_iter = g_list_previous(file_iter);
+	if(!file_iter)
+		file_iter = g_list_last(file_list);
+
+	if(file_iter)
+	{
+		gchar *filename = thunar_vfs_path_dup_string(file_iter->data);
+
+		pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+
+		rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
+		g_free(filename);
+	}
 }

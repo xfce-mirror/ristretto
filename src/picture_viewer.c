@@ -203,7 +203,11 @@ rstto_picture_viewer_paint(GtkWidget *widget)
 {
 	GdkPixbuf *pixbuf = RSTTO_PICTURE_VIEWER(widget)->dst_pixbuf;
 	GdkColor color;
+	GdkColor line_color;
+
 	color.pixel = 0xdddddddd;
+	line_color.pixel = 0x0;
+
 	/* required for transparent pixbufs... add double buffering to fix flickering*/
 	if(GTK_WIDGET_REALIZED(widget))
 	{		  
@@ -214,17 +218,27 @@ rstto_picture_viewer_paint(GtkWidget *widget)
 		gdk_draw_rectangle(GDK_DRAWABLE(buffer), gc, TRUE, 0, 0, widget->allocation.width, widget->allocation.height);
 		if(pixbuf)
 		{
+			gint x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
+			gint y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
+			gint x2 = gdk_pixbuf_get_width(pixbuf);
+			gint y2 = gdk_pixbuf_get_height(pixbuf);
 			gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
 			                NULL, 
 			                pixbuf,
 			                0,
 			                0,
-			                (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2,
-			                (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2,
-							gdk_pixbuf_get_width(pixbuf),
-							gdk_pixbuf_get_height(pixbuf),
+							x1,
+							y1,
+							x2, 
+							y2,
 			                GDK_RGB_DITHER_NONE,
 			                0,0);
+			gdk_gc_set_foreground(gc, &line_color);
+			gdk_draw_line(GDK_DRAWABLE(buffer), gc, x1, y1, x1, y1+y2);
+			gdk_draw_line(GDK_DRAWABLE(buffer), gc, x1, y1+y2, x1+x2, y1+y2);
+			gdk_draw_line(GDK_DRAWABLE(buffer), gc, x1, y1, x1+x2, y1);
+			gdk_draw_line(GDK_DRAWABLE(buffer), gc, x1+x2, y1, x1+x2, y1+y2);
+
 		}
 		gdk_draw_drawable(GDK_DRAWABLE(widget->window), 
 		                gdk_gc_new(widget->window), 
