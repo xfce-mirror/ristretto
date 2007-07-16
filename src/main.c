@@ -117,6 +117,9 @@ int main(int argc, char **argv)
 
 	rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
 
+	if(pixbuf)
+		g_object_unref(pixbuf);
+
 	gtk_widget_set_size_request(window, 300, 200);
 
 
@@ -230,6 +233,8 @@ cb_rstto_open(GtkToolItem *item, RsttoPictureViewer *viewer)
 		pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
 
 		rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
+
+		g_object_unref(pixbuf);
 	}
 
 	gtk_widget_destroy(dialog);
@@ -239,7 +244,8 @@ static void
 cb_rstto_forward(GtkToolItem *item, RsttoPictureViewer *viewer)
 {
 	GdkPixbuf *pixbuf;
-	file_iter = g_list_next(file_iter);
+	if(file_iter)
+		file_iter = g_list_next(file_iter);
 	if(!file_iter)
 		file_iter = file_list;
 
@@ -250,6 +256,9 @@ cb_rstto_forward(GtkToolItem *item, RsttoPictureViewer *viewer)
 		pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
 
 		rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
+
+		if(pixbuf)
+			g_object_unref(pixbuf);
 		g_free(filename);
 	}
 }
@@ -258,7 +267,8 @@ static void
 cb_rstto_back(GtkToolItem *item, RsttoPictureViewer *viewer)
 {
 	GdkPixbuf *pixbuf;
-	file_iter = g_list_previous(file_iter);
+	if(file_iter)
+		file_iter = g_list_previous(file_iter);
 	if(!file_iter)
 		file_iter = g_list_last(file_list);
 
@@ -269,6 +279,9 @@ cb_rstto_back(GtkToolItem *item, RsttoPictureViewer *viewer)
 		pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
 
 		rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
+
+		if(pixbuf)
+			g_object_unref(pixbuf);
 		g_free(filename);
 	}
 }
