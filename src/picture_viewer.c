@@ -249,6 +249,7 @@ rstto_picture_viewer_paint(GtkWidget *widget)
 						0,
 						widget->allocation.width,
 						widget->allocation.height);
+		g_object_unref(buffer);
 	}
 }
 
