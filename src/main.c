@@ -27,6 +27,8 @@ static ThunarVfsPath *working_dir = NULL;
 static GList *file_list = NULL;
 static GList *file_iter = NULL;
 
+static gboolean playing = FALSE;
+
 static void
 cb_rstto_zoom_fit(GtkToolItem *item, RsttoPictureViewer *viewer);
 static void
@@ -37,9 +39,14 @@ static void
 cb_rstto_zoom_out(GtkToolItem *item, RsttoPictureViewer *viewer);
 
 static void
-cb_rstto_back(GtkToolItem *item, RsttoPictureViewer *viewer);
+cb_rstto_previous(GtkToolItem *item, RsttoPictureViewer *viewer);
 static void
 cb_rstto_forward(GtkToolItem *item, RsttoPictureViewer *viewer);
+static void
+cb_rstto_play(GtkToolItem *item, RsttoPictureViewer *viewer);
+
+static gboolean
+play_forward(RsttoPictureViewer *viewer);
 
 static void
 cb_rstto_open(GtkToolItem *item, RsttoPictureViewer *viewer);
@@ -105,9 +112,10 @@ int main(int argc, char **argv)
 	GtkToolItem *zoom_100= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_100);
 	GtkToolItem *zoom_out= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_OUT);
 	GtkToolItem *zoom_in = gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_IN);
-	GtkToolItem *forward = gtk_tool_button_new_from_stock(GTK_STOCK_GO_FORWARD);
 	GtkToolItem *separator = gtk_separator_tool_item_new();
-	GtkToolItem *back = gtk_tool_button_new_from_stock(GTK_STOCK_GO_BACK);
+	GtkToolItem *forward = gtk_tool_button_new_from_stock(GTK_STOCK_MEDIA_FORWARD);
+	GtkToolItem *play = gtk_tool_button_new_from_stock(GTK_STOCK_MEDIA_PLAY);
+	GtkToolItem *previous = gtk_tool_button_new_from_stock(GTK_STOCK_MEDIA_REWIND);
 	GtkToolItem *open = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
 	GtkToolItem *spacer = gtk_tool_item_new();
 
@@ -136,7 +144,8 @@ int main(int argc, char **argv)
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_in, 0);
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), separator, 0);
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), forward, 0);
-	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), back, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), play, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), previous, 0);
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), spacer, 0);
 	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), open, 0);
 
@@ -145,7 +154,8 @@ int main(int argc, char **argv)
 	g_signal_connect(G_OBJECT(zoom_in), "clicked", G_CALLBACK(cb_rstto_zoom_in), viewer);
 	g_signal_connect(G_OBJECT(zoom_out), "clicked", G_CALLBACK(cb_rstto_zoom_out), viewer);
 	g_signal_connect(G_OBJECT(forward), "clicked", G_CALLBACK(cb_rstto_forward), viewer);
-	g_signal_connect(G_OBJECT(back), "clicked", G_CALLBACK(cb_rstto_back), viewer);
+	g_signal_connect(G_OBJECT(play), "clicked", G_CALLBACK(cb_rstto_play), viewer);
+	g_signal_connect(G_OBJECT(previous), "clicked", G_CALLBACK(cb_rstto_previous), viewer);
 	g_signal_connect(G_OBJECT(open), "clicked", G_CALLBACK(cb_rstto_open), viewer);
 
 	gtk_container_add(GTK_CONTAINER(window), main_vbox);
@@ -264,7 +274,7 @@ cb_rstto_forward(GtkToolItem *item, RsttoPictureViewer *viewer)
 }
 
 static void
-cb_rstto_back(GtkToolItem *item, RsttoPictureViewer *viewer)
+cb_rstto_previous(GtkToolItem *item, RsttoPictureViewer *viewer)
 {
 	GdkPixbuf *pixbuf;
 	if(file_iter)
@@ -284,4 +294,28 @@ cb_rstto_back(GtkToolItem *item, RsttoPictureViewer *viewer)
 			g_object_unref(pixbuf);
 		g_free(filename);
 	}
+}
+
+static void
+cb_rstto_play(GtkToolItem *item, RsttoPictureViewer *viewer)
+{
+	if(playing == TRUE)
+	{
+		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(item), GTK_STOCK_MEDIA_PLAY);
+		playing = FALSE;
+	}
+	else
+	{
+		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(item), GTK_STOCK_MEDIA_PAUSE);
+		g_timeout_add(5000, (GSourceFunc)play_forward, viewer);
+		playing = TRUE;
+	}
+}
+
+static gboolean
+play_forward(RsttoPictureViewer *viewer)
+{
+	if(playing == TRUE)
+		cb_rstto_forward(NULL, viewer);
+	return playing;
 }
