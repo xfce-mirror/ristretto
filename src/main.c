@@ -53,7 +53,10 @@ cb_rstto_open(GtkToolItem *item, RsttoPictureViewer *viewer);
 
 int main(int argc, char **argv)
 {
-	GdkPixbuf *pixbuf;
+	GdkPixbuf *pixbuf = NULL;
+    GtkWidget *dialog = NULL;
+    GError *error = NULL;
+    gchar *dir_name = NULL;
 
 
 	#ifdef ENABLE_NLS
@@ -69,32 +72,63 @@ int main(int argc, char **argv)
 	mime_dbase = thunar_vfs_mime_database_get_default();
 
 	GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title(GTK_WINDOW(window), PACKAGE_STRING);
 
 	if(argc == 2)
 	{
-		ThunarVfsPath *path = thunar_vfs_path_new(argv[1], NULL);
-		working_dir = thunar_vfs_path_get_parent(path);
-		thunar_vfs_path_ref(working_dir);
-		thunar_vfs_path_unref(path);
-		pixbuf = gdk_pixbuf_new_from_file(argv[1], NULL);
+        ThunarVfsPath *path = thunar_vfs_path_new(argv[1], NULL);
+        ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
 
-		gchar *dir_name = thunar_vfs_path_dup_string(working_dir);
+        if(info)
+        {
+            g_debug("%s\n", thunar_vfs_mime_info_get_name(info->mime_info));
+            g_debug("%s\n", thunar_vfs_mime_info_get_comment(info->mime_info));
+            if(strcmp(thunar_vfs_mime_info_get_name(info->mime_info), "inode/directory"))
+            {
+                working_dir = thunar_vfs_path_get_parent(path);
+            }
+            else
+            {
+                working_dir = path;
+            }
+        }
+        else
+        {
+            working_dir = path;
+        }
+        thunar_vfs_path_ref(working_dir);
 
-		GDir *dir = g_dir_open(dir_name, 0, NULL);
-		const gchar *filename = g_dir_read_name(dir);
-		while(filename)
-		{
-			ThunarVfsMimeInfo *mime_info = thunar_vfs_mime_database_get_info_for_name(mime_dbase, filename);
-			if(!strcmp(thunar_vfs_mime_info_get_media(mime_info), "image"))
-			{
-				file_list = g_list_prepend(file_list, thunar_vfs_path_relative(working_dir, filename));
-				if(!strcmp(thunar_vfs_path_get_name(THUNAR_VFS_PATH(file_list->data)), argv[1]))
-					file_iter = file_list;
-			}
-			thunar_vfs_mime_info_unref(mime_info);
-			filename = g_dir_read_name(dir);
-		}
-		g_free(dir_name);
+        dir_name = thunar_vfs_path_dup_string(working_dir);
+
+        GDir *dir = g_dir_open(dir_name, 0, NULL);
+        const gchar *filename = g_dir_read_name(dir);
+        while(filename)
+        {
+            ThunarVfsMimeInfo *mime_info = thunar_vfs_mime_database_get_info_for_name(mime_dbase, filename);
+            if(!strcmp(thunar_vfs_mime_info_get_media(mime_info), "image"))
+            {
+                file_list = g_list_prepend(file_list, thunar_vfs_path_relative(working_dir, filename));
+                if(thunar_vfs_path_equal(path, file_list->data))
+                {
+                    pixbuf = gdk_pixbuf_new_from_file(argv[1], &error);
+                    file_iter = file_list;
+                }
+            }
+            thunar_vfs_mime_info_unref(mime_info);
+            filename = g_dir_read_name(dir);
+        }
+        g_free(dir_name);
+        if(error)
+        {
+            dialog = gtk_message_dialog_new_with_markup(GTK_WINDOW(window),
+                                            GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                            GTK_MESSAGE_ERROR,
+                                            GTK_BUTTONS_OK,
+                                            "<b>Error:</b>\n%s",
+                                            error->message);
+        }
+        if(!file_iter)
+            file_list = file_list;
 	}
 	else
 		pixbuf = NULL;
@@ -162,6 +196,12 @@ int main(int argc, char **argv)
 
 	gtk_widget_show_all(window);
 	gtk_widget_show(viewer);
+
+    if(dialog)
+    {
+        gtk_dialog_run(GTK_DIALOG(dialog));
+        gtk_widget_destroy(dialog);
+    }
 
 	gtk_main();
 	return 0;
@@ -253,17 +293,31 @@ cb_rstto_open(GtkToolItem *item, RsttoPictureViewer *viewer)
 static void
 cb_rstto_forward(GtkToolItem *item, RsttoPictureViewer *viewer)
 {
-	GdkPixbuf *pixbuf;
+	GdkPixbuf *pixbuf = NULL;
+    GError *error = NULL;
+
 	if(file_iter)
 		file_iter = g_list_next(file_iter);
 	if(!file_iter)
 		file_iter = file_list;
 
-	if(file_iter)
+	while(!pixbuf && file_iter)
 	{
 		gchar *filename = thunar_vfs_path_dup_string(file_iter->data);
 
-		pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+		pixbuf = gdk_pixbuf_new_from_file(filename , &error);
+        if(!pixbuf)
+        {
+            g_debug("%s\n", error->message);
+            GList *_file_iter = g_list_next(file_iter);
+
+            thunar_vfs_path_unref(file_iter->data);
+            file_list = g_list_remove(file_list, file_iter->data);
+            if(_file_iter)
+                file_iter = _file_iter;
+            else
+		        file_iter = file_list;
+        }
 
 		rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
 

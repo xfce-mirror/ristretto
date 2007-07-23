@@ -563,13 +563,21 @@ sub Console_WriteError_InvalidOption
     exit 1;
 }
 
+sub isIntltoolExtractInPath
+{
+    my ($file) = @_;
+    # If either a file exists, or when run it returns 0 exit status
+    return 1 if ((-x $file) or (system("$file >/dev/null") == 0));
+    return 0;
+}
+
 sub GenerateHeaders
 {
     my $EXTRACT = $ENV{"INTLTOOL_EXTRACT"} || "intltool-extract";
 
     ## Generate the .h header files, so we can allow glade and
     ## xml translation support
-    if (! -x "$EXTRACT")
+    if (! isIntltoolExtractInPath("$EXTRACT"))
     {
 	print STDERR "\n *** The intltool-extract script wasn't found!"
 	     ."\n *** Without it, intltool-update can not generate files.\n";
