@@ -52,6 +52,9 @@ struct _RsttoPictureViewer
 	GtkAdjustment    *hadjustment;
 	gdouble           scale;
 	gboolean          scale_fts; /* Scale image to fit to screen */
+    ThunarVfsPath    *working_path;
+    GList            *file_list;
+    GList            *file_iter;
 	void             (*cb_value_changed)(GtkAdjustment *, RsttoPictureViewer *);
 };
 
@@ -69,11 +72,13 @@ struct _RsttoPictureViewerClass
 GType      rstto_picture_viewer_get_type();
 
 GtkWidget *rstto_picture_viewer_new();
-void       rstto_picture_viewer_set_pixbuf(RsttoPictureViewer *viewer, GdkPixbuf *pixbuf);
+void       rstto_picture_viewer_set_path(RsttoPictureViewer *viewer, ThunarVfsPath *path);
 void       rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale);
 gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
 gdouble    rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);
 
+void rstto_picture_viewer_forward (RsttoPictureViewer *viewer);
+void rstto_picture_viewer_reverse (RsttoPictureViewer *viewer);
 
 G_END_DECLS
 

@@ -17,6 +17,9 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gtk/gtkmarshal.h>
+#include <string.h>
+
+#include <thunar-vfs/thunar-vfs.h>
 
 #include "picture_viewer.h"
 
@@ -38,6 +41,8 @@ rstto_picture_viewer_unrealize(GtkWidget *);
 static gboolean 
 rstto_picture_viewer_expose(GtkWidget *, GdkEventExpose *);
 
+static void
+rstto_picture_viewer_set_pixbuf(RsttoPictureViewer *viewer, GdkPixbuf *pixbuf);
 static void
 rstto_picture_viewer_paint(GtkWidget *widget);
 static void
@@ -362,7 +367,7 @@ rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer)
 	return viewer->scale;
 }
 
-void
+static void
 rstto_picture_viewer_set_pixbuf(RsttoPictureViewer *viewer, GdkPixbuf *pixbuf)
 {
 	if(viewer->src_pixbuf)
@@ -443,4 +448,126 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 		}
 	}
 
+}
+
+void
+rstto_picture_viewer_set_path(RsttoPictureViewer *viewer, ThunarVfsPath *path)
+{
+    if(path)
+    {
+        ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
+
+        if(strcmp(thunar_vfs_mime_info_get_name(info->mime_info), "inode/directory"))
+        {
+            viewer->working_path = thunar_vfs_path_get_parent(path);
+        }
+        else
+        {
+            thunar_vfs_path_ref(path);
+            viewer->working_path = path;
+        }
+
+        gchar *dir_name = thunar_vfs_path_dup_string(viewer->working_path);
+
+        GDir *dir = g_dir_open(dir_name, 0, NULL);
+        const gchar *filename = g_dir_read_name(dir);
+        while(filename)
+        {
+            ThunarVfsPath *file_path = thunar_vfs_path_relative(viewer->working_path, filename);
+            ThunarVfsInfo *file_info = thunar_vfs_info_new_for_path(file_path, NULL);
+            gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
+            if(!strcmp(file_media, "image"))
+            {
+                viewer->file_list = g_list_prepend(viewer->file_list, file_info);
+
+                if(thunar_vfs_path_equal(path, file_path))
+                {
+                    viewer->file_iter = viewer->file_list;
+                }
+            }
+            if(file_media)
+                g_free(file_media);
+            thunar_vfs_path_unref(file_path);
+            filename = g_dir_read_name(dir);
+        }
+        g_free(dir_name);
+        if(!viewer->file_iter)
+        {
+            viewer->file_iter = viewer->file_list;
+        }
+    }
+    else
+    {
+        thunar_vfs_path_unref(viewer->working_path);
+        viewer->working_path = NULL;
+
+        g_list_foreach(viewer->file_list, (GFunc)thunar_vfs_info_unref, NULL);
+        viewer->file_list = NULL;
+        viewer->file_iter = NULL;
+    }
+}
+
+void
+rstto_picture_viewer_forward (RsttoPictureViewer *viewer)
+{
+    GdkPixbuf *pixbuf = NULL;
+    if(viewer->file_iter)
+        viewer->file_iter = g_list_next(viewer->file_iter);
+    if(!viewer->file_iter)
+        viewer->file_iter = g_list_first(viewer->file_list);
+
+    while(!pixbuf && viewer->file_iter)
+    {
+        gchar *filename = thunar_vfs_path_dup_string(((ThunarVfsInfo *)viewer->file_iter->data)->path);
+        pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+        if(!pixbuf)
+        {
+            GList *_file_iter = g_list_next(viewer->file_iter);
+            thunar_vfs_info_unref(viewer->file_iter->data);
+            viewer->file_list = g_list_remove(viewer->file_list, viewer->file_iter->data);
+            if(_file_iter)
+                viewer->file_iter = _file_iter;
+            else
+                viewer->file_iter = viewer->file_list;
+        }
+        if(pixbuf)
+        {
+            rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
+            g_object_unref(pixbuf);
+        }
+        g_free(filename);
+    }
+}
+
+void
+rstto_picture_viewer_reverse (RsttoPictureViewer *viewer)
+{
+    GdkPixbuf *pixbuf = NULL;
+
+    if(viewer->file_iter)
+        viewer->file_iter = g_list_previous(viewer->file_iter);
+    if(!viewer->file_iter)
+        viewer->file_iter = g_list_last(viewer->file_list);
+
+    while(!pixbuf && viewer->file_iter)
+    {
+        gchar *filename = thunar_vfs_path_dup_string(((ThunarVfsInfo *)viewer->file_iter->data)->path);
+        pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+        if(!pixbuf)
+        {
+            GList *_file_iter = g_list_previous(viewer->file_iter);
+            thunar_vfs_info_unref(viewer->file_iter->data);
+            viewer->file_list = g_list_remove(viewer->file_list, viewer->file_iter->data);
+            if(_file_iter)
+                viewer->file_iter = _file_iter;
+            else
+                viewer->file_iter = g_list_last(viewer->file_list);
+        }
+        if(pixbuf)
+        {
+            rstto_picture_viewer_set_pixbuf(RSTTO_PICTURE_VIEWER(viewer), pixbuf);
+            g_object_unref(pixbuf);
+        }
+        g_free(filename);
+    }
 }
