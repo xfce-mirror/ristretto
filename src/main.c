@@ -77,18 +77,25 @@ int main(int argc, char **argv)
 	GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	GtkWidget *main_vbox = gtk_vbox_new(0, FALSE);
-	GtkWidget *tool_bar = gtk_toolbar_new();
+	GtkWidget *main_hbox = gtk_hbox_new(0, FALSE);
+    GtkWidget *menu_bar = gtk_menu_bar_new();
+	GtkWidget *image_tool_bar = gtk_toolbar_new();
+	GtkWidget *app_tool_bar = gtk_toolbar_new();
+    GtkWidget *status_bar = gtk_statusbar_new();
+
+    GtkWidget *menu_item_file = gtk_menu_item_new_with_mnemonic(_("_File"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_file);
 
 	GtkToolItem *zoom_fit= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_FIT);
 	GtkToolItem *zoom_100= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_100);
 	GtkToolItem *zoom_out= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_OUT);
 	GtkToolItem *zoom_in = gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_IN);
-	GtkToolItem *separator = gtk_separator_tool_item_new();
 	GtkToolItem *forward = gtk_tool_button_new_from_stock(GTK_STOCK_MEDIA_FORWARD);
 	GtkToolItem *play = gtk_tool_button_new_from_stock(GTK_STOCK_MEDIA_PLAY);
 	GtkToolItem *previous = gtk_tool_button_new_from_stock(GTK_STOCK_MEDIA_REWIND);
 	GtkToolItem *open = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
 	GtkToolItem *spacer = gtk_tool_item_new();
+	GtkToolItem *separator = gtk_separator_tool_item_new();
 
 
 	gtk_tool_item_set_expand(spacer, TRUE);
@@ -100,22 +107,27 @@ int main(int argc, char **argv)
 
 
 	gtk_container_add(GTK_CONTAINER(s_window), viewer);
+    gtk_toolbar_set_orientation(GTK_TOOLBAR(image_tool_bar), GTK_ORIENTATION_VERTICAL);
+	gtk_box_pack_start(GTK_BOX(main_hbox), image_tool_bar, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(main_hbox), s_window, TRUE, TRUE, 0);
 
-	gtk_box_pack_start(GTK_BOX(main_vbox), s_window, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(main_vbox), tool_bar, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(main_vbox), menu_bar, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(main_vbox), app_tool_bar, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(main_vbox), main_hbox, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(main_vbox), status_bar, FALSE, TRUE, 0);
 
 	rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(viewer), 1);
 
-	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_fit, 0);
-	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_100, 0);
-	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_out, 0);
-	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), zoom_in, 0);
-	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), separator, 0);
-	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), forward, 0);
-	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), play, 0);
-	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), previous, 0);
-	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), spacer, 0);
-	gtk_toolbar_insert(GTK_TOOLBAR(tool_bar), open, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(image_tool_bar), zoom_fit, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(image_tool_bar), zoom_100, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(image_tool_bar), zoom_out, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(image_tool_bar), zoom_in, 0);
+	//gtk_toolbar_insert(GTK_TOOLBAR(image_tool_bar), spacer, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), forward, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), play, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), previous, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), separator, 0);
+	gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), open, 0);
 
 	g_signal_connect(G_OBJECT(zoom_fit), "clicked", G_CALLBACK(cb_rstto_zoom_fit), viewer);
 	g_signal_connect(G_OBJECT(zoom_100), "clicked", G_CALLBACK(cb_rstto_zoom_100), viewer);
