@@ -1,6 +1,4 @@
 /*
- *  Copyright (c) 2006 Stephan Arts <stephan@xfce.org>
- *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -16,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __RISTRETTO_PICTURE_VIEWER__
-#define __RISTRETTO_PICTURE_VIEWER__
+#ifndef __RISTRETTO_PICTURE_VIEWER_H__
+#define __RISTRETTO_PICTURE_VIEWER_H__
 
 G_BEGIN_DECLS
 
@@ -52,9 +50,6 @@ struct _RsttoPictureViewer
 	GtkAdjustment    *hadjustment;
 	gdouble           scale;
 	gboolean          scale_fts; /* Scale image to fit to screen */
-    ThunarVfsPath    *working_path;
-    GList            *file_list;
-    GList            *file_iter;
 	void             (*cb_value_changed)(GtkAdjustment *, RsttoPictureViewer *);
 };
 
@@ -72,14 +67,12 @@ struct _RsttoPictureViewerClass
 GType      rstto_picture_viewer_get_type();
 
 GtkWidget *rstto_picture_viewer_new();
-void       rstto_picture_viewer_set_path(RsttoPictureViewer *viewer, ThunarVfsPath *path);
 void       rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale);
 gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
 gdouble    rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);
 
-void rstto_picture_viewer_forward (RsttoPictureViewer *viewer);
-void rstto_picture_viewer_reverse (RsttoPictureViewer *viewer);
+void       rstto_picture_viewer_set_pixbuf(RsttoPictureViewer *viewer, GdkPixbuf *pixbuf);
 
 G_END_DECLS
 
-#endif /* __RISTRETTO_PICTURE_VIEWER__ */
+#endif /* __RISTRETTO_PICTURE_VIEWER_H__ */
