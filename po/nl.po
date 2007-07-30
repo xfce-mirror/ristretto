@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-07-31 00:13+0200\n"
+"POT-Creation-Date: 2007-07-31 01:46+0200\n"
 "PO-Revision-Date: 2007-07-13 00:48+0200\n"
 "Last-Translator: Stephan Arts <stephan@xfce.org>\n"
 "Language-Team: Dutch\n"
@@ -16,18 +16,48 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/main.c:90
+#: ../src/main.c:94
 msgid "_File"
 msgstr "_Bestand"
 
-#: ../src/main.c:92
+#: ../src/main.c:96
 msgid "O_pen Folder"
 msgstr "Map o_penen"
 
-#: ../src/main.c:200
+#: ../src/main.c:107
+msgid "_Edit"
+msgstr "B_ewerken"
+
+#: ../src/main.c:112
+msgid "_View"
+msgstr "_Beeld"
+
+#: ../src/main.c:113
+msgid "View Zoom toolbar"
+msgstr "Zoom werkbalk tonen"
+
+#: ../src/main.c:119
+msgid "_Help"
+msgstr "_Help"
+
+#: ../src/main.c:229
 msgid "Open image"
 msgstr "Afbeelding openen"
 
-#: ../src/main.c:228
+#: ../src/main.c:257
 msgid "Open folder"
 msgstr "Map openen"
+
+#: ../src/main.c:284
+msgid "Developer:"
+msgstr "Ontwikkelaar:"
+
+#: ../src/main.c:293
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
+msgstr ""
+
+#: ../src/main.c:300
+msgid "translator-credits"
+msgstr "Stephan Arts <stephan@xfce.org>"

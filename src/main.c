@@ -43,6 +43,10 @@ static void
 cb_rstto_open(GtkToolItem *item, RsttoNavigator *);
 static void
 cb_rstto_open_dir(GtkToolItem *item, RsttoNavigator *);
+
+static void
+cb_rstto_help_about(GtkToolItem *item, GtkWindow *);
+
 static void
 cb_rstto_nav_file_changed(RsttoNavigator *navigator, GtkWindow *window);
 
@@ -92,14 +96,38 @@ int main(int argc, char **argv)
     GtkWidget *menu_item_open_dir = gtk_menu_item_new_with_mnemonic(_("O_pen Folder"));
     GtkWidget *menu_item_separator = gtk_separator_menu_item_new();
     GtkWidget *menu_item_quit = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, NULL);
-    GtkWidget *menu_file = gtk_menu_new();
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_file);
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_file), menu_file);
 
+    GtkWidget *menu_file = gtk_menu_new();
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_file), menu_file);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_open);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_open_dir);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_separator);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_quit);
+
+    GtkWidget *menu_item_edit = gtk_menu_item_new_with_mnemonic(_("_Edit"));
+
+    GtkWidget *menu_edit = gtk_menu_new();
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_edit), menu_edit);
+
+    GtkWidget *menu_item_view = gtk_menu_item_new_with_mnemonic(_("_View"));
+    GtkWidget *menu_item_view_zoom = gtk_check_menu_item_new_with_mnemonic(_("View Zoom toolbar"));
+
+    GtkWidget *menu_view = gtk_menu_new();
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_view), menu_view);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_view), menu_item_view_zoom);
+
+    GtkWidget *menu_item_help = gtk_menu_item_new_with_mnemonic(_("_Help"));
+    GtkWidget *menu_item_help_about = gtk_image_menu_item_new_from_stock(GTK_STOCK_ABOUT, NULL);
+
+    GtkWidget *menu_help = gtk_menu_new();
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_help), menu_help);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_help), menu_item_help_about);
+
+
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_file);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_edit);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_view);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_help);
 
 	GtkToolItem *zoom_fit= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_FIT);
 	GtkToolItem *zoom_100= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_100);
@@ -153,6 +181,7 @@ int main(int argc, char **argv)
 	g_signal_connect(G_OBJECT(menu_item_quit), "activate", G_CALLBACK(gtk_main_quit), NULL);
 	g_signal_connect(G_OBJECT(menu_item_open), "activate", G_CALLBACK(cb_rstto_open), navigator);
 	g_signal_connect(G_OBJECT(menu_item_open_dir), "activate", G_CALLBACK(cb_rstto_open_dir), navigator);
+	g_signal_connect(G_OBJECT(menu_item_help_about), "activate", G_CALLBACK(cb_rstto_help_about), window);
 
 	/* g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_fullscreen), viewer);*/
 
@@ -246,6 +275,37 @@ cb_rstto_open_dir(GtkToolItem *item, RsttoNavigator *navigator)
 	}
 
 	gtk_widget_destroy(dialog);
+}
+
+static void
+cb_rstto_help_about(GtkToolItem *item, GtkWindow *window)
+{
+	const gchar *authors[] = {
+	  _("Developer:"),
+		"Stephan Arts <stephan@xfce.org>",
+		NULL};
+
+	GtkWidget *about_dialog = gtk_about_dialog_new();
+
+	gtk_about_dialog_set_name((GtkAboutDialog *)about_dialog, PACKAGE_NAME);
+	gtk_about_dialog_set_version((GtkAboutDialog *)about_dialog, PACKAGE_VERSION);
+
+	gtk_about_dialog_set_comments((GtkAboutDialog *)about_dialog, _("Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."));
+	gtk_about_dialog_set_website((GtkAboutDialog *)about_dialog, "http://goodies.xfce.org/projects/applications/ristretto");
+
+	gtk_about_dialog_set_logo_icon_name((GtkAboutDialog *)about_dialog, "ristretto");
+
+	gtk_about_dialog_set_authors((GtkAboutDialog *)about_dialog, authors);
+
+	gtk_about_dialog_set_translator_credits((GtkAboutDialog *)about_dialog, _("translator-credits"));
+
+	gtk_about_dialog_set_license((GtkAboutDialog *)about_dialog, xfce_get_license_text(XFCE_LICENSE_TEXT_GPL));
+
+	gtk_about_dialog_set_copyright((GtkAboutDialog *)about_dialog, "Copyright \302\251 2006-2007 Stephan Arts");
+
+	gtk_dialog_run(GTK_DIALOG(about_dialog));
+
+	gtk_widget_destroy(about_dialog);
 }
 
 static void
