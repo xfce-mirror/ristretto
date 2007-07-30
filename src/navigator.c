@@ -138,12 +138,18 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path)
         {
             ThunarVfsPath *file_path = thunar_vfs_path_relative(navigator->path, filename);
             ThunarVfsInfo *file_info = thunar_vfs_info_new_for_path(file_path, NULL);
-            
-            navigator->file_list = g_list_prepend(navigator->file_list, file_info);
-
-            if(thunar_vfs_path_equal(path, file_path))
+            if(strcmp(thunar_vfs_mime_info_get_name(file_info->mime_info), "inode/directory"))
             {
-                navigator->file_iter = navigator->file_list;
+                navigator->file_list = g_list_prepend(navigator->file_list, file_info);
+
+                if(thunar_vfs_path_equal(path, file_path))
+                {
+                    navigator->file_iter = navigator->file_list;
+                }
+            }
+            else
+            {
+                thunar_vfs_info_unref(file_info);
             }
 
             thunar_vfs_path_unref(file_path);
@@ -185,7 +191,10 @@ rstto_navigator_forward (RsttoNavigator *navigator)
         gchar *filename = thunar_vfs_path_dup_string(((ThunarVfsInfo *)navigator->file_iter->data)->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
         if(!pixbuf)
+        {
             pixbuf = gtk_icon_theme_load_icon(navigator->icon_theme, GTK_STOCK_MISSING_IMAGE, 48, 0, NULL);
+            rstto_picture_viewer_set_scale(navigator->viewer, 1);
+        }
 
         rstto_picture_viewer_set_pixbuf(navigator->viewer, pixbuf);
         if(pixbuf)
