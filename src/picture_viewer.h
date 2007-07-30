@@ -51,6 +51,7 @@ struct _RsttoPictureViewer
 	gdouble           scale;
 	gboolean          scale_fts; /* Scale image to fit to screen */
 	void             (*cb_value_changed)(GtkAdjustment *, RsttoPictureViewer *);
+    gboolean          show_border;
 };
 
 typedef struct _RsttoPictureViewerClass RsttoPictureViewerClass;

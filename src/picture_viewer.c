@@ -89,7 +89,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
 
 	viewer->scale = 1;
 	viewer->scale_fts = FALSE;
-
+    viewer->show_border = TRUE;
 }
 
 static void
@@ -202,12 +202,15 @@ rstto_picture_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
 static void
 rstto_picture_viewer_paint(GtkWidget *widget)
 {
-	GdkPixbuf *pixbuf = RSTTO_PICTURE_VIEWER(widget)->dst_pixbuf;
+    RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER(widget);
+	GdkPixbuf *pixbuf = viewer->dst_pixbuf;
 	GdkColor color;
 	GdkColor line_color;
 
-	color.pixel = 0xdddddddd;
+	color.pixel = 0x0;
 	line_color.pixel = 0x0;
+
+    gint i, a, height, width;
 
 	/* required for transparent pixbufs... add double buffering to fix flickering*/
 	if(GTK_WIDGET_REALIZED(widget))
@@ -223,6 +226,46 @@ rstto_picture_viewer_paint(GtkWidget *widget)
 			gint y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
 			gint x2 = gdk_pixbuf_get_width(pixbuf);
 			gint y2 = gdk_pixbuf_get_height(pixbuf);
+            
+            /* We only need to paint a checkered background if the image is transparent */
+            if(gdk_pixbuf_get_has_alpha(pixbuf))
+            {
+                for(i = 0; i <= x2/10; i++)
+                {
+                    if(i == x2/10)
+                    {
+                        width = x2-10*i;
+                    }
+                    else
+                    {   
+                        width = 10;
+                    }
+                    for(a = 0; a <= y2/10; a++)
+                    {
+                        if(a%2?i%2:!(i%2))
+                            color.pixel = 0xcccccccc;
+                        else
+                            color.pixel = 0xdddddddd;
+                        gdk_gc_set_foreground(gc, &color);
+                        if(a == y2/10)
+                        {
+                            height = y2-10*a;
+                        }
+                        else
+                        {   
+                            height = 10;
+                        }
+
+                        gdk_draw_rectangle(GDK_DRAWABLE(buffer),
+                                        gc,
+                                        TRUE,
+                                        x1+10*i,
+                                        y1+10*a,
+                                        width,
+                                        height);
+                    }
+                }
+            }
 			gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
 			                NULL, 
 			                pixbuf,
@@ -234,11 +277,14 @@ rstto_picture_viewer_paint(GtkWidget *widget)
 							y2,
 			                GDK_RGB_DITHER_NONE,
 			                0,0);
-			gdk_gc_set_foreground(gc, &line_color);
-			gdk_draw_line(GDK_DRAWABLE(buffer), gc, x1, y1, x1, y1+y2);
-			gdk_draw_line(GDK_DRAWABLE(buffer), gc, x1, y1+y2, x1+x2, y1+y2);
-			gdk_draw_line(GDK_DRAWABLE(buffer), gc, x1, y1, x1+x2, y1);
-			gdk_draw_line(GDK_DRAWABLE(buffer), gc, x1+x2, y1, x1+x2, y1+y2);
+            if(viewer->show_border)
+            {
+                gdk_gc_set_foreground(gc, &line_color);
+                gdk_draw_line(GDK_DRAWABLE(buffer), gc, x1, y1, x1, y1+y2);
+                gdk_draw_line(GDK_DRAWABLE(buffer), gc, x1, y1+y2, x1+x2, y1+y2);
+                gdk_draw_line(GDK_DRAWABLE(buffer), gc, x1, y1, x1+x2, y1);
+                gdk_draw_line(GDK_DRAWABLE(buffer), gc, x1+x2, y1, x1+x2, y1+y2);
+            }
 
 		}
 		gdk_draw_drawable(GDK_DRAWABLE(widget->window), 
