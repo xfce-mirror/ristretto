@@ -33,6 +33,14 @@ rstto_navigator_dispose(GObject *object);
 
 static GObjectClass *parent_class = NULL;
 
+enum
+{
+	RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED = 0,
+    RSTTO_NAVIGATOR_SIGNAL_COUNT	
+};
+
+static gint rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_COUNT];
+
 GType
 rstto_navigator_get_type ()
 {
@@ -73,6 +81,17 @@ rstto_navigator_class_init(RsttoNavigatorClass *nav_class)
 	parent_class = g_type_class_peek_parent(nav_class);
 
 	object_class->dispose = rstto_navigator_dispose;
+
+	rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED] = g_signal_new("file-changed",
+			G_TYPE_FROM_CLASS(nav_class),
+			G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0,
+			NULL);
 }
 
 static void
@@ -174,6 +193,7 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path)
             gdk_pixbuf_unref(pixbuf);
 
         g_free(filename);
+        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
     }
 }
 
@@ -201,6 +221,7 @@ rstto_navigator_forward (RsttoNavigator *navigator)
             gdk_pixbuf_unref(pixbuf);
 
         g_free(filename);
+        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
     }
 }
 
@@ -227,6 +248,20 @@ rstto_navigator_back (RsttoNavigator *navigator)
             gdk_pixbuf_unref(pixbuf);
 
         g_free(filename);
+        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
     }
+}
+
+const gchar *
+rstto_navigator_get_filename (RsttoNavigator *navigator)
+{
+    const gchar *filename = NULL;
+    if (navigator->file_iter)
+    {
+        ThunarVfsInfo *file_info = (ThunarVfsInfo *)(navigator->file_iter->data);
+        filename = thunar_vfs_path_get_name(file_info->path);
+    }
+
+    return filename;
 }
 

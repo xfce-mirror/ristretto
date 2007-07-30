@@ -41,6 +41,8 @@ cb_rstto_forward(GtkToolItem *item, RsttoNavigator *);
 
 static void
 cb_rstto_open(GtkToolItem *item, RsttoNavigator *);
+static void
+cb_rstto_nav_file_changed(RsttoNavigator *navigator, GtkWindow *window);
 
 int main(int argc, char **argv)
 {
@@ -71,6 +73,8 @@ int main(int argc, char **argv)
 
 	GtkWidget *viewer = rstto_picture_viewer_new();
     navigator = rstto_navigator_new(RSTTO_PICTURE_VIEWER(viewer));
+
+	g_signal_connect(G_OBJECT(navigator), "file-changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
 
 	GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -216,4 +220,19 @@ static void
 cb_rstto_previous(GtkToolItem *item, RsttoNavigator *navigator)
 {
     rstto_navigator_back(navigator);
+}
+
+static void
+cb_rstto_nav_file_changed(RsttoNavigator *navigator, GtkWindow *window)
+{
+    const gchar *filename = rstto_navigator_get_filename(navigator);
+    gchar *title;
+    if(filename)
+    {
+        title = g_strconcat(PACKAGE_NAME, " - ", filename, NULL);
+        gtk_window_set_title(window, title);
+        g_free(title);
+    }
+    else
+        gtk_window_set_title(window, PACKAGE_STRING);
 }

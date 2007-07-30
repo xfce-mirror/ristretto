@@ -67,6 +67,9 @@ void       rstto_navigator_set_path (RsttoNavigator *navigator,
 void       rstto_navigator_forward (RsttoNavigator *navigator);
 void       rstto_navigator_back (RsttoNavigator *navigator);
 
+const gchar *
+rstto_navigator_get_filename (RsttoNavigator *navigator);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_NAVIGATOR_H__ */
