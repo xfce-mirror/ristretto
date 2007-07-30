@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: psybsd@gmail.com\n"
-"POT-Creation-Date: 2007-07-13 00:46+0200\n"
+"Report-Msgid-Bugs-To: stephan@xfce.org\n"
+"POT-Creation-Date: 2007-07-31 00:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,18 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:131
+#: ../src/main.c:90
+msgid "_File"
+msgstr ""
+
+#: ../src/main.c:92
+msgid "O_pen Folder"
+msgstr ""
+
+#: ../src/main.c:200
 msgid "Open image"
+msgstr ""
+
+#: ../src/main.c:228
+msgid "Open folder"
 msgstr ""

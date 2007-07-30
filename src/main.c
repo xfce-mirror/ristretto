@@ -42,6 +42,8 @@ cb_rstto_forward(GtkToolItem *item, RsttoNavigator *);
 static void
 cb_rstto_open(GtkToolItem *item, RsttoNavigator *);
 static void
+cb_rstto_open_dir(GtkToolItem *item, RsttoNavigator *);
+static void
 cb_rstto_nav_file_changed(RsttoNavigator *navigator, GtkWindow *window);
 
 int main(int argc, char **argv)
@@ -86,11 +88,17 @@ int main(int argc, char **argv)
     GtkWidget *status_bar = gtk_statusbar_new();
 
     GtkWidget *menu_item_file = gtk_menu_item_new_with_mnemonic(_("_File"));
+    GtkWidget *menu_item_open = gtk_image_menu_item_new_from_stock(GTK_STOCK_OPEN, NULL);
+    GtkWidget *menu_item_open_dir = gtk_menu_item_new_with_mnemonic(_("O_pen Folder"));
+    GtkWidget *menu_item_separator = gtk_separator_menu_item_new();
     GtkWidget *menu_item_quit = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, NULL);
     GtkWidget *menu_file = gtk_menu_new();
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_file);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_file), menu_file);
 
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_open);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_open_dir);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_separator);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_quit);
 
 	GtkToolItem *zoom_fit= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_FIT);
@@ -143,6 +151,8 @@ int main(int argc, char **argv)
 	g_signal_connect(G_OBJECT(open), "clicked", G_CALLBACK(cb_rstto_open), navigator);
 
 	g_signal_connect(G_OBJECT(menu_item_quit), "activate", G_CALLBACK(gtk_main_quit), NULL);
+	g_signal_connect(G_OBJECT(menu_item_open), "activate", G_CALLBACK(cb_rstto_open), NULL);
+	g_signal_connect(G_OBJECT(menu_item_open_dir), "activate", G_CALLBACK(cb_rstto_open_dir), NULL);
 
 	/* g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_fullscreen), viewer);*/
 
@@ -190,6 +200,34 @@ cb_rstto_open(GtkToolItem *item, RsttoNavigator *navigator)
 	GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open image"),
 	                                                GTK_WINDOW(window),
 	                                                GTK_FILE_CHOOSER_ACTION_OPEN,
+	                                                GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+	                                                GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+	                                                NULL);
+
+	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+	if(response == GTK_RESPONSE_OK)
+	{
+		const gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+
+		ThunarVfsPath *path = thunar_vfs_path_new(filename, NULL);
+
+        rstto_navigator_set_path(navigator, path);
+
+        thunar_vfs_path_unref(path);
+
+	}
+
+	gtk_widget_destroy(dialog);
+}
+
+static void
+cb_rstto_open_dir(GtkToolItem *item, RsttoNavigator *navigator)
+{
+	GtkWidget *window = gtk_widget_get_toplevel(GTK_WIDGET(item));
+
+	GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open folder"),
+	                                                GTK_WINDOW(window),
+	                                                GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 	                                                GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 	                                                GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 	                                                NULL);

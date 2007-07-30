@@ -157,7 +157,8 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path)
         {
             ThunarVfsPath *file_path = thunar_vfs_path_relative(navigator->path, filename);
             ThunarVfsInfo *file_info = thunar_vfs_info_new_for_path(file_path, NULL);
-            if(strcmp(thunar_vfs_mime_info_get_name(file_info->mime_info), "inode/directory"))
+            gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
+            if(!strcmp(file_media, "image"))
             {
                 navigator->file_list = g_list_prepend(navigator->file_list, file_info);
 
@@ -173,6 +174,7 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path)
 
             thunar_vfs_path_unref(file_path);
             filename = g_dir_read_name(dir);
+            g_free(file_media);
         }
         g_free(dir_name);
         if(!navigator->file_iter)
