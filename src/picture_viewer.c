@@ -377,25 +377,18 @@ void
 rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
 {
 	g_return_if_fail(scale > 0);
+    viewer->scale_fts = FALSE;
 	viewer->scale = scale;
 
 	rstto_picture_viewer_refresh(viewer);
 	rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+
 }
 
 gdouble
 rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer)
 {
-	g_return_val_if_fail(viewer->src_pixbuf, 0);
-
-	gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->src_pixbuf);
-	gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->src_pixbuf);
-	gdouble h_scale = GTK_WIDGET(viewer)->allocation.width / width;
-	gdouble v_scale = GTK_WIDGET(viewer)->allocation.height / height;
-	if(h_scale < v_scale)
-		viewer->scale = h_scale;
-	else
-		viewer->scale = v_scale;
+    viewer->scale_fts = TRUE;
 
 	rstto_picture_viewer_refresh(viewer);
 	rstto_picture_viewer_paint(GTK_WIDGET(viewer));
@@ -431,6 +424,18 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 	GtkWidget *widget = GTK_WIDGET(viewer);
 	if(viewer->src_pixbuf)
 	{
+
+        if(viewer->scale_fts)
+        {
+            gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->src_pixbuf);
+            gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->src_pixbuf);
+            gdouble h_scale = GTK_WIDGET(viewer)->allocation.width / width;
+            gdouble v_scale = GTK_WIDGET(viewer)->allocation.height / height;
+            if(h_scale < v_scale)
+                viewer->scale = h_scale;
+            else
+                viewer->scale = v_scale;
+        }
 		if(GTK_WIDGET_REALIZED(widget))
 		{
 			gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->src_pixbuf);
