@@ -35,6 +35,9 @@ static void
 cb_rstto_zoom_out(GtkToolItem *item, RsttoPictureViewer *viewer);
 
 static void
+cb_rstto_fullscreen(GtkWidget *, GdkEventWindowState *event, RsttoPictureViewer *viewer);
+
+static void
 cb_rstto_previous(GtkToolItem *item, RsttoNavigator *);
 static void
 cb_rstto_forward(GtkToolItem *item, RsttoNavigator *);
@@ -46,9 +49,17 @@ cb_rstto_open_dir(GtkToolItem *item, RsttoNavigator *);
 
 static void
 cb_rstto_help_about(GtkToolItem *item, GtkWindow *);
+static void
+cb_rstto_toggle_fullscreen(GtkToolItem *item, GtkWindow *window);
 
 static void
 cb_rstto_nav_file_changed(RsttoNavigator *navigator, GtkWindow *window);
+
+static gboolean window_fullscreen = FALSE;
+static GtkWidget *menu_bar;
+static GtkWidget *image_tool_bar;
+static GtkWidget *app_tool_bar;
+static GtkWidget *status_bar;
 
 int main(int argc, char **argv)
 {
@@ -86,10 +97,10 @@ int main(int argc, char **argv)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	GtkWidget *main_vbox = gtk_vbox_new(0, FALSE);
 	GtkWidget *main_hbox = gtk_hbox_new(0, FALSE);
-    GtkWidget *menu_bar = gtk_menu_bar_new();
-	GtkWidget *image_tool_bar = gtk_toolbar_new();
-	GtkWidget *app_tool_bar = gtk_toolbar_new();
-    GtkWidget *status_bar = gtk_statusbar_new();
+    menu_bar = gtk_menu_bar_new();
+	image_tool_bar = gtk_toolbar_new();
+	app_tool_bar = gtk_toolbar_new();
+    status_bar = gtk_statusbar_new();
 
     GtkWidget *menu_item_file = gtk_menu_item_new_with_mnemonic(_("_File"));
     GtkWidget *menu_item_open = gtk_image_menu_item_new_from_stock(GTK_STOCK_OPEN, NULL);
@@ -110,11 +121,11 @@ int main(int argc, char **argv)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_edit), menu_edit);
 
     GtkWidget *menu_item_view = gtk_menu_item_new_with_mnemonic(_("_View"));
-    GtkWidget *menu_item_view_zoom = gtk_check_menu_item_new_with_mnemonic(_("View Zoom toolbar"));
+    GtkWidget *menu_item_view_fs = gtk_image_menu_item_new_from_stock(GTK_STOCK_FULLSCREEN, NULL);
 
     GtkWidget *menu_view = gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_view), menu_view);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu_view), menu_item_view_zoom);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_view), menu_item_view_fs);
 
     GtkWidget *menu_item_help = gtk_menu_item_new_with_mnemonic(_("_Help"));
     GtkWidget *menu_item_help_about = gtk_image_menu_item_new_from_stock(GTK_STOCK_ABOUT, NULL);
@@ -183,7 +194,9 @@ int main(int argc, char **argv)
 	g_signal_connect(G_OBJECT(menu_item_open_dir), "activate", G_CALLBACK(cb_rstto_open_dir), navigator);
 	g_signal_connect(G_OBJECT(menu_item_help_about), "activate", G_CALLBACK(cb_rstto_help_about), window);
 
-	/* g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_fullscreen), viewer);*/
+	g_signal_connect(G_OBJECT(menu_item_view_fs), "activate", G_CALLBACK(cb_rstto_toggle_fullscreen), window);
+
+	g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_fullscreen), viewer);
 
 	gtk_container_add(GTK_CONTAINER(window), main_vbox);
 
@@ -333,4 +346,36 @@ cb_rstto_nav_file_changed(RsttoNavigator *navigator, GtkWindow *window)
     }
     else
         gtk_window_set_title(window, PACKAGE_STRING);
+}
+
+static void
+cb_rstto_fullscreen(GtkWidget *widget, GdkEventWindowState *event, RsttoPictureViewer *viewer)
+{
+    g_print("%x\n", event->new_window_state);
+    if(event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN)
+    {
+        window_fullscreen = TRUE;
+        gtk_widget_hide(menu_bar);
+        gtk_widget_hide(image_tool_bar);
+        gtk_widget_hide(app_tool_bar);
+        gtk_widget_hide(status_bar);
+        rstto_picture_viewer_fit_scale(viewer);
+    }
+    else
+    {
+        window_fullscreen = FALSE;
+        gtk_widget_show(menu_bar);
+        gtk_widget_show(image_tool_bar);
+        gtk_widget_show(app_tool_bar);
+        gtk_widget_show(status_bar);
+    }
+}
+
+static void
+cb_rstto_toggle_fullscreen(GtkToolItem *item, GtkWindow *window)
+{
+    if(window_fullscreen)
+        gtk_window_unfullscreen(window);
+    else
+        gtk_window_fullscreen(window);
 }
