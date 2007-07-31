@@ -138,15 +138,23 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path)
     if(path)
     {
         ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
-
-        if(strcmp(thunar_vfs_mime_info_get_name(info->mime_info), "inode/directory"))
+        if(info)
         {
-            navigator->path = thunar_vfs_path_get_parent(path);
+            if(strcmp(thunar_vfs_mime_info_get_name(info->mime_info), "inode/directory"))
+            {
+                navigator->path = thunar_vfs_path_get_parent(path);
+            }
+            else
+            {
+                thunar_vfs_path_ref(path);
+                navigator->path = path;
+            }
+            thunar_vfs_info_unref(info);
+            info = NULL;
         }
         else
         {
-            thunar_vfs_path_ref(path);
-            navigator->path = path;
+            navigator->path = thunar_vfs_path_get_parent(path);
         }
 
         gchar *dir_name = thunar_vfs_path_dup_string(navigator->path);
