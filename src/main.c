@@ -402,10 +402,10 @@ cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *
             else
                 gtk_window_fullscreen(window);
             break;
-        case GDK_Right:
+        case GDK_Page_Down:
             rstto_navigator_forward(navigator);
             break;
-        case GDK_Left:
+        case GDK_Page_Up:
             rstto_navigator_back(navigator);
             break;
     }
