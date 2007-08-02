@@ -16,6 +16,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include <string.h>
 
 #include <thunar-vfs/thunar-vfs.h>
@@ -53,9 +54,13 @@ static void
 cb_rstto_toggle_fullscreen(GtkToolItem *item, GtkWindow *window);
 
 static void
+cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator);
+
+static void
 cb_rstto_nav_file_changed(RsttoNavigator *navigator, GtkWindow *window);
 
 static gboolean window_fullscreen = FALSE;
+static gboolean viewer_scale = 1.0;
 static GtkWidget *menu_bar;
 static GtkWidget *image_tool_bar;
 static GtkWidget *app_tool_bar;
@@ -80,6 +85,7 @@ int main(int argc, char **argv)
 	mime_dbase = thunar_vfs_mime_database_get_default();
 
 	GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
 	gtk_window_set_title(GTK_WINDOW(window), PACKAGE_STRING);
 
 	if(argc == 2)
@@ -91,6 +97,7 @@ int main(int argc, char **argv)
 	GtkWidget *viewer = rstto_picture_viewer_new();
     navigator = rstto_navigator_new(RSTTO_PICTURE_VIEWER(viewer));
 
+    g_signal_connect(window , "key-press-event", G_CALLBACK(cb_rstto_key_press_event) , navigator);
 	g_signal_connect(G_OBJECT(navigator), "file-changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
 
 	GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
@@ -351,7 +358,6 @@ cb_rstto_nav_file_changed(RsttoNavigator *navigator, GtkWindow *window)
 static void
 cb_rstto_fullscreen(GtkWidget *widget, GdkEventWindowState *event, RsttoPictureViewer *viewer)
 {
-    g_print("%x\n", event->new_window_state);
     if(event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN)
     {
         window_fullscreen = TRUE;
@@ -359,6 +365,7 @@ cb_rstto_fullscreen(GtkWidget *widget, GdkEventWindowState *event, RsttoPictureV
         gtk_widget_hide(image_tool_bar);
         gtk_widget_hide(app_tool_bar);
         gtk_widget_hide(status_bar);
+        viewer_scale = rstto_picture_viewer_get_scale(viewer);
         rstto_picture_viewer_fit_scale(viewer);
     }
     else
@@ -368,6 +375,7 @@ cb_rstto_fullscreen(GtkWidget *widget, GdkEventWindowState *event, RsttoPictureV
         gtk_widget_show(image_tool_bar);
         gtk_widget_show(app_tool_bar);
         gtk_widget_show(status_bar);
+        rstto_picture_viewer_set_scale(viewer, viewer_scale);
     }
 }
 
@@ -379,3 +387,25 @@ cb_rstto_toggle_fullscreen(GtkToolItem *item, GtkWindow *window)
     else
         gtk_window_fullscreen(window);
 }
+
+static void
+cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator)
+{
+    GtkWindow *window = GTK_WINDOW(widget);
+    switch(event->keyval)
+    {
+        case GDK_F11:
+            if(window_fullscreen)
+                gtk_window_unfullscreen(window);
+            else
+                gtk_window_fullscreen(window);
+            break;
+        case GDK_Right:
+            rstto_navigator_forward(navigator);
+            break;
+        case GDK_Left:
+            rstto_navigator_back(navigator);
+            break;
+    }
+}
+

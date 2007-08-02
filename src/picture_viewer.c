@@ -50,6 +50,7 @@ rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *, GtkAdjustment 
 static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureViewer *viewer);
 
+
 static GtkWidgetClass *parent_class = NULL;
 
 GType
@@ -81,14 +82,14 @@ rstto_picture_viewer_get_type ()
 static void
 rstto_picture_viewer_init(RsttoPictureViewer *viewer)
 {
-	viewer->cb_value_changed = cb_rstto_picture_viewer_value_changed;
+    viewer->cb_value_changed = cb_rstto_picture_viewer_value_changed;
 
-	viewer->src_pixbuf = NULL;
-	viewer->dst_pixbuf = NULL;
-	gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
+    viewer->src_pixbuf = NULL;
+    viewer->dst_pixbuf = NULL;
+    gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
 
-	viewer->scale = 1;
-	viewer->scale_fts = FALSE;
+    viewer->scale = 1;
+    viewer->scale_fts = FALSE;
     viewer->show_border = TRUE;
 }
 
@@ -140,7 +141,7 @@ rstto_picture_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 {
 	RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER(widget);
 	gint border_width =  0;
-  widget->allocation = *allocation;
+    widget->allocation = *allocation;
 
 	if (GTK_WIDGET_REALIZED (widget))
 	{
