@@ -84,6 +84,8 @@ int main(int argc, char **argv)
 
 	mime_dbase = thunar_vfs_mime_database_get_default();
 
+	gtk_window_set_default_icon_name("ristretto");
+
 	GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
 	gtk_window_set_title(GTK_WINDOW(window), PACKAGE_STRING);
