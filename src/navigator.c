@@ -120,7 +120,7 @@ rstto_navigator_new(RsttoPictureViewer *viewer)
 }
 
 void
-rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path)
+rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path, gboolean index_path)
 {
     if(navigator->path)
     {
@@ -168,12 +168,15 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path)
             gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
             if(!strcmp(file_media, "image"))
             {
-                navigator->file_list = g_list_prepend(navigator->file_list, file_info);
 
                 if(thunar_vfs_path_equal(path, file_path))
                 {
+                    navigator->file_list = g_list_prepend(navigator->file_list, file_info);
                     navigator->file_iter = navigator->file_list;
                 }
+                else
+                    if(index_path)
+                        navigator->file_list = g_list_prepend(navigator->file_list, file_info);
             }
             else
             {

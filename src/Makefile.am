@@ -3,6 +3,7 @@ bin_PROGRAMS = ristretto
 ristretto_SOURCES = \
 	main.c \
 	picture_viewer.c picture_viewer.h \
+	thumbnail_viewer.c thumbnail_viewer.h \
 	navigator.c navigator.h
 
 ristretto_CFLAGS = \

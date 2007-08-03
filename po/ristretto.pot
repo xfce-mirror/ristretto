@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-07-31 01:46+0200\n"
+"POT-Creation-Date: 2007-08-02 19:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,48 +16,44 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:94
+#: ../src/main.c:114
 msgid "_File"
 msgstr ""
 
-#: ../src/main.c:96
+#: ../src/main.c:116
 msgid "O_pen Folder"
 msgstr ""
 
-#: ../src/main.c:107
+#: ../src/main.c:127
 msgid "_Edit"
 msgstr ""
 
-#: ../src/main.c:112
+#: ../src/main.c:132
 msgid "_View"
 msgstr ""
 
-#: ../src/main.c:113
-msgid "View Zoom toolbar"
-msgstr ""
-
-#: ../src/main.c:119
+#: ../src/main.c:139
 msgid "_Help"
 msgstr ""
 
-#: ../src/main.c:229
+#: ../src/main.c:251
 msgid "Open image"
 msgstr ""
 
-#: ../src/main.c:257
+#: ../src/main.c:279
 msgid "Open folder"
 msgstr ""
 
-#: ../src/main.c:284
+#: ../src/main.c:306
 msgid "Developer:"
 msgstr ""
 
-#: ../src/main.c:293
+#: ../src/main.c:315
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
 
-#: ../src/main.c:300
+#: ../src/main.c:322
 msgid "translator-credits"
 msgstr ""
