@@ -39,16 +39,14 @@ G_BEGIN_DECLS
         G_TYPE_CHECK_CLASS_TYPE ((klass), \
 				RSTTO_TYPE_THUMBNAIL_VIEWER()))
 
+typedef struct _RsttoThumbnailViewerPriv RsttoThumbnailViewerPriv;
+
 typedef struct _RsttoThumbnailViewer RsttoThumbnailViewer;
 
 struct _RsttoThumbnailViewer
 {
 	GtkWidget         parent;
-
-    GtkOrientation    orientation;
-	GtkAdjustment    *vadjustment;
-	GtkAdjustment    *hadjustment;
-	void             (*cb_value_changed)(GtkAdjustment *, RsttoThumbnailViewer *);
+    RsttoThumbnailViewerPriv *priv;
 };
 
 typedef struct _RsttoThumbnailViewerClass RsttoThumbnailViewerClass;
@@ -56,10 +54,6 @@ typedef struct _RsttoThumbnailViewerClass RsttoThumbnailViewerClass;
 struct _RsttoThumbnailViewerClass
 {
 	GtkWidgetClass  parent_class;
-
-    void (* set_scroll_adjustments) (RsttoThumbnailViewer *viewer,
-	      GtkAdjustment     *hadjustment,
-	      GtkAdjustment     *vadjustment);
 };
 
 GType      rstto_thumbnail_viewer_get_type();

@@ -39,16 +39,18 @@ G_BEGIN_DECLS
         G_TYPE_CHECK_CLASS_TYPE ((klass), \
 				RSTTO_TYPE_NAVIGATOR()))
 
+typedef struct _RsttoNavigatorEntry RsttoNavigatorEntry;
+
 typedef struct _RsttoNavigator RsttoNavigator;
 
 struct _RsttoNavigator
 {
     GObject             parent;
     RsttoPictureViewer *viewer;
-    GtkIconTheme *icon_theme;
+    GtkIconTheme       *icon_theme;
     ThunarVfsPath      *path;
     GList              *file_list;
-    GList            *file_iter;
+    GList              *file_iter;
 };
 
 typedef struct _RsttoNavigatorClass RsttoNavigatorClass;
@@ -68,9 +70,19 @@ void       rstto_navigator_set_path (RsttoNavigator *navigator,
 void       rstto_navigator_forward (RsttoNavigator *navigator);
 void       rstto_navigator_back (RsttoNavigator *navigator);
 
-const gchar *
-rstto_navigator_get_filename (RsttoNavigator *navigator);
+RsttoNavigatorEntry *
+rstto_navigator_get_file (RsttoNavigator *navigator);
 
+gint
+rstto_navigator_get_n_files (RsttoNavigator *navigator);
+RsttoNavigatorEntry *
+rstto_navigator_get_nth_file (RsttoNavigator *navigator, gint n);
+
+
+GdkPixbuf *
+rstto_navigator_entry_get_thumbnail (RsttoNavigatorEntry *entry);
+ThunarVfsInfo *
+rstto_navigator_entry_get_info (RsttoNavigatorEntry *entry);
 G_END_DECLS
 
 #endif /* __RISTRETTO_NAVIGATOR_H__ */

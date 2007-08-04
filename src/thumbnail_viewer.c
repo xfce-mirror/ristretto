@@ -19,10 +19,20 @@
 #include <gtk/gtkmarshal.h>
 #include <string.h>
 
+#include <thunar-vfs/thunar-vfs.h>
+
 #include <pango/pango.h>
 #include <pango/pangoxft.h>
 
+#include "picture_viewer.h"
+#include "navigator.h"
 #include "thumbnail_viewer.h"
+
+struct _RsttoThumbnailViewerPriv
+{
+    GtkOrientation  orientation;
+    RsttoNavigator *navigator;
+};
 
 static void
 rstto_thumbnail_viewer_init(RsttoThumbnailViewer *);
@@ -43,11 +53,7 @@ static gboolean
 rstto_thumbnail_viewer_expose(GtkWidget *, GdkEventExpose *);
 
 static void
-rstto_thumbnail_viewer_set_scroll_adjustments(RsttoThumbnailViewer *, GtkAdjustment *, GtkAdjustment *);
-
-static void
-cb_rstto_thumbnail_viewer_value_changed(GtkAdjustment *adjustment, RsttoThumbnailViewer *viewer);
-
+rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer);
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -81,7 +87,7 @@ rstto_thumbnail_viewer_get_type ()
 static void
 rstto_thumbnail_viewer_init(RsttoThumbnailViewer *viewer)
 {
-    viewer->cb_value_changed = cb_rstto_thumbnail_viewer_value_changed;
+    viewer->priv = g_new0(RsttoThumbnailViewerPriv, 1);
 
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
 }
@@ -97,8 +103,6 @@ rstto_thumbnail_viewer_class_init(RsttoThumbnailViewerClass *viewer_class)
 
 	parent_class = g_type_class_peek_parent(viewer_class);
 
-	viewer_class->set_scroll_adjustments = rstto_thumbnail_viewer_set_scroll_adjustments;
-
 	widget_class->realize = rstto_thumbnail_viewer_realize;
 	widget_class->unrealize = rstto_thumbnail_viewer_unrealize;
 	widget_class->expose_event = rstto_thumbnail_viewer_expose;
@@ -107,33 +111,20 @@ rstto_thumbnail_viewer_class_init(RsttoThumbnailViewerClass *viewer_class)
 	widget_class->size_allocate = rstto_thumbnail_viewer_size_allocate;
 
 	object_class->destroy = rstto_thumbnail_viewer_destroy;
-
-
-	widget_class->set_scroll_adjustments_signal =
-	              g_signal_new ("set_scroll_adjustments",
-	                            G_TYPE_FROM_CLASS (object_class),
-	                            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-	                            G_STRUCT_OFFSET (RsttoThumbnailViewerClass, set_scroll_adjustments),
-	                            NULL, NULL,
-	                            gtk_marshal_VOID__POINTER_POINTER,
-	                            G_TYPE_NONE, 2,
-	                            GTK_TYPE_ADJUSTMENT,
-	                            GTK_TYPE_ADJUSTMENT);
-
 }
 
 static void
 rstto_thumbnail_viewer_size_request(GtkWidget *widget, GtkRequisition *requisition)
 {
     RsttoThumbnailViewer *viewer = RSTTO_THUMBNAIL_VIEWER(widget);
-    switch(viewer->orientation)
+    switch(viewer->priv->orientation)
     {
         case GTK_ORIENTATION_HORIZONTAL:
-            requisition->height = 96;
+            requisition->height = 64;
             requisition->width = 10;
             break;
         case GTK_ORIENTATION_VERTICAL:
-            requisition->width = 120;
+            requisition->width = 64;
             break;
     }
 }
@@ -153,22 +144,14 @@ rstto_thumbnail_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocatio
 			allocation->width - border_width * 2,
 			allocation->height - border_width * 2);
 
-        if(viewer->hadjustment)
+        switch(viewer->priv->orientation)
         {
-	    	viewer->hadjustment->page_size = widget->allocation.width;
-	    	viewer->hadjustment->upper = 128*10;
-	    	viewer->hadjustment->lower = 0;
-            viewer->hadjustment->step_increment = 1;
-            viewer->hadjustment->page_increment = 100;
-
-			if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
-			{
-				viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-				gtk_adjustment_value_changed(viewer->hadjustment);
-			}
-
-			gtk_adjustment_changed(viewer->hadjustment);
+            case GTK_ORIENTATION_HORIZONTAL:
+            case GTK_ORIENTATION_VERTICAL:
+                break;
         }
+
+
 	}
 }
 
@@ -211,58 +194,87 @@ rstto_thumbnail_viewer_unrealize(GtkWidget *widget)
 static gboolean
 rstto_thumbnail_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
 {
+    RsttoThumbnailViewer *viewer = RSTTO_THUMBNAIL_VIEWER(widget);
+
+    rstto_thumbnail_viewer_paint(viewer);
+
+	return FALSE;
+}
+
+static void
+rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
+{
+    GtkWidget *widget = GTK_WIDGET(viewer);
 	GdkColor color;
 	GdkColor color_1;
+    gint dimension = 0;
+
+    switch(viewer->priv->orientation)
+    {
+        case GTK_ORIENTATION_HORIZONTAL:
+            dimension = widget->allocation.height;
+            break;
+        case GTK_ORIENTATION_VERTICAL:
+            dimension = widget->allocation.width;
+            break;
+    }
 
     PangoContext *pc = gtk_widget_get_pango_context(widget);
     PangoLayout *pl = pango_layout_new(pc);
 
     pango_layout_set_text(pl, "Ristretto Image Viewer", 22);
-    pango_layout_set_width(pl, 96 * PANGO_SCALE);
+    pango_layout_set_width(pl, (dimension - 24) * PANGO_SCALE);
     pango_layout_set_ellipsize(pl, PANGO_ELLIPSIZE_MIDDLE);
 
     color.pixel = 0xffffffff;
     color_1.pixel = 0;
-    RsttoThumbnailViewer *viewer = RSTTO_THUMBNAIL_VIEWER(widget);
 	GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(widget->window));
 	GdkGC *gc_1 = gdk_gc_new(GDK_DRAWABLE(widget->window));
 
 	gdk_gc_set_foreground(gc, &color);
 	gdk_gc_set_foreground(gc_1, &color_1);
-    if(viewer->hadjustment)
-    {
-        viewer->hadjustment->page_size = widget->allocation.width;
-        viewer->hadjustment->upper = 72*5;
-        viewer->hadjustment->lower = 0;
-        viewer->hadjustment->step_increment = 1;
-        viewer->hadjustment->page_increment = 100;
 
-        if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
-        {
-            viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-            gtk_adjustment_value_changed(viewer->hadjustment);
-        }
-
-//        gtk_adjustment_changed(viewer->hadjustment);
-    }
     gint i;
-    for(i = 0; i < 10; ++i)
-    {
-        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
+    for(i = 0; i < rstto_navigator_get_n_files(viewer->priv->navigator); ++i)
+    { 
+        RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(viewer->priv->navigator, i);
+        ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
+        GdkPixbuf *pixbuf = rstto_navigator_entry_get_thumbnail(entry);
+
+        pango_layout_set_text(pl, info->display_name, strlen(info->display_name));
+
+        if(viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
+        {
+            gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
                   gc,
                   TRUE,
-                  (i*128), 0, 128, 128);
-        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
+                  (i*dimension), 0, dimension, dimension);
+
+
+            /*
+            gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
                   gc_1,
                   TRUE,
-                  (i*128)+12, 12, 96, 72);
-        gdk_draw_layout(GDK_DRAWABLE(widget->window),
+                  (i*dimension)+12, 12, inner_dimension, inner_dimension-12);
+            */
+            gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
+                            gc,
+                            pixbuf,
+                            0, 0,
+                            i*dimension + 12,
+                            12,
+                            -1, -1,
+                            GDK_RGB_DITHER_NORMAL,
+                            0, 0);
+
+            gdk_draw_layout(GDK_DRAWABLE(widget->window),
                   gc_1,
-                  (i*128)+12, 96,
+                  (i*dimension)+12, dimension-24,
                   pl);
+
+        }
     }
 
-	return FALSE;
 }
 
 static void
@@ -271,48 +283,14 @@ rstto_thumbnail_viewer_destroy(GtkObject *object)
 
 }
 
-static void
-rstto_thumbnail_viewer_set_scroll_adjustments(RsttoThumbnailViewer *viewer, GtkAdjustment *hadjustment, GtkAdjustment *vadjustment)
-{
-	if(viewer->hadjustment)
-	{
-		g_signal_handlers_disconnect_by_func(viewer->hadjustment, viewer->cb_value_changed, viewer);
-		g_object_unref(viewer->hadjustment);
-	}
-	if(viewer->vadjustment)
-	{
-		g_signal_handlers_disconnect_by_func(viewer->vadjustment, viewer->cb_value_changed, viewer);
-		g_object_unref(viewer->vadjustment);
-	}
-
-	viewer->hadjustment = hadjustment;
-	viewer->vadjustment = vadjustment;
-
-	if(viewer->hadjustment)
-	{
-		g_signal_connect(G_OBJECT(viewer->hadjustment), "value-changed", (GCallback)viewer->cb_value_changed, viewer);
-		g_object_ref(viewer->hadjustment);
-	}
-	if(viewer->vadjustment)
-	{
-		g_signal_connect(G_OBJECT(viewer->vadjustment), "value-changed", (GCallback)viewer->cb_value_changed, viewer);
-		g_object_ref(viewer->vadjustment);
-	}
-
-}
-
-static void
-cb_rstto_thumbnail_viewer_value_changed(GtkAdjustment *adjustment, RsttoThumbnailViewer *viewer)
-{
-
-}
-
 GtkWidget *
-rstto_thumbnail_viewer_new()
+rstto_thumbnail_viewer_new(RsttoNavigator *navigator)
 {
-	GtkWidget *widget;
+	RsttoThumbnailViewer *viewer;
 
-	widget = g_object_new(RSTTO_TYPE_THUMBNAIL_VIEWER, NULL);
+	viewer = g_object_new(RSTTO_TYPE_THUMBNAIL_VIEWER, NULL);
 
-	return widget;
+    viewer->priv->navigator = navigator;
+
+	return (GtkWidget *)viewer;
 }

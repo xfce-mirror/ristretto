@@ -104,13 +104,11 @@ int main(int argc, char **argv)
 	g_signal_connect(G_OBJECT(navigator), "file-changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
 
 	GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
-	GtkWidget *s_window1 = gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(s_window1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	GtkWidget *main_vbox = gtk_vbox_new(0, FALSE);
 	GtkWidget *main_hbox = gtk_hbox_new(0, FALSE);
     GtkWidget *main_paned = gtk_vpaned_new();
-    GtkWidget *thumbnail_viewer = rstto_thumbnail_viewer_new();
+    GtkWidget *thumbnail_viewer = rstto_thumbnail_viewer_new(navigator);
     menu_bar = gtk_menu_bar_new();
 	image_tool_bar = gtk_toolbar_new();
 	app_tool_bar = gtk_toolbar_new();
@@ -174,13 +172,12 @@ int main(int argc, char **argv)
 
 
 	gtk_container_add(GTK_CONTAINER(s_window), viewer);
-	gtk_container_add(GTK_CONTAINER(s_window1), thumbnail_viewer);
     gtk_toolbar_set_orientation(GTK_TOOLBAR(image_tool_bar), GTK_ORIENTATION_VERTICAL);
 	gtk_box_pack_start(GTK_BOX(main_hbox), image_tool_bar, FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(main_hbox), main_paned, TRUE, TRUE, 0);
 
     gtk_paned_pack1(GTK_PANED(main_paned), s_window, TRUE, TRUE);
-    gtk_paned_pack2(GTK_PANED(main_paned), s_window1, FALSE, TRUE);
+    gtk_paned_pack2(GTK_PANED(main_paned), thumbnail_viewer, FALSE, TRUE);
 
 	gtk_box_pack_start(GTK_BOX(main_vbox), menu_bar, FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(main_vbox), app_tool_bar, FALSE, TRUE, 0);
@@ -354,7 +351,9 @@ cb_rstto_previous(GtkToolItem *item, RsttoNavigator *navigator)
 static void
 cb_rstto_nav_file_changed(RsttoNavigator *navigator, GtkWindow *window)
 {
-    const gchar *filename = rstto_navigator_get_filename(navigator);
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(navigator);
+    ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
+    const gchar *filename = info->display_name;
     gchar *title;
     if(filename)
     {

@@ -39,19 +39,17 @@ G_BEGIN_DECLS
         G_TYPE_CHECK_CLASS_TYPE ((klass), \
 				RSTTO_TYPE_PICTURE_VIEWER()))
 
+typedef struct _RsttoPictureViewerPriv RsttoPictureViewerPriv;
+
 typedef struct _RsttoPictureViewer RsttoPictureViewer;
 
 struct _RsttoPictureViewer
 {
 	GtkWidget         parent;
-	GdkPixbuf        *src_pixbuf;
-	GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
+    RsttoPictureViewerPriv *priv;
+
 	GtkAdjustment    *vadjustment;
 	GtkAdjustment    *hadjustment;
-	gdouble           scale;
-	gboolean          scale_fts; /* Scale image to fit to screen */
-	void             (*cb_value_changed)(GtkAdjustment *, RsttoPictureViewer *);
-    gboolean          show_border;
 };
 
 typedef struct _RsttoPictureViewerClass RsttoPictureViewerClass;
