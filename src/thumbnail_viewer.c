@@ -57,6 +57,9 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer);
 
 static GtkWidgetClass *parent_class = NULL;
 
+static void
+cb_rstto_thumbnailer_nav_file_changed(RsttoNavigator *nav, RsttoThumbnailViewer *viewer);
+
 GType
 rstto_thumbnail_viewer_get_type ()
 {
@@ -222,7 +225,6 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     PangoContext *pc = gtk_widget_get_pango_context(widget);
     PangoLayout *pl = pango_layout_new(pc);
 
-    pango_layout_set_text(pl, "Ristretto Image Viewer", 22);
     pango_layout_set_width(pl, (dimension - 24) * PANGO_SCALE);
     pango_layout_set_ellipsize(pl, PANGO_ELLIPSIZE_MIDDLE);
 
@@ -257,7 +259,8 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                   TRUE,
                   (i*dimension)+12, 12, inner_dimension, inner_dimension-12);
             */
-            gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
+            if(pixbuf)
+                gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
                             gc,
                             pixbuf,
                             0, 0,
@@ -292,5 +295,13 @@ rstto_thumbnail_viewer_new(RsttoNavigator *navigator)
 
     viewer->priv->navigator = navigator;
 
+	g_signal_connect(G_OBJECT(navigator), "file-changed", G_CALLBACK(cb_rstto_thumbnailer_nav_file_changed), viewer);
+
 	return (GtkWidget *)viewer;
+}
+
+static void
+cb_rstto_thumbnailer_nav_file_changed(RsttoNavigator *nav, RsttoThumbnailViewer *viewer)
+{
+    
 }

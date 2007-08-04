@@ -45,7 +45,7 @@ struct _RsttoNavigatorEntry
     GdkPixbuf     *pixbuf;
 };
 
-static RsttoNavigatorEntry *
+RsttoNavigatorEntry *
 _rstto_navigator_entry_new (ThunarVfsInfo *info);
 static void
 _rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry);
@@ -141,7 +141,7 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path, gboolea
 
     if(navigator->file_list)
     {
-        g_list_foreach(navigator->file_list, (GFunc)thunar_vfs_info_unref, NULL);
+        g_list_foreach(navigator->file_list, (GFunc)_rstto_navigator_entry_free, NULL);
         navigator->file_list = NULL;
         navigator->file_iter = NULL;
     }
@@ -176,30 +176,35 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path, gboolea
         {
             ThunarVfsPath *file_path = thunar_vfs_path_relative(navigator->path, filename);
             ThunarVfsInfo *file_info = thunar_vfs_info_new_for_path(file_path, NULL);
-            gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
-            if(!strcmp(file_media, "image"))
+            if(file_info)
             {
-                RsttoNavigatorEntry *nav_entry = _rstto_navigator_entry_new(file_info);
-
-                if(thunar_vfs_path_equal(path, file_path))
+                gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
+                if(!strcmp(file_media, "image"))
                 {
-                    navigator->file_list = g_list_prepend(navigator->file_list, nav_entry);
-                    navigator->file_iter = navigator->file_list;
+                    RsttoNavigatorEntry *nav_entry = _rstto_navigator_entry_new(file_info);
+
+                    if(thunar_vfs_path_equal(path, file_path))
+                    {
+                        navigator->file_list = g_list_prepend(navigator->file_list, nav_entry);
+                        navigator->file_iter = navigator->file_list;
+                    }
+                    else
+                    {
+                        if(index_path)
+                            navigator->file_list = g_list_prepend(navigator->file_list, nav_entry);
+                        else
+                            _rstto_navigator_entry_free(nav_entry);
+                    }
                 }
                 else
-                    if(index_path)
-                        navigator->file_list = g_list_prepend(navigator->file_list, nav_entry);
-                    else
-                        _rstto_navigator_entry_free(nav_entry);
-            }
-            else
-            {
-                thunar_vfs_info_unref(file_info);
+                {
+                    thunar_vfs_info_unref(file_info);
+                }
+                g_free(file_media);
             }
 
             thunar_vfs_path_unref(file_path);
             filename = g_dir_read_name(dir);
-            g_free(file_media);
         }
         g_free(dir_name);
         if(!navigator->file_iter)
@@ -235,7 +240,8 @@ rstto_navigator_forward (RsttoNavigator *navigator)
 
     if(navigator->file_iter)
     {
-        gchar *filename = thunar_vfs_path_dup_string(((ThunarVfsInfo *)navigator->file_iter->data)->path);
+        ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
+        gchar *filename = thunar_vfs_path_dup_string(info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
         if(!pixbuf)
         {
@@ -262,7 +268,8 @@ rstto_navigator_back (RsttoNavigator *navigator)
 
     if(navigator->file_iter)
     {
-        gchar *filename = thunar_vfs_path_dup_string(((ThunarVfsInfo *)navigator->file_iter->data)->path);
+        ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
+        gchar *filename = thunar_vfs_path_dup_string(info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
         if(!pixbuf)
         {
@@ -297,16 +304,20 @@ rstto_navigator_get_nth_file (RsttoNavigator *navigator, gint n)
     return g_list_nth_data(navigator->file_list, n);
 }
 
-static RsttoNavigatorEntry *
+RsttoNavigatorEntry *
 _rstto_navigator_entry_new (ThunarVfsInfo *info)
 {
-    RsttoNavigatorEntry *entry = g_new(RsttoNavigatorEntry, 1);
+    RsttoNavigatorEntry *entry = NULL;
     gchar *filename = thunar_vfs_path_dup_string(info->path);
+    if(filename)
+    {
+        entry = g_new0(RsttoNavigatorEntry, 1);
 
-    entry->info = info;
-    entry->pixbuf = gdk_pixbuf_new_from_file_at_size(filename, 64, 64, NULL);
+        entry->info = info;
+        entry->pixbuf = gdk_pixbuf_new_from_file_at_size(filename, 64, 64, NULL);
 
-    g_free(filename);
+        g_free(filename);
+    }
     return entry;
 }
 
