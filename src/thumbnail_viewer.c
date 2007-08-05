@@ -123,7 +123,7 @@ rstto_thumbnail_viewer_size_request(GtkWidget *widget, GtkRequisition *requisiti
     switch(viewer->priv->orientation)
     {
         case GTK_ORIENTATION_HORIZONTAL:
-            requisition->height = 64;
+            requisition->height = 74;
             requisition->width = 10;
             break;
         case GTK_ORIENTATION_VERTICAL:
@@ -222,6 +222,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
             break;
     }
 
+    RsttoNavigatorEntry *current_entry = rstto_navigator_get_file(viewer->priv->navigator);
     PangoContext *pc = gtk_widget_get_pango_context(widget);
     PangoLayout *pl = pango_layout_new(pc);
 
@@ -243,36 +244,45 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
         GdkPixbuf *pixbuf = rstto_navigator_entry_get_thumbnail(entry);
 
+
         pango_layout_set_text(pl, info->display_name, strlen(info->display_name));
 
         if(viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
         {
+            if(current_entry == entry)
+            {
+                color.pixel = 0xff0000ff;
+            }
+            else
+            {
+                color.pixel = 0xffffffff;
+            }
+	        gdk_gc_set_foreground(gc, &color);
             gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
                   gc,
                   TRUE,
-                  (i*dimension), 0, dimension, dimension);
+                  (i*74), 0, 74, 74);
 
 
-            /*
             gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
                   gc_1,
                   TRUE,
-                  (i*dimension)+12, 12, inner_dimension, inner_dimension-12);
-            */
+                  (i*74)+4, 4, 66 , 50);
+
             if(pixbuf)
                 gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
                             gc,
                             pixbuf,
                             0, 0,
-                            i*dimension + 12,
-                            12,
+                            i * 74 + 5 + (0.5 * (64 - gdk_pixbuf_get_width(pixbuf))),
+                            5 + (0.5 *(48 - gdk_pixbuf_get_height(pixbuf))),
                             -1, -1,
                             GDK_RGB_DITHER_NORMAL,
                             0, 0);
 
             gdk_draw_layout(GDK_DRAWABLE(widget->window),
                   gc_1,
-                  (i*dimension)+12, dimension-24,
+                  (i*74)+5, 56,
                   pl);
 
         }
@@ -303,5 +313,9 @@ rstto_thumbnail_viewer_new(RsttoNavigator *navigator)
 static void
 cb_rstto_thumbnailer_nav_file_changed(RsttoNavigator *nav, RsttoThumbnailViewer *viewer)
 {
-    
+	if (GTK_WIDGET_REALIZED (viewer))
+	{
+        rstto_thumbnail_viewer_paint(viewer);   
+
+    }
 }

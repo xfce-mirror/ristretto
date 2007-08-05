@@ -314,7 +314,7 @@ _rstto_navigator_entry_new (ThunarVfsInfo *info)
         entry = g_new0(RsttoNavigatorEntry, 1);
 
         entry->info = info;
-        entry->pixbuf = gdk_pixbuf_new_from_file_at_size(filename, 64, 64, NULL);
+        entry->pixbuf = gdk_pixbuf_new_from_file_at_size(filename, 64, 48, NULL);
 
         g_free(filename);
     }
