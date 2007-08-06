@@ -289,7 +289,10 @@ rstto_navigator_back (RsttoNavigator *navigator)
 RsttoNavigatorEntry *
 rstto_navigator_get_file (RsttoNavigator *navigator)
 {
-    return (RsttoNavigatorEntry *)(navigator->file_iter->data);
+    if(navigator->file_iter)
+        return (RsttoNavigatorEntry *)(navigator->file_iter->data);
+    else
+        return NULL;
 }
 
 gint

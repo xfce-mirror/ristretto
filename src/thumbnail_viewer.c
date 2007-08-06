@@ -204,7 +204,10 @@ rstto_thumbnail_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
 {
     RsttoThumbnailViewer *viewer = RSTTO_THUMBNAIL_VIEWER(widget);
 
-    rstto_thumbnail_viewer_paint(viewer);
+	if (GTK_WIDGET_REALIZED (viewer))
+	{
+        rstto_thumbnail_viewer_paint(viewer);
+    }
 
 	return FALSE;
 }
