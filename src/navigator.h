@@ -78,11 +78,15 @@ rstto_navigator_get_n_files (RsttoNavigator *navigator);
 RsttoNavigatorEntry *
 rstto_navigator_get_nth_file (RsttoNavigator *navigator, gint n);
 
+void
+rstto_navigator_set_file (RsttoNavigator *navigator, gint n);
+
 
 GdkPixbuf *
 rstto_navigator_entry_get_thumbnail (RsttoNavigatorEntry *entry);
 ThunarVfsInfo *
 rstto_navigator_entry_get_info (RsttoNavigatorEntry *entry);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_NAVIGATOR_H__ */

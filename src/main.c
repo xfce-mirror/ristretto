@@ -101,7 +101,7 @@ int main(int argc, char **argv)
     navigator = rstto_navigator_new(RSTTO_PICTURE_VIEWER(viewer));
 
     g_signal_connect(window , "key-press-event", G_CALLBACK(cb_rstto_key_press_event) , navigator);
-	g_signal_connect(G_OBJECT(navigator), "file-changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
+	g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
 
 	GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);

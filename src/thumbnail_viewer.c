@@ -59,6 +59,8 @@ static GtkWidgetClass *parent_class = NULL;
 
 static void
 cb_rstto_thumbnailer_nav_file_changed(RsttoNavigator *nav, RsttoThumbnailViewer *viewer);
+static void
+cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer, GdkEventButton *event);
 
 GType
 rstto_thumbnail_viewer_get_type ()
@@ -93,6 +95,9 @@ rstto_thumbnail_viewer_init(RsttoThumbnailViewer *viewer)
     viewer->priv = g_new0(RsttoThumbnailViewerPriv, 1);
 
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
+    gtk_widget_set_events (GTK_WIDGET(viewer),
+                           GDK_BUTTON_PRESS_MASK);
+    g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_thumbnailer_button_press_event), NULL);
 }
 
 static void
@@ -305,7 +310,7 @@ rstto_thumbnail_viewer_new(RsttoNavigator *navigator)
 
     viewer->priv->navigator = navigator;
 
-	g_signal_connect(G_OBJECT(navigator), "file-changed", G_CALLBACK(cb_rstto_thumbnailer_nav_file_changed), viewer);
+	g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_thumbnailer_nav_file_changed), viewer);
 
 	return (GtkWidget *)viewer;
 }
@@ -316,6 +321,28 @@ cb_rstto_thumbnailer_nav_file_changed(RsttoNavigator *nav, RsttoThumbnailViewer 
 	if (GTK_WIDGET_REALIZED (viewer))
 	{
         rstto_thumbnail_viewer_paint(viewer);   
+
+    }
+}
+
+static void
+cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer,
+                                         GdkEventButton *event)
+{
+    switch(viewer->priv->orientation)
+    {
+        case GTK_ORIENTATION_HORIZONTAL:
+            if(event->button == 1)
+            {
+                rstto_navigator_set_file(viewer->priv->navigator, event->x / 74);
+            }
+            break;
+        case GTK_ORIENTATION_VERTICAL:
+            if(event->button == 1)
+            {
+                rstto_navigator_set_file(viewer->priv->navigator, event->y / 74);
+            }
+            break;
 
     }
 }

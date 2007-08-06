@@ -93,7 +93,7 @@ rstto_navigator_class_init(RsttoNavigatorClass *nav_class)
 
 	object_class->dispose = rstto_navigator_dispose;
 
-	rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED] = g_signal_new("file-changed",
+	rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED] = g_signal_new("file_changed",
 			G_TYPE_FROM_CLASS(nav_class),
 			G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 			0,
@@ -340,4 +340,28 @@ _rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
     if(nav_entry->pixbuf)
         g_object_unref(nav_entry->pixbuf);
     g_free(nav_entry);
+}
+
+void
+rstto_navigator_set_file (RsttoNavigator *navigator, gint n)
+{
+    navigator->file_iter = g_list_nth(navigator->file_list, n);
+    if(navigator->file_iter)
+    {
+        ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
+        gchar *filename = thunar_vfs_path_dup_string(info->path);
+        GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+        if(!pixbuf)
+        {
+            pixbuf = gtk_icon_theme_load_icon(navigator->icon_theme, GTK_STOCK_MISSING_IMAGE, 48, 0, NULL);
+            rstto_picture_viewer_set_scale(navigator->viewer, 1);
+        }
+
+        rstto_picture_viewer_set_pixbuf(navigator->viewer, pixbuf);
+        if(pixbuf)
+            gdk_pixbuf_unref(pixbuf);
+
+        g_free(filename);
+        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+    }
 }
