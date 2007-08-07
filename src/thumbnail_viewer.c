@@ -246,25 +246,33 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
 
         if(viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
         {
-            if(current_entry == entry)
-            {
-                color.pixel = 0xff0000ff;
-            }
-            else
-            {
-                color.pixel = 0xffffffff;
-            }
 	        gdk_gc_set_foreground(gc, &color);
             gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
                   gc,
                   TRUE,
                   (i*74), 0, 74, 74);
 
-
+            
+            if(current_entry == entry)
+                gtk_paint_box(widget->style,
+                             widget->window,
+                             GTK_STATE_SELECTED,
+                             GTK_SHADOW_NONE,
+                             NULL,NULL,NULL,
+                             (i*74)+4, 4, 66, 50);
+            else
+                gtk_paint_box(widget->style,
+                             widget->window,
+                             GTK_STATE_NORMAL,
+                             GTK_SHADOW_NONE,
+                             NULL,NULL,NULL,
+                             (i*74)+4, 4, 66, 50);
+            /*
             gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
                   gc_1,
                   TRUE,
                   (i*74)+4, 4, 66 , 50);
+            */
 
             if(pixbuf)
                 gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
