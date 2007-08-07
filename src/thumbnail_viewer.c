@@ -218,23 +218,12 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     GtkWidget *widget = GTK_WIDGET(viewer);
 	GdkColor color;
 	GdkColor color_1;
-    gint dimension = 0;
-
-    switch(viewer->priv->orientation)
-    {
-        case GTK_ORIENTATION_HORIZONTAL:
-            dimension = widget->allocation.height;
-            break;
-        case GTK_ORIENTATION_VERTICAL:
-            dimension = widget->allocation.width;
-            break;
-    }
 
     RsttoNavigatorEntry *current_entry = rstto_navigator_get_file(viewer->priv->navigator);
     PangoContext *pc = gtk_widget_get_pango_context(widget);
     PangoLayout *pl = pango_layout_new(pc);
 
-    pango_layout_set_width(pl, (dimension - 24) * PANGO_SCALE);
+    pango_layout_set_width(pl, (74 - 24) * PANGO_SCALE);
     pango_layout_set_ellipsize(pl, PANGO_ELLIPSIZE_MIDDLE);
 
     color.pixel = 0xffffffff;
@@ -294,6 +283,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                   pl);
 
         }
+        gdk_window_clear_area(widget->window, 74 * (i+1), 0, widget->allocation.width, 74);
     }
 
 }
