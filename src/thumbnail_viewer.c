@@ -234,6 +234,8 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     switch (viewer->priv->orientation)
     {
         case GTK_ORIENTATION_HORIZONTAL:
+            /* FIXME: use gdk_window_clear_area instead */
+            gdk_window_clear(widget->window);
             for(i = 0; i < rstto_navigator_get_n_files(viewer->priv->navigator); ++i)
             { 
                 RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(viewer->priv->navigator, i);
@@ -275,14 +277,6 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                                 GDK_RGB_DITHER_NORMAL,
                                 0, 0);
             }
-            if(widget->allocation.width - (viewer->priv->dimension * (i+1)) - viewer->priv->offset - 16 > 0)
-            {
-                gdk_window_clear_area(widget->window,
-                            (viewer->priv->dimension * (i+1)) - viewer->priv->offset,
-                            0,
-                            widget->allocation.width - (viewer->priv->dimension * (i+1)) - viewer->priv->offset - 16,
-                            viewer->priv->dimension);
-            }
 
             gtk_paint_box(widget->style,
                             widget->window,
@@ -317,6 +311,8 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
 
             break;
         case GTK_ORIENTATION_VERTICAL:
+            /* FIXME: use gdk_window_clear_area instead */
+            gdk_window_clear(widget->window);
             for(i = 0; i < rstto_navigator_get_n_files(viewer->priv->navigator); ++i)
             { 
                 RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(viewer->priv->navigator, i);
@@ -354,15 +350,6 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                                 -1, -1,
                                 GDK_RGB_DITHER_NORMAL,
                                 0, 0);
-            }
-
-            if(widget->allocation.height - (viewer->priv->dimension * (i+1)) - viewer->priv->offset - 16 > 0)
-            {
-                gdk_window_clear_area(widget->window,
-                            0,
-                            (viewer->priv->dimension * (i+1)) - viewer->priv->offset,
-                            viewer->priv->dimension,
-                            widget->allocation.height - (viewer->priv->dimension * (i+1)) - viewer->priv->offset - 16);
             }
 
             gtk_paint_box(widget->style,

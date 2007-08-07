@@ -38,6 +38,8 @@ cb_rstto_zoom_out(GtkToolItem *item, RsttoPictureViewer *viewer);
 
 static void
 cb_rstto_fullscreen(GtkWidget *, GdkEventWindowState *event, RsttoPictureViewer *viewer);
+static void
+cb_rstto_toggle_play(GtkToolItem *item, RsttoNavigator *navigator);
 
 static void
 cb_rstto_previous(GtkToolItem *item, RsttoNavigator *);
@@ -133,10 +135,12 @@ int main(int argc, char **argv)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_edit), menu_edit);
 
     GtkWidget *menu_item_view = gtk_menu_item_new_with_mnemonic(_("_View"));
+    GtkWidget *menu_item_play = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_PLAY, NULL);
     GtkWidget *menu_item_view_fs = gtk_image_menu_item_new_from_stock(GTK_STOCK_FULLSCREEN, NULL);
 
     GtkWidget *menu_view = gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_view), menu_view);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_view), menu_item_play);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_view), menu_item_view_fs);
 
     GtkWidget *menu_item_help = gtk_menu_item_new_with_mnemonic(_("_Help"));
@@ -209,6 +213,7 @@ int main(int argc, char **argv)
 	g_signal_connect(G_OBJECT(menu_item_open_dir), "activate", G_CALLBACK(cb_rstto_open_dir), navigator);
 	g_signal_connect(G_OBJECT(menu_item_help_about), "activate", G_CALLBACK(cb_rstto_help_about), window);
 
+	g_signal_connect(G_OBJECT(menu_item_play), "activate", G_CALLBACK(cb_rstto_toggle_play), navigator);
 	g_signal_connect(G_OBJECT(menu_item_view_fs), "activate", G_CALLBACK(cb_rstto_toggle_fullscreen), window);
 
 	g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_fullscreen), viewer);
@@ -390,6 +395,12 @@ cb_rstto_fullscreen(GtkWidget *widget, GdkEventWindowState *event, RsttoPictureV
             rstto_picture_viewer_set_scale(viewer, viewer_scale);
         }
     }
+}
+
+static void
+cb_rstto_toggle_play(GtkToolItem *item, RsttoNavigator *navigator)
+{
+    rstto_navigator_set_running(navigator, TRUE);
 }
 
 static void

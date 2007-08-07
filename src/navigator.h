@@ -51,6 +51,8 @@ struct _RsttoNavigator
     ThunarVfsPath      *path;
     GList              *file_list;
     GList              *file_iter;
+    gboolean            running;
+    gint                id;
 };
 
 typedef struct _RsttoNavigatorClass RsttoNavigatorClass;
@@ -65,10 +67,12 @@ RsttoNavigator *
 rstto_navigator_new (RsttoPictureViewer *viewer);
 
 void       rstto_navigator_set_path (RsttoNavigator *navigator,
-                                     ThunarVfsPath *path,
-                                     gboolean index_path);
+                                        ThunarVfsPath *path,
+                                        gboolean index_path);
 void       rstto_navigator_forward (RsttoNavigator *navigator);
 void       rstto_navigator_back (RsttoNavigator *navigator);
+void       rstto_navigator_set_running (RsttoNavigator *navigator,
+                                        gboolean running);
 
 RsttoNavigatorEntry *
 rstto_navigator_get_file (RsttoNavigator *navigator);
