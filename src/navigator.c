@@ -184,19 +184,20 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path, gboolea
                 gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
                 if(!strcmp(file_media, "image"))
                 {
-                    RsttoNavigatorEntry *nav_entry = _rstto_navigator_entry_new(file_info);
-
                     if(thunar_vfs_path_equal(path, file_path))
                     {
+                        RsttoNavigatorEntry *nav_entry = _rstto_navigator_entry_new(file_info);
+
                         navigator->file_list = g_list_prepend(navigator->file_list, nav_entry);
                         navigator->file_iter = navigator->file_list;
                     }
                     else
                     {
                         if(index_path)
+                        {
+                            RsttoNavigatorEntry *nav_entry = _rstto_navigator_entry_new(file_info);
                             navigator->file_list = g_list_prepend(navigator->file_list, nav_entry);
-                        else
-                            _rstto_navigator_entry_free(nav_entry);
+                        }
                     }
                 }
                 else
