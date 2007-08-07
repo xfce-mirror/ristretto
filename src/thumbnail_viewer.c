@@ -293,7 +293,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                             widget->allocation.width - 16, 0, 16, viewer->priv->dimension);
             gtk_paint_arrow(widget->style,
                             widget->window,
-                            GTK_STATE_NORMAL,
+                            (i * viewer->priv->dimension) - viewer->priv->offset > widget->allocation.width-32?GTK_STATE_NORMAL:GTK_STATE_INSENSITIVE,
                             GTK_SHADOW_NONE,
                             NULL,NULL,NULL,
                             GTK_ARROW_RIGHT,
@@ -367,7 +367,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                             0, widget->allocation.height - 16, viewer->priv->dimension, 16);
             gtk_paint_arrow(widget->style,
                             widget->window,
-                            (i * viewer->priv->dimension) - viewer->priv->offset > widget->allocation.height?GTK_STATE_NORMAL:GTK_STATE_INSENSITIVE,
+                            (i * viewer->priv->dimension) - viewer->priv->offset > widget->allocation.height - 32?GTK_STATE_NORMAL:GTK_STATE_INSENSITIVE,
                             GTK_SHADOW_NONE,
                             NULL,NULL,NULL,
                             GTK_ARROW_DOWN,
