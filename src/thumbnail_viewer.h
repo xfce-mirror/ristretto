@@ -60,6 +60,9 @@ GType      rstto_thumbnail_viewer_get_type();
 
 GtkWidget *rstto_thumbnail_viewer_new();
 
+void       rstto_thumbnail_viewer_set_orientation (RsttoThumbnailViewer *, GtkOrientation);
+GtkOrientation  rstto_thumbnail_viewer_get_orientation (RsttoThumbnailViewer *);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_THUMBNAIL_VIEWER_H__ */

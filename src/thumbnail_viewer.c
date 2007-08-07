@@ -49,8 +49,6 @@ static void
 rstto_thumbnail_viewer_size_allocate(GtkWidget *, GtkAllocation *);
 static void
 rstto_thumbnail_viewer_realize(GtkWidget *);
-static void
-rstto_thumbnail_viewer_unrealize(GtkWidget *);
 static gboolean 
 rstto_thumbnail_viewer_expose(GtkWidget *, GdkEventExpose *);
 
@@ -100,7 +98,7 @@ rstto_thumbnail_viewer_init(RsttoThumbnailViewer *viewer)
     gtk_widget_set_events (GTK_WIDGET(viewer),
                            GDK_BUTTON_PRESS_MASK);
     g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_thumbnailer_button_press_event), NULL);
-    viewer->priv->orientation = GTK_ORIENTATION_VERTICAL;
+    viewer->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
 }
 
 static void
@@ -115,7 +113,6 @@ rstto_thumbnail_viewer_class_init(RsttoThumbnailViewerClass *viewer_class)
 	parent_class = g_type_class_peek_parent(viewer_class);
 
 	widget_class->realize = rstto_thumbnail_viewer_realize;
-	widget_class->unrealize = rstto_thumbnail_viewer_unrealize;
 	widget_class->expose_event = rstto_thumbnail_viewer_expose;
 
 	widget_class->size_request = rstto_thumbnail_viewer_size_request;
@@ -197,11 +194,6 @@ rstto_thumbnail_viewer_realize(GtkWidget *widget)
 	gdk_window_set_user_data (widget->window, widget);
 
 	gtk_style_set_background (widget->style, widget->window, GTK_STATE_ACTIVE);
-}
-
-static void
-rstto_thumbnail_viewer_unrealize(GtkWidget *widget)
-{
 }
 
 static gboolean
@@ -486,4 +478,16 @@ cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer,
     {
         rstto_navigator_set_file(viewer->priv->navigator, n);
     }
+}
+
+void
+rstto_thumbnail_viewer_set_orientation (RsttoThumbnailViewer *viewer, GtkOrientation orientation)
+{
+    viewer->priv->orientation = orientation;
+}
+
+GtkOrientation
+rstto_thumbnail_viewer_get_orientation (RsttoThumbnailViewer *viewer)
+{
+    return viewer->priv->orientation;
 }

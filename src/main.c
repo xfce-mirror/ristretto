@@ -61,6 +61,13 @@ static void
 cb_rstto_toggle_fullscreen(GtkToolItem *item, GtkWindow *window);
 
 static void
+cb_rstto_show_tv_v(GtkWidget *widget, RsttoThumbnailViewer *viewer);
+static void
+cb_rstto_show_tv_h(GtkWidget *widget, RsttoThumbnailViewer *viewer);
+static void
+cb_rstto_hide_tv(GtkWidget *widget, RsttoThumbnailViewer *viewer);
+
+static void
 cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator);
 
 static void
@@ -75,6 +82,10 @@ static GtkWidget *status_bar;
 static gboolean playing = FALSE;
 static GtkWidget *menu_item_play;
 static GtkWidget *menu_item_pause;
+
+static GtkWidget *main_hbox;
+static GtkWidget *main_vbox1;
+static GtkWidget *thumbnail_viewer;
 
 int main(int argc, char **argv)
 {
@@ -115,9 +126,9 @@ int main(int argc, char **argv)
 	GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	GtkWidget *main_vbox = gtk_vbox_new(0, FALSE);
-	GtkWidget *main_hbox = gtk_hbox_new(0, FALSE);
-    GtkWidget *main_vbox1 = gtk_vbox_new(0, FALSE);
-    GtkWidget *thumbnail_viewer = rstto_thumbnail_viewer_new(navigator);
+	main_hbox = gtk_hbox_new(0, FALSE);
+    main_vbox1 = gtk_vbox_new(0, FALSE);
+    thumbnail_viewer = rstto_thumbnail_viewer_new(navigator);
     menu_bar = gtk_menu_bar_new();
 	image_tool_bar = gtk_toolbar_new();
 	app_tool_bar = gtk_toolbar_new();
@@ -142,11 +153,23 @@ int main(int argc, char **argv)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_edit), menu_edit);
 
     GtkWidget *menu_item_view = gtk_menu_item_new_with_mnemonic(_("_View"));
+    GtkWidget *menu_item_tv = gtk_menu_item_new_with_mnemonic(_("Thumbnail Viewer"));
     GtkWidget *menu_item_view_fs = gtk_image_menu_item_new_from_stock(GTK_STOCK_FULLSCREEN, NULL);
 
     GtkWidget *menu_view = gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_view), menu_view);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_view), menu_item_tv);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_view), menu_item_view_fs);
+
+    GtkWidget *menu_tv = gtk_menu_new();
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_tv), menu_tv);
+    GtkWidget *menu_item_htv = gtk_radio_menu_item_new_with_mnemonic(NULL, _("Show Horizontally"));
+    GtkWidget *menu_item_vtv = gtk_radio_menu_item_new_with_mnemonic_from_widget(GTK_RADIO_MENU_ITEM(menu_item_htv), _("Show Vertically"));
+    GtkWidget *menu_item_ntv = gtk_radio_menu_item_new_with_mnemonic_from_widget(GTK_RADIO_MENU_ITEM(menu_item_htv), _("Hide"));
+
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_tv), menu_item_htv);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_tv), menu_item_vtv);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_tv), menu_item_ntv);
 
     GtkWidget *menu_item_go = gtk_menu_item_new_with_mnemonic(_("_Go"));
 
@@ -209,7 +232,7 @@ int main(int argc, char **argv)
 	gtk_box_pack_start(GTK_BOX(main_hbox), main_vbox1, TRUE, TRUE, 0);
 
 	gtk_box_pack_start(GTK_BOX(main_vbox1), s_window, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(main_hbox), thumbnail_viewer, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(main_vbox1), thumbnail_viewer, FALSE, TRUE, 0);
 
 	gtk_box_pack_start(GTK_BOX(main_vbox), menu_bar, FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(main_vbox), app_tool_bar, FALSE, TRUE, 0);
@@ -245,6 +268,10 @@ int main(int argc, char **argv)
 	g_signal_connect(G_OBJECT(menu_item_back), "activate", G_CALLBACK(cb_rstto_previous), navigator);
 	g_signal_connect(G_OBJECT(menu_item_first), "activate", G_CALLBACK(cb_rstto_first), navigator);
 	g_signal_connect(G_OBJECT(menu_item_last), "activate", G_CALLBACK(cb_rstto_last), navigator);
+
+	g_signal_connect(G_OBJECT(menu_item_vtv), "activate", G_CALLBACK(cb_rstto_show_tv_v), thumbnail_viewer);
+	g_signal_connect(G_OBJECT(menu_item_htv), "activate", G_CALLBACK(cb_rstto_show_tv_h), thumbnail_viewer);
+	g_signal_connect(G_OBJECT(menu_item_ntv), "activate", G_CALLBACK(cb_rstto_hide_tv), thumbnail_viewer);
 
 	g_signal_connect(G_OBJECT(menu_item_play), "activate", G_CALLBACK(cb_rstto_toggle_play), navigator);
 	g_signal_connect(G_OBJECT(menu_item_pause), "activate", G_CALLBACK(cb_rstto_toggle_play), navigator);
@@ -498,3 +525,31 @@ cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *
     }
 }
 
+
+static void
+cb_rstto_show_tv_v(GtkWidget *widget, RsttoThumbnailViewer *viewer)
+{
+    GtkWidget *parent = gtk_widget_get_parent(GTK_WIDGET(viewer));
+    gtk_widget_ref(GTK_WIDGET(viewer));
+    gtk_container_remove(GTK_CONTAINER(parent), GTK_WIDGET(viewer));
+    rstto_thumbnail_viewer_set_orientation(viewer, GTK_ORIENTATION_VERTICAL);
+	gtk_box_pack_start(GTK_BOX(main_hbox), thumbnail_viewer, FALSE, TRUE, 0);
+    gtk_widget_show(GTK_WIDGET(viewer));
+}
+
+static void
+cb_rstto_show_tv_h(GtkWidget *widget, RsttoThumbnailViewer *viewer)
+{
+    GtkWidget *parent = gtk_widget_get_parent(GTK_WIDGET(viewer));
+    gtk_widget_ref(GTK_WIDGET(viewer));
+    gtk_container_remove(GTK_CONTAINER(parent), GTK_WIDGET(viewer));
+    rstto_thumbnail_viewer_set_orientation(viewer, GTK_ORIENTATION_HORIZONTAL);
+    gtk_box_pack_start(GTK_BOX(main_vbox1), thumbnail_viewer, FALSE, TRUE, 0);
+    gtk_widget_show(GTK_WIDGET(viewer));
+}
+
+static void
+cb_rstto_hide_tv(GtkWidget *widget, RsttoThumbnailViewer *viewer)
+{
+    gtk_widget_hide(GTK_WIDGET(viewer));
+}
