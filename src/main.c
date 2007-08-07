@@ -177,7 +177,7 @@ int main(int argc, char **argv)
 	gtk_box_pack_start(GTK_BOX(main_hbox), main_vbox1, TRUE, TRUE, 0);
 
 	gtk_box_pack_start(GTK_BOX(main_vbox1), s_window, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(main_vbox1), thumbnail_viewer, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(main_hbox), thumbnail_viewer, FALSE, TRUE, 0);
 
 	gtk_box_pack_start(GTK_BOX(main_vbox), menu_bar, FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(main_vbox), app_tool_bar, FALSE, TRUE, 0);
