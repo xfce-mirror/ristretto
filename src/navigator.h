@@ -69,8 +69,11 @@ rstto_navigator_new (RsttoPictureViewer *viewer);
 void       rstto_navigator_set_path (RsttoNavigator *navigator,
                                         ThunarVfsPath *path,
                                         gboolean index_path);
+void       rstto_navigator_first (RsttoNavigator *navigator);
 void       rstto_navigator_forward (RsttoNavigator *navigator);
 void       rstto_navigator_back (RsttoNavigator *navigator);
+void       rstto_navigator_last (RsttoNavigator *navigator);
+
 void       rstto_navigator_set_running (RsttoNavigator *navigator,
                                         gboolean running);
 

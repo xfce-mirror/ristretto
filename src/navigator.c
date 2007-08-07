@@ -234,6 +234,31 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path, gboolea
 }
 
 void
+rstto_navigator_first (RsttoNavigator *navigator)
+{
+    navigator->file_iter = g_list_first(navigator->file_list);
+
+    if(navigator->file_iter)
+    {
+        ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
+        gchar *filename = thunar_vfs_path_dup_string(info->path);
+        GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+        if(!pixbuf)
+        {
+            pixbuf = gtk_icon_theme_load_icon(navigator->icon_theme, GTK_STOCK_MISSING_IMAGE, 48, 0, NULL);
+            rstto_picture_viewer_set_scale(navigator->viewer, 1);
+        }
+
+        rstto_picture_viewer_set_pixbuf(navigator->viewer, pixbuf);
+        if(pixbuf)
+            gdk_pixbuf_unref(pixbuf);
+
+        g_free(filename);
+        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+    }
+}
+
+void
 rstto_navigator_forward (RsttoNavigator *navigator)
 {
 
@@ -269,6 +294,31 @@ rstto_navigator_back (RsttoNavigator *navigator)
         navigator->file_iter = g_list_previous(navigator->file_iter);
     if(!navigator->file_iter)
         navigator->file_iter = g_list_last(navigator->file_list);
+
+    if(navigator->file_iter)
+    {
+        ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
+        gchar *filename = thunar_vfs_path_dup_string(info->path);
+        GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+        if(!pixbuf)
+        {
+            pixbuf = gtk_icon_theme_load_icon(navigator->icon_theme, GTK_STOCK_MISSING_IMAGE, 48, 0, NULL);
+            rstto_picture_viewer_set_scale(navigator->viewer, 1);
+        }
+
+        rstto_picture_viewer_set_pixbuf(navigator->viewer, pixbuf);
+        if(pixbuf)
+            gdk_pixbuf_unref(pixbuf);
+
+        g_free(filename);
+        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+    }
+}
+
+void
+rstto_navigator_last (RsttoNavigator *navigator)
+{
+    navigator->file_iter = g_list_last(navigator->file_list);
 
     if(navigator->file_iter)
     {

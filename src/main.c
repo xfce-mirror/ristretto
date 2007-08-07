@@ -424,6 +424,12 @@ cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *
             else
                 gtk_window_fullscreen(window);
             break;
+        case GDK_Home:
+            rstto_navigator_first(navigator);
+            break;
+        case GDK_End:
+            rstto_navigator_last(navigator);
+            break;
         case GDK_Page_Down:
             rstto_navigator_forward(navigator);
             break;
