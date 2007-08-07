@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-08-05 00:55+0200\n"
+"POT-Creation-Date: 2007-08-07 19:53+0200\n"
 "PO-Revision-Date: 2007-07-03 00:59:21+0200\n"
 "Last-Translator: Mike Massonnet <mmassonnet@xfce.org>\n"
 "Language-Team: French\n"
@@ -15,39 +15,43 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:117
+#: ../src/main.c:119
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../src/main.c:119
+#: ../src/main.c:121
 msgid "O_pen Folder"
 msgstr "O_uvrir un répertoire"
 
-#: ../src/main.c:130
+#: ../src/main.c:132
 msgid "_Edit"
 msgstr "_Editer"
 
-#: ../src/main.c:135
+#: ../src/main.c:137
 msgid "_View"
 msgstr "A_fficher"
 
-#: ../src/main.c:142
+#: ../src/main.c:144
+msgid "_Go"
+msgstr ""
+
+#: ../src/main.c:163
 msgid "_Help"
 msgstr "_Aide"
 
-#: ../src/main.c:257
+#: ../src/main.c:280
 msgid "Open image"
 msgstr "Ouvrir une image"
 
-#: ../src/main.c:285
+#: ../src/main.c:308
 msgid "Open folder"
 msgstr "Ouvrir un répertoire"
 
-#: ../src/main.c:312
+#: ../src/main.c:335
 msgid "Developer:"
 msgstr "Développeur :"
 
-#: ../src/main.c:321
+#: ../src/main.c:344
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -55,7 +59,7 @@ msgstr ""
 "Ristretto est un visualiseur d'images léger et rapide pour l'environnement "
 "de bureau Xfce."
 
-#: ../src/main.c:328
+#: ../src/main.c:351
 msgid "translator-credits"
 msgstr ""
 

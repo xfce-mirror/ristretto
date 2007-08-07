@@ -39,12 +39,16 @@ cb_rstto_zoom_out(GtkToolItem *item, RsttoPictureViewer *viewer);
 static void
 cb_rstto_fullscreen(GtkWidget *, GdkEventWindowState *event, RsttoPictureViewer *viewer);
 static void
-cb_rstto_toggle_play(GtkToolItem *item, RsttoNavigator *navigator);
+cb_rstto_toggle_play(GtkImageMenuItem *item, RsttoNavigator *navigator);
 
 static void
 cb_rstto_previous(GtkToolItem *item, RsttoNavigator *);
 static void
 cb_rstto_forward(GtkToolItem *item, RsttoNavigator *);
+static void
+cb_rstto_first(GtkToolItem *item, RsttoNavigator *);
+static void
+cb_rstto_last(GtkToolItem *item, RsttoNavigator *);
 
 static void
 cb_rstto_open(GtkToolItem *item, RsttoNavigator *);
@@ -68,6 +72,9 @@ static GtkWidget *menu_bar;
 static GtkWidget *image_tool_bar;
 static GtkWidget *app_tool_bar;
 static GtkWidget *status_bar;
+static gboolean playing = FALSE;
+static GtkWidget *menu_item_play;
+static GtkWidget *menu_item_pause;
 
 int main(int argc, char **argv)
 {
@@ -135,13 +142,33 @@ int main(int argc, char **argv)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_edit), menu_edit);
 
     GtkWidget *menu_item_view = gtk_menu_item_new_with_mnemonic(_("_View"));
-    GtkWidget *menu_item_play = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_PLAY, NULL);
     GtkWidget *menu_item_view_fs = gtk_image_menu_item_new_from_stock(GTK_STOCK_FULLSCREEN, NULL);
 
     GtkWidget *menu_view = gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_view), menu_view);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu_view), menu_item_play);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_view), menu_item_view_fs);
+
+    GtkWidget *menu_item_go = gtk_menu_item_new_with_mnemonic(_("_Go"));
+
+    GtkWidget *menu_item_first = gtk_image_menu_item_new_from_stock(GTK_STOCK_GOTO_FIRST, NULL);
+    GtkWidget *menu_item_last = gtk_image_menu_item_new_from_stock(GTK_STOCK_GOTO_LAST, NULL);
+    GtkWidget *menu_item_forward = gtk_image_menu_item_new_from_stock(GTK_STOCK_GO_FORWARD, NULL);
+    GtkWidget *menu_item_back = gtk_image_menu_item_new_from_stock(GTK_STOCK_GO_BACK, NULL);
+
+    menu_item_play = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_PLAY, NULL);
+    menu_item_pause = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_PAUSE, NULL);
+
+    menu_item_separator = gtk_separator_menu_item_new();
+
+    GtkWidget *menu_go = gtk_menu_new();
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_go), menu_go);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_go), menu_item_first);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_go), menu_item_last);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_go), menu_item_forward);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_go), menu_item_back);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_go), menu_item_separator);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_go), menu_item_play);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_go), menu_item_pause);
 
     GtkWidget *menu_item_help = gtk_menu_item_new_with_mnemonic(_("_Help"));
     GtkWidget *menu_item_help_about = gtk_image_menu_item_new_from_stock(GTK_STOCK_ABOUT, NULL);
@@ -154,6 +181,7 @@ int main(int argc, char **argv)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_file);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_edit);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_view);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_go);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_help);
 
 	GtkToolItem *zoom_fit= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_FIT);
@@ -213,7 +241,13 @@ int main(int argc, char **argv)
 	g_signal_connect(G_OBJECT(menu_item_open_dir), "activate", G_CALLBACK(cb_rstto_open_dir), navigator);
 	g_signal_connect(G_OBJECT(menu_item_help_about), "activate", G_CALLBACK(cb_rstto_help_about), window);
 
+	g_signal_connect(G_OBJECT(menu_item_forward), "activate", G_CALLBACK(cb_rstto_forward), navigator);
+	g_signal_connect(G_OBJECT(menu_item_back), "activate", G_CALLBACK(cb_rstto_previous), navigator);
+	g_signal_connect(G_OBJECT(menu_item_first), "activate", G_CALLBACK(cb_rstto_first), navigator);
+	g_signal_connect(G_OBJECT(menu_item_last), "activate", G_CALLBACK(cb_rstto_last), navigator);
+
 	g_signal_connect(G_OBJECT(menu_item_play), "activate", G_CALLBACK(cb_rstto_toggle_play), navigator);
+	g_signal_connect(G_OBJECT(menu_item_pause), "activate", G_CALLBACK(cb_rstto_toggle_play), navigator);
 	g_signal_connect(G_OBJECT(menu_item_view_fs), "activate", G_CALLBACK(cb_rstto_toggle_fullscreen), window);
 
 	g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_fullscreen), viewer);
@@ -221,6 +255,7 @@ int main(int argc, char **argv)
 	gtk_container_add(GTK_CONTAINER(window), main_vbox);
 
 	gtk_widget_show_all(window);
+    gtk_widget_hide(menu_item_pause);
 	gtk_widget_show(viewer);
 
 
@@ -342,6 +377,18 @@ cb_rstto_help_about(GtkToolItem *item, GtkWindow *window)
 }
 
 static void
+cb_rstto_first(GtkToolItem *item, RsttoNavigator *navigator)
+{
+    rstto_navigator_first(navigator);
+}
+
+static void
+cb_rstto_last(GtkToolItem *item, RsttoNavigator *navigator)
+{
+    rstto_navigator_last(navigator);
+}
+
+static void
 cb_rstto_forward(GtkToolItem *item, RsttoNavigator *navigator)
 {
     rstto_navigator_forward(navigator);
@@ -398,9 +445,21 @@ cb_rstto_fullscreen(GtkWidget *widget, GdkEventWindowState *event, RsttoPictureV
 }
 
 static void
-cb_rstto_toggle_play(GtkToolItem *item, RsttoNavigator *navigator)
+cb_rstto_toggle_play(GtkImageMenuItem *item, RsttoNavigator *navigator)
 {
-    rstto_navigator_set_running(navigator, TRUE);
+    if(playing == TRUE)
+    {
+        gtk_widget_show(menu_item_play);
+        gtk_widget_hide(menu_item_pause);
+        playing = FALSE;
+    }
+    else
+    {
+        gtk_widget_hide(menu_item_play);
+        gtk_widget_show(menu_item_pause);
+        playing = TRUE;
+    }
+    rstto_navigator_set_running(navigator, playing);
 }
 
 static void
