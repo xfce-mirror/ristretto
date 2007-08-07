@@ -32,6 +32,7 @@ struct _RsttoThumbnailViewerPriv
 {
     GtkOrientation  orientation;
     RsttoNavigator *navigator;
+    gint offset;
 };
 
 static void
@@ -244,13 +245,14 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
 
         pango_layout_set_text(pl, info->display_name, strlen(info->display_name));
 
+
         if(viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
         {
 	        gdk_gc_set_foreground(gc, &color);
             gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
                   gc,
                   TRUE,
-                  (i*74), 0, 74, 74);
+                  20+(i*74)-viewer->priv->offset, 0, 74, 74);
 
             
             if(current_entry == entry)
@@ -259,14 +261,14 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                              GTK_STATE_SELECTED,
                              GTK_SHADOW_NONE,
                              NULL,NULL,NULL,
-                             (i*74)+4, 4, 66, 50);
+                             20+(i*74)+4-viewer->priv->offset, 4, 66, 50);
             else
                 gtk_paint_box(widget->style,
                              widget->window,
                              GTK_STATE_NORMAL,
                              GTK_SHADOW_NONE,
                              NULL,NULL,NULL,
-                             (i*74)+4, 4, 66, 50);
+                             20+(i*74)+4-viewer->priv->offset, 4, 66, 50);
             /*
             gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
                   gc_1,
@@ -279,7 +281,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                             gc,
                             pixbuf,
                             0, 0,
-                            i * 74 + 5 + (0.5 * (64 - gdk_pixbuf_get_width(pixbuf))),
+                            20 + i * 74 + 5 + (0.5 * (64 - gdk_pixbuf_get_width(pixbuf))) - viewer->priv->offset,
                             5 + (0.5 *(48 - gdk_pixbuf_get_height(pixbuf))),
                             -1, -1,
                             GDK_RGB_DITHER_NORMAL,
@@ -287,11 +289,41 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
 
             gdk_draw_layout(GDK_DRAWABLE(widget->window),
                   gc_1,
-                  (i*74)+5, 56,
+                  20+(i*74)+5-viewer->priv->offset, 56,
                   pl);
 
         }
-        gdk_window_clear_area(widget->window, 74 * (i+1), 0, widget->allocation.width, 74);
+
+        gtk_paint_box(widget->style,
+                        widget->window,
+                        GTK_STATE_NORMAL,
+                        GTK_SHADOW_NONE,
+                        NULL,NULL,NULL,
+                        0, 0, 20, 74);
+        gtk_paint_arrow(widget->style,
+                        widget->window,
+                        viewer->priv->offset == 0?GTK_STATE_INSENSITIVE:GTK_STATE_NORMAL,
+                        GTK_SHADOW_NONE,
+                        NULL,NULL,NULL,
+                        GTK_ARROW_LEFT,
+                        TRUE,
+                        4,20,15,15);
+
+        gtk_paint_box(widget->style,
+                        widget->window,
+                        GTK_STATE_NORMAL,
+                        GTK_SHADOW_NONE,
+                        NULL,NULL,NULL,
+                        widget->allocation.width - 20, 0, 20, 74);
+        gtk_paint_arrow(widget->style,
+                        widget->window,
+                        GTK_STATE_NORMAL,
+                        GTK_SHADOW_NONE,
+                        NULL,NULL,NULL,
+                        GTK_ARROW_RIGHT,
+                        TRUE,
+                        widget->allocation.width - 19, 20,15,15);
+        gdk_window_clear_area(widget->window, 20 + 74 * (i+1), 0, widget->allocation.width, 74);
     }
 
 }
@@ -330,20 +362,55 @@ static void
 cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer,
                                          GdkEventButton *event)
 {
+    GtkWidget *widget = GTK_WIDGET(viewer);
+    gint n = 0;
+    gint old_offset = viewer->priv->offset;
     switch(viewer->priv->orientation)
     {
         case GTK_ORIENTATION_HORIZONTAL:
             if(event->button == 1)
             {
-                rstto_navigator_set_file(viewer->priv->navigator, event->x / 74);
+                if ((event->x < 20) || ((widget->allocation.width - event->x) < 20))
+                    n = -1;
+                else
+                    n = (event->x - 20 + viewer->priv->offset) / 74;
             }
             break;
         case GTK_ORIENTATION_VERTICAL:
             if(event->button == 1)
             {
-                rstto_navigator_set_file(viewer->priv->navigator, event->y / 74);
+                if(event->y < 20)
+                    n = -1;
+                else
+                    n = (event->y - 20) / 74;
+
             }
             break;
 
+    }
+    if (n < 0)
+    {
+        if (event->x < 20)
+        {
+            viewer->priv->offset -= 37;
+            if(viewer->priv->offset < 0)
+            {
+                viewer->priv->offset = 0;
+            }
+        }
+        else
+        {
+            viewer->priv->offset += 37;
+            if((rstto_navigator_get_n_files(viewer->priv->navigator) * 74 - viewer->priv->offset) < 74)
+            {
+                viewer->priv->offset = (rstto_navigator_get_n_files(viewer->priv->navigator) - 1) * 74;
+            }
+        }
+        if(old_offset != viewer->priv->offset)
+            rstto_thumbnail_viewer_paint(viewer);
+    }
+    else
+    {
+        rstto_navigator_set_file(viewer->priv->navigator, n);
     }
 }
