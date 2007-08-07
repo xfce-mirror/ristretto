@@ -375,7 +375,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                             0, widget->allocation.height - 16, viewer->priv->dimension, 16);
             gtk_paint_arrow(widget->style,
                             widget->window,
-                            GTK_STATE_NORMAL,
+                            (i * viewer->priv->dimension) - viewer->priv->offset > widget->allocation.height?GTK_STATE_NORMAL:GTK_STATE_INSENSITIVE,
                             GTK_SHADOW_NONE,
                             NULL,NULL,NULL,
                             GTK_ARROW_DOWN,
@@ -463,11 +463,19 @@ cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer,
                 viewer->priv->offset = 0;
             else
             {
-                viewer->priv->offset += viewer->priv->dimension;
-
-                if((rstto_navigator_get_n_files(viewer->priv->navigator) * viewer->priv->dimension - viewer->priv->offset) < viewer->priv->dimension)
+                if(viewer->priv->orientation == GTK_ORIENTATION_VERTICAL)
                 {
-                    viewer->priv->offset = (rstto_navigator_get_n_files(viewer->priv->navigator) - 1) * viewer->priv->dimension;
+                    if((rstto_navigator_get_n_files(viewer->priv->navigator) * viewer->priv->dimension - viewer->priv->offset) > widget->allocation.height)
+                    {
+                        viewer->priv->offset += viewer->priv->dimension;
+                    }
+                }
+                if(viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
+                {
+                    if((rstto_navigator_get_n_files(viewer->priv->navigator) * viewer->priv->dimension - viewer->priv->offset) > widget->allocation.width)
+                    {
+                        viewer->priv->offset += viewer->priv->dimension;
+                    }
                 }
             }
         }
