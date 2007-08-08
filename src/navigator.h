@@ -98,6 +98,8 @@ void
 rstto_navigator_set_entry_rotation (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, GdkPixbufRotation rotation);
 GdkPixbufRotation
 rstto_navigator_entry_get_rotation (RsttoNavigatorEntry *entry);
+gboolean
+rstto_navigator_entry_get_flip (RsttoNavigatorEntry *entry, gboolean horizontal);
 void
 rstto_navigator_flip_entry(RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gboolean horizontal);
 

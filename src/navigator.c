@@ -606,6 +606,15 @@ rstto_navigator_entry_get_rotation (RsttoNavigatorEntry *entry)
     return entry->rotation;
 }
 
+gboolean
+rstto_navigator_entry_get_flip (RsttoNavigatorEntry *entry, gboolean horizontal)
+{
+    if (horizontal)
+        return entry->h_flipped;
+    else
+        return entry->v_flipped;
+}
+
 void
 rstto_navigator_flip_entry(RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gboolean horizontal)
 {

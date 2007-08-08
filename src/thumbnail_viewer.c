@@ -268,6 +268,85 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                                 -1, -1,
                                 GDK_RGB_DITHER_NORMAL,
                                 0, 0);
+                GdkPixbufRotation rotation = rstto_navigator_entry_get_rotation(entry);
+                gint arc_1 = 5760;
+                gint arc_2 = 0;
+                switch (rotation)
+                {
+                    case GDK_PIXBUF_ROTATE_NONE:
+                        break;
+                    case GDK_PIXBUF_ROTATE_CLOCKWISE:
+                        arc_2 = -5760;
+                        break;
+                    case GDK_PIXBUF_ROTATE_UPSIDEDOWN:
+                        arc_2 = -11430;
+                        break;
+                    case GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE:
+                        arc_2 = -17190;
+                        break;
+                }
+                if (arc_2)
+                {
+                    gdk_draw_arc(GDK_DRAWABLE(widget->window),
+                                gc,
+                                FALSE,
+                                (viewer->priv->dimension * (i+1))-8,
+                                viewer->priv->dimension-24,
+                                16,
+                                16,
+                                0, 23040);
+                    gdk_draw_arc(GDK_DRAWABLE(widget->window),
+                                gc,
+                                TRUE,
+                                (viewer->priv->dimension * (i+1))-8,
+                                viewer->priv->dimension-24,
+                                16,
+                                16,
+                                arc_1, arc_2);
+                }
+
+
+                gboolean v_flip = rstto_navigator_entry_get_flip(entry, FALSE);
+                gboolean h_flip = rstto_navigator_entry_get_flip(entry, TRUE);
+
+                if (v_flip)
+                {
+                    gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
+                                gc,
+                                FALSE,
+                                (viewer->priv->dimension * (i+1))-48,
+                                viewer->priv->dimension-24,
+                                16,
+                                16);
+                    gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
+                                gc,
+                                TRUE,
+                                (viewer->priv->dimension * (i+1))-48,
+                                viewer->priv->dimension-24,
+                                16,
+                                8);
+
+                }
+
+                if (h_flip)
+                {
+                    gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
+                                gc,
+                                FALSE,
+                                (viewer->priv->dimension * (i+1))-28,
+                                viewer->priv->dimension-24,
+                                16,
+                                16);
+                    gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
+                                gc,
+                                TRUE,
+                                (viewer->priv->dimension * (i+1))-28,
+                                viewer->priv->dimension-24,
+                                8,
+                                16);
+
+                }
+
             }
 
             gtk_paint_box(widget->style,
@@ -342,6 +421,84 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                                 -1, -1,
                                 GDK_RGB_DITHER_NORMAL,
                                 0, 0);
+                GdkPixbufRotation rotation = rstto_navigator_entry_get_rotation(entry);
+                gint arc_1 = 5760;
+                gint arc_2 = 0;
+                switch (rotation)
+                {
+                    case GDK_PIXBUF_ROTATE_NONE:
+                        break;
+                    case GDK_PIXBUF_ROTATE_CLOCKWISE:
+                        arc_2 = -5760;
+                        break;
+                    case GDK_PIXBUF_ROTATE_UPSIDEDOWN:
+                        arc_2 = -11430;
+                        break;
+                    case GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE:
+                        arc_2 = -17190;
+                        break;
+                }
+                if (arc_2)
+                {
+                    gdk_draw_arc(GDK_DRAWABLE(widget->window),
+                                gc,
+                                FALSE,
+                                viewer->priv->dimension-24,
+                                (viewer->priv->dimension * (i+1))-8,
+                                16,
+                                16,
+                                0, 23040);
+                    gdk_draw_arc(GDK_DRAWABLE(widget->window),
+                                gc,
+                                TRUE,
+                                viewer->priv->dimension-24,
+                                (viewer->priv->dimension * (i+1))-8,
+                                16,
+                                16,
+                                arc_1, arc_2);
+                }
+
+
+                gboolean v_flip = rstto_navigator_entry_get_flip(entry, FALSE);
+                gboolean h_flip = rstto_navigator_entry_get_flip(entry, TRUE);
+
+                if (v_flip)
+                {
+                    gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
+                                gc,
+                                FALSE,
+                                viewer->priv->dimension-64,
+                                (viewer->priv->dimension * (i+1))-8,
+                                16,
+                                16);
+                    gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
+                                gc,
+                                TRUE,
+                                viewer->priv->dimension-64,
+                                (viewer->priv->dimension * (i+1))-8,
+                                16,
+                                8);
+
+                }
+
+                if (h_flip)
+                {
+                    gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
+                                gc,
+                                FALSE,
+                                viewer->priv->dimension-44,
+                                (viewer->priv->dimension * (i+1))-8,
+                                16,
+                                16);
+                    gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
+                                gc,
+                                TRUE,
+                                viewer->priv->dimension-44,
+                                (viewer->priv->dimension * (i+1))-8,
+                                8,
+                                16);
+
+                }
             }
 
             gtk_paint_box(widget->style,
