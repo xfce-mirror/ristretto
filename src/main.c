@@ -71,6 +71,10 @@ static void
 cb_rstto_rotate_cw(GtkWidget *widget, RsttoNavigator *navigator);
 static void
 cb_rstto_rotate_ccw(GtkWidget *widget, RsttoNavigator *navigator);
+static void
+cb_rstto_flip_h(GtkWidget *widget, RsttoNavigator *navigator);
+static void
+cb_rstto_flip_v(GtkWidget *widget, RsttoNavigator *navigator);
 
 static void
 cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator);
@@ -155,11 +159,15 @@ int main(int argc, char **argv)
     GtkWidget *menu_item_edit = gtk_menu_item_new_with_mnemonic(_("_Edit"));
     GtkWidget *menu_item_rotate_left = gtk_menu_item_new_with_mnemonic(_("Rotate _Left"));
     GtkWidget *menu_item_rotate_right = gtk_menu_item_new_with_mnemonic(_("Rotate _Right"));
+    GtkWidget *menu_item_flip_v = gtk_menu_item_new_with_mnemonic(_("Flip _Vertically"));
+    GtkWidget *menu_item_flip_h = gtk_menu_item_new_with_mnemonic(_("Flip _Horizontally"));
 
     GtkWidget *menu_edit = gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_edit), menu_edit);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_left);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_right);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_v);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_h);
 
     GtkWidget *menu_item_view = gtk_menu_item_new_with_mnemonic(_("_View"));
     GtkWidget *menu_item_tv = gtk_menu_item_new_with_mnemonic(_("Thumbnail Viewer"));
@@ -280,6 +288,8 @@ int main(int argc, char **argv)
 
 	g_signal_connect(G_OBJECT(menu_item_rotate_left), "activate", G_CALLBACK(cb_rstto_rotate_ccw), navigator);
 	g_signal_connect(G_OBJECT(menu_item_rotate_right), "activate", G_CALLBACK(cb_rstto_rotate_cw), navigator);
+	g_signal_connect(G_OBJECT(menu_item_flip_v), "activate", G_CALLBACK(cb_rstto_flip_v), navigator);
+	g_signal_connect(G_OBJECT(menu_item_flip_h), "activate", G_CALLBACK(cb_rstto_flip_h), navigator);
 
 	g_signal_connect(G_OBJECT(menu_item_vtv), "activate", G_CALLBACK(cb_rstto_show_tv_v), thumbnail_viewer);
 	g_signal_connect(G_OBJECT(menu_item_htv), "activate", G_CALLBACK(cb_rstto_show_tv_h), thumbnail_viewer);
@@ -564,6 +574,20 @@ static void
 cb_rstto_hide_tv(GtkWidget *widget, RsttoThumbnailViewer *viewer)
 {
     gtk_widget_hide(GTK_WIDGET(viewer));
+}
+
+static void
+cb_rstto_flip_h(GtkWidget *widget, RsttoNavigator *navigator)
+{
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(navigator);
+    rstto_navigator_flip_entry(navigator, entry, TRUE);
+}
+
+static void
+cb_rstto_flip_v(GtkWidget *widget, RsttoNavigator *navigator)
+{
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(navigator);
+    rstto_navigator_flip_entry(navigator, entry, FALSE);
 }
 
 static void
