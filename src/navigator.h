@@ -94,6 +94,11 @@ rstto_navigator_entry_get_thumbnail (RsttoNavigatorEntry *entry);
 ThunarVfsInfo *
 rstto_navigator_entry_get_info (RsttoNavigatorEntry *entry);
 
+void
+rstto_navigator_set_entry_rotation (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, GdkPixbufRotation rotation);
+GdkPixbufRotation
+rstto_navigator_entry_get_rotation (RsttoNavigatorEntry *entry);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_NAVIGATOR_H__ */

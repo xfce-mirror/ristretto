@@ -44,8 +44,9 @@ enum
 
 struct _RsttoNavigatorEntry
 {
-    ThunarVfsInfo *info;
-    GdkPixbuf     *pixbuf;
+    ThunarVfsInfo       *info;
+    GdkPixbuf           *pixbuf;
+    GdkPixbufRotation    rotation;
 };
 
 RsttoNavigatorEntry *
@@ -221,6 +222,16 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path, gboolea
     {
         gchar *filename = thunar_vfs_path_dup_string(((ThunarVfsInfo *)((RsttoNavigatorEntry *)navigator->file_iter->data)->info)->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+        if(pixbuf)
+        {
+            RsttoNavigatorEntry *entry = navigator->file_iter->data;
+            GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
+            if(new_pixbuf)
+            {
+                g_object_unref(pixbuf);
+                pixbuf = new_pixbuf;
+            }
+        }
         if(!pixbuf)
             pixbuf = gtk_icon_theme_load_icon(navigator->icon_theme, GTK_STOCK_MISSING_IMAGE, 48, 0, NULL);
 
@@ -243,6 +254,16 @@ rstto_navigator_first (RsttoNavigator *navigator)
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
         gchar *filename = thunar_vfs_path_dup_string(info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+        if(pixbuf)
+        {
+            RsttoNavigatorEntry *entry = navigator->file_iter->data;
+            GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
+            if(new_pixbuf)
+            {
+                g_object_unref(pixbuf);
+                pixbuf = new_pixbuf;
+            }
+        }
         if(!pixbuf)
         {
             pixbuf = gtk_icon_theme_load_icon(navigator->icon_theme, GTK_STOCK_MISSING_IMAGE, 48, 0, NULL);
@@ -272,6 +293,16 @@ rstto_navigator_forward (RsttoNavigator *navigator)
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
         gchar *filename = thunar_vfs_path_dup_string(info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+        if(pixbuf)
+        {
+            RsttoNavigatorEntry *entry = navigator->file_iter->data;
+            GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
+            if(new_pixbuf)
+            {
+                g_object_unref(pixbuf);
+                pixbuf = new_pixbuf;
+            }
+        }
         if(!pixbuf)
         {
             pixbuf = gtk_icon_theme_load_icon(navigator->icon_theme, GTK_STOCK_MISSING_IMAGE, 48, 0, NULL);
@@ -300,6 +331,16 @@ rstto_navigator_back (RsttoNavigator *navigator)
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
         gchar *filename = thunar_vfs_path_dup_string(info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+        if(pixbuf)
+        {
+            RsttoNavigatorEntry *entry = navigator->file_iter->data;
+            GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
+            if(new_pixbuf)
+            {
+                g_object_unref(pixbuf);
+                pixbuf = new_pixbuf;
+            }
+        }
         if(!pixbuf)
         {
             pixbuf = gtk_icon_theme_load_icon(navigator->icon_theme, GTK_STOCK_MISSING_IMAGE, 48, 0, NULL);
@@ -325,6 +366,16 @@ rstto_navigator_last (RsttoNavigator *navigator)
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
         gchar *filename = thunar_vfs_path_dup_string(info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+        if(pixbuf)
+        {
+            RsttoNavigatorEntry *entry = navigator->file_iter->data;
+            GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
+            if(new_pixbuf)
+            {
+                g_object_unref(pixbuf);
+                pixbuf = new_pixbuf;
+            }
+        }
         if(!pixbuf)
         {
             pixbuf = gtk_icon_theme_load_icon(navigator->icon_theme, GTK_STOCK_MISSING_IMAGE, 48, 0, NULL);
@@ -385,6 +436,16 @@ rstto_navigator_set_file (RsttoNavigator *navigator, gint n)
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
         gchar *filename = thunar_vfs_path_dup_string(info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+        if(pixbuf)
+        {
+            RsttoNavigatorEntry *entry = navigator->file_iter->data;
+            GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
+            if(new_pixbuf)
+            {
+                g_object_unref(pixbuf);
+                pixbuf = new_pixbuf;
+            }
+        }
         if(!pixbuf)
         {
             pixbuf = gtk_icon_theme_load_icon(navigator->icon_theme, GTK_STOCK_MISSING_IMAGE, 48, 0, NULL);
@@ -427,6 +488,45 @@ GdkPixbuf *
 rstto_navigator_entry_get_thumbnail (RsttoNavigatorEntry *entry)
 {
     return entry->pixbuf;
+}
+
+GdkPixbufRotation
+rstto_navigator_entry_get_rotation (RsttoNavigatorEntry *entry)
+{
+    return entry->rotation;
+}
+
+void
+rstto_navigator_set_entry_rotation (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, GdkPixbufRotation rotation)
+{
+    entry->rotation = rotation;
+    if(entry == navigator->file_iter->data)
+    {
+        ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
+        gchar *filename = thunar_vfs_path_dup_string(info->path);
+        GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
+        if(pixbuf)
+        {
+            GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
+            if(new_pixbuf)
+            {
+                g_object_unref(pixbuf);
+                pixbuf = new_pixbuf;
+            }
+        }
+        if(!pixbuf)
+        {
+            pixbuf = gtk_icon_theme_load_icon(navigator->icon_theme, GTK_STOCK_MISSING_IMAGE, 48, 0, NULL);
+            rstto_picture_viewer_set_scale(navigator->viewer, 1);
+        }
+
+        rstto_picture_viewer_set_pixbuf(navigator->viewer, pixbuf);
+        if(pixbuf)
+            gdk_pixbuf_unref(pixbuf);
+
+        g_free(filename);
+        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+    }
 }
 
 static void

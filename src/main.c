@@ -68,6 +68,11 @@ static void
 cb_rstto_hide_tv(GtkWidget *widget, RsttoThumbnailViewer *viewer);
 
 static void
+cb_rstto_rotate_cw(GtkWidget *widget, RsttoNavigator *navigator);
+static void
+cb_rstto_rotate_ccw(GtkWidget *widget, RsttoNavigator *navigator);
+
+static void
 cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator);
 
 static void
@@ -148,9 +153,13 @@ int main(int argc, char **argv)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_quit);
 
     GtkWidget *menu_item_edit = gtk_menu_item_new_with_mnemonic(_("_Edit"));
+    GtkWidget *menu_item_rotate_left = gtk_menu_item_new_with_mnemonic(_("Rotate _Left"));
+    GtkWidget *menu_item_rotate_right = gtk_menu_item_new_with_mnemonic(_("Rotate _Right"));
 
     GtkWidget *menu_edit = gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_edit), menu_edit);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_left);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_right);
 
     GtkWidget *menu_item_view = gtk_menu_item_new_with_mnemonic(_("_View"));
     GtkWidget *menu_item_tv = gtk_menu_item_new_with_mnemonic(_("Thumbnail Viewer"));
@@ -268,6 +277,9 @@ int main(int argc, char **argv)
 	g_signal_connect(G_OBJECT(menu_item_back), "activate", G_CALLBACK(cb_rstto_previous), navigator);
 	g_signal_connect(G_OBJECT(menu_item_first), "activate", G_CALLBACK(cb_rstto_first), navigator);
 	g_signal_connect(G_OBJECT(menu_item_last), "activate", G_CALLBACK(cb_rstto_last), navigator);
+
+	g_signal_connect(G_OBJECT(menu_item_rotate_left), "activate", G_CALLBACK(cb_rstto_rotate_ccw), navigator);
+	g_signal_connect(G_OBJECT(menu_item_rotate_right), "activate", G_CALLBACK(cb_rstto_rotate_cw), navigator);
 
 	g_signal_connect(G_OBJECT(menu_item_vtv), "activate", G_CALLBACK(cb_rstto_show_tv_v), thumbnail_viewer);
 	g_signal_connect(G_OBJECT(menu_item_htv), "activate", G_CALLBACK(cb_rstto_show_tv_h), thumbnail_viewer);
@@ -552,4 +564,52 @@ static void
 cb_rstto_hide_tv(GtkWidget *widget, RsttoThumbnailViewer *viewer)
 {
     gtk_widget_hide(GTK_WIDGET(viewer));
+}
+
+static void
+cb_rstto_rotate_cw(GtkWidget *widget, RsttoNavigator *navigator)
+{
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(navigator);
+    GdkPixbufRotation rotation = rstto_navigator_entry_get_rotation(entry);
+    switch (rotation)
+    {
+        case GDK_PIXBUF_ROTATE_NONE:
+            rotation = GDK_PIXBUF_ROTATE_CLOCKWISE;
+            break;
+        case GDK_PIXBUF_ROTATE_CLOCKWISE:
+            rotation = GDK_PIXBUF_ROTATE_UPSIDEDOWN;
+            break;
+        case GDK_PIXBUF_ROTATE_UPSIDEDOWN:
+            rotation = GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE;
+            break;
+        case GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE:
+            rotation = GDK_PIXBUF_ROTATE_NONE;
+            break;
+    }
+
+    rstto_navigator_set_entry_rotation(navigator, entry, rotation);
+}
+
+static void
+cb_rstto_rotate_ccw(GtkWidget *widget, RsttoNavigator *navigator)
+{
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(navigator);
+    GdkPixbufRotation rotation = rstto_navigator_entry_get_rotation(entry);
+    switch (rotation)
+    {
+        case GDK_PIXBUF_ROTATE_NONE:
+            rotation = GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE;
+            break;
+        case GDK_PIXBUF_ROTATE_CLOCKWISE:
+            rotation = GDK_PIXBUF_ROTATE_NONE;
+            break;
+        case GDK_PIXBUF_ROTATE_UPSIDEDOWN:
+            rotation = GDK_PIXBUF_ROTATE_CLOCKWISE;
+            break;
+        case GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE:
+            rotation = GDK_PIXBUF_ROTATE_UPSIDEDOWN;
+            break;
+    }
+
+    rstto_navigator_set_entry_rotation(navigator, entry, rotation);
 }
