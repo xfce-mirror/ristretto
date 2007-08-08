@@ -220,13 +220,14 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path, gboolea
             filename = g_dir_read_name(dir);
         }
         g_free(dir_name);
+
+        navigator->file_list = g_list_sort(navigator->file_list, (GCompareFunc)rstto_navigator_entry_compare_func);
+
         if(!navigator->file_iter)
         {
             navigator->file_iter = navigator->file_list;
         }
     }
-
-    navigator->file_list = g_list_sort(navigator->file_list, (GCompareFunc)rstto_navigator_entry_compare_func);
 
     if(navigator->file_iter)
     {
