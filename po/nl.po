@@ -89,6 +89,8 @@ msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
+"Ristretto is een snelle en lichtgewicht afbeeldingsweergave-programma "
+"voor de Xfce-desktop omgeving"
 
 #: ../src/main.c:417
 msgid "translator-credits"
