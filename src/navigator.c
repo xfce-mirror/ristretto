@@ -136,6 +136,12 @@ rstto_navigator_new(RsttoPictureViewer *viewer)
 	return navigator;
 }
 
+static gint
+rstto_navigator_entry_compare_func(RsttoNavigatorEntry *a, RsttoNavigatorEntry *b)
+{
+    return g_strcasecmp(a->info->display_name, b->info->display_name);
+}
+
 void
 rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path, gboolean index_path)
 {
@@ -219,6 +225,8 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path, gboolea
             navigator->file_iter = navigator->file_list;
         }
     }
+
+    navigator->file_list = g_list_sort(navigator->file_list, (GCompareFunc)rstto_navigator_entry_compare_func);
 
     if(navigator->file_iter)
     {
