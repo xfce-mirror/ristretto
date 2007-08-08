@@ -214,170 +214,94 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
 	GdkColor color;
-	GdkColor color_1;
 
     RsttoNavigatorEntry *current_entry = rstto_navigator_get_file(viewer->priv->navigator);
 
     color.pixel = 0xffffffff;
-    color_1.pixel = 0x0;
 	GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(widget->window));
-	GdkGC *gc_1 = gdk_gc_new(GDK_DRAWABLE(widget->window));
+	GdkGC *gc_bg_normal = gdk_gc_new(GDK_DRAWABLE(widget->window));
+	GdkGC *gc_bg_selected = gdk_gc_new(GDK_DRAWABLE(widget->window));
 
 	gdk_gc_set_foreground(gc, &color);
-	gdk_gc_set_foreground(gc_1, &color_1);
+	gdk_gc_set_foreground(gc_bg_selected,
+                        &(widget->style->bg[GTK_STATE_SELECTED]));
+	gdk_gc_set_foreground(gc_bg_normal,
+                        &(widget->style->bg[GTK_STATE_NORMAL]));
     
     gint i;
+    gdk_window_clear(widget->window);
+    for(i = 0; i < rstto_navigator_get_n_files(viewer->priv->navigator); ++i)
+    { 
+        RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(viewer->priv->navigator, i);
+        GdkPixbuf *pixbuf = rstto_navigator_entry_get_thumbnail(entry);
+        GdkPixmap *pixmap = gdk_pixmap_new(widget->window, viewer->priv->dimension, viewer->priv->dimension, -1);
+
+        gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
+                            gc,
+                            TRUE,
+                            0,
+                            0,
+                            viewer->priv->dimension,
+                            viewer->priv->dimension);
+        if(current_entry == entry)
+        {
+            gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
+                            gc_bg_selected,
+                            TRUE,
+                            4, 4, 
+                            viewer->priv->dimension - 8,
+                            viewer->priv->dimension - 8);
+        }
+        else
+        {
+            gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
+                            gc_bg_normal,
+                            TRUE,
+                            4, 4, 
+                            viewer->priv->dimension - 8,
+                            viewer->priv->dimension - 8);
+        }
+
+        if(pixbuf)
+        {
+            gdk_draw_pixbuf(GDK_DRAWABLE(pixmap),
+                            gc,
+                            pixbuf,
+                            0, 0,
+                            (0.5 * (viewer->priv->dimension - gdk_pixbuf_get_width(pixbuf))),
+                            (0.5 * (viewer->priv->dimension  - gdk_pixbuf_get_height(pixbuf))),
+                            -1, -1,
+                            GDK_RGB_DITHER_NORMAL,
+                            0, 0);
+        }
+        switch (viewer->priv->orientation)
+        {
+            case GTK_ORIENTATION_HORIZONTAL:
+                gdk_draw_drawable(GDK_DRAWABLE(widget->window),
+                            gc,
+                            pixmap,
+                            0, 0,
+                            16+(i*viewer->priv->dimension)-viewer->priv->offset,
+                            0,
+                            -1,
+                            -1);
+
+                break;
+            case GTK_ORIENTATION_VERTICAL:
+                gdk_draw_drawable(GDK_DRAWABLE(widget->window),
+                            gc,
+                            pixmap,
+                            0, 0,
+                            0,
+                            16+(i*viewer->priv->dimension)-viewer->priv->offset,
+                            viewer->priv->dimension,
+                            viewer->priv->dimension);
+                break;
+        }
+    }
     switch (viewer->priv->orientation)
     {
         case GTK_ORIENTATION_HORIZONTAL:
-            /* FIXME: use gdk_window_clear_area instead */
-            gdk_window_clear(widget->window);
-            for(i = 0; i < rstto_navigator_get_n_files(viewer->priv->navigator); ++i)
-            { 
-                RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(viewer->priv->navigator, i);
-                GdkPixbuf *pixbuf = rstto_navigator_entry_get_thumbnail(entry);
-
-                gdk_gc_set_foreground(gc, &color);
-                gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                gc,
-                                TRUE,
-                                16+(i*viewer->priv->dimension)-viewer->priv->offset,
-                                0,
-                                viewer->priv->dimension,
-                                viewer->priv->dimension);
-
-                
-                if(current_entry == entry)
-                {
-                    gtk_paint_box(widget->style,
-                                widget->window,
-                                GTK_STATE_SELECTED,
-                                GTK_SHADOW_NONE,
-                                NULL,NULL,NULL,
-                                (i*viewer->priv->dimension)+20-viewer->priv->offset, 4, viewer->priv->dimension - 8, viewer->priv->dimension - 8);
-                }
-                else
-                    gtk_paint_box(widget->style,
-                                widget->window,
-                                GTK_STATE_NORMAL,
-                                GTK_SHADOW_NONE,
-                                NULL,NULL,NULL,
-                                (i*viewer->priv->dimension)+20-viewer->priv->offset, 4, viewer->priv->dimension - 8, viewer->priv->dimension - 8);
-
-                if(pixbuf)
-                    gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
-                                gc,
-                                pixbuf,
-                                0, 0,
-                                16 + i * viewer->priv->dimension + (0.5 * (viewer->priv->dimension - gdk_pixbuf_get_width(pixbuf))) - viewer->priv->offset,
-                                (0.5 *(viewer->priv->dimension  - gdk_pixbuf_get_height(pixbuf))),
-                                -1, -1,
-                                GDK_RGB_DITHER_NORMAL,
-                                0, 0);
-
-                if (current_entry == entry)
-                {
-                    GdkPixbufRotation rotation = rstto_navigator_entry_get_rotation(entry);
-                    gint arc_1 = 5760;
-                    gint arc_2 = 0;
-                    switch (rotation)
-                    {
-                        case GDK_PIXBUF_ROTATE_NONE:
-                            break;
-                        case GDK_PIXBUF_ROTATE_CLOCKWISE:
-                            arc_2 = -5760;
-                            break;
-                        case GDK_PIXBUF_ROTATE_UPSIDEDOWN:
-                            arc_2 = -11430;
-                            break;
-                        case GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE:
-                            arc_2 = -17190;
-                            break;
-                    }
-                    if (arc_2)
-                    {
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                gc_1,
-                                TRUE,
-                                (viewer->priv->dimension * (i+1))-8-viewer->priv->offset,
-                                viewer->priv->dimension-24,
-                                16,
-                                16);
-                        gdk_draw_arc(GDK_DRAWABLE(widget->window),
-                                    gc,
-                                    FALSE,
-                                    (viewer->priv->dimension * (i+1))-8-viewer->priv->offset,
-                                    viewer->priv->dimension-24,
-                                    15,
-                                    15,
-                                    0, 23040);
-                        gdk_draw_arc(GDK_DRAWABLE(widget->window),
-                                    gc,
-                                    TRUE,
-                                    (viewer->priv->dimension * (i+1))-8-viewer->priv->offset,
-                                    viewer->priv->dimension-24,
-                                    15,
-                                    15,
-                                    arc_1, arc_2);
-                    }
-
-
-                    gboolean v_flip = rstto_navigator_entry_get_flip(entry, FALSE);
-                    gboolean h_flip = rstto_navigator_entry_get_flip(entry, TRUE);
-
-                    if (v_flip)
-                    {
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                gc_1,
-                                TRUE,
-                                (viewer->priv->dimension * (i+1))-48-viewer->priv->offset,
-                                viewer->priv->dimension-24,
-                                16,
-                                16);
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                    gc,
-                                    FALSE,
-                                    (viewer->priv->dimension * (i+1))-48-viewer->priv->offset,
-                                    viewer->priv->dimension-24,
-                                    16,
-                                    16);
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                    gc,
-                                    TRUE,
-                                    (viewer->priv->dimension * (i+1))-48-viewer->priv->offset,
-                                    viewer->priv->dimension-24,
-                                    16,
-                                    8);
-                    }
-
-                    if (h_flip)
-                    {
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                    gc_1,
-                                    TRUE,
-                                    (viewer->priv->dimension * (i+1))-28-viewer->priv->offset,
-                                    viewer->priv->dimension-24,
-                                    16,
-                                    16);
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                    gc,
-                                    FALSE,
-                                    (viewer->priv->dimension * (i+1))-28-viewer->priv->offset,
-                                    viewer->priv->dimension-24,
-                                    16,
-                                    16);
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                    gc,
-                                    TRUE,
-                                    (viewer->priv->dimension * (i+1))-28-viewer->priv->offset,
-                                    viewer->priv->dimension-24,
-                                    8,
-                                    16);
-                    }
-                }
-
-            }
-
             gtk_paint_box(widget->style,
                             widget->window,
                             GTK_STATE_NORMAL,
@@ -407,158 +331,8 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                             GTK_ARROW_RIGHT,
                             TRUE,
                             widget->allocation.width - 16, viewer->priv->dimension / 2 - 7,14,14);
-
-
             break;
         case GTK_ORIENTATION_VERTICAL:
-            /* FIXME: use gdk_window_clear_area instead */
-            gdk_window_clear(widget->window);
-            for(i = 0; i < rstto_navigator_get_n_files(viewer->priv->navigator); ++i)
-            { 
-                RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(viewer->priv->navigator, i);
-                GdkPixbuf *pixbuf = rstto_navigator_entry_get_thumbnail(entry);
-
-                gdk_gc_set_foreground(gc, &color);
-                gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                      gc,
-                      TRUE,
-                      0, 16+(i*viewer->priv->dimension)-viewer->priv->offset, viewer->priv->dimension, viewer->priv->dimension);
-
-                
-                if(current_entry == entry)
-                    gtk_paint_box(widget->style,
-                                 widget->window,
-                                 GTK_STATE_SELECTED,
-                                 GTK_SHADOW_NONE,
-                                 NULL,NULL,NULL,
-                                 4, (i*viewer->priv->dimension)+20-viewer->priv->offset, viewer->priv->dimension - 8, viewer->priv->dimension - 8);
-                else
-                    gtk_paint_box(widget->style,
-                                 widget->window,
-                                 GTK_STATE_NORMAL,
-                                 GTK_SHADOW_NONE,
-                                 NULL,NULL,NULL,
-                                 4, (i*viewer->priv->dimension)+20-viewer->priv->offset, viewer->priv->dimension - 8, viewer->priv->dimension - 8);
-
-                if(pixbuf)
-                    gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
-                                gc,
-                                pixbuf,
-                                0, 0,
-                                (0.5 *(viewer->priv->dimension  - gdk_pixbuf_get_width(pixbuf))),
-                                16 + i * viewer->priv->dimension + (0.5 * (viewer->priv->dimension - gdk_pixbuf_get_height(pixbuf))) - viewer->priv->offset,
-                                -1, -1,
-                                GDK_RGB_DITHER_NORMAL,
-                                0, 0);
-                if (current_entry == entry)
-                {
-                    gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                gc_1,
-                                TRUE,
-                                4,
-                                ((i+1)*viewer->priv->dimension)-8-viewer->priv->offset,
-                                viewer->priv->dimension - 8,
-                                20);
-                    GdkPixbufRotation rotation = rstto_navigator_entry_get_rotation(entry);
-                    gint arc_1 = 5760;
-                    gint arc_2 = 0;
-                    switch (rotation)
-                    {
-                        case GDK_PIXBUF_ROTATE_NONE:
-                            break;
-                        case GDK_PIXBUF_ROTATE_CLOCKWISE:
-                            arc_2 = -5760;
-                            break;
-                        case GDK_PIXBUF_ROTATE_UPSIDEDOWN:
-                            arc_2 = -11430;
-                            break;
-                        case GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE:
-                            arc_2 = -17190;
-                            break;
-                    }
-                    if (arc_2)
-                    {
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                    gc_1,
-                                    TRUE,
-                                    viewer->priv->dimension-24,
-                                    (viewer->priv->dimension * (i+1))-8,
-                                    16,
-                                    16);
-                        gdk_draw_arc(GDK_DRAWABLE(widget->window),
-                                    gc,
-                                    FALSE,
-                                    viewer->priv->dimension-24,
-                                    (viewer->priv->dimension * (i+1))-8,
-                                    15,
-                                    15,
-                                    0, 23040);
-                        gdk_draw_arc(GDK_DRAWABLE(widget->window),
-                                    gc,
-                                    TRUE,
-                                    viewer->priv->dimension-24,
-                                    (viewer->priv->dimension * (i+1))-8,
-                                    15,
-                                    15,
-                                    arc_1, arc_2);
-                    }
-
-
-                    gboolean v_flip = rstto_navigator_entry_get_flip(entry, FALSE);
-                    gboolean h_flip = rstto_navigator_entry_get_flip(entry, TRUE);
-
-                    if (v_flip)
-                    {
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                    gc_1,
-                                    TRUE,
-                                    viewer->priv->dimension-64,
-                                    (viewer->priv->dimension * (i+1))-8,
-                                    16,
-                                    16);
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                    gc,
-                                    FALSE,
-                                    viewer->priv->dimension-64,
-                                    (viewer->priv->dimension * (i+1))-8,
-                                    16,
-                                    16);
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                    gc,
-                                    TRUE,
-                                    viewer->priv->dimension-64,
-                                    (viewer->priv->dimension * (i+1))-8,
-                                    16,
-                                    8);
-                    }
-
-                    if (h_flip)
-                    {
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                    gc_1,
-                                    TRUE,
-                                    viewer->priv->dimension-44,
-                                    (viewer->priv->dimension * (i+1))-8,
-                                    16,
-                                    16);
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                    gc,
-                                    FALSE,
-                                    viewer->priv->dimension-44,
-                                    (viewer->priv->dimension * (i+1))-8,
-                                    16,
-                                    16);
-                        gdk_draw_rectangle(GDK_DRAWABLE(widget->window),
-                                    gc,
-                                    TRUE,
-                                    viewer->priv->dimension-44,
-                                    (viewer->priv->dimension * (i+1))-8,
-                                    8,
-                                    16);
-                    }
-                }
-            }
-
             gtk_paint_box(widget->style,
                             widget->window,
                             GTK_STATE_NORMAL,
@@ -590,7 +364,6 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                             viewer->priv->dimension / 2 - 7, widget->allocation.height - 16,14,14);
             break;
     }
-
 }
 
 static void
