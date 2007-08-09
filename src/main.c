@@ -488,7 +488,8 @@ cb_rstto_fullscreen(GtkWidget *widget, GdkEventWindowState *event, RsttoPictureV
             gtk_widget_show(image_tool_bar);
             gtk_widget_show(app_tool_bar);
             gtk_widget_show(status_bar);
-            rstto_picture_viewer_set_scale(viewer, viewer_scale);
+            if(viewer_scale)
+                rstto_picture_viewer_set_scale(viewer, viewer_scale);
         }
     }
 }
