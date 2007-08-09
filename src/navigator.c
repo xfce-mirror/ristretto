@@ -233,9 +233,9 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path, gboolea
     {
         gchar *filename = thunar_vfs_path_dup_string(((ThunarVfsInfo *)((RsttoNavigatorEntry *)navigator->file_iter->data)->info)->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
-        RsttoNavigatorEntry *entry = navigator->file_iter->data;
-        if(pixbuf && (entry->rotation != 0))
+        if(pixbuf)
         {
+            RsttoNavigatorEntry *entry = navigator->file_iter->data;
             GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
             if(new_pixbuf)
             {
@@ -283,9 +283,9 @@ rstto_navigator_first (RsttoNavigator *navigator)
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
         gchar *filename = thunar_vfs_path_dup_string(info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
-        RsttoNavigatorEntry *entry = navigator->file_iter->data;
-        if(pixbuf && (entry->rotation != 0))
+        if(pixbuf)
         {
+            RsttoNavigatorEntry *entry = navigator->file_iter->data;
             GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
             if(new_pixbuf)
             {
@@ -340,9 +340,9 @@ rstto_navigator_forward (RsttoNavigator *navigator)
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
         gchar *filename = thunar_vfs_path_dup_string(info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
-        RsttoNavigatorEntry *entry = navigator->file_iter->data;
-        if(pixbuf && (entry->rotation != 0))
+        if(pixbuf)
         {
+            RsttoNavigatorEntry *entry = navigator->file_iter->data;
             GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
             if(new_pixbuf)
             {
@@ -396,9 +396,9 @@ rstto_navigator_back (RsttoNavigator *navigator)
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
         gchar *filename = thunar_vfs_path_dup_string(info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
-        RsttoNavigatorEntry *entry = navigator->file_iter->data;
-        if(pixbuf && (entry->rotation != 0))
+        if(pixbuf)
         {
+            RsttoNavigatorEntry *entry = navigator->file_iter->data;
             GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
             if(new_pixbuf)
             {
@@ -449,9 +449,9 @@ rstto_navigator_last (RsttoNavigator *navigator)
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
         gchar *filename = thunar_vfs_path_dup_string(info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
-        RsttoNavigatorEntry *entry = navigator->file_iter->data;
-        if(pixbuf && (entry->rotation != 0))
+        if(pixbuf)
         {
+            RsttoNavigatorEntry *entry = navigator->file_iter->data;
             GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
             if(new_pixbuf)
             {
@@ -537,9 +537,9 @@ rstto_navigator_set_file (RsttoNavigator *navigator, gint n)
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)navigator->file_iter->data));
         gchar *filename = thunar_vfs_path_dup_string(info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename , NULL);
-        RsttoNavigatorEntry *entry = navigator->file_iter->data;
-        if(pixbuf && (entry->rotation != 0))
+        if(pixbuf)
         {
+            RsttoNavigatorEntry *entry = navigator->file_iter->data;
             GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
             if(new_pixbuf)
             {
