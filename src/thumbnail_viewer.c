@@ -34,15 +34,15 @@ struct _RsttoThumbnailViewerCache
 {
     gint begin;
     gint end;
-    GList *pixmaps; 
+    GSList *pixmaps; 
 };
 
 static gboolean
-rstto_thumbnail_viewer_cache_add (RsttoThumbnailViewerCache *cache, GdkPixmap *pixmap, gint nr);
+rstto_thumbnail_viewer_cache_add (RsttoThumbnailViewerCache *cache, GdkPixbuf *pixbuf, gint nr);
 static gboolean
 rstto_thumbnail_viewer_cache_remove (RsttoThumbnailViewerCache *cache, gint nr);
-static GdkPixmap *
-rstto_thumbnail_viewer_cache_get_pixmap (RsttoThumbnailViewerCache *cache, gint nr);
+static GdkPixbuf *
+rstto_thumbnail_viewer_cache_get_pixbuf (RsttoThumbnailViewerCache *cache, gint nr);
 
 struct _RsttoThumbnailViewerPriv
 {
@@ -255,8 +255,16 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     gint i;
     gdk_window_clear(widget->window);
     gint begin = viewer->priv->offset / viewer->priv->dimension;
-    gint end = widget->allocation.width / viewer->priv->dimension - begin;
+    gint end = widget->allocation.width / viewer->priv->dimension + begin;
     GdkPixmap *pixmap = NULL;
+/*
+    g_debug("cache_size: %d: %d:%d|%d:%d", 
+            g_slist_length(viewer->priv->cache->pixmaps), 
+            begin,
+            viewer->priv->cache->begin,
+            end,
+            viewer->priv->cache->end);
+*/
     for(i = begin; i <= end; ++i)
     { 
         RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(viewer->priv->navigator, i);
@@ -264,13 +272,13 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
         {
             ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
             gchar *filename = thunar_vfs_path_dup_string(info->path);
-            GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(filename, viewer->priv->dimension - 8, viewer->priv->dimension - 8, NULL);
-            pixmap = rstto_thumbnail_viewer_cache_get_pixmap(viewer->priv->cache, i);
-            if (!pixmap)
+            GdkPixbuf *pixbuf = rstto_thumbnail_viewer_cache_get_pixbuf(viewer->priv->cache, i);
+            if(!pixbuf)
             {
-                pixmap = gdk_pixmap_new(widget->window, viewer->priv->dimension, viewer->priv->dimension, -1);
-                rstto_thumbnail_viewer_cache_add(viewer->priv->cache, pixmap, i);
+                pixbuf = gdk_pixbuf_new_from_file_at_size(filename, viewer->priv->dimension - 8, viewer->priv->dimension - 8, NULL);
+                rstto_thumbnail_viewer_cache_add(viewer->priv->cache, pixbuf, i);
             }
+            pixmap = gdk_pixmap_new(widget->window, viewer->priv->dimension, viewer->priv->dimension, -1);
 
             gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
                                 gc,
@@ -518,18 +526,23 @@ rstto_thumbnail_viewer_get_orientation (RsttoThumbnailViewer *viewer)
 }
 
 static gboolean
-rstto_thumbnail_viewer_cache_add (RsttoThumbnailViewerCache *cache, GdkPixmap *pixmap, gint nr)
+rstto_thumbnail_viewer_cache_add (RsttoThumbnailViewerCache *cache, GdkPixbuf *pixbuf, gint nr)
 {
     if (cache->begin == -1)
     {
         cache->begin = nr;
         cache->end = nr;
         
-        cache->pixmaps = g_list_prepend(cache->pixmaps, pixmap);
+        cache->pixmaps = g_slist_prepend(cache->pixmaps, pixbuf);
     }   
     else
     {
         /* This is the hard part */
+        cache->pixmaps = g_slist_insert(cache->pixmaps, pixbuf, nr - cache->begin);
+        if (nr < cache->begin)
+            cache->begin--;
+        else
+            cache->end++;
     }
     return TRUE;
 }
@@ -540,10 +553,10 @@ rstto_thumbnail_viewer_cache_remove (RsttoThumbnailViewerCache *cache, gint nr)
     
 }
 
-static GdkPixmap *
-rstto_thumbnail_viewer_cache_get_pixmap (RsttoThumbnailViewerCache *cache, gint nr)
+static GdkPixbuf *
+rstto_thumbnail_viewer_cache_get_pixbuf (RsttoThumbnailViewerCache *cache, gint nr)
 {
-    if(nr < cache->end && nr > cache->begin)
-        return NULL;
-    return g_list_nth_data(cache->pixmaps, cache->begin - nr);
+    if ((nr >= cache->begin) && (nr <= cache->end))
+        return g_slist_nth_data(cache->pixmaps, nr - cache->begin);
+    return NULL;
 }
