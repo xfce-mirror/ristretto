@@ -45,7 +45,6 @@ enum
 struct _RsttoNavigatorEntry
 {
     ThunarVfsInfo       *info;
-    GdkPixbuf           *pixbuf;
     GdkPixbufRotation    rotation;
     gboolean             h_flipped;
     gboolean             v_flipped;
@@ -590,7 +589,6 @@ _rstto_navigator_entry_new (ThunarVfsInfo *info)
         entry = g_new0(RsttoNavigatorEntry, 1);
 
         entry->info = info;
-        entry->pixbuf = gdk_pixbuf_new_from_file_at_size(filename, 64, 64, NULL);
 
         g_free(filename);
     }
@@ -601,12 +599,6 @@ ThunarVfsInfo *
 rstto_navigator_entry_get_info (RsttoNavigatorEntry *entry)
 {
     return entry->info;
-}
-
-GdkPixbuf *
-rstto_navigator_entry_get_thumbnail (RsttoNavigatorEntry *entry)
-{
-    return entry->pixbuf;
 }
 
 GdkPixbufRotation
@@ -738,8 +730,6 @@ static void
 _rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
 {
     thunar_vfs_info_unref(nav_entry->info);
-    if(nav_entry->pixbuf)
-        g_object_unref(nav_entry->pixbuf);
     g_free(nav_entry);
 }
 

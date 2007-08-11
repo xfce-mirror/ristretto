@@ -28,12 +28,29 @@
 #include "navigator.h"
 #include "thumbnail_viewer.h"
 
+typedef struct _RsttoThumbnailViewerCache RsttoThumbnailViewerCache;
+
+struct _RsttoThumbnailViewerCache
+{
+    gint begin;
+    gint end;
+    GList *pixmaps; 
+};
+
+static gboolean
+rstto_thumbnail_viewer_cache_add (RsttoThumbnailViewerCache *cache, GdkPixmap *pixmap, gint nr);
+static gboolean
+rstto_thumbnail_viewer_cache_remove (RsttoThumbnailViewerCache *cache, gint nr);
+static GdkPixmap *
+rstto_thumbnail_viewer_cache_get_pixmap (RsttoThumbnailViewerCache *cache, gint nr);
+
 struct _RsttoThumbnailViewerPriv
 {
     GtkOrientation  orientation;
     RsttoNavigator *navigator;
     gint dimension;
     gint offset;
+    RsttoThumbnailViewerCache *cache;
 };
 
 static void
@@ -93,12 +110,19 @@ static void
 rstto_thumbnail_viewer_init(RsttoThumbnailViewer *viewer)
 {
     viewer->priv = g_new0(RsttoThumbnailViewerPriv, 1);
+    viewer->priv->cache = g_new0(RsttoThumbnailViewerCache, 1);
+
+    viewer->priv->cache->begin = -1;
+    viewer->priv->cache->end   = -1;
 
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
     gtk_widget_set_events (GTK_WIDGET(viewer),
                            GDK_BUTTON_PRESS_MASK);
     g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_thumbnailer_button_press_event), NULL);
     viewer->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
+
+    if (0)
+        rstto_thumbnail_viewer_cache_remove(NULL, 0);
 }
 
 static void
@@ -230,73 +254,86 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     
     gint i;
     gdk_window_clear(widget->window);
-    for(i = 0; i < rstto_navigator_get_n_files(viewer->priv->navigator); ++i)
+    gint begin = viewer->priv->offset / viewer->priv->dimension;
+    gint end = widget->allocation.width / viewer->priv->dimension - begin;
+    GdkPixmap *pixmap = NULL;
+    for(i = begin; i <= end; ++i)
     { 
         RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(viewer->priv->navigator, i);
-        GdkPixbuf *pixbuf = rstto_navigator_entry_get_thumbnail(entry);
-        GdkPixmap *pixmap = gdk_pixmap_new(widget->window, viewer->priv->dimension, viewer->priv->dimension, -1);
-
-        gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
-                            gc,
-                            TRUE,
-                            0,
-                            0,
-                            viewer->priv->dimension,
-                            viewer->priv->dimension);
-        if(current_entry == entry)
+        if (entry)
         {
+            ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
+            gchar *filename = thunar_vfs_path_dup_string(info->path);
+            GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(filename, viewer->priv->dimension - 8, viewer->priv->dimension - 8, NULL);
+            pixmap = rstto_thumbnail_viewer_cache_get_pixmap(viewer->priv->cache, i);
+            if (!pixmap)
+            {
+                pixmap = gdk_pixmap_new(widget->window, viewer->priv->dimension, viewer->priv->dimension, -1);
+                rstto_thumbnail_viewer_cache_add(viewer->priv->cache, pixmap, i);
+            }
+
             gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
-                            gc_bg_selected,
-                            TRUE,
-                            4, 4, 
-                            viewer->priv->dimension - 8,
-                            viewer->priv->dimension - 8);
-        }
-        else
-        {
-            gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
-                            gc_bg_normal,
-                            TRUE,
-                            4, 4, 
-                            viewer->priv->dimension - 8,
-                            viewer->priv->dimension - 8);
-        }
+                                gc,
+                                TRUE,
+                                0,
+                                0,
+                                viewer->priv->dimension,
+                                viewer->priv->dimension);
+            if(current_entry == entry)
+            {
+                gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
+                                gc_bg_selected,
+                                TRUE,
+                                4, 4, 
+                                viewer->priv->dimension - 8,
+                                viewer->priv->dimension - 8);
+            }
+            else
+            {
+                gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
+                                gc_bg_normal,
+                                TRUE,
+                                4, 4, 
+                                viewer->priv->dimension - 8,
+                                viewer->priv->dimension - 8);
+            }
 
-        if(pixbuf)
-        {
-            gdk_draw_pixbuf(GDK_DRAWABLE(pixmap),
-                            gc,
-                            pixbuf,
-                            0, 0,
-                            (0.5 * (viewer->priv->dimension - gdk_pixbuf_get_width(pixbuf))),
-                            (0.5 * (viewer->priv->dimension  - gdk_pixbuf_get_height(pixbuf))),
-                            -1, -1,
-                            GDK_RGB_DITHER_NORMAL,
-                            0, 0);
-        }
-        switch (viewer->priv->orientation)
-        {
-            case GTK_ORIENTATION_HORIZONTAL:
-                gdk_draw_drawable(GDK_DRAWABLE(widget->window),
-                            gc,
-                            pixmap,
-                            0, 0,
-                            16+(i*viewer->priv->dimension)-viewer->priv->offset,
-                            0,
-                            -1,
-                            -1);
+            if(pixbuf)
+            {
+                gdk_draw_pixbuf(GDK_DRAWABLE(pixmap),
+                                gc,
+                                pixbuf,
+                                0, 0,
+                                (0.5 * (viewer->priv->dimension - gdk_pixbuf_get_width(pixbuf))),
+                                (0.5 * (viewer->priv->dimension  - gdk_pixbuf_get_height(pixbuf))),
+                                -1, -1,
+                                GDK_RGB_DITHER_NORMAL,
+                                0, 0);
+            }
+            switch (viewer->priv->orientation)
+            {
+                case GTK_ORIENTATION_HORIZONTAL:
+                    gdk_draw_drawable(GDK_DRAWABLE(widget->window),
+                                gc,
+                                pixmap,
+                                0, 0,
+                                16+(i*viewer->priv->dimension)-viewer->priv->offset,
+                                0,
+                                -1,
+                                -1);
 
-                break;
-            case GTK_ORIENTATION_VERTICAL:
-                gdk_draw_drawable(GDK_DRAWABLE(widget->window),
-                            gc,
-                            pixmap,
-                            0, 0,
-                            0,
-                            16+(i*viewer->priv->dimension)-viewer->priv->offset,
-                            viewer->priv->dimension,
-                            viewer->priv->dimension);
-                break;
+                    break;
+                case GTK_ORIENTATION_VERTICAL:
+                    gdk_draw_drawable(GDK_DRAWABLE(widget->window),
+                                gc,
+                                pixmap,
+                                0, 0,
+                                0,
+                                16+(i*viewer->priv->dimension)-viewer->priv->offset,
+                                viewer->priv->dimension,
+                                viewer->priv->dimension);
+                    break;
+            }
         }
     }
     switch (viewer->priv->orientation)
@@ -478,4 +515,35 @@ GtkOrientation
 rstto_thumbnail_viewer_get_orientation (RsttoThumbnailViewer *viewer)
 {
     return viewer->priv->orientation;
+}
+
+static gboolean
+rstto_thumbnail_viewer_cache_add (RsttoThumbnailViewerCache *cache, GdkPixmap *pixmap, gint nr)
+{
+    if (cache->begin == -1)
+    {
+        cache->begin = nr;
+        cache->end = nr;
+        
+        cache->pixmaps = g_list_prepend(cache->pixmaps, pixmap);
+    }   
+    else
+    {
+        /* This is the hard part */
+    }
+    return TRUE;
+}
+
+static gboolean
+rstto_thumbnail_viewer_cache_remove (RsttoThumbnailViewerCache *cache, gint nr)
+{
+    
+}
+
+static GdkPixmap *
+rstto_thumbnail_viewer_cache_get_pixmap (RsttoThumbnailViewerCache *cache, gint nr)
+{
+    if(nr < cache->end && nr > cache->begin)
+        return NULL;
+    return g_list_nth_data(cache->pixmaps, cache->begin - nr);
 }
