@@ -530,6 +530,7 @@ rstto_navigator_get_nth_file (RsttoNavigator *navigator, gint n)
 void
 rstto_navigator_set_file (RsttoNavigator *navigator, gint n)
 {
+    GdkPixbuf *new_pixbuf;
     navigator->file_iter = g_list_nth(navigator->file_list, n);
     if(navigator->file_iter)
     {
@@ -539,11 +540,14 @@ rstto_navigator_set_file (RsttoNavigator *navigator, gint n)
         if(pixbuf)
         {
             RsttoNavigatorEntry *entry = navigator->file_iter->data;
-            GdkPixbuf *new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
-            if(new_pixbuf)
+            if (entry->rotation)
             {
-                g_object_unref(pixbuf);
-                pixbuf = new_pixbuf;
+                new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
+                if(new_pixbuf)
+                {
+                    g_object_unref(pixbuf);
+                    pixbuf = new_pixbuf;
+                }
             }
             if(entry->v_flipped)
             {
