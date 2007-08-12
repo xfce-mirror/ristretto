@@ -73,6 +73,7 @@ static void
 rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer);
 
 static GtkWidgetClass *parent_class = NULL;
+static gint cache_size = 10;
 
 static void
 cb_rstto_thumbnailer_nav_file_changed(RsttoNavigator *nav, RsttoThumbnailViewer *viewer);
@@ -121,8 +122,6 @@ rstto_thumbnail_viewer_init(RsttoThumbnailViewer *viewer)
     g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_thumbnailer_button_press_event), NULL);
     viewer->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
 
-    if (0)
-        rstto_thumbnail_viewer_cache_remove(NULL, 0);
 }
 
 static void
@@ -257,14 +256,17 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     gint begin = viewer->priv->offset / viewer->priv->dimension;
     gint end = widget->allocation.width / viewer->priv->dimension + begin;
     GdkPixmap *pixmap = NULL;
-/*
-    g_debug("cache_size: %d: %d:%d|%d:%d", 
-            g_slist_length(viewer->priv->cache->pixmaps), 
-            begin,
-            viewer->priv->cache->begin,
-            end,
-            viewer->priv->cache->end);
-*/
+
+    /* Cleanup_cache */
+    for (i = viewer->priv->cache->begin; i < begin-cache_size; i++)
+    {
+        rstto_thumbnail_viewer_cache_remove(viewer->priv->cache, i);
+    }
+    for (i = end + cache_size; i < viewer->priv->cache->end; i++)
+    {
+        rstto_thumbnail_viewer_cache_remove(viewer->priv->cache, i);
+    }
+
     for(i = begin; i <= end; ++i)
     { 
         RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(viewer->priv->navigator, i);
@@ -550,7 +552,17 @@ rstto_thumbnail_viewer_cache_add (RsttoThumbnailViewerCache *cache, GdkPixbuf *p
 static gboolean
 rstto_thumbnail_viewer_cache_remove (RsttoThumbnailViewerCache *cache, gint nr)
 {
-    
+    if ((nr == cache->begin) || (nr == cache->end))
+    {
+        GdkPixbuf *pixbuf = g_slist_nth_data(cache->pixmaps, nr - cache->begin);
+        g_object_unref(pixbuf);
+        cache->pixmaps = g_slist_remove(cache->pixmaps, pixbuf);
+        if (nr == cache->begin)
+            cache->begin++;
+        else
+            cache->end--;
+    }
+    return TRUE;   
 }
 
 static GdkPixbuf *
