@@ -264,9 +264,9 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
             if (widget->allocation.width > (end - begin) * viewer->priv->dimension)
             {
                 gdk_window_clear_area(widget->window, 
-                                        16 + widget->allocation.width - viewer->priv->offset, 
+                                        (viewer->priv->dimension * end) - viewer->priv->offset, 
                                         0,
-                                        widget->allocation.width - viewer->priv->offset - 16,
+                                        widget->allocation.width - (viewer->priv->dimension * end - viewer->priv->offset) - 16,
                                         widget->allocation.height);
             }
             break;
@@ -276,9 +276,9 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
             {
                 gdk_window_clear_area(widget->window, 
                                         0,
-                                        16 + widget->allocation.height - viewer->priv->offset, 
+                                        (viewer->priv->dimension * end) - viewer->priv->offset, 
                                         widget->allocation.width,
-                                        widget->allocation.height - viewer->priv->offset - 16);
+                                        widget->allocation.height - (viewer->priv->dimension * end - viewer->priv->offset) - 16);
             }
             break;
     }
@@ -367,8 +367,8 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                                 0, 0,
                                 0,
                                 16+(i*viewer->priv->dimension)-viewer->priv->offset,
-                                viewer->priv->dimension,
-                                viewer->priv->dimension);
+                                -1,
+                                -1);
                     break;
             }
         }
@@ -469,7 +469,15 @@ cb_rstto_thumbnailer_nav_file_changed(RsttoNavigator *nav, RsttoThumbnailViewer 
         if(viewer->priv->auto_center)
         {
             gint nr = rstto_navigator_get_position(nav);
-            viewer->priv->offset = nr * viewer->priv->dimension - widget->allocation.width / 2 +viewer->priv->dimension / 2;
+            switch (viewer->priv->orientation)
+            {
+                case GTK_ORIENTATION_HORIZONTAL:
+                    viewer->priv->offset = nr * viewer->priv->dimension - widget->allocation.width / 2 +viewer->priv->dimension / 2;
+                    break;
+                case GTK_ORIENTATION_VERTICAL:
+                    viewer->priv->offset = nr * viewer->priv->dimension - widget->allocation.height / 2 +viewer->priv->dimension / 2;
+                    break;
+            }
             if (viewer->priv->offset < 0)
                 viewer->priv->offset = 0;
         }
@@ -529,14 +537,14 @@ cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer,
                 {
                     if((rstto_navigator_get_n_files(viewer->priv->navigator) * viewer->priv->dimension - viewer->priv->offset) > widget->allocation.height)
                     {
-                        viewer->priv->offset += viewer->priv->dimension;
+                        viewer->priv->offset += viewer->priv->dimension / 2;
                     }
                 }
                 if(viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
                 {
                     if((rstto_navigator_get_n_files(viewer->priv->navigator) * viewer->priv->dimension - viewer->priv->offset) > widget->allocation.width)
                     {
-                        viewer->priv->offset += viewer->priv->dimension;
+                        viewer->priv->offset += viewer->priv->dimension / 2;
                     }
                 }
             }
