@@ -263,7 +263,9 @@ rstto_navigator_set_path(RsttoNavigator *navigator, ThunarVfsPath *path, gboolea
         if(!pixbuf)
             pixbuf = gtk_icon_theme_load_icon(navigator->icon_theme, GTK_STOCK_MISSING_IMAGE, 48, 0, NULL);
 
-        rstto_picture_viewer_set_pixbuf(navigator->viewer, pixbuf);
+        
+        //rstto_picture_viewer_set_pixbuf(navigator->viewer, pixbuf);
+        rstto_picture_viewer_set_file(navigator->viewer, filename);
         if(pixbuf)
             gdk_pixbuf_unref(pixbuf);
 

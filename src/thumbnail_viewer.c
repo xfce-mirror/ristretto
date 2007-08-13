@@ -254,7 +254,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     gint i;
     gdk_window_clear(widget->window);
     gint begin = viewer->priv->offset / viewer->priv->dimension;
-    gint end;
+    gint end = 0;
     switch (viewer->priv->orientation)
     {
         case GTK_ORIENTATION_HORIZONTAL:
