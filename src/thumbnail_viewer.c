@@ -255,16 +255,31 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                         &(widget->style->bg[GTK_STATE_NORMAL]));
     
     gint i;
-    gdk_window_clear(widget->window);
     gint begin = viewer->priv->offset / viewer->priv->dimension;
     gint end = 0;
     switch (viewer->priv->orientation)
     {
         case GTK_ORIENTATION_HORIZONTAL:
             end = widget->allocation.width / viewer->priv->dimension + begin;
+            if (widget->allocation.width > (end - begin) * viewer->priv->dimension)
+            {
+                gdk_window_clear_area(widget->window, 
+                                        16 + widget->allocation.width - viewer->priv->offset, 
+                                        0,
+                                        widget->allocation.width - viewer->priv->offset - 16,
+                                        widget->allocation.height);
+            }
             break;
         case GTK_ORIENTATION_VERTICAL:
             end = widget->allocation.height / viewer->priv->dimension + begin;
+            if (widget->allocation.height > (end - begin) * viewer->priv->dimension)
+            {
+                gdk_window_clear_area(widget->window, 
+                                        0,
+                                        16 + widget->allocation.height - viewer->priv->offset, 
+                                        widget->allocation.width,
+                                        widget->allocation.height - viewer->priv->offset - 16);
+            }
             break;
     }
     GdkPixmap *pixmap = NULL;
@@ -575,12 +590,15 @@ rstto_thumbnail_viewer_cache_remove (RsttoThumbnailViewerCache *cache, gint nr)
     if ((nr == cache->begin) || (nr == cache->end))
     {
         GdkPixbuf *pixbuf = g_slist_nth_data(cache->pixmaps, nr - cache->begin);
-        g_object_unref(pixbuf);
-        cache->pixmaps = g_slist_remove(cache->pixmaps, pixbuf);
-        if (nr == cache->begin)
-            cache->begin++;
-        else
-            cache->end--;
+        if (pixbuf)
+        {
+            g_object_unref(pixbuf);
+            cache->pixmaps = g_slist_remove(cache->pixmaps, pixbuf);
+            if (nr == cache->begin)
+                cache->begin++;
+            else
+                cache->end--;
+        }
     }
     return TRUE;   
 }
