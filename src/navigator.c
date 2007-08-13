@@ -510,9 +510,19 @@ RsttoNavigatorEntry *
 rstto_navigator_get_file (RsttoNavigator *navigator)
 {
     if(navigator->file_iter)
+    {
         return (RsttoNavigatorEntry *)(navigator->file_iter->data);
+    }
     else
+    {
         return NULL;
+    }
+}
+
+gint
+rstto_navigator_get_position(RsttoNavigator *navigator)
+{
+    return g_list_position(navigator->file_list, navigator->file_iter);
 }
 
 gint

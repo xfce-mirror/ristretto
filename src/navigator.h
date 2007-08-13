@@ -79,6 +79,8 @@ void       rstto_navigator_set_running (RsttoNavigator *navigator,
 
 RsttoNavigatorEntry *
 rstto_navigator_get_file (RsttoNavigator *navigator);
+gint
+rstto_navigator_get_position(RsttoNavigator *navigator);
 
 gint
 rstto_navigator_get_n_files (RsttoNavigator *navigator);

@@ -50,6 +50,7 @@ struct _RsttoThumbnailViewerPriv
     RsttoNavigator *navigator;
     gint dimension;
     gint offset;
+    gboolean auto_center;
     RsttoThumbnailViewerCache *cache;
 };
 
@@ -115,6 +116,8 @@ rstto_thumbnail_viewer_init(RsttoThumbnailViewer *viewer)
 
     viewer->priv->cache->begin = -1;
     viewer->priv->cache->end   = -1;
+
+    viewer->priv->auto_center = TRUE;
 
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
     gtk_widget_set_events (GTK_WIDGET(viewer),
@@ -445,8 +448,16 @@ rstto_thumbnail_viewer_new(RsttoNavigator *navigator)
 static void
 cb_rstto_thumbnailer_nav_file_changed(RsttoNavigator *nav, RsttoThumbnailViewer *viewer)
 {
+    GtkWidget *widget = GTK_WIDGET(viewer);
 	if (GTK_WIDGET_REALIZED (viewer))
 	{
+        if(viewer->priv->auto_center)
+        {
+            gint nr = rstto_navigator_get_position(nav);
+            viewer->priv->offset = nr * viewer->priv->dimension - widget->allocation.width / 2 +viewer->priv->dimension / 2;
+            if (viewer->priv->offset < 0)
+                viewer->priv->offset = 0;
+        }
         rstto_thumbnail_viewer_paint(viewer);   
 
     }
