@@ -27,7 +27,6 @@ struct _RsttoPictureViewerPriv
 	GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
 	gdouble           scale;
 	gboolean          scale_fts; /* Scale image to fit to screen */
-    GdkPixbufLoader  *loader;
 	void             (*cb_value_changed)(GtkAdjustment *, RsttoPictureViewer *);
     gboolean          show_border;
 };
@@ -54,10 +53,6 @@ static void
 rstto_picture_viewer_paint(GtkWidget *widget);
 static void
 rstto_picture_viewer_refresh(RsttoPictureViewer *viewer);
-static void
-rstto_picture_viewer_area_prepared(GdkPixbufLoader *loader, RsttoPictureViewer *viewer);
-static void
-rstto_picture_viewer_area_updated(GdkPixbufLoader *loader, gint x, gint y, gint width, gint height, RsttoPictureViewer *viewer);
 
 static void
 rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *, GtkAdjustment *, GtkAdjustment *);
@@ -103,10 +98,6 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
     viewer->priv->src_pixbuf = NULL;
     viewer->priv->dst_pixbuf = NULL;
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
-
-    viewer->priv->loader = gdk_pixbuf_loader_new();
-    g_signal_connect(G_OBJECT(viewer->priv->loader), "area-prepared", (GCallback)rstto_picture_viewer_area_prepared, viewer);
-    g_signal_connect(G_OBJECT(viewer->priv->loader), "area-updated", (GCallback)rstto_picture_viewer_area_updated, viewer);
 
     viewer->priv->scale = 1;
     viewer->priv->scale_fts = FALSE;
@@ -426,36 +417,6 @@ rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer)
 	return viewer->priv->scale;
 }
 
-gboolean
-parse_file_data(GIOChannel *channel, GIOCondition cond, RsttoPictureViewer *viewer)
-{
-    if (cond & G_IO_NVAL)
-    {
-        return TRUE;
-    }
-    gchar buffer[1024];
-    guint bytes_read;
-    GError *error = NULL;
-    GIOStatus status;
-    status = g_io_channel_read_chars(channel, buffer, 1024, &bytes_read, &error);
-    if(status == G_IO_STATUS_NORMAL)
-    {
-        gdk_pixbuf_loader_write(viewer->priv->loader, (guchar *)buffer, bytes_read, NULL);
-        return bytes_read==0?FALSE:TRUE;
-    }
-    if(error)
-        g_print(error->message);
-    return FALSE;
-}
-
-void
-rstto_picture_viewer_set_file(RsttoPictureViewer *viewer, const gchar *filename)
-{
-    GIOChannel *channel = g_io_channel_new_file(filename, "r", NULL);
-    g_io_channel_set_encoding(channel, NULL, NULL);
-    g_io_add_watch(channel, G_IO_IN | G_IO_PRI, (GIOFunc)parse_file_data, viewer);
-}
-
 void
 rstto_picture_viewer_set_pixbuf(RsttoPictureViewer *viewer, GdkPixbuf *pixbuf)
 {
@@ -553,18 +514,4 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 		}
 	}
 
-}
-
-static void
-rstto_picture_viewer_area_prepared(GdkPixbufLoader *loader, RsttoPictureViewer *viewer)
-{
-    GdkPixbuf *pixbuf = gdk_pixbuf_loader_get_pixbuf(loader);
-    
-    rstto_picture_viewer_set_pixbuf(viewer, pixbuf);
-}
-
-static void
-rstto_picture_viewer_area_updated(GdkPixbufLoader *loader, gint x, gint y, gint width, gint height, RsttoPictureViewer *viewer)
-{
-//    rstto_picture_viewer_paint(GTK_WIDGET(viewer));
 }
