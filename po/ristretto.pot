@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-08-12 01:07+0200\n"
+"POT-Creation-Date: 2007-08-20 00:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,80 +16,80 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:146
+#: ../src/main.c:184
 msgid "_File"
 msgstr ""
 
-#: ../src/main.c:148
+#: ../src/main.c:186
 msgid "O_pen Folder"
 msgstr ""
 
-#: ../src/main.c:159
+#: ../src/main.c:197
 msgid "_Edit"
 msgstr ""
 
-#: ../src/main.c:160
+#: ../src/main.c:198
 msgid "Rotate _Left"
 msgstr ""
 
-#: ../src/main.c:161
+#: ../src/main.c:199
 msgid "Rotate _Right"
 msgstr ""
 
-#: ../src/main.c:162
+#: ../src/main.c:200
 msgid "Flip _Vertically"
 msgstr ""
 
-#: ../src/main.c:163
+#: ../src/main.c:201
 msgid "Flip _Horizontally"
 msgstr ""
 
-#: ../src/main.c:172
+#: ../src/main.c:210
 msgid "_View"
 msgstr ""
 
-#: ../src/main.c:173
+#: ../src/main.c:211
 msgid "Thumbnail Viewer"
 msgstr ""
 
-#: ../src/main.c:183
+#: ../src/main.c:221
 msgid "Show Horizontally"
 msgstr ""
 
-#: ../src/main.c:184
+#: ../src/main.c:222
 msgid "Show Vertically"
 msgstr ""
 
-#: ../src/main.c:185
+#: ../src/main.c:223
 msgid "Hide"
 msgstr ""
 
-#: ../src/main.c:191
+#: ../src/main.c:229
 msgid "_Go"
 msgstr ""
 
-#: ../src/main.c:213
+#: ../src/main.c:251
 msgid "_Help"
 msgstr ""
 
-#: ../src/main.c:346
+#: ../src/main.c:382
 msgid "Open image"
 msgstr ""
 
-#: ../src/main.c:374
+#: ../src/main.c:419
 msgid "Open folder"
 msgstr ""
 
-#: ../src/main.c:401
+#: ../src/main.c:465
 msgid "Developer:"
 msgstr ""
 
-#: ../src/main.c:410
+#: ../src/main.c:474
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
 
-#: ../src/main.c:417
+#: ../src/main.c:481
 msgid "translator-credits"
 msgstr ""

@@ -78,7 +78,6 @@ cb_rstto_flip_v(GtkWidget *widget, RsttoNavigator *navigator);
 
 static void
 cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator);
-
 static void
 cb_rstto_nav_file_changed(RsttoNavigator *navigator, GtkWindow *window);
 
@@ -117,8 +116,10 @@ int main(int argc, char **argv)
     gtk_window_set_default_icon_name("ristretto");
 
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    GtkAccelGroup *accel_group = gtk_accel_group_new();
 
     gtk_window_set_title(GTK_WINDOW(window), PACKAGE_STRING);
+    gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
 
 
     g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
@@ -126,6 +127,8 @@ int main(int argc, char **argv)
     RsttoNavigator *navigator = rstto_navigator_new();
     viewer = rstto_picture_viewer_new(navigator);
     thumbnail_viewer = rstto_thumbnail_viewer_new(navigator);
+
+    g_signal_connect(window , "key-press-event", G_CALLBACK(cb_rstto_key_press_event) , navigator);
 
     if(argc == 2)
         path = thunar_vfs_path_new(argv[1], NULL);
@@ -168,7 +171,6 @@ int main(int argc, char **argv)
     }
 
 
-    g_signal_connect(window , "key-press-event", G_CALLBACK(cb_rstto_key_press_event) , navigator);
     g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
 
     GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
@@ -182,10 +184,10 @@ int main(int argc, char **argv)
     status_bar = gtk_statusbar_new();
 
     GtkWidget *menu_item_file = gtk_menu_item_new_with_mnemonic(_("_File"));
-    GtkWidget *menu_item_open = gtk_image_menu_item_new_from_stock(GTK_STOCK_OPEN, NULL);
+    GtkWidget *menu_item_open = gtk_image_menu_item_new_from_stock(GTK_STOCK_OPEN, accel_group);
     GtkWidget *menu_item_open_dir = gtk_menu_item_new_with_mnemonic(_("O_pen Folder"));
     GtkWidget *menu_item_separator = gtk_separator_menu_item_new();
-    GtkWidget *menu_item_quit = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, NULL);
+    GtkWidget *menu_item_quit = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, accel_group);
 
     GtkWidget *menu_file = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_file), menu_file);
@@ -210,6 +212,7 @@ int main(int argc, char **argv)
     GtkWidget *menu_item_view = gtk_menu_item_new_with_mnemonic(_("_View"));
     GtkWidget *menu_item_tv = gtk_menu_item_new_with_mnemonic(_("Thumbnail Viewer"));
     GtkWidget *menu_item_view_fs = gtk_image_menu_item_new_from_stock(GTK_STOCK_FULLSCREEN, NULL);
+    gtk_widget_add_accelerator(menu_item_view_fs, "activate", accel_group, GDK_F11, 0,GTK_ACCEL_VISIBLE);
 
     GtkWidget *menu_view = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_view), menu_view);
@@ -232,9 +235,15 @@ int main(int argc, char **argv)
     GtkWidget *menu_item_last = gtk_image_menu_item_new_from_stock(GTK_STOCK_GOTO_LAST, NULL);
     GtkWidget *menu_item_forward = gtk_image_menu_item_new_from_stock(GTK_STOCK_GO_FORWARD, NULL);
     GtkWidget *menu_item_back = gtk_image_menu_item_new_from_stock(GTK_STOCK_GO_BACK, NULL);
+    gtk_widget_add_accelerator(menu_item_first, "activate", accel_group, GDK_Home, 0,GTK_ACCEL_VISIBLE);
+    gtk_widget_add_accelerator(menu_item_last, "activate", accel_group, GDK_End, 0,GTK_ACCEL_VISIBLE);
+    gtk_widget_add_accelerator(menu_item_forward, "activate", accel_group, GDK_Page_Down, 0,GTK_ACCEL_VISIBLE);
+    gtk_widget_add_accelerator(menu_item_back, "activate", accel_group, GDK_Page_Up, 0,GTK_ACCEL_VISIBLE);
 
-    menu_item_play = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_PLAY, NULL);
-    menu_item_pause = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_PAUSE, NULL);
+    menu_item_play = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_PLAY, accel_group);
+    menu_item_pause = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_PAUSE, accel_group);
+    gtk_widget_add_accelerator(menu_item_play, "activate", accel_group, GDK_F5, 0,GTK_ACCEL_VISIBLE);
+    gtk_widget_add_accelerator(menu_item_pause, "activate", accel_group, GDK_F5, 0,GTK_ACCEL_VISIBLE);
 
     menu_item_separator = gtk_separator_menu_item_new();
 
@@ -249,7 +258,7 @@ int main(int argc, char **argv)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_go), menu_item_pause);
 
     GtkWidget *menu_item_help = gtk_menu_item_new_with_mnemonic(_("_Help"));
-    GtkWidget *menu_item_help_about = gtk_image_menu_item_new_from_stock(GTK_STOCK_ABOUT, NULL);
+    GtkWidget *menu_item_help_about = gtk_image_menu_item_new_from_stock(GTK_STOCK_ABOUT, accel_group);
 
     GtkWidget *menu_help = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_help), menu_help);
@@ -586,34 +595,6 @@ cb_rstto_toggle_fullscreen(GtkToolItem *item, GtkWindow *window)
 }
 
 static void
-cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator)
-{
-    GtkWindow *window = GTK_WINDOW(widget);
-    switch(event->keyval)
-    {
-        case GDK_F11:
-            if(window_fullscreen)
-                gtk_window_unfullscreen(window);
-            else
-                gtk_window_fullscreen(window);
-            break;
-        case GDK_Home:
-            rstto_navigator_jump_first(navigator);
-            break;
-        case GDK_End:
-            rstto_navigator_jump_last(navigator);
-            break;
-        case GDK_Page_Down:
-            rstto_navigator_jump_forward(navigator);
-            break;
-        case GDK_Page_Up:
-            rstto_navigator_jump_back(navigator);
-            break;
-    }
-}
-
-
-static void
 cb_rstto_show_tv_v(GtkWidget *widget, RsttoThumbnailViewer *viewer)
 {
     GtkWidget *parent = gtk_widget_get_parent(GTK_WIDGET(viewer));
@@ -701,4 +682,35 @@ cb_rstto_rotate_ccw(GtkWidget *widget, RsttoNavigator *navigator)
     }
 
     //rstto_navigator_set_entry_rotation(navigator, entry, rotation);
+}
+
+static void
+cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator)
+{
+    GtkWindow *window = GTK_WINDOW(widget);
+    if(!gtk_window_activate_key(window, event))
+    {
+        g_debug("A");
+        switch(event->keyval)
+        {
+            case GDK_F11:
+                if(window_fullscreen)
+                    gtk_window_unfullscreen(window);
+                else
+                    gtk_window_fullscreen(window);
+                break;
+            case GDK_Home:
+                rstto_navigator_jump_first(navigator);
+                break;
+            case GDK_End:
+                rstto_navigator_jump_last(navigator);
+                break;
+            case GDK_Page_Down:
+                rstto_navigator_jump_forward(navigator);
+                break;
+            case GDK_Page_Up:
+                rstto_navigator_jump_back(navigator);
+                break;
+        }
+    }
 }
