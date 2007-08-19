@@ -240,8 +240,6 @@ int main(int argc, char **argv)
 
 	gtk_widget_set_size_request(window, 400, 300);
 
-    rstto_navigator_set_path(navigator, path, TRUE);
-
 
 	gtk_container_add(GTK_CONTAINER(s_window), viewer);
     gtk_toolbar_set_orientation(GTK_TOOLBAR(image_tool_bar), GTK_ORIENTATION_VERTICAL);
@@ -357,8 +355,6 @@ cb_rstto_open(GtkToolItem *item, RsttoNavigator *navigator)
 
 		ThunarVfsPath *path = thunar_vfs_path_new(filename, NULL);
 
-        rstto_navigator_set_path(navigator, path, FALSE);
-
         thunar_vfs_path_unref(path);
 
 	}
@@ -381,13 +377,23 @@ cb_rstto_open_dir(GtkToolItem *item, RsttoNavigator *navigator)
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 	if(response == GTK_RESPONSE_OK)
 	{
-		const gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-
-		ThunarVfsPath *path = thunar_vfs_path_new(filename, NULL);
-
-        rstto_navigator_set_path(navigator, path, TRUE);
-
-        thunar_vfs_path_unref(path);
+		const gchar *dir_name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+        GDir *dir = g_dir_open(dir_name, 0, NULL);
+        if (dir)
+        {
+            const gchar *filename = g_dir_read_name(dir);
+            while (filename)
+            {
+                ThunarVfsPath *path = thunar_vfs_path_new(filename, NULL);
+                if (path)
+                {
+                    ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
+                    RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
+                    rstto_navigator_add (navigator, entry);
+                }
+                filename = g_dir_read_name(dir);
+            }
+        }
 
 	}
 
@@ -428,25 +434,25 @@ cb_rstto_help_about(GtkToolItem *item, GtkWindow *window)
 static void
 cb_rstto_first(GtkToolItem *item, RsttoNavigator *navigator)
 {
-    rstto_navigator_first(navigator);
+    rstto_navigator_jump_first(navigator);
 }
 
 static void
 cb_rstto_last(GtkToolItem *item, RsttoNavigator *navigator)
 {
-    rstto_navigator_last(navigator);
+    rstto_navigator_jump_last(navigator);
 }
 
 static void
 cb_rstto_forward(GtkToolItem *item, RsttoNavigator *navigator)
 {
-    rstto_navigator_forward(navigator);
+    rstto_navigator_jump_forward(navigator);
 }
 
 static void
 cb_rstto_previous(GtkToolItem *item, RsttoNavigator *navigator)
 {
-    rstto_navigator_back(navigator);
+    rstto_navigator_jump_back(navigator);
 }
 
 static void
@@ -534,16 +540,16 @@ cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *
                 gtk_window_fullscreen(window);
             break;
         case GDK_Home:
-            rstto_navigator_first(navigator);
+            rstto_navigator_jump_first(navigator);
             break;
         case GDK_End:
-            rstto_navigator_last(navigator);
+            rstto_navigator_jump_last(navigator);
             break;
         case GDK_Page_Down:
-            rstto_navigator_forward(navigator);
+            rstto_navigator_jump_forward(navigator);
             break;
         case GDK_Page_Up:
-            rstto_navigator_back(navigator);
+            rstto_navigator_jump_back(navigator);
             break;
     }
 }
@@ -612,7 +618,7 @@ cb_rstto_rotate_cw(GtkWidget *widget, RsttoNavigator *navigator)
             break;
     }
 
-    rstto_navigator_set_entry_rotation(navigator, entry, rotation);
+    //rstto_navigator_set_entry_rotation(navigator, entry, rotation);
 }
 
 static void
@@ -636,5 +642,5 @@ cb_rstto_rotate_ccw(GtkWidget *widget, RsttoNavigator *navigator)
             break;
     }
 
-    rstto_navigator_set_entry_rotation(navigator, entry, rotation);
+    //rstto_navigator_set_entry_rotation(navigator, entry, rotation);
 }

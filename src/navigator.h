@@ -53,6 +53,7 @@ struct _RsttoNavigator
     GList              *file_iter;
     gboolean            running;
     gint                id;
+    GCompareFunc        compare_func;
 };
 
 typedef struct _RsttoNavigatorClass RsttoNavigatorClass;
@@ -66,13 +67,10 @@ GType      rstto_navigator_get_type ();
 RsttoNavigator *
 rstto_navigator_new (RsttoPictureViewer *viewer);
 
-void       rstto_navigator_set_path (RsttoNavigator *navigator,
-                                        ThunarVfsPath *path,
-                                        gboolean index_path);
-void       rstto_navigator_first (RsttoNavigator *navigator);
-void       rstto_navigator_forward (RsttoNavigator *navigator);
-void       rstto_navigator_back (RsttoNavigator *navigator);
-void       rstto_navigator_last (RsttoNavigator *navigator);
+void       rstto_navigator_jump_first (RsttoNavigator *navigator);
+void       rstto_navigator_jump_forward (RsttoNavigator *navigator);
+void       rstto_navigator_jump_back (RsttoNavigator *navigator);
+void       rstto_navigator_jump_last (RsttoNavigator *navigator);
 
 void       rstto_navigator_set_running (RsttoNavigator *navigator,
                                         gboolean running);
@@ -82,22 +80,25 @@ rstto_navigator_get_file (RsttoNavigator *navigator);
 gint
 rstto_navigator_get_position(RsttoNavigator *navigator);
 
+void
+rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry);
 gint
 rstto_navigator_get_n_files (RsttoNavigator *navigator);
 RsttoNavigatorEntry *
 rstto_navigator_get_nth_file (RsttoNavigator *navigator, gint n);
-
 void
 rstto_navigator_set_file (RsttoNavigator *navigator, gint n);
+void
+rstto_navigator_set_entry_rotation (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, GdkPixbufRotation rotation);
 
-
+RsttoNavigatorEntry *
+rstto_navigator_entry_new (ThunarVfsInfo *info);
+void
+rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry);
 GdkPixbuf *
 rstto_navigator_entry_get_thumbnail (RsttoNavigatorEntry *entry);
 ThunarVfsInfo *
 rstto_navigator_entry_get_info (RsttoNavigatorEntry *entry);
-
-void
-rstto_navigator_set_entry_rotation (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, GdkPixbufRotation rotation);
 GdkPixbufRotation
 rstto_navigator_entry_get_rotation (RsttoNavigatorEntry *entry);
 gboolean

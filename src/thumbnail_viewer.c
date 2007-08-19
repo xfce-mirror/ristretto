@@ -74,7 +74,6 @@ static void
 rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer);
 
 static GtkWidgetClass *parent_class = NULL;
-static gint cache_size = 10;
 
 static void
 cb_rstto_thumbnailer_nav_file_changed(RsttoNavigator *nav, RsttoThumbnailViewer *viewer);
@@ -261,6 +260,8 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     {
         case GTK_ORIENTATION_HORIZONTAL:
             end = widget->allocation.width / viewer->priv->dimension + begin;
+            if (end > rstto_navigator_get_n_files(viewer->priv->navigator))
+                end = rstto_navigator_get_n_files(viewer->priv->navigator);
             if (widget->allocation.width > (end - begin) * viewer->priv->dimension)
             {
                 gdk_window_clear_area(widget->window, 
@@ -272,6 +273,8 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
             break;
         case GTK_ORIENTATION_VERTICAL:
             end = widget->allocation.height / viewer->priv->dimension + begin;
+            if (end > rstto_navigator_get_n_files(viewer->priv->navigator))
+                end = rstto_navigator_get_n_files(viewer->priv->navigator);
             if (widget->allocation.height > (end - begin) * viewer->priv->dimension)
             {
                 gdk_window_clear_area(widget->window, 
@@ -285,11 +288,11 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     GdkPixmap *pixmap = NULL;
 
     /* Cleanup_cache */
-    for (i = viewer->priv->cache->begin; i < begin-cache_size; i++)
+    for (i = viewer->priv->cache->begin; i < begin; i++)
     {
         rstto_thumbnail_viewer_cache_remove(viewer->priv->cache, i);
     }
-    for (i = end + cache_size; i < viewer->priv->cache->end; i++)
+    for (i = end; i < viewer->priv->cache->end; i++)
     {
         rstto_thumbnail_viewer_cache_remove(viewer->priv->cache, i);
     }
@@ -579,34 +582,51 @@ rstto_thumbnail_viewer_cache_add (RsttoThumbnailViewerCache *cache, GdkPixbuf *p
         cache->end = nr;
         
         cache->pixmaps = g_slist_prepend(cache->pixmaps, pixbuf);
+        return TRUE;
     }   
     else
     {
-        /* This is the hard part */
-        cache->pixmaps = g_slist_insert(cache->pixmaps, pixbuf, nr - cache->begin);
-        if (nr < cache->begin)
+        if (nr == cache->begin-1)
+        {
+            cache->pixmaps = g_slist_prepend(cache->pixmaps, pixbuf);
             cache->begin--;
-        else
+            return TRUE;
+        }
+        if (nr == cache->end+1)
+        {
+            cache->pixmaps = g_slist_append(cache->pixmaps, pixbuf);
             cache->end++;
+            return TRUE;
+        }
     }
-    return TRUE;
+    g_print("aargh: %d\n", nr);
+    return FALSE;
 }
 
 static gboolean
 rstto_thumbnail_viewer_cache_remove (RsttoThumbnailViewerCache *cache, gint nr)
 {
-    if ((nr == cache->begin) || (nr == cache->end))
+    g_return_val_if_fail(nr >= 0, FALSE);
+    if (nr == cache->begin)
     {
-        GdkPixbuf *pixbuf = g_slist_nth_data(cache->pixmaps, nr - cache->begin);
-        if (pixbuf)
+        g_object_unref(cache->pixmaps->data);
+        cache->pixmaps = g_slist_delete_link(cache->pixmaps, cache->pixmaps);
+        cache->begin++;
+    }
+    else
+    {
+        if (nr == cache->end)
         {
-            g_object_unref(pixbuf);
-            cache->pixmaps = g_slist_remove(cache->pixmaps, pixbuf);
-            if (nr == cache->begin)
-                cache->begin++;
-            else
-                cache->end--;
+            GSList *element = g_slist_last(cache->pixmaps);
+            g_object_unref(cache->pixmaps->data);
+            cache->pixmaps = g_slist_delete_link(cache->pixmaps, element);
+            cache->end--;
         }
+    }
+    if (!g_slist_length(cache->pixmaps))
+    {
+        cache->begin = -1;
+        cache->end = -1;
     }
     return TRUE;   
 }
