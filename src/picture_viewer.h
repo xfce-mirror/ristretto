@@ -70,8 +70,6 @@ void       rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble sc
 gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
 gdouble    rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);
 
-void       rstto_picture_viewer_set_pixbuf(RsttoPictureViewer *viewer, GdkPixbuf *pixbuf);
-
 G_END_DECLS
 
 #endif /* __RISTRETTO_PICTURE_VIEWER_H__ */

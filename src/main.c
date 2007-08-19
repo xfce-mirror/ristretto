@@ -690,7 +690,6 @@ cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *
     GtkWindow *window = GTK_WINDOW(widget);
     if(!gtk_window_activate_key(window, event))
     {
-        g_debug("A");
         switch(event->keyval)
         {
             case GDK_F11:

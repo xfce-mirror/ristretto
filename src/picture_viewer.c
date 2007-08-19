@@ -433,22 +433,6 @@ rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer)
     return viewer->priv->scale;
 }
 
-void
-rstto_picture_viewer_set_pixbuf(RsttoPictureViewer *viewer, GdkPixbuf *pixbuf)
-{
-    if(viewer->priv->src_pixbuf)
-        g_object_unref(viewer->priv->src_pixbuf);
-
-    viewer->priv->src_pixbuf = pixbuf;
-
-    if(viewer->priv->src_pixbuf)
-    {
-        g_object_ref(viewer->priv->src_pixbuf);
-        rstto_picture_viewer_refresh(viewer);
-        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
-    }
-}
-
 static void
 rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 {
@@ -544,8 +528,17 @@ cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, RsttoPictureViewer
         gdk_cursor_unref(cursor);
     }
 
-    GdkPixbuf *pixbuf = rstto_navigator_entry_get_pixbuf(entry);
-    rstto_picture_viewer_set_pixbuf(viewer, pixbuf);   
+    if(viewer->priv->src_pixbuf)
+        g_object_unref(viewer->priv->src_pixbuf);
+
+    viewer->priv->src_pixbuf = rstto_navigator_entry_get_pixbuf(entry);
+
+    if(viewer->priv->src_pixbuf)
+    {
+        g_object_ref(viewer->priv->src_pixbuf);
+        rstto_picture_viewer_refresh(viewer);
+        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+    }
 
     if(GTK_WIDGET_REALIZED(widget))
     {
