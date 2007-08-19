@@ -99,13 +99,13 @@ static GtkWidget *thumbnail_viewer;
 int main(int argc, char **argv)
 {
     ThunarVfsPath *path = NULL;
-    RsttoNavigator *navigator = NULL;
+    GtkWidget *viewer = NULL;
 
 
     #ifdef ENABLE_NLS
     bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-     textdomain (GETTEXT_PACKAGE);
+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+    textdomain (GETTEXT_PACKAGE);
     #endif
 
     gtk_init(&argc, &argv);
@@ -120,14 +120,45 @@ int main(int argc, char **argv)
 
     gtk_window_set_title(GTK_WINDOW(window), PACKAGE_STRING);
 
-    if(argc == 2)
-        path = thunar_vfs_path_new(argv[1], NULL);
-
 
     g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
-    navigator = rstto_navigator_new();
-    GtkWidget *viewer = rstto_picture_viewer_new(navigator);
+    RsttoNavigator *navigator = rstto_navigator_new();
+    viewer = rstto_picture_viewer_new(navigator);
+    thumbnail_viewer = rstto_thumbnail_viewer_new(navigator);
+
+    if(argc == 2)
+        path = thunar_vfs_path_new(argv[1], NULL);
+    if (path)
+    {
+        ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
+        if(strcmp(thunar_vfs_mime_info_get_name(info->mime_info), "inode/directory"))
+        {
+            RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
+            rstto_navigator_add (navigator, entry);
+        }
+        else
+        {
+            GDir *dir = g_dir_open(argv[1], 0, NULL);
+            const gchar *filename = g_dir_read_name(dir);
+            while (filename)
+            {
+                gchar *path_name = g_strconcat(argv[1],  "/", filename, NULL);
+                ThunarVfsPath *file_path = thunar_vfs_path_new(path_name, NULL);
+                if (file_path)
+                {
+                    ThunarVfsInfo *file_info = thunar_vfs_info_new_for_path(file_path, NULL);
+                    RsttoNavigatorEntry *entry = rstto_navigator_entry_new(file_info);
+                    rstto_navigator_add (navigator, entry);
+                    thunar_vfs_path_unref(file_path);
+                }
+                g_free(path_name);
+                filename = g_dir_read_name(dir);
+            }
+        }
+        thunar_vfs_path_unref(path);
+    }
+
 
     g_signal_connect(window , "key-press-event", G_CALLBACK(cb_rstto_key_press_event) , navigator);
     g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
@@ -137,7 +168,6 @@ int main(int argc, char **argv)
     GtkWidget *main_vbox = gtk_vbox_new(0, FALSE);
     main_hbox = gtk_hbox_new(0, FALSE);
     main_vbox1 = gtk_vbox_new(0, FALSE);
-    thumbnail_viewer = rstto_thumbnail_viewer_new(navigator);
     menu_bar = gtk_menu_bar_new();
     image_tool_bar = gtk_toolbar_new();
     app_tool_bar = gtk_toolbar_new();
