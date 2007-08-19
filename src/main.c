@@ -148,8 +148,13 @@ int main(int argc, char **argv)
                 if (file_path)
                 {
                     ThunarVfsInfo *file_info = thunar_vfs_info_new_for_path(file_path, NULL);
-                    RsttoNavigatorEntry *entry = rstto_navigator_entry_new(file_info);
-                    rstto_navigator_add (navigator, entry);
+                    gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
+                    if(!strcmp(file_media, "image"))
+                    {
+                        RsttoNavigatorEntry *entry = rstto_navigator_entry_new(file_info);
+                        rstto_navigator_add (navigator, entry);
+                    }
+                    g_free(file_media);
                     thunar_vfs_path_unref(file_path);
                 }
                 g_free(path_name);
@@ -387,8 +392,13 @@ cb_rstto_open(GtkToolItem *item, RsttoNavigator *navigator)
         if (path)
         {
             ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
-            RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
-            rstto_navigator_add (navigator, entry);
+            gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
+            if(!strcmp(file_media, "image"))
+            {
+                RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
+                rstto_navigator_add (navigator, entry);
+            }
+            g_free(file_media);
             thunar_vfs_path_unref(path);
         }
 
@@ -426,8 +436,13 @@ cb_rstto_open_dir(GtkToolItem *item, RsttoNavigator *navigator)
                 if (path)
                 {
                     ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
-                    RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
-                    rstto_navigator_add (navigator, entry);
+                    gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
+                    if(!strcmp(file_media, "image"))
+                    {
+                        RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
+                        rstto_navigator_add (navigator, entry);
+                    }
+                    g_free(file_media);
                     thunar_vfs_path_unref(path);
                 }
                 g_free(path_name);
