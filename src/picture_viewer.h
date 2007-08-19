@@ -23,21 +23,21 @@ G_BEGIN_DECLS
 
 #define RSTTO_PICTURE_VIEWER(obj)( \
         G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-				RSTTO_TYPE_PICTURE_VIEWER, \
-				RsttoPictureViewer))
+                RSTTO_TYPE_PICTURE_VIEWER, \
+                RsttoPictureViewer))
 
 #define RSTTO_IS_PICTURE_VIEWER(obj)( \
         G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-				RSTTO_TYPE_PICTURE_VIEWER))
+                RSTTO_TYPE_PICTURE_VIEWER))
 
 #define RSTTO_PICTURE_VIEWER_CLASS(klass)( \
         G_TYPE_CHECK_CLASS_CAST ((klass), \
-				RSTTO_TYPE_PICTURE_VIEWER, \
-				RsttoPictureViewerClass))
+                RSTTO_TYPE_PICTURE_VIEWER, \
+                RsttoPictureViewerClass))
 
 #define RSTTO_IS_PICTURE_VIEWER_CLASS(klass)( \
         G_TYPE_CHECK_CLASS_TYPE ((klass), \
-				RSTTO_TYPE_PICTURE_VIEWER()))
+                RSTTO_TYPE_PICTURE_VIEWER()))
 
 typedef struct _RsttoPictureViewerPriv RsttoPictureViewerPriv;
 
@@ -45,27 +45,27 @@ typedef struct _RsttoPictureViewer RsttoPictureViewer;
 
 struct _RsttoPictureViewer
 {
-	GtkWidget         parent;
+    GtkWidget         parent;
     RsttoPictureViewerPriv *priv;
 
-	GtkAdjustment    *vadjustment;
-	GtkAdjustment    *hadjustment;
+    GtkAdjustment    *vadjustment;
+    GtkAdjustment    *hadjustment;
 };
 
 typedef struct _RsttoPictureViewerClass RsttoPictureViewerClass;
 
 struct _RsttoPictureViewerClass
 {
-	GtkWidgetClass  parent_class;
+    GtkWidgetClass  parent_class;
 
   void (* set_scroll_adjustments) (RsttoPictureViewer *viewer,
-	      GtkAdjustment     *hadjustment,
-	      GtkAdjustment     *vadjustment);
+          GtkAdjustment     *hadjustment,
+          GtkAdjustment     *vadjustment);
 };
 
 GType      rstto_picture_viewer_get_type();
 
-GtkWidget *rstto_picture_viewer_new();
+GtkWidget *rstto_picture_viewer_new(RsttoNavigator *navigator);
 void       rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale);
 gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
 gdouble    rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);

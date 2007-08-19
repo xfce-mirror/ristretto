@@ -24,25 +24,9 @@
 #include <pango/pango.h>
 #include <pango/pangoxft.h>
 
-#include "picture_viewer.h"
 #include "navigator.h"
+#include "picture_viewer.h"
 #include "thumbnail_viewer.h"
-
-typedef struct _RsttoThumbnailViewerCache RsttoThumbnailViewerCache;
-
-struct _RsttoThumbnailViewerCache
-{
-    gint begin;
-    gint end;
-    GSList *pixmaps; 
-};
-
-static gboolean
-rstto_thumbnail_viewer_cache_add (RsttoThumbnailViewerCache *cache, GdkPixbuf *pixbuf, gint nr);
-static gboolean
-rstto_thumbnail_viewer_cache_remove (RsttoThumbnailViewerCache *cache, gint nr);
-static GdkPixbuf *
-rstto_thumbnail_viewer_cache_get_pixbuf (RsttoThumbnailViewerCache *cache, gint nr);
 
 struct _RsttoThumbnailViewerPriv
 {
@@ -51,7 +35,6 @@ struct _RsttoThumbnailViewerPriv
     gint dimension;
     gint offset;
     gboolean auto_center;
-    RsttoThumbnailViewerCache *cache;
 };
 
 static void
@@ -83,27 +66,27 @@ cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer, GdkEventB
 GType
 rstto_thumbnail_viewer_get_type ()
 {
-	static GType rstto_thumbnail_viewer_type = 0;
+    static GType rstto_thumbnail_viewer_type = 0;
 
-	if (!rstto_thumbnail_viewer_type)
-	{
-		static const GTypeInfo rstto_thumbnail_viewer_info = 
-		{
-			sizeof (RsttoThumbnailViewerClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) rstto_thumbnail_viewer_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (RsttoThumbnailViewer),
-			0,
-			(GInstanceInitFunc) rstto_thumbnail_viewer_init,
-			NULL
-		};
+    if (!rstto_thumbnail_viewer_type)
+    {
+        static const GTypeInfo rstto_thumbnail_viewer_info = 
+        {
+            sizeof (RsttoThumbnailViewerClass),
+            (GBaseInitFunc) NULL,
+            (GBaseFinalizeFunc) NULL,
+            (GClassInitFunc) rstto_thumbnail_viewer_class_init,
+            (GClassFinalizeFunc) NULL,
+            NULL,
+            sizeof (RsttoThumbnailViewer),
+            0,
+            (GInstanceInitFunc) rstto_thumbnail_viewer_init,
+            NULL
+        };
 
-		rstto_thumbnail_viewer_type = g_type_register_static (GTK_TYPE_WIDGET, "RsttoThumbnailViewer", &rstto_thumbnail_viewer_info, 0);
-	}
-	return rstto_thumbnail_viewer_type;
+        rstto_thumbnail_viewer_type = g_type_register_static (GTK_TYPE_WIDGET, "RsttoThumbnailViewer", &rstto_thumbnail_viewer_info, 0);
+    }
+    return rstto_thumbnail_viewer_type;
 }
 
 
@@ -111,10 +94,6 @@ static void
 rstto_thumbnail_viewer_init(RsttoThumbnailViewer *viewer)
 {
     viewer->priv = g_new0(RsttoThumbnailViewerPriv, 1);
-    viewer->priv->cache = g_new0(RsttoThumbnailViewerCache, 1);
-
-    viewer->priv->cache->begin = -1;
-    viewer->priv->cache->end   = -1;
 
     viewer->priv->auto_center = TRUE;
 
@@ -129,21 +108,21 @@ rstto_thumbnail_viewer_init(RsttoThumbnailViewer *viewer)
 static void
 rstto_thumbnail_viewer_class_init(RsttoThumbnailViewerClass *viewer_class)
 {
-	GtkWidgetClass *widget_class;
-	GtkObjectClass *object_class;
+    GtkWidgetClass *widget_class;
+    GtkObjectClass *object_class;
 
-	widget_class = (GtkWidgetClass*)viewer_class;
-	object_class = (GtkObjectClass*)viewer_class;
+    widget_class = (GtkWidgetClass*)viewer_class;
+    object_class = (GtkObjectClass*)viewer_class;
 
-	parent_class = g_type_class_peek_parent(viewer_class);
+    parent_class = g_type_class_peek_parent(viewer_class);
 
-	widget_class->realize = rstto_thumbnail_viewer_realize;
-	widget_class->expose_event = rstto_thumbnail_viewer_expose;
+    widget_class->realize = rstto_thumbnail_viewer_realize;
+    widget_class->expose_event = rstto_thumbnail_viewer_expose;
 
-	widget_class->size_request = rstto_thumbnail_viewer_size_request;
-	widget_class->size_allocate = rstto_thumbnail_viewer_size_allocate;
+    widget_class->size_request = rstto_thumbnail_viewer_size_request;
+    widget_class->size_allocate = rstto_thumbnail_viewer_size_allocate;
 
-	object_class->destroy = rstto_thumbnail_viewer_destroy;
+    object_class->destroy = rstto_thumbnail_viewer_destroy;
 }
 
 static void
@@ -165,7 +144,7 @@ static void
 rstto_thumbnail_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 {
     RsttoThumbnailViewer *viewer = RSTTO_THUMBNAIL_VIEWER(widget);
-	gint border_width =  0;
+    gint border_width =  0;
     widget->allocation = *allocation;
 
     switch(viewer->priv->orientation)
@@ -179,46 +158,46 @@ rstto_thumbnail_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocatio
     }
 
 
-	if (GTK_WIDGET_REALIZED (widget))
-	{
- 		gdk_window_move_resize (widget->window,
-			allocation->x + border_width,
-			allocation->y + border_width,
-			allocation->width - border_width * 2,
-			allocation->height - border_width * 2);
+    if (GTK_WIDGET_REALIZED (widget))
+    {
+         gdk_window_move_resize (widget->window,
+            allocation->x + border_width,
+            allocation->y + border_width,
+            allocation->width - border_width * 2,
+            allocation->height - border_width * 2);
 
-	}
+    }
 }
 
 static void
 rstto_thumbnail_viewer_realize(GtkWidget *widget)
 {
-	g_return_if_fail (widget != NULL);
-	g_return_if_fail (RSTTO_IS_THUMBNAIL_VIEWER(widget));
+    g_return_if_fail (widget != NULL);
+    g_return_if_fail (RSTTO_IS_THUMBNAIL_VIEWER(widget));
 
-	GdkWindowAttr attributes;
-	gint attributes_mask;
+    GdkWindowAttr attributes;
+    gint attributes_mask;
 
-	GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
+    GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
 
-	attributes.x = widget->allocation.x;
-	attributes.y = widget->allocation.y;
-	attributes.width = widget->allocation.width;
-	attributes.height = widget->allocation.height;
-	attributes.wclass = GDK_INPUT_OUTPUT;
-	attributes.window_type = GDK_WINDOW_CHILD;
-	attributes.event_mask = gtk_widget_get_events (widget) | 
-	GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK;
-	attributes.visual = gtk_widget_get_visual (widget);
-	attributes.colormap = gtk_widget_get_colormap (widget);
+    attributes.x = widget->allocation.x;
+    attributes.y = widget->allocation.y;
+    attributes.width = widget->allocation.width;
+    attributes.height = widget->allocation.height;
+    attributes.wclass = GDK_INPUT_OUTPUT;
+    attributes.window_type = GDK_WINDOW_CHILD;
+    attributes.event_mask = gtk_widget_get_events (widget) | 
+    GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK;
+    attributes.visual = gtk_widget_get_visual (widget);
+    attributes.colormap = gtk_widget_get_colormap (widget);
 
-	attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
-	widget->window = gdk_window_new (gtk_widget_get_parent_window(widget), &attributes, attributes_mask);
+    attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
+    widget->window = gdk_window_new (gtk_widget_get_parent_window(widget), &attributes, attributes_mask);
 
     widget->style = gtk_style_attach (widget->style, widget->window);
-	gdk_window_set_user_data (widget->window, widget);
+    gdk_window_set_user_data (widget->window, widget);
 
-	gtk_style_set_background (widget->style, widget->window, GTK_STATE_ACTIVE);
+    gtk_style_set_background (widget->style, widget->window, GTK_STATE_ACTIVE);
 }
 
 static gboolean
@@ -226,31 +205,31 @@ rstto_thumbnail_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
 {
     RsttoThumbnailViewer *viewer = RSTTO_THUMBNAIL_VIEWER(widget);
 
-	if (GTK_WIDGET_REALIZED (viewer))
-	{
+    if (GTK_WIDGET_REALIZED (viewer))
+    {
         rstto_thumbnail_viewer_paint(viewer);
     }
 
-	return FALSE;
+    return FALSE;
 }
 
 static void
 rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
-	GdkColor color;
+    GdkColor color;
 
     RsttoNavigatorEntry *current_entry = rstto_navigator_get_file(viewer->priv->navigator);
 
     color.pixel = 0xffffffff;
-	GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(widget->window));
-	GdkGC *gc_bg_normal = gdk_gc_new(GDK_DRAWABLE(widget->window));
-	GdkGC *gc_bg_selected = gdk_gc_new(GDK_DRAWABLE(widget->window));
+    GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(widget->window));
+    GdkGC *gc_bg_normal = gdk_gc_new(GDK_DRAWABLE(widget->window));
+    GdkGC *gc_bg_selected = gdk_gc_new(GDK_DRAWABLE(widget->window));
 
-	gdk_gc_set_foreground(gc, &color);
-	gdk_gc_set_foreground(gc_bg_selected,
+    gdk_gc_set_foreground(gc, &color);
+    gdk_gc_set_foreground(gc_bg_selected,
                         &(widget->style->bg[GTK_STATE_SELECTED]));
-	gdk_gc_set_foreground(gc_bg_normal,
+    gdk_gc_set_foreground(gc_bg_normal,
                         &(widget->style->bg[GTK_STATE_NORMAL]));
     
     gint i;
@@ -287,29 +266,12 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     }
     GdkPixmap *pixmap = NULL;
 
-    /* Cleanup_cache */
-    for (i = viewer->priv->cache->begin; i < begin; i++)
-    {
-        rstto_thumbnail_viewer_cache_remove(viewer->priv->cache, i);
-    }
-    for (i = end; i < viewer->priv->cache->end; i++)
-    {
-        rstto_thumbnail_viewer_cache_remove(viewer->priv->cache, i);
-    }
-
     for(i = begin; i <= end; ++i)
     { 
         RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(viewer->priv->navigator, i);
         if (entry)
         {
-            ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
-            gchar *filename = thunar_vfs_path_dup_string(info->path);
-            GdkPixbuf *pixbuf = rstto_thumbnail_viewer_cache_get_pixbuf(viewer->priv->cache, i);
-            if(!pixbuf)
-            {
-                pixbuf = gdk_pixbuf_new_from_file_at_size(filename, viewer->priv->dimension - 8, viewer->priv->dimension - 8, NULL);
-                rstto_thumbnail_viewer_cache_add(viewer->priv->cache, pixbuf, i);
-            }
+            GdkPixbuf *pixbuf = rstto_navigator_entry_get_thumb(entry, viewer->priv->dimension - 8);
             pixmap = gdk_pixmap_new(widget->window, viewer->priv->dimension, viewer->priv->dimension, -1);
 
             gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
@@ -452,23 +414,23 @@ rstto_thumbnail_viewer_destroy(GtkObject *object)
 GtkWidget *
 rstto_thumbnail_viewer_new(RsttoNavigator *navigator)
 {
-	RsttoThumbnailViewer *viewer;
+    RsttoThumbnailViewer *viewer;
 
-	viewer = g_object_new(RSTTO_TYPE_THUMBNAIL_VIEWER, NULL);
+    viewer = g_object_new(RSTTO_TYPE_THUMBNAIL_VIEWER, NULL);
 
     viewer->priv->navigator = navigator;
 
-	g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_thumbnailer_nav_file_changed), viewer);
+    g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_thumbnailer_nav_file_changed), viewer);
 
-	return (GtkWidget *)viewer;
+    return (GtkWidget *)viewer;
 }
 
 static void
 cb_rstto_thumbnailer_nav_file_changed(RsttoNavigator *nav, RsttoThumbnailViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
-	if (GTK_WIDGET_REALIZED (viewer))
-	{
+    if (GTK_WIDGET_REALIZED (viewer))
+    {
         if(viewer->priv->auto_center)
         {
             gint nr = rstto_navigator_get_position(nav);
@@ -571,70 +533,4 @@ GtkOrientation
 rstto_thumbnail_viewer_get_orientation (RsttoThumbnailViewer *viewer)
 {
     return viewer->priv->orientation;
-}
-
-static gboolean
-rstto_thumbnail_viewer_cache_add (RsttoThumbnailViewerCache *cache, GdkPixbuf *pixbuf, gint nr)
-{
-    if (cache->begin == -1)
-    {
-        cache->begin = nr;
-        cache->end = nr;
-        
-        cache->pixmaps = g_slist_prepend(cache->pixmaps, pixbuf);
-        return TRUE;
-    }   
-    else
-    {
-        if (nr == cache->begin-1)
-        {
-            cache->pixmaps = g_slist_prepend(cache->pixmaps, pixbuf);
-            cache->begin--;
-            return TRUE;
-        }
-        if (nr == cache->end+1)
-        {
-            cache->pixmaps = g_slist_append(cache->pixmaps, pixbuf);
-            cache->end++;
-            return TRUE;
-        }
-    }
-    g_print("aargh: %d\n", nr);
-    return FALSE;
-}
-
-static gboolean
-rstto_thumbnail_viewer_cache_remove (RsttoThumbnailViewerCache *cache, gint nr)
-{
-    g_return_val_if_fail(nr >= 0, FALSE);
-    if (nr == cache->begin)
-    {
-        g_object_unref(cache->pixmaps->data);
-        cache->pixmaps = g_slist_delete_link(cache->pixmaps, cache->pixmaps);
-        cache->begin++;
-    }
-    else
-    {
-        if (nr == cache->end)
-        {
-            GSList *element = g_slist_last(cache->pixmaps);
-            g_object_unref(cache->pixmaps->data);
-            cache->pixmaps = g_slist_delete_link(cache->pixmaps, element);
-            cache->end--;
-        }
-    }
-    if (!g_slist_length(cache->pixmaps))
-    {
-        cache->begin = -1;
-        cache->end = -1;
-    }
-    return TRUE;   
-}
-
-static GdkPixbuf *
-rstto_thumbnail_viewer_cache_get_pixbuf (RsttoThumbnailViewerCache *cache, gint nr)
-{
-    if ((nr >= cache->begin) && (nr <= cache->end))
-        return g_slist_nth_data(cache->pixmaps, nr - cache->begin);
-    return NULL;
 }

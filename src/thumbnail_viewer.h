@@ -23,21 +23,21 @@ G_BEGIN_DECLS
 
 #define RSTTO_THUMBNAIL_VIEWER(obj)( \
         G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-				RSTTO_TYPE_THUMBNAIL_VIEWER, \
-				RsttoThumbnailViewer))
+                RSTTO_TYPE_THUMBNAIL_VIEWER, \
+                RsttoThumbnailViewer))
 
 #define RSTTO_IS_THUMBNAIL_VIEWER(obj)( \
         G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-				RSTTO_TYPE_THUMBNAIL_VIEWER))
+                RSTTO_TYPE_THUMBNAIL_VIEWER))
 
 #define RSTTO_THUMBNAIL_VIEWER_CLASS(klass)( \
         G_TYPE_CHECK_CLASS_CAST ((klass), \
-				RSTTO_TYPE_THUMBNAIL_VIEWER, \
-				RsttoThumbnailViewerClass))
+                RSTTO_TYPE_THUMBNAIL_VIEWER, \
+                RsttoThumbnailViewerClass))
 
 #define RSTTO_IS_THUMBNAIL_VIEWER_CLASS(klass)( \
         G_TYPE_CHECK_CLASS_TYPE ((klass), \
-				RSTTO_TYPE_THUMBNAIL_VIEWER()))
+                RSTTO_TYPE_THUMBNAIL_VIEWER()))
 
 typedef struct _RsttoThumbnailViewerPriv RsttoThumbnailViewerPriv;
 
@@ -45,7 +45,7 @@ typedef struct _RsttoThumbnailViewer RsttoThumbnailViewer;
 
 struct _RsttoThumbnailViewer
 {
-	GtkWidget         parent;
+    GtkWidget         parent;
     RsttoThumbnailViewerPriv *priv;
 };
 
@@ -53,7 +53,7 @@ typedef struct _RsttoThumbnailViewerClass RsttoThumbnailViewerClass;
 
 struct _RsttoThumbnailViewerClass
 {
-	GtkWidgetClass  parent_class;
+    GtkWidgetClass  parent_class;
 };
 
 GType      rstto_thumbnail_viewer_get_type();

@@ -21,7 +21,6 @@
 
 #include <thunar-vfs/thunar-vfs.h>
 
-#include "picture_viewer.h"
 #include "navigator.h"
 
 static void 
@@ -41,8 +40,8 @@ rstto_navigator_entry_name_compare_func(RsttoNavigatorEntry *a, RsttoNavigatorEn
 
 enum
 {
-	RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED = 0,
-    RSTTO_NAVIGATOR_SIGNAL_COUNT	
+    RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED = 0,
+    RSTTO_NAVIGATOR_SIGNAL_COUNT    
 };
 
 struct _RsttoNavigatorEntry
@@ -51,7 +50,8 @@ struct _RsttoNavigatorEntry
     GdkPixbufRotation    rotation;
     gboolean             h_flipped;
     gboolean             v_flipped;
-    GdkPixbuf           *preview;
+    GdkPixbuf           *thumb;
+    GdkPixbuf           *pixbuf;
 };
 
 
@@ -60,33 +60,33 @@ static gint rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_COUNT];
 GType
 rstto_navigator_get_type ()
 {
-	static GType rstto_navigator_type = 0;
+    static GType rstto_navigator_type = 0;
 
-	if (!rstto_navigator_type)
-	{
-		static const GTypeInfo rstto_navigator_info = 
-		{
-			sizeof (RsttoNavigatorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) rstto_navigator_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (RsttoNavigator),
-			0,
-			(GInstanceInitFunc) rstto_navigator_init,
-			NULL
-		};
+    if (!rstto_navigator_type)
+    {
+        static const GTypeInfo rstto_navigator_info = 
+        {
+            sizeof (RsttoNavigatorClass),
+            (GBaseInitFunc) NULL,
+            (GBaseFinalizeFunc) NULL,
+            (GClassInitFunc) rstto_navigator_class_init,
+            (GClassFinalizeFunc) NULL,
+            NULL,
+            sizeof (RsttoNavigator),
+            0,
+            (GInstanceInitFunc) rstto_navigator_init,
+            NULL
+        };
 
-		rstto_navigator_type = g_type_register_static (G_TYPE_OBJECT, "RsttoNavigator", &rstto_navigator_info, 0);
-	}
-	return rstto_navigator_type;
+        rstto_navigator_type = g_type_register_static (G_TYPE_OBJECT, "RsttoNavigator", &rstto_navigator_info, 0);
+    }
+    return rstto_navigator_type;
 }
 
 static void
-rstto_navigator_init(RsttoNavigator *viewer)
+rstto_navigator_init(RsttoNavigator *navigator)
 {
-    viewer->compare_func = (GCompareFunc)rstto_navigator_entry_name_compare_func;
+    navigator->compare_func = (GCompareFunc)rstto_navigator_entry_name_compare_func;
 }
 
 static void
@@ -94,26 +94,26 @@ rstto_navigator_class_init(RsttoNavigatorClass *nav_class)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(nav_class);
 
-	parent_class = g_type_class_peek_parent(nav_class);
+    parent_class = g_type_class_peek_parent(nav_class);
 
-	object_class->dispose = rstto_navigator_dispose;
+    object_class->dispose = rstto_navigator_dispose;
 
-	rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED] = g_signal_new("file_changed",
-			G_TYPE_FROM_CLASS(nav_class),
-			G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0,
-			NULL);
+    rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED] = g_signal_new("file_changed",
+            G_TYPE_FROM_CLASS(nav_class),
+            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+            0,
+            NULL,
+            NULL,
+            g_cclosure_marshal_VOID__VOID,
+            G_TYPE_NONE,
+            0,
+            NULL);
 }
 
 static void
 rstto_navigator_dispose(GObject *object)
 {
-	RsttoNavigator *navigator = RSTTO_NAVIGATOR(object);
+    RsttoNavigator *navigator = RSTTO_NAVIGATOR(object);
 
     if(navigator->file_list)
     {
@@ -123,16 +123,15 @@ rstto_navigator_dispose(GObject *object)
 }
 
 RsttoNavigator *
-rstto_navigator_new(RsttoPictureViewer *viewer)
+rstto_navigator_new()
 {
-	RsttoNavigator *navigator;
+    RsttoNavigator *navigator;
 
-	navigator = g_object_new(RSTTO_TYPE_NAVIGATOR, NULL);
+    navigator = g_object_new(RSTTO_TYPE_NAVIGATOR, NULL);
 
-    navigator->viewer = viewer;
     navigator->icon_theme = gtk_icon_theme_new();
 
-	return navigator;
+    return navigator;
 }
 
 static gint
@@ -241,6 +240,22 @@ void
 rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
 {
     navigator->file_list = g_list_insert_sorted(navigator->file_list, entry, navigator->compare_func);
+    if (!navigator->file_iter)
+    {
+        navigator->file_iter = navigator->file_list;
+        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+    }
+}
+
+void
+rstto_navigator_clear (RsttoNavigator *navigator)
+{
+    if(navigator->file_list)
+    {
+        g_list_foreach(navigator->file_list, (GFunc)rstto_navigator_entry_free, NULL);
+        navigator->file_list = NULL;
+        navigator->file_iter = NULL;
+    }
 }
 
 void
@@ -323,3 +338,36 @@ rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
     g_free(nav_entry);
 }
 
+GdkPixbuf *
+rstto_navigator_entry_get_thumb(RsttoNavigatorEntry *entry, gint size)
+{
+    if(entry->thumb)    
+    {
+        if(gdk_pixbuf_get_width(entry->thumb) != size || gdk_pixbuf_get_height(entry->thumb) != size)
+        {
+            g_object_unref(entry->thumb);
+            gchar *filename = thunar_vfs_path_dup_string(entry->info->path);
+            entry->thumb = gdk_pixbuf_new_from_file_at_size(filename, size, size, NULL);
+            g_free(filename);
+        }
+    }
+    else
+    {
+        gchar *filename = thunar_vfs_path_dup_string(entry->info->path);
+        entry->thumb = gdk_pixbuf_new_from_file_at_size(filename, size, size, NULL);
+        g_free(filename);
+    }
+    return entry->thumb;
+}
+
+GdkPixbuf *
+rstto_navigator_entry_get_pixbuf(RsttoNavigatorEntry *entry)
+{
+    if(!entry->pixbuf)
+    {
+        gchar *filename = thunar_vfs_path_dup_string(entry->info->path);
+        entry->pixbuf = gdk_pixbuf_new_from_file(filename, NULL);
+        g_free(filename);
+    }
+    return entry->pixbuf;
+}

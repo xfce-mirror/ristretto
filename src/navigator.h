@@ -23,21 +23,21 @@ G_BEGIN_DECLS
 
 #define RSTTO_NAVIGATOR(obj)( \
         G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-				RSTTO_TYPE_NAVIGATOR, \
-				RsttoNavigator))
+                RSTTO_TYPE_NAVIGATOR, \
+                RsttoNavigator))
 
 #define RSTTO_IS_NAVIGATOR(obj)( \
         G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-				RSTTO_TYPE_NAVIGATOR))
+                RSTTO_TYPE_NAVIGATOR))
 
 #define RSTTO_NAVIGATOR_CLASS(klass)( \
         G_TYPE_CHECK_CLASS_CAST ((klass), \
-				RSTTO_TYPE_NAVIGATOR, \
-				RsttoNavigatorClass))
+                RSTTO_TYPE_NAVIGATOR, \
+                RsttoNavigatorClass))
 
 #define RSTTO_IS_NAVIGATOR_CLASS(klass)( \
         G_TYPE_CHECK_CLASS_TYPE ((klass), \
-				RSTTO_TYPE_NAVIGATOR()))
+                RSTTO_TYPE_NAVIGATOR()))
 
 typedef struct _RsttoNavigatorEntry RsttoNavigatorEntry;
 
@@ -46,7 +46,6 @@ typedef struct _RsttoNavigator RsttoNavigator;
 struct _RsttoNavigator
 {
     GObject             parent;
-    RsttoPictureViewer *viewer;
     GtkIconTheme       *icon_theme;
     ThunarVfsPath      *path;
     GList              *file_list;
@@ -65,7 +64,7 @@ struct _RsttoNavigatorClass
 GType      rstto_navigator_get_type ();
 
 RsttoNavigator *
-rstto_navigator_new (RsttoPictureViewer *viewer);
+rstto_navigator_new ();
 
 void       rstto_navigator_jump_first (RsttoNavigator *navigator);
 void       rstto_navigator_jump_forward (RsttoNavigator *navigator);
@@ -89,6 +88,8 @@ rstto_navigator_get_nth_file (RsttoNavigator *navigator, gint n);
 void
 rstto_navigator_set_file (RsttoNavigator *navigator, gint n);
 void
+rstto_navigator_clear (RsttoNavigator *navigator);
+void
 rstto_navigator_set_entry_rotation (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, GdkPixbufRotation rotation);
 
 RsttoNavigatorEntry *
@@ -96,7 +97,7 @@ rstto_navigator_entry_new (ThunarVfsInfo *info);
 void
 rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry);
 GdkPixbuf *
-rstto_navigator_entry_get_thumbnail (RsttoNavigatorEntry *entry);
+rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry);
 ThunarVfsInfo *
 rstto_navigator_entry_get_info (RsttoNavigatorEntry *entry);
 GdkPixbufRotation
@@ -105,6 +106,8 @@ gboolean
 rstto_navigator_entry_get_flip (RsttoNavigatorEntry *entry, gboolean horizontal);
 void
 rstto_navigator_flip_entry(RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gboolean horizontal);
+GdkPixbuf *
+rstto_navigator_entry_get_thumb(RsttoNavigatorEntry *entry, gint max_size);
 
 G_END_DECLS
 
