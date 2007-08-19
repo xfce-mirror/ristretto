@@ -403,6 +403,9 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                             viewer->priv->dimension / 2 - 7, widget->allocation.height - 16,14,14);
             break;
     }
+    GdkCursor *cursor = gdk_cursor_new(GDK_LEFT_PTR);
+    gdk_window_set_cursor(widget->window, cursor);
+    gdk_cursor_unref(cursor);
 }
 
 static void
@@ -519,6 +522,12 @@ cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer,
     }
     else
     {
+        if(GTK_WIDGET_REALIZED(widget))
+        {
+            GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
+            gdk_window_set_cursor(widget->window, cursor);
+            gdk_cursor_unref(cursor);
+        }
         rstto_navigator_set_file(viewer->priv->navigator, n);
     }
 }

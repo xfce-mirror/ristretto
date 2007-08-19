@@ -197,7 +197,7 @@ rstto_picture_viewer_realize(GtkWidget *widget)
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
     widget->window = gdk_window_new (gtk_widget_get_parent_window(widget), &attributes, attributes_mask);
 
-  widget->style = gtk_style_attach (widget->style, widget->window);
+    widget->style = gtk_style_attach (widget->style, widget->window);
     gdk_window_set_user_data (widget->window, widget);
 
     gtk_style_set_background (widget->style, widget->window, GTK_STATE_ACTIVE);
@@ -233,6 +233,10 @@ rstto_picture_viewer_paint(GtkWidget *widget)
     /* required for transparent pixbufs... add double buffering to fix flickering*/
     if(GTK_WIDGET_REALIZED(widget))
     {          
+        GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
+        gdk_window_set_cursor(widget->window, cursor);
+        gdk_cursor_unref(cursor);
+
         GdkPixmap *buffer = gdk_pixmap_new(NULL, widget->allocation.width, widget->allocation.height, gdk_drawable_get_depth(widget->window));
         GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(buffer));
 
@@ -315,6 +319,10 @@ rstto_picture_viewer_paint(GtkWidget *widget)
                         widget->allocation.width,
                         widget->allocation.height);
         g_object_unref(buffer);
+
+        cursor = gdk_cursor_new(GDK_LEFT_PTR);
+        gdk_window_set_cursor(widget->window, cursor);
+        gdk_cursor_unref(cursor);
     }
 }
 
@@ -527,8 +535,22 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 static void
 cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, RsttoPictureViewer *viewer)
 {
+    GtkWidget *widget = GTK_WIDGET(viewer);
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(nav);
+    if(GTK_WIDGET_REALIZED(widget))
+    {
+        GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
+        gdk_window_set_cursor(widget->window, cursor);
+        gdk_cursor_unref(cursor);
+    }
+
     GdkPixbuf *pixbuf = rstto_navigator_entry_get_pixbuf(entry);
-    
     rstto_picture_viewer_set_pixbuf(viewer, pixbuf);   
+
+    if(GTK_WIDGET_REALIZED(widget))
+    {
+        GdkCursor *cursor = gdk_cursor_new(GDK_LEFT_PTR);
+        gdk_window_set_cursor(widget->window, cursor);
+        gdk_cursor_unref(cursor);
+    }
 }
