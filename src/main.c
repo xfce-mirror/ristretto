@@ -129,6 +129,8 @@ int main(int argc, char **argv)
     thumbnail_viewer = rstto_thumbnail_viewer_new(navigator);
 
     g_signal_connect(window , "key-press-event", G_CALLBACK(cb_rstto_key_press_event) , navigator);
+    g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
+
 
     if(argc == 2)
         path = thunar_vfs_path_new(argv[1], NULL);
@@ -170,8 +172,6 @@ int main(int argc, char **argv)
         thunar_vfs_path_unref(path);
     }
 
-
-    g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
 
     GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
