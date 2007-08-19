@@ -463,6 +463,11 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                 viewer->hadjustment->lower = 0;
                 viewer->hadjustment->step_increment = 1;
                 viewer->hadjustment->page_increment = 100;
+                if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+                {
+                    viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+                    gtk_adjustment_value_changed(viewer->hadjustment);
+                }
             }
             if(viewer->vadjustment)
             {
@@ -471,30 +476,27 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                 viewer->vadjustment->lower = 0;
                 viewer->vadjustment->step_increment = 1;
                 viewer->vadjustment->page_increment = 100;
-            }
-
-            if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
-            {
-                viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
-                gtk_adjustment_value_changed(viewer->vadjustment);
-            }
-            if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
-            {
-                viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-                gtk_adjustment_value_changed(viewer->hadjustment);
+                if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+                {
+                    viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+                    gtk_adjustment_value_changed(viewer->vadjustment);
+                }
             }
 
 
             GdkPixbuf *tmp_pixbuf = NULL;
-            tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
-                                                  viewer->hadjustment->value / viewer->priv->scale >= 0?
+            if (viewer->vadjustment && viewer->hadjustment)
+            {
+                tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
+                                                      viewer->hadjustment->value / viewer->priv->scale >= 0?
                                                         viewer->hadjustment->value / viewer->priv->scale : 0,
-                                                  viewer->vadjustment->value / viewer->priv->scale >= 0?
+                                                      viewer->vadjustment->value / viewer->priv->scale >= 0?
                                                         viewer->vadjustment->value / viewer->priv->scale : 0,
-                                                  ((widget->allocation.width/viewer->priv->scale)) < width?
+                                                      ((widget->allocation.width/viewer->priv->scale)) < width?
                                                         widget->allocation.width/viewer->priv->scale:width,
-                                                  ((widget->allocation.height/viewer->priv->scale))< height?
+                                                      ((widget->allocation.height/viewer->priv->scale))< height?
                                                         widget->allocation.height/viewer->priv->scale:height);
+            }
 
             if(viewer->priv->dst_pixbuf)
             {
@@ -508,9 +510,11 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                 g_object_unref(tmp_pixbuf);
                 tmp_pixbuf = NULL;
             }
-
-            gtk_adjustment_changed(viewer->hadjustment);
-            gtk_adjustment_changed(viewer->vadjustment);
+            if (viewer->vadjustment && viewer->hadjustment)
+            {
+                gtk_adjustment_changed(viewer->hadjustment);
+                gtk_adjustment_changed(viewer->vadjustment);
+            }
         }
     }
 
