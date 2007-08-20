@@ -319,7 +319,7 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(zoom_out), "clicked", G_CALLBACK(cb_rstto_zoom_out), viewer);
     g_signal_connect(G_OBJECT(forward), "clicked", G_CALLBACK(cb_rstto_forward), navigator);
     g_signal_connect(G_OBJECT(previous), "clicked", G_CALLBACK(cb_rstto_previous), navigator);
-    g_signal_connect(G_OBJECT(open), "clicked", G_CALLBACK(cb_rstto_open), navigator);
+    g_signal_connect(G_OBJECT(open), "clicked", G_CALLBACK(cb_rstto_open_dir), navigator);
 
     g_signal_connect(G_OBJECT(menu_item_quit), "activate", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(G_OBJECT(menu_item_open), "activate", G_CALLBACK(cb_rstto_open), navigator);
