@@ -125,8 +125,8 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
     RsttoNavigator *navigator = rstto_navigator_new();
-    viewer = rstto_picture_viewer_new(navigator);
     thumbnail_viewer = rstto_thumbnail_viewer_new(navigator);
+    viewer = rstto_picture_viewer_new(navigator);
 
     g_signal_connect(window , "key-press-event", G_CALLBACK(cb_rstto_key_press_event) , navigator);
     g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
