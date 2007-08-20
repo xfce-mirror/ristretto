@@ -57,7 +57,7 @@ cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, RsttoPictureViewer
 
 static void
 rstto_picture_viewer_paint(GtkWidget *widget);
-static void
+static gboolean
 rstto_picture_viewer_refresh(RsttoPictureViewer *viewer);
 
 static void
@@ -211,9 +211,10 @@ rstto_picture_viewer_unrealize(GtkWidget *widget)
 static gboolean
 rstto_picture_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
 {
-    rstto_picture_viewer_refresh(RSTTO_PICTURE_VIEWER(widget));
-    rstto_picture_viewer_paint(widget);
-
+    if(rstto_picture_viewer_refresh(RSTTO_PICTURE_VIEWER(widget)))
+    {
+        rstto_picture_viewer_paint(widget);
+    }
     return FALSE;
 }
 
@@ -411,9 +412,10 @@ rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
     viewer->priv->scale_fts = FALSE;
     viewer->priv->scale = scale;
 
-    rstto_picture_viewer_refresh(viewer);
-    rstto_picture_viewer_paint(GTK_WIDGET(viewer));
-
+    if(rstto_picture_viewer_refresh(viewer))
+    {
+        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+    }
 }
 
 gdouble
@@ -421,9 +423,10 @@ rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer)
 {
     viewer->priv->scale_fts = TRUE;
 
-    rstto_picture_viewer_refresh(viewer);
-    rstto_picture_viewer_paint(GTK_WIDGET(viewer));
-
+    if(rstto_picture_viewer_refresh(viewer))
+    {
+        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+    }
     return viewer->priv->scale;
 }
 
@@ -433,10 +436,11 @@ rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer)
     return viewer->priv->scale;
 }
 
-static void
+static gboolean
 rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
+    gboolean changed;
     if(viewer->priv->src_pixbuf)
     {
 
@@ -447,9 +451,17 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
             gdouble h_scale = GTK_WIDGET(viewer)->allocation.width / width;
             gdouble v_scale = GTK_WIDGET(viewer)->allocation.height / height;
             if(h_scale < v_scale)
+            {
+                if(viewer->priv->scale != h_scale)
+                    changed = TRUE;
                 viewer->priv->scale = h_scale;
+            }
             else
+            {
+                if(viewer->priv->scale != v_scale)
+                    changed = TRUE;
                 viewer->priv->scale = v_scale;
+            }
         }
         if(GTK_WIDGET_REALIZED(widget))
         {
@@ -517,7 +529,7 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
             }
         }
     }
-
+    return changed;
 }
 
 static void
