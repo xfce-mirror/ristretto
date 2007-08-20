@@ -465,6 +465,10 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
         }
         if(GTK_WIDGET_REALIZED(widget))
         {
+            GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
+            gdk_window_set_cursor(widget->window, cursor);
+            gdk_cursor_unref(cursor);
+
             gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
             gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
             
@@ -527,6 +531,9 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                 gtk_adjustment_changed(viewer->hadjustment);
                 gtk_adjustment_changed(viewer->vadjustment);
             }
+            cursor = gdk_cursor_new(GDK_LEFT_PTR);
+            gdk_window_set_cursor(widget->window, cursor);
+            gdk_cursor_unref(cursor);
         }
     }
     return changed;
