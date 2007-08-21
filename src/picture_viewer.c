@@ -522,10 +522,13 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                 g_object_unref(viewer->priv->dst_pixbuf);
                 viewer->priv->dst_pixbuf = NULL;
             }
-            viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf, gdk_pixbuf_get_width(tmp_pixbuf)*viewer->priv->scale, gdk_pixbuf_get_height(tmp_pixbuf)*viewer->priv->scale, GDK_INTERP_BILINEAR);
 
             if(tmp_pixbuf)
             {
+                viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf, 
+                                                     gdk_pixbuf_get_width(tmp_pixbuf) * viewer->priv->scale, 
+                                                     gdk_pixbuf_get_height(tmp_pixbuf) * viewer->priv->scale,
+                                                     GDK_INTERP_BILINEAR);
                 g_object_unref(tmp_pixbuf);
                 tmp_pixbuf = NULL;
             }
