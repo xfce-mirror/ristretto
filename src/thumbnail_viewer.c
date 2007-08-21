@@ -241,7 +241,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
             end = widget->allocation.width / viewer->priv->dimension + begin;
             if (end > rstto_navigator_get_n_files(viewer->priv->navigator))
                 end = rstto_navigator_get_n_files(viewer->priv->navigator);
-            if (widget->allocation.width > (end - begin) * viewer->priv->dimension)
+            if (widget->allocation.width > (end * viewer->priv->dimension - viewer->priv->offset))
             {
                 gdk_window_clear_area(widget->window, 
                                         (viewer->priv->dimension * end) - viewer->priv->offset, 
@@ -254,7 +254,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
             end = widget->allocation.height / viewer->priv->dimension + begin;
             if (end > rstto_navigator_get_n_files(viewer->priv->navigator))
                 end = rstto_navigator_get_n_files(viewer->priv->navigator);
-            if (widget->allocation.height > (end - begin) * viewer->priv->dimension)
+            if (widget->allocation.height > (end * viewer->priv->dimension) - viewer->priv->offset)
             {
                 gdk_window_clear_area(widget->window, 
                                         0,
