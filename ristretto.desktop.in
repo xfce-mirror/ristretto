@@ -1,11 +1,11 @@
 [Desktop Entry]
 Encoding=UTF-8
 Version=1.0
-Name=Ristretto
+Name=Ristretto Image Viewer
 Comment=Xfce Image viewer
 GenericName=Image Viewer
 Exec=ristretto
-Icon=ristretto.png
+Icon=ristretto
 Terminal=false
 Type=Application
 X-MultipleArgs=false

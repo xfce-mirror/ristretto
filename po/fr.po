@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-08-20 00:48+0200\n"
+"POT-Creation-Date: 2007-08-20 23:35+0200\n"
 "PO-Revision-Date: 2007-07-03 00:59:21+0200\n"
 "Last-Translator: Mike Massonnet <mmassonnet@xfce.org>\n"
 "Language-Team: French\n"
@@ -15,75 +15,75 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:184
+#: ../src/main.c:186
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../src/main.c:186
+#: ../src/main.c:188
 msgid "O_pen Folder"
 msgstr "O_uvrir un répertoire"
 
-#: ../src/main.c:197
+#: ../src/main.c:199
 msgid "_Edit"
 msgstr "_Editer"
 
-#: ../src/main.c:198
+#: ../src/main.c:200
 msgid "Rotate _Left"
 msgstr ""
 
-#: ../src/main.c:199
+#: ../src/main.c:201
 msgid "Rotate _Right"
 msgstr ""
 
-#: ../src/main.c:200
+#: ../src/main.c:202
 msgid "Flip _Vertically"
 msgstr ""
 
-#: ../src/main.c:201
+#: ../src/main.c:203
 msgid "Flip _Horizontally"
 msgstr ""
 
-#: ../src/main.c:210
+#: ../src/main.c:212
 msgid "_View"
 msgstr "A_fficher"
 
-#: ../src/main.c:211
+#: ../src/main.c:213
 msgid "Thumbnail Viewer"
 msgstr ""
 
-#: ../src/main.c:221
+#: ../src/main.c:224
 msgid "Show Horizontally"
 msgstr ""
 
-#: ../src/main.c:222
+#: ../src/main.c:225
 msgid "Show Vertically"
 msgstr ""
 
-#: ../src/main.c:223
+#: ../src/main.c:226
 msgid "Hide"
 msgstr ""
 
-#: ../src/main.c:229
+#: ../src/main.c:232
 msgid "_Go"
 msgstr ""
 
-#: ../src/main.c:251
+#: ../src/main.c:260
 msgid "_Help"
 msgstr "_Aide"
 
-#: ../src/main.c:382
+#: ../src/main.c:391
 msgid "Open image"
 msgstr "Ouvrir une image"
 
-#: ../src/main.c:419
+#: ../src/main.c:428
 msgid "Open folder"
 msgstr "Ouvrir un répertoire"
 
-#: ../src/main.c:465
+#: ../src/main.c:474
 msgid "Developer:"
 msgstr "Développeur :"
 
-#: ../src/main.c:474
+#: ../src/main.c:483
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -91,7 +91,7 @@ msgstr ""
 "Ristretto est un visualiseur d'images léger et rapide pour l'environnement "
 "de bureau Xfce."
 
-#: ../src/main.c:481
+#: ../src/main.c:490
 msgid "translator-credits"
 msgstr ""
 
