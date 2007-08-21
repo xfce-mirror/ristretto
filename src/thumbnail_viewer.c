@@ -238,7 +238,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     switch (viewer->priv->orientation)
     {
         case GTK_ORIENTATION_HORIZONTAL:
-            end = widget->allocation.width / viewer->priv->dimension + begin;
+            end = widget->allocation.width / viewer->priv->dimension + begin + 1;
             if (end > rstto_navigator_get_n_files(viewer->priv->navigator))
                 end = rstto_navigator_get_n_files(viewer->priv->navigator);
             if (widget->allocation.width > (end * viewer->priv->dimension - viewer->priv->offset))
@@ -312,14 +312,20 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                                 GDK_RGB_DITHER_NORMAL,
                                 0, 0);
             }
+
+            gint pixmap_offset = 0;
+            if (i == begin)
+            {
+                pixmap_offset = viewer->priv->offset - (begin * viewer->priv->dimension );
+            }
             switch (viewer->priv->orientation)
             {
                 case GTK_ORIENTATION_HORIZONTAL:
                     gdk_draw_drawable(GDK_DRAWABLE(widget->window),
                                 gc,
                                 pixmap,
-                                0, 0,
-                                16+(i*viewer->priv->dimension)-viewer->priv->offset,
+                                pixmap_offset, 0,
+                                16 + ( i * viewer->priv->dimension) - viewer->priv->offset + pixmap_offset,
                                 0,
                                 -1,
                                 -1);
@@ -329,9 +335,9 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                     gdk_draw_drawable(GDK_DRAWABLE(widget->window),
                                 gc,
                                 pixmap,
-                                0, 0,
+                                0, pixmap_offset,
                                 0,
-                                16+(i*viewer->priv->dimension)-viewer->priv->offset,
+                                16 + ( i * viewer->priv->dimension) - viewer->priv->offset + pixmap_offset,
                                 -1,
                                 -1);
                     break;
