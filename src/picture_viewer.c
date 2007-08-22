@@ -371,11 +371,18 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureVie
         gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
 
         GdkPixbuf *tmp_pixbuf = NULL;
-        tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
-        viewer->hadjustment->value / viewer->priv->scale >= 0? viewer->hadjustment->value / viewer->priv->scale : 0,
-        viewer->vadjustment->value / viewer->priv->scale >= 0? viewer->vadjustment->value / viewer->priv->scale : 0,
-        ((GTK_WIDGET(viewer)->allocation.width/viewer->priv->scale)) < width?GTK_WIDGET(viewer)->allocation.width/viewer->priv->scale:width,
-        ((GTK_WIDGET(viewer)->allocation.height/viewer->priv->scale)) < height?GTK_WIDGET(viewer)->allocation.height/viewer->priv->scale:height);
+        if (viewer->hadjustment && viewer->vadjustment)
+        {
+            tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
+                            viewer->hadjustment->value / viewer->priv->scale >= 0?
+                                viewer->hadjustment->value / viewer->priv->scale : 0,
+                            viewer->vadjustment->value / viewer->priv->scale >= 0?
+                                viewer->vadjustment->value / viewer->priv->scale : 0,
+                            ((GTK_WIDGET(viewer)->allocation.width/viewer->priv->scale)) < width?
+                                GTK_WIDGET(viewer)->allocation.width/viewer->priv->scale:width,
+                            ((GTK_WIDGET(viewer)->allocation.height/viewer->priv->scale)) < height?
+                                GTK_WIDGET(viewer)->allocation.height/viewer->priv->scale:height);
+        }
 
         if(viewer->priv->dst_pixbuf)
         {
@@ -383,12 +390,12 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureVie
             viewer->priv->dst_pixbuf = NULL;
         }
 
-        viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf,
+        if(tmp_pixbuf)
+        {
+            viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf,
                                     gdk_pixbuf_get_width(tmp_pixbuf)*viewer->priv->scale,
                                     gdk_pixbuf_get_height(tmp_pixbuf)*viewer->priv->scale,
                                     GDK_INTERP_BILINEAR);
-        if(tmp_pixbuf)
-        {
             g_object_unref(tmp_pixbuf);
             tmp_pixbuf = NULL;
         }
@@ -444,6 +451,8 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
     gboolean changed;
+    gboolean vadjustment_changed = FALSE;
+    gboolean hadjustment_changed = FALSE;
     if(viewer->priv->src_pixbuf)
     {
 
@@ -485,7 +494,7 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                 if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
                 {
                     viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-                    gtk_adjustment_value_changed(viewer->hadjustment);
+                    hadjustment_changed = TRUE;
                 }
             }
             if(viewer->vadjustment)
@@ -497,8 +506,8 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                 viewer->vadjustment->page_increment = 100;
                 if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
                 {
-                    viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
-                    gtk_adjustment_value_changed(viewer->vadjustment);
+                    viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size - 1;
+                    vadjustment_changed = TRUE;
                 }
             }
 
@@ -537,6 +546,11 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                 gtk_adjustment_changed(viewer->hadjustment);
                 gtk_adjustment_changed(viewer->vadjustment);
             }
+            if (hadjustment_changed == TRUE)
+                gtk_adjustment_value_changed(viewer->hadjustment);
+            if (vadjustment_changed == TRUE)
+                gtk_adjustment_value_changed(viewer->vadjustment);
+                
             cursor = gdk_cursor_new(GDK_LEFT_PTR);
             gdk_window_set_cursor(widget->window, cursor);
             gdk_cursor_unref(cursor);
