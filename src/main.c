@@ -79,7 +79,7 @@ cb_rstto_flip_v(GtkWidget *widget, RsttoNavigator *navigator);
 static void
 cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator);
 static void
-cb_rstto_nav_file_changed(RsttoNavigator *navigator, GtkWindow *window);
+cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntry *entry, GtkWindow *window);
 
 static gboolean window_fullscreen = FALSE;
 static gboolean viewer_scale = 1.0;
@@ -129,7 +129,7 @@ int main(int argc, char **argv)
     viewer = rstto_picture_viewer_new(navigator);
 
     g_signal_connect(window , "key-press-event", G_CALLBACK(cb_rstto_key_press_event) , navigator);
-    g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
+    g_signal_connect(G_OBJECT(navigator), "iter-changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
 
 
     if(argc == 2)
@@ -523,9 +523,8 @@ cb_rstto_previous(GtkToolItem *item, RsttoNavigator *navigator)
 }
 
 static void
-cb_rstto_nav_file_changed(RsttoNavigator *navigator, GtkWindow *window)
+cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntry *entry, GtkWindow *window)
 {
-    RsttoNavigatorEntry *entry = rstto_navigator_get_file(navigator);
     ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
     const gchar *filename = info->display_name;
     gchar *title;

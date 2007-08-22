@@ -53,7 +53,7 @@ static gboolean
 rstto_picture_viewer_expose(GtkWidget *, GdkEventExpose *);
 
 static void
-cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, RsttoPictureViewer *viewer);
+cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoPictureViewer *viewer);
 
 static void
 rstto_picture_viewer_paint(GtkWidget *widget);
@@ -410,7 +410,7 @@ rstto_picture_viewer_new(RsttoNavigator *navigator)
 
     widget = g_object_new(RSTTO_TYPE_PICTURE_VIEWER, NULL);
     RSTTO_PICTURE_VIEWER(widget)->priv->navigator = navigator;
-    g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_picture_viewer_nav_file_changed), widget);
+    g_signal_connect(G_OBJECT(navigator), "iter-changed", G_CALLBACK(cb_rstto_picture_viewer_nav_file_changed), widget);
 
     return widget;
 }
@@ -560,10 +560,9 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 }
 
 static void
-cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, RsttoPictureViewer *viewer)
+cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoPictureViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
-    RsttoNavigatorEntry *entry = rstto_navigator_get_file(nav);
     if(GTK_WIDGET_REALIZED(widget))
     {
         GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);

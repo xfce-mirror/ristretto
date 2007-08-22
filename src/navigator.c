@@ -40,7 +40,10 @@ rstto_navigator_entry_name_compare_func(RsttoNavigatorEntry *a, RsttoNavigatorEn
 
 enum
 {
-    RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED = 0,
+    RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED = 0,
+    RSTTO_NAVIGATOR_SIGNAL_NEW_ENTRY,
+    RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED,
+    RSTTO_NAVIGATOR_SIGNAL_REORDERED,
     RSTTO_NAVIGATOR_SIGNAL_COUNT    
 };
 
@@ -98,7 +101,7 @@ rstto_navigator_class_init(RsttoNavigatorClass *nav_class)
 
     object_class->dispose = rstto_navigator_dispose;
 
-    rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED] = g_signal_new("file_changed",
+    rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_REORDERED] = g_signal_new("reordered",
             G_TYPE_FROM_CLASS(nav_class),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
@@ -107,6 +110,42 @@ rstto_navigator_class_init(RsttoNavigatorClass *nav_class)
             g_cclosure_marshal_VOID__VOID,
             G_TYPE_NONE,
             0,
+            NULL);
+    rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED] = g_signal_new("entry-modified",
+            G_TYPE_FROM_CLASS(nav_class),
+            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+            0,
+            NULL,
+            NULL,
+            g_cclosure_marshal_VOID__UINT_POINTER,
+            G_TYPE_NONE,
+            2,
+            G_TYPE_UINT,
+            G_TYPE_POINTER,
+            NULL);
+    rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED] = g_signal_new("iter-changed",
+            G_TYPE_FROM_CLASS(nav_class),
+            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+            0,
+            NULL,
+            NULL,
+            g_cclosure_marshal_VOID__UINT_POINTER,
+            G_TYPE_NONE,
+            2,
+            G_TYPE_UINT,
+            G_TYPE_POINTER,
+            NULL);
+    rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_NEW_ENTRY] = g_signal_new("new-entry",
+            G_TYPE_FROM_CLASS(nav_class),
+            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+            0,
+            NULL,
+            NULL,
+            g_cclosure_marshal_VOID__UINT_POINTER,
+            G_TYPE_NONE,
+            2,
+            G_TYPE_UINT,
+            G_TYPE_POINTER,
             NULL);
 }
 
@@ -154,7 +193,7 @@ rstto_navigator_jump_first (RsttoNavigator *navigator)
     navigator->file_iter = g_list_first(navigator->file_list);
     if(navigator->file_iter)
     {
-        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED], 0, 0, navigator->file_iter->data, NULL);
     }
 }
 
@@ -175,7 +214,12 @@ rstto_navigator_jump_forward (RsttoNavigator *navigator)
 
     if(navigator->file_iter)
     {
-        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+        g_signal_emit(G_OBJECT(navigator),
+                      rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED],
+                      0,
+                      g_list_position(navigator->file_list, navigator->file_iter),
+                      navigator->file_iter->data,
+                      NULL);
     }
 }
 
@@ -196,7 +240,12 @@ rstto_navigator_jump_back (RsttoNavigator *navigator)
 
     if(navigator->file_iter)
     {
-        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+        g_signal_emit(G_OBJECT(navigator),
+                      rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED],
+                      0,
+                      g_list_position(navigator->file_list, navigator->file_iter),
+                      navigator->file_iter->data,
+                      NULL);
     }
 }
 
@@ -215,7 +264,12 @@ rstto_navigator_jump_last (RsttoNavigator *navigator)
 
     if(navigator->file_iter)
     {
-        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+        g_signal_emit(G_OBJECT(navigator),
+                      rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED],
+                      0,
+                      g_list_position(navigator->file_list, navigator->file_iter),
+                      navigator->file_iter->data,
+                      NULL);
     }
 }
 
@@ -281,8 +335,14 @@ rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
     if (!navigator->file_iter)
     {
         navigator->file_iter = navigator->file_list;
-        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+        g_signal_emit(G_OBJECT(navigator),
+                      rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED],
+                      0,
+                      g_list_index(navigator->file_list, entry),
+                      entry,
+                      NULL);
     }
+    g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_NEW_ENTRY], 0, g_list_index(navigator->file_list, entry), entry, NULL);
 }
 
 void
@@ -310,7 +370,12 @@ rstto_navigator_set_file (RsttoNavigator *navigator, gint n)
     navigator->file_iter = g_list_nth(navigator->file_list, n);
     if(navigator->file_iter)
     {
-        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+        g_signal_emit(G_OBJECT(navigator),
+                      rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED],
+                      0,
+                      g_list_position(navigator->file_list, navigator->file_iter),
+                      navigator->file_iter->data,
+                      NULL);
     }
 }
 

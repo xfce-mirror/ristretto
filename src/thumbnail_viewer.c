@@ -35,6 +35,8 @@ struct _RsttoThumbnailViewerPriv
     gint dimension;
     gint offset;
     gboolean auto_center;
+    gint begin;
+    gint end;
 };
 
 static void
@@ -60,6 +62,20 @@ static GtkWidgetClass *parent_class = NULL;
 
 static void
 cb_rstto_thumbnailer_nav_file_changed(RsttoNavigator *nav, RsttoThumbnailViewer *viewer);
+static void
+cb_rstto_thumbnailer_nav_new_entry (RsttoNavigator *nav,
+                                    gint nr,
+                                    RsttoNavigatorEntry *entry,
+                                    RsttoThumbnailViewer *viewer);
+static void
+cb_rstto_thumbnailer_nav_iter_changed (RsttoNavigator *nav,
+                                       gint nr,
+                                       RsttoNavigatorEntry *entry,
+                                       RsttoThumbnailViewer *viewer);
+static void
+cb_rstto_thumbnailer_nav_reordered (RsttoNavigator *nav,
+                                    RsttoThumbnailViewer *viewer);
+
 static void
 cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer, GdkEventButton *event);
 
@@ -429,7 +445,12 @@ rstto_thumbnail_viewer_new(RsttoNavigator *navigator)
 
     viewer->priv->navigator = navigator;
 
-    g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_thumbnailer_nav_file_changed), viewer);
+    if (0)
+        g_signal_connect(G_OBJECT(navigator), "file_changed", G_CALLBACK(cb_rstto_thumbnailer_nav_file_changed), viewer);
+
+    g_signal_connect(G_OBJECT(navigator), "new-entry", G_CALLBACK(cb_rstto_thumbnailer_nav_new_entry), viewer);
+    g_signal_connect(G_OBJECT(navigator), "iter-changed", G_CALLBACK(cb_rstto_thumbnailer_nav_iter_changed), viewer);
+    g_signal_connect(G_OBJECT(navigator), "reordered", G_CALLBACK(cb_rstto_thumbnailer_nav_reordered), viewer);
 
     return (GtkWidget *)viewer;
 }
@@ -551,4 +572,30 @@ GtkOrientation
 rstto_thumbnail_viewer_get_orientation (RsttoThumbnailViewer *viewer)
 {
     return viewer->priv->orientation;
+}
+
+static void
+cb_rstto_thumbnailer_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailViewer *viewer)
+{
+    if (GTK_WIDGET_REALIZED(viewer))
+    {
+        /* Check if the entry is visible */
+        if ((nr >= viewer->priv->begin) && (nr <= viewer->priv->end))
+            rstto_thumbnail_viewer_paint(viewer);
+    }
+}
+
+static void
+cb_rstto_thumbnailer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailViewer *viewer)
+{
+    if (GTK_WIDGET_REALIZED(viewer))
+    {
+        rstto_thumbnail_viewer_paint(viewer);
+    }
+}
+
+static void
+cb_rstto_thumbnailer_nav_reordered (RsttoNavigator *nav, RsttoThumbnailViewer *viewer)
+{
+
 }
