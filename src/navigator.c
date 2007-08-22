@@ -277,11 +277,8 @@ rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
         }
     }
     navigator->file_list = g_list_insert_sorted(navigator->file_list, entry, navigator->compare_func);
-    if (!navigator->file_iter)
-    {
-        navigator->file_iter = navigator->file_list;
-        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
-    }
+    navigator->file_iter = navigator->file_list;
+    g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
 }
 
 void
