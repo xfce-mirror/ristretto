@@ -276,9 +276,13 @@ rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
             ((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf = NULL;
         }
     }
+
     navigator->file_list = g_list_insert_sorted(navigator->file_list, entry, navigator->compare_func);
-    navigator->file_iter = navigator->file_list;
-    g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+    if (!navigator->file_iter)
+    {
+        navigator->file_iter = navigator->file_list;
+        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_FILE_CHANGED], 0, NULL);
+    }
 }
 
 void
