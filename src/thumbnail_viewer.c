@@ -528,13 +528,16 @@ cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer,
     }
     else
     {
-        if(GTK_WIDGET_REALIZED(widget))
+        if ( n < rstto_navigator_get_n_files(viewer->priv->navigator))
         {
-            GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
-            gdk_window_set_cursor(widget->window, cursor);
-            gdk_cursor_unref(cursor);
+            if(GTK_WIDGET_REALIZED(widget))
+            {
+                GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
+                gdk_window_set_cursor(widget->window, cursor);
+                gdk_cursor_unref(cursor);
+            }
+            rstto_navigator_set_file(viewer->priv->navigator, n);
         }
-        rstto_navigator_set_file(viewer->priv->navigator, n);
     }
 }
 
