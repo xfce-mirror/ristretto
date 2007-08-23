@@ -503,7 +503,7 @@ cb_rstto_thumbnailer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigat
         
         if (viewer->priv->auto_center == TRUE)
         {
-            gint old_offset = viewer->priv->offset = 0;
+            gint old_offset = viewer->priv->offset;
             switch (viewer->priv->orientation)
             {
                 case GTK_ORIENTATION_HORIZONTAL:
