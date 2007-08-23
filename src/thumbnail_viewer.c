@@ -307,7 +307,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                             widget->allocation.width - 16, 0, 16, viewer->priv->dimension);
             gtk_paint_arrow(widget->style,
                             widget->window,
-                            (i * viewer->priv->dimension) - viewer->priv->offset > widget->allocation.width-32?GTK_STATE_NORMAL:GTK_STATE_INSENSITIVE,
+                            ((rstto_navigator_get_n_files(viewer->priv->navigator) * viewer->priv->dimension) - viewer->priv->offset) > (widget->allocation.width-32)?GTK_STATE_NORMAL:GTK_STATE_INSENSITIVE,
                             GTK_SHADOW_NONE,
                             NULL,NULL,NULL,
                             GTK_ARROW_RIGHT,
