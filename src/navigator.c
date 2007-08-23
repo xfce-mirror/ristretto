@@ -38,6 +38,9 @@ static GObjectClass *parent_class = NULL;
 static gint
 rstto_navigator_entry_name_compare_func(RsttoNavigatorEntry *a, RsttoNavigatorEntry *b);
 
+static void
+rstto_navigator_entry_free_pixbuf (RsttoNavigatorEntry *entry);
+
 enum
 {
     RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED = 0,
@@ -184,11 +187,8 @@ rstto_navigator_jump_first (RsttoNavigator *navigator)
 {
     if(navigator->file_iter)
     {
-        if(((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf)
-        {
-            g_object_unref(((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf);
-            ((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf = NULL;
-        }
+        navigator->old_position = rstto_navigator_get_position(navigator);
+        rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
     }
     navigator->file_iter = g_list_first(navigator->file_list);
     if(navigator->file_iter)
@@ -202,11 +202,8 @@ rstto_navigator_jump_forward (RsttoNavigator *navigator)
 {
     if(navigator->file_iter)
     {
-        if(((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf)
-        {
-            g_object_unref(((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf);
-            ((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf = NULL;
-        }
+        navigator->old_position = rstto_navigator_get_position(navigator);
+        rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
         navigator->file_iter = g_list_next(navigator->file_iter);
     }
     if(!navigator->file_iter)
@@ -228,11 +225,8 @@ rstto_navigator_jump_back (RsttoNavigator *navigator)
 {
     if(navigator->file_iter)
     {
-        if(((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf)
-        {
-            g_object_unref(((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf);
-            ((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf = NULL;
-        }
+        navigator->old_position = rstto_navigator_get_position(navigator);
+        rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
         navigator->file_iter = g_list_previous(navigator->file_iter);
     }
     if(!navigator->file_iter)
@@ -254,11 +248,8 @@ rstto_navigator_jump_last (RsttoNavigator *navigator)
 {
     if(navigator->file_iter)
     {
-        if(((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf)
-        {
-            g_object_unref(((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf);
-            ((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf = NULL;
-        }
+        navigator->old_position = rstto_navigator_get_position(navigator);
+        rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
     }
     navigator->file_iter = g_list_last(navigator->file_list);
 
@@ -324,11 +315,7 @@ rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
 {
     if(navigator->file_iter)
     {
-        if(((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf)
-        {
-            g_object_unref(((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf);
-            ((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf = NULL;
-        }
+        rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
     }
 
     navigator->file_list = g_list_insert_sorted(navigator->file_list, entry, navigator->compare_func);
@@ -361,11 +348,8 @@ rstto_navigator_set_file (RsttoNavigator *navigator, gint n)
 {
     if(navigator->file_iter)
     {
-        if(((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf)
-        {
-            g_object_unref(((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf);
-            ((RsttoNavigatorEntry *)navigator->file_iter->data)->pixbuf = NULL;
-        }
+        navigator->old_position = rstto_navigator_get_position(navigator);
+        rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
     }
     navigator->file_iter = g_list_nth(navigator->file_list, n);
     if(navigator->file_iter)
@@ -489,4 +473,20 @@ rstto_navigator_entry_get_pixbuf(RsttoNavigatorEntry *entry)
         g_free(filename);
     }
     return entry->pixbuf;
+}
+
+static void
+rstto_navigator_entry_free_pixbuf (RsttoNavigatorEntry *entry)
+{
+    if(entry->pixbuf)
+    {
+        g_object_unref(entry->pixbuf);
+        entry->pixbuf = NULL;
+    }
+}
+
+gint
+rstto_navigator_get_old_position (RsttoNavigator *navigator)
+{
+    return navigator->old_position;
 }

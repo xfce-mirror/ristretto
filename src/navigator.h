@@ -50,6 +50,7 @@ struct _RsttoNavigator
     ThunarVfsPath      *path;
     GList              *file_list;
     GList              *file_iter;
+    gint                old_position;
     gboolean            running;
     gint                id;
     GCompareFunc        compare_func;
@@ -78,6 +79,8 @@ RsttoNavigatorEntry *
 rstto_navigator_get_file (RsttoNavigator *navigator);
 gint
 rstto_navigator_get_position(RsttoNavigator *navigator);
+gint
+rstto_navigator_get_old_position(RsttoNavigator *navigator);
 
 void
 rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry);
