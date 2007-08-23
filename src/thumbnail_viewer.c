@@ -503,6 +503,7 @@ cb_rstto_thumbnailer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigat
         
         if (viewer->priv->auto_center == TRUE)
         {
+            gint old_offset = viewer->priv->offset = 0;
             switch (viewer->priv->orientation)
             {
                 case GTK_ORIENTATION_HORIZONTAL:
@@ -520,14 +521,29 @@ cb_rstto_thumbnailer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigat
             {
                 viewer->priv->offset = 0;
                 viewer->priv->begin = 0;
+                viewer->priv->end = widget->allocation.width / viewer->priv->dimension;
+            }
+            if (viewer->priv->end >= rstto_navigator_get_n_files(nav))
+            {
                 viewer->priv->end = rstto_navigator_get_n_files(nav) - 1;
+            }
+            if (viewer->priv->offset == old_offset)
+            {
+                rstto_thumbnail_viewer_paint_entry(viewer, rstto_navigator_get_old_position(viewer->priv->navigator), FALSE);
+                RsttoNavigatorEntry *s_entry = rstto_navigator_get_file(nav);
+                if (s_entry == entry)
+                {
+                    rstto_thumbnail_viewer_paint_entry(viewer, nr, TRUE);
+                }
+                else
+                {
+                    rstto_thumbnail_viewer_paint_entry(viewer, nr, FALSE);
+                }
             }
             else
             {
-                if (viewer->priv->end > rstto_navigator_get_n_files(nav))
-                    viewer->priv->end = rstto_navigator_get_n_files(nav) - 1;
+                rstto_thumbnail_viewer_paint(viewer);
             }
-            rstto_thumbnail_viewer_paint(viewer);
         }
         else
         {

@@ -159,7 +159,7 @@ rstto_navigator_dispose(GObject *object)
 
     if(navigator->file_list)
     {
-        g_list_foreach(navigator->file_list, (GFunc)thunar_vfs_info_unref, NULL);
+        g_list_foreach(navigator->file_list, (GFunc)rstto_navigator_entry_free, NULL);
         navigator->file_list = NULL;
     }
 }
