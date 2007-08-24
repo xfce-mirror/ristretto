@@ -107,9 +107,9 @@ dnl Check for i18n support
 XDT_I18N([@LINGUAS@])
 
 
-XDT_CHECK_PACKAGE([GTK], [gtk+-2.0], [2.2.0])
-XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.2.0])
-XDT_CHECK_PACKAGE([GOBJECT], [gobject-2.0], [2.2.0])
+XDT_CHECK_PACKAGE([GTK], [gtk+-2.0], [2.10.0])
+XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.12.0])
+XDT_CHECK_PACKAGE([GOBJECT], [gobject-2.0], [2.12.0])
 XDT_CHECK_PACKAGE([THUNAR_VFS], [thunar-vfs-1], [0.4.0])
 
 

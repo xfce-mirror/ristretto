@@ -92,6 +92,7 @@ rstto_navigator_get_type ()
 static void
 rstto_navigator_init(RsttoNavigator *navigator)
 {
+    navigator->file_iter = NULL;
     navigator->compare_func = (GCompareFunc)rstto_navigator_entry_name_compare_func;
 }
 
@@ -161,6 +162,7 @@ rstto_navigator_dispose(GObject *object)
     {
         g_list_foreach(navigator->file_list, (GFunc)rstto_navigator_entry_free, NULL);
         navigator->file_list = NULL;
+        navigator->file_iter = NULL;
     }
 }
 
