@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 
     gtk_window_set_default_icon_name("ristretto");
     recent_manager = gtk_recent_manager_get_default();
-    xfce_rc = xfce_rc_config_open(XFCE_RESOURCE_CONFIG, PACKAGE_NAME, FALSE);
+    xfce_rc = xfce_rc_config_open(XFCE_RESOURCE_CONFIG, "ristretto/ristrettorc", FALSE);
     
     thumbnail_viewer_orientation = xfce_rc_read_entry(xfce_rc, "ThumbnailViewerOrientation", "horizontal");
 
