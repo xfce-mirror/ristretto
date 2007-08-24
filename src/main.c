@@ -502,18 +502,20 @@ cb_rstto_help_about(GtkToolItem *item, GtkWindow *window)
     gtk_about_dialog_set_name((GtkAboutDialog *)about_dialog, PACKAGE_NAME);
     gtk_about_dialog_set_version((GtkAboutDialog *)about_dialog, PACKAGE_VERSION);
 
-    gtk_about_dialog_set_comments((GtkAboutDialog *)about_dialog, _("Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."));
-    gtk_about_dialog_set_website((GtkAboutDialog *)about_dialog, "http://goodies.xfce.org/projects/applications/ristretto");
-
-    gtk_about_dialog_set_logo_icon_name((GtkAboutDialog *)about_dialog, "ristretto");
-
-    gtk_about_dialog_set_authors((GtkAboutDialog *)about_dialog, authors);
-
-    gtk_about_dialog_set_translator_credits((GtkAboutDialog *)about_dialog, _("translator-credits"));
-
-    gtk_about_dialog_set_license((GtkAboutDialog *)about_dialog, xfce_get_license_text(XFCE_LICENSE_TEXT_GPL));
-
-    gtk_about_dialog_set_copyright((GtkAboutDialog *)about_dialog, "Copyright \302\251 2006-2007 Stephan Arts");
+    gtk_about_dialog_set_comments((GtkAboutDialog *)about_dialog,
+        _("Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."));
+    gtk_about_dialog_set_website((GtkAboutDialog *)about_dialog,
+        "http://goodies.xfce.org/projects/applications/ristretto");
+    gtk_about_dialog_set_logo_icon_name((GtkAboutDialog *)about_dialog,
+        "ristretto");
+    gtk_about_dialog_set_authors((GtkAboutDialog *)about_dialog,
+        authors);
+    gtk_about_dialog_set_translator_credits((GtkAboutDialog *)about_dialog,
+        _("translator-credits"));
+    gtk_about_dialog_set_license((GtkAboutDialog *)about_dialog,
+        xfce_get_license_text(XFCE_LICENSE_TEXT_GPL));
+    gtk_about_dialog_set_copyright((GtkAboutDialog *)about_dialog,
+        "Copyright \302\251 2006-2007 Stephan Arts");
 
     gtk_dialog_run(GTK_DIALOG(about_dialog));
 

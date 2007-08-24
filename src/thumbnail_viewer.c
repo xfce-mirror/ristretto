@@ -649,7 +649,15 @@ rstto_thumbnail_viewer_paint_entry (RsttoThumbnailViewer *viewer, gint nr, gbool
         /* max_size */
         if (nr == viewer->priv->end)
         {
-            max_size = widget->allocation.width - (32 + ( nr * viewer->priv->dimension) - viewer->priv->offset + pixmap_offset);
+            switch (viewer->priv->orientation)
+            {
+                case GTK_ORIENTATION_HORIZONTAL:
+                    max_size = widget->allocation.width - (32 + ( nr * viewer->priv->dimension) - viewer->priv->offset + pixmap_offset);
+                    break;
+                case GTK_ORIENTATION_VERTICAL:
+                    max_size = widget->allocation.height - (32 + ( nr * viewer->priv->dimension) - viewer->priv->offset + pixmap_offset);
+                    break;
+            }
             if (max_size <= 0)
                 max_size = viewer->priv->dimension;
         }

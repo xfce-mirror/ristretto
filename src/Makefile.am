@@ -9,7 +9,7 @@ ristretto_SOURCES = \
 ristretto_CFLAGS = \
 	$(GTK_CFLAGS) \
 	$(GLIB_CFLAGS) \
-	$(XFCE4UTIL_CFLAGS) \
+	$(LIBXFCE4UTIL_CFLAGS) \
 	$(THUNAR_VFS_CFLAGS) \
 	-DDATADIR=\"$(datadir)\" \
 	-DSRCDIR=\"$(top_srcdir)\" \
@@ -18,7 +18,7 @@ ristretto_CFLAGS = \
 ristretto_LDADD = \
 	$(GTK_LIBS) \
 	$(GLIB_LIBS) \
-	$(XFCE4UTIL_LIBS) \
+	$(LIBXFCE4UTIL_LIBS) \
 	$(THUNAR_VFS_LIBS)
 
 INCLUDES = \
