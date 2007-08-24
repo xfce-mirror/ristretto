@@ -97,6 +97,8 @@ static GtkWidget *main_hbox;
 static GtkWidget *main_vbox1;
 static GtkWidget *thumbnail_viewer;
 static GtkRecentManager *recent_manager;
+static XfceRc *xfce_rc;
+static const gchar *thumbnail_viewer_orientation;
 
 int main(int argc, char **argv)
 {
@@ -118,6 +120,9 @@ int main(int argc, char **argv)
 
     gtk_window_set_default_icon_name("ristretto");
     recent_manager = gtk_recent_manager_get_default();
+    xfce_rc = xfce_rc_config_open(XFCE_RESOURCE_CONFIG, PACKAGE_NAME, FALSE);
+    
+    thumbnail_viewer_orientation = xfce_rc_read_entry(xfce_rc, "ThumbnailViewerOrientation", "horizontal");
 
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     GtkAccelGroup *accel_group = gtk_accel_group_new();
@@ -310,7 +315,19 @@ int main(int argc, char **argv)
     gtk_box_pack_start(GTK_BOX(main_hbox), main_vbox1, TRUE, TRUE, 0);
 
     gtk_box_pack_start(GTK_BOX(main_vbox1), s_window, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(main_vbox1), thumbnail_viewer, FALSE, TRUE, 0);
+    if(!strcmp(thumbnail_viewer_orientation, "horizontal"))
+    {
+        gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(menu_item_htv), TRUE);
+        gtk_box_pack_start(GTK_BOX(main_vbox1), thumbnail_viewer, FALSE, TRUE, 0);
+        rstto_thumbnail_viewer_set_orientation(RSTTO_THUMBNAIL_VIEWER(thumbnail_viewer), GTK_ORIENTATION_HORIZONTAL);
+    }
+    else
+    {
+        gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(menu_item_vtv), TRUE);
+        gtk_box_pack_start(GTK_BOX(main_hbox), thumbnail_viewer, FALSE, TRUE, 0);
+        rstto_thumbnail_viewer_set_orientation(RSTTO_THUMBNAIL_VIEWER(thumbnail_viewer), GTK_ORIENTATION_VERTICAL);
+    }
+
 
     gtk_box_pack_start(GTK_BOX(main_vbox), menu_bar, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), app_tool_bar, FALSE, TRUE, 0);
@@ -370,8 +387,16 @@ int main(int argc, char **argv)
     gtk_widget_hide(menu_item_pause);
     gtk_widget_show(viewer);
 
+    if(!strcmp(thumbnail_viewer_orientation, "hide"))
+    {
+        gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(menu_item_ntv), TRUE);
+        gtk_widget_hide(GTK_WIDGET(thumbnail_viewer));   
+    }
+
 
     gtk_main();
+    xfce_rc_flush(xfce_rc);
+    xfce_rc_close(xfce_rc);
     return 0;
 }
 
@@ -401,93 +426,6 @@ cb_rstto_zoom_out(GtkToolItem *item, RsttoPictureViewer *viewer)
     rstto_picture_viewer_set_scale(viewer, scale/1.2);
 }
 
-static void
-cb_rstto_open(GtkToolItem *item, RsttoNavigator *navigator)
-{
-    GtkWidget *window = gtk_widget_get_toplevel(GTK_WIDGET(item));
-
-    GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open image"),
-                                                    GTK_WINDOW(window),
-                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
-                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                                    GTK_STOCK_OPEN, GTK_RESPONSE_OK,
-                                                    NULL);
-
-    gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-    if(response == GTK_RESPONSE_OK)
-    {
-        const gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-
-        ThunarVfsPath *path = thunar_vfs_path_new(filename, NULL);
-        if (path)
-        {
-            ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
-            gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
-            if(!strcmp(file_media, "image"))
-            {
-                RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
-                rstto_navigator_add (navigator, entry);
-
-                gchar *uri = thunar_vfs_path_dup_uri(info->path);
-                gtk_recent_manager_add_item(recent_manager, uri);
-                g_free(uri);
-            }
-            g_free(file_media);
-            thunar_vfs_path_unref(path);
-        }
-
-
-    }
-
-    gtk_widget_destroy(dialog);
-}
-
-static void
-cb_rstto_open_dir(GtkToolItem *item, RsttoNavigator *navigator)
-{
-    GtkWidget *window = gtk_widget_get_toplevel(GTK_WIDGET(item));
-
-    GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open folder"),
-                                                    GTK_WINDOW(window),
-                                                    GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                                    GTK_STOCK_OPEN, GTK_RESPONSE_OK,
-                                                    NULL);
-
-    gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-    if(response == GTK_RESPONSE_OK)
-    {
-        rstto_navigator_clear(navigator);
-        const gchar *dir_name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-        GDir *dir = g_dir_open(dir_name, 0, NULL);
-        if (dir)
-        {
-            const gchar *filename = g_dir_read_name(dir);
-            while (filename)
-            {
-                gchar *path_name = g_strconcat(dir_name,  "/", filename, NULL);
-                ThunarVfsPath *path = thunar_vfs_path_new(path_name, NULL);
-                if (path)
-                {
-                    ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
-                    gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
-                    if(!strcmp(file_media, "image"))
-                    {
-                        RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
-                        rstto_navigator_add (navigator, entry);
-                    }
-                    g_free(file_media);
-                    thunar_vfs_path_unref(path);
-                }
-                g_free(path_name);
-                filename = g_dir_read_name(dir);
-            }
-        }
-
-    }
-
-    gtk_widget_destroy(dialog);
-}
 
 static void
 cb_rstto_help_about(GtkToolItem *item, GtkWindow *window)
@@ -626,6 +564,7 @@ cb_rstto_show_tv_v(GtkWidget *widget, RsttoThumbnailViewer *viewer)
     rstto_thumbnail_viewer_set_orientation(viewer, GTK_ORIENTATION_VERTICAL);
     gtk_box_pack_start(GTK_BOX(main_hbox), thumbnail_viewer, FALSE, TRUE, 0);
     gtk_widget_show(GTK_WIDGET(viewer));
+    xfce_rc_write_entry(xfce_rc, "ThumbnailViewerOrientation", "vertical");
 }
 
 static void
@@ -637,12 +576,14 @@ cb_rstto_show_tv_h(GtkWidget *widget, RsttoThumbnailViewer *viewer)
     rstto_thumbnail_viewer_set_orientation(viewer, GTK_ORIENTATION_HORIZONTAL);
     gtk_box_pack_start(GTK_BOX(main_vbox1), thumbnail_viewer, FALSE, TRUE, 0);
     gtk_widget_show(GTK_WIDGET(viewer));
+    xfce_rc_write_entry(xfce_rc, "ThumbnailViewerOrientation", "horizontal");
 }
 
 static void
 cb_rstto_hide_tv(GtkWidget *widget, RsttoThumbnailViewer *viewer)
 {
     gtk_widget_hide(GTK_WIDGET(viewer));
+    xfce_rc_write_entry(xfce_rc, "ThumbnailViewerOrientation", "hide");
 }
 
 static void
@@ -735,6 +676,97 @@ cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *
                 break;
         }
     }
+}
+
+static void
+cb_rstto_open(GtkToolItem *item, RsttoNavigator *navigator)
+{
+    GtkWidget *window = gtk_widget_get_toplevel(GTK_WIDGET(item));
+
+    GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open image"),
+                                                    GTK_WINDOW(window),
+                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
+                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                                                    GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+                                                    NULL);
+
+    gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+    if(response == GTK_RESPONSE_OK)
+    {
+        const gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+
+        ThunarVfsPath *path = thunar_vfs_path_new(filename, NULL);
+        if (path)
+        {
+            ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
+            gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
+            if(!strcmp(file_media, "image"))
+            {
+                RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
+                rstto_navigator_add (navigator, entry);
+
+                gchar *uri = thunar_vfs_path_dup_uri(info->path);
+                gtk_recent_manager_add_item(recent_manager, uri);
+                g_free(uri);
+            }
+            g_free(file_media);
+            thunar_vfs_path_unref(path);
+        }
+
+
+    }
+
+    gtk_widget_destroy(dialog);
+}
+
+static void
+cb_rstto_open_dir(GtkToolItem *item, RsttoNavigator *navigator)
+{
+    GtkWidget *window = gtk_widget_get_toplevel(GTK_WIDGET(item));
+
+    GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open folder"),
+                                                    GTK_WINDOW(window),
+                                                    GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                                                    GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+                                                    NULL);
+
+    gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+    if(response == GTK_RESPONSE_OK)
+    {
+        rstto_navigator_clear(navigator);
+        const gchar *dir_name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+        GDir *dir = g_dir_open(dir_name, 0, NULL);
+        if (dir)
+        {
+            const gchar *filename = g_dir_read_name(dir);
+            while (filename)
+            {
+                gchar *path_name = g_strconcat(dir_name,  "/", filename, NULL);
+                ThunarVfsPath *path = thunar_vfs_path_new(path_name, NULL);
+                if (path)
+                {
+                    ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
+                    gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
+                    if(!strcmp(file_media, "image"))
+                    {
+                        RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
+                        rstto_navigator_add (navigator, entry);
+                    }
+                    g_free(file_media);
+                    thunar_vfs_path_unref(path);
+                }
+                g_free(path_name);
+                filename = g_dir_read_name(dir);
+            }
+            gchar *uri = gtk_file_chooser_get_uri(GTK_FILE_CHOOSER(dialog));
+            gtk_recent_manager_add_item(recent_manager, uri);
+            g_free(uri);
+
+        }
+
+    }
+    gtk_widget_destroy(dialog);
 }
 
 static void
