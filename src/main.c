@@ -123,6 +123,7 @@ int main(int argc, char **argv)
     xfce_rc = xfce_rc_config_open(XFCE_RESOURCE_CONFIG, "ristretto/ristrettorc", FALSE);
     
     thumbnail_viewer_orientation = xfce_rc_read_entry(xfce_rc, "ThumbnailViewerOrientation", "horizontal");
+    gboolean toolbar_open_dir = xfce_rc_read_bool_entry(xfce_rc, "ToolbarOpenDir", FALSE);
 
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     GtkAccelGroup *accel_group = gtk_accel_group_new();
@@ -352,7 +353,10 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(zoom_out), "clicked", G_CALLBACK(cb_rstto_zoom_out), viewer);
     g_signal_connect(G_OBJECT(forward), "clicked", G_CALLBACK(cb_rstto_forward), navigator);
     g_signal_connect(G_OBJECT(previous), "clicked", G_CALLBACK(cb_rstto_previous), navigator);
-    g_signal_connect(G_OBJECT(open), "clicked", G_CALLBACK(cb_rstto_open_dir), navigator);
+    if(toolbar_open_dir == TRUE)
+        g_signal_connect(G_OBJECT(open), "clicked", G_CALLBACK(cb_rstto_open_dir), navigator);
+    else
+        g_signal_connect(G_OBJECT(open), "clicked", G_CALLBACK(cb_rstto_open), navigator);
 
     g_signal_connect(G_OBJECT(menu_item_quit), "activate", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(G_OBJECT(menu_item_open), "activate", G_CALLBACK(cb_rstto_open), navigator);
