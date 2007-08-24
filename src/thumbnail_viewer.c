@@ -164,6 +164,16 @@ rstto_thumbnail_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocatio
     gint border_width =  0;
     widget->allocation = *allocation;
 
+    if (GTK_WIDGET_REALIZED (widget))
+    {
+         gdk_window_move_resize (widget->window,
+            allocation->x + border_width,
+            allocation->y + border_width,
+            allocation->width - border_width * 2,
+            allocation->height - border_width * 2);
+
+    }
+
     switch(viewer->priv->orientation)
     {
         case GTK_ORIENTATION_HORIZONTAL:
@@ -179,15 +189,6 @@ rstto_thumbnail_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocatio
     }
 
 
-    if (GTK_WIDGET_REALIZED (widget))
-    {
-         gdk_window_move_resize (widget->window,
-            allocation->x + border_width,
-            allocation->y + border_width,
-            allocation->width - border_width * 2,
-            allocation->height - border_width * 2);
-
-    }
 }
 
 static void
@@ -523,10 +524,6 @@ cb_rstto_thumbnailer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigat
                 viewer->priv->begin = 0;
                 viewer->priv->end = widget->allocation.width / viewer->priv->dimension;
             }
-            if (viewer->priv->end >= rstto_navigator_get_n_files(nav))
-            {
-                viewer->priv->end = rstto_navigator_get_n_files(nav) - 1;
-            }
             if (viewer->priv->offset == old_offset)
             {
                 rstto_thumbnail_viewer_paint_entry(viewer, rstto_navigator_get_old_position(viewer->priv->navigator), FALSE);
@@ -569,7 +566,10 @@ cb_rstto_thumbnailer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigat
 static void
 cb_rstto_thumbnailer_nav_reordered (RsttoNavigator *nav, RsttoThumbnailViewer *viewer)
 {
-
+    if (GTK_WIDGET_REALIZED(viewer))
+    {
+        rstto_thumbnail_viewer_paint(viewer);
+    }
 }
 
 static gboolean
