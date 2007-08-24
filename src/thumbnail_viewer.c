@@ -474,9 +474,11 @@ rstto_thumbnail_viewer_get_orientation (RsttoThumbnailViewer *viewer)
 static void
 cb_rstto_thumbnailer_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailViewer *viewer)
 {
+    GtkWidget *widget = GTK_WIDGET(viewer);
     if (GTK_WIDGET_REALIZED(viewer))
     {
         /* Check if the entry is visible */
+        viewer->priv->end = widget->allocation.width / viewer->priv->dimension + viewer->priv->begin;
         if ((nr >= viewer->priv->begin) && (nr <= viewer->priv->end))
         {
             RsttoNavigatorEntry *s_entry = rstto_navigator_get_file(nav);
@@ -523,6 +525,10 @@ cb_rstto_thumbnailer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigat
                 viewer->priv->offset = 0;
                 viewer->priv->begin = 0;
                 viewer->priv->end = widget->allocation.width / viewer->priv->dimension;
+            }
+            if (viewer->priv->end > rstto_navigator_get_n_files(viewer->priv->navigator))
+            {
+                viewer->priv->end = rstto_navigator_get_n_files(viewer->priv->navigator);
             }
             if (viewer->priv->offset == old_offset)
             {
