@@ -1,3 +1,7 @@
+25-08-2007  Stephan Arts <stephan@xfce.org>
+	* de.po: Add German translation by Christian Dywan
+	* LINGUAS: Add German translation to LINGUAS
+
 13-07-2007  Stephan Arts <stephan@xfce.org>
 	* nl.po: Add dutch translation
 	* Makevars: Fix email adress
