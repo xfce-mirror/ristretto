@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-08-24 12:53+0200\n"
+"POT-Creation-Date: 2007-08-25 17:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,84 +16,96 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:193
+#: ../src/main.c:199
 msgid "_File"
 msgstr ""
 
-#: ../src/main.c:195
+#: ../src/main.c:201
 msgid "O_pen Folder"
 msgstr ""
 
-#: ../src/main.c:196
+#: ../src/main.c:202
 msgid "_Recently used"
 msgstr ""
 
-#: ../src/main.c:215
+#: ../src/main.c:221
 msgid "_Edit"
 msgstr ""
 
-#: ../src/main.c:216
+#: ../src/main.c:222
 msgid "Rotate _Left"
 msgstr ""
 
-#: ../src/main.c:217
+#: ../src/main.c:223
 msgid "Rotate _Right"
 msgstr ""
 
-#: ../src/main.c:218
+#: ../src/main.c:224
 msgid "Flip _Vertically"
 msgstr ""
 
-#: ../src/main.c:219
+#: ../src/main.c:225
 msgid "Flip _Horizontally"
 msgstr ""
 
-#: ../src/main.c:228
+#: ../src/main.c:234
 msgid "_View"
 msgstr ""
 
-#: ../src/main.c:229
+#: ../src/main.c:235
 msgid "Thumbnail Viewer"
 msgstr ""
 
-#: ../src/main.c:240
+#: ../src/main.c:246
 msgid "Show Horizontally"
 msgstr ""
 
-#: ../src/main.c:241
+#: ../src/main.c:247
 msgid "Show Vertically"
 msgstr ""
 
-#: ../src/main.c:242
+#: ../src/main.c:248
 msgid "Hide"
 msgstr ""
 
-#: ../src/main.c:248
+#: ../src/main.c:254
 msgid "_Go"
 msgstr ""
 
-#: ../src/main.c:276
+#: ../src/main.c:282
 msgid "_Help"
 msgstr ""
 
-#: ../src/main.c:409
-msgid "Open image"
-msgstr ""
-
-#: ../src/main.c:450
-msgid "Open folder"
-msgstr ""
-
-#: ../src/main.c:496
+#: ../src/main.c:438
 msgid "Developer:"
 msgstr ""
 
-#: ../src/main.c:505
+#: ../src/main.c:448
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
 
-#: ../src/main.c:512
+#: ../src/main.c:456
 msgid "translator-credits"
+msgstr ""
+
+#: ../src/main.c:690
+msgid "Open image"
+msgstr ""
+
+#: ../src/main.c:731
+msgid "Open folder"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto Image Viewer"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
 msgstr ""

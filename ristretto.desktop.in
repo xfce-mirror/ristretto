@@ -1,9 +1,9 @@
 [Desktop Entry]
 Encoding=UTF-8
 Version=1.0
-Name=Ristretto Image Viewer
-Comment=Xfce Image viewer
-GenericName=Image Viewer
+_Name=Ristretto Image Viewer
+_Comment=Xfce Image viewer
+_GenericName=Image Viewer
 Exec=ristretto
 Icon=ristretto
 Terminal=false
