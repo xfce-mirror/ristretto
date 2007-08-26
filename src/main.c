@@ -673,9 +673,11 @@ cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *
                 rstto_navigator_jump_last(navigator);
                 break;
             case GDK_Page_Down:
+            case GDK_space:
                 rstto_navigator_jump_forward(navigator);
                 break;
             case GDK_Page_Up:
+            case GDK_BackSpace:
                 rstto_navigator_jump_back(navigator);
                 break;
         }
@@ -763,6 +765,7 @@ cb_rstto_open_dir(GtkToolItem *item, RsttoNavigator *navigator)
                 g_free(path_name);
                 filename = g_dir_read_name(dir);
             }
+            rstto_navigator_jump_first(navigator);
             gchar *uri = gtk_file_chooser_get_uri(GTK_FILE_CHOOSER(dialog));
             gtk_recent_manager_add_item(recent_manager, uri);
             g_free(uri);
@@ -813,6 +816,7 @@ cb_rstto_open_recent(GtkRecentChooser *chooser, RsttoNavigator *navigator)
                     g_free(path_name);
                     filename = g_dir_read_name(dir);
                 }
+                rstto_navigator_jump_first(navigator);
                 g_free(dir_path);
             }
             gchar *uri = thunar_vfs_path_dup_uri(info->path);

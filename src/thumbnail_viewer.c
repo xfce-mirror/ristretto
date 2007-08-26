@@ -79,6 +79,8 @@ cb_rstto_thumbnailer_nav_reordered (RsttoNavigator *nav,
 
 static void
 cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer, GdkEventButton *event);
+static void
+cb_rstto_thumbnailer_scroll_event (RsttoThumbnailViewer *viewer, GdkEventScroll *event);
 
 GType
 rstto_thumbnail_viewer_get_type ()
@@ -118,6 +120,7 @@ rstto_thumbnail_viewer_init(RsttoThumbnailViewer *viewer)
     gtk_widget_set_events (GTK_WIDGET(viewer),
                            GDK_BUTTON_PRESS_MASK);
     g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_thumbnailer_button_press_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_thumbnailer_scroll_event), NULL);
     viewer->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
 
 }
@@ -381,81 +384,105 @@ cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer,
     GtkWidget *widget = GTK_WIDGET(viewer);
     gint n = 0;
     gint old_offset = viewer->priv->offset;
-    switch(viewer->priv->orientation)
+    if (event->button == 1)
     {
-        case GTK_ORIENTATION_HORIZONTAL:
-            if(event->button == 1)
-            {
-                if ((event->x < 20) || ((widget->allocation.width - event->x) < 20))
-                    n = -1;
-                else
-                    n = (event->x - 20 + viewer->priv->offset) / viewer->priv->dimension;
-            }
-            break;
-        case GTK_ORIENTATION_VERTICAL:
-            if(event->button == 1)
-            {
-                if ((event->y < 20) || ((widget->allocation.height - event->y) < 20))
-                    n = -1;
-                else
-                    n = (event->y - 20 + viewer->priv->offset) / viewer->priv->dimension;
-
-            }
-            break;
-
-    }
-    if (n < 0)
-    {
-        if (((viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL) && (event->x < 20)) ||
-            ((viewer->priv->orientation == GTK_ORIENTATION_VERTICAL) && (event->y < 20)))
+        switch(viewer->priv->orientation)
         {
-            viewer->priv->offset -= viewer->priv->dimension;
-            if(viewer->priv->offset < 0)
+            case GTK_ORIENTATION_HORIZONTAL:
+                if(event->button == 1)
+                {
+                    if ((event->x < 20) || ((widget->allocation.width - event->x) < 20))
+                        n = -1;
+                    else
+                        n = (event->x - 20 + viewer->priv->offset) / viewer->priv->dimension;
+                }
+                break;
+            case GTK_ORIENTATION_VERTICAL:
+                if(event->button == 1)
+                {
+                    if ((event->y < 20) || ((widget->allocation.height - event->y) < 20))
+                        n = -1;
+                    else
+                        n = (event->y - 20 + viewer->priv->offset) / viewer->priv->dimension;
+
+                }
+                break;
+
+        }
+        if (n < 0)
+        {
+            if (((viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL) && (event->x < 20)) ||
+                ((viewer->priv->orientation == GTK_ORIENTATION_VERTICAL) && (event->y < 20)))
             {
-                viewer->priv->offset = 0;
+                viewer->priv->offset -= viewer->priv->dimension;
+                if(viewer->priv->offset < 0)
+                {
+                    viewer->priv->offset = 0;
+                }
+                viewer->priv->begin = viewer->priv->offset / viewer->priv->dimension;
+                if (viewer->priv->orientation == GTK_ORIENTATION_VERTICAL)
+                    viewer->priv->end = widget->allocation.height / viewer->priv->dimension + viewer->priv->begin;
+                else 
+                    viewer->priv->end = widget->allocation.width / viewer->priv->dimension + viewer->priv->begin;
             }
+            else
+            {
+                if(rstto_navigator_get_n_files(viewer->priv->navigator) == 0)
+                    viewer->priv->offset = 0;
+                else
+                {
+                    if(viewer->priv->orientation == GTK_ORIENTATION_VERTICAL)
+                    {
+                        if((rstto_navigator_get_n_files(viewer->priv->navigator) * viewer->priv->dimension - viewer->priv->offset) > widget->allocation.height)
+                        {
+                            viewer->priv->offset += viewer->priv->dimension / 2;
+                            viewer->priv->begin = viewer->priv->offset / viewer->priv->dimension;
+                            viewer->priv->end = widget->allocation.height / viewer->priv->dimension + viewer->priv->begin;
+                        }
+                    }
+                    if(viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
+                    {
+                        if((rstto_navigator_get_n_files(viewer->priv->navigator) * viewer->priv->dimension - viewer->priv->offset) > widget->allocation.width)
+                        {
+                            viewer->priv->offset += viewer->priv->dimension / 2;
+                            viewer->priv->begin = viewer->priv->offset / viewer->priv->dimension;
+                            viewer->priv->end = widget->allocation.width / viewer->priv->dimension + viewer->priv->begin;
+                        }
+                    }
+                }
+            }
+            if(old_offset != viewer->priv->offset)
+                rstto_thumbnail_viewer_paint(viewer);
         }
         else
         {
-            if(rstto_navigator_get_n_files(viewer->priv->navigator) == 0)
-                viewer->priv->offset = 0;
-            else
+            if ( n < rstto_navigator_get_n_files(viewer->priv->navigator))
             {
-                if(viewer->priv->orientation == GTK_ORIENTATION_VERTICAL)
+                if(GTK_WIDGET_REALIZED(widget))
                 {
-                    if((rstto_navigator_get_n_files(viewer->priv->navigator) * viewer->priv->dimension - viewer->priv->offset) > widget->allocation.height)
-                    {
-                        viewer->priv->offset += viewer->priv->dimension / 2;
-                        viewer->priv->begin = viewer->priv->offset / viewer->priv->dimension;
-                        viewer->priv->end = widget->allocation.height / viewer->priv->dimension + viewer->priv->begin;
-                    }
+                    GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
+                    gdk_window_set_cursor(widget->window, cursor);
+                    gdk_cursor_unref(cursor);
                 }
-                if(viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
-                {
-                    if((rstto_navigator_get_n_files(viewer->priv->navigator) * viewer->priv->dimension - viewer->priv->offset) > widget->allocation.width)
-                    {
-                        viewer->priv->offset += viewer->priv->dimension / 2;
-                        viewer->priv->begin = viewer->priv->offset / viewer->priv->dimension;
-                        viewer->priv->end = widget->allocation.width / viewer->priv->dimension + viewer->priv->begin;
-                    }
-                }
+                rstto_navigator_set_file(viewer->priv->navigator, n);
             }
         }
-        if(old_offset != viewer->priv->offset)
-            rstto_thumbnail_viewer_paint(viewer);
     }
-    else
+}
+
+static void
+cb_rstto_thumbnailer_scroll_event (RsttoThumbnailViewer *viewer, GdkEventScroll *event)
+{
+    switch(event->direction)
     {
-        if ( n < rstto_navigator_get_n_files(viewer->priv->navigator))
-        {
-            if(GTK_WIDGET_REALIZED(widget))
-            {
-                GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
-                gdk_window_set_cursor(widget->window, cursor);
-                gdk_cursor_unref(cursor);
-            }
-            rstto_navigator_set_file(viewer->priv->navigator, n);
-        }
+        case GDK_SCROLL_UP:
+        case GDK_SCROLL_LEFT:
+            rstto_navigator_jump_back(viewer->priv->navigator);
+            break;
+        case GDK_SCROLL_DOWN:
+        case GDK_SCROLL_RIGHT:
+            rstto_navigator_jump_forward(viewer->priv->navigator);
+            break;
     }
 }
 
