@@ -65,6 +65,8 @@ rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *, GtkAdjustment 
 
 static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureViewer *viewer);
+static void
+cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll *event);
 
 
 static GtkWidgetClass *parent_class = NULL;
@@ -108,6 +110,8 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
     viewer->priv->scale = 1;
     viewer->priv->scale_fts = FALSE;
     viewer->priv->show_border = TRUE;
+
+    g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_picture_viewer_scroll_event), NULL);
 }
 
 static void
@@ -588,4 +592,21 @@ cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavi
         gdk_window_set_cursor(widget->window, cursor);
         gdk_cursor_unref(cursor);
     }
+}
+
+static void
+cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll *event)
+{
+    switch(event->direction)
+    {
+        case GDK_SCROLL_UP:
+        case GDK_SCROLL_LEFT:
+            rstto_picture_viewer_set_scale(viewer, viewer->priv->scale / 1.2);
+            break;
+        case GDK_SCROLL_DOWN:
+        case GDK_SCROLL_RIGHT:
+            rstto_picture_viewer_set_scale(viewer, viewer->priv->scale * 1.2);
+            break;
+    }
+
 }

@@ -232,6 +232,12 @@ rstto_thumbnail_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
 
     if (GTK_WIDGET_REALIZED (viewer))
     {
+        viewer->priv->begin = viewer->priv->offset / viewer->priv->dimension;
+        if (viewer->priv->orientation == GTK_ORIENTATION_VERTICAL)
+            viewer->priv->end = widget->allocation.height / viewer->priv->dimension + viewer->priv->begin;
+        else 
+            viewer->priv->end = widget->allocation.width / viewer->priv->dimension + viewer->priv->begin;
+
         rstto_thumbnail_viewer_paint(viewer);
     }
 
