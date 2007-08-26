@@ -177,6 +177,7 @@ int main(int argc, char **argv)
                     g_free(path_name);
                     filename = g_dir_read_name(dir);
                 }
+                rstto_navigator_jump_first(navigator);
             }
             gchar *uri = thunar_vfs_path_dup_uri(info->path);
             gtk_recent_manager_add_item(recent_manager, uri);
@@ -192,7 +193,6 @@ int main(int argc, char **argv)
     main_hbox = gtk_hbox_new(0, FALSE);
     main_vbox1 = gtk_vbox_new(0, FALSE);
     menu_bar = gtk_menu_bar_new();
-    image_tool_bar = gtk_toolbar_new();
     app_tool_bar = gtk_toolbar_new();
     status_bar = gtk_statusbar_new();
 
@@ -311,8 +311,6 @@ int main(int argc, char **argv)
 
 
     gtk_container_add(GTK_CONTAINER(s_window), viewer);
-    gtk_toolbar_set_orientation(GTK_TOOLBAR(image_tool_bar), GTK_ORIENTATION_VERTICAL);
-    gtk_box_pack_start(GTK_BOX(main_hbox), image_tool_bar, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(main_hbox), main_vbox1, TRUE, TRUE, 0);
 
     gtk_box_pack_start(GTK_BOX(main_vbox1), s_window, TRUE, TRUE, 0);
@@ -337,11 +335,11 @@ int main(int argc, char **argv)
 
     rstto_picture_viewer_fit_scale(RSTTO_PICTURE_VIEWER(viewer));
 
-    gtk_toolbar_insert(GTK_TOOLBAR(image_tool_bar), zoom_fit, 0);
-    gtk_toolbar_insert(GTK_TOOLBAR(image_tool_bar), zoom_100, 0);
-    gtk_toolbar_insert(GTK_TOOLBAR(image_tool_bar), zoom_out, 0);
-    gtk_toolbar_insert(GTK_TOOLBAR(image_tool_bar), zoom_in, 0);
-    //gtk_toolbar_insert(GTK_TOOLBAR(image_tool_bar), spacer, 0);
+    gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), zoom_fit, 0);
+    gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), zoom_100, 0);
+    gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), zoom_out, 0);
+    gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), zoom_in, 0);
+    gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), spacer, 0);
     gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), forward, 0);
     gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), previous, 0);
     gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), separator, 0);
