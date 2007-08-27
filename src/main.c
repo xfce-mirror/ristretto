@@ -86,7 +86,6 @@ cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntr
 static gboolean window_fullscreen = FALSE;
 static gboolean viewer_scale = 1.0;
 static GtkWidget *menu_bar;
-static GtkWidget *image_tool_bar;
 static GtkWidget *app_tool_bar;
 static GtkWidget *status_bar;
 static gboolean playing = FALSE;
@@ -333,7 +332,7 @@ int main(int argc, char **argv)
     gtk_box_pack_start(GTK_BOX(main_vbox), main_hbox, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), status_bar, FALSE, TRUE, 0);
 
-    rstto_picture_viewer_fit_scale(RSTTO_PICTURE_VIEWER(viewer));
+    //rstto_picture_viewer_fit_scale(RSTTO_PICTURE_VIEWER(viewer));
 
     gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), zoom_fit, 0);
     gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), zoom_100, 0);
@@ -511,7 +510,6 @@ cb_rstto_fullscreen(GtkWidget *widget, GdkEventWindowState *event, RsttoPictureV
         {
             window_fullscreen = TRUE;
             gtk_widget_hide(menu_bar);
-            gtk_widget_hide(image_tool_bar);
             gtk_widget_hide(app_tool_bar);
             gtk_widget_hide(status_bar);
             viewer_scale = rstto_picture_viewer_get_scale(viewer);
@@ -521,7 +519,6 @@ cb_rstto_fullscreen(GtkWidget *widget, GdkEventWindowState *event, RsttoPictureV
         {
             window_fullscreen = FALSE;
             gtk_widget_show(menu_bar);
-            gtk_widget_show(image_tool_bar);
             gtk_widget_show(app_tool_bar);
             gtk_widget_show(status_bar);
             if(viewer_scale)

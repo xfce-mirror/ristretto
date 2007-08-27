@@ -53,11 +53,13 @@ enum
 struct _RsttoNavigatorEntry
 {
     ThunarVfsInfo       *info;
+    GdkPixbuf           *thumb;
+    GdkPixbuf           *pixbuf;
+    gdouble              scale;
+    gboolean             fit_to_screen;
     GdkPixbufRotation    rotation;
     gboolean             h_flipped;
     gboolean             v_flipped;
-    GdkPixbuf           *thumb;
-    GdkPixbuf           *pixbuf;
 };
 
 
@@ -494,4 +496,28 @@ gint
 rstto_navigator_get_old_position (RsttoNavigator *navigator)
 {
     return navigator->old_position;
+}
+
+gdouble
+rstto_navigator_entry_get_scale (RsttoNavigatorEntry *entry)
+{
+    return entry->scale;
+}
+
+void
+rstto_navigator_entry_set_scale (RsttoNavigatorEntry *entry, gdouble scale)
+{
+    entry->scale = scale;
+}
+
+gboolean
+rstto_navigator_entry_get_fit_to_screen (RsttoNavigatorEntry *entry)
+{
+    return entry->fit_to_screen;
+}
+
+void
+rstto_navigator_entry_set_fit_to_screen (RsttoNavigatorEntry *entry, gboolean fts)
+{
+    entry->fit_to_screen = fts;
 }

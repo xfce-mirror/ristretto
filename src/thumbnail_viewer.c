@@ -511,7 +511,10 @@ cb_rstto_thumbnailer_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigatorE
     if (GTK_WIDGET_REALIZED(viewer))
     {
         /* Check if the entry is visible */
-        viewer->priv->end = widget->allocation.width / viewer->priv->dimension + viewer->priv->begin;
+        if (viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
+            viewer->priv->end = widget->allocation.width / viewer->priv->dimension + viewer->priv->begin;
+        else
+            viewer->priv->end = widget->allocation.height / viewer->priv->dimension + viewer->priv->begin;
         if ((nr >= viewer->priv->begin) && (nr <= viewer->priv->end))
         {
             RsttoNavigatorEntry *s_entry = rstto_navigator_get_file(nav);
@@ -566,15 +569,7 @@ cb_rstto_thumbnailer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigat
             if (viewer->priv->offset == old_offset)
             {
                 rstto_thumbnail_viewer_paint_entry(viewer, rstto_navigator_get_old_position(viewer->priv->navigator), FALSE);
-                RsttoNavigatorEntry *s_entry = rstto_navigator_get_file(nav);
-                if (s_entry == entry)
-                {
-                    rstto_thumbnail_viewer_paint_entry(viewer, nr, TRUE);
-                }
-                else
-                {
-                    rstto_thumbnail_viewer_paint_entry(viewer, nr, FALSE);
-                }
+                rstto_thumbnail_viewer_paint_entry(viewer, nr, TRUE);
             }
             else
             {

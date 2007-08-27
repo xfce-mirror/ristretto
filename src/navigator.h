@@ -103,6 +103,15 @@ GdkPixbuf *
 rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry);
 ThunarVfsInfo *
 rstto_navigator_entry_get_info (RsttoNavigatorEntry *entry);
+gboolean
+rstto_navigator_entry_get_fit_to_screen (RsttoNavigatorEntry *entry);
+gdouble
+rstto_navigator_entry_get_scale (RsttoNavigatorEntry *entry);
+void
+rstto_navigator_entry_set_fit_to_screen (RsttoNavigatorEntry *entry, gboolean);
+void
+rstto_navigator_entry_set_scale (RsttoNavigatorEntry *entry, gdouble);
+
 GdkPixbufRotation
 rstto_navigator_entry_get_rotation (RsttoNavigatorEntry *entry);
 gboolean

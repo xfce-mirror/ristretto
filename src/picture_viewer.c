@@ -27,11 +27,9 @@ struct _RsttoPictureViewerPriv
 {
     GdkPixbuf        *src_pixbuf;
     GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
-    gdouble           scale;
-    gboolean          scale_fts; /* Scale image to fit to screen */
+    RsttoNavigator   *navigator;
     void             (*cb_value_changed)(GtkAdjustment *, RsttoPictureViewer *);
     gboolean          show_border;
-    RsttoNavigator   *navigator;
 };
 
 static void
@@ -107,8 +105,6 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
     viewer->priv->dst_pixbuf = NULL;
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
 
-    viewer->priv->scale = 1;
-    viewer->priv->scale_fts = FALSE;
     viewer->priv->show_border = TRUE;
 
     g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_picture_viewer_scroll_event), NULL);
@@ -369,6 +365,8 @@ rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *viewer, GtkAdjus
 static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureViewer *viewer)
 {
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+    gdouble scale = rstto_navigator_entry_get_scale(entry);
     if (viewer->priv->src_pixbuf)
     {
         gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
@@ -378,14 +376,14 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureVie
         if (viewer->hadjustment && viewer->vadjustment)
         {
             tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
-                            viewer->hadjustment->value / viewer->priv->scale >= 0?
-                                viewer->hadjustment->value / viewer->priv->scale : 0,
-                            viewer->vadjustment->value / viewer->priv->scale >= 0?
-                                viewer->vadjustment->value / viewer->priv->scale : 0,
-                            ((GTK_WIDGET(viewer)->allocation.width/viewer->priv->scale)) < width?
-                                GTK_WIDGET(viewer)->allocation.width/viewer->priv->scale:width,
-                            ((GTK_WIDGET(viewer)->allocation.height/viewer->priv->scale)) < height?
-                                GTK_WIDGET(viewer)->allocation.height/viewer->priv->scale:height);
+                            viewer->hadjustment->value / scale >= 0?
+                                viewer->hadjustment->value / scale : 0,
+                            viewer->vadjustment->value / scale >= 0?
+                                viewer->vadjustment->value / scale : 0,
+                            ((GTK_WIDGET(viewer)->allocation.width/scale)) < width?
+                                GTK_WIDGET(viewer)->allocation.width/scale:width,
+                            ((GTK_WIDGET(viewer)->allocation.height/scale)) < height?
+                                GTK_WIDGET(viewer)->allocation.height/scale:height);
         }
 
         if(viewer->priv->dst_pixbuf)
@@ -397,8 +395,8 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureVie
         if(tmp_pixbuf)
         {
             viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf,
-                                    gdk_pixbuf_get_width(tmp_pixbuf)*viewer->priv->scale,
-                                    gdk_pixbuf_get_height(tmp_pixbuf)*viewer->priv->scale,
+                                    gdk_pixbuf_get_width(tmp_pixbuf)*scale,
+                                    gdk_pixbuf_get_height(tmp_pixbuf)*scale,
                                     GDK_INTERP_BILINEAR);
             g_object_unref(tmp_pixbuf);
             tmp_pixbuf = NULL;
@@ -423,8 +421,9 @@ void
 rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
 {
     g_return_if_fail(scale > 0);
-    viewer->priv->scale_fts = FALSE;
-    viewer->priv->scale = scale;
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+    rstto_navigator_entry_set_scale(entry, scale);
+    rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
 
     if(rstto_picture_viewer_refresh(viewer))
     {
@@ -435,48 +434,74 @@ rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
 gdouble
 rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer)
 {
-    viewer->priv->scale_fts = TRUE;
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+    rstto_navigator_entry_set_fit_to_screen (entry, TRUE);
 
     if(rstto_picture_viewer_refresh(viewer))
     {
         rstto_picture_viewer_paint(GTK_WIDGET(viewer));
     }
-    return viewer->priv->scale;
+    return rstto_navigator_entry_get_scale(entry);
 }
 
 gdouble
 rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer)
 {
-    return viewer->priv->scale;
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+    return rstto_navigator_entry_get_scale(entry);
 }
 
 static gboolean
 rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+    gboolean fit_to_screen = rstto_navigator_entry_get_fit_to_screen(entry);
+    gdouble scale = rstto_navigator_entry_get_scale(entry);
+
     gboolean changed;
     gboolean vadjustment_changed = FALSE;
     gboolean hadjustment_changed = FALSE;
     if(viewer->priv->src_pixbuf)
     {
-
-        if(viewer->priv->scale_fts)
+        gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
+        gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
+        if (scale == 0)
         {
-            gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
-            gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
+            if ((widget->allocation.width > width) && (widget->allocation.height > height))
+            {
+                scale = 1.0;
+                rstto_navigator_entry_set_scale(entry, scale);
+                fit_to_screen = FALSE;
+            }
+            else
+            {
+                fit_to_screen = TRUE;
+                rstto_navigator_entry_set_fit_to_screen(entry, TRUE);
+            }
+        }
+
+        if(fit_to_screen)
+        {
             gdouble h_scale = GTK_WIDGET(viewer)->allocation.width / width;
             gdouble v_scale = GTK_WIDGET(viewer)->allocation.height / height;
             if(h_scale < v_scale)
             {
-                if(viewer->priv->scale != h_scale)
+                if(scale != h_scale)
+                {
+                    scale = h_scale;
                     changed = TRUE;
-                viewer->priv->scale = h_scale;
+                }
+                rstto_navigator_entry_set_scale(entry, h_scale);
             }
             else
             {
-                if(viewer->priv->scale != v_scale)
+                if(scale != v_scale)
+                {
+                    scale = v_scale;
                     changed = TRUE;
-                viewer->priv->scale = v_scale;
+                }
+                rstto_navigator_entry_set_scale(entry, v_scale);
             }
         }
         if(GTK_WIDGET_REALIZED(widget))
@@ -491,7 +516,7 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
             if(viewer->hadjustment)
             {
                 viewer->hadjustment->page_size = widget->allocation.width;
-                viewer->hadjustment->upper = width * viewer->priv->scale;
+                viewer->hadjustment->upper = width * scale;
                 viewer->hadjustment->lower = 0;
                 viewer->hadjustment->step_increment = 1;
                 viewer->hadjustment->page_increment = 100;
@@ -504,7 +529,7 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
             if(viewer->vadjustment)
             {
                 viewer->vadjustment->page_size = widget->allocation.height;
-                viewer->vadjustment->upper = height * viewer->priv->scale;
+                viewer->vadjustment->upper = height * scale;
                 viewer->vadjustment->lower = 0;
                 viewer->vadjustment->step_increment = 1;
                 viewer->vadjustment->page_increment = 100;
@@ -519,15 +544,23 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
             GdkPixbuf *tmp_pixbuf = NULL;
             if (viewer->vadjustment && viewer->hadjustment)
             {
-                tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
-                                                      viewer->hadjustment->value / viewer->priv->scale >= 0?
-                                                        viewer->hadjustment->value / viewer->priv->scale : 0,
-                                                      viewer->vadjustment->value / viewer->priv->scale >= 0?
-                                                        viewer->vadjustment->value / viewer->priv->scale : 0,
-                                                      ((widget->allocation.width/viewer->priv->scale)) < width?
-                                                        widget->allocation.width/viewer->priv->scale:width,
-                                                      ((widget->allocation.height/viewer->priv->scale))< height?
-                                                        widget->allocation.height/viewer->priv->scale:height);
+                if (scale != 1.0)
+                {
+                    tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
+                                                      viewer->hadjustment->value / scale >= 0?
+                                                        viewer->hadjustment->value / scale : 0,
+                                                      viewer->vadjustment->value / scale >= 0?
+                                                        viewer->vadjustment->value / scale : 0,
+                                                      ((widget->allocation.width/scale)) < width?
+                                                        widget->allocation.width/scale:width,
+                                                      ((widget->allocation.height/scale))< height?
+                                                        widget->allocation.height/scale:height);
+                }
+                else
+                {
+                    tmp_pixbuf = viewer->priv->src_pixbuf;
+                    g_object_ref(tmp_pixbuf);
+                }
             }
 
             if(viewer->priv->dst_pixbuf)
@@ -539,8 +572,8 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
             if(tmp_pixbuf)
             {
                 viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf, 
-                                                     gdk_pixbuf_get_width(tmp_pixbuf) * viewer->priv->scale, 
-                                                     gdk_pixbuf_get_height(tmp_pixbuf) * viewer->priv->scale,
+                                                     gdk_pixbuf_get_width(tmp_pixbuf) * scale, 
+                                                     gdk_pixbuf_get_height(tmp_pixbuf) * scale,
                                                      GDK_INTERP_BILINEAR);
                 g_object_unref(tmp_pixbuf);
                 tmp_pixbuf = NULL;
@@ -582,8 +615,11 @@ cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavi
     if(viewer->priv->src_pixbuf)
     {
         g_object_ref(viewer->priv->src_pixbuf);
-        rstto_picture_viewer_refresh(viewer);
-        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+        if (GTK_WIDGET_REALIZED(widget))
+        {
+            rstto_picture_viewer_refresh(viewer);
+            rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+        }
     }
 
     if(GTK_WIDGET_REALIZED(widget))
@@ -597,15 +633,17 @@ cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavi
 static void
 cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll *event)
 {
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+    gdouble scale = rstto_navigator_entry_get_scale(entry);
     switch(event->direction)
     {
         case GDK_SCROLL_UP:
         case GDK_SCROLL_LEFT:
-            rstto_picture_viewer_set_scale(viewer, viewer->priv->scale / 1.2);
+            rstto_picture_viewer_set_scale(viewer, scale / 1.2);
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
-            rstto_picture_viewer_set_scale(viewer, viewer->priv->scale * 1.2);
+            rstto_picture_viewer_set_scale(viewer, scale * 1.2);
             break;
     }
 
