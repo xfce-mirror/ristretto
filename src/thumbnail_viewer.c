@@ -547,20 +547,32 @@ cb_rstto_thumbnailer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigat
             {
                 case GTK_ORIENTATION_HORIZONTAL:
                     viewer->priv->offset = nr * viewer->priv->dimension - widget->allocation.width / 2 +viewer->priv->dimension / 2;
-                    viewer->priv->begin = viewer->priv->offset / viewer->priv->dimension;
-                    viewer->priv->end = widget->allocation.width / viewer->priv->dimension + viewer->priv->begin;
+                    if (viewer->priv->offset < 0)
+                    {
+                        viewer->priv->offset = 0;
+                        viewer->priv->begin = 0;
+                        viewer->priv->end = widget->allocation.width / viewer->priv->dimension;
+                    }
+                    else
+                    {
+                        viewer->priv->begin = viewer->priv->offset / viewer->priv->dimension;
+                        viewer->priv->end = widget->allocation.width / viewer->priv->dimension + viewer->priv->begin;
+                    }
                     break;
                 case GTK_ORIENTATION_VERTICAL:
                     viewer->priv->offset = nr * viewer->priv->dimension - widget->allocation.height / 2 +viewer->priv->dimension / 2;
-                    viewer->priv->begin = viewer->priv->offset / viewer->priv->dimension;
-                    viewer->priv->end = widget->allocation.height / viewer->priv->dimension + viewer->priv->begin;
+                    if (viewer->priv->offset < 0)
+                    {
+                        viewer->priv->offset = 0;
+                        viewer->priv->begin = 0;
+                        viewer->priv->end = widget->allocation.height / viewer->priv->dimension;
+                    }
+                    else
+                    {
+                        viewer->priv->begin = viewer->priv->offset / viewer->priv->dimension;
+                        viewer->priv->end = widget->allocation.height / viewer->priv->dimension + viewer->priv->begin;
+                    }
                     break;
-            }
-            if (viewer->priv->offset < 0)
-            {
-                viewer->priv->offset = 0;
-                viewer->priv->begin = 0;
-                viewer->priv->end = widget->allocation.width / viewer->priv->dimension;
             }
             if (viewer->priv->end > rstto_navigator_get_n_files(viewer->priv->navigator))
             {
