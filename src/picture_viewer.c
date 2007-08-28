@@ -455,11 +455,17 @@ static gboolean
 rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
+    gboolean fit_to_screen = FALSE;
+    gdouble scale = 0;
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
-    gboolean fit_to_screen = rstto_navigator_entry_get_fit_to_screen(entry);
-    gdouble scale = rstto_navigator_entry_get_scale(entry);
+    gboolean changed = TRUE;
+    if (entry)
+    {
+        fit_to_screen = rstto_navigator_entry_get_fit_to_screen(entry);
+        scale = rstto_navigator_entry_get_scale(entry);
+    }
+    
 
-    gboolean changed;
     gboolean vadjustment_changed = FALSE;
     gboolean hadjustment_changed = FALSE;
     if(viewer->priv->src_pixbuf)
