@@ -713,10 +713,17 @@ cb_rstto_open(GtkToolItem *item, RsttoNavigator *navigator)
             g_free(file_media);
             thunar_vfs_path_unref(path);
         }
-
-
+        else
+        {
+            gtk_widget_destroy(dialog);
+            dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+                                            GTK_DIALOG_MODAL,
+                                            GTK_MESSAGE_ERROR,
+                                            GTK_BUTTONS_OK,
+                                            _("Could not open file"));
+            gtk_dialog_run(GTK_DIALOG(dialog));
+        }
     }
-
     gtk_widget_destroy(dialog);
 }
 
