@@ -45,13 +45,8 @@ static void
 rstto_picture_viewer_size_allocate(GtkWidget *, GtkAllocation *);
 static void
 rstto_picture_viewer_realize(GtkWidget *);
-static void
-rstto_picture_viewer_unrealize(GtkWidget *);
 static gboolean 
 rstto_picture_viewer_expose(GtkWidget *, GdkEventExpose *);
-
-static void
-cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoPictureViewer *viewer);
 
 static void
 rstto_picture_viewer_paint(GtkWidget *widget);
@@ -62,9 +57,11 @@ static void
 rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *, GtkAdjustment *, GtkAdjustment *);
 
 static void
-cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureViewer *viewer);
+cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *, gint , RsttoNavigatorEntry *, RsttoPictureViewer *);
 static void
-cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll *event);
+cb_rstto_picture_viewer_value_changed(GtkAdjustment *, RsttoPictureViewer *);
+static void
+cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *, GdkEventScroll *);
 
 
 static GtkWidgetClass *parent_class = NULL;
@@ -124,7 +121,6 @@ rstto_picture_viewer_class_init(RsttoPictureViewerClass *viewer_class)
     viewer_class->set_scroll_adjustments = rstto_picture_viewer_set_scroll_adjustments;
 
     widget_class->realize = rstto_picture_viewer_realize;
-    widget_class->unrealize = rstto_picture_viewer_unrealize;
     widget_class->expose_event = rstto_picture_viewer_expose;
 
     widget_class->size_request = rstto_picture_viewer_size_request;
@@ -201,11 +197,6 @@ rstto_picture_viewer_realize(GtkWidget *widget)
     gdk_window_set_user_data (widget->window, widget);
 
     gtk_style_set_background (widget->style, widget->window, GTK_STATE_ACTIVE);
-}
-
-static void
-rstto_picture_viewer_unrealize(GtkWidget *widget)
-{
 }
 
 static gboolean
@@ -394,9 +385,11 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureVie
 
         if(tmp_pixbuf)
         {
+            gint dst_width = gdk_pixbuf_get_width(tmp_pixbuf)*scale;
+            gint dst_height = gdk_pixbuf_get_height(tmp_pixbuf)*scale;
             viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf,
-                                    gdk_pixbuf_get_width(tmp_pixbuf)*scale,
-                                    gdk_pixbuf_get_height(tmp_pixbuf)*scale,
+                                    dst_width>0?dst_width:1,
+                                    dst_height>0?dst_height:1,
                                     GDK_INTERP_BILINEAR);
             g_object_unref(tmp_pixbuf);
             tmp_pixbuf = NULL;
@@ -420,14 +413,16 @@ rstto_picture_viewer_new(RsttoNavigator *navigator)
 void
 rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
 {
-    g_return_if_fail(scale > 0);
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
-    rstto_navigator_entry_set_scale(entry, scale);
-    rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
-
-    if(rstto_picture_viewer_refresh(viewer))
+    if (entry)
     {
-        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+        rstto_navigator_entry_set_scale(entry, scale);
+        rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
+
+        if(rstto_picture_viewer_refresh(viewer))
+        {
+            rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+        }
     }
 }
 
@@ -435,20 +430,28 @@ gdouble
 rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer)
 {
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
-    rstto_navigator_entry_set_fit_to_screen (entry, TRUE);
-
-    if(rstto_picture_viewer_refresh(viewer))
+    if (entry)
     {
-        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+        rstto_navigator_entry_set_fit_to_screen (entry, TRUE);
+
+        if(rstto_picture_viewer_refresh(viewer))
+        {
+            rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+        }
+        return rstto_navigator_entry_get_scale(entry);
     }
-    return rstto_navigator_entry_get_scale(entry);
+    return 0;
 }
 
 gdouble
 rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer)
 {
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
-    return rstto_navigator_entry_get_scale(entry);
+    if (entry)
+    {
+        return rstto_navigator_entry_get_scale(entry);
+    }
+    return 0;
 }
 
 static gboolean
@@ -577,10 +580,12 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 
             if(tmp_pixbuf)
             {
-                viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf, 
-                                                     gdk_pixbuf_get_width(tmp_pixbuf) * scale, 
-                                                     gdk_pixbuf_get_height(tmp_pixbuf) * scale,
-                                                     GDK_INTERP_BILINEAR);
+                gint dst_width = gdk_pixbuf_get_width(tmp_pixbuf)*scale;
+                gint dst_height = gdk_pixbuf_get_height(tmp_pixbuf)*scale;
+                viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf,
+                                        dst_width>0?dst_width:1,
+                                        dst_height>0?dst_height:1,
+                                        GDK_INTERP_BILINEAR);
                 g_object_unref(tmp_pixbuf);
                 tmp_pixbuf = NULL;
             }
@@ -645,12 +650,18 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
     {
         case GDK_SCROLL_UP:
         case GDK_SCROLL_LEFT:
-            rstto_picture_viewer_set_scale(viewer, scale / 1.2);
+            rstto_navigator_entry_set_scale(entry, scale / 1.2);
+            rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
-            rstto_picture_viewer_set_scale(viewer, scale * 1.2);
+            rstto_navigator_entry_set_scale(entry, scale * 1.2);
+            rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
             break;
+    }
+    if(rstto_picture_viewer_refresh(viewer))
+    {
+        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
     }
 
 }

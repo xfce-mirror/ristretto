@@ -7,79 +7,79 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-08-26 02:20+0200\n"
+"POT-Creation-Date: 2007-08-29 17:53+0200\n"
 "PO-Revision-Date: 2007-07-03 00:59:21+0200\n"
-"Last-Translator: Christian Dywan <christian@twotoasts.de>\n"
+"Last-Translator: stephan arts <stephan@xfce.org>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:199
+#: ../src/main.c:198
 msgid "_File"
 msgstr "_Datei"
 
-#: ../src/main.c:201
+#: ../src/main.c:200
 msgid "O_pen Folder"
 msgstr "_Ordner öffnen"
 
-#: ../src/main.c:202
+#: ../src/main.c:201
 msgid "_Recently used"
 msgstr "_Zuletzt geöffnet"
 
-#: ../src/main.c:221
+#: ../src/main.c:220
 msgid "_Edit"
 msgstr "_Bearbeiten"
 
-#: ../src/main.c:222
+#: ../src/main.c:221
 msgid "Rotate _Left"
 msgstr "_Links drehen"
 
-#: ../src/main.c:223
+#: ../src/main.c:222
 msgid "Rotate _Right"
 msgstr "_Rechts drehen"
 
-#: ../src/main.c:224
+#: ../src/main.c:223
 msgid "Flip _Vertically"
 msgstr "_Vertikal spiegeln"
 
-#: ../src/main.c:225
+#: ../src/main.c:224
 msgid "Flip _Horizontally"
 msgstr "_Horizontal spiegeln"
 
-#: ../src/main.c:234
+#: ../src/main.c:233
 msgid "_View"
 msgstr "_Ansicht"
 
-#: ../src/main.c:235
+#: ../src/main.c:234
 msgid "Thumbnail Viewer"
 msgstr "Vor_schaubilder"
 
-#: ../src/main.c:246
+#: ../src/main.c:245
 msgid "Show Horizontally"
 msgstr "_Horizontal anzeigen"
 
-#: ../src/main.c:247
+#: ../src/main.c:246
 msgid "Show Vertically"
 msgstr "_Vertikal anzeigen"
 
-#: ../src/main.c:248
+#: ../src/main.c:247
 msgid "Hide"
 msgstr "Ver_bergen"
 
-#: ../src/main.c:254
+#: ../src/main.c:253
 msgid "_Go"
 msgstr "_Gehe zu"
 
-#: ../src/main.c:282
+#: ../src/main.c:281
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: ../src/main.c:438
+#: ../src/main.c:435
 msgid "Developer:"
 msgstr "Entwickler:"
 
-#: ../src/main.c:448
+#: ../src/main.c:445
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -87,30 +87,33 @@ msgstr ""
 "Ristretto ist ein schneller und leichter Bildbetrachter für die "
 "Arbeitsumgebung Xfce."
 
-#: ../src/main.c:456
+#: ../src/main.c:453
 msgid "translator-credits"
 msgstr "Christian Dywan <christian@twotoasts.de>"
 
-#: ../src/main.c:690
+#: ../src/main.c:687
 msgid "Open image"
 msgstr "_Bild öffnen"
 
-#: ../src/main.c:731
+#: ../src/main.c:723
+msgid "Could not open file"
+msgstr ""
+
+#: ../src/main.c:735
 msgid "Open folder"
 msgstr "_Ordner öffnen"
 
 #: ../ristretto.desktop.in.h:1
-#, fuzzy
 msgid "Image Viewer"
-msgstr "Vor_schaubilder"
+msgstr "Bildbetrachter"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto Image Viewer"
-msgstr ""
+msgstr "Ristretto Bildbetrachter"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
-msgstr ""
+msgstr "Xfce Bildbetrachter"
 
 #~ msgid "View Zoom toolbar"
 #~ msgstr "Barre de zoom"

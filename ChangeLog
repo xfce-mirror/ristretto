@@ -1,9 +1,16 @@
 2007-08-27:
+	* icons/22x22,
+	  icons/24x24,
+	  icons/32x32,
+	  icons/36x36: Added aditional icons
+	* README: Written the README file
 	* configure.in.in: Fixed version-numbering
 	* src/thumbnailer.c: Added scrollwheel navigation
 	  Fixed backwards scrolling of thumbnailer
 	* src/pictureviewer.c: Added scrollwheel zooming
 	  Fix Bug #3500 (Do not upscale images by default)
+	  Add a minimum zoom-level of 5% and a maximum of 1600%.
+	  Prevent images being down-scaled beyond 1 pixel.
 	* src/main.c: Added space/backspace navigation
 
 2007-08-26: Release 0.0.1

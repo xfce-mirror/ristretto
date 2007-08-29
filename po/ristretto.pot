@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-08-25 17:06+0200\n"
+"POT-Creation-Date: 2007-08-29 17:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,85 +16,89 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:199
+#: ../src/main.c:198
 msgid "_File"
 msgstr ""
 
-#: ../src/main.c:201
+#: ../src/main.c:200
 msgid "O_pen Folder"
 msgstr ""
 
-#: ../src/main.c:202
+#: ../src/main.c:201
 msgid "_Recently used"
 msgstr ""
 
-#: ../src/main.c:221
+#: ../src/main.c:220
 msgid "_Edit"
 msgstr ""
 
-#: ../src/main.c:222
+#: ../src/main.c:221
 msgid "Rotate _Left"
 msgstr ""
 
-#: ../src/main.c:223
+#: ../src/main.c:222
 msgid "Rotate _Right"
 msgstr ""
 
-#: ../src/main.c:224
+#: ../src/main.c:223
 msgid "Flip _Vertically"
 msgstr ""
 
-#: ../src/main.c:225
+#: ../src/main.c:224
 msgid "Flip _Horizontally"
 msgstr ""
 
-#: ../src/main.c:234
+#: ../src/main.c:233
 msgid "_View"
 msgstr ""
 
-#: ../src/main.c:235
+#: ../src/main.c:234
 msgid "Thumbnail Viewer"
 msgstr ""
 
-#: ../src/main.c:246
+#: ../src/main.c:245
 msgid "Show Horizontally"
 msgstr ""
 
-#: ../src/main.c:247
+#: ../src/main.c:246
 msgid "Show Vertically"
 msgstr ""
 
-#: ../src/main.c:248
+#: ../src/main.c:247
 msgid "Hide"
 msgstr ""
 
-#: ../src/main.c:254
+#: ../src/main.c:253
 msgid "_Go"
 msgstr ""
 
-#: ../src/main.c:282
+#: ../src/main.c:281
 msgid "_Help"
 msgstr ""
 
-#: ../src/main.c:438
+#: ../src/main.c:435
 msgid "Developer:"
 msgstr ""
 
-#: ../src/main.c:448
+#: ../src/main.c:445
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
 
-#: ../src/main.c:456
+#: ../src/main.c:453
 msgid "translator-credits"
 msgstr ""
 
-#: ../src/main.c:690
+#: ../src/main.c:687
 msgid "Open image"
 msgstr ""
 
-#: ../src/main.c:731
+#: ../src/main.c:723
+msgid "Could not open file"
+msgstr ""
+
+#: ../src/main.c:735
 msgid "Open folder"
 msgstr ""
 

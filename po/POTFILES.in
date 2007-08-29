@@ -1,2 +1,5 @@
 src/main.c
+src/navigator.c
+src/picture_viewer.c
+src/thumbnail_viewer.c
 ristretto.desktop.in

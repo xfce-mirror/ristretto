@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-08-26 02:20+0200\n"
+"POT-Creation-Date: 2007-08-29 17:53+0200\n"
 "PO-Revision-Date: 2007-07-13 00:48+0200\n"
 "Last-Translator: Stephan Arts <stephan@xfce.org>\n"
 "Language-Team: Dutch\n"
@@ -16,87 +16,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/main.c:199
+#: ../src/main.c:198
 msgid "_File"
 msgstr "_Bestand"
 
-#: ../src/main.c:201
+#: ../src/main.c:200
 msgid "O_pen Folder"
 msgstr "Map o_penen"
 
-#: ../src/main.c:202
+#: ../src/main.c:201
 msgid "_Recently used"
 msgstr "_Recent geopend"
 
-#: ../src/main.c:221
+#: ../src/main.c:220
 msgid "_Edit"
 msgstr "B_ewerken"
 
-#: ../src/main.c:222
+#: ../src/main.c:221
 msgid "Rotate _Left"
 msgstr "_Linksom draaien"
 
-#: ../src/main.c:223
+#: ../src/main.c:222
 msgid "Rotate _Right"
 msgstr "_Rechtsom draaien"
 
-#: ../src/main.c:224
+#: ../src/main.c:223
 msgid "Flip _Vertically"
 msgstr "_Verticaal spiegelen"
 
-#: ../src/main.c:225
+#: ../src/main.c:224
 msgid "Flip _Horizontally"
 msgstr "_Horizontaal spiegelen"
 
-#: ../src/main.c:234
+#: ../src/main.c:233
 msgid "_View"
 msgstr "_Beeld"
 
-#: ../src/main.c:235
+#: ../src/main.c:234
 msgid "Thumbnail Viewer"
 msgstr "Miniatuur Weergave"
 
-#: ../src/main.c:246
+#: ../src/main.c:245
 msgid "Show Horizontally"
 msgstr "Horizontaal tonen"
 
-#: ../src/main.c:247
+#: ../src/main.c:246
 msgid "Show Vertically"
 msgstr "Verticaal tonen"
 
-#: ../src/main.c:248
+#: ../src/main.c:247
 msgid "Hide"
 msgstr "Verbergen"
 
-#: ../src/main.c:254
+#: ../src/main.c:253
 msgid "_Go"
 msgstr "_Ga"
 
-#: ../src/main.c:282
+#: ../src/main.c:281
 msgid "_Help"
 msgstr "_Help"
 
-#: ../src/main.c:438
+#: ../src/main.c:435
 msgid "Developer:"
 msgstr "Ontwikkelaar:"
 
-#: ../src/main.c:448
+#: ../src/main.c:445
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
-"Ristretto is een snelle en lichtgewicht afbeeldingsweergave-programma voor "
-"de Xfce-desktop omgeving"
+"Ristretto is een snel en lichtgewicht afbeeldingsweergave-programma voor de "
+"Xfce-desktop omgeving"
 
-#: ../src/main.c:456
+#: ../src/main.c:453
 msgid "translator-credits"
 msgstr "Stephan Arts <stephan@xfce.org>"
 
-#: ../src/main.c:690
+#: ../src/main.c:687
 msgid "Open image"
 msgstr "Afbeelding openen"
 
-#: ../src/main.c:731
+#: ../src/main.c:723
+msgid "Could not open file"
+msgstr "Kan bestand niet openen"
+
+#: ../src/main.c:735
 msgid "Open folder"
 msgstr "Map openen"
 
