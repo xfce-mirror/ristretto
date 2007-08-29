@@ -12,7 +12,6 @@ EXTRA_DIST = \
 	intltool-extract.in \
 	intltool-merge.in \
 	intltool-update.in \
-	gettext.h \
 	$(desktop_in_files) \
 	$(pixmaps_DATA) \
 	$(wrapper_DATA)
