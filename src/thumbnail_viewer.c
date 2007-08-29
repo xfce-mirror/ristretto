@@ -21,9 +21,6 @@
 
 #include <thunar-vfs/thunar-vfs.h>
 
-#include <pango/pango.h>
-#include <pango/pangoxft.h>
-
 #include "navigator.h"
 #include "picture_viewer.h"
 #include "thumbnail_viewer.h"
