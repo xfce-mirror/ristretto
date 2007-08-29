@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
 "POT-Creation-Date: 2007-08-29 17:53+0200\n"
-"PO-Revision-Date: 2007-08-26 03:33+0100\n"
+"PO-Revision-Date: 2007-08-29 19:31+0200\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -89,7 +89,7 @@ msgstr ""
 
 #: ../src/main.c:453
 msgid "translator-credits"
-msgstr "Mike Massonnet <mmassonnet@gmail.com>"
+msgstr "Mike Massonnet <mmassonnet@xfce.org>"
 
 #: ../src/main.c:687
 msgid "Open image"
@@ -97,7 +97,7 @@ msgstr "Ouvrir une image"
 
 #: ../src/main.c:723
 msgid "Could not open file"
-msgstr ""
+msgstr "Impossible d'ouvrir le fichier"
 
 #: ../src/main.c:735
 msgid "Open folder"
