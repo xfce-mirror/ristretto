@@ -97,7 +97,7 @@ msgstr "_Bild öffnen"
 
 #: ../src/main.c:723
 msgid "Could not open file"
-msgstr "Datei konnte nicht ge�ffnet werden"
+msgstr "Datei konnte nicht geöffnet werden"
 
 #: ../src/main.c:735
 msgid "Open folder"
