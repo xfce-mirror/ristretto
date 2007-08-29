@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-08-25 17:06+0200\n"
+"POT-Creation-Date: 2007-08-29 17:53+0200\n"
 "PO-Revision-Date: 2007-08-29 21:12+0200\n"
 "Last-Translator: Terje Uriansrud <ter@operamail.com>\n"
 "Language-Team: Norwegian Bokmal\n"
@@ -16,87 +16,89 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/main.c:199
+#: ../src/main.c:198
 msgid "_File"
 msgstr "_Fil"
 
-#: ../src/main.c:201
+#: ../src/main.c:200
 msgid "O_pen Folder"
 msgstr "Åp_ne mappe"
 
-#: ../src/main.c:202
+#: ../src/main.c:201
 msgid "_Recently used"
 msgstr "Nylig _brukt"
 
-#: ../src/main.c:221
+#: ../src/main.c:220
 msgid "_Edit"
 msgstr "_Rediger"
 
-#: ../src/main.c:222
+#: ../src/main.c:221
 msgid "Rotate _Left"
 msgstr "Roter _venstre"
 
-#: ../src/main.c:223
+#: ../src/main.c:222
 msgid "Rotate _Right"
 msgstr "Roter _høyre"
 
-#: ../src/main.c:224
+#: ../src/main.c:223
 msgid "Flip _Vertically"
 msgstr "Vend _loddrett"
 
-#: ../src/main.c:225
+#: ../src/main.c:224
 msgid "Flip _Horizontally"
 msgstr "Vend v_annrett"
 
-#: ../src/main.c:234
+#: ../src/main.c:233
 msgid "_View"
 msgstr "_Vis"
 
-#: ../src/main.c:235
+#: ../src/main.c:234
 msgid "Thumbnail Viewer"
 msgstr "Miniatyrvisning"
 
-#: ../src/main.c:246
+#: ../src/main.c:245
 msgid "Show Horizontally"
 msgstr "Vis vannrett"
 
-#: ../src/main.c:247
+#: ../src/main.c:246
 msgid "Show Vertically"
 msgstr "Vis loddrett"
 
-#: ../src/main.c:248
+#: ../src/main.c:247
 msgid "Hide"
 msgstr "Skjul"
 
-#: ../src/main.c:254
+#: ../src/main.c:253
 msgid "_Go"
 msgstr "_Gå"
 
-#: ../src/main.c:282
+#: ../src/main.c:281
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: ../src/main.c:438
+#: ../src/main.c:435
 msgid "Developer:"
 msgstr "Utvikler:"
 
-#: ../src/main.c:448
+#: ../src/main.c:445
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
-msgstr ""
-"Ristretto er en rask og lettvekts bildefremviser for Xfce "
-"skrivebordet"
+msgstr "Ristretto er en rask og lettvekts bildefremviser for Xfce skrivebordet"
 
-#: ../src/main.c:456
+#: ../src/main.c:453
 msgid "translator-credits"
 msgstr "Oversettelser"
 
-#: ../src/main.c:690
+#: ../src/main.c:687
 msgid "Open image"
 msgstr "Åpne bilde"
 
-#: ../src/main.c:731
+#: ../src/main.c:723
+msgid "Could not open file"
+msgstr ""
+
+#: ../src/main.c:735
 msgid "Open folder"
 msgstr "Åpne mappe"
 
