@@ -58,7 +58,7 @@ struct _RsttoPictureViewerClass
 {
     GtkWidgetClass  parent_class;
 
-  void (* set_scroll_adjustments) (RsttoPictureViewer *viewer,
+    gboolean (* set_scroll_adjustments) (RsttoPictureViewer *viewer,
           GtkAdjustment     *hadjustment,
           GtkAdjustment     *vadjustment);
 };

@@ -308,8 +308,6 @@ int main(int argc, char **argv)
 
     gtk_widget_set_size_request(window, 400, 300);
 
-
-    gtk_container_add(GTK_CONTAINER(s_window), viewer);
     gtk_box_pack_start(GTK_BOX(main_hbox), main_vbox1, TRUE, TRUE, 0);
 
     gtk_box_pack_start(GTK_BOX(main_vbox1), s_window, TRUE, TRUE, 0);
@@ -386,6 +384,7 @@ int main(int argc, char **argv)
 
     gtk_widget_show_all(window);
     gtk_widget_hide(menu_item_pause);
+    gtk_container_add(GTK_CONTAINER(s_window), viewer);
     gtk_widget_show(viewer);
 
     if(!strcmp(thumbnail_viewer_orientation, "hide"))
