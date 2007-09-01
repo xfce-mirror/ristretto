@@ -387,8 +387,6 @@ static gboolean
 rstto_thumbnail_viewer_paint_entry (RsttoThumbnailViewer *viewer, gint nr, gboolean selected)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
-    gint pixmap_offset = 0;
-    gint max_size = viewer->priv->dimension;
     RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(viewer->priv->navigator, nr);
     GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(widget->window));
     GdkGC *gc_bg_normal = gdk_gc_new(GDK_DRAWABLE(widget->window));
@@ -444,26 +442,6 @@ rstto_thumbnail_viewer_paint_entry (RsttoThumbnailViewer *viewer, gint nr, gbool
                             0, 0);
         }
 
-        /* pixmap_offset */
-        if (nr == viewer->priv->begin)
-        {
-            pixmap_offset = viewer->priv->offset - (nr * viewer->priv->dimension );
-        }
-        /* max_size */
-        if (nr == viewer->priv->end)
-        {
-            switch (viewer->priv->orientation)
-            {
-                case GTK_ORIENTATION_HORIZONTAL:
-                    max_size = widget->allocation.width - (32 + ( nr * viewer->priv->dimension) - viewer->priv->offset + pixmap_offset);
-                    break;
-                case GTK_ORIENTATION_VERTICAL:
-                    max_size = widget->allocation.height - (32 + ( nr * viewer->priv->dimension) - viewer->priv->offset + pixmap_offset);
-                    break;
-            }
-            if (max_size <= 0)
-                max_size = viewer->priv->dimension;
-        }
         switch (viewer->priv->orientation)
         {
             case GTK_ORIENTATION_HORIZONTAL:
