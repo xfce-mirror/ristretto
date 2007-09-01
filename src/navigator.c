@@ -96,6 +96,7 @@ rstto_navigator_init(RsttoNavigator *navigator)
 {
     navigator->file_iter = NULL;
     navigator->compare_func = (GCompareFunc)rstto_navigator_entry_name_compare_func;
+    navigator->old_position = -1;
 }
 
 static void
@@ -344,7 +345,7 @@ rstto_navigator_clear (RsttoNavigator *navigator)
         g_list_foreach(navigator->file_list, (GFunc)rstto_navigator_entry_free, NULL);
         navigator->file_list = NULL;
         navigator->file_iter = NULL;
-        navigator->old_position = 0;
+        navigator->old_position = -1;
     }
     g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_REORDERED], 0, NULL);
     

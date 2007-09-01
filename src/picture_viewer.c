@@ -346,18 +346,10 @@ rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *viewer, GtkAdjus
         g_signal_connect(G_OBJECT(viewer->hadjustment), "value-changed", (GCallback)viewer->priv->cb_value_changed, viewer);
         g_object_ref(viewer->hadjustment);
     }
-    else
-    {
-        g_warning("no hadjustment set");
-    }
     if(viewer->vadjustment)
     {
         g_signal_connect(G_OBJECT(viewer->vadjustment), "value-changed", (GCallback)viewer->priv->cb_value_changed, viewer);
         g_object_ref(viewer->vadjustment);
-    }
-    else
-    {
-        g_warning("no vadjustment set");
     }
     return TRUE;
 }
@@ -653,61 +645,24 @@ cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavi
 static void
 cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll *event)
 {
-    GtkWidget *widget = GTK_WIDGET(viewer);
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
     gdouble scale = rstto_navigator_entry_get_scale(entry);
-    gdouble x = (viewer->hadjustment->value + event->x);
-    gdouble y = (viewer->vadjustment->value + event->y);
-    gint width = gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
-    gint height = gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
     switch(event->direction)
     {
         case GDK_SCROLL_UP:
         case GDK_SCROLL_LEFT:
-            x = x / 1.2 - event->x;
-            y = y / 1.2 - event->y;
             rstto_navigator_entry_set_scale(entry, scale / 1.2);
             rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
-            x = x * 1.2 - event->x;
-            y = y * 1.2 - event->y;
             rstto_navigator_entry_set_scale(entry, scale * 1.2);
             rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
             break;
     }
-    if(viewer->hadjustment)
+
+    if(rstto_picture_viewer_refresh(viewer))
     {
-        viewer->hadjustment->page_size = widget->allocation.width;
-        viewer->hadjustment->upper = width * scale;
-        viewer->hadjustment->lower = 0;
-        viewer->hadjustment->step_increment = 1;
-        viewer->hadjustment->page_increment = 100;
-        viewer->hadjustment->value = x ;
-        if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
-        {
-            viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-        }
-        gtk_adjustment_changed(viewer->hadjustment);
-    }
-    if(viewer->vadjustment)
-    {
-        viewer->vadjustment->page_size = widget->allocation.height;
-        viewer->vadjustment->upper = height * scale;
-        viewer->vadjustment->lower = 0;
-        viewer->vadjustment->step_increment = 1;
-        viewer->vadjustment->page_increment = 100;
-        viewer->vadjustment->value = y ;
-        if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
-        {
-            viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
-        }
-        gtk_adjustment_changed(viewer->vadjustment);
-    }
-    
-    if (viewer->vadjustment)
-    {
-        gtk_adjustment_value_changed(viewer->vadjustment);
+        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
     }
 }
