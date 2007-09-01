@@ -30,6 +30,8 @@ struct _RsttoPictureViewerPriv
     RsttoNavigator   *navigator;
     void             (*cb_value_changed)(GtkAdjustment *, RsttoPictureViewer *);
     gboolean          show_border;
+    GTimer           *timer;
+    gint              timeout_id;
 };
 
 static void
@@ -53,6 +55,9 @@ rstto_picture_viewer_paint(GtkWidget *widget);
 static gboolean
 rstto_picture_viewer_refresh(RsttoPictureViewer *viewer);
 
+static void
+rstto_picture_viewer_update(RsttoPictureViewer *viewer);
+
 static gboolean
 rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *, GtkAdjustment *, GtkAdjustment *);
 
@@ -62,6 +67,8 @@ static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *, RsttoPictureViewer *);
 static void
 cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *, GdkEventScroll *);
+static gboolean
+cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer);
 
 
 static GtkWidgetClass *parent_class = NULL;
@@ -103,6 +110,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
 
     viewer->priv->show_border = TRUE;
+    viewer->priv->timer = g_timer_new();
 
     g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_picture_viewer_scroll_event), NULL);
 }
@@ -608,9 +616,30 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
     return changed;
 }
 
+static gboolean
+cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer)
+{
+    if (g_timer_elapsed(viewer->priv->timer, NULL) > 0.2)
+    {
+        viewer->priv->timeout_id = 0;
+        rstto_picture_viewer_update(viewer);
+        return FALSE;
+    }
+    return TRUE;
+}
+
 static void
 cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoPictureViewer *viewer)
 {
+    g_timer_start(viewer->priv->timer);
+    if (viewer->priv->timeout_id == 0)
+        viewer->priv->timeout_id = g_timeout_add(200, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
+}
+
+static void
+rstto_picture_viewer_update(RsttoPictureViewer *viewer)
+{
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
     GtkWidget *widget = GTK_WIDGET(viewer);
     if(GTK_WIDGET_REALIZED(widget))
     {
