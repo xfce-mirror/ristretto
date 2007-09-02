@@ -70,6 +70,9 @@ static void
 cb_rstto_hide_tv(GtkWidget *widget, RsttoThumbnailViewer *viewer);
 
 static void
+cb_rstto_toggle_toolbar(GtkWidget *widget, RsttoThumbnailViewer *viewer);
+
+static void
 cb_rstto_rotate_cw(GtkWidget *widget, RsttoNavigator *navigator);
 static void
 cb_rstto_rotate_ccw(GtkWidget *widget, RsttoNavigator *navigator);
@@ -122,6 +125,7 @@ int main(int argc, char **argv)
     
     thumbnail_viewer_orientation = xfce_rc_read_entry(xfce_rc, "ThumbnailViewerOrientation", "horizontal");
     gboolean toolbar_open_dir = xfce_rc_read_bool_entry(xfce_rc, "ToolbarOpenDir", FALSE);
+    gboolean show_toolbar = xfce_rc_read_bool_entry(xfce_rc, "ShowToolBar", TRUE);
 
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     GtkAccelGroup *accel_group = gtk_accel_group_new();
@@ -230,12 +234,16 @@ int main(int argc, char **argv)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_h);
 
     GtkWidget *menu_item_view = gtk_menu_item_new_with_mnemonic(_("_View"));
+    GtkWidget *menu_item_toggle_toolbar = gtk_check_menu_item_new_with_mnemonic(_("Show Toolbar"));
     GtkWidget *menu_item_tv = gtk_menu_item_new_with_mnemonic(_("Thumbnail Viewer"));
     GtkWidget *menu_item_view_fs = gtk_image_menu_item_new_from_stock(GTK_STOCK_FULLSCREEN, NULL);
     gtk_widget_add_accelerator(menu_item_view_fs, "activate", accel_group, GDK_F11, 0,GTK_ACCEL_VISIBLE);
 
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item_toggle_toolbar), show_toolbar);
+
     GtkWidget *menu_view = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_view), menu_view);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_view), menu_item_toggle_toolbar);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_view), menu_item_tv);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_view), menu_item_view_fs);
 
@@ -372,6 +380,8 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(menu_item_flip_v), "activate", G_CALLBACK(cb_rstto_flip_v), navigator);
     g_signal_connect(G_OBJECT(menu_item_flip_h), "activate", G_CALLBACK(cb_rstto_flip_h), navigator);
 
+    g_signal_connect(G_OBJECT(menu_item_toggle_toolbar), "activate", G_CALLBACK(cb_rstto_toggle_toolbar), thumbnail_viewer);
+
     g_signal_connect(G_OBJECT(menu_item_vtv), "activate", G_CALLBACK(cb_rstto_show_tv_v), thumbnail_viewer);
     g_signal_connect(G_OBJECT(menu_item_htv), "activate", G_CALLBACK(cb_rstto_show_tv_h), thumbnail_viewer);
     g_signal_connect(G_OBJECT(menu_item_ntv), "activate", G_CALLBACK(cb_rstto_hide_tv), thumbnail_viewer);
@@ -392,6 +402,10 @@ int main(int argc, char **argv)
     {
         gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(menu_item_ntv), TRUE);
         gtk_widget_hide(GTK_WIDGET(thumbnail_viewer));   
+    }
+    if (show_toolbar == FALSE)
+    {
+        gtk_widget_hide(GTK_WIDGET(app_tool_bar));   
     }
 
 
@@ -823,5 +837,21 @@ cb_rstto_open_recent(GtkRecentChooser *chooser, RsttoNavigator *navigator)
             g_free(uri);
         }
         thunar_vfs_path_unref(path);
+    }
+}
+
+static void
+cb_rstto_toggle_toolbar(GtkWidget *widget, RsttoThumbnailViewer *viewer)
+{
+    gboolean active = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(widget));
+    if (active == TRUE)
+    {
+        gtk_widget_show(app_tool_bar);
+        xfce_rc_write_bool_entry(xfce_rc, "ShowToolBar", TRUE);
+    }
+    else
+    {
+        gtk_widget_hide(app_tool_bar);
+        xfce_rc_write_bool_entry(xfce_rc, "ShowToolBar", FALSE);
     }
 }

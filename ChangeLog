@@ -2,6 +2,8 @@
 	* src/thumbnail_viewer.c:
 	  Improve themeability
 	  Improve thumbnail-rendering
+	* src/picture_viewer.c:
+	  Improve performance when switching files
 
 2007-08-29: Release 0.0.2
 	* icons/22x22,
