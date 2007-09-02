@@ -78,7 +78,7 @@ cb_rstto_flip_h(GtkWidget *widget, RsttoNavigator *navigator);
 static void
 cb_rstto_flip_v(GtkWidget *widget, RsttoNavigator *navigator);
 
-static void
+static gboolean
 cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator);
 static void
 cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntry *entry, GtkWindow *window);
@@ -301,6 +301,8 @@ int main(int argc, char **argv)
     GtkToolItem *spacer = gtk_tool_item_new();
     GtkToolItem *separator = gtk_separator_tool_item_new();
 
+    gtk_tool_item_set_is_important(previous, TRUE);
+    gtk_tool_item_set_is_important(forward, TRUE);
 
     gtk_tool_item_set_expand(spacer, TRUE);
     gtk_tool_item_set_homogeneous(spacer, FALSE);
@@ -641,7 +643,7 @@ cb_rstto_rotate_ccw(GtkWidget *widget, RsttoNavigator *navigator)
     //rstto_navigator_set_entry_rotation(navigator, entry, rotation);
 }
 
-static void
+static gboolean
 cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator)
 {
     GtkWindow *window = GTK_WINDOW(widget);
@@ -671,6 +673,7 @@ cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *
                 break;
         }
     }
+    return FALSE;
 }
 
 static void
