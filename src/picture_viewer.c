@@ -621,6 +621,7 @@ cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer)
 {
     if (g_timer_elapsed(viewer->priv->timer, NULL) > 0.2)
     {
+        g_timer_stop(viewer->priv->timer);
         viewer->priv->timeout_id = 0;
         rstto_picture_viewer_update(viewer);
         return FALSE;
@@ -685,6 +686,8 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
+            viewer->hadjustment->value = (viewer->hadjustment->value + event->x) * 1.2 - event->x;
+            viewer->vadjustment->value = (viewer->vadjustment->value + event->y) * 1.2 - event->y;
             rstto_navigator_entry_set_scale(entry, scale * 1.2);
             rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
             break;

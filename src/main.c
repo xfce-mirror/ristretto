@@ -84,7 +84,6 @@ static void
 cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntry *entry, GtkWindow *window);
 
 static gboolean window_fullscreen = FALSE;
-static gboolean viewer_scale = 1.0;
 static GtkWidget *menu_bar;
 static GtkWidget *app_tool_bar;
 static GtkWidget *status_bar;
@@ -511,8 +510,6 @@ cb_rstto_fullscreen(GtkWidget *widget, GdkEventWindowState *event, RsttoPictureV
             gtk_widget_hide(menu_bar);
             gtk_widget_hide(app_tool_bar);
             gtk_widget_hide(status_bar);
-            viewer_scale = rstto_picture_viewer_get_scale(viewer);
-            rstto_picture_viewer_fit_scale(viewer);
         }
         else
         {
@@ -520,8 +517,6 @@ cb_rstto_fullscreen(GtkWidget *widget, GdkEventWindowState *event, RsttoPictureV
             gtk_widget_show(menu_bar);
             gtk_widget_show(app_tool_bar);
             gtk_widget_show(status_bar);
-            if(viewer_scale)
-                rstto_picture_viewer_set_scale(viewer, viewer_scale);
         }
     }
 }
