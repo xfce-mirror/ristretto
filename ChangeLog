@@ -1,9 +1,13 @@
-2007-09-01: 
+2007-09-02: Release 0.0.3
+	* src/main.c:
+	  Toggle toolbar visibility (Bug #3499)
+	  Remember window-dimensions (Bug #3520)
 	* src/thumbnail_viewer.c:
 	  Improve themeability
 	  Improve thumbnail-rendering
 	* src/picture_viewer.c:
 	  Improve performance when switching files
+	  Improve zooming
 
 2007-08-29: Release 0.0.2
 	* icons/22x22,

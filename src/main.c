@@ -38,6 +38,8 @@ cb_rstto_zoom_out(GtkToolItem *item, RsttoPictureViewer *viewer);
 
 static void
 cb_rstto_fullscreen(GtkWidget *, GdkEventWindowState *event, RsttoPictureViewer *viewer);
+static gboolean
+cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event);
 static void
 cb_rstto_toggle_play(GtkImageMenuItem *item, RsttoNavigator *navigator);
 
@@ -100,6 +102,7 @@ static GtkWidget *thumbnail_viewer;
 static GtkRecentManager *recent_manager;
 static XfceRc *xfce_rc;
 static const gchar *thumbnail_viewer_orientation;
+static gint window_save_geometry_timer_id = 0;
 
 int main(int argc, char **argv)
 {
@@ -126,6 +129,8 @@ int main(int argc, char **argv)
     thumbnail_viewer_orientation = xfce_rc_read_entry(xfce_rc, "ThumbnailViewerOrientation", "horizontal");
     gboolean toolbar_open_dir = xfce_rc_read_bool_entry(xfce_rc, "ToolbarOpenDir", FALSE);
     gboolean show_toolbar = xfce_rc_read_bool_entry(xfce_rc, "ShowToolBar", TRUE);
+    gint window_width = xfce_rc_read_int_entry(xfce_rc, "LastWindowWidth", 400);
+    gint window_height = xfce_rc_read_int_entry(xfce_rc, "LastWindowHeight", 300);
 
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     GtkAccelGroup *accel_group = gtk_accel_group_new();
@@ -315,7 +320,7 @@ int main(int argc, char **argv)
     gtk_tool_item_set_expand(spacer, TRUE);
     gtk_tool_item_set_homogeneous(spacer, FALSE);
 
-    gtk_widget_set_size_request(window, 400, 300);
+    gtk_window_set_default_size(GTK_WINDOW(window), window_width, window_height);
 
     gtk_container_add(GTK_CONTAINER(s_window), viewer);
     gtk_box_pack_start(GTK_BOX(main_hbox), main_vbox1, TRUE, TRUE, 0);
@@ -391,6 +396,7 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(menu_item_view_fs), "activate", G_CALLBACK(cb_rstto_toggle_fullscreen), window);
 
     g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_fullscreen), viewer);
+    g_signal_connect(G_OBJECT(window), "configure-event", G_CALLBACK(cb_rstto_main_window_configure_event), NULL);
 
     gtk_container_add(GTK_CONTAINER(window), main_vbox);
 
@@ -854,4 +860,60 @@ cb_rstto_toggle_toolbar(GtkWidget *widget, RsttoThumbnailViewer *viewer)
         gtk_widget_hide(app_tool_bar);
         xfce_rc_write_bool_entry(xfce_rc, "ShowToolBar", FALSE);
     }
+}
+
+static gboolean
+rstto_window_save_geometry_timer (gpointer user_data)
+{
+    GtkWindow *window = GTK_WINDOW(user_data);
+    gint width = 0;
+    gint height = 0;
+    /* check if the window is still visible */
+    if (GTK_WIDGET_VISIBLE (window))
+    {
+        /* determine the current state of the window */
+        gint state = gdk_window_get_state (GTK_WIDGET (window)->window);
+
+        /* don't save geometry for maximized or fullscreen windows */
+        if ((state & (GDK_WINDOW_STATE_MAXIMIZED | GDK_WINDOW_STATE_FULLSCREEN)) == 0)
+        {
+            /* determine the current width/height of the window... */
+            gtk_window_get_size (GTK_WINDOW (window), &width, &height);
+
+            /* ...and remember them as default for new windows */
+            xfce_rc_write_int_entry (xfce_rc, "LastWindowWidth", width);
+            xfce_rc_write_int_entry (xfce_rc, "LastWindowHeight", height);
+        }
+    }
+    return FALSE;
+}
+
+static void
+rstto_window_save_geometry_timer_destroy(gpointer user_data)
+{
+    window_save_geometry_timer_id = 0;
+}
+
+static gboolean
+cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event)
+{
+    /* shamelessly copied from thunar, written by benny */
+    /* check if we have a new dimension here */
+    if (widget->allocation.width != event->width || widget->allocation.height != event->height)
+    {
+        /* drop any previous timer source */
+        if (window_save_geometry_timer_id > 0)
+            g_source_remove (window_save_geometry_timer_id);
+
+        /* check if we should schedule another save timer */
+        if (GTK_WIDGET_VISIBLE (widget))
+        {
+            /* save the geometry one second after the last configure event */
+            window_save_geometry_timer_id = g_timeout_add_full (G_PRIORITY_LOW, 1000, rstto_window_save_geometry_timer,
+                widget, rstto_window_save_geometry_timer_destroy);
+        }
+    }
+
+    /* let Gtk+ handle the configure event */
+    return FALSE;
 }
