@@ -58,6 +58,8 @@ static void
 cb_rstto_open_dir(GtkToolItem *item, RsttoNavigator *);
 static void
 cb_rstto_open_recent(GtkRecentChooser *chooser, RsttoNavigator *);
+static void
+cb_rstto_clear_recent(GtkWidget *widget, GtkRecentManager *manager);
 
 static void
 cb_rstto_help_about(GtkToolItem *item, GtkWindow *);
@@ -223,6 +225,11 @@ int main(int argc, char **argv)
     gtk_recent_filter_add_application(filter, "ristretto");
     gtk_recent_chooser_add_filter(GTK_RECENT_CHOOSER(recent_chooser_menu), filter);
     
+    GtkWidget *menu_item_clear_recent = gtk_menu_item_new_with_mnemonic(_("Cleanup recent documents"));
+    menu_item_separator = gtk_separator_menu_item_new();
+    gtk_menu_shell_append(GTK_MENU_SHELL(recent_chooser_menu), menu_item_separator);
+    gtk_menu_shell_append(GTK_MENU_SHELL(recent_chooser_menu), menu_item_clear_recent);
+    
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_recently), recent_chooser_menu);
 
     GtkWidget *menu_item_edit = gtk_menu_item_new_with_mnemonic(_("_Edit"));
@@ -367,6 +374,8 @@ int main(int argc, char **argv)
         g_signal_connect(G_OBJECT(open), "clicked", G_CALLBACK(cb_rstto_open_dir), navigator);
     else
         g_signal_connect(G_OBJECT(open), "clicked", G_CALLBACK(cb_rstto_open), navigator);
+
+    g_signal_connect(G_OBJECT(menu_item_clear_recent), "activate", G_CALLBACK(cb_rstto_clear_recent), recent_manager);
 
     g_signal_connect(G_OBJECT(menu_item_quit), "activate", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(G_OBJECT(menu_item_open), "activate", G_CALLBACK(cb_rstto_open), navigator);
@@ -916,4 +925,28 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
 
     /* let Gtk+ handle the configure event */
     return FALSE;
+}
+
+static void
+cb_rstto_clear_recent(GtkWidget *widget, GtkRecentManager *manager)
+{
+    GList *item_list = gtk_recent_manager_get_items(manager);
+    GList *item_iter = item_list;
+    while(item_iter != NULL)
+    {
+        gchar **apps = gtk_recent_info_get_applications(item_iter->data, NULL);
+        gint i = 0;
+        for(; apps[i] != NULL; ++i)
+        {
+            if(!strcmp(apps[i], "ristretto"))
+            {
+                gtk_recent_manager_remove_item(manager, gtk_recent_info_get_uri(item_iter->data), NULL);
+                break;
+            }
+        }
+        g_strfreev(apps);
+        item_iter = g_list_next(item_iter);
+    }
+    g_list_foreach(item_list, (GFunc)gtk_recent_info_unref, NULL);
+    g_list_free(item_list);
 }
