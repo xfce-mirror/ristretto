@@ -667,7 +667,7 @@ static gboolean
 cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator)
 {
     GtkWindow *window = GTK_WINDOW(widget);
-    if(!gtk_window_activate_key(window, event))
+    if(gtk_window_activate_key(window, event) == FALSE)
     {
         switch(event->keyval)
         {
@@ -693,7 +693,7 @@ cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *
                 break;
         }
     }
-    return FALSE;
+    return TRUE;
 }
 
 static void
