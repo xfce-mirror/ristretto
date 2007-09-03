@@ -53,7 +53,7 @@ msgstr "_Ansicht"
 
 #: ../src/main.c:237
 msgid "Show Toolbar"
-msgstr ""
+msgstr "_Werkzeugleiste anzeigen"
 
 #: ../src/main.c:238
 msgid "Thumbnail Viewer"
@@ -118,6 +118,3 @@ msgstr "Ristretto Bildbetrachter"
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce Bildbetrachter"
-
-#~ msgid "View Zoom toolbar"
-#~ msgstr "Barre de zoom"

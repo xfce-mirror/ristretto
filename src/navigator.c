@@ -474,6 +474,9 @@ rstto_navigator_entry_get_thumb(RsttoNavigatorEntry *entry, gint size)
 GdkPixbuf *
 rstto_navigator_entry_get_pixbuf(RsttoNavigatorEntry *entry)
 {
+    if(G_UNLIKELY (entry == NULL))
+      return NULL;
+
     if(!entry->pixbuf)
     {
         gchar *filename = thunar_vfs_path_dup_string(entry->info->path);
