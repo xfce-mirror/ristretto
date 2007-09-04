@@ -619,7 +619,7 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 static gboolean
 cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer)
 {
-    if (g_timer_elapsed(viewer->priv->timer, NULL) > 0.2)
+    if (g_timer_elapsed(viewer->priv->timer, NULL) > 0.15)
     {
         g_timer_stop(viewer->priv->timer);
         viewer->priv->timeout_id = 0;
@@ -634,7 +634,7 @@ cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavi
 {
     g_timer_start(viewer->priv->timer);
     if (viewer->priv->timeout_id == 0)
-        viewer->priv->timeout_id = g_timeout_add(200, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
+        viewer->priv->timeout_id = g_timeout_add(150, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
 }
 
 static void
