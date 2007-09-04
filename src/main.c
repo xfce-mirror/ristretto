@@ -210,6 +210,7 @@ int main(int argc, char **argv)
     GtkWidget *menu_item_open_dir = gtk_menu_item_new_with_mnemonic(_("O_pen Folder"));
     GtkWidget *menu_item_recently = gtk_menu_item_new_with_mnemonic(_("_Recently used"));
     GtkWidget *menu_item_separator = gtk_separator_menu_item_new();
+    /* GtkWidget *menu_item_close = gtk_image_menu_item_new_from_stock(GTK_STOCK_CLOSE, accel_group); */
     GtkWidget *menu_item_quit = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, accel_group);
 
     GtkWidget *menu_file = gtk_menu_new();
@@ -218,6 +219,7 @@ int main(int argc, char **argv)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_open_dir);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_recently);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_separator);
+    /* gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_close);*/
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_quit);
     
     GtkWidget *recent_chooser_menu = gtk_recent_chooser_menu_new_for_manager(GTK_RECENT_MANAGER(recent_manager));
@@ -225,7 +227,9 @@ int main(int argc, char **argv)
     gtk_recent_filter_add_application(filter, "ristretto");
     gtk_recent_chooser_add_filter(GTK_RECENT_CHOOSER(recent_chooser_menu), filter);
     
-    GtkWidget *menu_item_clear_recent = gtk_menu_item_new_with_mnemonic(_("Cleanup recent documents"));
+    GtkWidget *menu_item_clear_recent = gtk_image_menu_item_new_with_mnemonic(_("Cleanup recent documents"));
+    GtkWidget *img_clear_recent = gtk_image_new_from_stock(GTK_STOCK_CLEAR, GTK_ICON_SIZE_MENU);
+    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item_clear_recent), img_clear_recent);
     menu_item_separator = gtk_separator_menu_item_new();
     gtk_menu_shell_append(GTK_MENU_SHELL(recent_chooser_menu), menu_item_separator);
     gtk_menu_shell_append(GTK_MENU_SHELL(recent_chooser_menu), menu_item_clear_recent);

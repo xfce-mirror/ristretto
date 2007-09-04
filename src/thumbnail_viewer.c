@@ -367,7 +367,10 @@ rstto_thumbnail_viewer_get_orientation (RsttoThumbnailViewer *viewer)
 static void
 cb_rstto_thumbnailer_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailViewer *viewer)
 {
-    rstto_thumbnail_viewer_paint(viewer);
+    if (GTK_WIDGET_REALIZED(viewer))
+    {
+        rstto_thumbnail_viewer_paint(viewer);
+    }
 }
 
 static void
