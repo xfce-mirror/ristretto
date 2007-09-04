@@ -619,7 +619,10 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 static gboolean
 cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer)
 {
-    if (g_timer_elapsed(viewer->priv->timer, NULL) > 0.15)
+    gulong millisec = 0;
+
+    g_timer_elapsed(viewer->priv->timer, &millisec);
+    if (millisec > 150)
     {
         g_timer_stop(viewer->priv->timer);
         viewer->priv->timeout_id = 0;
@@ -632,9 +635,17 @@ cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer)
 static void
 cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoPictureViewer *viewer)
 {
+    GtkWidget *widget = GTK_WIDGET(viewer);
+    if (GTK_WIDGET_REALIZED(widget))
+    {
+        GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
+        gdk_window_set_cursor(widget->window, cursor);
+        gdk_cursor_unref(cursor);
+    }
     g_timer_start(viewer->priv->timer);
     if (viewer->priv->timeout_id == 0)
         viewer->priv->timeout_id = g_timeout_add(150, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
+
 }
 
 static void
