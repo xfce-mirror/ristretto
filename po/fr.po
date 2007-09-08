@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
 "POT-Creation-Date: 2007-09-08 15:27+0200\n"
-"PO-Revision-Date: 2007-09-02 14:37+0100\n"
+"PO-Revision-Date: 2007-09-08 16:20+0100\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "_Récemment ouvert"
 
 #: ../src/main.c:235
 msgid "_Clear"
-msgstr ""
+msgstr "_Nettoyer"
 
 #: ../src/main.c:244
 msgid "_Edit"
@@ -88,12 +88,8 @@ msgid "Developer:"
 msgstr "Développeur :"
 
 #: ../src/main.c:483
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto est un visualiseur d'images léger et rapide pour l'environnement "
-"de bureau Xfce."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto est un visualiseur d'images léger et rapide pour l'environnement de bureau Xfce."
 
 #: ../src/main.c:491
 msgid "translator-credits"
@@ -125,3 +121,4 @@ msgstr "Visualiseur d'Images pour Xfce"
 
 #~ msgid "View Zoom toolbar"
 #~ msgstr "Barre de zoom"
+
