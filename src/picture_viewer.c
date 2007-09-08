@@ -375,7 +375,9 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureVie
         GdkPixbuf *tmp_pixbuf = NULL;
         if (viewer->hadjustment && viewer->vadjustment)
         {
-            tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
+            if (scale < 1.0)
+            {
+                tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
                             viewer->hadjustment->value / scale >= 0?
                                 viewer->hadjustment->value / scale : 0,
                             viewer->vadjustment->value / scale >= 0?
@@ -384,6 +386,12 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureVie
                                 GTK_WIDGET(viewer)->allocation.width/scale:width,
                             ((GTK_WIDGET(viewer)->allocation.height/scale)) < height?
                                 GTK_WIDGET(viewer)->allocation.height/scale:height);
+            }
+            else
+            {
+                tmp_pixbuf = viewer->priv->src_pixbuf;
+                g_object_ref(tmp_pixbuf);
+            }
         }
 
         if(viewer->priv->dst_pixbuf)
@@ -562,7 +570,7 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
             GdkPixbuf *tmp_pixbuf = NULL;
             if (viewer->vadjustment && viewer->hadjustment)
             {
-                if (scale != 1.0)
+                if (scale < 1.0)
                 {
                     tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
                                                       viewer->hadjustment->value / scale >= 0?
@@ -692,11 +700,15 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
     {
         case GDK_SCROLL_UP:
         case GDK_SCROLL_LEFT:
+            if (scale <= 0.05)
+                return;
             rstto_navigator_entry_set_scale(entry, scale / 1.2);
             rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
+            if (scale >= 16)
+                return;
             viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) - viewer->vadjustment->page_size/2) * 1.2;
             viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) - viewer->hadjustment->page_size/2) * 1.2;
 
