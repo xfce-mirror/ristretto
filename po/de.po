@@ -101,7 +101,7 @@ msgstr "Christian Dywan <christian@twotoasts.de>"
 
 #: ../src/main.c:764
 msgid "Open image"
-msgstr "_Bild öffnen"
+msgstr "Bild öffnen"
 
 #: ../src/main.c:800
 msgid "Could not open file"
