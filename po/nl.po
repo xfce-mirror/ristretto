@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-09-03 20:05+0200\n"
+"POT-Creation-Date: 2007-09-08 12:14+0200\n"
 "PO-Revision-Date: 2007-07-13 00:48+0200\n"
 "Last-Translator: Stephan Arts <stephan@xfce.org>\n"
 "Language-Team: Dutch\n"
@@ -28,67 +28,67 @@ msgstr "Map o_penen"
 msgid "_Recently used"
 msgstr "_Recent geopend"
 
-#: ../src/main.c:228
-msgid "Cleanup recent documents"
-msgstr ""
+#: ../src/main.c:230
+msgid "Clear"
+msgstr "Opruimen"
 
-#: ../src/main.c:233
+#: ../src/main.c:239
 msgid "_Edit"
 msgstr "B_ewerken"
 
-#: ../src/main.c:234
+#: ../src/main.c:240
 msgid "Rotate _Left"
 msgstr "_Linksom draaien"
 
-#: ../src/main.c:235
+#: ../src/main.c:241
 msgid "Rotate _Right"
 msgstr "_Rechtsom draaien"
 
-#: ../src/main.c:236
+#: ../src/main.c:242
 msgid "Flip _Vertically"
 msgstr "_Verticaal spiegelen"
 
-#: ../src/main.c:237
+#: ../src/main.c:243
 msgid "Flip _Horizontally"
 msgstr "_Horizontaal spiegelen"
 
-#: ../src/main.c:246
+#: ../src/main.c:252
 msgid "_View"
 msgstr "_Beeld"
 
-#: ../src/main.c:247
+#: ../src/main.c:253
 msgid "Show Toolbar"
 msgstr "Toon Werkbalk"
 
-#: ../src/main.c:248
+#: ../src/main.c:254
 msgid "Thumbnail Viewer"
 msgstr "Miniatuur Weergave"
 
-#: ../src/main.c:262
+#: ../src/main.c:268
 msgid "Show Horizontally"
 msgstr "Horizontaal tonen"
 
-#: ../src/main.c:263
+#: ../src/main.c:269
 msgid "Show Vertically"
 msgstr "Verticaal tonen"
 
-#: ../src/main.c:264
+#: ../src/main.c:270
 msgid "Hide"
 msgstr "Verbergen"
 
-#: ../src/main.c:270
+#: ../src/main.c:276
 msgid "_Go"
 msgstr "_Ga"
 
-#: ../src/main.c:298
+#: ../src/main.c:304
 msgid "_Help"
 msgstr "_Help"
 
-#: ../src/main.c:462
+#: ../src/main.c:468
 msgid "Developer:"
 msgstr "Ontwikkelaar:"
 
-#: ../src/main.c:472
+#: ../src/main.c:478
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -96,19 +96,19 @@ msgstr ""
 "Ristretto is een snel en lichtgewicht afbeeldingsweergave-programma voor de "
 "Xfce-desktop omgeving"
 
-#: ../src/main.c:480
+#: ../src/main.c:486
 msgid "translator-credits"
 msgstr "Stephan Arts <stephan@xfce.org>"
 
-#: ../src/main.c:711
+#: ../src/main.c:717
 msgid "Open image"
 msgstr "Afbeelding openen"
 
-#: ../src/main.c:747
+#: ../src/main.c:753
 msgid "Could not open file"
 msgstr "Kan bestand niet openen"
 
-#: ../src/main.c:759
+#: ../src/main.c:765
 msgid "Open folder"
 msgstr "Map openen"
 

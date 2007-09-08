@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-09-03 20:05+0200\n"
+"POT-Creation-Date: 2007-09-08 12:14+0200\n"
 "PO-Revision-Date: 2007-07-03 00:59:21+0200\n"
 "Last-Translator: stephan arts <stephan@xfce.org>\n"
 "Language-Team: German\n"
@@ -27,67 +27,67 @@ msgstr "_Ordner öffnen"
 msgid "_Recently used"
 msgstr "_Zuletzt geöffnet"
 
-#: ../src/main.c:228
-msgid "Cleanup recent documents"
+#: ../src/main.c:230
+msgid "Clear"
 msgstr ""
 
-#: ../src/main.c:233
+#: ../src/main.c:239
 msgid "_Edit"
 msgstr "_Bearbeiten"
 
-#: ../src/main.c:234
+#: ../src/main.c:240
 msgid "Rotate _Left"
 msgstr "_Links drehen"
 
-#: ../src/main.c:235
+#: ../src/main.c:241
 msgid "Rotate _Right"
 msgstr "_Rechts drehen"
 
-#: ../src/main.c:236
+#: ../src/main.c:242
 msgid "Flip _Vertically"
 msgstr "_Vertikal spiegeln"
 
-#: ../src/main.c:237
+#: ../src/main.c:243
 msgid "Flip _Horizontally"
 msgstr "_Horizontal spiegeln"
 
-#: ../src/main.c:246
+#: ../src/main.c:252
 msgid "_View"
 msgstr "_Ansicht"
 
-#: ../src/main.c:247
+#: ../src/main.c:253
 msgid "Show Toolbar"
 msgstr "_Werkzeugleiste anzeigen"
 
-#: ../src/main.c:248
+#: ../src/main.c:254
 msgid "Thumbnail Viewer"
 msgstr "Vor_schaubilder"
 
-#: ../src/main.c:262
+#: ../src/main.c:268
 msgid "Show Horizontally"
 msgstr "_Horizontal anzeigen"
 
-#: ../src/main.c:263
+#: ../src/main.c:269
 msgid "Show Vertically"
 msgstr "_Vertikal anzeigen"
 
-#: ../src/main.c:264
+#: ../src/main.c:270
 msgid "Hide"
 msgstr "Ver_bergen"
 
-#: ../src/main.c:270
+#: ../src/main.c:276
 msgid "_Go"
 msgstr "_Gehe zu"
 
-#: ../src/main.c:298
+#: ../src/main.c:304
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: ../src/main.c:462
+#: ../src/main.c:468
 msgid "Developer:"
 msgstr "Entwickler:"
 
-#: ../src/main.c:472
+#: ../src/main.c:478
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -95,19 +95,19 @@ msgstr ""
 "Ristretto ist ein schneller und leichter Bildbetrachter für die "
 "Arbeitsumgebung Xfce."
 
-#: ../src/main.c:480
+#: ../src/main.c:486
 msgid "translator-credits"
 msgstr "Christian Dywan <christian@twotoasts.de>"
 
-#: ../src/main.c:711
+#: ../src/main.c:717
 msgid "Open image"
 msgstr "_Bild öffnen"
 
-#: ../src/main.c:747
+#: ../src/main.c:753
 msgid "Could not open file"
 msgstr "Datei konnte nicht geöffnet werden"
 
-#: ../src/main.c:759
+#: ../src/main.c:765
 msgid "Open folder"
 msgstr "_Ordner öffnen"
 

@@ -227,7 +227,7 @@ int main(int argc, char **argv)
     gtk_recent_filter_add_application(filter, "ristretto");
     gtk_recent_chooser_add_filter(GTK_RECENT_CHOOSER(recent_chooser_menu), filter);
     
-    GtkWidget *menu_item_clear_recent = gtk_image_menu_item_new_with_mnemonic(_("Cleanup recent documents"));
+    GtkWidget *menu_item_clear_recent = gtk_image_menu_item_new_with_mnemonic(_("Clear"));
     GtkWidget *img_clear_recent = gtk_image_new_from_stock(GTK_STOCK_CLEAR, GTK_ICON_SIZE_MENU);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item_clear_recent), img_clear_recent);
     menu_item_separator = gtk_separator_menu_item_new();
