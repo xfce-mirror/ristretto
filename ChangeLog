@@ -1,3 +1,12 @@
+2007-09-08: Release 0.0.4
+	* src/main.c:
+	  - Toggle thumbnail-bar visibility (Bug #3507) (Ctrl-T)
+	  - Add button to clear the recent-documents list.
+	  - Toggle slideshow when fullscreen.
+	* src/picture_viewer.c:
+	  - Improve zooming functionality, using scroll-wheel 
+	    should no longer freeze the window.
+	
 2007-09-02: Release 0.0.3
 	* src/main.c:
 	  Toggle toolbar visibility (Bug #3499)

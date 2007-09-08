@@ -687,6 +687,21 @@ cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *
     {
         switch(event->keyval)
         {
+            case GDK_F5:
+                if(playing == TRUE)
+                {
+                    gtk_widget_show(menu_item_play);
+                    gtk_widget_hide(menu_item_pause);
+                    playing = FALSE;
+                }
+                else
+                {
+                    gtk_widget_hide(menu_item_play);
+                    gtk_widget_show(menu_item_pause);
+                    playing = TRUE;
+                }
+                rstto_navigator_set_running(navigator, playing);
+                break;
             case GDK_F11:
                 if(window_fullscreen)
                     gtk_window_unfullscreen(window);
