@@ -981,23 +981,5 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
 static void
 cb_rstto_clear_recent(GtkWidget *widget, GtkRecentManager *manager)
 {
-    GList *item_list = gtk_recent_manager_get_items(manager);
-    GList *item_iter = item_list;
-    while(item_iter != NULL)
-    {
-        gchar **apps = gtk_recent_info_get_applications(item_iter->data, NULL);
-        gint i = 0;
-        for(; apps[i] != NULL; ++i)
-        {
-            if(!strcmp(apps[i], "ristretto"))
-            {
-                gtk_recent_manager_remove_item(manager, gtk_recent_info_get_uri(item_iter->data), NULL);
-                break;
-            }
-        }
-        g_strfreev(apps);
-        item_iter = g_list_next(item_iter);
-    }
-    g_list_foreach(item_list, (GFunc)gtk_recent_info_unref, NULL);
-    g_list_free(item_list);
+    gtk_recent_manager_purge_items(manager, NULL);
 }
