@@ -113,6 +113,7 @@ int main(int argc, char **argv)
 {
     ThunarVfsPath *path = NULL;
     GtkWidget *viewer = NULL;
+    gint n = 1;
 
 
     #ifdef ENABLE_NLS
@@ -156,10 +157,10 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(navigator), "iter-changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
 
 
-    if(argc == 2)
-        path = thunar_vfs_path_new(argv[1], NULL);
-    if (path)
+    for (n = 1; n < argc; ++n)
     {
+        path = thunar_vfs_path_new(argv[n], NULL);
+
         ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
         if(info)
         {
@@ -170,11 +171,11 @@ int main(int argc, char **argv)
             }
             else
             {
-                GDir *dir = g_dir_open(argv[1], 0, NULL);
+                GDir *dir = g_dir_open(argv[n], 0, NULL);
                 const gchar *filename = g_dir_read_name(dir);
                 while (filename)
                 {
-                    gchar *path_name = g_strconcat(argv[1],  "/", filename, NULL);
+                    gchar *path_name = g_strconcat(argv[n],  "/", filename, NULL);
                     ThunarVfsPath *file_path = thunar_vfs_path_new(path_name, NULL);
                     if (file_path)
                     {
