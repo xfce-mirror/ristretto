@@ -60,6 +60,8 @@ static void
 cb_rstto_open_recent(GtkRecentChooser *chooser, RsttoNavigator *);
 static void
 cb_rstto_clear_recent(GtkWidget *widget, GtkRecentManager *manager);
+static gboolean
+rstto_clear_recent(GtkRecentManager *manager);
 
 static void
 cb_rstto_help_about(GtkToolItem *item, GtkWindow *);
@@ -982,6 +984,12 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
 static void
 cb_rstto_clear_recent(GtkWidget *widget, GtkRecentManager *manager)
 {
+    g_timeout_add(150, (GSourceFunc)rstto_clear_recent, manager);
+}
+
+static gboolean
+rstto_clear_recent(GtkRecentManager *manager)
+{
     GList *items = gtk_recent_manager_get_items(manager);
     GList *iter = items;
     while(iter)
@@ -992,4 +1000,5 @@ cb_rstto_clear_recent(GtkWidget *widget, GtkRecentManager *manager)
         }
         iter = g_list_next(iter);
     }
+    return FALSE;
 }

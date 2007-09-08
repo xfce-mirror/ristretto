@@ -1,8 +1,11 @@
 2007-09-08: Release 0.0.4
+	* ristretto.desktop.in:
+	  - Add %F to the Exec field
 	* src/main.c:
 	  - Toggle thumbnail-bar visibility (Bug #3507) (Ctrl-T)
 	  - Add button to clear the recent-documents list.
 	  - Toggle slideshow when fullscreen.
+	  - Allow ristretto to open multiple files from the command-line
 	* src/picture_viewer.c:
 	  - Improve zooming functionality, using scroll-wheel 
 	    should no longer freeze the window.
