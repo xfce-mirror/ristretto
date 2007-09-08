@@ -136,6 +136,7 @@ int main(int argc, char **argv)
     gboolean show_toolbar = xfce_rc_read_bool_entry(xfce_rc, "ShowToolBar", TRUE);
     gint window_width = xfce_rc_read_int_entry(xfce_rc, "LastWindowWidth", 400);
     gint window_height = xfce_rc_read_int_entry(xfce_rc, "LastWindowHeight", 300);
+    gint slideshow_timeout = xfce_rc_read_int_entry(xfce_rc, "SlideShowTimeout", 5000);
 
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     GtkAccelGroup *accel_group = gtk_accel_group_new();
@@ -147,6 +148,7 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
     RsttoNavigator *navigator = rstto_navigator_new();
+    rstto_navigator_set_timeout(navigator, slideshow_timeout);
     thumbnail_viewer = rstto_thumbnail_viewer_new(navigator);
     viewer = rstto_picture_viewer_new(navigator);
 

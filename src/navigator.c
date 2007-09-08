@@ -97,6 +97,7 @@ rstto_navigator_init(RsttoNavigator *navigator)
     navigator->file_iter = NULL;
     navigator->compare_func = (GCompareFunc)rstto_navigator_entry_name_compare_func;
     navigator->old_position = -1;
+    navigator->timeout = 5000;
 }
 
 static void
@@ -276,7 +277,7 @@ rstto_navigator_set_running (RsttoNavigator *navigator, gboolean running)
     {
         navigator->running = running;
         if(!navigator->id)
-            navigator->id = g_timeout_add(5000, (GSourceFunc)cb_rstto_navigator_running, navigator);
+            navigator->id = g_timeout_add(navigator->timeout, (GSourceFunc)cb_rstto_navigator_running, navigator);
     }
     else
     {
@@ -381,6 +382,12 @@ cb_rstto_navigator_running(RsttoNavigator *navigator)
     else
         navigator->id = 0;
     return navigator->running;
+}
+
+void
+rstto_navigator_set_timeout (RsttoNavigator *navigator, gint timeout)
+{
+    navigator->timeout = timeout;
 }
 
 void
@@ -530,3 +537,4 @@ rstto_navigator_entry_set_fit_to_screen (RsttoNavigatorEntry *entry, gboolean ft
 {
     entry->fit_to_screen = fts;
 }
+

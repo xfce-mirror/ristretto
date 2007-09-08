@@ -52,6 +52,7 @@ struct _RsttoNavigator
     GList              *file_iter;
     gint                old_position;
     gboolean            running;
+    gint                timeout;
     gint                id;
     GCompareFunc        compare_func;
 };
@@ -74,6 +75,9 @@ void       rstto_navigator_jump_last (RsttoNavigator *navigator);
 
 void       rstto_navigator_set_running (RsttoNavigator *navigator,
                                         gboolean running);
+void
+rstto_navigator_set_timeout (RsttoNavigator *nav, gint);
+
 
 RsttoNavigatorEntry *
 rstto_navigator_get_file (RsttoNavigator *navigator);
