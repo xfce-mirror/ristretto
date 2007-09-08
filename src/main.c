@@ -97,6 +97,9 @@ static GtkWidget *status_bar;
 static gboolean playing = FALSE;
 static GtkWidget *menu_item_play;
 static GtkWidget *menu_item_pause;
+static GtkWidget *menu_item_htv;
+static GtkWidget *menu_item_vtv;
+static GtkWidget *menu_item_ntv;
 
 static GtkWidget *main_hbox;
 static GtkWidget *main_vbox1;
@@ -265,9 +268,9 @@ int main(int argc, char **argv)
 
     GtkWidget *menu_tv = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_tv), menu_tv);
-    GtkWidget *menu_item_htv = gtk_radio_menu_item_new_with_mnemonic(NULL, _("Show Horizontally"));
-    GtkWidget *menu_item_vtv = gtk_radio_menu_item_new_with_mnemonic_from_widget(GTK_RADIO_MENU_ITEM(menu_item_htv), _("Show Vertically"));
-    GtkWidget *menu_item_ntv = gtk_radio_menu_item_new_with_mnemonic_from_widget(GTK_RADIO_MENU_ITEM(menu_item_htv), _("Hide"));
+    menu_item_htv = gtk_radio_menu_item_new_with_mnemonic(NULL, _("Show Horizontally"));
+    menu_item_vtv = gtk_radio_menu_item_new_with_mnemonic_from_widget(GTK_RADIO_MENU_ITEM(menu_item_htv), _("Show Vertically"));
+    menu_item_ntv = gtk_radio_menu_item_new_with_mnemonic_from_widget(GTK_RADIO_MENU_ITEM(menu_item_htv), _("Hide"));
 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_tv), menu_item_htv);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_tv), menu_item_vtv);
@@ -703,6 +706,33 @@ cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *
             case GDK_Page_Up:
             case GDK_BackSpace:
                 rstto_navigator_jump_back(navigator);
+                break;
+            case GDK_t:
+                if (event->state & GDK_CONTROL_MASK)
+                {
+                    if(strcmp(xfce_rc_read_entry(xfce_rc, "ThumbnailViewerOrientation", "hide"), "hide"))
+                    {
+                        gtk_widget_hide(GTK_WIDGET(thumbnail_viewer));
+                        xfce_rc_write_entry(xfce_rc, "ThumbnailViewerOrientation", "hide");
+                        gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(menu_item_ntv), TRUE);
+                    }
+                    else
+                    {
+                        gtk_widget_show(GTK_WIDGET(thumbnail_viewer));
+                        switch (rstto_thumbnail_viewer_get_orientation(RSTTO_THUMBNAIL_VIEWER(thumbnail_viewer)))
+                        {
+                            case GTK_ORIENTATION_HORIZONTAL:
+                                xfce_rc_write_entry(xfce_rc, "ThumbnailViewerOrientation", "horizontal");
+                                gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(menu_item_htv), TRUE);
+                                break;
+                            case GTK_ORIENTATION_VERTICAL:
+                                xfce_rc_write_entry(xfce_rc, "ThumbnailViewerOrientation", "vertical");
+                                gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(menu_item_vtv), TRUE);
+                                break;
+                        }
+
+                    }
+                }
                 break;
         }
     }
