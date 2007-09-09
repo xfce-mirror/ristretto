@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-09-08 15:27+0200\n"
+"POT-Creation-Date: 2007-09-08 23:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,97 +16,93 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:213
+#: ../src/main.c:216
 msgid "_File"
 msgstr ""
 
-#: ../src/main.c:215
+#: ../src/main.c:218
 msgid "O_pen Folder"
 msgstr ""
 
-#: ../src/main.c:216
+#: ../src/main.c:219
 msgid "_Recently used"
 msgstr ""
 
-#: ../src/main.c:235
-msgid "_Clear"
-msgstr ""
-
-#: ../src/main.c:244
+#: ../src/main.c:245
 msgid "_Edit"
 msgstr ""
 
-#: ../src/main.c:245
+#: ../src/main.c:246
 msgid "Rotate _Left"
 msgstr ""
 
-#: ../src/main.c:246
+#: ../src/main.c:247
 msgid "Rotate _Right"
 msgstr ""
 
-#: ../src/main.c:247
+#: ../src/main.c:248
 msgid "Flip _Vertically"
 msgstr ""
 
-#: ../src/main.c:248
+#: ../src/main.c:249
 msgid "Flip _Horizontally"
 msgstr ""
 
-#: ../src/main.c:257
+#: ../src/main.c:258
 msgid "_View"
 msgstr ""
 
-#: ../src/main.c:258
+#: ../src/main.c:259
 msgid "Show Toolbar"
 msgstr ""
 
-#: ../src/main.c:259
+#: ../src/main.c:260
 msgid "Thumbnail Viewer"
 msgstr ""
 
-#: ../src/main.c:273
+#: ../src/main.c:274
 msgid "Show Horizontally"
 msgstr ""
 
-#: ../src/main.c:274
+#: ../src/main.c:275
 msgid "Show Vertically"
 msgstr ""
 
-#: ../src/main.c:275
+#: ../src/main.c:276
 msgid "Hide"
 msgstr ""
 
-#: ../src/main.c:281
+#: ../src/main.c:282
 msgid "_Go"
 msgstr ""
 
-#: ../src/main.c:309
+#: ../src/main.c:310
 msgid "_Help"
 msgstr ""
 
-#: ../src/main.c:473
+#: ../src/main.c:474
 msgid "Developer:"
 msgstr ""
 
-#: ../src/main.c:483
+#: ../src/main.c:484
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
 
-#: ../src/main.c:491
+#: ../src/main.c:492
 msgid "translator-credits"
 msgstr ""
 
-#: ../src/main.c:764
+#: ../src/main.c:765
 msgid "Open image"
 msgstr ""
 
-#: ../src/main.c:800
+#: ../src/main.c:801
 msgid "Could not open file"
 msgstr ""
 
-#: ../src/main.c:812
+#: ../src/main.c:813
 msgid "Open folder"
 msgstr ""
 

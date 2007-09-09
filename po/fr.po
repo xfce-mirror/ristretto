@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-09-08 15:27+0200\n"
+"POT-Creation-Date: 2007-09-08 23:35+0200\n"
 "PO-Revision-Date: 2007-09-08 16:20+0100\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
@@ -15,95 +15,95 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:213
+#: ../src/main.c:216
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../src/main.c:215
+#: ../src/main.c:218
 msgid "O_pen Folder"
 msgstr "O_uvrir un répertoire"
 
-#: ../src/main.c:216
+#: ../src/main.c:219
 msgid "_Recently used"
 msgstr "_Récemment ouvert"
 
-#: ../src/main.c:235
-msgid "_Clear"
-msgstr "_Nettoyer"
-
-#: ../src/main.c:244
+#: ../src/main.c:245
 msgid "_Edit"
 msgstr "_Editer"
 
-#: ../src/main.c:245
+#: ../src/main.c:246
 msgid "Rotate _Left"
 msgstr "Tourner vers la _gauche"
 
-#: ../src/main.c:246
+#: ../src/main.c:247
 msgid "Rotate _Right"
 msgstr "Tourner vers la _droite"
 
-#: ../src/main.c:247
+#: ../src/main.c:248
 msgid "Flip _Vertically"
 msgstr "Retourner _verticalement"
 
-#: ../src/main.c:248
+#: ../src/main.c:249
 msgid "Flip _Horizontally"
 msgstr "Retourner _horizontalement"
 
-#: ../src/main.c:257
+#: ../src/main.c:258
 msgid "_View"
 msgstr "_Afficher"
 
-#: ../src/main.c:258
+#: ../src/main.c:259
 msgid "Show Toolbar"
 msgstr "Barre d'outils"
 
-#: ../src/main.c:259
+#: ../src/main.c:260
 msgid "Thumbnail Viewer"
 msgstr "Vue des miniatures"
 
-#: ../src/main.c:273
+#: ../src/main.c:274
 msgid "Show Horizontally"
 msgstr "Afficher horizontalement"
 
-#: ../src/main.c:274
+#: ../src/main.c:275
 msgid "Show Vertically"
 msgstr "Afficher verticalement"
 
-#: ../src/main.c:275
+#: ../src/main.c:276
 msgid "Hide"
 msgstr "Cacher"
 
-#: ../src/main.c:281
+#: ../src/main.c:282
 msgid "_Go"
 msgstr "A_ller"
 
-#: ../src/main.c:309
+#: ../src/main.c:310
 msgid "_Help"
 msgstr "A_ide"
 
-#: ../src/main.c:473
+#: ../src/main.c:474
 msgid "Developer:"
 msgstr "Développeur :"
 
-#: ../src/main.c:483
-msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
-msgstr "Ristretto est un visualiseur d'images léger et rapide pour l'environnement de bureau Xfce."
+#: ../src/main.c:484
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
+msgstr ""
+"Ristretto est un visualiseur d'images léger et rapide pour l'environnement "
+"de bureau Xfce."
 
-#: ../src/main.c:491
+#: ../src/main.c:492
 msgid "translator-credits"
 msgstr "Mike Massonnet <mmassonnet@xfce.org>"
 
-#: ../src/main.c:764
+#: ../src/main.c:765
 msgid "Open image"
 msgstr "Ouvrir une image"
 
-#: ../src/main.c:800
+#: ../src/main.c:801
 msgid "Could not open file"
 msgstr "Impossible d'ouvrir le fichier"
 
-#: ../src/main.c:812
+#: ../src/main.c:813
 msgid "Open folder"
 msgstr "Ouvrir un répertoire"
 
@@ -119,6 +119,8 @@ msgstr "Ristretto : Visualiseur d'Images"
 msgid "Xfce Image viewer"
 msgstr "Visualiseur d'Images pour Xfce"
 
+#~ msgid "_Clear"
+#~ msgstr "_Nettoyer"
+
 #~ msgid "View Zoom toolbar"
 #~ msgstr "Barre de zoom"
-

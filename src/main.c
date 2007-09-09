@@ -26,6 +26,7 @@
 #include "thumbnail_viewer.h"
 
 static ThunarVfsMimeDatabase *mime_dbase = NULL;
+static GtkIconTheme *icon_theme = NULL;
 
 static void
 cb_rstto_zoom_fit(GtkToolItem *item, RsttoPictureViewer *viewer);
@@ -91,6 +92,8 @@ static gboolean
 cb_rstto_key_press_event(GtkWidget *widget, GdkEventKey *event, RsttoNavigator *navigator);
 static void
 cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntry *entry, GtkWindow *window);
+static void
+cb_rstto_spawn_app(GtkWidget *widget, ThunarVfsMimeApplication *app);
 
 static gboolean window_fullscreen = FALSE;
 static GtkWidget *menu_bar;
@@ -102,6 +105,8 @@ static GtkWidget *menu_item_pause;
 static GtkWidget *menu_item_htv;
 static GtkWidget *menu_item_vtv;
 static GtkWidget *menu_item_ntv;
+static GtkWidget *menu_edit;
+static GList     *menu_apps;
 
 static GtkWidget *main_hbox;
 static GtkWidget *main_vbox1;
@@ -129,6 +134,7 @@ int main(int argc, char **argv)
     thunar_vfs_init();
 
     mime_dbase = thunar_vfs_mime_database_get_default();
+    icon_theme = gtk_icon_theme_get_default();
 
     gtk_window_set_default_icon_name("ristretto");
     recent_manager = gtk_recent_manager_get_default();
@@ -235,9 +241,7 @@ int main(int argc, char **argv)
     gtk_recent_filter_add_application(filter, "ristretto");
     gtk_recent_chooser_add_filter(GTK_RECENT_CHOOSER(recent_chooser_menu), filter);
     
-    GtkWidget *menu_item_clear_recent = gtk_image_menu_item_new_with_mnemonic(_("_Clear"));
-    GtkWidget *img_clear_recent = gtk_image_new_from_stock(GTK_STOCK_CLEAR, GTK_ICON_SIZE_MENU);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item_clear_recent), img_clear_recent);
+    GtkWidget *menu_item_clear_recent = gtk_image_menu_item_new_from_stock(GTK_STOCK_CLEAR, accel_group);
     menu_item_separator = gtk_separator_menu_item_new();
     gtk_menu_shell_append(GTK_MENU_SHELL(recent_chooser_menu), menu_item_separator);
     gtk_menu_shell_append(GTK_MENU_SHELL(recent_chooser_menu), menu_item_clear_recent);
@@ -250,12 +254,14 @@ int main(int argc, char **argv)
     GtkWidget *menu_item_flip_v = gtk_menu_item_new_with_mnemonic(_("Flip _Vertically"));
     GtkWidget *menu_item_flip_h = gtk_menu_item_new_with_mnemonic(_("Flip _Horizontally"));
 
-    GtkWidget *menu_edit = gtk_menu_new();
+    menu_edit = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_edit), menu_edit);
+    /* 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_left);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_right);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_v);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_h);
+    */
 
     GtkWidget *menu_item_view = gtk_menu_item_new_with_mnemonic(_("_View"));
     GtkWidget *menu_item_toggle_toolbar = gtk_check_menu_item_new_with_mnemonic(_("Show Toolbar"));
@@ -318,7 +324,7 @@ int main(int argc, char **argv)
 
 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_file);
-    /*gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_edit);*/
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_edit);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_view);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_go);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu_item_help);
@@ -364,7 +370,6 @@ int main(int argc, char **argv)
     gtk_box_pack_start(GTK_BOX(main_vbox), main_hbox, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), status_bar, FALSE, TRUE, 0);
 
-    //rstto_picture_viewer_fit_scale(RSTTO_PICTURE_VIEWER(viewer));
 
     gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), zoom_fit, 0);
     gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), zoom_100, 0);
@@ -540,6 +545,29 @@ cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntr
     }
     else
         gtk_window_set_title(window, PACKAGE_STRING);
+
+    if (menu_edit)
+    {
+        gtk_container_foreach(GTK_CONTAINER(menu_edit), (GtkCallback)gtk_widget_destroy, NULL);
+        if(menu_apps)
+        {
+            g_list_foreach(menu_apps, (GFunc)g_object_unref, NULL);
+            g_list_free(menu_apps);
+        }
+        menu_apps = thunar_vfs_mime_database_get_applications(mime_dbase, info->mime_info);
+        GList *iter = menu_apps;
+        while(iter)
+        {
+            GtkWidget *menu_item = gtk_image_menu_item_new_with_label(thunar_vfs_mime_application_get_name(iter->data));
+            GtkWidget *image = gtk_image_new_from_icon_name(thunar_vfs_mime_handler_lookup_icon_name(iter->data, icon_theme), GTK_ICON_SIZE_MENU);
+            gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item), image);
+            gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item);
+            g_object_set_data(iter->data, "entry", entry);
+            g_signal_connect(menu_item, "activate", G_CALLBACK(cb_rstto_spawn_app), iter->data);
+            gtk_widget_show(menu_item);
+            iter = g_list_next(iter);
+        }
+    }
 }
 
 static void
@@ -1001,4 +1029,12 @@ rstto_clear_recent(GtkRecentManager *manager)
         iter = g_list_next(iter);
     }
     return FALSE;
+}
+
+static void
+cb_rstto_spawn_app(GtkWidget *widget, ThunarVfsMimeApplication *app)
+{
+    ThunarVfsInfo *info = rstto_navigator_entry_get_info(g_object_get_data(G_OBJECT(app), "entry"));
+    GList *list = g_list_prepend(NULL, info->path);
+    thunar_vfs_mime_handler_exec(THUNAR_VFS_MIME_HANDLER(app), NULL, list, NULL);
 }
