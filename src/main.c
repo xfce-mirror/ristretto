@@ -106,7 +106,8 @@ static GtkWidget *menu_item_htv;
 static GtkWidget *menu_item_vtv;
 static GtkWidget *menu_item_ntv;
 static GtkWidget *menu_edit;
-static GList     *menu_apps;
+static GtkWidget *menu_apps;
+static GList     *menu_apps_list;
 
 static GtkWidget *main_hbox;
 static GtkWidget *main_vbox1;
@@ -165,51 +166,6 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(navigator), "iter-changed", G_CALLBACK(cb_rstto_nav_file_changed), window);
 
 
-    for (n = 1; n < argc; ++n)
-    {
-        path = thunar_vfs_path_new(argv[n], NULL);
-
-        ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
-        if(info)
-        {
-            if(strcmp(thunar_vfs_mime_info_get_name(info->mime_info), "inode/directory"))
-            {
-                RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
-                rstto_navigator_add (navigator, entry);
-            }
-            else
-            {
-                GDir *dir = g_dir_open(argv[n], 0, NULL);
-                const gchar *filename = g_dir_read_name(dir);
-                while (filename)
-                {
-                    gchar *path_name = g_strconcat(argv[n],  "/", filename, NULL);
-                    ThunarVfsPath *file_path = thunar_vfs_path_new(path_name, NULL);
-                    if (file_path)
-                    {
-                        ThunarVfsInfo *file_info = thunar_vfs_info_new_for_path(file_path, NULL);
-                        gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
-                        if(!strcmp(file_media, "image"))
-                        {
-                            RsttoNavigatorEntry *entry = rstto_navigator_entry_new(file_info);
-                            rstto_navigator_add (navigator, entry);
-                        }
-                        g_free(file_media);
-                        thunar_vfs_path_unref(file_path);
-                    }
-                    g_free(path_name);
-                    filename = g_dir_read_name(dir);
-                }
-                rstto_navigator_jump_first(navigator);
-            }
-            gchar *uri = thunar_vfs_path_dup_uri(info->path);
-            gtk_recent_manager_add_item(recent_manager, uri);
-            g_free(uri);
-        }
-        thunar_vfs_path_unref(path);
-    }
-
-
     GtkWidget *s_window = gtk_scrolled_window_new(NULL,NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     GtkWidget *main_vbox = gtk_vbox_new(0, FALSE);
@@ -253,9 +209,14 @@ int main(int argc, char **argv)
     GtkWidget *menu_item_rotate_right = gtk_menu_item_new_with_mnemonic(_("Rotate _Right"));
     GtkWidget *menu_item_flip_v = gtk_menu_item_new_with_mnemonic(_("Flip _Vertically"));
     GtkWidget *menu_item_flip_h = gtk_menu_item_new_with_mnemonic(_("Flip _Horizontally"));
+    GtkWidget *menu_item_apps = gtk_menu_item_new_with_mnemonic(_("_Open with..."));
 
     menu_edit = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_edit), menu_edit);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_apps);
+
+    menu_apps = gtk_menu_new();
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_apps), menu_apps);
     /* 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_left);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_right);
@@ -426,6 +387,50 @@ int main(int argc, char **argv)
 
     gtk_container_add(GTK_CONTAINER(window), main_vbox);
 
+    for (n = 1; n < argc; ++n)
+    {
+        path = thunar_vfs_path_new(argv[n], NULL);
+
+        ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
+        if(info)
+        {
+            if(strcmp(thunar_vfs_mime_info_get_name(info->mime_info), "inode/directory"))
+            {
+                RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
+                rstto_navigator_add (navigator, entry);
+            }
+            else
+            {
+                GDir *dir = g_dir_open(argv[n], 0, NULL);
+                const gchar *filename = g_dir_read_name(dir);
+                while (filename)
+                {
+                    gchar *path_name = g_strconcat(argv[n],  "/", filename, NULL);
+                    ThunarVfsPath *file_path = thunar_vfs_path_new(path_name, NULL);
+                    if (file_path)
+                    {
+                        ThunarVfsInfo *file_info = thunar_vfs_info_new_for_path(file_path, NULL);
+                        gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
+                        if(!strcmp(file_media, "image"))
+                        {
+                            RsttoNavigatorEntry *entry = rstto_navigator_entry_new(file_info);
+                            rstto_navigator_add (navigator, entry);
+                        }
+                        g_free(file_media);
+                        thunar_vfs_path_unref(file_path);
+                    }
+                    g_free(path_name);
+                    filename = g_dir_read_name(dir);
+                }
+                rstto_navigator_jump_first(navigator);
+            }
+            gchar *uri = thunar_vfs_path_dup_uri(info->path);
+            gtk_recent_manager_add_item(recent_manager, uri);
+            g_free(uri);
+        }
+        thunar_vfs_path_unref(path);
+    }
+
     gtk_widget_show_all(window);
     gtk_widget_hide(menu_item_pause);
     gtk_widget_show(viewer);
@@ -439,7 +444,6 @@ int main(int argc, char **argv)
     {
         gtk_widget_hide(GTK_WIDGET(app_tool_bar));   
     }
-
 
     gtk_main();
     xfce_rc_flush(xfce_rc);
@@ -546,22 +550,22 @@ cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntr
     else
         gtk_window_set_title(window, PACKAGE_STRING);
 
-    if (menu_edit)
+    if (menu_apps)
     {
-        gtk_container_foreach(GTK_CONTAINER(menu_edit), (GtkCallback)gtk_widget_destroy, NULL);
-        if(menu_apps)
+        gtk_container_foreach(GTK_CONTAINER(menu_apps), (GtkCallback)gtk_widget_destroy, NULL);
+        if(menu_apps_list)
         {
-            g_list_foreach(menu_apps, (GFunc)g_object_unref, NULL);
-            g_list_free(menu_apps);
+            g_list_foreach(menu_apps_list, (GFunc)g_object_unref, NULL);
+            g_list_free(menu_apps_list);
         }
-        menu_apps = thunar_vfs_mime_database_get_applications(mime_dbase, info->mime_info);
-        GList *iter = menu_apps;
+        menu_apps_list = thunar_vfs_mime_database_get_applications(mime_dbase, info->mime_info);
+        GList *iter = menu_apps_list;
         while(iter)
         {
             GtkWidget *menu_item = gtk_image_menu_item_new_with_label(thunar_vfs_mime_application_get_name(iter->data));
             GtkWidget *image = gtk_image_new_from_icon_name(thunar_vfs_mime_handler_lookup_icon_name(iter->data, icon_theme), GTK_ICON_SIZE_MENU);
             gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item), image);
-            gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item);
+            gtk_menu_shell_append(GTK_MENU_SHELL(menu_apps), menu_item);
             g_object_set_data(iter->data, "entry", entry);
             g_signal_connect(menu_item, "activate", G_CALLBACK(cb_rstto_spawn_app), iter->data);
             gtk_widget_show(menu_item);
