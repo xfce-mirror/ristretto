@@ -385,6 +385,10 @@ cb_rstto_thumbnailer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigat
 static void
 cb_rstto_thumbnailer_nav_reordered (RsttoNavigator *nav, RsttoThumbnailViewer *viewer)
 {
+    if (GTK_WIDGET_REALIZED(viewer))
+    {
+        rstto_thumbnail_viewer_paint(viewer);
+    }
 }
 
 static gboolean

@@ -88,6 +88,8 @@ rstto_navigator_get_old_position(RsttoNavigator *navigator);
 
 void
 rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry);
+void
+rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry);
 gint
 rstto_navigator_get_n_files (RsttoNavigator *navigator);
 RsttoNavigatorEntry *

@@ -339,6 +339,20 @@ rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
 }
 
 void
+rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
+{
+    if(navigator->file_iter)
+    {
+        if(navigator->file_iter->data == entry)
+        {
+            rstto_navigator_jump_forward(navigator);
+        }
+    }
+    navigator->file_list = g_list_remove(navigator->file_list, entry);
+    g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_REORDERED], 0, NULL);
+}
+
+void
 rstto_navigator_clear (RsttoNavigator *navigator)
 {
     if(navigator->file_list)

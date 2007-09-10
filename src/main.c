@@ -63,6 +63,8 @@ static void
 cb_rstto_clear_recent(GtkWidget *widget, GtkRecentManager *manager);
 static gboolean
 rstto_clear_recent(GtkRecentManager *manager);
+static void
+cb_rstto_close_current(GtkWidget *item, RsttoNavigator *navigator);
 
 static void
 cb_rstto_help_about(GtkToolItem *item, GtkWindow *);
@@ -180,7 +182,7 @@ int main(int argc, char **argv)
     GtkWidget *menu_item_open_dir = gtk_menu_item_new_with_mnemonic(_("O_pen Folder"));
     GtkWidget *menu_item_recently = gtk_menu_item_new_with_mnemonic(_("_Recently used"));
     GtkWidget *menu_item_separator = gtk_separator_menu_item_new();
-    /* GtkWidget *menu_item_close = gtk_image_menu_item_new_from_stock(GTK_STOCK_CLOSE, accel_group); */
+    GtkWidget *menu_item_close = gtk_image_menu_item_new_from_stock(GTK_STOCK_CLOSE, accel_group);
     GtkWidget *menu_item_quit = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, accel_group);
 
     GtkWidget *menu_file = gtk_menu_new();
@@ -189,7 +191,7 @@ int main(int argc, char **argv)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_open_dir);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_recently);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_separator);
-    /* gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_close);*/
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_close);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_quit);
     
     GtkWidget *recent_chooser_menu = gtk_recent_chooser_menu_new_for_manager(GTK_RECENT_MANAGER(recent_manager));
@@ -362,6 +364,7 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(menu_item_open), "activate", G_CALLBACK(cb_rstto_open), navigator);
     g_signal_connect(G_OBJECT(menu_item_open_dir), "activate", G_CALLBACK(cb_rstto_open_dir), navigator);
     g_signal_connect(G_OBJECT(menu_item_help_about), "activate", G_CALLBACK(cb_rstto_help_about), window);
+    g_signal_connect(G_OBJECT(menu_item_close), "activate", G_CALLBACK(cb_rstto_close_current), navigator);
 
     g_signal_connect(G_OBJECT(recent_chooser_menu), "item-activated", G_CALLBACK(cb_rstto_open_recent), navigator);
 
@@ -1051,4 +1054,12 @@ cb_rstto_spawn_app(GtkWidget *widget, ThunarVfsMimeApplication *app)
     ThunarVfsInfo *info = rstto_navigator_entry_get_info(g_object_get_data(G_OBJECT(app), "entry"));
     GList *list = g_list_prepend(NULL, info->path);
     thunar_vfs_mime_handler_exec(THUNAR_VFS_MIME_HANDLER(app), NULL, list, NULL);
+}
+
+static void
+cb_rstto_close_current(GtkWidget *item, RsttoNavigator *navigator)
+{
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(navigator);
+    rstto_navigator_remove(navigator, entry);    
+    rstto_navigator_entry_free(entry);
 }
