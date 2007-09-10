@@ -217,6 +217,9 @@ int main(int argc, char **argv)
 
     menu_apps = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item_apps), menu_apps);
+    GtkWidget *bottom_menu_item = gtk_menu_item_new_with_mnemonic(_("No applications available"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_apps), bottom_menu_item);
+    gtk_widget_set_sensitive(bottom_menu_item, FALSE);
     /* 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_left);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_right);
@@ -560,6 +563,13 @@ cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntr
         }
         menu_apps_list = thunar_vfs_mime_database_get_applications(mime_dbase, info->mime_info);
         GList *iter = menu_apps_list;
+        if (iter == NULL)
+        {
+            GtkWidget *bottom_menu_item = gtk_menu_item_new_with_mnemonic(_("No applications available"));
+            gtk_menu_shell_append(GTK_MENU_SHELL(menu_apps), bottom_menu_item);
+            gtk_widget_set_sensitive(bottom_menu_item, FALSE);
+            gtk_widget_show(bottom_menu_item);
+        }
         while(iter)
         {
             GtkWidget *menu_item = gtk_image_menu_item_new_with_label(thunar_vfs_mime_application_get_name(iter->data));
