@@ -1,4 +1,6 @@
 /*
+        g_object_unref(viewer->priv->src_pixbuf);
+        viewer->priv->src_pixbuf = NULL;
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -621,6 +623,14 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
             gdk_cursor_unref(cursor);
         }
     }
+    else
+    {
+        if(viewer->priv->dst_pixbuf)
+        {
+            g_object_unref(viewer->priv->dst_pixbuf);
+            viewer->priv->dst_pixbuf = NULL;
+        }
+    }
     return changed;
 }
 
@@ -644,16 +654,29 @@ static void
 cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoPictureViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
-    if (GTK_WIDGET_REALIZED(widget))
+    if(entry)
     {
-        GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
-        gdk_window_set_cursor(widget->window, cursor);
-        gdk_cursor_unref(cursor);
+        if (GTK_WIDGET_REALIZED(widget))
+        {
+            GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
+            gdk_window_set_cursor(widget->window, cursor);
+            gdk_cursor_unref(cursor);
+        }
+        g_timer_start(viewer->priv->timer);
+        if (viewer->priv->timeout_id == 0)
+            viewer->priv->timeout_id = g_timeout_add(150, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
     }
-    g_timer_start(viewer->priv->timer);
-    if (viewer->priv->timeout_id == 0)
-        viewer->priv->timeout_id = g_timeout_add(150, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
-
+    else
+    {
+        g_object_unref(viewer->priv->src_pixbuf);
+        viewer->priv->src_pixbuf = NULL;
+        g_object_unref(viewer->priv->dst_pixbuf);
+        viewer->priv->dst_pixbuf = NULL;
+        if (GTK_WIDGET_REALIZED(widget))
+        {
+            rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+        }
+    }
 }
 
 static void
@@ -669,22 +692,22 @@ rstto_picture_viewer_update(RsttoPictureViewer *viewer)
     }
 
     if(viewer->priv->src_pixbuf)
-        g_object_unref(viewer->priv->src_pixbuf);
-
-    viewer->priv->src_pixbuf = rstto_navigator_entry_get_pixbuf(entry);
-
-    if(viewer->priv->src_pixbuf)
     {
+        g_object_unref(viewer->priv->src_pixbuf);
+        viewer->priv->src_pixbuf = NULL;
+    }
+
+    if(entry)
+    {
+        viewer->priv->src_pixbuf = rstto_navigator_entry_get_pixbuf(entry);
         g_object_ref(viewer->priv->src_pixbuf);
-        if (GTK_WIDGET_REALIZED(widget))
-        {
-            rstto_picture_viewer_refresh(viewer);
-            rstto_picture_viewer_paint(GTK_WIDGET(viewer));
-        }
     }
 
     if(GTK_WIDGET_REALIZED(widget))
     {
+        rstto_picture_viewer_refresh(viewer);
+        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+
         GdkCursor *cursor = gdk_cursor_new(GDK_LEFT_PTR);
         gdk_window_set_cursor(widget->window, cursor);
         gdk_cursor_unref(cursor);

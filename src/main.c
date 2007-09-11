@@ -1029,7 +1029,17 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
 static void
 cb_rstto_clear_recent(GtkWidget *widget, GtkRecentManager *manager)
 {
-    g_timeout_add(150, (GSourceFunc)rstto_clear_recent, manager);
+    GtkWidget *dialog = gtk_message_dialog_new(NULL,
+                                    GTK_DIALOG_MODAL,
+                                    GTK_MESSAGE_ERROR,
+                                    GTK_BUTTONS_OK_CANCEL,
+                                    _("Are you sure you want to clear ristretto's recently opened documents?"));
+    gint result = gtk_dialog_run(GTK_DIALOG(dialog));
+    if (result == GTK_RESPONSE_OK)
+    {
+        g_timeout_add(150, (GSourceFunc)rstto_clear_recent, manager);
+    }
+    gtk_widget_destroy(dialog);
 }
 
 static gboolean

@@ -224,6 +224,16 @@ rstto_navigator_jump_forward (RsttoNavigator *navigator)
                       navigator->file_iter->data,
                       NULL);
     }
+    else
+    {
+        g_signal_emit(G_OBJECT(navigator),
+                      rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED],
+                      0,
+                      -1,
+                      NULL,
+                      NULL);
+
+    }
 }
 
 void
@@ -349,6 +359,11 @@ rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
         }
     }
     navigator->file_list = g_list_remove(navigator->file_list, entry);
+    if(g_list_length(navigator->file_list) == 0)
+    {
+        navigator->file_iter = NULL;
+        navigator->file_list = NULL;
+    }
     g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_REORDERED], 0, NULL);
 }
 
