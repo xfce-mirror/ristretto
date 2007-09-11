@@ -1033,7 +1033,7 @@ cb_rstto_clear_recent(GtkWidget *widget, GtkRecentManager *manager)
                                     GTK_DIALOG_MODAL,
                                     GTK_MESSAGE_ERROR,
                                     GTK_BUTTONS_OK_CANCEL,
-                                    _("Are you sure you want to clear ristretto's recently opened documents?"));
+                                    _("Are you sure you want to clear ristretto's list of recently opened documents?"));
     gint result = gtk_dialog_run(GTK_DIALOG(dialog));
     if (result == GTK_RESPONSE_OK)
     {

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-09-08 23:35+0200\n"
+"POT-Creation-Date: 2007-09-12 00:01+0200\n"
 "PO-Revision-Date: 2007-07-03 00:59:21+0200\n"
 "Last-Translator: stephan arts <stephan@xfce.org>\n"
 "Language-Team: German\n"
@@ -15,75 +15,89 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:216
+#: ../src/main.c:180
 msgid "_File"
 msgstr "_Datei"
 
-#: ../src/main.c:218
+#: ../src/main.c:182
 msgid "O_pen Folder"
 msgstr "_Ordner öffnen"
 
-#: ../src/main.c:219
+#: ../src/main.c:183
 msgid "_Recently used"
 msgstr "_Zuletzt geöffnet"
 
-#: ../src/main.c:245
+#: ../src/main.c:209
 msgid "_Edit"
 msgstr "_Bearbeiten"
 
-#: ../src/main.c:246
+#: ../src/main.c:210
 msgid "Rotate _Left"
 msgstr "_Links drehen"
 
-#: ../src/main.c:247
+#: ../src/main.c:211
 msgid "Rotate _Right"
 msgstr "_Rechts drehen"
 
-#: ../src/main.c:248
+#: ../src/main.c:212
 msgid "Flip _Vertically"
 msgstr "_Vertikal spiegeln"
 
-#: ../src/main.c:249
+#: ../src/main.c:213
 msgid "Flip _Horizontally"
 msgstr "_Horizontal spiegeln"
 
-#: ../src/main.c:258
+#: ../src/main.c:214
+msgid "_Open with..."
+msgstr ""
+
+#: ../src/main.c:222 ../src/main.c:571
+msgid "No applications available"
+msgstr ""
+
+#.
+#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_left);
+#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_right);
+#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_v);
+#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_h);
+#.
+#: ../src/main.c:232
 msgid "_View"
 msgstr "_Ansicht"
 
-#: ../src/main.c:259
+#: ../src/main.c:233
 msgid "Show Toolbar"
 msgstr "_Werkzeugleiste anzeigen"
 
-#: ../src/main.c:260
+#: ../src/main.c:234
 msgid "Thumbnail Viewer"
 msgstr "Vor_schaubilder"
 
-#: ../src/main.c:274
+#: ../src/main.c:248
 msgid "Show Horizontally"
 msgstr "_Horizontal anzeigen"
 
-#: ../src/main.c:275
+#: ../src/main.c:249
 msgid "Show Vertically"
 msgstr "_Vertikal anzeigen"
 
-#: ../src/main.c:276
+#: ../src/main.c:250
 msgid "Hide"
 msgstr "Ver_bergen"
 
-#: ../src/main.c:282
+#: ../src/main.c:256
 msgid "_Go"
 msgstr "_Gehe zu"
 
-#: ../src/main.c:310
+#: ../src/main.c:284
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: ../src/main.c:474
+#: ../src/main.c:491
 msgid "Developer:"
 msgstr "Entwickler:"
 
-#: ../src/main.c:484
+#: ../src/main.c:501
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -91,21 +105,26 @@ msgstr ""
 "Ristretto ist ein schneller und leichter Bildbetrachter für die "
 "Arbeitsumgebung Xfce."
 
-#: ../src/main.c:492
+#: ../src/main.c:509
 msgid "translator-credits"
 msgstr "Christian Dywan <christian@twotoasts.de>"
 
-#: ../src/main.c:765
+#: ../src/main.c:812
 msgid "Open image"
 msgstr "Bild öffnen"
 
-#: ../src/main.c:801
+#: ../src/main.c:848
 msgid "Could not open file"
 msgstr "Datei konnte nicht geöffnet werden"
 
-#: ../src/main.c:813
+#: ../src/main.c:860
 msgid "Open folder"
 msgstr "_Ordner öffnen"
+
+#: ../src/main.c:1036
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
