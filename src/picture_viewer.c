@@ -367,54 +367,57 @@ rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *viewer, GtkAdjus
 static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureViewer *viewer)
 {
+    gdouble scale = 1.0;
+    gdouble width = 1.0;
+    gdouble height = 1.0;
+    GtkWidget *widget = GTK_WIDGET(viewer);
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
-    gdouble scale = rstto_navigator_entry_get_scale(entry);
-    if (viewer->priv->src_pixbuf)
+    if (entry)
     {
-        gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
-        gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
-
-        GdkPixbuf *tmp_pixbuf = NULL;
-        if (viewer->hadjustment && viewer->vadjustment)
+        scale = rstto_navigator_entry_get_scale(entry);
+        width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
+        height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
+    }
+    GdkPixbuf *tmp_pixbuf = NULL;
+    if (viewer->vadjustment && viewer->hadjustment)
+    {
+        if (scale < 1.0)
         {
-            if (scale < 1.0)
-            {
-                tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
-                            viewer->hadjustment->value / scale >= 0?
-                                viewer->hadjustment->value / scale : 0,
-                            viewer->vadjustment->value / scale >= 0?
-                                viewer->vadjustment->value / scale : 0,
-                            ((GTK_WIDGET(viewer)->allocation.width/scale)) < width?
-                                GTK_WIDGET(viewer)->allocation.width/scale:width,
-                            ((GTK_WIDGET(viewer)->allocation.height/scale)) < height?
-                                GTK_WIDGET(viewer)->allocation.height/scale:height);
-            }
-            else
-            {
-                tmp_pixbuf = viewer->priv->src_pixbuf;
-                g_object_ref(tmp_pixbuf);
-            }
+            tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
+                                              viewer->hadjustment->value / scale >= 0?
+                                                viewer->hadjustment->value / scale : 0,
+                                              viewer->vadjustment->value / scale >= 0?
+                                                viewer->vadjustment->value / scale : 0,
+                                              ((widget->allocation.width/scale)) < width?
+                                                widget->allocation.width/scale:width,
+                                              ((widget->allocation.height/scale))< height?
+                                                widget->allocation.height/scale:height);
         }
-
-        if(viewer->priv->dst_pixbuf)
+        else
         {
-            g_object_unref(viewer->priv->dst_pixbuf);
-            viewer->priv->dst_pixbuf = NULL;
-        }
-
-        if(tmp_pixbuf)
-        {
-            gint dst_width = gdk_pixbuf_get_width(tmp_pixbuf)*scale;
-            gint dst_height = gdk_pixbuf_get_height(tmp_pixbuf)*scale;
-            viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf,
-                                    dst_width>0?dst_width:1,
-                                    dst_height>0?dst_height:1,
-                                    GDK_INTERP_BILINEAR);
-            g_object_unref(tmp_pixbuf);
-            tmp_pixbuf = NULL;
+            tmp_pixbuf = viewer->priv->src_pixbuf;
+            g_object_ref(tmp_pixbuf);
         }
     }
-    rstto_picture_viewer_paint((GtkWidget *)viewer);
+
+    if(viewer->priv->dst_pixbuf)
+    {
+        g_object_unref(viewer->priv->dst_pixbuf);
+        viewer->priv->dst_pixbuf = NULL;
+    }
+
+    if(tmp_pixbuf)
+    {
+        gint dst_width = gdk_pixbuf_get_width(tmp_pixbuf)*scale;
+        gint dst_height = gdk_pixbuf_get_height(tmp_pixbuf)*scale;
+        viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf,
+                                dst_width>0?dst_width:1,
+                                dst_height>0?dst_height:1,
+                                GDK_INTERP_BILINEAR);
+        g_object_unref(tmp_pixbuf);
+        tmp_pixbuf = NULL;
+    }
+    rstto_picture_viewer_paint(widget);
 }
 
 GtkWidget *
