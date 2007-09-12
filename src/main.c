@@ -574,6 +574,7 @@ cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntr
         {
             g_list_foreach(menu_apps_list, (GFunc)g_object_unref, NULL);
             g_list_free(menu_apps_list);
+            menu_apps_list = NULL;
         }
         if(info)
         {
