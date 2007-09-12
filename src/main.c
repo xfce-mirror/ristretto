@@ -548,9 +548,16 @@ cb_rstto_previous(GtkToolItem *item, RsttoNavigator *navigator)
 static void
 cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntry *entry, GtkWindow *window)
 {
-    ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
-    const gchar *filename = info->display_name;
+    ThunarVfsInfo *info = NULL;
+    const gchar *filename = NULL;
     gchar *title;
+
+    if(entry)
+    {
+        info = rstto_navigator_entry_get_info(entry);
+        filename = info->display_name;
+    }
+
     if(filename)
     {
         title = g_strconcat(PACKAGE_NAME, " - ", filename, NULL);
