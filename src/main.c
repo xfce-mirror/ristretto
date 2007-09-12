@@ -194,6 +194,7 @@ int main(int argc, char **argv)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_separator);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_close);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_file), menu_item_quit);
+    gtk_widget_set_sensitive(menu_item_close, FALSE);
     
     GtkWidget *recent_chooser_menu = gtk_recent_chooser_menu_new_for_manager(GTK_RECENT_MANAGER(recent_manager));
     GtkRecentFilter *filter = gtk_recent_filter_new();
@@ -405,6 +406,7 @@ int main(int argc, char **argv)
             {
                 RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
                 rstto_navigator_add (navigator, entry);
+                gtk_widget_set_sensitive(menu_item_close, TRUE);
             }
             else
             {
@@ -422,6 +424,7 @@ int main(int argc, char **argv)
                         {
                             RsttoNavigatorEntry *entry = rstto_navigator_entry_new(file_info);
                             rstto_navigator_add (navigator, entry);
+                            gtk_widget_set_sensitive(menu_item_close, TRUE);
                         }
                         g_free(file_media);
                         thunar_vfs_path_unref(file_path);
@@ -1074,9 +1077,16 @@ static void
 cb_rstto_close_current(GtkWidget *item, RsttoNavigator *navigator)
 {
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(navigator);
-    rstto_navigator_remove(navigator, entry);    
-    rstto_navigator_entry_free(entry);
-    if (rstto_navigator_get_n_files(navigator) == 0)
+    if (entry)
+    {
+        rstto_navigator_remove(navigator, entry);    
+        rstto_navigator_entry_free(entry);
+        if (rstto_navigator_get_n_files(navigator) == 0)
+        {
+            gtk_widget_set_sensitive(item, FALSE);
+        }
+    }
+    else
     {
         gtk_widget_set_sensitive(item, FALSE);
     }
