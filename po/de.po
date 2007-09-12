@@ -49,11 +49,11 @@ msgstr "_Horizontal spiegeln"
 
 #: ../src/main.c:214
 msgid "_Open with..."
-msgstr ""
+msgstr "Ö_fnen mit..."
 
 #: ../src/main.c:222 ../src/main.c:571
 msgid "No applications available"
-msgstr ""
+msgstr "Keine Programme verfügbar"
 
 #.
 #. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_left);
@@ -124,7 +124,7 @@ msgstr "_Ordner öffnen"
 #: ../src/main.c:1036
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr ""
+msgstr "Sind Sie sicher, dass Sie ristrettos Liste der zuletzt geöffneten Dokumente leeren wollen?"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"

@@ -575,25 +575,35 @@ cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntr
             g_list_foreach(menu_apps_list, (GFunc)g_object_unref, NULL);
             g_list_free(menu_apps_list);
         }
-        menu_apps_list = thunar_vfs_mime_database_get_applications(mime_dbase, info->mime_info);
-        GList *iter = menu_apps_list;
-        if (iter == NULL)
+        if(info)
+        {
+            menu_apps_list = thunar_vfs_mime_database_get_applications(mime_dbase, info->mime_info);
+            GList *iter = menu_apps_list;
+            if (iter == NULL)
+            {
+                GtkWidget *bottom_menu_item = gtk_menu_item_new_with_mnemonic(_("No applications available"));
+                gtk_menu_shell_append(GTK_MENU_SHELL(menu_apps), bottom_menu_item);
+                gtk_widget_set_sensitive(bottom_menu_item, FALSE);
+                gtk_widget_show(bottom_menu_item);
+            }
+            while(iter)
+            {
+                GtkWidget *menu_item = gtk_image_menu_item_new_with_label(thunar_vfs_mime_application_get_name(iter->data));
+                GtkWidget *image = gtk_image_new_from_icon_name(thunar_vfs_mime_handler_lookup_icon_name(iter->data, icon_theme), GTK_ICON_SIZE_MENU);
+                gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item), image);
+                gtk_menu_shell_append(GTK_MENU_SHELL(menu_apps), menu_item);
+                g_object_set_data(iter->data, "entry", entry);
+                g_signal_connect(menu_item, "activate", G_CALLBACK(cb_rstto_spawn_app), iter->data);
+                gtk_widget_show(menu_item);
+                iter = g_list_next(iter);
+            }
+        }
+        else
         {
             GtkWidget *bottom_menu_item = gtk_menu_item_new_with_mnemonic(_("No applications available"));
             gtk_menu_shell_append(GTK_MENU_SHELL(menu_apps), bottom_menu_item);
             gtk_widget_set_sensitive(bottom_menu_item, FALSE);
             gtk_widget_show(bottom_menu_item);
-        }
-        while(iter)
-        {
-            GtkWidget *menu_item = gtk_image_menu_item_new_with_label(thunar_vfs_mime_application_get_name(iter->data));
-            GtkWidget *image = gtk_image_new_from_icon_name(thunar_vfs_mime_handler_lookup_icon_name(iter->data, icon_theme), GTK_ICON_SIZE_MENU);
-            gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item), image);
-            gtk_menu_shell_append(GTK_MENU_SHELL(menu_apps), menu_item);
-            g_object_set_data(iter->data, "entry", entry);
-            g_signal_connect(menu_item, "activate", G_CALLBACK(cb_rstto_spawn_app), iter->data);
-            gtk_widget_show(menu_item);
-            iter = g_list_next(iter);
         }
     }
 }
