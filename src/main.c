@@ -118,6 +118,7 @@ static GtkRecentManager *recent_manager;
 static XfceRc *xfce_rc;
 static const gchar *thumbnail_viewer_orientation;
 static gint window_save_geometry_timer_id = 0;
+static GtkWidget *menu_item_close;
 
 int main(int argc, char **argv)
 {
@@ -182,7 +183,7 @@ int main(int argc, char **argv)
     GtkWidget *menu_item_open_dir = gtk_menu_item_new_with_mnemonic(_("O_pen Folder"));
     GtkWidget *menu_item_recently = gtk_menu_item_new_with_mnemonic(_("_Recently used"));
     GtkWidget *menu_item_separator = gtk_separator_menu_item_new();
-    GtkWidget *menu_item_close = gtk_image_menu_item_new_from_stock(GTK_STOCK_CLOSE, accel_group);
+    menu_item_close = gtk_image_menu_item_new_from_stock(GTK_STOCK_CLOSE, accel_group);
     GtkWidget *menu_item_quit = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, accel_group);
 
     GtkWidget *menu_file = gtk_menu_new();
@@ -830,7 +831,7 @@ cb_rstto_open(GtkToolItem *item, RsttoNavigator *navigator)
             {
                 RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
                 rstto_navigator_add (navigator, entry);
-
+                gtk_widget_set_sensitive(menu_item_close, TRUE);
                 gchar *uri = thunar_vfs_path_dup_uri(info->path);
                 gtk_recent_manager_add_item(recent_manager, uri);
                 g_free(uri);
@@ -885,6 +886,7 @@ cb_rstto_open_dir(GtkToolItem *item, RsttoNavigator *navigator)
                     {
                         RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
                         rstto_navigator_add (navigator, entry);
+                        gtk_widget_set_sensitive(menu_item_close, TRUE);
                     }
                     g_free(file_media);
                     thunar_vfs_path_unref(path);
@@ -917,6 +919,7 @@ cb_rstto_open_recent(GtkRecentChooser *chooser, RsttoNavigator *navigator)
             {
                 RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
                 rstto_navigator_add (navigator, entry);
+                gtk_widget_set_sensitive(menu_item_close, TRUE);
             }
             else
             {
@@ -936,6 +939,7 @@ cb_rstto_open_recent(GtkRecentChooser *chooser, RsttoNavigator *navigator)
                         {
                             RsttoNavigatorEntry *entry = rstto_navigator_entry_new(file_info);
                             rstto_navigator_add (navigator, entry);
+                            gtk_widget_set_sensitive(menu_item_close, TRUE);
                         }
                         g_free(file_media);
                         thunar_vfs_path_unref(file_path);
@@ -1072,4 +1076,8 @@ cb_rstto_close_current(GtkWidget *item, RsttoNavigator *navigator)
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(navigator);
     rstto_navigator_remove(navigator, entry);    
     rstto_navigator_entry_free(entry);
+    if (rstto_navigator_get_n_files(navigator) == 0)
+    {
+        gtk_widget_set_sensitive(item, FALSE);
+    }
 }
