@@ -123,6 +123,8 @@ static GtkWidget *menu_item_first;
 static GtkWidget *menu_item_last;
 static GtkWidget *menu_item_forward;
 static GtkWidget *menu_item_back;
+static GtkToolItem *tool_item_forward;
+static GtkToolItem *tool_item_previous;
 
 int main(int argc, char **argv)
 {
@@ -309,14 +311,16 @@ int main(int argc, char **argv)
     GtkToolItem *zoom_100= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_100);
     GtkToolItem *zoom_out= gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_OUT);
     GtkToolItem *zoom_in = gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_IN);
-    GtkToolItem *forward = gtk_tool_button_new_from_stock(GTK_STOCK_GO_FORWARD);
-    GtkToolItem *previous = gtk_tool_button_new_from_stock(GTK_STOCK_GO_BACK);
+    tool_item_forward = gtk_tool_button_new_from_stock(GTK_STOCK_GO_FORWARD);
+    tool_item_previous = gtk_tool_button_new_from_stock(GTK_STOCK_GO_BACK);
     GtkToolItem *open = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
     GtkToolItem *spacer = gtk_tool_item_new();
     GtkToolItem *separator = gtk_separator_tool_item_new();
 
-    gtk_tool_item_set_is_important(previous, TRUE);
-    gtk_tool_item_set_is_important(forward, TRUE);
+    gtk_tool_item_set_is_important(tool_item_previous, TRUE);
+    gtk_tool_item_set_is_important(tool_item_forward, TRUE);
+    gtk_widget_set_sensitive(GTK_WIDGET(tool_item_forward), FALSE);
+    gtk_widget_set_sensitive(GTK_WIDGET(tool_item_previous), FALSE);
 
     gtk_tool_item_set_expand(spacer, TRUE);
     gtk_tool_item_set_homogeneous(spacer, FALSE);
@@ -352,8 +356,8 @@ int main(int argc, char **argv)
     gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), zoom_out, 0);
     gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), zoom_in, 0);
     gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), spacer, 0);
-    gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), forward, 0);
-    gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), previous, 0);
+    gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), tool_item_forward, 0);
+    gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), tool_item_previous, 0);
     gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), separator, 0);
     gtk_toolbar_insert(GTK_TOOLBAR(app_tool_bar), open, 0);
 
@@ -361,8 +365,8 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(zoom_100), "clicked", G_CALLBACK(cb_rstto_zoom_100), viewer);
     g_signal_connect(G_OBJECT(zoom_in), "clicked", G_CALLBACK(cb_rstto_zoom_in), viewer);
     g_signal_connect(G_OBJECT(zoom_out), "clicked", G_CALLBACK(cb_rstto_zoom_out), viewer);
-    g_signal_connect(G_OBJECT(forward), "clicked", G_CALLBACK(cb_rstto_forward), navigator);
-    g_signal_connect(G_OBJECT(previous), "clicked", G_CALLBACK(cb_rstto_previous), navigator);
+    g_signal_connect(G_OBJECT(tool_item_forward), "clicked", G_CALLBACK(cb_rstto_forward), navigator);
+    g_signal_connect(G_OBJECT(tool_item_previous), "clicked", G_CALLBACK(cb_rstto_previous), navigator);
     if(toolbar_open_dir == TRUE)
         g_signal_connect(G_OBJECT(open), "clicked", G_CALLBACK(cb_rstto_open_dir), navigator);
     else
@@ -567,6 +571,9 @@ cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntr
         gtk_widget_set_sensitive(menu_item_last, TRUE);
         gtk_widget_set_sensitive(menu_item_back, TRUE);
         gtk_widget_set_sensitive(menu_item_forward, TRUE);
+
+        gtk_widget_set_sensitive(GTK_WIDGET(tool_item_forward), TRUE);
+        gtk_widget_set_sensitive(GTK_WIDGET(tool_item_previous), TRUE);
     }
     else
     {
@@ -577,6 +584,9 @@ cb_rstto_nav_file_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntr
             gtk_widget_set_sensitive(menu_item_last, FALSE);
             gtk_widget_set_sensitive(menu_item_back, FALSE);
             gtk_widget_set_sensitive(menu_item_forward, FALSE);
+
+            gtk_widget_set_sensitive(GTK_WIDGET(tool_item_forward), FALSE);
+            gtk_widget_set_sensitive(GTK_WIDGET(tool_item_previous), FALSE);
         }
     }
 
