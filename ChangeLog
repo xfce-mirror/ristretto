@@ -1,3 +1,13 @@
+2007-09-13: Release 0.0.5
+	* src/main.c:
+	  - Add the possibility to close images
+	  - Add an 'open with' submenu, to open an image with alternative applications
+	  - Add confirmation dialog to the recent-documents list clear button
+	* src/navigation.c:
+	  - Add the possibility to remove images
+	* src/thumbnail_viewer.c:
+	  - Let thumbnail-viewer respond to reordered signal
+
 2007-09-08: Release 0.0.4
 	* ristretto.desktop.in:
 	  - Add %F to the Exec field
