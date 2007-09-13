@@ -1,6 +1,4 @@
 /*
-        g_object_unref(viewer->priv->src_pixbuf);
-        viewer->priv->src_pixbuf = NULL;
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -703,7 +701,8 @@ rstto_picture_viewer_update(RsttoPictureViewer *viewer)
     if(entry)
     {
         viewer->priv->src_pixbuf = rstto_navigator_entry_get_pixbuf(entry);
-        g_object_ref(viewer->priv->src_pixbuf);
+        if (viewer->priv->src_pixbuf)
+            g_object_ref(viewer->priv->src_pixbuf);
     }
 
     if(GTK_WIDGET_REALIZED(widget))
