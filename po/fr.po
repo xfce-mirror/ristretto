@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
 "POT-Creation-Date: 2007-09-12 19:18+0200\n"
-"PO-Revision-Date: 2007-09-08 16:20+0100\n"
+"PO-Revision-Date: 2007-09-12 22:11+0100\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -49,11 +49,12 @@ msgstr "Retourner _horizontalement"
 
 #: ../src/main.c:214
 msgid "_Open with..."
-msgstr ""
+msgstr "_Ouvrir avec..."
 
-#: ../src/main.c:222 ../src/main.c:571
+#: ../src/main.c:222
+#: ../src/main.c:571
 msgid "No applications available"
-msgstr ""
+msgstr "Aucune application disponible"
 
 #.
 #. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_left);
@@ -98,12 +99,8 @@ msgid "Developer:"
 msgstr "Développeur :"
 
 #: ../src/main.c:501
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto est un visualiseur d'images léger et rapide pour l'environnement "
-"de bureau Xfce."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto est un visualiseur d'images léger et rapide pour l'environnement de bureau Xfce."
 
 #: ../src/main.c:509
 msgid "translator-credits"
@@ -122,9 +119,8 @@ msgid "Open folder"
 msgstr "Ouvrir un répertoire"
 
 #: ../src/main.c:1036
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr ""
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Êtes-vous certain de vouloir supprimer la liste des documents récemment ouverts de Ristretto ?"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -138,8 +134,3 @@ msgstr "Ristretto : Visualiseur d'Images"
 msgid "Xfce Image viewer"
 msgstr "Visualiseur d'Images pour Xfce"
 
-#~ msgid "_Clear"
-#~ msgstr "_Nettoyer"
-
-#~ msgid "View Zoom toolbar"
-#~ msgstr "Barre de zoom"
