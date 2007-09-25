@@ -295,6 +295,12 @@ rstto_navigator_set_running (RsttoNavigator *navigator, gboolean running)
     }
 }
 
+gboolean
+rstto_navigator_is_running (RsttoNavigator *navigator)
+{
+    return navigator->running;
+}
+
 RsttoNavigatorEntry *
 rstto_navigator_get_file (RsttoNavigator *navigator)
 {
@@ -598,4 +604,5 @@ rstto_navigator_entry_set_fit_to_screen (RsttoNavigatorEntry *entry, gboolean ft
 {
     entry->fit_to_screen = fts;
 }
+
 

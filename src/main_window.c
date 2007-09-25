@@ -33,6 +33,7 @@ struct _RsttoMainWindowPriv
     GtkWidget *picture_viewer;
     GtkWidget *statusbar;
     GtkRecentManager *manager;
+    gdouble zoom_factor;
 
     struct {
         GtkWidget *main_vbox;
@@ -144,6 +145,24 @@ static void
 cb_rstto_main_window_pause(GtkWidget *widget, RsttoMainWindow *window);
 
 static void
+cb_rstto_main_window_next(GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_previous(GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_last(GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_first(GtkWidget *widget, RsttoMainWindow *window);
+
+static void
+cb_rstto_main_window_zoom_in(GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_zoom_out(GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_zoom_100(GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_zoom_fit(GtkWidget *widget, RsttoMainWindow *window);
+
+static void
 cb_rstto_main_window_open_file(GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window);
@@ -196,6 +215,7 @@ static void
 rstto_main_window_init(RsttoMainWindow *window)
 {
     window->priv = g_new0(RsttoMainWindowPriv, 1);
+    window->priv->zoom_factor = 1.2;
 
     GtkAccelGroup *accel_group = gtk_accel_group_new();
 
@@ -437,7 +457,7 @@ rstto_main_window_init(RsttoMainWindow *window)
             "activate",
             G_CALLBACK(cb_rstto_main_window_pause), window);
 
-    /* Window evets */
+    /* Window events */
     g_signal_connect(G_OBJECT(window),
             "window-state-event",
             G_CALLBACK(cb_rstto_main_window_state_event), NULL);
@@ -445,7 +465,7 @@ rstto_main_window_init(RsttoMainWindow *window)
             "key-press-event",
             G_CALLBACK(cb_rstto_main_window_key_press_event), NULL);
 
-    /* Generic */
+    /* Generic menu signals */
     g_signal_connect(window->priv->menus.file.menu_item_open_file, 
             "activate",
             G_CALLBACK(cb_rstto_main_window_open_file), window);
@@ -456,7 +476,8 @@ rstto_main_window_init(RsttoMainWindow *window)
             "activate",
             G_CALLBACK(cb_rstto_main_window_close), window);
     g_signal_connect(G_OBJECT(window->priv->menus.file.recently.menu),
-            "item-activated", G_CALLBACK(cb_rstto_main_window_open_recent), window);
+            "item-activated",
+            G_CALLBACK(cb_rstto_main_window_open_recent), window);
     g_signal_connect(window->priv->menus.file.menu_item_quit, 
             "activate",
             G_CALLBACK(cb_rstto_main_window_quit), window);
@@ -464,6 +485,44 @@ rstto_main_window_init(RsttoMainWindow *window)
             "activate",
             G_CALLBACK(cb_rstto_main_window_about), window);
 
+    g_signal_connect(window->priv->menus.go.menu_item_next,
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_next), window);
+    g_signal_connect(window->priv->menus.go.menu_item_previous,
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_previous), window);
+    g_signal_connect(window->priv->menus.go.menu_item_first,
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_first), window);
+    g_signal_connect(window->priv->menus.go.menu_item_last,
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_last), window);
+
+    /* Toolbar signals */
+    g_signal_connect(window->priv->toolbar.tool_item_open,
+            "clicked",
+            G_CALLBACK(cb_rstto_main_window_open_folder), window);
+    g_signal_connect(window->priv->toolbar.tool_item_next,
+            "clicked",
+            G_CALLBACK(cb_rstto_main_window_next), window);
+    g_signal_connect(window->priv->toolbar.tool_item_previous,
+            "clicked",
+            G_CALLBACK(cb_rstto_main_window_previous), window);
+
+    g_signal_connect(window->priv->toolbar.tool_item_zoom_in,
+            "clicked",
+            G_CALLBACK(cb_rstto_main_window_zoom_in), window);
+    g_signal_connect(window->priv->toolbar.tool_item_zoom_out,
+            "clicked",
+            G_CALLBACK(cb_rstto_main_window_zoom_out), window);
+    g_signal_connect(window->priv->toolbar.tool_item_zoom_100,
+            "clicked",
+            G_CALLBACK(cb_rstto_main_window_zoom_100), window);
+    g_signal_connect(window->priv->toolbar.tool_item_zoom_fit,
+            "clicked",
+            G_CALLBACK(cb_rstto_main_window_zoom_fit), window);
+
+    /* Misc */
     g_signal_connect(G_OBJECT(window->priv->navigator),
             "iter-changed",
             G_CALLBACK(cb_rstto_main_window_nav_iter_changed), window);
@@ -593,6 +652,14 @@ cb_rstto_main_window_key_press_event(GtkWidget *widget, GdkEventKey *event, gpoi
         switch(event->keyval)
         {
             case GDK_F5:
+                if (rstto_navigator_is_running(RSTTO_NAVIGATOR(rstto_window->priv->navigator)))
+                {
+                    cb_rstto_main_window_pause(rstto_window->priv->menus.go.menu_item_pause, rstto_window);
+                }
+                else
+                {
+                    cb_rstto_main_window_play(rstto_window->priv->menus.go.menu_item_play, rstto_window);
+                }
                 break;
             case GDK_F11:
                 if(gdk_window_get_state(widget->window) & GDK_WINDOW_STATE_FULLSCREEN)
@@ -655,6 +722,7 @@ cb_rstto_main_window_play(GtkWidget *widget, RsttoMainWindow *window)
     gtk_container_remove(GTK_CONTAINER(window->priv->menus.go.menu), widget);
     gtk_menu_shell_insert(GTK_MENU_SHELL(window->priv->menus.go.menu), window->priv->menus.go.menu_item_pause, 5);
     gtk_widget_show_all(window->priv->menus.go.menu_item_pause);
+    rstto_navigator_set_running(RSTTO_NAVIGATOR(window->priv->navigator), TRUE);
 }
 
 static void
@@ -664,6 +732,7 @@ cb_rstto_main_window_pause(GtkWidget *widget, RsttoMainWindow *window)
     gtk_container_remove(GTK_CONTAINER(window->priv->menus.go.menu), widget);
     gtk_menu_shell_insert(GTK_MENU_SHELL(window->priv->menus.go.menu), window->priv->menus.go.menu_item_play, 5);
     gtk_widget_show_all(window->priv->menus.go.menu_item_play);
+    rstto_navigator_set_running(RSTTO_NAVIGATOR(window->priv->navigator), FALSE);
 }
 
 static void
@@ -885,6 +954,8 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
         gtk_widget_set_sensitive(window->priv->menus.go.menu_item_last, TRUE);
         gtk_widget_set_sensitive(window->priv->menus.go.menu_item_previous, TRUE);
         gtk_widget_set_sensitive(window->priv->menus.go.menu_item_next, TRUE);
+        gtk_widget_set_sensitive(window->priv->menus.go.menu_item_play, TRUE);
+        gtk_widget_set_sensitive(window->priv->menus.go.menu_item_pause, TRUE);
     }
     else
     {
@@ -895,7 +966,59 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
             gtk_widget_set_sensitive(window->priv->menus.go.menu_item_last, FALSE);
             gtk_widget_set_sensitive(window->priv->menus.go.menu_item_previous, FALSE);
             gtk_widget_set_sensitive(window->priv->menus.go.menu_item_next, FALSE);
+            gtk_widget_set_sensitive(window->priv->menus.go.menu_item_play, FALSE);
+            gtk_widget_set_sensitive(window->priv->menus.go.menu_item_pause, FALSE);
         }
     }
 
+}
+
+static void
+cb_rstto_main_window_next(GtkWidget *widget, RsttoMainWindow *window)
+{
+    rstto_navigator_jump_forward(window->priv->navigator);
+}
+
+static void
+cb_rstto_main_window_previous(GtkWidget *widget, RsttoMainWindow *window)
+{
+    rstto_navigator_jump_back(window->priv->navigator);
+}
+
+static void
+cb_rstto_main_window_first(GtkWidget *widget, RsttoMainWindow *window)
+{
+    rstto_navigator_jump_first(window->priv->navigator);
+}
+
+static void
+cb_rstto_main_window_last(GtkWidget *widget, RsttoMainWindow *window)
+{
+    rstto_navigator_jump_last(window->priv->navigator);
+}
+
+static void
+cb_rstto_main_window_zoom_in(GtkWidget *widget, RsttoMainWindow *window)
+{
+    gdouble scale = rstto_picture_viewer_get_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
+    rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), scale * window->priv->zoom_factor);
+}
+
+static void
+cb_rstto_main_window_zoom_out(GtkWidget *widget, RsttoMainWindow *window)
+{
+    gdouble scale = rstto_picture_viewer_get_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
+    rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), scale / window->priv->zoom_factor);
+}
+
+static void
+cb_rstto_main_window_zoom_100(GtkWidget *widget, RsttoMainWindow *window)
+{
+    rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), 1);
+}
+
+static void
+cb_rstto_main_window_zoom_fit(GtkWidget *widget, RsttoMainWindow *window)
+{
+    rstto_picture_viewer_fit_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
 }

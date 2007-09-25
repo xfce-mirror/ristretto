@@ -75,6 +75,7 @@ void       rstto_navigator_jump_last (RsttoNavigator *navigator);
 
 void       rstto_navigator_set_running (RsttoNavigator *navigator,
                                         gboolean running);
+gboolean   rstto_navigator_is_running (RsttoNavigator *navigator);
 void
 rstto_navigator_set_timeout (RsttoNavigator *nav, gint);
 
