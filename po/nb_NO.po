@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-09-12 19:18+0200\n"
+"POT-Creation-Date: 2007-09-25 06:00+0200\n"
 "PO-Revision-Date: 2007-08-29 21:12+0200\n"
 "Last-Translator: Terje Uriansrud <ter@operamail.com>\n"
 "Language-Team: Norwegian Bokmal\n"
@@ -16,114 +16,92 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/main.c:180
+#. Create 'File' menu
+#: ../src/main_window.c:219
 msgid "_File"
 msgstr "_Fil"
 
-#: ../src/main.c:182
+#: ../src/main_window.c:226
 msgid "O_pen Folder"
 msgstr "Åp_ne mappe"
 
-#: ../src/main.c:183
+#: ../src/main_window.c:227
 msgid "_Recently used"
 msgstr "Nylig _brukt"
 
-#: ../src/main.c:209
+#. Create 'Edit' menu
+#: ../src/main_window.c:254
 msgid "_Edit"
 msgstr "_Rediger"
 
-#: ../src/main.c:210
-msgid "Rotate _Left"
-msgstr "Roter _venstre"
-
-#: ../src/main.c:211
-msgid "Rotate _Right"
-msgstr "Roter _høyre"
-
-#: ../src/main.c:212
-msgid "Flip _Vertically"
-msgstr "Vend _loddrett"
-
-#: ../src/main.c:213
-msgid "Flip _Horizontally"
-msgstr "Vend v_annrett"
-
-#: ../src/main.c:214
-msgid "_Open with..."
+#: ../src/main_window.c:259
+msgid "Open with..."
 msgstr ""
 
-#: ../src/main.c:222 ../src/main.c:571
+#: ../src/main_window.c:265
 msgid "No applications available"
 msgstr ""
 
-#.
-#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_left);
-#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_right);
-#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_v);
-#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_h);
-#.
-#: ../src/main.c:232
+#. Create 'View' menu
+#: ../src/main_window.c:273
 msgid "_View"
 msgstr "_Vis"
 
-#: ../src/main.c:233
+#: ../src/main_window.c:280
 msgid "Show Toolbar"
 msgstr ""
 
-#: ../src/main.c:234
+#: ../src/main_window.c:281
 msgid "Thumbnail Viewer"
 msgstr "Miniatyrvisning"
 
-#: ../src/main.c:248
+#: ../src/main_window.c:299
 msgid "Show Horizontally"
 msgstr "Vis vannrett"
 
-#: ../src/main.c:249
+#: ../src/main_window.c:303
 msgid "Show Vertically"
 msgstr "Vis loddrett"
 
-#: ../src/main.c:250
+#: ../src/main_window.c:307
 msgid "Hide"
 msgstr "Skjul"
 
-#: ../src/main.c:256
+#. Create 'Go' menu
+#: ../src/main_window.c:317
 msgid "_Go"
 msgstr "_Gå"
 
-#: ../src/main.c:284
+#. Create 'Help' menu
+#: ../src/main_window.c:346
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: ../src/main.c:491
+#: ../src/main_window.c:673
 msgid "Developer:"
 msgstr "Utvikler:"
 
-#: ../src/main.c:501
+#: ../src/main_window.c:683
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "Ristretto er en rask og lettvekts bildefremviser for Xfce skrivebordet"
 
-#: ../src/main.c:509
+#: ../src/main_window.c:691
 msgid "translator-credits"
 msgstr "Oversettelser"
 
-#: ../src/main.c:812
+#: ../src/main_window.c:711
 msgid "Open image"
 msgstr "Åpne bilde"
 
-#: ../src/main.c:848
+#: ../src/main_window.c:746
 msgid "Could not open file"
 msgstr ""
 
-#: ../src/main.c:860
+#: ../src/main_window.c:756
 msgid "Open folder"
 msgstr "Åpne mappe"
-
-#: ../src/main.c:1036
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -136,3 +114,15 @@ msgstr "Ristretto Bildefremviser"
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce  Bildefremviser"
+
+#~ msgid "Rotate _Left"
+#~ msgstr "Roter _venstre"
+
+#~ msgid "Rotate _Right"
+#~ msgstr "Roter _høyre"
+
+#~ msgid "Flip _Vertically"
+#~ msgstr "Vend _loddrett"
+
+#~ msgid "Flip _Horizontally"
+#~ msgstr "Vend v_annrett"

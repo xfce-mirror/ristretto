@@ -145,16 +145,8 @@ rstto_thumbnail_viewer_class_init(RsttoThumbnailViewerClass *viewer_class)
 static void
 rstto_thumbnail_viewer_size_request(GtkWidget *widget, GtkRequisition *requisition)
 {
-    RsttoThumbnailViewer *viewer = RSTTO_THUMBNAIL_VIEWER(widget);
-    switch(viewer->priv->orientation)
-    {
-        case GTK_ORIENTATION_HORIZONTAL:
-            requisition->height = 74;
-            break;
-        case GTK_ORIENTATION_VERTICAL:
-            requisition->width = 74;
-            break;
-    }
+    requisition->height = 60;
+    requisition->width = 60;
 }
 
 static void

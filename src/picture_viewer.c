@@ -665,7 +665,7 @@ cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavi
         }
         g_timer_start(viewer->priv->timer);
         if (viewer->priv->timeout_id == 0)
-            viewer->priv->timeout_id = g_timeout_add(300, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
+            viewer->priv->timeout_id = g_timeout_add(200, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
     }
     else
     {

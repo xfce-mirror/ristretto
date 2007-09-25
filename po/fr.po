@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-09-12 19:18+0200\n"
+"POT-Creation-Date: 2007-09-25 06:00+0200\n"
 "PO-Revision-Date: 2007-09-12 22:11+0100\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
@@ -15,112 +15,94 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:180
+#. Create 'File' menu
+#: ../src/main_window.c:219
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../src/main.c:182
+#: ../src/main_window.c:226
 msgid "O_pen Folder"
 msgstr "O_uvrir un répertoire"
 
-#: ../src/main.c:183
+#: ../src/main_window.c:227
 msgid "_Recently used"
 msgstr "_Récemment ouvert"
 
-#: ../src/main.c:209
+#. Create 'Edit' menu
+#: ../src/main_window.c:254
 msgid "_Edit"
 msgstr "_Editer"
 
-#: ../src/main.c:210
-msgid "Rotate _Left"
-msgstr "Tourner vers la _gauche"
-
-#: ../src/main.c:211
-msgid "Rotate _Right"
-msgstr "Tourner vers la _droite"
-
-#: ../src/main.c:212
-msgid "Flip _Vertically"
-msgstr "Retourner _verticalement"
-
-#: ../src/main.c:213
-msgid "Flip _Horizontally"
-msgstr "Retourner _horizontalement"
-
-#: ../src/main.c:214
-msgid "_Open with..."
+#: ../src/main_window.c:259
+msgid "Open with..."
 msgstr "_Ouvrir avec..."
 
-#: ../src/main.c:222
-#: ../src/main.c:571
+#: ../src/main_window.c:265
 msgid "No applications available"
 msgstr "Aucune application disponible"
 
-#.
-#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_left);
-#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_right);
-#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_v);
-#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_h);
-#.
-#: ../src/main.c:232
+#. Create 'View' menu
+#: ../src/main_window.c:273
 msgid "_View"
 msgstr "_Afficher"
 
-#: ../src/main.c:233
+#: ../src/main_window.c:280
 msgid "Show Toolbar"
 msgstr "Barre d'outils"
 
-#: ../src/main.c:234
+#: ../src/main_window.c:281
 msgid "Thumbnail Viewer"
 msgstr "Vue des miniatures"
 
-#: ../src/main.c:248
+#: ../src/main_window.c:299
 msgid "Show Horizontally"
 msgstr "Afficher horizontalement"
 
-#: ../src/main.c:249
+#: ../src/main_window.c:303
 msgid "Show Vertically"
 msgstr "Afficher verticalement"
 
-#: ../src/main.c:250
+#: ../src/main_window.c:307
 msgid "Hide"
 msgstr "Cacher"
 
-#: ../src/main.c:256
+#. Create 'Go' menu
+#: ../src/main_window.c:317
 msgid "_Go"
 msgstr "A_ller"
 
-#: ../src/main.c:284
+#. Create 'Help' menu
+#: ../src/main_window.c:346
 msgid "_Help"
 msgstr "A_ide"
 
-#: ../src/main.c:491
+#: ../src/main_window.c:673
 msgid "Developer:"
 msgstr "Développeur :"
 
-#: ../src/main.c:501
-msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
-msgstr "Ristretto est un visualiseur d'images léger et rapide pour l'environnement de bureau Xfce."
+#: ../src/main_window.c:683
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
+msgstr ""
+"Ristretto est un visualiseur d'images léger et rapide pour l'environnement "
+"de bureau Xfce."
 
-#: ../src/main.c:509
+#: ../src/main_window.c:691
 msgid "translator-credits"
 msgstr "Mike Massonnet <mmassonnet@xfce.org>"
 
-#: ../src/main.c:812
+#: ../src/main_window.c:711
 msgid "Open image"
 msgstr "Ouvrir une image"
 
-#: ../src/main.c:848
+#: ../src/main_window.c:746
 msgid "Could not open file"
 msgstr "Impossible d'ouvrir le fichier"
 
-#: ../src/main.c:860
+#: ../src/main_window.c:756
 msgid "Open folder"
 msgstr "Ouvrir un répertoire"
-
-#: ../src/main.c:1036
-msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr "Êtes-vous certain de vouloir supprimer la liste des documents récemment ouverts de Ristretto ?"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -134,3 +116,21 @@ msgstr "Ristretto : Visualiseur d'Images"
 msgid "Xfce Image viewer"
 msgstr "Visualiseur d'Images pour Xfce"
 
+#~ msgid "Rotate _Left"
+#~ msgstr "Tourner vers la _gauche"
+
+#~ msgid "Rotate _Right"
+#~ msgstr "Tourner vers la _droite"
+
+#~ msgid "Flip _Vertically"
+#~ msgstr "Retourner _verticalement"
+
+#~ msgid "Flip _Horizontally"
+#~ msgstr "Retourner _horizontalement"
+
+#~ msgid ""
+#~ "Are you sure you want to clear ristretto's list of recently opened "
+#~ "documents?"
+#~ msgstr ""
+#~ "Êtes-vous certain de vouloir supprimer la liste des documents récemment "
+#~ "ouverts de Ristretto ?"

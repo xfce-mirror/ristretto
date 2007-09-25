@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-09-12 19:18+0200\n"
+"POT-Creation-Date: 2007-09-25 06:00+0200\n"
 "PO-Revision-Date: 2007-07-13 00:48+0200\n"
 "Last-Translator: Stephan Arts <stephan@xfce.org>\n"
 "Language-Team: Dutch\n"
@@ -16,89 +16,72 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/main.c:180
+#. Create 'File' menu
+#: ../src/main_window.c:219
 msgid "_File"
 msgstr "_Bestand"
 
-#: ../src/main.c:182
+#: ../src/main_window.c:226
 msgid "O_pen Folder"
 msgstr "Map o_penen"
 
-#: ../src/main.c:183
+#: ../src/main_window.c:227
 msgid "_Recently used"
 msgstr "_Recent geopend"
 
-#: ../src/main.c:209
+#. Create 'Edit' menu
+#: ../src/main_window.c:254
 msgid "_Edit"
 msgstr "B_ewerken"
 
-#: ../src/main.c:210
-msgid "Rotate _Left"
-msgstr "_Linksom draaien"
-
-#: ../src/main.c:211
-msgid "Rotate _Right"
-msgstr "_Rechtsom draaien"
-
-#: ../src/main.c:212
-msgid "Flip _Vertically"
-msgstr "_Verticaal spiegelen"
-
-#: ../src/main.c:213
-msgid "Flip _Horizontally"
-msgstr "_Horizontaal spiegelen"
-
-#: ../src/main.c:214
-msgid "_Open with..."
+#: ../src/main_window.c:259
+msgid "Open with..."
 msgstr "_Openen met..."
 
-#: ../src/main.c:222 ../src/main.c:571
+#: ../src/main_window.c:265
 msgid "No applications available"
 msgstr "Geen programma's beschikbaar"
 
-#.
-#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_left);
-#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_rotate_right);
-#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_v);
-#. gtk_menu_shell_append(GTK_MENU_SHELL(menu_edit), menu_item_flip_h);
-#.
-#: ../src/main.c:232
+#. Create 'View' menu
+#: ../src/main_window.c:273
 msgid "_View"
 msgstr "Beel_d"
 
-#: ../src/main.c:233
+#: ../src/main_window.c:280
 msgid "Show Toolbar"
 msgstr "Toon Werkbalk"
 
-#: ../src/main.c:234
+#: ../src/main_window.c:281
 msgid "Thumbnail Viewer"
 msgstr "Miniatuur Weergave"
 
-#: ../src/main.c:248
+#: ../src/main_window.c:299
 msgid "Show Horizontally"
 msgstr "Horizontaal tonen"
 
-#: ../src/main.c:249
+#: ../src/main_window.c:303
 msgid "Show Vertically"
 msgstr "Verticaal tonen"
 
-#: ../src/main.c:250
+#: ../src/main_window.c:307
 msgid "Hide"
 msgstr "Verbergen"
 
-#: ../src/main.c:256
+#. Create 'Go' menu
+#: ../src/main_window.c:317
 msgid "_Go"
 msgstr "_Ga"
 
-#: ../src/main.c:284
+#. Create 'Help' menu
+#: ../src/main_window.c:346
 msgid "_Help"
 msgstr "_Help"
 
-#: ../src/main.c:491
+#: ../src/main_window.c:673
 msgid "Developer:"
 msgstr "Ontwikkelaar:"
 
-#: ../src/main.c:501
+#: ../src/main_window.c:683
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -106,28 +89,21 @@ msgstr ""
 "Ristretto is een snel en lichtgewicht afbeeldingsweergave-programma voor de "
 "Xfce-desktop omgeving"
 
-#: ../src/main.c:509
+#: ../src/main_window.c:691
 msgid "translator-credits"
 msgstr "Stephan Arts <stephan@xfce.org>"
 
-#: ../src/main.c:812
+#: ../src/main_window.c:711
 msgid "Open image"
 msgstr "Afbeelding openen"
 
-#: ../src/main.c:848
+#: ../src/main_window.c:746
 msgid "Could not open file"
 msgstr "Kan bestand niet openen"
 
-#: ../src/main.c:860
+#: ../src/main_window.c:756
 msgid "Open folder"
 msgstr "Map openen"
-
-#: ../src/main.c:1036
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr ""
-"Weet U zeker dat u de lijst met recent door ristretto geopende bestanden "
-"wilt wissen?"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -140,6 +116,25 @@ msgstr "Ristretto Afbeeldings Weergave"
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce Afbeeldings weergave"
+
+#~ msgid "Rotate _Left"
+#~ msgstr "_Linksom draaien"
+
+#~ msgid "Rotate _Right"
+#~ msgstr "_Rechtsom draaien"
+
+#~ msgid "Flip _Vertically"
+#~ msgstr "_Verticaal spiegelen"
+
+#~ msgid "Flip _Horizontally"
+#~ msgstr "_Horizontaal spiegelen"
+
+#~ msgid ""
+#~ "Are you sure you want to clear ristretto's list of recently opened "
+#~ "documents?"
+#~ msgstr ""
+#~ "Weet U zeker dat u de lijst met recent door ristretto geopende bestanden "
+#~ "wilt wissen?"
 
 #~ msgid "_Clear"
 #~ msgstr "_Opruimen"
