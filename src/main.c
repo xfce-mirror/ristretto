@@ -65,6 +65,7 @@ int main(int argc, char **argv)
     //gint slideshow_timeout = xfce_rc_read_int_entry(xfce_rc, "SlideShowTimeout", 5000);
     
     GtkWidget *window = rstto_main_window_new();
+    gtk_widget_ref(window);
 
 
     g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
@@ -87,8 +88,20 @@ int main(int argc, char **argv)
     rstto_main_window_set_show_toolbar(RSTTO_MAIN_WINDOW(window), show_toolbar);
 
     gtk_main();
+    xfce_rc_write_bool_entry(xfce_rc, "ShowToolBar", rstto_main_window_get_show_toolbar(RSTTO_MAIN_WINDOW(window)));
+    xfce_rc_write_bool_entry(xfce_rc, "ShowThumbnailViewer", rstto_main_window_get_show_thumbnail_viewer(RSTTO_MAIN_WINDOW(window)));
+    switch (rstto_main_window_get_thumbnail_viewer_orientation(RSTTO_MAIN_WINDOW(window)))
+    {
+        case GTK_ORIENTATION_VERTICAL:
+            xfce_rc_write_entry(xfce_rc, "ThumbnailViewerOrientation", "vertical");
+            break;
+        case GTK_ORIENTATION_HORIZONTAL:
+            xfce_rc_write_entry(xfce_rc, "ThumbnailViewerOrientation", "horizontal");
+            break;
+    }
     xfce_rc_flush(xfce_rc);
     xfce_rc_close(xfce_rc);
+    gtk_widget_unref(window);
     return 0;
 }
 

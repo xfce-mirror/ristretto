@@ -614,6 +614,24 @@ rstto_main_window_set_show_toolbar (RsttoMainWindow *window, gboolean visibility
             visibility);
 }
 
+gboolean
+rstto_main_window_get_show_toolbar (RsttoMainWindow *window)
+{
+    return window->priv->settings.toolbar_visibility;
+}
+
+gboolean
+rstto_main_window_get_show_thumbnail_viewer (RsttoMainWindow *window)
+{
+    return window->priv->settings.thumbnail_viewer_visibility;
+}
+
+GtkOrientation
+rstto_main_window_get_thumbnail_viewer_orientation (RsttoMainWindow *window)
+{
+    return window->priv->settings.thumbnail_viewer_orientation;
+}
+
 /* CALLBACK FUNCTIONS */
 
 static void
@@ -1049,3 +1067,4 @@ cb_rstto_main_window_zoom_fit(GtkWidget *widget, RsttoMainWindow *window)
 {
     rstto_picture_viewer_fit_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
 }
+

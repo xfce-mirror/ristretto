@@ -66,6 +66,12 @@ void
 rstto_main_window_set_show_thumbnail_viewer (RsttoMainWindow *window, gboolean visibility);
 void
 rstto_main_window_set_show_toolbar (RsttoMainWindow *window, gboolean visibility);
+gboolean
+rstto_main_window_get_show_toolbar (RsttoMainWindow *window);
+gboolean
+rstto_main_window_get_show_thumbnail_viewer (RsttoMainWindow *window);
+GtkOrientation
+rstto_main_window_get_thumbnail_viewer_orientation (RsttoMainWindow *window);
 
 G_END_DECLS
 
