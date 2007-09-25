@@ -577,17 +577,41 @@ rstto_main_window_set_thumbnail_viewer_orientation(RsttoMainWindow *window, GtkO
 }
 
 void
-rstto_main_window_set_thumbnail_viewer_visibility (RsttoMainWindow *window, gboolean visibility)
+rstto_main_window_set_show_thumbnail_viewer(RsttoMainWindow *window, gboolean visibility)
 {
     window->priv->settings.thumbnail_viewer_visibility = visibility;
     if (visibility == TRUE)
     {
-        gtk_widget_show(window->priv->thumbnail_viewer);
+        switch(rstto_thumbnail_viewer_get_orientation(RSTTO_THUMBNAIL_VIEWER(window->priv->thumbnail_viewer)))
+        {
+            case GTK_ORIENTATION_HORIZONTAL:
+                gtk_check_menu_item_set_active(
+                    GTK_CHECK_MENU_ITEM(window->priv->menus.view.show_thumbnail_viewer.menu_item_thumbnail_viewer_horizontal),
+                    TRUE);
+                break;
+            case GTK_ORIENTATION_VERTICAL:
+                gtk_check_menu_item_set_active(
+                    GTK_CHECK_MENU_ITEM(window->priv->menus.view.show_thumbnail_viewer.menu_item_thumbnail_viewer_vertical),
+                    TRUE);
+                break;
+        }
+        
     }
     else
     {
-        gtk_widget_hide(window->priv->thumbnail_viewer);
+        gtk_check_menu_item_set_active(
+            GTK_CHECK_MENU_ITEM(window->priv->menus.view.show_thumbnail_viewer.menu_item_thumbnail_viewer_hide),
+            TRUE);
     }
+}
+
+void
+rstto_main_window_set_show_toolbar (RsttoMainWindow *window, gboolean visibility)
+{
+    window->priv->settings.toolbar_visibility = visibility;
+    gtk_check_menu_item_set_active(
+            GTK_CHECK_MENU_ITEM(window->priv->menus.view.menu_item_show_toolbar),
+            visibility);
 }
 
 /* CALLBACK FUNCTIONS */
@@ -595,21 +619,24 @@ rstto_main_window_set_thumbnail_viewer_visibility (RsttoMainWindow *window, gboo
 static void
 cb_rstto_main_window_thumbnail_viewer_horizontal(GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_main_window_set_thumbnail_viewer_visibility(window, TRUE);
+    window->priv->settings.thumbnail_viewer_visibility = TRUE;
+    gtk_widget_show(window->priv->thumbnail_viewer);
     rstto_main_window_set_thumbnail_viewer_orientation(window, GTK_ORIENTATION_HORIZONTAL);
 }
 
 static void
 cb_rstto_main_window_thumbnail_viewer_vertical(GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_main_window_set_thumbnail_viewer_visibility(window, TRUE);
+    window->priv->settings.thumbnail_viewer_visibility = TRUE;
+    gtk_widget_show(window->priv->thumbnail_viewer);
     rstto_main_window_set_thumbnail_viewer_orientation(window, GTK_ORIENTATION_VERTICAL);
 }
 
 static void
 cb_rstto_main_window_thumbnail_viewer_hide(GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_main_window_set_thumbnail_viewer_visibility(window, FALSE);
+    window->priv->settings.thumbnail_viewer_visibility = FALSE;
+    gtk_widget_hide(window->priv->thumbnail_viewer);
 }
 
 static void
@@ -686,7 +713,7 @@ cb_rstto_main_window_key_press_event(GtkWidget *widget, GdkEventKey *event, gpoi
                 rstto_navigator_jump_back(rstto_window->priv->navigator);
                 break;
             case GDK_t:
-                rstto_main_window_set_thumbnail_viewer_visibility(RSTTO_MAIN_WINDOW(window),
+                rstto_main_window_set_show_thumbnail_viewer(RSTTO_MAIN_WINDOW(window),
                         !(RSTTO_MAIN_WINDOW(window)->priv->settings.thumbnail_viewer_visibility));
                 break;
         }

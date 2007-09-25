@@ -63,7 +63,9 @@ GtkWidget *rstto_main_window_new();
 void
 rstto_main_window_set_thumbnail_viewer_orientation(RsttoMainWindow *window, GtkOrientation orientation);
 void
-rstto_main_window_set_thumbnail_viewer_visibility (RsttoMainWindow *window, gboolean visibility);
+rstto_main_window_set_show_thumbnail_viewer (RsttoMainWindow *window, gboolean visibility);
+void
+rstto_main_window_set_show_toolbar (RsttoMainWindow *window, gboolean visibility);
 
 G_END_DECLS
 
