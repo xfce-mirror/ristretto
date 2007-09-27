@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-09-25 06:00+0200\n"
+"POT-Creation-Date: 2007-09-27 23:32+0200\n"
 "PO-Revision-Date: 2007-08-29 21:12+0200\n"
 "Last-Translator: Terje Uriansrud <ter@operamail.com>\n"
 "Language-Team: Norwegian Bokmal\n"
@@ -17,91 +17,96 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:219
+#: ../src/main_window.c:241
 msgid "_File"
 msgstr "_Fil"
 
-#: ../src/main_window.c:226
+#: ../src/main_window.c:248
 msgid "O_pen Folder"
 msgstr "Åp_ne mappe"
 
-#: ../src/main_window.c:227
+#: ../src/main_window.c:249
 msgid "_Recently used"
 msgstr "Nylig _brukt"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:254
+#: ../src/main_window.c:276
 msgid "_Edit"
 msgstr "_Rediger"
 
-#: ../src/main_window.c:259
+#: ../src/main_window.c:281
 msgid "Open with..."
 msgstr ""
 
-#: ../src/main_window.c:265
+#: ../src/main_window.c:287
 msgid "No applications available"
 msgstr ""
 
 #. Create 'View' menu
-#: ../src/main_window.c:273
+#: ../src/main_window.c:295
 msgid "_View"
 msgstr "_Vis"
 
-#: ../src/main_window.c:280
+#: ../src/main_window.c:302
 msgid "Show Toolbar"
 msgstr ""
 
-#: ../src/main_window.c:281
+#: ../src/main_window.c:303
 msgid "Thumbnail Viewer"
 msgstr "Miniatyrvisning"
 
-#: ../src/main_window.c:299
+#: ../src/main_window.c:321
 msgid "Show Horizontally"
 msgstr "Vis vannrett"
 
-#: ../src/main_window.c:303
+#: ../src/main_window.c:325
 msgid "Show Vertically"
 msgstr "Vis loddrett"
 
-#: ../src/main_window.c:307
+#: ../src/main_window.c:329
 msgid "Hide"
 msgstr "Skjul"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:317
+#: ../src/main_window.c:339
 msgid "_Go"
 msgstr "_Gå"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:346
+#: ../src/main_window.c:368
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: ../src/main_window.c:673
+#: ../src/main_window.c:809
 msgid "Developer:"
 msgstr "Utvikler:"
 
-#: ../src/main_window.c:683
+#: ../src/main_window.c:819
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "Ristretto er en rask og lettvekts bildefremviser for Xfce skrivebordet"
 
-#: ../src/main_window.c:691
+#: ../src/main_window.c:827
 msgid "translator-credits"
 msgstr "Oversettelser"
 
-#: ../src/main_window.c:711
+#: ../src/main_window.c:847
 msgid "Open image"
 msgstr "Åpne bilde"
 
-#: ../src/main_window.c:746
+#: ../src/main_window.c:882
 msgid "Could not open file"
 msgstr ""
 
-#: ../src/main_window.c:756
+#: ../src/main_window.c:892
 msgid "Open folder"
 msgstr "Åpne mappe"
+
+#: ../src/main_window.c:997
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"

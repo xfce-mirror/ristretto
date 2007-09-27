@@ -169,6 +169,8 @@ cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *window);
 static void
+cb_rstto_main_window_clear_recent(GtkWidget *widget, RsttoMainWindow *window);
+static void
 cb_rstto_main_window_close(GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_quit(GtkWidget *widget, RsttoMainWindow *window);
@@ -481,6 +483,9 @@ rstto_main_window_init(RsttoMainWindow *window)
     g_signal_connect(window->priv->menus.file.menu_item_quit, 
             "activate",
             G_CALLBACK(cb_rstto_main_window_quit), window);
+    g_signal_connect(window->priv->menus.file.recently.menu_item_clear, 
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_clear_recent), window);
     g_signal_connect(window->priv->menus.help.menu_item_about, 
             "activate",
             G_CALLBACK(cb_rstto_main_window_about), window);
@@ -533,6 +538,23 @@ rstto_main_window_class_init(RsttoMainWindowClass *window_class)
 {
     parent_class = g_type_class_peek_parent(window_class);
 }
+
+static gboolean
+rstto_main_window_clear_recent(RsttoMainWindow *window)
+{
+    GList *items = gtk_recent_manager_get_items(window->priv->manager);
+    GList *iter = items;
+    while(iter)
+    {
+        if(gtk_recent_info_has_application(iter->data, "ristretto"))
+        {
+            gtk_recent_manager_remove_item(window->priv->manager, gtk_recent_info_get_uri(iter->data), NULL);
+        }
+        iter = g_list_next(iter);
+    }
+    return FALSE;
+}
+
 
 GtkWidget *
 rstto_main_window_new()
@@ -966,6 +988,23 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
 }
 
 static void
+cb_rstto_main_window_clear_recent(GtkWidget *widget, RsttoMainWindow *window)
+{
+    GtkWidget *dialog = gtk_message_dialog_new(NULL,
+                                    GTK_DIALOG_MODAL,
+                                    GTK_MESSAGE_ERROR,
+                                    GTK_BUTTONS_OK_CANCEL,
+                                    _("Are you sure you want to clear ristretto's list of recently opened documents?"));
+    gint result = gtk_dialog_run(GTK_DIALOG(dialog));
+    if (result == GTK_RESPONSE_OK)
+    {
+        g_timeout_add(150, (GSourceFunc)rstto_main_window_clear_recent, window);
+    }
+    gtk_widget_destroy(dialog);
+
+}
+
+static void
 cb_rstto_main_window_close(GtkWidget *widget, RsttoMainWindow *window)
 {
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(window->priv->navigator);
@@ -989,6 +1028,7 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
 {
     ThunarVfsInfo *info = NULL;
     const gchar *filename = NULL;
+    gchar *title = NULL;
 
     if(entry)
     {
@@ -1001,10 +1041,22 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
         gtk_widget_set_sensitive(window->priv->menus.go.menu_item_next, TRUE);
         gtk_widget_set_sensitive(window->priv->menus.go.menu_item_play, TRUE);
         gtk_widget_set_sensitive(window->priv->menus.go.menu_item_pause, TRUE);
+        if (rstto_navigator_get_n_files(navigator) > 1)
+        {
+            title = g_strdup_printf("%s - %s [%d/%d]", PACKAGE_NAME, filename, nr+1, rstto_navigator_get_n_files(navigator));
+        }
+        else
+        {
+            title = g_strconcat(PACKAGE_NAME, " - ", filename, NULL);
+        }
+        gtk_window_set_title(GTK_WINDOW(window), title);
+        g_free(title);
+        title = NULL;
     }
     else
     {
         gtk_widget_set_sensitive(window->priv->menus.file.menu_item_close, FALSE);
+        gtk_window_set_title(GTK_WINDOW(window), PACKAGE_STRING);
         if (rstto_navigator_get_n_files(window->priv->navigator) == 0)
         {
             gtk_widget_set_sensitive(window->priv->menus.go.menu_item_first, FALSE);
