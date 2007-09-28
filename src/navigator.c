@@ -332,7 +332,7 @@ rstto_navigator_get_nth_file (RsttoNavigator *navigator, gint n)
     return g_list_nth_data(navigator->file_list, n);
 }
 
-void
+gint
 rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
 {
     if(navigator->file_iter)
@@ -352,6 +352,7 @@ rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
                       NULL);
     }
     g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_NEW_ENTRY], 0, g_list_index(navigator->file_list, entry), entry, NULL);
+    return g_list_index(navigator->file_list, entry);
 }
 
 void

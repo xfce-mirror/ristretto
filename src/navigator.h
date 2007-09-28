@@ -87,7 +87,7 @@ rstto_navigator_get_position(RsttoNavigator *navigator);
 gint
 rstto_navigator_get_old_position(RsttoNavigator *navigator);
 
-void
+gint
 rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry);
 void
 rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry);

@@ -72,6 +72,10 @@ gboolean
 rstto_main_window_get_show_thumbnail_viewer (RsttoMainWindow *window);
 GtkOrientation
 rstto_main_window_get_thumbnail_viewer_orientation (RsttoMainWindow *window);
+RsttoNavigator *
+rstto_main_window_get_navigator (RsttoMainWindow *window);
+GtkRecentManager *
+rstto_main_window_get_recent_manager (RsttoMainWindow *window);
 
 G_END_DECLS
 

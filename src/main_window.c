@@ -654,6 +654,18 @@ rstto_main_window_get_thumbnail_viewer_orientation (RsttoMainWindow *window)
     return window->priv->settings.thumbnail_viewer_orientation;
 }
 
+RsttoNavigator *
+rstto_main_window_get_navigator (RsttoMainWindow *window)
+{
+    return window->priv->navigator;
+}
+
+GtkRecentManager *
+rstto_main_window_get_recent_manager (RsttoMainWindow *window)
+{
+    return window->priv->manager;
+}
+
 /* CALLBACK FUNCTIONS */
 
 static void
