@@ -265,7 +265,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
         if ((offset + ((viewer->priv->end + 1) * viewer->priv->dimension)) < widget->allocation.width)
         {
             gdk_window_clear_area(widget->window, 
-                                offset + ((viewer->priv->end + 1) * viewer->priv->dimension),
+                                offset + ((viewer->priv->end ) * viewer->priv->dimension),
                                 0,
                                 widget->allocation.width - (offset + (viewer->priv->end * viewer->priv->dimension)),
                                 widget->allocation.height);
@@ -286,7 +286,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
         {
             gdk_window_clear_area(widget->window, 
                                 0,
-                                offset + ((viewer->priv->end+1) * viewer->priv->dimension),
+                                offset + ((viewer->priv->end) * viewer->priv->dimension),
                                 widget->allocation.width,
                                 widget->allocation.height - (offset + (viewer->priv->end * viewer->priv->dimension)));
         }
