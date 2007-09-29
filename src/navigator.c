@@ -20,6 +20,7 @@
 #include <string.h>
 
 #include <thunar-vfs/thunar-vfs.h>
+#include <libexif/exif-data.h>
 
 #include "navigator.h"
 
@@ -57,6 +58,7 @@ struct _RsttoNavigatorEntry
     GdkPixbuf           *pixbuf;
     gdouble              scale;
     gboolean             fit_to_screen;
+    ExifData            *exif_data;
     GdkPixbufRotation    rotation;
     gboolean             h_flipped;
     gboolean             v_flipped;
@@ -482,6 +484,63 @@ rstto_navigator_entry_new (ThunarVfsInfo *info)
         entry = g_new0(RsttoNavigatorEntry, 1);
 
         entry->info = info;
+        entry->exif_data = exif_data_new_from_file(filename);
+        
+        ExifEntry *exifentry = exif_data_get_entry(entry->exif_data, EXIF_TAG_ORIENTATION);
+        if (exifentry)
+        {
+            gchar *val = g_new0(gchar, 20);
+            exif_entry_get_value(exifentry, val, 20);
+            if (!strcmp(val, "top - left"))
+            {
+                entry->v_flipped = FALSE;
+                entry->h_flipped = FALSE;
+                entry->rotation = GDK_PIXBUF_ROTATE_NONE;
+            }
+            if (!strcmp(val, "top - right"))
+            {
+                entry->v_flipped = FALSE;
+                entry->h_flipped = TRUE;
+                entry->rotation = GDK_PIXBUF_ROTATE_NONE;
+            }
+            if (!strcmp(val, "bottom - left"))
+            {
+                entry->v_flipped = TRUE;
+                entry->h_flipped = FALSE;
+                entry->rotation = GDK_PIXBUF_ROTATE_NONE;
+            }
+            if (!strcmp(val, "bottom - right"))
+            {
+                entry->v_flipped = FALSE;
+                entry->h_flipped = FALSE;
+                entry->rotation = GDK_PIXBUF_ROTATE_UPSIDEDOWN;
+            }
+            if (!strcmp(val, "right - top"))
+            {
+                entry->v_flipped = FALSE;
+                entry->h_flipped = FALSE;
+                entry->rotation = GDK_PIXBUF_ROTATE_CLOCKWISE;
+            }
+            if (!strcmp(val, "right - bottom"))
+            {
+                entry->v_flipped = FALSE;
+                entry->h_flipped = TRUE;
+                entry->rotation = GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE;
+            }
+            if (!strcmp(val, "left - top"))
+            {
+                entry->v_flipped = FALSE;
+                entry->h_flipped = TRUE;
+                entry->rotation = GDK_PIXBUF_ROTATE_CLOCKWISE;
+            }
+            if (!strcmp(val, "left - bottom"))
+            {
+                entry->v_flipped = FALSE;
+                entry->h_flipped = FALSE;
+                entry->rotation = GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE;
+            }
+            g_free(val);
+        }
 
         g_free(filename);
     }
@@ -554,7 +613,21 @@ rstto_navigator_entry_get_pixbuf(RsttoNavigatorEntry *entry)
     if(!entry->pixbuf)
     {
         gchar *filename = thunar_vfs_path_dup_string(entry->info->path);
-        entry->pixbuf = gdk_pixbuf_new_from_file(filename, NULL);
+        GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename, NULL);
+        entry->pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
+        gdk_pixbuf_unref(pixbuf);
+        if (entry->v_flipped)
+        {
+            pixbuf = entry->pixbuf;
+            entry->pixbuf = gdk_pixbuf_flip(pixbuf, FALSE);
+            gdk_pixbuf_unref(pixbuf);
+        }
+        if (entry->v_flipped)
+        {
+            pixbuf = entry->pixbuf;
+            entry->pixbuf = gdk_pixbuf_flip(pixbuf, TRUE);
+            gdk_pixbuf_unref(pixbuf);
+        }
         g_free(filename);
     }
     return entry->pixbuf;
@@ -607,3 +680,8 @@ rstto_navigator_entry_set_fit_to_screen (RsttoNavigatorEntry *entry, gboolean ft
 }
 
 
+ExifData *
+rstto_navigator_entry_get_exif_data (RsttoNavigatorEntry *entry)
+{
+    return entry->exif_data;
+}

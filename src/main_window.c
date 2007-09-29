@@ -19,6 +19,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 #include <thunar-vfs/thunar-vfs.h>
+#include <libexif/exif-data.h>
 
 #include "navigator.h"
 #include "thumbnail_viewer.h"

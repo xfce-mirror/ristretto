@@ -19,6 +19,7 @@
 #include <gtk/gtkmarshal.h>
 #include <string.h>
 #include <thunar-vfs/thunar-vfs.h>
+#include <libexif/exif-data.h>
 
 #include "navigator.h"
 #include "picture_viewer.h"
@@ -63,7 +64,7 @@ static gboolean
 rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *, GtkAdjustment *, GtkAdjustment *);
 
 static void
-cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *, gint , RsttoNavigatorEntry *, RsttoPictureViewer *);
+cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *, gint , RsttoNavigatorEntry *, RsttoPictureViewer *);
 static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *, RsttoPictureViewer *);
 static void
@@ -440,7 +441,7 @@ rstto_picture_viewer_new(RsttoNavigator *navigator)
 
     widget = g_object_new(RSTTO_TYPE_PICTURE_VIEWER, NULL);
     RSTTO_PICTURE_VIEWER(widget)->priv->navigator = navigator;
-    g_signal_connect(G_OBJECT(navigator), "iter-changed", G_CALLBACK(cb_rstto_picture_viewer_nav_file_changed), widget);
+    g_signal_connect(G_OBJECT(navigator), "iter-changed", G_CALLBACK(cb_rstto_picture_viewer_nav_iter_changed), widget);
 
     return widget;
 }
@@ -665,7 +666,7 @@ cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer)
 }
 
 static void
-cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoPictureViewer *viewer)
+cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoPictureViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
     if(entry)
@@ -682,7 +683,17 @@ cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavi
             {
                 if (viewer->priv->dst_pixbuf)
                 {
-                    gdk_pixbuf_saturate_and_pixelate(viewer->priv->dst_pixbuf, viewer->priv->dst_pixbuf, 0.8, TRUE);
+                    GdkPixbuf *pixbuf = gdk_pixbuf_composite_color_simple (viewer->priv->dst_pixbuf,
+                                                                    gdk_pixbuf_get_width(viewer->priv->dst_pixbuf),
+                                                                    gdk_pixbuf_get_height(viewer->priv->dst_pixbuf),
+                                                                    GDK_INTERP_BILINEAR,
+                                                                    100,
+                                                                    100,
+                                                                    0x000000,
+                                                                    0x000000);
+                    gdk_pixbuf_unref(viewer->priv->dst_pixbuf);
+                    viewer->priv->dst_pixbuf = pixbuf;
+                                                                    
                     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
                 }
                 viewer->priv->timeout_id = g_timeout_add(100, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
