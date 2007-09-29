@@ -235,23 +235,6 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
         gint max = nr + (((widget->allocation.width - viewer->priv->dimension) / 2) / viewer->priv->dimension) + 1;
         viewer->priv->begin = min < 0? 0 : min;
         viewer->priv->end = max > n_entries? n_entries: max;
-        if (offset > 0)
-        {
-            gdk_window_clear_area(widget->window, 
-                                0,
-                                0,
-                                offset,
-                                widget->allocation.height);
-        }
-        if ((offset + (viewer->priv->end* viewer->priv->dimension)) < widget->allocation.width)
-        {
-            gdk_window_clear_area(widget->window, 
-                                offset + (viewer->priv->end * viewer->priv->dimension),
-                                0,
-                                widget->allocation.width - (offset + (viewer->priv->end * viewer->priv->dimension)),
-                                widget->allocation.height);
-
-        }
     }
     else
     {
@@ -260,6 +243,36 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
         gint max = nr + (((widget->allocation.height - viewer->priv->dimension) / 2) / viewer->priv->dimension) + 1;
         viewer->priv->begin = min < 0? 0 : min;
         viewer->priv->end = max > n_entries? n_entries: max;
+    }
+
+    viewer->priv->offset = offset;
+    for (i = viewer->priv->begin; i <= viewer->priv->end; ++i)
+    {
+        rstto_thumbnail_viewer_paint_entry(viewer, i, nr == i);
+    }
+
+    if (viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
+    {
+        if (offset > 0)
+        {
+            gdk_window_clear_area(widget->window, 
+                                0,
+                                0,
+                                offset,
+                                widget->allocation.height);
+        }
+        if ((offset + ((viewer->priv->end + 1) * viewer->priv->dimension)) < widget->allocation.width)
+        {
+            gdk_window_clear_area(widget->window, 
+                                offset + ((viewer->priv->end + 1) * viewer->priv->dimension),
+                                0,
+                                widget->allocation.width - (offset + (viewer->priv->end * viewer->priv->dimension)),
+                                widget->allocation.height);
+
+        }
+    }
+    else
+    {
         if (offset > 0)
         {
             gdk_window_clear_area(widget->window, 
@@ -268,20 +281,14 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                                 widget->allocation.width,
                                 offset);
         }
-        if ((offset + (viewer->priv->end* viewer->priv->dimension)) < widget->allocation.height)
+        if ((offset + ((viewer->priv->end + 1) * viewer->priv->dimension)) < widget->allocation.height)
         {
             gdk_window_clear_area(widget->window, 
                                 0,
-                                offset + (viewer->priv->end * viewer->priv->dimension),
+                                offset + ((viewer->priv->end+1) * viewer->priv->dimension),
                                 widget->allocation.width,
                                 widget->allocation.height - (offset + (viewer->priv->end * viewer->priv->dimension)));
-
         }
-    }
-    viewer->priv->offset = offset;
-    for (i = viewer->priv->begin; i <= viewer->priv->end; ++i)
-    {
-        rstto_thumbnail_viewer_paint_entry(viewer, i, nr == i);
     }
 }
 
