@@ -33,6 +33,9 @@ struct _RsttoMainWindowPriv
     GtkWidget *picture_viewer;
     GtkWidget *statusbar;
     GtkRecentManager *manager;
+    GtkIconTheme *icon_theme;
+    ThunarVfsMimeDatabase *mime_dbase;
+    GList *menu_apps_list;
     gdouble zoom_factor;
 
     struct {
@@ -143,6 +146,8 @@ static void
 cb_rstto_main_window_play(GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_pause(GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_spawn_app(GtkWidget *widget, ThunarVfsMimeApplication *app);
 
 static void
 cb_rstto_main_window_next(GtkWidget *widget, RsttoMainWindow *window);
@@ -219,6 +224,10 @@ rstto_main_window_init(RsttoMainWindow *window)
     window->priv = g_new0(RsttoMainWindowPriv, 1);
     window->priv->zoom_factor = 1.2;
 
+    window->priv->mime_dbase = thunar_vfs_mime_database_get_default();
+    window->priv->icon_theme = gtk_icon_theme_get_default();
+    
+
     GtkAccelGroup *accel_group = gtk_accel_group_new();
 
     gtk_window_set_title(GTK_WINDOW(window), PACKAGE_STRING);
@@ -288,6 +297,7 @@ rstto_main_window_init(RsttoMainWindow *window)
 
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.edit.open_with.menu), window->priv->menus.edit.open_with.menu_item_empty);
     gtk_widget_set_sensitive(window->priv->menus.edit.open_with.menu_item_empty, FALSE);
+    gtk_widget_ref(window->priv->menus.edit.open_with.menu_item_empty);
 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(window->priv->menus.edit.menu_item_open_with), window->priv->menus.edit.open_with.menu);
 
@@ -1064,6 +1074,39 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
         gtk_window_set_title(GTK_WINDOW(window), title);
         g_free(title);
         title = NULL;
+
+        if(gtk_widget_get_parent(window->priv->menus.edit.open_with.menu_item_empty))
+        {
+            gtk_container_remove(GTK_CONTAINER(window->priv->menus.edit.open_with.menu), window->priv->menus.edit.open_with.menu_item_empty);
+        }
+
+        gtk_container_foreach(GTK_CONTAINER(window->priv->menus.edit.open_with.menu), (GtkCallback)gtk_widget_destroy, NULL);
+        if (info)
+        {
+            window->priv->menu_apps_list = thunar_vfs_mime_database_get_applications(window->priv->mime_dbase, info->mime_info);
+            GList *iter = window->priv->menu_apps_list;
+            if (iter == NULL)
+            {
+                gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.edit.open_with.menu), window->priv->menus.edit.open_with.menu_item_empty);
+                gtk_widget_show(window->priv->menus.edit.open_with.menu_item_empty);
+            }
+            while (iter != NULL)
+            {
+                GtkWidget *menu_item = gtk_image_menu_item_new_with_label(thunar_vfs_mime_application_get_name(iter->data));
+                GtkWidget *image = gtk_image_new_from_icon_name(thunar_vfs_mime_handler_lookup_icon_name(iter->data, window->priv->icon_theme), GTK_ICON_SIZE_MENU);
+                gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item), image);
+                gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.edit.open_with.menu), menu_item);
+                g_object_set_data(iter->data, "entry", entry);
+                g_signal_connect(menu_item, "activate", G_CALLBACK(cb_rstto_main_window_spawn_app), iter->data);
+                gtk_widget_show(menu_item);
+                iter = g_list_next(iter);
+            }
+        }        
+        else
+        {
+            gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.edit.open_with.menu), window->priv->menus.edit.open_with.menu_item_empty);
+            gtk_widget_show(window->priv->menus.edit.open_with.menu_item_empty);
+        }
     }
     else
     {
@@ -1077,6 +1120,13 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
             gtk_widget_set_sensitive(window->priv->menus.go.menu_item_next, FALSE);
             gtk_widget_set_sensitive(window->priv->menus.go.menu_item_play, FALSE);
             gtk_widget_set_sensitive(window->priv->menus.go.menu_item_pause, FALSE);
+        }
+
+        gtk_container_foreach(GTK_CONTAINER(window->priv->menus.edit.open_with.menu), (GtkCallback)gtk_widget_destroy, NULL);
+        if(!gtk_widget_get_parent(window->priv->menus.edit.open_with.menu_item_empty))
+        {
+            gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.edit.open_with.menu), window->priv->menus.edit.open_with.menu_item_empty);
+            gtk_widget_show(window->priv->menus.edit.open_with.menu_item_empty);
         }
     }
 
@@ -1132,3 +1182,10 @@ cb_rstto_main_window_zoom_fit(GtkWidget *widget, RsttoMainWindow *window)
     rstto_picture_viewer_fit_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
 }
 
+static void
+cb_rstto_main_window_spawn_app(GtkWidget *widget, ThunarVfsMimeApplication *app)
+{
+    ThunarVfsInfo *info = rstto_navigator_entry_get_info(g_object_get_data(G_OBJECT(app), "entry"));
+    GList *list = g_list_prepend(NULL, info->path);
+    thunar_vfs_mime_handler_exec(THUNAR_VFS_MIME_HANDLER(app), NULL, list, NULL);
+}
