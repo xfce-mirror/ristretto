@@ -812,6 +812,7 @@ cb_rstto_main_window_play(GtkWidget *widget, RsttoMainWindow *window)
     gtk_menu_shell_insert(GTK_MENU_SHELL(window->priv->menus.go.menu), window->priv->menus.go.menu_item_pause, 5);
     gtk_widget_show_all(window->priv->menus.go.menu_item_pause);
     rstto_navigator_set_running(RSTTO_NAVIGATOR(window->priv->navigator), TRUE);
+    rstto_picture_viewer_set_timeout(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), FALSE);
 }
 
 static void
@@ -822,6 +823,7 @@ cb_rstto_main_window_pause(GtkWidget *widget, RsttoMainWindow *window)
     gtk_menu_shell_insert(GTK_MENU_SHELL(window->priv->menus.go.menu), window->priv->menus.go.menu_item_play, 5);
     gtk_widget_show_all(window->priv->menus.go.menu_item_play);
     rstto_navigator_set_running(RSTTO_NAVIGATOR(window->priv->navigator), FALSE);
+    rstto_picture_viewer_set_timeout(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), TRUE);
 }
 
 static void

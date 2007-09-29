@@ -69,6 +69,7 @@ GtkWidget *rstto_picture_viewer_new(RsttoNavigator *navigator);
 void       rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale);
 gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
 gdouble    rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);
+void       rstto_picture_viewer_set_timeout(RsttoPictureViewer *viewer, gboolean timeout);
 
 G_END_DECLS
 

@@ -32,6 +32,7 @@ struct _RsttoPictureViewerPriv
     gboolean          show_border;
     GTimer           *timer;
     gint              timeout_id;
+    gboolean          timeout;
 };
 
 static void
@@ -111,6 +112,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
 
     viewer->priv->show_border = TRUE;
     viewer->priv->timer = g_timer_new();
+    viewer->priv->timeout = TRUE;
 
     g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_picture_viewer_scroll_event), NULL);
 }
@@ -320,9 +322,7 @@ rstto_picture_viewer_paint(GtkWidget *widget)
                         widget->allocation.height);
         g_object_unref(buffer);
 
-        cursor = gdk_cursor_new(GDK_LEFT_PTR);
-        gdk_window_set_cursor(widget->window, cursor);
-        gdk_cursor_unref(cursor);
+        gdk_window_set_cursor(widget->window, NULL);
     }
 }
 
@@ -634,9 +634,7 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
             if (vadjustment_changed == TRUE)
                 gtk_adjustment_value_changed(viewer->vadjustment);
                 
-            cursor = gdk_cursor_new(GDK_LEFT_PTR);
-            gdk_window_set_cursor(widget->window, cursor);
-            gdk_cursor_unref(cursor);
+            gdk_window_set_cursor(widget->window, NULL);
         }
     }
     else
@@ -678,16 +676,23 @@ cb_rstto_picture_viewer_nav_file_changed(RsttoNavigator *nav, gint nr, RsttoNavi
             gdk_window_set_cursor(widget->window, cursor);
             gdk_cursor_unref(cursor);
         }
-        if (viewer->priv->timeout_id == 0)
+        if (viewer->priv->timeout == TRUE)
         {
-            if (viewer->priv->dst_pixbuf)
+            if (viewer->priv->timeout_id == 0)
             {
-                gdk_pixbuf_saturate_and_pixelate(viewer->priv->dst_pixbuf, viewer->priv->dst_pixbuf, 0.8, TRUE);
-                rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+                if (viewer->priv->dst_pixbuf)
+                {
+                    gdk_pixbuf_saturate_and_pixelate(viewer->priv->dst_pixbuf, viewer->priv->dst_pixbuf, 0.8, TRUE);
+                    rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+                }
+                viewer->priv->timeout_id = g_timeout_add(100, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
             }
-            viewer->priv->timeout_id = g_timeout_add(100, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
+            g_timer_start(viewer->priv->timer);
         }
-        g_timer_start(viewer->priv->timer);
+        else
+        {
+            rstto_picture_viewer_update(viewer);
+        }
     }
     else
     {
@@ -738,9 +743,7 @@ rstto_picture_viewer_update(RsttoPictureViewer *viewer)
         rstto_picture_viewer_refresh(viewer);
         rstto_picture_viewer_paint(GTK_WIDGET(viewer));
 
-        GdkCursor *cursor = gdk_cursor_new(GDK_LEFT_PTR);
-        gdk_window_set_cursor(widget->window, cursor);
-        gdk_cursor_unref(cursor);
+        gdk_window_set_cursor(widget->window, NULL);
     }
 }
 
@@ -774,4 +777,10 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
     {
         rstto_picture_viewer_paint(GTK_WIDGET(viewer));
     }
+}
+
+void
+rstto_picture_viewer_set_timeout(RsttoPictureViewer *viewer, gboolean timeout)
+{
+    viewer->priv->timeout = timeout;
 }
