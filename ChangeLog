@@ -1,7 +1,23 @@
+2007-09-30: Release 0.0.6
+	* src/main.c:
+	  - Index the entire folder when a file is opened from the CLI
+	* src/picture_viewer.c:
+	  - When switching files, fix the timeout and darken thei
+	    original image until the timeout is exceeded.
+	* src/navigation.c:
+	  - Add EXIF support for detecting the image-orientation.
+	  - Fix memory-leak
+	* src/thumbnail_viewer.c:
+	  - Improve the paint behaviour, do not paint the same pixel twice.
+	* src/main_window.c:
+	  - Place all the MainWindow code inside a separate class
+	  - Improve the way the titlebar displays the image-name.
+
 2007-09-13: Release 0.0.5
 	* src/main.c:
 	  - Add the possibility to close images
-	  - Add an 'open with' submenu, to open an image with alternative applications
+	  - Add an 'open with' submenu, to open an image with alternative
+	    applications
 	  - Add confirmation dialog to the recent-documents list clear button
 	* src/navigation.c:
 	  - Add the possibility to remove images
