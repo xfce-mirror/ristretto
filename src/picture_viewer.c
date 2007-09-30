@@ -26,6 +26,9 @@
 
 struct _RsttoPictureViewerPriv
 {
+    GdkPixbufLoader  *loader;
+    GdkPixbufAnimation *animation;
+    GdkPixbufAnimationIter *iter;
     GdkPixbuf        *src_pixbuf;
     GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
     RsttoNavigator   *navigator;
@@ -71,6 +74,16 @@ static void
 cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *, GdkEventScroll *);
 static gboolean
 cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer);
+
+static gboolean
+cb_rstto_picture_viewer_read_file(GIOChannel *io_channel, GIOCondition cond, RsttoPictureViewer *viewer);
+
+static void
+cb_rstto_picture_viewer_area_prepared(GdkPixbufLoader *loader, RsttoPictureViewer *viewer);
+static void
+cb_rstto_picture_viewer_area_updated(GdkPixbufLoader *loader, gint x, gint y, gint width, gint height, RsttoPictureViewer *viewer);
+static void
+cb_rstto_picture_viewer_closed(GdkPixbufLoader *loader, RsttoPictureViewer *viewer);
 
 
 static GtkWidgetClass *parent_class = NULL;
@@ -677,33 +690,24 @@ cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavi
             gdk_window_set_cursor(widget->window, cursor);
             gdk_cursor_unref(cursor);
         }
-        if (viewer->priv->timeout == TRUE)
+        if (viewer->priv->loader)
         {
-            if (viewer->priv->timeout_id == 0)
-            {
-                if (viewer->priv->dst_pixbuf)
-                {
-                    GdkPixbuf *pixbuf = gdk_pixbuf_composite_color_simple (viewer->priv->dst_pixbuf,
-                                                                    gdk_pixbuf_get_width(viewer->priv->dst_pixbuf),
-                                                                    gdk_pixbuf_get_height(viewer->priv->dst_pixbuf),
-                                                                    GDK_INTERP_BILINEAR,
-                                                                    100,
-                                                                    100,
-                                                                    0x000000,
-                                                                    0x000000);
-                    gdk_pixbuf_unref(viewer->priv->dst_pixbuf);
-                    viewer->priv->dst_pixbuf = pixbuf;
-                                                                    
-                    rstto_picture_viewer_paint(GTK_WIDGET(viewer));
-                }
-                viewer->priv->timeout_id = g_timeout_add(100, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
-            }
-            g_timer_start(viewer->priv->timer);
+            gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
+            g_signal_handlers_disconnect_by_func(viewer->priv->loader , cb_rstto_picture_viewer_area_prepared, viewer);
+            g_signal_handlers_disconnect_by_func(viewer->priv->loader , cb_rstto_picture_viewer_area_updated, viewer);
+            g_object_unref(viewer->priv->loader);
         }
-        else
-        {
-            rstto_picture_viewer_update(viewer);
-        }
+        viewer->priv->loader = gdk_pixbuf_loader_new();
+
+        g_signal_connect(viewer->priv->loader, "area-prepared", G_CALLBACK(cb_rstto_picture_viewer_area_prepared), viewer);
+        g_signal_connect(viewer->priv->loader, "area-updated", G_CALLBACK(cb_rstto_picture_viewer_area_updated), viewer);
+        g_signal_connect(viewer->priv->loader, "closed", G_CALLBACK(cb_rstto_picture_viewer_closed), viewer);
+        ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
+        gchar *path = thunar_vfs_path_dup_string(info->path);
+
+        GIOChannel *io_channel = g_io_channel_new_file(path, "r", NULL);
+        g_io_channel_set_encoding(io_channel, NULL, NULL);
+        g_io_add_watch(io_channel, G_IO_IN | G_IO_PRI, (GIOFunc)cb_rstto_picture_viewer_read_file, viewer);
     }
     else
     {
@@ -794,4 +798,108 @@ void
 rstto_picture_viewer_set_timeout(RsttoPictureViewer *viewer, gboolean timeout)
 {
     viewer->priv->timeout = timeout;
+}
+
+static gboolean
+cb_rstto_picture_viewer_read_file(GIOChannel *io_channel, GIOCondition cond, RsttoPictureViewer *viewer)
+{
+    gchar buffer[1024];
+    gsize bytes_read = 0;
+    GError *error = NULL;
+
+
+    GIOStatus status = g_io_channel_read_chars(io_channel, buffer, 1024, &bytes_read,  &error);
+
+    switch (status)
+    {
+        case G_IO_STATUS_NORMAL:
+            if(gdk_pixbuf_loader_write(viewer->priv->loader, (const guchar *)buffer, bytes_read, NULL) == FALSE)
+            {
+                gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
+                return FALSE;
+            }
+            return TRUE;
+            break;
+        case G_IO_STATUS_EOF:
+            gdk_pixbuf_loader_write(viewer->priv->loader, (const guchar *)buffer, bytes_read, NULL);
+            gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
+            return FALSE;
+            break;
+        case G_IO_STATUS_ERROR:
+            gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
+            return FALSE;
+            break;
+        case G_IO_STATUS_AGAIN:
+            return TRUE;
+            break;
+    }
+    return FALSE;
+}
+
+static void
+cb_rstto_picture_viewer_area_prepared(GdkPixbufLoader *loader, RsttoPictureViewer *viewer)
+{
+    viewer->priv->animation = gdk_pixbuf_loader_get_animation(loader);
+    viewer->priv->iter = gdk_pixbuf_animation_get_iter(viewer->priv->animation, NULL);
+    if (viewer->priv->src_pixbuf)
+        gdk_pixbuf_unref(viewer->priv->src_pixbuf);
+    viewer->priv->src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
+
+    gint time = gdk_pixbuf_animation_iter_get_delay_time(viewer->priv->iter);
+
+    if (viewer->priv->src_pixbuf)
+    {
+        gdk_pixbuf_ref(viewer->priv->src_pixbuf);
+    }
+
+    rstto_picture_viewer_refresh(viewer);
+    rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+
+    if (time > -1)
+    {
+        /* update frame */
+    }   
+}
+
+static void
+cb_rstto_picture_viewer_area_updated(GdkPixbufLoader *loader, gint x, gint y, gint width, gint height, RsttoPictureViewer *viewer)
+{
+    if (1)
+    {
+        /* Current Frame being updated?! */
+        if (gdk_pixbuf_animation_iter_on_currently_loading_frame(viewer->priv->iter) == TRUE)
+        {
+            /* Is it inside the viewport? */
+            RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+            gdouble scale = rstto_navigator_entry_get_scale(entry);
+            if (((viewer->vadjustment->value > (y * scale)) && (viewer->vadjustment->value < ((y+height) * scale))) &&
+                ((viewer->hadjustment->value > (x * scale)) && (viewer->hadjustment->value < ((x+width) * scale))))
+            {
+            
+            /* Update */
+            /*
+            gdk_pixbuf_unref(viewer->priv->src_pixbuf);
+            viewer->priv->src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
+            gdk_pixbuf_ref(viewer->priv->src_pixbuf);
+            rstto_picture_viewer_refresh(viewer);
+            rstto_picture_viewer_paint(viewer);
+            */
+            }
+        }
+    }
+}
+
+static void
+cb_rstto_picture_viewer_closed(GdkPixbufLoader *loader, RsttoPictureViewer *viewer)
+{
+    if (viewer->priv->src_pixbuf)
+        gdk_pixbuf_unref(viewer->priv->src_pixbuf);
+    if (viewer->priv->iter)
+        viewer->priv->src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
+    if (viewer->priv->src_pixbuf)
+    {
+        gdk_pixbuf_ref(viewer->priv->src_pixbuf);
+    }
+    rstto_picture_viewer_refresh(viewer);
+    rstto_picture_viewer_paint(GTK_WIDGET(viewer));
 }
