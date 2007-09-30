@@ -895,6 +895,11 @@ cb_rstto_main_window_open_file(GtkWidget *widget, RsttoMainWindow *window)
             gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
             if(!strcmp(file_media, "image"))
             {
+                if(rstto_navigator_get_is_album(window->priv->navigator));
+                {
+                    rstto_navigator_clear(window->priv->navigator);
+                    rstto_navigator_set_is_album(window->priv->navigator, FALSE);
+                }
                 RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
                 rstto_navigator_add (window->priv->navigator, entry);
                 gchar *uri = thunar_vfs_path_dup_uri(info->path);
@@ -932,6 +937,7 @@ cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window)
     if(response == GTK_RESPONSE_OK)
     {
         rstto_navigator_clear(window->priv->navigator);
+        rstto_navigator_set_is_album(window->priv->navigator, TRUE);
         const gchar *dir_name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
         GDir *dir = g_dir_open(dir_name, 0, NULL);
         if (dir)
@@ -979,12 +985,18 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
         {
             if(strcmp(thunar_vfs_mime_info_get_name(info->mime_info), "inode/directory"))
             {
+                if(rstto_navigator_get_is_album(window->priv->navigator));
+                {
+                    rstto_navigator_clear(window->priv->navigator);
+                    rstto_navigator_set_is_album(window->priv->navigator, FALSE);
+                }
                 RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
                 rstto_navigator_add (window->priv->navigator, entry);
             }
             else
             {
                 rstto_navigator_clear(window->priv->navigator);
+                rstto_navigator_set_is_album(window->priv->navigator, TRUE);
                 gchar *dir_path = thunar_vfs_path_dup_string(info->path);
                 GDir *dir = g_dir_open(dir_path, 0, NULL);
                 const gchar *filename = g_dir_read_name(dir);

@@ -106,6 +106,7 @@ int main(int argc, char **argv)
                     const gchar *filename = g_dir_read_name(dir);
                     while (filename)
                     {
+                        rstto_navigator_set_is_album(navigator, FALSE);
                         gchar *path_name = g_strconcat(path_string,  "/", filename, NULL);
                         ThunarVfsPath *file_path = thunar_vfs_path_new(path_name, NULL);
                         if (file_path)
@@ -133,6 +134,7 @@ int main(int argc, char **argv)
                 {
                     GDir *dir = g_dir_open(argv[n], 0, NULL);
                     const gchar *filename = g_dir_read_name(dir);
+                    rstto_navigator_set_is_album(navigator, TRUE);
                     while (filename)
                     {
                         gchar *path_name = g_strconcat(argv[n],  "/", filename, NULL);

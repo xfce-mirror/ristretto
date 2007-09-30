@@ -442,6 +442,20 @@ rstto_navigator_set_file (RsttoNavigator *navigator, gint n)
     }
 }
 
+void
+rstto_navigator_set_is_album (RsttoNavigator *navigator, gboolean album)
+{
+    navigator->album = album;
+}
+
+gboolean
+rstto_navigator_get_is_album (RsttoNavigator *navigator)
+{
+    return navigator->album;
+}
+
+/* Callbacks */
+
 static gboolean
 cb_rstto_navigator_running(RsttoNavigator *navigator)
 {
@@ -685,3 +699,4 @@ rstto_navigator_entry_get_exif_data (RsttoNavigatorEntry *entry)
 {
     return entry->exif_data;
 }
+

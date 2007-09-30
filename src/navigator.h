@@ -50,6 +50,7 @@ struct _RsttoNavigator
     ThunarVfsPath      *path;
     GList              *file_list;
     GList              *file_iter;
+    gboolean            album;
     gint                old_position;
     gboolean            running;
     gint                timeout;
@@ -99,6 +100,10 @@ void
 rstto_navigator_set_file (RsttoNavigator *navigator, gint n);
 void
 rstto_navigator_clear (RsttoNavigator *navigator);
+void
+rstto_navigator_set_is_album (RsttoNavigator *navigator, gboolean album);
+gboolean
+rstto_navigator_get_is_album (RsttoNavigator *navigator);
 void
 rstto_navigator_set_entry_rotation (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, GdkPixbufRotation rotation);
 
