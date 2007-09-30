@@ -100,6 +100,7 @@ rstto_navigator_init(RsttoNavigator *navigator)
     navigator->compare_func = (GCompareFunc)rstto_navigator_entry_name_compare_func;
     navigator->old_position = -1;
     navigator->timeout = 5000;
+    navigator->album = FALSE;
 }
 
 static void
@@ -632,19 +633,26 @@ rstto_navigator_entry_get_pixbuf(RsttoNavigatorEntry *entry)
     {
         gchar *filename = thunar_vfs_path_dup_string(entry->info->path);
         GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename, NULL);
-        entry->pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
-        gdk_pixbuf_unref(pixbuf);
-        if (entry->v_flipped)
+        if (pixbuf)
         {
-            pixbuf = entry->pixbuf;
-            entry->pixbuf = gdk_pixbuf_flip(pixbuf, FALSE);
+            entry->pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
             gdk_pixbuf_unref(pixbuf);
+            if (entry->v_flipped)
+            {
+                pixbuf = entry->pixbuf;
+                entry->pixbuf = gdk_pixbuf_flip(pixbuf, FALSE);
+                gdk_pixbuf_unref(pixbuf);
+            }
+            if (entry->v_flipped)
+            {
+                pixbuf = entry->pixbuf;
+                entry->pixbuf = gdk_pixbuf_flip(pixbuf, TRUE);
+                gdk_pixbuf_unref(pixbuf);
+            }
         }
-        if (entry->v_flipped)
+        else
         {
-            pixbuf = entry->pixbuf;
-            entry->pixbuf = gdk_pixbuf_flip(pixbuf, TRUE);
-            gdk_pixbuf_unref(pixbuf);
+            entry->pixbuf = NULL;
         }
         g_free(filename);
     }

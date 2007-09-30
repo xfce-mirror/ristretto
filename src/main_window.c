@@ -895,11 +895,11 @@ cb_rstto_main_window_open_file(GtkWidget *widget, RsttoMainWindow *window)
             gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
             if(!strcmp(file_media, "image"))
             {
-                if(rstto_navigator_get_is_album(window->priv->navigator));
+                if(rstto_navigator_get_is_album(window->priv->navigator) == TRUE)
                 {
                     rstto_navigator_clear(window->priv->navigator);
-                    rstto_navigator_set_is_album(window->priv->navigator, FALSE);
                 }
+                rstto_navigator_set_is_album(window->priv->navigator, FALSE);
                 RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
                 rstto_navigator_add (window->priv->navigator, entry);
                 gchar *uri = thunar_vfs_path_dup_uri(info->path);
@@ -985,11 +985,11 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
         {
             if(strcmp(thunar_vfs_mime_info_get_name(info->mime_info), "inode/directory"))
             {
-                if(rstto_navigator_get_is_album(window->priv->navigator));
+                if(rstto_navigator_get_is_album(window->priv->navigator) == TRUE)
                 {
                     rstto_navigator_clear(window->priv->navigator);
-                    rstto_navigator_set_is_album(window->priv->navigator, FALSE);
                 }
+                rstto_navigator_set_is_album(window->priv->navigator, FALSE);
                 RsttoNavigatorEntry *entry = rstto_navigator_entry_new(info);
                 rstto_navigator_add (window->priv->navigator, entry);
             }
