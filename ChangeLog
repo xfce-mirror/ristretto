@@ -1,3 +1,9 @@
+2007-09-30: Release 0.0.7
+	* src/navigation.c:
+	  - Fix Segfault
+	* src/main_window.c:
+	  - Fix some broken if-statements that didn't work
+
 2007-09-30: Release 0.0.6
 	* src/main.c:
 	  - Index the entire folder when a file is opened from the CLI
