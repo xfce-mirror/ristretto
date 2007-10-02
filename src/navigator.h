@@ -56,6 +56,7 @@ struct _RsttoNavigator
     gint                timeout;
     gint                id;
     GCompareFunc        compare_func;
+    ThunarVfsThumbFactory *factory;
 };
 
 typedef struct _RsttoNavigatorClass RsttoNavigatorClass;
@@ -131,7 +132,7 @@ rstto_navigator_entry_get_flip (RsttoNavigatorEntry *entry, gboolean horizontal)
 void
 rstto_navigator_flip_entry(RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gboolean horizontal);
 GdkPixbuf *
-rstto_navigator_entry_get_thumb(RsttoNavigatorEntry *entry, gint max_size);
+rstto_navigator_get_entry_thumb(RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gint size);
 ExifData *
 rstto_navigator_entry_get_exif_data (RsttoNavigatorEntry *entry);
 

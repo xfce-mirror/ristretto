@@ -146,8 +146,8 @@ rstto_thumbnail_viewer_class_init(RsttoThumbnailViewerClass *viewer_class)
 static void
 rstto_thumbnail_viewer_size_request(GtkWidget *widget, GtkRequisition *requisition)
 {
-    requisition->height = 60;
-    requisition->width = 60;
+    requisition->height = 120;
+    requisition->width = 120;
 }
 
 static void
@@ -407,7 +407,7 @@ rstto_thumbnail_viewer_paint_entry (RsttoThumbnailViewer *viewer, gint nr, gbool
     GdkPixmap *pixmap = NULL;
     if (entry)
     {
-        GdkPixbuf *pixbuf = rstto_navigator_entry_get_thumb(entry, viewer->priv->dimension - 4);
+        GdkPixbuf *pixbuf = rstto_navigator_get_entry_thumb(viewer->priv->navigator, entry, viewer->priv->dimension - 4);
         pixmap = gdk_pixmap_new(widget->window, viewer->priv->dimension, viewer->priv->dimension, -1);
 
         if(selected)

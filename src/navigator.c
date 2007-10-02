@@ -101,6 +101,8 @@ rstto_navigator_init(RsttoNavigator *navigator)
     navigator->old_position = -1;
     navigator->timeout = 5000;
     navigator->album = FALSE;
+
+    navigator->factory = thunar_vfs_thumb_factory_new(THUNAR_VFS_THUMB_SIZE_NORMAL);
 }
 
 static void
@@ -603,23 +605,34 @@ rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
 }
 
 GdkPixbuf *
-rstto_navigator_entry_get_thumb(RsttoNavigatorEntry *entry, gint size)
+rstto_navigator_get_entry_thumb(RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gint size)
 {
     if(entry->thumb)    
     {
         if(!(gdk_pixbuf_get_width(entry->thumb) == size || gdk_pixbuf_get_height(entry->thumb) == size))
         {
-            g_object_unref(entry->thumb);
-            gchar *filename = thunar_vfs_path_dup_string(entry->info->path);
-            entry->thumb = gdk_pixbuf_new_from_file_at_size(filename, size, size, NULL);
-            g_free(filename);
         }
     }
     else
     {
-        gchar *filename = thunar_vfs_path_dup_string(entry->info->path);
-        entry->thumb = gdk_pixbuf_new_from_file_at_size(filename, size, size, NULL);
-        g_free(filename);
+        ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
+        gchar *thumbnail = thunar_vfs_thumb_factory_lookup_thumbnail(navigator->factory, info);
+        if (thumbnail == NULL)
+        {
+            GdkPixbuf *pixbuf = thunar_vfs_thumb_factory_generate_thumbnail(navigator->factory, info);
+            if (pixbuf != NULL)
+            {
+                if (!thunar_vfs_thumb_factory_store_thumbnail(navigator->factory, pixbuf, info, NULL))
+                {
+                }
+                entry->thumb = gdk_pixbuf_scale_simple(pixbuf, size, size, GDK_INTERP_BILINEAR);
+            }
+        }
+        else
+        {
+            entry->thumb = gdk_pixbuf_new_from_file_at_size(thumbnail, size, size, NULL);
+            g_free(thumbnail);
+        }
     }
     return entry->thumb;
 }

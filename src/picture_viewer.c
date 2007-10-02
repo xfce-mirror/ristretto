@@ -855,9 +855,10 @@ cb_rstto_picture_viewer_area_prepared(GdkPixbufLoader *loader, RsttoPictureViewe
     rstto_picture_viewer_refresh(viewer);
     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
 
-    if (time > -1)
+    if (time != -1)
     {
         /* update frame */
+        g_debug("Timeout: %u\n");
     }   
 }
 
@@ -899,6 +900,7 @@ cb_rstto_picture_viewer_closed(GdkPixbufLoader *loader, RsttoPictureViewer *view
     if (viewer->priv->src_pixbuf)
     {
         gdk_pixbuf_ref(viewer->priv->src_pixbuf);
+
     }
     rstto_picture_viewer_refresh(viewer);
     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
