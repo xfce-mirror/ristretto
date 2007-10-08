@@ -29,6 +29,7 @@ struct _RsttoPictureViewerPriv
     GdkPixbufLoader  *loader;
     GdkPixbufAnimation *animation;
     GdkPixbufAnimationIter *iter;
+    GIOChannel       *io_channel;
     GdkPixbuf        *src_pixbuf;
     GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
     RsttoNavigator   *navigator;
@@ -692,9 +693,9 @@ cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavi
         }
         if (viewer->priv->loader)
         {
-            gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
             g_signal_handlers_disconnect_by_func(viewer->priv->loader , cb_rstto_picture_viewer_area_prepared, viewer);
             g_signal_handlers_disconnect_by_func(viewer->priv->loader , cb_rstto_picture_viewer_area_updated, viewer);
+            gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
             g_object_unref(viewer->priv->loader);
         }
         viewer->priv->loader = gdk_pixbuf_loader_new();
@@ -705,9 +706,9 @@ cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavi
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
         gchar *path = thunar_vfs_path_dup_string(info->path);
 
-        GIOChannel *io_channel = g_io_channel_new_file(path, "r", NULL);
-        g_io_channel_set_encoding(io_channel, NULL, NULL);
-        g_io_add_watch(io_channel, G_IO_IN | G_IO_PRI, (GIOFunc)cb_rstto_picture_viewer_read_file, viewer);
+        viewer->priv->io_channel = g_io_channel_new_file(path, "r", NULL);
+        g_io_channel_set_encoding(viewer->priv->io_channel, NULL, NULL);
+        g_io_add_watch(viewer->priv->io_channel, G_IO_IN | G_IO_PRI, (GIOFunc)cb_rstto_picture_viewer_read_file, viewer);
     }
     else
     {
@@ -808,31 +809,39 @@ cb_rstto_picture_viewer_read_file(GIOChannel *io_channel, GIOCondition cond, Rst
     GError *error = NULL;
 
 
-    GIOStatus status = g_io_channel_read_chars(io_channel, buffer, 1024, &bytes_read,  &error);
-
-    switch (status)
+    GIOStatus status;
+    if (viewer->priv->io_channel == io_channel)
     {
-        case G_IO_STATUS_NORMAL:
-            if(gdk_pixbuf_loader_write(viewer->priv->loader, (const guchar *)buffer, bytes_read, NULL) == FALSE)
-            {
+        status = g_io_channel_read_chars(io_channel, buffer, 1024, &bytes_read,  &error);
+
+        switch (status)
+        {
+            case G_IO_STATUS_NORMAL:
+                if(gdk_pixbuf_loader_write(viewer->priv->loader, (const guchar *)buffer, bytes_read, NULL) == FALSE)
+                {
+                    gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
+                    viewer->priv->io_channel = NULL;
+                    return FALSE;
+                }
+                return TRUE;
+                break;
+            case G_IO_STATUS_EOF:
+                gdk_pixbuf_loader_write(viewer->priv->loader, (const guchar *)buffer, bytes_read, NULL);
                 gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
+                viewer->priv->io_channel = NULL;
                 return FALSE;
-            }
-            return TRUE;
-            break;
-        case G_IO_STATUS_EOF:
-            gdk_pixbuf_loader_write(viewer->priv->loader, (const guchar *)buffer, bytes_read, NULL);
-            gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
-            return FALSE;
-            break;
-        case G_IO_STATUS_ERROR:
-            gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
-            return FALSE;
-            break;
-        case G_IO_STATUS_AGAIN:
-            return TRUE;
-            break;
+                break;
+            case G_IO_STATUS_ERROR:
+                gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
+                viewer->priv->io_channel = NULL;
+                return FALSE;
+                break;
+            case G_IO_STATUS_AGAIN:
+                return TRUE;
+                break;
+        }
     }
+    g_io_channel_shutdown(io_channel, FALSE, NULL);
     return FALSE;
 }
 
@@ -858,7 +867,7 @@ cb_rstto_picture_viewer_area_prepared(GdkPixbufLoader *loader, RsttoPictureViewe
     if (time != -1)
     {
         /* update frame */
-        g_debug("Timeout: %u\n");
+        g_debug("Timeout: %u\n", time);
     }   
 }
 
@@ -904,4 +913,6 @@ cb_rstto_picture_viewer_closed(GdkPixbufLoader *loader, RsttoPictureViewer *view
     }
     rstto_picture_viewer_refresh(viewer);
     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+    if (0)
+        cb_rstto_picture_viewer_update_image(NULL);
 }
