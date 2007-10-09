@@ -627,6 +627,12 @@ rstto_navigator_get_entry_thumb(RsttoNavigator *navigator, RsttoNavigatorEntry *
                 }
                 entry->thumb = gdk_pixbuf_scale_simple(pixbuf, size, size, GDK_INTERP_BILINEAR);
             }
+            else
+            {
+                thumbnail = thunar_vfs_path_dup_string(info->path);
+                entry->thumb = gdk_pixbuf_new_from_file_at_size(thumbnail, size, size, NULL);
+                g_free(thumbnail);
+            }
         }
         else
         {

@@ -146,8 +146,8 @@ rstto_thumbnail_viewer_class_init(RsttoThumbnailViewerClass *viewer_class)
 static void
 rstto_thumbnail_viewer_size_request(GtkWidget *widget, GtkRequisition *requisition)
 {
-    requisition->height = 120;
-    requisition->width = 120;
+    requisition->height = 70;
+    requisition->width = 70;
 }
 
 static void
