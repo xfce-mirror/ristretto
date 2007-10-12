@@ -112,8 +112,6 @@ RsttoNavigatorEntry *
 rstto_navigator_entry_new (ThunarVfsInfo *info);
 void
 rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry);
-GdkPixbuf *
-rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry);
 ThunarVfsInfo *
 rstto_navigator_entry_get_info (RsttoNavigatorEntry *entry);
 gboolean

@@ -39,9 +39,6 @@ static GObjectClass *parent_class = NULL;
 static gint
 rstto_navigator_entry_name_compare_func(RsttoNavigatorEntry *a, RsttoNavigatorEntry *b);
 
-static void
-rstto_navigator_entry_free_pixbuf (RsttoNavigatorEntry *entry);
-
 enum
 {
     RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED = 0,
@@ -55,7 +52,6 @@ struct _RsttoNavigatorEntry
 {
     ThunarVfsInfo       *info;
     GdkPixbuf           *thumb;
-    GdkPixbuf           *pixbuf;
     gdouble              scale;
     gboolean             fit_to_screen;
     ExifData            *exif_data;
@@ -199,7 +195,6 @@ rstto_navigator_jump_first (RsttoNavigator *navigator)
     if(navigator->file_iter)
     {
         navigator->old_position = rstto_navigator_get_position(navigator);
-        rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
     }
     navigator->file_iter = g_list_first(navigator->file_list);
     if(navigator->file_iter)
@@ -214,7 +209,6 @@ rstto_navigator_jump_forward (RsttoNavigator *navigator)
     if(navigator->file_iter)
     {
         navigator->old_position = rstto_navigator_get_position(navigator);
-        rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
         navigator->file_iter = g_list_next(navigator->file_iter);
     }
     if(!navigator->file_iter)
@@ -247,7 +241,6 @@ rstto_navigator_jump_back (RsttoNavigator *navigator)
     if(navigator->file_iter)
     {
         navigator->old_position = rstto_navigator_get_position(navigator);
-        rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
         navigator->file_iter = g_list_previous(navigator->file_iter);
     }
     if(!navigator->file_iter)
@@ -270,7 +263,6 @@ rstto_navigator_jump_last (RsttoNavigator *navigator)
     if(navigator->file_iter)
     {
         navigator->old_position = rstto_navigator_get_position(navigator);
-        rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
     }
     navigator->file_iter = g_list_last(navigator->file_list);
 
@@ -340,11 +332,6 @@ rstto_navigator_get_nth_file (RsttoNavigator *navigator, gint n)
 gint
 rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
 {
-    if(navigator->file_iter)
-    {
-        rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
-    }
-
     navigator->file_list = g_list_insert_sorted(navigator->file_list, entry, navigator->compare_func);
     if (!navigator->file_iter)
     {
@@ -368,7 +355,6 @@ rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
         if(navigator->file_iter->data == entry)
         {
             navigator->old_position = rstto_navigator_get_position(navigator);
-            rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
             navigator->file_iter = g_list_next(navigator->file_iter);
             if(!navigator->file_iter)
                 navigator->file_iter = g_list_first(navigator->file_list);
@@ -431,7 +417,6 @@ rstto_navigator_set_file (RsttoNavigator *navigator, gint n)
     if(navigator->file_iter)
     {
         navigator->old_position = rstto_navigator_get_position(navigator);
-        rstto_navigator_entry_free_pixbuf(navigator->file_iter->data);
     }
     navigator->file_iter = g_list_nth(navigator->file_list, n);
     if(navigator->file_iter)
@@ -588,10 +573,6 @@ rstto_navigator_entry_get_flip (RsttoNavigatorEntry *entry, gboolean horizontal)
 void
 rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
 {
-    if(nav_entry->pixbuf)
-    {
-        g_object_unref(nav_entry->pixbuf);
-    }
     if(nav_entry->thumb)
     {
         g_object_unref(nav_entry->thumb);
@@ -641,51 +622,6 @@ rstto_navigator_get_entry_thumb(RsttoNavigator *navigator, RsttoNavigatorEntry *
         }
     }
     return entry->thumb;
-}
-
-GdkPixbuf *
-rstto_navigator_entry_get_pixbuf(RsttoNavigatorEntry *entry)
-{
-    g_return_val_if_fail(entry, NULL);
-
-    if(!entry->pixbuf)
-    {
-        gchar *filename = thunar_vfs_path_dup_string(entry->info->path);
-        GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename, NULL);
-        if (pixbuf)
-        {
-            entry->pixbuf = gdk_pixbuf_rotate_simple(pixbuf, entry->rotation);
-            gdk_pixbuf_unref(pixbuf);
-            if (entry->v_flipped)
-            {
-                pixbuf = entry->pixbuf;
-                entry->pixbuf = gdk_pixbuf_flip(pixbuf, FALSE);
-                gdk_pixbuf_unref(pixbuf);
-            }
-            if (entry->v_flipped)
-            {
-                pixbuf = entry->pixbuf;
-                entry->pixbuf = gdk_pixbuf_flip(pixbuf, TRUE);
-                gdk_pixbuf_unref(pixbuf);
-            }
-        }
-        else
-        {
-            entry->pixbuf = NULL;
-        }
-        g_free(filename);
-    }
-    return entry->pixbuf;
-}
-
-static void
-rstto_navigator_entry_free_pixbuf (RsttoNavigatorEntry *entry)
-{
-    if(entry->pixbuf)
-    {
-        g_object_unref(entry->pixbuf);
-        entry->pixbuf = NULL;
-    }
 }
 
 gint
