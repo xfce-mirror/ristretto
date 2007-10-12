@@ -247,10 +247,6 @@ rstto_picture_viewer_paint(GtkWidget *widget)
     /* required for transparent pixbufs... add double buffering to fix flickering*/
     if(GTK_WIDGET_REALIZED(widget))
     {          
-        GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
-        gdk_window_set_cursor(widget->window, cursor);
-        gdk_cursor_unref(cursor);
-
         GdkPixmap *buffer = gdk_pixmap_new(NULL, widget->allocation.width, widget->allocation.height, gdk_drawable_get_depth(widget->window));
         GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(buffer));
 
@@ -333,9 +329,7 @@ rstto_picture_viewer_paint(GtkWidget *widget)
                         widget->allocation.width,
                         widget->allocation.height);
         g_object_unref(buffer);
-
-        gdk_window_set_cursor(widget->window, NULL);
-    }
+   }
 }
 
 static void
@@ -562,10 +556,6 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
         }
         if(GTK_WIDGET_REALIZED(widget))
         {
-            GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
-            gdk_window_set_cursor(widget->window, cursor);
-            gdk_cursor_unref(cursor);
-
             gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
             gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
             
@@ -645,8 +635,6 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                 gtk_adjustment_value_changed(viewer->hadjustment);
             if (vadjustment_changed == TRUE)
                 gtk_adjustment_value_changed(viewer->vadjustment);
-                
-            gdk_window_set_cursor(widget->window, NULL);
         }
     }
     else
@@ -697,7 +685,7 @@ cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer)
         {
             viewer->priv->timeout_id = g_timeout_add(time, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
         }
-    
+
         return FALSE;
     }
     return TRUE;
@@ -708,7 +696,7 @@ cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavi
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
     if(entry)
-    {
+    { 
         if (GTK_WIDGET_REALIZED(widget))
         {
             GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
@@ -734,19 +722,22 @@ cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavi
         g_io_channel_set_encoding(viewer->priv->io_channel, NULL, NULL);
         g_io_add_watch(viewer->priv->io_channel, G_IO_IN | G_IO_PRI, (GIOFunc)cb_rstto_picture_viewer_read_file, viewer);
     }
-    if (viewer->priv->src_pixbuf)
+    else
     {
-        g_object_unref(viewer->priv->src_pixbuf);
-        viewer->priv->src_pixbuf = NULL;
-    }
-    if (viewer->priv->dst_pixbuf)
-    {
-        g_object_unref(viewer->priv->dst_pixbuf);
-        viewer->priv->dst_pixbuf = NULL;
-    }
-    if (GTK_WIDGET_REALIZED(widget))
-    {
-        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+        if (viewer->priv->src_pixbuf)
+        {
+            g_object_unref(viewer->priv->src_pixbuf);
+            viewer->priv->src_pixbuf = NULL;
+        }
+        if (viewer->priv->dst_pixbuf)
+        {
+            g_object_unref(viewer->priv->dst_pixbuf);
+            viewer->priv->dst_pixbuf = NULL;
+        }
+        if (GTK_WIDGET_REALIZED(widget))
+        {
+            rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+        }
     }
 }
 
@@ -889,15 +880,21 @@ cb_rstto_picture_viewer_area_updated(GdkPixbufLoader *loader, gint x, gint y, gi
 static void
 cb_rstto_picture_viewer_closed(GdkPixbufLoader *loader, RsttoPictureViewer *viewer)
 {
+    GtkWidget *widget = GTK_WIDGET(viewer);
+
     if (viewer->priv->src_pixbuf)
         gdk_pixbuf_unref(viewer->priv->src_pixbuf);
     if (viewer->priv->iter)
         viewer->priv->src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
     if (viewer->priv->src_pixbuf)
     {
-        gdk_pixbuf_ref(viewer->priv->src_pixbuf);
+        viewer->priv->src_pixbuf = gdk_pixbuf_copy(viewer->priv->src_pixbuf);
 
     }
     rstto_picture_viewer_refresh(viewer);
     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+    if (GTK_WIDGET_REALIZED(widget))
+    {
+        gdk_window_set_cursor(widget->window, NULL);
+    }
 }
