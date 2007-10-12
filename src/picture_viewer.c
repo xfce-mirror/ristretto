@@ -673,7 +673,6 @@ cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer)
             if (viewer->priv->src_pixbuf)
                 gdk_pixbuf_unref(viewer->priv->src_pixbuf);
             viewer->priv->src_pixbuf = gdk_pixbuf_rotate_simple(src_pixbuf, rstto_navigator_entry_get_rotation(entry));
-            gdk_pixbuf_unref(src_pixbuf);
 
             if (rstto_navigator_entry_get_flip(entry, FALSE))
             {
