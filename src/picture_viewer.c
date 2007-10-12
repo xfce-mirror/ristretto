@@ -385,7 +385,7 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureVie
     GdkPixbuf *tmp_pixbuf = NULL;
     if (viewer->vadjustment && viewer->hadjustment)
     {
-        if (scale < 1.0)
+        if ((width > widget->allocation.width) || (height > widget->allocation.height))
         {
             tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
                                               viewer->hadjustment->value / scale >= 0?
@@ -457,8 +457,8 @@ rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
     if (entry)
     {
-        rstto_navigator_entry_set_scale(entry, scale);
         rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
+        rstto_navigator_entry_set_scale(entry, scale);
 
         if(rstto_picture_viewer_refresh(viewer))
         {
