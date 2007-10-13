@@ -655,27 +655,27 @@ cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer)
     {
         if(gdk_pixbuf_animation_iter_advance(viewer->priv->iter, NULL))
         {
-            GdkPixbuf *src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
-            
-            if (src_pixbuf)
+            RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+
+            if (entry)
             {
-                RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
-                if (viewer->priv->src_pixbuf)
-                    gdk_pixbuf_unref(viewer->priv->src_pixbuf);
-                viewer->priv->src_pixbuf = gdk_pixbuf_rotate_simple(src_pixbuf, rstto_navigator_entry_get_rotation(entry));
-
-                if (rstto_navigator_entry_get_flip(entry, FALSE))
+                GdkPixbuf *src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
+                if (src_pixbuf)
                 {
-                    src_pixbuf = viewer->priv->src_pixbuf;
-                    viewer->priv->src_pixbuf = gdk_pixbuf_flip(src_pixbuf, FALSE);
-                    gdk_pixbuf_unref(src_pixbuf);
-                }
+                    viewer->priv->src_pixbuf = gdk_pixbuf_rotate_simple(src_pixbuf, rstto_navigator_entry_get_rotation(entry));
+                    if (rstto_navigator_entry_get_flip(entry, FALSE))
+                    {
+                        src_pixbuf = viewer->priv->src_pixbuf;
+                        viewer->priv->src_pixbuf = gdk_pixbuf_flip(src_pixbuf, FALSE);
+                        gdk_pixbuf_unref(src_pixbuf);
+                    }
 
-                if (rstto_navigator_entry_get_flip(entry, TRUE))
-                {
-                    src_pixbuf = viewer->priv->src_pixbuf;
-                    viewer->priv->src_pixbuf = gdk_pixbuf_flip(src_pixbuf, TRUE);
-                    gdk_pixbuf_unref(src_pixbuf);
+                    if (rstto_navigator_entry_get_flip(entry, TRUE))
+                    {
+                        src_pixbuf = viewer->priv->src_pixbuf;
+                        viewer->priv->src_pixbuf = gdk_pixbuf_flip(src_pixbuf, TRUE);
+                        gdk_pixbuf_unref(src_pixbuf);
+                    }
                 }
             }
 
