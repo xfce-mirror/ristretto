@@ -709,6 +709,11 @@ cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavi
             g_signal_handlers_disconnect_by_func(viewer->priv->loader , cb_rstto_picture_viewer_area_updated, viewer);
             gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
             g_object_unref(viewer->priv->loader);
+            if(viewer->priv->animation)
+            {
+                g_object_unref(viewer->priv->animation);
+                viewer->priv->animation = NULL;
+            }
         }
         viewer->priv->loader = gdk_pixbuf_loader_new();
 
@@ -829,8 +834,10 @@ cb_rstto_picture_viewer_area_prepared(GdkPixbufLoader *loader, RsttoPictureViewe
     viewer->priv->animation = gdk_pixbuf_loader_get_animation(loader);
     viewer->priv->iter = gdk_pixbuf_animation_get_iter(viewer->priv->animation, NULL);
     if (viewer->priv->src_pixbuf)
+    {
         gdk_pixbuf_unref(viewer->priv->src_pixbuf);
-    viewer->priv->src_pixbuf = NULL;
+        viewer->priv->src_pixbuf = NULL;
+    }
 
     gint time = gdk_pixbuf_animation_iter_get_delay_time(viewer->priv->iter);
 
@@ -880,16 +887,39 @@ cb_rstto_picture_viewer_area_updated(GdkPixbufLoader *loader, gint x, gint y, gi
 static void
 cb_rstto_picture_viewer_closed(GdkPixbufLoader *loader, RsttoPictureViewer *viewer)
 {
+    gint time = -1;
+
     GtkWidget *widget = GTK_WIDGET(viewer);
-
-    if (viewer->priv->src_pixbuf)
-        gdk_pixbuf_unref(viewer->priv->src_pixbuf);
     if (viewer->priv->iter)
-        viewer->priv->src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
-    if (viewer->priv->src_pixbuf)
     {
-        viewer->priv->src_pixbuf = gdk_pixbuf_copy(viewer->priv->src_pixbuf);
+        time = gdk_pixbuf_animation_iter_get_delay_time(viewer->priv->iter);
+    }
 
+    if (time != -1)
+    {
+        if (viewer->priv->src_pixbuf)
+        {
+            gdk_pixbuf_unref(viewer->priv->src_pixbuf);
+            viewer->priv->src_pixbuf = NULL;
+        }
+        viewer->priv->src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
+        if (viewer->priv->src_pixbuf)
+        {
+            viewer->priv->src_pixbuf = gdk_pixbuf_copy(viewer->priv->src_pixbuf);
+        }
+    }
+    else
+    {
+        if (viewer->priv->animation)
+        {
+            g_object_unref(viewer->priv->animation);
+            viewer->priv->animation = NULL;
+        }
+        viewer->priv->src_pixbuf = gdk_pixbuf_loader_get_pixbuf(loader);
+        if (viewer->priv->src_pixbuf)
+        {
+            g_object_ref(viewer->priv->src_pixbuf);
+        }
     }
     rstto_picture_viewer_refresh(viewer);
     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
