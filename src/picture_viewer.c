@@ -651,42 +651,45 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 static gboolean
 cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer)
 {
-    if(gdk_pixbuf_animation_iter_advance(viewer->priv->iter, NULL))
+    if (viewer->priv->iter)
     {
-        GdkPixbuf *src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
-        
-        if (src_pixbuf)
+        if(gdk_pixbuf_animation_iter_advance(viewer->priv->iter, NULL))
         {
-            RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
-            if (viewer->priv->src_pixbuf)
-                gdk_pixbuf_unref(viewer->priv->src_pixbuf);
-            viewer->priv->src_pixbuf = gdk_pixbuf_rotate_simple(src_pixbuf, rstto_navigator_entry_get_rotation(entry));
-
-            if (rstto_navigator_entry_get_flip(entry, FALSE))
+            GdkPixbuf *src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
+            
+            if (src_pixbuf)
             {
-                src_pixbuf = viewer->priv->src_pixbuf;
-                viewer->priv->src_pixbuf = gdk_pixbuf_flip(src_pixbuf, FALSE);
-                gdk_pixbuf_unref(src_pixbuf);
+                RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+                if (viewer->priv->src_pixbuf)
+                    gdk_pixbuf_unref(viewer->priv->src_pixbuf);
+                viewer->priv->src_pixbuf = gdk_pixbuf_rotate_simple(src_pixbuf, rstto_navigator_entry_get_rotation(entry));
+
+                if (rstto_navigator_entry_get_flip(entry, FALSE))
+                {
+                    src_pixbuf = viewer->priv->src_pixbuf;
+                    viewer->priv->src_pixbuf = gdk_pixbuf_flip(src_pixbuf, FALSE);
+                    gdk_pixbuf_unref(src_pixbuf);
+                }
+
+                if (rstto_navigator_entry_get_flip(entry, TRUE))
+                {
+                    src_pixbuf = viewer->priv->src_pixbuf;
+                    viewer->priv->src_pixbuf = gdk_pixbuf_flip(src_pixbuf, TRUE);
+                    gdk_pixbuf_unref(src_pixbuf);
+                }
             }
 
-            if (rstto_navigator_entry_get_flip(entry, TRUE))
+            rstto_picture_viewer_refresh(viewer);
+            rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+
+            gint time = gdk_pixbuf_animation_iter_get_delay_time(viewer->priv->iter);
+            if (time != -1)
             {
-                src_pixbuf = viewer->priv->src_pixbuf;
-                viewer->priv->src_pixbuf = gdk_pixbuf_flip(src_pixbuf, TRUE);
-                gdk_pixbuf_unref(src_pixbuf);
+                viewer->priv->timeout_id = g_timeout_add(time, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
             }
+
+            return FALSE;
         }
-
-        rstto_picture_viewer_refresh(viewer);
-        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
-
-        gint time = gdk_pixbuf_animation_iter_get_delay_time(viewer->priv->iter);
-        if (time != -1)
-        {
-            viewer->priv->timeout_id = g_timeout_add(time, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
-        }
-
-        return FALSE;
     }
     return TRUE;
 }
@@ -718,6 +721,10 @@ cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavi
             {
                 gdk_pixbuf_unref(viewer->priv->src_pixbuf);
                 viewer->priv->src_pixbuf = NULL;
+            }
+            if (viewer->priv->iter)
+            {
+                viewer->priv->iter = NULL;
             }
         }
         viewer->priv->loader = gdk_pixbuf_loader_new();
@@ -892,40 +899,22 @@ cb_rstto_picture_viewer_area_updated(GdkPixbufLoader *loader, gint x, gint y, gi
 static void
 cb_rstto_picture_viewer_closed(GdkPixbufLoader *loader, RsttoPictureViewer *viewer)
 {
-    gint time = -1;
-
     GtkWidget *widget = GTK_WIDGET(viewer);
+
+    if (viewer->priv->src_pixbuf)
+    {
+        gdk_pixbuf_unref(viewer->priv->src_pixbuf);
+        viewer->priv->src_pixbuf = NULL;
+    }
     if (viewer->priv->iter)
     {
-        time = gdk_pixbuf_animation_iter_get_delay_time(viewer->priv->iter);
+        viewer->priv->src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
+    }
+    if (viewer->priv->src_pixbuf)
+    {
+        viewer->priv->src_pixbuf = gdk_pixbuf_copy(viewer->priv->src_pixbuf);
     }
 
-    if (time != -1)
-    {
-        if (viewer->priv->src_pixbuf)
-        {
-            gdk_pixbuf_unref(viewer->priv->src_pixbuf);
-            viewer->priv->src_pixbuf = NULL;
-        }
-        viewer->priv->src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
-        if (viewer->priv->src_pixbuf)
-        {
-            viewer->priv->src_pixbuf = gdk_pixbuf_copy(viewer->priv->src_pixbuf);
-        }
-    }
-    else
-    {
-        if (viewer->priv->animation)
-        {
-            g_object_unref(viewer->priv->animation);
-            viewer->priv->animation = NULL;
-        }
-        viewer->priv->src_pixbuf = gdk_pixbuf_loader_get_pixbuf(loader);
-        if (viewer->priv->src_pixbuf)
-        {
-            g_object_ref(viewer->priv->src_pixbuf);
-        }
-    }
     rstto_picture_viewer_refresh(viewer);
     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
     if (GTK_WIDGET_REALIZED(widget))
