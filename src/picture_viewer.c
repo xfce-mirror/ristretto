@@ -714,6 +714,11 @@ cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavi
                 g_object_unref(viewer->priv->animation);
                 viewer->priv->animation = NULL;
             }
+            if(viewer->priv->src_pixbuf)
+            {
+                gdk_pixbuf_unref(viewer->priv->src_pixbuf);
+                viewer->priv->src_pixbuf = NULL;
+            }
         }
         viewer->priv->loader = gdk_pixbuf_loader_new();
 
