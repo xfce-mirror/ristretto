@@ -853,11 +853,6 @@ cb_rstto_picture_viewer_area_prepared(GdkPixbufLoader *loader, RsttoPictureViewe
 
     gint time = gdk_pixbuf_animation_iter_get_delay_time(viewer->priv->iter);
 
-    if (viewer->priv->src_pixbuf)
-    {
-        gdk_pixbuf_ref(viewer->priv->src_pixbuf);
-    }
-
     rstto_picture_viewer_refresh(viewer);
     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
 
@@ -866,12 +861,16 @@ cb_rstto_picture_viewer_area_prepared(GdkPixbufLoader *loader, RsttoPictureViewe
         /* update frame */
         viewer->priv->timeout_id = g_timeout_add(time, (GSourceFunc)cb_rstto_picture_viewer_update_image, viewer);
     }   
+    else
+    {
+        viewer->priv->iter = NULL;
+    }
 }
 
 static void
 cb_rstto_picture_viewer_area_updated(GdkPixbufLoader *loader, gint x, gint y, gint width, gint height, RsttoPictureViewer *viewer)
 {
-    if (1)
+    if (viewer->priv->iter)
     {
         /* Current Frame being updated?! */
         if (gdk_pixbuf_animation_iter_on_currently_loading_frame(viewer->priv->iter) == TRUE)
@@ -909,10 +908,18 @@ cb_rstto_picture_viewer_closed(GdkPixbufLoader *loader, RsttoPictureViewer *view
     if (viewer->priv->iter)
     {
         viewer->priv->src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
-    }
-    if (viewer->priv->src_pixbuf)
-    {
         viewer->priv->src_pixbuf = gdk_pixbuf_copy(viewer->priv->src_pixbuf);
+    }
+    else
+    {
+        if (viewer->priv->loader)
+        {
+            viewer->priv->src_pixbuf = gdk_pixbuf_loader_get_pixbuf(viewer->priv->loader);
+            if (viewer->priv->src_pixbuf)
+            {
+                gdk_pixbuf_ref(viewer->priv->src_pixbuf);
+            }
+        }
     }
 
     rstto_picture_viewer_refresh(viewer);
