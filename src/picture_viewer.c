@@ -38,6 +38,11 @@ struct _RsttoPictureViewerPriv
     GTimer           *timer;
     gint              timeout_id;
     gboolean          timeout;
+    struct
+    {
+        gdouble x;
+        gdouble y;
+    } motion;
 };
 
 static void
@@ -70,6 +75,15 @@ static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *, RsttoPictureViewer *);
 static void
 cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *, GdkEventScroll *);
+static gboolean 
+cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
+                                             GdkEventMotion *event,
+                                             gpointer user_data);
+static void
+cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEventButton *event);
+static void
+cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEventButton *event);
+
 static gboolean
 cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer);
 
@@ -121,12 +135,19 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
     viewer->priv->src_pixbuf = NULL;
     viewer->priv->dst_pixbuf = NULL;
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
+    gtk_widget_set_events (GTK_WIDGET(viewer),
+                           GDK_BUTTON_PRESS_MASK |
+                           GDK_BUTTON_RELEASE_MASK |
+                           GDK_BUTTON1_MOTION_MASK);
 
     viewer->priv->show_border = TRUE;
     viewer->priv->timer = g_timer_new();
     viewer->priv->timeout = TRUE;
 
     g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_picture_viewer_scroll_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_picture_viewer_button_press_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "button_release_event", G_CALLBACK(cb_rstto_picture_viewer_button_release_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "motion_notify_event", G_CALLBACK(cb_rstto_picture_viewer_motion_notify_event), NULL);
 }
 
 static void
@@ -588,7 +609,7 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                 viewer->vadjustment->page_increment = 100;
                 if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
                 {
-                    viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size - 1;
+                    viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
                     vadjustment_changed = TRUE;
                 }
             }
@@ -942,3 +963,61 @@ cb_rstto_picture_viewer_closed(GdkPixbufLoader *loader, RsttoPictureViewer *view
         gdk_window_set_cursor(widget->window, NULL);
     }
 }
+
+static gboolean 
+cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
+                                             GdkEventMotion *event,
+                                             gpointer user_data)
+{
+    if (event->state & GDK_BUTTON1_MASK)
+    {
+    }
+    return TRUE;
+}
+
+static void
+cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEventButton *event)
+{
+    if(event->button == 1)
+    {
+        GtkWidget *widget = GTK_WIDGET(viewer);
+        GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
+        gdk_window_set_cursor(widget->window, cursor);
+        gdk_cursor_unref(cursor);
+        
+        viewer->priv->motion.x = event->x;
+        viewer->priv->motion.y = event->y;
+    }
+}
+
+static void
+cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEventButton *event)
+{
+    if(event->button == 1)
+    {
+        GtkWidget *widget = GTK_WIDGET(viewer);
+        GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
+        gdk_window_set_cursor(widget->window, cursor);
+        gdk_cursor_unref(cursor);
+
+        viewer->hadjustment->value -= event->x - viewer->priv->motion.x;
+        if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+        {
+            viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+        }
+        gtk_adjustment_value_changed(viewer->hadjustment);
+
+        viewer->vadjustment->value -= event->y - viewer->priv->motion.y;
+        if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+        {
+            viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+        }
+        gtk_adjustment_value_changed(viewer->vadjustment);
+
+        viewer->priv->motion.x = -1;
+        viewer->priv->motion.y = -1;
+
+        gdk_window_set_cursor(widget->window, NULL);
+    }
+}
+
