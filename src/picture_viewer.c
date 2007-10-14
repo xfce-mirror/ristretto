@@ -83,6 +83,8 @@ static void
 cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEventButton *event);
 static void
 cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEventButton *event);
+static void
+cb_rstto_picture_viewer_close(GtkWidget *widget, RsttoPictureViewer*);
 
 static gboolean
 cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer);
@@ -988,6 +990,22 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
         viewer->priv->motion.x = event->x;
         viewer->priv->motion.y = event->y;
     }
+    if(event->button == 3)
+    {
+        GtkWidget *menu = gtk_menu_new();
+        GtkWidget *menu_item_close = gtk_image_menu_item_new_from_stock(GTK_STOCK_CLOSE, NULL);
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item_close);
+        gtk_widget_show(menu_item_close);
+
+        g_signal_connect(menu_item_close, 
+            "activate",
+            G_CALLBACK(cb_rstto_picture_viewer_close), viewer);
+
+
+        gtk_menu_attach_to_widget(GTK_MENU(menu), GTK_WIDGET(viewer), NULL);
+        gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 
+                        event->button, event->time);
+    }
 }
 
 static void
@@ -995,29 +1013,49 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
 {
     if(event->button == 1)
     {
+        /* Move the image around */
         GtkWidget *widget = GTK_WIDGET(viewer);
         GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
         gdk_window_set_cursor(widget->window, cursor);
         gdk_cursor_unref(cursor);
 
-        viewer->hadjustment->value -= event->x - viewer->priv->motion.x;
-        if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+        if ((viewer->priv->motion.x != event->x) ||
+            (viewer->priv->motion.y != event->y))
         {
-            viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-        }
-        gtk_adjustment_value_changed(viewer->hadjustment);
 
-        viewer->vadjustment->value -= event->y - viewer->priv->motion.y;
-        if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
-        {
-            viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+            viewer->hadjustment->value -= event->x - viewer->priv->motion.x;
+            if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+            {
+                viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+            }
+            gtk_adjustment_value_changed(viewer->hadjustment);
+
+            viewer->vadjustment->value -= event->y - viewer->priv->motion.y;
+            if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+            {
+                viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+            }
+            gtk_adjustment_value_changed(viewer->vadjustment);
         }
-        gtk_adjustment_value_changed(viewer->vadjustment);
 
         viewer->priv->motion.x = -1;
         viewer->priv->motion.y = -1;
 
         gdk_window_set_cursor(widget->window, NULL);
     }
+
 }
 
+
+static void
+cb_rstto_picture_viewer_close(GtkWidget *widget, RsttoPictureViewer *viewer)
+{
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+        g_debug("close");
+    if (entry)
+    {
+        g_debug("close");
+        rstto_navigator_remove(viewer->priv->navigator, entry);    
+        rstto_navigator_entry_free(entry);
+    }
+}
