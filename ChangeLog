@@ -1,3 +1,14 @@
+2007-10-14: Release 0.0.8
+	* src/navigation.c
+	  src/picture_viewer.c
+	  src/thumbnail_viewer.c:
+	  - Add support for animated images (like .gif and .mng)
+	  - Improve load-times
+	  - Improve responsiveness when loading images
+	* src/main_window.c
+	  src/main.c:
+	  - Fix memory leak when opening files / folders
+
 2007-09-30: Release 0.0.7
 	* src/navigation.c:
 	  - Fix Segfault
