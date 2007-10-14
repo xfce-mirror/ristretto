@@ -128,6 +128,7 @@ int main(int argc, char **argv)
                         g_free(path_name);
                         filename = g_dir_read_name(dir);
                     }
+                    g_dir_close(dir);
                     g_free(path_string);
                 }
                 else
@@ -155,6 +156,7 @@ int main(int argc, char **argv)
                         filename = g_dir_read_name(dir);
                     }
                     rstto_navigator_jump_first(navigator);
+                    g_dir_close(dir);
                 }
                 gchar *uri = thunar_vfs_path_dup_uri(info->path);
                 gtk_recent_manager_add_item(recent_manager, uri);

@@ -575,11 +575,13 @@ rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
 {
     if(nav_entry->thumb)
     {
-        g_object_unref(nav_entry->thumb);
+        gdk_pixbuf_unref(nav_entry->thumb);
+        nav_entry->thumb = NULL;
     }
     if(nav_entry->exif_data)
     {   
         exif_data_free(nav_entry->exif_data);
+        nav_entry->exif_data = NULL;
     }
     thunar_vfs_info_unref(nav_entry->info);
     g_free(nav_entry);

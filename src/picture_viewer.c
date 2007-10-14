@@ -512,6 +512,13 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 
     gboolean vadjustment_changed = FALSE;
     gboolean hadjustment_changed = FALSE;
+
+    if (viewer->priv->src_pixbuf != NULL && entry == NULL)
+    {
+        gdk_pixbuf_unref(viewer->priv->src_pixbuf);
+        viewer->priv->src_pixbuf = NULL;
+    }
+
     if(viewer->priv->src_pixbuf)
     {
         gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
@@ -655,6 +662,12 @@ cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer)
     {
         if(gdk_pixbuf_animation_iter_advance(viewer->priv->iter, NULL))
         {
+            /* Cleanup old image */
+            if (viewer->priv->src_pixbuf)
+            {
+                gdk_pixbuf_unref(viewer->priv->src_pixbuf);
+                viewer->priv->src_pixbuf = NULL;
+            }
             RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
 
             if (entry)
@@ -712,6 +725,10 @@ cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavi
             g_signal_handlers_disconnect_by_func(viewer->priv->loader , cb_rstto_picture_viewer_area_updated, viewer);
             gdk_pixbuf_loader_close(viewer->priv->loader, NULL);
             g_object_unref(viewer->priv->loader);
+            if (viewer->priv->iter)
+            {
+                viewer->priv->iter = NULL;
+            }
             if(viewer->priv->animation)
             {
                 g_object_unref(viewer->priv->animation);
@@ -721,10 +738,6 @@ cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavi
             {
                 gdk_pixbuf_unref(viewer->priv->src_pixbuf);
                 viewer->priv->src_pixbuf = NULL;
-            }
-            if (viewer->priv->iter)
-            {
-                viewer->priv->iter = NULL;
             }
         }
         viewer->priv->loader = gdk_pixbuf_loader_new();

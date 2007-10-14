@@ -190,6 +190,8 @@ static void
 rstto_main_window_init(RsttoMainWindow *);
 static void
 rstto_main_window_class_init(RsttoMainWindowClass *);
+static void
+rstto_main_window_dispose(GObject *object);
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -554,7 +556,22 @@ rstto_main_window_init(RsttoMainWindow *window)
 static void
 rstto_main_window_class_init(RsttoMainWindowClass *window_class)
 {
+    GObjectClass *object_class = (GObjectClass*)window_class;
     parent_class = g_type_class_peek_parent(window_class);
+
+    object_class->dispose = rstto_main_window_dispose;
+}
+
+static void
+rstto_main_window_dispose(GObject *object)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW(object);
+    if (window->priv->navigator)
+    {
+        g_object_unref(window->priv->navigator);
+        window->priv->navigator = NULL;
+    }
+    G_OBJECT_CLASS (parent_class)->dispose(object); 
 }
 
 static gboolean
@@ -966,9 +983,8 @@ cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window)
             gchar *uri = gtk_file_chooser_get_uri(GTK_FILE_CHOOSER(dialog));
             gtk_recent_manager_add_item(window->priv->manager, uri);
             g_free(uri);
-
+            g_dir_close(dir);
         }
-
     }
     gtk_widget_destroy(dialog);
 }
