@@ -114,6 +114,9 @@ struct _RsttoMainWindowPriv
 
         struct {
             GtkWidget *menu;
+            GtkWidget *menu_item_open_file;
+            GtkWidget *menu_item_close;
+            GtkWidget *menu_item_separator_1;
             GtkWidget *menu_item_zoom_in;
             GtkWidget *menu_item_zoom_out;
             GtkWidget *menu_item_zoom_fit;
@@ -458,16 +461,26 @@ rstto_main_window_init(RsttoMainWindow *window)
 
 /* Create picture viewer menu */
     window->priv->menus._picture_viewer.menu = gtk_menu_new();
+    window->priv->menus._picture_viewer.menu_item_open_file = gtk_image_menu_item_new_from_stock(GTK_STOCK_OPEN, NULL);
+    window->priv->menus._picture_viewer.menu_item_close = gtk_image_menu_item_new_from_stock(GTK_STOCK_CLOSE, NULL);
+
+    window->priv->menus._picture_viewer.menu_item_separator_1 = gtk_separator_menu_item_new();
+
     window->priv->menus._picture_viewer.menu_item_zoom_in = gtk_image_menu_item_new_from_stock(GTK_STOCK_ZOOM_IN, NULL);
     window->priv->menus._picture_viewer.menu_item_zoom_out = gtk_image_menu_item_new_from_stock(GTK_STOCK_ZOOM_OUT, NULL);
     window->priv->menus._picture_viewer.menu_item_zoom_fit = gtk_image_menu_item_new_from_stock(GTK_STOCK_ZOOM_FIT, NULL);
     window->priv->menus._picture_viewer.menu_item_zoom_100 = gtk_image_menu_item_new_from_stock(GTK_STOCK_ZOOM_100, NULL);
+
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_open_file);
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_close);
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_separator_1);
 
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_zoom_in);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_zoom_out);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_zoom_fit);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_zoom_100);
 
+    gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus._picture_viewer.menu_item_close), FALSE);
     gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus._picture_viewer.menu_item_zoom_in), FALSE);
     gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus._picture_viewer.menu_item_zoom_out), FALSE);
     gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus._picture_viewer.menu_item_zoom_100), FALSE);
@@ -576,6 +589,13 @@ rstto_main_window_init(RsttoMainWindow *window)
             G_CALLBACK(cb_rstto_main_window_zoom_fit), window);
 
     /* Picture viewer menu */
+    g_signal_connect(window->priv->menus._picture_viewer.menu_item_open_file,
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_open_file), window);
+    g_signal_connect(window->priv->menus._picture_viewer.menu_item_close,
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_close), window);
+            
     g_signal_connect(window->priv->menus._picture_viewer.menu_item_zoom_in,
             "activate",
             G_CALLBACK(cb_rstto_main_window_zoom_in), window);
@@ -1150,6 +1170,7 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
         gtk_widget_set_sensitive(GTK_WIDGET(window->priv->toolbar.tool_item_zoom_fit), TRUE);
         gtk_widget_set_sensitive(GTK_WIDGET(window->priv->toolbar.tool_item_zoom_100), TRUE);
 
+        gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus._picture_viewer.menu_item_close), TRUE);
         gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus._picture_viewer.menu_item_zoom_in), TRUE);
         gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus._picture_viewer.menu_item_zoom_out), TRUE);
         gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus._picture_viewer.menu_item_zoom_100), TRUE);
@@ -1221,6 +1242,7 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
             gtk_widget_set_sensitive(GTK_WIDGET(window->priv->toolbar.tool_item_zoom_fit), FALSE);
             gtk_widget_set_sensitive(GTK_WIDGET(window->priv->toolbar.tool_item_zoom_100), FALSE);
 
+            gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus._picture_viewer.menu_item_close), FALSE);
             gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus._picture_viewer.menu_item_zoom_in), FALSE);
             gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus._picture_viewer.menu_item_zoom_out), FALSE);
             gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus._picture_viewer.menu_item_zoom_100), FALSE);
