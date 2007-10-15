@@ -1,5 +1,10 @@
-	* src/picture_viewer.c:
+2007-10-15: Release 0.0.9
+	* src/navigator.c
+	  src/main_window.c
+	  src/picture_viewer.c:
 	  - Fix EXIF orientation (was broken with previous release)
+	  - Add right mouse click menu
+	  - Add drag move when zoomed (still experimental)
 
 2007-10-14: Release 0.0.8
 	* src/navigation.c
