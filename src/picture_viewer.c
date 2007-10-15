@@ -1041,27 +1041,24 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
         gdk_window_set_cursor(widget->window, cursor);
         gdk_cursor_unref(cursor);
 
-        if ((viewer->priv->motion.x != event->x) ||
-            (viewer->priv->motion.y != event->y))
+        if (viewer->priv->motion.x != event->x)
         {
-
-            viewer->hadjustment->value -= event->x - viewer->priv->motion.x;
+            viewer->hadjustment->value += (viewer->priv->motion.x - event->x);
             if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
             {
                 viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
             }
             gtk_adjustment_value_changed(viewer->hadjustment);
-
-            viewer->vadjustment->value -= event->y - viewer->priv->motion.y;
+        }
+        if (viewer->priv->motion.y != event->y)
+        {
+            viewer->vadjustment->value += (viewer->priv->motion.y - event->y);
             if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
             {
                 viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
             }
             gtk_adjustment_value_changed(viewer->vadjustment);
         }
-
-        viewer->priv->motion.x = -1;
-        viewer->priv->motion.y = -1;
 
         gdk_window_set_cursor(widget->window, NULL);
     }
