@@ -83,8 +83,6 @@ static void
 cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEventButton *event);
 static void
 cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEventButton *event);
-static void
-cb_rstto_picture_viewer_close(GtkWidget *widget, RsttoPictureViewer*);
 
 static gboolean
 cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer);
@@ -184,7 +182,6 @@ rstto_picture_viewer_class_init(RsttoPictureViewerClass *viewer_class)
                                 G_TYPE_NONE, 2,
                                 GTK_TYPE_ADJUSTMENT,
                                 GTK_TYPE_ADJUSTMENT);
-
 }
 
 static void
@@ -936,26 +933,49 @@ cb_rstto_picture_viewer_closed(GdkPixbufLoader *loader, RsttoPictureViewer *view
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
 
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+
     if (viewer->priv->src_pixbuf)
     {
         gdk_pixbuf_unref(viewer->priv->src_pixbuf);
         viewer->priv->src_pixbuf = NULL;
     }
-    if (viewer->priv->iter)
+
+    if (entry)
     {
-        viewer->priv->src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
-        viewer->priv->src_pixbuf = gdk_pixbuf_copy(viewer->priv->src_pixbuf);
-    }
-    else
-    {
-        if (viewer->priv->loader)
+        GdkPixbuf *pixbuf = NULL;
+
+        if (viewer->priv->iter)
         {
-            viewer->priv->src_pixbuf = gdk_pixbuf_loader_get_pixbuf(viewer->priv->loader);
-            if (viewer->priv->src_pixbuf)
+            pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(viewer->priv->iter);
+        }
+        else
+        {
+            if (viewer->priv->loader)
             {
-                gdk_pixbuf_ref(viewer->priv->src_pixbuf);
+                pixbuf = gdk_pixbuf_loader_get_pixbuf(viewer->priv->loader);
             }
         }
+
+       
+        if (pixbuf != NULL)
+        {
+            viewer->priv->src_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, rstto_navigator_entry_get_rotation(entry));
+            if (rstto_navigator_entry_get_flip(entry, FALSE))
+            {
+                pixbuf = viewer->priv->src_pixbuf;
+                viewer->priv->src_pixbuf = gdk_pixbuf_flip(pixbuf, FALSE);
+                gdk_pixbuf_unref(pixbuf);
+            }
+
+            if (rstto_navigator_entry_get_flip(entry, TRUE))
+            {
+                pixbuf = viewer->priv->src_pixbuf;
+                viewer->priv->src_pixbuf = gdk_pixbuf_flip(pixbuf, TRUE);
+                gdk_pixbuf_unref(pixbuf);
+            }
+        }
+        
     }
 
     rstto_picture_viewer_refresh(viewer);
@@ -992,19 +1012,7 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
     }
     if(event->button == 3)
     {
-        GtkWidget *menu = gtk_menu_new();
-        GtkWidget *menu_item_close = gtk_image_menu_item_new_from_stock(GTK_STOCK_CLOSE, NULL);
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item_close);
-        gtk_widget_show(menu_item_close);
 
-        g_signal_connect(menu_item_close, 
-            "activate",
-            G_CALLBACK(cb_rstto_picture_viewer_close), viewer);
-
-
-        gtk_menu_attach_to_widget(GTK_MENU(menu), GTK_WIDGET(viewer), NULL);
-        gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 
-                        event->button, event->time);
     }
 }
 
@@ -1044,18 +1052,4 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
         gdk_window_set_cursor(widget->window, NULL);
     }
 
-}
-
-
-static void
-cb_rstto_picture_viewer_close(GtkWidget *widget, RsttoPictureViewer *viewer)
-{
-    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
-        g_debug("close");
-    if (entry)
-    {
-        g_debug("close");
-        rstto_navigator_remove(viewer->priv->navigator, entry);    
-        rstto_navigator_entry_free(entry);
-    }
 }
