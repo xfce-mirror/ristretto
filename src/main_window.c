@@ -111,6 +111,14 @@ struct _RsttoMainWindowPriv
             GtkWidget *menu;
             GtkWidget *menu_item_about;
         } help;
+
+        struct {
+            GtkWidget *menu;
+            GtkWidget *menu_item_zoom_in;
+            GtkWidget *menu_item_zoom_out;
+            GtkWidget *menu_item_zoom_fit;
+            GtkWidget *menu_item_zoom_100;
+        } _picture_viewer;
     } menus;
 
     struct {
@@ -448,6 +456,21 @@ rstto_main_window_init(RsttoMainWindow *window)
 
     gtk_box_pack_end(GTK_BOX(window->priv->containers.main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
 
+/* Create picture viewer menu */
+    window->priv->menus._picture_viewer.menu = gtk_menu_new();
+    window->priv->menus._picture_viewer.menu_item_zoom_in = gtk_image_menu_item_new_from_stock(GTK_STOCK_ZOOM_IN, NULL);
+    window->priv->menus._picture_viewer.menu_item_zoom_out = gtk_image_menu_item_new_from_stock(GTK_STOCK_ZOOM_OUT, NULL);
+    window->priv->menus._picture_viewer.menu_item_zoom_fit = gtk_image_menu_item_new_from_stock(GTK_STOCK_ZOOM_FIT, NULL);
+    window->priv->menus._picture_viewer.menu_item_zoom_100 = gtk_image_menu_item_new_from_stock(GTK_STOCK_ZOOM_100, NULL);
+
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_zoom_in);
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_zoom_out);
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_zoom_fit);
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_zoom_100);
+
+    rstto_picture_viewer_set_menu(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer),
+                                  GTK_MENU(window->priv->menus._picture_viewer.menu));
+
 /* Connect signals */
     
     /* Thumbnail-viewer */
@@ -547,6 +570,19 @@ rstto_main_window_init(RsttoMainWindow *window)
             "clicked",
             G_CALLBACK(cb_rstto_main_window_zoom_fit), window);
 
+    /* Picture viewer menu */
+    g_signal_connect(window->priv->menus._picture_viewer.menu_item_zoom_in,
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_zoom_in), window);
+    g_signal_connect(window->priv->menus._picture_viewer.menu_item_zoom_out,
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_zoom_out), window);
+    g_signal_connect(window->priv->menus._picture_viewer.menu_item_zoom_100,
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_zoom_100), window);
+    g_signal_connect(window->priv->menus._picture_viewer.menu_item_zoom_fit,
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_zoom_fit), window);
     /* Misc */
     g_signal_connect(G_OBJECT(window->priv->navigator),
             "iter-changed",

@@ -43,6 +43,7 @@ struct _RsttoPictureViewerPriv
         gdouble x;
         gdouble y;
     } motion;
+    GtkMenu          *menu;
 };
 
 static void
@@ -83,6 +84,8 @@ static void
 cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEventButton *event);
 static void
 cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEventButton *event);
+static void
+cb_rstto_picture_viewer_popup_menu (RsttoPictureViewer *viewer, gboolean user_data);
 
 static gboolean
 cb_rstto_picture_viewer_update_image(RsttoPictureViewer *viewer);
@@ -148,6 +151,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
     g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_picture_viewer_button_press_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "button_release_event", G_CALLBACK(cb_rstto_picture_viewer_button_release_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "motion_notify_event", G_CALLBACK(cb_rstto_picture_viewer_motion_notify_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "popup-menu", G_CALLBACK(cb_rstto_picture_viewer_popup_menu), NULL);
 }
 
 static void
@@ -1012,7 +1016,17 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
     }
     if(event->button == 3)
     {
-
+        if (viewer->priv->menu)
+        {
+            gtk_widget_show_all(GTK_WIDGET(viewer->priv->menu));
+            gtk_menu_popup(viewer->priv->menu,
+                           NULL,
+                           NULL,
+                           NULL,
+                           NULL,
+                           3,
+                           event->time);
+        }
     }
 }
 
@@ -1052,4 +1066,37 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
         gdk_window_set_cursor(widget->window, NULL);
     }
 
+}
+
+static void
+cb_rstto_picture_viewer_popup_menu (RsttoPictureViewer *viewer, gboolean user_data)
+{
+    if (viewer->priv->menu)
+    {
+        gtk_widget_show_all(GTK_WIDGET(viewer->priv->menu));
+        gtk_menu_popup(viewer->priv->menu,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       0,
+                       gtk_get_current_event_time());
+    }
+}
+
+void
+rstto_picture_viewer_set_menu (RsttoPictureViewer *viewer, GtkMenu *menu)
+{
+    if (viewer->priv->menu)
+    {
+        gtk_menu_detach(viewer->priv->menu);
+        gtk_widget_destroy(GTK_WIDGET(viewer->priv->menu));
+    }
+
+    viewer->priv->menu = menu;
+
+    if (viewer->priv->menu)
+    {
+        gtk_menu_attach_to_widget(viewer->priv->menu, GTK_WIDGET(viewer), NULL);
+    }
 }
