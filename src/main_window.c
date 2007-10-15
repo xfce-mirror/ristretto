@@ -117,6 +117,12 @@ struct _RsttoMainWindowPriv
             GtkWidget *menu_item_open_file;
             GtkWidget *menu_item_close;
             GtkWidget *menu_item_separator_1;
+            GtkWidget *menu_item_open_with;
+            struct {
+                GtkWidget *menu;
+                GtkWidget *menu_item_empty;
+            } open_with;
+            GtkWidget *menu_item_separator_2;
             GtkWidget *menu_item_zoom_in;
             GtkWidget *menu_item_zoom_out;
             GtkWidget *menu_item_zoom_fit;
@@ -466,14 +472,34 @@ rstto_main_window_init(RsttoMainWindow *window)
 
     window->priv->menus._picture_viewer.menu_item_separator_1 = gtk_separator_menu_item_new();
 
+    window->priv->menus._picture_viewer.menu_item_open_with = gtk_menu_item_new_with_mnemonic(_("Open with..."));
+
+    window->priv->menus._picture_viewer.menu_item_separator_2 = gtk_separator_menu_item_new();
+
+
     window->priv->menus._picture_viewer.menu_item_zoom_in = gtk_image_menu_item_new_from_stock(GTK_STOCK_ZOOM_IN, NULL);
     window->priv->menus._picture_viewer.menu_item_zoom_out = gtk_image_menu_item_new_from_stock(GTK_STOCK_ZOOM_OUT, NULL);
     window->priv->menus._picture_viewer.menu_item_zoom_fit = gtk_image_menu_item_new_from_stock(GTK_STOCK_ZOOM_FIT, NULL);
     window->priv->menus._picture_viewer.menu_item_zoom_100 = gtk_image_menu_item_new_from_stock(GTK_STOCK_ZOOM_100, NULL);
 
+    window->priv->menus._picture_viewer.open_with.menu = gtk_menu_new();
+    window->priv->menus._picture_viewer.open_with.menu_item_empty = gtk_menu_item_new_with_label(_("No applications available"));
+
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.open_with.menu),
+                                         window->priv->menus._picture_viewer.open_with.menu_item_empty);
+    gtk_widget_set_sensitive(window->priv->menus._picture_viewer.open_with.menu_item_empty, FALSE);
+    gtk_widget_ref(window->priv->menus._picture_viewer.open_with.menu_item_empty);
+
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(window->priv->menus._picture_viewer.menu_item_open_with),
+                              window->priv->menus._picture_viewer.open_with.menu);
+
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_open_file);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_close);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_separator_1);
+
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_open_with);
+
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_separator_2);
 
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_zoom_in);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.menu), window->priv->menus._picture_viewer.menu_item_zoom_out);
@@ -1192,10 +1218,18 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
         /* Update 'open with...' submenu */
         if(gtk_widget_get_parent(window->priv->menus.edit.open_with.menu_item_empty))
         {
-            gtk_container_remove(GTK_CONTAINER(window->priv->menus.edit.open_with.menu), window->priv->menus.edit.open_with.menu_item_empty);
+            gtk_container_remove(GTK_CONTAINER(window->priv->menus.edit.open_with.menu),
+                                 window->priv->menus.edit.open_with.menu_item_empty);
+        }
+        if(gtk_widget_get_parent(window->priv->menus._picture_viewer.open_with.menu_item_empty))
+        {
+            gtk_container_remove(GTK_CONTAINER(window->priv->menus._picture_viewer.open_with.menu),
+                                 window->priv->menus._picture_viewer.open_with.menu_item_empty);
         }
 
         gtk_container_foreach(GTK_CONTAINER(window->priv->menus.edit.open_with.menu), (GtkCallback)gtk_widget_destroy, NULL);
+        gtk_container_foreach(GTK_CONTAINER(window->priv->menus._picture_viewer.open_with.menu), (GtkCallback)gtk_widget_destroy, NULL);
+
         if (info)
         {
             window->priv->menu_apps_list = thunar_vfs_mime_database_get_applications(window->priv->mime_dbase, info->mime_info);
@@ -1204,6 +1238,10 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
             {
                 gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.edit.open_with.menu), window->priv->menus.edit.open_with.menu_item_empty);
                 gtk_widget_show(window->priv->menus.edit.open_with.menu_item_empty);
+
+                gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.open_with.menu),
+                                      window->priv->menus._picture_viewer.open_with.menu_item_empty);
+                gtk_widget_show(window->priv->menus._picture_viewer.open_with.menu_item_empty);
             }
             while (iter != NULL)
             {
@@ -1214,6 +1252,15 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
                 g_object_set_data(iter->data, "entry", entry);
                 g_signal_connect(menu_item, "activate", G_CALLBACK(cb_rstto_main_window_spawn_app), iter->data);
                 gtk_widget_show(menu_item);
+
+                menu_item = gtk_image_menu_item_new_with_label(thunar_vfs_mime_application_get_name(iter->data));
+                image = gtk_image_new_from_icon_name(thunar_vfs_mime_handler_lookup_icon_name(iter->data, window->priv->icon_theme), GTK_ICON_SIZE_MENU);
+                gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item), image);
+                gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.open_with.menu), menu_item);
+                g_object_set_data(iter->data, "entry", entry);
+                g_signal_connect(menu_item, "activate", G_CALLBACK(cb_rstto_main_window_spawn_app), iter->data);
+                gtk_widget_show(menu_item);
+
                 iter = g_list_next(iter);
             }
         }        
@@ -1221,6 +1268,10 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
         {
             gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.edit.open_with.menu), window->priv->menus.edit.open_with.menu_item_empty);
             gtk_widget_show(window->priv->menus.edit.open_with.menu_item_empty);
+
+            gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.open_with.menu),
+                                  window->priv->menus._picture_viewer.open_with.menu_item_empty);
+            gtk_widget_show(window->priv->menus._picture_viewer.open_with.menu_item_empty);
         }
     }
     else
@@ -1250,10 +1301,18 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
         }
 
         gtk_container_foreach(GTK_CONTAINER(window->priv->menus.edit.open_with.menu), (GtkCallback)gtk_widget_destroy, NULL);
+        gtk_container_foreach(GTK_CONTAINER(window->priv->menus._picture_viewer.open_with.menu), (GtkCallback)gtk_widget_destroy, NULL);
         if(!gtk_widget_get_parent(window->priv->menus.edit.open_with.menu_item_empty))
         {
             gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.edit.open_with.menu), window->priv->menus.edit.open_with.menu_item_empty);
             gtk_widget_show(window->priv->menus.edit.open_with.menu_item_empty);
+        }
+
+        if(!gtk_widget_get_parent(window->priv->menus._picture_viewer.open_with.menu_item_empty))
+        {
+            gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus._picture_viewer.open_with.menu),
+                                  window->priv->menus._picture_viewer.open_with.menu_item_empty);
+            gtk_widget_show(window->priv->menus._picture_viewer.open_with.menu_item_empty);
         }
     }
 
