@@ -602,6 +602,11 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                     viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
                     hadjustment_changed = TRUE;
                 }
+                if(viewer->hadjustment->value < viewer->hadjustment->lower)
+                {
+                    viewer->hadjustment->value = viewer->hadjustment->lower;
+                    hadjustment_changed = TRUE;
+                }
             }
             if(viewer->vadjustment)
             {
@@ -613,6 +618,11 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                 if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
                 {
                     viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+                    vadjustment_changed = TRUE;
+                }
+                if(viewer->vadjustment->value < viewer->vadjustment->lower)
+                {
+                    viewer->vadjustment->value = viewer->vadjustment->lower;
                     vadjustment_changed = TRUE;
                 }
             }
@@ -1048,6 +1058,10 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
             {
                 viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
             }
+            if((viewer->hadjustment->value) < viewer->hadjustment->lower)
+            {
+                viewer->hadjustment->value = viewer->hadjustment->lower;
+            }
             gtk_adjustment_value_changed(viewer->hadjustment);
         }
         if (viewer->priv->motion.y != event->y)
@@ -1056,6 +1070,10 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
             if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
             {
                 viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+            }
+            if((viewer->vadjustment->value) < viewer->vadjustment->lower)
+            {
+                viewer->vadjustment->value = viewer->vadjustment->lower;
             }
             gtk_adjustment_value_changed(viewer->vadjustment);
         }
