@@ -39,9 +39,21 @@ rstto_window_save_geometry_timer_destroy(gpointer user_data);
 static gboolean
 cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event);
 
+gboolean version = FALSE;
+
+static GOptionEntry entries[] =
+{
+    {	"version", 'v', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &version,
+		N_("Version information"),
+		NULL
+	},
+	{ NULL }
+};
+
 int main(int argc, char **argv)
 {
 
+	GError *cli_error = NULL;
     gint n;
 
     #ifdef ENABLE_NLS
@@ -50,7 +62,21 @@ int main(int argc, char **argv)
     textdomain (GETTEXT_PACKAGE);
     #endif
 
-    gtk_init(&argc, &argv);
+    if(!gtk_init_with_args(&argc, &argv, _(""), entries, PACKAGE, NULL))
+    {
+        if (cli_error != NULL)
+        {
+			g_print (_("%s: %s\nTry %s --help to see a full list of available command line options.\n"), PACKAGE, cli_error->message, PACKAGE_NAME);
+			g_error_free (cli_error);
+			return 1;
+        }
+    }
+
+	if(version)
+	{
+		g_print("%s\n", PACKAGE_STRING);
+		return 0;
+	}
 
     thunar_vfs_init();
 
