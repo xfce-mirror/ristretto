@@ -10,6 +10,7 @@ ristretto_SOURCES = \
 ristretto_CFLAGS = \
 	$(GTK_CFLAGS) \
 	$(GLIB_CFLAGS) \
+	$(DBUS_GLIB_CFLAGS) \
 	$(LIBEXIF_CFLAGS) \
 	$(LIBXFCE4UTIL_CFLAGS) \
 	$(THUNAR_VFS_CFLAGS) \
@@ -20,6 +21,7 @@ ristretto_CFLAGS = \
 ristretto_LDADD = \
 	$(GTK_LIBS) \
 	$(GLIB_LIBS) \
+	$(DBUS_GLIB_LIBS) \
 	$(LIBEXIF_LIBS) \
 	$(LIBXFCE4UTIL_LIBS) \
 	$(THUNAR_VFS_LIBS)
