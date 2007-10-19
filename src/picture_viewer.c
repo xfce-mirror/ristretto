@@ -212,6 +212,7 @@ rstto_picture_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     }
 
     rstto_picture_viewer_refresh(viewer);
+    rstto_picture_viewer_paint(GTK_WIDGET(viewer));
 }
 
 static void
