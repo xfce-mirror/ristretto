@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Christian Dywan <christian@twotoasts.de>, 2007.
 #
+#: ../src/main.c:65
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-09-27 23:32+0200\n"
+"POT-Creation-Date: 2007-10-21 00:41+0200\n"
 "PO-Revision-Date: 2007-07-03 00:59:21+0200\n"
 "Last-Translator: stephan arts <stephan@xfce.org>\n"
 "Language-Team: German\n"
@@ -15,72 +16,83 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../src/main.c:47
+msgid "Version information"
+msgstr ""
+
+#: ../src/main.c:69
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+
 #. Create 'File' menu
-#: ../src/main_window.c:241
+#: ../src/main_window.c:278
 msgid "_File"
 msgstr "_Datei"
 
-#: ../src/main_window.c:248
+#: ../src/main_window.c:285
 msgid "O_pen Folder"
 msgstr "_Ordner öffnen"
 
-#: ../src/main_window.c:249
+#: ../src/main_window.c:286
 msgid "_Recently used"
 msgstr "_Zuletzt geöffnet"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:276
+#: ../src/main_window.c:318
 msgid "_Edit"
 msgstr "_Bearbeiten"
 
-#: ../src/main_window.c:281
+#: ../src/main_window.c:323 ../src/main_window.c:488
 msgid "Open with..."
 msgstr "Ö_fnen mit..."
 
-#: ../src/main_window.c:287
+#: ../src/main_window.c:329 ../src/main_window.c:499
 msgid "No applications available"
 msgstr "Keine Programme verfügbar"
 
 #. Create 'View' menu
-#: ../src/main_window.c:295
+#: ../src/main_window.c:338
 msgid "_View"
 msgstr "_Ansicht"
 
-#: ../src/main_window.c:302
+#: ../src/main_window.c:345
 msgid "Show Toolbar"
 msgstr "_Werkzeugleiste anzeigen"
 
-#: ../src/main_window.c:303
+#: ../src/main_window.c:346
 msgid "Thumbnail Viewer"
 msgstr "Vor_schaubilder"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:364
 msgid "Show Horizontally"
 msgstr "_Horizontal anzeigen"
 
-#: ../src/main_window.c:325
+#: ../src/main_window.c:368
 msgid "Show Vertically"
 msgstr "_Vertikal anzeigen"
 
-#: ../src/main_window.c:329
+#: ../src/main_window.c:372
 msgid "Hide"
 msgstr "Ver_bergen"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:339
+#: ../src/main_window.c:382
 msgid "_Go"
 msgstr "_Gehe zu"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:368
+#: ../src/main_window.c:411
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: ../src/main_window.c:809
+#: ../src/main_window.c:968
 msgid "Developer:"
 msgstr "Entwickler:"
 
-#: ../src/main_window.c:819
+#: ../src/main_window.c:978
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -88,23 +100,23 @@ msgstr ""
 "Ristretto ist ein schneller und leichter Bildbetrachter für die "
 "Arbeitsumgebung Xfce."
 
-#: ../src/main_window.c:827
+#: ../src/main_window.c:986
 msgid "translator-credits"
 msgstr "Christian Dywan <christian@twotoasts.de>"
 
-#: ../src/main_window.c:847
+#: ../src/main_window.c:1006
 msgid "Open image"
 msgstr "Bild öffnen"
 
-#: ../src/main_window.c:882
+#: ../src/main_window.c:1046
 msgid "Could not open file"
 msgstr "Datei konnte nicht geöffnet werden"
 
-#: ../src/main_window.c:892
+#: ../src/main_window.c:1056
 msgid "Open folder"
 msgstr "_Ordner öffnen"
 
-#: ../src/main_window.c:997
+#: ../src/main_window.c:1167
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""

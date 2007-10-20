@@ -24,6 +24,10 @@
 #include "navigator.h"
 #include "picture_viewer.h"
 
+#ifndef RSTTO_PICTURE_VIEWER_DRAG_MOTION_TIMEOUT
+#define RSTTO_PICTURE_VIEWER_DRAG_MOTION_TIMEOUT 160
+#endif
+
 struct _RsttoPictureViewerPriv
 {
     GdkPixbufLoader  *loader;
@@ -44,6 +48,7 @@ struct _RsttoPictureViewerPriv
         gdouble y;
         gint h_val;
         gint v_val;
+        gint32 time;
     } motion;
     GtkMenu          *menu;
 };
@@ -251,10 +256,8 @@ rstto_picture_viewer_realize(GtkWidget *widget)
 static gboolean
 rstto_picture_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
 {
-    if(rstto_picture_viewer_refresh(RSTTO_PICTURE_VIEWER(widget)))
-    {
-        rstto_picture_viewer_paint(widget);
-    }
+    rstto_picture_viewer_refresh(RSTTO_PICTURE_VIEWER(widget));
+    rstto_picture_viewer_paint(widget);
     return FALSE;
 }
 
@@ -1007,40 +1010,47 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
 {
     if (event->state & GDK_BUTTON1_MASK)
     {
-        if (viewer->priv->motion.x != event->x)
-        {
-            gint val = viewer->hadjustment->value;
-            viewer->hadjustment->value = viewer->priv->motion.h_val + (viewer->priv->motion.x - event->x);
-            if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
-            {
-                viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-            }
-            if((viewer->hadjustment->value) < viewer->hadjustment->lower)
-            {
-                viewer->hadjustment->value = viewer->hadjustment->lower;
-            }
-            if (val != viewer->hadjustment->value)
-                gtk_adjustment_value_changed(viewer->hadjustment);
-        }
+        if (viewer->priv->motion.time == 0)
+            viewer->priv->motion.time = gtk_get_current_event_time();
 
-        if (viewer->priv->motion.y != event->y)
-        {
-            gint val = viewer->vadjustment->value;
-            viewer->vadjustment->value = viewer->priv->motion.v_val + (viewer->priv->motion.y - event->y);
-            if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
-            {
-                viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
-            }
-            if((viewer->vadjustment->value) < viewer->vadjustment->lower)
-            {
-                viewer->vadjustment->value = viewer->vadjustment->lower;
-            }
-            if (val != viewer->vadjustment->value)
-                gtk_adjustment_value_changed(viewer->vadjustment);
-        }
 
+        if (((event->time - viewer->priv->motion.time) > RSTTO_PICTURE_VIEWER_DRAG_MOTION_TIMEOUT))
+        {
+            if (viewer->priv->motion.x != event->x)
+            {
+                gint val = viewer->hadjustment->value;
+                viewer->hadjustment->value = viewer->priv->motion.h_val + (viewer->priv->motion.x - event->x);
+                if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+                {
+                    viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+                }
+                if((viewer->hadjustment->value) < viewer->hadjustment->lower)
+                {
+                    viewer->hadjustment->value = viewer->hadjustment->lower;
+                }
+                if (val != viewer->hadjustment->value)
+                    gtk_adjustment_value_changed(viewer->hadjustment);
+            }
+
+            if (viewer->priv->motion.y != event->y)
+            {
+                gint val = viewer->vadjustment->value;
+                viewer->vadjustment->value = viewer->priv->motion.v_val + (viewer->priv->motion.y - event->y);
+                if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+                {
+                    viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+                }
+                if((viewer->vadjustment->value) < viewer->vadjustment->lower)
+                {
+                    viewer->vadjustment->value = viewer->vadjustment->lower;
+                }
+                if (val != viewer->vadjustment->value)
+                    gtk_adjustment_value_changed(viewer->vadjustment);
+            }
+            viewer->priv->motion.time = event->time;
+        }
     }
-    return TRUE;
+    return FALSE;
 }
 
 static void
