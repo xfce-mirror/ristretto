@@ -491,13 +491,47 @@ rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
     if (entry)
     {
+        gdouble old_scale = rstto_navigator_entry_get_scale(entry);
+
+        gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
+        gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
+
         rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
         rstto_navigator_entry_set_scale(entry, scale);
 
-        if(rstto_picture_viewer_refresh(viewer))
+        viewer->hadjustment->upper = width * scale;
+        gtk_adjustment_changed(viewer->hadjustment);
+
+        viewer->vadjustment->upper = height * scale;
+        gtk_adjustment_changed(viewer->vadjustment);
+
+        viewer->hadjustment->value = (((viewer->hadjustment->value +
+                                      (viewer->hadjustment->page_size / 2)) /
+                                       old_scale) * scale) - (viewer->hadjustment->page_size / 2);
+        viewer->vadjustment->value = (((viewer->vadjustment->value +
+                                      (viewer->vadjustment->page_size / 2)) /
+                                       old_scale) * scale) - (viewer->vadjustment->page_size / 2);
+
+        if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
         {
-            rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+            viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
         }
+        if(viewer->hadjustment->value < viewer->hadjustment->lower)
+        {
+            viewer->hadjustment->value = viewer->hadjustment->lower;
+        }
+        if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+        {
+            viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+        }
+        if(viewer->vadjustment->value < viewer->vadjustment->lower)
+        {
+            viewer->vadjustment->value = viewer->vadjustment->lower;
+        }
+
+        gtk_adjustment_value_changed(viewer->hadjustment);
+        gtk_adjustment_value_changed(viewer->vadjustment);
+
     }
 }
 
