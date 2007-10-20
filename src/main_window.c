@@ -1196,6 +1196,7 @@ cb_rstto_main_window_close(GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_file_properties(GtkWidget *widget, RsttoMainWindow *window)
 {
+    GError *error = NULL;
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(window->priv->navigator);
     if (entry)
     {
@@ -1203,9 +1204,15 @@ cb_rstto_main_window_file_properties(GtkWidget *widget, RsttoMainWindow *window)
         if(info)
         {
             gchar *uri = thunar_vfs_path_dup_uri(info->path);
-            if(dbus_g_proxy_call(window->priv->filemanager_proxy, "DisplayFileProperties", NULL, G_TYPE_STRING, uri, G_TYPE_STRING, "", NULL) == FALSE)
+            if(dbus_g_proxy_call(window->priv->filemanager_proxy,
+                                 "DisplayFileProperties",
+                                 &error,
+                                 G_TYPE_STRING, uri,
+                                 G_TYPE_STRING, "",
+                                 G_TYPE_INVALID,
+                                 G_TYPE_INVALID) == FALSE)
             {
-                g_warning("Could not contact dbus-service");
+                g_warning("%s", error->message);
             }
             g_free(uri);
         }
