@@ -42,6 +42,8 @@ struct _RsttoPictureViewerPriv
     {
         gdouble x;
         gdouble y;
+        gint h_val;
+        gint v_val;
     } motion;
     GtkMenu          *menu;
 };
@@ -821,40 +823,11 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
         case GDK_SCROLL_LEFT:
             if (scale <= 0.05)
                 return;
-            rstto_navigator_entry_set_scale(entry, scale / 1.05);
-            rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
-
-            viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) / 1.05) - event->x;
-            viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) / 1.05) - event->y;
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
             if (scale >= 16)
                 return;
-            rstto_navigator_entry_set_scale(entry, scale * 1.05);
-            rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
-
-            viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) * 1.05) - event->x;
-
-            if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
-            {
-                viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-            }
-            if((viewer->hadjustment->value) < viewer->hadjustment->lower)
-            {
-                viewer->hadjustment->value = viewer->hadjustment->lower;
-            }
-
-            viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) * 1.05) - event->y;
-
-            if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
-            {
-                viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
-            }
-            if((viewer->vadjustment->value) < viewer->vadjustment->lower)
-            {
-                viewer->vadjustment->value = viewer->vadjustment->lower;
-            }
             break;
     }
 
@@ -1034,6 +1007,38 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
 {
     if (event->state & GDK_BUTTON1_MASK)
     {
+        if (viewer->priv->motion.x != event->x)
+        {
+            gint val = viewer->hadjustment->value;
+            viewer->hadjustment->value = viewer->priv->motion.h_val + (viewer->priv->motion.x - event->x);
+            if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+            {
+                viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+            }
+            if((viewer->hadjustment->value) < viewer->hadjustment->lower)
+            {
+                viewer->hadjustment->value = viewer->hadjustment->lower;
+            }
+            if (val != viewer->hadjustment->value)
+                gtk_adjustment_value_changed(viewer->hadjustment);
+        }
+
+        if (viewer->priv->motion.y != event->y)
+        {
+            gint val = viewer->vadjustment->value;
+            viewer->vadjustment->value = viewer->priv->motion.v_val + (viewer->priv->motion.y - event->y);
+            if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+            {
+                viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+            }
+            if((viewer->vadjustment->value) < viewer->vadjustment->lower)
+            {
+                viewer->vadjustment->value = viewer->vadjustment->lower;
+            }
+            if (val != viewer->vadjustment->value)
+                gtk_adjustment_value_changed(viewer->vadjustment);
+        }
+
     }
     return TRUE;
 }
@@ -1050,6 +1055,8 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
         
         viewer->priv->motion.x = event->x;
         viewer->priv->motion.y = event->y;
+        viewer->priv->motion.h_val = viewer->hadjustment->value;
+        viewer->priv->motion.v_val = viewer->vadjustment->value;
     }
     if(event->button == 3)
     {
@@ -1072,39 +1079,7 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
 {
     if(event->button == 1)
     {
-        /* Move the image around */
         GtkWidget *widget = GTK_WIDGET(viewer);
-        GdkCursor *cursor = gdk_cursor_new(GDK_WATCH);
-        gdk_window_set_cursor(widget->window, cursor);
-        gdk_cursor_unref(cursor);
-
-        if (viewer->priv->motion.x != event->x)
-        {
-            viewer->hadjustment->value += (viewer->priv->motion.x - event->x);
-            if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
-            {
-                viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-            }
-            if((viewer->hadjustment->value) < viewer->hadjustment->lower)
-            {
-                viewer->hadjustment->value = viewer->hadjustment->lower;
-            }
-            gtk_adjustment_value_changed(viewer->hadjustment);
-        }
-        if (viewer->priv->motion.y != event->y)
-        {
-            viewer->vadjustment->value += (viewer->priv->motion.y - event->y);
-            if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
-            {
-                viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
-            }
-            if((viewer->vadjustment->value) < viewer->vadjustment->lower)
-            {
-                viewer->vadjustment->value = viewer->vadjustment->lower;
-            }
-            gtk_adjustment_value_changed(viewer->vadjustment);
-        }
-
         gdk_window_set_cursor(widget->window, NULL);
     }
 
