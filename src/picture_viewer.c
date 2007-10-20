@@ -407,6 +407,10 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureVie
         width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
         height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
     }
+    if (viewer->priv->src_pixbuf == NULL)
+    {
+        return;
+    }
     GdkPixbuf *tmp_pixbuf = NULL;
     if (viewer->vadjustment && viewer->hadjustment)
     {
@@ -817,18 +821,40 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
         case GDK_SCROLL_LEFT:
             if (scale <= 0.05)
                 return;
-            rstto_navigator_entry_set_scale(entry, scale / 1.2);
+            rstto_navigator_entry_set_scale(entry, scale / 1.05);
             rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
+
+            viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) / 1.05) - event->x;
+            viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) / 1.05) - event->y;
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
             if (scale >= 16)
                 return;
-            viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) - viewer->vadjustment->page_size/2) * 1.2;
-            viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) - viewer->hadjustment->page_size/2) * 1.2;
-
-            rstto_navigator_entry_set_scale(entry, scale * 1.2);
+            rstto_navigator_entry_set_scale(entry, scale * 1.05);
             rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
+
+            viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) * 1.05) - event->x;
+
+            if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+            {
+                viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+            }
+            if((viewer->hadjustment->value) < viewer->hadjustment->lower)
+            {
+                viewer->hadjustment->value = viewer->hadjustment->lower;
+            }
+
+            viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) * 1.05) - event->y;
+
+            if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+            {
+                viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+            }
+            if((viewer->vadjustment->value) < viewer->vadjustment->lower)
+            {
+                viewer->vadjustment->value = viewer->vadjustment->lower;
+            }
             break;
     }
 
