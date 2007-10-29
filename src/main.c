@@ -92,11 +92,17 @@ int main(int argc, char **argv)
     gint window_width = xfce_rc_read_int_entry(xfce_rc, "LastWindowWidth", 400);
     gint window_height = xfce_rc_read_int_entry(xfce_rc, "LastWindowHeight", 300);
     gint slideshow_timeout = xfce_rc_read_int_entry(xfce_rc, "SlideShowTimeout", 5000);
+    gint max_cache = xfce_rc_read_int_entry(xfce_rc, "MaxImagesCacheSize", 1);
+    gint max_preload = xfce_rc_read_int_entry(xfce_rc, "MaxImagesPreload", 1);
     
     GtkWidget *window = rstto_main_window_new();
     gtk_widget_ref(window);
 
     RsttoNavigator *navigator = rstto_main_window_get_navigator(RSTTO_MAIN_WINDOW(window));
+
+    navigator->max_history = max_cache;
+    navigator->max_preload = max_preload;
+
     GtkRecentManager *recent_manager = rstto_main_window_get_recent_manager(RSTTO_MAIN_WINDOW(window));
     rstto_navigator_set_timeout(navigator, slideshow_timeout);
 
@@ -222,6 +228,7 @@ int main(int argc, char **argv)
             xfce_rc_write_entry(xfce_rc, "ThumbnailViewerOrientation", "horizontal");
             break;
     }
+    xfce_rc_write_int_entry(xfce_rc, "MaxImagesCacheSize", rstto_navigator_get_cache_max_images(navigator));
     xfce_rc_flush(xfce_rc);
     xfce_rc_close(xfce_rc);
     gtk_widget_unref(window);

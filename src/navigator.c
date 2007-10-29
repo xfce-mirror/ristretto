@@ -131,6 +131,8 @@ rstto_navigator_init(RsttoNavigator *navigator)
     navigator->old_position = -1;
     navigator->timeout = 5000;
     navigator->monitor = thunar_vfs_monitor_get_default();
+    navigator->max_history = 1;
+    navigator->max_preload = 0;
 
     navigator->factory = thunar_vfs_thumb_factory_new(THUNAR_VFS_THUMB_SIZE_NORMAL);
 }
@@ -236,6 +238,7 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
     if(entry->io_channel)
     {
         g_source_remove(entry->io_source_id);
+        g_io_channel_unref(entry->io_channel);
         entry->io_channel = NULL;
         entry->io_source_id = 0;
         if(entry->loader)
@@ -262,7 +265,7 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
     /* add image to the cache-history */
     navigator->history = g_list_prepend(navigator->history, entry);
 
-    if (g_list_length(navigator->history) > 5)
+    if (g_list_length(navigator->history) > navigator->max_history)
     {
         GList *last_entry = g_list_last(navigator->history);
         RsttoNavigatorEntry *nav_entry = last_entry->data;
@@ -279,6 +282,7 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
             if(nav_entry->io_channel)
             {
                 g_source_remove(nav_entry->io_source_id);
+                g_io_channel_unref(nav_entry->io_channel);
                 nav_entry->io_channel = NULL;
                 nav_entry->io_source_id = 0;
             }
@@ -893,22 +897,24 @@ cb_rstto_navigator_entry_read_file(GIOChannel *io_channel, GIOCondition cond, Rs
             case G_IO_STATUS_EOF:
                 gdk_pixbuf_loader_write(entry->loader, (const guchar *)buffer, bytes_read, NULL);
                 gdk_pixbuf_loader_close(entry->loader, NULL);
+                g_io_channel_unref(io_channel);
                 entry->io_channel = NULL;
+                entry->io_source_id = 0;
                 return FALSE;
                 break;
             case G_IO_STATUS_ERROR:
                 gdk_pixbuf_loader_close(entry->loader, NULL);
-                g_io_channel_shutdown(io_channel, FALSE, NULL);
+                g_io_channel_unref(io_channel);
                 entry->io_channel = NULL;
+                entry->io_source_id = 0;
                 return FALSE;
                 break;
             case G_IO_STATUS_AGAIN:
                 return TRUE;
                 break;
         }
-        g_io_channel_shutdown(io_channel, FALSE, NULL);
     }
-    g_io_channel_shutdown(io_channel, FALSE, NULL);
+    g_io_channel_unref(io_channel);
     return FALSE;
 }
 
@@ -1040,6 +1046,7 @@ cb_rstto_navigator_entry_fs_event (ThunarVfsMonitor *monitor,
     switch (event)
     {
         case THUNAR_VFS_MONITOR_EVENT_CHANGED:
+            rstto_navigator_entry_load_image (entry);
             break;
         case THUNAR_VFS_MONITOR_EVENT_CREATED:
             break;
@@ -1050,4 +1057,10 @@ cb_rstto_navigator_entry_fs_event (ThunarVfsMonitor *monitor,
         default:
             break;
     }
+}
+
+gint
+rstto_navigator_get_cache_max_images (RsttoNavigator *navigator)
+{
+    return navigator->max_history;
 }
