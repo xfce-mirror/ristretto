@@ -77,6 +77,16 @@ rstto_main_window_get_navigator (RsttoMainWindow *window);
 GtkRecentManager *
 rstto_main_window_get_recent_manager (RsttoMainWindow *window);
 
+
+gdouble
+rstto_main_window_get_slideshow_timeout (RsttoMainWindow *window);
+gint
+rstto_main_window_get_max_cache_size (RsttoMainWindow *window);
+void
+rstto_main_window_set_slideshow_timeout (RsttoMainWindow *window, gdouble timeout);
+void
+rstto_main_window_set_max_cache_size (RsttoMainWindow *window, gint max_cache_size);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_MAIN_WINDOW_H__ */

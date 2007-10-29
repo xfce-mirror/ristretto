@@ -245,8 +245,6 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
         {
             g_signal_handlers_disconnect_by_func(entry->loader , cb_rstto_navigator_entry_area_prepared, entry);
             gdk_pixbuf_loader_close(entry->loader, NULL);
-            g_object_unref(entry->loader);
-            entry->loader = NULL;
         }
 
         if(entry->animation)
@@ -554,6 +552,7 @@ rstto_navigator_set_file (RsttoNavigator *navigator, gint n)
 {
     if(navigator->file_iter)
     {
+        rstto_navigator_guard_history(navigator, navigator->file_iter->data);
         navigator->old_position = rstto_navigator_get_position(navigator);
     }
     navigator->file_iter = g_list_nth(navigator->file_list, n);
@@ -713,6 +712,7 @@ rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
     
     if(nav_entry->io_channel)
     {
+        g_io_channel_unref(nav_entry->io_channel);
         g_source_remove(nav_entry->io_source_id);
     }
 
@@ -720,7 +720,6 @@ rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
     {
         g_signal_handlers_disconnect_by_func(nav_entry->loader , cb_rstto_navigator_entry_area_prepared, nav_entry);
         gdk_pixbuf_loader_close(nav_entry->loader, NULL);
-        g_object_unref(nav_entry->loader);
     }
     if(nav_entry->animation)
     {
@@ -836,6 +835,7 @@ rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry)
 gboolean
 rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry)
 {
+    g_return_val_if_fail(entry != NULL, FALSE);
     gchar *path = NULL;
 
     if (entry->io_channel)
@@ -915,6 +915,8 @@ cb_rstto_navigator_entry_read_file(GIOChannel *io_channel, GIOCondition cond, Rs
         }
     }
     g_io_channel_unref(io_channel);
+    entry->io_channel = NULL;
+    entry->io_source_id = 0;
     return FALSE;
 }
 
@@ -963,6 +965,12 @@ cb_rstto_navigator_entry_closed (GdkPixbufLoader *loader, RsttoNavigatorEntry *e
         {
             pixbuf = gdk_pixbuf_loader_get_pixbuf(entry->loader);
         }
+    }
+
+    if (entry->loader)
+    {
+        g_object_unref(entry->loader);
+        entry->loader = NULL;
     }
 
    

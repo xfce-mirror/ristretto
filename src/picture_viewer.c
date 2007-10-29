@@ -730,7 +730,15 @@ static void
 cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoPictureViewer *viewer)
 {
     viewer->priv->entry = entry;
-    rstto_navigator_entry_load_image(entry);
+    if(entry)
+    {
+        rstto_navigator_entry_load_image(entry);
+    }
+    else
+    {
+        rstto_picture_viewer_refresh(viewer);
+        rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+    }
 }
 
 static void

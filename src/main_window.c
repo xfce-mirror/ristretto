@@ -19,6 +19,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 #include <thunar-vfs/thunar-vfs.h>
+#include <libxfcegui4/libxfcegui4.h>
 #include <libexif/exif-data.h>
 #include <dbus/dbus-glib.h>
 
@@ -53,6 +54,8 @@ struct _RsttoMainWindowPriv
         GtkOrientation thumbnail_viewer_orientation;
         gboolean       thumbnail_viewer_visibility;
         gboolean       toolbar_visibility;
+        gint           max_cache_size;
+        gdouble        slideshow_timeout;
     } settings;
 
     struct {
@@ -83,6 +86,7 @@ struct _RsttoMainWindowPriv
                 GtkWidget *menu;
                 GtkWidget *menu_item_empty;
             } open_with;
+            GtkWidget *menu_item_preferences;
         } edit;
 
         GtkWidget *menu_item_view;
@@ -207,6 +211,8 @@ static void
 cb_rstto_main_window_quit(GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_about(GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntry *entry, RsttoMainWindow *window);
@@ -321,9 +327,11 @@ rstto_main_window_init(RsttoMainWindow *window)
     window->priv->menus.edit.menu = gtk_menu_new();
     gtk_menu_set_accel_group(GTK_MENU(window->priv->menus.edit.menu), accel_group);
     window->priv->menus.edit.menu_item_open_with = gtk_menu_item_new_with_mnemonic(_("Open with..."));
+    window->priv->menus.edit.menu_item_preferences = gtk_image_menu_item_new_from_stock(GTK_STOCK_PREFERENCES, NULL);
 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(window->priv->menus.menu_item_edit), window->priv->menus.edit.menu);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.edit.menu), window->priv->menus.edit.menu_item_open_with);
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.edit.menu), window->priv->menus.edit.menu_item_preferences);
     
     window->priv->menus.edit.open_with.menu = gtk_menu_new();
     window->priv->menus.edit.open_with.menu_item_empty = gtk_menu_item_new_with_label(_("No applications available"));
@@ -600,6 +608,10 @@ rstto_main_window_init(RsttoMainWindow *window)
             "activate",
             G_CALLBACK(cb_rstto_main_window_about), window);
 
+    g_signal_connect(window->priv->menus.edit.menu_item_preferences, 
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_preferences), window);
+
     g_signal_connect(window->priv->menus.go.menu_item_next,
             "activate",
             G_CALLBACK(cb_rstto_main_window_next), window);
@@ -811,6 +823,32 @@ rstto_main_window_get_recent_manager (RsttoMainWindow *window)
     return window->priv->manager;
 }
 
+gdouble
+rstto_main_window_get_slideshow_timeout (RsttoMainWindow *window)
+{
+    return window->priv->settings.slideshow_timeout;
+}
+
+gint
+rstto_main_window_get_max_cache_size (RsttoMainWindow *window)
+{
+    return window->priv->settings.max_cache_size;
+}
+
+void
+rstto_main_window_set_slideshow_timeout (RsttoMainWindow *window, gdouble timeout)
+{
+    window->priv->settings.slideshow_timeout = timeout;
+    rstto_navigator_set_timeout(window->priv->navigator, timeout);
+}
+
+void
+rstto_main_window_set_max_cache_size (RsttoMainWindow *window, gint max_cache_size)
+{
+    window->priv->settings.max_cache_size = max_cache_size;
+    window->priv->navigator->max_history = max_cache_size;
+}
+
 /* CALLBACK FUNCTIONS */
 
 static void
@@ -957,6 +995,73 @@ cb_rstto_main_window_pause(GtkWidget *widget, RsttoMainWindow *window)
     gtk_menu_shell_insert(GTK_MENU_SHELL(window->priv->menus.go.menu), window->priv->menus.go.menu_item_play, 5);
     gtk_widget_show_all(window->priv->menus.go.menu_item_play);
     rstto_navigator_set_running(RSTTO_NAVIGATOR(window->priv->navigator), FALSE);
+}
+
+static void
+cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
+{
+    GtkWidget *dialog = xfce_titled_dialog_new_with_buttons(N_("Image viewer Preferences"),
+                                                    GTK_WINDOW(window),
+                                                    0,
+                                                    GTK_STOCK_CANCEL,
+                                                    GTK_RESPONSE_CANCEL,
+                                                    GTK_STOCK_OK,
+                                                    GTK_RESPONSE_OK,
+                                                    NULL);
+    gtk_window_set_icon_name(GTK_WINDOW(dialog), "ristretto");
+
+    GtkWidget *notebook = gtk_notebook_new();
+
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook,  TRUE, TRUE, 0);
+
+    GtkWidget *main_vbox = gtk_vbox_new(FALSE, 0);
+    GtkWidget *main_lbl = gtk_label_new(N_("Behaviour"));
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), main_vbox, main_lbl);
+
+    GtkWidget *slideshow_frame = gtk_frame_new(N_("Slideshow:"));
+
+    GtkWidget *slideshow_vbox = gtk_vbox_new(FALSE, 0);
+    GtkWidget *slideshow_lbl = gtk_label_new(NULL);
+    GtkWidget *slideshow_hscale = gtk_hscale_new_with_range(1, 60, 1);
+    
+    gtk_range_set_value(GTK_RANGE(slideshow_hscale), window->priv->settings.slideshow_timeout / 1000);
+
+    gtk_box_pack_start(GTK_BOX(slideshow_vbox), slideshow_lbl, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(slideshow_vbox), slideshow_hscale, FALSE, TRUE, 0);
+
+    gtk_container_add(GTK_CONTAINER(slideshow_frame), slideshow_vbox);
+
+    GtkWidget *cache_frame = gtk_frame_new(N_("Image history cache:"));
+
+    GtkWidget *cache_vbox = gtk_vbox_new(FALSE, 0);
+    GtkWidget *cache_lbl = gtk_label_new(NULL);
+    GtkWidget *cache_hscale = gtk_hscale_new_with_range(1, 20, 3);
+
+    gtk_range_set_value(GTK_RANGE(cache_hscale), window->priv->settings.max_cache_size);
+
+    gtk_box_pack_start(GTK_BOX(cache_vbox), cache_lbl, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(cache_vbox), cache_hscale, FALSE, TRUE, 0);
+
+    gtk_container_add(GTK_CONTAINER(cache_frame), cache_vbox);
+
+    gtk_box_pack_start(GTK_BOX(main_vbox), slideshow_frame, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(main_vbox), cache_frame, FALSE, TRUE, 0);
+
+    gtk_widget_show_all(notebook);
+
+    gint result = gtk_dialog_run(GTK_DIALOG(dialog));
+
+    switch (result)
+    {
+        case GTK_RESPONSE_OK:
+            rstto_main_window_set_slideshow_timeout(window, gtk_range_get_value(GTK_RANGE(slideshow_hscale)) * 1000);
+            rstto_main_window_set_max_cache_size(window, gtk_range_get_value(GTK_RANGE(cache_hscale)));
+            break;
+        default:
+            break;
+    }
+
+    gtk_widget_destroy(dialog);
 }
 
 static void
