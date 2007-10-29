@@ -132,7 +132,6 @@ int main(int argc, char **argv)
                     const gchar *filename = g_dir_read_name(dir);
                     while (filename)
                     {
-                        rstto_navigator_set_is_album(navigator, FALSE);
                         gchar *path_name = g_strconcat(path_string,  "/", filename, NULL);
                         ThunarVfsPath *file_path = thunar_vfs_path_new(path_name, NULL);
                         if (file_path)
@@ -141,7 +140,7 @@ int main(int argc, char **argv)
                             gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
                             if(!strcmp(file_media, "image"))
                             {
-                                RsttoNavigatorEntry *entry = rstto_navigator_entry_new(file_info);
+                                RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, file_info);
                                 gint i = rstto_navigator_add (navigator, entry);
                                 if (!strcmp(path_name, argv[n]))
                                 {
@@ -161,7 +160,6 @@ int main(int argc, char **argv)
                 {
                     GDir *dir = g_dir_open(argv[n], 0, NULL);
                     const gchar *filename = g_dir_read_name(dir);
-                    rstto_navigator_set_is_album(navigator, TRUE);
                     while (filename)
                     {
                         gchar *path_name = g_strconcat(argv[n],  "/", filename, NULL);
@@ -172,7 +170,7 @@ int main(int argc, char **argv)
                             gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
                             if(!strcmp(file_media, "image"))
                             {
-                                RsttoNavigatorEntry *entry = rstto_navigator_entry_new(file_info);
+                                RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, file_info);
                                 rstto_navigator_add (navigator, entry);
                             }
                             g_free(file_media);

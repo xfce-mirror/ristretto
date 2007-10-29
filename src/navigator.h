@@ -45,18 +45,20 @@ typedef struct _RsttoNavigator RsttoNavigator;
 
 struct _RsttoNavigator
 {
-    GObject             parent;
-    GtkIconTheme       *icon_theme;
-    ThunarVfsPath      *path;
-    GList              *file_list;
-    GList              *file_iter;
-    gboolean            album;
-    gint                old_position;
-    gboolean            running;
-    gint                timeout;
-    gint                id;
-    GCompareFunc        compare_func;
+    GObject                parent;
+    ThunarVfsMonitor      *monitor;
     ThunarVfsThumbFactory *factory;
+
+    ThunarVfsPath         *path;
+    GCompareFunc           compare_func;
+    GList                 *file_list;
+    GList                 *file_iter;
+    GList                 *history;
+
+    gint                   old_position;
+    gboolean               running;
+    gint                   timeout;
+    gint                   id;
 };
 
 typedef struct _RsttoNavigatorClass RsttoNavigatorClass;
@@ -102,14 +104,10 @@ rstto_navigator_set_file (RsttoNavigator *navigator, gint n);
 void
 rstto_navigator_clear (RsttoNavigator *navigator);
 void
-rstto_navigator_set_is_album (RsttoNavigator *navigator, gboolean album);
-gboolean
-rstto_navigator_get_is_album (RsttoNavigator *navigator);
-void
 rstto_navigator_set_entry_rotation (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, GdkPixbufRotation rotation);
 
 RsttoNavigatorEntry *
-rstto_navigator_entry_new (ThunarVfsInfo *info);
+rstto_navigator_entry_new (RsttoNavigator *, ThunarVfsInfo *info);
 void
 rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry);
 ThunarVfsInfo *
@@ -133,6 +131,13 @@ GdkPixbuf *
 rstto_navigator_get_entry_thumb(RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gint size);
 ExifData *
 rstto_navigator_entry_get_exif_data (RsttoNavigatorEntry *entry);
+
+GdkPixbufLoader *
+rstto_navigator_entry_get_pixbuf_loader (RsttoNavigatorEntry *entry);
+GdkPixbuf *
+rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry);
+gboolean
+rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry);
 
 G_END_DECLS
 

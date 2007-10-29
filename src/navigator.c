@@ -39,6 +39,25 @@ static GObjectClass *parent_class = NULL;
 static gint
 rstto_navigator_entry_name_compare_func(RsttoNavigatorEntry *a, RsttoNavigatorEntry *b);
 
+static void
+cb_rstto_navigator_entry_area_prepared (GdkPixbufLoader *loader, RsttoNavigatorEntry *entry);
+static void
+cb_rstto_navigator_entry_closed (GdkPixbufLoader *loader, RsttoNavigatorEntry *entry);
+static gboolean
+cb_rstto_navigator_entry_read_file(GIOChannel *io_channel, GIOCondition cond, RsttoNavigatorEntry *entry);
+
+static gboolean
+cb_rstto_navigator_entry_update_image (RsttoNavigatorEntry *entry);
+
+static void
+cb_rstto_navigator_entry_fs_event (ThunarVfsMonitor *,
+                                   ThunarVfsMonitorHandle *,
+                                   ThunarVfsMonitorEvent,
+                                   ThunarVfsPath *,
+                                   ThunarVfsPath *,
+                                   RsttoNavigatorEntry *);
+
+
 enum
 {
     RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED = 0,
@@ -51,10 +70,25 @@ enum
 struct _RsttoNavigatorEntry
 {
     ThunarVfsInfo       *info;
+    GdkPixbufLoader     *loader;
+    ExifData            *exif_data;
+    ThunarVfsMonitorHandle *monitor_handle;
+
     GdkPixbuf           *thumb;
+
+    GdkPixbufAnimation  *animation;
+    GdkPixbufAnimationIter *iter;
+    GdkPixbuf           *src_pixbuf;
+
+    GIOChannel          *io_channel;
+    gint                 io_source_id;
+    gint                 timeout_id;
+
+    RsttoNavigator      *navigator;
+
+
     gdouble              scale;
     gboolean             fit_to_screen;
-    ExifData            *exif_data;
     GdkPixbufRotation    rotation;
     gboolean             h_flipped;
     gboolean             v_flipped;
@@ -96,7 +130,7 @@ rstto_navigator_init(RsttoNavigator *navigator)
     navigator->compare_func = (GCompareFunc)rstto_navigator_entry_name_compare_func;
     navigator->old_position = -1;
     navigator->timeout = 5000;
-    navigator->album = FALSE;
+    navigator->monitor = thunar_vfs_monitor_get_default();
 
     navigator->factory = thunar_vfs_thumb_factory_new(THUNAR_VFS_THUMB_SIZE_NORMAL);
 }
@@ -126,10 +160,9 @@ rstto_navigator_class_init(RsttoNavigatorClass *nav_class)
             0,
             NULL,
             NULL,
-            g_cclosure_marshal_VOID__UINT_POINTER,
+            g_cclosure_marshal_VOID__POINTER,
             G_TYPE_NONE,
-            2,
-            G_TYPE_UINT,
+            1,
             G_TYPE_POINTER,
             NULL);
     rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED] = g_signal_new("iter-changed",
@@ -178,11 +211,18 @@ rstto_navigator_new()
 
     navigator = g_object_new(RSTTO_TYPE_NAVIGATOR, NULL);
 
-    navigator->icon_theme = gtk_icon_theme_new();
-
     return navigator;
 }
 
+/*
+ * static gint
+ * rstto_navigator_entry_name_compare_func:
+ *
+ * @a: RsttoNavigatorEntry 
+ * @b: RsttoNavigatorEntry
+ *
+ * Return value: see g_strcasecmp
+ */
 static gint
 rstto_navigator_entry_name_compare_func(RsttoNavigatorEntry *a, RsttoNavigatorEntry *b)
 {
@@ -190,10 +230,88 @@ rstto_navigator_entry_name_compare_func(RsttoNavigatorEntry *a, RsttoNavigatorEn
 }
 
 void
+rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
+{
+    /* check if the image is still loading, if so... don't cache the image */
+    if(entry->io_channel)
+    {
+        g_source_remove(entry->io_source_id);
+        entry->io_channel = NULL;
+        entry->io_source_id = 0;
+        if(entry->loader)
+        {
+            g_signal_handlers_disconnect_by_func(entry->loader , cb_rstto_navigator_entry_area_prepared, entry);
+            gdk_pixbuf_loader_close(entry->loader, NULL);
+            g_object_unref(entry->loader);
+            entry->loader = NULL;
+        }
+
+        if(entry->animation)
+        {
+            g_object_unref(entry->animation);
+            entry->animation = NULL;
+        }
+
+        if(entry->src_pixbuf)
+        {
+            gdk_pixbuf_unref(entry->src_pixbuf);
+            entry->src_pixbuf = NULL;
+        }
+    }
+
+    /* add image to the cache-history */
+    navigator->history = g_list_prepend(navigator->history, entry);
+
+    if (g_list_length(navigator->history) > 5)
+    {
+        GList *last_entry = g_list_last(navigator->history);
+        RsttoNavigatorEntry *nav_entry = last_entry->data;
+
+        if (nav_entry)
+        {
+
+            if(nav_entry->thumb)
+            {
+                gdk_pixbuf_unref(nav_entry->thumb);
+                nav_entry->thumb = NULL;
+            }
+
+            if(nav_entry->io_channel)
+            {
+                g_source_remove(nav_entry->io_source_id);
+                nav_entry->io_channel = NULL;
+                nav_entry->io_source_id = 0;
+            }
+
+            if(nav_entry->loader)
+            {
+                g_signal_handlers_disconnect_by_func(nav_entry->loader , cb_rstto_navigator_entry_area_prepared, nav_entry);
+                gdk_pixbuf_loader_close(nav_entry->loader, NULL);
+                g_object_unref(nav_entry->loader);
+                nav_entry->loader = NULL;
+            }
+            if(nav_entry->animation)
+            {
+                g_object_unref(nav_entry->animation);
+                nav_entry->animation = NULL;
+            }
+            if(nav_entry->src_pixbuf)
+            {
+                gdk_pixbuf_unref(nav_entry->src_pixbuf);
+                nav_entry->src_pixbuf = NULL;
+            }
+        }
+
+        navigator->history = g_list_remove(navigator->history, nav_entry);
+    }
+}
+
+void
 rstto_navigator_jump_first (RsttoNavigator *navigator)
 {
     if(navigator->file_iter)
     {
+        rstto_navigator_guard_history(navigator, navigator->file_iter->data);
         navigator->old_position = rstto_navigator_get_position(navigator);
     }
     navigator->file_iter = g_list_first(navigator->file_list);
@@ -208,6 +326,7 @@ rstto_navigator_jump_forward (RsttoNavigator *navigator)
 {
     if(navigator->file_iter)
     {
+        rstto_navigator_guard_history(navigator, navigator->file_iter->data);
         navigator->old_position = rstto_navigator_get_position(navigator);
         navigator->file_iter = g_list_next(navigator->file_iter);
     }
@@ -240,6 +359,7 @@ rstto_navigator_jump_back (RsttoNavigator *navigator)
 {
     if(navigator->file_iter)
     {
+        rstto_navigator_guard_history(navigator, navigator->file_iter->data);
         navigator->old_position = rstto_navigator_get_position(navigator);
         navigator->file_iter = g_list_previous(navigator->file_iter);
     }
@@ -262,6 +382,7 @@ rstto_navigator_jump_last (RsttoNavigator *navigator)
 {
     if(navigator->file_iter)
     {
+        rstto_navigator_guard_history(navigator, navigator->file_iter->data);
         navigator->old_position = rstto_navigator_get_position(navigator);
     }
     navigator->file_iter = g_list_last(navigator->file_list);
@@ -332,6 +453,8 @@ rstto_navigator_get_nth_file (RsttoNavigator *navigator, gint n)
 gint
 rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
 {
+    g_return_val_if_fail(navigator == entry->navigator, -1);
+
     navigator->file_list = g_list_insert_sorted(navigator->file_list, entry, navigator->compare_func);
     if (!navigator->file_iter)
     {
@@ -343,6 +466,9 @@ rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
                       entry,
                       NULL);
     }
+
+    entry->monitor_handle = thunar_vfs_monitor_add_file(navigator->monitor, entry->info->path, (ThunarVfsMonitorCallback)cb_rstto_navigator_entry_fs_event, entry);
+
     g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_NEW_ENTRY], 0, g_list_index(navigator->file_list, entry), entry, NULL);
     return g_list_index(navigator->file_list, entry);
 }
@@ -387,8 +513,16 @@ rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
             }
             return;
         }
+        if (g_list_find(navigator->history, entry))
+        {
+            navigator->history = g_list_remove(navigator->history, entry);
+        }
     }
     navigator->file_list = g_list_remove(navigator->file_list, entry);
+    if (entry->monitor_handle)
+    {
+        thunar_vfs_monitor_remove(navigator->monitor, entry->monitor_handle);
+    }
     if(g_list_length(navigator->file_list) == 0)
     {
         navigator->file_iter = NULL;
@@ -430,18 +564,6 @@ rstto_navigator_set_file (RsttoNavigator *navigator, gint n)
     }
 }
 
-void
-rstto_navigator_set_is_album (RsttoNavigator *navigator, gboolean album)
-{
-    navigator->album = album;
-}
-
-gboolean
-rstto_navigator_get_is_album (RsttoNavigator *navigator)
-{
-    return navigator->album;
-}
-
 /* Callbacks */
 
 static gboolean
@@ -477,7 +599,7 @@ rstto_navigator_flip_entry(RsttoNavigator *navigator, RsttoNavigatorEntry *entry
 
 
 RsttoNavigatorEntry *
-rstto_navigator_entry_new (ThunarVfsInfo *info)
+rstto_navigator_entry_new (RsttoNavigator *navigator, ThunarVfsInfo *info)
 {
     RsttoNavigatorEntry *entry = NULL;
     gchar *filename = thunar_vfs_path_dup_string(info->path);
@@ -487,6 +609,7 @@ rstto_navigator_entry_new (ThunarVfsInfo *info)
 
         entry->info = info;
         entry->exif_data = exif_data_new_from_file(filename);
+        entry->navigator = navigator;
         
         ExifEntry *exifentry = exif_data_get_entry(entry->exif_data, EXIF_TAG_ORIENTATION);
         if (exifentry)
@@ -583,6 +706,26 @@ rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
         exif_data_free(nav_entry->exif_data);
         nav_entry->exif_data = NULL;
     }
+    
+    if(nav_entry->io_channel)
+    {
+        g_source_remove(nav_entry->io_source_id);
+    }
+
+    if(nav_entry->loader)
+    {
+        g_signal_handlers_disconnect_by_func(nav_entry->loader , cb_rstto_navigator_entry_area_prepared, nav_entry);
+        gdk_pixbuf_loader_close(nav_entry->loader, NULL);
+        g_object_unref(nav_entry->loader);
+    }
+    if(nav_entry->animation)
+    {
+        g_object_unref(nav_entry->animation);
+    }
+    if(nav_entry->src_pixbuf)
+    {
+        gdk_pixbuf_unref(nav_entry->src_pixbuf);
+    }
     thunar_vfs_info_unref(nav_entry->info);
     g_free(nav_entry);
 }
@@ -669,3 +812,242 @@ rstto_navigator_entry_get_exif_data (RsttoNavigatorEntry *entry)
     return entry->exif_data;
 }
 
+
+GdkPixbufLoader *
+rstto_navigator_entry_get_pixbuf_loader (RsttoNavigatorEntry *entry)
+{
+    if (!entry->loader)
+    {
+        entry->loader = gdk_pixbuf_loader_new();
+    }
+    return entry->loader;
+}
+
+GdkPixbuf *
+rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry)
+{
+    return entry->src_pixbuf;
+}
+
+gboolean
+rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry)
+{
+    gchar *path = NULL;
+
+    if (entry->io_channel)
+    {
+        return FALSE;
+    }
+    if (entry->loader == NULL)
+    {
+        entry->loader = gdk_pixbuf_loader_new();
+
+        g_signal_connect(entry->loader, "area-prepared", G_CALLBACK(cb_rstto_navigator_entry_area_prepared), entry);
+        /*g_signal_connect(entry->loader, "area-updated", G_CALLBACK(cb_rstto_navigator_entry_area_updated), viewer);*/
+        g_signal_connect(entry->loader, "closed", G_CALLBACK(cb_rstto_navigator_entry_closed), entry);
+
+        path = thunar_vfs_path_dup_string(entry->info->path);
+        entry->io_channel = g_io_channel_new_file(path, "r", NULL);
+
+        g_io_channel_set_encoding(entry->io_channel, NULL, NULL);
+        entry->io_source_id = g_io_add_watch(entry->io_channel, G_IO_IN | G_IO_PRI, (GIOFunc)cb_rstto_navigator_entry_read_file, entry);
+    }
+    else
+    {
+        if (entry->src_pixbuf)
+        {
+            g_signal_emit(G_OBJECT(entry->navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED], 0, entry, NULL);
+        }
+    }
+
+    return TRUE;
+}
+
+
+static gboolean
+cb_rstto_navigator_entry_read_file(GIOChannel *io_channel, GIOCondition cond, RsttoNavigatorEntry *entry)
+{
+    gchar buffer[1024];
+    gsize bytes_read = 0;
+    GError *error = NULL;
+    GIOStatus status;
+
+    g_return_val_if_fail(io_channel == entry->io_channel, FALSE);
+
+    if (entry->loader)
+    {
+
+        status = g_io_channel_read_chars(io_channel, buffer, 1024, &bytes_read,  &error);
+
+        switch (status)
+        {
+            case G_IO_STATUS_NORMAL:
+                if(gdk_pixbuf_loader_write(entry->loader, (const guchar *)buffer, bytes_read, NULL) == FALSE)
+                {
+                    gdk_pixbuf_loader_close(entry->loader, NULL);
+                    entry->io_channel = NULL;
+                    return FALSE;
+                }
+                return TRUE;
+                break;
+            case G_IO_STATUS_EOF:
+                gdk_pixbuf_loader_write(entry->loader, (const guchar *)buffer, bytes_read, NULL);
+                gdk_pixbuf_loader_close(entry->loader, NULL);
+                entry->io_channel = NULL;
+                return FALSE;
+                break;
+            case G_IO_STATUS_ERROR:
+                gdk_pixbuf_loader_close(entry->loader, NULL);
+                g_io_channel_shutdown(io_channel, FALSE, NULL);
+                entry->io_channel = NULL;
+                return FALSE;
+                break;
+            case G_IO_STATUS_AGAIN:
+                return TRUE;
+                break;
+        }
+        g_io_channel_shutdown(io_channel, FALSE, NULL);
+    }
+    g_io_channel_shutdown(io_channel, FALSE, NULL);
+    return FALSE;
+}
+
+static void
+cb_rstto_navigator_entry_area_prepared (GdkPixbufLoader *loader, RsttoNavigatorEntry *entry)
+{
+    entry->animation = gdk_pixbuf_loader_get_animation(loader);
+    entry->iter = gdk_pixbuf_animation_get_iter(entry->animation, NULL);
+    if (entry->src_pixbuf)
+    {
+        gdk_pixbuf_unref(entry->src_pixbuf);
+        entry->src_pixbuf = NULL;
+    }
+
+    gint time = gdk_pixbuf_animation_iter_get_delay_time(entry->iter);
+
+    if (time != -1)
+    {
+        entry->timeout_id = g_timeout_add(time, (GSourceFunc)cb_rstto_navigator_entry_update_image, entry);
+    }   
+    else
+    {
+        entry->iter = NULL;
+    }
+    g_signal_emit(G_OBJECT(entry->navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED], 0, entry, NULL);
+}
+
+static void
+cb_rstto_navigator_entry_closed (GdkPixbufLoader *loader, RsttoNavigatorEntry *entry)
+{
+    if (entry->src_pixbuf)
+    {
+        gdk_pixbuf_unref(entry->src_pixbuf);
+        entry->src_pixbuf = NULL;
+    }
+
+    GdkPixbuf *pixbuf = NULL;
+
+    if (entry->iter)
+    {
+        pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(entry->iter);
+    }
+    else
+    {
+        if (entry->loader)
+        {
+            pixbuf = gdk_pixbuf_loader_get_pixbuf(entry->loader);
+        }
+    }
+
+   
+    if (pixbuf != NULL)
+    {
+        entry->src_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, rstto_navigator_entry_get_rotation(entry));
+        if (rstto_navigator_entry_get_flip(entry, FALSE))
+        {
+            pixbuf = entry->src_pixbuf;
+            entry->src_pixbuf = gdk_pixbuf_flip(pixbuf, FALSE);
+            gdk_pixbuf_unref(pixbuf);
+        }
+
+        if (rstto_navigator_entry_get_flip(entry, TRUE))
+        {
+            pixbuf = entry->src_pixbuf;
+            entry->src_pixbuf = gdk_pixbuf_flip(pixbuf, TRUE);
+            gdk_pixbuf_unref(pixbuf);
+        }
+        g_signal_emit(G_OBJECT(entry->navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED], 0, entry, NULL);
+    }
+}
+
+static gboolean
+cb_rstto_navigator_entry_update_image (RsttoNavigatorEntry *entry)
+{
+    GdkPixbuf *src_pixbuf = NULL;
+
+    if (entry->iter)
+    {
+        if(gdk_pixbuf_animation_iter_advance(entry->iter, NULL))
+        {
+            /* Cleanup old image */
+            if (entry->src_pixbuf)
+            {
+                gdk_pixbuf_unref(entry->src_pixbuf);
+                entry->src_pixbuf = NULL;
+            }
+            entry->src_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf(entry->iter);
+            src_pixbuf = entry->src_pixbuf;
+
+            if (src_pixbuf)
+            {
+                entry->src_pixbuf = gdk_pixbuf_rotate_simple(src_pixbuf, rstto_navigator_entry_get_rotation(entry));
+                if (rstto_navigator_entry_get_flip(entry, FALSE))
+                {
+                    src_pixbuf = entry->src_pixbuf;
+                    entry->src_pixbuf = gdk_pixbuf_flip(src_pixbuf, FALSE);
+                    gdk_pixbuf_unref(src_pixbuf);
+                }
+
+                if (rstto_navigator_entry_get_flip(entry, TRUE))
+                {
+                    src_pixbuf = entry->src_pixbuf;
+                    entry->src_pixbuf = gdk_pixbuf_flip(src_pixbuf, TRUE);
+                    gdk_pixbuf_unref(src_pixbuf);
+                }
+            }
+        }
+
+        gint time = gdk_pixbuf_animation_iter_get_delay_time(entry->iter);
+        if (time != -1)
+        {
+            entry->timeout_id = g_timeout_add(time, (GSourceFunc)cb_rstto_navigator_entry_update_image, entry);
+        }
+        g_signal_emit(G_OBJECT(entry->navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED], 0, entry, NULL);
+
+        return FALSE;
+    }
+    return TRUE;
+}
+
+static void
+cb_rstto_navigator_entry_fs_event (ThunarVfsMonitor *monitor,
+                                   ThunarVfsMonitorHandle *handl,
+                                   ThunarVfsMonitorEvent event,
+                                   ThunarVfsPath *handle_path,
+                                   ThunarVfsPath *event_path,
+                                   RsttoNavigatorEntry *entry)
+{
+    switch (event)
+    {
+        case THUNAR_VFS_MONITOR_EVENT_CHANGED:
+            break;
+        case THUNAR_VFS_MONITOR_EVENT_CREATED:
+            break;
+        case THUNAR_VFS_MONITOR_EVENT_DELETED:
+            rstto_navigator_remove(entry->navigator, entry);
+            rstto_navigator_entry_free(entry);
+            break;
+        default:
+            break;
+    }
+}
