@@ -132,7 +132,7 @@ rstto_navigator_init(RsttoNavigator *navigator)
     navigator->timeout = 5000;
     navigator->monitor = thunar_vfs_monitor_get_default();
     navigator->max_history = 1;
-    navigator->max_preload = 0;
+    navigator->preload = FALSE;
 
     navigator->factory = thunar_vfs_thumb_factory_new(THUNAR_VFS_THUMB_SIZE_NORMAL);
 }
@@ -407,7 +407,15 @@ rstto_navigator_set_running (RsttoNavigator *navigator, gboolean running)
     {
         navigator->running = running;
         if(!navigator->id)
+        {
             navigator->id = g_timeout_add(navigator->timeout, (GSourceFunc)cb_rstto_navigator_running, navigator);
+            if (navigator->preload)
+            {
+                RsttoNavigatorEntry *next_entry = g_list_next(navigator->file_iter)->data;
+
+                rstto_navigator_entry_load_image(next_entry, FALSE);
+            }
+        }
     }
     else
     {
@@ -575,6 +583,13 @@ cb_rstto_navigator_running(RsttoNavigator *navigator)
     if(navigator->running)
     {
         rstto_navigator_jump_forward(navigator);
+
+        if (navigator->preload)
+        {
+            RsttoNavigatorEntry *next_entry = g_list_next(navigator->file_iter)->data;
+
+            rstto_navigator_entry_load_image(next_entry, FALSE);
+        }
     }
     else
         navigator->id = 0;
@@ -833,7 +848,7 @@ rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry)
 }
 
 gboolean
-rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry)
+rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry, gboolean empty_cache)
 {
     g_return_val_if_fail(entry != NULL, FALSE);
     gchar *path = NULL;
@@ -842,7 +857,7 @@ rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry)
     {
         return FALSE;
     }
-    if (entry->loader == NULL)
+    if ((entry->loader == NULL) && ((empty_cache == TRUE ) || entry->src_pixbuf == NULL))
     {
         entry->loader = gdk_pixbuf_loader_new();
 
@@ -1054,7 +1069,7 @@ cb_rstto_navigator_entry_fs_event (ThunarVfsMonitor *monitor,
     switch (event)
     {
         case THUNAR_VFS_MONITOR_EVENT_CHANGED:
-            rstto_navigator_entry_load_image (entry);
+            rstto_navigator_entry_load_image (entry, TRUE);
             break;
         case THUNAR_VFS_MONITOR_EVENT_CREATED:
             break;

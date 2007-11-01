@@ -55,7 +55,8 @@ struct _RsttoNavigator
     GList                 *file_iter;
     GList                 *history;
     gint                   max_history;
-    gint                   max_preload;
+
+    gboolean               preload;
 
     gint                   old_position;
     gboolean               running;
@@ -139,7 +140,7 @@ rstto_navigator_entry_get_pixbuf_loader (RsttoNavigatorEntry *entry);
 GdkPixbuf *
 rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry);
 gboolean
-rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry);
+rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry, gboolean empty_cache);
 
 gint
 rstto_navigator_get_cache_max_images (RsttoNavigator *navigator);

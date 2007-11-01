@@ -846,7 +846,6 @@ void
 rstto_main_window_set_max_cache_size (RsttoMainWindow *window, gint max_cache_size)
 {
     window->priv->settings.max_cache_size = max_cache_size;
-    window->priv->navigator->max_history = max_cache_size;
 }
 
 /* CALLBACK FUNCTIONS */
@@ -1031,21 +1030,7 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
 
     gtk_container_add(GTK_CONTAINER(slideshow_frame), slideshow_vbox);
 
-    GtkWidget *cache_frame = gtk_frame_new(N_("Image history cache:"));
-
-    GtkWidget *cache_vbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget *cache_lbl = gtk_label_new(NULL);
-    GtkWidget *cache_hscale = gtk_hscale_new_with_range(1, 20, 3);
-
-    gtk_range_set_value(GTK_RANGE(cache_hscale), window->priv->settings.max_cache_size);
-
-    gtk_box_pack_start(GTK_BOX(cache_vbox), cache_lbl, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(cache_vbox), cache_hscale, FALSE, TRUE, 0);
-
-    gtk_container_add(GTK_CONTAINER(cache_frame), cache_vbox);
-
     gtk_box_pack_start(GTK_BOX(main_vbox), slideshow_frame, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(main_vbox), cache_frame, FALSE, TRUE, 0);
 
     gtk_widget_show_all(notebook);
 
@@ -1055,8 +1040,6 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     {
         case GTK_RESPONSE_OK:
             rstto_main_window_set_slideshow_timeout(window, gtk_range_get_value(GTK_RANGE(slideshow_hscale)) * 1000);
-            rstto_main_window_set_max_cache_size(window, gtk_range_get_value(GTK_RANGE(cache_hscale)));
-            break;
         default:
             break;
     }

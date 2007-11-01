@@ -732,7 +732,7 @@ cb_rstto_picture_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavi
     viewer->priv->entry = entry;
     if(entry)
     {
-        rstto_navigator_entry_load_image(entry);
+        rstto_navigator_entry_load_image(entry, FALSE);
     }
     else
     {

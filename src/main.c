@@ -93,11 +93,14 @@ int main(int argc, char **argv)
     gint window_height = xfce_rc_read_int_entry(xfce_rc, "LastWindowHeight", 300);
     gint slideshow_timeout = xfce_rc_read_int_entry(xfce_rc, "SlideShowTimeout", 5000);
     gint max_cache = xfce_rc_read_int_entry(xfce_rc, "MaxImagesCacheSize", 1);
+    gboolean preload_during_slideshow = xfce_rc_read_bool_entry (xfce_rc, "PreloadDuringSlideShow", FALSE);
     
     GtkWidget *window = rstto_main_window_new();
     gtk_widget_ref(window);
 
     RsttoNavigator *navigator = rstto_main_window_get_navigator(RSTTO_MAIN_WINDOW(window));
+
+    navigator->preload = preload_during_slideshow;
 
     rstto_main_window_set_max_cache_size(RSTTO_MAIN_WINDOW(window), max_cache);
     rstto_main_window_set_slideshow_timeout(RSTTO_MAIN_WINDOW(window), (gdouble)slideshow_timeout);
@@ -217,6 +220,7 @@ int main(int argc, char **argv)
 
     gtk_main();
     xfce_rc_write_bool_entry(xfce_rc, "ShowToolBar", rstto_main_window_get_show_toolbar(RSTTO_MAIN_WINDOW(window)));
+    xfce_rc_write_bool_entry(xfce_rc, "PreloadDuringSlideShow", navigator->preload);
     xfce_rc_write_bool_entry(xfce_rc, "ShowThumbnailViewer", rstto_main_window_get_show_thumbnail_viewer(RSTTO_MAIN_WINDOW(window)));
     switch (rstto_main_window_get_thumbnail_viewer_orientation(RSTTO_MAIN_WINDOW(window)))
     {
