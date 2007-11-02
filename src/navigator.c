@@ -131,7 +131,7 @@ rstto_navigator_init(RsttoNavigator *navigator)
     navigator->old_position = -1;
     navigator->timeout = 5000;
     navigator->monitor = thunar_vfs_monitor_get_default();
-    navigator->max_history = 1;
+    navigator->max_history = 0;
     navigator->preload = FALSE;
 
     navigator->factory = thunar_vfs_thumb_factory_new(THUNAR_VFS_THUMB_SIZE_NORMAL);
@@ -411,9 +411,17 @@ rstto_navigator_set_running (RsttoNavigator *navigator, gboolean running)
             navigator->id = g_timeout_add(navigator->timeout, (GSourceFunc)cb_rstto_navigator_running, navigator);
             if (navigator->preload)
             {
-                RsttoNavigatorEntry *next_entry = g_list_next(navigator->file_iter)->data;
-
-                rstto_navigator_entry_load_image(next_entry, FALSE);
+                GList *next = g_list_next(navigator->file_iter);
+                if (next == NULL)
+                {
+                    next = navigator->file_list;
+                }
+                if (next != NULL)
+                {
+                    RsttoNavigatorEntry *next_entry = next->data;
+                    
+                    rstto_navigator_entry_load_image(next_entry, FALSE);
+                }
             }
         }
     }
@@ -586,9 +594,17 @@ cb_rstto_navigator_running(RsttoNavigator *navigator)
 
         if (navigator->preload)
         {
-            RsttoNavigatorEntry *next_entry = g_list_next(navigator->file_iter)->data;
-
-            rstto_navigator_entry_load_image(next_entry, FALSE);
+            GList *next = g_list_next(navigator->file_iter);
+            if (next == NULL)
+            {
+                next = navigator->file_list;
+            }
+            if (next != NULL)
+            {
+                RsttoNavigatorEntry *next_entry = next->data;
+                
+                rstto_navigator_entry_load_image(next_entry, FALSE);
+            }
         }
     }
     else
