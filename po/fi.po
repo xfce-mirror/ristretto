@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.5\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-10-21 00:41+0200\n"
+"POT-Creation-Date: 2007-11-02 23:56+0100\n"
 "PO-Revision-Date: 2007-09-14 11:19+0300\n"
 "Last-Translator: Jari Rahkonen <jari.rahkonen@pp1.inet.fi>\n"
 "Language-Team: Finnish <xfce-i18n@xfce.org>\n"
@@ -28,93 +28,118 @@ msgid ""
 msgstr ""
 
 #. Create 'File' menu
-#: ../src/main_window.c:278
+#: ../src/main_window.c:284
 msgid "_File"
 msgstr "_Tiedosto"
 
-#: ../src/main_window.c:285
+#: ../src/main_window.c:291
 msgid "O_pen Folder"
 msgstr "Avaa _hakemisto"
 
-#: ../src/main_window.c:286
+#: ../src/main_window.c:292
 msgid "_Recently used"
 msgstr "_Viimeaikaiset"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:318
+#: ../src/main_window.c:324
 msgid "_Edit"
 msgstr "_Muokkaa"
 
-#: ../src/main_window.c:323 ../src/main_window.c:488
+#: ../src/main_window.c:329 ../src/main_window.c:496
 msgid "Open with..."
 msgstr "_Avaa sovelluksessa..."
 
-#: ../src/main_window.c:329 ../src/main_window.c:499
+#: ../src/main_window.c:337 ../src/main_window.c:507
 msgid "No applications available"
 msgstr "Sovelluksia ei saatavilla"
 
 #. Create 'View' menu
-#: ../src/main_window.c:338
+#: ../src/main_window.c:346
 msgid "_View"
 msgstr "_Näytä"
 
-#: ../src/main_window.c:345
+#: ../src/main_window.c:353
 msgid "Show Toolbar"
 msgstr "Näytä työkalupalkki"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:354
 msgid "Thumbnail Viewer"
 msgstr "Pienoiskuvat"
 
-#: ../src/main_window.c:364
+#: ../src/main_window.c:372
 msgid "Show Horizontally"
 msgstr "Näytä vaakasuunnassa"
 
-#: ../src/main_window.c:368
+#: ../src/main_window.c:376
 msgid "Show Vertically"
 msgstr "Näytä pystysuunnassa"
 
-#: ../src/main_window.c:372
+#: ../src/main_window.c:380
 msgid "Hide"
 msgstr "Piilota"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:382
+#: ../src/main_window.c:390
 msgid "_Go"
 msgstr "_Siirry"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:411
+#: ../src/main_window.c:419
 msgid "_Help"
 msgstr "_Ohje"
 
-#: ../src/main_window.c:968
+#: ../src/main_window.c:1002
+#, fuzzy
+msgid "Image viewer Preferences"
+msgstr "Kuvankatseluohjelma"
+
+#: ../src/main_window.c:1017
+msgid "Behaviour"
+msgstr ""
+
+#: ../src/main_window.c:1020
+msgid "Slideshow:"
+msgstr ""
+
+#: ../src/main_window.c:1023
+msgid "The time individual images are displayed during a slideshow"
+msgstr ""
+
+#: ../src/main_window.c:1026
+msgid "Preload images during slideshow -- uses more memory"
+msgstr ""
+
+#: ../src/main_window.c:1027
+msgid "_Preload images"
+msgstr ""
+
+#: ../src/main_window.c:1063
 msgid "Developer:"
 msgstr "Kehittäjä:"
 
-#: ../src/main_window.c:978
+#: ../src/main_window.c:1073
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "Ristretto on nopea ja kevyt kuvankatseluohjelma Xfce-työpöydälle."
 
-#: ../src/main_window.c:986
+#: ../src/main_window.c:1081
 msgid "translator-credits"
 msgstr "Jari Rahkonen <jari.rahkonen@pp1.inet.fi>"
 
-#: ../src/main_window.c:1006
+#: ../src/main_window.c:1101
 msgid "Open image"
 msgstr "Avaa kuva"
 
-#: ../src/main_window.c:1046
+#: ../src/main_window.c:1136
 msgid "Could not open file"
 msgstr "Tiedoston avaus ei onnistunut"
 
-#: ../src/main_window.c:1056
+#: ../src/main_window.c:1146
 msgid "Open folder"
 msgstr "Avaa hakemisto"
 
-#: ../src/main_window.c:1167
+#: ../src/main_window.c:1250
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""

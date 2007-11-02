@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: ../src/main.c:65
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-08-12 01:07+0200\n"
+"POT-Creation-Date: 2007-11-02 23:56+0100\n"
 "PO-Revision-Date: 2007-10-26 14:37+0500\n"
 "Last-Translator: Muhammad Ali Makki <makk.ma@gmail.com>\n"
 "Language-Team: Urdu <makki.ma@gmail.com>\n"
@@ -18,79 +19,155 @@ msgstr ""
 "X-Poedit-Country: PAKISTAN\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ../src/main.c:146
+#: ../src/main.c:47
+msgid "Version information"
+msgstr ""
+
+#: ../src/main.c:69
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+
+#. Create 'File' menu
+#: ../src/main_window.c:284
 msgid "_File"
 msgstr "_فائل"
 
-#: ../src/main.c:148
+#: ../src/main_window.c:291
 msgid "O_pen Folder"
 msgstr "ف_ولڈر کھولیں"
 
-#: ../src/main.c:159
+#: ../src/main_window.c:292
+msgid "_Recently used"
+msgstr ""
+
+#. Create 'Edit' menu
+#: ../src/main_window.c:324
 msgid "_Edit"
 msgstr "_تدوین"
 
-#: ../src/main.c:160
-msgid "Rotate _Left"
-msgstr "_بائیں گھمائیں"
+#: ../src/main_window.c:329 ../src/main_window.c:496
+msgid "Open with..."
+msgstr ""
 
-#: ../src/main.c:161
-msgid "Rotate _Right"
-msgstr "_دائیں گھمائیں"
+#: ../src/main_window.c:337 ../src/main_window.c:507
+msgid "No applications available"
+msgstr ""
 
-#: ../src/main.c:162
-msgid "Flip _Vertically"
-msgstr "_عمودی فلپ کریں"
-
-#: ../src/main.c:163
-msgid "Flip _Horizontally"
-msgstr "ا_فقی فلپ کریں"
-
-#: ../src/main.c:172
+#. Create 'View' menu
+#: ../src/main_window.c:346
 msgid "_View"
 msgstr "_منظر"
 
-#: ../src/main.c:173
+#: ../src/main_window.c:353
+msgid "Show Toolbar"
+msgstr ""
+
+#: ../src/main_window.c:354
 msgid "Thumbnail Viewer"
 msgstr "تھمبنیل منظرکار"
 
-#: ../src/main.c:183
+#: ../src/main_window.c:372
 msgid "Show Horizontally"
 msgstr "افقی دکھائیں"
 
-#: ../src/main.c:184
+#: ../src/main_window.c:376
 msgid "Show Vertically"
 msgstr "عمودی دکھائیں"
 
-#: ../src/main.c:185
+#: ../src/main_window.c:380
 msgid "Hide"
 msgstr "چھپائیں"
 
-#: ../src/main.c:191
+#. Create 'Go' menu
+#: ../src/main_window.c:390
 msgid "_Go"
 msgstr "_جائیں"
 
-#: ../src/main.c:213
+#. Create 'Help' menu
+#: ../src/main_window.c:419
 msgid "_Help"
 msgstr "_ہدایات"
 
-#: ../src/main.c:346
-msgid "Open image"
-msgstr "تصویر کھولیں"
+#: ../src/main_window.c:1002
+msgid "Image viewer Preferences"
+msgstr ""
 
-#: ../src/main.c:374
-msgid "Open folder"
-msgstr "فولڈر کھولیں"
+#: ../src/main_window.c:1017
+msgid "Behaviour"
+msgstr ""
 
-#: ../src/main.c:401
+#: ../src/main_window.c:1020
+msgid "Slideshow:"
+msgstr ""
+
+#: ../src/main_window.c:1023
+msgid "The time individual images are displayed during a slideshow"
+msgstr ""
+
+#: ../src/main_window.c:1026
+msgid "Preload images during slideshow -- uses more memory"
+msgstr ""
+
+#: ../src/main_window.c:1027
+msgid "_Preload images"
+msgstr ""
+
+#: ../src/main_window.c:1063
 msgid "Developer:"
 msgstr "ڈویلپر:"
 
-#: ../src/main.c:410
-msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
-msgstr "Ristretto ایکسفس ڈیسک ٹاپ ماحول کے لیے ایک ہلکا پھلکا تصاویر منظرکار ہے."
+#: ../src/main_window.c:1073
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
+msgstr ""
+"Ristretto ایکسفس ڈیسک ٹاپ ماحول کے لیے ایک ہلکا پھلکا تصاویر منظرکار ہے."
 
-#: ../src/main.c:417
+#: ../src/main_window.c:1081
 msgid "translator-credits"
 msgstr "ترجمہ-کریڈٹ"
 
+#: ../src/main_window.c:1101
+msgid "Open image"
+msgstr "تصویر کھولیں"
+
+#: ../src/main_window.c:1136
+msgid "Could not open file"
+msgstr ""
+
+#: ../src/main_window.c:1146
+msgid "Open folder"
+msgstr "فولڈر کھولیں"
+
+#: ../src/main_window.c:1250
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:1
+#, fuzzy
+msgid "Image Viewer"
+msgstr "تھمبنیل منظرکار"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto Image Viewer"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr ""
+
+#~ msgid "Rotate _Left"
+#~ msgstr "_بائیں گھمائیں"
+
+#~ msgid "Rotate _Right"
+#~ msgstr "_دائیں گھمائیں"
+
+#~ msgid "Flip _Vertically"
+#~ msgstr "_عمودی فلپ کریں"
+
+#~ msgid "Flip _Horizontally"
+#~ msgstr "ا_فقی فلپ کریں"

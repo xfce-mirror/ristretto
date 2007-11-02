@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Mike Massonnet <mmassonnet@xfce.org>, 2007.
 #
+#: ../src/main.c:65
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-10-21 00:41+0200\n"
+"POT-Creation-Date: 2007-11-02 23:56+0100\n"
 "PO-Revision-Date: 2007-10-24 11:31+0100\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
@@ -26,98 +27,129 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Essayez %s --help pour voir une liste complète des options en ligne de commande.\n"
+"Essayez %s --help pour voir une liste complète des options en ligne de "
+"commande.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:278
+#: ../src/main_window.c:284
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../src/main_window.c:285
+#: ../src/main_window.c:291
 msgid "O_pen Folder"
 msgstr "O_uvrir un répertoire"
 
-#: ../src/main_window.c:286
+#: ../src/main_window.c:292
 msgid "_Recently used"
 msgstr "_Récemment ouvert"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:318
+#: ../src/main_window.c:324
 msgid "_Edit"
 msgstr "_Editer"
 
-#: ../src/main_window.c:323
-#: ../src/main_window.c:488
+#: ../src/main_window.c:329 ../src/main_window.c:496
 msgid "Open with..."
 msgstr "_Ouvrir avec..."
 
-#: ../src/main_window.c:329
-#: ../src/main_window.c:499
+#: ../src/main_window.c:337 ../src/main_window.c:507
 msgid "No applications available"
 msgstr "Aucune application disponible"
 
 #. Create 'View' menu
-#: ../src/main_window.c:338
+#: ../src/main_window.c:346
 msgid "_View"
 msgstr "_Afficher"
 
-#: ../src/main_window.c:345
+#: ../src/main_window.c:353
 msgid "Show Toolbar"
 msgstr "Barre d'outils"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:354
 msgid "Thumbnail Viewer"
 msgstr "Vue des miniatures"
 
-#: ../src/main_window.c:364
+#: ../src/main_window.c:372
 msgid "Show Horizontally"
 msgstr "Afficher horizontalement"
 
-#: ../src/main_window.c:368
+#: ../src/main_window.c:376
 msgid "Show Vertically"
 msgstr "Afficher verticalement"
 
-#: ../src/main_window.c:372
+#: ../src/main_window.c:380
 msgid "Hide"
 msgstr "Cacher"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:382
+#: ../src/main_window.c:390
 msgid "_Go"
 msgstr "A_ller"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:411
+#: ../src/main_window.c:419
 msgid "_Help"
 msgstr "A_ide"
 
-#: ../src/main_window.c:968
+#: ../src/main_window.c:1002
+#, fuzzy
+msgid "Image viewer Preferences"
+msgstr "Visualiseur d'Images"
+
+#: ../src/main_window.c:1017
+msgid "Behaviour"
+msgstr ""
+
+#: ../src/main_window.c:1020
+msgid "Slideshow:"
+msgstr ""
+
+#: ../src/main_window.c:1023
+msgid "The time individual images are displayed during a slideshow"
+msgstr ""
+
+#: ../src/main_window.c:1026
+msgid "Preload images during slideshow -- uses more memory"
+msgstr ""
+
+#: ../src/main_window.c:1027
+msgid "_Preload images"
+msgstr ""
+
+#: ../src/main_window.c:1063
 msgid "Developer:"
 msgstr "Développeur :"
 
-#: ../src/main_window.c:978
-msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
-msgstr "Ristretto est un visualiseur d'images léger et rapide pour l'environnement de bureau Xfce."
+#: ../src/main_window.c:1073
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
+msgstr ""
+"Ristretto est un visualiseur d'images léger et rapide pour l'environnement "
+"de bureau Xfce."
 
-#: ../src/main_window.c:986
+#: ../src/main_window.c:1081
 msgid "translator-credits"
 msgstr "Mike Massonnet <mmassonnet@xfce.org>"
 
-#: ../src/main_window.c:1006
+#: ../src/main_window.c:1101
 msgid "Open image"
 msgstr "Ouvrir une image"
 
-#: ../src/main_window.c:1046
+#: ../src/main_window.c:1136
 msgid "Could not open file"
 msgstr "Impossible d'ouvrir le fichier"
 
-#: ../src/main_window.c:1056
+#: ../src/main_window.c:1146
 msgid "Open folder"
 msgstr "Ouvrir un répertoire"
 
-#: ../src/main_window.c:1167
-msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr "Êtes-vous certain de vouloir supprimer la liste des documents récemment ouverts de Ristretto ?"
+#: ../src/main_window.c:1250
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr ""
+"Êtes-vous certain de vouloir supprimer la liste des documents récemment "
+"ouverts de Ristretto ?"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -133,10 +165,12 @@ msgstr "Visualiseur d'Images pour Xfce"
 
 #~ msgid "Rotate _Left"
 #~ msgstr "Tourner vers la _gauche"
+
 #~ msgid "Rotate _Right"
 #~ msgstr "Tourner vers la _droite"
+
 #~ msgid "Flip _Vertically"
 #~ msgstr "Retourner _verticalement"
+
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Retourner _horizontalement"
-

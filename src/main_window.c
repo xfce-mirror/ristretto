@@ -1018,14 +1018,12 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), main_vbox, main_lbl);
 
     GtkWidget *slideshow_frame = gtk_frame_new(N_("Slideshow:"));
-    GtkWidget *preload_frame = gtk_frame_new(N_("Preload:"));
 
     GtkWidget *slideshow_vbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget *slideshow_lbl = gtk_label_new(NULL);
+    GtkWidget *slideshow_lbl = gtk_label_new(N_("The time individual images are displayed during a slideshow"));
     GtkWidget *slideshow_hscale = gtk_hscale_new_with_range(1, 60, 1);
 
-    GtkWidget *preload_vbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget *preload_lbl = gtk_label_new(NULL);
+    GtkWidget *preload_lbl = gtk_label_new(N_("Preload images during slideshow -- uses more memory"));
     GtkWidget *preload_check = gtk_check_button_new_with_mnemonic(N_("_Preload images"));
     
     gtk_range_set_value(GTK_RANGE(slideshow_hscale), window->priv->settings.slideshow_timeout / 1000);
@@ -1035,14 +1033,12 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(slideshow_vbox), slideshow_lbl, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(slideshow_vbox), slideshow_hscale, FALSE, TRUE, 0);
 
-    gtk_box_pack_start(GTK_BOX(preload_vbox), preload_lbl, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(preload_vbox), preload_check, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(slideshow_vbox), preload_lbl, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(slideshow_vbox), preload_check, FALSE, TRUE, 0);
 
     gtk_container_add(GTK_CONTAINER(slideshow_frame), slideshow_vbox);
-    gtk_container_add(GTK_CONTAINER(preload_frame), preload_vbox);
 
     gtk_box_pack_start(GTK_BOX(main_vbox), slideshow_frame, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(main_vbox), preload_frame, FALSE, TRUE, 0);
 
     gtk_widget_show_all(notebook);
 
