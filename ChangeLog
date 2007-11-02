@@ -1,3 +1,15 @@
+xxxx-xx-xx: Release 0.0.10
+	* src/navigator.c
+	  src/picture_viewer.c:
+	  - Move image loading to navigator (to aid preloading and cache)
+	* src/main_window.c:
+	  - Add Preferences dialog
+	  - Add file-properties dialog (uses d-bus and thunar for now)
+	* src/navigator.c:
+	  - Add preloading
+	  - add thunar-vfs-monitor support (images are now reloaded when
+	    they are modified)
+
 2007-10-15: Release 0.0.9
 	* src/navigator.c
 	  src/main_window.c
