@@ -247,6 +247,12 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
             gdk_pixbuf_loader_close(entry->loader, NULL);
         }
 
+        if (entry->timeout_id)
+        {
+            g_source_remove(entry->timeout_id);
+            entry->timeout_id = 0;
+        }
+
         if(entry->animation)
         {
             g_object_unref(entry->animation);
@@ -285,12 +291,16 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
                 nav_entry->io_source_id = 0;
             }
 
+            if (entry->timeout_id)
+            {
+                g_source_remove(entry->timeout_id);
+                entry->timeout_id = 0;
+            }
+
             if(nav_entry->loader)
             {
                 g_signal_handlers_disconnect_by_func(nav_entry->loader , cb_rstto_navigator_entry_area_prepared, nav_entry);
                 gdk_pixbuf_loader_close(nav_entry->loader, NULL);
-                g_object_unref(nav_entry->loader);
-                nav_entry->loader = NULL;
             }
             if(nav_entry->animation)
             {
@@ -747,6 +757,12 @@ rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
         g_source_remove(nav_entry->io_source_id);
     }
 
+    if (nav_entry->timeout_id)
+    {
+        g_source_remove(nav_entry->timeout_id);
+        nav_entry->timeout_id = 0;
+    }
+
     if(nav_entry->loader)
     {
         g_signal_handlers_disconnect_by_func(nav_entry->loader , cb_rstto_navigator_entry_area_prepared, nav_entry);
@@ -919,8 +935,9 @@ cb_rstto_navigator_entry_read_file(GIOChannel *io_channel, GIOCondition cond, Rs
             case G_IO_STATUS_NORMAL:
                 if(gdk_pixbuf_loader_write(entry->loader, (const guchar *)buffer, bytes_read, NULL) == FALSE)
                 {
-                    gdk_pixbuf_loader_close(entry->loader, NULL);
+                    g_io_channel_unref(io_channel);
                     entry->io_channel = NULL;
+                    entry->io_source_id = 0;
                     return FALSE;
                 }
                 return TRUE;
@@ -934,7 +951,10 @@ cb_rstto_navigator_entry_read_file(GIOChannel *io_channel, GIOCondition cond, Rs
                 return FALSE;
                 break;
             case G_IO_STATUS_ERROR:
-                gdk_pixbuf_loader_close(entry->loader, NULL);
+                if (entry->loader)
+                {
+                    gdk_pixbuf_loader_close(entry->loader, NULL);
+                }
                 g_io_channel_unref(io_channel);
                 entry->io_channel = NULL;
                 entry->io_source_id = 0;
@@ -998,7 +1018,7 @@ cb_rstto_navigator_entry_closed (GdkPixbufLoader *loader, RsttoNavigatorEntry *e
         }
     }
 
-    if (entry->loader)
+    if (entry->loader == loader)
     {
         g_object_unref(entry->loader);
         entry->loader = NULL;

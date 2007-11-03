@@ -105,11 +105,15 @@ msgstr "Diaweergave"
 
 #: ../src/main_window.c:1023
 msgid "The time individual images are displayed during a slideshow"
-msgstr "De tijd dat individuele afbeeldingen worden weergegeven gedurende een diaweergave"
+msgstr ""
+"De tijd dat individuele afbeeldingen worden weergegeven gedurende een "
+"diaweergave"
 
 #: ../src/main_window.c:1026
 msgid "Preload images during slideshow -- uses more memory"
-msgstr "Afbeeldingen vooraf inladen gedurende een diaweergave -- gebruikt meer geheugen"
+msgstr ""
+"Afbeeldingen vooraf inladen gedurende een diaweergave -- gebruikt meer "
+"geheugen"
 
 #: ../src/main_window.c:1027
 msgid "_Preload images"
