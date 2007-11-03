@@ -63,7 +63,7 @@ msgstr "_Afficher"
 
 #: ../src/main_window.c:353
 msgid "Show Toolbar"
-msgstr "Barre d'outils"
+msgstr "Barre d’outils"
 
 #: ../src/main_window.c:354
 msgid "Thumbnail Viewer"
@@ -112,7 +112,7 @@ msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"La durée d'affichage d’une image individuelle durant le diaporama\n"
+"La durée d’affichage d’une image individuelle durant le diaporama\n"
 "(en secondes)"
 
 #: ../src/main_window.c:1029
