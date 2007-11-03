@@ -1014,11 +1014,21 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook,  TRUE, TRUE, 0);
 
     GtkWidget *main_vbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget *main_lbl = gtk_label_new(_("Behaviour"));
+    GtkWidget *main_lbl = gtk_label_new(_("Slideshow"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), main_vbox, main_lbl);
 
-    GtkWidget *slideshow_frame = gtk_frame_new(_("Slideshow:"));
-    GtkWidget *preload_frame = gtk_frame_new(_("Preload:"));
+    GtkWidget *slideshow_frame = gtk_frame_new(NULL);
+    GtkWidget *slideshow_lbl_top = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(slideshow_lbl_top), _("<b>Timeout:</b>"));
+    gtk_frame_set_label_widget(GTK_FRAME(slideshow_frame), slideshow_lbl_top);
+
+    GtkWidget *preload_frame = gtk_frame_new(NULL);
+    GtkWidget *preload_lbl_top = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(preload_lbl_top), _("<b>Preload:</b>"));
+    gtk_frame_set_label_widget(GTK_FRAME(preload_frame), preload_lbl_top);
+
+    gtk_frame_set_shadow_type(GTK_FRAME(slideshow_frame), GTK_SHADOW_NONE);
+    gtk_frame_set_shadow_type(GTK_FRAME(preload_frame), GTK_SHADOW_NONE);
 
     GtkWidget *slideshow_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *slideshow_lbl = gtk_label_new(_("The time individual images are displayed during a slideshow\n(in seconds)"));

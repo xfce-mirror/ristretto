@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-03 09:18+0100\n"
+"POT-Creation-Date: 2007-11-04 00:56+0100\n"
 "PO-Revision-Date: 2007-07-03 00:59:21+0200\n"
 "Last-Translator: stephan arts <stephan@xfce.org>\n"
 "Language-Team: German\n"
@@ -94,38 +94,38 @@ msgid "Image viewer Preferences"
 msgstr "Bildbetrachter"
 
 #: ../src/main_window.c:1017
-msgid "Behaviour"
+msgid "Slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1020
-msgid "Slideshow:"
+#: ../src/main_window.c:1022
+msgid "<b>Timeout:</b>"
 msgstr ""
 
-#: ../src/main_window.c:1021
-msgid "Preload:"
+#: ../src/main_window.c:1027
+msgid "<b>Preload:</b>"
 msgstr ""
 
-#: ../src/main_window.c:1024
+#: ../src/main_window.c:1034
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1029
+#: ../src/main_window.c:1039
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
 
-#: ../src/main_window.c:1030
+#: ../src/main_window.c:1040
 msgid "_Preload images"
 msgstr ""
 
-#: ../src/main_window.c:1074
+#: ../src/main_window.c:1084
 msgid "Developer:"
 msgstr "Entwickler:"
 
-#: ../src/main_window.c:1084
+#: ../src/main_window.c:1094
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -133,23 +133,23 @@ msgstr ""
 "Ristretto ist ein schneller und leichter Bildbetrachter für die "
 "Arbeitsumgebung Xfce."
 
-#: ../src/main_window.c:1092
+#: ../src/main_window.c:1102
 msgid "translator-credits"
 msgstr "Christian Dywan <christian@twotoasts.de>"
 
-#: ../src/main_window.c:1112
+#: ../src/main_window.c:1122
 msgid "Open image"
 msgstr "Bild öffnen"
 
-#: ../src/main_window.c:1147
+#: ../src/main_window.c:1157
 msgid "Could not open file"
 msgstr "Datei konnte nicht geöffnet werden"
 
-#: ../src/main_window.c:1157
+#: ../src/main_window.c:1167
 msgid "Open folder"
 msgstr "_Ordner öffnen"
 
-#: ../src/main_window.c:1261
+#: ../src/main_window.c:1271
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""

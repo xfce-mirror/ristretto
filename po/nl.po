@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-03 09:18+0100\n"
+"POT-Creation-Date: 2007-11-04 00:56+0100\n"
 "PO-Revision-Date: 2007-07-13 00:48+0200\n"
 "Last-Translator: Stephan Arts <stephan@xfce.org>\n"
 "Language-Team: Dutch\n"
@@ -96,18 +96,18 @@ msgid "Image viewer Preferences"
 msgstr "Afbeeldingsweergave voorkeuren"
 
 #: ../src/main_window.c:1017
-msgid "Behaviour"
-msgstr "Gedrag"
-
-#: ../src/main_window.c:1020
-msgid "Slideshow:"
+msgid "Slideshow"
 msgstr "Diaweergave"
 
-#: ../src/main_window.c:1021
-msgid "Preload:"
-msgstr "Vooruit inladen:"
+#: ../src/main_window.c:1022
+msgid "<b>Timeout:</b>"
+msgstr "<b>Timeout:</b>"
 
-#: ../src/main_window.c:1024
+#: ../src/main_window.c:1027
+msgid "<b>Preload:</b>"
+msgstr "<b>Vooruit laden:</b>"
+
+#: ../src/main_window.c:1034
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
@@ -115,7 +115,7 @@ msgstr ""
 "De tijd dat individuele afbeeldingen worden weergegeven gedurende een\n"
 "diaweergave (in seconden)"
 
-#: ../src/main_window.c:1029
+#: ../src/main_window.c:1039
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -123,15 +123,15 @@ msgstr ""
 "Afbeeldingen vooraf inladen gedurende een diaweergave\n"
 "(gebruikt meer geheugen)"
 
-#: ../src/main_window.c:1030
+#: ../src/main_window.c:1040
 msgid "_Preload images"
 msgstr "_Afbeeldingen vooruit inladen"
 
-#: ../src/main_window.c:1074
+#: ../src/main_window.c:1084
 msgid "Developer:"
 msgstr "Ontwikkelaar:"
 
-#: ../src/main_window.c:1084
+#: ../src/main_window.c:1094
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -139,23 +139,23 @@ msgstr ""
 "Ristretto is een snel en lichtgewicht afbeeldingsweergave-programma voor de "
 "Xfce-desktop omgeving"
 
-#: ../src/main_window.c:1092
+#: ../src/main_window.c:1102
 msgid "translator-credits"
 msgstr "Stephan Arts <stephan@xfce.org>"
 
-#: ../src/main_window.c:1112
+#: ../src/main_window.c:1122
 msgid "Open image"
 msgstr "Afbeelding openen"
 
-#: ../src/main_window.c:1147
+#: ../src/main_window.c:1157
 msgid "Could not open file"
 msgstr "Kan bestand niet openen"
 
-#: ../src/main_window.c:1157
+#: ../src/main_window.c:1167
 msgid "Open folder"
 msgstr "Map openen"
 
-#: ../src/main_window.c:1261
+#: ../src/main_window.c:1271
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
@@ -173,6 +173,9 @@ msgstr "Ristretto Afbeeldings Weergave"
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce Afbeeldings weergave"
+
+#~ msgid "Behaviour"
+#~ msgstr "Gedrag"
 
 #~ msgid "Rotate _Left"
 #~ msgstr "_Linksom draaien"
