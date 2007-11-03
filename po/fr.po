@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-02 23:56+0100\n"
+"POT-Creation-Date: 2007-11-03 09:18+0100\n"
 "PO-Revision-Date: 2007-10-24 11:31+0100\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
@@ -104,23 +104,31 @@ msgstr ""
 msgid "Slideshow:"
 msgstr ""
 
-#: ../src/main_window.c:1023
-msgid "The time individual images are displayed during a slideshow"
+#: ../src/main_window.c:1021
+msgid "Preload:"
 msgstr ""
 
-#: ../src/main_window.c:1026
-msgid "Preload images during slideshow -- uses more memory"
+#: ../src/main_window.c:1024
+msgid ""
+"The time individual images are displayed during a slideshow\n"
+"(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1027
+#: ../src/main_window.c:1029
+msgid ""
+"Preload images during slideshow\n"
+"(uses more memory)"
+msgstr ""
+
+#: ../src/main_window.c:1030
 msgid "_Preload images"
 msgstr ""
 
-#: ../src/main_window.c:1063
+#: ../src/main_window.c:1074
 msgid "Developer:"
 msgstr "Développeur :"
 
-#: ../src/main_window.c:1073
+#: ../src/main_window.c:1084
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -128,23 +136,23 @@ msgstr ""
 "Ristretto est un visualiseur d'images léger et rapide pour l'environnement "
 "de bureau Xfce."
 
-#: ../src/main_window.c:1081
+#: ../src/main_window.c:1092
 msgid "translator-credits"
 msgstr "Mike Massonnet <mmassonnet@xfce.org>"
 
-#: ../src/main_window.c:1101
+#: ../src/main_window.c:1112
 msgid "Open image"
 msgstr "Ouvrir une image"
 
-#: ../src/main_window.c:1136
+#: ../src/main_window.c:1147
 msgid "Could not open file"
 msgstr "Impossible d'ouvrir le fichier"
 
-#: ../src/main_window.c:1146
+#: ../src/main_window.c:1157
 msgid "Open folder"
 msgstr "Ouvrir un répertoire"
 
-#: ../src/main_window.c:1250
+#: ../src/main_window.c:1261
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""

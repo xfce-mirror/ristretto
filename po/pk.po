@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-02 23:56+0100\n"
+"POT-Creation-Date: 2007-11-03 09:18+0100\n"
 "PO-Revision-Date: 2007-10-26 14:37+0500\n"
 "Last-Translator: Muhammad Ali Makki <makk.ma@gmail.com>\n"
 "Language-Team: Urdu <makki.ma@gmail.com>\n"
@@ -103,46 +103,54 @@ msgstr ""
 msgid "Slideshow:"
 msgstr ""
 
-#: ../src/main_window.c:1023
-msgid "The time individual images are displayed during a slideshow"
+#: ../src/main_window.c:1021
+msgid "Preload:"
 msgstr ""
 
-#: ../src/main_window.c:1026
-msgid "Preload images during slideshow -- uses more memory"
+#: ../src/main_window.c:1024
+msgid ""
+"The time individual images are displayed during a slideshow\n"
+"(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1027
+#: ../src/main_window.c:1029
+msgid ""
+"Preload images during slideshow\n"
+"(uses more memory)"
+msgstr ""
+
+#: ../src/main_window.c:1030
 msgid "_Preload images"
 msgstr ""
 
-#: ../src/main_window.c:1063
+#: ../src/main_window.c:1074
 msgid "Developer:"
 msgstr "ڈویلپر:"
 
-#: ../src/main_window.c:1073
+#: ../src/main_window.c:1084
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
 "Ristretto ایکسفس ڈیسک ٹاپ ماحول کے لیے ایک ہلکا پھلکا تصاویر منظرکار ہے."
 
-#: ../src/main_window.c:1081
+#: ../src/main_window.c:1092
 msgid "translator-credits"
 msgstr "ترجمہ-کریڈٹ"
 
-#: ../src/main_window.c:1101
+#: ../src/main_window.c:1112
 msgid "Open image"
 msgstr "تصویر کھولیں"
 
-#: ../src/main_window.c:1136
+#: ../src/main_window.c:1147
 msgid "Could not open file"
 msgstr ""
 
-#: ../src/main_window.c:1146
+#: ../src/main_window.c:1157
 msgid "Open folder"
 msgstr "فولڈر کھولیں"
 
-#: ../src/main_window.c:1250
+#: ../src/main_window.c:1261
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
