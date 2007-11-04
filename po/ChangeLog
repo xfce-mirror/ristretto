@@ -1,10 +1,15 @@
+2007-11-04  Stephan Arts <stephan@xfce.org>
+
+	* cs.po: Add Czech translaton by Miro Hrončok
+	<churchyard AT gmail DOT com>
+
 2007-11-04  Og Maciel <ogmaciel@gnome.org>
-    * pt_BR.po: Updated Brazilian Portuguese translation by
-    Og Maciel <ogmaciel@gnome.org>
+	* pt_BR.po: Updated Brazilian Portuguese translation by
+	Og Maciel <ogmaciel@gnome.org>
 
 2007-11-03  Og Maciel <ogmaciel@gnome.org>
-    * pt_BR.po: Added new Brazilian Portuguese translation by
-    Og Maciel <ogmaciel@gnome.org>
+	* pt_BR.po: Added new Brazilian Portuguese translation by
+	Og Maciel <ogmaciel@gnome.org>
 
 2007-10-28	Mike Massonnet <mmassonnet@xfce.org>
 	* fr.po: Update translation
