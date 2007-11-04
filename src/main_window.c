@@ -1001,15 +1001,17 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
 {
     GtkWidget *dialog = xfce_titled_dialog_new_with_buttons(_("Image viewer Preferences"),
                                                     GTK_WINDOW(window),
-                                                    0,
+                                                    GTK_DIALOG_NO_SEPARATOR,
                                                     GTK_STOCK_CANCEL,
                                                     GTK_RESPONSE_CANCEL,
                                                     GTK_STOCK_OK,
                                                     GTK_RESPONSE_OK,
                                                     NULL);
     gtk_window_set_icon_name(GTK_WINDOW(dialog), "ristretto");
+    gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
 
     GtkWidget *notebook = gtk_notebook_new();
+    gtk_container_set_border_width(GTK_CONTAINER(notebook), 8);
 
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook,  TRUE, TRUE, 0);
 
@@ -1017,25 +1019,19 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *main_lbl = gtk_label_new(_("Slideshow"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), main_vbox, main_lbl);
 
-    GtkWidget *slideshow_frame = gtk_frame_new(NULL);
-    GtkWidget *slideshow_lbl_top = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(slideshow_lbl_top), _("<b>Timeout:</b>"));
-    gtk_frame_set_label_widget(GTK_FRAME(slideshow_frame), slideshow_lbl_top);
-
-    GtkWidget *preload_frame = gtk_frame_new(NULL);
-    GtkWidget *preload_lbl_top = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(preload_lbl_top), _("<b>Preload:</b>"));
-    gtk_frame_set_label_widget(GTK_FRAME(preload_frame), preload_lbl_top);
-
-    gtk_frame_set_shadow_type(GTK_FRAME(slideshow_frame), GTK_SHADOW_NONE);
-    gtk_frame_set_shadow_type(GTK_FRAME(preload_frame), GTK_SHADOW_NONE);
-
     GtkWidget *slideshow_vbox = gtk_vbox_new(FALSE, 0);
+    GtkWidget *slideshow_frame = xfce_create_framebox_with_content (_("Timeout"), slideshow_vbox);
+
+    GtkWidget *preload_vbox = gtk_vbox_new(FALSE, 0);
+    GtkWidget *preload_frame = xfce_create_framebox_with_content (_("Preload"), preload_vbox);
+
+    gtk_container_set_border_width (GTK_CONTAINER (slideshow_frame), 8);
+    gtk_container_set_border_width (GTK_CONTAINER (preload_frame), 8);
+
     GtkWidget *slideshow_lbl = gtk_label_new(_("The time individual images are displayed during a slideshow\n(in seconds)"));
     GtkWidget *slideshow_hscale = gtk_hscale_new_with_range(1, 60, 1);
 
 
-    GtkWidget *preload_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *preload_lbl = gtk_label_new(_("Preload images during slideshow\n(uses more memory)"));
     GtkWidget *preload_check = gtk_check_button_new_with_mnemonic(_("_Preload images"));
 
@@ -1054,9 +1050,6 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
 
     gtk_box_pack_start(GTK_BOX(preload_vbox), preload_lbl, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(preload_vbox), preload_check, FALSE, TRUE, 0);
-
-    gtk_container_add(GTK_CONTAINER(slideshow_frame), slideshow_vbox);
-    gtk_container_add(GTK_CONTAINER(preload_frame), preload_vbox);
 
     gtk_box_pack_start(GTK_BOX(main_vbox), slideshow_frame, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), preload_frame, FALSE, TRUE, 0);
