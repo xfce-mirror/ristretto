@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the Ristretto package.
 # Og Maciel <ogmaciel@gnome.org>, 2007.
 #
+#: ../src/main.c:65
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-03 09:18+0100\n"
+"POT-Creation-Date: 2007-11-04 10:10+0100\n"
 "PO-Revision-Date: 2007-11-04 00:30-0500\n"
 "Last-Translator: Og Maciel <ogmaciel@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
@@ -27,7 +28,8 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Tente %s --help para ver uma lista completa das opções de linha de comando disponíveis.\n"
+"Tente %s --help para ver uma lista completa das opções de linha de comando "
+"disponíveis.\n"
 
 #. Create 'File' menu
 #: ../src/main_window.c:284
@@ -47,13 +49,11 @@ msgstr "Usado _recentemente"
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/main_window.c:329
-#: ../src/main_window.c:496
+#: ../src/main_window.c:329 ../src/main_window.c:496
 msgid "Open with..."
 msgstr "Abrir com..."
 
-#: ../src/main_window.c:337
-#: ../src/main_window.c:507
+#: ../src/main_window.c:337 ../src/main_window.c:507
 msgid "No applications available"
 msgstr "Nenhuma aplicação disponível"
 
@@ -96,65 +96,73 @@ msgstr "Aj_uda"
 msgid "Image viewer Preferences"
 msgstr "Preferências do Visualizador de Imagens"
 
-#: ../src/main_window.c:1017
-msgid "Behaviour"
-msgstr "Comportamento"
+#: ../src/main_window.c:1019
+msgid "Slideshow"
+msgstr "Apresentação de Slides"
 
-#: ../src/main_window.c:1020
-msgid "Slideshow:"
-msgstr "Apresentação de Slides:"
+#: ../src/main_window.c:1023
+msgid "Timeout"
+msgstr "Tempo de Espera"
 
-#: ../src/main_window.c:1021
-msgid "Preload:"
-msgstr "Carregamento Prévio:"
+#: ../src/main_window.c:1026
+msgid "Preload"
+msgstr "Pré-carregamento"
 
-#: ../src/main_window.c:1024
+#: ../src/main_window.c:1031
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"O tempo que imagens individuais são exibidas durante uma apresentação de slides\n"
+"O tempo que imagens individuais são exibidas durante uma apresentação de "
+"slides\n"
 "(em segundos)"
 
-#: ../src/main_window.c:1029
+#: ../src/main_window.c:1035
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
-"Carregar previamente imagens durante uma apresentação de slides\n"
+"Pré-Carregar imagens durante uma apresentação de slides\n"
 "(usa mais memória)"
 
-#: ../src/main_window.c:1030
+#: ../src/main_window.c:1036
 msgid "_Preload images"
 msgstr "Carregar imagens _previamente"
 
-#: ../src/main_window.c:1074
+#: ../src/main_window.c:1077
 msgid "Developer:"
 msgstr "Desenvolvedor:"
 
-#: ../src/main_window.c:1084
-msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
-msgstr "Ristretto é um visualizador de imagens rápido e leve para o ambiente de trabalho do Xfce."
+#: ../src/main_window.c:1087
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
+msgstr ""
+"Ristretto é um visualizador de imagens rápido e leve para o ambiente de "
+"trabalho do Xfce."
 
-#: ../src/main_window.c:1092
+#: ../src/main_window.c:1095
 msgid "translator-credits"
 msgstr "Og Maciel <ogmaciel@gnome.org>"
 
-#: ../src/main_window.c:1112
+#: ../src/main_window.c:1115
 msgid "Open image"
 msgstr "Abrir imagem"
 
-#: ../src/main_window.c:1147
+#: ../src/main_window.c:1150
 msgid "Could not open file"
 msgstr "Não foi possível abrir arquivo"
 
-#: ../src/main_window.c:1157
+#: ../src/main_window.c:1160
 msgid "Open folder"
 msgstr "Abrir pasta"
 
-#: ../src/main_window.c:1261
-msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr "Você tem certeza que deseja apagar do Ristretto a lista dos documentos abertos mais recentes?"
+#: ../src/main_window.c:1264
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr ""
+"Você tem certeza que deseja apagar do Ristretto a lista dos documentos "
+"abertos mais recentes?"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -168,3 +176,5 @@ msgstr "Visualizador de Imagens Ristretto"
 msgid "Xfce Image viewer"
 msgstr "Visualizador de Imagens do Xfce"
 
+#~ msgid "Behaviour"
+#~ msgstr "Comportamento"
