@@ -62,23 +62,23 @@ rstto_thumbnail_viewer_paint_entry (RsttoThumbnailViewer *viewer, gint nr, gbool
 static GtkWidgetClass *parent_class = NULL;
 
 static void
-cb_rstto_thumbnailer_nav_new_entry (RsttoNavigator *nav,
+cb_rstto_thumbnail_viewer_nav_new_entry (RsttoNavigator *nav,
                                     gint nr,
                                     RsttoNavigatorEntry *entry,
                                     RsttoThumbnailViewer *viewer);
 static void
-cb_rstto_thumbnailer_nav_iter_changed (RsttoNavigator *nav,
+cb_rstto_thumbnail_viewer_nav_iter_changed (RsttoNavigator *nav,
                                        gint nr,
                                        RsttoNavigatorEntry *entry,
                                        RsttoThumbnailViewer *viewer);
 static void
-cb_rstto_thumbnailer_nav_reordered (RsttoNavigator *nav,
+cb_rstto_thumbnail_viewer_nav_reordered (RsttoNavigator *nav,
                                     RsttoThumbnailViewer *viewer);
 
 static void
-cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer, GdkEventButton *event);
+cb_rstto_thumbnail_viewer_button_press_event (RsttoThumbnailViewer *viewer, GdkEventButton *event);
 static void
-cb_rstto_thumbnailer_scroll_event (RsttoThumbnailViewer *viewer, GdkEventScroll *event);
+cb_rstto_thumbnail_viewer_scroll_event (RsttoThumbnailViewer *viewer, GdkEventScroll *event);
 
 GType
 rstto_thumbnail_viewer_get_type ()
@@ -117,8 +117,8 @@ rstto_thumbnail_viewer_init(RsttoThumbnailViewer *viewer)
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
     gtk_widget_set_events (GTK_WIDGET(viewer),
                            GDK_BUTTON_PRESS_MASK);
-    g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_thumbnailer_button_press_event), NULL);
-    g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_thumbnailer_scroll_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_thumbnail_viewer_button_press_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_thumbnail_viewer_scroll_event), NULL);
     viewer->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
 
 }
@@ -222,6 +222,12 @@ rstto_thumbnail_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
     return FALSE;
 }
 
+/*
+ * rstto_thumbnail_viewer_paint:
+ *
+ * @viewer   : The ThumbnailViewer to paint
+ *
+ */
 static void
 rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
 {
@@ -247,6 +253,8 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     }
 
     viewer->priv->offset = offset;
+
+    /* Draw any visible thumbnail on screen */
     for (i = viewer->priv->begin; i <= viewer->priv->end; ++i)
     {
         rstto_thumbnail_viewer_paint_entry(viewer, i, nr == i);
@@ -254,6 +262,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
 
     if (viewer->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
     {
+        /* Clear the area located prior to the first thumbnail */
         if (offset > 0)
         {
             gdk_window_clear_area(widget->window, 
@@ -262,6 +271,8 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                                 offset,
                                 widget->allocation.height);
         }
+
+        /* Clear the area located after the last thumbnail */
         if (offset + ((viewer->priv->end + 1) * viewer->priv->dimension) < widget->allocation.width)
         {
             gdk_window_clear_area(widget->window, 
@@ -274,6 +285,7 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
     }
     else
     {
+        /* Clear the area located prior to the first thumbnail */
         if (offset > 0)
         {
             gdk_window_clear_area(widget->window, 
@@ -282,6 +294,8 @@ rstto_thumbnail_viewer_paint(RsttoThumbnailViewer *viewer)
                                 widget->allocation.width,
                                 offset);
         }
+
+        /* Clear the area located after the last thumbnail */
         if (offset + ((viewer->priv->end + 1) * viewer->priv->dimension) < widget->allocation.height)
         {
             gdk_window_clear_area(widget->window, 
@@ -308,15 +322,22 @@ rstto_thumbnail_viewer_new(RsttoNavigator *navigator)
 
     viewer->priv->navigator = navigator;
 
-    g_signal_connect(G_OBJECT(navigator), "new-entry", G_CALLBACK(cb_rstto_thumbnailer_nav_new_entry), viewer);
-    g_signal_connect(G_OBJECT(navigator), "iter-changed", G_CALLBACK(cb_rstto_thumbnailer_nav_iter_changed), viewer);
-    g_signal_connect(G_OBJECT(navigator), "reordered", G_CALLBACK(cb_rstto_thumbnailer_nav_reordered), viewer);
+    g_signal_connect(G_OBJECT(navigator), "new-entry", G_CALLBACK(cb_rstto_thumbnail_viewer_nav_new_entry), viewer);
+    g_signal_connect(G_OBJECT(navigator), "iter-changed", G_CALLBACK(cb_rstto_thumbnail_viewer_nav_iter_changed), viewer);
+    g_signal_connect(G_OBJECT(navigator), "reordered", G_CALLBACK(cb_rstto_thumbnail_viewer_nav_reordered), viewer);
 
     return (GtkWidget *)viewer;
 }
 
+/*
+ * cb_rstto_thumbnail_viewer_scroll_event:
+ *
+ * @viewer   : ThumbnailViewer
+ * @event    : scroll event
+ *
+ */
 static void
-cb_rstto_thumbnailer_scroll_event (RsttoThumbnailViewer *viewer, GdkEventScroll *event)
+cb_rstto_thumbnail_viewer_scroll_event (RsttoThumbnailViewer *viewer, GdkEventScroll *event)
 {
     switch(event->direction)
     {
@@ -326,14 +347,21 @@ cb_rstto_thumbnailer_scroll_event (RsttoThumbnailViewer *viewer, GdkEventScroll 
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
-            rstto_navigator_jump_forward(viewer->priv->navigator);
+                rstto_navigator_jump_forward(viewer->priv->navigator);
             break;
     }
 }
 
 
+/*
+ * cb_rstto_thumbnail_viewer_button_press_event:
+ *
+ * @viewer   : ThumbnailViewer
+ * @event    : scroll event
+ *
+ */
 static void
-cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer,
+cb_rstto_thumbnail_viewer_button_press_event (RsttoThumbnailViewer *viewer,
                                          GdkEventButton *event)
 {
     gint n = 0;
@@ -352,20 +380,44 @@ cb_rstto_thumbnailer_button_press_event (RsttoThumbnailViewer *viewer,
     }
 }
 
+/*
+ * rstto_thumbnail_viewer_set_orientation:
+ *
+ * @viewer      : ThumbnailViewer
+ * @orientation :
+ *
+ */
 void
 rstto_thumbnail_viewer_set_orientation (RsttoThumbnailViewer *viewer, GtkOrientation orientation)
 {
     viewer->priv->orientation = orientation;
 }
 
+/*
+ * rstto_thumbnail_viewer_get_orientation:
+ *
+ * @viewer      : ThumbnailViewer
+ *
+ * Return value : GtkOrientation
+ *
+ */
 GtkOrientation
 rstto_thumbnail_viewer_get_orientation (RsttoThumbnailViewer *viewer)
 {
     return viewer->priv->orientation;
 }
 
+/*
+ * cb_rstto_thumbnail_viewer_nav_new_entry :
+ *
+ * @nav    : RsttoNavigator 
+ * @nr     : nr
+ * @entry  :
+ * @viewer :
+ *
+ */
 static void
-cb_rstto_thumbnailer_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailViewer *viewer)
+cb_rstto_thumbnail_viewer_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailViewer *viewer)
 {
     if (GTK_WIDGET_REALIZED(viewer))
     {
@@ -373,8 +425,17 @@ cb_rstto_thumbnailer_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigatorE
     }
 }
 
+/*
+ * cb_rstto_thumbnail_viewer_nav_iter_changed :
+ *
+ * @nav    : RsttoNavigator 
+ * @nr     : nr
+ * @entry  :
+ * @viewer :
+ *
+ */
 static void
-cb_rstto_thumbnailer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailViewer *viewer)
+cb_rstto_thumbnail_viewer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailViewer *viewer)
 {
     if (GTK_WIDGET_REALIZED(viewer))
     {
@@ -382,8 +443,15 @@ cb_rstto_thumbnailer_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigat
     }
 }
 
+/*
+ * cb_rstto_thumbnail_viewer_nav_reordered :
+ *
+ * @nav    : RsttoNavigator 
+ * @viewer :
+ *
+ */
 static void
-cb_rstto_thumbnailer_nav_reordered (RsttoNavigator *nav, RsttoThumbnailViewer *viewer)
+cb_rstto_thumbnail_viewer_nav_reordered (RsttoNavigator *nav, RsttoThumbnailViewer *viewer)
 {
     if (GTK_WIDGET_REALIZED(viewer))
     {
@@ -391,6 +459,15 @@ cb_rstto_thumbnailer_nav_reordered (RsttoNavigator *nav, RsttoThumbnailViewer *v
     }
 }
 
+/*
+ * rstto_thumbnail_viewer_paint_entry:
+ *
+ * @viewer   : ThumbnailViewer
+ * @nr       : entry nr
+ * @selected : selected state
+ *
+ * Return value: %TRUE on success, else %FALSE
+ */
 static gboolean
 rstto_thumbnail_viewer_paint_entry (RsttoThumbnailViewer *viewer, gint nr, gboolean selected)
 {

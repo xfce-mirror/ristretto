@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-04 00:56+0100\n"
+"POT-Creation-Date: 2007-11-04 10:10+0100\n"
 "PO-Revision-Date: 2007-11-02 12:25+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.d.o>\n"
@@ -93,61 +93,61 @@ msgstr "_Súgó"
 msgid "Image viewer Preferences"
 msgstr "Kép-néző"
 
-#: ../src/main_window.c:1017
+#: ../src/main_window.c:1019
 msgid "Slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1022
-msgid "<b>Timeout:</b>"
+#: ../src/main_window.c:1023
+msgid "Timeout"
 msgstr ""
 
-#: ../src/main_window.c:1027
-msgid "<b>Preload:</b>"
+#: ../src/main_window.c:1026
+msgid "Preload"
 msgstr ""
 
-#: ../src/main_window.c:1034
+#: ../src/main_window.c:1031
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1039
+#: ../src/main_window.c:1035
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
 
-#: ../src/main_window.c:1040
+#: ../src/main_window.c:1036
 msgid "_Preload images"
 msgstr ""
 
-#: ../src/main_window.c:1084
+#: ../src/main_window.c:1077
 msgid "Developer:"
 msgstr "Fejlesztő:"
 
-#: ../src/main_window.c:1094
+#: ../src/main_window.c:1087
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "A Ristretto egy gyors, könnyű nézegető az Xfce asztali környezethez."
 
-#: ../src/main_window.c:1102
+#: ../src/main_window.c:1095
 msgid "translator-credits"
 msgstr "SZERVÁC Attila"
 
-#: ../src/main_window.c:1122
+#: ../src/main_window.c:1115
 msgid "Open image"
 msgstr "Kép megnyitása"
 
-#: ../src/main_window.c:1157
+#: ../src/main_window.c:1150
 msgid "Could not open file"
 msgstr "Nem tudtam megnyitni a fájlt"
 
-#: ../src/main_window.c:1167
+#: ../src/main_window.c:1160
 msgid "Open folder"
 msgstr "Mappa megnyitása"
 
-#: ../src/main_window.c:1271
+#: ../src/main_window.c:1264
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Tényleg törlöd a legutóbbi dokumentumok listáját?"
