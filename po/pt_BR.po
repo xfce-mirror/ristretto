@@ -1,0 +1,170 @@
+# Portuguese translations for Ristretto package.
+# Copyright (C) 2007 THE Ristretto'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Ristretto package.
+# Og Maciel <ogmaciel@gnome.org>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.10\n"
+"Report-Msgid-Bugs-To: stephan@xfce.org\n"
+"POT-Creation-Date: 2007-11-03 09:18+0100\n"
+"PO-Revision-Date: 2007-11-04 00:30-0500\n"
+"Last-Translator: Og Maciel <ogmaciel@gnome.org>\n"
+"Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../src/main.c:47
+msgid "Version information"
+msgstr "Informação da versão"
+
+#: ../src/main.c:69
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Tente %s --help para ver uma lista completa das opções de linha de comando disponíveis.\n"
+
+#. Create 'File' menu
+#: ../src/main_window.c:284
+msgid "_File"
+msgstr "_Arquivo"
+
+#: ../src/main_window.c:291
+msgid "O_pen Folder"
+msgstr "A_brir Pasta"
+
+#: ../src/main_window.c:292
+msgid "_Recently used"
+msgstr "Usado _recentemente"
+
+#. Create 'Edit' menu
+#: ../src/main_window.c:324
+msgid "_Edit"
+msgstr "_Editar"
+
+#: ../src/main_window.c:329
+#: ../src/main_window.c:496
+msgid "Open with..."
+msgstr "Abrir com..."
+
+#: ../src/main_window.c:337
+#: ../src/main_window.c:507
+msgid "No applications available"
+msgstr "Nenhuma aplicação disponível"
+
+#. Create 'View' menu
+#: ../src/main_window.c:346
+msgid "_View"
+msgstr "_Ver"
+
+#: ../src/main_window.c:353
+msgid "Show Toolbar"
+msgstr "Mostrar Barra de Ferramentas"
+
+#: ../src/main_window.c:354
+msgid "Thumbnail Viewer"
+msgstr "Visualizador de Miniaturas"
+
+#: ../src/main_window.c:372
+msgid "Show Horizontally"
+msgstr "Mostrar Horizontalmente"
+
+#: ../src/main_window.c:376
+msgid "Show Vertically"
+msgstr "Mostrar Verticalmente"
+
+#: ../src/main_window.c:380
+msgid "Hide"
+msgstr "Ocultar"
+
+#. Create 'Go' menu
+#: ../src/main_window.c:390
+msgid "_Go"
+msgstr "_Ir"
+
+#. Create 'Help' menu
+#: ../src/main_window.c:419
+msgid "_Help"
+msgstr "Aj_uda"
+
+#: ../src/main_window.c:1002
+msgid "Image viewer Preferences"
+msgstr "Preferências do Visualizador de Imagens"
+
+#: ../src/main_window.c:1017
+msgid "Behaviour"
+msgstr "Comportamento"
+
+#: ../src/main_window.c:1020
+msgid "Slideshow:"
+msgstr "Apresentação de Slides:"
+
+#: ../src/main_window.c:1021
+msgid "Preload:"
+msgstr "Carregamento Prévio:"
+
+#: ../src/main_window.c:1024
+msgid ""
+"The time individual images are displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"O tempo que imagens individuais são exibidas durante uma apresentação de slides\n"
+"(em segundos)"
+
+#: ../src/main_window.c:1029
+msgid ""
+"Preload images during slideshow\n"
+"(uses more memory)"
+msgstr ""
+"Carregar previamente imagens durante uma apresentação de slides\n"
+"(usa mais memória)"
+
+#: ../src/main_window.c:1030
+msgid "_Preload images"
+msgstr "Carregar imagens _previamente"
+
+#: ../src/main_window.c:1074
+msgid "Developer:"
+msgstr "Desenvolvedor:"
+
+#: ../src/main_window.c:1084
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto é um visualizador de imagens rápido e leve para o ambiente de trabalho do Xfce."
+
+#: ../src/main_window.c:1092
+msgid "translator-credits"
+msgstr "Og Maciel <ogmaciel@gnome.org>"
+
+#: ../src/main_window.c:1112
+msgid "Open image"
+msgstr "Abrir imagem"
+
+#: ../src/main_window.c:1147
+msgid "Could not open file"
+msgstr "Não foi possível abrir arquivo"
+
+#: ../src/main_window.c:1157
+msgid "Open folder"
+msgstr "Abrir pasta"
+
+#: ../src/main_window.c:1261
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Você tem certeza que deseja apagar do Ristretto a lista dos documentos abertos mais recentes?"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Visualizador de Imagens"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto Image Viewer"
+msgstr "Visualizador de Imagens Ristretto"
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Visualizador de Imagens do Xfce"
+
