@@ -24,9 +24,6 @@
 #include "navigator.h"
 #include "picture_viewer.h"
 
-#ifndef RSTTO_PICTURE_VIEWER_DRAG_MOTION_TIMEOUT
-#define RSTTO_PICTURE_VIEWER_DRAG_MOTION_TIMEOUT 160
-#endif
 
 struct _RsttoPictureViewerPriv
 {
@@ -51,7 +48,7 @@ struct _RsttoPictureViewerPriv
     struct
     {
         gint idle_id;
-    } zoom;
+    } refresh;
     GtkMenu          *menu;
 };
 
@@ -64,6 +61,8 @@ rstto_picture_viewer_destroy(GtkObject *object);
 
 static gboolean 
 cb_rstto_picture_viewer_queued_redraw (RsttoPictureViewer *viewer);
+static gboolean 
+cb_rstto_picture_viewer_queued_repaint(RsttoPictureViewer *viewer);
 
 static void
 rstto_picture_viewer_size_request(GtkWidget *, GtkRequisition *);
@@ -393,76 +392,11 @@ rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *viewer, GtkAdjus
 static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureViewer *viewer)
 {
-    gdouble scale = 1.0;
-    gdouble width = 1.0;
-    gdouble height = 1.0;
-    GtkWidget *widget = GTK_WIDGET(viewer);
-    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
-    if (entry)
+    if (viewer->priv->refresh.idle_id > 0)
     {
-        scale = rstto_navigator_entry_get_scale(entry);
-        width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
-        height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
+        g_source_remove(viewer->priv->refresh.idle_id);
     }
-    if (viewer->priv->src_pixbuf == NULL)
-    {
-        return;
-    }
-    GdkPixbuf *tmp_pixbuf = NULL;
-    if (viewer->vadjustment && viewer->hadjustment)
-    {
-        if ((width > widget->allocation.width) || (height > widget->allocation.height))
-        {
-            tmp_pixbuf = gdk_pixbuf_new_subpixbuf(viewer->priv->src_pixbuf,
-                                              viewer->hadjustment->value / scale >= 0?
-                                                viewer->hadjustment->value / scale : 0,
-                                              viewer->vadjustment->value / scale >= 0?
-                                                viewer->vadjustment->value / scale : 0,
-                                              ((widget->allocation.width/scale)) < width?
-                                                widget->allocation.width/scale:width,
-                                              ((widget->allocation.height/scale))< height?
-                                                widget->allocation.height/scale:height);
-        }
-        else
-        {
-            tmp_pixbuf = viewer->priv->src_pixbuf;
-            g_object_ref(tmp_pixbuf);
-        }
-    }
-
-    if(viewer->priv->dst_pixbuf)
-    {
-        g_object_unref(viewer->priv->dst_pixbuf);
-        viewer->priv->dst_pixbuf = NULL;
-    }
-
-    if(tmp_pixbuf)
-    {
-        gint dst_width = gdk_pixbuf_get_width(tmp_pixbuf)*scale;
-        gint dst_height = gdk_pixbuf_get_height(tmp_pixbuf)*scale;
-        if (scale < 1.0)
-        {
-            viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf,
-                                dst_width>0?dst_width:1,
-                                dst_height>0?dst_height:1,
-                                GDK_INTERP_BILINEAR);
-        }
-        if (scale > 1.0)
-        {
-            viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf,
-                                dst_width>0?dst_width:1,
-                                dst_height>0?dst_height:1,
-                                GDK_INTERP_NEAREST);
-        }
-        if (scale == 1.0)
-        {
-            viewer->priv->dst_pixbuf = tmp_pixbuf;
-            g_object_ref(viewer->priv->dst_pixbuf);
-        }
-        g_object_unref(tmp_pixbuf);
-        tmp_pixbuf = NULL;
-    }
-    rstto_picture_viewer_paint(widget);
+    viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
 }
 
 GtkWidget *
@@ -775,6 +709,13 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
             {
                 g_source_remove(viewer->priv->motion.idle_id);
             }
+            rstto_navigator_entry_set_scale(entry, scale / 1.1);
+            rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
+
+            viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) / 1.1) - event->y;
+            viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) / 1.1) - event->x;
+
+            viewer->priv->motion.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
@@ -784,6 +725,16 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
             {
                 g_source_remove(viewer->priv->motion.idle_id);
             }
+            rstto_navigator_entry_set_scale(entry, scale * 1.1);
+            rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
+
+            viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) * 1.1) - event->y;
+            viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) * 1.1) - event->x;
+
+            gtk_adjustment_value_changed(viewer->hadjustment);
+            gtk_adjustment_value_changed(viewer->vadjustment);
+
+            viewer->priv->motion.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
             break;
     }
 }
@@ -804,10 +755,20 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
         if (viewer->priv->motion.idle_id > 0)
         {
             g_source_remove(viewer->priv->motion.idle_id);
+            viewer->priv->motion.idle_id = 0;
         }
 
         viewer->priv->motion.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_redraw, viewer);
     }
+    return FALSE;
+}
+
+static gboolean 
+cb_rstto_picture_viewer_queued_repaint(RsttoPictureViewer *viewer)
+{
+    rstto_picture_viewer_refresh(viewer);
+    rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+    viewer->priv->refresh.idle_id = -1;
     return FALSE;
 }
 
