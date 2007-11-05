@@ -1011,7 +1011,7 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
 
     GtkWidget *notebook = gtk_notebook_new();
-    gtk_container_set_border_width(GTK_CONTAINER(notebook), 8);
+    gtk_container_set_border_width(GTK_CONTAINER(notebook), 6);
 
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook,  TRUE, TRUE, 0);
 
