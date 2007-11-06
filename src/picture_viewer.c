@@ -42,8 +42,6 @@ struct _RsttoPictureViewerPriv
         gdouble current_y;
         gint h_val;
         gint v_val;
-        gint32 time;
-        gint idle_id;
     } motion;
     struct
     {
@@ -59,8 +57,6 @@ rstto_picture_viewer_class_init(RsttoPictureViewerClass *);
 static void
 rstto_picture_viewer_destroy(GtkObject *object);
 
-static gboolean 
-cb_rstto_picture_viewer_queued_redraw (RsttoPictureViewer *viewer);
 static gboolean 
 cb_rstto_picture_viewer_queued_repaint(RsttoPictureViewer *viewer);
 
@@ -703,9 +699,9 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
         case GDK_SCROLL_LEFT:
             if (scale <= 0.05)
                 return;
-            if (viewer->priv->motion.idle_id > 0)
+            if (viewer->priv->refresh.idle_id > 0)
             {
-                g_source_remove(viewer->priv->motion.idle_id);
+                g_source_remove(viewer->priv->refresh.idle_id);
             }
             rstto_navigator_entry_set_scale(entry, scale / 1.1);
             rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
@@ -713,15 +709,15 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
             viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) / 1.1) - event->y;
             viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) / 1.1) - event->x;
 
-            viewer->priv->motion.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
+            viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
             if (scale >= 16)
                 return;
-            if (viewer->priv->motion.idle_id > 0)
+            if (viewer->priv->refresh.idle_id > 0)
             {
-                g_source_remove(viewer->priv->motion.idle_id);
+                g_source_remove(viewer->priv->refresh.idle_id);
             }
             rstto_navigator_entry_set_scale(entry, scale * 1.1);
             rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
@@ -733,7 +729,7 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
             gtk_adjustment_value_changed(viewer->hadjustment);
             gtk_adjustment_value_changed(viewer->vadjustment);
 
-            viewer->priv->motion.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
+            viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
             break;
     }
 }
@@ -745,19 +741,46 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
 {
     if (event->state & GDK_BUTTON1_MASK)
     {
-        if (viewer->priv->motion.time == 0)
-            viewer->priv->motion.time = gtk_get_current_event_time();
-
         viewer->priv->motion.current_x = event->x;
         viewer->priv->motion.current_y = event->y;
 
-        if (viewer->priv->motion.idle_id > 0)
+        if (viewer->priv->refresh.idle_id > 0)
         {
-            g_source_remove(viewer->priv->motion.idle_id);
-            viewer->priv->motion.idle_id = 0;
+            g_source_remove(viewer->priv->refresh.idle_id);
+            viewer->priv->refresh.idle_id = 0;
         }
 
-        viewer->priv->motion.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_redraw, viewer);
+        if (viewer->priv->motion.x != viewer->priv->motion.current_x)
+        {
+            gint val = viewer->hadjustment->value;
+            viewer->hadjustment->value = viewer->priv->motion.h_val + (viewer->priv->motion.x - viewer->priv->motion.current_x);
+            if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+            {
+                viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+            }
+            if((viewer->hadjustment->value) < viewer->hadjustment->lower)
+            {
+                viewer->hadjustment->value = viewer->hadjustment->lower;
+            }
+            if (val != viewer->hadjustment->value)
+                gtk_adjustment_value_changed(viewer->hadjustment);
+        }
+
+        if (viewer->priv->motion.y != viewer->priv->motion.current_y)
+        {
+            gint val = viewer->vadjustment->value;
+            viewer->vadjustment->value = viewer->priv->motion.v_val + (viewer->priv->motion.y - viewer->priv->motion.current_y);
+            if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+            {
+                viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+            }
+            if((viewer->vadjustment->value) < viewer->vadjustment->lower)
+            {
+                viewer->vadjustment->value = viewer->vadjustment->lower;
+            }
+            if (val != viewer->vadjustment->value)
+                gtk_adjustment_value_changed(viewer->vadjustment);
+        }
     }
     return FALSE;
 }
@@ -768,44 +791,6 @@ cb_rstto_picture_viewer_queued_repaint(RsttoPictureViewer *viewer)
     rstto_picture_viewer_refresh(viewer);
     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
     viewer->priv->refresh.idle_id = -1;
-    return FALSE;
-}
-
-static gboolean 
-cb_rstto_picture_viewer_queued_redraw (RsttoPictureViewer *viewer)
-{
-    if (viewer->priv->motion.x != viewer->priv->motion.current_x)
-    {
-        gint val = viewer->hadjustment->value;
-        viewer->hadjustment->value = viewer->priv->motion.h_val + (viewer->priv->motion.x - viewer->priv->motion.current_x);
-        if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
-        {
-            viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-        }
-        if((viewer->hadjustment->value) < viewer->hadjustment->lower)
-        {
-            viewer->hadjustment->value = viewer->hadjustment->lower;
-        }
-        if (val != viewer->hadjustment->value)
-            gtk_adjustment_value_changed(viewer->hadjustment);
-    }
-
-    if (viewer->priv->motion.y != viewer->priv->motion.current_y)
-    {
-        gint val = viewer->vadjustment->value;
-        viewer->vadjustment->value = viewer->priv->motion.v_val + (viewer->priv->motion.y - viewer->priv->motion.current_y);
-        if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
-        {
-            viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
-        }
-        if((viewer->vadjustment->value) < viewer->vadjustment->lower)
-        {
-            viewer->vadjustment->value = viewer->vadjustment->lower;
-        }
-        if (val != viewer->vadjustment->value)
-            gtk_adjustment_value_changed(viewer->vadjustment);
-    }
-    viewer->priv->motion.idle_id = -1;
     return FALSE;
 }
 
