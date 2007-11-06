@@ -1,3 +1,12 @@
+2007-11-06: Release 0.0.11
+	* src/picture_viewer.c:
+	  - Improve performance when zooming with mouse-wheel
+	  - Improve performance when dragging the image around
+	* src/thumbnail_viewer.c:
+	  - Add some comments
+	* src/main_window.c:
+	  - Improve preferences dialog
+
 2007-11-03: Release 0.0.10
 	* src/navigator.c
 	  src/picture_viewer.c:
