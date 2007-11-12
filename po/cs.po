@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Miro Hrončok <churchyard@gmail.com>, 2007.
 #
-#: ../src/main.c:65
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-03 09:18+0100\n"
-"PO-Revision-Date: 2007-07-03 00:59:21+0200\n"
+"POT-Creation-Date: 2007-11-11 10:10+0100\n"
+"PO-Revision-Date: 2007-11-12 00:47+0100\n"
 "Last-Translator: Miro Hrončok <churchyard@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -93,19 +92,19 @@ msgstr "_Nápověda"
 msgid "Image viewer Preferences"
 msgstr "Volby prohlížeče obrázků"
 
-#: ../src/main_window.c:1017
-msgid "Behaviour"
-msgstr "Chování"
+#: ../src/main_window.c:1019
+msgid "Slideshow"
+msgstr "Promítání snímků"
 
-#: ../src/main_window.c:1020
-msgid "Slideshow:"
-msgstr "Rychlost promítání"
+#: ../src/main_window.c:1023
+msgid "Timeout"
+msgstr "Vyčkat"
 
-#: ../src/main_window.c:1021
-msgid "Preload:"
-msgstr "Načítat obrázky dopředu"
+#: ../src/main_window.c:1026
+msgid "Preload"
+msgstr "Načítat dopředu"
 
-#: ../src/main_window.c:1024
+#: ../src/main_window.c:1031
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
@@ -113,7 +112,7 @@ msgstr ""
 "Čas po který je zobrazen jeden snímek při promítání\n"
 "(ve vteřinách)"
 
-#: ../src/main_window.c:1029
+#: ../src/main_window.c:1035
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -121,15 +120,15 @@ msgstr ""
 "Načítat snímky do paměti ještě předtím, než mají být zobrazeny\n"
 "(použije se více paměti)"
 
-#: ../src/main_window.c:1030
+#: ../src/main_window.c:106
 msgid "_Preload images"
 msgstr "Načítat _předem"
 
-#: ../src/main_window.c:1074
+#: ../src/main_window.c:1077
 msgid "Developer:"
 msgstr "Vývojář:"
 
-#: ../src/main_window.c:1084
+#: ../src/main_window.c:1087
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -137,27 +136,25 @@ msgstr ""
 "Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové "
 "prostředí Xfce."
 
-#: ../src/main_window.c:1092
+#: ../src/main_window.c:1095
 msgid "translator-credits"
 msgstr "Miro Hrončok <churchyard@gmail.com>"
 
-#: ../src/main_window.c:1112
+#: ../src/main_window.c:1115
 msgid "Open image"
 msgstr "Načíst obrázek"
 
-#: ../src/main_window.c:1147
+#: ../src/main_window.c:1150
 msgid "Could not open file"
 msgstr "Nemohu otevřít soubor"
 
-#: ../src/main_window.c:1157
+#: ../src/main_window.c:1160
 msgid "Open folder"
 msgstr "Otevřít složku"
 
-#: ../src/main_window.c:1261
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr ""
-"Opravdu chcete vyprázdnit senzma naposledy otevřených dokumentů?"
+#: ../src/main_window.c:1264
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Opravdu chcete vyprázdnit seznam naposledy otevřených dokumentů?"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -171,6 +168,9 @@ msgstr "Prohlížeč obrázků Ristretto"
 msgid "Xfce Image viewer"
 msgstr "Prohlížeč obrázků pro Xfce"
 
+#~ msgid "Behaviour"
+#~ msgstr "Chování"
+
 #~ msgid "Rotate _Left"
 #~ msgstr "Otočit do_leva"
 
@@ -182,6 +182,3 @@ msgstr "Prohlížeč obrázků pro Xfce"
 
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Překlopit _horizontálně"
-
-#~ msgid "_Clear"
-#~ msgstr "Vy_mazat"
