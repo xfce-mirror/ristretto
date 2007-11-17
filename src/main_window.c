@@ -932,6 +932,12 @@ cb_rstto_main_window_key_press_event(GtkWidget *widget, GdkEventKey *event, gpoi
                     gtk_window_fullscreen(window);
                 }
                 break;
+            case GDK_Escape:
+                if(gdk_window_get_state(widget->window) & GDK_WINDOW_STATE_FULLSCREEN)
+                {
+                    gtk_window_unfullscreen(window);
+                }
+                break;
             case GDK_Home:
                 rstto_navigator_jump_first(rstto_window->priv->navigator);
                 break;
