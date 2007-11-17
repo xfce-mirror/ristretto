@@ -43,17 +43,17 @@ gboolean version = FALSE;
 
 static GOptionEntry entries[] =
 {
-    {	"version", 'v', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &version,
-		N_("Version information"),
-		NULL
-	},
-	{ NULL }
+    {    "version", 'v', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &version,
+        N_("Version information"),
+        NULL
+    },
+    { NULL }
 };
 
 int main(int argc, char **argv)
 {
 
-	GError *cli_error = NULL;
+    GError *cli_error = NULL;
     gchar *path_dir = NULL;
     gint n;
 
@@ -67,17 +67,17 @@ int main(int argc, char **argv)
     {
         if (cli_error != NULL)
         {
-			g_print (_("%s: %s\nTry %s --help to see a full list of available command line options.\n"), PACKAGE, cli_error->message, PACKAGE_NAME);
-			g_error_free (cli_error);
-			return 1;
+            g_print (_("%s: %s\nTry %s --help to see a full list of available command line options.\n"), PACKAGE, cli_error->message, PACKAGE_NAME);
+            g_error_free (cli_error);
+            return 1;
         }
     }
 
-	if(version)
-	{
-		g_print("%s\n", PACKAGE_STRING);
-		return 0;
-	}
+    if(version)
+    {
+        g_print("%s\n", PACKAGE_STRING);
+        return 0;
+    }
 
     thunar_vfs_init();
 
