@@ -1,3 +1,19 @@
+2007-11-17: Release 0.0.12
+	* src/picture_viewer.c:
+	  - Fix High CPU-usage
+	* src/thumbnail_viewer.c:
+	  - Improve performance when new images are added to
+	    the navigator
+	* src/navigator.c:
+	  - Emit iter_changed signal when navigator is cleared.
+	* src/main_window.c:
+	  - Leave fullscreen mode by using 'Escape' key
+	  - Fix toolbar always visible after leaving fullscreen mode (Bug #3655)
+	  - Fix titlebar string (did not always display the correct nr of
+	    available images)
+	* src/main.c:
+	  - Fix open file from CLI
+
 2007-11-06: Release 0.0.11
 	* src/picture_viewer.c:
 	  - Improve performance when zooming with mouse-wheel
