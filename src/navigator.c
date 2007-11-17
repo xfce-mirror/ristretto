@@ -569,6 +569,7 @@ rstto_navigator_clear (RsttoNavigator *navigator)
         navigator->file_iter = NULL;
         navigator->old_position = -1;
     }
+    g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED], 0, -1, NULL, NULL);
     g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_REORDERED], 0, NULL);
     
 }

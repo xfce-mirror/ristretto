@@ -419,9 +419,17 @@ rstto_thumbnail_viewer_get_orientation (RsttoThumbnailViewer *viewer)
 static void
 cb_rstto_thumbnail_viewer_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailViewer *viewer)
 {
-    if (GTK_WIDGET_REALIZED(viewer))
+    if ((nr < viewer->priv->begin))
     {
-        rstto_thumbnail_viewer_paint(viewer);
+        viewer->priv->offset -= viewer->priv->dimension;
+    }
+    /* only paint if the entry is within the visible range */
+    if ((nr > viewer->priv->begin) && (nr < viewer->priv->end))
+    {
+        if (GTK_WIDGET_REALIZED(viewer))
+        {
+            rstto_thumbnail_viewer_paint(viewer);
+        }
     }
 }
 
