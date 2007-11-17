@@ -216,6 +216,8 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntry *entry, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_nav_new_entry(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntry *entry, RsttoMainWindow *window);
 
 static void
 rstto_main_window_init(RsttoMainWindow *);
@@ -673,6 +675,9 @@ rstto_main_window_init(RsttoMainWindow *window)
     g_signal_connect(G_OBJECT(window->priv->navigator),
             "iter-changed",
             G_CALLBACK(cb_rstto_main_window_nav_iter_changed), window);
+    g_signal_connect(G_OBJECT(window->priv->navigator),
+            "new-entry",
+            G_CALLBACK(cb_rstto_main_window_nav_new_entry), window);
 }
 
 static void
@@ -1473,6 +1478,34 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
                                   window->priv->menus._picture_viewer.open_with.menu_item_empty);
             gtk_widget_show(window->priv->menus._picture_viewer.open_with.menu_item_empty);
         }
+    }
+
+}
+
+static void
+cb_rstto_main_window_nav_new_entry(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntry *entry, RsttoMainWindow *window)
+{
+    RsttoNavigatorEntry *current_entry = rstto_navigator_get_file(navigator);
+    ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
+    gchar *filename = info->display_name;
+
+    gint current_nr = rstto_navigator_get_position(navigator);
+
+    if (current_entry)
+    {
+        gchar *title;
+        /* Update window title */
+        if (rstto_navigator_get_n_files(navigator) > 1)
+        {
+            title = g_strdup_printf("%s - %s [%d/%d]", PACKAGE_NAME, filename, current_nr+1, rstto_navigator_get_n_files(navigator));
+        }
+        else
+        {
+            title = g_strconcat(PACKAGE_NAME, " - ", filename, NULL);
+        }
+        gtk_window_set_title(GTK_WINDOW(window), title);
+        g_free(title);
+        title = NULL;
     }
 
 }

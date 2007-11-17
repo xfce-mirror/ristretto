@@ -54,6 +54,7 @@ int main(int argc, char **argv)
 {
 
 	GError *cli_error = NULL;
+    gchar *path_dir = NULL;
     gint n;
 
     #ifdef ENABLE_NLS
@@ -116,10 +117,11 @@ int main(int argc, char **argv)
         else
         {
             gchar *base_dir = g_get_current_dir();
-            gchar *path_dir = g_build_path("/", base_dir, argv[n], NULL);
+
+            path_dir = g_build_path("/", base_dir, argv[n], NULL);
             path = thunar_vfs_path_new(path_dir, NULL);
+
             g_free(base_dir);
-            g_free(path_dir);
         }
 
         if (path)
@@ -150,9 +152,20 @@ int main(int argc, char **argv)
                             {
                                 RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, file_info);
                                 gint i = rstto_navigator_add (navigator, entry);
-                                if (!strcmp(path_name, argv[n]))
+                                if (path_dir == NULL)
                                 {
-                                    rstto_navigator_set_file(navigator, i);
+                                    if (!strcmp(path_name, argv[n]))
+                                    {
+                                        rstto_navigator_set_file(navigator, i);
+                                    }
+                                }
+                                else
+                                {
+                                    if (!strcmp(path_name, path_dir))
+                                    {
+                                        rstto_navigator_set_file(navigator, i);
+                                    }
+
                                 }
                             }
                             g_free(file_media);
