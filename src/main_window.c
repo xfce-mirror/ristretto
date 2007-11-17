@@ -970,8 +970,12 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
         else
         {
             gtk_widget_show(window->priv->menus.menu);
-            gtk_widget_show(window->priv->toolbar.bar);
             gtk_widget_show(window->priv->statusbar);
+
+            if (window->priv->settings.toolbar_visibility == TRUE)
+            {
+                gtk_widget_show(window->priv->toolbar.bar);
+            }
         }
     }
 }
