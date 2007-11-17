@@ -790,6 +790,7 @@ cb_rstto_picture_viewer_queued_repaint(RsttoPictureViewer *viewer)
 {
     rstto_picture_viewer_refresh(viewer);
     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+    g_source_remove(viewer->priv->refresh.idle_id);
     viewer->priv->refresh.idle_id = -1;
     return FALSE;
 }
