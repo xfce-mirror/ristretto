@@ -63,7 +63,7 @@ int main(int argc, char **argv)
     textdomain (GETTEXT_PACKAGE);
     #endif
 
-    if(!gtk_init_with_args(&argc, &argv, _(""), entries, PACKAGE, NULL))
+    if(!gtk_init_with_args(&argc, &argv, _(""), entries, PACKAGE, &cli_error))
     {
         if (cli_error != NULL)
         {

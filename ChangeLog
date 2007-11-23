@@ -1,3 +1,7 @@
+xxxx-xx-xx: 
+	* src/main.c:
+	  - Fix segfault when running ristretto with unknown cli-options
+
 2007-11-17: Release 0.0.12
 	* src/picture_viewer.c:
 	  - Fix High CPU-usage
