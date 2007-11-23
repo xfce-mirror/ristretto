@@ -1,9 +1,9 @@
-#: ../src/main.c:65
+#: ../src/main.c:66
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-04 10:10+0100\n"
+"POT-Creation-Date: 2007-11-23 22:41+0100\n"
 "PO-Revision-Date: 2007-11-02 12:25+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.d.o>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "Version information"
 msgstr "Verzió adatok"
 
-#: ../src/main.c:69
+#: ../src/main.c:70
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -28,126 +28,142 @@ msgstr ""
 "A %s --help adja az elérhető lehetőségek litáját.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:284
+#: ../src/main_window.c:305
 msgid "_File"
 msgstr "_Fájl"
 
-#: ../src/main_window.c:291
+#: ../src/main_window.c:312
 msgid "O_pen Folder"
 msgstr "Ma_ppa megnyitása"
 
-#: ../src/main_window.c:292
+#: ../src/main_window.c:313
 msgid "_Recently used"
 msgstr "Utóbbiak"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:324
+#: ../src/main_window.c:345
 msgid "_Edit"
 msgstr "Sz_erkeszt"
 
-#: ../src/main_window.c:329 ../src/main_window.c:496
+#: ../src/main_window.c:350 ../src/main_window.c:571
 msgid "Open with..."
 msgstr "Megnyitás ezzel..."
 
-#: ../src/main_window.c:337 ../src/main_window.c:507
+#: ../src/main_window.c:358 ../src/main_window.c:582
 msgid "No applications available"
 msgstr "Nincs elérhető alkalmazás"
 
 #. Create 'View' menu
-#: ../src/main_window.c:346
+#: ../src/main_window.c:367
 msgid "_View"
 msgstr "Nézet"
 
-#: ../src/main_window.c:353
+#: ../src/main_window.c:374
 msgid "Show Toolbar"
 msgstr "Eszközsáv mutatása"
 
-#: ../src/main_window.c:354
+#: ../src/main_window.c:375
 msgid "Thumbnail Viewer"
 msgstr "Előkép néző"
 
-#: ../src/main_window.c:372
+#: ../src/main_window.c:379
+msgid "Zooming"
+msgstr ""
+
+#: ../src/main_window.c:380
+msgid "Rotate"
+msgstr ""
+
+#: ../src/main_window.c:406
 msgid "Show Horizontally"
 msgstr "Vízszintesen mutat"
 
-#: ../src/main_window.c:376
+#: ../src/main_window.c:410
 msgid "Show Vertically"
 msgstr "Függőlegesen mutat"
 
-#: ../src/main_window.c:380
+#: ../src/main_window.c:414
 msgid "Hide"
 msgstr "Rejt"
 
+#: ../src/main_window.c:451
+msgid "Rotate _Right"
+msgstr ""
+
+#: ../src/main_window.c:452
+msgid "Rotate _Left"
+msgstr ""
+
 #. Create 'Go' menu
-#: ../src/main_window.c:390
+#: ../src/main_window.c:460
 msgid "_Go"
 msgstr "U_grás"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:419
+#: ../src/main_window.c:489
 msgid "_Help"
 msgstr "_Súgó"
 
-#: ../src/main_window.c:1002
+#: ../src/main_window.c:1104
 #, fuzzy
 msgid "Image viewer Preferences"
 msgstr "Kép-néző"
 
-#: ../src/main_window.c:1019
+#: ../src/main_window.c:1121
 msgid "Slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1023
+#: ../src/main_window.c:1125
 msgid "Timeout"
 msgstr ""
 
-#: ../src/main_window.c:1026
+#: ../src/main_window.c:1128
 msgid "Preload"
 msgstr ""
 
-#: ../src/main_window.c:1031
+#: ../src/main_window.c:1133
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1035
+#: ../src/main_window.c:1137
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
 
-#: ../src/main_window.c:1036
+#: ../src/main_window.c:1138
 msgid "_Preload images"
 msgstr ""
 
-#: ../src/main_window.c:1077
+#: ../src/main_window.c:1179
 msgid "Developer:"
 msgstr "Fejlesztő:"
 
-#: ../src/main_window.c:1087
+#: ../src/main_window.c:1189
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "A Ristretto egy gyors, könnyű nézegető az Xfce asztali környezethez."
 
-#: ../src/main_window.c:1095
+#: ../src/main_window.c:1197
 msgid "translator-credits"
 msgstr "SZERVÁC Attila"
 
-#: ../src/main_window.c:1115
+#: ../src/main_window.c:1217
 msgid "Open image"
 msgstr "Kép megnyitása"
 
-#: ../src/main_window.c:1150
+#: ../src/main_window.c:1252
 msgid "Could not open file"
 msgstr "Nem tudtam megnyitni a fájlt"
 
-#: ../src/main_window.c:1160
+#: ../src/main_window.c:1262
 msgid "Open folder"
 msgstr "Mappa megnyitása"
 
-#: ../src/main_window.c:1264
+#: ../src/main_window.c:1366
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Tényleg törlöd a legutóbbi dokumentumok listáját?"

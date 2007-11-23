@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the Ristretto package.
 # Og Maciel <ogmaciel@gnome.org>, 2007.
 #
-#: ../src/main.c:65
+#: ../src/main.c:66
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-04 10:10+0100\n"
+"POT-Creation-Date: 2007-11-23 22:41+0100\n"
 "PO-Revision-Date: 2007-11-04 00:30-0500\n"
 "Last-Translator: Og Maciel <ogmaciel@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Version information"
 msgstr "Informação da versão"
 
-#: ../src/main.c:69
+#: ../src/main.c:70
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -32,83 +32,99 @@ msgstr ""
 "disponíveis.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:284
+#: ../src/main_window.c:305
 msgid "_File"
 msgstr "_Arquivo"
 
-#: ../src/main_window.c:291
+#: ../src/main_window.c:312
 msgid "O_pen Folder"
 msgstr "A_brir Pasta"
 
-#: ../src/main_window.c:292
+#: ../src/main_window.c:313
 msgid "_Recently used"
 msgstr "Usado _recentemente"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:324
+#: ../src/main_window.c:345
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/main_window.c:329 ../src/main_window.c:496
+#: ../src/main_window.c:350 ../src/main_window.c:571
 msgid "Open with..."
 msgstr "Abrir com..."
 
-#: ../src/main_window.c:337 ../src/main_window.c:507
+#: ../src/main_window.c:358 ../src/main_window.c:582
 msgid "No applications available"
 msgstr "Nenhuma aplicação disponível"
 
 #. Create 'View' menu
-#: ../src/main_window.c:346
+#: ../src/main_window.c:367
 msgid "_View"
 msgstr "_Ver"
 
-#: ../src/main_window.c:353
+#: ../src/main_window.c:374
 msgid "Show Toolbar"
 msgstr "Mostrar Barra de Ferramentas"
 
-#: ../src/main_window.c:354
+#: ../src/main_window.c:375
 msgid "Thumbnail Viewer"
 msgstr "Visualizador de Miniaturas"
 
-#: ../src/main_window.c:372
+#: ../src/main_window.c:379
+msgid "Zooming"
+msgstr ""
+
+#: ../src/main_window.c:380
+msgid "Rotate"
+msgstr ""
+
+#: ../src/main_window.c:406
 msgid "Show Horizontally"
 msgstr "Mostrar Horizontalmente"
 
-#: ../src/main_window.c:376
+#: ../src/main_window.c:410
 msgid "Show Vertically"
 msgstr "Mostrar Verticalmente"
 
-#: ../src/main_window.c:380
+#: ../src/main_window.c:414
 msgid "Hide"
 msgstr "Ocultar"
 
+#: ../src/main_window.c:451
+msgid "Rotate _Right"
+msgstr ""
+
+#: ../src/main_window.c:452
+msgid "Rotate _Left"
+msgstr ""
+
 #. Create 'Go' menu
-#: ../src/main_window.c:390
+#: ../src/main_window.c:460
 msgid "_Go"
 msgstr "_Ir"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:419
+#: ../src/main_window.c:489
 msgid "_Help"
 msgstr "Aj_uda"
 
-#: ../src/main_window.c:1002
+#: ../src/main_window.c:1104
 msgid "Image viewer Preferences"
 msgstr "Preferências do Visualizador de Imagens"
 
-#: ../src/main_window.c:1019
+#: ../src/main_window.c:1121
 msgid "Slideshow"
 msgstr "Apresentação de Slides"
 
-#: ../src/main_window.c:1023
+#: ../src/main_window.c:1125
 msgid "Timeout"
 msgstr "Tempo de Espera"
 
-#: ../src/main_window.c:1026
+#: ../src/main_window.c:1128
 msgid "Preload"
 msgstr "Pré-carregamento"
 
-#: ../src/main_window.c:1031
+#: ../src/main_window.c:1133
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
@@ -117,7 +133,7 @@ msgstr ""
 "slides\n"
 "(em segundos)"
 
-#: ../src/main_window.c:1035
+#: ../src/main_window.c:1137
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -125,15 +141,15 @@ msgstr ""
 "Pré-Carregar imagens durante uma apresentação de slides\n"
 "(usa mais memória)"
 
-#: ../src/main_window.c:1036
+#: ../src/main_window.c:1138
 msgid "_Preload images"
 msgstr "Carregar imagens _previamente"
 
-#: ../src/main_window.c:1077
+#: ../src/main_window.c:1179
 msgid "Developer:"
 msgstr "Desenvolvedor:"
 
-#: ../src/main_window.c:1087
+#: ../src/main_window.c:1189
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -141,23 +157,23 @@ msgstr ""
 "Ristretto é um visualizador de imagens rápido e leve para o ambiente de "
 "trabalho do Xfce."
 
-#: ../src/main_window.c:1095
+#: ../src/main_window.c:1197
 msgid "translator-credits"
 msgstr "Og Maciel <ogmaciel@gnome.org>"
 
-#: ../src/main_window.c:1115
+#: ../src/main_window.c:1217
 msgid "Open image"
 msgstr "Abrir imagem"
 
-#: ../src/main_window.c:1150
+#: ../src/main_window.c:1252
 msgid "Could not open file"
 msgstr "Não foi possível abrir arquivo"
 
-#: ../src/main_window.c:1160
+#: ../src/main_window.c:1262
 msgid "Open folder"
 msgstr "Abrir pasta"
 
-#: ../src/main_window.c:1264
+#: ../src/main_window.c:1366
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
