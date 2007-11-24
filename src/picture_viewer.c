@@ -24,6 +24,13 @@
 #include "navigator.h"
 #include "picture_viewer.h"
 
+typedef enum
+{
+    RSTTO_PICTURE_VIEWER_STATE_NONE,
+    RSTTO_PICTURE_VIEWER_STATE_MOVE,
+    RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM
+} RsttoPictureViewerState;
+
 
 struct _RsttoPictureViewerPriv
 {
@@ -42,6 +49,7 @@ struct _RsttoPictureViewerPriv
         gdouble current_y;
         gint h_val;
         gint v_val;
+        RsttoPictureViewerState state;
     } motion;
     struct
     {
@@ -326,6 +334,41 @@ rstto_picture_viewer_paint(GtkWidget *widget)
                             y2,
                             GDK_RGB_DITHER_NONE,
                             0,0);
+            if(viewer->priv->motion.state == RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM)
+            {
+                gdk_gc_set_foreground(gc,
+                        &(widget->style->fg[GTK_STATE_SELECTED]));
+                gdouble x1, x2, y1, y2;
+
+                if (viewer->priv->motion.x < viewer->priv->motion.current_x)
+                {
+                    x1 = viewer->priv->motion.x;
+                    x2 = viewer->priv->motion.current_x;
+                }
+                else
+                {
+                    x1 = viewer->priv->motion.current_x;
+                    x2 = viewer->priv->motion.x;
+                }
+                if (viewer->priv->motion.y < viewer->priv->motion.current_y)
+                {
+                    y1 = viewer->priv->motion.y;
+                    y2 = viewer->priv->motion.current_y;
+                }
+                else
+                {
+                    y1 = viewer->priv->motion.current_y;
+                    y2 = viewer->priv->motion.y;
+                }
+                gdk_draw_rectangle(GDK_DRAWABLE(buffer),
+                                gc,
+                                FALSE,
+                                x1,
+                                y1,
+                                x2 - x1,
+                                y2 - y1);
+            }
+
             if(viewer->priv->show_border)
             {
                 gdk_gc_set_foreground(gc, &line_color);
@@ -750,36 +793,46 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
             viewer->priv->refresh.idle_id = 0;
         }
 
-        if (viewer->priv->motion.x != viewer->priv->motion.current_x)
+        switch (viewer->priv->motion.state)
         {
-            gint val = viewer->hadjustment->value;
-            viewer->hadjustment->value = viewer->priv->motion.h_val + (viewer->priv->motion.x - viewer->priv->motion.current_x);
-            if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
-            {
-                viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-            }
-            if((viewer->hadjustment->value) < viewer->hadjustment->lower)
-            {
-                viewer->hadjustment->value = viewer->hadjustment->lower;
-            }
-            if (val != viewer->hadjustment->value)
-                gtk_adjustment_value_changed(viewer->hadjustment);
-        }
+            case RSTTO_PICTURE_VIEWER_STATE_MOVE:
+                if (viewer->priv->motion.x != viewer->priv->motion.current_x)
+                {
+                    gint val = viewer->hadjustment->value;
+                    viewer->hadjustment->value = viewer->priv->motion.h_val + (viewer->priv->motion.x - viewer->priv->motion.current_x);
+                    if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+                    {
+                        viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+                    }
+                    if((viewer->hadjustment->value) < viewer->hadjustment->lower)
+                    {
+                        viewer->hadjustment->value = viewer->hadjustment->lower;
+                    }
+                    if (val != viewer->hadjustment->value)
+                        gtk_adjustment_value_changed(viewer->hadjustment);
+                }
 
-        if (viewer->priv->motion.y != viewer->priv->motion.current_y)
-        {
-            gint val = viewer->vadjustment->value;
-            viewer->vadjustment->value = viewer->priv->motion.v_val + (viewer->priv->motion.y - viewer->priv->motion.current_y);
-            if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
-            {
-                viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
-            }
-            if((viewer->vadjustment->value) < viewer->vadjustment->lower)
-            {
-                viewer->vadjustment->value = viewer->vadjustment->lower;
-            }
-            if (val != viewer->vadjustment->value)
-                gtk_adjustment_value_changed(viewer->vadjustment);
+                if (viewer->priv->motion.y != viewer->priv->motion.current_y)
+                {
+                    gint val = viewer->vadjustment->value;
+                    viewer->vadjustment->value = viewer->priv->motion.v_val + (viewer->priv->motion.y - viewer->priv->motion.current_y);
+                    if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+                    {
+                        viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+                    }
+                    if((viewer->vadjustment->value) < viewer->vadjustment->lower)
+                    {
+                        viewer->vadjustment->value = viewer->vadjustment->lower;
+                    }
+                    if (val != viewer->vadjustment->value)
+                        gtk_adjustment_value_changed(viewer->vadjustment);
+                }
+                break;
+            case RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM:
+                viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
+                break;
+            default:
+                break;
         }
     }
     return FALSE;
@@ -800,15 +853,32 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
 {
     if(event->button == 1)
     {
-        GtkWidget *widget = GTK_WIDGET(viewer);
-        GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
-        gdk_window_set_cursor(widget->window, cursor);
-        gdk_cursor_unref(cursor);
-        
         viewer->priv->motion.x = event->x;
         viewer->priv->motion.y = event->y;
         viewer->priv->motion.h_val = viewer->hadjustment->value;
         viewer->priv->motion.v_val = viewer->vadjustment->value;
+
+        if (!(event->state & GDK_MODIFIER_MASK))
+        {
+            GtkWidget *widget = GTK_WIDGET(viewer);
+            GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
+            gdk_window_set_cursor(widget->window, cursor);
+            gdk_cursor_unref(cursor);
+
+            viewer->priv->motion.state = RSTTO_PICTURE_VIEWER_STATE_MOVE;
+        }
+
+        if (event->state & GDK_CONTROL_MASK)
+        {
+            GtkWidget *widget = GTK_WIDGET(viewer);
+            GdkCursor *cursor = gdk_cursor_new(GDK_UL_ANGLE);
+            gdk_window_set_cursor(widget->window, cursor);
+            gdk_cursor_unref(cursor);
+
+            viewer->priv->motion.state = RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM;
+        }
+
+        
     }
     if(event->button == 3)
     {
@@ -833,6 +903,23 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
     {
         GtkWidget *widget = GTK_WIDGET(viewer);
         gdk_window_set_cursor(widget->window, NULL);
+        switch (viewer->priv->motion.state)
+        {
+            case RSTTO_PICTURE_VIEWER_STATE_NONE:
+                break;
+            case RSTTO_PICTURE_VIEWER_STATE_MOVE:
+                break;
+            case RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM:
+                viewer->priv->motion.state = RSTTO_PICTURE_VIEWER_STATE_NONE;
+
+                if (viewer->priv->refresh.idle_id > 0)
+                {
+                    g_source_remove(viewer->priv->refresh.idle_id);
+                }
+                viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
+                break;
+        }
+
     }
 
 }
