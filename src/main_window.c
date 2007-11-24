@@ -543,6 +543,9 @@ rstto_main_window_init(RsttoMainWindow *window)
     gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.zooming.menu_item_zoom_100), FALSE);
     gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.zooming.menu_item_zoom_fit), FALSE);
 
+    gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.rotate.menu_item_rotate_cw), FALSE);
+    gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.rotate.menu_item_rotate_ccw), FALSE);
+
 /* Create statusbar */
     window->priv->statusbar = gtk_statusbar_new();
 
@@ -1473,6 +1476,9 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
         gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.zooming.menu_item_zoom_100), TRUE);
         gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.zooming.menu_item_zoom_fit), TRUE);
 
+        gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.rotate.menu_item_rotate_cw), TRUE);
+        gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.rotate.menu_item_rotate_ccw), TRUE);
+
 
         /* Update window title */
         if (rstto_navigator_get_n_files(navigator) > 1)
@@ -1577,6 +1583,9 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
             gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.zooming.menu_item_zoom_out), FALSE);
             gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.zooming.menu_item_zoom_100), FALSE);
             gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.zooming.menu_item_zoom_fit), FALSE);
+
+            gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.rotate.menu_item_rotate_cw), FALSE);
+            gtk_widget_set_sensitive(GTK_WIDGET(window->priv->menus.view.rotate.menu_item_rotate_ccw), FALSE);
         }
 
         gtk_container_foreach(GTK_CONTAINER(window->priv->menus.edit.open_with.menu), (GtkCallback)gtk_widget_destroy, NULL);
