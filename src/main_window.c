@@ -215,6 +215,11 @@ static void
 cb_rstto_main_window_zoom_fit(GtkWidget *widget, RsttoMainWindow *window);
 
 static void
+cb_rstto_main_window_rotate_cw(GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_rotate_ccw(GtkWidget *widget, RsttoMainWindow *window);
+
+static void
 cb_rstto_main_window_open_file(GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window);
@@ -613,10 +618,13 @@ rstto_main_window_init(RsttoMainWindow *window)
 /* D-Bus stuff */
 
     window->priv->connection = dbus_g_bus_get(DBUS_BUS_SESSION, NULL);
-    window->priv->filemanager_proxy = dbus_g_proxy_new_for_name(window->priv->connection,
+    if (window->priv->connection)
+    {
+        window->priv->filemanager_proxy = dbus_g_proxy_new_for_name(window->priv->connection,
                                                                 "org.xfce.FileManager",
                                                                 "/org/xfce/FileManager",
                                                                 "org.xfce.FileManager");
+    }
 
 /* Connect signals */
     
@@ -700,7 +708,15 @@ rstto_main_window_init(RsttoMainWindow *window)
     g_signal_connect(window->priv->menus.view.zooming.menu_item_zoom_fit,
             "activate",
             G_CALLBACK(cb_rstto_main_window_zoom_fit), window);
+/* rotate menu items */
+    g_signal_connect(window->priv->menus.view.rotate.menu_item_rotate_cw,
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_rotate_cw), window);
+    g_signal_connect(window->priv->menus.view.rotate.menu_item_rotate_ccw,
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_rotate_ccw), window);
 
+/* go menu items */
     g_signal_connect(window->priv->menus.go.menu_item_next,
             "activate",
             G_CALLBACK(cb_rstto_main_window_next), window);
@@ -1657,6 +1673,64 @@ static void
 cb_rstto_main_window_zoom_fit(GtkWidget *widget, RsttoMainWindow *window)
 {
     rstto_picture_viewer_fit_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
+}
+
+static void
+cb_rstto_main_window_rotate_cw(GtkWidget *widget, RsttoMainWindow *window)
+{
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(window->priv->navigator);
+    if (entry)
+    {
+        GdkPixbufRotation rotation = rstto_navigator_entry_get_rotation(entry);
+        switch (rotation)
+        {
+            case GDK_PIXBUF_ROTATE_NONE:
+                rotation = GDK_PIXBUF_ROTATE_CLOCKWISE;
+                break;
+            case GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE:
+                rotation = GDK_PIXBUF_ROTATE_NONE;
+                break;
+            case GDK_PIXBUF_ROTATE_UPSIDEDOWN:
+                rotation = GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE;
+                break;
+            case GDK_PIXBUF_ROTATE_CLOCKWISE:
+                rotation = GDK_PIXBUF_ROTATE_UPSIDEDOWN;
+                break;
+            default:
+                g_warning("Unable to rotate, rotation unknown");
+                break;
+        }
+        rstto_navigator_entry_set_rotation(entry, rotation);
+    }
+}
+
+static void
+cb_rstto_main_window_rotate_ccw(GtkWidget *widget, RsttoMainWindow *window)
+{
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(window->priv->navigator);
+    if (entry)
+    {
+        GdkPixbufRotation rotation = rstto_navigator_entry_get_rotation(entry);
+        switch (rotation)
+        {
+            case GDK_PIXBUF_ROTATE_NONE:
+                rotation = GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE;
+                break;
+            case GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE:
+                rotation = GDK_PIXBUF_ROTATE_UPSIDEDOWN;
+                break;
+            case GDK_PIXBUF_ROTATE_UPSIDEDOWN:
+                rotation = GDK_PIXBUF_ROTATE_CLOCKWISE;
+                break;
+            case GDK_PIXBUF_ROTATE_CLOCKWISE:
+                rotation = GDK_PIXBUF_ROTATE_NONE;
+                break;
+            default:
+                g_warning("Unable to rotate, rotation unknown");
+                break;
+        }
+        rstto_navigator_entry_set_rotation(entry, rotation);
+    }
 }
 
 static void

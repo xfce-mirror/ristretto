@@ -123,6 +123,8 @@ void
 rstto_navigator_entry_set_fit_to_screen (RsttoNavigatorEntry *entry, gboolean);
 void
 rstto_navigator_entry_set_scale (RsttoNavigatorEntry *entry, gdouble);
+void
+rstto_navigator_entry_set_rotation (RsttoNavigatorEntry *entry, GdkPixbufRotation rotation);
 
 GdkPixbufRotation
 rstto_navigator_entry_get_rotation (RsttoNavigatorEntry *entry);

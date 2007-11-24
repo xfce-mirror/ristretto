@@ -856,6 +856,18 @@ rstto_navigator_entry_set_fit_to_screen (RsttoNavigatorEntry *entry, gboolean ft
     entry->fit_to_screen = fts;
 }
 
+void
+rstto_navigator_entry_set_rotation (RsttoNavigatorEntry *entry, GdkPixbufRotation rotation)
+{
+    GdkPixbuf *pixbuf = entry->src_pixbuf;
+    if (pixbuf)
+    {
+        entry->src_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, (360+(rotation-entry->rotation))%360);
+    }
+    entry->rotation = rotation;
+    g_signal_emit(G_OBJECT(entry->navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED], 0, entry, NULL);
+}
+
 
 ExifData *
 rstto_navigator_entry_get_exif_data (RsttoNavigatorEntry *entry)
