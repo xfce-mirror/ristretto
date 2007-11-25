@@ -275,7 +275,7 @@ rstto_picture_viewer_paint(GtkWidget *widget)
         GdkPixmap *buffer = gdk_pixmap_new(NULL, widget->allocation.width, widget->allocation.height, gdk_drawable_get_depth(widget->window));
         GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(buffer));
 
-        gdk_gc_set_foreground(gc, &color);
+        gdk_gc_set_foreground(gc, &(widget->style->bg[GTK_STATE_NORMAL]));
         gdk_draw_rectangle(GDK_DRAWABLE(buffer), gc, TRUE, 0, 0, widget->allocation.width, widget->allocation.height);
         if(pixbuf)
         {
@@ -910,6 +910,91 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
             case RSTTO_PICTURE_VIEWER_STATE_MOVE:
                 break;
             case RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM:
+                if(GTK_WIDGET_REALIZED(widget))
+                {
+                    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+                    gdouble scale = rstto_navigator_entry_get_scale(entry);
+                    gdouble old_scale = scale;
+                    gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
+                    gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
+                    gdouble box_width, box_height;
+                    gdouble top_left_x, top_left_y;
+                    if (viewer->priv->motion.x < viewer->priv->motion.current_x)
+                    {
+                        top_left_x = viewer->priv->motion.x;
+                        box_width = viewer->priv->motion.current_x - viewer->priv->motion.x;
+                    }
+                    else
+                    {
+                        top_left_x = viewer->priv->motion.current_x;
+                        box_width = viewer->priv->motion.x - viewer->priv->motion.current_x;
+                    }
+                    if (viewer->priv->motion.y < viewer->priv->motion.current_y)
+                    {
+                        top_left_y = viewer->priv->motion.y;
+                        box_height = viewer->priv->motion.current_y - viewer->priv->motion.y;
+                    }
+                    else
+                    {
+                        top_left_y = viewer->priv->motion.current_y;
+                        box_height = viewer->priv->motion.y - viewer->priv->motion.current_y;
+                    }
+
+                    gdouble h_scale = width / box_width * scale;
+                    gdouble v_scale = width / box_width * scale;
+
+                    if (h_scale < v_scale)
+                    {
+                        rstto_navigator_entry_set_scale(entry, h_scale);
+                    }
+                    else
+                    {
+                        rstto_navigator_entry_set_scale(entry, v_scale);
+                    }
+                    rstto_navigator_entry_set_fit_to_screen(entry, FALSE);
+                    scale = rstto_navigator_entry_get_scale(entry);
+
+
+                        
+                    if(viewer->hadjustment)
+                    {
+                        viewer->hadjustment->page_size = box_width / old_scale * scale;
+                        viewer->hadjustment->upper = width * scale;
+                        viewer->hadjustment->lower = 0;
+                        viewer->hadjustment->step_increment = 1;
+                        viewer->hadjustment->page_increment = 100;
+                        viewer->hadjustment->value = (viewer->hadjustment->value + top_left_x) / old_scale * scale;
+                        if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+                        {
+                            viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+                        }
+                        if(viewer->hadjustment->value < viewer->hadjustment->lower)
+                        {
+                            viewer->hadjustment->value = viewer->hadjustment->lower;
+                        }
+                        gtk_adjustment_changed(viewer->hadjustment);
+                        gtk_adjustment_value_changed(viewer->hadjustment);
+                    }
+                    if(viewer->vadjustment)
+                    {
+                        viewer->vadjustment->page_size = box_height /old_scale* scale;
+                        viewer->vadjustment->upper = height * scale;
+                        viewer->vadjustment->lower = 0;
+                        viewer->vadjustment->step_increment = 1;
+                        viewer->vadjustment->page_increment = 100;
+                        viewer->vadjustment->value = (viewer->vadjustment->value + top_left_x) / old_scale * scale;
+                        if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+                        {
+                            viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+                        }
+                        if(viewer->vadjustment->value < viewer->vadjustment->lower)
+                        {
+                            viewer->vadjustment->value = viewer->vadjustment->lower;
+                        }
+                        gtk_adjustment_changed(viewer->vadjustment);
+                        gtk_adjustment_value_changed(viewer->vadjustment);
+                    }
+                }
                 viewer->priv->motion.state = RSTTO_PICTURE_VIEWER_STATE_NONE;
 
                 if (viewer->priv->refresh.idle_id > 0)
