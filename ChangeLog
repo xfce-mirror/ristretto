@@ -1,6 +1,15 @@
 xxxx-xx-xx: 
 	* src/main.c:
 	  - Fix segfault when running ristretto with unknown cli-options
+	* src/picture-viewer.c:
+	  - Add rudimentary box-zoom (use ctrl-click to make use it) (Bug 3665)
+	  - Use gtk-style background-color by default
+	  - Allow modification of background-color (Bug #3684)
+	* src/main-window.c:
+	  - Add Rotate sub-menu and buttons
+	  - Add Zooming sub-menu and buttons
+	  - Override picture-viewer bg-color when switching to fullscreen mode.
+
 
 2007-11-17: Release 0.0.12
 	* src/picture_viewer.c:
