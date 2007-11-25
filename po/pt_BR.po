@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 10:56+0100\n"
+"POT-Creation-Date: 2007-11-25 11:00+0100\n"
 "PO-Revision-Date: 2007-11-04 00:30-0500\n"
 "Last-Translator: Og Maciel <ogmaciel@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
@@ -71,11 +71,11 @@ msgid "Thumbnail Viewer"
 msgstr "Visualizador de Miniaturas"
 
 #: ../src/main_window.c:384
-msgid "Zooming"
+msgid "_Zooming"
 msgstr ""
 
 #: ../src/main_window.c:385
-msgid "Rotate"
+msgid "_Rotate"
 msgstr ""
 
 #: ../src/main_window.c:411

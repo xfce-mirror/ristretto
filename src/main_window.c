@@ -381,8 +381,8 @@ rstto_main_window_init(RsttoMainWindow *window)
 
     window->priv->menus.view.menu_item_separator_1 = gtk_separator_menu_item_new();
 
-    window->priv->menus.view.menu_item_zooming = gtk_menu_item_new_with_mnemonic(_("Zooming"));
-    window->priv->menus.view.menu_item_rotate = gtk_menu_item_new_with_mnemonic(_("Rotate"));
+    window->priv->menus.view.menu_item_zooming = gtk_menu_item_new_with_mnemonic(_("_Zooming"));
+    window->priv->menus.view.menu_item_rotate = gtk_menu_item_new_with_mnemonic(_("_Rotate"));
 
     window->priv->menus.view.menu_item_separator_2 = gtk_separator_menu_item_new();
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 10:56+0100\n"
+"POT-Creation-Date: 2007-11-25 11:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,11 +68,11 @@ msgid "Thumbnail Viewer"
 msgstr ""
 
 #: ../src/main_window.c:384
-msgid "Zooming"
+msgid "_Zooming"
 msgstr ""
 
 #: ../src/main_window.c:385
-msgid "Rotate"
+msgid "_Rotate"
 msgstr ""
 
 #: ../src/main_window.c:411

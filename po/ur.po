@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 10:56+0100\n"
+"POT-Creation-Date: 2007-11-25 11:00+0100\n"
 "PO-Revision-Date: 2007-10-26 14:37+0500\n"
 "Last-Translator: Muhammad Ali Makki <makk.ma@gmail.com>\n"
 "Language-Team: Urdu <makki.ma@gmail.com>\n"
@@ -70,12 +70,12 @@ msgid "Thumbnail Viewer"
 msgstr "تھمبنیل منظرکار"
 
 #: ../src/main_window.c:384
-msgid "Zooming"
+msgid "_Zooming"
 msgstr ""
 
 #: ../src/main_window.c:385
 #, fuzzy
-msgid "Rotate"
+msgid "_Rotate"
 msgstr "_بائیں گھمائیں"
 
 #: ../src/main_window.c:411

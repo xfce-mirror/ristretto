@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 10:56+0100\n"
+"POT-Creation-Date: 2007-11-25 11:00+0100\n"
 "PO-Revision-Date: 2007-07-13 00:48+0200\n"
 "Last-Translator: Stephan Arts <stephan@xfce.org>\n"
 "Language-Team: Dutch\n"
@@ -70,12 +70,12 @@ msgid "Thumbnail Viewer"
 msgstr "Miniatuur Weergave"
 
 #: ../src/main_window.c:384
-msgid "Zooming"
-msgstr "Zoomen"
+msgid "_Zooming"
+msgstr "_Zoomen"
 
 #: ../src/main_window.c:385
-msgid "Rotate"
-msgstr "Roteren"
+msgid "_Rotate"
+msgstr "_Roteren"
 
 #: ../src/main_window.c:411
 msgid "Show Horizontally"

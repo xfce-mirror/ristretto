@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 10:56+0100\n"
+"POT-Creation-Date: 2007-11-25 11:00+0100\n"
 "PO-Revision-Date: 2007-11-11 20:37+0300\n"
 "Last-Translator: Rihards Priedītis <rprieditis@inbox.lv>\n"
 "Language-Team: Latvian <rprieditis@inbox.lv>\n"
@@ -69,11 +69,11 @@ msgid "Thumbnail Viewer"
 msgstr "Sīktēlu Skatītājs"
 
 #: ../src/main_window.c:384
-msgid "Zooming"
+msgid "_Zooming"
 msgstr ""
 
 #: ../src/main_window.c:385
-msgid "Rotate"
+msgid "_Rotate"
 msgstr ""
 
 #: ../src/main_window.c:411

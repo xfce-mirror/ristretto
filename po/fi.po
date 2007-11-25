@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.5\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 10:56+0100\n"
+"POT-Creation-Date: 2007-11-25 11:00+0100\n"
 "PO-Revision-Date: 2007-09-14 11:19+0300\n"
 "Last-Translator: Jari Rahkonen <jari.rahkonen@pp1.inet.fi>\n"
 "Language-Team: Finnish <xfce-i18n@xfce.org>\n"
@@ -67,12 +67,12 @@ msgid "Thumbnail Viewer"
 msgstr "Pienoiskuvat"
 
 #: ../src/main_window.c:384
-msgid "Zooming"
+msgid "_Zooming"
 msgstr ""
 
 #: ../src/main_window.c:385
 #, fuzzy
-msgid "Rotate"
+msgid "_Rotate"
 msgstr "Käännä _vasempaan"
 
 #: ../src/main_window.c:411
