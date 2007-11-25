@@ -1,4 +1,4 @@
-xxxx-xx-xx: 
+2007-11-25: 
 	* src/main.c:
 	  - Fix segfault when running ristretto with unknown cli-options
 	* src/picture-viewer.c:
