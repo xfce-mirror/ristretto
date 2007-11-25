@@ -858,24 +858,28 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
         viewer->priv->motion.h_val = viewer->hadjustment->value;
         viewer->priv->motion.v_val = viewer->vadjustment->value;
 
-        if (!(event->state & GDK_MODIFIER_MASK))
+        if (rstto_navigator_get_file(viewer->priv->navigator) != NULL)
         {
-            GtkWidget *widget = GTK_WIDGET(viewer);
-            GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
-            gdk_window_set_cursor(widget->window, cursor);
-            gdk_cursor_unref(cursor);
 
-            viewer->priv->motion.state = RSTTO_PICTURE_VIEWER_STATE_MOVE;
-        }
+            if (!(event->state & GDK_MODIFIER_MASK))
+            {
+                GtkWidget *widget = GTK_WIDGET(viewer);
+                GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
+                gdk_window_set_cursor(widget->window, cursor);
+                gdk_cursor_unref(cursor);
 
-        if (event->state & GDK_CONTROL_MASK)
-        {
-            GtkWidget *widget = GTK_WIDGET(viewer);
-            GdkCursor *cursor = gdk_cursor_new(GDK_UL_ANGLE);
-            gdk_window_set_cursor(widget->window, cursor);
-            gdk_cursor_unref(cursor);
+                viewer->priv->motion.state = RSTTO_PICTURE_VIEWER_STATE_MOVE;
+            }
 
-            viewer->priv->motion.state = RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM;
+            if (event->state & GDK_CONTROL_MASK)
+            {
+                GtkWidget *widget = GTK_WIDGET(viewer);
+                GdkCursor *cursor = gdk_cursor_new(GDK_UL_ANGLE);
+                gdk_window_set_cursor(widget->window, cursor);
+                gdk_cursor_unref(cursor);
+
+                viewer->priv->motion.state = RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM;
+            }
         }
 
         
