@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 11:00+0100\n"
+"POT-Creation-Date: 2007-11-25 11:02+0100\n"
 "PO-Revision-Date: 2007-11-02 12:25+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.d.o>\n"
@@ -59,11 +59,13 @@ msgid "_View"
 msgstr "Nézet"
 
 #: ../src/main_window.c:379
-msgid "Show Toolbar"
+#, fuzzy
+msgid "Show _Toolbar"
 msgstr "Eszközsáv mutatása"
 
 #: ../src/main_window.c:380
-msgid "Thumbnail Viewer"
+#, fuzzy
+msgid "Thumbnail _Viewer"
 msgstr "Előkép néző"
 
 #: ../src/main_window.c:384
@@ -75,15 +77,18 @@ msgid "_Rotate"
 msgstr ""
 
 #: ../src/main_window.c:411
-msgid "Show Horizontally"
+#, fuzzy
+msgid "Show _Horizontally"
 msgstr "Vízszintesen mutat"
 
 #: ../src/main_window.c:415
-msgid "Show Vertically"
+#, fuzzy
+msgid "Show _Vertically"
 msgstr "Függőlegesen mutat"
 
 #: ../src/main_window.c:419
-msgid "Hide"
+#, fuzzy
+msgid "H_ide"
 msgstr "Rejt"
 
 #: ../src/main_window.c:456

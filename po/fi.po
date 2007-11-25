@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.5\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 11:00+0100\n"
+"POT-Creation-Date: 2007-11-25 11:02+0100\n"
 "PO-Revision-Date: 2007-09-14 11:19+0300\n"
 "Last-Translator: Jari Rahkonen <jari.rahkonen@pp1.inet.fi>\n"
 "Language-Team: Finnish <xfce-i18n@xfce.org>\n"
@@ -59,11 +59,13 @@ msgid "_View"
 msgstr "_Näytä"
 
 #: ../src/main_window.c:379
-msgid "Show Toolbar"
+#, fuzzy
+msgid "Show _Toolbar"
 msgstr "Näytä työkalupalkki"
 
 #: ../src/main_window.c:380
-msgid "Thumbnail Viewer"
+#, fuzzy
+msgid "Thumbnail _Viewer"
 msgstr "Pienoiskuvat"
 
 #: ../src/main_window.c:384
@@ -76,15 +78,18 @@ msgid "_Rotate"
 msgstr "Käännä _vasempaan"
 
 #: ../src/main_window.c:411
-msgid "Show Horizontally"
+#, fuzzy
+msgid "Show _Horizontally"
 msgstr "Näytä vaakasuunnassa"
 
 #: ../src/main_window.c:415
-msgid "Show Vertically"
+#, fuzzy
+msgid "Show _Vertically"
 msgstr "Näytä pystysuunnassa"
 
 #: ../src/main_window.c:419
-msgid "Hide"
+#, fuzzy
+msgid "H_ide"
 msgstr "Piilota"
 
 #: ../src/main_window.c:456

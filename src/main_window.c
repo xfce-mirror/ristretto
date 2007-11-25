@@ -376,8 +376,8 @@ rstto_main_window_init(RsttoMainWindow *window)
     gtk_menu_set_accel_group(GTK_MENU(window->priv->menus.view.menu), accel_group);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(window->priv->menus.menu_item_view), window->priv->menus.view.menu);
 
-    window->priv->menus.view.menu_item_show_toolbar = gtk_check_menu_item_new_with_mnemonic(_("Show Toolbar"));
-    window->priv->menus.view.menu_item_show_thumbnail_viewer = gtk_menu_item_new_with_mnemonic(_("Thumbnail Viewer"));
+    window->priv->menus.view.menu_item_show_toolbar = gtk_check_menu_item_new_with_mnemonic(_("Show _Toolbar"));
+    window->priv->menus.view.menu_item_show_thumbnail_viewer = gtk_menu_item_new_with_mnemonic(_("Thumbnail _Viewer"));
 
     window->priv->menus.view.menu_item_separator_1 = gtk_separator_menu_item_new();
 
@@ -408,15 +408,15 @@ rstto_main_window_init(RsttoMainWindow *window)
     window->priv->menus.view.show_thumbnail_viewer.
             menu_item_thumbnail_viewer_horizontal = gtk_radio_menu_item_new_with_mnemonic(
                     NULL, 
-                    _("Show Horizontally"));
+                    _("Show _Horizontally"));
     window->priv->menus.view.show_thumbnail_viewer.
             menu_item_thumbnail_viewer_vertical = gtk_radio_menu_item_new_with_mnemonic_from_widget(
                     GTK_RADIO_MENU_ITEM(window->priv->menus.view.show_thumbnail_viewer.menu_item_thumbnail_viewer_horizontal),
-                    _("Show Vertically"));
+                    _("Show _Vertically"));
     window->priv->menus.view.show_thumbnail_viewer.
             menu_item_thumbnail_viewer_hide = gtk_radio_menu_item_new_with_mnemonic_from_widget(
                     GTK_RADIO_MENU_ITEM(window->priv->menus.view.show_thumbnail_viewer.menu_item_thumbnail_viewer_horizontal),
-                    _("Hide"));
+                    _("H_ide"));
 
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.view.show_thumbnail_viewer.menu),
             window->priv->menus.view.show_thumbnail_viewer.menu_item_thumbnail_viewer_horizontal);

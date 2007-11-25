@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 11:00+0100\n"
+"POT-Creation-Date: 2007-11-25 11:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,11 +60,11 @@ msgid "_View"
 msgstr ""
 
 #: ../src/main_window.c:379
-msgid "Show Toolbar"
+msgid "Show _Toolbar"
 msgstr ""
 
 #: ../src/main_window.c:380
-msgid "Thumbnail Viewer"
+msgid "Thumbnail _Viewer"
 msgstr ""
 
 #: ../src/main_window.c:384
@@ -76,15 +76,15 @@ msgid "_Rotate"
 msgstr ""
 
 #: ../src/main_window.c:411
-msgid "Show Horizontally"
+msgid "Show _Horizontally"
 msgstr ""
 
 #: ../src/main_window.c:415
-msgid "Show Vertically"
+msgid "Show _Vertically"
 msgstr ""
 
 #: ../src/main_window.c:419
-msgid "Hide"
+msgid "H_ide"
 msgstr ""
 
 #: ../src/main_window.c:456

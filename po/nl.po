@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 11:00+0100\n"
+"POT-Creation-Date: 2007-11-25 11:02+0100\n"
 "PO-Revision-Date: 2007-07-13 00:48+0200\n"
 "Last-Translator: Stephan Arts <stephan@xfce.org>\n"
 "Language-Team: Dutch\n"
@@ -62,12 +62,12 @@ msgid "_View"
 msgstr "Beel_d"
 
 #: ../src/main_window.c:379
-msgid "Show Toolbar"
-msgstr "Toon Werkbalk"
+msgid "Show _Toolbar"
+msgstr "_Toon Werkbalk"
 
 #: ../src/main_window.c:380
-msgid "Thumbnail Viewer"
-msgstr "Miniatuur Weergave"
+msgid "Thumbnail _Viewer"
+msgstr "_Miniatuur Weergave"
 
 #: ../src/main_window.c:384
 msgid "_Zooming"
@@ -78,16 +78,16 @@ msgid "_Rotate"
 msgstr "_Roteren"
 
 #: ../src/main_window.c:411
-msgid "Show Horizontally"
-msgstr "Horizontaal tonen"
+msgid "Show _Horizontally"
+msgstr "_Horizontaal tonen"
 
 #: ../src/main_window.c:415
-msgid "Show Vertically"
-msgstr "Verticaal tonen"
+msgid "Show _Vertically"
+msgstr "_Verticaal tonen"
 
 #: ../src/main_window.c:419
-msgid "Hide"
-msgstr "Verbergen"
+msgid "H_ide"
+msgstr "Ver_bergen"
 
 #: ../src/main_window.c:456
 msgid "Rotate _Right"

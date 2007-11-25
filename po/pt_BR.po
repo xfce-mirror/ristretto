@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 11:00+0100\n"
+"POT-Creation-Date: 2007-11-25 11:02+0100\n"
 "PO-Revision-Date: 2007-11-04 00:30-0500\n"
 "Last-Translator: Og Maciel <ogmaciel@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
@@ -63,11 +63,13 @@ msgid "_View"
 msgstr "_Ver"
 
 #: ../src/main_window.c:379
-msgid "Show Toolbar"
+#, fuzzy
+msgid "Show _Toolbar"
 msgstr "Mostrar Barra de Ferramentas"
 
 #: ../src/main_window.c:380
-msgid "Thumbnail Viewer"
+#, fuzzy
+msgid "Thumbnail _Viewer"
 msgstr "Visualizador de Miniaturas"
 
 #: ../src/main_window.c:384
@@ -79,15 +81,18 @@ msgid "_Rotate"
 msgstr ""
 
 #: ../src/main_window.c:411
-msgid "Show Horizontally"
+#, fuzzy
+msgid "Show _Horizontally"
 msgstr "Mostrar Horizontalmente"
 
 #: ../src/main_window.c:415
-msgid "Show Vertically"
+#, fuzzy
+msgid "Show _Vertically"
 msgstr "Mostrar Verticalmente"
 
 #: ../src/main_window.c:419
-msgid "Hide"
+#, fuzzy
+msgid "H_ide"
 msgstr "Ocultar"
 
 #: ../src/main_window.c:456

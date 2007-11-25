@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 11:00+0100\n"
+"POT-Creation-Date: 2007-11-25 11:02+0100\n"
 "PO-Revision-Date: 2007-11-12 00:47+0100\n"
 "Last-Translator: Miro Hrončok <churchyard@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -59,11 +59,13 @@ msgid "_View"
 msgstr "_Zobrazit"
 
 #: ../src/main_window.c:379
-msgid "Show Toolbar"
+#, fuzzy
+msgid "Show _Toolbar"
 msgstr "Zobrazit nástrojovou lištu"
 
 #: ../src/main_window.c:380
-msgid "Thumbnail Viewer"
+#, fuzzy
+msgid "Thumbnail _Viewer"
 msgstr "Náhledy"
 
 #: ../src/main_window.c:384
@@ -76,15 +78,18 @@ msgid "_Rotate"
 msgstr "Otočit do_leva"
 
 #: ../src/main_window.c:411
-msgid "Show Horizontally"
+#, fuzzy
+msgid "Show _Horizontally"
 msgstr "Horizontálně"
 
 #: ../src/main_window.c:415
-msgid "Show Vertically"
+#, fuzzy
+msgid "Show _Vertically"
 msgstr "Vertikálně"
 
 #: ../src/main_window.c:419
-msgid "Hide"
+#, fuzzy
+msgid "H_ide"
 msgstr "Nezobrazovat"
 
 #: ../src/main_window.c:456

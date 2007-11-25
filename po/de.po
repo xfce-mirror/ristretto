@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 11:00+0100\n"
+"POT-Creation-Date: 2007-11-25 11:02+0100\n"
 "PO-Revision-Date: 2007-07-03 00:59:21+0200\n"
 "Last-Translator: stephan arts <stephan@xfce.org>\n"
 "Language-Team: German\n"
@@ -59,11 +59,13 @@ msgid "_View"
 msgstr "_Ansicht"
 
 #: ../src/main_window.c:379
-msgid "Show Toolbar"
+#, fuzzy
+msgid "Show _Toolbar"
 msgstr "_Werkzeugleiste anzeigen"
 
 #: ../src/main_window.c:380
-msgid "Thumbnail Viewer"
+#, fuzzy
+msgid "Thumbnail _Viewer"
 msgstr "Vor_schaubilder"
 
 #: ../src/main_window.c:384
@@ -76,15 +78,18 @@ msgid "_Rotate"
 msgstr "_Links drehen"
 
 #: ../src/main_window.c:411
-msgid "Show Horizontally"
+#, fuzzy
+msgid "Show _Horizontally"
 msgstr "_Horizontal anzeigen"
 
 #: ../src/main_window.c:415
-msgid "Show Vertically"
+#, fuzzy
+msgid "Show _Vertically"
 msgstr "_Vertikal anzeigen"
 
 #: ../src/main_window.c:419
-msgid "Hide"
+#, fuzzy
+msgid "H_ide"
 msgstr "Ver_bergen"
 
 #: ../src/main_window.c:456
