@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Miro Hrončok <churchyard@gmail.com>, 2007.
 #
-#: ../src/main.c:66
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 11:02+0100\n"
-"PO-Revision-Date: 2007-11-12 00:47+0100\n"
+"POT-Creation-Date: 2007-11-25 10:10+0100\n"
+"PO-Revision-Date: 2007-11-25 00:47+0100\n"
 "Last-Translator: Miro Hrončok <churchyard@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -26,6 +25,8 @@ msgid ""
 "%s: %s\n"
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
+"%s: %s\n"
+"Napište %s --help pro seznam všech mořných parametrů.\n"
 
 #. Create 'File' menu
 #: ../src/main_window.c:310
@@ -45,11 +46,13 @@ msgstr "_Naposledy otevřené"
 msgid "_Edit"
 msgstr "_Upravit"
 
-#: ../src/main_window.c:355 ../src/main_window.c:579
+#: ../src/main_window.c:355
+#: ../src/main_window.c:579
 msgid "Open with..."
 msgstr "Otevřít pomocí..."
 
-#: ../src/main_window.c:363 ../src/main_window.c:590
+#: ../src/main_window.c:363
+#: ../src/main_window.c:590
 msgid "No applications available"
 msgstr "Nejsou k dispozici žádné programy"
 
@@ -59,36 +62,30 @@ msgid "_View"
 msgstr "_Zobrazit"
 
 #: ../src/main_window.c:379
-#, fuzzy
 msgid "Show _Toolbar"
-msgstr "Zobrazit nástrojovou lištu"
+msgstr "Zo_brazit nástrojovou lištu"
 
 #: ../src/main_window.c:380
-#, fuzzy
 msgid "Thumbnail _Viewer"
 msgstr "Náhledy"
 
 #: ../src/main_window.c:384
 msgid "_Zooming"
-msgstr ""
+msgstr "_Zoom"
 
 #: ../src/main_window.c:385
-#, fuzzy
 msgid "_Rotate"
-msgstr "Otočit do_leva"
+msgstr "_Rotace"
 
 #: ../src/main_window.c:411
-#, fuzzy
 msgid "Show _Horizontally"
 msgstr "Horizontálně"
 
 #: ../src/main_window.c:415
-#, fuzzy
 msgid "Show _Vertically"
 msgstr "Vertikálně"
 
 #: ../src/main_window.c:419
-#, fuzzy
 msgid "H_ide"
 msgstr "Nezobrazovat"
 
@@ -111,7 +108,6 @@ msgid "_Help"
 msgstr "_Nápověda"
 
 #: ../src/main_window.c:1128
-#, fuzzy
 msgid "Image viewer Preferences"
 msgstr "Volby prohlížeče obrázků"
 
@@ -121,7 +117,7 @@ msgstr "Promítání snímků"
 
 #: ../src/main_window.c:1149
 msgid "Timeout"
-msgstr "Vyčkat"
+msgstr "Prodleva"
 
 #: ../src/main_window.c:1152
 msgid "Preload"
@@ -152,12 +148,8 @@ msgid "Developer:"
 msgstr "Vývojář:"
 
 #: ../src/main_window.c:1213
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí "
-"Xfce."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí Xfce."
 
 #: ../src/main_window.c:1221
 msgid "translator-credits"
@@ -176,8 +168,7 @@ msgid "Open folder"
 msgstr "Otevřít složku"
 
 #: ../src/main_window.c:1390
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Opravdu chcete vyprázdnit seznam naposledy otevřených dokumentů?"
 
 #: ../ristretto.desktop.in.h:1
@@ -194,9 +185,7 @@ msgstr "Prohlížeč obrázků pro Xfce"
 
 #~ msgid "Behaviour"
 #~ msgstr "Chování"
-
 #~ msgid "Flip _Vertically"
-#~ msgstr "Překlopit _vertikálně"
-
+#~ msgstr "Překlopit vertikálně"
 #~ msgid "Flip _Horizontally"
-#~ msgstr "Překlopit _horizontálně"
+#~ msgstr "Překlopit horizontálně"
