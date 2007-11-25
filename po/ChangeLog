@@ -1,10 +1,11 @@
-2007-11-18	Maximilian Schleiss <maximilian@xfce.org>
+2007-11-25	Mike Massonnet <mmassonnet@xfce.org>
+	* fr.po: Update translation
 
+2007-11-18	Maximilian Schleiss <maximilian@xfce.org>
 	* lv.po: Latvian translation added
 	by Rihards Priedītis <rprieditis@inbox.lv>
 
 2007-11-15	Mike Massonnet <mmassonnet@xfce.org>
-
 	* ur.po: Update translation by Muhammad Ali Makki <makki.ma@gmail.com>
 	* pk.po, ur.po: Rename pk.po to ur.po.
 
