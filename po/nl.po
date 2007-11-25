@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-23 22:41+0100\n"
+"POT-Creation-Date: 2007-11-25 10:56+0100\n"
 "PO-Revision-Date: 2007-07-13 00:48+0200\n"
 "Last-Translator: Stephan Arts <stephan@xfce.org>\n"
 "Language-Team: Dutch\n"
@@ -31,99 +31,99 @@ msgstr ""
 "Probeer %s --help voor een lijst van beschikbare commando regel opties.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:305
+#: ../src/main_window.c:310
 msgid "_File"
 msgstr "_Bestand"
 
-#: ../src/main_window.c:312
+#: ../src/main_window.c:317
 msgid "O_pen Folder"
 msgstr "Map o_penen"
 
-#: ../src/main_window.c:313
+#: ../src/main_window.c:318
 msgid "_Recently used"
 msgstr "_Recent geopend"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:345
+#: ../src/main_window.c:350
 msgid "_Edit"
 msgstr "B_ewerken"
 
-#: ../src/main_window.c:350 ../src/main_window.c:571
+#: ../src/main_window.c:355 ../src/main_window.c:579
 msgid "Open with..."
 msgstr "_Openen met..."
 
-#: ../src/main_window.c:358 ../src/main_window.c:582
+#: ../src/main_window.c:363 ../src/main_window.c:590
 msgid "No applications available"
 msgstr "Geen programma's beschikbaar"
 
 #. Create 'View' menu
-#: ../src/main_window.c:367
+#: ../src/main_window.c:372
 msgid "_View"
 msgstr "Beel_d"
 
-#: ../src/main_window.c:374
+#: ../src/main_window.c:379
 msgid "Show Toolbar"
 msgstr "Toon Werkbalk"
 
-#: ../src/main_window.c:375
+#: ../src/main_window.c:380
 msgid "Thumbnail Viewer"
 msgstr "Miniatuur Weergave"
 
-#: ../src/main_window.c:379
+#: ../src/main_window.c:384
 msgid "Zooming"
 msgstr "Zoomen"
 
-#: ../src/main_window.c:380
+#: ../src/main_window.c:385
 msgid "Rotate"
 msgstr "Roteren"
 
-#: ../src/main_window.c:406
+#: ../src/main_window.c:411
 msgid "Show Horizontally"
 msgstr "Horizontaal tonen"
 
-#: ../src/main_window.c:410
+#: ../src/main_window.c:415
 msgid "Show Vertically"
 msgstr "Verticaal tonen"
 
-#: ../src/main_window.c:414
+#: ../src/main_window.c:419
 msgid "Hide"
 msgstr "Verbergen"
 
-#: ../src/main_window.c:451
+#: ../src/main_window.c:456
 msgid "Rotate _Right"
 msgstr "_Rechtsom draaien"
 
-#: ../src/main_window.c:452
+#: ../src/main_window.c:457
 msgid "Rotate _Left"
 msgstr "_Linksom draaien"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:460
+#: ../src/main_window.c:465
 msgid "_Go"
 msgstr "_Ga"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:489
+#: ../src/main_window.c:494
 msgid "_Help"
 msgstr "_Help"
 
-#: ../src/main_window.c:1104
+#: ../src/main_window.c:1128
 msgid "Image viewer Preferences"
 msgstr "Afbeeldingsweergave voorkeuren"
 
-#: ../src/main_window.c:1121
+#: ../src/main_window.c:1145
 msgid "Slideshow"
 msgstr "Diaweergave"
 
-#: ../src/main_window.c:1125
+#: ../src/main_window.c:1149
 msgid "Timeout"
 msgstr "Timeout"
 
-#: ../src/main_window.c:1128
+#: ../src/main_window.c:1152
 msgid "Preload"
 msgstr "Vooruit laden"
 
-#: ../src/main_window.c:1133
+#: ../src/main_window.c:1157
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
@@ -131,7 +131,7 @@ msgstr ""
 "De tijd dat individuele afbeeldingen worden weergegeven gedurende een\n"
 "diaweergave (in seconden)"
 
-#: ../src/main_window.c:1137
+#: ../src/main_window.c:1161
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -139,15 +139,15 @@ msgstr ""
 "Afbeeldingen vooraf inladen gedurende een diaweergave\n"
 "(gebruikt meer geheugen)"
 
-#: ../src/main_window.c:1138
+#: ../src/main_window.c:1162
 msgid "_Preload images"
 msgstr "_Afbeeldingen vooruit inladen"
 
-#: ../src/main_window.c:1179
+#: ../src/main_window.c:1203
 msgid "Developer:"
 msgstr "Ontwikkelaar:"
 
-#: ../src/main_window.c:1189
+#: ../src/main_window.c:1213
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -155,23 +155,23 @@ msgstr ""
 "Ristretto is een snel en lichtgewicht afbeeldingsweergave-programma voor de "
 "Xfce-desktop omgeving"
 
-#: ../src/main_window.c:1197
+#: ../src/main_window.c:1221
 msgid "translator-credits"
 msgstr "Stephan Arts <stephan@xfce.org>"
 
-#: ../src/main_window.c:1217
+#: ../src/main_window.c:1241
 msgid "Open image"
 msgstr "Afbeelding openen"
 
-#: ../src/main_window.c:1252
+#: ../src/main_window.c:1276
 msgid "Could not open file"
 msgstr "Kan bestand niet openen"
 
-#: ../src/main_window.c:1262
+#: ../src/main_window.c:1286
 msgid "Open folder"
 msgstr "Map openen"
 
-#: ../src/main_window.c:1366
+#: ../src/main_window.c:1390
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""

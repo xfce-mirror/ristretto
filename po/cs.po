@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-23 22:41+0100\n"
+"POT-Creation-Date: 2007-11-25 10:56+0100\n"
 "PO-Revision-Date: 2007-11-12 00:47+0100\n"
 "Last-Translator: Miro Hrončok <churchyard@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -28,101 +28,101 @@ msgid ""
 msgstr ""
 
 #. Create 'File' menu
-#: ../src/main_window.c:305
+#: ../src/main_window.c:310
 msgid "_File"
 msgstr "_Soubor"
 
-#: ../src/main_window.c:312
+#: ../src/main_window.c:317
 msgid "O_pen Folder"
 msgstr "O_tevřít složku"
 
-#: ../src/main_window.c:313
+#: ../src/main_window.c:318
 msgid "_Recently used"
 msgstr "_Naposledy otevřené"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:345
+#: ../src/main_window.c:350
 msgid "_Edit"
 msgstr "_Upravit"
 
-#: ../src/main_window.c:350 ../src/main_window.c:571
+#: ../src/main_window.c:355 ../src/main_window.c:579
 msgid "Open with..."
 msgstr "Otevřít pomocí..."
 
-#: ../src/main_window.c:358 ../src/main_window.c:582
+#: ../src/main_window.c:363 ../src/main_window.c:590
 msgid "No applications available"
 msgstr "Nejsou k dispozici žádné programy"
 
 #. Create 'View' menu
-#: ../src/main_window.c:367
+#: ../src/main_window.c:372
 msgid "_View"
 msgstr "_Zobrazit"
 
-#: ../src/main_window.c:374
+#: ../src/main_window.c:379
 msgid "Show Toolbar"
 msgstr "Zobrazit nástrojovou lištu"
 
-#: ../src/main_window.c:375
+#: ../src/main_window.c:380
 msgid "Thumbnail Viewer"
 msgstr "Náhledy"
 
-#: ../src/main_window.c:379
+#: ../src/main_window.c:384
 msgid "Zooming"
 msgstr ""
 
-#: ../src/main_window.c:380
+#: ../src/main_window.c:385
 #, fuzzy
 msgid "Rotate"
 msgstr "Otočit do_leva"
 
-#: ../src/main_window.c:406
+#: ../src/main_window.c:411
 msgid "Show Horizontally"
 msgstr "Horizontálně"
 
-#: ../src/main_window.c:410
+#: ../src/main_window.c:415
 msgid "Show Vertically"
 msgstr "Vertikálně"
 
-#: ../src/main_window.c:414
+#: ../src/main_window.c:419
 msgid "Hide"
 msgstr "Nezobrazovat"
 
-#: ../src/main_window.c:451
+#: ../src/main_window.c:456
 msgid "Rotate _Right"
 msgstr "Otočit do_prava"
 
-#: ../src/main_window.c:452
+#: ../src/main_window.c:457
 msgid "Rotate _Left"
 msgstr "Otočit do_leva"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:460
+#: ../src/main_window.c:465
 msgid "_Go"
 msgstr "_Jdi"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:489
+#: ../src/main_window.c:494
 msgid "_Help"
 msgstr "_Nápověda"
 
-#: ../src/main_window.c:1104
+#: ../src/main_window.c:1128
 #, fuzzy
 msgid "Image viewer Preferences"
 msgstr "Volby prohlížeče obrázků"
 
-#: ../src/main_window.c:1121
+#: ../src/main_window.c:1145
 msgid "Slideshow"
 msgstr "Promítání snímků"
 
-#: ../src/main_window.c:1125
+#: ../src/main_window.c:1149
 msgid "Timeout"
 msgstr "Vyčkat"
 
-#: ../src/main_window.c:1128
+#: ../src/main_window.c:1152
 msgid "Preload"
 msgstr "Načítat dopředu"
 
-#: ../src/main_window.c:1133
+#: ../src/main_window.c:1157
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
@@ -130,7 +130,7 @@ msgstr ""
 "Čas po který je zobrazen jeden snímek při promítání\n"
 "(ve vteřinách)"
 
-#: ../src/main_window.c:1137
+#: ../src/main_window.c:1161
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -138,15 +138,15 @@ msgstr ""
 "Načítat snímky do paměti ještě předtím, než mají být zobrazeny\n"
 "(použije se více paměti)"
 
-#: ../src/main_window.c:1138
+#: ../src/main_window.c:1162
 msgid "_Preload images"
 msgstr "Načítat _předem"
 
-#: ../src/main_window.c:1179
+#: ../src/main_window.c:1203
 msgid "Developer:"
 msgstr "Vývojář:"
 
-#: ../src/main_window.c:1189
+#: ../src/main_window.c:1213
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -154,23 +154,23 @@ msgstr ""
 "Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí "
 "Xfce."
 
-#: ../src/main_window.c:1197
+#: ../src/main_window.c:1221
 msgid "translator-credits"
 msgstr "Miro Hrončok <churchyard@gmail.com>"
 
-#: ../src/main_window.c:1217
+#: ../src/main_window.c:1241
 msgid "Open image"
 msgstr "Načíst obrázek"
 
-#: ../src/main_window.c:1252
+#: ../src/main_window.c:1276
 msgid "Could not open file"
 msgstr "Nemohu otevřít soubor"
 
-#: ../src/main_window.c:1262
+#: ../src/main_window.c:1286
 msgid "Open folder"
 msgstr "Otevřít složku"
 
-#: ../src/main_window.c:1366
+#: ../src/main_window.c:1390
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Opravdu chcete vyprázdnit seznam naposledy otevřených dokumentů?"

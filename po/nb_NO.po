@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-23 22:41+0100\n"
+"POT-Creation-Date: 2007-11-25 10:56+0100\n"
 "PO-Revision-Date: 2007-08-29 21:12+0200\n"
 "Last-Translator: Terje Uriansrud <ter@operamail.com>\n"
 "Language-Team: Norwegian Bokmal\n"
@@ -29,143 +29,143 @@ msgid ""
 msgstr ""
 
 #. Create 'File' menu
-#: ../src/main_window.c:305
+#: ../src/main_window.c:310
 msgid "_File"
 msgstr "_Fil"
 
-#: ../src/main_window.c:312
+#: ../src/main_window.c:317
 msgid "O_pen Folder"
 msgstr "Åp_ne mappe"
 
-#: ../src/main_window.c:313
+#: ../src/main_window.c:318
 msgid "_Recently used"
 msgstr "Nylig _brukt"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:345
+#: ../src/main_window.c:350
 msgid "_Edit"
 msgstr "_Rediger"
 
-#: ../src/main_window.c:350 ../src/main_window.c:571
+#: ../src/main_window.c:355 ../src/main_window.c:579
 msgid "Open with..."
 msgstr ""
 
-#: ../src/main_window.c:358 ../src/main_window.c:582
+#: ../src/main_window.c:363 ../src/main_window.c:590
 msgid "No applications available"
 msgstr ""
 
 #. Create 'View' menu
-#: ../src/main_window.c:367
+#: ../src/main_window.c:372
 msgid "_View"
 msgstr "_Vis"
 
-#: ../src/main_window.c:374
+#: ../src/main_window.c:379
 msgid "Show Toolbar"
 msgstr ""
 
-#: ../src/main_window.c:375
+#: ../src/main_window.c:380
 msgid "Thumbnail Viewer"
 msgstr "Miniatyrvisning"
 
-#: ../src/main_window.c:379
+#: ../src/main_window.c:384
 msgid "Zooming"
 msgstr ""
 
-#: ../src/main_window.c:380
+#: ../src/main_window.c:385
 #, fuzzy
 msgid "Rotate"
 msgstr "Roter _venstre"
 
-#: ../src/main_window.c:406
+#: ../src/main_window.c:411
 msgid "Show Horizontally"
 msgstr "Vis vannrett"
 
-#: ../src/main_window.c:410
+#: ../src/main_window.c:415
 msgid "Show Vertically"
 msgstr "Vis loddrett"
 
-#: ../src/main_window.c:414
+#: ../src/main_window.c:419
 msgid "Hide"
 msgstr "Skjul"
 
-#: ../src/main_window.c:451
+#: ../src/main_window.c:456
 msgid "Rotate _Right"
 msgstr "Roter _høyre"
 
-#: ../src/main_window.c:452
+#: ../src/main_window.c:457
 msgid "Rotate _Left"
 msgstr "Roter _venstre"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:460
+#: ../src/main_window.c:465
 msgid "_Go"
 msgstr "_Gå"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:489
+#: ../src/main_window.c:494
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: ../src/main_window.c:1104
+#: ../src/main_window.c:1128
 #, fuzzy
 msgid "Image viewer Preferences"
 msgstr "Bildefremviser"
 
-#: ../src/main_window.c:1121
+#: ../src/main_window.c:1145
 msgid "Slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1125
+#: ../src/main_window.c:1149
 msgid "Timeout"
 msgstr ""
 
-#: ../src/main_window.c:1128
+#: ../src/main_window.c:1152
 msgid "Preload"
 msgstr ""
 
-#: ../src/main_window.c:1133
+#: ../src/main_window.c:1157
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1137
+#: ../src/main_window.c:1161
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
 
-#: ../src/main_window.c:1138
+#: ../src/main_window.c:1162
 msgid "_Preload images"
 msgstr ""
 
-#: ../src/main_window.c:1179
+#: ../src/main_window.c:1203
 msgid "Developer:"
 msgstr "Utvikler:"
 
-#: ../src/main_window.c:1189
+#: ../src/main_window.c:1213
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "Ristretto er en rask og lettvekts bildefremviser for Xfce skrivebordet"
 
-#: ../src/main_window.c:1197
+#: ../src/main_window.c:1221
 msgid "translator-credits"
 msgstr "Oversettelser"
 
-#: ../src/main_window.c:1217
+#: ../src/main_window.c:1241
 msgid "Open image"
 msgstr "Åpne bilde"
 
-#: ../src/main_window.c:1252
+#: ../src/main_window.c:1276
 msgid "Could not open file"
 msgstr ""
 
-#: ../src/main_window.c:1262
+#: ../src/main_window.c:1286
 msgid "Open folder"
 msgstr "Åpne mappe"
 
-#: ../src/main_window.c:1366
+#: ../src/main_window.c:1390
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
