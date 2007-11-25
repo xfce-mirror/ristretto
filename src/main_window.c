@@ -1083,11 +1083,16 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             gtk_widget_hide(window->priv->menus.menu);
             gtk_widget_hide(window->priv->toolbar.bar);
             gtk_widget_hide(window->priv->statusbar);
+            GdkColor *color = g_new0(GdkColor, 1);
+            color->pixel = 0;
+
+            rstto_picture_viewer_set_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), color);
         }
         else
         {
             gtk_widget_show(window->priv->menus.menu);
             gtk_widget_show(window->priv->statusbar);
+            rstto_picture_viewer_set_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), NULL);
 
             if (window->priv->settings.toolbar_visibility == TRUE)
             {

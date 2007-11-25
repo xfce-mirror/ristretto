@@ -41,6 +41,7 @@ struct _RsttoPictureViewerPriv
     GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
     void             (*cb_value_changed)(GtkAdjustment *, RsttoPictureViewer *);
     gboolean          show_border;
+    GdkColor         *bg_color;
     struct
     {
         gdouble x;
@@ -275,7 +276,14 @@ rstto_picture_viewer_paint(GtkWidget *widget)
         GdkPixmap *buffer = gdk_pixmap_new(NULL, widget->allocation.width, widget->allocation.height, gdk_drawable_get_depth(widget->window));
         GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(buffer));
 
-        gdk_gc_set_foreground(gc, &(widget->style->bg[GTK_STATE_NORMAL]));
+        if (viewer->priv->bg_color)
+        {
+            gdk_gc_set_foreground(gc, viewer->priv->bg_color);
+        }
+        else
+        {
+            gdk_gc_set_foreground(gc, &(widget->style->bg[GTK_STATE_NORMAL]));
+        }
         gdk_draw_rectangle(GDK_DRAWABLE(buffer), gc, TRUE, 0, 0, widget->allocation.width, widget->allocation.height);
         if(pixbuf)
         {
@@ -1044,5 +1052,19 @@ rstto_picture_viewer_set_menu (RsttoPictureViewer *viewer, GtkMenu *menu)
     if (viewer->priv->menu)
     {
         gtk_menu_attach_to_widget(viewer->priv->menu, GTK_WIDGET(viewer), NULL);
+    }
+}
+
+void
+rstto_picture_viewer_set_bg_color (RsttoPictureViewer *viewer, GdkColor *color)
+{
+    if (viewer->priv->bg_color)
+    {
+        gdk_color_free(viewer->priv->bg_color);
+        viewer->priv->bg_color = NULL;
+    }
+    if (color)
+    {
+        viewer->priv->bg_color = gdk_color_copy(color);
     }
 }

@@ -72,6 +72,7 @@ gdouble    rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);
 void       rstto_picture_viewer_set_timeout(RsttoPictureViewer *viewer, gboolean timeout);
 
 void       rstto_picture_viewer_set_menu (RsttoPictureViewer *viewer, GtkMenu *menu);
+void       rstto_picture_viewer_set_bg_color (RsttoPictureViewer *viewer, GdkColor *color);
 
 G_END_DECLS
 
