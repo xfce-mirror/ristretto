@@ -1125,6 +1125,10 @@ cb_rstto_main_window_pause(GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
 {
+    GtkWidget *slideshow_main_vbox;
+    GtkWidget *slideshow_main_lbl;
+    GtkWidget *display_main_vbox;
+    GtkWidget *display_main_lbl;
     GtkWidget *dialog = xfce_titled_dialog_new_with_buttons(_("Image viewer Preferences"),
                                                     GTK_WINDOW(window),
                                                     GTK_DIALOG_NO_SEPARATOR,
@@ -1141,9 +1145,26 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
 
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook,  TRUE, TRUE, 0);
 
-    GtkWidget *main_vbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget *main_lbl = gtk_label_new(_("Slideshow"));
-    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), main_vbox, main_lbl);
+    slideshow_main_vbox = gtk_vbox_new(FALSE, 0);
+    slideshow_main_lbl = gtk_label_new(_("Slideshow"));
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), slideshow_main_vbox, slideshow_main_lbl);
+
+    display_main_vbox = gtk_vbox_new(FALSE, 0);
+    display_main_lbl = gtk_label_new(_("Display"));
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), display_main_vbox, display_main_lbl);
+
+    GtkWidget *bg_color_vbox = gtk_vbox_new(FALSE, 0);
+    GtkWidget *bg_color_frame = xfce_create_framebox_with_content (_("Background Color"), bg_color_vbox);
+
+    GtkWidget *bg_color_override_check = gtk_check_button_new_with_mnemonic(_("_Override Background Color"));
+    GtkWidget *bg_color_button = gtk_color_button_new();
+
+    gtk_box_pack_start(GTK_BOX(bg_color_vbox), bg_color_override_check, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(bg_color_vbox), bg_color_button, FALSE, FALSE, 0);
+
+    gtk_container_set_border_width (GTK_CONTAINER (bg_color_frame), 8);
+
+    gtk_box_pack_start(GTK_BOX(display_main_vbox), bg_color_frame, FALSE, TRUE, 0);
 
     GtkWidget *slideshow_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *slideshow_frame = xfce_create_framebox_with_content (_("Timeout"), slideshow_vbox);
@@ -1177,8 +1198,8 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(preload_vbox), preload_lbl, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(preload_vbox), preload_check, FALSE, TRUE, 0);
 
-    gtk_box_pack_start(GTK_BOX(main_vbox), slideshow_frame, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(main_vbox), preload_frame, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(slideshow_main_vbox), slideshow_frame, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(slideshow_main_vbox), preload_frame, FALSE, TRUE, 0);
 
     gtk_widget_show_all(notebook);
 
