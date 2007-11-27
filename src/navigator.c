@@ -801,19 +801,39 @@ rstto_navigator_get_entry_thumb(RsttoNavigator *navigator, RsttoNavigatorEntry *
             {
                 if (!thunar_vfs_thumb_factory_store_thumbnail(navigator->factory, pixbuf, info, NULL))
                 {
+                    g_critical("Storing thumbnail failed");
                 }
-                entry->thumb = gdk_pixbuf_scale_simple(pixbuf, size, size, GDK_INTERP_BILINEAR);
+
+                gint width = gdk_pixbuf_get_width(pixbuf);
+                gint height = gdk_pixbuf_get_height(pixbuf);
+
+                if (width > height)
+                {
+                    entry->thumb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, gdk_pixbuf_get_bits_per_sample(pixbuf), size, height*size/width);
+                }
+                else
+                {
+                    entry->thumb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, gdk_pixbuf_get_bits_per_sample(pixbuf), width*size/height, size);
+                }
+                gdk_pixbuf_scale(pixbuf, entry->thumb,
+                                 0, 0, 
+                                 gdk_pixbuf_get_width(entry->thumb),
+                                 gdk_pixbuf_get_height(entry->thumb),
+                                 0, 0,
+                                 ((gdouble)gdk_pixbuf_get_width(entry->thumb)) / (gdouble)width,
+                                 ((gdouble)gdk_pixbuf_get_height(entry->thumb)) / (gdouble)height,
+                                 GDK_INTERP_BILINEAR);
             }
             else
             {
                 thumbnail = thunar_vfs_path_dup_string(info->path);
-                entry->thumb = gdk_pixbuf_new_from_file_at_size(thumbnail, size, size, NULL);
+                entry->thumb = gdk_pixbuf_new_from_file_at_scale(thumbnail, size, size, TRUE, NULL);
                 g_free(thumbnail);
             }
         }
         else
         {
-            entry->thumb = gdk_pixbuf_new_from_file_at_size(thumbnail, size, size, NULL);
+            entry->thumb = gdk_pixbuf_new_from_file_at_scale(thumbnail, size, size, TRUE, NULL);
             g_free(thumbnail);
         }
     }

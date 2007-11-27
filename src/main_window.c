@@ -456,6 +456,19 @@ rstto_main_window_init(RsttoMainWindow *window)
     window->priv->menus.view.rotate.menu_item_rotate_cw = gtk_image_menu_item_new_with_mnemonic(_("Rotate _Right"));
     window->priv->menus.view.rotate.menu_item_rotate_ccw = gtk_image_menu_item_new_with_mnemonic(_("Rotate _Left"));
 
+    gtk_widget_add_accelerator(window->priv->menus.view.rotate.menu_item_rotate_cw,
+                               "activate",
+                               accel_group,
+                               GDK_bracketright,
+                               GDK_CONTROL_MASK,
+                               GTK_ACCEL_VISIBLE);
+    gtk_widget_add_accelerator(window->priv->menus.view.rotate.menu_item_rotate_ccw,
+                               "activate",
+                               accel_group,
+                               GDK_bracketleft,
+                               GDK_CONTROL_MASK,
+                               GTK_ACCEL_VISIBLE);
+
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.view.rotate.menu),
             window->priv->menus.view.rotate.menu_item_rotate_cw);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.view.rotate.menu),
@@ -1066,6 +1079,12 @@ cb_rstto_main_window_key_press_event(GtkWidget *widget, GdkEventKey *event, gpoi
             case GDK_t:
                 rstto_main_window_set_show_thumbnail_viewer(RSTTO_MAIN_WINDOW(window),
                         !(RSTTO_MAIN_WINDOW(window)->priv->settings.thumbnail_viewer_visibility));
+                break;
+            case GDK_bracketleft:
+                cb_rstto_main_window_rotate_ccw(NULL, RSTTO_MAIN_WINDOW(window));
+                break;
+            case GDK_bracketright:
+                cb_rstto_main_window_rotate_cw(NULL, RSTTO_MAIN_WINDOW(window));
                 break;
         }
     }
