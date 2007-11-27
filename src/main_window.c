@@ -1151,10 +1151,6 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     {
         color = gdk_color_copy(rstto_picture_viewer_get_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer)));
     }
-    else
-    {
-        color = g_new0(GdkColor, 1);
-    }
     GtkWidget *slideshow_main_vbox;
     GtkWidget *slideshow_main_lbl;
     GtkWidget *display_main_vbox;
@@ -1187,10 +1183,15 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *bg_color_frame = xfce_create_framebox_with_content (_("Background Color"), bg_color_vbox);
 
     GtkWidget *bg_color_override_check = gtk_check_button_new_with_mnemonic(_("_Override Background Color"));
-    GtkWidget *bg_color_button = gtk_color_button_new_with_color(color);
-
+    GtkWidget *bg_color_button = gtk_color_button_new();
     gtk_box_pack_start(GTK_BOX(bg_color_vbox), bg_color_override_check, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(bg_color_vbox), bg_color_button, FALSE, FALSE, 0);
+
+    if (color)
+    {
+        gtk_color_button_set_color(GTK_COLOR_BUTTON(bg_color_button), color);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(bg_color_override_check), TRUE);
+    }
 
     gtk_container_set_border_width (GTK_CONTAINER (bg_color_frame), 8);
 
@@ -1242,6 +1243,10 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
             window->priv->navigator->preload = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(preload_check));
             if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(bg_color_override_check)) == TRUE)
             {
+                if (color == NULL)
+                {
+                    color = g_new0(GdkColor, 1);
+                }
                 gtk_color_button_get_color(GTK_COLOR_BUTTON(bg_color_button), color);
                 rstto_main_window_set_pv_bg_color(window, color);
                 gdk_color_free(color);
