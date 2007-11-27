@@ -51,11 +51,12 @@ struct _RsttoMainWindowPriv
     } containers;
 
     struct {
-        GtkOrientation thumbnail_viewer_orientation;
-        gboolean       thumbnail_viewer_visibility;
-        gboolean       toolbar_visibility;
-        gint           max_cache_size;
-        gdouble        slideshow_timeout;
+        GtkOrientation  thumbnail_viewer_orientation;
+        gboolean        thumbnail_viewer_visibility;
+        gboolean        toolbar_visibility;
+        gint            max_cache_size;
+        gdouble         slideshow_timeout;
+        const GdkColor *bg_color;
     } settings;
 
     struct {
@@ -1103,15 +1104,16 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             gtk_widget_hide(window->priv->toolbar.bar);
             gtk_widget_hide(window->priv->statusbar);
             GdkColor *color = g_new0(GdkColor, 1);
-            color->pixel = 0;
 
             rstto_picture_viewer_set_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), color);
+
+            gdk_color_free(color);
         }
         else
         {
             gtk_widget_show(window->priv->menus.menu);
             gtk_widget_show(window->priv->statusbar);
-            rstto_picture_viewer_set_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), NULL);
+            rstto_picture_viewer_set_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), window->priv->settings.bg_color);
 
             if (window->priv->settings.toolbar_visibility == TRUE)
             {
@@ -1144,6 +1146,15 @@ cb_rstto_main_window_pause(GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
 {
+    GdkColor  *color = NULL;
+    if (rstto_picture_viewer_get_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer)))
+    {
+        color = gdk_color_copy(rstto_picture_viewer_get_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer)));
+    }
+    else
+    {
+        color = g_new0(GdkColor, 1);
+    }
     GtkWidget *slideshow_main_vbox;
     GtkWidget *slideshow_main_lbl;
     GtkWidget *display_main_vbox;
@@ -1176,7 +1187,7 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *bg_color_frame = xfce_create_framebox_with_content (_("Background Color"), bg_color_vbox);
 
     GtkWidget *bg_color_override_check = gtk_check_button_new_with_mnemonic(_("_Override Background Color"));
-    GtkWidget *bg_color_button = gtk_color_button_new();
+    GtkWidget *bg_color_button = gtk_color_button_new_with_color(color);
 
     gtk_box_pack_start(GTK_BOX(bg_color_vbox), bg_color_override_check, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(bg_color_vbox), bg_color_button, FALSE, FALSE, 0);
@@ -1229,6 +1240,16 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
         case GTK_RESPONSE_OK:
             rstto_main_window_set_slideshow_timeout(window, gtk_range_get_value(GTK_RANGE(slideshow_hscale)) * 1000);
             window->priv->navigator->preload = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(preload_check));
+            if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(bg_color_override_check)) == TRUE)
+            {
+                gtk_color_button_get_color(GTK_COLOR_BUTTON(bg_color_button), color);
+                rstto_main_window_set_pv_bg_color(window, color);
+                gdk_color_free(color);
+            }
+            else
+            {
+                rstto_main_window_set_pv_bg_color(window, NULL);
+            }
         default:
             break;
     }
@@ -1793,4 +1814,25 @@ cb_rstto_main_window_spawn_app(GtkWidget *widget, ThunarVfsMimeApplication *app)
     ThunarVfsInfo *info = rstto_navigator_entry_get_info(g_object_get_data(G_OBJECT(app), "entry"));
     GList *list = g_list_prepend(NULL, info->path);
     thunar_vfs_mime_handler_exec(THUNAR_VFS_MIME_HANDLER(app), NULL, list, NULL);
+}
+
+void
+rstto_main_window_set_pv_bg_color (RsttoMainWindow *window, const GdkColor *color)
+{
+    rstto_picture_viewer_set_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), color);
+    if (color)
+    {
+        window->priv->settings.bg_color = gdk_color_copy(color);
+    }
+    else
+    {
+        window->priv->settings.bg_color = NULL;
+    }
+}
+
+const GdkColor *
+rstto_main_window_get_pv_bg_color (RsttoMainWindow *window)
+{
+    /*return rstto_picture_viewer_get_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));*/
+    return window->priv->settings.bg_color;
 }

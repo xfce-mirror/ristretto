@@ -52,7 +52,7 @@ static GOptionEntry entries[] =
 
 int main(int argc, char **argv)
 {
-
+    GdkColor *bg_color = NULL;
     GError *cli_error = NULL;
     gchar *path_dir = NULL;
     gint n;
@@ -95,6 +95,12 @@ int main(int argc, char **argv)
     gint slideshow_timeout = xfce_rc_read_int_entry(xfce_rc, "SlideShowTimeout", 5000);
     gint max_cache = xfce_rc_read_int_entry(xfce_rc, "MaxImagesCacheSize", 1);
     gboolean preload_during_slideshow = xfce_rc_read_bool_entry (xfce_rc, "PreloadDuringSlideShow", FALSE);
+    gboolean override_bg_color = xfce_rc_read_bool_entry (xfce_rc, "OverrideBgColor", FALSE);
+    if (override_bg_color)
+    {
+        bg_color = g_new0(GdkColor, 1);
+        bg_color->pixel = xfce_rc_read_int_entry(xfce_rc, "BgColor", 0);
+    }
     
     GtkWidget *window = rstto_main_window_new();
     gtk_widget_ref(window);
@@ -224,6 +230,11 @@ int main(int argc, char **argv)
         rstto_main_window_set_thumbnail_viewer_orientation(RSTTO_MAIN_WINDOW(window), GTK_ORIENTATION_HORIZONTAL);
     }
 
+    if (bg_color)
+    {
+        rstto_main_window_set_pv_bg_color(RSTTO_MAIN_WINDOW(window), bg_color);
+    }
+
 
     gtk_window_set_default_size(GTK_WINDOW(window), window_width, window_height);
     gtk_widget_show_all(window);
@@ -232,9 +243,21 @@ int main(int argc, char **argv)
     rstto_main_window_set_show_toolbar(RSTTO_MAIN_WINDOW(window), show_toolbar);
 
     gtk_main();
+
+    bg_color = rstto_main_window_get_pv_bg_color(RSTTO_MAIN_WINDOW(window));
+
     xfce_rc_write_bool_entry(xfce_rc, "ShowToolBar", rstto_main_window_get_show_toolbar(RSTTO_MAIN_WINDOW(window)));
     xfce_rc_write_bool_entry(xfce_rc, "PreloadDuringSlideShow", navigator->preload);
     xfce_rc_write_bool_entry(xfce_rc, "ShowThumbnailViewer", rstto_main_window_get_show_thumbnail_viewer(RSTTO_MAIN_WINDOW(window)));
+    if (bg_color)
+    {
+        xfce_rc_write_bool_entry(xfce_rc, "OverrideBgColor", TRUE);
+        xfce_rc_write_int_entry(xfce_rc, "BgColor", bg_color->pixel);
+    }
+    else
+    {
+        xfce_rc_write_bool_entry(xfce_rc, "OverrideBgColor", FALSE);
+    }
     switch (rstto_main_window_get_thumbnail_viewer_orientation(RSTTO_MAIN_WINDOW(window)))
     {
         case GTK_ORIENTATION_VERTICAL:

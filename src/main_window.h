@@ -86,6 +86,10 @@ void
 rstto_main_window_set_slideshow_timeout (RsttoMainWindow *window, gdouble timeout);
 void
 rstto_main_window_set_max_cache_size (RsttoMainWindow *window, gint max_cache_size);
+void
+rstto_main_window_set_pv_bg_color (RsttoMainWindow *window, const GdkColor *color);
+const GdkColor *
+rstto_main_window_get_pv_bg_color (RsttoMainWindow *window);
 
 G_END_DECLS
 

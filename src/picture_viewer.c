@@ -1056,7 +1056,7 @@ rstto_picture_viewer_set_menu (RsttoPictureViewer *viewer, GtkMenu *menu)
 }
 
 void
-rstto_picture_viewer_set_bg_color (RsttoPictureViewer *viewer, GdkColor *color)
+rstto_picture_viewer_set_bg_color (RsttoPictureViewer *viewer, const GdkColor *color)
 {
     if (viewer->priv->bg_color)
     {
@@ -1067,4 +1067,10 @@ rstto_picture_viewer_set_bg_color (RsttoPictureViewer *viewer, GdkColor *color)
     {
         viewer->priv->bg_color = gdk_color_copy(color);
     }
+}
+
+const GdkColor *
+rstto_picture_viewer_get_bg_color (RsttoPictureViewer *viewer)
+{
+    return viewer->priv->bg_color;
 }
