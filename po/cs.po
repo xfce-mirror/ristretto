@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
 "POT-Creation-Date: 2007-11-25 10:10+0100\n"
-"PO-Revision-Date: 2007-11-25 00:47+0100\n"
+"PO-Revision-Date: 2007-11-28 23:12+0100\n"
 "Last-Translator: Miro Hrončok <churchyard@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Napište %s --help pro seznam všech mořných parametrů.\n"
+"Napište %s --help pro seznam všech možných parametrů.\n"
 
 #. Create 'File' menu
 #: ../src/main_window.c:310
@@ -67,7 +67,7 @@ msgstr "Zo_brazit nástrojovou lištu"
 
 #: ../src/main_window.c:380
 msgid "Thumbnail _Viewer"
-msgstr "Náhledy"
+msgstr "_Náhledy"
 
 #: ../src/main_window.c:384
 msgid "_Zooming"
@@ -79,15 +79,15 @@ msgstr "_Rotace"
 
 #: ../src/main_window.c:411
 msgid "Show _Horizontally"
-msgstr "Horizontálně"
+msgstr "_Horizontálně"
 
 #: ../src/main_window.c:415
 msgid "Show _Vertically"
-msgstr "Vertikálně"
+msgstr "_Vertikálně"
 
 #: ../src/main_window.c:419
 msgid "H_ide"
-msgstr "Nezobrazovat"
+msgstr "_Nezobrazovat"
 
 #: ../src/main_window.c:456
 msgid "Rotate _Right"
@@ -100,7 +100,7 @@ msgstr "Otočit do_leva"
 #. Create 'Go' menu
 #: ../src/main_window.c:465
 msgid "_Go"
-msgstr "_Jdi"
+msgstr "_Přejít"
 
 #. Create 'Help' menu
 #: ../src/main_window.c:494
@@ -189,3 +189,4 @@ msgstr "Prohlížeč obrázků pro Xfce"
 #~ msgstr "Překlopit vertikálně"
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Překlopit horizontálně"
+
