@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-30 16:10+0100\n"
+"POT-Creation-Date: 2007-12-01 00:18+0100\n"
 "PO-Revision-Date: 2007-11-28 23:12+0100\n"
 "Last-Translator: Miro Hrončok <churchyard@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -126,15 +126,15 @@ msgstr ""
 msgid "_Override Background Color:"
 msgstr ""
 
-#: ../src/main_window.c:1212
+#: ../src/main_window.c:1214
 msgid "Timeout"
 msgstr "Prodleva"
 
-#: ../src/main_window.c:1215
+#: ../src/main_window.c:1217
 msgid "Preload"
 msgstr "Načítat dopředu"
 
-#: ../src/main_window.c:1220
+#: ../src/main_window.c:1222
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
@@ -142,7 +142,7 @@ msgstr ""
 "Čas po který je zobrazen jeden snímek při promítání\n"
 "(ve vteřinách)"
 
-#: ../src/main_window.c:1224
+#: ../src/main_window.c:1226
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -150,15 +150,15 @@ msgstr ""
 "Načítat snímky do paměti ještě předtím, než mají být zobrazeny\n"
 "(použije se více paměti)"
 
-#: ../src/main_window.c:1225
+#: ../src/main_window.c:1227
 msgid "_Preload images"
 msgstr "Načítat _předem"
 
-#: ../src/main_window.c:1280
+#: ../src/main_window.c:1279
 msgid "Developer:"
 msgstr "Vývojář:"
 
-#: ../src/main_window.c:1290
+#: ../src/main_window.c:1289
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -166,23 +166,23 @@ msgstr ""
 "Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí "
 "Xfce."
 
-#: ../src/main_window.c:1298
+#: ../src/main_window.c:1297
 msgid "translator-credits"
 msgstr "Miro Hrončok <churchyard@gmail.com>"
 
-#: ../src/main_window.c:1318
+#: ../src/main_window.c:1317
 msgid "Open image"
 msgstr "Načíst obrázek"
 
-#: ../src/main_window.c:1353
+#: ../src/main_window.c:1352
 msgid "Could not open file"
 msgstr "Nemohu otevřít soubor"
 
-#: ../src/main_window.c:1363
+#: ../src/main_window.c:1362
 msgid "Open folder"
 msgstr "Otevřít složku"
 
-#: ../src/main_window.c:1467
+#: ../src/main_window.c:1466
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Opravdu chcete vyprázdnit seznam naposledy otevřených dokumentů?"
@@ -207,4 +207,3 @@ msgstr "Prohlížeč obrázků pro Xfce"
 
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Překlopit horizontálně"
-

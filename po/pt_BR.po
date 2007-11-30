@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-30 16:10+0100\n"
+"POT-Creation-Date: 2007-12-01 00:18+0100\n"
 "PO-Revision-Date: 2007-11-29 00:30-0500\n"
 "Last-Translator: Fábio Nogueira <deb-user-ba@ubuntu.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
@@ -129,15 +129,15 @@ msgstr ""
 msgid "_Override Background Color:"
 msgstr ""
 
-#: ../src/main_window.c:1212
+#: ../src/main_window.c:1214
 msgid "Timeout"
 msgstr "Tempo de Espera"
 
-#: ../src/main_window.c:1215
+#: ../src/main_window.c:1217
 msgid "Preload"
 msgstr "Pré-carregamento"
 
-#: ../src/main_window.c:1220
+#: ../src/main_window.c:1222
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
@@ -146,7 +146,7 @@ msgstr ""
 "slides\n"
 "(em segundos)"
 
-#: ../src/main_window.c:1224
+#: ../src/main_window.c:1226
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -154,15 +154,15 @@ msgstr ""
 "Pré-Carregar imagens durante uma apresentação de slides\n"
 "(usa mais memória)"
 
-#: ../src/main_window.c:1225
+#: ../src/main_window.c:1227
 msgid "_Preload images"
 msgstr "Carregar imagens _previamente"
 
-#: ../src/main_window.c:1280
+#: ../src/main_window.c:1279
 msgid "Developer:"
 msgstr "Desenvolvedor:"
 
-#: ../src/main_window.c:1290
+#: ../src/main_window.c:1289
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -170,24 +170,25 @@ msgstr ""
 "Ristretto é um visualizador de imagens rápido e leve para o ambiente de "
 "trabalho do Xfce."
 
-#: ../src/main_window.c:1298
+#: ../src/main_window.c:1297
 msgid "translator-credits"
-msgstr "Og Maciel <ogmaciel@gnome.org>,\n"
+msgstr ""
+"Og Maciel <ogmaciel@gnome.org>,\n"
 "Fábio Nogueira <deb-user-ba@ubuntu.com>"
 
-#: ../src/main_window.c:1318
+#: ../src/main_window.c:1317
 msgid "Open image"
 msgstr "Abrir imagem"
 
-#: ../src/main_window.c:1353
+#: ../src/main_window.c:1352
 msgid "Could not open file"
 msgstr "Não foi possível abrir arquivo"
 
-#: ../src/main_window.c:1363
+#: ../src/main_window.c:1362
 msgid "Open folder"
 msgstr "Abrir pasta"
 
-#: ../src/main_window.c:1467
+#: ../src/main_window.c:1466
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""

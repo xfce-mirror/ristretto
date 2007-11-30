@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-30 16:10+0100\n"
+"POT-Creation-Date: 2007-12-01 00:18+0100\n"
 "PO-Revision-Date: 2007-08-29 21:12+0200\n"
 "Last-Translator: Terje Uriansrud <ter@operamail.com>\n"
 "Language-Team: Norwegian Bokmal\n"
@@ -131,57 +131,57 @@ msgstr ""
 msgid "_Override Background Color:"
 msgstr ""
 
-#: ../src/main_window.c:1212
+#: ../src/main_window.c:1214
 msgid "Timeout"
 msgstr ""
 
-#: ../src/main_window.c:1215
+#: ../src/main_window.c:1217
 msgid "Preload"
 msgstr ""
 
-#: ../src/main_window.c:1220
+#: ../src/main_window.c:1222
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1224
+#: ../src/main_window.c:1226
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
 
-#: ../src/main_window.c:1225
+#: ../src/main_window.c:1227
 msgid "_Preload images"
 msgstr ""
 
-#: ../src/main_window.c:1280
+#: ../src/main_window.c:1279
 msgid "Developer:"
 msgstr "Utvikler:"
 
-#: ../src/main_window.c:1290
+#: ../src/main_window.c:1289
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "Ristretto er en rask og lettvekts bildefremviser for Xfce skrivebordet"
 
-#: ../src/main_window.c:1298
+#: ../src/main_window.c:1297
 msgid "translator-credits"
 msgstr "Oversettelser"
 
-#: ../src/main_window.c:1318
+#: ../src/main_window.c:1317
 msgid "Open image"
 msgstr "Åpne bilde"
 
-#: ../src/main_window.c:1353
+#: ../src/main_window.c:1352
 msgid "Could not open file"
 msgstr ""
 
-#: ../src/main_window.c:1363
+#: ../src/main_window.c:1362
 msgid "Open folder"
 msgstr "Åpne mappe"
 
-#: ../src/main_window.c:1467
+#: ../src/main_window.c:1466
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
