@@ -1066,6 +1066,8 @@ rstto_picture_viewer_set_bg_color (RsttoPictureViewer *viewer, const GdkColor *c
     if (color)
     {
         viewer->priv->bg_color = gdk_color_copy(color);
+        GdkColormap *colormap = gtk_widget_get_colormap(GTK_WIDGET(viewer));
+        gdk_colormap_alloc_color(colormap, viewer->priv->bg_color, TRUE, TRUE);
     }
 }
 

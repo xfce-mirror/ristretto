@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 11:02+0100\n"
+"POT-Creation-Date: 2007-11-30 16:10+0100\n"
 "PO-Revision-Date: 2007-08-29 21:12+0200\n"
 "Last-Translator: Terje Uriansrud <ter@operamail.com>\n"
 "Language-Team: Norwegian Bokmal\n"
@@ -29,147 +29,159 @@ msgid ""
 msgstr ""
 
 #. Create 'File' menu
-#: ../src/main_window.c:310
+#: ../src/main_window.c:314
 msgid "_File"
 msgstr "_Fil"
 
-#: ../src/main_window.c:317
+#: ../src/main_window.c:321
 msgid "O_pen Folder"
 msgstr "Åp_ne mappe"
 
-#: ../src/main_window.c:318
+#: ../src/main_window.c:322
 msgid "_Recently used"
 msgstr "Nylig _brukt"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:350
+#: ../src/main_window.c:354
 msgid "_Edit"
 msgstr "_Rediger"
 
-#: ../src/main_window.c:355 ../src/main_window.c:579
+#: ../src/main_window.c:359 ../src/main_window.c:596
 msgid "Open with..."
 msgstr ""
 
-#: ../src/main_window.c:363 ../src/main_window.c:590
+#: ../src/main_window.c:367 ../src/main_window.c:607
 msgid "No applications available"
 msgstr ""
 
 #. Create 'View' menu
-#: ../src/main_window.c:372
+#: ../src/main_window.c:376
 msgid "_View"
 msgstr "_Vis"
 
-#: ../src/main_window.c:379
+#: ../src/main_window.c:383
 msgid "Show _Toolbar"
 msgstr ""
 
-#: ../src/main_window.c:380
+#: ../src/main_window.c:384
 #, fuzzy
 msgid "Thumbnail _Viewer"
 msgstr "Miniatyrvisning"
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:388
 msgid "_Zooming"
 msgstr ""
 
-#: ../src/main_window.c:385
+#: ../src/main_window.c:389
 #, fuzzy
 msgid "_Rotate"
 msgstr "Roter _venstre"
 
-#: ../src/main_window.c:411
+#: ../src/main_window.c:415
 #, fuzzy
 msgid "Show _Horizontally"
 msgstr "Vis vannrett"
 
-#: ../src/main_window.c:415
+#: ../src/main_window.c:419
 #, fuzzy
 msgid "Show _Vertically"
 msgstr "Vis loddrett"
 
-#: ../src/main_window.c:419
+#: ../src/main_window.c:423
 #, fuzzy
 msgid "H_ide"
 msgstr "Skjul"
 
-#: ../src/main_window.c:456
+#: ../src/main_window.c:460
 msgid "Rotate _Right"
 msgstr "Roter _høyre"
 
-#: ../src/main_window.c:457
+#: ../src/main_window.c:461
 msgid "Rotate _Left"
 msgstr "Roter _venstre"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:465
+#: ../src/main_window.c:482
 msgid "_Go"
 msgstr "_Gå"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:494
+#: ../src/main_window.c:511
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: ../src/main_window.c:1128
+#: ../src/main_window.c:1161
 #, fuzzy
 msgid "Image viewer Preferences"
 msgstr "Bildefremviser"
 
-#: ../src/main_window.c:1145
+#: ../src/main_window.c:1178
 msgid "Slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1149
+#: ../src/main_window.c:1182
+msgid "Display"
+msgstr ""
+
+#: ../src/main_window.c:1186
+msgid "Background Color"
+msgstr ""
+
+#: ../src/main_window.c:1188
+msgid "_Override Background Color:"
+msgstr ""
+
+#: ../src/main_window.c:1212
 msgid "Timeout"
 msgstr ""
 
-#: ../src/main_window.c:1152
+#: ../src/main_window.c:1215
 msgid "Preload"
 msgstr ""
 
-#: ../src/main_window.c:1157
+#: ../src/main_window.c:1220
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1161
+#: ../src/main_window.c:1224
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
 
-#: ../src/main_window.c:1162
+#: ../src/main_window.c:1225
 msgid "_Preload images"
 msgstr ""
 
-#: ../src/main_window.c:1203
+#: ../src/main_window.c:1280
 msgid "Developer:"
 msgstr "Utvikler:"
 
-#: ../src/main_window.c:1213
+#: ../src/main_window.c:1290
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "Ristretto er en rask og lettvekts bildefremviser for Xfce skrivebordet"
 
-#: ../src/main_window.c:1221
+#: ../src/main_window.c:1298
 msgid "translator-credits"
 msgstr "Oversettelser"
 
-#: ../src/main_window.c:1241
+#: ../src/main_window.c:1318
 msgid "Open image"
 msgstr "Åpne bilde"
 
-#: ../src/main_window.c:1276
+#: ../src/main_window.c:1353
 msgid "Could not open file"
 msgstr ""
 
-#: ../src/main_window.c:1286
+#: ../src/main_window.c:1363
 msgid "Open folder"
 msgstr "Åpne mappe"
 
-#: ../src/main_window.c:1390
+#: ../src/main_window.c:1467
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""

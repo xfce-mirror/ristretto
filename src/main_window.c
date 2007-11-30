@@ -240,6 +240,9 @@ static void
 cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window);
 
 static void
+cb_rstto_bg_color_override_check_toggled(GtkToggleButton *button, GtkWidget *);
+
+static void
 cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntry *entry, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_nav_new_entry(RsttoNavigator *navigator, gint nr, RsttoNavigatorEntry *entry, RsttoMainWindow *window);
@@ -1107,7 +1110,7 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
 
             rstto_picture_viewer_set_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), color);
 
-            gdk_color_free(color);
+            g_free(color);
         }
         else
         {
@@ -1149,7 +1152,7 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     GdkColor  *color = NULL;
     if (rstto_picture_viewer_get_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer)))
     {
-        color = gdk_color_copy(rstto_picture_viewer_get_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer)));
+        color = gdk_color_copy(rstto_main_window_get_pv_bg_color(window));
     }
     GtkWidget *slideshow_main_vbox;
     GtkWidget *slideshow_main_lbl;
@@ -1182,15 +1185,25 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *bg_color_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *bg_color_frame = xfce_create_framebox_with_content (_("Background Color"), bg_color_vbox);
 
-    GtkWidget *bg_color_override_check = gtk_check_button_new_with_mnemonic(_("_Override Background Color"));
+    GtkWidget *bg_color_override_check = gtk_check_button_new_with_mnemonic(_("_Override Background Color:"));
+    GtkWidget *bg_hbox = gtk_hbox_new(FALSE, 4);
     GtkWidget *bg_color_button = gtk_color_button_new();
-    gtk_box_pack_start(GTK_BOX(bg_color_vbox), bg_color_override_check, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(bg_color_vbox), bg_color_button, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(bg_hbox), bg_color_override_check, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(bg_hbox), bg_color_button, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(bg_color_vbox), bg_hbox, FALSE, FALSE, 0);
+
+    g_signal_connect(G_OBJECT(bg_color_override_check), "toggled", (GCallback)cb_rstto_bg_color_override_check_toggled, bg_color_button);
 
     if (color)
     {
-        gtk_color_button_set_color(GTK_COLOR_BUTTON(bg_color_button), color);
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(bg_color_override_check), TRUE);
+        gtk_color_button_set_color(GTK_COLOR_BUTTON(bg_color_button), color);
+        gdk_color_free(color);
+        color = NULL;
+    }
+    else
+    {
+        gtk_widget_set_sensitive(bg_color_button, FALSE);
     }
 
     gtk_container_set_border_width (GTK_CONTAINER (bg_color_frame), 8);
@@ -1243,13 +1256,10 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
             window->priv->navigator->preload = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(preload_check));
             if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(bg_color_override_check)) == TRUE)
             {
-                if (color == NULL)
-                {
-                    color = g_new0(GdkColor, 1);
-                }
-                gtk_color_button_get_color(GTK_COLOR_BUTTON(bg_color_button), color);
-                rstto_main_window_set_pv_bg_color(window, color);
-                gdk_color_free(color);
+                GdkColor *new_color = g_new0(GdkColor, 1);
+                gtk_color_button_get_color(GTK_COLOR_BUTTON(bg_color_button), new_color);
+                rstto_main_window_set_pv_bg_color(window, new_color);
+                g_free(new_color);
             }
             else
             {
@@ -1840,4 +1850,18 @@ rstto_main_window_get_pv_bg_color (RsttoMainWindow *window)
 {
     /*return rstto_picture_viewer_get_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));*/
     return window->priv->settings.bg_color;
+}
+
+static void
+cb_rstto_bg_color_override_check_toggled(GtkToggleButton *button, GtkWidget *widget)
+{
+    if (gtk_toggle_button_get_active(button) == TRUE)
+    {
+        gtk_widget_set_sensitive(widget, TRUE);
+    }
+    else
+    {
+        gtk_widget_set_sensitive(widget, FALSE);
+
+    }
 }

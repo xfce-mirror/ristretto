@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-11-25 11:02+0100\n"
+"POT-Creation-Date: 2007-11-30 16:10+0100\n"
 "PO-Revision-Date: 2007-11-29 00:30-0500\n"
 "Last-Translator: Fábio Nogueira <deb-user-ba@ubuntu.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
@@ -33,99 +33,111 @@ msgstr ""
 "disponíveis.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:310
+#: ../src/main_window.c:314
 msgid "_File"
 msgstr "_Arquivo"
 
-#: ../src/main_window.c:317
+#: ../src/main_window.c:321
 msgid "O_pen Folder"
 msgstr "A_brir Pasta"
 
-#: ../src/main_window.c:318
+#: ../src/main_window.c:322
 msgid "_Recently used"
 msgstr "Usado _recentemente"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:350
+#: ../src/main_window.c:354
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/main_window.c:355 ../src/main_window.c:579
+#: ../src/main_window.c:359 ../src/main_window.c:596
 msgid "Open with..."
 msgstr "Abrir com..."
 
-#: ../src/main_window.c:363 ../src/main_window.c:590
+#: ../src/main_window.c:367 ../src/main_window.c:607
 msgid "No applications available"
 msgstr "Nenhuma aplicação disponível"
 
 #. Create 'View' menu
-#: ../src/main_window.c:372
+#: ../src/main_window.c:376
 msgid "_View"
 msgstr "_Ver"
 
-#: ../src/main_window.c:379
+#: ../src/main_window.c:383
 msgid "Show _Toolbar"
 msgstr "Mostrar _Barra de Ferramentas"
 
-#: ../src/main_window.c:380
+#: ../src/main_window.c:384
 msgid "Thumbnail _Viewer"
 msgstr "_Visualizador de Miniaturas"
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:388
 msgid "_Zooming"
 msgstr "_Ampliar"
 
-#: ../src/main_window.c:385
+#: ../src/main_window.c:389
 msgid "_Rotate"
 msgstr "_Girar"
 
-#: ../src/main_window.c:411
+#: ../src/main_window.c:415
 msgid "Show _Horizontally"
 msgstr "Mostrar _Horizontalmente"
 
-#: ../src/main_window.c:415
+#: ../src/main_window.c:419
 msgid "Show _Vertically"
 msgstr "Mostrar _Verticalmente"
 
-#: ../src/main_window.c:419
+#: ../src/main_window.c:423
 msgid "H_ide"
 msgstr "Ocu_ltar"
 
-#: ../src/main_window.c:456
+#: ../src/main_window.c:460
 msgid "Rotate _Right"
 msgstr "Girar para _Direita"
 
-#: ../src/main_window.c:457
+#: ../src/main_window.c:461
 msgid "Rotate _Left"
 msgstr "Girar para _Esquerda"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:465
+#: ../src/main_window.c:482
 msgid "_Go"
 msgstr "_Ir"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:494
+#: ../src/main_window.c:511
 msgid "_Help"
 msgstr "Aj_uda"
 
-#: ../src/main_window.c:1128
+#: ../src/main_window.c:1161
 msgid "Image viewer Preferences"
 msgstr "Preferências do Visualizador de Imagens"
 
-#: ../src/main_window.c:1145
+#: ../src/main_window.c:1178
 msgid "Slideshow"
 msgstr "Apresentação de Slides"
 
-#: ../src/main_window.c:1149
+#: ../src/main_window.c:1182
+msgid "Display"
+msgstr ""
+
+#: ../src/main_window.c:1186
+msgid "Background Color"
+msgstr ""
+
+#: ../src/main_window.c:1188
+msgid "_Override Background Color:"
+msgstr ""
+
+#: ../src/main_window.c:1212
 msgid "Timeout"
 msgstr "Tempo de Espera"
 
-#: ../src/main_window.c:1152
+#: ../src/main_window.c:1215
 msgid "Preload"
 msgstr "Pré-carregamento"
 
-#: ../src/main_window.c:1157
+#: ../src/main_window.c:1220
 msgid ""
 "The time individual images are displayed during a slideshow\n"
 "(in seconds)"
@@ -134,7 +146,7 @@ msgstr ""
 "slides\n"
 "(em segundos)"
 
-#: ../src/main_window.c:1161
+#: ../src/main_window.c:1224
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -142,15 +154,15 @@ msgstr ""
 "Pré-Carregar imagens durante uma apresentação de slides\n"
 "(usa mais memória)"
 
-#: ../src/main_window.c:1162
+#: ../src/main_window.c:1225
 msgid "_Preload images"
 msgstr "Carregar imagens _previamente"
 
-#: ../src/main_window.c:1203
+#: ../src/main_window.c:1280
 msgid "Developer:"
 msgstr "Desenvolvedor:"
 
-#: ../src/main_window.c:1213
+#: ../src/main_window.c:1290
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -158,24 +170,24 @@ msgstr ""
 "Ristretto é um visualizador de imagens rápido e leve para o ambiente de "
 "trabalho do Xfce."
 
-#: ../src/main_window.c:1221
+#: ../src/main_window.c:1298
 msgid "translator-credits"
 msgstr "Og Maciel <ogmaciel@gnome.org>,\n"
 "Fábio Nogueira <deb-user-ba@ubuntu.com>"
 
-#: ../src/main_window.c:1241
+#: ../src/main_window.c:1318
 msgid "Open image"
 msgstr "Abrir imagem"
 
-#: ../src/main_window.c:1276
+#: ../src/main_window.c:1353
 msgid "Could not open file"
 msgstr "Não foi possível abrir arquivo"
 
-#: ../src/main_window.c:1286
+#: ../src/main_window.c:1363
 msgid "Open folder"
 msgstr "Abrir pasta"
 
-#: ../src/main_window.c:1390
+#: ../src/main_window.c:1467
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
