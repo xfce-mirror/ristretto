@@ -6,7 +6,7 @@ xxxx-xx-xx:
 	  - Fix thumbnail-scaling when thumbnail is first generated (Bug #3693)
 	  - Refresh when new images are added and within visible range
 	* src/main.c:
-	  - Improve behaviour when opening images from cli.
+	  - Improve behaviour when opening images from cli. (Bug #3701)
 
 2007-11-25: Release 0.0.13
 	* src/main.c:
