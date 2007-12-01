@@ -4,7 +4,8 @@ xxxx-xx-xx:
 	  - Fix modification of bg-color using preferences dialog
 	* src/navigator.c:
 	  - Fix thumbnail-scaling when thumbnail is first generated (Bug #3693)
-	  - Refresh when new images are added and within visible range
+	  - Refresh when new images are added and within visible range of the
+	    thumbnail-viewer
 	* src/main.c:
 	  - Improve behaviour when opening images from cli. (Bug #3701)
 
