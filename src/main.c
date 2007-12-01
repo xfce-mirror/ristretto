@@ -152,7 +152,6 @@ int main(int argc, char **argv)
                         {
                             RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, info);
                             gint i = rstto_navigator_add (navigator, entry);
-                            rstto_navigator_set_file(navigator, i);
                         }
                     }
                     else
@@ -178,17 +177,16 @@ int main(int argc, char **argv)
                             g_free(path_name);
                             filename = g_dir_read_name(dir);
                         }
-                        rstto_navigator_jump_first(navigator);
                         g_dir_close(dir);
                     }
 
                     gchar *uri = thunar_vfs_path_dup_uri(info->path);
                     gtk_recent_manager_add_item(recent_manager, uri);
                     g_free(uri);
-
                 }
             }
         }
+        rstto_navigator_jump_first(navigator);
     }
     else
     {
@@ -215,50 +213,55 @@ int main(int argc, char **argv)
                 {
                     if(strcmp(thunar_vfs_mime_info_get_name(info->mime_info), "inode/directory"))
                     {
-                        ThunarVfsPath *_path = thunar_vfs_path_get_parent(path);
-                        thunar_vfs_path_unref(path);
-                        path = _path;
-
-                        gchar *path_string = thunar_vfs_path_dup_string(path);
-                        
-                        GDir *dir = g_dir_open(path_string, 0, NULL);
-                        const gchar *filename = g_dir_read_name(dir);
-                        while (filename)
+                        gchar* media = thunar_vfs_mime_info_get_media(info->mime_info);
+                        if(!strcmp(media, "image"))
                         {
-                            gchar *path_name = g_strconcat(path_string,  "/", filename, NULL);
-                            ThunarVfsPath *file_path = thunar_vfs_path_new(path_name, NULL);
-                            if (file_path)
-                            {
-                                ThunarVfsInfo *file_info = thunar_vfs_info_new_for_path(file_path, NULL);
-                                gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
-                                if(!strcmp(file_media, "image"))
-                                {
-                                    RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, file_info);
-                                    gint i = rstto_navigator_add (navigator, entry);
-                                    if (path_dir == NULL)
-                                    {
-                                        if (!strcmp(path_name, argv[1]))
-                                        {
-                                            rstto_navigator_set_file(navigator, i);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (!strcmp(path_name, path_dir))
-                                        {
-                                            rstto_navigator_set_file(navigator, i);
-                                        }
+                            ThunarVfsPath *_path = thunar_vfs_path_get_parent(path);
+                            thunar_vfs_path_unref(path);
+                            path = _path;
 
+                            gchar *path_string = thunar_vfs_path_dup_string(path);
+                            
+                            GDir *dir = g_dir_open(path_string, 0, NULL);
+                            const gchar *filename = g_dir_read_name(dir);
+                            while (filename)
+                            {
+                                gchar *path_name = g_strconcat(path_string,  "/", filename, NULL);
+                                ThunarVfsPath *file_path = thunar_vfs_path_new(path_name, NULL);
+                                if (file_path)
+                                {
+                                    ThunarVfsInfo *file_info = thunar_vfs_info_new_for_path(file_path, NULL);
+                                    gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
+                                    if(!strcmp(file_media, "image"))
+                                    {
+                                        RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, file_info);
+                                        gint i = rstto_navigator_add (navigator, entry);
+                                        if (path_dir == NULL)
+                                        {
+                                            if (!strcmp(path_name, argv[1]))
+                                            {
+                                                rstto_navigator_set_file(navigator, i);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (!strcmp(path_name, path_dir))
+                                            {
+                                                rstto_navigator_set_file(navigator, i);
+                                            }
+
+                                        }
                                     }
+                                    g_free(file_media);
+                                    thunar_vfs_path_unref(file_path);
                                 }
-                                g_free(file_media);
-                                thunar_vfs_path_unref(file_path);
+                                g_free(path_name);
+                                filename = g_dir_read_name(dir);
                             }
-                            g_free(path_name);
-                            filename = g_dir_read_name(dir);
+                            g_dir_close(dir);
+                            g_free(path_string);
                         }
-                        g_dir_close(dir);
-                        g_free(path_string);
+                        g_free(media);
                     }
                     else
                     {
