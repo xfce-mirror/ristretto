@@ -140,8 +140,8 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"De tijdsperiode dat een enkele afbeelding wordt weergegeven gedurende\n"
-"een diaweergave (in seconden)"
+"De periode dat een enkele afbeelding wordt weergegeven gedurende een\n"
+"diaweergave (in seconden)"
 
 #: ../src/main_window.c:1226
 msgid ""
