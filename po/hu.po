@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-12-01 00:18+0100\n"
+"POT-Creation-Date: 2007-12-01 10:04+0100\n"
 "PO-Revision-Date: 2007-11-02 12:25+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.d.o>\n"
@@ -140,7 +140,7 @@ msgstr ""
 
 #: ../src/main_window.c:1222
 msgid ""
-"The time individual images are displayed during a slideshow\n"
+"The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
 

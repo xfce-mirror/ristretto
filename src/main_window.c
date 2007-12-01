@@ -1219,7 +1219,7 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     gtk_container_set_border_width (GTK_CONTAINER (slideshow_frame), 8);
     gtk_container_set_border_width (GTK_CONTAINER (preload_frame), 8);
 
-    GtkWidget *slideshow_lbl = gtk_label_new(_("The time individual images are displayed during a slideshow\n(in seconds)"));
+    GtkWidget *slideshow_lbl = gtk_label_new(_("The time period an individual image is displayed during a slideshow\n(in seconds)"));
     GtkWidget *slideshow_hscale = gtk_hscale_new_with_range(1, 60, 1);
 
 
