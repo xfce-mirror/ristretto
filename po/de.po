@@ -2,6 +2,7 @@
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the ristretto package.
 # Christian Dywan <christian@twotoasts.de>, 2007.
+# Fabian Nowak <timystery@arcor.de>, 2007.
 #
 #: ../src/main.c:66
 msgid ""
@@ -9,8 +10,8 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
 "POT-Creation-Date: 2007-12-01 10:04+0100\n"
-"PO-Revision-Date: 2007-07-03 00:59:21+0200\n"
-"Last-Translator: Christian Dywan <christian@twotoasts.de>\n"
+"PO-Revision-Date: 2007-12-01 17:41:21+0000\n"
+"Last-Translator: Fabian Nowak <timystery@arcor.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Versuchen Sie %s --help um eine komplette Liste verfügbarer "
+"Versuchen Sie »%s --help«, um eine komplette Liste verfügbarer "
 "Kommandozeilenoptionen anzusehen.\n"
 
 #. Create 'File' menu
@@ -50,7 +51,7 @@ msgstr "_Bearbeiten"
 
 #: ../src/main_window.c:359 ../src/main_window.c:596
 msgid "Open with..."
-msgstr "Ö_fnen mit..."
+msgstr "Öffnen mit..."
 
 #: ../src/main_window.c:367 ../src/main_window.c:607
 msgid "No applications available"
@@ -62,46 +63,40 @@ msgid "_View"
 msgstr "_Ansicht"
 
 #: ../src/main_window.c:383
-#, fuzzy
 msgid "Show _Toolbar"
 msgstr "_Werkzeugleiste anzeigen"
 
 #: ../src/main_window.c:384
-#, fuzzy
 msgid "Thumbnail _Viewer"
-msgstr "Vor_schaubilder"
+msgstr "Miniaturbilder"
 
 #: ../src/main_window.c:388
 msgid "_Zooming"
-msgstr "_Zoomen"
+msgstr "_Vergrößerung"
 
 #: ../src/main_window.c:389
-#, fuzzy
 msgid "_Rotate"
 msgstr "_Drehen"
 
 #: ../src/main_window.c:415
-#, fuzzy
 msgid "Show _Horizontally"
 msgstr "_Horizontal anzeigen"
 
 #: ../src/main_window.c:419
-#, fuzzy
 msgid "Show _Vertically"
 msgstr "_Vertikal anzeigen"
 
 #: ../src/main_window.c:423
-#, fuzzy
 msgid "H_ide"
 msgstr "Ver_bergen"
 
 #: ../src/main_window.c:460
 msgid "Rotate _Right"
-msgstr "_Rechts drehen"
+msgstr "Nach _rechts drehen"
 
 #: ../src/main_window.c:461
 msgid "Rotate _Left"
-msgstr "_Links drehen"
+msgstr "Nach _links drehen"
 
 #. Create 'Go' menu
 #: ../src/main_window.c:482
@@ -114,9 +109,8 @@ msgid "_Help"
 msgstr "_Hilfe"
 
 #: ../src/main_window.c:1161
-#, fuzzy
 msgid "Image viewer Preferences"
-msgstr "Bildbetrachter"
+msgstr "Einstellungen für den Bildbetrachter"
 
 #: ../src/main_window.c:1178
 msgid "Slideshow"
@@ -147,7 +141,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"Die Zeitspanne, über die ein einzelnes Bild angezeigt wird\n"
+"Die Zeitspanne, während der ein Bild angezeigt wird\n"
 "(in Sekunden)"
 
 #: ../src/main_window.c:1226
@@ -171,12 +165,13 @@ msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
-"Ristretto ist ein schneller und leichter Bildbetrachter für die "
+"Ristretto ist ein schneller und schlanker Bildbetrachter für die "
 "Arbeitsumgebung Xfce."
 
 #: ../src/main_window.c:1297
 msgid "translator-credits"
-msgstr "Christian Dywan <christian@twotoasts.de>"
+msgstr ""
+"Christian Dywan <christian@twotoasts.de>\nFabian Nowak <timystery@arcor.de>"
 
 #: ../src/main_window.c:1317
 msgid "Open image"
@@ -203,11 +198,11 @@ msgstr "Bildbetrachter"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto Image Viewer"
-msgstr "Ristretto Bildbetrachter"
+msgstr "Bildbetrachter Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
-msgstr "Xfce Bildbetrachter"
+msgstr "Xfce-Bildbetrachter"
 
 #~ msgid "Flip _Vertically"
 #~ msgstr "_Vertikal spiegeln"
