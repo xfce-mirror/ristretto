@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
 "POT-Creation-Date: 2007-12-01 10:04+0100\n"
-"PO-Revision-Date: 2007-11-29 00:30-0500\n"
+"PO-Revision-Date: 2007-12-02 22:35-0300\n"
 "Last-Translator: Fábio Nogueira <deb-user-ba@ubuntu.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
 "MIME-Version: 1.0\n"
@@ -119,15 +119,15 @@ msgstr "Apresentação de Slides"
 
 #: ../src/main_window.c:1182
 msgid "Display"
-msgstr ""
+msgstr "Exibir"
 
 #: ../src/main_window.c:1186
 msgid "Background Color"
-msgstr ""
+msgstr "Cor de Fundo"
 
 #: ../src/main_window.c:1188
 msgid "_Override Background Color:"
-msgstr ""
+msgstr "_Substituir Cor de Fundo:"
 
 #: ../src/main_window.c:1214
 msgid "Timeout"
@@ -138,7 +138,6 @@ msgid "Preload"
 msgstr "Pré-carregamento"
 
 #: ../src/main_window.c:1222
-#, fuzzy
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
