@@ -50,6 +50,149 @@ static GOptionEntry entries[] =
     { NULL }
 };
 
+#if GTK_CHECK_VERSION(2,12,0)
+#define RSTTO_COLOR_PARSE gdk_color_parse
+#define RSTTO_COLOR_TO_STRING gdk_color_to_string
+#else
+gboolean
+rstto_color_parse(const gchar *string, GdkColor *color)
+{
+    gint i;
+    guint16 red = 0;
+    guint16 green = 0;
+    guint16 blue = 0;
+    g_return_val_if_fail(string != NULL, FALSE);
+    /* Check is the string is long enough tp contain #rrrrggggbbbb
+     */
+    if(strlen(string) != 13)
+        return FALSE;
+    if(string[0] != '#')
+        return FALSE;
+
+    /* red */
+    for(i = 1; i < 5; ++i)
+    {
+        if(string[i] >= '0' && string[i] <= '9')
+        {
+            red |= (string[i] ^ 0x30);
+        }
+        else
+        {
+            if(string[i] >= 'a' && string[i] <= 'f')
+            {
+                red |= ((string[i] ^ 0x60)+9);
+            }
+            else
+            {
+                return FALSE;
+            }
+        }
+        if (i < 4)
+            red = red << 4;
+    }
+
+    /* green */
+    for(i = 5; i < 9; ++i)
+    {
+        if(string[i] >= '0' && string[i] <= '9')
+        {
+            green |= (string[i] ^ 0x30);
+        }
+        else
+        {
+            if(string[i] >= 'a' && string[i] <= 'f')
+            {
+                green |= ((string[i] ^ 0x60)+9);
+            }
+            else
+            {
+                return FALSE;
+            }
+        }
+
+        if (i < 8)
+            green = green << 4;
+
+    }
+
+    /* blue */
+    for(i = 9; i < 13; ++i)
+    {
+        if(string[i] >= '0' && string[i] <= '9')
+        {
+            blue |= (string[i] ^ 0x30);
+        }
+        else
+        {
+            if(string[i] >= 'a' && string[i] <= 'f')
+            {
+                blue |= ((string[i] ^ 0x60)+9);
+            }
+            else
+            {
+                return FALSE;
+            }
+        }
+        if (i < 12)
+            blue = blue << 4;
+    }
+
+    color->red = red;
+    color->green = green;
+    color->blue = blue;
+    return TRUE;
+}
+
+gchar *
+rstto_color_to_string(const GdkColor *color)
+{
+    gint i;
+    gchar *color_string = g_new0(gchar, 14);
+
+    color_string[0] = '#';
+
+    for(i = 0; i < 4; ++i)
+    {
+        if(((color->red >> (4*i))&0x000f) < 0xA)
+        {
+           color_string[1+3-i] = (((color->red >> (4*i))&0x000f)|0x0030);
+        }
+        else
+        {
+           color_string[1+3-i] = ((((color->red >> (4*i))&0x000f)|0x0060)-9);
+        }
+    }
+
+    for(i = 0; i < 4; ++i)
+    {
+        if(((color->green >> (4*i))&0x000f) < 0xA)
+        {
+           color_string[5+3-i] = (((color->green >> (4*i))&0x000f)|0x0030);
+        }
+        else
+        {
+           color_string[5+3-i] = ((((color->green >> (4*i))&0x000f)|0x0060)-9);
+        }
+    }
+
+    for(i = 0; i < 4; ++i)
+    {
+        if(((color->blue >> (4*i))&0x000f) < 0xA)
+        {
+           color_string[9+3-i] = (((color->blue >> (4*i))&0x000f)|0x0030);
+        }
+        else
+        {
+           color_string[9+3-i] = ((((color->blue >> (4*i))&0x000f)|0x0060)-9);
+        }
+    }
+
+    return color_string;
+}
+#define RSTTO_COLOR_PARSE(string, color) rstto_color_parse(string, color)
+#define RSTTO_COLOR_TO_STRING(color) rstto_color_to_string(color)
+#endif
+
 int main(int argc, char **argv)
 {
     GdkColor *bg_color = NULL;
@@ -100,7 +243,7 @@ int main(int argc, char **argv)
     {
         const gchar *color = xfce_rc_read_entry(xfce_rc, "BgColor", "#000000000000");
         bg_color = g_new0(GdkColor, 1);
-        if(!gdk_color_parse(color, bg_color))
+        if(!RSTTO_COLOR_PARSE(color, bg_color))
         {
             g_debug("parse failed");
         }
@@ -438,7 +581,7 @@ int main(int argc, char **argv)
     if (bg_color)
     {
         xfce_rc_write_bool_entry(xfce_rc, "OverrideBgColor", TRUE);
-        xfce_rc_write_entry(xfce_rc, "BgColor", gdk_color_to_string(bg_color));
+        xfce_rc_write_entry(xfce_rc, "BgColor", RSTTO_COLOR_TO_STRING(bg_color));
     }
     else
     {

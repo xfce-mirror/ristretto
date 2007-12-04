@@ -1,4 +1,9 @@
-xxxx-xx-xx:
+2007-xx-xx:
+	* src/main.c:
+	  - Fix store and load functions for background-color, functions used
+	    where only available since gtk 2.12.
+
+2007-12-01: Release 0.0.14
 	* src/main_window.c:
 	  - Add keyboard-shortcuts for rotating
 	  - Fix modification of bg-color using preferences dialog
