@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Miro Hrončok <churchyard@gmail.com>, 2007.
 #
-#: ../src/main.c:66
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: stephan@xfce.org\n"
 "POT-Creation-Date: 2007-12-01 10:04+0100\n"
-"PO-Revision-Date: 2007-11-28 23:12+0100\n"
+"PO-Revision-Date: 2007-12-04 09:39+0100\n"
 "Last-Translator: Miro Hrončok <churchyard@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -47,11 +46,13 @@ msgstr "_Naposledy otevřené"
 msgid "_Edit"
 msgstr "_Upravit"
 
-#: ../src/main_window.c:359 ../src/main_window.c:596
+#: ../src/main_window.c:359
+#: ../src/main_window.c:596
 msgid "Open with..."
 msgstr "Otevřít pomocí..."
 
-#: ../src/main_window.c:367 ../src/main_window.c:607
+#: ../src/main_window.c:367
+#: ../src/main_window.c:607
 msgid "No applications available"
 msgstr "Nejsou k dispozici žádné programy"
 
@@ -116,15 +117,15 @@ msgstr "Promítání snímků"
 
 #: ../src/main_window.c:1182
 msgid "Display"
-msgstr ""
+msgstr "Zobrazení"
 
 #: ../src/main_window.c:1186
 msgid "Background Color"
-msgstr ""
+msgstr "Barva pozadí"
 
 #: ../src/main_window.c:1188
 msgid "_Override Background Color:"
-msgstr ""
+msgstr "Určit _barvu pozadí:"
 
 #: ../src/main_window.c:1214
 msgid "Timeout"
@@ -135,12 +136,11 @@ msgid "Preload"
 msgstr "Načítat dopředu"
 
 #: ../src/main_window.c:1222
-#, fuzzy
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"Čas po který je zobrazen jeden snímek při promítání\n"
+"Časový interval po který je zobrazen jeden snímek při promítání\n"
 "(ve vteřinách)"
 
 #: ../src/main_window.c:1226
@@ -160,12 +160,8 @@ msgid "Developer:"
 msgstr "Vývojář:"
 
 #: ../src/main_window.c:1289
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí "
-"Xfce."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí Xfce."
 
 #: ../src/main_window.c:1297
 msgid "translator-credits"
@@ -184,8 +180,7 @@ msgid "Open folder"
 msgstr "Otevřít složku"
 
 #: ../src/main_window.c:1466
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Opravdu chcete vyprázdnit seznam naposledy otevřených dokumentů?"
 
 #: ../ristretto.desktop.in.h:1
@@ -202,9 +197,8 @@ msgstr "Prohlížeč obrázků pro Xfce"
 
 #~ msgid "Behaviour"
 #~ msgstr "Chování"
-
 #~ msgid "Flip _Vertically"
 #~ msgstr "Překlopit vertikálně"
-
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Překlopit horizontálně"
+
