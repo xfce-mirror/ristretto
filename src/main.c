@@ -412,7 +412,7 @@ int main(int argc, char **argv)
                         const gchar *filename = g_dir_read_name(dir);
                         while (filename)
                         {
-                            gchar *path_name = g_strconcat(argv[1],  "/", filename, NULL);
+                            gchar *path_name = g_strconcat(path_dir,  "/", filename, NULL);
                             ThunarVfsPath *file_path = thunar_vfs_path_new(path_name, NULL);
                             if (file_path)
                             {
