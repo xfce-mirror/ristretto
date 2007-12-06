@@ -337,7 +337,10 @@ int main(int argc, char **argv)
         {
             ThunarVfsPath *path;
             if (g_path_is_absolute(argv[1]))
+            {
                 path = thunar_vfs_path_new(argv[1], NULL);
+                path_dir = g_strdup(argv[1]);
+            }
             else
             {
                 gchar *base_dir = g_get_current_dir();
