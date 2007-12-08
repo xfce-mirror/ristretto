@@ -2,6 +2,12 @@
 	* src/main.c:
 	  - Fix store and load functions for background-color, functions used
 	    where only available since gtk 2.12.
+	  - Fix opening of relative paths.
+	* src/main_window.c
+	  src/picture_viewer.c:
+	  - Redraw the picture-viewer after setting a new background-color
+	* src/picture_viewer.c:
+	  - Improve box-zoom
 
 2007-12-01: Release 0.0.14
 	* src/main_window.c:

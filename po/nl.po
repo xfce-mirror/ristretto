@@ -46,7 +46,7 @@ msgstr "_Recent geopend"
 #. Create 'Edit' menu
 #: ../src/main_window.c:354
 msgid "_Edit"
-msgstr "B_ewerken"
+msgstr "Be_werken"
 
 #: ../src/main_window.c:359 ../src/main_window.c:596
 msgid "Open with..."
