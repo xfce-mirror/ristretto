@@ -76,6 +76,8 @@ void       rstto_picture_viewer_set_bg_color (RsttoPictureViewer *viewer, const 
 const GdkColor *
 rstto_picture_viewer_get_bg_color (RsttoPictureViewer *viewer);
 
+void       rstto_picture_viewer_redraw (RsttoPictureViewer *viewer);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_PICTURE_VIEWER_H__ */

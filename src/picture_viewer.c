@@ -929,26 +929,34 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
                     gdouble old_scale = scale;
                     gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
                     gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
+
+                    gdouble d_width = (gdouble)gdk_pixbuf_get_width(viewer->priv->dst_pixbuf);
+                    gdouble d_height = (gdouble)gdk_pixbuf_get_height(viewer->priv->dst_pixbuf);
+
                     gdouble box_width, box_height;
                     gdouble top_left_x, top_left_y;
                     if (viewer->priv->motion.x < viewer->priv->motion.current_x)
                     {
-                        top_left_x = viewer->priv->motion.x + viewer->hadjustment->value;
+                        gint x_offset = (widget->allocation.width - d_width)<=0?0:((widget->allocation.width - d_width)/2);
+                        top_left_x = viewer->priv->motion.x + viewer->hadjustment->value - x_offset;
                         box_width = viewer->priv->motion.current_x - viewer->priv->motion.x;
                     }
                     else
                     {
-                        top_left_x = viewer->priv->motion.current_x + viewer->hadjustment->value;
+                        gint x_offset = (widget->allocation.width - d_width)<=0?0:((widget->allocation.width - d_width)/2);
+                        top_left_x = viewer->priv->motion.current_x + viewer->hadjustment->value - x_offset;
                         box_width = viewer->priv->motion.x - viewer->priv->motion.current_x;
                     }
                     if (viewer->priv->motion.y < viewer->priv->motion.current_y)
                     {
-                        top_left_y = viewer->priv->motion.y + viewer->vadjustment->value;
+                        gint y_offset = (widget->allocation.height - d_height)<=0?0:((widget->allocation.height - d_height)/2);
+                        top_left_y = viewer->priv->motion.y + viewer->vadjustment->value - y_offset;
                         box_height = viewer->priv->motion.current_y - viewer->priv->motion.y;
                     }
                     else
                     {
-                        top_left_y = viewer->priv->motion.current_y + viewer->vadjustment->value;
+                        gint y_offset = (widget->allocation.height - d_height) <=0?0:((widget->allocation.height - d_height)/2);
+                        top_left_y = viewer->priv->motion.current_y + viewer->vadjustment->value - y_offset;
                         box_height = viewer->priv->motion.y - viewer->priv->motion.current_y;
                     }
 
@@ -976,7 +984,7 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
                         viewer->hadjustment->lower = 0;
                         viewer->hadjustment->step_increment = 1;
                         viewer->hadjustment->page_increment = 100;
-                        viewer->hadjustment->value = top_left_x;
+                        viewer->hadjustment->value = top_left_x / old_scale * scale;
                         if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
                         {
                             viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
@@ -995,7 +1003,7 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
                         viewer->vadjustment->lower = 0;
                         viewer->vadjustment->step_increment = 1;
                         viewer->vadjustment->page_increment = 100;
-                        viewer->vadjustment->value = top_left_y;
+                        viewer->vadjustment->value = top_left_y / old_scale * scale;
                         if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
                         {
                             viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
@@ -1076,3 +1084,11 @@ rstto_picture_viewer_get_bg_color (RsttoPictureViewer *viewer)
 {
     return viewer->priv->bg_color;
 }
+
+void
+rstto_picture_viewer_redraw(RsttoPictureViewer *viewer)
+{
+    rstto_picture_viewer_refresh(viewer);
+    rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+}
+

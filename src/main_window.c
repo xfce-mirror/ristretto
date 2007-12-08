@@ -1265,6 +1265,7 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
             {
                 rstto_main_window_set_pv_bg_color(window, NULL);
             }
+            rstto_picture_viewer_redraw(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
         default:
             break;
     }
