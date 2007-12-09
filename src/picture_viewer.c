@@ -935,6 +935,7 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
 
                     gdouble box_width, box_height;
                     gdouble top_left_x, top_left_y;
+
                     if (viewer->priv->motion.x < viewer->priv->motion.current_x)
                     {
                         gint x_offset = (widget->allocation.width - d_width)<=0?0:((widget->allocation.width - d_width)/2);
@@ -966,10 +967,16 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
                     if (h_scale < v_scale)
                     {
                         rstto_navigator_entry_set_scale(entry, h_scale);
+                        gdouble d_box_height = box_height * v_scale / h_scale;
+                        top_left_y -= (d_box_height - box_height) / 2;
+                        box_height = d_box_height;
                     }
                     else
                     {
                         rstto_navigator_entry_set_scale(entry, v_scale);
+                        gdouble d_box_width = box_width * h_scale / v_scale;
+                        top_left_x -= (d_box_width - box_width) / 2;
+                        box_width = d_box_width;
                     }
 
                     rstto_navigator_entry_set_fit_to_screen(entry, FALSE);
