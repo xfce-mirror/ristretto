@@ -869,7 +869,7 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
         if (rstto_navigator_get_file(viewer->priv->navigator) != NULL)
         {
 
-            if (!(event->state & GDK_MODIFIER_MASK))
+            if (!(event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK |GDK_MOD2_MASK)))
             {
                 GtkWidget *widget = GTK_WIDGET(viewer);
                 GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
@@ -957,6 +957,7 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
                     else
                     {
                         gint y_offset = (widget->allocation.height - d_height) <=0?0:((widget->allocation.height - d_height)/2);
+
                         top_left_y = viewer->priv->motion.current_y + viewer->vadjustment->value - y_offset;
                         box_height = viewer->priv->motion.y - viewer->priv->motion.current_y;
                     }
