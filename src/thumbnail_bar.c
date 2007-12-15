@@ -184,12 +184,10 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
             {
                 gtk_widget_get_child_requisition(GTK_WIDGET(iter->data), &child_requisition);
                 gtk_widget_size_allocate(GTK_WIDGET(iter->data), &child_allocation);
-                /*
                 if (child_allocation.x < (allocation->x + allocation->width))
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), TRUE);
                 else
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), FALSE);
-                    */
 
                 child_allocation.x += child_requisition.width;
                 iter = g_slist_next(iter);
