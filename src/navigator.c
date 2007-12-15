@@ -782,7 +782,7 @@ rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
 }
 
 GdkPixbuf *
-rstto_navigator_get_entry_thumb(RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gint size)
+rstto_navigator_entry_get_thumb(RsttoNavigatorEntry *entry, gint size)
 {
     if(entry->thumb)    
     {
@@ -793,13 +793,13 @@ rstto_navigator_get_entry_thumb(RsttoNavigator *navigator, RsttoNavigatorEntry *
     else
     {
         ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
-        gchar *thumbnail = thunar_vfs_thumb_factory_lookup_thumbnail(navigator->factory, info);
+        gchar *thumbnail = thunar_vfs_thumb_factory_lookup_thumbnail(entry->navigator->factory, info);
         if (thumbnail == NULL)
         {
-            GdkPixbuf *pixbuf = thunar_vfs_thumb_factory_generate_thumbnail(navigator->factory, info);
+            GdkPixbuf *pixbuf = thunar_vfs_thumb_factory_generate_thumbnail(entry->navigator->factory, info);
             if (pixbuf != NULL)
             {
-                if (!thunar_vfs_thumb_factory_store_thumbnail(navigator->factory, pixbuf, info, NULL))
+                if (!thunar_vfs_thumb_factory_store_thumbnail(entry->navigator->factory, pixbuf, info, NULL))
                 {
                     g_critical("Storing thumbnail failed");
                 }

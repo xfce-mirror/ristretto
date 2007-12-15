@@ -25,6 +25,7 @@
 
 #include "navigator.h"
 #include "thumbnail_viewer.h"
+#include "thumbnail_bar.h"
 #include "picture_viewer.h"
 #include "main_window.h"
 
@@ -298,7 +299,7 @@ rstto_main_window_init(RsttoMainWindow *window)
     gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
 
     window->priv->navigator = rstto_navigator_new();
-    window->priv->thumbnail_viewer = rstto_thumbnail_viewer_new(window->priv->navigator);
+    window->priv->thumbnail_viewer = rstto_thumbnail_bar_new(window->priv->navigator);
     window->priv->picture_viewer = rstto_picture_viewer_new(window->priv->navigator);
 
     window->priv->manager = gtk_recent_manager_get_default();
@@ -862,7 +863,7 @@ rstto_main_window_set_thumbnail_viewer_orientation(RsttoMainWindow *window, GtkO
     gtk_container_remove(GTK_CONTAINER(window->priv->containers.paned), window->priv->containers.s_window);
     gtk_widget_destroy(window->priv->containers.paned);
 
-    rstto_thumbnail_viewer_set_orientation(RSTTO_THUMBNAIL_VIEWER(window->priv->thumbnail_viewer), orientation);
+    //rstto_thumbnail_viewer_set_orientation(RSTTO_THUMBNAIL_VIEWER(window->priv->thumbnail_viewer), orientation);
 
     switch (orientation)
     {
@@ -886,6 +887,7 @@ rstto_main_window_set_thumbnail_viewer_orientation(RsttoMainWindow *window, GtkO
 void
 rstto_main_window_set_show_thumbnail_viewer(RsttoMainWindow *window, gboolean visibility)
 {
+    /*
     window->priv->settings.thumbnail_viewer_visibility = visibility;
     if (visibility == TRUE)
     {
@@ -910,6 +912,7 @@ rstto_main_window_set_show_thumbnail_viewer(RsttoMainWindow *window, gboolean vi
             GTK_CHECK_MENU_ITEM(window->priv->menus.view.show_thumbnail_viewer.menu_item_thumbnail_viewer_hide),
             TRUE);
     }
+    */
 }
 
 void
