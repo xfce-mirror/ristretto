@@ -863,7 +863,7 @@ rstto_main_window_set_thumbnail_viewer_orientation(RsttoMainWindow *window, GtkO
     gtk_container_remove(GTK_CONTAINER(window->priv->containers.paned), window->priv->containers.s_window);
     gtk_widget_destroy(window->priv->containers.paned);
 
-    //rstto_thumbnail_viewer_set_orientation(RSTTO_THUMBNAIL_VIEWER(window->priv->thumbnail_viewer), orientation);
+    rstto_thumbnail_bar_set_orientation(RSTTO_THUMBNAIL_BAR(window->priv->thumbnail_viewer), orientation);
 
     switch (orientation)
     {
@@ -887,11 +887,10 @@ rstto_main_window_set_thumbnail_viewer_orientation(RsttoMainWindow *window, GtkO
 void
 rstto_main_window_set_show_thumbnail_viewer(RsttoMainWindow *window, gboolean visibility)
 {
-    /*
     window->priv->settings.thumbnail_viewer_visibility = visibility;
     if (visibility == TRUE)
     {
-        switch(rstto_thumbnail_viewer_get_orientation(RSTTO_THUMBNAIL_VIEWER(window->priv->thumbnail_viewer)))
+        switch(rstto_thumbnail_bar_get_orientation(RSTTO_THUMBNAIL_BAR(window->priv->thumbnail_viewer)))
         {
             case GTK_ORIENTATION_HORIZONTAL:
                 gtk_check_menu_item_set_active(
@@ -912,7 +911,6 @@ rstto_main_window_set_show_thumbnail_viewer(RsttoMainWindow *window, gboolean vi
             GTK_CHECK_MENU_ITEM(window->priv->menus.view.show_thumbnail_viewer.menu_item_thumbnail_viewer_hide),
             TRUE);
     }
-    */
 }
 
 void
@@ -1852,7 +1850,6 @@ rstto_main_window_set_pv_bg_color (RsttoMainWindow *window, const GdkColor *colo
 const GdkColor *
 rstto_main_window_get_pv_bg_color (RsttoMainWindow *window)
 {
-    /*return rstto_picture_viewer_get_bg_color(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));*/
     return window->priv->settings.bg_color;
 }
 

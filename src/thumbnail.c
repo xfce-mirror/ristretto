@@ -124,7 +124,6 @@ rstto_thumbnail_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 
     if (GTK_WIDGET_REALIZED(widget))
     {
-         g_debug("CA: %d:%d", allocation->x, allocation->y);
          gdk_window_move_resize (widget->window,
             allocation->x + border_width,
             allocation->y + border_width,
@@ -213,7 +212,7 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
             gc,
             pixmap,
             0, 0,
-            0, 0,
+            widget->allocation.x, widget->allocation.y,
             widget->allocation.width,
             widget->allocation.height);
 
