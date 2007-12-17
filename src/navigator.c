@@ -575,7 +575,7 @@ rstto_navigator_clear (RsttoNavigator *navigator)
 }
 
 void
-rstto_navigator_set_file (RsttoNavigator *navigator, gint n)
+rstto_navigator_set_file_nr (RsttoNavigator *navigator, gint n)
 {
     if(navigator->file_iter)
     {

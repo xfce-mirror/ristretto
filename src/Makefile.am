@@ -6,8 +6,7 @@ ristretto_SOURCES = \
 	navigator.c navigator.h \
 	picture_viewer.c picture_viewer.h \
 	thumbnail.c thumbnail.h \
-	thumbnail_bar.c thumbnail_bar.h \
-	thumbnail_viewer.c thumbnail_viewer.h
+	thumbnail_bar.c thumbnail_bar.h
 
 ristretto_CFLAGS = \
 	$(GTK_CFLAGS) \

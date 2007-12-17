@@ -146,7 +146,6 @@ rstto_thumbnail_bar_class_init(RsttoThumbnailBarClass *bar_class)
 static void
 rstto_thumbnail_bar_size_request(GtkWidget *widget, GtkRequisition *requisition)
 {
-    g_debug("%s: %d:%d", __FUNCTION__, requisition->width, requisition->height);
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
     gint border_width = GTK_CONTAINER(bar)->border_width;
     gint spacing = 0;
@@ -174,7 +173,6 @@ rstto_thumbnail_bar_size_request(GtkWidget *widget, GtkRequisition *requisition)
 static void
 rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 {
-    g_debug("%s: %d:%d", __FUNCTION__, allocation->width, allocation->height);
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
     gint border_width = GTK_CONTAINER(bar)->border_width;
     gint spacing = 0;
@@ -355,7 +353,6 @@ rstto_thumbnail_bar_child_type(GtkContainer *container)
 static void
 cb_rstto_thumbnail_bar_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailBar *bar)
 {
-    //GtkWidget *thumb = gtk_label_new("Aaaaaaaaaaa");
     GtkWidget *thumb = rstto_thumbnail_new(entry);
     gtk_container_add(GTK_CONTAINER(bar), thumb);
 }

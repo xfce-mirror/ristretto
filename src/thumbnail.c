@@ -74,7 +74,7 @@ rstto_thumbnail_get_type ()
             NULL
         };
 
-        rstto_thumbnail_type = g_type_register_static (GTK_TYPE_BUTTON, "RsttoThumbnail", &rstto_thumbnail_info, 0);
+        rstto_thumbnail_type = g_type_register_static (GTK_TYPE_TOGGLE_BUTTON, "RsttoThumbnail", &rstto_thumbnail_info, 0);
     }
     return rstto_thumbnail_type;
 }
@@ -87,6 +87,8 @@ rstto_thumbnail_init(RsttoThumbnail *thumb)
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(thumb), TRUE);
     gtk_widget_set_events (GTK_WIDGET(thumb),
                            GDK_BUTTON_PRESS_MASK);
+
+    g_signal_connect(G_OBJECT(thumb), "toggled", G_CALLBACK(cb_rstto_thumbnail_toggled), NULL);
 }
 
 static void
@@ -169,7 +171,7 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 
         gdk_gc_set_foreground(gc, &widget->style->fg[GTK_STATE_NORMAL]);
 
-        if(thumb->priv->selected == TRUE)
+        if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(thumb)))
         {
             gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
                             gc_bg_selected,
@@ -236,5 +238,4 @@ rstto_thumbnail_new(RsttoNavigatorEntry *entry)
 static void
 cb_rstto_thumbnail_toggled(RsttoThumbnail *thumb, gpointer user_data)
 {
-
 }

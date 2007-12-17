@@ -45,7 +45,7 @@ typedef struct _RsttoThumbnail RsttoThumbnail;
 
 struct _RsttoThumbnail
 {
-    GtkButton         parent;
+    GtkToggleButton     parent;
     RsttoThumbnailPriv *priv;
 };
 
@@ -53,7 +53,7 @@ typedef struct _RsttoThumbnailClass RsttoThumbnailClass;
 
 struct _RsttoThumbnailClass
 {
-    GtkButtonClass  parent_class;
+    GtkToggleButtonClass  parent_class;
 };
 
 GType      rstto_thumbnail_get_type();

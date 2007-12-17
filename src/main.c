@@ -387,14 +387,14 @@ int main(int argc, char **argv)
                                         {
                                             if (!strcmp(path_name, argv[1]))
                                             {
-                                                rstto_navigator_set_file(navigator, i);
+                                                rstto_navigator_set_file_nr(navigator, i);
                                             }
                                         }
                                         else
                                         {
                                             if (!strcmp(path_name, path_dir))
                                             {
-                                                rstto_navigator_set_file(navigator, i);
+                                                rstto_navigator_set_file_nr(navigator, i);
                                             }
 
                                         }
