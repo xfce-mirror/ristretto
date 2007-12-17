@@ -24,7 +24,6 @@
 #include <dbus/dbus-glib.h>
 
 #include "navigator.h"
-#include "thumbnail_viewer.h"
 #include "thumbnail_bar.h"
 #include "picture_viewer.h"
 #include "main_window.h"

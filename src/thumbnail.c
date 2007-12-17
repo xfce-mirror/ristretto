@@ -227,6 +227,8 @@ rstto_thumbnail_new(RsttoNavigatorEntry *entry)
     ThunarVfsInfo *info = rstto_navigator_entry_get_info(thumb->priv->entry);
     
     gtk_widget_set_tooltip_text(GTK_WIDGET(thumb), thunar_vfs_path_dup_string(info->path));
+#else
+    /* TODO: gtktooltip stuff */
 #endif
 
     return GTK_WIDGET(thumb);

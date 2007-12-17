@@ -24,7 +24,6 @@
 
 #include "navigator.h"
 #include "picture_viewer.h"
-#include "thumbnail_viewer.h"
 #include "main_window.h"
 
 static ThunarVfsMimeDatabase *mime_dbase = NULL;
