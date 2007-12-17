@@ -122,14 +122,7 @@ rstto_thumbnail_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     gint border_width =  0;
     widget->allocation = *allocation;
 
-    if (GTK_WIDGET_REALIZED(widget))
-    {
-         gdk_window_move_resize (widget->window,
-            allocation->x + border_width,
-            allocation->y + border_width,
-            allocation->width - border_width * 2,
-            allocation->height - border_width * 2);
-    }
+    parent_class->size_allocate(widget, allocation);
 }
 
 static gboolean
