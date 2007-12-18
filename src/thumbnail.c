@@ -240,4 +240,8 @@ rstto_thumbnail_new(RsttoNavigatorEntry *entry)
 static void
 cb_rstto_thumbnail_toggled(RsttoThumbnail *thumb, gpointer user_data)
 {
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(thumb)) == TRUE)
+    {
+        rstto_navigator_entry_select(thumb->priv->entry);
+    }
 }

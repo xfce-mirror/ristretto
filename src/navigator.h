@@ -106,8 +106,6 @@ void
 rstto_navigator_set_file_nr (RsttoNavigator *navigator, gint n);
 void
 rstto_navigator_clear (RsttoNavigator *navigator);
-void
-rstto_navigator_set_entry_rotation (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, GdkPixbufRotation rotation);
 
 RsttoNavigatorEntry *
 rstto_navigator_entry_new (RsttoNavigator *, ThunarVfsInfo *info);
@@ -143,6 +141,8 @@ GdkPixbuf *
 rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry);
 gboolean
 rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry, gboolean empty_cache);
+void
+rstto_navigator_entry_select (RsttoNavigatorEntry *entry);
 
 gint
 rstto_navigator_get_cache_max_images (RsttoNavigator *navigator);

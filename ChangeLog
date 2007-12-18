@@ -1,4 +1,4 @@
-2007-xx-xx:
+2007-12-09: Release 0.0.15
 	* src/main.c:
 	  - Fix store and load functions for background-color, functions used
 	    where only available since gtk 2.12.

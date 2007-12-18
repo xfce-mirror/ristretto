@@ -153,15 +153,14 @@ rstto_thumbnail_bar_size_request(GtkWidget *widget, GtkRequisition *requisition)
 
 	GtkRequisition child_requisition;
 
-    requisition->height = 0;
-    requisition->width = 0;
+    requisition->height = 70;
+    requisition->width = 70;
 
     for(iter = bar->priv->thumbs; iter; iter = g_slist_next(iter))
     {
 		gtk_widget_size_request(GTK_WIDGET(iter->data), &child_requisition);
 		requisition->width = MAX(child_requisition.width, requisition->width);
 		requisition->height = MAX(child_requisition.height, requisition->height);
-
     }
 
     requisition->height += (border_width * 2);
@@ -216,7 +215,7 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
                 else
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), FALSE);
 
-                child_allocation.x += child_requisition.width;
+                child_allocation.x += child_requisition.width + spacing;
                 iter = g_slist_next(iter);
             }
             break;
@@ -244,7 +243,7 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), FALSE);
 
                 gtk_widget_size_allocate(GTK_WIDGET(iter->data), &child_allocation);
-                child_allocation.y += child_requisition.width;
+                child_allocation.y += child_requisition.height + spacing;
                 iter = g_slist_next(iter);
             }
             break;
@@ -355,6 +354,7 @@ cb_rstto_thumbnail_bar_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigato
 {
     GtkWidget *thumb = rstto_thumbnail_new(entry);
     gtk_container_add(GTK_CONTAINER(bar), thumb);
+    gtk_widget_show(thumb);
 }
 
 /*

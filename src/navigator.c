@@ -1151,6 +1151,31 @@ cb_rstto_navigator_entry_fs_event (ThunarVfsMonitor *monitor,
     }
 }
 
+void
+rstto_navigator_entry_select (RsttoNavigatorEntry *entry)
+{
+    RsttoNavigator *navigator = entry->navigator;
+    GList *iter = g_list_find (navigator->file_list, entry);
+    if (iter)
+    {
+        if(navigator->file_iter)
+        {
+            rstto_navigator_guard_history(navigator, navigator->file_iter->data);
+            navigator->old_position = rstto_navigator_get_position(navigator);
+        }
+
+        navigator->file_iter = iter;
+
+        g_signal_emit(G_OBJECT(navigator),
+                      rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED],
+                      0,
+                      g_list_position(navigator->file_list, navigator->file_iter),
+                      navigator->file_iter->data,
+                      NULL);
+    }
+
+}
+
 gint
 rstto_navigator_get_cache_max_images (RsttoNavigator *navigator)
 {
