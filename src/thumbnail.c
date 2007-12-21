@@ -29,6 +29,7 @@ struct _RsttoThumbnailPriv
 {
     RsttoNavigatorEntry *entry;
     gboolean             selected;
+    GSList              *group;
 };
 
 static GtkWidgetClass *parent_class = NULL;
@@ -51,7 +52,7 @@ static void
 rstto_thumbnail_paint(RsttoThumbnail *thumb);
 
 static void
-cb_rstto_thumbnail_toggled(RsttoThumbnail *thumb, gpointer user_data);
+rstto_thumbnail_clicked(GtkButton *);
 
 GType
 rstto_thumbnail_get_type ()
@@ -88,7 +89,7 @@ rstto_thumbnail_init(RsttoThumbnail *thumb)
     gtk_widget_set_events (GTK_WIDGET(thumb),
                            GDK_BUTTON_PRESS_MASK);
 
-    g_signal_connect(G_OBJECT(thumb), "toggled", G_CALLBACK(cb_rstto_thumbnail_toggled), NULL);
+    //g_signal_connect(G_OBJECT(thumb), "clicked", G_CALLBACK(cb_rstto_thumbnail_clicked), NULL);
 }
 
 static void
@@ -96,9 +97,11 @@ rstto_thumbnail_class_init(RsttoThumbnailClass *thumb_class)
 {
     GtkWidgetClass *widget_class;
     GtkObjectClass *object_class;
+    GtkButtonClass *button_class;
 
     widget_class = (GtkWidgetClass*)thumb_class;
     object_class = (GtkObjectClass*)thumb_class;
+    button_class = (GtkButtonClass*)thumb_class;
 
     parent_class = g_type_class_peek_parent(thumb_class);
 
@@ -106,6 +109,8 @@ rstto_thumbnail_class_init(RsttoThumbnailClass *thumb_class)
 
     widget_class->size_request = rstto_thumbnail_size_request;
     widget_class->size_allocate = rstto_thumbnail_size_allocate;
+
+    button_class->clicked = rstto_thumbnail_clicked;
 
     object_class->destroy = rstto_thumbnail_destroy;
 }
@@ -120,8 +125,6 @@ rstto_thumbnail_size_request(GtkWidget *widget, GtkRequisition *requisition)
 static void
 rstto_thumbnail_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 {
-    RsttoThumbnail *thumb = RSTTO_THUMBNAIL(widget);
-    gint border_width =  0;
     widget->allocation = *allocation;
 
     parent_class->size_allocate(widget, allocation);
@@ -215,7 +218,7 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 }
 
 GtkWidget *
-rstto_thumbnail_new(RsttoNavigatorEntry *entry)
+rstto_thumbnail_new(RsttoNavigatorEntry *entry, GSList *thumb_list)
 {
     g_return_val_if_fail(entry != NULL, NULL);
 
@@ -231,17 +234,88 @@ rstto_thumbnail_new(RsttoNavigatorEntry *entry)
     /* TODO: gtktooltip stuff */
 #endif
 
+    {
+        thumb->priv->group = g_slist_prepend(thumb_list, thumb);
+        GSList *iter = thumb->priv->group;
+        while(iter)
+        {
+            RsttoThumbnail *iter_thumb = iter->data;
+            iter_thumb->priv->group = thumb->priv->group;
+            iter = iter->next;
+        }
+    }
+
     return GTK_WIDGET(thumb);
+}
+
+GtkWidget *
+rstto_thumbnail_new_from_widget(RsttoNavigatorEntry *entry, RsttoThumbnail *sibling)
+{
+    return rstto_thumbnail_new(entry, sibling->priv->group);
+}
+
+RsttoNavigatorEntry *
+rstto_thumbnail_get_entry (RsttoThumbnail *thumb)
+{
+    return thumb->priv->entry;
 }
 
 /* CALLBACKS */
 /*************/
 
 static void
-cb_rstto_thumbnail_toggled(RsttoThumbnail *thumb, gpointer user_data)
+rstto_thumbnail_clicked(GtkButton *button)
 {
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(thumb)) == TRUE)
+    GtkToggleButton *toggle_button = GTK_TOGGLE_BUTTON(button);
+    RsttoThumbnail *thumb = RSTTO_THUMBNAIL(button);
+    GtkToggleButton *tmp_button;
+
+    GSList *tmp_list;
+    gboolean toggled = FALSE;
+
+    if(toggle_button->active == TRUE)
     {
-        rstto_navigator_entry_select(thumb->priv->entry);
+        tmp_button = NULL;
+        tmp_list = thumb->priv->group;
+        while(tmp_list)
+        {
+            tmp_button = tmp_list->data;
+            tmp_list = tmp_list->next;
+            if (tmp_button->active && tmp_button != toggle_button)
+                break;
+
+            tmp_button = NULL;
+        }
+
+        if (tmp_button != NULL)
+        {
+            toggled = TRUE;
+            toggle_button->active = !toggle_button->active;
+        }
     }
+    else
+    {
+        toggled = TRUE;
+        toggle_button->active = !toggle_button->active;
+
+        tmp_list = thumb->priv->group;
+        while(tmp_list)
+        {
+            tmp_button = tmp_list->data;
+            tmp_list = tmp_list->next;
+            if (tmp_button->active && (tmp_button != toggle_button))
+            {
+                gtk_button_clicked(GTK_BUTTON(tmp_button));
+                break;
+            }
+        }
+    }
+
+    if (toggled == TRUE)
+    {
+        gtk_toggle_button_toggled(toggle_button);
+        g_object_notify (G_OBJECT (toggle_button), "active");
+    }
+
+    gtk_widget_queue_draw (GTK_WIDGET (thumb));
 }

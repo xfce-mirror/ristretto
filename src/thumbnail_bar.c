@@ -42,8 +42,6 @@ static void
 rstto_thumbnail_bar_init(RsttoThumbnailBar *);
 static void
 rstto_thumbnail_bar_class_init(RsttoThumbnailBarClass *);
-static void
-rstto_thumbnail_bar_destroy(GtkObject *object);
 
 static void
 rstto_thumbnail_bar_size_request(GtkWidget *, GtkRequisition *);
@@ -74,6 +72,9 @@ cb_rstto_thumbnail_bar_nav_iter_changed (RsttoNavigator *nav,
 static void
 cb_rstto_thumbnail_bar_nav_reordered (RsttoNavigator *nav,
                                     RsttoThumbnailBar *bar);
+
+static void
+cb_rstto_thumbnail_bar_thumbnail_toggled (RsttoThumbnail *thumb, RsttoThumbnailBar *bar);
 
 GType
 rstto_thumbnail_bar_get_type ()
@@ -148,7 +149,6 @@ rstto_thumbnail_bar_size_request(GtkWidget *widget, GtkRequisition *requisition)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
     gint border_width = GTK_CONTAINER(bar)->border_width;
-    gint spacing = 0;
     GSList *iter;
 
 	GtkRequisition child_requisition;
@@ -352,7 +352,16 @@ rstto_thumbnail_bar_child_type(GtkContainer *container)
 static void
 cb_rstto_thumbnail_bar_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailBar *bar)
 {
-    GtkWidget *thumb = rstto_thumbnail_new(entry);
+    GtkWidget *thumb;
+    if (g_slist_length(bar->priv->thumbs) > 0)
+    {
+        thumb = rstto_thumbnail_new_from_widget(entry, bar->priv->thumbs->data);
+    }
+    else
+    {
+        thumb = rstto_thumbnail_new(entry, NULL);
+    }
+    g_signal_connect(G_OBJECT(thumb), "toggled", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_toggled), bar);
     gtk_container_add(GTK_CONTAINER(bar), thumb);
     gtk_widget_show(thumb);
 }
@@ -369,6 +378,20 @@ cb_rstto_thumbnail_bar_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigato
 static void
 cb_rstto_thumbnail_bar_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailBar *bar)
 {
+    GSList *iter = bar->priv->thumbs;
+
+    while (iter != NULL)
+    {
+        if (entry != rstto_thumbnail_get_entry(RSTTO_THUMBNAIL(iter->data)))
+        {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(iter->data), FALSE);
+        }
+        else
+        {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(iter->data), TRUE);
+        }
+        iter = g_slist_next(iter);
+    }
 }
 
 /*
@@ -381,4 +404,13 @@ cb_rstto_thumbnail_bar_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavig
 static void
 cb_rstto_thumbnail_bar_nav_reordered (RsttoNavigator *nav, RsttoThumbnailBar *bar)
 {
+}
+
+static void
+cb_rstto_thumbnail_bar_thumbnail_toggled (RsttoThumbnail *thumb, RsttoThumbnailBar *bar)
+{
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(thumb)) == TRUE)
+    {
+        rstto_navigator_entry_select (rstto_thumbnail_get_entry(thumb));
+    }
 }

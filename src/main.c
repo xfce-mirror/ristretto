@@ -294,7 +294,7 @@ int main(int argc, char **argv)
                         if(!strcmp(file_media, "image"))
                         {
                             RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, info);
-                            gint i = rstto_navigator_add (navigator, entry);
+                            rstto_navigator_add (navigator, entry);
                         }
                     }
                     else
