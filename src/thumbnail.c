@@ -313,9 +313,9 @@ rstto_thumbnail_clicked(GtkButton *button)
 
     if (toggled == TRUE)
     {
+        gtk_widget_queue_draw (GTK_WIDGET (thumb));
         gtk_toggle_button_toggled(toggle_button);
         g_object_notify (G_OBJECT (toggle_button), "active");
     }
 
-    gtk_widget_queue_draw (GTK_WIDGET (thumb));
 }

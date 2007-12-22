@@ -183,7 +183,7 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     GtkAllocation child_allocation;
     GtkRequisition child_requisition;
 
-    child_allocation.x = allocation->x + border_width - bar->priv->offset;
+    child_allocation.x = allocation->x + border_width;
     child_allocation.y = allocation->y + border_width;
     child_allocation.height = 0;
     child_allocation.width = 0;
@@ -193,13 +193,31 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     switch(bar->priv->orientation)
     {
         case GTK_ORIENTATION_HORIZONTAL:
+            if (bar->priv->auto_center == TRUE)
+            {
+                bar->priv->offset = 0 - (allocation->width / 2);
+            }
             while(iter)
             {
                 gtk_widget_get_child_requisition(GTK_WIDGET(iter->data), &child_requisition);
                 allocation->height = MAX(child_requisition.height + (border_width * 2), allocation->height);
 
+                if (bar->priv->auto_center == TRUE)
+                {
+                    if (g_slist_position(bar->priv->thumbs, iter) < rstto_navigator_get_position(bar->priv->navigator))
+                    {
+                        bar->priv->offset += child_requisition.width + spacing;
+                    }
+                    if (g_slist_position(bar->priv->thumbs, iter) == rstto_navigator_get_position(bar->priv->navigator))
+                    {
+                        bar->priv->offset += (0.5 * child_requisition.width);
+                    }
+                }
+
                 iter = g_slist_next(iter);
             }
+
+            child_allocation.x -= bar->priv->offset;
             
             iter = bar->priv->thumbs;
 
@@ -223,13 +241,31 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
             }
             break;
         case GTK_ORIENTATION_VERTICAL:
+            if (bar->priv->auto_center == TRUE)
+            {
+                bar->priv->offset = 0 - (allocation->height / 2);
+            }
             while(iter)
             {
                 gtk_widget_get_child_requisition(GTK_WIDGET(iter->data), &child_requisition);
                 allocation->width = MAX(child_requisition.width + (border_width * 2), allocation->width);
 
+                if (bar->priv->auto_center == TRUE)
+                {
+                    if (g_slist_position(bar->priv->thumbs, iter) < rstto_navigator_get_position(bar->priv->navigator))
+                    {
+                        bar->priv->offset += child_requisition.height + spacing;
+                    }
+                    if (g_slist_position(bar->priv->thumbs, iter) == rstto_navigator_get_position(bar->priv->navigator))
+                    {
+                        bar->priv->offset += (0.5 * child_requisition.height);
+                    }
+                }
+
                 iter = g_slist_next(iter);
             }
+
+            child_allocation.y -= bar->priv->offset;
             
             iter = bar->priv->thumbs;
 
@@ -395,6 +431,10 @@ cb_rstto_thumbnail_bar_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavig
         }
         iter = g_slist_next(iter);
     }
+
+    /* If the children should be autocentered... resize */
+    if (bar->priv->auto_center == TRUE)
+        gtk_widget_queue_resize(GTK_WIDGET(bar));
 }
 
 /*

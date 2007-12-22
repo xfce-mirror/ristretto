@@ -2,5 +2,6 @@ src/main.c
 src/main_window.c
 src/navigator.c
 src/picture_viewer.c
-src/thumbnail_viewer.c
+src/thumbnail.c
+src/thumbnail_bar.c
 ristretto.desktop.in
