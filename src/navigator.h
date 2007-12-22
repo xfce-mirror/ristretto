@@ -123,6 +123,8 @@ void
 rstto_navigator_entry_set_scale (RsttoNavigatorEntry *entry, gdouble);
 void
 rstto_navigator_entry_set_rotation (RsttoNavigatorEntry *entry, GdkPixbufRotation rotation);
+gint
+rstto_navigator_entry_get_position(RsttoNavigatorEntry *entry);
 
 GdkPixbufRotation
 rstto_navigator_entry_get_rotation (RsttoNavigatorEntry *entry);

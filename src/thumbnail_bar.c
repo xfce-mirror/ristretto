@@ -76,6 +76,9 @@ cb_rstto_thumbnail_bar_nav_reordered (RsttoNavigator *nav,
 static void
 cb_rstto_thumbnail_bar_thumbnail_toggled (RsttoThumbnail *thumb, RsttoThumbnailBar *bar);
 
+static gint
+cb_rstto_thumbnail_bar_compare (RsttoThumbnail *a, RsttoThumbnail *b);
+
 GType
 rstto_thumbnail_bar_get_type ()
 {
@@ -301,7 +304,7 @@ rstto_thumbnail_bar_add(GtkContainer *container, GtkWidget *child)
 
 	gtk_widget_set_parent(child, GTK_WIDGET(container));
 
-    bar->priv->thumbs = g_slist_append(bar->priv->thumbs, child);
+    bar->priv->thumbs = g_slist_insert_sorted(bar->priv->thumbs, child, (GCompareFunc)cb_rstto_thumbnail_bar_compare);
 }
 
 static void
@@ -412,5 +415,21 @@ cb_rstto_thumbnail_bar_thumbnail_toggled (RsttoThumbnail *thumb, RsttoThumbnailB
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(thumb)) == TRUE)
     {
         rstto_navigator_entry_select (rstto_thumbnail_get_entry(thumb));
+    }
+}
+
+static gint
+cb_rstto_thumbnail_bar_compare (RsttoThumbnail *a, RsttoThumbnail *b)
+{
+    RsttoNavigatorEntry *_a = rstto_thumbnail_get_entry(a);
+    RsttoNavigatorEntry *_b = rstto_thumbnail_get_entry(b);
+
+    if (rstto_navigator_entry_get_position(_a) < rstto_navigator_entry_get_position(_b))
+    {
+        return -1;
+    }
+    else
+    {
+        return 1;
     }
 }

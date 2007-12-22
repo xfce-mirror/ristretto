@@ -1181,3 +1181,17 @@ rstto_navigator_get_cache_max_images (RsttoNavigator *navigator)
 {
     return navigator->max_history;
 }
+
+
+
+gint
+rstto_navigator_entry_get_position(RsttoNavigatorEntry *entry)
+{
+    RsttoNavigator *navigator = entry->navigator;
+    GList *iter = g_list_find (navigator->file_list, entry);
+    if (iter)
+    {
+        return g_list_position(navigator->file_list, iter);
+    }
+    return -1;
+}
