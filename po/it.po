@@ -1,0 +1,205 @@
+# Italian translations for ristretto package.
+# Copyright (C) 2007 THE ristretto'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Fabio Vergnani <monghitri@aruba.it>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ristretto\n"
+"Report-Msgid-Bugs-To: stephan@xfce.org\n"
+"POT-Creation-Date: 2007-12-01 10:04+0100\n"
+"PO-Revision-Date: 2007-12-22 10:52+0100\n"
+"Last-Translator: Fabio Vergnani <monghitri@aruba.it>\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,11,-1,-1,-1\n"
+
+#: ../src/main.c:47
+msgid "Version information"
+msgstr "Versione"
+
+#: ../src/main.c:70
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Prova %s --help per vedere una lista completa di opzioni per linea di comando.\n"
+
+#. Create 'File' menu
+#: ../src/main_window.c:314
+msgid "_File"
+msgstr "_File"
+
+#: ../src/main_window.c:321
+msgid "O_pen Folder"
+msgstr "A_pri cartella"
+
+#: ../src/main_window.c:322
+msgid "_Recently used"
+msgstr "Apri _recenti"
+
+#. Create 'Edit' menu
+#: ../src/main_window.c:354
+msgid "_Edit"
+msgstr "_Modifica"
+
+#: ../src/main_window.c:359
+#: ../src/main_window.c:596
+msgid "Open with..."
+msgstr "_Apri con..."
+
+#: ../src/main_window.c:367
+#: ../src/main_window.c:607
+msgid "No applications available"
+msgstr "Nesuna applicazione disponibile"
+
+#. Create 'View' menu
+#: ../src/main_window.c:376
+msgid "_View"
+msgstr "_Visualizza"
+
+#: ../src/main_window.c:383
+msgid "Show _Toolbar"
+msgstr "Mostra barra degli _strumenti"
+
+#: ../src/main_window.c:384
+msgid "Thumbnail _Viewer"
+msgstr "_Visualizzazione miniature"
+
+#: ../src/main_window.c:388
+msgid "_Zooming"
+msgstr "_Zoom"
+
+#: ../src/main_window.c:389
+msgid "_Rotate"
+msgstr "_Ruota"
+
+#: ../src/main_window.c:415
+msgid "Show _Horizontally"
+msgstr "Mostra _Orizzontalmente"
+
+#: ../src/main_window.c:419
+msgid "Show _Vertically"
+msgstr "Mostra _Verticalmente"
+
+#: ../src/main_window.c:423
+msgid "H_ide"
+msgstr "_Nascondi"
+
+#: ../src/main_window.c:460
+msgid "Rotate _Right"
+msgstr "Ruota a _Destra"
+
+#: ../src/main_window.c:461
+msgid "Rotate _Left"
+msgstr "Ruota a _Sinistra"
+
+#. Create 'Go' menu
+#: ../src/main_window.c:482
+msgid "_Go"
+msgstr "V_ai"
+
+#. Create 'Help' menu
+#: ../src/main_window.c:511
+msgid "_Help"
+msgstr "A_iuto"
+
+#: ../src/main_window.c:1161
+msgid "Image viewer Preferences"
+msgstr "Preferenze del visualizzatore"
+
+#: ../src/main_window.c:1178
+msgid "Slideshow"
+msgstr "Presentazione"
+
+#: ../src/main_window.c:1182
+msgid "Display"
+msgstr "Apparenza"
+
+#: ../src/main_window.c:1186
+msgid "Background Color"
+msgstr "Colore sfondo"
+
+#: ../src/main_window.c:1188
+msgid "_Override Background Color:"
+msgstr "_Imposta colore sfondo :"
+
+#: ../src/main_window.c:1214
+msgid "Timeout"
+msgstr "Durata"
+
+#: ../src/main_window.c:1217
+msgid "Preload"
+msgstr "Precarica"
+
+#: ../src/main_window.c:1222
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"Il tempo per cui viene mostrata una immagine durante una presentazione\n"
+"(in secondi)"
+
+#: ../src/main_window.c:1226
+msgid ""
+"Preload images during slideshow\n"
+"(uses more memory)"
+msgstr ""
+"Precarica le immagini durante le presentazioni\n"
+"(usa più memoria)"
+
+#: ../src/main_window.c:1227
+msgid "_Preload images"
+msgstr "_Precarica le immagini"
+
+#: ../src/main_window.c:1279
+msgid "Developer:"
+msgstr "Sviluppatore :"
+
+#: ../src/main_window.c:1289
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto è un visualizzatore di immagini leggero e veloce per l'ambiente desktop XFCE."
+
+#: ../src/main_window.c:1297
+msgid "translator-credits"
+msgstr "Fabio Vergnani <monghitri@aruba.it>"
+
+#: ../src/main_window.c:1317
+msgid "Open image"
+msgstr "Apri un'immagine"
+
+#: ../src/main_window.c:1352
+msgid "Could not open file"
+msgstr "Impossibile aprire il file"
+
+#: ../src/main_window.c:1362
+msgid "Open folder"
+msgstr "Apri cartella"
+
+#: ../src/main_window.c:1466
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Sei sicuro di voler cancellare la lista dei documenti recenti?"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Visualizzatore di immagini"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto Image Viewer"
+msgstr "Visualizzatore di immagini Ristretto"
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Visualizzatore di immagini XFCE"
+
+#~ msgid "Behaviour"
+#~ msgstr "Comportamento"
+#~ msgid "Flip _Vertically"
+#~ msgstr "Ruota _Verticalmente"
+#~ msgid "Flip _Horizontally"
+#~ msgstr "Ruota _Orizzontalmente"
+
