@@ -606,7 +606,6 @@ cb_rstto_navigator_running(RsttoNavigator *navigator)
         if (navigator->preload)
         {
             GList *next = g_list_next(navigator->file_iter);
-            g_debug("preload: %d", g_list_position(navigator->file_list, next));
             if (next == NULL)
             {
                 next = navigator->file_list;
@@ -910,7 +909,6 @@ rstto_navigator_entry_get_pixbuf_loader (RsttoNavigatorEntry *entry)
 GdkPixbuf *
 rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry)
 {
-    g_debug("%s", __FUNCTION__);
     return entry->src_pixbuf;
 }
 

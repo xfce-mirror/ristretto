@@ -137,7 +137,11 @@ rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
 
     if (GTK_WIDGET_REALIZED (widget))
     {
+        GdkRegion *region = event->region;
+
+        gdk_window_begin_paint_region(widget->window, region);
         rstto_thumbnail_paint(thumb);
+        gdk_window_end_paint(widget->window);
     }
 
     return FALSE;

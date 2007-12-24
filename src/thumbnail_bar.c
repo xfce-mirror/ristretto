@@ -47,6 +47,8 @@ static void
 rstto_thumbnail_bar_size_request(GtkWidget *, GtkRequisition *);
 static void
 rstto_thumbnail_bar_size_allocate(GtkWidget *, GtkAllocation *);
+static gboolean 
+rstto_thumbnail_bar_expose(GtkWidget *, GdkEventExpose *);
 
 static void
 rstto_thumbnail_bar_add(GtkContainer *container, GtkWidget *child);
@@ -133,6 +135,7 @@ rstto_thumbnail_bar_class_init(RsttoThumbnailBarClass *bar_class)
 
     widget_class->size_request = rstto_thumbnail_bar_size_request;
     widget_class->size_allocate = rstto_thumbnail_bar_size_allocate;
+    widget_class->expose_event = rstto_thumbnail_bar_expose;
 
 	container_class->add = rstto_thumbnail_bar_add;
 	container_class->remove = rstto_thumbnail_bar_remove;
@@ -289,6 +292,71 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     }
 }
 
+static gboolean 
+rstto_thumbnail_bar_expose(GtkWidget *widget, GdkEventExpose *ex)
+{
+    RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
+
+    GSList *iter = bar->priv->thumbs;
+
+    GdkEventExpose *n_ex = g_new0(GdkEventExpose, 1);
+
+    n_ex->type = ex->type;
+    n_ex->window = ex->window;
+    n_ex->send_event = ex->send_event;
+    n_ex->area.x = GTK_WIDGET(bar)->allocation.x;
+    n_ex->area.y = GTK_WIDGET(bar)->allocation.y;
+    n_ex->area.width = ex->area.width;
+    n_ex->area.height = ex->area.height;
+    n_ex->count = ex->count;
+
+    while(iter)
+    {
+        if (GTK_WIDGET_VISIBLE(iter->data) == TRUE)
+        {
+            switch (bar->priv->orientation)
+            {
+                case GTK_ORIENTATION_HORIZONTAL:
+                    if ((GTK_WIDGET(bar)->allocation.x + (GTK_WIDGET(bar)->allocation.width)) <
+                        (GTK_WIDGET(iter->data)->allocation.x + GTK_WIDGET(iter->data)->allocation.width))
+                    {
+                        n_ex->area.x = GTK_WIDGET(iter->data)->allocation.x;
+                        n_ex->area.width = (GTK_WIDGET(bar)->allocation.x + GTK_WIDGET(bar)->allocation.width) - n_ex->area.x;
+                    }
+                    else
+                    {
+                        n_ex->area.x = GTK_WIDGET(bar)->allocation.x;
+                        n_ex->area.width = ex->area.width;
+                    }
+                    break;
+                    break;
+                case GTK_ORIENTATION_VERTICAL:
+                    if ((GTK_WIDGET(bar)->allocation.y + GTK_WIDGET(bar)->allocation.height) <
+                        (GTK_WIDGET(iter->data)->allocation.y + GTK_WIDGET(iter->data)->allocation.height))
+                    {
+                        n_ex->area.y = GTK_WIDGET(iter->data)->allocation.y;
+                        n_ex->area.height = (GTK_WIDGET(bar)->allocation.y + GTK_WIDGET(bar)->allocation.height) - n_ex->area.y;
+                        g_debug("%d:%d", (GTK_WIDGET(bar)->allocation.y + GTK_WIDGET(bar)->allocation.height),GTK_WIDGET(iter->data)->allocation.y + GTK_WIDGET(iter->data)->allocation.height);
+                    }
+                    else
+                    {
+                        n_ex->area.y = GTK_WIDGET(bar)->allocation.y;
+                        n_ex->area.height = ex->area.height;
+                        g_debug("B");
+                    }
+                    break;
+            }
+            if (n_ex->region)
+                gdk_region_destroy(n_ex->region);
+            n_ex->region = gdk_region_rectangle(&(n_ex->area));
+            gtk_container_propagate_expose(GTK_CONTAINER(widget), GTK_WIDGET(iter->data), n_ex);
+        }
+        iter = g_slist_next(iter);
+    }
+
+    return FALSE;
+}
+
 GtkWidget *
 rstto_thumbnail_bar_new(RsttoNavigator *navigator)
 {
@@ -431,7 +499,6 @@ cb_rstto_thumbnail_bar_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavig
         }
         iter = g_slist_next(iter);
     }
-
     /* If the children should be autocentered... resize */
     if (bar->priv->auto_center == TRUE)
         gtk_widget_queue_resize(GTK_WIDGET(bar));
