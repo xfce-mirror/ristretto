@@ -578,8 +578,8 @@ cb_rstto_thumbnail_bar_thumbnail_toggled (RsttoThumbnail *thumb, RsttoThumbnailB
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(thumb)) == TRUE)
     {
-        rstto_navigator_entry_select (rstto_thumbnail_get_entry(thumb));
         bar->priv->auto_center = TRUE;
+        rstto_navigator_entry_select (rstto_thumbnail_get_entry(thumb));
     }
 }
 
