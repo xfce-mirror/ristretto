@@ -87,9 +87,7 @@ rstto_thumbnail_init(RsttoThumbnail *thumb)
 
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(thumb), TRUE);
     gtk_widget_set_events (GTK_WIDGET(thumb),
-                           GDK_BUTTON_PRESS_MASK);
-
-    //g_signal_connect(G_OBJECT(thumb), "clicked", G_CALLBACK(cb_rstto_thumbnail_clicked), NULL);
+                           GDK_POINTER_MOTION_MASK);
 }
 
 static void

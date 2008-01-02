@@ -36,6 +36,13 @@ struct _RsttoThumbnailBarPriv
     gint begin;
     gint end;
     GSList *thumbs;
+    struct
+    {
+        gdouble current_x;
+        gdouble current_y;
+        gint offset;
+        gboolean motion;
+    } motion;
 };
 
 static void
@@ -49,6 +56,15 @@ static void
 rstto_thumbnail_bar_size_allocate(GtkWidget *, GtkAllocation *);
 static gboolean 
 rstto_thumbnail_bar_expose(GtkWidget *, GdkEventExpose *);
+
+static gboolean
+cb_rstto_thumbnail_bar_thumbnail_button_press_event (RsttoThumbnail *thumb, GdkEventButton *event);
+static gboolean
+cb_rstto_thumbnail_bar_thumbnail_button_release_event (RsttoThumbnail *thumb, GdkEventButton *event);
+static gboolean 
+cb_rstto_thumbnail_bar_thumbnail_motion_notify_event (RsttoThumbnail *thumb,
+                                             GdkEventMotion *event,
+                                             gpointer user_data);
 
 static void
 rstto_thumbnail_bar_add(GtkContainer *container, GtkWidget *child);
@@ -117,6 +133,7 @@ rstto_thumbnail_bar_init(RsttoThumbnailBar *bar)
 
 	GTK_WIDGET_SET_FLAGS(bar, GTK_NO_WINDOW);
 	gtk_widget_set_redraw_on_allocate(GTK_WIDGET(bar), FALSE);
+
     bar->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
     bar->priv->offset = 0;
 
@@ -506,6 +523,9 @@ cb_rstto_thumbnail_bar_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigato
         thumb = rstto_thumbnail_new(entry, NULL);
     }
     g_signal_connect(G_OBJECT(thumb), "toggled", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_toggled), bar);
+    g_signal_connect(G_OBJECT(thumb), "button_press_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_button_press_event), NULL);
+    g_signal_connect(G_OBJECT(thumb), "button_release_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_button_release_event), NULL);
+    g_signal_connect(G_OBJECT(thumb), "motion_notify_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_motion_notify_event), NULL);
     gtk_container_add(GTK_CONTAINER(bar), thumb);
     gtk_widget_show(thumb);
 }
@@ -559,6 +579,7 @@ cb_rstto_thumbnail_bar_thumbnail_toggled (RsttoThumbnail *thumb, RsttoThumbnailB
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(thumb)) == TRUE)
     {
         rstto_navigator_entry_select (rstto_thumbnail_get_entry(thumb));
+        bar->priv->auto_center = TRUE;
     }
 }
 
@@ -576,4 +597,75 @@ cb_rstto_thumbnail_bar_compare (RsttoThumbnail *a, RsttoThumbnail *b)
     {
         return 1;
     }
+}
+
+static gboolean
+cb_rstto_thumbnail_bar_thumbnail_button_press_event (RsttoThumbnail *thumb, GdkEventButton *event)
+{
+    if(event->button == 1)
+    {
+        RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(gtk_widget_get_parent(GTK_WIDGET(thumb)));
+
+        bar->priv->motion.offset = bar->priv->offset;
+        if (bar->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
+        {
+            gdouble x = event->x + GTK_WIDGET(thumb)->allocation.x;
+            bar->priv->motion.current_x = x;
+        }
+        else
+        {
+            gdouble y = event->y + GTK_WIDGET(thumb)->allocation.y;
+            bar->priv->motion.current_y = y;
+        }
+    }
+
+    return FALSE;
+}
+
+static gboolean
+cb_rstto_thumbnail_bar_thumbnail_button_release_event (RsttoThumbnail *thumb, GdkEventButton *event)
+{
+    RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(gtk_widget_get_parent(GTK_WIDGET(thumb)));
+    if(event->button == 1)
+    {
+        GtkWidget *widget = GTK_WIDGET(thumb);
+        gdk_window_set_cursor(widget->window, NULL);
+        if (bar->priv->motion.motion == TRUE)
+        {
+            bar->priv->motion.motion = FALSE;
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+static gboolean 
+cb_rstto_thumbnail_bar_thumbnail_motion_notify_event (RsttoThumbnail *thumb,
+                                                      GdkEventMotion *event,
+                                                      gpointer user_data)
+{
+    RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(gtk_widget_get_parent(GTK_WIDGET(thumb)));
+    gdouble x = event->x + GTK_WIDGET(thumb)->allocation.x;
+    gdouble y = event->y + GTK_WIDGET(thumb)->allocation.y;
+
+    if (event->state & GDK_BUTTON1_MASK)
+    {
+        GtkWidget *widget = GTK_WIDGET(thumb);
+        GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
+        gdk_window_set_cursor(widget->window, cursor);
+        gdk_cursor_unref(cursor);
+
+        bar->priv->motion.motion = TRUE;
+        bar->priv->auto_center = FALSE;
+        if (bar->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
+        {
+            bar->priv->offset = bar->priv->motion.offset + (bar->priv->motion.current_x - x);
+        }
+        else
+        {
+            bar->priv->offset = bar->priv->motion.offset + (bar->priv->motion.current_y - y);
+        }
+        gtk_widget_queue_resize(GTK_WIDGET(bar));
+    }
+    return FALSE;
 }
