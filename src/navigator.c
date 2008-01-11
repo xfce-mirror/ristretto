@@ -912,6 +912,16 @@ rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry)
     return entry->src_pixbuf;
 }
 
+gdouble
+rstto_navigator_entry_get_size (RsttoNavigatorEntry *entry)
+{
+    if (entry->src_pixbuf)
+    {
+        return (gdouble)(gdk_pixbuf_get_width(entry->src_pixbuf) * gdk_pixbuf_get_height(entry->src_pixbuf) * gdk_pixbuf_get_bits_per_sample(entry->src_pixbuf));
+    }
+    return 0;
+}
+
 gboolean
 rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry, gboolean empty_cache)
 {

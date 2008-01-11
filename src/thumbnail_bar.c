@@ -65,6 +65,10 @@ static gboolean
 cb_rstto_thumbnail_bar_thumbnail_motion_notify_event (RsttoThumbnail *thumb,
                                              GdkEventMotion *event,
                                              gpointer user_data);
+static gboolean
+cb_rstto_thumbnail_bar_thumbnail_scroll_event (RsttoThumbnail *thumb,
+                                               GdkEventScroll *event,
+                                               gpointer *user_data);
 
 static void
 rstto_thumbnail_bar_add(GtkContainer *container, GtkWidget *child);
@@ -526,6 +530,7 @@ cb_rstto_thumbnail_bar_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigato
     g_signal_connect(G_OBJECT(thumb), "button_press_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_button_press_event), NULL);
     g_signal_connect(G_OBJECT(thumb), "button_release_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_button_release_event), NULL);
     g_signal_connect(G_OBJECT(thumb), "motion_notify_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_motion_notify_event), NULL);
+    g_signal_connect(G_OBJECT(thumb), "scroll_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_scroll_event), NULL);
     gtk_container_add(GTK_CONTAINER(bar), thumb);
     gtk_widget_show(thumb);
 }
@@ -668,4 +673,25 @@ cb_rstto_thumbnail_bar_thumbnail_motion_notify_event (RsttoThumbnail *thumb,
         gtk_widget_queue_resize(GTK_WIDGET(bar));
     }
     return FALSE;
+}
+
+static gboolean
+cb_rstto_thumbnail_bar_thumbnail_scroll_event (RsttoThumbnail *thumb,
+                                               GdkEventScroll *event,
+                                               gpointer *user_data)
+{
+    RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(gtk_widget_get_parent(GTK_WIDGET(thumb)));
+    switch(event->direction)
+    {
+        case GDK_SCROLL_UP:
+        case GDK_SCROLL_LEFT:
+            rstto_navigator_jump_back(bar->priv->navigator);
+            break;
+        case GDK_SCROLL_DOWN:
+        case GDK_SCROLL_RIGHT:
+            rstto_navigator_jump_forward(bar->priv->navigator);
+            break;
+    }
+    return FALSE;
+
 }
