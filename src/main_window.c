@@ -1743,6 +1743,7 @@ cb_rstto_main_window_last(GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_zoom_in(GtkWidget *widget, RsttoMainWindow *window)
 {
+    rstto_picture_viewer_set_zoom_mode(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), RSTTO_ZOOM_MODE_CUSTOM);
     gdouble scale = rstto_picture_viewer_get_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
     rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), scale * window->priv->zoom_factor);
 }
@@ -1750,6 +1751,7 @@ cb_rstto_main_window_zoom_in(GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_zoom_out(GtkWidget *widget, RsttoMainWindow *window)
 {
+    rstto_picture_viewer_set_zoom_mode(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), RSTTO_ZOOM_MODE_CUSTOM);
     gdouble scale = rstto_picture_viewer_get_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
     rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), scale / window->priv->zoom_factor);
 }
@@ -1757,12 +1759,14 @@ cb_rstto_main_window_zoom_out(GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_zoom_100(GtkWidget *widget, RsttoMainWindow *window)
 {
+    rstto_picture_viewer_set_zoom_mode(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), RSTTO_ZOOM_MODE_100);
     rstto_picture_viewer_set_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), 1);
 }
 
 static void
 cb_rstto_main_window_zoom_fit(GtkWidget *widget, RsttoMainWindow *window)
 {
+    rstto_picture_viewer_set_zoom_mode(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), RSTTO_ZOOM_MODE_FIT);
     rstto_picture_viewer_fit_scale(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
 }
 

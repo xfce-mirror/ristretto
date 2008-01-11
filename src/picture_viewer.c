@@ -36,6 +36,7 @@ struct _RsttoPictureViewerPriv
 {
     RsttoNavigator   *navigator;
     RsttoNavigatorEntry *entry;
+    RsttoZoomMode    zoom_mode;
 
     GdkPixbuf        *src_pixbuf;
     GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
@@ -142,6 +143,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
 
     viewer->priv->src_pixbuf = NULL;
     viewer->priv->dst_pixbuf = NULL;
+    viewer->priv->zoom_mode = RSTTO_ZOOM_MODE_FIT;
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
     gtk_widget_set_events (GTK_WIDGET(viewer),
                            GDK_BUTTON_PRESS_MASK |
@@ -578,6 +580,21 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
                 fit_to_screen = TRUE;
                 rstto_navigator_entry_set_fit_to_screen(entry, TRUE);
             }
+        }
+
+        switch (viewer->priv->zoom_mode)
+        {
+            case RSTTO_ZOOM_MODE_FIT:
+                fit_to_screen = TRUE;
+                rstto_navigator_entry_set_fit_to_screen(entry, TRUE);
+                break;
+            case RSTTO_ZOOM_MODE_100:
+                fit_to_screen = FALSE;
+                scale = 1.0;
+                rstto_navigator_entry_set_scale(entry, scale);
+                break;
+            case RSTTO_ZOOM_MODE_CUSTOM:
+                break;
         }
 
         if(fit_to_screen)
@@ -1100,3 +1117,8 @@ rstto_picture_viewer_redraw(RsttoPictureViewer *viewer)
     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
 }
 
+void
+rstto_picture_viewer_set_zoom_mode(RsttoPictureViewer *viewer, RsttoZoomMode mode)
+{
+    viewer->priv->zoom_mode = mode;
+}
