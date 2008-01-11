@@ -1,3 +1,17 @@
+2008-01-xx: Release 0.0.16
+	* src/main_window.c,
+	  src/picture_viewer.c,
+	  src/picture_viewer.h:
+	  - Add zoom-mode support (remember zoom-mode across images)
+	* src/thumbnail_bar.h,
+	  src/thumbnail_bar.c:
+	  - New thumbnail-bar
+	  - Add drag support
+	* src/thumbnail.h,
+	  src/thumbnail.c:
+	  - New thumbnail objects (better themeable)
+	  - Add tooltip support
+	
 2007-12-09: Release 0.0.15
 	* src/main.c:
 	  - Fix store and load functions for background-color, functions used
