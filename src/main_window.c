@@ -974,6 +974,7 @@ void
 rstto_main_window_set_max_cache_size (RsttoMainWindow *window, gint max_cache_size)
 {
     window->priv->settings.max_cache_size = max_cache_size;
+    rstto_navigator_set_max_history_size(window->priv->navigator, max_cache_size * 1000000);
 }
 
 /* CALLBACK FUNCTIONS */
@@ -1158,6 +1159,21 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *slideshow_main_lbl;
     GtkWidget *display_main_vbox;
     GtkWidget *display_main_lbl;
+    GtkWidget *bg_color_vbox;
+    GtkWidget *bg_color_hbox;
+    GtkWidget *bg_color_frame;
+    GtkWidget *bg_color_button;
+    GtkWidget *bg_color_override_check;
+    GtkWidget *cache_vbox;
+    GtkWidget *cache_frame;
+    GtkWidget *cache_hbox;
+    GtkObject *cache_adjustment;
+    GtkWidget *cache_spin_button;
+    GtkWidget *cache_label;
+    GtkWidget *cache_mb_label;
+
+    cache_adjustment = gtk_adjustment_new(rstto_main_window_get_max_cache_size(window), 0, 9999, 1, 100, 100);
+
     GtkWidget *dialog = xfce_titled_dialog_new_with_buttons(_("Image viewer Preferences"),
                                                     GTK_WINDOW(window),
                                                     GTK_DIALOG_NO_SEPARATOR,
@@ -1182,15 +1198,16 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     display_main_lbl = gtk_label_new(_("Display"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), display_main_vbox, display_main_lbl);
 
-    GtkWidget *bg_color_vbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget *bg_color_frame = xfce_create_framebox_with_content (_("Background Color"), bg_color_vbox);
+    bg_color_vbox = gtk_vbox_new(FALSE, 0);
+    bg_color_frame = xfce_create_framebox_with_content (_("Background Color"), bg_color_vbox);
 
-    GtkWidget *bg_color_override_check = gtk_check_button_new_with_mnemonic(_("_Override Background Color:"));
-    GtkWidget *bg_hbox = gtk_hbox_new(FALSE, 4);
-    GtkWidget *bg_color_button = gtk_color_button_new();
-    gtk_box_pack_start(GTK_BOX(bg_hbox), bg_color_override_check, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(bg_hbox), bg_color_button, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(bg_color_vbox), bg_hbox, FALSE, FALSE, 0);
+    bg_color_override_check = gtk_check_button_new_with_mnemonic(_("_Override Background Color:"));
+    bg_color_hbox = gtk_hbox_new(FALSE, 4);
+    bg_color_button = gtk_color_button_new();
+
+    gtk_box_pack_start(GTK_BOX(bg_color_hbox), bg_color_override_check, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(bg_color_hbox), bg_color_button, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(bg_color_vbox), bg_color_hbox, FALSE, FALSE, 0);
 
     g_signal_connect(G_OBJECT(bg_color_override_check), "toggled", (GCallback)cb_rstto_bg_color_override_check_toggled, bg_color_button);
 
@@ -1206,9 +1223,24 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
         gtk_widget_set_sensitive(bg_color_button, FALSE);
     }
 
+    cache_vbox = gtk_vbox_new(FALSE, 0);
+    cache_frame = xfce_create_framebox_with_content (_("Image Cache"), cache_vbox);
+    cache_hbox = gtk_hbox_new(FALSE, 4);
+    cache_spin_button = gtk_spin_button_new(GTK_ADJUSTMENT(cache_adjustment), 1.0, 0);
+    cache_label = gtk_label_new(_("Cache size:"));
+    cache_mb_label = gtk_label_new(_("MB"));
+
+    gtk_box_pack_start(GTK_BOX(cache_hbox), cache_label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(cache_hbox), cache_spin_button, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(cache_hbox), cache_mb_label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(cache_vbox), cache_hbox, FALSE, FALSE, 0);
+
+
     gtk_container_set_border_width (GTK_CONTAINER (bg_color_frame), 8);
+    gtk_container_set_border_width (GTK_CONTAINER (cache_frame), 8);
 
     gtk_box_pack_start(GTK_BOX(display_main_vbox), bg_color_frame, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(display_main_vbox), cache_frame, FALSE, TRUE, 0);
 
     GtkWidget *slideshow_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *slideshow_frame = xfce_create_framebox_with_content (_("Timeout"), slideshow_vbox);
@@ -1266,6 +1298,7 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
                 rstto_main_window_set_pv_bg_color(window, NULL);
             }
             rstto_picture_viewer_redraw(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
+            rstto_main_window_set_max_cache_size(window, GTK_ADJUSTMENT(cache_adjustment)->value);
         default:
             break;
     }

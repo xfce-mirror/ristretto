@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Miro Hrončok <churchyard@gmail.com>, 2007.
 #
+#: ../src/main.c:208
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
-"Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-12-01 10:04+0100\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2008-01-12 14:29+0100\n"
 "PO-Revision-Date: 2007-12-04 09:39+0100\n"
 "Last-Translator: Miro Hrončok <churchyard@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -15,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:47
+#: ../src/main.c:46
 msgid "Version information"
 msgstr "Informace o verzi"
 
-#: ../src/main.c:70
+#: ../src/main.c:212
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -46,13 +47,11 @@ msgstr "_Naposledy otevřené"
 msgid "_Edit"
 msgstr "_Upravit"
 
-#: ../src/main_window.c:359
-#: ../src/main_window.c:596
+#: ../src/main_window.c:359 ../src/main_window.c:596
 msgid "Open with..."
 msgstr "Otevřít pomocí..."
 
-#: ../src/main_window.c:367
-#: ../src/main_window.c:607
+#: ../src/main_window.c:367 ../src/main_window.c:607
 msgid "No applications available"
 msgstr "Nejsou k dispozici žádné programy"
 
@@ -107,35 +106,48 @@ msgstr "_Přejít"
 msgid "_Help"
 msgstr "_Nápověda"
 
-#: ../src/main_window.c:1161
+#: ../src/main_window.c:1177
 msgid "Image viewer Preferences"
 msgstr "Volby prohlížeče obrázků"
 
-#: ../src/main_window.c:1178
+#: ../src/main_window.c:1194
 msgid "Slideshow"
 msgstr "Promítání snímků"
 
-#: ../src/main_window.c:1182
+#: ../src/main_window.c:1198
 msgid "Display"
 msgstr "Zobrazení"
 
-#: ../src/main_window.c:1186
+#: ../src/main_window.c:1202
 msgid "Background Color"
 msgstr "Barva pozadí"
 
-#: ../src/main_window.c:1188
+#: ../src/main_window.c:1204
 msgid "_Override Background Color:"
 msgstr "Určit _barvu pozadí:"
 
-#: ../src/main_window.c:1214
+#: ../src/main_window.c:1227
+#, fuzzy
+msgid "Image Cache"
+msgstr "Prohlížeč obrázků"
+
+#: ../src/main_window.c:1230
+msgid "Cache size:"
+msgstr ""
+
+#: ../src/main_window.c:1231
+msgid "MB"
+msgstr ""
+
+#: ../src/main_window.c:1246
 msgid "Timeout"
 msgstr "Prodleva"
 
-#: ../src/main_window.c:1217
+#: ../src/main_window.c:1249
 msgid "Preload"
 msgstr "Načítat dopředu"
 
-#: ../src/main_window.c:1222
+#: ../src/main_window.c:1254
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -143,7 +155,7 @@ msgstr ""
 "Časový interval po který je zobrazen jeden snímek při promítání\n"
 "(ve vteřinách)"
 
-#: ../src/main_window.c:1226
+#: ../src/main_window.c:1258
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -151,37 +163,50 @@ msgstr ""
 "Načítat snímky do paměti ještě předtím, než mají být zobrazeny\n"
 "(použije se více paměti)"
 
-#: ../src/main_window.c:1227
+#: ../src/main_window.c:1259
 msgid "_Preload images"
 msgstr "Načítat _předem"
 
-#: ../src/main_window.c:1279
+#: ../src/main_window.c:1313
 msgid "Developer:"
 msgstr "Vývojář:"
 
-#: ../src/main_window.c:1289
-msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
-msgstr "Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí Xfce."
+#: ../src/main_window.c:1323
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
+msgstr ""
+"Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí "
+"Xfce."
 
-#: ../src/main_window.c:1297
+#: ../src/main_window.c:1331
 msgid "translator-credits"
 msgstr "Miro Hrončok <churchyard@gmail.com>"
 
-#: ../src/main_window.c:1317
+#: ../src/main_window.c:1351
 msgid "Open image"
 msgstr "Načíst obrázek"
 
-#: ../src/main_window.c:1352
+#: ../src/main_window.c:1386
 msgid "Could not open file"
 msgstr "Nemohu otevřít soubor"
 
-#: ../src/main_window.c:1362
+#: ../src/main_window.c:1396
 msgid "Open folder"
 msgstr "Otevřít složku"
 
-#: ../src/main_window.c:1466
-msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+#: ../src/main_window.c:1500
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Opravdu chcete vyprázdnit seznam naposledy otevřených dokumentů?"
+
+#: ../src/thumbnail_bar.c:168
+msgid "Spacing"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:169
+msgid "The amount of space between the thumbnails"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -197,8 +222,9 @@ msgstr "Prohlížeč obrázků pro Xfce"
 
 #~ msgid "Behaviour"
 #~ msgstr "Chování"
+
 #~ msgid "Flip _Vertically"
 #~ msgstr "Překlopit vertikálně"
+
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Překlopit horizontálně"
-

@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Mike Massonnet <mmassonnet@xfce.org>, 2007.
 #
+#: ../src/main.c:208
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
-"Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-12-01 10:04+0100\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2008-01-12 14:29+0100\n"
 "PO-Revision-Date: 2007-12-01 10:52+0100\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
@@ -16,18 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,11,-1,-1,-1\n"
 
-#: ../src/main.c:47
+#: ../src/main.c:46
 msgid "Version information"
 msgstr "Information sur la version"
 
-#: ../src/main.c:70
+#: ../src/main.c:212
 #, c-format
 msgid ""
 "%s: %s\n"
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Essayez %s --help pour voir une liste complète des options en ligne de commande.\n"
+"Essayez %s --help pour voir une liste complète des options en ligne de "
+"commande.\n"
 
 #. Create 'File' menu
 #: ../src/main_window.c:314
@@ -47,13 +49,11 @@ msgstr "_Récemment ouvert"
 msgid "_Edit"
 msgstr "_Editer"
 
-#: ../src/main_window.c:359
-#: ../src/main_window.c:596
+#: ../src/main_window.c:359 ../src/main_window.c:596
 msgid "Open with..."
 msgstr "_Ouvrir avec..."
 
-#: ../src/main_window.c:367
-#: ../src/main_window.c:607
+#: ../src/main_window.c:367 ../src/main_window.c:607
 msgid "No applications available"
 msgstr "Aucune application disponible"
 
@@ -108,35 +108,48 @@ msgstr "A_ller"
 msgid "_Help"
 msgstr "A_ide"
 
-#: ../src/main_window.c:1161
+#: ../src/main_window.c:1177
 msgid "Image viewer Preferences"
 msgstr "Préférences du visualiseur d’images"
 
-#: ../src/main_window.c:1178
+#: ../src/main_window.c:1194
 msgid "Slideshow"
 msgstr "Diaporama"
 
-#: ../src/main_window.c:1182
+#: ../src/main_window.c:1198
 msgid "Display"
 msgstr "Affichage"
 
-#: ../src/main_window.c:1186
+#: ../src/main_window.c:1202
 msgid "Background Color"
 msgstr "Couleur d'arrière plan"
 
-#: ../src/main_window.c:1188
+#: ../src/main_window.c:1204
 msgid "_Override Background Color:"
 msgstr "_Choisir une couleur d’arrière plan :"
 
-#: ../src/main_window.c:1214
+#: ../src/main_window.c:1227
+#, fuzzy
+msgid "Image Cache"
+msgstr "Visualiseur d’Images"
+
+#: ../src/main_window.c:1230
+msgid "Cache size:"
+msgstr ""
+
+#: ../src/main_window.c:1231
+msgid "MB"
+msgstr ""
+
+#: ../src/main_window.c:1246
 msgid "Timeout"
 msgstr "Durée"
 
-#: ../src/main_window.c:1217
+#: ../src/main_window.c:1249
 msgid "Preload"
 msgstr "Préchargement"
 
-#: ../src/main_window.c:1222
+#: ../src/main_window.c:1254
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -144,7 +157,7 @@ msgstr ""
 "La durée d’affichage d’une image individuelle durant le diaporama\n"
 "(en secondes)"
 
-#: ../src/main_window.c:1226
+#: ../src/main_window.c:1258
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -152,37 +165,52 @@ msgstr ""
 "Précharger les images durant le diaporama\n"
 "(nécessite plus de mémoire vive)"
 
-#: ../src/main_window.c:1227
+#: ../src/main_window.c:1259
 msgid "_Preload images"
 msgstr "_Précharger les images"
 
-#: ../src/main_window.c:1279
+#: ../src/main_window.c:1313
 msgid "Developer:"
 msgstr "Développeur :"
 
-#: ../src/main_window.c:1289
-msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
-msgstr "Ristretto est un visualiseur d’images léger et rapide pour l’environnement de bureau Xfce."
+#: ../src/main_window.c:1323
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
+msgstr ""
+"Ristretto est un visualiseur d’images léger et rapide pour l’environnement "
+"de bureau Xfce."
 
-#: ../src/main_window.c:1297
+#: ../src/main_window.c:1331
 msgid "translator-credits"
 msgstr "Mike Massonnet <mmassonnet@xfce.org>"
 
-#: ../src/main_window.c:1317
+#: ../src/main_window.c:1351
 msgid "Open image"
 msgstr "Ouvrir une image"
 
-#: ../src/main_window.c:1352
+#: ../src/main_window.c:1386
 msgid "Could not open file"
 msgstr "Impossible d’ouvrir le fichier"
 
-#: ../src/main_window.c:1362
+#: ../src/main_window.c:1396
 msgid "Open folder"
 msgstr "Ouvrir un répertoire"
 
-#: ../src/main_window.c:1466
-msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr "Êtes-vous certain de vouloir supprimer la liste des documents récemment ouverts de Ristretto ?"
+#: ../src/main_window.c:1500
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr ""
+"Êtes-vous certain de vouloir supprimer la liste des documents récemment "
+"ouverts de Ristretto ?"
+
+#: ../src/thumbnail_bar.c:168
+msgid "Spacing"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:169
+msgid "The amount of space between the thumbnails"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -198,8 +226,9 @@ msgstr "Visualiseur d’Images pour Xfce"
 
 #~ msgid "Behaviour"
 #~ msgstr "Comportement"
+
 #~ msgid "Flip _Vertically"
 #~ msgstr "Retourner _verticalement"
+
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Retourner _horizontalement"
-

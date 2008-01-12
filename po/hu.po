@@ -1,9 +1,9 @@
-#: ../src/main.c:66
+#: ../src/main.c:208
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
-"Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-12-01 10:04+0100\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2008-01-12 14:29+0100\n"
 "PO-Revision-Date: 2007-11-02 12:25+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.d.o>\n"
@@ -14,11 +14,11 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: ../src/main.c:47
+#: ../src/main.c:46
 msgid "Version information"
 msgstr "Verzió adatok"
 
-#: ../src/main.c:70
+#: ../src/main.c:212
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -109,81 +109,102 @@ msgstr "U_grás"
 msgid "_Help"
 msgstr "_Súgó"
 
-#: ../src/main_window.c:1161
+#: ../src/main_window.c:1177
 #, fuzzy
 msgid "Image viewer Preferences"
 msgstr "Kép-néző"
 
-#: ../src/main_window.c:1178
+#: ../src/main_window.c:1194
 msgid "Slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1182
+#: ../src/main_window.c:1198
 msgid "Display"
 msgstr ""
 
-#: ../src/main_window.c:1186
+#: ../src/main_window.c:1202
 msgid "Background Color"
 msgstr ""
 
-#: ../src/main_window.c:1188
+#: ../src/main_window.c:1204
 msgid "_Override Background Color:"
 msgstr ""
 
-#: ../src/main_window.c:1214
+#: ../src/main_window.c:1227
+#, fuzzy
+msgid "Image Cache"
+msgstr "Kép-néző"
+
+#: ../src/main_window.c:1230
+msgid "Cache size:"
+msgstr ""
+
+#: ../src/main_window.c:1231
+msgid "MB"
+msgstr ""
+
+#: ../src/main_window.c:1246
 msgid "Timeout"
 msgstr ""
 
-#: ../src/main_window.c:1217
+#: ../src/main_window.c:1249
 msgid "Preload"
 msgstr ""
 
-#: ../src/main_window.c:1222
+#: ../src/main_window.c:1254
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1226
+#: ../src/main_window.c:1258
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
 
-#: ../src/main_window.c:1227
+#: ../src/main_window.c:1259
 msgid "_Preload images"
 msgstr ""
 
-#: ../src/main_window.c:1279
+#: ../src/main_window.c:1313
 msgid "Developer:"
 msgstr "Fejlesztő:"
 
-#: ../src/main_window.c:1289
+#: ../src/main_window.c:1323
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "A Ristretto egy gyors, könnyű nézegető az Xfce asztali környezethez."
 
-#: ../src/main_window.c:1297
+#: ../src/main_window.c:1331
 msgid "translator-credits"
 msgstr "SZERVÁC Attila"
 
-#: ../src/main_window.c:1317
+#: ../src/main_window.c:1351
 msgid "Open image"
 msgstr "Kép megnyitása"
 
-#: ../src/main_window.c:1352
+#: ../src/main_window.c:1386
 msgid "Could not open file"
 msgstr "Nem tudtam megnyitni a fájlt"
 
-#: ../src/main_window.c:1362
+#: ../src/main_window.c:1396
 msgid "Open folder"
 msgstr "Mappa megnyitása"
 
-#: ../src/main_window.c:1466
+#: ../src/main_window.c:1500
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Tényleg törlöd a legutóbbi dokumentumok listáját?"
+
+#: ../src/thumbnail_bar.c:168
+msgid "Spacing"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:169
+msgid "The amount of space between the thumbnails"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"

@@ -4,12 +4,12 @@
 # Og Maciel <ogmaciel@gnome.org>, 2007.
 # Fábio Nogueira <deb-user-ba@ubuntu.com>, 2007.
 #
-#: ../src/main.c:66
+#: ../src/main.c:208
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.10\n"
-"Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-12-01 10:04+0100\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2008-01-12 14:29+0100\n"
 "PO-Revision-Date: 2007-12-02 22:35-0300\n"
 "Last-Translator: Fábio Nogueira <deb-user-ba@ubuntu.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../src/main.c:47
+#: ../src/main.c:46
 msgid "Version information"
 msgstr "Informação da versão"
 
-#: ../src/main.c:70
+#: ../src/main.c:212
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -109,35 +109,48 @@ msgstr "_Ir"
 msgid "_Help"
 msgstr "Aj_uda"
 
-#: ../src/main_window.c:1161
+#: ../src/main_window.c:1177
 msgid "Image viewer Preferences"
 msgstr "Preferências do Visualizador de Imagens"
 
-#: ../src/main_window.c:1178
+#: ../src/main_window.c:1194
 msgid "Slideshow"
 msgstr "Apresentação de Slides"
 
-#: ../src/main_window.c:1182
+#: ../src/main_window.c:1198
 msgid "Display"
 msgstr "Exibir"
 
-#: ../src/main_window.c:1186
+#: ../src/main_window.c:1202
 msgid "Background Color"
 msgstr "Cor de Fundo"
 
-#: ../src/main_window.c:1188
+#: ../src/main_window.c:1204
 msgid "_Override Background Color:"
 msgstr "_Substituir Cor de Fundo:"
 
-#: ../src/main_window.c:1214
+#: ../src/main_window.c:1227
+#, fuzzy
+msgid "Image Cache"
+msgstr "Visualizador de Imagens"
+
+#: ../src/main_window.c:1230
+msgid "Cache size:"
+msgstr ""
+
+#: ../src/main_window.c:1231
+msgid "MB"
+msgstr ""
+
+#: ../src/main_window.c:1246
 msgid "Timeout"
 msgstr "Tempo de Espera"
 
-#: ../src/main_window.c:1217
+#: ../src/main_window.c:1249
 msgid "Preload"
 msgstr "Pré-carregamento"
 
-#: ../src/main_window.c:1222
+#: ../src/main_window.c:1254
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -146,7 +159,7 @@ msgstr ""
 "slides\n"
 "(em segundos)"
 
-#: ../src/main_window.c:1226
+#: ../src/main_window.c:1258
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -154,15 +167,15 @@ msgstr ""
 "Pré-Carregar imagens durante uma apresentação de slides\n"
 "(usa mais memória)"
 
-#: ../src/main_window.c:1227
+#: ../src/main_window.c:1259
 msgid "_Preload images"
 msgstr "Carregar imagens _previamente"
 
-#: ../src/main_window.c:1279
+#: ../src/main_window.c:1313
 msgid "Developer:"
 msgstr "Desenvolvedor:"
 
-#: ../src/main_window.c:1289
+#: ../src/main_window.c:1323
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -170,30 +183,38 @@ msgstr ""
 "Ristretto é um visualizador de imagens rápido e leve para o ambiente de "
 "trabalho do Xfce."
 
-#: ../src/main_window.c:1297
+#: ../src/main_window.c:1331
 msgid "translator-credits"
 msgstr ""
 "Og Maciel <ogmaciel@gnome.org>,\n"
 "Fábio Nogueira <deb-user-ba@ubuntu.com>"
 
-#: ../src/main_window.c:1317
+#: ../src/main_window.c:1351
 msgid "Open image"
 msgstr "Abrir imagem"
 
-#: ../src/main_window.c:1352
+#: ../src/main_window.c:1386
 msgid "Could not open file"
 msgstr "Não foi possível abrir arquivo"
 
-#: ../src/main_window.c:1362
+#: ../src/main_window.c:1396
 msgid "Open folder"
 msgstr "Abrir pasta"
 
-#: ../src/main_window.c:1466
+#: ../src/main_window.c:1500
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
 "Você tem certeza que deseja apagar do Ristretto a lista dos documentos "
 "abertos mais recentes?"
+
+#: ../src/thumbnail_bar.c:168
+msgid "Spacing"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:169
+msgid "The amount of space between the thumbnails"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"

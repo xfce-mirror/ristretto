@@ -133,7 +133,7 @@ rstto_navigator_init(RsttoNavigator *navigator)
     navigator->preload = FALSE;
 
     /* Max history size (in bytes) */
-    navigator->max_history = 0;
+    navigator->max_history = 128000000;
 
     navigator->factory = thunar_vfs_thumb_factory_new(THUNAR_VFS_THUMB_SIZE_NORMAL);
 }
@@ -271,7 +271,8 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
     navigator->history = g_list_prepend(navigator->history, entry);
     
     GList *iter = NULL;
-    gdouble size = 0;
+    guint64 size = 0;
+
     for (iter = navigator->history; iter != NULL; iter = g_list_next(iter))
     {
         RsttoNavigatorEntry *nav_entry = iter->data;
@@ -918,12 +919,17 @@ rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry)
     return entry->src_pixbuf;
 }
 
-gdouble
+guint64
 rstto_navigator_entry_get_size (RsttoNavigatorEntry *entry)
 {
     if (entry->src_pixbuf)
     {
-        return (gdouble)(gdk_pixbuf_get_width(entry->src_pixbuf) * gdk_pixbuf_get_height(entry->src_pixbuf) * gdk_pixbuf_get_bits_per_sample(entry->src_pixbuf));
+        gint width = gdk_pixbuf_get_width(entry->src_pixbuf);
+        gint height = gdk_pixbuf_get_height(entry->src_pixbuf);
+
+        gint n_channels = gdk_pixbuf_get_n_channels(entry->src_pixbuf);
+
+        return (guint64) width * height * n_channels;
     }
     return 0;
 }

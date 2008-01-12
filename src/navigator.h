@@ -146,7 +146,7 @@ rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry, gboolean empty_cac
 void
 rstto_navigator_entry_select (RsttoNavigatorEntry *entry);
 
-gdouble
+guint64
 rstto_navigator_entry_get_size (RsttoNavigatorEntry *entry);
 gdouble
 rstto_navigator_get_max_history_size(RsttoNavigator *navigator);

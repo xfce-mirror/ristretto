@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Fabio Vergnani <monghitri@aruba.it>, 2007.
 #
+#: ../src/main.c:208
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
-"Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-12-01 10:04+0100\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2008-01-12 14:29+0100\n"
 "PO-Revision-Date: 2007-12-22 10:52+0100\n"
 "Last-Translator: Fabio Vergnani <monghitri@aruba.it>\n"
 "Language-Team: Italian\n"
@@ -16,18 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,11,-1,-1,-1\n"
 
-#: ../src/main.c:47
+#: ../src/main.c:46
 msgid "Version information"
 msgstr "Versione"
 
-#: ../src/main.c:70
+#: ../src/main.c:212
 #, c-format
 msgid ""
 "%s: %s\n"
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Prova %s --help per vedere una lista completa di opzioni per linea di comando.\n"
+"Prova %s --help per vedere una lista completa di opzioni per linea di "
+"comando.\n"
 
 #. Create 'File' menu
 #: ../src/main_window.c:314
@@ -47,13 +49,11 @@ msgstr "Apri _recenti"
 msgid "_Edit"
 msgstr "_Modifica"
 
-#: ../src/main_window.c:359
-#: ../src/main_window.c:596
+#: ../src/main_window.c:359 ../src/main_window.c:596
 msgid "Open with..."
 msgstr "_Apri con..."
 
-#: ../src/main_window.c:367
-#: ../src/main_window.c:607
+#: ../src/main_window.c:367 ../src/main_window.c:607
 msgid "No applications available"
 msgstr "Nesuna applicazione disponibile"
 
@@ -108,35 +108,48 @@ msgstr "V_ai"
 msgid "_Help"
 msgstr "A_iuto"
 
-#: ../src/main_window.c:1161
+#: ../src/main_window.c:1177
 msgid "Image viewer Preferences"
 msgstr "Preferenze del visualizzatore"
 
-#: ../src/main_window.c:1178
+#: ../src/main_window.c:1194
 msgid "Slideshow"
 msgstr "Presentazione"
 
-#: ../src/main_window.c:1182
+#: ../src/main_window.c:1198
 msgid "Display"
 msgstr "Apparenza"
 
-#: ../src/main_window.c:1186
+#: ../src/main_window.c:1202
 msgid "Background Color"
 msgstr "Colore sfondo"
 
-#: ../src/main_window.c:1188
+#: ../src/main_window.c:1204
 msgid "_Override Background Color:"
 msgstr "_Imposta colore sfondo :"
 
-#: ../src/main_window.c:1214
+#: ../src/main_window.c:1227
+#, fuzzy
+msgid "Image Cache"
+msgstr "Visualizzatore di immagini"
+
+#: ../src/main_window.c:1230
+msgid "Cache size:"
+msgstr ""
+
+#: ../src/main_window.c:1231
+msgid "MB"
+msgstr ""
+
+#: ../src/main_window.c:1246
 msgid "Timeout"
 msgstr "Durata"
 
-#: ../src/main_window.c:1217
+#: ../src/main_window.c:1249
 msgid "Preload"
 msgstr "Precarica"
 
-#: ../src/main_window.c:1222
+#: ../src/main_window.c:1254
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -144,7 +157,7 @@ msgstr ""
 "Il tempo per cui viene mostrata una immagine durante una presentazione\n"
 "(in secondi)"
 
-#: ../src/main_window.c:1226
+#: ../src/main_window.c:1258
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -152,37 +165,50 @@ msgstr ""
 "Precarica le immagini durante le presentazioni\n"
 "(usa più memoria)"
 
-#: ../src/main_window.c:1227
+#: ../src/main_window.c:1259
 msgid "_Preload images"
 msgstr "_Precarica le immagini"
 
-#: ../src/main_window.c:1279
+#: ../src/main_window.c:1313
 msgid "Developer:"
 msgstr "Sviluppatore :"
 
-#: ../src/main_window.c:1289
-msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
-msgstr "Ristretto è un visualizzatore di immagini leggero e veloce per l'ambiente desktop XFCE."
+#: ../src/main_window.c:1323
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
+msgstr ""
+"Ristretto è un visualizzatore di immagini leggero e veloce per l'ambiente "
+"desktop XFCE."
 
-#: ../src/main_window.c:1297
+#: ../src/main_window.c:1331
 msgid "translator-credits"
 msgstr "Fabio Vergnani <monghitri@aruba.it>"
 
-#: ../src/main_window.c:1317
+#: ../src/main_window.c:1351
 msgid "Open image"
 msgstr "Apri un'immagine"
 
-#: ../src/main_window.c:1352
+#: ../src/main_window.c:1386
 msgid "Could not open file"
 msgstr "Impossibile aprire il file"
 
-#: ../src/main_window.c:1362
+#: ../src/main_window.c:1396
 msgid "Open folder"
 msgstr "Apri cartella"
 
-#: ../src/main_window.c:1466
-msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+#: ../src/main_window.c:1500
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Sei sicuro di voler cancellare la lista dei documenti recenti?"
+
+#: ../src/thumbnail_bar.c:168
+msgid "Spacing"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:169
+msgid "The amount of space between the thumbnails"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -198,8 +224,9 @@ msgstr "Visualizzatore di immagini XFCE"
 
 #~ msgid "Behaviour"
 #~ msgstr "Comportamento"
+
 #~ msgid "Flip _Vertically"
 #~ msgstr "Ruota _Verticalmente"
+
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Ruota _Orizzontalmente"
-
