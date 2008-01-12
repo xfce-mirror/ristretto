@@ -269,53 +269,58 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
 
     /* add image to the cache-history */
     navigator->history = g_list_prepend(navigator->history, entry);
-
-    if (g_list_length(navigator->history) > navigator->max_history)
+    
+    GList *iter = NULL;
+    gdouble size = 0;
+    for (iter = navigator->history; iter != NULL; iter = g_list_next(iter))
     {
-        GList *last_entry = g_list_last(navigator->history);
-        RsttoNavigatorEntry *nav_entry = last_entry->data;
+        RsttoNavigatorEntry *nav_entry = iter->data;
 
         if (nav_entry)
         {
+            size += rstto_navigator_entry_get_size(nav_entry);
 
-            if(nav_entry->thumb)
+            if (size > navigator->max_history)
             {
-                gdk_pixbuf_unref(nav_entry->thumb);
-                nav_entry->thumb = NULL;
-            }
+                if(nav_entry->thumb)
+                {
+                    gdk_pixbuf_unref(nav_entry->thumb);
+                    nav_entry->thumb = NULL;
+                }
 
-            if(nav_entry->io_channel)
-            {
-                g_source_remove(nav_entry->io_source_id);
-                g_io_channel_unref(nav_entry->io_channel);
-                nav_entry->io_channel = NULL;
-                nav_entry->io_source_id = 0;
-            }
+                if(nav_entry->io_channel)
+                {
+                    g_source_remove(nav_entry->io_source_id);
+                    g_io_channel_unref(nav_entry->io_channel);
+                    nav_entry->io_channel = NULL;
+                    nav_entry->io_source_id = 0;
+                }
 
-            if (entry->timeout_id)
-            {
-                g_source_remove(entry->timeout_id);
-                entry->timeout_id = 0;
-            }
+                if (entry->timeout_id)
+                {
+                    g_source_remove(entry->timeout_id);
+                    entry->timeout_id = 0;
+                }
 
-            if(nav_entry->loader)
-            {
-                g_signal_handlers_disconnect_by_func(nav_entry->loader , cb_rstto_navigator_entry_area_prepared, nav_entry);
-                gdk_pixbuf_loader_close(nav_entry->loader, NULL);
-            }
-            if(nav_entry->animation)
-            {
-                g_object_unref(nav_entry->animation);
-                nav_entry->animation = NULL;
-            }
-            if(nav_entry->src_pixbuf)
-            {
-                gdk_pixbuf_unref(nav_entry->src_pixbuf);
-                nav_entry->src_pixbuf = NULL;
+                if(nav_entry->loader)
+                {
+                    g_signal_handlers_disconnect_by_func(nav_entry->loader , cb_rstto_navigator_entry_area_prepared, nav_entry);
+                    gdk_pixbuf_loader_close(nav_entry->loader, NULL);
+                }
+                if(nav_entry->animation)
+                {
+                    g_object_unref(nav_entry->animation);
+                    nav_entry->animation = NULL;
+                }
+                if(nav_entry->src_pixbuf)
+                {
+                    gdk_pixbuf_unref(nav_entry->src_pixbuf);
+                    nav_entry->src_pixbuf = NULL;
+                }
+                iter = g_list_previous(iter);
+                navigator->history = g_list_remove(navigator->history, nav_entry);
             }
         }
-
-        navigator->history = g_list_remove(navigator->history, nav_entry);
     }
 }
 
@@ -1187,8 +1192,8 @@ rstto_navigator_entry_select (RsttoNavigatorEntry *entry)
 
 }
 
-gint
-rstto_navigator_get_cache_max_images (RsttoNavigator *navigator)
+gdouble
+rstto_navigator_get_max_history_size (RsttoNavigator *navigator)
 {
     return navigator->max_history;
 }
@@ -1205,4 +1210,10 @@ rstto_navigator_entry_get_position(RsttoNavigatorEntry *entry)
         return g_list_position(navigator->file_list, iter);
     }
     return -1;
+}
+
+void
+rstto_navigator_set_max_history_size(RsttoNavigator *nav, gdouble size)
+{
+    nav->max_history = size;
 }
