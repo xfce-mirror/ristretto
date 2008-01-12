@@ -939,6 +939,7 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
             case RSTTO_PICTURE_VIEWER_STATE_MOVE:
                 break;
             case RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM:
+                viewer->priv->zoom_mode = RSTTO_ZOOM_MODE_CUSTOM;
                 if(GTK_WIDGET_REALIZED(widget))
                 {
                     RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
