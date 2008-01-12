@@ -761,6 +761,8 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
 {
     RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
     gdouble scale = rstto_navigator_entry_get_scale(entry);
+    viewer->priv->zoom_mode = RSTTO_ZOOM_MODE_CUSTOM;
+    navigator->max_history = 0;
     switch(event->direction)
     {
         case GDK_SCROLL_UP:

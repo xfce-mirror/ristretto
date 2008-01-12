@@ -86,7 +86,6 @@ struct _RsttoNavigatorEntry
 
     RsttoNavigator      *navigator;
 
-
     gdouble              scale;
     gboolean             fit_to_screen;
     GdkPixbufRotation    rotation;
@@ -131,8 +130,10 @@ rstto_navigator_init(RsttoNavigator *navigator)
     navigator->old_position = -1;
     navigator->timeout = 5000;
     navigator->monitor = thunar_vfs_monitor_get_default();
-    navigator->max_history = 1;
     navigator->preload = FALSE;
+
+    /* Max history size (in bytes) */
+    navigator->max_history = 0;
 
     navigator->factory = thunar_vfs_thumb_factory_new(THUNAR_VFS_THUMB_SIZE_NORMAL);
 }

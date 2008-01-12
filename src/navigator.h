@@ -54,7 +54,7 @@ struct _RsttoNavigator
     GList                 *file_list;
     GList                 *file_iter;
     GList                 *history;
-    gint                   max_history;
+    gdouble                max_history;
 
     gboolean               preload;
 
