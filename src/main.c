@@ -15,6 +15,9 @@
  */
 
 #include <config.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
@@ -26,9 +29,17 @@
 #include "picture_viewer.h"
 #include "main_window.h"
 
+#ifndef RISTRETTO_CONFIG_GROUP
+#define RISTRETTO_CONFIG_GROUP "Configuration"
+#endif
+
+#define RISTRETTO_DEFAULT_WINDOW_WIDTH 400
+#define RISTRETTO_DEFAULT_WINDOW_HEIGHT 300
+#define RISTRETTO_DEFAULT_SLIDESHOW_TIMEOUT 5000
+#define RISTRETTO_DEFAULT_CACHE_SIZE 128
+
 static ThunarVfsMimeDatabase *mime_dbase = NULL;
 
-static XfceRc *xfce_rc;
 static gint window_save_geometry_timer_id = 0;
 
 static gboolean
@@ -39,6 +50,8 @@ static gboolean
 cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event);
 
 gboolean version = FALSE;
+
+GKeyFile *settings = NULL;
 
 static GOptionEntry entries[] =
 {
@@ -196,8 +209,20 @@ int main(int argc, char **argv)
 {
     GdkColor *bg_color = NULL;
     GError *cli_error = NULL;
+    GError *config_error = NULL;
     gchar *path_dir = NULL;
     gint n;
+
+    gchar *thumbnail_viewer_orientation = NULL;
+    gboolean show_thumbnail_viewer = TRUE;
+    gboolean show_toolbar = TRUE;
+    gint window_width = 400;
+    gint window_height = 300;
+    gint slideshow_timeout = 5000;
+    gint max_cache = 128;
+    gboolean preload_during_slideshow = FALSE;
+    gboolean override_bg_color = FALSE;
+
 
     #ifdef ENABLE_NLS
     bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
@@ -225,30 +250,148 @@ int main(int argc, char **argv)
 
     mime_dbase = thunar_vfs_mime_database_get_default();
 
+    settings = g_key_file_new();
+    gchar *config_filename = g_build_path("/", g_get_home_dir(), ".config", "ristretto", "ristrettorc", NULL);
 
     gtk_window_set_default_icon_name("ristretto");
-    xfce_rc = xfce_rc_config_open(XFCE_RESOURCE_CONFIG, "ristretto/ristrettorc", FALSE);
 
-    const gchar *thumbnail_viewer_orientation = xfce_rc_read_entry(xfce_rc, "ThumbnailViewerOrientation", "horizontal");
-    gboolean show_thumbnail_viewer = xfce_rc_read_bool_entry(xfce_rc, "ShowThumbnailViewer", TRUE);
-    gboolean show_toolbar = xfce_rc_read_bool_entry(xfce_rc, "ShowToolBar", TRUE);
-    gint window_width = xfce_rc_read_int_entry(xfce_rc, "LastWindowWidth", 400);
-    gint window_height = xfce_rc_read_int_entry(xfce_rc, "LastWindowHeight", 300);
-    gint slideshow_timeout = xfce_rc_read_int_entry(xfce_rc, "SlideShowTimeout", 5000);
-    gint max_cache = xfce_rc_read_int_entry(xfce_rc, "MaxImagesCacheSize", 128);
-    gboolean preload_during_slideshow = xfce_rc_read_bool_entry (xfce_rc, "PreloadDuringSlideShow", FALSE);
-    gboolean override_bg_color = xfce_rc_read_bool_entry (xfce_rc, "OverrideBgColor", FALSE);
-
-    if (override_bg_color)
+    if(g_key_file_load_from_file(settings, config_filename, G_KEY_FILE_KEEP_COMMENTS, &config_error))
     {
-        const gchar *color = xfce_rc_read_entry(xfce_rc, "BgColor", "#000000000000");
-        bg_color = g_new0(GdkColor, 1);
-        if(!RSTTO_COLOR_PARSE(color, bg_color))
+        /* thumbnail viewer orientation */
+        thumbnail_viewer_orientation = g_key_file_get_string(settings, RISTRETTO_CONFIG_GROUP, "ThumbnailViewerOrientation", &config_error);
+        if (config_error)
         {
-            g_debug("parse failed");
+            if(config_error->code == G_KEY_FILE_ERROR_KEY_NOT_FOUND)
+            {
+                thumbnail_viewer_orientation = g_strdup("horizontal");
+            }
+            g_error_free(config_error);
+            config_error = NULL;
+        }
+
+        /* show/hide thumbnail bar */
+        show_thumbnail_viewer = g_key_file_get_boolean(settings, RISTRETTO_CONFIG_GROUP, "ShowThumbnailViewer", &config_error);
+        if (config_error)
+        {
+            if(config_error->code == G_KEY_FILE_ERROR_KEY_NOT_FOUND)
+            {
+                show_thumbnail_viewer = TRUE;
+            }
+            g_error_free(config_error);
+            config_error = NULL;
+        }
+
+        /* show toolbar */
+        show_toolbar = g_key_file_get_boolean(settings, RISTRETTO_CONFIG_GROUP, "ShowToolBar", &config_error);
+        if (config_error)
+        {
+            if(config_error->code == G_KEY_FILE_ERROR_KEY_NOT_FOUND)
+            {
+                show_toolbar = TRUE;
+            }
+            g_error_free(config_error);
+            config_error = NULL;
+        }
+
+        /* window width */
+        window_width = g_key_file_get_integer(settings, RISTRETTO_CONFIG_GROUP, "LastWindowWidth", &config_error);
+        if (config_error)
+        {
+            if(config_error->code == G_KEY_FILE_ERROR_KEY_NOT_FOUND)
+            {
+                window_width = RISTRETTO_DEFAULT_WINDOW_WIDTH;
+            }
+            g_error_free(config_error);
+            config_error = NULL;
+        }
+
+        /* window height */
+        window_height = g_key_file_get_integer(settings, RISTRETTO_CONFIG_GROUP, "LastWindowHeight", &config_error);
+        if (config_error)
+        {
+            if(config_error->code == G_KEY_FILE_ERROR_KEY_NOT_FOUND)
+            {
+                window_height = RISTRETTO_DEFAULT_WINDOW_HEIGHT;
+            }
+            g_error_free(config_error);
+            config_error = NULL;
+        }
+
+        /* slideshow timeout */
+        slideshow_timeout = g_key_file_get_integer(settings, RISTRETTO_CONFIG_GROUP, "SlideShowTimeout", &config_error);
+        if (config_error)
+        {
+            if(config_error->code == G_KEY_FILE_ERROR_KEY_NOT_FOUND)
+            {
+                slideshow_timeout = RISTRETTO_DEFAULT_SLIDESHOW_TIMEOUT;
+            }
+            g_error_free(config_error);
+            config_error = NULL;
+        }
+
+        /* max cache */
+        max_cache = g_key_file_get_integer(settings, RISTRETTO_CONFIG_GROUP, "MaxImageCacheSize", &config_error);
+        if (config_error)
+        {
+            if(config_error->code == G_KEY_FILE_ERROR_KEY_NOT_FOUND)
+            {
+                max_cache = RISTRETTO_DEFAULT_CACHE_SIZE;
+            }
+            g_error_free(config_error);
+            config_error = NULL;
+        }
+
+        preload_during_slideshow = g_key_file_get_boolean(settings, RISTRETTO_CONFIG_GROUP, "PreloadDuringSlideShow", &config_error);
+        if (config_error)
+        {
+            if(config_error->code == G_KEY_FILE_ERROR_KEY_NOT_FOUND)
+            {
+                preload_during_slideshow = FALSE;
+            }
+            g_error_free(config_error);
+            config_error = NULL;
+        }
+
+        override_bg_color = g_key_file_get_boolean(settings, RISTRETTO_CONFIG_GROUP, "OverrideBgColor", &config_error);
+        if (config_error)
+        {
+            if(config_error->code == G_KEY_FILE_ERROR_KEY_NOT_FOUND)
+            {
+                override_bg_color = FALSE;
+            }
+            g_error_free(config_error);
+            config_error = NULL;
+        }
+
+        if(override_bg_color)
+        {
+            gchar *color = g_key_file_get_string(settings, RISTRETTO_CONFIG_GROUP, "BgColor", &config_error);
+            if (config_error)
+            {
+                color = g_strdup("#000000000000");
+            }
+
+            bg_color = g_new0(GdkColor, 1);
+            if (!RSTTO_COLOR_PARSE(color, bg_color))
+            {
+                g_debug("parse failed");
+            }
+            g_free(color);
         }
     }
-    
+    else
+    {
+        thumbnail_viewer_orientation = g_strdup("horizontal");
+        show_thumbnail_viewer = TRUE;
+        show_toolbar = TRUE;
+        window_width = RISTRETTO_DEFAULT_WINDOW_WIDTH;
+        window_height = RISTRETTO_DEFAULT_WINDOW_HEIGHT;
+        max_cache = RISTRETTO_DEFAULT_CACHE_SIZE;
+        slideshow_timeout = RISTRETTO_DEFAULT_SLIDESHOW_TIMEOUT;
+        preload_during_slideshow = FALSE;
+        override_bg_color = FALSE;
+    }
+
     GtkWidget *window = rstto_main_window_new();
     gtk_widget_ref(window);
 
@@ -474,31 +617,70 @@ int main(int argc, char **argv)
 
     bg_color = (GdkColor *)rstto_main_window_get_pv_bg_color(RSTTO_MAIN_WINDOW(window));
 
-    xfce_rc_write_bool_entry(xfce_rc, "ShowToolBar", rstto_main_window_get_show_toolbar(RSTTO_MAIN_WINDOW(window)));
-    xfce_rc_write_bool_entry(xfce_rc, "PreloadDuringSlideShow", navigator->preload);
-    xfce_rc_write_bool_entry(xfce_rc, "ShowThumbnailViewer", rstto_main_window_get_show_thumbnail_viewer(RSTTO_MAIN_WINDOW(window)));
+
+    g_key_file_set_boolean(settings,
+                           RISTRETTO_CONFIG_GROUP,
+                           "ShowToolBar",
+                           rstto_main_window_get_show_toolbar(RSTTO_MAIN_WINDOW(window)));
+    g_key_file_set_boolean(settings,
+                           RISTRETTO_CONFIG_GROUP,
+                           "PreloadDuringSlideShow",
+                           navigator->preload);
+    g_key_file_set_boolean(settings,
+                           RISTRETTO_CONFIG_GROUP, 
+                           "ShowThumbnailViewer",
+                           rstto_main_window_get_show_thumbnail_viewer(RSTTO_MAIN_WINDOW(window)));
     if (bg_color)
     {
-        xfce_rc_write_bool_entry(xfce_rc, "OverrideBgColor", TRUE);
-        xfce_rc_write_entry(xfce_rc, "BgColor", RSTTO_COLOR_TO_STRING(bg_color));
+        g_key_file_set_boolean(settings,
+                           RISTRETTO_CONFIG_GROUP,
+                           "OverrideBgColor",
+                           TRUE);
+        g_key_file_set_string(settings,
+                           RISTRETTO_CONFIG_GROUP,
+                           "BgColor",
+                           RSTTO_COLOR_TO_STRING(bg_color));
     }
     else
     {
-        xfce_rc_write_bool_entry(xfce_rc, "OverrideBgColor", FALSE);
+        g_key_file_set_boolean(settings,
+                           RISTRETTO_CONFIG_GROUP,
+                           "OverrideBgColor",
+                           FALSE);
     }
+
     switch (rstto_main_window_get_thumbnail_viewer_orientation(RSTTO_MAIN_WINDOW(window)))
     {
         case GTK_ORIENTATION_VERTICAL:
-            xfce_rc_write_entry(xfce_rc, "ThumbnailViewerOrientation", "vertical");
+            g_key_file_set_string(settings,
+                           RISTRETTO_CONFIG_GROUP,
+                           "ThumbnailViewerOrientation",
+                           "vertical");
             break;
         case GTK_ORIENTATION_HORIZONTAL:
-            xfce_rc_write_entry(xfce_rc, "ThumbnailViewerOrientation", "horizontal");
+            g_key_file_set_string(settings,
+                           RISTRETTO_CONFIG_GROUP,
+                           "ThumbnailViewerOrientation",
+                           "horizontal");
             break;
     }
-    xfce_rc_write_int_entry(xfce_rc, "MaxImagesCacheSize", rstto_main_window_get_max_cache_size(RSTTO_MAIN_WINDOW(window)));
-    xfce_rc_write_int_entry(xfce_rc, "SlideShowTimeout", (gint)rstto_main_window_get_slideshow_timeout(RSTTO_MAIN_WINDOW(window)));
-    xfce_rc_flush(xfce_rc);
-    xfce_rc_close(xfce_rc);
+
+    g_key_file_set_integer(settings,
+                           RISTRETTO_CONFIG_GROUP,
+                           "MaxImagesCacheSize",
+                           rstto_main_window_get_max_cache_size(RSTTO_MAIN_WINDOW(window)));
+    g_key_file_set_integer(settings,
+                           RISTRETTO_CONFIG_GROUP,
+                           "SlideShowTimeout",
+                           (gint)rstto_main_window_get_slideshow_timeout(RSTTO_MAIN_WINDOW(window)));
+    {
+        gsize size;
+        gchar *data  = g_key_file_to_data(settings, &size, &config_error);
+        gint fd = g_open(config_filename, O_WRONLY | O_CREAT, S_IRWXU);
+        write(fd, (char *)data, size);
+        close(fd);
+    }
+
     gtk_widget_unref(window);
     return 0;
 }
@@ -522,8 +704,8 @@ rstto_window_save_geometry_timer (gpointer user_data)
             gtk_window_get_size (GTK_WINDOW (window), &width, &height);
 
             /* ...and remember them as default for new windows */
-            xfce_rc_write_int_entry (xfce_rc, "LastWindowWidth", width);
-            xfce_rc_write_int_entry (xfce_rc, "LastWindowHeight", height);
+            g_key_file_set_integer(settings, RISTRETTO_CONFIG_GROUP, "LastWindowWidth", width);
+            g_key_file_set_integer(settings, RISTRETTO_CONFIG_GROUP, "LastWindowHeight", height);
         }
     }
     return FALSE;
