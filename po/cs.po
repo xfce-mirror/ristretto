@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Miro Hrončok <churchyard@gmail.com>, 2007.
 #
-#: ../src/main.c:208
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-01-12 14:29+0100\n"
-"PO-Revision-Date: 2007-12-04 09:39+0100\n"
+"PO-Revision-Date: 2008-01-12 20:12+0100\n"
 "Last-Translator: Miro Hrončok <churchyard@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -47,11 +46,13 @@ msgstr "_Naposledy otevřené"
 msgid "_Edit"
 msgstr "_Upravit"
 
-#: ../src/main_window.c:359 ../src/main_window.c:596
+#: ../src/main_window.c:359
+#: ../src/main_window.c:596
 msgid "Open with..."
 msgstr "Otevřít pomocí..."
 
-#: ../src/main_window.c:367 ../src/main_window.c:607
+#: ../src/main_window.c:367
+#: ../src/main_window.c:607
 msgid "No applications available"
 msgstr "Nejsou k dispozici žádné programy"
 
@@ -127,17 +128,16 @@ msgid "_Override Background Color:"
 msgstr "Určit _barvu pozadí:"
 
 #: ../src/main_window.c:1227
-#, fuzzy
 msgid "Image Cache"
-msgstr "Prohlížeč obrázků"
+msgstr "Vyrovnávací paměť"
 
 #: ../src/main_window.c:1230
 msgid "Cache size:"
-msgstr ""
+msgstr "Velikost vyrovnávací paměti:"
 
 #: ../src/main_window.c:1231
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: ../src/main_window.c:1246
 msgid "Timeout"
@@ -172,12 +172,8 @@ msgid "Developer:"
 msgstr "Vývojář:"
 
 #: ../src/main_window.c:1323
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí "
-"Xfce."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí Xfce."
 
 #: ../src/main_window.c:1331
 msgid "translator-credits"
@@ -196,17 +192,16 @@ msgid "Open folder"
 msgstr "Otevřít složku"
 
 #: ../src/main_window.c:1500
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Opravdu chcete vyprázdnit seznam naposledy otevřených dokumentů?"
 
 #: ../src/thumbnail_bar.c:168
 msgid "Spacing"
-msgstr ""
+msgstr "Mezery"
 
 #: ../src/thumbnail_bar.c:169
 msgid "The amount of space between the thumbnails"
-msgstr ""
+msgstr "Množství prostoru mezi náhledy"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -222,9 +217,8 @@ msgstr "Prohlížeč obrázků pro Xfce"
 
 #~ msgid "Behaviour"
 #~ msgstr "Chování"
-
 #~ msgid "Flip _Vertically"
-#~ msgstr "Překlopit vertikálně"
-
+#~ msgstr "Překlopit _vertikálně"
 #~ msgid "Flip _Horizontally"
-#~ msgstr "Překlopit horizontálně"
+#~ msgstr "Překlopit _horizontálně"
+
