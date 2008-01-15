@@ -816,11 +816,19 @@ rstto_navigator_entry_get_thumb(RsttoNavigatorEntry *entry, gint size)
 
                 if (width > height)
                 {
-                    entry->thumb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, gdk_pixbuf_get_bits_per_sample(pixbuf), size, height*size/width);
+                    entry->thumb = gdk_pixbuf_new(GDK_COLORSPACE_RGB,
+                                                  gdk_pixbuf_get_has_alpha(pixbuf),
+                                                  gdk_pixbuf_get_bits_per_sample(pixbuf),
+                                                  size,
+                                                  height*size/width);
                 }
                 else
                 {
-                    entry->thumb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, gdk_pixbuf_get_bits_per_sample(pixbuf), width*size/height, size);
+                    entry->thumb = gdk_pixbuf_new(GDK_COLORSPACE_RGB,
+                                                  gdk_pixbuf_get_has_alpha(pixbuf),
+                                                  gdk_pixbuf_get_bits_per_sample(pixbuf),
+                                                  width*size/height,
+                                                  size);
                 }
                 gdk_pixbuf_scale(pixbuf, entry->thumb,
                                  0, 0, 
