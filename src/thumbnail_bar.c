@@ -547,6 +547,10 @@ cb_rstto_thumbnail_bar_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigato
 static void
 cb_rstto_thumbnail_bar_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailBar *bar)
 {
+    if (nr == -1)
+    {
+        gtk_container_foreach(GTK_CONTAINER(bar), (GtkCallback)gtk_widget_destroy, NULL);
+    }
     GSList *iter = bar->priv->thumbs;
 
     while (iter != NULL)

@@ -571,10 +571,12 @@ rstto_navigator_clear (RsttoNavigator *navigator)
 {
     if(navigator->file_list)
     {
+        g_list_free(navigator->history);
         g_list_foreach(navigator->file_list, (GFunc)rstto_navigator_entry_free, NULL);
         navigator->file_list = NULL;
         navigator->file_iter = NULL;
         navigator->old_position = -1;
+        navigator->history = NULL;
     }
     g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED], 0, -1, NULL, NULL);
     g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_REORDERED], 0, NULL);
