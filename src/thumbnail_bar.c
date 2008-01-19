@@ -94,6 +94,10 @@ cb_rstto_thumbnail_bar_nav_iter_changed (RsttoNavigator *nav,
 static void
 cb_rstto_thumbnail_bar_nav_reordered (RsttoNavigator *nav,
                                     RsttoThumbnailBar *bar);
+static void
+cb_rstto_thumbnail_bar_nav_entry_removed(RsttoNavigator *nav,
+                                    RsttoNavigatorEntry *entry,
+                                    RsttoThumbnailBar *bar);
 
 static void
 cb_rstto_thumbnail_bar_thumbnail_toggled (RsttoThumbnail *thumb, RsttoThumbnailBar *bar);
@@ -427,6 +431,7 @@ rstto_thumbnail_bar_new(RsttoNavigator *navigator)
     g_signal_connect(G_OBJECT(navigator), "new-entry", G_CALLBACK(cb_rstto_thumbnail_bar_nav_new_entry), bar);
     g_signal_connect(G_OBJECT(navigator), "iter-changed", G_CALLBACK(cb_rstto_thumbnail_bar_nav_iter_changed), bar);
     g_signal_connect(G_OBJECT(navigator), "reordered", G_CALLBACK(cb_rstto_thumbnail_bar_nav_reordered), bar);
+    g_signal_connect(G_OBJECT(navigator), "entry-removed", G_CALLBACK(cb_rstto_thumbnail_bar_nav_entry_removed), bar);
 
     return (GtkWidget *)bar;
 }
@@ -553,6 +558,9 @@ cb_rstto_thumbnail_bar_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavig
     }
     GSList *iter = bar->priv->thumbs;
 
+
+    int i = 0;
+
     while (iter != NULL)
     {
         if (entry != rstto_thumbnail_get_entry(RSTTO_THUMBNAIL(iter->data)))
@@ -563,6 +571,7 @@ cb_rstto_thumbnail_bar_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavig
         {
             gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(iter->data), TRUE);
         }
+        i++;
         iter = g_slist_next(iter);
     }
     /* If the children should be autocentered... resize */
@@ -698,4 +707,22 @@ cb_rstto_thumbnail_bar_thumbnail_scroll_event (RsttoThumbnail *thumb,
     }
     return FALSE;
 
+}
+
+static void
+cb_rstto_thumbnail_bar_nav_entry_removed(RsttoNavigator *nav, RsttoNavigatorEntry *entry, RsttoThumbnailBar *bar)
+{
+    GSList *iter = bar->priv->thumbs;
+
+    while (iter != NULL)
+    {
+        if (entry == rstto_thumbnail_get_entry(RSTTO_THUMBNAIL(iter->data)))
+        {
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(iter->data), FALSE);
+            g_signal_handlers_disconnect_by_func(G_OBJECT(iter->data), G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_toggled), bar);
+            gtk_widget_destroy(GTK_WIDGET(iter->data));
+            break;
+        }
+        iter = g_slist_next(iter);
+    }
 }

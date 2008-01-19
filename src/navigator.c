@@ -61,6 +61,7 @@ cb_rstto_navigator_entry_fs_event (ThunarVfsMonitor *,
 enum
 {
     RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED = 0,
+    RSTTO_NAVIGATOR_SIGNAL_ENTRY_REMOVED,
     RSTTO_NAVIGATOR_SIGNAL_NEW_ENTRY,
     RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED,
     RSTTO_NAVIGATOR_SIGNAL_REORDERED,
@@ -158,6 +159,17 @@ rstto_navigator_class_init(RsttoNavigatorClass *nav_class)
             0,
             NULL);
     rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED] = g_signal_new("entry-modified",
+            G_TYPE_FROM_CLASS(nav_class),
+            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+            0,
+            NULL,
+            NULL,
+            g_cclosure_marshal_VOID__POINTER,
+            G_TYPE_NONE,
+            1,
+            G_TYPE_POINTER,
+            NULL);
+    rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_REMOVED] = g_signal_new("entry-removed",
             G_TYPE_FROM_CLASS(nav_class),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
@@ -517,16 +529,20 @@ rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
         {
             navigator->old_position = rstto_navigator_get_position(navigator);
             navigator->file_iter = g_list_next(navigator->file_iter);
+
+            navigator->file_list = g_list_remove(navigator->file_list, entry);
+
             if(!navigator->file_iter)
                 navigator->file_iter = g_list_first(navigator->file_list);
 
-            navigator->file_list = g_list_remove(navigator->file_list, entry);
+            if (navigator->history)
+                navigator->history = g_list_remove(navigator->history, entry);
+            g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_REMOVED], 0, entry, NULL);
             if(g_list_length(navigator->file_list) == 0)
             {
                 navigator->file_iter = NULL;
                 navigator->file_list = NULL;
             }
-            g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_REORDERED], 0, NULL);
             if(navigator->file_iter)
             {
                 g_signal_emit(G_OBJECT(navigator),
@@ -563,7 +579,6 @@ rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
         navigator->file_iter = NULL;
         navigator->file_list = NULL;
     }
-    g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_REORDERED], 0, NULL);
 }
 
 void

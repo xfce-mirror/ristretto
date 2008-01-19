@@ -39,7 +39,7 @@ rstto_thumbnail_init(RsttoThumbnail *);
 static void
 rstto_thumbnail_class_init(RsttoThumbnailClass *);
 static void
-rstto_thumbnail_destroy(GtkObject *object);
+rstto_thumbnail_finalize(GObject *object);
 
 static void
 rstto_thumbnail_size_request(GtkWidget *, GtkRequisition *);
@@ -94,11 +94,11 @@ static void
 rstto_thumbnail_class_init(RsttoThumbnailClass *thumb_class)
 {
     GtkWidgetClass *widget_class;
-    GtkObjectClass *object_class;
+    GObjectClass *object_class;
     GtkButtonClass *button_class;
 
     widget_class = (GtkWidgetClass*)thumb_class;
-    object_class = (GtkObjectClass*)thumb_class;
+    object_class = (GObjectClass*)thumb_class;
     button_class = (GtkButtonClass*)thumb_class;
 
     parent_class = g_type_class_peek_parent(thumb_class);
@@ -110,7 +110,7 @@ rstto_thumbnail_class_init(RsttoThumbnailClass *thumb_class)
 
     button_class->clicked = rstto_thumbnail_clicked;
 
-    object_class->destroy = rstto_thumbnail_destroy;
+    object_class->finalize = rstto_thumbnail_finalize;
 }
 
 static void
@@ -146,9 +146,18 @@ rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
 }
 
 static void
-rstto_thumbnail_destroy(GtkObject *object)
+rstto_thumbnail_finalize(GObject *object)
 {
+    RsttoThumbnail *thumb = RSTTO_THUMBNAIL(object);
+    GSList *group = g_slist_remove(thumb->priv->group, thumb);
+    GSList *iter = group;
 
+    while(iter)
+    {
+        RsttoThumbnail *thumb_iter = iter->data;
+        thumb_iter->priv->group = group;
+        iter = g_slist_next(iter);
+    }
 }
 
 static void
@@ -315,6 +324,9 @@ rstto_thumbnail_clicked(GtkButton *button)
 
     if (toggled == TRUE)
     {
+        ThunarVfsInfo *info = rstto_navigator_entry_get_info(thumb->priv->entry);
+        gchar *path = thunar_vfs_path_dup_string(info->path);
+        g_debug("%s", path);
         gtk_widget_queue_draw (GTK_WIDGET (thumb));
         gtk_toggle_button_toggled(toggle_button);
         g_object_notify (G_OBJECT (toggle_button), "active");
