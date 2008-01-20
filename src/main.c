@@ -235,7 +235,7 @@ int main(int argc, char **argv)
     gint window_width = xfce_rc_read_int_entry(xfce_rc, "LastWindowWidth", 400);
     gint window_height = xfce_rc_read_int_entry(xfce_rc, "LastWindowHeight", 300);
     gint slideshow_timeout = xfce_rc_read_int_entry(xfce_rc, "SlideShowTimeout", 5000);
-    gint max_cache = xfce_rc_read_int_entry(xfce_rc, "MaxImagesCacheSize", 128);
+    gint max_cache = xfce_rc_read_int_entry(xfce_rc, "MaxImagesCacheSize", 64);
     gboolean preload_during_slideshow = xfce_rc_read_bool_entry (xfce_rc, "PreloadDuringSlideShow", FALSE);
     gboolean override_bg_color = xfce_rc_read_bool_entry (xfce_rc, "OverrideBgColor", FALSE);
 
