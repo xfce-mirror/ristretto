@@ -149,14 +149,19 @@ static void
 rstto_thumbnail_finalize(GObject *object)
 {
     RsttoThumbnail *thumb = RSTTO_THUMBNAIL(object);
-    GSList *group = g_slist_remove(thumb->priv->group, thumb);
-    GSList *iter = group;
 
-    while(iter)
+    if (thumb->priv->entry)
     {
-        RsttoThumbnail *thumb_iter = iter->data;
-        thumb_iter->priv->group = group;
-        iter = g_slist_next(iter);
+        GSList *group = g_slist_remove(thumb->priv->group, thumb);
+        GSList *iter = group;
+
+        while(iter)
+        {
+            RsttoThumbnail *thumb_iter = iter->data;
+            thumb_iter->priv->group = group;
+            iter = g_slist_next(iter);
+        }
+        thumb->priv->entry = NULL;
     }
 }
 
@@ -324,9 +329,6 @@ rstto_thumbnail_clicked(GtkButton *button)
 
     if (toggled == TRUE)
     {
-        ThunarVfsInfo *info = rstto_navigator_entry_get_info(thumb->priv->entry);
-        gchar *path = thunar_vfs_path_dup_string(info->path);
-        g_debug("%s", path);
         gtk_widget_queue_draw (GTK_WIDGET (thumb));
         gtk_toggle_button_toggled(toggle_button);
         g_object_notify (G_OBJECT (toggle_button), "active");

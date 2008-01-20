@@ -535,8 +535,10 @@ rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
             if(!navigator->file_iter)
                 navigator->file_iter = g_list_first(navigator->file_list);
 
+            /* Ehm... an item can exist several times inside the history? */
             if (navigator->history)
-                navigator->history = g_list_remove(navigator->history, entry);
+                navigator->history = g_list_remove_all(navigator->history, entry);
+
             g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_REMOVED], 0, entry, NULL);
             if(g_list_length(navigator->file_list) == 0)
             {
