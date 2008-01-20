@@ -10,7 +10,7 @@
 	* src/thumbnail.h,
 	  src/thumbnail.c:
 	  - New thumbnail objects (better themeable)
-	  - Add tooltip support
+	  - Add tooltip support (atm with gtk+-2.12 only)
 	* src/navigator.c,
 	  src/navigator.h,
 	  src/main_window.c:
