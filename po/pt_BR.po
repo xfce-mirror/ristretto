@@ -2,7 +2,7 @@
 # Copyright (C) 2007 THE Ristretto'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the Ristretto package.
 # Og Maciel <ogmaciel@gnome.org>, 2007.
-# Fábio Nogueira <deb-user-ba@ubuntu.com>, 2007.
+# Fábio Nogueira <deb-user-ba@ubuntu.com>, 2007,2008.
 #
 #: ../src/main.c:208
 msgid ""
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-01-12 14:29+0100\n"
-"PO-Revision-Date: 2007-12-02 22:35-0300\n"
+"PO-Revision-Date: 2007-01-21 12:35-0300\n"
 "Last-Translator: Fábio Nogueira <deb-user-ba@ubuntu.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
 "MIME-Version: 1.0\n"
@@ -130,17 +130,16 @@ msgid "_Override Background Color:"
 msgstr "_Substituir Cor de Fundo:"
 
 #: ../src/main_window.c:1227
-#, fuzzy
 msgid "Image Cache"
-msgstr "Visualizador de Imagens"
+msgstr "Cache de Imagem"
 
 #: ../src/main_window.c:1230
 msgid "Cache size:"
-msgstr ""
+msgstr "Tamanho do cache:"
 
 #: ../src/main_window.c:1231
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: ../src/main_window.c:1246
 msgid "Timeout"
@@ -210,11 +209,11 @@ msgstr ""
 
 #: ../src/thumbnail_bar.c:168
 msgid "Spacing"
-msgstr ""
+msgstr "Espaçamento"
 
 #: ../src/thumbnail_bar.c:169
 msgid "The amount of space between the thumbnails"
-msgstr ""
+msgstr "A quantidade de espaço entre as miniaturas"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
