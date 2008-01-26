@@ -1070,7 +1070,7 @@ cb_rstto_navigator_entry_area_prepared (GdkPixbufLoader *loader, RsttoNavigatorE
     {
         /* fix borked stuff */
         if (time == 0)
-            time = 200;
+            time = 40;
 
         entry->timeout_id = g_timeout_add(time, (GSourceFunc)cb_rstto_navigator_entry_update_image, entry);
     }   
