@@ -143,7 +143,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
 
     viewer->priv->src_pixbuf = NULL;
     viewer->priv->dst_pixbuf = NULL;
-    viewer->priv->zoom_mode = RSTTO_ZOOM_MODE_FIT;
+    viewer->priv->zoom_mode = RSTTO_ZOOM_MODE_CUSTOM;
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
     gtk_widget_set_events (GTK_WIDGET(viewer),
                            GDK_BUTTON_PRESS_MASK |
