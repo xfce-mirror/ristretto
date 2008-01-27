@@ -16,6 +16,14 @@
 	  src/main_window.c:
 	  - Improve the caching behaviour
 	  - Add configuration option for image-cache size
+	* src/navigator.c,
+	  src/navigator.h,
+	  src/main_window.c,
+	  src/main.c:
+	  - Improve the creation of file-monitor handles, only create one
+	    file-monitor when opening a directory. This works around limitations
+		of fam and gamin, and it allows the detection of new images inside
+		this folder.
 	
 2007-12-09: Release 0.0.15
 	* src/main.c:
