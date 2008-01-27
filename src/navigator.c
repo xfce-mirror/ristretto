@@ -64,6 +64,8 @@ cb_rstto_navigator_fs_event (ThunarVfsMonitor *monitor,
                              ThunarVfsPath *event_path,
                              RsttoNavigator *nav);
 
+static gint
+cb_rstto_navigator_entry_path_compare_func(RsttoNavigatorEntry *entry, ThunarVfsPath *path);
 
 enum
 {
@@ -1229,13 +1231,44 @@ cb_rstto_navigator_fs_event (ThunarVfsMonitor *monitor,
                              RsttoNavigator *nav)
 {
     RsttoNavigatorEntry *entry = NULL;
+    GList *iter = g_list_find_custom(nav->file_list, event_path, (GCompareFunc)cb_rstto_navigator_entry_path_compare_func);
+    if (iter != NULL)
+        entry = iter->data;
+
     switch (event)
     {
         case THUNAR_VFS_MONITOR_EVENT_CHANGED:
+            if(entry)
+            {
+                rstto_navigator_entry_load_image (entry, TRUE);
+            }
             break;
         case THUNAR_VFS_MONITOR_EVENT_CREATED:
+            if (entry)
+            {
+                g_critical("File created... yet it is already here");
+                rstto_navigator_remove(entry->navigator, entry);
+                rstto_navigator_entry_free(entry);
+            }
+
+            ThunarVfsInfo *info = thunar_vfs_info_new_for_path(event_path, NULL);
+            if (info)
+            {
+                gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
+                if(!strcmp(file_media, "image"))
+                {
+                    entry = rstto_navigator_entry_new(nav, info);
+                    rstto_navigator_add (nav, entry, FALSE);
+                }
+                g_free(file_media);
+            }
             break;
         case THUNAR_VFS_MONITOR_EVENT_DELETED:
+            if(entry)
+            {
+                rstto_navigator_remove(entry->navigator, entry);
+                rstto_navigator_entry_free(entry);
+            }
             break;
         default:
             break;
@@ -1306,4 +1339,14 @@ rstto_navigator_set_monitor_handle_for_dir(RsttoNavigator *nav, ThunarVfsPath *d
     {
         nav->monitor_handle = thunar_vfs_monitor_add_directory(nav->monitor, dir_path, (ThunarVfsMonitorCallback)cb_rstto_navigator_fs_event, nav);
     }
+}
+
+static gint
+cb_rstto_navigator_entry_path_compare_func(RsttoNavigatorEntry *entry, ThunarVfsPath *path)
+{
+    if (thunar_vfs_path_equal(entry->info->path, path) == TRUE)
+    {
+        return 0;
+    }
+    return 1;
 }
