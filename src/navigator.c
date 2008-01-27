@@ -56,6 +56,13 @@ cb_rstto_navigator_entry_fs_event (ThunarVfsMonitor *,
                                    ThunarVfsPath *,
                                    ThunarVfsPath *,
                                    RsttoNavigatorEntry *);
+static void
+cb_rstto_navigator_fs_event (ThunarVfsMonitor *monitor,
+                             ThunarVfsMonitorHandle *handl,
+                             ThunarVfsMonitorEvent event,
+                             ThunarVfsPath *handle_path,
+                             ThunarVfsPath *event_path,
+                             RsttoNavigator *nav);
 
 
 enum
@@ -498,7 +505,7 @@ rstto_navigator_get_nth_file (RsttoNavigator *navigator, gint n)
 }
 
 gint
-rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
+rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gboolean with_monitor)
 {
     g_return_val_if_fail(navigator == entry->navigator, -1);
 
@@ -514,7 +521,8 @@ rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
                       NULL);
     }
 
-    entry->monitor_handle = thunar_vfs_monitor_add_file(navigator->monitor, entry->info->path, (ThunarVfsMonitorCallback)cb_rstto_navigator_entry_fs_event, entry);
+    if (with_monitor == TRUE)
+        entry->monitor_handle = thunar_vfs_monitor_add_file(navigator->monitor, entry->info->path, (ThunarVfsMonitorCallback)cb_rstto_navigator_entry_fs_event, entry);
 
     g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_NEW_ENTRY], 0, g_list_index(navigator->file_list, entry), entry, NULL);
     return g_list_index(navigator->file_list, entry);
@@ -1070,7 +1078,10 @@ cb_rstto_navigator_entry_area_prepared (GdkPixbufLoader *loader, RsttoNavigatorE
     {
         /* fix borked stuff */
         if (time == 0)
+        {
+            g_warning("timeout == 0: defaulting to 40ms");
             time = 40;
+        }
 
         entry->timeout_id = g_timeout_add(time, (GSourceFunc)cb_rstto_navigator_entry_update_image, entry);
     }   
@@ -1171,6 +1182,11 @@ cb_rstto_navigator_entry_update_image (RsttoNavigatorEntry *entry)
         gint time = gdk_pixbuf_animation_iter_get_delay_time(entry->iter);
         if (time != -1)
         {
+            if (time == 0)
+            {
+                g_warning("timeout == 0: defaulting to 40ms");
+                time = 40;
+            }
             entry->timeout_id = g_timeout_add(time, (GSourceFunc)cb_rstto_navigator_entry_update_image, entry);
         }
         g_signal_emit(G_OBJECT(entry->navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED], 0, entry, NULL);
@@ -1198,6 +1214,28 @@ cb_rstto_navigator_entry_fs_event (ThunarVfsMonitor *monitor,
         case THUNAR_VFS_MONITOR_EVENT_DELETED:
             rstto_navigator_remove(entry->navigator, entry);
             rstto_navigator_entry_free(entry);
+            break;
+        default:
+            break;
+    }
+}
+
+static void
+cb_rstto_navigator_fs_event (ThunarVfsMonitor *monitor,
+                             ThunarVfsMonitorHandle *handl,
+                             ThunarVfsMonitorEvent event,
+                             ThunarVfsPath *handle_path,
+                             ThunarVfsPath *event_path,
+                             RsttoNavigator *nav)
+{
+    RsttoNavigatorEntry *entry = NULL;
+    switch (event)
+    {
+        case THUNAR_VFS_MONITOR_EVENT_CHANGED:
+            break;
+        case THUNAR_VFS_MONITOR_EVENT_CREATED:
+            break;
+        case THUNAR_VFS_MONITOR_EVENT_DELETED:
             break;
         default:
             break;
@@ -1253,4 +1291,19 @@ void
 rstto_navigator_set_max_history_size(RsttoNavigator *nav, gdouble size)
 {
     nav->max_history = size;
+}
+
+void
+rstto_navigator_set_monitor_handle_for_dir(RsttoNavigator *nav, ThunarVfsPath *dir_path)
+{
+    if (nav->monitor_handle)
+    {
+        thunar_vfs_monitor_remove(nav->monitor, nav->monitor_handle);
+        nav->monitor_handle = NULL;
+    }
+    
+    if (dir_path)
+    {
+        nav->monitor_handle = thunar_vfs_monitor_add_directory(nav->monitor, dir_path, (ThunarVfsMonitorCallback)cb_rstto_navigator_fs_event, nav);
+    }
 }

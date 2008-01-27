@@ -47,6 +47,8 @@ struct _RsttoNavigator
 {
     GObject                parent;
     ThunarVfsMonitor      *monitor;
+    ThunarVfsMonitorHandle *monitor_handle;
+
     ThunarVfsThumbFactory *factory;
 
     ThunarVfsPath         *path;
@@ -95,7 +97,7 @@ gint
 rstto_navigator_get_old_position(RsttoNavigator *navigator);
 
 gint
-rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry);
+rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gboolean with_monitor);
 void
 rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry);
 gint
@@ -152,6 +154,8 @@ gdouble
 rstto_navigator_get_max_history_size(RsttoNavigator *navigator);
 void
 rstto_navigator_set_max_history_size(RsttoNavigator *nav, gdouble size);
+void
+rstto_navigator_set_monitor_handle_for_dir(RsttoNavigator *nav, ThunarVfsPath *dir_path);
 
 G_END_DECLS
 

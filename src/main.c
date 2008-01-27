@@ -294,13 +294,15 @@ int main(int argc, char **argv)
                         if(!strcmp(file_media, "image"))
                         {
                             RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, info);
-                            rstto_navigator_add (navigator, entry);
+                            rstto_navigator_add (navigator, entry, TRUE);
                         }
                     }
                     else
                     {
                         GDir *dir = g_dir_open(argv[n], 0, NULL);
                         const gchar *filename = g_dir_read_name(dir);
+                        rstto_navigator_set_monitor_handle_for_dir(navigator, info->path);
+
                         while (filename)
                         {
                             gchar *path_name = g_strconcat(argv[n],  "/", filename, NULL);
@@ -312,7 +314,7 @@ int main(int argc, char **argv)
                                 if(!strcmp(file_media, "image"))
                                 {
                                     RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, file_info);
-                                    rstto_navigator_add (navigator, entry);
+                                    rstto_navigator_add (navigator, entry, FALSE);
                                 }
                                 g_free(file_media);
                                 thunar_vfs_path_unref(file_path);
@@ -381,7 +383,7 @@ int main(int argc, char **argv)
                                     if(!strcmp(file_media, "image"))
                                     {
                                         RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, file_info);
-                                        gint i = rstto_navigator_add (navigator, entry);
+                                        gint i = rstto_navigator_add (navigator, entry, FALSE);
                                         if (path_dir == NULL)
                                         {
                                             if (!strcmp(path_name, argv[1]))
@@ -413,6 +415,8 @@ int main(int argc, char **argv)
                     {
                         GDir *dir = g_dir_open(argv[1], 0, NULL);
                         const gchar *filename = g_dir_read_name(dir);
+
+                        rstto_navigator_set_monitor_handle_for_dir(navigator, info->path);
                         while (filename)
                         {
                             gchar *path_name = g_strconcat(path_dir,  "/", filename, NULL);
@@ -424,7 +428,7 @@ int main(int argc, char **argv)
                                 if(!strcmp(file_media, "image"))
                                 {
                                     RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, file_info);
-                                    rstto_navigator_add (navigator, entry);
+                                    rstto_navigator_add (navigator, entry, FALSE);
                                 }
                                 g_free(file_media);
                                 thunar_vfs_path_unref(file_path);
