@@ -1,4 +1,4 @@
-2008-01-xx: Release 0.0.16
+2008-01-27: Release 0.0.16
 	* src/main_window.c,
 	  src/picture_viewer.c,
 	  src/picture_viewer.h:

@@ -1,0 +1,15 @@
+0.0.16
+======
+
+- Replaced the old thumbnail_viewer with a thumbnail_bar + thumbnail widgets
+  , this should make them better themeable in the future.
+- Improved file-monitor handle behaviour (handle on folder instead of every
+  file)
+- Added zoom-mode to remember if the user is viewing at 1:1, fit or a custom
+  zoom mode when changing images
+- Add drag-support to the thumbnail-bar (look at different thumbnails without
+  modifying the view
+- Add tooltip support (atm with gtk+-2.12 only)
+- Improve caching behaviour (NOTE: when updating from an earlier version, check
+  the preferences dialog for the cache-size. It might point to 1MB which does 
+  not seem very usefull)
