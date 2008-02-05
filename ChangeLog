@@ -1,3 +1,7 @@
+2008-02-xx: Release 0.0.17
+	* src/picture_viewer.c:
+	  - Fix segfault when scrolling over the picture-viewer (Bug #3824)
+
 2008-01-27: Release 0.0.16
 	* src/main_window.c,
 	  src/picture_viewer.c,
