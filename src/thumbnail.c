@@ -131,7 +131,6 @@ rstto_thumbnail_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 static gboolean
 rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
 {
-    g_debug("%s", __FUNCTION__);
     RsttoThumbnail *thumb = RSTTO_THUMBNAIL(widget);
 
     if (GTK_WIDGET_REALIZED (widget))

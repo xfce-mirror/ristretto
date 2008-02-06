@@ -43,7 +43,6 @@ struct _RsttoThumbnailBarPriv
         gint offset;
         gboolean motion;
     } motion;
-    GdkWindow *client_window;
 };
 
 static void
@@ -145,7 +144,7 @@ rstto_thumbnail_bar_init(RsttoThumbnailBar *bar)
     bar->priv->auto_center = TRUE;
 
 	GTK_WIDGET_UNSET_FLAGS(bar, GTK_NO_WINDOW);
-	gtk_widget_set_redraw_on_allocate(GTK_WIDGET(bar), FALSE);
+	gtk_widget_set_redraw_on_allocate(GTK_WIDGET(bar), TRUE);
 
     bar->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
     bar->priv->offset = 0;
@@ -230,11 +229,6 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
         gdk_window_move_resize (widget->window,
                                 allocation->x,
                                 allocation->y,
-                                allocation->width,
-                                allocation->height);
-        gdk_window_move_resize (bar->priv->client_window,
-                                0,
-                                0,
                                 allocation->width,
                                 allocation->height);
     }
@@ -351,94 +345,92 @@ rstto_thumbnail_bar_expose(GtkWidget *widget, GdkEventExpose *ex)
     n_ex->type = ex->type;
     n_ex->window = ex->window;
     n_ex->send_event = ex->send_event;
-    n_ex->area.x = ex->area.x;
-    n_ex->area.y = ex->area.y;
+    n_ex->area.x = 0;
+    n_ex->area.y = 0;
     n_ex->area.width = ex->area.width;
     n_ex->area.height = ex->area.height;
     n_ex->count = ex->count;
 
-    if (ex->window == bar->priv->client_window)
+    while(iter)
     {
-        while(iter)
+
+        if (GTK_WIDGET_VISIBLE(iter->data) == TRUE)
         {
-            if (GTK_WIDGET_VISIBLE(iter->data) == TRUE)
+            switch (bar->priv->orientation)
             {
-                switch (bar->priv->orientation)
-                {
-                    case GTK_ORIENTATION_HORIZONTAL:
-                        /* why are these widgets not filtered out with the GTK_WIDGET_VISIBLE macro?*/
-                        if (GTK_WIDGET(iter->data)->allocation.x > (GTK_WIDGET(bar)->allocation.x + GTK_WIDGET(bar)->allocation.width))
-                            break;
-                        if ((GTK_WIDGET(iter->data)->allocation.x + GTK_WIDGET(iter->data)->allocation.width) <= (GTK_WIDGET(bar)->allocation.x))
-                            break;
+                case GTK_ORIENTATION_HORIZONTAL:
+                    /* why are these widgets not filtered out with the GTK_WIDGET_VISIBLE macro?*/
+                    if (GTK_WIDGET(iter->data)->allocation.x > GTK_WIDGET(bar)->allocation.width)
+                        break;
+                    if ((GTK_WIDGET(iter->data)->allocation.x + GTK_WIDGET(iter->data)->allocation.width) < 0)
+                        break;
 
-                        /* first (partially) visible thumbnail */
-                        if (( GTK_WIDGET(iter->data)->allocation.x - GTK_WIDGET(bar)->allocation.x) < 0)
+                    /* first (partially) visible thumbnail */
+                    if (GTK_WIDGET(iter->data)->allocation.x < 0)
+                    {
+                        n_ex->area.x = 0;
+                        n_ex->area.width = GTK_WIDGET(iter->data)->allocation.width;
+                    }
+                    else
+                    {
+                        /* last (partially) visible thumbnail */
+                        if ((GTK_WIDGET(bar)->allocation.x + (GTK_WIDGET(bar)->allocation.width)) <
+                            (GTK_WIDGET(iter->data)->allocation.x + GTK_WIDGET(iter->data)->allocation.width))
                         {
-                            n_ex->area.x = GTK_WIDGET(bar)->allocation.x;
-                            n_ex->area.width = GTK_WIDGET(iter->data)->allocation.width - (GTK_WIDGET(bar)->allocation.x - GTK_WIDGET(bar)->allocation.x);
+                            n_ex->area.x = GTK_WIDGET(iter->data)->allocation.x;
+                            n_ex->area.width = GTK_WIDGET(bar)->allocation.x + GTK_WIDGET(bar)->allocation.width - n_ex->area.x;
                         }
                         else
                         {
-                            /* last (partially) visible thumbnail */
-                            if ((GTK_WIDGET(bar)->allocation.x + (GTK_WIDGET(bar)->allocation.width)) <
-                                (GTK_WIDGET(iter->data)->allocation.x + GTK_WIDGET(iter->data)->allocation.width))
-                            {
-                                n_ex->area.x = GTK_WIDGET(iter->data)->allocation.x;
-                                n_ex->area.width = GTK_WIDGET(bar)->allocation.x + GTK_WIDGET(bar)->allocation.width - n_ex->area.x;
-                            }
-                            else
-                            {
-                                /* everything in between */
-                                n_ex->area.x = GTK_WIDGET(iter->data)->allocation.x;
-                                n_ex->area.width = GTK_WIDGET(iter->data)->allocation.width;
-                            }
-
+                            /* everything in between */
+                            n_ex->area.x = GTK_WIDGET(iter->data)->allocation.x;
+                            n_ex->area.width = GTK_WIDGET(bar)->allocation.width - n_ex->area.x;
                         }
-                        if (n_ex->region)
-                            gdk_region_destroy(n_ex->region);
-                        n_ex->region = gdk_region_rectangle(&(n_ex->area));
-                        gtk_container_propagate_expose(GTK_CONTAINER(widget), GTK_WIDGET(iter->data), n_ex);
-                        break;
-                    case GTK_ORIENTATION_VERTICAL:
-                        /* why are these widgets not filtered out with the GTK_WIDGET_VISIBLE macro?*/
-                        if (GTK_WIDGET(iter->data)->allocation.y > (GTK_WIDGET(bar)->allocation.y + GTK_WIDGET(bar)->allocation.height))
-                            break;
-                        if ((GTK_WIDGET(iter->data)->allocation.y + GTK_WIDGET(iter->data)->allocation.height) <= (GTK_WIDGET(bar)->allocation.y))
-                            break;
 
-                        /* first (partially) visible thumbnail */
-                        if (( GTK_WIDGET(iter->data)->allocation.y - GTK_WIDGET(bar)->allocation.y) < 0)
+                    }
+                    if (n_ex->region)
+                        gdk_region_destroy(n_ex->region);
+                    n_ex->region = gdk_region_rectangle(&(n_ex->area));
+                    gtk_container_propagate_expose(GTK_CONTAINER(widget), GTK_WIDGET(iter->data), n_ex);
+                    break;
+                case GTK_ORIENTATION_VERTICAL:
+                    /* why are these widgets not filtered out with the GTK_WIDGET_VISIBLE macro?*/
+                    if (GTK_WIDGET(iter->data)->allocation.y > GTK_WIDGET(bar)->allocation.height)
+                        break;
+                    if ((GTK_WIDGET(iter->data)->allocation.y + GTK_WIDGET(iter->data)->allocation.height) < 0 )
+                        break;
+
+                    /* first (partially) visible thumbnail */
+                    if (GTK_WIDGET(iter->data)->allocation.y < 0)
+                    {
+                        n_ex->area.y = 0;
+                        n_ex->area.height = GTK_WIDGET(iter->data)->allocation.height;
+                    }
+                    else
+                    {
+                        /* last (partially) visible thumbnail */
+                        if ((GTK_WIDGET(bar)->allocation.y + (GTK_WIDGET(bar)->allocation.height)) <
+                            (GTK_WIDGET(iter->data)->allocation.y + GTK_WIDGET(iter->data)->allocation.height))
                         {
-                            n_ex->area.y = GTK_WIDGET(bar)->allocation.y;
-                            n_ex->area.height = GTK_WIDGET(iter->data)->allocation.height - (GTK_WIDGET(bar)->allocation.y - GTK_WIDGET(bar)->allocation.y);
+                            n_ex->area.y = GTK_WIDGET(iter->data)->allocation.y;
+                            n_ex->area.height = GTK_WIDGET(bar)->allocation.y + GTK_WIDGET(bar)->allocation.height - n_ex->area.y;
                         }
                         else
                         {
-                            /* last (partially) visible thumbnail */
-                            if ((GTK_WIDGET(bar)->allocation.y + (GTK_WIDGET(bar)->allocation.height)) <
-                                (GTK_WIDGET(iter->data)->allocation.y + GTK_WIDGET(iter->data)->allocation.height))
-                            {
-                                n_ex->area.y = GTK_WIDGET(iter->data)->allocation.y;
-                                n_ex->area.height = GTK_WIDGET(bar)->allocation.y + GTK_WIDGET(bar)->allocation.height - n_ex->area.y;
-                            }
-                            else
-                            {
-                                /* everything in between */
-                                n_ex->area.y = GTK_WIDGET(iter->data)->allocation.y;
-                                n_ex->area.height = GTK_WIDGET(iter->data)->allocation.height;
-                            }
-
+                            /* everything in between */
+                            n_ex->area.y = GTK_WIDGET(iter->data)->allocation.y;
+                            n_ex->area.height = GTK_WIDGET(bar)->allocation.height - n_ex->area.y;
                         }
-                        if (n_ex->region)
-                            gdk_region_destroy(n_ex->region);
-                        n_ex->region = gdk_region_rectangle(&(n_ex->area));
-                        gtk_container_propagate_expose(GTK_CONTAINER(widget), GTK_WIDGET(iter->data), n_ex);
-                        break;
-                }
+
+                    }
+                    if (n_ex->region)
+                        gdk_region_destroy(n_ex->region);
+                    n_ex->region = gdk_region_rectangle(&(n_ex->area));
+                    gtk_container_propagate_expose(GTK_CONTAINER(widget), GTK_WIDGET(iter->data), n_ex);
+                    break;
             }
-            iter = g_slist_next(iter);
         }
+        iter = g_slist_next(iter);
     }
 
     return FALSE;
@@ -475,13 +467,7 @@ rstto_thumbnail_bar_realize(GtkWidget *widget)
 
     attributes.x = 0;
     attributes.y = 0;
-    bar->priv->client_window = gdk_window_new(widget->window,
-                                              &attributes, attributes_mask);
-    gdk_window_set_user_data (bar->priv->client_window, bar);
-
     widget->style = gtk_style_attach (widget->style, widget->window);
-
-    gdk_window_show(bar->priv->client_window);
 
 }
 
@@ -489,10 +475,6 @@ static void
 rstto_thumbnail_bar_unrealize(GtkWidget *widget)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
-
-    gdk_window_set_user_data (bar->priv->client_window, NULL);
-    gdk_window_destroy (bar->priv->client_window);
-    bar->priv->client_window = NULL;
 
     if (GTK_WIDGET_CLASS (parent_class)->unrealize)
         (* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
@@ -550,7 +532,6 @@ rstto_thumbnail_bar_add(GtkContainer *container, GtkWidget *child)
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(container);
 
 	gtk_widget_set_parent(child, GTK_WIDGET(container));
-	gtk_widget_set_parent_window(child, bar->priv->client_window);
 
     bar->priv->thumbs = g_slist_insert_sorted(bar->priv->thumbs, child, (GCompareFunc)cb_rstto_thumbnail_bar_compare);
 }
