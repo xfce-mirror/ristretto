@@ -468,6 +468,7 @@ rstto_thumbnail_bar_realize(GtkWidget *widget)
     attributes.x = 0;
     attributes.y = 0;
     widget->style = gtk_style_attach (widget->style, widget->window);
+    gtk_style_set_background (widget->style, widget->window, GTK_STATE_NORMAL);
 
 }
 
