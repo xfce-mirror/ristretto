@@ -1,6 +1,12 @@
 2008-02-xx: Release 0.0.17
 	* src/picture_viewer.c:
 	  - Fix segfault when scrolling over the picture-viewer (Bug #3824)
+	* src/thumbnail_bar.c:
+	  - Fix event-window issues overlaying the 1:1 and fit zoom-buttons,
+	    now the zoom-buttons keep working when the thumbnails scroll behind
+		the toolbar (Bug #3823)
+	* ristretto.desktop.in:
+	  - Fix desktop-file syntax
 
 2008-01-27: Release 0.0.16
 	* src/main_window.c,
