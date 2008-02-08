@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.5\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-02-08 11:32+0100\n"
-"PO-Revision-Date: 2007-09-14 11:19+0300\n"
+"POT-Creation-Date: 2008-02-08 18:32+0200\n"
+"PO-Revision-Date: 2007-02-08 18:45+0200\n"
 "Last-Translator: Jari Rahkonen <jari.rahkonen@pp1.inet.fi>\n"
 "Language-Team: Finnish <xfce-i18n@xfce.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: ../src/main.c:46
 msgid "Version information"
-msgstr ""
+msgstr "Versiotiedot"
 
 #: ../src/main.c:212
 #, c-format
@@ -26,6 +26,8 @@ msgid ""
 "%s: %s\n"
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
+"%s: %s\n"
+"Näet listan komentorivivalitsimista kirjoittamalla %s --help.\n"
 
 #. Create 'File' menu
 #: ../src/main_window.c:316
@@ -59,38 +61,32 @@ msgid "_View"
 msgstr "_Näytä"
 
 #: ../src/main_window.c:385
-#, fuzzy
 msgid "Show _Toolbar"
-msgstr "Näytä työkalupalkki"
+msgstr "Näytä _työkalupalkki"
 
 #: ../src/main_window.c:386
-#, fuzzy
 msgid "Thumbnail _Viewer"
 msgstr "Pienoiskuvat"
 
 #: ../src/main_window.c:390
 msgid "_Zooming"
-msgstr ""
+msgstr "_Suurennus"
 
 #: ../src/main_window.c:391
-#, fuzzy
 msgid "_Rotate"
-msgstr "Käännä _vasempaan"
+msgstr "_Käännä"
 
 #: ../src/main_window.c:417
-#, fuzzy
 msgid "Show _Horizontally"
-msgstr "Näytä vaakasuunnassa"
+msgstr "Näytä _vaakasuunnassa"
 
 #: ../src/main_window.c:421
-#, fuzzy
 msgid "Show _Vertically"
-msgstr "Näytä pystysuunnassa"
+msgstr "Näytä _pystysuunnassa"
 
 #: ../src/main_window.c:425
-#, fuzzy
 msgid "H_ide"
-msgstr "Piilota"
+msgstr "P_iilota"
 
 #: ../src/main_window.c:462
 msgid "Rotate _Right"
@@ -111,62 +107,63 @@ msgid "_Help"
 msgstr "_Ohje"
 
 #: ../src/main_window.c:1179
-#, fuzzy
 msgid "Image viewer Preferences"
-msgstr "Kuvankatseluohjelma"
+msgstr "Kuvakatselimen asetukset"
 
 #: ../src/main_window.c:1196
 msgid "Slideshow"
-msgstr ""
+msgstr "Diaesitys"
 
 #: ../src/main_window.c:1200
 msgid "Display"
-msgstr ""
+msgstr "Näyttö"
 
 #: ../src/main_window.c:1204
 msgid "Background Color"
-msgstr ""
+msgstr "Taustaväri"
 
 #: ../src/main_window.c:1206
 msgid "_Override Background Color:"
-msgstr ""
+msgstr "_Korvaa taustaväri:"
 
 #: ../src/main_window.c:1229
-#, fuzzy
 msgid "Image Cache"
-msgstr "Kuvankatseluohjelma"
+msgstr "Kuvavälimuisti"
 
 #: ../src/main_window.c:1232
 msgid "Cache size:"
-msgstr ""
+msgstr "Välimuistin koko:"
 
 #: ../src/main_window.c:1233
 msgid "MB"
-msgstr ""
+msgstr "Mt"
 
 #: ../src/main_window.c:1248
 msgid "Timeout"
-msgstr ""
+msgstr "Esitysaika"
 
 #: ../src/main_window.c:1251
 msgid "Preload"
-msgstr ""
+msgstr "Esilataus"
 
 #: ../src/main_window.c:1256
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
+"Montako sekuntia yksittäistä kuvaa esitetään diaesityksessä"
 
 #: ../src/main_window.c:1260
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
+"Esilataa kuvat diaesitystilassa\n"
+"(käyttää enemmän keskusmuistia)"
 
 #: ../src/main_window.c:1261
 msgid "_Preload images"
-msgstr ""
+msgstr "_Esilataa kuvat"
 
 #: ../src/main_window.c:1315
 msgid "Developer:"
@@ -176,7 +173,7 @@ msgstr "Kehittäjä:"
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
-msgstr "Ristretto on nopea ja kevyt kuvankatseluohjelma Xfce-työpöydälle."
+msgstr "Ristretto on nopea ja kevyt kuvakatselin Xfce-työpöydälle."
 
 #: ../src/main_window.c:1333
 msgid "translator-credits"
@@ -202,26 +199,20 @@ msgstr ""
 
 #: ../src/thumbnail_bar.c:178
 msgid "Spacing"
-msgstr ""
+msgstr "Välit"
 
 #: ../src/thumbnail_bar.c:179
 msgid "The amount of space between the thumbnails"
-msgstr ""
+msgstr "Pienoiskuvien välisen tyhjän tilan koko"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
-msgstr "Kuvankatseluohjelma"
+msgstr "Kuvakatselin"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto Image Viewer"
-msgstr "Ristretto-kuvankatseluohjelma"
+msgstr "Ristretto-kuvakatselin"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
-msgstr "Xfce:n kuvankatseluohjelma"
-
-#~ msgid "Flip _Vertically"
-#~ msgstr "Peilaa _pystysuunnassa"
-
-#~ msgid "Flip _Horizontally"
-#~ msgstr "Peilaa v_aakasuunnassa"
+msgstr "Xfce:n kuvakatselin"
