@@ -3,13 +3,13 @@
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the ristretto package.
 #
-#: ../src/main.c:66
 # Onur Küçük <onur@pardus.org.tr>, 2008.
+#: ../src/main.c:208
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"Report-Msgid-Bugs-To: stephan@xfce.org\n"
-"POT-Creation-Date: 2007-12-01 10:04+0100\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2008-02-08 11:32+0100\n"
 "PO-Revision-Date: 2008-01-21 21:48+0200\n"
 "Last-Translator: Onur Küçük <onur@pardus.org.tr>\n"
 "Language-Team: Turkish\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: ../src/main.c:47
+#: ../src/main.c:46
 msgid "Version information"
 msgstr "Sürüm bilgisi"
 
-#: ../src/main.c:70
+#: ../src/main.c:212
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -32,111 +32,124 @@ msgstr ""
 "Komutsatırı parametrelerini görmek için %s --help komutunu kullanınız.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:314
+#: ../src/main_window.c:316
 msgid "_File"
 msgstr "_Dosya"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:323
 msgid "O_pen Folder"
 msgstr "D_izin Aç"
 
-#: ../src/main_window.c:322
+#: ../src/main_window.c:324
 msgid "_Recently used"
 msgstr "_Son kullanılanlar"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:354
+#: ../src/main_window.c:356
 msgid "_Edit"
 msgstr "Dü_zenle"
 
-#: ../src/main_window.c:359 ../src/main_window.c:596
+#: ../src/main_window.c:361 ../src/main_window.c:598
 msgid "Open with..."
 msgstr "Birlikte aç..."
 
-#: ../src/main_window.c:367 ../src/main_window.c:607
+#: ../src/main_window.c:369 ../src/main_window.c:609
 msgid "No applications available"
 msgstr "Hiç bir uygulama bulunamadı"
 
 #. Create 'View' menu
-#: ../src/main_window.c:376
+#: ../src/main_window.c:378
 msgid "_View"
 msgstr "_Görünüm"
 
-#: ../src/main_window.c:383
+#: ../src/main_window.c:385
 msgid "Show _Toolbar"
 msgstr "Araç _Çubuğunu Göster"
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:386
 msgid "Thumbnail _Viewer"
 msgstr "_Önizleme Gösterici"
 
-#: ../src/main_window.c:388
+#: ../src/main_window.c:390
 msgid "_Zooming"
 msgstr "_Yakınlaşma"
 
-#: ../src/main_window.c:389
+#: ../src/main_window.c:391
 msgid "_Rotate"
 msgstr "Dö_ndür"
 
-#: ../src/main_window.c:415
+#: ../src/main_window.c:417
 msgid "Show _Horizontally"
 msgstr "Ya_tay Sırala"
 
-#: ../src/main_window.c:419
+#: ../src/main_window.c:421
 msgid "Show _Vertically"
 msgstr "Di_key Sırala"
 
-#: ../src/main_window.c:423
+#: ../src/main_window.c:425
 msgid "H_ide"
 msgstr "Giz_le"
 
-#: ../src/main_window.c:460
+#: ../src/main_window.c:462
 msgid "Rotate _Right"
 msgstr "Sa_ğa Döndür"
 
-#: ../src/main_window.c:461
+#: ../src/main_window.c:463
 msgid "Rotate _Left"
 msgstr "So_la Döndür"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:482
+#: ../src/main_window.c:484
 msgid "_Go"
 msgstr "Gi_t"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:511
+#: ../src/main_window.c:513
 msgid "_Help"
 msgstr "_Yardım"
 
-#: ../src/main_window.c:1161
+#: ../src/main_window.c:1179
 msgid "Image viewer Preferences"
 msgstr "Görüntü gösterici Tercihleri"
 
-#: ../src/main_window.c:1178
+#: ../src/main_window.c:1196
 msgid "Slideshow"
 msgstr "Sırayla Göster"
 
-#: ../src/main_window.c:1182
+#: ../src/main_window.c:1200
 msgid "Display"
 msgstr "Görüntü"
 
-#: ../src/main_window.c:1186
+#: ../src/main_window.c:1204
 msgid "Background Color"
 msgstr "Arkaplan Rengi"
 
-#: ../src/main_window.c:1188
+#: ../src/main_window.c:1206
 msgid "_Override Background Color:"
 msgstr "Arkaplan _Rengini Zorla:"
 
-#: ../src/main_window.c:1214
+#: ../src/main_window.c:1229
+#, fuzzy
+msgid "Image Cache"
+msgstr "Resim Gösterici"
+
+#: ../src/main_window.c:1232
+msgid "Cache size:"
+msgstr ""
+
+#: ../src/main_window.c:1233
+msgid "MB"
+msgstr ""
+
+#: ../src/main_window.c:1248
 msgid "Timeout"
 msgstr "Kalan süre"
 
-#: ../src/main_window.c:1217
+#: ../src/main_window.c:1251
 msgid "Preload"
 msgstr "Önyükleme"
 
-#: ../src/main_window.c:1222
+#: ../src/main_window.c:1256
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -144,7 +157,7 @@ msgstr ""
 "Sırayla gösterim sırasında resim başına gösterim süresi\n"
 "(saniye cinsinden)"
 
-#: ../src/main_window.c:1226
+#: ../src/main_window.c:1260
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -152,15 +165,15 @@ msgstr ""
 "Sırayla gösterim sırasında görüntüleri önyükle\n"
 "(daha çok hafıza kullanır)"
 
-#: ../src/main_window.c:1227
+#: ../src/main_window.c:1261
 msgid "_Preload images"
 msgstr "Görüntüleri _önyükle"
 
-#: ../src/main_window.c:1279
+#: ../src/main_window.c:1315
 msgid "Developer:"
 msgstr "Geliştirici:"
 
-#: ../src/main_window.c:1289
+#: ../src/main_window.c:1325
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -168,25 +181,35 @@ msgstr ""
 "Ristretto, Xfce masaüstü ortamı için geliştirilen hızlı ve hafif bir resim "
 "göstericidir."
 
-#: ../src/main_window.c:1297
+#: ../src/main_window.c:1333
 msgid "translator-credits"
 msgstr "Onur Küçük <onur@pardus.org.tr>"
 
-#: ../src/main_window.c:1317
+#: ../src/main_window.c:1353
 msgid "Open image"
 msgstr "Dosya aç"
 
-#: ../src/main_window.c:1352
+#: ../src/main_window.c:1388
 msgid "Could not open file"
 msgstr "Dosya açılamadı"
 
-#: ../src/main_window.c:1362
+#: ../src/main_window.c:1398
 msgid "Open folder"
 msgstr "Dizin aç"
 
-#: ../src/main_window.c:1466
-msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr "Önceden yüklenmiş belgelerin listesini silmek istediğinizden emin misiniz ?"
+#: ../src/main_window.c:1512
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr ""
+"Önceden yüklenmiş belgelerin listesini silmek istediğinizden emin misiniz ?"
+
+#: ../src/thumbnail_bar.c:178
+msgid "Spacing"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:179
+msgid "The amount of space between the thumbnails"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -199,4 +222,3 @@ msgstr "Ristretto Görüntü Gösterici"
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce Görüntü Gösterici"
-

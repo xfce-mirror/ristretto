@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.15\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-01-12 14:29+0100\n"
+"POT-Creation-Date: 2008-02-08 11:32+0100\n"
 "PO-Revision-Date: 2008-01-02 23:03+0200\n"
 "Last-Translator: Plamen Stoev <piros89@gmail.com>\n"
 "Language-Team: \n"
@@ -33,124 +33,124 @@ msgstr ""
 "ред.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:314
+#: ../src/main_window.c:316
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:323
 msgid "O_pen Folder"
 msgstr "Отваряне на папка"
 
-#: ../src/main_window.c:322
+#: ../src/main_window.c:324
 msgid "_Recently used"
 msgstr "Отваряни наскоро"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:354
+#: ../src/main_window.c:356
 msgid "_Edit"
 msgstr "_Редактиране"
 
-#: ../src/main_window.c:359 ../src/main_window.c:596
+#: ../src/main_window.c:361 ../src/main_window.c:598
 msgid "Open with..."
 msgstr "Отваряне с..."
 
-#: ../src/main_window.c:367 ../src/main_window.c:607
+#: ../src/main_window.c:369 ../src/main_window.c:609
 msgid "No applications available"
 msgstr "Няма налични приложения"
 
 #. Create 'View' menu
-#: ../src/main_window.c:376
+#: ../src/main_window.c:378
 msgid "_View"
 msgstr "Преглед"
 
-#: ../src/main_window.c:383
+#: ../src/main_window.c:385
 msgid "Show _Toolbar"
 msgstr "Показване на лентата с инструменти"
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:386
 msgid "Thumbnail _Viewer"
 msgstr "Визуализатор на умалени изображения"
 
-#: ../src/main_window.c:388
+#: ../src/main_window.c:390
 msgid "_Zooming"
 msgstr "Мащабиране"
 
-#: ../src/main_window.c:389
+#: ../src/main_window.c:391
 msgid "_Rotate"
 msgstr "Завъртане"
 
-#: ../src/main_window.c:415
+#: ../src/main_window.c:417
 msgid "Show _Horizontally"
 msgstr "Покажи хоризонтално"
 
-#: ../src/main_window.c:419
+#: ../src/main_window.c:421
 msgid "Show _Vertically"
 msgstr "Покажи вертикално"
 
-#: ../src/main_window.c:423
+#: ../src/main_window.c:425
 msgid "H_ide"
 msgstr "Скриване"
 
-#: ../src/main_window.c:460
+#: ../src/main_window.c:462
 msgid "Rotate _Right"
 msgstr "Завъртане надясно"
 
-#: ../src/main_window.c:461
+#: ../src/main_window.c:463
 msgid "Rotate _Left"
 msgstr "Завъртане наляво"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:482
+#: ../src/main_window.c:484
 msgid "_Go"
 msgstr "Отиване"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:511
+#: ../src/main_window.c:513
 msgid "_Help"
 msgstr "Помощ"
 
-#: ../src/main_window.c:1177
+#: ../src/main_window.c:1179
 msgid "Image viewer Preferences"
 msgstr "Предпочитания"
 
-#: ../src/main_window.c:1194
+#: ../src/main_window.c:1196
 msgid "Slideshow"
 msgstr "Прожекция"
 
-#: ../src/main_window.c:1198
+#: ../src/main_window.c:1200
 msgid "Display"
 msgstr "Дисплей"
 
-#: ../src/main_window.c:1202
+#: ../src/main_window.c:1204
 msgid "Background Color"
 msgstr "Цвят на фона"
 
-#: ../src/main_window.c:1204
+#: ../src/main_window.c:1206
 msgid "_Override Background Color:"
 msgstr "Замяна на фоновия цвят"
 
-#: ../src/main_window.c:1227
+#: ../src/main_window.c:1229
 #, fuzzy
 msgid "Image Cache"
 msgstr "Програма за преглед на изображения"
 
-#: ../src/main_window.c:1230
+#: ../src/main_window.c:1232
 msgid "Cache size:"
 msgstr ""
 
-#: ../src/main_window.c:1231
+#: ../src/main_window.c:1233
 msgid "MB"
 msgstr ""
 
-#: ../src/main_window.c:1246
+#: ../src/main_window.c:1248
 msgid "Timeout"
 msgstr "Пауза"
 
-#: ../src/main_window.c:1249
+#: ../src/main_window.c:1251
 msgid "Preload"
 msgstr "Предварително зареждане"
 
-#: ../src/main_window.c:1254
+#: ../src/main_window.c:1256
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -158,7 +158,7 @@ msgstr ""
 "Времето за което се показва едно изображение при прожекция\n"
 "(в секунди)"
 
-#: ../src/main_window.c:1258
+#: ../src/main_window.c:1260
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -166,15 +166,15 @@ msgstr ""
 "Предварително зареждане на изображенията при прожекция\n"
 "(използва се повече памет)"
 
-#: ../src/main_window.c:1259
+#: ../src/main_window.c:1261
 msgid "_Preload images"
 msgstr "Предварително зареждане на изображения"
 
-#: ../src/main_window.c:1313
+#: ../src/main_window.c:1315
 msgid "Developer:"
 msgstr "Разработчик:"
 
-#: ../src/main_window.c:1323
+#: ../src/main_window.c:1325
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -182,33 +182,33 @@ msgstr ""
 "Ristretto е бърза и лека програма за преглед на изображения за работната "
 "среда XFCE"
 
-#: ../src/main_window.c:1331
+#: ../src/main_window.c:1333
 msgid "translator-credits"
 msgstr "Пламен Стоев <piros89@gmail.com>"
 
-#: ../src/main_window.c:1351
+#: ../src/main_window.c:1353
 msgid "Open image"
 msgstr "Отваряне на изображение"
 
-#: ../src/main_window.c:1386
+#: ../src/main_window.c:1388
 msgid "Could not open file"
 msgstr "Файлът не може да бъде отворен"
 
-#: ../src/main_window.c:1396
+#: ../src/main_window.c:1398
 msgid "Open folder"
 msgstr "Отваряне на папка"
 
-#: ../src/main_window.c:1500
+#: ../src/main_window.c:1512
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
 "Сигурни ли сте, че искате да изчистите списъка със скоро отваряни документи?"
 
-#: ../src/thumbnail_bar.c:168
+#: ../src/thumbnail_bar.c:178
 msgid "Spacing"
 msgstr ""
 
-#: ../src/thumbnail_bar.c:169
+#: ../src/thumbnail_bar.c:179
 msgid "The amount of space between the thumbnails"
 msgstr ""
 

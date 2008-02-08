@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-01-12 14:29+0100\n"
+"POT-Creation-Date: 2008-02-08 11:32+0100\n"
 "PO-Revision-Date: 2007-10-26 14:37+0500\n"
 "Last-Translator: Muhammad Ali Makki <makk.ma@gmail.com>\n"
 "Language-Team: Urdu <makki.ma@gmail.com>\n"
@@ -31,181 +31,181 @@ msgid ""
 msgstr ""
 
 #. Create 'File' menu
-#: ../src/main_window.c:314
+#: ../src/main_window.c:316
 msgid "_File"
 msgstr "_فائل"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:323
 msgid "O_pen Folder"
 msgstr "ف_ولڈر کھولیں"
 
-#: ../src/main_window.c:322
+#: ../src/main_window.c:324
 msgid "_Recently used"
 msgstr ""
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:354
+#: ../src/main_window.c:356
 msgid "_Edit"
 msgstr "_تدوین"
 
-#: ../src/main_window.c:359 ../src/main_window.c:596
+#: ../src/main_window.c:361 ../src/main_window.c:598
 msgid "Open with..."
 msgstr ""
 
-#: ../src/main_window.c:367 ../src/main_window.c:607
+#: ../src/main_window.c:369 ../src/main_window.c:609
 msgid "No applications available"
 msgstr ""
 
 #. Create 'View' menu
-#: ../src/main_window.c:376
+#: ../src/main_window.c:378
 msgid "_View"
 msgstr "_منظر"
 
-#: ../src/main_window.c:383
+#: ../src/main_window.c:385
 msgid "Show _Toolbar"
 msgstr ""
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:386
 #, fuzzy
 msgid "Thumbnail _Viewer"
 msgstr "تھمبنیل منظرکار"
 
-#: ../src/main_window.c:388
+#: ../src/main_window.c:390
 msgid "_Zooming"
 msgstr ""
 
-#: ../src/main_window.c:389
+#: ../src/main_window.c:391
 #, fuzzy
 msgid "_Rotate"
 msgstr "_بائیں گھمائیں"
 
-#: ../src/main_window.c:415
+#: ../src/main_window.c:417
 #, fuzzy
 msgid "Show _Horizontally"
 msgstr "افقی دکھائیں"
 
-#: ../src/main_window.c:419
+#: ../src/main_window.c:421
 #, fuzzy
 msgid "Show _Vertically"
 msgstr "عمودی دکھائیں"
 
-#: ../src/main_window.c:423
+#: ../src/main_window.c:425
 #, fuzzy
 msgid "H_ide"
 msgstr "چھپائیں"
 
-#: ../src/main_window.c:460
+#: ../src/main_window.c:462
 msgid "Rotate _Right"
 msgstr "_دائیں گھمائیں"
 
-#: ../src/main_window.c:461
+#: ../src/main_window.c:463
 msgid "Rotate _Left"
 msgstr "_بائیں گھمائیں"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:482
+#: ../src/main_window.c:484
 msgid "_Go"
 msgstr "_جائیں"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:511
+#: ../src/main_window.c:513
 msgid "_Help"
 msgstr "_ہدایات"
 
-#: ../src/main_window.c:1177
+#: ../src/main_window.c:1179
 msgid "Image viewer Preferences"
 msgstr ""
 
-#: ../src/main_window.c:1194
+#: ../src/main_window.c:1196
 msgid "Slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1198
+#: ../src/main_window.c:1200
 msgid "Display"
 msgstr ""
 
-#: ../src/main_window.c:1202
+#: ../src/main_window.c:1204
 msgid "Background Color"
 msgstr ""
 
-#: ../src/main_window.c:1204
+#: ../src/main_window.c:1206
 msgid "_Override Background Color:"
 msgstr ""
 
-#: ../src/main_window.c:1227
+#: ../src/main_window.c:1229
 #, fuzzy
 msgid "Image Cache"
 msgstr "تھمبنیل منظرکار"
 
-#: ../src/main_window.c:1230
+#: ../src/main_window.c:1232
 msgid "Cache size:"
 msgstr ""
 
-#: ../src/main_window.c:1231
+#: ../src/main_window.c:1233
 msgid "MB"
 msgstr ""
 
-#: ../src/main_window.c:1246
+#: ../src/main_window.c:1248
 msgid "Timeout"
 msgstr ""
 
-#: ../src/main_window.c:1249
+#: ../src/main_window.c:1251
 msgid "Preload"
 msgstr ""
 
-#: ../src/main_window.c:1254
+#: ../src/main_window.c:1256
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1258
+#: ../src/main_window.c:1260
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
 
-#: ../src/main_window.c:1259
+#: ../src/main_window.c:1261
 msgid "_Preload images"
 msgstr ""
 
-#: ../src/main_window.c:1313
+#: ../src/main_window.c:1315
 msgid "Developer:"
 msgstr "ڈویلپر:"
 
-#: ../src/main_window.c:1323
+#: ../src/main_window.c:1325
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
 "Ristretto ایکسفس ڈیسک ٹاپ ماحول کے لیے ایک ہلکا پھلکا تصاویر منظرکار ہے."
 
-#: ../src/main_window.c:1331
+#: ../src/main_window.c:1333
 msgid "translator-credits"
 msgstr "ترجمہ-کریڈٹ"
 
-#: ../src/main_window.c:1351
+#: ../src/main_window.c:1353
 msgid "Open image"
 msgstr "تصویر کھولیں"
 
-#: ../src/main_window.c:1386
+#: ../src/main_window.c:1388
 msgid "Could not open file"
 msgstr ""
 
-#: ../src/main_window.c:1396
+#: ../src/main_window.c:1398
 msgid "Open folder"
 msgstr "فولڈر کھولیں"
 
-#: ../src/main_window.c:1500
+#: ../src/main_window.c:1512
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
 
-#: ../src/thumbnail_bar.c:168
+#: ../src/thumbnail_bar.c:178
 msgid "Spacing"
 msgstr ""
 
-#: ../src/thumbnail_bar.c:169
+#: ../src/thumbnail_bar.c:179
 msgid "The amount of space between the thumbnails"
 msgstr ""
 

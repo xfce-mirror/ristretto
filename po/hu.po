@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-01-12 14:29+0100\n"
+"POT-Creation-Date: 2008-02-08 11:32+0100\n"
 "PO-Revision-Date: 2007-11-02 12:25+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.d.o>\n"
@@ -28,181 +28,181 @@ msgstr ""
 "A %s --help adja az elérhető lehetőségek litáját.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:314
+#: ../src/main_window.c:316
 msgid "_File"
 msgstr "_Fájl"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:323
 msgid "O_pen Folder"
 msgstr "Ma_ppa megnyitása"
 
-#: ../src/main_window.c:322
+#: ../src/main_window.c:324
 msgid "_Recently used"
 msgstr "Utóbbiak"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:354
+#: ../src/main_window.c:356
 msgid "_Edit"
 msgstr "Sz_erkeszt"
 
-#: ../src/main_window.c:359 ../src/main_window.c:596
+#: ../src/main_window.c:361 ../src/main_window.c:598
 msgid "Open with..."
 msgstr "Megnyitás ezzel..."
 
-#: ../src/main_window.c:367 ../src/main_window.c:607
+#: ../src/main_window.c:369 ../src/main_window.c:609
 msgid "No applications available"
 msgstr "Nincs elérhető alkalmazás"
 
 #. Create 'View' menu
-#: ../src/main_window.c:376
+#: ../src/main_window.c:378
 msgid "_View"
 msgstr "Nézet"
 
-#: ../src/main_window.c:383
+#: ../src/main_window.c:385
 #, fuzzy
 msgid "Show _Toolbar"
 msgstr "Eszközsáv mutatása"
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:386
 #, fuzzy
 msgid "Thumbnail _Viewer"
 msgstr "Előkép néző"
 
-#: ../src/main_window.c:388
+#: ../src/main_window.c:390
 msgid "_Zooming"
 msgstr ""
 
-#: ../src/main_window.c:389
+#: ../src/main_window.c:391
 msgid "_Rotate"
 msgstr ""
 
-#: ../src/main_window.c:415
+#: ../src/main_window.c:417
 #, fuzzy
 msgid "Show _Horizontally"
 msgstr "Vízszintesen mutat"
 
-#: ../src/main_window.c:419
+#: ../src/main_window.c:421
 #, fuzzy
 msgid "Show _Vertically"
 msgstr "Függőlegesen mutat"
 
-#: ../src/main_window.c:423
+#: ../src/main_window.c:425
 #, fuzzy
 msgid "H_ide"
 msgstr "Rejt"
 
-#: ../src/main_window.c:460
+#: ../src/main_window.c:462
 msgid "Rotate _Right"
 msgstr ""
 
-#: ../src/main_window.c:461
+#: ../src/main_window.c:463
 msgid "Rotate _Left"
 msgstr ""
 
 #. Create 'Go' menu
-#: ../src/main_window.c:482
+#: ../src/main_window.c:484
 msgid "_Go"
 msgstr "U_grás"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:511
+#: ../src/main_window.c:513
 msgid "_Help"
 msgstr "_Súgó"
 
-#: ../src/main_window.c:1177
+#: ../src/main_window.c:1179
 #, fuzzy
 msgid "Image viewer Preferences"
 msgstr "Kép-néző"
 
-#: ../src/main_window.c:1194
+#: ../src/main_window.c:1196
 msgid "Slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1198
+#: ../src/main_window.c:1200
 msgid "Display"
 msgstr ""
 
-#: ../src/main_window.c:1202
+#: ../src/main_window.c:1204
 msgid "Background Color"
 msgstr ""
 
-#: ../src/main_window.c:1204
+#: ../src/main_window.c:1206
 msgid "_Override Background Color:"
 msgstr ""
 
-#: ../src/main_window.c:1227
+#: ../src/main_window.c:1229
 #, fuzzy
 msgid "Image Cache"
 msgstr "Kép-néző"
 
-#: ../src/main_window.c:1230
+#: ../src/main_window.c:1232
 msgid "Cache size:"
 msgstr ""
 
-#: ../src/main_window.c:1231
+#: ../src/main_window.c:1233
 msgid "MB"
 msgstr ""
 
-#: ../src/main_window.c:1246
+#: ../src/main_window.c:1248
 msgid "Timeout"
 msgstr ""
 
-#: ../src/main_window.c:1249
+#: ../src/main_window.c:1251
 msgid "Preload"
 msgstr ""
 
-#: ../src/main_window.c:1254
+#: ../src/main_window.c:1256
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1258
+#: ../src/main_window.c:1260
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
 
-#: ../src/main_window.c:1259
+#: ../src/main_window.c:1261
 msgid "_Preload images"
 msgstr ""
 
-#: ../src/main_window.c:1313
+#: ../src/main_window.c:1315
 msgid "Developer:"
 msgstr "Fejlesztő:"
 
-#: ../src/main_window.c:1323
+#: ../src/main_window.c:1325
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "A Ristretto egy gyors, könnyű nézegető az Xfce asztali környezethez."
 
-#: ../src/main_window.c:1331
+#: ../src/main_window.c:1333
 msgid "translator-credits"
 msgstr "SZERVÁC Attila"
 
-#: ../src/main_window.c:1351
+#: ../src/main_window.c:1353
 msgid "Open image"
 msgstr "Kép megnyitása"
 
-#: ../src/main_window.c:1386
+#: ../src/main_window.c:1388
 msgid "Could not open file"
 msgstr "Nem tudtam megnyitni a fájlt"
 
-#: ../src/main_window.c:1396
+#: ../src/main_window.c:1398
 msgid "Open folder"
 msgstr "Mappa megnyitása"
 
-#: ../src/main_window.c:1500
+#: ../src/main_window.c:1512
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Tényleg törlöd a legutóbbi dokumentumok listáját?"
 
-#: ../src/thumbnail_bar.c:168
+#: ../src/thumbnail_bar.c:178
 msgid "Spacing"
 msgstr ""
 
-#: ../src/thumbnail_bar.c:169
+#: ../src/thumbnail_bar.c:179
 msgid "The amount of space between the thumbnails"
 msgstr ""
 

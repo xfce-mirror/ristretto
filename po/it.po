@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-01-12 14:29+0100\n"
+"POT-Creation-Date: 2008-02-08 11:32+0100\n"
 "PO-Revision-Date: 2007-12-22 10:52+0100\n"
 "Last-Translator: Fabio Vergnani <monghitri@aruba.it>\n"
 "Language-Team: Italian\n"
@@ -32,124 +32,124 @@ msgstr ""
 "comando.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:314
+#: ../src/main_window.c:316
 msgid "_File"
 msgstr "_File"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:323
 msgid "O_pen Folder"
 msgstr "A_pri cartella"
 
-#: ../src/main_window.c:322
+#: ../src/main_window.c:324
 msgid "_Recently used"
 msgstr "Apri _recenti"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:354
+#: ../src/main_window.c:356
 msgid "_Edit"
 msgstr "_Modifica"
 
-#: ../src/main_window.c:359 ../src/main_window.c:596
+#: ../src/main_window.c:361 ../src/main_window.c:598
 msgid "Open with..."
 msgstr "_Apri con..."
 
-#: ../src/main_window.c:367 ../src/main_window.c:607
+#: ../src/main_window.c:369 ../src/main_window.c:609
 msgid "No applications available"
 msgstr "Nesuna applicazione disponibile"
 
 #. Create 'View' menu
-#: ../src/main_window.c:376
+#: ../src/main_window.c:378
 msgid "_View"
 msgstr "_Visualizza"
 
-#: ../src/main_window.c:383
+#: ../src/main_window.c:385
 msgid "Show _Toolbar"
 msgstr "Mostra barra degli _strumenti"
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:386
 msgid "Thumbnail _Viewer"
 msgstr "_Visualizzazione miniature"
 
-#: ../src/main_window.c:388
+#: ../src/main_window.c:390
 msgid "_Zooming"
 msgstr "_Zoom"
 
-#: ../src/main_window.c:389
+#: ../src/main_window.c:391
 msgid "_Rotate"
 msgstr "_Ruota"
 
-#: ../src/main_window.c:415
+#: ../src/main_window.c:417
 msgid "Show _Horizontally"
 msgstr "Mostra _Orizzontalmente"
 
-#: ../src/main_window.c:419
+#: ../src/main_window.c:421
 msgid "Show _Vertically"
 msgstr "Mostra _Verticalmente"
 
-#: ../src/main_window.c:423
+#: ../src/main_window.c:425
 msgid "H_ide"
 msgstr "_Nascondi"
 
-#: ../src/main_window.c:460
+#: ../src/main_window.c:462
 msgid "Rotate _Right"
 msgstr "Ruota a _Destra"
 
-#: ../src/main_window.c:461
+#: ../src/main_window.c:463
 msgid "Rotate _Left"
 msgstr "Ruota a _Sinistra"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:482
+#: ../src/main_window.c:484
 msgid "_Go"
 msgstr "V_ai"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:511
+#: ../src/main_window.c:513
 msgid "_Help"
 msgstr "A_iuto"
 
-#: ../src/main_window.c:1177
+#: ../src/main_window.c:1179
 msgid "Image viewer Preferences"
 msgstr "Preferenze del visualizzatore"
 
-#: ../src/main_window.c:1194
+#: ../src/main_window.c:1196
 msgid "Slideshow"
 msgstr "Presentazione"
 
-#: ../src/main_window.c:1198
+#: ../src/main_window.c:1200
 msgid "Display"
 msgstr "Apparenza"
 
-#: ../src/main_window.c:1202
+#: ../src/main_window.c:1204
 msgid "Background Color"
 msgstr "Colore sfondo"
 
-#: ../src/main_window.c:1204
+#: ../src/main_window.c:1206
 msgid "_Override Background Color:"
 msgstr "_Imposta colore sfondo :"
 
-#: ../src/main_window.c:1227
+#: ../src/main_window.c:1229
 #, fuzzy
 msgid "Image Cache"
 msgstr "Visualizzatore di immagini"
 
-#: ../src/main_window.c:1230
+#: ../src/main_window.c:1232
 msgid "Cache size:"
 msgstr ""
 
-#: ../src/main_window.c:1231
+#: ../src/main_window.c:1233
 msgid "MB"
 msgstr ""
 
-#: ../src/main_window.c:1246
+#: ../src/main_window.c:1248
 msgid "Timeout"
 msgstr "Durata"
 
-#: ../src/main_window.c:1249
+#: ../src/main_window.c:1251
 msgid "Preload"
 msgstr "Precarica"
 
-#: ../src/main_window.c:1254
+#: ../src/main_window.c:1256
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -157,7 +157,7 @@ msgstr ""
 "Il tempo per cui viene mostrata una immagine durante una presentazione\n"
 "(in secondi)"
 
-#: ../src/main_window.c:1258
+#: ../src/main_window.c:1260
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -165,15 +165,15 @@ msgstr ""
 "Precarica le immagini durante le presentazioni\n"
 "(usa più memoria)"
 
-#: ../src/main_window.c:1259
+#: ../src/main_window.c:1261
 msgid "_Preload images"
 msgstr "_Precarica le immagini"
 
-#: ../src/main_window.c:1313
+#: ../src/main_window.c:1315
 msgid "Developer:"
 msgstr "Sviluppatore :"
 
-#: ../src/main_window.c:1323
+#: ../src/main_window.c:1325
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -181,32 +181,32 @@ msgstr ""
 "Ristretto è un visualizzatore di immagini leggero e veloce per l'ambiente "
 "desktop XFCE."
 
-#: ../src/main_window.c:1331
+#: ../src/main_window.c:1333
 msgid "translator-credits"
 msgstr "Fabio Vergnani <monghitri@aruba.it>"
 
-#: ../src/main_window.c:1351
+#: ../src/main_window.c:1353
 msgid "Open image"
 msgstr "Apri un'immagine"
 
-#: ../src/main_window.c:1386
+#: ../src/main_window.c:1388
 msgid "Could not open file"
 msgstr "Impossibile aprire il file"
 
-#: ../src/main_window.c:1396
+#: ../src/main_window.c:1398
 msgid "Open folder"
 msgstr "Apri cartella"
 
-#: ../src/main_window.c:1500
+#: ../src/main_window.c:1512
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Sei sicuro di voler cancellare la lista dei documenti recenti?"
 
-#: ../src/thumbnail_bar.c:168
+#: ../src/thumbnail_bar.c:178
 msgid "Spacing"
 msgstr ""
 
-#: ../src/thumbnail_bar.c:169
+#: ../src/thumbnail_bar.c:179
 msgid "The amount of space between the thumbnails"
 msgstr ""
 

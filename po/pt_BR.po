@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-01-12 14:29+0100\n"
+"POT-Creation-Date: 2008-02-08 11:32+0100\n"
 "PO-Revision-Date: 2007-01-21 12:35-0300\n"
 "Last-Translator: Fábio Nogueira <deb-user-ba@ubuntu.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
@@ -33,123 +33,123 @@ msgstr ""
 "disponíveis.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:314
+#: ../src/main_window.c:316
 msgid "_File"
 msgstr "_Arquivo"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:323
 msgid "O_pen Folder"
 msgstr "A_brir Pasta"
 
-#: ../src/main_window.c:322
+#: ../src/main_window.c:324
 msgid "_Recently used"
 msgstr "Usado _recentemente"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:354
+#: ../src/main_window.c:356
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/main_window.c:359 ../src/main_window.c:596
+#: ../src/main_window.c:361 ../src/main_window.c:598
 msgid "Open with..."
 msgstr "Abrir com..."
 
-#: ../src/main_window.c:367 ../src/main_window.c:607
+#: ../src/main_window.c:369 ../src/main_window.c:609
 msgid "No applications available"
 msgstr "Nenhuma aplicação disponível"
 
 #. Create 'View' menu
-#: ../src/main_window.c:376
+#: ../src/main_window.c:378
 msgid "_View"
 msgstr "_Ver"
 
-#: ../src/main_window.c:383
+#: ../src/main_window.c:385
 msgid "Show _Toolbar"
 msgstr "Mostrar _Barra de Ferramentas"
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:386
 msgid "Thumbnail _Viewer"
 msgstr "_Visualizador de Miniaturas"
 
-#: ../src/main_window.c:388
+#: ../src/main_window.c:390
 msgid "_Zooming"
 msgstr "_Ampliar"
 
-#: ../src/main_window.c:389
+#: ../src/main_window.c:391
 msgid "_Rotate"
 msgstr "_Girar"
 
-#: ../src/main_window.c:415
+#: ../src/main_window.c:417
 msgid "Show _Horizontally"
 msgstr "Mostrar _Horizontalmente"
 
-#: ../src/main_window.c:419
+#: ../src/main_window.c:421
 msgid "Show _Vertically"
 msgstr "Mostrar _Verticalmente"
 
-#: ../src/main_window.c:423
+#: ../src/main_window.c:425
 msgid "H_ide"
 msgstr "Ocu_ltar"
 
-#: ../src/main_window.c:460
+#: ../src/main_window.c:462
 msgid "Rotate _Right"
 msgstr "Girar para _Direita"
 
-#: ../src/main_window.c:461
+#: ../src/main_window.c:463
 msgid "Rotate _Left"
 msgstr "Girar para _Esquerda"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:482
+#: ../src/main_window.c:484
 msgid "_Go"
 msgstr "_Ir"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:511
+#: ../src/main_window.c:513
 msgid "_Help"
 msgstr "Aj_uda"
 
-#: ../src/main_window.c:1177
+#: ../src/main_window.c:1179
 msgid "Image viewer Preferences"
 msgstr "Preferências do Visualizador de Imagens"
 
-#: ../src/main_window.c:1194
+#: ../src/main_window.c:1196
 msgid "Slideshow"
 msgstr "Apresentação de Slides"
 
-#: ../src/main_window.c:1198
+#: ../src/main_window.c:1200
 msgid "Display"
 msgstr "Exibir"
 
-#: ../src/main_window.c:1202
+#: ../src/main_window.c:1204
 msgid "Background Color"
 msgstr "Cor de Fundo"
 
-#: ../src/main_window.c:1204
+#: ../src/main_window.c:1206
 msgid "_Override Background Color:"
 msgstr "_Substituir Cor de Fundo:"
 
-#: ../src/main_window.c:1227
+#: ../src/main_window.c:1229
 msgid "Image Cache"
 msgstr "Cache de Imagem"
 
-#: ../src/main_window.c:1230
+#: ../src/main_window.c:1232
 msgid "Cache size:"
 msgstr "Tamanho do cache:"
 
-#: ../src/main_window.c:1231
+#: ../src/main_window.c:1233
 msgid "MB"
 msgstr "MB"
 
-#: ../src/main_window.c:1246
+#: ../src/main_window.c:1248
 msgid "Timeout"
 msgstr "Tempo de Espera"
 
-#: ../src/main_window.c:1249
+#: ../src/main_window.c:1251
 msgid "Preload"
 msgstr "Pré-carregamento"
 
-#: ../src/main_window.c:1254
+#: ../src/main_window.c:1256
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -158,7 +158,7 @@ msgstr ""
 "slides\n"
 "(em segundos)"
 
-#: ../src/main_window.c:1258
+#: ../src/main_window.c:1260
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -166,15 +166,15 @@ msgstr ""
 "Pré-Carregar imagens durante uma apresentação de slides\n"
 "(usa mais memória)"
 
-#: ../src/main_window.c:1259
+#: ../src/main_window.c:1261
 msgid "_Preload images"
 msgstr "Carregar imagens _previamente"
 
-#: ../src/main_window.c:1313
+#: ../src/main_window.c:1315
 msgid "Developer:"
 msgstr "Desenvolvedor:"
 
-#: ../src/main_window.c:1323
+#: ../src/main_window.c:1325
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -182,36 +182,36 @@ msgstr ""
 "Ristretto é um visualizador de imagens rápido e leve para o ambiente de "
 "trabalho do Xfce."
 
-#: ../src/main_window.c:1331
+#: ../src/main_window.c:1333
 msgid "translator-credits"
 msgstr ""
 "Og Maciel <ogmaciel@gnome.org>,\n"
 "Fábio Nogueira <deb-user-ba@ubuntu.com>"
 
-#: ../src/main_window.c:1351
+#: ../src/main_window.c:1353
 msgid "Open image"
 msgstr "Abrir imagem"
 
-#: ../src/main_window.c:1386
+#: ../src/main_window.c:1388
 msgid "Could not open file"
 msgstr "Não foi possível abrir arquivo"
 
-#: ../src/main_window.c:1396
+#: ../src/main_window.c:1398
 msgid "Open folder"
 msgstr "Abrir pasta"
 
-#: ../src/main_window.c:1500
+#: ../src/main_window.c:1512
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
 "Você tem certeza que deseja apagar do Ristretto a lista dos documentos "
 "abertos mais recentes?"
 
-#: ../src/thumbnail_bar.c:168
+#: ../src/thumbnail_bar.c:178
 msgid "Spacing"
 msgstr "Espaçamento"
 
-#: ../src/thumbnail_bar.c:169
+#: ../src/thumbnail_bar.c:179
 msgid "The amount of space between the thumbnails"
 msgstr "A quantidade de espaço entre as miniaturas"
 

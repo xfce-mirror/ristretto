@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-01-12 14:29+0100\n"
+"POT-Creation-Date: 2008-02-08 11:32+0100\n"
 "PO-Revision-Date: 2007-07-13 00:48+0200\n"
 "Last-Translator: Stephan Arts <stephan@xfce.org>\n"
 "Language-Team: Dutch\n"
@@ -31,123 +31,123 @@ msgstr ""
 "Probeer %s --help voor een lijst van beschikbare commando regel opties.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:314
+#: ../src/main_window.c:316
 msgid "_File"
 msgstr "_Bestand"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:323
 msgid "O_pen Folder"
 msgstr "Map o_penen"
 
-#: ../src/main_window.c:322
+#: ../src/main_window.c:324
 msgid "_Recently used"
 msgstr "_Recent geopend"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:354
+#: ../src/main_window.c:356
 msgid "_Edit"
 msgstr "Be_werken"
 
-#: ../src/main_window.c:359 ../src/main_window.c:596
+#: ../src/main_window.c:361 ../src/main_window.c:598
 msgid "Open with..."
 msgstr "_Openen met..."
 
-#: ../src/main_window.c:367 ../src/main_window.c:607
+#: ../src/main_window.c:369 ../src/main_window.c:609
 msgid "No applications available"
 msgstr "Geen programma's beschikbaar"
 
 #. Create 'View' menu
-#: ../src/main_window.c:376
+#: ../src/main_window.c:378
 msgid "_View"
 msgstr "Beel_d"
 
-#: ../src/main_window.c:383
+#: ../src/main_window.c:385
 msgid "Show _Toolbar"
 msgstr "_Toon Werkbalk"
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:386
 msgid "Thumbnail _Viewer"
 msgstr "_Miniatuur Weergave"
 
-#: ../src/main_window.c:388
+#: ../src/main_window.c:390
 msgid "_Zooming"
 msgstr "_Zoomen"
 
-#: ../src/main_window.c:389
+#: ../src/main_window.c:391
 msgid "_Rotate"
 msgstr "_Roteren"
 
-#: ../src/main_window.c:415
+#: ../src/main_window.c:417
 msgid "Show _Horizontally"
 msgstr "_Horizontaal tonen"
 
-#: ../src/main_window.c:419
+#: ../src/main_window.c:421
 msgid "Show _Vertically"
 msgstr "_Verticaal tonen"
 
-#: ../src/main_window.c:423
+#: ../src/main_window.c:425
 msgid "H_ide"
 msgstr "Ver_bergen"
 
-#: ../src/main_window.c:460
+#: ../src/main_window.c:462
 msgid "Rotate _Right"
 msgstr "_Rechtsom draaien"
 
-#: ../src/main_window.c:461
+#: ../src/main_window.c:463
 msgid "Rotate _Left"
 msgstr "_Linksom draaien"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:482
+#: ../src/main_window.c:484
 msgid "_Go"
 msgstr "_Ga"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:511
+#: ../src/main_window.c:513
 msgid "_Help"
 msgstr "_Help"
 
-#: ../src/main_window.c:1177
+#: ../src/main_window.c:1179
 msgid "Image viewer Preferences"
 msgstr "Afbeeldingsweergave voorkeuren"
 
-#: ../src/main_window.c:1194
+#: ../src/main_window.c:1196
 msgid "Slideshow"
 msgstr "Diaweergave"
 
-#: ../src/main_window.c:1198
+#: ../src/main_window.c:1200
 msgid "Display"
 msgstr "Weergave"
 
-#: ../src/main_window.c:1202
+#: ../src/main_window.c:1204
 msgid "Background Color"
 msgstr "Achtergrond kleur"
 
-#: ../src/main_window.c:1204
+#: ../src/main_window.c:1206
 msgid "_Override Background Color:"
 msgstr "Achtergr_ondkleur wijzigen:"
 
-#: ../src/main_window.c:1227
+#: ../src/main_window.c:1229
 msgid "Image Cache"
 msgstr "Afbeeldingen cache"
 
-#: ../src/main_window.c:1230
+#: ../src/main_window.c:1232
 msgid "Cache size:"
 msgstr "Cache grootte:"
 
-#: ../src/main_window.c:1231
+#: ../src/main_window.c:1233
 msgid "MB"
 msgstr "MB"
 
-#: ../src/main_window.c:1246
+#: ../src/main_window.c:1248
 msgid "Timeout"
 msgstr "Timeout"
 
-#: ../src/main_window.c:1249
+#: ../src/main_window.c:1251
 msgid "Preload"
 msgstr "Vooruit laden"
 
-#: ../src/main_window.c:1254
+#: ../src/main_window.c:1256
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -155,7 +155,7 @@ msgstr ""
 "De periode dat een enkele afbeelding wordt weergegeven gedurende een\n"
 "diaweergave (in seconden)"
 
-#: ../src/main_window.c:1258
+#: ../src/main_window.c:1260
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -163,15 +163,15 @@ msgstr ""
 "Afbeeldingen vooraf inladen gedurende een diaweergave\n"
 "(gebruikt meer geheugen)"
 
-#: ../src/main_window.c:1259
+#: ../src/main_window.c:1261
 msgid "_Preload images"
 msgstr "_Afbeeldingen vooruit inladen"
 
-#: ../src/main_window.c:1313
+#: ../src/main_window.c:1315
 msgid "Developer:"
 msgstr "Ontwikkelaar:"
 
-#: ../src/main_window.c:1323
+#: ../src/main_window.c:1325
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -179,34 +179,34 @@ msgstr ""
 "Ristretto is een snel en lichtgewicht afbeeldingsweergave-programma voor de "
 "Xfce-desktop omgeving"
 
-#: ../src/main_window.c:1331
+#: ../src/main_window.c:1333
 msgid "translator-credits"
 msgstr "Stephan Arts <stephan@xfce.org>"
 
-#: ../src/main_window.c:1351
+#: ../src/main_window.c:1353
 msgid "Open image"
 msgstr "Afbeelding openen"
 
-#: ../src/main_window.c:1386
+#: ../src/main_window.c:1388
 msgid "Could not open file"
 msgstr "Kan bestand niet openen"
 
-#: ../src/main_window.c:1396
+#: ../src/main_window.c:1398
 msgid "Open folder"
 msgstr "Map openen"
 
-#: ../src/main_window.c:1500
+#: ../src/main_window.c:1512
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
 "Weet U zeker dat u de lijst met recent door ristretto geopende bestanden "
 "wilt wissen?"
 
-#: ../src/thumbnail_bar.c:168
+#: ../src/thumbnail_bar.c:178
 msgid "Spacing"
 msgstr "Spatiering"
 
-#: ../src/thumbnail_bar.c:169
+#: ../src/thumbnail_bar.c:179
 msgid "The amount of space between the thumbnails"
 msgstr "De ruimte tussen de thumbnails"
 
