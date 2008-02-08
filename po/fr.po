@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Mike Massonnet <mmassonnet@xfce.org>, 2007.
 #
-#: ../src/main.c:208
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-02-08 11:32+0100\n"
-"PO-Revision-Date: 2007-12-01 10:52+0100\n"
+"PO-Revision-Date: 2008-02-08 13:15+0100\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -28,8 +27,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Essayez %s --help pour voir une liste complète des options en ligne de "
-"commande.\n"
+"Essayez %s --help pour voir une liste complète des options en ligne de commande.\n"
 
 #. Create 'File' menu
 #: ../src/main_window.c:316
@@ -49,11 +47,13 @@ msgstr "_Récemment ouvert"
 msgid "_Edit"
 msgstr "_Editer"
 
-#: ../src/main_window.c:361 ../src/main_window.c:598
+#: ../src/main_window.c:361
+#: ../src/main_window.c:598
 msgid "Open with..."
 msgstr "_Ouvrir avec..."
 
-#: ../src/main_window.c:369 ../src/main_window.c:609
+#: ../src/main_window.c:369
+#: ../src/main_window.c:609
 msgid "No applications available"
 msgstr "Aucune application disponible"
 
@@ -129,17 +129,16 @@ msgid "_Override Background Color:"
 msgstr "_Choisir une couleur d’arrière plan :"
 
 #: ../src/main_window.c:1229
-#, fuzzy
 msgid "Image Cache"
-msgstr "Visualiseur d’Images"
+msgstr "Cache Image"
 
 #: ../src/main_window.c:1232
 msgid "Cache size:"
-msgstr ""
+msgstr "Taille du cache :"
 
 #: ../src/main_window.c:1233
 msgid "MB"
-msgstr ""
+msgstr "Mo"
 
 #: ../src/main_window.c:1248
 msgid "Timeout"
@@ -174,12 +173,8 @@ msgid "Developer:"
 msgstr "Développeur :"
 
 #: ../src/main_window.c:1325
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto est un visualiseur d’images léger et rapide pour l’environnement "
-"de bureau Xfce."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto est un visualiseur d’images léger et rapide pour l’environnement de bureau Xfce."
 
 #: ../src/main_window.c:1333
 msgid "translator-credits"
@@ -198,19 +193,16 @@ msgid "Open folder"
 msgstr "Ouvrir un répertoire"
 
 #: ../src/main_window.c:1512
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr ""
-"Êtes-vous certain de vouloir supprimer la liste des documents récemment "
-"ouverts de Ristretto ?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Êtes-vous certain de vouloir supprimer la liste des documents récemment ouverts de Ristretto ?"
 
 #: ../src/thumbnail_bar.c:178
 msgid "Spacing"
-msgstr ""
+msgstr "Espacement"
 
 #: ../src/thumbnail_bar.c:179
 msgid "The amount of space between the thumbnails"
-msgstr ""
+msgstr "L'espacement entre les miniatures"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -226,9 +218,8 @@ msgstr "Visualiseur d’Images pour Xfce"
 
 #~ msgid "Behaviour"
 #~ msgstr "Comportement"
-
 #~ msgid "Flip _Vertically"
 #~ msgstr "Retourner _verticalement"
-
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Retourner _horizontalement"
+
