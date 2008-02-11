@@ -353,11 +353,13 @@ rstto_thumbnail_bar_expose(GtkWidget *widget, GdkEventExpose *ex)
 
     GdkEventExpose *n_ex = g_new0(GdkEventExpose, 1);
 
+    gint border_width = GTK_CONTAINER(bar)->border_width;
+
     n_ex->type = ex->type;
     n_ex->window = ex->window;
     n_ex->send_event = ex->send_event;
-    n_ex->area.x = 0;
-    n_ex->area.y = 0;
+    n_ex->area.x = border_width;
+    n_ex->area.y = border_width;
     n_ex->area.width = ex->area.width;
     n_ex->area.height = ex->area.height;
     n_ex->count = ex->count;

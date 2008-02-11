@@ -180,6 +180,7 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
         GdkPixbuf *pixbuf = rstto_navigator_entry_get_thumb(
                                 thumb->priv->entry,
                                 widget->allocation.height - 4);
+
         gtk_paint_box(widget->style,
                       widget->window,
                       state,
@@ -193,7 +194,7 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
         if(pixbuf)
         {
             gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
-                            widget->style->fg_gc[state],
+                            NULL,
                             pixbuf,
                             0, 0,
                             (0.5 * (widget->allocation.width - gdk_pixbuf_get_width(pixbuf))) + widget->allocation.x,
