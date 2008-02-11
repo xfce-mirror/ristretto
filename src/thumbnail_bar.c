@@ -73,6 +73,10 @@ static gboolean
 cb_rstto_thumbnail_bar_thumbnail_scroll_event (RsttoThumbnail *thumb,
                                                GdkEventScroll *event,
                                                gpointer *user_data);
+static gboolean
+cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
+                                     GdkEventScroll *event,
+                                     gpointer *user_data);
 
 static void
 rstto_thumbnail_bar_add(GtkContainer *container, GtkWidget *child);
@@ -145,9 +149,13 @@ rstto_thumbnail_bar_init(RsttoThumbnailBar *bar)
 
 	GTK_WIDGET_UNSET_FLAGS(bar, GTK_NO_WINDOW);
 	gtk_widget_set_redraw_on_allocate(GTK_WIDGET(bar), TRUE);
+    gtk_widget_set_events (GTK_WIDGET(bar),
+                           GDK_SCROLL_MASK);
 
     bar->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
     bar->priv->offset = 0;
+
+    g_signal_connect(G_OBJECT(bar), "scroll_event", G_CALLBACK(cb_rstto_thumbnail_bar_scroll_event), NULL);
 
 }
 
@@ -770,6 +778,26 @@ cb_rstto_thumbnail_bar_thumbnail_scroll_event (RsttoThumbnail *thumb,
                                                gpointer *user_data)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(gtk_widget_get_parent(GTK_WIDGET(thumb)));
+    switch(event->direction)
+    {
+        case GDK_SCROLL_UP:
+        case GDK_SCROLL_LEFT:
+            rstto_navigator_jump_back(bar->priv->navigator);
+            break;
+        case GDK_SCROLL_DOWN:
+        case GDK_SCROLL_RIGHT:
+            rstto_navigator_jump_forward(bar->priv->navigator);
+            break;
+    }
+    return FALSE;
+
+}
+
+static gboolean
+cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
+                                     GdkEventScroll *event,
+                                     gpointer *user_data)
+{
     switch(event->direction)
     {
         case GDK_SCROLL_UP:
