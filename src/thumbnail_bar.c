@@ -179,6 +179,13 @@ rstto_thumbnail_bar_class_init(RsttoThumbnailBarClass *bar_class)
 		_("The amount of space between the thumbnails"),
 		0, G_MAXINT, 3,
 		G_PARAM_READABLE));
+
+	gtk_widget_class_install_style_property (widget_class,
+		g_param_spec_int ("border_width",
+		_("Border Width"),
+		_("The border width of the thumbnail-bar"),
+		0, G_MAXINT, 3,
+		G_PARAM_READABLE));
 }
 
 static void
@@ -186,6 +193,9 @@ rstto_thumbnail_bar_size_request(GtkWidget *widget, GtkRequisition *requisition)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
     gint border_width = GTK_CONTAINER(bar)->border_width;
+
+    gtk_widget_style_get(widget, "border-width", &border_width, NULL);
+
     GSList *iter;
 
 	GtkRequisition child_requisition;
@@ -204,6 +214,7 @@ rstto_thumbnail_bar_size_request(GtkWidget *widget, GtkRequisition *requisition)
     requisition->width += (border_width * 2);
 
 	widget->requisition = *requisition;
+    GTK_CONTAINER(bar)->border_width = border_width;
 }
 
 static void
