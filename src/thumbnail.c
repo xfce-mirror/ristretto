@@ -168,7 +168,6 @@ rstto_thumbnail_finalize(GObject *object)
 static void
 rstto_thumbnail_paint(RsttoThumbnail *thumb)
 {
-    GdkPixmap *pixmap = NULL;
     GtkWidget *widget = GTK_WIDGET(thumb);
     gint border_width = 0;
 
@@ -181,62 +180,28 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
         GdkPixbuf *pixbuf = rstto_navigator_entry_get_thumb(
                                 thumb->priv->entry,
                                 widget->allocation.height - 4);
-
-        pixmap = gdk_pixmap_new(widget->window, widget->allocation.width, widget->allocation.height, -1);
-
-        if (widget->style->bg_pixmap[state] == NULL)
-        {
-            gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
-                            widget->style->bg_gc[state],
-                            TRUE,
-                            0, 0, 
-                            widget->allocation.width,
-                            widget->allocation.height);
-        }
-        else
-        {
-            gdk_draw_drawable(GDK_DRAWABLE(pixmap),
-                widget->style->bg_gc[state],
-                widget->style->bg_pixmap[state],
-                0, 0,
-                widget->allocation.x, widget->allocation.y,
-                widget->allocation.width,
-                widget->allocation.height);
-
-        }
-
+        gtk_paint_box(widget->style,
+                      widget->window,
+                      state,
+                      GTK_SHADOW_ETCHED_IN,
+                      NULL,
+                      widget,
+                      NULL,
+                      widget->allocation.x, widget->allocation.y,
+                      widget->allocation.width, widget->allocation.height);
 
         if(pixbuf)
         {
-            gdk_draw_pixbuf(GDK_DRAWABLE(pixmap),
+            gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
                             widget->style->fg_gc[state],
                             pixbuf,
                             0, 0,
-                            (0.5 * (widget->allocation.width - gdk_pixbuf_get_width(pixbuf))),
-                            (0.5 * (widget->allocation.height - gdk_pixbuf_get_height(pixbuf))),
+                            (0.5 * (widget->allocation.width - gdk_pixbuf_get_width(pixbuf))) + widget->allocation.x,
+                            (0.5 * (widget->allocation.height - gdk_pixbuf_get_height(pixbuf))) + widget->allocation.y,
                             -1, -1,
                             GDK_RGB_DITHER_NORMAL,
                             0, 0);
         }
-
-        gdk_draw_drawable(GDK_DRAWABLE(widget->window),
-            gc,
-            pixmap,
-            0, 0,
-            widget->allocation.x + border_width, widget->allocation.y + border_width,
-            widget->allocation.width - (2 * border_width),
-            widget->allocation.height - (2 * border_width));
-
-        gtk_paint_shadow(widget->style,
-                         widget->window,
-                         state,
-                         GTK_SHADOW_ETCHED_IN,
-                         NULL,
-                         widget,
-                         NULL,
-                         widget->allocation.x, widget->allocation.y,
-                         widget->allocation.width,
-                         widget->allocation.height);
     }
 }
 

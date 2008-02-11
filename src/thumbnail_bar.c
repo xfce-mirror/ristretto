@@ -217,10 +217,10 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     GtkAllocation child_allocation;
     GtkRequisition child_requisition;
 
-    child_allocation.x = 0;
-    child_allocation.y = 0;
-    child_allocation.height = 0;
-    child_allocation.width = 0;
+    child_allocation.x = border_width;
+    child_allocation.y = border_width;
+    child_allocation.height = border_width * 2;
+    child_allocation.width = border_width * 2;
 
     GSList *iter = bar->priv->thumbs;
 
