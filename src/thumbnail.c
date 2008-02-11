@@ -170,15 +170,11 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 {
     GdkPixmap *pixmap = NULL;
     GtkWidget *widget = GTK_WIDGET(thumb);
+    gint border_width = 0;
 
     GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(widget->window));
-    GdkGC *gc_bg_normal = gdk_gc_new(GDK_DRAWABLE(widget->window));
-    GdkGC *gc_bg_selected = gdk_gc_new(GDK_DRAWABLE(widget->window));
 
-    gdk_gc_set_foreground(gc_bg_selected,
-                        &(widget->style->bg[GTK_STATE_SELECTED]));
-    gdk_gc_set_foreground(gc_bg_normal,
-                        &(widget->style->bg[GTK_STATE_NORMAL]));
+    GtkStateType state = GTK_WIDGET_STATE(widget);
 
     if(thumb->priv->entry)
     {
@@ -188,12 +184,10 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 
         pixmap = gdk_pixmap_new(widget->window, widget->allocation.width, widget->allocation.height, -1);
 
-        gdk_gc_set_foreground(gc, &widget->style->fg[GTK_STATE_NORMAL]);
-
-        if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(thumb)))
+        if (widget->style->bg_pixmap[state] == NULL)
         {
             gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
-                            gc_bg_selected,
+                            widget->style->bg_gc[state],
                             TRUE,
                             0, 0, 
                             widget->allocation.width,
@@ -201,18 +195,21 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
         }
         else
         {
-            gdk_draw_rectangle(GDK_DRAWABLE(pixmap),
-                            gc_bg_normal,
-                            TRUE,
-                            0, 0, 
-                            widget->allocation.width,
-                            widget->allocation.height);
+            gdk_draw_drawable(GDK_DRAWABLE(pixmap),
+                widget->style->bg_gc[state],
+                widget->style->bg_pixmap[state],
+                0, 0,
+                widget->allocation.x, widget->allocation.y,
+                widget->allocation.width,
+                widget->allocation.height);
+
         }
+
 
         if(pixbuf)
         {
             gdk_draw_pixbuf(GDK_DRAWABLE(pixmap),
-                            gc,
+                            widget->style->fg_gc[state],
                             pixbuf,
                             0, 0,
                             (0.5 * (widget->allocation.width - gdk_pixbuf_get_width(pixbuf))),
@@ -226,10 +223,20 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
             gc,
             pixmap,
             0, 0,
-            widget->allocation.x, widget->allocation.y,
-            widget->allocation.width,
-            widget->allocation.height);
+            widget->allocation.x + border_width, widget->allocation.y + border_width,
+            widget->allocation.width - (2 * border_width),
+            widget->allocation.height - (2 * border_width));
 
+        gtk_paint_shadow(widget->style,
+                         widget->window,
+                         state,
+                         GTK_SHADOW_ETCHED_IN,
+                         NULL,
+                         widget,
+                         NULL,
+                         widget->allocation.x, widget->allocation.y,
+                         widget->allocation.width,
+                         widget->allocation.height);
     }
 }
 
@@ -286,8 +293,9 @@ rstto_thumbnail_clicked(GtkButton *button)
     RsttoThumbnail *thumb = RSTTO_THUMBNAIL(button);
     GtkToggleButton *tmp_button;
 
-    GSList *tmp_list;
     gboolean toggled = FALSE;
+
+    GSList *tmp_list;
 
     if(toggle_button->active == TRUE)
     {
@@ -306,13 +314,11 @@ rstto_thumbnail_clicked(GtkButton *button)
         if (tmp_button != NULL)
         {
             toggled = TRUE;
-            toggle_button->active = !toggle_button->active;
         }
     }
     else
     {
         toggled = TRUE;
-        toggle_button->active = !toggle_button->active;
 
         tmp_list = thumb->priv->group;
         while(tmp_list)
@@ -329,9 +335,6 @@ rstto_thumbnail_clicked(GtkButton *button)
 
     if (toggled == TRUE)
     {
-        gtk_widget_queue_draw (GTK_WIDGET (thumb));
-        gtk_toggle_button_toggled(toggle_button);
-        g_object_notify (G_OBJECT (toggle_button), "active");
+        GTK_BUTTON_CLASS(parent_class)->clicked(button);
     }
-
 }
