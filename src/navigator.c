@@ -1350,3 +1350,15 @@ cb_rstto_navigator_entry_path_compare_func(RsttoNavigatorEntry *entry, ThunarVfs
     }
     return 1;
 }
+
+gboolean
+rstto_navigator_entry_is_selected(RsttoNavigatorEntry *entry)
+{
+    g_return_val_if_fail(RSTTO_IS_NAVIGATOR(entry->navigator), FALSE);
+    g_return_val_if_fail((entry->navigator->file_iter != NULL), FALSE);
+
+    if (entry == entry->navigator->file_iter->data)
+        return TRUE;
+    else
+        return FALSE;
+}

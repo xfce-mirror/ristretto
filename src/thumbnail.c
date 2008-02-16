@@ -75,7 +75,7 @@ rstto_thumbnail_get_type ()
             NULL
         };
 
-        rstto_thumbnail_type = g_type_register_static (GTK_TYPE_TOGGLE_BUTTON, "RsttoThumbnail", &rstto_thumbnail_info, 0);
+        rstto_thumbnail_type = g_type_register_static (GTK_TYPE_BUTTON, "RsttoThumbnail", &rstto_thumbnail_info, 0);
     }
     return rstto_thumbnail_type;
 }
@@ -177,6 +177,19 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 
     if(thumb->priv->entry)
     {
+
+        if (GTK_WIDGET_STATE(widget) != GTK_STATE_PRELIGHT)
+        {
+            if (rstto_navigator_entry_is_selected(thumb->priv->entry))
+            {
+                gtk_widget_set_state(widget, GTK_STATE_SELECTED);
+            }
+            else
+            {
+                gtk_widget_set_state(widget, GTK_STATE_NORMAL);
+            }
+        }
+
         GdkPixbuf *pixbuf = rstto_navigator_entry_get_thumb(
                                 thumb->priv->entry,
                                 widget->allocation.height - 4);
@@ -255,52 +268,10 @@ rstto_thumbnail_get_entry (RsttoThumbnail *thumb)
 static void
 rstto_thumbnail_clicked(GtkButton *button)
 {
-    GtkToggleButton *toggle_button = GTK_TOGGLE_BUTTON(button);
     RsttoThumbnail *thumb = RSTTO_THUMBNAIL(button);
-    GtkToggleButton *tmp_button;
+    RsttoNavigatorEntry *entry = rstto_thumbnail_get_entry(thumb);
 
-    gboolean toggled = FALSE;
+    rstto_navigator_entry_select(entry);
 
-    GSList *tmp_list;
-
-    if(toggle_button->active == TRUE)
-    {
-        tmp_button = NULL;
-        tmp_list = thumb->priv->group;
-        while(tmp_list)
-        {
-            tmp_button = tmp_list->data;
-            tmp_list = tmp_list->next;
-            if (tmp_button->active && tmp_button != toggle_button)
-                break;
-
-            tmp_button = NULL;
-        }
-
-        if (tmp_button != NULL)
-        {
-            toggled = TRUE;
-        }
-    }
-    else
-    {
-        toggled = TRUE;
-
-        tmp_list = thumb->priv->group;
-        while(tmp_list)
-        {
-            tmp_button = tmp_list->data;
-            tmp_list = tmp_list->next;
-            if (tmp_button->active && (tmp_button != toggle_button))
-            {
-                gtk_button_clicked(GTK_BUTTON(tmp_button));
-                break;
-            }
-        }
-    }
-
-    if (toggled == TRUE)
-    {
-        GTK_BUTTON_CLASS(parent_class)->clicked(button);
-    }
+    gtk_widget_queue_draw (GTK_WIDGET (button));
 }

@@ -105,7 +105,7 @@ cb_rstto_thumbnail_bar_nav_entry_removed(RsttoNavigator *nav,
                                     RsttoThumbnailBar *bar);
 
 static void
-cb_rstto_thumbnail_bar_thumbnail_toggled (RsttoThumbnail *thumb, RsttoThumbnailBar *bar);
+cb_rstto_thumbnail_bar_thumbnail_clicked (RsttoThumbnail *thumb, RsttoThumbnailBar *bar);
 
 static gint
 cb_rstto_thumbnail_bar_compare (RsttoThumbnail *a, RsttoThumbnail *b);
@@ -612,7 +612,7 @@ cb_rstto_thumbnail_bar_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigato
     {
         thumb = rstto_thumbnail_new(entry, NULL);
     }
-    g_signal_connect(G_OBJECT(thumb), "toggled", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_toggled), bar);
+    g_signal_connect(G_OBJECT(thumb), "clicked", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_clicked), bar);
     g_signal_connect(G_OBJECT(thumb), "button_press_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_button_press_event), NULL);
     g_signal_connect(G_OBJECT(thumb), "button_release_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_button_release_event), NULL);
     g_signal_connect(G_OBJECT(thumb), "motion_notify_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_motion_notify_event), NULL);
@@ -643,17 +643,15 @@ cb_rstto_thumbnail_bar_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavig
 
     while (iter != NULL)
     {
-        if (entry != rstto_thumbnail_get_entry(RSTTO_THUMBNAIL(iter->data)))
+        if (entry == rstto_thumbnail_get_entry(RSTTO_THUMBNAIL(iter->data)))
         {
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(iter->data), FALSE);
-        }
-        else
-        {
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(iter->data), TRUE);
+            //gtk_button_clicked(GTK_BUTTON(iter->data));
+            break;
         }
         i++;
         iter = g_slist_next(iter);
     }
+
     /* If the children should be autocentered... resize */
     if (bar->priv->auto_center == TRUE)
         gtk_widget_queue_resize(GTK_WIDGET(bar));
@@ -672,9 +670,9 @@ cb_rstto_thumbnail_bar_nav_reordered (RsttoNavigator *nav, RsttoThumbnailBar *ba
 }
 
 static void
-cb_rstto_thumbnail_bar_thumbnail_toggled (RsttoThumbnail *thumb, RsttoThumbnailBar *bar)
+cb_rstto_thumbnail_bar_thumbnail_clicked (RsttoThumbnail *thumb, RsttoThumbnailBar *bar)
 {
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(thumb)) == TRUE)
+    if (thumb->selected == TRUE)
     {
         bar->priv->auto_center = TRUE;
         rstto_navigator_entry_select (rstto_thumbnail_get_entry(thumb));
@@ -797,8 +795,7 @@ cb_rstto_thumbnail_bar_nav_entry_removed(RsttoNavigator *nav, RsttoNavigatorEntr
     {
         if (entry == rstto_thumbnail_get_entry(RSTTO_THUMBNAIL(iter->data)))
         {
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(iter->data), FALSE);
-            g_signal_handlers_disconnect_by_func(G_OBJECT(iter->data), G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_toggled), bar);
+            g_signal_handlers_disconnect_by_func(G_OBJECT(iter->data), G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_clicked), bar);
             gtk_widget_destroy(GTK_WIDGET(iter->data));
             break;
         }

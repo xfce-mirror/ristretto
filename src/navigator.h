@@ -157,6 +157,9 @@ rstto_navigator_set_max_history_size(RsttoNavigator *nav, gdouble size);
 void
 rstto_navigator_set_monitor_handle_for_dir(RsttoNavigator *nav, ThunarVfsPath *dir_path);
 
+gboolean
+rstto_navigator_entry_is_selected(RsttoNavigatorEntry *entry);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_NAVIGATOR_H__ */
