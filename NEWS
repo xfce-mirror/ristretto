@@ -1,3 +1,13 @@
+0.0.17
+======
+
+- Scrolling the vertical oriented thumbnail-bar no longer makes the thumbnails
+  assume the events intended for the zoom-buttons located above.
+- Ristretto no longer segfaults when using the scroll-wheel over an empty main-
+  window
+- Fix desktop-file syntax (was missing a semicolon)
+- Thumbnails behave a little better now.
+
 0.0.16
 ======
 
