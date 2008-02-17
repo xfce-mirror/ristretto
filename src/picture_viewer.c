@@ -150,7 +150,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
                            GDK_BUTTON_RELEASE_MASK |
                            GDK_BUTTON1_MOTION_MASK);
 
-    viewer->priv->show_border = TRUE;
+    viewer->priv->show_border = FALSE;
 
     g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_picture_viewer_scroll_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_picture_viewer_button_press_event), NULL);
@@ -348,35 +348,78 @@ rstto_picture_viewer_paint(GtkWidget *widget)
             {
                 gdk_gc_set_foreground(gc,
                         &(widget->style->fg[GTK_STATE_SELECTED]));
-                gdouble x1, x2, y1, y2;
+                gdouble m_x1, m_x2, m_y1, m_y2;
 
                 if (viewer->priv->motion.x < viewer->priv->motion.current_x)
                 {
-                    x1 = viewer->priv->motion.x;
-                    x2 = viewer->priv->motion.current_x;
+                    m_x1 = viewer->priv->motion.x;
+                    m_x2 = viewer->priv->motion.current_x;
                 }
                 else
                 {
-                    x1 = viewer->priv->motion.current_x;
-                    x2 = viewer->priv->motion.x;
+                    m_x1 = viewer->priv->motion.current_x;
+                    m_x2 = viewer->priv->motion.x;
                 }
                 if (viewer->priv->motion.y < viewer->priv->motion.current_y)
                 {
-                    y1 = viewer->priv->motion.y;
-                    y2 = viewer->priv->motion.current_y;
+                    m_y1 = viewer->priv->motion.y;
+                    m_y2 = viewer->priv->motion.current_y;
                 }
                 else
                 {
-                    y1 = viewer->priv->motion.current_y;
-                    y2 = viewer->priv->motion.y;
+                    m_y1 = viewer->priv->motion.current_y;
+                    m_y2 = viewer->priv->motion.y;
                 }
+                if (m_y1 < y1)
+                    m_y1 = y1;
+                if (m_x1 < x1)
+                    m_x1 = x1;
+
+                if (m_x2 > x2 + x1)
+                    m_x2 = x2 + x1;
+                if (m_y2 > y2 + y1)
+                    m_y2 = y2 + y1;
+
+                if ((m_x2 - m_x1 >= 2) && (m_y2 - m_y1 >= 2))
+                {
+                    GdkPixbuf *sub = gdk_pixbuf_new_subpixbuf(pixbuf,
+                                                              m_x1-x1,
+                                                              m_y1-y1,
+                                                              m_x2-m_x1,
+                                                              m_y2-m_y1);
+                    if(sub)
+                    {
+                        sub = gdk_pixbuf_composite_color_simple(sub,
+                                                          m_x2-m_x1,
+                                                          m_y2-m_y1,
+                                                          GDK_INTERP_BILINEAR,
+                                                          200,
+                                                          200,
+                                                          widget->style->bg[GTK_STATE_SELECTED].pixel,
+                                                          widget->style->bg[GTK_STATE_SELECTED].pixel);
+
+                        gdk_draw_pixbuf(GDK_DRAWABLE(buffer),
+                                        gc,
+                                        sub,
+                                        0,0,
+                                        m_x1,
+                                        m_y1,
+                                        -1, -1,
+                                        GDK_RGB_DITHER_NONE,
+                                        0, 0);
+
+                        gdk_pixbuf_unref(sub);
+                        sub = NULL;
+                    }
+                }
+
                 gdk_draw_rectangle(GDK_DRAWABLE(buffer),
                                 gc,
                                 FALSE,
-                                x1,
-                                y1,
-                                x2 - x1,
-                                y2 - y1);
+                                m_x1,
+                                m_y1,
+                                m_x2 - m_x1,
+                                m_y2 - m_y1);
             }
 
             if(viewer->priv->show_border)

@@ -1437,6 +1437,8 @@ cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window)
                 }
                 g_free(path_name);
                 filename = g_dir_read_name(dir);
+                while (gtk_events_pending())
+                    gtk_main_iteration ();
             }
             rstto_navigator_jump_first(window->priv->navigator);
             gchar *uri = gtk_file_chooser_get_uri(GTK_FILE_CHOOSER(dialog));
@@ -1489,6 +1491,8 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
                     }
                     g_free(path_name);
                     filename = g_dir_read_name(dir);
+                    while (gtk_events_pending())
+                        gtk_main_iteration ();
                 }
                 rstto_navigator_jump_first(window->priv->navigator);
                 g_free(dir_path);
@@ -1911,6 +1915,5 @@ cb_rstto_bg_color_override_check_toggled(GtkToggleButton *button, GtkWidget *wid
     else
     {
         gtk_widget_set_sensitive(widget, FALSE);
-
     }
 }
