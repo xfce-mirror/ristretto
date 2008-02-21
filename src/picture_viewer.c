@@ -12,6 +12,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
+ *  Drag-n-Drop support taken from Thunar, written by Benedict Meurer
  */
 
 #include <config.h>
@@ -30,6 +32,15 @@ typedef enum
     RSTTO_PICTURE_VIEWER_STATE_MOVE,
     RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM
 } RsttoPictureViewerState;
+
+enum
+{
+    TARGET_TEXT_URI_LIST,
+};
+
+static const GtkTargetEntry drop_targets[] = {
+    {"text/uri-list", 0, TARGET_TEXT_URI_LIST},
+};
 
 
 struct _RsttoPictureViewerPriv
@@ -107,6 +118,21 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
 static void
 cb_rstto_picture_viewer_popup_menu (RsttoPictureViewer *viewer, gboolean user_data);
 
+static gboolean
+rstto_picture_viewer_drag_drop (GtkWidget *widget,
+                                GdkDragContext *context,
+                                gint x,
+                                gint y,
+                                guint time);
+static gboolean
+rstto_picture_viewer_drag_motion (GtkWidget *widget,
+                                GdkDragContext *context,
+                                gint x,
+                                gint y,
+                                guint time);
+static void
+rstto_picture_viewer_drag_data_received();
+
 static GtkWidgetClass *parent_class = NULL;
 
 GType
@@ -157,6 +183,9 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
     g_signal_connect(G_OBJECT(viewer), "button_release_event", G_CALLBACK(cb_rstto_picture_viewer_button_release_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "motion_notify_event", G_CALLBACK(cb_rstto_picture_viewer_motion_notify_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "popup-menu", G_CALLBACK(cb_rstto_picture_viewer_popup_menu), NULL);
+
+    gtk_drag_dest_set(GTK_WIDGET(viewer), 0, drop_targets, G_N_ELEMENTS(drop_targets),
+                      GDK_ACTION_COPY | GDK_ACTION_LINK | GDK_ACTION_MOVE);
 }
 
 static void
@@ -174,9 +203,11 @@ rstto_picture_viewer_class_init(RsttoPictureViewerClass *viewer_class)
 
     widget_class->realize = rstto_picture_viewer_realize;
     widget_class->expose_event = rstto_picture_viewer_expose;
-
     widget_class->size_request = rstto_picture_viewer_size_request;
     widget_class->size_allocate = rstto_picture_viewer_size_allocate;
+    widget_class->drag_drop = rstto_picture_viewer_drag_drop;
+    widget_class->drag_motion = rstto_picture_viewer_drag_motion;
+    widget_class->drag_data_received = rstto_picture_viewer_drag_data_received;
 
     object_class->destroy = rstto_picture_viewer_destroy;
 
@@ -616,6 +647,7 @@ rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
             {
                 scale = 1.0;
                 rstto_navigator_entry_set_scale(entry, scale);
+                rstto_navigator_entry_set_fit_to_screen(entry, FALSE);
                 fit_to_screen = FALSE;
             }
             else
@@ -1178,4 +1210,33 @@ void
 rstto_picture_viewer_set_zoom_mode(RsttoPictureViewer *viewer, RsttoZoomMode mode)
 {
     viewer->priv->zoom_mode = mode;
+}
+
+static void
+rstto_picture_viewer_drag_data_received()
+{
+    g_debug("%s", __FUNCTION__);
+}
+
+static gboolean
+rstto_picture_viewer_drag_drop (GtkWidget *widget,
+                                GdkDragContext *context,
+                                gint x,
+                                gint y,
+                                guint time)
+{
+    g_debug("%s", __FUNCTION__);
+    gtk_drag_finish(context, FALSE, FALSE, time);
+    return TRUE;
+}
+
+static gboolean
+rstto_picture_viewer_drag_motion (GtkWidget *widget,
+                                GdkDragContext *context,
+                                gint x,
+                                gint y,
+                                guint time)
+{
+    g_debug("%s", __FUNCTION__);
+    return TRUE;
 }

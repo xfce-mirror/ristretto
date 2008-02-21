@@ -899,6 +899,11 @@ rstto_navigator_entry_get_scale (RsttoNavigatorEntry *entry)
 void
 rstto_navigator_entry_set_scale (RsttoNavigatorEntry *entry, gdouble scale)
 {
+    if (scale == 0.0)
+    {
+        entry->scale = scale;
+        return;
+    }
     /* Max scale 1600% */
     if (scale > 16)
         scale = 16;

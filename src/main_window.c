@@ -59,6 +59,7 @@ struct _RsttoMainWindowPriv
         gint            max_cache_size;
         gdouble         slideshow_timeout;
         const GdkColor *bg_color;
+        gboolean        scale_to_100;
     } settings;
 
     struct {
@@ -292,6 +293,8 @@ rstto_main_window_init(RsttoMainWindow *window)
 
     window->priv->mime_dbase = thunar_vfs_mime_database_get_default();
     window->priv->icon_theme = gtk_icon_theme_get_default();
+
+    window->priv->settings.scale_to_100 = TRUE;
     
 
     GtkAccelGroup *accel_group = gtk_accel_group_new();
@@ -979,6 +982,18 @@ rstto_main_window_set_max_cache_size (RsttoMainWindow *window, gint max_cache_si
     rstto_navigator_set_max_history_size(window->priv->navigator, max_cache_size * 1000000);
 }
 
+void
+rstto_main_window_set_scale_to_100 (RsttoMainWindow *window, gboolean scale_to_100)
+{
+    window->priv->settings.scale_to_100 = scale_to_100;
+}
+
+gboolean
+rstto_main_window_get_scale_to_100 (RsttoMainWindow *window)
+{
+    return window->priv->settings.scale_to_100;
+}
+
 /* CALLBACK FUNCTIONS */
 
 static void
@@ -1127,6 +1142,17 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             }
         }
     }
+    if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
+    {
+        RsttoNavigatorEntry *entry = rstto_navigator_get_file(window->priv->navigator);
+
+        if (window->priv->settings.scale_to_100 == TRUE)
+        {
+            rstto_picture_viewer_set_zoom_mode(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer), RSTTO_ZOOM_MODE_CUSTOM);
+            rstto_navigator_entry_set_scale(entry, 0);
+        }
+
+    }
 }
 
 static void
@@ -1161,6 +1187,12 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *slideshow_main_lbl;
     GtkWidget *display_main_vbox;
     GtkWidget *display_main_lbl;
+    GtkWidget *behaviour_main_vbox;
+    GtkWidget *behaviour_main_lbl;
+
+    GtkWidget *resize_to_content_vbox, *resize_to_content_frame;
+    GtkWidget *resize_on_maximize_check;
+
     GtkWidget *bg_color_vbox;
     GtkWidget *bg_color_hbox;
     GtkWidget *bg_color_frame;
@@ -1192,6 +1224,11 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
 
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook,  TRUE, TRUE, 0);
 
+/** Add notebook pages */
+    behaviour_main_vbox = gtk_vbox_new(FALSE, 0);
+    behaviour_main_lbl = gtk_label_new(_("Behaviour"));
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), behaviour_main_vbox, behaviour_main_lbl);
+
     slideshow_main_vbox = gtk_vbox_new(FALSE, 0);
     slideshow_main_lbl = gtk_label_new(_("Slideshow"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), slideshow_main_vbox, slideshow_main_lbl);
@@ -1200,6 +1237,19 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     display_main_lbl = gtk_label_new(_("Display"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), display_main_vbox, display_main_lbl);
 
+/** Add content for behaviour page */
+    resize_to_content_vbox = gtk_vbox_new(FALSE, 0);
+    resize_to_content_frame = xfce_create_framebox_with_content(_("Resize to content"), resize_to_content_vbox);
+
+    resize_on_maximize_check = gtk_check_button_new_with_mnemonic(_("Resize on maximize"));
+    gtk_box_pack_start(GTK_BOX(resize_to_content_vbox), resize_on_maximize_check, FALSE, TRUE, 0);
+
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(resize_on_maximize_check), window->priv->settings.scale_to_100);
+
+    gtk_container_set_border_width (GTK_CONTAINER (resize_to_content_frame), 8);
+    gtk_box_pack_start(GTK_BOX(behaviour_main_vbox), resize_to_content_frame, FALSE, TRUE, 0);
+
+/** Add content for display page */
     bg_color_vbox = gtk_vbox_new(FALSE, 0);
     bg_color_frame = xfce_create_framebox_with_content (_("Background Color"), bg_color_vbox);
 
@@ -1244,6 +1294,7 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(display_main_vbox), bg_color_frame, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(display_main_vbox), cache_frame, FALSE, TRUE, 0);
 
+/** Add content for slideshow page */
     GtkWidget *slideshow_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *slideshow_frame = xfce_create_framebox_with_content (_("Timeout"), slideshow_vbox);
 
@@ -1301,6 +1352,8 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
             }
             rstto_picture_viewer_redraw(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
             rstto_main_window_set_max_cache_size(window, GTK_ADJUSTMENT(cache_adjustment)->value);
+
+            window->priv->settings.scale_to_100 = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(resize_on_maximize_check));
         default:
             break;
     }
