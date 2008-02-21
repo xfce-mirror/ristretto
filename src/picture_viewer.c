@@ -1213,9 +1213,48 @@ rstto_picture_viewer_set_zoom_mode(RsttoPictureViewer *viewer, RsttoZoomMode mod
 }
 
 static void
-rstto_picture_viewer_drag_data_received()
+rstto_picture_viewer_drag_data_received(GtkWidget *widget,
+                                        GdkDragContext *context,
+                                        gint x,
+                                        gint y,
+                                        GtkSelectionData *selection_data,
+                                        guint info,
+                                        guint time)
 {
-    g_debug("%s", __FUNCTION__);
+    RsttoPictureViewer *picture_viewer = widget;
+    gchar **array = gtk_selection_data_get_uris (selection_data);
+
+    context->action = GDK_ACTION_PRIVATE;
+
+    if (array == NULL)
+    {
+        gtk_drag_finish (context, FALSE, FALSE, time);
+    }
+
+    gchar **_array = array;
+
+    while(*_array)
+    {
+        ThunarVfsPath *path = thunar_vfs_path_new(*_array, NULL);
+        ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
+        gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
+        if(!strcmp(file_media, "image"))
+        {
+            RsttoNavigatorEntry *entry = rstto_navigator_entry_new(picture_viewer->priv->navigator, info);
+            rstto_navigator_add (picture_viewer->priv->navigator, entry, TRUE);
+            gchar *uri = thunar_vfs_path_dup_uri(info->path);
+            g_free(uri);
+        }
+        else
+        {
+            
+        }
+        g_free(file_media);
+        thunar_vfs_path_unref(path);
+        _array++;
+    }
+    
+    gtk_drag_finish (context, TRUE, FALSE, time);
 }
 
 static gboolean
@@ -1225,8 +1264,23 @@ rstto_picture_viewer_drag_drop (GtkWidget *widget,
                                 gint y,
                                 guint time)
 {
-    g_debug("%s", __FUNCTION__);
-    gtk_drag_finish(context, FALSE, FALSE, time);
+    GdkAtom target;
+
+    /* determine the drop target */
+    target = gtk_drag_dest_find_target (widget, context, NULL);
+    if (G_LIKELY (target == gdk_atom_intern ("text/uri-list", FALSE)))
+    {
+        /* set state so the drag-data-received handler
+         * knows that this is really a drop this time.
+         */
+
+        /* request the drag data from the source. */
+        gtk_drag_get_data (widget, context, target, time);
+    }
+    else
+    {
+        return FALSE;
+    }
     return TRUE;
 }
 
@@ -1237,6 +1291,12 @@ rstto_picture_viewer_drag_motion (GtkWidget *widget,
                                 gint y,
                                 guint time)
 {
-    g_debug("%s", __FUNCTION__);
+    GdkAtom target;
+    target = gtk_drag_dest_find_target (widget, context, NULL);
+    if (G_UNLIKELY (target != gdk_atom_intern ("text/uri-list", FALSE)))
+    {
+        /* we cannot handle the drop */
+        return FALSE;
+    }
     return TRUE;
 }
