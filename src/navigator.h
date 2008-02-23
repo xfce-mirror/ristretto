@@ -46,6 +46,7 @@ typedef struct _RsttoNavigator RsttoNavigator;
 struct _RsttoNavigator
 {
     GObject                parent;
+    GtkRecentManager      *manager;
     ThunarVfsMonitor      *monitor;
     ThunarVfsMonitorHandle *monitor_handle;
 
@@ -75,7 +76,7 @@ struct _RsttoNavigatorClass
 GType      rstto_navigator_get_type ();
 
 RsttoNavigator *
-rstto_navigator_new ();
+rstto_navigator_new (GtkRecentManager *recent_manager);
 
 void       rstto_navigator_jump_first (RsttoNavigator *navigator);
 void       rstto_navigator_jump_forward (RsttoNavigator *navigator);
@@ -159,6 +160,11 @@ rstto_navigator_set_monitor_handle_for_dir(RsttoNavigator *nav, ThunarVfsPath *d
 
 gboolean
 rstto_navigator_entry_is_selected(RsttoNavigatorEntry *entry);
+
+gboolean
+rstto_navigator_open_file(RsttoNavigator *navigator, const gchar *path, gboolean open_folder, GError **error);
+gboolean
+rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboolean clear, GError **error);
 
 G_END_DECLS
 

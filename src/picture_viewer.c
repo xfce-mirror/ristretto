@@ -1221,7 +1221,7 @@ rstto_picture_viewer_drag_data_received(GtkWidget *widget,
                                         guint info,
                                         guint time)
 {
-    RsttoPictureViewer *picture_viewer = widget;
+    RsttoPictureViewer *picture_viewer = RSTTO_PICTURE_VIEWER(widget);
     gchar **array = gtk_selection_data_get_uris (selection_data);
 
     context->action = GDK_ACTION_PRIVATE;
@@ -1235,22 +1235,17 @@ rstto_picture_viewer_drag_data_received(GtkWidget *widget,
 
     while(*_array)
     {
-        ThunarVfsPath *path = thunar_vfs_path_new(*_array, NULL);
-        ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
-        gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
-        if(!strcmp(file_media, "image"))
+        if (g_file_test(*_array, G_FILE_TEST_EXISTS))
         {
-            RsttoNavigatorEntry *entry = rstto_navigator_entry_new(picture_viewer->priv->navigator, info);
-            rstto_navigator_add (picture_viewer->priv->navigator, entry, TRUE);
-            gchar *uri = thunar_vfs_path_dup_uri(info->path);
-            g_free(uri);
+            if (g_file_test(*_array, G_FILE_TEST_IS_DIR))
+            {
+                rstto_navigator_open_folder(picture_viewer->priv->navigator, *_array, FALSE, NULL);
+            }
+            else
+            {
+                rstto_navigator_open_file(picture_viewer->priv->navigator, *_array, FALSE, NULL);
+            }
         }
-        else
-        {
-            
-        }
-        g_free(file_media);
-        thunar_vfs_path_unref(path);
         _array++;
     }
     

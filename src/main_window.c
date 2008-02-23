@@ -302,11 +302,11 @@ rstto_main_window_init(RsttoMainWindow *window)
     gtk_window_set_title(GTK_WINDOW(window), PACKAGE_STRING);
     gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
 
-    window->priv->navigator = rstto_navigator_new();
+    window->priv->manager = gtk_recent_manager_get_default();
+    window->priv->navigator = rstto_navigator_new(window->priv->manager);
     window->priv->thumbnail_viewer = rstto_thumbnail_bar_new(window->priv->navigator);
     window->priv->picture_viewer = rstto_picture_viewer_new(window->priv->navigator);
 
-    window->priv->manager = gtk_recent_manager_get_default();
 
 /* Set up default settings */
     window->priv->settings.thumbnail_viewer_orientation = GTK_ORIENTATION_HORIZONTAL; 
@@ -1414,24 +1414,7 @@ cb_rstto_main_window_open_file(GtkWidget *widget, RsttoMainWindow *window)
     if(response == GTK_RESPONSE_OK)
     {
         const gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-
-        ThunarVfsPath *path = thunar_vfs_path_new(filename, NULL);
-        if (path)
-        {
-            ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
-            gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
-            if(!strcmp(file_media, "image"))
-            {
-                RsttoNavigatorEntry *entry = rstto_navigator_entry_new(window->priv->navigator, info);
-                rstto_navigator_add (window->priv->navigator, entry, TRUE);
-                gchar *uri = thunar_vfs_path_dup_uri(info->path);
-                gtk_recent_manager_add_item(window->priv->manager, uri);
-                g_free(uri);
-            }
-            g_free(file_media);
-            thunar_vfs_path_unref(path);
-        }
-        else
+        if (!rstto_navigator_open_file(window->priv->navigator, filename, FALSE, NULL))
         {
             gtk_widget_destroy(dialog);
             dialog = gtk_message_dialog_new(GTK_WINDOW(window),
@@ -1458,47 +1441,8 @@ cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window)
     gint response = gtk_dialog_run(GTK_DIALOG(dialog));
     if(response == GTK_RESPONSE_OK)
     {
-        rstto_navigator_clear(window->priv->navigator);
         const gchar *dir_name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-        GDir *dir = g_dir_open(dir_name, 0, NULL);
-        if (dir)
-        {
-            ThunarVfsPath *dir_path = thunar_vfs_path_new(dir_name, NULL);
-            if (dir_path)
-            {
-                rstto_navigator_set_monitor_handle_for_dir(window->priv->navigator, dir_path);
-                thunar_vfs_path_unref(dir_path);
-                dir_path = NULL;
-            }
-
-            const gchar *filename = g_dir_read_name(dir);
-            while (filename)
-            {
-                gchar *path_name = g_strconcat(dir_name,  "/", filename, NULL);
-                ThunarVfsPath *path = thunar_vfs_path_new(path_name, NULL);
-                if (path)
-                {
-                    ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
-                    gchar *file_media = thunar_vfs_mime_info_get_media(info->mime_info);
-                    if(!strcmp(file_media, "image"))
-                    {
-                        RsttoNavigatorEntry *entry = rstto_navigator_entry_new(window->priv->navigator, info);
-                        rstto_navigator_add (window->priv->navigator, entry, FALSE);
-                    }
-                    g_free(file_media);
-                    thunar_vfs_path_unref(path);
-                }
-                g_free(path_name);
-                filename = g_dir_read_name(dir);
-                while (gtk_events_pending())
-                    gtk_main_iteration ();
-            }
-            rstto_navigator_jump_first(window->priv->navigator);
-            gchar *uri = gtk_file_chooser_get_uri(GTK_FILE_CHOOSER(dialog));
-            gtk_recent_manager_add_item(window->priv->manager, uri);
-            g_free(uri);
-            g_dir_close(dir);
-        }
+        rstto_navigator_open_folder(window->priv->navigator, dir_name, TRUE, NULL);
     }
     gtk_widget_destroy(dialog);
 }
@@ -1507,54 +1451,22 @@ static void
 cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *window)
 {
     gchar *uri = gtk_recent_chooser_get_current_uri(chooser);
-    ThunarVfsPath *path = thunar_vfs_path_new(uri, NULL);
-    if (path)
+    ThunarVfsPath *vfs_path = thunar_vfs_path_new(uri, NULL);
+    if (vfs_path)
     {
-        ThunarVfsInfo *info = thunar_vfs_info_new_for_path(path, NULL);
-        if(info)
+        gchar *path = thunar_vfs_path_dup_string(vfs_path);
+        if(g_file_test(path, G_FILE_TEST_EXISTS))
         {
-            if(strcmp(thunar_vfs_mime_info_get_name(info->mime_info), "inode/directory"))
+            if(g_file_test(path, G_FILE_TEST_IS_DIR))
             {
-                RsttoNavigatorEntry *entry = rstto_navigator_entry_new(window->priv->navigator, info);
-                rstto_navigator_add (window->priv->navigator, entry, TRUE);
+                rstto_navigator_open_folder(window->priv->navigator, path, TRUE, NULL);
             }
             else
             {
-                rstto_navigator_clear(window->priv->navigator);
-                gchar *dir_path = thunar_vfs_path_dup_string(info->path);
-                GDir *dir = g_dir_open(dir_path, 0, NULL);
-                rstto_navigator_set_monitor_handle_for_dir(window->priv->navigator, info->path);
-
-                const gchar *filename = g_dir_read_name(dir);
-                while (filename)
-                {
-                    gchar *path_name = g_strconcat(dir_path,  "/", filename, NULL);
-                    ThunarVfsPath *file_path = thunar_vfs_path_new(path_name, NULL);
-                    if (file_path)
-                    {
-                        ThunarVfsInfo *file_info = thunar_vfs_info_new_for_path(file_path, NULL);
-                        gchar *file_media = thunar_vfs_mime_info_get_media(file_info->mime_info);
-                        if(!strcmp(file_media, "image"))
-                        {
-                            RsttoNavigatorEntry *entry = rstto_navigator_entry_new(window->priv->navigator, file_info);
-                            rstto_navigator_add (window->priv->navigator, entry, FALSE);
-                        }
-                        g_free(file_media);
-                        thunar_vfs_path_unref(file_path);
-                    }
-                    g_free(path_name);
-                    filename = g_dir_read_name(dir);
-                    while (gtk_events_pending())
-                        gtk_main_iteration ();
-                }
-                rstto_navigator_jump_first(window->priv->navigator);
-                g_free(dir_path);
+                rstto_navigator_open_file(window->priv->navigator, path, FALSE, NULL);
             }
-            gchar *uri = thunar_vfs_path_dup_uri(info->path);
-            gtk_recent_manager_add_item(window->priv->manager, uri);
-            g_free(uri);
         }
-        thunar_vfs_path_unref(path);
+        thunar_vfs_path_unref(vfs_path);
     }
 
 }
