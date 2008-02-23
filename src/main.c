@@ -279,6 +279,8 @@ int main(int argc, char **argv)
     if (argc > 1)
     {
         RsttoOpenFiles rof;
+
+        rof.files = NULL;
         rof.navigator = navigator;
         for (n = 1; n < argc; ++n)
         {
