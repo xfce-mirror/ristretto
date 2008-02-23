@@ -26,6 +26,11 @@
 #include "picture_viewer.h"
 #include "main_window.h"
 
+typedef struct {
+    RsttoNavigator *navigator;
+    GSList *files;
+} RsttoOpenFiles;
+
 static ThunarVfsMimeDatabase *mime_dbase = NULL;
 
 static XfceRc *xfce_rc;
@@ -38,6 +43,9 @@ rstto_window_save_geometry_timer_destroy(gpointer user_data);
 static gboolean
 cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event);
 
+static gboolean
+cb_rstto_open_files (RsttoOpenFiles *rof);
+
 gboolean version = FALSE;
 
 static GOptionEntry entries[] =
@@ -48,6 +56,7 @@ static GOptionEntry entries[] =
     },
     { NULL }
 };
+
 
 #if GTK_CHECK_VERSION(2,12,0)
 #define RSTTO_COLOR_PARSE gdk_color_parse
@@ -267,70 +276,16 @@ int main(int argc, char **argv)
     /* When more then one file is provided over the CLI,
      * just open those files and don't index the folder
      */
-    if (argc > 2)
+    if (argc > 1)
     {
+        RsttoOpenFiles rof;
+        rof.navigator = navigator;
         for (n = 1; n < argc; ++n)
         {
-            if (g_path_is_absolute(argv[1]))
-            {
-                path_dir = g_strdup(argv[1]);
-            }
-            else
-            {
-                gchar *base_dir = g_get_current_dir();
-
-                path_dir = g_build_path("/", base_dir, argv[1], NULL);
-
-                g_free(base_dir);
-            }
-            if(g_file_test(path_dir, G_FILE_TEST_EXISTS))
-            {
-
-                if(g_file_test(path_dir, G_FILE_TEST_IS_DIR))
-                {
-                    rstto_navigator_open_folder (navigator, path_dir, TRUE, NULL);
-                }
-                else
-                {
-                    rstto_navigator_open_file (navigator, path_dir, TRUE, NULL);
-                }
-            }
-
-            g_free(path_dir);
+            rof.files = g_slist_prepend(rof.files, argv[n]);
         }
-        rstto_navigator_jump_first(navigator);
-    }
-    else
-    {
-        if (argc == 2)
-        {
-            if (g_path_is_absolute(argv[1]))
-            {
-                path_dir = g_strdup(argv[1]);
-            }
-            else
-            {
-                gchar *base_dir = g_get_current_dir();
 
-                path_dir = g_build_path("/", base_dir, argv[1], NULL);
-
-                g_free(base_dir);
-            }
-            if(g_file_test(path_dir, G_FILE_TEST_EXISTS))
-            {
-
-                if(g_file_test(path_dir, G_FILE_TEST_IS_DIR))
-                {
-                    rstto_navigator_open_folder (navigator, path_dir, TRUE, NULL);
-                }
-                else
-                {
-                    rstto_navigator_open_file (navigator, path_dir, TRUE, NULL);
-                }
-            }
-
-            g_free(path_dir);
-        }
+        gtk_init_add((GtkFunction)cb_rstto_open_files, &rof);
     }
 
     g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
@@ -445,5 +400,52 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
     }
 
     /* let Gtk+ handle the configure event */
+    return FALSE;
+}
+
+static gboolean
+cb_rstto_open_files (RsttoOpenFiles *rof)
+{
+    gchar *path_dir = NULL;
+    RsttoNavigator *navigator = rof->navigator;
+
+    if (g_slist_length(rof->files) >= 1)
+    {
+        GSList *_iter = rof->files;
+        while(_iter)
+        {
+            if (g_path_is_absolute(_iter->data))
+            {
+                path_dir = g_strdup(_iter->data);
+            }
+            else
+            {
+                gchar *base_dir = g_get_current_dir();
+
+                path_dir = g_build_path("/", base_dir, _iter->data, NULL);
+
+                g_free(base_dir);
+            }
+            if(g_file_test(path_dir, G_FILE_TEST_EXISTS))
+            {
+
+                if(g_file_test(path_dir, G_FILE_TEST_IS_DIR))
+                {
+                    rstto_navigator_open_folder (navigator, path_dir, TRUE, NULL);
+                }
+                else
+                {
+                    rstto_navigator_open_file (navigator, path_dir, TRUE, NULL);
+                }
+            }
+
+            g_free(path_dir);
+
+            _iter = g_slist_next(_iter);
+        }
+
+        if (g_slist_length(rof->files) > 1)
+            rstto_navigator_jump_first(navigator);
+    }
     return FALSE;
 }

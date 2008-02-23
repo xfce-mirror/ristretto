@@ -1425,6 +1425,10 @@ rstto_navigator_open_file(RsttoNavigator *navigator, const gchar *path, gboolean
             {
                 rstto_navigator_entry_select((RsttoNavigatorEntry*)iter->data);
             }
+            else
+            {
+                g_critical("not found");
+            }
         }
         else
         {

@@ -1235,17 +1235,22 @@ rstto_picture_viewer_drag_data_received(GtkWidget *widget,
 
     while(*_array)
     {
-        if (g_file_test(*_array, G_FILE_TEST_EXISTS))
+        ThunarVfsPath *vfs_path = thunar_vfs_path_new(*_array, NULL);
+        gchar *path = thunar_vfs_path_dup_string(vfs_path);
+        if (g_file_test(path, G_FILE_TEST_EXISTS))
         {
-            if (g_file_test(*_array, G_FILE_TEST_IS_DIR))
+            if (g_file_test(path, G_FILE_TEST_IS_DIR))
             {
-                rstto_navigator_open_folder(picture_viewer->priv->navigator, *_array, FALSE, NULL);
+                rstto_navigator_open_folder(picture_viewer->priv->navigator, path, FALSE, NULL);
             }
             else
             {
-                rstto_navigator_open_file(picture_viewer->priv->navigator, *_array, FALSE, NULL);
+                rstto_navigator_open_file(picture_viewer->priv->navigator, path, FALSE, NULL);
             }
         }
+
+        g_free(path);
+        thunar_vfs_path_unref(vfs_path);
         _array++;
     }
     
@@ -1291,6 +1296,7 @@ rstto_picture_viewer_drag_motion (GtkWidget *widget,
     if (G_UNLIKELY (target != gdk_atom_intern ("text/uri-list", FALSE)))
     {
         /* we cannot handle the drop */
+        g_debug("FAAAAAAAAAAAAAALSE");
         return FALSE;
     }
     return TRUE;
