@@ -1,3 +1,22 @@
+xxxx-xx-xx: Release 0.0.18
+	* src/picture_viewer.c:
+	  - Improved zoom-box
+	  - Added rudimentary drag-n-drop support for opening images
+	* src/navigator.c,
+	  src/main.c,
+	  src/main_window.c,
+	  src/picture_viewer.c:
+	  - Removed duplicate code for opening files and folders, moved this
+	    to the navigator (Bug #3866)
+	* src/main.c:
+	  - Open files and folders when the main-loop is running, this way the
+	    window is already usable before the images are being opened.
+	* src/main_window.c:
+	  - Add configuration option to toggle the folowing feature:
+	    - Prevent images to be scaled beyond 100% when maximizing the window
+	    - Resize images to fit to the window when restoring the window from
+	      maximize state.
+
 2008-02-17: Release 0.0.17
 	* src/picture_viewer.c:
 	  - Fix segfault when scrolling over the picture-viewer (Bug #3824)

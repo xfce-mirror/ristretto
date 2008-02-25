@@ -185,7 +185,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
     g_signal_connect(G_OBJECT(viewer), "popup-menu", G_CALLBACK(cb_rstto_picture_viewer_popup_menu), NULL);
 
     gtk_drag_dest_set(GTK_WIDGET(viewer), 0, drop_targets, G_N_ELEMENTS(drop_targets),
-                      GDK_ACTION_COPY | GDK_ACTION_LINK | GDK_ACTION_MOVE);
+                      GDK_ACTION_COPY | GDK_ACTION_LINK | GDK_ACTION_MOVE | GDK_ACTION_PRIVATE);
 }
 
 static void
