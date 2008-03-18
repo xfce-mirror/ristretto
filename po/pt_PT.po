@@ -1,0 +1,217 @@
+# Portuguese translation for ristretto.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Nuno Miguel <nunis@netcabo.pt>, 2007
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ristretto\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2008-02-08 11:32+0100\n"
+"PO-Revision-Date: 2008-02-09 18:25+0100\n"
+"Last-Translator: Nuno Miguel <nunis@netcabo.pt>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/main.c:46
+msgid "Version information"
+msgstr "Informação de versão"
+
+#: ../src/main.c:212
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Tente %s --help para ver uma lista completa de opções da linha de comando disponíveis.\n"
+
+#. Create 'File' menu
+#: ../src/main_window.c:316
+msgid "_File"
+msgstr "_Ficheiro"
+
+#: ../src/main_window.c:323
+msgid "O_pen Folder"
+msgstr "A_brir Pasta"
+
+#: ../src/main_window.c:324
+msgid "_Recently used"
+msgstr "_Recentemente usado"
+
+#. Create 'Edit' menu
+#: ../src/main_window.c:356
+msgid "_Edit"
+msgstr "_Editar"
+
+#: ../src/main_window.c:361
+#: ../src/main_window.c:598
+msgid "Open with..."
+msgstr "Abrir com..."
+
+#: ../src/main_window.c:369
+#: ../src/main_window.c:609
+msgid "No applications available"
+msgstr "Sem aplicações disponíveis"
+
+#. Create 'View' menu
+#: ../src/main_window.c:378
+msgid "_View"
+msgstr "_Ver"
+
+#: ../src/main_window.c:385
+msgid "Show _Toolbar"
+msgstr "Mostrar _Barra de Ferramentas"
+
+#: ../src/main_window.c:386
+msgid "Thumbnail _Viewer"
+msgstr "_Visualizador de Miniaturas"
+
+#: ../src/main_window.c:390
+msgid "_Zooming"
+msgstr "_Zoom"
+
+#: ../src/main_window.c:391
+msgid "_Rotate"
+msgstr "_Girar"
+
+#: ../src/main_window.c:417
+msgid "Show _Horizontally"
+msgstr "Mostrar _Horizontalmente"
+
+#: ../src/main_window.c:421
+msgid "Show _Vertically"
+msgstr "Mostrar _Verticalmente"
+
+#: ../src/main_window.c:425
+msgid "H_ide"
+msgstr "Ocu_ltar"
+
+#: ../src/main_window.c:462
+msgid "Rotate _Right"
+msgstr "Girar para _Direita"
+
+#: ../src/main_window.c:463
+msgid "Rotate _Left"
+msgstr "Girar para _Esquerda"
+
+#. Create 'Go' menu
+#: ../src/main_window.c:484
+msgid "_Go"
+msgstr "_Ir"
+
+#. Create 'Help' menu
+#: ../src/main_window.c:513
+msgid "_Help"
+msgstr "_Ajuda"
+
+#: ../src/main_window.c:1179
+msgid "Image viewer Preferences"
+msgstr "Preferências do Visualizador de Imagens"
+
+#: ../src/main_window.c:1196
+msgid "Slideshow"
+msgstr "Apresentação de Slides"
+
+#: ../src/main_window.c:1200
+msgid "Display"
+msgstr "Exibição"
+
+#: ../src/main_window.c:1204
+msgid "Background Color"
+msgstr "Cor de Fundo"
+
+#: ../src/main_window.c:1206
+msgid "_Override Background Color:"
+msgstr "_Substituir Cor de Fundo:"
+
+#: ../src/main_window.c:1229
+msgid "Image Cache"
+msgstr "Cache de Imagem"
+
+#: ../src/main_window.c:1232
+msgid "Cache size:"
+msgstr "Tamanho de cache:"
+
+#: ../src/main_window.c:1233
+msgid "MB"
+msgstr "MB"
+
+#: ../src/main_window.c:1248
+msgid "Timeout"
+msgstr "Tempo de Espera"
+
+#: ../src/main_window.c:1251
+msgid "Preload"
+msgstr "Pré-carregamento"
+
+#: ../src/main_window.c:1256
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"O tempo que imagens individuais são exibidas durante uma apresentação de slides\n"
+"(em segundos)"
+
+#: ../src/main_window.c:1260
+msgid ""
+"Preload images during slideshow\n"
+"(uses more memory)"
+msgstr ""
+"Pré-Carregar imagens durante uma apresentação de slides\n"
+"(usa mais memória)"
+
+#: ../src/main_window.c:1261
+msgid "_Preload images"
+msgstr "Carregar imagens _previamente"
+
+#: ../src/main_window.c:1315
+msgid "Developer:"
+msgstr "Programador"
+
+#: ../src/main_window.c:1325
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto é um rápido e leve visualizador de imagens para o ambiente de desktop Xfce."
+
+#: ../src/main_window.c:1333
+msgid "translator-credits"
+msgstr "Nuno Miguel <nunis@netcabo.pt>"
+
+#: ../src/main_window.c:1353
+msgid "Open image"
+msgstr "Abrir imagem"
+
+#: ../src/main_window.c:1388
+msgid "Could not open file"
+msgstr "Incapaz de abrir ficheiro"
+
+#: ../src/main_window.c:1398
+msgid "Open folder"
+msgstr "Abrir pasta"
+
+#: ../src/main_window.c:1512
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Tem a certeza que deseja apagar a lista de documentos usados recentemente?"
+
+#: ../src/thumbnail_bar.c:178
+msgid "Spacing"
+msgstr "Espaçamento"
+
+#: ../src/thumbnail_bar.c:179
+msgid "The amount of space between the thumbnails"
+msgstr "A quantidade de espaço entre miniaturas"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Visualizador de Imagem"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto Image Viewer"
+msgstr "Visualizador de Imagem Ristretto"
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Visualizador de Imagem Xfce"
+
