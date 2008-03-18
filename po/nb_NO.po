@@ -19,7 +19,7 @@ msgstr ""
 
 #: ../src/main.c:46
 msgid "Version information"
-msgstr ""
+msgstr "Versjonsinformasjon"
 
 #: ../src/main.c:212
 #, c-format
@@ -27,6 +27,8 @@ msgid ""
 "%s: %s\n"
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
+"%s: %s\n"
+"Prøv %s --help for full liste over tilgjengelige kommandolinje opsjoner.\n"
 
 #. Create 'File' menu
 #: ../src/main_window.c:316
@@ -48,11 +50,11 @@ msgstr "_Rediger"
 
 #: ../src/main_window.c:361 ../src/main_window.c:598
 msgid "Open with..."
-msgstr ""
+msgstr "Åpne med..."
 
 #: ../src/main_window.c:369 ../src/main_window.c:609
 msgid "No applications available"
-msgstr ""
+msgstr "Ingen programmer tilgjengelig"
 
 #. Create 'View' menu
 #: ../src/main_window.c:378
@@ -61,36 +63,31 @@ msgstr "_Vis"
 
 #: ../src/main_window.c:385
 msgid "Show _Toolbar"
-msgstr ""
+msgstr "Vis _verktøylinje"
 
 #: ../src/main_window.c:386
-#, fuzzy
 msgid "Thumbnail _Viewer"
-msgstr "Miniatyrvisning"
+msgstr "Miniatyr_visning"
 
 #: ../src/main_window.c:390
 msgid "_Zooming"
-msgstr ""
+msgstr "_Skalere"
 
 #: ../src/main_window.c:391
-#, fuzzy
 msgid "_Rotate"
-msgstr "Roter _venstre"
+msgstr "_Roter"
 
 #: ../src/main_window.c:417
-#, fuzzy
 msgid "Show _Horizontally"
-msgstr "Vis vannrett"
+msgstr "Vis _vannrett"
 
 #: ../src/main_window.c:421
-#, fuzzy
 msgid "Show _Vertically"
-msgstr "Vis loddrett"
+msgstr "Vis _loddrett"
 
 #: ../src/main_window.c:425
-#, fuzzy
 msgid "H_ide"
-msgstr "Skjul"
+msgstr "_Skjul"
 
 #: ../src/main_window.c:462
 msgid "Rotate _Right"
@@ -111,62 +108,64 @@ msgid "_Help"
 msgstr "_Hjelp"
 
 #: ../src/main_window.c:1179
-#, fuzzy
 msgid "Image viewer Preferences"
-msgstr "Bildefremviser"
+msgstr "Bildefremviser innstillinger"
 
 #: ../src/main_window.c:1196
 msgid "Slideshow"
-msgstr ""
+msgstr "Lysbildefremvisning"
 
 #: ../src/main_window.c:1200
 msgid "Display"
-msgstr ""
+msgstr "Skjerm"
 
 #: ../src/main_window.c:1204
 msgid "Background Color"
-msgstr ""
+msgstr "Bakgrunnsfarge"
 
 #: ../src/main_window.c:1206
 msgid "_Override Background Color:"
-msgstr ""
+msgstr "_Overstyr bakgrunnsfarge"
 
 #: ../src/main_window.c:1229
-#, fuzzy
 msgid "Image Cache"
-msgstr "Bildefremviser"
+msgstr "Bildehurtiglager"
 
 #: ../src/main_window.c:1232
 msgid "Cache size:"
-msgstr ""
+msgstr "Hurtiglager størrelse:"
 
 #: ../src/main_window.c:1233
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: ../src/main_window.c:1248
 msgid "Timeout"
-msgstr ""
+msgstr "Tidsgrense"
 
 #: ../src/main_window.c:1251
 msgid "Preload"
-msgstr ""
+msgstr "Forhåndslasting"
 
 #: ../src/main_window.c:1256
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
+"Tidsperiode ett bilde vises under lysbildefremvisning\n"
+"(i sekunder)"
 
 #: ../src/main_window.c:1260
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
+"Forhåndslast bilder under lysbildefremvisning\n"
+"(bruker mer minne)"
 
 #: ../src/main_window.c:1261
 msgid "_Preload images"
-msgstr ""
+msgstr "_Forhåndslast bilder"
 
 #: ../src/main_window.c:1315
 msgid "Developer:"
@@ -188,7 +187,7 @@ msgstr "Åpne bilde"
 
 #: ../src/main_window.c:1388
 msgid "Could not open file"
-msgstr ""
+msgstr "Klarte ikke åpne fil"
 
 #: ../src/main_window.c:1398
 msgid "Open folder"
@@ -198,14 +197,16 @@ msgstr "Åpne mappe"
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
+"Er du sikker på at du vil tømme Ristretto's liste over nylig brukte "
+"dokumenter?"
 
 #: ../src/thumbnail_bar.c:178
 msgid "Spacing"
-msgstr ""
+msgstr "Mellomrom"
 
 #: ../src/thumbnail_bar.c:179
 msgid "The amount of space between the thumbnails"
-msgstr ""
+msgstr "Hvor mye mellomrom det skal være mellom miniatyrbildene"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -218,9 +219,3 @@ msgstr "Ristretto Bildefremviser"
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce  Bildefremviser"
-
-#~ msgid "Flip _Vertically"
-#~ msgstr "Vend _loddrett"
-
-#~ msgid "Flip _Horizontally"
-#~ msgstr "Vend v_annrett"
