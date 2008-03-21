@@ -271,6 +271,7 @@ rstto_thumbnail_clicked(GtkButton *button)
     RsttoThumbnail *thumb = RSTTO_THUMBNAIL(button);
     RsttoNavigatorEntry *entry = rstto_thumbnail_get_entry(thumb);
 
+    thumb->selected = TRUE;
     rstto_navigator_entry_select(entry);
 
     gtk_widget_queue_draw (GTK_WIDGET (button));

@@ -653,8 +653,12 @@ cb_rstto_thumbnail_bar_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavig
     }
 
     /* If the children should be autocentered... resize */
-    if (bar->priv->auto_center == TRUE)
-        gtk_widget_queue_resize(GTK_WIDGET(bar));
+    /*
+     * if (bar->priv->auto_center == TRUE)
+     *   gtk_widget_queue_resize(GTK_WIDGET(bar));
+     */
+
+     gtk_widget_queue_resize(GTK_WIDGET(bar));
 }
 
 /*
