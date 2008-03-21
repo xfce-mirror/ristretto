@@ -1441,11 +1441,16 @@ cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window)
     gint response = gtk_dialog_run(GTK_DIALOG(dialog));
     if(response == GTK_RESPONSE_OK)
     {
+        gtk_widget_hide(dialog);
         const gchar *dir_name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-        rstto_navigator_set_busy(window->priv->navigator, TRUE);
-        rstto_navigator_open_folder(window->priv->navigator, dir_name, TRUE, NULL);
-        rstto_navigator_jump_first(window->priv->navigator);
-        rstto_navigator_set_busy(window->priv->navigator, FALSE);
+
+        RsttoNavigator *navigator = window->priv->navigator;
+        g_object_ref(navigator);
+        if(rstto_navigator_open_folder(navigator, dir_name, TRUE, NULL) == TRUE)
+        {
+            rstto_navigator_jump_first(navigator);
+        }
+        g_object_unref(navigator);
     }
     gtk_widget_destroy(dialog);
 }
@@ -1462,10 +1467,11 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
         {
             if(g_file_test(path, G_FILE_TEST_IS_DIR))
             {
-                rstto_navigator_set_busy(window->priv->navigator, TRUE);
-                rstto_navigator_open_folder(window->priv->navigator, path, TRUE, NULL);
-                rstto_navigator_jump_first(window->priv->navigator);
-                rstto_navigator_set_busy(window->priv->navigator, FALSE);
+                RsttoNavigator *navigator = window->priv->navigator;
+                if(rstto_navigator_open_folder(navigator, path, TRUE, NULL) == TRUE)
+                {
+                    rstto_navigator_jump_first(navigator);
+                }
             }
             else
             {

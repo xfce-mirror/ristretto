@@ -412,10 +412,6 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 {
     gchar *path_dir = NULL;
     RsttoNavigator *navigator = rof->navigator;
-    g_object_ref(navigator);
-    g_object_ref(rof->main_window);
-
-    rstto_navigator_set_busy(navigator, TRUE);
 
     if (g_slist_length(rof->files) >= 1)
     {
@@ -456,9 +452,6 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
         if (g_slist_length(rof->files) > 1)
             rstto_navigator_jump_first(navigator);
     }
-    rstto_navigator_set_busy(navigator, FALSE);
 
-    g_object_unref(rof->main_window);
-    g_object_unref(navigator);
     return FALSE;
 }

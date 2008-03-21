@@ -1471,6 +1471,8 @@ rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboole
     gchar *dir_path = NULL;
     gchar *dir_uri = NULL;
 
+    rstto_navigator_set_busy(navigator, TRUE);
+
 
     if (vfs_path == NULL)
     {
@@ -1497,6 +1499,9 @@ rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboole
     }
 
     dir_path = thunar_vfs_path_dup_string(vfs_path);
+
+    g_object_add_weak_pointer(G_OBJECT(navigator), (gpointer *)&navigator);
+
     dir = g_dir_open(dir_path, 0, NULL);
 
     dir_uri = thunar_vfs_path_dup_uri(vfs_path);
@@ -1525,6 +1530,13 @@ rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboole
                 file_vfs_info = thunar_vfs_info_new_for_path(file_vfs_path, NULL);
                 file_media = thunar_vfs_mime_info_get_media(file_vfs_info->mime_info);
 
+                if (navigator == NULL)
+                {
+                    g_free(file_media);
+                    thunar_vfs_path_unref(file_vfs_path);
+                    return FALSE;
+                }
+
                 if(!strcmp(file_media, "image"))
                 {
                     RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, file_vfs_info);
@@ -1544,6 +1556,8 @@ rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboole
     }
 
     g_free(dir_uri);
+    g_object_remove_weak_pointer(G_OBJECT(navigator), (gpointer *)&navigator);
+    rstto_navigator_set_busy(navigator, FALSE);
     return TRUE;
 }
 
