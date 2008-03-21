@@ -1308,12 +1308,15 @@ rstto_navigator_entry_select (RsttoNavigatorEntry *entry)
 
         navigator->file_iter = iter;
 
-        g_signal_emit(G_OBJECT(navigator),
+        if (navigator->busy  == FALSE)
+        {
+            g_signal_emit(G_OBJECT(navigator),
                       rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED],
                       0,
                       g_list_position(navigator->file_list, navigator->file_iter),
                       navigator->file_iter->data,
                       NULL);
+        }
     }
 
 }
@@ -1386,6 +1389,7 @@ rstto_navigator_open_file(RsttoNavigator *navigator, const gchar *path, gboolean
 {
     ThunarVfsInfo *vfs_info = NULL;
     ThunarVfsPath *vfs_path = thunar_vfs_path_new(path, error);
+
     gchar *file_media = NULL;
     gchar *file_uri = NULL;
 
@@ -1420,6 +1424,8 @@ rstto_navigator_open_file(RsttoNavigator *navigator, const gchar *path, gboolean
         if (open_folder == TRUE)
         {
             ThunarVfsPath *parent_vfs_path = thunar_vfs_path_get_parent(vfs_path);
+            thunar_vfs_path_ref(parent_vfs_path);
+
             gchar *parent_path = thunar_vfs_path_dup_string(parent_vfs_path);
 
             if(rstto_navigator_open_folder(navigator, parent_path, FALSE, error) == FALSE)
@@ -1439,7 +1445,7 @@ rstto_navigator_open_file(RsttoNavigator *navigator, const gchar *path, gboolean
             }
             else
             {
-                g_critical("not found");
+                rstto_navigator_jump_first(navigator);
             }
         }
         else
@@ -1538,6 +1544,7 @@ rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboole
     }
 
     g_free(dir_uri);
+    return TRUE;
 }
 
 void
