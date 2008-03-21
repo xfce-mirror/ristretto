@@ -65,6 +65,8 @@ struct _RsttoNavigator
     gboolean               running;
     gint                   timeout;
     gint                   id;
+
+    gboolean               busy;
 };
 
 typedef struct _RsttoNavigatorClass RsttoNavigatorClass;
@@ -165,6 +167,9 @@ gboolean
 rstto_navigator_open_file(RsttoNavigator *navigator, const gchar *path, gboolean open_folder, GError **error);
 gboolean
 rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboolean clear, GError **error);
+
+void
+rstto_navigator_set_busy (RsttoNavigator *navigator, gboolean busy);
 
 G_END_DECLS
 

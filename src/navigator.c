@@ -516,18 +516,24 @@ rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gboo
     if (!navigator->file_iter)
     {
         navigator->file_iter = navigator->file_list;
-        g_signal_emit(G_OBJECT(navigator),
+        if (navigator->busy == FALSE)
+        {
+            g_signal_emit(G_OBJECT(navigator),
                       rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED],
                       0,
                       g_list_index(navigator->file_list, entry),
                       entry,
                       NULL);
+        }
     }
 
     if (with_monitor == TRUE)
         entry->monitor_handle = thunar_vfs_monitor_add_file(navigator->monitor, entry->info->path, (ThunarVfsMonitorCallback)cb_rstto_navigator_entry_fs_event, entry);
 
-    g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_NEW_ENTRY], 0, g_list_index(navigator->file_list, entry), entry, NULL);
+    if (navigator->busy == FALSE)
+    {
+        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_NEW_ENTRY], 0, g_list_index(navigator->file_list, entry), entry, NULL);
+    }
     return g_list_index(navigator->file_list, entry);
 }
 
@@ -550,7 +556,10 @@ rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
             if (navigator->history)
                 navigator->history = g_list_remove_all(navigator->history, entry);
 
-            g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_REMOVED], 0, entry, NULL);
+            if (navigator->busy == FALSE)
+            {
+                g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_REMOVED], 0, entry, NULL);
+            }
             if(g_list_length(navigator->file_list) == 0)
             {
                 navigator->file_iter = NULL;
@@ -558,12 +567,15 @@ rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
             }
             if(navigator->file_iter)
             {
-                g_signal_emit(G_OBJECT(navigator),
+                if (navigator->busy == FALSE)
+                {
+                    g_signal_emit(G_OBJECT(navigator),
                               rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED],
                               0,
                               g_list_position(navigator->file_list, navigator->file_iter),
                               navigator->file_iter->data,
                               NULL);
+                }
             }
             else
             {
@@ -1523,8 +1535,17 @@ rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboole
             g_free(path_name);
             filename = g_dir_read_name(dir);
         }
-        rstto_navigator_jump_first(navigator);
     }
 
     g_free(dir_uri);
+}
+
+void
+rstto_navigator_set_busy (RsttoNavigator *navigator, gboolean busy)
+{
+    navigator->busy = busy;
+    if (busy == FALSE)
+    {
+        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_REORDERED], 0, NULL);
+    }
 }

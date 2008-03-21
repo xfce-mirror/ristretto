@@ -671,6 +671,53 @@ cb_rstto_thumbnail_bar_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavig
 static void
 cb_rstto_thumbnail_bar_nav_reordered (RsttoNavigator *nav, RsttoThumbnailBar *bar)
 {
+    gtk_container_foreach(GTK_CONTAINER(bar), (GtkCallback)gtk_widget_destroy, NULL);
+    if (bar->priv->thumbs)
+    {
+        g_slist_free(bar->priv->thumbs);
+        bar->priv->thumbs = NULL;
+    }
+
+    GtkWidget *thumb;
+    gint i;
+    gint n_files = rstto_navigator_get_n_files(bar->priv->navigator);
+
+    for (i = 0; i < n_files; ++i)
+    {
+        RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(bar->priv->navigator, i);
+        if (g_slist_length(bar->priv->thumbs) > 0)
+        {
+            thumb = rstto_thumbnail_new_from_widget(entry, bar->priv->thumbs->data);
+        }
+        else
+        {
+            thumb = rstto_thumbnail_new(entry, NULL);
+        }
+
+
+        g_signal_connect(G_OBJECT(thumb), "clicked", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_clicked), bar);
+        g_signal_connect(G_OBJECT(thumb), "button_press_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_button_press_event), NULL);
+        g_signal_connect(G_OBJECT(thumb), "button_release_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_button_release_event), NULL);
+        g_signal_connect(G_OBJECT(thumb), "motion_notify_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_motion_notify_event), NULL);
+        gtk_container_add(GTK_CONTAINER(bar), thumb);
+
+        if (rstto_navigator_entry_is_selected(entry))
+        {
+            RSTTO_THUMBNAIL(thumb)->selected = TRUE;
+        }
+    }
+
+    gtk_container_foreach(GTK_CONTAINER(bar), (GtkCallback)gtk_widget_show, NULL);
+
+
+
+    /* If the children should be autocentered... resize */
+    /*
+     * if (bar->priv->auto_center == TRUE)
+     *   gtk_widget_queue_resize(GTK_WIDGET(bar));
+     */
+
+     gtk_widget_queue_resize(GTK_WIDGET(bar));
 }
 
 static void

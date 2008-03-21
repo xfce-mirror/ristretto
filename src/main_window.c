@@ -1443,6 +1443,7 @@ cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window)
     {
         const gchar *dir_name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
         rstto_navigator_open_folder(window->priv->navigator, dir_name, TRUE, NULL);
+        rstto_navigator_jump_first(window->priv->navigator);
     }
     gtk_widget_destroy(dialog);
 }
