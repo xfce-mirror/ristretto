@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the ristretto package.
 # Jari Rahkonen <jari.rahkonen@pp1.inet.fi>, 2007-2008
 #
-#: ../src/main.c:217
+#: ../src/main.c:218
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.5\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-02-26 12:05+0200\n"
+"POT-Creation-Date: 2008-03-22 00:00+0100\n"
 "PO-Revision-Date: 2008-02-26 12:21+0200\n"
 "Last-Translator: Jari Rahkonen <jari.rahkonen@pp1.inet.fi>\n"
 "Language-Team: Finnish <xfce-i18n@xfce.org>\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:54
+#: ../src/main.c:55
 msgid "Version information"
 msgstr "Versiotiedot"
 
-#: ../src/main.c:221
+#: ../src/main.c:222
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -190,19 +190,25 @@ msgstr "Ristretto on nopea ja kevyt kuvakatselin Xfce-työpöydälle."
 msgid "translator-credits"
 msgstr "Jari Rahkonen <jari.rahkonen@pp1.inet.fi>"
 
-#: ../src/main_window.c:1406
+#: ../src/main_window.c:1410 ../src/main_window.c:1450
+#: ../src/main_window.c:1487
+#, fuzzy
+msgid "Opening file(s)..."
+msgstr "_Avaa sovelluksessa..."
+
+#: ../src/main_window.c:1412
 msgid "Open image"
 msgstr "Avaa kuva"
 
-#: ../src/main_window.c:1424
+#: ../src/main_window.c:1430
 msgid "Could not open file"
 msgstr "Tiedoston avaus ei onnistunut"
 
-#: ../src/main_window.c:1434
+#: ../src/main_window.c:1452
 msgid "Open folder"
 msgstr "Avaa hakemisto"
 
-#: ../src/main_window.c:1481
+#: ../src/main_window.c:1526
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""

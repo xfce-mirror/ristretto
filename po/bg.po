@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the ristretto package.
 # Plamen Stoev <piros89@gmail.com>, 2007.
 #
-#: ../src/main.c:208
+#: ../src/main.c:218
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.15\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-02-08 11:32+0100\n"
+"POT-Creation-Date: 2008-03-22 00:00+0100\n"
 "PO-Revision-Date: 2008-01-02 23:03+0200\n"
 "Last-Translator: Plamen Stoev <piros89@gmail.com>\n"
 "Language-Team: \n"
@@ -18,11 +18,11 @@ msgstr ""
 "X-Poedit-Language: Bulgarian\n"
 "X-Poedit-Country: BULGARIA\n"
 
-#: ../src/main.c:46
+#: ../src/main.c:55
 msgid "Version information"
 msgstr "Информация за версията"
 
-#: ../src/main.c:212
+#: ../src/main.c:222
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -33,124 +33,136 @@ msgstr ""
 "ред.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:316
+#: ../src/main_window.c:319
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/main_window.c:323
+#: ../src/main_window.c:326
 msgid "O_pen Folder"
 msgstr "Отваряне на папка"
 
-#: ../src/main_window.c:324
+#: ../src/main_window.c:327
 msgid "_Recently used"
 msgstr "Отваряни наскоро"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:356
+#: ../src/main_window.c:359
 msgid "_Edit"
 msgstr "_Редактиране"
 
-#: ../src/main_window.c:361 ../src/main_window.c:598
+#: ../src/main_window.c:364 ../src/main_window.c:601
 msgid "Open with..."
 msgstr "Отваряне с..."
 
-#: ../src/main_window.c:369 ../src/main_window.c:609
+#: ../src/main_window.c:372 ../src/main_window.c:612
 msgid "No applications available"
 msgstr "Няма налични приложения"
 
 #. Create 'View' menu
-#: ../src/main_window.c:378
+#: ../src/main_window.c:381
 msgid "_View"
 msgstr "Преглед"
 
-#: ../src/main_window.c:385
+#: ../src/main_window.c:388
 msgid "Show _Toolbar"
 msgstr "Показване на лентата с инструменти"
 
-#: ../src/main_window.c:386
+#: ../src/main_window.c:389
 msgid "Thumbnail _Viewer"
 msgstr "Визуализатор на умалени изображения"
 
-#: ../src/main_window.c:390
+#: ../src/main_window.c:393
 msgid "_Zooming"
 msgstr "Мащабиране"
 
-#: ../src/main_window.c:391
+#: ../src/main_window.c:394
 msgid "_Rotate"
 msgstr "Завъртане"
 
-#: ../src/main_window.c:417
+#: ../src/main_window.c:420
 msgid "Show _Horizontally"
 msgstr "Покажи хоризонтално"
 
-#: ../src/main_window.c:421
+#: ../src/main_window.c:424
 msgid "Show _Vertically"
 msgstr "Покажи вертикално"
 
-#: ../src/main_window.c:425
+#: ../src/main_window.c:428
 msgid "H_ide"
 msgstr "Скриване"
 
-#: ../src/main_window.c:462
+#: ../src/main_window.c:465
 msgid "Rotate _Right"
 msgstr "Завъртане надясно"
 
-#: ../src/main_window.c:463
+#: ../src/main_window.c:466
 msgid "Rotate _Left"
 msgstr "Завъртане наляво"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:484
+#: ../src/main_window.c:487
 msgid "_Go"
 msgstr "Отиване"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:513
+#: ../src/main_window.c:516
 msgid "_Help"
 msgstr "Помощ"
 
-#: ../src/main_window.c:1179
+#: ../src/main_window.c:1211
 msgid "Image viewer Preferences"
 msgstr "Предпочитания"
 
-#: ../src/main_window.c:1196
+#: ../src/main_window.c:1229
+msgid "Behaviour"
+msgstr ""
+
+#: ../src/main_window.c:1233
 msgid "Slideshow"
 msgstr "Прожекция"
 
-#: ../src/main_window.c:1200
+#: ../src/main_window.c:1237
 msgid "Display"
 msgstr "Дисплей"
 
-#: ../src/main_window.c:1204
+#: ../src/main_window.c:1242
+msgid "Resize to content"
+msgstr ""
+
+#: ../src/main_window.c:1244
+msgid "Rescale image on maximize/restore"
+msgstr ""
+
+#: ../src/main_window.c:1254
 msgid "Background Color"
 msgstr "Цвят на фона"
 
-#: ../src/main_window.c:1206
+#: ../src/main_window.c:1256
 msgid "_Override Background Color:"
 msgstr "Замяна на фоновия цвят"
 
-#: ../src/main_window.c:1229
+#: ../src/main_window.c:1279
 #, fuzzy
 msgid "Image Cache"
 msgstr "Програма за преглед на изображения"
 
-#: ../src/main_window.c:1232
+#: ../src/main_window.c:1282
 msgid "Cache size:"
 msgstr ""
 
-#: ../src/main_window.c:1233
+#: ../src/main_window.c:1283
 msgid "MB"
 msgstr ""
 
-#: ../src/main_window.c:1248
+#: ../src/main_window.c:1299
 msgid "Timeout"
 msgstr "Пауза"
 
-#: ../src/main_window.c:1251
+#: ../src/main_window.c:1302
 msgid "Preload"
 msgstr "Предварително зареждане"
 
-#: ../src/main_window.c:1256
+#: ../src/main_window.c:1307
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -158,7 +170,7 @@ msgstr ""
 "Времето за което се показва едно изображение при прожекция\n"
 "(в секунди)"
 
-#: ../src/main_window.c:1260
+#: ../src/main_window.c:1311
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -166,15 +178,15 @@ msgstr ""
 "Предварително зареждане на изображенията при прожекция\n"
 "(използва се повече памет)"
 
-#: ../src/main_window.c:1261
+#: ../src/main_window.c:1312
 msgid "_Preload images"
 msgstr "Предварително зареждане на изображения"
 
-#: ../src/main_window.c:1315
+#: ../src/main_window.c:1368
 msgid "Developer:"
 msgstr "Разработчик:"
 
-#: ../src/main_window.c:1325
+#: ../src/main_window.c:1378
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -182,34 +194,48 @@ msgstr ""
 "Ristretto е бърза и лека програма за преглед на изображения за работната "
 "среда XFCE"
 
-#: ../src/main_window.c:1333
+#: ../src/main_window.c:1386
 msgid "translator-credits"
 msgstr "Пламен Стоев <piros89@gmail.com>"
 
-#: ../src/main_window.c:1353
+#: ../src/main_window.c:1410 ../src/main_window.c:1450
+#: ../src/main_window.c:1487
+#, fuzzy
+msgid "Opening file(s)..."
+msgstr "Отваряне с..."
+
+#: ../src/main_window.c:1412
 msgid "Open image"
 msgstr "Отваряне на изображение"
 
-#: ../src/main_window.c:1388
+#: ../src/main_window.c:1430
 msgid "Could not open file"
 msgstr "Файлът не може да бъде отворен"
 
-#: ../src/main_window.c:1398
+#: ../src/main_window.c:1452
 msgid "Open folder"
 msgstr "Отваряне на папка"
 
-#: ../src/main_window.c:1512
+#: ../src/main_window.c:1526
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
 "Сигурни ли сте, че искате да изчистите списъка със скоро отваряни документи?"
 
-#: ../src/thumbnail_bar.c:178
+#: ../src/thumbnail_bar.c:183
 msgid "Spacing"
 msgstr ""
 
-#: ../src/thumbnail_bar.c:179
+#: ../src/thumbnail_bar.c:184
 msgid "The amount of space between the thumbnails"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:190
+msgid "Border Width"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:191
+msgid "The border width of the thumbnail-bar"
 msgstr ""
 
 #: ../ristretto.desktop.in.h:1

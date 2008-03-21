@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Fabio Vergnani <monghitri@aruba.it>, 2007.
 #
-#: ../src/main.c:208
+#: ../src/main.c:218
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-02-08 11:32+0100\n"
+"POT-Creation-Date: 2008-03-22 00:00+0100\n"
 "PO-Revision-Date: 2007-12-22 10:52+0100\n"
 "Last-Translator: Fabio Vergnani <monghitri@aruba.it>\n"
 "Language-Team: Italian\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,11,-1,-1,-1\n"
 
-#: ../src/main.c:46
+#: ../src/main.c:55
 msgid "Version information"
 msgstr "Versione"
 
-#: ../src/main.c:212
+#: ../src/main.c:222
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -32,124 +32,136 @@ msgstr ""
 "comando.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:316
+#: ../src/main_window.c:319
 msgid "_File"
 msgstr "_File"
 
-#: ../src/main_window.c:323
+#: ../src/main_window.c:326
 msgid "O_pen Folder"
 msgstr "A_pri cartella"
 
-#: ../src/main_window.c:324
+#: ../src/main_window.c:327
 msgid "_Recently used"
 msgstr "Apri _recenti"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:356
+#: ../src/main_window.c:359
 msgid "_Edit"
 msgstr "_Modifica"
 
-#: ../src/main_window.c:361 ../src/main_window.c:598
+#: ../src/main_window.c:364 ../src/main_window.c:601
 msgid "Open with..."
 msgstr "_Apri con..."
 
-#: ../src/main_window.c:369 ../src/main_window.c:609
+#: ../src/main_window.c:372 ../src/main_window.c:612
 msgid "No applications available"
 msgstr "Nesuna applicazione disponibile"
 
 #. Create 'View' menu
-#: ../src/main_window.c:378
+#: ../src/main_window.c:381
 msgid "_View"
 msgstr "_Visualizza"
 
-#: ../src/main_window.c:385
+#: ../src/main_window.c:388
 msgid "Show _Toolbar"
 msgstr "Mostra barra degli _strumenti"
 
-#: ../src/main_window.c:386
+#: ../src/main_window.c:389
 msgid "Thumbnail _Viewer"
 msgstr "_Visualizzazione miniature"
 
-#: ../src/main_window.c:390
+#: ../src/main_window.c:393
 msgid "_Zooming"
 msgstr "_Zoom"
 
-#: ../src/main_window.c:391
+#: ../src/main_window.c:394
 msgid "_Rotate"
 msgstr "_Ruota"
 
-#: ../src/main_window.c:417
+#: ../src/main_window.c:420
 msgid "Show _Horizontally"
 msgstr "Mostra _Orizzontalmente"
 
-#: ../src/main_window.c:421
+#: ../src/main_window.c:424
 msgid "Show _Vertically"
 msgstr "Mostra _Verticalmente"
 
-#: ../src/main_window.c:425
+#: ../src/main_window.c:428
 msgid "H_ide"
 msgstr "_Nascondi"
 
-#: ../src/main_window.c:462
+#: ../src/main_window.c:465
 msgid "Rotate _Right"
 msgstr "Ruota a _Destra"
 
-#: ../src/main_window.c:463
+#: ../src/main_window.c:466
 msgid "Rotate _Left"
 msgstr "Ruota a _Sinistra"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:484
+#: ../src/main_window.c:487
 msgid "_Go"
 msgstr "V_ai"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:513
+#: ../src/main_window.c:516
 msgid "_Help"
 msgstr "A_iuto"
 
-#: ../src/main_window.c:1179
+#: ../src/main_window.c:1211
 msgid "Image viewer Preferences"
 msgstr "Preferenze del visualizzatore"
 
-#: ../src/main_window.c:1196
+#: ../src/main_window.c:1229
+msgid "Behaviour"
+msgstr "Comportamento"
+
+#: ../src/main_window.c:1233
 msgid "Slideshow"
 msgstr "Presentazione"
 
-#: ../src/main_window.c:1200
+#: ../src/main_window.c:1237
 msgid "Display"
 msgstr "Apparenza"
 
-#: ../src/main_window.c:1204
+#: ../src/main_window.c:1242
+msgid "Resize to content"
+msgstr ""
+
+#: ../src/main_window.c:1244
+msgid "Rescale image on maximize/restore"
+msgstr ""
+
+#: ../src/main_window.c:1254
 msgid "Background Color"
 msgstr "Colore sfondo"
 
-#: ../src/main_window.c:1206
+#: ../src/main_window.c:1256
 msgid "_Override Background Color:"
 msgstr "_Imposta colore sfondo :"
 
-#: ../src/main_window.c:1229
+#: ../src/main_window.c:1279
 #, fuzzy
 msgid "Image Cache"
 msgstr "Visualizzatore di immagini"
 
-#: ../src/main_window.c:1232
+#: ../src/main_window.c:1282
 msgid "Cache size:"
 msgstr ""
 
-#: ../src/main_window.c:1233
+#: ../src/main_window.c:1283
 msgid "MB"
 msgstr ""
 
-#: ../src/main_window.c:1248
+#: ../src/main_window.c:1299
 msgid "Timeout"
 msgstr "Durata"
 
-#: ../src/main_window.c:1251
+#: ../src/main_window.c:1302
 msgid "Preload"
 msgstr "Precarica"
 
-#: ../src/main_window.c:1256
+#: ../src/main_window.c:1307
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -157,7 +169,7 @@ msgstr ""
 "Il tempo per cui viene mostrata una immagine durante una presentazione\n"
 "(in secondi)"
 
-#: ../src/main_window.c:1260
+#: ../src/main_window.c:1311
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -165,15 +177,15 @@ msgstr ""
 "Precarica le immagini durante le presentazioni\n"
 "(usa più memoria)"
 
-#: ../src/main_window.c:1261
+#: ../src/main_window.c:1312
 msgid "_Preload images"
 msgstr "_Precarica le immagini"
 
-#: ../src/main_window.c:1315
+#: ../src/main_window.c:1368
 msgid "Developer:"
 msgstr "Sviluppatore :"
 
-#: ../src/main_window.c:1325
+#: ../src/main_window.c:1378
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -181,33 +193,47 @@ msgstr ""
 "Ristretto è un visualizzatore di immagini leggero e veloce per l'ambiente "
 "desktop XFCE."
 
-#: ../src/main_window.c:1333
+#: ../src/main_window.c:1386
 msgid "translator-credits"
 msgstr "Fabio Vergnani <monghitri@aruba.it>"
 
-#: ../src/main_window.c:1353
+#: ../src/main_window.c:1410 ../src/main_window.c:1450
+#: ../src/main_window.c:1487
+#, fuzzy
+msgid "Opening file(s)..."
+msgstr "_Apri con..."
+
+#: ../src/main_window.c:1412
 msgid "Open image"
 msgstr "Apri un'immagine"
 
-#: ../src/main_window.c:1388
+#: ../src/main_window.c:1430
 msgid "Could not open file"
 msgstr "Impossibile aprire il file"
 
-#: ../src/main_window.c:1398
+#: ../src/main_window.c:1452
 msgid "Open folder"
 msgstr "Apri cartella"
 
-#: ../src/main_window.c:1512
+#: ../src/main_window.c:1526
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Sei sicuro di voler cancellare la lista dei documenti recenti?"
 
-#: ../src/thumbnail_bar.c:178
+#: ../src/thumbnail_bar.c:183
 msgid "Spacing"
 msgstr ""
 
-#: ../src/thumbnail_bar.c:179
+#: ../src/thumbnail_bar.c:184
 msgid "The amount of space between the thumbnails"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:190
+msgid "Border Width"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:191
+msgid "The border width of the thumbnail-bar"
 msgstr ""
 
 #: ../ristretto.desktop.in.h:1
@@ -221,9 +247,6 @@ msgstr "Visualizzatore di immagini Ristretto"
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Visualizzatore di immagini XFCE"
-
-#~ msgid "Behaviour"
-#~ msgstr "Comportamento"
 
 #~ msgid "Flip _Vertically"
 #~ msgstr "Ruota _Verticalmente"

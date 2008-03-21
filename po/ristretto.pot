@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: ../src/main.c:208
+#: ../src/main.c:218
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-02-08 11:32+0100\n"
+"POT-Creation-Date: 2008-03-22 00:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:46
+#: ../src/main.c:55
 msgid "Version information"
 msgstr ""
 
-#: ../src/main.c:212
+#: ../src/main.c:222
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -29,175 +29,200 @@ msgid ""
 msgstr ""
 
 #. Create 'File' menu
-#: ../src/main_window.c:316
+#: ../src/main_window.c:319
 msgid "_File"
 msgstr ""
 
-#: ../src/main_window.c:323
+#: ../src/main_window.c:326
 msgid "O_pen Folder"
 msgstr ""
 
-#: ../src/main_window.c:324
+#: ../src/main_window.c:327
 msgid "_Recently used"
 msgstr ""
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:356
+#: ../src/main_window.c:359
 msgid "_Edit"
 msgstr ""
 
-#: ../src/main_window.c:361 ../src/main_window.c:598
+#: ../src/main_window.c:364 ../src/main_window.c:601
 msgid "Open with..."
 msgstr ""
 
-#: ../src/main_window.c:369 ../src/main_window.c:609
+#: ../src/main_window.c:372 ../src/main_window.c:612
 msgid "No applications available"
 msgstr ""
 
 #. Create 'View' menu
-#: ../src/main_window.c:378
+#: ../src/main_window.c:381
 msgid "_View"
 msgstr ""
 
-#: ../src/main_window.c:385
+#: ../src/main_window.c:388
 msgid "Show _Toolbar"
 msgstr ""
 
-#: ../src/main_window.c:386
+#: ../src/main_window.c:389
 msgid "Thumbnail _Viewer"
 msgstr ""
 
-#: ../src/main_window.c:390
+#: ../src/main_window.c:393
 msgid "_Zooming"
 msgstr ""
 
-#: ../src/main_window.c:391
+#: ../src/main_window.c:394
 msgid "_Rotate"
 msgstr ""
 
-#: ../src/main_window.c:417
+#: ../src/main_window.c:420
 msgid "Show _Horizontally"
 msgstr ""
 
-#: ../src/main_window.c:421
+#: ../src/main_window.c:424
 msgid "Show _Vertically"
 msgstr ""
 
-#: ../src/main_window.c:425
+#: ../src/main_window.c:428
 msgid "H_ide"
 msgstr ""
 
-#: ../src/main_window.c:462
+#: ../src/main_window.c:465
 msgid "Rotate _Right"
 msgstr ""
 
-#: ../src/main_window.c:463
+#: ../src/main_window.c:466
 msgid "Rotate _Left"
 msgstr ""
 
 #. Create 'Go' menu
-#: ../src/main_window.c:484
+#: ../src/main_window.c:487
 msgid "_Go"
 msgstr ""
 
 #. Create 'Help' menu
-#: ../src/main_window.c:513
+#: ../src/main_window.c:516
 msgid "_Help"
 msgstr ""
 
-#: ../src/main_window.c:1179
+#: ../src/main_window.c:1211
 msgid "Image viewer Preferences"
 msgstr ""
 
-#: ../src/main_window.c:1196
-msgid "Slideshow"
-msgstr ""
-
-#: ../src/main_window.c:1200
-msgid "Display"
-msgstr ""
-
-#: ../src/main_window.c:1204
-msgid "Background Color"
-msgstr ""
-
-#: ../src/main_window.c:1206
-msgid "_Override Background Color:"
-msgstr ""
-
 #: ../src/main_window.c:1229
-msgid "Image Cache"
-msgstr ""
-
-#: ../src/main_window.c:1232
-msgid "Cache size:"
+msgid "Behaviour"
 msgstr ""
 
 #: ../src/main_window.c:1233
-msgid "MB"
+msgid "Slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1248
-msgid "Timeout"
+#: ../src/main_window.c:1237
+msgid "Display"
 msgstr ""
 
-#: ../src/main_window.c:1251
-msgid "Preload"
+#: ../src/main_window.c:1242
+msgid "Resize to content"
+msgstr ""
+
+#: ../src/main_window.c:1244
+msgid "Rescale image on maximize/restore"
+msgstr ""
+
+#: ../src/main_window.c:1254
+msgid "Background Color"
 msgstr ""
 
 #: ../src/main_window.c:1256
+msgid "_Override Background Color:"
+msgstr ""
+
+#: ../src/main_window.c:1279
+msgid "Image Cache"
+msgstr ""
+
+#: ../src/main_window.c:1282
+msgid "Cache size:"
+msgstr ""
+
+#: ../src/main_window.c:1283
+msgid "MB"
+msgstr ""
+
+#: ../src/main_window.c:1299
+msgid "Timeout"
+msgstr ""
+
+#: ../src/main_window.c:1302
+msgid "Preload"
+msgstr ""
+
+#: ../src/main_window.c:1307
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1260
+#: ../src/main_window.c:1311
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
 
-#: ../src/main_window.c:1261
+#: ../src/main_window.c:1312
 msgid "_Preload images"
 msgstr ""
 
-#: ../src/main_window.c:1315
+#: ../src/main_window.c:1368
 msgid "Developer:"
 msgstr ""
 
-#: ../src/main_window.c:1325
+#: ../src/main_window.c:1378
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
 
-#: ../src/main_window.c:1333
+#: ../src/main_window.c:1386
 msgid "translator-credits"
 msgstr ""
 
-#: ../src/main_window.c:1353
+#: ../src/main_window.c:1410 ../src/main_window.c:1450
+#: ../src/main_window.c:1487
+msgid "Opening file(s)..."
+msgstr ""
+
+#: ../src/main_window.c:1412
 msgid "Open image"
 msgstr ""
 
-#: ../src/main_window.c:1388
+#: ../src/main_window.c:1430
 msgid "Could not open file"
 msgstr ""
 
-#: ../src/main_window.c:1398
+#: ../src/main_window.c:1452
 msgid "Open folder"
 msgstr ""
 
-#: ../src/main_window.c:1512
+#: ../src/main_window.c:1526
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
 
-#: ../src/thumbnail_bar.c:178
+#: ../src/thumbnail_bar.c:183
 msgid "Spacing"
 msgstr ""
 
-#: ../src/thumbnail_bar.c:179
+#: ../src/thumbnail_bar.c:184
 msgid "The amount of space between the thumbnails"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:190
+msgid "Border Width"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:191
+msgid "The border width of the thumbnail-bar"
 msgstr ""
 
 #: ../ristretto.desktop.in.h:1

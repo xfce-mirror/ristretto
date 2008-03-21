@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the ristretto package.
 # Rihards Prieditis <rprieditis@inbox.lv>, 2007.
 #
-#: ../src/main.c:208
+#: ../src/main.c:218
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-02-08 11:32+0100\n"
+"POT-Creation-Date: 2008-03-22 00:00+0100\n"
 "PO-Revision-Date: 2007-11-11 20:37+0300\n"
 "Last-Translator: Rihards Priedītis <rprieditis@inbox.lv>\n"
 "Language-Team: Latvian <rprieditis@inbox.lv>\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:46
+#: ../src/main.c:55
 msgid "Version information"
 msgstr "Versijas informācija"
 
-#: ../src/main.c:212
+#: ../src/main.c:222
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -30,129 +30,141 @@ msgstr ""
 "Mēģiniet %s --help , lai redzētu pilnu pieejamo komandu sarakstu.\n"
 
 #. Create 'File' menu
-#: ../src/main_window.c:316
+#: ../src/main_window.c:319
 msgid "_File"
 msgstr "_Fails"
 
-#: ../src/main_window.c:323
+#: ../src/main_window.c:326
 msgid "O_pen Folder"
 msgstr "A_tvērt Mapi"
 
-#: ../src/main_window.c:324
+#: ../src/main_window.c:327
 msgid "_Recently used"
 msgstr "_Nesenie"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:356
+#: ../src/main_window.c:359
 msgid "_Edit"
 msgstr "_Rediģēt"
 
-#: ../src/main_window.c:361 ../src/main_window.c:598
+#: ../src/main_window.c:364 ../src/main_window.c:601
 msgid "Open with..."
 msgstr "Atvert ar..."
 
-#: ../src/main_window.c:369 ../src/main_window.c:609
+#: ../src/main_window.c:372 ../src/main_window.c:612
 msgid "No applications available"
 msgstr "Nav pieejama neviena lietotne"
 
 #. Create 'View' menu
-#: ../src/main_window.c:378
+#: ../src/main_window.c:381
 msgid "_View"
 msgstr "_Skats"
 
-#: ../src/main_window.c:385
+#: ../src/main_window.c:388
 #, fuzzy
 msgid "Show _Toolbar"
 msgstr "Rādīt Rīkjoslu"
 
-#: ../src/main_window.c:386
+#: ../src/main_window.c:389
 #, fuzzy
 msgid "Thumbnail _Viewer"
 msgstr "Sīktēlu Skatītājs"
 
-#: ../src/main_window.c:390
+#: ../src/main_window.c:393
 msgid "_Zooming"
 msgstr ""
 
-#: ../src/main_window.c:391
+#: ../src/main_window.c:394
 msgid "_Rotate"
 msgstr ""
 
-#: ../src/main_window.c:417
+#: ../src/main_window.c:420
 #, fuzzy
 msgid "Show _Horizontally"
 msgstr "Rādit Horizontāli"
 
-#: ../src/main_window.c:421
+#: ../src/main_window.c:424
 #, fuzzy
 msgid "Show _Vertically"
 msgstr "Rādit Vertikāli"
 
-#: ../src/main_window.c:425
+#: ../src/main_window.c:428
 #, fuzzy
 msgid "H_ide"
 msgstr "Slēpt"
 
-#: ../src/main_window.c:462
+#: ../src/main_window.c:465
 msgid "Rotate _Right"
 msgstr ""
 
-#: ../src/main_window.c:463
+#: ../src/main_window.c:466
 msgid "Rotate _Left"
 msgstr ""
 
 #. Create 'Go' menu
-#: ../src/main_window.c:484
+#: ../src/main_window.c:487
 msgid "_Go"
 msgstr "_Doties"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:513
+#: ../src/main_window.c:516
 msgid "_Help"
 msgstr "_Palīdzība"
 
-#: ../src/main_window.c:1179
+#: ../src/main_window.c:1211
 msgid "Image viewer Preferences"
 msgstr "Attēlu skatītāja uzstādījumi"
 
-#: ../src/main_window.c:1196
+#: ../src/main_window.c:1229
+msgid "Behaviour"
+msgstr ""
+
+#: ../src/main_window.c:1233
 msgid "Slideshow"
 msgstr "Slīdrāde"
 
-#: ../src/main_window.c:1200
+#: ../src/main_window.c:1237
 msgid "Display"
 msgstr ""
 
-#: ../src/main_window.c:1204
+#: ../src/main_window.c:1242
+msgid "Resize to content"
+msgstr ""
+
+#: ../src/main_window.c:1244
+msgid "Rescale image on maximize/restore"
+msgstr ""
+
+#: ../src/main_window.c:1254
 msgid "Background Color"
 msgstr ""
 
-#: ../src/main_window.c:1206
+#: ../src/main_window.c:1256
 msgid "_Override Background Color:"
 msgstr ""
 
-#: ../src/main_window.c:1229
+#: ../src/main_window.c:1279
 #, fuzzy
 msgid "Image Cache"
 msgstr "Attēlu Skatītājs"
 
-#: ../src/main_window.c:1232
+#: ../src/main_window.c:1282
 msgid "Cache size:"
 msgstr ""
 
-#: ../src/main_window.c:1233
+#: ../src/main_window.c:1283
 msgid "MB"
 msgstr ""
 
-#: ../src/main_window.c:1248
+#: ../src/main_window.c:1299
 msgid "Timeout"
 msgstr "Noildze"
 
-#: ../src/main_window.c:1251
+#: ../src/main_window.c:1302
 msgid "Preload"
 msgstr "Pirmsielāde"
 
-#: ../src/main_window.c:1256
+#: ../src/main_window.c:1307
 #, fuzzy
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
@@ -161,7 +173,7 @@ msgstr ""
 "Noildze attēla rādīšanai slīdrādē\n"
 "(sekundēs)"
 
-#: ../src/main_window.c:1260
+#: ../src/main_window.c:1311
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -169,48 +181,62 @@ msgstr ""
 "Ielādēt attēlus slīdrāde laikā\n"
 "(aizņem vairāk atmiņas)"
 
-#: ../src/main_window.c:1261
+#: ../src/main_window.c:1312
 msgid "_Preload images"
 msgstr "_Pirmsielādes attēli"
 
-#: ../src/main_window.c:1315
+#: ../src/main_window.c:1368
 msgid "Developer:"
 msgstr "Izstrādātājs:"
 
-#: ../src/main_window.c:1325
+#: ../src/main_window.c:1378
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "Ristretto ir ātrs un viegls attēlu skatītājs Xfce Videi."
 
-#: ../src/main_window.c:1333
+#: ../src/main_window.c:1386
 msgid "translator-credits"
 msgstr "Tūlkotāji:"
 
-#: ../src/main_window.c:1353
+#: ../src/main_window.c:1410 ../src/main_window.c:1450
+#: ../src/main_window.c:1487
+#, fuzzy
+msgid "Opening file(s)..."
+msgstr "Atvert ar..."
+
+#: ../src/main_window.c:1412
 msgid "Open image"
 msgstr "Atvērt attēlu"
 
-#: ../src/main_window.c:1388
+#: ../src/main_window.c:1430
 msgid "Could not open file"
 msgstr "Nevarēju atvērt failu"
 
-#: ../src/main_window.c:1398
+#: ../src/main_window.c:1452
 msgid "Open folder"
 msgstr "Atvērt mapi"
 
-#: ../src/main_window.c:1512
+#: ../src/main_window.c:1526
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
 "Esat drošs, ka vēlaties notīrīt ristretto neseno atvērto dokumentu sarakstu?"
 
-#: ../src/thumbnail_bar.c:178
+#: ../src/thumbnail_bar.c:183
 msgid "Spacing"
 msgstr ""
 
-#: ../src/thumbnail_bar.c:179
+#: ../src/thumbnail_bar.c:184
 msgid "The amount of space between the thumbnails"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:190
+msgid "Border Width"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:191
+msgid "The border width of the thumbnail-bar"
 msgstr ""
 
 #: ../ristretto.desktop.in.h:1
