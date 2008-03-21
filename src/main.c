@@ -28,6 +28,7 @@
 
 typedef struct {
     RsttoNavigator *navigator;
+    RsttoMainWindow *main_window;
     GSList *files;
 } RsttoOpenFiles;
 
@@ -282,6 +283,7 @@ int main(int argc, char **argv)
 
         rof.files = NULL;
         rof.navigator = navigator;
+        rof.main_window = RSTTO_MAIN_WINDOW(window);
         for (n = 1; n < argc; ++n)
         {
             rof.files = g_slist_prepend(rof.files, argv[n]);
@@ -410,6 +412,8 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 {
     gchar *path_dir = NULL;
     RsttoNavigator *navigator = rof->navigator;
+    g_object_ref(navigator);
+    g_object_ref(rof->main_window);
 
     if (g_slist_length(rof->files) >= 1)
     {
@@ -449,5 +453,7 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
         if (g_slist_length(rof->files) > 1)
             rstto_navigator_jump_first(navigator);
     }
+    g_object_unref(rof->main_window);
+    g_object_unref(navigator);
     return FALSE;
 }
