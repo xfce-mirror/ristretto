@@ -1403,6 +1403,12 @@ cb_rstto_main_window_quit(GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_open_file(GtkWidget *widget, RsttoMainWindow *window)
 {
+    GtkStatusbar *statusbar = GTK_STATUSBAR(window->priv->statusbar);
+    g_object_add_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
+
+    gint context_id = gtk_statusbar_get_context_id(statusbar, "Describes what ristretto is doing");
+    gint message_id = gtk_statusbar_push(statusbar, context_id, N_("Opening file(s)..."));
+
     GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open image"),
                                                     GTK_WINDOW(window),
                                                     GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -1426,11 +1432,23 @@ cb_rstto_main_window_open_file(GtkWidget *widget, RsttoMainWindow *window)
         }
     }
     gtk_widget_destroy(dialog);
+
+    if (statusbar)
+    {
+        gtk_statusbar_remove(statusbar, context_id, message_id);
+        g_object_remove_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
+    }
 }
 
 static void
 cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window)
 {
+    GtkStatusbar *statusbar = GTK_STATUSBAR(window->priv->statusbar);
+    g_object_add_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
+
+    gint context_id = gtk_statusbar_get_context_id(statusbar, "Describes what ristretto is doing");
+    gint message_id = gtk_statusbar_push(statusbar, context_id, N_("Opening file(s)..."));
+
     GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open folder"),
                                                     GTK_WINDOW(window),
                                                     GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
@@ -1451,11 +1469,23 @@ cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window)
         }
     }
     gtk_widget_destroy(dialog);
+
+    if (statusbar)
+    {
+        gtk_statusbar_remove(statusbar, context_id, message_id);
+        g_object_remove_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
+    }
 }
 
 static void
 cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *window)
 {
+    GtkStatusbar *statusbar = GTK_STATUSBAR(window->priv->statusbar);
+    g_object_add_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
+
+    gint context_id = gtk_statusbar_get_context_id(statusbar, "Describes what ristretto is doing");
+    gint message_id = gtk_statusbar_push(statusbar, context_id, N_("Opening file(s)..."));
+
     gchar *uri = gtk_recent_chooser_get_current_uri(chooser);
     ThunarVfsPath *vfs_path = thunar_vfs_path_new(uri, NULL);
     if (vfs_path)
@@ -1479,6 +1509,11 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
         thunar_vfs_path_unref(vfs_path);
     }
 
+    if (statusbar)
+    {
+        gtk_statusbar_remove(statusbar, context_id, message_id);
+        g_object_remove_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
+    }
 }
 
 static void
