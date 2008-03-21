@@ -1461,6 +1461,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
             if(g_file_test(path, G_FILE_TEST_IS_DIR))
             {
                 rstto_navigator_open_folder(window->priv->navigator, path, TRUE, NULL);
+                rstto_navigator_jump_first(window->priv->navigator);
             }
             else
             {
