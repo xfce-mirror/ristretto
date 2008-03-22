@@ -1241,7 +1241,10 @@ rstto_picture_viewer_drag_data_received(GtkWidget *widget,
         {
             if (g_file_test(path, G_FILE_TEST_IS_DIR))
             {
-                rstto_navigator_open_folder(picture_viewer->priv->navigator, path, FALSE, NULL);
+                if(rstto_navigator_open_folder(picture_viewer->priv->navigator, path, FALSE, NULL) == TRUE)
+                {
+                    rstto_navigator_jump_first(picture_viewer->priv->navigator);
+                }
             }
             else
             {
