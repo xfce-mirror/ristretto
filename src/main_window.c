@@ -1406,7 +1406,7 @@ cb_rstto_main_window_open_file(GtkWidget *widget, RsttoMainWindow *window)
     GtkStatusbar *statusbar = GTK_STATUSBAR(window->priv->statusbar);
     g_object_add_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
 
-    gint context_id = gtk_statusbar_get_context_id(statusbar, "Describes what ristretto is doing");
+    gint context_id = gtk_statusbar_get_context_id(statusbar, "StatusMessages");
     gint message_id = gtk_statusbar_push(statusbar, context_id, N_("Opening file(s)..."));
 
     GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open image"),
@@ -1446,7 +1446,7 @@ cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window)
     GtkStatusbar *statusbar = GTK_STATUSBAR(window->priv->statusbar);
     g_object_add_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
 
-    gint context_id = gtk_statusbar_get_context_id(statusbar, "Describes what ristretto is doing");
+    gint context_id = gtk_statusbar_get_context_id(statusbar, "StatusMessages");
     gint message_id = gtk_statusbar_push(statusbar, context_id, N_("Opening file(s)..."));
 
     GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open folder"),
@@ -1483,7 +1483,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     GtkStatusbar *statusbar = GTK_STATUSBAR(window->priv->statusbar);
     g_object_add_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
 
-    gint context_id = gtk_statusbar_get_context_id(statusbar, "Describes what ristretto is doing");
+    gint context_id = gtk_statusbar_get_context_id(statusbar, "StatusMessages");
     gint message_id = gtk_statusbar_push(statusbar, context_id, N_("Opening file(s)..."));
 
     gchar *uri = gtk_recent_chooser_get_current_uri(chooser);
@@ -1926,4 +1926,10 @@ cb_rstto_bg_color_override_check_toggled(GtkToggleButton *button, GtkWidget *wid
     {
         gtk_widget_set_sensitive(widget, FALSE);
     }
+}
+
+GtkStatusbar *
+rstto_main_window_get_statusbar(RsttoMainWindow *window)
+{
+    return GTK_STATUSBAR(window->priv->statusbar);
 }

@@ -98,6 +98,9 @@ rstto_main_window_set_scale_to_100 (RsttoMainWindow *window, gboolean scale_to_1
 gboolean
 rstto_main_window_get_scale_to_100 (RsttoMainWindow *window);
 
+GtkStatusbar *
+rstto_main_window_get_statusbar(RsttoMainWindow *window);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_MAIN_WINDOW_H__ */

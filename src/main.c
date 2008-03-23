@@ -412,6 +412,12 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 {
     gchar *path_dir = NULL;
     RsttoNavigator *navigator = rof->navigator;
+    RsttoMainWindow *window = rof->main_window;
+
+    GtkStatusbar *bar = rstto_main_window_get_statusbar(window);
+
+    guint context_id = gtk_statusbar_get_context_id(bar, "StatusMessages");
+    guint message_id = gtk_statusbar_push(bar, context_id, N_("Opening file(s)..."));
 
     if (g_slist_length(rof->files) >= 1)
     {
@@ -435,12 +441,16 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
                 if(g_file_test(path_dir, G_FILE_TEST_IS_DIR))
                 {
-                    rstto_navigator_open_folder (navigator, path_dir, TRUE, NULL);
-                    rstto_navigator_jump_first(navigator);
+                    if(rstto_navigator_open_folder (navigator, path_dir, TRUE, NULL) == TRUE)
+                    {
+                        rstto_navigator_jump_first(navigator);
+                        gtk_statusbar_remove(bar, context_id, message_id);
+                    }
                 }
                 else
                 {
                     rstto_navigator_open_file (navigator, path_dir, TRUE, NULL);
+                    gtk_statusbar_remove(bar, context_id, message_id);
                 }
             }
 
