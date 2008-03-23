@@ -33,9 +33,8 @@ msgstr ""
 
 #: ../src/main.c:420 ../src/main_window.c:1410 ../src/main_window.c:1450
 #: ../src/main_window.c:1487
-#, fuzzy
 msgid "Opening file(s)..."
-msgstr "Öffnen mit..."
+msgstr "Datei(en) öffnen..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:319
@@ -120,7 +119,7 @@ msgstr "Einstellungen für den Bildbetrachter"
 
 #: ../src/main_window.c:1229
 msgid "Behaviour"
-msgstr ""
+msgstr "Verhalten"
 
 #: ../src/main_window.c:1233
 msgid "Slideshow"
@@ -132,11 +131,11 @@ msgstr "Anzeige"
 
 #: ../src/main_window.c:1242
 msgid "Scaling"
-msgstr ""
+msgstr "Skalierung"
 
 #: ../src/main_window.c:1244
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
+msgstr "Beim Maximieren des Fensters nicht über 100% vergrößern."
 
 #: ../src/main_window.c:1254
 msgid "Background Color"
@@ -147,17 +146,16 @@ msgid "_Override Background Color:"
 msgstr "Hintergrundfarbe ü_berschreiben"
 
 #: ../src/main_window.c:1279
-#, fuzzy
 msgid "Image Cache"
-msgstr "Bildbetrachter"
+msgstr "Bildzwischenspeicher"
 
 #: ../src/main_window.c:1282
 msgid "Cache size:"
-msgstr ""
+msgstr "Zwischenspeichergröße:"
 
 #: ../src/main_window.c:1283
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: ../src/main_window.c:1299
 msgid "Timeout"
@@ -226,19 +224,19 @@ msgstr ""
 
 #: ../src/thumbnail_bar.c:183
 msgid "Spacing"
-msgstr ""
+msgstr "Abstand"
 
 #: ../src/thumbnail_bar.c:184
 msgid "The amount of space between the thumbnails"
-msgstr ""
+msgstr "Die Größe des  Abstands zwischen den Vorschaubildern"
 
 #: ../src/thumbnail_bar.c:190
 msgid "Border Width"
-msgstr ""
+msgstr "Randbreite"
 
 #: ../src/thumbnail_bar.c:191
 msgid "The border width of the thumbnail-bar"
-msgstr ""
+msgstr "Die Randbreite der Vorschaubildleiste"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -251,12 +249,3 @@ msgstr "Bildbetrachter Ristretto"
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce-Bildbetrachter"
-
-#~ msgid "Flip _Vertically"
-#~ msgstr "_Vertikal spiegeln"
-
-#~ msgid "Flip _Horizontally"
-#~ msgstr "_Horizontal spiegeln"
-
-#~ msgid "_Clear"
-#~ msgstr "_Leeren"
