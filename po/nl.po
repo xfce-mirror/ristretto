@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-03-23 11:32+0100\n"
+"POT-Creation-Date: 2008-03-23 12:24+0100\n"
 "PO-Revision-Date: 2007-07-13 00:48+0200\n"
 "Last-Translator: Stephan Arts <stephan@xfce.org>\n"
 "Language-Team: Dutch\n"
@@ -133,8 +133,9 @@ msgid "Scaling"
 msgstr "Schalen"
 
 #: ../src/main_window.c:1244
-msgid "Don't scale beyond 100% when maximizing."
-msgstr "Afbeelding niet voorbij 100% schalen bij maximaliseren"
+msgid "Don't scale over 100% when maximizing the window."
+msgstr "Afbeelding niet voorbij 100% schalen wanneer het venster wordt "
+"gemaximaliseerd"
 
 #: ../src/main_window.c:1254
 msgid "Background Color"

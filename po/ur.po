@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-03-23 11:32+0100\n"
+"POT-Creation-Date: 2008-03-23 12:24+0100\n"
 "PO-Revision-Date: 2007-10-26 14:37+0500\n"
 "Last-Translator: Muhammad Ali Makki <makk.ma@gmail.com>\n"
 "Language-Team: Urdu <makki.ma@gmail.com>\n"
@@ -138,7 +138,7 @@ msgid "Scaling"
 msgstr ""
 
 #: ../src/main_window.c:1244
-msgid "Don't scale beyond 100% when maximizing."
+msgid "Don't scale over 100% when maximizing the window."
 msgstr ""
 
 #: ../src/main_window.c:1254
