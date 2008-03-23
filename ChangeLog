@@ -17,6 +17,15 @@
 	    - Resize images to fit to the window when restoring the window from
 	      maximize state.
 	* src/main.c,
+	  src/main_window.c,
+	  src/navigator.c:
+	  - Prevent GUI freezes when opening a folder with a lot of files in
+	    them.
+	  - Fix segfaults when closing ristretto while it is opening a folder.
+	* src/thumbnail_bar.c,
+	  src/thumbnail.c:
+	  - Restore of auto-center when clicking on a thumbnail.
+	* src/main.c,
 	  src/main_window.c:
 	  - The Statusbar displays some feedback when opening files.
 
