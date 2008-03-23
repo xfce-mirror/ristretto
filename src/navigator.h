@@ -168,9 +168,6 @@ rstto_navigator_open_file(RsttoNavigator *navigator, const gchar *path, gboolean
 gboolean
 rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboolean clear, GError **error);
 
-void
-rstto_navigator_set_busy (RsttoNavigator *navigator, gboolean busy);
-
 G_END_DECLS
 
 #endif /* __RISTRETTO_NAVIGATOR_H__ */

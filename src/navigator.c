@@ -64,6 +64,9 @@ cb_rstto_navigator_fs_event (ThunarVfsMonitor *monitor,
                              ThunarVfsPath *event_path,
                              RsttoNavigator *nav);
 
+static void
+rstto_navigator_set_busy (RsttoNavigator *navigator, gboolean busy);
+
 static gint
 cb_rstto_navigator_entry_path_compare_func(RsttoNavigatorEntry *entry, ThunarVfsPath *path);
 
@@ -1561,7 +1564,7 @@ rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboole
     return TRUE;
 }
 
-void
+static void
 rstto_navigator_set_busy (RsttoNavigator *navigator, gboolean busy)
 {
     navigator->busy = busy;
