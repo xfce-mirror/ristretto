@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-03-22 00:00+0100\n"
+"POT-Creation-Date: 2008-03-23 11:32+0100\n"
 "PO-Revision-Date: 2008-01-12 20:12+0100\n"
 "Last-Translator: Miro Hrončok <churchyard@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -28,6 +28,12 @@ msgid ""
 msgstr ""
 "%s: %s\n"
 "Napište %s --help pro seznam všech možných parametrů.\n"
+
+#: ../src/main.c:420 ../src/main_window.c:1410 ../src/main_window.c:1450
+#: ../src/main_window.c:1487
+#, fuzzy
+msgid "Opening file(s)..."
+msgstr "Otevřít pomocí..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:319
@@ -123,11 +129,12 @@ msgid "Display"
 msgstr "Zobrazení"
 
 #: ../src/main_window.c:1242
-msgid "Resize to content"
-msgstr ""
+#, fuzzy
+msgid "Scaling"
+msgstr "Mezery"
 
 #: ../src/main_window.c:1244
-msgid "Rescale image on maximize/restore"
+msgid "Don't scale beyond 100% when maximizing."
 msgstr ""
 
 #: ../src/main_window.c:1254
@@ -193,12 +200,6 @@ msgstr ""
 #: ../src/main_window.c:1386
 msgid "translator-credits"
 msgstr "Miro Hrončok <churchyard@gmail.com>"
-
-#: ../src/main_window.c:1410 ../src/main_window.c:1450
-#: ../src/main_window.c:1487
-#, fuzzy
-msgid "Opening file(s)..."
-msgstr "Otevřít pomocí..."
 
 #: ../src/main_window.c:1412
 msgid "Open image"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.5\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-03-22 00:00+0100\n"
+"POT-Creation-Date: 2008-03-23 11:32+0100\n"
 "PO-Revision-Date: 2008-02-26 12:21+0200\n"
 "Last-Translator: Jari Rahkonen <jari.rahkonen@pp1.inet.fi>\n"
 "Language-Team: Finnish <xfce-i18n@xfce.org>\n"
@@ -28,6 +28,12 @@ msgid ""
 msgstr ""
 "%s: %s\n"
 "Näet listan komentorivivalitsimista kirjoittamalla %s --help.\n"
+
+#: ../src/main.c:420 ../src/main_window.c:1410 ../src/main_window.c:1450
+#: ../src/main_window.c:1487
+#, fuzzy
+msgid "Opening file(s)..."
+msgstr "_Avaa sovelluksessa..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:319
@@ -123,12 +129,13 @@ msgid "Display"
 msgstr "Näyttö"
 
 #: ../src/main_window.c:1242
-msgid "Resize to content"
-msgstr "Säädä koko sisällön mukaan"
+#, fuzzy
+msgid "Scaling"
+msgstr "Välit"
 
 #: ../src/main_window.c:1244
-msgid "Rescale image on maximize/restore"
-msgstr "Skaalaa kuvaa, kun ikkuna suurennetaan/palautetaan"
+msgid "Don't scale beyond 100% when maximizing."
+msgstr ""
 
 #: ../src/main_window.c:1254
 msgid "Background Color"
@@ -190,12 +197,6 @@ msgstr "Ristretto on nopea ja kevyt kuvakatselin Xfce-työpöydälle."
 msgid "translator-credits"
 msgstr "Jari Rahkonen <jari.rahkonen@pp1.inet.fi>"
 
-#: ../src/main_window.c:1410 ../src/main_window.c:1450
-#: ../src/main_window.c:1487
-#, fuzzy
-msgid "Opening file(s)..."
-msgstr "_Avaa sovelluksessa..."
-
 #: ../src/main_window.c:1412
 msgid "Open image"
 msgstr "Avaa kuva"
@@ -241,3 +242,9 @@ msgstr "Ristretto-kuvakatselin"
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce:n kuvakatselin"
+
+#~ msgid "Resize to content"
+#~ msgstr "Säädä koko sisällön mukaan"
+
+#~ msgid "Rescale image on maximize/restore"
+#~ msgstr "Skaalaa kuvaa, kun ikkuna suurennetaan/palautetaan"

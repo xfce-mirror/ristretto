@@ -1,4 +1,4 @@
-xxxx-xx-xx: Release 0.0.18
+2008-03-23: Release 0.0.18
 	* src/picture_viewer.c:
 	  - Improved zoom-box
 	  - Added rudimentary drag-n-drop support for opening images
@@ -16,6 +16,9 @@ xxxx-xx-xx: Release 0.0.18
 	    - Prevent images to be scaled beyond 100% when maximizing the window
 	    - Resize images to fit to the window when restoring the window from
 	      maximize state.
+	* src/main.c,
+	  src/main_window.c:
+	  - The Statusbar displays some feedback when opening files.
 
 2008-02-17: Release 0.0.17
 	* src/picture_viewer.c:

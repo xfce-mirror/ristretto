@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-03-22 00:00+0100\n"
+"POT-Creation-Date: 2008-03-23 11:32+0100\n"
 "PO-Revision-Date: 2007-10-26 14:37+0500\n"
 "Last-Translator: Muhammad Ali Makki <makk.ma@gmail.com>\n"
 "Language-Team: Urdu <makki.ma@gmail.com>\n"
@@ -28,6 +28,11 @@ msgstr ""
 msgid ""
 "%s: %s\n"
 "Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+
+#: ../src/main.c:420 ../src/main_window.c:1410 ../src/main_window.c:1450
+#: ../src/main_window.c:1487
+msgid "Opening file(s)..."
 msgstr ""
 
 #. Create 'File' menu
@@ -129,11 +134,11 @@ msgid "Display"
 msgstr ""
 
 #: ../src/main_window.c:1242
-msgid "Resize to content"
+msgid "Scaling"
 msgstr ""
 
 #: ../src/main_window.c:1244
-msgid "Rescale image on maximize/restore"
+msgid "Don't scale beyond 100% when maximizing."
 msgstr ""
 
 #: ../src/main_window.c:1254
@@ -195,11 +200,6 @@ msgstr ""
 #: ../src/main_window.c:1386
 msgid "translator-credits"
 msgstr "ترجمہ-کریڈٹ"
-
-#: ../src/main_window.c:1410 ../src/main_window.c:1450
-#: ../src/main_window.c:1487
-msgid "Opening file(s)..."
-msgstr ""
 
 #: ../src/main_window.c:1412
 msgid "Open image"

@@ -1239,9 +1239,9 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
 
 /** Add content for behaviour page */
     resize_to_content_vbox = gtk_vbox_new(FALSE, 0);
-    resize_to_content_frame = xfce_create_framebox_with_content(_("Resize to content"), resize_to_content_vbox);
+    resize_to_content_frame = xfce_create_framebox_with_content(_("Scaling"), resize_to_content_vbox);
 
-    resize_on_maximize_check = gtk_check_button_new_with_mnemonic(_("Rescale image on maximize/restore"));
+    resize_on_maximize_check = gtk_check_button_new_with_mnemonic(_("Don't scale beyond 100% when maximizing."));
     gtk_box_pack_start(GTK_BOX(resize_to_content_vbox), resize_on_maximize_check, FALSE, TRUE, 0);
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(resize_on_maximize_check), window->priv->settings.scale_to_100);

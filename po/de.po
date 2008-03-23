@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-03-22 00:00+0100\n"
+"POT-Creation-Date: 2008-03-23 11:32+0100\n"
 "PO-Revision-Date: 2007-12-01 17:41:21+0000\n"
 "Last-Translator: Fabian Nowak <timystery@arcor.de>\n"
 "Language-Team: German\n"
@@ -30,6 +30,12 @@ msgstr ""
 "%s: %s\n"
 "Versuchen Sie »%s --help«, um eine komplette Liste verfügbarer "
 "Kommandozeilenoptionen anzusehen.\n"
+
+#: ../src/main.c:420 ../src/main_window.c:1410 ../src/main_window.c:1450
+#: ../src/main_window.c:1487
+#, fuzzy
+msgid "Opening file(s)..."
+msgstr "Öffnen mit..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:319
@@ -125,11 +131,11 @@ msgid "Display"
 msgstr "Anzeige"
 
 #: ../src/main_window.c:1242
-msgid "Resize to content"
+msgid "Scaling"
 msgstr ""
 
 #: ../src/main_window.c:1244
-msgid "Rescale image on maximize/restore"
+msgid "Don't scale beyond 100% when maximizing."
 msgstr ""
 
 #: ../src/main_window.c:1254
@@ -198,12 +204,6 @@ msgid "translator-credits"
 msgstr ""
 "Christian Dywan <christian@twotoasts.de>\n"
 "Fabian Nowak <timystery@arcor.de>"
-
-#: ../src/main_window.c:1410 ../src/main_window.c:1450
-#: ../src/main_window.c:1487
-#, fuzzy
-msgid "Opening file(s)..."
-msgstr "Öffnen mit..."
 
 #: ../src/main_window.c:1412
 msgid "Open image"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-03-22 00:00+0100\n"
+"POT-Creation-Date: 2008-03-23 11:32+0100\n"
 "PO-Revision-Date: 2007-12-22 10:52+0100\n"
 "Last-Translator: Fabio Vergnani <monghitri@aruba.it>\n"
 "Language-Team: Italian\n"
@@ -30,6 +30,12 @@ msgstr ""
 "%s: %s\n"
 "Prova %s --help per vedere una lista completa di opzioni per linea di "
 "comando.\n"
+
+#: ../src/main.c:420 ../src/main_window.c:1410 ../src/main_window.c:1450
+#: ../src/main_window.c:1487
+#, fuzzy
+msgid "Opening file(s)..."
+msgstr "_Apri con..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:319
@@ -125,11 +131,11 @@ msgid "Display"
 msgstr "Apparenza"
 
 #: ../src/main_window.c:1242
-msgid "Resize to content"
+msgid "Scaling"
 msgstr ""
 
 #: ../src/main_window.c:1244
-msgid "Rescale image on maximize/restore"
+msgid "Don't scale beyond 100% when maximizing."
 msgstr ""
 
 #: ../src/main_window.c:1254
@@ -196,12 +202,6 @@ msgstr ""
 #: ../src/main_window.c:1386
 msgid "translator-credits"
 msgstr "Fabio Vergnani <monghitri@aruba.it>"
-
-#: ../src/main_window.c:1410 ../src/main_window.c:1450
-#: ../src/main_window.c:1487
-#, fuzzy
-msgid "Opening file(s)..."
-msgstr "_Apri con..."
 
 #: ../src/main_window.c:1412
 msgid "Open image"
