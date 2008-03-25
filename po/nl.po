@@ -134,7 +134,8 @@ msgstr "Schalen"
 
 #: ../src/main_window.c:1244
 msgid "Don't scale over 100% when maximizing the window."
-msgstr "Afbeelding niet voorbij 100% schalen wanneer het venster wordt "
+msgstr ""
+"Afbeelding niet voorbij 100% schalen wanneer het venster wordt "
 "gemaximaliseerd"
 
 #: ../src/main_window.c:1254
