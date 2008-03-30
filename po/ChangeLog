@@ -1,10 +1,12 @@
-2008-03-23  Stephan Arts <stephan@xfce.org>
+2008-03-30  Mike Massonnet <mmassonnet@xfce.org>
+	* ru.po, LINGUAS: Add Russian translation by Andrey Fedoseev
+	<andrey.fedoseev@gmail.com>
 
+2008-03-23  Stephan Arts <stephan@xfce.org>
 	* zh_CN.po: Add Chinese translation by WuLi <wyrisky@gmail.com>
 	* de.po: Update German translation by Christian Dywan
 
 2008-03-18	Mike Massonnet <mmassonnet@xfce.org>
-
 	* nb_NO.po: Update Norwegian translation by Terje <ter@operamail.com>
 
 2008-03-18	Mike Massonnet <mmassonnet@xfce.org>
