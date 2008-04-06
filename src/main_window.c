@@ -416,6 +416,14 @@ rstto_main_window_init(RsttoMainWindow *window)
     window->priv->menus.view.menu_item_set_wallpaper = gtk_image_menu_item_new_with_mnemonic(_("_Set as wallpaper"));
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(window->priv->menus.view.menu_item_set_wallpaper), wallpaper_image);
 
+    /** FIXME: HACK */
+#ifdef HAVE_XFCONF 
+#ifdef WITH_DESKTOP_WALLPAPER
+    /** Set xfce-desktop as default when support has been compiled in */
+    window->priv->settings.desktop = RSTTO_DESKTOP_XFCE;
+#endif
+#endif
+
 
     gtk_widget_add_accelerator(window->priv->menus.view.menu_item_fullscreen, "activate", accel_group, GDK_F11, 0,GTK_ACCEL_VISIBLE);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(window->priv->menus.view.menu_item_show_toolbar), TRUE);
