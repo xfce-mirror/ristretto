@@ -25,10 +25,19 @@
 #include <libexif/exif-data.h>
 #include <dbus/dbus-glib.h>
 
+#ifdef HAVE_XFCONF
+#include <xfconf/xfconf.h>
+#endif
+
 #include "navigator.h"
 #include "thumbnail_bar.h"
 #include "picture_viewer.h"
 #include "main_window.h"
+
+typedef enum {
+    RSTTO_DESKTOP_NONE,
+    RSTTO_DESKTOP_XFCE
+} RsttoDesktop;
 
 
 struct _RsttoMainWindowPriv
@@ -60,6 +69,7 @@ struct _RsttoMainWindowPriv
         gdouble         slideshow_timeout;
         const GdkColor *bg_color;
         gboolean        scale_to_100;
+        RsttoDesktop    desktop;
     } settings;
 
     struct {
@@ -125,6 +135,7 @@ struct _RsttoMainWindowPriv
 
             GtkWidget *menu_item_separator_2;
             GtkWidget *menu_item_fullscreen;
+            GtkWidget *menu_item_set_wallpaper;
         } view;
 
         GtkWidget *menu_item_go;
@@ -189,6 +200,10 @@ static void
 cb_rstto_main_window_toggle_toolbar(GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_toggle_fullscreen(GtkWidget *widget, RsttoMainWindow *window);
+#ifdef WITH_DESKTOP_WALLPAPER
+static void
+cb_rstto_main_window_set_wallpaper(GtkWidget *widget, RsttoMainWindow *window);
+#endif
 static gboolean
 cb_rstto_main_window_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
 static void
@@ -397,6 +412,11 @@ rstto_main_window_init(RsttoMainWindow *window)
 
     window->priv->menus.view.menu_item_fullscreen = gtk_image_menu_item_new_from_stock(GTK_STOCK_FULLSCREEN, NULL);
 
+    GtkWidget *wallpaper_image = gtk_image_new_from_icon_name("preferences-desktop-wallpaper", GTK_ICON_SIZE_MENU);
+    window->priv->menus.view.menu_item_set_wallpaper = gtk_image_menu_item_new_with_mnemonic(_("_Set as wallpaper"));
+    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(window->priv->menus.view.menu_item_set_wallpaper), wallpaper_image);
+
+
     gtk_widget_add_accelerator(window->priv->menus.view.menu_item_fullscreen, "activate", accel_group, GDK_F11, 0,GTK_ACCEL_VISIBLE);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(window->priv->menus.view.menu_item_show_toolbar), TRUE);
 
@@ -407,6 +427,7 @@ rstto_main_window_init(RsttoMainWindow *window)
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.view.menu), window->priv->menus.view.menu_item_rotate);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.view.menu), window->priv->menus.view.menu_item_separator_2);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.view.menu), window->priv->menus.view.menu_item_fullscreen);
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.view.menu), window->priv->menus.view.menu_item_set_wallpaper);
 
 /* Create 'View/Show thumbnail-bar' menu */
     window->priv->menus.view.show_thumbnail_viewer.menu = gtk_menu_new();
@@ -511,6 +532,8 @@ rstto_main_window_init(RsttoMainWindow *window)
     gtk_widget_set_sensitive(window->priv->menus.go.menu_item_next, FALSE);
     gtk_widget_set_sensitive(window->priv->menus.go.menu_item_previous, FALSE);
     gtk_widget_set_sensitive(window->priv->menus.go.menu_item_play, FALSE);
+
+    gtk_widget_set_sensitive(window->priv->menus.view.menu_item_set_wallpaper, FALSE);
 
 /* Create 'Help' menu */
     window->priv->menus.menu_item_help = gtk_menu_item_new_with_mnemonic(_("_Help"));
@@ -673,6 +696,13 @@ rstto_main_window_init(RsttoMainWindow *window)
     g_signal_connect(window->priv->menus.view.menu_item_fullscreen, 
             "activate",
             G_CALLBACK(cb_rstto_main_window_toggle_fullscreen), window);
+
+    /* Set Wallpaper */
+#ifdef WITH_DESKTOP_WALLPAPER
+    g_signal_connect(window->priv->menus.view.menu_item_set_wallpaper, 
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_set_wallpaper), window);
+#endif
 
     /* Play / Pause */
     g_signal_connect(window->priv->menus.go.menu_item_play, 
@@ -1048,6 +1078,36 @@ cb_rstto_main_window_toggle_toolbar(GtkWidget *widget, RsttoMainWindow *window)
         gtk_widget_hide(window->priv->toolbar.bar);
     }
 }
+
+#ifdef WITH_DESKTOP_WALLPAPER
+static void
+cb_rstto_main_window_set_wallpaper(GtkWidget *widget, RsttoMainWindow *window)
+{
+    RsttoNavigatorEntry *entry = rstto_navigator_get_file(window->priv->navigator);
+    ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
+    gchar *path = thunar_vfs_path_dup_string(info->path);
+
+
+    switch (window->priv->settings.desktop)
+    {
+#ifdef HAVE_XFCONF
+        case RSTTO_DESKTOP_XFCE:
+            {
+                XfconfChannel *xfdesktop_channel = xfconf_channel_new("xfdesktop");
+                if(xfconf_channel_set_string(xfdesktop_channel, "image_path_0_0", path) == FALSE)
+                {
+                    /** FAILED */
+                }
+            }
+            break;
+#endif
+        default:
+            g_debug("not supported");
+            break;
+    }
+    g_free(path);
+}
+#endif
 
 static gboolean
 cb_rstto_main_window_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
@@ -1597,6 +1657,10 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
         gtk_widget_set_sensitive(window->priv->menus.go.menu_item_next, TRUE);
         gtk_widget_set_sensitive(window->priv->menus.go.menu_item_play, TRUE);
         gtk_widget_set_sensitive(window->priv->menus.go.menu_item_pause, TRUE);
+
+#ifdef WITH_DESKTOP_WALLPAPER 
+        gtk_widget_set_sensitive(window->priv->menus.view.menu_item_set_wallpaper, TRUE);
+#endif
 
         gtk_widget_set_sensitive(GTK_WIDGET(window->priv->toolbar.tool_item_next), TRUE);
         gtk_widget_set_sensitive(GTK_WIDGET(window->priv->toolbar.tool_item_previous), TRUE);
