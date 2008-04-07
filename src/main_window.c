@@ -34,11 +34,6 @@
 #include "picture_viewer.h"
 #include "main_window.h"
 
-typedef enum {
-    RSTTO_DESKTOP_NONE,
-    RSTTO_DESKTOP_XFCE
-} RsttoDesktop;
-
 
 struct _RsttoMainWindowPriv
 {
@@ -1102,10 +1097,11 @@ cb_rstto_main_window_set_wallpaper(GtkWidget *widget, RsttoMainWindow *window)
         case RSTTO_DESKTOP_XFCE:
             {
                 XfconfChannel *xfdesktop_channel = xfconf_channel_new("xfdesktop");
-                if(xfconf_channel_set_string(xfdesktop_channel, "image_path_0_0", path) == FALSE)
+                if(xfconf_channel_set_string(xfdesktop_channel, "/image_path_0_0", path) == FALSE)
                 {
                     /** FAILED */
                 }
+                g_object_unref(xfdesktop_channel);
             }
             break;
 #endif
@@ -1260,6 +1256,8 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
 
     GtkWidget *resize_to_content_vbox, *resize_to_content_frame;
     GtkWidget *resize_on_maximize_check;
+    GtkWidget *set_wallpaper_vbox, *set_wallpaper_frame;
+    GtkWidget *set_wallpaper_label, *set_wallpaper_combo;
 
     GtkWidget *bg_color_vbox;
     GtkWidget *bg_color_hbox;
@@ -1316,6 +1314,37 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
 
     gtk_container_set_border_width (GTK_CONTAINER (resize_to_content_frame), 8);
     gtk_box_pack_start(GTK_BOX(behaviour_main_vbox), resize_to_content_frame, FALSE, TRUE, 0);
+
+    set_wallpaper_vbox = gtk_vbox_new(FALSE, 0);
+    set_wallpaper_frame = xfce_create_framebox_with_content(_("Set wallpaper"), set_wallpaper_vbox);
+
+    set_wallpaper_label = gtk_label_new_with_mnemonic(_("Please choose which application you use to manage your desktop"));
+    set_wallpaper_combo = gtk_combo_box_new_text();
+    gtk_box_pack_start(GTK_BOX(set_wallpaper_vbox), set_wallpaper_label, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(set_wallpaper_vbox), set_wallpaper_combo, FALSE, TRUE, 0);
+
+    gtk_combo_box_append_text(GTK_COMBO_BOX(set_wallpaper_combo), _("None"));
+#ifdef WITH_DESKTOP_WALLPAPER
+#ifdef HAVE_XFCONF
+    gtk_combo_box_append_text(GTK_COMBO_BOX(set_wallpaper_combo), _("Xfce"));
+#endif
+#endif
+    switch (window->priv->settings.desktop)
+    {
+#ifdef WITH_DESKTOP_WALLPAPER
+#ifdef HAVE_XFCONF
+        case RSTTO_DESKTOP_XFCE:
+            gtk_combo_box_set_active(GTK_COMBO_BOX(set_wallpaper_combo), RSTTO_DESKTOP_XFCE);
+        break;
+#endif
+#endif
+        default:
+            gtk_combo_box_set_active(GTK_COMBO_BOX(set_wallpaper_combo), RSTTO_DESKTOP_NONE);
+        break;
+    }
+
+    gtk_container_set_border_width (GTK_CONTAINER (set_wallpaper_frame), 8);
+    gtk_box_pack_start(GTK_BOX(behaviour_main_vbox), set_wallpaper_frame, FALSE, TRUE, 0);
 
 /** Add content for display page */
     bg_color_vbox = gtk_vbox_new(FALSE, 0);
@@ -1422,6 +1451,29 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
             rstto_main_window_set_max_cache_size(window, GTK_ADJUSTMENT(cache_adjustment)->value);
 
             window->priv->settings.scale_to_100 = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(resize_on_maximize_check));
+            switch (gtk_combo_box_get_active(GTK_COMBO_BOX(set_wallpaper_combo)))
+            {
+                case RSTTO_DESKTOP_XFCE:
+#ifdef WITH_DESKTOP_WALLPAPER
+#ifdef HAVE_XFCONF
+                    window->priv->settings.desktop = RSTTO_DESKTOP_XFCE;
+#endif
+#else
+                    window->priv->settings.desktop = RSTTO_DESKTOP_NONE;
+#endif
+                    break;
+                default:
+                    window->priv->settings.desktop = RSTTO_DESKTOP_NONE;
+                    break;
+            }
+            if ((window->priv->settings.desktop > 0) && (rstto_navigator_get_position(window->priv->navigator) >= 0))
+            {
+                gtk_widget_set_sensitive(window->priv->menus.view.menu_item_set_wallpaper, TRUE);
+            }
+            else
+            {
+                gtk_widget_set_sensitive(window->priv->menus.view.menu_item_set_wallpaper, FALSE);
+            }
         default:
             break;
     }
@@ -1667,7 +1719,14 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
         gtk_widget_set_sensitive(window->priv->menus.go.menu_item_pause, TRUE);
 
 #ifdef WITH_DESKTOP_WALLPAPER 
-        gtk_widget_set_sensitive(window->priv->menus.view.menu_item_set_wallpaper, TRUE);
+        if (window->priv->settings.desktop > 0)
+        {
+            gtk_widget_set_sensitive(window->priv->menus.view.menu_item_set_wallpaper, TRUE);
+        }
+        else
+        {
+            gtk_widget_set_sensitive(window->priv->menus.view.menu_item_set_wallpaper, FALSE);
+        }
 #endif
 
         gtk_widget_set_sensitive(GTK_WIDGET(window->priv->toolbar.tool_item_next), TRUE);
@@ -1768,6 +1827,7 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
     else
     {
         gtk_widget_set_sensitive(window->priv->menus.file.menu_item_close, FALSE);
+        gtk_widget_set_sensitive(window->priv->menus.view.menu_item_set_wallpaper, FALSE);
         gtk_window_set_title(GTK_WINDOW(window), PACKAGE_STRING);
         if (rstto_navigator_get_n_files(window->priv->navigator) == 0)
         {
@@ -2004,4 +2064,28 @@ GtkStatusbar *
 rstto_main_window_get_statusbar(RsttoMainWindow *window)
 {
     return GTK_STATUSBAR(window->priv->statusbar);
+}
+
+gint
+rstto_main_window_get_desktop(RsttoMainWindow *window)
+{
+    return window->priv->settings.desktop;
+}
+
+gint
+rstto_main_window_set_desktop(RsttoMainWindow *window, RsttoDesktop desktop)
+{
+    switch(desktop)
+    {
+#ifdef WITH_DESKTOP_WALLPAPER
+#ifdef HAVE_XFCONF
+        case RSTTO_DESKTOP_XFCE:
+        window->priv->settings.desktop = desktop;
+        break;
+#endif
+#endif
+        default:
+            window->priv->settings.desktop = RSTTO_DESKTOP_NONE;
+            break;
+    }
 }

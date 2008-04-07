@@ -58,6 +58,12 @@ struct _RsttoMainWindowClass
     GtkWindowClass  parent_class;
 };
 
+typedef enum {
+    RSTTO_DESKTOP_NONE,
+    RSTTO_DESKTOP_XFCE
+} RsttoDesktop;
+
+
 GType      rstto_main_window_get_type();
 
 GtkWidget *rstto_main_window_new();
@@ -100,6 +106,10 @@ rstto_main_window_get_scale_to_100 (RsttoMainWindow *window);
 
 GtkStatusbar *
 rstto_main_window_get_statusbar(RsttoMainWindow *window);
+gint
+rstto_main_window_get_desktop(RsttoMainWindow *window);
+gint
+rstto_main_window_set_desktop(RsttoMainWindow *window, RsttoDesktop desktop);
 
 G_END_DECLS
 
