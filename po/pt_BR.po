@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-03-23 12:24+0100\n"
-"PO-Revision-Date: 2007-01-21 12:35-0300\n"
+"PO-Revision-Date: 2008-03-25 19:48-0300\n"
 "Last-Translator: Fábio Nogueira <deb-user-ba@ubuntu.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
 "MIME-Version: 1.0\n"
@@ -34,9 +34,8 @@ msgstr ""
 
 #: ../src/main.c:420 ../src/main_window.c:1410 ../src/main_window.c:1450
 #: ../src/main_window.c:1487
-#, fuzzy
 msgid "Opening file(s)..."
-msgstr "Abrir com..."
+msgstr "Abrindo arquivo(s)..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:319
@@ -132,13 +131,12 @@ msgid "Display"
 msgstr "Exibir"
 
 #: ../src/main_window.c:1242
-#, fuzzy
 msgid "Scaling"
-msgstr "Espaçamento"
+msgstr "Escalar"
 
 #: ../src/main_window.c:1244
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
+msgstr "Não escalar mais que 100% quando maximizar a janela."
 
 #: ../src/main_window.c:1254
 msgid "Background Color"
@@ -236,11 +234,11 @@ msgstr "A quantidade de espaço entre as miniaturas"
 
 #: ../src/thumbnail_bar.c:190
 msgid "Border Width"
-msgstr ""
+msgstr "Largura da Borda"
 
 #: ../src/thumbnail_bar.c:191
 msgid "The border width of the thumbnail-bar"
-msgstr ""
+msgstr "A largura da borda da barra de miniatura"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
