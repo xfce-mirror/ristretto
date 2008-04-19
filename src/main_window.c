@@ -19,6 +19,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <gdk/gdkx.h>
 #include <string.h>
 #include <thunar-vfs/thunar-vfs.h>
 #include <libxfcegui4/libxfcegui4.h>
@@ -1096,11 +1097,29 @@ cb_rstto_main_window_set_wallpaper(GtkWidget *widget, RsttoMainWindow *window)
 #ifdef HAVE_XFCONF
         case RSTTO_DESKTOP_XFCE:
             {
+
                 XfconfChannel *xfdesktop_channel = xfconf_channel_new("xfdesktop");
-                if(xfconf_channel_set_string(xfdesktop_channel, "/image_path_0_0", path) == FALSE)
+
+                /*
+                 * Retrieve the screen and monitor number where the main ristretto window is running,
+                 * set the wallpaper there.
+                 */
+                GdkScreen *gdk_screen = gdk_screen_get_default();
+                gint screen = gdk_screen_get_number(gdk_screen);
+                gint monitor = gdk_screen_get_monitor_at_window(gdk_screen, GTK_WIDGET(window)->window);
+
+                gchar *image_path_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-path", screen, monitor);
+                gchar *image_show_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-show", screen, monitor);
+                if(xfconf_channel_set_string(xfdesktop_channel, image_path_prop, path) == TRUE)
+                {
+                    xfconf_channel_set_bool(xfdesktop_channel, image_show_prop, TRUE);
+                }
+                else
                 {
                     /** FAILED */
                 }
+                g_free(image_path_prop);
+                g_free(image_show_prop);
                 g_object_unref(xfdesktop_channel);
             }
             break;
