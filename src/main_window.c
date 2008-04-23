@@ -1098,7 +1098,7 @@ cb_rstto_main_window_set_wallpaper(GtkWidget *widget, RsttoMainWindow *window)
         case RSTTO_DESKTOP_XFCE:
             {
 
-                XfconfChannel *xfdesktop_channel = xfconf_channel_new("xfdesktop");
+                XfconfChannel *xfdesktop_channel = xfconf_channel_new("xfce4-desktop");
 
                 /*
                  * Retrieve the screen and monitor number where the main ristretto window is running,
