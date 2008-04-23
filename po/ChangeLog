@@ -1,3 +1,7 @@
+2008-04-23  Stavros Giannouris <stavrosg@hellug.gr>
+
+	* LINGUAS: Add el in the available languages
+
 2008-04-12  Stavros Giannouris <stavrosg@hellug.gr>
 
 	* el.po: Added Greek translation by Evaggelos Balaskas
