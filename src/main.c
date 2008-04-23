@@ -475,7 +475,11 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
                 }
                 else
                 {
-                    rstto_navigator_open_file (navigator, path_dir, TRUE, NULL);
+                    if (g_slist_length(rof->files) == 1)
+                        rstto_navigator_open_file (navigator, path_dir, TRUE, NULL);
+                    else
+                        rstto_navigator_open_file (navigator, path_dir, FALSE, NULL);
+
                     gtk_statusbar_remove(bar, context_id, message_id);
                 }
             }
