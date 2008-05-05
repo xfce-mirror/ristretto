@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Nuno Miguel <nunis@netcabo.pt>, 2007
 #
-#: ../src/main.c:218
+#: ../src/main.c:222
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-03-23 12:24+0100\n"
+"POT-Creation-Date: 2008-05-04 22:51+0200\n"
 "PO-Revision-Date: 2008-02-09 18:25+0100\n"
 "Last-Translator: Nuno Miguel <nunis@netcabo.pt>\n"
 "Language-Team: \n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:55
+#: ../src/main.c:59
 msgid "Version information"
 msgstr "Informação de versão"
 
-#: ../src/main.c:222
+#: ../src/main.c:226
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -30,143 +30,147 @@ msgstr ""
 "Tente %s --help para ver uma lista completa de opções da linha de comando "
 "disponíveis.\n"
 
-#: ../src/main.c:420 ../src/main_window.c:1410 ../src/main_window.c:1450
-#: ../src/main_window.c:1487
+#: ../src/main.c:449 ../src/main_window.c:1514 ../src/main_window.c:1554
+#: ../src/main_window.c:1591
 #, fuzzy
 msgid "Opening file(s)..."
 msgstr "Abrir com..."
 
 #. Create 'File' menu
-#: ../src/main_window.c:319
+#: ../src/main_window.c:331
 msgid "_File"
 msgstr "_Ficheiro"
 
-#: ../src/main_window.c:326
+#: ../src/main_window.c:338
 msgid "O_pen Folder"
 msgstr "A_brir Pasta"
 
-#: ../src/main_window.c:327
+#: ../src/main_window.c:339
 msgid "_Recently used"
 msgstr "_Recentemente usado"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:359
+#: ../src/main_window.c:371
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/main_window.c:364 ../src/main_window.c:601
+#: ../src/main_window.c:376 ../src/main_window.c:636
 msgid "Open with..."
 msgstr "Abrir com..."
 
-#: ../src/main_window.c:372 ../src/main_window.c:612
+#: ../src/main_window.c:384 ../src/main_window.c:647
 msgid "No applications available"
 msgstr "Sem aplicações disponíveis"
 
 #. Create 'View' menu
-#: ../src/main_window.c:381
+#: ../src/main_window.c:393
 msgid "_View"
 msgstr "_Ver"
 
-#: ../src/main_window.c:388
+#: ../src/main_window.c:400
 msgid "Show _Toolbar"
 msgstr "Mostrar _Barra de Ferramentas"
 
-#: ../src/main_window.c:389
+#: ../src/main_window.c:401
 msgid "Thumbnail _Viewer"
 msgstr "_Visualizador de Miniaturas"
 
-#: ../src/main_window.c:393
+#: ../src/main_window.c:405
 msgid "_Zooming"
 msgstr "_Zoom"
 
-#: ../src/main_window.c:394
+#: ../src/main_window.c:406
 msgid "_Rotate"
 msgstr "_Girar"
 
-#: ../src/main_window.c:420
+#: ../src/main_window.c:413
+msgid "_Set as wallpaper"
+msgstr ""
+
+#: ../src/main_window.c:453
 msgid "Show _Horizontally"
 msgstr "Mostrar _Horizontalmente"
 
-#: ../src/main_window.c:424
+#: ../src/main_window.c:457
 msgid "Show _Vertically"
 msgstr "Mostrar _Verticalmente"
 
-#: ../src/main_window.c:428
+#: ../src/main_window.c:461
 msgid "H_ide"
 msgstr "Ocu_ltar"
 
-#: ../src/main_window.c:465
+#: ../src/main_window.c:498
 msgid "Rotate _Right"
 msgstr "Girar para _Direita"
 
-#: ../src/main_window.c:466
+#: ../src/main_window.c:499
 msgid "Rotate _Left"
 msgstr "Girar para _Esquerda"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:487
+#: ../src/main_window.c:520
 msgid "_Go"
 msgstr "_Ir"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:516
+#: ../src/main_window.c:551
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: ../src/main_window.c:1211
+#: ../src/main_window.c:1306
 msgid "Image viewer Preferences"
 msgstr "Preferências do Visualizador de Imagens"
 
-#: ../src/main_window.c:1229
+#: ../src/main_window.c:1324
 msgid "Behaviour"
 msgstr ""
 
-#: ../src/main_window.c:1233
+#: ../src/main_window.c:1328
 msgid "Slideshow"
 msgstr "Apresentação de Slides"
 
-#: ../src/main_window.c:1237
+#: ../src/main_window.c:1332
 msgid "Display"
 msgstr "Exibição"
 
-#: ../src/main_window.c:1242
+#: ../src/main_window.c:1337
 #, fuzzy
 msgid "Scaling"
 msgstr "Espaçamento"
 
-#: ../src/main_window.c:1244
+#: ../src/main_window.c:1339
 msgid "Don't scale over 100% when maximizing the window."
 msgstr ""
 
-#: ../src/main_window.c:1254
+#: ../src/main_window.c:1349
 msgid "Background Color"
 msgstr "Cor de Fundo"
 
-#: ../src/main_window.c:1256
+#: ../src/main_window.c:1351
 msgid "_Override Background Color:"
 msgstr "_Substituir Cor de Fundo:"
 
-#: ../src/main_window.c:1279
+#: ../src/main_window.c:1374
 msgid "Image Cache"
 msgstr "Cache de Imagem"
 
-#: ../src/main_window.c:1282
+#: ../src/main_window.c:1377
 msgid "Cache size:"
 msgstr "Tamanho de cache:"
 
-#: ../src/main_window.c:1283
+#: ../src/main_window.c:1378
 msgid "MB"
 msgstr "MB"
 
-#: ../src/main_window.c:1299
+#: ../src/main_window.c:1394
 msgid "Timeout"
 msgstr "Tempo de Espera"
 
-#: ../src/main_window.c:1302
+#: ../src/main_window.c:1397
 msgid "Preload"
 msgstr "Pré-carregamento"
 
-#: ../src/main_window.c:1307
+#: ../src/main_window.c:1402
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -175,7 +179,7 @@ msgstr ""
 "slides\n"
 "(em segundos)"
 
-#: ../src/main_window.c:1311
+#: ../src/main_window.c:1406
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -183,15 +187,15 @@ msgstr ""
 "Pré-Carregar imagens durante uma apresentação de slides\n"
 "(usa mais memória)"
 
-#: ../src/main_window.c:1312
+#: ../src/main_window.c:1407
 msgid "_Preload images"
 msgstr "Carregar imagens _previamente"
 
-#: ../src/main_window.c:1368
+#: ../src/main_window.c:1472
 msgid "Developer:"
 msgstr "Programador"
 
-#: ../src/main_window.c:1378
+#: ../src/main_window.c:1482
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -199,23 +203,23 @@ msgstr ""
 "Ristretto é um rápido e leve visualizador de imagens para o ambiente de "
 "desktop Xfce."
 
-#: ../src/main_window.c:1386
+#: ../src/main_window.c:1490
 msgid "translator-credits"
 msgstr "Nuno Miguel <nunis@netcabo.pt>"
 
-#: ../src/main_window.c:1412
+#: ../src/main_window.c:1516
 msgid "Open image"
 msgstr "Abrir imagem"
 
-#: ../src/main_window.c:1430
+#: ../src/main_window.c:1534
 msgid "Could not open file"
 msgstr "Incapaz de abrir ficheiro"
 
-#: ../src/main_window.c:1452
+#: ../src/main_window.c:1556
 msgid "Open folder"
 msgstr "Abrir pasta"
 
-#: ../src/main_window.c:1526
+#: ../src/main_window.c:1631
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""

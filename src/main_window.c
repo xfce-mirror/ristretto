@@ -20,6 +20,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
+#include <X11/Xlib.h>
 #include <string.h>
 #include <thunar-vfs/thunar-vfs.h>
 #include <libxfcegui4/libxfcegui4.h>
@@ -416,7 +417,14 @@ rstto_main_window_init(RsttoMainWindow *window)
 #ifdef HAVE_XFCONF 
 #ifdef WITH_DESKTOP_WALLPAPER
     /** Set xfce-desktop as default when support has been compiled in */
-    window->priv->settings.desktop = RSTTO_DESKTOP_XFCE;
+    /* Check if xfdesktop is running */
+    {
+        Window root_window = GDK_ROOT_WINDOW();
+        GdkAtom xfce_desktop_atom = gdk_atom_intern("XFCE_DESKTOP_WINDOW", FALSE);
+                           
+
+        window->priv->settings.desktop = RSTTO_DESKTOP_XFCE;
+    }
 #endif
 #endif
 
@@ -1013,7 +1021,7 @@ void
 rstto_main_window_set_max_cache_size (RsttoMainWindow *window, gint max_cache_size)
 {
     window->priv->settings.max_cache_size = max_cache_size;
-    rstto_navigator_set_max_history_size(window->priv->navigator, max_cache_size * 1000000);
+    rstto_navigator_set_max_history_size(window->priv->navigator, (guint64)max_cache_size * 1000000);
 }
 
 void
@@ -1110,9 +1118,11 @@ cb_rstto_main_window_set_wallpaper(GtkWidget *widget, RsttoMainWindow *window)
 
                 gchar *image_path_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-path", screen, monitor);
                 gchar *image_show_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-show", screen, monitor);
+                gchar *image_style_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-style", screen, monitor);
                 if(xfconf_channel_set_string(xfdesktop_channel, image_path_prop, path) == TRUE)
                 {
                     xfconf_channel_set_bool(xfdesktop_channel, image_show_prop, TRUE);
+                    xfconf_channel_set_int(xfdesktop_channel, image_style_prop, 1);
                 }
                 else
                 {
@@ -1334,37 +1344,6 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     gtk_container_set_border_width (GTK_CONTAINER (resize_to_content_frame), 8);
     gtk_box_pack_start(GTK_BOX(behaviour_main_vbox), resize_to_content_frame, FALSE, TRUE, 0);
 
-    set_wallpaper_vbox = gtk_vbox_new(FALSE, 0);
-    set_wallpaper_frame = xfce_create_framebox_with_content(_("Set wallpaper"), set_wallpaper_vbox);
-
-    set_wallpaper_label = gtk_label_new_with_mnemonic(_("Please choose which application you use to manage your desktop"));
-    set_wallpaper_combo = gtk_combo_box_new_text();
-    gtk_box_pack_start(GTK_BOX(set_wallpaper_vbox), set_wallpaper_label, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(set_wallpaper_vbox), set_wallpaper_combo, FALSE, TRUE, 0);
-
-    gtk_combo_box_append_text(GTK_COMBO_BOX(set_wallpaper_combo), _("None"));
-#ifdef WITH_DESKTOP_WALLPAPER
-#ifdef HAVE_XFCONF
-    gtk_combo_box_append_text(GTK_COMBO_BOX(set_wallpaper_combo), _("Xfce"));
-#endif
-#endif
-    switch (window->priv->settings.desktop)
-    {
-#ifdef WITH_DESKTOP_WALLPAPER
-#ifdef HAVE_XFCONF
-        case RSTTO_DESKTOP_XFCE:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(set_wallpaper_combo), RSTTO_DESKTOP_XFCE);
-        break;
-#endif
-#endif
-        default:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(set_wallpaper_combo), RSTTO_DESKTOP_NONE);
-        break;
-    }
-
-    gtk_container_set_border_width (GTK_CONTAINER (set_wallpaper_frame), 8);
-    gtk_box_pack_start(GTK_BOX(behaviour_main_vbox), set_wallpaper_frame, FALSE, TRUE, 0);
-
 /** Add content for display page */
     bg_color_vbox = gtk_vbox_new(FALSE, 0);
     bg_color_frame = xfce_create_framebox_with_content (_("Background Color"), bg_color_vbox);
@@ -1467,24 +1446,10 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
                 rstto_main_window_set_pv_bg_color(window, NULL);
             }
             rstto_picture_viewer_redraw(RSTTO_PICTURE_VIEWER(window->priv->picture_viewer));
-            rstto_main_window_set_max_cache_size(window, GTK_ADJUSTMENT(cache_adjustment)->value);
+            rstto_main_window_set_max_cache_size(window, (guint)GTK_ADJUSTMENT(cache_adjustment)->value);
 
             window->priv->settings.scale_to_100 = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(resize_on_maximize_check));
-            switch (gtk_combo_box_get_active(GTK_COMBO_BOX(set_wallpaper_combo)))
-            {
-                case RSTTO_DESKTOP_XFCE:
-#ifdef WITH_DESKTOP_WALLPAPER
-#ifdef HAVE_XFCONF
-                    window->priv->settings.desktop = RSTTO_DESKTOP_XFCE;
-#endif
-#else
-                    window->priv->settings.desktop = RSTTO_DESKTOP_NONE;
-#endif
-                    break;
-                default:
-                    window->priv->settings.desktop = RSTTO_DESKTOP_NONE;
-                    break;
-            }
+
             if ((window->priv->settings.desktop > 0) && (rstto_navigator_get_position(window->priv->navigator) >= 0))
             {
                 gtk_widget_set_sensitive(window->priv->menus.view.menu_item_set_wallpaper, TRUE);
@@ -1646,6 +1611,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
             }
         }
         thunar_vfs_path_unref(vfs_path);
+        g_free(path);
     }
 
     if (statusbar)
@@ -2099,8 +2065,8 @@ rstto_main_window_set_desktop(RsttoMainWindow *window, RsttoDesktop desktop)
 #ifdef WITH_DESKTOP_WALLPAPER
 #ifdef HAVE_XFCONF
         case RSTTO_DESKTOP_XFCE:
-        window->priv->settings.desktop = desktop;
-        break;
+            window->priv->settings.desktop = desktop;
+            break;
 #endif
 #endif
         default:

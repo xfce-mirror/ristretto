@@ -286,8 +286,15 @@ int main(int argc, char **argv)
     rstto_main_window_set_max_cache_size(RSTTO_MAIN_WINDOW(window), max_cache);
     rstto_main_window_set_slideshow_timeout(RSTTO_MAIN_WINDOW(window), (gdouble)slideshow_timeout);
     rstto_main_window_set_scale_to_100(RSTTO_MAIN_WINDOW(window), scale_to_100);
-    rstto_main_window_set_desktop(RSTTO_MAIN_WINDOW(window), set_wallpaper);
-
+    switch (set_wallpaper)
+    {
+        case RSTTO_DESKTOP_XFCE:
+            rstto_main_window_set_desktop(RSTTO_MAIN_WINDOW(window), set_wallpaper);
+            break;
+        default:
+            rstto_main_window_set_desktop(RSTTO_MAIN_WINDOW(window), RSTTO_DESKTOP_NONE);
+            break;
+    }
     GtkRecentManager *recent_manager = rstto_main_window_get_recent_manager(RSTTO_MAIN_WINDOW(window));
     rstto_navigator_set_timeout(navigator, slideshow_timeout);
 

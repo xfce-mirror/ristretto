@@ -57,7 +57,7 @@ struct _RsttoNavigator
     GList                 *file_list;
     GList                 *file_iter;
     GList                 *history;
-    gdouble                max_history;
+    guint64                max_history;
 
     gboolean               preload;
 
@@ -153,10 +153,10 @@ rstto_navigator_entry_select (RsttoNavigatorEntry *entry);
 
 guint64
 rstto_navigator_entry_get_size (RsttoNavigatorEntry *entry);
-gdouble
+guint64
 rstto_navigator_get_max_history_size(RsttoNavigator *navigator);
 void
-rstto_navigator_set_max_history_size(RsttoNavigator *nav, gdouble size);
+rstto_navigator_set_max_history_size(RsttoNavigator *nav, guint64 size);
 void
 rstto_navigator_set_monitor_handle_for_dir(RsttoNavigator *nav, ThunarVfsPath *dir_path);
 

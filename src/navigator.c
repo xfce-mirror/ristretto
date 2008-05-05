@@ -104,6 +104,8 @@ struct _RsttoNavigatorEntry
     GdkPixbufRotation    rotation;
     gboolean             h_flipped;
     gboolean             v_flipped;
+    gint                 x_offset;
+    gint                 y_offset;
 };
 
 
@@ -293,8 +295,11 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
     }
 
     /* add image to the cache-history */
-    navigator->history = g_list_prepend(navigator->history, entry);
-    
+    if (g_list_index(navigator->history, entry) == -1)
+    {
+        navigator->history = g_list_prepend(navigator->history, entry);
+    }
+
     GList *iter = NULL;
     guint64 size = 0;
 
@@ -306,7 +311,7 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
         {
             size += rstto_navigator_entry_get_size(nav_entry);
 
-            if (size > navigator->max_history)
+            if ((size > navigator->max_history) && (iter != navigator->file_iter))
             {
                 if(nav_entry->thumb)
                 {
@@ -980,16 +985,31 @@ rstto_navigator_entry_get_pixbuf (RsttoNavigatorEntry *entry)
 guint64
 rstto_navigator_entry_get_size (RsttoNavigatorEntry *entry)
 {
+    guint64 size = 0;
+    
+    gint width, height, n_channels;
+
     if (entry->src_pixbuf)
     {
-        gint width = gdk_pixbuf_get_width(entry->src_pixbuf);
-        gint height = gdk_pixbuf_get_height(entry->src_pixbuf);
+        width = gdk_pixbuf_get_width(entry->src_pixbuf);
+        height = gdk_pixbuf_get_height(entry->src_pixbuf);
 
-        gint n_channels = gdk_pixbuf_get_n_channels(entry->src_pixbuf);
+        n_channels = gdk_pixbuf_get_n_channels(entry->src_pixbuf);
 
-        return (guint64) width * height * n_channels;
+        size += (guint64) width * height * n_channels;
     }
-    return 0;
+    if (entry->thumb)
+    {
+        width = gdk_pixbuf_get_width(entry->thumb);
+        height = gdk_pixbuf_get_height(entry->thumb);
+
+        n_channels = gdk_pixbuf_get_n_channels(entry->thumb);
+        size += (guint64) width * height * n_channels;
+    }
+    
+    size += sizeof (RsttoNavigatorEntry);
+
+    return size;
 }
 
 gboolean
@@ -1015,6 +1035,7 @@ rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry, gboolean empty_cac
 
         g_io_channel_set_encoding(entry->io_channel, NULL, NULL);
         entry->io_source_id = g_io_add_watch(entry->io_channel, G_IO_IN | G_IO_PRI, (GIOFunc)cb_rstto_navigator_entry_read_file, entry);
+        g_free(path);
     }
     else
     {
@@ -1324,7 +1345,7 @@ rstto_navigator_entry_select (RsttoNavigatorEntry *entry)
 
 }
 
-gdouble
+guint64
 rstto_navigator_get_max_history_size (RsttoNavigator *navigator)
 {
     return navigator->max_history;
@@ -1345,7 +1366,7 @@ rstto_navigator_entry_get_position(RsttoNavigatorEntry *entry)
 }
 
 void
-rstto_navigator_set_max_history_size(RsttoNavigator *nav, gdouble size)
+rstto_navigator_set_max_history_size(RsttoNavigator *nav, guint64 size)
 {
     nav->max_history = size;
 }
@@ -1559,6 +1580,7 @@ rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboole
     }
 
     g_free(dir_uri);
+    g_free(dir_path);
     g_object_remove_weak_pointer(G_OBJECT(navigator), (gpointer *)&navigator);
     rstto_navigator_set_busy(navigator, FALSE);
     return TRUE;
