@@ -31,6 +31,9 @@ rstto_navigator_class_init(RsttoNavigatorClass *);
 static void
 rstto_navigator_dispose(GObject *object);
 
+static void
+rstto_navigator_entry_clear (RsttoNavigatorEntry *nav_entry);
+
 static gboolean
 cb_rstto_navigator_running(RsttoNavigator *navigator);
 
@@ -311,44 +314,23 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
         {
             size += rstto_navigator_entry_get_size(nav_entry);
 
-            if ((size > navigator->max_history) && (iter != navigator->file_iter))
+            if (size > navigator->max_history)
             {
-                if(nav_entry->thumb)
+                if (iter != navigator->file_iter)
                 {
-                    gdk_pixbuf_unref(nav_entry->thumb);
-                    nav_entry->thumb = NULL;
+                    rstto_navigator_entry_clear (nav_entry);
+                    iter = g_list_previous(iter);
                 }
-
-                if(nav_entry->io_channel)
+                else
                 {
-                    g_source_remove(nav_entry->io_source_id);
-                    g_io_channel_unref(nav_entry->io_channel);
-                    nav_entry->io_channel = NULL;
-                    nav_entry->io_source_id = 0;
+                    iter = g_list_previous(iter);
+                    nav_entry = iter->data;
+                    if (nav_entry)
+                    {
+                        rstto_navigator_entry_clear (nav_entry);
+                    }
+                    iter = g_list_next(iter);
                 }
-
-                if (entry->timeout_id)
-                {
-                    g_source_remove(entry->timeout_id);
-                    entry->timeout_id = 0;
-                }
-
-                if(nav_entry->loader)
-                {
-                    g_signal_handlers_disconnect_by_func(nav_entry->loader , cb_rstto_navigator_entry_area_prepared, nav_entry);
-                    gdk_pixbuf_loader_close(nav_entry->loader, NULL);
-                }
-                if(nav_entry->animation)
-                {
-                    g_object_unref(nav_entry->animation);
-                    nav_entry->animation = NULL;
-                }
-                if(nav_entry->src_pixbuf)
-                {
-                    gdk_pixbuf_unref(nav_entry->src_pixbuf);
-                    nav_entry->src_pixbuf = NULL;
-                }
-                iter = g_list_previous(iter);
                 navigator->history = g_list_remove(navigator->history, nav_entry);
             }
         }
@@ -795,24 +777,21 @@ rstto_navigator_entry_get_flip (RsttoNavigatorEntry *entry, gboolean horizontal)
         return entry->v_flipped;
 }
 
-void
-rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
+static void
+rstto_navigator_entry_clear (RsttoNavigatorEntry *nav_entry)
 {
     if(nav_entry->thumb)
     {
         gdk_pixbuf_unref(nav_entry->thumb);
         nav_entry->thumb = NULL;
     }
-    if(nav_entry->exif_data)
-    {   
-        exif_data_free(nav_entry->exif_data);
-        nav_entry->exif_data = NULL;
-    }
-    
+
     if(nav_entry->io_channel)
     {
-        g_io_channel_unref(nav_entry->io_channel);
         g_source_remove(nav_entry->io_source_id);
+        g_io_channel_unref(nav_entry->io_channel);
+        nav_entry->io_channel = NULL;
+        nav_entry->io_source_id = 0;
     }
 
     if (nav_entry->timeout_id)
@@ -829,11 +808,20 @@ rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
     if(nav_entry->animation)
     {
         g_object_unref(nav_entry->animation);
+        nav_entry->animation = NULL;
     }
     if(nav_entry->src_pixbuf)
     {
         gdk_pixbuf_unref(nav_entry->src_pixbuf);
+        nav_entry->src_pixbuf = NULL;
     }
+
+}
+
+void
+rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
+{
+    rstto_navigator_entry_clear (nav_entry);
     thunar_vfs_info_unref(nav_entry->info);
     g_free(nav_entry);
 }
@@ -845,6 +833,7 @@ rstto_navigator_entry_get_thumb(RsttoNavigatorEntry *entry, gint size)
     {
         if(!(gdk_pixbuf_get_width(entry->thumb) == size || gdk_pixbuf_get_height(entry->thumb) == size))
         {
+            /* TODO: rebuild thumbnail */
         }
     }
     else
@@ -1007,7 +996,7 @@ rstto_navigator_entry_get_size (RsttoNavigatorEntry *entry)
         size += (guint64) width * height * n_channels;
     }
     
-    size += sizeof (RsttoNavigatorEntry);
+    size += (guint64)sizeof (RsttoNavigatorEntry);
 
     return size;
 }
