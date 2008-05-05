@@ -169,9 +169,6 @@ static void
 rstto_thumbnail_paint(RsttoThumbnail *thumb)
 {
     GtkWidget *widget = GTK_WIDGET(thumb);
-    gint border_width = 0;
-
-    GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(widget->window));
 
     GtkStateType state = GTK_WIDGET_STATE(widget);
 

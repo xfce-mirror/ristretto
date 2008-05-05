@@ -1473,6 +1473,7 @@ rstto_navigator_open_file(RsttoNavigator *navigator, const gchar *path, gboolean
     g_free(file_uri);
 
     g_free(file_media);
+    return 0;
 }
 
 gboolean
@@ -1513,7 +1514,7 @@ rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboole
 
     dir_path = thunar_vfs_path_dup_string(vfs_path);
 
-    g_object_add_weak_pointer(G_OBJECT(navigator), (gpointer *)&navigator);
+    g_object_add_weak_pointer(G_OBJECT(navigator), (gpointer)navigator);
 
     dir = g_dir_open(dir_path, 0, NULL);
 
@@ -1570,7 +1571,7 @@ rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboole
 
     g_free(dir_uri);
     g_free(dir_path);
-    g_object_remove_weak_pointer(G_OBJECT(navigator), (gpointer *)&navigator);
+    g_object_remove_weak_pointer(G_OBJECT(navigator), (gpointer)navigator);
     rstto_navigator_set_busy(navigator, FALSE);
     return TRUE;
 }

@@ -210,7 +210,6 @@ int main(int argc, char **argv)
 {
     GdkColor *bg_color = NULL;
     GError *cli_error = NULL;
-    gchar *path_dir = NULL;
     gint n;
 
     #ifdef ENABLE_NLS
@@ -259,13 +258,6 @@ int main(int argc, char **argv)
     gboolean override_bg_color = xfce_rc_read_bool_entry (xfce_rc, "OverrideBgColor", FALSE);
     gboolean scale_to_100 = xfce_rc_read_bool_entry (xfce_rc, "ScaleTo100", FALSE);
 
-    /**
-     * 0 = No desktop
-     * 1 = Xfce >= 4.5
-     *
-     */
-    gint set_wallpaper = xfce_rc_read_int_entry(xfce_rc, "SetWallpaperDesktop", 0);
-
     if (override_bg_color)
     {
         const gchar *color = xfce_rc_read_entry(xfce_rc, "BgColor", "#000000000000");
@@ -286,16 +278,6 @@ int main(int argc, char **argv)
     rstto_main_window_set_max_cache_size(RSTTO_MAIN_WINDOW(window), max_cache);
     rstto_main_window_set_slideshow_timeout(RSTTO_MAIN_WINDOW(window), (gdouble)slideshow_timeout);
     rstto_main_window_set_scale_to_100(RSTTO_MAIN_WINDOW(window), scale_to_100);
-    switch (set_wallpaper)
-    {
-        case RSTTO_DESKTOP_XFCE:
-            rstto_main_window_set_desktop(RSTTO_MAIN_WINDOW(window), set_wallpaper);
-            break;
-        default:
-            rstto_main_window_set_desktop(RSTTO_MAIN_WINDOW(window), RSTTO_DESKTOP_NONE);
-            break;
-    }
-    GtkRecentManager *recent_manager = rstto_main_window_get_recent_manager(RSTTO_MAIN_WINDOW(window));
     rstto_navigator_set_timeout(navigator, slideshow_timeout);
 
     /* When more then one file is provided over the CLI,
@@ -369,7 +351,6 @@ int main(int argc, char **argv)
     }
     xfce_rc_write_int_entry(xfce_rc, "MaxImagesCacheSize", rstto_main_window_get_max_cache_size(RSTTO_MAIN_WINDOW(window)));
     xfce_rc_write_int_entry(xfce_rc, "SlideShowTimeout", (gint)rstto_main_window_get_slideshow_timeout(RSTTO_MAIN_WINDOW(window)));
-    xfce_rc_write_int_entry(xfce_rc, "SetWallpaperDesktop", (gint)rstto_main_window_get_desktop(RSTTO_MAIN_WINDOW(window)));
     xfce_rc_flush(xfce_rc);
     xfce_rc_close(xfce_rc);
     gtk_widget_unref(window);
@@ -438,8 +419,8 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
 static gboolean
 cb_rstto_open_files (RsttoOpenFiles *rof)
 {
-    gchar *path_dir = NULL;
     GError *error = NULL;
+    gchar *path_dir = NULL;
     RsttoNavigator *navigator = rof->navigator;
     RsttoMainWindow *window = rof->main_window;
 

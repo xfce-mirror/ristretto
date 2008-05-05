@@ -421,7 +421,6 @@ rstto_main_window_init(RsttoMainWindow *window)
     {
         Atom actual_type;
         int actual_format;
-        int max_len = 10000;
         unsigned long n_items;
         unsigned long bytes_after;
         unsigned char *prop;
@@ -440,10 +439,10 @@ rstto_main_window_init(RsttoMainWindow *window)
                             &n_items,
                             &bytes_after,
                             &prop);
-        if (n_items == 1)
+        if (n_items > 0)
         {
             /* TODO: check XID */
-            Window xid = (Window) prop[1];
+            /* Window xid = (Window) prop[1]; */
             window->priv->settings.desktop = RSTTO_DESKTOP_XFCE;
         }
     }
@@ -1144,7 +1143,7 @@ cb_rstto_main_window_set_wallpaper(GtkWidget *widget, RsttoMainWindow *window)
                 if(xfconf_channel_set_string(xfdesktop_channel, image_path_prop, path) == TRUE)
                 {
                     xfconf_channel_set_bool(xfdesktop_channel, image_show_prop, TRUE);
-                    xfconf_channel_set_int(xfdesktop_channel, image_style_prop, 1);
+                    xfconf_channel_set_int(xfdesktop_channel, image_style_prop, 4);
                 }
                 else
                 {
@@ -1307,8 +1306,6 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
 
     GtkWidget *resize_to_content_vbox, *resize_to_content_frame;
     GtkWidget *resize_on_maximize_check;
-    GtkWidget *set_wallpaper_vbox, *set_wallpaper_frame;
-    GtkWidget *set_wallpaper_label, *set_wallpaper_combo;
 
     GtkWidget *bg_color_vbox;
     GtkWidget *bg_color_hbox;
@@ -1472,14 +1469,6 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
 
             window->priv->settings.scale_to_100 = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(resize_on_maximize_check));
 
-            if ((window->priv->settings.desktop > 0) && (rstto_navigator_get_position(window->priv->navigator) >= 0))
-            {
-                gtk_widget_set_sensitive(window->priv->menus.view.menu_item_set_wallpaper, TRUE);
-            }
-            else
-            {
-                gtk_widget_set_sensitive(window->priv->menus.view.menu_item_set_wallpaper, FALSE);
-            }
         default:
             break;
     }
@@ -1530,7 +1519,7 @@ static void
 cb_rstto_main_window_open_file(GtkWidget *widget, RsttoMainWindow *window)
 {
     GtkStatusbar *statusbar = GTK_STATUSBAR(window->priv->statusbar);
-    g_object_add_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
+    g_object_add_weak_pointer(G_OBJECT(window), (gpointer)statusbar);
 
     gint context_id = gtk_statusbar_get_context_id(statusbar, "StatusMessages");
     gint message_id = gtk_statusbar_push(statusbar, context_id, N_("Opening file(s)..."));
@@ -1562,7 +1551,7 @@ cb_rstto_main_window_open_file(GtkWidget *widget, RsttoMainWindow *window)
     if (statusbar)
     {
         gtk_statusbar_remove(statusbar, context_id, message_id);
-        g_object_remove_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
+        g_object_remove_weak_pointer(G_OBJECT(window), (gpointer)statusbar);
     }
 }
 
@@ -1570,7 +1559,7 @@ static void
 cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window)
 {
     GtkStatusbar *statusbar = GTK_STATUSBAR(window->priv->statusbar);
-    g_object_add_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
+    g_object_add_weak_pointer(G_OBJECT(window), (gpointer)statusbar);
 
     gint context_id = gtk_statusbar_get_context_id(statusbar, "StatusMessages");
     gint message_id = gtk_statusbar_push(statusbar, context_id, N_("Opening file(s)..."));
@@ -1599,7 +1588,7 @@ cb_rstto_main_window_open_folder(GtkWidget *widget, RsttoMainWindow *window)
     if (statusbar)
     {
         gtk_statusbar_remove(statusbar, context_id, message_id);
-        g_object_remove_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
+        g_object_remove_weak_pointer(G_OBJECT(window), (gpointer)statusbar);
     }
 }
 
@@ -1607,7 +1596,7 @@ static void
 cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *window)
 {
     GtkStatusbar *statusbar = GTK_STATUSBAR(window->priv->statusbar);
-    g_object_add_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
+    g_object_add_weak_pointer(G_OBJECT(window), (gpointer)statusbar);
 
     gint context_id = gtk_statusbar_get_context_id(statusbar, "StatusMessages");
     gint message_id = gtk_statusbar_push(statusbar, context_id, N_("Opening file(s)..."));
@@ -1639,7 +1628,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     if (statusbar)
     {
         gtk_statusbar_remove(statusbar, context_id, message_id);
-        g_object_remove_weak_pointer(G_OBJECT(window), (gpointer *)&statusbar);
+        g_object_remove_weak_pointer(G_OBJECT(window), (gpointer)statusbar);
     }
 }
 
@@ -2095,4 +2084,5 @@ rstto_main_window_set_desktop(RsttoMainWindow *window, RsttoDesktop desktop)
             window->priv->settings.desktop = RSTTO_DESKTOP_NONE;
             break;
     }
+    return 0;
 }

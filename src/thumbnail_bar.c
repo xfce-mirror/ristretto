@@ -459,10 +459,8 @@ rstto_thumbnail_bar_realize(GtkWidget *widget)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
 
-    GtkAllocation view_allocation;
     GdkWindowAttr attributes;
     gint attributes_mask;
-    gint event_mask;
     gint border_width = 0;
 
     GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
@@ -493,7 +491,6 @@ rstto_thumbnail_bar_realize(GtkWidget *widget)
 static void
 rstto_thumbnail_bar_unrealize(GtkWidget *widget)
 {
-    RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
 
     if (GTK_WIDGET_CLASS (parent_class)->unrealize)
         (* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
