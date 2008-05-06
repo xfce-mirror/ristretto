@@ -36,6 +36,8 @@
 #include "picture_viewer.h"
 #include "main_window.h"
 
+#define XFDESKTOP_SELECTION_FMT "XFDESKTOP_SELECTION_%d"
+
 
 struct _RsttoMainWindowPriv
 {
@@ -424,9 +426,17 @@ rstto_main_window_init(RsttoMainWindow *window)
         unsigned long n_items;
         unsigned long bytes_after;
         unsigned char *prop;
+        gchar selection_name[100];
+
+        GdkScreen *gdk_screen = gdk_screen_get_default();
+        gint xscreen = gdk_screen_get_number(gdk_screen);
+
+
+        g_snprintf(selection_name, 100, XFDESKTOP_SELECTION_FMT, xscreen);
 
         Window root_window = GDK_ROOT_WINDOW();
         Atom xfce_desktop_atom = XInternAtom (gdk_display, "XFCE_DESKTOP_WINDOW", False);
+        Atom xfce_selection_atom = XInternAtom (gdk_display, selection_name, True);
         XGetWindowProperty (gdk_display, 
                             root_window,
                             xfce_desktop_atom,
@@ -443,7 +453,16 @@ rstto_main_window_init(RsttoMainWindow *window)
         {
             /* TODO: check XID */
             /* Window xid = (Window) prop[1]; */
-            window->priv->settings.desktop = RSTTO_DESKTOP_XFCE;
+            if(XGetSelectionOwner(gdk_display, xfce_selection_atom) == prop[1])
+                window->priv->settings.desktop = RSTTO_DESKTOP_XFCE;
+            else
+            {
+                g_debug("xfdesktop is not running");
+            }
+        }
+        else
+        {
+            g_debug("xfdesktop is not running");
         }
     }
 #endif
