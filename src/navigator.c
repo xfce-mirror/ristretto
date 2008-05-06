@@ -504,7 +504,6 @@ rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gboo
 
     if (g_list_index(navigator->file_list, entry) ==  -1)
     {
-        g_debug("Add: ");
         navigator->file_list = g_list_insert_sorted(navigator->file_list, entry, navigator->compare_func);
         if (!navigator->file_iter)
         {
