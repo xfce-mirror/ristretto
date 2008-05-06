@@ -502,27 +502,31 @@ rstto_navigator_add (RsttoNavigator *navigator, RsttoNavigatorEntry *entry, gboo
 {
     g_return_val_if_fail(navigator == entry->navigator, -1);
 
-    navigator->file_list = g_list_insert_sorted(navigator->file_list, entry, navigator->compare_func);
-    if (!navigator->file_iter)
+    if (g_list_index(navigator->file_list, entry) ==  -1)
     {
-        navigator->file_iter = navigator->file_list;
+        g_debug("Add: ");
+        navigator->file_list = g_list_insert_sorted(navigator->file_list, entry, navigator->compare_func);
+        if (!navigator->file_iter)
+        {
+            navigator->file_iter = navigator->file_list;
+            if (navigator->busy == FALSE)
+            {
+                g_signal_emit(G_OBJECT(navigator),
+                          rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED],
+                          0,
+                          g_list_index(navigator->file_list, entry),
+                          entry,
+                          NULL);
+            }
+        }
+
+        if (with_monitor == TRUE)
+            entry->monitor_handle = thunar_vfs_monitor_add_file(navigator->monitor, entry->info->path, (ThunarVfsMonitorCallback)cb_rstto_navigator_entry_fs_event, entry);
+
         if (navigator->busy == FALSE)
         {
-            g_signal_emit(G_OBJECT(navigator),
-                      rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED],
-                      0,
-                      g_list_index(navigator->file_list, entry),
-                      entry,
-                      NULL);
+            g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_NEW_ENTRY], 0, g_list_index(navigator->file_list, entry), entry, NULL);
         }
-    }
-
-    if (with_monitor == TRUE)
-        entry->monitor_handle = thunar_vfs_monitor_add_file(navigator->monitor, entry->info->path, (ThunarVfsMonitorCallback)cb_rstto_navigator_entry_fs_event, entry);
-
-    if (navigator->busy == FALSE)
-    {
-        g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_NEW_ENTRY], 0, g_list_index(navigator->file_list, entry), entry, NULL);
     }
     return g_list_index(navigator->file_list, entry);
 }
@@ -689,66 +693,73 @@ rstto_navigator_entry_new (RsttoNavigator *navigator, ThunarVfsInfo *info)
     gchar *filename = thunar_vfs_path_dup_string(info->path);
     if(filename)
     {
-        entry = g_new0(RsttoNavigatorEntry, 1);
+        GList *iter = g_list_find_custom(navigator->file_list, info->path, (GCompareFunc)cb_rstto_navigator_entry_path_compare_func);
+        if (iter)
+            entry = iter->data;
 
-        entry->info = info;
-        entry->exif_data = exif_data_new_from_file(filename);
-        entry->navigator = navigator;
-        
-        ExifEntry *exifentry = exif_data_get_entry(entry->exif_data, EXIF_TAG_ORIENTATION);
-        if (exifentry)
+        if (entry == NULL)
         {
-            gchar *val = g_new0(gchar, 20);
-            exif_entry_get_value(exifentry, val, 20);
-            if (!strcmp(val, "top - left"))
+            entry = g_new0(RsttoNavigatorEntry, 1);
+
+            entry->info = info;
+            entry->exif_data = exif_data_new_from_file(filename);
+            entry->navigator = navigator;
+            
+            ExifEntry *exifentry = exif_data_get_entry(entry->exif_data, EXIF_TAG_ORIENTATION);
+            if (exifentry)
             {
-                entry->v_flipped = FALSE;
-                entry->h_flipped = FALSE;
-                entry->rotation = GDK_PIXBUF_ROTATE_NONE;
+                gchar *val = g_new0(gchar, 20);
+                exif_entry_get_value(exifentry, val, 20);
+                if (!strcmp(val, "top - left"))
+                {
+                    entry->v_flipped = FALSE;
+                    entry->h_flipped = FALSE;
+                    entry->rotation = GDK_PIXBUF_ROTATE_NONE;
+                }
+                if (!strcmp(val, "top - right"))
+                {
+                    entry->v_flipped = FALSE;
+                    entry->h_flipped = TRUE;
+                    entry->rotation = GDK_PIXBUF_ROTATE_NONE;
+                }
+                if (!strcmp(val, "bottom - left"))
+                {
+                    entry->v_flipped = TRUE;
+                    entry->h_flipped = FALSE;
+                    entry->rotation = GDK_PIXBUF_ROTATE_NONE;
+                }
+                if (!strcmp(val, "bottom - right"))
+                {
+                    entry->v_flipped = FALSE;
+                    entry->h_flipped = FALSE;
+                    entry->rotation = GDK_PIXBUF_ROTATE_UPSIDEDOWN;
+                }
+                if (!strcmp(val, "right - top"))
+                {
+                    entry->v_flipped = FALSE;
+                    entry->h_flipped = FALSE;
+                    entry->rotation = GDK_PIXBUF_ROTATE_CLOCKWISE;
+                }
+                if (!strcmp(val, "right - bottom"))
+                {
+                    entry->v_flipped = FALSE;
+                    entry->h_flipped = TRUE;
+                    entry->rotation = GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE;
+                }
+                if (!strcmp(val, "left - top"))
+                {
+                    entry->v_flipped = FALSE;
+                    entry->h_flipped = TRUE;
+                    entry->rotation = GDK_PIXBUF_ROTATE_CLOCKWISE;
+                }
+                if (!strcmp(val, "left - bottom"))
+                {
+                    entry->v_flipped = FALSE;
+                    entry->h_flipped = FALSE;
+                    entry->rotation = GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE;
+                }
+                g_free(val);
             }
-            if (!strcmp(val, "top - right"))
-            {
-                entry->v_flipped = FALSE;
-                entry->h_flipped = TRUE;
-                entry->rotation = GDK_PIXBUF_ROTATE_NONE;
-            }
-            if (!strcmp(val, "bottom - left"))
-            {
-                entry->v_flipped = TRUE;
-                entry->h_flipped = FALSE;
-                entry->rotation = GDK_PIXBUF_ROTATE_NONE;
-            }
-            if (!strcmp(val, "bottom - right"))
-            {
-                entry->v_flipped = FALSE;
-                entry->h_flipped = FALSE;
-                entry->rotation = GDK_PIXBUF_ROTATE_UPSIDEDOWN;
-            }
-            if (!strcmp(val, "right - top"))
-            {
-                entry->v_flipped = FALSE;
-                entry->h_flipped = FALSE;
-                entry->rotation = GDK_PIXBUF_ROTATE_CLOCKWISE;
-            }
-            if (!strcmp(val, "right - bottom"))
-            {
-                entry->v_flipped = FALSE;
-                entry->h_flipped = TRUE;
-                entry->rotation = GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE;
-            }
-            if (!strcmp(val, "left - top"))
-            {
-                entry->v_flipped = FALSE;
-                entry->h_flipped = TRUE;
-                entry->rotation = GDK_PIXBUF_ROTATE_CLOCKWISE;
-            }
-            if (!strcmp(val, "left - bottom"))
-            {
-                entry->v_flipped = FALSE;
-                entry->h_flipped = FALSE;
-                entry->rotation = GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE;
-            }
-            g_free(val);
         }
 
         g_free(filename);
@@ -1434,6 +1445,9 @@ rstto_navigator_open_file(RsttoNavigator *navigator, const gchar *path, gboolean
     file_media = thunar_vfs_mime_info_get_media(vfs_info->mime_info);
     if(!strcmp(file_media, "image"))
     {
+        RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, vfs_info);
+        rstto_navigator_add (navigator, entry, TRUE);
+
         if (open_folder == TRUE)
         {
             ThunarVfsPath *parent_vfs_path = thunar_vfs_path_get_parent(vfs_path);
@@ -1451,20 +1465,7 @@ rstto_navigator_open_file(RsttoNavigator *navigator, const gchar *path, gboolean
             g_free(parent_path);
             thunar_vfs_path_unref(parent_vfs_path);
 
-            GList *iter = g_list_find_custom(navigator->file_list, vfs_path, (GCompareFunc)cb_rstto_navigator_entry_path_compare_func);
-            if (iter != NULL)
-            {
-                rstto_navigator_entry_select((RsttoNavigatorEntry*)iter->data);
-            }
-            else
-            {
-                rstto_navigator_jump_first(navigator);
-            }
-        }
-        else
-        {
-            RsttoNavigatorEntry *entry = rstto_navigator_entry_new(navigator, vfs_info);
-            rstto_navigator_add (navigator, entry, TRUE);
+            rstto_navigator_entry_select(entry);
         }
     }
 
