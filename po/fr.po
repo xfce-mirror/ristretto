@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-05-10 12:46+0200\n"
-"PO-Revision-Date: 2008-02-08 13:15+0100\n"
+"PO-Revision-Date: 2008-05-10 13:50+0200\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -33,9 +33,8 @@ msgstr ""
 
 #: ../src/main.c:430 ../src/main_window.c:1544 ../src/main_window.c:1584
 #: ../src/main_window.c:1621
-#, fuzzy
 msgid "Opening file(s)..."
-msgstr "_Ouvrir avec..."
+msgstr "Ouvrir des fichiers..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:333
@@ -86,7 +85,7 @@ msgstr "_Rotation"
 
 #: ../src/main_window.c:415
 msgid "_Set as wallpaper"
-msgstr ""
+msgstr "_Utiliser en tant que fond d'écran"
 
 #: ../src/main_window.c:493
 msgid "Show _Horizontally"
@@ -135,13 +134,14 @@ msgid "Display"
 msgstr "Affichage"
 
 #: ../src/main_window.c:1375
-#, fuzzy
 msgid "Scaling"
-msgstr "Espacement"
+msgstr "Taille d'image"
 
 #: ../src/main_window.c:1377
 msgid "Don't scale over 100% when maximizing the window."
 msgstr ""
+"Adapter l'image lors de l'agrandissement de la fenêtre\n"
+"(jamais au-delà de 100%)"
 
 #: ../src/main_window.c:1387
 msgid "Background Color"
@@ -236,11 +236,11 @@ msgstr "L'espacement entre les miniatures"
 
 #: ../src/thumbnail_bar.c:190
 msgid "Border Width"
-msgstr ""
+msgstr "Taille des bordures"
 
 #: ../src/thumbnail_bar.c:191
 msgid "The border width of the thumbnail-bar"
-msgstr ""
+msgstr "La taille de la bordure de la barre des miniatures"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
