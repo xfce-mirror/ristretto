@@ -823,13 +823,16 @@ cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
     {
         case GDK_SCROLL_UP:
         case GDK_SCROLL_LEFT:
-            rstto_navigator_jump_back(bar->priv->navigator);
+            bar->priv->auto_center = FALSE;
+            bar->priv->offset -= 30;
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
-            rstto_navigator_jump_forward(bar->priv->navigator);
+            bar->priv->auto_center = FALSE;
+            bar->priv->offset += 30;
             break;
     }
+    gtk_widget_queue_resize(GTK_WIDGET(bar));
     return FALSE;
 
 }

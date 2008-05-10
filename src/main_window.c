@@ -436,7 +436,7 @@ rstto_main_window_init(RsttoMainWindow *window)
 
         Window root_window = GDK_ROOT_WINDOW();
         Atom xfce_desktop_atom = XInternAtom (gdk_display, "XFCE_DESKTOP_WINDOW", False);
-        Atom xfce_selection_atom = XInternAtom (gdk_display, selection_name, True);
+        Atom xfce_selection_atom = XInternAtom (gdk_display, selection_name, False);
         XGetWindowProperty (gdk_display, 
                             root_window,
                             xfce_desktop_atom,
@@ -453,7 +453,7 @@ rstto_main_window_init(RsttoMainWindow *window)
         {
             /* TODO: check XID */
             /* Window xid = (Window) prop[1]; */
-            if(XGetSelectionOwner(gdk_display, xfce_selection_atom) == prop[1])
+            if(XGetSelectionOwner(gdk_display, xfce_selection_atom) == prop[1] != 0)
                 window->priv->settings.desktop = RSTTO_DESKTOP_XFCE;
             else
             {
