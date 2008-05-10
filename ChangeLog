@@ -1,3 +1,15 @@
+2008-05-10: Release 0.0.19
+	* src/main_window.c:
+	  - Add option to change the wallpaper with xfdesktop >= 4.5
+	* src/main.c:
+	  - Detect if xfdesktop is running
+	* src/thumbnail_bar.c:
+	  - Scroll through images when using the scroll-button, rather then
+	    changing the active one.	
+	* src/navigator.c:
+	  - Open the desired image BEFORE loading the rest of the folder, this
+	    reduces the time it takes to display the initial image.
+		
 2008-03-23: Release 0.0.18
 	* src/picture_viewer.c:
 	  - Improved zoom-box

@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Fabio Vergnani <monghitri@aruba.it>, 2007.
 #
-#: ../src/main.c:222
+#: ../src/main.c:221
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-04 22:51+0200\n"
+"POT-Creation-Date: 2008-05-10 12:46+0200\n"
 "PO-Revision-Date: 2007-12-22 10:52+0100\n"
 "Last-Translator: Fabio Vergnani <monghitri@aruba.it>\n"
 "Language-Team: Italian\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Version information"
 msgstr "Versione"
 
-#: ../src/main.c:226
+#: ../src/main.c:225
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -31,147 +31,147 @@ msgstr ""
 "Prova %s --help per vedere una lista completa di opzioni per linea di "
 "comando.\n"
 
-#: ../src/main.c:449 ../src/main_window.c:1514 ../src/main_window.c:1554
-#: ../src/main_window.c:1591
+#: ../src/main.c:430 ../src/main_window.c:1544 ../src/main_window.c:1584
+#: ../src/main_window.c:1621
 #, fuzzy
 msgid "Opening file(s)..."
 msgstr "_Apri con..."
 
 #. Create 'File' menu
-#: ../src/main_window.c:331
+#: ../src/main_window.c:333
 msgid "_File"
 msgstr "_File"
 
-#: ../src/main_window.c:338
+#: ../src/main_window.c:340
 msgid "O_pen Folder"
 msgstr "A_pri cartella"
 
-#: ../src/main_window.c:339
+#: ../src/main_window.c:341
 msgid "_Recently used"
 msgstr "Apri _recenti"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:371
+#: ../src/main_window.c:373
 msgid "_Edit"
 msgstr "_Modifica"
 
-#: ../src/main_window.c:376 ../src/main_window.c:636
+#: ../src/main_window.c:378 ../src/main_window.c:676
 msgid "Open with..."
 msgstr "_Apri con..."
 
-#: ../src/main_window.c:384 ../src/main_window.c:647
+#: ../src/main_window.c:386 ../src/main_window.c:687
 msgid "No applications available"
 msgstr "Nesuna applicazione disponibile"
 
 #. Create 'View' menu
-#: ../src/main_window.c:393
+#: ../src/main_window.c:395
 msgid "_View"
 msgstr "_Visualizza"
 
-#: ../src/main_window.c:400
+#: ../src/main_window.c:402
 msgid "Show _Toolbar"
 msgstr "Mostra barra degli _strumenti"
 
-#: ../src/main_window.c:401
+#: ../src/main_window.c:403
 msgid "Thumbnail _Viewer"
 msgstr "_Visualizzazione miniature"
 
-#: ../src/main_window.c:405
+#: ../src/main_window.c:407
 msgid "_Zooming"
 msgstr "_Zoom"
 
-#: ../src/main_window.c:406
+#: ../src/main_window.c:408
 msgid "_Rotate"
 msgstr "_Ruota"
 
-#: ../src/main_window.c:413
+#: ../src/main_window.c:415
 msgid "_Set as wallpaper"
 msgstr ""
 
-#: ../src/main_window.c:453
+#: ../src/main_window.c:493
 msgid "Show _Horizontally"
 msgstr "Mostra _Orizzontalmente"
 
-#: ../src/main_window.c:457
+#: ../src/main_window.c:497
 msgid "Show _Vertically"
 msgstr "Mostra _Verticalmente"
 
-#: ../src/main_window.c:461
+#: ../src/main_window.c:501
 msgid "H_ide"
 msgstr "_Nascondi"
 
-#: ../src/main_window.c:498
+#: ../src/main_window.c:538
 msgid "Rotate _Right"
 msgstr "Ruota a _Destra"
 
-#: ../src/main_window.c:499
+#: ../src/main_window.c:539
 msgid "Rotate _Left"
 msgstr "Ruota a _Sinistra"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:520
+#: ../src/main_window.c:560
 msgid "_Go"
 msgstr "V_ai"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:551
+#: ../src/main_window.c:591
 msgid "_Help"
 msgstr "A_iuto"
 
-#: ../src/main_window.c:1306
+#: ../src/main_window.c:1344
 msgid "Image viewer Preferences"
 msgstr "Preferenze del visualizzatore"
 
-#: ../src/main_window.c:1324
+#: ../src/main_window.c:1362
 msgid "Behaviour"
 msgstr "Comportamento"
 
-#: ../src/main_window.c:1328
+#: ../src/main_window.c:1366
 msgid "Slideshow"
 msgstr "Presentazione"
 
-#: ../src/main_window.c:1332
+#: ../src/main_window.c:1370
 msgid "Display"
 msgstr "Apparenza"
 
-#: ../src/main_window.c:1337
+#: ../src/main_window.c:1375
 msgid "Scaling"
 msgstr ""
 
-#: ../src/main_window.c:1339
+#: ../src/main_window.c:1377
 msgid "Don't scale over 100% when maximizing the window."
 msgstr ""
 
-#: ../src/main_window.c:1349
+#: ../src/main_window.c:1387
 msgid "Background Color"
 msgstr "Colore sfondo"
 
-#: ../src/main_window.c:1351
+#: ../src/main_window.c:1389
 msgid "_Override Background Color:"
 msgstr "_Imposta colore sfondo :"
 
-#: ../src/main_window.c:1374
+#: ../src/main_window.c:1412
 #, fuzzy
 msgid "Image Cache"
 msgstr "Visualizzatore di immagini"
 
-#: ../src/main_window.c:1377
+#: ../src/main_window.c:1415
 msgid "Cache size:"
 msgstr ""
 
-#: ../src/main_window.c:1378
+#: ../src/main_window.c:1416
 msgid "MB"
 msgstr ""
 
-#: ../src/main_window.c:1394
+#: ../src/main_window.c:1432
 msgid "Timeout"
 msgstr "Durata"
 
-#: ../src/main_window.c:1397
+#: ../src/main_window.c:1435
 msgid "Preload"
 msgstr "Precarica"
 
-#: ../src/main_window.c:1402
+#: ../src/main_window.c:1440
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -179,7 +179,7 @@ msgstr ""
 "Il tempo per cui viene mostrata una immagine durante una presentazione\n"
 "(in secondi)"
 
-#: ../src/main_window.c:1406
+#: ../src/main_window.c:1444
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -187,15 +187,15 @@ msgstr ""
 "Precarica le immagini durante le presentazioni\n"
 "(usa più memoria)"
 
-#: ../src/main_window.c:1407
+#: ../src/main_window.c:1445
 msgid "_Preload images"
 msgstr "_Precarica le immagini"
 
-#: ../src/main_window.c:1472
+#: ../src/main_window.c:1502
 msgid "Developer:"
 msgstr "Sviluppatore :"
 
-#: ../src/main_window.c:1482
+#: ../src/main_window.c:1512
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -203,23 +203,23 @@ msgstr ""
 "Ristretto è un visualizzatore di immagini leggero e veloce per l'ambiente "
 "desktop XFCE."
 
-#: ../src/main_window.c:1490
+#: ../src/main_window.c:1520
 msgid "translator-credits"
 msgstr "Fabio Vergnani <monghitri@aruba.it>"
 
-#: ../src/main_window.c:1516
+#: ../src/main_window.c:1546
 msgid "Open image"
 msgstr "Apri un'immagine"
 
-#: ../src/main_window.c:1534
+#: ../src/main_window.c:1564
 msgid "Could not open file"
 msgstr "Impossibile aprire il file"
 
-#: ../src/main_window.c:1556
+#: ../src/main_window.c:1586
 msgid "Open folder"
 msgstr "Apri cartella"
 
-#: ../src/main_window.c:1631
+#: ../src/main_window.c:1661
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Sei sicuro di voler cancellare la lista dei documenti recenti?"

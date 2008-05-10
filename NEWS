@@ -1,3 +1,10 @@
+0.0.19
+======
+
+- Improve behaviour when opening a single image from the cli.
+- Add support for setting the wallpaper with xfdesktop 4.5
+- Improve behaviour of thumbnail-bar scroll feature
+
 0.0.18
 ======
 
