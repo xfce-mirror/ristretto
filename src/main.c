@@ -253,6 +253,7 @@ int main(int argc, char **argv)
     gint window_width = xfce_rc_read_int_entry(xfce_rc, "LastWindowWidth", 400);
     gint window_height = xfce_rc_read_int_entry(xfce_rc, "LastWindowHeight", 300);
     gint slideshow_timeout = xfce_rc_read_int_entry(xfce_rc, "SlideShowTimeout", 5000);
+    gboolean slideshow_hide_thumbnail = xfce_rc_read_bool_entry(xfce_rc, "SlideShowHideThumbnail", TRUE);
     gint max_cache = xfce_rc_read_int_entry(xfce_rc, "MaxImagesCacheSize", 64);
     gboolean preload_during_slideshow = xfce_rc_read_bool_entry (xfce_rc, "PreloadDuringSlideShow", FALSE);
     gboolean override_bg_color = xfce_rc_read_bool_entry (xfce_rc, "OverrideBgColor", FALSE);
@@ -277,6 +278,7 @@ int main(int argc, char **argv)
 
     rstto_main_window_set_max_cache_size(RSTTO_MAIN_WINDOW(window), max_cache);
     rstto_main_window_set_slideshow_timeout(RSTTO_MAIN_WINDOW(window), (gdouble)slideshow_timeout);
+    rstto_main_window_set_hide_thumbnail(RSTTO_MAIN_WINDOW(window), slideshow_hide_thumbnail);
     rstto_main_window_set_scale_to_100(RSTTO_MAIN_WINDOW(window), scale_to_100);
     rstto_navigator_set_timeout(navigator, slideshow_timeout);
 
@@ -351,6 +353,7 @@ int main(int argc, char **argv)
     }
     xfce_rc_write_int_entry(xfce_rc, "MaxImagesCacheSize", rstto_main_window_get_max_cache_size(RSTTO_MAIN_WINDOW(window)));
     xfce_rc_write_int_entry(xfce_rc, "SlideShowTimeout", (gint)rstto_main_window_get_slideshow_timeout(RSTTO_MAIN_WINDOW(window)));
+    xfce_rc_write_bool_entry(xfce_rc, "SlideShowHideThumbnail", rstto_main_window_get_hide_thumbnail(RSTTO_MAIN_WINDOW(window)));
     xfce_rc_flush(xfce_rc);
     xfce_rc_close(xfce_rc);
     gtk_widget_unref(window);

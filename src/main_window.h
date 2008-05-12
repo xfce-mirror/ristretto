@@ -88,10 +88,14 @@ rstto_main_window_get_recent_manager (RsttoMainWindow *window);
 
 gdouble
 rstto_main_window_get_slideshow_timeout (RsttoMainWindow *window);
+gboolean
+rstto_main_window_get_hide_thumbnails (RsttoMainWindow *window);
 gint
 rstto_main_window_get_max_cache_size (RsttoMainWindow *window);
 void
 rstto_main_window_set_slideshow_timeout (RsttoMainWindow *window, gdouble timeout);
+void
+rstto_main_window_set_hide_thumbnails (RsttoMainWindow *window, gboolean hide);
 void
 rstto_main_window_set_max_cache_size (RsttoMainWindow *window, gint max_cache_size);
 void

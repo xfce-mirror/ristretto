@@ -66,6 +66,7 @@ struct _RsttoMainWindowPriv
         gboolean        toolbar_visibility;
         gint            max_cache_size;
         gdouble         slideshow_timeout;
+        gboolean        slideshow_hide_thumbnail;
         const GdkColor *bg_color;
         gboolean        scale_to_100;
         RsttoDesktop    desktop;
@@ -1044,6 +1045,12 @@ rstto_main_window_get_slideshow_timeout (RsttoMainWindow *window)
     return window->priv->settings.slideshow_timeout;
 }
 
+gboolean
+rstto_main_window_get_hide_thumbnail (RsttoMainWindow *window)
+{
+    return window->priv->settings.slideshow_hide_thumbnail;
+}
+
 gint
 rstto_main_window_get_max_cache_size (RsttoMainWindow *window)
 {
@@ -1055,6 +1062,12 @@ rstto_main_window_set_slideshow_timeout (RsttoMainWindow *window, gdouble timeou
 {
     window->priv->settings.slideshow_timeout = timeout;
     rstto_navigator_set_timeout(window->priv->navigator, timeout);
+}
+
+void
+rstto_main_window_set_hide_thumbnail (RsttoMainWindow *window, gboolean hide)
+{
+    window->priv->settings.slideshow_hide_thumbnail = hide;
 }
 
 void
@@ -1296,6 +1309,9 @@ cb_rstto_main_window_play(GtkWidget *widget, RsttoMainWindow *window)
     gtk_menu_shell_insert(GTK_MENU_SHELL(window->priv->menus.go.menu), window->priv->menus.go.menu_item_pause, 5);
     gtk_widget_show_all(window->priv->menus.go.menu_item_pause);
     rstto_navigator_set_running(RSTTO_NAVIGATOR(window->priv->navigator), TRUE);
+    if (window->priv->settings.thumbnail_viewer_visibility &&
+        window->priv->settings.slideshow_hide_thumbnail)
+            gtk_widget_hide (window->priv->thumbnail_viewer);
 }
 
 static void
@@ -1306,6 +1322,8 @@ cb_rstto_main_window_pause(GtkWidget *widget, RsttoMainWindow *window)
     gtk_menu_shell_insert(GTK_MENU_SHELL(window->priv->menus.go.menu), window->priv->menus.go.menu_item_play, 5);
     gtk_widget_show_all(window->priv->menus.go.menu_item_play);
     rstto_navigator_set_running(RSTTO_NAVIGATOR(window->priv->navigator), FALSE);
+    if (window->priv->settings.thumbnail_viewer_visibility)
+        gtk_widget_show (window->priv->thumbnail_viewer);
 }
 
 static void
@@ -1434,6 +1452,9 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *preload_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *preload_frame = xfce_create_framebox_with_content (_("Preload"), preload_vbox);
 
+    GtkWidget *thumbnails_vbox = gtk_vbox_new(FALSE, 0);
+    GtkWidget *thumbnails_frame = xfce_create_framebox_with_content (_("Thumbnails"), thumbnails_vbox);
+
     gtk_container_set_border_width (GTK_CONTAINER (slideshow_frame), 8);
     gtk_container_set_border_width (GTK_CONTAINER (preload_frame), 8);
 
@@ -1444,15 +1465,22 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *preload_lbl = gtk_label_new(_("Preload images during slideshow\n(uses more memory)"));
     GtkWidget *preload_check = gtk_check_button_new_with_mnemonic(_("_Preload images"));
 
+    GtkWidget *thumbnails_lbl = gtk_label_new(_("Hide the thumbnails bar during slideshow"));
+    GtkWidget *thumbnails_check = gtk_check_button_new_with_mnemonic(_("_Hide thumbnails"));
+
     gtk_misc_set_alignment(GTK_MISC(slideshow_lbl), 0, 0.5);
     gtk_misc_set_alignment(GTK_MISC(preload_lbl), 0, 0.5);
+    gtk_misc_set_alignment(GTK_MISC(thumbnails_lbl), 0, 0.5);
 
     gtk_misc_set_padding(GTK_MISC(slideshow_lbl), 2, 2);
     gtk_misc_set_padding(GTK_MISC(preload_lbl), 2, 2);
+    gtk_misc_set_padding(GTK_MISC(thumbnails_lbl), 2, 2);
     
     gtk_range_set_value(GTK_RANGE(slideshow_hscale), window->priv->settings.slideshow_timeout / 1000);
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(preload_check), window->priv->navigator->preload);
+
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(thumbnails_check), window->priv->settings.slideshow_hide_thumbnail);
 
     gtk_box_pack_start(GTK_BOX(slideshow_vbox), slideshow_lbl, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(slideshow_vbox), slideshow_hscale, FALSE, TRUE, 0);
@@ -1460,8 +1488,12 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(preload_vbox), preload_lbl, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(preload_vbox), preload_check, FALSE, TRUE, 0);
 
+    gtk_box_pack_start(GTK_BOX(thumbnails_vbox), thumbnails_lbl, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(thumbnails_vbox), thumbnails_check, FALSE, TRUE, 0);
+
     gtk_box_pack_start(GTK_BOX(slideshow_main_vbox), slideshow_frame, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(slideshow_main_vbox), preload_frame, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(slideshow_main_vbox), thumbnails_frame, FALSE, TRUE, 0);
 
     gtk_widget_show_all(notebook);
 
@@ -1472,6 +1504,7 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
         case GTK_RESPONSE_OK:
             rstto_main_window_set_slideshow_timeout(window, gtk_range_get_value(GTK_RANGE(slideshow_hscale)) * 1000);
             window->priv->navigator->preload = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(preload_check));
+            window->priv->settings.slideshow_hide_thumbnail = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(thumbnails_check));
             if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(bg_color_override_check)) == TRUE)
             {
                 GdkColor *new_color = g_new0(GdkColor, 1);
