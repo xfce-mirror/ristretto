@@ -52,11 +52,21 @@ static gboolean
 cb_rstto_open_files (RsttoOpenFiles *rof);
 
 gboolean version = FALSE;
+gboolean start_fullscreen = FALSE;
+gboolean start_slideshow = FALSE;
 
 static GOptionEntry entries[] =
 {
     {    "version", 'v', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &version,
         N_("Version information"),
+        NULL
+    },
+    {    "fullscreen", 'f', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &start_fullscreen,
+        N_("Start in fullscreen mode"),
+        NULL
+    },
+    {    "slideshow", 's', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &start_slideshow,
+        N_("Start a slideshow"),
         NULL
     },
     { NULL }
@@ -281,6 +291,8 @@ int main(int argc, char **argv)
     rstto_main_window_set_hide_thumbnail(RSTTO_MAIN_WINDOW(window), slideshow_hide_thumbnail);
     rstto_main_window_set_scale_to_100(RSTTO_MAIN_WINDOW(window), scale_to_100);
     rstto_navigator_set_timeout(navigator, slideshow_timeout);
+    rstto_main_window_set_start_fullscreen(RSTTO_MAIN_WINDOW(window), start_fullscreen);
+    rstto_main_window_set_start_slideshow(RSTTO_MAIN_WINDOW(window), start_slideshow);
 
     /* When more then one file is provided over the CLI,
      * just open those files and don't index the folder
@@ -324,7 +336,10 @@ int main(int argc, char **argv)
 
     rstto_main_window_set_show_thumbnail_viewer(RSTTO_MAIN_WINDOW(window), show_thumbnail_viewer);
     rstto_main_window_set_show_toolbar(RSTTO_MAIN_WINDOW(window), show_toolbar);
-
+    if (start_fullscreen)
+        rstto_main_window_force_fullscreen(RSTTO_MAIN_WINDOW(window));
+    if (start_slideshow)
+        rstto_main_window_force_slideshow (RSTTO_MAIN_WINDOW(window));
     gtk_main();
 
     bg_color = (GdkColor *)rstto_main_window_get_pv_bg_color(RSTTO_MAIN_WINDOW(window));

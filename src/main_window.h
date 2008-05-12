@@ -104,6 +104,15 @@ const GdkColor *
 rstto_main_window_get_pv_bg_color (RsttoMainWindow *window);
 
 void
+rstto_main_window_set_start_fullscreen (RsttoMainWindow *window, gboolean fullscreen);
+void
+rstto_main_window_set_start_slideshow (RsttoMainWindow *window, gboolean slideshow);
+void
+rstto_main_window_force_fullscreen (RsttoMainWindow *window);
+void
+rstto_main_window_force_slideshow (RsttoMainWindow *window);
+
+void
 rstto_main_window_set_scale_to_100 (RsttoMainWindow *window, gboolean scale_to_100);
 gboolean
 rstto_main_window_get_scale_to_100 (RsttoMainWindow *window);

@@ -70,6 +70,8 @@ struct _RsttoMainWindowPriv
         const GdkColor *bg_color;
         gboolean        scale_to_100;
         RsttoDesktop    desktop;
+        gboolean        start_fullscreen;
+        gboolean        start_slideshow;
     } settings;
 
     struct {
@@ -1068,6 +1070,31 @@ void
 rstto_main_window_set_hide_thumbnail (RsttoMainWindow *window, gboolean hide)
 {
     window->priv->settings.slideshow_hide_thumbnail = hide;
+}
+
+void
+rstto_main_window_set_start_fullscreen (RsttoMainWindow *window, gboolean fullscreen)
+{
+    window->priv->settings.start_fullscreen = fullscreen;
+}
+
+void
+rstto_main_window_set_start_slideshow (RsttoMainWindow *window, gboolean slideshow)
+{
+    window->priv->settings.start_slideshow = slideshow;
+}
+
+void
+rstto_main_window_force_fullscreen (RsttoMainWindow *window)
+{
+    if(gdk_window_get_state(GTK_WIDGET(window)->window) | GDK_WINDOW_STATE_FULLSCREEN)
+        gtk_window_fullscreen(GTK_WINDOW(window));
+}
+
+void
+rstto_main_window_force_slideshow (RsttoMainWindow *window)
+{
+    gtk_widget_activate(window->priv->menus.go.menu_item_play);
 }
 
 void
