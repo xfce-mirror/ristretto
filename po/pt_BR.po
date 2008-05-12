@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-05-12 09:33+0200\n"
-"PO-Revision-Date: 2008-05-05 18:51-0400\n"
+"PO-Revision-Date: 2008-05-12 08:33-0400\n"
 "Last-Translator: Og Maciel <ogmaciel@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
 "MIME-Version: 1.0\n"
@@ -171,9 +171,8 @@ msgid "Preload"
 msgstr "Pré-carregamento"
 
 #: ../src/main_window.c:1456
-#, fuzzy
 msgid "Thumbnails"
-msgstr "_Visualizador de Miniaturas"
+msgstr "Miniaturas"
 
 #: ../src/main_window.c:1461
 msgid ""
@@ -198,11 +197,11 @@ msgstr "Carregar imagens _previamente"
 
 #: ../src/main_window.c:1468
 msgid "Hide the thumbnails bar during slideshow"
-msgstr ""
+msgstr "Ocula a barra de miniaturas durante a apresentação de slides"
 
 #: ../src/main_window.c:1469
 msgid "_Hide thumbnails"
-msgstr ""
+msgstr "_Ocultar miniaturas"
 
 #: ../src/main_window.c:1535
 msgid "Developer:"
