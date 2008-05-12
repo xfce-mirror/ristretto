@@ -1,5 +1,10 @@
 2008-05-12  Og Maciel <ogmaciel@gnome.org>
 
+	* pt_BR.po: Fixed minor typo in Brazilian Portuguese translation,
+	patch sent by Fábio Nogueira <deb-user-ba@ubuntu.com>
+
+2008-05-12  Og Maciel <ogmaciel@gnome.org>
+
 	* pt_BR.po: Updated Brazilian Portuguese translation.
 
 2008-05-10  Mike Massonnet <mmassonnet@xfce.org>

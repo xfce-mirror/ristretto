@@ -197,7 +197,7 @@ msgstr "Carregar imagens _previamente"
 
 #: ../src/main_window.c:1468
 msgid "Hide the thumbnails bar during slideshow"
-msgstr "Ocula a barra de miniaturas durante a apresentação de slides"
+msgstr "Oculta a barra de miniaturas durante a apresentação de slides"
 
 #: ../src/main_window.c:1469
 msgid "_Hide thumbnails"
