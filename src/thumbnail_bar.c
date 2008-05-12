@@ -823,8 +823,28 @@ cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
     {
         case GDK_SCROLL_UP:
         case GDK_SCROLL_LEFT:
-            bar->priv->auto_center = FALSE;
-            bar->priv->offset -= 30;
+            if (bar->priv->thumbs)
+            {   
+                gint thumb_width;
+                gint thumb_height;
+                switch(bar->priv->orientation)
+                {
+                    case GTK_ORIENTATION_HORIZONTAL:
+                        thumb_width = GTK_WIDGET(bar->priv->thumbs->data)->allocation.width;
+                        bar->priv->auto_center = FALSE;
+                        bar->priv->offset -= 30;
+                        if ((thumb_width - GTK_WIDGET(bar)->allocation.width) >= bar->priv->offset)
+                            bar->priv->offset = thumb_width - GTK_WIDGET(bar)->allocation.width;
+                        break;
+                    case GTK_ORIENTATION_VERTICAL:
+                        thumb_height = GTK_WIDGET(bar->priv->thumbs->data)->allocation.height;
+                        bar->priv->auto_center = FALSE;
+                        bar->priv->offset -= 30;
+                        if ((thumb_height - GTK_WIDGET(bar)->allocation.height) >= bar->priv->offset)
+                            bar->priv->offset = thumb_height - GTK_WIDGET(bar)->allocation.height;
+                        break;
+                }
+            }
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
