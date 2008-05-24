@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-24 12:14+0200\n"
+"POT-Creation-Date: 2008-05-24 15:06+0200\n"
 "PO-Revision-Date: 2008-03-22 12:30+03\n"
 "Last-Translator: Stefan Zerkalica <zerkalica@gmail.com>\n"
 "Language-Team: Russian\n"
@@ -38,8 +38,8 @@ msgstr ""
 "Попробуйте %s --help для просмотра полного списка параметров командной "
 "строки.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1613 ../src/main_window.c:1653
-#: ../src/main_window.c:1690
+#: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
+#: ../src/main_window.c:1691
 msgid "Opening file(s)..."
 msgstr "Открывается файл(ы)..."
 
@@ -185,7 +185,7 @@ msgstr "Предзагрузка"
 msgid "Thumbnails"
 msgstr "Просмотр _эскизов"
 
-#: ../src/main_window.c:1497
+#: ../src/main_window.c:1498
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -194,7 +194,7 @@ msgstr ""
 "слайдшоу\n"
 "(в секундах)"
 
-#: ../src/main_window.c:1501
+#: ../src/main_window.c:1502
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -202,23 +202,23 @@ msgstr ""
 "Предзагружать изображения во время слайдшоу\n"
 "(требует больше памяти)"
 
-#: ../src/main_window.c:1502
+#: ../src/main_window.c:1503
 msgid "_Preload images"
 msgstr "Предзагру_зка изображений"
 
-#: ../src/main_window.c:1504
+#: ../src/main_window.c:1505
 msgid "Hide the thumbnails bar during slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1506
 msgid "_Hide thumbnails"
 msgstr ""
 
-#: ../src/main_window.c:1571
+#: ../src/main_window.c:1572
 msgid "Developer:"
 msgstr "Разработчик:"
 
-#: ../src/main_window.c:1581
+#: ../src/main_window.c:1582
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -226,23 +226,23 @@ msgstr ""
 "Ristretto - быстрый и легковесный просмотрщик картинок для рабочего "
 "окружения Xfce"
 
-#: ../src/main_window.c:1589
+#: ../src/main_window.c:1590
 msgid "translator-credits"
 msgstr "Stefan Zerkalica <zerkalica@gmail.com>"
 
-#: ../src/main_window.c:1615
+#: ../src/main_window.c:1616
 msgid "Open image"
 msgstr "Открыть картинку"
 
-#: ../src/main_window.c:1633
+#: ../src/main_window.c:1634
 msgid "Could not open file"
 msgstr "Невозможно открыть файл"
 
-#: ../src/main_window.c:1655
+#: ../src/main_window.c:1656
 msgid "Open folder"
 msgstr "Открыть папку"
 
-#: ../src/main_window.c:1730
+#: ../src/main_window.c:1731
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Вы уверены что хотите очистить список недавних документов?"
@@ -268,9 +268,12 @@ msgid "Image Viewer"
 msgstr "Просмотр изображений"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Ristretto Image Viewer"
-msgstr "Ristretto Просмотр изображений"
+msgid "Ristretto"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce Просмотр изображений"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Ristretto Просмотр изображений"

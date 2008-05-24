@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-24 12:14+0200\n"
+"POT-Creation-Date: 2008-05-24 15:06+0200\n"
 "PO-Revision-Date: 2007-12-22 10:52+0100\n"
 "Last-Translator: Fabio Vergnani <monghitri@aruba.it>\n"
 "Language-Team: Italian\n"
@@ -40,8 +40,8 @@ msgstr ""
 "Prova %s --help per vedere una lista completa di opzioni per linea di "
 "comando.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1613 ../src/main_window.c:1653
-#: ../src/main_window.c:1690
+#: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
+#: ../src/main_window.c:1691
 #, fuzzy
 msgid "Opening file(s)..."
 msgstr "_Apri con..."
@@ -189,7 +189,7 @@ msgstr "Precarica"
 msgid "Thumbnails"
 msgstr "_Visualizzazione miniature"
 
-#: ../src/main_window.c:1497
+#: ../src/main_window.c:1498
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -197,7 +197,7 @@ msgstr ""
 "Il tempo per cui viene mostrata una immagine durante una presentazione\n"
 "(in secondi)"
 
-#: ../src/main_window.c:1501
+#: ../src/main_window.c:1502
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -205,23 +205,23 @@ msgstr ""
 "Precarica le immagini durante le presentazioni\n"
 "(usa più memoria)"
 
-#: ../src/main_window.c:1502
+#: ../src/main_window.c:1503
 msgid "_Preload images"
 msgstr "_Precarica le immagini"
 
-#: ../src/main_window.c:1504
+#: ../src/main_window.c:1505
 msgid "Hide the thumbnails bar during slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1506
 msgid "_Hide thumbnails"
 msgstr ""
 
-#: ../src/main_window.c:1571
+#: ../src/main_window.c:1572
 msgid "Developer:"
 msgstr "Sviluppatore :"
 
-#: ../src/main_window.c:1581
+#: ../src/main_window.c:1582
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -229,23 +229,23 @@ msgstr ""
 "Ristretto è un visualizzatore di immagini leggero e veloce per l'ambiente "
 "desktop XFCE."
 
-#: ../src/main_window.c:1589
+#: ../src/main_window.c:1590
 msgid "translator-credits"
 msgstr "Fabio Vergnani <monghitri@aruba.it>"
 
-#: ../src/main_window.c:1615
+#: ../src/main_window.c:1616
 msgid "Open image"
 msgstr "Apri un'immagine"
 
-#: ../src/main_window.c:1633
+#: ../src/main_window.c:1634
 msgid "Could not open file"
 msgstr "Impossibile aprire il file"
 
-#: ../src/main_window.c:1655
+#: ../src/main_window.c:1656
 msgid "Open folder"
 msgstr "Apri cartella"
 
-#: ../src/main_window.c:1730
+#: ../src/main_window.c:1731
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Sei sicuro di voler cancellare la lista dei documenti recenti?"
@@ -271,12 +271,15 @@ msgid "Image Viewer"
 msgstr "Visualizzatore di immagini"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Ristretto Image Viewer"
-msgstr "Visualizzatore di immagini Ristretto"
+msgid "Ristretto"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Visualizzatore di immagini XFCE"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Visualizzatore di immagini Ristretto"
 
 #~ msgid "Flip _Vertically"
 #~ msgstr "Ruota _Verticalmente"

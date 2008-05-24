@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-04 22:51+0200\n"
+"POT-Creation-Date: 2008-05-24 15:06+0200\n"
 "PO-Revision-Date: 2008-05-10 13:15+1000\n"
 "Last-Translator: Jeff Bailes <thepizzaking@gmail.com>\n"
 "Language-Team: English/GB\n"
@@ -17,11 +18,20 @@ msgstr ""
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
 
-#: ../src/main.c:59
+#: ../src/main.c:61
 msgid "Version information"
 msgstr "Version information"
 
-#: ../src/main.c:226
+#: ../src/main.c:65
+msgid "Start in fullscreen mode"
+msgstr ""
+
+#: ../src/main.c:69
+#, fuzzy
+msgid "Start a slideshow"
+msgstr "Slideshow"
+
+#: ../src/main.c:235
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -30,149 +40,154 @@ msgstr ""
 "%s: %s\n"
 "Try %s --help to see a full list of available command line options.\n"
 
-#: ../src/main.c:449
-#: ../src/main_window.c:1514
-#: ../src/main_window.c:1554
-#: ../src/main_window.c:1591
+#: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
+#: ../src/main_window.c:1691
 msgid "Opening file(s)..."
 msgstr "Opening file(s)..."
 
 #. Create 'File' menu
-#: ../src/main_window.c:331
+#: ../src/main_window.c:339
 msgid "_File"
 msgstr "_File"
 
-#: ../src/main_window.c:338
+#: ../src/main_window.c:346
 msgid "O_pen Folder"
 msgstr "O_pen Folder"
 
-#: ../src/main_window.c:339
+#: ../src/main_window.c:347
 msgid "_Recently used"
 msgstr "_Recently used"
 
+#: ../src/main_window.c:352
+msgid "Close _all"
+msgstr ""
+
 #. Create 'Edit' menu
-#: ../src/main_window.c:371
+#: ../src/main_window.c:382
 msgid "_Edit"
 msgstr "_Edit"
 
-#: ../src/main_window.c:376
-#: ../src/main_window.c:636
+#: ../src/main_window.c:387 ../src/main_window.c:685
 msgid "Open with..."
 msgstr "Open with..."
 
-#: ../src/main_window.c:384
-#: ../src/main_window.c:647
+#: ../src/main_window.c:395 ../src/main_window.c:696
 msgid "No applications available"
 msgstr "No applications available"
 
 #. Create 'View' menu
-#: ../src/main_window.c:393
+#: ../src/main_window.c:404
 msgid "_View"
 msgstr "_View"
 
-#: ../src/main_window.c:400
+#: ../src/main_window.c:411
 msgid "Show _Toolbar"
 msgstr "Show _Toolbar"
 
-#: ../src/main_window.c:401
+#: ../src/main_window.c:412
 msgid "Thumbnail _Viewer"
 msgstr "Thumbnail _Viewer"
 
-#: ../src/main_window.c:405
+#: ../src/main_window.c:416
 msgid "_Zooming"
 msgstr "_Zooming"
 
-#: ../src/main_window.c:406
+#: ../src/main_window.c:417
 msgid "_Rotate"
 msgstr "_Rotate"
 
-#: ../src/main_window.c:413
+#: ../src/main_window.c:424
 msgid "_Set as wallpaper"
 msgstr "_Set as wallpaper"
 
-#: ../src/main_window.c:453
+#: ../src/main_window.c:502
 msgid "Show _Horizontally"
 msgstr "Show _Horizontally"
 
-#: ../src/main_window.c:457
+#: ../src/main_window.c:506
 msgid "Show _Vertically"
 msgstr "Show _Vertically"
 
-#: ../src/main_window.c:461
+#: ../src/main_window.c:510
 msgid "H_ide"
 msgstr "H_ide"
 
-#: ../src/main_window.c:498
+#: ../src/main_window.c:547
 msgid "Rotate _Right"
 msgstr "Rotate _Right"
 
-#: ../src/main_window.c:499
+#: ../src/main_window.c:548
 msgid "Rotate _Left"
 msgstr "Rotate _Left"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:520
+#: ../src/main_window.c:569
 msgid "_Go"
 msgstr "_Go"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:551
+#: ../src/main_window.c:600
 msgid "_Help"
 msgstr "_Help"
 
-#: ../src/main_window.c:1306
+#: ../src/main_window.c:1398
 msgid "Image viewer Preferences"
 msgstr "Image viewer Preferences"
 
-#: ../src/main_window.c:1324
+#: ../src/main_window.c:1416
 msgid "Behaviour"
 msgstr "Behaviour"
 
-#: ../src/main_window.c:1328
+#: ../src/main_window.c:1420
 msgid "Slideshow"
 msgstr "Slideshow"
 
-#: ../src/main_window.c:1332
+#: ../src/main_window.c:1424
 msgid "Display"
 msgstr "Display"
 
-#: ../src/main_window.c:1337
+#: ../src/main_window.c:1429
 msgid "Scaling"
 msgstr "Scaling"
 
-#: ../src/main_window.c:1339
+#: ../src/main_window.c:1431
 msgid "Don't scale over 100% when maximizing the window."
 msgstr "Don't scale over 100% when maximising the window."
 
-#: ../src/main_window.c:1349
+#: ../src/main_window.c:1441
 msgid "Background Color"
 msgstr "Background Colour"
 
-#: ../src/main_window.c:1351
+#: ../src/main_window.c:1443
 msgid "_Override Background Color:"
 msgstr "_Override Background Colour:"
 
-#: ../src/main_window.c:1374
+#: ../src/main_window.c:1466
 msgid "Image Cache"
 msgstr "Image Cache"
 
-#: ../src/main_window.c:1377
+#: ../src/main_window.c:1469
 msgid "Cache size:"
 msgstr "Cache size:"
 
-#: ../src/main_window.c:1378
+#: ../src/main_window.c:1470
 msgid "MB"
 msgstr "MB"
 
-#: ../src/main_window.c:1394
+#: ../src/main_window.c:1486
 msgid "Timeout"
 msgstr "Timeout"
 
-#: ../src/main_window.c:1397
+#: ../src/main_window.c:1489
 msgid "Preload"
 msgstr "Preload"
 
-#: ../src/main_window.c:1402
+#: ../src/main_window.c:1492
+#, fuzzy
+msgid "Thumbnails"
+msgstr "Thumbnail _Viewer"
+
+#: ../src/main_window.c:1498
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -180,7 +195,7 @@ msgstr ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 
-#: ../src/main_window.c:1406
+#: ../src/main_window.c:1502
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -188,51 +203,65 @@ msgstr ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 
-#: ../src/main_window.c:1407
+#: ../src/main_window.c:1503
 msgid "_Preload images"
 msgstr "_Preload images"
 
-#: ../src/main_window.c:1472
+#: ../src/main_window.c:1505
+msgid "Hide the thumbnails bar during slideshow"
+msgstr ""
+
+#: ../src/main_window.c:1506
+msgid "_Hide thumbnails"
+msgstr ""
+
+#: ../src/main_window.c:1572
 msgid "Developer:"
 msgstr "Developer:"
 
-#: ../src/main_window.c:1482
-msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
-msgstr "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+#: ../src/main_window.c:1582
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
+msgstr ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
 
-#: ../src/main_window.c:1490
+#: ../src/main_window.c:1590
 msgid "translator-credits"
 msgstr "Jeff Bailes <thepizzaking@gmail.com>, 2008"
 
-#: ../src/main_window.c:1516
+#: ../src/main_window.c:1616
 msgid "Open image"
 msgstr "Open image"
 
-#: ../src/main_window.c:1534
+#: ../src/main_window.c:1634
 msgid "Could not open file"
 msgstr "Could not open file"
 
-#: ../src/main_window.c:1556
+#: ../src/main_window.c:1656
 msgid "Open folder"
 msgstr "Open folder"
 
-#: ../src/main_window.c:1631
-msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr "Are you sure you want to clear ristretto's list of recently opened documents?"
+#: ../src/main_window.c:1731
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
 
-#: ../src/thumbnail_bar.c:183
+#: ../src/thumbnail_bar.c:185
 msgid "Spacing"
 msgstr "Spacing"
 
-#: ../src/thumbnail_bar.c:184
+#: ../src/thumbnail_bar.c:186
 msgid "The amount of space between the thumbnails"
 msgstr "The amount of space between the thumbnails"
 
-#: ../src/thumbnail_bar.c:190
+#: ../src/thumbnail_bar.c:192
 msgid "Border Width"
 msgstr "Border Width"
 
-#: ../src/thumbnail_bar.c:191
+#: ../src/thumbnail_bar.c:193
 msgid "The border width of the thumbnail-bar"
 msgstr "The border width of the thumbnail-bar"
 
@@ -241,10 +270,12 @@ msgid "Image Viewer"
 msgstr "Image Viewer"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Ristretto Image Viewer"
-msgstr "Ristretto Image Viewer"
+msgid "Ristretto"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce Image viewer"
 
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Ristretto Image Viewer"

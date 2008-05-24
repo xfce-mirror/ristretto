@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-24 12:14+0200\n"
+"POT-Creation-Date: 2008-05-24 15:06+0200\n"
 "PO-Revision-Date: 2007-11-11 20:37+0300\n"
 "Last-Translator: Rihards Priedītis <rprieditis@inbox.lv>\n"
 "Language-Team: Latvian <rprieditis@inbox.lv>\n"
@@ -38,8 +38,8 @@ msgstr ""
 "%s: %s\n"
 "Mēģiniet %s --help , lai redzētu pilnu pieejamo komandu sarakstu.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1613 ../src/main_window.c:1653
-#: ../src/main_window.c:1690
+#: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
+#: ../src/main_window.c:1691
 #, fuzzy
 msgid "Opening file(s)..."
 msgstr "Atvert ar..."
@@ -192,7 +192,7 @@ msgstr "Pirmsielāde"
 msgid "Thumbnails"
 msgstr "Sīktēlu Skatītājs"
 
-#: ../src/main_window.c:1497
+#: ../src/main_window.c:1498
 #, fuzzy
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
@@ -201,7 +201,7 @@ msgstr ""
 "Noildze attēla rādīšanai slīdrādē\n"
 "(sekundēs)"
 
-#: ../src/main_window.c:1501
+#: ../src/main_window.c:1502
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -209,45 +209,45 @@ msgstr ""
 "Ielādēt attēlus slīdrāde laikā\n"
 "(aizņem vairāk atmiņas)"
 
-#: ../src/main_window.c:1502
+#: ../src/main_window.c:1503
 msgid "_Preload images"
 msgstr "_Pirmsielādes attēli"
 
-#: ../src/main_window.c:1504
+#: ../src/main_window.c:1505
 msgid "Hide the thumbnails bar during slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1506
 msgid "_Hide thumbnails"
 msgstr ""
 
-#: ../src/main_window.c:1571
+#: ../src/main_window.c:1572
 msgid "Developer:"
 msgstr "Izstrādātājs:"
 
-#: ../src/main_window.c:1581
+#: ../src/main_window.c:1582
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "Ristretto ir ātrs un viegls attēlu skatītājs Xfce Videi."
 
-#: ../src/main_window.c:1589
+#: ../src/main_window.c:1590
 msgid "translator-credits"
 msgstr "Tūlkotāji:"
 
-#: ../src/main_window.c:1615
+#: ../src/main_window.c:1616
 msgid "Open image"
 msgstr "Atvērt attēlu"
 
-#: ../src/main_window.c:1633
+#: ../src/main_window.c:1634
 msgid "Could not open file"
 msgstr "Nevarēju atvērt failu"
 
-#: ../src/main_window.c:1655
+#: ../src/main_window.c:1656
 msgid "Open folder"
 msgstr "Atvērt mapi"
 
-#: ../src/main_window.c:1730
+#: ../src/main_window.c:1731
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
@@ -274,9 +274,12 @@ msgid "Image Viewer"
 msgstr "Attēlu Skatītājs"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Ristretto Image Viewer"
-msgstr "Ristretto Attēlu Skatītājs"
+msgid "Ristretto"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce Attēlu Skatītājs"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Ristretto Attēlu Skatītājs"

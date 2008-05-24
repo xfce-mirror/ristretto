@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-24 12:14+0200\n"
+"POT-Creation-Date: 2008-05-24 15:06+0200\n"
 "PO-Revision-Date: 2008-01-21 21:48+0200\n"
 "Last-Translator: Onur Küçük <onur@pardus.org.tr>\n"
 "Language-Team: Turkish\n"
@@ -40,8 +40,8 @@ msgstr ""
 "%s: %s\n"
 "Komutsatırı parametrelerini görmek için %s --help komutunu kullanınız.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1613 ../src/main_window.c:1653
-#: ../src/main_window.c:1690
+#: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
+#: ../src/main_window.c:1691
 #, fuzzy
 msgid "Opening file(s)..."
 msgstr "Birlikte aç..."
@@ -189,7 +189,7 @@ msgstr "Önyükleme"
 msgid "Thumbnails"
 msgstr "_Önizleme Gösterici"
 
-#: ../src/main_window.c:1497
+#: ../src/main_window.c:1498
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -197,7 +197,7 @@ msgstr ""
 "Sırayla gösterim sırasında resim başına gösterim süresi\n"
 "(saniye cinsinden)"
 
-#: ../src/main_window.c:1501
+#: ../src/main_window.c:1502
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -205,23 +205,23 @@ msgstr ""
 "Sırayla gösterim sırasında görüntüleri önyükle\n"
 "(daha çok hafıza kullanır)"
 
-#: ../src/main_window.c:1502
+#: ../src/main_window.c:1503
 msgid "_Preload images"
 msgstr "Görüntüleri _önyükle"
 
-#: ../src/main_window.c:1504
+#: ../src/main_window.c:1505
 msgid "Hide the thumbnails bar during slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1506
 msgid "_Hide thumbnails"
 msgstr ""
 
-#: ../src/main_window.c:1571
+#: ../src/main_window.c:1572
 msgid "Developer:"
 msgstr "Geliştirici:"
 
-#: ../src/main_window.c:1581
+#: ../src/main_window.c:1582
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -229,23 +229,23 @@ msgstr ""
 "Ristretto, Xfce masaüstü ortamı için geliştirilen hızlı ve hafif bir resim "
 "göstericidir."
 
-#: ../src/main_window.c:1589
+#: ../src/main_window.c:1590
 msgid "translator-credits"
 msgstr "Onur Küçük <onur@pardus.org.tr>"
 
-#: ../src/main_window.c:1615
+#: ../src/main_window.c:1616
 msgid "Open image"
 msgstr "Dosya aç"
 
-#: ../src/main_window.c:1633
+#: ../src/main_window.c:1634
 msgid "Could not open file"
 msgstr "Dosya açılamadı"
 
-#: ../src/main_window.c:1655
+#: ../src/main_window.c:1656
 msgid "Open folder"
 msgstr "Dizin aç"
 
-#: ../src/main_window.c:1730
+#: ../src/main_window.c:1731
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
@@ -272,9 +272,12 @@ msgid "Image Viewer"
 msgstr "Resim Gösterici"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Ristretto Image Viewer"
-msgstr "Ristretto Görüntü Gösterici"
+msgid "Ristretto"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce Görüntü Gösterici"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Ristretto Görüntü Gösterici"

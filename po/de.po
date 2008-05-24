@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-24 12:14+0200\n"
+"POT-Creation-Date: 2008-05-24 15:06+0200\n"
 "PO-Revision-Date: 2007-12-01 17:41:21+0000\n"
 "Last-Translator: Fabian Nowak <timystery@arcor.de>\n"
 "Language-Team: German\n"
@@ -40,8 +40,8 @@ msgstr ""
 "Versuchen Sie »%s --help«, um eine komplette Liste verfügbarer "
 "Kommandozeilenoptionen anzusehen.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1613 ../src/main_window.c:1653
-#: ../src/main_window.c:1690
+#: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
+#: ../src/main_window.c:1691
 msgid "Opening file(s)..."
 msgstr "Datei(en) öffnen..."
 
@@ -187,7 +187,7 @@ msgstr "Vorladen"
 msgid "Thumbnails"
 msgstr "Miniaturbilder"
 
-#: ../src/main_window.c:1497
+#: ../src/main_window.c:1498
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -195,7 +195,7 @@ msgstr ""
 "Die Zeitspanne, während der ein Bild angezeigt wird\n"
 "(in Sekunden)"
 
-#: ../src/main_window.c:1501
+#: ../src/main_window.c:1502
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -203,23 +203,23 @@ msgstr ""
 "Bilder während einer Diavorführung vorladen\n"
 "(benötigt mehr Speicher)"
 
-#: ../src/main_window.c:1502
+#: ../src/main_window.c:1503
 msgid "_Preload images"
 msgstr "Bilder _vorladen"
 
-#: ../src/main_window.c:1504
+#: ../src/main_window.c:1505
 msgid "Hide the thumbnails bar during slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1506
 msgid "_Hide thumbnails"
 msgstr ""
 
-#: ../src/main_window.c:1571
+#: ../src/main_window.c:1572
 msgid "Developer:"
 msgstr "Entwickler:"
 
-#: ../src/main_window.c:1581
+#: ../src/main_window.c:1582
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -227,25 +227,25 @@ msgstr ""
 "Ristretto ist ein schneller und schlanker Bildbetrachter für die "
 "Arbeitsumgebung Xfce."
 
-#: ../src/main_window.c:1589
+#: ../src/main_window.c:1590
 msgid "translator-credits"
 msgstr ""
 "Christian Dywan <christian@twotoasts.de>\n"
 "Fabian Nowak <timystery@arcor.de>"
 
-#: ../src/main_window.c:1615
+#: ../src/main_window.c:1616
 msgid "Open image"
 msgstr "Bild öffnen"
 
-#: ../src/main_window.c:1633
+#: ../src/main_window.c:1634
 msgid "Could not open file"
 msgstr "Datei konnte nicht geöffnet werden"
 
-#: ../src/main_window.c:1655
+#: ../src/main_window.c:1656
 msgid "Open folder"
 msgstr "_Ordner öffnen"
 
-#: ../src/main_window.c:1730
+#: ../src/main_window.c:1731
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
@@ -273,9 +273,12 @@ msgid "Image Viewer"
 msgstr "Bildbetrachter"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Ristretto Image Viewer"
-msgstr "Bildbetrachter Ristretto"
+msgid "Ristretto"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce-Bildbetrachter"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Bildbetrachter Ristretto"

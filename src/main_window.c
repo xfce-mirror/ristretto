@@ -1492,6 +1492,7 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *thumbnails_frame = xfce_create_framebox_with_content (_("Thumbnails"), thumbnails_vbox);
 
     gtk_container_set_border_width (GTK_CONTAINER (slideshow_frame), 8);
+    gtk_container_set_border_width (GTK_CONTAINER (thumbnails_frame), 8);
     gtk_container_set_border_width (GTK_CONTAINER (preload_frame), 8);
 
     GtkWidget *slideshow_lbl = gtk_label_new(_("The time period an individual image is displayed during a slideshow\n(in seconds)"));

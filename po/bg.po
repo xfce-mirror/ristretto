@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.15\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-24 12:14+0200\n"
+"POT-Creation-Date: 2008-05-24 15:06+0200\n"
 "PO-Revision-Date: 2008-01-02 23:03+0200\n"
 "Last-Translator: Plamen Stoev <piros89@gmail.com>\n"
 "Language-Team: \n"
@@ -41,8 +41,8 @@ msgstr ""
 "Опитайте %s --help за да видите пълен списък с наличните опции на командния "
 "ред.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1613 ../src/main_window.c:1653
-#: ../src/main_window.c:1690
+#: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
+#: ../src/main_window.c:1691
 #, fuzzy
 msgid "Opening file(s)..."
 msgstr "Отваряне с..."
@@ -190,7 +190,7 @@ msgstr "Предварително зареждане"
 msgid "Thumbnails"
 msgstr "Визуализатор на умалени изображения"
 
-#: ../src/main_window.c:1497
+#: ../src/main_window.c:1498
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -198,7 +198,7 @@ msgstr ""
 "Времето за което се показва едно изображение при прожекция\n"
 "(в секунди)"
 
-#: ../src/main_window.c:1501
+#: ../src/main_window.c:1502
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -206,23 +206,23 @@ msgstr ""
 "Предварително зареждане на изображенията при прожекция\n"
 "(използва се повече памет)"
 
-#: ../src/main_window.c:1502
+#: ../src/main_window.c:1503
 msgid "_Preload images"
 msgstr "Предварително зареждане на изображения"
 
-#: ../src/main_window.c:1504
+#: ../src/main_window.c:1505
 msgid "Hide the thumbnails bar during slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1506
 msgid "_Hide thumbnails"
 msgstr ""
 
-#: ../src/main_window.c:1571
+#: ../src/main_window.c:1572
 msgid "Developer:"
 msgstr "Разработчик:"
 
-#: ../src/main_window.c:1581
+#: ../src/main_window.c:1582
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -230,23 +230,23 @@ msgstr ""
 "Ristretto е бърза и лека програма за преглед на изображения за работната "
 "среда XFCE"
 
-#: ../src/main_window.c:1589
+#: ../src/main_window.c:1590
 msgid "translator-credits"
 msgstr "Пламен Стоев <piros89@gmail.com>"
 
-#: ../src/main_window.c:1615
+#: ../src/main_window.c:1616
 msgid "Open image"
 msgstr "Отваряне на изображение"
 
-#: ../src/main_window.c:1633
+#: ../src/main_window.c:1634
 msgid "Could not open file"
 msgstr "Файлът не може да бъде отворен"
 
-#: ../src/main_window.c:1655
+#: ../src/main_window.c:1656
 msgid "Open folder"
 msgstr "Отваряне на папка"
 
-#: ../src/main_window.c:1730
+#: ../src/main_window.c:1731
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
@@ -273,9 +273,12 @@ msgid "Image Viewer"
 msgstr "Програма за преглед на изображения"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Ristretto Image Viewer"
-msgstr "Програма за преглед на изображения Ristretto"
+msgid "Ristretto"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Програма за преглед на изображения за XFCE"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Програма за преглед на изображения Ristretto"

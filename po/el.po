@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-24 12:14+0200\n"
+"POT-Creation-Date: 2008-05-24 15:06+0200\n"
 "PO-Revision-Date: 2008-03-25 12:43+0200\n"
 "Last-Translator: Evaggelos Balaskas <ebalaskas@ebalaskas.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -39,8 +39,8 @@ msgstr ""
 "Δοκίμασε %s --help για να δεις μία πλήρη λίστα με διαθέσιμες παραμέτρους για "
 "την γραμμή εντολώνto.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1613 ../src/main_window.c:1653
-#: ../src/main_window.c:1690
+#: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
+#: ../src/main_window.c:1691
 msgid "Opening file(s)..."
 msgstr "Άνοιγμα αρχείου(ων)..."
 
@@ -186,7 +186,7 @@ msgstr "Προφόρτωση"
 msgid "Thumbnails"
 msgstr "Εμφάνιση Ει_κονιδίων"
 
-#: ../src/main_window.c:1497
+#: ../src/main_window.c:1498
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -195,7 +195,7 @@ msgstr ""
 "διαφάνειες\n"
 "(σε δευτερόλεπτα)"
 
-#: ../src/main_window.c:1501
+#: ../src/main_window.c:1502
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -203,23 +203,23 @@ msgstr ""
 "Προφόρτωση εικόνων κατά την διάρκεια διαφανειών\n"
 "(χρησιμοποιεί περισσότερη μνήμη)"
 
-#: ../src/main_window.c:1502
+#: ../src/main_window.c:1503
 msgid "_Preload images"
 msgstr "_Προφόρτωση εικόνων"
 
-#: ../src/main_window.c:1504
+#: ../src/main_window.c:1505
 msgid "Hide the thumbnails bar during slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1506
 msgid "_Hide thumbnails"
 msgstr ""
 
-#: ../src/main_window.c:1571
+#: ../src/main_window.c:1572
 msgid "Developer:"
 msgstr "Προγραμματιστής:"
 
-#: ../src/main_window.c:1581
+#: ../src/main_window.c:1582
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -227,23 +227,23 @@ msgstr ""
 "Το ristretto είναι ένα γρήγορο και ελαφρύ πρόγραμμα εμφάνισης εικόνων\n"
 " για το γραφικό περιβάλλον xfce."
 
-#: ../src/main_window.c:1589
+#: ../src/main_window.c:1590
 msgid "translator-credits"
 msgstr "Evaggelos Balaskas <ebalaskas@ebalaskas.gr>, 2008"
 
-#: ../src/main_window.c:1615
+#: ../src/main_window.c:1616
 msgid "Open image"
 msgstr "Άνοιγμα εικόνας"
 
-#: ../src/main_window.c:1633
+#: ../src/main_window.c:1634
 msgid "Could not open file"
 msgstr "Αποτυχία ανοίγματος εικόνας"
 
-#: ../src/main_window.c:1655
+#: ../src/main_window.c:1656
 msgid "Open folder"
 msgstr "Άνοιγμα καταλόγου"
 
-#: ../src/main_window.c:1730
+#: ../src/main_window.c:1731
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
@@ -271,9 +271,12 @@ msgid "Image Viewer"
 msgstr "Εφαρμογή προβολής εικόνων"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Ristretto Image Viewer"
-msgstr "Εφαρμογή προβολής εικόνων ristretto"
+msgid "Ristretto"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Εφαρμογή προβολής εικόνων για το xfce"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Εφαρμογή προβολής εικόνων ristretto"
