@@ -1,4 +1,4 @@
-xxxx-xx-xx: Release 0.0.20
+2008-05-24: Release 0.0.20
 	* src/thumbnail_bar.c:
 	  - Add limits so that images are not scrolled outside the thumbnail-bar
 	    boundaries (Fix bug introduced with 0.0.19)
@@ -13,6 +13,9 @@ xxxx-xx-xx: Release 0.0.20
 	  src/main_window.c:
 	  - Add option to show/hide thumbnails during slideshow. (Bug #4076)
 	  	Patch by Gauvain Pocentek <gauvainpocentek AT gmail DOT com>
+	* ristretto.desktop.in:
+	  - Do not include Generic Name to the Name field, this makes some menu
+	    implementations look broken (Bug #4085)
 
 2008-05-10: Release 0.0.19
 	* src/main_window.c:
