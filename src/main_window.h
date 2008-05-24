@@ -123,6 +123,12 @@ gint
 rstto_main_window_get_desktop(RsttoMainWindow *window);
 gint
 rstto_main_window_set_desktop(RsttoMainWindow *window, RsttoDesktop desktop);
+gboolean
+rstto_main_window_get_hide_thumbnail (RsttoMainWindow *window);
+void
+rstto_main_window_set_hide_thumbnail (RsttoMainWindow *window, gboolean hide);
+void
+rstto_main_window_set_start_fullscreen (RsttoMainWindow *window, gboolean fullscreen);
 
 G_END_DECLS
 
