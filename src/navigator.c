@@ -313,6 +313,13 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
         if (nav_entry)
         {
             size += rstto_navigator_entry_get_size(nav_entry);
+            size += sizeof (*nav_entry);
+            size += sizeof (*nav_entry->info);
+
+            if (nav_entry->exif_data);
+                size += sizeof (*nav_entry->exif_data);
+            if (nav_entry->loader)
+                size += sizeof (nav_entry->loader);
 
             if (size > navigator->max_history)
             {
@@ -1473,7 +1480,7 @@ rstto_navigator_open_file(RsttoNavigator *navigator, const gchar *path, gboolean
     g_free(file_uri);
 
     g_free(file_media);
-    return 0;
+    return TRUE;
 }
 
 gboolean
