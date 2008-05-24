@@ -91,6 +91,7 @@ struct _RsttoMainWindowPriv
             GtkWidget *menu_item_file_properties;
             GtkWidget *menu_item_separator_2;
             GtkWidget *menu_item_close;
+            GtkWidget *menu_item_close_all;
             GtkWidget *menu_item_quit;
         } file;
 
@@ -251,6 +252,8 @@ cb_rstto_main_window_clear_recent(GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_close(GtkWidget *widget, RsttoMainWindow *window);
 static void
+cb_rstto_main_window_close_all(GtkWidget *widget, RsttoMainWindow *window);
+static void
 cb_rstto_main_window_file_properties(GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_quit(GtkWidget *widget, RsttoMainWindow *window);
@@ -346,6 +349,7 @@ rstto_main_window_init(RsttoMainWindow *window)
     window->priv->menus.file.menu_item_file_properties = gtk_image_menu_item_new_from_stock(GTK_STOCK_PROPERTIES, accel_group);
     window->priv->menus.file.menu_item_separator_2 = gtk_separator_menu_item_new();
     window->priv->menus.file.menu_item_close = gtk_image_menu_item_new_from_stock(GTK_STOCK_CLOSE, accel_group);
+    window->priv->menus.file.menu_item_close_all = gtk_menu_item_new_with_mnemonic(_("Close _all"));
     window->priv->menus.file.menu_item_quit = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, accel_group);
 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(window->priv->menus.menu_item_file), window->priv->menus.file.menu);
@@ -356,9 +360,11 @@ rstto_main_window_init(RsttoMainWindow *window)
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.file.menu), window->priv->menus.file.menu_item_file_properties);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.file.menu), window->priv->menus.file.menu_item_separator_2);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.file.menu), window->priv->menus.file.menu_item_close);
+    gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.file.menu), window->priv->menus.file.menu_item_close_all);
     gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->menus.file.menu), window->priv->menus.file.menu_item_quit);
 
     gtk_widget_set_sensitive(window->priv->menus.file.menu_item_close, FALSE);
+    gtk_widget_set_sensitive(window->priv->menus.file.menu_item_close_all, FALSE);
     gtk_widget_set_sensitive(window->priv->menus.file.menu_item_file_properties, FALSE);
 
     window->priv->menus.file.recently.menu = gtk_recent_chooser_menu_new_for_manager(GTK_RECENT_MANAGER(window->priv->manager));
@@ -785,6 +791,9 @@ rstto_main_window_init(RsttoMainWindow *window)
     g_signal_connect(window->priv->menus.file.menu_item_close, 
             "activate",
             G_CALLBACK(cb_rstto_main_window_close), window);
+    g_signal_connect(window->priv->menus.file.menu_item_close_all, 
+            "activate",
+            G_CALLBACK(cb_rstto_main_window_close_all), window);
     g_signal_connect(G_OBJECT(window->priv->menus.file.recently.menu),
             "item-activated",
             G_CALLBACK(cb_rstto_main_window_open_recent), window);
@@ -1739,12 +1748,22 @@ cb_rstto_main_window_close(GtkWidget *widget, RsttoMainWindow *window)
         if (rstto_navigator_get_n_files(window->priv->navigator) == 0)
         {
             gtk_widget_set_sensitive(widget, FALSE);
+            gtk_widget_set_sensitive(window->priv->menus.file.menu_item_close_all, FALSE);
         }
     }
     else
     {
         gtk_widget_set_sensitive(widget, FALSE);
+        gtk_widget_set_sensitive(window->priv->menus.file.menu_item_close_all, FALSE);
     }
+}
+
+static void
+cb_rstto_main_window_close_all(GtkWidget *widget, RsttoMainWindow *window)
+{
+    rstto_navigator_clear (window->priv->navigator);
+    gtk_widget_set_sensitive(widget, FALSE);
+    gtk_widget_set_sensitive(window->priv->menus.file.menu_item_close, FALSE);
 }
 
 static void
@@ -1785,6 +1804,7 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
         info = rstto_navigator_entry_get_info(entry);
         filename = info->display_name;
         gtk_widget_set_sensitive(window->priv->menus.file.menu_item_close, TRUE);
+        gtk_widget_set_sensitive(window->priv->menus.file.menu_item_close_all, TRUE);
         gtk_widget_set_sensitive(window->priv->menus.file.menu_item_file_properties, TRUE);
         gtk_widget_set_sensitive(window->priv->menus.go.menu_item_first, TRUE);
         gtk_widget_set_sensitive(window->priv->menus.go.menu_item_last, TRUE);
@@ -1902,6 +1922,7 @@ cb_rstto_main_window_nav_iter_changed(RsttoNavigator *navigator, gint nr, RsttoN
     else
     {
         gtk_widget_set_sensitive(window->priv->menus.file.menu_item_close, FALSE);
+        gtk_widget_set_sensitive(window->priv->menus.file.menu_item_close_all, FALSE);
         gtk_widget_set_sensitive(window->priv->menus.view.menu_item_set_wallpaper, FALSE);
         gtk_window_set_title(GTK_WINDOW(window), PACKAGE_STRING);
         if (rstto_navigator_get_n_files(window->priv->navigator) == 0)
