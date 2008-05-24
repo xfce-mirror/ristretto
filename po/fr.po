@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-05-24 12:14+0200\n"
-"PO-Revision-Date: 2008-05-10 13:50+0200\n"
+"PO-Revision-Date: 2008-05-24 13:59+0200\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -23,12 +23,11 @@ msgstr "Information sur la version"
 
 #: ../src/main.c:65
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "Démarrer en mode plein écran"
 
 #: ../src/main.c:69
-#, fuzzy
 msgid "Start a slideshow"
-msgstr "Diaporama"
+msgstr "Démarrer le diaporama"
 
 #: ../src/main.c:235
 #, c-format
@@ -60,7 +59,7 @@ msgstr "_Récemment ouvert"
 
 #: ../src/main_window.c:352
 msgid "Close _all"
-msgstr ""
+msgstr "Fermer _tout"
 
 #. Create 'Edit' menu
 #: ../src/main_window.c:382
@@ -185,9 +184,8 @@ msgid "Preload"
 msgstr "Préchargement"
 
 #: ../src/main_window.c:1492
-#, fuzzy
 msgid "Thumbnails"
-msgstr "Vue des _miniatures"
+msgstr "Miniatures"
 
 #: ../src/main_window.c:1497
 msgid ""
@@ -211,11 +209,11 @@ msgstr "_Précharger les images"
 
 #: ../src/main_window.c:1504
 msgid "Hide the thumbnails bar during slideshow"
-msgstr ""
+msgstr "Cacher les miniatures durant le diaporama"
 
 #: ../src/main_window.c:1505
 msgid "_Hide thumbnails"
-msgstr ""
+msgstr "_Cacher les miniatures"
 
 #: ../src/main_window.c:1571
 msgid "Developer:"
