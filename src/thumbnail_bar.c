@@ -36,6 +36,7 @@ struct _RsttoThumbnailBarPriv
     gint begin;
     gint end;
     GSList *thumbs;
+    gint scroll_speed;
     struct
     {
         gdouble current_x;
@@ -151,6 +152,7 @@ rstto_thumbnail_bar_init(RsttoThumbnailBar *bar)
 
     bar->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
     bar->priv->offset = 0;
+    bar->priv->scroll_speed = 20;
 
     g_signal_connect(G_OBJECT(bar), "scroll_event", G_CALLBACK(cb_rstto_thumbnail_bar_scroll_event), NULL);
 
@@ -819,37 +821,66 @@ cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
                                      GdkEventScroll *event,
                                      gpointer *user_data)
 {
+    gint thumb_size;
+    GSList *thumb;
+    gint border_width = GTK_CONTAINER(bar)->border_width;
+
     switch(event->direction)
     {
         case GDK_SCROLL_UP:
         case GDK_SCROLL_LEFT:
             if (bar->priv->thumbs)
             {   
-                gint thumb_width;
-                gint thumb_height;
+                bar->priv->auto_center = FALSE;
+                bar->priv->offset -= bar->priv->scroll_speed;
                 switch(bar->priv->orientation)
                 {
                     case GTK_ORIENTATION_HORIZONTAL:
-                        thumb_width = GTK_WIDGET(bar->priv->thumbs->data)->allocation.width;
-                        bar->priv->auto_center = FALSE;
-                        bar->priv->offset -= 30;
-                        if ((thumb_width - GTK_WIDGET(bar)->allocation.width) >= bar->priv->offset)
-                            bar->priv->offset = thumb_width - GTK_WIDGET(bar)->allocation.width;
+                        thumb_size = GTK_WIDGET(bar->priv->thumbs->data)->allocation.width;
+                        if ((thumb_size - GTK_WIDGET(bar)->allocation.width) >= bar->priv->offset)
+                            bar->priv->offset = thumb_size - GTK_WIDGET(bar)->allocation.width + border_width;
                         break;
                     case GTK_ORIENTATION_VERTICAL:
-                        thumb_height = GTK_WIDGET(bar->priv->thumbs->data)->allocation.height;
-                        bar->priv->auto_center = FALSE;
-                        bar->priv->offset -= 30;
-                        if ((thumb_height - GTK_WIDGET(bar)->allocation.height) >= bar->priv->offset)
-                            bar->priv->offset = thumb_height - GTK_WIDGET(bar)->allocation.height;
+                        thumb_size = GTK_WIDGET(bar->priv->thumbs->data)->allocation.height;
+                        if ((thumb_size - GTK_WIDGET(bar)->allocation.height) >= bar->priv->offset)
+                            bar->priv->offset = thumb_size - GTK_WIDGET(bar)->allocation.height + border_width;
                         break;
                 }
             }
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
-            bar->priv->auto_center = FALSE;
-            bar->priv->offset += 30;
+            if (bar->priv->thumbs)
+            {   
+                gint size = 0;
+                bar->priv->auto_center = FALSE;
+                bar->priv->offset +=  bar->priv->scroll_speed;
+                switch(bar->priv->orientation)
+                {
+                    case GTK_ORIENTATION_HORIZONTAL:
+                        thumb_size = GTK_WIDGET(bar->priv->thumbs->data)->allocation.width;
+                        for (thumb = bar->priv->thumbs; thumb != NULL; thumb = g_slist_next(thumb))
+                        {
+                            size += GTK_WIDGET(thumb->data)->allocation.width;
+                            if (g_slist_next(thumb))
+                                size += border_width;
+                        }
+                        if ((size - thumb_size) <= bar->priv->offset)
+                            bar->priv->offset = size - thumb_size;
+                        break;
+                    case GTK_ORIENTATION_VERTICAL:
+                        thumb_size = GTK_WIDGET(bar->priv->thumbs->data)->allocation.height;
+                        for (thumb = bar->priv->thumbs; thumb != NULL; thumb = g_slist_next(thumb))
+                        {
+                            size += GTK_WIDGET(thumb->data)->allocation.height;
+                            if (g_slist_next(thumb))
+                                size += border_width;
+                        }
+                        if ((size - thumb_size) <= bar->priv->offset)
+                            bar->priv->offset = size - thumb_size;
+                        break;
+                }
+            }
             break;
     }
     gtk_widget_queue_resize(GTK_WIDGET(bar));
