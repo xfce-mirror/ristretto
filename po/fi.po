@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.5\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-24 15:06+0200\n"
-"PO-Revision-Date: 2008-02-26 12:21+0200\n"
+"POT-Creation-Date: 2008-05-25 10:07+0300\n"
+"PO-Revision-Date: 2008-05-25 10:21+0300\n"
 "Last-Translator: Jari Rahkonen <jari.rahkonen@pp1.inet.fi>\n"
 "Language-Team: Finnish <xfce-i18n@xfce.org>\n"
 "MIME-Version: 1.0\n"
@@ -22,12 +22,11 @@ msgstr "Versiotiedot"
 
 #: ../src/main.c:65
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "Käynnistä kokoruututilassa"
 
 #: ../src/main.c:69
-#, fuzzy
 msgid "Start a slideshow"
-msgstr "Diaesitys"
+msgstr "Aloita diaesitys"
 
 #: ../src/main.c:235
 #, c-format
@@ -40,9 +39,8 @@ msgstr ""
 
 #: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
 #: ../src/main_window.c:1691
-#, fuzzy
 msgid "Opening file(s)..."
-msgstr "_Avaa sovelluksessa..."
+msgstr "Avataan tiedosto(j)a..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:339
@@ -59,7 +57,7 @@ msgstr "_Viimeaikaiset"
 
 #: ../src/main_window.c:352
 msgid "Close _all"
-msgstr ""
+msgstr "Sulje _kaikki"
 
 #. Create 'Edit' menu
 #: ../src/main_window.c:382
@@ -68,7 +66,7 @@ msgstr "_Muokkaa"
 
 #: ../src/main_window.c:387 ../src/main_window.c:685
 msgid "Open with..."
-msgstr "_Avaa sovelluksessa..."
+msgstr "Avaa _sovelluksessa..."
 
 #: ../src/main_window.c:395 ../src/main_window.c:696
 msgid "No applications available"
@@ -93,11 +91,11 @@ msgstr "_Suurennus"
 
 #: ../src/main_window.c:417
 msgid "_Rotate"
-msgstr "_Käännä"
+msgstr "Kää_nnä"
 
 #: ../src/main_window.c:424
 msgid "_Set as wallpaper"
-msgstr ""
+msgstr "Aseta _taustakuvaksi"
 
 #: ../src/main_window.c:502
 msgid "Show _Horizontally"
@@ -146,13 +144,12 @@ msgid "Display"
 msgstr "Näyttö"
 
 #: ../src/main_window.c:1429
-#, fuzzy
 msgid "Scaling"
-msgstr "Välit"
+msgstr "Kuvan koko"
 
 #: ../src/main_window.c:1431
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
+msgstr "Älä suurenna kuvaa yli alkuperäiskokonsa, kun ikkuna suurennetaan."
 
 #: ../src/main_window.c:1441
 msgid "Background Color"
@@ -183,7 +180,6 @@ msgid "Preload"
 msgstr "Esilataus"
 
 #: ../src/main_window.c:1492
-#, fuzzy
 msgid "Thumbnails"
 msgstr "Pienoiskuvat"
 
@@ -197,9 +193,7 @@ msgstr "Montako sekuntia yksittäistä kuvaa esitetään diaesityksessä"
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
-msgstr ""
-"Esilataa kuvat diaesitystilassa\n"
-"(käyttää enemmän keskusmuistia)"
+msgstr "Esilataa kuvat diaesitystilassa (käyttää enemmän keskusmuistia)"
 
 #: ../src/main_window.c:1503
 msgid "_Preload images"
@@ -207,11 +201,11 @@ msgstr "_Esilataa kuvat"
 
 #: ../src/main_window.c:1505
 msgid "Hide the thumbnails bar during slideshow"
-msgstr ""
+msgstr "Piilota pienoiskuvat diaesityksen ajaksi"
 
 #: ../src/main_window.c:1506
 msgid "_Hide thumbnails"
-msgstr ""
+msgstr "_Piilota pienoiskuvat"
 
 #: ../src/main_window.c:1572
 msgid "Developer:"
@@ -267,17 +261,8 @@ msgstr "Kuvakatselin"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce:n kuvakatselin"
-
-#~ msgid "Ristretto Image Viewer"
-#~ msgstr "Ristretto-kuvakatselin"
-
-#~ msgid "Resize to content"
-#~ msgstr "Säädä koko sisällön mukaan"
-
-#~ msgid "Rescale image on maximize/restore"
-#~ msgstr "Skaalaa kuvaa, kun ikkuna suurennetaan/palautetaan"
