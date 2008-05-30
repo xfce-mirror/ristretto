@@ -846,6 +846,8 @@ rstto_navigator_entry_free(RsttoNavigatorEntry *nav_entry)
 GdkPixbuf *
 rstto_navigator_entry_get_thumb(RsttoNavigatorEntry *entry, gint size)
 {
+    ThunarVfsPath *home_path = thunar_vfs_path_get_for_home();
+    ThunarVfsPath *thumbnail_path = thunar_vfs_path_relative (home_path, ".thumbnails");
     if(entry->thumb)    
     {
         if(!(gdk_pixbuf_get_width(entry->thumb) == size || gdk_pixbuf_get_height(entry->thumb) == size))
@@ -859,47 +861,56 @@ rstto_navigator_entry_get_thumb(RsttoNavigatorEntry *entry, gint size)
         gchar *thumbnail = thunar_vfs_thumb_factory_lookup_thumbnail(entry->navigator->factory, info);
         if (thumbnail == NULL)
         {
-            GdkPixbuf *pixbuf = thunar_vfs_thumb_factory_generate_thumbnail(entry->navigator->factory, info);
-            if (pixbuf != NULL)
+            if (!thunar_vfs_path_is_ancestor (info->path, thumbnail_path))
             {
-                if (!thunar_vfs_thumb_factory_store_thumbnail(entry->navigator->factory, pixbuf, info, NULL))
+                GdkPixbuf *pixbuf = thunar_vfs_thumb_factory_generate_thumbnail(entry->navigator->factory, info);
+                if (pixbuf != NULL)
                 {
-                    g_critical("Storing thumbnail failed");
-                }
+                    if (!thunar_vfs_thumb_factory_store_thumbnail(entry->navigator->factory, pixbuf, info, NULL))
+                    {
+                        g_critical("Storing thumbnail failed");
+                    }
 
-                gint width = gdk_pixbuf_get_width(pixbuf);
-                gint height = gdk_pixbuf_get_height(pixbuf);
+                    gint width = gdk_pixbuf_get_width(pixbuf);
+                    gint height = gdk_pixbuf_get_height(pixbuf);
 
-                if (width > height)
-                {
-                    entry->thumb = gdk_pixbuf_new(GDK_COLORSPACE_RGB,
-                                                  gdk_pixbuf_get_has_alpha(pixbuf),
-                                                  gdk_pixbuf_get_bits_per_sample(pixbuf),
-                                                  size,
-                                                  height*size/width);
+                    if (width > height)
+                    {
+                        entry->thumb = gdk_pixbuf_new(GDK_COLORSPACE_RGB,
+                                                      gdk_pixbuf_get_has_alpha(pixbuf),
+                                                      gdk_pixbuf_get_bits_per_sample(pixbuf),
+                                                      size,
+                                                      height*size/width);
+                    }
+                    else
+                    {
+                        entry->thumb = gdk_pixbuf_new(GDK_COLORSPACE_RGB,
+                                                      gdk_pixbuf_get_has_alpha(pixbuf),
+                                                      gdk_pixbuf_get_bits_per_sample(pixbuf),
+                                                      width*size/height,
+                                                      size);
+                    }
+                    gdk_pixbuf_scale(pixbuf, entry->thumb,
+                                     0, 0, 
+                                     gdk_pixbuf_get_width(entry->thumb),
+                                     gdk_pixbuf_get_height(entry->thumb),
+                                     0, 0,
+                                     ((gdouble)gdk_pixbuf_get_width(entry->thumb)) / (gdouble)width,
+                                     ((gdouble)gdk_pixbuf_get_height(entry->thumb)) / (gdouble)height,
+                                     GDK_INTERP_BILINEAR);
                 }
                 else
                 {
-                    entry->thumb = gdk_pixbuf_new(GDK_COLORSPACE_RGB,
-                                                  gdk_pixbuf_get_has_alpha(pixbuf),
-                                                  gdk_pixbuf_get_bits_per_sample(pixbuf),
-                                                  width*size/height,
-                                                  size);
+                    thumbnail = thunar_vfs_path_dup_string(info->path);
+                    entry->thumb = gdk_pixbuf_new_from_file_at_scale(thumbnail, size, size, TRUE, NULL);
+                    g_free(thumbnail);
                 }
-                gdk_pixbuf_scale(pixbuf, entry->thumb,
-                                 0, 0, 
-                                 gdk_pixbuf_get_width(entry->thumb),
-                                 gdk_pixbuf_get_height(entry->thumb),
-                                 0, 0,
-                                 ((gdouble)gdk_pixbuf_get_width(entry->thumb)) / (gdouble)width,
-                                 ((gdouble)gdk_pixbuf_get_height(entry->thumb)) / (gdouble)height,
-                                 GDK_INTERP_BILINEAR);
             }
             else
             {
-                thumbnail = thunar_vfs_path_dup_string(info->path);
-                entry->thumb = gdk_pixbuf_new_from_file_at_scale(thumbnail, size, size, TRUE, NULL);
-                g_free(thumbnail);
+                GtkIconTheme *theme = gtk_icon_theme_get_default();
+                entry->thumb = gtk_icon_theme_load_icon (theme, thunar_vfs_mime_info_lookup_icon_name (info->mime_info, theme), size, 0, NULL);
+                
             }
         }
         else
