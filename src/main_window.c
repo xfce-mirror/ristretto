@@ -915,8 +915,24 @@ static void
 rstto_main_window_dispose(GObject *object)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW(object);
-    if (window->priv->navigator)
+    RsttoNavigator  *navigator = window->priv->navigator;
+
+    if (navigator)
     {
+        GList *iter, *modified_files = NULL;
+        
+        for (iter = navigator->file_list; iter != NULL; iter = iter->next)
+        {
+            if (rstto_navigator_entry_get_modified((RsttoNavigatorEntry *)iter->data))
+                modified_files = g_list_append (modified_files, iter->data);
+        }
+
+        if (modified_files)
+        {
+            GtkWidget *dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_CLOSE, "This dialog should notify that changes where made to one or more images and that you might want to save them. It won't let you do this yet though."); 
+            gtk_dialog_run (GTK_DIALOG(dialog));
+        }
+
         g_object_unref(window->priv->navigator);
         window->priv->navigator = NULL;
     }

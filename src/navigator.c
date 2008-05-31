@@ -109,6 +109,8 @@ struct _RsttoNavigatorEntry
     gboolean             v_flipped;
     gint                 x_offset;
     gint                 y_offset;
+
+    gboolean             modified;
 };
 
 
@@ -910,7 +912,6 @@ rstto_navigator_entry_get_thumb(RsttoNavigatorEntry *entry, gint size)
             {
                 GtkIconTheme *theme = gtk_icon_theme_get_default();
                 entry->thumb = gtk_icon_theme_load_icon (theme, thunar_vfs_mime_info_lookup_icon_name (info->mime_info, theme), size, 0, NULL);
-                
             }
         }
         else
@@ -972,6 +973,7 @@ rstto_navigator_entry_set_rotation (RsttoNavigatorEntry *entry, GdkPixbufRotatio
         entry->src_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, (360+(rotation-entry->rotation))%360);
     }
     entry->rotation = rotation;
+    entry->modified = TRUE;
     g_signal_emit(G_OBJECT(entry->navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED], 0, entry, NULL);
 }
 
@@ -1027,6 +1029,12 @@ rstto_navigator_entry_get_size (RsttoNavigatorEntry *entry)
     size += (guint64)sizeof (RsttoNavigatorEntry);
 
     return size;
+}
+
+gboolean
+rstto_navigator_entry_get_modified (RsttoNavigatorEntry *entry)
+{
+    return entry->modified;
 }
 
 gboolean
