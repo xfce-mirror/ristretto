@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-24 15:06+0200\n"
+"POT-Creation-Date: 2008-06-02 00:31+0200\n"
 "PO-Revision-Date: 2008-05-24 13:59+0200\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
@@ -39,155 +39,159 @@ msgstr ""
 "Essayez %s --help pour voir une liste complète des options en ligne de "
 "commande.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
-#: ../src/main_window.c:1691
+#: ../src/main.c:448 ../src/main_window.c:1636 ../src/main_window.c:1676
+#: ../src/main_window.c:1713
 msgid "Opening file(s)..."
 msgstr "Ouvrir des fichiers..."
 
 #. Create 'File' menu
-#: ../src/main_window.c:339
+#: ../src/main_window.c:340
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:347
 msgid "O_pen Folder"
 msgstr "O_uvrir un répertoire"
 
-#: ../src/main_window.c:347
+#: ../src/main_window.c:348
 msgid "_Recently used"
 msgstr "_Récemment ouvert"
 
-#: ../src/main_window.c:352
+#: ../src/main_window.c:353
 msgid "Close _all"
 msgstr "Fermer _tout"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:382
+#: ../src/main_window.c:383
 msgid "_Edit"
 msgstr "_Editer"
 
-#: ../src/main_window.c:387 ../src/main_window.c:685
+#: ../src/main_window.c:388 ../src/main_window.c:686
 msgid "Open with..."
 msgstr "_Ouvrir avec..."
 
-#: ../src/main_window.c:395 ../src/main_window.c:696
+#: ../src/main_window.c:396 ../src/main_window.c:697
 msgid "No applications available"
 msgstr "Aucune application disponible"
 
 #. Create 'View' menu
-#: ../src/main_window.c:404
+#: ../src/main_window.c:405
 msgid "_View"
 msgstr "_Afficher"
 
-#: ../src/main_window.c:411
+#: ../src/main_window.c:412
 msgid "Show _Toolbar"
 msgstr "Barre d’_outils"
 
-#: ../src/main_window.c:412
+#: ../src/main_window.c:413
 msgid "Thumbnail _Viewer"
 msgstr "Vue des _miniatures"
 
-#: ../src/main_window.c:416
+#: ../src/main_window.c:417
 msgid "_Zooming"
 msgstr "_Zoom"
 
-#: ../src/main_window.c:417
+#: ../src/main_window.c:418
 msgid "_Rotate"
 msgstr "_Rotation"
 
-#: ../src/main_window.c:424
+#: ../src/main_window.c:425
 msgid "_Set as wallpaper"
 msgstr "_Utiliser en tant que fond d'écran"
 
-#: ../src/main_window.c:502
+#: ../src/main_window.c:503
 msgid "Show _Horizontally"
 msgstr "Afficher _horizontalement"
 
-#: ../src/main_window.c:506
+#: ../src/main_window.c:507
 msgid "Show _Vertically"
 msgstr "Afficher _verticalement"
 
-#: ../src/main_window.c:510
+#: ../src/main_window.c:511
 msgid "H_ide"
 msgstr "_Cacher"
 
-#: ../src/main_window.c:547
+#: ../src/main_window.c:548
 msgid "Rotate _Right"
 msgstr "Tourner vers la _droite"
 
-#: ../src/main_window.c:548
+#: ../src/main_window.c:549
 msgid "Rotate _Left"
 msgstr "Tourner vers la _gauche"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:569
+#: ../src/main_window.c:570
 msgid "_Go"
 msgstr "A_ller"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:600
+#: ../src/main_window.c:601
 msgid "_Help"
 msgstr "A_ide"
 
-#: ../src/main_window.c:1398
+#: ../src/main_window.c:933
+msgid "One or more images have been modified, do you want to save the changes?"
+msgstr ""
+
+#: ../src/main_window.c:1420
 msgid "Image viewer Preferences"
 msgstr "Préférences du visualiseur d’images"
 
-#: ../src/main_window.c:1416
+#: ../src/main_window.c:1438
 msgid "Behaviour"
 msgstr "Comportement"
 
-#: ../src/main_window.c:1420
+#: ../src/main_window.c:1442
 msgid "Slideshow"
 msgstr "Diaporama"
 
-#: ../src/main_window.c:1424
+#: ../src/main_window.c:1446
 msgid "Display"
 msgstr "Affichage"
 
-#: ../src/main_window.c:1429
+#: ../src/main_window.c:1451
 msgid "Scaling"
 msgstr "Taille d'image"
 
-#: ../src/main_window.c:1431
+#: ../src/main_window.c:1453
 msgid "Don't scale over 100% when maximizing the window."
 msgstr ""
 "Adapter l'image lors de l'agrandissement de la fenêtre\n"
 "(jamais au-delà de 100%)"
 
-#: ../src/main_window.c:1441
+#: ../src/main_window.c:1463
 msgid "Background Color"
 msgstr "Couleur d'arrière plan"
 
-#: ../src/main_window.c:1443
+#: ../src/main_window.c:1465
 msgid "_Override Background Color:"
 msgstr "_Choisir une couleur d’arrière plan :"
 
-#: ../src/main_window.c:1466
+#: ../src/main_window.c:1488
 msgid "Image Cache"
 msgstr "Cache Image"
 
-#: ../src/main_window.c:1469
+#: ../src/main_window.c:1491
 msgid "Cache size:"
 msgstr "Taille du cache :"
 
-#: ../src/main_window.c:1470
+#: ../src/main_window.c:1492
 msgid "MB"
 msgstr "Mo"
 
-#: ../src/main_window.c:1486
+#: ../src/main_window.c:1508
 msgid "Timeout"
 msgstr "Durée"
 
-#: ../src/main_window.c:1489
+#: ../src/main_window.c:1511
 msgid "Preload"
 msgstr "Préchargement"
 
-#: ../src/main_window.c:1492
+#: ../src/main_window.c:1514
 msgid "Thumbnails"
 msgstr "Miniatures"
 
-#: ../src/main_window.c:1498
+#: ../src/main_window.c:1520
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -195,7 +199,7 @@ msgstr ""
 "La durée d’affichage d’une image individuelle durant le diaporama\n"
 "(en secondes)"
 
-#: ../src/main_window.c:1502
+#: ../src/main_window.c:1524
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -203,23 +207,23 @@ msgstr ""
 "Précharger les images durant le diaporama\n"
 "(nécessite plus de mémoire vive)"
 
-#: ../src/main_window.c:1503
+#: ../src/main_window.c:1525
 msgid "_Preload images"
 msgstr "_Précharger les images"
 
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1527
 msgid "Hide the thumbnails bar during slideshow"
 msgstr "Cacher les miniatures durant le diaporama"
 
-#: ../src/main_window.c:1506
+#: ../src/main_window.c:1528
 msgid "_Hide thumbnails"
 msgstr "_Cacher les miniatures"
 
-#: ../src/main_window.c:1572
+#: ../src/main_window.c:1594
 msgid "Developer:"
 msgstr "Développeur :"
 
-#: ../src/main_window.c:1582
+#: ../src/main_window.c:1604
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -227,23 +231,23 @@ msgstr ""
 "Ristretto est un visualiseur d’images léger et rapide pour l’environnement "
 "de bureau Xfce."
 
-#: ../src/main_window.c:1590
+#: ../src/main_window.c:1612
 msgid "translator-credits"
 msgstr "Mike Massonnet <mmassonnet@xfce.org>"
 
-#: ../src/main_window.c:1616
+#: ../src/main_window.c:1638
 msgid "Open image"
 msgstr "Ouvrir une image"
 
-#: ../src/main_window.c:1634
+#: ../src/main_window.c:1656
 msgid "Could not open file"
 msgstr "Impossible d’ouvrir le fichier"
 
-#: ../src/main_window.c:1656
+#: ../src/main_window.c:1678
 msgid "Open folder"
 msgstr "Ouvrir un répertoire"
 
-#: ../src/main_window.c:1731
+#: ../src/main_window.c:1753
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""

@@ -5,6 +5,7 @@ ristretto_SOURCES = \
     main_window.c main_window.h \
 	navigator.c navigator.h \
 	picture_viewer.c picture_viewer.h \
+	save_dialog.h save_dialog.c \
 	thumbnail.c thumbnail.h \
 	thumbnail_bar.c thumbnail_bar.h
 

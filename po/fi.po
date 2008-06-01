@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.5\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-25 10:07+0300\n"
+"POT-Creation-Date: 2008-06-02 00:31+0200\n"
 "PO-Revision-Date: 2008-05-25 10:21+0300\n"
 "Last-Translator: Jari Rahkonen <jari.rahkonen@pp1.inet.fi>\n"
 "Language-Team: Finnish <xfce-i18n@xfce.org>\n"
@@ -37,203 +37,207 @@ msgstr ""
 "%s: %s\n"
 "Näet listan komentorivivalitsimista kirjoittamalla %s --help.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
-#: ../src/main_window.c:1691
+#: ../src/main.c:448 ../src/main_window.c:1636 ../src/main_window.c:1676
+#: ../src/main_window.c:1713
 msgid "Opening file(s)..."
 msgstr "Avataan tiedosto(j)a..."
 
 #. Create 'File' menu
-#: ../src/main_window.c:339
+#: ../src/main_window.c:340
 msgid "_File"
 msgstr "_Tiedosto"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:347
 msgid "O_pen Folder"
 msgstr "Avaa _hakemisto"
 
-#: ../src/main_window.c:347
+#: ../src/main_window.c:348
 msgid "_Recently used"
 msgstr "_Viimeaikaiset"
 
-#: ../src/main_window.c:352
+#: ../src/main_window.c:353
 msgid "Close _all"
 msgstr "Sulje _kaikki"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:382
+#: ../src/main_window.c:383
 msgid "_Edit"
 msgstr "_Muokkaa"
 
-#: ../src/main_window.c:387 ../src/main_window.c:685
+#: ../src/main_window.c:388 ../src/main_window.c:686
 msgid "Open with..."
 msgstr "Avaa _sovelluksessa..."
 
-#: ../src/main_window.c:395 ../src/main_window.c:696
+#: ../src/main_window.c:396 ../src/main_window.c:697
 msgid "No applications available"
 msgstr "Sovelluksia ei saatavilla"
 
 #. Create 'View' menu
-#: ../src/main_window.c:404
+#: ../src/main_window.c:405
 msgid "_View"
 msgstr "_Näytä"
 
-#: ../src/main_window.c:411
+#: ../src/main_window.c:412
 msgid "Show _Toolbar"
 msgstr "Näytä _työkalupalkki"
 
-#: ../src/main_window.c:412
+#: ../src/main_window.c:413
 msgid "Thumbnail _Viewer"
 msgstr "Pienoiskuvat"
 
-#: ../src/main_window.c:416
+#: ../src/main_window.c:417
 msgid "_Zooming"
 msgstr "_Suurennus"
 
-#: ../src/main_window.c:417
+#: ../src/main_window.c:418
 msgid "_Rotate"
 msgstr "Kää_nnä"
 
-#: ../src/main_window.c:424
+#: ../src/main_window.c:425
 msgid "_Set as wallpaper"
 msgstr "Aseta _taustakuvaksi"
 
-#: ../src/main_window.c:502
+#: ../src/main_window.c:503
 msgid "Show _Horizontally"
 msgstr "Näytä _vaakasuunnassa"
 
-#: ../src/main_window.c:506
+#: ../src/main_window.c:507
 msgid "Show _Vertically"
 msgstr "Näytä _pystysuunnassa"
 
-#: ../src/main_window.c:510
+#: ../src/main_window.c:511
 msgid "H_ide"
 msgstr "P_iilota"
 
-#: ../src/main_window.c:547
+#: ../src/main_window.c:548
 msgid "Rotate _Right"
 msgstr "Käännä _oikeaan"
 
-#: ../src/main_window.c:548
+#: ../src/main_window.c:549
 msgid "Rotate _Left"
 msgstr "Käännä _vasempaan"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:569
+#: ../src/main_window.c:570
 msgid "_Go"
 msgstr "_Siirry"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:600
+#: ../src/main_window.c:601
 msgid "_Help"
 msgstr "_Ohje"
 
-#: ../src/main_window.c:1398
+#: ../src/main_window.c:933
+msgid "One or more images have been modified, do you want to save the changes?"
+msgstr ""
+
+#: ../src/main_window.c:1420
 msgid "Image viewer Preferences"
 msgstr "Kuvakatselimen asetukset"
 
-#: ../src/main_window.c:1416
+#: ../src/main_window.c:1438
 msgid "Behaviour"
 msgstr "Käytös"
 
-#: ../src/main_window.c:1420
+#: ../src/main_window.c:1442
 msgid "Slideshow"
 msgstr "Diaesitys"
 
-#: ../src/main_window.c:1424
+#: ../src/main_window.c:1446
 msgid "Display"
 msgstr "Näyttö"
 
-#: ../src/main_window.c:1429
+#: ../src/main_window.c:1451
 msgid "Scaling"
 msgstr "Kuvan koko"
 
-#: ../src/main_window.c:1431
+#: ../src/main_window.c:1453
 msgid "Don't scale over 100% when maximizing the window."
 msgstr "Älä suurenna kuvaa yli alkuperäiskokonsa, kun ikkuna suurennetaan."
 
-#: ../src/main_window.c:1441
+#: ../src/main_window.c:1463
 msgid "Background Color"
 msgstr "Taustaväri"
 
-#: ../src/main_window.c:1443
+#: ../src/main_window.c:1465
 msgid "_Override Background Color:"
 msgstr "_Korvaa taustaväri:"
 
-#: ../src/main_window.c:1466
+#: ../src/main_window.c:1488
 msgid "Image Cache"
 msgstr "Kuvavälimuisti"
 
-#: ../src/main_window.c:1469
+#: ../src/main_window.c:1491
 msgid "Cache size:"
 msgstr "Välimuistin koko:"
 
-#: ../src/main_window.c:1470
+#: ../src/main_window.c:1492
 msgid "MB"
 msgstr "Mt"
 
-#: ../src/main_window.c:1486
+#: ../src/main_window.c:1508
 msgid "Timeout"
 msgstr "Esitysaika"
 
-#: ../src/main_window.c:1489
+#: ../src/main_window.c:1511
 msgid "Preload"
 msgstr "Esilataus"
 
-#: ../src/main_window.c:1492
+#: ../src/main_window.c:1514
 msgid "Thumbnails"
 msgstr "Pienoiskuvat"
 
-#: ../src/main_window.c:1498
+#: ../src/main_window.c:1520
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr "Montako sekuntia yksittäistä kuvaa esitetään diaesityksessä"
 
-#: ../src/main_window.c:1502
+#: ../src/main_window.c:1524
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr "Esilataa kuvat diaesitystilassa (käyttää enemmän keskusmuistia)"
 
-#: ../src/main_window.c:1503
+#: ../src/main_window.c:1525
 msgid "_Preload images"
 msgstr "_Esilataa kuvat"
 
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1527
 msgid "Hide the thumbnails bar during slideshow"
 msgstr "Piilota pienoiskuvat diaesityksen ajaksi"
 
-#: ../src/main_window.c:1506
+#: ../src/main_window.c:1528
 msgid "_Hide thumbnails"
 msgstr "_Piilota pienoiskuvat"
 
-#: ../src/main_window.c:1572
+#: ../src/main_window.c:1594
 msgid "Developer:"
 msgstr "Kehittäjä:"
 
-#: ../src/main_window.c:1582
+#: ../src/main_window.c:1604
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "Ristretto on nopea ja kevyt kuvakatselin Xfce-työpöydälle."
 
-#: ../src/main_window.c:1590
+#: ../src/main_window.c:1612
 msgid "translator-credits"
 msgstr "Jari Rahkonen <jari.rahkonen@pp1.inet.fi>"
 
-#: ../src/main_window.c:1616
+#: ../src/main_window.c:1638
 msgid "Open image"
 msgstr "Avaa kuva"
 
-#: ../src/main_window.c:1634
+#: ../src/main_window.c:1656
 msgid "Could not open file"
 msgstr "Tiedoston avaus ei onnistunut"
 
-#: ../src/main_window.c:1656
+#: ../src/main_window.c:1678
 msgid "Open folder"
 msgstr "Avaa hakemisto"
 
-#: ../src/main_window.c:1731
+#: ../src/main_window.c:1753
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""

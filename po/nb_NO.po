@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-24 15:06+0200\n"
+"POT-Creation-Date: 2008-06-02 00:31+0200\n"
 "PO-Revision-Date: 2007-08-29 21:12+0200\n"
 "Last-Translator: Terje Uriansrud <ter@operamail.com>\n"
 "Language-Team: Norwegian Bokmal\n"
@@ -39,156 +39,160 @@ msgstr ""
 "%s: %s\n"
 "Prøv %s --help for full liste over tilgjengelige kommandolinje opsjoner.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
-#: ../src/main_window.c:1691
+#: ../src/main.c:448 ../src/main_window.c:1636 ../src/main_window.c:1676
+#: ../src/main_window.c:1713
 #, fuzzy
 msgid "Opening file(s)..."
 msgstr "Åpne med..."
 
 #. Create 'File' menu
-#: ../src/main_window.c:339
+#: ../src/main_window.c:340
 msgid "_File"
 msgstr "_Fil"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:347
 msgid "O_pen Folder"
 msgstr "Åp_ne mappe"
 
-#: ../src/main_window.c:347
+#: ../src/main_window.c:348
 msgid "_Recently used"
 msgstr "Nylig _brukt"
 
-#: ../src/main_window.c:352
+#: ../src/main_window.c:353
 msgid "Close _all"
 msgstr ""
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:382
+#: ../src/main_window.c:383
 msgid "_Edit"
 msgstr "_Rediger"
 
-#: ../src/main_window.c:387 ../src/main_window.c:685
+#: ../src/main_window.c:388 ../src/main_window.c:686
 msgid "Open with..."
 msgstr "Åpne med..."
 
-#: ../src/main_window.c:395 ../src/main_window.c:696
+#: ../src/main_window.c:396 ../src/main_window.c:697
 msgid "No applications available"
 msgstr "Ingen programmer tilgjengelig"
 
 #. Create 'View' menu
-#: ../src/main_window.c:404
+#: ../src/main_window.c:405
 msgid "_View"
 msgstr "_Vis"
 
-#: ../src/main_window.c:411
+#: ../src/main_window.c:412
 msgid "Show _Toolbar"
 msgstr "Vis _verktøylinje"
 
-#: ../src/main_window.c:412
+#: ../src/main_window.c:413
 msgid "Thumbnail _Viewer"
 msgstr "Miniatyr_visning"
 
-#: ../src/main_window.c:416
+#: ../src/main_window.c:417
 msgid "_Zooming"
 msgstr "_Skalere"
 
-#: ../src/main_window.c:417
+#: ../src/main_window.c:418
 msgid "_Rotate"
 msgstr "_Roter"
 
-#: ../src/main_window.c:424
+#: ../src/main_window.c:425
 msgid "_Set as wallpaper"
 msgstr ""
 
-#: ../src/main_window.c:502
+#: ../src/main_window.c:503
 msgid "Show _Horizontally"
 msgstr "Vis _vannrett"
 
-#: ../src/main_window.c:506
+#: ../src/main_window.c:507
 msgid "Show _Vertically"
 msgstr "Vis _loddrett"
 
-#: ../src/main_window.c:510
+#: ../src/main_window.c:511
 msgid "H_ide"
 msgstr "_Skjul"
 
-#: ../src/main_window.c:547
+#: ../src/main_window.c:548
 msgid "Rotate _Right"
 msgstr "Roter _høyre"
 
-#: ../src/main_window.c:548
+#: ../src/main_window.c:549
 msgid "Rotate _Left"
 msgstr "Roter _venstre"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:569
+#: ../src/main_window.c:570
 msgid "_Go"
 msgstr "_Gå"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:600
+#: ../src/main_window.c:601
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: ../src/main_window.c:1398
-msgid "Image viewer Preferences"
-msgstr "Bildefremviser innstillinger"
-
-#: ../src/main_window.c:1416
-msgid "Behaviour"
+#: ../src/main_window.c:933
+msgid "One or more images have been modified, do you want to save the changes?"
 msgstr ""
 
 #: ../src/main_window.c:1420
+msgid "Image viewer Preferences"
+msgstr "Bildefremviser innstillinger"
+
+#: ../src/main_window.c:1438
+msgid "Behaviour"
+msgstr ""
+
+#: ../src/main_window.c:1442
 msgid "Slideshow"
 msgstr "Lysbildefremvisning"
 
-#: ../src/main_window.c:1424
+#: ../src/main_window.c:1446
 msgid "Display"
 msgstr "Skjerm"
 
-#: ../src/main_window.c:1429
+#: ../src/main_window.c:1451
 #, fuzzy
 msgid "Scaling"
 msgstr "Mellomrom"
 
-#: ../src/main_window.c:1431
+#: ../src/main_window.c:1453
 msgid "Don't scale over 100% when maximizing the window."
 msgstr ""
 
-#: ../src/main_window.c:1441
+#: ../src/main_window.c:1463
 msgid "Background Color"
 msgstr "Bakgrunnsfarge"
 
-#: ../src/main_window.c:1443
+#: ../src/main_window.c:1465
 msgid "_Override Background Color:"
 msgstr "_Overstyr bakgrunnsfarge"
 
-#: ../src/main_window.c:1466
+#: ../src/main_window.c:1488
 msgid "Image Cache"
 msgstr "Bildehurtiglager"
 
-#: ../src/main_window.c:1469
+#: ../src/main_window.c:1491
 msgid "Cache size:"
 msgstr "Hurtiglager størrelse:"
 
-#: ../src/main_window.c:1470
+#: ../src/main_window.c:1492
 msgid "MB"
 msgstr "MB"
 
-#: ../src/main_window.c:1486
+#: ../src/main_window.c:1508
 msgid "Timeout"
 msgstr "Tidsgrense"
 
-#: ../src/main_window.c:1489
+#: ../src/main_window.c:1511
 msgid "Preload"
 msgstr "Forhåndslasting"
 
-#: ../src/main_window.c:1492
+#: ../src/main_window.c:1514
 #, fuzzy
 msgid "Thumbnails"
 msgstr "Miniatyr_visning"
 
-#: ../src/main_window.c:1498
+#: ../src/main_window.c:1520
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -196,7 +200,7 @@ msgstr ""
 "Tidsperiode ett bilde vises under lysbildefremvisning\n"
 "(i sekunder)"
 
-#: ../src/main_window.c:1502
+#: ../src/main_window.c:1524
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
@@ -204,45 +208,45 @@ msgstr ""
 "Forhåndslast bilder under lysbildefremvisning\n"
 "(bruker mer minne)"
 
-#: ../src/main_window.c:1503
+#: ../src/main_window.c:1525
 msgid "_Preload images"
 msgstr "_Forhåndslast bilder"
 
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1527
 msgid "Hide the thumbnails bar during slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1506
+#: ../src/main_window.c:1528
 msgid "_Hide thumbnails"
 msgstr ""
 
-#: ../src/main_window.c:1572
+#: ../src/main_window.c:1594
 msgid "Developer:"
 msgstr "Utvikler:"
 
-#: ../src/main_window.c:1582
+#: ../src/main_window.c:1604
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "Ristretto er en rask og lettvekts bildefremviser for Xfce skrivebordet"
 
-#: ../src/main_window.c:1590
+#: ../src/main_window.c:1612
 msgid "translator-credits"
 msgstr "Oversettelser"
 
-#: ../src/main_window.c:1616
+#: ../src/main_window.c:1638
 msgid "Open image"
 msgstr "Åpne bilde"
 
-#: ../src/main_window.c:1634
+#: ../src/main_window.c:1656
 msgid "Could not open file"
 msgstr "Klarte ikke åpne fil"
 
-#: ../src/main_window.c:1656
+#: ../src/main_window.c:1678
 msgid "Open folder"
 msgstr "Åpne mappe"
 
-#: ../src/main_window.c:1731
+#: ../src/main_window.c:1753
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""

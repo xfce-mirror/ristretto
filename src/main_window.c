@@ -35,6 +35,7 @@
 #include "thumbnail_bar.h"
 #include "picture_viewer.h"
 #include "main_window.h"
+#include "save_dialog.h"
 
 #define XFDESKTOP_SELECTION_FMT "XFDESKTOP_SELECTION_%d"
 
@@ -929,8 +930,13 @@ rstto_main_window_dispose(GObject *object)
 
         if (modified_files)
         {
-            GtkWidget *dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_CLOSE, "This dialog should notify that changes where made to one or more images and that you might want to save them. It won't let you do this yet though."); 
-            gtk_dialog_run (GTK_DIALOG(dialog));
+            GtkWidget *dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, _("One or more images have been modified, do you want to save the changes?")); 
+            if (gtk_dialog_run (GTK_DIALOG(dialog)) == GTK_RESPONSE_YES)
+            {
+                gtk_widget_hide(dialog);
+                GtkWidget *save_dialog = rstto_save_dialog_new (window, modified_files);
+                gtk_dialog_run (GTK_DIALOG(save_dialog));
+            }
         }
 
         g_object_unref(window->priv->navigator);
