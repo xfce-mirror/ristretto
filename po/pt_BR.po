@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-06-02 00:31+0200\n"
-"PO-Revision-Date: 2008-05-24 08:43-0300\n"
+"PO-Revision-Date: 2008-06-01 20:49-0300\n"
 "Last-Translator: Fábio Nogueira <deb-user-ba@ubuntu.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
 "MIME-Version: 1.0\n"
@@ -132,7 +132,7 @@ msgstr "Aj_uda"
 
 #: ../src/main_window.c:933
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr ""
+msgstr "Uma ou mais imagens foram modificadas, você deseja salvar as alterações?"
 
 #: ../src/main_window.c:1420
 msgid "Image viewer Preferences"
