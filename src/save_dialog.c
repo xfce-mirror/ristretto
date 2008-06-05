@@ -26,12 +26,18 @@
 #include "navigator.h"
 #include "save_dialog.h"
 
+static void
+cb_rstto_save_row_toggled (GtkCellRendererToggle *cell, gchar *path, gpointer user_data);
+
 GtkWidget *
 rstto_save_dialog_new (GtkWindow *parent, GList *entries)
 {
     GtkTreeIter iter;
+    GtkTreeViewColumn *column = NULL;
     GList *list_iter = entries;
-
+    GtkCellRenderer *renderer;
+    GtkListStore *store;
+    GtkWidget *treeview, *s_window;
     GtkWidget *dialog = gtk_dialog_new_with_buttons (
                                 _("Save images"),
                                 parent,
@@ -42,18 +48,24 @@ rstto_save_dialog_new (GtkWindow *parent, GList *entries)
                                 GTK_RESPONSE_OK,
                                 NULL);
 
-    GtkListStore *store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_BOOLEAN);
-    GtkWidget *treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(store));
+    store = gtk_list_store_new (4, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
+    treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(store));
 
-    GtkCellRenderer *renderer = gtk_cell_renderer_pixbuf_new();
-    gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW(treeview), 0, "", renderer, "pixbuf", 0, NULL);
+    renderer = gtk_cell_renderer_pixbuf_new();
+    column = gtk_tree_view_column_new_with_attributes ( "", renderer, "pixbuf", 0, NULL);
+    gtk_tree_view_insert_column (GTK_TREE_VIEW(treeview), column, -1);
 
     renderer = gtk_cell_renderer_text_new();
-    gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW(treeview), 1, _("Filename"), renderer, "text", 1, NULL);
+    column = gtk_tree_view_column_new_with_attributes ( _("Filename"), renderer, "text", 1, NULL);
+    gtk_tree_view_column_set_expand (column, TRUE);
+    gtk_tree_view_insert_column (GTK_TREE_VIEW(treeview), column, -1);
 
     renderer = gtk_cell_renderer_toggle_new();
-    g_object_set (renderer, "mode", GTK_CELL_RENDERER_MODE_EDITABLE, NULL);
-    gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW(treeview), 2, _("Save"), renderer, "active", 2, NULL);
+    g_object_set (renderer, "mode", GTK_CELL_RENDERER_MODE_ACTIVATABLE, NULL);
+    g_signal_connect (renderer, "toggled", (GCallback)cb_rstto_save_row_toggled, store);
+
+    column = gtk_tree_view_column_new_with_attributes ( _("Save"), renderer, "active", 2, NULL);
+    gtk_tree_view_insert_column (GTK_TREE_VIEW(treeview), column, -1);
 
     while (list_iter)
     {
@@ -66,8 +78,21 @@ rstto_save_dialog_new (GtkWindow *parent, GList *entries)
     }
 
 
+    s_window = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (s_window), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+    gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (s_window), treeview);
 
-    gtk_container_add (GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), treeview);
-    gtk_widget_show_all (treeview);
+    gtk_container_add (GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), s_window);
+    gtk_widget_show_all (s_window);
     return dialog;
+}
+
+static void
+cb_rstto_save_row_toggled (GtkCellRendererToggle *cell, gchar *path, gpointer user_data)
+{
+    GtkTreeModel *model = GTK_TREE_MODEL(user_data);
+    GtkTreeIter iter;
+
+    gtk_tree_model_get_iter_from_string (model, &iter, path);
+    gtk_list_store_set (GTK_LIST_STORE(model), &iter, 3, !gtk_cell_renderer_toggle_get_active (cell), -1);
 }
