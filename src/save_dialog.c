@@ -56,6 +56,7 @@ rstto_save_dialog_new (GtkWindow *parent, GList *entries)
     gtk_tree_view_insert_column (GTK_TREE_VIEW(treeview), column, -1);
 
     renderer = gtk_cell_renderer_text_new();
+    g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_MIDDLE, NULL);
     column = gtk_tree_view_column_new_with_attributes ( _("Filename"), renderer, "text", 1, NULL);
     gtk_tree_view_column_set_expand (column, TRUE);
     gtk_tree_view_insert_column (GTK_TREE_VIEW(treeview), column, -1);
@@ -94,5 +95,5 @@ cb_rstto_save_row_toggled (GtkCellRendererToggle *cell, gchar *path, gpointer us
     GtkTreeIter iter;
 
     gtk_tree_model_get_iter_from_string (model, &iter, path);
-    gtk_list_store_set (GTK_LIST_STORE(model), &iter, 3, !gtk_cell_renderer_toggle_get_active (cell), -1);
+    gtk_list_store_set (GTK_LIST_STORE(model), &iter, 2, !gtk_cell_renderer_toggle_get_active (cell), -1);
 }
