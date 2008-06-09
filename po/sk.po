@@ -12,24 +12,24 @@ msgstr ""
 "Project-Id-Version: Ristretto 0.0.20\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-06-02 00:31+0200\n"
-"PO-Revision-Date: 2008-05-26 19:23-0700\n"
+"PO-Revision-Date: 2008-05-27 12:35-0700\n"
 "Last-Translator: Stefan Miklosovic <miklosovic@gmail.com>\n"
 "Language-Team: Slovak <sk-i18n@linux.sk>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-2\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/main.c:61
 msgid "Version information"
-msgstr "Informácie o verzii"
+msgstr "InformÃ¡cie o verzii"
 
 #: ../src/main.c:65
 msgid "Start in fullscreen mode"
-msgstr "Spusti» v celoobrazovkovom móde"
+msgstr "SpustiÅ¥ v celoobrazovkovom mÃ³de"
 
 #: ../src/main.c:69
 msgid "Start a slideshow"
-msgstr "Spusti» prezentáciu "
+msgstr "SpustiÅ¥ prezentÃ¡ciu "
 
 #: ../src/main.c:235
 #, c-format
@@ -38,29 +38,29 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Skúste %s --help pre kompletné zobrazenie zoznamu dostupnıch volieb.\n"
+"SkÃºste %s --help pre kompletnÃ© zobrazenie zoznamu dostupnÃ½ch volieb.\n"
 
 #: ../src/main.c:448 ../src/main_window.c:1636 ../src/main_window.c:1676
 #: ../src/main_window.c:1713
 msgid "Opening file(s)..."
-msgstr "Otvori» súbor(y)..."
+msgstr "OtvoriÅ¥ sÃºbor(y)..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:340
 msgid "_File"
-msgstr "_Súbor"
+msgstr "_SÃºbor"
 
 #: ../src/main_window.c:347
 msgid "O_pen Folder"
-msgstr "O_tvor preèinok"
+msgstr "O_tvor preÄinok"
 
 #: ../src/main_window.c:348
 msgid "_Recently used"
-msgstr "_Nedávno otvorené"
+msgstr "_NedÃ¡vno otvorenÃ©"
 
 #: ../src/main_window.c:353
 msgid "Close _all"
-msgstr "Zatvor _v¹etko"
+msgstr "Zatvor _vÅ¡etko"
 
 #. Create 'Edit' menu
 #: ../src/main_window.c:383
@@ -73,62 +73,62 @@ msgstr "Otvor s ..."
 
 #: ../src/main_window.c:396 ../src/main_window.c:697
 msgid "No applications available"
-msgstr "®iadna aplikácia nie je dostupná"
+msgstr "Å½iadna aplikÃ¡cia nie je dostupnÃ¡"
 
 #. Create 'View' menu
 #: ../src/main_window.c:405
 msgid "_View"
-msgstr "_Zobrazi»"
+msgstr "_ZobraziÅ¥"
 
 #: ../src/main_window.c:412
 msgid "Show _Toolbar"
-msgstr "Zobrazi» _panel nástrojov"
+msgstr "ZobraziÅ¥ _panel nÃ¡strojov"
 
 #: ../src/main_window.c:413
 msgid "Thumbnail _Viewer"
-msgstr "_Náhµady"
+msgstr "_NÃ¡hÄ¾ady"
 
 #: ../src/main_window.c:417
 msgid "_Zooming"
-msgstr "_Priblí¾enie"
+msgstr "_PriblÃ­Å¾enie"
 
 #: ../src/main_window.c:418
 msgid "_Rotate"
-msgstr "_Otoèi»"
+msgstr "_OtoÄiÅ¥"
 
 #: ../src/main_window.c:425
 msgid "_Set as wallpaper"
-msgstr "N_astavi» ako tapetu"
+msgstr "N_astaviÅ¥ ako tapetu"
 
 #: ../src/main_window.c:503
 msgid "Show _Horizontally"
-msgstr "_Horizontálne"
+msgstr "_HorizontÃ¡lne"
 
 #: ../src/main_window.c:507
 msgid "Show _Vertically"
-msgstr "_Vertikálne"
+msgstr "_VertikÃ¡lne"
 
 #: ../src/main_window.c:511
 msgid "H_ide"
-msgstr "_Skry»"
+msgstr "_SkryÅ¥"
 
 #: ../src/main_window.c:548
 msgid "Rotate _Right"
-msgstr "Otoèi» v_pravo"
+msgstr "OtoÄiÅ¥ v_pravo"
 
 #: ../src/main_window.c:549
 msgid "Rotate _Left"
-msgstr "Otoèi» Vµa_vo"
+msgstr "OtoÄiÅ¥ VÄ¾a_vo"
 
 #. Create 'Go' menu
 #: ../src/main_window.c:570
 msgid "_Go"
-msgstr "_Prejs»"
+msgstr "_PrejsÅ¥"
 
 #. Create 'Help' menu
 #: ../src/main_window.c:601
 msgid "_Help"
-msgstr "_Nápoveda"
+msgstr "_NÃ¡poveda"
 
 #: ../src/main_window.c:933
 msgid "One or more images have been modified, do you want to save the changes?"
@@ -136,15 +136,15 @@ msgstr ""
 
 #: ../src/main_window.c:1420
 msgid "Image viewer Preferences"
-msgstr "Voµby prehliadaèa obrázkov"
+msgstr "VoÄ¾by prehliadaÄa obrÃ¡zkov"
 
 #: ../src/main_window.c:1438
 msgid "Behaviour"
-msgstr "Správanie"
+msgstr "SprÃ¡vanie"
 
 #: ../src/main_window.c:1442
 msgid "Slideshow"
-msgstr "Premietanie snímkov"
+msgstr "Premietanie snÃ­mkov"
 
 #: ../src/main_window.c:1446
 msgid "Display"
@@ -156,7 +156,7 @@ msgstr "Medzery"
 
 #: ../src/main_window.c:1453
 msgid "Don't scale over 100% when maximizing the window."
-msgstr "Nezväè¹ova» obrázok na viac ako 100% keï sa maximalizuje okno."
+msgstr "NezvÃ¤ÄÅ¡ovaÅ¥ obrÃ¡zok na viac ako 100% keÄ sa maximalizuje okno."
 
 #: ../src/main_window.c:1463
 msgid "Background Color"
@@ -164,15 +164,15 @@ msgstr "Farba pozadia"
 
 #: ../src/main_window.c:1465
 msgid "_Override Background Color:"
-msgstr "_Urèi» farbu pozadia"
+msgstr "_UrÄiÅ¥ farbu pozadia"
 
 #: ../src/main_window.c:1488
 msgid "Image Cache"
-msgstr "Vyrovnávajúca pamä»"
+msgstr "VyrovnÃ¡vajÃºca pamÃ¤Å¥"
 
 #: ../src/main_window.c:1491
 msgid "Cache size:"
-msgstr "Veµkos» vyrovnávajúcej pamäte"
+msgstr "VeÄ¾kosÅ¥ vyrovnÃ¡vajÃºcej pamÃ¤te"
 
 #: ../src/main_window.c:1492
 msgid "MB"
@@ -184,72 +184,72 @@ msgstr "Timeout"
 
 #: ../src/main_window.c:1511
 msgid "Preload"
-msgstr "Naèíta» dopredu"
+msgstr "NaÄÃ­taÅ¥ dopredu"
 
 #: ../src/main_window.c:1514
 msgid "Thumbnails"
-msgstr "Náhµady"
+msgstr "NÃ¡hÄ¾ady"
 
 #: ../src/main_window.c:1520
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"Èasovı interval poèas ktorého je zobrazenı jeden snímok pri premietaní\n"
-"(v sekundách)"
+"ÄŒasovÃ½ interval poÄas ktorÃ©ho je zobrazenÃ½ jeden snÃ­mok pri premietanÃ­\n"
+"(v sekundÃ¡ch)"
 
 #: ../src/main_window.c:1524
 msgid ""
 "Preload images during slideshow\n"
 "(uses more memory)"
 msgstr ""
-"Naèíta» snímky do pamäte e¹te pred tım, ako majú by» zobrazené\n"
-"(pou¾ije sa viac pamäte)"
+"NaÄÃ­taÅ¥ snÃ­mky do pamÃ¤te eÅ¡te pred tÃ½m, ako majÃº byÅ¥ zobrazenÃ©\n"
+"(pouÅ¾ije sa viac pamÃ¤te)"
 
 #: ../src/main_window.c:1525
 msgid "_Preload images"
-msgstr "Naèíta» _dopredu"
+msgstr "NaÄÃ­taÅ¥ _dopredu"
 
 #: ../src/main_window.c:1527
 msgid "Hide the thumbnails bar during slideshow"
-msgstr "Skry» li¹tu náhµadov poèas premietania"
+msgstr "SkryÅ¥ liÅ¡tu nÃ¡hÄ¾adov poÄas premietania"
 
 #: ../src/main_window.c:1528
 msgid "_Hide thumbnails"
-msgstr "_Skry» náhµady"
+msgstr "_SkryÅ¥ nÃ¡hÄ¾ady"
 
 #: ../src/main_window.c:1594
 msgid "Developer:"
-msgstr "Vıvojár:"
+msgstr "VÃ½vojÃ¡r:"
 
 #: ../src/main_window.c:1604
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
-"Ristretto je rıchly a odµahèenı prehliadaè obrázkov pre desktopové "
+"Ristretto je rÃ½chly a odÄ¾ahÄenÃ½ prehliadaÄ obrÃ¡zkov pre desktopovÃ© "
 "prostredie Xfce."
 
 #: ../src/main_window.c:1612
 msgid "translator-credits"
-msgstr "©tefan Miklo¹oviè <miklosovic@gmail.com>"
+msgstr "Å tefan MikloÅ¡oviÄ <miklosovic@gmail.com>"
 
 #: ../src/main_window.c:1638
 msgid "Open image"
-msgstr "Otvori» obrázok"
+msgstr "OtvoriÅ¥ obrÃ¡zok"
 
 #: ../src/main_window.c:1656
 msgid "Could not open file"
-msgstr "Nemô¾em otvori» súbor"
+msgstr "NemÃ´Å¾em otvoriÅ¥ sÃºbor"
 
 #: ../src/main_window.c:1678
 msgid "Open folder"
-msgstr "Otvori» zlo¾ku"
+msgstr "OtvoriÅ¥ zloÅ¾ku"
 
 #: ../src/main_window.c:1753
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr "Naozaj chcete vyprázdni» zoznam naposledy otvorenıch dokumentov?"
+msgstr "Naozaj chcete vyprÃ¡zdniÅ¥ zoznam naposledy otvorenÃ½ch dokumentov?"
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
@@ -257,19 +257,19 @@ msgstr "Medzery"
 
 #: ../src/thumbnail_bar.c:186
 msgid "The amount of space between the thumbnails"
-msgstr "Mno¾stvo priestoru medzi náhµadmi"
+msgstr "MnoÅ¾stvo priestoru medzi nÃ¡hÄ¾admi"
 
 #: ../src/thumbnail_bar.c:192
 msgid "Border Width"
-msgstr "Hrúbka okraja"
+msgstr "HrÃºbka okraja"
 
 #: ../src/thumbnail_bar.c:193
 msgid "The border width of the thumbnail-bar"
-msgstr "Hrúbka okraja li¹ty náhµadov"
+msgstr "HrÃºbka okraja liÅ¡ty nÃ¡hÄ¾adov"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
-msgstr "Prehliadaè obrázkov"
+msgstr "PrehliadaÄ obrÃ¡zkov"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto"
@@ -277,4 +277,4 @@ msgstr "Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
-msgstr "Prehliadaè obrázkov pre Xfce"
+msgstr "PrehliadaÄ obrÃ¡zkov pre Xfce"
