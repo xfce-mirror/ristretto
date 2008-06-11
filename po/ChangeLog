@@ -1,4 +1,8 @@
-2008-06-09	Mike Massonnet <mmassonnet@xfce.org>
+2008-06-11  Jari Rahkonen <jari.rahkonen@pp1.inet.fi>
+
+	* fi.po: Updated Finnish translation
+
+2008-06-09  Mike Massonnet <mmassonnet@xfce.org>
 
 	* sk.po: Update Slovak translation (Stefan Miklosovic)
 
@@ -12,7 +16,7 @@
 	* pt_BR.po: Updated Brazilian Portuguese translation by
 	  Fábio Nogueira <deb-user-ba@ubuntu.com>
 
-2008-05-27	Mike Massonnet <mmassonnet@xfce.org>
+2008-05-27  Mike Massonnet <mmassonnet@xfce.org>
 
 	* sk.po, LINGUAS: Add Slovak translation (Stefan Miklosovic)
 
@@ -34,7 +38,7 @@
 	* nl.po: Update dutch translation
 	* *.po: Update .po files
 
-2008-05-13	Mike Massonnet <mmassonnet@xfce.org>
+2008-05-13  Mike Massonnet <mmassonnet@xfce.org>
 
 	* en_GB.po: Update translation (Jeff Bailes)
 
@@ -77,10 +81,10 @@
 	* zh_CN.po: Add Chinese translation by WuLi <wyrisky@gmail.com>
 	* de.po: Update German translation by Christian Dywan
 
-2008-03-18	Mike Massonnet <mmassonnet@xfce.org>
+2008-03-18  Mike Massonnet <mmassonnet@xfce.org>
 	* nb_NO.po: Update Norwegian translation by Terje <ter@operamail.com>
 
-2008-03-18	Mike Massonnet <mmassonnet@xfce.org>
+2008-03-18  Mike Massonnet <mmassonnet@xfce.org>
 	* pt_PT.po: Update Portuguese translation by Nuno Miguel
 
 2008-02-26  Jari Rahkonen <jari.rahkonen@pp1.inet.fi>

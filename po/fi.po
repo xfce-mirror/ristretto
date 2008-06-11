@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.5\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-06-02 00:31+0200\n"
-"PO-Revision-Date: 2008-05-25 10:21+0300\n"
+"POT-Creation-Date: 2008-06-11 10:24+0300\n"
+"PO-Revision-Date: 2008-06-11 10:26+0300\n"
 "Last-Translator: Jari Rahkonen <jari.rahkonen@pp1.inet.fi>\n"
 "Language-Team: Finnish <xfce-i18n@xfce.org>\n"
 "MIME-Version: 1.0\n"
@@ -129,7 +129,7 @@ msgstr "_Ohje"
 
 #: ../src/main_window.c:933
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr ""
+msgstr "Yhtä tai useampaa kuvaa on muokattu. Tallennetaanko muutokset?"
 
 #: ../src/main_window.c:1420
 msgid "Image viewer Preferences"
