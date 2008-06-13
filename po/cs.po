@@ -3,14 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Miro Hrončok <churchyard@gmail.com>, 2007.
 #
-#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-06-02 00:31+0200\n"
-"PO-Revision-Date: 2008-01-12 20:12+0100\n"
-"Last-Translator: Miro Hrončok <churchyard@gmail.com>\n"
+"PO-Revision-Date: 2008-06-13 23:53+0100\n"
+"Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,12 +21,11 @@ msgstr "Informace o verzi"
 
 #: ../src/main.c:65
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "Spouštět v režimu celá obrazovka"
 
 #: ../src/main.c:69
-#, fuzzy
 msgid "Start a slideshow"
-msgstr "Promítání snímků"
+msgstr "Spustit promítání"
 
 #: ../src/main.c:235
 #, c-format
@@ -36,13 +34,14 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Napište %s --help pro seznam všech možných parametrů.\n"
+"Napište %s --help pro zobrazení seznamu všech dostupných parametrů.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1636 ../src/main_window.c:1676
+#: ../src/main.c:448
+#: ../src/main_window.c:1636
+#: ../src/main_window.c:1676
 #: ../src/main_window.c:1713
-#, fuzzy
 msgid "Opening file(s)..."
-msgstr "Otevřít pomocí..."
+msgstr "Načítám soubor(y)..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:340
@@ -59,20 +58,22 @@ msgstr "_Naposledy otevřené"
 
 #: ../src/main_window.c:353
 msgid "Close _all"
-msgstr ""
+msgstr "Z_avřít všechny"
 
 #. Create 'Edit' menu
 #: ../src/main_window.c:383
 msgid "_Edit"
 msgstr "_Upravit"
 
-#: ../src/main_window.c:388 ../src/main_window.c:686
+#: ../src/main_window.c:388
+#: ../src/main_window.c:686
 msgid "Open with..."
 msgstr "Otevřít pomocí..."
 
-#: ../src/main_window.c:396 ../src/main_window.c:697
+#: ../src/main_window.c:396
+#: ../src/main_window.c:697
 msgid "No applications available"
-msgstr "Nejsou k dispozici žádné programy"
+msgstr "Nejsou k dispozici žádné aplikace"
 
 #. Create 'View' menu
 #: ../src/main_window.c:405
@@ -81,35 +82,35 @@ msgstr "_Zobrazit"
 
 #: ../src/main_window.c:412
 msgid "Show _Toolbar"
-msgstr "Zo_brazit nástrojovou lištu"
+msgstr "Zo_brazit panel nástrojů"
 
 #: ../src/main_window.c:413
 msgid "Thumbnail _Viewer"
-msgstr "_Náhledy"
+msgstr "_Prohlížeč náhledů"
 
 #: ../src/main_window.c:417
 msgid "_Zooming"
-msgstr "_Zoom"
+msgstr "_Přiblížit"
 
 #: ../src/main_window.c:418
 msgid "_Rotate"
-msgstr "_Rotace"
+msgstr "_Rotovat"
 
 #: ../src/main_window.c:425
 msgid "_Set as wallpaper"
-msgstr ""
+msgstr "Nastavit jako _tapetu"
 
 #: ../src/main_window.c:503
 msgid "Show _Horizontally"
-msgstr "_Horizontálně"
+msgstr "_Vodorovně"
 
 #: ../src/main_window.c:507
 msgid "Show _Vertically"
-msgstr "_Vertikálně"
+msgstr "_Svisle"
 
 #: ../src/main_window.c:511
 msgid "H_ide"
-msgstr "_Nezobrazovat"
+msgstr "_Skrýt"
 
 #: ../src/main_window.c:548
 msgid "Rotate _Right"
@@ -131,7 +132,7 @@ msgstr "_Nápověda"
 
 #: ../src/main_window.c:933
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr ""
+msgstr "Některé obrázky byly upraveny, přejete si uložit změny?"
 
 #: ../src/main_window.c:1420
 msgid "Image viewer Preferences"
@@ -150,13 +151,12 @@ msgid "Display"
 msgstr "Zobrazení"
 
 #: ../src/main_window.c:1451
-#, fuzzy
 msgid "Scaling"
-msgstr "Mezery"
+msgstr "Probíhá změna velikosti"
 
 #: ../src/main_window.c:1453
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
+msgstr "Nezvětšovat obrázek nad jeho skutečnou velikost při maximalizování okna."
 
 #: ../src/main_window.c:1463
 msgid "Background Color"
@@ -164,11 +164,11 @@ msgstr "Barva pozadí"
 
 #: ../src/main_window.c:1465
 msgid "_Override Background Color:"
-msgstr "Určit _barvu pozadí:"
+msgstr "Vynutit _barvu pozadí:"
 
 #: ../src/main_window.c:1488
 msgid "Image Cache"
-msgstr "Vyrovnávací paměť"
+msgstr "Vyrovnávací paměť pro obrázek"
 
 #: ../src/main_window.c:1491
 msgid "Cache size:"
@@ -187,9 +187,8 @@ msgid "Preload"
 msgstr "Načítat dopředu"
 
 #: ../src/main_window.c:1514
-#, fuzzy
 msgid "Thumbnails"
-msgstr "_Náhledy"
+msgstr "Náhledy"
 
 #: ../src/main_window.c:1520
 msgid ""
@@ -197,7 +196,7 @@ msgid ""
 "(in seconds)"
 msgstr ""
 "Časový interval po který je zobrazen jeden snímek při promítání\n"
-"(ve vteřinách)"
+"(v sekundách)"
 
 #: ../src/main_window.c:1524
 msgid ""
@@ -213,23 +212,19 @@ msgstr "Načítat _předem"
 
 #: ../src/main_window.c:1527
 msgid "Hide the thumbnails bar during slideshow"
-msgstr ""
+msgstr "Nezobrazovat lištu s náhledy při promítání"
 
 #: ../src/main_window.c:1528
 msgid "_Hide thumbnails"
-msgstr ""
+msgstr "_Skrýt náhledy"
 
 #: ../src/main_window.c:1594
 msgid "Developer:"
 msgstr "Vývojář:"
 
 #: ../src/main_window.c:1604
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí "
-"Xfce."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí Xfce."
 
 #: ../src/main_window.c:1612
 msgid "translator-credits"
@@ -241,16 +236,15 @@ msgstr "Načíst obrázek"
 
 #: ../src/main_window.c:1656
 msgid "Could not open file"
-msgstr "Nemohu otevřít soubor"
+msgstr "Nelze otevřít soubor"
 
 #: ../src/main_window.c:1678
 msgid "Open folder"
 msgstr "Otevřít složku"
 
 #: ../src/main_window.c:1753
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr "Opravdu chcete vyprázdnit seznam naposledy otevřených dokumentů?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Opravdu chcete vyprázdnit seznam naposledy otevřených dokumentů aplikací Ristretto?"
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
@@ -262,11 +256,11 @@ msgstr "Množství prostoru mezi náhledy"
 
 #: ../src/thumbnail_bar.c:192
 msgid "Border Width"
-msgstr ""
+msgstr "Šířka rámečků"
 
 #: ../src/thumbnail_bar.c:193
 msgid "The border width of the thumbnail-bar"
-msgstr ""
+msgstr "Šířka rámečků v liště s náhledy"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -274,7 +268,7 @@ msgstr "Prohlížeč obrázků"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
@@ -282,9 +276,8 @@ msgstr "Prohlížeč obrázků pro Xfce"
 
 #~ msgid "Ristretto Image Viewer"
 #~ msgstr "Prohlížeč obrázků Ristretto"
-
 #~ msgid "Flip _Vertically"
 #~ msgstr "Překlopit _vertikálně"
-
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Překlopit _horizontálně"
+
