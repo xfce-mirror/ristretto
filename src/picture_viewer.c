@@ -188,6 +188,43 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
                       GDK_ACTION_COPY | GDK_ACTION_LINK | GDK_ACTION_MOVE | GDK_ACTION_PRIVATE);
 }
 
+void
+rstto_marshal_VOID__OBJECT_OBJECT (GClosure     *closure,
+                                   GValue       *return_value,
+                                   guint         n_param_values,
+                                   const GValue *param_values,
+                                   gpointer      invocation_hint,
+                                   gpointer      marshal_data)
+{
+  typedef void (*GMarshalFunc_VOID__OBJECT_OBJECT) (gpointer data1,
+                                                    gpointer arg_1,
+                                                    gpointer arg_2,
+                                                    gpointer data2);
+  register GMarshalFunc_VOID__OBJECT_OBJECT callback;
+  register GCClosure *cc = (GCClosure*) closure;
+  register gpointer data1, data2;
+
+  g_return_if_fail (n_param_values == 3);
+
+  if (G_CCLOSURE_SWAP_DATA (closure))
+    {
+      data1 = closure->data;
+      data2 = g_value_get_object (param_values + 0);
+    }
+  else
+    {
+      data1 = g_value_get_object (param_values + 0);
+      data2 = closure->data;
+    }
+  callback = (GMarshalFunc_VOID__OBJECT_OBJECT) (marshal_data ?
+      marshal_data : cc->callback);
+
+  callback (data1,
+            g_value_get_object (param_values + 1),
+            g_value_get_object (param_values + 2),
+            data2);
+}
+
 static void
 rstto_picture_viewer_class_init(RsttoPictureViewerClass *viewer_class)
 {
@@ -218,7 +255,7 @@ rstto_picture_viewer_class_init(RsttoPictureViewerClass *viewer_class)
                                 G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
                                 G_STRUCT_OFFSET (RsttoPictureViewerClass, set_scroll_adjustments),
                                 NULL, NULL,
-                                gtk_marshal_VOID__POINTER_POINTER,
+                                rstto_marshal_VOID__OBJECT_OBJECT,
                                 G_TYPE_NONE, 2,
                                 GTK_TYPE_ADJUSTMENT,
                                 GTK_TYPE_ADJUSTMENT);
