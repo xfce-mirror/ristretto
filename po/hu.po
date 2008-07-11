@@ -1,10 +1,9 @@
-#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-06-02 00:31+0200\n"
-"PO-Revision-Date: 2008-05-12 09:05+0100\n"
+"PO-Revision-Date: 2008-07-11 17:12+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.d.o>\n"
 "MIME-Version: 1.0\n"
@@ -20,12 +19,11 @@ msgstr "Verzió adatok"
 
 #: ../src/main.c:65
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "Indítás teljes képernyős módban"
 
 #: ../src/main.c:69
-#, fuzzy
 msgid "Start a slideshow"
-msgstr "Vetítés"
+msgstr "Vetítés indtása"
 
 #: ../src/main.c:235
 #, c-format
@@ -36,7 +34,9 @@ msgstr ""
 "%s: %s\n"
 "A %s --help adja az elérhető lehetőségek litáját.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1636 ../src/main_window.c:1676
+#: ../src/main.c:448
+#: ../src/main_window.c:1636
+#: ../src/main_window.c:1676
 #: ../src/main_window.c:1713
 msgid "Opening file(s)..."
 msgstr "Fájl(ok) megnyitása..."
@@ -56,18 +56,20 @@ msgstr "Utóbbiak"
 
 #: ../src/main_window.c:353
 msgid "Close _all"
-msgstr ""
+msgstr "Mindent bezár"
 
 #. Create 'Edit' menu
 #: ../src/main_window.c:383
 msgid "_Edit"
 msgstr "Sz_erkeszt"
 
-#: ../src/main_window.c:388 ../src/main_window.c:686
+#: ../src/main_window.c:388
+#: ../src/main_window.c:686
 msgid "Open with..."
 msgstr "Megnyitás ezzel..."
 
-#: ../src/main_window.c:396 ../src/main_window.c:697
+#: ../src/main_window.c:396
+#: ../src/main_window.c:697
 msgid "No applications available"
 msgstr "Nincs elérhető alkalmazás"
 
@@ -128,7 +130,7 @@ msgstr "_Súgó"
 
 #: ../src/main_window.c:933
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr ""
+msgstr "1 vagy több kép módosult, akarod menteni a változásokat?"
 
 #: ../src/main_window.c:1420
 msgid "Image viewer Preferences"
@@ -183,9 +185,8 @@ msgid "Preload"
 msgstr "Előtöltés"
 
 #: ../src/main_window.c:1514
-#, fuzzy
 msgid "Thumbnails"
-msgstr "Előkép _néző"
+msgstr "Előképek"
 
 #: ../src/main_window.c:1520
 msgid ""
@@ -209,20 +210,18 @@ msgstr "Képek _előtöltése"
 
 #: ../src/main_window.c:1527
 msgid "Hide the thumbnails bar during slideshow"
-msgstr ""
+msgstr "Az előképek elrejtése a vetítés alatt"
 
 #: ../src/main_window.c:1528
 msgid "_Hide thumbnails"
-msgstr ""
+msgstr "Előképek rejtése"
 
 #: ../src/main_window.c:1594
 msgid "Developer:"
 msgstr "Fejlesztő:"
 
 #: ../src/main_window.c:1604
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
 msgstr "A Ristretto egy gyors, könnyű nézegető az Xfce asztali környezethez."
 
 #: ../src/main_window.c:1612
@@ -242,8 +241,7 @@ msgid "Open folder"
 msgstr "Mappa megnyitása"
 
 #: ../src/main_window.c:1753
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Tényleg törlöd a legutóbbi dokumentumok listáját?"
 
 #: ../src/thumbnail_bar.c:185
@@ -268,7 +266,7 @@ msgstr "Kép-néző"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
@@ -276,3 +274,4 @@ msgstr "Xfce Kép-néző"
 
 #~ msgid "Ristretto Image Viewer"
 #~ msgstr "Ristretto Kép-néző"
+
