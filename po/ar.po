@@ -210,7 +210,9 @@ msgid "Developer:"
 msgstr ""
 
 #: ../src/main_window.c:1604
-msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
 msgstr ""
 
 #: ../src/main_window.c:1612
@@ -230,7 +232,8 @@ msgid "Open folder"
 msgstr ""
 
 #: ../src/main_window.c:1753
-msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
 
 #: ../src/thumbnail_bar.c:185
