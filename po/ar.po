@@ -1,3 +1,4 @@
+#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: xfce\n"
@@ -30,9 +31,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 
-#: ../src/main.c:448
-#: ../src/main_window.c:1636
-#: ../src/main_window.c:1676
+#: ../src/main.c:448 ../src/main_window.c:1636 ../src/main_window.c:1676
 #: ../src/main_window.c:1713
 msgid "Opening file(s)..."
 msgstr ""
@@ -59,13 +58,11 @@ msgstr ""
 msgid "_Edit"
 msgstr ""
 
-#: ../src/main_window.c:388
-#: ../src/main_window.c:686
+#: ../src/main_window.c:388 ../src/main_window.c:686
 msgid "Open with..."
 msgstr ""
 
-#: ../src/main_window.c:396
-#: ../src/main_window.c:697
+#: ../src/main_window.c:396 ../src/main_window.c:697
 msgid "No applications available"
 msgstr ""
 
@@ -263,4 +260,3 @@ msgstr ""
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr ""
-
