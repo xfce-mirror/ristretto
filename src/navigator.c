@@ -264,47 +264,22 @@ rstto_navigator_entry_name_compare_func(RsttoNavigatorEntry *a, RsttoNavigatorEn
     return g_strcasecmp(a->info->display_name, b->info->display_name);
 }
 
-void
-rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
+
+static void
+rstto_navigator_add_entry_to_history(RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
 {
-    /* check if the image is still loading, if so... don't cache the image */
-    if(entry->io_channel)
+
+    /* rstto_debug_print_src_pixbufs(navigator); */
+
+    /* Check if the image is already available in the image-cache */
+    if (g_list_index(navigator->history, entry) != -1)
     {
-        g_source_remove(entry->io_source_id);
-        g_io_channel_unref(entry->io_channel);
-        entry->io_channel = NULL;
-        entry->io_source_id = 0;
-        if(entry->loader)
-        {
-            g_signal_handlers_disconnect_by_func(entry->loader , cb_rstto_navigator_entry_area_prepared, entry);
-            gdk_pixbuf_loader_close(entry->loader, NULL);
-        }
-
-        if (entry->timeout_id)
-        {
-            g_source_remove(entry->timeout_id);
-            entry->timeout_id = 0;
-        }
-
-        if(entry->animation)
-        {
-            g_object_unref(entry->animation);
-            entry->animation = NULL;
-        }
-
-        if(entry->src_pixbuf)
-        {
-            gdk_pixbuf_unref(entry->src_pixbuf);
-            entry->src_pixbuf = NULL;
-        }
+        /* Remove the image from the history, we are going to re-add it at the front of the list later */
+        navigator->history = g_list_remove(navigator->history, entry);
     }
+    navigator->history = g_list_prepend(navigator->history, entry);
 
-    /* add image to the cache-history */
-    if (g_list_index(navigator->history, entry) == -1)
-    {
-        navigator->history = g_list_prepend(navigator->history, entry);
-    }
-
+    /* manage history by kicking excess elements out */
     GList *iter = NULL;
     guint64 size = 0;
 
@@ -346,6 +321,117 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
     }
 }
 
+
+void
+rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
+{
+    /* check if the image is still loading, if so... don't cache the image */
+    if(entry->io_channel)
+    {
+        g_source_remove(entry->io_source_id);
+        g_io_channel_unref(entry->io_channel);
+        entry->io_channel = NULL;
+        entry->io_source_id = 0;
+        if(entry->loader)
+        {
+            g_signal_handlers_disconnect_by_func(entry->loader , cb_rstto_navigator_entry_area_prepared, entry);
+            gdk_pixbuf_loader_close(entry->loader, NULL);
+        }
+
+        if (entry->timeout_id)
+        {
+            g_source_remove(entry->timeout_id);
+            entry->timeout_id = 0;
+        }
+
+        if(entry->animation)
+        {
+            g_object_unref(entry->animation);
+            entry->animation = NULL;
+        }
+
+        if(entry->src_pixbuf)
+        {
+            gdk_pixbuf_unref(entry->src_pixbuf);
+            entry->src_pixbuf = NULL;
+        }
+    }
+
+    rstto_navigator_add_entry_to_history(navigator, entry);
+}
+
+/* for debugging:
+ * iterate through navigator->file_list and print out all
+ * pixbuf entries to see whether they've been loaded or not
+ */
+void
+rstto_debug_print_src_pixbufs (RsttoNavigator *navigator)
+{
+    GList *e = navigator->file_list;
+    int i = 1;
+    printf("src_pixbufs loaded for these image indices: ");
+    while (e != NULL)
+    {
+        RsttoNavigatorEntry *re = e->data;
+        if (re->src_pixbuf != NULL)
+        {
+            printf("%d ", i);
+        }
+        e = g_list_next(e);
+        i++;
+    }
+    printf("\n");
+}
+
+
+/* preloading for improved responsiveness
+ * (at the expense of increased memory usage) 
+ */
+static gboolean
+rstto_navigator_preload_next_img (RsttoNavigator *navigator)
+{
+    GList *next = g_list_next(navigator->file_iter);
+    /* wraparound case */
+    if (next == NULL)
+    {
+        next = navigator->file_list;
+    }
+    if (next != NULL)
+    {
+        RsttoNavigatorEntry *next_entry = next->data;
+        rstto_navigator_entry_load_image(next_entry, FALSE);
+
+        /* add image to the cache-history */
+        rstto_navigator_add_entry_to_history(navigator, next_entry);
+    }
+
+    /* for use with g_timeout_add() */
+    return FALSE;
+}
+
+static gboolean
+rstto_navigator_preload_prev_img (RsttoNavigator *navigator)
+{
+    GList *prev = g_list_previous(navigator->file_iter);
+    /* wraparound case */
+    if (prev == NULL)
+    {
+        prev = g_list_last(navigator->file_list);
+    }
+    if (prev != NULL)
+    {
+        RsttoNavigatorEntry *prev_entry = prev->data;
+        rstto_navigator_entry_load_image(prev_entry, FALSE);
+
+        /* add image to the cache-history */
+        rstto_navigator_add_entry_to_history(navigator, prev_entry);
+    }
+    
+    /* for use with g_timeout_add() */
+    return FALSE;
+}
+
+
 void
 rstto_navigator_jump_first (RsttoNavigator *navigator)
 {
@@ -358,6 +444,13 @@ rstto_navigator_jump_first (RsttoNavigator *navigator)
     if(navigator->file_iter)
     {
         g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED], 0, 0, navigator->file_iter->data, NULL);
+
+        if (navigator->preload)
+        {
+            /* preload in both directions */
+            g_timeout_add(500, (GSourceFunc)rstto_navigator_preload_next_img, navigator);
+            g_timeout_add(500, (GSourceFunc)rstto_navigator_preload_prev_img, navigator);
+        }
     }
 }
 
@@ -381,6 +474,12 @@ rstto_navigator_jump_forward (RsttoNavigator *navigator)
                       g_list_position(navigator->file_list, navigator->file_iter),
                       navigator->file_iter->data,
                       NULL);
+
+        if (navigator->preload)
+        {
+            /* preload forwards */
+            g_timeout_add(500, (GSourceFunc)rstto_navigator_preload_next_img, navigator);
+        }
     }
     else
     {
@@ -414,6 +513,12 @@ rstto_navigator_jump_back (RsttoNavigator *navigator)
                       g_list_position(navigator->file_list, navigator->file_iter),
                       navigator->file_iter->data,
                       NULL);
+
+        if (navigator->preload)
+        {
+            /* preload backwards */
+            g_timeout_add(500, (GSourceFunc)rstto_navigator_preload_prev_img, navigator);
+        }
     }
 }
 
@@ -435,6 +540,13 @@ rstto_navigator_jump_last (RsttoNavigator *navigator)
                       g_list_position(navigator->file_list, navigator->file_iter),
                       navigator->file_iter->data,
                       NULL);
+
+        if (navigator->preload)
+        {
+            /* preload in both directions */
+            g_timeout_add(500, (GSourceFunc)rstto_navigator_preload_next_img, navigator);
+            g_timeout_add(500, (GSourceFunc)rstto_navigator_preload_prev_img, navigator);
+        }
     }
 }
 
@@ -449,17 +561,8 @@ rstto_navigator_set_running (RsttoNavigator *navigator, gboolean running)
             navigator->id = g_timeout_add(navigator->timeout, (GSourceFunc)cb_rstto_navigator_running, navigator);
             if (navigator->preload)
             {
-                GList *next = g_list_next(navigator->file_iter);
-                if (next == NULL)
-                {
-                    next = navigator->file_list;
-                }
-                if (next != NULL)
-                {
-                    RsttoNavigatorEntry *next_entry = next->data;
-                    
-                    rstto_navigator_entry_load_image(next_entry, FALSE);
-                }
+                /* preload forwards */
+                rstto_navigator_preload_next_img(navigator);
             }
         }
     }
@@ -554,9 +657,13 @@ rstto_navigator_remove (RsttoNavigator *navigator, RsttoNavigatorEntry *entry)
             if(!navigator->file_iter)
                 navigator->file_iter = g_list_first(navigator->file_list);
 
-            /* Ehm... an item can exist several times inside the history? */
+            /* An item should not be able to exist several times inside the
+             * history, g_list_remove should suffice here
+             */
             if (navigator->history)
-                navigator->history = g_list_remove_all(navigator->history, entry);
+            {
+                navigator->history = g_list_remove (navigator->history, entry);
+            }
 
             if (navigator->busy == FALSE)
             {
@@ -622,7 +729,6 @@ rstto_navigator_clear (RsttoNavigator *navigator)
     }
     g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ITER_CHANGED], 0, -1, NULL, NULL);
     g_signal_emit(G_OBJECT(navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_REORDERED], 0, NULL);
-    
 }
 
 void
@@ -656,21 +762,14 @@ cb_rstto_navigator_running(RsttoNavigator *navigator)
 
         if (navigator->preload)
         {
-            GList *next = g_list_next(navigator->file_iter);
-            if (next == NULL)
-            {
-                next = navigator->file_list;
-            }
-            if (next != NULL)
-            {
-                RsttoNavigatorEntry *next_entry = next->data;
-                
-                rstto_navigator_entry_load_image(next_entry, FALSE);
-            }
+            /* preload forwards */
+            rstto_navigator_preload_next_img(navigator);
         }
     }
     else
+    {
         navigator->id = 0;
+    }
     return navigator->running;
 }
 
@@ -791,9 +890,13 @@ gboolean
 rstto_navigator_entry_get_flip (RsttoNavigatorEntry *entry, gboolean horizontal)
 {
     if (horizontal)
+    {
         return entry->h_flipped;
+    }
     else
+    {
         return entry->v_flipped;
+    }
 }
 
 static void
@@ -945,10 +1048,14 @@ rstto_navigator_entry_set_scale (RsttoNavigatorEntry *entry, gdouble scale)
     }
     /* Max scale 1600% */
     if (scale > 16)
+    {
         scale = 16;
+    }
     /* Min scale 5% */
     if (scale < 0.05)
+    {
         scale = 0.05;
+    }
     entry->scale = scale;
 }
 
@@ -1056,6 +1163,7 @@ rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry, gboolean empty_cac
         g_signal_connect(entry->loader, "closed", G_CALLBACK(cb_rstto_navigator_entry_closed), entry);
 
         path = thunar_vfs_path_dup_string(entry->info->path);
+
         entry->io_channel = g_io_channel_new_file(path, "r", NULL);
 
         g_io_channel_set_encoding(entry->io_channel, NULL, NULL);
@@ -1365,6 +1473,14 @@ rstto_navigator_entry_select (RsttoNavigatorEntry *entry)
                       g_list_position(navigator->file_list, navigator->file_iter),
                       navigator->file_iter->data,
                       NULL);
+        }
+
+        if (navigator->preload)
+        {
+            /* preload in both directions */
+            g_timeout_add(500, (GSourceFunc)rstto_navigator_preload_next_img, navigator);
+            g_timeout_add(500, (GSourceFunc)rstto_navigator_preload_prev_img, navigator);
+
         }
     }
 

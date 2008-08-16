@@ -265,7 +265,7 @@ int main(int argc, char **argv)
     gint slideshow_timeout = xfce_rc_read_int_entry(xfce_rc, "SlideShowTimeout", 5000);
     gboolean slideshow_hide_thumbnail = xfce_rc_read_bool_entry(xfce_rc, "SlideShowHideThumbnail", TRUE);
     gint max_cache = xfce_rc_read_int_entry(xfce_rc, "MaxImagesCacheSize", 64);
-    gboolean preload_during_slideshow = xfce_rc_read_bool_entry (xfce_rc, "PreloadDuringSlideShow", FALSE);
+    gboolean preload_imgs = xfce_rc_read_bool_entry (xfce_rc, "PreloadImgs", FALSE);
     gboolean override_bg_color = xfce_rc_read_bool_entry (xfce_rc, "OverrideBgColor", FALSE);
     gboolean scale_to_100 = xfce_rc_read_bool_entry (xfce_rc, "ScaleTo100", FALSE);
 
@@ -284,7 +284,7 @@ int main(int argc, char **argv)
 
     RsttoNavigator *navigator = rstto_main_window_get_navigator(RSTTO_MAIN_WINDOW(window));
 
-    navigator->preload = preload_during_slideshow;
+    navigator->preload = preload_imgs;
 
     rstto_main_window_set_max_cache_size(RSTTO_MAIN_WINDOW(window), max_cache);
     rstto_main_window_set_slideshow_timeout(RSTTO_MAIN_WINDOW(window), (gdouble)slideshow_timeout);
@@ -346,7 +346,7 @@ int main(int argc, char **argv)
 
     xfce_rc_write_bool_entry(xfce_rc, "ShowToolBar", rstto_main_window_get_show_toolbar(RSTTO_MAIN_WINDOW(window)));
     xfce_rc_write_bool_entry(xfce_rc, "ScaleTo100", rstto_main_window_get_scale_to_100(RSTTO_MAIN_WINDOW(window)));
-    xfce_rc_write_bool_entry(xfce_rc, "PreloadDuringSlideShow", navigator->preload);
+    xfce_rc_write_bool_entry(xfce_rc, "PreloadImgs", navigator->preload);
     xfce_rc_write_bool_entry(xfce_rc, "ShowThumbnailViewer", rstto_main_window_get_show_thumbnail_viewer(RSTTO_MAIN_WINDOW(window)));
     if (bg_color)
     {

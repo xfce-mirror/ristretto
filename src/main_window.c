@@ -934,7 +934,7 @@ rstto_main_window_dispose(GObject *object)
             if (gtk_dialog_run (GTK_DIALOG(dialog)) == GTK_RESPONSE_YES)
             {
                 gtk_widget_hide(dialog);
-                GtkWidget *save_dialog = rstto_save_dialog_new (window, modified_files);
+                GtkWidget *save_dialog = rstto_save_dialog_new (GTK_WINDOW(window), modified_files);
                 gtk_dialog_run (GTK_DIALOG(save_dialog));
             }
         }
@@ -1434,17 +1434,17 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook,  TRUE, TRUE, 0);
 
 /** Add notebook pages */
-    behaviour_main_vbox = gtk_vbox_new(FALSE, 0);
-    behaviour_main_lbl = gtk_label_new(_("Behaviour"));
-    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), behaviour_main_vbox, behaviour_main_lbl);
+    display_main_vbox = gtk_vbox_new(FALSE, 0);
+    display_main_lbl = gtk_label_new(_("Display"));
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), display_main_vbox, display_main_lbl);
 
     slideshow_main_vbox = gtk_vbox_new(FALSE, 0);
     slideshow_main_lbl = gtk_label_new(_("Slideshow"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), slideshow_main_vbox, slideshow_main_lbl);
 
-    display_main_vbox = gtk_vbox_new(FALSE, 0);
-    display_main_lbl = gtk_label_new(_("Display"));
-    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), display_main_vbox, display_main_lbl);
+    behaviour_main_vbox = gtk_vbox_new(FALSE, 0);
+    behaviour_main_lbl = gtk_label_new(_("Behaviour"));
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), behaviour_main_vbox, behaviour_main_lbl);
 
 /** Add content for behaviour page */
     resize_to_content_vbox = gtk_vbox_new(FALSE, 0);
@@ -1491,11 +1491,14 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     cache_label = gtk_label_new(_("Cache size:"));
     cache_mb_label = gtk_label_new(_("MB"));
 
+    GtkWidget *preload_check = gtk_check_button_new_with_mnemonic(_("_Preload images (GUI more responsive but more CPU-intensive)"));
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(preload_check), window->priv->navigator->preload);
+
     gtk_box_pack_start(GTK_BOX(cache_hbox), cache_label, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(cache_hbox), cache_spin_button, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(cache_hbox), cache_mb_label, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(cache_vbox), cache_hbox, FALSE, FALSE, 0);
-
+    gtk_box_pack_start(GTK_BOX(cache_vbox), preload_check, FALSE, FALSE, 0);
 
     gtk_container_set_border_width (GTK_CONTAINER (bg_color_frame), 8);
     gtk_container_set_border_width (GTK_CONTAINER (cache_frame), 8);
@@ -1503,55 +1506,40 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(display_main_vbox), bg_color_frame, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(display_main_vbox), cache_frame, FALSE, TRUE, 0);
 
+
 /** Add content for slideshow page */
     GtkWidget *slideshow_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *slideshow_frame = xfce_create_framebox_with_content (_("Timeout"), slideshow_vbox);
-
-    GtkWidget *preload_vbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget *preload_frame = xfce_create_framebox_with_content (_("Preload"), preload_vbox);
 
     GtkWidget *thumbnails_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *thumbnails_frame = xfce_create_framebox_with_content (_("Thumbnails"), thumbnails_vbox);
 
     gtk_container_set_border_width (GTK_CONTAINER (slideshow_frame), 8);
     gtk_container_set_border_width (GTK_CONTAINER (thumbnails_frame), 8);
-    gtk_container_set_border_width (GTK_CONTAINER (preload_frame), 8);
 
     GtkWidget *slideshow_lbl = gtk_label_new(_("The time period an individual image is displayed during a slideshow\n(in seconds)"));
     GtkWidget *slideshow_hscale = gtk_hscale_new_with_range(1, 60, 1);
-
-
-    GtkWidget *preload_lbl = gtk_label_new(_("Preload images during slideshow\n(uses more memory)"));
-    GtkWidget *preload_check = gtk_check_button_new_with_mnemonic(_("_Preload images"));
 
     GtkWidget *thumbnails_lbl = gtk_label_new(_("Hide the thumbnails bar during slideshow"));
     GtkWidget *thumbnails_check = gtk_check_button_new_with_mnemonic(_("_Hide thumbnails"));
 
     gtk_misc_set_alignment(GTK_MISC(slideshow_lbl), 0, 0.5);
-    gtk_misc_set_alignment(GTK_MISC(preload_lbl), 0, 0.5);
     gtk_misc_set_alignment(GTK_MISC(thumbnails_lbl), 0, 0.5);
 
     gtk_misc_set_padding(GTK_MISC(slideshow_lbl), 2, 2);
-    gtk_misc_set_padding(GTK_MISC(preload_lbl), 2, 2);
     gtk_misc_set_padding(GTK_MISC(thumbnails_lbl), 2, 2);
     
     gtk_range_set_value(GTK_RANGE(slideshow_hscale), window->priv->settings.slideshow_timeout / 1000);
-
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(preload_check), window->priv->navigator->preload);
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(thumbnails_check), window->priv->settings.slideshow_hide_thumbnail);
 
     gtk_box_pack_start(GTK_BOX(slideshow_vbox), slideshow_lbl, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(slideshow_vbox), slideshow_hscale, FALSE, TRUE, 0);
 
-    gtk_box_pack_start(GTK_BOX(preload_vbox), preload_lbl, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(preload_vbox), preload_check, FALSE, TRUE, 0);
-
     gtk_box_pack_start(GTK_BOX(thumbnails_vbox), thumbnails_lbl, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(thumbnails_vbox), thumbnails_check, FALSE, TRUE, 0);
 
     gtk_box_pack_start(GTK_BOX(slideshow_main_vbox), slideshow_frame, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(slideshow_main_vbox), preload_frame, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(slideshow_main_vbox), thumbnails_frame, FALSE, TRUE, 0);
 
     gtk_widget_show_all(notebook);
