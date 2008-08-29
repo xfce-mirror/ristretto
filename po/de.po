@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-06-02 00:31+0200\n"
-"PO-Revision-Date: 2007-12-01 17:41:21+0000\n"
+"PO-Revision-Date: 2008-08-21 21:43:00+0200\n"
 "Last-Translator: Fabian Nowak <timystery@arcor.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -23,12 +23,11 @@ msgstr "Versionsinformation"
 
 #: ../src/main.c:65
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "Im Vollbildmodus starten"
 
 #: ../src/main.c:69
-#, fuzzy
 msgid "Start a slideshow"
-msgstr "Diavorführung"
+msgstr "Diavorführung starten"
 
 #: ../src/main.c:235
 #, c-format
@@ -60,7 +59,7 @@ msgstr "_Zuletzt geöffnet"
 
 #: ../src/main_window.c:353
 msgid "Close _all"
-msgstr ""
+msgstr "_Alle schließen"
 
 #. Create 'Edit' menu
 #: ../src/main_window.c:383
@@ -98,7 +97,7 @@ msgstr "_Drehen"
 
 #: ../src/main_window.c:425
 msgid "_Set as wallpaper"
-msgstr ""
+msgstr "Al_s Hintergrundbild einstellen"
 
 #: ../src/main_window.c:503
 msgid "Show _Horizontally"
@@ -132,7 +131,7 @@ msgstr "_Hilfe"
 
 #: ../src/main_window.c:933
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr ""
+msgstr "Ein oder mehrere Bilder wurden geändert. Möchten Sie die Änderungen speichern?"
 
 #: ../src/main_window.c:1420
 msgid "Image viewer Preferences"
@@ -187,7 +186,6 @@ msgid "Preload"
 msgstr "Vorladen"
 
 #: ../src/main_window.c:1514
-#, fuzzy
 msgid "Thumbnails"
 msgstr "Miniaturbilder"
 
@@ -213,11 +211,11 @@ msgstr "Bilder _vorladen"
 
 #: ../src/main_window.c:1527
 msgid "Hide the thumbnails bar during slideshow"
-msgstr ""
+msgstr "Miniaturbilder während Diashow verbergen"
 
 #: ../src/main_window.c:1528
 msgid "_Hide thumbnails"
-msgstr ""
+msgstr "_Miniaturbilder verbergen"
 
 #: ../src/main_window.c:1594
 msgid "Developer:"
@@ -278,7 +276,7 @@ msgstr "Bildbetrachter"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
