@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-06-02 00:31+0200\n"
-"PO-Revision-Date: 2008-06-16 21:55+0100\n"
+"PO-Revision-Date: 2008-08-29 19:20+0100\n"
 "Last-Translator: Nuno Miguel <nunis@netcabo.pt>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Tente %s --help para ver uma lista completa de opções da linha de comando disponíveis.\n"
+"Tente %s --help para ver uma lista completa de opções em linha de comandos disponíveis.\n"
 
 #: ../src/main.c:448
 #: ../src/main_window.c:1636
@@ -196,7 +196,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"O tempo que imagens individuais são exibidas durante uma apresentação de slides\n"
+"O período de tempo que uma imagem individual é exibida durante uma apresentação de slides\n"
 "(em segundos)"
 
 #: ../src/main_window.c:1524
@@ -221,7 +221,7 @@ msgstr "_Ocultar miniaturas"
 
 #: ../src/main_window.c:1594
 msgid "Developer:"
-msgstr "Programador"
+msgstr "Programador:"
 
 #: ../src/main_window.c:1604
 msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
