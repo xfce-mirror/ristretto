@@ -1,0 +1,275 @@
+# translation of ristretto.po to Euskara
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#: ../src/main.c:231
+# Piarres Beobide <pi@beobide.net>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: ristretto\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2008-06-02 00:31+0200\n"
+"PO-Revision-Date: 2008-09-12 11:57+0200\n"
+"Last-Translator: Piarres Beobide <pi@beobide.net>\n"
+"Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: ../src/main.c:61
+msgid "Version information"
+msgstr "Bertsio argibideak"
+
+#: ../src/main.c:65
+msgid "Start in fullscreen mode"
+msgstr "Abiarazi pantaila-osoko moduan"
+
+#: ../src/main.c:69
+msgid "Start a slideshow"
+msgstr "Abiarazi aurkezpena"
+
+#: ../src/main.c:235
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Erabili %s --help komando-lerroko komando erabilgarriak ikusteko.\n"
+
+#: ../src/main.c:448 ../src/main_window.c:1636 ../src/main_window.c:1676
+#: ../src/main_window.c:1713
+msgid "Opening file(s)..."
+msgstr "Fitxategia(k) irekitzen..."
+
+#. Create 'File' menu
+#: ../src/main_window.c:340
+msgid "_File"
+msgstr "_Fitxategia"
+
+#: ../src/main_window.c:347
+msgid "O_pen Folder"
+msgstr "I_reki karpeta"
+
+#: ../src/main_window.c:348
+msgid "_Recently used"
+msgstr "Az_kenak"
+
+#: ../src/main_window.c:353
+msgid "Close _all"
+msgstr "Itxi den_a"
+
+#. Create 'Edit' menu
+#: ../src/main_window.c:383
+msgid "_Edit"
+msgstr "_Editatu"
+
+#: ../src/main_window.c:388 ../src/main_window.c:686
+msgid "Open with..."
+msgstr "Ireki honekin..."
+
+#: ../src/main_window.c:396 ../src/main_window.c:697
+msgid "No applications available"
+msgstr "Ez dago aplikazio erabilgarririk"
+
+#. Create 'View' menu
+#: ../src/main_window.c:405
+msgid "_View"
+msgstr "_Ikusi"
+
+#: ../src/main_window.c:412
+msgid "Show _Toolbar"
+msgstr "Ikusi _tresna-barra"
+
+#: ../src/main_window.c:413
+msgid "Thumbnail _Viewer"
+msgstr "Argazkitxo _Ikustatzailea"
+
+#: ../src/main_window.c:417
+msgid "_Zooming"
+msgstr "_Zooma gerturatzen"
+
+#: ../src/main_window.c:418
+msgid "_Rotate"
+msgstr "Bi_ratu"
+
+#: ../src/main_window.c:425
+msgid "_Set as wallpaper"
+msgstr "E_zarri idamahai-irudi gisa"
+
+#: ../src/main_window.c:503
+msgid "Show _Horizontally"
+msgstr "Erakutsi _horizontalki"
+
+#: ../src/main_window.c:507
+msgid "Show _Vertically"
+msgstr "Erakutsi _bertikalki"
+
+#: ../src/main_window.c:511
+msgid "H_ide"
+msgstr "Ezk_utatu"
+
+#: ../src/main_window.c:548
+msgid "Rotate _Right"
+msgstr "Biratu eskuine_ra"
+
+#: ../src/main_window.c:549
+msgid "Rotate _Left"
+msgstr "Biratu ez_kerrera"
+
+#. Create 'Go' menu
+#: ../src/main_window.c:570
+msgid "_Go"
+msgstr "_Joan"
+
+#. Create 'Help' menu
+#: ../src/main_window.c:601
+msgid "_Help"
+msgstr "_Laguntza"
+
+#: ../src/main_window.c:933
+msgid "One or more images have been modified, do you want to save the changes?"
+msgstr "Irudi bat edo gehiago eraldatua izan da, aldaketak gorde nahi al dituzu?"
+
+#: ../src/main_window.c:1420
+msgid "Image viewer Preferences"
+msgstr "Irudi ikustatzaile hobespenak"
+
+#: ../src/main_window.c:1438
+msgid "Behaviour"
+msgstr "Portaera"
+
+#: ../src/main_window.c:1442
+msgid "Slideshow"
+msgstr "Aurkezpena"
+
+#: ../src/main_window.c:1446
+msgid "Display"
+msgstr "Bistaratu"
+
+#: ../src/main_window.c:1451
+msgid "Scaling"
+msgstr "Eskalatzen"
+
+#: ../src/main_window.c:1453
+msgid "Don't scale over 100% when maximizing the window."
+msgstr "Ez eskalatu %100 baino gehiago leihoa handitzean."
+
+#: ../src/main_window.c:1463
+msgid "Background Color"
+msgstr "Atzeko planoaren kolorea"
+
+#: ../src/main_window.c:1465
+msgid "_Override Background Color:"
+msgstr "_Gainidatzi atzeko planoa kolorea:"
+
+#: ../src/main_window.c:1488
+msgid "Image Cache"
+msgstr "Irudi katxea"
+
+#: ../src/main_window.c:1491
+msgid "Cache size:"
+msgstr "Katxe tamaina:"
+
+#: ../src/main_window.c:1492
+msgid "MB"
+msgstr "MB"
+
+#: ../src/main_window.c:1508
+msgid "Timeout"
+msgstr "Denboraz-kanpo"
+
+#: ../src/main_window.c:1511
+msgid "Preload"
+msgstr "Aurrekargatu"
+
+#: ../src/main_window.c:1514
+msgid "Thumbnails"
+msgstr "Argazkitxoak"
+
+#: ../src/main_window.c:1520
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"Aurkezpenean irudi bakoitza ikusten den denbora tartea\n"
+"(segundutan)"
+
+#: ../src/main_window.c:1524
+msgid ""
+"Preload images during slideshow\n"
+"(uses more memory)"
+msgstr ""
+"Aurrekargatu irudiak aurkezpenean\n"
+"(memoria gehiago erabiltzen du)"
+
+#: ../src/main_window.c:1525
+msgid "_Preload images"
+msgstr "Aurre_kargatu irudiak"
+
+#: ../src/main_window.c:1527
+msgid "Hide the thumbnails bar during slideshow"
+msgstr "Ezkutatu argazkitxo barra aurkezpenean"
+
+#: ../src/main_window.c:1528
+msgid "_Hide thumbnails"
+msgstr "E_zkutatu argazkitxoak"
+
+#: ../src/main_window.c:1594
+msgid "Developer:"
+msgstr "Garatzailea:"
+
+#: ../src/main_window.c:1604
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
+msgstr "Ristretto Xfce idazmahai inguruneko irudi-ikustatzaile arin eta azkar bat da."
+
+#: ../src/main_window.c:1612
+msgid "translator-credits"
+msgstr "itzultzaile-kreditua"
+
+#: ../src/main_window.c:1638
+msgid "Open image"
+msgstr "Ireki irudia"
+
+#: ../src/main_window.c:1656
+msgid "Could not open file"
+msgstr "Ezin da fitxategia ireki"
+
+#: ../src/main_window.c:1678
+msgid "Open folder"
+msgstr "Ireki karpeta"
+
+#: ../src/main_window.c:1753
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Ziur zaude ristretto-ren azken aldian irekitako dokumentuen zerrenda ezabatu nahi duzula?"
+
+#: ../src/thumbnail_bar.c:185
+msgid "Spacing"
+msgstr "Tartea"
+
+#: ../src/thumbnail_bar.c:186
+msgid "The amount of space between the thumbnails"
+msgstr "Argazkitxo artean dagoen tartea"
+
+#: ../src/thumbnail_bar.c:192
+msgid "Border Width"
+msgstr "Ertz zabalera"
+
+#: ../src/thumbnail_bar.c:193
+msgid "The border width of the thumbnail-bar"
+msgstr "Argazkitxo-barraren ertzaren zabalera"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Irudi ikustatzailea"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto"
+msgstr "Ristretto"
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Xfce irudi ikustatzailea"
+
