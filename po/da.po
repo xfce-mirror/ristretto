@@ -44,7 +44,7 @@ msgstr ""
 #: ../src/main_window.c:1676
 #: ../src/main_window.c:1713
 msgid "Opening file(s)..."
-msgstr "Åbne(r) fil(er)..."
+msgstr "Åbner fil(er)..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:340
