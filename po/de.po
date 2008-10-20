@@ -2,15 +2,15 @@
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the ristretto package.
 # Christian Dywan <christian@twotoasts.de>, 2007.
-# Fabian Nowak <timystery@arcor.de>, 2007.
+# Fabian Nowak <timystery@arcor.de>, 2007, 2008.
 #
 #: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-06-02 00:31+0200\n"
-"PO-Revision-Date: 2008-08-21 21:43:00+0200\n"
+"POT-Creation-Date: 2008-10-18 16:33+0200\n"
+"PO-Revision-Date: 2008-10-18 16:33:00+0200\n"
 "Last-Translator: Fabian Nowak <timystery@arcor.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -39,8 +39,8 @@ msgstr ""
 "Versuchen Sie »%s --help«, um eine komplette Liste verfügbarer "
 "Kommandozeilenoptionen anzusehen.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1636 ../src/main_window.c:1676
-#: ../src/main_window.c:1713
+#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
+#: ../src/main_window.c:1675
 msgid "Opening file(s)..."
 msgstr "Datei(en) öffnen..."
 
@@ -66,11 +66,11 @@ msgstr "_Alle schließen"
 msgid "_Edit"
 msgstr "_Bearbeiten"
 
-#: ../src/main_window.c:388 ../src/main_window.c:686
+#: ../src/main_window.c:388 ../src/main_window.c:660
 msgid "Open with..."
 msgstr "Öffnen mit..."
 
-#: ../src/main_window.c:396 ../src/main_window.c:697
+#: ../src/main_window.c:396 ../src/main_window.c:671
 msgid "No applications available"
 msgstr "Keine Programme verfügbar"
 
@@ -85,7 +85,7 @@ msgstr "_Werkzeugleiste anzeigen"
 
 #: ../src/main_window.c:413
 msgid "Thumbnail _Viewer"
-msgstr "Miniaturbilder"
+msgstr "_Miniaturbilder"
 
 #: ../src/main_window.c:417
 msgid "_Zooming"
@@ -99,97 +99,99 @@ msgstr "_Drehen"
 msgid "_Set as wallpaper"
 msgstr "Al_s Hintergrundbild einstellen"
 
-#: ../src/main_window.c:503
+#: ../src/main_window.c:477
 msgid "Show _Horizontally"
 msgstr "_Horizontal anzeigen"
 
-#: ../src/main_window.c:507
+#: ../src/main_window.c:481
 msgid "Show _Vertically"
 msgstr "_Vertikal anzeigen"
 
-#: ../src/main_window.c:511
+#: ../src/main_window.c:485
 msgid "H_ide"
 msgstr "Ver_bergen"
 
-#: ../src/main_window.c:548
+#: ../src/main_window.c:522
 msgid "Rotate _Right"
 msgstr "Nach _rechts drehen"
 
-#: ../src/main_window.c:549
+#: ../src/main_window.c:523
 msgid "Rotate _Left"
 msgstr "Nach _links drehen"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:570
+#: ../src/main_window.c:544
 msgid "_Go"
 msgstr "_Gehe zu"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:601
+#: ../src/main_window.c:575
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: ../src/main_window.c:933
+#: ../src/main_window.c:907
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr "Ein oder mehrere Bilder wurden geändert. Möchten Sie die Änderungen speichern?"
+msgstr ""
+"Ein oder mehrere Bilder wurden geändert. Möchten Sie die Änderungen "
+"speichern?"
 
-#: ../src/main_window.c:1420
+#: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
 msgstr "Einstellungen für den Bildbetrachter"
 
-#: ../src/main_window.c:1438
-msgid "Behaviour"
-msgstr "Verhalten"
-
-#: ../src/main_window.c:1442
-msgid "Slideshow"
-msgstr "Diavorführung"
-
-#: ../src/main_window.c:1446
+#: ../src/main_window.c:1412
 msgid "Display"
 msgstr "Anzeige"
 
-#: ../src/main_window.c:1451
+#: ../src/main_window.c:1416
+msgid "Slideshow"
+msgstr "Diavorführung"
+
+#: ../src/main_window.c:1420
+msgid "Behaviour"
+msgstr "Verhalten"
+
+#: ../src/main_window.c:1425
 msgid "Scaling"
 msgstr "Skalierung"
 
-#: ../src/main_window.c:1453
+#: ../src/main_window.c:1427
 msgid "Don't scale over 100% when maximizing the window."
 msgstr "Beim Maximieren des Fensters nicht über 100% vergrößern."
 
-#: ../src/main_window.c:1463
+#: ../src/main_window.c:1437
 msgid "Background Color"
 msgstr "Hintergrundfarbe"
 
-#: ../src/main_window.c:1465
+#: ../src/main_window.c:1439
 msgid "_Override Background Color:"
-msgstr "Hintergrundfarbe ü_berschreiben"
+msgstr "_Hintergrundfarbe überschreiben"
 
-#: ../src/main_window.c:1488
+#: ../src/main_window.c:1462
 msgid "Image Cache"
 msgstr "Bildzwischenspeicher"
 
-#: ../src/main_window.c:1491
+#: ../src/main_window.c:1465
 msgid "Cache size:"
 msgstr "Zwischenspeichergröße:"
 
-#: ../src/main_window.c:1492
+#: ../src/main_window.c:1466
 msgid "MB"
 msgstr "MB"
 
-#: ../src/main_window.c:1508
+#: ../src/main_window.c:1468
+msgid "_Preload images (GUI more responsive but more CPU-intensive)"
+msgstr "_Bilder vorladen (schnellere Oberfläche, aber mehr CPU-Last)"
+
+#: ../src/main_window.c:1486
 msgid "Timeout"
 msgstr "Zeitspanne"
 
-#: ../src/main_window.c:1511
-msgid "Preload"
-msgstr "Vorladen"
-
-#: ../src/main_window.c:1514
+#: ../src/main_window.c:1489
 msgid "Thumbnails"
 msgstr "Miniaturbilder"
 
-#: ../src/main_window.c:1520
+#: ../src/main_window.c:1494
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -197,31 +199,19 @@ msgstr ""
 "Die Zeitspanne, während der ein Bild angezeigt wird\n"
 "(in Sekunden)"
 
-#: ../src/main_window.c:1524
-msgid ""
-"Preload images during slideshow\n"
-"(uses more memory)"
-msgstr ""
-"Bilder während einer Diavorführung vorladen\n"
-"(benötigt mehr Speicher)"
-
-#: ../src/main_window.c:1525
-msgid "_Preload images"
-msgstr "Bilder _vorladen"
-
-#: ../src/main_window.c:1527
+#: ../src/main_window.c:1497
 msgid "Hide the thumbnails bar during slideshow"
 msgstr "Miniaturbilder während Diashow verbergen"
 
-#: ../src/main_window.c:1528
+#: ../src/main_window.c:1498
 msgid "_Hide thumbnails"
 msgstr "_Miniaturbilder verbergen"
 
-#: ../src/main_window.c:1594
+#: ../src/main_window.c:1556
 msgid "Developer:"
 msgstr "Entwickler:"
 
-#: ../src/main_window.c:1604
+#: ../src/main_window.c:1566
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -229,25 +219,25 @@ msgstr ""
 "Ristretto ist ein schneller und schlanker Bildbetrachter für die "
 "Arbeitsumgebung Xfce."
 
-#: ../src/main_window.c:1612
+#: ../src/main_window.c:1574
 msgid "translator-credits"
 msgstr ""
 "Christian Dywan <christian@twotoasts.de>\n"
 "Fabian Nowak <timystery@arcor.de>"
 
-#: ../src/main_window.c:1638
+#: ../src/main_window.c:1600
 msgid "Open image"
 msgstr "Bild öffnen"
 
-#: ../src/main_window.c:1656
+#: ../src/main_window.c:1618
 msgid "Could not open file"
 msgstr "Datei konnte nicht geöffnet werden"
 
-#: ../src/main_window.c:1678
+#: ../src/main_window.c:1640
 msgid "Open folder"
 msgstr "_Ordner öffnen"
 
-#: ../src/main_window.c:1753
+#: ../src/main_window.c:1715
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
@@ -281,6 +271,19 @@ msgstr "Ristretto"
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce-Bildbetrachter"
+
+#~ msgid "Preload"
+#~ msgstr "Vorladen"
+
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr ""
+#~ "Bilder während einer Diavorführung vorladen\n"
+#~ "(benötigt mehr Speicher)"
+
+#~ msgid "_Preload images"
+#~ msgstr "Bilder _vorladen"
 
 #~ msgid "Ristretto Image Viewer"
 #~ msgstr "Bildbetrachter Ristretto"
