@@ -1156,6 +1156,11 @@ rstto_navigator_entry_load_image (RsttoNavigatorEntry *entry, gboolean empty_cac
     }
     if ((entry->loader == NULL) && ((empty_cache == TRUE ) || entry->src_pixbuf == NULL))
     {
+        if (entry->src_pixbuf)
+        {
+            gdk_pixbuf_unref(entry->src_pixbuf);
+            entry->src_pixbuf = NULL;
+        }
         entry->loader = gdk_pixbuf_loader_new();
 
         g_signal_connect(entry->loader, "area-prepared", G_CALLBACK(cb_rstto_navigator_entry_area_prepared), entry);
@@ -1272,13 +1277,13 @@ cb_rstto_navigator_entry_area_prepared (GdkPixbufLoader *loader, RsttoNavigatorE
 static void
 cb_rstto_navigator_entry_closed (GdkPixbufLoader *loader, RsttoNavigatorEntry *entry)
 {
+    GdkPixbuf *pixbuf = NULL;
+
     if (entry->src_pixbuf)
     {
         gdk_pixbuf_unref(entry->src_pixbuf);
         entry->src_pixbuf = NULL;
     }
-
-    GdkPixbuf *pixbuf = NULL;
 
     if (entry->iter)
     {
@@ -1302,11 +1307,14 @@ cb_rstto_navigator_entry_closed (GdkPixbufLoader *loader, RsttoNavigatorEntry *e
     if (pixbuf != NULL)
     {
         entry->src_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, rstto_navigator_entry_get_rotation(entry));
+        gdk_pixbuf_unref(pixbuf);
+        pixbuf = NULL;
         if (rstto_navigator_entry_get_flip(entry, FALSE))
         {
             pixbuf = entry->src_pixbuf;
             entry->src_pixbuf = gdk_pixbuf_flip(pixbuf, FALSE);
             gdk_pixbuf_unref(pixbuf);
+            pixbuf = NULL;
         }
 
         if (rstto_navigator_entry_get_flip(entry, TRUE))
@@ -1314,6 +1322,7 @@ cb_rstto_navigator_entry_closed (GdkPixbufLoader *loader, RsttoNavigatorEntry *e
             pixbuf = entry->src_pixbuf;
             entry->src_pixbuf = gdk_pixbuf_flip(pixbuf, TRUE);
             gdk_pixbuf_unref(pixbuf);
+            pixbuf = NULL;
         }
         g_signal_emit(G_OBJECT(entry->navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED], 0, entry, NULL);
     }

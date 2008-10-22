@@ -438,7 +438,6 @@ rstto_main_window_init(RsttoMainWindow *window)
 
         g_snprintf(selection_name, 100, XFDESKTOP_SELECTION_FMT, xscreen);
 
-        Window root_window = GDK_ROOT_WINDOW();
         Atom xfce_selection_atom = XInternAtom (gdk_display, selection_name, False);
         if((XGetSelectionOwner(GDK_DISPLAY(), xfce_selection_atom)))
         {
@@ -1215,6 +1214,7 @@ cb_rstto_main_window_set_wallpaper(GtkWidget *widget, RsttoMainWindow *window)
                 }
                 g_free(image_path_prop);
                 g_free(image_show_prop);
+                g_free(image_style_prop);
                 g_object_unref(xfdesktop_channel);
             }
             break;
