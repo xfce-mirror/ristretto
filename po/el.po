@@ -1,13 +1,13 @@
 # translation of el.po to Greek
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#: ../src/main.c:231
 # Evaggelos Balaskas <ebalaskas@ebalaskas.gr>, 2008.
+#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-05-24 15:06+0200\n"
+"POT-Creation-Date: 2008-11-14 13:24+0100\n"
 "PO-Revision-Date: 2008-05-25 11:59+0300\n"
 "Last-Translator: Evaggelos Balaskas <ebalaskas@ebalaskas.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -38,153 +38,157 @@ msgstr ""
 "Δοκίμασε %s --help για να δεις μία πλήρη λίστα με διαθέσιμες παραμέτρους για "
 "την γραμμή εντολών.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1614 ../src/main_window.c:1654
-#: ../src/main_window.c:1691
+#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
+#: ../src/main_window.c:1675
 msgid "Opening file(s)..."
 msgstr "Άνοιγμα αρχείου(ων)..."
 
 #. Create 'File' menu
-#: ../src/main_window.c:339
+#: ../src/main_window.c:340
 msgid "_File"
 msgstr "_Αρχείο"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:347
 msgid "O_pen Folder"
 msgstr "Άν_οιγμα καταλόγου"
 
-#: ../src/main_window.c:347
+#: ../src/main_window.c:348
 msgid "_Recently used"
 msgstr "_Πρόσφατα αρχεία"
 
-#: ../src/main_window.c:352
+#: ../src/main_window.c:353
 msgid "Close _all"
 msgstr "Κλείσιμο όλ_ων"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:382
+#: ../src/main_window.c:383
 msgid "_Edit"
 msgstr "_Επεξεργασία"
 
-#: ../src/main_window.c:387 ../src/main_window.c:685
+#: ../src/main_window.c:388 ../src/main_window.c:659
 msgid "Open with..."
 msgstr "Άνοιγμα με ..."
 
-#: ../src/main_window.c:395 ../src/main_window.c:696
+#: ../src/main_window.c:396 ../src/main_window.c:670
 msgid "No applications available"
 msgstr "Μη διαθέσιμες εφαρμογές"
 
 #. Create 'View' menu
-#: ../src/main_window.c:404
+#: ../src/main_window.c:405
 msgid "_View"
 msgstr "_Εμφάνιση"
 
-#: ../src/main_window.c:411
+#: ../src/main_window.c:412
 msgid "Show _Toolbar"
 msgstr "Εμφάνιση _εργαλειοθήκης"
 
-#: ../src/main_window.c:412
+#: ../src/main_window.c:413
 msgid "Thumbnail _Viewer"
 msgstr "Εμφάνιση Ει_κονιδίων"
 
-#: ../src/main_window.c:416
+#: ../src/main_window.c:417
 msgid "_Zooming"
 msgstr "_Mεγέθυνση"
 
-#: ../src/main_window.c:417
+#: ../src/main_window.c:418
 msgid "_Rotate"
 msgstr "_Περιστροφή"
 
-#: ../src/main_window.c:424
+#: ../src/main_window.c:425
 msgid "_Set as wallpaper"
 msgstr "_Θέσε ως επιφάνεια εργασίας"
 
-#: ../src/main_window.c:502
+#: ../src/main_window.c:476
 msgid "Show _Horizontally"
 msgstr "Εμφάνιση _οριζόντια"
 
-#: ../src/main_window.c:506
+#: ../src/main_window.c:480
 msgid "Show _Vertically"
 msgstr "Εμφάνιση _κάθετα"
 
-#: ../src/main_window.c:510
+#: ../src/main_window.c:484
 msgid "H_ide"
 msgstr "Απόκρ_υψη"
 
-#: ../src/main_window.c:547
+#: ../src/main_window.c:521
 msgid "Rotate _Right"
 msgstr "Περιστροφή _δεξιά"
 
-#: ../src/main_window.c:548
+#: ../src/main_window.c:522
 msgid "Rotate _Left"
 msgstr "Περιστροφή _αριστερά"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:569
+#: ../src/main_window.c:543
 msgid "_Go"
 msgstr "_Μετάβαση"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:600
+#: ../src/main_window.c:574
 msgid "_Help"
 msgstr "_Βοήθεια"
 
-#: ../src/main_window.c:1398
+#: ../src/main_window.c:906
+msgid "One or more images have been modified, do you want to save the changes?"
+msgstr ""
+
+#: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
 msgstr "Ρυθμίσεις εφαρμογής προβολής εικόνων"
 
-#: ../src/main_window.c:1416
-msgid "Behaviour"
-msgstr "Συμπεριφορά"
-
-#: ../src/main_window.c:1420
-msgid "Slideshow"
-msgstr "Διαφάνειες"
-
-#: ../src/main_window.c:1424
+#: ../src/main_window.c:1412
 msgid "Display"
 msgstr "Προβολή"
 
-#: ../src/main_window.c:1429
+#: ../src/main_window.c:1416
+msgid "Slideshow"
+msgstr "Διαφάνειες"
+
+#: ../src/main_window.c:1420
+msgid "Behaviour"
+msgstr "Συμπεριφορά"
+
+#: ../src/main_window.c:1425
 msgid "Scaling"
 msgstr "Αλλαγή κλίμακας"
 
-#: ../src/main_window.c:1431
+#: ../src/main_window.c:1427
 msgid "Don't scale over 100% when maximizing the window."
 msgstr "Να μην γίνει μεγέθυνση πάνω από 100% όταν μεγιστοποιείται το παράθυρο."
 
-#: ../src/main_window.c:1441
+#: ../src/main_window.c:1437
 msgid "Background Color"
 msgstr "Χρώμα παρασκηνίου"
 
-#: ../src/main_window.c:1443
+#: ../src/main_window.c:1439
 msgid "_Override Background Color:"
 msgstr "_Αγνόησε το χρώμα παρασκηνίου:"
 
-#: ../src/main_window.c:1466
+#: ../src/main_window.c:1462
 msgid "Image Cache"
 msgstr "Προσωρινή μνήμη εικόνας"
 
-#: ../src/main_window.c:1469
+#: ../src/main_window.c:1465
 msgid "Cache size:"
 msgstr "Μέγεθος προσωρινής μνήμης:"
 
-#: ../src/main_window.c:1470
+#: ../src/main_window.c:1466
 msgid "MB"
 msgstr "ΜΒ"
+
+#: ../src/main_window.c:1468
+msgid "_Preload images (GUI more responsive but more CPU-intensive)"
+msgstr ""
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
 msgstr "Χρονικό όριο"
 
 #: ../src/main_window.c:1489
-msgid "Preload"
-msgstr "Προφόρτωση"
-
-#: ../src/main_window.c:1492
 msgid "Thumbnails"
 msgstr "Εικονίδια"
 
-#: ../src/main_window.c:1498
+#: ../src/main_window.c:1494
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -193,31 +197,20 @@ msgstr ""
 "διαφάνειες\n"
 "(σε δευτερόλεπτα)"
 
-#: ../src/main_window.c:1502
-msgid ""
-"Preload images during slideshow\n"
-"(uses more memory)"
-msgstr ""
-"Προφόρτωση εικόνων κατά την διάρκεια διαφανειών\n"
-"(χρησιμοποιεί περισσότερη μνήμη)"
-
-#: ../src/main_window.c:1503
-msgid "_Preload images"
-msgstr "_Προφόρτωση εικόνων"
-
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1497
 msgid "Hide the thumbnails bar during slideshow"
-msgstr "Απόκρυψη της μπάρας εικονιδίων κατά την διάρκεια της προβολής των διαφανειών"
+msgstr ""
+"Απόκρυψη της μπάρας εικονιδίων κατά την διάρκεια της προβολής των διαφανειών"
 
-#: ../src/main_window.c:1506
+#: ../src/main_window.c:1498
 msgid "_Hide thumbnails"
 msgstr "Απ_όκρυψη εικονιδίων"
 
-#: ../src/main_window.c:1572
+#: ../src/main_window.c:1556
 msgid "Developer:"
 msgstr "Προγραμματιστής:"
 
-#: ../src/main_window.c:1582
+#: ../src/main_window.c:1566
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
@@ -225,24 +218,25 @@ msgstr ""
 "Το ristretto είναι ένα γρήγορο και ελαφρύ πρόγραμμα εμφάνισης εικόνων\n"
 " για το γραφικό περιβάλλον xfce."
 
-#: ../src/main_window.c:1590
+#: ../src/main_window.c:1574
 msgid "translator-credits"
 msgstr "Evaggelos Balaskas <ebalaskas@ebalaskas.gr>, 2008"
 
-#: ../src/main_window.c:1616
+#: ../src/main_window.c:1600
 msgid "Open image"
 msgstr "Άνοιγμα εικόνας"
 
-#: ../src/main_window.c:1634
+#: ../src/main_window.c:1618
 msgid "Could not open file"
 msgstr "Αποτυχία ανοίγματος εικόνας"
 
-#: ../src/main_window.c:1656
+#: ../src/main_window.c:1640
 msgid "Open folder"
 msgstr "Άνοιγμα καταλόγου"
 
-#: ../src/main_window.c:1731
-msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+#: ../src/main_window.c:1715
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
 "Είστε σίγουροι ότι θέλετε να καθαρίσετε τις λίστες του ristretto για τα πιο "
 "πρόσφατα αρχεία που ανοίχτηκαν;"
@@ -275,3 +269,15 @@ msgstr "Ristretto"
 msgid "Xfce Image viewer"
 msgstr "Εφαρμογή προβολής εικόνων για το xfce"
 
+#~ msgid "Preload"
+#~ msgstr "Προφόρτωση"
+
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr ""
+#~ "Προφόρτωση εικόνων κατά την διάρκεια διαφανειών\n"
+#~ "(χρησιμοποιεί περισσότερη μνήμη)"
+
+#~ msgid "_Preload images"
+#~ msgstr "_Προφόρτωση εικόνων"

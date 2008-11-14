@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-10-18 16:33+0200\n"
+"POT-Creation-Date: 2008-11-14 13:24+0100\n"
 "PO-Revision-Date: 2008-10-18 16:33:00+0200\n"
 "Last-Translator: Fabian Nowak <timystery@arcor.de>\n"
 "Language-Team: German\n"
@@ -66,11 +66,11 @@ msgstr "_Alle schließen"
 msgid "_Edit"
 msgstr "_Bearbeiten"
 
-#: ../src/main_window.c:388 ../src/main_window.c:660
+#: ../src/main_window.c:388 ../src/main_window.c:659
 msgid "Open with..."
 msgstr "Öffnen mit..."
 
-#: ../src/main_window.c:396 ../src/main_window.c:671
+#: ../src/main_window.c:396 ../src/main_window.c:670
 msgid "No applications available"
 msgstr "Keine Programme verfügbar"
 
@@ -99,37 +99,37 @@ msgstr "_Drehen"
 msgid "_Set as wallpaper"
 msgstr "Al_s Hintergrundbild einstellen"
 
-#: ../src/main_window.c:477
+#: ../src/main_window.c:476
 msgid "Show _Horizontally"
 msgstr "_Horizontal anzeigen"
 
-#: ../src/main_window.c:481
+#: ../src/main_window.c:480
 msgid "Show _Vertically"
 msgstr "_Vertikal anzeigen"
 
-#: ../src/main_window.c:485
+#: ../src/main_window.c:484
 msgid "H_ide"
 msgstr "Ver_bergen"
 
-#: ../src/main_window.c:522
+#: ../src/main_window.c:521
 msgid "Rotate _Right"
 msgstr "Nach _rechts drehen"
 
-#: ../src/main_window.c:523
+#: ../src/main_window.c:522
 msgid "Rotate _Left"
 msgstr "Nach _links drehen"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:544
+#: ../src/main_window.c:543
 msgid "_Go"
 msgstr "_Gehe zu"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:575
+#: ../src/main_window.c:574
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: ../src/main_window.c:907
+#: ../src/main_window.c:906
 msgid "One or more images have been modified, do you want to save the changes?"
 msgstr ""
 "Ein oder mehrere Bilder wurden geändert. Möchten Sie die Änderungen "

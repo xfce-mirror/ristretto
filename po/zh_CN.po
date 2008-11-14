@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.17\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-06-02 00:31+0200\n"
+"POT-Creation-Date: 2008-11-14 13:24+0100\n"
 "PO-Revision-Date: 2008-03-19 22:28+0800\n"
 "Last-Translator: wuli <wurisky@gmail.com>\n"
 "Language-Team: Simplified Chinese<xfce-i18n@xfce.org>\n"
@@ -38,8 +38,8 @@ msgstr ""
 "%s: %s\n"
 "尝试使用 %s --help 查看全部可用命令行参数列表。\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1636 ../src/main_window.c:1676
-#: ../src/main_window.c:1713
+#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
+#: ../src/main_window.c:1675
 #, fuzzy
 msgid "Opening file(s)..."
 msgstr "以...打开"
@@ -66,11 +66,11 @@ msgstr ""
 msgid "_Edit"
 msgstr "编辑(_E)"
 
-#: ../src/main_window.c:388 ../src/main_window.c:686
+#: ../src/main_window.c:388 ../src/main_window.c:659
 msgid "Open with..."
 msgstr "以...打开"
 
-#: ../src/main_window.c:396 ../src/main_window.c:697
+#: ../src/main_window.c:396 ../src/main_window.c:670
 msgid "No applications available"
 msgstr "无应用程序可用"
 
@@ -99,149 +99,139 @@ msgstr "旋转(_R)"
 msgid "_Set as wallpaper"
 msgstr ""
 
-#: ../src/main_window.c:503
+#: ../src/main_window.c:476
 msgid "Show _Horizontally"
 msgstr "水平显示(_H)"
 
-#: ../src/main_window.c:507
+#: ../src/main_window.c:480
 msgid "Show _Vertically"
 msgstr "垂直显示(_V)"
 
-#: ../src/main_window.c:511
+#: ../src/main_window.c:484
 msgid "H_ide"
 msgstr "隐藏(_I)"
 
-#: ../src/main_window.c:548
+#: ../src/main_window.c:521
 msgid "Rotate _Right"
 msgstr "顺时针旋转(_R)"
 
-#: ../src/main_window.c:549
+#: ../src/main_window.c:522
 msgid "Rotate _Left"
 msgstr "倒时针旋转(_L)"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:570
+#: ../src/main_window.c:543
 msgid "_Go"
 msgstr "动作(_G)"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:601
+#: ../src/main_window.c:574
 msgid "_Help"
 msgstr "帮助(_H)"
 
-#: ../src/main_window.c:933
+#: ../src/main_window.c:906
 msgid "One or more images have been modified, do you want to save the changes?"
 msgstr ""
 
-#: ../src/main_window.c:1420
+#: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
 msgstr "图像查看首选项"
 
-#: ../src/main_window.c:1438
-msgid "Behaviour"
-msgstr ""
-
-#: ../src/main_window.c:1442
-msgid "Slideshow"
-msgstr "幻灯片"
-
-#: ../src/main_window.c:1446
+#: ../src/main_window.c:1412
 msgid "Display"
 msgstr "显示"
 
-#: ../src/main_window.c:1451
+#: ../src/main_window.c:1416
+msgid "Slideshow"
+msgstr "幻灯片"
+
+#: ../src/main_window.c:1420
+msgid "Behaviour"
+msgstr ""
+
+#: ../src/main_window.c:1425
 #, fuzzy
 msgid "Scaling"
 msgstr "空间"
 
-#: ../src/main_window.c:1453
+#: ../src/main_window.c:1427
 msgid "Don't scale over 100% when maximizing the window."
 msgstr ""
 
-#: ../src/main_window.c:1463
+#: ../src/main_window.c:1437
 msgid "Background Color"
 msgstr "背景颜色"
 
-#: ../src/main_window.c:1465
+#: ../src/main_window.c:1439
 msgid "_Override Background Color:"
 msgstr "覆盖背景颜色(_O)："
 
-#: ../src/main_window.c:1488
+#: ../src/main_window.c:1462
 msgid "Image Cache"
 msgstr "图像缓存"
 
-#: ../src/main_window.c:1491
+#: ../src/main_window.c:1465
 msgid "Cache size:"
 msgstr "缓存大小："
 
-#: ../src/main_window.c:1492
+#: ../src/main_window.c:1466
 msgid "MB"
 msgstr "MB"
 
-#: ../src/main_window.c:1508
+#: ../src/main_window.c:1468
+msgid "_Preload images (GUI more responsive but more CPU-intensive)"
+msgstr ""
+
+#: ../src/main_window.c:1486
 msgid "Timeout"
 msgstr "持续时间"
 
-#: ../src/main_window.c:1511
-msgid "Preload"
-msgstr "预加载"
-
-#: ../src/main_window.c:1514
+#: ../src/main_window.c:1489
 #, fuzzy
 msgid "Thumbnails"
 msgstr "缩略图查看(_V)"
 
-#: ../src/main_window.c:1520
+#: ../src/main_window.c:1494
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr "幻灯片单个图像持续显示时间（秒）"
 
-#: ../src/main_window.c:1524
-msgid ""
-"Preload images during slideshow\n"
-"(uses more memory)"
-msgstr "幻灯片时预加载图像（使用更多内存）"
-
-#: ../src/main_window.c:1525
-msgid "_Preload images"
-msgstr "预加载图像(_P)"
-
-#: ../src/main_window.c:1527
+#: ../src/main_window.c:1497
 msgid "Hide the thumbnails bar during slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1528
+#: ../src/main_window.c:1498
 msgid "_Hide thumbnails"
 msgstr ""
 
-#: ../src/main_window.c:1594
+#: ../src/main_window.c:1556
 msgid "Developer:"
 msgstr "开发者："
 
-#: ../src/main_window.c:1604
+#: ../src/main_window.c:1566
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "Ristretto是一个Xfce桌面环境快速轻量级的图像查看器"
 
-#: ../src/main_window.c:1612
+#: ../src/main_window.c:1574
 msgid "translator-credits"
 msgstr "WuLi <wurisky@gmail.com>"
 
-#: ../src/main_window.c:1638
+#: ../src/main_window.c:1600
 msgid "Open image"
 msgstr "打开图像"
 
-#: ../src/main_window.c:1656
+#: ../src/main_window.c:1618
 msgid "Could not open file"
 msgstr "无法打开文件"
 
-#: ../src/main_window.c:1678
+#: ../src/main_window.c:1640
 msgid "Open folder"
 msgstr "打开文件夹"
 
-#: ../src/main_window.c:1753
+#: ../src/main_window.c:1715
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "你真的要清除最近打开文档列表吗？"
@@ -273,6 +263,17 @@ msgstr ""
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce图像查看器"
+
+#~ msgid "Preload"
+#~ msgstr "预加载"
+
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr "幻灯片时预加载图像（使用更多内存）"
+
+#~ msgid "_Preload images"
+#~ msgstr "预加载图像(_P)"
 
 #~ msgid "Ristretto Image Viewer"
 #~ msgstr "Ristretto图像查看器"

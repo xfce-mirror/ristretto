@@ -63,7 +63,7 @@ AC_ARG_ENABLE([xfce-desktop],
               [AC_HELP_STRING([--enable-xfce-desktop],
                               [Build with xfdesktop support (xfce >= 4.5)])],
               [build_xfce_desktop=$enableval],
-              [build_xfce_desktop=no])
+              [build_xfce_desktop=yes])
 if test "x$build_xfce_desktop" = "xyes"; then
     echo "--------------------------------------"
     echo "BUILDING WITH XFDESKTOP SUPPORT"

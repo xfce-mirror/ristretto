@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-06-02 00:31+0200\n"
+"POT-Creation-Date: 2008-11-14 13:24+0100\n"
 "PO-Revision-Date: 2007-10-26 14:37+0500\n"
 "Last-Translator: Muhammad Ali Makki <makk.ma@gmail.com>\n"
 "Language-Team: Urdu <makki.ma@gmail.com>\n"
@@ -38,8 +38,8 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 
-#: ../src/main.c:448 ../src/main_window.c:1636 ../src/main_window.c:1676
-#: ../src/main_window.c:1713
+#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
+#: ../src/main_window.c:1675
 msgid "Opening file(s)..."
 msgstr ""
 
@@ -65,11 +65,11 @@ msgstr ""
 msgid "_Edit"
 msgstr "_تدوین"
 
-#: ../src/main_window.c:388 ../src/main_window.c:686
+#: ../src/main_window.c:388 ../src/main_window.c:659
 msgid "Open with..."
 msgstr ""
 
-#: ../src/main_window.c:396 ../src/main_window.c:697
+#: ../src/main_window.c:396 ../src/main_window.c:670
 msgid "No applications available"
 msgstr ""
 
@@ -100,153 +100,143 @@ msgstr "_بائیں گھمائیں"
 msgid "_Set as wallpaper"
 msgstr ""
 
-#: ../src/main_window.c:503
+#: ../src/main_window.c:476
 #, fuzzy
 msgid "Show _Horizontally"
 msgstr "افقی دکھائیں"
 
-#: ../src/main_window.c:507
+#: ../src/main_window.c:480
 #, fuzzy
 msgid "Show _Vertically"
 msgstr "عمودی دکھائیں"
 
-#: ../src/main_window.c:511
+#: ../src/main_window.c:484
 #, fuzzy
 msgid "H_ide"
 msgstr "چھپائیں"
 
-#: ../src/main_window.c:548
+#: ../src/main_window.c:521
 msgid "Rotate _Right"
 msgstr "_دائیں گھمائیں"
 
-#: ../src/main_window.c:549
+#: ../src/main_window.c:522
 msgid "Rotate _Left"
 msgstr "_بائیں گھمائیں"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:570
+#: ../src/main_window.c:543
 msgid "_Go"
 msgstr "_جائیں"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:601
+#: ../src/main_window.c:574
 msgid "_Help"
 msgstr "_ہدایات"
 
-#: ../src/main_window.c:933
+#: ../src/main_window.c:906
 msgid "One or more images have been modified, do you want to save the changes?"
 msgstr ""
 
-#: ../src/main_window.c:1420
+#: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
 msgstr ""
 
-#: ../src/main_window.c:1438
-msgid "Behaviour"
-msgstr ""
-
-#: ../src/main_window.c:1442
-msgid "Slideshow"
-msgstr ""
-
-#: ../src/main_window.c:1446
+#: ../src/main_window.c:1412
 msgid "Display"
 msgstr ""
 
-#: ../src/main_window.c:1451
+#: ../src/main_window.c:1416
+msgid "Slideshow"
+msgstr ""
+
+#: ../src/main_window.c:1420
+msgid "Behaviour"
+msgstr ""
+
+#: ../src/main_window.c:1425
 msgid "Scaling"
 msgstr ""
 
-#: ../src/main_window.c:1453
+#: ../src/main_window.c:1427
 msgid "Don't scale over 100% when maximizing the window."
 msgstr ""
 
-#: ../src/main_window.c:1463
+#: ../src/main_window.c:1437
 msgid "Background Color"
 msgstr ""
 
-#: ../src/main_window.c:1465
+#: ../src/main_window.c:1439
 msgid "_Override Background Color:"
 msgstr ""
 
-#: ../src/main_window.c:1488
+#: ../src/main_window.c:1462
 #, fuzzy
 msgid "Image Cache"
 msgstr "تھمبنیل منظرکار"
 
-#: ../src/main_window.c:1491
+#: ../src/main_window.c:1465
 msgid "Cache size:"
 msgstr ""
 
-#: ../src/main_window.c:1492
+#: ../src/main_window.c:1466
 msgid "MB"
 msgstr ""
 
-#: ../src/main_window.c:1508
+#: ../src/main_window.c:1468
+msgid "_Preload images (GUI more responsive but more CPU-intensive)"
+msgstr ""
+
+#: ../src/main_window.c:1486
 msgid "Timeout"
 msgstr ""
 
-#: ../src/main_window.c:1511
-msgid "Preload"
-msgstr ""
-
-#: ../src/main_window.c:1514
+#: ../src/main_window.c:1489
 #, fuzzy
 msgid "Thumbnails"
 msgstr "تھمبنیل منظرکار"
 
-#: ../src/main_window.c:1520
+#: ../src/main_window.c:1494
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
 
-#: ../src/main_window.c:1524
-msgid ""
-"Preload images during slideshow\n"
-"(uses more memory)"
-msgstr ""
-
-#: ../src/main_window.c:1525
-msgid "_Preload images"
-msgstr ""
-
-#: ../src/main_window.c:1527
+#: ../src/main_window.c:1497
 msgid "Hide the thumbnails bar during slideshow"
 msgstr ""
 
-#: ../src/main_window.c:1528
+#: ../src/main_window.c:1498
 msgid "_Hide thumbnails"
 msgstr ""
 
-#: ../src/main_window.c:1594
+#: ../src/main_window.c:1556
 msgid "Developer:"
 msgstr "ڈویلپر:"
 
-#: ../src/main_window.c:1604
+#: ../src/main_window.c:1566
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr ""
 "Ristretto ایکسفس ڈیسک ٹاپ ماحول کے لیے ایک ہلکا پھلکا تصاویر منظرکار ہے."
 
-#: ../src/main_window.c:1612
+#: ../src/main_window.c:1574
 msgid "translator-credits"
 msgstr "ترجمہ-کریڈٹ"
 
-#: ../src/main_window.c:1638
+#: ../src/main_window.c:1600
 msgid "Open image"
 msgstr "تصویر کھولیں"
 
-#: ../src/main_window.c:1656
+#: ../src/main_window.c:1618
 msgid "Could not open file"
 msgstr ""
 
-#: ../src/main_window.c:1678
+#: ../src/main_window.c:1640
 msgid "Open folder"
 msgstr "فولڈر کھولیں"
 
-#: ../src/main_window.c:1753
+#: ../src/main_window.c:1715
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
