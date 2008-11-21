@@ -2,14 +2,14 @@
 # Copyright (C) 2007 THE ristretto'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Miro Hrončok <churchyard@gmail.com>, 2007.
+# Michal Várady <miko.vaji@gmail.com>, 2008.
 #
-#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-06-13 23:53+0100\n"
+"PO-Revision-Date: 2008-11-15 23:37+0100\n"
 "Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,9 @@ msgstr ""
 "%s: %s\n"
 "Napište %s --help pro zobrazení seznamu všech dostupných parametrů.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
+#: ../src/main.c:448
+#: ../src/main_window.c:1598
+#: ../src/main_window.c:1638
 #: ../src/main_window.c:1675
 msgid "Opening file(s)..."
 msgstr "Načítám soubor(y)..."
@@ -64,11 +66,13 @@ msgstr "Z_avřít všechny"
 msgid "_Edit"
 msgstr "_Upravit"
 
-#: ../src/main_window.c:388 ../src/main_window.c:659
+#: ../src/main_window.c:388
+#: ../src/main_window.c:659
 msgid "Open with..."
 msgstr "Otevřít pomocí..."
 
-#: ../src/main_window.c:396 ../src/main_window.c:670
+#: ../src/main_window.c:396
+#: ../src/main_window.c:670
 msgid "No applications available"
 msgstr "Nejsou k dispozici žádné aplikace"
 
@@ -153,8 +157,7 @@ msgstr "Probíhá změna velikosti"
 
 #: ../src/main_window.c:1427
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
-"Nezvětšovat obrázek nad jeho skutečnou velikost při maximalizování okna."
+msgstr "Nezvětšovat obrázek nad jeho skutečnou velikost při maximalizování okna."
 
 #: ../src/main_window.c:1437
 msgid "Background Color"
@@ -178,7 +181,7 @@ msgstr "MB"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr ""
+msgstr "_Přednačítat obrázky (Grafické uživatelské rozhraní bude odpovídat rychleji, ale vytížení procesoru se zvýší)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
@@ -209,12 +212,8 @@ msgid "Developer:"
 msgstr "Vývojář:"
 
 #: ../src/main_window.c:1566
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí "
-"Xfce."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí Xfce."
 
 #: ../src/main_window.c:1574
 msgid "translator-credits"
@@ -233,11 +232,8 @@ msgid "Open folder"
 msgstr "Otevřít složku"
 
 #: ../src/main_window.c:1715
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr ""
-"Opravdu chcete vyprázdnit seznam naposledy otevřených dokumentů aplikací "
-"Ristretto?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Opravdu chcete vyprázdnit seznam naposledy otevřených dokumentů aplikací Ristretto?"
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
@@ -269,22 +265,18 @@ msgstr "Prohlížeč obrázků pro Xfce"
 
 #~ msgid "Preload"
 #~ msgstr "Načítat dopředu"
-
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Načítat snímky do paměti ještě předtím, než mají být zobrazeny\n"
 #~ "(použije se více paměti)"
-
 #~ msgid "_Preload images"
 #~ msgstr "Načítat _předem"
-
 #~ msgid "Ristretto Image Viewer"
 #~ msgstr "Prohlížeč obrázků Ristretto"
-
 #~ msgid "Flip _Vertically"
 #~ msgstr "Překlopit _vertikálně"
-
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Překlopit _horizontálně"
+
