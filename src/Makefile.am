@@ -17,7 +17,6 @@ ristretto_CFLAGS = \
 	$(LIBXFCE4UTIL_CFLAGS) \
 	$(LIBXFCEGUI4_CFLAGS) \
 	$(THUNAR_VFS_CFLAGS) \
-	$(XFCONF_CFLAGS) \
 	-DDATADIR=\"$(datadir)\" \
 	-DSRCDIR=\"$(top_srcdir)\" \
 	-DLOCALEDIR=\"$(localedir)\"
@@ -29,7 +28,6 @@ ristretto_LDADD = \
 	$(LIBEXIF_LIBS) \
 	$(LIBXFCE4UTIL_LIBS) \
 	$(LIBXFCEGUI4_LIBS) \
-	$(XFCONF_LIBS) \
 	$(THUNAR_VFS_LIBS)
 
 INCLUDES = \

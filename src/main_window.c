@@ -27,10 +27,6 @@
 #include <libexif/exif-data.h>
 #include <dbus/dbus-glib.h>
 
-#ifdef HAVE_XFCONF
-#include <xfconf/xfconf.h>
-#endif
-
 #include "navigator.h"
 #include "thumbnail_bar.h"
 #include "picture_viewer.h"
@@ -425,8 +421,6 @@ rstto_main_window_init(RsttoMainWindow *window)
     window->priv->menus.view.menu_item_set_wallpaper = gtk_image_menu_item_new_with_mnemonic(_("_Set as wallpaper"));
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(window->priv->menus.view.menu_item_set_wallpaper), wallpaper_image);
 
-    /** FIXME: HACK */
-#ifdef HAVE_XFCONF 
 #ifdef WITH_DESKTOP_WALLPAPER
     /** Set xfce-desktop as default when support has been compiled in */
     /* Check if xfdesktop is running */
@@ -441,7 +435,8 @@ rstto_main_window_init(RsttoMainWindow *window)
         Atom xfce_selection_atom = XInternAtom (gdk_display, selection_name, False);
         if((XGetSelectionOwner(GDK_DISPLAY(), xfce_selection_atom)))
         {
-            window->priv->settings.desktop = RSTTO_DESKTOP_XFCE;
+            if (rstto_has_xfconf_query)
+                window->priv->settings.desktop = RSTTO_DESKTOP_XFCE;
         }
         else
         {
@@ -449,8 +444,6 @@ rstto_main_window_init(RsttoMainWindow *window)
         }
     }
 #endif
-#endif
-
 
     gtk_widget_add_accelerator(window->priv->menus.view.menu_item_fullscreen, "activate", accel_group, GDK_F11, 0,GTK_ACCEL_VISIBLE);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(window->priv->menus.view.menu_item_show_toolbar), TRUE);
@@ -903,8 +896,8 @@ rstto_main_window_dispose(GObject *object)
 
         if (modified_files)
         {
-            GtkWidget *dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, _("One or more images have been modified, do you want to save the changes?")); 
-            if (gtk_dialog_run (GTK_DIALOG(dialog)) == GTK_RESPONSE_YES)
+            GtkWidget *dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, _("One or more images have been modified, do you want to save the changes?")); 
+            if (gtk_dialog_run (GTK_DIALOG(dialog)) == GTK_RESPONSE_OK)
             {
                 gtk_widget_hide(dialog);
                 GtkWidget *save_dialog = rstto_save_dialog_new (GTK_WINDOW(window), modified_files);
@@ -1183,47 +1176,54 @@ cb_rstto_main_window_set_wallpaper(GtkWidget *widget, RsttoMainWindow *window)
     ThunarVfsInfo *info = rstto_navigator_entry_get_info(entry);
     gchar *path = thunar_vfs_path_dup_string(info->path);
 
+    GdkScreen *gdk_screen = gdk_screen_get_default();
+    gint screen = gdk_screen_get_number(gdk_screen);
+    gint monitor = gdk_screen_get_monitor_at_window(gdk_screen, GTK_WIDGET(window)->window);
+
+    gchar *image_path_prop = NULL;
+    gchar *image_show_prop = NULL;
+    gchar *image_style_prop = NULL;
+    gchar *command = NULL;
 
     switch (window->priv->settings.desktop)
     {
-#ifdef HAVE_XFCONF
         case RSTTO_DESKTOP_XFCE:
             {
-
-                XfconfChannel *xfdesktop_channel = xfconf_channel_new("xfce4-desktop");
 
                 /*
                  * Retrieve the screen and monitor number where the main ristretto window is running,
                  * set the wallpaper there.
                  */
-                GdkScreen *gdk_screen = gdk_screen_get_default();
-                gint screen = gdk_screen_get_number(gdk_screen);
-                gint monitor = gdk_screen_get_monitor_at_window(gdk_screen, GTK_WIDGET(window)->window);
+                image_path_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-path", screen, monitor);
+                image_show_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-show", screen, monitor);
+                image_style_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-style", screen, monitor);
 
-                gchar *image_path_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-path", screen, monitor);
-                gchar *image_show_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-show", screen, monitor);
-                gchar *image_style_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-style", screen, monitor);
-                if(xfconf_channel_set_string(xfdesktop_channel, image_path_prop, path) == TRUE)
-                {
-                    xfconf_channel_set_bool(xfdesktop_channel, image_show_prop, TRUE);
-                    xfconf_channel_set_int(xfdesktop_channel, image_style_prop, 4);
-                }
-                else
-                {
-                    /** FAILED */
-                }
-                g_free(image_path_prop);
-                g_free(image_show_prop);
-                g_free(image_style_prop);
-                g_object_unref(xfdesktop_channel);
+                command = g_strdup_printf ("xfconf-query -c xfce4-desktop -p %s --create -t string -s %s", image_path_prop, path);
+                g_spawn_command_line_async (command, NULL);
+                g_free (command);
+
+                command = g_strdup_printf ("xfconf-query -c xfce4-desktop -p %s --create -t bool -s true", image_show_prop);
+                g_spawn_command_line_async (command, NULL);
+                g_free (command);
+
+                command = g_strdup_printf ("xfconf-query -c xfce4-desktop -p %s --create -t int -s 4", image_style_prop);
+                g_spawn_command_line_async (command, NULL);
+                g_free (command);
+
             }
             break;
-#endif
         default:
             g_debug("not supported");
             break;
     }
-    g_free(path);
+    if (image_path_prop)
+        g_free(image_path_prop);
+    if (image_show_prop)
+        g_free(image_show_prop);
+    if (image_style_prop)
+        g_free(image_style_prop);
+    if (path)
+        g_free(path);
 }
 #endif
 

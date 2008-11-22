@@ -65,15 +65,13 @@ AC_ARG_ENABLE([xfce-desktop],
               [build_xfce_desktop=$enableval],
               [build_xfce_desktop=yes])
 if test "x$build_xfce_desktop" = "xyes"; then
-    echo "--------------------------------------"
-    echo "BUILDING WITH XFDESKTOP SUPPORT"
-    echo "XFDESKTOP 4.5 or higher required"
-    echo ""
-    echo "Use --disable-xfce-desktop if you are "
-    echo "running xfce older then verion 4.5"
-    echo "--------------------------------------"
-    XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [0])
-    AC_DEFINE([HAVE_XFCONF], [1], [Define if XFConf is present])
+	AC_CHECK_PROG([xfconf_query_found], [xfconf-query], [yes], [no])
+	if test x"$xfconf_query_found" = x"no"; then
+		echo "***"
+		echo "*** xfconf-query was not found on your system."
+		echo "*** The wallpaper won't work without it installed."
+		echo "***"
+	fi
     AC_DEFINE([WITH_DESKTOP_WALLPAPER], [1], [Define With Desktop wallpaper])
 fi
 

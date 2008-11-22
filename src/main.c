@@ -57,7 +57,7 @@ gboolean start_slideshow = FALSE;
 
 static GOptionEntry entries[] =
 {
-    {    "version", 'v', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &version,
+    {    "version", 'V', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &version,
         N_("Version information"),
         NULL
     },
@@ -221,6 +221,7 @@ int main(int argc, char **argv)
     GdkColor *bg_color = NULL;
     GError *cli_error = NULL;
     gint n;
+    gchar *program = NULL;
 
     #ifdef ENABLE_NLS
     bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
@@ -252,6 +253,20 @@ int main(int argc, char **argv)
     thunar_vfs_init();
 
     mime_dbase = thunar_vfs_mime_database_get_default();
+
+    program = g_find_program_in_path ("xfconf-query");
+    if (G_LIKELY (program != NULL))
+    {
+        rstto_has_xfconf_query = TRUE;
+        g_free (program);
+    }
+
+    program = g_find_program_in_path ("gconftool");
+    if (G_LIKELY (program != NULL))
+    {
+        rstto_has_gconftool = TRUE;
+        g_free (program);
+    }
 
 
     gtk_window_set_default_icon_name("ristretto");

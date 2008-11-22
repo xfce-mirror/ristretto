@@ -63,6 +63,9 @@ typedef enum {
     RSTTO_DESKTOP_XFCE
 } RsttoDesktop;
 
+static gboolean rstto_has_xfconf_query = FALSE;
+static gboolean rstto_has_gconftool = FALSE;
+
 
 GType      rstto_main_window_get_type();
 

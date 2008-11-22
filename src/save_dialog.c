@@ -44,7 +44,7 @@ rstto_save_dialog_new (GtkWindow *parent, GList *entries)
                                 GTK_DIALOG_DESTROY_WITH_PARENT,
                                 GTK_STOCK_CANCEL,
                                 GTK_RESPONSE_CANCEL,
-                                GTK_STOCK_OK,
+                                GTK_STOCK_SAVE,
                                 GTK_RESPONSE_OK,
                                 NULL);
 
