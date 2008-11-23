@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-07-08 14:53+0300\n"
+"PO-Revision-Date: 2008-11-17 11:15+0200\n"
 "Last-Translator: Dmitry Nikitin <luckas_fb@mail.ru>\n"
 "Language-Team: Ukrainian <xfce4-dev@xfce.org>\n"
 "MIME-Version: 1.0\n"
@@ -178,7 +178,7 @@ msgstr "МБ"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr ""
+msgstr "Попереднє з_авантаження малюнків (GUI більш кероване, але завантаження CPU більше)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
@@ -233,10 +233,8 @@ msgid "Open folder"
 msgstr "Відкрити теку"
 
 #: ../src/main_window.c:1715
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr ""
-"Ви впевнені, що бажаєте очистити список нещодавно відкритих документів?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Ви впевнені, що бажаєте очистити список нещодавно відкритих документів?"
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
@@ -266,15 +264,3 @@ msgstr "Переглядач Ristretto"
 msgid "Xfce Image viewer"
 msgstr "Переглядач зображень Xfce"
 
-#~ msgid "Preload"
-#~ msgstr "Попереднє завантаження"
-
-#~ msgid ""
-#~ "Preload images during slideshow\n"
-#~ "(uses more memory)"
-#~ msgstr ""
-#~ "Попередньо завантажувати зображення під час слайд-шоу\n"
-#~ "(потребує більше пам'яті)"
-
-#~ msgid "_Preload images"
-#~ msgstr "Попереднє заванта_ження зображень"
