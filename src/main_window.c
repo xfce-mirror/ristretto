@@ -891,7 +891,9 @@ rstto_main_window_dispose(GObject *object)
         for (iter = navigator->file_list; iter != NULL; iter = iter->next)
         {
             if (rstto_navigator_entry_get_modified((RsttoNavigatorEntry *)iter->data))
+            {
                 modified_files = g_list_append (modified_files, iter->data);
+            }
         }
 
         if (modified_files)
@@ -901,7 +903,10 @@ rstto_main_window_dispose(GObject *object)
             {
                 gtk_widget_hide(dialog);
                 GtkWidget *save_dialog = rstto_save_dialog_new (GTK_WINDOW(window), modified_files);
-                gtk_dialog_run (GTK_DIALOG(save_dialog));
+                if (gtk_dialog_run (GTK_DIALOG(save_dialog)) == GTK_RESPONSE_OK)
+                {
+                    
+                }
             }
         }
 
@@ -1575,7 +1580,7 @@ cb_rstto_main_window_about(GtkWidget *widget, RsttoMainWindow *window)
     gtk_about_dialog_set_license((GtkAboutDialog *)about_dialog,
         xfce_get_license_text(XFCE_LICENSE_TEXT_GPL));
     gtk_about_dialog_set_copyright((GtkAboutDialog *)about_dialog,
-        "Copyright \302\251 2006-2007 Stephan Arts");
+        "Copyright \302\251 2006-2008 Stephan Arts");
 
     gtk_dialog_run(GTK_DIALOG(about_dialog));
 
@@ -1746,6 +1751,35 @@ cb_rstto_main_window_close(GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_close_all(GtkWidget *widget, RsttoMainWindow *window)
 {
+    RsttoNavigator  *navigator = window->priv->navigator;
+
+    if (navigator)
+    {
+        GList *iter, *modified_files = NULL;
+        
+        for (iter = navigator->file_list; iter != NULL; iter = iter->next)
+        {
+            if (rstto_navigator_entry_get_modified((RsttoNavigatorEntry *)iter->data))
+            {
+                modified_files = g_list_append (modified_files, iter->data);
+            }
+        }
+
+        if (modified_files)
+        {
+            GtkWidget *dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, _("One or more images have been modified, do you want to save the changes?")); 
+            if (gtk_dialog_run (GTK_DIALOG(dialog)) == GTK_RESPONSE_OK)
+            {
+                gtk_widget_hide(dialog);
+                GtkWidget *save_dialog = rstto_save_dialog_new (GTK_WINDOW(window), modified_files);
+                if (gtk_dialog_run (GTK_DIALOG(save_dialog)) == GTK_RESPONSE_OK)
+                {
+                    
+                }
+            }
+        }
+    }
+
     rstto_navigator_clear (window->priv->navigator);
     gtk_widget_set_sensitive(widget, FALSE);
     gtk_widget_set_sensitive(window->priv->menus.file.menu_item_close, FALSE);

@@ -811,6 +811,7 @@ rstto_navigator_entry_new (RsttoNavigator *navigator, ThunarVfsInfo *info)
             entry->info = info;
             entry->exif_data = exif_data_new_from_file(filename);
             entry->navigator = navigator;
+            entry->animation = NULL;
             
             ExifEntry *exifentry = exif_data_get_entry(entry->exif_data, EXIF_TAG_ORIENTATION);
             if (exifentry)
@@ -927,6 +928,7 @@ rstto_navigator_entry_clear (RsttoNavigatorEntry *nav_entry)
         g_signal_handlers_disconnect_by_func(nav_entry->loader , cb_rstto_navigator_entry_area_prepared, nav_entry);
         gdk_pixbuf_loader_close(nav_entry->loader, NULL);
     }
+
     if(nav_entry->animation)
     {
         g_object_unref(nav_entry->animation);
@@ -1253,6 +1255,8 @@ cb_rstto_navigator_entry_area_prepared (GdkPixbufLoader *loader, RsttoNavigatorE
         gdk_pixbuf_unref(entry->src_pixbuf);
         entry->src_pixbuf = NULL;
     }
+
+    g_object_ref (entry->animation);
 
     gint time = gdk_pixbuf_animation_iter_get_delay_time(entry->iter);
 

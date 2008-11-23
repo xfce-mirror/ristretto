@@ -16,5 +16,50 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef __RISTRETTO_SAVE_DIALOG_H__
+#define __RISTRETTO_SAVE_DIALOG_H__
+
+G_BEGIN_DECLS
+
+#define RSTTO_TYPE_SAVE_DIALOG rstto_save_dialog_get_type()
+
+#define RSTTO_SAVE_DIALOG(obj)( \
+        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
+                RSTTO_TYPE_SAVE_DIALOG, \
+                RsttoSaveDialog))
+
+#define RSTTO_IS_SAVE_DIALOG(obj)( \
+        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
+                RSTTO_TYPE_SAVE_DIALOG))
+
+#define RSTTO_SAVE_DIALOG_CLASS(klass)( \
+        G_TYPE_CHECK_CLASS_CAST ((klass), \
+                RSTTO_TYPE_SAVE_DIALOG, \
+                RsttoSaveDialogClass))
+
+#define RSTTO_IS_SAVE_DIALOG_CLASS(klass)( \
+        G_TYPE_CHECK_CLASS_TYPE ((klass), \
+                RSTTO_TYPE_SAVE_DIALOG()))
+
+typedef struct _RsttoSaveDialog RsttoSaveDialog;
+
+struct _RsttoSaveDialog
+{
+    GtkDialog         parent;
+};
+
+typedef struct _RsttoSaveDialogClass RsttoSaveDialogClass;
+
+struct _RsttoSaveDialogClass
+{
+    GtkDialogClass  parent_class;
+};
+
+GType      rstto_save_dialog_get_type();
+
 GtkWidget *
 rstto_save_dialog_new (GtkWindow *parent, GList *entries);
+
+G_END_DECLS
+
+#endif /* __RISTRETTO_SAVE_DIALOG_H__ */

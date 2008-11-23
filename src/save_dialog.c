@@ -29,6 +29,101 @@
 static void
 cb_rstto_save_row_toggled (GtkCellRendererToggle *cell, gchar *path, gpointer user_data);
 
+static void
+rstto_save_dialog_init(RsttoSaveDialog *);
+static void
+rstto_save_dialog_class_init(RsttoSaveDialogClass *);
+
+static GtkWidgetClass *parent_class = NULL;
+
+GType
+rstto_save_dialog_get_type ()
+{
+    static GType rstto_save_dialog_type = 0;
+
+    if (!rstto_save_dialog_type)
+    {
+        static const GTypeInfo rstto_save_dialog_info = 
+        {
+            sizeof (RsttoSaveDialogClass),
+            (GBaseInitFunc) NULL,
+            (GBaseFinalizeFunc) NULL,
+            (GClassInitFunc) rstto_save_dialog_class_init,
+            (GClassFinalizeFunc) NULL,
+            NULL,
+            sizeof (RsttoSaveDialog),
+            0,
+            (GInstanceInitFunc) rstto_save_dialog_init,
+            NULL
+        };
+
+        rstto_save_dialog_type = g_type_register_static (GTK_TYPE_DIALOG, "RsttoSaveDialog", &rstto_save_dialog_info, 0);
+    }
+    return rstto_save_dialog_type;
+}
+
+static void
+rstto_save_dialog_init(RsttoSaveDialog *dialog)
+{
+    GtkTreeViewColumn *column = NULL;
+    GtkCellRenderer *renderer;
+    GtkListStore *store;
+    GtkWidget *treeview, *s_window;
+
+    store = gtk_list_store_new (4, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
+    treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(store));
+
+    renderer = gtk_cell_renderer_pixbuf_new();
+    column = gtk_tree_view_column_new_with_attributes ( "", renderer, "pixbuf", 0, NULL);
+    gtk_tree_view_insert_column (GTK_TREE_VIEW(treeview), column, -1);
+
+    renderer = gtk_cell_renderer_text_new();
+    g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_MIDDLE, NULL);
+    column = gtk_tree_view_column_new_with_attributes ( _("Filename"), renderer, "text", 1, NULL);
+    gtk_tree_view_column_set_expand (column, TRUE);
+    gtk_tree_view_insert_column (GTK_TREE_VIEW(treeview), column, -1);
+
+    renderer = gtk_cell_renderer_toggle_new();
+    g_object_set (renderer, "mode", GTK_CELL_RENDERER_MODE_ACTIVATABLE, NULL);
+    g_signal_connect (renderer, "toggled", (GCallback)cb_rstto_save_row_toggled, store);
+
+    column = gtk_tree_view_column_new_with_attributes ( _("Save"), renderer, "active", 2, NULL);
+    gtk_tree_view_insert_column (GTK_TREE_VIEW(treeview), column, -1);
+
+    s_window = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (s_window), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+    gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (s_window), treeview);
+
+    gtk_container_add (GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), s_window);
+    gtk_widget_show_all (s_window);
+
+
+    gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+        GTK_STOCK_CANCEL,
+        GTK_RESPONSE_CANCEL,
+        GTK_STOCK_SAVE,
+        GTK_RESPONSE_OK,
+        NULL);
+}
+
+static void
+rstto_save_dialog_class_init(RsttoSaveDialogClass *dialog_class)
+{
+    GObjectClass *object_class = (GObjectClass*)dialog_class;
+    parent_class = g_type_class_peek_parent(dialog_class);
+}
+
+GtkWidget *
+rstto_save_dialog_new (GtkWindow *parent, GList *entries)
+{
+    GtkWidget *dialog = g_object_new (RSTTO_TYPE_SAVE_DIALOG, NULL);
+    gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
+
+    return dialog;
+}
+
+
+/*
 GtkWidget *
 rstto_save_dialog_new (GtkWindow *parent, GList *entries)
 {
@@ -87,6 +182,7 @@ rstto_save_dialog_new (GtkWindow *parent, GList *entries)
     gtk_widget_show_all (s_window);
     return dialog;
 }
+*/
 
 static void
 cb_rstto_save_row_toggled (GtkCellRendererToggle *cell, gchar *path, gpointer user_data)
@@ -96,4 +192,4 @@ cb_rstto_save_row_toggled (GtkCellRendererToggle *cell, gchar *path, gpointer us
 
     gtk_tree_model_get_iter_from_string (model, &iter, path);
     gtk_list_store_set (GTK_LIST_STORE(model), &iter, 2, !gtk_cell_renderer_toggle_get_active (cell), -1);
-}
+};
