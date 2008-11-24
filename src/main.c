@@ -22,10 +22,6 @@
 #include <thunar-vfs/thunar-vfs.h>
 #include <libexif/exif-data.h>
 
-#ifdef HAVE_XFCONF
-#include <xfconf/xfconf.h>
-#endif
-
 #include "navigator.h"
 #include "picture_viewer.h"
 #include "main_window.h"
@@ -246,10 +242,6 @@ int main(int argc, char **argv)
     }
 
     
-#ifdef HAVE_XFCONF
-    xfconf_init(NULL);
-#endif
-
     thunar_vfs_init();
 
     mime_dbase = thunar_vfs_mime_database_get_default();
@@ -387,9 +379,7 @@ int main(int argc, char **argv)
     xfce_rc_flush(xfce_rc);
     xfce_rc_close(xfce_rc);
     gtk_widget_unref(window);
-#ifdef HAVE_XFCONF
-    xfconf_shutdown();
-#endif
+
     return 0;
 }
 
