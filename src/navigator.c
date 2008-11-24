@@ -797,6 +797,7 @@ RsttoNavigatorEntry *
 rstto_navigator_entry_new (RsttoNavigator *navigator, ThunarVfsInfo *info)
 {
     RsttoNavigatorEntry *entry = NULL;
+    ExifEntry *exifentry = NULL;
     gchar *filename = thunar_vfs_path_dup_string(info->path);
     if(filename)
     {
@@ -813,7 +814,9 @@ rstto_navigator_entry_new (RsttoNavigator *navigator, ThunarVfsInfo *info)
             entry->navigator = navigator;
             entry->animation = NULL;
             
-            ExifEntry *exifentry = exif_data_get_entry(entry->exif_data, EXIF_TAG_ORIENTATION);
+            if (entry->exif_data) {
+                exifentry = exif_data_get_entry(entry->exif_data, EXIF_TAG_ORIENTATION);
+            }
             if (exifentry)
             {
                 gchar *val = g_new0(gchar, 20);
