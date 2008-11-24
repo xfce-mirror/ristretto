@@ -890,7 +890,7 @@ rstto_main_window_dispose(GObject *object)
         
         for (iter = navigator->file_list; iter != NULL; iter = iter->next)
         {
-            if (rstto_navigator_entry_get_modified((RsttoNavigatorEntry *)iter->data))
+            if (rstto_navigator_entry_get_orientation_changed ((RsttoNavigatorEntry *)iter->data))
             {
                 modified_files = g_list_append (modified_files, iter->data);
             }
@@ -898,7 +898,7 @@ rstto_main_window_dispose(GObject *object)
 
         if (modified_files)
         {
-            GtkWidget *dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, _("One or more images have been modified, do you want to save the changes?")); 
+            GtkWidget *dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, _("The orientation of one or more images has been modified, do you want to save the changes?")); 
             if (gtk_dialog_run (GTK_DIALOG(dialog)) == GTK_RESPONSE_OK)
             {
                 gtk_widget_hide(dialog);
@@ -1759,7 +1759,7 @@ cb_rstto_main_window_close_all(GtkWidget *widget, RsttoMainWindow *window)
         
         for (iter = navigator->file_list; iter != NULL; iter = iter->next)
         {
-            if (rstto_navigator_entry_get_modified((RsttoNavigatorEntry *)iter->data))
+            if (rstto_navigator_entry_get_orientation_changed ((RsttoNavigatorEntry *)iter->data))
             {
                 modified_files = g_list_append (modified_files, iter->data);
             }
@@ -1767,7 +1767,7 @@ cb_rstto_main_window_close_all(GtkWidget *widget, RsttoMainWindow *window)
 
         if (modified_files)
         {
-            GtkWidget *dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, _("One or more images have been modified, do you want to save the changes?")); 
+            GtkWidget *dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, _("The orientation of one or more images has been modified, do you want to save the changes?")); 
             if (gtk_dialog_run (GTK_DIALOG(dialog)) == GTK_RESPONSE_OK)
             {
                 gtk_widget_hide(dialog);

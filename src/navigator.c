@@ -110,7 +110,7 @@ struct _RsttoNavigatorEntry
     gint                 x_offset;
     gint                 y_offset;
 
-    gboolean             modified;
+    gboolean             orientation_changed;
 };
 
 
@@ -1082,7 +1082,7 @@ rstto_navigator_entry_set_rotation (RsttoNavigatorEntry *entry, GdkPixbufRotatio
         entry->src_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, (360+(rotation-entry->rotation))%360);
     }
     entry->rotation = rotation;
-    entry->modified = TRUE;
+    entry->orientation_changed = TRUE;
     g_signal_emit(G_OBJECT(entry->navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_ENTRY_MODIFIED], 0, entry, NULL);
 }
 
@@ -1141,9 +1141,9 @@ rstto_navigator_entry_get_size (RsttoNavigatorEntry *entry)
 }
 
 gboolean
-rstto_navigator_entry_get_modified (RsttoNavigatorEntry *entry)
+rstto_navigator_entry_get_orientation_changed (RsttoNavigatorEntry *entry)
 {
-    return entry->modified;
+    return entry->orientation_changed;
 }
 
 gboolean

@@ -169,7 +169,7 @@ gboolean
 rstto_navigator_open_folder(RsttoNavigator *navigator, const gchar *path, gboolean clear, GError **error);
 
 gboolean
-rstto_navigator_entry_get_modified (RsttoNavigatorEntry *entry);
+rstto_navigator_entry_get_orientation_changed (RsttoNavigatorEntry *entry);
 
 G_END_DECLS
 
