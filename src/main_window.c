@@ -883,9 +883,9 @@ rstto_main_window_dispose(GObject *object)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW(object);
     RsttoNavigator  *navigator = window->priv->navigator;
-
     if (navigator)
     {
+#if 0
         GList *iter, *modified_files = NULL;
         
         for (iter = navigator->file_list; iter != NULL; iter = iter->next)
@@ -909,7 +909,7 @@ rstto_main_window_dispose(GObject *object)
                 }
             }
         }
-
+#endif
         g_object_unref(window->priv->navigator);
         window->priv->navigator = NULL;
     }
@@ -1751,6 +1751,7 @@ cb_rstto_main_window_close(GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_close_all(GtkWidget *widget, RsttoMainWindow *window)
 {
+#if 0
     RsttoNavigator  *navigator = window->priv->navigator;
 
     if (navigator)
@@ -1779,6 +1780,7 @@ cb_rstto_main_window_close_all(GtkWidget *widget, RsttoMainWindow *window)
             }
         }
     }
+#endif
 
     rstto_navigator_clear (window->priv->navigator);
     gtk_widget_set_sensitive(widget, FALSE);

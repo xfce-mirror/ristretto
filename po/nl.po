@@ -160,7 +160,7 @@ msgstr ""
 
 #: ../src/main_window.c:1437
 msgid "Background Color"
-msgstr "Achtergrond kleur"
+msgstr "Achtergrondkleur"
 
 #: ../src/main_window.c:1439
 msgid "_Override Background Color:"
@@ -168,11 +168,11 @@ msgstr "Achtergr_ondkleur wijzigen:"
 
 #: ../src/main_window.c:1462
 msgid "Image Cache"
-msgstr "Afbeeldingen cache"
+msgstr "Afbeeldingen-cache"
 
 #: ../src/main_window.c:1465
 msgid "Cache size:"
-msgstr "Cache grootte:"
+msgstr "Cachegrootte:"
 
 #: ../src/main_window.c:1466
 msgid "MB"
@@ -180,7 +180,8 @@ msgstr "MB"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr ""
+msgstr "Af_beeldingen vooruit inladen (GUI reageerd sneller, maar " 
+"vergt meer van de CPU)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"

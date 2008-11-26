@@ -1,3 +1,16 @@
+0.0.21
+======
+
+- Fix segfault when exif-data is missing (Bug #4599)
+- Fix detection of xfdesktop
+- Remove xfconf compile-time dependency, make it a runtime one on
+  xfconf-query
+- Fix segfault caused by invalid marshallers.
+- Improved history behaviour (push 'old' images to the top when
+  they are visited again)
+- Improved preloading
+- Fixed segfault caused by a reference-count bug.
+
 0.0.20
 ======
 
