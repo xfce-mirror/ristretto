@@ -1,7 +1,7 @@
 # French translations for ristretto package.
 # Copyright (C) 2007 THE ristretto'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Mike Massonnet <mmassonnet@xfce.org>, 2007.
+# Mike Massonnet <mmassonnet@xfce.org>, 2007, 2008.
 #
 #: ../src/main.c:231
 msgid ""
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-05-24 13:59+0200\n"
+"PO-Revision-Date: 2008-11-29 12:08+0100\n"
 "Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +131,7 @@ msgstr "A_ide"
 
 #: ../src/main_window.c:906
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr ""
+msgstr "Une ou plusieurs images ont été modifiées, voulez-vous les enregistrer ?"
 
 #: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
@@ -169,7 +169,7 @@ msgstr "_Choisir une couleur d’arrière plan :"
 
 #: ../src/main_window.c:1462
 msgid "Image Cache"
-msgstr "Cache Image"
+msgstr "Données images en cache"
 
 #: ../src/main_window.c:1465
 msgid "Cache size:"
@@ -181,7 +181,7 @@ msgstr "Mo"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr ""
+msgstr "_Précharger les images\n(l'interface est plus réactive mais demande plus de charge CPU)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
@@ -260,15 +260,15 @@ msgstr "La taille de la bordure de la barre des miniatures"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
-msgstr "Visualiseur d’Images"
+msgstr "Visualiseur d’images"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
-msgstr "Visualiseur d’Images pour Xfce"
+msgstr "Visualiseur d’images pour Xfce"
 
 #~ msgid "Preload"
 #~ msgstr "Préchargement"
