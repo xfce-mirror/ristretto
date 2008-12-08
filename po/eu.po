@@ -1,14 +1,14 @@
-# translation of ristretto.po to Euskara
+# translation of eu.po to Euskara
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Piarres Beobide <pi@beobide.net>, 2008.
 #: ../src/main.c:231
+# Piarres Beobide <pi@beobide.net>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: ristretto\n"
+"Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-09-12 11:57+0200\n"
+"PO-Revision-Date: 2008-12-08 01:19+0100\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "Bi_ratu"
 
 #: ../src/main_window.c:425
 msgid "_Set as wallpaper"
-msgstr "E_zarri idamahai-irudi gisa"
+msgstr "E_zarri idazmahai-irudi gisa"
 
 #: ../src/main_window.c:476
 msgid "Show _Horizontally"
@@ -129,8 +129,7 @@ msgstr "_Laguntza"
 
 #: ../src/main_window.c:906
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr ""
-"Irudi bat edo gehiago eraldatua izan da, aldaketak gorde nahi al dituzu?"
+msgstr "Irudi bat edo gehiago eraldatua izan da, aldaketak gorde nahi al dituzu?"
 
 #: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
@@ -214,12 +213,11 @@ msgstr "Garatzailea:"
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
-msgstr ""
-"Ristretto Xfce idazmahai inguruneko irudi-ikustatzaile arin eta azkar bat da."
+msgstr "Ristretto Xfce idazmahai inguruneko irudi-ikustatzaile arin eta azkar bat da."
 
 #: ../src/main_window.c:1574
 msgid "translator-credits"
-msgstr "itzultzaile-kreditua"
+msgstr "Piarres Beobide <pi@beobide.net>"
 
 #: ../src/main_window.c:1600
 msgid "Open image"
@@ -234,8 +232,7 @@ msgid "Open folder"
 msgstr "Ireki karpeta"
 
 #: ../src/main_window.c:1715
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
 "Ziur zaude ristretto-ren azken aldian irekitako dokumentuen zerrenda ezabatu "
 "nahi duzula?"
@@ -268,19 +265,3 @@ msgstr "Ristretto"
 msgid "Xfce Image viewer"
 msgstr "Xfce irudi ikustatzailea"
 
-#~ msgid "Preload"
-#~ msgstr "Aurrekargatu"
-
-#~ msgid ""
-#~ "Preload images during slideshow\n"
-#~ "(uses more memory)"
-#~ msgstr ""
-#~ "Aurrekargatu irudiak aurkezpenean\n"
-#~ "(memoria gehiago erabiltzen du)"
-
-# translation of ristretto.po to Euskara
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# Piarres Beobide <pi@beobide.net>, 2008.
-#~ msgid "_Preload images"
-#~ msgstr "Aurre_kargatu irudiak"
