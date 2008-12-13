@@ -3,15 +3,14 @@
 # This file is distributed under the same license as the ristretto package.
 # wuli <wurisky@gmail.com>,2008.
 #
-#: ../src/main.c:231
 msgid ""
 msgstr ""
-"Project-Id-Version: ristretto 0.0.17\n"
+"Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-03-19 22:28+0800\n"
-"Last-Translator: wuli <wurisky@gmail.com>\n"
-"Language-Team: Simplified Chinese<xfce-i18n@xfce.org>\n"
+"PO-Revision-Date: 2008-12-04 16:05+0800\n"
+"Last-Translator: Hunt Xu <huntxu@live.cn>\n"
+"Language-Team: Simplified Chinese <xfce-i18n@xfce.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,12 +21,11 @@ msgstr "版本信息"
 
 #: ../src/main.c:65
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "以全屏模式开始"
 
 #: ../src/main.c:69
-#, fuzzy
 msgid "Start a slideshow"
-msgstr "幻灯片"
+msgstr "幻灯片播放"
 
 #: ../src/main.c:235
 #, c-format
@@ -38,11 +36,12 @@ msgstr ""
 "%s: %s\n"
 "尝试使用 %s --help 查看全部可用命令行参数列表。\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
+#: ../src/main.c:448
+#: ../src/main_window.c:1598
+#: ../src/main_window.c:1638
 #: ../src/main_window.c:1675
-#, fuzzy
 msgid "Opening file(s)..."
-msgstr "以...打开"
+msgstr "打开文件或文件夹..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:340
@@ -59,18 +58,20 @@ msgstr "最近使用(_R)"
 
 #: ../src/main_window.c:353
 msgid "Close _all"
-msgstr ""
+msgstr "全部关闭(_a)"
 
 #. Create 'Edit' menu
 #: ../src/main_window.c:383
 msgid "_Edit"
 msgstr "编辑(_E)"
 
-#: ../src/main_window.c:388 ../src/main_window.c:659
+#: ../src/main_window.c:388
+#: ../src/main_window.c:659
 msgid "Open with..."
 msgstr "以...打开"
 
-#: ../src/main_window.c:396 ../src/main_window.c:670
+#: ../src/main_window.c:396
+#: ../src/main_window.c:670
 msgid "No applications available"
 msgstr "无应用程序可用"
 
@@ -97,7 +98,7 @@ msgstr "旋转(_R)"
 
 #: ../src/main_window.c:425
 msgid "_Set as wallpaper"
-msgstr ""
+msgstr "设置为壁纸(_S)"
 
 #: ../src/main_window.c:476
 msgid "Show _Horizontally"
@@ -131,7 +132,7 @@ msgstr "帮助(_H)"
 
 #: ../src/main_window.c:906
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr ""
+msgstr "有图像已被修改，是否保存修改？"
 
 #: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
@@ -147,16 +148,15 @@ msgstr "幻灯片"
 
 #: ../src/main_window.c:1420
 msgid "Behaviour"
-msgstr ""
+msgstr "行为"
 
 #: ../src/main_window.c:1425
-#, fuzzy
 msgid "Scaling"
-msgstr "空间"
+msgstr "缩放"
 
 #: ../src/main_window.c:1427
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
+msgstr "最大化窗口时不自动放大图像到超过 100%"
 
 #: ../src/main_window.c:1437
 msgid "Background Color"
@@ -180,16 +180,15 @@ msgstr "MB"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr ""
+msgstr "预读图像(_P)（显示更快但CPU占用较高）"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
 msgstr "持续时间"
 
 #: ../src/main_window.c:1489
-#, fuzzy
 msgid "Thumbnails"
-msgstr "缩略图查看(_V)"
+msgstr "缩略图查看"
 
 #: ../src/main_window.c:1494
 msgid ""
@@ -199,21 +198,19 @@ msgstr "幻灯片单个图像持续显示时间（秒）"
 
 #: ../src/main_window.c:1497
 msgid "Hide the thumbnails bar during slideshow"
-msgstr ""
+msgstr "幻灯片播放时隐藏缩略图栏"
 
 #: ../src/main_window.c:1498
 msgid "_Hide thumbnails"
-msgstr ""
+msgstr "隐藏缩略图(_H)"
 
 #: ../src/main_window.c:1556
 msgid "Developer:"
 msgstr "开发者："
 
 #: ../src/main_window.c:1566
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr "Ristretto是一个Xfce桌面环境快速轻量级的图像查看器"
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto 是一个Xfce桌面环境快速轻量级的图像查看器"
 
 #: ../src/main_window.c:1574
 msgid "translator-credits"
@@ -232,8 +229,7 @@ msgid "Open folder"
 msgstr "打开文件夹"
 
 #: ../src/main_window.c:1715
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "你真的要清除最近打开文档列表吗？"
 
 #: ../src/thumbnail_bar.c:185
@@ -246,11 +242,11 @@ msgstr "缩略图之间空格数量"
 
 #: ../src/thumbnail_bar.c:192
 msgid "Border Width"
-msgstr ""
+msgstr "边框宽度"
 
 #: ../src/thumbnail_bar.c:193
 msgid "The border width of the thumbnail-bar"
-msgstr ""
+msgstr "缩略图栏的边框宽度"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -258,22 +254,20 @@ msgstr "图像查看器"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
-msgstr "Xfce图像查看器"
+msgstr "Xfce 图像查看器"
 
 #~ msgid "Preload"
 #~ msgstr "预加载"
-
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr "幻灯片时预加载图像（使用更多内存）"
-
 #~ msgid "_Preload images"
 #~ msgstr "预加载图像(_P)"
-
 #~ msgid "Ristretto Image Viewer"
 #~ msgstr "Ristretto图像查看器"
+
