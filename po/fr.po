@@ -1,5 +1,5 @@
-# French translations for ristretto package.
-# Copyright (C) 2007 THE ristretto'S COPYRIGHT HOLDER
+# French translation for the ristretto package.
+# Copyright (C) 2008 Stephan Arts
 # This file is distributed under the same license as the PACKAGE package.
 # Mike Massonnet <mmassonnet@xfce.org>, 2007, 2008.
 #
