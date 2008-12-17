@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the Ristretto package.
 # Per Kongstad <p_kongstad@op.pl>, 2008.
 #
-#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.21\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-10-14 11:52+0100\n"
+"PO-Revision-Date: 2008-11-26 09:49+0100\n"
 "Last-Translator: Per Kongstad <p_kongstad@op.pl>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
@@ -38,13 +37,14 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Prøv %s --help for at se en fuld liste over tilgængelige "
-"kommandolinjetilvalg.\n"
+"Prøv %s --help for at se en fuld liste over tilgængelige kommandolinjetilvalg.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
+#: ../src/main.c:448
+#: ../src/main_window.c:1598
+#: ../src/main_window.c:1638
 #: ../src/main_window.c:1675
 msgid "Opening file(s)..."
-msgstr "Åbner fil(er)..."
+msgstr "Åbne(r) fil(er)..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:340
@@ -68,11 +68,13 @@ msgstr "Afslut a_lle"
 msgid "_Edit"
 msgstr "_Redigér"
 
-#: ../src/main_window.c:388 ../src/main_window.c:659
+#: ../src/main_window.c:388
+#: ../src/main_window.c:659
 msgid "Open with..."
 msgstr "Åben med..."
 
-#: ../src/main_window.c:396 ../src/main_window.c:670
+#: ../src/main_window.c:396
+#: ../src/main_window.c:670
 msgid "No applications available"
 msgstr "Ingen tilgængelige programmer"
 
@@ -133,8 +135,7 @@ msgstr "_Hjælp"
 
 #: ../src/main_window.c:906
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr ""
-"Et eller flere billeder er blevet ændret, ønsker du at gemme disse ændringer?"
+msgstr "Et eller flere billeder er blevet ændret, ønsker du at gemme disse ændringer?"
 
 #: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
@@ -182,7 +183,7 @@ msgstr "MB"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr ""
+msgstr "_Forindlæs billedes (Grafisk miljø reagerer hurtigere men vil bruge flere processorresurser)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
@@ -213,11 +214,8 @@ msgid "Developer:"
 msgstr "Udvikler:"
 
 #: ../src/main_window.c:1566
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto er en hurtig og let billedfremviser til Xfce-skrivebordsmiljøet."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto er en hurtig og let billedfremviser til Xfce-skrivebordsmiljøet."
 
 #: ../src/main_window.c:1574
 msgid "translator-credits"
@@ -240,11 +238,8 @@ msgid "Open folder"
 msgstr "Åben mappe"
 
 #: ../src/main_window.c:1715
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr ""
-"Er du sikker på, at du vil slette Ristrettos liste over senest åbnede "
-"dokumenter?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Er du sikker på, at du vil slette Ristrettos liste over senest åbnede dokumenter?"
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
@@ -274,15 +269,3 @@ msgstr "Ristretto"
 msgid "Xfce Image viewer"
 msgstr "Xfce-billedfremviser"
 
-#~ msgid "Preload"
-#~ msgstr "Forudindlæs"
-
-#~ msgid ""
-#~ "Preload images during slideshow\n"
-#~ "(uses more memory)"
-#~ msgstr ""
-#~ "Forudindlæs billeder ved diasshow\n"
-#~ "(bruger mere hukommelse)"
-
-#~ msgid "_Preload images"
-#~ msgstr "_Forudindlæs billeder"
