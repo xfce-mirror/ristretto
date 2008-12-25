@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Abel Martín <abel.martin.ruiz@gmail.com>, 2008
 #
-#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-10-16 22:34+0100\n"
+"PO-Revision-Date: 2008-12-16 21:27+0100\n"
 "Last-Translator: Abel Martín <abel.martin.ruiz@gmail.com>\n"
 "Language-Team: Spanish <xfce-i18n@xfce.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,10 +35,11 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Pruebe %s --help para ver una lista completa de opciones de línea de comando "
-"disponibles.\n"
+"Pruebe %s --help para ver una lista completa de opciones de línea de comando disponibles.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
+#: ../src/main.c:448
+#: ../src/main_window.c:1598
+#: ../src/main_window.c:1638
 #: ../src/main_window.c:1675
 msgid "Opening file(s)..."
 msgstr "Abriendo fichero(s)..."
@@ -66,11 +66,13 @@ msgstr "Cerrar _todo"
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/main_window.c:388 ../src/main_window.c:659
+#: ../src/main_window.c:388
+#: ../src/main_window.c:659
 msgid "Open with..."
 msgstr "Abrir con..."
 
-#: ../src/main_window.c:396 ../src/main_window.c:670
+#: ../src/main_window.c:396
+#: ../src/main_window.c:670
 msgid "No applications available"
 msgstr "No hay aplicaciones disponibles"
 
@@ -179,7 +181,7 @@ msgstr "MB"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr ""
+msgstr "_Precargar imágenes (la interfaz gráfica responde mejor a cambio de un mayor consumo de CPU)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
@@ -194,8 +196,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"El periodo de tiempo que una imagen individual es mostrada durante la vista "
-"de diapositivas\n"
+"El periodo de tiempo que una imagen individual es mostrada durante la vista de diapositivas\n"
 "(en segundos)"
 
 #: ../src/main_window.c:1497
@@ -211,12 +212,8 @@ msgid "Developer:"
 msgstr "Desarrollador:"
 
 #: ../src/main_window.c:1566
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto es un visor de imágenes rápido y ligero para el entorno de "
-"escritorio de Xfce."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto es un visor de imágenes rápido y ligero para el entorno de escritorio de Xfce."
 
 #: ../src/main_window.c:1574
 msgid "translator-credits"
@@ -235,11 +232,8 @@ msgid "Open folder"
 msgstr "Abrir directorio"
 
 #: ../src/main_window.c:1715
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr ""
-"¿Está seguro de que quiere vaciar la lista de documentos abiertos "
-"recientemente de ristretto?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "¿Está seguro de que quiere vaciar la lista de documentos abiertos recientemente de ristretto?"
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
@@ -271,22 +265,18 @@ msgstr "Visor de imágenes de Xfce"
 
 #~ msgid "Preload"
 #~ msgstr "Precarga"
-
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Precargar las imágenes durante la vista de diapositivas\n"
 #~ "(usa más memoria)"
-
 #~ msgid "_Preload images"
 #~ msgstr "_Precargar las imágenes"
-
 #~ msgid "Ristretto Image Viewer"
 #~ msgstr "Ristretto : Visualiseur d’Images"
-
 #~ msgid "Flip _Vertically"
 #~ msgstr "Retourner _verticalement"
-
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Retourner _horizontalement"
+

@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the ristretto package.
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2008.
 #
-#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-06-10 20:44+0700\n"
+"PO-Revision-Date: 2008-12-19 22:32+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -35,10 +34,11 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Coba %s --help untuk melihat senarai penuh dari opsi baris perintah yang "
-"tersedia.\n"
+"Coba %s --help untuk melihat senarai penuh dari opsi baris perintah yang tersedia.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
+#: ../src/main.c:448
+#: ../src/main_window.c:1598
+#: ../src/main_window.c:1638
 #: ../src/main_window.c:1675
 msgid "Opening file(s)..."
 msgstr "Buka berkas..."
@@ -65,11 +65,13 @@ msgstr "Tutup semu_a"
 msgid "_Edit"
 msgstr "_Sunting"
 
-#: ../src/main_window.c:388 ../src/main_window.c:659
+#: ../src/main_window.c:388
+#: ../src/main_window.c:659
 msgid "Open with..."
 msgstr "Buka dengan..."
 
-#: ../src/main_window.c:396 ../src/main_window.c:670
+#: ../src/main_window.c:396
+#: ../src/main_window.c:670
 msgid "No applications available"
 msgstr "Tak ada aplikasi tersedia"
 
@@ -130,9 +132,7 @@ msgstr "Ban_tuan"
 
 #: ../src/main_window.c:906
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr ""
-"Satu atau beberapa gambar telah dimodifikasi, anda ingin menyimpan perubahan "
-"ini?"
+msgstr "Satu atau beberapa gambar telah dimodifikasi, anda ingin menyimpan perubahan ini?"
 
 #: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
@@ -180,7 +180,7 @@ msgstr "MB"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr ""
+msgstr "_Citra pramuat (GUI lebih responsif tapi lebih CPU-intensif)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
@@ -211,12 +211,8 @@ msgid "Developer:"
 msgstr "Pengembang:"
 
 #: ../src/main_window.c:1566
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto adalah penilik gambar yang cepat dan ringan untuk lingkungan "
-"destop Xfce."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto adalah penilik gambar yang cepat dan ringan untuk lingkungan destop Xfce."
 
 #: ../src/main_window.c:1574
 msgid "translator-credits"
@@ -235,11 +231,8 @@ msgid "Open folder"
 msgstr "Buka folder"
 
 #: ../src/main_window.c:1715
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr ""
-"Anda yakin ingin membersihkan senarai dokumen yang baru dibuka pada "
-"ristretto?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Anda yakin ingin membersihkan senarai dokumen yang baru dibuka pada ristretto?"
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
@@ -271,13 +264,12 @@ msgstr "Penilik gambar Xfce"
 
 #~ msgid "Preload"
 #~ msgstr "Pratayang"
-
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Pratayang gambar selama tampil salindia\n"
 #~ "(menggunakan lebih banyak memori)"
-
 #~ msgid "_Preload images"
 #~ msgstr "Prata_yang gambar"
+
