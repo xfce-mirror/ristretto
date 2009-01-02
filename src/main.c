@@ -65,7 +65,7 @@ static GOptionEntry entries[] =
         N_("Start a slideshow"),
         NULL
     },
-    { NULL }
+    { NULL, ' ', 0, 0, NULL, NULL, NULL }
 };
 
 
