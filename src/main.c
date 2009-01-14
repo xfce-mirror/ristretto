@@ -225,7 +225,7 @@ int main(int argc, char **argv)
     textdomain (GETTEXT_PACKAGE);
     #endif
 
-    if(!gtk_init_with_args(&argc, &argv, _(""), entries, PACKAGE, &cli_error))
+    if(!gtk_init_with_args(&argc, &argv, "", entries, PACKAGE, &cli_error))
     {
         if (cli_error != NULL)
         {
@@ -252,14 +252,6 @@ int main(int argc, char **argv)
         rstto_has_xfconf_query = TRUE;
         g_free (program);
     }
-
-    program = g_find_program_in_path ("gconftool");
-    if (G_LIKELY (program != NULL))
-    {
-        rstto_has_gconftool = TRUE;
-        g_free (program);
-    }
-
 
     gtk_window_set_default_icon_name("ristretto");
     xfce_rc = xfce_rc_config_open(XFCE_RESOURCE_CONFIG, "ristretto/ristrettorc", FALSE);
