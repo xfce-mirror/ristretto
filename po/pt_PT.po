@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Nuno Miguel <nunis@netcabo.pt>, 2007
 #
-#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-08-29 19:20+0100\n"
+"PO-Revision-Date: 2009-01-09 16:41+0100\n"
 "Last-Translator: Nuno Miguel <nunis@netcabo.pt>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -36,10 +35,11 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Tente %s --help para ver uma lista completa de opções em linha de comandos "
-"disponíveis.\n"
+"Tente %s --help para ver uma lista completa de opções em linha de comandos disponíveis.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
+#: ../src/main.c:448
+#: ../src/main_window.c:1598
+#: ../src/main_window.c:1638
 #: ../src/main_window.c:1675
 msgid "Opening file(s)..."
 msgstr "A abrir ficheiro(s)..."
@@ -66,11 +66,13 @@ msgstr "Fechar _tudo"
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/main_window.c:388 ../src/main_window.c:659
+#: ../src/main_window.c:388
+#: ../src/main_window.c:659
 msgid "Open with..."
 msgstr "Abrir com..."
 
-#: ../src/main_window.c:396 ../src/main_window.c:670
+#: ../src/main_window.c:396
+#: ../src/main_window.c:670
 msgid "No applications available"
 msgstr "Sem aplicações disponíveis"
 
@@ -179,7 +181,7 @@ msgstr "MB"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr ""
+msgstr "_Pré-carregar imagens (GUI mais rápida mas maior consumo de CPU)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
@@ -194,8 +196,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"O período de tempo que uma imagem individual é exibida durante uma "
-"apresentação de slides\n"
+"O período de tempo que uma imagem individual é exibida durante uma apresentação de slides\n"
 "(em segundos)"
 
 #: ../src/main_window.c:1497
@@ -211,12 +212,8 @@ msgid "Developer:"
 msgstr "Programador:"
 
 #: ../src/main_window.c:1566
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto é um rápido e leve visualizador de imagens para o ambiente de "
-"desktop Xfce."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto é um rápido e leve visualizador de imagens para o ambiente de desktop Xfce."
 
 #: ../src/main_window.c:1574
 msgid "translator-credits"
@@ -235,10 +232,8 @@ msgid "Open folder"
 msgstr "Abrir pasta"
 
 #: ../src/main_window.c:1715
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr ""
-"Tem a certeza que deseja apagar a lista de documentos usados recentemente?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr "Tem a certeza que deseja apagar a lista de documentos usados recentemente?"
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
@@ -270,16 +265,14 @@ msgstr "Visualizador de Imagem Xfce"
 
 #~ msgid "Preload"
 #~ msgstr "Pré-carregamento"
-
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Pré-Carregar imagens durante uma apresentação de slides\n"
 #~ "(usa mais memória)"
-
 #~ msgid "_Preload images"
 #~ msgstr "Carregar imagens _previamente"
-
 #~ msgid "Ristretto Image Viewer"
 #~ msgstr "Visualizador de Imagem Ristretto"
+
