@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-11-25 15:34+0900\n"
-"PO-Revision-Date: 2008-11-27 00:48+0900\n"
+"POT-Creation-Date: 2009-01-24 16:48+0900\n"
+"PO-Revision-Date: 2009-01-21 00:43+0900\n"
 "Last-Translator: Masato Hashimoto <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
@@ -38,9 +38,7 @@ msgstr ""
 "%s: %s\n"
 "%s --help で使用可能な全てのコマンドラインオプションが表示されます。\n"
 
-#: ../src/main.c:453
-#: ../src/main_window.c:1603
-#: ../src/main_window.c:1643
+#: ../src/main.c:445 ../src/main_window.c:1603 ../src/main_window.c:1643
 #: ../src/main_window.c:1680
 msgid "Opening file(s)..."
 msgstr "ファイルを開いています..."
@@ -67,13 +65,11 @@ msgstr "全て閉じる(_A)"
 msgid "_Edit"
 msgstr "編集(_E)"
 
-#: ../src/main_window.c:384
-#: ../src/main_window.c:652
+#: ../src/main_window.c:384 ../src/main_window.c:652
 msgid "Open with..."
 msgstr "アプリケーションで開く..."
 
-#: ../src/main_window.c:392
-#: ../src/main_window.c:663
+#: ../src/main_window.c:392 ../src/main_window.c:663
 msgid "No applications available"
 msgstr "使用可能なアプリケーションはありません"
 
@@ -112,7 +108,7 @@ msgstr "縦に表示(_V)"
 
 #: ../src/main_window.c:477
 msgid "H_ide"
-msgstr "非表示(_I)"
+msgstr "表示しない(_I)"
 
 #: ../src/main_window.c:514
 msgid "Rotate _Right"
@@ -132,9 +128,10 @@ msgstr "移動(_G)"
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
-#: ../src/main_window.c:901
-#: ../src/main_window.c:1770
-msgid "The orientation of one or more images has been modified, do you want to save the changes?"
+#: ../src/main_window.c:901 ../src/main_window.c:1771
+msgid ""
+"The orientation of one or more images has been modified, do you want to save "
+"the changes?"
 msgstr "一つ以上の画像が修正されています。保存しますか?"
 
 #: ../src/main_window.c:1399
@@ -183,7 +180,9 @@ msgstr "MB"
 
 #: ../src/main_window.c:1473
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr "画像の先行読み込み(_P) (GUI の反応が向上しますが、CPU 負荷も上昇します)"
+msgstr ""
+"画像の先行読み込み(_P)\n"
+"(GUI の反応が向上しますが、CPU 負荷も上昇します)"
 
 #: ../src/main_window.c:1491
 msgid "Timeout"
@@ -202,7 +201,7 @@ msgstr "スライドショー中に各画像を表示する時間 (秒)"
 
 #: ../src/main_window.c:1502
 msgid "Hide the thumbnails bar during slideshow"
-msgstr "スライドショー中はサムネイルを非表示"
+msgstr "スライドショー中はサムネイルを非表示にできます"
 
 #: ../src/main_window.c:1503
 msgid "_Hide thumbnails"
@@ -213,7 +212,9 @@ msgid "Developer:"
 msgstr "開発者:"
 
 #: ../src/main_window.c:1571
-msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
 msgstr ""
 "Ristretto は Xfce デスクトップ環境向けの\n"
 "軽快で軽量な画像ビューアです。"
@@ -235,8 +236,17 @@ msgid "Open folder"
 msgstr "フォルダを開く"
 
 #: ../src/main_window.c:1720
-msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "ristretto の最近開いたファイルリストをクリアしてよろしいですか?"
+
+#: ../src/save_dialog.c:82
+msgid "Filename"
+msgstr "ファイル名"
+
+#: ../src/save_dialog.c:90
+msgid "Save"
+msgstr "保存"
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
@@ -265,4 +275,3 @@ msgstr "Ristretto"
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce 画像ビューア"
-
