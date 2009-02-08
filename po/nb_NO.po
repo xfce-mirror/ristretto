@@ -2,35 +2,34 @@
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Terje Uriansrud <ter@operamail.com>, 2007.
+# Terje Uriansrud <terje@uriansrud.net>, 2009.
 #
-#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2008-11-14 13:24+0100\n"
+"POT-Creation-Date: 2009-01-27 23:51+0100\n"
 "PO-Revision-Date: 2007-08-29 21:12+0200\n"
-"Last-Translator: Terje Uriansrud <ter@operamail.com>\n"
+"Last-Translator: Terje Uriansrud <terje@uriansrud.net>\n"
 "Language-Team: Norwegian Bokmal\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/main.c:61
+#: ../src/main.c:57
 msgid "Version information"
 msgstr "Versjonsinformasjon"
 
-#: ../src/main.c:65
+#: ../src/main.c:61
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "Start i fullskjermmodus"
 
-#: ../src/main.c:69
-#, fuzzy
+#: ../src/main.c:65
 msgid "Start a slideshow"
-msgstr "Lysbildefremvisning"
+msgstr "Start lysbildefremvisning"
 
-#: ../src/main.c:235
+#: ../src/main.c:232
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -39,160 +38,162 @@ msgstr ""
 "%s: %s\n"
 "Prøv %s --help for full liste over tilgjengelige kommandolinje opsjoner.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
-#: ../src/main_window.c:1675
-#, fuzzy
+#: ../src/main.c:445 ../src/main_window.c:1603 ../src/main_window.c:1643
+#: ../src/main_window.c:1680
 msgid "Opening file(s)..."
-msgstr "Åpne med..."
+msgstr "Åpne fil(er)..."
 
 #. Create 'File' menu
-#: ../src/main_window.c:340
+#: ../src/main_window.c:336
 msgid "_File"
 msgstr "_Fil"
 
-#: ../src/main_window.c:347
+#: ../src/main_window.c:343
 msgid "O_pen Folder"
 msgstr "Åp_ne mappe"
 
-#: ../src/main_window.c:348
+#: ../src/main_window.c:344
 msgid "_Recently used"
 msgstr "Nylig _brukt"
 
-#: ../src/main_window.c:353
+#: ../src/main_window.c:349
 msgid "Close _all"
-msgstr ""
+msgstr "Lukk _alle"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:383
+#: ../src/main_window.c:379
 msgid "_Edit"
 msgstr "_Rediger"
 
-#: ../src/main_window.c:388 ../src/main_window.c:659
+#: ../src/main_window.c:384 ../src/main_window.c:652
 msgid "Open with..."
 msgstr "Åpne med..."
 
-#: ../src/main_window.c:396 ../src/main_window.c:670
+#: ../src/main_window.c:392 ../src/main_window.c:663
 msgid "No applications available"
 msgstr "Ingen programmer tilgjengelig"
 
 #. Create 'View' menu
-#: ../src/main_window.c:405
+#: ../src/main_window.c:401
 msgid "_View"
 msgstr "_Vis"
 
-#: ../src/main_window.c:412
+#: ../src/main_window.c:408
 msgid "Show _Toolbar"
 msgstr "Vis _verktøylinje"
 
-#: ../src/main_window.c:413
+#: ../src/main_window.c:409
 msgid "Thumbnail _Viewer"
 msgstr "Miniatyr_visning"
 
-#: ../src/main_window.c:417
+#: ../src/main_window.c:413
 msgid "_Zooming"
 msgstr "_Skalere"
 
-#: ../src/main_window.c:418
+#: ../src/main_window.c:414
 msgid "_Rotate"
 msgstr "_Roter"
 
-#: ../src/main_window.c:425
+#: ../src/main_window.c:421
 msgid "_Set as wallpaper"
-msgstr ""
+msgstr "Bruk _som bakgrunnsbilde"
 
-#: ../src/main_window.c:476
+#: ../src/main_window.c:469
 msgid "Show _Horizontally"
 msgstr "Vis _vannrett"
 
-#: ../src/main_window.c:480
+#: ../src/main_window.c:473
 msgid "Show _Vertically"
 msgstr "Vis _loddrett"
 
-#: ../src/main_window.c:484
+#: ../src/main_window.c:477
 msgid "H_ide"
 msgstr "_Skjul"
 
-#: ../src/main_window.c:521
+#: ../src/main_window.c:514
 msgid "Rotate _Right"
 msgstr "Roter _høyre"
 
-#: ../src/main_window.c:522
+#: ../src/main_window.c:515
 msgid "Rotate _Left"
 msgstr "Roter _venstre"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:543
+#: ../src/main_window.c:536
 msgid "_Go"
 msgstr "_Gå"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:574
+#: ../src/main_window.c:567
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: ../src/main_window.c:906
-msgid "One or more images have been modified, do you want to save the changes?"
+#: ../src/main_window.c:901 ../src/main_window.c:1771
+msgid ""
+"The orientation of one or more images has been modified, do you want to save "
+"the changes?"
 msgstr ""
+"Orientering av et eller flere bilder er endret, vil du lagre endringene?"
 
-#: ../src/main_window.c:1394
+#: ../src/main_window.c:1399
 msgid "Image viewer Preferences"
 msgstr "Bildefremviser innstillinger"
 
-#: ../src/main_window.c:1412
+#: ../src/main_window.c:1417
 msgid "Display"
 msgstr "Skjerm"
 
-#: ../src/main_window.c:1416
+#: ../src/main_window.c:1421
 msgid "Slideshow"
 msgstr "Lysbildefremvisning"
 
-#: ../src/main_window.c:1420
-msgid "Behaviour"
-msgstr ""
-
 #: ../src/main_window.c:1425
-#, fuzzy
+msgid "Behaviour"
+msgstr "Oppførsel"
+
+#: ../src/main_window.c:1430
 msgid "Scaling"
-msgstr "Mellomrom"
+msgstr "Skalering"
 
-#: ../src/main_window.c:1427
+#: ../src/main_window.c:1432
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
+msgstr "Ikkeskaler over 100% når vindu maksimeres"
 
-#: ../src/main_window.c:1437
+#: ../src/main_window.c:1442
 msgid "Background Color"
 msgstr "Bakgrunnsfarge"
 
-#: ../src/main_window.c:1439
+#: ../src/main_window.c:1444
 msgid "_Override Background Color:"
 msgstr "_Overstyr bakgrunnsfarge"
 
-#: ../src/main_window.c:1462
+#: ../src/main_window.c:1467
 msgid "Image Cache"
 msgstr "Bildehurtiglager"
 
-#: ../src/main_window.c:1465
+#: ../src/main_window.c:1470
 msgid "Cache size:"
 msgstr "Hurtiglager størrelse:"
 
-#: ../src/main_window.c:1466
+#: ../src/main_window.c:1471
 msgid "MB"
 msgstr "MB"
 
-#: ../src/main_window.c:1468
+#: ../src/main_window.c:1473
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 msgstr ""
+"_Forhåndlasting av bilder (programmet blir raskere men krever mer "
+"prosessorkraft)"
 
-#: ../src/main_window.c:1486
+#: ../src/main_window.c:1491
 msgid "Timeout"
 msgstr "Tidsgrense"
 
-#: ../src/main_window.c:1489
-#, fuzzy
-msgid "Thumbnails"
-msgstr "Miniatyr_visning"
-
 #: ../src/main_window.c:1494
+msgid "Thumbnails"
+msgstr "Miniatyrbilder"
+
+#: ../src/main_window.c:1499
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -200,46 +201,54 @@ msgstr ""
 "Tidsperiode ett bilde vises under lysbildefremvisning\n"
 "(i sekunder)"
 
-#: ../src/main_window.c:1497
+#: ../src/main_window.c:1502
 msgid "Hide the thumbnails bar during slideshow"
-msgstr ""
+msgstr "Skjul miniatyrbilderaden under lysbildefremvisning"
 
-#: ../src/main_window.c:1498
+#: ../src/main_window.c:1503
 msgid "_Hide thumbnails"
-msgstr ""
+msgstr "_Skjul miniatyrbilder"
 
-#: ../src/main_window.c:1556
+#: ../src/main_window.c:1561
 msgid "Developer:"
 msgstr "Utvikler:"
 
-#: ../src/main_window.c:1566
+#: ../src/main_window.c:1571
 msgid ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 msgstr "Ristretto er en rask og lettvekts bildefremviser for Xfce skrivebordet"
 
-#: ../src/main_window.c:1574
+#: ../src/main_window.c:1579
 msgid "translator-credits"
-msgstr "Oversettelser"
+msgstr "Terje Uriansrud <terje@uriansrud.net>"
 
-#: ../src/main_window.c:1600
+#: ../src/main_window.c:1605
 msgid "Open image"
 msgstr "Åpne bilde"
 
-#: ../src/main_window.c:1618
+#: ../src/main_window.c:1623
 msgid "Could not open file"
 msgstr "Klarte ikke åpne fil"
 
-#: ../src/main_window.c:1640
+#: ../src/main_window.c:1645
 msgid "Open folder"
 msgstr "Åpne mappe"
 
-#: ../src/main_window.c:1715
+#: ../src/main_window.c:1720
 msgid ""
 "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr ""
 "Er du sikker på at du vil tømme Ristretto's liste over nylig brukte "
 "dokumenter?"
+
+#: ../src/save_dialog.c:82
+msgid "Filename"
+msgstr "Filnavn"
+
+#: ../src/save_dialog.c:90
+msgid "Save"
+msgstr "Lagre"
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
@@ -251,11 +260,11 @@ msgstr "Hvor mye mellomrom det skal være mellom miniatyrbildene"
 
 #: ../src/thumbnail_bar.c:192
 msgid "Border Width"
-msgstr ""
+msgstr "Bredde på ramme"
 
 #: ../src/thumbnail_bar.c:193
 msgid "The border width of the thumbnail-bar"
-msgstr ""
+msgstr "Rammebredde på miniatyrbildelinjen"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -263,24 +272,8 @@ msgstr "Bildefremviser"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce  Bildefremviser"
-
-#~ msgid "Preload"
-#~ msgstr "Forhåndslasting"
-
-#~ msgid ""
-#~ "Preload images during slideshow\n"
-#~ "(uses more memory)"
-#~ msgstr ""
-#~ "Forhåndslast bilder under lysbildefremvisning\n"
-#~ "(bruker mer minne)"
-
-#~ msgid "_Preload images"
-#~ msgstr "_Forhåndslast bilder"
-
-#~ msgid "Ristretto Image Viewer"
-#~ msgstr "Ristretto Bildefremviser"

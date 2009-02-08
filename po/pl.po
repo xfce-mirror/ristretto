@@ -1,17 +1,16 @@
+# Piotr Sokół <piotr.sokol@10g.pl>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ristretto\n"
+"Project-Id-Version: Ristretto 0.0.21\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-12-27 17:26+0100\n"
+"PO-Revision-Date: 2009-02-03 10:39+0100\n"
 "Last-Translator: Piotr Sokół <piotr.sokol@10g.pl>\n"
-"Language-Team:  <romanowicz88@gmail.com>\n"
+"Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Poedit-Language: Polish\n"
-"X-Poedit-Country: POLAND\n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -32,7 +31,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Proszę wpisać %s --help aby wypisać pełną listę opcji wiersza poleceń.\n"
+"Proszę wpisać „%s --help” aby wypisać pełną listę opcji wiersza poleceń.\n"
 
 #: ../src/main.c:448
 #: ../src/main_window.c:1598
@@ -52,11 +51,11 @@ msgstr "O_twórz katalog..."
 
 #: ../src/main_window.c:348
 msgid "_Recently used"
-msgstr "Ostatnio otwarte"
+msgstr "Ostatnio otwa_rte"
 
 #: ../src/main_window.c:353
 msgid "Close _all"
-msgstr "Zamknij wszystkie"
+msgstr "Zamknij w_szystkie"
 
 #. Create 'Edit' menu
 #: ../src/main_window.c:383
@@ -80,7 +79,7 @@ msgstr "_Widok"
 
 #: ../src/main_window.c:412
 msgid "Show _Toolbar"
-msgstr "_Pasek narzędzi"
+msgstr "_Pasek narzędziowy"
 
 #: ../src/main_window.c:413
 msgid "Thumbnail _Viewer"
@@ -164,7 +163,7 @@ msgstr "Kolor tła"
 
 #: ../src/main_window.c:1439
 msgid "_Override Background Color:"
-msgstr "_Własny kolor:"
+msgstr "_Własny:"
 
 #: ../src/main_window.c:1462
 msgid "Image Cache"
@@ -204,7 +203,7 @@ msgstr "Miniatury obrazów podczas pokazu slajdów mogą zostać ukryte."
 
 #: ../src/main_window.c:1498
 msgid "_Hide thumbnails"
-msgstr "_Ukrywanie miniatur"
+msgstr "_Ukrywanie"
 
 #: ../src/main_window.c:1556
 msgid "Developer:"
@@ -212,7 +211,7 @@ msgstr "Twórca:"
 
 #: ../src/main_window.c:1566
 msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
-msgstr "Ristretto jest szybką i lekką przeglądarką obrazów dla środowiska Xfce."
+msgstr "Przeglądarka obrazów dla środowiska Xfce."
 
 #: ../src/main_window.c:1574
 msgid "translator-credits"
@@ -258,11 +257,11 @@ msgstr "Przeglądarka obrazów"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto"
-msgstr "Ristretto"
+msgstr "Przeglądarka obrazów Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
-msgstr "Przeglądarka obrazów dla środowiska Xfce"
+msgstr "Przeglądarka obrazów środowiska Xfce"
 
 #~ msgid "Preload"
 #~ msgstr "Preload"
