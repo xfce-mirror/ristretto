@@ -1,0 +1,355 @@
+# Japanese translations for ristretto package
+# ristretto パッケージに対する英訳.
+# Copyright (C) 2008 Stephan Arts
+# This file is distributed under the same license as the ristretto package.
+# HASHIMOTO Masato <cabezon.hashimoto@gmail.com>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.18\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"PO-Revision-Date: 2008-11-27 00:48+0900\n"
+"Last-Translator: Masato Hashimoto <cabezon.hashimoto@gmail.com>\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../src/main.c:56
+msgid "Version information"
+msgstr "バージョン情報を表示する"
+
+#: ../src/main.c:60
+msgid "Start in fullscreen mode"
+msgstr "フルスクリーンモードで開始する"
+
+#: ../src/main.c:64
+msgid "Start a slideshow"
+msgstr "スライドショーを開始する"
+
+#: ../src/main.c:85
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"%s --help で使用可能な全てのコマンドラインオプションが表示されます。\n"
+
+#. File Menu
+#: ../src/main_window.c:163
+msgid "_File"
+msgstr "ファイル(_F)"
+
+#: ../src/main_window.c:164
+msgid "_Open"
+msgstr ""
+
+#: ../src/main_window.c:164
+#, fuzzy
+msgid "Open an image"
+msgstr "画像を開く"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open _Folder"
+msgstr "フォルダを開く(_P)"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open a folder"
+msgstr "フォルダを開く"
+
+#: ../src/main_window.c:166
+msgid "Open _Recent"
+msgstr ""
+
+#: ../src/main_window.c:167
+#, fuzzy
+msgid "_Close"
+msgstr "全て閉じる(_A)"
+
+#: ../src/main_window.c:167
+msgid "Close this image"
+msgstr ""
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "_Close All"
+msgstr "全て閉じる(_A)"
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "Close all images"
+msgstr "全て閉じる(_A)"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "_Quit"
+msgstr "編集(_E)"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "Quit Ristretto"
+msgstr "Ristretto"
+
+#. Edit Menu
+#: ../src/main_window.c:171
+msgid "_Edit"
+msgstr "編集(_E)"
+
+#: ../src/main_window.c:172
+msgid "_Undo"
+msgstr ""
+
+#: ../src/main_window.c:173
+#, fuzzy
+msgid "_Preferences"
+msgstr "画像ビューア設定"
+
+#. View Menu
+#: ../src/main_window.c:175
+msgid "_View"
+msgstr "表示(_V)"
+
+#: ../src/main_window.c:176
+msgid "_Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:177
+#, fuzzy
+msgid "_Set as Wallpaper"
+msgstr "壁紙に設定(_S)"
+
+#. Thumbnailbar submenu
+#: ../src/main_window.c:179
+#, fuzzy
+msgid "_Thumbnail Bar"
+msgstr "サムネイル"
+
+#: ../src/main_window.c:180
+msgid "Show _Vertically"
+msgstr "縦に表示(_V)"
+
+#: ../src/main_window.c:181
+#, fuzzy
+msgid "_Show Horizontally"
+msgstr "横に表示(_H)"
+
+#: ../src/main_window.c:182
+#, fuzzy
+msgid "_Hide"
+msgstr "非表示(_I)"
+
+#. Zoom submenu
+#: ../src/main_window.c:184
+msgid "_Zooming"
+msgstr "拡大/縮小(_Z)"
+
+#: ../src/main_window.c:185
+#, fuzzy
+msgid "Zoom _In"
+msgstr "拡大/縮小(_Z)"
+
+#: ../src/main_window.c:186
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/main_window.c:187
+msgid "Zoom _Fit"
+msgstr ""
+
+#: ../src/main_window.c:188
+msgid "_Normal Size"
+msgstr ""
+
+#. Rotation submenu
+#: ../src/main_window.c:190
+#, fuzzy
+msgid "_Rotation"
+msgstr "回転(_R)"
+
+#: ../src/main_window.c:191
+msgid "Rotate _Right"
+msgstr "右回転(_R)"
+
+#: ../src/main_window.c:192
+msgid "Rotate _Left"
+msgstr "左回転(_L)"
+
+#. Go Menu
+#: ../src/main_window.c:194
+msgid "_Go"
+msgstr "移動(_G)"
+
+#: ../src/main_window.c:195
+msgid "_Forward"
+msgstr ""
+
+#: ../src/main_window.c:196
+msgid "_Back"
+msgstr ""
+
+#: ../src/main_window.c:197
+msgid "_First"
+msgstr ""
+
+#: ../src/main_window.c:198
+msgid "_Last"
+msgstr ""
+
+#: ../src/main_window.c:199
+msgid "_Play"
+msgstr ""
+
+#. Help Menu
+#: ../src/main_window.c:201
+msgid "_Help"
+msgstr "ヘルプ(_H)"
+
+#: ../src/main_window.c:203
+msgid "_Contents"
+msgstr ""
+
+#: ../src/main_window.c:205
+msgid "Display ristretto user manual"
+msgstr ""
+
+#: ../src/main_window.c:208
+msgid "_About"
+msgstr ""
+
+#: ../src/main_window.c:210
+msgid "Display information about ristretto"
+msgstr ""
+
+#: ../src/main_window.c:216
+msgid "Show _Toolbar"
+msgstr "ツールバーを表示(_T)"
+
+#: ../src/main_window.c:738
+msgid "Open image"
+msgstr "画像を開く"
+
+#: ../src/main_window.c:756
+msgid "Could not open file"
+msgstr "ファイルを開けませんでした"
+
+#: ../src/main_window.c:836
+msgid "Developer:"
+msgstr "開発者:"
+
+#: ../src/main_window.c:846
+#, fuzzy
+msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr ""
+"Ristretto は Xfce デスクトップ環境向けの\n"
+"軽快で軽量な画像ビューアです。"
+
+#: ../src/main_window.c:854
+msgid "translator-credits"
+msgstr "Masato Hashimoto <cabezon.hashimoto@gmail.com>"
+
+#: ../src/thumbnail_bar.c:185
+msgid "Spacing"
+msgstr "間隔"
+
+#: ../src/thumbnail_bar.c:186
+msgid "The amount of space between the thumbnails"
+msgstr "サムネイル間の間隔"
+
+#: ../src/thumbnail_bar.c:192
+msgid "Border Width"
+msgstr "境界線幅"
+
+#: ../src/thumbnail_bar.c:193
+msgid "The border width of the thumbnail-bar"
+msgstr "サムネイルバーの境界線幅"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "画像ビューア"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto"
+msgstr "Ristretto"
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Xfce 画像ビューア"
+
+#~ msgid "Opening file(s)..."
+#~ msgstr "ファイルを開いています..."
+
+#~ msgid "_Recently used"
+#~ msgstr "最近開いたファイル(_R)"
+
+#~ msgid "Open with..."
+#~ msgstr "アプリケーションで開く..."
+
+#~ msgid "No applications available"
+#~ msgstr "使用可能なアプリケーションはありません"
+
+#~ msgid "Thumbnail _Viewer"
+#~ msgstr "サムネイルビューア(_V)"
+
+#~ msgid ""
+#~ "The orientation of one or more images has been modified, do you want to "
+#~ "save the changes?"
+#~ msgstr "一つ以上の画像が修正されています。保存しますか?"
+
+#~ msgid "Display"
+#~ msgstr "表示"
+
+#~ msgid "Slideshow"
+#~ msgstr "スライドショー"
+
+#~ msgid "Behaviour"
+#~ msgstr "振る舞い"
+
+#~ msgid "Scaling"
+#~ msgstr "サイズ変更"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr "ウィンドウを最大化したときにサイズを 100% より大きくしない"
+
+#~ msgid "Background Color"
+#~ msgstr "背景色"
+
+#~ msgid "_Override Background Color:"
+#~ msgstr "背景色を変更する(_O):"
+
+#~ msgid "Image Cache"
+#~ msgstr "画像キャッシュ"
+
+#~ msgid "Cache size:"
+#~ msgstr "キャッシュサイズ:"
+
+#~ msgid "MB"
+#~ msgstr "MB"
+
+#~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
+#~ msgstr ""
+#~ "画像の先行読み込み(_P) (GUI の反応が向上しますが、CPU 負荷も上昇します)"
+
+#~ msgid "Timeout"
+#~ msgstr "タイムアウト"
+
+# In ja translation, It's unnecessary to break the line.
+#~ msgid ""
+#~ "The time period an individual image is displayed during a slideshow\n"
+#~ "(in seconds)"
+#~ msgstr "スライドショー中に各画像を表示する時間 (秒)"
+
+#~ msgid "Hide the thumbnails bar during slideshow"
+#~ msgstr "スライドショー中はサムネイルを非表示"
+
+#~ msgid "_Hide thumbnails"
+#~ msgstr "サムネイルを表示しない(_H)"
+
+#~ msgid ""
+#~ "Are you sure you want to clear ristretto's list of recently opened "
+#~ "documents?"
+#~ msgstr "ristretto の最近開いたファイルリストをクリアしてよろしいですか?"

@@ -1,0 +1,288 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ristretto\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"PO-Revision-Date: 2007-10-26 14:37+0500\n"
+"Last-Translator: Muhammad Ali Makki <makk.ma@gmail.com>\n"
+"Language-Team: Urdu <makki.ma@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Urdu\n"
+"X-Poedit-Country: PAKISTAN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../src/main.c:56
+msgid "Version information"
+msgstr ""
+
+#: ../src/main.c:60
+msgid "Start in fullscreen mode"
+msgstr ""
+
+#: ../src/main.c:64
+msgid "Start a slideshow"
+msgstr ""
+
+#: ../src/main.c:85
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+
+#. File Menu
+#: ../src/main_window.c:163
+msgid "_File"
+msgstr "_فائل"
+
+#: ../src/main_window.c:164
+msgid "_Open"
+msgstr ""
+
+#: ../src/main_window.c:164
+#, fuzzy
+msgid "Open an image"
+msgstr "تصویر کھولیں"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open _Folder"
+msgstr "ف_ولڈر کھولیں"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open a folder"
+msgstr "فولڈر کھولیں"
+
+#: ../src/main_window.c:166
+msgid "Open _Recent"
+msgstr ""
+
+#: ../src/main_window.c:167
+msgid "_Close"
+msgstr ""
+
+#: ../src/main_window.c:167
+msgid "Close this image"
+msgstr ""
+
+#: ../src/main_window.c:168
+msgid "_Close All"
+msgstr ""
+
+#: ../src/main_window.c:168
+msgid "Close all images"
+msgstr ""
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "_Quit"
+msgstr "_تدوین"
+
+#: ../src/main_window.c:169
+msgid "Quit Ristretto"
+msgstr ""
+
+#. Edit Menu
+#: ../src/main_window.c:171
+msgid "_Edit"
+msgstr "_تدوین"
+
+#: ../src/main_window.c:172
+msgid "_Undo"
+msgstr ""
+
+#: ../src/main_window.c:173
+msgid "_Preferences"
+msgstr ""
+
+#. View Menu
+#: ../src/main_window.c:175
+msgid "_View"
+msgstr "_منظر"
+
+#: ../src/main_window.c:176
+msgid "_Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:177
+msgid "_Set as Wallpaper"
+msgstr ""
+
+#. Thumbnailbar submenu
+#: ../src/main_window.c:179
+#, fuzzy
+msgid "_Thumbnail Bar"
+msgstr "تھمبنیل منظرکار"
+
+#: ../src/main_window.c:180
+#, fuzzy
+msgid "Show _Vertically"
+msgstr "عمودی دکھائیں"
+
+#: ../src/main_window.c:181
+#, fuzzy
+msgid "_Show Horizontally"
+msgstr "افقی دکھائیں"
+
+#: ../src/main_window.c:182
+#, fuzzy
+msgid "_Hide"
+msgstr "چھپائیں"
+
+#. Zoom submenu
+#: ../src/main_window.c:184
+msgid "_Zooming"
+msgstr ""
+
+#: ../src/main_window.c:185
+msgid "Zoom _In"
+msgstr ""
+
+#: ../src/main_window.c:186
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/main_window.c:187
+msgid "Zoom _Fit"
+msgstr ""
+
+#: ../src/main_window.c:188
+msgid "_Normal Size"
+msgstr ""
+
+#. Rotation submenu
+#: ../src/main_window.c:190
+#, fuzzy
+msgid "_Rotation"
+msgstr "_بائیں گھمائیں"
+
+#: ../src/main_window.c:191
+msgid "Rotate _Right"
+msgstr "_دائیں گھمائیں"
+
+#: ../src/main_window.c:192
+msgid "Rotate _Left"
+msgstr "_بائیں گھمائیں"
+
+#. Go Menu
+#: ../src/main_window.c:194
+msgid "_Go"
+msgstr "_جائیں"
+
+#: ../src/main_window.c:195
+msgid "_Forward"
+msgstr ""
+
+#: ../src/main_window.c:196
+msgid "_Back"
+msgstr ""
+
+#: ../src/main_window.c:197
+msgid "_First"
+msgstr ""
+
+#: ../src/main_window.c:198
+msgid "_Last"
+msgstr ""
+
+#: ../src/main_window.c:199
+msgid "_Play"
+msgstr ""
+
+#. Help Menu
+#: ../src/main_window.c:201
+msgid "_Help"
+msgstr "_ہدایات"
+
+#: ../src/main_window.c:203
+msgid "_Contents"
+msgstr ""
+
+#: ../src/main_window.c:205
+msgid "Display ristretto user manual"
+msgstr ""
+
+#: ../src/main_window.c:208
+msgid "_About"
+msgstr ""
+
+#: ../src/main_window.c:210
+msgid "Display information about ristretto"
+msgstr ""
+
+#: ../src/main_window.c:216
+msgid "Show _Toolbar"
+msgstr ""
+
+#: ../src/main_window.c:738
+msgid "Open image"
+msgstr "تصویر کھولیں"
+
+#: ../src/main_window.c:756
+msgid "Could not open file"
+msgstr ""
+
+#: ../src/main_window.c:836
+msgid "Developer:"
+msgstr "ڈویلپر:"
+
+#: ../src/main_window.c:846
+#, fuzzy
+msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr ""
+"Ristretto ایکسفس ڈیسک ٹاپ ماحول کے لیے ایک ہلکا پھلکا تصاویر منظرکار ہے."
+
+#: ../src/main_window.c:854
+msgid "translator-credits"
+msgstr "ترجمہ-کریڈٹ"
+
+#: ../src/thumbnail_bar.c:185
+msgid "Spacing"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:186
+msgid "The amount of space between the thumbnails"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:192
+msgid "Border Width"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:193
+msgid "The border width of the thumbnail-bar"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:1
+#, fuzzy
+msgid "Image Viewer"
+msgstr "تھمبنیل منظرکار"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Thumbnail _Viewer"
+#~ msgstr "تھمبنیل منظرکار"
+
+#, fuzzy
+#~ msgid "Image Cache"
+#~ msgstr "تھمبنیل منظرکار"
+
+#~ msgid "Flip _Vertically"
+#~ msgstr "_عمودی فلپ کریں"
+
+#~ msgid "Flip _Horizontally"
+#~ msgstr "ا_فقی فلپ کریں"

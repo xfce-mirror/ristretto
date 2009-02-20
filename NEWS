@@ -1,0 +1,57 @@
+0.0.21
+======
+
+- Fix segfault when exif-data is missing (Bug #4599)
+- Fix detection of xfdesktop
+- Remove xfconf compile-time dependency, make it a runtime one on
+  xfconf-query
+- Fix segfault caused by invalid marshallers.
+- Improved history behaviour (push 'old' images to the top when
+  they are visited again)
+- Improved preloading
+- Fixed segfault caused by a reference-count bug.
+
+0.0.20
+======
+
+- Put limits on the thumbnail-bar when scrolling
+- Add CLI options for fullscreen and slideshow
+- Make .desktop file adhere to standards
+
+0.0.19
+======
+
+- Improve behaviour when opening a single image from the cli.
+- Add support for setting the wallpaper with xfdesktop 4.5
+- Improve behaviour of thumbnail-bar scroll feature
+
+0.0.18
+======
+
+- Improve performance when opening folders
+
+0.0.17
+======
+
+- Scrolling the vertical oriented thumbnail-bar no longer makes the thumbnails
+  assume the events intended for the zoom-buttons located above.
+- Ristretto no longer segfaults when using the scroll-wheel over an empty main-
+  window
+- Fix desktop-file syntax (was missing a semicolon)
+- Thumbnails behave a little better now.
+
+0.0.16
+======
+
+- Replaced the old thumbnail_viewer with a thumbnail_bar + thumbnail widgets
+  , this should make them better themeable in the future.
+- Improved file-monitor handle behaviour (handle on folder instead of every
+  file)
+- Added zoom-mode to remember if the user is viewing at 1:1, fit or a custom
+  zoom mode when changing images
+- Add drag-support to the thumbnail-bar (look at different thumbnails without
+  modifying the view
+- Add tooltip support (atm with gtk+-2.12 only)
+- Improve caching behaviour (NOTE: when updating from an earlier version, check
+  the preferences dialog for the cache-size. It might point to 1MB which does 
+  not seem very usefull)

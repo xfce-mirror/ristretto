@@ -1,0 +1,385 @@
+# Dutch translations for ristretto package.
+# Copyright (C) 2007 THE ristretto'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the ristretto package.
+# Stephan Arts <stephan@xfce.org>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"PO-Revision-Date: 2007-07-13 00:48+0200\n"
+"Last-Translator: Stephan Arts <stephan@xfce.org>\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../src/main.c:56
+msgid "Version information"
+msgstr "Versie informatie"
+
+#: ../src/main.c:60
+msgid "Start in fullscreen mode"
+msgstr "Start in volledig scherm"
+
+#: ../src/main.c:64
+msgid "Start a slideshow"
+msgstr "Start een dia-presentatie"
+
+#: ../src/main.c:85
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Probeer %s --help voor een lijst van beschikbare commando regel opties.\n"
+
+#. File Menu
+#: ../src/main_window.c:163
+msgid "_File"
+msgstr "_Bestand"
+
+#: ../src/main_window.c:164
+msgid "_Open"
+msgstr ""
+
+#: ../src/main_window.c:164
+#, fuzzy
+msgid "Open an image"
+msgstr "Afbeelding openen"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open _Folder"
+msgstr "Map o_penen"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open a folder"
+msgstr "Map openen"
+
+#: ../src/main_window.c:166
+msgid "Open _Recent"
+msgstr ""
+
+#: ../src/main_window.c:167
+#, fuzzy
+msgid "_Close"
+msgstr "_Opruimen"
+
+#: ../src/main_window.c:167
+msgid "Close this image"
+msgstr ""
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "_Close All"
+msgstr "_Alles Sluiten"
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "Close all images"
+msgstr "_Alles Sluiten"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "_Quit"
+msgstr "Be_werken"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "Quit Ristretto"
+msgstr "Ristretto"
+
+#. Edit Menu
+#: ../src/main_window.c:171
+msgid "_Edit"
+msgstr "Be_werken"
+
+#: ../src/main_window.c:172
+msgid "_Undo"
+msgstr ""
+
+#: ../src/main_window.c:173
+#, fuzzy
+msgid "_Preferences"
+msgstr "Afbeeldingsweergave voorkeuren"
+
+#. View Menu
+#: ../src/main_window.c:175
+msgid "_View"
+msgstr "Beel_d"
+
+#: ../src/main_window.c:176
+msgid "_Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:177
+#, fuzzy
+msgid "_Set as Wallpaper"
+msgstr "In_stellen als bureaublad achtergrond"
+
+#. Thumbnailbar submenu
+#: ../src/main_window.c:179
+#, fuzzy
+msgid "_Thumbnail Bar"
+msgstr "Miniaturen"
+
+#: ../src/main_window.c:180
+msgid "Show _Vertically"
+msgstr "_Verticaal tonen"
+
+#: ../src/main_window.c:181
+#, fuzzy
+msgid "_Show Horizontally"
+msgstr "_Horizontaal tonen"
+
+#: ../src/main_window.c:182
+#, fuzzy
+msgid "_Hide"
+msgstr "Ver_bergen"
+
+#. Zoom submenu
+#: ../src/main_window.c:184
+msgid "_Zooming"
+msgstr "_Zoomen"
+
+#: ../src/main_window.c:185
+#, fuzzy
+msgid "Zoom _In"
+msgstr "_Zoomen"
+
+#: ../src/main_window.c:186
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/main_window.c:187
+msgid "Zoom _Fit"
+msgstr ""
+
+#: ../src/main_window.c:188
+msgid "_Normal Size"
+msgstr ""
+
+#. Rotation submenu
+#: ../src/main_window.c:190
+#, fuzzy
+msgid "_Rotation"
+msgstr "_Roteren"
+
+#: ../src/main_window.c:191
+msgid "Rotate _Right"
+msgstr "_Rechtsom draaien"
+
+#: ../src/main_window.c:192
+msgid "Rotate _Left"
+msgstr "_Linksom draaien"
+
+#. Go Menu
+#: ../src/main_window.c:194
+msgid "_Go"
+msgstr "_Ga"
+
+#: ../src/main_window.c:195
+msgid "_Forward"
+msgstr ""
+
+#: ../src/main_window.c:196
+msgid "_Back"
+msgstr ""
+
+#: ../src/main_window.c:197
+msgid "_First"
+msgstr ""
+
+#: ../src/main_window.c:198
+msgid "_Last"
+msgstr ""
+
+#: ../src/main_window.c:199
+msgid "_Play"
+msgstr ""
+
+#. Help Menu
+#: ../src/main_window.c:201
+msgid "_Help"
+msgstr "_Help"
+
+#: ../src/main_window.c:203
+msgid "_Contents"
+msgstr ""
+
+#: ../src/main_window.c:205
+msgid "Display ristretto user manual"
+msgstr ""
+
+#: ../src/main_window.c:208
+msgid "_About"
+msgstr ""
+
+#: ../src/main_window.c:210
+msgid "Display information about ristretto"
+msgstr ""
+
+#: ../src/main_window.c:216
+msgid "Show _Toolbar"
+msgstr "_Toon Werkbalk"
+
+#: ../src/main_window.c:738
+msgid "Open image"
+msgstr "Afbeelding openen"
+
+#: ../src/main_window.c:756
+msgid "Could not open file"
+msgstr "Kan bestand niet openen"
+
+#: ../src/main_window.c:836
+msgid "Developer:"
+msgstr "Ontwikkelaar:"
+
+#: ../src/main_window.c:846
+#, fuzzy
+msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr ""
+"Ristretto is een snel en lichtgewicht afbeeldingsweergave-programma voor de "
+"Xfce-desktop omgeving"
+
+#: ../src/main_window.c:854
+msgid "translator-credits"
+msgstr "Stephan Arts <stephan@xfce.org>"
+
+#: ../src/thumbnail_bar.c:185
+msgid "Spacing"
+msgstr "Spatiering"
+
+#: ../src/thumbnail_bar.c:186
+msgid "The amount of space between the thumbnails"
+msgstr "De ruimte tussen de thumbnails"
+
+#: ../src/thumbnail_bar.c:192
+msgid "Border Width"
+msgstr "Rand breedte"
+
+#: ../src/thumbnail_bar.c:193
+msgid "The border width of the thumbnail-bar"
+msgstr "De randbreedte van de miniaturen balk"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Afbeeldingsweergave"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto"
+msgstr "Ristretto"
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Xfce Afbeeldings weergave"
+
+#~ msgid "Opening file(s)..."
+#~ msgstr "Bestand(en) openen..."
+
+#~ msgid "_Recently used"
+#~ msgstr "_Recent geopend"
+
+#~ msgid "Open with..."
+#~ msgstr "_Openen met..."
+
+#~ msgid "No applications available"
+#~ msgstr "Geen programma's beschikbaar"
+
+#~ msgid "Thumbnail _Viewer"
+#~ msgstr "_Miniatuur Weergave"
+
+#~ msgid ""
+#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgstr ""
+#~ "Een of meer afbeeldingen zijn gewijzigd, wilt u de wijziginge opslaan?"
+
+#~ msgid "Display"
+#~ msgstr "Weergave"
+
+#~ msgid "Slideshow"
+#~ msgstr "Diaweergave"
+
+#~ msgid "Behaviour"
+#~ msgstr "Gedrag"
+
+#~ msgid "Scaling"
+#~ msgstr "Schalen"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr ""
+#~ "Afbeelding niet voorbij 100% schalen wanneer het venster wordt "
+#~ "gemaximaliseerd"
+
+#~ msgid "Background Color"
+#~ msgstr "Achtergrondkleur"
+
+#~ msgid "_Override Background Color:"
+#~ msgstr "Achtergr_ondkleur wijzigen:"
+
+#~ msgid "Image Cache"
+#~ msgstr "Afbeeldingen-cache"
+
+#~ msgid "Cache size:"
+#~ msgstr "Cachegrootte:"
+
+#~ msgid "MB"
+#~ msgstr "MB"
+
+#~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
+#~ msgstr ""
+#~ "Af_beeldingen vooruit inladen (GUI reageerd sneller, maar vergt meer van "
+#~ "de CPU)"
+
+#~ msgid "Timeout"
+#~ msgstr "Timeout"
+
+#~ msgid ""
+#~ "The time period an individual image is displayed during a slideshow\n"
+#~ "(in seconds)"
+#~ msgstr ""
+#~ "De periode dat een enkele afbeelding wordt weergegeven gedurende een\n"
+#~ "diaweergave (in seconden)"
+
+#~ msgid "Hide the thumbnails bar during slideshow"
+#~ msgstr "Miniaturen verbergen gedurende diawaargave"
+
+#~ msgid "_Hide thumbnails"
+#~ msgstr "Miniaturen _verbergen"
+
+#~ msgid ""
+#~ "Are you sure you want to clear ristretto's list of recently opened "
+#~ "documents?"
+#~ msgstr ""
+#~ "Weet U zeker dat u de lijst met recent door ristretto geopende bestanden "
+#~ "wilt wissen?"
+
+#~ msgid "Preload"
+#~ msgstr "Vooruit laden"
+
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr ""
+#~ "Afbeeldingen vooraf inladen gedurende een diaweergave\n"
+#~ "(gebruikt meer geheugen)"
+
+#~ msgid "_Preload images"
+#~ msgstr "_Afbeeldingen vooruit inladen"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Ristretto Afbeeldings Weergave"
+
+#~ msgid "Flip _Vertically"
+#~ msgstr "_Verticaal spiegelen"
+
+#~ msgid "Flip _Horizontally"
+#~ msgstr "_Horizontaal spiegelen"
+
+#~ msgid "View Zoom toolbar"
+#~ msgstr "Zoom werkbalk tonen"

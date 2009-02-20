@@ -1,0 +1,38 @@
+# README README README README README README README README README README README #
+#                                                                              #
+#                             Ristretto Image Viewer                           #
+#                                                                              #
+################################################################################
+
+# Introduction:
+
+Ristretto is an image-viewer for the Xfce Desktop Environment.
+
+# Configuration options:
+
+## Thumbnail viewer orientation
+################################################################################
+
+    ThumbnailViewerOrientation=<hide|horizontal|vertical>
+
+## Toolbar 'open' button opens files or directories
+################################################################################
+
+    ToolbarOpenDir=<true|false>
+
+## Show Toolbar
+################################################################################
+
+    ShowToolBar=<true|false>
+
+## Window-dimensions
+################################################################################
+
+    LastWindowWidth= (px)
+
+    LastWindowHeight= (px)
+
+## Slideshow timeout (miliseconds)
+################################################################################
+
+    SlideShowTimeout= (ms)

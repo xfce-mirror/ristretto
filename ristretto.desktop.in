@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+_Name=Ristretto
+_Comment=Xfce Image viewer
+_GenericName=Image Viewer
+Exec=ristretto %F
+Icon=ristretto
+Terminal=false
+Type=Application
+X-MultipleArgs=false
+Categories=GTK;Graphics;Viewer;
+StartupNotify=true
+MimeType=image/png;image/gif;image/jpeg;image/bmp;image/x-ico;image/x-pixmap;image/tiff;

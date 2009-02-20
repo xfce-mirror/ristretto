@@ -1,0 +1,341 @@
+# Bulgarian Translations for ristretto package
+# Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
+# This file is distributed under the same license as the ristretto package.
+# Plamen Stoev <piros89@gmail.com>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ristretto 0.0.15\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"PO-Revision-Date: 2008-01-02 23:03+0200\n"
+"Last-Translator: Plamen Stoev <piros89@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Bulgarian\n"
+"X-Poedit-Country: BULGARIA\n"
+
+#: ../src/main.c:56
+msgid "Version information"
+msgstr "Информация за версията"
+
+#: ../src/main.c:60
+msgid "Start in fullscreen mode"
+msgstr ""
+
+#: ../src/main.c:64
+#, fuzzy
+msgid "Start a slideshow"
+msgstr "Прожекция"
+
+#: ../src/main.c:85
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Опитайте %s --help за да видите пълен списък с наличните опции на командния "
+"ред.\n"
+
+#. File Menu
+#: ../src/main_window.c:163
+msgid "_File"
+msgstr "_Файл"
+
+#: ../src/main_window.c:164
+msgid "_Open"
+msgstr ""
+
+#: ../src/main_window.c:164
+#, fuzzy
+msgid "Open an image"
+msgstr "Отваряне на изображение"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open _Folder"
+msgstr "Отваряне на папка"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open a folder"
+msgstr "Отваряне на папка"
+
+#: ../src/main_window.c:166
+msgid "Open _Recent"
+msgstr ""
+
+#: ../src/main_window.c:167
+msgid "_Close"
+msgstr ""
+
+#: ../src/main_window.c:167
+msgid "Close this image"
+msgstr ""
+
+#: ../src/main_window.c:168
+msgid "_Close All"
+msgstr ""
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "Close all images"
+msgstr "Предварително зареждане на изображения"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "_Quit"
+msgstr "_Редактиране"
+
+#: ../src/main_window.c:169
+msgid "Quit Ristretto"
+msgstr ""
+
+#. Edit Menu
+#: ../src/main_window.c:171
+msgid "_Edit"
+msgstr "_Редактиране"
+
+#: ../src/main_window.c:172
+msgid "_Undo"
+msgstr ""
+
+#: ../src/main_window.c:173
+#, fuzzy
+msgid "_Preferences"
+msgstr "Предпочитания"
+
+#. View Menu
+#: ../src/main_window.c:175
+msgid "_View"
+msgstr "Преглед"
+
+#: ../src/main_window.c:176
+msgid "_Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:177
+msgid "_Set as Wallpaper"
+msgstr ""
+
+#. Thumbnailbar submenu
+#: ../src/main_window.c:179
+#, fuzzy
+msgid "_Thumbnail Bar"
+msgstr "Визуализатор на умалени изображения"
+
+#: ../src/main_window.c:180
+msgid "Show _Vertically"
+msgstr "Покажи вертикално"
+
+#: ../src/main_window.c:181
+#, fuzzy
+msgid "_Show Horizontally"
+msgstr "Покажи хоризонтално"
+
+#: ../src/main_window.c:182
+#, fuzzy
+msgid "_Hide"
+msgstr "Скриване"
+
+#. Zoom submenu
+#: ../src/main_window.c:184
+msgid "_Zooming"
+msgstr "Мащабиране"
+
+#: ../src/main_window.c:185
+#, fuzzy
+msgid "Zoom _In"
+msgstr "Мащабиране"
+
+#: ../src/main_window.c:186
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/main_window.c:187
+msgid "Zoom _Fit"
+msgstr ""
+
+#: ../src/main_window.c:188
+msgid "_Normal Size"
+msgstr ""
+
+#. Rotation submenu
+#: ../src/main_window.c:190
+#, fuzzy
+msgid "_Rotation"
+msgstr "Завъртане"
+
+#: ../src/main_window.c:191
+msgid "Rotate _Right"
+msgstr "Завъртане надясно"
+
+#: ../src/main_window.c:192
+msgid "Rotate _Left"
+msgstr "Завъртане наляво"
+
+#. Go Menu
+#: ../src/main_window.c:194
+msgid "_Go"
+msgstr "Отиване"
+
+#: ../src/main_window.c:195
+msgid "_Forward"
+msgstr ""
+
+#: ../src/main_window.c:196
+msgid "_Back"
+msgstr ""
+
+#: ../src/main_window.c:197
+msgid "_First"
+msgstr ""
+
+#: ../src/main_window.c:198
+msgid "_Last"
+msgstr ""
+
+#: ../src/main_window.c:199
+msgid "_Play"
+msgstr ""
+
+#. Help Menu
+#: ../src/main_window.c:201
+msgid "_Help"
+msgstr "Помощ"
+
+#: ../src/main_window.c:203
+msgid "_Contents"
+msgstr ""
+
+#: ../src/main_window.c:205
+msgid "Display ristretto user manual"
+msgstr ""
+
+#: ../src/main_window.c:208
+msgid "_About"
+msgstr ""
+
+#: ../src/main_window.c:210
+msgid "Display information about ristretto"
+msgstr ""
+
+#: ../src/main_window.c:216
+msgid "Show _Toolbar"
+msgstr "Показване на лентата с инструменти"
+
+#: ../src/main_window.c:738
+msgid "Open image"
+msgstr "Отваряне на изображение"
+
+#: ../src/main_window.c:756
+msgid "Could not open file"
+msgstr "Файлът не може да бъде отворен"
+
+#: ../src/main_window.c:836
+msgid "Developer:"
+msgstr "Разработчик:"
+
+#: ../src/main_window.c:846
+#, fuzzy
+msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr ""
+"Ristretto е бърза и лека програма за преглед на изображения за работната "
+"среда XFCE"
+
+#: ../src/main_window.c:854
+msgid "translator-credits"
+msgstr "Пламен Стоев <piros89@gmail.com>"
+
+#: ../src/thumbnail_bar.c:185
+msgid "Spacing"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:186
+msgid "The amount of space between the thumbnails"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:192
+msgid "Border Width"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:193
+msgid "The border width of the thumbnail-bar"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Програма за преглед на изображения"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Програма за преглед на изображения за XFCE"
+
+#, fuzzy
+#~ msgid "Opening file(s)..."
+#~ msgstr "Отваряне с..."
+
+#~ msgid "_Recently used"
+#~ msgstr "Отваряни наскоро"
+
+#~ msgid "Open with..."
+#~ msgstr "Отваряне с..."
+
+#~ msgid "No applications available"
+#~ msgstr "Няма налични приложения"
+
+#~ msgid "Thumbnail _Viewer"
+#~ msgstr "Визуализатор на умалени изображения"
+
+#~ msgid "Display"
+#~ msgstr "Дисплей"
+
+#~ msgid "Slideshow"
+#~ msgstr "Прожекция"
+
+#~ msgid "Background Color"
+#~ msgstr "Цвят на фона"
+
+#~ msgid "_Override Background Color:"
+#~ msgstr "Замяна на фоновия цвят"
+
+#, fuzzy
+#~ msgid "Image Cache"
+#~ msgstr "Програма за преглед на изображения"
+
+#~ msgid "Timeout"
+#~ msgstr "Пауза"
+
+#~ msgid ""
+#~ "The time period an individual image is displayed during a slideshow\n"
+#~ "(in seconds)"
+#~ msgstr ""
+#~ "Времето за което се показва едно изображение при прожекция\n"
+#~ "(в секунди)"
+
+#~ msgid ""
+#~ "Are you sure you want to clear ristretto's list of recently opened "
+#~ "documents?"
+#~ msgstr ""
+#~ "Сигурни ли сте, че искате да изчистите списъка със скоро отваряни "
+#~ "документи?"
+
+#~ msgid "Preload"
+#~ msgstr "Предварително зареждане"
+
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr ""
+#~ "Предварително зареждане на изображенията при прожекция\n"
+#~ "(използва се повече памет)"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Програма за преглед на изображения Ristretto"

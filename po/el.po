@@ -1,0 +1,365 @@
+# translation of el.po to Greek
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Evaggelos Balaskas <ebalaskas@ebalaskas.gr>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: el\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"PO-Revision-Date: 2008-05-25 11:59+0300\n"
+"Last-Translator: Evaggelos Balaskas <ebalaskas@ebalaskas.gr>\n"
+"Language-Team: Greek <nls@tux.hellug.gr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: ../src/main.c:56
+msgid "Version information"
+msgstr "Πληροφορίες έκδοσης"
+
+#: ../src/main.c:60
+msgid "Start in fullscreen mode"
+msgstr "Εκκίνηση σε πλήρη οθόνη"
+
+#: ../src/main.c:64
+msgid "Start a slideshow"
+msgstr "Εκκίνηση προβολής διαφανειών"
+
+#: ../src/main.c:85
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Δοκίμασε %s --help για να δεις μία πλήρη λίστα με διαθέσιμες παραμέτρους για "
+"την γραμμή εντολών.\n"
+
+#. File Menu
+#: ../src/main_window.c:163
+msgid "_File"
+msgstr "_Αρχείο"
+
+#: ../src/main_window.c:164
+msgid "_Open"
+msgstr ""
+
+#: ../src/main_window.c:164
+#, fuzzy
+msgid "Open an image"
+msgstr "Άνοιγμα εικόνας"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open _Folder"
+msgstr "Άν_οιγμα καταλόγου"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open a folder"
+msgstr "Άνοιγμα καταλόγου"
+
+#: ../src/main_window.c:166
+msgid "Open _Recent"
+msgstr ""
+
+#: ../src/main_window.c:167
+#, fuzzy
+msgid "_Close"
+msgstr "Κλείσιμο όλ_ων"
+
+#: ../src/main_window.c:167
+msgid "Close this image"
+msgstr ""
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "_Close All"
+msgstr "Κλείσιμο όλ_ων"
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "Close all images"
+msgstr "Κλείσιμο όλ_ων"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "_Quit"
+msgstr "_Επεξεργασία"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "Quit Ristretto"
+msgstr "Ristretto"
+
+#. Edit Menu
+#: ../src/main_window.c:171
+msgid "_Edit"
+msgstr "_Επεξεργασία"
+
+#: ../src/main_window.c:172
+msgid "_Undo"
+msgstr ""
+
+#: ../src/main_window.c:173
+#, fuzzy
+msgid "_Preferences"
+msgstr "Ρυθμίσεις εφαρμογής προβολής εικόνων"
+
+#. View Menu
+#: ../src/main_window.c:175
+msgid "_View"
+msgstr "_Εμφάνιση"
+
+#: ../src/main_window.c:176
+msgid "_Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:177
+#, fuzzy
+msgid "_Set as Wallpaper"
+msgstr "_Θέσε ως επιφάνεια εργασίας"
+
+#. Thumbnailbar submenu
+#: ../src/main_window.c:179
+#, fuzzy
+msgid "_Thumbnail Bar"
+msgstr "Εικονίδια"
+
+#: ../src/main_window.c:180
+msgid "Show _Vertically"
+msgstr "Εμφάνιση _κάθετα"
+
+#: ../src/main_window.c:181
+#, fuzzy
+msgid "_Show Horizontally"
+msgstr "Εμφάνιση _οριζόντια"
+
+#: ../src/main_window.c:182
+#, fuzzy
+msgid "_Hide"
+msgstr "Απόκρ_υψη"
+
+#. Zoom submenu
+#: ../src/main_window.c:184
+msgid "_Zooming"
+msgstr "_Mεγέθυνση"
+
+#: ../src/main_window.c:185
+#, fuzzy
+msgid "Zoom _In"
+msgstr "_Mεγέθυνση"
+
+#: ../src/main_window.c:186
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/main_window.c:187
+msgid "Zoom _Fit"
+msgstr ""
+
+#: ../src/main_window.c:188
+msgid "_Normal Size"
+msgstr ""
+
+#. Rotation submenu
+#: ../src/main_window.c:190
+#, fuzzy
+msgid "_Rotation"
+msgstr "_Περιστροφή"
+
+#: ../src/main_window.c:191
+msgid "Rotate _Right"
+msgstr "Περιστροφή _δεξιά"
+
+#: ../src/main_window.c:192
+msgid "Rotate _Left"
+msgstr "Περιστροφή _αριστερά"
+
+#. Go Menu
+#: ../src/main_window.c:194
+msgid "_Go"
+msgstr "_Μετάβαση"
+
+#: ../src/main_window.c:195
+msgid "_Forward"
+msgstr ""
+
+#: ../src/main_window.c:196
+msgid "_Back"
+msgstr ""
+
+#: ../src/main_window.c:197
+msgid "_First"
+msgstr ""
+
+#: ../src/main_window.c:198
+msgid "_Last"
+msgstr ""
+
+#: ../src/main_window.c:199
+msgid "_Play"
+msgstr ""
+
+#. Help Menu
+#: ../src/main_window.c:201
+msgid "_Help"
+msgstr "_Βοήθεια"
+
+#: ../src/main_window.c:203
+msgid "_Contents"
+msgstr ""
+
+#: ../src/main_window.c:205
+msgid "Display ristretto user manual"
+msgstr ""
+
+#: ../src/main_window.c:208
+msgid "_About"
+msgstr ""
+
+#: ../src/main_window.c:210
+msgid "Display information about ristretto"
+msgstr ""
+
+#: ../src/main_window.c:216
+msgid "Show _Toolbar"
+msgstr "Εμφάνιση _εργαλειοθήκης"
+
+#: ../src/main_window.c:738
+msgid "Open image"
+msgstr "Άνοιγμα εικόνας"
+
+#: ../src/main_window.c:756
+msgid "Could not open file"
+msgstr "Αποτυχία ανοίγματος εικόνας"
+
+#: ../src/main_window.c:836
+msgid "Developer:"
+msgstr "Προγραμματιστής:"
+
+#: ../src/main_window.c:846
+#, fuzzy
+msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr ""
+"Το ristretto είναι ένα γρήγορο και ελαφρύ πρόγραμμα εμφάνισης εικόνων\n"
+" για το γραφικό περιβάλλον xfce."
+
+#: ../src/main_window.c:854
+msgid "translator-credits"
+msgstr "Evaggelos Balaskas <ebalaskas@ebalaskas.gr>, 2008"
+
+#: ../src/thumbnail_bar.c:185
+msgid "Spacing"
+msgstr "Διαστήματα"
+
+#: ../src/thumbnail_bar.c:186
+msgid "The amount of space between the thumbnails"
+msgstr "Το διάστήμα μεταξύ των εικονιδίων"
+
+#: ../src/thumbnail_bar.c:192
+msgid "Border Width"
+msgstr "Μέγεθος περιγράμματος"
+
+#: ../src/thumbnail_bar.c:193
+msgid "The border width of the thumbnail-bar"
+msgstr "Το πλάτος του περιγράμματος της μπάρας των εικονιδίων"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Εφαρμογή προβολής εικόνων"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto"
+msgstr "Ristretto"
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Εφαρμογή προβολής εικόνων για το xfce"
+
+#~ msgid "Opening file(s)..."
+#~ msgstr "Άνοιγμα αρχείου(ων)..."
+
+#~ msgid "_Recently used"
+#~ msgstr "_Πρόσφατα αρχεία"
+
+#~ msgid "Open with..."
+#~ msgstr "Άνοιγμα με ..."
+
+#~ msgid "No applications available"
+#~ msgstr "Μη διαθέσιμες εφαρμογές"
+
+#~ msgid "Thumbnail _Viewer"
+#~ msgstr "Εμφάνιση Ει_κονιδίων"
+
+#~ msgid "Display"
+#~ msgstr "Προβολή"
+
+#~ msgid "Slideshow"
+#~ msgstr "Διαφάνειες"
+
+#~ msgid "Behaviour"
+#~ msgstr "Συμπεριφορά"
+
+#~ msgid "Scaling"
+#~ msgstr "Αλλαγή κλίμακας"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr ""
+#~ "Να μην γίνει μεγέθυνση πάνω από 100% όταν μεγιστοποιείται το παράθυρο."
+
+#~ msgid "Background Color"
+#~ msgstr "Χρώμα παρασκηνίου"
+
+#~ msgid "_Override Background Color:"
+#~ msgstr "_Αγνόησε το χρώμα παρασκηνίου:"
+
+#~ msgid "Image Cache"
+#~ msgstr "Προσωρινή μνήμη εικόνας"
+
+#~ msgid "Cache size:"
+#~ msgstr "Μέγεθος προσωρινής μνήμης:"
+
+#~ msgid "MB"
+#~ msgstr "ΜΒ"
+
+#~ msgid "Timeout"
+#~ msgstr "Χρονικό όριο"
+
+#~ msgid ""
+#~ "The time period an individual image is displayed during a slideshow\n"
+#~ "(in seconds)"
+#~ msgstr ""
+#~ "Η χρονική περίοδος εμφάνισης μία ανεξάρτητης εικόνας ανάμεσα στις "
+#~ "διαφάνειες\n"
+#~ "(σε δευτερόλεπτα)"
+
+#~ msgid "Hide the thumbnails bar during slideshow"
+#~ msgstr ""
+#~ "Απόκρυψη της μπάρας εικονιδίων κατά την διάρκεια της προβολής των "
+#~ "διαφανειών"
+
+#~ msgid "_Hide thumbnails"
+#~ msgstr "Απ_όκρυψη εικονιδίων"
+
+#~ msgid ""
+#~ "Are you sure you want to clear ristretto's list of recently opened "
+#~ "documents?"
+#~ msgstr ""
+#~ "Είστε σίγουροι ότι θέλετε να καθαρίσετε τις λίστες του ristretto για τα "
+#~ "πιο πρόσφατα αρχεία που ανοίχτηκαν;"
+
+#~ msgid "Preload"
+#~ msgstr "Προφόρτωση"
+
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr ""
+#~ "Προφόρτωση εικόνων κατά την διάρκεια διαφανειών\n"
+#~ "(χρησιμοποιεί περισσότερη μνήμη)"
+
+#~ msgid "_Preload images"
+#~ msgstr "_Προφόρτωση εικόνων"

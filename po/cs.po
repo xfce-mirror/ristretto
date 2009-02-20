@@ -1,0 +1,380 @@
+# Czech translations for ristretto package.
+# Copyright (C) 2007 THE ristretto'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Miro Hrončok <churchyard@gmail.com>, 2007.
+# Michal Várady <miko.vaji@gmail.com>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ristretto\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"PO-Revision-Date: 2008-11-15 23:37+0100\n"
+"Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/main.c:56
+msgid "Version information"
+msgstr "Informace o verzi"
+
+#: ../src/main.c:60
+msgid "Start in fullscreen mode"
+msgstr "Spouštět v režimu celá obrazovka"
+
+#: ../src/main.c:64
+msgid "Start a slideshow"
+msgstr "Spustit promítání"
+
+#: ../src/main.c:85
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Napište %s --help pro zobrazení seznamu všech dostupných parametrů.\n"
+
+#. File Menu
+#: ../src/main_window.c:163
+msgid "_File"
+msgstr "_Soubor"
+
+#: ../src/main_window.c:164
+msgid "_Open"
+msgstr ""
+
+#: ../src/main_window.c:164
+#, fuzzy
+msgid "Open an image"
+msgstr "Načíst obrázek"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open _Folder"
+msgstr "O_tevřít složku"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open a folder"
+msgstr "Otevřít složku"
+
+#: ../src/main_window.c:166
+msgid "Open _Recent"
+msgstr ""
+
+#: ../src/main_window.c:167
+#, fuzzy
+msgid "_Close"
+msgstr "Z_avřít všechny"
+
+#: ../src/main_window.c:167
+msgid "Close this image"
+msgstr ""
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "_Close All"
+msgstr "Z_avřít všechny"
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "Close all images"
+msgstr "Z_avřít všechny"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "_Quit"
+msgstr "_Upravit"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "Quit Ristretto"
+msgstr "Ristretto"
+
+#. Edit Menu
+#: ../src/main_window.c:171
+msgid "_Edit"
+msgstr "_Upravit"
+
+#: ../src/main_window.c:172
+msgid "_Undo"
+msgstr ""
+
+#: ../src/main_window.c:173
+#, fuzzy
+msgid "_Preferences"
+msgstr "Volby prohlížeče obrázků"
+
+#. View Menu
+#: ../src/main_window.c:175
+msgid "_View"
+msgstr "_Zobrazit"
+
+#: ../src/main_window.c:176
+msgid "_Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:177
+#, fuzzy
+msgid "_Set as Wallpaper"
+msgstr "Nastavit jako _tapetu"
+
+#. Thumbnailbar submenu
+#: ../src/main_window.c:179
+#, fuzzy
+msgid "_Thumbnail Bar"
+msgstr "Náhledy"
+
+#: ../src/main_window.c:180
+msgid "Show _Vertically"
+msgstr "_Svisle"
+
+#: ../src/main_window.c:181
+#, fuzzy
+msgid "_Show Horizontally"
+msgstr "_Vodorovně"
+
+#: ../src/main_window.c:182
+#, fuzzy
+msgid "_Hide"
+msgstr "_Skrýt"
+
+#. Zoom submenu
+#: ../src/main_window.c:184
+msgid "_Zooming"
+msgstr "_Přiblížit"
+
+#: ../src/main_window.c:185
+#, fuzzy
+msgid "Zoom _In"
+msgstr "_Přiblížit"
+
+#: ../src/main_window.c:186
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/main_window.c:187
+msgid "Zoom _Fit"
+msgstr ""
+
+#: ../src/main_window.c:188
+msgid "_Normal Size"
+msgstr ""
+
+#. Rotation submenu
+#: ../src/main_window.c:190
+#, fuzzy
+msgid "_Rotation"
+msgstr "_Rotovat"
+
+#: ../src/main_window.c:191
+msgid "Rotate _Right"
+msgstr "Otočit do_prava"
+
+#: ../src/main_window.c:192
+msgid "Rotate _Left"
+msgstr "Otočit do_leva"
+
+#. Go Menu
+#: ../src/main_window.c:194
+msgid "_Go"
+msgstr "_Přejít"
+
+#: ../src/main_window.c:195
+msgid "_Forward"
+msgstr ""
+
+#: ../src/main_window.c:196
+msgid "_Back"
+msgstr ""
+
+#: ../src/main_window.c:197
+msgid "_First"
+msgstr ""
+
+#: ../src/main_window.c:198
+msgid "_Last"
+msgstr ""
+
+#: ../src/main_window.c:199
+msgid "_Play"
+msgstr ""
+
+#. Help Menu
+#: ../src/main_window.c:201
+msgid "_Help"
+msgstr "_Nápověda"
+
+#: ../src/main_window.c:203
+msgid "_Contents"
+msgstr ""
+
+#: ../src/main_window.c:205
+msgid "Display ristretto user manual"
+msgstr ""
+
+#: ../src/main_window.c:208
+msgid "_About"
+msgstr ""
+
+#: ../src/main_window.c:210
+msgid "Display information about ristretto"
+msgstr ""
+
+#: ../src/main_window.c:216
+msgid "Show _Toolbar"
+msgstr "Zo_brazit panel nástrojů"
+
+#: ../src/main_window.c:738
+msgid "Open image"
+msgstr "Načíst obrázek"
+
+#: ../src/main_window.c:756
+msgid "Could not open file"
+msgstr "Nelze otevřít soubor"
+
+#: ../src/main_window.c:836
+msgid "Developer:"
+msgstr "Vývojář:"
+
+#: ../src/main_window.c:846
+#, fuzzy
+msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr ""
+"Ristretto je rychlý a odlehčený prohlížeč obrázků pro desktopové prostředí "
+"Xfce."
+
+#: ../src/main_window.c:854
+msgid "translator-credits"
+msgstr "Miro Hrončok <churchyard@gmail.com>"
+
+#: ../src/thumbnail_bar.c:185
+msgid "Spacing"
+msgstr "Mezery"
+
+#: ../src/thumbnail_bar.c:186
+msgid "The amount of space between the thumbnails"
+msgstr "Množství prostoru mezi náhledy"
+
+#: ../src/thumbnail_bar.c:192
+msgid "Border Width"
+msgstr "Šířka rámečků"
+
+#: ../src/thumbnail_bar.c:193
+msgid "The border width of the thumbnail-bar"
+msgstr "Šířka rámečků v liště s náhledy"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Prohlížeč obrázků"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto"
+msgstr "Ristretto"
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Prohlížeč obrázků pro Xfce"
+
+#~ msgid "Opening file(s)..."
+#~ msgstr "Načítám soubor(y)..."
+
+#~ msgid "_Recently used"
+#~ msgstr "_Naposledy otevřené"
+
+#~ msgid "Open with..."
+#~ msgstr "Otevřít pomocí..."
+
+#~ msgid "No applications available"
+#~ msgstr "Nejsou k dispozici žádné aplikace"
+
+#~ msgid "Thumbnail _Viewer"
+#~ msgstr "_Prohlížeč náhledů"
+
+#~ msgid ""
+#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgstr "Některé obrázky byly upraveny, přejete si uložit změny?"
+
+#~ msgid "Display"
+#~ msgstr "Zobrazení"
+
+#~ msgid "Slideshow"
+#~ msgstr "Promítání snímků"
+
+#~ msgid "Behaviour"
+#~ msgstr "Chování"
+
+#~ msgid "Scaling"
+#~ msgstr "Probíhá změna velikosti"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr ""
+#~ "Nezvětšovat obrázek nad jeho skutečnou velikost při maximalizování okna."
+
+#~ msgid "Background Color"
+#~ msgstr "Barva pozadí"
+
+#~ msgid "_Override Background Color:"
+#~ msgstr "Vynutit _barvu pozadí:"
+
+#~ msgid "Image Cache"
+#~ msgstr "Vyrovnávací paměť pro obrázek"
+
+#~ msgid "Cache size:"
+#~ msgstr "Velikost vyrovnávací paměti:"
+
+#~ msgid "MB"
+#~ msgstr "MB"
+
+#~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
+#~ msgstr ""
+#~ "_Přednačítat obrázky (Grafické uživatelské rozhraní bude odpovídat "
+#~ "rychleji, ale vytížení procesoru se zvýší)"
+
+#~ msgid "Timeout"
+#~ msgstr "Prodleva"
+
+#~ msgid ""
+#~ "The time period an individual image is displayed during a slideshow\n"
+#~ "(in seconds)"
+#~ msgstr ""
+#~ "Časový interval po který je zobrazen jeden snímek při promítání\n"
+#~ "(v sekundách)"
+
+#~ msgid "Hide the thumbnails bar during slideshow"
+#~ msgstr "Nezobrazovat lištu s náhledy při promítání"
+
+#~ msgid "_Hide thumbnails"
+#~ msgstr "_Skrýt náhledy"
+
+#~ msgid ""
+#~ "Are you sure you want to clear ristretto's list of recently opened "
+#~ "documents?"
+#~ msgstr ""
+#~ "Opravdu chcete vyprázdnit seznam naposledy otevřených dokumentů aplikací "
+#~ "Ristretto?"
+
+#~ msgid "Preload"
+#~ msgstr "Načítat dopředu"
+
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr ""
+#~ "Načítat snímky do paměti ještě předtím, než mají být zobrazeny\n"
+#~ "(použije se více paměti)"
+
+#~ msgid "_Preload images"
+#~ msgstr "Načítat _předem"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Prohlížeč obrázků Ristretto"
+
+#~ msgid "Flip _Vertically"
+#~ msgstr "Překlopit _vertikálně"
+
+#~ msgid "Flip _Horizontally"
+#~ msgstr "Překlopit _horizontálně"

@@ -1,0 +1,380 @@
+# translation of tr.po to Turkish
+# German translations for ristretto package.
+# Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
+# This file is distributed under the same license as the ristretto package.
+#
+# Onur Küçük <onur@pardus.org.tr>, 2008.
+# Gökmen Görgen <gkmngrgn@gmail.com>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tr\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"PO-Revision-Date: 2008-11-16 02:31+0200\n"
+"Last-Translator: Gökmen Görgen <gkmngrgn@gmail.com>\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: ../src/main.c:56
+msgid "Version information"
+msgstr "Sürüm bilgisi"
+
+#: ../src/main.c:60
+msgid "Start in fullscreen mode"
+msgstr "Tam ekran kipinde başlat"
+
+#: ../src/main.c:64
+msgid "Start a slideshow"
+msgstr "Slayt gösterisini başlat"
+
+#: ../src/main.c:85
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Komutsatırı parametrelerini görmek için %s --help komutunu kullanınız.\n"
+
+#. File Menu
+#: ../src/main_window.c:163
+msgid "_File"
+msgstr "_Dosya"
+
+#: ../src/main_window.c:164
+msgid "_Open"
+msgstr ""
+
+#: ../src/main_window.c:164
+#, fuzzy
+msgid "Open an image"
+msgstr "Dosya aç"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open _Folder"
+msgstr "D_izin Aç"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open a folder"
+msgstr "Dizin aç"
+
+#: ../src/main_window.c:166
+msgid "Open _Recent"
+msgstr ""
+
+#: ../src/main_window.c:167
+#, fuzzy
+msgid "_Close"
+msgstr "Hepsini k_apa"
+
+#: ../src/main_window.c:167
+msgid "Close this image"
+msgstr ""
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "_Close All"
+msgstr "Hepsini k_apa"
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "Close all images"
+msgstr "Hepsini k_apa"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "_Quit"
+msgstr "Dü_zenle"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "Quit Ristretto"
+msgstr "Ristretto"
+
+#. Edit Menu
+#: ../src/main_window.c:171
+msgid "_Edit"
+msgstr "Dü_zenle"
+
+#: ../src/main_window.c:172
+msgid "_Undo"
+msgstr ""
+
+#: ../src/main_window.c:173
+#, fuzzy
+msgid "_Preferences"
+msgstr "Görüntü gösterici Tercihleri"
+
+#. View Menu
+#: ../src/main_window.c:175
+msgid "_View"
+msgstr "_Görünüm"
+
+#: ../src/main_window.c:176
+msgid "_Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:177
+#, fuzzy
+msgid "_Set as Wallpaper"
+msgstr "Arkaplan re_smi olarak belirle"
+
+#. Thumbnailbar submenu
+#: ../src/main_window.c:179
+#, fuzzy
+msgid "_Thumbnail Bar"
+msgstr "Önizlemeler"
+
+#: ../src/main_window.c:180
+msgid "Show _Vertically"
+msgstr "Di_key Sırala"
+
+#: ../src/main_window.c:181
+#, fuzzy
+msgid "_Show Horizontally"
+msgstr "Ya_tay Sırala"
+
+#: ../src/main_window.c:182
+#, fuzzy
+msgid "_Hide"
+msgstr "Giz_le"
+
+#. Zoom submenu
+#: ../src/main_window.c:184
+msgid "_Zooming"
+msgstr "_Yakınlaşma"
+
+#: ../src/main_window.c:185
+#, fuzzy
+msgid "Zoom _In"
+msgstr "_Yakınlaşma"
+
+#: ../src/main_window.c:186
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/main_window.c:187
+msgid "Zoom _Fit"
+msgstr ""
+
+#: ../src/main_window.c:188
+msgid "_Normal Size"
+msgstr ""
+
+#. Rotation submenu
+#: ../src/main_window.c:190
+#, fuzzy
+msgid "_Rotation"
+msgstr "Dö_ndür"
+
+#: ../src/main_window.c:191
+msgid "Rotate _Right"
+msgstr "Sa_ğa Döndür"
+
+#: ../src/main_window.c:192
+msgid "Rotate _Left"
+msgstr "So_la Döndür"
+
+#. Go Menu
+#: ../src/main_window.c:194
+msgid "_Go"
+msgstr "Gi_t"
+
+#: ../src/main_window.c:195
+msgid "_Forward"
+msgstr ""
+
+#: ../src/main_window.c:196
+msgid "_Back"
+msgstr ""
+
+#: ../src/main_window.c:197
+msgid "_First"
+msgstr ""
+
+#: ../src/main_window.c:198
+msgid "_Last"
+msgstr ""
+
+#: ../src/main_window.c:199
+msgid "_Play"
+msgstr ""
+
+#. Help Menu
+#: ../src/main_window.c:201
+msgid "_Help"
+msgstr "_Yardım"
+
+#: ../src/main_window.c:203
+msgid "_Contents"
+msgstr ""
+
+#: ../src/main_window.c:205
+msgid "Display ristretto user manual"
+msgstr ""
+
+#: ../src/main_window.c:208
+msgid "_About"
+msgstr ""
+
+#: ../src/main_window.c:210
+msgid "Display information about ristretto"
+msgstr ""
+
+#: ../src/main_window.c:216
+msgid "Show _Toolbar"
+msgstr "Araç _Çubuğunu Göster"
+
+#: ../src/main_window.c:738
+msgid "Open image"
+msgstr "Dosya aç"
+
+#: ../src/main_window.c:756
+msgid "Could not open file"
+msgstr "Dosya açılamadı"
+
+#: ../src/main_window.c:836
+msgid "Developer:"
+msgstr "Geliştirici:"
+
+#: ../src/main_window.c:846
+#, fuzzy
+msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr ""
+"Ristretto, Xfce masaüstü ortamı için geliştirilen hızlı ve hafif bir resim "
+"göstericidir."
+
+#: ../src/main_window.c:854
+msgid "translator-credits"
+msgstr ""
+"Onur Küçük <onur@pardus.org.tr>\n"
+"Gökmen Görgen <gkmngrgn@gmail.com>"
+
+#: ../src/thumbnail_bar.c:185
+msgid "Spacing"
+msgstr "Aralık"
+
+#: ../src/thumbnail_bar.c:186
+msgid "The amount of space between the thumbnails"
+msgstr "önizlemeler arasındaki aralığın boyutu"
+
+#: ../src/thumbnail_bar.c:192
+msgid "Border Width"
+msgstr "Kenar Genişliği"
+
+#: ../src/thumbnail_bar.c:193
+msgid "The border width of the thumbnail-bar"
+msgstr "Önizleme çubuğunun kenar genişliği"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Resim Gösterici"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto"
+msgstr "Ristretto"
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Xfce Resim Gösterici"
+
+#~ msgid "Opening file(s)..."
+#~ msgstr "Dosya(lar) açılıyor..."
+
+#~ msgid "_Recently used"
+#~ msgstr "_Son kullanılanlar"
+
+#~ msgid "Open with..."
+#~ msgstr "Birlikte aç..."
+
+#~ msgid "No applications available"
+#~ msgstr "Hiç bir uygulama bulunamadı"
+
+#~ msgid "Thumbnail _Viewer"
+#~ msgstr "_Önizleme Gösterici"
+
+#~ msgid ""
+#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgstr ""
+#~ "Bir ya da daha fazla resim değiştirildi, değişiklikleri kaydetmek ister "
+#~ "misiniz?"
+
+#~ msgid "Display"
+#~ msgstr "Görüntü"
+
+#~ msgid "Slideshow"
+#~ msgstr "Sırayla Göster"
+
+#~ msgid "Behaviour"
+#~ msgstr "Davranış"
+
+#~ msgid "Scaling"
+#~ msgstr "Ölçekleme"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr "Pencere büyütüldüğünde %100'den fazla ölçekleme yapma."
+
+#~ msgid "Background Color"
+#~ msgstr "Arkaplan Rengi"
+
+#~ msgid "_Override Background Color:"
+#~ msgstr "Arkaplan _Rengini Zorla:"
+
+#~ msgid "Image Cache"
+#~ msgstr "Resim Belleği"
+
+#~ msgid "Cache size:"
+#~ msgstr "Bellek boyutu:"
+
+#~ msgid "MB"
+#~ msgstr "MB"
+
+#~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
+#~ msgstr ""
+#~ "_Resimleri önceden yükle (Arayüz daha erken hazır olur; ama daha fazla "
+#~ "işlemci sömürür)"
+
+#~ msgid "Timeout"
+#~ msgstr "Kalan süre"
+
+#~ msgid ""
+#~ "The time period an individual image is displayed during a slideshow\n"
+#~ "(in seconds)"
+#~ msgstr ""
+#~ "Sırayla gösterim sırasında resim başına gösterim süresi\n"
+#~ "(saniye cinsinden)"
+
+#~ msgid "Hide the thumbnails bar during slideshow"
+#~ msgstr "Slayt gösterisi sırasında önizlemeleri gizle"
+
+#~ msgid "_Hide thumbnails"
+#~ msgstr "Önizlemeleri _gizle"
+
+#~ msgid ""
+#~ "Are you sure you want to clear ristretto's list of recently opened "
+#~ "documents?"
+#~ msgstr ""
+#~ "Önceden yüklenmiş belgelerin listesini silmek istediğinizden emin "
+#~ "misiniz ?"
+
+#~ msgid "Preload"
+#~ msgstr "Önyükleme"
+
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr ""
+#~ "Sırayla gösterim sırasında görüntüleri önyükle\n"
+#~ "(daha çok hafıza kullanır)"
+
+#~ msgid "_Preload images"
+#~ msgstr "Görüntüleri _önyükle"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Ristretto Görüntü Gösterici"

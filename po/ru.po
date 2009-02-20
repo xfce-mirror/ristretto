@@ -1,0 +1,350 @@
+# Russian translations for ristretto package.
+# This file is distributed under the same license as the ristretto package.
+# Stefan Zerkalica <zerkalica@gmail.com>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ristretto\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"PO-Revision-Date: 2008-03-22 12:30+03\n"
+"Last-Translator: Stefan Zerkalica <zerkalica@gmail.com>\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/main.c:56
+msgid "Version information"
+msgstr "Информация о версии"
+
+#: ../src/main.c:60
+msgid "Start in fullscreen mode"
+msgstr ""
+
+#: ../src/main.c:64
+#, fuzzy
+msgid "Start a slideshow"
+msgstr "Слайдшоу"
+
+#: ../src/main.c:85
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Попробуйте %s --help для просмотра полного списка параметров командной "
+"строки.\n"
+
+#. File Menu
+#: ../src/main_window.c:163
+msgid "_File"
+msgstr "_Файл"
+
+#: ../src/main_window.c:164
+msgid "_Open"
+msgstr ""
+
+#: ../src/main_window.c:164
+#, fuzzy
+msgid "Open an image"
+msgstr "Открыть картинку"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open _Folder"
+msgstr "_Открыть папку"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open a folder"
+msgstr "Открыть папку"
+
+#: ../src/main_window.c:166
+msgid "Open _Recent"
+msgstr ""
+
+#: ../src/main_window.c:167
+msgid "_Close"
+msgstr ""
+
+#: ../src/main_window.c:167
+msgid "Close this image"
+msgstr ""
+
+#: ../src/main_window.c:168
+msgid "_Close All"
+msgstr ""
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "Close all images"
+msgstr "Предзагру_зка изображений"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "_Quit"
+msgstr "_Редактировать"
+
+#: ../src/main_window.c:169
+msgid "Quit Ristretto"
+msgstr ""
+
+#. Edit Menu
+#: ../src/main_window.c:171
+msgid "_Edit"
+msgstr "_Редактировать"
+
+#: ../src/main_window.c:172
+msgid "_Undo"
+msgstr ""
+
+#: ../src/main_window.c:173
+#, fuzzy
+msgid "_Preferences"
+msgstr "Настройки просмотрщика картинок"
+
+#. View Menu
+#: ../src/main_window.c:175
+msgid "_View"
+msgstr "_Просмотр"
+
+#: ../src/main_window.c:176
+msgid "_Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:177
+msgid "_Set as Wallpaper"
+msgstr ""
+
+#. Thumbnailbar submenu
+#: ../src/main_window.c:179
+#, fuzzy
+msgid "_Thumbnail Bar"
+msgstr "Просмотр _эскизов"
+
+#: ../src/main_window.c:180
+msgid "Show _Vertically"
+msgstr "Показать _вертикально"
+
+#: ../src/main_window.c:181
+#, fuzzy
+msgid "_Show Horizontally"
+msgstr "Показать _горизонтально"
+
+#: ../src/main_window.c:182
+#, fuzzy
+msgid "_Hide"
+msgstr "_Скрыть"
+
+#. Zoom submenu
+#: ../src/main_window.c:184
+msgid "_Zooming"
+msgstr "_Масштаб"
+
+#: ../src/main_window.c:185
+#, fuzzy
+msgid "Zoom _In"
+msgstr "_Масштаб"
+
+#: ../src/main_window.c:186
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/main_window.c:187
+msgid "Zoom _Fit"
+msgstr ""
+
+#: ../src/main_window.c:188
+msgid "_Normal Size"
+msgstr ""
+
+#. Rotation submenu
+#: ../src/main_window.c:190
+#, fuzzy
+msgid "_Rotation"
+msgstr "_Повернуть"
+
+#: ../src/main_window.c:191
+msgid "Rotate _Right"
+msgstr "Повернуть в_право"
+
+#: ../src/main_window.c:192
+msgid "Rotate _Left"
+msgstr "Повернуть в_лево"
+
+#. Go Menu
+#: ../src/main_window.c:194
+msgid "_Go"
+msgstr "П_ереход"
+
+#: ../src/main_window.c:195
+msgid "_Forward"
+msgstr ""
+
+#: ../src/main_window.c:196
+msgid "_Back"
+msgstr ""
+
+#: ../src/main_window.c:197
+msgid "_First"
+msgstr ""
+
+#: ../src/main_window.c:198
+msgid "_Last"
+msgstr ""
+
+#: ../src/main_window.c:199
+msgid "_Play"
+msgstr ""
+
+#. Help Menu
+#: ../src/main_window.c:201
+msgid "_Help"
+msgstr "Помо_щь"
+
+#: ../src/main_window.c:203
+msgid "_Contents"
+msgstr ""
+
+#: ../src/main_window.c:205
+msgid "Display ristretto user manual"
+msgstr ""
+
+#: ../src/main_window.c:208
+msgid "_About"
+msgstr ""
+
+#: ../src/main_window.c:210
+msgid "Display information about ristretto"
+msgstr ""
+
+#: ../src/main_window.c:216
+msgid "Show _Toolbar"
+msgstr "Показать п_анель"
+
+#: ../src/main_window.c:738
+msgid "Open image"
+msgstr "Открыть картинку"
+
+#: ../src/main_window.c:756
+msgid "Could not open file"
+msgstr "Невозможно открыть файл"
+
+#: ../src/main_window.c:836
+msgid "Developer:"
+msgstr "Разработчик:"
+
+#: ../src/main_window.c:846
+#, fuzzy
+msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr ""
+"Ristretto - быстрый и легковесный просмотрщик картинок для рабочего "
+"окружения Xfce"
+
+#: ../src/main_window.c:854
+msgid "translator-credits"
+msgstr "Stefan Zerkalica <zerkalica@gmail.com>"
+
+#: ../src/thumbnail_bar.c:185
+msgid "Spacing"
+msgstr "Отступы"
+
+#: ../src/thumbnail_bar.c:186
+msgid "The amount of space between the thumbnails"
+msgstr "Размер пространства между эскизами"
+
+#: ../src/thumbnail_bar.c:192
+msgid "Border Width"
+msgstr "Ширина рамки"
+
+#: ../src/thumbnail_bar.c:193
+msgid "The border width of the thumbnail-bar"
+msgstr "Ширина рамки панели эскизов"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Просмотр изображений"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Xfce Просмотр изображений"
+
+#~ msgid "Opening file(s)..."
+#~ msgstr "Открывается файл(ы)..."
+
+#~ msgid "_Recently used"
+#~ msgstr "_Недавно просмотренные"
+
+#~ msgid "Open with..."
+#~ msgstr "Открыть в..."
+
+#~ msgid "No applications available"
+#~ msgstr "Нет доступных приложений"
+
+#~ msgid "Thumbnail _Viewer"
+#~ msgstr "Просмотр _эскизов"
+
+#~ msgid "Display"
+#~ msgstr "Дисплей"
+
+#~ msgid "Slideshow"
+#~ msgstr "Слайдшоу"
+
+#~ msgid "Behaviour"
+#~ msgstr "Поведение"
+
+#~ msgid "Scaling"
+#~ msgstr "Масштаб"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr "Не масштабировать более 100%, когда окно развернуто."
+
+#~ msgid "Background Color"
+#~ msgstr "Цвет фона"
+
+#~ msgid "_Override Background Color:"
+#~ msgstr "_Переопределить цвет фона:"
+
+#~ msgid "Image Cache"
+#~ msgstr "Кэш изображений"
+
+#~ msgid "Cache size:"
+#~ msgstr "Размер кэша:"
+
+#~ msgid "MB"
+#~ msgstr "МБ"
+
+#~ msgid "Timeout"
+#~ msgstr "Таймаут"
+
+#~ msgid ""
+#~ "The time period an individual image is displayed during a slideshow\n"
+#~ "(in seconds)"
+#~ msgstr ""
+#~ "Период времени, в течение которого будет показано изображение в режиме "
+#~ "слайдшоу\n"
+#~ "(в секундах)"
+
+#~ msgid ""
+#~ "Are you sure you want to clear ristretto's list of recently opened "
+#~ "documents?"
+#~ msgstr "Вы уверены что хотите очистить список недавних документов?"
+
+#~ msgid "Preload"
+#~ msgstr "Предзагрузка"
+
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr ""
+#~ "Предзагружать изображения во время слайдшоу\n"
+#~ "(требует больше памяти)"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Ristretto Просмотр изображений"

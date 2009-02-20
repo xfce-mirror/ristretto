@@ -1,0 +1,329 @@
+# Latvian translations for ristretto package.
+# opyright (C) 2007 THE ristretto
+# This file is distributed under the same license as the ristretto package.
+# Rihards Prieditis <rprieditis@inbox.lv>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"PO-Revision-Date: 2007-11-11 20:37+0300\n"
+"Last-Translator: Rihards Priedītis <rprieditis@inbox.lv>\n"
+"Language-Team: Latvian <rprieditis@inbox.lv>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/main.c:56
+msgid "Version information"
+msgstr "Versijas informācija"
+
+#: ../src/main.c:60
+msgid "Start in fullscreen mode"
+msgstr ""
+
+#: ../src/main.c:64
+#, fuzzy
+msgid "Start a slideshow"
+msgstr "Slīdrāde"
+
+#: ../src/main.c:85
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Mēģiniet %s --help , lai redzētu pilnu pieejamo komandu sarakstu.\n"
+
+#. File Menu
+#: ../src/main_window.c:163
+msgid "_File"
+msgstr "_Fails"
+
+#: ../src/main_window.c:164
+msgid "_Open"
+msgstr ""
+
+#: ../src/main_window.c:164
+#, fuzzy
+msgid "Open an image"
+msgstr "Atvērt attēlu"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open _Folder"
+msgstr "A_tvērt Mapi"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open a folder"
+msgstr "Atvērt mapi"
+
+#: ../src/main_window.c:166
+msgid "Open _Recent"
+msgstr ""
+
+#: ../src/main_window.c:167
+msgid "_Close"
+msgstr ""
+
+#: ../src/main_window.c:167
+msgid "Close this image"
+msgstr ""
+
+#: ../src/main_window.c:168
+msgid "_Close All"
+msgstr ""
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "Close all images"
+msgstr "_Pirmsielādes attēli"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "_Quit"
+msgstr "_Rediģēt"
+
+#: ../src/main_window.c:169
+msgid "Quit Ristretto"
+msgstr ""
+
+#. Edit Menu
+#: ../src/main_window.c:171
+msgid "_Edit"
+msgstr "_Rediģēt"
+
+#: ../src/main_window.c:172
+msgid "_Undo"
+msgstr ""
+
+#: ../src/main_window.c:173
+#, fuzzy
+msgid "_Preferences"
+msgstr "Attēlu skatītāja uzstādījumi"
+
+#. View Menu
+#: ../src/main_window.c:175
+msgid "_View"
+msgstr "_Skats"
+
+#: ../src/main_window.c:176
+msgid "_Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:177
+msgid "_Set as Wallpaper"
+msgstr ""
+
+#. Thumbnailbar submenu
+#: ../src/main_window.c:179
+#, fuzzy
+msgid "_Thumbnail Bar"
+msgstr "Sīktēlu Skatītājs"
+
+#: ../src/main_window.c:180
+#, fuzzy
+msgid "Show _Vertically"
+msgstr "Rādit Vertikāli"
+
+#: ../src/main_window.c:181
+#, fuzzy
+msgid "_Show Horizontally"
+msgstr "Rādit Horizontāli"
+
+#: ../src/main_window.c:182
+#, fuzzy
+msgid "_Hide"
+msgstr "Slēpt"
+
+#. Zoom submenu
+#: ../src/main_window.c:184
+msgid "_Zooming"
+msgstr ""
+
+#: ../src/main_window.c:185
+msgid "Zoom _In"
+msgstr ""
+
+#: ../src/main_window.c:186
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/main_window.c:187
+msgid "Zoom _Fit"
+msgstr ""
+
+#: ../src/main_window.c:188
+msgid "_Normal Size"
+msgstr ""
+
+#. Rotation submenu
+#: ../src/main_window.c:190
+msgid "_Rotation"
+msgstr ""
+
+#: ../src/main_window.c:191
+msgid "Rotate _Right"
+msgstr ""
+
+#: ../src/main_window.c:192
+msgid "Rotate _Left"
+msgstr ""
+
+#. Go Menu
+#: ../src/main_window.c:194
+msgid "_Go"
+msgstr "_Doties"
+
+#: ../src/main_window.c:195
+msgid "_Forward"
+msgstr ""
+
+#: ../src/main_window.c:196
+msgid "_Back"
+msgstr ""
+
+#: ../src/main_window.c:197
+msgid "_First"
+msgstr ""
+
+#: ../src/main_window.c:198
+msgid "_Last"
+msgstr ""
+
+#: ../src/main_window.c:199
+msgid "_Play"
+msgstr ""
+
+#. Help Menu
+#: ../src/main_window.c:201
+msgid "_Help"
+msgstr "_Palīdzība"
+
+#: ../src/main_window.c:203
+msgid "_Contents"
+msgstr ""
+
+#: ../src/main_window.c:205
+msgid "Display ristretto user manual"
+msgstr ""
+
+#: ../src/main_window.c:208
+msgid "_About"
+msgstr ""
+
+#: ../src/main_window.c:210
+msgid "Display information about ristretto"
+msgstr ""
+
+#: ../src/main_window.c:216
+#, fuzzy
+msgid "Show _Toolbar"
+msgstr "Rādīt Rīkjoslu"
+
+#: ../src/main_window.c:738
+msgid "Open image"
+msgstr "Atvērt attēlu"
+
+#: ../src/main_window.c:756
+msgid "Could not open file"
+msgstr "Nevarēju atvērt failu"
+
+#: ../src/main_window.c:836
+msgid "Developer:"
+msgstr "Izstrādātājs:"
+
+#: ../src/main_window.c:846
+#, fuzzy
+msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr "Ristretto ir ātrs un viegls attēlu skatītājs Xfce Videi."
+
+#: ../src/main_window.c:854
+msgid "translator-credits"
+msgstr "Tūlkotāji:"
+
+#: ../src/thumbnail_bar.c:185
+msgid "Spacing"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:186
+msgid "The amount of space between the thumbnails"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:192
+msgid "Border Width"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:193
+msgid "The border width of the thumbnail-bar"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Attēlu Skatītājs"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Xfce Attēlu Skatītājs"
+
+#, fuzzy
+#~ msgid "Opening file(s)..."
+#~ msgstr "Atvert ar..."
+
+#~ msgid "_Recently used"
+#~ msgstr "_Nesenie"
+
+#~ msgid "Open with..."
+#~ msgstr "Atvert ar..."
+
+#~ msgid "No applications available"
+#~ msgstr "Nav pieejama neviena lietotne"
+
+#, fuzzy
+#~ msgid "Thumbnail _Viewer"
+#~ msgstr "Sīktēlu Skatītājs"
+
+#~ msgid "Slideshow"
+#~ msgstr "Slīdrāde"
+
+#, fuzzy
+#~ msgid "Image Cache"
+#~ msgstr "Attēlu Skatītājs"
+
+#~ msgid "Timeout"
+#~ msgstr "Noildze"
+
+#, fuzzy
+#~ msgid ""
+#~ "The time period an individual image is displayed during a slideshow\n"
+#~ "(in seconds)"
+#~ msgstr ""
+#~ "Noildze attēla rādīšanai slīdrādē\n"
+#~ "(sekundēs)"
+
+#~ msgid ""
+#~ "Are you sure you want to clear ristretto's list of recently opened "
+#~ "documents?"
+#~ msgstr ""
+#~ "Esat drošs, ka vēlaties notīrīt ristretto neseno atvērto dokumentu "
+#~ "sarakstu?"
+
+#~ msgid "Preload"
+#~ msgstr "Pirmsielāde"
+
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr ""
+#~ "Ielādēt attēlus slīdrāde laikā\n"
+#~ "(aizņem vairāk atmiņas)"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Ristretto Attēlu Skatītājs"

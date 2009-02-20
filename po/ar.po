@@ -1,0 +1,255 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: xfce\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"PO-Revision-Date: 2008-07-15 15:07+0200\n"
+"Last-Translator: Mohamed Magdy <mohamedmk@gmail.com>\n"
+"Language-Team: Arabeyes <doc@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Arabic\n"
+
+#: ../src/main.c:56
+msgid "Version information"
+msgstr ""
+
+#: ../src/main.c:60
+msgid "Start in fullscreen mode"
+msgstr ""
+
+#: ../src/main.c:64
+msgid "Start a slideshow"
+msgstr ""
+
+#: ../src/main.c:85
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+
+#. File Menu
+#: ../src/main_window.c:163
+msgid "_File"
+msgstr ""
+
+#: ../src/main_window.c:164
+msgid "_Open"
+msgstr ""
+
+#: ../src/main_window.c:164
+msgid "Open an image"
+msgstr ""
+
+#: ../src/main_window.c:165
+msgid "Open _Folder"
+msgstr ""
+
+#: ../src/main_window.c:165
+msgid "Open a folder"
+msgstr ""
+
+#: ../src/main_window.c:166
+msgid "Open _Recent"
+msgstr ""
+
+#: ../src/main_window.c:167
+msgid "_Close"
+msgstr ""
+
+#: ../src/main_window.c:167
+msgid "Close this image"
+msgstr ""
+
+#: ../src/main_window.c:168
+msgid "_Close All"
+msgstr ""
+
+#: ../src/main_window.c:168
+msgid "Close all images"
+msgstr ""
+
+#: ../src/main_window.c:169
+msgid "_Quit"
+msgstr ""
+
+#: ../src/main_window.c:169
+msgid "Quit Ristretto"
+msgstr ""
+
+#. Edit Menu
+#: ../src/main_window.c:171
+msgid "_Edit"
+msgstr ""
+
+#: ../src/main_window.c:172
+msgid "_Undo"
+msgstr ""
+
+#: ../src/main_window.c:173
+msgid "_Preferences"
+msgstr ""
+
+#. View Menu
+#: ../src/main_window.c:175
+msgid "_View"
+msgstr ""
+
+#: ../src/main_window.c:176
+msgid "_Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:177
+msgid "_Set as Wallpaper"
+msgstr ""
+
+#. Thumbnailbar submenu
+#: ../src/main_window.c:179
+msgid "_Thumbnail Bar"
+msgstr ""
+
+#: ../src/main_window.c:180
+msgid "Show _Vertically"
+msgstr ""
+
+#: ../src/main_window.c:181
+msgid "_Show Horizontally"
+msgstr ""
+
+#: ../src/main_window.c:182
+msgid "_Hide"
+msgstr ""
+
+#. Zoom submenu
+#: ../src/main_window.c:184
+msgid "_Zooming"
+msgstr ""
+
+#: ../src/main_window.c:185
+msgid "Zoom _In"
+msgstr ""
+
+#: ../src/main_window.c:186
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/main_window.c:187
+msgid "Zoom _Fit"
+msgstr ""
+
+#: ../src/main_window.c:188
+msgid "_Normal Size"
+msgstr ""
+
+#. Rotation submenu
+#: ../src/main_window.c:190
+msgid "_Rotation"
+msgstr ""
+
+#: ../src/main_window.c:191
+msgid "Rotate _Right"
+msgstr ""
+
+#: ../src/main_window.c:192
+msgid "Rotate _Left"
+msgstr ""
+
+#. Go Menu
+#: ../src/main_window.c:194
+msgid "_Go"
+msgstr ""
+
+#: ../src/main_window.c:195
+msgid "_Forward"
+msgstr ""
+
+#: ../src/main_window.c:196
+msgid "_Back"
+msgstr ""
+
+#: ../src/main_window.c:197
+msgid "_First"
+msgstr ""
+
+#: ../src/main_window.c:198
+msgid "_Last"
+msgstr ""
+
+#: ../src/main_window.c:199
+msgid "_Play"
+msgstr ""
+
+#. Help Menu
+#: ../src/main_window.c:201
+msgid "_Help"
+msgstr ""
+
+#: ../src/main_window.c:203
+msgid "_Contents"
+msgstr ""
+
+#: ../src/main_window.c:205
+msgid "Display ristretto user manual"
+msgstr ""
+
+#: ../src/main_window.c:208
+msgid "_About"
+msgstr ""
+
+#: ../src/main_window.c:210
+msgid "Display information about ristretto"
+msgstr ""
+
+#: ../src/main_window.c:216
+msgid "Show _Toolbar"
+msgstr ""
+
+#: ../src/main_window.c:738
+msgid "Open image"
+msgstr ""
+
+#: ../src/main_window.c:756
+msgid "Could not open file"
+msgstr ""
+
+#: ../src/main_window.c:836
+msgid "Developer:"
+msgstr ""
+
+#: ../src/main_window.c:846
+msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr ""
+
+#: ../src/main_window.c:854
+msgid "translator-credits"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:185
+msgid "Spacing"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:186
+msgid "The amount of space between the thumbnails"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:192
+msgid "Border Width"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:193
+msgid "The border width of the thumbnail-bar"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr ""

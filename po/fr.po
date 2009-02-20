@@ -1,0 +1,383 @@
+# French translation for the ristretto package.
+# Copyright (C) 2008 Stephan Arts
+# This file is distributed under the same license as the PACKAGE package.
+# Mike Massonnet <mmassonnet@xfce.org>, 2007, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ristretto\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"PO-Revision-Date: 2008-11-29 12:08+0100\n"
+"Last-Translator: Mike Massonnet <mmassonnet@gmail.com>\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,11,-1,-1,-1\n"
+
+#: ../src/main.c:56
+msgid "Version information"
+msgstr "Information sur la version"
+
+#: ../src/main.c:60
+msgid "Start in fullscreen mode"
+msgstr "Démarrer en mode plein écran"
+
+#: ../src/main.c:64
+msgid "Start a slideshow"
+msgstr "Démarrer le diaporama"
+
+#: ../src/main.c:85
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Essayez %s --help pour voir une liste complète des options en ligne de "
+"commande.\n"
+
+#. File Menu
+#: ../src/main_window.c:163
+msgid "_File"
+msgstr "_Fichier"
+
+#: ../src/main_window.c:164
+msgid "_Open"
+msgstr ""
+
+#: ../src/main_window.c:164
+#, fuzzy
+msgid "Open an image"
+msgstr "Ouvrir une image"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open _Folder"
+msgstr "O_uvrir un répertoire"
+
+#: ../src/main_window.c:165
+#, fuzzy
+msgid "Open a folder"
+msgstr "Ouvrir un répertoire"
+
+#: ../src/main_window.c:166
+msgid "Open _Recent"
+msgstr ""
+
+#: ../src/main_window.c:167
+#, fuzzy
+msgid "_Close"
+msgstr "Fermer _tout"
+
+#: ../src/main_window.c:167
+msgid "Close this image"
+msgstr ""
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "_Close All"
+msgstr "Fermer _tout"
+
+#: ../src/main_window.c:168
+#, fuzzy
+msgid "Close all images"
+msgstr "Fermer _tout"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "_Quit"
+msgstr "_Editer"
+
+#: ../src/main_window.c:169
+#, fuzzy
+msgid "Quit Ristretto"
+msgstr "Ristretto"
+
+#. Edit Menu
+#: ../src/main_window.c:171
+msgid "_Edit"
+msgstr "_Editer"
+
+#: ../src/main_window.c:172
+msgid "_Undo"
+msgstr ""
+
+#: ../src/main_window.c:173
+#, fuzzy
+msgid "_Preferences"
+msgstr "Préférences du visualiseur d’images"
+
+#. View Menu
+#: ../src/main_window.c:175
+msgid "_View"
+msgstr "_Afficher"
+
+#: ../src/main_window.c:176
+msgid "_Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:177
+#, fuzzy
+msgid "_Set as Wallpaper"
+msgstr "_Utiliser en tant que fond d'écran"
+
+#. Thumbnailbar submenu
+#: ../src/main_window.c:179
+#, fuzzy
+msgid "_Thumbnail Bar"
+msgstr "Miniatures"
+
+#: ../src/main_window.c:180
+msgid "Show _Vertically"
+msgstr "Afficher _verticalement"
+
+#: ../src/main_window.c:181
+#, fuzzy
+msgid "_Show Horizontally"
+msgstr "Afficher _horizontalement"
+
+#: ../src/main_window.c:182
+#, fuzzy
+msgid "_Hide"
+msgstr "_Cacher"
+
+#. Zoom submenu
+#: ../src/main_window.c:184
+msgid "_Zooming"
+msgstr "_Zoom"
+
+#: ../src/main_window.c:185
+#, fuzzy
+msgid "Zoom _In"
+msgstr "_Zoom"
+
+#: ../src/main_window.c:186
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/main_window.c:187
+msgid "Zoom _Fit"
+msgstr ""
+
+#: ../src/main_window.c:188
+msgid "_Normal Size"
+msgstr ""
+
+#. Rotation submenu
+#: ../src/main_window.c:190
+#, fuzzy
+msgid "_Rotation"
+msgstr "_Rotation"
+
+#: ../src/main_window.c:191
+msgid "Rotate _Right"
+msgstr "Tourner vers la _droite"
+
+#: ../src/main_window.c:192
+msgid "Rotate _Left"
+msgstr "Tourner vers la _gauche"
+
+#. Go Menu
+#: ../src/main_window.c:194
+msgid "_Go"
+msgstr "A_ller"
+
+#: ../src/main_window.c:195
+msgid "_Forward"
+msgstr ""
+
+#: ../src/main_window.c:196
+msgid "_Back"
+msgstr ""
+
+#: ../src/main_window.c:197
+msgid "_First"
+msgstr ""
+
+#: ../src/main_window.c:198
+msgid "_Last"
+msgstr ""
+
+#: ../src/main_window.c:199
+msgid "_Play"
+msgstr ""
+
+#. Help Menu
+#: ../src/main_window.c:201
+msgid "_Help"
+msgstr "A_ide"
+
+#: ../src/main_window.c:203
+msgid "_Contents"
+msgstr ""
+
+#: ../src/main_window.c:205
+msgid "Display ristretto user manual"
+msgstr ""
+
+#: ../src/main_window.c:208
+msgid "_About"
+msgstr ""
+
+#: ../src/main_window.c:210
+msgid "Display information about ristretto"
+msgstr ""
+
+#: ../src/main_window.c:216
+msgid "Show _Toolbar"
+msgstr "Barre d’_outils"
+
+#: ../src/main_window.c:738
+msgid "Open image"
+msgstr "Ouvrir une image"
+
+#: ../src/main_window.c:756
+msgid "Could not open file"
+msgstr "Impossible d’ouvrir le fichier"
+
+#: ../src/main_window.c:836
+msgid "Developer:"
+msgstr "Développeur :"
+
+#: ../src/main_window.c:846
+#, fuzzy
+msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr ""
+"Ristretto est un visualiseur d’images léger et rapide pour l’environnement "
+"de bureau Xfce."
+
+#: ../src/main_window.c:854
+msgid "translator-credits"
+msgstr "Mike Massonnet <mmassonnet@xfce.org>"
+
+#: ../src/thumbnail_bar.c:185
+msgid "Spacing"
+msgstr "Espacement"
+
+#: ../src/thumbnail_bar.c:186
+msgid "The amount of space between the thumbnails"
+msgstr "L'espacement entre les miniatures"
+
+#: ../src/thumbnail_bar.c:192
+msgid "Border Width"
+msgstr "Taille des bordures"
+
+#: ../src/thumbnail_bar.c:193
+msgid "The border width of the thumbnail-bar"
+msgstr "La taille de la bordure de la barre des miniatures"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Visualiseur d’images"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Ristretto"
+msgstr "Ristretto"
+
+#: ../ristretto.desktop.in.h:3
+msgid "Xfce Image viewer"
+msgstr "Visualiseur d’images pour Xfce"
+
+#~ msgid "Opening file(s)..."
+#~ msgstr "Ouvrir des fichiers..."
+
+#~ msgid "_Recently used"
+#~ msgstr "_Récemment ouvert"
+
+#~ msgid "Open with..."
+#~ msgstr "_Ouvrir avec..."
+
+#~ msgid "No applications available"
+#~ msgstr "Aucune application disponible"
+
+#~ msgid "Thumbnail _Viewer"
+#~ msgstr "Vue des _miniatures"
+
+#~ msgid ""
+#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgstr ""
+#~ "Une ou plusieurs images ont été modifiées, voulez-vous les enregistrer ?"
+
+#~ msgid "Display"
+#~ msgstr "Affichage"
+
+#~ msgid "Slideshow"
+#~ msgstr "Diaporama"
+
+#~ msgid "Behaviour"
+#~ msgstr "Comportement"
+
+#~ msgid "Scaling"
+#~ msgstr "Taille d'image"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr ""
+#~ "Adapter l'image lors de l'agrandissement de la fenêtre\n"
+#~ "(jamais au-delà de 100%)"
+
+#~ msgid "Background Color"
+#~ msgstr "Couleur d'arrière plan"
+
+#~ msgid "_Override Background Color:"
+#~ msgstr "_Choisir une couleur d’arrière plan :"
+
+#~ msgid "Image Cache"
+#~ msgstr "Données images en cache"
+
+#~ msgid "Cache size:"
+#~ msgstr "Taille du cache :"
+
+#~ msgid "MB"
+#~ msgstr "Mo"
+
+#~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
+#~ msgstr ""
+#~ "_Précharger les images\n"
+#~ "(l'interface est plus réactive mais demande plus de charge CPU)"
+
+#~ msgid "Timeout"
+#~ msgstr "Durée"
+
+#~ msgid ""
+#~ "The time period an individual image is displayed during a slideshow\n"
+#~ "(in seconds)"
+#~ msgstr ""
+#~ "La durée d’affichage d’une image individuelle durant le diaporama\n"
+#~ "(en secondes)"
+
+#~ msgid "Hide the thumbnails bar during slideshow"
+#~ msgstr "Cacher les miniatures durant le diaporama"
+
+#~ msgid "_Hide thumbnails"
+#~ msgstr "_Cacher les miniatures"
+
+#~ msgid ""
+#~ "Are you sure you want to clear ristretto's list of recently opened "
+#~ "documents?"
+#~ msgstr ""
+#~ "Êtes-vous certain de vouloir supprimer la liste des documents récemment "
+#~ "ouverts de Ristretto ?"
+
+#~ msgid "Preload"
+#~ msgstr "Préchargement"
+
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr ""
+#~ "Précharger les images durant le diaporama\n"
+#~ "(nécessite plus de mémoire vive)"
+
+#~ msgid "_Preload images"
+#~ msgstr "_Précharger les images"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Ristretto : Visualiseur d’Images"
+
+#~ msgid "Flip _Vertically"
+#~ msgstr "Retourner _verticalement"
+
+#~ msgid "Flip _Horizontally"
+#~ msgstr "Retourner _horizontalement"
