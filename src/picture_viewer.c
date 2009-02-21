@@ -987,6 +987,10 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
                 }
                 break;
             case RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM:
+                if (viewer->priv->refresh.idle_id)
+                {
+                    g_source_remove(viewer->priv->refresh.idle_id);
+                }
                 viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
                 break;
             default:
@@ -999,7 +1003,7 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
 static gboolean 
 cb_rstto_picture_viewer_queued_repaint(RsttoPictureViewer *viewer)
 {
-    rstto_picture_viewer_refresh(viewer);
+    //rstto_picture_viewer_refresh(viewer);
     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
 
     g_source_remove(viewer->priv->refresh.idle_id);
