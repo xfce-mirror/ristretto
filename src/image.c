@@ -24,6 +24,8 @@
 
 #include <libexif/exif-data.h>
 
+#include <string.h>
+
 #include "image.h"
 #include "image_cache.h"
 #include "image_transformation.h"
