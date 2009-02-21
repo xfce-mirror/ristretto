@@ -850,6 +850,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     GFile *file;
     GSList *files = NULL, *_files_iter;
     GValue current_uri_val = {0, };
+    gchar *uri = NULL;
 
     g_value_init (&current_uri_val, G_TYPE_STRING);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
@@ -891,6 +892,13 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                 gtk_dialog_run(GTK_DIALOG(dialog));
                 gtk_widget_destroy(dialog);
             }
+            else
+            {
+                uri = g_file_get_uri (_files_iter->data);
+                gtk_recent_manager_add_item (window->priv->recent_manager, uri);
+                g_free (uri);
+                uri = NULL;
+            }
             _files_iter = g_slist_next (_files_iter);
         }
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
@@ -918,7 +926,11 @@ static void
 cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
 {
     gint response;
-    GFile *file = NULL;
+    GFile *file = NULL, *child_file = NULL;
+    GFileEnumerator *file_enumarator = NULL;
+    GFileInfo *file_info = NULL;
+    const gchar *filename = NULL;
+    gchar *uri = NULL;
     GValue current_uri_val = {0, };
 
     g_value_init (&current_uri_val, G_TYPE_STRING);
@@ -936,6 +948,23 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
     {
         gtk_widget_hide(dialog);
         file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
+
+        file_enumarator = g_file_enumerate_children (file, "standard::name", 0, NULL, NULL);
+        while (file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+        {
+            filename = g_file_info_get_name (file_info);
+            child_file = g_file_get_child (file, filename);
+
+            rstto_navigator_add_file (window->priv->props.navigator, child_file, NULL);
+
+            g_object_unref (child_file);
+            g_object_unref (file_info);
+        }
+
+        uri = g_file_get_uri (file);
+        gtk_recent_manager_add_item (window->priv->recent_manager, uri);
+        g_free (uri);
+        uri = NULL;
 
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
@@ -958,17 +987,40 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
 {
     GtkWidget *dialog, *err_dialog;
     gchar *uri = gtk_recent_chooser_get_current_uri (chooser);
+    const gchar *filename;
     GFile *file = g_file_new_for_uri (uri);
+    GFile *child_file;
+    GFileEnumerator *file_enumarator = NULL;
+    GFileInfo *child_file_info = NULL;
+    GFileInfo *file_info = g_file_query_info (file, "standard::type", 0, NULL, NULL);
 
-    if (rstto_navigator_add_file (window->priv->props.navigator, file, NULL) == FALSE)
+    if (g_file_info_get_file_type (file_info) == G_FILE_TYPE_DIRECTORY)
     {
-        err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
-                                        GTK_DIALOG_MODAL,
-                                        GTK_MESSAGE_ERROR,
-                                        GTK_BUTTONS_OK,
-                                        _("Could not open file"));
-        gtk_dialog_run(GTK_DIALOG(dialog));
-        gtk_widget_destroy(dialog);
+        file_enumarator = g_file_enumerate_children (file, "standard::name", 0, NULL, NULL);
+        while (child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+        {
+            filename = g_file_info_get_name (child_file_info);
+            child_file = g_file_get_child (file, filename);
+
+            rstto_navigator_add_file (window->priv->props.navigator, child_file, NULL);
+
+            g_object_unref (child_file);
+            g_object_unref (child_file_info);
+        }
+
+    }
+    else
+    {
+        if (rstto_navigator_add_file (window->priv->props.navigator, file, NULL) == FALSE)
+        {
+            err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+                                            GTK_DIALOG_MODAL,
+                                            GTK_MESSAGE_ERROR,
+                                            GTK_BUTTONS_OK,
+                                            _("Could not open file"));
+            gtk_dialog_run(GTK_DIALOG(dialog));
+            gtk_widget_destroy(dialog);
+        }
     }
 
     g_object_unref (file);
