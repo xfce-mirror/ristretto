@@ -401,14 +401,13 @@ rstto_image_load (RsttoImage *image, gboolean empty_cache, GError **error)
         /*g_signal_connect(image->priv->loader, "area-updated", G_CALLBACK(cb_rstto_image_area_updated), image);*/
         g_signal_connect(image->priv->loader, "closed", G_CALLBACK(cb_rstto_image_closed), image);
 
-        rstto_image_cache_push_image (cache, image);
-
 	    g_file_read_async (image->priv->file, 0, NULL, (GAsyncReadyCallback)cb_rstto_image_read_file_ready, image);
     }
     else
     {
-        rstto_image_cache_push_image (cache, image);
+        //g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED], 0, image, NULL);
     }
+    rstto_image_cache_push_image (cache, image);
     return TRUE;
 }
 
@@ -616,8 +615,22 @@ cb_rstto_image_area_prepared (GdkPixbufLoader *loader, RsttoImage *image)
     {
         image->priv->iter = NULL;
     }
+
+    if (image->priv->iter)
+    {
+        image->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (image->priv->iter);
+        g_object_ref (image->priv->pixbuf);
+    }
+    else
+    {
+        if (image->priv->loader)
+        {
+            image->priv->pixbuf = gdk_pixbuf_loader_get_pixbuf (image->priv->loader);
+            g_object_ref (image->priv->pixbuf);
+        }
+    }
+
     g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_PREPARED], 0, image, NULL);
-    g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED], 0, image, NULL);
 }
 
 /**
@@ -636,31 +649,12 @@ cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image)
     GdkPixbuf *pixbuf = NULL;
     RsttoImageTransformation *transformation = NULL;
 
-    if (image->priv->pixbuf)
-    {
-        g_object_unref(image->priv->pixbuf);
-        image->priv->pixbuf = NULL;
-    }
-
-    if (image->priv->iter)
-    {
-        pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (image->priv->iter);
-    }
-    else
-    {
-        if (image->priv->loader)
-        {
-            pixbuf = gdk_pixbuf_loader_get_pixbuf (image->priv->loader);
-        }
-    }
-
     g_object_unref (image->priv->loader);
     image->priv->loader = NULL;
 
    
-    if (pixbuf != NULL)
+    if (image->priv->pixbuf != NULL)
     {
-        image->priv->pixbuf = pixbuf;
         /* Get to the bottom of the transformation list */
         GList *transform_iter = g_list_last (image->priv->transformations);
         while (transform_iter != NULL)

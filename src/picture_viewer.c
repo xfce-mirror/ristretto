@@ -675,60 +675,179 @@ static gboolean
 rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
-    GdkPixbuf *src_pixbuf = NULL;
+    GdkPixbuf *src_pixbuf = NULL, *tmp_pixbuf = NULL;
     GdkPixbuf *thumb_pixbuf = NULL;
     gboolean *fit_to_screen = NULL;
-    gdouble *scale = NULL;
+    gdouble *scale = NULL; 
     gint width = 0, height = 0;
 
-    if (viewer->priv->state == RSTTO_PICTURE_VIEWER_STATE_PREVIEW)
+    /**
+     * Get all the required image peripherals
+     */
+    if (viewer->priv->image != NULL)
+    {   
+        src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
+        thumb_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
+
+        width = gdk_pixbuf_get_width(src_pixbuf);
+        height = gdk_pixbuf_get_height(src_pixbuf);
+
+        fit_to_screen = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen");
+        scale         = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
+    }
+
+    if (scale == NULL)
+        scale = g_new0 (gdouble, 1);
+
+    if (fit_to_screen == NULL)
+        fit_to_screen = g_new0 (gboolean, 1);
+
+    /**
+     * Clean up the destination pixbuf, since we are going to re-create it
+     * anyway
+     */
+    if(viewer->priv->dst_pixbuf)
     {
-        if (viewer->priv->image != NULL);
-        {   
-            src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
-            thumb_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
+        g_object_unref(viewer->priv->dst_pixbuf);
+        viewer->priv->dst_pixbuf = NULL;
+    }
 
-            if (src_pixbuf)
+    /**
+     * If Scale == 0, this means the image has not been rendered before.
+     * When this is the case, we render the image at 100% unless it is
+     * larger thenthe dimensions of the picture viewer.
+     */
+    if ((*scale == 0) && (viewer->priv->image))
+    {
+        /* Check if the image fits inside the viewer,
+         * if not, scale it down to fit
+         */
+        if ((GTK_WIDGET (viewer)->allocation.width < width) ||
+            (GTK_WIDGET (viewer)->allocation.height < height))
+        {
+            *fit_to_screen = TRUE;
+            /* The image does not fit the picture-viewer, and 
+             * we decided to scale it down to fit. Now we need to check
+             * which side we need to use as a reference.
+             *
+             * We use the one that produces a larger scale difference
+             * to the viewer. This way we know the image will always fit.
+             */
+            if ((GTK_WIDGET (viewer)->allocation.width / width) >
+                (GTK_WIDGET (viewer)->allocation.height / height))
             {
-                width = gdk_pixbuf_get_width (src_pixbuf);
-                height = gdk_pixbuf_get_height (src_pixbuf);
-
-                /* Check if the image fits inside the viewer,
-                 * if not, scale it down to fit
-                 */
-                if ((GTK_WIDGET (viewer)->allocation.width < width) ||
-                    (GTK_WIDGET (viewer)->allocation.height < height))
-                {
-                    /* The image does not fit the picture-viewer, and 
-                     * we decided to scale it down to fit. Now we need to check
-                     * which side we need to use as a reference.
-                     *
-                     * We use the one that produces a larger scale difference
-                     * to the viewer.
-                     */
-                    if ((GTK_WIDGET (viewer)->allocation.width / width) >
-                        (GTK_WIDGET (viewer)->allocation.height / height))
-                    {
-                        viewer->priv->scale = GTK_WIDGET (viewer)->allocation.width / width;
-                    }
-                    else
-                    {
-                        viewer->priv->scale = GTK_WIDGET (viewer)->allocation.height / height;
-                    }
-                }
-                else
-                {
-                    /* The image is smaller then the picture-viewer,
-                     * As a result, view it at it's original size.
-                     */
-                    viewer->priv->scale = 1.0;
-                }
+                *scale = (gdouble)GTK_WIDGET (viewer)->allocation.width / (gdouble)width;
             }
+            else
+            {
+                *scale = (gdouble)GTK_WIDGET (viewer)->allocation.height / (gdouble)height;
+            }
+            
         }
+        else
+        {
+            /* The image is smaller then the picture-viewer,
+             * As a result, view it at it's original size.
+             */
+            *scale = 1.0;
+            *fit_to_screen = FALSE;
+        }
+        g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", scale);
+        g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
+
     }
     else
     {
+        switch (viewer->priv->zoom_mode)
+        {
+            case RSTTO_ZOOM_MODE_FIT:
+                *fit_to_screen = TRUE;
+                g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
+                break;
+            case RSTTO_ZOOM_MODE_100:
+                *fit_to_screen = FALSE;
+                *scale = 1.0;
+                g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", scale);
+                break;
+            case RSTTO_ZOOM_MODE_CUSTOM:
+                break;
+        }
 
+        if(*fit_to_screen)
+        {
+            gdouble h_scale = (gdouble)GTK_WIDGET(viewer)->allocation.width / (gdouble)width;
+            gdouble v_scale = (gdouble)GTK_WIDGET(viewer)->allocation.height / (gdouble)height;
+            if(h_scale < v_scale)
+            {
+                if(*scale != h_scale)
+                {
+                    *scale = h_scale;
+                }
+            }
+            else
+            {
+                if(*scale != v_scale)
+                {
+                    *scale = v_scale;
+                }
+            }
+            g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", scale);
+        }
+    }
+
+    if (GTK_WIDGET_REALIZED (widget))
+    {
+        if (viewer->vadjustment && viewer->hadjustment)
+        {
+            viewer->hadjustment->page_size = widget->allocation.width;
+            viewer->hadjustment->upper = width * (*scale);
+            viewer->hadjustment->value = 0;
+
+            viewer->vadjustment->page_size = widget->allocation.height;
+            viewer->vadjustment->upper = height * (*scale);
+            viewer->vadjustment->value = 0;
+
+        }
+
+        if (viewer->priv->state == RSTTO_PICTURE_VIEWER_STATE_PREVIEW)
+        {
+
+            viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (thumb_pixbuf,
+                                                            (gint)((gdouble)width * (*scale)),
+                                                            (gint)((gdouble)height * (*scale)),
+                                                            GDK_INTERP_BILINEAR);
+        }
+        else
+        {
+            if (src_pixbuf)
+            {
+                viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (src_pixbuf,
+                                                            (gint)((gdouble)width * (*scale)),
+                                                            (gint)((gdouble)height * (*scale)),
+                                                            GDK_INTERP_BILINEAR);
+                /*
+                tmp_pixbuf = gdk_pixbuf_new_subpixbuf(src_pixbuf,
+                                                   (gint)(viewer->hadjustment->value / (*scale)), 
+                                                          viewer->vadjustment->value / (*scale),
+                                                        ((widget->allocation.width/(*scale))) < width?
+                                                          widget->allocation.width/(*scale):width,
+                                                        ((widget->allocation.height/(*scale)))< height?
+                                                          widget->allocation.height/(*scale):height);
+                if(tmp_pixbuf)
+                {
+                    gint dst_width = gdk_pixbuf_get_width(tmp_pixbuf)*(*scale);
+                    gint dst_height = gdk_pixbuf_get_height(tmp_pixbuf)*(*scale);
+                    viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf,
+                                            dst_width>0?dst_width:1,
+                                            dst_height>0?dst_height:1,
+                                            GDK_INTERP_BILINEAR);
+                    g_object_unref(tmp_pixbuf);
+                    tmp_pixbuf = NULL;
+                }
+                */
+            }
+
+        }
     }
     return TRUE;
 }
@@ -1122,10 +1241,10 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
 
     if (viewer->priv->image)
     {
-        rstto_image_load (viewer->priv->image, FALSE, NULL);
         g_object_ref (viewer->priv->image);
         g_signal_connect (G_OBJECT (viewer->priv->image), "updated", G_CALLBACK (cb_rstto_picture_viewer_image_updated), viewer);
         g_signal_connect (G_OBJECT (viewer->priv->image), "prepared", G_CALLBACK (cb_rstto_picture_viewer_image_prepared), viewer);
+        rstto_image_load (viewer->priv->image, FALSE, NULL);
     }
 }
 
@@ -1134,6 +1253,7 @@ cb_rstto_picture_viewer_image_updated (RsttoImage *image, RsttoPictureViewer *vi
 {
     if (viewer->priv->state == RSTTO_PICTURE_VIEWER_STATE_PREVIEW)
         viewer->priv->state = RSTTO_PICTURE_VIEWER_STATE_NONE;
+
     rstto_picture_viewer_refresh (viewer);   
     rstto_picture_viewer_paint (GTK_WIDGET (viewer));
 }
@@ -1143,6 +1263,7 @@ cb_rstto_picture_viewer_image_prepared (RsttoImage *image, RsttoPictureViewer *v
 {
     if (viewer->priv->state == RSTTO_PICTURE_VIEWER_STATE_NONE)
         viewer->priv->state = RSTTO_PICTURE_VIEWER_STATE_PREVIEW;
+
     rstto_picture_viewer_refresh (viewer);   
     rstto_picture_viewer_paint (GTK_WIDGET (viewer));
 }
