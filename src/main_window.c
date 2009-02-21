@@ -72,12 +72,13 @@ struct _RsttoMainWindowPriv
     GtkWidget *p_viewer_s_window;
     GtkWidget *statusbar;
 
-    guint      recent_menu_merge_id;
+    guint      recent_merge_id;
     guint      play_merge_id;
     guint      pause_merge_id;
 
     GtkAction *play_action;
     GtkAction *pause_action;
+    GtkAction *recent_action;
 
     gboolean playing;
     gint play_timeout_id;
@@ -147,6 +148,8 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window);
 static void
+cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *window);
+static void
 cb_rstto_main_window_file_properties (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window);
@@ -185,7 +188,6 @@ static GtkActionEntry action_entries[] =
   { "file-menu", NULL, N_ ("_File"), NULL, },
   { "open", GTK_STOCK_OPEN, N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
   { "open-folder", NULL, N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
-  { "open-recent-menu", NULL, N_ ("Open _Recent"), NULL, },
   { "file-properties", GTK_STOCK_PROPERTIES, N_ ("_Properties"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_file_properties), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
   { "close-all", NULL, N_ ("_Close All"), NULL, N_ ("Close all images"), G_CALLBACK (cb_rstto_main_window_close_all), },
@@ -266,10 +268,11 @@ rstto_main_window_get_type ()
 static void
 rstto_main_window_init (RsttoMainWindow *window)
 {
-    GtkAccelGroup *accel_group;
-    GValue         show_toolbar_val = {0,}, window_width = {0, }, window_height = {0, };
-    GtkWidget     *separator, *back, *forward;
-    GtkWidget     *main_vbox = gtk_vbox_new (FALSE, 0);
+    GtkAccelGroup   *accel_group;
+    GValue          show_toolbar_val = {0,}, window_width = {0, }, window_height = {0, };
+    GtkWidget       *separator, *back, *forward;
+    GtkWidget       *main_vbox = gtk_vbox_new (FALSE, 0);
+    GtkRecentFilter *recent_filter;
 
     gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
 
@@ -281,29 +284,42 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->recent_manager = gtk_recent_manager_get_default();
     window->priv->settings_manager = rstto_settings_new();
 
-    /* Create mergeid's for adding ui-components */
-    window->priv->recent_menu_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
-    window->priv->play_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
-    window->priv->pause_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
-
     accel_group = gtk_ui_manager_get_accel_group (window->priv->ui_manager);
     gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
 
-    window->priv->action_group = gtk_action_group_new ("RsttoWindow");
+    /* Create mergeid's for adding ui-components */
+    window->priv->recent_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
+    window->priv->play_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
+    window->priv->pause_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
+
 
     window->priv->play_action = gtk_action_new ("play", "_Play", "Play slideshow", GTK_STOCK_MEDIA_PLAY);
     window->priv->pause_action = gtk_action_new ("pause", "_Pause", "Pause slideshow", GTK_STOCK_MEDIA_PAUSE);
+    window->priv->recent_action = gtk_recent_action_new_for_manager ("recent", "_Recently used", "Recently used", 0, GTK_RECENT_MANAGER(window->priv->recent_manager));
+
+    /**
+     * Add a filter to the recent-chooser
+     */
+    recent_filter = gtk_recent_filter_new();
+    gtk_recent_filter_add_application (recent_filter, "ristretto");
+    gtk_recent_chooser_add_filter(GTK_RECENT_CHOOSER(window->priv->recent_action), recent_filter);
+
     /* Add the same accelerator path to play and pause, so the same kb-shortcut will be used for starting and stopping the slideshow */
     gtk_action_set_accel_path (window->priv->pause_action, "<Actions>/RsttoWindow/play");
     gtk_action_set_accel_path (window->priv->play_action, "<Actions>/RsttoWindow/play");
+
     /* Add the play and pause actions to the actiongroup */
+    window->priv->action_group = gtk_action_group_new ("RsttoWindow");
     gtk_action_group_add_action (window->priv->action_group,
                                  window->priv->play_action);
     gtk_action_group_add_action (window->priv->action_group,
                                  window->priv->pause_action);
+    gtk_action_group_add_action (window->priv->action_group,
+                                 window->priv->recent_action);
     /* Connect signal-handlers */
     g_signal_connect(G_OBJECT(window->priv->play_action), "activate", G_CALLBACK(cb_rstto_main_window_play), window);
     g_signal_connect(G_OBJECT(window->priv->pause_action), "activate", G_CALLBACK(cb_rstto_main_window_pause), window);
+    g_signal_connect(G_OBJECT(window->priv->recent_action), "item-activated", G_CALLBACK(cb_rstto_main_window_open_recent), window);
 
     gtk_ui_manager_insert_action_group (window->priv->ui_manager, window->priv->action_group, 0);
 
@@ -315,10 +331,17 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->menubar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu");
     window->priv->toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar");
 
-    separator = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/placeholder-1");
+    /**
+     * Get the separator toolitem and tell it to expand
+     */
+    separator = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/separator-1");
     gtk_tool_item_set_expand (GTK_TOOL_ITEM (separator), TRUE);
     gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (separator), FALSE);
 
+    /**
+     * Make the back and forward toolitems important,
+     * when they are, the labels are shown when the toolbar style is 'both-horizontal'
+     */
     back = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/back");
     gtk_tool_item_set_is_important (GTK_TOOL_ITEM (back), TRUE);
     forward = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/forward");
@@ -341,6 +364,10 @@ rstto_main_window_init (RsttoMainWindow *window)
 
     rstto_main_window_set_sensitive (window, FALSE);
     gtk_widget_set_no_show_all (window->priv->toolbar, TRUE);
+
+    /**
+     * Add missing pieces to the UI
+     */
     gtk_ui_manager_add_ui (window->priv->ui_manager,
                            window->priv->play_merge_id,
                            "/main-menu/go-menu/placeholder-slideshow",
@@ -348,14 +375,27 @@ rstto_main_window_init (RsttoMainWindow *window)
                            "play",
                            GTK_UI_MANAGER_MENUITEM,
                            FALSE);
+    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->recent_merge_id,
+                           "/main-menu/file-menu/placeholder-open-recent",
+                           "recent",
+                           "recent",
+                           GTK_UI_MANAGER_MENUITEM,
+                           FALSE);
 
+    /**
+     * Retrieve the last window-size from the settings-manager
+     * and make it the default for this window
+     */
     g_value_init (&window_width, G_TYPE_UINT);
     g_value_init (&window_height, G_TYPE_UINT);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "window-width", &window_width);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "window-height", &window_height);
-
     gtk_window_set_default_size(GTK_WINDOW(window), g_value_get_uint (&window_width), g_value_get_uint (&window_height));
 
+    /**
+     * Retrieve the toolbar state from the settings-manager
+     */
     g_value_init (&show_toolbar_val, G_TYPE_BOOLEAN);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-toolbar", &show_toolbar_val);
     if (g_value_get_boolean (&show_toolbar_val))
@@ -411,9 +451,7 @@ rstto_main_window_dispose(GObject *object)
 
     if (window->priv->ui_manager)
     {
-        /** TODO:
-         * reset accelerator on 'play' and free ui_manager
-         */
+        g_object_unref (window->priv->ui_manager);
         window->priv->ui_manager = NULL;
     } 
 
@@ -810,8 +848,9 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *dialog, *err_dialog;
     gint response;
     GFile *file;
-    GSList *files, *_files_iter;
+    GSList *files = NULL, *_files_iter;
     GValue current_uri_val = {0, };
+    gchar *uri = NULL;
 
     g_value_init (&current_uri_val, G_TYPE_STRING);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
@@ -853,15 +892,27 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                 gtk_dialog_run(GTK_DIALOG(dialog));
                 gtk_widget_destroy(dialog);
             }
+            else
+            {
+                uri = g_file_get_uri (_files_iter->data);
+                gtk_recent_manager_add_item (window->priv->recent_manager, uri);
+                g_free (uri);
+                uri = NULL;
+            }
             _files_iter = g_slist_next (_files_iter);
         }
-
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
 
     }
 
     gtk_widget_destroy(dialog);
+
+    if (files)
+    {
+        g_slist_foreach (files, (GFunc)g_object_unref, NULL);
+        g_slist_free (files);
+    }
 }
 
 /**
@@ -875,7 +926,11 @@ static void
 cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
 {
     gint response;
-    GFile *file;
+    GFile *file = NULL, *child_file = NULL;
+    GFileEnumerator *file_enumarator = NULL;
+    GFileInfo *file_info = NULL;
+    const gchar *filename = NULL;
+    gchar *uri = NULL;
     GValue current_uri_val = {0, };
 
     g_value_init (&current_uri_val, G_TYPE_STRING);
@@ -894,10 +949,82 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
         gtk_widget_hide(dialog);
         file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
 
+        file_enumarator = g_file_enumerate_children (file, "standard::name", 0, NULL, NULL);
+        while (file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+        {
+            filename = g_file_info_get_name (file_info);
+            child_file = g_file_get_child (file, filename);
+
+            rstto_navigator_add_file (window->priv->props.navigator, child_file, NULL);
+
+            g_object_unref (child_file);
+            g_object_unref (file_info);
+        }
+
+        uri = g_file_get_uri (file);
+        gtk_recent_manager_add_item (window->priv->recent_manager, uri);
+        g_free (uri);
+        uri = NULL;
+
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
     }
 
+    if (file)
+    {
+        g_object_unref (file);
+    }
+}
+
+/**
+ * cb_rstto_main_window_open_recent:
+ * @chooser:
+ * @window:
+ *
+ */
+static void
+cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *window)
+{
+    GtkWidget *dialog, *err_dialog;
+    gchar *uri = gtk_recent_chooser_get_current_uri (chooser);
+    const gchar *filename;
+    GFile *file = g_file_new_for_uri (uri);
+    GFile *child_file;
+    GFileEnumerator *file_enumarator = NULL;
+    GFileInfo *child_file_info = NULL;
+    GFileInfo *file_info = g_file_query_info (file, "standard::type", 0, NULL, NULL);
+
+    if (g_file_info_get_file_type (file_info) == G_FILE_TYPE_DIRECTORY)
+    {
+        file_enumarator = g_file_enumerate_children (file, "standard::name", 0, NULL, NULL);
+        while (child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+        {
+            filename = g_file_info_get_name (child_file_info);
+            child_file = g_file_get_child (file, filename);
+
+            rstto_navigator_add_file (window->priv->props.navigator, child_file, NULL);
+
+            g_object_unref (child_file);
+            g_object_unref (child_file_info);
+        }
+
+    }
+    else
+    {
+        if (rstto_navigator_add_file (window->priv->props.navigator, file, NULL) == FALSE)
+        {
+            err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+                                            GTK_DIALOG_MODAL,
+                                            GTK_MESSAGE_ERROR,
+                                            GTK_BUTTONS_OK,
+                                            _("Could not open file"));
+            gtk_dialog_run(GTK_DIALOG(dialog));
+            gtk_widget_destroy(dialog);
+        }
+    }
+
+    g_object_unref (file);
+    g_free (uri);
 }
 
 /**
