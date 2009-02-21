@@ -1010,7 +1010,6 @@ cb_rstto_picture_viewer_queued_repaint(RsttoPictureViewer *viewer)
 static void
 cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEventButton *event)
 {
-    /*
     if(event->button == 1)
     {
         viewer->priv->motion.x = event->x;
@@ -1020,7 +1019,7 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
         viewer->priv->motion.h_val = viewer->hadjustment->value;
         viewer->priv->motion.v_val = viewer->vadjustment->value;
 
-        if (rstto_navigator_get_file(viewer->priv->navigator) != NULL)
+        if (viewer->priv->image != NULL && viewer->priv->state == RSTTO_PICTURE_VIEWER_STATE_NONE)
         {
 
             if (!(event->state & (GDK_CONTROL_MASK)))
@@ -1030,7 +1029,7 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
                 gdk_window_set_cursor(widget->window, cursor);
                 gdk_cursor_unref(cursor);
 
-                viewer->priv->motion.state = RSTTO_PICTURE_VIEWER_STATE_MOVE;
+                viewer->priv->state = RSTTO_PICTURE_VIEWER_STATE_MOVE;
             }
 
             if (event->state & GDK_CONTROL_MASK)
@@ -1040,13 +1039,12 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
                 gdk_window_set_cursor(widget->window, cursor);
                 gdk_cursor_unref(cursor);
 
-                viewer->priv->motion.state = RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM;
+                viewer->priv->state = RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM;
             }
         }
 
         
     }
-    */
     if(event->button == 3)
     {
         if (viewer->priv->menu)
@@ -1066,6 +1064,16 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
 static void
 cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEventButton *event)
 {
+    GtkWidget *widget = GTK_WIDGET(viewer);
+
+    gdk_window_set_cursor(widget->window, NULL);
+    if (viewer->priv->state != RSTTO_PICTURE_VIEWER_STATE_PREVIEW)
+        viewer->priv->state = RSTTO_PICTURE_VIEWER_STATE_NONE;
+    if (viewer->priv->refresh.idle_id > 0)
+    {
+        g_source_remove(viewer->priv->refresh.idle_id);
+    }
+    viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
     /*
     if(event->button == 1)
     {
@@ -1192,10 +1200,7 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
         }
 
     }
-
-    viewer->priv->motion.state = RSTTO_PICTURE_VIEWER_STATE_NONE;
     */
-
 }
 
 static void
