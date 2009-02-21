@@ -72,12 +72,13 @@ struct _RsttoMainWindowPriv
     GtkWidget *p_viewer_s_window;
     GtkWidget *statusbar;
 
-    guint      recent_menu_merge_id;
+    guint      recent_merge_id;
     guint      play_merge_id;
     guint      pause_merge_id;
 
     GtkAction *play_action;
     GtkAction *pause_action;
+    GtkAction *recent_action;
 
     gboolean playing;
     gint play_timeout_id;
@@ -185,7 +186,6 @@ static GtkActionEntry action_entries[] =
   { "file-menu", NULL, N_ ("_File"), NULL, },
   { "open", GTK_STOCK_OPEN, N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
   { "open-folder", NULL, N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
-  { "open-recent-menu", NULL, N_ ("Open _Recent"), NULL, },
   { "file-properties", GTK_STOCK_PROPERTIES, N_ ("_Properties"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_file_properties), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
   { "close-all", NULL, N_ ("_Close All"), NULL, N_ ("Close all images"), G_CALLBACK (cb_rstto_main_window_close_all), },
@@ -282,7 +282,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->settings_manager = rstto_settings_new();
 
     /* Create mergeid's for adding ui-components */
-    window->priv->recent_menu_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
+    window->priv->recent_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->play_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->pause_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
 
@@ -293,6 +293,8 @@ rstto_main_window_init (RsttoMainWindow *window)
 
     window->priv->play_action = gtk_action_new ("play", "_Play", "Play slideshow", GTK_STOCK_MEDIA_PLAY);
     window->priv->pause_action = gtk_action_new ("pause", "_Pause", "Pause slideshow", GTK_STOCK_MEDIA_PAUSE);
+    window->priv->recent_action = gtk_recent_action_new_for_manager ("recent", "_Recently used", "Recently used", 0, GTK_RECENT_MANAGER(window->priv->recent_manager));
+
     /* Add the same accelerator path to play and pause, so the same kb-shortcut will be used for starting and stopping the slideshow */
     gtk_action_set_accel_path (window->priv->pause_action, "<Actions>/RsttoWindow/play");
     gtk_action_set_accel_path (window->priv->play_action, "<Actions>/RsttoWindow/play");
@@ -301,6 +303,8 @@ rstto_main_window_init (RsttoMainWindow *window)
                                  window->priv->play_action);
     gtk_action_group_add_action (window->priv->action_group,
                                  window->priv->pause_action);
+    gtk_action_group_add_action (window->priv->action_group,
+                                 window->priv->recent_action);
     /* Connect signal-handlers */
     g_signal_connect(G_OBJECT(window->priv->play_action), "activate", G_CALLBACK(cb_rstto_main_window_play), window);
     g_signal_connect(G_OBJECT(window->priv->pause_action), "activate", G_CALLBACK(cb_rstto_main_window_pause), window);
@@ -346,6 +350,15 @@ rstto_main_window_init (RsttoMainWindow *window)
                            "/main-menu/go-menu/placeholder-slideshow",
                            "play",
                            "play",
+                           GTK_UI_MANAGER_MENUITEM,
+                           FALSE);
+
+    
+    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->recent_merge_id,
+                           "/main-menu/file-menu/placeholder-open-recent",
+                           "recent",
+                           "recent",
                            GTK_UI_MANAGER_MENUITEM,
                            FALSE);
 

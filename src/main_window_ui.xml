@@ -7,9 +7,7 @@
         <menu action="file-menu">
             <menuitem action="open"/>
             <menuitem action="open-folder"/>
-            <menu action="open-recent-menu">
-                <placeholder name="placeholder-open-recent"/>
-            </menu>
+            <placeholder name="placeholder-open-recent"/>
             <separator/>
             <menuitem action="file-properties"/>
             <separator/>
