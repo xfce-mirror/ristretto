@@ -63,7 +63,7 @@
         <separator />
         <toolitem action="back"/>
         <toolitem action="forward"/>
-        <separator name="placeholder-1"/>
+        <separator name="separator-1"/>
         <toolitem action="zoom-in"/>
         <toolitem action="zoom-out"/>
         <toolitem action="zoom-100"/>
