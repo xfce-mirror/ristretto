@@ -1,10 +1,15 @@
+# Polish translations for ristretto package.
+# Polskie tłumaczenia dla pakietu ristretto.
+# Copyright © 2006-2008 Stephan Arts.
+# This file is distributed under the same license as the ristretto package.
 # Piotr Sokół <piotr.sokol@10g.pl>, 2009.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.0.21\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2009-02-03 10:39+0100\n"
+"PO-Revision-Date: 2009-02-13 19:35+0100\n"
 "Last-Translator: Piotr Sokół <piotr.sokol@10g.pl>\n"
 "Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +96,7 @@ msgstr "_Skalowanie"
 
 #: ../src/main_window.c:418
 msgid "_Rotate"
-msgstr "_Obracanie"
+msgstr "_Obróć"
 
 #: ../src/main_window.c:425
 msgid "_Set as wallpaper"
@@ -111,11 +116,11 @@ msgstr "_Ukryj"
 
 #: ../src/main_window.c:521
 msgid "Rotate _Right"
-msgstr "Obróć w p_rawo"
+msgstr "W p_rawo"
 
 #: ../src/main_window.c:522
 msgid "Rotate _Left"
-msgstr "Obróć w _lewo"
+msgstr "W _lewo"
 
 #. Create 'Go' menu
 #: ../src/main_window.c:543
@@ -211,7 +216,7 @@ msgstr "Twórca:"
 
 #: ../src/main_window.c:1566
 msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
-msgstr "Przeglądarka obrazów dla środowiska Xfce."
+msgstr "Przeglądarka obrazów dla środowiska Xfce"
 
 #: ../src/main_window.c:1574
 msgid "translator-credits"
@@ -261,7 +266,7 @@ msgstr "Przeglądarka obrazów Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
-msgstr "Przeglądarka obrazów środowiska Xfce"
+msgstr "Przeglądarka obrazów dla środowiska Xfce"
 
 #~ msgid "Preload"
 #~ msgstr "Preload"
