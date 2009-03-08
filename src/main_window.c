@@ -673,7 +673,7 @@ rstto_main_window_get_property (GObject    *object,
 static void
 cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_picture_viewer_set_zoom_mode (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), RSTTO_ZOOM_MODE_FIT);
+    //rstto_picture_viewer_set_zoom_mode (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), RSTTO_ZOOM_MODE_FIT);
 }
 
 /**
@@ -686,7 +686,7 @@ cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_picture_viewer_set_zoom_mode (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), RSTTO_ZOOM_MODE_100);
+    //rstto_picture_viewer_set_zoom_mode (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), RSTTO_ZOOM_MODE_100);
 }
 
 /**
