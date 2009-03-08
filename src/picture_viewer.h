@@ -69,8 +69,12 @@ GType      rstto_picture_viewer_get_type();
 
 GtkWidget *rstto_picture_viewer_new ();
 void       rstto_picture_viewer_set_image (RsttoPictureViewer *, RsttoImage *);
-void       rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale);
 gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
+
+void       rstto_picture_viewer_zoom_fit (RsttoPictureViewer *viewer);
+void       rstto_picture_viewer_zoom_100 (RsttoPictureViewer *viewer);
+void       rstto_picture_viewer_zoom_in  (RsttoPictureViewer *viewer, gboolean factor);
+void       rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gboolean factor);
 
 /**
 gdouble    rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);
