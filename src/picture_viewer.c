@@ -360,6 +360,7 @@ rstto_picture_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
      * TODO: Check if we really nead a refresh
      */
     rstto_picture_viewer_queued_repaint (viewer, FALSE);
+    //rstto_picture_viewer_paint (viewer);
 }
 
 /**
@@ -376,6 +377,7 @@ rstto_picture_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
     /** 
      * TODO: Check if we really nead a refresh
      */
+    //rstto_picture_viewer_paint (viewer);
     rstto_picture_viewer_queued_repaint (viewer, TRUE);
     return FALSE;
 }
@@ -673,6 +675,8 @@ rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
              * since the old and new values are required in the above code
              */
             *img_scale = scale;
+
+            rstto_picture_viewer_queued_repaint (viewer, TRUE);
         }
     }
 }
@@ -909,6 +913,8 @@ rstto_picture_viewer_calculate_adjustments (RsttoPictureViewer *viewer, gdouble 
 static gboolean 
 rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer, gboolean refresh)
 {
+    g_return_if_fail (RSTTO_IS_PICTURE_VIEWER (viewer));
+
     if (viewer->priv->repaint.idle_id > 0)
     {
         g_source_remove(viewer->priv->repaint.idle_id);
@@ -926,12 +932,9 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
     GdkPixbuf *p_src_pixbuf = NULL;
     GdkPixbuf *p_tmp_pixbuf = NULL;
     gdouble *p_scale = NULL;
+    gdouble scale;
     gdouble width, height;
     GtkWidget *widget = GTK_WIDGET (viewer);
-
-    gdouble  scale = rstto_picture_viewer_calculate_scale (viewer);
-
-    rstto_picture_viewer_calculate_adjustments (viewer, scale);
 
     if (viewer->priv->image != NULL)
     {   
@@ -941,7 +944,18 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
             width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
             height = (gdouble)gdk_pixbuf_get_height (p_src_pixbuf);
         }
+
+        p_scale = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
+        scale = *p_scale;
     }
+
+    if (scale <= 0)
+    {
+        scale = rstto_picture_viewer_calculate_scale (viewer);
+        *p_scale = scale;
+    }
+    rstto_picture_viewer_calculate_adjustments (viewer);
+
 
     switch (viewer->priv->state)
     {
@@ -950,7 +964,7 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
             {
                 if (p_src_pixbuf)
                 {
-                    if (scale == 1.0 )
+                    if (*p_scale == 1.0 )
                     {
                         p_tmp_pixbuf = p_src_pixbuf;
                         g_object_ref (p_tmp_pixbuf);
@@ -990,7 +1004,6 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
             if (viewer->priv->image)
             {
                 p_tmp_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
-                p_scale = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
                 if (G_LIKELY (p_scale == NULL))
                 {
                     p_scale = g_new0 (gdouble, 1);
@@ -1353,8 +1366,6 @@ void
 rstto_picture_viewer_zoom_fit (RsttoPictureViewer *viewer)
 {
     rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_FIT);
-
-    rstto_picture_viewer_queued_repaint (viewer, TRUE);
 }
 
 /**
@@ -1367,8 +1378,6 @@ void
 rstto_picture_viewer_zoom_100 (RsttoPictureViewer *viewer)
 {
     rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_100);
-
-    rstto_picture_viewer_queued_repaint (viewer, TRUE);
 }
 
 /**
@@ -1386,8 +1395,6 @@ rstto_picture_viewer_zoom_in (RsttoPictureViewer *viewer, gboolean factor)
     rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_CUSTOM);
     scale = rstto_picture_viewer_get_scale (viewer);
     rstto_picture_viewer_set_scale (viewer, scale * factor);
-
-    rstto_picture_viewer_queued_repaint (viewer, TRUE);
 }
 
 /**
@@ -1405,6 +1412,4 @@ rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gboolean factor)
     rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_CUSTOM);
     scale = rstto_picture_viewer_get_scale (viewer);
     rstto_picture_viewer_set_scale (viewer, scale / factor);
-
-    rstto_picture_viewer_queued_repaint (viewer, TRUE);
 }
