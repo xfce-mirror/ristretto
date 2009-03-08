@@ -1215,7 +1215,7 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
         if (scale == NULL)
         {
             scale = g_new0 (gdouble, 1);
-            *scale = -1.0;
+            *scale = 0.0;
             g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", scale);
         }
         if (fit_to_screen == NULL)
@@ -1254,6 +1254,68 @@ cb_rstto_picture_viewer_image_prepared (RsttoImage *image, RsttoPictureViewer *v
 
     rstto_picture_viewer_queued_repaint (viewer, TRUE);
 }
+
+/**
+ * rstto_picture_viewer_zoom_fit:
+ * @window:
+ *
+ * Adjust the scale to make the image fit the window
+ */
+void
+rstto_picture_viewer_zoom_fit (RsttoPictureViewer *viewer)
+{
+    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_FIT);
+}
+
+/**
+ * rstto_picture_viewer_zoom_100:
+ * @viewer:
+ *
+ * Set the scale to 1, meaning a zoom-factor of 100%
+ */
+void
+rstto_picture_viewer_zoom_100 (RsttoPictureViewer *viewer)
+{
+    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_100);
+}
+
+/**
+ * rstto_picture_viewer_zoom_in:
+ * @viewer:
+ * @factor:
+ *
+ * Zoom in the scale with a certain factor
+ */
+void
+rstto_picture_viewer_zoom_in (RsttoPictureViewer *viewer, gboolean factor)
+{
+    gdouble scale;
+
+    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_CUSTOM);
+    scale = rstto_picture_viewer_get_scale (viewer);
+    rstto_picture_viewer_set_scale (viewer, scale * factor);
+}
+
+/**
+ * rstto_picture_viewer_zoom_out:
+ * @viewer:
+ * @factor:
+ *
+ * Zoom out the scale with a certain factor
+ */
+void
+rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gboolean factor)
+{
+    gdouble scale;
+
+    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_CUSTOM);
+    scale = rstto_picture_viewer_get_scale (viewer);
+    rstto_picture_viewer_set_scale (viewer, scale / factor);
+}
+
+
+/******************************************************************************************/
+
 
 /************************
  * FIXME: DnD
@@ -1356,60 +1418,3 @@ rstto_picture_viewer_drag_motion (GtkWidget *widget,
 }
 
 
-/**
- * rstto_picture_viewer_zoom_fit:
- * @window:
- *
- * Adjust the scale to make the image fit the window
- */
-void
-rstto_picture_viewer_zoom_fit (RsttoPictureViewer *viewer)
-{
-    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_FIT);
-}
-
-/**
- * rstto_picture_viewer_zoom_100:
- * @viewer:
- *
- * Set the scale to 1, meaning a zoom-factor of 100%
- */
-void
-rstto_picture_viewer_zoom_100 (RsttoPictureViewer *viewer)
-{
-    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_100);
-}
-
-/**
- * rstto_picture_viewer_zoom_in:
- * @viewer:
- * @factor:
- *
- * Zoom in the scale with a certain factor
- */
-void
-rstto_picture_viewer_zoom_in (RsttoPictureViewer *viewer, gboolean factor)
-{
-    gdouble scale;
-
-    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_CUSTOM);
-    scale = rstto_picture_viewer_get_scale (viewer);
-    rstto_picture_viewer_set_scale (viewer, scale * factor);
-}
-
-/**
- * rstto_picture_viewer_zoom_out:
- * @viewer:
- * @factor:
- *
- * Zoom out the scale with a certain factor
- */
-void
-rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gboolean factor)
-{
-    gdouble scale;
-
-    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_CUSTOM);
-    scale = rstto_picture_viewer_get_scale (viewer);
-    rstto_picture_viewer_set_scale (viewer, scale / factor);
-}
