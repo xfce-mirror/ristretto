@@ -41,13 +41,6 @@ G_BEGIN_DECLS
         G_TYPE_CHECK_CLASS_TYPE ((klass), \
                 RSTTO_TYPE_PICTURE_VIEWER()))
 
-typedef enum
-{
-    RSTTO_ZOOM_MODE_100,
-    RSTTO_ZOOM_MODE_FIT,
-    RSTTO_ZOOM_MODE_CUSTOM
-} RsttoZoomMode;
-
 typedef struct _RsttoPictureViewerPriv RsttoPictureViewerPriv;
 
 typedef struct _RsttoPictureViewer RsttoPictureViewer;
@@ -76,10 +69,12 @@ GType      rstto_picture_viewer_get_type();
 
 GtkWidget *rstto_picture_viewer_new ();
 void       rstto_picture_viewer_set_image (RsttoPictureViewer *, RsttoImage *);
-void       rstto_picture_viewer_set_zoom_mode(RsttoPictureViewer *viewer, RsttoZoomMode mode);
-
-void       rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale);
 gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
+
+void       rstto_picture_viewer_zoom_fit (RsttoPictureViewer *viewer);
+void       rstto_picture_viewer_zoom_100 (RsttoPictureViewer *viewer);
+void       rstto_picture_viewer_zoom_in  (RsttoPictureViewer *viewer, gdouble factor);
+void       rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gdouble factor);
 
 /**
 gdouble    rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);

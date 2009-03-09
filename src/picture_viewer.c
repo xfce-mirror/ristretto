@@ -30,11 +30,23 @@
 
 typedef enum
 {
-    RSTTO_PICTURE_VIEWER_STATE_NONE,
-    RSTTO_PICTURE_VIEWER_STATE_MOVE,
-    RSTTO_PICTURE_VIEWER_STATE_PREVIEW,
-    RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM
+    RSTTO_PICTURE_VIEWER_STATE_NORMAL = 0,
+    RSTTO_PICTURE_VIEWER_STATE_PREVIEW
 } RsttoPictureViewerState;
+
+typedef enum
+{
+    RSTTO_PICTURE_VIEWER_MOTION_STATE_NORMAL = 0,
+    RSTTO_PICTURE_VIEWER_MOTION_STATE_BOX_ZOOM,
+    RSTTO_PICTURE_VIEWER_MOTION_STATE_MOVE
+} RsttoPictureViewerMotionState;
+
+typedef enum
+{
+    RSTTO_ZOOM_MODE_CUSTOM,
+    RSTTO_ZOOM_MODE_100,
+    RSTTO_ZOOM_MODE_FIT
+} RsttoZoomMode;
 
 enum
 {
@@ -48,15 +60,15 @@ static const GtkTargetEntry drop_targets[] = {
 
 struct _RsttoPictureViewerPriv
 {
-    RsttoImage *image;
+    RsttoImage              *image;
+    GtkMenu                 *menu;
+    RsttoPictureViewerState  state;
+    RsttoZoomMode            zoom_mode;
 
-    RsttoZoomMode    zoom_mode;
 
     GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
     void             (*cb_value_changed)(GtkAdjustment *, RsttoPictureViewer *);
     GdkColor         *bg_color;
-
-    gdouble          scale;
 
     struct
     {
@@ -66,13 +78,14 @@ struct _RsttoPictureViewerPriv
         gdouble current_y;
         gint h_val;
         gint v_val;
+        RsttoPictureViewerMotionState state;
     } motion;
-    RsttoPictureViewerState state;
+
     struct
     {
         gint idle_id;
-    } refresh;
-    GtkMenu          *menu;
+        gboolean refresh;
+    } repaint;
 };
 
 static void
@@ -82,16 +95,15 @@ rstto_picture_viewer_class_init(RsttoPictureViewerClass *);
 static void
 rstto_picture_viewer_destroy(GtkObject *object);
 
-static gdouble
-rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);
+static void
+rstto_picture_viewer_set_state (RsttoPictureViewer *viewer, RsttoPictureViewerState state);
+static RsttoPictureViewerState
+rstto_picture_viewer_get_state (RsttoPictureViewer *viewer);
+static void
+rstto_picture_viewer_set_motion_state (RsttoPictureViewer *viewer, RsttoPictureViewerMotionState state);
 
 static void
-cb_rstto_picture_viewer_image_updated (RsttoImage *image, RsttoPictureViewer *viewer);
-static void
-cb_rstto_picture_viewer_image_prepared (RsttoImage *image, RsttoPictureViewer *viewer);
-
-static gboolean 
-cb_rstto_picture_viewer_queued_repaint(RsttoPictureViewer *viewer);
+rstto_picture_viewer_set_zoom_mode (RsttoPictureViewer *viewer, RsttoZoomMode mode);
 
 static void
 rstto_picture_viewer_size_request(GtkWidget *, GtkRequisition *);
@@ -101,44 +113,35 @@ static void
 rstto_picture_viewer_realize(GtkWidget *);
 static gboolean 
 rstto_picture_viewer_expose(GtkWidget *, GdkEventExpose *);
-
 static void
 rstto_picture_viewer_paint (GtkWidget *widget);
-static gboolean
-rstto_picture_viewer_refresh(RsttoPictureViewer *viewer);
+static gboolean 
+rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer, gboolean refresh);
 
 static gboolean
 rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *, GtkAdjustment *, GtkAdjustment *);
 
 static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *, RsttoPictureViewer *);
+
 static void
-cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *, GdkEventScroll *);
+cb_rstto_picture_viewer_image_updated (RsttoImage *image, RsttoPictureViewer *viewer);
+static void
+cb_rstto_picture_viewer_image_prepared (RsttoImage *image, RsttoPictureViewer *viewer);
+
+static gboolean 
+cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer);
+
+static void
+cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEventButton *event);
+static void
+cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEventButton *event);
 static gboolean 
 cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
                                              GdkEventMotion *event,
                                              gpointer user_data);
 static void
-cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEventButton *event);
-static void
-cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEventButton *event);
-static void
 cb_rstto_picture_viewer_popup_menu (RsttoPictureViewer *viewer, gboolean user_data);
-
-static gboolean
-rstto_picture_viewer_drag_drop (GtkWidget *widget,
-                                GdkDragContext *context,
-                                gint x,
-                                gint y,
-                                guint time);
-static gboolean
-rstto_picture_viewer_drag_motion (GtkWidget *widget,
-                                GdkDragContext *context,
-                                gint x,
-                                gint y,
-                                guint time);
-static void
-rstto_picture_viewer_drag_data_received();
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -182,14 +185,15 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
                            GDK_BUTTON_RELEASE_MASK |
                            GDK_BUTTON1_MOTION_MASK);
 
-    g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_picture_viewer_scroll_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_picture_viewer_button_press_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "button_release_event", G_CALLBACK(cb_rstto_picture_viewer_button_release_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "motion_notify_event", G_CALLBACK(cb_rstto_picture_viewer_motion_notify_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "popup-menu", G_CALLBACK(cb_rstto_picture_viewer_popup_menu), NULL);
 
+    /*
     gtk_drag_dest_set(GTK_WIDGET(viewer), 0, drop_targets, G_N_ELEMENTS(drop_targets),
                       GDK_ACTION_COPY | GDK_ACTION_LINK | GDK_ACTION_MOVE | GDK_ACTION_PRIVATE);
+    */
 }
 
 /**
@@ -240,6 +244,12 @@ rstto_marshal_VOID__OBJECT_OBJECT (GClosure     *closure,
               data2);
 }
 
+/**
+ * rstto_picture_viewer_class_init:
+ * @viewer_class:
+ *
+ * Initialize pictureviewer class
+ */
 static void
 rstto_picture_viewer_class_init(RsttoPictureViewerClass *viewer_class)
 {
@@ -257,12 +267,8 @@ rstto_picture_viewer_class_init(RsttoPictureViewerClass *viewer_class)
     widget_class->expose_event = rstto_picture_viewer_expose;
     widget_class->size_request = rstto_picture_viewer_size_request;
     widget_class->size_allocate = rstto_picture_viewer_size_allocate;
-    widget_class->drag_drop = rstto_picture_viewer_drag_drop;
-    widget_class->drag_motion = rstto_picture_viewer_drag_motion;
-    widget_class->drag_data_received = rstto_picture_viewer_drag_data_received;
 
     object_class->destroy = rstto_picture_viewer_destroy;
-
 
     widget_class->set_scroll_adjustments_signal =
                   g_signal_new ("set_scroll_adjustments",
@@ -276,33 +282,11 @@ rstto_picture_viewer_class_init(RsttoPictureViewerClass *viewer_class)
                                 GTK_TYPE_ADJUSTMENT);
 }
 
-static void
-rstto_picture_viewer_size_request(GtkWidget *widget, GtkRequisition *requisition)
-{
-    requisition->width = 300;
-    requisition->height= 400;
-}
-
-static void
-rstto_picture_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
-{
-    RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER(widget);
-    gint border_width =  0;
-    widget->allocation = *allocation;
-
-    if (GTK_WIDGET_REALIZED (widget))
-    {
-         gdk_window_move_resize (widget->window,
-            allocation->x + border_width,
-            allocation->y + border_width,
-            allocation->width - border_width * 2,
-            allocation->height - border_width * 2);
-    }
-
-    rstto_picture_viewer_refresh(viewer);
-    rstto_picture_viewer_paint (GTK_WIDGET(viewer));
-}
-
+/**
+ * rstto_picture_viewer_realize:
+ * @widget:
+ *
+ */
 static void
 rstto_picture_viewer_realize(GtkWidget *widget)
 {
@@ -334,14 +318,76 @@ rstto_picture_viewer_realize(GtkWidget *widget)
     gtk_style_set_background (widget->style, widget->window, GTK_STATE_ACTIVE);
 }
 
+/**
+ * rstto_picture_viewer_size_request:
+ * @widget:
+ * @requisition:
+ *
+ * Request a default size of 300 by 400 pixels
+ */
+static void
+rstto_picture_viewer_size_request(GtkWidget *widget, GtkRequisition *requisition)
+{
+    requisition->width = 400;
+    requisition->height= 300;
+}
+
+
+/**
+ * rstto_picture_viewer_size_allocate:
+ * @widget:
+ * @allocation:
+ *
+ *
+ */
+static void
+rstto_picture_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
+{
+    RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER(widget);
+    gint border_width =  0;
+    widget->allocation = *allocation;
+
+    if (GTK_WIDGET_REALIZED (widget))
+    {
+         gdk_window_move_resize (widget->window,
+            allocation->x + border_width,
+            allocation->y + border_width,
+            allocation->width - border_width * 2,
+            allocation->height - border_width * 2);
+    }
+
+    /** 
+     * TODO: Check if we really nead a refresh
+     */
+    rstto_picture_viewer_queued_repaint (viewer, FALSE);
+    //rstto_picture_viewer_paint (viewer);
+}
+
+/**
+ * rstto_picture_viewer_expose:
+ * @widget:
+ * @event:
+ *
+ */
 static gboolean
 rstto_picture_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
 {
-    rstto_picture_viewer_refresh (RSTTO_PICTURE_VIEWER(widget));
-    rstto_picture_viewer_paint (widget);
+    RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER (widget);
+
+    /** 
+     * TODO: Check if we really nead a refresh
+     */
+    //rstto_picture_viewer_paint (viewer);
+    rstto_picture_viewer_queued_repaint (viewer, TRUE);
     return FALSE;
 }
 
+/**
+ * rstto_picture_viewer_paint:
+ * @widget:
+ *
+ * Paint the picture_viewer widget contents
+ */
 static void
 rstto_picture_viewer_paint (GtkWidget *widget)
 {
@@ -427,7 +473,7 @@ rstto_picture_viewer_paint (GtkWidget *widget)
                             y2,
                             GDK_RGB_DITHER_NONE,
                             0,0);
-            if(viewer->priv->state == RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM)
+            if(viewer->priv->motion.state == RSTTO_PICTURE_VIEWER_MOTION_STATE_BOX_ZOOM)
             {
                 gdk_gc_set_foreground(gc,
                         &(widget->style->fg[GTK_STATE_SELECTED]));
@@ -558,11 +604,10 @@ rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *viewer, GtkAdjus
 static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureViewer *viewer)
 {
-    if (viewer->priv->refresh.idle_id > 0)
-    {
-        g_source_remove(viewer->priv->refresh.idle_id);
-    }
-    viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
+    /** 
+     * A new subpixbuf needs to be blown up
+     */
+    rstto_picture_viewer_queued_repaint (viewer, TRUE);
 }
 
 GtkWidget *
@@ -578,85 +623,62 @@ rstto_picture_viewer_new()
 void
 rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
 {
-    gdouble *old_scale, *new_scale;
+    gdouble *img_scale, *new_scale;
     GdkPixbuf *src_pixbuf = NULL;
-    gboolean *fit_to_screen = NULL;
 
     if (viewer->priv->image)
     {
         src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
-        old_scale = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
-        fit_to_screen = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen");
-        rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_CUSTOM);
+        img_scale = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
 
-        new_scale = g_new0 (gdouble, 1);
-        *new_scale = scale;
-        *fit_to_screen = FALSE;
-        g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", new_scale);
-        g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
-
-        gdouble width = (gdouble)gdk_pixbuf_get_width (src_pixbuf);
-        gdouble height = (gdouble)gdk_pixbuf_get_height (src_pixbuf);
-
-
-        viewer->hadjustment->upper = width * (*new_scale);
-        gtk_adjustment_changed(viewer->hadjustment);
-
-        viewer->vadjustment->upper = height * (*new_scale);
-        gtk_adjustment_changed(viewer->vadjustment);
-
-        viewer->hadjustment->value = (((viewer->hadjustment->value +
-                                      (viewer->hadjustment->page_size / 2)) *
-                                       (*new_scale)) / (*old_scale)) - (viewer->hadjustment->page_size / 2);
-        viewer->vadjustment->value = (((viewer->vadjustment->value +
-                                      (viewer->vadjustment->page_size / 2)) *
-                                       (*new_scale)) / (*old_scale)) - (viewer->vadjustment->page_size / 2);
-
-        if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+        if (src_pixbuf)
         {
-            viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-        }
-        if(viewer->hadjustment->value < viewer->hadjustment->lower)
-        {
-            viewer->hadjustment->value = viewer->hadjustment->lower;
-        }
-        if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
-        {
-            viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
-        }
-        if(viewer->vadjustment->value < viewer->vadjustment->lower)
-        {
-            viewer->vadjustment->value = viewer->vadjustment->lower;
-        }
+            gdouble width = (gdouble)gdk_pixbuf_get_width (src_pixbuf);
+            gdouble height = (gdouble)gdk_pixbuf_get_height (src_pixbuf);
 
-        gtk_adjustment_value_changed(viewer->hadjustment);
-        gtk_adjustment_value_changed(viewer->vadjustment);
 
-        g_free (old_scale);
+            viewer->hadjustment->upper = width * scale;
+            gtk_adjustment_changed(viewer->hadjustment);
 
-    }
-}
+            viewer->vadjustment->upper = height * scale;
+            gtk_adjustment_changed(viewer->vadjustment);
 
-/**
- * rstto_picture_viewer_fit_scale:
- * @viewer:
- *
- */
-static gdouble
-rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer)
-{
-    gboolean *fit_to_screen;
-    if (viewer->priv->image)
-    {
-        fit_to_screen = g_new0(gboolean, 1);
-        g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
+            viewer->hadjustment->value = (((viewer->hadjustment->value +
+                                          (viewer->hadjustment->page_size / 2)) *
+                                           (scale)) / (*img_scale)) - (viewer->hadjustment->page_size / 2);
+            viewer->vadjustment->value = (((viewer->vadjustment->value +
+                                          (viewer->vadjustment->page_size / 2)) *
+                                           (scale)) / (*img_scale)) - (viewer->vadjustment->page_size / 2);
 
-        if(rstto_picture_viewer_refresh(viewer))
-        {
-            rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+            if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+            {
+                viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+            }
+            if(viewer->hadjustment->value < viewer->hadjustment->lower)
+            {
+                viewer->hadjustment->value = viewer->hadjustment->lower;
+            }
+            if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+            {
+                viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+            }
+            if(viewer->vadjustment->value < viewer->vadjustment->lower)
+            {
+                viewer->vadjustment->value = viewer->vadjustment->lower;
+            }
+
+            gtk_adjustment_value_changed(viewer->hadjustment);
+            gtk_adjustment_value_changed(viewer->vadjustment);
+
+            /** 
+             * Set these settings at the end of the function, 
+             * since the old and new values are required in the above code
+             */
+            *img_scale = scale;
+
+            rstto_picture_viewer_queued_repaint (viewer, TRUE);
         }
     }
-    return 0;
 }
 
 gdouble
@@ -671,213 +693,42 @@ rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer)
     return 0;
 }
 
-static gboolean
-rstto_picture_viewer_refresh(RsttoPictureViewer *viewer)
+/**
+ * rstto_picture_viewer_calculate_scale:
+ * @viewer:
+ *
+ */
+static gdouble
+rstto_picture_viewer_calculate_scale (RsttoPictureViewer *viewer)
 {
-    GtkWidget *widget = GTK_WIDGET(viewer);
-    GdkPixbuf *src_pixbuf = NULL, *tmp_pixbuf = NULL;
-    GdkPixbuf *thumb_pixbuf = NULL;
-    gboolean *fit_to_screen = NULL;
-    gdouble *scale = NULL; 
+    GdkPixbuf *p_src_pixbuf;
     gint width = 0, height = 0;
-    gboolean vadjustment_changed = FALSE;
-    gboolean hadjustment_changed = FALSE;
 
-    /**
-     * Get all the required image peripherals
-     */
     if (viewer->priv->image != NULL)
     {   
-        src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
-        thumb_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
-
-        width = gdk_pixbuf_get_width(src_pixbuf);
-        height = gdk_pixbuf_get_height(src_pixbuf);
-
-        fit_to_screen = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen");
-        scale         = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
-    }
-
-    if (scale == NULL)
-        scale = g_new0 (gdouble, 1);
-
-    if (fit_to_screen == NULL)
-        fit_to_screen = g_new0 (gboolean, 1);
-
-    /**
-     * Clean up the destination pixbuf, since we are going to re-create it
-     * anyway
-     */
-    if(viewer->priv->dst_pixbuf)
-    {
-        g_object_unref(viewer->priv->dst_pixbuf);
-        viewer->priv->dst_pixbuf = NULL;
-    }
-
-    /**
-     * If Scale == 0, this means the image has not been rendered before.
-     * When this is the case, we render the image at 100% unless it is
-     * larger thenthe dimensions of the picture viewer.
-     */
-    if ((*scale == 0) && (viewer->priv->image))
-    {
-        /* Check if the image fits inside the viewer,
-         * if not, scale it down to fit
-         */
-        if ((GTK_WIDGET (viewer)->allocation.width < width) ||
-            (GTK_WIDGET (viewer)->allocation.height < height))
+        p_src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
+        if (p_src_pixbuf)
         {
-            *fit_to_screen = TRUE;
-            /* The image does not fit the picture-viewer, and 
-             * we decided to scale it down to fit. Now we need to check
-             * which side we need to use as a reference.
-             *
-             * We use the one that produces a larger scale difference
-             * to the viewer. This way we know the image will always fit.
-             */
-            if ((GTK_WIDGET (viewer)->allocation.width / width) >
-                (GTK_WIDGET (viewer)->allocation.height / height))
-            {
-                *scale = (gdouble)GTK_WIDGET (viewer)->allocation.width / (gdouble)width;
-            }
-            else
-            {
-                *scale = (gdouble)GTK_WIDGET (viewer)->allocation.height / (gdouble)height;
-            }
-            
+
+            width = gdk_pixbuf_get_width (p_src_pixbuf);
+            height = gdk_pixbuf_get_height (p_src_pixbuf);
+
+        }
+    }
+
+    if (width > 0 && height > 0)
+    {
+        if ((gdouble)(GTK_WIDGET (viewer)->allocation.width / (gdouble)width) <
+            ((gdouble)GTK_WIDGET (viewer)->allocation.height / (gdouble)height))
+        {
+            return (gdouble)GTK_WIDGET (viewer)->allocation.width / (gdouble)width;
         }
         else
         {
-            /* The image is smaller then the picture-viewer,
-             * As a result, view it at it's original size.
-             */
-            *scale = 1.0;
-            *fit_to_screen = FALSE;
-        }
-        g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", scale);
-        g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
-
-    }
-    else
-    {
-        switch (viewer->priv->zoom_mode)
-        {
-            case RSTTO_ZOOM_MODE_FIT:
-                *fit_to_screen = TRUE;
-                g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
-                break;
-            case RSTTO_ZOOM_MODE_100:
-                *fit_to_screen = FALSE;
-                *scale = 1.0;
-                g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", scale);
-                break;
-            case RSTTO_ZOOM_MODE_CUSTOM:
-                break;
-        }
-
-        if(*fit_to_screen)
-        {
-            /* The image does not fit the picture-viewer, and 
-             * we decided to scale it down to fit. Now we need to check
-             * which side we need to use as a reference.
-             *
-             * We use the one that produces a larger scale difference
-             * to the viewer. This way we know the image will always fit.
-             */
-            if ((GTK_WIDGET (viewer)->allocation.width / width) >
-                (GTK_WIDGET (viewer)->allocation.height / height))
-            {
-                *scale = (gdouble)GTK_WIDGET (viewer)->allocation.width / (gdouble)width;
-            }
-            else
-            {
-                *scale = (gdouble)GTK_WIDGET (viewer)->allocation.height / (gdouble)height;
-            }
-
-            g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", scale);
+            return (gdouble)GTK_WIDGET (viewer)->allocation.height / (gdouble)height;
         }
     }
-
-    if (GTK_WIDGET_REALIZED (widget))
-    {
-        if (viewer->hadjustment && viewer->hadjustment)
-        {
-            viewer->hadjustment->page_size = widget->allocation.width;
-            viewer->hadjustment->upper = width * (*scale);
-            viewer->hadjustment->lower = 0;
-
-            if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
-            {
-                viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-                hadjustment_changed = TRUE;
-            }
-            if(viewer->hadjustment->value < viewer->hadjustment->lower)
-            {
-                viewer->hadjustment->value = viewer->hadjustment->lower;
-                hadjustment_changed = TRUE;
-            }
-
-            viewer->vadjustment->page_size = widget->allocation.height;
-            viewer->vadjustment->upper = height * (*scale);
-            viewer->vadjustment->lower = 0;
-
-            if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
-            {
-                viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
-                vadjustment_changed = TRUE;
-            }
-            if(viewer->vadjustment->value < viewer->vadjustment->lower)
-            {
-                viewer->vadjustment->value = viewer->vadjustment->lower;
-                vadjustment_changed = TRUE;
-            }
-
-        }
-
-        if (viewer->priv->state == RSTTO_PICTURE_VIEWER_STATE_PREVIEW)
-        {
-
-            viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (thumb_pixbuf,
-                                                            (gint)((gdouble)width * (*scale)),
-                                                            (gint)((gdouble)height * (*scale)),
-                                                            GDK_INTERP_BILINEAR);
-        }
-        else
-        {
-            if (src_pixbuf)
-            {
-                tmp_pixbuf = gdk_pixbuf_new_subpixbuf(src_pixbuf,
-                                                   (gint)(viewer->hadjustment->value / (*scale)), 
-                                                          viewer->vadjustment->value / (*scale),
-                                                        ((widget->allocation.width/(*scale))) < (gdouble)width?
-                                                          widget->allocation.width/(*scale):(gdouble)width,
-                                                        ((widget->allocation.height/(*scale)))< (gdouble)height?
-                                                          widget->allocation.height/(*scale):(gdouble)height);
-                if(tmp_pixbuf)
-                {
-                    gint dst_width = (gdouble)gdk_pixbuf_get_width(tmp_pixbuf)*(*scale);
-                    gint dst_height = (gdouble)gdk_pixbuf_get_height(tmp_pixbuf)*(*scale);
-                    viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf,
-                                            dst_width>0?dst_width:1,
-                                            dst_height>0?dst_height:1,
-                                            GDK_INTERP_BILINEAR);
-                    g_object_unref(tmp_pixbuf);
-                    tmp_pixbuf = NULL;
-                }
-            }
-
-        }
-        if (viewer->vadjustment && viewer->hadjustment)
-        {
-            gtk_adjustment_changed(viewer->hadjustment);
-            gtk_adjustment_changed(viewer->vadjustment);
-        }
-        if (hadjustment_changed == TRUE)
-            gtk_adjustment_value_changed(viewer->hadjustment);
-        if (vadjustment_changed == TRUE)
-            gtk_adjustment_value_changed(viewer->vadjustment);
-    }
-    return TRUE;
+    return -1;
 }
 
 static void
@@ -897,7 +748,7 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
     {
         case GDK_SCROLL_UP:
         case GDK_SCROLL_LEFT:
-            if (scale <= 0.05)
+            if (scale= 0.05)
                 return;
             if (viewer->priv->refresh.idle_id > 0)
             {
@@ -945,15 +796,9 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
         viewer->priv->motion.current_x = event->x;
         viewer->priv->motion.current_y = event->y;
 
-        if (viewer->priv->refresh.idle_id > 0)
+        switch (viewer->priv->motion.state)
         {
-            g_source_remove(viewer->priv->refresh.idle_id);
-            viewer->priv->refresh.idle_id = 0;
-        }
-
-        switch (viewer->priv->state)
-        {
-            case RSTTO_PICTURE_VIEWER_STATE_MOVE:
+            case RSTTO_PICTURE_VIEWER_MOTION_STATE_MOVE:
                 if (viewer->priv->motion.x != viewer->priv->motion.current_x)
                 {
                     gint val = viewer->hadjustment->value;
@@ -986,12 +831,8 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
                         gtk_adjustment_value_changed(viewer->vadjustment);
                 }
                 break;
-            case RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM:
-                if (viewer->priv->refresh.idle_id)
-                {
-                    g_source_remove(viewer->priv->refresh.idle_id);
-                }
-                viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
+            case RSTTO_PICTURE_VIEWER_MOTION_STATE_BOX_ZOOM:
+                rstto_picture_viewer_queued_repaint (viewer, FALSE);
                 break;
             default:
                 break;
@@ -1000,15 +841,226 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
     return FALSE;
 }
 
-static gboolean 
-cb_rstto_picture_viewer_queued_repaint(RsttoPictureViewer *viewer)
+static void
+rstto_picture_viewer_calculate_adjustments (RsttoPictureViewer *viewer, gdouble scale)
 {
-    //rstto_picture_viewer_refresh(viewer);
-    rstto_picture_viewer_paint(GTK_WIDGET(viewer));
+    GdkPixbuf *p_src_pixbuf;
+    GtkWidget *widget = GTK_WIDGET (viewer);
+    gdouble width, height;
+    gboolean vadjustment_changed = FALSE;
+    gboolean hadjustment_changed = FALSE;
 
-    g_source_remove(viewer->priv->refresh.idle_id);
-    viewer->priv->refresh.idle_id = -1;
+    if (viewer->priv->image != NULL)
+    {   
+        p_src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
+        if (p_src_pixbuf)
+        {
+            width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
+            height = (gdouble)gdk_pixbuf_get_height (p_src_pixbuf);
+
+
+            if(viewer->hadjustment)
+            {
+                viewer->hadjustment->page_size = widget->allocation.width;
+                viewer->hadjustment->upper = width * scale;
+                viewer->hadjustment->lower = 0;
+                viewer->hadjustment->step_increment = 1;
+                viewer->hadjustment->page_increment = 100;
+                if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+                {
+                    viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+                    hadjustment_changed = TRUE;
+                }
+                if(viewer->hadjustment->value < viewer->hadjustment->lower)
+                {
+                    viewer->hadjustment->value = viewer->hadjustment->lower;
+                    hadjustment_changed = TRUE;
+                }
+            }
+            if(viewer->vadjustment)
+            {
+                viewer->vadjustment->page_size = widget->allocation.height;
+                viewer->vadjustment->upper = height * scale;
+                viewer->vadjustment->lower = 0;
+                viewer->vadjustment->step_increment = 1;
+                viewer->vadjustment->page_increment = 100;
+                if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+                {
+                    viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+                    vadjustment_changed = TRUE;
+                }
+                if(viewer->vadjustment->value < viewer->vadjustment->lower)
+                {
+                    viewer->vadjustment->value = viewer->vadjustment->lower;
+                    vadjustment_changed = TRUE;
+                }
+            }
+
+            if (viewer->vadjustment && viewer->hadjustment)
+            {
+                gtk_adjustment_changed(viewer->hadjustment);
+                gtk_adjustment_changed(viewer->vadjustment);
+            }
+            if (hadjustment_changed == TRUE)
+                gtk_adjustment_value_changed(viewer->hadjustment);
+            if (vadjustment_changed == TRUE)
+                gtk_adjustment_value_changed(viewer->vadjustment);
+        }
+    }
+
+}
+
+static gboolean 
+rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer, gboolean refresh)
+{
+    g_return_if_fail (RSTTO_IS_PICTURE_VIEWER (viewer));
+
+    if (viewer->priv->repaint.idle_id > 0)
+    {
+        g_source_remove(viewer->priv->repaint.idle_id);
+    }
+    if (refresh)
+    {
+        viewer->priv->repaint.refresh = TRUE;
+    }
+    viewer->priv->repaint.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
+}
+
+static gboolean 
+cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
+{
+    GdkPixbuf *p_src_pixbuf = NULL;
+    GdkPixbuf *p_tmp_pixbuf = NULL;
+    gdouble *p_scale = NULL;
+    gdouble scale;
+    gdouble width, height;
+    GtkWidget *widget = GTK_WIDGET (viewer);
+
+    if (viewer->priv->image != NULL)
+    {   
+        p_src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
+        if (p_src_pixbuf)
+        {
+            width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
+            height = (gdouble)gdk_pixbuf_get_height (p_src_pixbuf);
+        }
+
+        p_scale = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
+        scale = *p_scale;
+    }
+
+    if (scale <= 0)
+    {
+        scale = rstto_picture_viewer_calculate_scale (viewer);
+        *p_scale = scale;
+    }
+
+    rstto_picture_viewer_calculate_adjustments (viewer, scale);
+
+
+    switch (viewer->priv->state)
+    {
+        case RSTTO_PICTURE_VIEWER_STATE_NORMAL:
+            if (viewer->priv->repaint.refresh)
+            {
+                if (p_src_pixbuf)
+                {
+                    if (*p_scale == 1.0 )
+                    {
+                        p_tmp_pixbuf = p_src_pixbuf;
+                        g_object_ref (p_tmp_pixbuf);
+                    }
+                    else
+                    {
+                        p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
+                                                           (gint)(viewer->hadjustment->value / scale), 
+                                                                  viewer->vadjustment->value / scale,
+                                                                ((widget->allocation.width/scale)) < width?
+                                                                  widget->allocation.width/scale:width,
+                                                                ((widget->allocation.height/scale))< height?
+                                                                  widget->allocation.height/scale:height);
+
+                    }
+                    if(viewer->priv->dst_pixbuf)
+                    {
+                        g_object_unref(viewer->priv->dst_pixbuf);
+                        viewer->priv->dst_pixbuf = NULL;
+                    }
+                    if(p_tmp_pixbuf)
+                    {
+                        gint dst_width = gdk_pixbuf_get_width (p_tmp_pixbuf)*scale;
+                        gint dst_height = gdk_pixbuf_get_height (p_tmp_pixbuf)*scale;
+                        viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (p_tmp_pixbuf,
+                                                dst_width>0?dst_width:1,
+                                                dst_height>0?dst_height:1,
+                                                GDK_INTERP_BILINEAR);
+                        g_object_unref (p_tmp_pixbuf);
+                        p_tmp_pixbuf = NULL;
+                    }
+                }
+            }
+            rstto_picture_viewer_paint (GTK_WIDGET (viewer));
+            break;
+        case RSTTO_PICTURE_VIEWER_STATE_PREVIEW:
+            if (viewer->priv->image)
+            {
+                p_tmp_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
+                if (G_LIKELY (p_scale == NULL))
+                {
+                    p_scale = g_new0 (gdouble, 1);
+                    g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", p_scale);
+                }
+                *p_scale = scale;
+
+                if (p_tmp_pixbuf)
+                {
+                    g_object_ref (p_tmp_pixbuf);
+
+                    if(viewer->priv->dst_pixbuf)
+                    {
+                        g_object_unref(viewer->priv->dst_pixbuf);
+                        viewer->priv->dst_pixbuf = NULL;
+                    }
+                    if(p_tmp_pixbuf)
+                    {
+                        gint dst_width = gdk_pixbuf_get_width (p_src_pixbuf)*scale;
+                        gint dst_height = gdk_pixbuf_get_height (p_src_pixbuf)*scale;
+                        viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (p_tmp_pixbuf,
+                                                dst_width>0?dst_width:1,
+                                                dst_height>0?dst_height:1,
+                                                GDK_INTERP_BILINEAR);
+                        g_object_unref (p_tmp_pixbuf);
+                        p_tmp_pixbuf = NULL;
+                    }
+                }
+    
+            }
+            rstto_picture_viewer_paint (GTK_WIDGET(viewer));
+            break;
+    }
+
+    g_source_remove(viewer->priv->repaint.idle_id);
+    viewer->priv->repaint.idle_id = -1;
+    viewer->priv->repaint.refresh = FALSE;
     return FALSE;
+}
+
+static RsttoPictureViewerState
+rstto_picture_viewer_get_state (RsttoPictureViewer *viewer)
+{
+    return viewer->priv->state;
+}
+
+static void
+rstto_picture_viewer_set_state (RsttoPictureViewer *viewer, RsttoPictureViewerState state)
+{
+    viewer->priv->state = state;
+}
+
+static void
+rstto_picture_viewer_set_motion_state (RsttoPictureViewer *viewer, RsttoPictureViewerMotionState state)
+{
+    viewer->priv->motion.state = state;
 }
 
 static void
@@ -1023,7 +1075,7 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
         viewer->priv->motion.h_val = viewer->hadjustment->value;
         viewer->priv->motion.v_val = viewer->vadjustment->value;
 
-        if (viewer->priv->image != NULL && viewer->priv->state == RSTTO_PICTURE_VIEWER_STATE_NONE)
+        if (viewer->priv->image != NULL && rstto_picture_viewer_get_state (viewer) == RSTTO_PICTURE_VIEWER_STATE_NORMAL)
         {
 
             if (!(event->state & (GDK_CONTROL_MASK)))
@@ -1033,7 +1085,7 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
                 gdk_window_set_cursor(widget->window, cursor);
                 gdk_cursor_unref(cursor);
 
-                viewer->priv->state = RSTTO_PICTURE_VIEWER_STATE_MOVE;
+                rstto_picture_viewer_set_motion_state (viewer, RSTTO_PICTURE_VIEWER_MOTION_STATE_MOVE);
             }
 
             if (event->state & GDK_CONTROL_MASK)
@@ -1043,7 +1095,7 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
                 gdk_window_set_cursor(widget->window, cursor);
                 gdk_cursor_unref(cursor);
 
-                viewer->priv->state = RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM;
+                rstto_picture_viewer_set_motion_state (viewer, RSTTO_PICTURE_VIEWER_MOTION_STATE_BOX_ZOOM);
             }
         }
 
@@ -1071,140 +1123,9 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
     GtkWidget *widget = GTK_WIDGET(viewer);
 
     gdk_window_set_cursor(widget->window, NULL);
-    if (viewer->priv->state != RSTTO_PICTURE_VIEWER_STATE_PREVIEW)
-        viewer->priv->state = RSTTO_PICTURE_VIEWER_STATE_NONE;
-    if (viewer->priv->refresh.idle_id > 0)
-    {
-        g_source_remove(viewer->priv->refresh.idle_id);
-    }
-    viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
-    /*
-    if(event->button == 1)
-    {
-        GtkWidget *widget = GTK_WIDGET(viewer);
-        gdk_window_set_cursor(widget->window, NULL);
-        switch (viewer->priv->motion.state)
-        {
-            case RSTTO_PICTURE_VIEWER_STATE_NONE:
-                break;
-            case RSTTO_PICTURE_VIEWER_STATE_MOVE:
-                break;
-            case RSTTO_PICTURE_VIEWER_STATE_BOX_ZOOM:
-                viewer->priv->zoom_mode = RSTTO_ZOOM_MODE_CUSTOM;
-                if(GTK_WIDGET_REALIZED(widget))
-                {
-                    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
-                    gdouble scale = rstto_navigator_entry_get_scale(entry);
-                    gdouble old_scale = scale;
-                    gdouble width = (gdouble)gdk_pixbuf_get_width(viewer->priv->src_pixbuf);
-                    gdouble height = (gdouble)gdk_pixbuf_get_height(viewer->priv->src_pixbuf);
 
-                    gdouble d_width = (gdouble)gdk_pixbuf_get_width(viewer->priv->dst_pixbuf);
-                    gdouble d_height = (gdouble)gdk_pixbuf_get_height(viewer->priv->dst_pixbuf);
-
-                    gdouble box_width, box_height;
-                    gdouble top_left_x, top_left_y;
-
-                    if (viewer->priv->motion.x < viewer->priv->motion.current_x)
-                    {
-                        gint x_offset = (widget->allocation.width - d_width)<=0?0:((widget->allocation.width - d_width)/2);
-                        top_left_x = viewer->priv->motion.x + viewer->hadjustment->value - x_offset;
-                        box_width = viewer->priv->motion.current_x - viewer->priv->motion.x;
-                    }
-                    else
-                    {
-                        gint x_offset = (widget->allocation.width - d_width)<=0?0:((widget->allocation.width - d_width)/2);
-                        top_left_x = viewer->priv->motion.current_x + viewer->hadjustment->value - x_offset;
-                        box_width = viewer->priv->motion.x - viewer->priv->motion.current_x;
-                    }
-                    if (viewer->priv->motion.y < viewer->priv->motion.current_y)
-                    {
-                        gint y_offset = (widget->allocation.height - d_height)<=0?0:((widget->allocation.height - d_height)/2);
-                        top_left_y = viewer->priv->motion.y + viewer->vadjustment->value - y_offset;
-                        box_height = viewer->priv->motion.current_y - viewer->priv->motion.y;
-                    }
-                    else
-                    {
-                        gint y_offset = (widget->allocation.height - d_height) <=0?0:((widget->allocation.height - d_height)/2);
-
-                        top_left_y = viewer->priv->motion.current_y + viewer->vadjustment->value - y_offset;
-                        box_height = viewer->priv->motion.y - viewer->priv->motion.current_y;
-                    }
-
-                    gdouble h_scale = widget->allocation.width / box_width * scale;
-                    gdouble v_scale = widget->allocation.height / box_height * scale;
-
-                     //Check if the mouse has been moved (and there exists a box
-                    if (box_height > 1 && box_width > 1)
-                    {
-                        if (h_scale < v_scale)
-                        {
-                            rstto_navigator_entry_set_scale(entry, h_scale);
-                            gdouble d_box_height = box_height * v_scale / h_scale;
-                            top_left_y -= (d_box_height - box_height) / 2;
-                            box_height = d_box_height;
-                        }
-                        else
-                        {
-                            rstto_navigator_entry_set_scale(entry, v_scale);
-                            gdouble d_box_width = box_width * h_scale / v_scale;
-                            top_left_x -= (d_box_width - box_width) / 2;
-                            box_width = d_box_width;
-                        }
-
-                        rstto_navigator_entry_set_fit_to_screen(entry, FALSE);
-                        scale = rstto_navigator_entry_get_scale(entry);
-
-                        if(viewer->hadjustment)
-                        {
-                            viewer->hadjustment->page_size = box_width / old_scale * scale;
-                            viewer->hadjustment->upper = width * scale;
-                            viewer->hadjustment->lower = 0;
-                            viewer->hadjustment->step_increment = 1;
-                            viewer->hadjustment->page_increment = 100;
-                            viewer->hadjustment->value = top_left_x / old_scale * scale;
-                            if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
-                            {
-                                viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-                            }
-                            if(viewer->hadjustment->value < viewer->hadjustment->lower)
-                            {
-                                viewer->hadjustment->value = viewer->hadjustment->lower;
-                            }
-                            gtk_adjustment_changed(viewer->hadjustment);
-                            gtk_adjustment_value_changed(viewer->hadjustment);
-                        }
-                        if(viewer->vadjustment)
-                        {
-                            viewer->vadjustment->page_size = box_height /old_scale* scale;
-                            viewer->vadjustment->upper = height * scale;
-                            viewer->vadjustment->lower = 0;
-                            viewer->vadjustment->step_increment = 1;
-                            viewer->vadjustment->page_increment = 100;
-                            viewer->vadjustment->value = top_left_y / old_scale * scale;
-                            if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
-                            {
-                                viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
-                            }
-                            if(viewer->vadjustment->value < viewer->vadjustment->lower)
-                            {
-                                viewer->vadjustment->value = viewer->vadjustment->lower;
-                            }
-                            gtk_adjustment_changed(viewer->vadjustment);
-                            gtk_adjustment_value_changed(viewer->vadjustment);
-                        }
-                    }
-                }
-                if (viewer->priv->refresh.idle_id > 0)
-                {
-                    g_source_remove(viewer->priv->refresh.idle_id);
-                }
-                viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
-                break;
-        }
-
-    }
-    */
+    rstto_picture_viewer_set_motion_state (viewer, RSTTO_PICTURE_VIEWER_MOTION_STATE_NORMAL);
+    rstto_picture_viewer_queued_repaint (viewer, FALSE);
 }
 
 static void
@@ -1240,16 +1161,20 @@ rstto_picture_viewer_set_menu (RsttoPictureViewer *viewer, GtkMenu *menu)
     }
 }
 
-void
+static void
 rstto_picture_viewer_set_zoom_mode(RsttoPictureViewer *viewer, RsttoZoomMode mode)
 {
+    gdouble scale;
     viewer->priv->zoom_mode = mode;
+
     switch (viewer->priv->zoom_mode)
     {
         case RSTTO_ZOOM_MODE_CUSTOM:
             break;
         case RSTTO_ZOOM_MODE_FIT:
-            rstto_picture_viewer_fit_scale (viewer);
+            scale = rstto_picture_viewer_calculate_scale (viewer);
+            if (scale != -1.0)
+                rstto_picture_viewer_set_scale (viewer, scale);
             break;
         case RSTTO_ZOOM_MODE_100:
             rstto_picture_viewer_set_scale (viewer, 1);
@@ -1267,6 +1192,9 @@ rstto_picture_viewer_set_zoom_mode(RsttoPictureViewer *viewer, RsttoZoomMode mod
 void
 rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
 {
+    gdouble *scale = NULL;
+    gboolean *fit_to_screen = NULL;
+
     if (viewer->priv->image)
     {
         g_signal_handlers_disconnect_by_func (viewer->priv->image, cb_rstto_picture_viewer_image_updated, viewer);
@@ -1281,29 +1209,114 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
         g_object_ref (viewer->priv->image);
         g_signal_connect (G_OBJECT (viewer->priv->image), "updated", G_CALLBACK (cb_rstto_picture_viewer_image_updated), viewer);
         g_signal_connect (G_OBJECT (viewer->priv->image), "prepared", G_CALLBACK (cb_rstto_picture_viewer_image_prepared), viewer);
+
+        scale = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
+        fit_to_screen = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen");
+
+        if (scale == NULL)
+        {
+            scale = g_new0 (gdouble, 1);
+            *scale = 0.0;
+            g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", scale);
+        }
+        if (fit_to_screen == NULL)
+        {
+            fit_to_screen = g_new0 (gboolean, 1);
+            g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
+        }
         rstto_image_load (viewer->priv->image, FALSE, NULL);
     }
 }
 
+/**
+ * cb_rstto_picture_viewer_image_updated:
+ * @image:
+ * @viewer:
+ *
+ */
 static void
 cb_rstto_picture_viewer_image_updated (RsttoImage *image, RsttoPictureViewer *viewer)
 {
-    if (viewer->priv->state == RSTTO_PICTURE_VIEWER_STATE_PREVIEW)
-        viewer->priv->state = RSTTO_PICTURE_VIEWER_STATE_NONE;
+    rstto_picture_viewer_set_state (viewer, RSTTO_PICTURE_VIEWER_STATE_NORMAL);
 
-    rstto_picture_viewer_refresh (viewer);   
-    rstto_picture_viewer_paint (GTK_WIDGET (viewer));
+    rstto_picture_viewer_queued_repaint (viewer, TRUE);
 }
 
+/**
+ * cb_rstto_picture_viewer_image_prepared:
+ * @image:
+ * @viewer:
+ *
+ */
 static void
 cb_rstto_picture_viewer_image_prepared (RsttoImage *image, RsttoPictureViewer *viewer)
 {
-    if (viewer->priv->state == RSTTO_PICTURE_VIEWER_STATE_NONE)
-        viewer->priv->state = RSTTO_PICTURE_VIEWER_STATE_PREVIEW;
+    rstto_picture_viewer_set_state (viewer, RSTTO_PICTURE_VIEWER_STATE_PREVIEW);
 
-    rstto_picture_viewer_refresh (viewer);   
-    rstto_picture_viewer_paint (GTK_WIDGET (viewer));
+    rstto_picture_viewer_queued_repaint (viewer, TRUE);
 }
+
+/**
+ * rstto_picture_viewer_zoom_fit:
+ * @window:
+ *
+ * Adjust the scale to make the image fit the window
+ */
+void
+rstto_picture_viewer_zoom_fit (RsttoPictureViewer *viewer)
+{
+    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_FIT);
+}
+
+/**
+ * rstto_picture_viewer_zoom_100:
+ * @viewer:
+ *
+ * Set the scale to 1, meaning a zoom-factor of 100%
+ */
+void
+rstto_picture_viewer_zoom_100 (RsttoPictureViewer *viewer)
+{
+    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_100);
+}
+
+/**
+ * rstto_picture_viewer_zoom_in:
+ * @viewer:
+ * @factor:
+ *
+ * Zoom in the scale with a certain factor
+ */
+void
+rstto_picture_viewer_zoom_in (RsttoPictureViewer *viewer, gdouble factor)
+{
+    gdouble scale;
+
+    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_CUSTOM);
+    scale = rstto_picture_viewer_get_scale (viewer);
+    rstto_picture_viewer_set_scale (viewer, scale * factor);
+}
+
+/**
+ * rstto_picture_viewer_zoom_out:
+ * @viewer:
+ * @factor:
+ *
+ * Zoom out the scale with a certain factor
+ */
+void
+rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gdouble factor)
+{
+    gdouble scale;
+
+    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_CUSTOM);
+    scale = rstto_picture_viewer_get_scale (viewer);
+    rstto_picture_viewer_set_scale (viewer, scale / factor);
+}
+
+
+/******************************************************************************************/
+
 
 /************************
  * FIXME: DnD
@@ -1404,4 +1417,5 @@ rstto_picture_viewer_drag_motion (GtkWidget *widget,
     }
     return TRUE;
 }
+
 

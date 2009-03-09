@@ -407,7 +407,7 @@ rstto_image_load (RsttoImage *image, gboolean empty_cache, GError **error)
     }
     else
     {
-        //g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED], 0, image, NULL);
+        g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED], 0, image, NULL);
     }
     rstto_image_cache_push_image (cache, image);
     return TRUE;
