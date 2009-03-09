@@ -1003,7 +1003,7 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
 static gboolean 
 cb_rstto_picture_viewer_queued_repaint(RsttoPictureViewer *viewer)
 {
-    rstto_picture_viewer_refresh(viewer);
+    //rstto_picture_viewer_refresh(viewer);
     rstto_picture_viewer_paint(GTK_WIDGET(viewer));
 
     g_source_remove(viewer->priv->refresh.idle_id);
