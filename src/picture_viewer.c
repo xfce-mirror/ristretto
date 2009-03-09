@@ -748,7 +748,7 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
     {
         case GDK_SCROLL_UP:
         case GDK_SCROLL_LEFT:
-            if (scale <= 0.05)
+            if (scale= 0.05)
                 return;
             if (viewer->priv->refresh.idle_id > 0)
             {
@@ -954,7 +954,8 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
         scale = rstto_picture_viewer_calculate_scale (viewer);
         *p_scale = scale;
     }
-    rstto_picture_viewer_calculate_adjustments (viewer);
+
+    rstto_picture_viewer_calculate_adjustments (viewer, scale);
 
 
     switch (viewer->priv->state)
@@ -1287,7 +1288,7 @@ rstto_picture_viewer_zoom_100 (RsttoPictureViewer *viewer)
  * Zoom in the scale with a certain factor
  */
 void
-rstto_picture_viewer_zoom_in (RsttoPictureViewer *viewer, gboolean factor)
+rstto_picture_viewer_zoom_in (RsttoPictureViewer *viewer, gdouble factor)
 {
     gdouble scale;
 
@@ -1304,7 +1305,7 @@ rstto_picture_viewer_zoom_in (RsttoPictureViewer *viewer, gboolean factor)
  * Zoom out the scale with a certain factor
  */
 void
-rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gboolean factor)
+rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gdouble factor)
 {
     gdouble scale;
 

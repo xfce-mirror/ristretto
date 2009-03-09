@@ -73,8 +73,8 @@ gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
 
 void       rstto_picture_viewer_zoom_fit (RsttoPictureViewer *viewer);
 void       rstto_picture_viewer_zoom_100 (RsttoPictureViewer *viewer);
-void       rstto_picture_viewer_zoom_in  (RsttoPictureViewer *viewer, gboolean factor);
-void       rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gboolean factor);
+void       rstto_picture_viewer_zoom_in  (RsttoPictureViewer *viewer, gdouble factor);
+void       rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gdouble factor);
 
 /**
 gdouble    rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);
