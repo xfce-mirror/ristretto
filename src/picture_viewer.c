@@ -932,7 +932,9 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
     GdkPixbuf *p_src_pixbuf = NULL;
     GdkPixbuf *p_tmp_pixbuf = NULL;
     gdouble *p_scale = NULL;
+    gboolean *p_fit_to_screen= NULL;
     gdouble scale;
+    gboolean fit_to_screen = FALSE;
     gdouble width, height;
     GtkWidget *widget = GTK_WIDGET (viewer);
 
@@ -946,12 +948,15 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
         }
 
         p_scale = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
+        p_fit_to_screen = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen");
         scale = *p_scale;
+        fit_to_screen = *p_fit_to_screen;
     }
 
-    if (scale <= 0)
+    if ((scale <= 0) || (fit_to_screen == TRUE))
     {
         scale = rstto_picture_viewer_calculate_scale (viewer);
+        *p_fit_to_screen = TRUE;
         *p_scale = scale;
     }
 
@@ -1157,18 +1162,37 @@ static void
 rstto_picture_viewer_set_zoom_mode(RsttoPictureViewer *viewer, RsttoZoomMode mode)
 {
     gdouble scale;
+    gboolean *p_fit_to_screen;
     viewer->priv->zoom_mode = mode;
 
     switch (viewer->priv->zoom_mode)
     {
         case RSTTO_ZOOM_MODE_CUSTOM:
+            if (viewer->priv->image)
+            {
+                p_fit_to_screen = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen");
+                *p_fit_to_screen = FALSE;
+                g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", p_fit_to_screen);
+            }
             break;
         case RSTTO_ZOOM_MODE_FIT:
+            if (viewer->priv->image)
+            {
+                p_fit_to_screen = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen");
+                *p_fit_to_screen = TRUE;
+                g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", p_fit_to_screen);
+            }
             scale = rstto_picture_viewer_calculate_scale (viewer);
             if (scale != -1.0)
                 rstto_picture_viewer_set_scale (viewer, scale);
             break;
         case RSTTO_ZOOM_MODE_100:
+            if (viewer->priv->image)
+            {
+                p_fit_to_screen = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen");
+                *p_fit_to_screen = FALSE;
+                g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", p_fit_to_screen);
+            }
             rstto_picture_viewer_set_scale (viewer, 1);
             break;
     }
@@ -1208,7 +1232,7 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
         if (scale == NULL)
         {
             scale = g_new0 (gdouble, 1);
-            *scale = 0.0;
+            *scale = -1.0;
             g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", scale);
         }
         if (fit_to_screen == NULL)
