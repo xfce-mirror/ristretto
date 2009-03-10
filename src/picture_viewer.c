@@ -965,22 +965,14 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
             {
                 if (p_src_pixbuf)
                 {
-                    if (*p_scale == 1.0 )
-                    {
-                        p_tmp_pixbuf = p_src_pixbuf;
-                        g_object_ref (p_tmp_pixbuf);
-                    }
-                    else
-                    {
-                        p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
-                                                           (gint)(viewer->hadjustment->value / scale), 
-                                                                  viewer->vadjustment->value / scale,
-                                                                ((widget->allocation.width/scale)) < width?
-                                                                  widget->allocation.width/scale:width,
-                                                                ((widget->allocation.height/scale))< height?
-                                                                  widget->allocation.height/scale:height);
+                    p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
+                                                       (gint)(viewer->hadjustment->value / scale), 
+                                                              viewer->vadjustment->value / scale,
+                                                            ((widget->allocation.width/scale)) < width?
+                                                              widget->allocation.width/scale:width,
+                                                            ((widget->allocation.height/scale))< height?
+                                                              widget->allocation.height/scale:height);
 
-                    }
                     if(viewer->priv->dst_pixbuf)
                     {
                         g_object_unref(viewer->priv->dst_pixbuf);
@@ -1039,7 +1031,7 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
             break;
     }
 
-    g_source_remove(viewer->priv->repaint.idle_id);
+    g_source_remove (viewer->priv->repaint.idle_id);
     viewer->priv->repaint.idle_id = -1;
     viewer->priv->repaint.refresh = FALSE;
     return FALSE;
