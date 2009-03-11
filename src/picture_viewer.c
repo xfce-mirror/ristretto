@@ -934,6 +934,8 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
     gdouble *p_scale = NULL;
     gboolean *p_fit_to_screen= NULL;
     gdouble scale;
+    gdouble thumb_scale = 1;
+    gdouble thumb_width = 0;
     gboolean fit_to_screen = FALSE;
     gdouble width, height;
     GtkWidget *widget = GTK_WIDGET (viewer);
@@ -945,96 +947,76 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
         {
             width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
             height = (gdouble)gdk_pixbuf_get_height (p_src_pixbuf);
+            if (viewer->priv->state != RSTTO_PICTURE_VIEWER_STATE_NORMAL)
+            {
+                switch (viewer->priv->state)
+                {
+                    case RSTTO_PICTURE_VIEWER_STATE_PREVIEW:
+                        p_src_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
+                        thumb_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
+                        thumb_scale = (thumb_width / width);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         p_scale = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
         p_fit_to_screen = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen");
         scale = *p_scale;
         fit_to_screen = *p_fit_to_screen;
+
+        if ((scale <= 0) || (fit_to_screen == TRUE))
+        {
+            scale = rstto_picture_viewer_calculate_scale (viewer);
+            *p_fit_to_screen = TRUE;
+            *p_scale = scale;
+        }
     }
 
-    if ((scale <= 0) || (fit_to_screen == TRUE))
-    {
-        scale = rstto_picture_viewer_calculate_scale (viewer);
-        *p_fit_to_screen = TRUE;
-        *p_scale = scale;
-    }
 
     rstto_picture_viewer_calculate_adjustments (viewer, scale);
 
 
-    switch (viewer->priv->state)
+    if (viewer->priv->repaint.refresh)
     {
-        case RSTTO_PICTURE_VIEWER_STATE_NORMAL:
-            if (viewer->priv->repaint.refresh)
+        if (p_src_pixbuf)
+        {
+            /**
+             *  tmp_scale is the factor between the original image and the thumbnail,
+             *  when looking at the actual image, tmp_scale == 1.0
+             */
+            gint x = (gint)viewer->hadjustment->value * scale;
+            gint y = (gint)viewer->vadjustment->value * scale;
+
+            p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
+                                               (gint)(x * thumb_scale), 
+                                                      (y * thumb_scale),
+                                                    ((widget->allocation.width / scale) < width?
+                                                      (widget->allocation.width / scale)*thumb_scale:width*thumb_scale),
+                                                    ((widget->allocation.height / scale) < height?
+                                                      (widget->allocation.height / scale)*thumb_scale:height*thumb_scale));
+
+            if(viewer->priv->dst_pixbuf)
             {
-                if (p_src_pixbuf)
-                {
-                    p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
-                                                       (gint)(viewer->hadjustment->value / scale), 
-                                                              viewer->vadjustment->value / scale,
-                                                            ((widget->allocation.width/scale)) < width?
-                                                              widget->allocation.width/scale:width,
-                                                            ((widget->allocation.height/scale))< height?
-                                                              widget->allocation.height/scale:height);
-
-                    if(viewer->priv->dst_pixbuf)
-                    {
-                        g_object_unref(viewer->priv->dst_pixbuf);
-                        viewer->priv->dst_pixbuf = NULL;
-                    }
-                    if(p_tmp_pixbuf)
-                    {
-                        gint dst_width = gdk_pixbuf_get_width (p_tmp_pixbuf)*scale;
-                        gint dst_height = gdk_pixbuf_get_height (p_tmp_pixbuf)*scale;
-                        viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (p_tmp_pixbuf,
-                                                dst_width>0?dst_width:1,
-                                                dst_height>0?dst_height:1,
-                                                GDK_INTERP_BILINEAR);
-                        g_object_unref (p_tmp_pixbuf);
-                        p_tmp_pixbuf = NULL;
-                    }
-                }
+                g_object_unref(viewer->priv->dst_pixbuf);
+                viewer->priv->dst_pixbuf = NULL;
             }
-            rstto_picture_viewer_paint (GTK_WIDGET (viewer));
-            break;
-        case RSTTO_PICTURE_VIEWER_STATE_PREVIEW:
-            if (viewer->priv->image)
+            if(p_tmp_pixbuf)
             {
-                p_tmp_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
-                if (G_LIKELY (p_scale == NULL))
-                {
-                    p_scale = g_new0 (gdouble, 1);
-                    g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", p_scale);
-                }
-                *p_scale = scale;
-
-                if (p_tmp_pixbuf)
-                {
-                    g_object_ref (p_tmp_pixbuf);
-
-                    if(viewer->priv->dst_pixbuf)
-                    {
-                        g_object_unref(viewer->priv->dst_pixbuf);
-                        viewer->priv->dst_pixbuf = NULL;
-                    }
-                    if(p_tmp_pixbuf)
-                    {
-                        gint dst_width = gdk_pixbuf_get_width (p_src_pixbuf)*scale;
-                        gint dst_height = gdk_pixbuf_get_height (p_src_pixbuf)*scale;
-                        viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (p_tmp_pixbuf,
-                                                dst_width>0?dst_width:1,
-                                                dst_height>0?dst_height:1,
-                                                GDK_INTERP_BILINEAR);
-                        g_object_unref (p_tmp_pixbuf);
-                        p_tmp_pixbuf = NULL;
-                    }
-                }
-    
+                gint dst_width = gdk_pixbuf_get_width (p_tmp_pixbuf)*(scale/thumb_scale);
+                gint dst_height = gdk_pixbuf_get_height (p_tmp_pixbuf)*(scale/thumb_scale);
+                viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (p_tmp_pixbuf,
+                                        dst_width>0?dst_width:1,
+                                        dst_height>0?dst_height:1,
+                                        GDK_INTERP_BILINEAR);
+                g_object_unref (p_tmp_pixbuf);
+                p_tmp_pixbuf = NULL;
             }
-            rstto_picture_viewer_paint (GTK_WIDGET(viewer));
-            break;
+        }
     }
+    rstto_picture_viewer_paint (GTK_WIDGET (viewer));
 
     g_source_remove (viewer->priv->repaint.idle_id);
     viewer->priv->repaint.idle_id = -1;
