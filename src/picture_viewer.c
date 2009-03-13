@@ -101,6 +101,8 @@ static RsttoPictureViewerState
 rstto_picture_viewer_get_state (RsttoPictureViewer *viewer);
 static void
 rstto_picture_viewer_set_motion_state (RsttoPictureViewer *viewer, RsttoPictureViewerMotionState state);
+static RsttoPictureViewerMotionState
+rstto_picture_viewer_get_motion_state (RsttoPictureViewer *viewer);
 
 static void
 rstto_picture_viewer_set_zoom_mode (RsttoPictureViewer *viewer, RsttoZoomMode mode);
@@ -190,10 +192,8 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
     g_signal_connect(G_OBJECT(viewer), "motion_notify_event", G_CALLBACK(cb_rstto_picture_viewer_motion_notify_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "popup-menu", G_CALLBACK(cb_rstto_picture_viewer_popup_menu), NULL);
 
-    /*
     gtk_drag_dest_set(GTK_WIDGET(viewer), 0, drop_targets, G_N_ELEMENTS(drop_targets),
                       GDK_ACTION_COPY | GDK_ACTION_LINK | GDK_ACTION_MOVE | GDK_ACTION_PRIVATE);
-    */
 }
 
 /**
@@ -360,7 +360,6 @@ rstto_picture_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
      * TODO: Check if we really nead a refresh
      */
     rstto_picture_viewer_queued_repaint (viewer, FALSE);
-    //rstto_picture_viewer_paint (viewer);
 }
 
 /**
@@ -377,7 +376,6 @@ rstto_picture_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
     /** 
      * TODO: Check if we really nead a refresh
      */
-    //rstto_picture_viewer_paint (viewer);
     rstto_picture_viewer_queued_repaint (viewer, TRUE);
     return FALSE;
 }
@@ -1030,6 +1028,7 @@ rstto_picture_viewer_get_state (RsttoPictureViewer *viewer)
     return viewer->priv->state;
 }
 
+
 static void
 rstto_picture_viewer_set_state (RsttoPictureViewer *viewer, RsttoPictureViewerState state)
 {
@@ -1040,6 +1039,12 @@ static void
 rstto_picture_viewer_set_motion_state (RsttoPictureViewer *viewer, RsttoPictureViewerMotionState state)
 {
     viewer->priv->motion.state = state;
+}
+
+static RsttoPictureViewerMotionState
+rstto_picture_viewer_get_motion_state (RsttoPictureViewer *viewer)
+{
+    return viewer->priv->motion.state;
 }
 
 static void
@@ -1100,11 +1105,26 @@ static void
 cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEventButton *event)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
+    switch (event->button)
+    {
+        case 1:
+            switch (rstto_picture_viewer_get_motion_state (viewer))
+            {
+                case RSTTO_PICTURE_VIEWER_MOTION_STATE_BOX_ZOOM:
+                    rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_CUSTOM);
+                    if(GTK_WIDGET_REALIZED(widget))
+                    {
 
-    gdk_window_set_cursor(widget->window, NULL);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            rstto_picture_viewer_set_motion_state (viewer, RSTTO_PICTURE_VIEWER_MOTION_STATE_NORMAL);
+            rstto_picture_viewer_queued_repaint (viewer, FALSE);
+            break;
+    }
 
-    rstto_picture_viewer_set_motion_state (viewer, RSTTO_PICTURE_VIEWER_MOTION_STATE_NORMAL);
-    rstto_picture_viewer_queued_repaint (viewer, FALSE);
 }
 
 static void
