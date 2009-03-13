@@ -1243,6 +1243,7 @@ cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window)
 {
+    rstto_picture_viewer_set_image (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), NULL);
     rstto_navigator_remove_all (window->priv->props.navigator);
 }
 

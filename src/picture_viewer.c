@@ -979,6 +979,11 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
 
     if (viewer->priv->repaint.refresh)
     {
+        if(viewer->priv->dst_pixbuf)
+        {
+            g_object_unref(viewer->priv->dst_pixbuf);
+            viewer->priv->dst_pixbuf = NULL;
+        }
         if (p_src_pixbuf)
         {
             /**
@@ -996,11 +1001,6 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                                                (gint)((widget->allocation.height / scale) < height?
                                                       (widget->allocation.height / scale)*thumb_scale:height*thumb_scale));
 
-            if(viewer->priv->dst_pixbuf)
-            {
-                g_object_unref(viewer->priv->dst_pixbuf);
-                viewer->priv->dst_pixbuf = NULL;
-            }
             if(p_tmp_pixbuf)
             {
                 gint dst_width = gdk_pixbuf_get_width (p_tmp_pixbuf)*(scale/thumb_scale);
@@ -1243,6 +1243,10 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
             g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
         }
         rstto_image_load (viewer->priv->image, FALSE, NULL);
+    }
+    else
+    {
+        rstto_picture_viewer_queued_repaint (viewer, TRUE);
     }
 }
 

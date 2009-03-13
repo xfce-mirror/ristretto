@@ -20,6 +20,7 @@
 #include <gtk/gtk.h>
 #include <libxfcegui4/libxfcegui4.h>
 
+#include "settings.h"
 #include "preferences_dialog.h"
 
 static void
@@ -58,6 +59,10 @@ rstto_preferences_dialog_get_type ()
 static void
 rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 {
+    RsttoSettings *settings_manager = rstto_settings_new ();
+    GtkWidget *notebook = gtk_notebook_new ();
+
+    gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), notebook);
     gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CLOSE, GTK_RESPONSE_OK);
 }
 
@@ -73,7 +78,7 @@ rstto_preferences_dialog_new (GtkWindow *parent)
 {
     GtkWidget *dialog = g_object_new (RSTTO_TYPE_PREFERENCES_DIALOG,
                                       "title", _("Preferences"),
-                                      "icon-name", "go-left",
+                                      "icon-name", GTK_STOCK_PREFERENCES,
                                       NULL);
     gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
 
