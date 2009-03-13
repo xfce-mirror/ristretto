@@ -987,15 +987,15 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
              *  tmp_scale is the factor between the original image and the thumbnail,
              *  when looking at the actual image, tmp_scale == 1.0
              */
-            gint x = (gint)viewer->hadjustment->value * scale;
-            gint y = (gint)viewer->vadjustment->value * scale;
+            gdouble x = viewer->hadjustment->value;
+            gdouble y = viewer->vadjustment->value;
 
             p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
-                                               (gint)(x * thumb_scale), 
-                                                      (y * thumb_scale),
-                                                    ((widget->allocation.width / scale) < width?
+                                               (gint)(x/scale * thumb_scale), 
+                                               (gint)(y/scale * thumb_scale),
+                                               (gint)((widget->allocation.width / scale) < width?
                                                       (widget->allocation.width / scale)*thumb_scale:width*thumb_scale),
-                                                    ((widget->allocation.height / scale) < height?
+                                               (gint)((widget->allocation.height / scale) < height?
                                                       (widget->allocation.height / scale)*thumb_scale:height*thumb_scale));
 
             if(viewer->priv->dst_pixbuf)
