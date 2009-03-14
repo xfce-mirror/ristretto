@@ -1,21 +1,22 @@
 # Galician translation of ristretto
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) 2009 Leandro Regueiro.
+# This file is distributed under the same license as the Xfce package.
 #
-# Leandro Regueiro <leandro DOT regueiro AT gmail DOT com>, 2008.
+# Leandro Regueiro <leandro DOT regueiro AT gmail DOT com>, 2008, 2009.
 #
-# Proxecto Trasno: tradución de software libre ó galego http://trasno.net
+# Proxecto Trasno - Adaptación do software libre á lingua galega:  Se desexas
+# colaborar connosco, podes atopar máis información en <http://trasno.net>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-12-14 16:05+0100\n"
+"PO-Revision-Date: 2009-03-07 11:33+0100\n"
 "Last-Translator: Leandro Regueiro <leandro DOT regueiro AT gmail DOT com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -54,15 +55,15 @@ msgstr "_Ficheiro"
 
 #: ../src/main_window.c:347
 msgid "O_pen Folder"
-msgstr ""
+msgstr "_Abrir cartafol"
 
 #: ../src/main_window.c:348
 msgid "_Recently used"
-msgstr ""
+msgstr "Usados _recentemente"
 
 #: ../src/main_window.c:353
 msgid "Close _all"
-msgstr ""
+msgstr "Pechar _todo"
 
 #. Create 'Edit' menu
 #: ../src/main_window.c:383
@@ -86,7 +87,7 @@ msgstr "_Ver"
 
 #: ../src/main_window.c:412
 msgid "Show _Toolbar"
-msgstr ""
+msgstr "Mostrar a _barra de ferramentas"
 
 #: ../src/main_window.c:413
 msgid "Thumbnail _Viewer"
@@ -102,27 +103,29 @@ msgstr "_Rotar"
 
 #: ../src/main_window.c:425
 msgid "_Set as wallpaper"
-msgstr ""
+msgstr "Definir coma _imaxe de fondo"
 
 #: ../src/main_window.c:476
+#, fuzzy
 msgid "Show _Horizontally"
-msgstr ""
+msgstr "Mover horizontalmente"
 
 #: ../src/main_window.c:480
+#, fuzzy
 msgid "Show _Vertically"
-msgstr ""
+msgstr "Mover verticalmente"
 
 #: ../src/main_window.c:484
 msgid "H_ide"
-msgstr ""
+msgstr "_Agochar"
 
 #: ../src/main_window.c:521
 msgid "Rotate _Right"
-msgstr ""
+msgstr "Rotar á _dereita"
 
 #: ../src/main_window.c:522
 msgid "Rotate _Left"
-msgstr ""
+msgstr "Rotar á _esqueda"
 
 #. Create 'Go' menu
 #: ../src/main_window.c:543
@@ -143,8 +146,9 @@ msgid "Image viewer Preferences"
 msgstr "Preferencias do visor de imaxes"
 
 #: ../src/main_window.c:1412
+#, fuzzy
 msgid "Display"
-msgstr ""
+msgstr "Pantalla"
 
 #: ../src/main_window.c:1416
 msgid "Slideshow"
@@ -154,9 +158,11 @@ msgstr "Presentación"
 msgid "Behaviour"
 msgstr "Comportamento"
 
+# expandir escalar redimensionar
 #: ../src/main_window.c:1425
+#, fuzzy
 msgid "Scaling"
-msgstr ""
+msgstr "Escalando"
 
 #: ../src/main_window.c:1427
 msgid "Don't scale over 100% when maximizing the window."
@@ -167,8 +173,9 @@ msgid "Background Color"
 msgstr "Cor de fondo"
 
 #: ../src/main_window.c:1439
+#, fuzzy
 msgid "_Override Background Color:"
-msgstr ""
+msgstr "Modificar a cor de fondo"
 
 #: ../src/main_window.c:1462
 msgid "Image Cache"
@@ -184,11 +191,11 @@ msgstr "MB"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr ""
+msgstr "_Precargar as imaxes (a GUI vai máis rápida pero úsase máis a CPU)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
-msgstr ""
+msgstr "Tempo de espera"
 
 #: ../src/main_window.c:1489
 msgid "Thumbnails"
@@ -199,6 +206,8 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
+"O período de tempo que se mostra cada imaxe durante unha\n"
+"presentación (en segundos)"
 
 #: ../src/main_window.c:1497
 msgid "Hide the thumbnails bar during slideshow"
@@ -206,7 +215,7 @@ msgstr "Agochar a barra de miniaturas durante a presentación"
 
 #: ../src/main_window.c:1498
 msgid "_Hide thumbnails"
-msgstr ""
+msgstr "_Agochar as miniaturas"
 
 #: ../src/main_window.c:1556
 msgid "Developer:"
@@ -241,7 +250,7 @@ msgstr "Está seguro de que desexa limpar a lista de documentos abertos recentem
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
-msgstr ""
+msgstr "Espazamento"
 
 #: ../src/thumbnail_bar.c:186
 msgid "The amount of space between the thumbnails"
