@@ -1108,6 +1108,7 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
     switch (event->button)
     {
         case 1:
+            gdk_window_set_cursor(widget->window, NULL);
             switch (rstto_picture_viewer_get_motion_state (viewer))
             {
                 case RSTTO_PICTURE_VIEWER_MOTION_STATE_BOX_ZOOM:

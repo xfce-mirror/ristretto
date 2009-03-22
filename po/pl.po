@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"POT-Creation-Date: 2009-03-22 09:43+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Lukasz Romanowicz <romanowicz88@gmail.com>\n"
 "Language-Team:  <romanowicz88@gmail.com>\n"
@@ -14,19 +14,19 @@ msgstr ""
 "X-Poedit-Language: Polish\n"
 "X-Poedit-Country: POLAND\n"
 
-#: ../src/main.c:56
+#: ../src/main.c:58
 msgid "Version information"
 msgstr "Informacje wersji"
 
-#: ../src/main.c:60
+#: ../src/main.c:62
 msgid "Start in fullscreen mode"
 msgstr "Uruchom w trybie pełnoekranowym"
 
-#: ../src/main.c:64
+#: ../src/main.c:66
 msgid "Start a slideshow"
 msgstr "Pokaz slajdów"
 
-#: ../src/main.c:85
+#: ../src/main.c:87
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -34,232 +34,279 @@ msgid ""
 msgstr ""
 
 #. File Menu
-#: ../src/main_window.c:163
+#: ../src/main_window.c:188
 msgid "_File"
 msgstr "_Plik"
 
-#: ../src/main_window.c:164
+#: ../src/main_window.c:189
 msgid "_Open"
 msgstr ""
 
-#: ../src/main_window.c:164
+#: ../src/main_window.c:189
 #, fuzzy
 msgid "Open an image"
 msgstr "Otwórz obraz"
 
-#: ../src/main_window.c:165
+#: ../src/main_window.c:190
 #, fuzzy
 msgid "Open _Folder"
 msgstr "O_twórz folder"
 
-#: ../src/main_window.c:165
+#: ../src/main_window.c:190
 #, fuzzy
 msgid "Open a folder"
 msgstr "Otwórz folder"
 
-#: ../src/main_window.c:166
-msgid "Open _Recent"
-msgstr ""
+#: ../src/main_window.c:191
+#, fuzzy
+msgid "_Properties"
+msgstr "Preferencje przeglądarki obrazów"
 
-#: ../src/main_window.c:167
+#: ../src/main_window.c:192
 #, fuzzy
 msgid "_Close"
 msgstr "Zamknij wszystkie"
 
-#: ../src/main_window.c:167
+#: ../src/main_window.c:192
 msgid "Close this image"
 msgstr ""
 
-#: ../src/main_window.c:168
+#: ../src/main_window.c:193
 #, fuzzy
 msgid "_Close All"
 msgstr "Zamknij wszystkie"
 
-#: ../src/main_window.c:168
+#: ../src/main_window.c:193
 #, fuzzy
 msgid "Close all images"
 msgstr "Zamknij wszystkie"
 
-#: ../src/main_window.c:169
+#: ../src/main_window.c:194
 #, fuzzy
 msgid "_Quit"
 msgstr "_Edycja"
 
-#: ../src/main_window.c:169
+#: ../src/main_window.c:194
 #, fuzzy
 msgid "Quit Ristretto"
 msgstr "Ristretto"
 
 #. Edit Menu
-#: ../src/main_window.c:171
+#: ../src/main_window.c:196
 msgid "_Edit"
 msgstr "_Edycja"
 
-#: ../src/main_window.c:172
-msgid "_Undo"
-msgstr ""
+#: ../src/main_window.c:197
+#, fuzzy
+msgid "_Open with..."
+msgstr "Otwórz z ..."
 
-#: ../src/main_window.c:173
+#: ../src/main_window.c:198
 #, fuzzy
 msgid "_Preferences"
 msgstr "Preferencje przeglądarki obrazów"
 
 #. View Menu
-#: ../src/main_window.c:175
+#: ../src/main_window.c:200
 msgid "_View"
 msgstr "_Widok"
 
-#: ../src/main_window.c:176
+#: ../src/main_window.c:201
 msgid "_Fullscreen"
 msgstr ""
 
-#: ../src/main_window.c:177
+#: ../src/main_window.c:202
 #, fuzzy
 msgid "_Set as Wallpaper"
 msgstr "_Ustaw jako tapetę"
 
 #. Thumbnailbar submenu
-#: ../src/main_window.c:179
+#: ../src/main_window.c:204
 #, fuzzy
 msgid "_Thumbnail Bar"
 msgstr "Miniatury"
 
-#: ../src/main_window.c:180
-msgid "Show _Vertically"
-msgstr "Wyświetl p_ionowos"
-
-#: ../src/main_window.c:181
-#, fuzzy
-msgid "_Show Horizontally"
-msgstr "Wyświetl p_oziomo"
-
-#: ../src/main_window.c:182
-#, fuzzy
-msgid "_Hide"
-msgstr "_Ukryj"
-
 #. Zoom submenu
-#: ../src/main_window.c:184
+#: ../src/main_window.c:206
 msgid "_Zooming"
 msgstr "_Skalowanie obrazu"
 
-#: ../src/main_window.c:185
+#: ../src/main_window.c:207
 #, fuzzy
 msgid "Zoom _In"
 msgstr "_Skalowanie obrazu"
 
-#: ../src/main_window.c:186
+#: ../src/main_window.c:208
 msgid "Zoom _Out"
 msgstr ""
 
-#: ../src/main_window.c:187
+#: ../src/main_window.c:209
 msgid "Zoom _Fit"
 msgstr ""
 
-#: ../src/main_window.c:188
+#: ../src/main_window.c:210
 msgid "_Normal Size"
 msgstr ""
 
 #. Rotation submenu
-#: ../src/main_window.c:190
+#: ../src/main_window.c:212
 #, fuzzy
 msgid "_Rotation"
 msgstr "_Obracanie obrazu"
 
-#: ../src/main_window.c:191
+#: ../src/main_window.c:213
 msgid "Rotate _Right"
 msgstr "Obróć w p_rawo"
 
-#: ../src/main_window.c:192
+#: ../src/main_window.c:214
 msgid "Rotate _Left"
 msgstr "Obróć w _lewo"
 
 #. Go Menu
-#: ../src/main_window.c:194
+#: ../src/main_window.c:216
 msgid "_Go"
 msgstr "_Idź"
 
-#: ../src/main_window.c:195
+#: ../src/main_window.c:217
 msgid "_Forward"
 msgstr ""
 
-#: ../src/main_window.c:196
+#: ../src/main_window.c:218
 msgid "_Back"
 msgstr ""
 
-#: ../src/main_window.c:197
+#: ../src/main_window.c:219
 msgid "_First"
 msgstr ""
 
-#: ../src/main_window.c:198
+#: ../src/main_window.c:220
 msgid "_Last"
 msgstr ""
 
-#: ../src/main_window.c:199
-msgid "_Play"
-msgstr ""
-
 #. Help Menu
-#: ../src/main_window.c:201
+#: ../src/main_window.c:222
 msgid "_Help"
 msgstr "P_omoc"
 
-#: ../src/main_window.c:203
+#: ../src/main_window.c:224
 msgid "_Contents"
 msgstr ""
 
-#: ../src/main_window.c:205
+#: ../src/main_window.c:226
 msgid "Display ristretto user manual"
 msgstr ""
 
-#: ../src/main_window.c:208
+#: ../src/main_window.c:229
 msgid "_About"
 msgstr ""
 
-#: ../src/main_window.c:210
+#: ../src/main_window.c:231
 msgid "Display information about ristretto"
 msgstr ""
 
-#: ../src/main_window.c:216
+#: ../src/main_window.c:237
 msgid "Show _Toolbar"
 msgstr "_Wyświetl pasek narzędzi"
 
-#: ../src/main_window.c:738
+#: ../src/main_window.c:238
+#, fuzzy
+msgid "Show Thumb_nailbar"
+msgstr "Miniatury"
+
+#: ../src/main_window.c:858
 msgid "Open image"
 msgstr "Otwórz obraz"
 
-#: ../src/main_window.c:756
+#: ../src/main_window.c:870
+msgid "Images"
+msgstr ""
+
+#: ../src/main_window.c:889 ../src/main_window.c:1018
 msgid "Could not open file"
 msgstr "Nie można otworzyć pliku"
 
-#: ../src/main_window.c:836
+#: ../src/main_window.c:937
+#, fuzzy
+msgid "Open folder"
+msgstr "Otwórz folder"
+
+#: ../src/main_window.c:1152
 msgid "Developer:"
 msgstr "Deweloperzy:"
 
-#: ../src/main_window.c:846
+#: ../src/main_window.c:1162
 #, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr "Ristretto jest szybką i lekką przeglądarką obrazów dla środowiska Xfce"
 
-#: ../src/main_window.c:854
+#: ../src/main_window.c:1170
 msgid "translator-credits"
 msgstr "Łukasz Romanowicz <lukasz210@gmail.com>"
 
-#: ../src/thumbnail_bar.c:185
-msgid "Spacing"
-msgstr "Odstęp"
+#: ../src/preferences_dialog.c:73
+msgid "Display"
+msgstr "Wygląd"
 
-#: ../src/thumbnail_bar.c:186
-msgid "The amount of space between the thumbnails"
-msgstr "Odstęp pomiędzy miniaturami"
+#: ../src/preferences_dialog.c:78
+msgid "Slideshow"
+msgstr "Pokaz slajdów"
 
-#: ../src/thumbnail_bar.c:192
-msgid "Border Width"
-msgstr "Długość linii"
+#: ../src/preferences_dialog.c:82
+#, fuzzy
+msgid "Background color"
+msgstr "Kolor tła"
 
-#: ../src/thumbnail_bar.c:193
-msgid "The border width of the thumbnail-bar"
-msgstr "Długość linii na pasku miniatur"
+#: ../src/preferences_dialog.c:85
+msgid "Black"
+msgstr ""
+
+#: ../src/preferences_dialog.c:87
+msgid "Colorify (no idea how to call this feature)"
+msgstr ""
+
+#: ../src/preferences_dialog.c:90
+msgid "Custom:"
+msgstr ""
+
+#: ../src/preferences_dialog.c:98
+msgid "Timeout"
+msgstr "Czas"
+
+#: ../src/preferences_dialog.c:102
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr "Ile czasu w sekundach pokazywana jest dana grafika"
+
+#: ../src/preferences_dialog.c:113
+msgid "Control"
+msgstr ""
+
+#: ../src/preferences_dialog.c:117
+msgid "Scrollwheel"
+msgstr ""
+
+#: ../src/preferences_dialog.c:120
+#, fuzzy
+msgid "No action"
+msgstr "_Obracanie obrazu"
+
+#: ../src/preferences_dialog.c:122
+msgid "Zoom in and out"
+msgstr ""
+
+#: ../src/preferences_dialog.c:124
+msgid "Switch images"
+msgstr ""
+
+#: ../src/preferences_dialog.c:129
+msgid "Behaviour"
+msgstr "Zachowanie"
+
+#: ../src/preferences_dialog.c:149
+#, fuzzy
+msgid "Preferences"
+msgstr "Preferencje przeglądarki obrazów"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -273,14 +320,34 @@ msgstr "Ristretto"
 msgid "Xfce Image viewer"
 msgstr "Przeglądarka obrazów Xfce"
 
+#~ msgid "Show _Vertically"
+#~ msgstr "Wyświetl p_ionowos"
+
+#, fuzzy
+#~ msgid "_Show Horizontally"
+#~ msgstr "Wyświetl p_oziomo"
+
+#, fuzzy
+#~ msgid "_Hide"
+#~ msgstr "_Ukryj"
+
+#~ msgid "Spacing"
+#~ msgstr "Odstęp"
+
+#~ msgid "The amount of space between the thumbnails"
+#~ msgstr "Odstęp pomiędzy miniaturami"
+
+#~ msgid "Border Width"
+#~ msgstr "Długość linii"
+
+#~ msgid "The border width of the thumbnail-bar"
+#~ msgstr "Długość linii na pasku miniatur"
+
 #~ msgid "Opening file(s)..."
 #~ msgstr "Otwieranie pliku ..."
 
 #~ msgid "_Recently used"
 #~ msgstr "Ostatnio używane"
-
-#~ msgid "Open with..."
-#~ msgstr "Otwórz z ..."
 
 #~ msgid "No applications available"
 #~ msgstr "Brak odpowiednich aplikacji"
@@ -293,20 +360,8 @@ msgstr "Przeglądarka obrazów Xfce"
 #~ msgstr ""
 #~ "Jeden lub więcej obrazów zostały zmodyfikowane, czy chcesz zapisać zmiany?"
 
-#~ msgid "Display"
-#~ msgstr "Wygląd"
-
-#~ msgid "Slideshow"
-#~ msgstr "Pokaz slajdów"
-
-#~ msgid "Behaviour"
-#~ msgstr "Zachowanie"
-
 #~ msgid "Scaling"
 #~ msgstr "Skalowanie"
-
-#~ msgid "Background Color"
-#~ msgstr "Kolor tła"
 
 #~ msgid "_Override Background Color:"
 #~ msgstr "_Nadpis Kolor Tła:"
@@ -319,14 +374,6 @@ msgstr "Przeglądarka obrazów Xfce"
 
 #~ msgid "MB"
 #~ msgstr "MB"
-
-#~ msgid "Timeout"
-#~ msgstr "Czas"
-
-#~ msgid ""
-#~ "The time period an individual image is displayed during a slideshow\n"
-#~ "(in seconds)"
-#~ msgstr "Ile czasu w sekundach pokazywana jest dana grafika"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Ukryj pasek miniatur przy pokazie slajdów"

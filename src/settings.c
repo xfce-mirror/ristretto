@@ -56,8 +56,10 @@ enum
     PROP_SHOW_TOOLBAR,
     PROP_WINDOW_WIDTH,
     PROP_WINDOW_HEIGHT,
+    PROP_BGCOLOR,
     PROP_CURRENT_URI,
     PROP_SLIDESHOW_TIMEOUT,
+    PROP_SLIDESHOW_BGCOLOR,
 };
 
 GType
@@ -95,6 +97,8 @@ struct _RsttoSettingsPriv
     guint    window_height;
     gchar   *last_file_path;
     guint    slideshow_timeout;
+    GdkColor *bgcolor;
+    GdkColor *slideshow_bgcolor;
 };
 
 
@@ -123,6 +127,8 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind (settings->priv->channel, "/window/show-toolbar", G_TYPE_BOOLEAN, settings, "show-toolbar");
     xfconf_g_property_bind (settings->priv->channel, "/file/current-uri", G_TYPE_STRING, settings, "current-uri");
     xfconf_g_property_bind (settings->priv->channel, "/slideshow/timeout", G_TYPE_UINT, settings, "slideshow-timeout");
+    xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/slideshow/bgcolor", settings, "slideshow-bgcolor");
+    xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/window/bgcolor", settings, "bgcolor");
 }
 
 
@@ -190,6 +196,24 @@ rstto_settings_class_init (GObjectClass *object_class)
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_SLIDESHOW_TIMEOUT,
+                                     pspec);
+
+    pspec = g_param_spec_boxed   ("bgcolor",
+                                  "",
+                                  "",
+                                  GDK_TYPE_COLOR,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_BGCOLOR,
+                                     pspec);
+
+    pspec = g_param_spec_boxed   ("slideshow-bgcolor",
+                                  "",
+                                  "",
+                                  GDK_TYPE_COLOR,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_SLIDESHOW_BGCOLOR,
                                      pspec);
 }
 
@@ -274,6 +298,9 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_WINDOW_HEIGHT:
             settings->priv->window_height = g_value_get_uint (value);
             break;
+        case PROP_BGCOLOR:
+            settings->priv->bgcolor = g_value_get_boxed (value);
+            break;
         case PROP_CURRENT_URI:
             if (settings->priv->last_file_path)
                 g_free (settings->priv->last_file_path);
@@ -281,6 +308,9 @@ rstto_settings_set_property    (GObject      *object,
             break;
         case PROP_SLIDESHOW_TIMEOUT:
             settings->priv->slideshow_timeout = g_value_get_uint (value);
+            break;
+        case PROP_SLIDESHOW_BGCOLOR:
+            settings->priv->slideshow_bgcolor = g_value_get_boxed (value);
             break;
         default:
             break;

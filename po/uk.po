@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"POT-Creation-Date: 2009-03-22 09:43+0100\n"
 "PO-Revision-Date: 2008-11-17 11:15+0200\n"
 "Last-Translator: Dmitry Nikitin <luckas_fb@mail.ru>\n"
 "Language-Team: Ukrainian <xfce4-dev@xfce.org>\n"
@@ -15,19 +15,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: ../src/main.c:56
+#: ../src/main.c:58
 msgid "Version information"
 msgstr "Інформація про версію"
 
-#: ../src/main.c:60
+#: ../src/main.c:62
 msgid "Start in fullscreen mode"
 msgstr "Запускати в повноекранному режимі"
 
-#: ../src/main.c:64
+#: ../src/main.c:66
 msgid "Start a slideshow"
 msgstr "Стартувати з слайд-шоу"
 
-#: ../src/main.c:85
+#: ../src/main.c:87
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -38,234 +38,283 @@ msgstr ""
 "стрічки.\n"
 
 #. File Menu
-#: ../src/main_window.c:163
+#: ../src/main_window.c:188
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/main_window.c:164
+#: ../src/main_window.c:189
 msgid "_Open"
 msgstr ""
 
-#: ../src/main_window.c:164
+#: ../src/main_window.c:189
 #, fuzzy
 msgid "Open an image"
 msgstr "Відкрити зображення"
 
-#: ../src/main_window.c:165
+#: ../src/main_window.c:190
 #, fuzzy
 msgid "Open _Folder"
 msgstr "_Відкрити теку"
 
-#: ../src/main_window.c:165
+#: ../src/main_window.c:190
 #, fuzzy
 msgid "Open a folder"
 msgstr "Відкрити теку"
 
-#: ../src/main_window.c:166
-msgid "Open _Recent"
-msgstr ""
+#: ../src/main_window.c:191
+#, fuzzy
+msgid "_Properties"
+msgstr "Налаштування переглядача зображень"
 
-#: ../src/main_window.c:167
+#: ../src/main_window.c:192
 #, fuzzy
 msgid "_Close"
 msgstr "Закрити в_сі"
 
-#: ../src/main_window.c:167
+#: ../src/main_window.c:192
 msgid "Close this image"
 msgstr ""
 
-#: ../src/main_window.c:168
+#: ../src/main_window.c:193
 #, fuzzy
 msgid "_Close All"
 msgstr "Закрити в_сі"
 
-#: ../src/main_window.c:168
+#: ../src/main_window.c:193
 #, fuzzy
 msgid "Close all images"
 msgstr "Закрити в_сі"
 
-#: ../src/main_window.c:169
+#: ../src/main_window.c:194
 #, fuzzy
 msgid "_Quit"
 msgstr "_Редагувати"
 
-#: ../src/main_window.c:169
+#: ../src/main_window.c:194
 #, fuzzy
 msgid "Quit Ristretto"
 msgstr "Переглядач Ristretto"
 
 #. Edit Menu
-#: ../src/main_window.c:171
+#: ../src/main_window.c:196
 msgid "_Edit"
 msgstr "_Редагувати"
 
-#: ../src/main_window.c:172
-msgid "_Undo"
-msgstr ""
+#: ../src/main_window.c:197
+#, fuzzy
+msgid "_Open with..."
+msgstr "Відкрити з..."
 
-#: ../src/main_window.c:173
+#: ../src/main_window.c:198
 #, fuzzy
 msgid "_Preferences"
 msgstr "Налаштування переглядача зображень"
 
 #. View Menu
-#: ../src/main_window.c:175
+#: ../src/main_window.c:200
 msgid "_View"
 msgstr "_Перегляд"
 
-#: ../src/main_window.c:176
+#: ../src/main_window.c:201
 msgid "_Fullscreen"
 msgstr ""
 
-#: ../src/main_window.c:177
+#: ../src/main_window.c:202
 #, fuzzy
 msgid "_Set as Wallpaper"
 msgstr "В_становити як шпалери"
 
 #. Thumbnailbar submenu
-#: ../src/main_window.c:179
+#: ../src/main_window.c:204
 #, fuzzy
 msgid "_Thumbnail Bar"
 msgstr "Ескізи"
 
-#: ../src/main_window.c:180
-msgid "Show _Vertically"
-msgstr "Відобразити _вертикально"
-
-#: ../src/main_window.c:181
-#, fuzzy
-msgid "_Show Horizontally"
-msgstr "Відобразити _горизонтально"
-
-#: ../src/main_window.c:182
-#, fuzzy
-msgid "_Hide"
-msgstr "С_ховати"
-
 #. Zoom submenu
-#: ../src/main_window.c:184
+#: ../src/main_window.c:206
 msgid "_Zooming"
 msgstr "_Масштабований"
 
-#: ../src/main_window.c:185
+#: ../src/main_window.c:207
 #, fuzzy
 msgid "Zoom _In"
 msgstr "_Масштабований"
 
-#: ../src/main_window.c:186
+#: ../src/main_window.c:208
 msgid "Zoom _Out"
 msgstr ""
 
-#: ../src/main_window.c:187
+#: ../src/main_window.c:209
 msgid "Zoom _Fit"
 msgstr ""
 
-#: ../src/main_window.c:188
+#: ../src/main_window.c:210
 msgid "_Normal Size"
 msgstr ""
 
 #. Rotation submenu
-#: ../src/main_window.c:190
+#: ../src/main_window.c:212
 #, fuzzy
 msgid "_Rotation"
 msgstr "_Повернути"
 
-#: ../src/main_window.c:191
+#: ../src/main_window.c:213
 msgid "Rotate _Right"
 msgstr "Повернути в_право"
 
-#: ../src/main_window.c:192
+#: ../src/main_window.c:214
 msgid "Rotate _Left"
 msgstr "Повернути в_ліво"
 
 #. Go Menu
-#: ../src/main_window.c:194
+#: ../src/main_window.c:216
 msgid "_Go"
 msgstr "П_ерейти"
 
-#: ../src/main_window.c:195
+#: ../src/main_window.c:217
 msgid "_Forward"
 msgstr ""
 
-#: ../src/main_window.c:196
+#: ../src/main_window.c:218
 msgid "_Back"
 msgstr ""
 
-#: ../src/main_window.c:197
+#: ../src/main_window.c:219
 msgid "_First"
 msgstr ""
 
-#: ../src/main_window.c:198
+#: ../src/main_window.c:220
 msgid "_Last"
 msgstr ""
 
-#: ../src/main_window.c:199
-msgid "_Play"
-msgstr ""
-
 #. Help Menu
-#: ../src/main_window.c:201
+#: ../src/main_window.c:222
 msgid "_Help"
 msgstr "Дов_ідка"
 
-#: ../src/main_window.c:203
+#: ../src/main_window.c:224
 msgid "_Contents"
 msgstr ""
 
-#: ../src/main_window.c:205
+#: ../src/main_window.c:226
 msgid "Display ristretto user manual"
 msgstr ""
 
-#: ../src/main_window.c:208
+#: ../src/main_window.c:229
 msgid "_About"
 msgstr ""
 
-#: ../src/main_window.c:210
+#: ../src/main_window.c:231
 msgid "Display information about ristretto"
 msgstr ""
 
-#: ../src/main_window.c:216
+#: ../src/main_window.c:237
 msgid "Show _Toolbar"
 msgstr "Показати п_анель"
 
-#: ../src/main_window.c:738
+#: ../src/main_window.c:238
+#, fuzzy
+msgid "Show Thumb_nailbar"
+msgstr "Ескізи"
+
+#: ../src/main_window.c:858
 msgid "Open image"
 msgstr "Відкрити зображення"
 
-#: ../src/main_window.c:756
+#: ../src/main_window.c:870
+msgid "Images"
+msgstr ""
+
+#: ../src/main_window.c:889 ../src/main_window.c:1018
 msgid "Could not open file"
 msgstr "Неможливо відкрити файл"
 
-#: ../src/main_window.c:836
+#: ../src/main_window.c:937
+#, fuzzy
+msgid "Open folder"
+msgstr "Відкрити теку"
+
+#: ../src/main_window.c:1152
 msgid "Developer:"
 msgstr "Розробник:"
 
-#: ../src/main_window.c:846
+#: ../src/main_window.c:1162
 #, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto - швидкий і легкий переглядач зображень для робочого середовища "
 "Xfce"
 
-#: ../src/main_window.c:854
+#: ../src/main_window.c:1170
 msgid "translator-credits"
 msgstr "Dmitry Nikitin <luckas_fb@mail.ru>"
 
-#: ../src/thumbnail_bar.c:185
-msgid "Spacing"
-msgstr "Проміжки"
+#: ../src/preferences_dialog.c:73
+msgid "Display"
+msgstr "Відображення"
 
-#: ../src/thumbnail_bar.c:186
-msgid "The amount of space between the thumbnails"
-msgstr "Розмір проміжків між ескізами"
+#: ../src/preferences_dialog.c:78
+msgid "Slideshow"
+msgstr "Слайд-шоу"
 
-#: ../src/thumbnail_bar.c:192
-msgid "Border Width"
-msgstr "Ширина рамки"
+#: ../src/preferences_dialog.c:82
+#, fuzzy
+msgid "Background color"
+msgstr "Колір тла"
 
-#: ../src/thumbnail_bar.c:193
-msgid "The border width of the thumbnail-bar"
-msgstr "Ширина рамки панелі ескізів"
+#: ../src/preferences_dialog.c:85
+msgid "Black"
+msgstr ""
+
+#: ../src/preferences_dialog.c:87
+msgid "Colorify (no idea how to call this feature)"
+msgstr ""
+
+#: ../src/preferences_dialog.c:90
+msgid "Custom:"
+msgstr ""
+
+#: ../src/preferences_dialog.c:98
+msgid "Timeout"
+msgstr "Затримка"
+
+#: ../src/preferences_dialog.c:102
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"Тривалість показу окремого зображення в слайд-шоу\n"
+"(в секундах)"
+
+#: ../src/preferences_dialog.c:113
+msgid "Control"
+msgstr ""
+
+#: ../src/preferences_dialog.c:117
+msgid "Scrollwheel"
+msgstr ""
+
+#: ../src/preferences_dialog.c:120
+#, fuzzy
+msgid "No action"
+msgstr "_Повернути"
+
+#: ../src/preferences_dialog.c:122
+msgid "Zoom in and out"
+msgstr ""
+
+#: ../src/preferences_dialog.c:124
+msgid "Switch images"
+msgstr ""
+
+#: ../src/preferences_dialog.c:129
+msgid "Behaviour"
+msgstr "Поведінка"
+
+#: ../src/preferences_dialog.c:149
+#, fuzzy
+msgid "Preferences"
+msgstr "Налаштування переглядача зображень"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -279,14 +328,34 @@ msgstr "Переглядач Ristretto"
 msgid "Xfce Image viewer"
 msgstr "Переглядач зображень Xfce"
 
+#~ msgid "Show _Vertically"
+#~ msgstr "Відобразити _вертикально"
+
+#, fuzzy
+#~ msgid "_Show Horizontally"
+#~ msgstr "Відобразити _горизонтально"
+
+#, fuzzy
+#~ msgid "_Hide"
+#~ msgstr "С_ховати"
+
+#~ msgid "Spacing"
+#~ msgstr "Проміжки"
+
+#~ msgid "The amount of space between the thumbnails"
+#~ msgstr "Розмір проміжків між ескізами"
+
+#~ msgid "Border Width"
+#~ msgstr "Ширина рамки"
+
+#~ msgid "The border width of the thumbnail-bar"
+#~ msgstr "Ширина рамки панелі ескізів"
+
 #~ msgid "Opening file(s)..."
 #~ msgstr "Відкриваються файл(и)..."
 
 #~ msgid "_Recently used"
 #~ msgstr "_Нещодавно використані"
-
-#~ msgid "Open with..."
-#~ msgstr "Відкрити з..."
 
 #~ msgid "No applications available"
 #~ msgstr "Немає потрібних програм"
@@ -298,23 +367,11 @@ msgstr "Переглядач зображень Xfce"
 #~ "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Одне або більше зображень було змінено, бажаєте зберегти зміни?"
 
-#~ msgid "Display"
-#~ msgstr "Відображення"
-
-#~ msgid "Slideshow"
-#~ msgstr "Слайд-шоу"
-
-#~ msgid "Behaviour"
-#~ msgstr "Поведінка"
-
 #~ msgid "Scaling"
 #~ msgstr "Масштабування"
 
 #~ msgid "Don't scale over 100% when maximizing the window."
 #~ msgstr "Не масштабувати більше 100%, коли розгорнуто вікно."
-
-#~ msgid "Background Color"
-#~ msgstr "Колір тла"
 
 #~ msgid "_Override Background Color:"
 #~ msgstr "_Замінити колір тла:"
@@ -332,16 +389,6 @@ msgstr "Переглядач зображень Xfce"
 #~ msgstr ""
 #~ "Попереднє з_авантаження малюнків (GUI більш кероване, але завантаження "
 #~ "CPU більше)"
-
-#~ msgid "Timeout"
-#~ msgstr "Затримка"
-
-#~ msgid ""
-#~ "The time period an individual image is displayed during a slideshow\n"
-#~ "(in seconds)"
-#~ msgstr ""
-#~ "Тривалість показу окремого зображення в слайд-шоу\n"
-#~ "(в секундах)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Ховати панель ескізів під час слайд-шоу"

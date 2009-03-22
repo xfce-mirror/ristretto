@@ -1,9 +1,10 @@
 - Merge transform actions of consecutive imagetransformations of the same type
 
-- Add recently opened images menu (with clear butto)
 - Implement preferences dialog
 
 - Add preloading
 - Improve cache calculation
 
 - Write comments
+
+- Remove libxfce4util dependency

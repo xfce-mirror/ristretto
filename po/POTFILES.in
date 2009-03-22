@@ -2,4 +2,7 @@ src/main.c
 src/main_window.c
 src/navigator.c
 src/picture_viewer.c
+src/preferences_dialog.c
+src/image.c
+src/image_cache.c
 ristretto.desktop.in

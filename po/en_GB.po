@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"POT-Creation-Date: 2009-03-22 09:43+0100\n"
 "PO-Revision-Date: 2008-05-10 13:15+1000\n"
 "Last-Translator: Jeff Bailes <thepizzaking@gmail.com>\n"
 "Language-Team: English/GB\n"
@@ -17,20 +17,20 @@ msgstr ""
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
 
-#: ../src/main.c:56
+#: ../src/main.c:58
 msgid "Version information"
 msgstr "Version information"
 
-#: ../src/main.c:60
+#: ../src/main.c:62
 msgid "Start in fullscreen mode"
 msgstr ""
 
-#: ../src/main.c:64
+#: ../src/main.c:66
 #, fuzzy
 msgid "Start a slideshow"
 msgstr "Slideshow"
 
-#: ../src/main.c:85
+#: ../src/main.c:87
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -40,231 +40,280 @@ msgstr ""
 "Try %s --help to see a full list of available command line options.\n"
 
 #. File Menu
-#: ../src/main_window.c:163
+#: ../src/main_window.c:188
 msgid "_File"
 msgstr "_File"
 
-#: ../src/main_window.c:164
+#: ../src/main_window.c:189
 msgid "_Open"
 msgstr ""
 
-#: ../src/main_window.c:164
+#: ../src/main_window.c:189
 #, fuzzy
 msgid "Open an image"
 msgstr "Open image"
 
-#: ../src/main_window.c:165
+#: ../src/main_window.c:190
 #, fuzzy
 msgid "Open _Folder"
 msgstr "O_pen Folder"
 
-#: ../src/main_window.c:165
+#: ../src/main_window.c:190
 #, fuzzy
 msgid "Open a folder"
 msgstr "Open folder"
 
-#: ../src/main_window.c:166
-msgid "Open _Recent"
-msgstr ""
+#: ../src/main_window.c:191
+#, fuzzy
+msgid "_Properties"
+msgstr "Image viewer Preferences"
 
-#: ../src/main_window.c:167
+#: ../src/main_window.c:192
 msgid "_Close"
 msgstr ""
 
-#: ../src/main_window.c:167
+#: ../src/main_window.c:192
 msgid "Close this image"
 msgstr ""
 
-#: ../src/main_window.c:168
+#: ../src/main_window.c:193
 msgid "_Close All"
 msgstr ""
 
-#: ../src/main_window.c:168
+#: ../src/main_window.c:193
 #, fuzzy
 msgid "Close all images"
 msgstr "_Preload images"
 
-#: ../src/main_window.c:169
+#: ../src/main_window.c:194
 #, fuzzy
 msgid "_Quit"
 msgstr "_Edit"
 
-#: ../src/main_window.c:169
+#: ../src/main_window.c:194
 msgid "Quit Ristretto"
 msgstr ""
 
 #. Edit Menu
-#: ../src/main_window.c:171
+#: ../src/main_window.c:196
 msgid "_Edit"
 msgstr "_Edit"
 
-#: ../src/main_window.c:172
-msgid "_Undo"
-msgstr ""
+#: ../src/main_window.c:197
+#, fuzzy
+msgid "_Open with..."
+msgstr "Open with..."
 
-#: ../src/main_window.c:173
+#: ../src/main_window.c:198
 #, fuzzy
 msgid "_Preferences"
 msgstr "Image viewer Preferences"
 
 #. View Menu
-#: ../src/main_window.c:175
+#: ../src/main_window.c:200
 msgid "_View"
 msgstr "_View"
 
-#: ../src/main_window.c:176
+#: ../src/main_window.c:201
 msgid "_Fullscreen"
 msgstr ""
 
-#: ../src/main_window.c:177
+#: ../src/main_window.c:202
 #, fuzzy
 msgid "_Set as Wallpaper"
 msgstr "_Set as wallpaper"
 
 #. Thumbnailbar submenu
-#: ../src/main_window.c:179
+#: ../src/main_window.c:204
 #, fuzzy
 msgid "_Thumbnail Bar"
 msgstr "Thumbnail _Viewer"
 
-#: ../src/main_window.c:180
-msgid "Show _Vertically"
-msgstr "Show _Vertically"
-
-#: ../src/main_window.c:181
-#, fuzzy
-msgid "_Show Horizontally"
-msgstr "Show _Horizontally"
-
-#: ../src/main_window.c:182
-#, fuzzy
-msgid "_Hide"
-msgstr "H_ide"
-
 #. Zoom submenu
-#: ../src/main_window.c:184
+#: ../src/main_window.c:206
 msgid "_Zooming"
 msgstr "_Zooming"
 
-#: ../src/main_window.c:185
+#: ../src/main_window.c:207
 #, fuzzy
 msgid "Zoom _In"
 msgstr "_Zooming"
 
-#: ../src/main_window.c:186
+#: ../src/main_window.c:208
 msgid "Zoom _Out"
 msgstr ""
 
-#: ../src/main_window.c:187
+#: ../src/main_window.c:209
 msgid "Zoom _Fit"
 msgstr ""
 
-#: ../src/main_window.c:188
+#: ../src/main_window.c:210
 msgid "_Normal Size"
 msgstr ""
 
 #. Rotation submenu
-#: ../src/main_window.c:190
+#: ../src/main_window.c:212
 #, fuzzy
 msgid "_Rotation"
 msgstr "_Rotate"
 
-#: ../src/main_window.c:191
+#: ../src/main_window.c:213
 msgid "Rotate _Right"
 msgstr "Rotate _Right"
 
-#: ../src/main_window.c:192
+#: ../src/main_window.c:214
 msgid "Rotate _Left"
 msgstr "Rotate _Left"
 
 #. Go Menu
-#: ../src/main_window.c:194
+#: ../src/main_window.c:216
 msgid "_Go"
 msgstr "_Go"
 
-#: ../src/main_window.c:195
+#: ../src/main_window.c:217
 msgid "_Forward"
 msgstr ""
 
-#: ../src/main_window.c:196
+#: ../src/main_window.c:218
 msgid "_Back"
 msgstr ""
 
-#: ../src/main_window.c:197
+#: ../src/main_window.c:219
 msgid "_First"
 msgstr ""
 
-#: ../src/main_window.c:198
+#: ../src/main_window.c:220
 msgid "_Last"
 msgstr ""
 
-#: ../src/main_window.c:199
-msgid "_Play"
-msgstr ""
-
 #. Help Menu
-#: ../src/main_window.c:201
+#: ../src/main_window.c:222
 msgid "_Help"
 msgstr "_Help"
 
-#: ../src/main_window.c:203
+#: ../src/main_window.c:224
 msgid "_Contents"
 msgstr ""
 
-#: ../src/main_window.c:205
+#: ../src/main_window.c:226
 msgid "Display ristretto user manual"
 msgstr ""
 
-#: ../src/main_window.c:208
+#: ../src/main_window.c:229
 msgid "_About"
 msgstr ""
 
-#: ../src/main_window.c:210
+#: ../src/main_window.c:231
 msgid "Display information about ristretto"
 msgstr ""
 
-#: ../src/main_window.c:216
+#: ../src/main_window.c:237
 msgid "Show _Toolbar"
 msgstr "Show _Toolbar"
 
-#: ../src/main_window.c:738
+#: ../src/main_window.c:238
+#, fuzzy
+msgid "Show Thumb_nailbar"
+msgstr "Thumbnail _Viewer"
+
+#: ../src/main_window.c:858
 msgid "Open image"
 msgstr "Open image"
 
-#: ../src/main_window.c:756
+#: ../src/main_window.c:870
+msgid "Images"
+msgstr ""
+
+#: ../src/main_window.c:889 ../src/main_window.c:1018
 msgid "Could not open file"
 msgstr "Could not open file"
 
-#: ../src/main_window.c:836
+#: ../src/main_window.c:937
+#, fuzzy
+msgid "Open folder"
+msgstr "Open folder"
+
+#: ../src/main_window.c:1152
 msgid "Developer:"
 msgstr "Developer:"
 
-#: ../src/main_window.c:846
+#: ../src/main_window.c:1162
 #, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
 "environment."
 
-#: ../src/main_window.c:854
+#: ../src/main_window.c:1170
 msgid "translator-credits"
 msgstr "Jeff Bailes <thepizzaking@gmail.com>, 2008"
 
-#: ../src/thumbnail_bar.c:185
-msgid "Spacing"
-msgstr "Spacing"
+#: ../src/preferences_dialog.c:73
+msgid "Display"
+msgstr "Display"
 
-#: ../src/thumbnail_bar.c:186
-msgid "The amount of space between the thumbnails"
-msgstr "The amount of space between the thumbnails"
+#: ../src/preferences_dialog.c:78
+msgid "Slideshow"
+msgstr "Slideshow"
 
-#: ../src/thumbnail_bar.c:192
-msgid "Border Width"
-msgstr "Border Width"
+#: ../src/preferences_dialog.c:82
+#, fuzzy
+msgid "Background color"
+msgstr "Background Colour"
 
-#: ../src/thumbnail_bar.c:193
-msgid "The border width of the thumbnail-bar"
-msgstr "The border width of the thumbnail-bar"
+#: ../src/preferences_dialog.c:85
+msgid "Black"
+msgstr ""
+
+#: ../src/preferences_dialog.c:87
+msgid "Colorify (no idea how to call this feature)"
+msgstr ""
+
+#: ../src/preferences_dialog.c:90
+msgid "Custom:"
+msgstr ""
+
+#: ../src/preferences_dialog.c:98
+msgid "Timeout"
+msgstr "Timeout"
+
+#: ../src/preferences_dialog.c:102
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+
+#: ../src/preferences_dialog.c:113
+msgid "Control"
+msgstr ""
+
+#: ../src/preferences_dialog.c:117
+msgid "Scrollwheel"
+msgstr ""
+
+#: ../src/preferences_dialog.c:120
+#, fuzzy
+msgid "No action"
+msgstr "_Rotate"
+
+#: ../src/preferences_dialog.c:122
+msgid "Zoom in and out"
+msgstr ""
+
+#: ../src/preferences_dialog.c:124
+msgid "Switch images"
+msgstr ""
+
+#: ../src/preferences_dialog.c:129
+msgid "Behaviour"
+msgstr "Behaviour"
+
+#: ../src/preferences_dialog.c:149
+#, fuzzy
+msgid "Preferences"
+msgstr "Image viewer Preferences"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -278,14 +327,34 @@ msgstr ""
 msgid "Xfce Image viewer"
 msgstr "Xfce Image viewer"
 
+#~ msgid "Show _Vertically"
+#~ msgstr "Show _Vertically"
+
+#, fuzzy
+#~ msgid "_Show Horizontally"
+#~ msgstr "Show _Horizontally"
+
+#, fuzzy
+#~ msgid "_Hide"
+#~ msgstr "H_ide"
+
+#~ msgid "Spacing"
+#~ msgstr "Spacing"
+
+#~ msgid "The amount of space between the thumbnails"
+#~ msgstr "The amount of space between the thumbnails"
+
+#~ msgid "Border Width"
+#~ msgstr "Border Width"
+
+#~ msgid "The border width of the thumbnail-bar"
+#~ msgstr "The border width of the thumbnail-bar"
+
 #~ msgid "Opening file(s)..."
 #~ msgstr "Opening file(s)..."
 
 #~ msgid "_Recently used"
 #~ msgstr "_Recently used"
-
-#~ msgid "Open with..."
-#~ msgstr "Open with..."
 
 #~ msgid "No applications available"
 #~ msgstr "No applications available"
@@ -293,23 +362,11 @@ msgstr "Xfce Image viewer"
 #~ msgid "Thumbnail _Viewer"
 #~ msgstr "Thumbnail _Viewer"
 
-#~ msgid "Display"
-#~ msgstr "Display"
-
-#~ msgid "Slideshow"
-#~ msgstr "Slideshow"
-
-#~ msgid "Behaviour"
-#~ msgstr "Behaviour"
-
 #~ msgid "Scaling"
 #~ msgstr "Scaling"
 
 #~ msgid "Don't scale over 100% when maximizing the window."
 #~ msgstr "Don't scale over 100% when maximising the window."
-
-#~ msgid "Background Color"
-#~ msgstr "Background Colour"
 
 #~ msgid "_Override Background Color:"
 #~ msgstr "_Override Background Colour:"
@@ -322,16 +379,6 @@ msgstr "Xfce Image viewer"
 
 #~ msgid "MB"
 #~ msgstr "MB"
-
-#~ msgid "Timeout"
-#~ msgstr "Timeout"
-
-#~ msgid ""
-#~ "The time period an individual image is displayed during a slideshow\n"
-#~ "(in seconds)"
-#~ msgstr ""
-#~ "The time period an individual image is displayed during a slideshow\n"
-#~ "(in seconds)"
 
 #~ msgid ""
 #~ "Are you sure you want to clear ristretto's list of recently opened "

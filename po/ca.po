@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"POT-Creation-Date: 2009-03-22 09:43+0100\n"
 "PO-Revision-Date: 2008-11-16 13:28+0100\n"
 "Last-Translator: Carles Muñoz Gorriz <carlesmu@internautas.org>\n"
 "Language-Team: Catalan <xfce-i18n@xfce.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: Catalan\n"
 
-#: ../src/main.c:56
+#: ../src/main.c:58
 msgid "Version information"
 msgstr "Informació de la versió"
 
-#: ../src/main.c:60
+#: ../src/main.c:62
 msgid "Start in fullscreen mode"
 msgstr "Inicia en mode de pantalla completa"
 
-#: ../src/main.c:64
+#: ../src/main.c:66
 msgid "Start a slideshow"
 msgstr "Inicia una seqüència d'imatges"
 
-#: ../src/main.c:85
+#: ../src/main.c:87
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -41,233 +41,282 @@ msgstr ""
 "de la línia d'ordres.\n"
 
 #. File Menu
-#: ../src/main_window.c:163
+#: ../src/main_window.c:188
 msgid "_File"
 msgstr "_Fitxer"
 
-#: ../src/main_window.c:164
+#: ../src/main_window.c:189
 msgid "_Open"
 msgstr ""
 
-#: ../src/main_window.c:164
+#: ../src/main_window.c:189
 #, fuzzy
 msgid "Open an image"
 msgstr "Obre una imatge"
 
-#: ../src/main_window.c:165
+#: ../src/main_window.c:190
 #, fuzzy
 msgid "Open _Folder"
 msgstr "_Obre una carpeta"
 
-#: ../src/main_window.c:165
+#: ../src/main_window.c:190
 #, fuzzy
 msgid "Open a folder"
 msgstr "Obre una carpeta"
 
-#: ../src/main_window.c:166
-msgid "Open _Recent"
-msgstr ""
+#: ../src/main_window.c:191
+#, fuzzy
+msgid "_Properties"
+msgstr "Preferències del visor d'imatges"
 
-#: ../src/main_window.c:167
+#: ../src/main_window.c:192
 #, fuzzy
 msgid "_Close"
 msgstr "_Tanca-ho tot"
 
-#: ../src/main_window.c:167
+#: ../src/main_window.c:192
 msgid "Close this image"
 msgstr ""
 
-#: ../src/main_window.c:168
+#: ../src/main_window.c:193
 #, fuzzy
 msgid "_Close All"
 msgstr "_Tanca-ho tot"
 
-#: ../src/main_window.c:168
+#: ../src/main_window.c:193
 #, fuzzy
 msgid "Close all images"
 msgstr "_Tanca-ho tot"
 
-#: ../src/main_window.c:169
+#: ../src/main_window.c:194
 #, fuzzy
 msgid "_Quit"
 msgstr "_Edita"
 
-#: ../src/main_window.c:169
+#: ../src/main_window.c:194
 #, fuzzy
 msgid "Quit Ristretto"
 msgstr "Ristretto"
 
 #. Edit Menu
-#: ../src/main_window.c:171
+#: ../src/main_window.c:196
 msgid "_Edit"
 msgstr "_Edita"
 
-#: ../src/main_window.c:172
-msgid "_Undo"
-msgstr ""
+#: ../src/main_window.c:197
+#, fuzzy
+msgid "_Open with..."
+msgstr "Obre amb…"
 
-#: ../src/main_window.c:173
+#: ../src/main_window.c:198
 #, fuzzy
 msgid "_Preferences"
 msgstr "Preferències del visor d'imatges"
 
 #. View Menu
-#: ../src/main_window.c:175
+#: ../src/main_window.c:200
 msgid "_View"
 msgstr "_Mostra"
 
-#: ../src/main_window.c:176
+#: ../src/main_window.c:201
 msgid "_Fullscreen"
 msgstr ""
 
-#: ../src/main_window.c:177
+#: ../src/main_window.c:202
 #, fuzzy
 msgid "_Set as Wallpaper"
 msgstr "Posa com a _fons d'escriptori"
 
 #. Thumbnailbar submenu
-#: ../src/main_window.c:179
+#: ../src/main_window.c:204
 #, fuzzy
 msgid "_Thumbnail Bar"
 msgstr "Miniatures"
 
-#: ../src/main_window.c:180
-msgid "Show _Vertically"
-msgstr "Mostra _verticalment"
-
-#: ../src/main_window.c:181
-#, fuzzy
-msgid "_Show Horizontally"
-msgstr "Mostra _horitzontalment"
-
-#: ../src/main_window.c:182
-#, fuzzy
-msgid "_Hide"
-msgstr "_Amaga"
-
 #. Zoom submenu
-#: ../src/main_window.c:184
+#: ../src/main_window.c:206
 msgid "_Zooming"
 msgstr "_Zoom"
 
-#: ../src/main_window.c:185
+#: ../src/main_window.c:207
 #, fuzzy
 msgid "Zoom _In"
 msgstr "_Zoom"
 
-#: ../src/main_window.c:186
+#: ../src/main_window.c:208
 msgid "Zoom _Out"
 msgstr ""
 
-#: ../src/main_window.c:187
+#: ../src/main_window.c:209
 msgid "Zoom _Fit"
 msgstr ""
 
-#: ../src/main_window.c:188
+#: ../src/main_window.c:210
 msgid "_Normal Size"
 msgstr ""
 
 #. Rotation submenu
-#: ../src/main_window.c:190
+#: ../src/main_window.c:212
 #, fuzzy
 msgid "_Rotation"
 msgstr "Gi_ra"
 
-#: ../src/main_window.c:191
+#: ../src/main_window.c:213
 msgid "Rotate _Right"
 msgstr "Gira a la _dreta"
 
-#: ../src/main_window.c:192
+#: ../src/main_window.c:214
 msgid "Rotate _Left"
 msgstr "Gira a l'_esquerra"
 
 #. Go Menu
-#: ../src/main_window.c:194
+#: ../src/main_window.c:216
 msgid "_Go"
 msgstr "_Vés"
 
-#: ../src/main_window.c:195
+#: ../src/main_window.c:217
 msgid "_Forward"
 msgstr ""
 
-#: ../src/main_window.c:196
+#: ../src/main_window.c:218
 msgid "_Back"
 msgstr ""
 
-#: ../src/main_window.c:197
+#: ../src/main_window.c:219
 msgid "_First"
 msgstr ""
 
-#: ../src/main_window.c:198
+#: ../src/main_window.c:220
 msgid "_Last"
 msgstr ""
 
-#: ../src/main_window.c:199
-msgid "_Play"
-msgstr ""
-
 #. Help Menu
-#: ../src/main_window.c:201
+#: ../src/main_window.c:222
 msgid "_Help"
 msgstr "A_juda"
 
-#: ../src/main_window.c:203
+#: ../src/main_window.c:224
 msgid "_Contents"
 msgstr ""
 
-#: ../src/main_window.c:205
+#: ../src/main_window.c:226
 msgid "Display ristretto user manual"
 msgstr ""
 
-#: ../src/main_window.c:208
+#: ../src/main_window.c:229
 msgid "_About"
 msgstr ""
 
-#: ../src/main_window.c:210
+#: ../src/main_window.c:231
 msgid "Display information about ristretto"
 msgstr ""
 
-#: ../src/main_window.c:216
+#: ../src/main_window.c:237
 msgid "Show _Toolbar"
 msgstr "Mostra la barra d'_eines"
 
-#: ../src/main_window.c:738
+#: ../src/main_window.c:238
+#, fuzzy
+msgid "Show Thumb_nailbar"
+msgstr "Miniatures"
+
+#: ../src/main_window.c:858
 msgid "Open image"
 msgstr "Obre una imatge"
 
-#: ../src/main_window.c:756
+#: ../src/main_window.c:870
+msgid "Images"
+msgstr ""
+
+#: ../src/main_window.c:889 ../src/main_window.c:1018
 msgid "Could not open file"
 msgstr "No s'ha pogut obrir el fitxer"
 
-#: ../src/main_window.c:836
+#: ../src/main_window.c:937
+#, fuzzy
+msgid "Open folder"
+msgstr "Obre una carpeta"
+
+#: ../src/main_window.c:1152
 msgid "Developer:"
 msgstr "Autors:"
 
-#: ../src/main_window.c:846
+#: ../src/main_window.c:1162
 #, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto és visor d'imatges ràpid i lleuger per l'entorn d'escriptori Xfce."
 
-#: ../src/main_window.c:854
+#: ../src/main_window.c:1170
 msgid "translator-credits"
 msgstr "Carles Muñoz Gorriz <carlesmu@internautas.org>"
 
-#: ../src/thumbnail_bar.c:185
-msgid "Spacing"
-msgstr "Espaiat"
+#: ../src/preferences_dialog.c:73
+msgid "Display"
+msgstr "Visualització"
 
-#: ../src/thumbnail_bar.c:186
-msgid "The amount of space between the thumbnails"
-msgstr "La quantitat d'espai entre miniatures"
+#: ../src/preferences_dialog.c:78
+msgid "Slideshow"
+msgstr "Seqüència d'imatges"
 
-#: ../src/thumbnail_bar.c:192
-msgid "Border Width"
-msgstr "Amplada de la bora"
+#: ../src/preferences_dialog.c:82
+#, fuzzy
+msgid "Background color"
+msgstr "Color de fons"
 
-#: ../src/thumbnail_bar.c:193
-msgid "The border width of the thumbnail-bar"
-msgstr "L'amplada de la bora de la barra de miniatures"
+#: ../src/preferences_dialog.c:85
+msgid "Black"
+msgstr ""
+
+#: ../src/preferences_dialog.c:87
+msgid "Colorify (no idea how to call this feature)"
+msgstr ""
+
+#: ../src/preferences_dialog.c:90
+msgid "Custom:"
+msgstr ""
+
+#: ../src/preferences_dialog.c:98
+msgid "Timeout"
+msgstr "Temps esgotat"
+
+#: ../src/preferences_dialog.c:102
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"El temps que una imatge en concret es mostra durant la seqüència d'imatges\n"
+"(en segons)"
+
+#: ../src/preferences_dialog.c:113
+msgid "Control"
+msgstr ""
+
+#: ../src/preferences_dialog.c:117
+msgid "Scrollwheel"
+msgstr ""
+
+#: ../src/preferences_dialog.c:120
+#, fuzzy
+msgid "No action"
+msgstr "Gi_ra"
+
+#: ../src/preferences_dialog.c:122
+msgid "Zoom in and out"
+msgstr ""
+
+#: ../src/preferences_dialog.c:124
+msgid "Switch images"
+msgstr ""
+
+#: ../src/preferences_dialog.c:129
+msgid "Behaviour"
+msgstr "Comportament"
+
+#: ../src/preferences_dialog.c:149
+#, fuzzy
+msgid "Preferences"
+msgstr "Preferències del visor d'imatges"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -281,14 +330,34 @@ msgstr "Ristretto"
 msgid "Xfce Image viewer"
 msgstr "Visor d'imatges de Xfce"
 
+#~ msgid "Show _Vertically"
+#~ msgstr "Mostra _verticalment"
+
+#, fuzzy
+#~ msgid "_Show Horizontally"
+#~ msgstr "Mostra _horitzontalment"
+
+#, fuzzy
+#~ msgid "_Hide"
+#~ msgstr "_Amaga"
+
+#~ msgid "Spacing"
+#~ msgstr "Espaiat"
+
+#~ msgid "The amount of space between the thumbnails"
+#~ msgstr "La quantitat d'espai entre miniatures"
+
+#~ msgid "Border Width"
+#~ msgstr "Amplada de la bora"
+
+#~ msgid "The border width of the thumbnail-bar"
+#~ msgstr "L'amplada de la bora de la barra de miniatures"
+
 #~ msgid "Opening file(s)..."
 #~ msgstr "S'estan obrint els fitxers…"
 
 #~ msgid "_Recently used"
 #~ msgstr "Emprats _recentment"
-
-#~ msgid "Open with..."
-#~ msgstr "Obre amb…"
 
 #~ msgid "No applications available"
 #~ msgstr "Cap aplicació disponible"
@@ -300,23 +369,11 @@ msgstr "Visor d'imatges de Xfce"
 #~ "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "S'ha modificat alguna imatge, voleu desar els canvis?"
 
-#~ msgid "Display"
-#~ msgstr "Visualització"
-
-#~ msgid "Slideshow"
-#~ msgstr "Seqüència d'imatges"
-
-#~ msgid "Behaviour"
-#~ msgstr "Comportament"
-
 #~ msgid "Scaling"
 #~ msgstr "Escalat"
 
 #~ msgid "Don't scale over 100% when maximizing the window."
 #~ msgstr "No escalis per sobre del 100% quan es maximitzi la finestra."
-
-#~ msgid "Background Color"
-#~ msgstr "Color de fons"
 
 #~ msgid "_Override Background Color:"
 #~ msgstr "_Força el color de fons:"
@@ -334,17 +391,6 @@ msgstr "Visor d'imatges de Xfce"
 #~ msgstr ""
 #~ "Càrrega _prèvia d'imatges (La GUI respondrà millor però emprarà més la "
 #~ "CPU)"
-
-#~ msgid "Timeout"
-#~ msgstr "Temps esgotat"
-
-#~ msgid ""
-#~ "The time period an individual image is displayed during a slideshow\n"
-#~ "(in seconds)"
-#~ msgstr ""
-#~ "El temps que una imatge en concret es mostra durant la seqüència "
-#~ "d'imatges\n"
-#~ "(en segons)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Amaga les miniatures durant la seqüència d'imatges"

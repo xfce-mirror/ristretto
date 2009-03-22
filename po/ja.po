@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-01-23 17:27+0100\n"
+"POT-Creation-Date: 2009-03-22 09:43+0100\n"
 "PO-Revision-Date: 2008-11-27 00:48+0900\n"
 "Last-Translator: Masato Hashimoto <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese\n"
@@ -17,19 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../src/main.c:56
+#: ../src/main.c:58
 msgid "Version information"
 msgstr "バージョン情報を表示する"
 
-#: ../src/main.c:60
+#: ../src/main.c:62
 msgid "Start in fullscreen mode"
 msgstr "フルスクリーンモードで開始する"
 
-#: ../src/main.c:64
+#: ../src/main.c:66
 msgid "Start a slideshow"
 msgstr "スライドショーを開始する"
 
-#: ../src/main.c:85
+#: ../src/main.c:87
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -39,234 +39,282 @@ msgstr ""
 "%s --help で使用可能な全てのコマンドラインオプションが表示されます。\n"
 
 #. File Menu
-#: ../src/main_window.c:163
+#: ../src/main_window.c:188
 msgid "_File"
 msgstr "ファイル(_F)"
 
-#: ../src/main_window.c:164
+#: ../src/main_window.c:189
 msgid "_Open"
 msgstr ""
 
-#: ../src/main_window.c:164
+#: ../src/main_window.c:189
 #, fuzzy
 msgid "Open an image"
 msgstr "画像を開く"
 
-#: ../src/main_window.c:165
+#: ../src/main_window.c:190
 #, fuzzy
 msgid "Open _Folder"
 msgstr "フォルダを開く(_P)"
 
-#: ../src/main_window.c:165
+#: ../src/main_window.c:190
 #, fuzzy
 msgid "Open a folder"
 msgstr "フォルダを開く"
 
-#: ../src/main_window.c:166
-msgid "Open _Recent"
-msgstr ""
+#: ../src/main_window.c:191
+#, fuzzy
+msgid "_Properties"
+msgstr "画像ビューア設定"
 
-#: ../src/main_window.c:167
+#: ../src/main_window.c:192
 #, fuzzy
 msgid "_Close"
 msgstr "全て閉じる(_A)"
 
-#: ../src/main_window.c:167
+#: ../src/main_window.c:192
 msgid "Close this image"
 msgstr ""
 
-#: ../src/main_window.c:168
+#: ../src/main_window.c:193
 #, fuzzy
 msgid "_Close All"
 msgstr "全て閉じる(_A)"
 
-#: ../src/main_window.c:168
+#: ../src/main_window.c:193
 #, fuzzy
 msgid "Close all images"
 msgstr "全て閉じる(_A)"
 
-#: ../src/main_window.c:169
+#: ../src/main_window.c:194
 #, fuzzy
 msgid "_Quit"
 msgstr "編集(_E)"
 
-#: ../src/main_window.c:169
+#: ../src/main_window.c:194
 #, fuzzy
 msgid "Quit Ristretto"
 msgstr "Ristretto"
 
 #. Edit Menu
-#: ../src/main_window.c:171
+#: ../src/main_window.c:196
 msgid "_Edit"
 msgstr "編集(_E)"
 
-#: ../src/main_window.c:172
-msgid "_Undo"
-msgstr ""
+#: ../src/main_window.c:197
+#, fuzzy
+msgid "_Open with..."
+msgstr "アプリケーションで開く..."
 
-#: ../src/main_window.c:173
+#: ../src/main_window.c:198
 #, fuzzy
 msgid "_Preferences"
 msgstr "画像ビューア設定"
 
 #. View Menu
-#: ../src/main_window.c:175
+#: ../src/main_window.c:200
 msgid "_View"
 msgstr "表示(_V)"
 
-#: ../src/main_window.c:176
+#: ../src/main_window.c:201
 msgid "_Fullscreen"
 msgstr ""
 
-#: ../src/main_window.c:177
+#: ../src/main_window.c:202
 #, fuzzy
 msgid "_Set as Wallpaper"
 msgstr "壁紙に設定(_S)"
 
 #. Thumbnailbar submenu
-#: ../src/main_window.c:179
+#: ../src/main_window.c:204
 #, fuzzy
 msgid "_Thumbnail Bar"
 msgstr "サムネイル"
 
-#: ../src/main_window.c:180
-msgid "Show _Vertically"
-msgstr "縦に表示(_V)"
-
-#: ../src/main_window.c:181
-#, fuzzy
-msgid "_Show Horizontally"
-msgstr "横に表示(_H)"
-
-#: ../src/main_window.c:182
-#, fuzzy
-msgid "_Hide"
-msgstr "非表示(_I)"
-
 #. Zoom submenu
-#: ../src/main_window.c:184
+#: ../src/main_window.c:206
 msgid "_Zooming"
 msgstr "拡大/縮小(_Z)"
 
-#: ../src/main_window.c:185
+#: ../src/main_window.c:207
 #, fuzzy
 msgid "Zoom _In"
 msgstr "拡大/縮小(_Z)"
 
-#: ../src/main_window.c:186
+#: ../src/main_window.c:208
 msgid "Zoom _Out"
 msgstr ""
 
-#: ../src/main_window.c:187
+#: ../src/main_window.c:209
 msgid "Zoom _Fit"
 msgstr ""
 
-#: ../src/main_window.c:188
+#: ../src/main_window.c:210
 msgid "_Normal Size"
 msgstr ""
 
 #. Rotation submenu
-#: ../src/main_window.c:190
+#: ../src/main_window.c:212
 #, fuzzy
 msgid "_Rotation"
 msgstr "回転(_R)"
 
-#: ../src/main_window.c:191
+#: ../src/main_window.c:213
 msgid "Rotate _Right"
 msgstr "右回転(_R)"
 
-#: ../src/main_window.c:192
+#: ../src/main_window.c:214
 msgid "Rotate _Left"
 msgstr "左回転(_L)"
 
 #. Go Menu
-#: ../src/main_window.c:194
+#: ../src/main_window.c:216
 msgid "_Go"
 msgstr "移動(_G)"
 
-#: ../src/main_window.c:195
+#: ../src/main_window.c:217
 msgid "_Forward"
 msgstr ""
 
-#: ../src/main_window.c:196
+#: ../src/main_window.c:218
 msgid "_Back"
 msgstr ""
 
-#: ../src/main_window.c:197
+#: ../src/main_window.c:219
 msgid "_First"
 msgstr ""
 
-#: ../src/main_window.c:198
+#: ../src/main_window.c:220
 msgid "_Last"
 msgstr ""
 
-#: ../src/main_window.c:199
-msgid "_Play"
-msgstr ""
-
 #. Help Menu
-#: ../src/main_window.c:201
+#: ../src/main_window.c:222
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
-#: ../src/main_window.c:203
+#: ../src/main_window.c:224
 msgid "_Contents"
 msgstr ""
 
-#: ../src/main_window.c:205
+#: ../src/main_window.c:226
 msgid "Display ristretto user manual"
 msgstr ""
 
-#: ../src/main_window.c:208
+#: ../src/main_window.c:229
 msgid "_About"
 msgstr ""
 
-#: ../src/main_window.c:210
+#: ../src/main_window.c:231
 msgid "Display information about ristretto"
 msgstr ""
 
-#: ../src/main_window.c:216
+#: ../src/main_window.c:237
 msgid "Show _Toolbar"
 msgstr "ツールバーを表示(_T)"
 
-#: ../src/main_window.c:738
+#: ../src/main_window.c:238
+#, fuzzy
+msgid "Show Thumb_nailbar"
+msgstr "サムネイル"
+
+#: ../src/main_window.c:858
 msgid "Open image"
 msgstr "画像を開く"
 
-#: ../src/main_window.c:756
+#: ../src/main_window.c:870
+msgid "Images"
+msgstr ""
+
+#: ../src/main_window.c:889 ../src/main_window.c:1018
 msgid "Could not open file"
 msgstr "ファイルを開けませんでした"
 
-#: ../src/main_window.c:836
+#: ../src/main_window.c:937
+#, fuzzy
+msgid "Open folder"
+msgstr "フォルダを開く"
+
+#: ../src/main_window.c:1152
 msgid "Developer:"
 msgstr "開発者:"
 
-#: ../src/main_window.c:846
+#: ../src/main_window.c:1162
 #, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto は Xfce デスクトップ環境向けの\n"
 "軽快で軽量な画像ビューアです。"
 
-#: ../src/main_window.c:854
+#: ../src/main_window.c:1170
 msgid "translator-credits"
 msgstr "Masato Hashimoto <cabezon.hashimoto@gmail.com>"
 
-#: ../src/thumbnail_bar.c:185
-msgid "Spacing"
-msgstr "間隔"
+#: ../src/preferences_dialog.c:73
+msgid "Display"
+msgstr "表示"
 
-#: ../src/thumbnail_bar.c:186
-msgid "The amount of space between the thumbnails"
-msgstr "サムネイル間の間隔"
+#: ../src/preferences_dialog.c:78
+msgid "Slideshow"
+msgstr "スライドショー"
 
-#: ../src/thumbnail_bar.c:192
-msgid "Border Width"
-msgstr "境界線幅"
+#: ../src/preferences_dialog.c:82
+#, fuzzy
+msgid "Background color"
+msgstr "背景色"
 
-#: ../src/thumbnail_bar.c:193
-msgid "The border width of the thumbnail-bar"
-msgstr "サムネイルバーの境界線幅"
+#: ../src/preferences_dialog.c:85
+msgid "Black"
+msgstr ""
+
+#: ../src/preferences_dialog.c:87
+msgid "Colorify (no idea how to call this feature)"
+msgstr ""
+
+#: ../src/preferences_dialog.c:90
+msgid "Custom:"
+msgstr ""
+
+#: ../src/preferences_dialog.c:98
+msgid "Timeout"
+msgstr "タイムアウト"
+
+# In ja translation, It's unnecessary to break the line.
+#: ../src/preferences_dialog.c:102
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr "スライドショー中に各画像を表示する時間 (秒)"
+
+#: ../src/preferences_dialog.c:113
+msgid "Control"
+msgstr ""
+
+#: ../src/preferences_dialog.c:117
+msgid "Scrollwheel"
+msgstr ""
+
+#: ../src/preferences_dialog.c:120
+#, fuzzy
+msgid "No action"
+msgstr "回転(_R)"
+
+#: ../src/preferences_dialog.c:122
+msgid "Zoom in and out"
+msgstr ""
+
+#: ../src/preferences_dialog.c:124
+msgid "Switch images"
+msgstr ""
+
+#: ../src/preferences_dialog.c:129
+msgid "Behaviour"
+msgstr "振る舞い"
+
+#: ../src/preferences_dialog.c:149
+#, fuzzy
+msgid "Preferences"
+msgstr "画像ビューア設定"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -280,14 +328,34 @@ msgstr "Ristretto"
 msgid "Xfce Image viewer"
 msgstr "Xfce 画像ビューア"
 
+#~ msgid "Show _Vertically"
+#~ msgstr "縦に表示(_V)"
+
+#, fuzzy
+#~ msgid "_Show Horizontally"
+#~ msgstr "横に表示(_H)"
+
+#, fuzzy
+#~ msgid "_Hide"
+#~ msgstr "非表示(_I)"
+
+#~ msgid "Spacing"
+#~ msgstr "間隔"
+
+#~ msgid "The amount of space between the thumbnails"
+#~ msgstr "サムネイル間の間隔"
+
+#~ msgid "Border Width"
+#~ msgstr "境界線幅"
+
+#~ msgid "The border width of the thumbnail-bar"
+#~ msgstr "サムネイルバーの境界線幅"
+
 #~ msgid "Opening file(s)..."
 #~ msgstr "ファイルを開いています..."
 
 #~ msgid "_Recently used"
 #~ msgstr "最近開いたファイル(_R)"
-
-#~ msgid "Open with..."
-#~ msgstr "アプリケーションで開く..."
 
 #~ msgid "No applications available"
 #~ msgstr "使用可能なアプリケーションはありません"
@@ -300,23 +368,11 @@ msgstr "Xfce 画像ビューア"
 #~ "save the changes?"
 #~ msgstr "一つ以上の画像が修正されています。保存しますか?"
 
-#~ msgid "Display"
-#~ msgstr "表示"
-
-#~ msgid "Slideshow"
-#~ msgstr "スライドショー"
-
-#~ msgid "Behaviour"
-#~ msgstr "振る舞い"
-
 #~ msgid "Scaling"
 #~ msgstr "サイズ変更"
 
 #~ msgid "Don't scale over 100% when maximizing the window."
 #~ msgstr "ウィンドウを最大化したときにサイズを 100% より大きくしない"
-
-#~ msgid "Background Color"
-#~ msgstr "背景色"
 
 #~ msgid "_Override Background Color:"
 #~ msgstr "背景色を変更する(_O):"
@@ -333,15 +389,6 @@ msgstr "Xfce 画像ビューア"
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr ""
 #~ "画像の先行読み込み(_P) (GUI の反応が向上しますが、CPU 負荷も上昇します)"
-
-#~ msgid "Timeout"
-#~ msgstr "タイムアウト"
-
-# In ja translation, It's unnecessary to break the line.
-#~ msgid ""
-#~ "The time period an individual image is displayed during a slideshow\n"
-#~ "(in seconds)"
-#~ msgstr "スライドショー中に各画像を表示する時間 (秒)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "スライドショー中はサムネイルを非表示"
