@@ -65,6 +65,10 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *scroll_frame, *scroll_vbox;
     GtkWidget *timeout_frame, *timeout_vbox, *timeout_lbl, *timeout_hscale;
     GtkWidget *slideshow_bgcolor_frame, *slideshow_bgcolor_vbox, *slideshow_bgcolor_hbox, *slideshow_bgcolor_button;
+    GtkWidget *bgcolor_frame, *bgcolor_vbox, *bgcolor_hbox, *bgcolor_button;
+    GtkWidget *cache_frame, *cache_vbox;
+    GtkWidget *scaling_frame, *scaling_vbox;
+    GtkObject *cache_hbox, *cache_adjustment, *cache_spin_button, *cache_preload_check_button;
 
     GtkWidget *widget;
 
@@ -72,6 +76,31 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *display_main_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *display_main_lbl = gtk_label_new(_("Display"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), display_main_vbox, display_main_lbl);
+
+    bgcolor_vbox = gtk_vbox_new(FALSE, 0);
+    bgcolor_frame = xfce_create_framebox_with_content (_("Background color"), bgcolor_vbox);
+    gtk_container_add (GTK_CONTAINER (display_main_vbox), bgcolor_frame);
+
+    widget = gtk_check_button_new_with_label (_("Override background color:"));
+    bgcolor_hbox = gtk_hbox_new(FALSE, 4);
+    bgcolor_button = gtk_color_button_new();
+    gtk_container_add (GTK_CONTAINER (bgcolor_hbox), widget);
+    gtk_container_add (GTK_CONTAINER (bgcolor_hbox), bgcolor_button);
+    gtk_container_add (GTK_CONTAINER (bgcolor_vbox), bgcolor_hbox);
+
+    cache_vbox = gtk_vbox_new(FALSE, 0);
+    cache_frame = xfce_create_framebox_with_content (_("Image cache"), cache_vbox);
+    gtk_container_add (GTK_CONTAINER (display_main_vbox), cache_frame);
+
+    cache_adjustment = gtk_adjustment_new(1000, 0, 9999, 1, 0, 0);
+    widget = gtk_label_new (_("Cache size"));
+    cache_hbox = gtk_hbox_new(FALSE, 4);
+    cache_spin_button = gtk_spin_button_new(GTK_ADJUSTMENT(cache_adjustment), 1.0, 0);
+    cache_preload_check_button = gtk_check_button_new_with_label (_("Preload images"));
+    gtk_container_add (GTK_CONTAINER (cache_hbox), widget);
+    gtk_container_add (GTK_CONTAINER (cache_hbox), cache_spin_button);
+    gtk_container_add (GTK_CONTAINER (cache_vbox), cache_hbox);
+    gtk_container_add (GTK_CONTAINER (cache_vbox), cache_preload_check_button);
 
 /********************************************/
     GtkWidget *slideshow_main_vbox = gtk_vbox_new(FALSE, 0);
@@ -129,6 +158,15 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *behaviour_main_lbl = gtk_label_new(_("Behaviour"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), behaviour_main_vbox, behaviour_main_lbl);
 
+    scaling_vbox = gtk_vbox_new(FALSE, 0);
+    scaling_frame = xfce_create_framebox_with_content (_("Scaling"), scaling_vbox);
+    gtk_container_add (GTK_CONTAINER (behaviour_main_vbox), scaling_frame);
+
+    widget = gtk_check_button_new_with_label (_("Don't scale over 100% when maximizing the window."));
+    gtk_container_add (GTK_CONTAINER (scaling_vbox), widget);
+
+
+/********************************************/
     gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), notebook);
     gtk_widget_show_all (notebook);
 
