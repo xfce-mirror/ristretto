@@ -1,6 +1,14 @@
 - Merge transform actions of consecutive imagetransformations of the same type
 
 - Implement preferences dialog
+- Add a file-properties dialog
+
+- Support setting wallpapers
+    - xfdesktop
+    - nautilus
+    - rox
+
+- Implement box-zoom
 
 - Add preloading
 - Improve cache calculation
@@ -8,3 +16,8 @@
 - Write comments
 
 - Remove libxfce4util dependency
+
+- Implement thumbnailbar
+
+- Support image collections
+    - Export to tarball/zip
