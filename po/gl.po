@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2009-03-07 11:33+0100\n"
-"Last-Translator: Leandro Regueiro <leandro DOT regueiro AT gmail DOT com>\n"
+"PO-Revision-Date: 2009-04-14 22:03+0100\n"
+"Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,7 +95,7 @@ msgstr "_Visor de miniaturas"
 
 #: ../src/main_window.c:417
 msgid "_Zooming"
-msgstr ""
+msgstr "_Ampliación"
 
 #: ../src/main_window.c:418
 msgid "_Rotate"
@@ -106,14 +106,12 @@ msgid "_Set as wallpaper"
 msgstr "Definir coma _imaxe de fondo"
 
 #: ../src/main_window.c:476
-#, fuzzy
 msgid "Show _Horizontally"
-msgstr "Mover horizontalmente"
+msgstr "Mostrar en _horizontal"
 
 #: ../src/main_window.c:480
-#, fuzzy
 msgid "Show _Vertically"
-msgstr "Mover verticalmente"
+msgstr "Mostrar en _vertical"
 
 #: ../src/main_window.c:484
 msgid "H_ide"
@@ -146,7 +144,6 @@ msgid "Image viewer Preferences"
 msgstr "Preferencias do visor de imaxes"
 
 #: ../src/main_window.c:1412
-#, fuzzy
 msgid "Display"
 msgstr "Pantalla"
 
@@ -160,22 +157,20 @@ msgstr "Comportamento"
 
 # expandir escalar redimensionar
 #: ../src/main_window.c:1425
-#, fuzzy
 msgid "Scaling"
-msgstr "Escalando"
+msgstr "Redimensionamento"
 
 #: ../src/main_window.c:1427
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
+msgstr "Non redimensionar máis alá do 100% ó maximizar a ventá."
 
 #: ../src/main_window.c:1437
 msgid "Background Color"
 msgstr "Cor de fondo"
 
 #: ../src/main_window.c:1439
-#, fuzzy
 msgid "_Override Background Color:"
-msgstr "Modificar a cor de fondo"
+msgstr "_Substituír a cor de fondo:"
 
 #: ../src/main_window.c:1462
 msgid "Image Cache"
