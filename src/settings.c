@@ -54,12 +54,17 @@ enum
 {
     PROP_0,
     PROP_SHOW_TOOLBAR,
+    PROP_TOOLBAR_OPEN_FOLDER,
+    PROP_PRELOAD_IMAGE,
     PROP_WINDOW_WIDTH,
     PROP_WINDOW_HEIGHT,
     PROP_BGCOLOR,
+    PROP_BGCOLOR_OVERRIDE,
     PROP_CURRENT_URI,
     PROP_SLIDESHOW_TIMEOUT,
     PROP_SLIDESHOW_BGCOLOR,
+    PROP_SLIDESHOW_BGCOLOR_STYLE,
+    PROP_SCROLLWHEEL_ACTION,
 };
 
 GType
@@ -92,13 +97,18 @@ struct _RsttoSettingsPriv
 {
     XfconfChannel *channel;
 
-    gboolean show_toolbar;
-    guint    window_width;
-    guint    window_height;
-    gchar   *last_file_path;
-    guint    slideshow_timeout;
+    gboolean  show_toolbar;
+    gboolean  toolbar_open_folder;
+    gboolean  preload_image;
+    guint     window_width;
+    guint     window_height;
+    gchar    *last_file_path;
+    guint     slideshow_timeout;
     GdkColor *bgcolor;
+    gboolean  bgcolor_override;
     GdkColor *slideshow_bgcolor;
+    gchar    *scrollwheel_action;
+    guint     slideshow_bgcolor_style;
 };
 
 
@@ -121,14 +131,24 @@ rstto_settings_init (GObject *object)
     }
     
     settings->priv->slideshow_timeout = 5000;
+    settings->priv->bgcolor = g_new0 (GdkColor, 1);
 
     xfconf_g_property_bind (settings->priv->channel, "/window/width", G_TYPE_UINT, settings, "window-width");
     xfconf_g_property_bind (settings->priv->channel, "/window/height", G_TYPE_UINT, settings, "window-height");
-    xfconf_g_property_bind (settings->priv->channel, "/window/show-toolbar", G_TYPE_BOOLEAN, settings, "show-toolbar");
+
     xfconf_g_property_bind (settings->priv->channel, "/file/current-uri", G_TYPE_STRING, settings, "current-uri");
+
+    xfconf_g_property_bind (settings->priv->channel, "/window/show-toolbar", G_TYPE_BOOLEAN, settings, "show-toolbar");
+    xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-action", G_TYPE_STRING, settings, "scrollwheel-action");
+    xfconf_g_property_bind (settings->priv->channel, "/window/toolbar-open-folder", G_TYPE_BOOLEAN, settings, "toolbar-open-folder");
+
     xfconf_g_property_bind (settings->priv->channel, "/slideshow/timeout", G_TYPE_UINT, settings, "slideshow-timeout");
+    xfconf_g_property_bind (settings->priv->channel, "/slideshow/bgcolor-style", G_TYPE_UINT, settings, "slideshow-bgcolor-style");
     xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/slideshow/bgcolor", settings, "slideshow-bgcolor");
+
     xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/window/bgcolor", settings, "bgcolor");
+    xfconf_g_property_bind (settings->priv->channel, "/window/bgcolor-override", G_TYPE_BOOLEAN, settings, "bgcolor-override");
+    xfconf_g_property_bind (settings->priv->channel, "/image/preload", G_TYPE_BOOLEAN, settings, "preload-image");
 }
 
 
@@ -146,15 +166,6 @@ rstto_settings_class_init (GObjectClass *object_class)
 
     object_class->set_property = rstto_settings_set_property;
     object_class->get_property = rstto_settings_get_property;
-
-    pspec = g_param_spec_boolean ("show-toolbar",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_SHOW_TOOLBAR,
-                                     pspec);
 
     pspec = g_param_spec_uint    ("window-width",
                                   "",
@@ -178,10 +189,47 @@ rstto_settings_class_init (GObjectClass *object_class)
                                      PROP_WINDOW_HEIGHT,
                                      pspec);
 
+    pspec = g_param_spec_boolean ("show-toolbar",
+                                  "",
+                                  "",
+                                  TRUE,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_SHOW_TOOLBAR,
+                                     pspec);
+
+    pspec = g_param_spec_boolean ("toolbar-open-folder",
+                                  "",
+                                  "",
+                                  TRUE,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_TOOLBAR_OPEN_FOLDER,
+                                     pspec);
+
+
+    pspec = g_param_spec_boolean ("preload-image",
+                                  "",
+                                  "",
+                                  TRUE,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_PRELOAD_IMAGE,
+                                     pspec);
+
     pspec = g_param_spec_string  ("current-uri",
                                   "",
                                   "",
                                   "file://~/",
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_CURRENT_URI,
+                                     pspec);
+
+    pspec = g_param_spec_string  ("scrollwheel-action",
+                                  "",
+                                  "",
+                                  "zoom",
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_CURRENT_URI,
@@ -207,6 +255,15 @@ rstto_settings_class_init (GObjectClass *object_class)
                                      PROP_BGCOLOR,
                                      pspec);
 
+    pspec = g_param_spec_boolean ("bgcolor-override",
+                                  "",
+                                  "",
+                                  TRUE,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_BGCOLOR_OVERRIDE,
+                                     pspec);
+
     pspec = g_param_spec_boxed   ("slideshow-bgcolor",
                                   "",
                                   "",
@@ -214,6 +271,17 @@ rstto_settings_class_init (GObjectClass *object_class)
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_SLIDESHOW_BGCOLOR,
+                                     pspec);
+
+    pspec = g_param_spec_uint    ("slideshow-bgcolor-style",
+                                  "",
+                                  "",
+                                  0,
+                                  2,
+                                  0,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_SLIDESHOW_BGCOLOR_STYLE,
                                      pspec);
 }
 
@@ -292,6 +360,12 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_SHOW_TOOLBAR:
             settings->priv->show_toolbar = g_value_get_boolean (value);
             break;
+        case PROP_TOOLBAR_OPEN_FOLDER:
+            settings->priv->toolbar_open_folder = g_value_get_boolean (value);
+            break;
+        case PROP_PRELOAD_IMAGE:
+            settings->priv->preload_image = g_value_get_boolean (value);
+            break;
         case PROP_WINDOW_WIDTH:
             settings->priv->window_width = g_value_get_uint (value);
             break;
@@ -300,6 +374,9 @@ rstto_settings_set_property    (GObject      *object,
             break;
         case PROP_BGCOLOR:
             settings->priv->bgcolor = g_value_get_boxed (value);
+            break;
+        case PROP_BGCOLOR_OVERRIDE:
+            settings->priv->bgcolor_override = g_value_get_boolean (value);
             break;
         case PROP_CURRENT_URI:
             if (settings->priv->last_file_path)
@@ -311,6 +388,11 @@ rstto_settings_set_property    (GObject      *object,
             break;
         case PROP_SLIDESHOW_BGCOLOR:
             settings->priv->slideshow_bgcolor = g_value_get_boxed (value);
+            break;
+        case PROP_SCROLLWHEEL_ACTION:
+            if (settings->priv->scrollwheel_action)
+                g_free (settings->priv->scrollwheel_action);
+            settings->priv->scrollwheel_action = g_value_dup_string (value);
             break;
         default:
             break;
@@ -331,6 +413,12 @@ rstto_settings_get_property    (GObject    *object,
         case PROP_SHOW_TOOLBAR:
             g_value_set_boolean (value, settings->priv->show_toolbar);
             break;
+        case PROP_TOOLBAR_OPEN_FOLDER:
+            g_value_set_boolean (value, settings->priv->toolbar_open_folder);
+            break;
+        case PROP_PRELOAD_IMAGE:
+            g_value_set_boolean (value, settings->priv->preload_image);
+            break;
         case PROP_WINDOW_WIDTH:
             g_value_set_uint (value, settings->priv->window_width);
             break;
@@ -342,6 +430,15 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_SLIDESHOW_TIMEOUT:
             g_value_set_uint (value, settings->priv->slideshow_timeout);
+            break;
+        case PROP_BGCOLOR:
+            g_value_set_boxed (value, settings->priv->bgcolor);
+            break;
+        case PROP_BGCOLOR_OVERRIDE:
+            g_value_set_boolean (value, settings->priv->bgcolor_override);
+            break;
+        case PROP_SCROLLWHEEL_ACTION:
+            g_value_set_string (value, settings->priv->scrollwheel_action);
             break;
         default:
             break;

@@ -29,6 +29,12 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *);
 static void
 rstto_preferences_dialog_class_init(RsttoPreferencesDialogClass *);
 
+
+static void
+cb_rstto_preferences_dialog_bgcolor_override_toggled (GtkToggleButton *, gpointer);
+static void
+cb_rstto_preferences_dialog_bgcolor_color_set (GtkColorButton *, gpointer);
+
 static GtkWidgetClass *parent_class = NULL;
 
 GType
@@ -68,7 +74,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *bgcolor_frame, *bgcolor_vbox, *bgcolor_hbox, *bgcolor_button;
     GtkWidget *cache_frame, *cache_vbox;
     GtkWidget *scaling_frame, *scaling_vbox;
-    GtkObject *cache_hbox, *cache_adjustment, *cache_spin_button, *cache_preload_check_button;
+    GtkWidget *cache_hbox, *cache_adjustment, *cache_spin_button, *cache_preload_check_button;
     GtkWidget *toolbar_vbox, *toolbar_frame;
 
     GtkWidget *widget;
@@ -85,9 +91,13 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     widget = gtk_check_button_new_with_label (_("Override background color:"));
     bgcolor_hbox = gtk_hbox_new(FALSE, 4);
     bgcolor_button = gtk_color_button_new();
-    gtk_container_add (GTK_CONTAINER (bgcolor_hbox), widget);
-    gtk_container_add (GTK_CONTAINER (bgcolor_hbox), bgcolor_button);
-    gtk_container_add (GTK_CONTAINER (bgcolor_vbox), bgcolor_hbox);
+    gtk_box_pack_start (GTK_BOX (bgcolor_hbox), widget, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (bgcolor_hbox), bgcolor_button, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (bgcolor_vbox), bgcolor_hbox, FALSE, FALSE, 0);
+    
+    /* connect signals */
+    g_signal_connect (G_OBJECT (widget), "toggled", (GCallback)cb_rstto_preferences_dialog_bgcolor_override_toggled, bgcolor_button);
+    g_signal_connect (G_OBJECT (bgcolor_button), "color-set", G_CALLBACK (cb_rstto_preferences_dialog_bgcolor_color_set), NULL);
 
     cache_vbox = gtk_vbox_new(FALSE, 0);
     cache_frame = xfce_create_framebox_with_content (_("Image cache"), cache_vbox);
@@ -98,8 +108,8 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     cache_hbox = gtk_hbox_new(FALSE, 4);
     cache_spin_button = gtk_spin_button_new(GTK_ADJUSTMENT(cache_adjustment), 1.0, 0);
     cache_preload_check_button = gtk_check_button_new_with_label (_("Preload images"));
-    gtk_container_add (GTK_CONTAINER (cache_hbox), widget);
-    gtk_container_add (GTK_CONTAINER (cache_hbox), cache_spin_button);
+    gtk_box_pack_start (GTK_BOX (cache_hbox), widget, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (cache_hbox), cache_spin_button, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (cache_vbox), cache_hbox, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (cache_vbox), cache_preload_check_button, FALSE, FALSE, 0);
 
@@ -113,16 +123,16 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_box_pack_start (GTK_BOX (slideshow_main_vbox), slideshow_bgcolor_frame, FALSE, FALSE, 0);
     
     widget = gtk_radio_button_new_with_label (NULL, _("Black"));
-    gtk_container_add (GTK_CONTAINER (slideshow_bgcolor_vbox), widget);
+    gtk_box_pack_start (GTK_BOX (slideshow_bgcolor_vbox), widget, FALSE, FALSE, 0);
     widget = gtk_radio_button_new_with_label_from_widget (widget, _("Colorify (no idea how to call this feature)"));
-    gtk_container_add (GTK_CONTAINER (slideshow_bgcolor_vbox), widget);
+    gtk_box_pack_start (GTK_BOX (slideshow_bgcolor_vbox), widget, FALSE, FALSE, 0);
 
     widget = gtk_radio_button_new_with_label_from_widget (widget, _("Custom:"));
     slideshow_bgcolor_hbox = gtk_hbox_new(FALSE, 4);
     slideshow_bgcolor_button = gtk_color_button_new();
-    gtk_container_add (GTK_CONTAINER (slideshow_bgcolor_hbox), widget);
-    gtk_container_add (GTK_CONTAINER (slideshow_bgcolor_hbox), slideshow_bgcolor_button);
-    gtk_container_add (GTK_CONTAINER (slideshow_bgcolor_vbox), slideshow_bgcolor_hbox);
+    gtk_box_pack_start (GTK_BOX (slideshow_bgcolor_hbox), widget, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (slideshow_bgcolor_hbox), slideshow_bgcolor_button, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (slideshow_bgcolor_vbox), slideshow_bgcolor_hbox, FALSE, FALSE, 0);
 
     timeout_vbox = gtk_vbox_new(FALSE, 0);
     timeout_frame = xfce_create_framebox_with_content (_("Timeout"), timeout_vbox);
@@ -198,4 +208,43 @@ rstto_preferences_dialog_new (GtkWindow *parent)
     gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
 
     return dialog;
+}
+
+
+static void
+cb_rstto_preferences_dialog_bgcolor_override_toggled (GtkToggleButton *button, 
+                                                      gpointer user_data)
+{
+    GtkWidget *color_button = GTK_WIDGET (user_data);
+    RsttoSettings *settings = rstto_settings_new();
+    
+    GValue bgcolor_override_val = {0, };
+    g_value_init (&bgcolor_override_val, G_TYPE_BOOLEAN);
+
+    if (gtk_toggle_button_get_active (button))
+    {
+        g_value_set_boolean (&bgcolor_override_val, TRUE);
+        gtk_widget_set_sensitive (color_button, TRUE);
+    }
+    else
+    {
+        g_value_set_boolean (&bgcolor_override_val, FALSE);
+        gtk_widget_set_sensitive (color_button, FALSE);
+    }
+
+    g_object_set_property (G_OBJECT (settings), "bgcolor-override", &bgcolor_override_val);
+    
+}
+
+static void
+cb_rstto_preferences_dialog_bgcolor_color_set (GtkColorButton *button, gpointer user_data)
+{
+    RsttoSettings *settings = rstto_settings_new();
+
+    GValue bgcolor_val = {0, };
+    g_value_init (&bgcolor_val, GDK_TYPE_COLOR);
+
+    g_object_get_property (G_OBJECT(button), "color", &bgcolor_val);
+    g_object_set_property (G_OBJECT(settings), "bgcolor", &bgcolor_val);
+    
 }

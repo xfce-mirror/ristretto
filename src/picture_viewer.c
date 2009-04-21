@@ -27,6 +27,7 @@
 
 #include "image.h"
 #include "picture_viewer.h"
+#include "settings.h"
 
 typedef enum
 {
@@ -389,10 +390,18 @@ rstto_picture_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
 static void
 rstto_picture_viewer_paint (GtkWidget *widget)
 {
+    RsttoSettings *settings_manager = rstto_settings_new();
     RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER(widget);
     GdkPixbuf *pixbuf = viewer->priv->dst_pixbuf;
     GdkColor color;
     GdkColor line_color;
+    GValue bg_color = {0, }, bg_color_override = {0, };
+    g_value_init (&bg_color, GDK_TYPE_COLOR);
+    g_value_init (&bg_color_override, G_TYPE_BOOLEAN);
+
+    g_object_get_property (G_OBJECT(settings_manager), "bgcolor", &bg_color);
+    g_object_get_property (G_OBJECT(settings_manager), "bgcolor-override", &bg_color_override);
+
 
     color.pixel = 0x0;
     line_color.pixel = 0x0;
@@ -405,9 +414,9 @@ rstto_picture_viewer_paint (GtkWidget *widget)
         GdkPixmap *buffer = gdk_pixmap_new(NULL, widget->allocation.width, widget->allocation.height, gdk_drawable_get_depth(widget->window));
         GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(buffer));
 
-        if (viewer->priv->bg_color)
+        if (g_value_get_boxed (&bg_color) && g_value_get_boolean (&bg_color_override))
         {
-            gdk_gc_set_foreground(gc, viewer->priv->bg_color);
+            gdk_gc_set_foreground(gc, g_value_get_boxed (&bg_color));
         }
         else
         {
@@ -561,6 +570,7 @@ rstto_picture_viewer_paint (GtkWidget *widget)
                         widget->allocation.height);
         g_object_unref(buffer);
    }
+   g_object_unref (settings_manager);
 }
 
 static void
