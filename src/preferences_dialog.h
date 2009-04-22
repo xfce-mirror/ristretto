@@ -43,9 +43,12 @@ G_BEGIN_DECLS
 
 typedef struct _RsttoPreferencesDialog RsttoPreferencesDialog;
 
+typedef struct _RsttoPreferencesDialogPriv RsttoPreferencesDialogPriv;
+
 struct _RsttoPreferencesDialog
 {
     XfceTitledDialog parent;
+    RsttoPreferencesDialogPriv *priv;
 };
 
 typedef struct _RsttoPreferencesDialogClass RsttoPreferencesDialogClass;

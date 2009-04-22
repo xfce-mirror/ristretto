@@ -353,6 +353,7 @@ rstto_settings_set_property    (GObject      *object,
                                 const GValue *value,
                                 GParamSpec   *pspec)
 {
+    GdkColor *color;
     RsttoSettings *settings = RSTTO_SETTINGS (object);
 
     switch (property_id)
@@ -373,7 +374,10 @@ rstto_settings_set_property    (GObject      *object,
             settings->priv->window_height = g_value_get_uint (value);
             break;
         case PROP_BGCOLOR:
-            settings->priv->bgcolor = g_value_get_boxed (value);
+            color = g_value_get_boxed (value);
+            settings->priv->bgcolor->red = color->red;
+            settings->priv->bgcolor->green = color->green;
+            settings->priv->bgcolor->blue = color->blue;
             break;
         case PROP_BGCOLOR_OVERRIDE:
             settings->priv->bgcolor_override = g_value_get_boolean (value);
@@ -387,7 +391,10 @@ rstto_settings_set_property    (GObject      *object,
             settings->priv->slideshow_timeout = g_value_get_uint (value);
             break;
         case PROP_SLIDESHOW_BGCOLOR:
-            settings->priv->slideshow_bgcolor = g_value_get_boxed (value);
+            color = g_value_get_boxed (value);
+            settings->priv->slideshow_bgcolor->red = color->red;
+            settings->priv->slideshow_bgcolor->green = color->green;
+            settings->priv->slideshow_bgcolor->blue = color->blue;
             break;
         case PROP_SCROLLWHEEL_ACTION:
             if (settings->priv->scrollwheel_action)
@@ -430,6 +437,9 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_SLIDESHOW_TIMEOUT:
             g_value_set_uint (value, settings->priv->slideshow_timeout);
+            break;
+        case PROP_SLIDESHOW_BGCOLOR:
+            g_value_set_boxed (value, settings->priv->slideshow_bgcolor);
             break;
         case PROP_BGCOLOR:
             g_value_set_boxed (value, settings->priv->bgcolor);

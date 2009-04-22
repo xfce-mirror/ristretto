@@ -416,7 +416,8 @@ rstto_picture_viewer_paint (GtkWidget *widget)
 
         if (g_value_get_boxed (&bg_color) && g_value_get_boolean (&bg_color_override))
         {
-            gdk_gc_set_foreground(gc, g_value_get_boxed (&bg_color));
+           // gdk_gc_set_foreground(gc, g_value_get_boxed (&bg_color));
+           gdk_gc_set_rgb_fg_color (gc, g_value_get_boxed (&bg_color));
         }
         else
         {
