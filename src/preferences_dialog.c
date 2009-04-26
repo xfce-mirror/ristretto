@@ -217,7 +217,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *slideshow_main_lbl = gtk_label_new(_("Slideshow"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), slideshow_main_vbox, slideshow_main_lbl);
     /* not used */
-    gtk_widget_set_sensitive (slideshow_bgcolor_vbox, FALSE);
+    gtk_widget_set_sensitive (slideshow_main_vbox, FALSE);
 
     slideshow_bgcolor_vbox = gtk_vbox_new(FALSE, 0);
     slideshow_bgcolor_frame = xfce_create_framebox_with_content (_("Background color"), slideshow_bgcolor_vbox);
