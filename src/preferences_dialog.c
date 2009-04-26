@@ -216,6 +216,8 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *slideshow_main_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *slideshow_main_lbl = gtk_label_new(_("Slideshow"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), slideshow_main_vbox, slideshow_main_lbl);
+    /* not used */
+    gtk_widget_set_sensitive (slideshow_bgcolor_vbox, FALSE);
 
     slideshow_bgcolor_vbox = gtk_vbox_new(FALSE, 0);
     slideshow_bgcolor_frame = xfce_create_framebox_with_content (_("Background color"), slideshow_bgcolor_vbox);
@@ -251,6 +253,8 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *control_main_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *control_main_lbl = gtk_label_new(_("Control"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), control_main_vbox, control_main_lbl);
+    /* not used */
+    gtk_widget_set_sensitive (control_main_vbox, FALSE);
 
     scroll_vbox = gtk_vbox_new(FALSE, 0);
     scroll_frame = xfce_create_framebox_with_content (_("Scrollwheel"), scroll_vbox);
@@ -274,6 +278,8 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *behaviour_main_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *behaviour_main_lbl = gtk_label_new(_("Behaviour"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), behaviour_main_vbox, behaviour_main_lbl);
+    /* not used */
+    gtk_widget_set_sensitive (behaviour_main_vbox, FALSE);
 
     scaling_vbox = gtk_vbox_new(FALSE, 0);
     scaling_frame = xfce_create_framebox_with_content (_("Scaling"), scaling_vbox);
