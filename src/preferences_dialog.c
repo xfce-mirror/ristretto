@@ -24,6 +24,14 @@
 #include "settings.h"
 #include "preferences_dialog.h"
 
+#ifndef RSTTO_MIN_CACHE_SIZE
+#define RSTTO_MIN_CACHE_SIZE 16
+#endif
+
+#ifndef RSTTO_DEFAULT_CACHE_SIZE
+#define RSTTO_DEFAULT_CACHE_SIZE 256
+#endif
+
 static void
 rstto_preferences_dialog_init(RsttoPreferencesDialog *);
 static void
@@ -34,6 +42,10 @@ static void
 cb_rstto_preferences_dialog_bgcolor_override_toggled (GtkToggleButton *, gpointer);
 static void
 cb_rstto_preferences_dialog_bgcolor_color_set (GtkColorButton *, gpointer);
+static void
+cb_rstto_preferences_dialog_cache_preload_check_button_toggled (GtkToggleButton *, gpointer);
+static void
+cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *, gpointer);
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -47,9 +59,14 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *bgcolor_color_button;
         GtkWidget *bgcolor_override_check_button;
 
+        GtkWidget *cache_frame;
+        GtkWidget *cache_vbox;
+        GtkWidget *cache_hbox;
+        GtkWidget *cache_size_label;
+        GtkWidget *cache_size_unit;
         GtkWidget *cache_spin_button;
-
         GtkWidget *cache_preload_check_button;
+
     } display_tab;
 };
 
@@ -85,22 +102,26 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     dialog->priv = g_new0 (RsttoPreferencesDialogPriv, 1);
 
     RsttoSettings *settings_manager = rstto_settings_new ();
+    GValue value = {0, };
+    GtkWidget *cache_adjustment;
+
     GtkWidget *notebook = gtk_notebook_new ();
     GtkWidget *scroll_frame, *scroll_vbox;
     GtkWidget *timeout_frame, *timeout_vbox, *timeout_lbl, *timeout_hscale;
     GtkWidget *slideshow_bgcolor_frame, *slideshow_bgcolor_vbox, *slideshow_bgcolor_hbox, *slideshow_bgcolor_button;
-    GtkWidget *cache_frame, *cache_vbox;
     GtkWidget *scaling_frame, *scaling_vbox;
-    GtkWidget *cache_hbox, *cache_adjustment, *cache_spin_button, *cache_preload_check_button;
     GtkWidget *toolbar_vbox, *toolbar_frame;
 
     GtkWidget *widget;
 
-/********************************************/
+/*****************/
+/** DISPLAY TAB **/
+/*****************/
     GtkWidget *display_main_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *display_main_lbl = gtk_label_new(_("Display"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), display_main_vbox, display_main_lbl);
 
+/** Bg-color frame */
     dialog->priv->display_tab.bgcolor_vbox = gtk_vbox_new(FALSE, 0);
     dialog->priv->display_tab.bgcolor_frame = xfce_create_framebox_with_content (_("Background color"),
                                                                                  dialog->priv->display_tab.bgcolor_vbox);
@@ -116,6 +137,21 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                         dialog->priv->display_tab.bgcolor_color_button, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_vbox), 
                         dialog->priv->display_tab.bgcolor_hbox, FALSE, FALSE, 0);
+
+    /* set current value */
+    g_value_init (&value, GDK_TYPE_COLOR);
+    g_object_get_property (G_OBJECT(settings_manager), "bgcolor", &value);
+    gtk_color_button_set_color (GTK_COLOR_BUTTON (dialog->priv->display_tab.bgcolor_color_button),
+                                g_value_get_boxed (&value));
+    g_value_unset (&value);
+
+    g_value_init (&value, G_TYPE_BOOLEAN);
+    g_object_get_property (G_OBJECT(settings_manager), "bgcolor-override", &value);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.bgcolor_override_check_button),
+                                  g_value_get_boolean (&value));
+    gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->display_tab.bgcolor_color_button),
+                              g_value_get_boolean (&value));
+    g_value_unset (&value);
     
     /* connect signals */
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_override_check_button), 
@@ -123,22 +159,60 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_color_button), 
                       "color-set", G_CALLBACK (cb_rstto_preferences_dialog_bgcolor_color_set), dialog);
 
-/************/
-    cache_vbox = gtk_vbox_new(FALSE, 0);
-    cache_frame = xfce_create_framebox_with_content (_("Image cache"), cache_vbox);
-    gtk_box_pack_start (GTK_BOX (display_main_vbox), cache_frame, FALSE, FALSE, 0);
+/** Image-cache frame */
+    dialog->priv->display_tab.cache_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->display_tab.cache_frame = xfce_create_framebox_with_content (_("Image cache"),
+                                                                                 dialog->priv->display_tab.cache_vbox);
+    gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.cache_frame, FALSE, FALSE, 0);
 
-    cache_adjustment = gtk_adjustment_new(1000, 0, 9999, 1, 0, 0);
-    widget = gtk_label_new (_("Cache size"));
-    cache_hbox = gtk_hbox_new(FALSE, 4);
-    cache_spin_button = gtk_spin_button_new(GTK_ADJUSTMENT(cache_adjustment), 1.0, 0);
-    cache_preload_check_button = gtk_check_button_new_with_label (_("Preload images"));
-    gtk_box_pack_start (GTK_BOX (cache_hbox), widget, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (cache_hbox), cache_spin_button, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (cache_vbox), cache_hbox, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (cache_vbox), cache_preload_check_button, FALSE, FALSE, 0);
+    cache_adjustment = gtk_adjustment_new(RSTTO_DEFAULT_CACHE_SIZE, RSTTO_MIN_CACHE_SIZE, 4096, 1, 0, 0);
 
-/********************************************/
+    dialog->priv->display_tab.cache_size_label = gtk_label_new (_("Cache size"));
+    dialog->priv->display_tab.cache_size_unit = gtk_label_new (_("MB"));
+    dialog->priv->display_tab.cache_hbox = gtk_hbox_new(FALSE, 4);
+    dialog->priv->display_tab.cache_spin_button = gtk_spin_button_new(GTK_ADJUSTMENT(cache_adjustment), 1.0, 0);
+    dialog->priv->display_tab.cache_preload_check_button = gtk_check_button_new_with_label (_("Preload images"));
+
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.cache_hbox), 
+                                 dialog->priv->display_tab.cache_size_label, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.cache_hbox), 
+                                 dialog->priv->display_tab.cache_spin_button, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.cache_hbox), 
+                                 dialog->priv->display_tab.cache_size_unit, FALSE, FALSE, 0);
+
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.cache_vbox), 
+                                 dialog->priv->display_tab.cache_hbox, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.cache_vbox), 
+                                 dialog->priv->display_tab.cache_preload_check_button, FALSE, FALSE, 0);
+    
+    /* set current value */
+    g_value_init (&value, G_TYPE_BOOLEAN);
+    g_object_get_property (G_OBJECT(settings_manager), "preload-images", &value);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.cache_preload_check_button),
+                                  g_value_get_boolean (&value));
+    g_value_unset (&value);
+
+    g_value_init (&value, G_TYPE_UINT);
+    g_object_get_property (G_OBJECT(settings_manager), "cache-size", &value);
+    if (g_value_get_uint (&value) < RSTTO_MIN_CACHE_SIZE)
+    {
+        gtk_adjustment_set_value (cache_adjustment, RSTTO_DEFAULT_CACHE_SIZE);
+    }
+    else
+    {
+        gtk_adjustment_set_value (cache_adjustment, (gdouble)g_value_get_uint (&value));
+    }
+    g_value_unset (&value);
+
+    /* connect signals */
+    g_signal_connect (G_OBJECT (dialog->priv->display_tab.cache_preload_check_button), 
+                      "toggled", (GCallback)cb_rstto_preferences_dialog_cache_preload_check_button_toggled, dialog);
+    g_signal_connect (G_OBJECT (dialog->priv->display_tab.cache_spin_button), 
+                      "value-changed", (GCallback)cb_rstto_preferences_dialog_cache_spin_button_value_changed, dialog);
+
+/*******************/
+/** Slideshow tab **/
+/*******************/
     GtkWidget *slideshow_main_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *slideshow_main_lbl = gtk_label_new(_("Slideshow"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), slideshow_main_vbox, slideshow_main_lbl);
@@ -272,4 +346,45 @@ cb_rstto_preferences_dialog_bgcolor_color_set (GtkColorButton *button, gpointer 
     g_object_get_property (G_OBJECT(button), "color", &bgcolor_val);
     g_object_set_property (G_OBJECT(settings), "bgcolor", &bgcolor_val);
     
+}
+
+static void
+cb_rstto_preferences_dialog_cache_preload_check_button_toggled (GtkToggleButton *button, 
+                                                                gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = GTK_WIDGET (user_data);
+    RsttoSettings *settings = rstto_settings_new();
+
+    GValue value = {0, };
+    g_value_init (&value, G_TYPE_BOOLEAN);
+
+    if (gtk_toggle_button_get_active (button))
+    {
+        g_value_set_boolean (&value, TRUE);
+    }
+    else
+    {
+        g_value_set_boolean (&value, FALSE);
+    }
+    
+    g_object_set_property (G_OBJECT (settings), "preload-images", &value);
+
+    g_value_unset (&value);
+}
+
+static void
+cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *button, 
+                                                                gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = GTK_WIDGET (user_data);
+    RsttoSettings *settings = rstto_settings_new();
+
+    GValue value = {0, };
+    g_value_init (&value, G_TYPE_UINT);
+
+    g_value_set_uint (&value, (guint)gtk_spin_button_get_value (button));
+
+    g_object_set_property (G_OBJECT (settings), "cache-size", &value);
+
+    g_value_unset (&value);
 }
