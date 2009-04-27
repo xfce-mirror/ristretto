@@ -975,8 +975,11 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                 {
                     case RSTTO_PICTURE_VIEWER_STATE_PREVIEW:
                         p_src_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
-                        thumb_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
-                        thumb_scale = (thumb_width / image_width);
+                        if (p_src_pixbuf)
+                        {
+                            thumb_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
+                            thumb_scale = (thumb_width / image_width);
+                        }
                         break;
                     default:
                         break;
