@@ -1240,6 +1240,12 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
     gdouble *scale = NULL;
     gboolean *fit_to_screen = NULL;
 
+    RsttoSettings *settings_manager = rstto_settings_new();
+    GValue max_size = {0,};
+
+    g_value_init (&max_size, G_TYPE_UINT);
+    g_object_get_property (G_OBJECT(settings_manager), "image-quality", &max_size);
+
     if (viewer->priv->image)
     {
         g_signal_handlers_disconnect_by_func (viewer->priv->image, cb_rstto_picture_viewer_image_updated, viewer);
@@ -1269,7 +1275,8 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
             fit_to_screen = g_new0 (gboolean, 1);
             g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
         }
-        rstto_image_load (viewer->priv->image, FALSE, FALSE, NULL);
+
+        rstto_image_load (viewer->priv->image, FALSE, g_value_get_uint (&max_size), NULL);
     }
     else
     {

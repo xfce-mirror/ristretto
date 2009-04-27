@@ -732,6 +732,12 @@ cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
     RsttoImageTransformation *transform;
     RsttoImage *image = NULL;
 
+    RsttoSettings *settings_manager = rstto_settings_new();
+    GValue max_size = {0,};
+
+    g_value_init (&max_size, G_TYPE_UINT);
+    g_object_get_property (G_OBJECT(settings_manager), "image-quality", &max_size);
+
     if (window->priv->iter)
         image = rstto_navigator_iter_get_image (window->priv->iter);
 
@@ -739,8 +745,10 @@ cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
     {
         transform = rstto_image_transform_orientation_new ( FALSE, FALSE, GDK_PIXBUF_ROTATE_CLOCKWISE);
         rstto_image_push_transformation (image, G_OBJECT (transform), NULL);
-        rstto_image_load (image, TRUE, FALSE, NULL);
+        rstto_image_load (image, TRUE, g_value_get_uint (&max_size), NULL);
     }
+
+    g_value_unset (&max_size);
 }
 
 /**
@@ -756,6 +764,12 @@ cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
     RsttoImageTransformation *transform;
     RsttoImage *image = NULL;
 
+    RsttoSettings *settings_manager = rstto_settings_new();
+    GValue max_size = {0,};
+
+    g_value_init (&max_size, G_TYPE_UINT);
+    g_object_get_property (G_OBJECT(settings_manager), "image-quality", &max_size);
+
     if (window->priv->iter)
         image = rstto_navigator_iter_get_image (window->priv->iter);
 
@@ -763,8 +777,9 @@ cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
     {
         transform = rstto_image_transform_orientation_new ( FALSE, FALSE, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
         rstto_image_push_transformation (image, G_OBJECT (transform), NULL);
-        rstto_image_load (image, TRUE, FALSE, NULL);
+        rstto_image_load (image, TRUE, g_value_get_uint (&max_size), NULL);
     }
+    g_value_unset (&max_size);
 }
 
 

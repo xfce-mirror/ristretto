@@ -79,7 +79,7 @@ gint rstto_image_get_height (RsttoImage *image);
 
 GFile *rstto_image_get_file (RsttoImage *image);
 void rstto_image_unload (RsttoImage *image);
-gboolean rstto_image_load (RsttoImage *image, gboolean empty_cache, gboolean full_size, GError **error);
+gboolean rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, GError **error);
 
 gboolean
 rstto_image_push_transformation (RsttoImage *image, GObject *transformation, GError **error);

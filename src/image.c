@@ -114,7 +114,7 @@ struct _RsttoImagePriv
     GdkPixbuf *pixbuf;
     gint       width;
     gint       height;
-    gboolean full_size;
+    guint      max_size;
 
     GdkPixbufAnimation  *animation;
     GdkPixbufAnimationIter *iter;
@@ -378,14 +378,14 @@ cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *re
  * Return value: TRUE on success.
  */
 gboolean
-rstto_image_load (RsttoImage *image, gboolean empty_cache, gboolean full_size, GError **error)
+rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, GError **error)
 {
     g_return_val_if_fail (image != NULL, FALSE);
 
     RsttoImageCache *cache = rstto_image_cache_new ();
 
     /* NEW */
-    image->priv->full_size = full_size;
+    image->priv->max_size = max_size;
 
     /* Check if a GIOChannel is present, if so... the load is already in progress */
     /* The image needs to be loaded if:
@@ -474,8 +474,8 @@ rstto_image_get_file (RsttoImage *image)
 gint
 rstto_image_get_width (RsttoImage *image)
 {
-    g_return_val_if_fail (image != NULL, NULL);
-    g_return_val_if_fail (image->priv != NULL, NULL);
+    g_return_val_if_fail (image != NULL, 0);
+    g_return_val_if_fail (image->priv != NULL, 0);
 
     return image->priv->width;
 }
@@ -489,8 +489,8 @@ rstto_image_get_width (RsttoImage *image)
 gint
 rstto_image_get_height (RsttoImage *image)
 {
-    g_return_val_if_fail (image != NULL, NULL);
-    g_return_val_if_fail (image->priv != NULL, NULL);
+    g_return_val_if_fail (image != NULL, 0);
+    g_return_val_if_fail (image->priv != NULL, 0);
 
     return image->priv->height;
 }
@@ -634,14 +634,12 @@ cb_rstto_image_size_prepared (GdkPixbufLoader *loader, gint width, gint height, 
     image->priv->width = width;
     image->priv->height = height;
 
-    if (image->priv->full_size == FALSE)
+    if (image->priv->max_size > 0)
     {
     	g_debug ("FULLSIZE == FALSE");
-        if (width > 1024)
-		width = 1024;
-        if (height > 1024)
-		height = 1024;
-    	gdk_pixbuf_loader_set_size (loader, width, height);
+        gdouble ratio = (gdouble)(image->priv->max_size*1000)/(gdouble)(width * height);
+
+    	gdk_pixbuf_loader_set_size (loader, width*ratio, height*ratio);
     }
     else
     	g_debug ("FULLSIZE == TRUE");
