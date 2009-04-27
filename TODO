@@ -2,6 +2,7 @@
 
 - Implement preferences dialog
 - Add a file-properties dialog
+- Generate and save thumbnails
 
 - Support setting wallpapers
     - xfdesktop

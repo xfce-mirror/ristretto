@@ -642,14 +642,19 @@ rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
 
         if (src_pixbuf)
         {
-            gdouble width = (gdouble)gdk_pixbuf_get_width (src_pixbuf);
-            gdouble height = (gdouble)gdk_pixbuf_get_height (src_pixbuf);
+            gdouble image_width = (gdouble)rstto_image_get_width (viewer->priv->image);
+            gdouble image_height = (gdouble)rstto_image_get_height (viewer->priv->image);
+
+            gdouble pixbuf_width = (gdouble)gdk_pixbuf_get_width (src_pixbuf);
+            gdouble pixbuf_height = (gdouble)gdk_pixbuf_get_height (src_pixbuf);
+
+            gdouble image_scale = pixbuf_width / image_width;
 
 
-            viewer->hadjustment->upper = width * scale;
+            viewer->hadjustment->upper = image_width *scale;
             gtk_adjustment_changed(viewer->hadjustment);
 
-            viewer->vadjustment->upper = height * scale;
+            viewer->vadjustment->upper = image_height * scale;
             gtk_adjustment_changed(viewer->vadjustment);
 
             viewer->hadjustment->value = (((viewer->hadjustment->value +
@@ -715,14 +720,8 @@ rstto_picture_viewer_calculate_scale (RsttoPictureViewer *viewer)
 
     if (viewer->priv->image != NULL)
     {   
-        p_src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
-        if (p_src_pixbuf)
-        {
-
-            width = gdk_pixbuf_get_width (p_src_pixbuf);
-            height = gdk_pixbuf_get_height (p_src_pixbuf);
-
-        }
+        width = rstto_image_get_width (viewer->priv->image);
+        height = rstto_image_get_height (viewer->priv->image);
     }
 
     if (width > 0 && height > 0)
@@ -855,23 +854,30 @@ rstto_picture_viewer_calculate_adjustments (RsttoPictureViewer *viewer, gdouble 
 {
     GdkPixbuf *p_src_pixbuf;
     GtkWidget *widget = GTK_WIDGET (viewer);
-    gdouble width, height;
+    gdouble image_width, image_height;
+    gdouble pixbuf_width, pixbuf_height;
+    gdouble image_scale;
     gboolean vadjustment_changed = FALSE;
     gboolean hadjustment_changed = FALSE;
 
     if (viewer->priv->image != NULL)
     {   
         p_src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
-        if (p_src_pixbuf)
+        if (p_src_pixbuf != NULL)
         {
-            width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
-            height = (gdouble)gdk_pixbuf_get_height (p_src_pixbuf);
+            image_width = (gdouble)rstto_image_get_width (viewer->priv->image);
+            image_height = (gdouble)rstto_image_get_height (viewer->priv->image);
+
+            pixbuf_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
+            pixbuf_height = (gdouble)gdk_pixbuf_get_height (p_src_pixbuf);
+
+            image_scale = pixbuf_width / image_width;
 
 
             if(viewer->hadjustment)
             {
-                viewer->hadjustment->page_size = widget->allocation.width;
-                viewer->hadjustment->upper = width * scale;
+                viewer->hadjustment->page_size = widget->allocation.width / image_scale;
+                viewer->hadjustment->upper = image_width * (scale / image_scale);
                 viewer->hadjustment->lower = 0;
                 viewer->hadjustment->step_increment = 1;
                 viewer->hadjustment->page_increment = 100;
@@ -888,8 +894,8 @@ rstto_picture_viewer_calculate_adjustments (RsttoPictureViewer *viewer, gdouble 
             }
             if(viewer->vadjustment)
             {
-                viewer->vadjustment->page_size = widget->allocation.height;
-                viewer->vadjustment->upper = height * scale;
+                viewer->vadjustment->page_size = widget->allocation.height / image_scale;
+                viewer->vadjustment->upper = image_height * (scale / image_scale);
                 viewer->vadjustment->lower = 0;
                 viewer->vadjustment->step_increment = 1;
                 viewer->vadjustment->page_increment = 100;
@@ -943,10 +949,12 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
     gdouble *p_scale = NULL;
     gboolean *p_fit_to_screen= NULL;
     gdouble scale;
+    gdouble image_scale = 1;
     gdouble thumb_scale = 1;
     gdouble thumb_width = 0;
     gboolean fit_to_screen = FALSE;
-    gdouble width, height;
+    gdouble image_width, image_height;
+    gdouble pixbuf_width, pixbuf_height;
     GtkWidget *widget = GTK_WIDGET (viewer);
 
     if (viewer->priv->image != NULL)
@@ -954,8 +962,13 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
         p_src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
         if (p_src_pixbuf)
         {
-            width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
-            height = (gdouble)gdk_pixbuf_get_height (p_src_pixbuf);
+            image_width = (gdouble)rstto_image_get_width (viewer->priv->image);
+            image_height = (gdouble)rstto_image_get_height (viewer->priv->image);
+
+            pixbuf_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
+            pixbuf_height = (gdouble)gdk_pixbuf_get_height (p_src_pixbuf);
+
+            image_scale = pixbuf_width / image_width;
             if (viewer->priv->state != RSTTO_PICTURE_VIEWER_STATE_NORMAL)
             {
                 switch (viewer->priv->state)
@@ -963,7 +976,7 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                     case RSTTO_PICTURE_VIEWER_STATE_PREVIEW:
                         p_src_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
                         thumb_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
-                        thumb_scale = (thumb_width / width);
+                        thumb_scale = (thumb_width / image_width);
                         break;
                     default:
                         break;
@@ -1001,21 +1014,23 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
              *  tmp_scale is the factor between the original image and the thumbnail,
              *  when looking at the actual image, tmp_scale == 1.0
              */
-            gdouble x = viewer->hadjustment->value;
-            gdouble y = viewer->vadjustment->value;
+            gdouble x = viewer->hadjustment->value * image_scale;
+            gdouble y = viewer->vadjustment->value * image_scale;
+
+            g_debug ("O %f:%d:%f", y, widget->allocation.height, image_height);
 
             p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
-                                               (gint)(x/scale * thumb_scale), 
-                                               (gint)(y/scale * thumb_scale),
-                                               (gint)((widget->allocation.width / scale) < width?
-                                                      (widget->allocation.width / scale)*thumb_scale:width*thumb_scale),
-                                               (gint)((widget->allocation.height / scale) < height?
-                                                      (widget->allocation.height / scale)*thumb_scale:height*thumb_scale));
+                                               (gint)(x/scale * thumb_scale * image_scale), 
+                                               (gint)(y/scale * thumb_scale * image_scale),
+                                               (gint)((widget->allocation.width / scale) < image_width?
+                                                      (widget->allocation.width / scale)*thumb_scale*image_scale:image_width*thumb_scale*image_scale),
+                                               (gint)((widget->allocation.height / scale) < image_height?
+                                                      (widget->allocation.height / scale)*image_scale*thumb_scale:image_height*thumb_scale*image_scale));
 
             if(p_tmp_pixbuf)
             {
-                gint dst_width = gdk_pixbuf_get_width (p_tmp_pixbuf)*(scale/thumb_scale);
-                gint dst_height = gdk_pixbuf_get_height (p_tmp_pixbuf)*(scale/thumb_scale);
+                gint dst_width = gdk_pixbuf_get_width (p_tmp_pixbuf)*(scale/thumb_scale/image_scale);
+                gint dst_height = gdk_pixbuf_get_height (p_tmp_pixbuf)*(scale/thumb_scale/image_scale);
                 viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (p_tmp_pixbuf,
                                         dst_width>0?dst_width:1,
                                         dst_height>0?dst_height:1,
@@ -1254,7 +1269,7 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
             fit_to_screen = g_new0 (gboolean, 1);
             g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
         }
-        rstto_image_load (viewer->priv->image, FALSE, NULL);
+        rstto_image_load (viewer->priv->image, FALSE, FALSE, NULL);
     }
     else
     {

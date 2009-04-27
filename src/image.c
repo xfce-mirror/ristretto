@@ -54,6 +54,8 @@ rstto_image_dispose (GObject *object);
 static void
 cb_rstto_image_area_prepared (GdkPixbufLoader *loader, RsttoImage *image);
 static void
+cb_rstto_image_size_prepared (GdkPixbufLoader *loader, gint width, gint height, RsttoImage *image);
+static void
 cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image);
 static gboolean
 cb_rstto_image_update(RsttoImage *image);
@@ -110,6 +112,9 @@ struct _RsttoImagePriv
     ExifData *exif_data;
     GdkPixbuf *thumbnail;
     GdkPixbuf *pixbuf;
+    gint       width;
+    gint       height;
+    gboolean full_size;
 
     GdkPixbufAnimation  *animation;
     GdkPixbufAnimationIter *iter;
@@ -373,11 +378,14 @@ cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *re
  * Return value: TRUE on success.
  */
 gboolean
-rstto_image_load (RsttoImage *image, gboolean empty_cache, GError **error)
+rstto_image_load (RsttoImage *image, gboolean empty_cache, gboolean full_size, GError **error)
 {
     g_return_val_if_fail (image != NULL, FALSE);
 
     RsttoImageCache *cache = rstto_image_cache_new ();
+
+    /* NEW */
+    image->priv->full_size = full_size;
 
     /* Check if a GIOChannel is present, if so... the load is already in progress */
     /* The image needs to be loaded if:
@@ -400,6 +408,7 @@ rstto_image_load (RsttoImage *image, gboolean empty_cache, GError **error)
 
         /* connect the signal-handlers */
         g_signal_connect(image->priv->loader, "area-prepared", G_CALLBACK(cb_rstto_image_area_prepared), image);
+        g_signal_connect(image->priv->loader, "size-prepared", G_CALLBACK(cb_rstto_image_size_prepared), image);
         /*g_signal_connect(image->priv->loader, "area-updated", G_CALLBACK(cb_rstto_image_area_updated), image);*/
         g_signal_connect(image->priv->loader, "closed", G_CALLBACK(cb_rstto_image_closed), image);
 
@@ -454,6 +463,36 @@ rstto_image_get_file (RsttoImage *image)
     g_return_val_if_fail (image->priv->file != NULL, NULL);
 
     return image->priv->file;
+}
+
+/**
+ * rstto_image_get_width:
+ * @image:
+ *
+ * Return value: width of the image
+ */
+gint
+rstto_image_get_width (RsttoImage *image)
+{
+    g_return_val_if_fail (image != NULL, NULL);
+    g_return_val_if_fail (image->priv != NULL, NULL);
+
+    return image->priv->width;
+}
+
+/**
+ * rstto_image_get_height:
+ * @image:
+ *
+ * Return value: height of the image
+ */
+gint
+rstto_image_get_height (RsttoImage *image)
+{
+    g_return_val_if_fail (image != NULL, NULL);
+    g_return_val_if_fail (image->priv != NULL, NULL);
+
+    return image->priv->height;
 }
 
 
@@ -582,6 +621,33 @@ rstto_image_pop_transformation (RsttoImage *image, GError **error)
  */
 
 /**
+ * cb_rstto_image_size_prepared:
+ * @loader:
+ * @width;
+ * @height;
+ * @image:
+ *
+ */
+static void
+cb_rstto_image_size_prepared (GdkPixbufLoader *loader, gint width, gint height, RsttoImage *image)
+{
+    image->priv->width = width;
+    image->priv->height = height;
+
+    if (image->priv->full_size == FALSE)
+    {
+    	g_debug ("FULLSIZE == FALSE");
+        if (width > 1024)
+		width = 1024;
+        if (height > 1024)
+		height = 1024;
+    	gdk_pixbuf_loader_set_size (loader, width, height);
+    }
+    else
+    	g_debug ("FULLSIZE == TRUE");
+}
+
+/**
  * cb_rstto_image_area_prepared:
  * @loader:
  * @image:
@@ -590,6 +656,7 @@ rstto_image_pop_transformation (RsttoImage *image, GError **error)
 static void
 cb_rstto_image_area_prepared (GdkPixbufLoader *loader, RsttoImage *image)
 {
+
     image->priv->animation = gdk_pixbuf_loader_get_animation (loader);
     image->priv->iter = gdk_pixbuf_animation_get_iter (image->priv->animation, NULL);
     if (image->priv->pixbuf)

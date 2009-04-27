@@ -55,6 +55,7 @@ enum
     PROP_0,
     PROP_SHOW_TOOLBAR,
     PROP_TOOLBAR_OPEN_FOLDER,
+    PROP_ENABLE_CACHE,
     PROP_PRELOAD_IMAGES,
     PROP_CACHE_SIZE,
     PROP_WINDOW_WIDTH,
@@ -101,6 +102,7 @@ struct _RsttoSettingsPriv
     gboolean  show_toolbar;
     gboolean  toolbar_open_folder;
     gboolean  preload_images;
+    gboolean  enable_cache;
     guint     cache_size;
     guint     window_width;
     guint     window_height;
@@ -151,6 +153,7 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/window/bgcolor", settings, "bgcolor");
     xfconf_g_property_bind (settings->priv->channel, "/window/bgcolor-override", G_TYPE_BOOLEAN, settings, "bgcolor-override");
     xfconf_g_property_bind (settings->priv->channel, "/image/preload", G_TYPE_BOOLEAN, settings, "preload-images");
+    xfconf_g_property_bind (settings->priv->channel, "/image/cache", G_TYPE_BOOLEAN, settings, "enable-cache");
     xfconf_g_property_bind (settings->priv->channel, "/image/cache-size", G_TYPE_UINT, settings, "cache-size");
 }
 
@@ -218,6 +221,15 @@ rstto_settings_class_init (GObjectClass *object_class)
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_PRELOAD_IMAGES,
+                                     pspec);
+
+    pspec = g_param_spec_boolean ("enable-cache",
+                                  "",
+                                  "",
+                                  TRUE,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_ENABLE_CACHE,
                                      pspec);
 
     pspec = g_param_spec_uint    ("cache-size",
@@ -381,6 +393,9 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_PRELOAD_IMAGES:
             settings->priv->preload_images = g_value_get_boolean (value);
             break;
+        case PROP_ENABLE_CACHE:
+            settings->priv->enable_cache = g_value_get_boolean (value);
+            break;
         case PROP_CACHE_SIZE:
             settings->priv->cache_size = g_value_get_uint (value);
             break;
@@ -442,6 +457,9 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_PRELOAD_IMAGES:
             g_value_set_boolean (value, settings->priv->preload_images);
+            break;
+        case PROP_ENABLE_CACHE:
+            g_value_set_boolean (value, settings->priv->enable_cache);
             break;
         case PROP_CACHE_SIZE:
             g_value_set_uint (value, settings->priv->cache_size);

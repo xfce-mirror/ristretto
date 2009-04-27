@@ -74,9 +74,12 @@ GType       rstto_image_get_type ();
 
 GdkPixbuf *rstto_image_get_thumbnail (RsttoImage *image);
 GdkPixbuf *rstto_image_get_pixbuf (RsttoImage *image);
+gint rstto_image_get_widht (RsttoImage *image);
+gint rstto_image_get_height (RsttoImage *image);
+
 GFile *rstto_image_get_file (RsttoImage *image);
 void rstto_image_unload (RsttoImage *image);
-gboolean rstto_image_load (RsttoImage *image, gboolean empty_cache, GError **error);
+gboolean rstto_image_load (RsttoImage *image, gboolean empty_cache, gboolean full_size, GError **error);
 
 gboolean
 rstto_image_push_transformation (RsttoImage *image, GObject *transformation, GError **error);

@@ -739,7 +739,7 @@ cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
     {
         transform = rstto_image_transform_orientation_new ( FALSE, FALSE, GDK_PIXBUF_ROTATE_CLOCKWISE);
         rstto_image_push_transformation (image, G_OBJECT (transform), NULL);
-        rstto_image_load (image, TRUE, NULL);
+        rstto_image_load (image, TRUE, FALSE, NULL);
     }
 }
 
@@ -763,7 +763,7 @@ cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
     {
         transform = rstto_image_transform_orientation_new ( FALSE, FALSE, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
         rstto_image_push_transformation (image, G_OBJECT (transform), NULL);
-        rstto_image_load (image, TRUE, NULL);
+        rstto_image_load (image, TRUE, FALSE, NULL);
     }
 }
 
@@ -967,6 +967,8 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
     }
+
+    gtk_widget_destroy(dialog);
 
     if (file)
     {
