@@ -636,13 +636,10 @@ cb_rstto_image_size_prepared (GdkPixbufLoader *loader, gint width, gint height, 
 
     if (image->priv->max_size > 0)
     {
-    	g_debug ("FULLSIZE == FALSE");
-        gdouble ratio = (gdouble)(image->priv->max_size*1000)/(gdouble)(width * height);
+        gdouble ratio = (gdouble)(image->priv->max_size*1000000)/(gdouble)(width * height);
 
     	gdk_pixbuf_loader_set_size (loader, width*ratio, height*ratio);
     }
-    else
-    	g_debug ("FULLSIZE == TRUE");
 }
 
 /**

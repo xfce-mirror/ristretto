@@ -1017,8 +1017,6 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
             gdouble x = viewer->hadjustment->value * image_scale;
             gdouble y = viewer->vadjustment->value * image_scale;
 
-            g_debug ("O %f:%d:%f", y, widget->allocation.height, image_height);
-
             p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
                                                (gint)(x/scale * thumb_scale * image_scale), 
                                                (gint)(y/scale * thumb_scale * image_scale),

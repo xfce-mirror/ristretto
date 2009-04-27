@@ -48,6 +48,8 @@ static void
 cb_rstto_preferences_dialog_cache_preload_check_button_toggled (GtkToggleButton *, gpointer);
 static void
 cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *, gpointer);
+static void
+cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *, gpointer);
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -68,10 +70,15 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *cache_size_label;
         GtkWidget *cache_size_unit;
         GtkWidget *cache_check_button;
-	GtkWidget *cache_alignment;
+        GtkWidget *cache_alignment;
         GtkWidget *cache_spin_button;
         GtkWidget *cache_preload_check_button;
 
+        GtkWidget *image_quality_frame;
+        GtkWidget *image_quality_vbox;
+        GtkWidget *image_quality_hbox;
+        GtkWidget *image_quality_label;
+        GtkWidget *image_quality_combo;
     } display_tab;
 };
 
@@ -108,7 +115,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
     RsttoSettings *settings_manager = rstto_settings_new ();
     GValue value = {0, };
-    GtkWidget *cache_adjustment;
+    GtkObject *cache_adjustment;
 
     GtkWidget *notebook = gtk_notebook_new ();
     GtkWidget *scroll_frame, *scroll_vbox;
@@ -127,13 +134,13 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), display_main_vbox, display_main_lbl);
 
 /** Bg-color frame */
-    dialog->priv->display_tab.bgcolor_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->display_tab.bgcolor_vbox = gtk_vbox_new (FALSE, 0);
     dialog->priv->display_tab.bgcolor_frame = xfce_create_framebox_with_content (_("Background color"),
                                                                                  dialog->priv->display_tab.bgcolor_vbox);
     gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.bgcolor_frame, FALSE, FALSE, 0);
 
     dialog->priv->display_tab.bgcolor_override_check_button = gtk_check_button_new_with_label (_("Override background color:"));
-    dialog->priv->display_tab.bgcolor_hbox = gtk_hbox_new(FALSE, 4);
+    dialog->priv->display_tab.bgcolor_hbox = gtk_hbox_new (FALSE, 4);
     dialog->priv->display_tab.bgcolor_color_button = gtk_color_button_new();
 
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_hbox), 
@@ -170,7 +177,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                                                                                  dialog->priv->display_tab.cache_vbox);
     gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.cache_frame, FALSE, FALSE, 0);
 
-    cache_adjustment = gtk_adjustment_new(RSTTO_DEFAULT_CACHE_SIZE, RSTTO_MIN_CACHE_SIZE, 4096, 1, 0, 0);
+    cache_adjustment = gtk_adjustment_new (RSTTO_DEFAULT_CACHE_SIZE, RSTTO_MIN_CACHE_SIZE, 4096, 1, 0, 0);
 
     dialog->priv->display_tab.cache_size_label = gtk_label_new (_("Cache size"));
     dialog->priv->display_tab.cache_size_unit = gtk_label_new (_("MB"));
@@ -219,11 +226,11 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     g_object_get_property (G_OBJECT(settings_manager), "cache-size", &value);
     if (g_value_get_uint (&value) < RSTTO_MIN_CACHE_SIZE)
     {
-        gtk_adjustment_set_value (cache_adjustment, RSTTO_DEFAULT_CACHE_SIZE);
+        gtk_adjustment_set_value (GTK_ADJUSTMENT (cache_adjustment), RSTTO_DEFAULT_CACHE_SIZE);
     }
     else
     {
-        gtk_adjustment_set_value (cache_adjustment, (gdouble)g_value_get_uint (&value));
+        gtk_adjustment_set_value (GTK_ADJUSTMENT (cache_adjustment), (gdouble)g_value_get_uint (&value));
     }
     g_value_unset (&value);
 
@@ -234,6 +241,58 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                       "toggled", (GCallback)cb_rstto_preferences_dialog_cache_preload_check_button_toggled, dialog);
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.cache_spin_button), 
                       "value-changed", (GCallback)cb_rstto_preferences_dialog_cache_spin_button_value_changed, dialog);
+
+/** Image-quality frame */
+    dialog->priv->display_tab.image_quality_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->display_tab.image_quality_frame = xfce_create_framebox_with_content (_("Quality"),
+                                                                                 dialog->priv->display_tab.image_quality_vbox);
+    gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.image_quality_frame, FALSE, FALSE, 0);
+
+    dialog->priv->display_tab.image_quality_label = gtk_label_new (_("Maximum render quality:"));
+    dialog->priv->display_tab.image_quality_hbox= gtk_hbox_new (FALSE, 4);
+    dialog->priv->display_tab.image_quality_combo= gtk_combo_box_new_text ();
+
+    gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), "unlimited");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), "1 MP");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), "2 MP");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), "4 MP");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), "8 MP");
+
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_vbox), 
+                                 dialog->priv->display_tab.image_quality_hbox, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_hbox), 
+                                 dialog->priv->display_tab.image_quality_label, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_hbox), 
+                                 dialog->priv->display_tab.image_quality_combo, FALSE, FALSE, 0);
+    /* set current value */
+    g_value_init (&value, G_TYPE_UINT);
+    g_object_get_property (G_OBJECT(settings_manager), "image-quality", &value);
+    switch (g_value_get_uint (&value))
+    {
+        case 0:
+            gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 0);
+            break;
+        case 1:
+            gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 1);
+            break;
+        case 2:
+            gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 2);
+            break;
+        case 4:
+            gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 4);
+            break;
+        case 8:
+            gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 8);
+            break;
+        default:
+            gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 2);
+            break;
+    }
+
+    /* connect signals */
+    g_signal_connect (G_OBJECT (dialog->priv->display_tab.image_quality_combo), 
+                      "changed", (GCallback)cb_rstto_preferences_dialog_image_quality_combo_box_changed, dialog);
+    
 
 /*******************/
 /** Slideshow tab **/
@@ -443,6 +502,23 @@ cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *butt
     g_value_set_uint (&value, (guint)gtk_spin_button_get_value (button));
 
     g_object_set_property (G_OBJECT (settings), "cache-size", &value);
+
+    g_value_unset (&value);
+}
+
+static void
+cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *combo_box,
+                                                             gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = GTK_WIDGET (user_data);
+    RsttoSettings *settings = rstto_settings_new();
+
+    GValue value = {0, };
+    g_value_init (&value, G_TYPE_UINT);
+
+    g_value_set_uint (&value, (guint)gtk_combo_box_get_active (combo_box));
+
+    g_object_set_property (G_OBJECT (settings), "image-quality", &value);
 
     g_value_unset (&value);
 }
