@@ -63,10 +63,9 @@ enum
     PROP_WINDOW_HEIGHT,
     PROP_BGCOLOR,
     PROP_BGCOLOR_OVERRIDE,
+    PROP_BGCOLOR_FULLSCREEN,
     PROP_CURRENT_URI,
     PROP_SLIDESHOW_TIMEOUT,
-    PROP_SLIDESHOW_BGCOLOR,
-    PROP_SLIDESHOW_BGCOLOR_STYLE,
     PROP_SCROLLWHEEL_ACTION,
 };
 
@@ -112,9 +111,8 @@ struct _RsttoSettingsPriv
     guint     slideshow_timeout;
     GdkColor *bgcolor;
     gboolean  bgcolor_override;
-    GdkColor *slideshow_bgcolor;
+    GdkColor *bgcolor_fullscreen;
     gchar    *scrollwheel_action;
-    guint     slideshow_bgcolor_style;
 };
 
 
@@ -138,6 +136,7 @@ rstto_settings_init (GObject *object)
     
     settings->priv->slideshow_timeout = 5000;
     settings->priv->bgcolor = g_new0 (GdkColor, 1);
+    settings->priv->bgcolor_fullscreen = g_new0 (GdkColor, 1);
     settings->priv->image_quality = 2;
 
     xfconf_g_property_bind (settings->priv->channel, "/window/width", G_TYPE_UINT, settings, "window-width");
@@ -150,11 +149,11 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind (settings->priv->channel, "/window/toolbar-open-folder", G_TYPE_BOOLEAN, settings, "toolbar-open-folder");
 
     xfconf_g_property_bind (settings->priv->channel, "/slideshow/timeout", G_TYPE_UINT, settings, "slideshow-timeout");
-    xfconf_g_property_bind (settings->priv->channel, "/slideshow/bgcolor-style", G_TYPE_UINT, settings, "slideshow-bgcolor-style");
-    xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/slideshow/bgcolor", settings, "slideshow-bgcolor");
 
     xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/window/bgcolor", settings, "bgcolor");
     xfconf_g_property_bind (settings->priv->channel, "/window/bgcolor-override", G_TYPE_BOOLEAN, settings, "bgcolor-override");
+
+    xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/window/bgcolor-fullscreen", settings, "bgcolor-fullscreen");
     xfconf_g_property_bind (settings->priv->channel, "/image/preload", G_TYPE_BOOLEAN, settings, "preload-images");
     xfconf_g_property_bind (settings->priv->channel, "/image/cache", G_TYPE_BOOLEAN, settings, "enable-cache");
     xfconf_g_property_bind (settings->priv->channel, "/image/cache-size", G_TYPE_UINT, settings, "cache-size");
@@ -305,24 +304,13 @@ rstto_settings_class_init (GObjectClass *object_class)
                                      PROP_BGCOLOR_OVERRIDE,
                                      pspec);
 
-    pspec = g_param_spec_boxed   ("slideshow-bgcolor",
+    pspec = g_param_spec_boxed   ("bgcolor-fullscreen",
                                   "",
                                   "",
                                   GDK_TYPE_COLOR,
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
-                                     PROP_SLIDESHOW_BGCOLOR,
-                                     pspec);
-
-    pspec = g_param_spec_uint    ("slideshow-bgcolor-style",
-                                  "",
-                                  "",
-                                  0,
-                                  2,
-                                  0,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_SLIDESHOW_BGCOLOR_STYLE,
+                                     PROP_BGCOLOR_FULLSCREEN,
                                      pspec);
 }
 
@@ -440,11 +428,11 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_SLIDESHOW_TIMEOUT:
             settings->priv->slideshow_timeout = g_value_get_uint (value);
             break;
-        case PROP_SLIDESHOW_BGCOLOR:
+        case PROP_BGCOLOR_FULLSCREEN:
             color = g_value_get_boxed (value);
-            settings->priv->slideshow_bgcolor->red = color->red;
-            settings->priv->slideshow_bgcolor->green = color->green;
-            settings->priv->slideshow_bgcolor->blue = color->blue;
+            settings->priv->bgcolor_fullscreen->red = color->red;
+            settings->priv->bgcolor_fullscreen->green = color->green;
+            settings->priv->bgcolor_fullscreen->blue = color->blue;
             break;
         case PROP_SCROLLWHEEL_ACTION:
             if (settings->priv->scrollwheel_action)
@@ -497,8 +485,8 @@ rstto_settings_get_property    (GObject    *object,
         case PROP_SLIDESHOW_TIMEOUT:
             g_value_set_uint (value, settings->priv->slideshow_timeout);
             break;
-        case PROP_SLIDESHOW_BGCOLOR:
-            g_value_set_boxed (value, settings->priv->slideshow_bgcolor);
+        case PROP_BGCOLOR_FULLSCREEN:
+            g_value_set_boxed (value, settings->priv->bgcolor_fullscreen);
             break;
         case PROP_BGCOLOR:
             g_value_set_boxed (value, settings->priv->bgcolor);

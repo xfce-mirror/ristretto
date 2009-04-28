@@ -65,6 +65,7 @@ struct _RsttoPictureViewerPriv
     GtkMenu                 *menu;
     RsttoPictureViewerState  state;
     RsttoZoomMode            zoom_mode;
+    gboolean                 fullscreen;
 
 
     GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
@@ -395,12 +396,15 @@ rstto_picture_viewer_paint (GtkWidget *widget)
     GdkPixbuf *pixbuf = viewer->priv->dst_pixbuf;
     GdkColor color;
     GdkColor line_color;
-    GValue bg_color = {0, }, bg_color_override = {0, };
+    GValue bg_color = {0, }, bg_color_override = {0, }, bg_color_fs = {0, };
     g_value_init (&bg_color, GDK_TYPE_COLOR);
+    g_value_init (&bg_color_fs, GDK_TYPE_COLOR);
     g_value_init (&bg_color_override, G_TYPE_BOOLEAN);
 
     g_object_get_property (G_OBJECT(settings_manager), "bgcolor", &bg_color);
     g_object_get_property (G_OBJECT(settings_manager), "bgcolor-override", &bg_color_override);
+
+    g_object_get_property (G_OBJECT(settings_manager), "bgcolor-fullscreen", &bg_color_fs);
 
 
     color.pixel = 0x0;
@@ -414,14 +418,20 @@ rstto_picture_viewer_paint (GtkWidget *widget)
         GdkPixmap *buffer = gdk_pixmap_new(NULL, widget->allocation.width, widget->allocation.height, gdk_drawable_get_depth(widget->window));
         GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(buffer));
 
-        if (g_value_get_boxed (&bg_color) && g_value_get_boolean (&bg_color_override))
+        if (viewer->priv->fullscreen)
         {
-           // gdk_gc_set_foreground(gc, g_value_get_boxed (&bg_color));
-           gdk_gc_set_rgb_fg_color (gc, g_value_get_boxed (&bg_color));
+           gdk_gc_set_rgb_fg_color (gc, g_value_get_boxed (&bg_color_fs));
         }
         else
         {
-            gdk_gc_set_foreground(gc, &(widget->style->bg[GTK_STATE_NORMAL]));
+            if (g_value_get_boxed (&bg_color) && g_value_get_boolean (&bg_color_override))
+            {
+               gdk_gc_set_rgb_fg_color (gc, g_value_get_boxed (&bg_color));
+            }
+            else
+            {
+                gdk_gc_set_foreground(gc, &(widget->style->bg[GTK_STATE_NORMAL]));
+            }
         }
         gdk_draw_rectangle(GDK_DRAWABLE(buffer), gc, TRUE, 0, 0, widget->allocation.width, widget->allocation.height);
         if(pixbuf)
@@ -948,7 +958,7 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
     GdkPixbuf *p_tmp_pixbuf = NULL;
     gdouble *p_scale = NULL;
     gboolean *p_fit_to_screen= NULL;
-    gdouble scale;
+    gdouble scale = 1;
     gdouble image_scale = 1;
     gdouble thumb_scale = 1;
     gdouble thumb_width = 0;
@@ -959,31 +969,33 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
 
     if (viewer->priv->image != NULL)
     {   
+        image_width = (gdouble)rstto_image_get_width (viewer->priv->image);
+        image_height = (gdouble)rstto_image_get_height (viewer->priv->image);
+
         p_src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
         if (p_src_pixbuf)
         {
-            image_width = (gdouble)rstto_image_get_width (viewer->priv->image);
-            image_height = (gdouble)rstto_image_get_height (viewer->priv->image);
-
             pixbuf_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
             pixbuf_height = (gdouble)gdk_pixbuf_get_height (p_src_pixbuf);
 
             image_scale = pixbuf_width / image_width;
-            if (viewer->priv->state != RSTTO_PICTURE_VIEWER_STATE_NORMAL)
+        }
+        if (viewer->priv->state != RSTTO_PICTURE_VIEWER_STATE_NORMAL)
+        {
+            switch (viewer->priv->state)
             {
-                switch (viewer->priv->state)
-                {
-                    case RSTTO_PICTURE_VIEWER_STATE_PREVIEW:
-                        p_src_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
-                        if (p_src_pixbuf)
-                        {
-                            thumb_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
-                            thumb_scale = (thumb_width / image_width);
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                case RSTTO_PICTURE_VIEWER_STATE_PREVIEW:
+                    p_src_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
+                    if (p_src_pixbuf)
+                    {
+                        thumb_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
+                        thumb_scale = (thumb_width / image_width);
+                    }
+                    else
+                        return;
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -1277,7 +1289,7 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
             g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
         }
 
-        rstto_image_load (viewer->priv->image, FALSE, g_value_get_uint (&max_size), NULL);
+        rstto_image_load (viewer->priv->image, FALSE, g_value_get_uint (&max_size), FALSE, NULL);
     }
     else
     {
@@ -1309,6 +1321,14 @@ static void
 cb_rstto_picture_viewer_image_prepared (RsttoImage *image, RsttoPictureViewer *viewer)
 {
     rstto_picture_viewer_set_state (viewer, RSTTO_PICTURE_VIEWER_STATE_PREVIEW);
+
+    rstto_picture_viewer_queued_repaint (viewer, TRUE);
+}
+
+void
+rstto_picture_viewer_set_fs (RsttoPictureViewer *viewer, gboolean fullscreen)
+{
+    viewer->priv->fullscreen = fullscreen;
 
     rstto_picture_viewer_queued_repaint (viewer, TRUE);
 }

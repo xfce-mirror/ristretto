@@ -378,7 +378,7 @@ cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *re
  * Return value: TRUE on success.
  */
 gboolean
-rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, GError **error)
+rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, gboolean preload, GError **error)
 {
     g_return_val_if_fail (image != NULL, FALSE);
 
@@ -418,7 +418,7 @@ rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, GErro
     {
         g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED], 0, image, NULL);
     }
-    rstto_image_cache_push_image (cache, image);
+    rstto_image_cache_push_image (cache, image, preload);
     return TRUE;
 }
 
@@ -640,6 +640,8 @@ cb_rstto_image_size_prepared (GdkPixbufLoader *loader, gint width, gint height, 
         if (ratio < 1)
     	    gdk_pixbuf_loader_set_size (loader, width*ratio, height*ratio);
     }
+
+    g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_PREPARED], 0, image, NULL);
 }
 
 /**
@@ -693,8 +695,6 @@ cb_rstto_image_area_prepared (GdkPixbufLoader *loader, RsttoImage *image)
             g_object_ref (image->priv->pixbuf);
         }
     }
-
-    g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_PREPARED], 0, image, NULL);
 }
 
 /**

@@ -188,7 +188,6 @@ static GtkActionEntry action_entries[] =
   { "file-menu", NULL, N_ ("_File"), NULL, },
   { "open", GTK_STOCK_OPEN, N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
   { "open-folder", NULL, N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
-  { "file-properties", GTK_STOCK_PROPERTIES, N_ ("_Properties"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_file_properties), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
   { "close-all", NULL, N_ ("_Close All"), NULL, N_ ("Close all images"), G_CALLBACK (cb_rstto_main_window_close_all), },
   { "quit", GTK_STOCK_QUIT, N_ ("_Quit"), "<control>Q", N_ ("Quit Ristretto"), G_CALLBACK (cb_rstto_main_window_quit), },
@@ -550,11 +549,6 @@ rstto_main_window_set_sensitive (RsttoMainWindow *window, gboolean sensitive)
                     window->priv->ui_manager,
                     "/main-menu/file-menu/close-all"),
             sensitive);
-    gtk_widget_set_sensitive (
-            gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/main-menu/file-menu/file-properties"),
-            sensitive);
 
     /* Go Menu */
     gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/go-menu/forward"), sensitive);
@@ -745,7 +739,7 @@ cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
     {
         transform = rstto_image_transform_orientation_new ( FALSE, FALSE, GDK_PIXBUF_ROTATE_CLOCKWISE);
         rstto_image_push_transformation (image, G_OBJECT (transform), NULL);
-        rstto_image_load (image, TRUE, g_value_get_uint (&max_size), NULL);
+        rstto_image_load (image, TRUE, g_value_get_uint (&max_size), FALSE, NULL);
     }
 
     g_value_unset (&max_size);
@@ -777,7 +771,7 @@ cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
     {
         transform = rstto_image_transform_orientation_new ( FALSE, FALSE, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
         rstto_image_push_transformation (image, G_OBJECT (transform), NULL);
-        rstto_image_load (image, TRUE, g_value_get_uint (&max_size), NULL);
+        rstto_image_load (image, TRUE, g_value_get_uint (&max_size), FALSE, NULL);
     }
     g_value_unset (&max_size);
 }
@@ -1433,9 +1427,11 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             gtk_widget_hide (window->priv->menubar);
             gtk_widget_hide (window->priv->toolbar);
             gtk_widget_hide (window->priv->statusbar);
+            rstto_picture_viewer_set_fs (window->priv->picture_viewer, TRUE);
         }
         else
        {
+            rstto_picture_viewer_set_fs (window->priv->picture_viewer, FALSE);
             g_value_init (&show_toolbar_val, G_TYPE_BOOLEAN);
             g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-toolbar", &show_toolbar_val);
 

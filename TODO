@@ -1,7 +1,6 @@
 - Merge transform actions of consecutive imagetransformations of the same type
 
 - Implement preferences dialog
-- Add a file-properties dialog
 - Generate and save thumbnails
 
 - Support setting wallpapers
@@ -15,8 +14,6 @@
 - Improve cache calculation
 
 - Write comments
-
-- Remove libxfce4util dependency
 
 - Implement thumbnailbar
 

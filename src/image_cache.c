@@ -26,6 +26,7 @@
 
 #include "image.h"
 #include "image_cache.h"
+#include "settings.h"
 
 static void
 rstto_image_cache_init (GObject *);
@@ -86,27 +87,55 @@ rstto_image_cache_class_init (GObjectClass *object_class)
 }
 
 void
-rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image)
+rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolean last)
 {
+    RsttoSettings *settings = rstto_settings_new();
+    GValue val = {0, };
+
+    g_value_init (&val, G_TYPE_BOOLEAN);
+    g_object_get_property (G_OBJECT (settings), "enable-cache", &val);
+
     if (cache->cache_list)
     {
         cache->cache_list = g_list_remove_all (cache->cache_list, image);
     }
 
     g_object_ref (image);
-    cache->cache_list = g_list_prepend (cache->cache_list, image);
 
-    /**
-     * TODO:
-     * Fix the cache-size calculation
-     */
-    if (g_list_length (cache->cache_list) > 3)
+    if (last)
     {
-        RsttoImage *c_image = g_list_last (cache->cache_list)->data;
-        rstto_image_unload (c_image);
-        cache->cache_list = g_list_remove (cache->cache_list, c_image);
-        g_object_unref (image);
+        cache->cache_list = g_list_append (cache->cache_list, image);
     }
+    else
+    {
+        cache->cache_list = g_list_prepend (cache->cache_list, image);
+    }
+
+    if (g_value_get_boolean (&val) == FALSE)
+    {
+        if (g_list_length (cache->cache_list) > 1)
+        {
+            RsttoImage *c_image = g_list_last (cache->cache_list)->data;
+            rstto_image_unload (c_image);
+            cache->cache_list = g_list_remove (cache->cache_list, c_image);
+            g_object_unref (image);
+        }
+    }
+    else
+    {
+        /**
+         * TODO:
+         * Fix the cache-size calculation
+         */
+        if (g_list_length (cache->cache_list) > 3)
+        {
+            RsttoImage *c_image = g_list_last (cache->cache_list)->data;
+            rstto_image_unload (c_image);
+            cache->cache_list = g_list_remove (cache->cache_list, c_image);
+            g_object_unref (image);
+        }
+    }
+    g_value_unset (&val);
 }
 
 /**
