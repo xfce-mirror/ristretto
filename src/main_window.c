@@ -239,7 +239,9 @@ static GtkActionEntry action_entries[] =
                 N_ ("_About"),
                 NULL,
                 N_ ("Display information about ristretto"),
-                G_CALLBACK (cb_rstto_main_window_about), }
+                G_CALLBACK (cb_rstto_main_window_about), },
+/* Misc */
+  { "leave-fullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("Leave _Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), }
 };
 
 static const GtkToggleActionEntry toggle_action_entries[] =
@@ -280,7 +282,7 @@ rstto_main_window_init (RsttoMainWindow *window)
 {
     GtkAccelGroup   *accel_group;
     GValue          show_toolbar_val = {0,}, window_width = {0, }, window_height = {0, };
-    GtkWidget       *separator, *back, *forward;
+    GtkWidget       *separator, *back, *forward, *leave_fullscreen;
     GtkWidget       *main_vbox = gtk_vbox_new (FALSE, 0);
     GtkRecentFilter *recent_filter;
 
@@ -364,6 +366,11 @@ rstto_main_window_init (RsttoMainWindow *window)
     forward = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/forward");
     gtk_tool_item_set_is_important (GTK_TOOL_ITEM (forward), TRUE);
     
+    /* Make the leave-fullscreen toolitem important,
+     * when it is, the label is shown when the toolbar style is 'both-horizontal'
+     */
+    leave_fullscreen = gtk_ui_manager_get_widget (window->priv->ui_manager, "/fullscreen-toolbar/leave-fullscreen");
+    gtk_tool_item_set_is_important (GTK_TOOL_ITEM (leave_fullscreen), TRUE);
 
     window->priv->picture_viewer = rstto_picture_viewer_new ();
     window->priv->p_viewer_s_window = gtk_scrolled_window_new (NULL, NULL);

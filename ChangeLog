@@ -7,6 +7,9 @@
 	* src/main_window.c
 	  src/main_window_ui.xml: Add 'fullscreen-toolbar' with controls when in
 	  fullscreen-mode.
+	* src/main_window.c
+	  src/main_window_ui.xml: Set is_important hint on 'leave-fullscreen'
+	  toolitem.
 
 2009-04-28  Stephan Arts <stephan@xfce.org>
 

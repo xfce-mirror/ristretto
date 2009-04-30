@@ -76,6 +76,6 @@
         <placeholder name="placeholder-slideshow" />
         <toolitem action="forward"/>
         <separator name="separator-1"/>
-        <toolitem action="fullscreen"/>
+        <toolitem action="leave-fullscreen"/>
     </toolbar>
 </ui>
