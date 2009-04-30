@@ -1,15 +1,30 @@
 2009-04-30  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c
+	  src/main_window_ui.xml: Add Sticky button to the fullscreen-toolbar.
+
+
+2009-04-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/main_window_ui.xml: Set is_important hint on 'leave-fullscreen' 
+	  toolitem.
+
+
+2009-04-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/main_window_ui.xml: Add 'fullscreen-toolbar' with controls when in
+	  fullscreen-mode.  
+
+
+2009-04-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
 	  src/picture_viewer.c
 	  src/picture_viewer.h: Let the pictureviewer figure out the fullscreen-
 	  state of it's parent-window by itself
-	* src/main_window.c
-	  src/main_window_ui.xml: Add 'fullscreen-toolbar' with controls when in
-	  fullscreen-mode.
-	* src/main_window.c
-	  src/main_window_ui.xml: Set is_important hint on 'leave-fullscreen'
-	  toolitem.
+
 
 2009-04-28  Stephan Arts <stephan@xfce.org>
 

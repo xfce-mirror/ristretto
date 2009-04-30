@@ -59,6 +59,8 @@ struct _RsttoMainWindowPriv
 
     guint show_fs_toolbar_timeout_id;
     gint window_save_geometry_timer_id;
+    
+    gboolean fs_toolbar_sticky;
 
     RsttoNavigatorIter *iter;
 
@@ -183,6 +185,9 @@ cb_rstto_main_window_contents (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_quit (GtkWidget *widget, RsttoMainWindow *window);
 
+static void
+cb_rstto_main_window_fullscreen_toolbar_sticky (GtkWidget *widget, RsttoMainWindow *window);
+
 static gboolean 
 cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
                                              GdkEventMotion *event,
@@ -248,6 +253,7 @@ static const GtkToggleActionEntry toggle_action_entries[] =
 {
     { "show-toolbar", NULL, N_ ("Show _Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_toolbar), TRUE, },
     { "show-thumbnailbar", NULL, N_ ("Show Thumb_nailbar"), NULL, NULL, NULL, FALSE},
+    { "sticky", GTK_STOCK_ADD, N_("Sticky"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen_toolbar_sticky), FALSE }
 };
 
 
@@ -1520,7 +1526,7 @@ cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *vie
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
     if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
     {
-        if (event->state == 0)
+        if (event->state == 0 && (window->priv->fs_toolbar_sticky == FALSE))
         {
             /* TODO: implement timer to hide it again */
             gtk_widget_show (window->priv->fs_toolbar);
@@ -1539,4 +1545,20 @@ cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window)
 {
     gtk_widget_hide (window->priv->fs_toolbar);
     return FALSE;
+}
+
+static void
+cb_rstto_main_window_fullscreen_toolbar_sticky (GtkWidget *widget, RsttoMainWindow *window)
+{
+    if (window->priv->show_fs_toolbar_timeout_id > 0)
+    {
+        g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+        window->priv->show_fs_toolbar_timeout_id = 0;
+    }
+    window->priv->fs_toolbar_sticky = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (widget));
+
+    if (window->priv->fs_toolbar_sticky == FALSE)
+    {
+        window->priv->show_fs_toolbar_timeout_id = g_timeout_add (1500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+    }
 }

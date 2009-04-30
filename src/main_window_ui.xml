@@ -72,6 +72,8 @@
 
     -->
     <toolbar name="fullscreen-toolbar">
+        <toolitem action="sticky"/>
+        <separator/>
         <toolitem action="back"/>
         <placeholder name="placeholder-slideshow" />
         <toolitem action="forward"/>
