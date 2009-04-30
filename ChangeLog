@@ -1,5 +1,11 @@
 2009-04-30  Stephan Arts <stephan@xfce.org>
 
+	* src/picture_viewer.c: Implement a hack to check if the pixbuf has
+	been rotated.
+
+
+2009-04-30  Stephan Arts <stephan@xfce.org>
+
 	* src/main_window.c
 	  src/main_window_ui.xml: Add Sticky button to the fullscreen-toolbar.
 

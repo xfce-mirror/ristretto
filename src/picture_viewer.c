@@ -972,31 +972,52 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
         image_width = (gdouble)rstto_image_get_width (viewer->priv->image);
         image_height = (gdouble)rstto_image_get_height (viewer->priv->image);
 
-        p_src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
-        if (p_src_pixbuf)
+        switch (viewer->priv->state)
         {
-            pixbuf_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
-            pixbuf_height = (gdouble)gdk_pixbuf_get_height (p_src_pixbuf);
+            case RSTTO_PICTURE_VIEWER_STATE_NORMAL:
+                p_src_pixbuf = rstto_image_get_pixbuf (viewer->priv->image);
+                if (p_src_pixbuf)
+                {
+                    pixbuf_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
+                    pixbuf_height = (gdouble)gdk_pixbuf_get_height (p_src_pixbuf);
 
-            image_scale = pixbuf_width / image_width;
-        }
-        if (viewer->priv->state != RSTTO_PICTURE_VIEWER_STATE_NORMAL)
-        {
-            switch (viewer->priv->state)
-            {
-                case RSTTO_PICTURE_VIEWER_STATE_PREVIEW:
-                    p_src_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
-                    if (p_src_pixbuf)
+                    /** HACK HACK HACK
+                      * Because the image-dimensions do not get modified when the image is rotated,
+                      * we have to check here... and fix it ourselves
+                      */
+                    if ((((pixbuf_width / pixbuf_height) > 1) && ((image_width / image_height < 1))) ||
+                        (((pixbuf_width / pixbuf_height) < 1) && ((image_width / image_height > 1))))
                     {
-                        thumb_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
-                        thumb_scale = (thumb_width / image_width);
+                        gdouble tmp_width = image_width;
+                        image_width = image_height;
+                        image_height = tmp_width;
                     }
-                    else
-                        return;
-                    break;
-                default:
-                    break;
-            }
+                    image_scale = pixbuf_width / image_width;
+                }
+                break;
+            case RSTTO_PICTURE_VIEWER_STATE_PREVIEW:
+                p_src_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
+                if (p_src_pixbuf)
+                {
+                    thumb_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
+                    /** HACK HACK HACK
+                      * Because the image-dimensions do not get modified when the image is rotated,
+                      * we have to check here... and fix it ourselves
+                      */
+                    if ((((pixbuf_width / pixbuf_height) > 1) && ((image_width / image_height < 1))) ||
+                        (((pixbuf_width / pixbuf_height) < 1) && ((image_width / image_height > 1))))
+                    {
+                        gdouble tmp_width = image_width;
+                        image_width = image_height;
+                        image_height = tmp_width;
+                    }
+                    thumb_scale = (thumb_width / image_width);
+                }
+                else
+                    return;
+                break;
+            default:
+                break;
         }
 
         p_scale = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
