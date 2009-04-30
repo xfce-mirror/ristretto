@@ -1427,11 +1427,9 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             gtk_widget_hide (window->priv->menubar);
             gtk_widget_hide (window->priv->toolbar);
             gtk_widget_hide (window->priv->statusbar);
-            rstto_picture_viewer_set_fs (window->priv->picture_viewer, TRUE);
         }
         else
        {
-            rstto_picture_viewer_set_fs (window->priv->picture_viewer, FALSE);
             g_value_init (&show_toolbar_val, G_TYPE_BOOLEAN);
             g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-toolbar", &show_toolbar_val);
 

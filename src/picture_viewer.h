@@ -71,8 +71,6 @@ GtkWidget *rstto_picture_viewer_new ();
 void       rstto_picture_viewer_set_image (RsttoPictureViewer *, RsttoImage *);
 gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
 
-void       rstto_picture_viewer_set_fs (RsttoPictureViewer *viewer, gboolean fullscreen);
-
 void       rstto_picture_viewer_zoom_fit (RsttoPictureViewer *viewer);
 void       rstto_picture_viewer_zoom_100 (RsttoPictureViewer *viewer);
 void       rstto_picture_viewer_zoom_in  (RsttoPictureViewer *viewer, gdouble factor);

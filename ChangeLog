@@ -1,3 +1,10 @@
+2009-04-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/pictureviewer.c
+	  src/pictureviewer.h: Let the pictureviewer figure out the fullscreen-
+	  state of it's parent-window by itself
+
 2009-04-28  Stephan Arts <stephan@xfce.org>
 
 	* src/image.c

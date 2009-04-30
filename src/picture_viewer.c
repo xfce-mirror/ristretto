@@ -65,7 +65,6 @@ struct _RsttoPictureViewerPriv
     GtkMenu                 *menu;
     RsttoPictureViewerState  state;
     RsttoZoomMode            zoom_mode;
-    gboolean                 fullscreen;
 
 
     GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
@@ -418,7 +417,7 @@ rstto_picture_viewer_paint (GtkWidget *widget)
         GdkPixmap *buffer = gdk_pixmap_new(NULL, widget->allocation.width, widget->allocation.height, gdk_drawable_get_depth(widget->window));
         GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(buffer));
 
-        if (viewer->priv->fullscreen)
+        if(gdk_window_get_state(gdk_window_get_toplevel(GTK_WIDGET(viewer)->window)) & GDK_WINDOW_STATE_FULLSCREEN)
         {
            gdk_gc_set_rgb_fg_color (gc, g_value_get_boxed (&bg_color_fs));
         }
@@ -1321,14 +1320,6 @@ static void
 cb_rstto_picture_viewer_image_prepared (RsttoImage *image, RsttoPictureViewer *viewer)
 {
     rstto_picture_viewer_set_state (viewer, RSTTO_PICTURE_VIEWER_STATE_PREVIEW);
-
-    rstto_picture_viewer_queued_repaint (viewer, TRUE);
-}
-
-void
-rstto_picture_viewer_set_fs (RsttoPictureViewer *viewer, gboolean fullscreen)
-{
-    viewer->priv->fullscreen = fullscreen;
 
     rstto_picture_viewer_queued_repaint (viewer, TRUE);
 }
