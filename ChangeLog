@@ -1,23 +1,26 @@
 2009-04-30  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c
-	  src/pictureviewer.c
-	  src/pictureviewer.h: Let the pictureviewer figure out the fullscreen-
+	  src/picture_viewer.c
+	  src/picture_viewer.h: Let the pictureviewer figure out the fullscreen-
 	  state of it's parent-window by itself
+	* src/main_window.c
+	  src/main_window_ui.xml: Add 'fullscreen-toolbar' with controls when in
+	  fullscreen-mode.
 
 2009-04-28  Stephan Arts <stephan@xfce.org>
 
 	* src/image.c
-	  src/pictureviewer.c: Emit 'prepared' signal when the size-prepared signal
+	  src/picture_viewer.c: Emit 'prepared' signal when the size-prepared signal
 	  is emitted, instead of waiting for the area-prepared signal. When the
 	  image is rendered at a different scale then 'maximum', the 
 	  'area-prepared', 'area-updated' and 'closed' signals are all emitted at 
 	  once. Then the thumbnail is not displayed when the image is not ready yet.
-	* src/pictureviewer.c: Do not repaint the image when the image is
+	* src/picture_viewer.c: Do not repaint the image when the image is
 	  'prepared' but there is no thumbnail available. This will prevent the
 	  image from flickering.
 	* src/image_cache.c: Implement 'enable'/'disable' of image-cache
 	* src/main_window_ui.xml
 	  src/main_window.c: Remove properties dialog menu item
-	* src/pictureviewer.c: Add a 'fullscreen' state, setting a different
+	* src/picture_viewer.c: Add a 'fullscreen' state, setting a different
 	  background-color if it is in fullscreen.

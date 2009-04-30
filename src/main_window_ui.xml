@@ -67,4 +67,15 @@
         <toolitem action="zoom-100"/>
         <toolitem action="zoom-fit"/>
     </toolbar>
+
+    <!--
+
+    -->
+    <toolbar name="fullscreen-toolbar">
+        <toolitem action="back"/>
+        <placeholder name="placeholder-slideshow" />
+        <toolitem action="forward"/>
+        <separator name="separator-1"/>
+        <toolitem action="fullscreen"/>
+    </toolbar>
 </ui>

@@ -186,7 +186,8 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
     gtk_widget_set_events (GTK_WIDGET(viewer),
                            GDK_BUTTON_PRESS_MASK |
                            GDK_BUTTON_RELEASE_MASK |
-                           GDK_BUTTON1_MOTION_MASK);
+                           GDK_BUTTON1_MOTION_MASK |
+                           GDK_POINTER_MOTION_MASK);
 
     g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_picture_viewer_button_press_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "button_release_event", G_CALLBACK(cb_rstto_picture_viewer_button_release_event), NULL);

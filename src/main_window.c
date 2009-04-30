@@ -57,6 +57,7 @@ struct _RsttoMainWindowPriv
         gboolean        toolbar_visible;
     } props;
 
+    guint show_fs_toolbar_timeout_id;
     gint window_save_geometry_timer_id;
 
     RsttoNavigatorIter *iter;
@@ -68,6 +69,7 @@ struct _RsttoMainWindowPriv
 
     GtkWidget *menubar;
     GtkWidget *toolbar;
+    GtkWidget *fs_toolbar;
     GtkWidget *picture_viewer;
     GtkWidget *p_viewer_s_window;
     GtkWidget *statusbar;
@@ -75,6 +77,8 @@ struct _RsttoMainWindowPriv
     guint      recent_merge_id;
     guint      play_merge_id;
     guint      pause_merge_id;
+    guint      fs_play_merge_id;
+    guint      fs_pause_merge_id;
 
     GtkAction *play_action;
     GtkAction *pause_action;
@@ -114,6 +118,8 @@ static gboolean
 cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event);
 static void
 cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data);
+static gboolean
+cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_navigator_new_image (RsttoNavigator *navigator, RsttoImage *image, RsttoMainWindow *window);
@@ -176,6 +182,11 @@ static void
 cb_rstto_main_window_contents (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_quit (GtkWidget *widget, RsttoMainWindow *window);
+
+static gboolean 
+cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
+                                             GdkEventMotion *event,
+                                             gpointer user_data);
 
 static void
 rstto_main_window_set_sensitive (RsttoMainWindow *window, gboolean sensitive);
@@ -290,6 +301,8 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->recent_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->play_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->pause_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
+    window->priv->fs_play_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
+    window->priv->fs_pause_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
 
 
     window->priv->play_action = gtk_action_new ("play", "_Play", "Play slideshow", GTK_STOCK_MEDIA_PLAY);
@@ -329,11 +342,16 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_ui_manager_add_ui_from_string (window->priv->ui_manager,main_window_ui, main_window_ui_length, NULL);
     window->priv->menubar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu");
     window->priv->toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar");
+    window->priv->fs_toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/fullscreen-toolbar");
 
     /**
      * Get the separator toolitem and tell it to expand
      */
     separator = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/separator-1");
+    gtk_tool_item_set_expand (GTK_TOOL_ITEM (separator), TRUE);
+    gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (separator), FALSE);
+
+    separator = gtk_ui_manager_get_widget (window->priv->ui_manager, "/fullscreen-toolbar/separator-1");
     gtk_tool_item_set_expand (GTK_TOOL_ITEM (separator), TRUE);
     gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (separator), FALSE);
 
@@ -359,10 +377,12 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->menubar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->toolbar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->p_viewer_s_window, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->fs_toolbar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
 
     rstto_main_window_set_sensitive (window, FALSE);
     gtk_widget_set_no_show_all (window->priv->toolbar, TRUE);
+    gtk_widget_set_no_show_all (window->priv->fs_toolbar, TRUE);
 
     /**
      * Add missing pieces to the UI
@@ -373,6 +393,13 @@ rstto_main_window_init (RsttoMainWindow *window)
                            "play",
                            "play",
                            GTK_UI_MANAGER_MENUITEM,
+                           FALSE);
+    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->fs_play_merge_id,
+                           "/fullscreen-toolbar/placeholder-slideshow",
+                           "play",
+                           "play",
+                           GTK_UI_MANAGER_TOOLITEM,
                            FALSE);
     gtk_ui_manager_add_ui (window->priv->ui_manager,
                            window->priv->recent_merge_id,
@@ -414,6 +441,9 @@ rstto_main_window_init (RsttoMainWindow *window)
         gtk_widget_hide (window->priv->toolbar);
     }
 
+    gtk_widget_hide (window->priv->fs_toolbar);
+
+    g_signal_connect(G_OBJECT(window->priv->picture_viewer), "motion-notify-event", G_CALLBACK(cb_rstto_main_window_picture_viewer_motion_notify_event), window);
     g_signal_connect(G_OBJECT(window), "configure-event", G_CALLBACK(cb_rstto_main_window_configure_event), NULL);
     g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_main_window_state_event), NULL);
 }
@@ -589,6 +619,10 @@ rstto_main_window_set_sensitive (RsttoMainWindow *window, gboolean sensitive)
     gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/zoom-out"), sensitive);
     gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/zoom-fit"), sensitive);
     gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/zoom-100"), sensitive);
+
+    /* FS Toolbar */
+    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/fullscreen-toolbar/forward"), sensitive);
+    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/fullscreen-toolbar/back"), sensitive);
 }
 
 /**
@@ -1047,8 +1081,6 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
 static void
 cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window)
 {
-    g_debug ("%s", __FUNCTION__);
-
     GValue timeout = {0, };
 
     gtk_ui_manager_add_ui (window->priv->ui_manager,
@@ -1060,6 +1092,16 @@ cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window)
                            FALSE);
     gtk_ui_manager_remove_ui (window->priv->ui_manager,
                               window->priv->play_merge_id);
+
+    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->fs_pause_merge_id,
+                           "/fullscreen-toolbar/placeholder-slideshow",
+                           "pause",
+                           "pause",
+                           GTK_UI_MANAGER_TOOLITEM,
+                           FALSE);
+    gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                              window->priv->fs_play_merge_id);
 
     g_value_init (&timeout, G_TYPE_UINT);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "slideshow-timeout", &timeout);
@@ -1079,7 +1121,6 @@ cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_pause (GtkWidget *widget, RsttoMainWindow *window)
 {
-    g_debug ("%s", __FUNCTION__);
     gtk_ui_manager_add_ui (window->priv->ui_manager,
                            window->priv->play_merge_id,
                            "/main-menu/go-menu/placeholder-slideshow",
@@ -1089,6 +1130,16 @@ cb_rstto_main_window_pause (GtkWidget *widget, RsttoMainWindow *window)
                            FALSE);
     gtk_ui_manager_remove_ui (window->priv->ui_manager,
                               window->priv->pause_merge_id);
+
+    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->fs_play_merge_id,
+                           "/fullscreen-toolbar/placeholder-slideshow",
+                           "play",
+                           "play",
+                           GTK_UI_MANAGER_TOOLITEM,
+                           FALSE);
+    gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                              window->priv->fs_pause_merge_id);
 
     window->priv->playing = FALSE;
 }
@@ -1429,7 +1480,14 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             gtk_widget_hide (window->priv->statusbar);
         }
         else
-       {
+        {
+            if (window->priv->show_fs_toolbar_timeout_id > 0)
+            {
+                g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+                window->priv->show_fs_toolbar_timeout_id = 0;
+            }
+            gtk_widget_hide (window->priv->fs_toolbar);
+
             g_value_init (&show_toolbar_val, G_TYPE_BOOLEAN);
             g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-toolbar", &show_toolbar_val);
 
@@ -1445,4 +1503,33 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
     if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
     {
     }
+}
+
+static gboolean 
+cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
+                                             GdkEventMotion *event,
+                                             gpointer user_data)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
+    {
+        if (event->state == 0)
+        {
+            /* TODO: implement timer to hide it again */
+            gtk_widget_show (window->priv->fs_toolbar);
+            if (window->priv->show_fs_toolbar_timeout_id > 0)
+            {
+                g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+                window->priv->show_fs_toolbar_timeout_id = 0;
+            }
+            window->priv->show_fs_toolbar_timeout_id = g_timeout_add (3000, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+        }
+    }
+}
+
+static gboolean
+cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window)
+{
+    gtk_widget_hide (window->priv->fs_toolbar);
+    return FALSE;
 }
