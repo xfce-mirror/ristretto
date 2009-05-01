@@ -1,5 +1,11 @@
 2009-05-02  Stephan Arts <stephan@xfce.org>
 
+	* src/image,c
+	  src/image.h
+	  src/image_cache.c: Implement image-cache size calculation
+
+2009-05-02  Stephan Arts <stephan@xfce.org>
+
 	* src/main_window.c: Add jpeg filter to the open-files dialog
 
 2009-05-01  Stephan Arts <stephan@xfce.org>
