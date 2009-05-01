@@ -926,6 +926,11 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     gtk_file_filter_set_name (filter, _("Images"));
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
+    filter = gtk_file_filter_new();
+    gtk_file_filter_add_mime_type (filter, "image/jpeg");
+    gtk_file_filter_set_name (filter, _(".jp(e)g"));
+    gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
+
 
     response = gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_hide (dialog);

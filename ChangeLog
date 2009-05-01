@@ -1,3 +1,7 @@
+2009-05-02  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Add jpeg filter to the open-files dialog
+
 2009-05-01  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c: Make sure the fullscreen-toolbar gets shown in
