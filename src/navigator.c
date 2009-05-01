@@ -1122,7 +1122,7 @@ rstto_navigator_entry_get_size (RsttoNavigatorEntry *entry)
 
     if (entry->src_pixbuf)
     {
-        width = gdk_pixbuf_get_width(entry->src_pixbuf);
+        width = gdk_pixbuf_get_rowstride(entry->src_pixbuf);
         height = gdk_pixbuf_get_height(entry->src_pixbuf);
 
         n_channels = gdk_pixbuf_get_n_channels(entry->src_pixbuf);
@@ -1131,7 +1131,7 @@ rstto_navigator_entry_get_size (RsttoNavigatorEntry *entry)
     }
     if (entry->thumb)
     {
-        width = gdk_pixbuf_get_width(entry->thumb);
+        width = gdk_pixbuf_get_rowstride(entry->thumb);
         height = gdk_pixbuf_get_height(entry->thumb);
 
         n_channels = gdk_pixbuf_get_n_channels(entry->thumb);
