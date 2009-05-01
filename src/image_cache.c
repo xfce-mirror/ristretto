@@ -86,9 +86,10 @@ rstto_image_cache_class_init (GObjectClass *object_class)
 
 }
 
-void
+gboolean
 rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolean last)
 {
+    gboolean retval = FALSE;
     RsttoSettings *settings = rstto_settings_new();
     GValue val = {0, }, val_cache_size = {0, };
     guint64 size = 0;
@@ -119,17 +120,24 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
         cache->cache_list = g_list_prepend (cache->cache_list, image);
     }
 
+    /**
+     * Check if we are keeping a cache
+     */
     if (g_value_get_boolean (&val) == FALSE)
     {
-        if (g_list_length (cache->cache_list) > 1)
+        while (g_list_length (cache->cache_list) > 1)
         {
             c_image = g_list_last (cache->cache_list)->data;
             rstto_image_unload (c_image);
             cache->cache_list = g_list_remove (cache->cache_list, c_image);
+            retval = TRUE;
         }
     }
     else
     {
+        /* Calculate the cache-size, if it exceeds the defined maximum,
+         * unload the the images that exceed that.
+         */
         for (iter = cache->cache_list->next; iter != NULL; iter = g_list_next (iter))
         {
             c_image = iter->data;
@@ -139,10 +147,12 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
                 rstto_image_unload (c_image);
                 cache->cache_list = g_list_remove (cache->cache_list, c_image);
                 iter = g_list_previous(iter);
+                retval = TRUE;
             } 
         }
     }
     g_value_unset (&val);
+    return retval;
 }
 
 /**

@@ -9,6 +9,8 @@
             <menuitem action="open-folder"/>
             <placeholder name="placeholder-open-recent"/>
             <separator/>
+            <menuitem action="save-as"/>
+            <separator/>
             <menuitem action="close"/>
             <menuitem action="close-all"/>
             <menuitem action="quit"/>

@@ -273,6 +273,7 @@ gboolean
 rstto_navigator_iter_find_image (RsttoNavigatorIter *iter, RsttoImage *image)
 {
     GList *list = g_list_find (iter->list, image);
+    iter->iter = list;
 
     if (list)
         return TRUE;

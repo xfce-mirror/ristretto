@@ -163,6 +163,8 @@ static void
 cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_save_as (GtkWidget *widget, RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window);
@@ -204,6 +206,7 @@ static GtkActionEntry action_entries[] =
   { "file-menu", NULL, N_ ("_File"), NULL, },
   { "open", GTK_STOCK_OPEN, N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
   { "open-folder", NULL, N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
+  { "save-as", GTK_STOCK_SAVE_AS, N_ ("_Save as"), "<control>s", N_ ("Save the image"), G_CALLBACK (cb_rstto_main_window_save_as), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
   { "close-all", NULL, N_ ("_Close All"), NULL, N_ ("Close all images"), G_CALLBACK (cb_rstto_main_window_close_all), },
   { "quit", GTK_STOCK_QUIT, N_ ("_Quit"), "<control>Q", N_ ("Quit Ristretto"), G_CALLBACK (cb_rstto_main_window_quit), },
@@ -582,6 +585,11 @@ static void
 rstto_main_window_set_sensitive (RsttoMainWindow *window, gboolean sensitive)
 {
 
+    gtk_widget_set_sensitive (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/file-menu/save-as"),
+            sensitive);
     gtk_widget_set_sensitive (
             gtk_ui_manager_get_widget (
                     window->priv->ui_manager,
@@ -1090,6 +1098,37 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
 
     g_object_unref (file);
     g_free (uri);
+}
+
+static void
+cb_rstto_main_window_save_as (GtkWidget *widget, RsttoMainWindow *window)
+{
+    GtkWidget *dialog;
+    gint response;
+    GFile *file, *s_file;
+
+    dialog = gtk_file_chooser_dialog_new(_("Save as"),
+                                         GTK_WINDOW(window),
+                                         GTK_FILE_CHOOSER_ACTION_SAVE,
+                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                                         GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+                                         NULL);
+    gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
+
+    response = gtk_dialog_run(GTK_DIALOG(dialog));
+    if(response == GTK_RESPONSE_OK)
+    {
+        file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
+        s_file = rstto_image_get_file (rstto_navigator_iter_get_image (window->priv->iter));
+        if (g_file_copy (s_file, file, G_FILE_COPY_OVERWRITE, NULL, NULL, NULL, NULL))
+        {
+            rstto_navigator_remove_image (window->priv->props.navigator, rstto_navigator_iter_get_image (window->priv->iter));
+            rstto_navigator_add_file (window->priv->props.navigator, file, NULL);
+        }
+    }
+
+    gtk_widget_destroy(dialog);
+
 }
 
 /**

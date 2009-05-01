@@ -138,12 +138,18 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
     if (rof->iter < rof->argc)
     {
         file = g_file_new_for_commandline_arg (rof->argv[rof->iter]);
-        file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
-        content_type = g_file_info_get_attribute_string (file_info, "standard::content-type");
-
-        if (strncmp (content_type, "image/", 6) == 0)
+        if (file)
         {
-            rstto_navigator_add_file (rof->navigator, file, NULL);
+            file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
+            if (file_info)
+            {
+                content_type = g_file_info_get_attribute_string (file_info, "standard::content-type");
+
+                if (strncmp (content_type, "image/", 6) == 0)
+                {
+                    rstto_navigator_add_file (rof->navigator, file, NULL);
+                }
+            }
         }
         rof->iter++;
         return TRUE;

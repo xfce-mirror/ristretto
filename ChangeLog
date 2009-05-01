@@ -1,8 +1,19 @@
 2009-05-02  Stephan Arts <stephan@xfce.org>
 
+	* src/main_window.c
+	  src/main_window_ui.xml: Implement save-as function (Bug #4647)
+	* src/navigator.c: Fix iter_find_image function
+	* src/image_cache.h
+	  src/image_cache.c: Return TRUE when the cache had to drop images to
+	  fit the new one.
+	* src/main.c: Fix error when trying to open nonexistent file from the
+	  CLI
+
+2009-05-02  Stephan Arts <stephan@xfce.org>
+
 	* src/image,c
 	  src/image.h
-	  src/image_cache.c: Implement image-cache size calculation
+	  src/image_cache.c: Implement image-cache size calculation (Bug #4064)
 
 2009-05-02  Stephan Arts <stephan@xfce.org>
 

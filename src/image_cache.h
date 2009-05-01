@@ -47,7 +47,7 @@ typedef struct _RsttoImageCacheClass RsttoImageCacheClass;
 
 RsttoImageCache *rstto_image_cache_new ();
 
-void rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolean last);
+gboolean rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolean last);
 
 G_END_DECLS
 
