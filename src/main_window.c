@@ -984,6 +984,7 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
     GFileEnumerator *file_enumarator = NULL;
     GFileInfo *file_info = NULL;
     const gchar *filename = NULL;
+    const gchar *content_type = NULL;
     gchar *uri = NULL;
     GValue current_uri_val = {0, };
 
@@ -1003,11 +1004,14 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
         gtk_widget_hide(dialog);
         file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
 
-        file_enumarator = g_file_enumerate_children (file, "standard::name", 0, NULL, NULL);
+        file_enumarator = g_file_enumerate_children (file, "standard::*", 0, NULL, NULL);
         while (file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
         {
             filename = g_file_info_get_name (file_info);
+            content_type  = g_file_info_get_content_type (file_info);
             child_file = g_file_get_child (file, filename);
+
+            g_debug ("%s", content_type);
 
             rstto_navigator_add_file (window->priv->props.navigator, child_file, NULL);
 
@@ -1526,16 +1530,19 @@ cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *vie
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
     if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
     {
-        if (event->state == 0 && (window->priv->fs_toolbar_sticky == FALSE))
+        if (event->state == 0)
         {
-            /* TODO: implement timer to hide it again */
             gtk_widget_show (window->priv->fs_toolbar);
-            if (window->priv->show_fs_toolbar_timeout_id > 0)
+
+            if (window->priv->fs_toolbar_sticky == FALSE)
             {
-                g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-                window->priv->show_fs_toolbar_timeout_id = 0;
+                if (window->priv->show_fs_toolbar_timeout_id > 0)
+                {
+                    g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+                    window->priv->show_fs_toolbar_timeout_id = 0;
+                }
+                window->priv->show_fs_toolbar_timeout_id = g_timeout_add (3000, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
             }
-            window->priv->show_fs_toolbar_timeout_id = g_timeout_add (3000, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
         }
     }
 }
