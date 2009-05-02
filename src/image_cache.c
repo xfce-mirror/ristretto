@@ -92,8 +92,8 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
     gboolean retval = FALSE;
     RsttoSettings *settings = rstto_settings_new();
     GValue val = {0, }, val_cache_size = {0, };
-    guint64 size = 0;
-    guint64 cache_size = 0;
+    guint size = 0;
+    guint cache_size = 0;
     RsttoImage *c_image;
     GList *iter = NULL;
 
@@ -141,7 +141,6 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
         for (iter = cache->cache_list->next; iter != NULL; iter = g_list_next (iter))
         {
             c_image = iter->data;
-            size += rstto_image_get_size (c_image);
             if (size > cache_size)
             {
                 rstto_image_unload (c_image);
@@ -149,6 +148,16 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
                 iter = g_list_previous(iter);
                 retval = TRUE;
             } 
+            else
+            {
+                size += rstto_image_get_size (c_image);
+                if (rstto_image_get_size (c_image) == 0)
+                {
+                    rstto_image_unload (c_image);
+                    cache->cache_list = g_list_remove (cache->cache_list, c_image);
+                    iter = g_list_previous(iter);
+                }
+            }
         }
     }
     g_value_unset (&val);

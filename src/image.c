@@ -792,7 +792,7 @@ cb_rstto_image_update(RsttoImage *image)
     return TRUE;
 }
 
-guint64
+guint
 rstto_image_get_size (RsttoImage *image)
 {
     GdkPixbuf *pixbuf = rstto_image_get_pixbuf (image);

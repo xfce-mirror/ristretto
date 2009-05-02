@@ -1,5 +1,14 @@
 2009-05-02  Stephan Arts <stephan@xfce.org>
 
+	* src/image_cache.c: Remove images which return size=0 from the cache,
+	  it might still be loading, in which case it should stop immediately and
+	  be dropped from the cache
+	* src/image.c
+	  src/image.h
+	  src/image_cache.c: calculate cache-size in uint instead of uint64
+
+2009-05-02  Stephan Arts <stephan@xfce.org>
+
 	* src/main_window.c
 	  src/main_window_ui.xml: Implement save-as function (Bug #4647)
 	* src/navigator.c: Fix iter_find_image function

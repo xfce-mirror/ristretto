@@ -88,7 +88,7 @@ rstto_image_pop_transformation (RsttoImage *image, GError **error);
 
 /* Should only be used by image-transformation implementations */
 void rstto_image_set_pixbuf (RsttoImage *image, GdkPixbuf *pixbuf);
-guint64 rstto_image_get_size (RsttoImage *image);
+guint rstto_image_get_size (RsttoImage *image);
 
 G_END_DECLS
 
