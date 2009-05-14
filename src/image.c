@@ -38,10 +38,11 @@
 
 enum
 {
-    RSTTO_IMAGE_SIGNAL_UPDATED= 0,
-    RSTTO_IMAGE_SIGNAL_PREPARED,
+    RSTTO_IMAGE_SIGNAL_STATE_CHANGED = 0,
+    RSTTO_IMAGE_SIGNAL_UPDATED,
     RSTTO_IMAGE_SIGNAL_COUNT    
 };
+
 
 static void
 rstto_image_init (GObject *);
@@ -59,6 +60,9 @@ static void
 cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image);
 static gboolean
 cb_rstto_image_update(RsttoImage *image);
+
+static void
+rstto_image_set_state (RsttoImage *image, RsttoImageState state);
 
 static void
 cb_rstto_image_read_file_ready (GObject *source_object, GAsyncResult *result, gpointer user_data);
@@ -97,6 +101,8 @@ rstto_image_get_type ()
 
 struct _RsttoImagePriv
 {
+    /* Generic data */
+    RsttoImageState state;
     /* File data */
     /*************/
     GFile *file;
@@ -105,15 +111,18 @@ struct _RsttoImagePriv
     /* File I/O data */
     /*****************/
     guchar *buffer;
+    GdkPixbufLoader *loader;
+    gboolean load_cancelled;
 
     /* Image data */
     /**************/
-    GdkPixbufLoader *loader;
     ExifData *exif_data;
     GdkPixbuf *thumbnail;
     GdkPixbuf *pixbuf;
     gint       width;
     gint       height;
+    gint       pixbuf_width;
+    gint       pixbuf_height;
     guint      max_size;
 
     GdkPixbufAnimation  *animation;
@@ -156,7 +165,7 @@ rstto_image_class_init (GObjectClass *object_class)
             0,
             NULL);
 
-    rstto_image_signals[RSTTO_IMAGE_SIGNAL_PREPARED] = g_signal_new("prepared",
+    rstto_image_signals[RSTTO_IMAGE_SIGNAL_STATE_CHANGED] = g_signal_new("state-changed",
             G_TYPE_FROM_CLASS (image_class),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
@@ -177,6 +186,7 @@ rstto_image_class_init (GObjectClass *object_class)
 static void
 rstto_image_dispose (GObject *object)
 {
+    g_debug ("%s", __FUNCTION__);
     RsttoImage *image = RSTTO_IMAGE (object);
 
     if(image->priv->thumbnail)
@@ -191,12 +201,16 @@ rstto_image_dispose (GObject *object)
         image->priv->animation_timeout_id = 0;
     }
 
+/*
     if (image->priv->loader)
     {
+        g_signal_handlers_disconnect_by_func (image->priv->loader , cb_rstto_image_size_prepared, image);
         g_signal_handlers_disconnect_by_func (image->priv->loader , cb_rstto_image_area_prepared, image);
+        g_signal_handlers_disconnect_by_func (image->priv->loader , cb_rstto_image_closed, image);
         gdk_pixbuf_loader_close (image->priv->loader, NULL);
         image->priv->loader = NULL;
     }
+*/
 
     if (image->priv->animation)
     {
@@ -235,6 +249,7 @@ rstto_image_dispose (GObject *object)
 RsttoImage *
 rstto_image_new (GFile *file)
 {
+    g_debug ("%s", __FUNCTION__);
     g_object_ref (file);
 
     RsttoImage *image = g_object_new (RSTTO_TYPE_IMAGE, NULL);
@@ -296,6 +311,7 @@ rstto_image_new (GFile *file)
 static void
 cb_rstto_image_read_file_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
+    g_debug ("%s", __FUNCTION__);
     GFile *file = G_FILE (source_object);
     RsttoImage *image = RSTTO_IMAGE (user_data);
 
@@ -314,6 +330,7 @@ cb_rstto_image_read_file_ready (GObject *source_object, GAsyncResult *result, gp
 static void
 cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
+    g_debug ("%s", __FUNCTION__);
     RsttoImage *image = RSTTO_IMAGE (user_data);
     gssize read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, NULL);
     GError *error = NULL;
@@ -322,7 +339,7 @@ cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *re
         return;
 
 
-    if (read_bytes > 0)
+    if (read_bytes > 0 && (image->priv->load_cancelled == FALSE))
     {
         if(gdk_pixbuf_loader_write (image->priv->loader, (const guchar *)image->priv->buffer, read_bytes, &error) == FALSE)
         {
@@ -342,21 +359,23 @@ cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *re
         }
     }
     else
-    if (read_bytes == 0)
     {
-        /* OK */
-        g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
-        gdk_pixbuf_loader_close (image->priv->loader, NULL);
-        image->priv->loader = NULL;
-        g_object_unref (image);
-    }
-    else
-    {
-        /* I/O ERROR */
-        g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
-        gdk_pixbuf_loader_close (image->priv->loader, NULL);
-        image->priv->loader = NULL;
-        g_object_unref (image);
+        if (read_bytes == 0)
+        {
+            /* OK */
+            g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
+            gdk_pixbuf_loader_close (image->priv->loader, NULL);
+            image->priv->loader = NULL;
+            g_object_unref (image);
+        }
+        else
+        {
+            /* I/O ERROR */
+            g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
+            gdk_pixbuf_loader_close (image->priv->loader, NULL);
+            image->priv->loader = NULL;
+            g_object_unref (image);
+        }
     }
 }
 
@@ -380,6 +399,7 @@ cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *re
 gboolean
 rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, gboolean preload, GError **error)
 {
+    g_debug ("%s", __FUNCTION__);
     g_return_val_if_fail (image != NULL, FALSE);
 
     RsttoImageCache *cache = rstto_image_cache_new ();
@@ -412,12 +432,10 @@ rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, gbool
         /*g_signal_connect(image->priv->loader, "area-updated", G_CALLBACK(cb_rstto_image_area_updated), image);*/
         g_signal_connect(image->priv->loader, "closed", G_CALLBACK(cb_rstto_image_closed), image);
 
+        rstto_image_set_state (image, RSTTO_IMAGE_STATE_LOADING);
 	    g_file_read_async (image->priv->file, 0, NULL, (GAsyncReadyCallback)cb_rstto_image_read_file_ready, image);
     }
-    else
-    {
-        g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED], 0, image, NULL);
-    }
+
     rstto_image_cache_push_image (cache, image, preload);
     return TRUE;
 }
@@ -432,13 +450,11 @@ rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, gbool
 void
 rstto_image_unload (RsttoImage *image)
 {
+    g_debug ("%s", __FUNCTION__);
     g_return_if_fail (image != NULL);
 
     if (image->priv->loader)
-    {
-        gdk_pixbuf_loader_close (image->priv->loader, NULL);
-        image->priv->loader = NULL;
-    }
+        image->priv->load_cancelled = TRUE;
 
     if (image->priv->pixbuf)
     {
@@ -446,6 +462,7 @@ rstto_image_unload (RsttoImage *image)
         image->priv->pixbuf = NULL;
     }
 
+    rstto_image_set_state (image, RSTTO_IMAGE_STATE_DEFAULT);
 }
 
 
@@ -458,6 +475,7 @@ rstto_image_unload (RsttoImage *image)
 GFile *
 rstto_image_get_file (RsttoImage *image)
 {
+    g_debug ("%s", __FUNCTION__);
     g_return_val_if_fail (image != NULL, NULL);
     g_return_val_if_fail (image->priv != NULL, NULL);
     g_return_val_if_fail (image->priv->file != NULL, NULL);
@@ -474,6 +492,7 @@ rstto_image_get_file (RsttoImage *image)
 gint
 rstto_image_get_width (RsttoImage *image)
 {
+    g_debug ("%s", __FUNCTION__);
     g_return_val_if_fail (image != NULL, 0);
     g_return_val_if_fail (image->priv != NULL, 0);
 
@@ -489,6 +508,7 @@ rstto_image_get_width (RsttoImage *image)
 gint
 rstto_image_get_height (RsttoImage *image)
 {
+    g_debug ("%s", __FUNCTION__);
     g_return_val_if_fail (image != NULL, 0);
     g_return_val_if_fail (image->priv != NULL, 0);
 
@@ -505,6 +525,7 @@ rstto_image_get_height (RsttoImage *image)
 GdkPixbuf *
 rstto_image_get_thumbnail (RsttoImage *image)
 {
+    g_debug ("%s", __FUNCTION__);
     g_return_val_if_fail (image != NULL, NULL);
     g_return_val_if_fail (image->priv != NULL, NULL);
 
@@ -541,6 +562,7 @@ rstto_image_get_thumbnail (RsttoImage *image)
 GdkPixbuf *
 rstto_image_get_pixbuf (RsttoImage *image)
 {
+    g_debug ("%s", __FUNCTION__);
     g_return_val_if_fail (image != NULL, NULL);
     g_return_val_if_fail (image->priv != NULL, NULL);
 
@@ -557,6 +579,7 @@ rstto_image_get_pixbuf (RsttoImage *image)
 void
 rstto_image_set_pixbuf (RsttoImage *image, GdkPixbuf *pixbuf)
 {
+    g_debug ("%s", __FUNCTION__);
     if (image->priv->pixbuf)
         g_object_unref (image->priv->pixbuf);
 
@@ -574,6 +597,7 @@ rstto_image_set_pixbuf (RsttoImage *image, GdkPixbuf *pixbuf)
 gboolean
 rstto_image_push_transformation (RsttoImage *image, GObject *object, GError **error)
 {
+    g_debug ("%s", __FUNCTION__);
     g_return_val_if_fail (RSTTO_IS_IMAGE_TRANSFORMATION (object), FALSE);
     RsttoImageTransformation *transformation = RSTTO_IMAGE_TRANSFORMATION (object);
 
@@ -599,6 +623,7 @@ rstto_image_push_transformation (RsttoImage *image, GObject *object, GError **er
 gboolean
 rstto_image_pop_transformation (RsttoImage *image, GError **error)
 {
+    g_debug ("%s", __FUNCTION__);
     if (image->priv->transformations)
     {
         RsttoImageTransformation *transformation = image->priv->transformations->data;
@@ -631,8 +656,13 @@ rstto_image_pop_transformation (RsttoImage *image, GError **error)
 static void
 cb_rstto_image_size_prepared (GdkPixbufLoader *loader, gint width, gint height, RsttoImage *image)
 {
+    g_debug ("%s", __FUNCTION__);
     image->priv->width = width;
     image->priv->height = height;
+    image->priv->pixbuf_width = width;
+    image->priv->pixbuf_height = height;
+
+    rstto_image_set_state (image, RSTTO_IMAGE_STATE_PREVIEW_READY);
 
     if (image->priv->max_size > 0)
     {
@@ -641,7 +671,7 @@ cb_rstto_image_size_prepared (GdkPixbufLoader *loader, gint width, gint height, 
     	    gdk_pixbuf_loader_set_size (loader, width*ratio, height*ratio);
     }
 
-    g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_PREPARED], 0, image, NULL);
+    //g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_PREPARED], 0, image, NULL);
 }
 
 /**
@@ -653,9 +683,11 @@ cb_rstto_image_size_prepared (GdkPixbufLoader *loader, gint width, gint height, 
 static void
 cb_rstto_image_area_prepared (GdkPixbufLoader *loader, RsttoImage *image)
 {
+    g_debug ("%s", __FUNCTION__);
 
     image->priv->animation = gdk_pixbuf_loader_get_animation (loader);
     image->priv->iter = gdk_pixbuf_animation_get_iter (image->priv->animation, NULL);
+
     if (image->priv->pixbuf)
     {
         g_object_unref(image->priv->pixbuf);
@@ -706,6 +738,7 @@ cb_rstto_image_area_prepared (GdkPixbufLoader *loader, RsttoImage *image)
 static void
 cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image)
 {
+    g_debug ("%s", __FUNCTION__);
     g_return_if_fail (image != NULL);
     g_return_if_fail (RSTTO_IS_IMAGE (image));
     g_return_if_fail (loader == image->priv->loader);
@@ -715,6 +748,29 @@ cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image)
 
     g_object_unref (image->priv->loader);
     image->priv->loader = NULL;
+
+    if (image->priv->load_cancelled)
+    {
+        if (image->priv->pixbuf)
+        {
+            g_object_unref (image->priv->pixbuf);
+            image->priv->pixbuf = NULL;
+        }
+
+        if (image->priv->animation)
+        {
+            g_object_unref (image->priv->animation);
+            image->priv->animation = NULL;
+        }
+
+        if (image->priv->iter)
+        {
+            g_object_unref (image->priv->iter);
+            image->priv->iter = NULL;
+        }
+        rstto_image_set_state (image, RSTTO_IMAGE_STATE_DEFAULT);
+        return;
+    }
 
    
     if (image->priv->pixbuf != NULL)
@@ -730,9 +786,7 @@ cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image)
 
             transform_iter = g_list_previous (transform_iter);
         }
-
-
-        g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED], 0, image, NULL);
+        rstto_image_set_state (image, RSTTO_IMAGE_STATE_READY);
     }
 }
 
@@ -745,6 +799,7 @@ cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image)
 static gboolean
 cb_rstto_image_update(RsttoImage *image)
 {
+    g_debug ("%s", __FUNCTION__);
     RsttoImageTransformation *transformation = NULL;
 
     if (image->priv->iter)
@@ -795,6 +850,7 @@ cb_rstto_image_update(RsttoImage *image)
 guint
 rstto_image_get_size (RsttoImage *image)
 {
+    g_debug ("%s", __FUNCTION__);
     GdkPixbuf *pixbuf = rstto_image_get_pixbuf (image);
     if (pixbuf)
     {
@@ -804,4 +860,24 @@ rstto_image_get_size (RsttoImage *image)
         return rowstride * height *n_channels;
     }
     return 0;
+}
+
+RsttoImageState
+rstto_image_get_state (RsttoImage *image)
+{
+    return image->priv->state;
+}
+
+/**
+ * rstto_image_set_state:
+ * @image:
+ * @state:
+ *
+ * TODO: verify state-changes
+ */
+static void
+rstto_image_set_state (RsttoImage *image, RsttoImageState state)
+{
+    image->priv->state = state;
+    g_signal_emit (G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_STATE_CHANGED], 0, image, NULL);
 }

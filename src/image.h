@@ -31,6 +31,15 @@ typedef enum
   RSTTO_IMAGE_ORIENT_270,
 } RsttoImageOrientation;
 
+typedef enum
+{
+    RSTTO_IMAGE_STATE_DEFAULT = 0,
+    RSTTO_IMAGE_STATE_LOADING,
+    RSTTO_IMAGE_STATE_PREVIEW_READY,
+    RSTTO_IMAGE_STATE_READY,
+    RSTTO_IMAGE_STATE_COUNT
+} RsttoImageState;
+
 #define RSTTO_TYPE_IMAGE rstto_image_get_type()
 
 #define RSTTO_IMAGE(obj)( \
@@ -89,6 +98,9 @@ rstto_image_pop_transformation (RsttoImage *image, GError **error);
 /* Should only be used by image-transformation implementations */
 void rstto_image_set_pixbuf (RsttoImage *image, GdkPixbuf *pixbuf);
 guint rstto_image_get_size (RsttoImage *image);
+
+RsttoImageState
+rstto_image_get_state (RsttoImage *image);
 
 G_END_DECLS
 

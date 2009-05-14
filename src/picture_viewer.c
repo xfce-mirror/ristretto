@@ -130,7 +130,7 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *, RsttoPictureViewer *);
 static void
 cb_rstto_picture_viewer_image_updated (RsttoImage *image, RsttoPictureViewer *viewer);
 static void
-cb_rstto_picture_viewer_image_prepared (RsttoImage *image, RsttoPictureViewer *viewer);
+cb_rstto_picture_viewer_image_state_changed (RsttoImage *image, RsttoPictureViewer *viewer);
 
 static gboolean 
 cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer);
@@ -954,6 +954,7 @@ rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer, gboolean refres
 static gboolean 
 cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
 {
+    g_debug ("%s", __FUNCTION__);
     GdkPixbuf *p_src_pixbuf = NULL;
     GdkPixbuf *p_tmp_pixbuf = NULL;
     gdouble *p_scale = NULL;
@@ -1014,7 +1015,7 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                     thumb_scale = (thumb_width / image_width);
                 }
                 else
-                    return;
+                    return FALSE;
                 break;
             default:
                 break;
@@ -1283,7 +1284,7 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
     if (viewer->priv->image)
     {
         g_signal_handlers_disconnect_by_func (viewer->priv->image, cb_rstto_picture_viewer_image_updated, viewer);
-        g_signal_handlers_disconnect_by_func (viewer->priv->image, cb_rstto_picture_viewer_image_prepared, viewer);
+        g_signal_handlers_disconnect_by_func (viewer->priv->image, cb_rstto_picture_viewer_image_state_changed, viewer);
         g_object_unref (viewer->priv->image);
     }
 
@@ -1293,7 +1294,7 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
     {
         g_object_ref (viewer->priv->image);
         g_signal_connect (G_OBJECT (viewer->priv->image), "updated", G_CALLBACK (cb_rstto_picture_viewer_image_updated), viewer);
-        g_signal_connect (G_OBJECT (viewer->priv->image), "prepared", G_CALLBACK (cb_rstto_picture_viewer_image_prepared), viewer);
+        g_signal_connect (G_OBJECT (viewer->priv->image), "state-changed", G_CALLBACK (cb_rstto_picture_viewer_image_state_changed), viewer);
 
         scale = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
         fit_to_screen = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen");
@@ -1310,7 +1311,14 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
             g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
         }
 
-        rstto_image_load (viewer->priv->image, FALSE, g_value_get_uint (&max_size), FALSE, NULL);
+        if (rstto_image_get_state (viewer->priv->image) == RSTTO_IMAGE_STATE_DEFAULT)
+        {
+            rstto_image_load (viewer->priv->image, FALSE, g_value_get_uint (&max_size), FALSE, NULL);
+        }
+        else
+        {
+            rstto_picture_viewer_queued_repaint (viewer, TRUE);
+        }
     }
     else
     {
@@ -1333,17 +1341,25 @@ cb_rstto_picture_viewer_image_updated (RsttoImage *image, RsttoPictureViewer *vi
 }
 
 /**
- * cb_rstto_picture_viewer_image_prepared:
+ * cb_rstto_picture_viewer_image_state_changed:
  * @image:
  * @viewer:
  *
  */
 static void
-cb_rstto_picture_viewer_image_prepared (RsttoImage *image, RsttoPictureViewer *viewer)
+cb_rstto_picture_viewer_image_state_changed (RsttoImage *image, RsttoPictureViewer *viewer)
 {
-    rstto_picture_viewer_set_state (viewer, RSTTO_PICTURE_VIEWER_STATE_PREVIEW);
-
-    rstto_picture_viewer_queued_repaint (viewer, TRUE);
+    switch (rstto_image_get_state (image))
+    {
+        case RSTTO_IMAGE_STATE_PREVIEW_READY:
+            rstto_picture_viewer_set_state (viewer, RSTTO_PICTURE_VIEWER_STATE_PREVIEW);
+            rstto_picture_viewer_queued_repaint (viewer, TRUE);
+            break;
+        case RSTTO_IMAGE_STATE_READY:
+            rstto_picture_viewer_set_state (viewer, RSTTO_PICTURE_VIEWER_STATE_NORMAL);
+            rstto_picture_viewer_queued_repaint (viewer, TRUE);
+            break;
+    }
 }
 
 /**
