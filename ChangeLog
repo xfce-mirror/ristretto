@@ -1,5 +1,12 @@
 2009-05-15  Stephan Arts <stephan@xfce.org>
 
+	* src/main_window.c: Set current_uri on open_folder dialog
+	* src/image.c
+	  src/image.h
+	  src/picture_viewer.c: Remove state-machine, breaks things
+
+2009-05-15  Stephan Arts <stephan@xfce.org>
+
 	* src/image.c
 	  src/image.h
 	  src/picture_viewer.c: Implement state-machine, do not expose weird

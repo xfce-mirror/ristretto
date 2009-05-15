@@ -1011,6 +1011,9 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
                                                     GTK_STOCK_OPEN, GTK_RESPONSE_OK,
                                                     NULL);
 
+    if (g_value_get_string (&current_uri_val))
+        gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), g_value_get_string (&current_uri_val));
+
     response = gtk_dialog_run(GTK_DIALOG(dialog));
     if(response == GTK_RESPONSE_OK)
     {
