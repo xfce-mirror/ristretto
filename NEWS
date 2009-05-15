@@ -1,3 +1,9 @@
+0.0.22
+======
+
+- Fix memleak (I should've unref-ed the animation-iter)
+- Improve cache size calculation
+
 0.0.21
 ======
 

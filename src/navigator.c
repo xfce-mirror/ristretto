@@ -358,7 +358,7 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
 
         if(entry->iter)
         {
-            gdk_pixbuf_unref(entry->iter);
+            g_object_unref(entry->iter);
             entry->iter = NULL;
         }
     }
@@ -945,8 +945,14 @@ rstto_navigator_entry_clear (RsttoNavigatorEntry *nav_entry)
     }
     if(nav_entry->src_pixbuf)
     {
-        gdk_pixbuf_unref(nav_entry->src_pixbuf);
+        g_object_unref(nav_entry->src_pixbuf);
         nav_entry->src_pixbuf = NULL;
+    }
+
+    if(nav_entry->iter)
+    {
+        g_object_unref (nav_entry->iter);
+        nav_entry->iter = NULL;
     }
 
 }
@@ -1133,7 +1139,8 @@ rstto_navigator_entry_get_size (RsttoNavigatorEntry *entry)
 
         n_channels = gdk_pixbuf_get_n_channels(entry->src_pixbuf);
 
-        size += (guint64) width * height * n_channels;
+        //size += (guint64) width * height * n_channels;
+        size += (guint64) width * height;
     }
     if (entry->thumb)
     {
@@ -1141,7 +1148,8 @@ rstto_navigator_entry_get_size (RsttoNavigatorEntry *entry)
         height = gdk_pixbuf_get_height(entry->thumb);
 
         n_channels = gdk_pixbuf_get_n_channels(entry->thumb);
-        size += (guint64) width * height * n_channels;
+        //size += (guint64) width * height * n_channels;
+        size += (guint64) width * height;
     }
     
     size += (guint64)sizeof (RsttoNavigatorEntry);

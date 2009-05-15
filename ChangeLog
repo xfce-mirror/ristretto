@@ -1,8 +1,230 @@
+2009-05-15 16:51  stephan
+
+	* src/navigator.c:
+	  Fix memleak
+
+2009-05-01 22:54  stephan
+
+	* src/navigator.c:
+	  Fix bug #4064
+
+2009-04-16 08:20  mmassonnet
+
+	* po/ChangeLog, po/gl.po:
+	  goodies translation update
+
+2009-03-19 15:08  hashimo
+
+	* po/ChangeLog, po/ja.po:
+	  * ja.po: Japanese translation update (Masato Hashimoto) * ja.po:
+	  Japanese translation update (Masato Hashimoto) * ja.po: Japanese
+	  translation update (Masato Hashimoto) * ja.po: Japanese
+	  translation update (Masato Hashimoto) * ja.po: Japanese
+	  translation update (Masato Hashimoto) * ja.po: Japanese
+	  translation update (Masato Hashimoto) * ja.po: Japanese
+	  translation update (Masato Hashimoto) * ja.po: Japanese
+	  translation update (Masato Hashimoto) * ja.po: Japanese
+	  translation update (Masato Hashimoto) * ja.po: Japanese
+	  translation update (Masato Hashimoto) * ja.po: Japanese
+	  translation update (Masato Hashimoto) * ja.po: Japanese
+	  translation update (Masato Hashimoto)
+
+2009-03-14 15:26  maximilian
+
+	* po/ChangeLog, po/gl.po, po/it.po:
+	  Translations updates - es fr gl it tr
+
+2009-03-05 20:12  mmassonnet
+
+	* po/nb.no, po/nb.po, po/pt.no, po/pt.po:
+	  Fix the renaming of the pt nb files -- thanks to jerome who
+	  noticed this problem
+
+2009-03-05 14:53  mmassonnet
+
+	* po/ChangeLog, po/LINGUAS, po/nb.no, po/nb_NO.po, po/pt.no,
+	  po/pt_PT.po:
+	  Renamed pt_PT to pt and nb_NO to nb (bug #4574)
+
+2009-03-01 22:48  maximilian
+
+	* po/ChangeLog, po/pl.po:
+	  Translations updates - es pl uk
+
+2009-02-08 08:24  maximilian
+
+	* po/ChangeLog, po/nb_NO.po, po/pl.po:
+	  Translations updates - fr id it ja nb pl
+
+2009-02-07 20:03  eulex
+
+	* po/ChangeLog, po/sv.po:
+	  xfce4-volstatus-icon/trunk/po: * sv.po: Swedish translation
+	  update (Daniel Nylander) xfburn/trunk/po: * sv.po: Swedish
+	  translation update (Daniel Nylander) xfce4-timer-plugin/trunk/po:
+	  * sv.po: Swedish translation update (Daniel Nylander)
+	  xfce4-clipman-plugin/trunk/po: * sv.po: Swedish translation
+	  update (Daniel Nylander) ristretto/trunk/po: * sv.po: Swedish
+	  translation update (Daniel Nylander) xfce4-mount-plugin/trunk/po:
+	  * sv.po: Swedish translation update (Daniel Nylander)
+	  notification-daemon-xfce/trunk/po: * sv.po: Swedish translation
+	  update (Daniel Nylander) xfce4-power-manager/trunk/po: * sv.po:
+	  Swedish translation update (Daniel Nylander)
+	  xfce4-cellmodem-plugin/trunk/po: * sv.po: Swedish translation
+	  update (Daniel Nylander) thunar-shares-plugin/trunk/po: * sv.po:
+	  Swedish translation update (Daniel Nylander)
+	  xfce4-battery-plugin/trunk/po: * sv.po: Swedish translation
+	  update (Daniel Nylander)
+
+2009-01-25 21:11  maximilian
+
+	* po/ChangeLog, po/ja.po:
+	  Translations updates - ja
+
+2009-01-19 21:08  stephan
+
+	* po/POTFILES.in:
+	  Fix POTFILES.in
+
+2009-01-18 17:54  maximilian
+
+	* po/ChangeLog, po/pt_PT.po:
+	  Translations updates - de ca it ja nb pt_PT tr
+
+2009-01-14 15:44  stephan
+
+	* src/main.c, src/main_window.h:
+	  Fix issue eht16 mentioned
+
+2009-01-12 23:30  eulex
+
+	* po/ChangeLog, po/LINGUAS, po/sv.po:
+	  thunar-svn-plugin/trunk/po: * sv.po, LINGUAS: Swedish translation
+	  added (Daniel Nylander) xfce4-cddrive-plugin/trunk/po: * sv.po,
+	  LINGUAS: Swedish translation added (Daniel Nylander)
+	  xfce4-weather-plugin/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander)
+	  xfce4-volstatus-icon/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander)
+	  xfce4-quicklauncher-plugin/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander) xfce4-timer-plugin/trunk/po:
+	  * sv.po, LINGUAS: Swedish translation added (Daniel Nylander)
+	  xfce4-clipman-plugin/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander)
+	  xfce4-diskperf-plugin/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander)
+	  xfce4-mailwatch-plugin/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander) ristretto/trunk/po: * sv.po,
+	  LINGUAS: Swedish translation added (Daniel Nylander)
+	  xfce4-sensors-plugin/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander) xfce4-mount-plugin/trunk/po:
+	  * sv.po, LINGUAS: Swedish translation added (Daniel Nylander)
+	  xfce4-genmon-plugin/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander) thunar-volman/trunk/po: *
+	  sv.po, LINGUAS: Swedish translation added (Daniel Nylander)
+	  notification-daemon-xfce/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander) xfce4-power-manager/trunk/po:
+	  * sv.po, LINGUAS: Swedish translation added (Daniel Nylander)
+	  xfce4-dict/trunk/po: * sv.po, LINGUAS: Swedish translation added
+	  (Daniel Nylander) xfce4-cellmodem-plugin/trunk/po: * sv.po,
+	  LINGUAS: Swedish translation added (Daniel Nylander)
+	  xfce4-battery-plugin/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander)
+
+2009-01-04 21:33  maximilian
+
+	* po/ChangeLog, po/pl.po:
+	  Translations updates - ca pl
+
+2009-01-02 12:10  stephan
+
+	* src/main.c:
+	  Fix compiler warning (thanx to jerome guelfucci)
+
+2008-12-25 19:20  maximilian
+
+	* po/ChangeLog, po/es.po, po/gl.po, po/id.po:
+	  Translations updates - es gl id ja uk
+
+2008-12-21 21:57  eulex
+
+	* po/ChangeLog, po/LINGUAS, po/sv.po:
+	  Sorry, my mistake. No translation was supposed to be added. My
+	  fault for experimenting, then forgetting about it. Hope it's
+	  acceptable to remove that entry from ChangeLog.
+
+2008-12-21 21:50  eulex
+
+	* po/ChangeLog, po/LINGUAS, po/sv.po:
+	  xfce4-xmms-plugin/trunk/po: * sv.po, LINGUAS: Swedish translation
+	  added (Daniel Nylander) xfce4-mpc-plugin/trunk/po: * sv.po,
+	  LINGUAS: Swedish translation added (Daniel Nylander)
+	  xfce4-notes-plugin/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander) ristretto/trunk/po: * sv.po,
+	  LINGUAS: Swedish translation added (Daniel Nylander)
+	  xfce4-cpugraph-plugin/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander)
+	  xfmedia-remote-plugin/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander)
+	  thunar-shares-plugin/trunk/po: * sv.po, LINGUAS: Swedish
+	  translation added (Daniel Nylander)
+
+2008-12-17 17:11  lars
+
+	* po/ChangeLog, po/da.po:
+	  update-po
+
+2008-12-13 22:08  maximilian
+
+	* po/fr.po:
+	  Translations updates - fr ja
+
+2008-12-13 14:34  maximilian
+
+	* po/ChangeLog, po/zh_CN.po:
+	  Translations updates - ja uk zh_CN
+
+2008-12-08 00:20  piarres
+
+	* po/eu.po:
+	  Updated ristretto Basque translation
+
+2008-12-07 18:35  piarres
+
+	* po/ChangeLog:
+	  Goodies Basque translation update
+
+2008-11-30 19:24  maximilian
+
+	* po/ChangeLog, po/ja.po:
+	  Translations updates - ja pt_PT
+
+2008-11-29 11:09  mmassonnet
+
+	* po/ChangeLog, po/fr.po:
+	  ristretto: update french translation
+
+2008-11-29 02:52  omaciel
+
+	* po/ChangeLog, po/pt_BR.po:
+	  Updated Brazilian Portuguese translations for
+	  xfce4-sensors-plugin, xfce4-screenshooter-plugin, and ristretto.
+
+2008-11-26 23:15  stephan
+
+	* ChangeLog, NEWS, configure.in.in, po/nl.po, src/main_window.c:
+	  Update changelog, NEWS, nl.po, configure.in.in and main_window.c
+
+2008-11-24 22:36  stephan
+
+	* src/main.c:
+	  Remove xfconf stuff
+
 2008-11-24 21:39  stephan
 
 	* src/navigator.c:
-	  Fix bug #4599
-	  Fixed based on patches by Jannis Pohlman and Pavol Rusnak
+	  Fix bug #4599 Fixed based on patches by Jannis Pohlman and Pavol
+	  Rusnak
 
 2008-11-24 00:07  stephan
 
@@ -13,8 +235,7 @@
 
 	* src/main_window.c, src/navigator.c, src/save_dialog.c,
 	  src/save_dialog.h:
-	  Improve save dialog
-	  Fix segfault (reference-count bug)
+	  Improve save dialog Fix segfault (reference-count bug)
 
 2008-11-23 23:02  piarres
 
@@ -30,9 +251,7 @@
 
 	* configure.in.in, src/Makefile.am, src/main.c, src/main_window.c,
 	  src/main_window.h, src/save_dialog.c:
-	  Remove xfconf dependency
-	  Replace -v with -V
-	  Remove YES_NO buttons
+	  Remove xfconf dependency Replace -v with -V Remove YES_NO buttons
 
 2008-11-21 14:04  majkl
 
@@ -68,9 +287,8 @@
 	  po/lv.po, po/nb_NO.po, po/nl.po, po/pl.po, po/pt_BR.po,
 	  po/pt_PT.po, po/ristretto.pot, po/ru.po, po/sk.po, po/tr.po,
 	  po/uk.po, po/ur.po, po/zh_CN.po:
-	  Update .po files
-	  Update .pot file
-	  Make 'xfce-desktop' support a default
+	  Update .po files Update .pot file Make 'xfce-desktop' support a
+	  default
 
 2008-11-09 23:17  maximilian
 
@@ -96,12 +314,10 @@
 
 	* po/ChangeLog, po/LINGUAS, po/es.po:
 	  Translation updates and additions for the Japanese and Spanish
-	  locales:
-	  xfce4-datetime-plugin, gsynaptics-mcs-plugin,
+	  locales: xfce4-datetime-plugin, gsynaptics-mcs-plugin,
 	  xfce4-volstatus-icon, xfce4-cpugraph-plugin,
-	  thunar-archive-plugin
-	  xfce4-battery-plugin, xfce4-mpc-plugin, ristretto,
-	  xfce4-cpufreq-plugin, notification-daemon-xfce
+	  thunar-archive-plugin xfce4-battery-plugin, xfce4-mpc-plugin,
+	  ristretto, xfce4-cpufreq-plugin, notification-daemon-xfce
 
 2008-10-14 14:45  lars
 
@@ -112,23 +328,6 @@
 
 	* po/ChangeLog, po/LINGUAS, po/da.po:
 	  * da.po, LINGUAS: Danish translation added (Per Kongstad)
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
 
 2008-10-09 08:55  stephan
 
@@ -166,9 +365,8 @@
 
 	* src/main.c, src/main_window.c, src/navigator.c:
 	  - Applied a slightly modified patch from Philip Guo <pg AT cs DOT
-	  stanford DOT edu> -- improves preloading
-	  - Fix compile-warning
-	  - Improved history behaviour (push 'old' images to the top when
+	  stanford DOT edu> -- improves preloading - Fix compile-warning -
+	  Improved history behaviour (push 'old' images to the top when
 	  they are visited again)
 
 2008-08-10 21:43  maximilian
@@ -270,8 +468,7 @@
 	  po/pt_BR.po, po/pt_PT.po, po/ristretto.pot, po/ru.po, po/sk.po,
 	  po/tr.po, po/ur.po, po/zh_CN.po, src/Makefile.am,
 	  src/main_window.c, src/save_dialog.c, src/save_dialog.h:
-	  Update .po files
-	  Add initial draft of the file-save dialog.
+	  Update .po files Add initial draft of the file-save dialog.
 
 2008-05-31 22:14  stephan
 
@@ -307,9 +504,7 @@
 2008-05-24 13:32  stephan
 
 	* ChangeLog, NEWS, configure.in.in:
-	  Pre-release version bump
-	  Update ChangeLog
-	  Update NEWS
+	  Pre-release version bump Update ChangeLog Update NEWS
 
 2008-05-24 13:08  stephan
 
@@ -317,9 +512,8 @@
 	  po/fr.po, po/hu.po, po/it.po, po/lv.po, po/nb_NO.po, po/nl.po,
 	  po/pt_BR.po, po/pt_PT.po, po/ristretto.pot, po/ru.po, po/tr.po,
 	  po/ur.po, po/zh_CN.po, ristretto.desktop.in, src/main_window.c:
-	  Fix looks of preference dialog.
-	  Fix .desktop file (Do not append generic name to the name field)
-	  Bug (#4085)
+	  Fix looks of preference dialog. Fix .desktop file (Do not append
+	  generic name to the name field) Bug (#4085)
 
 2008-05-24 12:02  mmassonnet
 
@@ -329,8 +523,7 @@
 2008-05-24 10:34  stephan
 
 	* ChangeLog, src/main_window.h:
-	  Update ChangeLog
-	  Fix compile issues with --enable-debug=full
+	  Update ChangeLog Fix compile issues with --enable-debug=full
 
 2008-05-24 10:17  stephan
 
@@ -338,8 +531,7 @@
 	  po/fr.po, po/hu.po, po/it.po, po/lv.po, po/nb_NO.po, po/nl.po,
 	  po/pt_BR.po, po/pt_PT.po, po/ristretto.pot, po/ru.po, po/tr.po,
 	  po/ur.po, po/zh_CN.po, src/main_window.c:
-	  Add 'Close All' menu item
-	  Update po-files
+	  Add 'Close All' menu item Update po-files
 
 2008-05-24 09:42  stephan
 
@@ -360,8 +552,8 @@
 
 	* src/main.c, src/main_window.c, src/main_window.h:
 	  Add commandline options for fullscreen and slideshow (Patch by
-	  Gauvain Pocentek <gauvainpocentek AT gmail DOT com>)
-	  (Fixes bug #4077)
+	  Gauvain Pocentek <gauvainpocentek AT gmail DOT com>) (Fixes bug
+	  #4077)
 
 2008-05-12 12:34  omaciel
 
@@ -392,8 +584,7 @@
 	  Add option to auto-hide thumbnail-bar when running a slideshow.
 	  
 	  Applied patch from Gauvain Pocentek <gauvainpocentek AT gmail DOT
-	  com>
-	  (Fixes bug #4076)
+	  com> (Fixes bug #4076)
 
 2008-05-10 11:50  mmassonnet
 
@@ -411,16 +602,14 @@
 	  po/el.po, po/fi.po, po/fr.po, po/hu.po, po/it.po, po/lv.po,
 	  po/nb_NO.po, po/nl.po, po/pt_BR.po, po/pt_PT.po,
 	  po/ristretto.pot, po/ru.po, po/tr.po, po/ur.po, po/zh_CN.po:
-	  Update .po-files
-	  Update ChangeLog
-	  Update NEWS file
-	  Update version number
+	  Update .po-files Update ChangeLog Update NEWS file Update version
+	  number
 
 2008-05-10 10:40  stephan
 
 	* src/main_window.c, src/thumbnail_bar.c:
-	  Fix bug with xfdesktop-detection
-	  Scroll-wheel doesn't change image anymore.
+	  Fix bug with xfdesktop-detection Scroll-wheel doesn't change
+	  image anymore.
 
 2008-05-06 22:20  stephan
 
@@ -447,8 +636,8 @@
 
 	* src/main.c, src/main_window.c, src/navigator.c, src/thumbnail.c,
 	  src/thumbnail_bar.c:
-	  Fix compile with --enable-debug=full
-	  Improve behaviour when setting the wallpaper in xfdesktop
+	  Fix compile with --enable-debug=full Improve behaviour when
+	  setting the wallpaper in xfdesktop
 
 2008-05-05 21:39  stephan
 
@@ -467,8 +656,7 @@
 	  po/pt_PT.po, po/ristretto.pot, po/ru.po, po/tr.po, po/ur.po,
 	  po/zh_CN.po, src/main.c, src/main_window.c, src/navigator.c,
 	  src/navigator.h:
-	  Update po-files
-	  Improve cache calculation
+	  Update po-files Improve cache calculation
 
 2008-04-23 23:16  stephan
 
@@ -524,10 +712,8 @@
 	  
 	  Add set-wallpaper menu-item and configure the callback to do so.
 	  
-	  TODO:
-	  - Improve the error-handling
-	  - Improve preferences dialog to enable/disable this feature when
-	  compiled in. :)
+	  TODO: - Improve the error-handling - Improve preferences dialog
+	  to enable/disable this feature when compiled in. :)
 
 2008-03-30 17:43  mmassonnet
 
@@ -644,8 +830,8 @@
 	* src/main.c:
 	  When closing ristretto while it is opening a folder with images,
 	  it wont crash inside the navigator-code. It will inside the
-	  main_window (iter_changed signal
-	  handler), one step further in fixing this.
+	  main_window (iter_changed signal handler), one step further in
+	  fixing this.
 
 2008-03-21 12:55  stephan
 
@@ -670,8 +856,7 @@
 2008-02-25 09:17  stephan
 
 	* ChangeLog, src/picture_viewer.c:
-	  Update ChangeLog
-	  modify drag_dest_set on picture_viewer
+	  Update ChangeLog modify drag_dest_set on picture_viewer
 
 2008-02-23 22:25  stephan
 
@@ -710,8 +895,7 @@
 2008-02-17 23:41  stephan
 
 	* src/main_window.c, src/picture_viewer.c:
-	  Improve zoom-box
-	  Improve behaviour when opening folders
+	  Improve zoom-box Improve behaviour when opening folders
 
 2008-02-17 11:54  stephan
 
@@ -721,9 +905,7 @@
 2008-02-17 11:53  stephan
 
 	* ChangeLog, NEWS, configure.in.in:
-	  Pre-release version bump
-	  Update ChangeLog
-	  Update NEWS
+	  Pre-release version bump Update ChangeLog Update NEWS
 
 2008-02-16 23:13  stephan
 
@@ -807,10 +989,8 @@
 
 	* ChangeLog, ristretto.desktop.in, src/thumbnail.c,
 	  src/thumbnail_bar.c:
-	  Fix desktop-file
-	  Modify thumbnail-bar (if i get the expose right... it should
-	  work, i think)
-	  Modify changelog
+	  Fix desktop-file Modify thumbnail-bar (if i get the expose
+	  right... it should work, i think) Modify changelog
 
 2008-01-28 19:46  stephan
 
@@ -932,8 +1112,7 @@
 	  po/it.po, po/lv.po, po/nb_NO.po, po/nl.po, po/pt_BR.po,
 	  po/ristretto.pot, po/ur.po, src/main.c, src/main_window.c,
 	  src/navigator.c, src/navigator.h:
-	  Update .po files
-	  Add cache configuration
+	  Update .po files Add cache configuration
 
 2008-01-12 09:35  stephan
 
@@ -953,9 +1132,8 @@
 2008-01-11 23:20  stephan
 
 	* src/navigator.c, src/thumbnail_bar.c:
-	  Add scrolling support to thumbnail_bar
-	  Add function to return the size of a pixbuf (in bytes) to the
-	  navigator
+	  Add scrolling support to thumbnail_bar Add function to return the
+	  size of a pixbuf (in bytes) to the navigator
 
 2008-01-11 15:16  stephan
 
@@ -997,8 +1175,8 @@
 
 	* po/Makevars, src/navigator.c, src/thumbnail.c,
 	  src/thumbnail_bar.c:
-	  Improve thumbnail-bar a bit more
-	  put xfce-i18n m/l in Makevars file
+	  Improve thumbnail-bar a bit more put xfce-i18n m/l in Makevars
+	  file
 
 2007-12-23 08:50  stephan
 
@@ -1034,8 +1212,7 @@
 
 	* ChangeLog, po/Makefile.in.in, src/navigator.c, src/navigator.h,
 	  src/thumbnail.c, src/thumbnail_bar.c:
-	  Update ChangeLog
-	  Improve the thumbnail-bar
+	  Update ChangeLog Improve the thumbnail-bar
 
 2007-12-17 21:55  stephan
 
@@ -1047,8 +1224,7 @@
 	* src/Makefile.am, src/main.c, src/navigator.c, src/navigator.h,
 	  src/thumbnail.c, src/thumbnail.h, src/thumbnail_bar.c,
 	  src/thumbnail_viewer.c, src/thumbnail_viewer.h:
-	  Remove thumbnail-viewer
-	  Allow toggle for thumbnails
+	  Remove thumbnail-viewer Allow toggle for thumbnails
 
 2007-12-17 20:46  stephan
 
@@ -1058,8 +1234,8 @@
 2007-12-16 13:16  stephan
 
 	* src/main_window.c, src/thumbnail.c, src/thumbnail_bar.c:
-	  - Some improvements to the thumbnail-bar
-	  - remove an obsolete line of code from the main_window
+	  - Some improvements to the thumbnail-bar - remove an obsolete
+	  line of code from the main_window
 
 2007-12-15 10:42  stephan
 
@@ -1155,14 +1331,12 @@
 2007-12-01 17:06  stephan
 
 	* ChangeLog, configure.in.in:
-	  Update changelog
-	  Pre-release version-bump
+	  Update changelog Pre-release version-bump
 
 2007-12-01 15:59  stephan
 
 	* ChangeLog, po/ChangeLog, po/de.po:
-	  Update ChangeLog
-	  Update german translation (by Christian Dywan)
+	  Update ChangeLog Update german translation (by Christian Dywan)
 
 2007-12-01 09:53  mmassonnet
 
@@ -1199,10 +1373,9 @@
 	  po/hu.po, po/lv.po, po/nb_NO.po, po/nl.po, po/pt_BR.po, po/ur.po,
 	  src/main.c, src/main_window.c, src/picture_viewer.c,
 	  src/thumbnail_viewer.c:
-	  Modify behaviour when opening files from CLI
-	  Fix bg-color stuff
-	  Improve the preferences dialog.
-	  Update dutch translation. (and the other .po files)
+	  Modify behaviour when opening files from CLI Fix bg-color stuff
+	  Improve the preferences dialog. Update dutch translation. (and
+	  the other .po files)
 
 2007-11-30 01:28  omaciel
 
@@ -1229,10 +1402,8 @@
 2007-11-27 18:32  stephan
 
 	* ChangeLog, src/main_window.c, src/navigator.c:
-	  Update ChangeLog
-	  Add shortcuts for rotating
-	  Fix thumbnail scaling when thumbnails are first generated (Bug
-	  #3693)
+	  Update ChangeLog Add shortcuts for rotating Fix thumbnail scaling
+	  when thumbnails are first generated (Bug #3693)
 
 2007-11-26 20:38  stephan
 
@@ -1293,9 +1464,8 @@
 
 	* configure.in.in, ristretto.desktop.in, src/picture_viewer.c:
 	  Remove some obsolete debug stuff (xdg-debug is allready defined)
-	  from configure.in.in
-	  Remove some depricated stuff from ristretto.desktop.in
-	  Fix segfault
+	  from configure.in.in Remove some depricated stuff from
+	  ristretto.desktop.in Fix segfault
 
 2007-11-25 10:27  stephan
 
@@ -1347,8 +1517,7 @@
 2007-11-17 13:28  stephan
 
 	* ChangeLog, configure.in.in:
-	  Pre release version bump
-	  ChangeLog update
+	  Pre release version bump ChangeLog update
 
 2007-11-17 13:19  stephan
 
@@ -1358,8 +1527,8 @@
 2007-11-17 13:18  stephan
 
 	* src/main.c, src/main_window.c:
-	  Fix open file from CLI
-	  Fix window-title (show correct nr of total images)
+	  Fix open file from CLI Fix window-title (show correct nr of total
+	  images)
 
 2007-11-17 12:46  stephan
 
@@ -1449,8 +1618,7 @@
 
 	* po/de.po, po/fi.po, po/fr.po, po/hu.po, po/nb_NO.po, po/nl.po,
 	  po/pk.po, po/ristretto.pot, src/thumbnail_viewer.c:
-	  Update po-files
-	  Add some comments to the thumbnail-viewer
+	  Update po-files Add some comments to the thumbnail-viewer
 
 2007-11-04 08:09  stephan
 
@@ -1488,8 +1656,7 @@
 2007-11-03 13:57  stephan
 
 	* ChangeLog, configure.in.in:
-	  Update ChangeLog
-	  pre-release version bump
+	  Update ChangeLog pre-release version bump
 
 2007-11-03 13:54  stephan
 
@@ -1500,14 +1667,12 @@
 
 	* po/de.po, po/fi.po, po/fr.po, po/hu.po, po/nb_NO.po, po/nl.po,
 	  po/pk.po, po/ristretto.pot, src/main_window.c:
-	  Improve preferences dialog
-	  fix strings
+	  Improve preferences dialog fix strings
 
 2007-11-03 08:04  stephan
 
 	* po/nl.po, src/navigator.c:
-	  Update dutch translation
-	  Fix segfault
+	  Update dutch translation Fix segfault
 
 2007-11-02 23:14  stephan
 
@@ -1523,8 +1688,7 @@
 2007-11-02 22:11  stephan
 
 	* src/main_window.c, src/navigator.c:
-	  Fix segfault
-	  add preload to preferences dialog
+	  Fix segfault add preload to preferences dialog
 
 2007-11-02 11:42  sas
 
@@ -1541,8 +1705,7 @@
 
 	* configure.in.in, src/Makefile.am, src/main.c, src/main_window.c,
 	  src/main_window.h, src/navigator.c, src/picture_viewer.c:
-	  Add preferences dialog
-	  add libxfcegui4 dependency
+	  Add preferences dialog add libxfcegui4 dependency
 
 2007-10-29 11:38  stephan
 
@@ -1566,8 +1729,8 @@
 	* po/ChangeLog, po/fr.po:
 	  * ristretto, xfce4-mount-plugin, xfce4-places-plugin,
 	  xfce4-rss-plugin, xfce4-sensors-plugin, xfce4-time-out-plugin,
-	  xfce4-volstatus-icon: Update french translation
-	  * thunar-svn-plugin, xfce4-smartpm-plugin: Add french translation
+	  xfce4-volstatus-icon: Update french translation *
+	  thunar-svn-plugin, xfce4-smartpm-plugin: Add french translation
 
 2007-10-21 07:41  stephan
 
@@ -1583,14 +1746,13 @@
 
 	* po/de.po, po/fi.po, po/fr.po, po/nb_NO.po, po/nl.po,
 	  po/ristretto.pot, src/picture_viewer.c:
-	  Update po files
-	  improve motion event handling on picture viewer
+	  Update po files improve motion event handling on picture viewer
 
 2007-10-20 11:52  stephan
 
 	* src/picture_viewer.c:
-	  Fix real-time update when moving the image around
-	  Remove mouse-wheel zoom, going to fix that later
+	  Fix real-time update when moving the image around Remove
+	  mouse-wheel zoom, going to fix that later
 
 2007-10-20 10:07  stephan
 
@@ -1631,8 +1793,7 @@
 2007-10-15 21:33  stephan
 
 	* ChangeLog, configure.in.in:
-	  Pre release version bump
-	  Update ChangeLog
+	  Pre release version bump Update ChangeLog
 
 2007-10-15 21:28  stephan
 
@@ -1695,8 +1856,8 @@
 2007-10-13 23:27  stephan
 
 	* src/picture_viewer.c:
-	  Improve memory usage for static images
-	  (needs some cleaning up though)
+	  Improve memory usage for static images (needs some cleaning up
+	  though)
 
 2007-10-13 23:12  stephan
 
@@ -1738,9 +1899,8 @@
 
 	* po/Makefile.in.in, src/navigator.c, src/navigator.h,
 	  src/picture_viewer.c:
-	  Fix rendering issue with picture viewer
-	  Fix EXIF rotation
-	  Fix memory leak
+	  Fix rendering issue with picture viewer Fix EXIF rotation Fix
+	  memory leak
 
 2007-10-09 20:38  stephan
 
@@ -1789,8 +1949,7 @@
 2007-09-30 11:44  stephan
 
 	* ChangeLog, configure.in.in:
-	  Update ChangeLog
-	  Bump version number for release (0.0.6)
+	  Update ChangeLog Bump version number for release (0.0.6)
 
 2007-09-30 09:27  stephan
 
@@ -1850,8 +2009,7 @@
 
 	* po/de.po, po/fi.po, po/fr.po, po/nb_NO.po, po/nl.po,
 	  po/ristretto.pot, src/main_window.c:
-	  Fix 'clear recent documents'
-	  Fix title in titlebar
+	  Fix 'clear recent documents' Fix title in titlebar
 
 2007-09-25 20:34  stephan
 
@@ -1899,8 +2057,7 @@
 2007-09-13 21:07  stephan
 
 	* ChangeLog, configure.in.in:
-	  Update ChangeLog
-	  Update version-number
+	  Update ChangeLog Update version-number
 
 2007-09-12 21:16  stephan
 
@@ -1925,8 +2082,8 @@
 2007-09-12 20:23  stephan
 
 	* po/ChangeLog, po/de.po, src/main.c:
-	  Update german translation (thanks to Christian Dywan)
-	  Fix other segfault
+	  Update german translation (thanks to Christian Dywan) Fix other
+	  segfault
 
 2007-09-12 20:20  stephan
 
@@ -1942,8 +2099,7 @@
 
 	* src/main.c, src/navigator.c:
 	  Fix the order in which the signals are send when removing images.
-	  (closing them)
-	  Fix sensitivity of close button
+	  (closing them) Fix sensitivity of close button
 
 2007-09-12 17:20  stephan
 
@@ -1960,8 +2116,8 @@
 2007-09-11 21:59  stephan
 
 	* src/main.c, src/navigator.c, src/picture_viewer.c:
-	  Fix closing of images
-	  Add a confirmation-dialog to the recently-used clear button
+	  Fix closing of images Add a confirmation-dialog to the
+	  recently-used clear button
 
 2007-09-10 20:47  stephan
 
@@ -2004,21 +2160,20 @@
 2007-09-08 14:24  stephan
 
 	* ChangeLog, src/main.c:
-	  Update Changelog
-	  place clear-code behind a timeout (now nobody notices it takes
-	  time)
+	  Update Changelog place clear-code behind a timeout (now nobody
+	  notices it takes time)
 
 2007-09-08 14:05  stephan
 
 	* ristretto.desktop.in, src/main.c:
-	  Improve .desktop file (fix max's bug)
-	  Allow ristretto to open multiple files from the cli
+	  Improve .desktop file (fix max's bug) Allow ristretto to open
+	  multiple files from the cli
 
 2007-09-08 13:56  stephan
 
 	* po/de.po, src/main.c:
-	  Fix a bug in german translation
-	  Fix clear (should be both fast and usefull now)
+	  Fix a bug in german translation Fix clear (should be both fast
+	  and usefull now)
 
 2007-09-08 13:42  stephan
 
@@ -2030,22 +2185,19 @@
 
 	* README, po/ChangeLog, po/de.po, po/fr.po, po/nb_NO.po, po/nl.po,
 	  po/ristretto.pot, src/main.c:
-	  Update readme
-	  Update german translation
-	  Update dutch translation
+	  Update readme Update german translation Update dutch translation
 	  Update mnemonic for menu-item
 
 2007-09-08 10:58  stephan
 
 	* src/main.c, src/navigator.c, src/navigator.h:
-	  Add option to configure slideshow timeout
-	  (only in config-file for now)
+	  Add option to configure slideshow timeout (only in config-file
+	  for now)
 
 2007-09-08 10:43  stephan
 
 	* ChangeLog, src/main.c:
-	  Update ChangeLog
-	  Fix toggling slideshow when fullscreen
+	  Update ChangeLog Fix toggling slideshow when fullscreen
 
 2007-09-08 10:27  stephan
 
@@ -2078,8 +2230,8 @@
 2007-09-04 17:46  stephan
 
 	* src/main.c, src/thumbnail_viewer.c:
-	  Applied patch from Mike Massonnet (Bug #3529)
-	  Fixed floating-point-exception in thumbnail-viewer.
+	  Applied patch from Mike Massonnet (Bug #3529) Fixed
+	  floating-point-exception in thumbnail-viewer.
 
 2007-09-03 18:36  stephan
 
@@ -2096,14 +2248,14 @@
 2007-09-03 17:20  stephan
 
 	* src/main.c, src/navigator.c:
-	  Page-Up/Page-Down no longer skip an entry.
-	  replaced check with an assertion.
+	  Page-Up/Page-Down no longer skip an entry. replaced check with an
+	  assertion.
 
 2007-09-03 16:44  stephan
 
 	* po/ChangeLog, po/de.po, src/navigator.c:
-	  Update german translation (thanks to Christian Dywan)
-	  Applied patch from Mike Massonnet (fixes bug #3527)
+	  Update german translation (thanks to Christian Dywan) Applied
+	  patch from Mike Massonnet (fixes bug #3527)
 
 2007-09-02 21:21  stephan
 
@@ -2123,8 +2275,8 @@
 2007-09-02 12:44  mmassonnet
 
 	* po/ChangeLog, po/fr.po:
-	  * Update french translation.
-	  * Fix ChangeLog with last addition of nb_NO translation.
+	  * Update french translation. * Fix ChangeLog with last addition
+	  of nb_NO translation.
 
 2007-09-02 12:07  stephan
 
@@ -2145,8 +2297,8 @@
 2007-09-02 06:51  stephan
 
 	* src/main.c, src/picture_viewer.c:
-	  Zoom to mouse-pointer on PictureViewer
-	  Do not set zoom-fit when fullscreen
+	  Zoom to mouse-pointer on PictureViewer Do not set zoom-fit when
+	  fullscreen
 
 2007-09-01 14:23  stephan
 
@@ -2165,8 +2317,7 @@
 	  src/main.c, src/navigator.c, src/picture_viewer.c,
 	  src/thumbnail_viewer.c:
 	  Modify ChangeLog (i really should take a look at it prior to
-	  releases)
-	  Fix some bugs with the thumbnail viewer
+	  releases) Fix some bugs with the thumbnail viewer
 
 2007-08-30 15:05  stephan
 
@@ -2188,8 +2339,7 @@
 2007-08-29 22:36  stephan
 
 	* Makefile.am, configure.in.in:
-	  Fix make distcheck
-	  Pre-release version-bump
+	  Fix make distcheck Pre-release version-bump
 
 2007-08-29 22:29  stephan
 
@@ -2204,16 +2354,16 @@
 2007-08-29 19:22  stephan
 
 	* depcomp, gettext.h, po/de.po, stamp-h.in:
-	  Remove other autogenerated files from svn
-	  Fixed bug in german translation
+	  Remove other autogenerated files from svn Fixed bug in german
+	  translation
 
 2007-08-29 19:19  stephan
 
 	* aclocal.m4, compile, config.h.in, intltool-extract.in,
 	  intltool-merge.in, intltool-update.in, mkinstalldirs,
 	  src/thumbnail_viewer.c:
-	  Remove autogenerated files from svn
-	  Remove obsolete includes from thumbnail-viewer
+	  Remove autogenerated files from svn Remove obsolete includes from
+	  thumbnail-viewer
 
 2007-08-29 18:42  stephan
 
@@ -2234,14 +2384,11 @@
 	  icons/36x36/ristretto.png, icons/Makefile.am, po/ChangeLog,
 	  po/POTFILES.in, po/de.po, po/fr.po, po/nl.po, po/ristretto.pot,
 	  src/navigator.c, src/picture_viewer.c:
-	  Updated .po files
-	  Updated Dutch and German translations
-	  Added Mike to the translator-credits field of the french
-	  translation
-	  Fixed scaling bugs of the picture-viewer.
-	  Added missing icons for 22x22, 24x24, 32x32 and 36x36pixels
-	  Updated ChangeLog
-	  Started on README
+	  Updated .po files Updated Dutch and German translations Added
+	  Mike to the translator-credits field of the french translation
+	  Fixed scaling bugs of the picture-viewer. Added missing icons for
+	  22x22, 24x24, 32x32 and 36x36pixels Updated ChangeLog Started on
+	  README
 
 2007-08-28 05:38  stephan
 
@@ -2277,10 +2424,9 @@
 2007-08-26 22:56  stephan
 
 	* src/main.c, src/thumbnail_viewer.c:
-	  Fixed image-navigation with mouse-wheel.
-	  Fixed backward-scrolling in thumbnail-viewer.
-	  Fixed image-navigation with space / backspace. (does not work
-	  well with the toolbar buttons though)
+	  Fixed image-navigation with mouse-wheel. Fixed backward-scrolling
+	  in thumbnail-viewer. Fixed image-navigation with space /
+	  backspace. (does not work well with the toolbar buttons though)
 
 2007-08-26 02:10  mmassonnet
 
@@ -2425,7 +2571,6 @@
 
 	* src/main.c:
 	  tool-button opens dir
-	  
 
 2007-08-20 10:57  stephan
 
@@ -2496,8 +2641,7 @@
 	  src/picture_viewer.c, src/picture_viewer.h,
 	  src/thumbnail_viewer.c, src/thumbnail_viewer.h:
 	  Please do not mind the memory-leak, cached pictures are not
-	  cleaned up yet.
-	  Stuff should work a bit better now.
+	  cleaned up yet. Stuff should work a bit better now.
 
 2007-08-19 12:39  stephan
 
@@ -2607,8 +2751,7 @@
 
 	* po/fr.po, po/nl.po, po/ristretto.pot, src/main.c,
 	  src/navigator.c, src/navigator.h:
-	  Add Flip support
-	  Update po files
+	  Add Flip support Update po files
 
 2007-08-08 15:46  stephan
 
@@ -2628,15 +2771,14 @@
 2007-08-07 18:21  stephan
 
 	* po/fr.po, po/nl.po, po/ristretto.pot, src/main.c:
-	  Add slideshow support
-	  Add menu-items to navigate the images
+	  Add slideshow support Add menu-items to navigate the images
 	  Update the dutch translations (and the po(t) files)
 
 2007-08-07 17:36  stephan
 
 	* src/main.c, src/navigator.c, src/navigator.h:
-	  Add First and Last navigation options
-	  Allow navigation to First and Last using Home and End buttons
+	  Add First and Last navigation options Allow navigation to First
+	  and Last using Home and End buttons
 
 2007-08-07 17:25  stephan
 
@@ -2735,8 +2877,8 @@
 
 	* icons/16x16/ristretto.png, icons/48x48/ristretto.png,
 	  icons/scalable/ristretto.svg, src/main.c:
-	  Modified icon a bit
-	  Changed shortcuts (page-up/down instead of left-right)
+	  Modified icon a bit Changed shortcuts (page-up/down instead of
+	  left-right)
 
 2007-08-02 11:48  stephan
 
@@ -2755,8 +2897,7 @@
 2007-08-02 08:04  stephan
 
 	* src/main.c, src/picture_viewer.c:
-	  Fixed funky-indent
-	  Added keyboard-shortcuts.
+	  Fixed funky-indent Added keyboard-shortcuts.
 
 2007-07-31 22:27  stephan
 
@@ -2791,9 +2932,8 @@
 2007-07-30 22:14  stephan
 
 	* po/nl.po, po/ristretto.pot, src/main.c, src/navigator.c:
-	  Update Dutch translation
-	  Add Open Folder button to file menu.
-	  Add image media filter to navigator class.
+	  Update Dutch translation Add Open Folder button to file menu. Add
+	  image media filter to navigator class.
 
 2007-07-30 22:00  stephan
 
@@ -2819,17 +2959,15 @@
 2007-07-24 10:30  stephan
 
 	* src/main.c, src/picture_viewer.c, src/picture_viewer.h:
-	  Moved the navigation-code to the picture-viewer.
-	  (Might be better to place that inside a separate navigator-widget
-	  though)
+	  Moved the navigation-code to the picture-viewer. (Might be better
+	  to place that inside a separate navigator-widget though)
 
 2007-07-23 21:53  stephan
 
 	* aclocal.m4, intltool-update.in, src/main.c:
 	  Can open a folder from the command-line (and display it's
-	  contents)
-	  Remove files from the content-list which can not be opened.
-	  Display appropriate error message
+	  contents) Remove files from the content-list which can not be
+	  opened. Display appropriate error message
 
 2007-07-16 11:51  stephan
 
@@ -2850,8 +2988,8 @@
 
 	* configure.in.in, src/Makefile.am, src/main.c,
 	  src/picture_viewer.c:
-	  Add forward and backward buttons (for manual slideshow)
-	  Add border-line drawing to picture-viewer widget
+	  Add forward and backward buttons (for manual slideshow) Add
+	  border-line drawing to picture-viewer widget
 
 2007-07-13 11:02  stephan
 
@@ -2867,8 +3005,7 @@
 2007-07-13 07:08  stephan
 
 	* Makefile.am, src/main.c:
-	  Fix make distcheck
-	  Fix i18n
+	  Fix make distcheck Fix i18n
 
 2007-07-12 23:11  stephan
 
@@ -2881,11 +3018,8 @@
 	  intltool-merge.in, intltool-update.in, po/ChangeLog, po/LINGUAS,
 	  po/Makefile.in.in, po/Makevars, po/nl.po, po/ristretto.pot,
 	  src/main.c, src/picture_viewer.c:
-	  Fix i18n
-	  Add 'open' button
-	  Add Dutch translation
-	  Add ChangeLog to po directory
-	  Fix email adress in po/Makevars
+	  Fix i18n Add 'open' button Add Dutch translation Add ChangeLog to
+	  po directory Fix email adress in po/Makevars
 
 2007-02-04 15:39  stephan
 
@@ -2896,10 +3030,9 @@
 
 	* Makefile.am, ristretto.desktop.in, src/main.c,
 	  src/picture_viewer.c, src/picture_viewer.h:
-	  Reduced zoom factor to 20%
-	  Fit-to-window does not happen real-time anymore (increase
-	  performance)
-	  added mime-types to .desktop file
+	  Reduced zoom factor to 20% Fit-to-window does not happen
+	  real-time anymore (increase performance) added mime-types to
+	  .desktop file
 
 2007-02-02 22:38  stephan
 
@@ -2957,10 +3090,9 @@
 2006-12-28 00:54  stephan
 
 	* src/picture_viewer.c, src/picture_viewer.h:
-	  Changed interpolation type
-	  Fixed GtkAdjustment config on size-allocation
-	  Fixed scaling issue with resizing -- it couldn't scale on half
-	  pixels (half pixel in source pixbuf) if nessecary
+	  Changed interpolation type Fixed GtkAdjustment config on
+	  size-allocation Fixed scaling issue with resizing -- it couldn't
+	  scale on half pixels (half pixel in source pixbuf) if nessecary
 
 2006-12-18 11:22  stephan
 
