@@ -344,7 +344,6 @@ cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *re
         if(gdk_pixbuf_loader_write (image->priv->loader, (const guchar *)image->priv->buffer, read_bytes, &error) == FALSE)
         {
             g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
-            image->priv->loader = NULL;
             g_object_unref (image);
         }
         else
@@ -365,7 +364,6 @@ cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *re
             /* OK */
             g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
             gdk_pixbuf_loader_close (image->priv->loader, NULL);
-            image->priv->loader = NULL;
             g_object_unref (image);
         }
         else
@@ -373,7 +371,6 @@ cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *re
             /* I/O ERROR */
             g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
             gdk_pixbuf_loader_close (image->priv->loader, NULL);
-            image->priv->loader = NULL;
             g_object_unref (image);
         }
     }
@@ -460,6 +457,37 @@ rstto_image_unload (RsttoImage *image)
     {
         g_object_unref (image->priv->pixbuf);
         image->priv->pixbuf = NULL;
+    }
+
+    if (image->priv->thumbnail)
+    {
+        g_object_unref (image->priv->thumbnail);
+        image->priv->thumbnail = NULL;
+    }
+
+    if (image->priv->animation_timeout_id)
+    {
+        g_source_remove (image->priv->animation_timeout_id);
+        image->priv->animation_timeout_id = 0;
+    }
+
+    if (image->priv->animation)
+    {
+        g_object_unref (image->priv->animation);
+        image->priv->animation = NULL;
+    }
+
+    if (image->priv->iter)
+    {
+        g_object_unref (image->priv->iter);
+        image->priv->iter = NULL;
+    }
+
+    if (image->priv->transformations)
+    {
+        g_list_foreach (image->priv->transformations, (GFunc)g_object_unref, NULL);
+        g_list_free (image->priv->transformations);
+        image->priv->transformations = NULL;
     }
 
     rstto_image_set_state (image, RSTTO_IMAGE_STATE_DEFAULT);
@@ -711,21 +739,8 @@ cb_rstto_image_area_prepared (GdkPixbufLoader *loader, RsttoImage *image)
     }   
     else
     {
-        image->priv->iter = NULL;
-    }
-
-    if (image->priv->iter)
-    {
         image->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (image->priv->iter);
         g_object_ref (image->priv->pixbuf);
-    }
-    else
-    {
-        if (image->priv->loader)
-        {
-            image->priv->pixbuf = gdk_pixbuf_loader_get_pixbuf (image->priv->loader);
-            g_object_ref (image->priv->pixbuf);
-        }
     }
 }
 

@@ -1,3 +1,11 @@
+2009-05-15  Stephan Arts <stephan@xfce.org>
+
+	* src/image.c
+	  src/image.h
+	  src/picture_viewer.c: Implement state-machine, do not expose weird
+	  signals
+	* src/image.c: Unref animation_iter, fix memleak
+
 2009-05-02  Stephan Arts <stephan@xfce.org>
 
 	* src/image_cache.c: Remove images which return size=0 from the cache,
