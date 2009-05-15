@@ -816,10 +816,9 @@ rstto_image_get_size (RsttoImage *image)
     GdkPixbuf *pixbuf = rstto_image_get_pixbuf (image);
     if (pixbuf)
     {
-        gint n_channels = gdk_pixbuf_get_n_channels (pixbuf);
         gint rowstride = gdk_pixbuf_get_rowstride (pixbuf);
         gint height = gdk_pixbuf_get_height (pixbuf);
-        return rowstride * height *n_channels;
+        return rowstride * height;
     }
     return 0;
 }
