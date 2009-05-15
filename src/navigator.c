@@ -352,8 +352,14 @@ rstto_navigator_guard_history(RsttoNavigator *navigator, RsttoNavigatorEntry *en
 
         if(entry->src_pixbuf)
         {
-            gdk_pixbuf_unref(entry->src_pixbuf);
+            g_object_unref(entry->src_pixbuf);
             entry->src_pixbuf = NULL;
+        }
+
+        if(entry->iter)
+        {
+            gdk_pixbuf_unref(entry->iter);
+            entry->iter = NULL;
         }
     }
 
