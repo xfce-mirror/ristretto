@@ -1394,7 +1394,7 @@ cb_rstto_main_window_preferences(GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *cache_label;
     GtkWidget *cache_mb_label;
 
-    cache_adjustment = gtk_adjustment_new(rstto_main_window_get_max_cache_size(window), 0, 9999, 1, 100, 100);
+    cache_adjustment = gtk_adjustment_new(rstto_main_window_get_max_cache_size(window), 0, 9999, 1, 100, 0);
 
     GtkWidget *dialog = xfce_titled_dialog_new_with_buttons(_("Image viewer Preferences"),
                                                     GTK_WINDOW(window),
