@@ -4,8 +4,6 @@ ristretto_SOURCES = \
 	navigator.c navigator.h \
 	image.c image.h \
 	image_cache.c image_cache.h \
-	image_transformation.c image_transformation.h \
-	image_transform_orientation.c image_transform_orientation.h \
 	picture_viewer.c picture_viewer.h \
 	settings.c settings.h \
 	preferences_dialog.h preferences_dialog.c \
@@ -27,7 +25,7 @@ ristretto_CFLAGS = \
 	$(LIBXFCEGUI4_CFLAGS) \
 	-DDATADIR=\"$(datadir)\" \
 	-DSRCDIR=\"$(top_srcdir)\" \
-	-DLOCALEDIR=\"$(localedir)\"
+	-DLOCALEDIR=\"$(localedir)\" -pg
  
 ristretto_LDADD = \
 	$(GTK_LIBS) \

@@ -730,8 +730,18 @@ rstto_picture_viewer_calculate_scale (RsttoPictureViewer *viewer)
 
     if (viewer->priv->image != NULL)
     {   
-        width = rstto_image_get_width (viewer->priv->image);
-        height = rstto_image_get_height (viewer->priv->image);
+        switch(rstto_image_get_orientation (viewer->priv->image))
+        {
+            default:
+                width = rstto_image_get_width (viewer->priv->image);
+                height = rstto_image_get_height (viewer->priv->image);
+                break;
+            case RSTTO_IMAGE_ORIENT_270:
+            case RSTTO_IMAGE_ORIENT_90:
+                height = rstto_image_get_width (viewer->priv->image);
+                width = rstto_image_get_height (viewer->priv->image);
+                break;
+        }
     }
 
     if (width > 0 && height > 0)
@@ -883,42 +893,85 @@ rstto_picture_viewer_calculate_adjustments (RsttoPictureViewer *viewer, gdouble 
 
             image_scale = pixbuf_width / image_width;
 
-
-            if(viewer->hadjustment)
+            switch (rstto_image_get_orientation (viewer->priv->image))
             {
-                viewer->hadjustment->page_size = widget->allocation.width / image_scale;
-                viewer->hadjustment->upper = image_width * (scale / image_scale);
-                viewer->hadjustment->lower = 0;
-                viewer->hadjustment->step_increment = 1;
-                viewer->hadjustment->page_increment = 100;
-                if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
-                {
-                    viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
-                    hadjustment_changed = TRUE;
-                }
-                if(viewer->hadjustment->value < viewer->hadjustment->lower)
-                {
-                    viewer->hadjustment->value = viewer->hadjustment->lower;
-                    hadjustment_changed = TRUE;
-                }
-            }
-            if(viewer->vadjustment)
-            {
-                viewer->vadjustment->page_size = widget->allocation.height / image_scale;
-                viewer->vadjustment->upper = image_height * (scale / image_scale);
-                viewer->vadjustment->lower = 0;
-                viewer->vadjustment->step_increment = 1;
-                viewer->vadjustment->page_increment = 100;
-                if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
-                {
-                    viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
-                    vadjustment_changed = TRUE;
-                }
-                if(viewer->vadjustment->value < viewer->vadjustment->lower)
-                {
-                    viewer->vadjustment->value = viewer->vadjustment->lower;
-                    vadjustment_changed = TRUE;
-                }
+                default:
+                    if(viewer->hadjustment)
+                    {
+                        viewer->hadjustment->page_size = widget->allocation.width / image_scale;
+                        viewer->hadjustment->upper = image_width * (scale / image_scale);
+                        viewer->hadjustment->lower = 0;
+                        viewer->hadjustment->step_increment = 1;
+                        viewer->hadjustment->page_increment = 100;
+                        if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+                        {
+                            viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+                            hadjustment_changed = TRUE;
+                        }
+                        if(viewer->hadjustment->value < viewer->hadjustment->lower)
+                        {
+                            viewer->hadjustment->value = viewer->hadjustment->lower;
+                            hadjustment_changed = TRUE;
+                        }
+                    }
+                    if(viewer->vadjustment)
+                    {
+                        viewer->vadjustment->page_size = widget->allocation.height / image_scale;
+                        viewer->vadjustment->upper = image_height * (scale / image_scale);
+                        viewer->vadjustment->lower = 0;
+                        viewer->vadjustment->step_increment = 1;
+                        viewer->vadjustment->page_increment = 100;
+                        if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+                        {
+                            viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+                            vadjustment_changed = TRUE;
+                        }
+                        if(viewer->vadjustment->value < viewer->vadjustment->lower)
+                        {
+                            viewer->vadjustment->value = viewer->vadjustment->lower;
+                            vadjustment_changed = TRUE;
+                        }
+                    }
+                    break;
+                case RSTTO_IMAGE_ORIENT_270:
+                case RSTTO_IMAGE_ORIENT_90:
+                    if(viewer->hadjustment)
+                    {
+                        viewer->hadjustment->page_size = widget->allocation.width / image_scale;
+                        viewer->hadjustment->upper = image_height * (scale / image_scale);
+                        viewer->hadjustment->lower = 0;
+                        viewer->hadjustment->step_increment = 1;
+                        viewer->hadjustment->page_increment = 100;
+                        if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+                        {
+                            viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+                            hadjustment_changed = TRUE;
+                        }
+                        if(viewer->hadjustment->value < viewer->hadjustment->lower)
+                        {
+                            viewer->hadjustment->value = viewer->hadjustment->lower;
+                            hadjustment_changed = TRUE;
+                        }
+                    }
+                    if(viewer->vadjustment)
+                    {
+                        viewer->vadjustment->page_size = widget->allocation.height / image_scale;
+                        viewer->vadjustment->upper = image_width * (scale / image_scale);
+                        viewer->vadjustment->lower = 0;
+                        viewer->vadjustment->step_increment = 1;
+                        viewer->vadjustment->page_increment = 100;
+                        if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+                        {
+                            viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+                            vadjustment_changed = TRUE;
+                        }
+                        if(viewer->vadjustment->value < viewer->vadjustment->lower)
+                        {
+                            viewer->vadjustment->value = viewer->vadjustment->lower;
+                            vadjustment_changed = TRUE;
+                        }
+                    }
+                    break;
             }
 
             if (viewer->vadjustment && viewer->hadjustment)
@@ -956,6 +1009,7 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
 {
     GdkPixbuf *p_src_pixbuf = NULL;
     GdkPixbuf *p_tmp_pixbuf = NULL;
+    GdkPixbuf *p_tmp_pixbuf2 = NULL;
     gdouble *p_scale = NULL;
     gboolean *p_fit_to_screen= NULL;
     gdouble scale = 1;
@@ -981,17 +1035,6 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                     pixbuf_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
                     pixbuf_height = (gdouble)gdk_pixbuf_get_height (p_src_pixbuf);
 
-                    /** HACK HACK HACK
-                      * Because the image-dimensions do not get modified when the image is rotated,
-                      * we have to check here... and fix it ourselves
-                      */
-                    if ((((pixbuf_width / pixbuf_height) > 1) && ((image_width / image_height < 1))) ||
-                        (((pixbuf_width / pixbuf_height) < 1) && ((image_width / image_height > 1))))
-                    {
-                        gdouble tmp_width = image_width;
-                        image_width = image_height;
-                        image_height = tmp_width;
-                    }
                     image_scale = pixbuf_width / image_width;
                 }
                 break;
@@ -1000,17 +1043,6 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                 if (p_src_pixbuf)
                 {
                     thumb_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
-                    /** HACK HACK HACK
-                      * Because the image-dimensions do not get modified when the image is rotated,
-                      * we have to check here... and fix it ourselves
-                      */
-                    if ((((pixbuf_width / pixbuf_height) > 1) && ((image_width / image_height < 1))) ||
-                        (((pixbuf_width / pixbuf_height) < 1) && ((image_width / image_height > 1))))
-                    {
-                        gdouble tmp_width = image_width;
-                        image_width = image_height;
-                        image_height = tmp_width;
-                    }
                     thumb_scale = (thumb_width / image_width);
                 }
                 else
@@ -1046,10 +1078,76 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
         }
         if (p_src_pixbuf)
         {
+            gdouble x, y;
+
+            switch (rstto_image_get_orientation (viewer->priv->image))
+            {
+                default:
+                case RSTTO_IMAGE_ORIENT_NONE:
+                    x = viewer->hadjustment->value * image_scale;
+                    y = viewer->vadjustment->value * image_scale;
+                    p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
+                                               (gint)(x/scale * thumb_scale * image_scale), 
+                                               (gint)(y/scale * thumb_scale * image_scale),
+                                               (gint)((widget->allocation.width / scale) < image_width?
+                                                      (widget->allocation.width / scale)*thumb_scale*image_scale:image_width*thumb_scale*image_scale),
+                                               (gint)((widget->allocation.height / scale) < image_height?
+                                                      (widget->allocation.height / scale)*image_scale*thumb_scale:image_height*thumb_scale*image_scale));
+                    break;
+                case RSTTO_IMAGE_ORIENT_90:
+                    x = viewer->vadjustment->value * image_scale;
+                    y = (viewer->hadjustment->upper - (viewer->hadjustment->value + viewer->hadjustment->page_size)) * image_scale;
+                    if (y < 0) y = 0;
+                    //y = viewer->hadjustment->value * image_scale;
+                    p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
+                                               (gint)(x/scale * thumb_scale * image_scale), 
+                                               (gint)(y/scale * thumb_scale * image_scale),
+                                               (gint)((widget->allocation.height/ scale) < image_width?
+                                                      (widget->allocation.height/ scale)*thumb_scale*image_scale:image_width*thumb_scale*image_scale),
+                                               (gint)((widget->allocation.width/ scale) < image_height?
+                                                      (widget->allocation.width/ scale)*image_scale*thumb_scale:image_height*thumb_scale*image_scale));
+                    p_tmp_pixbuf2 = gdk_pixbuf_rotate_simple (p_tmp_pixbuf, GDK_PIXBUF_ROTATE_CLOCKWISE);
+                    g_object_unref (p_tmp_pixbuf);
+                    p_tmp_pixbuf = p_tmp_pixbuf2;
+                    break;
+                case RSTTO_IMAGE_ORIENT_180:
+                    x = (viewer->vadjustment->upper - (viewer->vadjustment->value + viewer->vadjustment->page_size)) * image_scale;
+                    if (x < 0) x = 0;
+                    y = (viewer->hadjustment->upper - (viewer->hadjustment->value + viewer->hadjustment->page_size)) * image_scale;
+                    if (y < 0) y = 0;
+                    //y = viewer->hadjustment->value * image_scale;
+                    p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
+                                               (gint)(x/scale * thumb_scale * image_scale), 
+                                               (gint)(y/scale * thumb_scale * image_scale),
+                                               (gint)((widget->allocation.height/ scale) < image_width?
+                                                      (widget->allocation.height/ scale)*thumb_scale*image_scale:image_width*thumb_scale*image_scale),
+                                               (gint)((widget->allocation.width/ scale) < image_height?
+                                                      (widget->allocation.width/ scale)*image_scale*thumb_scale:image_height*thumb_scale*image_scale));
+                    p_tmp_pixbuf2 = gdk_pixbuf_rotate_simple (p_tmp_pixbuf, GDK_PIXBUF_ROTATE_UPSIDEDOWN);
+                    g_object_unref (p_tmp_pixbuf);
+                    p_tmp_pixbuf = p_tmp_pixbuf2;
+                    break;
+                case RSTTO_IMAGE_ORIENT_270:
+                    x = (viewer->vadjustment->upper - (viewer->vadjustment->value + viewer->vadjustment->page_size)) * image_scale;
+                    if (x < 0) x = 0;
+                    y = viewer->hadjustment->value * image_scale;
+                    p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
+                                               (gint)(x/scale * thumb_scale * image_scale), 
+                                               (gint)(y/scale * thumb_scale * image_scale),
+                                               (gint)((widget->allocation.height/ scale) < image_width?
+                                                      (widget->allocation.height/ scale)*thumb_scale*image_scale:image_width*thumb_scale*image_scale),
+                                               (gint)((widget->allocation.width/ scale) < image_height?
+                                                      (widget->allocation.width/ scale)*image_scale*thumb_scale:image_height*thumb_scale*image_scale));
+                    p_tmp_pixbuf2 = gdk_pixbuf_rotate_simple (p_tmp_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
+                    g_object_unref (p_tmp_pixbuf);
+                    p_tmp_pixbuf = p_tmp_pixbuf2;
+                    break;
+            }
             /**
              *  tmp_scale is the factor between the original image and the thumbnail,
              *  when looking at the actual image, tmp_scale == 1.0
              */
+            /*
             gdouble x = viewer->hadjustment->value * image_scale;
             gdouble y = viewer->vadjustment->value * image_scale;
 
@@ -1060,6 +1158,7 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                                                       (widget->allocation.width / scale)*thumb_scale*image_scale:image_width*thumb_scale*image_scale),
                                                (gint)((widget->allocation.height / scale) < image_height?
                                                       (widget->allocation.height / scale)*image_scale*thumb_scale:image_height*thumb_scale*image_scale));
+            */
 
             if(p_tmp_pixbuf)
             {

@@ -28,8 +28,6 @@
 
 #include "image.h"
 #include "image_cache.h"
-#include "image_transformation.h"
-#include "image_transform_orientation.h"
 
 #ifndef RSTTO_IMAGE_BUFFER_SIZE
 /* #define RSTTO_IMAGE_BUFFER_SIZE 1024 */
@@ -108,6 +106,7 @@ struct _RsttoImagePriv
 
     /* Image data */
     /**************/
+    RsttoImageOrientation orientation;
     GdkPixbufLoader *loader;
     ExifData *exif_data;
     GdkPixbuf *thumbnail;
@@ -119,8 +118,6 @@ struct _RsttoImagePriv
     GdkPixbufAnimation  *animation;
     GdkPixbufAnimationIter *iter;
     gint    animation_timeout_id;
-
-    GList *transformations;
 };
 
 
@@ -210,13 +207,6 @@ rstto_image_dispose (GObject *object)
         image->priv->pixbuf = NULL;
     }
 
-    if (image->priv->transformations)
-    {
-        g_list_foreach (image->priv->transformations, (GFunc)g_object_unref, NULL);
-        g_list_free (image->priv->transformations);
-        image->priv->transformations = NULL;
-    }
-
     if (image->priv->buffer)
     {
         g_free (image->priv->buffer);
@@ -240,7 +230,6 @@ rstto_image_new (GFile *file)
     RsttoImage *image = g_object_new (RSTTO_TYPE_IMAGE, NULL);
     gchar *file_path = g_file_get_path (file);
     ExifEntry *exif_entry = NULL;
-    RsttoImageTransformation *transformation = NULL;
     RsttoImageOrientation orientation;
 
     image->priv->file = file;
@@ -253,40 +242,13 @@ rstto_image_new (GFile *file)
     }
     if (exif_entry && exif_entry->data != NULL)
     {
-        orientation = exif_get_short (exif_entry->data, exif_data_get_byte_order (exif_entry->parent->parent));
-        switch (orientation)
-        {
-            default:
-            case RSTTO_IMAGE_ORIENT_NONE:
-                transformation = rstto_image_transform_orientation_new ( FALSE, FALSE, GDK_PIXBUF_ROTATE_NONE);
-                break;
-            case RSTTO_IMAGE_ORIENT_90:
-                transformation = rstto_image_transform_orientation_new ( FALSE, FALSE, GDK_PIXBUF_ROTATE_CLOCKWISE);
-                break;
-            case RSTTO_IMAGE_ORIENT_180:
-                transformation = rstto_image_transform_orientation_new ( FALSE, FALSE, GDK_PIXBUF_ROTATE_UPSIDEDOWN);
-                break;
-            case RSTTO_IMAGE_ORIENT_270:
-                transformation = rstto_image_transform_orientation_new ( FALSE, FALSE, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
-                break;
-            case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
-                transformation = rstto_image_transform_orientation_new ( FALSE, TRUE, GDK_PIXBUF_ROTATE_NONE);
-                break;
-            case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
-                transformation = rstto_image_transform_orientation_new ( TRUE, FALSE, GDK_PIXBUF_ROTATE_NONE);
-                break;
-            case RSTTO_IMAGE_ORIENT_TRANSPOSE:
-                transformation = rstto_image_transform_orientation_new ( FALSE, TRUE, GDK_PIXBUF_ROTATE_CLOCKWISE);
-                break;
-            case RSTTO_IMAGE_ORIENT_TRANSVERSE:
-                transformation = rstto_image_transform_orientation_new ( TRUE, FALSE, GDK_PIXBUF_ROTATE_CLOCKWISE);
-                break;
-        }
+        image->priv->orientation = exif_get_short (exif_entry->data, exif_data_get_byte_order (exif_entry->parent->parent));
+        if (image->priv->orientation == 0)
+            image->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
     }
-
-    if (transformation)
+    else
     {
-        rstto_image_push_transformation (image, G_OBJECT (transformation), NULL);
+        image->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
     }
 
     return image;
@@ -470,13 +432,6 @@ rstto_image_unload (RsttoImage *image)
         image->priv->iter = NULL;
     }
 
-    if (image->priv->transformations)
-    {
-        g_list_foreach (image->priv->transformations, (GFunc)g_object_unref, NULL);
-        g_list_free (image->priv->transformations);
-        image->priv->transformations = NULL;
-    }
-
 }
 
 
@@ -595,59 +550,6 @@ rstto_image_set_pixbuf (RsttoImage *image, GdkPixbuf *pixbuf)
 }
 
 /**
- * rstto_image_push_transformation:
- * @image          : 
- * @transformation :
- * @error          :
- *
- * Return value: TRUE on success.
- */
-gboolean
-rstto_image_push_transformation (RsttoImage *image, GObject *object, GError **error)
-{
-    g_return_val_if_fail (RSTTO_IS_IMAGE_TRANSFORMATION (object), FALSE);
-    RsttoImageTransformation *transformation = RSTTO_IMAGE_TRANSFORMATION (object);
-
-    g_object_ref (transformation);
-    /* Perform the transformation, on success add it to the stack */
-    if (transformation->transform (transformation, image) == TRUE)
-    {
-        image->priv->transformations = g_list_prepend (image->priv->transformations, transformation);
-        return TRUE;
-    }
-    g_object_unref (transformation);
-    return FALSE;
-}
-
-
-/**
- * rstto_image_pop_transformation:
- * @image          : 
- * @error          :
- *
- * Return value: TRUE on success.
- */
-gboolean
-rstto_image_pop_transformation (RsttoImage *image, GError **error)
-{
-    if (image->priv->transformations)
-    {
-        RsttoImageTransformation *transformation = image->priv->transformations->data;
-
-        if (transformation->revert (transformation, image) == TRUE)
-        {
-            /* remove the first item from the list */
-            image->priv->transformations = g_list_delete_link (image->priv->transformations, image->priv->transformations);
-            g_object_unref (transformation);
-            transformation = NULL;
-            return TRUE;
-        }
-    }
-    return FALSE;
-}
-
-
-/**
  * PRIVATE CALLBACKS 
  */
 
@@ -729,7 +631,6 @@ cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image)
     g_return_if_fail (loader == image->priv->loader);
 
     GdkPixbuf *pixbuf = NULL;
-    RsttoImageTransformation *transformation = NULL;
 
     g_object_unref (image->priv->loader);
     image->priv->loader = NULL;
@@ -737,19 +638,6 @@ cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image)
    
     if (image->priv->pixbuf != NULL)
     {
-        /* Get to the bottom of the transformation list */
-        GList *transform_iter = g_list_last (image->priv->transformations);
-        while (transform_iter != NULL)
-        {
-            transformation = transform_iter->data;
-
-            /* Transform source image */
-            transformation->transform (transformation, image);
-
-            transform_iter = g_list_previous (transform_iter);
-        }
-
-
         g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED], 0, image, NULL);
     }
 }
@@ -763,7 +651,6 @@ cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image)
 static gboolean
 cb_rstto_image_update(RsttoImage *image)
 {
-    RsttoImageTransformation *transformation = NULL;
 
     if (image->priv->iter)
     {
@@ -777,20 +664,6 @@ cb_rstto_image_update(RsttoImage *image)
             }
 
             image->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (image->priv->iter);
-            if (image->priv->pixbuf)
-            {
-                /* Get to the bottom of the transformation list */
-                GList *transform_iter = g_list_last (image->priv->transformations);
-                while (transform_iter != NULL)
-                {
-                    transformation = transform_iter->data;
-
-                    /* Transform source image */
-                    transformation->transform (transformation, image);
-
-                    transform_iter = g_list_previous (transform_iter);
-                }
-            }
         }
 
         gint time = gdk_pixbuf_animation_iter_get_delay_time (image->priv->iter);
@@ -821,4 +694,17 @@ rstto_image_get_size (RsttoImage *image)
         return rowstride * height;
     }
     return 0;
+}
+
+RsttoImageOrientation
+rstto_image_get_orientation (RsttoImage *image)
+{
+    return image->priv->orientation;
+}
+
+void
+rstto_image_set_orientation (RsttoImage *image, RsttoImageOrientation orientation)
+{
+    image->priv->orientation = orientation;
+    g_signal_emit (G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED], 0, image, NULL);
 }

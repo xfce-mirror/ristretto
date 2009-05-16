@@ -1,3 +1,17 @@
+2009-05-16  Stephan Arts <stephan@xfce.org>
+
+	* src/image.c
+	  src/image.h
+	  src/main_window.c
+	  src/picture_viewer.c
+	  src/image_transformation.h
+	  src/image_transformation.c
+	  src/image_transform_orientation.h
+	  src/image_transform_orientation.c
+	  src/Makefile.am: Re-implement image-rotation, now it finally works with
+	  the new rendering method.
+
+
 2009-05-15  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c: Set current_uri on open_folder dialog

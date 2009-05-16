@@ -28,9 +28,6 @@
 
 #include "image.h"
 
-#include "image_transformation.h"
-#include "image_transform_orientation.h"
-
 #include "settings.h"
 #include "navigator.h"
 #include "picture_viewer.h"
@@ -778,7 +775,6 @@ cb_rstto_main_window_zoom_out (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
 {
-    RsttoImageTransformation *transform;
     RsttoImage *image = NULL;
 
     RsttoSettings *settings_manager = rstto_settings_new();
@@ -792,9 +788,23 @@ cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
 
     if (image)
     {
-        transform = rstto_image_transform_orientation_new ( FALSE, FALSE, GDK_PIXBUF_ROTATE_CLOCKWISE);
-        rstto_image_push_transformation (image, G_OBJECT (transform), NULL);
-        rstto_image_load (image, TRUE, g_value_get_uint (&max_size), FALSE, NULL);
+        switch (rstto_image_get_orientation (image))
+        {
+            case RSTTO_IMAGE_ORIENT_NONE:
+                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_270);
+                break;
+            case RSTTO_IMAGE_ORIENT_90:
+                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_NONE);
+                break;
+            case RSTTO_IMAGE_ORIENT_180:
+                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_90);
+                break;
+            case RSTTO_IMAGE_ORIENT_270:
+                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_180);
+                break;
+            default:
+                g_debug ("O: %d", rstto_image_get_orientation (image));
+        }
     }
 
     g_value_unset (&max_size);
@@ -810,7 +820,6 @@ cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
 {
-    RsttoImageTransformation *transform;
     RsttoImage *image = NULL;
 
     RsttoSettings *settings_manager = rstto_settings_new();
@@ -824,9 +833,21 @@ cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
 
     if (image)
     {
-        transform = rstto_image_transform_orientation_new ( FALSE, FALSE, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
-        rstto_image_push_transformation (image, G_OBJECT (transform), NULL);
-        rstto_image_load (image, TRUE, g_value_get_uint (&max_size), FALSE, NULL);
+        switch (rstto_image_get_orientation (image))
+        {
+            case RSTTO_IMAGE_ORIENT_NONE:
+                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_90);
+                break;
+            case RSTTO_IMAGE_ORIENT_90:
+                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_180);
+                break;
+            case RSTTO_IMAGE_ORIENT_180:
+                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_270);
+                break;
+            case RSTTO_IMAGE_ORIENT_270:
+                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_NONE);
+                break;
+        }
     }
     g_value_unset (&max_size);
 }

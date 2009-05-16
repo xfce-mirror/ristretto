@@ -81,14 +81,12 @@ GFile *rstto_image_get_file (RsttoImage *image);
 void rstto_image_unload (RsttoImage *image);
 gboolean rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, gboolean preload, GError **error);
 
-gboolean
-rstto_image_push_transformation (RsttoImage *image, GObject *transformation, GError **error);
-gboolean
-rstto_image_pop_transformation (RsttoImage *image, GError **error);
-
-/* Should only be used by image-transformation implementations */
-void rstto_image_set_pixbuf (RsttoImage *image, GdkPixbuf *pixbuf);
 guint rstto_image_get_size (RsttoImage *image);
+
+void
+rstto_image_set_orientation (RsttoImage *image, RsttoImageOrientation orientation);
+RsttoImageOrientation
+rstto_image_get_orientation (RsttoImage *image);
 
 G_END_DECLS
 
