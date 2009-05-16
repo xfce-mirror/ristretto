@@ -1,5 +1,11 @@
 2009-05-16  Stephan Arts <stephan@xfce.org>
 
+	* src/picture_viewer.c: When an image is rotated upside down, make sure
+	the horizontal slider works horizontally and the vertical slider works
+	vertically. These were switched :-p
+
+2009-05-16  Stephan Arts <stephan@xfce.org>
+
 	* src/image.c
 	  src/image.h
 	  src/main_window.c

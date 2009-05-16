@@ -1111,9 +1111,9 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                     p_tmp_pixbuf = p_tmp_pixbuf2;
                     break;
                 case RSTTO_IMAGE_ORIENT_180:
-                    x = (viewer->vadjustment->upper - (viewer->vadjustment->value + viewer->vadjustment->page_size)) * image_scale;
+                    x = (viewer->hadjustment->upper - (viewer->hadjustment->value + viewer->hadjustment->page_size)) * image_scale;
                     if (x < 0) x = 0;
-                    y = (viewer->hadjustment->upper - (viewer->hadjustment->value + viewer->hadjustment->page_size)) * image_scale;
+                    y = (viewer->vadjustment->upper - (viewer->vadjustment->value + viewer->vadjustment->page_size)) * image_scale;
                     if (y < 0) y = 0;
                     //y = viewer->hadjustment->value * image_scale;
                     p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
