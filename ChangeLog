@@ -1,5 +1,11 @@
 2009-05-16  Stephan Arts <stephan@xfce.org>
 
+	* src/main_window.c
+	  src/image_cache.c
+	  src/image_cache.h: Clear the cache when the image-quality is changed
+
+2009-05-16  Stephan Arts <stephan@xfce.org>
+
 	* src/Makefile.am: Remove profiling flag
 
 2009-05-16  Stephan Arts <stephan@xfce.org>

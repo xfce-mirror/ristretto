@@ -49,6 +49,8 @@ RsttoImageCache *rstto_image_cache_new ();
 
 gboolean rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolean last);
 
+void rstto_image_cache_clear (RsttoImageCache *cache);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_IMAGE_CACHE_H__ */

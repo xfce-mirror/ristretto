@@ -182,3 +182,27 @@ rstto_image_cache_new ()
 
     return rstto_global_image_cache;
 }
+
+void
+rstto_image_cache_clear (RsttoImageCache *cache)
+{
+    RsttoImage *c_image;
+    RsttoSettings *settings_manager = rstto_settings_new();
+    GValue max_size = {0,};
+
+    g_value_init (&max_size, G_TYPE_UINT);
+    g_object_get_property (G_OBJECT(settings_manager), "image-quality", &max_size);
+
+
+    while (g_list_length (cache->cache_list) > 1)
+    {
+        c_image = g_list_last (cache->cache_list)->data;
+        rstto_image_unload (c_image);
+        cache->cache_list = g_list_remove (cache->cache_list, c_image);
+    }
+    if (cache->cache_list)
+    {
+        rstto_image_load (cache->cache_list->data, TRUE, g_value_get_uint (&max_size), FALSE, NULL);
+    }
+    g_object_unref (settings_manager);
+}

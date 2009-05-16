@@ -53,6 +53,7 @@ struct _RsttoMainWindowPriv
         RsttoNavigator *navigator;
         gboolean        toolbar_visible;
     } props;
+    gboolean busy;
 
     guint show_fs_toolbar_timeout_id;
     gint window_save_geometry_timer_id;
@@ -541,32 +542,35 @@ rstto_main_window_navigator_iter_changed (RsttoMainWindow *window)
 
     if (window->priv->props.navigator)
     {
-        position = rstto_navigator_iter_get_position (window->priv->iter);
-        count = rstto_navigator_get_n_images (navigator);
-        cur_image = rstto_navigator_iter_get_image (window->priv->iter);
-        if (cur_image)
+        if (window->priv->busy == FALSE)
         {
-            file = rstto_image_get_file (cur_image);
+            position = rstto_navigator_iter_get_position (window->priv->iter);
+            count = rstto_navigator_get_n_images (navigator);
+            cur_image = rstto_navigator_iter_get_image (window->priv->iter);
+            if (cur_image)
+            {
+                file = rstto_image_get_file (cur_image);
 
-            path = g_file_get_path (file);
-            basename = g_path_get_basename (path);
+                path = g_file_get_path (file);
+                basename = g_path_get_basename (path);
 
-            title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  basename, position+1, count);
-            rstto_main_window_set_sensitive (window, TRUE);
+                title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  basename, position+1, count);
+                rstto_main_window_set_sensitive (window, TRUE);
 
-            g_free (basename);
-            g_free (path);
+                g_free (basename);
+                g_free (path);
+            }
+            else
+            {
+                title = g_strdup (RISTRETTO_APP_TITLE);
+                rstto_main_window_set_sensitive (window, FALSE);
+            }
+
+            gtk_window_set_title (GTK_WINDOW (window), title);
+            rstto_picture_viewer_set_image (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), cur_image);
+
+            g_free (title);
         }
-        else
-        {
-            title = g_strdup (RISTRETTO_APP_TITLE);
-            rstto_main_window_set_sensitive (window, FALSE);
-        }
-
-        gtk_window_set_title (GTK_WINDOW (window), title);
-        rstto_picture_viewer_set_image (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), cur_image);
-
-        g_free (title);
     }
 
 }
@@ -950,6 +954,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     gtk_widget_hide (dialog);
     if(response == GTK_RESPONSE_OK)
     {
+        window->priv->busy = TRUE;
         files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
         _files_iter = files;
         while (_files_iter)
@@ -977,6 +982,8 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
 
+        window->priv->busy = FALSE;
+        rstto_main_window_navigator_iter_changed (window);
     }
 
     gtk_widget_destroy(dialog);
@@ -1024,6 +1031,7 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
     if(response == GTK_RESPONSE_OK)
     {
         gtk_widget_hide(dialog);
+        window->priv->busy = TRUE;
         file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
 
         file_enumarator = g_file_enumerate_children (file, "standard::*", 0, NULL, NULL);
@@ -1033,9 +1041,11 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
             content_type  = g_file_info_get_content_type (file_info);
             child_file = g_file_get_child (file, filename);
 
-            g_debug ("%s", content_type);
+            if (strncmp (content_type, "image/", 6) == 0)
+            {
 
-            rstto_navigator_add_file (window->priv->props.navigator, child_file, NULL);
+                rstto_navigator_add_file (window->priv->props.navigator, child_file, NULL);
+            }
 
             g_object_unref (child_file);
             g_object_unref (file_info);
@@ -1048,6 +1058,9 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
 
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
+
+        window->priv->busy = FALSE;
+        rstto_main_window_navigator_iter_changed (window);
     }
 
     gtk_widget_destroy(dialog);
@@ -1078,6 +1091,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
 
     if (g_file_info_get_file_type (file_info) == G_FILE_TYPE_DIRECTORY)
     {
+        window->priv->busy = TRUE;
         file_enumarator = g_file_enumerate_children (file, "standard::name", 0, NULL, NULL);
         while (child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
         {
@@ -1090,6 +1104,8 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
             g_object_unref (child_file_info);
         }
 
+        window->priv->busy = FALSE;
+        rstto_main_window_navigator_iter_changed (window);
     }
     else
     {
@@ -1104,6 +1120,8 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
             gtk_widget_destroy(dialog);
         }
     }
+
+    rstto_main_window_navigator_iter_changed (window);
 
     g_object_unref (file);
     g_free (uri);
@@ -1265,8 +1283,24 @@ cb_rstto_main_window_fullscreen (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_preferences (GtkWidget *widget, RsttoMainWindow *window)
 {
+    GValue val1 = {0,};
+    g_value_init (&val1, G_TYPE_UINT);
+    GValue val2 = {0,};
+    g_value_init (&val2, G_TYPE_UINT);
+
     GtkWidget *dialog = rstto_preferences_dialog_new (GTK_WINDOW (window));
+
+    g_object_get_property (G_OBJECT (window->priv->settings_manager), "image-quality", &val1);
+
     gtk_dialog_run (GTK_DIALOG (dialog));
+
+    g_object_get_property (G_OBJECT (window->priv->settings_manager), "image-quality", &val2);
+
+    if (g_value_get_uint (&val1) != g_value_get_uint (&val2))
+    {
+        rstto_image_cache_clear (rstto_image_cache_new());
+    }
+
     gtk_widget_destroy (dialog);
 }
 
