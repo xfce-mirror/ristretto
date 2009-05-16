@@ -1,5 +1,12 @@
 2009-05-16  Stephan Arts <stephan@xfce.org>
 
+	* src/image_cache.c
+	  src/picture_viewer.c
+	  src/main_window.c: Fix reference-count on settings-object
+	* src/main_window.c: Set default accelerators on rotation buttons
+
+2009-05-16  Stephan Arts <stephan@xfce.org>
+
 	* src/picture_viewer.c: When an image is rotated upside down, make sure
 	the horizontal slider works horizontally and the vertical slider works
 	vertically. These were switched :-p

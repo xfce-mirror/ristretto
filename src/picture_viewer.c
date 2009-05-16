@@ -1415,6 +1415,7 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
     {
         rstto_picture_viewer_queued_repaint (viewer, TRUE);
     }
+    g_object_unref (settings_manager);
 }
 
 /**

@@ -225,8 +225,8 @@ static GtkActionEntry action_entries[] =
   { "zoom-100", GTK_STOCK_ZOOM_100, N_ ("_Normal Size"), "<control>0", NULL, G_CALLBACK (cb_rstto_main_window_zoom_100), },
 /* Rotation submenu */
   { "rotation-menu", NULL, N_ ("_Rotation"), NULL, },
-  { "rotate-cw", NULL, N_ ("Rotate _Right"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_rotate_cw), },
-  { "rotate-ccw", NULL, N_ ("Rotate _Left"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_rotate_ccw), },
+  { "rotate-cw", NULL, N_ ("Rotate _Right"), "<control>bracketright", NULL, G_CALLBACK (cb_rstto_main_window_rotate_cw), },
+  { "rotate-ccw", NULL, N_ ("Rotate _Left"), "<contron>bracketleft", NULL, G_CALLBACK (cb_rstto_main_window_rotate_ccw), },
 /* Go Menu */
   { "go-menu",  NULL, N_ ("_Go"), NULL, },
   { "forward",  GTK_STOCK_GO_FORWARD, N_ ("_Forward"), "space", NULL, G_CALLBACK (cb_rstto_main_window_next_image), },
@@ -777,12 +777,6 @@ cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
 {
     RsttoImage *image = NULL;
 
-    RsttoSettings *settings_manager = rstto_settings_new();
-    GValue max_size = {0,};
-
-    g_value_init (&max_size, G_TYPE_UINT);
-    g_object_get_property (G_OBJECT(settings_manager), "image-quality", &max_size);
-
     if (window->priv->iter)
         image = rstto_navigator_iter_get_image (window->priv->iter);
 
@@ -790,24 +784,21 @@ cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
     {
         switch (rstto_image_get_orientation (image))
         {
+            default:
             case RSTTO_IMAGE_ORIENT_NONE:
-                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_270);
-                break;
-            case RSTTO_IMAGE_ORIENT_90:
-                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_NONE);
-                break;
-            case RSTTO_IMAGE_ORIENT_180:
                 rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_90);
                 break;
-            case RSTTO_IMAGE_ORIENT_270:
+            case RSTTO_IMAGE_ORIENT_90:
                 rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_180);
                 break;
-            default:
-                g_debug ("O: %d", rstto_image_get_orientation (image));
+            case RSTTO_IMAGE_ORIENT_180:
+                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_270);
+                break;
+            case RSTTO_IMAGE_ORIENT_270:
+                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_NONE);
+                break;
         }
     }
-
-    g_value_unset (&max_size);
 }
 
 /**
@@ -822,12 +813,6 @@ cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
 {
     RsttoImage *image = NULL;
 
-    RsttoSettings *settings_manager = rstto_settings_new();
-    GValue max_size = {0,};
-
-    g_value_init (&max_size, G_TYPE_UINT);
-    g_object_get_property (G_OBJECT(settings_manager), "image-quality", &max_size);
-
     if (window->priv->iter)
         image = rstto_navigator_iter_get_image (window->priv->iter);
 
@@ -835,21 +820,21 @@ cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
     {
         switch (rstto_image_get_orientation (image))
         {
+            default:
             case RSTTO_IMAGE_ORIENT_NONE:
-                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_90);
-                break;
-            case RSTTO_IMAGE_ORIENT_90:
-                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_180);
-                break;
-            case RSTTO_IMAGE_ORIENT_180:
                 rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_270);
                 break;
-            case RSTTO_IMAGE_ORIENT_270:
+            case RSTTO_IMAGE_ORIENT_90:
                 rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_NONE);
+                break;
+            case RSTTO_IMAGE_ORIENT_180:
+                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_90);
+                break;
+            case RSTTO_IMAGE_ORIENT_270:
+                rstto_image_set_orientation (image, RSTTO_IMAGE_ORIENT_180);
                 break;
         }
     }
-    g_value_unset (&max_size);
 }
 
 

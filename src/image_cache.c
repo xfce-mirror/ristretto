@@ -160,6 +160,7 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
             }
         }
     }
+    g_object_unref (settings);
     g_value_unset (&val);
     return retval;
 }
