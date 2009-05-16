@@ -1,5 +1,9 @@
 2009-05-16  Stephan Arts <stephan@xfce.org>
 
+	* src/Makefile.am: Remove profiling flag
+
+2009-05-16  Stephan Arts <stephan@xfce.org>
+
 	* src/image_cache.c
 	  src/picture_viewer.c
 	  src/main_window.c: Fix reference-count on settings-object

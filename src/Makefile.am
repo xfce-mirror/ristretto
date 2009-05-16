@@ -25,7 +25,7 @@ ristretto_CFLAGS = \
 	$(LIBXFCEGUI4_CFLAGS) \
 	-DDATADIR=\"$(datadir)\" \
 	-DSRCDIR=\"$(top_srcdir)\" \
-	-DLOCALEDIR=\"$(localedir)\" -pg
+	-DLOCALEDIR=\"$(localedir)\"
  
 ristretto_LDADD = \
 	$(GTK_LIBS) \
