@@ -605,6 +605,11 @@ rstto_main_window_set_sensitive (RsttoMainWindow *window, gboolean sensitive)
     gtk_widget_set_sensitive (
             gtk_ui_manager_get_widget (
                     window->priv->ui_manager,
+                    "/main-menu/file-menu/print"),
+            sensitive);
+    gtk_widget_set_sensitive (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
                     "/main-menu/file-menu/close"),
             sensitive);
     gtk_widget_set_sensitive (
@@ -1193,7 +1198,7 @@ cb_rstto_main_window_print (GtkWidget *widget, RsttoMainWindow *window)
     
     g_signal_connect (print_operation, "draw-page", G_CALLBACK (rstto_main_window_print_draw_page), window);
 
-    gtk_print_operation_run (print_operation, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, window, NULL);
+    gtk_print_operation_run (print_operation, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, GTK_WINDOW(window), NULL);
     
 }
 
