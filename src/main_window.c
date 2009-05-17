@@ -1181,11 +1181,15 @@ cb_rstto_main_window_print (GtkWidget *widget, RsttoMainWindow *window)
 {
 
     GtkPrintSettings *print_settings = gtk_print_settings_new ();
-    g_object_set (print_settings,
-                  "export-filename", "test.pdf",
-                  NULL);
+    gtk_print_settings_set_resolution (print_settings, 300);
+
     GtkPrintOperation *print_operation = gtk_print_operation_new (); 
+
     gtk_print_operation_set_print_settings (print_operation, print_settings);
+
+    g_object_set (print_operation,
+                  "n-pages", 1,
+                  NULL);
     
     g_signal_connect (print_operation, "draw-page", G_CALLBACK (rstto_main_window_print_draw_page), window);
 
@@ -1199,23 +1203,14 @@ rstto_main_window_print_draw_page (GtkPrintOperation *operation,
            gint               page_nr,
            RsttoMainWindow *window)
 {
-    g_debug ("%s", __FUNCTION__);
     RsttoImage *image = rstto_navigator_iter_get_image (window->priv->iter);
     GdkPixbuf *pixbuf = rstto_image_get_pixbuf (image);
 
-    guchar *data = gdk_pixbuf_get_pixels (pixbuf);
-    gint width = gdk_pixbuf_get_width (pixbuf);
-    gint height = gdk_pixbuf_get_height (pixbuf);
-    gint rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-
-    cairo_surface_t *surface = cairo_image_surface_create_for_data (data,
-                                                                    CAIRO_FORMAT_RGB24,
-                                                                    width,
-                                                                    height,
-                                                                    rowstride);
     cairo_t *context = gtk_print_context_get_cairo_context (print_context);
 
-    cairo_set_source_surface (context, surface, 0, 0);
+    gdk_cairo_set_source_pixbuf (context, pixbuf, 0, 0);
+    //cairo_scale (context, 1000, 1000);
+    cairo_paint (context);
 }
 
 

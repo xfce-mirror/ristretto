@@ -1,3 +1,7 @@
+2009-05-17  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Implement first rudimentary printing.
+
 2009-05-16  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c
