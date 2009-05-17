@@ -26,6 +26,8 @@
 #include <libxfcegui4/libxfcegui4.h>
 #include <libexif/exif-data.h>
 
+#include <cairo/cairo.h>
+
 #include "image.h"
 
 #include "settings.h"
@@ -165,6 +167,14 @@ static void
 cb_rstto_main_window_save_as (GtkWidget *widget, RsttoMainWindow *window);
 
 static void
+cb_rstto_main_window_print (GtkWidget *widget, RsttoMainWindow *window);
+static void
+rstto_main_window_print_draw_page (GtkPrintOperation *operation,
+           GtkPrintContext   *print_context,
+           gint               page_nr,
+          RsttoMainWindow *window);
+
+static void
 cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_pause(GtkWidget *widget, RsttoMainWindow *window);
@@ -205,6 +215,7 @@ static GtkActionEntry action_entries[] =
   { "open", GTK_STOCK_OPEN, N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
   { "open-folder", NULL, N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
   { "save-as", GTK_STOCK_SAVE_AS, N_ ("_Save as"), "<control>s", N_ ("Save the image"), G_CALLBACK (cb_rstto_main_window_save_as), },
+  { "print", GTK_STOCK_PRINT, N_ ("_Print"), "<control>p", N_ ("Print the image"), G_CALLBACK (cb_rstto_main_window_print), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
   { "close-all", NULL, N_ ("_Close All"), NULL, N_ ("Close all images"), G_CALLBACK (cb_rstto_main_window_close_all), },
   { "quit", GTK_STOCK_QUIT, N_ ("_Quit"), "<control>Q", N_ ("Quit Ristretto"), G_CALLBACK (cb_rstto_main_window_quit), },
@@ -1157,6 +1168,56 @@ cb_rstto_main_window_save_as (GtkWidget *widget, RsttoMainWindow *window)
     gtk_widget_destroy(dialog);
 
 }
+
+/**
+ * cb_rstto_main_window_print:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_print (GtkWidget *widget, RsttoMainWindow *window)
+{
+
+    GtkPrintSettings *print_settings = gtk_print_settings_new ();
+    g_object_set (print_settings,
+                  "export-filename", "test.pdf",
+                  NULL);
+    GtkPrintOperation *print_operation = gtk_print_operation_new (); 
+    gtk_print_operation_set_print_settings (print_operation, print_settings);
+    
+    g_signal_connect (print_operation, "draw-page", G_CALLBACK (rstto_main_window_print_draw_page), window);
+
+    gtk_print_operation_run (print_operation, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, window, NULL);
+    
+}
+
+static void
+rstto_main_window_print_draw_page (GtkPrintOperation *operation,
+           GtkPrintContext   *print_context,
+           gint               page_nr,
+           RsttoMainWindow *window)
+{
+    g_debug ("%s", __FUNCTION__);
+    RsttoImage *image = rstto_navigator_iter_get_image (window->priv->iter);
+    GdkPixbuf *pixbuf = rstto_image_get_pixbuf (image);
+
+    guchar *data = gdk_pixbuf_get_pixels (pixbuf);
+    gint width = gdk_pixbuf_get_width (pixbuf);
+    gint height = gdk_pixbuf_get_height (pixbuf);
+    gint rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+
+    cairo_surface_t *surface = cairo_image_surface_create_for_data (data,
+                                                                    CAIRO_FORMAT_RGB24,
+                                                                    width,
+                                                                    height,
+                                                                    rowstride);
+    cairo_t *context = gtk_print_context_get_cairo_context (print_context);
+
+    cairo_set_source_surface (context, surface, 0, 0);
+}
+
 
 /**
  * cb_rstto_main_window_play:

@@ -21,6 +21,7 @@ ristretto_CFLAGS = \
 	$(GIO_CFLAGS) \
 	$(LIBEXIF_CFLAGS) \
 	$(XFCONF_CFLAGS) \
+	$(CAIRO_CFLAGS) \
 	$(LIBXFCE4UTIL_CFLAGS) \
 	$(LIBXFCEGUI4_CFLAGS) \
 	-DDATADIR=\"$(datadir)\" \
@@ -33,6 +34,7 @@ ristretto_LDADD = \
 	$(GTHREAD_LIBS) \
 	$(GIO_LIBS) \
 	$(LIBEXIF_LIBS) \
+	$(CAIRO_LIBS) \
 	$(XFCONF_LIBS) \
 	$(LIBXFCE4UTIL_LIBS) \
 	$(LIBXFCEGUI4_LIBS)

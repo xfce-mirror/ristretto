@@ -11,6 +11,8 @@
             <separator/>
             <menuitem action="save-as"/>
             <separator/>
+            <menuitem action="print"/>
+            <separator/>
             <menuitem action="close"/>
             <menuitem action="close-all"/>
             <menuitem action="quit"/>

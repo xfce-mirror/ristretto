@@ -63,6 +63,8 @@ XDT_CHECK_PACKAGE([LIBXFCEGUI4], [libxfcegui4-1.0], [4.6.0])
 
 XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [4.6.0])
 
+XDT_CHECK_PACKAGE([CAIRO], [cairo], [1.8.0])
+
 dnl **************************
 dnl *** Check for xsltproc ***
 dnl **************************
