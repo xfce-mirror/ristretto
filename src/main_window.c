@@ -1189,7 +1189,10 @@ cb_rstto_main_window_print (GtkWidget *widget, RsttoMainWindow *window)
     gtk_print_settings_set_resolution (print_settings, 300);
 
     GtkPrintOperation *print_operation = gtk_print_operation_new (); 
+    GtkPageSetup *page_setup = gtk_page_setup_new ();
+    gtk_page_setup_set_orientation (page_setup, GTK_PAGE_ORIENTATION_LANDSCAPE);
 
+    gtk_print_operation_set_default_page_setup (print_operation, page_setup);
     gtk_print_operation_set_print_settings (print_operation, print_settings);
 
     g_object_set (print_operation,
@@ -1210,11 +1213,28 @@ rstto_main_window_print_draw_page (GtkPrintOperation *operation,
 {
     RsttoImage *image = rstto_navigator_iter_get_image (window->priv->iter);
     GdkPixbuf *pixbuf = rstto_image_get_pixbuf (image);
+    gdouble w = gdk_pixbuf_get_width (pixbuf);
+    gdouble w1 = gtk_print_context_get_width (print_context);
+    gdouble h = gdk_pixbuf_get_height (pixbuf);
+    gdouble h1 = gtk_print_context_get_height (print_context);
 
     cairo_t *context = gtk_print_context_get_cairo_context (print_context);
 
+    cairo_translate (context, 0, 0);
+    /* Scale to page-width */
+    if ((w1/w) < (h1/h))
+    {
+        cairo_scale (context, w1/w, w1/w);
+    }
+    else
+    {
+        cairo_scale (context, h1/h, h1/h);
+    }
+    //cairo_rotate (context, 90 * 3.141592/180);
     gdk_cairo_set_source_pixbuf (context, pixbuf, 0, 0);
-    //cairo_scale (context, 1000, 1000);
+
+    //cairo_rectangle (context, 0, 0, 200, 200);
+
     cairo_paint (context);
 }
 
