@@ -18,6 +18,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include <X11/Xlib.h>
 #include <string.h>
 
@@ -165,6 +166,8 @@ static void
 cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_save_as (GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_print (GtkWidget *widget, RsttoMainWindow *window);
@@ -222,6 +225,7 @@ static GtkActionEntry action_entries[] =
 /* Edit Menu */
   { "edit-menu", NULL, N_ ("_Edit"), NULL, },
   { "open-with-menu", NULL, N_ ("_Open with..."), NULL, },
+  { "delete", GTK_STOCK_DELETE, N_ ("_Delete"), "Delete", NULL, G_CALLBACK (cb_rstto_main_window_delete), },
   { "preferences", GTK_STOCK_PREFERENCES, N_ ("_Preferences"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_preferences), },
 /* View Menu */
   { "view-menu", NULL, N_ ("_View"), NULL, },
@@ -304,6 +308,10 @@ rstto_main_window_init (RsttoMainWindow *window)
     GtkWidget       *main_vbox = gtk_vbox_new (FALSE, 0);
     GtkRecentFilter *recent_filter;
 
+    GClosure        *leave_fullscreen_closure = g_cclosure_new_swap ((GCallback)gtk_window_unfullscreen, window, NULL);
+    GClosure        *next_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_next_image, window, NULL);
+    GClosure        *previous_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_previous_image, window, NULL);
+
     gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
 
     window->priv = g_new0(RsttoMainWindowPriv, 1);
@@ -316,6 +324,14 @@ rstto_main_window_init (RsttoMainWindow *window)
 
     accel_group = gtk_ui_manager_get_accel_group (window->priv->ui_manager);
     gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
+
+    gtk_accel_group_connect_by_path (accel_group, "<Window>/unfullscreen", leave_fullscreen_closure);
+    gtk_accel_group_connect_by_path (accel_group, "<Window>/next-image", next_image_closure);
+    gtk_accel_group_connect_by_path (accel_group, "<Window>/previous-image", previous_image_closure);
+    /* Set default accelerators */
+    gtk_accel_map_change_entry ("<Window>/unfullscreen", GDK_Escape, 0, FALSE);
+    gtk_accel_map_change_entry ("<Window>/next-image", GDK_Page_Down, 0, FALSE);
+    gtk_accel_map_change_entry ("<Window>/previous-image", GDK_Page_Up, 0, FALSE);
 
     /* Create mergeid's for adding ui-components */
     window->priv->recent_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
@@ -617,6 +633,8 @@ rstto_main_window_set_sensitive (RsttoMainWindow *window, gboolean sensitive)
                     window->priv->ui_manager,
                     "/main-menu/file-menu/close-all"),
             sensitive);
+
+    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/edit-menu/delete"), sensitive);
 
     /* Go Menu */
     gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/go-menu/forward"), sensitive);
@@ -1492,6 +1510,45 @@ cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window)
 {
     rstto_picture_viewer_set_image (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), NULL);
     rstto_navigator_remove_all (window->priv->props.navigator);
+}
+
+/**
+ * cb_rstto_main_window_delete:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
+{
+    RsttoImage *image = rstto_navigator_iter_get_image (window->priv->iter);
+    GFile *file = rstto_image_get_file (image);
+    gchar *path = g_file_get_path (file);
+    gchar *basename = g_path_get_basename (path);
+    g_object_ref (image);
+    GtkWidget *dialog = gtk_message_dialog_new (GTK_WINDOW (window),
+                                                GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                GTK_MESSAGE_WARNING,
+                                                GTK_BUTTONS_OK_CANCEL,
+                                                N_("Are you sure you want to delete image '%s' from disk?"),
+                                                basename);
+    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+    {
+        if (g_file_trash (file, NULL, NULL) == TRUE)
+        {
+            rstto_picture_viewer_set_image (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), NULL);
+            rstto_navigator_remove_image (window->priv->props.navigator, image);
+        }
+        else
+        {
+            
+        }
+    }
+    gtk_widget_destroy (dialog);
+    g_free (basename);
+    g_free (path);
+    g_object_unref (image);
 }
 
 /**

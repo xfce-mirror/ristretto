@@ -1,5 +1,3 @@
-- Merge transform actions of consecutive imagetransformations of the same type
-
 - Implement preferences dialog
 - Generate and save thumbnails
 
@@ -19,3 +17,5 @@
 
 - Support image collections
     - Export to tarball/zip
+
+- Configure printing-settings
