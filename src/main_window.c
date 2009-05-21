@@ -1117,42 +1117,56 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     GtkWidget *dialog, *err_dialog;
     gchar *uri = gtk_recent_chooser_get_current_uri (chooser);
     const gchar *filename;
+    GError *error = NULL;
     GFile *file = g_file_new_for_uri (uri);
     GFile *child_file;
     GFileEnumerator *file_enumarator = NULL;
     GFileInfo *child_file_info = NULL;
-    GFileInfo *file_info = g_file_query_info (file, "standard::type", 0, NULL, NULL);
+    GFileInfo *file_info = g_file_query_info (file, "standard::type", 0, NULL, &error);
 
-    if (g_file_info_get_file_type (file_info) == G_FILE_TYPE_DIRECTORY)
+    if (error == NULL)
     {
-        window->priv->busy = TRUE;
-        file_enumarator = g_file_enumerate_children (file, "standard::name", 0, NULL, NULL);
-        while (child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+        if (g_file_info_get_file_type (file_info) == G_FILE_TYPE_DIRECTORY)
         {
-            filename = g_file_info_get_name (child_file_info);
-            child_file = g_file_get_child (file, filename);
+            window->priv->busy = TRUE;
+            file_enumarator = g_file_enumerate_children (file, "standard::name", 0, NULL, NULL);
+            while (child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+            {
+                filename = g_file_info_get_name (child_file_info);
+                child_file = g_file_get_child (file, filename);
 
-            rstto_navigator_add_file (window->priv->props.navigator, child_file, NULL);
+                rstto_navigator_add_file (window->priv->props.navigator, child_file, NULL);
 
-            g_object_unref (child_file);
-            g_object_unref (child_file_info);
+                g_object_unref (child_file);
+                g_object_unref (child_file_info);
+            }
+
+            window->priv->busy = FALSE;
+            rstto_main_window_navigator_iter_changed (window);
         }
-
-        window->priv->busy = FALSE;
-        rstto_main_window_navigator_iter_changed (window);
+        else
+        {
+            if (rstto_navigator_add_file (window->priv->props.navigator, file, NULL) == FALSE)
+            {
+                err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+                                                GTK_DIALOG_MODAL,
+                                                GTK_MESSAGE_ERROR,
+                                                GTK_BUTTONS_OK,
+                                                _("Could not open file"));
+                gtk_dialog_run( GTK_DIALOG(err_dialog));
+                gtk_widget_destroy(err_dialog);
+            }
+        }
     }
     else
     {
-        if (rstto_navigator_add_file (window->priv->props.navigator, file, NULL) == FALSE)
-        {
-            err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
-                                            GTK_DIALOG_MODAL,
-                                            GTK_MESSAGE_ERROR,
-                                            GTK_BUTTONS_OK,
-                                            _("Could not open file"));
-            gtk_dialog_run(GTK_DIALOG(dialog));
-            gtk_widget_destroy(dialog);
-        }
+        err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+                                        GTK_DIALOG_MODAL,
+                                        GTK_MESSAGE_ERROR,
+                                        GTK_BUTTONS_OK,
+                                        _("Could not open file"));
+        gtk_dialog_run (GTK_DIALOG (err_dialog));
+        gtk_widget_destroy (err_dialog);
     }
 
     rstto_main_window_navigator_iter_changed (window);

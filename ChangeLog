@@ -1,7 +1,13 @@
 2009-05-21  Stephan Arts <stephan@xfce.org>
 
+	* src/main_window.c: if a file in the recent_menu does not exist, because
+	  it has been deleted, show an error-dialog
+
+2009-05-21  Stephan Arts <stephan@xfce.org>
+
 	* src/main_window.c
 	  src/main_window_ui.xml: Add 'delete' button to remove an image from disk
+	  (Bug #4135)
 	* src/main_window.c: Add accelerators for leaving fullscreen-mode,
 	navigating to the next image and to the previous image using Escape,
 	Page_Up and Page_Down respectively
