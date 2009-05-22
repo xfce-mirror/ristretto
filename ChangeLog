@@ -1,3 +1,8 @@
+2009-05-22  Stephan Arts <stephan@xfce.org>
+
+	* src/navigating.c,
+	  src/main_window.c: Sanitize navigator-iter design
+
 2009-05-21  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c: if a file in the recent_menu does not exist, because

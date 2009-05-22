@@ -43,14 +43,15 @@ static GObjectClass *parent_class = NULL;
 enum
 {
     RSTTO_NAVIGATOR_SIGNAL_NEW_IMAGE = 0,
-    RSTTO_NAVIGATOR_SIGNAL_INVALIDATE_ITERS,
+    RSTTO_NAVIGATOR_SIGNAL_REMOVE_IMAGE,
     RSTTO_NAVIGATOR_SIGNAL_COUNT
 };
 
 struct _RsttoNavigatorIter
 {
-    GList *list;
-    GList *iter;
+    RsttoNavigator *navigator;
+    RsttoImage *image;
+    gint position;
 };
 
 struct _RsttoNavigatorPriv
@@ -114,15 +115,16 @@ rstto_navigator_class_init(RsttoNavigatorClass *nav_class)
             G_TYPE_OBJECT,
             NULL);
 
-    rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_INVALIDATE_ITERS] = g_signal_new("iter-changed",
+    rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_REMOVE_IMAGE] = g_signal_new("remove-image",
             G_TYPE_FROM_CLASS(nav_class),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
             NULL,
             NULL,
-            g_cclosure_marshal_VOID__VOID,
+            g_cclosure_marshal_VOID__OBJECT,
             G_TYPE_NONE,
-            0,
+            1,
+            G_TYPE_OBJECT,
             NULL);
 }
 
@@ -151,7 +153,6 @@ rstto_navigator_add_file (RsttoNavigator *navigator, GFile *file, GError **error
         navigator->priv->images = g_list_insert_sorted (navigator->priv->images, image, (GCompareFunc)cb_rstto_navigator_image_name_compare_func);
         navigator->priv->n_images++;
 
-        g_signal_emit (G_OBJECT (navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_INVALIDATE_ITERS], 0, NULL);
         g_signal_emit (G_OBJECT (navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_NEW_IMAGE], 0, image, NULL);
         return TRUE;
     }
@@ -168,13 +169,15 @@ RsttoNavigatorIter *
 rstto_navigator_get_iter (RsttoNavigator *navigator)
 {
     RsttoNavigatorIter *iter = g_new0 (RsttoNavigatorIter, 1);
+    iter->navigator = navigator;
+    if (navigator->priv->images)
+        iter->image = navigator->priv->images->data;
 
-    iter->list = g_list_copy (navigator->priv->images);
+    if (iter->image)
+        g_object_ref (iter->image);
+    else
+        iter->position = -1;
 
-    iter->iter = iter->list;
-
-    if (iter->list)
-        g_list_foreach (iter->list, (GFunc)g_object_ref, NULL);
 
     return iter;
 }
@@ -182,70 +185,113 @@ rstto_navigator_get_iter (RsttoNavigator *navigator)
 gint
 rstto_navigator_iter_get_position (RsttoNavigatorIter *iter)
 {
-    return g_list_position (iter->list, iter->iter);
-}
-
-gboolean
-rstto_navigator_iter_set_position (RsttoNavigatorIter *iter, gint pos)
-{
-    if (pos == -1)
+    if (iter->image == NULL)
     {
-        iter->iter = g_list_last (iter->list);
-        return TRUE;
-    }
-    else
-    {
-        if (pos < g_list_length (iter->list))
+        if ((iter->position == -1) && (rstto_navigator_get_n_images (iter->navigator) > 0))
         {
-            iter->iter = g_list_nth (iter->list, pos);
-            return TRUE;
+            rstto_navigator_iter_set_position (iter, 0);
         }
     }
-    return FALSE;
-}
-
-gboolean
-rstto_navigator_iter_next (RsttoNavigatorIter *iter)
-{
-    if (g_list_next (iter->iter))
-    {
-        iter->iter = g_list_next (iter->iter);
-        return TRUE;
-    }
-    else
-    {
-        iter->iter = g_list_first (iter->list);
-        return FALSE;
-    }
-}
-
-gboolean
-rstto_navigator_iter_previous (RsttoNavigatorIter *iter)
-{
-    if (g_list_previous (iter->iter))
-    {
-        iter->iter = g_list_previous (iter->iter);
-        return TRUE;
-    }
-    else
-    {
-        iter->iter = g_list_last (iter->list);
-        return FALSE;
-    }
+    return iter->position;
 }
 
 RsttoImage *
 rstto_navigator_iter_get_image (RsttoNavigatorIter *iter)
 {
-    if (iter->iter)
-        return RSTTO_IMAGE (iter->iter->data);
-    return NULL;
+    if (iter->image == NULL)
+    {
+        if ((iter->position == -1) && (rstto_navigator_get_n_images (iter->navigator) > 0))
+        {
+            rstto_navigator_iter_set_position (iter, 0);
+        }
+    }
+    return RSTTO_IMAGE (iter->image);
+}
+
+
+gboolean
+rstto_navigator_iter_set_position (RsttoNavigatorIter *iter, gint pos)
+{
+    if (iter->image)
+    {
+        g_object_unref (iter->image);
+        iter->image = NULL;
+    }
+
+    iter->image = g_list_nth_data (iter->navigator->priv->images, pos); 
+    if (iter->image)
+    {
+        iter->position = pos;
+        g_object_ref (iter->image);
+    }
+    else
+    {
+        iter->position = -1;
+    }
+}
+
+gboolean
+rstto_navigator_iter_next (RsttoNavigatorIter *iter)
+{
+    if (iter->image)
+    {
+        g_object_unref (iter->image);
+        iter->image = NULL;
+    }
+
+    iter->image = g_list_nth_data (iter->navigator->priv->images, iter->position+1); 
+    if (iter->image)
+    {
+        iter->position++;
+    }
+    else
+    {
+        iter->position = 0;
+        iter->image = g_list_nth_data (iter->navigator->priv->images, 0); 
+        if (iter->image == NULL)
+        {
+            iter->position = -1;
+        }
+    }
+    if (iter->image)
+        g_object_ref (iter->image);
+}
+
+gboolean
+rstto_navigator_iter_previous (RsttoNavigatorIter *iter)
+{
+    if (iter->image)
+    {
+        g_object_unref (iter->image);
+        iter->image = NULL;
+    }
+
+    iter->image = g_list_nth_data (iter->navigator->priv->images, iter->position-1); 
+    if (iter->image)
+    {
+        iter->position--;
+    }
+    else
+    {
+        iter->position = g_list_length (iter->navigator->priv->images)-1;
+        iter->image = g_list_nth_data (iter->navigator->priv->images, iter->position); 
+        if (iter->image == NULL)
+        {
+            iter->position = -1;
+        }
+    }
+    if (iter->image)
+        g_object_ref (iter->image);
 }
 
 void
 rstto_navigator_iter_free (RsttoNavigatorIter *iter)
 {
-    g_list_foreach (iter->list, (GFunc)g_object_unref, NULL);
+    if (iter->image)
+    {
+        g_object_unref (iter->image);
+        iter->image = NULL;
+    }
     g_free (iter);
 }
 
@@ -254,9 +300,10 @@ rstto_navigator_remove_image (RsttoNavigator *navigator, RsttoImage *image)
 {
     if (g_list_find (navigator->priv->images, image))
     {
-        g_object_unref (image);
         navigator->priv->images = g_list_remove (navigator->priv->images, image);
-        g_signal_emit (G_OBJECT (navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_INVALIDATE_ITERS], 0, NULL);
+        g_signal_emit (G_OBJECT (navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_REMOVE_IMAGE], 0, image, NULL);
+
+        g_object_unref (image);
     }
 }
 
@@ -266,18 +313,23 @@ rstto_navigator_remove_all (RsttoNavigator *navigator)
     g_list_foreach (navigator->priv->images, (GFunc)g_object_unref, NULL);
     g_list_free (navigator->priv->images);
     navigator->priv->images = NULL;
-    g_signal_emit (G_OBJECT (navigator), rstto_navigator_signals[RSTTO_NAVIGATOR_SIGNAL_INVALIDATE_ITERS], 0, NULL);
 }
 
 gboolean
 rstto_navigator_iter_find_image (RsttoNavigatorIter *iter, RsttoImage *image)
 {
-    GList *list = g_list_find (iter->list, image);
-    iter->iter = list;
-
-    if (list)
+    gint pos = g_list_index (iter->navigator->priv->images, image);
+    if (pos > -1)
+    {
+        if (iter->image)
+        {
+            g_object_unref (iter->image);
+            iter->image = NULL;
+        }
+        iter->image = image;
+        g_object_ref (iter->image);
         return TRUE;
-    
+    }
     return FALSE;
 }
 
@@ -297,7 +349,6 @@ cb_rstto_navigator_image_name_compare_func (RsttoImage *a, RsttoImage *b)
     gint result = 0;
 
     result = g_strcasecmp (a_base, b_base);
-
 
     g_free (a_base);
     g_free (b_base);

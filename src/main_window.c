@@ -56,7 +56,6 @@ struct _RsttoMainWindowPriv
         RsttoNavigator *navigator;
         gboolean        toolbar_visible;
     } props;
-    gboolean busy;
 
     guint show_fs_toolbar_timeout_id;
     gint window_save_geometry_timer_id;
@@ -127,7 +126,7 @@ cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
 static void
 cb_rstto_main_window_navigator_new_image (RsttoNavigator *navigator, RsttoImage *image, RsttoMainWindow *window);
 static void
-cb_rstto_main_window_navigator_invalidate_iters (RsttoNavigator *navigator, RsttoMainWindow *window);
+cb_rstto_main_window_navigator_remove_image (RsttoNavigator *navigator, RsttoImage *image, RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window);
@@ -569,35 +568,32 @@ rstto_main_window_navigator_iter_changed (RsttoMainWindow *window)
 
     if (window->priv->props.navigator)
     {
-        if (window->priv->busy == FALSE)
+        position = rstto_navigator_iter_get_position (window->priv->iter);
+        count = rstto_navigator_get_n_images (navigator);
+        cur_image = rstto_navigator_iter_get_image (window->priv->iter);
+        if (cur_image)
         {
-            position = rstto_navigator_iter_get_position (window->priv->iter);
-            count = rstto_navigator_get_n_images (navigator);
-            cur_image = rstto_navigator_iter_get_image (window->priv->iter);
-            if (cur_image)
-            {
-                file = rstto_image_get_file (cur_image);
+            file = rstto_image_get_file (cur_image);
 
-                path = g_file_get_path (file);
-                basename = g_path_get_basename (path);
+            path = g_file_get_path (file);
+            basename = g_path_get_basename (path);
 
-                title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  basename, position+1, count);
-                rstto_main_window_set_sensitive (window, TRUE);
+            title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  basename, position+1, count);
+            rstto_main_window_set_sensitive (window, TRUE);
 
-                g_free (basename);
-                g_free (path);
-            }
-            else
-            {
-                title = g_strdup (RISTRETTO_APP_TITLE);
-                rstto_main_window_set_sensitive (window, FALSE);
-            }
-
-            gtk_window_set_title (GTK_WINDOW (window), title);
-            rstto_picture_viewer_set_image (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), cur_image);
-
-            g_free (title);
+            g_free (basename);
+            g_free (path);
         }
+        else
+        {
+            title = g_strdup (RISTRETTO_APP_TITLE);
+            rstto_main_window_set_sensitive (window, FALSE);
+        }
+
+        gtk_window_set_title (GTK_WINDOW (window), title);
+        rstto_picture_viewer_set_image (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), cur_image);
+
+        g_free (title);
     }
 
 }
@@ -703,7 +699,11 @@ rstto_main_window_set_property (GObject      *object,
             if (window->priv->props.navigator)
             {
                 g_signal_handlers_disconnect_by_func (window->priv->props.navigator, cb_rstto_main_window_navigator_new_image, window);
+                g_signal_handlers_disconnect_by_func (window->priv->props.navigator, cb_rstto_main_window_navigator_remove_image, window);
                 g_object_unref (window->priv->props.navigator);
+
+                rstto_navigator_iter_free (window->priv->iter);
+                window->priv->iter = NULL;
             }
 
             window->priv->props.navigator = g_value_get_object (value);
@@ -712,7 +712,8 @@ rstto_main_window_set_property (GObject      *object,
             {
                 g_object_ref (window->priv->props.navigator);
                 g_signal_connect (G_OBJECT (window->priv->props.navigator), "new-image", G_CALLBACK (cb_rstto_main_window_navigator_new_image), window);
-                g_signal_connect (G_OBJECT (window->priv->props.navigator), "iter-changed", G_CALLBACK (cb_rstto_main_window_navigator_invalidate_iters), window);
+                g_signal_connect (G_OBJECT (window->priv->props.navigator), "remove-image", G_CALLBACK (cb_rstto_main_window_navigator_remove_image), window);
+
                 window->priv->iter = rstto_navigator_get_iter (window->priv->props.navigator);
             }
             break;
@@ -988,7 +989,6 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     gtk_widget_hide (dialog);
     if(response == GTK_RESPONSE_OK)
     {
-        window->priv->busy = TRUE;
         files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
         _files_iter = files;
         while (_files_iter)
@@ -1016,7 +1016,8 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
 
-        window->priv->busy = FALSE;
+        if (window->priv->iter == NULL)
+            window->priv->iter = rstto_navigator_get_iter (window->priv->props.navigator);
         rstto_main_window_navigator_iter_changed (window);
     }
 
@@ -1065,7 +1066,6 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
     if(response == GTK_RESPONSE_OK)
     {
         gtk_widget_hide(dialog);
-        window->priv->busy = TRUE;
         file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
 
         file_enumarator = g_file_enumerate_children (file, "standard::*", 0, NULL, NULL);
@@ -1093,7 +1093,8 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
 
-        window->priv->busy = FALSE;
+        if (window->priv->iter == NULL)
+            window->priv->iter = rstto_navigator_get_iter (window->priv->props.navigator);
         rstto_main_window_navigator_iter_changed (window);
     }
 
@@ -1128,7 +1129,6 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     {
         if (g_file_info_get_file_type (file_info) == G_FILE_TYPE_DIRECTORY)
         {
-            window->priv->busy = TRUE;
             file_enumarator = g_file_enumerate_children (file, "standard::name", 0, NULL, NULL);
             while (child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
             {
@@ -1141,8 +1141,6 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
                 g_object_unref (child_file_info);
             }
 
-            window->priv->busy = FALSE;
-            rstto_main_window_navigator_iter_changed (window);
         }
         else
         {
@@ -1169,6 +1167,8 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
         gtk_widget_destroy (err_dialog);
     }
 
+    if (window->priv->iter == NULL)
+        window->priv->iter = rstto_navigator_get_iter (window->priv->props.navigator);
     rstto_main_window_navigator_iter_changed (window);
 
     g_object_unref (file);
@@ -1602,67 +1602,47 @@ static void
 cb_rstto_main_window_navigator_new_image (RsttoNavigator *navigator, RsttoImage *image, RsttoMainWindow *window)
 {
     if (window->priv->iter == NULL)
+    {
         window->priv->iter = rstto_navigator_get_iter (navigator);
-
-    rstto_navigator_iter_find_image (window->priv->iter, image);
-    rstto_main_window_navigator_iter_changed (window);
+        rstto_main_window_navigator_iter_changed (window);
+    }
 }
 
 /**
- * cb_rstto_main_window_navigator_invalidate_iters:
+ * cb_rstto_main_window_navigator_remove_image:
  * @navigator:
+ * @image:
  * @window:
- *
- * An image has been added to or removed from the image-list.
- * This means the iterator is no longer valid.
  *
  */
 static void
-cb_rstto_main_window_navigator_invalidate_iters (RsttoNavigator *navigator, RsttoMainWindow *window)
-{ 
-    RsttoImage *image = NULL;
-    gint pos = 0;
-
-    /* If we have an iterator, retrieve the image associated to it */
-    if (window->priv->iter)
+cb_rstto_main_window_navigator_remove_image (RsttoNavigator *navigator, RsttoImage *image, RsttoMainWindow *window)
+{
+    if (rstto_navigator_get_n_images (navigator) == 0)
     {
-        image = rstto_navigator_iter_get_image (window->priv->iter);
-        pos = rstto_navigator_iter_get_position (window->priv->iter);
-    }
-
-    /* If we have an image, add a reference to it to make sure we don't lose it */
-    if (image)
-        g_object_ref (image);
-
-    /* Free the invalid iter and get a new one */
-    if (window->priv->iter)
-        rstto_navigator_iter_free (window->priv->iter);
-    window->priv->iter = rstto_navigator_get_iter (navigator);
-
-
-    if (image)
-    {
-
-        /* 
-         * Check if we can find the image inside the image-list, move the iter there.
-         */
-        if (rstto_navigator_iter_find_image (window->priv->iter, image) == FALSE)
+        if (window->priv->iter)
         {
-            /* If we cannot find the image, move the iter to the image after the original image */
-            if (rstto_navigator_iter_set_position (window->priv->iter, pos) == FALSE)
+            rstto_navigator_iter_free (window->priv->iter);
+            window->priv->iter = rstto_navigator_get_iter (navigator);
+        }
+    }
+    else
+    {
+        if (rstto_navigator_iter_get_image (window->priv->iter) == image)
+        {
+            if (rstto_navigator_iter_get_position (window->priv->iter) > 0)
             {
-                /* If this image does not exist, move it to the last image available */
-                rstto_navigator_iter_set_position (window->priv->iter, -1);
+                rstto_navigator_iter_previous (window->priv->iter);
+            }
+            else
+            {
+                rstto_navigator_iter_set_position (window->priv->iter, 0);
             }
         }
-
-        /* we no longer need the image, release our reference */
-        g_object_unref (image);
-
     }
-
     rstto_main_window_navigator_iter_changed (window);
 }
+
 
 static gboolean
 cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event)
