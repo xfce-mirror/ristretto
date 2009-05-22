@@ -54,7 +54,7 @@ enum
 {
     PROP_0,
     PROP_SHOW_TOOLBAR,
-    PROP_TOOLBAR_OPEN_FOLDER,
+    PROP_TOOLBAR_OPEN,
     PROP_ENABLE_CACHE,
     PROP_PRELOAD_IMAGES,
     PROP_CACHE_SIZE,
@@ -100,7 +100,7 @@ struct _RsttoSettingsPriv
     XfconfChannel *channel;
 
     gboolean  show_toolbar;
-    gboolean  toolbar_open_folder;
+    gchar    *toolbar_open;
     gboolean  preload_images;
     gboolean  enable_cache;
     guint     cache_size;
@@ -138,6 +138,7 @@ rstto_settings_init (GObject *object)
     settings->priv->bgcolor = g_new0 (GdkColor, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkColor, 1);
     settings->priv->image_quality = 2;
+    settings->priv->toolbar_open = "file";
 
     xfconf_g_property_bind (settings->priv->channel, "/window/width", G_TYPE_UINT, settings, "window-width");
     xfconf_g_property_bind (settings->priv->channel, "/window/height", G_TYPE_UINT, settings, "window-height");
@@ -146,7 +147,7 @@ rstto_settings_init (GObject *object)
 
     xfconf_g_property_bind (settings->priv->channel, "/window/show-toolbar", G_TYPE_BOOLEAN, settings, "show-toolbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-action", G_TYPE_STRING, settings, "scrollwheel-action");
-    xfconf_g_property_bind (settings->priv->channel, "/window/toolbar-open-folder", G_TYPE_BOOLEAN, settings, "toolbar-open-folder");
+    xfconf_g_property_bind (settings->priv->channel, "/window/toolbar-open", G_TYPE_STRING, settings, "toolbar-open");
 
     xfconf_g_property_bind (settings->priv->channel, "/slideshow/timeout", G_TYPE_UINT, settings, "slideshow-timeout");
 
@@ -207,13 +208,13 @@ rstto_settings_class_init (GObjectClass *object_class)
                                      PROP_SHOW_TOOLBAR,
                                      pspec);
 
-    pspec = g_param_spec_boolean ("toolbar-open-folder",
+    pspec = g_param_spec_string ("toolbar-open",
                                   "",
                                   "",
-                                  TRUE,
+                                  "file",
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
-                                     PROP_TOOLBAR_OPEN_FOLDER,
+                                     PROP_TOOLBAR_OPEN,
                                      pspec);
 
 
@@ -390,8 +391,8 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_SHOW_TOOLBAR:
             settings->priv->show_toolbar = g_value_get_boolean (value);
             break;
-        case PROP_TOOLBAR_OPEN_FOLDER:
-            settings->priv->toolbar_open_folder = g_value_get_boolean (value);
+        case PROP_TOOLBAR_OPEN:
+            settings->priv->toolbar_open = g_value_dup_string (value);
             break;
         case PROP_PRELOAD_IMAGES:
             settings->priv->preload_images = g_value_get_boolean (value);
@@ -458,8 +459,8 @@ rstto_settings_get_property    (GObject    *object,
         case PROP_SHOW_TOOLBAR:
             g_value_set_boolean (value, settings->priv->show_toolbar);
             break;
-        case PROP_TOOLBAR_OPEN_FOLDER:
-            g_value_set_boolean (value, settings->priv->toolbar_open_folder);
+        case PROP_TOOLBAR_OPEN:
+            g_value_set_string (value, settings->priv->toolbar_open);
             break;
         case PROP_PRELOAD_IMAGES:
             g_value_set_boolean (value, settings->priv->preload_images);

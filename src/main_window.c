@@ -76,6 +76,7 @@ struct _RsttoMainWindowPriv
     GtkWidget *p_viewer_s_window;
     GtkWidget *statusbar;
 
+    guint      t_open_merge_id;
     guint      recent_merge_id;
     guint      play_merge_id;
     guint      pause_merge_id;
@@ -216,6 +217,8 @@ static GtkActionEntry action_entries[] =
   { "file-menu", NULL, N_ ("_File"), NULL, },
   { "open", GTK_STOCK_OPEN, N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
   { "open-folder", NULL, N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
+  { "t_open", GTK_STOCK_OPEN, N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
+  { "t_open-folder", GTK_STOCK_OPEN, N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
   { "save-as", GTK_STOCK_SAVE_AS, N_ ("_Save as"), "<control>s", N_ ("Save the image"), G_CALLBACK (cb_rstto_main_window_save_as), },
   { "print", GTK_STOCK_PRINT, N_ ("_Print"), "<control>p", N_ ("Print the image"), G_CALLBACK (cb_rstto_main_window_print), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
@@ -302,7 +305,7 @@ static void
 rstto_main_window_init (RsttoMainWindow *window)
 {
     GtkAccelGroup   *accel_group;
-    GValue          show_toolbar_val = {0,}, window_width = {0, }, window_height = {0, };
+    GValue          show_toolbar_val = {0,}, window_width = {0, }, window_height = {0, }, toolbar_open = {0, };
     GtkWidget       *separator, *back, *forward, *leave_fullscreen;
     GtkWidget       *main_vbox = gtk_vbox_new (FALSE, 0);
     GtkRecentFilter *recent_filter;
@@ -333,6 +336,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_accel_map_change_entry ("<Window>/previous-image", GDK_Page_Up, 0, FALSE);
 
     /* Create mergeid's for adding ui-components */
+    window->priv->t_open_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->recent_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->play_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->pause_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
@@ -424,6 +428,9 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_widget_set_no_show_all (window->priv->toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->fs_toolbar, TRUE);
 
+    g_value_init (&toolbar_open, G_TYPE_STRING);
+    g_object_get_property (G_OBJECT(window->priv->settings_manager), "toolbar-open", &toolbar_open);
+
     /**
      * Add missing pieces to the UI
      */
@@ -448,6 +455,28 @@ rstto_main_window_init (RsttoMainWindow *window)
                            "recent",
                            GTK_UI_MANAGER_MENUITEM,
                            FALSE);
+
+    /* Attach the riight 'open' toolbar item */
+    if (g_strcasecmp (g_value_get_string (&toolbar_open), "file") == 0)
+    {
+        gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->recent_merge_id,
+                           "/main-toolbar/placeholder-t_open",
+                           "t_open",
+                           "t_open",
+                           GTK_UI_MANAGER_TOOLITEM,
+                           FALSE);
+    }
+    if (g_strcasecmp (g_value_get_string (&toolbar_open), "folder") == 0)
+    {
+        gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->recent_merge_id,
+                           "/main-toolbar/placeholder-t_open",
+                           "t_open-folder",
+                           "t_open-folder",
+                           GTK_UI_MANAGER_TOOLITEM,
+                           FALSE);
+    }
 
     /**
      * Retrieve the last window-size from the settings-manager

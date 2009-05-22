@@ -63,7 +63,7 @@
 
     -->
     <toolbar name="main-toolbar">
-        <toolitem action="open"/>
+        <placeholder name="placeholder-t_open"/>
         <separator />
         <toolitem action="back"/>
         <toolitem action="forward"/>

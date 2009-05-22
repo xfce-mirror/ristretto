@@ -1,3 +1,13 @@
+2009-05-23  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/main_window_ui.xml
+	  src/settings.c: Add ability to configure the toolbar-open button, it can
+	  now do the following:
+	  	- Open image
+		- Open folder
+		- None (disappear)
+
 2009-05-22  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c: Fix behaviour when switching to the last image
