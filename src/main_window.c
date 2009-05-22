@@ -908,7 +908,8 @@ cb_rstto_main_window_first_image (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_last_image (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_navigator_iter_set_position (window->priv->iter, -1);
+    guint n_images = rstto_navigator_get_n_images (window->priv->props.navigator);
+    rstto_navigator_iter_set_position (window->priv->iter, n_images-1);
     rstto_main_window_navigator_iter_changed (window);
 }
 
