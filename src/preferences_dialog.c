@@ -51,10 +51,19 @@ cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *, gp
 static void
 cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *, gpointer);
 
+static void
+cb_rstto_preferences_dialog_toolbar_open_hide_toggled (GtkToggleButton *, gpointer );
+static void
+cb_rstto_preferences_dialog_toolbar_open_file_toggled (GtkToggleButton *, gpointer );
+static void
+cb_rstto_preferences_dialog_toolbar_open_folder_toggled (GtkToggleButton *, gpointer );
+
 static GtkWidgetClass *parent_class = NULL;
 
 struct _RsttoPreferencesDialogPriv
 {
+    RsttoSettings *settings;
+
     struct
     {
         GtkWidget *bgcolor_frame;
@@ -80,6 +89,13 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *image_quality_label;
         GtkWidget *image_quality_combo;
     } display_tab;
+
+    struct
+    {
+        GtkWidget *toolbar_open_hide_radio;
+        GtkWidget *toolbar_open_file_radio;
+        GtkWidget *toolbar_open_folder_radio;
+    } control_tab;
 };
 
 GType
@@ -113,8 +129,25 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 {
     dialog->priv = g_new0 (RsttoPreferencesDialogPriv, 1);
 
-    RsttoSettings *settings_manager = rstto_settings_new ();
-    GValue value = {0, };
+    dialog->priv->settings = rstto_settings_new ();
+    guint uint_image_quality;
+    guint uint_cache_size;
+    gboolean bool_preload_images;
+    gboolean bool_enable_cache;
+    gboolean bool_bgcolor_override;
+    GdkColor *bgcolor;
+    gchar *toolbar_open;
+
+    g_object_get (G_OBJECT (dialog->priv->settings),
+                  "image-quality", &uint_image_quality,
+                  "cache-size", &uint_cache_size,
+                  "preload-images", &bool_preload_images,
+                  "enable-cache", &bool_enable_cache,
+                  "bgcolor-override", &bool_bgcolor_override,
+                  "bgcolor", &bgcolor,
+                  "toolbar-open", &toolbar_open,
+                  NULL);
+
     GtkObject *cache_adjustment;
 
     GtkWidget *notebook = gtk_notebook_new ();
@@ -151,19 +184,13 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                         dialog->priv->display_tab.bgcolor_hbox, FALSE, FALSE, 0);
 
     /* set current value */
-    g_value_init (&value, GDK_TYPE_COLOR);
-    g_object_get_property (G_OBJECT(settings_manager), "bgcolor", &value);
     gtk_color_button_set_color (GTK_COLOR_BUTTON (dialog->priv->display_tab.bgcolor_color_button),
-                                g_value_get_boxed (&value));
-    g_value_unset (&value);
+                                bgcolor);
 
-    g_value_init (&value, G_TYPE_BOOLEAN);
-    g_object_get_property (G_OBJECT(settings_manager), "bgcolor-override", &value);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.bgcolor_override_check_button),
-                                  g_value_get_boolean (&value));
+                                  bool_bgcolor_override);
     gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->display_tab.bgcolor_color_button),
-                              g_value_get_boolean (&value));
-    g_value_unset (&value);
+                              bool_bgcolor_override);
     
     /* connect signals */
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_override_check_button), 
@@ -208,31 +235,22 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                                  dialog->priv->display_tab.cache_hbox, FALSE, FALSE, 0);
     
     /* set current value */
-    g_value_init (&value, G_TYPE_BOOLEAN);
-    g_object_get_property (G_OBJECT(settings_manager), "enable-cache", &value);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.cache_check_button),
-                                  g_value_get_boolean (&value));
+                                  bool_enable_cache);
     gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->display_tab.cache_sub_vbox),
-                              g_value_get_boolean (&value));
-    g_value_unset (&value);
+                              bool_enable_cache);
 
-    g_value_init (&value, G_TYPE_BOOLEAN);
-    g_object_get_property (G_OBJECT(settings_manager), "preload-images", &value);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.cache_preload_check_button),
-                                  g_value_get_boolean (&value));
-    g_value_unset (&value);
+                                  bool_preload_images);
 
-    g_value_init (&value, G_TYPE_UINT);
-    g_object_get_property (G_OBJECT(settings_manager), "cache-size", &value);
-    if (g_value_get_uint (&value) < RSTTO_MIN_CACHE_SIZE)
+    if (uint_cache_size < RSTTO_MIN_CACHE_SIZE)
     {
         gtk_adjustment_set_value (GTK_ADJUSTMENT (cache_adjustment), RSTTO_DEFAULT_CACHE_SIZE);
     }
     else
     {
-        gtk_adjustment_set_value (GTK_ADJUSTMENT (cache_adjustment), (gdouble)g_value_get_uint (&value));
+        gtk_adjustment_set_value (GTK_ADJUSTMENT (cache_adjustment), uint_cache_size);
     }
-    g_value_unset (&value);
 
     /* connect signals */
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.cache_check_button), 
@@ -265,9 +283,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_hbox), 
                                  dialog->priv->display_tab.image_quality_combo, FALSE, FALSE, 0);
     /* set current value */
-    g_value_init (&value, G_TYPE_UINT);
-    g_object_get_property (G_OBJECT(settings_manager), "image-quality", &value);
-    switch (g_value_get_uint (&value))
+    switch (uint_image_quality)
     {
         case 0:
             gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 0);
@@ -309,10 +325,10 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     
     widget = gtk_radio_button_new_with_label (NULL, _("Black"));
     gtk_box_pack_start (GTK_BOX (slideshow_bgcolor_vbox), widget, FALSE, FALSE, 0);
-    widget = gtk_radio_button_new_with_label_from_widget (widget, _("Colorify (no idea how to call this feature)"));
+    widget = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(widget), _("Colorify (no idea how to call this feature)"));
     gtk_box_pack_start (GTK_BOX (slideshow_bgcolor_vbox), widget, FALSE, FALSE, 0);
 
-    widget = gtk_radio_button_new_with_label_from_widget (widget, _("Custom:"));
+    widget = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget), _("Custom:"));
     slideshow_bgcolor_hbox = gtk_hbox_new(FALSE, 4);
     slideshow_bgcolor_button = gtk_color_button_new();
     gtk_box_pack_start (GTK_BOX (slideshow_bgcolor_hbox), widget, FALSE, FALSE, 0);
@@ -337,26 +353,53 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *control_main_vbox = gtk_vbox_new(FALSE, 0);
     GtkWidget *control_main_lbl = gtk_label_new(_("Control"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), control_main_vbox, control_main_lbl);
-    /* not used */
-    gtk_widget_set_sensitive (control_main_vbox, FALSE);
 
     scroll_vbox = gtk_vbox_new(FALSE, 0);
     scroll_frame = xfce_create_framebox_with_content (_("Scrollwheel"), scroll_vbox);
     gtk_box_pack_start (GTK_BOX (control_main_vbox), scroll_frame, FALSE, FALSE, 0);
+    gtk_widget_set_sensitive (scroll_vbox, FALSE);
 
     widget = gtk_radio_button_new_with_label (NULL, _("No action"));
     gtk_container_add (GTK_CONTAINER (scroll_vbox), widget);
-    widget = gtk_radio_button_new_with_label_from_widget (widget, _("Zoom in and out"));
+    widget = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget), _("Zoom in and out"));
     gtk_container_add (GTK_CONTAINER (scroll_vbox), widget);
-    widget = gtk_radio_button_new_with_label_from_widget (widget, _("Switch images"));
+    widget = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget), _("Switch images"));
     gtk_container_add (GTK_CONTAINER (scroll_vbox), widget);
 
     toolbar_vbox = gtk_vbox_new(FALSE, 0);
     toolbar_frame = xfce_create_framebox_with_content (_("Toolbar"), toolbar_vbox);
     gtk_box_pack_start (GTK_BOX (control_main_vbox), toolbar_frame, FALSE, FALSE, 0);
 
-    widget = gtk_check_button_new_with_label (_("Open a folder from the toolbar 'open' button"));
-    gtk_container_add (GTK_CONTAINER (toolbar_vbox), widget);
+    dialog->priv->control_tab.toolbar_open_hide_radio = gtk_radio_button_new_with_label (NULL, _("Hide"));
+    gtk_container_add (GTK_CONTAINER (toolbar_vbox), dialog->priv->control_tab.toolbar_open_hide_radio);
+    g_signal_connect (G_OBJECT (dialog->priv->control_tab.toolbar_open_hide_radio), "toggled",
+        G_CALLBACK (cb_rstto_preferences_dialog_toolbar_open_hide_toggled), dialog);
+
+    dialog->priv->control_tab.toolbar_open_file_radio = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (dialog->priv->control_tab.toolbar_open_hide_radio), _("Open files"));
+    gtk_container_add (GTK_CONTAINER (toolbar_vbox), dialog->priv->control_tab.toolbar_open_file_radio);
+    g_signal_connect (G_OBJECT (dialog->priv->control_tab.toolbar_open_file_radio), "toggled",
+        G_CALLBACK (cb_rstto_preferences_dialog_toolbar_open_file_toggled), dialog);
+
+    dialog->priv->control_tab.toolbar_open_folder_radio = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (dialog->priv->control_tab.toolbar_open_hide_radio), _("Open folder"));
+    gtk_container_add (GTK_CONTAINER (toolbar_vbox), dialog->priv->control_tab.toolbar_open_folder_radio);
+    g_signal_connect (G_OBJECT (dialog->priv->control_tab.toolbar_open_folder_radio), "toggled",
+        G_CALLBACK (cb_rstto_preferences_dialog_toolbar_open_folder_toggled), dialog);
+
+    if (!strcmp (toolbar_open, "file"))
+    {
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.toolbar_open_file_radio), TRUE);
+    }
+    else
+    {
+        if (!strcmp (toolbar_open, "folder"))
+        {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.toolbar_open_folder_radio), TRUE);
+        }
+        else
+        {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.toolbar_open_hide_radio), TRUE);
+        }
+    }
 
 /********************************************/
     GtkWidget *behaviour_main_vbox = gtk_vbox_new(FALSE, 0);
@@ -404,8 +447,7 @@ static void
 cb_rstto_preferences_dialog_bgcolor_override_toggled (GtkToggleButton *button, 
                                                       gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = GTK_WIDGET (user_data);
-    RsttoSettings *settings = rstto_settings_new();
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
     
     GValue bgcolor_override_val = {0, };
     g_value_init (&bgcolor_override_val, G_TYPE_BOOLEAN);
@@ -421,20 +463,19 @@ cb_rstto_preferences_dialog_bgcolor_override_toggled (GtkToggleButton *button,
         gtk_widget_set_sensitive (dialog->priv->display_tab.bgcolor_color_button, FALSE);
     }
 
-    g_object_set_property (G_OBJECT (settings), "bgcolor-override", &bgcolor_override_val);
+    g_object_set_property (G_OBJECT (dialog->priv->settings), "bgcolor-override", &bgcolor_override_val);
     
 }
 
 static void
 cb_rstto_preferences_dialog_bgcolor_color_set (GtkColorButton *button, gpointer user_data)
 {
-    RsttoSettings *settings = rstto_settings_new();
-
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
     GValue bgcolor_val = {0, };
     g_value_init (&bgcolor_val, GDK_TYPE_COLOR);
 
     g_object_get_property (G_OBJECT(button), "color", &bgcolor_val);
-    g_object_set_property (G_OBJECT(settings), "bgcolor", &bgcolor_val);
+    g_object_set_property (G_OBJECT(dialog->priv->settings), "bgcolor", &bgcolor_val);
     
 }
 
@@ -442,8 +483,7 @@ static void
 cb_rstto_preferences_dialog_cache_check_button_toggled (GtkToggleButton *button, 
                                                         gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = GTK_WIDGET (user_data);
-    RsttoSettings *settings = rstto_settings_new();
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
 
     GValue value = {0, };
     g_value_init (&value, G_TYPE_BOOLEAN);
@@ -459,7 +499,7 @@ cb_rstto_preferences_dialog_cache_check_button_toggled (GtkToggleButton *button,
     	gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->display_tab.cache_sub_vbox), FALSE);
     }
     
-    g_object_set_property (G_OBJECT (settings), "enable-cache", &value);
+    g_object_set_property (G_OBJECT (dialog->priv->settings), "enable-cache", &value);
 
     g_value_unset (&value);
 
@@ -469,8 +509,7 @@ static void
 cb_rstto_preferences_dialog_cache_preload_check_button_toggled (GtkToggleButton *button, 
                                                                 gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = GTK_WIDGET (user_data);
-    RsttoSettings *settings = rstto_settings_new();
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
 
     GValue value = {0, };
     g_value_init (&value, G_TYPE_BOOLEAN);
@@ -484,7 +523,7 @@ cb_rstto_preferences_dialog_cache_preload_check_button_toggled (GtkToggleButton 
         g_value_set_boolean (&value, FALSE);
     }
     
-    g_object_set_property (G_OBJECT (settings), "preload-images", &value);
+    g_object_set_property (G_OBJECT (dialog->priv->settings), "preload-images", &value);
 
     g_value_unset (&value);
 }
@@ -493,15 +532,14 @@ static void
 cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *button, 
                                                                 gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = GTK_WIDGET (user_data);
-    RsttoSettings *settings = rstto_settings_new();
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
 
     GValue value = {0, };
     g_value_init (&value, G_TYPE_UINT);
 
     g_value_set_uint (&value, (guint)gtk_spin_button_get_value (button));
 
-    g_object_set_property (G_OBJECT (settings), "cache-size", &value);
+    g_object_set_property (G_OBJECT (dialog->priv->settings), "cache-size", &value);
 
     g_value_unset (&value);
 }
@@ -510,15 +548,59 @@ static void
 cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *combo_box,
                                                              gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = GTK_WIDGET (user_data);
-    RsttoSettings *settings = rstto_settings_new();
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
 
     GValue value = {0, };
     g_value_init (&value, G_TYPE_UINT);
 
     g_value_set_uint (&value, (guint)gtk_combo_box_get_active (combo_box));
 
-    g_object_set_property (G_OBJECT (settings), "image-quality", &value);
+    g_object_set_property (G_OBJECT (dialog->priv->settings), "image-quality", &value);
+
+    g_value_unset (&value);
+}
+
+static void
+cb_rstto_preferences_dialog_toolbar_open_hide_toggled (GtkToggleButton *button, 
+                                                      gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    GValue value = {0, };
+    g_value_init (&value, G_TYPE_STRING);
+
+    g_value_set_string (&value, "hide");
+    g_object_set_property (G_OBJECT (dialog->priv->settings), "toolbar-open", &value);
+
+    g_value_unset (&value);
+}
+
+static void
+cb_rstto_preferences_dialog_toolbar_open_file_toggled (GtkToggleButton *button, 
+                                                      gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    GValue value = {0, };
+    g_value_init (&value, G_TYPE_STRING);
+
+    g_value_set_string (&value, "file");
+    g_object_set_property (G_OBJECT (dialog->priv->settings), "toolbar-open", &value);
+
+    g_value_unset (&value);
+}
+
+static void
+cb_rstto_preferences_dialog_toolbar_open_folder_toggled (GtkToggleButton *button, 
+                                                      gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    GValue value = {0, };
+    g_value_init (&value, G_TYPE_STRING);
+
+    g_value_set_string (&value, "folder");
+    g_object_set_property (G_OBJECT (dialog->priv->settings), "toolbar-open", &value);
 
     g_value_unset (&value);
 }

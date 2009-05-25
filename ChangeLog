@@ -1,3 +1,10 @@
+2009-05-25  Stephan Arts <stephan.xfce.org>
+
+	* src/main_window.c
+	  src/preferences_dialog.c: Implement preferences for the 'open' toolbar
+	  item.
+	* TODO: Update TODO
+
 2009-05-23  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c

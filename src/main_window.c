@@ -77,6 +77,7 @@ struct _RsttoMainWindowPriv
     GtkWidget *statusbar;
 
     guint      t_open_merge_id;
+    guint      t_open_folder_merge_id;
     guint      recent_merge_id;
     guint      play_merge_id;
     guint      pause_merge_id;
@@ -197,6 +198,9 @@ static void
 cb_rstto_main_window_contents (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_quit (GtkWidget *widget, RsttoMainWindow *window);
+
+static void
+cb_rstto_main_window_settings_notify (GObject *settings, GParamSpec *spec, RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_fullscreen_toolbar_sticky (GtkWidget *widget, RsttoMainWindow *window);
@@ -337,6 +341,7 @@ rstto_main_window_init (RsttoMainWindow *window)
 
     /* Create mergeid's for adding ui-components */
     window->priv->t_open_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
+    window->priv->t_open_folder_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->recent_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->play_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->pause_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
@@ -430,6 +435,7 @@ rstto_main_window_init (RsttoMainWindow *window)
 
     g_value_init (&toolbar_open, G_TYPE_STRING);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "toolbar-open", &toolbar_open);
+    g_signal_connect (G_OBJECT (window->priv->settings_manager), "notify::toolbar-open", G_CALLBACK (cb_rstto_main_window_settings_notify), window);
 
     /**
      * Add missing pieces to the UI
@@ -460,7 +466,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     if (g_strcasecmp (g_value_get_string (&toolbar_open), "file") == 0)
     {
         gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->recent_merge_id,
+                           window->priv->t_open_merge_id,
                            "/main-toolbar/placeholder-t_open",
                            "t_open",
                            "t_open",
@@ -470,7 +476,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     if (g_strcasecmp (g_value_get_string (&toolbar_open), "folder") == 0)
     {
         gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->recent_merge_id,
+                           window->priv->t_open_folder_merge_id,
                            "/main-toolbar/placeholder-t_open",
                            "t_open-folder",
                            "t_open-folder",
@@ -1818,3 +1824,64 @@ cb_rstto_main_window_fullscreen_toolbar_sticky (GtkWidget *widget, RsttoMainWind
         window->priv->show_fs_toolbar_timeout_id = g_timeout_add (1500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
     }
 }
+
+static void
+cb_rstto_main_window_settings_notify (GObject *settings, GParamSpec *spec, RsttoMainWindow *window)
+{
+    GValue val = {0,};
+    g_return_if_fail (RSTTO_IS_SETTINGS (settings));
+    g_return_if_fail (RSTTO_IS_MAIN_WINDOW (window));
+    g_return_if_fail (G_PARAM_SPEC_VALUE_TYPE (spec) == G_TYPE_STRING);
+
+    g_value_init (&val, spec->value_type);
+    g_object_get_property (settings, spec->name, &val);
+
+
+    /* Manage the toolbar-open property */
+    if (!strcmp (spec->name, "toolbar-open"))
+    {
+        /* Check if the 'open-file' toolbar item should be displayed */
+        if (!strcmp (g_value_get_string (&val), "file"))
+        {
+            gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                                      window->priv->t_open_folder_merge_id);
+            gtk_ui_manager_add_ui (window->priv->ui_manager,
+                                   window->priv->t_open_merge_id,
+                                  "/main-toolbar/placeholder-t_open",
+                                  "t_open",
+                                  "t_open",
+                                  GTK_UI_MANAGER_TOOLITEM,
+                                  FALSE);
+
+        }
+        else
+        {
+            /* Check if the 'open-folder' toolbar item should be displayed */
+            if (!strcmp (g_value_get_string (&val), "folder"))
+            {
+                gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                                          window->priv->t_open_merge_id);
+                gtk_ui_manager_add_ui (window->priv->ui_manager,
+                                       window->priv->t_open_folder_merge_id,
+                                      "/main-toolbar/placeholder-t_open",
+                                      "t_open-folder",
+                                      "t_open-folder",
+                                      GTK_UI_MANAGER_TOOLITEM,
+                                      FALSE);
+
+            }
+            else
+            {
+                /* neither file nor folder should be displayed, hide them all */
+                gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                                          window->priv->t_open_folder_merge_id);
+                gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                                          window->priv->t_open_merge_id);
+
+            }
+        }
+    }
+
+    g_value_unset (&val);
+}
+
