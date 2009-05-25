@@ -647,7 +647,7 @@ rstto_main_window_set_sensitive (RsttoMainWindow *window, gboolean sensitive)
     gtk_widget_set_sensitive (
             gtk_ui_manager_get_widget (
                     window->priv->ui_manager,
-                    "/main-menu/file-menu/save-as"),
+                    "/main-menu/file-menu/save-copy"),
             sensitive);
     gtk_widget_set_sensitive (
             gtk_ui_manager_get_widget (
