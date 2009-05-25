@@ -1,5 +1,16 @@
 2009-05-25  Stephan Arts <stephan@xfce.org>
 
+	* src/main_window.c: change open-folder icon to 'folder-open' instead of
+	'document-open'
+	* src/settings.c
+	  src/preferences_dialog.c: Make preload-images an number value (as-in,
+	  how many should be preloaded)
+	* src/preferences_dialog.c: Change the values in the quality-combo to
+	  something human-readable.
+	* src/preferences_dialog.c: Move image-quality frame to the behaviour tab.
+
+2009-05-25  Stephan Arts <stephan@xfce.org>
+
 	* src/main_window.c: Fix sensitivity of the save-copy button
 
 2009-05-25  Stephan Arts <stephan@xfce.org>
