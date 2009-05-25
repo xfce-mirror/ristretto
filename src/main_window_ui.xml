@@ -9,7 +9,7 @@
             <menuitem action="open-folder"/>
             <placeholder name="placeholder-open-recent"/>
             <separator/>
-            <menuitem action="save-as"/>
+            <menuitem action="save-copy"/>
             <separator/>
             <menuitem action="print"/>
             <separator/>

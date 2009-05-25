@@ -166,7 +166,7 @@ cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window);
 static void
-cb_rstto_main_window_save_as (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window);
 
@@ -223,7 +223,7 @@ static GtkActionEntry action_entries[] =
   { "open-folder", NULL, N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
   { "t_open", GTK_STOCK_OPEN, N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
   { "t_open-folder", GTK_STOCK_OPEN, N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
-  { "save-as", GTK_STOCK_SAVE_AS, N_ ("_Save as"), "<control>s", N_ ("Save the image"), G_CALLBACK (cb_rstto_main_window_save_as), },
+  { "save-copy", GTK_STOCK_SAVE_AS, N_ ("_Save copy"), "<control>s", N_ ("Save a copy the image"), G_CALLBACK (cb_rstto_main_window_save_copy), },
   { "print", GTK_STOCK_PRINT, N_ ("_Print"), "<control>p", N_ ("Print the image"), G_CALLBACK (cb_rstto_main_window_print), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
   { "close-all", NULL, N_ ("_Close All"), NULL, N_ ("Close all images"), G_CALLBACK (cb_rstto_main_window_close_all), },
@@ -1212,13 +1212,13 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
 }
 
 static void
-cb_rstto_main_window_save_as (GtkWidget *widget, RsttoMainWindow *window)
+cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
 {
     GtkWidget *dialog;
     gint response;
     GFile *file, *s_file;
 
-    dialog = gtk_file_chooser_dialog_new(_("Save as"),
+    dialog = gtk_file_chooser_dialog_new(_("Save copy"),
                                          GTK_WINDOW(window),
                                          GTK_FILE_CHOOSER_ACTION_SAVE,
                                          GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,

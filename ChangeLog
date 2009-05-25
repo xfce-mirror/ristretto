@@ -1,5 +1,11 @@
 2009-05-25  Stephan Arts <stephan@xfce.org>
 
+	* src/main_window.c
+	  src/main_window_ui.xml: Rename save-as to save-copy (suggested by cody
+	  somerville)
+
+2009-05-25  Stephan Arts <stephan@xfce.org>
+
 	* src/image_cache.c
 	  src/preferences_dialog.c
 	  src/settings.c
