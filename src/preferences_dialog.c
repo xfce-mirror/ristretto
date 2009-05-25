@@ -283,21 +283,21 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_hbox), 
                                  dialog->priv->display_tab.image_quality_combo, FALSE, FALSE, 0);
     /* set current value */
-    switch (uint_image_quality)
+    switch (uint_image_quality-(uint_image_quality%1000000))
     {
         case 0:
             gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 0);
             break;
-        case 1:
+        case 1000000:
             gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 1);
             break;
-        case 2:
+        case 2000000:
             gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 2);
             break;
-        case 4:
+        case 4000000:
             gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 4);
             break;
-        case 8:
+        case 8000000:
             gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 8);
             break;
         default:
@@ -547,17 +547,39 @@ cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *butt
 static void
 cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *combo_box,
                                                              gpointer user_data)
+
 {
+    /* FIXME */
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    switch (gtk_combo_box_get_active (combo_box))
+    {
+        case 0: /* unlimited */
+            g_object_set (G_OBJECT (dialog->priv->settings),
+                          "image-quality", 0,
+                          NULL);
+            break;
+        case 1: /* 1 MegaPixel */
+            g_object_set (G_OBJECT (dialog->priv->settings),
+                          "image-quality", 1000000,
+                          NULL);
+            break;
+        case 2: /* 2 MegaPixel */
+            g_object_set (G_OBJECT (dialog->priv->settings),
+                          "image-quality", 2000000,
+                          NULL);
+            break;
+        case 3: /* 4 MegaPixel */
+            g_object_set (G_OBJECT (dialog->priv->settings),
+                          "image-quality", 4000000,
+                          NULL);
+            break;
+        case 4: /* 8 MegaPixel */
+            g_object_set (G_OBJECT (dialog->priv->settings),
+                          "image-quality", 8000000,
+                          NULL);
+            break;
 
-    GValue value = {0, };
-    g_value_init (&value, G_TYPE_UINT);
-
-    g_value_set_uint (&value, (guint)gtk_combo_box_get_active (combo_box));
-
-    g_object_set_property (G_OBJECT (dialog->priv->settings), "image-quality", &value);
-
-    g_value_unset (&value);
+    }
 }
 
 static void

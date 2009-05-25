@@ -91,18 +91,16 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
 {
     gboolean retval = FALSE;
     RsttoSettings *settings = rstto_settings_new();
-    GValue val = {0, }, val_cache_size = {0, };
+    gboolean cache_enabled;
     guint size = 0;
     guint cache_size = 0;
     RsttoImage *c_image;
     GList *iter = NULL;
 
-    g_value_init (&val, G_TYPE_BOOLEAN);
-    g_value_init (&val_cache_size, G_TYPE_UINT);
-    g_object_get_property (G_OBJECT (settings), "enable-cache", &val);
-    g_object_get_property (G_OBJECT (settings), "cache-size", &val_cache_size);
-
-    cache_size = g_value_get_uint(&val_cache_size)*1000000;
+    g_object_get (G_OBJECT (settings),
+                  "enable-cache", &cache_enabled,
+                  "cache-size", &cache_size,
+                  NULL);
 
     if (cache->cache_list)
     {
@@ -123,8 +121,9 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
     /**
      * Check if we are keeping a cache
      */
-    if (g_value_get_boolean (&val) == FALSE)
+    if (cache_enabled == FALSE)
     {
+        g_debug ("cache disable");
         while (g_list_length (cache->cache_list) > 1)
         {
             c_image = g_list_last (cache->cache_list)->data;
@@ -141,7 +140,7 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
         for (iter = cache->cache_list->next; iter != NULL; iter = g_list_next (iter))
         {
             c_image = iter->data;
-            if (size > cache_size)
+            if (size > (cache_size*1000000))
             {
                 rstto_image_unload (c_image);
                 cache->cache_list = g_list_remove (cache->cache_list, c_image);
@@ -161,7 +160,6 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
         }
     }
     g_object_unref (settings);
-    g_value_unset (&val);
     return retval;
 }
 

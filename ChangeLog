@@ -1,4 +1,11 @@
-2009-05-25  Stephan Arts <stephan.xfce.org>
+2009-05-25  Stephan Arts <stephan@xfce.org>
+
+	* src/image_cache.c
+	  src/preferences_dialog.c
+	  src/settings.c
+	  src/image.c: Improve cache-size and image-quality calculations
+
+2009-05-25  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c
 	  src/preferences_dialog.c: Implement preferences for the 'open' toolbar

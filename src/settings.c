@@ -251,8 +251,8 @@ rstto_settings_class_init (GObjectClass *object_class)
                                   "",
                                   "",
                                   0,
-                                  50,
-                                  2,
+                                  50000000,
+                                  2000000,
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_IMAGE_QUALITY,

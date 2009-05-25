@@ -569,7 +569,7 @@ cb_rstto_image_size_prepared (GdkPixbufLoader *loader, gint width, gint height, 
 
     if (image->priv->max_size > 0)
     {
-        gdouble ratio = (gdouble)(image->priv->max_size*1000000)/(gdouble)(width * height);
+        gdouble ratio = (gdouble)(image->priv->max_size)/(gdouble)(width * height);
         if (ratio < 1)
     	    gdk_pixbuf_loader_set_size (loader, width*ratio, height*ratio);
     }
