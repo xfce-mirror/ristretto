@@ -1,10 +1,9 @@
-#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-07-11 17:12+0100\n"
+"PO-Revision-Date: 2009-05-25 17:29+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.d.o>\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +34,9 @@ msgstr ""
 "%s: %s\n"
 "A %s --help adja az elérhető lehetőségek litáját.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
+#: ../src/main.c:448
+#: ../src/main_window.c:1598
+#: ../src/main_window.c:1638
 #: ../src/main_window.c:1675
 msgid "Opening file(s)..."
 msgstr "Fájl(ok) megnyitása..."
@@ -62,11 +63,13 @@ msgstr "Mindent bezár"
 msgid "_Edit"
 msgstr "Sz_erkeszt"
 
-#: ../src/main_window.c:388 ../src/main_window.c:659
+#: ../src/main_window.c:388
+#: ../src/main_window.c:659
 msgid "Open with..."
 msgstr "Megnyitás ezzel..."
 
-#: ../src/main_window.c:396 ../src/main_window.c:670
+#: ../src/main_window.c:396
+#: ../src/main_window.c:670
 msgid "No applications available"
 msgstr "Nincs elérhető alkalmazás"
 
@@ -175,7 +178,7 @@ msgstr "MB"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr ""
+msgstr "Képek előtöltése (gyorsabb GUI válasz, de CPU-igényesebb)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
@@ -206,9 +209,7 @@ msgid "Developer:"
 msgstr "Fejlesztő:"
 
 #: ../src/main_window.c:1566
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
 msgstr "A Ristretto egy gyors, könnyű nézegető az Xfce asztali környezethez."
 
 #: ../src/main_window.c:1574
@@ -228,8 +229,7 @@ msgid "Open folder"
 msgstr "Mappa megnyitása"
 
 #: ../src/main_window.c:1715
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Tényleg törlöd a legutóbbi dokumentumok listáját?"
 
 #: ../src/thumbnail_bar.c:185
@@ -262,16 +262,14 @@ msgstr "Xfce Kép-néző"
 
 #~ msgid "Preload"
 #~ msgstr "Előtöltés"
-
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Képek előtöltése vetítéskor\n"
 #~ "(több memóriát eszik)"
-
 #~ msgid "_Preload images"
 #~ msgstr "Képek _előtöltése"
-
 #~ msgid "Ristretto Image Viewer"
 #~ msgstr "Ristretto Kép-néző"
+
