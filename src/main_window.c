@@ -71,7 +71,8 @@ struct _RsttoMainWindowPriv
 
     GtkWidget *menubar;
     GtkWidget *toolbar;
-    GtkWidget *fs_toolbar;
+    GtkWidget *navigator_toolbar;
+    GtkWidget *navigator_toolbar_menu;
     GtkWidget *picture_viewer;
     GtkWidget *p_viewer_s_window;
     GtkWidget *statusbar;
@@ -81,8 +82,10 @@ struct _RsttoMainWindowPriv
     guint      recent_merge_id;
     guint      play_merge_id;
     guint      pause_merge_id;
-    guint      fs_play_merge_id;
-    guint      fs_pause_merge_id;
+    guint      toolbar_play_merge_id;
+    guint      toolbar_pause_merge_id;
+    guint      toolbar_fullscreen_merge_id;
+    guint      toolbar_unfullscreen_merge_id;
 
     GtkAction *play_action;
     GtkAction *pause_action;
@@ -124,11 +127,26 @@ static void
 cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data);
 static gboolean
 cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
+static gboolean
+cb_rstto_main_window_navigator_toolbar_enter_notify_event (GtkWidget *widget,
+                                                           GdkEventCrossing *event,
+                                                           gpointer user_data);
+static gboolean
+cb_rstto_main_window_navigator_toolbar_leave_notify_event (GtkWidget *widget,
+                                                           GdkEventCrossing *evet,
+                                                           gpointer user_data);
 
 static void
 cb_rstto_main_window_navigator_new_image (RsttoNavigator *navigator, RsttoImage *image, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_navigator_remove_image (RsttoNavigator *navigator, RsttoImage *image, RsttoMainWindow *window);
+
+static gboolean
+cb_rstto_main_window_navigator_toolbar_popup_context_menu (GtkToolbar *toolbar,
+                                                        gint        x,
+                                                        gint        y,
+                                                        gint        button,
+                                                        gpointer    user_data);
 
 static void
 cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window);
@@ -202,9 +220,6 @@ cb_rstto_main_window_quit (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_settings_notify (GObject *settings, GParamSpec *spec, RsttoMainWindow *window);
 
-static void
-cb_rstto_main_window_fullscreen_toolbar_sticky (GtkWidget *widget, RsttoMainWindow *window);
-
 static gboolean 
 cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
                                              GdkEventMotion *event,
@@ -221,8 +236,6 @@ static GtkActionEntry action_entries[] =
   { "file-menu", NULL, N_ ("_File"), NULL, },
   { "open", "document-open", N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
   { "open-folder", "folder-open", N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
-  { "t_open", "document-open", N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
-  { "t_open-folder", "folder-open", N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
   { "save-copy", GTK_STOCK_SAVE_AS, N_ ("_Save copy"), "<control>s", N_ ("Save a copy the image"), G_CALLBACK (cb_rstto_main_window_save_copy), },
   { "print", GTK_STOCK_PRINT, N_ ("_Print"), "<control>p", N_ ("Print the image"), G_CALLBACK (cb_rstto_main_window_print), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
@@ -236,6 +249,7 @@ static GtkActionEntry action_entries[] =
 /* View Menu */
   { "view-menu", NULL, N_ ("_View"), NULL, },
   { "fullscreen", GTK_STOCK_FULLSCREEN, N_ ("_Fullscreen"), "F11", NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
+  { "unfullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("_Leave Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "set-as-wallpaper", NULL, N_ ("_Set as Wallpaper"), NULL, NULL, NULL, },
 /* Thumbnailbar submenu */
   { "thumbnailbar-menu", NULL, N_ ("_Thumbnail Bar"), NULL, },
@@ -268,14 +282,14 @@ static GtkActionEntry action_entries[] =
                 N_ ("Display information about ristretto"),
                 G_CALLBACK (cb_rstto_main_window_about), },
 /* Misc */
-  { "leave-fullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("Leave _Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), }
+  { "leave-fullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("Leave _Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
+  { "tb-menu", NULL, NULL, NULL, }
 };
 
 static const GtkToggleActionEntry toggle_action_entries[] =
 {
     { "show-toolbar", NULL, N_ ("Show _Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_toolbar), TRUE, },
     { "show-thumbnailbar", NULL, N_ ("Show Thumb_nailbar"), NULL, NULL, NULL, FALSE},
-    { "sticky", GTK_STOCK_ADD, N_("Sticky"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen_toolbar_sticky), FALSE }
 };
 
 
@@ -309,7 +323,7 @@ static void
 rstto_main_window_init (RsttoMainWindow *window)
 {
     GtkAccelGroup   *accel_group;
-    GValue          show_toolbar_val = {0,}, window_width = {0, }, window_height = {0, }, toolbar_open = {0, };
+    GValue          show_toolbar_val = {0,}, window_width = {0, }, window_height = {0, };
     GtkWidget       *separator, *back, *forward, *leave_fullscreen;
     GtkWidget       *main_vbox = gtk_vbox_new (FALSE, 0);
     GtkRecentFilter *recent_filter;
@@ -340,18 +354,18 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_accel_map_change_entry ("<Window>/previous-image", GDK_Page_Up, 0, FALSE);
 
     /* Create mergeid's for adding ui-components */
-    window->priv->t_open_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
-    window->priv->t_open_folder_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->recent_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->play_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->pause_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
-    window->priv->fs_play_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
-    window->priv->fs_pause_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
+    window->priv->toolbar_play_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
+    window->priv->toolbar_pause_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
+    window->priv->toolbar_fullscreen_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
+    window->priv->toolbar_unfullscreen_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
 
 
     window->priv->play_action = gtk_action_new ("play", "_Play", "Play slideshow", GTK_STOCK_MEDIA_PLAY);
     window->priv->pause_action = gtk_action_new ("pause", "_Pause", "Pause slideshow", GTK_STOCK_MEDIA_PAUSE);
-    window->priv->recent_action = gtk_recent_action_new_for_manager ("recent", "_Recently used", "Recently used", 0, GTK_RECENT_MANAGER(window->priv->recent_manager));
+    window->priv->recent_action = gtk_recent_action_new_for_manager ("document-open-recent", "_Recently used", "Recently used", 0, GTK_RECENT_MANAGER(window->priv->recent_manager));
 
     /**
      * Add a filter to the recent-chooser
@@ -386,16 +400,15 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_ui_manager_add_ui_from_string (window->priv->ui_manager,main_window_ui, main_window_ui_length, NULL);
     window->priv->menubar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu");
     window->priv->toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar");
-    window->priv->fs_toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/fullscreen-toolbar");
+    window->priv->navigator_toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar");
+    window->priv->navigator_toolbar_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/tb-menu");
 
+    
+    
     /**
      * Get the separator toolitem and tell it to expand
      */
-    separator = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/separator-1");
-    gtk_tool_item_set_expand (GTK_TOOL_ITEM (separator), TRUE);
-    gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (separator), FALSE);
-
-    separator = gtk_ui_manager_get_widget (window->priv->ui_manager, "/fullscreen-toolbar/separator-1");
+    separator = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/separator-1");
     gtk_tool_item_set_expand (GTK_TOOL_ITEM (separator), TRUE);
     gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (separator), FALSE);
 
@@ -403,17 +416,11 @@ rstto_main_window_init (RsttoMainWindow *window)
      * Make the back and forward toolitems important,
      * when they are, the labels are shown when the toolbar style is 'both-horizontal'
      */
-    back = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/back");
+    back = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/back");
     gtk_tool_item_set_is_important (GTK_TOOL_ITEM (back), TRUE);
-    forward = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/forward");
+    forward = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/forward");
     gtk_tool_item_set_is_important (GTK_TOOL_ITEM (forward), TRUE);
     
-    /* Make the leave-fullscreen toolitem important,
-     * when it is, the label is shown when the toolbar style is 'both-horizontal'
-     */
-    leave_fullscreen = gtk_ui_manager_get_widget (window->priv->ui_manager, "/fullscreen-toolbar/leave-fullscreen");
-    gtk_tool_item_set_is_important (GTK_TOOL_ITEM (leave_fullscreen), TRUE);
-
     window->priv->picture_viewer = rstto_picture_viewer_new ();
     window->priv->p_viewer_s_window = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -426,16 +433,11 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->menubar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->toolbar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->p_viewer_s_window, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->fs_toolbar, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->navigator_toolbar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
 
     rstto_main_window_set_sensitive (window, FALSE);
     gtk_widget_set_no_show_all (window->priv->toolbar, TRUE);
-    gtk_widget_set_no_show_all (window->priv->fs_toolbar, TRUE);
-
-    g_value_init (&toolbar_open, G_TYPE_STRING);
-    g_object_get_property (G_OBJECT(window->priv->settings_manager), "toolbar-open", &toolbar_open);
-    g_signal_connect (G_OBJECT (window->priv->settings_manager), "notify::toolbar-open", G_CALLBACK (cb_rstto_main_window_settings_notify), window);
 
     /**
      * Add missing pieces to the UI
@@ -448,41 +450,26 @@ rstto_main_window_init (RsttoMainWindow *window)
                            GTK_UI_MANAGER_MENUITEM,
                            FALSE);
     gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->fs_play_merge_id,
-                           "/fullscreen-toolbar/placeholder-slideshow",
+                           window->priv->recent_merge_id,
+                           "/main-menu/file-menu/placeholder-open-recent",
+                           "document-open-recent",
+                           "document-open-recent",
+                           GTK_UI_MANAGER_MENUITEM,
+                           FALSE);
+    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->toolbar_play_merge_id,
+                           "/navigation-toolbar/placeholder-slideshow",
                            "play",
                            "play",
                            GTK_UI_MANAGER_TOOLITEM,
                            FALSE);
     gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->recent_merge_id,
-                           "/main-menu/file-menu/placeholder-open-recent",
-                           "recent",
-                           "recent",
-                           GTK_UI_MANAGER_MENUITEM,
-                           FALSE);
-
-    /* Attach the riight 'open' toolbar item */
-    if (g_strcasecmp (g_value_get_string (&toolbar_open), "file") == 0)
-    {
-        gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->t_open_merge_id,
-                           "/main-toolbar/placeholder-t_open",
-                           "t_open",
-                           "t_open",
+                           window->priv->toolbar_fullscreen_merge_id,
+                           "/navigation-toolbar/placeholder-fullscreen",
+                           "fullscreen",
+                           "fullscreen",
                            GTK_UI_MANAGER_TOOLITEM,
                            FALSE);
-    }
-    if (g_strcasecmp (g_value_get_string (&toolbar_open), "folder") == 0)
-    {
-        gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->t_open_folder_merge_id,
-                           "/main-toolbar/placeholder-t_open",
-                           "t_open-folder",
-                           "t_open-folder",
-                           GTK_UI_MANAGER_TOOLITEM,
-                           FALSE);
-    }
 
     /**
      * Retrieve the last window-size from the settings-manager
@@ -515,8 +502,6 @@ rstto_main_window_init (RsttoMainWindow *window)
                 FALSE);
         gtk_widget_hide (window->priv->toolbar);
     }
-
-    gtk_widget_hide (window->priv->fs_toolbar);
 
     g_signal_connect(G_OBJECT(window->priv->picture_viewer), "motion-notify-event", G_CALLBACK(cb_rstto_main_window_picture_viewer_motion_notify_event), window);
     g_signal_connect(G_OBJECT(window), "configure-event", G_CALLBACK(cb_rstto_main_window_configure_event), NULL);
@@ -700,16 +685,14 @@ rstto_main_window_set_sensitive (RsttoMainWindow *window, gboolean sensitive)
     */
 
     /* Toolbar */
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/forward"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/back"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/zoom-in"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/zoom-out"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/zoom-fit"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/zoom-100"), sensitive);
+    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/save-copy"), sensitive);
+    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/forward"), sensitive);
+    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/back"), sensitive);
+    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-in"), sensitive);
+    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-out"), sensitive);
+    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-fit"), sensitive);
+    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-100"), sensitive);
 
-    /* FS Toolbar */
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/fullscreen-toolbar/forward"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/fullscreen-toolbar/back"), sensitive);
 }
 
 /**
@@ -1331,14 +1314,15 @@ cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window)
                               window->priv->play_merge_id);
 
     gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->fs_pause_merge_id,
-                           "/fullscreen-toolbar/placeholder-slideshow",
+                           window->priv->toolbar_pause_merge_id,
+                           "/navigation-toolbar/placeholder-slideshow",
                            "pause",
                            "pause",
                            GTK_UI_MANAGER_TOOLITEM,
                            FALSE);
     gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                              window->priv->fs_play_merge_id);
+                              window->priv->toolbar_play_merge_id);
+
 
     g_value_init (&timeout, G_TYPE_UINT);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "slideshow-timeout", &timeout);
@@ -1369,14 +1353,14 @@ cb_rstto_main_window_pause (GtkWidget *widget, RsttoMainWindow *window)
                               window->priv->pause_merge_id);
 
     gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->fs_play_merge_id,
-                           "/fullscreen-toolbar/placeholder-slideshow",
+                           window->priv->toolbar_play_merge_id,
+                           "/navigation-toolbar/placeholder-slideshow",
                            "play",
                            "play",
                            GTK_UI_MANAGER_TOOLITEM,
                            FALSE);
     gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                              window->priv->fs_pause_merge_id);
+                              window->priv->toolbar_pause_merge_id);
 
     window->priv->playing = FALSE;
 }
@@ -1750,15 +1734,47 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             gtk_widget_hide (window->priv->menubar);
             gtk_widget_hide (window->priv->toolbar);
             gtk_widget_hide (window->priv->statusbar);
+            if (window->priv->fs_toolbar_sticky)
+            {
+                if (window->priv->show_fs_toolbar_timeout_id > 0)
+                {
+                    g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+                    window->priv->show_fs_toolbar_timeout_id = 0;
+                }
+                window->priv->show_fs_toolbar_timeout_id = g_timeout_add (3000, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+            }
+            else
+            {
+                gtk_widget_hide (window->priv->navigator_toolbar);
+            }
+
+            gtk_ui_manager_add_ui (window->priv->ui_manager,
+                                   window->priv->toolbar_unfullscreen_merge_id,
+                                   "/navigation-toolbar/placeholder-fullscreen",
+                                   "unfullscreen",
+                                   "unfullscreen",
+                                   GTK_UI_MANAGER_TOOLITEM,
+                                   FALSE);
+            gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                                   window->priv->toolbar_fullscreen_merge_id);
         }
         else
         {
+            gtk_ui_manager_add_ui (window->priv->ui_manager,
+                                   window->priv->toolbar_fullscreen_merge_id,
+                                   "/navigation-toolbar/placeholder-fullscreen",
+                                   "fullscreen",
+                                   "fullscreen",
+                                   GTK_UI_MANAGER_TOOLITEM,
+                                   FALSE);
+            gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                                   window->priv->toolbar_unfullscreen_merge_id);
             if (window->priv->show_fs_toolbar_timeout_id > 0)
             {
                 g_source_remove (window->priv->show_fs_toolbar_timeout_id);
                 window->priv->show_fs_toolbar_timeout_id = 0;
             }
-            gtk_widget_hide (window->priv->fs_toolbar);
+            gtk_widget_show (window->priv->navigator_toolbar);
 
             g_value_init (&show_toolbar_val, G_TYPE_BOOLEAN);
             g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-toolbar", &show_toolbar_val);
@@ -1787,7 +1803,7 @@ cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *vie
     {
         if (event->state == 0)
         {
-            gtk_widget_show (window->priv->fs_toolbar);
+            gtk_widget_show (window->priv->navigator_toolbar);
 
             if (window->priv->fs_toolbar_sticky == FALSE)
             {
@@ -1805,24 +1821,8 @@ cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *vie
 static gboolean
 cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window)
 {
-    gtk_widget_hide (window->priv->fs_toolbar);
+    gtk_widget_hide (window->priv->navigator_toolbar);
     return FALSE;
-}
-
-static void
-cb_rstto_main_window_fullscreen_toolbar_sticky (GtkWidget *widget, RsttoMainWindow *window)
-{
-    if (window->priv->show_fs_toolbar_timeout_id > 0)
-    {
-        g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-        window->priv->show_fs_toolbar_timeout_id = 0;
-    }
-    window->priv->fs_toolbar_sticky = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (widget));
-
-    if (window->priv->fs_toolbar_sticky == FALSE)
-    {
-        window->priv->show_fs_toolbar_timeout_id = g_timeout_add (1500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
-    }
 }
 
 static void
@@ -1837,51 +1837,25 @@ cb_rstto_main_window_settings_notify (GObject *settings, GParamSpec *spec, Rstto
     g_object_get_property (settings, spec->name, &val);
 
 
-    /* Manage the toolbar-open property */
-    if (!strcmp (spec->name, "toolbar-open"))
-    {
-        /* Check if the 'open-file' toolbar item should be displayed */
-        if (!strcmp (g_value_get_string (&val), "file"))
-        {
-            gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                                      window->priv->t_open_folder_merge_id);
-            gtk_ui_manager_add_ui (window->priv->ui_manager,
-                                   window->priv->t_open_merge_id,
-                                  "/main-toolbar/placeholder-t_open",
-                                  "t_open",
-                                  "t_open",
-                                  GTK_UI_MANAGER_TOOLITEM,
-                                  FALSE);
-
-        }
-        else
-        {
-            /* Check if the 'open-folder' toolbar item should be displayed */
-            if (!strcmp (g_value_get_string (&val), "folder"))
-            {
-                gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                                          window->priv->t_open_merge_id);
-                gtk_ui_manager_add_ui (window->priv->ui_manager,
-                                       window->priv->t_open_folder_merge_id,
-                                      "/main-toolbar/placeholder-t_open",
-                                      "t_open-folder",
-                                      "t_open-folder",
-                                      GTK_UI_MANAGER_TOOLITEM,
-                                      FALSE);
-
-            }
-            else
-            {
-                /* neither file nor folder should be displayed, hide them all */
-                gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                                          window->priv->t_open_folder_merge_id);
-                gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                                          window->priv->t_open_merge_id);
-
-            }
-        }
-    }
-
     g_value_unset (&val);
 }
 
+/*
+static gboolean
+cb_rstto_main_window_navigator_toolbar_popup_context_menu (GtkToolbar *toolbar,
+                                                        gint        x,
+                                                        gint        y,
+                                                        gint        button,
+                                                        gpointer    user_data)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+
+    gtk_menu_popup (window->priv->navigator_toolbar_menu,
+                    NULL,
+                    NULL,
+                    NULL,
+                    NULL,
+                    3,
+                    gtk_get_current_event_time ());
+}
+*/

@@ -361,7 +361,7 @@ rstto_picture_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     /** 
      * TODO: Check if we really nead a refresh
      */
-    rstto_picture_viewer_queued_repaint (viewer, FALSE);
+    rstto_picture_viewer_queued_repaint (viewer, TRUE);
 }
 
 /**

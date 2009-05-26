@@ -52,13 +52,6 @@ cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *, gp
 static void
 cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *, gpointer);
 
-static void
-cb_rstto_preferences_dialog_toolbar_open_hide_toggled (GtkToggleButton *, gpointer );
-static void
-cb_rstto_preferences_dialog_toolbar_open_file_toggled (GtkToggleButton *, gpointer );
-static void
-cb_rstto_preferences_dialog_toolbar_open_folder_toggled (GtkToggleButton *, gpointer );
-
 static GtkWidgetClass *parent_class = NULL;
 
 struct _RsttoPreferencesDialogPriv
@@ -83,9 +76,6 @@ struct _RsttoPreferencesDialogPriv
 
     struct
     {
-        GtkWidget *toolbar_open_hide_radio;
-        GtkWidget *toolbar_open_file_radio;
-        GtkWidget *toolbar_open_folder_radio;
     } control_tab;
 
     struct
@@ -142,7 +132,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gboolean bool_enable_cache;
     gboolean bool_bgcolor_override;
     GdkColor *bgcolor;
-    gchar *toolbar_open;
 
     g_object_get (G_OBJECT (dialog->priv->settings),
                   "image-quality", &uint_image_quality,
@@ -151,7 +140,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                   "enable-cache", &bool_enable_cache,
                   "bgcolor-override", &bool_bgcolor_override,
                   "bgcolor", &bgcolor,
-                  "toolbar-open", &toolbar_open,
                   NULL);
 
     GtkObject *cache_adjustment;
@@ -288,41 +276,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_container_add (GTK_CONTAINER (scroll_vbox), widget);
     widget = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget), _("Switch images"));
     gtk_container_add (GTK_CONTAINER (scroll_vbox), widget);
-
-    toolbar_vbox = gtk_vbox_new(FALSE, 0);
-    toolbar_frame = xfce_create_framebox_with_content (_("Toolbar"), toolbar_vbox);
-    gtk_box_pack_start (GTK_BOX (control_main_vbox), toolbar_frame, FALSE, FALSE, 0);
-
-    dialog->priv->control_tab.toolbar_open_hide_radio = gtk_radio_button_new_with_label (NULL, _("Hide"));
-    gtk_container_add (GTK_CONTAINER (toolbar_vbox), dialog->priv->control_tab.toolbar_open_hide_radio);
-    g_signal_connect (G_OBJECT (dialog->priv->control_tab.toolbar_open_hide_radio), "toggled",
-        G_CALLBACK (cb_rstto_preferences_dialog_toolbar_open_hide_toggled), dialog);
-
-    dialog->priv->control_tab.toolbar_open_file_radio = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (dialog->priv->control_tab.toolbar_open_hide_radio), _("Open files"));
-    gtk_container_add (GTK_CONTAINER (toolbar_vbox), dialog->priv->control_tab.toolbar_open_file_radio);
-    g_signal_connect (G_OBJECT (dialog->priv->control_tab.toolbar_open_file_radio), "toggled",
-        G_CALLBACK (cb_rstto_preferences_dialog_toolbar_open_file_toggled), dialog);
-
-    dialog->priv->control_tab.toolbar_open_folder_radio = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (dialog->priv->control_tab.toolbar_open_hide_radio), _("Open folder"));
-    gtk_container_add (GTK_CONTAINER (toolbar_vbox), dialog->priv->control_tab.toolbar_open_folder_radio);
-    g_signal_connect (G_OBJECT (dialog->priv->control_tab.toolbar_open_folder_radio), "toggled",
-        G_CALLBACK (cb_rstto_preferences_dialog_toolbar_open_folder_toggled), dialog);
-
-    if (!strcmp (toolbar_open, "file"))
-    {
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.toolbar_open_file_radio), TRUE);
-    }
-    else
-    {
-        if (!strcmp (toolbar_open, "folder"))
-        {
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.toolbar_open_folder_radio), TRUE);
-        }
-        else
-        {
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.toolbar_open_hide_radio), TRUE);
-        }
-    }
 
 /*******************/
 /** Behaviour tab **/
@@ -569,49 +522,4 @@ cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *combo_
             break;
 
     }
-}
-
-static void
-cb_rstto_preferences_dialog_toolbar_open_hide_toggled (GtkToggleButton *button, 
-                                                      gpointer user_data)
-{
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-
-    GValue value = {0, };
-    g_value_init (&value, G_TYPE_STRING);
-
-    g_value_set_string (&value, "hide");
-    g_object_set_property (G_OBJECT (dialog->priv->settings), "toolbar-open", &value);
-
-    g_value_unset (&value);
-}
-
-static void
-cb_rstto_preferences_dialog_toolbar_open_file_toggled (GtkToggleButton *button, 
-                                                      gpointer user_data)
-{
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-
-    GValue value = {0, };
-    g_value_init (&value, G_TYPE_STRING);
-
-    g_value_set_string (&value, "file");
-    g_object_set_property (G_OBJECT (dialog->priv->settings), "toolbar-open", &value);
-
-    g_value_unset (&value);
-}
-
-static void
-cb_rstto_preferences_dialog_toolbar_open_folder_toggled (GtkToggleButton *button, 
-                                                      gpointer user_data)
-{
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-
-    GValue value = {0, };
-    g_value_init (&value, G_TYPE_STRING);
-
-    g_value_set_string (&value, "folder");
-    g_object_set_property (G_OBJECT (dialog->priv->settings), "toolbar-open", &value);
-
-    g_value_unset (&value);
 }

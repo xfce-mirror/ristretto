@@ -58,32 +58,34 @@
         </menu>
     </menubar>
 
-    <!--
+    <popup name="tb-menu">
+        <menuitem action="open"/>
+    </popup>
 
+    <!--
 
     -->
     <toolbar name="main-toolbar">
-        <placeholder name="placeholder-t_open"/>
+        <toolitem action="open"/>
+        <toolitem action="open-folder"/>
         <separator />
+        <toolitem action="save-copy"/>
+    </toolbar>
+
+    <!--
+
+    -->
+    <toolbar name="navigation-toolbar">
         <toolitem action="back"/>
+        <placeholder name="placeholder-slideshow" />
         <toolitem action="forward"/>
         <separator name="separator-1"/>
         <toolitem action="zoom-in"/>
         <toolitem action="zoom-out"/>
         <toolitem action="zoom-100"/>
         <toolitem action="zoom-fit"/>
-    </toolbar>
-
-    <!--
-
-    -->
-    <toolbar name="fullscreen-toolbar">
-        <toolitem action="sticky"/>
-        <separator/>
-        <toolitem action="back"/>
-        <placeholder name="placeholder-slideshow" />
-        <toolitem action="forward"/>
         <separator name="separator-1"/>
-        <toolitem action="leave-fullscreen"/>
+        <placeholder name="placeholder-fullscreen" />
     </toolbar>
+
 </ui>
