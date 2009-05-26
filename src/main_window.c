@@ -36,6 +36,7 @@
 #include "picture_viewer.h"
 #include "main_window.h"
 #include "main_window_ui.h"
+#include "thumbnail_bar.h"
 
 #include "preferences_dialog.h"
 
@@ -75,6 +76,7 @@ struct _RsttoMainWindowPriv
     GtkWidget *navigator_toolbar_menu;
     GtkWidget *picture_viewer;
     GtkWidget *p_viewer_s_window;
+    GtkWidget *hpaned;
     GtkWidget *statusbar;
 
     guint      t_open_merge_id;
@@ -236,7 +238,7 @@ static GtkActionEntry action_entries[] =
   { "file-menu", NULL, N_ ("_File"), NULL, },
   { "open", "document-open", N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
   { "open-folder", "folder-open", N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
-  { "save-copy", GTK_STOCK_SAVE_AS, N_ ("_Save copy"), "<control>s", N_ ("Save a copy the image"), G_CALLBACK (cb_rstto_main_window_save_copy), },
+  { "save-copy", GTK_STOCK_SAVE_AS, N_ ("_Save copy"), "<control>s", N_ ("Save a copy of the image"), G_CALLBACK (cb_rstto_main_window_save_copy), },
   { "print", GTK_STOCK_PRINT, N_ ("_Print"), "<control>p", N_ ("Print the image"), G_CALLBACK (cb_rstto_main_window_print), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
   { "close-all", NULL, N_ ("_Close All"), NULL, N_ ("Close all images"), G_CALLBACK (cb_rstto_main_window_close_all), },
@@ -425,6 +427,9 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->p_viewer_s_window = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add (GTK_CONTAINER (window->priv->p_viewer_s_window), window->priv->picture_viewer);
+    window->priv->hpaned = gtk_hpaned_new();
+    gtk_paned_pack1 (GTK_PANED (window->priv->hpaned), window->priv->p_viewer_s_window, FALSE, FALSE);
+    gtk_paned_add2 (GTK_PANED (window->priv->hpaned), rstto_thumbnail_bar_new());
 
     window->priv->statusbar = gtk_statusbar_new();
 
@@ -432,7 +437,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_container_add (GTK_CONTAINER (window), main_vbox);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->menubar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->toolbar, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->p_viewer_s_window, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->hpaned, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->navigator_toolbar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
 
@@ -686,6 +691,8 @@ rstto_main_window_set_sensitive (RsttoMainWindow *window, gboolean sensitive)
 
     /* Toolbar */
     gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/save-copy"), sensitive);
+    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/close"), sensitive);
+    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/delete"), sensitive);
     gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/forward"), sensitive);
     gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/back"), sensitive);
     gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-in"), sensitive);
@@ -1747,6 +1754,8 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             {
                 gtk_widget_hide (window->priv->navigator_toolbar);
             }
+
+            rstto_picture_viewer_zoom_fit (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer));
 
             gtk_ui_manager_add_ui (window->priv->ui_manager,
                                    window->priv->toolbar_unfullscreen_merge_id,
