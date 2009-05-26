@@ -1,3 +1,8 @@
+2009-05-26  Stephan Arts <stephan@xfce.org>
+
+	* src/picture_viewer.c: Show an 'inactive' image when there is no
+	image loaded.
+
 2009-05-25  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c: change open-folder icon to 'folder-open' instead of

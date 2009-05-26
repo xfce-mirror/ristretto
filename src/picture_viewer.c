@@ -396,21 +396,23 @@ rstto_picture_viewer_paint (GtkWidget *widget)
     GdkPixbuf *pixbuf = viewer->priv->dst_pixbuf;
     GdkColor color;
     GdkColor line_color;
-    GValue bg_color = {0, }, bg_color_override = {0, }, bg_color_fs = {0, };
-    g_value_init (&bg_color, GDK_TYPE_COLOR);
-    g_value_init (&bg_color_fs, GDK_TYPE_COLOR);
-    g_value_init (&bg_color_override, G_TYPE_BOOLEAN);
+    GValue val_bg_color = {0, }, val_bg_color_override = {0, }, val_bg_color_fs = {0, };
+    g_value_init (&val_bg_color, GDK_TYPE_COLOR);
+    g_value_init (&val_bg_color_fs, GDK_TYPE_COLOR);
+    g_value_init (&val_bg_color_override, G_TYPE_BOOLEAN);
 
-    g_object_get_property (G_OBJECT(settings_manager), "bgcolor", &bg_color);
-    g_object_get_property (G_OBJECT(settings_manager), "bgcolor-override", &bg_color_override);
+    g_object_get_property (G_OBJECT(settings_manager), "bgcolor", &val_bg_color);
+    g_object_get_property (G_OBJECT(settings_manager), "bgcolor-override", &val_bg_color_override);
 
-    g_object_get_property (G_OBJECT(settings_manager), "bgcolor-fullscreen", &bg_color_fs);
+    g_object_get_property (G_OBJECT(settings_manager), "bgcolor-fullscreen", &val_bg_color_fs);
 
 
     color.pixel = 0x0;
     line_color.pixel = 0x0;
 
     gint i, a, height, width;
+
+    GdkColor *bg_color = NULL;
 
     /* required for transparent pixbufs... add double buffering to fix flickering*/
     if(GTK_WIDGET_REALIZED(widget))
@@ -420,20 +422,25 @@ rstto_picture_viewer_paint (GtkWidget *widget)
 
         if(gdk_window_get_state(gdk_window_get_toplevel(GTK_WIDGET(viewer)->window)) & GDK_WINDOW_STATE_FULLSCREEN)
         {
-           gdk_gc_set_rgb_fg_color (gc, g_value_get_boxed (&bg_color_fs));
+           bg_color = g_value_get_boxed (&val_bg_color_fs);
         }
         else
         {
-            if (g_value_get_boxed (&bg_color) && g_value_get_boolean (&bg_color_override))
+            if (g_value_get_boxed (&val_bg_color) && g_value_get_boolean (&val_bg_color_override))
             {
-               gdk_gc_set_rgb_fg_color (gc, g_value_get_boxed (&bg_color));
+                bg_color = g_value_get_boxed (&val_bg_color);
             }
             else
             {
-                gdk_gc_set_foreground(gc, &(widget->style->bg[GTK_STATE_NORMAL]));
+                bg_color = &(widget->style->bg[GTK_STATE_NORMAL]);
             }
         }
+        gdk_colormap_alloc_color (gdk_gc_get_colormap (gc), bg_color, FALSE, TRUE);
+        gdk_gc_set_rgb_fg_color (gc, bg_color);
+
         gdk_draw_rectangle(GDK_DRAWABLE(buffer), gc, TRUE, 0, 0, widget->allocation.width, widget->allocation.height);
+
+        /* Check if there is a destination pixbuf */
         if(pixbuf)
         {
             gint x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
@@ -569,6 +576,43 @@ rstto_picture_viewer_paint (GtkWidget *widget)
                                 m_y2 - m_y1);
             }
 
+        }
+        else
+        {
+
+            /* HACK HACK HACK HACK */
+            guint size = 0;
+            if ((GTK_WIDGET (viewer)->allocation.width) < (GTK_WIDGET (viewer)->allocation.height))
+            {
+                size = GTK_WIDGET (viewer)->allocation.width;
+            }
+            else
+            {
+                size = GTK_WIDGET (viewer)->allocation.height;
+            }
+            pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default(), 
+                                               "ristretto", 
+                                               (size*0.8),
+                                               GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
+            gdk_pixbuf_saturate_and_pixelate (pixbuf, pixbuf, 0, TRUE);
+            pixbuf = gdk_pixbuf_composite_color_simple (pixbuf, (size*0.8), (size*0.8), GDK_INTERP_BILINEAR, 50, 50, bg_color->pixel, bg_color->pixel);
+
+            gint x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
+            gint y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
+            gint x2 = gdk_pixbuf_get_width(pixbuf);
+            gint y2 = gdk_pixbuf_get_height(pixbuf);
+
+            gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
+                            NULL, 
+                            pixbuf,
+                            0,
+                            0,
+                            x1,
+                            y1,
+                            x2, 
+                            y2,
+                            GDK_RGB_DITHER_NONE,
+                            0,0);
         }
         gdk_draw_drawable(GDK_DRAWABLE(widget->window), 
                         gdk_gc_new(widget->window), 
@@ -1173,6 +1217,8 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
             }
         }
     }
+
+
     rstto_picture_viewer_paint (GTK_WIDGET (viewer));
 
     g_source_remove (viewer->priv->repaint.idle_id);
