@@ -1163,10 +1163,10 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                     p_tmp_pixbuf = gdk_pixbuf_new_subpixbuf (p_src_pixbuf,
                                                (gint)(x/scale * thumb_scale * image_scale), 
                                                (gint)(y/scale * thumb_scale * image_scale),
+                                               (gint)((widget->allocation.width / scale) < image_width?
+                                                      (widget->allocation.width / scale)*thumb_scale*image_scale:image_width*thumb_scale*image_scale),
                                                (gint)((widget->allocation.height/ scale) < image_width?
-                                                      (widget->allocation.height/ scale)*thumb_scale*image_scale:image_width*thumb_scale*image_scale),
-                                               (gint)((widget->allocation.width/ scale) < image_height?
-                                                      (widget->allocation.width/ scale)*image_scale*thumb_scale:image_height*thumb_scale*image_scale));
+                                                      (widget->allocation.height/ scale)*image_scale*thumb_scale:image_height*thumb_scale*image_scale));
                     p_tmp_pixbuf2 = gdk_pixbuf_rotate_simple (p_tmp_pixbuf, GDK_PIXBUF_ROTATE_UPSIDEDOWN);
                     g_object_unref (p_tmp_pixbuf);
                     p_tmp_pixbuf = p_tmp_pixbuf2;
