@@ -9,10 +9,10 @@ ristretto_SOURCES = \
 	preferences_dialog.h preferences_dialog.c \
 	main_window_ui.h \
 	main_window.c main_window.h \
+	thumbnail_bar.c thumbnail_bar.h \
 	main.c
 #	save_dialog.h save_dialog.c
-#	thumbnail.c thumbnail.h \
-#	thumbnail_bar.c thumbnail_bar.h
+#	thumbnail.c thumbnail.h
 
 ristretto_CFLAGS = \
 	$(GTK_CFLAGS) \

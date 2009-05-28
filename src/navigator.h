@@ -56,7 +56,40 @@ struct _RsttoNavigatorClass
     GObjectClass      parent_class;
 };
 
+
+#define RSTTO_TYPE_NAVIGATOR_ITER rstto_navigator_iter_get_type()
+
+#define RSTTO_NAVIGATOR_ITER(obj)( \
+        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
+                RSTTO_TYPE_NAVIGATOR_ITER, \
+                RsttoNavigatorIter))
+
+#define RSTTO_IS_NAVIGATOR_ITER(obj)( \
+        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
+                RSTTO_TYPE_NAVIGATOR_ITER))
+
+#define RSTTO_NAVIGATOR_ITER_CLASS(klass)( \
+        G_TYPE_CHECK_CLASS_CAST ((klass), \
+                RSTTO_TYPE_NAVIGATOR_ITER, \
+                RsttoNavigatorIterClass))
+
+#define RSTTO_IS_NAVIGATOR_ITER_CLASS(klass)( \
+        G_TYPE_CHECK_CLASS_TYPE ((klass), \
+                RSTTO_TYPE_NAVIGATOR_ITER()))
+
 typedef struct _RsttoNavigatorIter RsttoNavigatorIter;
+typedef struct _RsttoNavigatorIterPriv RsttoNavigatorIterPriv;
+struct _RsttoNavigatorIter
+{
+    GObject parent;
+    RsttoNavigatorIterPriv *priv;
+};
+
+typedef struct _RsttoNavigatorIterClass RsttoNavigatorIterClass;
+struct _RsttoNavigatorIterClass
+{
+    GObjectClass      parent_class;
+};
 
 
 GType           rstto_navigator_get_type ();
@@ -67,19 +100,19 @@ gboolean rstto_navigator_add_file (RsttoNavigator *navigator, GFile *file, GErro
 
 RsttoNavigatorIter *rstto_navigator_get_iter (RsttoNavigator *navigator);
 
-
 /** Iter functions */
+GType       rstto_navigator_get_type ();
 RsttoImage *rstto_navigator_iter_get_image (RsttoNavigatorIter *iter);
 gboolean    rstto_navigator_iter_previous (RsttoNavigatorIter *iter);
 gboolean    rstto_navigator_iter_next (RsttoNavigatorIter *iter);
 gint        rstto_navigator_iter_get_position (RsttoNavigatorIter *iter);
 gboolean    rstto_navigator_iter_set_position (RsttoNavigatorIter *iter, gint pos);
-void        rstto_navigator_iter_free (RsttoNavigatorIter *iter);
-
 
 void        rstto_navigator_remove_all (RsttoNavigator *navigator);
 void        rstto_navigator_remove_image (RsttoNavigator *navigator, RsttoImage *image);
 gboolean    rstto_navigator_iter_find_image (RsttoNavigatorIter *iter, RsttoImage *image);
+RsttoNavigatorIter *rstto_navigator_iter_clone (RsttoNavigatorIter *iter);
+
 
 G_END_DECLS
 

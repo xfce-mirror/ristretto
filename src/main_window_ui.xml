@@ -70,6 +70,9 @@
         <toolitem action="open-folder"/>
         <separator />
         <toolitem action="save-copy"/>
+        <toolitem action="close"/>
+        <toolitem action="delete"/>
+        <separator />
     </toolbar>
 
     <!--
@@ -80,11 +83,14 @@
         <placeholder name="placeholder-slideshow" />
         <toolitem action="forward"/>
         <separator name="separator-1"/>
+        <toolitem action="rotate-ccw"/>
+        <toolitem action="rotate-cw"/>
+        <separator />
         <toolitem action="zoom-in"/>
         <toolitem action="zoom-out"/>
         <toolitem action="zoom-100"/>
         <toolitem action="zoom-fit"/>
-        <separator name="separator-1"/>
+        <separator />
         <placeholder name="placeholder-fullscreen" />
     </toolbar>
 

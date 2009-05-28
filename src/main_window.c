@@ -77,6 +77,7 @@ struct _RsttoMainWindowPriv
     GtkWidget *picture_viewer;
     GtkWidget *p_viewer_s_window;
     GtkWidget *hpaned;
+    GtkWidget *thumbnail_bar;
     GtkWidget *statusbar;
 
     guint      t_open_merge_id;
@@ -263,8 +264,8 @@ static GtkActionEntry action_entries[] =
   { "zoom-100", GTK_STOCK_ZOOM_100, N_ ("_Normal Size"), "<control>0", NULL, G_CALLBACK (cb_rstto_main_window_zoom_100), },
 /* Rotation submenu */
   { "rotation-menu", NULL, N_ ("_Rotation"), NULL, },
-  { "rotate-cw", NULL, N_ ("Rotate _Right"), "<control>bracketright", NULL, G_CALLBACK (cb_rstto_main_window_rotate_cw), },
-  { "rotate-ccw", NULL, N_ ("Rotate _Left"), "<contron>bracketleft", NULL, G_CALLBACK (cb_rstto_main_window_rotate_ccw), },
+  { "rotate-cw", "object-rotate-right", N_ ("Rotate _Right"), "<control>bracketright", NULL, G_CALLBACK (cb_rstto_main_window_rotate_cw), },
+  { "rotate-ccw", "object-rotate-left", N_ ("Rotate _Left"), "<contron>bracketleft", NULL, G_CALLBACK (cb_rstto_main_window_rotate_ccw), },
 /* Go Menu */
   { "go-menu",  NULL, N_ ("_Go"), NULL, },
   { "forward",  GTK_STOCK_GO_FORWARD, N_ ("_Forward"), "space", NULL, G_CALLBACK (cb_rstto_main_window_next_image), },
@@ -427,9 +428,10 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->p_viewer_s_window = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add (GTK_CONTAINER (window->priv->p_viewer_s_window), window->priv->picture_viewer);
+    window->priv->thumbnail_bar = rstto_thumbnail_bar_new (NULL);
     window->priv->hpaned = gtk_hpaned_new();
-    gtk_paned_pack1 (GTK_PANED (window->priv->hpaned), window->priv->p_viewer_s_window, FALSE, FALSE);
-    gtk_paned_add2 (GTK_PANED (window->priv->hpaned), rstto_thumbnail_bar_new());
+    gtk_paned_pack1 (GTK_PANED (window->priv->hpaned), window->priv->p_viewer_s_window, TRUE, FALSE);
+    gtk_paned_pack2 (GTK_PANED (window->priv->hpaned), window->priv->thumbnail_bar, FALSE, FALSE);
 
     window->priv->statusbar = gtk_statusbar_new();
 
@@ -727,7 +729,7 @@ rstto_main_window_set_property (GObject      *object,
                 g_signal_handlers_disconnect_by_func (window->priv->props.navigator, cb_rstto_main_window_navigator_remove_image, window);
                 g_object_unref (window->priv->props.navigator);
 
-                rstto_navigator_iter_free (window->priv->iter);
+                g_object_unref (window->priv->iter);
                 window->priv->iter = NULL;
             }
 
@@ -740,6 +742,8 @@ rstto_main_window_set_property (GObject      *object,
                 g_signal_connect (G_OBJECT (window->priv->props.navigator), "remove-image", G_CALLBACK (cb_rstto_main_window_navigator_remove_image), window);
 
                 window->priv->iter = rstto_navigator_get_iter (window->priv->props.navigator);
+                rstto_thumbnail_bar_set_navigator (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->props.navigator);
+                rstto_thumbnail_bar_set_iter (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->iter);
             }
             break;
         default:
@@ -1043,7 +1047,10 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
 
         if (window->priv->iter == NULL)
+        {
             window->priv->iter = rstto_navigator_get_iter (window->priv->props.navigator);
+            rstto_thumbnail_bar_set_iter (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->iter);
+        }
         rstto_main_window_navigator_iter_changed (window);
     }
 
@@ -1120,7 +1127,10 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
 
         if (window->priv->iter == NULL)
+        {
             window->priv->iter = rstto_navigator_get_iter (window->priv->props.navigator);
+            rstto_thumbnail_bar_set_iter (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->iter);
+        }
         rstto_main_window_navigator_iter_changed (window);
     }
 
@@ -1194,7 +1204,10 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     }
 
     if (window->priv->iter == NULL)
+    {
         window->priv->iter = rstto_navigator_get_iter (window->priv->props.navigator);
+        rstto_thumbnail_bar_set_iter (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->iter);
+    }
     rstto_main_window_navigator_iter_changed (window);
 
     g_object_unref (file);
@@ -1631,8 +1644,8 @@ cb_rstto_main_window_navigator_new_image (RsttoNavigator *navigator, RsttoImage 
     if (window->priv->iter == NULL)
     {
         window->priv->iter = rstto_navigator_get_iter (navigator);
-        rstto_main_window_navigator_iter_changed (window);
     }
+    rstto_main_window_navigator_iter_changed (window);
 }
 
 /**
@@ -1649,7 +1662,7 @@ cb_rstto_main_window_navigator_remove_image (RsttoNavigator *navigator, RsttoIma
     {
         if (window->priv->iter)
         {
-            rstto_navigator_iter_free (window->priv->iter);
+            g_object_unref (window->priv->iter);
             window->priv->iter = rstto_navigator_get_iter (navigator);
         }
     }

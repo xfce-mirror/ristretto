@@ -595,7 +595,7 @@ rstto_picture_viewer_paint (GtkWidget *widget)
                                                (size*0.8),
                                                GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
             gdk_pixbuf_saturate_and_pixelate (pixbuf, pixbuf, 0, TRUE);
-            pixbuf = gdk_pixbuf_composite_color_simple (pixbuf, (size*0.8), (size*0.8), GDK_INTERP_BILINEAR, 50, 50, bg_color->pixel, bg_color->pixel);
+            pixbuf = gdk_pixbuf_composite_color_simple (pixbuf, (size*0.8), (size*0.8), GDK_INTERP_BILINEAR, 40, 40, bg_color->pixel, bg_color->pixel);
 
             gint x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
             gint y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;

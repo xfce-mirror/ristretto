@@ -123,12 +123,12 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
      */
     if (cache_enabled == FALSE)
     {
-        g_debug ("cache disable");
         while (g_list_length (cache->cache_list) > 1)
         {
             c_image = g_list_last (cache->cache_list)->data;
             rstto_image_unload (c_image);
             cache->cache_list = g_list_remove (cache->cache_list, c_image);
+            g_object_unref (c_image);
             retval = TRUE;
         }
     }
@@ -144,6 +144,7 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
             {
                 rstto_image_unload (c_image);
                 cache->cache_list = g_list_remove (cache->cache_list, c_image);
+                g_object_unref (c_image);
                 iter = g_list_previous(iter);
                 retval = TRUE;
             } 
@@ -154,6 +155,7 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
                 {
                     rstto_image_unload (c_image);
                     cache->cache_list = g_list_remove (cache->cache_list, c_image);
+                    g_object_unref (c_image);
                     iter = g_list_previous(iter);
                 }
             }
