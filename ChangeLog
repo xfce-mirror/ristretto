@@ -1,3 +1,13 @@
+2009-06-01  Stephan Arts <stephan@xfce.org>
+
+	* src/image_list.h
+	  src/image_list.c
+	  src/thumbnail_bar.c: Expose compare_func, and use it in the thumbnailbar
+
+2009-06-01  Stephan Arts <stephan@xfce.org>
+
+	* src/*: Rename Navigator to ImageList, makes more sense
+
 2009-05-26  Stephan Arts <stephan@xfce.org>
 
 	* src/picture_viewer.c: Show an 'inactive' image when there is no

@@ -105,7 +105,7 @@ static void
 cb_rstto_thumbnail_bar_thumbnail_clicked (GtkWidget *thumb, RsttoThumbnailBar *bar);
 
 static gint
-cb_rstto_thumbnail_bar_compare (GtkWidget *a, GtkWidget *b);
+cb_rstto_thumbnail_bar_compare (GtkWidget *a, GtkWidget *b, gpointer);
 
 GType
 rstto_thumbnail_bar_get_type ()
@@ -546,7 +546,7 @@ rstto_thumbnail_bar_add(GtkContainer *container, GtkWidget *child)
 
 	gtk_widget_set_parent(child, GTK_WIDGET(container));
 
-    bar->priv->thumbs = g_list_insert_sorted (bar->priv->thumbs, child, (GCompareFunc)cb_rstto_thumbnail_bar_compare);
+    bar->priv->thumbs = g_list_insert_sorted_with_data (bar->priv->thumbs, child, (GCompareDataFunc)cb_rstto_thumbnail_bar_compare, bar);
 }
 
 static void
@@ -586,9 +586,13 @@ rstto_thumbnail_bar_child_type(GtkContainer *container)
 }
 
 static gint
-cb_rstto_thumbnail_bar_compare (GtkWidget *a, GtkWidget *b)
+cb_rstto_thumbnail_bar_compare (GtkWidget *a, GtkWidget *b, gpointer user_data)
 {
-    return -1;
+    RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
+    RsttoImage *a_i = rstto_thumbnail_get_image (a);
+    RsttoImage *b_i = rstto_thumbnail_get_image (b);
+
+    return rstto_image_list_get_compare_func (bar->priv->image_list) (a_i, b_i);
 }
 
 static gboolean

@@ -113,6 +113,8 @@ void        rstto_image_list_remove_image (RsttoImageList *image_list, RsttoImag
 gboolean    rstto_image_list_iter_find_image (RsttoImageListIter *iter, RsttoImage *image);
 RsttoImageListIter *rstto_image_list_iter_clone (RsttoImageListIter *iter);
 
+GCompareFunc rstto_image_list_get_compare_func (RsttoImageList *image_list);
+
 
 G_END_DECLS
 
