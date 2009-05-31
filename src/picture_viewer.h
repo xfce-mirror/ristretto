@@ -68,7 +68,7 @@ struct _RsttoPictureViewerClass
 GType      rstto_picture_viewer_get_type();
 
 GtkWidget *rstto_picture_viewer_new ();
-void       rstto_picture_viewer_set_image (RsttoPictureViewer *, RsttoImage *);
+void       rstto_picture_viewer_set_iter (RsttoPictureViewer *, RsttoImageListIter *);
 gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
 
 void       rstto_picture_viewer_zoom_fit (RsttoPictureViewer *viewer);

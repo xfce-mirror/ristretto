@@ -23,7 +23,7 @@
 
 #include <libexif/exif-data.h>
 
-#include "navigator.h"
+#include "image_list.h"
 #include "save_dialog.h"
 
 static void
@@ -166,8 +166,8 @@ rstto_save_dialog_new (GtkWindow *parent, GList *entries)
     while (list_iter)
     {
         gtk_list_store_append (store, &iter);
-        gchar *path = thunar_vfs_path_dup_string (rstto_navigator_entry_get_info(((RsttoNavigatorEntry *)list_iter->data))->path);
-        gtk_list_store_set (store, &iter, 0,rstto_navigator_entry_get_thumb (entries->data, 48),1, path, 2, FALSE, -1);
+        gchar *path = thunar_vfs_path_dup_string (rstto_image_list_entry_get_info(((RsttoImageListEntry *)list_iter->data))->path);
+        gtk_list_store_set (store, &iter, 0,rstto_image_list_entry_get_thumb (entries->data, 48),1, path, 2, FALSE, -1);
         g_free (path);
 
         list_iter = g_list_next(list_iter);

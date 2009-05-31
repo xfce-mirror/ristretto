@@ -32,7 +32,7 @@
 #include "image.h"
 
 #include "settings.h"
-#include "navigator.h"
+#include "image_list.h"
 #include "picture_viewer.h"
 #include "main_window.h"
 #include "main_window_ui.h"
@@ -54,7 +54,7 @@
 struct _RsttoMainWindowPriv
 {
     struct {
-        RsttoNavigator *navigator;
+        RsttoImageList *image_list;
         gboolean        toolbar_visible;
     } props;
 
@@ -63,7 +63,7 @@ struct _RsttoMainWindowPriv
     
     gboolean fs_toolbar_sticky;
 
-    RsttoNavigatorIter *iter;
+    RsttoImageListIter *iter;
 
     GtkActionGroup   *action_group;
     GtkUIManager     *ui_manager;
@@ -72,8 +72,8 @@ struct _RsttoMainWindowPriv
 
     GtkWidget *menubar;
     GtkWidget *toolbar;
-    GtkWidget *navigator_toolbar;
-    GtkWidget *navigator_toolbar_menu;
+    GtkWidget *image_list_toolbar;
+    GtkWidget *image_list_toolbar_menu;
     GtkWidget *picture_viewer;
     GtkWidget *p_viewer_s_window;
     GtkWidget *hpaned;
@@ -101,7 +101,7 @@ struct _RsttoMainWindowPriv
 enum
 {
     PROP_0,
-    PROP_NAVIGATOR,
+    PROP_IMAGE_LIST,
 };
 
 static void
@@ -131,21 +131,25 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
 static gboolean
 cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
 static gboolean
-cb_rstto_main_window_navigator_toolbar_enter_notify_event (GtkWidget *widget,
+cb_rstto_main_window_image_list_toolbar_enter_notify_event (GtkWidget *widget,
                                                            GdkEventCrossing *event,
                                                            gpointer user_data);
 static gboolean
-cb_rstto_main_window_navigator_toolbar_leave_notify_event (GtkWidget *widget,
+cb_rstto_main_window_image_list_toolbar_leave_notify_event (GtkWidget *widget,
                                                            GdkEventCrossing *evet,
                                                            gpointer user_data);
+static void
+cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window);
+static void
+rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
 
 static void
-cb_rstto_main_window_navigator_new_image (RsttoNavigator *navigator, RsttoImage *image, RsttoMainWindow *window);
+cb_rstto_main_window_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, RsttoMainWindow *window);
 static void
-cb_rstto_main_window_navigator_remove_image (RsttoNavigator *navigator, RsttoImage *image, RsttoMainWindow *window);
+cb_rstto_main_window_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image, RsttoMainWindow *window);
 
 static gboolean
-cb_rstto_main_window_navigator_toolbar_popup_context_menu (GtkToolbar *toolbar,
+cb_rstto_main_window_image_list_toolbar_popup_context_menu (GtkToolbar *toolbar,
                                                         gint        x,
                                                         gint        y,
                                                         gint        button,
@@ -403,8 +407,8 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_ui_manager_add_ui_from_string (window->priv->ui_manager,main_window_ui, main_window_ui_length, NULL);
     window->priv->menubar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu");
     window->priv->toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar");
-    window->priv->navigator_toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar");
-    window->priv->navigator_toolbar_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/tb-menu");
+    window->priv->image_list_toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar");
+    window->priv->image_list_toolbar_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/tb-menu");
 
     
     
@@ -440,7 +444,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->menubar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->toolbar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->hpaned, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->navigator_toolbar, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->image_list_toolbar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
 
     rstto_main_window_set_sensitive (window, FALSE);
@@ -528,14 +532,14 @@ rstto_main_window_class_init(RsttoMainWindowClass *window_class)
     object_class->set_property = rstto_main_window_set_property;
     object_class->get_property = rstto_main_window_get_property;
 
-    pspec = g_param_spec_object ("navigator",
+    pspec = g_param_spec_object ("image_list",
                                  "",
                                  "",
-                                 RSTTO_TYPE_NAVIGATOR,
+                                 RSTTO_TYPE_IMAGE_LIST,
                                  G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE);
 
     g_object_class_install_property (object_class,
-                                     PROP_NAVIGATOR,
+                                     PROP_IMAGE_LIST,
                                      pspec);
 }
 
@@ -560,16 +564,16 @@ rstto_main_window_dispose(GObject *object)
 
 /**
  * rstto_main_window_new:
- * @navigator:
+ * @image_list:
  *
  * Return value:
  */
 GtkWidget *
-rstto_main_window_new (RsttoNavigator *navigator, gboolean fullscreen)
+rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 {
     GtkWidget *widget;
 
-    widget = g_object_new (RSTTO_TYPE_MAIN_WINDOW, "navigator", navigator, NULL);
+    widget = g_object_new (RSTTO_TYPE_MAIN_WINDOW, "image_list", image_list, NULL);
 
     if (fullscreen == TRUE)
     {
@@ -579,25 +583,31 @@ rstto_main_window_new (RsttoNavigator *navigator, gboolean fullscreen)
     return widget;
 }
 
+static void
+cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window)
+{
+    rstto_main_window_image_list_iter_changed (window);
+}
+
 /**
- * rstto_main_window_navigator_iter_changed:
+ * rstto_main_window_image_list_iter_changed:
  * @window:
  *
  */
 static void
-rstto_main_window_navigator_iter_changed (RsttoMainWindow *window)
+rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 {
     gchar *path, *basename, *title;
     GFile *file = NULL;
     RsttoImage *cur_image;
     gint position, count;
-    RsttoNavigator *navigator = window->priv->props.navigator;
+    RsttoImageList *image_list = window->priv->props.image_list;
 
-    if (window->priv->props.navigator)
+    if (window->priv->props.image_list)
     {
-        position = rstto_navigator_iter_get_position (window->priv->iter);
-        count = rstto_navigator_get_n_images (navigator);
-        cur_image = rstto_navigator_iter_get_image (window->priv->iter);
+        position = rstto_image_list_iter_get_position (window->priv->iter);
+        count = rstto_image_list_get_n_images (image_list);
+        cur_image = rstto_image_list_iter_get_image (window->priv->iter);
         if (cur_image)
         {
             file = rstto_image_get_file (cur_image);
@@ -618,7 +628,6 @@ rstto_main_window_navigator_iter_changed (RsttoMainWindow *window)
         }
 
         gtk_window_set_title (GTK_WINDOW (window), title);
-        rstto_picture_viewer_set_image (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), cur_image);
 
         g_free (title);
     }
@@ -722,28 +731,31 @@ rstto_main_window_set_property (GObject      *object,
 
     switch (property_id)
     {
-        case PROP_NAVIGATOR:
-            if (window->priv->props.navigator)
+        case PROP_IMAGE_LIST:
+            if (window->priv->props.image_list)
             {
-                g_signal_handlers_disconnect_by_func (window->priv->props.navigator, cb_rstto_main_window_navigator_new_image, window);
-                g_signal_handlers_disconnect_by_func (window->priv->props.navigator, cb_rstto_main_window_navigator_remove_image, window);
-                g_object_unref (window->priv->props.navigator);
+                g_signal_handlers_disconnect_by_func (window->priv->props.image_list, cb_rstto_main_window_image_list_new_image, window);
+                g_signal_handlers_disconnect_by_func (window->priv->props.image_list, cb_rstto_main_window_image_list_remove_image, window);
+                g_object_unref (window->priv->props.image_list);
 
+                g_signal_handlers_disconnect_by_func (window->priv->iter, cb_rstto_main_window_image_list_iter_changed, window);
                 g_object_unref (window->priv->iter);
                 window->priv->iter = NULL;
             }
 
-            window->priv->props.navigator = g_value_get_object (value);
+            window->priv->props.image_list = g_value_get_object (value);
 
-            if (window->priv->props.navigator)
+            if (window->priv->props.image_list)
             {
-                g_object_ref (window->priv->props.navigator);
-                g_signal_connect (G_OBJECT (window->priv->props.navigator), "new-image", G_CALLBACK (cb_rstto_main_window_navigator_new_image), window);
-                g_signal_connect (G_OBJECT (window->priv->props.navigator), "remove-image", G_CALLBACK (cb_rstto_main_window_navigator_remove_image), window);
+                g_object_ref (window->priv->props.image_list);
+                g_signal_connect (G_OBJECT (window->priv->props.image_list), "new-image", G_CALLBACK (cb_rstto_main_window_image_list_new_image), window);
+                g_signal_connect (G_OBJECT (window->priv->props.image_list), "remove-image", G_CALLBACK (cb_rstto_main_window_image_list_remove_image), window);
 
-                window->priv->iter = rstto_navigator_get_iter (window->priv->props.navigator);
-                rstto_thumbnail_bar_set_navigator (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->props.navigator);
+                window->priv->iter = rstto_image_list_get_iter (window->priv->props.image_list);
+                g_signal_connect (G_OBJECT (window->priv->iter), "changed", G_CALLBACK (cb_rstto_main_window_image_list_iter_changed), window);
+                rstto_thumbnail_bar_set_image_list (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->props.image_list);
                 rstto_thumbnail_bar_set_iter (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->iter);
+                rstto_picture_viewer_set_iter (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), window->priv->iter);
             }
             break;
         default:
@@ -769,8 +781,8 @@ rstto_main_window_get_property (GObject    *object,
 
     switch (property_id)
     {
-        case PROP_NAVIGATOR:
-            g_value_set_object (value, window->priv->props.navigator);
+        case PROP_IMAGE_LIST:
+            g_value_set_object (value, window->priv->props.image_list);
             break;
         default:
             break;
@@ -846,7 +858,7 @@ cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
     RsttoImage *image = NULL;
 
     if (window->priv->iter)
-        image = rstto_navigator_iter_get_image (window->priv->iter);
+        image = rstto_image_list_iter_get_image (window->priv->iter);
 
     if (image)
     {
@@ -882,7 +894,7 @@ cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
     RsttoImage *image = NULL;
 
     if (window->priv->iter)
-        image = rstto_navigator_iter_get_image (window->priv->iter);
+        image = rstto_image_list_iter_get_image (window->priv->iter);
 
     if (image)
     {
@@ -921,8 +933,7 @@ cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_first_image (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_navigator_iter_set_position (window->priv->iter, 0);
-    rstto_main_window_navigator_iter_changed (window);
+    rstto_image_list_iter_set_position (window->priv->iter, 0);
 }
 
 
@@ -937,9 +948,8 @@ cb_rstto_main_window_first_image (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_last_image (GtkWidget *widget, RsttoMainWindow *window)
 {
-    guint n_images = rstto_navigator_get_n_images (window->priv->props.navigator);
-    rstto_navigator_iter_set_position (window->priv->iter, n_images-1);
-    rstto_main_window_navigator_iter_changed (window);
+    guint n_images = rstto_image_list_get_n_images (window->priv->props.image_list);
+    rstto_image_list_iter_set_position (window->priv->iter, n_images-1);
 }
 
 /**
@@ -953,8 +963,7 @@ cb_rstto_main_window_last_image (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_next_image (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_navigator_iter_next (window->priv->iter);
-    rstto_main_window_navigator_iter_changed (window);
+    rstto_image_list_iter_next (window->priv->iter);
 }
 
 /**
@@ -968,8 +977,7 @@ cb_rstto_main_window_next_image (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_previous_image (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_navigator_iter_previous (window->priv->iter);
-    rstto_main_window_navigator_iter_changed (window);
+    rstto_image_list_iter_previous (window->priv->iter);
 }
 
 /**
@@ -1024,7 +1032,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
         while (_files_iter)
         {
             file = _files_iter->data;
-            if (rstto_navigator_add_file (window->priv->props.navigator, file, NULL) == FALSE)
+            if (rstto_image_list_add_file (window->priv->props.image_list, file, NULL) == FALSE)
             {
                 err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
                                                 GTK_DIALOG_MODAL,
@@ -1046,12 +1054,6 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
 
-        if (window->priv->iter == NULL)
-        {
-            window->priv->iter = rstto_navigator_get_iter (window->priv->props.navigator);
-            rstto_thumbnail_bar_set_iter (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->iter);
-        }
-        rstto_main_window_navigator_iter_changed (window);
     }
 
     gtk_widget_destroy(dialog);
@@ -1111,7 +1113,7 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
             if (strncmp (content_type, "image/", 6) == 0)
             {
 
-                rstto_navigator_add_file (window->priv->props.navigator, child_file, NULL);
+                rstto_image_list_add_file (window->priv->props.image_list, child_file, NULL);
             }
 
             g_object_unref (child_file);
@@ -1125,13 +1127,6 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
 
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
-
-        if (window->priv->iter == NULL)
-        {
-            window->priv->iter = rstto_navigator_get_iter (window->priv->props.navigator);
-            rstto_thumbnail_bar_set_iter (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->iter);
-        }
-        rstto_main_window_navigator_iter_changed (window);
     }
 
     gtk_widget_destroy(dialog);
@@ -1171,7 +1166,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
                 filename = g_file_info_get_name (child_file_info);
                 child_file = g_file_get_child (file, filename);
 
-                rstto_navigator_add_file (window->priv->props.navigator, child_file, NULL);
+                rstto_image_list_add_file (window->priv->props.image_list, child_file, NULL);
 
                 g_object_unref (child_file);
                 g_object_unref (child_file_info);
@@ -1180,7 +1175,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
         }
         else
         {
-            if (rstto_navigator_add_file (window->priv->props.navigator, file, NULL) == FALSE)
+            if (rstto_image_list_add_file (window->priv->props.image_list, file, NULL) == FALSE)
             {
                 err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
                                                 GTK_DIALOG_MODAL,
@@ -1202,13 +1197,6 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
         gtk_dialog_run (GTK_DIALOG (err_dialog));
         gtk_widget_destroy (err_dialog);
     }
-
-    if (window->priv->iter == NULL)
-    {
-        window->priv->iter = rstto_navigator_get_iter (window->priv->props.navigator);
-        rstto_thumbnail_bar_set_iter (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->iter);
-    }
-    rstto_main_window_navigator_iter_changed (window);
 
     g_object_unref (file);
     g_free (uri);
@@ -1233,11 +1221,11 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
     if(response == GTK_RESPONSE_OK)
     {
         file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
-        s_file = rstto_image_get_file (rstto_navigator_iter_get_image (window->priv->iter));
+        s_file = rstto_image_get_file (rstto_image_list_iter_get_image (window->priv->iter));
         if (g_file_copy (s_file, file, G_FILE_COPY_OVERWRITE, NULL, NULL, NULL, NULL))
         {
-            rstto_navigator_remove_image (window->priv->props.navigator, rstto_navigator_iter_get_image (window->priv->iter));
-            rstto_navigator_add_file (window->priv->props.navigator, file, NULL);
+            rstto_image_list_remove_image (window->priv->props.image_list, rstto_image_list_iter_get_image (window->priv->iter));
+            rstto_image_list_add_file (window->priv->props.image_list, file, NULL);
         }
     }
 
@@ -1282,7 +1270,7 @@ rstto_main_window_print_draw_page (GtkPrintOperation *operation,
            gint               page_nr,
            RsttoMainWindow *window)
 {
-    RsttoImage *image = rstto_navigator_iter_get_image (window->priv->iter);
+    RsttoImage *image = rstto_image_list_iter_get_image (window->priv->iter);
     GdkPixbuf *pixbuf = rstto_image_get_pixbuf (image);
     gdouble w = gdk_pixbuf_get_width (pixbuf);
     gdouble w1 = gtk_print_context_get_width (print_context);
@@ -1395,8 +1383,8 @@ cb_rstto_main_window_play_slideshow (RsttoMainWindow *window)
 {
     if (window->priv->playing)
     {
-        rstto_navigator_iter_next (window->priv->iter);
-        rstto_main_window_navigator_iter_changed (window);
+        rstto_image_list_iter_next (window->priv->iter);
+        rstto_main_window_image_list_iter_changed (window);
     }
     else
     {
@@ -1547,9 +1535,8 @@ cb_rstto_main_window_quit (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window)
 {
-    RsttoImage *image = rstto_navigator_iter_get_image (window->priv->iter);
-    rstto_picture_viewer_set_image (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), NULL);
-    rstto_navigator_remove_image (window->priv->props.navigator, image);
+    RsttoImage *image = rstto_image_list_iter_get_image (window->priv->iter);
+    rstto_image_list_remove_image (window->priv->props.image_list, image);
 }
 
 /**
@@ -1562,8 +1549,8 @@ cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_picture_viewer_set_image (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), NULL);
-    rstto_navigator_remove_all (window->priv->props.navigator);
+    rstto_image_list_remove_all (window->priv->props.image_list);
+    rstto_main_window_image_list_iter_changed (window);
 }
 
 /**
@@ -1576,7 +1563,7 @@ cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
 {
-    RsttoImage *image = rstto_navigator_iter_get_image (window->priv->iter);
+    RsttoImage *image = rstto_image_list_iter_get_image (window->priv->iter);
     GFile *file = rstto_image_get_file (image);
     gchar *path = g_file_get_path (file);
     gchar *basename = g_path_get_basename (path);
@@ -1591,8 +1578,7 @@ cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
     {
         if (g_file_trash (file, NULL, NULL) == TRUE)
         {
-            rstto_picture_viewer_set_image (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), NULL);
-            rstto_navigator_remove_image (window->priv->props.navigator, image);
+            rstto_image_list_remove_image (window->priv->props.image_list, image);
         }
         else
         {
@@ -1632,55 +1618,47 @@ cb_rstto_main_window_toggle_show_toolbar (GtkWidget *widget, RsttoMainWindow *wi
 }
 
 /**
- * cb_rstto_main_window_navigator_new_image:
- * @navigator:
+ * cb_rstto_main_window_image_list_new_image:
+ * @image_list:
  * @image:
  * @window:
  *
  */
 static void
-cb_rstto_main_window_navigator_new_image (RsttoNavigator *navigator, RsttoImage *image, RsttoMainWindow *window)
+cb_rstto_main_window_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, RsttoMainWindow *window)
 {
-    if (window->priv->iter == NULL)
-    {
-        window->priv->iter = rstto_navigator_get_iter (navigator);
-    }
-    rstto_main_window_navigator_iter_changed (window);
+    if (rstto_image_list_iter_get_position (window->priv->iter) == -1)
+        rstto_image_list_iter_set_position (window->priv->iter, 0);
 }
 
 /**
- * cb_rstto_main_window_navigator_remove_image:
- * @navigator:
+ * cb_rstto_main_window_image_list_remove_image:
+ * @image_list:
  * @image:
  * @window:
  *
  */
 static void
-cb_rstto_main_window_navigator_remove_image (RsttoNavigator *navigator, RsttoImage *image, RsttoMainWindow *window)
+cb_rstto_main_window_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image, RsttoMainWindow *window)
 {
-    if (rstto_navigator_get_n_images (navigator) == 0)
+    if (rstto_image_list_get_n_images (image_list) == 0)
     {
-        if (window->priv->iter)
-        {
-            g_object_unref (window->priv->iter);
-            window->priv->iter = rstto_navigator_get_iter (navigator);
-        }
+        rstto_image_list_iter_set_position (window->priv->iter, -1);
     }
     else
     {
-        if (rstto_navigator_iter_get_image (window->priv->iter) == image)
+        if (rstto_image_list_iter_get_image (window->priv->iter) == image)
         {
-            if (rstto_navigator_iter_get_position (window->priv->iter) > 0)
+            if (rstto_image_list_iter_get_position (window->priv->iter) > 0)
             {
-                rstto_navigator_iter_previous (window->priv->iter);
+                rstto_image_list_iter_previous (window->priv->iter);
             }
             else
             {
-                rstto_navigator_iter_set_position (window->priv->iter, 0);
+                rstto_image_list_iter_set_position (window->priv->iter, 0);
             }
         }
     }
-    rstto_main_window_navigator_iter_changed (window);
 }
 
 
@@ -1765,7 +1743,7 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             }
             else
             {
-                gtk_widget_hide (window->priv->navigator_toolbar);
+                gtk_widget_hide (window->priv->image_list_toolbar);
             }
 
             rstto_picture_viewer_zoom_fit (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer));
@@ -1796,7 +1774,7 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
                 g_source_remove (window->priv->show_fs_toolbar_timeout_id);
                 window->priv->show_fs_toolbar_timeout_id = 0;
             }
-            gtk_widget_show (window->priv->navigator_toolbar);
+            gtk_widget_show (window->priv->image_list_toolbar);
 
             g_value_init (&show_toolbar_val, G_TYPE_BOOLEAN);
             g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-toolbar", &show_toolbar_val);
@@ -1825,7 +1803,7 @@ cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *vie
     {
         if (event->state == 0)
         {
-            gtk_widget_show (window->priv->navigator_toolbar);
+            gtk_widget_show (window->priv->image_list_toolbar);
 
             if (window->priv->fs_toolbar_sticky == FALSE)
             {
@@ -1843,7 +1821,7 @@ cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *vie
 static gboolean
 cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window)
 {
-    gtk_widget_hide (window->priv->navigator_toolbar);
+    gtk_widget_hide (window->priv->image_list_toolbar);
     return FALSE;
 }
 
@@ -1864,7 +1842,7 @@ cb_rstto_main_window_settings_notify (GObject *settings, GParamSpec *spec, Rstto
 
 /*
 static gboolean
-cb_rstto_main_window_navigator_toolbar_popup_context_menu (GtkToolbar *toolbar,
+cb_rstto_main_window_image_list_toolbar_popup_context_menu (GtkToolbar *toolbar,
                                                         gint        x,
                                                         gint        y,
                                                         gint        button,
@@ -1872,7 +1850,7 @@ cb_rstto_main_window_navigator_toolbar_popup_context_menu (GtkToolbar *toolbar,
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
 
-    gtk_menu_popup (window->priv->navigator_toolbar_menu,
+    gtk_menu_popup (window->priv->image_list_toolbar_menu,
                     NULL,
                     NULL,
                     NULL,

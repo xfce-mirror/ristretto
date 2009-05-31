@@ -19,17 +19,15 @@
 #include <gtk/gtkmarshal.h>
 #include <string.h>
 
-#include <thunar-vfs/thunar-vfs.h>
 #include <libexif/exif-data.h>
 
-#include "navigator.h"
+#include "image.h"
+#include "image_list.h"
 #include "thumbnail.h"
 
 struct _RsttoThumbnailPriv
 {
-    RsttoNavigatorEntry *entry;
-    gboolean             selected;
-    GSList              *group;
+    RsttoImage          *image;
 };
 
 static GtkWidgetClass *parent_class = NULL;
@@ -149,20 +147,12 @@ static void
 rstto_thumbnail_finalize(GObject *object)
 {
     RsttoThumbnail *thumb = RSTTO_THUMBNAIL(object);
-
-    if (thumb->priv->entry)
+    if (thumb->priv->image)
     {
-        GSList *group = g_slist_remove(thumb->priv->group, thumb);
-        GSList *iter = group;
-
-        while(iter)
-        {
-            RsttoThumbnail *thumb_iter = iter->data;
-            thumb_iter->priv->group = group;
-            iter = g_slist_next(iter);
-        }
-        thumb->priv->entry = NULL;
+        g_object_unref (thumb->priv->image);
+        thumb->priv->image = NULL;
     }
+
 }
 
 static void
@@ -172,24 +162,15 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 
     GtkStateType state = GTK_WIDGET_STATE(widget);
 
-    if(thumb->priv->entry)
+    if(thumb->priv->image)
     {
 
         if (GTK_WIDGET_STATE(widget) != GTK_STATE_PRELIGHT)
         {
-            if (rstto_navigator_entry_is_selected(thumb->priv->entry))
-            {
-                gtk_widget_set_state(widget, GTK_STATE_SELECTED);
-            }
-            else
-            {
-                gtk_widget_set_state(widget, GTK_STATE_NORMAL);
-            }
         }
 
-        GdkPixbuf *pixbuf = rstto_navigator_entry_get_thumb(
-                                thumb->priv->entry,
-                                widget->allocation.height - 4);
+        GdkPixbuf *pixbuf = rstto_image_get_thumbnail (
+                                thumb->priv->image);
 
         gtk_paint_box(widget->style,
                       widget->window,
@@ -203,6 +184,7 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 
         if(pixbuf)
         {
+            pixbuf = gdk_pixbuf_scale_simple (pixbuf, widget->allocation.width, widget->allocation.height, GDK_INTERP_BILINEAR);
             gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
                             NULL,
                             pixbuf,
@@ -217,46 +199,24 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 }
 
 GtkWidget *
-rstto_thumbnail_new(RsttoNavigatorEntry *entry, GSList *thumb_list)
+rstto_thumbnail_new (RsttoImage *image)
 {
-    g_return_val_if_fail(entry != NULL, NULL);
+    g_return_val_if_fail (image != NULL, NULL);
 
     RsttoThumbnail *thumb = g_object_new(RSTTO_TYPE_THUMBNAIL, NULL);
 
-    thumb->priv->entry = entry;
+    thumb->priv->image = image;
+    g_object_ref (image);
 
-#if GTK_CHECK_VERSION(2,12,0)
-    ThunarVfsInfo *info = rstto_navigator_entry_get_info(thumb->priv->entry);
-    
-    gtk_widget_set_tooltip_text(GTK_WIDGET(thumb), thunar_vfs_path_dup_string(info->path));
-#else
-    /* TODO: gtktooltip stuff */
-#endif
-
-    {
-        thumb->priv->group = g_slist_prepend(thumb_list, thumb);
-        GSList *iter = thumb->priv->group;
-        while(iter)
-        {
-            RsttoThumbnail *iter_thumb = iter->data;
-            iter_thumb->priv->group = thumb->priv->group;
-            iter = iter->next;
-        }
-    }
+    gtk_widget_set_tooltip_text(GTK_WIDGET(thumb), "AAAAAAAAAAAA");
 
     return GTK_WIDGET(thumb);
 }
 
-GtkWidget *
-rstto_thumbnail_new_from_widget(RsttoNavigatorEntry *entry, RsttoThumbnail *sibling)
+RsttoImage *
+rstto_thumbnail_get_image (RsttoThumbnail *thumb)
 {
-    return rstto_thumbnail_new(entry, sibling->priv->group);
-}
-
-RsttoNavigatorEntry *
-rstto_thumbnail_get_entry (RsttoThumbnail *thumb)
-{
-    return thumb->priv->entry;
+    return thumb->priv->image;
 }
 
 /* CALLBACKS */
@@ -265,11 +225,8 @@ rstto_thumbnail_get_entry (RsttoThumbnail *thumb)
 static void
 rstto_thumbnail_clicked(GtkButton *button)
 {
-    RsttoThumbnail *thumb = RSTTO_THUMBNAIL(button);
-    RsttoNavigatorEntry *entry = rstto_thumbnail_get_entry(thumb);
-
-    thumb->selected = TRUE;
-    rstto_navigator_entry_select(entry);
+    RsttoThumbnail *thumb = RSTTO_THUMBNAIL (button);
+    RsttoImage *image = rstto_thumbnail_get_image (thumb);
 
     gtk_widget_queue_draw (GTK_WIDGET (button));
 }

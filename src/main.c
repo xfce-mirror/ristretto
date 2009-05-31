@@ -31,7 +31,7 @@
 #include <libexif/exif-data.h>
 
 #include "image.h"
-#include "navigator.h"
+#include "image_list.h"
 #include "settings.h"
 #include "picture_viewer.h"
 #include "main_window.h"
@@ -42,7 +42,7 @@ gboolean start_fullscreen = FALSE;
 gboolean start_slideshow = FALSE;
 
 typedef struct {
-    RsttoNavigator *navigator;
+    RsttoImageList *image_list;
     gint argc;
     gchar **argv;
     gint iter;
@@ -101,14 +101,14 @@ main(int argc, char **argv)
     gtk_window_set_default_icon_name("ristretto");
     RsttoSettings *settings = rstto_settings_new();
 
-    RsttoNavigator *navigator = rstto_navigator_new ();
-    GtkWidget *window = rstto_main_window_new (navigator, FALSE);
+    RsttoImageList *image_list = rstto_image_list_new ();
+    GtkWidget *window = rstto_main_window_new (image_list, FALSE);
 
     if (argc > 1)
     {
         RsttoOpenFiles rof;
 
-        rof.navigator = navigator;
+        rof.image_list = image_list;
         rof.argc = argc;
         rof.argv = argv;
 	rof.iter = 1;
@@ -147,7 +147,7 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
                 if (strncmp (content_type, "image/", 6) == 0)
                 {
-                    rstto_navigator_add_file (rof->navigator, file, NULL);
+                    rstto_image_list_add_file (rof->image_list, file, NULL);
                 }
             }
         }

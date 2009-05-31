@@ -26,6 +26,7 @@
 #include <libexif/exif-data.h>
 
 #include "image.h"
+#include "image_list.h"
 #include "picture_viewer.h"
 #include "settings.h"
 
@@ -62,6 +63,7 @@ static const GtkTargetEntry drop_targets[] = {
 struct _RsttoPictureViewerPriv
 {
     RsttoImage              *image;
+    RsttoImageListIter      *iter;
     GtkMenu                 *menu;
     RsttoPictureViewerState  state;
     RsttoZoomMode            zoom_mode;
@@ -126,6 +128,8 @@ rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *, GtkAdjustment 
 
 static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *, RsttoPictureViewer *);
+static void
+cb_rstto_picture_viewer_nav_iter_changed (RsttoImageListIter *iter, gpointer user_data);
 
 static void
 cb_rstto_picture_viewer_image_updated (RsttoImage *image, RsttoPictureViewer *viewer);
@@ -807,14 +811,14 @@ static void
 cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll *event)
 {
     /*
-    RsttoNavigatorEntry *entry = rstto_navigator_get_file(viewer->priv->navigator);
+    RsttoImageListEntry *entry = rstto_image_list_get_file(viewer->priv->image_list);
 
     if (entry == NULL)
     {
         return;
     }
 
-    gdouble scale = rstto_navigator_entry_get_scale(entry);
+    gdouble scale = rstto_image_list_entry_get_scale(entry);
     viewer->priv->zoom_mode = RSTTO_ZOOM_MODE_CUSTOM;
     switch(event->direction)
     {
@@ -826,8 +830,8 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
             {
                 g_source_remove(viewer->priv->refresh.idle_id);
             }
-            rstto_navigator_entry_set_scale(entry, scale / 1.1);
-            rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
+            rstto_image_list_entry_set_scale(entry, scale / 1.1);
+            rstto_image_list_entry_set_fit_to_screen (entry, FALSE);
 
             viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) / 1.1) - event->y;
             viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) / 1.1) - event->x;
@@ -842,8 +846,8 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
             {
                 g_source_remove(viewer->priv->refresh.idle_id);
             }
-            rstto_navigator_entry_set_scale(entry, scale * 1.1);
-            rstto_navigator_entry_set_fit_to_screen (entry, FALSE);
+            rstto_image_list_entry_set_scale(entry, scale * 1.1);
+            rstto_image_list_entry_set_fit_to_screen (entry, FALSE);
 
 
             viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) * 1.1) - event->y;
@@ -1413,7 +1417,7 @@ rstto_picture_viewer_set_zoom_mode(RsttoPictureViewer *viewer, RsttoZoomMode mod
  *
  *
  */
-void
+static void
 rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
 {
     gdouble *scale = NULL;
@@ -1429,14 +1433,15 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
     {
         g_signal_handlers_disconnect_by_func (viewer->priv->image, cb_rstto_picture_viewer_image_updated, viewer);
         g_signal_handlers_disconnect_by_func (viewer->priv->image, cb_rstto_picture_viewer_image_prepared, viewer);
-        g_object_unref (viewer->priv->image);
+        g_object_remove_weak_pointer (G_OBJECT (viewer->priv->image), (gpointer *)&viewer->priv->image);
     }
 
     viewer->priv->image = image;
 
     if (viewer->priv->image)
     {
-        g_object_ref (viewer->priv->image);
+        g_object_add_weak_pointer (G_OBJECT (viewer->priv->image), (gpointer *)&viewer->priv->image);
+
         g_signal_connect (G_OBJECT (viewer->priv->image), "updated", G_CALLBACK (cb_rstto_picture_viewer_image_updated), viewer);
         g_signal_connect (G_OBJECT (viewer->priv->image), "prepared", G_CALLBACK (cb_rstto_picture_viewer_image_prepared), viewer);
 
@@ -1588,14 +1593,14 @@ rstto_picture_viewer_drag_data_received(GtkWidget *widget,
         {
             if (g_file_test(path, G_FILE_TEST_IS_DIR))
             {
-                if(rstto_navigator_open_folder(picture_viewer->priv->navigator, path, FALSE, NULL) == TRUE)
+                if(rstto_image_list_open_folder(picture_viewer->priv->image_list, path, FALSE, NULL) == TRUE)
                 {
-                    rstto_navigator_jump_first(picture_viewer->priv->navigator);
+                    rstto_image_list_jump_first(picture_viewer->priv->image_list);
                 }
             }
             else
             {
-                rstto_navigator_open_file(picture_viewer->priv->navigator, path, FALSE, NULL);
+                rstto_image_list_open_file(picture_viewer->priv->image_list, path, FALSE, NULL);
             }
         }
 
@@ -1655,3 +1660,26 @@ rstto_picture_viewer_drag_motion (GtkWidget *widget,
 }
 
 
+void
+rstto_picture_viewer_set_iter (RsttoPictureViewer *viewer, RsttoImageListIter *iter)
+{
+    if (viewer->priv->iter)
+    {
+        g_signal_handlers_disconnect_by_func (viewer->priv->iter, cb_rstto_picture_viewer_nav_iter_changed, viewer);
+        g_object_unref (viewer->priv->iter);
+        viewer->priv->iter = NULL;
+    }
+    if (iter)
+    {
+        viewer->priv->iter = iter;
+        g_object_ref (viewer->priv->iter);
+        g_signal_connect (G_OBJECT (viewer->priv->iter), "changed", G_CALLBACK (cb_rstto_picture_viewer_nav_iter_changed), viewer);
+    }
+}
+
+static void
+cb_rstto_picture_viewer_nav_iter_changed (RsttoImageListIter *iter, gpointer user_data)
+{
+    RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER (user_data);
+    rstto_picture_viewer_set_image (viewer, rstto_image_list_iter_get_image (iter));
+}

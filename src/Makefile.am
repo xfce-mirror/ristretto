@@ -1,7 +1,7 @@
 bin_PROGRAMS = ristretto
 
 ristretto_SOURCES = \
-	navigator.c navigator.h \
+	image_list.c image_list.h \
 	image.c image.h \
 	image_cache.c image_cache.h \
 	picture_viewer.c picture_viewer.h \
@@ -10,9 +10,9 @@ ristretto_SOURCES = \
 	main_window_ui.h \
 	main_window.c main_window.h \
 	thumbnail_bar.c thumbnail_bar.h \
+	thumbnail.c thumbnail.h \
 	main.c
 #	save_dialog.h save_dialog.c
-#	thumbnail.c thumbnail.h
 
 ristretto_CFLAGS = \
 	$(GTK_CFLAGS) \

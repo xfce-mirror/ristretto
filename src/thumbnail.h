@@ -59,9 +59,8 @@ struct _RsttoThumbnailClass
 
 GType      rstto_thumbnail_get_type();
 
-GtkWidget *rstto_thumbnail_new(RsttoNavigatorEntry *entry, GSList *thumb_list);
-GtkWidget *rstto_thumbnail_new_from_widget(RsttoNavigatorEntry *entry, RsttoThumbnail *sibling);
-RsttoNavigatorEntry *rstto_thumbnail_get_entry (RsttoThumbnail *thumb);
+GtkWidget  *rstto_thumbnail_new (RsttoImage *image);
+RsttoImage *rstto_thumbnail_get_image (RsttoThumbnail *thumb);
 
 G_END_DECLS
 
