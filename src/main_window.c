@@ -145,8 +145,6 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, RsttoMainWindow *window);
-static void
-cb_rstto_main_window_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image, RsttoMainWindow *window);
 
 static gboolean
 cb_rstto_main_window_image_list_toolbar_popup_context_menu (GtkToolbar *toolbar,
@@ -735,7 +733,6 @@ rstto_main_window_set_property (GObject      *object,
             if (window->priv->props.image_list)
             {
                 g_signal_handlers_disconnect_by_func (window->priv->props.image_list, cb_rstto_main_window_image_list_new_image, window);
-                g_signal_handlers_disconnect_by_func (window->priv->props.image_list, cb_rstto_main_window_image_list_remove_image, window);
                 g_object_unref (window->priv->props.image_list);
 
                 g_signal_handlers_disconnect_by_func (window->priv->iter, cb_rstto_main_window_image_list_iter_changed, window);
@@ -749,7 +746,6 @@ rstto_main_window_set_property (GObject      *object,
             {
                 g_object_ref (window->priv->props.image_list);
                 g_signal_connect (G_OBJECT (window->priv->props.image_list), "new-image", G_CALLBACK (cb_rstto_main_window_image_list_new_image), window);
-                g_signal_connect (G_OBJECT (window->priv->props.image_list), "remove-image", G_CALLBACK (cb_rstto_main_window_image_list_remove_image), window);
 
                 window->priv->iter = rstto_image_list_get_iter (window->priv->props.image_list);
                 g_signal_connect (G_OBJECT (window->priv->iter), "changed", G_CALLBACK (cb_rstto_main_window_image_list_iter_changed), window);
@@ -1224,7 +1220,6 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
         s_file = rstto_image_get_file (rstto_image_list_iter_get_image (window->priv->iter));
         if (g_file_copy (s_file, file, G_FILE_COPY_OVERWRITE, NULL, NULL, NULL, NULL))
         {
-            rstto_image_list_remove_image (window->priv->props.image_list, rstto_image_list_iter_get_image (window->priv->iter));
             rstto_image_list_add_file (window->priv->props.image_list, file, NULL);
         }
     }
@@ -1629,38 +1624,8 @@ cb_rstto_main_window_image_list_new_image (RsttoImageList *image_list, RsttoImag
 {
     if (rstto_image_list_iter_get_position (window->priv->iter) == -1)
         rstto_image_list_iter_set_position (window->priv->iter, 0);
+    rstto_main_window_image_list_iter_changed (window);
 }
-
-/**
- * cb_rstto_main_window_image_list_remove_image:
- * @image_list:
- * @image:
- * @window:
- *
- */
-static void
-cb_rstto_main_window_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image, RsttoMainWindow *window)
-{
-    if (rstto_image_list_get_n_images (image_list) == 0)
-    {
-        rstto_image_list_iter_set_position (window->priv->iter, -1);
-    }
-    else
-    {
-        if (rstto_image_list_iter_get_image (window->priv->iter) == image)
-        {
-            if (rstto_image_list_iter_get_position (window->priv->iter) > 0)
-            {
-                rstto_image_list_iter_previous (window->priv->iter);
-            }
-            else
-            {
-                rstto_image_list_iter_set_position (window->priv->iter, 0);
-            }
-        }
-    }
-}
-
 
 static gboolean
 cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event)

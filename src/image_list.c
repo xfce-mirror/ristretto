@@ -75,6 +75,8 @@ struct _RsttoImageListPriv
 {
     GList *images;
     gint n_images;
+
+    GSList *iterators;
 };
 
 static gint rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_COUNT];
@@ -183,6 +185,16 @@ rstto_image_list_add_file (RsttoImageList *image_list, GFile *file, GError **err
         image_list->priv->n_images++;
 
         g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, image, NULL);
+        if (image_list->priv->n_images == 1)
+        {
+            /** TODO: update all iterators */
+            GSList *iter = image_list->priv->iterators;
+            while (iter)
+            {
+                g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
+                iter = g_slist_next (iter);
+            }
+        }
         return TRUE;
     }
     return FALSE;
@@ -194,6 +206,14 @@ rstto_image_list_get_n_images (RsttoImageList *image_list)
     return g_list_length (image_list->priv->images);
 }
 
+/**
+ * rstto_image_list_get_iter:
+ * @image_list:
+ *
+ * TODO: track iterators
+ *
+ * return iter;
+ */
 RsttoImageListIter *
 rstto_image_list_get_iter (RsttoImageList *image_list)
 {
@@ -202,6 +222,8 @@ rstto_image_list_get_iter (RsttoImageList *image_list)
         image = image_list->priv->images->data;
 
     RsttoImageListIter *iter = rstto_image_list_iter_new (image_list, image);
+
+    image_list->priv->iterators = g_slist_prepend (image_list->priv->iterators, iter);
 
     return iter;
 }
@@ -213,6 +235,16 @@ rstto_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image)
     if (g_list_find (image_list->priv->images, image))
     {
         image_list->priv->images = g_list_remove (image_list->priv->images, image);
+
+        GSList *iter = image_list->priv->iterators;
+        while (iter)
+        {
+            if (rstto_image_list_iter_get_image (iter->data) == image)
+            {
+                rstto_image_list_iter_previous (iter->data);
+            }
+            iter = g_slist_next (iter);
+        }
         g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE], 0, image, NULL);
         g_object_unref (image);
     }
@@ -223,8 +255,15 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
 {
     g_list_foreach (image_list->priv->images, (GFunc)g_object_unref, NULL);
     g_list_free (image_list->priv->images);
-    g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL], 0, NULL);
     image_list->priv->images = NULL;
+
+    GSList *iter = image_list->priv->iterators;
+    while (iter)
+    {
+        rstto_image_list_iter_set_position (iter->data, 0);
+        iter = g_slist_next (iter);
+    }
+    g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL], 0, NULL);
 }
 
 
@@ -313,6 +352,12 @@ rstto_image_list_iter_dispose (GObject *object)
         g_object_unref (iter->priv->image);
         iter->priv->image = NULL;
     }
+
+    if (iter->priv->image_list)
+    {
+        iter->priv->image_list->priv->iterators = g_slist_remove (iter->priv->image_list->priv->iterators, iter);
+        iter->priv->image_list= NULL;
+    }
 }
 
 static RsttoImageListIter *
@@ -391,7 +436,6 @@ rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos)
     {
         iter->priv->position = -1;
     }
-    g_debug ("w00t: %d", iter->priv->position);
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
 }
 

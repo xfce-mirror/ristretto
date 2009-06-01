@@ -805,6 +805,12 @@ static void
 cb_rstto_thumbnail_bar_image_list_remove_all (RsttoImageList *image_list, gpointer user_data)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
+    if (bar->priv->thumbs)
+    {
+        g_list_foreach (bar->priv->thumbs, G_CALLBACK (gtk_widget_destroy), NULL);
+        g_list_free (bar->priv->thumbs);
+        bar->priv->thumbs = NULL;
+    }
 }
 
 

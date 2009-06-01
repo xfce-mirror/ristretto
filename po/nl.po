@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-03-22 09:43+0100\n"
+"POT-Creation-Date: 2009-06-01 01:02+0200\n"
 "PO-Revision-Date: 2007-07-13 00:48+0200\n"
 "Last-Translator: Stephan Arts <stephan@xfce.org>\n"
 "Language-Team: Dutch\n"
@@ -38,247 +38,295 @@ msgstr ""
 "Probeer %s --help voor een lijst van beschikbare commando regel opties.\n"
 
 #. File Menu
-#: ../src/main_window.c:188
+#: ../src/main_window.c:243
 msgid "_File"
 msgstr "_Bestand"
 
-#: ../src/main_window.c:189
+#: ../src/main_window.c:244
 msgid "_Open"
-msgstr ""
+msgstr "_Openen"
 
-#: ../src/main_window.c:189
-#, fuzzy
+#: ../src/main_window.c:244
 msgid "Open an image"
 msgstr "Afbeelding openen"
 
-#: ../src/main_window.c:190
-#, fuzzy
+#: ../src/main_window.c:245
 msgid "Open _Folder"
 msgstr "Map o_penen"
 
-#: ../src/main_window.c:190
-#, fuzzy
+#: ../src/main_window.c:245
 msgid "Open a folder"
 msgstr "Map openen"
 
-#: ../src/main_window.c:191
-#, fuzzy
-msgid "_Properties"
-msgstr "Afbeeldingsweergave voorkeuren"
+#: ../src/main_window.c:246
+msgid "_Save copy"
+msgstr "_Kopie opslaan"
 
-#: ../src/main_window.c:192
-#, fuzzy
-msgid "_Close"
-msgstr "_Opruimen"
-
-#: ../src/main_window.c:192
-msgid "Close this image"
+#: ../src/main_window.c:246
+msgid "Save a copy of the image"
 msgstr ""
 
-#: ../src/main_window.c:193
-#, fuzzy
+#: ../src/main_window.c:247
+msgid "_Print"
+msgstr "_Printen"
+
+#: ../src/main_window.c:247
+msgid "Print the image"
+msgstr "Afbeelding printen"
+
+#: ../src/main_window.c:248
+msgid "_Close"
+msgstr "_Sluiten"
+
+#: ../src/main_window.c:248
+msgid "Close this image"
+msgstr "Deze afbeelding sluiten"
+
+#: ../src/main_window.c:249
 msgid "_Close All"
 msgstr "_Alles Sluiten"
 
-#: ../src/main_window.c:193
-#, fuzzy
+#: ../src/main_window.c:249
 msgid "Close all images"
-msgstr "_Alles Sluiten"
+msgstr "Alles Sluiten"
 
-#: ../src/main_window.c:194
-#, fuzzy
+#: ../src/main_window.c:250
 msgid "_Quit"
-msgstr "Be_werken"
+msgstr "_Afsluiten"
 
-#: ../src/main_window.c:194
-#, fuzzy
+#: ../src/main_window.c:250
 msgid "Quit Ristretto"
-msgstr "Ristretto"
+msgstr "Ristretto afsluiten"
 
 #. Edit Menu
-#: ../src/main_window.c:196
+#: ../src/main_window.c:252
 msgid "_Edit"
 msgstr "Be_werken"
 
-#: ../src/main_window.c:197
-#, fuzzy
+#: ../src/main_window.c:253
 msgid "_Open with..."
 msgstr "_Openen met..."
 
-#: ../src/main_window.c:198
-#, fuzzy
+#: ../src/main_window.c:254
+msgid "_Delete"
+msgstr "Verwij_deren"
+
+#: ../src/main_window.c:255
 msgid "_Preferences"
-msgstr "Afbeeldingsweergave voorkeuren"
+msgstr "_Voorkeuren"
 
 #. View Menu
-#: ../src/main_window.c:200
+#: ../src/main_window.c:257
 msgid "_View"
 msgstr "Beel_d"
 
-#: ../src/main_window.c:201
+#: ../src/main_window.c:258
 msgid "_Fullscreen"
+msgstr "Volledig Scherm"
+
+#: ../src/main_window.c:259
+msgid "_Leave Fullscreen"
 msgstr ""
 
-#: ../src/main_window.c:202
+#: ../src/main_window.c:260
 #, fuzzy
 msgid "_Set as Wallpaper"
 msgstr "In_stellen als bureaublad achtergrond"
 
 #. Thumbnailbar submenu
-#: ../src/main_window.c:204
+#: ../src/main_window.c:262
 #, fuzzy
 msgid "_Thumbnail Bar"
 msgstr "Miniaturen"
 
 #. Zoom submenu
-#: ../src/main_window.c:206
+#: ../src/main_window.c:264
 msgid "_Zooming"
 msgstr "_Zoomen"
 
-#: ../src/main_window.c:207
+#: ../src/main_window.c:265
 #, fuzzy
 msgid "Zoom _In"
-msgstr "_Zoomen"
+msgstr "Inzoomen"
 
-#: ../src/main_window.c:208
+#: ../src/main_window.c:266
 msgid "Zoom _Out"
 msgstr ""
 
-#: ../src/main_window.c:209
+#: ../src/main_window.c:267
 msgid "Zoom _Fit"
 msgstr ""
 
-#: ../src/main_window.c:210
+#: ../src/main_window.c:268
 msgid "_Normal Size"
 msgstr ""
 
 #. Rotation submenu
-#: ../src/main_window.c:212
+#: ../src/main_window.c:270
 #, fuzzy
 msgid "_Rotation"
 msgstr "_Roteren"
 
-#: ../src/main_window.c:213
+#: ../src/main_window.c:271
 msgid "Rotate _Right"
 msgstr "_Rechtsom draaien"
 
-#: ../src/main_window.c:214
+#: ../src/main_window.c:272
 msgid "Rotate _Left"
 msgstr "_Linksom draaien"
 
 #. Go Menu
-#: ../src/main_window.c:216
+#: ../src/main_window.c:274
 msgid "_Go"
 msgstr "_Ga"
 
-#: ../src/main_window.c:217
+#: ../src/main_window.c:275
 msgid "_Forward"
 msgstr ""
 
-#: ../src/main_window.c:218
+#: ../src/main_window.c:276
 msgid "_Back"
 msgstr ""
 
-#: ../src/main_window.c:219
+#: ../src/main_window.c:277
 msgid "_First"
 msgstr ""
 
-#: ../src/main_window.c:220
+#: ../src/main_window.c:278
 msgid "_Last"
 msgstr ""
 
 #. Help Menu
-#: ../src/main_window.c:222
+#: ../src/main_window.c:280
 msgid "_Help"
 msgstr "_Help"
 
-#: ../src/main_window.c:224
+#: ../src/main_window.c:282
 msgid "_Contents"
 msgstr ""
 
-#: ../src/main_window.c:226
+#: ../src/main_window.c:284
 msgid "Display ristretto user manual"
 msgstr ""
 
-#: ../src/main_window.c:229
+#: ../src/main_window.c:287
 msgid "_About"
 msgstr ""
 
-#: ../src/main_window.c:231
+#: ../src/main_window.c:289
 msgid "Display information about ristretto"
 msgstr ""
 
-#: ../src/main_window.c:237
+#. Misc
+#: ../src/main_window.c:292
+msgid "Leave _Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:298
 msgid "Show _Toolbar"
 msgstr "_Toon Werkbalk"
 
-#: ../src/main_window.c:238
+#: ../src/main_window.c:299
 #, fuzzy
 msgid "Show Thumb_nailbar"
 msgstr "Miniaturen"
 
-#: ../src/main_window.c:858
+#: ../src/main_window.c:1005
 msgid "Open image"
 msgstr "Afbeelding openen"
 
-#: ../src/main_window.c:870
+#: ../src/main_window.c:1017
 msgid "Images"
 msgstr ""
 
-#: ../src/main_window.c:889 ../src/main_window.c:1018
+#: ../src/main_window.c:1022
+msgid ".jp(e)g"
+msgstr ""
+
+#: ../src/main_window.c:1041 ../src/main_window.c:1184
+#: ../src/main_window.c:1196
 msgid "Could not open file"
 msgstr "Kan bestand niet openen"
 
-#: ../src/main_window.c:937
+#: ../src/main_window.c:1090
 #, fuzzy
 msgid "Open folder"
 msgstr "Map openen"
 
-#: ../src/main_window.c:1152
+#: ../src/main_window.c:1212
+msgid "Save copy"
+msgstr ""
+
+#: ../src/main_window.c:1459
 msgid "Developer:"
 msgstr "Ontwikkelaar:"
 
-#: ../src/main_window.c:1162
+#: ../src/main_window.c:1469
 #, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto is een snel en lichtgewicht afbeeldingsweergave-programma voor de "
 "Xfce-desktop omgeving"
 
-#: ../src/main_window.c:1170
+#: ../src/main_window.c:1477
 msgid "translator-credits"
 msgstr "Stephan Arts <stephan@xfce.org>"
 
-#: ../src/preferences_dialog.c:73
+#: ../src/main_window.c:1575
+#, fuzzy, c-format
+msgid "Are you sure you want to delete image '%s' from disk?"
+msgstr ""
+"Weet U zeker dat u de lijst met recent door ristretto geopende bestanden "
+"wilt wissen?"
+
+#: ../src/preferences_dialog.c:159
 msgid "Display"
 msgstr "Weergave"
 
-#: ../src/preferences_dialog.c:78
-msgid "Slideshow"
-msgstr "Diaweergave"
-
-#: ../src/preferences_dialog.c:82
+#: ../src/preferences_dialog.c:164
 #, fuzzy
 msgid "Background color"
 msgstr "Achtergrondkleur"
 
-#: ../src/preferences_dialog.c:85
-msgid "Black"
+#: ../src/preferences_dialog.c:168
+#, fuzzy
+msgid "Override background color:"
+msgstr "Achtergr_ondkleur wijzigen:"
+
+#: ../src/preferences_dialog.c:196
+#, fuzzy
+msgid "Quality"
+msgstr "Be_werken"
+
+#: ../src/preferences_dialog.c:200
+msgid "Maximum render quality:"
 msgstr ""
 
-#: ../src/preferences_dialog.c:87
-msgid "Colorify (no idea how to call this feature)"
+#: ../src/preferences_dialog.c:204
+msgid "Really High"
 msgstr ""
 
-#: ../src/preferences_dialog.c:90
-msgid "Custom:"
+#: ../src/preferences_dialog.c:205
+msgid "High"
 msgstr ""
 
-#: ../src/preferences_dialog.c:98
+#: ../src/preferences_dialog.c:206
+msgid "Medium"
+msgstr ""
+
+#: ../src/preferences_dialog.c:207
+msgid "Low"
+msgstr ""
+
+#: ../src/preferences_dialog.c:244
+msgid "Slideshow"
+msgstr "Diaweergave"
+
+#: ../src/preferences_dialog.c:250
 msgid "Timeout"
 msgstr "Timeout"
 
-#: ../src/preferences_dialog.c:102
+#: ../src/preferences_dialog.c:254
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -286,32 +334,66 @@ msgstr ""
 "De periode dat een enkele afbeelding wordt weergegeven gedurende een\n"
 "diaweergave (in seconden)"
 
-#: ../src/preferences_dialog.c:113
+#: ../src/preferences_dialog.c:265
 msgid "Control"
 msgstr "Bediening"
 
-#: ../src/preferences_dialog.c:117
+#: ../src/preferences_dialog.c:269
 msgid "Scrollwheel"
 msgstr ""
 
-#: ../src/preferences_dialog.c:120
+#: ../src/preferences_dialog.c:273
 #, fuzzy
 msgid "No action"
 msgstr "_Roteren"
 
-#: ../src/preferences_dialog.c:122
+#: ../src/preferences_dialog.c:275
 msgid "Zoom in and out"
 msgstr ""
 
-#: ../src/preferences_dialog.c:124
+#: ../src/preferences_dialog.c:277
 msgid "Switch images"
 msgstr ""
 
-#: ../src/preferences_dialog.c:129
+#: ../src/preferences_dialog.c:284
 msgid "Behaviour"
 msgstr "Gedrag"
 
-#: ../src/preferences_dialog.c:149
+#: ../src/preferences_dialog.c:290
+#, fuzzy
+msgid "Image cache"
+msgstr "Afbeeldingen-cache"
+
+#: ../src/preferences_dialog.c:296
+#, fuzzy
+msgid "Cache size"
+msgstr "Cachegrootte:"
+
+#: ../src/preferences_dialog.c:297
+msgid "MB"
+msgstr "MB"
+
+#: ../src/preferences_dialog.c:300
+#, fuzzy
+msgid "Enable cache"
+msgstr "Afbeeldingen-cache"
+
+#: ../src/preferences_dialog.c:305
+#, fuzzy
+msgid "Preload images"
+msgstr "_Afbeeldingen vooruit inladen"
+
+#: ../src/preferences_dialog.c:360
+msgid "Scaling"
+msgstr "Schalen"
+
+#: ../src/preferences_dialog.c:365
+msgid "Don't scale over 100% when maximizing the window."
+msgstr ""
+"Afbeelding niet voorbij 100% schalen wanneer het venster wordt "
+"gemaximaliseerd"
+
+#: ../src/preferences_dialog.c:387
 #, fuzzy
 msgid "Preferences"
 msgstr "Afbeeldingsweergave voorkeuren"
@@ -321,12 +403,23 @@ msgid "Image Viewer"
 msgstr "Afbeeldingsweergave"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Ristretto"
-msgstr "Ristretto"
+msgid "Look at your photo's easily"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:3
-msgid "Xfce Image viewer"
-msgstr "Xfce Afbeeldings weergave"
+#, fuzzy
+msgid "Ristretto Photo Viewer"
+msgstr "Ristretto Afbeeldings Weergave"
+
+#, fuzzy
+#~ msgid "_Properties"
+#~ msgstr "Afbeeldingsweergave voorkeuren"
+
+#~ msgid "Ristretto"
+#~ msgstr "Ristretto"
+
+#~ msgid "Xfce Image viewer"
+#~ msgstr "Xfce Afbeeldings weergave"
 
 #~ msgid "Show _Vertically"
 #~ msgstr "_Verticaal tonen"
@@ -368,26 +461,6 @@ msgstr "Xfce Afbeeldings weergave"
 #~ msgstr ""
 #~ "Een of meer afbeeldingen zijn gewijzigd, wilt u de wijziginge opslaan?"
 
-#~ msgid "Scaling"
-#~ msgstr "Schalen"
-
-#~ msgid "Don't scale over 100% when maximizing the window."
-#~ msgstr ""
-#~ "Afbeelding niet voorbij 100% schalen wanneer het venster wordt "
-#~ "gemaximaliseerd"
-
-#~ msgid "_Override Background Color:"
-#~ msgstr "Achtergr_ondkleur wijzigen:"
-
-#~ msgid "Image Cache"
-#~ msgstr "Afbeeldingen-cache"
-
-#~ msgid "Cache size:"
-#~ msgstr "Cachegrootte:"
-
-#~ msgid "MB"
-#~ msgstr "MB"
-
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr ""
 #~ "Af_beeldingen vooruit inladen (GUI reageerd sneller, maar vergt meer van "
@@ -399,13 +472,6 @@ msgstr "Xfce Afbeeldings weergave"
 #~ msgid "_Hide thumbnails"
 #~ msgstr "Miniaturen _verbergen"
 
-#~ msgid ""
-#~ "Are you sure you want to clear ristretto's list of recently opened "
-#~ "documents?"
-#~ msgstr ""
-#~ "Weet U zeker dat u de lijst met recent door ristretto geopende bestanden "
-#~ "wilt wissen?"
-
 #~ msgid "Preload"
 #~ msgstr "Vooruit laden"
 
@@ -415,12 +481,6 @@ msgstr "Xfce Afbeeldings weergave"
 #~ msgstr ""
 #~ "Afbeeldingen vooraf inladen gedurende een diaweergave\n"
 #~ "(gebruikt meer geheugen)"
-
-#~ msgid "_Preload images"
-#~ msgstr "_Afbeeldingen vooruit inladen"
-
-#~ msgid "Ristretto Image Viewer"
-#~ msgstr "Ristretto Afbeeldings Weergave"
 
 #~ msgid "Flip _Vertically"
 #~ msgstr "_Verticaal spiegelen"

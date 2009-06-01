@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-03-22 09:43+0100\n"
+"POT-Creation-Date: 2009-06-01 01:02+0200\n"
 "PO-Revision-Date: 2008-11-16 02:31+0200\n"
 "Last-Translator: Gökmen Görgen <gkmngrgn@gmail.com>\n"
 "Language-Team: Turkish\n"
@@ -41,249 +41,307 @@ msgstr ""
 "Komutsatırı parametrelerini görmek için %s --help komutunu kullanınız.\n"
 
 #. File Menu
-#: ../src/main_window.c:188
+#: ../src/main_window.c:243
 msgid "_File"
 msgstr "_Dosya"
 
-#: ../src/main_window.c:189
+#: ../src/main_window.c:244
 msgid "_Open"
 msgstr ""
 
-#: ../src/main_window.c:189
+#: ../src/main_window.c:244
 #, fuzzy
 msgid "Open an image"
 msgstr "Dosya aç"
 
-#: ../src/main_window.c:190
+#: ../src/main_window.c:245
 #, fuzzy
 msgid "Open _Folder"
 msgstr "D_izin Aç"
 
-#: ../src/main_window.c:190
+#: ../src/main_window.c:245
 #, fuzzy
 msgid "Open a folder"
 msgstr "Dizin aç"
 
-#: ../src/main_window.c:191
-#, fuzzy
-msgid "_Properties"
-msgstr "Görüntü gösterici Tercihleri"
+#: ../src/main_window.c:246
+msgid "_Save copy"
+msgstr ""
 
-#: ../src/main_window.c:192
+#: ../src/main_window.c:246
+msgid "Save a copy of the image"
+msgstr ""
+
+#: ../src/main_window.c:247
+msgid "_Print"
+msgstr ""
+
+#: ../src/main_window.c:247
+#, fuzzy
+msgid "Print the image"
+msgstr "Görüntüleri _önyükle"
+
+#: ../src/main_window.c:248
 #, fuzzy
 msgid "_Close"
 msgstr "Hepsini k_apa"
 
-#: ../src/main_window.c:192
+#: ../src/main_window.c:248
 msgid "Close this image"
 msgstr ""
 
-#: ../src/main_window.c:193
+#: ../src/main_window.c:249
 #, fuzzy
 msgid "_Close All"
 msgstr "Hepsini k_apa"
 
-#: ../src/main_window.c:193
+#: ../src/main_window.c:249
 #, fuzzy
 msgid "Close all images"
 msgstr "Hepsini k_apa"
 
-#: ../src/main_window.c:194
+#: ../src/main_window.c:250
 #, fuzzy
 msgid "_Quit"
 msgstr "Dü_zenle"
 
-#: ../src/main_window.c:194
+#: ../src/main_window.c:250
 #, fuzzy
 msgid "Quit Ristretto"
 msgstr "Ristretto"
 
 #. Edit Menu
-#: ../src/main_window.c:196
+#: ../src/main_window.c:252
 msgid "_Edit"
 msgstr "Dü_zenle"
 
-#: ../src/main_window.c:197
+#: ../src/main_window.c:253
 #, fuzzy
 msgid "_Open with..."
 msgstr "Birlikte aç..."
 
-#: ../src/main_window.c:198
+#: ../src/main_window.c:254
+msgid "_Delete"
+msgstr ""
+
+#: ../src/main_window.c:255
 #, fuzzy
 msgid "_Preferences"
 msgstr "Görüntü gösterici Tercihleri"
 
 #. View Menu
-#: ../src/main_window.c:200
+#: ../src/main_window.c:257
 msgid "_View"
 msgstr "_Görünüm"
 
-#: ../src/main_window.c:201
+#: ../src/main_window.c:258
 msgid "_Fullscreen"
 msgstr ""
 
-#: ../src/main_window.c:202
+#: ../src/main_window.c:259
+msgid "_Leave Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:260
 #, fuzzy
 msgid "_Set as Wallpaper"
 msgstr "Arkaplan re_smi olarak belirle"
 
 #. Thumbnailbar submenu
-#: ../src/main_window.c:204
+#: ../src/main_window.c:262
 #, fuzzy
 msgid "_Thumbnail Bar"
 msgstr "Önizlemeler"
 
 #. Zoom submenu
-#: ../src/main_window.c:206
+#: ../src/main_window.c:264
 msgid "_Zooming"
 msgstr "_Yakınlaşma"
 
-#: ../src/main_window.c:207
+#: ../src/main_window.c:265
 #, fuzzy
 msgid "Zoom _In"
 msgstr "_Yakınlaşma"
 
-#: ../src/main_window.c:208
+#: ../src/main_window.c:266
 msgid "Zoom _Out"
 msgstr ""
 
-#: ../src/main_window.c:209
+#: ../src/main_window.c:267
 msgid "Zoom _Fit"
 msgstr ""
 
-#: ../src/main_window.c:210
+#: ../src/main_window.c:268
 msgid "_Normal Size"
 msgstr ""
 
 #. Rotation submenu
-#: ../src/main_window.c:212
+#: ../src/main_window.c:270
 #, fuzzy
 msgid "_Rotation"
 msgstr "Dö_ndür"
 
-#: ../src/main_window.c:213
+#: ../src/main_window.c:271
 msgid "Rotate _Right"
 msgstr "Sa_ğa Döndür"
 
-#: ../src/main_window.c:214
+#: ../src/main_window.c:272
 msgid "Rotate _Left"
 msgstr "So_la Döndür"
 
 #. Go Menu
-#: ../src/main_window.c:216
+#: ../src/main_window.c:274
 msgid "_Go"
 msgstr "Gi_t"
 
-#: ../src/main_window.c:217
+#: ../src/main_window.c:275
 msgid "_Forward"
 msgstr ""
 
-#: ../src/main_window.c:218
+#: ../src/main_window.c:276
 msgid "_Back"
 msgstr ""
 
-#: ../src/main_window.c:219
+#: ../src/main_window.c:277
 msgid "_First"
 msgstr ""
 
-#: ../src/main_window.c:220
+#: ../src/main_window.c:278
 msgid "_Last"
 msgstr ""
 
 #. Help Menu
-#: ../src/main_window.c:222
+#: ../src/main_window.c:280
 msgid "_Help"
 msgstr "_Yardım"
 
-#: ../src/main_window.c:224
+#: ../src/main_window.c:282
 msgid "_Contents"
 msgstr ""
 
-#: ../src/main_window.c:226
+#: ../src/main_window.c:284
 msgid "Display ristretto user manual"
 msgstr ""
 
-#: ../src/main_window.c:229
+#: ../src/main_window.c:287
 msgid "_About"
 msgstr ""
 
-#: ../src/main_window.c:231
+#: ../src/main_window.c:289
 msgid "Display information about ristretto"
 msgstr ""
 
-#: ../src/main_window.c:237
+#. Misc
+#: ../src/main_window.c:292
+msgid "Leave _Fullscreen"
+msgstr ""
+
+#: ../src/main_window.c:298
 msgid "Show _Toolbar"
 msgstr "Araç _Çubuğunu Göster"
 
-#: ../src/main_window.c:238
+#: ../src/main_window.c:299
 #, fuzzy
 msgid "Show Thumb_nailbar"
 msgstr "Önizlemeler"
 
-#: ../src/main_window.c:858
+#: ../src/main_window.c:1005
 msgid "Open image"
 msgstr "Dosya aç"
 
-#: ../src/main_window.c:870
+#: ../src/main_window.c:1017
 msgid "Images"
 msgstr ""
 
-#: ../src/main_window.c:889 ../src/main_window.c:1018
+#: ../src/main_window.c:1022
+msgid ".jp(e)g"
+msgstr ""
+
+#: ../src/main_window.c:1041 ../src/main_window.c:1184
+#: ../src/main_window.c:1196
 msgid "Could not open file"
 msgstr "Dosya açılamadı"
 
-#: ../src/main_window.c:937
+#: ../src/main_window.c:1090
 #, fuzzy
 msgid "Open folder"
 msgstr "Dizin aç"
 
-#: ../src/main_window.c:1152
+#: ../src/main_window.c:1212
+msgid "Save copy"
+msgstr ""
+
+#: ../src/main_window.c:1459
 msgid "Developer:"
 msgstr "Geliştirici:"
 
-#: ../src/main_window.c:1162
+#: ../src/main_window.c:1469
 #, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto, Xfce masaüstü ortamı için geliştirilen hızlı ve hafif bir resim "
 "göstericidir."
 
-#: ../src/main_window.c:1170
+#: ../src/main_window.c:1477
 msgid "translator-credits"
 msgstr ""
 "Onur Küçük <onur@pardus.org.tr>\n"
 "Gökmen Görgen <gkmngrgn@gmail.com>"
 
-#: ../src/preferences_dialog.c:73
+#: ../src/main_window.c:1575
+#, fuzzy, c-format
+msgid "Are you sure you want to delete image '%s' from disk?"
+msgstr ""
+"Önceden yüklenmiş belgelerin listesini silmek istediğinizden emin misiniz ?"
+
+#: ../src/preferences_dialog.c:159
 msgid "Display"
 msgstr "Görüntü"
 
-#: ../src/preferences_dialog.c:78
-msgid "Slideshow"
-msgstr "Sırayla Göster"
-
-#: ../src/preferences_dialog.c:82
+#: ../src/preferences_dialog.c:164
 #, fuzzy
 msgid "Background color"
 msgstr "Arkaplan Rengi"
 
-#: ../src/preferences_dialog.c:85
-msgid "Black"
+#: ../src/preferences_dialog.c:168
+#, fuzzy
+msgid "Override background color:"
+msgstr "Arkaplan _Rengini Zorla:"
+
+#: ../src/preferences_dialog.c:196
+#, fuzzy
+msgid "Quality"
+msgstr "Dü_zenle"
+
+#: ../src/preferences_dialog.c:200
+msgid "Maximum render quality:"
 msgstr ""
 
-#: ../src/preferences_dialog.c:87
-msgid "Colorify (no idea how to call this feature)"
+#: ../src/preferences_dialog.c:204
+msgid "Really High"
 msgstr ""
 
-#: ../src/preferences_dialog.c:90
-msgid "Custom:"
+#: ../src/preferences_dialog.c:205
+msgid "High"
 msgstr ""
 
-#: ../src/preferences_dialog.c:98
+#: ../src/preferences_dialog.c:206
+msgid "Medium"
+msgstr ""
+
+#: ../src/preferences_dialog.c:207
+msgid "Low"
+msgstr ""
+
+#: ../src/preferences_dialog.c:244
+msgid "Slideshow"
+msgstr "Sırayla Göster"
+
+#: ../src/preferences_dialog.c:250
 msgid "Timeout"
 msgstr "Kalan süre"
 
-#: ../src/preferences_dialog.c:102
+#: ../src/preferences_dialog.c:254
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -291,32 +349,64 @@ msgstr ""
 "Sırayla gösterim sırasında resim başına gösterim süresi\n"
 "(saniye cinsinden)"
 
-#: ../src/preferences_dialog.c:113
+#: ../src/preferences_dialog.c:265
 msgid "Control"
 msgstr ""
 
-#: ../src/preferences_dialog.c:117
+#: ../src/preferences_dialog.c:269
 msgid "Scrollwheel"
 msgstr ""
 
-#: ../src/preferences_dialog.c:120
+#: ../src/preferences_dialog.c:273
 #, fuzzy
 msgid "No action"
 msgstr "Dö_ndür"
 
-#: ../src/preferences_dialog.c:122
+#: ../src/preferences_dialog.c:275
 msgid "Zoom in and out"
 msgstr ""
 
-#: ../src/preferences_dialog.c:124
+#: ../src/preferences_dialog.c:277
 msgid "Switch images"
 msgstr ""
 
-#: ../src/preferences_dialog.c:129
+#: ../src/preferences_dialog.c:284
 msgid "Behaviour"
 msgstr "Davranış"
 
-#: ../src/preferences_dialog.c:149
+#: ../src/preferences_dialog.c:290
+#, fuzzy
+msgid "Image cache"
+msgstr "Resim Belleği"
+
+#: ../src/preferences_dialog.c:296
+#, fuzzy
+msgid "Cache size"
+msgstr "Bellek boyutu:"
+
+#: ../src/preferences_dialog.c:297
+msgid "MB"
+msgstr "MB"
+
+#: ../src/preferences_dialog.c:300
+#, fuzzy
+msgid "Enable cache"
+msgstr "Resim Belleği"
+
+#: ../src/preferences_dialog.c:305
+#, fuzzy
+msgid "Preload images"
+msgstr "Görüntüleri _önyükle"
+
+#: ../src/preferences_dialog.c:360
+msgid "Scaling"
+msgstr "Ölçekleme"
+
+#: ../src/preferences_dialog.c:365
+msgid "Don't scale over 100% when maximizing the window."
+msgstr "Pencere büyütüldüğünde %100'den fazla ölçekleme yapma."
+
+#: ../src/preferences_dialog.c:387
 #, fuzzy
 msgid "Preferences"
 msgstr "Görüntü gösterici Tercihleri"
@@ -326,12 +416,23 @@ msgid "Image Viewer"
 msgstr "Resim Gösterici"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Ristretto"
-msgstr "Ristretto"
+msgid "Look at your photo's easily"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:3
-msgid "Xfce Image viewer"
-msgstr "Xfce Resim Gösterici"
+#, fuzzy
+msgid "Ristretto Photo Viewer"
+msgstr "Ristretto Görüntü Gösterici"
+
+#, fuzzy
+#~ msgid "_Properties"
+#~ msgstr "Görüntü gösterici Tercihleri"
+
+#~ msgid "Ristretto"
+#~ msgstr "Ristretto"
+
+#~ msgid "Xfce Image viewer"
+#~ msgstr "Xfce Resim Gösterici"
 
 #~ msgid "Show _Vertically"
 #~ msgstr "Di_key Sırala"
@@ -374,24 +475,6 @@ msgstr "Xfce Resim Gösterici"
 #~ "Bir ya da daha fazla resim değiştirildi, değişiklikleri kaydetmek ister "
 #~ "misiniz?"
 
-#~ msgid "Scaling"
-#~ msgstr "Ölçekleme"
-
-#~ msgid "Don't scale over 100% when maximizing the window."
-#~ msgstr "Pencere büyütüldüğünde %100'den fazla ölçekleme yapma."
-
-#~ msgid "_Override Background Color:"
-#~ msgstr "Arkaplan _Rengini Zorla:"
-
-#~ msgid "Image Cache"
-#~ msgstr "Resim Belleği"
-
-#~ msgid "Cache size:"
-#~ msgstr "Bellek boyutu:"
-
-#~ msgid "MB"
-#~ msgstr "MB"
-
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr ""
 #~ "_Resimleri önceden yükle (Arayüz daha erken hazır olur; ama daha fazla "
@@ -403,13 +486,6 @@ msgstr "Xfce Resim Gösterici"
 #~ msgid "_Hide thumbnails"
 #~ msgstr "Önizlemeleri _gizle"
 
-#~ msgid ""
-#~ "Are you sure you want to clear ristretto's list of recently opened "
-#~ "documents?"
-#~ msgstr ""
-#~ "Önceden yüklenmiş belgelerin listesini silmek istediğinizden emin "
-#~ "misiniz ?"
-
 #~ msgid "Preload"
 #~ msgstr "Önyükleme"
 
@@ -419,9 +495,3 @@ msgstr "Xfce Resim Gösterici"
 #~ msgstr ""
 #~ "Sırayla gösterim sırasında görüntüleri önyükle\n"
 #~ "(daha çok hafıza kullanır)"
-
-#~ msgid "_Preload images"
-#~ msgstr "Görüntüleri _önyükle"
-
-#~ msgid "Ristretto Image Viewer"
-#~ msgstr "Ristretto Görüntü Gösterici"
