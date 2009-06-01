@@ -201,6 +201,9 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 GtkWidget *
 rstto_thumbnail_new (RsttoImage *image)
 {
+    gchar *path, *basename, *title;
+    GFile *file = NULL;
+
     g_return_val_if_fail (image != NULL, NULL);
 
     RsttoThumbnail *thumb = g_object_new(RSTTO_TYPE_THUMBNAIL, NULL);
@@ -208,8 +211,16 @@ rstto_thumbnail_new (RsttoImage *image)
     thumb->priv->image = image;
     g_object_ref (image);
 
-    gtk_widget_set_tooltip_text(GTK_WIDGET(thumb), "AAAAAAAAAAAA");
+    file = rstto_image_get_file (image);
 
+    path = g_file_get_path (file);
+    basename = g_path_get_basename (path);
+
+
+    gtk_widget_set_tooltip_text(GTK_WIDGET(thumb), basename);
+
+    g_free (basename);
+    g_free (path);
     return GTK_WIDGET(thumb);
 }
 
