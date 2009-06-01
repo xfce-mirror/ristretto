@@ -1,5 +1,11 @@
 2009-06-01  Stephan Arts <stephan@xfce.org>
 
+	* src/save_dialog.c
+	  src/save_dialog.h: Remove save-dialog code not going to support that
+	  anyways
+
+2009-06-01  Stephan Arts <stephan@xfce.org>
+
 	* src/image_list.h
 	  src/image_list.c
 	  src/thumbnail_bar.c: Expose compare_func, and use it in the thumbnailbar
