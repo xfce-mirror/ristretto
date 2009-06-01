@@ -994,6 +994,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     GSList *files = NULL, *_files_iter;
     GValue current_uri_val = {0, };
     gchar *uri = NULL;
+    guint pos = 0;
 
     g_value_init (&current_uri_val, G_TYPE_STRING);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
@@ -1027,6 +1028,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     {
         files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
         _files_iter = files;
+        pos = rstto_image_list_iter_get_position (window->priv->iter);
         while (_files_iter)
         {
             file = _files_iter->data;
@@ -1049,6 +1051,9 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
             }
             _files_iter = g_slist_next (_files_iter);
         }
+
+        if (pos == -1)
+            rstto_image_list_iter_set_position (window->priv->iter, 0);
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
 
@@ -1081,6 +1086,7 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
     const gchar *content_type = NULL;
     gchar *uri = NULL;
     GValue current_uri_val = {0, };
+    guint pos = 0;
 
     g_value_init (&current_uri_val, G_TYPE_STRING);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
@@ -1102,6 +1108,7 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
         file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
 
         file_enumarator = g_file_enumerate_children (file, "standard::*", 0, NULL, NULL);
+        pos = rstto_image_list_iter_get_position (window->priv->iter);
         while (file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
         {
             filename = g_file_info_get_name (file_info);
@@ -1110,13 +1117,15 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
 
             if (strncmp (content_type, "image/", 6) == 0)
             {
-
                 rstto_image_list_add_file (window->priv->props.image_list, child_file, NULL);
             }
 
             g_object_unref (child_file);
             g_object_unref (file_info);
         }
+
+        if (pos == -1)
+            rstto_image_list_iter_set_position (window->priv->iter, 0);
 
         uri = g_file_get_uri (file);
         gtk_recent_manager_add_item (window->priv->recent_manager, uri);

@@ -12,7 +12,6 @@ ristretto_SOURCES = \
 	thumbnail_bar.c thumbnail_bar.h \
 	thumbnail.c thumbnail.h \
 	main.c
-#	save_dialog.h save_dialog.c
 
 ristretto_CFLAGS = \
 	$(GTK_CFLAGS) \

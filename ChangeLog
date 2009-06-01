@@ -1,5 +1,10 @@
 2009-06-01  Stephan Arts <stephan@xfce.org>
 
+	* src/main_window.c
+	  src/image_list.c: Improve positioning code and file-open behaviour
+
+2009-06-01  Stephan Arts <stephan@xfce.org>
+
 	* src/save_dialog.c
 	  src/save_dialog.h: Remove save-dialog code not going to support that
 	  anyways
