@@ -22,6 +22,10 @@
                 <placeholder name="open-with-apps" />
             </menu>
             <separator/>
+            <menu action="sorting-menu">
+                <menuitem action="sort-filename"/>
+                <menuitem action="sort-date"/>
+            </menu>
             <menuitem action="delete"/>
             <separator/>
             <menuitem action="preferences"/>

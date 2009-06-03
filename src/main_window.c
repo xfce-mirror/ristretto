@@ -72,6 +72,7 @@ struct _RsttoMainWindowPriv
 
     GtkWidget *menubar;
     GtkWidget *toolbar;
+    GtkWidget *message_bar;
     GtkWidget *image_list_toolbar;
     GtkWidget *image_list_toolbar_menu;
     GtkWidget *picture_viewer;
@@ -249,6 +250,7 @@ static GtkActionEntry action_entries[] =
 /* Edit Menu */
   { "edit-menu", NULL, N_ ("_Edit"), NULL, },
   { "open-with-menu", NULL, N_ ("_Open with..."), NULL, },
+  { "sorting-menu", NULL, N_ ("_Sorting"), NULL, },
   { "delete", GTK_STOCK_DELETE, N_ ("_Delete"), "Delete", NULL, G_CALLBACK (cb_rstto_main_window_delete), },
   { "preferences", GTK_STOCK_PREFERENCES, N_ ("_Preferences"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_preferences), },
 /* View Menu */
@@ -295,6 +297,12 @@ static const GtkToggleActionEntry toggle_action_entries[] =
 {
     { "show-toolbar", NULL, N_ ("Show _Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_toolbar), TRUE, },
     { "show-thumbnailbar", NULL, N_ ("Show Thumb_nailbar"), NULL, NULL, NULL, FALSE},
+};
+
+static const GtkRadioActionEntry radio_action_sort_entries[] = 
+{
+    {"sort-filename", NULL, N_("sort by filename"), NULL, NULL, 0},
+    {"sort-date", NULL, N_("sort by date"), NULL, NULL, 1},
 };
 
 
@@ -403,6 +411,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_action_group_set_translation_domain (window->priv->action_group, GETTEXT_PACKAGE);
     gtk_action_group_add_actions (window->priv->action_group, action_entries, G_N_ELEMENTS (action_entries), GTK_WIDGET (window));
     gtk_action_group_add_toggle_actions (window->priv->action_group, toggle_action_entries, G_N_ELEMENTS (toggle_action_entries), GTK_WIDGET (window));
+    gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_sort_entries , G_N_ELEMENTS (radio_action_sort_entries), 0, NULL, GTK_WIDGET (window));
 
     gtk_ui_manager_add_ui_from_string (window->priv->ui_manager,main_window_ui, main_window_ui_length, NULL);
     window->priv->menubar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu");
@@ -439,10 +448,16 @@ rstto_main_window_init (RsttoMainWindow *window)
 
     window->priv->statusbar = gtk_statusbar_new();
 
+    window->priv->message_bar = gtk_hbox_new (FALSE,0);
+    gtk_container_set_border_width (window->priv->message_bar, 2);
+    gtk_box_pack_start (GTK_BOX (window->priv->message_bar), gtk_label_new (N_("Do you want to load the entire folder?")), TRUE,TRUE, 0);
+    gtk_box_pack_end (GTK_BOX (window->priv->message_bar), gtk_button_new_from_stock(GTK_STOCK_OPEN), FALSE,FALSE, 5);
+    gtk_box_pack_end (GTK_BOX (window->priv->message_bar), gtk_button_new_from_stock(GTK_STOCK_CANCEL), FALSE,FALSE, 5);
 
     gtk_container_add (GTK_CONTAINER (window), main_vbox);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->menubar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->toolbar, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->message_bar, FALSE,FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->hpaned, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->image_list_toolbar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
