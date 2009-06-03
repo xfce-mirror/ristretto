@@ -136,7 +136,7 @@ rstto_settings_init (GObject *object)
     settings->priv->slideshow_timeout = 5000;
     settings->priv->bgcolor = g_new0 (GdkColor, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkColor, 1);
-    settings->priv->image_quality = 2;
+    settings->priv->image_quality = 2000000;
 
     xfconf_g_property_bind (settings->priv->channel, "/window/width", G_TYPE_UINT, settings, "window-width");
     xfconf_g_property_bind (settings->priv->channel, "/window/height", G_TYPE_UINT, settings, "window-height");
