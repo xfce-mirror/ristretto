@@ -103,10 +103,10 @@ RsttoImageListIter *rstto_image_list_get_iter (RsttoImageList *image_list);
 /** Iter functions */
 GType       rstto_image_list_get_type ();
 RsttoImage *rstto_image_list_iter_get_image (RsttoImageListIter *iter);
-gboolean    rstto_image_list_iter_previous (RsttoImageListIter *iter);
-gboolean    rstto_image_list_iter_next (RsttoImageListIter *iter);
+void        rstto_image_list_iter_previous (RsttoImageListIter *iter);
+void        rstto_image_list_iter_next (RsttoImageListIter *iter);
 gint        rstto_image_list_iter_get_position (RsttoImageListIter *iter);
-gboolean    rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos);
+void        rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos);
 
 void        rstto_image_list_remove_all (RsttoImageList *image_list);
 void        rstto_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image);

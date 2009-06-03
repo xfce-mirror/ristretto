@@ -1154,9 +1154,12 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                                                       (widget->allocation.height/ scale)*thumb_scale*image_scale:image_width*thumb_scale*image_scale),
                                                (gint)((widget->allocation.width/ scale) < image_height?
                                                       (widget->allocation.width/ scale)*image_scale*thumb_scale:image_height*thumb_scale*image_scale));
-                    p_tmp_pixbuf2 = gdk_pixbuf_rotate_simple (p_tmp_pixbuf, GDK_PIXBUF_ROTATE_CLOCKWISE);
-                    g_object_unref (p_tmp_pixbuf);
-                    p_tmp_pixbuf = p_tmp_pixbuf2;
+                    if (p_tmp_pixbuf)
+                    {
+                        p_tmp_pixbuf2 = gdk_pixbuf_rotate_simple (p_tmp_pixbuf, GDK_PIXBUF_ROTATE_CLOCKWISE);
+                        g_object_unref (p_tmp_pixbuf);
+                        p_tmp_pixbuf = p_tmp_pixbuf2;
+                    }
                     break;
                 case RSTTO_IMAGE_ORIENT_180:
                     x = (viewer->hadjustment->upper - (viewer->hadjustment->value + viewer->hadjustment->page_size)) * image_scale;
@@ -1171,9 +1174,12 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                                                       (widget->allocation.width / scale)*thumb_scale*image_scale:image_width*thumb_scale*image_scale),
                                                (gint)((widget->allocation.height/ scale) < image_width?
                                                       (widget->allocation.height/ scale)*image_scale*thumb_scale:image_height*thumb_scale*image_scale));
-                    p_tmp_pixbuf2 = gdk_pixbuf_rotate_simple (p_tmp_pixbuf, GDK_PIXBUF_ROTATE_UPSIDEDOWN);
-                    g_object_unref (p_tmp_pixbuf);
-                    p_tmp_pixbuf = p_tmp_pixbuf2;
+                    if (p_tmp_pixbuf)
+                    {
+                        p_tmp_pixbuf2 = gdk_pixbuf_rotate_simple (p_tmp_pixbuf, GDK_PIXBUF_ROTATE_UPSIDEDOWN);
+                        g_object_unref (p_tmp_pixbuf);
+                        p_tmp_pixbuf = p_tmp_pixbuf2;
+                    }
                     break;
                 case RSTTO_IMAGE_ORIENT_270:
                     x = (viewer->vadjustment->upper - (viewer->vadjustment->value + viewer->vadjustment->page_size)) * image_scale;
@@ -1186,9 +1192,12 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                                                       (widget->allocation.height/ scale)*thumb_scale*image_scale:image_width*thumb_scale*image_scale),
                                                (gint)((widget->allocation.width/ scale) < image_height?
                                                       (widget->allocation.width/ scale)*image_scale*thumb_scale:image_height*thumb_scale*image_scale));
-                    p_tmp_pixbuf2 = gdk_pixbuf_rotate_simple (p_tmp_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
-                    g_object_unref (p_tmp_pixbuf);
-                    p_tmp_pixbuf = p_tmp_pixbuf2;
+                    if (p_tmp_pixbuf)
+                    {
+                        p_tmp_pixbuf2 = gdk_pixbuf_rotate_simple (p_tmp_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
+                        g_object_unref (p_tmp_pixbuf);
+                        p_tmp_pixbuf = p_tmp_pixbuf2;
+                    }
                     break;
             }
             /**

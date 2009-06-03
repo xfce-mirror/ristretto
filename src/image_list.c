@@ -407,7 +407,7 @@ rstto_image_list_iter_get_image (RsttoImageListIter *iter)
 }
 
 
-gboolean
+void
 rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos)
 {
     if (iter->priv->image)
@@ -420,7 +420,7 @@ rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos)
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
 }
 
-gboolean
+void
 rstto_image_list_iter_next (RsttoImageListIter *iter)
 {
     GList *position = NULL;
@@ -445,7 +445,7 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
 }
 
-gboolean
+void
 rstto_image_list_iter_previous (RsttoImageListIter *iter)
 {
     GList *position = NULL;
