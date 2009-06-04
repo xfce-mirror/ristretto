@@ -33,6 +33,7 @@
 
 #include "settings.h"
 #include "image_list.h"
+#include "image_cache.h"
 #include "picture_viewer.h"
 #include "main_window.h"
 #include "main_window_ui.h"
@@ -136,14 +137,6 @@ static void
 cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data);
 static gboolean
 cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
-static gboolean
-cb_rstto_main_window_image_list_toolbar_enter_notify_event (GtkWidget *widget,
-                                                           GdkEventCrossing *event,
-                                                           gpointer user_data);
-static gboolean
-cb_rstto_main_window_image_list_toolbar_leave_notify_event (GtkWidget *widget,
-                                                           GdkEventCrossing *evet,
-                                                           gpointer user_data);
 static void
 cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window);
 static void
@@ -151,13 +144,6 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, RsttoMainWindow *window);
-
-static gboolean
-cb_rstto_main_window_image_list_toolbar_popup_context_menu (GtkToolbar *toolbar,
-                                                        gint        x,
-                                                        gint        y,
-                                                        gint        button,
-                                                        gpointer    user_data);
 
 static void
 cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window);
@@ -188,8 +174,6 @@ static void
 cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *window);
-static void
-cb_rstto_main_window_file_properties (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window);
 static void
@@ -347,7 +331,7 @@ rstto_main_window_init (RsttoMainWindow *window)
 {
     GtkAccelGroup   *accel_group;
     GValue          show_toolbar_val = {0,}, window_width = {0, }, window_height = {0, };
-    GtkWidget       *separator, *back, *forward, *leave_fullscreen;
+    GtkWidget       *separator, *back, *forward;
     GtkWidget       *main_vbox = gtk_vbox_new (FALSE, 0);
     GtkRecentFilter *recent_filter;
 
@@ -466,7 +450,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     g_signal_connect(G_OBJECT(window->priv->message_bar_button_cancel), "clicked", G_CALLBACK(cb_rstto_main_window_message_bar_cancel), window);
     g_signal_connect(G_OBJECT(window->priv->message_bar_button_open), "clicked", G_CALLBACK(cb_rstto_main_window_message_bar_open), window);
 
-    gtk_container_set_border_width (window->priv->message_bar, 2);
+    gtk_container_set_border_width (GTK_CONTAINER (window->priv->message_bar), 2);
     gtk_box_pack_start (GTK_BOX (window->priv->message_bar), window->priv->message_bar_label, FALSE,FALSE, 5);
     gtk_box_pack_end (GTK_BOX (window->priv->message_bar), window->priv->message_bar_button_cancel, FALSE,FALSE, 5);
     gtk_box_pack_end (GTK_BOX (window->priv->message_bar), window->priv->message_bar_button_open, FALSE,FALSE, 5);
@@ -550,6 +534,8 @@ rstto_main_window_init (RsttoMainWindow *window)
     g_signal_connect(G_OBJECT(window->priv->picture_viewer), "motion-notify-event", G_CALLBACK(cb_rstto_main_window_picture_viewer_motion_notify_event), window);
     g_signal_connect(G_OBJECT(window), "configure-event", G_CALLBACK(cb_rstto_main_window_configure_event), NULL);
     g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_main_window_state_event), NULL);
+
+    g_signal_connect(G_OBJECT(window->priv->settings_manager), "notify", G_CALLBACK(cb_rstto_main_window_settings_notify), NULL);
 }
 
 static void
@@ -1062,7 +1048,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
         files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
         _files_iter = files;
         pos = rstto_image_list_iter_get_position (window->priv->iter);
-        if (g_list_length (files) > 1)
+        if (g_slist_length (files) > 1)
         {
             while (_files_iter)
             {
@@ -1173,7 +1159,7 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
 
         file_enumarator = g_file_enumerate_children (file, "standard::*", 0, NULL, NULL);
         pos = rstto_image_list_iter_get_position (window->priv->iter);
-        while (file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+        for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
         {
             filename = g_file_info_get_name (file_info);
             content_type  = g_file_info_get_content_type (file_info);
@@ -1217,7 +1203,7 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *window)
 {
-    GtkWidget *dialog, *err_dialog;
+    GtkWidget *err_dialog;
     gchar *uri = gtk_recent_chooser_get_current_uri (chooser);
     const gchar *filename;
     GError *error = NULL;
@@ -1232,7 +1218,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
         if (g_file_info_get_file_type (file_info) == G_FILE_TYPE_DIRECTORY)
         {
             file_enumarator = g_file_enumerate_children (file, "standard::name", 0, NULL, NULL);
-            while (child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+            for(child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); child_file_info != NULL; child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
             {
                 filename = g_file_info_get_name (child_file_info);
                 child_file = g_file_get_child (file, filename);
@@ -1584,19 +1570,6 @@ cb_rstto_main_window_contents (GtkWidget *widget, RsttoMainWindow *window)
 
 
 /**
- * cb_rstto_main_window_file_properties:
- * @widget:
- * @window:
- *
- *
- */
-static void
-cb_rstto_main_window_file_properties (GtkWidget *widget, RsttoMainWindow *window)
-{
-
-}
-
-/**
  * cb_rstto_main_window_quit:
  * @widget:
  * @window:
@@ -1870,6 +1843,7 @@ cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *vie
             }
         }
     }
+    return TRUE;
 }
 
 static gboolean
@@ -1929,7 +1903,7 @@ cb_rstto_main_window_message_bar_open (GtkWidget *widget, RsttoMainWindow *windo
     const gchar *content_type = NULL;
 
     file_enumarator = g_file_enumerate_children (window->priv->message_bar_file, "standard::*", 0, NULL, NULL);
-    while (file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+    for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
     {
         filename = g_file_info_get_name (file_info);
         content_type  = g_file_info_get_content_type (file_info);

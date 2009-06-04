@@ -120,7 +120,7 @@ static gboolean
 rstto_picture_viewer_expose(GtkWidget *, GdkEventExpose *);
 static void
 rstto_picture_viewer_paint (GtkWidget *widget);
-static gboolean 
+static void 
 rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer, gboolean refresh);
 
 static gboolean
@@ -139,6 +139,8 @@ cb_rstto_picture_viewer_image_prepared (RsttoImage *image, RsttoPictureViewer *v
 static gboolean 
 cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer);
 
+static void
+cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll *event);
 static void
 cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEventButton *event);
 static void
@@ -193,6 +195,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
                            GDK_BUTTON1_MOTION_MASK |
                            GDK_POINTER_MOTION_MASK);
 
+    g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_picture_viewer_scroll_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_picture_viewer_button_press_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "button_release_event", G_CALLBACK(cb_rstto_picture_viewer_button_release_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "motion_notify_event", G_CALLBACK(cb_rstto_picture_viewer_motion_notify_event), NULL);
@@ -690,7 +693,7 @@ rstto_picture_viewer_new()
 void
 rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
 {
-    gdouble *img_scale, *new_scale;
+    gdouble *img_scale;
     GdkPixbuf *src_pixbuf = NULL;
 
     if (viewer->priv->image)
@@ -702,12 +705,6 @@ rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
         {
             gdouble image_width = (gdouble)rstto_image_get_width (viewer->priv->image);
             gdouble image_height = (gdouble)rstto_image_get_height (viewer->priv->image);
-
-            gdouble pixbuf_width = (gdouble)gdk_pixbuf_get_width (src_pixbuf);
-            gdouble pixbuf_height = (gdouble)gdk_pixbuf_get_height (src_pixbuf);
-
-            gdouble image_scale = pixbuf_width / image_width;
-
 
             viewer->hadjustment->upper = image_width *scale;
             gtk_adjustment_changed(viewer->hadjustment);
@@ -773,7 +770,6 @@ rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer)
 static gdouble
 rstto_picture_viewer_calculate_scale (RsttoPictureViewer *viewer)
 {
-    GdkPixbuf *p_src_pixbuf;
     gint width = 0, height = 0;
 
     if (viewer->priv->image != NULL)
@@ -1036,11 +1032,9 @@ rstto_picture_viewer_calculate_adjustments (RsttoPictureViewer *viewer, gdouble 
 
 }
 
-static gboolean 
+static void
 rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer, gboolean refresh)
 {
-    g_return_if_fail (RSTTO_IS_PICTURE_VIEWER (viewer));
-
     if (viewer->priv->repaint.idle_id > 0)
     {
         g_source_remove(viewer->priv->repaint.idle_id);
@@ -1065,7 +1059,7 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
     gdouble thumb_scale = 1;
     gdouble thumb_width = 0;
     gboolean fit_to_screen = FALSE;
-    gdouble image_width, image_height;
+    gdouble image_width = 0, image_height = 0;
     gdouble pixbuf_width, pixbuf_height;
     GtkWidget *widget = GTK_WIDGET (viewer);
 
@@ -1094,7 +1088,7 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                     thumb_scale = (thumb_width / image_width);
                 }
                 else
-                    return;
+                    return FALSE;
                 break;
             default:
                 break;
@@ -1566,107 +1560,6 @@ rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gdouble factor)
 
 
 /******************************************************************************************/
-
-
-/************************
- * FIXME: DnD
- */
-
-static void
-rstto_picture_viewer_drag_data_received(GtkWidget *widget,
-                                        GdkDragContext *context,
-                                        gint x,
-                                        gint y,
-                                        GtkSelectionData *selection_data,
-                                        guint info,
-                                        guint time)
-{
-    /*
-    RsttoPictureViewer *picture_viewer = RSTTO_PICTURE_VIEWER(widget);
-    gchar **array = gtk_selection_data_get_uris (selection_data);
-
-    context->action = GDK_ACTION_PRIVATE;
-
-    if (array == NULL)
-    {
-        gtk_drag_finish (context, FALSE, FALSE, time);
-    }
-
-    gchar **_array = array;
-
-    while(*_array)
-    {
-        ThunarVfsPath *vfs_path = thunar_vfs_path_new(*_array, NULL);
-        gchar *path = thunar_vfs_path_dup_string(vfs_path);
-        if (g_file_test(path, G_FILE_TEST_EXISTS))
-        {
-            if (g_file_test(path, G_FILE_TEST_IS_DIR))
-            {
-                if(rstto_image_list_open_folder(picture_viewer->priv->image_list, path, FALSE, NULL) == TRUE)
-                {
-                    rstto_image_list_jump_first(picture_viewer->priv->image_list);
-                }
-            }
-            else
-            {
-                rstto_image_list_open_file(picture_viewer->priv->image_list, path, FALSE, NULL);
-            }
-        }
-
-        g_free(path);
-        thunar_vfs_path_unref(vfs_path);
-        _array++;
-    }
-    
-    gtk_drag_finish (context, TRUE, FALSE, time);
-    */
-}
-
-static gboolean
-rstto_picture_viewer_drag_drop (GtkWidget *widget,
-                                GdkDragContext *context,
-                                gint x,
-                                gint y,
-                                guint time)
-{
-    GdkAtom target;
-
-    /* determine the drop target */
-    target = gtk_drag_dest_find_target (widget, context, NULL);
-    if (G_LIKELY (target == gdk_atom_intern ("text/uri-list", FALSE)))
-    {
-        /* set state so the drag-data-received handler
-         * knows that this is really a drop this time.
-         */
-
-        /* request the drag data from the source. */
-        gtk_drag_get_data (widget, context, target, time);
-    }
-    else
-    {
-        return FALSE;
-    }
-    return TRUE;
-}
-
-
-static gboolean
-rstto_picture_viewer_drag_motion (GtkWidget *widget,
-                                GdkDragContext *context,
-                                gint x,
-                                gint y,
-                                guint time)
-{
-    GdkAtom target;
-    target = gtk_drag_dest_find_target (widget, context, NULL);
-    if (G_UNLIKELY (target != gdk_atom_intern ("text/uri-list", FALSE)))
-    {
-        /* we cannot handle the drop */
-        g_debug("FAAAAAAAAAAAAAALSE");
-        return FALSE;
-    }
-    return TRUE;
-}
 
 
 void

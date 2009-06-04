@@ -74,7 +74,7 @@ GType       rstto_image_get_type ();
 
 GdkPixbuf *rstto_image_get_thumbnail (RsttoImage *image);
 GdkPixbuf *rstto_image_get_pixbuf (RsttoImage *image);
-gint rstto_image_get_widht (RsttoImage *image);
+gint rstto_image_get_width (RsttoImage *image);
 gint rstto_image_get_height (RsttoImage *image);
 
 GFile *rstto_image_get_file (RsttoImage *image);

@@ -481,5 +481,5 @@ rstto_image_list_iter_clone (RsttoImageListIter *iter)
 GCompareFunc
 rstto_image_list_get_compare_func (RsttoImageList *image_list)
 {
-    return cb_rstto_image_list_image_name_compare_func;
+    return (GCompareFunc)cb_rstto_image_list_image_name_compare_func;
 }

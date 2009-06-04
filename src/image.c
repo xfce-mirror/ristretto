@@ -230,7 +230,6 @@ rstto_image_new (GFile *file)
     RsttoImage *image = g_object_new (RSTTO_TYPE_IMAGE, NULL);
     gchar *file_path = g_file_get_path (file);
     ExifEntry *exif_entry = NULL;
-    RsttoImageOrientation orientation;
 
     image->priv->file = file;
     image->priv->exif_data = exif_data_new_from_file (file_path);
@@ -629,8 +628,6 @@ cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image)
     g_return_if_fail (image != NULL);
     g_return_if_fail (RSTTO_IS_IMAGE (image));
     g_return_if_fail (loader == image->priv->loader);
-
-    GdkPixbuf *pixbuf = NULL;
 
     g_object_unref (image->priv->loader);
     image->priv->loader = NULL;

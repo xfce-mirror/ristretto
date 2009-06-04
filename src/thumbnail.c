@@ -201,7 +201,7 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 GtkWidget *
 rstto_thumbnail_new (RsttoImage *image)
 {
-    gchar *path, *basename, *title;
+    gchar *path, *basename;
     GFile *file = NULL;
 
     g_return_val_if_fail (image != NULL, NULL);
@@ -234,10 +234,7 @@ rstto_thumbnail_get_image (RsttoThumbnail *thumb)
 /*************/
 
 static void
-rstto_thumbnail_clicked(GtkButton *button)
+rstto_thumbnail_clicked (GtkButton *button)
 {
-    RsttoThumbnail *thumb = RSTTO_THUMBNAIL (button);
-    RsttoImage *image = rstto_thumbnail_get_image (thumb);
-
     gtk_widget_queue_draw (GTK_WIDGET (button));
 }

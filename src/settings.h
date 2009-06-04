@@ -57,7 +57,8 @@ struct _RsttoSettingsClass
     GObjectClass parent_class;
 };
 
-RsttoSettings *rstto_settings_new ();
+RsttoSettings *rstto_settings_new (void);
+GType          rstto_settings_get_type (void);
 
 G_END_DECLS
 

@@ -589,8 +589,8 @@ static gint
 cb_rstto_thumbnail_bar_compare (GtkWidget *a, GtkWidget *b, gpointer user_data)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
-    RsttoImage *a_i = rstto_thumbnail_get_image (a);
-    RsttoImage *b_i = rstto_thumbnail_get_image (b);
+    RsttoImage *a_i = rstto_thumbnail_get_image (RSTTO_THUMBNAIL (a));
+    RsttoImage *b_i = rstto_thumbnail_get_image (RSTTO_THUMBNAIL (b));
 
     return rstto_image_list_get_compare_func (bar->priv->image_list) (a_i, b_i);
 }
@@ -764,6 +764,8 @@ void
 cb_rstto_thumbnail_bar_image_list_iter_changed (RsttoImageListIter *iter, gpointer user_data)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
+    /* useless, but keepsthe compiler silent */
+    bar->priv->begin=0;
 }
 
 static void
@@ -794,7 +796,7 @@ cb_rstto_thumbnail_bar_image_list_remove_image (RsttoImageList *image_list, Rstt
         if (rstto_thumbnail_get_image (iter->data) == image)
         {
             GtkWidget *widget = iter->data;
-            rstto_thumbnail_bar_remove (bar, widget);
+            gtk_container_remove (GTK_CONTAINER (bar), widget);
             break;
         }
         iter = g_list_next (iter);
@@ -807,7 +809,7 @@ cb_rstto_thumbnail_bar_image_list_remove_all (RsttoImageList *image_list, gpoint
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
     if (bar->priv->thumbs)
     {
-        g_list_foreach (bar->priv->thumbs, G_CALLBACK (gtk_widget_destroy), NULL);
+        g_list_foreach (bar->priv->thumbs, (GFunc)(gtk_widget_destroy), NULL);
         g_list_free (bar->priv->thumbs);
         bar->priv->thumbs = NULL;
     }

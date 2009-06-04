@@ -148,7 +148,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *scroll_frame, *scroll_vbox;
     GtkWidget *timeout_frame, *timeout_vbox, *timeout_lbl, *timeout_hscale;
     GtkWidget *scaling_frame, *scaling_vbox;
-    GtkWidget *toolbar_vbox, *toolbar_frame;
 
     GtkWidget *widget;
 
@@ -376,8 +375,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 static void
 rstto_preferences_dialog_class_init(RsttoPreferencesDialogClass *dialog_class)
 {
-    GObjectClass *object_class = (GObjectClass*)dialog_class;
-    parent_class = g_type_class_peek_parent(dialog_class);
+    parent_class = g_type_class_peek_parent (dialog_class);
 }
 
 GtkWidget *
