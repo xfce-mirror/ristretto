@@ -73,6 +73,9 @@ int
 main(int argc, char **argv)
 {
     GError *cli_error = NULL;
+    RsttoSettings *settings;
+    RsttoImageList *image_list;
+    GtkWidget *window;
 
     #ifdef ENABLE_NLS
     bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
@@ -99,10 +102,10 @@ main(int argc, char **argv)
     xfconf_init(NULL);
 
     gtk_window_set_default_icon_name("ristretto");
-    RsttoSettings *settings = rstto_settings_new();
+    settings = rstto_settings_new();
 
-    RsttoImageList *image_list = rstto_image_list_new ();
-    GtkWidget *window = rstto_main_window_new (image_list, FALSE);
+    image_list = rstto_image_list_new ();
+    window = rstto_main_window_new (image_list, FALSE);
 
     if (argc > 1)
     {

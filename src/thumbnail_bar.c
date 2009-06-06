@@ -108,7 +108,7 @@ static gint
 cb_rstto_thumbnail_bar_compare (GtkWidget *a, GtkWidget *b, gpointer);
 
 GType
-rstto_thumbnail_bar_get_type ()
+rstto_thumbnail_bar_get_type (void)
 {
     static GType rstto_thumbnail_bar_type = 0;
 
@@ -196,12 +196,11 @@ rstto_thumbnail_bar_size_request(GtkWidget *widget, GtkRequisition *requisition)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
     gint border_width = GTK_CONTAINER(bar)->border_width;
+    GList *iter;
+	GtkRequisition child_requisition;
 
     gtk_widget_style_get(widget, "border-width", &border_width, NULL);
 
-    GList *iter;
-
-	GtkRequisition child_requisition;
 
     requisition->height = 70;
     requisition->width = 70;
@@ -226,17 +225,18 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
     gint border_width = GTK_CONTAINER(bar)->border_width;
     gint spacing = 0;
-	gtk_widget_style_get(widget, "spacing", &spacing, NULL);
-    widget->allocation = *allocation;
     GtkAllocation child_allocation;
     GtkRequisition child_requisition;
+    GList *iter = bar->priv->thumbs;
+
+	gtk_widget_style_get(widget, "spacing", &spacing, NULL);
+    widget->allocation = *allocation;
 
     child_allocation.x = border_width;
     child_allocation.y = border_width;
     child_allocation.height = border_width * 2;
     child_allocation.width = border_width * 2;
 
-    GList *iter = bar->priv->thumbs;
 
     if (GTK_WIDGET_REALIZED(widget))
     {
@@ -541,8 +541,8 @@ rstto_thumbnail_bar_get_orientation (RsttoThumbnailBar *bar)
 static void
 rstto_thumbnail_bar_add(GtkContainer *container, GtkWidget *child)
 {
-	g_return_if_fail(GTK_IS_WIDGET(child));
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(container);
+	g_return_if_fail(GTK_IS_WIDGET(child));
 
 	gtk_widget_set_parent(child, GTK_WIDGET(container));
 
@@ -552,10 +552,11 @@ rstto_thumbnail_bar_add(GtkContainer *container, GtkWidget *child)
 static void
 rstto_thumbnail_bar_remove(GtkContainer *container, GtkWidget *child)
 {
-	g_return_if_fail(GTK_IS_WIDGET(child));
-
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(container);
 	gboolean widget_was_visible;
+
+	g_return_if_fail(GTK_IS_WIDGET(child));
+
 
 	widget_was_visible = GTK_WIDGET_VISIBLE(child);
 
@@ -772,10 +773,12 @@ static void
 cb_rstto_thumbnail_bar_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, gpointer user_data)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
+    GtkWidget *thumb;
 
     g_return_if_fail (rstto_image_list_iter_find_image (bar->priv->internal_iter, image));
 
-    GtkWidget *thumb = rstto_thumbnail_new (image);
+    thumb = rstto_thumbnail_new (image);
+
     gtk_container_add (GTK_CONTAINER (bar), thumb);
     gtk_widget_show (thumb);
 

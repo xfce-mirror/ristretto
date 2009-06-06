@@ -53,7 +53,7 @@ static void
 rstto_thumbnail_clicked(GtkButton *);
 
 GType
-rstto_thumbnail_get_type ()
+rstto_thumbnail_get_type (void)
 {
     static GType rstto_thumbnail_type = 0;
 
@@ -161,6 +161,7 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
     GtkWidget *widget = GTK_WIDGET(thumb);
 
     GtkStateType state = GTK_WIDGET_STATE(widget);
+    GdkPixbuf *pixbuf;
 
     if(thumb->priv->image)
     {
@@ -169,7 +170,7 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
         {
         }
 
-        GdkPixbuf *pixbuf = rstto_image_get_thumbnail (
+        pixbuf = rstto_image_get_thumbnail (
                                 thumb->priv->image);
 
         gtk_paint_box(widget->style,
@@ -203,10 +204,11 @@ rstto_thumbnail_new (RsttoImage *image)
 {
     gchar *path, *basename;
     GFile *file = NULL;
+    RsttoThumbnail *thumb;
 
     g_return_val_if_fail (image != NULL, NULL);
 
-    RsttoThumbnail *thumb = g_object_new(RSTTO_TYPE_THUMBNAIL, NULL);
+    thumb = g_object_new(RSTTO_TYPE_THUMBNAIL, NULL);
 
     thumb->priv->image = image;
     g_object_ref (image);

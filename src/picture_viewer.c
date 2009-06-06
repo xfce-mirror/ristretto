@@ -127,6 +127,14 @@ static gboolean
 rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *, GtkAdjustment *, GtkAdjustment *);
 
 static void
+rstto_marshal_VOID__OBJECT_OBJECT (GClosure     *closure,
+                                   GValue       *return_value,
+                                   guint         n_param_values,
+                                   const GValue *param_values,
+                                   gpointer      invocation_hint,
+                                   gpointer      marshal_data);
+
+static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *, RsttoPictureViewer *);
 static void
 cb_rstto_picture_viewer_nav_iter_changed (RsttoImageListIter *iter, gpointer user_data);
@@ -155,7 +163,7 @@ cb_rstto_picture_viewer_popup_menu (RsttoPictureViewer *viewer, gboolean user_da
 static GtkWidgetClass *parent_class = NULL;
 
 GType
-rstto_picture_viewer_get_type ()
+rstto_picture_viewer_get_type (void)
 {
     static GType rstto_picture_viewer_type = 0;
 
@@ -216,7 +224,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
  *
  * A marshaller for the set_scroll_adjustments signal.
  */
-void
+static void
 rstto_marshal_VOID__OBJECT_OBJECT (GClosure     *closure,
                                    GValue       *return_value,
                                    guint         n_param_values,
@@ -299,11 +307,11 @@ rstto_picture_viewer_class_init(RsttoPictureViewerClass *viewer_class)
 static void
 rstto_picture_viewer_realize(GtkWidget *widget)
 {
-    g_return_if_fail (widget != NULL);
-    g_return_if_fail (RSTTO_IS_PICTURE_VIEWER(widget));
-
     GdkWindowAttr attributes;
     gint attributes_mask;
+
+    g_return_if_fail (widget != NULL);
+    g_return_if_fail (RSTTO_IS_PICTURE_VIEWER(widget));
 
     GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
 
@@ -403,6 +411,10 @@ rstto_picture_viewer_paint (GtkWidget *widget)
     GdkPixbuf *pixbuf = viewer->priv->dst_pixbuf;
     GdkColor color;
     GdkColor line_color;
+    gint i, a, height, width;
+    GdkColor *bg_color = NULL;
+    gdouble m_x1, m_x2, m_y1, m_y2;
+    gint x1, x2, y1, y2;
     GValue val_bg_color = {0, }, val_bg_color_override = {0, }, val_bg_color_fs = {0, };
     g_value_init (&val_bg_color, GDK_TYPE_COLOR);
     g_value_init (&val_bg_color_fs, GDK_TYPE_COLOR);
@@ -416,10 +428,6 @@ rstto_picture_viewer_paint (GtkWidget *widget)
 
     color.pixel = 0x0;
     line_color.pixel = 0x0;
-
-    gint i, a, height, width;
-
-    GdkColor *bg_color = NULL;
 
     /* required for transparent pixbufs... add double buffering to fix flickering*/
     if(GTK_WIDGET_REALIZED(widget))
@@ -450,10 +458,10 @@ rstto_picture_viewer_paint (GtkWidget *widget)
         /* Check if there is a destination pixbuf */
         if(pixbuf)
         {
-            gint x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
-            gint y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
-            gint x2 = gdk_pixbuf_get_width(pixbuf);
-            gint y2 = gdk_pixbuf_get_height(pixbuf);
+            x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
+            y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
+            x2 = gdk_pixbuf_get_width(pixbuf);
+            y2 = gdk_pixbuf_get_height(pixbuf);
             
             /* We only need to paint a checkered background if the image is transparent */
             if(gdk_pixbuf_get_has_alpha(pixbuf))
@@ -509,7 +517,6 @@ rstto_picture_viewer_paint (GtkWidget *widget)
             {
                 gdk_gc_set_foreground(gc,
                         &(widget->style->fg[GTK_STATE_SELECTED]));
-                gdouble m_x1, m_x2, m_y1, m_y2;
 
                 if (viewer->priv->motion.x < viewer->priv->motion.current_x)
                 {
@@ -604,10 +611,10 @@ rstto_picture_viewer_paint (GtkWidget *widget)
             gdk_pixbuf_saturate_and_pixelate (pixbuf, pixbuf, 0, TRUE);
             pixbuf = gdk_pixbuf_composite_color_simple (pixbuf, (size*0.8), (size*0.8), GDK_INTERP_BILINEAR, 40, 40, bg_color->pixel, bg_color->pixel);
 
-            gint x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
-            gint y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
-            gint x2 = gdk_pixbuf_get_width(pixbuf);
-            gint y2 = gdk_pixbuf_get_height(pixbuf);
+            x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
+            y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
+            x2 = gdk_pixbuf_get_width(pixbuf);
+            y2 = gdk_pixbuf_get_height(pixbuf);
 
             gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
                             NULL, 
@@ -681,7 +688,7 @@ cb_rstto_picture_viewer_value_changed(GtkAdjustment *adjustment, RsttoPictureVie
 }
 
 GtkWidget *
-rstto_picture_viewer_new()
+rstto_picture_viewer_new (void)
 {
     GtkWidget *widget;
 
@@ -691,7 +698,7 @@ rstto_picture_viewer_new()
 }
 
 void
-rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale)
+rstto_picture_viewer_set_scale (RsttoPictureViewer *viewer, gdouble scale)
 {
     gdouble *img_scale;
     GdkPixbuf *src_pixbuf = NULL;

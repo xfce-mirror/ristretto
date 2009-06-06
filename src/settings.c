@@ -70,7 +70,7 @@ enum
 };
 
 GType
-rstto_settings_get_type ()
+rstto_settings_get_type (void)
 {
     static GType rstto_settings_type = 0;
 
@@ -351,7 +351,7 @@ rstto_settings_finalize (GObject *object)
  * Singleton
  */
 RsttoSettings *
-rstto_settings_new ()
+rstto_settings_new (void)
 {
     if (settings_object == NULL)
     {

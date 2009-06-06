@@ -68,7 +68,7 @@ static GObjectClass *parent_class = NULL;
 static gint rstto_image_signals[RSTTO_IMAGE_SIGNAL_COUNT];
 
 GType
-rstto_image_get_type ()
+rstto_image_get_type (void)
 {
     static GType rstto_image_type = 0;
 
@@ -225,11 +225,11 @@ rstto_image_dispose (GObject *object)
 RsttoImage *
 rstto_image_new (GFile *file)
 {
-    g_object_ref (file);
-
     RsttoImage *image = g_object_new (RSTTO_TYPE_IMAGE, NULL);
     gchar *file_path = g_file_get_path (file);
     ExifEntry *exif_entry = NULL;
+
+    g_object_ref (file);
 
     image->priv->file = file;
     image->priv->exif_data = exif_data_new_from_file (file_path);
@@ -341,9 +341,11 @@ cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *re
 gboolean
 rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, gboolean preload, GError **error)
 {
+    RsttoImageCache *cache;
+
     g_return_val_if_fail (image != NULL, FALSE);
 
-    RsttoImageCache *cache = rstto_image_cache_new ();
+    cache = rstto_image_cache_new ();
 
     /* NEW */
     image->priv->max_size = max_size;
@@ -490,13 +492,18 @@ rstto_image_get_height (RsttoImage *image)
 GdkPixbuf *
 rstto_image_get_thumbnail (RsttoImage *image)
 {
+    gchar *file_uri;
+    gchar *file_uri_checksum;
+    gchar *thumbnail_filename;
+    gchar *thumbnail_path;
+
     g_return_val_if_fail (image != NULL, NULL);
     g_return_val_if_fail (image->priv != NULL, NULL);
 
-    gchar *file_uri = g_file_get_uri (image->priv->file);
-    gchar *file_uri_checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, file_uri, strlen (file_uri));
-    gchar *thumbnail_filename = g_strconcat (file_uri_checksum, ".png", NULL);
-    gchar *thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", thumbnail_filename, NULL);
+    file_uri = g_file_get_uri (image->priv->file);
+    file_uri_checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, file_uri, strlen (file_uri));
+    thumbnail_filename = g_strconcat (file_uri_checksum, ".png", NULL);
+    thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", thumbnail_filename, NULL);
 
     if (image->priv->thumbnail == NULL)
     {
@@ -531,21 +538,6 @@ rstto_image_get_pixbuf (RsttoImage *image)
 
 
     return image->priv->pixbuf;
-}
-
-/**
- * rstto_image_set_pixbuf:
- * @image  : 
- * @pixbuf :
- *
- */
-void
-rstto_image_set_pixbuf (RsttoImage *image, GdkPixbuf *pixbuf)
-{
-    if (image->priv->pixbuf)
-        g_object_unref (image->priv->pixbuf);
-
-    image->priv->pixbuf = pixbuf;
 }
 
 /**
@@ -585,7 +577,7 @@ cb_rstto_image_size_prepared (GdkPixbufLoader *loader, gint width, gint height, 
 static void
 cb_rstto_image_area_prepared (GdkPixbufLoader *loader, RsttoImage *image)
 {
-
+    gint timeout = 0;
     image->priv->animation = gdk_pixbuf_loader_get_animation (loader);
     image->priv->iter = gdk_pixbuf_animation_get_iter (image->priv->animation, NULL);
     if (image->priv->pixbuf)
@@ -596,18 +588,18 @@ cb_rstto_image_area_prepared (GdkPixbufLoader *loader, RsttoImage *image)
 
     g_object_ref (image->priv->animation);
 
-    gint time = gdk_pixbuf_animation_iter_get_delay_time (image->priv->iter);
+    timeout = gdk_pixbuf_animation_iter_get_delay_time (image->priv->iter);
 
-    if (time != -1)
+    if (timeout != -1)
     {
         /* fix borked stuff */
-        if (time == 0)
+        if (timeout == 0)
         {
             g_warning("timeout == 0: defaulting to 40ms");
-            time = 40;
+            timeout = 40;
         }
 
-        image->priv->animation_timeout_id = g_timeout_add(time, (GSourceFunc)cb_rstto_image_update, image);
+        image->priv->animation_timeout_id = g_timeout_add(timeout, (GSourceFunc)cb_rstto_image_update, image);
     }   
     else
     {
@@ -648,6 +640,7 @@ cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image)
 static gboolean
 cb_rstto_image_update(RsttoImage *image)
 {
+    gint timeout = 0;
 
     if (image->priv->iter)
     {
@@ -663,15 +656,16 @@ cb_rstto_image_update(RsttoImage *image)
             image->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (image->priv->iter);
         }
 
-        gint time = gdk_pixbuf_animation_iter_get_delay_time (image->priv->iter);
-        if (time != -1)
+        timeout = gdk_pixbuf_animation_iter_get_delay_time (image->priv->iter);
+
+        if (timeout != -1)
         {
-            if (time == 0)
+            if (timeout == 0)
             {
                 g_warning("timeout == 0: defaulting to 40ms");
-                time = 40;
+                timeout = 40;
             }
-            image->priv->animation_timeout_id = g_timeout_add(time, (GSourceFunc)cb_rstto_image_update, image);
+            image->priv->animation_timeout_id = g_timeout_add(timeout, (GSourceFunc)cb_rstto_image_update, image);
         }
         g_signal_emit (G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED], 0, image, NULL);
 

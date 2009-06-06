@@ -48,7 +48,7 @@ struct _RsttoImageCacheClass
 
 
 GType
-rstto_image_cache_get_type ()
+rstto_image_cache_get_type (void)
 {
     static GType rstto_image_cache_type = 0;
 
@@ -173,7 +173,7 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
  * Return value: 
  */
 RsttoImageCache *
-rstto_image_cache_new ()
+rstto_image_cache_new (void)
 {
     if (rstto_global_image_cache == NULL)
     {

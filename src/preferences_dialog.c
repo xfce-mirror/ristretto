@@ -95,7 +95,7 @@ struct _RsttoPreferencesDialogPriv
 };
 
 GType
-rstto_preferences_dialog_get_type ()
+rstto_preferences_dialog_get_type (void)
 {
     static GType rstto_preferences_dialog_type = 0;
 
@@ -123,16 +123,31 @@ rstto_preferences_dialog_get_type ()
 static void
 rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 {
-    dialog->priv = g_new0 (RsttoPreferencesDialogPriv, 1);
-
-    dialog->priv->settings = rstto_settings_new ();
     guint uint_image_quality;
     guint uint_cache_size;
     guint uint_preload_images;
     gboolean bool_enable_cache;
     gboolean bool_bgcolor_override;
     GdkColor *bgcolor;
+    GtkWidget *scroll_frame, *scroll_vbox;
+    GtkWidget *timeout_frame, *timeout_vbox, *timeout_lbl, *timeout_hscale;
+    GtkWidget *scaling_frame, *scaling_vbox;
+    GtkWidget *widget;
+    GtkObject *cache_adjustment;
+    GtkWidget *display_main_vbox;
+    GtkWidget *display_main_lbl;
+    GtkWidget *slideshow_main_vbox;
+    GtkWidget *slideshow_main_lbl;
+    GtkWidget *control_main_vbox;
+    GtkWidget *control_main_lbl;
+    GtkWidget *behaviour_main_vbox;
+    GtkWidget *behaviour_main_lbl;
+    GtkWidget *notebook = gtk_notebook_new ();
 
+
+    dialog->priv = g_new0 (RsttoPreferencesDialogPriv, 1);
+
+    dialog->priv->settings = rstto_settings_new ();
     g_object_get (G_OBJECT (dialog->priv->settings),
                   "image-quality", &uint_image_quality,
                   "cache-size", &uint_cache_size,
@@ -142,20 +157,11 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                   "bgcolor", &bgcolor,
                   NULL);
 
-    GtkObject *cache_adjustment;
-
-    GtkWidget *notebook = gtk_notebook_new ();
-    GtkWidget *scroll_frame, *scroll_vbox;
-    GtkWidget *timeout_frame, *timeout_vbox, *timeout_lbl, *timeout_hscale;
-    GtkWidget *scaling_frame, *scaling_vbox;
-
-    GtkWidget *widget;
-
 /*****************/
 /** DISPLAY TAB **/
 /*****************/
-    GtkWidget *display_main_vbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget *display_main_lbl = gtk_label_new(_("Display"));
+    display_main_vbox = gtk_vbox_new(FALSE, 0);
+    display_main_lbl = gtk_label_new(_("Display"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), display_main_vbox, display_main_lbl);
 
 /** Bg-color frame */
@@ -239,8 +245,8 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 /*******************/
 /** Slideshow tab **/
 /*******************/
-    GtkWidget *slideshow_main_vbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget *slideshow_main_lbl = gtk_label_new(_("Slideshow"));
+    slideshow_main_vbox = gtk_vbox_new(FALSE, 0);
+    slideshow_main_lbl = gtk_label_new(_("Slideshow"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), slideshow_main_vbox, slideshow_main_lbl);
     /* not used */
     gtk_widget_set_sensitive (slideshow_main_vbox, FALSE);
@@ -260,8 +266,8 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
 
 /********************************************/
-    GtkWidget *control_main_vbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget *control_main_lbl = gtk_label_new(_("Control"));
+    control_main_vbox = gtk_vbox_new(FALSE, 0);
+    control_main_lbl = gtk_label_new(_("Control"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), control_main_vbox, control_main_lbl);
 
     scroll_vbox = gtk_vbox_new(FALSE, 0);
@@ -279,8 +285,8 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 /*******************/
 /** Behaviour tab **/
 /*******************/
-    GtkWidget *behaviour_main_vbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget *behaviour_main_lbl = gtk_label_new(_("Behaviour"));
+    behaviour_main_vbox = gtk_vbox_new(FALSE, 0);
+    behaviour_main_lbl = gtk_label_new(_("Behaviour"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), behaviour_main_vbox, behaviour_main_lbl);
 
 

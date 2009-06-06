@@ -70,11 +70,14 @@ GType      rstto_picture_viewer_get_type();
 GtkWidget *rstto_picture_viewer_new ();
 void       rstto_picture_viewer_set_iter (RsttoPictureViewer *, RsttoImageListIter *);
 gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
+void       rstto_picture_viewer_set_scale (RsttoPictureViewer *,gdouble);
 
 void       rstto_picture_viewer_zoom_fit (RsttoPictureViewer *viewer);
 void       rstto_picture_viewer_zoom_100 (RsttoPictureViewer *viewer);
 void       rstto_picture_viewer_zoom_in  (RsttoPictureViewer *viewer, gdouble factor);
 void       rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gdouble factor);
+
+void       rstto_picture_viewer_set_menu (RsttoPictureViewer *viewer, GtkMenu *menu);
 
 /**
 gdouble    rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);

@@ -82,7 +82,7 @@ static gint rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_COUNT];
 static gint rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_COUNT];
 
 GType
-rstto_image_list_get_type ()
+rstto_image_list_get_type (void)
 {
     static GType rstto_image_list_type = 0;
 
@@ -165,7 +165,7 @@ rstto_image_list_dispose(GObject *object)
 }
 
 RsttoImageList *
-rstto_image_list_new ()
+rstto_image_list_new (void)
 {
     RsttoImageList *image_list;
 
@@ -217,10 +217,11 @@ RsttoImageListIter *
 rstto_image_list_get_iter (RsttoImageList *image_list)
 {
     RsttoImage *image = NULL;
+    RsttoImageListIter *iter = NULL;
     if (image_list->priv->images)
         image = image_list->priv->images->data;
 
-    RsttoImageListIter *iter = rstto_image_list_iter_new (image_list, image);
+    iter = rstto_image_list_iter_new (image_list, image);
 
     image_list->priv->iterators = g_slist_prepend (image_list->priv->iterators, iter);
 
@@ -231,11 +232,13 @@ rstto_image_list_get_iter (RsttoImageList *image_list)
 void
 rstto_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image)
 {
+    GSList *iter = NULL;
+
     if (g_list_find (image_list->priv->images, image))
     {
         image_list->priv->images = g_list_remove (image_list->priv->images, image);
 
-        GSList *iter = image_list->priv->iterators;
+        iter = image_list->priv->iterators;
         while (iter)
         {
             if (rstto_image_list_iter_get_image (iter->data) == image)
@@ -252,11 +255,12 @@ rstto_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image)
 void
 rstto_image_list_remove_all (RsttoImageList *image_list)
 {
+    GSList *iter = NULL;
     g_list_foreach (image_list->priv->images, (GFunc)g_object_unref, NULL);
     g_list_free (image_list->priv->images);
     image_list->priv->images = NULL;
 
-    GSList *iter = image_list->priv->iterators;
+    iter = image_list->priv->iterators;
     while (iter)
     {
         rstto_image_list_iter_set_position (iter->data, 0);
@@ -289,7 +293,7 @@ cb_rstto_image_list_image_name_compare_func (RsttoImage *a, RsttoImage *b)
 }
 
 GType
-rstto_image_list_iter_get_type ()
+rstto_image_list_iter_get_type (void)
 {
     static GType rstto_image_list_iter_type = 0;
 

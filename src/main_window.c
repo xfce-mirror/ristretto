@@ -301,7 +301,7 @@ static const GtkRadioActionEntry radio_action_sort_entries[] =
 
 
 GType
-rstto_main_window_get_type ()
+rstto_main_window_get_type (void)
 {
     static GType rstto_main_window_type = 0;
 
@@ -1013,12 +1013,13 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     GSList *files = NULL, *_files_iter;
     GValue current_uri_val = {0, };
     gchar *uri = NULL;
-    guint pos = 0;
+    gint pos = 0;
+    GtkFileFilter *filter;
 
     g_value_init (&current_uri_val, G_TYPE_STRING);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
 
-    GtkFileFilter *filter = gtk_file_filter_new();
+    filter = gtk_file_filter_new();
 
     dialog = gtk_file_chooser_dialog_new(_("Open image"),
                                          GTK_WINDOW(window),
@@ -1136,12 +1137,13 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
     const gchar *content_type = NULL;
     gchar *uri = NULL;
     GValue current_uri_val = {0, };
-    guint pos = 0;
+    gint pos = 0;
+    GtkWidget *dialog;
 
     g_value_init (&current_uri_val, G_TYPE_STRING);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
 
-    GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open folder"),
+    dialog = gtk_file_chooser_dialog_new(_("Open folder"),
                                                     GTK_WINDOW(window),
                                                     GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
                                                     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -1315,10 +1317,11 @@ cb_rstto_main_window_print (GtkWidget *widget, RsttoMainWindow *window)
 {
 
     GtkPrintSettings *print_settings = gtk_print_settings_new ();
-    gtk_print_settings_set_resolution (print_settings, 300);
-
     GtkPrintOperation *print_operation = gtk_print_operation_new (); 
     GtkPageSetup *page_setup = gtk_page_setup_new ();
+
+    gtk_print_settings_set_resolution (print_settings, 300);
+
     gtk_page_setup_set_orientation (page_setup, GTK_PAGE_ORIENTATION_LANDSCAPE);
 
     gtk_print_operation_set_default_page_setup (print_operation, page_setup);
@@ -1495,11 +1498,12 @@ static void
 cb_rstto_main_window_preferences (GtkWidget *widget, RsttoMainWindow *window)
 {
     GValue val1 = {0,};
-    g_value_init (&val1, G_TYPE_UINT);
     GValue val2 = {0,};
+    GtkWidget *dialog = rstto_preferences_dialog_new (GTK_WINDOW (window));
+
+    g_value_init (&val1, G_TYPE_UINT);
     g_value_init (&val2, G_TYPE_UINT);
 
-    GtkWidget *dialog = rstto_preferences_dialog_new (GTK_WINDOW (window));
 
     g_object_get_property (G_OBJECT (window->priv->settings_manager), "image-quality", &val1);
 
@@ -1624,13 +1628,13 @@ cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
     GFile *file = rstto_image_get_file (image);
     gchar *path = g_file_get_path (file);
     gchar *basename = g_path_get_basename (path);
-    g_object_ref (image);
     GtkWidget *dialog = gtk_message_dialog_new (GTK_WINDOW (window),
                                                 GTK_DIALOG_DESTROY_WITH_PARENT,
                                                 GTK_MESSAGE_WARNING,
                                                 GTK_BUTTONS_OK_CANCEL,
                                                 N_("Are you sure you want to delete image '%s' from disk?"),
                                                 basename);
+    g_object_ref (image);
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
     {
         if (g_file_trash (file, NULL, NULL) == TRUE)
@@ -1894,13 +1898,14 @@ cb_rstto_main_window_message_bar_cancel (GtkWidget *widget, RsttoMainWindow *win
 static void
 cb_rstto_main_window_message_bar_open (GtkWidget *widget, RsttoMainWindow *window)
 {
-    gtk_widget_hide (window->priv->message_bar);
-
     GFile *child_file = NULL;
     GFileEnumerator *file_enumarator = NULL;
     GFileInfo *file_info = NULL;
     const gchar *filename = NULL;
     const gchar *content_type = NULL;
+
+    gtk_widget_hide (window->priv->message_bar);
+
 
     file_enumarator = g_file_enumerate_children (window->priv->message_bar_file, "standard::*", 0, NULL, NULL);
     for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))

@@ -101,7 +101,7 @@ gboolean rstto_image_list_add_file (RsttoImageList *image_list, GFile *file, GEr
 RsttoImageListIter *rstto_image_list_get_iter (RsttoImageList *image_list);
 
 /** Iter functions */
-GType       rstto_image_list_get_type ();
+GType       rstto_image_list_iter_get_type ();
 RsttoImage *rstto_image_list_iter_get_image (RsttoImageListIter *iter);
 void        rstto_image_list_iter_previous (RsttoImageListIter *iter);
 void        rstto_image_list_iter_next (RsttoImageListIter *iter);
