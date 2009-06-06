@@ -1863,7 +1863,6 @@ cb_rstto_main_window_settings_notify (GObject *settings, GParamSpec *spec, Rstto
     GValue val = {0,};
     g_return_if_fail (RSTTO_IS_SETTINGS (settings));
     g_return_if_fail (RSTTO_IS_MAIN_WINDOW (window));
-    g_return_if_fail (G_PARAM_SPEC_VALUE_TYPE (spec) == G_TYPE_STRING);
 
     g_value_init (&val, spec->value_type);
     g_object_get_property (settings, spec->name, &val);
