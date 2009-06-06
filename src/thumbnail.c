@@ -162,6 +162,8 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 
     GtkStateType state = GTK_WIDGET_STATE(widget);
     GdkPixbuf *pixbuf;
+    guint pixbuf_height = 0;
+    guint pixbuf_width = 0;
 
     if(thumb->priv->image)
     {
@@ -193,7 +195,21 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 
         if(pixbuf)
         {
-            pixbuf = gdk_pixbuf_scale_simple (pixbuf, widget->allocation.width, widget->allocation.height, GDK_INTERP_BILINEAR);
+            pixbuf_height = gdk_pixbuf_get_height (pixbuf);
+            pixbuf_width = gdk_pixbuf_get_width (pixbuf);
+
+            if (pixbuf_height > pixbuf_width)
+            {
+                pixbuf_width = widget->allocation.height * pixbuf_width / pixbuf_height;
+                pixbuf_height = widget->allocation.height;
+            }
+            else
+            {
+                pixbuf_height = widget->allocation.width * pixbuf_height / pixbuf_width;
+                pixbuf_width = widget->allocation.width;
+            }
+
+            pixbuf = gdk_pixbuf_scale_simple (pixbuf, pixbuf_width, pixbuf_height, GDK_INTERP_BILINEAR);
             gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
                             NULL,
                             pixbuf,
