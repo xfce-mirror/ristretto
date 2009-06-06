@@ -172,6 +172,14 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 
         pixbuf = rstto_image_get_thumbnail (
                                 thumb->priv->image);
+        if (pixbuf == NULL)
+        {
+            pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default(),
+                                               "image-missing",
+                                               128,
+                                               0,
+                                               NULL);
+        }
 
         gtk_paint_box(widget->style,
                       widget->window,
