@@ -28,6 +28,7 @@
 struct _RsttoThumbnailPriv
 {
     RsttoImage          *image;
+    GdkPixbuf           *pixbuf;
 };
 
 static GtkWidgetClass *parent_class = NULL;
@@ -50,7 +51,11 @@ static void
 rstto_thumbnail_paint(RsttoThumbnail *thumb);
 
 static void
-rstto_thumbnail_clicked(GtkButton *);
+rstto_thumbnail_clicked (GtkButton *);
+static void
+rstto_thumbnail_enter (GtkButton *);
+static void
+rstto_thumbnail_leave (GtkButton *);
 
 GType
 rstto_thumbnail_get_type (void)
@@ -107,40 +112,10 @@ rstto_thumbnail_class_init(RsttoThumbnailClass *thumb_class)
     widget_class->size_allocate = rstto_thumbnail_size_allocate;
 
     button_class->clicked = rstto_thumbnail_clicked;
+    button_class->enter = rstto_thumbnail_enter;
+    button_class->leave = rstto_thumbnail_leave;
 
     object_class->finalize = rstto_thumbnail_finalize;
-}
-
-static void
-rstto_thumbnail_size_request(GtkWidget *widget, GtkRequisition *requisition)
-{
-    requisition->height = 70;
-    requisition->width = 70;
-}
-
-static void
-rstto_thumbnail_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
-{
-    widget->allocation = *allocation;
-
-    parent_class->size_allocate(widget, allocation);
-}
-
-static gboolean
-rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
-{
-    RsttoThumbnail *thumb = RSTTO_THUMBNAIL(widget);
-
-    if (GTK_WIDGET_REALIZED (widget))
-    {
-        GdkRegion *region = event->region;
-
-        gdk_window_begin_paint_region(widget->window, region);
-        rstto_thumbnail_paint(thumb);
-        gdk_window_end_paint(widget->window);
-    }
-
-    return FALSE;
 }
 
 static void
@@ -155,15 +130,99 @@ rstto_thumbnail_finalize(GObject *object)
 
 }
 
+
+static void
+rstto_thumbnail_size_request(GtkWidget *widget, GtkRequisition *requisition)
+{
+    requisition->height = 70;
+    requisition->width = 70;
+}
+
+static void
+rstto_thumbnail_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
+{
+    RsttoThumbnail *thumb = RSTTO_THUMBNAIL(widget);
+    widget->allocation = *allocation;
+    parent_class->size_allocate(widget, allocation);
+
+    if (thumb->priv->pixbuf)
+    {
+        g_object_unref (thumb->priv->pixbuf);
+        thumb->priv->pixbuf = NULL;
+    }
+
+    thumb->priv->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
+                                          TRUE,
+                                          8,
+                                          allocation->width,
+                                          allocation->height);
+}
+
+static gboolean
+rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
+{
+    RsttoThumbnail *thumb = RSTTO_THUMBNAIL(widget);
+    GdkPixbuf *thumb_pixbuf = NULL;
+
+    if (GTK_WIDGET_REALIZED (widget))
+    {
+        if (thumb->priv->image)
+        {
+            thumb_pixbuf = rstto_image_get_thumbnail (thumb->priv->image);
+            g_object_ref (thumb_pixbuf);
+        }
+
+        if (thumb_pixbuf == NULL)
+        {
+            thumb_pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default(),
+                                                     "image-missing",
+                                                     128,
+                                                     0,
+                                                     NULL);
+        }
+
+        if (thumb_pixbuf)
+        {
+            guint height = gdk_pixbuf_get_height (thumb->priv->pixbuf);
+            guint width = gdk_pixbuf_get_width (thumb->priv->pixbuf);
+
+            if (gdk_pixbuf_get_width (thumb_pixbuf) > gdk_pixbuf_get_height (thumb_pixbuf))
+            {
+                height = (guint)((gdouble)width / (gdouble)gdk_pixbuf_get_width (thumb_pixbuf) * (gdouble)gdk_pixbuf_get_height (thumb_pixbuf));
+            }
+            else
+            {
+                width = (guint)((gdouble)height / (gdouble)gdk_pixbuf_get_height (thumb_pixbuf) * (gdouble)gdk_pixbuf_get_width (thumb_pixbuf));
+            }
+
+            gdk_pixbuf_fill (thumb->priv->pixbuf, 0x00000000);
+            gdk_pixbuf_scale (thumb_pixbuf, thumb->priv->pixbuf,
+                              ((widget->allocation.width - width) / 2)+2, ((widget->allocation.height - height) / 2)+2, 
+                              width - 4,
+                              height - 4,
+                              0, 0,
+                              (gdouble)width / ((gdouble)gdk_pixbuf_get_width (thumb_pixbuf)),
+                              (gdouble)height / ((gdouble)gdk_pixbuf_get_height (thumb_pixbuf)),
+                              GDK_INTERP_BILINEAR);
+
+            g_object_unref (thumb_pixbuf);
+        }
+
+
+        gdk_window_begin_paint_region(widget->window, event->region);
+        rstto_thumbnail_paint(thumb);
+        gdk_window_end_paint(widget->window);
+    }
+
+    return FALSE;
+}
+
 static void
 rstto_thumbnail_paint(RsttoThumbnail *thumb)
 {
     GtkWidget *widget = GTK_WIDGET(thumb);
 
     GtkStateType state = GTK_WIDGET_STATE(widget);
-    GdkPixbuf *pixbuf;
-    guint pixbuf_height = 0;
-    guint pixbuf_width = 0;
 
     if(thumb->priv->image)
     {
@@ -172,50 +231,24 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
         {
         }
 
-        pixbuf = rstto_image_get_thumbnail (
-                                thumb->priv->image);
-        if (pixbuf == NULL)
-        {
-            pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default(),
-                                               "image-missing",
-                                               128,
-                                               0,
-                                               NULL);
-        }
-
         gtk_paint_box(widget->style,
                       widget->window,
                       state,
-                      GTK_SHADOW_ETCHED_IN,
+                      state == GTK_STATE_PRELIGHT?GTK_SHADOW_OUT:GTK_SHADOW_IN,
                       NULL,
                       widget,
                       NULL,
                       widget->allocation.x, widget->allocation.y,
                       widget->allocation.width, widget->allocation.height);
 
-        if(pixbuf)
+        if (thumb->priv->pixbuf)
         {
-            pixbuf_height = gdk_pixbuf_get_height (pixbuf);
-            pixbuf_width = gdk_pixbuf_get_width (pixbuf);
-
-            if (pixbuf_height > pixbuf_width)
-            {
-                pixbuf_width = widget->allocation.height * pixbuf_width / pixbuf_height;
-                pixbuf_height = widget->allocation.height;
-            }
-            else
-            {
-                pixbuf_height = widget->allocation.width * pixbuf_height / pixbuf_width;
-                pixbuf_width = widget->allocation.width;
-            }
-
-            pixbuf = gdk_pixbuf_scale_simple (pixbuf, pixbuf_width, pixbuf_height, GDK_INTERP_BILINEAR);
             gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
                             NULL,
-                            pixbuf,
+                            thumb->priv->pixbuf,
                             0, 0,
-                            (0.5 * (widget->allocation.width - gdk_pixbuf_get_width(pixbuf))) + widget->allocation.x,
-                            (0.5 * (widget->allocation.height - gdk_pixbuf_get_height(pixbuf))) + widget->allocation.y,
+                            (0.5 * (widget->allocation.width - gdk_pixbuf_get_width(thumb->priv->pixbuf))) + widget->allocation.x,
+                            (0.5 * (widget->allocation.height - gdk_pixbuf_get_height(thumb->priv->pixbuf))) + widget->allocation.y,
                             -1, -1,
                             GDK_RGB_DITHER_NORMAL,
                             0, 0);
@@ -242,7 +275,6 @@ rstto_thumbnail_new (RsttoImage *image)
     path = g_file_get_path (file);
     basename = g_path_get_basename (path);
 
-
     gtk_widget_set_tooltip_text(GTK_WIDGET(thumb), basename);
 
     g_free (basename);
@@ -262,5 +294,19 @@ rstto_thumbnail_get_image (RsttoThumbnail *thumb)
 static void
 rstto_thumbnail_clicked (GtkButton *button)
 {
+    gtk_widget_queue_draw (GTK_WIDGET (button));
+}
+
+static void
+rstto_thumbnail_enter (GtkButton *button)
+{
+    gtk_widget_set_state (GTK_WIDGET (button), GTK_STATE_PRELIGHT);
+    gtk_widget_queue_draw (GTK_WIDGET (button));
+}
+
+static void
+rstto_thumbnail_leave (GtkButton *button)
+{
+    gtk_widget_set_state (GTK_WIDGET (button), GTK_STATE_NORMAL);
     gtk_widget_queue_draw (GTK_WIDGET (button));
 }

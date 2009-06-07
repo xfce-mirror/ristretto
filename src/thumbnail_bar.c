@@ -780,7 +780,7 @@ cb_rstto_thumbnail_bar_image_list_new_image (RsttoImageList *image_list, RsttoIm
     thumb = rstto_thumbnail_new (image);
 
     gtk_container_add (GTK_CONTAINER (bar), thumb);
-    gtk_widget_show (thumb);
+    gtk_widget_show_all (thumb);
 
     g_signal_connect (thumb, "clicked", G_CALLBACK (cb_rstto_thumbnail_bar_thumbnail_clicked), bar);
     g_signal_connect (thumb, "button_press_event", G_CALLBACK (cb_rstto_thumbnail_bar_thumbnail_button_press_event), bar);
