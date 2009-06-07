@@ -169,7 +169,6 @@ rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
         if (thumb->priv->image)
         {
             thumb_pixbuf = rstto_image_get_thumbnail (thumb->priv->image);
-            g_object_ref (thumb_pixbuf);
         }
 
         if (thumb_pixbuf == NULL)
@@ -180,11 +179,15 @@ rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
                                                      0,
                                                      NULL);
         }
+        else
+        {
+            g_object_ref (thumb_pixbuf);
+        }
 
         if (thumb_pixbuf)
         {
-            guint height = gdk_pixbuf_get_height (thumb->priv->pixbuf);
-            guint width = gdk_pixbuf_get_width (thumb->priv->pixbuf);
+            guint height = gdk_pixbuf_get_height (thumb->priv->pixbuf) - 10;
+            guint width = gdk_pixbuf_get_width (thumb->priv->pixbuf) - 10;
 
             if (gdk_pixbuf_get_width (thumb_pixbuf) > gdk_pixbuf_get_height (thumb_pixbuf))
             {
@@ -197,9 +200,9 @@ rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
 
             gdk_pixbuf_fill (thumb->priv->pixbuf, 0x00000000);
             gdk_pixbuf_scale (thumb_pixbuf, thumb->priv->pixbuf,
-                              ((widget->allocation.width - width) / 2)+2, ((widget->allocation.height - height) / 2)+2, 
-                              width - 4,
-                              height - 4,
+                              ((widget->allocation.width - width) / 2), ((widget->allocation.height - height) / 2), 
+                              width,
+                              height,
                               0, 0,
                               (gdouble)width / ((gdouble)gdk_pixbuf_get_width (thumb_pixbuf)),
                               (gdouble)height / ((gdouble)gdk_pixbuf_get_height (thumb_pixbuf)),
@@ -234,7 +237,7 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
         gtk_paint_box(widget->style,
                       widget->window,
                       state,
-                      state == GTK_STATE_PRELIGHT?GTK_SHADOW_OUT:GTK_SHADOW_IN,
+                      GTK_SHADOW_ETCHED_IN,
                       NULL,
                       widget,
                       NULL,
@@ -253,6 +256,18 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
                             GDK_RGB_DITHER_NORMAL,
                             0, 0);
         }
+
+        /*
+        gtk_paint_focus (widget->style,
+                      widget->window,
+                      state,
+                      NULL,
+                      widget,
+                      NULL,
+                      widget->allocation.x+3, widget->allocation.y+3,
+                      widget->allocation.width-6, widget->allocation.height-6);
+        */
+
     }
 }
 

@@ -275,7 +275,7 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
             {
                 gtk_widget_get_child_requisition(GTK_WIDGET(iter->data), &child_requisition);
                 child_allocation.height = allocation->height - (border_width * 2);
-                child_allocation.width = child_requisition.width;
+                child_allocation.width = child_allocation.height;
 
                 if ((child_allocation.x < (allocation->x + allocation->width)) &&
                     ((child_allocation.x + child_allocation.width) > allocation->x + border_width))
@@ -286,7 +286,7 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
                 else
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), FALSE);
 
-                child_allocation.x += child_requisition.width + spacing;
+                child_allocation.x += child_allocation.width + spacing;
                 iter = g_list_next(iter);
             }
             break;
@@ -324,7 +324,7 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), FALSE);
 
                 gtk_widget_size_allocate(GTK_WIDGET(iter->data), &child_allocation);
-                child_allocation.y += child_requisition.height + spacing;
+                child_allocation.y += child_allocation.height + spacing;
                 iter = g_list_next(iter);
             }
             break;
