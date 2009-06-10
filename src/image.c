@@ -653,7 +653,7 @@ cb_rstto_image_update(RsttoImage *image)
                 image->priv->pixbuf = NULL;
             }
 
-            image->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (image->priv->iter);
+            image->priv->pixbuf = gdk_pixbuf_copy (gdk_pixbuf_animation_iter_get_pixbuf (image->priv->iter));
         }
 
         timeout = gdk_pixbuf_animation_iter_get_delay_time (image->priv->iter);
