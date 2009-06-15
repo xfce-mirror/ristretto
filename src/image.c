@@ -99,6 +99,7 @@ struct _RsttoImagePriv
     /*************/
     GFile *file;
     GFileMonitor *monitor;
+    GCancellable *cancellable;
 
     /* File I/O data */
     /*****************/
@@ -129,6 +130,7 @@ rstto_image_init (GObject *object)
     image->priv = g_new0 (RsttoImagePriv, 1);
 
     image->priv->buffer = g_new0 (guchar, RSTTO_IMAGE_BUFFER_SIZE);
+    image->priv->cancellable = g_cancellable_new();
 
 }
 
@@ -175,6 +177,13 @@ static void
 rstto_image_dispose (GObject *object)
 {
     RsttoImage *image = RSTTO_IMAGE (object);
+
+    if(image->priv->cancellable)
+    {
+        g_cancellable_cancel (image->priv->cancellable);
+        g_object_unref (image->priv->cancellable);
+        image->priv->cancellable = NULL;
+    }
 
     if(image->priv->thumbnail)
     {
@@ -265,10 +274,15 @@ cb_rstto_image_read_file_ready (GObject *source_object, GAsyncResult *result, gp
 {
     GFile *file = G_FILE (source_object);
     RsttoImage *image = RSTTO_IMAGE (user_data);
-
     GFileInputStream *file_input_stream = g_file_read_finish (file, result, NULL);
+    
+    if (g_cancellable_is_cancelled (image->priv->cancellable))
+    {
+        g_object_unref (image);
+        return;
+    }
 
-    g_object_ref (image);
+
     g_input_stream_read_async (G_INPUT_STREAM (file_input_stream),
                                image->priv->buffer,
                                RSTTO_IMAGE_BUFFER_SIZE,
@@ -284,6 +298,12 @@ cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *re
     RsttoImage *image = RSTTO_IMAGE (user_data);
     gssize read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, NULL);
     GError *error = NULL;
+
+    if (g_cancellable_is_cancelled (image->priv->cancellable))
+    {
+        g_object_unref (image);
+        return;
+    }
 
     if (image->priv->loader == NULL)
         return;
@@ -353,6 +373,8 @@ rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, gbool
 
     cache = rstto_image_cache_new ();
 
+    g_cancellable_reset (image->priv->cancellable);
+
     /* NEW */
     image->priv->max_size = max_size;
 
@@ -381,6 +403,7 @@ rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, gbool
         /*g_signal_connect(image->priv->loader, "area-updated", G_CALLBACK(cb_rstto_image_area_updated), image);*/
         g_signal_connect(image->priv->loader, "closed", G_CALLBACK(cb_rstto_image_closed), image);
 
+        g_object_ref (image);
 	    g_file_read_async (image->priv->file, 0, NULL, (GAsyncReadyCallback)cb_rstto_image_read_file_ready, image);
     }
     else
@@ -402,6 +425,8 @@ void
 rstto_image_unload (RsttoImage *image)
 {
     g_return_if_fail (image != NULL);
+
+    g_cancellable_cancel (image->priv->cancellable);
 
     if (image->priv->loader)
     {
