@@ -506,24 +506,18 @@ cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *combo_
             break;
         case 1: /* 1 MegaPixel */
             g_object_set (G_OBJECT (dialog->priv->settings),
-                          "image-quality", 1000000,
+                          "image-quality", 8000000,
                           NULL);
             break;
         case 2: /* 2 MegaPixel */
             g_object_set (G_OBJECT (dialog->priv->settings),
-                          "image-quality", 2000000,
+                          "image-quality", 4000000,
                           NULL);
             break;
         case 3: /* 4 MegaPixel */
             g_object_set (G_OBJECT (dialog->priv->settings),
-                          "image-quality", 4000000,
+                          "image-quality", 2000000,
                           NULL);
             break;
-        case 4: /* 8 MegaPixel */
-            g_object_set (G_OBJECT (dialog->priv->settings),
-                          "image-quality", 8000000,
-                          NULL);
-            break;
-
     }
 }
