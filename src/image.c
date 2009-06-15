@@ -212,6 +212,12 @@ rstto_image_dispose (GObject *object)
         g_free (image->priv->buffer);
         image->priv->buffer = NULL;
     }
+
+    if (image->priv->exif_data)
+    {
+        exif_data_free (image->priv->exif_data);
+        image->priv->exif_data = NULL;
+    }
 }
 
 
