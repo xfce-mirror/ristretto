@@ -143,7 +143,6 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
             size += rstto_image_get_size (c_image);
             if (size > (cache_size*1000000))
             {
-                g_debug("Unload: %d", rstto_image_get_size (c_image));
                 rstto_image_unload (c_image);
                 cache->cache_list = g_list_remove (cache->cache_list, c_image);
                 g_object_unref (c_image);
@@ -154,7 +153,6 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
             {
                 if (rstto_image_get_size (c_image) == 0)
                 {
-                    g_debug("Unload: %d", rstto_image_get_size (c_image));
                     rstto_image_unload (c_image);
                     cache->cache_list = g_list_remove (cache->cache_list, c_image);
                     g_object_unref (c_image);
@@ -162,7 +160,6 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
                 }
             }
         }
-        g_debug ("CacheSize: %f%%\t %d:%d", ((gdouble)size/((gdouble)cache_size*1000000))*100, size, cache_size*1000000);
     }
     g_object_unref (settings);
     return retval;

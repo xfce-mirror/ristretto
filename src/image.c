@@ -713,7 +713,11 @@ rstto_image_get_size (RsttoImage *image)
     {
         gint rowstride = gdk_pixbuf_get_rowstride (pixbuf);
         gint height = gdk_pixbuf_get_height (pixbuf);
-        return rowstride * height;
+        /* HACK HACK HACK HACK */
+        /* multiplied by 2 since it is unclear why the nr of bytes
+         * in memory is twice what is calculated here, based on the dimensions
+         */
+        return rowstride * height * 2;
     }
     return 0;
 }
