@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-05-25 11:59+0300\n"
+"PO-Revision-Date: 2009-06-14 11:47-0800\n"
 "Last-Translator: Evaggelos Balaskas <ebalaskas@ebalaskas.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
 "MIME-Version: 1.0\n"
@@ -35,8 +35,8 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Δοκίμασε %s --help για να δεις μία πλήρη λίστα με διαθέσιμες παραμέτρους για "
-"την γραμμή εντολών.\n"
+"Δοκίμασε %s --help για να δεις μία πλήρη λίστα με τις διαθέσιμες παραμέτρους "
+"στην γραμμή εντολών.\n"
 
 #: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
 #: ../src/main_window.c:1675
@@ -100,11 +100,11 @@ msgstr "_Θέσε ως επιφάνεια εργασίας"
 
 #: ../src/main_window.c:476
 msgid "Show _Horizontally"
-msgstr "Εμφάνιση _οριζόντια"
+msgstr "Ορ_ιζόντια εμφάνιση"
 
 #: ../src/main_window.c:480
 msgid "Show _Vertically"
-msgstr "Εμφάνιση _κάθετα"
+msgstr "_Κάθετη εμφάνιση"
 
 #: ../src/main_window.c:484
 msgid "H_ide"
@@ -112,11 +112,11 @@ msgstr "Απόκρ_υψη"
 
 #: ../src/main_window.c:521
 msgid "Rotate _Right"
-msgstr "Περιστροφή _δεξιά"
+msgstr "Δ_εξιά περιστροφή"
 
 #: ../src/main_window.c:522
 msgid "Rotate _Left"
-msgstr "Περιστροφή _αριστερά"
+msgstr "Αρ_ιστερή περιστροφή"
 
 #. Create 'Go' menu
 #: ../src/main_window.c:543
@@ -131,6 +131,8 @@ msgstr "_Βοήθεια"
 #: ../src/main_window.c:906
 msgid "One or more images have been modified, do you want to save the changes?"
 msgstr ""
+"Μία ή περισσότερες εικόνες έχουν τροποποιηθεί, θέλετε να αποθηκεύσετε τις "
+"αλλαγές;"
 
 #: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
@@ -179,6 +181,8 @@ msgstr "ΜΒ"
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 msgstr ""
+"_Προ-φόρτωση των εικόνων\n"
+"(το GUI ανταποκρίνεται καλύτερα, αλλά είναι πιο CPU απαιτητικό)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
@@ -208,7 +212,7 @@ msgstr "Απ_όκρυψη εικονιδίων"
 
 #: ../src/main_window.c:1556
 msgid "Developer:"
-msgstr "Προγραμματιστής:"
+msgstr "Δημιουργός:"
 
 #: ../src/main_window.c:1566
 msgid ""
@@ -220,7 +224,7 @@ msgstr ""
 
 #: ../src/main_window.c:1574
 msgid "translator-credits"
-msgstr "Evaggelos Balaskas <ebalaskas@ebalaskas.gr>, 2008"
+msgstr "Evaggelos Balaskas <ebalaskas@ebalaskas.gr> 2008, 2009"
 
 #: ../src/main_window.c:1600
 msgid "Open image"
@@ -247,7 +251,7 @@ msgstr "Διαστήματα"
 
 #: ../src/thumbnail_bar.c:186
 msgid "The amount of space between the thumbnails"
-msgstr "Το διάστήμα μεταξύ των εικονιδίων"
+msgstr "Το διάστημα μεταξύ των εικονιδίων"
 
 #: ../src/thumbnail_bar.c:192
 msgid "Border Width"
