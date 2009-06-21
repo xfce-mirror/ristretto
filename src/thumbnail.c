@@ -32,6 +32,7 @@ struct _RsttoThumbnailPriv
 };
 
 static GtkWidgetClass *parent_class = NULL;
+static GdkPixbuf *thumbnail_missing_icon = NULL;
 
 static void
 rstto_thumbnail_init(RsttoThumbnail *);
@@ -87,6 +88,16 @@ static void
 rstto_thumbnail_init(RsttoThumbnail *thumb)
 {
     thumb->priv = g_new0(RsttoThumbnailPriv, 1);
+
+    if (thumbnail_missing_icon == NULL)
+    {
+        thumbnail_missing_icon = gtk_icon_theme_load_icon (gtk_icon_theme_get_default(),
+                                                     "image-missing",
+                                                     128,
+                                                     0,
+                                                     NULL);
+    }
+
 
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(thumb), TRUE);
     gtk_widget_set_events (GTK_WIDGET(thumb),
@@ -173,16 +184,10 @@ rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
 
         if (thumb_pixbuf == NULL)
         {
-            thumb_pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default(),
-                                                     "image-missing",
-                                                     128,
-                                                     0,
-                                                     NULL);
+            thumb_pixbuf = thumbnail_missing_icon;
         }
-        else
-        {
-            g_object_ref (thumb_pixbuf);
-        }
+
+        g_object_ref (thumb_pixbuf);
 
         if (thumb_pixbuf)
         {
