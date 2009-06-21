@@ -1208,6 +1208,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     GtkWidget *err_dialog;
     gchar *uri = gtk_recent_chooser_get_current_uri (chooser);
     const gchar *filename;
+    const gchar *content_type = NULL;
     GError *error = NULL;
     GFile *file = g_file_new_for_uri (uri);
     GFile *child_file;
@@ -1219,13 +1220,17 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     {
         if (g_file_info_get_file_type (file_info) == G_FILE_TYPE_DIRECTORY)
         {
-            file_enumarator = g_file_enumerate_children (file, "standard::name", 0, NULL, NULL);
+            file_enumarator = g_file_enumerate_children (file, "standard::*", 0, NULL, NULL);
             for(child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); child_file_info != NULL; child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
             {
                 filename = g_file_info_get_name (child_file_info);
+                content_type  = g_file_info_get_content_type (child_file_info);
                 child_file = g_file_get_child (file, filename);
 
-                rstto_image_list_add_file (window->priv->props.image_list, child_file, NULL);
+                if (strncmp (content_type, "image/", 6) == 0)
+                {
+                    rstto_image_list_add_file (window->priv->props.image_list, child_file, NULL);
+                }
 
                 g_object_unref (child_file);
                 g_object_unref (child_file_info);
