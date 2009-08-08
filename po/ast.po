@@ -1,24 +1,16 @@
-# Galician translation of ristretto
-# Copyright (C) 2009 Leandro Regueiro.
-# This file is distributed under the same license as the Xfce package.
-#
-# Leandro Regueiro <leandro DOT regueiro AT gmail DOT com>, 2008, 2009.
-#
-# Proxecto Trasno - Adaptación do software libre á lingua galega:  Se desexas
-# colaborar connosco, podes atopar máis información en <http://trasno.net>
-#
+#: ../src/main.c:231
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2009-06-30 11:23+0100\n"
-"Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
-"Language-Team: Galician <proxecto@trasno.net>\n"
+"PO-Revision-Date: 2009-07-13 19:55+0100\n"
+"Last-Translator: Marcos Antonio Alvarez Costales <marcoscostales@gmail.com>\n"
+"Language-Team: Asturian <alministradores@softastur.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,11,-1,-1,-1\n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -26,11 +18,11 @@ msgstr "Información de versión"
 
 #: ../src/main.c:65
 msgid "Start in fullscreen mode"
-msgstr "Iniciar en modo pantalla completa"
+msgstr "Entamar en mou pantalla completa"
 
 #: ../src/main.c:69
 msgid "Start a slideshow"
-msgstr "Iniciar unha presentación"
+msgstr "Entamar diapositives"
 
 #: ../src/main.c:235
 #, c-format
@@ -39,46 +31,43 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Probe %s --help para ver unha lista completa das opcións de liña de comandos dispoñibles.\n"
+"Preba %s --help pa ver una llista completa d'opciones de llinia de comandu "
+"disponibles.\n"
 
-#: ../src/main.c:448
-#: ../src/main_window.c:1598
-#: ../src/main_window.c:1638
+#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
 #: ../src/main_window.c:1675
 msgid "Opening file(s)..."
-msgstr "Abrindo ficheiros..."
+msgstr "Abriendo ficheru(os)..."
 
 #. Create 'File' menu
 #: ../src/main_window.c:340
 msgid "_File"
-msgstr "_Ficheiro"
+msgstr "_Ficheru"
 
 #: ../src/main_window.c:347
 msgid "O_pen Folder"
-msgstr "_Abrir cartafol"
+msgstr "_Abrir carpeta"
 
 #: ../src/main_window.c:348
 msgid "_Recently used"
-msgstr "Usados _recentemente"
+msgstr "_Usaos recientemente"
 
 #: ../src/main_window.c:353
 msgid "Close _all"
-msgstr "Pechar _todo"
+msgstr "Zarrar _too"
 
 #. Create 'Edit' menu
 #: ../src/main_window.c:383
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/main_window.c:388
-#: ../src/main_window.c:659
+#: ../src/main_window.c:388 ../src/main_window.c:659
 msgid "Open with..."
 msgstr "Abrir con..."
 
-#: ../src/main_window.c:396
-#: ../src/main_window.c:670
+#: ../src/main_window.c:396 ../src/main_window.c:670
 msgid "No applications available"
-msgstr "Non hai aplicacións dispoñibles"
+msgstr "Nun hai aplicaciones disponibles"
 
 #. Create 'View' menu
 #: ../src/main_window.c:405
@@ -87,98 +76,97 @@ msgstr "_Ver"
 
 #: ../src/main_window.c:412
 msgid "Show _Toolbar"
-msgstr "Mostrar a _barra de ferramentas"
+msgstr "Amosar _barra de ferramientes"
 
 #: ../src/main_window.c:413
 msgid "Thumbnail _Viewer"
-msgstr "_Visor de miniaturas"
+msgstr "_Visor de miniatures"
 
 #: ../src/main_window.c:417
 msgid "_Zooming"
-msgstr "_Ampliación"
+msgstr "_Ampliar"
 
 #: ../src/main_window.c:418
 msgid "_Rotate"
-msgstr "_Rotar"
+msgstr "_Voltiar"
 
 #: ../src/main_window.c:425
 msgid "_Set as wallpaper"
-msgstr "Definir coma _imaxe de fondo"
+msgstr "_Afitar como fondu d'escritoriu"
 
 #: ../src/main_window.c:476
 msgid "Show _Horizontally"
-msgstr "Mostrar en _horizontal"
+msgstr "Amosar _horizontalmente"
 
 #: ../src/main_window.c:480
 msgid "Show _Vertically"
-msgstr "Mostrar en _vertical"
+msgstr "Amosar _verticalmente"
 
 #: ../src/main_window.c:484
 msgid "H_ide"
-msgstr "_Agochar"
+msgstr "_Anubrir"
 
 #: ../src/main_window.c:521
 msgid "Rotate _Right"
-msgstr "Rotar á _dereita"
+msgstr "Voltiar a man_drecha"
 
 #: ../src/main_window.c:522
 msgid "Rotate _Left"
-msgstr "Rotar á _esqueda"
+msgstr "Voltiar a man_zorga"
 
 #. Create 'Go' menu
 #: ../src/main_window.c:543
 msgid "_Go"
-msgstr "_Ir"
+msgstr "_Dir"
 
 #. Create 'Help' menu
 #: ../src/main_window.c:574
 msgid "_Help"
-msgstr "A_xuda"
+msgstr "A_ida"
 
 #: ../src/main_window.c:906
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr "Modificáronse unha ou máis imaxes, desexa gardar os cambios?"
+msgstr "Una o más imáxenes modificáronse. ¿Quies guardar los cambeos?"
 
 #: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
-msgstr "Preferencias do visor de imaxes"
+msgstr "Preferencies del visor d'imáxenes"
 
 #: ../src/main_window.c:1412
 msgid "Display"
-msgstr "Pantalla"
+msgstr "Visualizador"
 
 #: ../src/main_window.c:1416
 msgid "Slideshow"
-msgstr "Presentación"
+msgstr "Diapositives"
 
 #: ../src/main_window.c:1420
 msgid "Behaviour"
-msgstr "Comportamento"
+msgstr "Comportamientu"
 
-# expandir escalar redimensionar
 #: ../src/main_window.c:1425
 msgid "Scaling"
-msgstr "Redimensionamento"
+msgstr "Escala"
 
 #: ../src/main_window.c:1427
 msgid "Don't scale over 100% when maximizing the window."
-msgstr "Non redimensionar máis alá do 100% ó maximizar a ventá."
+msgstr "Nun aumentar per enriba del 100% al maximizar la ventana."
 
 #: ../src/main_window.c:1437
 msgid "Background Color"
-msgstr "Cor de fondo"
+msgstr "Color de fondu"
 
 #: ../src/main_window.c:1439
 msgid "_Override Background Color:"
-msgstr "_Substituír a cor de fondo:"
+msgstr "_Inorar color de fondu:"
 
 #: ../src/main_window.c:1462
 msgid "Image Cache"
-msgstr "Caché de imaxes"
+msgstr "Caché d'imaxe"
 
 #: ../src/main_window.c:1465
 msgid "Cache size:"
-msgstr "Tamaño da caché:"
+msgstr "Tamañu del caché:"
 
 #: ../src/main_window.c:1466
 msgid "MB"
@@ -186,46 +174,50 @@ msgstr "MB"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr "_Precargar as imaxes (a GUI vai máis rápida pero úsase máis a CPU)"
+msgstr ""
+"_Precargar imáxenes (la interface gráfica respuende meyor a cambéu d'un "
+"mayor consumu de CPU)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
-msgstr "Tempo de espera"
+msgstr "Tiempu d'espiración"
 
 #: ../src/main_window.c:1489
 msgid "Thumbnails"
-msgstr "Miniaturas"
+msgstr "Miniatures"
 
 #: ../src/main_window.c:1494
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"O período de tempo que se mostra cada imaxe durante unha\n"
-"presentación (en segundos)"
+"El periodu de tiempu qu'una imaxe individual s'amuesa durante la vista de "
+"diapositives\n"
+"(en segundos)"
 
 #: ../src/main_window.c:1497
 msgid "Hide the thumbnails bar during slideshow"
-msgstr "Agochar a barra de miniaturas durante a presentación"
+msgstr "Anubrir la barra de miniatures na vista de diapositives"
 
 #: ../src/main_window.c:1498
 msgid "_Hide thumbnails"
-msgstr "_Agochar as miniaturas"
+msgstr "_Anubrir les miniatures"
 
 #: ../src/main_window.c:1556
 msgid "Developer:"
-msgstr "Desenvolvedor:"
+msgstr "Desendolcador:"
 
 #: ../src/main_window.c:1566
-msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
-msgstr "Ristretto é un visor de imaxes lixeiro e rápido para o ambiente de escritorio Xfce."
+msgid ""
+"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
+"environment."
+msgstr ""
+"Ristretto ye un visor d'imáxenes rápidu y llixeru pal entornu d'escritoriu "
+"de Xfce."
 
 #: ../src/main_window.c:1574
 msgid "translator-credits"
-msgstr ""
-"Leandro Regueiro <leandro.regueiro@gmail.com>, 2008\n"
-"\n"
-"Proxecto Trasno http://trasno.net"
+msgstr "Astur <malditoastur@gmail.com>"
 
 #: ../src/main_window.c:1600
 msgid "Open image"
@@ -233,35 +225,38 @@ msgstr "Abrir imaxe"
 
 #: ../src/main_window.c:1618
 msgid "Could not open file"
-msgstr "Non se puido abrir o ficheiro"
+msgstr "Nun pudo abrise'l ficheru"
 
 #: ../src/main_window.c:1640
 msgid "Open folder"
-msgstr "Abrir cartafol"
+msgstr "Abrir direutoriu"
 
 #: ../src/main_window.c:1715
-msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
-msgstr "Está seguro de que desexa limpar a lista de documentos abertos recentemente de Ristretto?"
+msgid ""
+"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgstr ""
+"¿De xuru que quies esborrar la llista de documentos abiertos recientemente "
+"de ristretto?"
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
-msgstr "Espazamento"
+msgstr "Espaciáu"
 
 #: ../src/thumbnail_bar.c:186
 msgid "The amount of space between the thumbnails"
-msgstr "O espazo entre as miniaturas"
+msgstr "La cantidá d'espaciu ente miniatures"
 
 #: ../src/thumbnail_bar.c:192
 msgid "Border Width"
-msgstr "Ancho do bordo"
+msgstr "Anchor del berbesu"
 
 #: ../src/thumbnail_bar.c:193
 msgid "The border width of the thumbnail-bar"
-msgstr "O ancho do bordo da barra de miniaturas"
+msgstr "L'anchor del berbesu de la barra de miniatures"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
-msgstr "Visor de Imaxes"
+msgstr "Visor d'imáxenes"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto"
@@ -269,5 +264,26 @@ msgstr "Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
-msgstr "Visor de imaxes de Xfce"
+msgstr "Visor d'imáxenes de Xfce"
 
+#~ msgid "Preload"
+#~ msgstr "Precarga"
+
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr ""
+#~ "Precargar les imáxenes durante la vista de diapositivas\n"
+#~ "(usa más memoria)"
+
+#~ msgid "_Preload images"
+#~ msgstr "_Precargar les imáxenes"
+
+#~ msgid "Ristretto Image Viewer"
+#~ msgstr "Ristretto : Visualiseur d’Images"
+
+#~ msgid "Flip _Vertically"
+#~ msgstr "Retourner _verticalement"
+
+#~ msgid "Flip _Horizontally"
+#~ msgstr "Retourner _horizontalement"
