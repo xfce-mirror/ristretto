@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-05-18 00:44+0900\n"
-"PO-Revision-Date: 2009-05-16 18:03+0900\n"
+"POT-Creation-Date: 2009-08-10 00:24+0900\n"
+"PO-Revision-Date: 2009-06-17 22:19+0900\n"
 "Last-Translator: Masato Hashimoto <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
@@ -221,7 +221,7 @@ msgstr ""
 
 #: ../src/main_window.c:1579
 msgid "translator-credits"
-msgstr "Masato Hashimoto <cabezon.hashimoto@gmail.com>"
+msgstr "Masato Hashimoto <hashimo@xfce.org>"
 
 #: ../src/main_window.c:1605
 msgid "Open image"
