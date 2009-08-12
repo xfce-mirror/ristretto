@@ -1,0 +1,101 @@
+<ui>
+    <!--
+
+
+    -->
+    <menubar name="main-menu">
+        <menu action="file-menu">
+            <menuitem action="open"/>
+            <menuitem action="open-folder"/>
+            <placeholder name="placeholder-open-recent"/>
+            <separator/>
+            <menuitem action="save-copy"/>
+            <separator/>
+            <menuitem action="print"/>
+            <separator/>
+            <menuitem action="close"/>
+            <menuitem action="close-all"/>
+            <menuitem action="quit"/>
+        </menu>
+        <menu action="edit-menu">
+            <menu action="open-with-menu">
+                <placeholder name="open-with-apps" />
+            </menu>
+            <separator/>
+            <menu action="sorting-menu">
+                <menuitem action="sort-filename"/>
+                <menuitem action="sort-date"/>
+            </menu>
+            <menuitem action="delete"/>
+            <separator/>
+            <menuitem action="preferences"/>
+        </menu>
+        <menu action="view-menu">
+            <menuitem action="show-toolbar"/>
+            <menuitem action="show-thumbnailbar"/>
+            <separator/>
+            <menu action="zoom-menu">
+                <menuitem action="zoom-in"/>
+                <menuitem action="zoom-out"/>
+                <menuitem action="zoom-fit"/>
+                <menuitem action="zoom-100"/>
+            </menu>
+            <menu action="rotation-menu">
+                <menuitem action="rotate-cw"/>
+                <menuitem action="rotate-ccw"/>
+            </menu>
+            <separator/>
+            <menuitem action="fullscreen"/>
+            <menuitem action="set-as-wallpaper"/>
+        </menu>
+        <menu action="go-menu">
+            <menuitem action="back"/>
+            <menuitem action="forward"/>
+            <menuitem action="first"/>
+            <menuitem action="last"/>
+            <separator/>
+            <placeholder name="placeholder-slideshow" />
+        </menu>
+        <menu action="help-menu">
+            <menuitem action="contents"/>
+            <menuitem action="about"/>
+        </menu>
+    </menubar>
+
+    <popup name="tb-menu">
+        <menuitem action="open"/>
+    </popup>
+
+    <!--
+
+    -->
+    <toolbar name="main-toolbar">
+        <toolitem action="open"/>
+        <toolitem action="open-folder"/>
+        <separator />
+        <toolitem action="save-copy"/>
+        <toolitem action="close"/>
+        <toolitem action="delete"/>
+        <separator />
+    </toolbar>
+
+    <!--
+
+    -->
+    <toolbar name="navigation-toolbar">
+        <toolitem action="back"/>
+        <placeholder name="placeholder-slideshow" />
+        <toolitem action="forward"/>
+        <separator name="separator-1"/>
+        <toolitem action="rotate-ccw"/>
+        <toolitem action="rotate-cw"/>
+        <separator />
+        <toolitem action="zoom-in"/>
+        <toolitem action="zoom-out"/>
+        <toolitem action="zoom-100"/>
+        <toolitem action="zoom-fit"/>
+        <separator />
+        <placeholder name="placeholder-fullscreen" />
+    </toolbar>
+
+</ui>

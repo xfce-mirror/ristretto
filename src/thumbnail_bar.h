@@ -63,6 +63,9 @@ GtkWidget *rstto_thumbnail_bar_new();
 void       rstto_thumbnail_bar_set_orientation (RsttoThumbnailBar *, GtkOrientation);
 GtkOrientation  rstto_thumbnail_bar_get_orientation (RsttoThumbnailBar *);
 
+void rstto_thumbnail_bar_set_image_list (RsttoThumbnailBar *bar, RsttoImageList *nav);
+void rstto_thumbnail_bar_set_iter (RsttoThumbnailBar *bar, RsttoImageListIter *iter);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_THUMBNAIL_BAR_H__ */

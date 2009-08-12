@@ -1,3 +1,247 @@
+2009-08-12  Stephan Arts <stephan@xfce.org>
+
+	* ChangeLog: Merge with private branch
+
+2009-06-01  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/image_list.c: Improve positioning code and file-open behaviour
+
+2009-06-01  Stephan Arts <stephan@xfce.org>
+
+	* src/save_dialog.c
+	  src/save_dialog.h: Remove save-dialog code not going to support that
+	  anyways
+
+2009-06-01  Stephan Arts <stephan@xfce.org>
+
+	* src/image_list.h
+	  src/image_list.c
+	  src/thumbnail_bar.c: Expose compare_func, and use it in the thumbnailbar
+
+2009-06-01  Stephan Arts <stephan@xfce.org>
+
+	* src/*: Rename Navigator to ImageList, makes more sense
+
+2009-05-26  Stephan Arts <stephan@xfce.org>
+
+	* src/picture_viewer.c: Show an 'inactive' image when there is no
+	image loaded.
+
+2009-05-25  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: change open-folder icon to 'folder-open' instead of
+	'document-open'
+	* src/settings.c
+	  src/preferences_dialog.c: Make preload-images an number value (as-in,
+	  how many should be preloaded)
+	* src/preferences_dialog.c: Change the values in the quality-combo to
+	  something human-readable.
+	* src/preferences_dialog.c: Move image-quality frame to the behaviour tab.
+
+2009-05-25  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Fix sensitivity of the save-copy button
+
+2009-05-25  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/main_window_ui.xml: Rename save-as to save-copy (suggested by cody
+	  somerville)
+
+2009-05-25  Stephan Arts <stephan@xfce.org>
+
+	* src/image_cache.c
+	  src/preferences_dialog.c
+	  src/settings.c
+	  src/image.c: Improve cache-size and image-quality calculations
+
+2009-05-25  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/preferences_dialog.c: Implement preferences for the 'open' toolbar
+	  item.
+	* TODO: Update TODO
+
+2009-05-23  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/main_window_ui.xml
+	  src/settings.c: Add ability to configure the toolbar-open button, it can
+	  now do the following:
+	  	- Open image
+		- Open folder
+		- None (disappear)
+
+2009-05-22  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Fix behaviour when switching to the last image
+
+2009-05-22  Stephan Arts <stephan@xfce.org>
+
+	* src/navigating.c,
+	  src/main_window.c: Sanitize navigator-iter design
+
+2009-05-21  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: if a file in the recent_menu does not exist, because
+	  it has been deleted, show an error-dialog
+
+2009-05-21  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/main_window_ui.xml: Add 'delete' button to remove an image from disk
+	  (Bug #4135)
+	* src/main_window.c: Add accelerators for leaving fullscreen-mode,
+	navigating to the next image and to the previous image using Escape,
+	Page_Up and Page_Down respectively
+
+2009-05-20  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Scale the image down to page-size
+
+2009-05-17  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Toggle printing-button sensitivity
+	* src/main_window.c: Fix compiler warning
+
+2009-05-17  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Implement first rudimentary printing.
+
+2009-05-16  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/image_cache.c
+	  src/image_cache.h: Clear the cache when the image-quality is changed
+
+2009-05-16  Stephan Arts <stephan@xfce.org>
+
+	* src/Makefile.am: Remove profiling flag
+
+2009-05-16  Stephan Arts <stephan@xfce.org>
+
+	* src/image_cache.c
+	  src/picture_viewer.c
+	  src/main_window.c: Fix reference-count on settings-object
+	* src/main_window.c: Set default accelerators on rotation buttons
+
+2009-05-16  Stephan Arts <stephan@xfce.org>
+
+	* src/picture_viewer.c: When an image is rotated upside down, make sure
+	the horizontal slider works horizontally and the vertical slider works
+	vertically. These were switched :-p
+
+2009-05-16  Stephan Arts <stephan@xfce.org>
+
+	* src/image.c
+	  src/image.h
+	  src/main_window.c
+	  src/picture_viewer.c
+	  src/image_transformation.h
+	  src/image_transformation.c
+	  src/image_transform_orientation.h
+	  src/image_transform_orientation.c
+	  src/Makefile.am: Re-implement image-rotation, now it finally works with
+	  the new rendering method.
+
+
+2009-05-15  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Set current_uri on open_folder dialog
+	* src/image.c
+	  src/image.h
+	  src/picture_viewer.c: Remove state-machine, breaks things
+
+2009-05-15  Stephan Arts <stephan@xfce.org>
+
+	* src/image.c
+	  src/image.h
+	  src/picture_viewer.c: Implement state-machine, do not expose weird
+	  signals
+	* src/image.c: Unref animation_iter, fix memleak
+
+2009-05-02  Stephan Arts <stephan@xfce.org>
+
+	* src/image_cache.c: Remove images which return size=0 from the cache,
+	  it might still be loading, in which case it should stop immediately and
+	  be dropped from the cache
+	* src/image.c
+	  src/image.h
+	  src/image_cache.c: calculate cache-size in uint instead of uint64
+
+2009-05-02  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/main_window_ui.xml: Implement save-as function (Bug #4647)
+	* src/navigator.c: Fix iter_find_image function
+	* src/image_cache.h
+	  src/image_cache.c: Return TRUE when the cache had to drop images to
+	  fit the new one.
+	* src/main.c: Fix error when trying to open nonexistent file from the
+	  CLI
+
+2009-05-02  Stephan Arts <stephan@xfce.org>
+
+	* src/image,c
+	  src/image.h
+	  src/image_cache.c: Implement image-cache size calculation (Bug #4064)
+
+2009-05-02  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Add jpeg filter to the open-files dialog
+
+2009-05-01  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Make sure the fullscreen-toolbar gets shown in
+	fullscreen mode when ristretto left fullscreen with sticky set.
+
+2009-04-30  Stephan Arts <stephan@xfce.org>
+
+	* src/picture_viewer.c: Implement a hack to check if the pixbuf has
+	been rotated.
+
+2009-04-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/main_window_ui.xml: Add Sticky button to the fullscreen-toolbar.
+
+2009-04-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/main_window_ui.xml: Set is_important hint on 'leave-fullscreen' 
+	  toolitem.
+
+2009-04-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/main_window_ui.xml: Add 'fullscreen-toolbar' with controls when in
+	  fullscreen-mode.  
+
+2009-04-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c
+	  src/picture_viewer.c
+	  src/picture_viewer.h: Let the pictureviewer figure out the fullscreen-
+	  state of it's parent-window by itself
+
+2009-04-28  Stephan Arts <stephan@xfce.org>
+
+	* src/image.c
+	  src/picture_viewer.c: Emit 'prepared' signal when the size-prepared signal
+	  is emitted, instead of waiting for the area-prepared signal. When the
+	  image is rendered at a different scale then 'maximum', the 
+	  'area-prepared', 'area-updated' and 'closed' signals are all emitted at 
+	  once. Then the thumbnail is not displayed when the image is not ready yet.
+	* src/picture_viewer.c: Do not repaint the image when the image is
+	  'prepared' but there is no thumbnail available. This will prevent the
+	  image from flickering.
+	* src/image_cache.c: Implement 'enable'/'disable' of image-cache
+	* src/main_window_ui.xml
+	  src/main_window.c: Remove properties dialog menu item
+	* src/picture_viewer.c: Add a 'fullscreen' state, setting a different
+	  background-color if it is in fullscreen.
+
 2009-05-15 16:51  stephan
 
 	* src/navigator.c:
@@ -3150,4 +3394,3 @@
 
 	* .:
 	  Adding ristretto/{tags,branches,trunk}
-

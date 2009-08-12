@@ -1,3 +1,12 @@
+0.x.x
+=====
+- Remove dependency on thunar
+- Port to GIO instead of thunarvfs
+- Add option to select maximum render quality (can improve performance at the
+  cost of image-quality)
+- Store the settings in xfconf
+- Add option to completely disable the image-cache
+
 0.0.22
 ======
 

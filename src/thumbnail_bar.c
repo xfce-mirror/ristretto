@@ -19,23 +19,28 @@
 #include <gtk/gtkmarshal.h>
 #include <string.h>
 
-#include <thunar-vfs/thunar-vfs.h>
+#include <gio/gio.h>
+
+#include <libxfcegui4/libxfcegui4.h>
 #include <libexif/exif-data.h>
 
-#include "navigator.h"
+#include "image.h"
+#include "image_list.h"
 #include "thumbnail.h"
 #include "thumbnail_bar.h"
 
 struct _RsttoThumbnailBarPriv
 {
     GtkOrientation  orientation;
-    RsttoNavigator *navigator;
     gint dimension;
     gint offset;
     gboolean auto_center;
     gint begin;
     gint end;
-    GSList *thumbs;
+    RsttoImageList     *image_list;
+    RsttoImageListIter *iter;
+    RsttoImageListIter *internal_iter;
+    GList *thumbs;
     gint scroll_speed;
     struct
     {
@@ -62,12 +67,21 @@ rstto_thumbnail_bar_realize(GtkWidget *widget);
 static void
 rstto_thumbnail_bar_unrealize(GtkWidget *widget);
 
+static void
+cb_rstto_thumbnail_bar_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, gpointer user_data);
+static void
+cb_rstto_thumbnail_bar_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image, gpointer user_data);
+static void
+cb_rstto_thumbnail_bar_image_list_remove_all (RsttoImageList *image_list, gpointer user_data);
+void
+cb_rstto_thumbnail_bar_image_list_iter_changed (RsttoImageListIter *iter, gpointer user_data);
+
 static gboolean
-cb_rstto_thumbnail_bar_thumbnail_button_press_event (RsttoThumbnail *thumb, GdkEventButton *event);
+cb_rstto_thumbnail_bar_thumbnail_button_press_event (GtkWidget *thumb, GdkEventButton *event);
 static gboolean
-cb_rstto_thumbnail_bar_thumbnail_button_release_event (RsttoThumbnail *thumb, GdkEventButton *event);
+cb_rstto_thumbnail_bar_thumbnail_button_release_event (GtkWidget *thumb, GdkEventButton *event);
 static gboolean 
-cb_rstto_thumbnail_bar_thumbnail_motion_notify_event (RsttoThumbnail *thumb,
+cb_rstto_thumbnail_bar_thumbnail_motion_notify_event (GtkWidget *thumb,
                                              GdkEventMotion *event,
                                              gpointer user_data);
 
@@ -88,31 +102,13 @@ rstto_thumbnail_bar_child_type(GtkContainer *container);
 static GtkWidgetClass *parent_class = NULL;
 
 static void
-cb_rstto_thumbnail_bar_nav_new_entry (RsttoNavigator *nav,
-                                    gint nr,
-                                    RsttoNavigatorEntry *entry,
-                                    RsttoThumbnailBar *bar);
-static void
-cb_rstto_thumbnail_bar_nav_iter_changed (RsttoNavigator *nav,
-                                       gint nr,
-                                       RsttoNavigatorEntry *entry,
-                                       RsttoThumbnailBar *bar);
-static void
-cb_rstto_thumbnail_bar_nav_reordered (RsttoNavigator *nav,
-                                    RsttoThumbnailBar *bar);
-static void
-cb_rstto_thumbnail_bar_nav_entry_removed(RsttoNavigator *nav,
-                                    RsttoNavigatorEntry *entry,
-                                    RsttoThumbnailBar *bar);
-
-static void
-cb_rstto_thumbnail_bar_thumbnail_clicked (RsttoThumbnail *thumb, RsttoThumbnailBar *bar);
+cb_rstto_thumbnail_bar_thumbnail_clicked (GtkWidget *thumb, RsttoThumbnailBar *bar);
 
 static gint
-cb_rstto_thumbnail_bar_compare (RsttoThumbnail *a, RsttoThumbnail *b);
+cb_rstto_thumbnail_bar_compare (GtkWidget *a, GtkWidget *b, gpointer);
 
 GType
-rstto_thumbnail_bar_get_type ()
+rstto_thumbnail_bar_get_type (void)
 {
     static GType rstto_thumbnail_bar_type = 0;
 
@@ -150,7 +146,7 @@ rstto_thumbnail_bar_init(RsttoThumbnailBar *bar)
     gtk_widget_set_events (GTK_WIDGET(bar),
                            GDK_SCROLL_MASK);
 
-    bar->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
+    bar->priv->orientation = GTK_ORIENTATION_VERTICAL;
     bar->priv->offset = 0;
     bar->priv->scroll_speed = 20;
 
@@ -200,17 +196,15 @@ rstto_thumbnail_bar_size_request(GtkWidget *widget, GtkRequisition *requisition)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
     gint border_width = GTK_CONTAINER(bar)->border_width;
+    GList *iter;
+	GtkRequisition child_requisition;
 
     gtk_widget_style_get(widget, "border-width", &border_width, NULL);
-
-    GSList *iter;
-
-	GtkRequisition child_requisition;
 
     requisition->height = 70;
     requisition->width = 70;
 
-    for(iter = bar->priv->thumbs; iter; iter = g_slist_next(iter))
+    for(iter = bar->priv->thumbs; iter; iter = g_list_next(iter))
     {
 		gtk_widget_size_request(GTK_WIDGET(iter->data), &child_requisition);
 		requisition->width = MAX(child_requisition.width, requisition->width);
@@ -230,17 +224,18 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
     gint border_width = GTK_CONTAINER(bar)->border_width;
     gint spacing = 0;
-	gtk_widget_style_get(widget, "spacing", &spacing, NULL);
-    widget->allocation = *allocation;
     GtkAllocation child_allocation;
     GtkRequisition child_requisition;
+    GList *iter = bar->priv->thumbs;
+
+	gtk_widget_style_get(widget, "spacing", &spacing, NULL);
+    widget->allocation = *allocation;
 
     child_allocation.x = border_width;
     child_allocation.y = border_width;
     child_allocation.height = border_width * 2;
     child_allocation.width = border_width * 2;
 
-    GSList *iter = bar->priv->thumbs;
 
     if (GTK_WIDGET_REALIZED(widget))
     {
@@ -266,17 +261,9 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 
                 if (bar->priv->auto_center == TRUE)
                 {
-                    if (g_slist_position(bar->priv->thumbs, iter) < rstto_navigator_get_position(bar->priv->navigator))
-                    {
-                        bar->priv->offset += child_requisition.width + spacing;
-                    }
-                    if (g_slist_position(bar->priv->thumbs, iter) == rstto_navigator_get_position(bar->priv->navigator))
-                    {
-                        bar->priv->offset += (0.5 * child_requisition.width);
-                    }
                 }
 
-                iter = g_slist_next(iter);
+                iter = g_list_next(iter);
             }
 
             child_allocation.x -= bar->priv->offset;
@@ -287,7 +274,7 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
             {
                 gtk_widget_get_child_requisition(GTK_WIDGET(iter->data), &child_requisition);
                 child_allocation.height = allocation->height - (border_width * 2);
-                child_allocation.width = child_requisition.width;
+                child_allocation.width = child_allocation.height;
 
                 if ((child_allocation.x < (allocation->x + allocation->width)) &&
                     ((child_allocation.x + child_allocation.width) > allocation->x + border_width))
@@ -298,8 +285,8 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
                 else
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), FALSE);
 
-                child_allocation.x += child_requisition.width + spacing;
-                iter = g_slist_next(iter);
+                child_allocation.x += child_allocation.width + spacing;
+                iter = g_list_next(iter);
             }
             break;
         case GTK_ORIENTATION_VERTICAL:
@@ -314,17 +301,9 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 
                 if (bar->priv->auto_center == TRUE)
                 {
-                    if (g_slist_position(bar->priv->thumbs, iter) < rstto_navigator_get_position(bar->priv->navigator))
-                    {
-                        bar->priv->offset += child_requisition.height + spacing;
-                    }
-                    if (g_slist_position(bar->priv->thumbs, iter) == rstto_navigator_get_position(bar->priv->navigator))
-                    {
-                        bar->priv->offset += (0.5 * child_requisition.height);
-                    }
                 }
 
-                iter = g_slist_next(iter);
+                iter = g_list_next(iter);
             }
 
             child_allocation.y -= bar->priv->offset;
@@ -336,7 +315,7 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 
                 gtk_widget_get_child_requisition(GTK_WIDGET(iter->data), &child_requisition);
                 child_allocation.width = allocation->width - (border_width * 2);
-                child_allocation.height = child_requisition.height;
+                child_allocation.height = child_allocation.width;
 
                 if (child_allocation.y < (allocation->y + allocation->height))
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), TRUE);
@@ -344,8 +323,8 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), FALSE);
 
                 gtk_widget_size_allocate(GTK_WIDGET(iter->data), &child_allocation);
-                child_allocation.y += child_requisition.height + spacing;
-                iter = g_slist_next(iter);
+                child_allocation.y += child_allocation.height + spacing;
+                iter = g_list_next(iter);
             }
             break;
     }
@@ -356,7 +335,7 @@ rstto_thumbnail_bar_expose(GtkWidget *widget, GdkEventExpose *ex)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(widget);
 
-    GSList *iter = bar->priv->thumbs;
+    GList *iter = bar->priv->thumbs;
 
     GdkEventExpose *n_ex = g_new0(GdkEventExpose, 1);
 
@@ -450,7 +429,7 @@ rstto_thumbnail_bar_expose(GtkWidget *widget, GdkEventExpose *ex)
                     break;
             }
         }
-        iter = g_slist_next(iter);
+        iter = g_list_next(iter);
     }
 
     return FALSE;
@@ -500,22 +479,36 @@ rstto_thumbnail_bar_unrealize(GtkWidget *widget)
 }
 
 GtkWidget *
-rstto_thumbnail_bar_new(RsttoNavigator *navigator)
+rstto_thumbnail_bar_new (RsttoImageList *nav)
 {
     RsttoThumbnailBar *bar;
 
     bar = g_object_new(RSTTO_TYPE_THUMBNAIL_BAR, NULL);
 
-    bar->priv->navigator = navigator;
-
-    g_signal_connect(G_OBJECT(navigator), "new-entry", G_CALLBACK(cb_rstto_thumbnail_bar_nav_new_entry), bar);
-    g_signal_connect(G_OBJECT(navigator), "iter-changed", G_CALLBACK(cb_rstto_thumbnail_bar_nav_iter_changed), bar);
-    g_signal_connect(G_OBJECT(navigator), "reordered", G_CALLBACK(cb_rstto_thumbnail_bar_nav_reordered), bar);
-    g_signal_connect(G_OBJECT(navigator), "entry-removed", G_CALLBACK(cb_rstto_thumbnail_bar_nav_entry_removed), bar);
+    rstto_thumbnail_bar_set_image_list (bar, nav);
 
     return (GtkWidget *)bar;
 }
 
+void
+rstto_thumbnail_bar_set_image_list (RsttoThumbnailBar *bar, RsttoImageList *nav)
+{
+    if (bar->priv->image_list)
+    {
+        g_object_unref (bar->priv->image_list);
+        bar->priv->image_list = NULL;
+    }
+
+    bar->priv->image_list = nav;
+
+    if (bar->priv->image_list)
+    {
+        g_signal_connect (G_OBJECT (bar->priv->image_list), "new-image", G_CALLBACK (cb_rstto_thumbnail_bar_image_list_new_image), bar);
+        g_signal_connect (G_OBJECT (bar->priv->image_list), "remove-image", G_CALLBACK (cb_rstto_thumbnail_bar_image_list_remove_image), bar);
+        g_signal_connect (G_OBJECT (bar->priv->image_list), "remove-all", G_CALLBACK (cb_rstto_thumbnail_bar_image_list_remove_all), bar);
+        g_object_ref (nav);
+    }
+}
 /*
  * rstto_thumbnail_bar_set_orientation:
  *
@@ -546,25 +539,26 @@ rstto_thumbnail_bar_get_orientation (RsttoThumbnailBar *bar)
 static void
 rstto_thumbnail_bar_add(GtkContainer *container, GtkWidget *child)
 {
-	g_return_if_fail(GTK_IS_WIDGET(child));
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(container);
+	g_return_if_fail(GTK_IS_WIDGET(child));
 
 	gtk_widget_set_parent(child, GTK_WIDGET(container));
 
-    bar->priv->thumbs = g_slist_insert_sorted(bar->priv->thumbs, child, (GCompareFunc)cb_rstto_thumbnail_bar_compare);
+    bar->priv->thumbs = g_list_insert_sorted_with_data (bar->priv->thumbs, child, (GCompareDataFunc)cb_rstto_thumbnail_bar_compare, bar);
 }
 
 static void
 rstto_thumbnail_bar_remove(GtkContainer *container, GtkWidget *child)
 {
-	g_return_if_fail(GTK_IS_WIDGET(child));
-
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(container);
 	gboolean widget_was_visible;
 
+	g_return_if_fail(GTK_IS_WIDGET(child));
+
+
 	widget_was_visible = GTK_WIDGET_VISIBLE(child);
 
-    bar->priv->thumbs = g_slist_remove(bar->priv->thumbs, child);
+    bar->priv->thumbs = g_list_remove(bar->priv->thumbs, child);
 
 	gtk_widget_unparent(child);
 
@@ -580,7 +574,7 @@ rstto_thumbnail_bar_forall(GtkContainer *container, gboolean include_internals, 
 
     g_return_if_fail(callback != NULL);
 
-    g_slist_foreach(bar->priv->thumbs, (GFunc)callback, callback_data);
+    g_list_foreach(bar->priv->thumbs, (GFunc)callback, callback_data);
 
 }
 
@@ -590,163 +584,18 @@ rstto_thumbnail_bar_child_type(GtkContainer *container)
     return GTK_TYPE_WIDGET;
 }
 
-/*
- * cb_rstto_thumbnail_bar_nav_new_entry :
- *
- * @nav    : RsttoNavigator 
- * @nr     : nr
- * @entry  :
- * @bar :
- *
- */
-static void
-cb_rstto_thumbnail_bar_nav_new_entry(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailBar *bar)
-{
-    GtkWidget *thumb;
-    if (g_slist_length(bar->priv->thumbs) > 0)
-    {
-        thumb = rstto_thumbnail_new_from_widget(entry, bar->priv->thumbs->data);
-    }
-    else
-    {
-        thumb = rstto_thumbnail_new(entry, NULL);
-    }
-    g_signal_connect(G_OBJECT(thumb), "clicked", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_clicked), bar);
-    g_signal_connect(G_OBJECT(thumb), "button_press_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_button_press_event), NULL);
-    g_signal_connect(G_OBJECT(thumb), "button_release_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_button_release_event), NULL);
-    g_signal_connect(G_OBJECT(thumb), "motion_notify_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_motion_notify_event), NULL);
-    gtk_container_add(GTK_CONTAINER(bar), thumb);
-    gtk_widget_show(thumb);
-}
-
-/*
- * cb_rstto_thumbnail_bar_nav_iter_changed :
- *
- * @nav    : RsttoNavigator 
- * @nr     : nr
- * @entry  :
- * @bar :
- *
- */
-static void
-cb_rstto_thumbnail_bar_nav_iter_changed(RsttoNavigator *nav, gint nr, RsttoNavigatorEntry *entry, RsttoThumbnailBar *bar)
-{
-    if (nr == -1)
-    {
-        gtk_container_foreach(GTK_CONTAINER(bar), (GtkCallback)gtk_widget_destroy, NULL);
-    }
-    GSList *iter = bar->priv->thumbs;
-
-
-    int i = 0;
-
-    while (iter != NULL)
-    {
-        if (entry == rstto_thumbnail_get_entry(RSTTO_THUMBNAIL(iter->data)))
-        {
-            //gtk_button_clicked(GTK_BUTTON(iter->data));
-            break;
-        }
-        i++;
-        iter = g_slist_next(iter);
-    }
-
-    /* If the children should be autocentered... resize */
-    /*
-     * if (bar->priv->auto_center == TRUE)
-     *   gtk_widget_queue_resize(GTK_WIDGET(bar));
-     */
-
-     gtk_widget_queue_resize(GTK_WIDGET(bar));
-}
-
-/*
- * cb_rstto_thumbnail_bar_nav_reordered :
- *
- * @nav    : RsttoNavigator 
- * @bar :
- *
- */
-static void
-cb_rstto_thumbnail_bar_nav_reordered (RsttoNavigator *nav, RsttoThumbnailBar *bar)
-{
-    gtk_container_foreach(GTK_CONTAINER(bar), (GtkCallback)gtk_widget_destroy, NULL);
-    if (bar->priv->thumbs)
-    {
-        g_slist_free(bar->priv->thumbs);
-        bar->priv->thumbs = NULL;
-    }
-
-    GtkWidget *thumb;
-    gint i;
-    gint n_files = rstto_navigator_get_n_files(bar->priv->navigator);
-
-    for (i = 0; i < n_files; ++i)
-    {
-        RsttoNavigatorEntry *entry = rstto_navigator_get_nth_file(bar->priv->navigator, i);
-        if (g_slist_length(bar->priv->thumbs) > 0)
-        {
-            thumb = rstto_thumbnail_new_from_widget(entry, bar->priv->thumbs->data);
-        }
-        else
-        {
-            thumb = rstto_thumbnail_new(entry, NULL);
-        }
-
-
-        g_signal_connect(G_OBJECT(thumb), "clicked", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_clicked), bar);
-        g_signal_connect(G_OBJECT(thumb), "button_press_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_button_press_event), NULL);
-        g_signal_connect(G_OBJECT(thumb), "button_release_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_button_release_event), NULL);
-        g_signal_connect(G_OBJECT(thumb), "motion_notify_event", G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_motion_notify_event), NULL);
-        gtk_container_add(GTK_CONTAINER(bar), thumb);
-
-        if (rstto_navigator_entry_is_selected(entry))
-        {
-            RSTTO_THUMBNAIL(thumb)->selected = TRUE;
-        }
-    }
-
-    gtk_container_foreach(GTK_CONTAINER(bar), (GtkCallback)gtk_widget_show, NULL);
-
-
-
-    /* If the children should be autocentered... resize */
-    /*
-     * if (bar->priv->auto_center == TRUE)
-     *   gtk_widget_queue_resize(GTK_WIDGET(bar));
-     */
-
-     gtk_widget_queue_resize(GTK_WIDGET(bar));
-}
-
-static void
-cb_rstto_thumbnail_bar_thumbnail_clicked (RsttoThumbnail *thumb, RsttoThumbnailBar *bar)
-{
-    if (thumb->selected == TRUE)
-    {
-        bar->priv->auto_center = TRUE;
-        rstto_navigator_entry_select (rstto_thumbnail_get_entry(thumb));
-    }
-}
-
 static gint
-cb_rstto_thumbnail_bar_compare (RsttoThumbnail *a, RsttoThumbnail *b)
+cb_rstto_thumbnail_bar_compare (GtkWidget *a, GtkWidget *b, gpointer user_data)
 {
-    RsttoNavigatorEntry *_a = rstto_thumbnail_get_entry(a);
-    RsttoNavigatorEntry *_b = rstto_thumbnail_get_entry(b);
+    RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
+    RsttoImage *a_i = rstto_thumbnail_get_image (RSTTO_THUMBNAIL (a));
+    RsttoImage *b_i = rstto_thumbnail_get_image (RSTTO_THUMBNAIL (b));
 
-    if (rstto_navigator_entry_get_position(_a) < rstto_navigator_entry_get_position(_b))
-    {
-        return -1;
-    }
-    else
-    {
-        return 1;
-    }
+    return rstto_image_list_get_compare_func (bar->priv->image_list) (a_i, b_i);
 }
 
 static gboolean
-cb_rstto_thumbnail_bar_thumbnail_button_press_event (RsttoThumbnail *thumb, GdkEventButton *event)
+cb_rstto_thumbnail_bar_thumbnail_button_press_event (GtkWidget *thumb, GdkEventButton *event)
 {
     if(event->button == 1)
     {
@@ -769,7 +618,7 @@ cb_rstto_thumbnail_bar_thumbnail_button_press_event (RsttoThumbnail *thumb, GdkE
 }
 
 static gboolean
-cb_rstto_thumbnail_bar_thumbnail_button_release_event (RsttoThumbnail *thumb, GdkEventButton *event)
+cb_rstto_thumbnail_bar_thumbnail_button_release_event (GtkWidget *thumb, GdkEventButton *event)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(gtk_widget_get_parent(GTK_WIDGET(thumb)));
     if(event->button == 1)
@@ -786,7 +635,7 @@ cb_rstto_thumbnail_bar_thumbnail_button_release_event (RsttoThumbnail *thumb, Gd
 }
 
 static gboolean 
-cb_rstto_thumbnail_bar_thumbnail_motion_notify_event (RsttoThumbnail *thumb,
+cb_rstto_thumbnail_bar_thumbnail_motion_notify_event (GtkWidget *thumb,
                                                       GdkEventMotion *event,
                                                       gpointer user_data)
 {
@@ -822,7 +671,7 @@ cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
                                      gpointer *user_data)
 {
     gint thumb_size;
-    GSList *thumb;
+    GList *thumb;
     gint border_width = GTK_CONTAINER(bar)->border_width;
 
     switch(event->direction)
@@ -859,10 +708,10 @@ cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
                 {
                     case GTK_ORIENTATION_HORIZONTAL:
                         thumb_size = GTK_WIDGET(bar->priv->thumbs->data)->allocation.width;
-                        for (thumb = bar->priv->thumbs; thumb != NULL; thumb = g_slist_next(thumb))
+                        for (thumb = bar->priv->thumbs; thumb != NULL; thumb = g_list_next(thumb))
                         {
                             size += GTK_WIDGET(thumb->data)->allocation.width;
-                            if (g_slist_next(thumb))
+                            if (g_list_next(thumb))
                                 size += border_width;
                         }
                         if ((size - thumb_size) <= bar->priv->offset)
@@ -870,10 +719,10 @@ cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
                         break;
                     case GTK_ORIENTATION_VERTICAL:
                         thumb_size = GTK_WIDGET(bar->priv->thumbs->data)->allocation.height;
-                        for (thumb = bar->priv->thumbs; thumb != NULL; thumb = g_slist_next(thumb))
+                        for (thumb = bar->priv->thumbs; thumb != NULL; thumb = g_list_next(thumb))
                         {
                             size += GTK_WIDGET(thumb->data)->allocation.height;
-                            if (g_slist_next(thumb))
+                            if (g_list_next(thumb))
                                 size += border_width;
                         }
                         if ((size - thumb_size) <= bar->priv->offset)
@@ -888,19 +737,90 @@ cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
 
 }
 
-static void
-cb_rstto_thumbnail_bar_nav_entry_removed(RsttoNavigator *nav, RsttoNavigatorEntry *entry, RsttoThumbnailBar *bar)
+void
+rstto_thumbnail_bar_set_iter (RsttoThumbnailBar *bar, RsttoImageListIter *iter)
 {
-    GSList *iter = bar->priv->thumbs;
-
-    while (iter != NULL)
+    if (bar->priv->iter)
     {
-        if (entry == rstto_thumbnail_get_entry(RSTTO_THUMBNAIL(iter->data)))
+        g_signal_handlers_disconnect_by_func (bar->priv->iter, cb_rstto_thumbnail_bar_image_list_iter_changed, bar);
+
+        g_object_unref (bar->priv->iter);
+        g_object_unref (bar->priv->internal_iter);
+        bar->priv->internal_iter = NULL;
+    }
+
+    bar->priv->iter = iter;
+
+    if (bar->priv->iter)
+    {
+        g_object_ref (bar->priv->iter);
+        bar->priv->internal_iter = rstto_image_list_iter_clone (bar->priv->iter);
+        g_signal_connect (bar->priv->iter, "changed", G_CALLBACK (cb_rstto_thumbnail_bar_image_list_iter_changed), bar);
+    }
+}
+
+void
+cb_rstto_thumbnail_bar_image_list_iter_changed (RsttoImageListIter *iter, gpointer user_data)
+{
+    RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
+    /* useless, but keepsthe compiler silent */
+    bar->priv->begin=0;
+}
+
+static void
+cb_rstto_thumbnail_bar_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, gpointer user_data)
+{
+    RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
+    GtkWidget *thumb;
+
+    g_return_if_fail (rstto_image_list_iter_find_image (bar->priv->internal_iter, image));
+
+    thumb = rstto_thumbnail_new (image);
+
+    gtk_container_add (GTK_CONTAINER (bar), thumb);
+    gtk_widget_show_all (thumb);
+
+    g_signal_connect (thumb, "clicked", G_CALLBACK (cb_rstto_thumbnail_bar_thumbnail_clicked), bar);
+    g_signal_connect (thumb, "button_press_event", G_CALLBACK (cb_rstto_thumbnail_bar_thumbnail_button_press_event), bar);
+    g_signal_connect (thumb, "button_release_event", G_CALLBACK (cb_rstto_thumbnail_bar_thumbnail_button_release_event), bar);
+    g_signal_connect (thumb, "motion_notify_event", G_CALLBACK (cb_rstto_thumbnail_bar_thumbnail_motion_notify_event), bar);
+}
+
+static void
+cb_rstto_thumbnail_bar_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image, gpointer user_data)
+{
+    RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
+    GList *iter = bar->priv->thumbs;
+
+    while (iter)
+    {
+        if (rstto_thumbnail_get_image (iter->data) == image)
         {
-            g_signal_handlers_disconnect_by_func(G_OBJECT(iter->data), G_CALLBACK(cb_rstto_thumbnail_bar_thumbnail_clicked), bar);
-            gtk_widget_destroy(GTK_WIDGET(iter->data));
+            GtkWidget *widget = iter->data;
+            gtk_container_remove (GTK_CONTAINER (bar), widget);
             break;
         }
-        iter = g_slist_next(iter);
+        iter = g_list_next (iter);
     }
+}
+
+static void
+cb_rstto_thumbnail_bar_image_list_remove_all (RsttoImageList *image_list, gpointer user_data)
+{
+    RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
+    if (bar->priv->thumbs)
+    {
+        g_list_foreach (bar->priv->thumbs, (GFunc)(gtk_widget_destroy), NULL);
+        g_list_free (bar->priv->thumbs);
+        bar->priv->thumbs = NULL;
+    }
+}
+
+
+
+static void
+cb_rstto_thumbnail_bar_thumbnail_clicked (GtkWidget *thumb, RsttoThumbnailBar *bar)
+{
+    g_return_if_fail (bar->priv->iter);
+    rstto_image_list_iter_set_position (bar->priv->iter, g_list_index(bar->priv->thumbs, thumb));
 }

@@ -1,0 +1,21 @@
+- Implement preferences dialog
+- Generate and save thumbnails (contact thumbler)
+
+- Support setting wallpapers
+    - xfdesktop
+    - nautilus
+    - rox
+
+- Implement box-zoom
+
+- Add preloading
+- Improve cache calculation
+
+- Write comments
+
+- Implement thumbnailbar
+
+- Support image collections
+    - Export to tarball/zip
+
+- Configure printing-settings

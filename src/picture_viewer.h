@@ -1,4 +1,6 @@
 /*
+ *  Copyright (C) Stephan Arts 2006-2009 <stephan@xfce.org>
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -39,13 +41,6 @@ G_BEGIN_DECLS
         G_TYPE_CHECK_CLASS_TYPE ((klass), \
                 RSTTO_TYPE_PICTURE_VIEWER()))
 
-typedef enum
-{
-    RSTTO_ZOOM_MODE_100,
-    RSTTO_ZOOM_MODE_FIT,
-    RSTTO_ZOOM_MODE_CUSTOM
-} RsttoZoomMode;
-
 typedef struct _RsttoPictureViewerPriv RsttoPictureViewerPriv;
 
 typedef struct _RsttoPictureViewer RsttoPictureViewer;
@@ -72,11 +67,20 @@ struct _RsttoPictureViewerClass
 
 GType      rstto_picture_viewer_get_type();
 
-GtkWidget *rstto_picture_viewer_new(RsttoNavigator *navigator);
-void       rstto_picture_viewer_set_scale(RsttoPictureViewer *viewer, gdouble scale);
+GtkWidget *rstto_picture_viewer_new ();
+void       rstto_picture_viewer_set_iter (RsttoPictureViewer *, RsttoImageListIter *);
 gdouble    rstto_picture_viewer_get_scale(RsttoPictureViewer *viewer);
+void       rstto_picture_viewer_set_scale (RsttoPictureViewer *,gdouble);
+
+void       rstto_picture_viewer_zoom_fit (RsttoPictureViewer *viewer);
+void       rstto_picture_viewer_zoom_100 (RsttoPictureViewer *viewer);
+void       rstto_picture_viewer_zoom_in  (RsttoPictureViewer *viewer, gdouble factor);
+void       rstto_picture_viewer_zoom_out (RsttoPictureViewer *viewer, gdouble factor);
+
+void       rstto_picture_viewer_set_menu (RsttoPictureViewer *viewer, GtkMenu *menu);
+
+/**
 gdouble    rstto_picture_viewer_fit_scale(RsttoPictureViewer *viewer);
-void       rstto_picture_viewer_set_timeout(RsttoPictureViewer *viewer, gboolean timeout);
 
 void       rstto_picture_viewer_set_menu (RsttoPictureViewer *viewer, GtkMenu *menu);
 void       rstto_picture_viewer_set_bg_color (RsttoPictureViewer *viewer, const GdkColor *color);
@@ -84,8 +88,7 @@ const GdkColor *
 rstto_picture_viewer_get_bg_color (RsttoPictureViewer *viewer);
 
 void       rstto_picture_viewer_redraw (RsttoPictureViewer *viewer);
-void
-rstto_picture_viewer_set_zoom_mode(RsttoPictureViewer *viewer, RsttoZoomMode mode);
+*/
 
 G_END_DECLS
 

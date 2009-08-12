@@ -60,77 +60,14 @@ struct _RsttoMainWindowClass
 
 typedef enum {
     RSTTO_DESKTOP_NONE,
-    RSTTO_DESKTOP_XFCE
+    RSTTO_DESKTOP_XFCE,
+    RSTTO_DESKTOP_GNOME
 } RsttoDesktop;
-
-static gboolean rstto_has_xfconf_query = FALSE;
 
 
 GType      rstto_main_window_get_type();
 
-GtkWidget *rstto_main_window_new();
-
-void
-rstto_main_window_set_thumbnail_viewer_orientation(RsttoMainWindow *window, GtkOrientation orientation);
-void
-rstto_main_window_set_show_thumbnail_viewer (RsttoMainWindow *window, gboolean visibility);
-void
-rstto_main_window_set_show_toolbar (RsttoMainWindow *window, gboolean visibility);
-gboolean
-rstto_main_window_get_show_toolbar (RsttoMainWindow *window);
-gboolean
-rstto_main_window_get_show_thumbnail_viewer (RsttoMainWindow *window);
-GtkOrientation
-rstto_main_window_get_thumbnail_viewer_orientation (RsttoMainWindow *window);
-RsttoNavigator *
-rstto_main_window_get_navigator (RsttoMainWindow *window);
-GtkRecentManager *
-rstto_main_window_get_recent_manager (RsttoMainWindow *window);
-
-
-gdouble
-rstto_main_window_get_slideshow_timeout (RsttoMainWindow *window);
-gboolean
-rstto_main_window_get_hide_thumbnails (RsttoMainWindow *window);
-gint
-rstto_main_window_get_max_cache_size (RsttoMainWindow *window);
-void
-rstto_main_window_set_slideshow_timeout (RsttoMainWindow *window, gdouble timeout);
-void
-rstto_main_window_set_hide_thumbnails (RsttoMainWindow *window, gboolean hide);
-void
-rstto_main_window_set_max_cache_size (RsttoMainWindow *window, gint max_cache_size);
-void
-rstto_main_window_set_pv_bg_color (RsttoMainWindow *window, const GdkColor *color);
-const GdkColor *
-rstto_main_window_get_pv_bg_color (RsttoMainWindow *window);
-
-void
-rstto_main_window_set_start_fullscreen (RsttoMainWindow *window, gboolean fullscreen);
-void
-rstto_main_window_set_start_slideshow (RsttoMainWindow *window, gboolean slideshow);
-void
-rstto_main_window_force_fullscreen (RsttoMainWindow *window);
-void
-rstto_main_window_force_slideshow (RsttoMainWindow *window);
-
-void
-rstto_main_window_set_scale_to_100 (RsttoMainWindow *window, gboolean scale_to_100);
-gboolean
-rstto_main_window_get_scale_to_100 (RsttoMainWindow *window);
-
-GtkStatusbar *
-rstto_main_window_get_statusbar(RsttoMainWindow *window);
-gint
-rstto_main_window_get_desktop(RsttoMainWindow *window);
-gint
-rstto_main_window_set_desktop(RsttoMainWindow *window, RsttoDesktop desktop);
-gboolean
-rstto_main_window_get_hide_thumbnail (RsttoMainWindow *window);
-void
-rstto_main_window_set_hide_thumbnail (RsttoMainWindow *window, gboolean hide);
-void
-rstto_main_window_set_start_fullscreen (RsttoMainWindow *window, gboolean fullscreen);
+GtkWidget *rstto_main_window_new (RsttoImageList *, gboolean);
 
 G_END_DECLS
 

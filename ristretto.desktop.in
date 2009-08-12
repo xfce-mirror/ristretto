@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
-_Name=Ristretto
-_Comment=Xfce Image viewer
+_Name=Ristretto Photo Viewer
+_Comment=Look at your photo's easily
 _GenericName=Image Viewer
 Exec=ristretto %F
 Icon=ristretto

@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = src po icons
+SUBDIRS = src po icons docs
 
 desktopdir = $(datadir)/applications
 desktop_in_files = ristretto.desktop.in
@@ -21,3 +21,5 @@ DISTCLEANFILES = \
 	intltool-merge \
 	intltool-update \
 	$(desktop_DATA)
+
+DISTCHECK_CONFIGURE_FLAGS=--enable-xsltproc
