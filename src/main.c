@@ -282,6 +282,7 @@ int main(int argc, char **argv)
     gtk_widget_ref(window);
 
     RsttoNavigator *navigator = rstto_main_window_get_navigator(RSTTO_MAIN_WINDOW(window));
+    g_object_ref (navigator);
 
     navigator->preload = preload_imgs;
 
@@ -371,6 +372,7 @@ int main(int argc, char **argv)
     xfce_rc_flush(xfce_rc);
     xfce_rc_close(xfce_rc);
     gtk_widget_unref(window);
+    g_object_unref (navigator);
 
     return 0;
 }
