@@ -8,28 +8,28 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-08-10 00:24+0900\n"
-"PO-Revision-Date: 2009-06-17 22:19+0900\n"
+"POT-Creation-Date: 2008-11-14 13:24+0100\n"
+"PO-Revision-Date: 2009-08-17 21:41+0900\n"
 "Last-Translator: Masato Hashimoto <cabezon.hashimoto@gmail.com>\n"
-"Language-Team: Japanese\n"
+"Language-Team: Japanese <xfce-users-jp@ml.fdiary.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../src/main.c:57
+#: ../src/main.c:61
 msgid "Version information"
 msgstr "バージョン情報を表示する"
 
-#: ../src/main.c:61
+#: ../src/main.c:65
 msgid "Start in fullscreen mode"
 msgstr "フルスクリーンモードで開始する"
 
-#: ../src/main.c:65
+#: ../src/main.c:69
 msgid "Start a slideshow"
 msgstr "スライドショーを開始する"
 
-#: ../src/main.c:232
+#: ../src/main.c:235
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -38,215 +38,206 @@ msgstr ""
 "%s: %s\n"
 "%s --help で使用可能な全てのコマンドラインオプションが表示されます。\n"
 
-#: ../src/main.c:445 ../src/main_window.c:1603 ../src/main_window.c:1643
-#: ../src/main_window.c:1680
+#: ../src/main.c:448
+#: ../src/main_window.c:1598
+#: ../src/main_window.c:1638
+#: ../src/main_window.c:1675
 msgid "Opening file(s)..."
 msgstr "ファイルを開いています..."
 
 #. Create 'File' menu
-#: ../src/main_window.c:336
+#: ../src/main_window.c:340
 msgid "_File"
 msgstr "ファイル(_F)"
 
-#: ../src/main_window.c:343
+#: ../src/main_window.c:347
 msgid "O_pen Folder"
 msgstr "フォルダを開く(_P)"
 
-#: ../src/main_window.c:344
+#: ../src/main_window.c:348
 msgid "_Recently used"
 msgstr "最近開いたファイル(_R)"
 
-#: ../src/main_window.c:349
+#: ../src/main_window.c:353
 msgid "Close _all"
 msgstr "全て閉じる(_A)"
 
 #. Create 'Edit' menu
-#: ../src/main_window.c:379
+#: ../src/main_window.c:383
 msgid "_Edit"
 msgstr "編集(_E)"
 
-#: ../src/main_window.c:384 ../src/main_window.c:652
+#: ../src/main_window.c:388
+#: ../src/main_window.c:659
 msgid "Open with..."
 msgstr "アプリケーションで開く..."
 
-#: ../src/main_window.c:392 ../src/main_window.c:663
+#: ../src/main_window.c:396
+#: ../src/main_window.c:670
 msgid "No applications available"
 msgstr "使用可能なアプリケーションはありません"
 
 #. Create 'View' menu
-#: ../src/main_window.c:401
+#: ../src/main_window.c:405
 msgid "_View"
 msgstr "表示(_V)"
 
-#: ../src/main_window.c:408
+#: ../src/main_window.c:412
 msgid "Show _Toolbar"
 msgstr "ツールバーを表示(_T)"
 
-#: ../src/main_window.c:409
+#: ../src/main_window.c:413
 msgid "Thumbnail _Viewer"
 msgstr "サムネイルビューア(_V)"
 
-#: ../src/main_window.c:413
+#: ../src/main_window.c:417
 msgid "_Zooming"
 msgstr "拡大/縮小(_Z)"
 
-#: ../src/main_window.c:414
+#: ../src/main_window.c:418
 msgid "_Rotate"
 msgstr "回転(_R)"
 
-#: ../src/main_window.c:421
+#: ../src/main_window.c:425
 msgid "_Set as wallpaper"
 msgstr "壁紙に設定(_S)"
 
-#: ../src/main_window.c:469
+#: ../src/main_window.c:476
 msgid "Show _Horizontally"
 msgstr "横に表示(_H)"
 
-#: ../src/main_window.c:473
+#: ../src/main_window.c:480
 msgid "Show _Vertically"
 msgstr "縦に表示(_V)"
 
-#: ../src/main_window.c:477
+#: ../src/main_window.c:484
 msgid "H_ide"
 msgstr "表示しない(_I)"
 
-#: ../src/main_window.c:514
+#: ../src/main_window.c:521
 msgid "Rotate _Right"
 msgstr "右回転(_R)"
 
-#: ../src/main_window.c:515
+#: ../src/main_window.c:522
 msgid "Rotate _Left"
 msgstr "左回転(_L)"
 
 #. Create 'Go' menu
-#: ../src/main_window.c:536
+#: ../src/main_window.c:543
 msgid "_Go"
 msgstr "移動(_G)"
 
 #. Create 'Help' menu
-#: ../src/main_window.c:567
+#: ../src/main_window.c:574
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
-#: ../src/main_window.c:901 ../src/main_window.c:1771
-msgid ""
-"The orientation of one or more images has been modified, do you want to save "
-"the changes?"
-msgstr "一つ以上の画像の方向が修正されています。保存しますか?"
+#: ../src/main_window.c:906
+msgid "One or more images have been modified, do you want to save the changes?"
+msgstr "一つ以上の画像が修正されています。保存しますか?"
 
-#: ../src/main_window.c:1399
+#: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
 msgstr "画像ビューア設定"
 
-#: ../src/main_window.c:1417
+#: ../src/main_window.c:1412
 msgid "Display"
 msgstr "表示"
 
-#: ../src/main_window.c:1421
+#: ../src/main_window.c:1416
 msgid "Slideshow"
 msgstr "スライドショー"
 
-#: ../src/main_window.c:1425
+#: ../src/main_window.c:1420
 msgid "Behaviour"
 msgstr "振る舞い"
 
-#: ../src/main_window.c:1430
+#: ../src/main_window.c:1425
 msgid "Scaling"
 msgstr "サイズ変更"
 
-#: ../src/main_window.c:1432
+#: ../src/main_window.c:1427
 msgid "Don't scale over 100% when maximizing the window."
 msgstr "ウィンドウを最大化したときにサイズを 100% より大きくしない"
 
-#: ../src/main_window.c:1442
+#: ../src/main_window.c:1437
 msgid "Background Color"
 msgstr "背景色"
 
-#: ../src/main_window.c:1444
+#: ../src/main_window.c:1439
 msgid "_Override Background Color:"
 msgstr "背景色を変更する(_O):"
 
-#: ../src/main_window.c:1467
+#: ../src/main_window.c:1462
 msgid "Image Cache"
 msgstr "画像キャッシュ"
 
-#: ../src/main_window.c:1470
+#: ../src/main_window.c:1465
 msgid "Cache size:"
 msgstr "キャッシュサイズ:"
 
-#: ../src/main_window.c:1471
+#: ../src/main_window.c:1466
 msgid "MB"
 msgstr "MB"
 
-#: ../src/main_window.c:1473
+#: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 msgstr ""
 "画像の先行読み込み(_P)\n"
 "(GUI の反応が向上しますが、CPU 負荷も上昇します)"
 
-#: ../src/main_window.c:1491
+#: ../src/main_window.c:1486
 msgid "Timeout"
 msgstr "タイムアウト"
 
-#: ../src/main_window.c:1494
+#: ../src/main_window.c:1489
 msgid "Thumbnails"
 msgstr "サムネイル"
 
 # In ja translation, It's unnecessary to break the line.
-#: ../src/main_window.c:1499
+#: ../src/main_window.c:1494
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr "スライドショー中に各画像を表示する時間 (秒)"
 
-#: ../src/main_window.c:1502
+#: ../src/main_window.c:1497
 msgid "Hide the thumbnails bar during slideshow"
 msgstr "スライドショー中はサムネイルを非表示にできます"
 
-#: ../src/main_window.c:1503
+#: ../src/main_window.c:1498
 msgid "_Hide thumbnails"
 msgstr "サムネイルを表示しない(_H)"
 
-#: ../src/main_window.c:1561
+#: ../src/main_window.c:1556
 msgid "Developer:"
 msgstr "開発者:"
 
-#: ../src/main_window.c:1571
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
+#: ../src/main_window.c:1566
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto は Xfce デスクトップ環境向けの\n"
 "軽快で軽量な画像ビューアです。"
 
-#: ../src/main_window.c:1579
+#: ../src/main_window.c:1574
 msgid "translator-credits"
 msgstr "Masato Hashimoto <hashimo@xfce.org>"
 
-#: ../src/main_window.c:1605
+#: ../src/main_window.c:1600
 msgid "Open image"
 msgstr "画像を開く"
 
-#: ../src/main_window.c:1623
+#: ../src/main_window.c:1618
 msgid "Could not open file"
 msgstr "ファイルを開けませんでした"
 
-#: ../src/main_window.c:1645
+#: ../src/main_window.c:1640
 msgid "Open folder"
 msgstr "フォルダを開く"
 
-#: ../src/main_window.c:1720
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
+#: ../src/main_window.c:1715
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "ristretto の最近開いたファイルリストをクリアしてよろしいですか?"
-
-#: ../src/save_dialog.c:82
-msgid "Filename"
-msgstr "ファイル名"
-
-#: ../src/save_dialog.c:90
-msgid "Save"
-msgstr "保存"
 
 #: ../src/thumbnail_bar.c:185
 msgid "Spacing"
@@ -275,3 +266,9 @@ msgstr "Ristretto"
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
 msgstr "Xfce 画像ビューア"
+
+#~ msgid "Filename"
+#~ msgstr "ファイル名"
+#~ msgid "Save"
+#~ msgstr "保存"
+
