@@ -63,14 +63,25 @@
         </menu>
     </menubar>
 
+    <!--
     <popup name="tb-menu">
         <menuitem action="open"/>
+    </popup>
+    -->
+
+    <popup name="navigation-toolbar-menu">
+        <menu action="position-menu">
+            <menuitem action="pos-left"/>
+            <menuitem action="pos-right"/>
+            <menuitem action="pos-top"/>
+            <menuitem action="pos-bottom"/>
+        </menu>
     </popup>
 
     <!--
 
     -->
-    <toolbar name="main-toolbar">
+    <toolbar name="file-toolbar">
         <toolitem action="open"/>
         <toolitem action="open-folder"/>
         <separator />

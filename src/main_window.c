@@ -75,6 +75,7 @@ struct _RsttoMainWindowPriv
     GtkWidget *toolbar;
     GtkWidget *image_list_toolbar;
     GtkWidget *image_list_toolbar_menu;
+    GtkWidget *position_menu;
     GtkWidget *picture_viewer;
     GtkWidget *p_viewer_s_window;
     GtkWidget *table;
@@ -188,6 +189,13 @@ static void
 cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window);
 
 static void
+cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *, GtkRadioAction *,  RsttoMainWindow *window);
+static void
+cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+
+static void
 cb_rstto_main_window_print (GtkWidget *widget, RsttoMainWindow *window);
 static void
 rstto_main_window_print_draw_page (GtkPrintOperation *operation,
@@ -236,7 +244,7 @@ cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *vie
 static void
 rstto_main_window_update_buttons (RsttoMainWindow *window);
 static void
-rstto_main_window_set_navigationbar_orientation (RsttoMainWindow *window, guint orientation);
+rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint orientation);
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -261,7 +269,7 @@ static GtkActionEntry action_entries[] =
   { "view-menu", NULL, N_ ("_View"), NULL, },
   { "fullscreen", GTK_STOCK_FULLSCREEN, N_ ("_Fullscreen"), "F11", NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "unfullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("_Leave Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
-  { "set-as-wallpaper", NULL, N_ ("_Set as Wallpaper"), NULL, NULL, NULL, },
+  { "set-as-wallpaper", NULL, N_ ("_Set as Wallpaper"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_set_as_wallpaper), },
 /* Thumbnailbar submenu */
   { "thumbnailbar-menu", NULL, N_ ("_Thumbnail Bar"), NULL, },
 /* Zoom submenu */
@@ -292,6 +300,8 @@ static GtkActionEntry action_entries[] =
                 NULL,
                 N_ ("Display information about ristretto"),
                 G_CALLBACK (cb_rstto_main_window_about), },
+/* Positio Menu */
+  { "position-menu", NULL, N_ ("_Position"), NULL, },
 /* Misc */
   { "leave-fullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("Leave _Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "tb-menu", NULL, NULL, NULL, }
@@ -308,6 +318,14 @@ static const GtkRadioActionEntry radio_action_sort_entries[] =
 {
     {"sort-filename", NULL, N_("sort by filename"), NULL, NULL, 0},
     {"sort-date", NULL, N_("sort by date"), NULL, NULL, 1},
+};
+
+static const GtkRadioActionEntry radio_action_pos_entries[] = 
+{
+    { "pos-left", NULL, N_("Left"), NULL, NULL, 0},
+    { "pos-right", NULL, N_("Right"), NULL, NULL, 2},
+    { "pos-top", NULL, N_("Top"), NULL, NULL, 1},
+    { "pos-bottom", NULL, N_("Bottom"), NULL, NULL, 3},
 };
 
 
@@ -349,6 +367,8 @@ rstto_main_window_init (RsttoMainWindow *window)
     GClosure        *leave_fullscreen_closure = g_cclosure_new_swap ((GCallback)gtk_window_unfullscreen, window, NULL);
     GClosure        *next_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_next_image, window, NULL);
     GClosure        *previous_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_previous_image, window, NULL);
+
+    guint navigationbar_position = 3;
 
     gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
 
@@ -417,12 +437,14 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_action_group_add_actions (window->priv->action_group, action_entries, G_N_ELEMENTS (action_entries), GTK_WIDGET (window));
     gtk_action_group_add_toggle_actions (window->priv->action_group, toggle_action_entries, G_N_ELEMENTS (toggle_action_entries), GTK_WIDGET (window));
     gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_sort_entries , G_N_ELEMENTS (radio_action_sort_entries), 0, NULL, GTK_WIDGET (window));
+    gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_pos_entries, G_N_ELEMENTS (radio_action_pos_entries), navigationbar_position, G_CALLBACK (cb_rstto_main_window_navigationtoolbar_position_changed), GTK_WIDGET (window));
 
     gtk_ui_manager_add_ui_from_string (window->priv->ui_manager,main_window_ui, main_window_ui_length, NULL);
     window->priv->menubar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu");
-    window->priv->toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar");
+    window->priv->toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar");
     window->priv->image_list_toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar");
     window->priv->image_list_toolbar_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/tb-menu");
+    window->priv->position_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar-menu");
 
     
     
@@ -491,7 +513,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_widget_set_no_show_all (window->priv->message_bar, TRUE);
     gtk_widget_set_no_show_all (window->priv->thumbnailbar, TRUE);
 
-    rstto_main_window_set_navigationbar_orientation (window, 3);
+    rstto_main_window_set_navigationbar_position (window, navigationbar_position);
 
     /**
      * Add missing pieces to the UI
@@ -601,6 +623,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     g_signal_connect(G_OBJECT(window->priv->picture_viewer), "motion-notify-event", G_CALLBACK(cb_rstto_main_window_picture_viewer_motion_notify_event), window);
     g_signal_connect(G_OBJECT(window), "configure-event", G_CALLBACK(cb_rstto_main_window_configure_event), NULL);
     g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_main_window_state_event), NULL);
+    g_signal_connect(G_OBJECT(window->priv->image_list_toolbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
 
     g_signal_connect(G_OBJECT(window->priv->settings_manager), "notify", G_CALLBACK(cb_rstto_main_window_settings_notify), window);
 }
@@ -756,9 +779,9 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/rotation-menu"), FALSE);
 
             /* Toolbar */
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/save-copy"), FALSE);
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/close"), FALSE);
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/delete"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/save-copy"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/close"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/delete"), FALSE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/forward"), FALSE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/back"), FALSE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-in"), FALSE);
@@ -791,9 +814,9 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/rotation-menu"), TRUE);
 
             /* Toolbar */
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/save-copy"), TRUE);
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/close"), TRUE);
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/delete"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/save-copy"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/close"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/delete"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/forward"), FALSE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/back"), FALSE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-in"), TRUE);
@@ -826,9 +849,9 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/rotation-menu"), TRUE);
 
             /* Toolbar */
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/save-copy"), TRUE);
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/close"), TRUE);
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/delete"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/save-copy"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/close"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/delete"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/forward"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/back"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-in"), TRUE);
@@ -2098,7 +2121,18 @@ cb_rstto_main_window_message_bar_open (GtkWidget *widget, RsttoMainWindow *windo
 }
 
 static void
-rstto_main_window_set_navigationbar_orientation (RsttoMainWindow *window, guint orientation)
+cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *window)
+{
+}
+
+static void
+cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action, GtkRadioAction *current,  RsttoMainWindow *window)
+{
+    rstto_main_window_set_navigationbar_position (window, gtk_radio_action_get_current_value (current));
+}
+
+static void
+rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint orientation)
 {
     switch (orientation)
     {
@@ -2154,6 +2188,34 @@ rstto_main_window_set_navigationbar_orientation (RsttoMainWindow *window, guint 
             break;
     }
 }
+
+
+static void
+cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+{
+    int button, event_time;
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    GtkWidget *menu = NULL;
+    if (event->button == 3 && event->type == GDK_BUTTON_PRESS)
+    {
+        if (event)
+        {
+            button = event->button;
+            event_time = event->time;
+        }
+        else
+        {
+            button = 0;
+            event_time = gtk_get_current_event_time ();
+        }
+
+
+        menu = window->priv->position_menu;
+        gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 
+                  button, event_time);
+    }
+}
+
 
 /*
 static gboolean
