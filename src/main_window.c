@@ -78,7 +78,7 @@ struct _RsttoMainWindowPriv
     GtkWidget *picture_viewer;
     GtkWidget *p_viewer_s_window;
     GtkWidget *hpaned;
-    GtkWidget *thumbnail_bar;
+    GtkWidget *thumbnailbar;
     GtkWidget *statusbar;
 
     GtkWidget *message_bar;
@@ -209,6 +209,8 @@ cb_rstto_main_window_toggle_show_file_toolbar (GtkWidget *widget, RsttoMainWindo
 static void
 cb_rstto_main_window_toggle_show_nav_toolbar (GtkWidget *widget, RsttoMainWindow *window);
 static void
+cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindow *window);
+static void
 cb_rstto_main_window_fullscreen (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_preferences (GtkWidget *widget, RsttoMainWindow *window);
@@ -291,9 +293,9 @@ static GtkActionEntry action_entries[] =
 
 static const GtkToggleActionEntry toggle_action_entries[] =
 {
-    { "show-file-toolbar", NULL, N_ ("Show File _Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_file_toolbar), TRUE, },
-    { "show-nav-toolbar", NULL, N_ ("Show Nav _Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_nav_toolbar), TRUE, },
-    { "show-thumbnailbar", NULL, N_ ("Show Thumb_nailbar"), NULL, NULL, NULL, FALSE},
+    { "show-file-toolbar", NULL, N_ ("Show _File Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_file_toolbar), TRUE, },
+    { "show-nav-toolbar", NULL, N_ ("Show _Navigation Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_nav_toolbar), TRUE, },
+    { "show-thumbnailbar", NULL, N_ ("Show _Thumbnailbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_thumbnailbar), TRUE, },
 };
 
 static const GtkRadioActionEntry radio_action_sort_entries[] = 
@@ -333,7 +335,7 @@ static void
 rstto_main_window_init (RsttoMainWindow *window)
 {
     GtkAccelGroup   *accel_group;
-    GValue          show_file_toolbar_val = {0,}, show_nav_toolbar_val = {0, }, window_width = {0, }, window_height = {0, };
+    GValue          show_file_toolbar_val = {0,}, show_nav_toolbar_val = {0, }, show_thumbnailbar_val = {0, }, window_width = {0, }, window_height = {0, };
     GtkWidget       *separator, *back, *forward;
     GtkWidget       *main_vbox = gtk_vbox_new (FALSE, 0);
     GtkRecentFilter *recent_filter;
@@ -438,10 +440,10 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->p_viewer_s_window = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add (GTK_CONTAINER (window->priv->p_viewer_s_window), window->priv->picture_viewer);
-    window->priv->thumbnail_bar = rstto_thumbnail_bar_new (NULL);
+    window->priv->thumbnailbar = rstto_thumbnail_bar_new (NULL);
     window->priv->hpaned = gtk_hpaned_new();
     gtk_paned_pack1 (GTK_PANED (window->priv->hpaned), window->priv->p_viewer_s_window, TRUE, FALSE);
-    gtk_paned_pack2 (GTK_PANED (window->priv->hpaned), window->priv->thumbnail_bar, FALSE, FALSE);
+    gtk_paned_pack2 (GTK_PANED (window->priv->hpaned), window->priv->thumbnailbar, FALSE, FALSE);
 
     window->priv->statusbar = gtk_statusbar_new();
 
@@ -469,6 +471,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_widget_set_no_show_all (window->priv->toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->image_list_toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->message_bar, TRUE);
+    gtk_widget_set_no_show_all (window->priv->thumbnailbar, TRUE);
 
     /**
      * Add missing pieces to the UI
@@ -533,6 +536,8 @@ rstto_main_window_init (RsttoMainWindow *window)
                 FALSE);
         gtk_widget_hide (window->priv->toolbar);
     }
+    g_value_reset (&show_file_toolbar_val);
+
     g_value_init (&show_nav_toolbar_val, G_TYPE_BOOLEAN);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-nav-toolbar", &show_nav_toolbar_val);
     if (g_value_get_boolean (&show_nav_toolbar_val))
@@ -551,8 +556,27 @@ rstto_main_window_init (RsttoMainWindow *window)
                 FALSE);
         gtk_widget_hide (window->priv->image_list_toolbar);
     }
-    g_value_reset (&show_file_toolbar_val);
     g_value_reset (&show_nav_toolbar_val);
+
+    g_value_init (&show_thumbnailbar_val, G_TYPE_BOOLEAN);
+    g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-thumbnailbar", &show_thumbnailbar_val);
+    if (g_value_get_boolean (&show_thumbnailbar_val))
+    {
+        gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (
+                        gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-thumbnailbar")),
+                TRUE);
+        gtk_widget_show (window->priv->thumbnailbar);
+    }
+    else
+    {
+        gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (
+                        gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-thumbnailbar")),
+                FALSE);
+        gtk_widget_hide (window->priv->thumbnailbar);
+    }
+    g_value_reset (&show_thumbnailbar_val);
 
     g_signal_connect(G_OBJECT(window->priv->picture_viewer), "motion-notify-event", G_CALLBACK(cb_rstto_main_window_picture_viewer_motion_notify_event), window);
     g_signal_connect(G_OBJECT(window), "configure-event", G_CALLBACK(cb_rstto_main_window_configure_event), NULL);
@@ -835,8 +859,8 @@ rstto_main_window_set_property (GObject      *object,
 
                 window->priv->iter = rstto_image_list_get_iter (window->priv->props.image_list);
                 g_signal_connect (G_OBJECT (window->priv->iter), "changed", G_CALLBACK (cb_rstto_main_window_image_list_iter_changed), window);
-                rstto_thumbnail_bar_set_image_list (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->props.image_list);
-                rstto_thumbnail_bar_set_iter (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->iter);
+                rstto_thumbnail_bar_set_image_list (RSTTO_THUMBNAIL_BAR (window->priv->thumbnailbar), window->priv->props.image_list);
+                rstto_thumbnail_bar_set_iter (RSTTO_THUMBNAIL_BAR (window->priv->thumbnailbar), window->priv->iter);
                 rstto_picture_viewer_set_iter (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), window->priv->iter);
                 rstto_main_window_update_buttons (window);
             }
@@ -1773,6 +1797,32 @@ cb_rstto_main_window_toggle_show_nav_toolbar (GtkWidget *widget, RsttoMainWindow
         g_value_set_boolean (&val, FALSE);
     }
     g_object_set_property (G_OBJECT (window->priv->settings_manager), "show-nav-toolbar", &val);
+}
+
+/**
+ * cb_rstto_main_window_toggle_show_thumbnailbar:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindow *window)
+{
+    GValue val = {0,};
+    g_value_init (&val, G_TYPE_BOOLEAN);
+
+    if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (widget)))
+    {
+        gtk_widget_show (window->priv->thumbnailbar);
+        g_value_set_boolean (&val, TRUE);
+    }
+    else
+    {
+        gtk_widget_hide (window->priv->thumbnailbar);
+        g_value_set_boolean (&val, FALSE);
+    }
+    g_object_set_property (G_OBJECT (window->priv->settings_manager), "show-thumbnailbar", &val);
 }
 
 /**

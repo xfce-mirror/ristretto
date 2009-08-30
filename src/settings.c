@@ -55,6 +55,7 @@ enum
     PROP_0,
     PROP_SHOW_FILE_TOOLBAR,
     PROP_SHOW_NAV_TOOLBAR,
+    PROP_SHOW_THUMBNAILBAR,
     PROP_TOOLBAR_OPEN,
     PROP_ENABLE_CACHE,
     PROP_PRELOAD_IMAGES,
@@ -102,6 +103,7 @@ struct _RsttoSettingsPriv
 
     gboolean  show_file_toolbar;
     gboolean  show_nav_toolbar;
+    gboolean  show_thumbnailbar;
     guint     preload_images;
     gboolean  enable_cache;
     guint     cache_size;
@@ -147,6 +149,7 @@ rstto_settings_init (GObject *object)
 
     xfconf_g_property_bind (settings->priv->channel, "/window/show-file-toolbar", G_TYPE_BOOLEAN, settings, "show-file-toolbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/show-navigation-toolbar", G_TYPE_BOOLEAN, settings, "show-nav-toolbar");
+    xfconf_g_property_bind (settings->priv->channel, "/window/show-thumbnailbar", G_TYPE_BOOLEAN, settings, "show-thumbnailbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-action", G_TYPE_STRING, settings, "scrollwheel-action");
 
     xfconf_g_property_bind (settings->priv->channel, "/slideshow/timeout", G_TYPE_UINT, settings, "slideshow-timeout");
@@ -215,6 +218,15 @@ rstto_settings_class_init (GObjectClass *object_class)
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_SHOW_NAV_TOOLBAR,
+                                     pspec);
+
+    pspec = g_param_spec_boolean ("show-thumbnailbar",
+                                  "",
+                                  "",
+                                  TRUE,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_SHOW_THUMBNAILBAR,
                                      pspec);
 
     pspec = g_param_spec_uint ("preload-images",
@@ -395,6 +407,9 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_SHOW_NAV_TOOLBAR:
             settings->priv->show_nav_toolbar = g_value_get_boolean (value);
             break;
+        case PROP_SHOW_THUMBNAILBAR:
+            settings->priv->show_thumbnailbar= g_value_get_boolean (value);
+            break;
         case PROP_PRELOAD_IMAGES:
             settings->priv->preload_images = g_value_get_uint (value);
             break;
@@ -462,6 +477,9 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_SHOW_NAV_TOOLBAR:
             g_value_set_boolean (value, settings->priv->show_nav_toolbar);
+            break;
+        case PROP_SHOW_THUMBNAILBAR:
+            g_value_set_boolean (value, settings->priv->show_thumbnailbar);
             break;
         case PROP_PRELOAD_IMAGES:
             g_value_set_uint (value, settings->priv->preload_images);
