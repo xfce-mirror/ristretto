@@ -53,7 +53,8 @@ static RsttoSettings *settings_object;
 enum
 {
     PROP_0,
-    PROP_SHOW_TOOLBAR,
+    PROP_SHOW_FILE_TOOLBAR,
+    PROP_SHOW_NAV_TOOLBAR,
     PROP_TOOLBAR_OPEN,
     PROP_ENABLE_CACHE,
     PROP_PRELOAD_IMAGES,
@@ -99,7 +100,8 @@ struct _RsttoSettingsPriv
 {
     XfconfChannel *channel;
 
-    gboolean  show_toolbar;
+    gboolean  show_file_toolbar;
+    gboolean  show_nav_toolbar;
     guint     preload_images;
     gboolean  enable_cache;
     guint     cache_size;
@@ -143,7 +145,8 @@ rstto_settings_init (GObject *object)
 
     xfconf_g_property_bind (settings->priv->channel, "/file/current-uri", G_TYPE_STRING, settings, "current-uri");
 
-    xfconf_g_property_bind (settings->priv->channel, "/window/show-toolbar", G_TYPE_BOOLEAN, settings, "show-toolbar");
+    xfconf_g_property_bind (settings->priv->channel, "/window/show-file-toolbar", G_TYPE_BOOLEAN, settings, "show-file-toolbar");
+    xfconf_g_property_bind (settings->priv->channel, "/window/show-navigation-toolbar", G_TYPE_BOOLEAN, settings, "show-nav-toolbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-action", G_TYPE_STRING, settings, "scrollwheel-action");
 
     xfconf_g_property_bind (settings->priv->channel, "/slideshow/timeout", G_TYPE_UINT, settings, "slideshow-timeout");
@@ -196,13 +199,22 @@ rstto_settings_class_init (GObjectClass *object_class)
                                      PROP_WINDOW_HEIGHT,
                                      pspec);
 
-    pspec = g_param_spec_boolean ("show-toolbar",
+    pspec = g_param_spec_boolean ("show-file-toolbar",
                                   "",
                                   "",
                                   TRUE,
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
-                                     PROP_SHOW_TOOLBAR,
+                                     PROP_SHOW_FILE_TOOLBAR,
+                                     pspec);
+
+    pspec = g_param_spec_boolean ("show-nav-toolbar",
+                                  "",
+                                  "",
+                                  TRUE,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_SHOW_NAV_TOOLBAR,
                                      pspec);
 
     pspec = g_param_spec_uint ("preload-images",
@@ -377,8 +389,11 @@ rstto_settings_set_property    (GObject      *object,
 
     switch (property_id)
     {
-        case PROP_SHOW_TOOLBAR:
-            settings->priv->show_toolbar = g_value_get_boolean (value);
+        case PROP_SHOW_FILE_TOOLBAR:
+            settings->priv->show_file_toolbar = g_value_get_boolean (value);
+            break;
+        case PROP_SHOW_NAV_TOOLBAR:
+            settings->priv->show_nav_toolbar = g_value_get_boolean (value);
             break;
         case PROP_PRELOAD_IMAGES:
             settings->priv->preload_images = g_value_get_uint (value);
@@ -442,8 +457,11 @@ rstto_settings_get_property    (GObject    *object,
 
     switch (property_id)
     {
-        case PROP_SHOW_TOOLBAR:
-            g_value_set_boolean (value, settings->priv->show_toolbar);
+        case PROP_SHOW_FILE_TOOLBAR:
+            g_value_set_boolean (value, settings->priv->show_file_toolbar);
+            break;
+        case PROP_SHOW_NAV_TOOLBAR:
+            g_value_set_boolean (value, settings->priv->show_nav_toolbar);
             break;
         case PROP_PRELOAD_IMAGES:
             g_value_set_uint (value, settings->priv->preload_images);

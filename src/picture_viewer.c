@@ -611,25 +611,28 @@ rstto_picture_viewer_paint (GtkWidget *widget)
                                                "ristretto", 
                                                (size*0.8),
                                                GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
-            gdk_pixbuf_saturate_and_pixelate (pixbuf, pixbuf, 0, TRUE);
-            pixbuf = gdk_pixbuf_composite_color_simple (pixbuf, (size*0.8), (size*0.8), GDK_INTERP_BILINEAR, 40, 40, bg_color->pixel, bg_color->pixel);
+            if (pixbuf)
+            {
+                gdk_pixbuf_saturate_and_pixelate (pixbuf, pixbuf, 0, TRUE);
+                pixbuf = gdk_pixbuf_composite_color_simple (pixbuf, (size*0.8), (size*0.8), GDK_INTERP_BILINEAR, 40, 40, bg_color->pixel, bg_color->pixel);
 
-            x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
-            y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
-            x2 = gdk_pixbuf_get_width(pixbuf);
-            y2 = gdk_pixbuf_get_height(pixbuf);
+                x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
+                y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
+                x2 = gdk_pixbuf_get_width(pixbuf);
+                y2 = gdk_pixbuf_get_height(pixbuf);
 
-            gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
-                            NULL, 
-                            pixbuf,
-                            0,
-                            0,
-                            x1,
-                            y1,
-                            x2, 
-                            y2,
-                            GDK_RGB_DITHER_NONE,
-                            0,0);
+                gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
+                                NULL, 
+                                pixbuf,
+                                0,
+                                0,
+                                x1,
+                                y1,
+                                x2, 
+                                y2,
+                                GDK_RGB_DITHER_NONE,
+                                0,0);
+            }
         }
         gdk_draw_drawable(GDK_DRAWABLE(widget->window), 
                         gdk_gc_new(widget->window), 

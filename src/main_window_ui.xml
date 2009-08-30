@@ -31,7 +31,8 @@
             <menuitem action="preferences"/>
         </menu>
         <menu action="view-menu">
-            <menuitem action="show-toolbar"/>
+            <menuitem action="show-file-toolbar"/>
+            <menuitem action="show-nav-toolbar"/>
             <menuitem action="show-thumbnailbar"/>
             <separator/>
             <menu action="zoom-menu">

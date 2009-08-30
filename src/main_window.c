@@ -205,7 +205,9 @@ cb_rstto_main_window_message_bar_cancel (GtkWidget *widget, RsttoMainWindow *win
 
 
 static void
-cb_rstto_main_window_toggle_show_toolbar (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_toggle_show_file_toolbar (GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_toggle_show_nav_toolbar (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_fullscreen (GtkWidget *widget, RsttoMainWindow *window);
 static void
@@ -289,7 +291,8 @@ static GtkActionEntry action_entries[] =
 
 static const GtkToggleActionEntry toggle_action_entries[] =
 {
-    { "show-toolbar", NULL, N_ ("Show _Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_toolbar), TRUE, },
+    { "show-file-toolbar", NULL, N_ ("Show File _Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_file_toolbar), TRUE, },
+    { "show-nav-toolbar", NULL, N_ ("Show Nav _Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_nav_toolbar), TRUE, },
     { "show-thumbnailbar", NULL, N_ ("Show Thumb_nailbar"), NULL, NULL, NULL, FALSE},
 };
 
@@ -330,7 +333,7 @@ static void
 rstto_main_window_init (RsttoMainWindow *window)
 {
     GtkAccelGroup   *accel_group;
-    GValue          show_toolbar_val = {0,}, window_width = {0, }, window_height = {0, };
+    GValue          show_file_toolbar_val = {0,}, show_nav_toolbar_val = {0, }, window_width = {0, }, window_height = {0, };
     GtkWidget       *separator, *back, *forward;
     GtkWidget       *main_vbox = gtk_vbox_new (FALSE, 0);
     GtkRecentFilter *recent_filter;
@@ -464,6 +467,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
 
     gtk_widget_set_no_show_all (window->priv->toolbar, TRUE);
+    gtk_widget_set_no_show_all (window->priv->image_list_toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->message_bar, TRUE);
 
     /**
@@ -511,13 +515,13 @@ rstto_main_window_init (RsttoMainWindow *window)
     /**
      * Retrieve the toolbar state from the settings-manager
      */
-    g_value_init (&show_toolbar_val, G_TYPE_BOOLEAN);
-    g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-toolbar", &show_toolbar_val);
-    if (g_value_get_boolean (&show_toolbar_val))
+    g_value_init (&show_file_toolbar_val, G_TYPE_BOOLEAN);
+    g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-file-toolbar", &show_file_toolbar_val);
+    if (g_value_get_boolean (&show_file_toolbar_val))
     {
         gtk_check_menu_item_set_active (
                 GTK_CHECK_MENU_ITEM (
-                        gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-toolbar")),
+                        gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-file-toolbar")),
                 TRUE);
         gtk_widget_show (window->priv->toolbar);
     }
@@ -525,10 +529,30 @@ rstto_main_window_init (RsttoMainWindow *window)
     {
         gtk_check_menu_item_set_active (
                 GTK_CHECK_MENU_ITEM (
-                        gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-toolbar")),
+                        gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-file-toolbar")),
                 FALSE);
         gtk_widget_hide (window->priv->toolbar);
     }
+    g_value_init (&show_nav_toolbar_val, G_TYPE_BOOLEAN);
+    g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-nav-toolbar", &show_nav_toolbar_val);
+    if (g_value_get_boolean (&show_nav_toolbar_val))
+    {
+        gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (
+                        gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-nav-toolbar")),
+                TRUE);
+        gtk_widget_show (window->priv->image_list_toolbar);
+    }
+    else
+    {
+        gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (
+                        gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-nav-toolbar")),
+                FALSE);
+        gtk_widget_hide (window->priv->image_list_toolbar);
+    }
+    g_value_reset (&show_file_toolbar_val);
+    g_value_reset (&show_nav_toolbar_val);
 
     g_signal_connect(G_OBJECT(window->priv->picture_viewer), "motion-notify-event", G_CALLBACK(cb_rstto_main_window_picture_viewer_motion_notify_event), window);
     g_signal_connect(G_OBJECT(window), "configure-event", G_CALLBACK(cb_rstto_main_window_configure_event), NULL);
@@ -1700,14 +1724,14 @@ cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
 }
 
 /**
- * cb_rstto_main_window_toggle_show_toolbar:
+ * cb_rstto_main_window_toggle_show_file_toolbar:
  * @widget:
  * @window:
  *
  *
  */
 static void
-cb_rstto_main_window_toggle_show_toolbar (GtkWidget *widget, RsttoMainWindow *window)
+cb_rstto_main_window_toggle_show_file_toolbar (GtkWidget *widget, RsttoMainWindow *window)
 {
     GValue val = {0,};
     g_value_init (&val, G_TYPE_BOOLEAN);
@@ -1722,7 +1746,33 @@ cb_rstto_main_window_toggle_show_toolbar (GtkWidget *widget, RsttoMainWindow *wi
         gtk_widget_hide (window->priv->toolbar);
         g_value_set_boolean (&val, FALSE);
     }
-    g_object_set_property (G_OBJECT (window->priv->settings_manager), "show-toolbar", &val);
+    g_object_set_property (G_OBJECT (window->priv->settings_manager), "show-file-toolbar", &val);
+}
+
+/**
+ * cb_rstto_main_window_toggle_show_nav_toolbar:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_toggle_show_nav_toolbar (GtkWidget *widget, RsttoMainWindow *window)
+{
+    GValue val = {0,};
+    g_value_init (&val, G_TYPE_BOOLEAN);
+
+    if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (widget)))
+    {
+        gtk_widget_show (window->priv->image_list_toolbar);
+        g_value_set_boolean (&val, TRUE);
+    }
+    else
+    {
+        gtk_widget_hide (window->priv->image_list_toolbar);
+        g_value_set_boolean (&val, FALSE);
+    }
+    g_object_set_property (G_OBJECT (window->priv->settings_manager), "show-nav-toolbar", &val);
 }
 
 /**
@@ -1801,7 +1851,7 @@ static void
 cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW(widget);
-    GValue           show_toolbar_val = {0,};
+    GValue           show_file_toolbar_val = {0,};
 
     if(event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
     {
@@ -1854,16 +1904,16 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             }
             gtk_widget_show (window->priv->image_list_toolbar);
 
-            g_value_init (&show_toolbar_val, G_TYPE_BOOLEAN);
-            g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-toolbar", &show_toolbar_val);
+            g_value_init (&show_file_toolbar_val, G_TYPE_BOOLEAN);
+            g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-file-toolbar", &show_file_toolbar_val);
 
             gtk_widget_show (window->priv->menubar);
             gtk_widget_show (window->priv->statusbar);
 
-            if (g_value_get_boolean (&show_toolbar_val))
+            if (g_value_get_boolean (&show_file_toolbar_val))
                 gtk_widget_show (window->priv->toolbar);
             
-            g_value_reset (&show_toolbar_val);
+            g_value_reset (&show_file_toolbar_val);
         }
     }
     if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
