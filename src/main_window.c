@@ -226,7 +226,7 @@ cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *vie
                                              gpointer user_data);
 
 static void
-rstto_main_window_set_sensitive (RsttoMainWindow *window, gboolean sensitive);
+rstto_main_window_update_buttons (RsttoMainWindow *window);
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -463,7 +463,6 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->image_list_toolbar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
 
-    rstto_main_window_set_sensitive (window, FALSE);
     gtk_widget_set_no_show_all (window->priv->toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->message_bar, TRUE);
 
@@ -635,7 +634,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             basename = g_path_get_basename (path);
 
             title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  basename, position+1, count);
-            rstto_main_window_set_sensitive (window, TRUE);
+            rstto_main_window_update_buttons (window);
 
             g_free (basename);
             g_free (path);
@@ -643,7 +642,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         else
         {
             title = g_strdup (RISTRETTO_APP_TITLE);
-            rstto_main_window_set_sensitive (window, FALSE);
+            rstto_main_window_update_buttons (window);
         }
 
         gtk_window_set_title (GTK_WINDOW (window), title);
@@ -655,81 +654,123 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 
 
 /**
- * rstto_main_window_set_sensitive:
+ * rstto_main_window_update_buttons:
  * @window:
  * @sensitive:
  *
  */
 static void
-rstto_main_window_set_sensitive (RsttoMainWindow *window, gboolean sensitive)
+rstto_main_window_update_buttons (RsttoMainWindow *window)
 {
+    g_return_if_fail (window->priv->props.image_list != NULL);
+    switch (rstto_image_list_get_n_images (window->priv->props.image_list))
+    {
+        case 0: 
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), FALSE);
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), FALSE);
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close"), FALSE);
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close-all"), FALSE);
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), FALSE);
 
-    gtk_widget_set_sensitive (
-            gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/main-menu/file-menu/save-copy"),
-            sensitive);
-    gtk_widget_set_sensitive (
-            gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/main-menu/file-menu/print"),
-            sensitive);
-    gtk_widget_set_sensitive (
-            gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/main-menu/file-menu/close"),
-            sensitive);
-    gtk_widget_set_sensitive (
-            gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/main-menu/file-menu/close-all"),
-            sensitive);
+            /* Go Menu */
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/forward"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/back"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/first"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/last"), FALSE); 
 
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/edit-menu/delete"), sensitive);
+            gtk_action_set_sensitive (window->priv->play_action, FALSE);
+            gtk_action_set_sensitive (window->priv->pause_action, FALSE);
+            
 
-    /* Go Menu */
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/go-menu/forward"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/go-menu/back"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/go-menu/first"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/go-menu/last"), sensitive); 
+            /* View Menu */
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/zoom-menu"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/rotation-menu"), FALSE);
 
-    gtk_action_set_sensitive (window->priv->play_action, sensitive);
-    gtk_action_set_sensitive (window->priv->pause_action, sensitive);
-    
+            /* Toolbar */
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/save-copy"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/close"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/delete"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/forward"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/back"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-in"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-out"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-fit"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-100"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/rotate-ccw"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/rotate-cw"), FALSE);
+            break;
+        case 1: 
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), TRUE);
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), TRUE);
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close"), TRUE);
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close-all"), FALSE);
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), TRUE);
 
-    /* View Menu */
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, 
-                                                         "/main-menu/view-menu/set-as-wallpaper"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, 
-                                                         "/main-menu/view-menu/zoom-menu"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, 
-                                                         "/main-menu/view-menu/rotation-menu"), sensitive);
-    /*
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, 
-                                                         "/main-menu/view-menu/zoom-menu/zoom-in"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, 
-                                                         "/main-menu/view-menu/zoom-menu/zoom-out"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, 
-                                                         "/main-menu/view-menu/zoom-menu/zoom-fit"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, 
-                                                         "/main-menu/view-menu/zoom-menu/zoom-100"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, 
-                                                         "/main-menu/view-menu/rotation-menu/rotate-cw"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, 
-                                                         "/main-menu/view-menu/rotation-menu/rotate-ccw"), sensitive);
-    */
+            /* Go Menu */
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/forward"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/back"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/first"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/last"), FALSE); 
 
-    /* Toolbar */
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/save-copy"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/close"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/delete"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/forward"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/back"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-in"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-out"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-fit"), sensitive);
-    gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-100"), sensitive);
+            gtk_action_set_sensitive (window->priv->play_action, FALSE);
+            gtk_action_set_sensitive (window->priv->pause_action, FALSE);
+            
 
+            /* View Menu */
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/zoom-menu"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/rotation-menu"), TRUE);
+
+            /* Toolbar */
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/save-copy"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/close"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/delete"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/forward"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/back"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-in"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-out"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-fit"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-100"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/rotate-ccw"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/rotate-cw"), TRUE);
+            break;
+        default: 
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), TRUE);
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), TRUE);
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close"), TRUE);
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close-all"), TRUE);
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), TRUE);
+
+            /* Go Menu */
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/forward"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/back"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/first"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/last"), TRUE); 
+
+            gtk_action_set_sensitive (window->priv->play_action, TRUE);
+            gtk_action_set_sensitive (window->priv->pause_action, TRUE);
+            
+
+            /* View Menu */
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/zoom-menu"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/rotation-menu"), TRUE);
+
+            /* Toolbar */
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/save-copy"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/close"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/delete"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/forward"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/back"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-in"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-out"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-fit"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/zoom-100"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/rotate-ccw"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/rotate-cw"), TRUE);
+            break;
+    }
 }
 
 /**
@@ -773,6 +814,7 @@ rstto_main_window_set_property (GObject      *object,
                 rstto_thumbnail_bar_set_image_list (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->props.image_list);
                 rstto_thumbnail_bar_set_iter (RSTTO_THUMBNAIL_BAR (window->priv->thumbnail_bar), window->priv->iter);
                 rstto_picture_viewer_set_iter (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), window->priv->iter);
+                rstto_main_window_update_buttons (window);
             }
             break;
         default:
