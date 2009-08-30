@@ -77,7 +77,11 @@ struct _RsttoMainWindowPriv
     GtkWidget *image_list_toolbar_menu;
     GtkWidget *picture_viewer;
     GtkWidget *p_viewer_s_window;
-    GtkWidget *hpaned;
+    GtkWidget *table;
+    GtkWidget *hpaned_left;
+    GtkWidget *hpaned_right;
+    GtkWidget *vpaned_top;
+    GtkWidget *vpaned_bottom;
     GtkWidget *thumbnailbar;
     GtkWidget *statusbar;
 
@@ -231,6 +235,8 @@ cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *vie
 
 static void
 rstto_main_window_update_buttons (RsttoMainWindow *window);
+static void
+rstto_main_window_set_navigationbar_orientation (RsttoMainWindow *window, guint orientation);
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -441,9 +447,19 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add (GTK_CONTAINER (window->priv->p_viewer_s_window), window->priv->picture_viewer);
     window->priv->thumbnailbar = rstto_thumbnail_bar_new (NULL);
-    window->priv->hpaned = gtk_hpaned_new();
-    gtk_paned_pack1 (GTK_PANED (window->priv->hpaned), window->priv->p_viewer_s_window, TRUE, FALSE);
-    gtk_paned_pack2 (GTK_PANED (window->priv->hpaned), window->priv->thumbnailbar, FALSE, FALSE);
+
+    window->priv->hpaned_left = gtk_hpaned_new();
+    window->priv->hpaned_right = gtk_hpaned_new();
+    window->priv->vpaned_top = gtk_vpaned_new();
+    window->priv->vpaned_bottom = gtk_vpaned_new();
+    window->priv->table = gtk_table_new (3, 3, FALSE);
+
+    gtk_paned_pack2 (GTK_PANED (window->priv->hpaned_left), window->priv->hpaned_right, TRUE, FALSE);
+    gtk_paned_pack1 (GTK_PANED (window->priv->hpaned_right), window->priv->vpaned_top, TRUE, FALSE);
+    gtk_paned_pack2 (GTK_PANED (window->priv->vpaned_top), window->priv->vpaned_bottom, TRUE, FALSE);
+
+    gtk_paned_pack1 (GTK_PANED (window->priv->vpaned_bottom), window->priv->p_viewer_s_window, TRUE, FALSE);
+    gtk_paned_pack2 (GTK_PANED (window->priv->hpaned_right), window->priv->thumbnailbar, FALSE, FALSE);
 
     window->priv->statusbar = gtk_statusbar_new();
 
@@ -464,14 +480,18 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->menubar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->toolbar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->message_bar, FALSE,FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->hpaned, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->image_list_toolbar, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->table, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
+
+    gtk_table_attach_defaults (GTK_TABLE (window->priv->table), window->priv->hpaned_left, 1, 2, 1, 2);
+    gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 1, 0, 3, GTK_FILL, GTK_EXPAND|GTK_FILL, 0, 0);
 
     gtk_widget_set_no_show_all (window->priv->toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->image_list_toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->message_bar, TRUE);
     gtk_widget_set_no_show_all (window->priv->thumbnailbar, TRUE);
+
+    rstto_main_window_set_navigationbar_orientation (window, 3);
 
     /**
      * Add missing pieces to the UI
@@ -2074,6 +2094,64 @@ cb_rstto_main_window_message_bar_open (GtkWidget *widget, RsttoMainWindow *windo
     {
         g_object_unref (window->priv->message_bar_file);
         window->priv->message_bar_file = NULL;
+    }
+}
+
+static void
+rstto_main_window_set_navigationbar_orientation (RsttoMainWindow *window, guint orientation)
+{
+    switch (orientation)
+    {
+        case 0:
+            g_object_ref (window->priv->image_list_toolbar);
+            g_object_ref (window->priv->thumbnailbar);
+
+            gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
+            gtk_paned_pack1 (GTK_PANED (window->priv->hpaned_left), window->priv->thumbnailbar, FALSE, FALSE);
+
+            gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
+            gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 1, 0, 3, GTK_FILL, GTK_EXPAND|GTK_FILL, 0, 0);
+            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_VERTICAL);
+            rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_VERTICAL);
+            break;
+        case 1:
+            g_object_ref (window->priv->image_list_toolbar);
+            g_object_ref (window->priv->thumbnailbar);
+
+            gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
+            gtk_paned_pack1 (GTK_PANED (window->priv->vpaned_top), window->priv->thumbnailbar, FALSE, FALSE);
+
+            gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
+            gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 3, 0, 1, GTK_EXPAND|GTK_FILL,GTK_FILL, 0, 0);
+            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_HORIZONTAL);
+            rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_HORIZONTAL);
+            break;
+        case 2:
+            g_object_ref (window->priv->image_list_toolbar);
+            g_object_ref (window->priv->thumbnailbar);
+
+            gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
+            gtk_paned_pack2 (GTK_PANED (window->priv->hpaned_right), window->priv->thumbnailbar, FALSE, FALSE);
+
+            gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
+            gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 2, 3, 0, 3, GTK_FILL,GTK_EXPAND|GTK_FILL, 0, 0);
+            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_VERTICAL);
+            rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_VERTICAL);
+            break;
+        case 3:
+            g_object_ref (window->priv->image_list_toolbar);
+            g_object_ref (window->priv->thumbnailbar);
+
+            gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
+            gtk_paned_pack2 (GTK_PANED (window->priv->vpaned_bottom), window->priv->thumbnailbar, FALSE, FALSE);
+
+            gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
+            gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 3, 2, 3, GTK_EXPAND|GTK_FILL,GTK_FILL, 0, 0);
+            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_HORIZONTAL);
+            rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_HORIZONTAL);
+            break;
+        default:
+            break;
     }
 }
 
