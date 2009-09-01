@@ -60,6 +60,9 @@ struct _RsttoSettingsClass
 RsttoSettings *rstto_settings_new (void);
 GType          rstto_settings_get_type (void);
 
+void           rstto_settings_set_navbar_position (RsttoSettings *, guint);
+guint          rstto_settings_get_navbar_position (RsttoSettings *);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_SETTINGS_H__ */

@@ -113,7 +113,7 @@ main(int argc, char **argv)
         rof.image_list = image_list;
         rof.argc = argc;
         rof.argv = argv;
-	rof.iter = 1;
+    	rof.iter = 1;
 
         g_idle_add ((GSourceFunc )cb_rstto_open_files, &rof);
 

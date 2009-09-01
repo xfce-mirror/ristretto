@@ -55,6 +55,7 @@ enum
     PROP_0,
     PROP_SHOW_FILE_TOOLBAR,
     PROP_SHOW_NAV_TOOLBAR,
+    PROP_NAVBAR_POSITION,
     PROP_SHOW_THUMBNAILBAR,
     PROP_TOOLBAR_OPEN,
     PROP_ENABLE_CACHE,
@@ -104,6 +105,7 @@ struct _RsttoSettingsPriv
     gboolean  show_file_toolbar;
     gboolean  show_nav_toolbar;
     gboolean  show_thumbnailbar;
+    gchar    *navigationbar_position;
     guint     preload_images;
     gboolean  enable_cache;
     guint     cache_size;
@@ -150,6 +152,7 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind (settings->priv->channel, "/window/show-file-toolbar", G_TYPE_BOOLEAN, settings, "show-file-toolbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/show-navigation-toolbar", G_TYPE_BOOLEAN, settings, "show-nav-toolbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/show-thumbnailbar", G_TYPE_BOOLEAN, settings, "show-thumbnailbar");
+    xfconf_g_property_bind (settings->priv->channel, "/window/navigationbar-position", G_TYPE_STRING, settings, "navigationbar-position");
     xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-action", G_TYPE_STRING, settings, "scrollwheel-action");
 
     xfconf_g_property_bind (settings->priv->channel, "/slideshow/timeout", G_TYPE_UINT, settings, "slideshow-timeout");
@@ -227,6 +230,15 @@ rstto_settings_class_init (GObjectClass *object_class)
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_SHOW_THUMBNAILBAR,
+                                     pspec);
+
+    pspec = g_param_spec_string  ("navigationbar-position",
+                                  "",
+                                  "",
+                                  "right",
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_NAVBAR_POSITION,
                                      pspec);
 
     pspec = g_param_spec_uint ("preload-images",
@@ -397,6 +409,7 @@ rstto_settings_set_property    (GObject      *object,
                                 GParamSpec   *pspec)
 {
     GdkColor *color;
+    const gchar *str_val = NULL;
     RsttoSettings *settings = RSTTO_SETTINGS (object);
 
     switch (property_id)
@@ -409,6 +422,19 @@ rstto_settings_set_property    (GObject      *object,
             break;
         case PROP_SHOW_THUMBNAILBAR:
             settings->priv->show_thumbnailbar= g_value_get_boolean (value);
+            break;
+        case PROP_NAVBAR_POSITION:
+            str_val = g_value_get_string (value);
+
+            if ((!g_strcasecmp (str_val, "left")) ||
+                (!g_strcasecmp (str_val, "right")) ||
+                (!g_strcasecmp (str_val, "bottom")) ||
+                (!g_strcasecmp (str_val, "top")))
+            {
+                if (settings->priv->navigationbar_position)
+                    g_free (settings->priv->navigationbar_position);
+                settings->priv->navigationbar_position = g_strdup (str_val);
+            }
             break;
         case PROP_PRELOAD_IMAGES:
             settings->priv->preload_images = g_value_get_uint (value);
@@ -481,6 +507,9 @@ rstto_settings_get_property    (GObject    *object,
         case PROP_SHOW_THUMBNAILBAR:
             g_value_set_boolean (value, settings->priv->show_thumbnailbar);
             break;
+        case PROP_NAVBAR_POSITION:
+            g_value_set_string (value, settings->priv->navigationbar_position);
+            break;
         case PROP_PRELOAD_IMAGES:
             g_value_set_uint (value, settings->priv->preload_images);
             break;
@@ -521,4 +550,47 @@ rstto_settings_get_property    (GObject    *object,
             break;
 
     }
+}
+
+void
+rstto_settings_set_navbar_position (RsttoSettings *settings, guint pos)
+{
+    GValue val = {0, };
+    g_value_init (&val, G_TYPE_STRING);
+ 
+    switch (pos)
+    {
+        default:
+            g_value_set_string (&val, "left");
+            break;
+        case 1:
+            g_value_set_string (&val, "right");
+            break;
+        case 2:
+            g_value_set_string (&val, "top");
+            break;
+        case 3:
+            g_value_set_string (&val, "bottom");
+            break;
+    }
+
+    g_object_set_property (G_OBJECT(settings), "navigationbar-position", &val);
+
+    g_value_reset (&val);
+}
+
+guint
+rstto_settings_get_navbar_position (RsttoSettings *settings)
+{
+    if (settings->priv->navigationbar_position == NULL)
+        return 0;
+
+    if (!strcmp (settings->priv->navigationbar_position, "left"))
+        return 0;
+    if (!strcmp (settings->priv->navigationbar_position, "right"))
+        return 1;
+    if (!strcmp (settings->priv->navigationbar_position, "top"))
+        return 2;
+    if (!strcmp (settings->priv->navigationbar_position, "bottom"))
+        return 3;
 }
