@@ -629,6 +629,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     g_signal_connect(G_OBJECT(window), "configure-event", G_CALLBACK(cb_rstto_main_window_configure_event), NULL);
     g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_main_window_state_event), NULL);
     g_signal_connect(G_OBJECT(window->priv->image_list_toolbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
+    g_signal_connect(G_OBJECT(window->priv->thumbnailbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
 
     g_signal_connect(G_OBJECT(window->priv->settings_manager), "notify", G_CALLBACK(cb_rstto_main_window_settings_notify), window);
 }
@@ -1950,6 +1951,7 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW(widget);
     GValue           show_file_toolbar_val = {0,};
+    GValue           show_nav_toolbar_val = {0,};
 
     if(event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
     {
@@ -2005,11 +2007,19 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             g_value_init (&show_file_toolbar_val, G_TYPE_BOOLEAN);
             g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-file-toolbar", &show_file_toolbar_val);
 
+            g_value_init (&show_nav_toolbar_val, G_TYPE_BOOLEAN);
+            g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-nav-toolbar", &show_nav_toolbar_val);
+
             gtk_widget_show (window->priv->menubar);
             gtk_widget_show (window->priv->statusbar);
 
             if (g_value_get_boolean (&show_file_toolbar_val))
                 gtk_widget_show (window->priv->toolbar);
+
+            if (g_value_get_boolean (&show_nav_toolbar_val))
+                gtk_widget_show (window->priv->image_list_toolbar);
+            else
+                gtk_widget_hide(window->priv->image_list_toolbar);
             
             g_value_reset (&show_file_toolbar_val);
         }
@@ -2029,19 +2039,15 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
     {
 	gdk_drawable_get_size (GDK_DRAWABLE(GTK_WIDGET(window)->window), &width, &height);
         //if ((event->state == 0) && (event->window == event->subwindow))
-	if ((event->x == 0) || (event->y == 0) || (((gint)event->x) == (width-1)) || (((gint)event->y) == (height-1)))
+	if ((event->x_root == 0) || (event->y_root == 0) || (((gint)event->x_root) == (width-1)) || (((gint)event->y_root) == (height-1)))
         {
             gtk_widget_show (window->priv->image_list_toolbar);
             window->priv->fs_toolbar_sticky = TRUE;
 
-            if (window->priv->fs_toolbar_sticky == FALSE)
+            if (window->priv->show_fs_toolbar_timeout_id > 0)
             {
-                if (window->priv->show_fs_toolbar_timeout_id > 0)
-                {
-                    g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-                    window->priv->show_fs_toolbar_timeout_id = 0;
-                }
-                window->priv->show_fs_toolbar_timeout_id = g_timeout_add (3000, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+                g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+                window->priv->show_fs_toolbar_timeout_id = 0;
             }
         }
     }
@@ -2054,13 +2060,16 @@ cb_rstto_main_window_picture_viewer_enter_notify_event (GtkWidget *widget,
                                                         gpointer user_data)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
-    window->priv->fs_toolbar_sticky = FALSE;
-    if (window->priv->show_fs_toolbar_timeout_id > 0)
+    if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
     {
-        g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-        window->priv->show_fs_toolbar_timeout_id = 0;
+        window->priv->fs_toolbar_sticky = FALSE;
+        if (window->priv->show_fs_toolbar_timeout_id > 0)
+        {
+            g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+            window->priv->show_fs_toolbar_timeout_id = 0;
+        }
+        window->priv->show_fs_toolbar_timeout_id = g_timeout_add (2000, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
     }
-    window->priv->show_fs_toolbar_timeout_id = g_timeout_add (2000, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
 
     return TRUE;
 }
