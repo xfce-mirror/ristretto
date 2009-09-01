@@ -1,9 +1,6 @@
 /*
-<<<<<<< HEAD:src/picture_viewer.c
-=======
  *  Copyright (C) Stephan Arts 2006-2009 <stephan@xfce.org>
  *
->>>>>>> 9b75414e8bb4500c58635dd45ecb8f2f45266902:src/picture_viewer.c
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -204,6 +201,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
                            GDK_BUTTON_PRESS_MASK |
                            GDK_BUTTON_RELEASE_MASK |
                            GDK_BUTTON1_MOTION_MASK |
+                           GDK_ENTER_NOTIFY_MASK |
                            GDK_POINTER_MOTION_MASK);
 
     g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_picture_viewer_scroll_event), NULL);
@@ -857,7 +855,6 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
             }
             rstto_image_list_entry_set_scale(entry, scale * 1.1);
             rstto_image_list_entry_set_fit_to_screen (entry, FALSE);
->>>>>>> 9b75414e8bb4500c58635dd45ecb8f2f45266902:src/picture_viewer.c
 
 
             viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) * 1.1) - event->y;
@@ -869,8 +866,6 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
             viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
             break;
     }
-<<<<<<< HEAD:src/picture_viewer.c
-=======
     */
 }
 

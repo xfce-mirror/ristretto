@@ -237,9 +237,13 @@ static void
 cb_rstto_main_window_settings_notify (GObject *settings, GParamSpec *spec, RsttoMainWindow *window);
 
 static gboolean 
-cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
+cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
                                              GdkEventMotion *event,
                                              gpointer user_data);
+static gboolean
+cb_rstto_main_window_picture_viewer_enter_notify_event (GtkWidget *widget,
+                                                        GdkEventCrossing *event,
+                                                        gpointer user_data);
 
 static void
 rstto_main_window_update_buttons (RsttoMainWindow *window);
@@ -620,7 +624,8 @@ rstto_main_window_init (RsttoMainWindow *window)
     }
     g_value_reset (&show_thumbnailbar_val);
 
-    g_signal_connect(G_OBJECT(window->priv->picture_viewer), "motion-notify-event", G_CALLBACK(cb_rstto_main_window_picture_viewer_motion_notify_event), window);
+    g_signal_connect(G_OBJECT(window), "motion-notify-event", G_CALLBACK(cb_rstto_main_window_motion_notify_event), window);
+    g_signal_connect(G_OBJECT(window->priv->picture_viewer), "enter-notify-event", G_CALLBACK(cb_rstto_main_window_picture_viewer_enter_notify_event), window);
     g_signal_connect(G_OBJECT(window), "configure-event", G_CALLBACK(cb_rstto_main_window_configure_event), NULL);
     g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_main_window_state_event), NULL);
     g_signal_connect(G_OBJECT(window->priv->image_list_toolbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
@@ -2015,16 +2020,19 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
 }
 
 static gboolean 
-cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
-                                             GdkEventMotion *event,
-                                             gpointer user_data)
+cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
+                                         GdkEventMotion *event,
+                                         gpointer user_data)
 {
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    gint width, height;
     if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
     {
-        if (event->state == 0)
+	gdk_drawable_get_size (GDK_DRAWABLE(GTK_WIDGET(window)->window), &width, &height);
+        //if ((event->state == 0) && (event->window == event->subwindow))
+	if ((event->x == 0) || (event->y == 0) || (((gint)event->x) == (width-1)) || (((gint)event->y) == (height-1)))
         {
             gtk_widget_show (window->priv->image_list_toolbar);
+            window->priv->fs_toolbar_sticky = TRUE;
 
             if (window->priv->fs_toolbar_sticky == FALSE)
             {
@@ -2037,6 +2045,23 @@ cb_rstto_main_window_picture_viewer_motion_notify_event (RsttoPictureViewer *vie
             }
         }
     }
+    return TRUE;
+}
+
+static gboolean
+cb_rstto_main_window_picture_viewer_enter_notify_event (GtkWidget *widget,
+                                                        GdkEventCrossing *event,
+                                                        gpointer user_data)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    window->priv->fs_toolbar_sticky = FALSE;
+    if (window->priv->show_fs_toolbar_timeout_id > 0)
+    {
+        g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+        window->priv->show_fs_toolbar_timeout_id = 0;
+    }
+    window->priv->show_fs_toolbar_timeout_id = g_timeout_add (2000, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+
     return TRUE;
 }
 
