@@ -191,6 +191,8 @@ cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *window);
 static void
+cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action, GtkRadioAction *current,  RsttoMainWindow *window);
+static void
 cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *, GtkRadioAction *,  RsttoMainWindow *window);
 static void
 cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
@@ -304,26 +306,34 @@ static GtkActionEntry action_entries[] =
                 NULL,
                 N_ ("Display information about ristretto"),
                 G_CALLBACK (cb_rstto_main_window_about), },
-/* Positio Menu */
+/* Position Menu */
   { "position-menu", NULL, N_ ("_Position"), NULL, },
 /* Misc */
   { "leave-fullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("Leave _Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "tb-menu", NULL, NULL, NULL, }
 };
 
+/** Toggle Action Entries */
 static const GtkToggleActionEntry toggle_action_entries[] =
 {
+    /* Toggle visibility of the main file toolbar */
     { "show-file-toolbar", NULL, N_ ("Show _File Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_file_toolbar), TRUE, },
+    /* Toggle visibility of the main navigation toolbar */
     { "show-nav-toolbar", NULL, N_ ("Show _Navigation Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_nav_toolbar), TRUE, },
+    /* Toggle visibility of the thumbnailbar*/
     { "show-thumbnailbar", NULL, N_ ("Show _Thumbnailbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_thumbnailbar), TRUE, },
 };
 
+/** Image sorting options*/
 static const GtkRadioActionEntry radio_action_sort_entries[] = 
 {
+    /* Sort by Filename */
     {"sort-filename", NULL, N_("sort by filename"), NULL, NULL, 0},
+    /* Sort by Date*/
     {"sort-date", NULL, N_("sort by date"), NULL, NULL, 1},
 };
 
+/** Navigationbar+Thumbnailbar positioning options*/
 static const GtkRadioActionEntry radio_action_pos_entries[] = 
 {
     { "pos-left", NULL, N_("Left"), NULL, NULL, 0},
@@ -407,8 +417,11 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->toolbar_unfullscreen_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
 
 
+    /* Create Play/Pause Slideshow actions */
     window->priv->play_action = gtk_action_new ("play", "_Play", "Play slideshow", GTK_STOCK_MEDIA_PLAY);
     window->priv->pause_action = gtk_action_new ("pause", "_Pause", "Pause slideshow", GTK_STOCK_MEDIA_PAUSE);
+
+    /* Create Recently used items Action */
     window->priv->recent_action = gtk_recent_action_new_for_manager ("document-open-recent", "_Recently used", "Recently used", 0, GTK_RECENT_MANAGER(window->priv->recent_manager));
 
     gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (window->priv->recent_action), GTK_RECENT_SORT_MRU);
@@ -442,7 +455,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_action_group_set_translation_domain (window->priv->action_group, GETTEXT_PACKAGE);
     gtk_action_group_add_actions (window->priv->action_group, action_entries, G_N_ELEMENTS (action_entries), GTK_WIDGET (window));
     gtk_action_group_add_toggle_actions (window->priv->action_group, toggle_action_entries, G_N_ELEMENTS (toggle_action_entries), GTK_WIDGET (window));
-    gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_sort_entries , G_N_ELEMENTS (radio_action_sort_entries), 0, NULL, GTK_WIDGET (window));
+    gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_sort_entries , G_N_ELEMENTS (radio_action_sort_entries), 0, G_CALLBACK (cb_rstto_main_window_sorting_function_changed), GTK_WIDGET (window));
     gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_pos_entries, G_N_ELEMENTS (radio_action_pos_entries), navigationbar_position, G_CALLBACK (cb_rstto_main_window_navigationtoolbar_position_changed), GTK_WIDGET (window));
 
     gtk_ui_manager_add_ui_from_string (window->priv->ui_manager,main_window_ui, main_window_ui_length, NULL);
@@ -700,12 +713,6 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
     return widget;
 }
 
-static void
-cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window)
-{
-    rstto_main_window_image_list_iter_changed (window);
-}
-
 /**
  * rstto_main_window_image_list_iter_changed:
  * @window:
@@ -779,6 +786,21 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
 
             gtk_action_set_sensitive (window->priv->play_action, FALSE);
             gtk_action_set_sensitive (window->priv->pause_action, FALSE);
+
+    
+            /* Stop the slideshow if no image is opened */
+            if (window->priv->playing == TRUE)
+            {
+                gtk_ui_manager_add_ui (window->priv->ui_manager, window->priv->play_merge_id, "/main-menu/go-menu/placeholder-slideshow",
+                                       "play", "play", GTK_UI_MANAGER_MENUITEM, FALSE);
+                gtk_ui_manager_remove_ui (window->priv->ui_manager, window->priv->pause_merge_id);
+
+                gtk_ui_manager_add_ui (window->priv->ui_manager, window->priv->toolbar_play_merge_id, "/navigation-toolbar/placeholder-slideshow",
+                                       "play", "play", GTK_UI_MANAGER_TOOLITEM, FALSE);
+                gtk_ui_manager_remove_ui (window->priv->ui_manager, window->priv->toolbar_pause_merge_id);
+
+                window->priv->playing = FALSE;
+            }
             
 
             /* View Menu */
@@ -814,6 +836,20 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
 
             gtk_action_set_sensitive (window->priv->play_action, FALSE);
             gtk_action_set_sensitive (window->priv->pause_action, FALSE);
+
+            /* Stop the slideshow if only one image is opened */
+            if (window->priv->playing == TRUE)
+            {
+                gtk_ui_manager_add_ui (window->priv->ui_manager, window->priv->play_merge_id, "/main-menu/go-menu/placeholder-slideshow",
+                                       "play", "play", GTK_UI_MANAGER_MENUITEM, FALSE);
+                gtk_ui_manager_remove_ui (window->priv->ui_manager, window->priv->pause_merge_id);
+
+                gtk_ui_manager_add_ui (window->priv->ui_manager, window->priv->toolbar_play_merge_id, "/navigation-toolbar/placeholder-slideshow",
+                                       "play", "play", GTK_UI_MANAGER_TOOLITEM, FALSE);
+                gtk_ui_manager_remove_ui (window->priv->ui_manager, window->priv->toolbar_pause_merge_id);
+
+                window->priv->playing = FALSE;
+            }
             
 
             /* View Menu */
@@ -946,6 +982,631 @@ rstto_main_window_get_property (GObject    *object,
             break;
     }
 }
+
+static gboolean
+rstto_window_save_geometry_timer (gpointer user_data)
+{
+    GtkWindow *window = GTK_WINDOW(user_data);
+    gint width = 0;
+    gint height = 0;
+    /* check if the window is still visible */
+    if (GTK_WIDGET_VISIBLE (window))
+    {
+        /* determine the current state of the window */
+        gint state = gdk_window_get_state (GTK_WIDGET (window)->window);
+
+        /* don't save geometry for maximized or fullscreen windows */
+        if ((state & (GDK_WINDOW_STATE_MAXIMIZED | GDK_WINDOW_STATE_FULLSCREEN)) == 0)
+        {
+            /* determine the current width/height of the window... */
+            gtk_window_get_size (GTK_WINDOW (window), &width, &height);
+
+            /* ...and remember them as default for new windows */
+            g_object_set (G_OBJECT (RSTTO_MAIN_WINDOW(window)->priv->settings_manager), 
+                          "window-width", width,
+                          "window-height", height,
+                          NULL);
+        }
+    }
+    return FALSE;
+}
+
+static void
+rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint orientation)
+{
+    rstto_settings_set_navbar_position (window->priv->settings_manager, orientation);
+
+    switch (orientation)
+    {
+        case 0: /* Left */
+            g_object_ref (window->priv->image_list_toolbar);
+            g_object_ref (window->priv->thumbnailbar);
+
+            gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
+            gtk_paned_pack1 (GTK_PANED (window->priv->hpaned_left), window->priv->thumbnailbar, FALSE, FALSE);
+
+            gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
+            gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 1, 0, 3, GTK_FILL, GTK_EXPAND|GTK_FILL, 0, 0);
+            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_VERTICAL);
+            rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_VERTICAL);
+            break;
+        case 1: /* Right */
+            g_object_ref (window->priv->image_list_toolbar);
+            g_object_ref (window->priv->thumbnailbar);
+
+            gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
+            gtk_paned_pack2 (GTK_PANED (window->priv->hpaned_right), window->priv->thumbnailbar, FALSE, FALSE);
+
+            gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
+            gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 2, 3, 0, 3, GTK_FILL,GTK_EXPAND|GTK_FILL, 0, 0);
+            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_VERTICAL);
+            rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_VERTICAL);
+            break;
+        case 2: /* Top */
+            g_object_ref (window->priv->image_list_toolbar);
+            g_object_ref (window->priv->thumbnailbar);
+
+            gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
+            gtk_paned_pack1 (GTK_PANED (window->priv->vpaned_top), window->priv->thumbnailbar, FALSE, FALSE);
+
+            gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
+            gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 3, 0, 1, GTK_EXPAND|GTK_FILL,GTK_FILL, 0, 0);
+            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_HORIZONTAL);
+            rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_HORIZONTAL);
+            break;
+        case 3: /* Bottom */
+            g_object_ref (window->priv->image_list_toolbar);
+            g_object_ref (window->priv->thumbnailbar);
+
+            gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
+            gtk_paned_pack2 (GTK_PANED (window->priv->vpaned_bottom), window->priv->thumbnailbar, FALSE, FALSE);
+
+            gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
+            gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 3, 2, 3, GTK_EXPAND|GTK_FILL,GTK_FILL, 0, 0);
+            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_HORIZONTAL);
+            rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_HORIZONTAL);
+            break;
+        default:
+            break;
+    }
+}
+
+
+/************************/
+/**                    **/
+/** Callback functions **/
+/**                    **/
+/************************/
+
+static void
+cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+{
+    int button, event_time;
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    GtkWidget *menu = NULL;
+    if (event->button == 3 && event->type == GDK_BUTTON_PRESS)
+    {
+        if (event)
+        {
+            button = event->button;
+            event_time = event->time;
+        }
+        else
+        {
+            button = 0;
+            event_time = gtk_get_current_event_time ();
+        }
+
+
+        menu = window->priv->position_menu;
+        gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 
+                  button, event_time);
+    }
+}
+
+static void
+cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window)
+{
+    rstto_main_window_image_list_iter_changed (window);
+}
+
+static void
+cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action, GtkRadioAction *current,  RsttoMainWindow *window)
+{
+    switch (gtk_radio_action_get_current_value (current))
+    {
+        case 0:  /* Sort by filename */
+        default:
+            rstto_image_list_set_sort_by_name (window->priv->props.image_list);
+            break;
+        case 1: /* Sort by date */
+            rstto_image_list_set_sort_by_date (window->priv->props.image_list);
+            break;
+    }
+}
+
+static void
+cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action, GtkRadioAction *current,  RsttoMainWindow *window)
+{
+    rstto_main_window_set_navigationbar_position (window, gtk_radio_action_get_current_value (current));
+}
+
+/**
+ * cb_rstto_main_window_message_bar_open:
+ * @widget:
+ * @window:
+ *
+ */
+static void
+cb_rstto_main_window_message_bar_open (GtkWidget *widget, RsttoMainWindow *window)
+{
+    GFile *child_file = NULL;
+    GFileEnumerator *file_enumarator = NULL;
+    GFileInfo *file_info = NULL;
+    const gchar *filename = NULL;
+    const gchar *content_type = NULL;
+
+    gtk_widget_hide (window->priv->message_bar);
+
+
+    file_enumarator = g_file_enumerate_children (window->priv->message_bar_file, "standard::*", 0, NULL, NULL);
+    for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+    {
+        filename = g_file_info_get_name (file_info);
+        content_type  = g_file_info_get_content_type (file_info);
+        child_file = g_file_get_child (window->priv->message_bar_file, filename);
+
+        if (strncmp (content_type, "image/", 6) == 0)
+        {
+            rstto_image_list_add_file (window->priv->props.image_list, child_file, NULL);
+        }
+
+        g_object_unref (child_file);
+        g_object_unref (file_info);
+    }
+
+    
+    if (window->priv->message_bar_file)
+    {
+        g_object_unref (window->priv->message_bar_file);
+        window->priv->message_bar_file = NULL;
+    }
+}
+
+static void
+cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *window)
+{
+    
+}
+
+static void
+cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW(widget);
+    GValue           show_file_toolbar_val = {0,};
+    GValue           show_nav_toolbar_val = {0,};
+
+    if(event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
+    {
+        if(event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN)
+        {
+            gtk_widget_hide (window->priv->menubar);
+            gtk_widget_hide (window->priv->toolbar);
+            gtk_widget_hide (window->priv->statusbar);
+            if (window->priv->fs_toolbar_sticky)
+            {
+                if (window->priv->show_fs_toolbar_timeout_id > 0)
+                {
+                    g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+                    window->priv->show_fs_toolbar_timeout_id = 0;
+                }
+                window->priv->show_fs_toolbar_timeout_id = g_timeout_add (3000, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+            }
+            else
+            {
+                gtk_widget_hide (window->priv->image_list_toolbar);
+            }
+
+            rstto_picture_viewer_zoom_fit (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer));
+
+            gtk_ui_manager_add_ui (window->priv->ui_manager,
+                                   window->priv->toolbar_unfullscreen_merge_id,
+                                   "/navigation-toolbar/placeholder-fullscreen",
+                                   "unfullscreen",
+                                   "unfullscreen",
+                                   GTK_UI_MANAGER_TOOLITEM,
+                                   FALSE);
+            gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                                   window->priv->toolbar_fullscreen_merge_id);
+        }
+        else
+        {
+            gtk_ui_manager_add_ui (window->priv->ui_manager,
+                                   window->priv->toolbar_fullscreen_merge_id,
+                                   "/navigation-toolbar/placeholder-fullscreen",
+                                   "fullscreen",
+                                   "fullscreen",
+                                   GTK_UI_MANAGER_TOOLITEM,
+                                   FALSE);
+            gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                                   window->priv->toolbar_unfullscreen_merge_id);
+            if (window->priv->show_fs_toolbar_timeout_id > 0)
+            {
+                g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+                window->priv->show_fs_toolbar_timeout_id = 0;
+            }
+            gtk_widget_show (window->priv->image_list_toolbar);
+
+            g_value_init (&show_file_toolbar_val, G_TYPE_BOOLEAN);
+            g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-file-toolbar", &show_file_toolbar_val);
+
+            g_value_init (&show_nav_toolbar_val, G_TYPE_BOOLEAN);
+            g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-nav-toolbar", &show_nav_toolbar_val);
+
+            gtk_widget_show (window->priv->menubar);
+            gtk_widget_show (window->priv->statusbar);
+
+            if (g_value_get_boolean (&show_file_toolbar_val))
+                gtk_widget_show (window->priv->toolbar);
+
+            if (g_value_get_boolean (&show_nav_toolbar_val))
+                gtk_widget_show (window->priv->image_list_toolbar);
+            else
+                gtk_widget_hide(window->priv->image_list_toolbar);
+            
+            g_value_reset (&show_file_toolbar_val);
+        }
+    }
+    if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
+    {
+    }
+}
+
+static gboolean 
+cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
+                                         GdkEventMotion *event,
+                                         gpointer user_data)
+{
+    gint width, height;
+    if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
+    {
+	gdk_drawable_get_size (GDK_DRAWABLE(GTK_WIDGET(window)->window), &width, &height);
+        //if ((event->state == 0) && (event->window == event->subwindow))
+	if ((event->x_root == 0) || (event->y_root == 0) || (((gint)event->x_root) == (width-1)) || (((gint)event->y_root) == (height-1)))
+        {
+            gtk_widget_show (window->priv->image_list_toolbar);
+            window->priv->fs_toolbar_sticky = TRUE;
+
+            if (window->priv->show_fs_toolbar_timeout_id > 0)
+            {
+                g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+                window->priv->show_fs_toolbar_timeout_id = 0;
+            }
+        }
+    }
+    return TRUE;
+}
+
+static gboolean
+cb_rstto_main_window_picture_viewer_enter_notify_event (GtkWidget *widget,
+                                                        GdkEventCrossing *event,
+                                                        gpointer user_data)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
+    {
+        window->priv->fs_toolbar_sticky = FALSE;
+        if (window->priv->show_fs_toolbar_timeout_id > 0)
+        {
+            g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+            window->priv->show_fs_toolbar_timeout_id = 0;
+        }
+        window->priv->show_fs_toolbar_timeout_id = g_timeout_add (2000, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+    }
+
+    return TRUE;
+}
+
+static gboolean
+cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window)
+{
+    gtk_widget_hide (window->priv->image_list_toolbar);
+    return FALSE;
+}
+
+static void
+cb_rstto_main_window_settings_notify (GObject *settings, GParamSpec *spec, RsttoMainWindow *window)
+{
+    GValue val = {0,};
+    g_return_if_fail (RSTTO_IS_SETTINGS (settings));
+    g_return_if_fail (RSTTO_IS_MAIN_WINDOW (window));
+
+    g_value_init (&val, spec->value_type);
+    g_object_get_property (settings, spec->name, &val);
+
+
+    g_value_unset (&val);
+}
+
+/**
+ * cb_rstto_main_window_message_bar_cancel:
+ * @widget:
+ * @window:
+ *
+ */
+static void
+cb_rstto_main_window_message_bar_cancel (GtkWidget *widget, RsttoMainWindow *window)
+{
+    gtk_widget_hide (window->priv->message_bar);
+    if (window->priv->message_bar_file)
+    {
+        g_object_unref (window->priv->message_bar_file);
+        window->priv->message_bar_file = NULL;
+    }
+}
+
+/**
+ * cb_rstto_main_window_play:
+ * @widget:
+ * @window:
+ *
+ * Remove the play button from the menu, and add the pause button.
+ *
+ */
+static void
+cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window)
+{
+    GValue timeout = {0, };
+
+    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->pause_merge_id,
+                           "/main-menu/go-menu/placeholder-slideshow",
+                           "pause",
+                           "pause",
+                           GTK_UI_MANAGER_MENUITEM,
+                           FALSE);
+    gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                              window->priv->play_merge_id);
+
+    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->toolbar_pause_merge_id,
+                           "/navigation-toolbar/placeholder-slideshow",
+                           "pause",
+                           "pause",
+                           GTK_UI_MANAGER_TOOLITEM,
+                           FALSE);
+    gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                              window->priv->toolbar_play_merge_id);
+
+
+    g_value_init (&timeout, G_TYPE_UINT);
+    g_object_get_property (G_OBJECT(window->priv->settings_manager), "slideshow-timeout", &timeout);
+
+    window->priv->playing = TRUE;
+    window->priv->play_timeout_id = g_timeout_add (g_value_get_uint (&timeout), (GSourceFunc)cb_rstto_main_window_play_slideshow, window);
+}
+
+/**
+ * cb_rstto_main_window_pause:
+ * @widget:
+ * @window:
+ *
+ * Remove the pause button from the menu, and add the play button.
+ *
+ */
+static void
+cb_rstto_main_window_pause (GtkWidget *widget, RsttoMainWindow *window)
+{
+    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->play_merge_id,
+                           "/main-menu/go-menu/placeholder-slideshow",
+                           "play",
+                           "play",
+                           GTK_UI_MANAGER_MENUITEM,
+                           FALSE);
+    gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                              window->priv->pause_merge_id);
+
+    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->toolbar_play_merge_id,
+                           "/navigation-toolbar/placeholder-slideshow",
+                           "play",
+                           "play",
+                           GTK_UI_MANAGER_TOOLITEM,
+                           FALSE);
+    gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                              window->priv->toolbar_pause_merge_id);
+
+    window->priv->playing = FALSE;
+}
+
+/**
+ * cb_rstto_main_window_play_slideshow:
+ * @window:
+ *
+ */
+static gboolean
+cb_rstto_main_window_play_slideshow (RsttoMainWindow *window)
+{
+    if (window->priv->playing)
+    {
+        rstto_image_list_iter_next (window->priv->iter);
+        rstto_main_window_image_list_iter_changed (window);
+    }
+    else
+    {
+        window->priv->play_timeout_id  = 0;
+    }
+    return window->priv->playing;
+}
+
+/**
+ * cb_rstto_main_window_fullscreen:
+ * @widget:
+ * @window:
+ *
+ * Toggle the fullscreen mode of this window.
+ *
+ */
+static void
+cb_rstto_main_window_fullscreen (GtkWidget *widget, RsttoMainWindow *window)
+{
+    if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
+    {
+        gtk_window_unfullscreen(GTK_WINDOW(window));
+    }
+    else
+    {
+        gtk_window_fullscreen(GTK_WINDOW(window));
+    }
+}
+
+/**
+ * cb_rstto_main_window_preferences:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_preferences (GtkWidget *widget, RsttoMainWindow *window)
+{
+    GValue val1 = {0,};
+    GValue val2 = {0,};
+    GtkWidget *dialog = rstto_preferences_dialog_new (GTK_WINDOW (window));
+
+    g_value_init (&val1, G_TYPE_UINT);
+    g_value_init (&val2, G_TYPE_UINT);
+
+
+    g_object_get_property (G_OBJECT (window->priv->settings_manager), "image-quality", &val1);
+
+    gtk_dialog_run (GTK_DIALOG (dialog));
+
+    g_object_get_property (G_OBJECT (window->priv->settings_manager), "image-quality", &val2);
+
+    if (g_value_get_uint (&val1) != g_value_get_uint (&val2))
+    {
+        rstto_image_cache_clear (rstto_image_cache_new());
+    }
+
+    gtk_widget_destroy (dialog);
+}
+
+/**
+ * cb_rstto_main_window_about:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
+{
+    const gchar *authors[] = {
+      _("Developer:"),
+        "Stephan Arts <stephan@xfce.org>",
+        NULL};
+
+    GtkWidget *about_dialog = gtk_about_dialog_new();
+
+    gtk_about_dialog_set_name((GtkAboutDialog *)about_dialog, PACKAGE_NAME);
+    gtk_about_dialog_set_version((GtkAboutDialog *)about_dialog, PACKAGE_VERSION);
+
+    gtk_about_dialog_set_comments((GtkAboutDialog *)about_dialog,
+        _("Ristretto is an imageviewer for the Xfce desktop environment."));
+    gtk_about_dialog_set_website((GtkAboutDialog *)about_dialog,
+        "http://goodies.xfce.org/projects/applications/ristretto");
+    gtk_about_dialog_set_logo_icon_name((GtkAboutDialog *)about_dialog,
+        "ristretto");
+    gtk_about_dialog_set_authors((GtkAboutDialog *)about_dialog,
+        authors);
+    gtk_about_dialog_set_translator_credits((GtkAboutDialog *)about_dialog,
+        _("translator-credits"));
+    gtk_about_dialog_set_license((GtkAboutDialog *)about_dialog,
+        xfce_get_license_text(XFCE_LICENSE_TEXT_GPL));
+    gtk_about_dialog_set_copyright((GtkAboutDialog *)about_dialog,
+        "Copyright \302\251 2006-2009 Stephan Arts");
+
+    gtk_dialog_run(GTK_DIALOG(about_dialog));
+
+    gtk_widget_destroy(about_dialog);
+}
+
+/**
+ * cb_rstto_main_window_contents:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_contents (GtkWidget *widget, RsttoMainWindow *window)
+{
+    g_debug ("%s", __FUNCTION__);
+}
+
+
+/**
+ * cb_rstto_main_window_quit:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_quit (GtkWidget *widget, RsttoMainWindow *window)
+{
+    gtk_widget_destroy (GTK_WIDGET (window));
+}
+
+/**
+ * cb_rstto_main_window_image_list_new_image:
+ * @image_list:
+ * @image:
+ * @window:
+ *
+ */
+static void
+cb_rstto_main_window_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, RsttoMainWindow *window)
+{
+    if (rstto_image_list_iter_get_position (window->priv->iter) == -1)
+        rstto_image_list_iter_set_position (window->priv->iter, 0);
+    rstto_main_window_image_list_iter_changed (window);
+}
+
+static gboolean
+cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW(widget);
+    /* shamelessly copied from thunar, written by benny */
+    /* check if we have a new dimension here */
+    if (widget->allocation.width != event->width || widget->allocation.height != event->height)
+    {
+        /* drop any previous timer source */
+        if (window->priv->window_save_geometry_timer_id > 0)
+        {
+            g_source_remove (window->priv->window_save_geometry_timer_id);
+        }
+        window->priv->window_save_geometry_timer_id = 0;
+
+        /* check if we should schedule another save timer */
+        if (GTK_WIDGET_VISIBLE (widget))
+        {
+            /* save the geometry one second after the last configure event */
+            window->priv->window_save_geometry_timer_id = g_timeout_add (
+                    1000, rstto_window_save_geometry_timer,
+                    widget);
+        }
+    }
+
+    /* let Gtk+ handle the configure event */
+    return FALSE;
+}
+
+/******************/
+/* ZOOM CALLBACKS */
+/******************/
 
 /**
  * cb_rstto_main_window_zoom_fit:
@@ -1137,6 +1798,10 @@ cb_rstto_main_window_previous_image (GtkWidget *widget, RsttoMainWindow *window)
 {
     rstto_image_list_iter_previous (window->priv->iter);
 }
+
+/**********************/
+/* FILE I/O CALLBACKS */
+/**********************/
 
 /**
  * cb_rstto_main_window_open_image:
@@ -1427,6 +2092,13 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     g_free (uri);
 }
 
+/**
+ * cb_rstto_main_window_save_copy:
+ * @widget:
+ * @window:
+ *
+ *
+ */
 static void
 cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
 {
@@ -1456,6 +2128,77 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
     gtk_widget_destroy(dialog);
 
 }
+
+/**
+ * cb_rstto_main_window_close:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window)
+{
+    RsttoImage *image = rstto_image_list_iter_get_image (window->priv->iter);
+    rstto_image_list_remove_image (window->priv->props.image_list, image);
+}
+
+/**
+ * cb_rstto_main_window_close_all:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window)
+{
+    rstto_image_list_remove_all (window->priv->props.image_list);
+    rstto_main_window_image_list_iter_changed (window);
+}
+
+
+/**
+ * cb_rstto_main_window_delete:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
+{
+    RsttoImage *image = rstto_image_list_iter_get_image (window->priv->iter);
+    GFile *file = rstto_image_get_file (image);
+    gchar *path = g_file_get_path (file);
+    gchar *basename = g_path_get_basename (path);
+    GtkWidget *dialog = gtk_message_dialog_new (GTK_WINDOW (window),
+                                                GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                GTK_MESSAGE_WARNING,
+                                                GTK_BUTTONS_OK_CANCEL,
+                                                N_("Are you sure you want to delete image '%s' from disk?"),
+                                                basename);
+    g_object_ref (image);
+    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+    {
+        if (g_file_trash (file, NULL, NULL) == TRUE)
+        {
+            rstto_image_list_remove_image (window->priv->props.image_list, image);
+        }
+        else
+        {
+            
+        }
+    }
+    gtk_widget_destroy (dialog);
+    g_free (basename);
+    g_free (path);
+    g_object_unref (image);
+}
+
+/**********************/
+/* PRINTING CALLBACKS */
+/**********************/
 
 /**
  * cb_rstto_main_window_print:
@@ -1522,287 +2265,9 @@ rstto_main_window_print_draw_page (GtkPrintOperation *operation,
     cairo_paint (context);
 }
 
-
-/**
- * cb_rstto_main_window_play:
- * @widget:
- * @window:
- *
- * Remove the play button from the menu, and add the pause button.
- *
- */
-static void
-cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window)
-{
-    GValue timeout = {0, };
-
-    gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->pause_merge_id,
-                           "/main-menu/go-menu/placeholder-slideshow",
-                           "pause",
-                           "pause",
-                           GTK_UI_MANAGER_MENUITEM,
-                           FALSE);
-    gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                              window->priv->play_merge_id);
-
-    gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->toolbar_pause_merge_id,
-                           "/navigation-toolbar/placeholder-slideshow",
-                           "pause",
-                           "pause",
-                           GTK_UI_MANAGER_TOOLITEM,
-                           FALSE);
-    gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                              window->priv->toolbar_play_merge_id);
-
-
-    g_value_init (&timeout, G_TYPE_UINT);
-    g_object_get_property (G_OBJECT(window->priv->settings_manager), "slideshow-timeout", &timeout);
-
-    window->priv->playing = TRUE;
-    window->priv->play_timeout_id = g_timeout_add (g_value_get_uint (&timeout), (GSourceFunc)cb_rstto_main_window_play_slideshow, window);
-}
-
-/**
- * cb_rstto_main_window_pause:
- * @widget:
- * @window:
- *
- * Remove the pause button from the menu, and add the play button.
- *
- */
-static void
-cb_rstto_main_window_pause (GtkWidget *widget, RsttoMainWindow *window)
-{
-    gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->play_merge_id,
-                           "/main-menu/go-menu/placeholder-slideshow",
-                           "play",
-                           "play",
-                           GTK_UI_MANAGER_MENUITEM,
-                           FALSE);
-    gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                              window->priv->pause_merge_id);
-
-    gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->toolbar_play_merge_id,
-                           "/navigation-toolbar/placeholder-slideshow",
-                           "play",
-                           "play",
-                           GTK_UI_MANAGER_TOOLITEM,
-                           FALSE);
-    gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                              window->priv->toolbar_pause_merge_id);
-
-    window->priv->playing = FALSE;
-}
-
-/**
- * cb_rstto_main_window_play_slideshow:
- * @window:
- *
- */
-static gboolean
-cb_rstto_main_window_play_slideshow (RsttoMainWindow *window)
-{
-    if (window->priv->playing)
-    {
-        rstto_image_list_iter_next (window->priv->iter);
-        rstto_main_window_image_list_iter_changed (window);
-    }
-    else
-    {
-        window->priv->play_timeout_id  = 0;
-    }
-    return window->priv->playing;
-}
-
-/**
- * cb_rstto_main_window_fullscreen:
- * @widget:
- * @window:
- *
- * Toggle the fullscreen mode of this window.
- *
- */
-static void
-cb_rstto_main_window_fullscreen (GtkWidget *widget, RsttoMainWindow *window)
-{
-    if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
-    {
-        gtk_window_unfullscreen(GTK_WINDOW(window));
-    }
-    else
-    {
-        gtk_window_fullscreen(GTK_WINDOW(window));
-    }
-}
-
-/**
- * cb_rstto_main_window_preferences:
- * @widget:
- * @window:
- *
- *
- */
-static void
-cb_rstto_main_window_preferences (GtkWidget *widget, RsttoMainWindow *window)
-{
-    GValue val1 = {0,};
-    GValue val2 = {0,};
-    GtkWidget *dialog = rstto_preferences_dialog_new (GTK_WINDOW (window));
-
-    g_value_init (&val1, G_TYPE_UINT);
-    g_value_init (&val2, G_TYPE_UINT);
-
-
-    g_object_get_property (G_OBJECT (window->priv->settings_manager), "image-quality", &val1);
-
-    gtk_dialog_run (GTK_DIALOG (dialog));
-
-    g_object_get_property (G_OBJECT (window->priv->settings_manager), "image-quality", &val2);
-
-    if (g_value_get_uint (&val1) != g_value_get_uint (&val2))
-    {
-        rstto_image_cache_clear (rstto_image_cache_new());
-    }
-
-    gtk_widget_destroy (dialog);
-}
-
-/**
- * cb_rstto_main_window_about:
- * @widget:
- * @window:
- *
- *
- */
-static void
-cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
-{
-    const gchar *authors[] = {
-      _("Developer:"),
-        "Stephan Arts <stephan@xfce.org>",
-        NULL};
-
-    GtkWidget *about_dialog = gtk_about_dialog_new();
-
-    gtk_about_dialog_set_name((GtkAboutDialog *)about_dialog, PACKAGE_NAME);
-    gtk_about_dialog_set_version((GtkAboutDialog *)about_dialog, PACKAGE_VERSION);
-
-    gtk_about_dialog_set_comments((GtkAboutDialog *)about_dialog,
-        _("Ristretto is an imageviewer for the Xfce desktop environment."));
-    gtk_about_dialog_set_website((GtkAboutDialog *)about_dialog,
-        "http://goodies.xfce.org/projects/applications/ristretto");
-    gtk_about_dialog_set_logo_icon_name((GtkAboutDialog *)about_dialog,
-        "ristretto");
-    gtk_about_dialog_set_authors((GtkAboutDialog *)about_dialog,
-        authors);
-    gtk_about_dialog_set_translator_credits((GtkAboutDialog *)about_dialog,
-        _("translator-credits"));
-    gtk_about_dialog_set_license((GtkAboutDialog *)about_dialog,
-        xfce_get_license_text(XFCE_LICENSE_TEXT_GPL));
-    gtk_about_dialog_set_copyright((GtkAboutDialog *)about_dialog,
-        "Copyright \302\251 2006-2009 Stephan Arts");
-
-    gtk_dialog_run(GTK_DIALOG(about_dialog));
-
-    gtk_widget_destroy(about_dialog);
-}
-
-/**
- * cb_rstto_main_window_contents:
- * @widget:
- * @window:
- *
- *
- */
-static void
-cb_rstto_main_window_contents (GtkWidget *widget, RsttoMainWindow *window)
-{
-    g_debug ("%s", __FUNCTION__);
-}
-
-
-/**
- * cb_rstto_main_window_quit:
- * @widget:
- * @window:
- *
- *
- */
-static void
-cb_rstto_main_window_quit (GtkWidget *widget, RsttoMainWindow *window)
-{
-    gtk_widget_destroy (GTK_WIDGET (window));
-}
-
-/**
- * cb_rstto_main_window_close:
- * @widget:
- * @window:
- *
- *
- */
-static void
-cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window)
-{
-    RsttoImage *image = rstto_image_list_iter_get_image (window->priv->iter);
-    rstto_image_list_remove_image (window->priv->props.image_list, image);
-}
-
-/**
- * cb_rstto_main_window_close_all:
- * @widget:
- * @window:
- *
- *
- */
-static void
-cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window)
-{
-    rstto_image_list_remove_all (window->priv->props.image_list);
-    rstto_main_window_image_list_iter_changed (window);
-}
-
-/**
- * cb_rstto_main_window_delete:
- * @widget:
- * @window:
- *
- *
- */
-static void
-cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
-{
-    RsttoImage *image = rstto_image_list_iter_get_image (window->priv->iter);
-    GFile *file = rstto_image_get_file (image);
-    gchar *path = g_file_get_path (file);
-    gchar *basename = g_path_get_basename (path);
-    GtkWidget *dialog = gtk_message_dialog_new (GTK_WINDOW (window),
-                                                GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                GTK_MESSAGE_WARNING,
-                                                GTK_BUTTONS_OK_CANCEL,
-                                                N_("Are you sure you want to delete image '%s' from disk?"),
-                                                basename);
-    g_object_ref (image);
-    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
-    {
-        if (g_file_trash (file, NULL, NULL) == TRUE)
-        {
-            rstto_image_list_remove_image (window->priv->props.image_list, image);
-        }
-        else
-        {
-            
-        }
-    }
-    gtk_widget_destroy (dialog);
-    g_free (basename);
-    g_free (path);
-    g_object_unref (image);
-}
+/*************************/
+/* GUI-RELATED CALLBACKS */
+/*************************/
 
 /**
  * cb_rstto_main_window_toggle_show_file_toolbar:
@@ -1882,402 +2347,3 @@ cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindo
     g_object_set_property (G_OBJECT (window->priv->settings_manager), "show-thumbnailbar", &val);
 }
 
-/**
- * cb_rstto_main_window_image_list_new_image:
- * @image_list:
- * @image:
- * @window:
- *
- */
-static void
-cb_rstto_main_window_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, RsttoMainWindow *window)
-{
-    if (rstto_image_list_iter_get_position (window->priv->iter) == -1)
-        rstto_image_list_iter_set_position (window->priv->iter, 0);
-    rstto_main_window_image_list_iter_changed (window);
-}
-
-static gboolean
-cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event)
-{
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW(widget);
-    /* shamelessly copied from thunar, written by benny */
-    /* check if we have a new dimension here */
-    if (widget->allocation.width != event->width || widget->allocation.height != event->height)
-    {
-        /* drop any previous timer source */
-        if (window->priv->window_save_geometry_timer_id > 0)
-        {
-            g_source_remove (window->priv->window_save_geometry_timer_id);
-        }
-        window->priv->window_save_geometry_timer_id = 0;
-
-        /* check if we should schedule another save timer */
-        if (GTK_WIDGET_VISIBLE (widget))
-        {
-            /* save the geometry one second after the last configure event */
-            window->priv->window_save_geometry_timer_id = g_timeout_add (
-                    1000, rstto_window_save_geometry_timer,
-                    widget);
-        }
-    }
-
-    /* let Gtk+ handle the configure event */
-    return FALSE;
-}
-
-static gboolean
-rstto_window_save_geometry_timer (gpointer user_data)
-{
-    GtkWindow *window = GTK_WINDOW(user_data);
-    gint width = 0;
-    gint height = 0;
-    /* check if the window is still visible */
-    if (GTK_WIDGET_VISIBLE (window))
-    {
-        /* determine the current state of the window */
-        gint state = gdk_window_get_state (GTK_WIDGET (window)->window);
-
-        /* don't save geometry for maximized or fullscreen windows */
-        if ((state & (GDK_WINDOW_STATE_MAXIMIZED | GDK_WINDOW_STATE_FULLSCREEN)) == 0)
-        {
-            /* determine the current width/height of the window... */
-            gtk_window_get_size (GTK_WINDOW (window), &width, &height);
-
-            /* ...and remember them as default for new windows */
-            g_object_set (G_OBJECT (RSTTO_MAIN_WINDOW(window)->priv->settings_manager), 
-                          "window-width", width,
-                          "window-height", height,
-                          NULL);
-        }
-    }
-    return FALSE;
-}
-
-static void
-cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data)
-{
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW(widget);
-    GValue           show_file_toolbar_val = {0,};
-    GValue           show_nav_toolbar_val = {0,};
-
-    if(event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
-    {
-        if(event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN)
-        {
-            gtk_widget_hide (window->priv->menubar);
-            gtk_widget_hide (window->priv->toolbar);
-            gtk_widget_hide (window->priv->statusbar);
-            if (window->priv->fs_toolbar_sticky)
-            {
-                if (window->priv->show_fs_toolbar_timeout_id > 0)
-                {
-                    g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-                    window->priv->show_fs_toolbar_timeout_id = 0;
-                }
-                window->priv->show_fs_toolbar_timeout_id = g_timeout_add (3000, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
-            }
-            else
-            {
-                gtk_widget_hide (window->priv->image_list_toolbar);
-            }
-
-            rstto_picture_viewer_zoom_fit (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer));
-
-            gtk_ui_manager_add_ui (window->priv->ui_manager,
-                                   window->priv->toolbar_unfullscreen_merge_id,
-                                   "/navigation-toolbar/placeholder-fullscreen",
-                                   "unfullscreen",
-                                   "unfullscreen",
-                                   GTK_UI_MANAGER_TOOLITEM,
-                                   FALSE);
-            gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                                   window->priv->toolbar_fullscreen_merge_id);
-        }
-        else
-        {
-            gtk_ui_manager_add_ui (window->priv->ui_manager,
-                                   window->priv->toolbar_fullscreen_merge_id,
-                                   "/navigation-toolbar/placeholder-fullscreen",
-                                   "fullscreen",
-                                   "fullscreen",
-                                   GTK_UI_MANAGER_TOOLITEM,
-                                   FALSE);
-            gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                                   window->priv->toolbar_unfullscreen_merge_id);
-            if (window->priv->show_fs_toolbar_timeout_id > 0)
-            {
-                g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-                window->priv->show_fs_toolbar_timeout_id = 0;
-            }
-            gtk_widget_show (window->priv->image_list_toolbar);
-
-            g_value_init (&show_file_toolbar_val, G_TYPE_BOOLEAN);
-            g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-file-toolbar", &show_file_toolbar_val);
-
-            g_value_init (&show_nav_toolbar_val, G_TYPE_BOOLEAN);
-            g_object_get_property (G_OBJECT(window->priv->settings_manager), "show-nav-toolbar", &show_nav_toolbar_val);
-
-            gtk_widget_show (window->priv->menubar);
-            gtk_widget_show (window->priv->statusbar);
-
-            if (g_value_get_boolean (&show_file_toolbar_val))
-                gtk_widget_show (window->priv->toolbar);
-
-            if (g_value_get_boolean (&show_nav_toolbar_val))
-                gtk_widget_show (window->priv->image_list_toolbar);
-            else
-                gtk_widget_hide(window->priv->image_list_toolbar);
-            
-            g_value_reset (&show_file_toolbar_val);
-        }
-    }
-    if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
-    {
-    }
-}
-
-static gboolean 
-cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
-                                         GdkEventMotion *event,
-                                         gpointer user_data)
-{
-    gint width, height;
-    if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
-    {
-	gdk_drawable_get_size (GDK_DRAWABLE(GTK_WIDGET(window)->window), &width, &height);
-        //if ((event->state == 0) && (event->window == event->subwindow))
-	if ((event->x_root == 0) || (event->y_root == 0) || (((gint)event->x_root) == (width-1)) || (((gint)event->y_root) == (height-1)))
-        {
-            gtk_widget_show (window->priv->image_list_toolbar);
-            window->priv->fs_toolbar_sticky = TRUE;
-
-            if (window->priv->show_fs_toolbar_timeout_id > 0)
-            {
-                g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-                window->priv->show_fs_toolbar_timeout_id = 0;
-            }
-        }
-    }
-    return TRUE;
-}
-
-static gboolean
-cb_rstto_main_window_picture_viewer_enter_notify_event (GtkWidget *widget,
-                                                        GdkEventCrossing *event,
-                                                        gpointer user_data)
-{
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
-    if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
-    {
-        window->priv->fs_toolbar_sticky = FALSE;
-        if (window->priv->show_fs_toolbar_timeout_id > 0)
-        {
-            g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-            window->priv->show_fs_toolbar_timeout_id = 0;
-        }
-        window->priv->show_fs_toolbar_timeout_id = g_timeout_add (2000, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
-    }
-
-    return TRUE;
-}
-
-static gboolean
-cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window)
-{
-    gtk_widget_hide (window->priv->image_list_toolbar);
-    return FALSE;
-}
-
-static void
-cb_rstto_main_window_settings_notify (GObject *settings, GParamSpec *spec, RsttoMainWindow *window)
-{
-    GValue val = {0,};
-    g_return_if_fail (RSTTO_IS_SETTINGS (settings));
-    g_return_if_fail (RSTTO_IS_MAIN_WINDOW (window));
-
-    g_value_init (&val, spec->value_type);
-    g_object_get_property (settings, spec->name, &val);
-
-
-    g_value_unset (&val);
-}
-
-/**
- * cb_rstto_main_window_message_bar_cancel:
- * @widget:
- * @window:
- *
- */
-static void
-cb_rstto_main_window_message_bar_cancel (GtkWidget *widget, RsttoMainWindow *window)
-{
-    gtk_widget_hide (window->priv->message_bar);
-    if (window->priv->message_bar_file)
-    {
-        g_object_unref (window->priv->message_bar_file);
-        window->priv->message_bar_file = NULL;
-    }
-}
-
-/**
- * cb_rstto_main_window_message_bar_open:
- * @widget:
- * @window:
- *
- */
-static void
-cb_rstto_main_window_message_bar_open (GtkWidget *widget, RsttoMainWindow *window)
-{
-    GFile *child_file = NULL;
-    GFileEnumerator *file_enumarator = NULL;
-    GFileInfo *file_info = NULL;
-    const gchar *filename = NULL;
-    const gchar *content_type = NULL;
-
-    gtk_widget_hide (window->priv->message_bar);
-
-
-    file_enumarator = g_file_enumerate_children (window->priv->message_bar_file, "standard::*", 0, NULL, NULL);
-    for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
-    {
-        filename = g_file_info_get_name (file_info);
-        content_type  = g_file_info_get_content_type (file_info);
-        child_file = g_file_get_child (window->priv->message_bar_file, filename);
-
-        if (strncmp (content_type, "image/", 6) == 0)
-        {
-            rstto_image_list_add_file (window->priv->props.image_list, child_file, NULL);
-        }
-
-        g_object_unref (child_file);
-        g_object_unref (file_info);
-    }
-
-    
-    if (window->priv->message_bar_file)
-    {
-        g_object_unref (window->priv->message_bar_file);
-        window->priv->message_bar_file = NULL;
-    }
-}
-
-static void
-cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *window)
-{
-    
-}
-
-static void
-cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action, GtkRadioAction *current,  RsttoMainWindow *window)
-{
-    rstto_main_window_set_navigationbar_position (window, gtk_radio_action_get_current_value (current));
-}
-
-static void
-rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint orientation)
-{
-    rstto_settings_set_navbar_position (window->priv->settings_manager, orientation);
-
-    switch (orientation)
-    {
-        case 0: /* Left */
-            g_object_ref (window->priv->image_list_toolbar);
-            g_object_ref (window->priv->thumbnailbar);
-
-            gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
-            gtk_paned_pack1 (GTK_PANED (window->priv->hpaned_left), window->priv->thumbnailbar, FALSE, FALSE);
-
-            gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
-            gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 1, 0, 3, GTK_FILL, GTK_EXPAND|GTK_FILL, 0, 0);
-            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_VERTICAL);
-            rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_VERTICAL);
-            break;
-        case 1: /* Right */
-            g_object_ref (window->priv->image_list_toolbar);
-            g_object_ref (window->priv->thumbnailbar);
-
-            gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
-            gtk_paned_pack2 (GTK_PANED (window->priv->hpaned_right), window->priv->thumbnailbar, FALSE, FALSE);
-
-            gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
-            gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 2, 3, 0, 3, GTK_FILL,GTK_EXPAND|GTK_FILL, 0, 0);
-            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_VERTICAL);
-            rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_VERTICAL);
-            break;
-        case 2: /* Top */
-            g_object_ref (window->priv->image_list_toolbar);
-            g_object_ref (window->priv->thumbnailbar);
-
-            gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
-            gtk_paned_pack1 (GTK_PANED (window->priv->vpaned_top), window->priv->thumbnailbar, FALSE, FALSE);
-
-            gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
-            gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 3, 0, 1, GTK_EXPAND|GTK_FILL,GTK_FILL, 0, 0);
-            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_HORIZONTAL);
-            rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_HORIZONTAL);
-            break;
-        case 3: /* Bottom */
-            g_object_ref (window->priv->image_list_toolbar);
-            g_object_ref (window->priv->thumbnailbar);
-
-            gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
-            gtk_paned_pack2 (GTK_PANED (window->priv->vpaned_bottom), window->priv->thumbnailbar, FALSE, FALSE);
-
-            gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
-            gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 3, 2, 3, GTK_EXPAND|GTK_FILL,GTK_FILL, 0, 0);
-            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_HORIZONTAL);
-            rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_HORIZONTAL);
-            break;
-        default:
-            break;
-    }
-}
-
-
-static void
-cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
-{
-    int button, event_time;
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
-    GtkWidget *menu = NULL;
-    if (event->button == 3 && event->type == GDK_BUTTON_PRESS)
-    {
-        if (event)
-        {
-            button = event->button;
-            event_time = event->time;
-        }
-        else
-        {
-            button = 0;
-            event_time = gtk_get_current_event_time ();
-        }
-
-
-        menu = window->priv->position_menu;
-        gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 
-                  button, event_time);
-    }
-}
-
-
-/*
-static gboolean
-cb_rstto_main_window_image_list_toolbar_popup_context_menu (GtkToolbar *toolbar,
-                                                        gint        x,
-                                                        gint        y,
-                                                        gint        button,
-                                                        gpointer    user_data)
-{
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
-
-    gtk_menu_popup (window->priv->image_list_toolbar_menu,
-                    NULL,
-                    NULL,
-                    NULL,
-                    NULL,
-                    3,
-                    gtk_get_current_event_time ());
-}
-*/

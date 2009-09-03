@@ -1,5 +1,12 @@
 2009-09-03  Stephan Arts <stephan@xfce.org>
 
+	* src/main_window.c: Start on a code cleanup
+	* src/image_list.c,
+	  src/main_window.c: Implement sort-by-date
+	* src/main_window.c: Stop slideshow when there is just one or no image opened
+
+2009-09-03  Stephan Arts <stephan@xfce.org>
+
 	* src/image_list.c,
 	  src/image_list.h: Add functions to set buildin and custom sorting 
 	  functions

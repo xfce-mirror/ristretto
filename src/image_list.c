@@ -5,8 +5,7 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
+ * *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Library General Public License for more details.
@@ -475,6 +474,7 @@ void
 rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func)
 {
     image_list->priv->cb_rstto_image_list_compare_func = func;
+    image_list->priv->images = g_list_sort (image_list->priv->images,  func);
 }
 
 /***********************/
@@ -484,13 +484,13 @@ rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func
 void
 rstto_image_list_set_sort_by_name (RsttoImageList *image_list)
 {
-    image_list->priv->cb_rstto_image_list_compare_func = (GCompareFunc)cb_rstto_image_list_image_name_compare_func;
+    rstto_image_list_set_compare_func (image_list, (GCompareFunc)cb_rstto_image_list_image_name_compare_func);
 }
 
 void
 rstto_image_list_set_sort_by_date (RsttoImageList *image_list)
 {
-    image_list->priv->cb_rstto_image_list_compare_func = (GCompareFunc)cb_rstto_image_list_exif_date_compare_func;
+    rstto_image_list_set_compare_func (image_list, (GCompareFunc)cb_rstto_image_list_exif_date_compare_func);
 }
 
 /**
@@ -520,6 +520,7 @@ cb_rstto_image_list_image_name_compare_func (RsttoImage *a, RsttoImage *b)
  * @a:
  * @b:
  *
+ * TODO: Use EXIF data if available, not the last-modification-time.
  *
  * Return value: (see strcmp)
  */
@@ -527,5 +528,18 @@ static gint
 cb_rstto_image_list_exif_date_compare_func (RsttoImage *a, RsttoImage *b)
 {
     gint result = 0;
+    
+    GFileInfo *file_info_a = g_file_query_info (rstto_image_get_file (a), "time::modified", 0, NULL, NULL);
+    GFileInfo *file_info_b = g_file_query_info (rstto_image_get_file (b), "time::modified", 0, NULL, NULL);
+
+    guint64 a_i = g_file_info_get_attribute_uint64(file_info_a, "time::modified");
+    guint64 b_i = g_file_info_get_attribute_uint64(file_info_b, "time::modified");
+    if (a_i > b_i)
+        result = 1;
+    else
+        result = 0;
+
+    g_object_unref (file_info_a);
+    g_object_unref (file_info_b);
     return result;
 }
