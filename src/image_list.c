@@ -46,6 +46,8 @@ static RsttoImageListIter * rstto_image_list_iter_new ();
 
 static gint
 cb_rstto_image_list_image_name_compare_func (RsttoImage *a, RsttoImage *b);
+static gint
+cb_rstto_image_list_exif_date_compare_func (RsttoImage *a, RsttoImage *b);
 
 static GObjectClass *parent_class = NULL;
 static GObjectClass *iter_parent_class = NULL;
@@ -76,6 +78,7 @@ struct _RsttoImageListPriv
     gint n_images;
 
     GSList *iterators;
+    GCompareFunc cb_rstto_image_list_compare_func;
 };
 
 static gint rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_COUNT];
@@ -111,6 +114,7 @@ static void
 rstto_image_list_init(RsttoImageList *image_list)
 {
     image_list->priv = g_new0 (RsttoImageListPriv, 1);
+    image_list->priv->cb_rstto_image_list_compare_func = (GCompareFunc)cb_rstto_image_list_image_name_compare_func;
 }
 
 static void
@@ -180,7 +184,7 @@ rstto_image_list_add_file (RsttoImageList *image_list, GFile *file, GError **err
     RsttoImage *image = rstto_image_new (file);
     if (image)
     {
-        image_list->priv->images = g_list_insert_sorted (image_list->priv->images, image, (GCompareFunc)cb_rstto_image_list_image_name_compare_func);
+        image_list->priv->images = g_list_insert_sorted (image_list->priv->images, image, rstto_image_list_get_compare_func (image_list));
         image_list->priv->n_images++;
 
         g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, image, NULL);
@@ -270,27 +274,6 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
 }
 
 
-/**
- * cb_rstto_image_list_image_name_compare_func:
- * @a:
- * @b:
- *
- *
- * Return value: (see strcmp)
- */
-static gint
-cb_rstto_image_list_image_name_compare_func (RsttoImage *a, RsttoImage *b)
-{
-    gchar *a_base = g_file_get_basename (rstto_image_get_file (a));  
-    gchar *b_base = g_file_get_basename (rstto_image_get_file (b));  
-    gint result = 0;
-
-    result = g_strcasecmp (a_base, b_base);
-
-    g_free (a_base);
-    g_free (b_base);
-    return result;
-}
 
 GType
 rstto_image_list_iter_get_type (void)
@@ -485,5 +468,46 @@ rstto_image_list_iter_clone (RsttoImageListIter *iter)
 GCompareFunc
 rstto_image_list_get_compare_func (RsttoImageList *image_list)
 {
-    return (GCompareFunc)cb_rstto_image_list_image_name_compare_func;
+    return (GCompareFunc)image_list->priv->cb_rstto_image_list_compare_func;
+}
+
+/***********************/
+/*  Compare Functions  */
+/***********************/
+
+/**
+ * cb_rstto_image_list_image_name_compare_func:
+ * @a:
+ * @b:
+ *
+ *
+ * Return value: (see strcmp)
+ */
+static gint
+cb_rstto_image_list_image_name_compare_func (RsttoImage *a, RsttoImage *b)
+{
+    gchar *a_base = g_file_get_basename (rstto_image_get_file (a));  
+    gchar *b_base = g_file_get_basename (rstto_image_get_file (b));  
+    gint result = 0;
+
+    result = g_strcasecmp (a_base, b_base);
+
+    g_free (a_base);
+    g_free (b_base);
+    return result;
+}
+
+/**
+ * cb_rstto_image_list_exif_date_compare_func:
+ * @a:
+ * @b:
+ *
+ *
+ * Return value: (see strcmp)
+ */
+static gint
+cb_rstto_image_list_exif_date_compare_func (RsttoImage *a, RsttoImage *b)
+{
+    gint result = 0;
+    return result;
 }

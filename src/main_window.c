@@ -285,7 +285,7 @@ static GtkActionEntry action_entries[] =
 /* Rotation submenu */
   { "rotation-menu", NULL, N_ ("_Rotation"), NULL, },
   { "rotate-cw", "object-rotate-right", N_ ("Rotate _Right"), "<control>bracketright", NULL, G_CALLBACK (cb_rstto_main_window_rotate_cw), },
-  { "rotate-ccw", "object-rotate-left", N_ ("Rotate _Left"), "<contron>bracketleft", NULL, G_CALLBACK (cb_rstto_main_window_rotate_ccw), },
+  { "rotate-ccw", "object-rotate-left", N_ ("Rotate _Left"), "<control>bracketleft", NULL, G_CALLBACK (cb_rstto_main_window_rotate_ccw), },
 /* Go Menu */
   { "go-menu",  NULL, N_ ("_Go"), NULL, },
   { "forward",  GTK_STOCK_GO_FORWARD, N_ ("_Forward"), "space", NULL, G_CALLBACK (cb_rstto_main_window_next_image), },

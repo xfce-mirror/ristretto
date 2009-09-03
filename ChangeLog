@@ -1,3 +1,38 @@
+2009-09-03  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Fix typo in default accelerator of Rotate-Left
+	* src/image_list.c: Add skeleton-code for sorting on exif-date
+
+2009-09-01  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Store navigationbar position in xfconf
+
+2009-09-01  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Improve fullscreen behaviour
+
+2009-08-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Add popup to change the location of the navigationbar 
+	  and thumbnailbar
+
+2009-08-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Place navigation-bar and thumbnailbar next to eachother.
+
+2009-08-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Improve UI-sensitivity, do not make navigation-buttons and
+	  slideshow buttons sensitive when only one image is opened.
+
+2009-08-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Toggle visibility of Thumbnailbar.
+
+2009-08-30  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Fix errors when the ristretto icon is not available
+
 2009-08-12  Stephan Arts <stephan@xfce.org>
 
 	* ChangeLog: Merge with private branch
