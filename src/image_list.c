@@ -471,9 +471,27 @@ rstto_image_list_get_compare_func (RsttoImageList *image_list)
     return (GCompareFunc)image_list->priv->cb_rstto_image_list_compare_func;
 }
 
+void
+rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func)
+{
+    image_list->priv->cb_rstto_image_list_compare_func = func;
+}
+
 /***********************/
 /*  Compare Functions  */
 /***********************/
+
+void
+rstto_image_list_set_sort_by_name (RsttoImageList *image_list)
+{
+    image_list->priv->cb_rstto_image_list_compare_func = (GCompareFunc)cb_rstto_image_list_image_name_compare_func;
+}
+
+void
+rstto_image_list_set_sort_by_date (RsttoImageList *image_list)
+{
+    image_list->priv->cb_rstto_image_list_compare_func = (GCompareFunc)cb_rstto_image_list_exif_date_compare_func;
+}
 
 /**
  * cb_rstto_image_list_image_name_compare_func:

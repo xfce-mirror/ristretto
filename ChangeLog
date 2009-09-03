@@ -1,5 +1,11 @@
 2009-09-03  Stephan Arts <stephan@xfce.org>
 
+	* src/image_list.c,
+	  src/image_list.h: Add functions to set buildin and custom sorting 
+	  functions
+
+2009-09-03  Stephan Arts <stephan@xfce.org>
+
 	* src/main_window.c: Fix typo in default accelerator of Rotate-Left
 	* src/image_list.c: Add skeleton-code for sorting on exif-date
 
@@ -18,12 +24,12 @@
 
 2009-08-30  Stephan Arts <stephan@xfce.org>
 
-	* src/main_window.c: Place navigation-bar and thumbnailbar next to eachother.
+	* src/main_window.c: Place navigation-bar and thumbnailbar next to eachother
 
 2009-08-30  Stephan Arts <stephan@xfce.org>
 
-	* src/main_window.c: Improve UI-sensitivity, do not make navigation-buttons and
-	  slideshow buttons sensitive when only one image is opened.
+	* src/main_window.c: Improve UI-sensitivity, do not make navigation-buttons 
+	  and slideshow buttons sensitive when only one image is opened.
 
 2009-08-30  Stephan Arts <stephan@xfce.org>
 
