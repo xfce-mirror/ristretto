@@ -78,6 +78,21 @@
         </menu>
     </popup>
 
+    <popup name="image-viewer-menu">
+        <menuitem action="open"/>
+        <menuitem action="open-folder"/>
+        <menuitem action="close"/>
+        <separator/>
+        <menu action="open-with-menu">
+            <placeholder name="open-with-apps" />
+        </menu>
+        <separator/>
+        <menuitem action="zoom-in"/>
+        <menuitem action="zoom-out"/>
+        <menuitem action="zoom-100"/>
+        <menuitem action="zoom-fit"/>
+    </popup>
+
     <!--
 
     -->
