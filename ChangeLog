@@ -1,5 +1,10 @@
 2009-09-04  Stephan Arts <stephan@xfce.org>
 
+	* src/main_window.c: Change arrow-orientation together with toolbar
+	  orientation
+
+2009-09-04  Stephan Arts <stephan@xfce.org>
+
 	* src/main_window.c: Update information in the statusbar
 
 2009-09-04  Stephan Arts <stephan@xfce.org>

@@ -87,6 +87,9 @@ struct _RsttoMainWindowPriv
     GtkWidget *statusbar;
     guint statusbar_context_id;
 
+    GtkWidget *back;
+    GtkWidget *forward;
+
     GtkWidget *message_bar;
     GtkWidget *message_bar_label;
     GtkWidget *message_bar_button_cancel;
@@ -375,7 +378,7 @@ rstto_main_window_init (RsttoMainWindow *window)
 {
     GtkAccelGroup   *accel_group;
     GValue          show_file_toolbar_val = {0,}, show_nav_toolbar_val = {0, }, show_thumbnailbar_val = {0, }, window_width = {0, }, window_height = {0, };
-    GtkWidget       *separator, *back, *forward;
+    GtkWidget       *separator;
     GtkWidget       *main_vbox = gtk_vbox_new (FALSE, 0);
     GtkRecentFilter *recent_filter;
 
@@ -479,10 +482,10 @@ rstto_main_window_init (RsttoMainWindow *window)
      * Make the back and forward toolitems important,
      * when they are, the labels are shown when the toolbar style is 'both-horizontal'
      */
-    back = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/back");
-    gtk_tool_item_set_is_important (GTK_TOOL_ITEM (back), TRUE);
-    forward = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/forward");
-    gtk_tool_item_set_is_important (GTK_TOOL_ITEM (forward), TRUE);
+    window->priv->back = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/back");
+    window->priv->forward = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/forward");
+    gtk_tool_item_set_is_important (GTK_TOOL_ITEM (window->priv->back), TRUE);
+    gtk_tool_item_set_is_important (GTK_TOOL_ITEM (window->priv->forward), TRUE);
     
     window->priv->picture_viewer = rstto_picture_viewer_new ();
     window->priv->p_viewer_s_window = gtk_scrolled_window_new (NULL, NULL);
@@ -1059,6 +1062,10 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
             g_object_ref (window->priv->image_list_toolbar);
             g_object_ref (window->priv->thumbnailbar);
 
+            gtk_tool_button_set_stock_id (GTK_TOOL_BUTTON(window->priv->back), GTK_STOCK_GO_UP);
+            gtk_tool_button_set_stock_id (GTK_TOOL_BUTTON(window->priv->forward), GTK_STOCK_GO_DOWN);
+
+
             gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
             gtk_paned_pack1 (GTK_PANED (window->priv->hpaned_left), window->priv->thumbnailbar, FALSE, FALSE);
 
@@ -1070,6 +1077,10 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
         case 1: /* Right */
             g_object_ref (window->priv->image_list_toolbar);
             g_object_ref (window->priv->thumbnailbar);
+
+            gtk_tool_button_set_stock_id (GTK_TOOL_BUTTON(window->priv->back), GTK_STOCK_GO_UP);
+            gtk_tool_button_set_stock_id (GTK_TOOL_BUTTON(window->priv->forward), GTK_STOCK_GO_DOWN);
+
 
             gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
             gtk_paned_pack2 (GTK_PANED (window->priv->hpaned_right), window->priv->thumbnailbar, FALSE, FALSE);
@@ -1083,6 +1094,10 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
             g_object_ref (window->priv->image_list_toolbar);
             g_object_ref (window->priv->thumbnailbar);
 
+            gtk_tool_button_set_stock_id (GTK_TOOL_BUTTON(window->priv->back), GTK_STOCK_GO_BACK);
+            gtk_tool_button_set_stock_id (GTK_TOOL_BUTTON(window->priv->forward), GTK_STOCK_GO_FORWARD);
+
+
             gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
             gtk_paned_pack1 (GTK_PANED (window->priv->vpaned_top), window->priv->thumbnailbar, FALSE, FALSE);
 
@@ -1094,6 +1109,9 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
         case 3: /* Bottom */
             g_object_ref (window->priv->image_list_toolbar);
             g_object_ref (window->priv->thumbnailbar);
+
+            gtk_tool_button_set_stock_id (GTK_TOOL_BUTTON(window->priv->back), GTK_STOCK_GO_BACK);
+            gtk_tool_button_set_stock_id (GTK_TOOL_BUTTON(window->priv->forward), GTK_STOCK_GO_FORWARD);
 
             gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->thumbnailbar)), window->priv->thumbnailbar);
             gtk_paned_pack2 (GTK_PANED (window->priv->vpaned_bottom), window->priv->thumbnailbar, FALSE, FALSE);
