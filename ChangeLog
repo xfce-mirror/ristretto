@@ -1,5 +1,9 @@
 2009-09-04  Stephan Arts <stephan@xfce.org>
 
+	* src/thumbnailbar.c: Reorder thumbnails when the image-sorting changes
+
+2009-09-04  Stephan Arts <stephan@xfce.org>
+
 	* src/main_window.c,
 	  src/main_window_ui.xml: Add popup-menu for the image-viewer
 

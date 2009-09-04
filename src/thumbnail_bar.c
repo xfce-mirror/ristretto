@@ -584,6 +584,7 @@ rstto_thumbnail_bar_child_type(GtkContainer *container)
     return GTK_TYPE_WIDGET;
 }
 
+
 static gint
 cb_rstto_thumbnail_bar_compare (GtkWidget *a, GtkWidget *b, gpointer user_data)
 {
@@ -763,6 +764,10 @@ void
 cb_rstto_thumbnail_bar_image_list_iter_changed (RsttoImageListIter *iter, gpointer user_data)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
+
+    bar->priv->thumbs = g_list_sort_with_data (bar->priv->thumbs, (GCompareDataFunc)cb_rstto_thumbnail_bar_compare, bar);
+
+    gtk_widget_queue_resize(GTK_WIDGET(bar));
     /* useless, but keepsthe compiler silent */
     bar->priv->begin=0;
 }
