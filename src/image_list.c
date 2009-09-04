@@ -473,8 +473,13 @@ rstto_image_list_get_compare_func (RsttoImageList *image_list)
 void
 rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func)
 {
+    GSList *iter = NULL;
     image_list->priv->cb_rstto_image_list_compare_func = func;
     image_list->priv->images = g_list_sort (image_list->priv->images,  func);
+    for (iter = image_list->priv->iterators; iter != NULL; iter = g_slist_next (iter))
+    {
+        g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
+    }
 }
 
 /***********************/
