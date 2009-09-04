@@ -1,3 +1,10 @@
+2009-09-05  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c,
+	  src/settings.c,
+	  src/settings.h: Add convenience-functions for setting properties 
+	  so it is not required to initialise GValue's all over the place.
+
 2009-09-04  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c: Change arrow-orientation together with toolbar

@@ -60,8 +60,15 @@ struct _RsttoSettingsClass
 RsttoSettings *rstto_settings_new (void);
 GType          rstto_settings_get_type (void);
 
-void           rstto_settings_set_navbar_position (RsttoSettings *, guint);
-guint          rstto_settings_get_navbar_position (RsttoSettings *);
+void   rstto_settings_set_navbar_position (RsttoSettings *, guint);
+guint  rstto_settings_get_navbar_position (RsttoSettings *);
+
+void        rstto_settings_set_uint_property (RsttoSettings *, const gchar *, guint);
+guint       rstto_settings_get_uint_property (RsttoSettings *, const gchar *);
+void        rstto_settings_set_string_property (RsttoSettings *, const gchar *, const gchar *);
+gchar      *rstto_settings_get_string_property (RsttoSettings *, const gchar *);
+void        rstto_settings_set_boolean_property (RsttoSettings *, const gchar *, gboolean);
+gboolean    rstto_settings_get_boolean_property (RsttoSettings *, const gchar *);
 
 G_END_DECLS
 

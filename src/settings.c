@@ -580,8 +580,7 @@ rstto_settings_set_navbar_position (RsttoSettings *settings, guint pos)
 }
 
 guint
-rstto_settings_get_navbar_position (RsttoSettings *settings)
-{
+rstto_settings_get_navbar_position (RsttoSettings *settings) {
     if (settings->priv->navigationbar_position == NULL)
         return 0;
 
@@ -593,4 +592,98 @@ rstto_settings_get_navbar_position (RsttoSettings *settings)
         return 2;
     if (!strcmp (settings->priv->navigationbar_position, "bottom"))
         return 3;
+}
+
+/** Convenience functions */
+void
+rstto_settings_set_uint_property (RsttoSettings *settings,
+                                  const gchar *property_name,
+                                  guint value)
+{
+    GValue val = {0, };
+    g_value_init (&val, G_TYPE_UINT);
+
+    g_value_set_uint (&val, value);
+
+    g_object_set_property (G_OBJECT(settings), property_name, &val);
+
+    g_value_reset (&val);
+}
+
+guint
+rstto_settings_get_uint_property (RsttoSettings *settings,
+                                  const gchar *property_name)
+{
+    guint value;
+    GValue val = {0, };
+    g_value_init (&val, G_TYPE_UINT);
+
+    g_object_get_property (G_OBJECT(settings), property_name, &val);
+    value = g_value_get_uint (&val);
+
+    g_value_reset (&val);
+
+    return value;
+}
+
+void
+rstto_settings_set_string_property (RsttoSettings *settings,
+                                    const gchar *property_name,
+                                    const gchar *value)
+{
+    GValue val = {0, };
+    g_value_init (&val, G_TYPE_STRING);
+
+    g_value_set_string (&val, value);
+
+    g_object_set_property (G_OBJECT(settings), property_name, &val);
+
+    g_value_reset (&val);
+}
+
+gchar *
+rstto_settings_get_string_property (RsttoSettings *settings,
+                                  const gchar *property_name)
+{
+    gchar *value = NULL;
+    GValue val = {0, };
+    g_value_init (&val, G_TYPE_STRING);
+
+    g_object_get_property (G_OBJECT(settings), property_name, &val);
+    value = g_value_dup_string (&val);
+
+    g_value_reset (&val);
+
+    return value;
+}
+
+void
+rstto_settings_set_boolean_property (RsttoSettings *settings,
+                                     const gchar *property_name,
+                                     gboolean value)
+{
+    GValue val = {0, };
+    g_value_init (&val, G_TYPE_BOOLEAN);
+
+    g_value_set_boolean (&val, value);
+
+    g_object_set_property (G_OBJECT(settings), property_name, &val);
+
+    g_value_reset (&val);
+}
+
+gboolean
+rstto_settings_get_boolean_property (RsttoSettings *settings,
+                                     const gchar *property_name)
+{
+    gboolean value;
+    GValue val = {0, };
+    g_value_init (&val, G_TYPE_BOOLEAN);
+
+    g_object_get_property (G_OBJECT(settings), property_name, &val);
+    value = g_value_get_boolean (&val);
+
+    g_value_reset (&val);
+
+    return value;
 }
