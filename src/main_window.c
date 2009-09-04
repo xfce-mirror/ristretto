@@ -85,6 +85,7 @@ struct _RsttoMainWindowPriv
     GtkWidget *vpaned_bottom;
     GtkWidget *thumbnailbar;
     GtkWidget *statusbar;
+    guint statusbar_context_id;
 
     GtkWidget *message_bar;
     GtkWidget *message_bar_label;
@@ -488,7 +489,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add (GTK_CONTAINER (window->priv->p_viewer_s_window), window->priv->picture_viewer);
 
-    rstto_picture_viewer_set_menu (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), window->priv->image_viewer_menu);
+    rstto_picture_viewer_set_menu (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), GTK_MENU(window->priv->image_viewer_menu));
     window->priv->thumbnailbar = rstto_thumbnail_bar_new (NULL);
 
     window->priv->hpaned_left = gtk_hpaned_new();
@@ -505,6 +506,10 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_paned_pack2 (GTK_PANED (window->priv->hpaned_right), window->priv->thumbnailbar, FALSE, FALSE);
 
     window->priv->statusbar = gtk_statusbar_new();
+    window->priv->statusbar_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR(window->priv->statusbar), "image-data");
+    gtk_statusbar_push (GTK_STATUSBAR(window->priv->statusbar), 
+                        window->priv->statusbar_context_id, 
+                        _("Press open to select an image"));
 
     window->priv->message_bar = gtk_hbox_new (FALSE,0);
     window->priv->message_bar_label = gtk_label_new (N_("Do you want to open all the images in the folder?"));
@@ -723,10 +728,10 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 {
-    gchar *path, *basename, *title;
+    gchar *path, *basename, *title, *status;
     GFile *file = NULL;
     RsttoImage *cur_image;
-    gint position, count;
+    gint position, count, width, height;
     RsttoImageList *image_list = window->priv->props.image_list;
 
     if (window->priv->props.image_list)
@@ -736,13 +741,16 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         cur_image = rstto_image_list_iter_get_image (window->priv->iter);
         if (cur_image)
         {
+            width = rstto_image_get_width(cur_image);
+            height = rstto_image_get_height(cur_image);
+
             file = rstto_image_get_file (cur_image);
 
             path = g_file_get_path (file);
             basename = g_path_get_basename (path);
 
             title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  basename, position+1, count);
-            rstto_main_window_update_buttons (window);
+            status = g_strdup_printf ("%d x %d", width, height);
 
             g_free (basename);
             g_free (path);
@@ -750,12 +758,16 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         else
         {
             title = g_strdup (RISTRETTO_APP_TITLE);
-            rstto_main_window_update_buttons (window);
+            status = g_strdup (_("Press open to select an image"));
         }
 
+        rstto_main_window_update_buttons (window);
         gtk_window_set_title (GTK_WINDOW (window), title);
+        gtk_statusbar_pop (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id);
+        gtk_statusbar_push (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id, status);
 
         g_free (title);
+        g_free (status);
     }
 
 }
