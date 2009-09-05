@@ -58,6 +58,9 @@ cb_rstto_preferences_dialog_zoom_scrollwheel_action_radio_button_toggled (GtkTog
 static void
 cb_rstto_preferences_dialog_switch_scrollwheel_action_radio_button_toggled (GtkToggleButton *, gpointer );
 
+static void
+cb_rstto_preferences_dialog_slideshow_timeout_value_changed (GtkRange *, gpointer);
+
 static GtkWidgetClass *parent_class = NULL;
 
 struct _RsttoPreferencesDialogPriv
@@ -79,6 +82,12 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *image_quality_label;
         GtkWidget *image_quality_combo;
     } display_tab;
+
+    struct
+    {
+        GtkWidget *timeout_vbox;
+        GtkWidget *timeout_frame;
+    } slideshow_tab;
 
     struct
     {
@@ -140,8 +149,10 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gboolean bool_enable_cache;
     gboolean bool_bgcolor_override;
     gchar *scrollwheel_primary_action;
+    guint uint_slideshow_timeout;
+
     GdkColor *bgcolor;
-    GtkWidget *timeout_frame, *timeout_vbox, *timeout_lbl, *timeout_hscale;
+    GtkWidget *timeout_lbl, *timeout_hscale;
     GtkWidget *scaling_frame, *scaling_vbox;
     GtkWidget *widget;
     GtkObject *cache_adjustment;
@@ -167,6 +178,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                   "bgcolor-override", &bool_bgcolor_override,
                   "bgcolor", &bgcolor,
                   "scrollwheel-primary-action", &scrollwheel_primary_action,
+                  "slideshow-timeout", &uint_slideshow_timeout,
                   NULL);
 
 /*****************/
@@ -260,20 +272,23 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     slideshow_main_vbox = gtk_vbox_new(FALSE, 0);
     slideshow_main_lbl = gtk_label_new(_("Slideshow"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), slideshow_main_vbox, slideshow_main_lbl);
-    /* not used */
-    gtk_widget_set_sensitive (slideshow_main_vbox, FALSE);
 
-    timeout_vbox = gtk_vbox_new(FALSE, 0);
-    timeout_frame = xfce_create_framebox_with_content (_("Timeout"), timeout_vbox);
-    gtk_box_pack_start (GTK_BOX (slideshow_main_vbox), timeout_frame, FALSE, FALSE, 0);
+    dialog->priv->slideshow_tab.timeout_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->slideshow_tab.timeout_frame = xfce_create_framebox_with_content (_("Timeout"), dialog->priv->slideshow_tab.timeout_vbox);
+    gtk_box_pack_start (GTK_BOX (slideshow_main_vbox), dialog->priv->slideshow_tab.timeout_frame, FALSE, FALSE, 0);
 
     timeout_lbl = gtk_label_new(_("The time period an individual image is displayed during a slideshow\n(in seconds)"));
     timeout_hscale = gtk_hscale_new_with_range(1, 60, 1);
     gtk_misc_set_alignment(GTK_MISC(timeout_lbl), 0, 0.5);
     gtk_misc_set_padding(GTK_MISC(timeout_lbl), 2, 2);
 
-    gtk_box_pack_start(GTK_BOX(timeout_vbox), timeout_lbl, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(timeout_vbox), timeout_hscale, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(dialog->priv->slideshow_tab.timeout_vbox), timeout_lbl, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(dialog->priv->slideshow_tab.timeout_vbox), timeout_hscale, FALSE, TRUE, 0);
+    
+
+    gtk_range_set_value (GTK_RANGE (timeout_hscale), (gdouble)uint_slideshow_timeout);
+    g_signal_connect (G_OBJECT (timeout_hscale),
+                      "value-changed", (GCallback)cb_rstto_preferences_dialog_slideshow_timeout_value_changed, dialog);
 
 
 /********************************************/
@@ -596,4 +611,13 @@ cb_rstto_preferences_dialog_switch_scrollwheel_action_radio_button_toggled (GtkT
     {
         rstto_settings_set_string_property (dialog->priv->settings, "scrollwheel-primary-action", "switch");
     }
+}
+
+static void
+cb_rstto_preferences_dialog_slideshow_timeout_value_changed (GtkRange *range, gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    rstto_settings_set_uint_property (dialog->priv->settings, "slideshow-timeout", (guint)gtk_range_get_value (range));
+
 }

@@ -316,9 +316,9 @@ rstto_settings_class_init (GObjectClass *object_class)
     pspec = g_param_spec_uint    ("slideshow-timeout",
                                   "",
                                   "",
-                                  1000,
-                                  G_MAXUINT,
-                                  5000,
+                                  1,
+                                  300,
+                                  5,
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_SLIDESHOW_TIMEOUT,
