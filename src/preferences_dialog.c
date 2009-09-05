@@ -59,6 +59,11 @@ static void
 cb_rstto_preferences_dialog_switch_scrollwheel_action_radio_button_toggled (GtkToggleButton *, gpointer );
 
 static void
+cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled (
+                                                        GtkToggleButton *button, 
+                                                        gpointer user_data);
+
+static void
 cb_rstto_preferences_dialog_slideshow_timeout_value_changed (GtkRange *, gpointer);
 
 static GtkWidgetClass *parent_class = NULL;
@@ -87,6 +92,10 @@ struct _RsttoPreferencesDialogPriv
     {
         GtkWidget *timeout_vbox;
         GtkWidget *timeout_frame;
+        GtkWidget *thumbnail_vbox;
+        GtkWidget *thumbnail_frame;
+        GtkWidget *hide_thumbnails_fullscreen_lbl;
+        GtkWidget *hide_thumbnails_fullscreen_check_button;
     } slideshow_tab;
 
     struct
@@ -150,9 +159,11 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gboolean bool_bgcolor_override;
     gchar *scrollwheel_primary_action;
     guint uint_slideshow_timeout;
+    gboolean bool_hide_thumbnailbar_fullscreen;
 
     GdkColor *bgcolor;
     GtkWidget *timeout_lbl, *timeout_hscale;
+    GtkWidget *thumbnail_lbl;
     GtkWidget *scaling_frame, *scaling_vbox;
     GtkWidget *widget;
     GtkObject *cache_adjustment;
@@ -179,6 +190,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                   "bgcolor", &bgcolor,
                   "scrollwheel-primary-action", &scrollwheel_primary_action,
                   "slideshow-timeout", &uint_slideshow_timeout,
+                  "hide-thumbnailbar-fullscreen", &bool_hide_thumbnailbar_fullscreen,
                   NULL);
 
 /*****************/
@@ -289,6 +301,22 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_range_set_value (GTK_RANGE (timeout_hscale), (gdouble)uint_slideshow_timeout);
     g_signal_connect (G_OBJECT (timeout_hscale),
                       "value-changed", (GCallback)cb_rstto_preferences_dialog_slideshow_timeout_value_changed, dialog);
+
+    
+    dialog->priv->slideshow_tab.thumbnail_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->slideshow_tab.thumbnail_frame = xfce_create_framebox_with_content (_("Thumbnails"), dialog->priv->slideshow_tab.thumbnail_vbox);
+    gtk_box_pack_start (GTK_BOX (slideshow_main_vbox), dialog->priv->slideshow_tab.thumbnail_frame, FALSE, FALSE, 0);
+
+    dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_lbl = gtk_label_new(_("The thumbnailbar can be automatically hidden \nwhen the image-viewer is fullscreen."));
+    dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_check_button = gtk_check_button_new_with_label (_("Hide thumbnailbar when fullscreen"));
+    gtk_box_pack_start (GTK_BOX (dialog->priv->slideshow_tab.thumbnail_vbox), dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_lbl, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->slideshow_tab.thumbnail_vbox), dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_check_button, FALSE, FALSE, 0);
+
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_check_button),
+                                  bool_hide_thumbnailbar_fullscreen);
+
+    g_signal_connect (G_OBJECT (dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_check_button), 
+                      "toggled", (GCallback)cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled, dialog);
 
 
 /********************************************/
@@ -620,4 +648,14 @@ cb_rstto_preferences_dialog_slideshow_timeout_value_changed (GtkRange *range, gp
 
     rstto_settings_set_uint_property (dialog->priv->settings, "slideshow-timeout", (guint)gtk_range_get_value (range));
 
+}
+
+static void
+cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled (
+                                                        GtkToggleButton *button, 
+                                                        gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    rstto_settings_set_boolean_property (dialog->priv->settings, "hide-thumbnailbar-fullscreen", gtk_toggle_button_get_active(button));
 }

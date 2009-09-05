@@ -1249,6 +1249,11 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
                 gtk_widget_hide (window->priv->image_list_toolbar);
             }
 
+            if (rstto_settings_get_boolean_property (window->priv->settings_manager, "hide-thumbnailbar-fullscreen"))
+            {
+                gtk_widget_hide (window->priv->thumbnailbar);
+            }
+
             rstto_picture_viewer_zoom_fit (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer));
 
             gtk_ui_manager_add_ui (window->priv->ui_manager,
@@ -1288,6 +1293,11 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
                 gtk_widget_show (window->priv->image_list_toolbar);
             else
                 gtk_widget_hide(window->priv->image_list_toolbar);
+
+            if (rstto_settings_get_boolean_property (window->priv->settings_manager, "show-thumbnailbar"))
+            {
+                gtk_widget_show (window->priv->thumbnailbar);
+            }
             
         }
     }
