@@ -69,7 +69,8 @@ enum
     PROP_BGCOLOR_FULLSCREEN,
     PROP_CURRENT_URI,
     PROP_SLIDESHOW_TIMEOUT,
-    PROP_SCROLLWHEEL_ACTION,
+    PROP_SCROLLWHEEL_PRIMARY_ACTION,
+    PROP_SCROLLWHEEL_SECONDARY_ACTION,
 };
 
 GType
@@ -117,7 +118,8 @@ struct _RsttoSettingsPriv
     GdkColor *bgcolor;
     gboolean  bgcolor_override;
     GdkColor *bgcolor_fullscreen;
-    gchar    *scrollwheel_action;
+    gchar    *scrollwheel_primary_action;
+    gchar    *scrollwheel_secondary_action;
 };
 
 
@@ -153,7 +155,8 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind (settings->priv->channel, "/window/show-navigation-toolbar", G_TYPE_BOOLEAN, settings, "show-nav-toolbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/show-thumbnailbar", G_TYPE_BOOLEAN, settings, "show-thumbnailbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/navigationbar-position", G_TYPE_STRING, settings, "navigationbar-position");
-    xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-action", G_TYPE_STRING, settings, "scrollwheel-action");
+    xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-primary-action", G_TYPE_STRING, settings, "scrollwheel-primary-action");
+    xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-secondary-action", G_TYPE_STRING, settings, "scrollwheel-secondary-action");
 
     xfconf_g_property_bind (settings->priv->channel, "/slideshow/timeout", G_TYPE_UINT, settings, "slideshow-timeout");
 
@@ -292,13 +295,22 @@ rstto_settings_class_init (GObjectClass *object_class)
                                      PROP_CURRENT_URI,
                                      pspec);
 
-    pspec = g_param_spec_string  ("scrollwheel-action",
+    pspec = g_param_spec_string  ("scrollwheel-primary-action",
+                                  "",
+                                  "",
+                                  "navigate",
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_SCROLLWHEEL_PRIMARY_ACTION,
+                                     pspec);
+
+    pspec = g_param_spec_string  ("scrollwheel-secondary-action",
                                   "",
                                   "",
                                   "zoom",
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
-                                     PROP_CURRENT_URI,
+                                     PROP_SCROLLWHEEL_SECONDARY_ACTION,
                                      pspec);
 
     pspec = g_param_spec_uint    ("slideshow-timeout",
@@ -477,10 +489,15 @@ rstto_settings_set_property    (GObject      *object,
             settings->priv->bgcolor_fullscreen->green = color->green;
             settings->priv->bgcolor_fullscreen->blue = color->blue;
             break;
-        case PROP_SCROLLWHEEL_ACTION:
-            if (settings->priv->scrollwheel_action)
-                g_free (settings->priv->scrollwheel_action);
-            settings->priv->scrollwheel_action = g_value_dup_string (value);
+        case PROP_SCROLLWHEEL_PRIMARY_ACTION:
+            if (settings->priv->scrollwheel_primary_action)
+                g_free (settings->priv->scrollwheel_primary_action);
+            settings->priv->scrollwheel_primary_action = g_value_dup_string (value);
+            break;
+        case PROP_SCROLLWHEEL_SECONDARY_ACTION:
+            if (settings->priv->scrollwheel_secondary_action)
+                g_free (settings->priv->scrollwheel_secondary_action);
+            settings->priv->scrollwheel_secondary_action = g_value_dup_string (value);
             break;
         default:
             break;
@@ -543,8 +560,11 @@ rstto_settings_get_property    (GObject    *object,
         case PROP_BGCOLOR_OVERRIDE:
             g_value_set_boolean (value, settings->priv->bgcolor_override);
             break;
-        case PROP_SCROLLWHEEL_ACTION:
-            g_value_set_string (value, settings->priv->scrollwheel_action);
+        case PROP_SCROLLWHEEL_PRIMARY_ACTION:
+            g_value_set_string (value, settings->priv->scrollwheel_primary_action);
+            break;
+        case PROP_SCROLLWHEEL_SECONDARY_ACTION:
+            g_value_set_string (value, settings->priv->scrollwheel_secondary_action);
             break;
         default:
             break;

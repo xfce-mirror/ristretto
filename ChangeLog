@@ -1,5 +1,11 @@
 2009-09-05  Stephan Arts <stephan@xfce.org>
 
+	* src/picture_viewer.c,
+	  src/settings.c,
+	  src/preferences_dialog.c: Implement scrollwheel action on picture-viewer
+
+2009-09-05  Stephan Arts <stephan@xfce.org>
+
 	* src/main_window.c,
 	  src/settings.c,
 	  src/settings.h: Add convenience-functions for setting properties 

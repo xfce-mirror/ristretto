@@ -67,6 +67,7 @@ struct _RsttoPictureViewerPriv
     GtkMenu                 *menu;
     RsttoPictureViewerState  state;
     RsttoZoomMode            zoom_mode;
+    RsttoSettings           *settings;
 
 
     GdkPixbuf        *dst_pixbuf; /* The pixbuf which ends up on screen */
@@ -195,6 +196,7 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
     viewer->priv->cb_value_changed = cb_rstto_picture_viewer_value_changed;
 
     viewer->priv->dst_pixbuf = NULL;
+    viewer->priv->settings = rstto_settings_new();
     viewer->priv->zoom_mode = RSTTO_ZOOM_MODE_CUSTOM;
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
     gtk_widget_set_events (GTK_WIDGET(viewer),
@@ -407,7 +409,6 @@ rstto_picture_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
 static void
 rstto_picture_viewer_paint (GtkWidget *widget)
 {
-    RsttoSettings *settings_manager = rstto_settings_new();
     RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER(widget);
     GdkPixbuf *pixbuf = viewer->priv->dst_pixbuf;
     GdkColor color;
@@ -421,10 +422,10 @@ rstto_picture_viewer_paint (GtkWidget *widget)
     g_value_init (&val_bg_color_fs, GDK_TYPE_COLOR);
     g_value_init (&val_bg_color_override, G_TYPE_BOOLEAN);
 
-    g_object_get_property (G_OBJECT(settings_manager), "bgcolor", &val_bg_color);
-    g_object_get_property (G_OBJECT(settings_manager), "bgcolor-override", &val_bg_color_override);
+    g_object_get_property (G_OBJECT(viewer->priv->settings), "bgcolor", &val_bg_color);
+    g_object_get_property (G_OBJECT(viewer->priv->settings), "bgcolor-override", &val_bg_color_override);
 
-    g_object_get_property (G_OBJECT(settings_manager), "bgcolor-fullscreen", &val_bg_color_fs);
+    g_object_get_property (G_OBJECT(viewer->priv->settings), "bgcolor-fullscreen", &val_bg_color_fs);
 
 
     color.pixel = 0x0;
@@ -643,13 +644,16 @@ rstto_picture_viewer_paint (GtkWidget *widget)
                         widget->allocation.height);
         g_object_unref(buffer);
    }
-   g_object_unref (settings_manager);
 }
 
 static void
 rstto_picture_viewer_destroy(GtkObject *object)
 {
-
+    if (RSTTO_PICTURE_VIEWER (object)->priv->settings)
+    {
+        g_object_unref (RSTTO_PICTURE_VIEWER (object)->priv->settings);
+        RSTTO_PICTURE_VIEWER (object)->priv->settings = NULL;
+    }
 }
 
 static gboolean  
@@ -817,56 +821,75 @@ rstto_picture_viewer_calculate_scale (RsttoPictureViewer *viewer)
 static void
 cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll *event)
 {
-    /*
-    RsttoImageListEntry *entry = rstto_image_list_get_file(viewer->priv->image_list);
+    gchar *scrollwheel_action = NULL; 
+    gdouble *p_scale = NULL;
+    gboolean *p_fit_to_screen= NULL;
 
-    if (entry == NULL)
+    scrollwheel_action = rstto_settings_get_string_property (viewer->priv->settings, "scrollwheel-primary-action");
+
+    if (scrollwheel_action)
     {
-        return;
-    }
-
-    gdouble scale = rstto_image_list_entry_get_scale(entry);
-    viewer->priv->zoom_mode = RSTTO_ZOOM_MODE_CUSTOM;
-    switch(event->direction)
-    {
-        case GDK_SCROLL_UP:
-        case GDK_SCROLL_LEFT:
-            if (scale= 0.05)
-                return;
-            if (viewer->priv->refresh.idle_id > 0)
+        /** Zoom **/
+        if (!strcmp (scrollwheel_action, "zoom"))
+        {
+            viewer->priv->zoom_mode = RSTTO_ZOOM_MODE_CUSTOM;
+            p_scale = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
+            p_fit_to_screen = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen");
+            *p_fit_to_screen = FALSE;
+            switch(event->direction)
             {
-                g_source_remove(viewer->priv->refresh.idle_id);
+                case GDK_SCROLL_UP:
+                case GDK_SCROLL_LEFT:
+                    if (*p_scale <= 0.05)
+                        return;
+                    if (viewer->priv->repaint.idle_id > 0)
+                    {
+                        g_source_remove(viewer->priv->repaint.idle_id);
+                    }
+
+                    *p_scale = *p_scale / 1.1;
+                    viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) / 1.1) - event->y;
+                    viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) / 1.1) - event->x;
+
+                    break;
+                case GDK_SCROLL_DOWN:
+                case GDK_SCROLL_RIGHT:
+                    if (*p_scale >= 16.0)
+                        return;
+                    if (viewer->priv->repaint.idle_id > 0)
+                    {
+                        g_source_remove(viewer->priv->repaint.idle_id);
+                    }
+
+                    *p_scale = *p_scale * 1.1;
+
+                    viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) * 1.1) - event->y;
+                    viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) * 1.1) - event->x;
+
+                    break;
             }
-            rstto_image_list_entry_set_scale(entry, scale / 1.1);
-            rstto_image_list_entry_set_fit_to_screen (entry, FALSE);
-
-            viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) / 1.1) - event->y;
-            viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) / 1.1) - event->x;
-
-            viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
-            break;
-        case GDK_SCROLL_DOWN:
-        case GDK_SCROLL_RIGHT:
-            if (scale >= 16)
-                return;
-            if (viewer->priv->refresh.idle_id > 0)
-            {
-                g_source_remove(viewer->priv->refresh.idle_id);
-            }
-            rstto_image_list_entry_set_scale(entry, scale * 1.1);
-            rstto_image_list_entry_set_fit_to_screen (entry, FALSE);
-
-
-            viewer->vadjustment->value = ((viewer->vadjustment->value + event->y) * 1.1) - event->y;
-            viewer->hadjustment->value = ((viewer->hadjustment->value + event->x) * 1.1) - event->x;
-
             gtk_adjustment_value_changed(viewer->hadjustment);
             gtk_adjustment_value_changed(viewer->vadjustment);
+            viewer->priv->repaint.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
+        }
 
-            viewer->priv->refresh.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
-            break;
+        /** Navigate **/
+        if (!strcmp (scrollwheel_action, "switch"))
+        {
+            viewer->priv->zoom_mode = RSTTO_ZOOM_MODE_CUSTOM;
+            switch(event->direction)
+            {
+                case GDK_SCROLL_UP:
+                case GDK_SCROLL_LEFT:
+                    rstto_image_list_iter_previous (viewer->priv->iter);
+                    break;
+                case GDK_SCROLL_DOWN:
+                case GDK_SCROLL_RIGHT:
+                    rstto_image_list_iter_next (viewer->priv->iter);
+                    break;
+            }
+        }
     }
-    */
 }
 
 static gboolean 
@@ -1437,11 +1460,10 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
     gdouble *scale = NULL;
     gboolean *fit_to_screen = NULL;
 
-    RsttoSettings *settings_manager = rstto_settings_new();
     GValue max_size = {0,};
 
     g_value_init (&max_size, G_TYPE_UINT);
-    g_object_get_property (G_OBJECT(settings_manager), "image-quality", &max_size);
+    g_object_get_property (G_OBJECT(viewer->priv->settings), "image-quality", &max_size);
 
     if (viewer->priv->image)
     {
@@ -1480,7 +1502,6 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
     {
         rstto_picture_viewer_queued_repaint (viewer, TRUE);
     }
-    g_object_unref (settings_manager);
 }
 
 /**

@@ -51,6 +51,12 @@ static void
 cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *, gpointer);
 static void
 cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *, gpointer);
+static void
+cb_rstto_preferences_dialog_no_scrollwheel_action_radio_button_toggled (GtkToggleButton *, gpointer);
+static void
+cb_rstto_preferences_dialog_zoom_scrollwheel_action_radio_button_toggled (GtkToggleButton *, gpointer);
+static void
+cb_rstto_preferences_dialog_switch_scrollwheel_action_radio_button_toggled (GtkToggleButton *, gpointer );
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -76,6 +82,11 @@ struct _RsttoPreferencesDialogPriv
 
     struct
     {
+        GtkWidget *scroll_frame;
+        GtkWidget *scroll_vbox;
+        GtkWidget *no_scrollwheel_action_radio_button;
+        GtkWidget *zoom_scrollwheel_action_radio_button;
+        GtkWidget *switch_scrollwheel_action_radio_button;
     } control_tab;
 
     struct
@@ -128,8 +139,8 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     guint uint_preload_images;
     gboolean bool_enable_cache;
     gboolean bool_bgcolor_override;
+    gchar *scrollwheel_primary_action;
     GdkColor *bgcolor;
-    GtkWidget *scroll_frame, *scroll_vbox;
     GtkWidget *timeout_frame, *timeout_vbox, *timeout_lbl, *timeout_hscale;
     GtkWidget *scaling_frame, *scaling_vbox;
     GtkWidget *widget;
@@ -155,6 +166,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                   "enable-cache", &bool_enable_cache,
                   "bgcolor-override", &bool_bgcolor_override,
                   "bgcolor", &bgcolor,
+                  "scrollwheel-primary-action", &scrollwheel_primary_action,
                   NULL);
 
 /*****************/
@@ -206,7 +218,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     dialog->priv->display_tab.image_quality_hbox= gtk_hbox_new (FALSE, 4);
     dialog->priv->display_tab.image_quality_combo= gtk_combo_box_new_text ();
 
-    gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), _("Really High"));
+    gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), _("Best"));
     gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), _("High"));
     gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), _("Medium"));
     gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), _("Low"));
@@ -255,7 +267,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     timeout_frame = xfce_create_framebox_with_content (_("Timeout"), timeout_vbox);
     gtk_box_pack_start (GTK_BOX (slideshow_main_vbox), timeout_frame, FALSE, FALSE, 0);
 
-    
     timeout_lbl = gtk_label_new(_("The time period an individual image is displayed during a slideshow\n(in seconds)"));
     timeout_hscale = gtk_hscale_new_with_range(1, 60, 1);
     gtk_misc_set_alignment(GTK_MISC(timeout_lbl), 0, 0.5);
@@ -270,18 +281,47 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     control_main_lbl = gtk_label_new(_("Control"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), control_main_vbox, control_main_lbl);
 
-    scroll_vbox = gtk_vbox_new(FALSE, 0);
-    scroll_frame = xfce_create_framebox_with_content (_("Scrollwheel"), scroll_vbox);
-    gtk_box_pack_start (GTK_BOX (control_main_vbox), scroll_frame, FALSE, FALSE, 0);
-    gtk_widget_set_sensitive (scroll_vbox, FALSE);
+    dialog->priv->control_tab.scroll_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->control_tab.scroll_frame = xfce_create_framebox_with_content (_("Scrollwheel"), dialog->priv->control_tab.scroll_vbox);
+    gtk_box_pack_start (GTK_BOX (control_main_vbox), dialog->priv->control_tab.scroll_frame, FALSE, FALSE, 0);
 
-    widget = gtk_radio_button_new_with_label (NULL, _("No action"));
-    gtk_container_add (GTK_CONTAINER (scroll_vbox), widget);
-    widget = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget), _("Zoom in and out"));
-    gtk_container_add (GTK_CONTAINER (scroll_vbox), widget);
-    widget = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget), _("Switch images"));
-    gtk_container_add (GTK_CONTAINER (scroll_vbox), widget);
+    dialog->priv->control_tab.no_scrollwheel_action_radio_button = gtk_radio_button_new_with_label (NULL, _("No action"));
+    gtk_container_add (GTK_CONTAINER (dialog->priv->control_tab.scroll_vbox), dialog->priv->control_tab.no_scrollwheel_action_radio_button);
 
+
+    dialog->priv->control_tab.zoom_scrollwheel_action_radio_button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (dialog->priv->control_tab.no_scrollwheel_action_radio_button), _("Zoom in and out"));
+    gtk_container_add (GTK_CONTAINER (dialog->priv->control_tab.scroll_vbox), dialog->priv->control_tab.zoom_scrollwheel_action_radio_button);
+
+    dialog->priv->control_tab.switch_scrollwheel_action_radio_button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (dialog->priv->control_tab.no_scrollwheel_action_radio_button), _("Switch images"));
+    gtk_container_add (GTK_CONTAINER (dialog->priv->control_tab.scroll_vbox), dialog->priv->control_tab.switch_scrollwheel_action_radio_button);
+
+    if (scrollwheel_primary_action)
+    {
+        if (!strcmp (scrollwheel_primary_action, "zoom"))
+        {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.zoom_scrollwheel_action_radio_button), TRUE);
+        } 
+        else if (!strcmp (scrollwheel_primary_action, "switch"))
+        {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.switch_scrollwheel_action_radio_button), TRUE);
+        }
+        else
+        {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.no_scrollwheel_action_radio_button), TRUE);
+        }
+    }
+    else
+    {
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.no_scrollwheel_action_radio_button), TRUE);
+    }
+    
+
+    g_signal_connect (G_OBJECT (dialog->priv->control_tab.no_scrollwheel_action_radio_button), 
+                      "toggled", (GCallback)cb_rstto_preferences_dialog_no_scrollwheel_action_radio_button_toggled, dialog);
+    g_signal_connect (G_OBJECT (dialog->priv->control_tab.zoom_scrollwheel_action_radio_button), 
+                      "toggled", (GCallback)cb_rstto_preferences_dialog_zoom_scrollwheel_action_radio_button_toggled, dialog);
+    g_signal_connect (G_OBJECT (dialog->priv->control_tab.switch_scrollwheel_action_radio_button), 
+                      "toggled", (GCallback)cb_rstto_preferences_dialog_switch_scrollwheel_action_radio_button_toggled, dialog);
 /*******************/
 /** Behaviour tab **/
 /*******************/
@@ -519,5 +559,41 @@ cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *combo_
                           "image-quality", 2000000,
                           NULL);
             break;
+    }
+}
+
+static void
+cb_rstto_preferences_dialog_no_scrollwheel_action_radio_button_toggled (GtkToggleButton *button, 
+                                                                        gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    if (gtk_toggle_button_get_active (button))
+    {
+        rstto_settings_set_string_property (dialog->priv->settings, "scrollwheel-primary-action", "none");
+    }
+}
+
+static void
+cb_rstto_preferences_dialog_zoom_scrollwheel_action_radio_button_toggled (GtkToggleButton *button, 
+                                                                        gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    if (gtk_toggle_button_get_active (button))
+    {
+        rstto_settings_set_string_property (dialog->priv->settings, "scrollwheel-primary-action", "zoom");
+    }
+}
+
+static void
+cb_rstto_preferences_dialog_switch_scrollwheel_action_radio_button_toggled (GtkToggleButton *button, 
+                                                                        gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    if (gtk_toggle_button_get_active (button))
+    {
+        rstto_settings_set_string_property (dialog->priv->settings, "scrollwheel-primary-action", "switch");
     }
 }
