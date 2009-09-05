@@ -1,5 +1,11 @@
 2009-09-05  Stephan Arts <stephan@xfce.org>
 
+	* src/main.c,
+	  src/main_window.c,
+	  src/main_window.h: Show messagebar when opening a single image from the cli
+
+2009-09-05  Stephan Arts <stephan@xfce.org>
+
 	* src/preferences_dialog.c,
 	  src/settings.c,
 	  src/main_window.c: Implement option to hide thumbnail-bar when fullscreen

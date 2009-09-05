@@ -68,6 +68,7 @@ typedef enum {
 GType      rstto_main_window_get_type();
 
 GtkWidget *rstto_main_window_new (RsttoImageList *, gboolean);
+void       rstto_main_window_show_messagebar (RsttoMainWindow *, GFile *);
 
 G_END_DECLS
 

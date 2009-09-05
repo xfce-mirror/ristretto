@@ -46,6 +46,7 @@ typedef struct {
     gint argc;
     gchar **argv;
     gint iter;
+    RsttoMainWindow *window;
 } RsttoOpenFiles;
 
 static gboolean
@@ -114,6 +115,7 @@ main(int argc, char **argv)
         rof.argc = argc;
         rof.argv = argv;
     	rof.iter = 1;
+        rof.window = RSTTO_MAIN_WINDOW (window);
 
         g_idle_add ((GSourceFunc )cb_rstto_open_files, &rof);
 
@@ -150,6 +152,10 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
                 if (strncmp (content_type, "image/", 6) == 0)
                 {
                     rstto_image_list_add_file (rof->image_list, file, NULL);
+                    if (rof->argc == 2)
+                    {
+                        rstto_main_window_show_messagebar (rof->window, file);
+                    }
                 }
             }
         }

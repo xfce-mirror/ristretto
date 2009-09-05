@@ -1192,7 +1192,6 @@ cb_rstto_main_window_message_bar_open (GtkWidget *widget, RsttoMainWindow *windo
 
     gtk_widget_hide (window->priv->message_bar);
 
-
     file_enumarator = g_file_enumerate_children (window->priv->message_bar_file, "standard::*", 0, NULL, NULL);
     for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
     {
@@ -2381,3 +2380,20 @@ cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindo
     }
 }
 
+
+void
+rstto_main_window_show_messagebar (RsttoMainWindow *window, GFile *file)
+{
+    if (window->priv->message_bar_file)
+    {
+        g_object_unref (window->priv->message_bar_file);
+        window->priv->message_bar_file = NULL;
+    }
+
+    window->priv->message_bar_file = g_file_get_parent (file);
+
+    gtk_widget_show (window->priv->message_bar);
+    gtk_widget_show (window->priv->message_bar_label);
+    gtk_widget_show (window->priv->message_bar_button_cancel);
+    gtk_widget_show (window->priv->message_bar_button_open);
+}
