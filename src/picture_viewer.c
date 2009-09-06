@@ -1133,9 +1133,16 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
         scale = *p_scale;
         fit_to_screen = *p_fit_to_screen;
 
-        if ((scale <= 0) || (fit_to_screen == TRUE))
+        if (scale <= 0)
         {
             scale = rstto_picture_viewer_calculate_scale (viewer);
+            if (scale > 1)
+                scale = 1;
+            else
+                fit_to_screen = TRUE;
+        }
+        if (fit_to_screen == TRUE)
+        {
             *p_fit_to_screen = TRUE;
             *p_scale = scale;
         }

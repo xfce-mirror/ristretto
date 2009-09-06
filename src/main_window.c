@@ -90,12 +90,6 @@ struct _RsttoMainWindowPriv
     GtkWidget *back;
     GtkWidget *forward;
 
-    GtkWidget *message_bar;
-    GtkWidget *message_bar_label;
-    GtkWidget *message_bar_button_cancel;
-    GtkWidget *message_bar_button_open;
-    GFile *message_bar_file;
-
     guint      t_open_merge_id;
     guint      t_open_folder_merge_id;
     guint      recent_merge_id;
@@ -215,12 +209,6 @@ static void
 cb_rstto_main_window_pause(GtkWidget *widget, RsttoMainWindow *window);
 static gboolean
 cb_rstto_main_window_play_slideshow (RsttoMainWindow *window);
-
-static void
-cb_rstto_main_window_message_bar_open (GtkWidget *widget, RsttoMainWindow *window);
-static void
-cb_rstto_main_window_message_bar_cancel (GtkWidget *widget, RsttoMainWindow *window);
-
 
 static void
 cb_rstto_main_window_toggle_show_file_toolbar (GtkWidget *widget, RsttoMainWindow *window);
@@ -514,23 +502,10 @@ rstto_main_window_init (RsttoMainWindow *window)
                         window->priv->statusbar_context_id, 
                         _("Press open to select an image"));
 
-    window->priv->message_bar = gtk_hbox_new (FALSE,0);
-    window->priv->message_bar_label = gtk_label_new (N_("Do you want to open all the images in the folder?"));
-    window->priv->message_bar_button_cancel = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-    window->priv->message_bar_button_open = gtk_button_new_from_stock (GTK_STOCK_OPEN);
-
-    g_signal_connect(G_OBJECT(window->priv->message_bar_button_cancel), "clicked", G_CALLBACK(cb_rstto_main_window_message_bar_cancel), window);
-    g_signal_connect(G_OBJECT(window->priv->message_bar_button_open), "clicked", G_CALLBACK(cb_rstto_main_window_message_bar_open), window);
-
-    gtk_container_set_border_width (GTK_CONTAINER (window->priv->message_bar), 2);
-    gtk_box_pack_start (GTK_BOX (window->priv->message_bar), window->priv->message_bar_label, FALSE,FALSE, 5);
-    gtk_box_pack_end (GTK_BOX (window->priv->message_bar), window->priv->message_bar_button_cancel, FALSE,FALSE, 5);
-    gtk_box_pack_end (GTK_BOX (window->priv->message_bar), window->priv->message_bar_button_open, FALSE,FALSE, 5);
 
     gtk_container_add (GTK_CONTAINER (window), main_vbox);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->menubar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->toolbar, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->message_bar, FALSE,FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->table, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
 
@@ -539,7 +514,6 @@ rstto_main_window_init (RsttoMainWindow *window)
 
     gtk_widget_set_no_show_all (window->priv->toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->image_list_toolbar, TRUE);
-    gtk_widget_set_no_show_all (window->priv->message_bar, TRUE);
     gtk_widget_set_no_show_all (window->priv->thumbnailbar, TRUE);
 
     rstto_main_window_set_navigationbar_position (window, navigationbar_position);
@@ -1175,47 +1149,6 @@ cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action,
     rstto_main_window_set_navigationbar_position (window, gtk_radio_action_get_current_value (current));
 }
 
-/**
- * cb_rstto_main_window_message_bar_open:
- * @widget:
- * @window:
- *
- */
-static void
-cb_rstto_main_window_message_bar_open (GtkWidget *widget, RsttoMainWindow *window)
-{
-    GFile *child_file = NULL;
-    GFileEnumerator *file_enumarator = NULL;
-    GFileInfo *file_info = NULL;
-    const gchar *filename = NULL;
-    const gchar *content_type = NULL;
-
-    gtk_widget_hide (window->priv->message_bar);
-
-    file_enumarator = g_file_enumerate_children (window->priv->message_bar_file, "standard::*", 0, NULL, NULL);
-    for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
-    {
-        filename = g_file_info_get_name (file_info);
-        content_type  = g_file_info_get_content_type (file_info);
-        child_file = g_file_get_child (window->priv->message_bar_file, filename);
-
-        if (strncmp (content_type, "image/", 6) == 0)
-        {
-            rstto_image_list_add_file (window->priv->props.image_list, child_file, NULL);
-        }
-
-        g_object_unref (child_file);
-        g_object_unref (file_info);
-    }
-
-    
-    if (window->priv->message_bar_file)
-    {
-        g_object_unref (window->priv->message_bar_file);
-        window->priv->message_bar_file = NULL;
-    }
-}
-
 static void
 cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *window)
 {
@@ -1369,23 +1302,6 @@ cb_rstto_main_window_settings_notify (GObject *settings, GParamSpec *spec, Rstto
 
 
     g_value_unset (&val);
-}
-
-/**
- * cb_rstto_main_window_message_bar_cancel:
- * @widget:
- * @window:
- *
- */
-static void
-cb_rstto_main_window_message_bar_cancel (GtkWidget *widget, RsttoMainWindow *window)
-{
-    gtk_widget_hide (window->priv->message_bar);
-    if (window->priv->message_bar_file)
-    {
-        g_object_unref (window->priv->message_bar_file);
-        window->priv->message_bar_file = NULL;
-    }
 }
 
 /**
@@ -1944,17 +1860,6 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                 g_free (uri);
                 uri = NULL;
 
-                gtk_widget_show (window->priv->message_bar);
-                gtk_widget_show (window->priv->message_bar_label);
-                gtk_widget_show (window->priv->message_bar_button_cancel);
-                gtk_widget_show (window->priv->message_bar_button_open);
-
-                if (window->priv->message_bar_file)
-                {
-                    g_object_unref (window->priv->message_bar_file);
-                    window->priv->message_bar_file = NULL;
-                }
-                window->priv->message_bar_file = g_file_get_parent (files->data);
             }
         }
 
@@ -2108,17 +2013,6 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
             }
             else
             {
-                gtk_widget_show (window->priv->message_bar);
-                gtk_widget_show (window->priv->message_bar_label);
-                gtk_widget_show (window->priv->message_bar_button_cancel);
-                gtk_widget_show (window->priv->message_bar_button_open);
-
-                if (window->priv->message_bar_file)
-                {
-                    g_object_unref (window->priv->message_bar_file);
-                    window->priv->message_bar_file = NULL;
-                }
-                window->priv->message_bar_file = g_file_get_parent (file);
             }
         }
     }
@@ -2378,22 +2272,4 @@ cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindo
         gtk_widget_hide (window->priv->thumbnailbar);
         rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-thumbnailbar", FALSE);
     }
-}
-
-
-void
-rstto_main_window_show_messagebar (RsttoMainWindow *window, GFile *file)
-{
-    if (window->priv->message_bar_file)
-    {
-        g_object_unref (window->priv->message_bar_file);
-        window->priv->message_bar_file = NULL;
-    }
-
-    window->priv->message_bar_file = g_file_get_parent (file);
-
-    gtk_widget_show (window->priv->message_bar);
-    gtk_widget_show (window->priv->message_bar_label);
-    gtk_widget_show (window->priv->message_bar_button_cancel);
-    gtk_widget_show (window->priv->message_bar_button_open);
 }

@@ -1,8 +1,19 @@
+2009-09-06  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c,
+	  src/main_window.h,
+	  src/main.c: Remove messagebar, it is anoying
+	* src/picture_viewer.c,
+	  src/picture_viewer.h: Fix blow-up of images at first so they do not get 
+	  scaled over 100% when they are rendered the first time. (Dunno why, but 
+	  minimum and maximum zoom-factors are broken)
+
 2009-09-05  Stephan Arts <stephan@xfce.org>
 
 	* src/main.c,
 	  src/main_window.c,
-	  src/main_window.h: Show messagebar when opening a single image from the cli
+	  src/main_window.h: Show messagebar when opening a single image 
+	  from the cli
 
 2009-09-05  Stephan Arts <stephan@xfce.org>
 
