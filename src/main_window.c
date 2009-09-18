@@ -134,6 +134,9 @@ rstto_main_window_get_property (GObject    *object,
 
 static gboolean
 rstto_window_save_geometry_timer (gpointer user_data);
+static void
+rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
+
 static gboolean
 cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event);
 static void
@@ -143,7 +146,9 @@ cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
 static void
 cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window);
 static void
-rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
+cb_rstto_main_window_image_list_iter_prepare_change (RsttoImageListIter *iter, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_image_prepared(RsttoImage *image, RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, RsttoMainWindow *window);
@@ -707,6 +712,8 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         cur_image = rstto_image_list_iter_get_image (window->priv->iter);
         if (cur_image)
         {
+
+            g_signal_connect (G_OBJECT (cur_image), "prepared", G_CALLBACK (cb_rstto_main_window_image_prepared), window);
             width = rstto_image_get_width(cur_image);
             height = rstto_image_get_height(cur_image);
 
@@ -716,7 +723,14 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             basename = g_path_get_basename (path);
 
             title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  basename, position+1, count);
-            status = g_strdup_printf ("%d x %d", width, height);
+            if (width > 0)
+            {
+                status = g_strdup_printf ("%d x %d", width, height);
+            }
+            else
+            {
+                status = g_strdup_printf ("Loading '%s'", basename);
+            }
 
             g_free (basename);
             g_free (path);
@@ -738,6 +752,15 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 
 }
 
+static void
+cb_rstto_main_window_image_list_iter_prepare_change (RsttoImageListIter *iter, RsttoMainWindow *window)
+{
+    RsttoImage *image = rstto_image_list_iter_get_image (iter);
+    if (image)
+    {
+        g_signal_handlers_disconnect_by_func (image, cb_rstto_main_window_image_prepared, window);
+    }
+}
 
 /**
  * rstto_main_window_update_buttons:
@@ -2272,4 +2295,17 @@ cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindo
         gtk_widget_hide (window->priv->thumbnailbar);
         rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-thumbnailbar", FALSE);
     }
+}
+
+static void
+cb_rstto_main_window_image_prepared (RsttoImage *image, RsttoMainWindow *window)
+{
+    gint width = rstto_image_get_width (image);
+    gint height = rstto_image_get_height (image);
+    gchar *status = g_strdup_printf ("%d x %d", width, height);
+
+    gtk_statusbar_pop (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id);
+    gtk_statusbar_push (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id, status);
+
+    g_free (status);
 }

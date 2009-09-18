@@ -62,6 +62,7 @@ enum
 enum
 {
     RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED = 0,
+    RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE,
     RSTTO_IMAGE_LIST_ITER_SIGNAL_COUNT
 };
 
@@ -315,6 +316,17 @@ rstto_image_list_iter_class_init(RsttoImageListIterClass *iter_class)
 
     object_class->dispose = rstto_image_list_iter_dispose;
 
+    rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE] = g_signal_new("prepare-change",
+            G_TYPE_FROM_CLASS(iter_class),
+            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+            0,
+            NULL,
+            NULL,
+            g_cclosure_marshal_VOID__VOID,
+            G_TYPE_NONE,
+            0,
+            NULL);
+
     rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED] = g_signal_new("changed",
             G_TYPE_FROM_CLASS(iter_class),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
@@ -363,6 +375,8 @@ rstto_image_list_iter_find_image (RsttoImageListIter *iter, RsttoImage *image)
     gint pos = g_list_index (iter->priv->image_list->priv->images, image);
     if (pos > -1)
     {
+        g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
+
         if (iter->priv->image)
         {
             iter->priv->image = NULL;
@@ -396,6 +410,8 @@ rstto_image_list_iter_get_image (RsttoImageListIter *iter)
 void
 rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos)
 {
+    g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
+
     if (iter->priv->image)
     {
         iter->priv->image = NULL;
@@ -410,6 +426,9 @@ void
 rstto_image_list_iter_next (RsttoImageListIter *iter)
 {
     GList *position = NULL;
+
+    g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
+
     if (iter->priv->image)
     {
         position = g_list_find (iter->priv->image_list->priv->images, iter->priv->image);
@@ -435,6 +454,9 @@ void
 rstto_image_list_iter_previous (RsttoImageListIter *iter)
 {
     GList *position = NULL;
+
+    g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
+
     if (iter->priv->image)
     {
         position = g_list_find (iter->priv->image_list->priv->images, iter->priv->image);

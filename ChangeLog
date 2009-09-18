@@ -1,3 +1,10 @@
+2009-09-19  Stephan Arts <stephan@xfce.org>
+
+	* src/navigator.c,
+	  src/navigator.h: Remove obsolete source files
+	* src/main_window.c,
+	  src/image_list.c: Improve status-messages
+
 2009-09-06  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c,
