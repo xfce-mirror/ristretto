@@ -148,7 +148,7 @@ cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMai
 static void
 cb_rstto_main_window_image_list_iter_prepare_change (RsttoImageListIter *iter, RsttoMainWindow *window);
 static void
-cb_rstto_main_window_image_prepared(RsttoImage *image, RsttoMainWindow *window);
+cb_rstto_main_window_image_updated (RsttoImage *image, RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, RsttoMainWindow *window);
@@ -713,7 +713,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         if (cur_image)
         {
 
-            g_signal_connect (G_OBJECT (cur_image), "prepared", G_CALLBACK (cb_rstto_main_window_image_prepared), window);
+            g_signal_connect (G_OBJECT (cur_image), "updated", G_CALLBACK (cb_rstto_main_window_image_updated), window);
             width = rstto_image_get_width(cur_image);
             height = rstto_image_get_height(cur_image);
 
@@ -758,7 +758,7 @@ cb_rstto_main_window_image_list_iter_prepare_change (RsttoImageListIter *iter, R
     RsttoImage *image = rstto_image_list_iter_get_image (iter);
     if (image)
     {
-        g_signal_handlers_disconnect_by_func (image, cb_rstto_main_window_image_prepared, window);
+        g_signal_handlers_disconnect_by_func (image, cb_rstto_main_window_image_updated, window);
     }
 }
 
@@ -2298,14 +2298,19 @@ cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindo
 }
 
 static void
-cb_rstto_main_window_image_prepared (RsttoImage *image, RsttoMainWindow *window)
+cb_rstto_main_window_image_updated (RsttoImage *image, RsttoMainWindow *window)
 {
     gint width = rstto_image_get_width (image);
     gint height = rstto_image_get_height (image);
-    gchar *status = g_strdup_printf ("%d x %d", width, height);
+    gchar *status;
 
-    gtk_statusbar_pop (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id);
-    gtk_statusbar_push (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id, status);
+    if (width > 0)
+    {
+        status = g_strdup_printf ("%d x %d", width, height);
 
-    g_free (status);
+        gtk_statusbar_pop (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id);
+        gtk_statusbar_push (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id, status);
+
+        g_free (status);
+    }
 }

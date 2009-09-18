@@ -52,6 +52,9 @@ cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *, gp
 static void
 cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *, gpointer);
 static void
+cb_rstto_preferences_dialog_image_preview_toggled (GtkToggleButton *button, 
+                                                      gpointer user_data);
+static void
 cb_rstto_preferences_dialog_no_scrollwheel_action_radio_button_toggled (GtkToggleButton *, gpointer);
 static void
 cb_rstto_preferences_dialog_zoom_scrollwheel_action_radio_button_toggled (GtkToggleButton *, gpointer);
@@ -86,6 +89,7 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *image_quality_hbox;
         GtkWidget *image_quality_label;
         GtkWidget *image_quality_combo;
+        GtkWidget *image_preview_check_button;
     } display_tab;
 
     struct
@@ -160,6 +164,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gchar *scrollwheel_primary_action;
     guint uint_slideshow_timeout;
     gboolean bool_hide_thumbnailbar_fullscreen;
+    gboolean bool_show_preview;
 
     GdkColor *bgcolor;
     GtkWidget *timeout_lbl, *timeout_hscale;
@@ -184,6 +189,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     g_object_get (G_OBJECT (dialog->priv->settings),
                   "image-quality", &uint_image_quality,
                   "cache-size", &uint_cache_size,
+                  "show-preview", &bool_show_preview,
                   "preload-images", &uint_preload_images,
                   "enable-cache", &bool_enable_cache,
                   "bgcolor-override", &bool_bgcolor_override,
@@ -241,6 +247,10 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     dialog->priv->display_tab.image_quality_label = gtk_label_new (_("Maximum render quality:"));
     dialog->priv->display_tab.image_quality_hbox= gtk_hbox_new (FALSE, 4);
     dialog->priv->display_tab.image_quality_combo= gtk_combo_box_new_text ();
+    dialog->priv->display_tab.image_preview_check_button = gtk_check_button_new_with_label (_("Show preview when loading image"));
+
+    g_signal_connect (G_OBJECT (dialog->priv->display_tab.image_preview_check_button), 
+                      "toggled", (GCallback)cb_rstto_preferences_dialog_image_preview_toggled, dialog);
 
     gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), _("Best"));
     gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), _("High"));
@@ -249,6 +259,9 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_vbox), 
                                  dialog->priv->display_tab.image_quality_hbox, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_vbox), 
+                                 dialog->priv->display_tab.image_preview_check_button, FALSE, FALSE, 0);
+
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_hbox), 
                                  dialog->priv->display_tab.image_quality_label, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_hbox), 
@@ -603,6 +616,15 @@ cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *combo_
                           NULL);
             break;
     }
+}
+
+static void
+cb_rstto_preferences_dialog_image_preview_toggled (GtkToggleButton *button, 
+                                                      gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    rstto_settings_set_boolean_property (dialog->priv->settings, "show-preview", gtk_toggle_button_get_active (button));
 }
 
 static void

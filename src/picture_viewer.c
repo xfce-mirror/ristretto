@@ -950,7 +950,7 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
 static void
 rstto_picture_viewer_calculate_adjustments (RsttoPictureViewer *viewer, gdouble scale)
 {
-    GdkPixbuf *p_src_pixbuf;
+    GdkPixbuf *p_src_pixbuf = NULL;
     GtkWidget *widget = GTK_WIDGET (viewer);
     gdouble image_width, image_height;
     gdouble pixbuf_width, pixbuf_height;
@@ -1093,6 +1093,7 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
     gdouble thumb_scale = 1;
     gdouble thumb_width = 0;
     gboolean fit_to_screen = FALSE;
+    gboolean show_preview = rstto_settings_get_boolean_property (viewer->priv->settings, "show-preview");
     gdouble image_width = 0, image_height = 0;
     gdouble pixbuf_width, pixbuf_height;
     GtkWidget *widget = GTK_WIDGET (viewer);
@@ -1115,14 +1116,17 @@ cb_rstto_picture_viewer_queued_repaint (RsttoPictureViewer *viewer)
                 }
                 break;
             case RSTTO_PICTURE_VIEWER_STATE_PREVIEW:
-                p_src_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
-                if (p_src_pixbuf)
+                if (show_preview == TRUE)
                 {
-                    thumb_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
-                    thumb_scale = (thumb_width / image_width);
+                    p_src_pixbuf = rstto_image_get_thumbnail (viewer->priv->image);
+                    if (p_src_pixbuf)
+                    {
+                        thumb_width = (gdouble)gdk_pixbuf_get_width (p_src_pixbuf);
+                        thumb_scale = (thumb_width / image_width);
+                    }
+                    else
+                        return FALSE;
                 }
-                else
-                    return FALSE;
                 break;
             default:
                 break;

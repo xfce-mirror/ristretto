@@ -57,6 +57,7 @@ enum
     PROP_SHOW_NAV_TOOLBAR,
     PROP_NAVBAR_POSITION,
     PROP_SHOW_THUMBNAILBAR,
+    PROP_SHOW_PREVIEW,
     PROP_HIDE_THUMBNAILBAR_FULLSCREEN,
     PROP_TOOLBAR_OPEN,
     PROP_ENABLE_CACHE,
@@ -107,6 +108,7 @@ struct _RsttoSettingsPriv
     gboolean  show_file_toolbar;
     gboolean  show_nav_toolbar;
     gboolean  show_thumbnailbar;
+    gboolean  show_preview;
     gboolean  hide_thumbnailbar_fullscreen;
     gchar    *navigationbar_position;
     guint     preload_images;
@@ -158,6 +160,7 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind (settings->priv->channel, "/window/show-thumbnailbar", G_TYPE_BOOLEAN, settings, "show-thumbnailbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/hide-thumbnailbar-fullscreen", G_TYPE_BOOLEAN, settings, "hide-thumbnailbar-fullscreen");
     xfconf_g_property_bind (settings->priv->channel, "/window/navigationbar-position", G_TYPE_STRING, settings, "navigationbar-position");
+    xfconf_g_property_bind (settings->priv->channel, "/window/show-preview", G_TYPE_BOOLEAN, settings, "show-preview");
     xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-primary-action", G_TYPE_STRING, settings, "scrollwheel-primary-action");
     xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-secondary-action", G_TYPE_STRING, settings, "scrollwheel-secondary-action");
 
@@ -254,6 +257,15 @@ rstto_settings_class_init (GObjectClass *object_class)
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_NAVBAR_POSITION,
+                                     pspec);
+
+    pspec = g_param_spec_boolean ("show-preview",
+                                  "",
+                                  "",
+                                  TRUE,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_SHOW_PREVIEW,
                                      pspec);
 
     pspec = g_param_spec_uint ("preload-images",
@@ -463,6 +475,9 @@ rstto_settings_set_property    (GObject      *object,
                 settings->priv->navigationbar_position = g_strdup (str_val);
             }
             break;
+        case PROP_SHOW_PREVIEW:
+            settings->priv->show_preview = g_value_get_boolean (value);
+            break;
         case PROP_PRELOAD_IMAGES:
             settings->priv->preload_images = g_value_get_uint (value);
             break;
@@ -544,6 +559,9 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_NAVBAR_POSITION:
             g_value_set_string (value, settings->priv->navigationbar_position);
+            break;
+        case PROP_SHOW_PREVIEW:
+            g_value_set_boolean (value, settings->priv->show_preview);
             break;
         case PROP_PRELOAD_IMAGES:
             g_value_set_uint (value, settings->priv->preload_images);

@@ -1,5 +1,12 @@
 2009-09-19  Stephan Arts <stephan@xfce.org>
 
+	* src/main_window.c,
+	  src/picture_viewer.c,
+	  src/preferences_dialog.c,
+	  src/settings.c: Implement option to toggle 'preview'
+	
+2009-09-19  Stephan Arts <stephan@xfce.org>
+
 	* po/*.po: Update .po files
 	* po/ristretto.pot: Add .pot file
 
