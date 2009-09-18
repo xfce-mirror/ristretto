@@ -1,5 +1,10 @@
 2009-09-19  Stephan Arts <stephan@xfce.org>
 
+	* po/*.po: Update .po files
+	* po/ristretto.pot: Add .pot file
+
+2009-09-19  Stephan Arts <stephan@xfce.org>
+
 	* src/navigator.c,
 	  src/navigator.h: Remove obsolete source files
 	* src/main_window.c,
