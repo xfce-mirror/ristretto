@@ -249,6 +249,8 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     dialog->priv->display_tab.image_quality_combo= gtk_combo_box_new_text ();
     dialog->priv->display_tab.image_preview_check_button = gtk_check_button_new_with_label (_("Show preview when loading image"));
 
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.image_preview_check_button),
+                                  bool_show_preview);
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.image_preview_check_button), 
                       "toggled", (GCallback)cb_rstto_preferences_dialog_image_preview_toggled, dialog);
 

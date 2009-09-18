@@ -1,5 +1,10 @@
 2009-09-19  Stephan Arts <stephan@xfce.org>
 
+	* src/preferences_dialog.c: Set current value to 'show-preview'
+	  checkbutton
+
+2009-09-19  Stephan Arts <stephan@xfce.org>
+
 	* src/main_window.c,
 	  src/picture_viewer.c,
 	  src/preferences_dialog.c,
