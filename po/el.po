@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2009-09-19 00:22+0200\n"
-"PO-Revision-Date: 2009-09-07 01:46+0200\n"
+"PO-Revision-Date: 2009-09-19 14:22+0200\n"
 "Last-Translator: Evaggelos Balaskas <ebalaskas@ebalaskas.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
 "MIME-Version: 1.0\n"
@@ -38,8 +38,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Δοκίμασε %s --help για να δεις μία πλήρη λίστα με τις διαθέσιμες παραμέτρους "
-"στην γραμμή εντολών.\n"
+"Δοκίμασε %s --help για να δεις μία πλήρη λίστα με τις διαθέσιμες παραμέτρους στην γραμμή εντολών.\n"
 
 #. File Menu
 #: ../src/main_window.c:257
@@ -48,67 +47,59 @@ msgstr "_Αρχείο"
 
 #: ../src/main_window.c:258
 msgid "_Open"
-msgstr ""
+msgstr "Άν_οιγμα"
 
 #: ../src/main_window.c:258
-#, fuzzy
 msgid "Open an image"
-msgstr "Άνοιγμα εικόνας"
+msgstr "Άνοιγμα μίας εικόνας"
 
 #: ../src/main_window.c:259
-#, fuzzy
 msgid "Open _Folder"
 msgstr "Άνοιγμα _φακέλου"
 
 #: ../src/main_window.c:259
-#, fuzzy
 msgid "Open a folder"
-msgstr "Άνοιγμα καταλόγου"
+msgstr "Άνοιγμα ενός φακέλου"
 
 #: ../src/main_window.c:260
 msgid "_Save copy"
-msgstr ""
+msgstr "_Αποθήκευση αντιγράφου"
 
 #: ../src/main_window.c:260
 msgid "Save a copy of the image"
-msgstr ""
+msgstr "Αποθήκευση ενός αντίγραφου της εικόνας"
 
 #: ../src/main_window.c:261
 msgid "_Print"
-msgstr ""
+msgstr "_Εκτύπωση"
 
 #: ../src/main_window.c:261
 msgid "Print the image"
-msgstr ""
+msgstr "Εκτύπωση εικόνας"
 
 #: ../src/main_window.c:262
-#, fuzzy
 msgid "_Close"
-msgstr "_Κλείσιμο Όλων"
+msgstr "_Κλείσιμο"
 
 #: ../src/main_window.c:262
 msgid "Close this image"
-msgstr ""
+msgstr "Κλείσιμο της εικόνας"
 
 #: ../src/main_window.c:263
-#, fuzzy
 msgid "_Close All"
 msgstr "_Κλείσιμο Όλων"
 
 #: ../src/main_window.c:263
-#, fuzzy
 msgid "Close all images"
-msgstr "_Κλείσιμο Όλων"
+msgstr "Κλείσιμο όλων των εικόνων"
 
 #: ../src/main_window.c:264
-#, fuzzy
 msgid "_Quit"
-msgstr "_Επεξεργασία"
+msgstr "_Έξοδος"
 
 #: ../src/main_window.c:264
-#, fuzzy
 msgid "Quit Ristretto"
-msgstr "Ristretto"
+msgstr "Έξοδος από το ristretto"
 
 #. Edit Menu
 #: ../src/main_window.c:266
@@ -116,23 +107,20 @@ msgid "_Edit"
 msgstr "_Επεξεργασία"
 
 #: ../src/main_window.c:267
-#, fuzzy
 msgid "_Open with..."
-msgstr "Άνοιγμα με..."
+msgstr "Άν_οιγμα με..."
 
 #: ../src/main_window.c:268
-#, fuzzy
 msgid "_Sorting"
-msgstr "_Mεγέθυνση"
+msgstr "_Ταξινόμηση"
 
 #: ../src/main_window.c:269
 msgid "_Delete"
-msgstr ""
+msgstr "_Διαγραφή"
 
 #: ../src/main_window.c:270
-#, fuzzy
 msgid "_Preferences"
-msgstr "Προτιμήσεις εμφάνισης εικόνων"
+msgstr "_Προτιμήσεις"
 
 #. View Menu
 #: ../src/main_window.c:272
@@ -141,22 +129,20 @@ msgstr "_Εμφάνιση"
 
 #: ../src/main_window.c:273
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_Πλήρης Οθόνη"
 
 #: ../src/main_window.c:274
 msgid "_Leave Fullscreen"
-msgstr ""
+msgstr "Έξ_οδος από πλήρη οθόνη"
 
 #: ../src/main_window.c:275
-#, fuzzy
 msgid "_Set as Wallpaper"
 msgstr "_Ορισμός της επιφάνεια εργασίας"
 
 #. Thumbnailbar submenu
 #: ../src/main_window.c:277
-#, fuzzy
 msgid "_Thumbnail Bar"
-msgstr "Μικρογραφίες"
+msgstr "_Μπάρα μικρογραφιών"
 
 #. Zoom submenu
 #: ../src/main_window.c:279
@@ -164,25 +150,23 @@ msgid "_Zooming"
 msgstr "_Mεγέθυνση"
 
 #: ../src/main_window.c:280
-#, fuzzy
 msgid "Zoom _In"
-msgstr "_Mεγέθυνση"
+msgstr "Μεγέ_θυνση"
 
 #: ../src/main_window.c:281
 msgid "Zoom _Out"
-msgstr ""
+msgstr "Σ_μίκρυνση"
 
 #: ../src/main_window.c:282
 msgid "Zoom _Fit"
-msgstr ""
+msgstr "_Βέλτιστη μεγέθυνση"
 
 #: ../src/main_window.c:283
 msgid "_Normal Size"
-msgstr ""
+msgstr "Κανο_νικό μέγεθος"
 
 #. Rotation submenu
 #: ../src/main_window.c:285
-#, fuzzy
 msgid "_Rotation"
 msgstr "_Περιστροφή"
 
@@ -201,19 +185,19 @@ msgstr "_Μετάβαση"
 
 #: ../src/main_window.c:290
 msgid "_Forward"
-msgstr ""
+msgstr "_Επόμενη"
 
 #: ../src/main_window.c:291
 msgid "_Back"
-msgstr ""
+msgstr "_Προηγούμενη"
 
 #: ../src/main_window.c:292
 msgid "_First"
-msgstr ""
+msgstr "_Πρώτη"
 
 #: ../src/main_window.c:293
 msgid "_Last"
-msgstr ""
+msgstr "_Τελευταία"
 
 #. Help Menu
 #: ../src/main_window.c:295
@@ -222,88 +206,83 @@ msgstr "_Βοήθεια"
 
 #: ../src/main_window.c:297
 msgid "_Contents"
-msgstr ""
+msgstr "_Περιεχόμενα"
 
 #: ../src/main_window.c:299
 msgid "Display ristretto user manual"
-msgstr ""
+msgstr "Εμφανίζει την τεκμηρίωση του ristretto"
 
 #: ../src/main_window.c:302
 msgid "_About"
-msgstr ""
+msgstr "_Περί"
 
 #: ../src/main_window.c:304
 msgid "Display information about ristretto"
-msgstr ""
+msgstr "Εμφάνιση πληροφοριών σχετικά με το ristretto"
 
 #. Position Menu
 #: ../src/main_window.c:307
 msgid "_Position"
-msgstr ""
+msgstr "_Θέση"
 
 #. Misc
 #: ../src/main_window.c:309
 msgid "Leave _Fullscreen"
-msgstr ""
+msgstr "Επαναφορά από πλ_ήρη οθόνη"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:317
-#, fuzzy
 msgid "Show _File Toolbar"
-msgstr "Εμφάνιση _εργαλειοθήκης"
+msgstr "Εμφάνιση εργαλειοθήκης _αρχείο"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:319
-#, fuzzy
 msgid "Show _Navigation Toolbar"
-msgstr "Εμφάνιση _εργαλειοθήκης"
+msgstr "Εμφάνιση εργαλειοθήκης _περιήγηση"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:321
-#, fuzzy
 msgid "Show _Thumbnailbar"
-msgstr "Εμφάνιση _εργαλειοθήκης"
+msgstr "Εμφάνιση μπάρας _μικρογραφιών"
 
 #. Sort by Filename
 #: ../src/main_window.c:328
 msgid "sort by filename"
-msgstr ""
+msgstr "Ταξινόμηση ανά όνομα αρχείου"
 
 #. Sort by Date
 #: ../src/main_window.c:330
 msgid "sort by date"
-msgstr ""
+msgstr "Ταξινόμηση ανά ημερομηνία"
 
 #: ../src/main_window.c:336
 msgid "Left"
-msgstr ""
+msgstr "Αριστερά"
 
 #: ../src/main_window.c:337
 msgid "Right"
-msgstr ""
+msgstr "Δεξιά"
 
 #: ../src/main_window.c:338
 msgid "Top"
-msgstr ""
+msgstr "Πάνω"
 
 #: ../src/main_window.c:339
 msgid "Bottom"
-msgstr ""
+msgstr "Κάτω"
 
-#: ../src/main_window.c:508 ../src/main_window.c:741
+#: ../src/main_window.c:508
+#: ../src/main_window.c:741
 msgid "Press open to select an image"
-msgstr ""
+msgstr "Πατήστε άνοιγμα για να επιλέξετε μία εικόνα"
 
 #: ../src/main_window.c:1489
 msgid "Developer:"
 msgstr "Δημιουργός:"
 
 #: ../src/main_window.c:1499
-#, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Το ristretto είναι ένα γρήγορο και ελαφρύ πρόγραμμα εμφάνισης εικόνων για το "
-"γραφικό περιβάλλον xfce."
+msgstr "Το ristretto είναι ένα εμφάνισης εικόνων για το γραφικό περιβάλλον xfce."
 
 #: ../src/main_window.c:1507
 msgid "translator-credits"
@@ -315,14 +294,16 @@ msgstr "Άνοιγμα εικόνας"
 
 #: ../src/main_window.c:1824
 msgid "Images"
-msgstr ""
+msgstr "Εικόνες"
 
 #: ../src/main_window.c:1829
 msgid ".jp(e)g"
-msgstr ""
+msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1851 ../src/main_window.c:1874
-#: ../src/main_window.c:2033 ../src/main_window.c:2048
+#: ../src/main_window.c:1851
+#: ../src/main_window.c:1874
+#: ../src/main_window.c:2033
+#: ../src/main_window.c:2048
 msgid "Could not open file"
 msgstr "Αποτυχία ανοίγματος εικόνας"
 
@@ -332,52 +313,48 @@ msgstr "Άνοιγμα καταλόγου"
 
 #: ../src/main_window.c:2071
 msgid "Save copy"
-msgstr ""
+msgstr "Αποθήκευση αντίγραφου"
 
 #: ../src/main_window.c:2141
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr ""
-"Είστε σίγουροι ότι θέλετε να καθαρίσετε την λίστα των πρόσφατων εγγράφων που "
-"έχουν ανοιχθεί;"
+msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε την εικόνα '%s' από το δίσκο;"
 
 #: ../src/preferences_dialog.c:200
 msgid "Display"
 msgstr "Προβολή"
 
 #: ../src/preferences_dialog.c:205
-#, fuzzy
 msgid "Background color"
 msgstr "Χρώμα παρασκηνίου"
 
 #: ../src/preferences_dialog.c:209
-#, fuzzy
 msgid "Override background color:"
-msgstr "_Αγνόησε το χρώμα παρασκηνίου:"
+msgstr "Αγνόησε το χρώμα παρασκηνίου:"
 
 #: ../src/preferences_dialog.c:237
 msgid "Quality"
-msgstr ""
+msgstr "Ποιότητα"
 
 #: ../src/preferences_dialog.c:241
 msgid "Maximum render quality:"
-msgstr ""
+msgstr "Μέγιστη ποιότητα ανάλυσης:"
 
 #: ../src/preferences_dialog.c:245
 msgid "Best"
-msgstr ""
+msgstr "Καλύτερο"
 
 #: ../src/preferences_dialog.c:246
 msgid "High"
-msgstr ""
+msgstr "Υψηλή"
 
 #: ../src/preferences_dialog.c:247
 msgid "Medium"
-msgstr ""
+msgstr "Μεσαίο"
 
 #: ../src/preferences_dialog.c:248
 msgid "Low"
-msgstr ""
+msgstr "Χαμηλή"
 
 #: ../src/preferences_dialog.c:285
 msgid "Slideshow"
@@ -392,8 +369,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"Η χρονική περίοδος εμφάνισης μία ανεξάρτητης εικόνας ανάμεσα στις "
-"διαφάνειες\n"
+"Η χρονική περίοδος εμφάνισης μία ανεξάρτητης εικόνας ανάμεσα στις διαφάνειες\n"
 "(σε δευτερόλεπτα)"
 
 #: ../src/preferences_dialog.c:307
@@ -405,58 +381,56 @@ msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
+"Η μπάρα μικρογραφιών μπορεί να αποκρύβεται αυτόματα\n"
+"όταν η προβολή εικόνων είναι σε πλήρη οθόνη."
 
 #: ../src/preferences_dialog.c:311
-#, fuzzy
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "_Απόκρυψη μικρογραφίων"
+msgstr "Απόκρυψη της μπάρας μικρογραφιών κατά την πλήρη οθόνη"
 
 #: ../src/preferences_dialog.c:324
 msgid "Control"
-msgstr ""
+msgstr "Έλεγχος"
 
 #: ../src/preferences_dialog.c:328
 msgid "Scrollwheel"
-msgstr ""
+msgstr "Κύλιση με τη ροδέλα"
 
 #: ../src/preferences_dialog.c:331
 msgid "No action"
-msgstr ""
+msgstr "Καμία ενέργεια"
 
 #: ../src/preferences_dialog.c:335
 msgid "Zoom in and out"
-msgstr ""
+msgstr "Μεγέθυνση και σμίκρυνση"
 
 #: ../src/preferences_dialog.c:338
 msgid "Switch images"
-msgstr ""
+msgstr "Εναλλαγή εικόνων"
 
 #: ../src/preferences_dialog.c:372
 msgid "Behaviour"
 msgstr "Συμπεριφορά"
 
 #: ../src/preferences_dialog.c:378
-#, fuzzy
 msgid "Image cache"
 msgstr "Προσωρινή μνήμη εικόνας"
 
 #: ../src/preferences_dialog.c:384
-#, fuzzy
 msgid "Cache size"
-msgstr "Μέγεθος προσωρινής μνήμης:"
+msgstr "Μέγεθος προσωρινής μνήμης"
 
 #: ../src/preferences_dialog.c:385
 msgid "MB"
 msgstr "ΜΒ"
 
 #: ../src/preferences_dialog.c:388
-#, fuzzy
 msgid "Enable cache"
-msgstr "Προσωρινή μνήμη εικόνας"
+msgstr "Ενεργοποίηση προσωρινής μνήμης"
 
 #: ../src/preferences_dialog.c:393
 msgid "Preload images"
-msgstr ""
+msgstr "Προφόρτωση εικόνων"
 
 #: ../src/preferences_dialog.c:448
 msgid "Scaling"
@@ -467,9 +441,8 @@ msgid "Don't scale over 100% when maximizing the window."
 msgstr "Να μην γίνει μεγέθυνση πάνω από 100% όταν μεγιστοποιείται το παράθυρο."
 
 #: ../src/preferences_dialog.c:474
-#, fuzzy
 msgid "Preferences"
-msgstr "Προτιμήσεις εμφάνισης εικόνων"
+msgstr "Προτιμήσεις"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -477,60 +450,9 @@ msgstr "Εφαρμογή προβολής εικόνων"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
-msgstr ""
+msgstr "Δείτε τις εικόνες σας εύκολα"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
-msgstr ""
+msgstr "Πρόγραμμα εμφάνισης εικόνων ristretto"
 
-#~ msgid "Opening file(s)..."
-#~ msgstr "Άνοιγμα αρχείου(ων)..."
-
-#~ msgid "_Recently used"
-#~ msgstr "_Πρόσφατα αρχεία"
-
-#~ msgid "No applications available"
-#~ msgstr "Μη διαθέσιμες εφαρμογές"
-
-#~ msgid "Thumbnail _Viewer"
-#~ msgstr "_Εμφάνιση μικρογραφιών"
-
-#~ msgid "Show _Horizontally"
-#~ msgstr "Εμφάνιση _οριζόντια"
-
-#~ msgid "Show _Vertically"
-#~ msgstr "Εμφάνιση _κάθετα"
-
-#~ msgid "H_ide"
-#~ msgstr "_Απόκρυψη"
-
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Μία ή περισσότερες εικόνες έχουν τροποποιηθεί, θέλετε να αποθηκεύσετε τις "
-#~ "αλλαγές;"
-
-#~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Προφόρτωση εικόνων (Το GUI ανταποκρίνεται καλύτερα αλλά είναι πιο βαρύ "
-#~ "για την CPU)"
-
-#~ msgid "Hide the thumbnails bar during slideshow"
-#~ msgstr ""
-#~ "Απόκρυψη της μπάρας εικονιδίων κατά την διάρκεια της προβολής των "
-#~ "διαφανειών"
-
-#~ msgid "Spacing"
-#~ msgstr "Διαστήματα"
-
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "Το διάστημα μεταξύ των μικρογραφιών"
-
-#~ msgid "Border Width"
-#~ msgstr "Μέγεθος περιγράμματος"
-
-#~ msgid "The border width of the thumbnail-bar"
-#~ msgstr "Το πλάτος του περιγράμματος της μπάρας των μικρογραφιών"
-
-#~ msgid "Xfce Image viewer"
-#~ msgstr "Εφαρμογή προβολής εικόνων xfce"
