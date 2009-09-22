@@ -1,5 +1,10 @@
 2009-09-22  Stephan Arts <stephan@xfce.org>
 
+	* src/main_window.c: Add initial code for implementation of the 
+	  'open-with' menu
+
+2009-09-22  Stephan Arts <stephan@xfce.org>
+
 	* src/main_window.c,
 	  src/picture_viewer.c: Do not change zoom-mode when switching to
 	  fullscreen, recalculate scale when fitting image to window (zoom-fit)

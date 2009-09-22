@@ -701,9 +701,16 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 {
     gchar *path, *basename, *title, *status;
     GFile *file = NULL;
+    GFileInfo *file_info = NULL;
     RsttoImage *cur_image;
     gint position, count, width, height;
     RsttoImageList *image_list = window->priv->props.image_list;
+    GList *app_list, *iter;
+    const gchar *content_type;
+    GtkWidget *open_with_menu = gtk_menu_new();
+    GtkWidget *open_with_window_menu = gtk_menu_new();
+    gtk_menu_item_set_submenu (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/image-viewer-menu/open-with-menu"), open_with_menu);
+    gtk_menu_item_set_submenu (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/open-with-menu"), open_with_window_menu);
 
     if (window->priv->props.image_list)
     {
@@ -712,12 +719,29 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         cur_image = rstto_image_list_iter_get_image (window->priv->iter);
         if (cur_image)
         {
+            file = rstto_image_get_file (cur_image);
+            file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
+            content_type  = g_file_info_get_content_type (file_info);
+            app_list = g_app_info_get_all_for_type (content_type);
+
+            for (iter = app_list; iter; iter = g_list_next (iter))
+            {
+                GtkWidget *menu_item = gtk_image_menu_item_new_with_label (g_app_info_get_name (iter->data));
+                gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
+                gtk_widget_set_sensitive (menu_item, FALSE);
+
+                menu_item = gtk_image_menu_item_new_with_label (g_app_info_get_name (iter->data));
+                gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
+                gtk_widget_set_sensitive (menu_item, FALSE);
+            }
+
+            gtk_widget_show_all (open_with_menu);
+            gtk_widget_show_all (open_with_window_menu);
 
             g_signal_connect (G_OBJECT (cur_image), "updated", G_CALLBACK (cb_rstto_main_window_image_updated), window);
             width = rstto_image_get_width(cur_image);
             height = rstto_image_get_height(cur_image);
 
-            file = rstto_image_get_file (cur_image);
 
             path = g_file_get_path (file);
             basename = g_path_get_basename (path);
@@ -737,6 +761,18 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         }
         else
         {
+            GtkWidget *menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
+            gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
+            gtk_widget_set_sensitive (menu_item, FALSE);
+
+
+            menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
+            gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
+            gtk_widget_set_sensitive (menu_item, FALSE);
+
+            gtk_widget_show_all (open_with_menu);
+            gtk_widget_show_all (open_with_window_menu);
+
             title = g_strdup (RISTRETTO_APP_TITLE);
             status = g_strdup (_("Press open to select an image"));
         }
