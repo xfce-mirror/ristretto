@@ -1,3 +1,9 @@
+2009-09-22  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c,
+	  src/picture_viewer.c: Do not change zoom-mode when switching to
+	  fullscreen, recalculate scale when fitting image to window (zoom-fit)
+
 2009-09-19  Stephan Arts <stephan@xfce.org>
 
 	* src/preferences_dialog.c: Set current value to 'show-preview'
