@@ -40,6 +40,7 @@
 #include "thumbnail_bar.h"
 
 #include "preferences_dialog.h"
+#include "app_menu_item.h"
 
 #define XFDESKTOP_SELECTION_FMT "XFDESKTOP_SELECTION_%d"
 
@@ -726,13 +727,10 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 
             for (iter = app_list; iter; iter = g_list_next (iter))
             {
-                GtkWidget *menu_item = gtk_image_menu_item_new_with_label (g_app_info_get_name (iter->data));
+                GtkWidget *menu_item = rstto_app_menu_item_new (iter->data, file);
                 gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
-                gtk_widget_set_sensitive (menu_item, FALSE);
-
-                menu_item = gtk_image_menu_item_new_with_label (g_app_info_get_name (iter->data));
+                menu_item = rstto_app_menu_item_new (iter->data, file);
                 gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
-                gtk_widget_set_sensitive (menu_item, FALSE);
             }
 
             gtk_widget_show_all (open_with_menu);

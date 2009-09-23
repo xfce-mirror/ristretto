@@ -1,3 +1,10 @@
+2009-09-23  Stephan Arts <stephan@xfce.org>
+
+	* src/app_menu_item.c,
+	  src/app_menu_item.h,
+	  src/main_window.c,
+	  src/Makefile.am: Implement open-with menu with launcher menu-items
+
 2009-09-22  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c: Add initial code for implementation of the 
