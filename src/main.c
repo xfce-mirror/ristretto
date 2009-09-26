@@ -47,6 +47,7 @@ typedef struct {
     gchar **argv;
     gint iter;
     RsttoMainWindow *window;
+    gboolean open_entire_folder;
 } RsttoOpenFiles;
 
 static gboolean
@@ -116,6 +117,7 @@ main(int argc, char **argv)
         rof.argv = argv;
     	rof.iter = 1;
         rof.window = RSTTO_MAIN_WINDOW (window);
+        rof.open_entire_folder = rstto_settings_get_boolean_property (settings, "open-entire-folder");
 
         g_idle_add ((GSourceFunc )cb_rstto_open_files, &rof);
 
@@ -136,10 +138,35 @@ main(int argc, char **argv)
 static gboolean
 cb_rstto_open_files (RsttoOpenFiles *rof)
 {
-    GFile *file;
+    GFile *file, *p_file, *child_file;
     GFileInfo *file_info;
-    const gchar *content_type;
-    if (rof->iter < rof->argc)
+    const gchar *content_type, *filename;
+
+    GFileEnumerator *file_enumarator = NULL;
+
+    if ((rof->argc > 2) || (rof->open_entire_folder == FALSE))
+    {
+        if (rof->iter < rof->argc)
+        {
+            file = g_file_new_for_commandline_arg (rof->argv[rof->iter]);
+            if (file)
+            {
+                file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
+                if (file_info)
+                {
+                    content_type = g_file_info_get_attribute_string (file_info, "standard::content-type");
+
+                    if (strncmp (content_type, "image/", 6) == 0)
+                    {
+                        rstto_image_list_add_file (rof->image_list, file, NULL);
+                    }
+                }
+            }
+            rof->iter++;
+            return TRUE;
+        }
+    }
+    else
     {
         file = g_file_new_for_commandline_arg (rof->argv[rof->iter]);
         if (file)
@@ -155,8 +182,22 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
                 }
             }
         }
-        rof->iter++;
-        return TRUE;
+        p_file = g_file_get_parent (file);
+        file_enumarator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
+        for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+        {
+            filename = g_file_info_get_name (file_info);
+            content_type  = g_file_info_get_content_type (file_info);
+            child_file = g_file_get_child (p_file, filename);
+
+            if (strncmp (content_type, "image/", 6) == 0)
+            {
+                rstto_image_list_add_file (rof->image_list, child_file, NULL);
+            }
+
+            g_object_unref (child_file);
+            g_object_unref (file_info);
+        }
     }
     return FALSE;
 }

@@ -1,5 +1,10 @@
 2009-09-26  Stephan Arts <stephan@xfce.org>
 
+	* src/main.c,
+	  src/settings.c: Add option to load all images in a folder
+
+2009-09-26  Stephan Arts <stephan@xfce.org>
+
 	* src/main_window.c,
 	  src/image_list.c,
 	  src/thumbnailbar.c: Images can only be opened once
