@@ -6,8 +6,6 @@
     - nautilus
     - rox
 
-- Implement open-with
-
 - Implement box-zoom
 
 - Add preloading
@@ -15,7 +13,7 @@
 
 - Write comments
 
-- Implement thumbnailbar
+- Improve thumbnailbar
 
 - Support image collections
     - Export to tarball/zip

@@ -33,6 +33,14 @@
 
 #define XFDESKTOP_SELECTION_FMT "XFDESKTOP_SELECTION_%d"
 
+typedef struct {
+    gint16 r;
+    gint16 g;
+    gint16 b;
+    gint16 a;
+} RsttoColor;
+
+
 static void
 rstto_xfce_wallpaper_manager_init (GObject *);
 static void
@@ -88,10 +96,16 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoImage *image
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
     GFile *file = rstto_image_get_file (image);
     gchar *uri = g_file_get_path (file);
+    
+    RsttoColor *color = g_new0 (RsttoColor, 1);
+    color->a = 0xffff;
 
     xfconf_channel_set_string (manager->priv->channel, "/backdrop/screen0/monitor0/image-path", uri);
     xfconf_channel_set_bool   (manager->priv->channel, "/backdrop/screen0/monitor0/image-show", TRUE);
     xfconf_channel_set_int    (manager->priv->channel, "/backdrop/screen0/monitor0/image-style", 4);
+    xfconf_channel_set_int    (manager->priv->channel, "/backdrop/screen0/monitor0/brightness", 0);
+    xfconf_channel_set_double (manager->priv->channel, "/backdrop/screen0/monitor0/saturation", 1.0);
+    xfconf_channel_set_struct (manager->priv->channel, "/backdrop/screen0/monitor0/color1", color, XFCONF_TYPE_INT16, XFCONF_TYPE_INT16, XFCONF_TYPE_INT16, XFCONF_TYPE_INT16, G_TYPE_INVALID);
 
     return FALSE;
 }
