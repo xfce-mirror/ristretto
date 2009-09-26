@@ -1,3 +1,13 @@
+2009-09-26  Stephan Arts <stephan@xfce.org>
+
+	* src/wallpaper_manager.h,
+	  src/wallpaper_manager.c,
+	  src/main_window.c,
+	  src/xfce_wallpaper_manager.h,
+	  src/xfce_wallpaper_manager.c,
+	  src/image.h: Implement basic set-as-wallpaper functionality for
+	  xfdesktop
+
 2009-09-23  Stephan Arts <stephan@xfce.org>
 
 	* src/app_menu_item.c,
