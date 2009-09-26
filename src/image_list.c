@@ -5,7 +5,8 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
- * *  This program is distributed in the hope that it will be useful,
+ *
+ *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Library General Public License for more details.
@@ -47,6 +48,8 @@ static gint
 cb_rstto_image_list_image_name_compare_func (RsttoImage *a, RsttoImage *b);
 static gint
 cb_rstto_image_list_exif_date_compare_func (RsttoImage *a, RsttoImage *b);
+static gint
+cb_rstto_image_list_file_compare_func (RsttoImage *a, GFile *file);
 
 static GObjectClass *parent_class = NULL;
 static GObjectClass *iter_parent_class = NULL;
@@ -181,26 +184,36 @@ rstto_image_list_new (void)
 gboolean
 rstto_image_list_add_file (RsttoImageList *image_list, GFile *file, GError **error)
 {
-    RsttoImage *image = rstto_image_new (file);
-    if (image)
-    {
-        image_list->priv->images = g_list_insert_sorted (image_list->priv->images, image, rstto_image_list_get_compare_func (image_list));
-        image_list->priv->n_images++;
+    RsttoImage *image = NULL;
 
-        g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, image, NULL);
-        if (image_list->priv->n_images == 1)
+    GList *image_iter = g_list_find_custom (image_list->priv->images, file, (GCompareFunc)cb_rstto_image_list_file_compare_func);
+
+    if (!image_iter)
+    {
+        image = rstto_image_new (file);
+        if (image)
         {
-            /** TODO: update all iterators */
-            GSList *iter = image_list->priv->iterators;
-            while (iter)
+            image_list->priv->images = g_list_insert_sorted (image_list->priv->images, image, rstto_image_list_get_compare_func (image_list));
+            image_list->priv->n_images++;
+
+            g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, image, NULL);
+            if (image_list->priv->n_images == 1)
             {
-                g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
-                iter = g_slist_next (iter);
+                /** TODO: update all iterators */
+                GSList *iter = image_list->priv->iterators;
+                while (iter)
+                {
+                    g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
+                    iter = g_slist_next (iter);
+                }
             }
+            return TRUE;
         }
-        return TRUE;
+        return FALSE;
     }
-    return FALSE;
+    g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, image_iter->data, NULL);
+
+    return TRUE;
 }
 
 gint
@@ -568,5 +581,19 @@ cb_rstto_image_list_exif_date_compare_func (RsttoImage *a, RsttoImage *b)
 
     g_object_unref (file_info_a);
     g_object_unref (file_info_b);
+    return result;
+}
+
+static gint
+cb_rstto_image_list_file_compare_func (RsttoImage *a, GFile *file)
+{
+    gchar *a_base = g_file_get_uri (rstto_image_get_file (a));  
+    gchar *b_base = g_file_get_uri (file);  
+    gint result = 0;
+
+    result = g_strcasecmp (a_base, b_base);
+
+    g_free (a_base);
+    g_free (b_base);
     return result;
 }

@@ -777,8 +777,15 @@ cb_rstto_thumbnail_bar_image_list_new_image (RsttoImageList *image_list, RsttoIm
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
     GtkWidget *thumb;
+    GList *iter;
 
     g_return_if_fail (rstto_image_list_iter_find_image (bar->priv->internal_iter, image));
+
+    for (iter = bar->priv->thumbs; iter != NULL; iter = g_list_next (iter))
+    {
+        if (image == rstto_thumbnail_get_image (iter->data))
+            return;
+    }
 
     thumb = rstto_thumbnail_new (image);
 

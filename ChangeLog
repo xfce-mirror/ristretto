@@ -1,5 +1,11 @@
 2009-09-26  Stephan Arts <stephan@xfce.org>
 
+	* src/main_window.c,
+	  src/image_list.c,
+	  src/thumbnailbar.c: Images can only be opened once
+
+2009-09-26  Stephan Arts <stephan@xfce.org>
+
 	* src/wallpaper_manager.h,
 	  src/wallpaper_manager.c,
 	  src/main_window.c,

@@ -64,6 +64,7 @@ struct _RsttoMainWindowPriv
 
     guint show_fs_toolbar_timeout_id;
     gint window_save_geometry_timer_id;
+    gint open_image_timer_id;
     
     gboolean fs_toolbar_sticky;
 
@@ -138,6 +139,8 @@ rstto_main_window_get_property (GObject    *object,
 
 static gboolean
 rstto_window_save_geometry_timer (gpointer user_data);
+static gboolean
+rstto_window_open_image_timer(gpointer user_data);
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
 
@@ -1075,6 +1078,14 @@ rstto_window_save_geometry_timer (gpointer user_data)
     return FALSE;
 }
 
+static gboolean
+rstto_window_open_image_timer (gpointer user_data)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    window->priv->open_image_timer_id = 0;
+    return FALSE;
+}
+
 static void
 rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint orientation)
 {
@@ -1601,6 +1612,16 @@ cb_rstto_main_window_image_list_new_image (RsttoImageList *image_list, RsttoImag
 {
     if (rstto_image_list_iter_get_position (window->priv->iter) == -1)
         rstto_image_list_iter_set_position (window->priv->iter, 0);
+    if (window->priv->open_image_timer_id > 0)
+    {
+        g_source_remove (window->priv->open_image_timer_id);
+    }
+    else
+    {
+        rstto_image_list_iter_find_image (window->priv->iter, image);
+    }
+    window->priv->open_image_timer_id = g_timeout_add (
+            1000, rstto_window_open_image_timer, window);
     rstto_main_window_image_list_iter_changed (window);
 }
 
