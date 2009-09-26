@@ -38,6 +38,8 @@
 #include "main_window.h"
 #include "main_window_ui.h"
 #include "thumbnail_bar.h"
+#include "wallpaper_manager.h"
+#include "xfce_wallpaper_manager.h"
 
 #include "preferences_dialog.h"
 #include "app_menu_item.h"
@@ -71,6 +73,7 @@ struct _RsttoMainWindowPriv
     GtkUIManager     *ui_manager;
     GtkRecentManager *recent_manager;
     RsttoSettings    *settings_manager;
+    RsttoWallpaperManager *wallpaper_manager;
 
     GtkWidget *menubar;
     GtkWidget *toolbar;
@@ -385,6 +388,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
 
     window->priv = g_new0(RsttoMainWindowPriv, 1);
+    window->priv->wallpaper_manager = RSTTO_WALLPAPER_MANAGER (rstto_xfce_wallpaper_manager_new());
 
     window->priv->iter = NULL;
 
@@ -710,8 +714,8 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
     const gchar *content_type;
     GtkWidget *open_with_menu = gtk_menu_new();
     GtkWidget *open_with_window_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/image-viewer-menu/open-with-menu"), open_with_menu);
-    gtk_menu_item_set_submenu (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/open-with-menu"), open_with_window_menu);
+    gtk_menu_item_set_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/image-viewer-menu/open-with-menu")), open_with_menu);
+    gtk_menu_item_set_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/open-with-menu")), open_with_window_menu);
 
     if (window->priv->props.image_list)
     {
@@ -1209,7 +1213,18 @@ cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action,
 static void
 cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *window)
 {
-    
+    RsttoImage *image = NULL;
+    if (window->priv->iter)
+        image = rstto_image_list_iter_get_image (window->priv->iter);
+    g_return_if_fail (image);
+
+    if (rstto_wallpaper_manager_check_running (window->priv->wallpaper_manager))
+    {
+        if (rstto_wallpaper_manager_configure_dialog_run (window->priv->wallpaper_manager, image) == GTK_RESPONSE_OK)
+        {
+            rstto_wallpaper_manager_set (window->priv->wallpaper_manager, image);
+        }
+    }
 }
 
 static void
@@ -1242,8 +1257,6 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             {
                 gtk_widget_hide (window->priv->thumbnailbar);
             }
-
-            /*rstto_picture_viewer_zoom_fit (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer));*/
 
             gtk_ui_manager_add_ui (window->priv->ui_manager,
                                    window->priv->toolbar_unfullscreen_merge_id,
@@ -1303,9 +1316,9 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
     gint width, height;
     if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
     {
-	gdk_drawable_get_size (GDK_DRAWABLE(GTK_WIDGET(window)->window), &width, &height);
-        //if ((event->state == 0) && (event->window == event->subwindow))
-	if ((event->x_root == 0) || (event->y_root == 0) || (((gint)event->x_root) == (width-1)) || (((gint)event->y_root) == (height-1)))
+        gdk_drawable_get_size (GDK_DRAWABLE(GTK_WIDGET(window)->window), &width, &height);
+
+        if ((event->x_root == 0) || (event->y_root == 0) || (((gint)event->x_root) == (width-1)) || (((gint)event->y_root) == (height-1)))
         {
             gtk_widget_show (window->priv->image_list_toolbar);
             window->priv->fs_toolbar_sticky = TRUE;
