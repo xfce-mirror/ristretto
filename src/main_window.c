@@ -280,8 +280,6 @@ static GtkActionEntry action_entries[] =
   { "fullscreen", GTK_STOCK_FULLSCREEN, N_ ("_Fullscreen"), "F11", NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "unfullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("_Leave Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "set-as-wallpaper", NULL, N_ ("_Set as Wallpaper"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_set_as_wallpaper), },
-/* Thumbnailbar submenu */
-  { "thumbnailbar-menu", NULL, N_ ("_Thumbnail Bar"), NULL, },
 /* Zoom submenu */
   { "zoom-menu", NULL, N_ ("_Zooming"), NULL, },
   { "zoom-in", GTK_STOCK_ZOOM_IN, N_ ("Zoom _In"), "<control>plus", NULL, G_CALLBACK (cb_rstto_main_window_zoom_in),},
@@ -325,7 +323,7 @@ static const GtkToggleActionEntry toggle_action_entries[] =
     /* Toggle visibility of the main navigation toolbar */
     { "show-nav-toolbar", NULL, N_ ("Show _Navigation Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_nav_toolbar), TRUE, },
     /* Toggle visibility of the thumbnailbar*/
-    { "show-thumbnailbar", NULL, N_ ("Show _Thumbnailbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_thumbnailbar), TRUE, },
+    { "show-thumbnailbar", NULL, N_ ("Show _Thumbnailbar"), "<control>M", NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_thumbnailbar), TRUE, },
 };
 
 /** Image sorting options*/

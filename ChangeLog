@@ -1,3 +1,11 @@
+2009-09-27  Stephan Arts <stephan@xfce.org>
+
+	*  src/preferences_dialog.c: Add option to load all images in a
+	  folder to the preferences dialog.
+	* src/main_window.c: Add shortcut for the visibility of the 
+	  thumbnail-bar
+	* src/xfce_wallpaper_manager.c: Cleanup xfconf channel on destruction
+
 2009-09-26  Stephan Arts <stephan@xfce.org>
 
 	* src/main.c,

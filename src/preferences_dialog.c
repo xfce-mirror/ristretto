@@ -67,6 +67,10 @@ cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled (
                                                         gpointer user_data);
 
 static void
+cb_rstto_preferences_dialog_open_entire_folder_check_button_toggled (GtkToggleButton *button, 
+                                                      gpointer user_data);
+
+static void
 cb_rstto_preferences_dialog_slideshow_timeout_value_changed (GtkRange *, gpointer);
 
 static GtkWidgetClass *parent_class = NULL;
@@ -113,6 +117,18 @@ struct _RsttoPreferencesDialogPriv
 
     struct
     {
+        GtkWidget *scaling_frame;
+        GtkWidget *scaling_vbox;
+        GtkWidget *resize_image_on_maximize;
+
+        GtkWidget *startup_frame;
+        GtkWidget *startup_vbox;
+        GtkWidget *resize_window_on_startup_check_button;
+        GtkWidget *open_entire_folder_check_button;
+    } behaviour_tab;
+
+    struct
+    {
         GtkWidget *cache_frame;
         GtkWidget *cache_vbox;
         GtkWidget *cache_sub_vbox;
@@ -124,7 +140,7 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *cache_spin_button;
         GtkWidget *cache_preload_label;
         GtkWidget *cache_preload_hscale;
-    } behaviour_tab;
+    } cache_tab;
 };
 
 GType
@@ -165,11 +181,11 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     guint uint_slideshow_timeout;
     gboolean bool_hide_thumbnailbar_fullscreen;
     gboolean bool_show_preview;
+    gboolean bool_open_entire_folder;
 
     GdkColor *bgcolor;
     GtkWidget *timeout_lbl, *timeout_hscale;
     GtkWidget *thumbnail_lbl;
-    GtkWidget *scaling_frame, *scaling_vbox;
     GtkWidget *widget;
     GtkObject *cache_adjustment;
     GtkWidget *display_main_vbox;
@@ -180,6 +196,8 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *control_main_lbl;
     GtkWidget *behaviour_main_vbox;
     GtkWidget *behaviour_main_lbl;
+    GtkWidget *cache_main_vbox;
+    GtkWidget *cache_main_lbl;
     GtkWidget *notebook = gtk_notebook_new ();
 
 
@@ -197,6 +215,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                   "scrollwheel-primary-action", &scrollwheel_primary_action,
                   "slideshow-timeout", &uint_slideshow_timeout,
                   "hide-thumbnailbar-fullscreen", &bool_hide_thumbnailbar_fullscreen,
+                  "open-entire-folder", &bool_open_entire_folder,
                   NULL);
 
 /*****************/
@@ -323,6 +342,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_box_pack_start (GTK_BOX (slideshow_main_vbox), dialog->priv->slideshow_tab.thumbnail_frame, FALSE, FALSE, 0);
 
     dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_lbl = gtk_label_new(_("The thumbnailbar can be automatically hidden \nwhen the image-viewer is fullscreen."));
+    gtk_misc_set_alignment(GTK_MISC(dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_lbl), 0, 0.5);
     dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_check_button = gtk_check_button_new_with_label (_("Hide thumbnailbar when fullscreen"));
     gtk_box_pack_start (GTK_BOX (dialog->priv->slideshow_tab.thumbnail_vbox), dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_lbl, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (dialog->priv->slideshow_tab.thumbnail_vbox), dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_check_button, FALSE, FALSE, 0);
@@ -387,58 +407,91 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     behaviour_main_lbl = gtk_label_new(_("Behaviour"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), behaviour_main_vbox, behaviour_main_lbl);
 
+    /********************************************/
+    dialog->priv->behaviour_tab.scaling_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->behaviour_tab.scaling_frame = xfce_create_framebox_with_content (_("Scaling"), dialog->priv->behaviour_tab.scaling_vbox);
+    gtk_box_pack_start (GTK_BOX (behaviour_main_vbox), dialog->priv->behaviour_tab.scaling_frame, FALSE, FALSE, 0);
+    /* not used */
+    gtk_widget_set_sensitive (dialog->priv->behaviour_tab.scaling_vbox, FALSE);
+
+    dialog->priv->behaviour_tab.resize_image_on_maximize = gtk_check_button_new_with_label (_("Don't scale over 100% when maximizing the window."));
+    gtk_container_add (GTK_CONTAINER (dialog->priv->behaviour_tab.scaling_vbox), dialog->priv->behaviour_tab.resize_image_on_maximize);
+
+    dialog->priv->behaviour_tab.startup_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->behaviour_tab.startup_frame = xfce_create_framebox_with_content (_("Startup"), dialog->priv->behaviour_tab.startup_vbox);
+    gtk_box_pack_start (GTK_BOX (behaviour_main_vbox), dialog->priv->behaviour_tab.startup_frame, FALSE, FALSE, 0);
+    dialog->priv->behaviour_tab.resize_window_on_startup_check_button = gtk_check_button_new_with_label (_("Resize window to image on startup"));
+    gtk_container_add (GTK_CONTAINER (dialog->priv->behaviour_tab.startup_vbox), dialog->priv->behaviour_tab.resize_window_on_startup_check_button);
+    gtk_widget_set_sensitive (dialog->priv->behaviour_tab.resize_window_on_startup_check_button, FALSE);
+
+    dialog->priv->behaviour_tab.open_entire_folder_check_button = gtk_check_button_new_with_label (_("Open entire folder on startup"));
+    gtk_container_add (GTK_CONTAINER (dialog->priv->behaviour_tab.startup_vbox), dialog->priv->behaviour_tab.open_entire_folder_check_button);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.open_entire_folder_check_button),
+                                  bool_open_entire_folder);
+    g_signal_connect (G_OBJECT (dialog->priv->behaviour_tab.open_entire_folder_check_button), 
+                      "toggled", (GCallback)cb_rstto_preferences_dialog_open_entire_folder_check_button_toggled, dialog);
+
+
+
+/***************/
+/** Cache tab **/
+/***************/
+    cache_main_vbox = gtk_vbox_new(FALSE, 0);
+    cache_main_lbl = gtk_label_new(_("Memory"));
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), cache_main_vbox, cache_main_lbl);
+
 
 /** Image-cache frame */
-    dialog->priv->behaviour_tab.cache_vbox = gtk_vbox_new(FALSE, 0);
-    dialog->priv->behaviour_tab.cache_frame = xfce_create_framebox_with_content (_("Image cache"),
-                                                                                 dialog->priv->behaviour_tab.cache_vbox);
-    gtk_box_pack_start (GTK_BOX (behaviour_main_vbox), dialog->priv->behaviour_tab.cache_frame, FALSE, FALSE, 0);
+    dialog->priv->cache_tab.cache_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->cache_tab.cache_frame = xfce_create_framebox_with_content (_("Image cache"),
+                                                                                 dialog->priv->cache_tab.cache_vbox);
+    gtk_box_pack_start (GTK_BOX (cache_main_vbox), dialog->priv->cache_tab.cache_frame, FALSE, FALSE, 0);
 
     cache_adjustment = gtk_adjustment_new (RSTTO_DEFAULT_CACHE_SIZE, RSTTO_MIN_CACHE_SIZE, 4096, 1, 0, 0);
 
-    dialog->priv->behaviour_tab.cache_size_label = gtk_label_new (_("Cache size"));
-    dialog->priv->behaviour_tab.cache_size_unit = gtk_label_new (_("MB"));
-    dialog->priv->behaviour_tab.cache_hbox = gtk_hbox_new (FALSE, 4);
-    dialog->priv->behaviour_tab.cache_sub_vbox = gtk_vbox_new (FALSE, 4);
-    dialog->priv->behaviour_tab.cache_check_button = gtk_check_button_new_with_label (_("Enable cache"));
-    dialog->priv->behaviour_tab.cache_alignment = gtk_alignment_new (0, 0, 1, 1);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (dialog->priv->behaviour_tab.cache_alignment), 0, 0, 20, 0);
-    dialog->priv->behaviour_tab.cache_spin_button = gtk_spin_button_new(GTK_ADJUSTMENT(cache_adjustment), 1.0, 0);
+    dialog->priv->cache_tab.cache_size_label = gtk_label_new (_("Cache size"));
+    dialog->priv->cache_tab.cache_size_unit = gtk_label_new (_("MB"));
+    dialog->priv->cache_tab.cache_hbox = gtk_hbox_new (FALSE, 4);
+    dialog->priv->cache_tab.cache_sub_vbox = gtk_vbox_new (FALSE, 4);
+    dialog->priv->cache_tab.cache_check_button = gtk_check_button_new_with_label (_("Enable cache"));
+    dialog->priv->cache_tab.cache_alignment = gtk_alignment_new (0, 0, 1, 1);
+    gtk_alignment_set_padding (GTK_ALIGNMENT (dialog->priv->cache_tab.cache_alignment), 0, 0, 20, 0);
+    dialog->priv->cache_tab.cache_spin_button = gtk_spin_button_new(GTK_ADJUSTMENT(cache_adjustment), 1.0, 0);
 
-    dialog->priv->behaviour_tab.cache_preload_label = gtk_label_new (_("Preload images"));
-    gtk_misc_set_alignment(GTK_MISC(dialog->priv->behaviour_tab.cache_preload_label), 0, 0.5);
-    gtk_misc_set_padding(GTK_MISC(dialog->priv->behaviour_tab.cache_preload_label), 2, 2);
-    dialog->priv->behaviour_tab.cache_preload_hscale = gtk_hscale_new_with_range(0, 50, 1);
-    gtk_scale_set_value_pos (GTK_SCALE (dialog->priv->behaviour_tab.cache_preload_hscale), GTK_POS_LEFT);
+    dialog->priv->cache_tab.cache_preload_label = gtk_label_new (_("Preload images"));
+    gtk_misc_set_alignment(GTK_MISC(dialog->priv->cache_tab.cache_preload_label), 0, 0.5);
+    gtk_misc_set_padding(GTK_MISC(dialog->priv->cache_tab.cache_preload_label), 2, 2);
+    dialog->priv->cache_tab.cache_preload_hscale = gtk_hscale_new_with_range(0, 50, 1);
+    gtk_scale_set_value_pos (GTK_SCALE (dialog->priv->cache_tab.cache_preload_hscale), GTK_POS_LEFT);
 
-    gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.cache_hbox), 
-                                 dialog->priv->behaviour_tab.cache_size_label, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.cache_hbox), 
-                                 dialog->priv->behaviour_tab.cache_spin_button, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.cache_hbox), 
-                                 dialog->priv->behaviour_tab.cache_size_unit, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->cache_tab.cache_hbox), 
+                                 dialog->priv->cache_tab.cache_size_label, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->cache_tab.cache_hbox), 
+                                 dialog->priv->cache_tab.cache_spin_button, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->cache_tab.cache_hbox), 
+                                 dialog->priv->cache_tab.cache_size_unit, FALSE, FALSE, 0);
 
-    gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.cache_vbox), 
-                                 dialog->priv->behaviour_tab.cache_check_button, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.cache_vbox), 
-                                 dialog->priv->behaviour_tab.cache_alignment, FALSE, FALSE, 0);
-    gtk_container_add (GTK_CONTAINER (dialog->priv->behaviour_tab.cache_alignment),
-                                      dialog->priv->behaviour_tab.cache_sub_vbox);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->cache_tab.cache_vbox), 
+                                 dialog->priv->cache_tab.cache_check_button, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->cache_tab.cache_vbox), 
+                                 dialog->priv->cache_tab.cache_alignment, FALSE, FALSE, 0);
+    gtk_container_add (GTK_CONTAINER (dialog->priv->cache_tab.cache_alignment),
+                                      dialog->priv->cache_tab.cache_sub_vbox);
 
-    gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.cache_sub_vbox), 
-                                 dialog->priv->behaviour_tab.cache_hbox, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.cache_sub_vbox), 
-                                 dialog->priv->behaviour_tab.cache_preload_label, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.cache_sub_vbox), 
-                                 dialog->priv->behaviour_tab.cache_preload_hscale, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->cache_tab.cache_sub_vbox), 
+                                 dialog->priv->cache_tab.cache_hbox, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->cache_tab.cache_sub_vbox), 
+                                 dialog->priv->cache_tab.cache_preload_label, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->cache_tab.cache_sub_vbox), 
+                                 dialog->priv->cache_tab.cache_preload_hscale, FALSE, FALSE, 0);
     
     /* set current value */
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.cache_check_button),
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->cache_tab.cache_check_button),
                                   bool_enable_cache);
-    gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->behaviour_tab.cache_sub_vbox),
+    gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->cache_tab.cache_sub_vbox),
                               bool_enable_cache);
 
-    gtk_range_set_value ( GTK_RANGE(dialog->priv->behaviour_tab.cache_preload_hscale),
+    gtk_range_set_value ( GTK_RANGE(dialog->priv->cache_tab.cache_preload_hscale),
                                   uint_preload_images);
 
     if (uint_cache_size < RSTTO_MIN_CACHE_SIZE)
@@ -451,23 +504,12 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     }
 
     /* connect signals */
-    g_signal_connect (G_OBJECT (dialog->priv->behaviour_tab.cache_check_button), 
+    g_signal_connect (G_OBJECT (dialog->priv->cache_tab.cache_check_button), 
                       "toggled", (GCallback)cb_rstto_preferences_dialog_cache_check_button_toggled, dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->behaviour_tab.cache_preload_hscale), 
+    g_signal_connect (G_OBJECT (dialog->priv->cache_tab.cache_preload_hscale), 
                       "value-changed", (GCallback)cb_rstto_preferences_dialog_cache_preload_hscale_value_changed, dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->behaviour_tab.cache_spin_button), 
+    g_signal_connect (G_OBJECT (dialog->priv->cache_tab.cache_spin_button), 
                       "value-changed", (GCallback)cb_rstto_preferences_dialog_cache_spin_button_value_changed, dialog);
-
-    /********************************************/
-    scaling_vbox = gtk_vbox_new(FALSE, 0);
-    scaling_frame = xfce_create_framebox_with_content (_("Scaling"), scaling_vbox);
-    gtk_box_pack_start (GTK_BOX (behaviour_main_vbox), scaling_frame, FALSE, FALSE, 0);
-    /* not used */
-    gtk_widget_set_sensitive (scaling_vbox, FALSE);
-
-    widget = gtk_check_button_new_with_label (_("Don't scale over 100% when maximizing the window."));
-    gtk_container_add (GTK_CONTAINER (scaling_vbox), widget);
-
 
 /********************************************/
     gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), notebook);
@@ -543,12 +585,12 @@ cb_rstto_preferences_dialog_cache_check_button_toggled (GtkToggleButton *button,
     if (gtk_toggle_button_get_active (button))
     {
         g_value_set_boolean (&value, TRUE);
-    	gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->behaviour_tab.cache_sub_vbox), TRUE);
+    	gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->cache_tab.cache_sub_vbox), TRUE);
     }
     else
     {
         g_value_set_boolean (&value, FALSE);
-    	gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->behaviour_tab.cache_sub_vbox), FALSE);
+    	gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->cache_tab.cache_sub_vbox), FALSE);
     }
     
     g_object_set_property (G_OBJECT (dialog->priv->settings), "enable-cache", &value);
@@ -682,4 +724,13 @@ cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled (
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
 
     rstto_settings_set_boolean_property (dialog->priv->settings, "hide-thumbnailbar-fullscreen", gtk_toggle_button_get_active(button));
+}
+
+static void
+cb_rstto_preferences_dialog_open_entire_folder_check_button_toggled (GtkToggleButton *button, 
+                                                      gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    rstto_settings_set_boolean_property (dialog->priv->settings, "open-entire-folder", gtk_toggle_button_get_active(button));
 }
