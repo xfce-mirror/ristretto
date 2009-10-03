@@ -903,7 +903,10 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             
 
             /* View Menu */
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), TRUE);
+            if (rstto_wallpaper_manager_check_running (window->priv->wallpaper_manager))
+            {
+                gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), TRUE);
+            }
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/zoom-menu"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/rotation-menu"), TRUE);
 
@@ -946,7 +949,10 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             
 
             /* View Menu */
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), TRUE);
+            if (rstto_wallpaper_manager_check_running (window->priv->wallpaper_manager))
+            {
+                gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), TRUE);
+            }
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/zoom-menu"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/rotation-menu"), TRUE);
 
@@ -2196,6 +2202,7 @@ cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
 {
+    g_return_if_fail (rstto_image_list_get_n_images (window->priv->props.image_list) > 0);
     RsttoImage *image = rstto_image_list_iter_get_image (window->priv->iter);
     GFile *file = rstto_image_get_file (image);
     gchar *path = g_file_get_path (file);

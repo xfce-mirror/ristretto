@@ -1,3 +1,10 @@
+2009-10-03  Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c: Check if a desktop-manager is running before making
+	  the set-wallpaper button sensitive
+	* src/Makefile.am: Replace spaces with tabs, fixes compilation-issues
+	  with certain versions of automake
+
 2009-09-27  Stephan Arts <stephan@xfce.org>
 
 	*  src/preferences_dialog.c: Add option to load all images in a
