@@ -9,9 +9,9 @@ ristretto_SOURCES = \
 	preferences_dialog.h preferences_dialog.c \
 	main_window_ui.h \
 	main_window.c main_window.h \
-    wallpaper_manager.c wallpaper_manager.h \
-    xfce_wallpaper_manager.c xfce_wallpaper_manager.h \
-    app_menu_item.c app_menu_item.h \
+	wallpaper_manager.c wallpaper_manager.h \
+	xfce_wallpaper_manager.c xfce_wallpaper_manager.h \
+	app_menu_item.c app_menu_item.h \
 	thumbnail_bar.c thumbnail_bar.h \
 	thumbnail.c thumbnail.h \
 	main.c
