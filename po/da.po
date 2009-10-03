@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ristretto 0.0.22\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2009-09-27 23:47+0200\n"
-"PO-Revision-Date: 2009-09-20 17:59+0100\n"
+"PO-Revision-Date: 2009-09-28 18:41+0100\n"
 "Last-Translator: Per Kongstad <p_kongstad@op.pl>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
@@ -37,8 +37,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Prøv %s --help for at se en fuld liste over tilgængelige "
-"kommandolinjetilvalg.\n"
+"Prøv %s --help for at se en fuld liste over tilgængelige kommandolinjetilvalg.\n"
 
 #. File Menu
 #: ../src/main_window.c:264
@@ -266,13 +265,15 @@ msgstr "Top"
 msgid "Bottom"
 msgstr "Bund"
 
-#: ../src/main_window.c:514 ../src/main_window.c:780
+#: ../src/main_window.c:514
+#: ../src/main_window.c:780
 msgid "Press open to select an image"
 msgstr "Tryk åbn for at vælge et billede"
 
-#: ../src/main_window.c:767 ../src/main_window.c:772
+#: ../src/main_window.c:767
+#: ../src/main_window.c:772
 msgid "Empty"
-msgstr ""
+msgstr "Tom"
 
 #: ../src/main_window.c:1545
 msgid "Developer:"
@@ -302,8 +303,10 @@ msgstr "Billeder"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1917 ../src/main_window.c:1940
-#: ../src/main_window.c:2099 ../src/main_window.c:2114
+#: ../src/main_window.c:1917
+#: ../src/main_window.c:1940
+#: ../src/main_window.c:2099
+#: ../src/main_window.c:2114
 msgid "Could not open file"
 msgstr "Kunne ikke åbne fil"
 
@@ -342,7 +345,7 @@ msgstr "Maksimal renderingskvalitet:"
 
 #: ../src/preferences_dialog.c:269
 msgid "Show preview when loading image"
-msgstr ""
+msgstr "Forhåndsvis ved indlæsning af billede"
 
 #: ../src/preferences_dialog.c:276
 msgid "Best"
@@ -426,19 +429,19 @@ msgstr "Undlad at skalere mere end 100%, når vindue maksimeres."
 
 #: ../src/preferences_dialog.c:421
 msgid "Startup"
-msgstr ""
+msgstr "Opstart"
 
 #: ../src/preferences_dialog.c:423
 msgid "Resize window to image on startup"
-msgstr ""
+msgstr "Tilpas vindue til billede ved opstart"
 
 #: ../src/preferences_dialog.c:427
 msgid "Open entire folder on startup"
-msgstr ""
+msgstr "Åbn hele mappen ved opstart"
 
 #: ../src/preferences_dialog.c:440
 msgid "Memory"
-msgstr ""
+msgstr "Hukommelse"
 
 #: ../src/preferences_dialog.c:446
 msgid "Image cache"
@@ -469,70 +472,52 @@ msgid "Look at your photo's easily"
 msgstr "Se nemt dine billeder"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Photo Viewer"
-msgstr "Ristretto billedviser"
+msgstr "Billedfremviser"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto"
-msgstr "Afslut ristretto"
+msgstr "Ristretto"
 
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "_Miniaturebjælke"
-
 #~ msgid "Image Viewer"
 #~ msgstr "Billedfremviser"
-
 #~ msgid "Opening file(s)..."
 #~ msgstr "Åbne(r) fil(er)..."
-
 #~ msgid "_Recently used"
 #~ msgstr "_Senest brugte"
-
 #~ msgid "No applications available"
 #~ msgstr "Ingen tilgængelige programmer"
-
 #~ msgid "Thumbnail _Viewer"
 #~ msgstr "Miniature_viser"
-
 #~ msgid "Show _Horizontally"
 #~ msgstr "Vis _vandret"
-
 #~ msgid "Show _Vertically"
 #~ msgstr "Vis _lodret"
-
 #~ msgid "H_ide"
 #~ msgstr "S_kjul"
-
 #~ msgid ""
 #~ "One or more images have been modified, do you want to save the changes?"
 #~ msgstr ""
 #~ "Et eller flere billeder er blevet ændret, ønsker du at gemme disse "
 #~ "ændringer?"
-
 #~ msgid "Image viewer Preferences"
 #~ msgstr "Indstillinger for billedfremviser"
-
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr ""
 #~ "_Forindlæs billeder (Grafisk miljø reagerer hurtigere men vil bruge flere "
 #~ "processorresurser)"
-
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Skjul miniaturebjælke under diasshow"
-
 #~ msgid "Spacing"
 #~ msgstr "Mellemrum"
-
 #~ msgid "The amount of space between the thumbnails"
 #~ msgstr "Hvor meget mellemrum der er mellem miniaturerne"
-
 #~ msgid "Border Width"
 #~ msgstr "Kantbredde"
-
 #~ msgid "The border width of the thumbnail-bar"
 #~ msgstr "Bredden af kanten rundt om miniaturebjælken"
-
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Billedfremviser til Xfce"
+
