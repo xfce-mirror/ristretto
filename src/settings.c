@@ -151,6 +151,11 @@ rstto_settings_init (GObject *object)
     settings->priv->bgcolor = g_new0 (GdkColor, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkColor, 1);
     settings->priv->image_quality = 2000000;
+    settings->priv->navigationbar_position = g_strdup ("bottom");
+    settings->priv->show_file_toolbar = TRUE;
+    settings->priv->show_nav_toolbar = TRUE;
+    settings->priv->window_width = 600;
+    settings->priv->window_height = 400;
 
     xfconf_g_property_bind (settings->priv->channel, "/window/width", G_TYPE_UINT, settings, "window-width");
     xfconf_g_property_bind (settings->priv->channel, "/window/height", G_TYPE_UINT, settings, "window-height");
@@ -265,7 +270,7 @@ rstto_settings_class_init (GObjectClass *object_class)
     pspec = g_param_spec_string  ("navigationbar-position",
                                   "",
                                   "",
-                                  "right",
+                                  "bottom",
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_NAVBAR_POSITION,

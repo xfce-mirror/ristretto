@@ -4,6 +4,7 @@
 	  the set-wallpaper button sensitive
 	* src/Makefile.am: Replace spaces with tabs, fixes compilation-issues
 	  with certain versions of automake
+	* src/settings.c: Change default-settings
 
 2009-09-27  Stephan Arts <stephan@xfce.org>
 
