@@ -1,3 +1,8 @@
+2009-10-08  Stephan Arts <stephan@xfce.org>
+
+	* src/app_menu_item.c: Add application-icon to application-menu-item, used
+	  in the open-with menu.
+
 2009-10-03  Stephan Arts <stephan@xfce.org>
 
 	* src/main_window.c: Check if a desktop-manager is running before making

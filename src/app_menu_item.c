@@ -37,7 +37,7 @@ static void
 rstto_app_menu_item_finalize(GObject *object);
 
 static void
-rstto_app_menu_item_activate (GObject *object);
+rstto_app_menu_item_activate (GtkMenuItem *object);
 
 GType
 rstto_app_menu_item_get_type (void)
@@ -105,14 +105,14 @@ rstto_app_menu_item_finalize(GObject *object)
 }
 
 static void
-rstto_app_menu_item_activate (GObject *object)
+rstto_app_menu_item_activate (GtkMenuItem *object)
 {
-    RsttoAppMenuItem *app_menu_item = RSTTO_APP_MENU_ITEM(object);
+    RsttoAppMenuItem *app_menu_item = RSTTO_APP_MENU_ITEM (object);
     GList *files = g_list_append (NULL, app_menu_item->priv->file);
 
     g_app_info_launch (app_menu_item->priv->app_info, files, NULL, NULL);
 
-    GTK_MENU_ITEM_CLASS(parent_class)->activate (RSTTO_APP_MENU_ITEM (object));
+    GTK_MENU_ITEM_CLASS(parent_class)->activate (GTK_MENU_ITEM (object));
 }
 
 
@@ -120,6 +120,8 @@ GtkWidget *
 rstto_app_menu_item_new (GAppInfo *app_info, GFile *file)
 {
     RsttoAppMenuItem *menu_item;
+    GtkWidget *image = NULL;
+    GIcon *icon = NULL;
 
     g_return_val_if_fail (app_info != NULL, NULL);
 
@@ -131,7 +133,14 @@ rstto_app_menu_item_new (GAppInfo *app_info, GFile *file)
     menu_item->priv->file = file;
     g_object_ref (file);
 
+    icon = g_app_info_get_icon (app_info);
+    if (icon)
+    {
+        image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_MENU);
+    }
+
     gtk_menu_item_set_label (GTK_MENU_ITEM (menu_item), g_app_info_get_name (app_info));
+    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), image);
 
     return GTK_WIDGET (menu_item);
 }
