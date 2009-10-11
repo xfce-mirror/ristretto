@@ -2,7 +2,6 @@
 - Generate and save thumbnails (contact thumbler)
 
 - Support setting wallpapers
-    - xfdesktop
     - nautilus
     - rox
 
@@ -14,6 +13,7 @@
 - Write comments
 
 - Improve thumbnailbar
+- Save thumbnailbar size
 
 - Support image collections
     - Export to tarball/zip
