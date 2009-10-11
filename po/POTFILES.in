@@ -1,8 +1,12 @@
 src/main.c
 src/main_window.c
+src/app_menu_item.c
 src/picture_viewer.c
 src/preferences_dialog.c
 src/image.c
 src/image_list.c
 src/image_cache.c
+src/wallpaper_manager.c
+src/xfce_wallpaper_manager.c
+src/thumbnail_bar.c
 ristretto.desktop.in

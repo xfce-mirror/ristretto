@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-09-27 23:47+0200\n"
+"POT-Creation-Date: 2009-10-12 00:12+0200\n"
 "PO-Revision-Date: 2008-12-04 16:05+0800\n"
 "Last-Translator: Hunt Xu <huntxu@live.cn>\n"
 "Language-Team: Simplified Chinese <xfce-i18n@xfce.org>\n"
@@ -288,45 +288,45 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
-#: ../src/main_window.c:1545
+#: ../src/main_window.c:1551
 msgid "Developer:"
 msgstr "开发者："
 
-#: ../src/main_window.c:1555
+#: ../src/main_window.c:1561
 #, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr "Ristretto 是一个Xfce桌面环境快速轻量级的图像查看器"
 
-#: ../src/main_window.c:1563
+#: ../src/main_window.c:1569
 msgid "translator-credits"
 msgstr "WuLi <wurisky@gmail.com>"
 
-#: ../src/main_window.c:1878
+#: ../src/main_window.c:1884
 msgid "Open image"
 msgstr "打开图像"
 
-#: ../src/main_window.c:1890
+#: ../src/main_window.c:1896
 msgid "Images"
 msgstr ""
 
-#: ../src/main_window.c:1895
+#: ../src/main_window.c:1901
 msgid ".jp(e)g"
 msgstr ""
 
-#: ../src/main_window.c:1917 ../src/main_window.c:1940
-#: ../src/main_window.c:2099 ../src/main_window.c:2114
+#: ../src/main_window.c:1923 ../src/main_window.c:1946
+#: ../src/main_window.c:2105 ../src/main_window.c:2120
 msgid "Could not open file"
 msgstr "无法打开文件"
 
-#: ../src/main_window.c:1992
+#: ../src/main_window.c:1998
 msgid "Open folder"
 msgstr "打开文件夹"
 
-#: ../src/main_window.c:2137
+#: ../src/main_window.c:2143
 msgid "Save copy"
 msgstr ""
 
-#: ../src/main_window.c:2207
+#: ../src/main_window.c:2214
 #, fuzzy, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "你真的要清除最近打开文档列表吗？"
@@ -480,26 +480,57 @@ msgstr "预加载图像(_P)"
 msgid "Preferences"
 msgstr "图像查看首选项"
 
+#: ../src/xfce_wallpaper_manager.c:83
+#, fuzzy
+msgid "Set as wallpaper"
+msgstr "设置为壁纸(_S)"
+
+#: ../src/xfce_wallpaper_manager.c:86
+msgid "Auto"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:87
+msgid "Centered"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:88
+#, fuzzy
+msgid "Tiled"
+msgstr "文件(_F)"
+
+#: ../src/xfce_wallpaper_manager.c:89
+msgid "Stretched"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:90
+#, fuzzy
+msgid "Scaled"
+msgstr "缩放"
+
+#: ../src/xfce_wallpaper_manager.c:91
+msgid "Zoomed"
+msgstr ""
+
 #: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "图像查看器"
+
+#: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
 msgstr ""
 
-#: ../ristretto.desktop.in.h:2
-#, fuzzy
-msgid "Photo Viewer"
-msgstr "Ristretto图像查看器"
-
 #: ../ristretto.desktop.in.h:3
 #, fuzzy
-msgid "Ristretto"
-msgstr "Ristretto"
+msgid "Ristretto Photo Viewer"
+msgstr "Ristretto图像查看器"
+
+#, fuzzy
+#~ msgid "Ristretto"
+#~ msgstr "Ristretto"
 
 #, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "缩略图查看"
-
-#~ msgid "Image Viewer"
-#~ msgstr "图像查看器"
 
 #~ msgid "Opening file(s)..."
 #~ msgstr "打开文件或文件夹..."

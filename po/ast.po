@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-09-27 23:47+0200\n"
+"POT-Creation-Date: 2009-10-12 00:12+0200\n"
 "PO-Revision-Date: 2009-10-05 18:16+0100\n"
 "Last-Translator: astur <malditoastur@gmail.com>\n"
 "Language-Team: Asturian <alministradores@softastur.org>\n"
@@ -30,7 +30,8 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Preba %s --help pa ver una llista completa d'opciones de llinia de comandu disponibles.\n"
+"Preba %s --help pa ver una llista completa d'opciones de llinia de comandu "
+"disponibles.\n"
 
 #. File Menu
 #: ../src/main_window.c:264
@@ -258,56 +259,54 @@ msgstr "Arriba"
 msgid "Bottom"
 msgstr "Abaxo"
 
-#: ../src/main_window.c:514
-#: ../src/main_window.c:780
+#: ../src/main_window.c:514 ../src/main_window.c:780
 msgid "Press open to select an image"
 msgstr "Calca en \"abrir\" pa seleicionar una imaxe"
 
-#: ../src/main_window.c:767
-#: ../src/main_window.c:772
+#: ../src/main_window.c:767 ../src/main_window.c:772
 msgid "Empty"
 msgstr "Ermu"
 
-#: ../src/main_window.c:1545
+#: ../src/main_window.c:1551
 msgid "Developer:"
 msgstr "Desendolcador:"
 
-#: ../src/main_window.c:1555
+#: ../src/main_window.c:1561
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr "Ristretto ye un visor d'imáxenes rápidu y llixeru pal entornu d'escritoriu de Xfce."
+msgstr ""
+"Ristretto ye un visor d'imáxenes rápidu y llixeru pal entornu d'escritoriu "
+"de Xfce."
 
-#: ../src/main_window.c:1563
+#: ../src/main_window.c:1569
 msgid "translator-credits"
 msgstr "Astur <malditoastur@gmail.com>"
 
-#: ../src/main_window.c:1878
+#: ../src/main_window.c:1884
 msgid "Open image"
 msgstr "Abrir imaxe"
 
-#: ../src/main_window.c:1890
+#: ../src/main_window.c:1896
 msgid "Images"
 msgstr "Imaxes"
 
-#: ../src/main_window.c:1895
+#: ../src/main_window.c:1901
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1917
-#: ../src/main_window.c:1940
-#: ../src/main_window.c:2099
-#: ../src/main_window.c:2114
+#: ../src/main_window.c:1923 ../src/main_window.c:1946
+#: ../src/main_window.c:2105 ../src/main_window.c:2120
 msgid "Could not open file"
 msgstr "Nun pudo abrise'l ficheru"
 
-#: ../src/main_window.c:1992
+#: ../src/main_window.c:1998
 msgid "Open folder"
 msgstr "Abrir direutoriu"
 
-#: ../src/main_window.c:2137
+#: ../src/main_window.c:2143
 msgid "Save copy"
 msgstr "Guardar copia"
 
-#: ../src/main_window.c:2207
+#: ../src/main_window.c:2214
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "¿De xuru que quies esborrar la imaxe '%s' del discu?"
@@ -365,7 +364,8 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"El periodu de tiempu qu'una imaxe individual s'amuesa durante la vista de diapositives\n"
+"El periodu de tiempu qu'una imaxe individual s'amuesa durante la vista de "
+"diapositives\n"
 "(en segundos)"
 
 #: ../src/preferences_dialog.c:341
@@ -456,68 +456,121 @@ msgstr "Precargar les imáxenes"
 msgid "Preferences"
 msgstr "Preferencies"
 
+#: ../src/xfce_wallpaper_manager.c:83
+#, fuzzy
+msgid "Set as wallpaper"
+msgstr "_Afitar como fondu d'escritoriu"
+
+#: ../src/xfce_wallpaper_manager.c:86
+#, fuzzy
+msgid "Auto"
+msgstr "_Tocante a"
+
+#: ../src/xfce_wallpaper_manager.c:87
+msgid "Centered"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:88
+#, fuzzy
+msgid "Tiled"
+msgstr "_Ficheru"
+
+#: ../src/xfce_wallpaper_manager.c:89
+msgid "Stretched"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:90
+#, fuzzy
+msgid "Scaled"
+msgstr "Escala"
+
+#: ../src/xfce_wallpaper_manager.c:91
+msgid "Zoomed"
+msgstr ""
+
 #: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Visor d'imáxenes"
+
+#: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
 msgstr "Ver semeyes cenciellamente"
 
-#: ../ristretto.desktop.in.h:2
-msgid "Photo Viewer"
+#: ../ristretto.desktop.in.h:3
+#, fuzzy
+msgid "Ristretto Photo Viewer"
 msgstr "Visualizador d'imáxenes"
 
-#: ../ristretto.desktop.in.h:3
-msgid "Ristretto"
-msgstr "Ristretto"
+#~ msgid "Ristretto"
+#~ msgstr "Ristretto"
 
 #, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Miniatures"
-#~ msgid "Image Viewer"
-#~ msgstr "Visor d'imáxenes"
+
 #~ msgid "Opening file(s)..."
 #~ msgstr "Abriendo ficheru(os)..."
+
 #~ msgid "_Recently used"
 #~ msgstr "_Usaos recientemente"
+
 #~ msgid "No applications available"
 #~ msgstr "Nun hai aplicaciones disponibles"
+
 #~ msgid "Thumbnail _Viewer"
 #~ msgstr "_Visor de miniatures"
+
 #~ msgid "Show _Horizontally"
 #~ msgstr "Amosar _horizontalmente"
+
 #~ msgid "Show _Vertically"
 #~ msgstr "Amosar _verticalmente"
+
 #~ msgid "H_ide"
 #~ msgstr "_Anubrir"
+
 #~ msgid ""
 #~ "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Una o más imáxenes modificáronse. ¿Quies guardar los cambeos?"
+
 #~ msgid "Image viewer Preferences"
 #~ msgstr "Preferencies del visor d'imáxenes"
+
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr ""
 #~ "_Precargar imáxenes (la interface gráfica respuende meyor a cambéu d'un "
 #~ "mayor consumu de CPU)"
+
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Anubrir la barra de miniatures na vista de diapositives"
+
 #~ msgid "Spacing"
 #~ msgstr "Espaciáu"
+
 #~ msgid "The amount of space between the thumbnails"
 #~ msgstr "La cantidá d'espaciu ente miniatures"
+
 #~ msgid "Border Width"
 #~ msgstr "Anchor del berbesu"
+
 #~ msgid "The border width of the thumbnail-bar"
 #~ msgstr "L'anchor del berbesu de la barra de miniatures"
+
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Visor d'imáxenes de Xfce"
+
 #~ msgid "Preload"
 #~ msgstr "Precarga"
+
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Precargar les imáxenes durante la vista de diapositivas\n"
 #~ "(usa más memoria)"
+
 #~ msgid "Flip _Vertically"
 #~ msgstr "Retourner _verticalement"
+
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Retourner _horizontalement"
-

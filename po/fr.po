@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-09-27 23:47+0200\n"
+"POT-Creation-Date: 2009-10-12 00:12+0200\n"
 "PO-Revision-Date: 2009-10-04 13:00+0100\n"
 "Last-Translator: Steve Dodier <sidnioulz@gmail.com>\n"
 "Language-Team: French\n"
@@ -35,7 +35,8 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Essayez %s --help pour voir une liste complète des options en ligne de commande.\n"
+"Essayez %s --help pour voir une liste complète des options en ligne de "
+"commande.\n"
 
 #. File Menu
 #: ../src/main_window.c:264
@@ -274,60 +275,58 @@ msgstr "Haut"
 msgid "Bottom"
 msgstr "Bas"
 
-#: ../src/main_window.c:514
-#: ../src/main_window.c:780
+#: ../src/main_window.c:514 ../src/main_window.c:780
 #, fuzzy
 msgid "Press open to select an image"
 msgstr "Cliquez sur ouvrir pour sélectionner une image"
 
-#: ../src/main_window.c:767
-#: ../src/main_window.c:772
+#: ../src/main_window.c:767 ../src/main_window.c:772
 #, fuzzy
 msgid "Empty"
 msgstr "Vide"
 
-#: ../src/main_window.c:1545
+#: ../src/main_window.c:1551
 msgid "Developer:"
 msgstr "Développeur :"
 
-#: ../src/main_window.c:1555
+#: ../src/main_window.c:1561
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr "Ristretto est une visionneuse d’images légère et rapide pour l’environnement de bureau Xfce."
+msgstr ""
+"Ristretto est une visionneuse d’images légère et rapide pour l’environnement "
+"de bureau Xfce."
 
-#: ../src/main_window.c:1563
+#: ../src/main_window.c:1569
 msgid "translator-credits"
 msgstr ""
 "Mike Massonnet <mmassonnet@xfce.org>\n"
 "Steve Dodier <sidnioulz@gmail.com>"
 
-#: ../src/main_window.c:1878
+#: ../src/main_window.c:1884
 msgid "Open image"
 msgstr "Ouvrir une image"
 
-#: ../src/main_window.c:1890
+#: ../src/main_window.c:1896
 msgid "Images"
 msgstr "Images"
 
-#: ../src/main_window.c:1895
+#: ../src/main_window.c:1901
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1917
-#: ../src/main_window.c:1940
-#: ../src/main_window.c:2099
-#: ../src/main_window.c:2114
+#: ../src/main_window.c:1923 ../src/main_window.c:1946
+#: ../src/main_window.c:2105 ../src/main_window.c:2120
 msgid "Could not open file"
 msgstr "Impossible d’ouvrir le fichier"
 
-#: ../src/main_window.c:1992
+#: ../src/main_window.c:1998
 msgid "Open folder"
 msgstr "Ouvrir un répertoire"
 
-#: ../src/main_window.c:2137
+#: ../src/main_window.c:2143
 msgid "Save copy"
 msgstr "Sauvegarder une copie"
 
-#: ../src/main_window.c:2207
+#: ../src/main_window.c:2214
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Désirez-vous vraiment supprimer l'image '%s' du disque ?"
@@ -487,69 +486,120 @@ msgstr "Précharger les images"
 msgid "Preferences"
 msgstr "Préférences"
 
+#: ../src/xfce_wallpaper_manager.c:83
+#, fuzzy
+msgid "Set as wallpaper"
+msgstr "_Utiliser en tant que fond d'écran"
+
+#: ../src/xfce_wallpaper_manager.c:86
+#, fuzzy
+msgid "Auto"
+msgstr "_À propos"
+
+#: ../src/xfce_wallpaper_manager.c:87
+msgid "Centered"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:88
+#, fuzzy
+msgid "Tiled"
+msgstr "_Fichier"
+
+#: ../src/xfce_wallpaper_manager.c:89
+msgid "Stretched"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:90
+#, fuzzy
+msgid "Scaled"
+msgstr "Taille d'image"
+
+#: ../src/xfce_wallpaper_manager.c:91
+msgid "Zoomed"
+msgstr ""
+
 #: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Visualiseur d’images"
+
+#: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
 msgstr ""
 
-#: ../ristretto.desktop.in.h:2
-#, fuzzy
-msgid "Photo Viewer"
-msgstr "Visionneuse d’Images"
-
 #: ../ristretto.desktop.in.h:3
 #, fuzzy
-msgid "Ristretto"
-msgstr "Ristretto"
+msgid "Ristretto Photo Viewer"
+msgstr "Visionneuse d’Images"
+
+#, fuzzy
+#~ msgid "Ristretto"
+#~ msgstr "Ristretto"
 
 #, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Miniatures"
-#~ msgid "Image Viewer"
-#~ msgstr "Visualiseur d’images"
+
 #~ msgid "Opening file(s)..."
 #~ msgstr "Ouvrir des fichiers..."
+
 #~ msgid "_Recently used"
 #~ msgstr "_Récemment ouvert"
+
 #~ msgid "No applications available"
 #~ msgstr "Aucune application disponible"
+
 #~ msgid "Thumbnail _Viewer"
 #~ msgstr "Vue des _miniatures"
+
 #~ msgid "Show _Horizontally"
 #~ msgstr "Afficher _horizontalement"
+
 #~ msgid "Show _Vertically"
 #~ msgstr "Afficher _verticalement"
+
 #~ msgid "H_ide"
 #~ msgstr "_Cacher"
+
 #~ msgid ""
 #~ "One or more images have been modified, do you want to save the changes?"
 #~ msgstr ""
 #~ "Une ou plusieurs images ont été modifiées, voulez-vous les enregistrer ?"
+
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr ""
 #~ "_Précharger les images\n"
 #~ "(l'interface est plus réactive mais demande plus de charge CPU)"
+
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Cacher les miniatures durant le diaporama"
+
 #~ msgid "Spacing"
 #~ msgstr "Espacement"
+
 #~ msgid "The amount of space between the thumbnails"
 #~ msgstr "L'espacement entre les miniatures"
+
 #~ msgid "Border Width"
 #~ msgstr "Taille des bordures"
+
 #~ msgid "The border width of the thumbnail-bar"
 #~ msgstr "La taille de la bordure de la barre des miniatures"
+
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Visualiseur d’images pour Xfce"
+
 #~ msgid "Preload"
 #~ msgstr "Préchargement"
+
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Précharger les images durant le diaporama\n"
 #~ "(nécessite plus de mémoire vive)"
+
 #~ msgid "Flip _Vertically"
 #~ msgstr "Retourner _verticalement"
+
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Retourner _horizontalement"
-

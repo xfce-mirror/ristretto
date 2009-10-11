@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-10-03 14:39+0900\n"
+"POT-Creation-Date: 2009-10-12 00:12+0200\n"
 "PO-Revision-Date: 2009-10-03 14:39+0900\n"
 "Last-Translator: Masato Hashimoto <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <xfce-users-jp@ml.fdiary.net>\n"
@@ -272,46 +272,46 @@ msgstr "画像を選ぶには開くボタンを押してください。"
 msgid "Empty"
 msgstr "空"
 
-#: ../src/main_window.c:1545
+#: ../src/main_window.c:1551
 msgid "Developer:"
 msgstr "開発者:"
 
-#: ../src/main_window.c:1555
+#: ../src/main_window.c:1561
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto は Xfce デスクトップ環境向けの\n"
 "画像ビューアです。"
 
-#: ../src/main_window.c:1563
+#: ../src/main_window.c:1569
 msgid "translator-credits"
 msgstr "Masato Hashimoto <hashimo@xfce.org>"
 
-#: ../src/main_window.c:1878
+#: ../src/main_window.c:1884
 msgid "Open image"
 msgstr "画像を開く"
 
-#: ../src/main_window.c:1890
+#: ../src/main_window.c:1896
 msgid "Images"
 msgstr "画像"
 
-#: ../src/main_window.c:1895
+#: ../src/main_window.c:1901
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1917 ../src/main_window.c:1940
-#: ../src/main_window.c:2099 ../src/main_window.c:2114
+#: ../src/main_window.c:1923 ../src/main_window.c:1946
+#: ../src/main_window.c:2105 ../src/main_window.c:2120
 msgid "Could not open file"
 msgstr "ファイルを開けませんでした"
 
-#: ../src/main_window.c:1992
+#: ../src/main_window.c:1998
 msgid "Open folder"
 msgstr "フォルダを開く"
 
-#: ../src/main_window.c:2137
+#: ../src/main_window.c:2143
 msgid "Save copy"
 msgstr "コピーを保存"
 
-#: ../src/main_window.c:2207
+#: ../src/main_window.c:2214
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "画像 '%s' をドライブから削除してもよろしいですか?"
@@ -458,6 +458,38 @@ msgstr "画像の再読み込み"
 #: ../src/preferences_dialog.c:531
 msgid "Preferences"
 msgstr "設定"
+
+#: ../src/xfce_wallpaper_manager.c:83
+#, fuzzy
+msgid "Set as wallpaper"
+msgstr "壁紙に設定(_S)"
+
+#: ../src/xfce_wallpaper_manager.c:86
+#, fuzzy
+msgid "Auto"
+msgstr "情報(_A)"
+
+#: ../src/xfce_wallpaper_manager.c:87
+msgid "Centered"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:88
+#, fuzzy
+msgid "Tiled"
+msgstr "ファイル(_F)"
+
+#: ../src/xfce_wallpaper_manager.c:89
+msgid "Stretched"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:90
+#, fuzzy
+msgid "Scaled"
+msgstr "サイズ変更"
+
+#: ../src/xfce_wallpaper_manager.c:91
+msgid "Zoomed"
+msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
