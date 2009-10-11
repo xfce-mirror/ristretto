@@ -1,5 +1,10 @@
 2009-10-08  Stephan Arts <stephan@xfce.org>
 
+	* src/thumbnail_bar.c,
+	  src/thumbnail_bar.h: Change looks of the thumbnailbar
+
+2009-10-08  Stephan Arts <stephan@xfce.org>
+
 	* src/app_menu_item.c: Add application-icon to application-menu-item, used
 	  in the open-with menu.
 

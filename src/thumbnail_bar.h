@@ -47,6 +47,7 @@ struct _RsttoThumbnailBar
 {
     GtkContainer           parent;
     RsttoThumbnailBarPriv *priv;
+    gint film_border_width;
 };
 
 typedef struct _RsttoThumbnailBarClass RsttoThumbnailBarClass;
