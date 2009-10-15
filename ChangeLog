@@ -1,5 +1,14 @@
 2009-10-08  Stephan Arts <stephan@xfce.org>
 
+	* src/image.c,
+	  src/image.h,
+	  src/image_cache.h,
+	  src/image_cache.c: Fixed memory leak in image-cache
+	* src/picture_viewer.c: Fixed memory leak in paint function
+	* src/settings.c: Fix default setting for slideshow timeout
+
+2009-10-08  Stephan Arts <stephan@xfce.org>
+
 	* src/thumbnail_bar.c,
 	  src/thumbnail_bar.h: Change looks of the thumbnailbar
 

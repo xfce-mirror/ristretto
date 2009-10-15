@@ -87,12 +87,22 @@ rstto_image_cache_class_init (GObjectClass *object_class)
 }
 
 gboolean
+rstto_image_cache_pop_image (RsttoImageCache *cache, RsttoImage *image)
+{
+    if (cache->cache_list)
+    {
+        rstto_image_unload (image);
+        cache->cache_list = g_list_remove_all (cache->cache_list, image);
+    }
+}
+
+gboolean
 rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolean last)
 {
     gboolean retval = FALSE;
     RsttoSettings *settings = rstto_settings_new();
     gboolean cache_enabled;
-    guint size = 0;
+    guint64 size = 0;
     guint cache_size = 0;
     RsttoImage *c_image;
     GList *iter = NULL;
@@ -106,8 +116,6 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
     {
         cache->cache_list = g_list_remove_all (cache->cache_list, image);
     }
-
-    g_object_ref (image);
 
     if (last)
     {
@@ -128,7 +136,6 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
             c_image = g_list_last (cache->cache_list)->data;
             rstto_image_unload (c_image);
             cache->cache_list = g_list_remove (cache->cache_list, c_image);
-            g_object_unref (c_image);
             retval = TRUE;
         }
     }
@@ -140,22 +147,20 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
         for (iter = cache->cache_list->next; iter != NULL; iter = g_list_next (iter))
         {
             c_image = iter->data;
-            size += rstto_image_get_size (c_image);
-            if (size > (cache_size*1000000))
+            if (size > (guint64)(cache_size*1000000))
             {
                 rstto_image_unload (c_image);
                 cache->cache_list = g_list_remove (cache->cache_list, c_image);
-                g_object_unref (c_image);
                 iter = g_list_previous(iter);
                 retval = TRUE;
             } 
             else
             {
+                size = size + rstto_image_get_size (c_image);
                 if (rstto_image_get_size (c_image) == 0)
                 {
                     rstto_image_unload (c_image);
                     cache->cache_list = g_list_remove (cache->cache_list, c_image);
-                    g_object_unref (c_image);
                     iter = g_list_previous(iter);
                 }
             }

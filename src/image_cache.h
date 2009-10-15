@@ -49,6 +49,7 @@ GType rstto_image_cache_get_type (void);
 RsttoImageCache *rstto_image_cache_new ();
 
 gboolean rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolean last);
+gboolean rstto_image_cache_pop_image (RsttoImageCache *cache, RsttoImage *image);
 
 void rstto_image_cache_clear (RsttoImageCache *cache);
 

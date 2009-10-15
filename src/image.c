@@ -177,6 +177,7 @@ static void
 rstto_image_dispose (GObject *object)
 {
     RsttoImage *image = RSTTO_IMAGE (object);
+    RsttoImageCache *cache;
 
     if(image->priv->cancellable)
     {
@@ -214,6 +215,8 @@ rstto_image_dispose (GObject *object)
     {
         g_object_unref (image->priv->pixbuf);
         image->priv->pixbuf = NULL;
+        cache = rstto_image_cache_new ();
+        rstto_image_cache_pop_image (cache, image);
     }
 
     if (image->priv->buffer)
@@ -705,7 +708,7 @@ cb_rstto_image_update(RsttoImage *image)
     return TRUE;
 }
 
-guint
+guint64
 rstto_image_get_size (RsttoImage *image)
 {
     GdkPixbuf *pixbuf = rstto_image_get_pixbuf (image);
@@ -717,7 +720,8 @@ rstto_image_get_size (RsttoImage *image)
         /* multiplied by 2 since it is unclear why the nr of bytes
          * in memory is twice what is calculated here, based on the dimensions
          */
-        return rowstride * height * 2;
+        //return rowstride * height * 2;
+        return (guint64)rowstride * (guint64)height;
     }
     return 0;
 }

@@ -83,7 +83,7 @@ GFile *rstto_image_get_file (RsttoImage *image);
 void rstto_image_unload (RsttoImage *image);
 gboolean rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, gboolean preload, GError **error);
 
-guint rstto_image_get_size (RsttoImage *image);
+guint64 rstto_image_get_size (RsttoImage *image);
 
 void
 rstto_image_set_orientation (RsttoImage *image, RsttoImageOrientation orientation);

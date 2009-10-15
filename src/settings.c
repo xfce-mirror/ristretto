@@ -147,7 +147,7 @@ rstto_settings_init (GObject *object)
         accelmap_path = NULL;
     }
     
-    settings->priv->slideshow_timeout = 5000;
+    settings->priv->slideshow_timeout = 5;
     settings->priv->bgcolor = g_new0 (GdkColor, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkColor, 1);
     settings->priv->image_quality = 2000000;

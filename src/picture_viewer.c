@@ -613,7 +613,9 @@ rstto_picture_viewer_paint (GtkWidget *widget)
             if (pixbuf)
             {
                 gdk_pixbuf_saturate_and_pixelate (pixbuf, pixbuf, 0, TRUE);
-                pixbuf = gdk_pixbuf_composite_color_simple (pixbuf, (size*0.8), (size*0.8), GDK_INTERP_BILINEAR, 40, 40, bg_color->pixel, bg_color->pixel);
+                GdkPixbuf *n_pixbuf = gdk_pixbuf_composite_color_simple (pixbuf, (size*0.8), (size*0.8), GDK_INTERP_BILINEAR, 40, 40, bg_color->pixel, bg_color->pixel);
+                g_object_unref (pixbuf);
+                pixbuf = n_pixbuf;
 
                 x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
                 y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
