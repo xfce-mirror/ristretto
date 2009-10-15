@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-10-12 00:12+0200\n"
-"PO-Revision-Date: 2009-10-03 14:39+0900\n"
+"POT-Creation-Date: 2009-10-12 15:32+0900\n"
+"PO-Revision-Date: 2009-10-12 15:32+0900\n"
 "Last-Translator: Masato Hashimoto <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <xfce-users-jp@ml.fdiary.net>\n"
 "MIME-Version: 1.0\n"
@@ -459,37 +459,21 @@ msgstr "画像の再読み込み"
 msgid "Preferences"
 msgstr "設定"
 
-#: ../src/xfce_wallpaper_manager.c:83
-#, fuzzy
-msgid "Set as wallpaper"
-msgstr "壁紙に設定(_S)"
+#: ../src/thumbnail_bar.c:181
+msgid "Spacing"
+msgstr "間隔"
 
-#: ../src/xfce_wallpaper_manager.c:86
-#, fuzzy
-msgid "Auto"
-msgstr "情報(_A)"
+#: ../src/thumbnail_bar.c:182
+msgid "The amount of space between the thumbnails"
+msgstr "サムネイル間の間隔"
 
-#: ../src/xfce_wallpaper_manager.c:87
-msgid "Centered"
-msgstr ""
+#: ../src/thumbnail_bar.c:188 ../src/thumbnail_bar.c:195
+msgid "border width"
+msgstr "境界線幅"
 
-#: ../src/xfce_wallpaper_manager.c:88
-#, fuzzy
-msgid "Tiled"
-msgstr "ファイル(_F)"
-
-#: ../src/xfce_wallpaper_manager.c:89
-msgid "Stretched"
-msgstr ""
-
-#: ../src/xfce_wallpaper_manager.c:90
-#, fuzzy
-msgid "Scaled"
-msgstr "サイズ変更"
-
-#: ../src/xfce_wallpaper_manager.c:91
-msgid "Zoomed"
-msgstr ""
+#: ../src/thumbnail_bar.c:189 ../src/thumbnail_bar.c:196
+msgid "the border width of the thumbnail-bar"
+msgstr "サムネイルバーの境界線幅"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -538,18 +522,6 @@ msgstr "Ristretto フォトビューア"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "スライドショー中はサムネイルを非表示にできます"
-
-#~ msgid "Spacing"
-#~ msgstr "間隔"
-
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "サムネイル間の間隔"
-
-#~ msgid "Border Width"
-#~ msgstr "境界線幅"
-
-#~ msgid "The border width of the thumbnail-bar"
-#~ msgstr "サムネイルバーの境界線幅"
 
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Xfce 画像ビューア"
