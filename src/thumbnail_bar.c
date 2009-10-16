@@ -192,10 +192,11 @@ rstto_thumbnail_bar_class_init(RsttoThumbnailBarClass *bar_class)
 
 	gtk_widget_class_install_style_property (widget_class,
 		g_param_spec_int ("film-border-width",
-		_("border width"),
-		_("the border width of the thumbnail-bar"),
-		0, G_MAXINT, 8,
+		_("filmstrip width"),
+		_("the width of the thumbnail-bar film-strip"),
+		0, G_MAXINT, 0,
 		G_PARAM_READABLE));
+
 
 }
 
@@ -283,6 +284,14 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 
                 if (bar->priv->auto_center == TRUE)
                 {
+                    if (g_list_position (bar->priv->thumbs, iter) < rstto_image_list_iter_get_position (bar->priv->iter))
+                    {
+                        bar->priv->offset += allocation->height + spacing;
+                    }
+                    if (g_list_position (bar->priv->thumbs, iter) == rstto_image_list_iter_get_position (bar->priv->iter))
+                    {
+                        bar->priv->offset +=  0.5 * allocation->height;
+                    }
                 }
 
                 iter = g_list_next(iter);
@@ -324,6 +333,14 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 
                 if (bar->priv->auto_center == TRUE)
                 {
+                    if (g_list_position (bar->priv->thumbs, iter) < rstto_image_list_iter_get_position (bar->priv->iter))
+                    {
+                        bar->priv->offset += allocation->width + spacing;
+                    }
+                    if (g_list_position (bar->priv->thumbs, iter) == rstto_image_list_iter_get_position (bar->priv->iter))
+                    {
+                        bar->priv->offset +=  0.5 * allocation->width;
+                    }
                 }
 
                 iter = g_list_next(iter);
@@ -394,38 +411,40 @@ rstto_thumbnail_bar_expose(GtkWidget *widget, GdkEventExpose *ex)
     switch (bar->priv->orientation)
     {
         case GTK_ORIENTATION_HORIZONTAL:
-            n_ex->area.y += film_border_width;
-
-            gdk_draw_rectangle(GDK_DRAWABLE(widget->window), gc, TRUE, 0, 0, widget->allocation.width, film_border_width);
-            gdk_draw_rectangle(GDK_DRAWABLE(widget->window), gc, TRUE, 0, widget->allocation.height - film_border_width, widget->allocation.width, film_border_width);
-            gdk_gc_set_rgb_fg_color (gc, &dot_color);
-            for (; i < widget->allocation.width; i+=film_border_width)
+            if (film_border_width > 0)
             {
-                gdk_draw_rectangle (GDK_DRAWABLE (widget->window), gc, TRUE, 2+i, 2, (gint)((gdouble)film_border_width / 2.0), (gint)((gdouble)film_border_width / 2.0));
-                gdk_draw_rectangle (GDK_DRAWABLE (widget->window), gc, TRUE, 2+i,
-                                    widget->allocation.height - (gint)((gdouble)film_border_width / 4.0 * 3.0),
-                                    film_border_width/2, film_border_width/2);
+                n_ex->area.y += film_border_width;
+
+                gdk_draw_rectangle(GDK_DRAWABLE(widget->window), gc, TRUE, 0, 0, widget->allocation.width, film_border_width);
+                gdk_draw_rectangle(GDK_DRAWABLE(widget->window), gc, TRUE, 0, widget->allocation.height - film_border_width, widget->allocation.width, film_border_width);
+                gdk_gc_set_rgb_fg_color (gc, &dot_color);
+                for (; i < widget->allocation.width; i+=film_border_width)
+                {
+                    gdk_draw_rectangle (GDK_DRAWABLE (widget->window), gc, TRUE, 2+i, 2, (gint)((gdouble)film_border_width / 2.0), (gint)((gdouble)film_border_width / 2.0));
+                    gdk_draw_rectangle (GDK_DRAWABLE (widget->window), gc, TRUE, 2+i,
+                                        widget->allocation.height - (gint)((gdouble)film_border_width / 4.0 * 3.0),
+                                        film_border_width/2, film_border_width/2);
+                }
             }
-            gdk_gc_set_rgb_fg_color (gc, &bar_color);
-            gdk_draw_rectangle(GDK_DRAWABLE(widget->window), gc, TRUE, 0, film_border_width, widget->allocation.width, widget->allocation.height - film_border_width * 2);
             break;
 
         case GTK_ORIENTATION_VERTICAL:
 
-            n_ex->area.x += film_border_width;
-            gdk_draw_rectangle(GDK_DRAWABLE(widget->window), gc, TRUE, 0, 0, film_border_width, widget->allocation.height);
-            gdk_draw_rectangle(GDK_DRAWABLE(widget->window), gc, TRUE, widget->allocation.width - film_border_width, 0, film_border_width, widget->allocation.height);
-            gdk_gc_set_rgb_fg_color (gc, &dot_color);
-            for (; i < widget->allocation.height; i+=film_border_width)
+            if (film_border_width > 0)
             {
-                gdk_draw_rectangle (GDK_DRAWABLE (widget->window), gc, TRUE, 2, 2+i, film_border_width / 2, film_border_width / 2);
-                gdk_draw_rectangle (GDK_DRAWABLE (widget->window), gc, TRUE,
-                                    widget->allocation.width - (gint)((gdouble)film_border_width / 4.0 * 3.0),
-                                    2+i,
-                                    film_border_width/2, film_border_width/2);
+                n_ex->area.x += film_border_width;
+                gdk_draw_rectangle(GDK_DRAWABLE(widget->window), gc, TRUE, 0, 0, film_border_width, widget->allocation.height);
+                gdk_draw_rectangle(GDK_DRAWABLE(widget->window), gc, TRUE, widget->allocation.width - film_border_width, 0, film_border_width, widget->allocation.height);
+                gdk_gc_set_rgb_fg_color (gc, &dot_color);
+                for (; i < widget->allocation.height; i+=film_border_width)
+                {
+                    gdk_draw_rectangle (GDK_DRAWABLE (widget->window), gc, TRUE, 2, 2+i, film_border_width / 2, film_border_width / 2);
+                    gdk_draw_rectangle (GDK_DRAWABLE (widget->window), gc, TRUE,
+                                        widget->allocation.width - (gint)((gdouble)film_border_width / 4.0 * 3.0),
+                                        2+i,
+                                        film_border_width/2, film_border_width/2);
+                }
             }
-            gdk_gc_set_rgb_fg_color (gc, &bar_color);
-            gdk_draw_rectangle(GDK_DRAWABLE(widget->window), gc, TRUE, film_border_width, 0, widget->allocation.width - film_border_width * 2, widget->allocation.height);
             break;
     }
 
@@ -545,7 +564,6 @@ rstto_thumbnail_bar_realize(GtkWidget *widget)
     attributes.y = 0;
     widget->style = gtk_style_attach (widget->style, widget->window);
     gtk_style_set_background (widget->style, widget->window, GTK_STATE_NORMAL);
-
 }
 
 static void

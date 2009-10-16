@@ -1,4 +1,8 @@
-2009-10-08  Stephan Arts <stephan@xfce.org>
+2009-10-16  Stephan Arts <stephan@xfce.org>
+
+	* src/thumbnail_bar.c: Implement auto-center
+
+2009-10-15  Stephan Arts <stephan@xfce.org>
 
 	* src/image.c,
 	  src/image.h,
