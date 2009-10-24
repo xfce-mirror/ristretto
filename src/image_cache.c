@@ -147,6 +147,7 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
         for (iter = cache->cache_list->next; iter != NULL; iter = g_list_next (iter))
         {
             c_image = iter->data;
+            size = size + rstto_image_get_size (c_image);
             if (size > (guint64)(cache_size*1000000))
             {
                 rstto_image_unload (c_image);
@@ -156,7 +157,6 @@ rstto_image_cache_push_image (RsttoImageCache *cache, RsttoImage *image, gboolea
             } 
             else
             {
-                size = size + rstto_image_get_size (c_image);
                 if (rstto_image_get_size (c_image) == 0)
                 {
                     rstto_image_unload (c_image);
