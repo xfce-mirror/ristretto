@@ -27,6 +27,7 @@
 
 #include "image.h"
 #include "image_list.h"
+#include "settings.h"
 
 static void 
 rstto_image_list_init(RsttoImageList *);
@@ -82,6 +83,8 @@ struct _RsttoImageListPriv
 
     GSList *iterators;
     GCompareFunc cb_rstto_image_list_compare_func;
+
+    gboolean wrap_images;
 };
 
 static gint rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_COUNT];
@@ -116,8 +119,13 @@ rstto_image_list_get_type (void)
 static void
 rstto_image_list_init(RsttoImageList *image_list)
 {
+    RsttoSettings *settings = rstto_settings_new();
+
     image_list->priv = g_new0 (RsttoImageListPriv, 1);
     image_list->priv->cb_rstto_image_list_compare_func = (GCompareFunc)cb_rstto_image_list_image_name_compare_func;
+
+    image_list->priv->wrap_images = rstto_settings_get_boolean_property (settings, "wrap-images");
+    g_object_unref (settings);
 }
 
 static void
@@ -253,7 +261,6 @@ rstto_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image)
 
     if (g_list_find (image_list->priv->images, image))
     {
-        image_list->priv->images = g_list_remove (image_list->priv->images, image);
 
         iter = image_list->priv->iterators;
         while (iter)
@@ -264,6 +271,18 @@ rstto_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image)
             }
             iter = g_slist_next (iter);
         }
+
+        image_list->priv->images = g_list_remove (image_list->priv->images, image);
+        iter = image_list->priv->iterators;
+        while (iter)
+        {
+            if (rstto_image_list_iter_get_image (iter->data) == image)
+            {
+                rstto_image_list_iter_previous (iter->data);
+            }
+            iter = g_slist_next (iter);
+        }
+
         g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE], 0, image, NULL);
         g_object_unref (image);
     }
@@ -453,7 +472,11 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
         iter->priv->image = position->data; 
     else
     {
-        position = g_list_first (iter->priv->image_list->priv->images);
+        if (rstto_image_list_get_wrap_images (iter->priv->image_list))
+            position = g_list_first (iter->priv->image_list->priv->images);
+        else
+            position = g_list_last (iter->priv->image_list->priv->images);
+
         if (position)
             iter->priv->image = position->data; 
         else
@@ -481,7 +504,11 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter)
         iter->priv->image = position->data; 
     else
     {
-        position = g_list_last (iter->priv->image_list->priv->images);
+        if (rstto_image_list_get_wrap_images (iter->priv->image_list))
+            position = g_list_last (iter->priv->image_list->priv->images);
+        else
+            position = g_list_first (iter->priv->image_list->priv->images);
+
         if (position)
             iter->priv->image = position->data; 
         else
@@ -596,4 +623,10 @@ cb_rstto_image_list_file_compare_func (RsttoImage *a, GFile *file)
     g_free (a_base);
     g_free (b_base);
     return result;
+}
+
+gboolean
+rstto_image_list_get_wrap_images (RsttoImageList *image_list)
+{
+    return image_list->priv->wrap_images;
 }

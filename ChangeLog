@@ -2,6 +2,13 @@
 
 	* src/image_cache.c: Make image-cache cache one less image to prevent it
 	  from exceeding the maximum-size.
+	* src/image_list.c: Move the iterators around before removing the image
+	  from the image-list, this prevents the iterators from jumping to the
+	  start or end of the list.
+	* src/image_list.c
+	  src/image_list.h,
+	  src/settings.c: Add a wrap-images setting
+
 
 2009-10-16  Stephan Arts <stephan@xfce.org>
 
