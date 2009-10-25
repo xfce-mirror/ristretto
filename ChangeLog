@@ -1,5 +1,9 @@
 2009-10-25  Stephan Arts <stephan@xfce.org>
 
+	* src/xfce_wallpaper_manager.c: Add configure-dialog
+
+2009-10-25  Stephan Arts <stephan@xfce.org>
+
 	* src/image_list.c,
 	  src/image_list.h,
 	  src/settings.c,

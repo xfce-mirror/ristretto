@@ -411,6 +411,7 @@ rstto_picture_viewer_paint (GtkWidget *widget)
 {
     RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER(widget);
     GdkPixbuf *pixbuf = viewer->priv->dst_pixbuf;
+    GdkPixbuf *n_pixbuf = NULL;
     GdkColor color;
     GdkColor line_color;
     gint i, a, height, width;
@@ -613,7 +614,7 @@ rstto_picture_viewer_paint (GtkWidget *widget)
             if (pixbuf)
             {
                 gdk_pixbuf_saturate_and_pixelate (pixbuf, pixbuf, 0, TRUE);
-                GdkPixbuf *n_pixbuf = gdk_pixbuf_composite_color_simple (pixbuf, (size*0.8), (size*0.8), GDK_INTERP_BILINEAR, 40, 40, bg_color->pixel, bg_color->pixel);
+                n_pixbuf = gdk_pixbuf_composite_color_simple (pixbuf, (size*0.8), (size*0.8), GDK_INTERP_BILINEAR, 40, 40, bg_color->pixel, bg_color->pixel);
                 g_object_unref (pixbuf);
                 pixbuf = n_pixbuf;
 

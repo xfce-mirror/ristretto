@@ -74,7 +74,6 @@ rstto_app_menu_item_init (RsttoAppMenuItem *menu_item)
 static void
 rstto_app_menu_item_class_init(RsttoAppMenuItemClass *app_menu_item_class)
 {
-    GtkWidgetClass *widget_class;
     GtkMenuItemClass *menu_item_class;
     GObjectClass *object_class;
 

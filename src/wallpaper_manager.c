@@ -33,25 +33,24 @@
 gint 
 rstto_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, RsttoImage *image)
 {
-    RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->configure_dialog_run(self, image);
+    return RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->configure_dialog_run(self, image);
 }
 
 gboolean 
 rstto_wallpaper_manager_check_running (RsttoWallpaperManager *self)
 {
-    RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->check_running (self);
+    return RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->check_running (self);
 }
 
 gboolean
 rstto_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoImage *image)
 {
-    RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->set (self, image);
+    return RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->set (self, image);
 }
 
 
 static void
-rstto_wallpaper_manager_iface_init (gpointer         g_iface,
-                                    gpointer         iface_data)
+rstto_wallpaper_manager_iface_init (gpointer g_iface)
 {
     RsttoWallpaperManagerIface *iface = (RsttoWallpaperManagerIface *)g_iface;
     iface->configure_dialog_run = rstto_wallpaper_manager_configure_dialog_run;

@@ -191,8 +191,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
     GdkColor *bgcolor;
     GtkWidget *timeout_lbl, *timeout_hscale;
-    GtkWidget *thumbnail_lbl;
-    GtkWidget *widget;
     GtkObject *cache_adjustment;
     GtkWidget *display_main_vbox;
     GtkWidget *display_main_lbl;

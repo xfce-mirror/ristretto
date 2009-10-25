@@ -153,8 +153,6 @@ cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
 static void
 cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window);
 static void
-cb_rstto_main_window_image_list_iter_prepare_change (RsttoImageListIter *iter, RsttoMainWindow *window);
-static void
 cb_rstto_main_window_image_updated (RsttoImage *image, RsttoMainWindow *window);
 
 static void
@@ -705,7 +703,7 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 {
-    gchar *path, *basename, *title, *status;
+    gchar *path, *path_basename, *title, *status;
     GFile *file = NULL;
     GFileInfo *file_info = NULL;
     RsttoImage *cur_image;
@@ -747,19 +745,19 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 
 
             path = g_file_get_path (file);
-            basename = g_path_get_basename (path);
+            path_basename = g_path_get_basename (path);
 
-            title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  basename, position+1, count);
+            title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  path_basename, position+1, count);
             if (width > 0)
             {
                 status = g_strdup_printf ("%d x %d", width, height);
             }
             else
             {
-                status = g_strdup_printf ("Loading '%s'", basename);
+                status = g_strdup_printf ("Loading '%s'", path_basename);
             }
 
-            g_free (basename);
+            g_free (path_basename);
             g_free (path);
         }
         else
@@ -789,16 +787,6 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         g_free (status);
     }
 
-}
-
-static void
-cb_rstto_main_window_image_list_iter_prepare_change (RsttoImageListIter *iter, RsttoMainWindow *window)
-{
-    RsttoImage *image = rstto_image_list_iter_get_image (iter);
-    if (image)
-    {
-        g_signal_handlers_disconnect_by_func (image, cb_rstto_main_window_image_updated, window);
-    }
 }
 
 /**
@@ -2202,17 +2190,20 @@ cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
 {
-    g_return_if_fail (rstto_image_list_get_n_images (window->priv->props.image_list) > 0);
     RsttoImage *image = rstto_image_list_iter_get_image (window->priv->iter);
     GFile *file = rstto_image_get_file (image);
     gchar *path = g_file_get_path (file);
-    gchar *basename = g_path_get_basename (path);
-    GtkWidget *dialog = gtk_message_dialog_new (GTK_WINDOW (window),
+    gchar *path_basename = g_path_get_basename (path);
+    GtkWidget *dialog;
+    g_return_if_fail (rstto_image_list_get_n_images (window->priv->props.image_list) > 0);
+
+    dialog = gtk_message_dialog_new (GTK_WINDOW (window),
                                                 GTK_DIALOG_DESTROY_WITH_PARENT,
                                                 GTK_MESSAGE_WARNING,
                                                 GTK_BUTTONS_OK_CANCEL,
                                                 N_("Are you sure you want to delete image '%s' from disk?"),
-                                                basename);
+                                                path_basename);
+
     g_object_ref (image);
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
     {
@@ -2226,7 +2217,7 @@ cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
         }
     }
     gtk_widget_destroy (dialog);
-    g_free (basename);
+    g_free (path_basename);
     g_free (path);
     g_object_unref (image);
 }

@@ -379,6 +379,7 @@ rstto_thumbnail_bar_expose(GtkWidget *widget, GdkEventExpose *ex)
 
     GdkEventExpose *n_ex = g_new0(GdkEventExpose, 1);
 
+    GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(widget->window));
     gint border_width = GTK_CONTAINER(bar)->border_width;
     gint film_border_width = bar->film_border_width;
     gint i = 0;
@@ -402,7 +403,6 @@ rstto_thumbnail_bar_expose(GtkWidget *widget, GdkEventExpose *ex)
     n_ex->area.height = ex->area.height;
     n_ex->count = ex->count;
 
-    GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(widget->window));
     gdk_colormap_alloc_color (gdk_gc_get_colormap (gc), &color, FALSE, TRUE);
     gdk_colormap_alloc_color (gdk_gc_get_colormap (gc), &dot_color, FALSE, TRUE);
     gdk_colormap_alloc_color (gdk_gc_get_colormap (gc), &bar_color, FALSE, TRUE);

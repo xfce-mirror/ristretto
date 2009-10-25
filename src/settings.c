@@ -690,6 +690,8 @@ rstto_settings_get_navbar_position (RsttoSettings *settings) {
         return 2;
     if (!strcmp (settings->priv->navigationbar_position, "bottom"))
         return 3;
+
+    return 0;
 }
 
 /** Convenience functions */

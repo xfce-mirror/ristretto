@@ -58,6 +58,13 @@ static RsttoXfceWallpaperManager *xfce_wallpaper_manager_object;
 struct _RsttoXfceWallpaperManagerPriv
 {
     XfconfChannel *channel;
+    gint    screen;
+    gint    monitor;
+    gint    style;
+    gdouble saturation;
+    gint    brightness;
+    RsttoColor *color1;
+    RsttoColor *color2;
 };
 
 
@@ -69,20 +76,68 @@ enum
 static gint 
 rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, RsttoImage *image)
 {
-    return GTK_RESPONSE_OK;
+    RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
+    gint response = GTK_RESPONSE_OK;
+    GdkScreen *screen = gdk_screen_get_default ();
+    //gint n_monitors = gdk_screen_get_n_monitors (screen);
+    GtkWidget *dialog = gtk_dialog_new_with_buttons (_("Set as wallpaper"), NULL, 0, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+    GtkWidget *vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+    GtkWidget *style_label = gtk_label_new( _("Style:"));
+    GtkWidget *style_combo = gtk_combo_box_new_text();
+    GtkWidget *brightness_label = gtk_label_new( _("Brightness:"));
+    GtkWidget *saturation_label = gtk_label_new( _("Saturation:"));
+    GtkWidget *brightness_slider = gtk_hscale_new_with_range (-1, 1, 0.1);
+    GtkWidget *saturation_slider = gtk_hscale_new_with_range (-1, 2, 0.1);
+    GtkWidget *image_hbox = gtk_hbox_new (FALSE, 4);
+    GtkWidget *image_box = gtk_image_new_from_pixbuf (rstto_image_get_thumbnail (image));
+    GtkWidget *prop_table = gtk_table_new (1, 2, FALSE);
+    GtkWidget *image_prop_table = gtk_table_new (2, 2, FALSE);
+
+    gtk_box_pack_start (GTK_BOX (vbox), image_hbox, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (image_hbox), image_box, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (image_hbox), prop_table, FALSE, FALSE, 0);
+    gtk_table_attach (GTK_TABLE (prop_table), style_label, 0, 1, 0, 1, 0, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE (prop_table), style_combo, 1, 2, 0, 1, 0, 0, 0, 0);
+
+    gtk_box_pack_start (GTK_BOX (vbox), image_prop_table, FALSE, FALSE, 0);
+    gtk_table_attach (GTK_TABLE (image_prop_table), brightness_label, 0, 1, 0, 1, 0, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE (image_prop_table), brightness_slider, 1, 2, 0, 1, 0, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE (image_prop_table), saturation_label, 0, 1, 1, 2, 0, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE (image_prop_table), saturation_slider, 1, 2, 1, 2, 0, 0, 0, 0);
+
+    gtk_combo_box_append_text (GTK_COMBO_BOX (style_combo), _("Auto"));
+    gtk_combo_box_append_text (GTK_COMBO_BOX (style_combo), _("Centered"));
+    gtk_combo_box_append_text (GTK_COMBO_BOX (style_combo), _("Tiled"));
+    gtk_combo_box_append_text (GTK_COMBO_BOX (style_combo), _("Stretched"));
+    gtk_combo_box_append_text (GTK_COMBO_BOX (style_combo), _("Scaled"));
+    gtk_combo_box_append_text (GTK_COMBO_BOX (style_combo), _("Zoomed"));
+    gtk_combo_box_set_active (GTK_COMBO_BOX (style_combo), 4);
+
+    manager->priv->screen = gdk_screen_get_number (screen);
+
+    gtk_widget_show_all (vbox);
+    response = gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_hide (dialog);
+    if (response == GTK_RESPONSE_OK)
+    {
+        manager->priv->style = gtk_combo_box_get_active (GTK_COMBO_BOX (style_combo));
+    }
+
+    gtk_widget_destroy (dialog);
+    return response;
 }
 
 static gboolean
 rstto_xfce_wallpaper_manager_check_running (RsttoWallpaperManager *self)
 {
     gchar selection_name[100];
-
+    Atom xfce_selection_atom;
     GdkScreen *gdk_screen = gdk_screen_get_default();
     gint xscreen = gdk_screen_get_number(gdk_screen);
 
     g_snprintf(selection_name, 100, XFDESKTOP_SELECTION_FMT, xscreen);
 
-    Atom xfce_selection_atom = XInternAtom (gdk_display, selection_name, False);
+    xfce_selection_atom = XInternAtom (gdk_display, selection_name, False);
     if((XGetSelectionOwner(GDK_DISPLAY(), xfce_selection_atom)))
     {
         return TRUE;
@@ -96,16 +151,63 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoImage *image
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
     GFile *file = rstto_image_get_file (image);
     gchar *uri = g_file_get_path (file);
-    
-    RsttoColor *color = g_new0 (RsttoColor, 1);
-    color->a = 0xffff;
 
-    xfconf_channel_set_string (manager->priv->channel, "/backdrop/screen0/monitor0/image-path", uri);
-    xfconf_channel_set_bool   (manager->priv->channel, "/backdrop/screen0/monitor0/image-show", TRUE);
-    xfconf_channel_set_int    (manager->priv->channel, "/backdrop/screen0/monitor0/image-style", 4);
-    xfconf_channel_set_int    (manager->priv->channel, "/backdrop/screen0/monitor0/brightness", 0);
-    xfconf_channel_set_double (manager->priv->channel, "/backdrop/screen0/monitor0/saturation", 1.0);
-    xfconf_channel_set_struct (manager->priv->channel, "/backdrop/screen0/monitor0/color1", color, XFCONF_TYPE_INT16, XFCONF_TYPE_INT16, XFCONF_TYPE_INT16, XFCONF_TYPE_INT16, G_TYPE_INVALID);
+    gchar *image_path_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-path",
+                                        manager->priv->screen,
+                                        manager->priv->monitor);
+    gchar *image_show_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-show",
+                                        manager->priv->screen,
+                                        manager->priv->monitor);
+    gchar *image_style_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-style",
+                                        manager->priv->screen,
+                                        manager->priv->monitor);
+    gchar *brightness_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/brightness",
+                                        manager->priv->screen,
+                                        manager->priv->monitor);
+    gchar *saturation_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/saturation",
+                                        manager->priv->screen,
+                                        manager->priv->monitor);
+
+    gchar *color1_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/color1",
+                                        manager->priv->screen,
+                                        manager->priv->monitor);
+    gchar *color2_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/color2",
+                                        manager->priv->screen,
+                                        manager->priv->monitor);
+
+    xfconf_channel_set_string (manager->priv->channel,
+                               image_path_prop, uri);
+    xfconf_channel_set_bool   (manager->priv->channel,
+                               image_show_prop, TRUE);
+    xfconf_channel_set_int    (manager->priv->channel,
+                               image_style_prop, manager->priv->style);
+
+    xfconf_channel_set_int    (manager->priv->channel,
+                               brightness_prop, manager->priv->brightness);
+    xfconf_channel_set_double (manager->priv->channel,
+                               saturation_prop,
+                               manager->priv->saturation);
+
+    xfconf_channel_set_struct (manager->priv->channel,
+                               color1_prop,
+                               manager->priv->color1,
+                               XFCONF_TYPE_INT16, XFCONF_TYPE_INT16,
+                               XFCONF_TYPE_INT16, XFCONF_TYPE_INT16,
+                               G_TYPE_INVALID);
+    xfconf_channel_set_struct (manager->priv->channel,
+                               color2_prop,
+                               manager->priv->color2,
+                               XFCONF_TYPE_INT16, XFCONF_TYPE_INT16,
+                               XFCONF_TYPE_INT16, XFCONF_TYPE_INT16,
+                               G_TYPE_INVALID);
+
+    g_free (image_path_prop);
+    g_free (image_show_prop);
+    g_free (image_style_prop);
+    g_free (brightness_prop);
+    g_free (saturation_prop);
+    g_free (color1_prop);
+    g_free (color2_prop);
 
     return FALSE;
 }
@@ -139,15 +241,14 @@ rstto_xfce_wallpaper_manager_get_type (void)
             NULL
         };
 
-        rstto_xfce_wallpaper_manager_type = g_type_register_static (G_TYPE_OBJECT, "RsttoXfceWallpaperManager", &rstto_xfce_wallpaper_manager_info, 0);
-
         static const GInterfaceInfo wallpaper_manager_iface_info = 
         {
-            (GInstanceInitFunc) rstto_xfce_wallpaper_manager_iface_init,
+            (GInterfaceInitFunc) rstto_xfce_wallpaper_manager_iface_init,
             NULL,
             NULL
         };
 
+        rstto_xfce_wallpaper_manager_type = g_type_register_static (G_TYPE_OBJECT, "RsttoXfceWallpaperManager", &rstto_xfce_wallpaper_manager_info, 0);
         g_type_add_interface_static (rstto_xfce_wallpaper_manager_type, RSTTO_WALLPAPER_MANAGER_TYPE,  &wallpaper_manager_iface_info);
 
     }
@@ -158,20 +259,23 @@ rstto_xfce_wallpaper_manager_get_type (void)
 static void
 rstto_xfce_wallpaper_manager_init (GObject *object)
 {
-    gchar *accelmap_path = NULL;
-
     RsttoXfceWallpaperManager *xfce_wallpaper_manager = RSTTO_XFCE_WALLPAPER_MANAGER (object);
 
     xfce_wallpaper_manager->priv = g_new0 (RsttoXfceWallpaperManagerPriv, 1);
     xfce_wallpaper_manager->priv->channel = xfconf_channel_new ("xfce4-desktop");
+    xfce_wallpaper_manager->priv->color1 = g_new0 (RsttoColor, 1);
+    xfce_wallpaper_manager->priv->color1->a = 0xffff;
+    xfce_wallpaper_manager->priv->color2 = g_new0 (RsttoColor, 1);
+    xfce_wallpaper_manager->priv->color2->a = 0xffff;
+    xfce_wallpaper_manager->priv->style = 4;
+    xfce_wallpaper_manager->priv->brightness = 0;
+    xfce_wallpaper_manager->priv->saturation = 1.0;
 }
 
 
 static void
 rstto_xfce_wallpaper_manager_class_init (GObjectClass *object_class)
 {
-    GParamSpec *pspec;
-
     RsttoXfceWallpaperManagerClass *xfce_wallpaper_manager_class = RSTTO_XFCE_WALLPAPER_MANAGER_CLASS (object_class);
 
     parent_class = g_type_class_peek_parent (xfce_wallpaper_manager_class);
