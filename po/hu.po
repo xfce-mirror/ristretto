@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-10-12 00:12+0200\n"
+"POT-Creation-Date: 2009-10-25 19:26+0100\n"
 "PO-Revision-Date: 2009-07-22 22:26+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Hungarian <gnome at gnome dot hu>\n"
@@ -337,150 +337,155 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr ""
 "Biztosan törli a nemrég megnyitott dokumentumok listáját a Ristrettoból?"
 
-#: ../src/preferences_dialog.c:225
+#: ../src/preferences_dialog.c:232
 msgid "Display"
 msgstr "Megjelenítés"
 
-#: ../src/preferences_dialog.c:230
+#: ../src/preferences_dialog.c:237
 #, fuzzy
 msgid "Background color"
 msgstr "Háttérszín"
 
-#: ../src/preferences_dialog.c:234
+#: ../src/preferences_dialog.c:241
 #, fuzzy
 msgid "Override background color:"
 msgstr "Háttérszín _felülbírálása:"
 
-#: ../src/preferences_dialog.c:262
+#: ../src/preferences_dialog.c:269
 msgid "Quality"
 msgstr ""
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:273
 msgid "Maximum render quality:"
 msgstr ""
 
-#: ../src/preferences_dialog.c:269
+#: ../src/preferences_dialog.c:276
 msgid "Show preview when loading image"
 msgstr ""
 
-#: ../src/preferences_dialog.c:276
+#: ../src/preferences_dialog.c:283
 msgid "Best"
 msgstr ""
 
-#: ../src/preferences_dialog.c:277
+#: ../src/preferences_dialog.c:284
 msgid "High"
 msgstr ""
 
-#: ../src/preferences_dialog.c:278
+#: ../src/preferences_dialog.c:285
 msgid "Medium"
 msgstr ""
 
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:286
 msgid "Low"
 msgstr ""
 
-#: ../src/preferences_dialog.c:319
+#: ../src/preferences_dialog.c:326
 msgid "Slideshow"
 msgstr "Diavetítés"
 
-#: ../src/preferences_dialog.c:323
+#: ../src/preferences_dialog.c:330
 msgid "Timeout"
 msgstr "Időtúllépés"
 
-#: ../src/preferences_dialog.c:326
+#: ../src/preferences_dialog.c:333
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr "Egyes képek megjelenítése ennyi ideig diavetítés során (másodperc)"
 
-#: ../src/preferences_dialog.c:341
+#: ../src/preferences_dialog.c:348
 #, fuzzy
 msgid "Thumbnails"
 msgstr "Bélyegképek"
 
-#: ../src/preferences_dialog.c:344
+#: ../src/preferences_dialog.c:351
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
 
-#: ../src/preferences_dialog.c:346
+#: ../src/preferences_dialog.c:353
 #, fuzzy
 msgid "Hide thumbnailbar when fullscreen"
 msgstr "Bélyegképek el_rejtése"
 
-#: ../src/preferences_dialog.c:359
+#: ../src/preferences_dialog.c:366
 msgid "Control"
 msgstr ""
 
-#: ../src/preferences_dialog.c:363
+#: ../src/preferences_dialog.c:370
 msgid "Scrollwheel"
 msgstr ""
 
-#: ../src/preferences_dialog.c:366
+#: ../src/preferences_dialog.c:373
 msgid "No action"
 msgstr ""
 
-#: ../src/preferences_dialog.c:370
+#: ../src/preferences_dialog.c:377
 msgid "Zoom in and out"
 msgstr ""
 
-#: ../src/preferences_dialog.c:373
+#: ../src/preferences_dialog.c:380
 msgid "Switch images"
 msgstr ""
 
-#: ../src/preferences_dialog.c:407
+#: ../src/preferences_dialog.c:414
 msgid "Behaviour"
 msgstr "Viselkedés"
 
-#: ../src/preferences_dialog.c:412
+#: ../src/preferences_dialog.c:419
 msgid "Scaling"
 msgstr "Méretezés"
 
-#: ../src/preferences_dialog.c:417
+#: ../src/preferences_dialog.c:424
 msgid "Don't scale over 100% when maximizing the window."
 msgstr "Ne méretezzen 100% fölé az ablak maximalizálásakor."
 
-#: ../src/preferences_dialog.c:421
+#: ../src/preferences_dialog.c:428
 msgid "Startup"
 msgstr ""
 
-#: ../src/preferences_dialog.c:423
+#: ../src/preferences_dialog.c:430
 msgid "Resize window to image on startup"
 msgstr ""
 
-#: ../src/preferences_dialog.c:427
+#: ../src/preferences_dialog.c:434
 msgid "Open entire folder on startup"
 msgstr ""
 
-#: ../src/preferences_dialog.c:440
+#: ../src/preferences_dialog.c:439
+#, fuzzy
+msgid "Wrap around images"
+msgstr "Kép megnyitása"
+
+#: ../src/preferences_dialog.c:455
 msgid "Memory"
 msgstr ""
 
-#: ../src/preferences_dialog.c:446
+#: ../src/preferences_dialog.c:461
 #, fuzzy
 msgid "Image cache"
 msgstr "Képgyorsítótár"
 
-#: ../src/preferences_dialog.c:452
+#: ../src/preferences_dialog.c:467
 #, fuzzy
 msgid "Cache size"
 msgstr "Gyorsítótár mérete:"
 
-#: ../src/preferences_dialog.c:453
+#: ../src/preferences_dialog.c:468
 msgid "MB"
 msgstr "MB"
 
-#: ../src/preferences_dialog.c:456
+#: ../src/preferences_dialog.c:471
 #, fuzzy
 msgid "Enable cache"
 msgstr "Képgyorsítótár"
 
-#: ../src/preferences_dialog.c:461
+#: ../src/preferences_dialog.c:476
 msgid "Preload images"
 msgstr ""
 
-#: ../src/preferences_dialog.c:531
+#: ../src/preferences_dialog.c:546
 #, fuzzy
 msgid "Preferences"
 msgstr "Képmegjelenítő beállításai"
@@ -490,31 +495,62 @@ msgstr "Képmegjelenítő beállításai"
 msgid "Set as wallpaper"
 msgstr "Beállítás _háttérképként"
 
-#: ../src/xfce_wallpaper_manager.c:86
-msgid "Auto"
-msgstr ""
-
-#: ../src/xfce_wallpaper_manager.c:87
-msgid "Centered"
+#: ../src/xfce_wallpaper_manager.c:85
+msgid "Style:"
 msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:88
-#, fuzzy
-msgid "Tiled"
-msgstr "_Fájl"
+msgid "Auto"
+msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:89
-msgid "Stretched"
+msgid "Centered"
 msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:90
 #, fuzzy
+msgid "Tiled"
+msgstr "_Fájl"
+
+#: ../src/xfce_wallpaper_manager.c:91
+msgid "Stretched"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:92
+#, fuzzy
 msgid "Scaled"
 msgstr "Méretezés"
 
-#: ../src/xfce_wallpaper_manager.c:91
+#: ../src/xfce_wallpaper_manager.c:93
 msgid "Zoomed"
 msgstr ""
+
+#: ../src/thumbnail_bar.c:181
+msgid "Spacing"
+msgstr "Térköz"
+
+#: ../src/thumbnail_bar.c:182
+msgid "The amount of space between the thumbnails"
+msgstr "A bélyegképek közötti terület mennyisége"
+
+#: ../src/thumbnail_bar.c:188
+#, fuzzy
+msgid "border width"
+msgstr "Szegély szélessége"
+
+#: ../src/thumbnail_bar.c:189
+#, fuzzy
+msgid "the border width of the thumbnail-bar"
+msgstr "A bélyegképsáv szegélyének szélessége"
+
+#: ../src/thumbnail_bar.c:195
+msgid "filmstrip width"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:196
+#, fuzzy
+msgid "the width of the thumbnail-bar film-strip"
+msgstr "A bélyegképsáv szegélyének szélessége"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -572,18 +608,6 @@ msgstr ""
 
 #~ msgid "Filename"
 #~ msgstr "Fájlnév"
-
-#~ msgid "Spacing"
-#~ msgstr "Térköz"
-
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "A bélyegképek közötti terület mennyisége"
-
-#~ msgid "Border Width"
-#~ msgstr "Szegély szélessége"
-
-#~ msgid "The border width of the thumbnail-bar"
-#~ msgstr "A bélyegképsáv szegélyének szélessége"
 
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Xfce képmegjelenítő"

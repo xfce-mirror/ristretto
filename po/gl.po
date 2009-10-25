@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-10-12 00:12+0200\n"
+"POT-Creation-Date: 2009-10-25 19:26+0100\n"
 "PO-Revision-Date: 2009-09-19 19:50+0100\n"
 "Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
@@ -343,57 +343,57 @@ msgstr ""
 "Está seguro de que desexa limpar a lista de documentos abertos recentemente "
 "de Ristretto?"
 
-#: ../src/preferences_dialog.c:225
+#: ../src/preferences_dialog.c:232
 msgid "Display"
 msgstr "Pantalla"
 
-#: ../src/preferences_dialog.c:230
+#: ../src/preferences_dialog.c:237
 #, fuzzy
 msgid "Background color"
 msgstr "Cor de fondo"
 
-#: ../src/preferences_dialog.c:234
+#: ../src/preferences_dialog.c:241
 #, fuzzy
 msgid "Override background color:"
 msgstr "_Substituír a cor de fondo:"
 
-#: ../src/preferences_dialog.c:262
+#: ../src/preferences_dialog.c:269
 msgid "Quality"
 msgstr ""
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:273
 msgid "Maximum render quality:"
 msgstr ""
 
-#: ../src/preferences_dialog.c:269
+#: ../src/preferences_dialog.c:276
 msgid "Show preview when loading image"
 msgstr ""
 
-#: ../src/preferences_dialog.c:276
+#: ../src/preferences_dialog.c:283
 msgid "Best"
 msgstr ""
 
-#: ../src/preferences_dialog.c:277
+#: ../src/preferences_dialog.c:284
 msgid "High"
 msgstr ""
 
-#: ../src/preferences_dialog.c:278
+#: ../src/preferences_dialog.c:285
 msgid "Medium"
 msgstr ""
 
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:286
 msgid "Low"
 msgstr ""
 
-#: ../src/preferences_dialog.c:319
+#: ../src/preferences_dialog.c:326
 msgid "Slideshow"
 msgstr "Presentación"
 
-#: ../src/preferences_dialog.c:323
+#: ../src/preferences_dialog.c:330
 msgid "Timeout"
 msgstr "Tempo de espera"
 
-#: ../src/preferences_dialog.c:326
+#: ../src/preferences_dialog.c:333
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -401,94 +401,99 @@ msgstr ""
 "O período de tempo que se mostra cada imaxe durante unha\n"
 "presentación (en segundos)"
 
-#: ../src/preferences_dialog.c:341
+#: ../src/preferences_dialog.c:348
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
-#: ../src/preferences_dialog.c:344
+#: ../src/preferences_dialog.c:351
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
 
-#: ../src/preferences_dialog.c:346
+#: ../src/preferences_dialog.c:353
 #, fuzzy
 msgid "Hide thumbnailbar when fullscreen"
 msgstr "_Agochar as miniaturas"
 
-#: ../src/preferences_dialog.c:359
+#: ../src/preferences_dialog.c:366
 msgid "Control"
 msgstr ""
 
-#: ../src/preferences_dialog.c:363
+#: ../src/preferences_dialog.c:370
 msgid "Scrollwheel"
 msgstr ""
 
-#: ../src/preferences_dialog.c:366
+#: ../src/preferences_dialog.c:373
 msgid "No action"
 msgstr ""
 
-#: ../src/preferences_dialog.c:370
+#: ../src/preferences_dialog.c:377
 msgid "Zoom in and out"
 msgstr ""
 
-#: ../src/preferences_dialog.c:373
+#: ../src/preferences_dialog.c:380
 msgid "Switch images"
 msgstr ""
 
-#: ../src/preferences_dialog.c:407
+#: ../src/preferences_dialog.c:414
 msgid "Behaviour"
 msgstr "Comportamento"
 
 # expandir escalar redimensionar
-#: ../src/preferences_dialog.c:412
+#: ../src/preferences_dialog.c:419
 msgid "Scaling"
 msgstr "Redimensionamento"
 
-#: ../src/preferences_dialog.c:417
+#: ../src/preferences_dialog.c:424
 msgid "Don't scale over 100% when maximizing the window."
 msgstr "Non redimensionar máis alá do 100% ó maximizar a ventá."
 
-#: ../src/preferences_dialog.c:421
+#: ../src/preferences_dialog.c:428
 msgid "Startup"
 msgstr ""
 
-#: ../src/preferences_dialog.c:423
+#: ../src/preferences_dialog.c:430
 msgid "Resize window to image on startup"
 msgstr ""
 
-#: ../src/preferences_dialog.c:427
+#: ../src/preferences_dialog.c:434
 msgid "Open entire folder on startup"
 msgstr ""
 
-#: ../src/preferences_dialog.c:440
+#: ../src/preferences_dialog.c:439
+#, fuzzy
+msgid "Wrap around images"
+msgstr "Abrir imaxe"
+
+#: ../src/preferences_dialog.c:455
 msgid "Memory"
 msgstr ""
 
-#: ../src/preferences_dialog.c:446
+#: ../src/preferences_dialog.c:461
 #, fuzzy
 msgid "Image cache"
 msgstr "Caché de imaxes"
 
-#: ../src/preferences_dialog.c:452
+#: ../src/preferences_dialog.c:467
 #, fuzzy
 msgid "Cache size"
 msgstr "Tamaño da caché:"
 
-#: ../src/preferences_dialog.c:453
+#: ../src/preferences_dialog.c:468
 msgid "MB"
 msgstr "MB"
 
-#: ../src/preferences_dialog.c:456
+#: ../src/preferences_dialog.c:471
 #, fuzzy
 msgid "Enable cache"
 msgstr "Caché de imaxes"
 
-#: ../src/preferences_dialog.c:461
+#: ../src/preferences_dialog.c:476
 msgid "Preload images"
 msgstr ""
 
-#: ../src/preferences_dialog.c:531
+#: ../src/preferences_dialog.c:546
 #, fuzzy
 msgid "Preferences"
 msgstr "Preferencias do visor de imaxes"
@@ -498,32 +503,63 @@ msgstr "Preferencias do visor de imaxes"
 msgid "Set as wallpaper"
 msgstr "Definir como _fondo de escritorio"
 
-#: ../src/xfce_wallpaper_manager.c:86
-msgid "Auto"
-msgstr ""
-
-#: ../src/xfce_wallpaper_manager.c:87
-msgid "Centered"
+#: ../src/xfce_wallpaper_manager.c:85
+msgid "Style:"
 msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:88
+msgid "Auto"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:89
+msgid "Centered"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:90
 #, fuzzy
 msgid "Tiled"
 msgstr "_Ficheiro"
 
-#: ../src/xfce_wallpaper_manager.c:89
+#: ../src/xfce_wallpaper_manager.c:91
 msgid "Stretched"
 msgstr ""
 
 # expandir escalar redimensionar
-#: ../src/xfce_wallpaper_manager.c:90
+#: ../src/xfce_wallpaper_manager.c:92
 #, fuzzy
 msgid "Scaled"
 msgstr "Redimensionamento"
 
-#: ../src/xfce_wallpaper_manager.c:91
+#: ../src/xfce_wallpaper_manager.c:93
 msgid "Zoomed"
 msgstr ""
+
+#: ../src/thumbnail_bar.c:181
+msgid "Spacing"
+msgstr "Espazamento"
+
+#: ../src/thumbnail_bar.c:182
+msgid "The amount of space between the thumbnails"
+msgstr "O espazo entre as miniaturas"
+
+#: ../src/thumbnail_bar.c:188
+#, fuzzy
+msgid "border width"
+msgstr "Ancho do bordo"
+
+#: ../src/thumbnail_bar.c:189
+#, fuzzy
+msgid "the border width of the thumbnail-bar"
+msgstr "O ancho do bordo da barra de miniaturas"
+
+#: ../src/thumbnail_bar.c:195
+msgid "filmstrip width"
+msgstr ""
+
+#: ../src/thumbnail_bar.c:196
+#, fuzzy
+msgid "the width of the thumbnail-bar film-strip"
+msgstr "O ancho do bordo da barra de miniaturas"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -567,18 +603,6 @@ msgstr ""
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Agochar a barra de miniaturas durante a presentación"
-
-#~ msgid "Spacing"
-#~ msgstr "Espazamento"
-
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "O espazo entre as miniaturas"
-
-#~ msgid "Border Width"
-#~ msgstr "Ancho do bordo"
-
-#~ msgid "The border width of the thumbnail-bar"
-#~ msgstr "O ancho do bordo da barra de miniaturas"
 
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Visor de imaxes de Xfce"
