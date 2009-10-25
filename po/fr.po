@@ -2,14 +2,15 @@
 # Copyright (C) 2008 Stephan Arts
 # This file is distributed under the same license as the PACKAGE package.
 # Mike Massonnet <mmassonnet@xfce.org>, 2007, 2008.
+# Patrick Douart <patrick.2@laposte.net>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2009-10-12 00:12+0200\n"
-"PO-Revision-Date: 2009-10-04 13:00+0100\n"
-"Last-Translator: Steve Dodier <sidnioulz@gmail.com>\n"
+"PO-Revision-Date: 2009-10-24 23:49+0100\n"
+"Last-Translator: Douart Patrick <patrick.2@laposte.net>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,8 +36,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Essayez %s --help pour voir une liste complète des options en ligne de "
-"commande.\n"
+"Essayez %s --help pour voir une liste complète des options en ligne de commande.\n"
 
 #. File Menu
 #: ../src/main_window.c:264
@@ -56,7 +56,6 @@ msgid "Open _Folder"
 msgstr "O_uvrir un répertoire"
 
 #: ../src/main_window.c:266
-#, fuzzy
 msgid "Open a folder"
 msgstr "Ouvrir un répertoire"
 
@@ -73,7 +72,6 @@ msgid "_Print"
 msgstr "_Imprimer"
 
 #: ../src/main_window.c:268
-#, fuzzy
 msgid "Print the image"
 msgstr "_Imprimer l'image"
 
@@ -179,22 +177,18 @@ msgid "_Go"
 msgstr "A_ller à"
 
 #: ../src/main_window.c:295
-#, fuzzy
 msgid "_Forward"
 msgstr "_Suivante"
 
 #: ../src/main_window.c:296
-#, fuzzy
 msgid "_Back"
 msgstr "_Précédente"
 
 #: ../src/main_window.c:297
-#, fuzzy
 msgid "_First"
 msgstr "Pre_mière"
 
 #: ../src/main_window.c:298
-#, fuzzy
 msgid "_Last"
 msgstr "_Dernière"
 
@@ -204,28 +198,25 @@ msgid "_Help"
 msgstr "A_ide"
 
 #: ../src/main_window.c:302
-#, fuzzy
 msgid "_Contents"
 msgstr "_Contenu"
 
 #: ../src/main_window.c:304
-#, fuzzy
 msgid "Display ristretto user manual"
-msgstr "Afficher le manuel utilisateur de ristretto"
+msgstr "Afficher le manuel de ristretto"
 
 #: ../src/main_window.c:307
 msgid "_About"
 msgstr "_À propos"
 
 #: ../src/main_window.c:309
-#, fuzzy
 msgid "Display information about ristretto"
-msgstr "Afficher des informations à propos de ristretto"
+msgstr "Afficher les informations à propos de ristretto"
 
 #. Position Menu
 #: ../src/main_window.c:312
 msgid "_Position"
-msgstr ""
+msgstr "_Position"
 
 #. Misc
 #: ../src/main_window.c:314
@@ -249,15 +240,13 @@ msgstr "Montrer la Barre de _Miniatures"
 
 #. Sort by Filename
 #: ../src/main_window.c:333
-#, fuzzy
 msgid "sort by filename"
-msgstr "nom de fichier"
+msgstr "Trier par nom de fichier"
 
 #. Sort by Date
 #: ../src/main_window.c:335
-#, fuzzy
 msgid "sort by date"
-msgstr "date"
+msgstr "Trier par date"
 
 #: ../src/main_window.c:341
 msgid "Left"
@@ -275,13 +264,13 @@ msgstr "Haut"
 msgid "Bottom"
 msgstr "Bas"
 
-#: ../src/main_window.c:514 ../src/main_window.c:780
-#, fuzzy
+#: ../src/main_window.c:514
+#: ../src/main_window.c:780
 msgid "Press open to select an image"
 msgstr "Cliquez sur ouvrir pour sélectionner une image"
 
-#: ../src/main_window.c:767 ../src/main_window.c:772
-#, fuzzy
+#: ../src/main_window.c:767
+#: ../src/main_window.c:772
 msgid "Empty"
 msgstr "Vide"
 
@@ -291,9 +280,7 @@ msgstr "Développeur :"
 
 #: ../src/main_window.c:1561
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto est une visionneuse d’images légère et rapide pour l’environnement "
-"de bureau Xfce."
+msgstr "Ristretto est une visionneuse d’images légère et rapide pour l’environnement de bureau Xfce."
 
 #: ../src/main_window.c:1569
 msgid "translator-credits"
@@ -313,8 +300,10 @@ msgstr "Images"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1923 ../src/main_window.c:1946
-#: ../src/main_window.c:2105 ../src/main_window.c:2120
+#: ../src/main_window.c:1923
+#: ../src/main_window.c:1946
+#: ../src/main_window.c:2105
+#: ../src/main_window.c:2120
 msgid "Could not open file"
 msgstr "Impossible d’ouvrir le fichier"
 
@@ -342,16 +331,15 @@ msgstr "Couleur d'arrière plan"
 #: ../src/preferences_dialog.c:234
 #, fuzzy
 msgid "Override background color:"
-msgstr "_Écraser la couleur d’arrière plan :"
+msgstr "_Passer outre la couleur d’arrière plan :"
 
 #: ../src/preferences_dialog.c:262
 msgid "Quality"
 msgstr "Qualité"
 
 #: ../src/preferences_dialog.c:266
-#, fuzzy
 msgid "Maximum render quality:"
-msgstr "Qualité maximum du rendu :"
+msgstr "Qualité d'image maximale :"
 
 #: ../src/preferences_dialog.c:269
 msgid "Show preview when loading image"
@@ -402,31 +390,26 @@ msgstr ""
 "lorsque la visionneuse d'images est en plein écran."
 
 #: ../src/preferences_dialog.c:346
-#, fuzzy
 msgid "Hide thumbnailbar when fullscreen"
 msgstr "_Cacher les miniatures en plein écran"
 
 #: ../src/preferences_dialog.c:359
-#, fuzzy
 msgid "Control"
 msgstr "Contrôles"
 
 #: ../src/preferences_dialog.c:363
-#, fuzzy
 msgid "Scrollwheel"
-msgstr "Défilement de la roulette"
+msgstr "Défilement de la molette"
 
 #: ../src/preferences_dialog.c:366
 msgid "No action"
 msgstr "Aucune action"
 
 #: ../src/preferences_dialog.c:370
-#, fuzzy
 msgid "Zoom in and out"
 msgstr "Zoomer en avant / arrière"
 
 #: ../src/preferences_dialog.c:373
-#, fuzzy
 msgid "Switch images"
 msgstr "Changer d'image"
 
@@ -449,12 +432,10 @@ msgid "Startup"
 msgstr "Démarrage"
 
 #: ../src/preferences_dialog.c:423
-#, fuzzy
 msgid "Resize window to image on startup"
-msgstr "Redémarrer la fenêtre à la taille de l'image au démarrage"
+msgstr "Redimensionner l'image à la taille de la fenêtre au démarrage"
 
 #: ../src/preferences_dialog.c:427
-#, fuzzy
 msgid "Open entire folder on startup"
 msgstr "Ouvrir le dossier complet au démarrage"
 
@@ -487,7 +468,6 @@ msgid "Preferences"
 msgstr "Préférences"
 
 #: ../src/xfce_wallpaper_manager.c:83
-#, fuzzy
 msgid "Set as wallpaper"
 msgstr "_Utiliser en tant que fond d'écran"
 
@@ -498,7 +478,7 @@ msgstr "_À propos"
 
 #: ../src/xfce_wallpaper_manager.c:87
 msgid "Centered"
-msgstr ""
+msgstr "Centré"
 
 #: ../src/xfce_wallpaper_manager.c:88
 #, fuzzy
@@ -507,16 +487,15 @@ msgstr "_Fichier"
 
 #: ../src/xfce_wallpaper_manager.c:89
 msgid "Stretched"
-msgstr ""
+msgstr "Etendu"
 
 #: ../src/xfce_wallpaper_manager.c:90
-#, fuzzy
 msgid "Scaled"
-msgstr "Taille d'image"
+msgstr "mMise à l'échelle"
 
 #: ../src/xfce_wallpaper_manager.c:91
 msgid "Zoomed"
-msgstr ""
+msgstr "Zoomé"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -524,12 +503,11 @@ msgstr "Visualiseur d’images"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
-msgstr ""
+msgstr "Regardez votre photo facilement"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Photo Viewer"
-msgstr "Visionneuse d’Images"
+msgstr "Visionneuse d’Images Ristretto"
 
 #, fuzzy
 #~ msgid "Ristretto"
@@ -538,68 +516,50 @@ msgstr "Visionneuse d’Images"
 #, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Miniatures"
-
 #~ msgid "Opening file(s)..."
 #~ msgstr "Ouvrir des fichiers..."
-
 #~ msgid "_Recently used"
 #~ msgstr "_Récemment ouvert"
-
 #~ msgid "No applications available"
 #~ msgstr "Aucune application disponible"
-
 #~ msgid "Thumbnail _Viewer"
 #~ msgstr "Vue des _miniatures"
-
 #~ msgid "Show _Horizontally"
 #~ msgstr "Afficher _horizontalement"
-
 #~ msgid "Show _Vertically"
 #~ msgstr "Afficher _verticalement"
-
 #~ msgid "H_ide"
 #~ msgstr "_Cacher"
-
 #~ msgid ""
 #~ "One or more images have been modified, do you want to save the changes?"
 #~ msgstr ""
 #~ "Une ou plusieurs images ont été modifiées, voulez-vous les enregistrer ?"
-
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr ""
 #~ "_Précharger les images\n"
 #~ "(l'interface est plus réactive mais demande plus de charge CPU)"
-
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Cacher les miniatures durant le diaporama"
-
 #~ msgid "Spacing"
 #~ msgstr "Espacement"
-
 #~ msgid "The amount of space between the thumbnails"
 #~ msgstr "L'espacement entre les miniatures"
-
 #~ msgid "Border Width"
 #~ msgstr "Taille des bordures"
-
 #~ msgid "The border width of the thumbnail-bar"
 #~ msgstr "La taille de la bordure de la barre des miniatures"
-
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Visualiseur d’images pour Xfce"
-
 #~ msgid "Preload"
 #~ msgstr "Préchargement"
-
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Précharger les images durant le diaporama\n"
 #~ "(nécessite plus de mémoire vive)"
-
 #~ msgid "Flip _Vertically"
 #~ msgstr "Retourner _verticalement"
-
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Retourner _horizontalement"
+
