@@ -94,6 +94,7 @@ rstto_image_cache_pop_image (RsttoImageCache *cache, RsttoImage *image)
         rstto_image_unload (image);
         cache->cache_list = g_list_remove_all (cache->cache_list, image);
     }
+    return TRUE;
 }
 
 gboolean
