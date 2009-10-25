@@ -74,6 +74,7 @@ enum
     PROP_SCROLLWHEEL_PRIMARY_ACTION,
     PROP_SCROLLWHEEL_SECONDARY_ACTION,
     PROP_OPEN_ENTIRE_FOLDER,
+    PROP_WRAP_IMAGES,
 };
 
 GType
@@ -126,6 +127,7 @@ struct _RsttoSettingsPriv
     GdkColor *bgcolor_fullscreen;
     gchar    *scrollwheel_primary_action;
     gchar    *scrollwheel_secondary_action;
+    gboolean  wrap_images;
 };
 
 
@@ -156,6 +158,7 @@ rstto_settings_init (GObject *object)
     settings->priv->show_nav_toolbar = TRUE;
     settings->priv->window_width = 600;
     settings->priv->window_height = 400;
+    settings->priv->wrap_images = TRUE;
 
     xfconf_g_property_bind (settings->priv->channel, "/window/width", G_TYPE_UINT, settings, "window-width");
     xfconf_g_property_bind (settings->priv->channel, "/window/height", G_TYPE_UINT, settings, "window-height");
@@ -182,6 +185,7 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind (settings->priv->channel, "/image/cache", G_TYPE_BOOLEAN, settings, "enable-cache");
     xfconf_g_property_bind (settings->priv->channel, "/image/cache-size", G_TYPE_UINT, settings, "cache-size");
     xfconf_g_property_bind (settings->priv->channel, "/image/quality", G_TYPE_UINT, settings, "image-quality");
+    xfconf_g_property_bind (settings->priv->channel, "/image/wrap", G_TYPE_BOOLEAN, settings, "wrap-images");
 }
 
 
@@ -391,6 +395,15 @@ rstto_settings_class_init (GObjectClass *object_class)
     g_object_class_install_property (object_class,
                                      PROP_BGCOLOR_FULLSCREEN,
                                      pspec);
+
+    pspec = g_param_spec_boolean ("wrap-images",
+                                  "",
+                                  "",
+                                  TRUE,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_WRAP_IMAGES,
+                                     pspec);
 }
 
 /**
@@ -549,6 +562,9 @@ rstto_settings_set_property    (GObject      *object,
                 g_free (settings->priv->scrollwheel_secondary_action);
             settings->priv->scrollwheel_secondary_action = g_value_dup_string (value);
             break;
+        case PROP_WRAP_IMAGES:
+            settings->priv->wrap_images = g_value_get_boolean (value);
+            break;
         default:
             break;
     }
@@ -624,6 +640,9 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_SCROLLWHEEL_SECONDARY_ACTION:
             g_value_set_string (value, settings->priv->scrollwheel_secondary_action);
+        case PROP_WRAP_IMAGES:
+            g_value_set_boolean (value, settings->priv->wrap_images);
+            break;
             break;
         default:
             break;

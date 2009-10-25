@@ -69,6 +69,9 @@ cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled (
 static void
 cb_rstto_preferences_dialog_open_entire_folder_check_button_toggled (GtkToggleButton *button, 
                                                       gpointer user_data);
+static void
+cb_rstto_preferences_dialog_wrap_images_check_button_toggled (GtkToggleButton *button, 
+                                                      gpointer user_data);
 
 static void
 cb_rstto_preferences_dialog_slideshow_timeout_value_changed (GtkRange *, gpointer);
@@ -113,6 +116,7 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *no_scrollwheel_action_radio_button;
         GtkWidget *zoom_scrollwheel_action_radio_button;
         GtkWidget *switch_scrollwheel_action_radio_button;
+
     } control_tab;
 
     struct
@@ -125,6 +129,7 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *startup_vbox;
         GtkWidget *resize_window_on_startup_check_button;
         GtkWidget *open_entire_folder_check_button;
+        GtkWidget *wrap_images_check_button;
     } behaviour_tab;
 
     struct
@@ -182,6 +187,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gboolean bool_hide_thumbnailbar_fullscreen;
     gboolean bool_show_preview;
     gboolean bool_open_entire_folder;
+    gboolean bool_wrap_images;
 
     GdkColor *bgcolor;
     GtkWidget *timeout_lbl, *timeout_hscale;
@@ -216,6 +222,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                   "slideshow-timeout", &uint_slideshow_timeout,
                   "hide-thumbnailbar-fullscreen", &bool_hide_thumbnailbar_fullscreen,
                   "open-entire-folder", &bool_open_entire_folder,
+                  "wrap-images", &bool_wrap_images,
                   NULL);
 
 /*****************/
@@ -428,8 +435,16 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_container_add (GTK_CONTAINER (dialog->priv->behaviour_tab.startup_vbox), dialog->priv->behaviour_tab.open_entire_folder_check_button);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.open_entire_folder_check_button),
                                   bool_open_entire_folder);
+
+    dialog->priv->behaviour_tab.wrap_images_check_button = gtk_check_button_new_with_label (_("Wrap around images"));
+    gtk_container_add (GTK_CONTAINER (dialog->priv->behaviour_tab.startup_vbox), dialog->priv->behaviour_tab.wrap_images_check_button);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.wrap_images_check_button),
+                                  bool_wrap_images);
+
     g_signal_connect (G_OBJECT (dialog->priv->behaviour_tab.open_entire_folder_check_button), 
                       "toggled", (GCallback)cb_rstto_preferences_dialog_open_entire_folder_check_button_toggled, dialog);
+    g_signal_connect (G_OBJECT (dialog->priv->behaviour_tab.wrap_images_check_button), 
+                      "toggled", (GCallback)cb_rstto_preferences_dialog_wrap_images_check_button_toggled, dialog);
 
 
 
@@ -733,4 +748,13 @@ cb_rstto_preferences_dialog_open_entire_folder_check_button_toggled (GtkToggleBu
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
 
     rstto_settings_set_boolean_property (dialog->priv->settings, "open-entire-folder", gtk_toggle_button_get_active(button));
+}
+
+static void
+cb_rstto_preferences_dialog_wrap_images_check_button_toggled (GtkToggleButton *button, 
+                                                      gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    rstto_settings_set_boolean_property (dialog->priv->settings, "wrap-images", gtk_toggle_button_get_active(button));
 }
