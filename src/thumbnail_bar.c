@@ -740,6 +740,13 @@ cb_rstto_thumbnail_bar_thumbnail_motion_notify_event (GtkWidget *thumb,
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(gtk_widget_get_parent(GTK_WIDGET(thumb)));
     gdouble x = event->x + GTK_WIDGET(thumb)->allocation.x;
     gdouble y = event->y + GTK_WIDGET(thumb)->allocation.y;
+    gint thumb_size = GTK_WIDGET(bar->priv->thumbs->data)->allocation.width;
+    gint border_width = 0;
+    gint spacing;
+    gint size = 0;
+
+	gtk_widget_style_get(GTK_WIDGET (bar), "spacing", &spacing, NULL);
+    size = thumb_size * g_list_length (bar->priv->thumbs) + spacing * (g_list_length (bar->priv->thumbs) - 1);
 
     if (event->state & GDK_BUTTON1_MASK)
     {
@@ -753,11 +760,21 @@ cb_rstto_thumbnail_bar_thumbnail_motion_notify_event (GtkWidget *thumb,
         if (bar->priv->orientation == GTK_ORIENTATION_HORIZONTAL)
         {
             bar->priv->offset = bar->priv->motion.offset + (bar->priv->motion.current_x - x);
+            if ((thumb_size - GTK_WIDGET(bar)->allocation.width) >= bar->priv->offset)
+                bar->priv->offset = thumb_size - GTK_WIDGET(bar)->allocation.width + border_width;
+            if ((size - thumb_size) <= bar->priv->offset)
+                bar->priv->offset = size - thumb_size;
         }
         else
         {
             bar->priv->offset = bar->priv->motion.offset + (bar->priv->motion.current_y - y);
+            if ((thumb_size - GTK_WIDGET(bar)->allocation.height) >= bar->priv->offset)
+                bar->priv->offset = thumb_size - GTK_WIDGET(bar)->allocation.height + border_width;
+            if ((size - thumb_size) <= bar->priv->offset)
+                bar->priv->offset = size - thumb_size;
         }
+
+
         bar->priv->motion.offset = bar->priv->offset;
         bar->priv->motion.current_x = x;
         bar->priv->motion.current_y = y;
@@ -774,6 +791,10 @@ cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
     gint thumb_size;
     GList *thumb;
     gint border_width = GTK_CONTAINER(bar)->border_width;
+    gint spacing = 0;
+    GtkWidget *widget = GTK_WIDGET (bar);
+
+	gtk_widget_style_get(widget, "spacing", &spacing, NULL);
 
     switch(event->direction)
     {
@@ -811,9 +832,9 @@ cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
                         thumb_size = GTK_WIDGET(bar->priv->thumbs->data)->allocation.width;
                         for (thumb = bar->priv->thumbs; thumb != NULL; thumb = g_list_next(thumb))
                         {
-                            size += GTK_WIDGET(thumb->data)->allocation.width;
-                            if (g_list_next(thumb))
-                                size += border_width;
+                            size += thumb_size * g_list_length (bar->priv->thumbs);
+                            if (g_list_next (thumb))
+                                size += spacing;
                         }
                         if ((size - thumb_size) <= bar->priv->offset)
                             bar->priv->offset = size - thumb_size;
@@ -823,8 +844,8 @@ cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
                         for (thumb = bar->priv->thumbs; thumb != NULL; thumb = g_list_next(thumb))
                         {
                             size += GTK_WIDGET(thumb->data)->allocation.height;
-                            if (g_list_next(thumb))
-                                size += border_width;
+                            if (g_list_next (thumb))
+                                size += spacing;
                         }
                         if ((size - thumb_size) <= bar->priv->offset)
                             bar->priv->offset = size - thumb_size;

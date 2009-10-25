@@ -1,5 +1,10 @@
 2009-10-25  Stephan Arts <stephan@xfce.org>
 
+	* src/thumbnail_bar.c: Limit scrolling offset so thumbs don't get
+	  lost outside the window.
+
+2009-10-25  Stephan Arts <stephan@xfce.org>
+
 	* src/xfce_wallpaper_manager.c: Add configure-dialog
 
 2009-10-25  Stephan Arts <stephan@xfce.org>
