@@ -1,3 +1,8 @@
+2009-11-01  Stephan Arts <stephan@xfce.org>
+
+	* src/xfce_wallpaper_manager.c: Implement slider options in
+	  set_wallpaper dialog.
+
 2009-10-25  Stephan Arts <stephan@xfce.org>
 
 	* src/thumbnail_bar.c: Limit scrolling offset so thumbs don't get

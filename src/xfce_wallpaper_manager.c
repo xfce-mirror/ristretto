@@ -78,20 +78,29 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, 
 {
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
     gint response = GTK_RESPONSE_OK;
+    gint i;
     GdkScreen *screen = gdk_screen_get_default ();
-    //gint n_monitors = gdk_screen_get_n_monitors (screen);
+    gint n_monitors = gdk_screen_get_n_monitors (screen);
     GtkWidget *dialog = gtk_dialog_new_with_buttons (_("Set as wallpaper"), NULL, 0, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
     GtkWidget *vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
     GtkWidget *style_label = gtk_label_new( _("Style:"));
     GtkWidget *style_combo = gtk_combo_box_new_text();
+    GtkWidget *monitor_label = gtk_label_new( _("Monitor:"));
+    GtkWidget *monitor_combo = gtk_combo_box_new_text();
     GtkWidget *brightness_label = gtk_label_new( _("Brightness:"));
     GtkWidget *saturation_label = gtk_label_new( _("Saturation:"));
-    GtkWidget *brightness_slider = gtk_hscale_new_with_range (-1, 1, 0.1);
-    GtkWidget *saturation_slider = gtk_hscale_new_with_range (-1, 2, 0.1);
+    GtkObject *brightness_adjustment = gtk_adjustment_new (0.0, -128.0, 127.0, 1.0, 10.0, 0.0);
+    GtkObject *saturation_adjustment = gtk_adjustment_new (1.0, 0.0, 10.0, 0.1, 0.5, 0);
+    GtkWidget *brightness_slider = gtk_hscale_new (GTK_ADJUSTMENT (brightness_adjustment));
+    GtkWidget *saturation_slider = gtk_hscale_new (GTK_ADJUSTMENT (saturation_adjustment));
     GtkWidget *image_hbox = gtk_hbox_new (FALSE, 4);
-    GtkWidget *image_box = gtk_image_new_from_pixbuf (rstto_image_get_thumbnail (image));
+    GdkPixbuf *image_pixbuf = rstto_image_get_thumbnail (image);
+    GtkWidget *image_box = gtk_image_new_from_pixbuf (image_pixbuf);
     GtkWidget *prop_table = gtk_table_new (1, 2, FALSE);
     GtkWidget *image_prop_table = gtk_table_new (2, 2, FALSE);
+
+    gtk_widget_set_size_request (image_box, 128, 128);
+    gtk_misc_set_padding (GTK_MISC (image_box), 4, 4);
 
     gtk_box_pack_start (GTK_BOX (vbox), image_hbox, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (image_hbox), image_box, FALSE, FALSE, 0);
@@ -99,11 +108,17 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, 
     gtk_table_attach (GTK_TABLE (prop_table), style_label, 0, 1, 0, 1, 0, 0, 0, 0);
     gtk_table_attach (GTK_TABLE (prop_table), style_combo, 1, 2, 0, 1, 0, 0, 0, 0);
 
+
     gtk_box_pack_start (GTK_BOX (vbox), image_prop_table, FALSE, FALSE, 0);
+
+    gtk_scale_set_value_pos (GTK_SCALE (brightness_slider), GTK_POS_RIGHT);
+    gtk_scale_set_digits (GTK_SCALE (brightness_slider), 0);
+    gtk_scale_set_value_pos (GTK_SCALE (saturation_slider), GTK_POS_RIGHT);
+    gtk_scale_set_digits (GTK_SCALE (saturation_slider), 1);
     gtk_table_attach (GTK_TABLE (image_prop_table), brightness_label, 0, 1, 0, 1, 0, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE (image_prop_table), brightness_slider, 1, 2, 0, 1, 0, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE (image_prop_table), brightness_slider, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
     gtk_table_attach (GTK_TABLE (image_prop_table), saturation_label, 0, 1, 1, 2, 0, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE (image_prop_table), saturation_slider, 1, 2, 1, 2, 0, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE (image_prop_table), saturation_slider, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0);
 
     gtk_combo_box_append_text (GTK_COMBO_BOX (style_combo), _("Auto"));
     gtk_combo_box_append_text (GTK_COMBO_BOX (style_combo), _("Centered"));
@@ -113,14 +128,28 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, 
     gtk_combo_box_append_text (GTK_COMBO_BOX (style_combo), _("Zoomed"));
     gtk_combo_box_set_active (GTK_COMBO_BOX (style_combo), 4);
 
+    if (n_monitors > 1)
+    {
+        gtk_table_attach (GTK_TABLE (prop_table), monitor_label, 0, 1, 1, 2, 0, 0, 0, 0);
+        gtk_table_attach (GTK_TABLE (prop_table), monitor_combo, 1, 2, 1, 2, 0, 0, 0, 0);
+        for (i = 0; i  < n_monitors; ++i)
+        {
+            gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), "1");
+        }
+    }
+
     manager->priv->screen = gdk_screen_get_number (screen);
 
+    gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
     gtk_widget_show_all (vbox);
     response = gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_hide (dialog);
     if (response == GTK_RESPONSE_OK)
     {
         manager->priv->style = gtk_combo_box_get_active (GTK_COMBO_BOX (style_combo));
+        manager->priv->saturation = gtk_adjustment_get_value (GTK_ADJUSTMENT (saturation_adjustment));
+        manager->priv->brightness = (gint)gtk_adjustment_get_value (GTK_ADJUSTMENT (brightness_adjustment));
+        manager->priv->monitor = 0;
     }
 
     gtk_widget_destroy (dialog);
