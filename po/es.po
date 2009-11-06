@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2009-10-25 19:26+0100\n"
-"PO-Revision-Date: 2009-09-28 17:43-0300\n"
+"PO-Revision-Date: 2009-11-06 09:18-0300\n"
 "Last-Translator: elega <elega@elega.com.ar>\n"
 "Language-Team: Spanish <xfce-i18n@xfce.org>\n"
 "MIME-Version: 1.0\n"
@@ -35,8 +35,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Pruebe %s --help para ver una lista completa de opciones de línea de comando "
-"disponibles.\n"
+"Pruebe %s --help para ver una lista completa de opciones de línea de comando disponibles.\n"
 
 #. File Menu
 #: ../src/main_window.c:264
@@ -264,11 +263,13 @@ msgstr "Arriba"
 msgid "Bottom"
 msgstr "Abajo"
 
-#: ../src/main_window.c:514 ../src/main_window.c:780
+#: ../src/main_window.c:514
+#: ../src/main_window.c:780
 msgid "Press open to select an image"
 msgstr "Presione abrir para seleccionar una imagen"
 
-#: ../src/main_window.c:767 ../src/main_window.c:772
+#: ../src/main_window.c:767
+#: ../src/main_window.c:772
 msgid "Empty"
 msgstr "Vacío"
 
@@ -278,9 +279,7 @@ msgstr "Desarrollador:"
 
 #: ../src/main_window.c:1561
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto es un visor de imágenes rápido y ligero para el entorno de "
-"escritorio de Xfce."
+msgstr "Ristretto es un visor de imágenes rápido y ligero para el entorno de escritorio de Xfce."
 
 #: ../src/main_window.c:1569
 msgid "translator-credits"
@@ -300,8 +299,10 @@ msgstr "Imágenes"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1923 ../src/main_window.c:1946
-#: ../src/main_window.c:2105 ../src/main_window.c:2120
+#: ../src/main_window.c:1923
+#: ../src/main_window.c:1946
+#: ../src/main_window.c:2105
+#: ../src/main_window.c:2120
 msgid "Could not open file"
 msgstr "No se pudo abrir el archivo"
 
@@ -371,8 +372,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"El periodo de tiempo que una imagen individual es mostrada durante la vista "
-"de diapositivas\n"
+"El periodo de tiempo que una imagen individual es mostrada durante la vista de diapositivas\n"
 "(en segundos)"
 
 #: ../src/preferences_dialog.c:348
@@ -436,9 +436,8 @@ msgid "Open entire folder on startup"
 msgstr "Abrir una carpeta entera al inicio"
 
 #: ../src/preferences_dialog.c:439
-#, fuzzy
 msgid "Wrap around images"
-msgstr "Abrir una imagen"
+msgstr "Ajustar alrededor de las imágenes"
 
 #: ../src/preferences_dialog.c:455
 msgid "Memory"
@@ -469,40 +468,36 @@ msgid "Preferences"
 msgstr "Preferencias"
 
 #: ../src/xfce_wallpaper_manager.c:83
-#, fuzzy
 msgid "Set as wallpaper"
-msgstr "_Establecer como fondo de escritorio"
+msgstr "Establecer como fondo de escritorio"
 
 #: ../src/xfce_wallpaper_manager.c:85
 msgid "Style:"
-msgstr ""
+msgstr "Estilo:"
 
 #: ../src/xfce_wallpaper_manager.c:88
-#, fuzzy
 msgid "Auto"
-msgstr "_Acerca de"
+msgstr "Auto"
 
 #: ../src/xfce_wallpaper_manager.c:89
 msgid "Centered"
-msgstr ""
+msgstr "Centrado"
 
 #: ../src/xfce_wallpaper_manager.c:90
-#, fuzzy
 msgid "Tiled"
-msgstr "_Archivo"
+msgstr "Mosaicos"
 
 #: ../src/xfce_wallpaper_manager.c:91
 msgid "Stretched"
-msgstr ""
+msgstr "Estirado"
 
 #: ../src/xfce_wallpaper_manager.c:92
-#, fuzzy
 msgid "Scaled"
-msgstr "Escala"
+msgstr "Escalado"
 
 #: ../src/xfce_wallpaper_manager.c:93
 msgid "Zoomed"
-msgstr ""
+msgstr "Ampliado"
 
 #: ../src/thumbnail_bar.c:181
 msgid "Spacing"
@@ -513,23 +508,20 @@ msgid "The amount of space between the thumbnails"
 msgstr "La cantidad de espacio entre miniaturas"
 
 #: ../src/thumbnail_bar.c:188
-#, fuzzy
 msgid "border width"
-msgstr "Ancho del borde"
+msgstr "ancho del borde"
 
 #: ../src/thumbnail_bar.c:189
-#, fuzzy
 msgid "the border width of the thumbnail-bar"
-msgstr "El ancho del borde de la barra de miniaturas"
+msgstr "el ancho del borde de la barra de miniaturas"
 
 #: ../src/thumbnail_bar.c:195
 msgid "filmstrip width"
-msgstr ""
+msgstr "ancho de la banda de películas"
 
 #: ../src/thumbnail_bar.c:196
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "El ancho del borde de la barra de miniaturas"
+msgstr "el ancho de la banda de películas de la barra de miniaturas"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -540,9 +532,8 @@ msgid "Look at your photo's easily"
 msgstr "Mire su foto fácilmente"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Photo Viewer"
-msgstr "Visor de imágenes"
+msgstr "Visor de imágenes Ristretto"
 
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
@@ -550,59 +541,44 @@ msgstr "Visor de imágenes"
 #, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Miniaturas"
-
 #~ msgid "Opening file(s)..."
 #~ msgstr "Abriendo fichero(s)..."
-
 #~ msgid "_Recently used"
 #~ msgstr "_Recientemente usados"
-
 #~ msgid "No applications available"
 #~ msgstr "No hay aplicaciones disponibles"
-
 #~ msgid "Thumbnail _Viewer"
 #~ msgstr "_Visor de miniaturas"
-
 #~ msgid "Show _Horizontally"
 #~ msgstr "Mostrar _horizontalmente"
-
 #~ msgid "Show _Vertically"
 #~ msgstr "Mostrar _verticalmente"
-
 #~ msgid "H_ide"
 #~ msgstr "_Ocultar"
-
 #~ msgid ""
 #~ "One or more images have been modified, do you want to save the changes?"
 #~ msgstr ""
 #~ "Una o más imágenes han sido modificadas. ¿Desea guardar los cambios?"
-
 #~ msgid "Image viewer Preferences"
 #~ msgstr "Preferencias del visor de imágenes"
-
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr ""
 #~ "_Precargar imágenes (la interfaz gráfica responde mejor a cambio de un "
 #~ "mayor consumo de CPU)"
-
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Ocultar la barra de miniaturas en la vista de diapositivas"
-
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Visor de imágenes de Xfce"
-
 #~ msgid "Preload"
 #~ msgstr "Precarga"
-
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Precargar las imágenes durante la vista de diapositivas\n"
 #~ "(usa más memoria)"
-
 #~ msgid "Flip _Vertically"
 #~ msgstr "Retourner _verticalement"
-
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Retourner _horizontalement"
+
