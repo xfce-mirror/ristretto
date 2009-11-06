@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2009-10-12 00:12+0200\n"
-"PO-Revision-Date: 2009-11-04 14:18+0100\n"
+"PO-Revision-Date: 2009-11-06 12:24+0100\n"
 "Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
 "MIME-Version: 1.0\n"
@@ -260,12 +260,10 @@ msgid "Right"
 msgstr "Dereita"
 
 #: ../src/main_window.c:343
-#, fuzzy
 msgid "Top"
 msgstr "Superior"
 
 #: ../src/main_window.c:344
-#, fuzzy
 msgid "Bottom"
 msgstr "Inferior"
 
@@ -416,9 +414,8 @@ msgid "Zoom in and out"
 msgstr "Achegar ou alonxar"
 
 #: ../src/preferences_dialog.c:373
-#, fuzzy
 msgid "Switch images"
-msgstr "Imaxes ISO"
+msgstr "Alternar imaxes"
 
 #: ../src/preferences_dialog.c:407
 msgid "Behaviour"
