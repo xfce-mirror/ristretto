@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2009-10-25 19:26+0100\n"
-"PO-Revision-Date: 2009-10-21 14:17+0800\n"
+"PO-Revision-Date: 2009-11-16 23:20+0800\n"
 "Last-Translator: Hunt Xu <huntxu@live.cn>\n"
 "Language-Team: Simplified Chinese <xfce-i18n@xfce.org>\n"
 "MIME-Version: 1.0\n"
@@ -427,9 +427,8 @@ msgid "Open entire folder on startup"
 msgstr "启动时打开整个目录"
 
 #: ../src/preferences_dialog.c:439
-#, fuzzy
 msgid "Wrap around images"
-msgstr "打开一幅图像"
+msgstr "环绕一幅图像"
 
 #: ../src/preferences_dialog.c:455
 msgid "Memory"
@@ -460,40 +459,36 @@ msgid "Preferences"
 msgstr "首选项"
 
 #: ../src/xfce_wallpaper_manager.c:83
-#, fuzzy
 msgid "Set as wallpaper"
-msgstr "设置为壁纸(_S)"
+msgstr "设置为壁纸"
 
 #: ../src/xfce_wallpaper_manager.c:85
 msgid "Style:"
-msgstr ""
+msgstr "风格:"
 
 #: ../src/xfce_wallpaper_manager.c:88
-#, fuzzy
 msgid "Auto"
-msgstr "关于(_A)"
+msgstr "自动"
 
 #: ../src/xfce_wallpaper_manager.c:89
 msgid "Centered"
-msgstr ""
+msgstr "居中"
 
 #: ../src/xfce_wallpaper_manager.c:90
-#, fuzzy
 msgid "Tiled"
-msgstr "文件(_F)"
+msgstr "平铺"
 
 #: ../src/xfce_wallpaper_manager.c:91
 msgid "Stretched"
-msgstr ""
+msgstr "拉伸"
 
 #: ../src/xfce_wallpaper_manager.c:92
-#, fuzzy
 msgid "Scaled"
 msgstr "缩放"
 
 #: ../src/xfce_wallpaper_manager.c:93
 msgid "Zoomed"
-msgstr ""
+msgstr "放大"
 
 #: ../src/thumbnail_bar.c:181
 msgid "Spacing"
@@ -504,23 +499,20 @@ msgid "The amount of space between the thumbnails"
 msgstr "缩略图之间空格数量"
 
 #: ../src/thumbnail_bar.c:188
-#, fuzzy
 msgid "border width"
 msgstr "边框宽度"
 
 #: ../src/thumbnail_bar.c:189
-#, fuzzy
 msgid "the border width of the thumbnail-bar"
 msgstr "缩略图栏的边框宽度"
 
 #: ../src/thumbnail_bar.c:195
 msgid "filmstrip width"
-msgstr ""
+msgstr "幻灯片宽度"
 
 #: ../src/thumbnail_bar.c:196
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "缩略图栏的边框宽度"
+msgstr "缩略图栏的幻灯片宽度"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -531,9 +523,8 @@ msgid "Look at your photo's easily"
 msgstr "轻松查看您的照片"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Photo Viewer"
-msgstr "图像查看器"
+msgstr "Ristretto 图像查看器"
 
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
