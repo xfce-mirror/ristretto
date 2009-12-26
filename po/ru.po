@@ -2,14 +2,13 @@
 # This file is distributed under the same license as the ristretto package.
 # Stefan Zerkalica <zerkalica@gmail.com>, 2008.
 #
-#: ../src/main.c:231
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2008-11-14 13:24+0100\n"
-"PO-Revision-Date: 2008-03-22 12:30+03\n"
-"Last-Translator: Stefan Zerkalica <zerkalica@gmail.com>\n"
+"PO-Revision-Date: 2009-12-26 08:14+0700\n"
+"Last-Translator: Алекс <dwqwt3i02@sneakemail.com>\n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,12 +20,11 @@ msgstr "Информация о версии"
 
 #: ../src/main.c:65
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "Запуск в полноэкранном режиме"
 
 #: ../src/main.c:69
-#, fuzzy
 msgid "Start a slideshow"
-msgstr "Слайдшоу"
+msgstr "Слайд-шоу"
 
 #: ../src/main.c:235
 #, c-format
@@ -35,10 +33,11 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Попробуйте %s --help для просмотра полного списка параметров командной "
-"строки.\n"
+"Попробуйте %s --help для просмотра полного списка параметров командной строки.\n"
 
-#: ../src/main.c:448 ../src/main_window.c:1598 ../src/main_window.c:1638
+#: ../src/main.c:448
+#: ../src/main_window.c:1598
+#: ../src/main_window.c:1638
 #: ../src/main_window.c:1675
 msgid "Opening file(s)..."
 msgstr "Открывается файл(ы)..."
@@ -58,18 +57,20 @@ msgstr "_Недавно просмотренные"
 
 #: ../src/main_window.c:353
 msgid "Close _all"
-msgstr ""
+msgstr "Закрыть _все"
 
 #. Create 'Edit' menu
 #: ../src/main_window.c:383
 msgid "_Edit"
 msgstr "_Редактировать"
 
-#: ../src/main_window.c:388 ../src/main_window.c:659
+#: ../src/main_window.c:388
+#: ../src/main_window.c:659
 msgid "Open with..."
 msgstr "Открыть в..."
 
-#: ../src/main_window.c:396 ../src/main_window.c:670
+#: ../src/main_window.c:396
+#: ../src/main_window.c:670
 msgid "No applications available"
 msgstr "Нет доступных приложений"
 
@@ -84,7 +85,7 @@ msgstr "Показать п_анель"
 
 #: ../src/main_window.c:413
 msgid "Thumbnail _Viewer"
-msgstr "Просмотр _эскизов"
+msgstr "Полоса _эскизов"
 
 #: ../src/main_window.c:417
 msgid "_Zooming"
@@ -96,7 +97,7 @@ msgstr "_Повернуть"
 
 #: ../src/main_window.c:425
 msgid "_Set as wallpaper"
-msgstr ""
+msgstr "Сделать _фоном"
 
 #: ../src/main_window.c:476
 msgid "Show _Horizontally"
@@ -130,7 +131,7 @@ msgstr "Помо_щь"
 
 #: ../src/main_window.c:906
 msgid "One or more images have been modified, do you want to save the changes?"
-msgstr ""
+msgstr "Одно или несколько изображений были изменены, сохранить изменения?"
 
 #: ../src/main_window.c:1394
 msgid "Image viewer Preferences"
@@ -142,7 +143,7 @@ msgstr "Дисплей"
 
 #: ../src/main_window.c:1416
 msgid "Slideshow"
-msgstr "Слайдшоу"
+msgstr "Слайд-шоу"
 
 #: ../src/main_window.c:1420
 msgid "Behaviour"
@@ -178,45 +179,39 @@ msgstr "МБ"
 
 #: ../src/main_window.c:1468
 msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-msgstr ""
+msgstr "_Предзагрузка изображений (более отзывчивый интерфейс, но большая загрузка процессора)"
 
 #: ../src/main_window.c:1486
 msgid "Timeout"
 msgstr "Таймаут"
 
 #: ../src/main_window.c:1489
-#, fuzzy
 msgid "Thumbnails"
-msgstr "Просмотр _эскизов"
+msgstr "Эскизы"
 
 #: ../src/main_window.c:1494
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"Период времени, в течение которого будет показано изображение в режиме "
-"слайдшоу\n"
+"Период времени, в течение которого будет показано изображение в режиме слайдшоу\n"
 "(в секундах)"
 
 #: ../src/main_window.c:1497
 msgid "Hide the thumbnails bar during slideshow"
-msgstr ""
+msgstr "Скрыть полосу эскизов во время слайд-шоу"
 
 #: ../src/main_window.c:1498
 msgid "_Hide thumbnails"
-msgstr ""
+msgstr "Скр_ыть эскизы"
 
 #: ../src/main_window.c:1556
 msgid "Developer:"
 msgstr "Разработчик:"
 
 #: ../src/main_window.c:1566
-msgid ""
-"Ristretto is a fast and lightweight picture-viewer for the Xfce desktop "
-"environment."
-msgstr ""
-"Ristretto - быстрый и легковесный просмотрщик картинок для рабочего "
-"окружения Xfce"
+msgid "Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+msgstr "Ristretto - быстрый и легковесный просмотрщик картинок для рабочего окружения Xfce"
 
 #: ../src/main_window.c:1574
 msgid "translator-credits"
@@ -235,8 +230,7 @@ msgid "Open folder"
 msgstr "Открыть папку"
 
 #: ../src/main_window.c:1715
-msgid ""
-"Are you sure you want to clear ristretto's list of recently opened documents?"
+msgid "Are you sure you want to clear ristretto's list of recently opened documents?"
 msgstr "Вы уверены что хотите очистить список недавних документов?"
 
 #: ../src/thumbnail_bar.c:185
@@ -261,7 +255,7 @@ msgstr "Просмотр изображений"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Xfce Image viewer"
@@ -269,16 +263,14 @@ msgstr "Xfce Просмотр изображений"
 
 #~ msgid "Preload"
 #~ msgstr "Предзагрузка"
-
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Предзагружать изображения во время слайдшоу\n"
 #~ "(требует больше памяти)"
-
 #~ msgid "_Preload images"
 #~ msgstr "Предзагру_зка изображений"
-
 #~ msgid "Ristretto Image Viewer"
 #~ msgstr "Ristretto Просмотр изображений"
+
