@@ -238,7 +238,7 @@ rstto_thumbnailer_dequeue_image (RsttoThumbnailer *thumbnailer, RsttoImage *imag
     if (thumbnailer->priv->request_timer_id)
         g_source_remove (thumbnailer->priv->request_timer_id);
 
-    thumbnailer->priv->queue = g_slist_remove (thumbnailer->priv->queue, image);
+    thumbnailer->priv->queue = g_slist_remove_all (thumbnailer->priv->queue, image);
 
     thumbnailer->priv->request_timer_id = g_timeout_add_full (G_PRIORITY_LOW, 100, (GSourceFunc)rstto_thumbnailer_queue_request_timer, thumbnailer, NULL);
 }
