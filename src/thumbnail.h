@@ -64,6 +64,9 @@ GType      rstto_thumbnail_get_type();
 GtkWidget  *rstto_thumbnail_new (RsttoImage *image);
 RsttoImage *rstto_thumbnail_get_image (RsttoThumbnail *thumb);
 
+
+void rstto_thumbnail_update (RsttoThumbnail *thumb);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_THUMBNAIL_H__ */

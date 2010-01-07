@@ -339,3 +339,10 @@ rstto_thumbnail_leave (GtkButton *button)
     gtk_widget_set_state (GTK_WIDGET (button), GTK_STATE_NORMAL);
     gtk_widget_queue_draw (GTK_WIDGET (button));
 }
+
+void
+rstto_thumbnail_update (RsttoThumbnail *thumb)
+{
+    
+    gtk_widget_queue_draw (GTK_WIDGET (thumb));
+}

@@ -14,6 +14,7 @@ ristretto_SOURCES = \
 	app_menu_item.c app_menu_item.h \
 	thumbnail_bar.c thumbnail_bar.h \
 	thumbnail.c thumbnail.h \
+	thumbnailer.c thumbnailer.h \
 	main.c
 
 ristretto_CFLAGS = \

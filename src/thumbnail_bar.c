@@ -28,6 +28,7 @@
 #include "image_list.h"
 #include "thumbnail.h"
 #include "thumbnail_bar.h"
+#include "thumbnailer.h"
 
 struct _RsttoThumbnailBarPriv
 {
@@ -37,6 +38,7 @@ struct _RsttoThumbnailBarPriv
     gboolean auto_center;
     gint begin;
     gint end;
+
     RsttoImageList     *image_list;
     RsttoImageListIter *iter;
     RsttoImageListIter *internal_iter;
@@ -49,6 +51,8 @@ struct _RsttoThumbnailBarPriv
         gint offset;
         gboolean motion;
     } motion;
+
+    RsttoThumbnailer *thumbnailer;
 };
 
 static void
@@ -140,6 +144,7 @@ rstto_thumbnail_bar_init(RsttoThumbnailBar *bar)
     bar->priv = g_new0(RsttoThumbnailBarPriv, 1);
 
     bar->priv->auto_center = TRUE;
+    bar->priv->thumbnailer = rstto_thumbnailer_new();
 
 	GTK_WIDGET_UNSET_FLAGS(bar, GTK_NO_WINDOW);
 	gtk_widget_set_redraw_on_allocate(GTK_WIDGET(bar), TRUE);
@@ -149,6 +154,7 @@ rstto_thumbnail_bar_init(RsttoThumbnailBar *bar)
     bar->priv->orientation = GTK_ORIENTATION_VERTICAL;
     bar->priv->offset = 0;
     bar->priv->scroll_speed = 20;
+
 
     g_signal_connect(G_OBJECT(bar), "scroll_event", G_CALLBACK(cb_rstto_thumbnail_bar_scroll_event), NULL);
 
@@ -250,6 +256,8 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     GtkRequisition child_requisition;
     GList *iter = bar->priv->thumbs;
 
+    RsttoImage *image = NULL;
+
 	gtk_widget_style_get(widget, "spacing", &spacing, NULL);
     widget->allocation = *allocation;
 
@@ -312,9 +320,15 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
                 {
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), TRUE);
                     gtk_widget_size_allocate(GTK_WIDGET(iter->data), &child_allocation);
+
+                    /* Do thumbnailing stuff */
+                    rstto_thumbnailer_queue_image (bar->priv->thumbnailer, iter->data);
                 }
                 else
+                {
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), FALSE);
+                    rstto_thumbnailer_dequeue_image (bar->priv->thumbnailer, iter->data);
+                }
 
                 child_allocation.x += child_allocation.width + spacing;
                 iter = g_list_next(iter);
