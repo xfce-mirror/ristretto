@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2009-10-25 19:26+0100\n"
-"PO-Revision-Date: 2009-09-19 14:22+0200\n"
+"PO-Revision-Date: 2009-12-31 21:35+0200\n"
 "Last-Translator: Evaggelos Balaskas <ebalaskas@ebalaskas.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
 "MIME-Version: 1.0\n"
@@ -38,8 +38,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Δοκίμασε %s --help για να δεις μία πλήρη λίστα με τις διαθέσιμες παραμέτρους "
-"στην γραμμή εντολών.\n"
+"Δοκίμασε %s --help για να δεις μία πλήρη λίστα με τις διαθέσιμες παραμέτρους στην γραμμή εντολών.\n"
 
 #. File Menu
 #: ../src/main_window.c:264
@@ -267,13 +266,15 @@ msgstr "Πάνω"
 msgid "Bottom"
 msgstr "Κάτω"
 
-#: ../src/main_window.c:514 ../src/main_window.c:780
+#: ../src/main_window.c:514
+#: ../src/main_window.c:780
 msgid "Press open to select an image"
 msgstr "Πατήστε άνοιγμα για να επιλέξετε μία εικόνα"
 
-#: ../src/main_window.c:767 ../src/main_window.c:772
+#: ../src/main_window.c:767
+#: ../src/main_window.c:772
 msgid "Empty"
-msgstr ""
+msgstr "Κενή"
 
 #: ../src/main_window.c:1551
 msgid "Developer:"
@@ -281,8 +282,7 @@ msgstr "Δημιουργός:"
 
 #: ../src/main_window.c:1561
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Το ristretto είναι ένα εμφάνισης εικόνων για το γραφικό περιβάλλον xfce."
+msgstr "Το ristretto είναι ένα εμφάνισης εικόνων για το γραφικό περιβάλλον xfce."
 
 #: ../src/main_window.c:1569
 msgid "translator-credits"
@@ -300,8 +300,10 @@ msgstr "Εικόνες"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1923 ../src/main_window.c:1946
-#: ../src/main_window.c:2105 ../src/main_window.c:2120
+#: ../src/main_window.c:1923
+#: ../src/main_window.c:1946
+#: ../src/main_window.c:2105
+#: ../src/main_window.c:2120
 msgid "Could not open file"
 msgstr "Αποτυχία ανοίγματος εικόνας"
 
@@ -340,7 +342,7 @@ msgstr "Μέγιστη ποιότητα ανάλυσης:"
 
 #: ../src/preferences_dialog.c:276
 msgid "Show preview when loading image"
-msgstr ""
+msgstr "Να εμφανίζεται η προεσκόπιση κατά την φόρτωση των εικόνων"
 
 #: ../src/preferences_dialog.c:283
 msgid "Best"
@@ -371,8 +373,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"Η χρονική περίοδος εμφάνισης μία ανεξάρτητης εικόνας ανάμεσα στις "
-"διαφάνειες\n"
+"Η χρονική περίοδος εμφάνισης μία ανεξάρτητης εικόνας ανάμεσα στις διαφάνειες\n"
 "(σε δευτερόλεπτα)"
 
 #: ../src/preferences_dialog.c:348
@@ -425,24 +426,23 @@ msgstr "Να μην γίνει μεγέθυνση πάνω από 100% όταν 
 
 #: ../src/preferences_dialog.c:428
 msgid "Startup"
-msgstr ""
+msgstr "Εκκίνηση"
 
 #: ../src/preferences_dialog.c:430
 msgid "Resize window to image on startup"
-msgstr ""
+msgstr "Να αλλάζει το μέγεθος του παραθύρου στο μέγεθος της εικόνας κατά την εκκίνηση"
 
 #: ../src/preferences_dialog.c:434
 msgid "Open entire folder on startup"
-msgstr ""
+msgstr "Άνοιγμα ολόκληρου του φακέλου κατά την εκκίνηση"
 
 #: ../src/preferences_dialog.c:439
-#, fuzzy
 msgid "Wrap around images"
-msgstr "Άνοιγμα μίας εικόνας"
+msgstr "Αναδίπλωση γύρω από τις εικόνες"
 
 #: ../src/preferences_dialog.c:455
 msgid "Memory"
-msgstr ""
+msgstr "Μνήμη"
 
 #: ../src/preferences_dialog.c:461
 msgid "Image cache"
@@ -469,65 +469,60 @@ msgid "Preferences"
 msgstr "Προτιμήσεις"
 
 #: ../src/xfce_wallpaper_manager.c:83
-#, fuzzy
 msgid "Set as wallpaper"
-msgstr "_Ορισμός της επιφάνεια εργασίας"
+msgstr "Ορισμός ως φόντο"
 
 #: ../src/xfce_wallpaper_manager.c:85
 msgid "Style:"
-msgstr ""
+msgstr "Στυλ:"
 
 #: ../src/xfce_wallpaper_manager.c:88
-#, fuzzy
 msgid "Auto"
-msgstr "_Περί"
+msgstr "Αυτόματο"
 
 #: ../src/xfce_wallpaper_manager.c:89
 msgid "Centered"
-msgstr ""
+msgstr "Κεντραρισμένο"
 
 #: ../src/xfce_wallpaper_manager.c:90
-#, fuzzy
 msgid "Tiled"
-msgstr "_Αρχείο"
+msgstr "Μικρογραφία"
 
 #: ../src/xfce_wallpaper_manager.c:91
 msgid "Stretched"
-msgstr ""
+msgstr "Τεντωμένο"
 
 #: ../src/xfce_wallpaper_manager.c:92
-#, fuzzy
 msgid "Scaled"
-msgstr "Αλλαγή κλίμακας"
+msgstr "Σε κλίμακα"
 
 #: ../src/xfce_wallpaper_manager.c:93
 msgid "Zoomed"
-msgstr ""
+msgstr "Μεγενθημένο"
 
 #: ../src/thumbnail_bar.c:181
-#, fuzzy
 msgid "Spacing"
-msgstr "Αλλαγή κλίμακας"
+msgstr "Διαστήματα"
 
 #: ../src/thumbnail_bar.c:182
 msgid "The amount of space between the thumbnails"
-msgstr ""
+msgstr "Το διάστημα μεταξύ των μικρογραφιών"
 
 #: ../src/thumbnail_bar.c:188
 msgid "border width"
-msgstr ""
+msgstr "μέγεθος περιγράμματος"
 
 #: ../src/thumbnail_bar.c:189
 msgid "the border width of the thumbnail-bar"
-msgstr ""
+msgstr "Το πλάτος του περιγράμματος της μπάρας των μικρογραφιών"
 
 #: ../src/thumbnail_bar.c:195
 msgid "filmstrip width"
-msgstr ""
+msgstr "πλάτος φιλμ"
 
 #: ../src/thumbnail_bar.c:196
 msgid "the width of the thumbnail-bar film-strip"
-msgstr ""
+msgstr "το πλάτος της εργαλειοθήκης των μικρογραφιών φίλμ"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -538,13 +533,6 @@ msgid "Look at your photo's easily"
 msgstr "Δείτε τις εικόνες σας εύκολα"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Photo Viewer"
-msgstr "Πρόγραμμα εμφάνισης εικόνων ristretto"
+msgstr "Προβολέας εικόνων ristretto"
 
-#, fuzzy
-#~ msgid "Ristretto"
-#~ msgstr "Έξοδος από το ristretto"
-
-#~ msgid "_Thumbnail Bar"
-#~ msgstr "_Μπάρα μικρογραφιών"
