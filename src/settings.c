@@ -643,7 +643,6 @@ rstto_settings_get_property    (GObject    *object,
         case PROP_WRAP_IMAGES:
             g_value_set_boolean (value, settings->priv->wrap_images);
             break;
-            break;
         default:
             break;
 
