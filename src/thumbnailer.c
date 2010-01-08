@@ -253,6 +253,7 @@ rstto_thumbnailer_queue_request_timer (RsttoThumbnailer *thumbnailer)
     GFile *file;
     RsttoImage *image;
     GError *error = NULL;
+    GFileInfo *file_info;
 
     uris = g_new0 (gchar *, g_slist_length(thumbnailer->priv->queue)+1);
     mimetypes = g_new0 (gchar *, g_slist_length(thumbnailer->priv->queue)+1);
@@ -263,7 +264,12 @@ rstto_thumbnailer_queue_request_timer (RsttoThumbnailer *thumbnailer)
         image = rstto_thumbnail_get_image (RSTTO_THUMBNAIL(iter->data));
         file = rstto_image_get_file (image);
         uris[i] = g_file_get_uri (file);
-        mimetypes[i] = "image/jpeg";
+        /* FIXME: get teh right mimetype */
+        file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
+        if (file_info)
+        {
+            mimetypes[i] = g_file_info_get_attribute_string (file_info, "standard::content-type");
+        }
         iter = g_slist_next(iter);
         i++;
     }
@@ -297,10 +303,10 @@ cb_rstto_thumbnailer_request_finished (DBusGProxy *proxy, gint handle, gpointer 
     while (iter)
     {
         rstto_thumbnail_update (iter->data);
-        prev = iter;
         iter = g_slist_next(iter);
-        thumbnailer->priv->queue = g_slist_remove (thumbnailer->priv->queue, prev);
     } 
+    g_slist_free (thumbnailer->priv->queue);
+    thumbnailer->priv->queue = NULL;
 }
 
 static void

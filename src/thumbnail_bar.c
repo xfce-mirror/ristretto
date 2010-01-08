@@ -372,9 +372,18 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
                 child_allocation.height = child_allocation.width;
 
                 if (child_allocation.y < (allocation->y + allocation->height))
+                {
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), TRUE);
+                    gtk_widget_size_allocate(GTK_WIDGET(iter->data), &child_allocation);
+
+                    /* Do thumbnailing stuff */
+                    rstto_thumbnailer_queue_image (bar->priv->thumbnailer, iter->data);
+                }
                 else
+                {
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), FALSE);
+                    rstto_thumbnailer_dequeue_image (bar->priv->thumbnailer, iter->data);
+                }
 
                 gtk_widget_size_allocate(GTK_WIDGET(iter->data), &child_allocation);
                 child_allocation.y += child_allocation.height + spacing;
