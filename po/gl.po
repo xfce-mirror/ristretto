@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2009-10-25 19:26+0100\n"
-"PO-Revision-Date: 2009-11-06 12:55+0100\n"
+"PO-Revision-Date: 2010-01-07 20:44+0100\n"
 "Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
 "MIME-Version: 1.0\n"
@@ -428,7 +428,7 @@ msgstr "Redimensionamento"
 
 #: ../src/preferences_dialog.c:424
 msgid "Don't scale over 100% when maximizing the window."
-msgstr "Non redimensionar máis alá do 100% ao maximizar a xanela."
+msgstr "Non redimensionar máis alá do 100% ao maximizar a fiestra."
 
 #: ../src/preferences_dialog.c:428
 msgid "Startup"
@@ -436,7 +436,7 @@ msgstr "Inicio"
 
 #: ../src/preferences_dialog.c:430
 msgid "Resize window to image on startup"
-msgstr "Redimensionar a xanela ao tamaño da imaxe ao iniciar"
+msgstr "Redimensionar a fiestra ao tamaño da imaxe ao iniciar"
 
 #: ../src/preferences_dialog.c:434
 msgid "Open entire folder on startup"
