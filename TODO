@@ -1,5 +1,6 @@
 - Implement preferences dialog
-- Generate and save thumbnails (contact thumbler)
+- Generate and save thumbnails (DONE)
+    - Listen to Ready signal
 
 - Support setting wallpapers
     - nautilus

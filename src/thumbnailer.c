@@ -293,13 +293,14 @@ cb_rstto_thumbnailer_request_finished (DBusGProxy *proxy, gint handle, gpointer 
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
     GSList *iter = thumbnailer->priv->queue;
+    GSList *prev;
     while (iter)
     {
         rstto_thumbnail_update (iter->data);
+        prev = iter;
         iter = g_slist_next(iter);
+        thumbnailer->priv->queue = g_slist_remove (thumbnailer->priv->queue, prev);
     } 
-
-    g_debug("Finished");   
 }
 
 static void
