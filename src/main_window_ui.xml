@@ -10,8 +10,10 @@
             <placeholder name="placeholder-open-recent"/>
             <separator/>
             <menuitem action="save-copy"/>
+            <!--
             <separator/>
             <menuitem action="print"/>
+            -->
             <separator/>
             <menuitem action="close"/>
             <menuitem action="close-all"/>
@@ -58,7 +60,9 @@
             <placeholder name="placeholder-slideshow" />
         </menu>
         <menu action="help-menu">
+            <!--
             <menuitem action="contents"/>
+            -->
             <menuitem action="about"/>
         </menu>
     </menubar>

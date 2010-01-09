@@ -803,7 +803,9 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
     {
         case 0: 
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), FALSE);
+            /*
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), FALSE);
+            */
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close"), FALSE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close-all"), FALSE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), FALSE);
@@ -861,7 +863,9 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             break;
         case 1: 
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), TRUE);
+            /*
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), TRUE);
+            */
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close"), TRUE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close-all"), FALSE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), TRUE);
@@ -921,7 +925,9 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             break;
         default: 
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), TRUE);
+            /*
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), TRUE);
+            */
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close"), TRUE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close-all"), TRUE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), TRUE);
