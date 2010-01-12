@@ -1368,7 +1368,11 @@ cb_rstto_picture_viewer_button_press_event (RsttoPictureViewer *viewer, GdkEvent
 static void
 cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEventButton *event)
 {
+    gdouble *scale, old_scale;
+    gboolean *fit_to_screen;
+    gdouble width, height;
     GtkWidget *widget = GTK_WIDGET(viewer);
+
     switch (event->button)
     {
         case 1:
@@ -1379,8 +1383,116 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
                     rstto_picture_viewer_set_zoom_mode (viewer, RSTTO_ZOOM_MODE_CUSTOM);
                     if(GTK_WIDGET_REALIZED(widget))
                     {
+                        scale = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-scale");
+                        fit_to_screen = g_object_get_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen");
+                        old_scale = *scale;
+                        width = (gdouble)rstto_image_get_width(viewer->priv->image);
+                        height = (gdouble)rstto_image_get_height(viewer->priv->image);
 
+                        gdouble d_width = (gdouble)gdk_pixbuf_get_width(viewer->priv->dst_pixbuf);
+                        gdouble d_height = (gdouble)gdk_pixbuf_get_height(viewer->priv->dst_pixbuf);
+
+                        gdouble box_width, box_height;
+                        gdouble top_left_x, top_left_y;
+
+                        if (viewer->priv->motion.x < viewer->priv->motion.current_x)
+                        {
+                            gint x_offset = (widget->allocation.width - d_width)<=0?0:((widget->allocation.width - d_width)/2);
+                            top_left_x = viewer->priv->motion.x + viewer->hadjustment->value - x_offset;
+                            box_width = viewer->priv->motion.current_x - viewer->priv->motion.x;
+                        }
+                        else
+                        {
+                            gint x_offset = (widget->allocation.width - d_width)<=0?0:((widget->allocation.width - d_width)/2);
+                            top_left_x = viewer->priv->motion.current_x + viewer->hadjustment->value - x_offset;
+                            box_width = viewer->priv->motion.x - viewer->priv->motion.current_x;
+                        }
+                        if (viewer->priv->motion.y < viewer->priv->motion.current_y)
+                        {
+                            gint y_offset = (widget->allocation.height - d_height)<=0?0:((widget->allocation.height - d_height)/2);
+                            top_left_y = viewer->priv->motion.y + viewer->vadjustment->value - y_offset;
+                            box_height = viewer->priv->motion.current_y - viewer->priv->motion.y;
+                        }
+                        else
+                        {
+                            gint y_offset = (widget->allocation.height - d_height) <=0?0:((widget->allocation.height - d_height)/2);
+
+                            top_left_y = viewer->priv->motion.current_y + viewer->vadjustment->value - y_offset;
+                            box_height = viewer->priv->motion.y - viewer->priv->motion.current_y;
+                        }
+
+                        gdouble h_scale = widget->allocation.width / box_width * *scale;
+                        gdouble v_scale = widget->allocation.height / box_height * *scale;
+
+                        /** 
+                         * Check if the mouse has been moved (and there exists a box
+                         */
+                        if (box_height > 1 && box_width > 1)
+                        {
+                            if (h_scale < v_scale)
+                            {
+                                *scale = h_scale;
+                                gdouble d_box_height = box_height * v_scale / h_scale;
+                                top_left_y -= (d_box_height - box_height) / 2;
+                                box_height = d_box_height;
+                            }
+                            else
+                            {
+                                *scale = v_scale;
+                                gdouble d_box_width = box_width * h_scale / v_scale;
+                                top_left_x -= (d_box_width - box_width) / 2;
+                                box_width = d_box_width;
+                            }
+
+                            g_object_set_data (G_OBJECT(viewer->priv->image), "viewer-scale", scale);
+                            *fit_to_screen = FALSE;
+                            g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
+
+                            if(viewer->hadjustment)
+                            {
+                                viewer->hadjustment->page_size = box_width / old_scale * *scale;
+                                viewer->hadjustment->upper = width * *scale;
+                                viewer->hadjustment->lower = 0;
+                                viewer->hadjustment->step_increment = 1;
+                                viewer->hadjustment->page_increment = 100;
+                                viewer->hadjustment->value = top_left_x / old_scale * *scale;
+                                if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+                                {
+                                    viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+                                }
+                                if(viewer->hadjustment->value < viewer->hadjustment->lower)
+                                {
+                                    viewer->hadjustment->value = viewer->hadjustment->lower;
+                                }
+                                gtk_adjustment_changed(viewer->hadjustment);
+                                gtk_adjustment_value_changed(viewer->hadjustment);
+                            }
+                            if(viewer->vadjustment)
+                            {
+                                viewer->vadjustment->page_size = box_height /old_scale* *scale;
+                                viewer->vadjustment->upper = height * *scale;
+                                viewer->vadjustment->lower = 0;
+                                viewer->vadjustment->step_increment = 1;
+                                viewer->vadjustment->page_increment = 100;
+                                viewer->vadjustment->value = top_left_y / old_scale * *scale;
+                                if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+                                {
+                                    viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+                                }
+                                if(viewer->vadjustment->value < viewer->vadjustment->lower)
+                                {
+                                    viewer->vadjustment->value = viewer->vadjustment->lower;
+                                }
+                                gtk_adjustment_changed(viewer->vadjustment);
+                                gtk_adjustment_value_changed(viewer->vadjustment);
+                            }
+                        }
                     }
+                    if (viewer->priv->repaint.idle_id > 0)
+                    {
+                        g_source_remove(viewer->priv->repaint.idle_id);
+                    }
+                    viewer->priv->repaint.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
                     break;
                 default:
                     break;
