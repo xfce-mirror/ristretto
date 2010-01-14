@@ -6,8 +6,6 @@
     - nautilus
     - rox
 
-- Implement box-zoom
-
 - Add preloading
 - Improve cache calculation
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2009-10-25 19:26+0100\n"
+"POT-Creation-Date: 2010-01-15 00:57+0100\n"
 "PO-Revision-Date: 2008-12-08 01:19+0100\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
@@ -37,353 +37,353 @@ msgstr ""
 "Erabili %s --help komando-lerroko komando erabilgarriak ikusteko.\n"
 
 #. File Menu
-#: ../src/main_window.c:264
+#: ../src/main_window.c:262
 msgid "_File"
 msgstr "_Fitxategia"
 
-#: ../src/main_window.c:265
+#: ../src/main_window.c:263
 msgid "_Open"
 msgstr ""
 
-#: ../src/main_window.c:265
+#: ../src/main_window.c:263
 #, fuzzy
 msgid "Open an image"
 msgstr "Ireki irudia"
 
-#: ../src/main_window.c:266
+#: ../src/main_window.c:264
 #, fuzzy
 msgid "Open _Folder"
 msgstr "I_reki karpeta"
 
-#: ../src/main_window.c:266
+#: ../src/main_window.c:264
 #, fuzzy
 msgid "Open a folder"
 msgstr "Ireki karpeta"
 
-#: ../src/main_window.c:267
+#: ../src/main_window.c:265
 msgid "_Save copy"
 msgstr ""
 
-#: ../src/main_window.c:267
+#: ../src/main_window.c:265
 msgid "Save a copy of the image"
 msgstr ""
 
-#: ../src/main_window.c:268
+#: ../src/main_window.c:266
 msgid "_Print"
 msgstr ""
 
-#: ../src/main_window.c:268
+#: ../src/main_window.c:266
 msgid "Print the image"
 msgstr ""
 
-#: ../src/main_window.c:269
+#: ../src/main_window.c:267
 #, fuzzy
 msgid "_Close"
 msgstr "Itxi den_a"
 
-#: ../src/main_window.c:269
+#: ../src/main_window.c:267
 msgid "Close this image"
 msgstr ""
 
-#: ../src/main_window.c:270
+#: ../src/main_window.c:268
 #, fuzzy
 msgid "_Close All"
 msgstr "Itxi den_a"
 
-#: ../src/main_window.c:270
+#: ../src/main_window.c:268
 #, fuzzy
 msgid "Close all images"
 msgstr "Itxi den_a"
 
-#: ../src/main_window.c:271
+#: ../src/main_window.c:269
 #, fuzzy
 msgid "_Quit"
 msgstr "_Editatu"
 
-#: ../src/main_window.c:271
+#: ../src/main_window.c:269
 #, fuzzy
 msgid "Quit Ristretto"
 msgstr "Ristretto"
 
 #. Edit Menu
-#: ../src/main_window.c:273
+#: ../src/main_window.c:271
 msgid "_Edit"
 msgstr "_Editatu"
 
-#: ../src/main_window.c:274
+#: ../src/main_window.c:272
 #, fuzzy
 msgid "_Open with..."
 msgstr "Ireki honekin..."
 
-#: ../src/main_window.c:275
+#: ../src/main_window.c:273
 #, fuzzy
 msgid "_Sorting"
 msgstr "_Zooma gerturatzen"
 
-#: ../src/main_window.c:276
+#: ../src/main_window.c:274
 msgid "_Delete"
 msgstr ""
 
-#: ../src/main_window.c:277
+#: ../src/main_window.c:275
 #, fuzzy
 msgid "_Preferences"
 msgstr "Irudi ikustatzaile hobespenak"
 
 #. View Menu
-#: ../src/main_window.c:279
+#: ../src/main_window.c:277
 msgid "_View"
 msgstr "_Ikusi"
 
-#: ../src/main_window.c:280
+#: ../src/main_window.c:278
 msgid "_Fullscreen"
 msgstr ""
 
-#: ../src/main_window.c:281
+#: ../src/main_window.c:279
 msgid "_Leave Fullscreen"
 msgstr ""
 
-#: ../src/main_window.c:282
+#: ../src/main_window.c:280
 #, fuzzy
 msgid "_Set as Wallpaper"
 msgstr "E_zarri idazmahai-irudi gisa"
 
 #. Zoom submenu
-#: ../src/main_window.c:284
+#: ../src/main_window.c:282
 msgid "_Zooming"
 msgstr "_Zooma gerturatzen"
 
-#: ../src/main_window.c:285
+#: ../src/main_window.c:283
 #, fuzzy
 msgid "Zoom _In"
 msgstr "_Zooma gerturatzen"
 
-#: ../src/main_window.c:286
+#: ../src/main_window.c:284
 msgid "Zoom _Out"
 msgstr ""
 
-#: ../src/main_window.c:287
+#: ../src/main_window.c:285
 msgid "Zoom _Fit"
 msgstr ""
 
-#: ../src/main_window.c:288
+#: ../src/main_window.c:286
 msgid "_Normal Size"
 msgstr ""
 
 #. Rotation submenu
-#: ../src/main_window.c:290
+#: ../src/main_window.c:288
 #, fuzzy
 msgid "_Rotation"
 msgstr "Bi_ratu"
 
-#: ../src/main_window.c:291
+#: ../src/main_window.c:289
 msgid "Rotate _Right"
 msgstr "Biratu eskuine_ra"
 
-#: ../src/main_window.c:292
+#: ../src/main_window.c:290
 msgid "Rotate _Left"
 msgstr "Biratu ez_kerrera"
 
 #. Go Menu
-#: ../src/main_window.c:294
+#: ../src/main_window.c:292
 msgid "_Go"
 msgstr "_Joan"
 
-#: ../src/main_window.c:295
+#: ../src/main_window.c:293
 msgid "_Forward"
 msgstr ""
 
-#: ../src/main_window.c:296
+#: ../src/main_window.c:294
 msgid "_Back"
 msgstr ""
 
-#: ../src/main_window.c:297
+#: ../src/main_window.c:295
 msgid "_First"
 msgstr ""
 
-#: ../src/main_window.c:298
+#: ../src/main_window.c:296
 msgid "_Last"
 msgstr ""
 
 #. Help Menu
-#: ../src/main_window.c:300
+#: ../src/main_window.c:298
 msgid "_Help"
 msgstr "_Laguntza"
 
-#: ../src/main_window.c:302
+#: ../src/main_window.c:300
 msgid "_Contents"
 msgstr ""
 
-#: ../src/main_window.c:304
+#: ../src/main_window.c:302
 msgid "Display ristretto user manual"
 msgstr ""
 
-#: ../src/main_window.c:307
+#: ../src/main_window.c:305
 msgid "_About"
 msgstr ""
 
-#: ../src/main_window.c:309
+#: ../src/main_window.c:307
 msgid "Display information about ristretto"
 msgstr ""
 
 #. Position Menu
-#: ../src/main_window.c:312
+#: ../src/main_window.c:310
 msgid "_Position"
 msgstr ""
 
 #. Misc
-#: ../src/main_window.c:314
+#: ../src/main_window.c:312
 msgid "Leave _Fullscreen"
 msgstr ""
 
 #. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:322
+#: ../src/main_window.c:320
 #, fuzzy
 msgid "Show _File Toolbar"
 msgstr "Ikusi _tresna-barra"
 
 #. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:324
+#: ../src/main_window.c:322
 #, fuzzy
 msgid "Show _Navigation Toolbar"
 msgstr "Ikusi _tresna-barra"
 
 #. Toggle visibility of the thumbnailbar
-#: ../src/main_window.c:326
+#: ../src/main_window.c:324
 #, fuzzy
 msgid "Show _Thumbnailbar"
 msgstr "Ikusi _tresna-barra"
 
 #. Sort by Filename
-#: ../src/main_window.c:333
+#: ../src/main_window.c:331
 msgid "sort by filename"
 msgstr ""
 
 #. Sort by Date
-#: ../src/main_window.c:335
+#: ../src/main_window.c:333
 msgid "sort by date"
 msgstr ""
 
-#: ../src/main_window.c:341
+#: ../src/main_window.c:339
 msgid "Left"
 msgstr ""
 
-#: ../src/main_window.c:342
+#: ../src/main_window.c:340
 msgid "Right"
 msgstr ""
 
-#: ../src/main_window.c:343
+#: ../src/main_window.c:341
 msgid "Top"
 msgstr ""
 
-#: ../src/main_window.c:344
+#: ../src/main_window.c:342
 msgid "Bottom"
 msgstr ""
 
-#: ../src/main_window.c:514 ../src/main_window.c:780
+#: ../src/main_window.c:512 ../src/main_window.c:778
 msgid "Press open to select an image"
 msgstr ""
 
-#: ../src/main_window.c:767 ../src/main_window.c:772
+#: ../src/main_window.c:765 ../src/main_window.c:770
 msgid "Empty"
 msgstr ""
 
-#: ../src/main_window.c:1551
+#: ../src/main_window.c:1545
 msgid "Developer:"
 msgstr "Garatzailea:"
 
-#: ../src/main_window.c:1561
+#: ../src/main_window.c:1555
 #, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto Xfce idazmahai inguruneko irudi-ikustatzaile arin eta azkar bat da."
 
-#: ../src/main_window.c:1569
+#: ../src/main_window.c:1563
 msgid "translator-credits"
 msgstr "Piarres Beobide <pi@beobide.net>"
 
-#: ../src/main_window.c:1884
+#: ../src/main_window.c:1878
 msgid "Open image"
 msgstr "Ireki irudia"
 
-#: ../src/main_window.c:1896
+#: ../src/main_window.c:1890
 msgid "Images"
 msgstr ""
 
-#: ../src/main_window.c:1901
+#: ../src/main_window.c:1895
 msgid ".jp(e)g"
 msgstr ""
 
-#: ../src/main_window.c:1923 ../src/main_window.c:1946
-#: ../src/main_window.c:2105 ../src/main_window.c:2120
+#: ../src/main_window.c:1917 ../src/main_window.c:1940
+#: ../src/main_window.c:2099 ../src/main_window.c:2114
 msgid "Could not open file"
 msgstr "Ezin da fitxategia ireki"
 
-#: ../src/main_window.c:1998
+#: ../src/main_window.c:1992
 msgid "Open folder"
 msgstr "Ireki karpeta"
 
-#: ../src/main_window.c:2143
+#: ../src/main_window.c:2137
 msgid "Save copy"
 msgstr ""
 
-#: ../src/main_window.c:2214
+#: ../src/main_window.c:2210
 #, fuzzy, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr ""
 "Ziur zaude ristretto-ren azken aldian irekitako dokumentuen zerrenda ezabatu "
 "nahi duzula?"
 
-#: ../src/preferences_dialog.c:232
+#: ../src/preferences_dialog.c:230
 msgid "Display"
 msgstr "Bistaratu"
 
-#: ../src/preferences_dialog.c:237
+#: ../src/preferences_dialog.c:235
 #, fuzzy
 msgid "Background color"
 msgstr "Atzeko planoaren kolorea"
 
-#: ../src/preferences_dialog.c:241
+#: ../src/preferences_dialog.c:239
 #, fuzzy
 msgid "Override background color:"
 msgstr "_Gainidatzi atzeko planoa kolorea:"
 
-#: ../src/preferences_dialog.c:269
+#: ../src/preferences_dialog.c:267
 msgid "Quality"
 msgstr ""
 
-#: ../src/preferences_dialog.c:273
+#: ../src/preferences_dialog.c:271
 msgid "Maximum render quality:"
 msgstr ""
 
-#: ../src/preferences_dialog.c:276
+#: ../src/preferences_dialog.c:274
 msgid "Show preview when loading image"
 msgstr ""
 
-#: ../src/preferences_dialog.c:283
+#: ../src/preferences_dialog.c:281
 msgid "Best"
 msgstr ""
 
-#: ../src/preferences_dialog.c:284
+#: ../src/preferences_dialog.c:282
 msgid "High"
 msgstr ""
 
-#: ../src/preferences_dialog.c:285
+#: ../src/preferences_dialog.c:283
 msgid "Medium"
 msgstr ""
 
-#: ../src/preferences_dialog.c:286
+#: ../src/preferences_dialog.c:284
 msgid "Low"
 msgstr ""
 
-#: ../src/preferences_dialog.c:326
+#: ../src/preferences_dialog.c:324
 msgid "Slideshow"
 msgstr "Aurkezpena"
 
-#: ../src/preferences_dialog.c:330
+#: ../src/preferences_dialog.c:328
 msgid "Timeout"
 msgstr "Denboraz-kanpo"
 
-#: ../src/preferences_dialog.c:333
+#: ../src/preferences_dialog.c:331
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -391,161 +391,174 @@ msgstr ""
 "Aurkezpenean irudi bakoitza ikusten den denbora tartea\n"
 "(segundutan)"
 
-#: ../src/preferences_dialog.c:348
+#: ../src/preferences_dialog.c:346
 #, fuzzy
 msgid "Thumbnails"
 msgstr "Argazkitxoak"
 
-#: ../src/preferences_dialog.c:351
+#: ../src/preferences_dialog.c:349
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
 
-#: ../src/preferences_dialog.c:353
+#: ../src/preferences_dialog.c:351
 #, fuzzy
 msgid "Hide thumbnailbar when fullscreen"
 msgstr "E_zkutatu argazkitxoak"
 
-#: ../src/preferences_dialog.c:366
+#: ../src/preferences_dialog.c:364
 msgid "Control"
 msgstr ""
 
-#: ../src/preferences_dialog.c:370
+#: ../src/preferences_dialog.c:368
 msgid "Scrollwheel"
 msgstr ""
 
-#: ../src/preferences_dialog.c:373
+#: ../src/preferences_dialog.c:371
 msgid "No action"
 msgstr ""
 
-#: ../src/preferences_dialog.c:377
+#: ../src/preferences_dialog.c:375
 msgid "Zoom in and out"
 msgstr ""
 
-#: ../src/preferences_dialog.c:380
+#: ../src/preferences_dialog.c:378
 msgid "Switch images"
 msgstr ""
 
-#: ../src/preferences_dialog.c:414
+#: ../src/preferences_dialog.c:412
 msgid "Behaviour"
 msgstr "Portaera"
 
-#: ../src/preferences_dialog.c:419
+#: ../src/preferences_dialog.c:417
 msgid "Scaling"
 msgstr "Eskalatzen"
 
-#: ../src/preferences_dialog.c:424
+#: ../src/preferences_dialog.c:422
 msgid "Don't scale over 100% when maximizing the window."
 msgstr "Ez eskalatu %100 baino gehiago leihoa handitzean."
 
-#: ../src/preferences_dialog.c:428
+#: ../src/preferences_dialog.c:426
 msgid "Startup"
 msgstr ""
 
-#: ../src/preferences_dialog.c:430
+#: ../src/preferences_dialog.c:428
 msgid "Resize window to image on startup"
 msgstr ""
 
-#: ../src/preferences_dialog.c:434
+#: ../src/preferences_dialog.c:432
 msgid "Open entire folder on startup"
 msgstr ""
 
-#: ../src/preferences_dialog.c:439
+#: ../src/preferences_dialog.c:437
 #, fuzzy
 msgid "Wrap around images"
 msgstr "Ireki irudia"
 
-#: ../src/preferences_dialog.c:455
+#: ../src/preferences_dialog.c:453
 msgid "Memory"
 msgstr ""
 
-#: ../src/preferences_dialog.c:461
+#: ../src/preferences_dialog.c:459
 #, fuzzy
 msgid "Image cache"
 msgstr "Irudi katxea"
 
-#: ../src/preferences_dialog.c:467
+#: ../src/preferences_dialog.c:465
 #, fuzzy
 msgid "Cache size"
 msgstr "Katxe tamaina:"
 
-#: ../src/preferences_dialog.c:468
+#: ../src/preferences_dialog.c:466
 msgid "MB"
 msgstr "MB"
 
-#: ../src/preferences_dialog.c:471
+#: ../src/preferences_dialog.c:469
 #, fuzzy
 msgid "Enable cache"
 msgstr "Irudi katxea"
 
-#: ../src/preferences_dialog.c:476
+#: ../src/preferences_dialog.c:474
 msgid "Preload images"
 msgstr ""
 
-#: ../src/preferences_dialog.c:546
+#: ../src/preferences_dialog.c:544
 #, fuzzy
 msgid "Preferences"
 msgstr "Irudi ikustatzaile hobespenak"
 
-#: ../src/xfce_wallpaper_manager.c:83
+#: ../src/xfce_wallpaper_manager.c:84
 #, fuzzy
 msgid "Set as wallpaper"
 msgstr "E_zarri idazmahai-irudi gisa"
 
-#: ../src/xfce_wallpaper_manager.c:85
+#: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
 msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:88
-msgid "Auto"
-msgstr ""
-
-#: ../src/xfce_wallpaper_manager.c:89
-msgid "Centered"
+msgid "Monitor:"
 msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:90
+msgid "Brightness:"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:91
+#, fuzzy
+msgid "Saturation:"
+msgstr "Bi_ratu"
+
+#: ../src/xfce_wallpaper_manager.c:123
+msgid "Auto"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:124
+msgid "Centered"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:125
 #, fuzzy
 msgid "Tiled"
 msgstr "_Fitxategia"
 
-#: ../src/xfce_wallpaper_manager.c:91
+#: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
 msgstr ""
 
-#: ../src/xfce_wallpaper_manager.c:92
+#: ../src/xfce_wallpaper_manager.c:127
 #, fuzzy
 msgid "Scaled"
 msgstr "Eskalatzen"
 
-#: ../src/xfce_wallpaper_manager.c:93
+#: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
 msgstr ""
 
-#: ../src/thumbnail_bar.c:181
+#: ../src/thumbnail_bar.c:187
 msgid "Spacing"
 msgstr "Tartea"
 
-#: ../src/thumbnail_bar.c:182
+#: ../src/thumbnail_bar.c:188
 msgid "The amount of space between the thumbnails"
 msgstr "Argazkitxo artean dagoen tartea"
 
-#: ../src/thumbnail_bar.c:188
+#: ../src/thumbnail_bar.c:194
 #, fuzzy
 msgid "border width"
 msgstr "Ertz zabalera"
 
-#: ../src/thumbnail_bar.c:189
+#: ../src/thumbnail_bar.c:195
 #, fuzzy
 msgid "the border width of the thumbnail-bar"
 msgstr "Argazkitxo-barraren ertzaren zabalera"
 
-#: ../src/thumbnail_bar.c:195
+#: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
 msgstr ""
 
-#: ../src/thumbnail_bar.c:196
+#: ../src/thumbnail_bar.c:202
 #, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
 msgstr "Argazkitxo-barraren ertzaren zabalera"

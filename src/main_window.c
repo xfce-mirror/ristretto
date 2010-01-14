@@ -2376,7 +2376,7 @@ cb_rstto_main_window_image_updated (RsttoImage *image, RsttoMainWindow *window)
 
     if (width > 0)
     {
-        status = g_strdup_printf ("%d x %d", width, height);
+        status = g_strdup_printf ("%dpx x %dpx", width, height);
 
         gtk_statusbar_pop (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id);
         gtk_statusbar_push (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id, status);
