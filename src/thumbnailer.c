@@ -264,7 +264,6 @@ rstto_thumbnailer_queue_request_timer (RsttoThumbnailer *thumbnailer)
         image = rstto_thumbnail_get_image (RSTTO_THUMBNAIL(iter->data));
         file = rstto_image_get_file (image);
         uris[i] = g_file_get_uri (file);
-        /* FIXME: get teh right mimetype */
         file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
         if (file_info)
         {
