@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: ristretto 0.0.22\n"
+"Project-Id-Version: ristretto 0.0.90\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-01-15 00:57+0100\n"
-"PO-Revision-Date: 2009-11-06 08:32+0100\n"
+"PO-Revision-Date: 2010-01-15 12:00+0100\n"
 "Last-Translator: Per Kongstad <p_kongstad@op.pl>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
@@ -37,8 +37,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Prøv %s --help for at se en fuld liste over tilgængelige "
-"kommandolinjetilvalg.\n"
+"Prøv %s --help for at se en fuld liste over tilgængelige kommandolinjetilvalg.\n"
 
 #. File Menu
 #: ../src/main_window.c:262
@@ -99,7 +98,7 @@ msgstr "_Afslut"
 
 #: ../src/main_window.c:269
 msgid "Quit Ristretto"
-msgstr "Afslut ristretto"
+msgstr "Afslut Ristretto"
 
 #. Edit Menu
 #: ../src/main_window.c:271
@@ -266,11 +265,13 @@ msgstr "Top"
 msgid "Bottom"
 msgstr "Bund"
 
-#: ../src/main_window.c:512 ../src/main_window.c:778
+#: ../src/main_window.c:512
+#: ../src/main_window.c:778
 msgid "Press open to select an image"
 msgstr "Tryk åbn for at vælge et billede"
 
-#: ../src/main_window.c:765 ../src/main_window.c:770
+#: ../src/main_window.c:765
+#: ../src/main_window.c:770
 msgid "Empty"
 msgstr "Tom"
 
@@ -302,8 +303,10 @@ msgstr "Billeder"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1917 ../src/main_window.c:1940
-#: ../src/main_window.c:2099 ../src/main_window.c:2114
+#: ../src/main_window.c:1917
+#: ../src/main_window.c:1940
+#: ../src/main_window.c:2099
+#: ../src/main_window.c:2114
 msgid "Could not open file"
 msgstr "Kunne ikke åbne fil"
 
@@ -478,16 +481,15 @@ msgstr "Stil:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Skærm:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Lysstyrke:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "_Rotering"
+msgstr "Mætning:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
@@ -551,47 +553,35 @@ msgstr "Ristretto billedfremviser"
 
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
-
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "_Miniaturebjælke"
-
 #~ msgid "Opening file(s)..."
 #~ msgstr "Åbne(r) fil(er)..."
-
 #~ msgid "_Recently used"
 #~ msgstr "_Senest brugte"
-
 #~ msgid "No applications available"
 #~ msgstr "Ingen tilgængelige programmer"
-
 #~ msgid "Thumbnail _Viewer"
 #~ msgstr "Miniature_viser"
-
 #~ msgid "Show _Horizontally"
 #~ msgstr "Vis _vandret"
-
 #~ msgid "Show _Vertically"
 #~ msgstr "Vis _lodret"
-
 #~ msgid "H_ide"
 #~ msgstr "S_kjul"
-
 #~ msgid ""
 #~ "One or more images have been modified, do you want to save the changes?"
 #~ msgstr ""
 #~ "Et eller flere billeder er blevet ændret, ønsker du at gemme disse "
 #~ "ændringer?"
-
 #~ msgid "Image viewer Preferences"
 #~ msgstr "Indstillinger for billedfremviser"
-
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr ""
 #~ "_Forindlæs billeder (Grafisk miljø reagerer hurtigere men vil bruge flere "
 #~ "processorresurser)"
-
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Skjul miniaturebjælke under diasshow"
-
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Billedfremviser til Xfce"
+
