@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Miro Hrončok <churchyard@gmail.com>, 2007.
 # Michal Várady <miko.vaji@gmail.com>, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -415,8 +415,7 @@ msgstr "Probíhá změna velikosti"
 
 #: ../src/preferences_dialog.c:422
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
-"Nezvětšovat obrázek nad jeho skutečnou velikost při maximalizování okna."
+msgstr "Nezvětšovat obrázek nad jeho skutečnou velikost při maximalizování okna."
 
 #: ../src/preferences_dialog.c:426
 msgid "Startup"
@@ -472,16 +471,15 @@ msgstr "Styl:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Monitor:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Jas:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "_Rotace"
+msgstr "Sytost:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
@@ -543,11 +541,9 @@ msgstr "Prohlížejte si své fotografie jednoduše"
 msgid "Ristretto Photo Viewer"
 msgstr "Prohlížeč fotografií Ristretto"
 
-#, fuzzy
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
 
-#, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Náhledy"
 
@@ -572,14 +568,11 @@ msgstr "Prohlížeč fotografií Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "_Skrýt"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Některé obrázky byly upraveny, přejete si uložit změny?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Přednačítat obrázky (Grafické uživatelské rozhraní bude odpovídat "
-#~ "rychleji, ale vytížení procesoru se zvýší)"
+#~ msgstr "_Přednačítat obrázky (Grafické uživatelské rozhraní bude odpovídat rychleji, ale vytížení procesoru se zvýší)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Nezobrazovat lištu s náhledy při promítání"
