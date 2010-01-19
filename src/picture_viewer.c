@@ -765,6 +765,22 @@ rstto_picture_viewer_set_scale (RsttoPictureViewer *viewer, gdouble scale)
 
             rstto_picture_viewer_queued_repaint (viewer, TRUE);
         }
+        else
+        {
+            /* If there is no image, set the adjustments to 0 */
+            viewer->hadjustment->upper = 0;
+            viewer->hadjustment->lower = 0;
+            viewer->hadjustment->value = 0;
+            viewer->vadjustment->upper = 0;
+            viewer->vadjustment->lower = 0;
+            viewer->vadjustment->value = 0;
+
+            gtk_adjustment_changed(viewer->hadjustment);
+            gtk_adjustment_changed(viewer->vadjustment);
+
+            gtk_adjustment_value_changed(viewer->hadjustment);
+            gtk_adjustment_value_changed(viewer->vadjustment);
+        }
     }
 }
 
@@ -1638,6 +1654,18 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
     else
     {
         rstto_picture_viewer_queued_repaint (viewer, TRUE);
+        viewer->hadjustment->upper = 0;
+        viewer->hadjustment->lower = 0;
+        viewer->hadjustment->value = 0;
+        viewer->vadjustment->upper = 0;
+        viewer->vadjustment->lower = 0;
+        viewer->vadjustment->value = 0;
+
+        gtk_adjustment_changed(viewer->hadjustment);
+        gtk_adjustment_changed(viewer->vadjustment);
+
+        gtk_adjustment_value_changed(viewer->hadjustment);
+        gtk_adjustment_value_changed(viewer->vadjustment);
     }
 }
 
