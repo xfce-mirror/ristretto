@@ -6,6 +6,9 @@
   cost of image-quality)
 - Store the settings in xfconf
 - Add option to completely disable the image-cache
+- Use dbus-thumbnailing spec to generate thumbnails
+- Add buttons to delete the image from disk
+- Restyle the toolbars to make room for more usefull options
 
 0.0.22
 ======

@@ -1,3 +1,41 @@
+2010-01-13 Stephan Arts <stephan@xfce.org>
+
+	* src/picture_viewer.c: Fix box-zoom when image is rendered at below-maximum resolution
+
+2010-01-13 Stephan Arts <stephan@xfce.org>
+
+	* src/*.c,
+	  src/*.h: Update copyright messages
+
+2010-01-12 Stephan Arts <stephan@xfce.org>
+
+	* src/picture_viewer.c: Implement box-zoom... 
+	  it only works when the image is loaded at max-quality... still need to fix that
+
+2010-01-09 Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c,
+	  src/main_window_ui.xml: Remove stuff that is not going to be ready for 0.1.0
+
+2010-01-08  Stephan Arts <stephan@xfce.org>
+
+	* src/thumbnailer.c: Remove thumbnails from thumbnail-queue when ready
+	* TODO: Update TODO
+	* src/thumbnail_bar.c,
+	  src/thumbnailer.c: Fix Assert, make thumbnailing work with non-jpeg 
+	  mimetypes and vertical thumbnailbars...
+
+2010-01-07  Stephan Arts <stephan@xfce.org>
+
+	* src/settings.c: Remove excess break statement
+	* configure,in.in,
+	  src/Makefile.am,
+	  src/thumbnail.c,
+	  src/thumbnail.h,
+	  src/thumbnail_bar.c,
+	  src/thumbnailer.h,
+	  src/thumbnailer.c: Add rudimentary support for tumbler.
+
 2009-11-01  Stephan Arts <stephan@xfce.org>
 
 	* src/xfce_wallpaper_manager.c: Implement slider options in
