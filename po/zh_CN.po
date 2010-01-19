@@ -2,13 +2,14 @@
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the ristretto package.
 # wuli <wurisky@gmail.com>, 2008.
-# Hunt Xu <mhuntxu@gmail.com>, 2008, 2009.
+# Hunt Xu <mhuntxu@gmail.com>, 2008, 2009, 2010.
+
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-01-15 00:57+0100\n"
-"PO-Revision-Date: 2009-11-16 23:20+0800\n"
+"PO-Revision-Date: 2010-01-20 05:07+0800\n"
 "Last-Translator: Hunt Xu <huntxu@live.cn>\n"
 "Language-Team: Simplified Chinese <xfce-i18n@xfce.org>\n"
 "MIME-Version: 1.0\n"
@@ -282,7 +283,7 @@ msgstr "Ristretto 是 Xfce 桌面环境的一个图像查看器。"
 msgid "translator-credits"
 msgstr ""
 "WuLi <wurisky@gmail.com>, 2008.\n"
-"Hunt Xu <mhuntxu@gmail.com>, 2008, 2009."
+"Hunt Xu <mhuntxu@gmail.com>, 2008, 2009, 2010."
 
 #: ../src/main_window.c:1878
 msgid "Open image"
@@ -468,16 +469,15 @@ msgstr "风格:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "显示器:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "亮度:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "旋转(_R)"
+msgstr "饱和度:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
