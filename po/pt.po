@@ -5,16 +5,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: ristretto\n"
+"Project-Id-Version: ristretto 0.0.22\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-01-15 00:57+0100\n"
-"PO-Revision-Date: 2009-12-15 14:37+0100\n"
-"Last-Translator: Nuno Miguel <nunis@netcabo.pt>\n"
+"PO-Revision-Date: 2010-01-15 14:16-0000\n"
+"Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: PORTUGAL\n"
 
 #: ../src/main.c:59
 msgid "Version information"
@@ -35,8 +37,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Tente %s --help para ver uma lista completa de opções em linha de comandos "
-"disponíveis.\n"
+"Tente %s --help para ver uma lista completa de opções em linha de comandos disponíveis.\n"
 
 #. File Menu
 #: ../src/main_window.c:262
@@ -226,22 +227,22 @@ msgstr "Deixar _Ecrã inteiro"
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:320
 msgid "Show _File Toolbar"
-msgstr "Mostrar barra de _ficheiro"
+msgstr "Mostrar Barra de _Ficheiro"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:322
 msgid "Show _Navigation Toolbar"
-msgstr "Mostrar barra de _navegação"
+msgstr "Mostrar Barra de _Navegação"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:324
 msgid "Show _Thumbnailbar"
-msgstr "Mostrar _barra de miniaturas"
+msgstr "Mostrar _Barra de Miniaturas"
 
 #. Sort by Filename
 #: ../src/main_window.c:331
 msgid "sort by filename"
-msgstr "ordenar por nome de ficheiro"
+msgstr "ordenar por nome"
 
 #. Sort by Date
 #: ../src/main_window.c:333
@@ -264,11 +265,13 @@ msgstr "Superior"
 msgid "Bottom"
 msgstr "Inferior"
 
-#: ../src/main_window.c:512 ../src/main_window.c:778
+#: ../src/main_window.c:512
+#: ../src/main_window.c:778
 msgid "Press open to select an image"
-msgstr "Pressione abrir para seleccionar uma imagem"
+msgstr "Prima abrir para seleccionar uma imagem"
 
-#: ../src/main_window.c:765 ../src/main_window.c:770
+#: ../src/main_window.c:765
+#: ../src/main_window.c:770
 msgid "Empty"
 msgstr "Vazio"
 
@@ -296,8 +299,10 @@ msgstr "Imagens"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1917 ../src/main_window.c:1940
-#: ../src/main_window.c:2099 ../src/main_window.c:2114
+#: ../src/main_window.c:1917
+#: ../src/main_window.c:1940
+#: ../src/main_window.c:2099
+#: ../src/main_window.c:2114
 msgid "Could not open file"
 msgstr "Incapaz de abrir ficheiro"
 
@@ -312,7 +317,7 @@ msgstr "Gravar cópia"
 #: ../src/main_window.c:2210
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Tem a certeza que deseja apagar a imagem '%s' do disco?"
+msgstr "Tem a certeza que quer apagar do disco a imagem '%s'?"
 
 #: ../src/preferences_dialog.c:230
 msgid "Display"
@@ -324,7 +329,7 @@ msgstr "Cor de fundo"
 
 #: ../src/preferences_dialog.c:239
 msgid "Override background color:"
-msgstr "Substituir Cor de Fundo:"
+msgstr "Substituir cor de fundo:"
 
 #: ../src/preferences_dialog.c:267
 msgid "Quality"
@@ -356,7 +361,7 @@ msgstr "Baixo"
 
 #: ../src/preferences_dialog.c:324
 msgid "Slideshow"
-msgstr "Apresentação de Slides"
+msgstr "Apresentação"
 
 #: ../src/preferences_dialog.c:328
 msgid "Timeout"
@@ -367,8 +372,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"O período de tempo que uma imagem individual é exibida durante uma "
-"apresentação de slides\n"
+"O período de tempo que uma imagem individual é exibida durante uma apresentação\n"
 "(em segundos)"
 
 #: ../src/preferences_dialog.c:346
@@ -417,7 +421,7 @@ msgstr "Redimensionamento"
 
 #: ../src/preferences_dialog.c:422
 msgid "Don't scale over 100% when maximizing the window."
-msgstr "Não escalar acima de 100% quando maximizar a janela."
+msgstr "Não escalonar acima de 100% ao maximizar a janela."
 
 #: ../src/preferences_dialog.c:426
 msgid "Startup"
@@ -425,11 +429,11 @@ msgstr "Início"
 
 #: ../src/preferences_dialog.c:428
 msgid "Resize window to image on startup"
-msgstr "Redimensionar janela à imagem no arranque"
+msgstr "Redimensionar janela à imagem ao iniciar"
 
 #: ../src/preferences_dialog.c:432
 msgid "Open entire folder on startup"
-msgstr "Abrir janela inteira no arranque"
+msgstr "Abrir janela inteira ao iniciar"
 
 #: ../src/preferences_dialog.c:437
 msgid "Wrap around images"
@@ -473,16 +477,15 @@ msgstr "Estilo:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Monitor:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Brilho:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "_Rotação"
+msgstr "Saturação:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
@@ -490,7 +493,7 @@ msgstr "Auto"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr "Centralizado"
+msgstr "Centrado"
 
 #: ../src/xfce_wallpaper_manager.c:125
 msgid "Tiled"
@@ -502,7 +505,7 @@ msgstr "Esticado"
 
 #: ../src/xfce_wallpaper_manager.c:127
 msgid "Scaled"
-msgstr "Escalado"
+msgstr "Escalonado"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
@@ -543,3 +546,4 @@ msgstr "Veja as suas fotos facilmente"
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
 msgstr "Visualizador de Fotos Ristretto"
+
