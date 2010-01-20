@@ -1,12 +1,12 @@
 # Galician translation of ristretto
 # Copyright (C) 2009 Leandro Regueiro.
 # This file is distributed under the same license as the Xfce package.
-#
+# 
 # Leandro Regueiro <leandro DOT regueiro AT gmail DOT com>, 2008, 2009.
-#
+# 
 # Proxecto Trasno - Adaptación do software libre á lingua galega:  Se desexas
 # colaborar connosco, podes atopar máis información en <http://trasno.net>
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -39,8 +39,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Execute %s --help para ver unha lista completa das opcións de liña de "
-"comandos dispoñibles.\n"
+"Execute %s --help para ver unha lista completa das opcións de liña de comandos dispoñibles.\n"
 
 #. File Menu
 #: ../src/main_window.c:262
@@ -481,16 +480,15 @@ msgstr "Estilo:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Monitor:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Brillo:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "_Rotación"
+msgstr "Saturación:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
@@ -575,8 +573,7 @@ msgstr "Visor de fotos Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "_Agochar"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Modificáronse unha ou máis imaxes, desexa gardar os cambios?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
