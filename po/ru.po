@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-01-15 00:57+0100\n"
-"PO-Revision-Date: 2008-03-22 12:30+03\n"
-"Last-Translator: Stefan Zerkalica <zerkalica@gmail.com>\n"
+"PO-Revision-Date: 2010-01-26 20:31+0300\n"
+"Last-Translator: dima <info@cnc-parts.info>\n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,12 +20,11 @@ msgstr "Информация о версии"
 
 #: ../src/main.c:63
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "Запустить в полноэкранном режиме"
 
 #: ../src/main.c:67
-#, fuzzy
 msgid "Start a slideshow"
-msgstr "Слайдшоу"
+msgstr "Начать слайдшоу"
 
 #: ../src/main.c:91
 #, c-format
@@ -34,8 +33,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Попробуйте %s --help для просмотра полного списка параметров командной "
-"строки.\n"
+"Попробуйте %s --help для просмотра полного списка параметров командной строки.\n"
 
 #. File Menu
 #: ../src/main_window.c:262
@@ -44,17 +42,15 @@ msgstr "_Файл"
 
 #: ../src/main_window.c:263
 msgid "_Open"
-msgstr ""
+msgstr "_Открыть"
 
 #: ../src/main_window.c:263
-#, fuzzy
 msgid "Open an image"
-msgstr "Открыть картинку"
+msgstr "Открыть изображение"
 
 #: ../src/main_window.c:264
-#, fuzzy
 msgid "Open _Folder"
-msgstr "_Открыть папку"
+msgstr "Открыть _папку"
 
 #: ../src/main_window.c:264
 #, fuzzy
@@ -63,15 +59,15 @@ msgstr "Открыть папку"
 
 #: ../src/main_window.c:265
 msgid "_Save copy"
-msgstr ""
+msgstr "_Сохранить как"
 
 #: ../src/main_window.c:265
 msgid "Save a copy of the image"
-msgstr ""
+msgstr "Сохранить копию изображения"
 
 #: ../src/main_window.c:266
 msgid "_Print"
-msgstr ""
+msgstr "_Печать"
 
 #: ../src/main_window.c:266
 #, fuzzy
@@ -80,15 +76,15 @@ msgstr "Предзагру_зка изображений"
 
 #: ../src/main_window.c:267
 msgid "_Close"
-msgstr ""
+msgstr "_Закрыть"
 
 #: ../src/main_window.c:267
 msgid "Close this image"
-msgstr ""
+msgstr "Закрыть это изображение"
 
 #: ../src/main_window.c:268
 msgid "_Close All"
-msgstr ""
+msgstr "_Закрыть все"
 
 #: ../src/main_window.c:268
 #, fuzzy
@@ -102,7 +98,7 @@ msgstr "_Редактировать"
 
 #: ../src/main_window.c:269
 msgid "Quit Ristretto"
-msgstr ""
+msgstr "Выйти из программы"
 
 #. Edit Menu
 #: ../src/main_window.c:271
@@ -121,7 +117,7 @@ msgstr "_Масштаб"
 
 #: ../src/main_window.c:274
 msgid "_Delete"
-msgstr ""
+msgstr "_Удалить"
 
 #: ../src/main_window.c:275
 #, fuzzy
@@ -135,15 +131,15 @@ msgstr "_Просмотр"
 
 #: ../src/main_window.c:278
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_Полноэкранный режим"
 
 #: ../src/main_window.c:279
 msgid "_Leave Fullscreen"
-msgstr ""
+msgstr "_Выйти из полноэкранного режима"
 
 #: ../src/main_window.c:280
 msgid "_Set as Wallpaper"
-msgstr ""
+msgstr "_Установить как обои"
 
 #. Zoom submenu
 #: ../src/main_window.c:282
@@ -157,15 +153,15 @@ msgstr "_Масштаб"
 
 #: ../src/main_window.c:284
 msgid "Zoom _Out"
-msgstr ""
+msgstr "_Удалить"
 
 #: ../src/main_window.c:285
 msgid "Zoom _Fit"
-msgstr ""
+msgstr "_Приблизить"
 
 #: ../src/main_window.c:286
 msgid "_Normal Size"
-msgstr ""
+msgstr "_Нормальный размер"
 
 #. Rotation submenu
 #: ../src/main_window.c:288
@@ -188,19 +184,19 @@ msgstr "П_ереход"
 
 #: ../src/main_window.c:293
 msgid "_Forward"
-msgstr ""
+msgstr "_Вперед"
 
 #: ../src/main_window.c:294
 msgid "_Back"
-msgstr ""
+msgstr "_Назад"
 
 #: ../src/main_window.c:295
 msgid "_First"
-msgstr ""
+msgstr "_Первый"
 
 #: ../src/main_window.c:296
 msgid "_Last"
-msgstr ""
+msgstr "_Последний"
 
 #. Help Menu
 #: ../src/main_window.c:298
@@ -209,29 +205,29 @@ msgstr "Помо_щь"
 
 #: ../src/main_window.c:300
 msgid "_Contents"
-msgstr ""
+msgstr "_Комментарии"
 
 #: ../src/main_window.c:302
 msgid "Display ristretto user manual"
-msgstr ""
+msgstr "Показать руководство пользователя"
 
 #: ../src/main_window.c:305
 msgid "_About"
-msgstr ""
+msgstr "_О программе"
 
 #: ../src/main_window.c:307
 msgid "Display information about ristretto"
-msgstr ""
+msgstr "Показать информацию о программе"
 
 #. Position Menu
 #: ../src/main_window.c:310
 msgid "_Position"
-msgstr ""
+msgstr "_Позиция"
 
 #. Misc
 #: ../src/main_window.c:312
 msgid "Leave _Fullscreen"
-msgstr ""
+msgstr "Выйти из полноэкранного режима"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:320
@@ -254,36 +250,38 @@ msgstr "Показать п_анель"
 #. Sort by Filename
 #: ../src/main_window.c:331
 msgid "sort by filename"
-msgstr ""
+msgstr "сортировать по имени файла"
 
 #. Sort by Date
 #: ../src/main_window.c:333
 msgid "sort by date"
-msgstr ""
+msgstr "сортировать по дате"
 
 #: ../src/main_window.c:339
 msgid "Left"
-msgstr ""
+msgstr "Налево"
 
 #: ../src/main_window.c:340
 msgid "Right"
-msgstr ""
+msgstr "Направо"
 
 #: ../src/main_window.c:341
 msgid "Top"
-msgstr ""
+msgstr "Вверх"
 
 #: ../src/main_window.c:342
 msgid "Bottom"
-msgstr ""
+msgstr "Вниз"
 
-#: ../src/main_window.c:512 ../src/main_window.c:778
+#: ../src/main_window.c:512
+#: ../src/main_window.c:778
 msgid "Press open to select an image"
-msgstr ""
+msgstr "Нажмите открыть для выбора изображения"
 
-#: ../src/main_window.c:765 ../src/main_window.c:770
+#: ../src/main_window.c:765
+#: ../src/main_window.c:770
 msgid "Empty"
-msgstr ""
+msgstr "Пусто"
 
 #: ../src/main_window.c:1545
 msgid "Developer:"
@@ -292,9 +290,7 @@ msgstr "Разработчик:"
 #: ../src/main_window.c:1555
 #, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto - быстрый и легковесный просмотрщик картинок для рабочего "
-"окружения Xfce"
+msgstr "Ristretto - быстрый и легковесный просмотрщик картинок для рабочего окружения Xfce"
 
 #: ../src/main_window.c:1563
 msgid "translator-credits"
@@ -306,14 +302,16 @@ msgstr "Открыть картинку"
 
 #: ../src/main_window.c:1890
 msgid "Images"
-msgstr ""
+msgstr "Изображения"
 
 #: ../src/main_window.c:1895
 msgid ".jp(e)g"
-msgstr ""
+msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1917 ../src/main_window.c:1940
-#: ../src/main_window.c:2099 ../src/main_window.c:2114
+#: ../src/main_window.c:1917
+#: ../src/main_window.c:1940
+#: ../src/main_window.c:2099
+#: ../src/main_window.c:2114
 msgid "Could not open file"
 msgstr "Невозможно открыть файл"
 
@@ -323,7 +321,7 @@ msgstr "Открыть папку"
 
 #: ../src/main_window.c:2137
 msgid "Save copy"
-msgstr ""
+msgstr "Сохранить копию"
 
 #: ../src/main_window.c:2210
 #, fuzzy, c-format
@@ -346,31 +344,31 @@ msgstr "_Переопределить цвет фона:"
 
 #: ../src/preferences_dialog.c:267
 msgid "Quality"
-msgstr ""
+msgstr "Качество"
 
 #: ../src/preferences_dialog.c:271
 msgid "Maximum render quality:"
-msgstr ""
+msgstr "Максимальное качество"
 
 #: ../src/preferences_dialog.c:274
 msgid "Show preview when loading image"
-msgstr ""
+msgstr "Показывать превью при загрузке изображения"
 
 #: ../src/preferences_dialog.c:281
 msgid "Best"
-msgstr ""
+msgstr "Лучшее"
 
 #: ../src/preferences_dialog.c:282
 msgid "High"
-msgstr ""
+msgstr "Высокое"
 
 #: ../src/preferences_dialog.c:283
 msgid "Medium"
-msgstr ""
+msgstr "Среднее"
 
 #: ../src/preferences_dialog.c:284
 msgid "Low"
-msgstr ""
+msgstr "Низкое"
 
 #: ../src/preferences_dialog.c:324
 msgid "Slideshow"
@@ -385,8 +383,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"Период времени, в течение которого будет показано изображение в режиме "
-"слайдшоу\n"
+"Период времени, в течение которого будет показано изображение в режиме слайдшоу\n"
 "(в секундах)"
 
 #: ../src/preferences_dialog.c:346
@@ -399,30 +396,32 @@ msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
+"Окно предпросмотра будет спрятано\n"
+"когда просмотр в полноэкранном режиме"
 
 #: ../src/preferences_dialog.c:351
 msgid "Hide thumbnailbar when fullscreen"
-msgstr ""
+msgstr "Спрятать окно предпросмотра при полноэкранном режиме"
 
 #: ../src/preferences_dialog.c:364
 msgid "Control"
-msgstr ""
+msgstr "Управление"
 
 #: ../src/preferences_dialog.c:368
 msgid "Scrollwheel"
-msgstr ""
+msgstr "Колесо мыши"
 
 #: ../src/preferences_dialog.c:371
 msgid "No action"
-msgstr ""
+msgstr "Нет действия"
 
 #: ../src/preferences_dialog.c:375
 msgid "Zoom in and out"
-msgstr ""
+msgstr "Приблизить и удалить"
 
 #: ../src/preferences_dialog.c:378
 msgid "Switch images"
-msgstr ""
+msgstr "Переключить изображение"
 
 #: ../src/preferences_dialog.c:412
 msgid "Behaviour"
@@ -438,15 +437,15 @@ msgstr "Не масштабировать более 100%, когда окно �
 
 #: ../src/preferences_dialog.c:426
 msgid "Startup"
-msgstr ""
+msgstr "Запуск"
 
 #: ../src/preferences_dialog.c:428
 msgid "Resize window to image on startup"
-msgstr ""
+msgstr "Изменить размер окна изображения при загрузке"
 
 #: ../src/preferences_dialog.c:432
 msgid "Open entire folder on startup"
-msgstr ""
+msgstr "Показать папку при загрузке"
 
 #: ../src/preferences_dialog.c:437
 #, fuzzy
@@ -455,7 +454,7 @@ msgstr "Открыть картинку"
 
 #: ../src/preferences_dialog.c:453
 msgid "Memory"
-msgstr ""
+msgstr "Память"
 
 #: ../src/preferences_dialog.c:459
 #, fuzzy
@@ -488,19 +487,19 @@ msgstr "Настройки просмотрщика картинок"
 
 #: ../src/xfce_wallpaper_manager.c:84
 msgid "Set as wallpaper"
-msgstr ""
+msgstr "Установить как обои"
 
 #: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
-msgstr ""
+msgstr "Стиль:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Монитор:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Яркость:"
 
 #: ../src/xfce_wallpaper_manager.c:91
 #, fuzzy
@@ -509,11 +508,11 @@ msgstr "_Повернуть"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
-msgstr ""
+msgstr "Автоматически"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr ""
+msgstr "Центровать"
 
 #: ../src/xfce_wallpaper_manager.c:125
 #, fuzzy
@@ -522,7 +521,7 @@ msgstr "_Файл"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr ""
+msgstr "Замостить"
 
 #: ../src/xfce_wallpaper_manager.c:127
 #, fuzzy
@@ -531,7 +530,7 @@ msgstr "Масштаб"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
-msgstr ""
+msgstr "Растянуть"
 
 #: ../src/thumbnail_bar.c:187
 msgid "Spacing"
@@ -553,10 +552,9 @@ msgstr "Ширина рамки панели эскизов"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
-msgstr ""
+msgstr "Ширина окна предпросмотра"
 
 #: ../src/thumbnail_bar.c:202
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
 msgstr "Ширина рамки панели эскизов"
 
@@ -566,47 +564,37 @@ msgstr "Просмотр изображений"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
-msgstr ""
+msgstr "Просмотр фотографий - это просто"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Photo Viewer"
-msgstr "Ristretto Просмотр изображений"
+msgstr "Ristretto - Просмотр изображений"
 
 #, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Просмотр _эскизов"
-
 #~ msgid "Opening file(s)..."
 #~ msgstr "Открывается файл(ы)..."
-
 #~ msgid "_Recently used"
 #~ msgstr "_Недавно просмотренные"
-
 #~ msgid "No applications available"
 #~ msgstr "Нет доступных приложений"
-
 #~ msgid "Thumbnail _Viewer"
 #~ msgstr "Просмотр _эскизов"
-
 #~ msgid "Show _Horizontally"
 #~ msgstr "Показать _горизонтально"
-
 #~ msgid "Show _Vertically"
 #~ msgstr "Показать _вертикально"
-
 #~ msgid "H_ide"
 #~ msgstr "_Скрыть"
-
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Xfce Просмотр изображений"
-
 #~ msgid "Preload"
 #~ msgstr "Предзагрузка"
-
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Предзагружать изображения во время слайдшоу\n"
 #~ "(требует больше памяти)"
+
