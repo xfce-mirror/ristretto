@@ -1,7 +1,7 @@
 # Russian translations for ristretto package.
 # This file is distributed under the same license as the ristretto package.
 # Stefan Zerkalica <zerkalica@gmail.com>, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -261,13 +261,11 @@ msgstr "Вверх"
 msgid "Bottom"
 msgstr "Вниз"
 
-#: ../src/main_window.c:512
-#: ../src/main_window.c:778
+#: ../src/main_window.c:512 ../src/main_window.c:778
 msgid "Press open to select an image"
 msgstr "Нажмите открыть для выбора изображения"
 
-#: ../src/main_window.c:765
-#: ../src/main_window.c:770
+#: ../src/main_window.c:765 ../src/main_window.c:770
 msgid "Empty"
 msgstr "Пусто"
 
@@ -295,10 +293,8 @@ msgstr "Изображения"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1917
-#: ../src/main_window.c:1940
-#: ../src/main_window.c:2099
-#: ../src/main_window.c:2114
+#: ../src/main_window.c:1917 ../src/main_window.c:1940
+#: ../src/main_window.c:2099 ../src/main_window.c:2114
 msgid "Could not open file"
 msgstr "Невозможно открыть файл"
 
@@ -432,16 +428,14 @@ msgid "Open entire folder on startup"
 msgstr "Показать папку при загрузке"
 
 #: ../src/preferences_dialog.c:437
-#, fuzzy
 msgid "Wrap around images"
-msgstr "Открыть картинку"
+msgstr "Обернуть вокруг изображения"
 
 #: ../src/preferences_dialog.c:453
 msgid "Memory"
 msgstr "Память"
 
 #: ../src/preferences_dialog.c:459
-#, fuzzy
 msgid "Image cache"
 msgstr "Кэш изображений"
 
@@ -546,31 +540,39 @@ msgstr "Просмотр фотографий - это просто"
 msgid "Ristretto Photo Viewer"
 msgstr "Ristretto - Просмотр изображений"
 
-#, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Просмотр _эскизов"
+
 #~ msgid "Opening file(s)..."
 #~ msgstr "Открывается файл(ы)..."
+
 #~ msgid "_Recently used"
 #~ msgstr "_Недавно просмотренные"
+
 #~ msgid "No applications available"
 #~ msgstr "Нет доступных приложений"
+
 #~ msgid "Thumbnail _Viewer"
 #~ msgstr "Просмотр _эскизов"
+
 #~ msgid "Show _Horizontally"
 #~ msgstr "Показать _горизонтально"
+
 #~ msgid "Show _Vertically"
 #~ msgstr "Показать _вертикально"
+
 #~ msgid "H_ide"
 #~ msgstr "_Скрыть"
+
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Xfce Просмотр изображений"
+
 #~ msgid "Preload"
 #~ msgstr "Предзагрузка"
+
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Предзагружать изображения во время слайдшоу\n"
 #~ "(требует больше памяти)"
-
