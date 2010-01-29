@@ -428,6 +428,7 @@ msgid "Open entire folder on startup"
 msgstr "Показать папку при загрузке"
 
 #: ../src/preferences_dialog.c:437
+#, fuzzy
 msgid "Wrap around images"
 msgstr "Обернуть вокруг изображения"
 
@@ -477,7 +478,7 @@ msgstr "Яркость:"
 
 #: ../src/xfce_wallpaper_manager.c:91
 msgid "Saturation:"
-msgstr "Яркость"
+msgstr "Контраст:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
@@ -489,20 +490,19 @@ msgstr "Центровать"
 
 #: ../src/xfce_wallpaper_manager.c:125
 msgid "Tiled"
-msgstr "Сжато"
+msgstr "Сжать"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
 msgstr "Замостить"
 
 #: ../src/xfce_wallpaper_manager.c:127
-#, fuzzy
 msgid "Scaled"
-msgstr "Масштаб"
+msgstr "Расятнуть"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
-msgstr "Растянуть"
+msgstr "Приближенно"
 
 #: ../src/thumbnail_bar.c:187
 msgid "Spacing"
