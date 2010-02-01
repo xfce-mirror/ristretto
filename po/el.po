@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-01-15 00:57+0100\n"
-"PO-Revision-Date: 2009-12-31 21:35+0200\n"
+"PO-Revision-Date: 2010-02-01 08:35+0200\n"
 "Last-Translator: Evaggelos Balaskas <ebalaskas@ebalaskas.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
 "MIME-Version: 1.0\n"
@@ -38,8 +38,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Δοκίμασε %s --help για να δεις μία πλήρη λίστα με τις διαθέσιμες παραμέτρους "
-"στην γραμμή εντολών.\n"
+"Δοκίμασε %s --help για να δεις μία πλήρη λίστα με τις διαθέσιμες παραμέτρους στην γραμμή εντολών.\n"
 
 #. File Menu
 #: ../src/main_window.c:262
@@ -267,11 +266,13 @@ msgstr "Πάνω"
 msgid "Bottom"
 msgstr "Κάτω"
 
-#: ../src/main_window.c:512 ../src/main_window.c:778
+#: ../src/main_window.c:512
+#: ../src/main_window.c:778
 msgid "Press open to select an image"
 msgstr "Πατήστε άνοιγμα για να επιλέξετε μία εικόνα"
 
-#: ../src/main_window.c:765 ../src/main_window.c:770
+#: ../src/main_window.c:765
+#: ../src/main_window.c:770
 msgid "Empty"
 msgstr "Κενή"
 
@@ -281,8 +282,7 @@ msgstr "Δημιουργός:"
 
 #: ../src/main_window.c:1555
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Το ristretto είναι ένα εμφάνισης εικόνων για το γραφικό περιβάλλον xfce."
+msgstr "Το ristretto είναι ένα εμφάνισης εικόνων για το γραφικό περιβάλλον xfce."
 
 #: ../src/main_window.c:1563
 msgid "translator-credits"
@@ -300,8 +300,10 @@ msgstr "Εικόνες"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1917 ../src/main_window.c:1940
-#: ../src/main_window.c:2099 ../src/main_window.c:2114
+#: ../src/main_window.c:1917
+#: ../src/main_window.c:1940
+#: ../src/main_window.c:2099
+#: ../src/main_window.c:2114
 msgid "Could not open file"
 msgstr "Αποτυχία ανοίγματος εικόνας"
 
@@ -371,8 +373,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"Η χρονική περίοδος εμφάνισης μία ανεξάρτητης εικόνας ανάμεσα στις "
-"διαφάνειες\n"
+"Η χρονική περίοδος εμφάνισης μία ανεξάρτητης εικόνας ανάμεσα στις διαφάνειες\n"
 "(σε δευτερόλεπτα)"
 
 #: ../src/preferences_dialog.c:346
@@ -429,8 +430,7 @@ msgstr "Εκκίνηση"
 
 #: ../src/preferences_dialog.c:428
 msgid "Resize window to image on startup"
-msgstr ""
-"Να αλλάζει το μέγεθος του παραθύρου στο μέγεθος της εικόνας κατά την εκκίνηση"
+msgstr "Να αλλάζει το μέγεθος του παραθύρου στο μέγεθος της εικόνας κατά την εκκίνηση"
 
 #: ../src/preferences_dialog.c:432
 msgid "Open entire folder on startup"
@@ -478,16 +478,15 @@ msgstr "Στυλ:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Οθόνη:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Φωτεινότητα:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "_Περιστροφή"
+msgstr "Περιστροφή:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
@@ -548,3 +547,4 @@ msgstr "Δείτε τις εικόνες σας εύκολα"
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
 msgstr "Προβολέας εικόνων ristretto"
+
