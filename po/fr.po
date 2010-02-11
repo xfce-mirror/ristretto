@@ -2,14 +2,14 @@
 # Copyright (C) 2008 Stephan Arts
 # This file is distributed under the same license as the PACKAGE package.
 # Mike Massonnet <mmassonnet@xfce.org>, 2007, 2008.
-# Patrick Douart <patrick.2@laposte.net>, 2009.
+# Patrick Douart <patrick.2@laposte.net>, 2009, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-01-15 00:57+0100\n"
-"PO-Revision-Date: 2009-11-15 17:26+0100\n"
+"PO-Revision-Date: 2010-02-11 15:32+0100\n"
 "Last-Translator: Douart Patrick <patrick.2@laposte.net>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -36,8 +36,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Essayez %s --help pour voir une liste complète des options en ligne de "
-"commande.\n"
+"Essayez %s --help pour voir une liste complète des options en ligne de commande.\n"
 
 #. File Menu
 #: ../src/main_window.c:262
@@ -265,11 +264,13 @@ msgstr "Haut"
 msgid "Bottom"
 msgstr "Bas"
 
-#: ../src/main_window.c:512 ../src/main_window.c:778
+#: ../src/main_window.c:512
+#: ../src/main_window.c:778
 msgid "Press open to select an image"
 msgstr "Cliquez sur ouvrir pour sélectionner une image"
 
-#: ../src/main_window.c:765 ../src/main_window.c:770
+#: ../src/main_window.c:765
+#: ../src/main_window.c:770
 msgid "Empty"
 msgstr "Vide"
 
@@ -279,9 +280,7 @@ msgstr "Développeur :"
 
 #: ../src/main_window.c:1555
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto est une visionneuse d’images légère et rapide pour l’environnement "
-"de bureau Xfce."
+msgstr "Ristretto est une visionneuse d’images légère et rapide pour l’environnement de bureau Xfce."
 
 #: ../src/main_window.c:1563
 msgid "translator-credits"
@@ -301,8 +300,10 @@ msgstr "Images"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1917 ../src/main_window.c:1940
-#: ../src/main_window.c:2099 ../src/main_window.c:2114
+#: ../src/main_window.c:1917
+#: ../src/main_window.c:1940
+#: ../src/main_window.c:2099
+#: ../src/main_window.c:2114
 msgid "Could not open file"
 msgstr "Impossible d’ouvrir le fichier"
 
@@ -328,7 +329,6 @@ msgid "Background color"
 msgstr "Couleur d'arrière plan"
 
 #: ../src/preferences_dialog.c:239
-#, fuzzy
 msgid "Override background color:"
 msgstr "_Passer outre la couleur d’arrière plan :"
 
@@ -480,21 +480,19 @@ msgstr "Style:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Moniteur:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Luminosité:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "_Rotation"
+msgstr "Saturation:"
 
 #: ../src/xfce_wallpaper_manager.c:123
-#, fuzzy
 msgid "Auto"
-msgstr "_À propos"
+msgstr "Auto"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
