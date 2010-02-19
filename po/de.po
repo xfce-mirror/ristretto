@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-01-15 00:57+0100\n"
-"PO-Revision-Date: 2008-10-18 16:33:00+0200\n"
+"PO-Revision-Date: 2010-02-18 15:50+0100\n"
 "Last-Translator: Fabian Nowak <timystery@arcor.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr "einen _Ordner öffnen"
 
 #: ../src/main_window.c:265
 msgid "_Save copy"
-msgstr ""
+msgstr "Kopie Speichern"
 
 #: ../src/main_window.c:265
 msgid "Save a copy of the image"
@@ -152,8 +152,9 @@ msgid "Zoom _Out"
 msgstr "verkleinern"
 
 #: ../src/main_window.c:285
+#, fuzzy
 msgid "Zoom _Fit"
-msgstr ""
+msgstr "Passende Größe"
 
 #: ../src/main_window.c:286
 msgid "_Normal Size"
@@ -201,11 +202,11 @@ msgstr "_Hilfe"
 
 #: ../src/main_window.c:300
 msgid "_Contents"
-msgstr ""
+msgstr "Inhalt"
 
 #: ../src/main_window.c:302
 msgid "Display ristretto user manual"
-msgstr ""
+msgstr "Ristretto Nutzerhandbuch anzeigen"
 
 #: ../src/main_window.c:305
 msgid "_About"
@@ -217,8 +218,9 @@ msgstr "Informationen über ristretto anzeigen"
 
 #. Position Menu
 #: ../src/main_window.c:310
+#, fuzzy
 msgid "_Position"
-msgstr ""
+msgstr "Position"
 
 #. Misc
 #: ../src/main_window.c:312
@@ -255,27 +257,28 @@ msgstr "Nach Datum sortieren"
 
 #: ../src/main_window.c:339
 msgid "Left"
-msgstr ""
+msgstr "Links"
 
 #: ../src/main_window.c:340
 msgid "Right"
-msgstr ""
+msgstr "Rechts"
 
 #: ../src/main_window.c:341
 msgid "Top"
-msgstr ""
+msgstr "Oben"
 
 #: ../src/main_window.c:342
 msgid "Bottom"
-msgstr ""
+msgstr "Unten"
 
 #: ../src/main_window.c:512 ../src/main_window.c:778
+#, fuzzy
 msgid "Press open to select an image"
-msgstr ""
+msgstr "Zum Bild Auswählen »Öffnen« drücken"
 
 #: ../src/main_window.c:765 ../src/main_window.c:770
 msgid "Empty"
-msgstr ""
+msgstr "Leer"
 
 #: ../src/main_window.c:1545
 msgid "Developer:"
@@ -297,8 +300,9 @@ msgid "Open image"
 msgstr "Bild öffnen"
 
 #: ../src/main_window.c:1890
+#, fuzzy
 msgid "Images"
-msgstr ""
+msgstr "Bilder"
 
 #: ../src/main_window.c:1895
 msgid ".jp(e)g"
@@ -350,20 +354,21 @@ msgid "Show preview when loading image"
 msgstr "Vorschau während des Ladens anzeigen"
 
 #: ../src/preferences_dialog.c:281
+#, fuzzy
 msgid "Best"
-msgstr ""
+msgstr "Am Besten"
 
 #: ../src/preferences_dialog.c:282
 msgid "High"
-msgstr ""
+msgstr "Hoch"
 
 #: ../src/preferences_dialog.c:283
 msgid "Medium"
-msgstr ""
+msgstr "Mittel"
 
 #: ../src/preferences_dialog.c:284
 msgid "Low"
-msgstr ""
+msgstr "Niedrig"
 
 #: ../src/preferences_dialog.c:324
 msgid "Slideshow"
@@ -387,10 +392,13 @@ msgid "Thumbnails"
 msgstr "Miniaturbilder"
 
 #: ../src/preferences_dialog.c:349
+#, fuzzy
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
+"Die Miniaturbildleiste kann automatisch im \\n\n"
+"Vollbildmodus automatisch versteckt werden."
 
 #: ../src/preferences_dialog.c:351
 #, fuzzy
@@ -402,20 +410,24 @@ msgid "Control"
 msgstr ""
 
 #: ../src/preferences_dialog.c:368
+#, fuzzy
 msgid "Scrollwheel"
-msgstr ""
+msgstr "Scrollrad"
 
 #: ../src/preferences_dialog.c:371
+#, fuzzy
 msgid "No action"
-msgstr ""
+msgstr "keine Aktion"
 
 #: ../src/preferences_dialog.c:375
+#, fuzzy
 msgid "Zoom in and out"
-msgstr ""
+msgstr "Größe ändern"
 
 #: ../src/preferences_dialog.c:378
+#, fuzzy
 msgid "Switch images"
-msgstr ""
+msgstr "Bilder wechseln"
 
 #: ../src/preferences_dialog.c:412
 msgid "Behaviour"
@@ -431,15 +443,15 @@ msgstr "Beim Maximieren des Fensters nicht über 100% vergrößern."
 
 #: ../src/preferences_dialog.c:426
 msgid "Startup"
-msgstr ""
+msgstr "Programmstart"
 
 #: ../src/preferences_dialog.c:428
 msgid "Resize window to image on startup"
-msgstr ""
+msgstr "Fenster beim Start ans Bild anpassen"
 
 #: ../src/preferences_dialog.c:432
 msgid "Open entire folder on startup"
-msgstr ""
+msgstr "Ganzen Ordner beim Start öffnen"
 
 #: ../src/preferences_dialog.c:437
 #, fuzzy
@@ -448,7 +460,7 @@ msgstr "Bild öffnen"
 
 #: ../src/preferences_dialog.c:453
 msgid "Memory"
-msgstr ""
+msgstr "Speicher"
 
 #: ../src/preferences_dialog.c:459
 #, fuzzy
@@ -485,8 +497,9 @@ msgid "Set as wallpaper"
 msgstr "Al_s Hintergrundbild einstellen"
 
 #: ../src/xfce_wallpaper_manager.c:86
+#, fuzzy
 msgid "Style:"
-msgstr ""
+msgstr "Stil:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
