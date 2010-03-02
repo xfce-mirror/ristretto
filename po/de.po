@@ -218,9 +218,8 @@ msgstr "Informationen über ristretto anzeigen"
 
 #. Position Menu
 #: ../src/main_window.c:310
-#, fuzzy
 msgid "_Position"
-msgstr "Position"
+msgstr "_Position"
 
 #. Misc
 #: ../src/main_window.c:312
@@ -237,7 +236,7 @@ msgstr "_Werkzeugleiste anzeigen"
 #: ../src/main_window.c:322
 #, fuzzy
 msgid "Show _Navigation Toolbar"
-msgstr "_Werkzeugleiste anzeigen"
+msgstr "_Navigationsleiste anzeigen"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:324
@@ -285,9 +284,8 @@ msgid "Developer:"
 msgstr "Entwickler:"
 
 #: ../src/main_window.c:1555
-#, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr "Ristretto ist ein schneller und schlanker Bildbetrachter für die Arbeitsumgebung Xfce."
+msgstr "Ristretto ist ein Bildbetrachter für die Arbeitsumgebung Xfce."
 
 #: ../src/main_window.c:1563
 msgid "translator-credits"
@@ -300,7 +298,6 @@ msgid "Open image"
 msgstr "Bild öffnen"
 
 #: ../src/main_window.c:1890
-#, fuzzy
 msgid "Images"
 msgstr "Bilder"
 
@@ -340,7 +337,6 @@ msgid "Override background color:"
 msgstr "_Hintergrundfarbe überschreiben"
 
 #: ../src/preferences_dialog.c:267
-#, fuzzy
 msgid "Quality"
 msgstr "Qualität"
 
@@ -396,9 +392,7 @@ msgstr "Miniaturbilder"
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
-msgstr ""
-"Die Miniaturbildleiste kann automatisch im \\n\n"
-"Vollbildmodus automatisch versteckt werden."
+msgstr "Die Miniaturbildleiste kann automatisch im \\n\\nVollbildmodus automatisch versteckt werden."
 
 #: ../src/preferences_dialog.c:351
 #, fuzzy
@@ -410,9 +404,8 @@ msgid "Control"
 msgstr ""
 
 #: ../src/preferences_dialog.c:368
-#, fuzzy
 msgid "Scrollwheel"
-msgstr "Scrollrad"
+msgstr "Mausrad"
 
 #: ../src/preferences_dialog.c:371
 #, fuzzy
@@ -522,18 +515,16 @@ msgid "Centered"
 msgstr "Zentriert"
 
 #: ../src/xfce_wallpaper_manager.c:125
-#, fuzzy
 msgid "Tiled"
-msgstr "_Datei"
+msgstr "Gekachelt"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
 msgstr "Gestreckt"
 
 #: ../src/xfce_wallpaper_manager.c:127
-#, fuzzy
 msgid "Scaled"
-msgstr "Skalierung"
+msgstr "Skaliert"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
@@ -548,14 +539,12 @@ msgid "The amount of space between the thumbnails"
 msgstr "Die Größe des  Abstands zwischen den Vorschaubildern"
 
 #: ../src/thumbnail_bar.c:194
-#, fuzzy
 msgid "border width"
 msgstr "Randbreite"
 
 #: ../src/thumbnail_bar.c:195
-#, fuzzy
 msgid "the border width of the thumbnail-bar"
-msgstr "Die Randbreite der Vorschaubildleiste"
+msgstr "Randbreite der Vorschaubildleiste"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
