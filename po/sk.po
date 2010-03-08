@@ -263,8 +263,9 @@ msgid "Bottom"
 msgstr "Spodok"
 
 #: ../src/main_window.c:512 ../src/main_window.c:778
+#, fuzzy
 msgid "Press open to select an image"
-msgstr ""
+msgstr "Stlačte tlačidlo Otvoriť a vyberte obrázok"
 
 #: ../src/main_window.c:765 ../src/main_window.c:770
 msgid "Empty"
@@ -464,40 +465,36 @@ msgid "Preferences"
 msgstr "Predvoľby"
 
 #: ../src/xfce_wallpaper_manager.c:84
-#, fuzzy
 msgid "Set as wallpaper"
-msgstr "Nastaviť ako _tapetu"
+msgstr "Nastaviť ako tapetu"
 
 #: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
-msgstr ""
+msgstr "Štýl:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Monitor:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Jas:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "_Otočenie"
+msgstr "Sýtosť:"
 
 #: ../src/xfce_wallpaper_manager.c:123
-#, fuzzy
 msgid "Auto"
-msgstr "_O programe"
+msgstr "Automaticky"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
 msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:125
-#, fuzzy
 msgid "Tiled"
-msgstr "_Súbor"
+msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
@@ -548,14 +545,12 @@ msgid "Look at your photo's easily"
 msgstr "Prezerajte Vaše fotografie jednoducho"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Photo Viewer"
-msgstr "Prehliadač fotiek"
+msgstr "Ristretto - prehliadač fotiek"
 
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
 
-#, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Náhľady"
 
