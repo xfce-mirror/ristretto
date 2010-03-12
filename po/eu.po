@@ -244,40 +244,39 @@ msgstr "Sailkatu fitxategi-izenez"
 #. Sort by Date
 #: ../src/main_window.c:333
 msgid "sort by date"
-msgstr ""
+msgstr "sailkatu dataz"
 
 #: ../src/main_window.c:339
 msgid "Left"
-msgstr ""
+msgstr "Ezkerrean"
 
 #: ../src/main_window.c:340
 msgid "Right"
-msgstr ""
+msgstr "Eskuinean"
 
 #: ../src/main_window.c:341
 msgid "Top"
-msgstr ""
+msgstr "Goian"
 
 #: ../src/main_window.c:342
 msgid "Bottom"
-msgstr ""
+msgstr "Behean"
 
 #: ../src/main_window.c:512 ../src/main_window.c:778
 msgid "Press open to select an image"
-msgstr ""
+msgstr "Bat sakatu irudi bat hautatzeko"
 
 #: ../src/main_window.c:765 ../src/main_window.c:770
 msgid "Empty"
-msgstr ""
+msgstr "Hutsik"
 
 #: ../src/main_window.c:1545
 msgid "Developer:"
 msgstr "Garatzailea:"
 
 #: ../src/main_window.c:1555
-#, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr "Ristretto Xfce idazmahai inguruneko irudi-ikustatzaile arin eta azkar bat da."
+msgstr "Ristretto Xfce idazmahai inguruneko irudi-ikustatzailea da."
 
 #: ../src/main_window.c:1563
 msgid "translator-credits"
@@ -289,11 +288,11 @@ msgstr "Ireki irudia"
 
 #: ../src/main_window.c:1890
 msgid "Images"
-msgstr ""
+msgstr "Irudiak"
 
 #: ../src/main_window.c:1895
 msgid ".jp(e)g"
-msgstr ""
+msgstr ".jp(e)g"
 
 #: ../src/main_window.c:1917 ../src/main_window.c:1940
 #: ../src/main_window.c:2099 ../src/main_window.c:2114
@@ -306,50 +305,48 @@ msgstr "Ireki karpeta"
 
 #: ../src/main_window.c:2137
 msgid "Save copy"
-msgstr ""
+msgstr "Gorde kopia"
 
 #: ../src/main_window.c:2210
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Ziur zaude ristretto-ren azken aldian irekitako dokumentuen zerrenda ezabatu nahi duzula?"
+msgstr "Ziur zaude '%s' irudia diskotik ezabatu nahi duzula?"
 
 #: ../src/preferences_dialog.c:230
 msgid "Display"
 msgstr "Bistaratu"
 
 #: ../src/preferences_dialog.c:235
-#, fuzzy
 msgid "Background color"
 msgstr "Atzeko planoaren kolorea"
 
 #: ../src/preferences_dialog.c:239
-#, fuzzy
 msgid "Override background color:"
-msgstr "_Gainidatzi atzeko planoa kolorea:"
+msgstr "Gainidatzi atzeko planoa kolorea:"
 
 #: ../src/preferences_dialog.c:267
 msgid "Quality"
-msgstr ""
+msgstr "Kalitatea"
 
 #: ../src/preferences_dialog.c:271
 msgid "Maximum render quality:"
-msgstr ""
+msgstr "Gehinezko errenderizazio kalitatea:"
 
 #: ../src/preferences_dialog.c:274
 msgid "Show preview when loading image"
-msgstr ""
+msgstr "Ikusi aurrebista irudi bat kargatzean"
 
 #: ../src/preferences_dialog.c:281
 msgid "Best"
-msgstr ""
+msgstr "Hoberena"
 
 #: ../src/preferences_dialog.c:282
 msgid "High"
-msgstr ""
+msgstr "Altua"
 
 #: ../src/preferences_dialog.c:283
 msgid "Medium"
-msgstr ""
+msgstr "Ertaina"
 
 #: ../src/preferences_dialog.c:284
 msgid "Low"
@@ -468,46 +465,43 @@ msgstr "E_zarri idazmahai-irudi gisa"
 
 #: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
-msgstr ""
+msgstr "Estiloa"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Monitorea:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Distira:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "Bi_ratu"
+msgstr "Saturazioa:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
-msgstr ""
+msgstr "Automatikoa"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr ""
+msgstr "Erdiratua"
 
 #: ../src/xfce_wallpaper_manager.c:125
-#, fuzzy
 msgid "Tiled"
-msgstr "_Fitxategia"
+msgstr "Mosaikoa"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr ""
+msgstr "Txikitua"
 
 #: ../src/xfce_wallpaper_manager.c:127
-#, fuzzy
 msgid "Scaled"
-msgstr "Eskalatzen"
+msgstr "Eskalatua"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
-msgstr ""
+msgstr "Gerturatua"
 
 #: ../src/thumbnail_bar.c:187
 msgid "Spacing"
@@ -518,23 +512,20 @@ msgid "The amount of space between the thumbnails"
 msgstr "Argazkitxo artean dagoen tartea"
 
 #: ../src/thumbnail_bar.c:194
-#, fuzzy
 msgid "border width"
 msgstr "Ertz zabalera"
 
 #: ../src/thumbnail_bar.c:195
-#, fuzzy
 msgid "the border width of the thumbnail-bar"
 msgstr "Argazkitxo-barraren ertzaren zabalera"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
-msgstr ""
+msgstr "bideo ertz zabalera"
 
 #: ../src/thumbnail_bar.c:202
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "Argazkitxo-barraren ertzaren zabalera"
+msgstr "Argazkitxo-barraren bideo-ertzaren zabalera"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -542,11 +533,11 @@ msgstr "Irudi ikustatzailea"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
-msgstr ""
+msgstr "Ikusi zure argazkiak erraz"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
-msgstr ""
+msgstr "Ristretto argazki ikustatzailea"
 
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
