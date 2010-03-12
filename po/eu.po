@@ -427,9 +427,8 @@ msgid "Open entire folder on startup"
 msgstr "Ireki karpeta osoa abiaraztean"
 
 #: ../src/preferences_dialog.c:437
-#, fuzzy
 msgid "Wrap around images"
-msgstr "Ireki irudia"
+msgstr "Bildu inguruko irudiak"
 
 #: ../src/preferences_dialog.c:453
 msgid "Memory"
