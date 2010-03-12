@@ -132,7 +132,6 @@ msgid "_Leave Fullscreen"
 msgstr "_Utzi pantaila-osoa"
 
 #: ../src/main_window.c:280
-#, fuzzy
 msgid "_Set as Wallpaper"
 msgstr "E_zarri idazmahai-irudi gisa"
 
@@ -142,25 +141,23 @@ msgid "_Zooming"
 msgstr "_Zooma gerturatzen"
 
 #: ../src/main_window.c:283
-#, fuzzy
 msgid "Zoom _In"
-msgstr "_Zooma gerturatzen"
+msgstr "Zooma _gerturatu"
 
 #: ../src/main_window.c:284
 msgid "Zoom _Out"
-msgstr ""
+msgstr "Zooma _urrutiratu"
 
 #: ../src/main_window.c:285
 msgid "Zoom _Fit"
-msgstr ""
+msgstr "Zooma _egokitu"
 
 #: ../src/main_window.c:286
 msgid "_Normal Size"
-msgstr ""
+msgstr "Tamaina normala"
 
 #. Rotation submenu
 #: ../src/main_window.c:288
-#, fuzzy
 msgid "_Rotation"
 msgstr "Bi_ratu"
 
@@ -179,19 +176,19 @@ msgstr "_Joan"
 
 #: ../src/main_window.c:293
 msgid "_Forward"
-msgstr ""
+msgstr "_Birbidali"
 
 #: ../src/main_window.c:294
 msgid "_Back"
-msgstr ""
+msgstr "_Atzera"
 
 #: ../src/main_window.c:295
 msgid "_First"
-msgstr ""
+msgstr "_Lehenengoa"
 
 #: ../src/main_window.c:296
 msgid "_Last"
-msgstr ""
+msgstr "A_zkena"
 
 #. Help Menu
 #: ../src/main_window.c:298
@@ -200,52 +197,49 @@ msgstr "_Laguntza"
 
 #: ../src/main_window.c:300
 msgid "_Contents"
-msgstr ""
+msgstr "_Edukiak"
 
 #: ../src/main_window.c:302
 msgid "Display ristretto user manual"
-msgstr ""
+msgstr "Bistarazi ristretto erabiltzaile manuala"
 
 #: ../src/main_window.c:305
 msgid "_About"
-msgstr ""
+msgstr "_Honi buruz"
 
 #: ../src/main_window.c:307
 msgid "Display information about ristretto"
-msgstr ""
+msgstr "Bistarazi ristretto buruzko argibideak"
 
 #. Position Menu
 #: ../src/main_window.c:310
 msgid "_Position"
-msgstr ""
+msgstr "_Kokalekua"
 
 #. Misc
 #: ../src/main_window.c:312
 msgid "Leave _Fullscreen"
-msgstr ""
+msgstr "Utzi _pantaila-osoa"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:320
-#, fuzzy
 msgid "Show _File Toolbar"
-msgstr "Ikusi _tresna-barra"
+msgstr "Ikusi _fitxategi tresna-barra"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:322
-#, fuzzy
 msgid "Show _Navigation Toolbar"
-msgstr "Ikusi _tresna-barra"
+msgstr "Ikusi _nabigazio tresna-barra"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:324
-#, fuzzy
 msgid "Show _Thumbnailbar"
-msgstr "Ikusi _tresna-barra"
+msgstr "Ikusi _argazkitxo tresna-barra"
 
 #. Sort by Filename
 #: ../src/main_window.c:331
 msgid "sort by filename"
-msgstr ""
+msgstr "Sailkatu fitxategi-izenez"
 
 #. Sort by Date
 #: ../src/main_window.c:333
@@ -359,7 +353,7 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:284
 msgid "Low"
-msgstr ""
+msgstr "Baxua"
 
 #: ../src/preferences_dialog.c:324
 msgid "Slideshow"
@@ -378,7 +372,6 @@ msgstr ""
 "(segundutan)"
 
 #: ../src/preferences_dialog.c:346
-#, fuzzy
 msgid "Thumbnails"
 msgstr "Argazkitxoak"
 
@@ -386,32 +379,31 @@ msgstr "Argazkitxoak"
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
-msgstr ""
+msgstr "Argazkitxo-barra automatikoki ezkutatu daiteke irudi-ikustatzailea pantaila-osoa moduan dagoenean."
 
 #: ../src/preferences_dialog.c:351
-#, fuzzy
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "E_zkutatu argazkitxoak"
+msgstr "E_zkutatu argazkitxo-barra pantaila-osoan"
 
 #: ../src/preferences_dialog.c:364
 msgid "Control"
-msgstr ""
+msgstr "Kontrola"
 
 #: ../src/preferences_dialog.c:368
 msgid "Scrollwheel"
-msgstr ""
+msgstr "Sagu-gurpila"
 
 #: ../src/preferences_dialog.c:371
 msgid "No action"
-msgstr ""
+msgstr "Ekintzarik ez"
 
 #: ../src/preferences_dialog.c:375
 msgid "Zoom in and out"
-msgstr ""
+msgstr "Zooma gerturatu eta urrutiratu"
 
 #: ../src/preferences_dialog.c:378
 msgid "Switch images"
-msgstr ""
+msgstr "Txandakatu irudiak"
 
 #: ../src/preferences_dialog.c:412
 msgid "Behaviour"
@@ -427,15 +419,15 @@ msgstr "Ez eskalatu %100 baino gehiago leihoa handitzean."
 
 #: ../src/preferences_dialog.c:426
 msgid "Startup"
-msgstr ""
+msgstr "Hasiera"
 
 #: ../src/preferences_dialog.c:428
 msgid "Resize window to image on startup"
-msgstr ""
+msgstr "Leiho-tamaina argazkira doitu abiaraztean"
 
 #: ../src/preferences_dialog.c:432
 msgid "Open entire folder on startup"
-msgstr ""
+msgstr "Ireki karpeta osoa abiaraztean"
 
 #: ../src/preferences_dialog.c:437
 #, fuzzy
@@ -444,15 +436,13 @@ msgstr "Ireki irudia"
 
 #: ../src/preferences_dialog.c:453
 msgid "Memory"
-msgstr ""
+msgstr "Memoria"
 
 #: ../src/preferences_dialog.c:459
-#, fuzzy
 msgid "Image cache"
 msgstr "Irudi katxea"
 
 #: ../src/preferences_dialog.c:465
-#, fuzzy
 msgid "Cache size"
 msgstr "Katxe tamaina:"
 
@@ -461,21 +451,18 @@ msgid "MB"
 msgstr "MB"
 
 #: ../src/preferences_dialog.c:469
-#, fuzzy
 msgid "Enable cache"
-msgstr "Irudi katxea"
+msgstr "Gaitu katxea"
 
 #: ../src/preferences_dialog.c:474
 msgid "Preload images"
-msgstr ""
+msgstr "Aurrekargatu irudiak"
 
 #: ../src/preferences_dialog.c:544
-#, fuzzy
 msgid "Preferences"
-msgstr "Irudi ikustatzaile hobespenak"
+msgstr "Hobespenak"
 
 #: ../src/xfce_wallpaper_manager.c:84
-#, fuzzy
 msgid "Set as wallpaper"
 msgstr "E_zarri idazmahai-irudi gisa"
 
