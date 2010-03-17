@@ -1,6 +1,6 @@
 # Ukrainian translation of ristretto package.
 # This file is distributed under the same license as the ristretto package.
-#
+# 
 # Dmitry Nikitin <luckas_fb@mail.ru>, 2008.
 msgid ""
 msgstr ""
@@ -34,8 +34,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Спробуйте %s --help для перегляду повного списку параметрів командної "
-"стрічки.\n"
+"Спробуйте %s --help для перегляду повного списку параметрів командної стрічки.\n"
 
 #. File Menu
 #: ../src/main_window.c:262
@@ -44,17 +43,15 @@ msgstr "_Файл"
 
 #: ../src/main_window.c:263
 msgid "_Open"
-msgstr ""
+msgstr "_Відкрити"
 
 #: ../src/main_window.c:263
-#, fuzzy
 msgid "Open an image"
 msgstr "Відкрити зображення"
 
 #: ../src/main_window.c:264
-#, fuzzy
 msgid "Open _Folder"
-msgstr "_Відкрити теку"
+msgstr "Відкрити _теку"
 
 #: ../src/main_window.c:264
 #, fuzzy
@@ -63,28 +60,27 @@ msgstr "Відкрити теку"
 
 #: ../src/main_window.c:265
 msgid "_Save copy"
-msgstr ""
+msgstr "Зберегти коп_ію"
 
 #: ../src/main_window.c:265
 msgid "Save a copy of the image"
-msgstr ""
+msgstr "Зберегти копію малюнка"
 
 #: ../src/main_window.c:266
 msgid "_Print"
-msgstr ""
+msgstr "_Друкувати"
 
 #: ../src/main_window.c:266
 msgid "Print the image"
-msgstr ""
+msgstr "Друкувати малюнок"
 
 #: ../src/main_window.c:267
-#, fuzzy
 msgid "_Close"
-msgstr "Закрити в_сі"
+msgstr "_Закрити"
 
 #: ../src/main_window.c:267
 msgid "Close this image"
-msgstr ""
+msgstr "Закрити малюнок"
 
 #: ../src/main_window.c:268
 #, fuzzy
@@ -92,19 +88,16 @@ msgid "_Close All"
 msgstr "Закрити в_сі"
 
 #: ../src/main_window.c:268
-#, fuzzy
 msgid "Close all images"
-msgstr "Закрити в_сі"
+msgstr "Закрити всі малюнки"
 
 #: ../src/main_window.c:269
-#, fuzzy
 msgid "_Quit"
-msgstr "_Редагувати"
+msgstr "Ви_йти"
 
 #: ../src/main_window.c:269
-#, fuzzy
 msgid "Quit Ristretto"
-msgstr "Переглядач Ristretto"
+msgstr "Вийти з Ristretto"
 
 #. Edit Menu
 #: ../src/main_window.c:271
@@ -112,23 +105,20 @@ msgid "_Edit"
 msgstr "_Редагувати"
 
 #: ../src/main_window.c:272
-#, fuzzy
 msgid "_Open with..."
-msgstr "Відкрити з..."
+msgstr "_Відкрити з..."
 
 #: ../src/main_window.c:273
-#, fuzzy
 msgid "_Sorting"
-msgstr "_Масштабований"
+msgstr "_Сортування"
 
 #: ../src/main_window.c:274
 msgid "_Delete"
-msgstr ""
+msgstr "_Видалити"
 
 #: ../src/main_window.c:275
-#, fuzzy
 msgid "_Preferences"
-msgstr "Налаштування переглядача зображень"
+msgstr "_Налаштування"
 
 #. View Menu
 #: ../src/main_window.c:277
@@ -137,11 +127,11 @@ msgstr "_Перегляд"
 
 #: ../src/main_window.c:278
 msgid "_Fullscreen"
-msgstr ""
+msgstr "Повний екр_ан"
 
 #: ../src/main_window.c:279
 msgid "_Leave Fullscreen"
-msgstr ""
+msgstr "Покинути повний ек_ран"
 
 #: ../src/main_window.c:280
 #, fuzzy
@@ -250,54 +240,50 @@ msgstr "Показати п_анель"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:324
-#, fuzzy
 msgid "Show _Thumbnailbar"
-msgstr "Показати п_анель"
+msgstr "Показати пан_ель мініатюр"
 
 #. Sort by Filename
 #: ../src/main_window.c:331
 msgid "sort by filename"
-msgstr ""
+msgstr "сортувати за назвою"
 
 #. Sort by Date
 #: ../src/main_window.c:333
 msgid "sort by date"
-msgstr ""
+msgstr "сортувати за датою"
 
 #: ../src/main_window.c:339
 msgid "Left"
-msgstr ""
+msgstr "Зліва"
 
 #: ../src/main_window.c:340
 msgid "Right"
-msgstr ""
+msgstr "Зправа"
 
 #: ../src/main_window.c:341
 msgid "Top"
-msgstr ""
+msgstr "Згори"
 
 #: ../src/main_window.c:342
 msgid "Bottom"
-msgstr ""
+msgstr "Внизу"
 
 #: ../src/main_window.c:512 ../src/main_window.c:778
 msgid "Press open to select an image"
-msgstr ""
+msgstr "Нажміть відкрити для вибору малюнка"
 
 #: ../src/main_window.c:765 ../src/main_window.c:770
 msgid "Empty"
-msgstr ""
+msgstr "Пустий"
 
 #: ../src/main_window.c:1545
 msgid "Developer:"
 msgstr "Розробник:"
 
 #: ../src/main_window.c:1555
-#, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto - швидкий і легкий переглядач зображень для робочого середовища "
-"Xfce"
+msgstr "Ristretto - переглядач зображень для робочого середовища Xfce"
 
 #: ../src/main_window.c:1563
 msgid "translator-credits"
@@ -309,11 +295,12 @@ msgstr "Відкрити зображення"
 
 #: ../src/main_window.c:1890
 msgid "Images"
-msgstr ""
+msgstr "Малюнки"
 
 #: ../src/main_window.c:1895
+#, fuzzy
 msgid ".jp(e)g"
-msgstr ""
+msgstr ".jp(e)g"
 
 #: ../src/main_window.c:1917 ../src/main_window.c:1940
 #: ../src/main_window.c:2099 ../src/main_window.c:2114
@@ -326,55 +313,52 @@ msgstr "Відкрити теку"
 
 #: ../src/main_window.c:2137
 msgid "Save copy"
-msgstr ""
+msgstr "Зберегти копію"
 
 #: ../src/main_window.c:2210
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr ""
-"Ви впевнені, що бажаєте очистити список нещодавно відкритих документів?"
+msgstr "Ви впевнені, що бажаєте видалити малюнок '%s' з диску?"
 
 #: ../src/preferences_dialog.c:230
 msgid "Display"
 msgstr "Відображення"
 
 #: ../src/preferences_dialog.c:235
-#, fuzzy
 msgid "Background color"
 msgstr "Колір тла"
 
 #: ../src/preferences_dialog.c:239
-#, fuzzy
 msgid "Override background color:"
-msgstr "_Замінити колір тла:"
+msgstr "Замінити колір тла:"
 
 #: ../src/preferences_dialog.c:267
 msgid "Quality"
-msgstr ""
+msgstr "Якість"
 
 #: ../src/preferences_dialog.c:271
 msgid "Maximum render quality:"
-msgstr ""
+msgstr "Максимальна якість відображення:"
 
 #: ../src/preferences_dialog.c:274
 msgid "Show preview when loading image"
-msgstr ""
+msgstr "Показувати попередній перегляд під час завантаження малюнку"
 
 #: ../src/preferences_dialog.c:281
 msgid "Best"
-msgstr ""
+msgstr "Кращий"
 
 #: ../src/preferences_dialog.c:282
 msgid "High"
-msgstr ""
+msgstr "Висока"
 
 #: ../src/preferences_dialog.c:283
 msgid "Medium"
-msgstr ""
+msgstr "Середня"
 
 #: ../src/preferences_dialog.c:284
 msgid "Low"
-msgstr ""
+msgstr "Посередня"
 
 #: ../src/preferences_dialog.c:324
 msgid "Slideshow"
@@ -393,40 +377,40 @@ msgstr ""
 "(в секундах)"
 
 #: ../src/preferences_dialog.c:346
-#, fuzzy
 msgid "Thumbnails"
-msgstr "Ескізи"
+msgstr "Мініатюри"
 
 #: ../src/preferences_dialog.c:349
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
+"Панель мініатюр може автоматично ховатись,   \n"
+"коли переглядач зображень перебуває в повноекранному режимі."
 
 #: ../src/preferences_dialog.c:351
-#, fuzzy
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "_Ховати ескізи"
+msgstr "Приховувати панель мініатюр в повноекранному режимі"
 
 #: ../src/preferences_dialog.c:364
 msgid "Control"
-msgstr ""
+msgstr "Контроль"
 
 #: ../src/preferences_dialog.c:368
 msgid "Scrollwheel"
-msgstr ""
+msgstr "Прокрутка"
 
 #: ../src/preferences_dialog.c:371
 msgid "No action"
-msgstr ""
+msgstr "Без дії"
 
 #: ../src/preferences_dialog.c:375
 msgid "Zoom in and out"
-msgstr ""
+msgstr "Збільшення і зменшення"
 
 #: ../src/preferences_dialog.c:378
 msgid "Switch images"
-msgstr ""
+msgstr "Поміняти зображення"
 
 #: ../src/preferences_dialog.c:412
 msgid "Behaviour"
@@ -442,32 +426,29 @@ msgstr "Не масштабувати більше 100%, коли розгорн
 
 #: ../src/preferences_dialog.c:426
 msgid "Startup"
-msgstr ""
+msgstr "Початок"
 
 #: ../src/preferences_dialog.c:428
 msgid "Resize window to image on startup"
-msgstr ""
+msgstr "Змінити розмір вікна для малюнку під час запуску"
 
 #: ../src/preferences_dialog.c:432
 msgid "Open entire folder on startup"
-msgstr ""
+msgstr "Відкрити всю папку під час запуску"
 
 #: ../src/preferences_dialog.c:437
-#, fuzzy
 msgid "Wrap around images"
-msgstr "Відкрити зображення"
+msgstr "Обернутись навколо зображень"
 
 #: ../src/preferences_dialog.c:453
 msgid "Memory"
-msgstr ""
+msgstr "Пам'ять"
 
 #: ../src/preferences_dialog.c:459
-#, fuzzy
 msgid "Image cache"
-msgstr "Кеш зображень"
+msgstr "Кеш зображення"
 
 #: ../src/preferences_dialog.c:465
-#, fuzzy
 msgid "Cache size"
 msgstr "Розмір кешу:"
 
@@ -476,9 +457,8 @@ msgid "MB"
 msgstr "МБ"
 
 #: ../src/preferences_dialog.c:469
-#, fuzzy
 msgid "Enable cache"
-msgstr "Кеш зображень"
+msgstr "Дозволити кеш"
 
 #: ../src/preferences_dialog.c:474
 msgid "Preload images"
@@ -576,11 +556,9 @@ msgstr ""
 msgid "Ristretto Photo Viewer"
 msgstr ""
 
-#, fuzzy
 #~ msgid "Ristretto"
 #~ msgstr "Переглядач Ristretto"
 
-#, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Ескізи"
 
@@ -605,14 +583,11 @@ msgstr ""
 #~ msgid "H_ide"
 #~ msgstr "С_ховати"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Одне або більше зображень було змінено, бажаєте зберегти зміни?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "Попереднє з_авантаження малюнків (GUI більш кероване, але завантаження "
-#~ "CPU більше)"
+#~ msgstr "Попереднє з_авантаження малюнків (GUI більш кероване, але завантаження CPU більше)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Ховати панель ескізів під час слайд-шоу"
