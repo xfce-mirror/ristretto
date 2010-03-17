@@ -54,7 +54,6 @@ msgid "Open _Folder"
 msgstr "Відкрити _теку"
 
 #: ../src/main_window.c:264
-#, fuzzy
 msgid "Open a folder"
 msgstr "Відкрити теку"
 
@@ -83,7 +82,6 @@ msgid "Close this image"
 msgstr "Закрити малюнок"
 
 #: ../src/main_window.c:268
-#, fuzzy
 msgid "_Close All"
 msgstr "Закрити в_сі"
 
@@ -134,9 +132,8 @@ msgid "_Leave Fullscreen"
 msgstr "Покинути повний ек_ран"
 
 #: ../src/main_window.c:280
-#, fuzzy
 msgid "_Set as Wallpaper"
-msgstr "В_становити як шпалери"
+msgstr "Встановити як шпа_лери"
 
 #. Zoom submenu
 #: ../src/main_window.c:282
@@ -144,21 +141,20 @@ msgid "_Zooming"
 msgstr "_Масштабований"
 
 #: ../src/main_window.c:283
-#, fuzzy
 msgid "Zoom _In"
-msgstr "_Масштабований"
+msgstr "Збіль_шити"
 
 #: ../src/main_window.c:284
 msgid "Zoom _Out"
-msgstr ""
+msgstr "З_меншити"
 
 #: ../src/main_window.c:285
 msgid "Zoom _Fit"
-msgstr ""
+msgstr "Вмістити у вікн_о"
 
 #: ../src/main_window.c:286
 msgid "_Normal Size"
-msgstr ""
+msgstr "_Нормальний розмір"
 
 #. Rotation submenu
 #: ../src/main_window.c:288
@@ -181,19 +177,19 @@ msgstr "П_ерейти"
 
 #: ../src/main_window.c:293
 msgid "_Forward"
-msgstr ""
+msgstr "_Вперед"
 
 #: ../src/main_window.c:294
 msgid "_Back"
-msgstr ""
+msgstr "_Назад"
 
 #: ../src/main_window.c:295
 msgid "_First"
-msgstr ""
+msgstr "_Перший"
 
 #: ../src/main_window.c:296
 msgid "_Last"
-msgstr ""
+msgstr "_Останній"
 
 #. Help Menu
 #: ../src/main_window.c:298
@@ -202,41 +198,39 @@ msgstr "Дов_ідка"
 
 #: ../src/main_window.c:300
 msgid "_Contents"
-msgstr ""
+msgstr "_Вміст"
 
 #: ../src/main_window.c:302
 msgid "Display ristretto user manual"
-msgstr ""
+msgstr "Показати посібник користувача ristretto"
 
 #: ../src/main_window.c:305
 msgid "_About"
-msgstr ""
+msgstr "_Про"
 
 #: ../src/main_window.c:307
 msgid "Display information about ristretto"
-msgstr ""
+msgstr "Показати інформацію про ristretto"
 
 #. Position Menu
 #: ../src/main_window.c:310
 msgid "_Position"
-msgstr ""
+msgstr "По_зиція"
 
 #. Misc
 #: ../src/main_window.c:312
 msgid "Leave _Fullscreen"
-msgstr ""
+msgstr "Залишити повноекр_анний режим"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:320
-#, fuzzy
 msgid "Show _File Toolbar"
-msgstr "Показати п_анель"
+msgstr "Показати п_анель файлів"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:322
-#, fuzzy
 msgid "Show _Navigation Toolbar"
-msgstr "Показати п_анель"
+msgstr "Показа_ти навігаційну панель"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:324
@@ -554,7 +548,7 @@ msgstr ""
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
-msgstr ""
+msgstr "Переглядач фотографій Ristretto"
 
 #~ msgid "Ristretto"
 #~ msgstr "Переглядач Ristretto"
