@@ -158,9 +158,8 @@ msgstr "_Нормальний розмір"
 
 #. Rotation submenu
 #: ../src/main_window.c:288
-#, fuzzy
 msgid "_Rotation"
-msgstr "_Повернути"
+msgstr "_Обертання"
 
 #: ../src/main_window.c:289
 msgid "Rotate _Right"
@@ -292,7 +291,6 @@ msgid "Images"
 msgstr "Малюнки"
 
 #: ../src/main_window.c:1895
-#, fuzzy
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
@@ -456,60 +454,55 @@ msgstr "Дозволити кеш"
 
 #: ../src/preferences_dialog.c:474
 msgid "Preload images"
-msgstr ""
+msgstr "Попереднє завантаження зображень"
 
 #: ../src/preferences_dialog.c:544
-#, fuzzy
 msgid "Preferences"
-msgstr "Налаштування переглядача зображень"
+msgstr "Налаштування"
 
 #: ../src/xfce_wallpaper_manager.c:84
-#, fuzzy
 msgid "Set as wallpaper"
-msgstr "В_становити як шпалери"
+msgstr "Встановити як шпалери"
 
 #: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
-msgstr ""
+msgstr "Стиль:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Монітор:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Яскравість:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "_Повернути"
+msgstr "Гамма:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
-msgstr ""
+msgstr "Автоматично"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr ""
+msgstr "Центрувати"
 
 #: ../src/xfce_wallpaper_manager.c:125
-#, fuzzy
 msgid "Tiled"
-msgstr "_Файл"
+msgstr "Плиткою"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr ""
+msgstr "Розмножити"
 
 #: ../src/xfce_wallpaper_manager.c:127
-#, fuzzy
 msgid "Scaled"
-msgstr "Масштабування"
+msgstr "Масштабувати"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
-msgstr ""
+msgstr "Розтягнути"
 
 #: ../src/thumbnail_bar.c:187
 msgid "Spacing"
@@ -520,23 +513,20 @@ msgid "The amount of space between the thumbnails"
 msgstr "Розмір проміжків між ескізами"
 
 #: ../src/thumbnail_bar.c:194
-#, fuzzy
 msgid "border width"
-msgstr "Ширина рамки"
+msgstr "ширина рамки"
 
 #: ../src/thumbnail_bar.c:195
-#, fuzzy
 msgid "the border width of the thumbnail-bar"
-msgstr "Ширина рамки панелі ескізів"
+msgstr "ширина рамки панелі мініатюр"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
-msgstr ""
+msgstr "ширина діафільму"
 
 #: ../src/thumbnail_bar.c:202
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "Ширина рамки панелі ескізів"
+msgstr "ширина рамки діафільму панелі мініатюр"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -544,7 +534,7 @@ msgstr "Переглядач зображень"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
-msgstr ""
+msgstr "Переглядайте Ваші фотографії легко"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
