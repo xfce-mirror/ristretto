@@ -9,15 +9,14 @@ msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-01-15 00:57+0100\n"
-"PO-Revision-Date: 2009-10-21 13:58+0100\n"
-"Last-Translator: Rihards Prieditis <rprieditis@gmail.com>\n"
+"PO-Revision-Date: 2010-03-25 21:52+0100\n"
+"Last-Translator: Rihards Priedītis <rprieditis@gmail.com>\n"
 "Language-Team: Latvian <translation-team-lv@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 1.0\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
-"2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
 
 #: ../src/main.c:59
 msgid "Version information"
@@ -266,11 +265,13 @@ msgstr "Augšā"
 msgid "Bottom"
 msgstr "Apakšā"
 
-#: ../src/main_window.c:512 ../src/main_window.c:778
+#: ../src/main_window.c:512
+#: ../src/main_window.c:778
 msgid "Press open to select an image"
 msgstr "Nospiediet atvērt, lai atlasītu attēlu"
 
-#: ../src/main_window.c:765 ../src/main_window.c:770
+#: ../src/main_window.c:765
+#: ../src/main_window.c:770
 msgid "Empty"
 msgstr "Tukšs"
 
@@ -298,8 +299,10 @@ msgstr "Attēli"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1917 ../src/main_window.c:1940
-#: ../src/main_window.c:2099 ../src/main_window.c:2114
+#: ../src/main_window.c:1917
+#: ../src/main_window.c:1940
+#: ../src/main_window.c:2099
+#: ../src/main_window.c:2114
 msgid "Could not open file"
 msgstr "Nevarēju atvērt failu"
 
@@ -433,9 +436,8 @@ msgid "Open entire folder on startup"
 msgstr "Atvērt visu mapi uz palaišanos"
 
 #: ../src/preferences_dialog.c:437
-#, fuzzy
 msgid "Wrap around images"
-msgstr "Atvērt attēlu"
+msgstr "Aplauzt gar attēliem"
 
 #: ../src/preferences_dialog.c:453
 msgid "Memory"
@@ -466,78 +468,72 @@ msgid "Preferences"
 msgstr "Uzstādījumi"
 
 #: ../src/xfce_wallpaper_manager.c:84
-#, fuzzy
 msgid "Set as wallpaper"
-msgstr "_Uzstādīt, kā darbavirsmas fonu"
+msgstr "Uzstādīt, kā darbavirsmas fonu"
 
 #: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
-msgstr ""
+msgstr "Stils:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Monitors:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Spilgtums:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "_Rotācija"
+msgstr "Piesātinājums:"
 
 #: ../src/xfce_wallpaper_manager.c:123
-#, fuzzy
 msgid "Auto"
-msgstr "_Par"
+msgstr "Automātiski"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr ""
+msgstr "Centrēts"
 
 #: ../src/xfce_wallpaper_manager.c:125
-#, fuzzy
 msgid "Tiled"
-msgstr "_Fails"
+msgstr "Sakrauti"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr ""
+msgstr "Izstiepts"
 
 #: ../src/xfce_wallpaper_manager.c:127
-#, fuzzy
 msgid "Scaled"
-msgstr "Mērogošana"
+msgstr "Mērogots"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
-msgstr ""
+msgstr "Pietuvināts"
 
 #: ../src/thumbnail_bar.c:187
-#, fuzzy
 msgid "Spacing"
-msgstr "Mērogošana"
+msgstr "Atkāpes"
 
 #: ../src/thumbnail_bar.c:188
 msgid "The amount of space between the thumbnails"
-msgstr ""
+msgstr "Atstarpe starp sīktēliem"
 
 #: ../src/thumbnail_bar.c:194
 msgid "border width"
-msgstr ""
+msgstr "robežas platums"
 
 #: ../src/thumbnail_bar.c:195
 msgid "the border width of the thumbnail-bar"
-msgstr ""
+msgstr "sīktēlu-joslas film-rindas robežas platums"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
-msgstr ""
+msgstr "filmu rindas platums"
 
 #: ../src/thumbnail_bar.c:202
 msgid "the width of the thumbnail-bar film-strip"
-msgstr ""
+msgstr "sīktēlu-joslas film-rindas platums"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -548,7 +544,6 @@ msgid "Look at your photo's easily"
 msgstr "Apskaties savas fotogrāfijas viegli"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Photo Viewer"
 msgstr "Ristretto attēlu skatītājs"
 
@@ -562,10 +557,8 @@ msgstr "Ristretto attēlu skatītājs"
 #, fuzzy
 #~ msgid "Opening file(s)..."
 #~ msgstr "Atvert ar..."
-
 #~ msgid "_Recently used"
 #~ msgstr "_Nesenie"
-
 #~ msgid "No applications available"
 #~ msgstr "Nav pieejama neviena lietotne"
 
@@ -584,16 +577,14 @@ msgstr "Ristretto attēlu skatītājs"
 #, fuzzy
 #~ msgid "H_ide"
 #~ msgstr "Slēpt"
-
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Xfce Attēlu Skatītājs"
-
 #~ msgid "Preload"
 #~ msgstr "Pirmsielāde"
-
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Ielādēt attēlus slīdrāde laikā\n"
 #~ "(aizņem vairāk atmiņas)"
+
