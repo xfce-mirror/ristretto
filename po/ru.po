@@ -428,7 +428,6 @@ msgid "Open entire folder on startup"
 msgstr "Показать папку при загрузке"
 
 #: ../src/preferences_dialog.c:437
-#, fuzzy
 msgid "Wrap around images"
 msgstr "Обернуть вокруг изображения"
 
