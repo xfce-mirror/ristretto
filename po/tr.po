@@ -154,7 +154,7 @@ msgstr "_Uzaklaş"
 
 #: ../src/main_window.c:285
 msgid "Zoom _Fit"
-msgstr ""
+msgstr "Uygun yaklaştır"
 
 #: ../src/main_window.c:286
 msgid "_Normal Size"
@@ -238,7 +238,7 @@ msgstr "_Dolaşma Araç Çubuğunu Göster"
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:324
 msgid "Show _Thumbnailbar"
-msgstr ""
+msgstr "_Küçük resim çubuğunu göster"
 
 #. Sort by Filename
 #: ../src/main_window.c:331
@@ -336,7 +336,7 @@ msgstr "Kalite"
 
 #: ../src/preferences_dialog.c:271
 msgid "Maximum render quality:"
-msgstr ""
+msgstr "Maksimum tarama kalitesi:"
 
 #: ../src/preferences_dialog.c:274
 msgid "Show preview when loading image"
@@ -376,17 +376,19 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:346
 msgid "Thumbnails"
-msgstr ""
+msgstr "Küçük resimler"
 
 #: ../src/preferences_dialog.c:349
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
+"Resim gösterici tam ekran olduğuna \n"
+" küçük resim çubuğu otomatik olarak gizlenir."
 
 #: ../src/preferences_dialog.c:351
 msgid "Hide thumbnailbar when fullscreen"
-msgstr ""
+msgstr "Tam ekrandayken küçük resimleri gizle"
 
 #: ../src/preferences_dialog.c:364
 msgid "Control"
@@ -434,7 +436,7 @@ msgstr "Açılırken girdi dizinini aç"
 
 #: ../src/preferences_dialog.c:437
 msgid "Wrap around images"
-msgstr ""
+msgstr "Resimlerin etrafını çerçevele"
 
 #: ../src/preferences_dialog.c:453
 msgid "Memory"
@@ -506,7 +508,7 @@ msgstr "Ölçeklendi"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
-msgstr ""
+msgstr "Yakınlaştı"
 
 #: ../src/thumbnail_bar.c:187
 msgid "Spacing"
@@ -521,18 +523,16 @@ msgid "border width"
 msgstr "kenar genişliği"
 
 #: ../src/thumbnail_bar.c:195
-#, fuzzy
 msgid "the border width of the thumbnail-bar"
-msgstr "Önizleme çubuğunun kenar genişliği"
+msgstr "küçük resim çubuğunun kenar genişliği"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
-msgstr ""
+msgstr "film şeridi genişliği"
 
 #: ../src/thumbnail_bar.c:202
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "Önizleme çubuğunun kenar genişliği"
+msgstr "küçük resim çubuğu film şeridinin genişliği"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
