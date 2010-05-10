@@ -493,18 +493,16 @@ msgid "Centered"
 msgstr "Merkezle"
 
 #: ../src/xfce_wallpaper_manager.c:125
-#, fuzzy
 msgid "Tiled"
-msgstr "_Dosya"
+msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr ""
+msgstr "Uzatıldı"
 
 #: ../src/xfce_wallpaper_manager.c:127
-#, fuzzy
 msgid "Scaled"
-msgstr "Ölçekleme"
+msgstr "Ölçeklendi"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
@@ -519,9 +517,8 @@ msgid "The amount of space between the thumbnails"
 msgstr "önizlemeler arasındaki aralığın boyutu"
 
 #: ../src/thumbnail_bar.c:194
-#, fuzzy
 msgid "border width"
-msgstr "Kenar Genişliği"
+msgstr "kenar genişliği"
 
 #: ../src/thumbnail_bar.c:195
 #, fuzzy
@@ -543,12 +540,11 @@ msgstr "Resim Gösterici"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
-msgstr ""
+msgstr "Fotoğraflarına kolayca bak"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Photo Viewer"
-msgstr "Ristretto Görüntü Gösterici"
+msgstr "Ristretto Fotoğraf Gösterici"
 
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
