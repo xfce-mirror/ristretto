@@ -279,9 +279,8 @@ msgid "Developer:"
 msgstr "Geliştirici:"
 
 #: ../src/main_window.c:1555
-#, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr "Ristretto, Xfce masaüstü ortamı için geliştirilen hızlı ve hafif bir resim göstericidir."
+msgstr "Ristretto, Xfce masaüstü ortamı için bir resim göstericidir."
 
 #: ../src/main_window.c:1563
 msgid "translator-credits"
@@ -295,11 +294,12 @@ msgstr "Dosya aç"
 
 #: ../src/main_window.c:1890
 msgid "Images"
-msgstr ""
+msgstr "Resimler"
 
 #: ../src/main_window.c:1895
+#, fuzzy
 msgid ".jp(e)g"
-msgstr ""
+msgstr ".jp(e)g"
 
 #: ../src/main_window.c:1917 ../src/main_window.c:1940
 #: ../src/main_window.c:2099 ../src/main_window.c:2114
@@ -312,30 +312,28 @@ msgstr "Dizin aç"
 
 #: ../src/main_window.c:2137
 msgid "Save copy"
-msgstr ""
+msgstr "Kopyayı kaydet"
 
 #: ../src/main_window.c:2210
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Önceden yüklenmiş belgelerin listesini silmek istediğinizden emin misiniz ?"
+msgstr "Diskinizden '%s' resmini silmek istediğinizden emin misiniz?"
 
 #: ../src/preferences_dialog.c:230
 msgid "Display"
 msgstr "Görüntü"
 
 #: ../src/preferences_dialog.c:235
-#, fuzzy
 msgid "Background color"
-msgstr "Arkaplan Rengi"
+msgstr "Arkaplan rengi"
 
 #: ../src/preferences_dialog.c:239
-#, fuzzy
 msgid "Override background color:"
-msgstr "Arkaplan _Rengini Zorla:"
+msgstr "Arkaplan rengini zorla:"
 
 #: ../src/preferences_dialog.c:267
 msgid "Quality"
-msgstr ""
+msgstr "Kalite"
 
 #: ../src/preferences_dialog.c:271
 msgid "Maximum render quality:"
@@ -347,19 +345,19 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:281
 msgid "Best"
-msgstr ""
+msgstr "En iyi"
 
 #: ../src/preferences_dialog.c:282
 msgid "High"
-msgstr ""
+msgstr "Yüksek"
 
 #: ../src/preferences_dialog.c:283
 msgid "Medium"
-msgstr ""
+msgstr "Orta"
 
 #: ../src/preferences_dialog.c:284
 msgid "Low"
-msgstr ""
+msgstr "Düşük"
 
 #: ../src/preferences_dialog.c:324
 msgid "Slideshow"
@@ -378,9 +376,8 @@ msgstr ""
 "(saniye cinsinden)"
 
 #: ../src/preferences_dialog.c:346
-#, fuzzy
 msgid "Thumbnails"
-msgstr "Önizlemeler"
+msgstr ""
 
 #: ../src/preferences_dialog.c:349
 msgid ""
@@ -389,9 +386,8 @@ msgid ""
 msgstr ""
 
 #: ../src/preferences_dialog.c:351
-#, fuzzy
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "Önizlemeleri _gizle"
+msgstr ""
 
 #: ../src/preferences_dialog.c:364
 msgid "Control"
@@ -399,19 +395,19 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:368
 msgid "Scrollwheel"
-msgstr ""
+msgstr "Kaydırma tekerleği"
 
 #: ../src/preferences_dialog.c:371
 msgid "No action"
-msgstr ""
+msgstr "Hareket yok"
 
 #: ../src/preferences_dialog.c:375
 msgid "Zoom in and out"
-msgstr ""
+msgstr "Yaklaştır ve Uzaklaştır"
 
 #: ../src/preferences_dialog.c:378
 msgid "Switch images"
-msgstr ""
+msgstr "Resimleri değiştir"
 
 #: ../src/preferences_dialog.c:412
 msgid "Behaviour"
@@ -427,7 +423,7 @@ msgstr "Pencere büyütüldüğünde %100'den fazla ölçekleme yapma."
 
 #: ../src/preferences_dialog.c:426
 msgid "Startup"
-msgstr ""
+msgstr "Başlangıç"
 
 #: ../src/preferences_dialog.c:428
 msgid "Resize window to image on startup"
