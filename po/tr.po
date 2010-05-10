@@ -54,9 +54,8 @@ msgid "Open an image"
 msgstr "Bir resim aç"
 
 #: ../src/main_window.c:264
-#, fuzzy
 msgid "Open _Folder"
-msgstr "D_izin Aç"
+msgstr "_Dizin Aç"
 
 #: ../src/main_window.c:264
 msgid "Open a folder"
@@ -120,9 +119,8 @@ msgid "_Delete"
 msgstr "_Sil"
 
 #: ../src/main_window.c:275
-#, fuzzy
 msgid "_Preferences"
-msgstr "Görüntü gösterici Tercihleri"
+msgstr "Tercihler"
 
 #. View Menu
 #: ../src/main_window.c:277
@@ -164,9 +162,8 @@ msgstr "_Normal Boyut"
 
 #. Rotation submenu
 #: ../src/main_window.c:288
-#, fuzzy
 msgid "_Rotation"
-msgstr "Dö_ndür"
+msgstr "Döndü_r"
 
 #: ../src/main_window.c:289
 msgid "Rotate _Right"
@@ -183,19 +180,19 @@ msgstr "Gi_t"
 
 #: ../src/main_window.c:293
 msgid "_Forward"
-msgstr ""
+msgstr "_İleri"
 
 #: ../src/main_window.c:294
 msgid "_Back"
-msgstr ""
+msgstr "_Geri"
 
 #: ../src/main_window.c:295
 msgid "_First"
-msgstr ""
+msgstr "_İlk"
 
 #: ../src/main_window.c:296
 msgid "_Last"
-msgstr ""
+msgstr "_Son"
 
 #. Help Menu
 #: ../src/main_window.c:298
@@ -204,81 +201,78 @@ msgstr "_Yardım"
 
 #: ../src/main_window.c:300
 msgid "_Contents"
-msgstr ""
+msgstr "_İçindekiler"
 
 #: ../src/main_window.c:302
 msgid "Display ristretto user manual"
-msgstr ""
+msgstr "Ristretto kullanıcı klavuzunu görüntüle"
 
 #: ../src/main_window.c:305
 msgid "_About"
-msgstr ""
+msgstr "_Hakkında"
 
 #: ../src/main_window.c:307
 msgid "Display information about ristretto"
-msgstr ""
+msgstr "Ristretto hakkında bilgi görüntüle"
 
 #. Position Menu
 #: ../src/main_window.c:310
 msgid "_Position"
-msgstr ""
+msgstr "_Konum"
 
 #. Misc
 #: ../src/main_window.c:312
 msgid "Leave _Fullscreen"
-msgstr ""
+msgstr "Tam Ekranı _Kapat"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:320
-#, fuzzy
 msgid "Show _File Toolbar"
-msgstr "Araç _Çubuğunu Göster"
+msgstr "_Dosya Araç Çubuğunu Göster"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:322
-#, fuzzy
 msgid "Show _Navigation Toolbar"
-msgstr "Araç _Çubuğunu Göster"
+msgstr "_Dolaşma Araç Çubuğunu Göster"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:324
-#, fuzzy
 msgid "Show _Thumbnailbar"
-msgstr "Araç _Çubuğunu Göster"
+msgstr ""
 
 #. Sort by Filename
 #: ../src/main_window.c:331
 msgid "sort by filename"
-msgstr ""
+msgstr "dosya adına göre sırala"
 
 #. Sort by Date
 #: ../src/main_window.c:333
 msgid "sort by date"
-msgstr ""
+msgstr "tarihe göre sırala"
 
 #: ../src/main_window.c:339
 msgid "Left"
-msgstr ""
+msgstr "Sol"
 
 #: ../src/main_window.c:340
 msgid "Right"
-msgstr ""
+msgstr "Sağ"
 
 #: ../src/main_window.c:341
 msgid "Top"
-msgstr ""
+msgstr "Üst"
 
 #: ../src/main_window.c:342
 msgid "Bottom"
-msgstr ""
+msgstr "Alt"
 
 #: ../src/main_window.c:512 ../src/main_window.c:778
 msgid "Press open to select an image"
-msgstr ""
+msgstr "Bir resim seçmek için aça basın"
 
 #: ../src/main_window.c:765 ../src/main_window.c:770
 msgid "Empty"
-msgstr ""
+msgstr "Boş"
 
 #: ../src/main_window.c:1545
 msgid "Developer:"
