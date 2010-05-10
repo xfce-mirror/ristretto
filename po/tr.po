@@ -297,7 +297,6 @@ msgid "Images"
 msgstr "Resimler"
 
 #: ../src/main_window.c:1895
-#, fuzzy
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
@@ -341,7 +340,7 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:274
 msgid "Show preview when loading image"
-msgstr ""
+msgstr "Resim yüklenirken önizleme göster"
 
 #: ../src/preferences_dialog.c:281
 msgid "Best"
@@ -391,7 +390,7 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:364
 msgid "Control"
-msgstr ""
+msgstr "Kontrol"
 
 #: ../src/preferences_dialog.c:368
 msgid "Scrollwheel"
@@ -427,79 +426,71 @@ msgstr "Başlangıç"
 
 #: ../src/preferences_dialog.c:428
 msgid "Resize window to image on startup"
-msgstr ""
+msgstr "Açılırken resim için pencereyi yeniden boyutlandır"
 
 #: ../src/preferences_dialog.c:432
 msgid "Open entire folder on startup"
-msgstr ""
+msgstr "Açılırken girdi dizinini aç"
 
 #: ../src/preferences_dialog.c:437
-#, fuzzy
 msgid "Wrap around images"
-msgstr "Dosya aç"
+msgstr ""
 
 #: ../src/preferences_dialog.c:453
 msgid "Memory"
-msgstr ""
+msgstr "Hafıza"
 
 #: ../src/preferences_dialog.c:459
-#, fuzzy
 msgid "Image cache"
-msgstr "Resim Belleği"
+msgstr "Resim Önbelleği"
 
 #: ../src/preferences_dialog.c:465
-#, fuzzy
 msgid "Cache size"
-msgstr "Bellek boyutu:"
+msgstr "Önbellek boyutu"
 
 #: ../src/preferences_dialog.c:466
 msgid "MB"
 msgstr "MB"
 
 #: ../src/preferences_dialog.c:469
-#, fuzzy
 msgid "Enable cache"
-msgstr "Resim Belleği"
+msgstr "Önbellek açık"
 
 #: ../src/preferences_dialog.c:474
-#, fuzzy
 msgid "Preload images"
-msgstr "Görüntüleri _önyükle"
+msgstr "Resimleri önyükle"
 
 #: ../src/preferences_dialog.c:544
-#, fuzzy
 msgid "Preferences"
-msgstr "Görüntü gösterici Tercihleri"
+msgstr "Tercihler"
 
 #: ../src/xfce_wallpaper_manager.c:84
-#, fuzzy
 msgid "Set as wallpaper"
-msgstr "Arkaplan re_smi olarak belirle"
+msgstr "Duvar kağıdı olarak belirle"
 
 #: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
-msgstr ""
+msgstr "Stil:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Ekran:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Parlaklık:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "Dö_ndür"
+msgstr "Doygunluk:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
-msgstr ""
+msgstr "Otomatik"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr ""
+msgstr "Merkezle"
 
 #: ../src/xfce_wallpaper_manager.c:125
 #, fuzzy
