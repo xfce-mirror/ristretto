@@ -2,10 +2,10 @@
 # German translations for ristretto package.
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the ristretto package.
-#
+# 
 # Onur Küçük <onur@pardus.org.tr>, 2008.
 # Gökmen Görgen <gkmngrgn@gmail.com>, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
@@ -47,12 +47,11 @@ msgstr "_Dosya"
 
 #: ../src/main_window.c:263
 msgid "_Open"
-msgstr ""
+msgstr "_Aç"
 
 #: ../src/main_window.c:263
-#, fuzzy
 msgid "Open an image"
-msgstr "Dosya aç"
+msgstr "Bir resim aç"
 
 #: ../src/main_window.c:264
 #, fuzzy
@@ -60,55 +59,48 @@ msgid "Open _Folder"
 msgstr "D_izin Aç"
 
 #: ../src/main_window.c:264
-#, fuzzy
 msgid "Open a folder"
-msgstr "Dizin aç"
+msgstr "Bir dizin aç"
 
 #: ../src/main_window.c:265
 msgid "_Save copy"
-msgstr ""
+msgstr "Kopyayı _kaydet"
 
 #: ../src/main_window.c:265
 msgid "Save a copy of the image"
-msgstr ""
+msgstr "Resmin bir kopyasını kaydet"
 
 #: ../src/main_window.c:266
 msgid "_Print"
-msgstr ""
+msgstr "_Yadır"
 
 #: ../src/main_window.c:266
-#, fuzzy
 msgid "Print the image"
-msgstr "Görüntüleri _önyükle"
+msgstr "Resmi yazdır"
 
 #: ../src/main_window.c:267
-#, fuzzy
 msgid "_Close"
-msgstr "Hepsini k_apa"
+msgstr "_Kapat"
 
 #: ../src/main_window.c:267
 msgid "Close this image"
-msgstr ""
+msgstr "Bu resi kapat"
 
 #: ../src/main_window.c:268
-#, fuzzy
 msgid "_Close All"
-msgstr "Hepsini k_apa"
+msgstr "Tümünü _Kapat"
 
 #: ../src/main_window.c:268
-#, fuzzy
 msgid "Close all images"
-msgstr "Hepsini k_apa"
+msgstr "Tüm resimleri kapat"
 
 #: ../src/main_window.c:269
-#, fuzzy
 msgid "_Quit"
-msgstr "Dü_zenle"
+msgstr "_Çık"
 
 #: ../src/main_window.c:269
-#, fuzzy
 msgid "Quit Ristretto"
-msgstr "Ristretto"
+msgstr "Ristretto'dan Çık"
 
 #. Edit Menu
 #: ../src/main_window.c:271
@@ -116,18 +108,16 @@ msgid "_Edit"
 msgstr "Dü_zenle"
 
 #: ../src/main_window.c:272
-#, fuzzy
 msgid "_Open with..."
-msgstr "Birlikte aç..."
+msgstr "Birlikte _aç..."
 
 #: ../src/main_window.c:273
-#, fuzzy
 msgid "_Sorting"
-msgstr "_Yakınlaşma"
+msgstr "_Sıralama"
 
 #: ../src/main_window.c:274
 msgid "_Delete"
-msgstr ""
+msgstr "_Sil"
 
 #: ../src/main_window.c:275
 #, fuzzy
@@ -141,16 +131,15 @@ msgstr "_Görünüm"
 
 #: ../src/main_window.c:278
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_Tam ekran"
 
 #: ../src/main_window.c:279
 msgid "_Leave Fullscreen"
-msgstr ""
+msgstr "_Tam ekranı kapat"
 
 #: ../src/main_window.c:280
-#, fuzzy
 msgid "_Set as Wallpaper"
-msgstr "Arkaplan re_smi olarak belirle"
+msgstr "Duvar Kağıdı olarak _belirle"
 
 #. Zoom submenu
 #: ../src/main_window.c:282
@@ -158,13 +147,12 @@ msgid "_Zooming"
 msgstr "_Yakınlaşma"
 
 #: ../src/main_window.c:283
-#, fuzzy
 msgid "Zoom _In"
-msgstr "_Yakınlaşma"
+msgstr "_Yakınlaş"
 
 #: ../src/main_window.c:284
 msgid "Zoom _Out"
-msgstr ""
+msgstr "_Uzaklaş"
 
 #: ../src/main_window.c:285
 msgid "Zoom _Fit"
@@ -172,7 +160,7 @@ msgstr ""
 
 #: ../src/main_window.c:286
 msgid "_Normal Size"
-msgstr ""
+msgstr "_Normal Boyut"
 
 #. Rotation submenu
 #: ../src/main_window.c:288
@@ -299,9 +287,7 @@ msgstr "Geliştirici:"
 #: ../src/main_window.c:1555
 #, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto, Xfce masaüstü ortamı için geliştirilen hızlı ve hafif bir resim "
-"göstericidir."
+msgstr "Ristretto, Xfce masaüstü ortamı için geliştirilen hızlı ve hafif bir resim göstericidir."
 
 #: ../src/main_window.c:1563
 msgid "translator-credits"
@@ -337,8 +323,7 @@ msgstr ""
 #: ../src/main_window.c:2210
 #, fuzzy, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr ""
-"Önceden yüklenmiş belgelerin listesini silmek istediğinizden emin misiniz ?"
+msgstr "Önceden yüklenmiş belgelerin listesini silmek istediğinizden emin misiniz ?"
 
 #: ../src/preferences_dialog.c:230
 msgid "Display"
@@ -584,11 +569,9 @@ msgstr ""
 msgid "Ristretto Photo Viewer"
 msgstr "Ristretto Görüntü Gösterici"
 
-#, fuzzy
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
 
-#, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Önizlemeler"
 
@@ -613,16 +596,11 @@ msgstr "Ristretto Görüntü Gösterici"
 #~ msgid "H_ide"
 #~ msgstr "Giz_le"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Bir ya da daha fazla resim değiştirildi, değişiklikleri kaydetmek ister "
-#~ "misiniz?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
+#~ msgstr "Bir ya da daha fazla resim değiştirildi, değişiklikleri kaydetmek ister misiniz?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Resimleri önceden yükle (Arayüz daha erken hazır olur; ama daha fazla "
-#~ "işlemci sömürür)"
+#~ msgstr "_Resimleri önceden yükle (Arayüz daha erken hazır olur; ama daha fazla işlemci sömürür)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Slayt gösterisi sırasında önizlemeleri gizle"
