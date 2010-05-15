@@ -303,7 +303,7 @@ msgstr "Bilder"
 
 #: ../src/main_window.c:1895
 msgid ".jp(e)g"
-msgstr ""
+msgstr ".jp(e)g"
 
 #: ../src/main_window.c:1917 ../src/main_window.c:1940
 #: ../src/main_window.c:2099 ../src/main_window.c:2114
