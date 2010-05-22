@@ -547,8 +547,9 @@ msgid "the border width of the thumbnail-bar"
 msgstr "Randbreite der Vorschaubildleiste"
 
 #: ../src/thumbnail_bar.c:201
+#, fuzzy
 msgid "filmstrip width"
-msgstr ""
+msgstr "Breite der Bildleiste"
 
 #: ../src/thumbnail_bar.c:202
 #, fuzzy
