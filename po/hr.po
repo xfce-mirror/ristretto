@@ -237,7 +237,7 @@ msgstr "Pokaži _ navigacijsku alatnu traku"
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:324
 msgid "Show _Thumbnailbar"
-msgstr "Pokaži traku sličica"
+msgstr "Pokaži _traku sličica"
 
 #. Sort by Filename
 #: ../src/main_window.c:331
