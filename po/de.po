@@ -117,9 +117,8 @@ msgid "_Delete"
 msgstr "Löschen"
 
 #: ../src/main_window.c:275
-#, fuzzy
 msgid "_Preferences"
-msgstr "Einstellungen für den Bildbetrachter"
+msgstr "_Einstellungen für den Bildbetrachter"
 
 #. View Menu
 #: ../src/main_window.c:277
@@ -561,8 +560,9 @@ msgid "Image Viewer"
 msgstr "Bildbetrachter"
 
 #: ../ristretto.desktop.in.h:2
+#, fuzzy
 msgid "Look at your photo's easily"
-msgstr ""
+msgstr "Bildbetrachtung leicht gemacht"
 
 #: ../ristretto.desktop.in.h:3
 #, fuzzy
