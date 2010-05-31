@@ -22,11 +22,11 @@ msgstr "نەشر ئۇچۇرى"
 
 #: ../src/main.c:63
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "تولۇق ئېكران ھالىتىدە قوزغىتىش"
 
 #: ../src/main.c:67
 msgid "Start a slideshow"
-msgstr ""
+msgstr "slideshow نى قوزغىتىش"
 
 #: ../src/main.c:91
 #, c-format
@@ -47,47 +47,47 @@ msgstr "ئاچ(_O)"
 
 #: ../src/main_window.c:263
 msgid "Open an image"
-msgstr ""
+msgstr "سۈرەت ئاچىدۇ"
 
 #: ../src/main_window.c:264
 msgid "Open _Folder"
-msgstr ""
+msgstr "مۇندەرىجە ئاچ(_F)"
 
 #: ../src/main_window.c:264
 msgid "Open a folder"
-msgstr ""
+msgstr "مۇندەرىجە ئاچىدۇ"
 
 #: ../src/main_window.c:265
 msgid "_Save copy"
-msgstr ""
+msgstr "كۆچۈرمىسىنى ساقلا(_S)"
 
 #: ../src/main_window.c:265
 msgid "Save a copy of the image"
-msgstr ""
+msgstr "رەسىمنىڭ كۆچۈرمىسىنى ساقلايدۇ"
 
 #: ../src/main_window.c:266
 msgid "_Print"
-msgstr ""
+msgstr "باس(_P)"
 
 #: ../src/main_window.c:266
 msgid "Print the image"
-msgstr ""
+msgstr "سۈرەتنى بېسىپ چىقىرىدۇ"
 
 #: ../src/main_window.c:267
 msgid "_Close"
-msgstr "تاقاش(_C)"
+msgstr "تاقا(_C)"
 
 #: ../src/main_window.c:267
 msgid "Close this image"
-msgstr ""
+msgstr "سۈرەتنى تاقايدۇ"
 
 #: ../src/main_window.c:268
 msgid "_Close All"
-msgstr ""
+msgstr "ھەممىنى تاقا(_C)"
 
 #: ../src/main_window.c:268
 msgid "Close all images"
-msgstr ""
+msgstr "ھەممە سۈرەتنى تاقايدۇ"
 
 #: ../src/main_window.c:269
 msgid "_Quit"
@@ -95,7 +95,7 @@ msgstr "ئاخىرلاشتۇر(_Q)"
 
 #: ../src/main_window.c:269
 msgid "Quit Ristretto"
-msgstr ""
+msgstr "Ristretto نى ئاخىرلاشتۇرىدۇ"
 
 #. Edit Menu
 #: ../src/main_window.c:271
@@ -104,11 +104,11 @@ msgstr "تەھرىر(_E)"
 
 #: ../src/main_window.c:272
 msgid "_Open with..."
-msgstr ""
+msgstr "پروگراممىدا ئاچ(_O)..."
 
 #: ../src/main_window.c:273
 msgid "_Sorting"
-msgstr ""
+msgstr "تەرتىپلە(_S)"
 
 #: ../src/main_window.c:274
 msgid "_Delete"
@@ -116,7 +116,7 @@ msgstr "ئۆچۈر(_D)"
 
 #: ../src/main_window.c:275
 msgid "_Preferences"
-msgstr ""
+msgstr "مايىللىق(_P)"
 
 #. View Menu
 #: ../src/main_window.c:277
@@ -129,20 +129,20 @@ msgstr "تولۇق ئېكران(_F)"
 
 #: ../src/main_window.c:279
 msgid "_Leave Fullscreen"
-msgstr ""
+msgstr "تولۇق ئېكران ھالىتىدىن چىق(_L)"
 
 #: ../src/main_window.c:280
 msgid "_Set as Wallpaper"
-msgstr ""
+msgstr "Wallpaper بېكىت(_S)"
 
 #. Zoom submenu
 #: ../src/main_window.c:282
 msgid "_Zooming"
-msgstr ""
+msgstr "چوڭايتىش ياكى كىچىكلىتىش(_Z)"
 
 #: ../src/main_window.c:283
 msgid "Zoom _In"
-msgstr ""
+msgstr "چوڭايت(_I)"
 
 #: ../src/main_window.c:284
 msgid "Zoom _Out"
@@ -150,24 +150,24 @@ msgstr "كىچىكلەت(_O)"
 
 #: ../src/main_window.c:285
 msgid "Zoom _Fit"
-msgstr ""
+msgstr "دەل كەلتۈر(_F)"
 
 #: ../src/main_window.c:286
 msgid "_Normal Size"
-msgstr ""
+msgstr "نورمال چوڭلۇق(_N)"
 
 #. Rotation submenu
 #: ../src/main_window.c:288
 msgid "_Rotation"
-msgstr ""
+msgstr "چۆرگىلەت(_R)"
 
 #: ../src/main_window.c:289
 msgid "Rotate _Right"
-msgstr ""
+msgstr "ئوڭغا چۆرگىلەت(_R)"
 
 #: ../src/main_window.c:290
 msgid "Rotate _Left"
-msgstr ""
+msgstr "سولغا چۆرگىلەت(_L)"
 
 #. Go Menu
 #: ../src/main_window.c:292
@@ -176,19 +176,19 @@ msgstr "يۆتكەل(_G)"
 
 #: ../src/main_window.c:293
 msgid "_Forward"
-msgstr ""
+msgstr "ئالدىغا(_F)"
 
 #: ../src/main_window.c:294
 msgid "_Back"
-msgstr ""
+msgstr "كەينىگە(_B)"
 
 #: ../src/main_window.c:295
 msgid "_First"
-msgstr ""
+msgstr "بىرىنچىسى(_F)"
 
 #: ../src/main_window.c:296
 msgid "_Last"
-msgstr ""
+msgstr "ئەڭ ئاخىرقىسى(_L)"
 
 #. Help Menu
 #: ../src/main_window.c:298
@@ -197,11 +197,11 @@ msgstr "ياردەم(_H)"
 
 #: ../src/main_window.c:300
 msgid "_Contents"
-msgstr "مۇندەرىجە(_C)"
+msgstr "مەزمۇن(_C)"
 
 #: ../src/main_window.c:302
 msgid "Display ristretto user manual"
-msgstr ""
+msgstr "ristretto نىڭ قوللانمىسىنى كۆرسىتىدۇ"
 
 #: ../src/main_window.c:305
 msgid "_About"
@@ -209,42 +209,42 @@ msgstr "ھەققىدە(_A)"
 
 #: ../src/main_window.c:307
 msgid "Display information about ristretto"
-msgstr ""
+msgstr "ristretto ھەققىدىكى ئۇچۇرنى كۆرسىتىدۇ"
 
 #. Position Menu
 #: ../src/main_window.c:310
 msgid "_Position"
-msgstr ""
+msgstr "ئورۇن(_P)"
 
 #. Misc
 #: ../src/main_window.c:312
 msgid "Leave _Fullscreen"
-msgstr "ئەسلىگە كەلتۈر(_F)"
+msgstr "تولۇق ئېكران ھالىتىدىن چىق(_F)"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:320
 msgid "Show _File Toolbar"
-msgstr ""
+msgstr "ھۆججەت قورال تاياقچىسى كۆرسەت(_F)"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:322
 msgid "Show _Navigation Toolbar"
-msgstr ""
+msgstr "Navigation قورال تاياقچىسى كۆرسەت(_N)"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:324
 msgid "Show _Thumbnailbar"
-msgstr ""
+msgstr "Thumbnailbar نى كۆرسەت(_T)"
 
 #. Sort by Filename
 #: ../src/main_window.c:331
 msgid "sort by filename"
-msgstr ""
+msgstr "ئاتىنى تەرتىپلە"
 
 #. Sort by Date
 #: ../src/main_window.c:333
 msgid "sort by date"
-msgstr ""
+msgstr "چېسلانى تەرتىپلە"
 
 #: ../src/main_window.c:339
 msgid "Left"
@@ -264,7 +264,7 @@ msgstr "ئاستى"
 
 #: ../src/main_window.c:512 ../src/main_window.c:778
 msgid "Press open to select an image"
-msgstr ""
+msgstr "تاللانغان سۈرەتنى ئېچىش ئۈچۈن چېكىڭ"
 
 #: ../src/main_window.c:765 ../src/main_window.c:770
 msgid "Empty"
@@ -272,11 +272,11 @@ msgstr "قۇرۇق"
 
 #: ../src/main_window.c:1545
 msgid "Developer:"
-msgstr ""
+msgstr "ئىجادىيەتچى"
 
 #: ../src/main_window.c:1555
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
+msgstr "Ristretto بولسا Xfce ئۇستەليۈزى مۇھىتىدىكى سۈرەت كۆرگۈدۇر"
 
 #: ../src/main_window.c:1563
 msgid "translator-credits"
@@ -284,7 +284,7 @@ msgstr "Gheyret T.Kenji <gheyret@gmail.com> 2010"
 
 #: ../src/main_window.c:1878
 msgid "Open image"
-msgstr ""
+msgstr "سۈرەت ئېچىش"
 
 #: ../src/main_window.c:1890
 msgid "Images"
@@ -292,25 +292,25 @@ msgstr "سۈرەتلەر"
 
 #: ../src/main_window.c:1895
 msgid ".jp(e)g"
-msgstr ""
+msgstr ".jp(e)g"
 
 #: ../src/main_window.c:1917 ../src/main_window.c:1940
 #: ../src/main_window.c:2099 ../src/main_window.c:2114
 msgid "Could not open file"
-msgstr ""
+msgstr "ھۆججەتنى ئاچقىلى بولمىدى"
 
 #: ../src/main_window.c:1992
 msgid "Open folder"
-msgstr ""
+msgstr "مۇندەرىجە ئېچىش"
 
 #: ../src/main_window.c:2137
 msgid "Save copy"
-msgstr ""
+msgstr "كۆچۈرمىسىنى ساقلاش"
 
 #: ../src/main_window.c:2210
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr ""
+msgstr "دىسكىدىكى '%s' دېگەن سۈرەتنى ئۆچۈرەمسىز؟"
 
 #: ../src/preferences_dialog.c:230
 msgid "Display"
@@ -318,31 +318,31 @@ msgstr "كۆرسەت"
 
 #: ../src/preferences_dialog.c:235
 msgid "Background color"
-msgstr ""
+msgstr "تەگلىك رەڭگى"
 
 #: ../src/preferences_dialog.c:239
 msgid "Override background color:"
-msgstr ""
+msgstr "قاپلايدىغان تەگلىك رەڭگى:"
 
 #: ../src/preferences_dialog.c:267
 msgid "Quality"
-msgstr ""
+msgstr "سۈپەت"
 
 #: ../src/preferences_dialog.c:271
 msgid "Maximum render quality:"
-msgstr ""
+msgstr "ئەڭ يۇقىرى سىزىش سۈپىتى:"
 
 #: ../src/preferences_dialog.c:274
 msgid "Show preview when loading image"
-msgstr ""
+msgstr "سۈرەت ئوقۇغاندا ئالدىن كۆرسەتسۇن"
 
 #: ../src/preferences_dialog.c:281
 msgid "Best"
-msgstr ""
+msgstr "بەك ياخشى"
 
 #: ../src/preferences_dialog.c:282
 msgid "High"
-msgstr ""
+msgstr "يۇقىرى"
 
 #: ../src/preferences_dialog.c:283
 msgid "Medium"
@@ -350,26 +350,26 @@ msgstr "ئوتتۇرا"
 
 #: ../src/preferences_dialog.c:284
 msgid "Low"
-msgstr ""
+msgstr "تۆۋەن"
 
 #: ../src/preferences_dialog.c:324
 msgid "Slideshow"
-msgstr ""
+msgstr "Slideshow"
 
 #: ../src/preferences_dialog.c:328
 msgid "Timeout"
-msgstr ""
+msgstr "ۋاقىت ئېچىپ كەتتى"
 
 # In ja translation, It's unnecessary to break the line.
 #: ../src/preferences_dialog.c:331
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr ""
+msgstr "slideshow قىلىنغاندا، سۈرەتنىڭ كۆرسىتىلىش ۋاقتى(مىللىي سېكۇنت)"
 
 #: ../src/preferences_dialog.c:346
 msgid "Thumbnails"
-msgstr ""
+msgstr "كىچىك سۈرەت"
 
 #: ../src/preferences_dialog.c:349
 msgid ""
@@ -379,35 +379,35 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:351
 msgid "Hide thumbnailbar when fullscreen"
-msgstr ""
+msgstr "تولۇق ئېكران ھالىتىدە thumbnailbar نى يوشۇرسۇن"
 
 #: ../src/preferences_dialog.c:364
 msgid "Control"
-msgstr ""
+msgstr "كونترول"
 
 #: ../src/preferences_dialog.c:368
 msgid "Scrollwheel"
-msgstr ""
+msgstr "غالتەك"
 
 #: ../src/preferences_dialog.c:371
 msgid "No action"
-msgstr ""
+msgstr "مەشغۇلات يوق"
 
 #: ../src/preferences_dialog.c:375
 msgid "Zoom in and out"
-msgstr ""
+msgstr "چوڭايتىش ۋە كىچىكلىتىش"
 
 #: ../src/preferences_dialog.c:378
 msgid "Switch images"
-msgstr ""
+msgstr "سۈرەت ئالماشتۇرۇش"
 
 #: ../src/preferences_dialog.c:412
 msgid "Behaviour"
-msgstr ""
+msgstr "قىلمىش"
 
 #: ../src/preferences_dialog.c:417
 msgid "Scaling"
-msgstr ""
+msgstr "كۆرسىتىش نىسبىتى"
 
 #: ../src/preferences_dialog.c:422
 msgid "Don't scale over 100% when maximizing the window."
@@ -415,15 +415,15 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:426
 msgid "Startup"
-msgstr ""
+msgstr "قوزغىلىش"
 
 #: ../src/preferences_dialog.c:428
 msgid "Resize window to image on startup"
-msgstr ""
+msgstr "قوزغالغاندا كۆزنەكنى سۈرەت بىلەن ئوخشاش قىلسۇن"
 
 #: ../src/preferences_dialog.c:432
 msgid "Open entire folder on startup"
-msgstr ""
+msgstr "قوزغالغاندا ھەممە مۇندەرىجىنى ئاچسۇن"
 
 #: ../src/preferences_dialog.c:437
 msgid "Wrap around images"
@@ -431,27 +431,27 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:453
 msgid "Memory"
-msgstr ""
+msgstr "ئەسلەك"
 
 #: ../src/preferences_dialog.c:459
 msgid "Image cache"
-msgstr ""
+msgstr "سۈرەت غەملىكى"
 
 #: ../src/preferences_dialog.c:465
 msgid "Cache size"
-msgstr ""
+msgstr "غەملەك چوڭلۇقى"
 
 #: ../src/preferences_dialog.c:466
 msgid "MB"
-msgstr ""
+msgstr "م ب"
 
 #: ../src/preferences_dialog.c:469
 msgid "Enable cache"
-msgstr ""
+msgstr "غەملەك ئىشلەتسۇن"
 
 #: ../src/preferences_dialog.c:474
 msgid "Preload images"
-msgstr ""
+msgstr "سۈرەتلەرنى ئالدىن ئوقۇسۇن"
 
 #: ../src/preferences_dialog.c:544
 msgid "Preferences"
@@ -463,15 +463,15 @@ msgstr "wallpaper قىلىپ بەلگىلە"
 
 #: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
-msgstr ""
+msgstr "ئۇسلۇب:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "ئېكران:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "يورۇقلۇق:"
 
 #: ../src/xfce_wallpaper_manager.c:91
 msgid "Saturation:"
@@ -479,11 +479,11 @@ msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
-msgstr ""
+msgstr "ئاپتوماتىك"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr ""
+msgstr "ئوتتۇرىدا"
 
 #: ../src/xfce_wallpaper_manager.c:125
 msgid "Tiled"
@@ -491,11 +491,11 @@ msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr ""
+msgstr "سوزۇلغان"
 
 #: ../src/xfce_wallpaper_manager.c:127
 msgid "Scaled"
-msgstr ""
+msgstr "چوڭايتىلغان ياكى كىچىكلىتىلگەن"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
@@ -507,15 +507,15 @@ msgstr "بوشلۇق"
 
 #: ../src/thumbnail_bar.c:188
 msgid "The amount of space between the thumbnails"
-msgstr ""
+msgstr "thumbnail ئارىسىدىكى بوشلۇق مىقدارى"
 
 #: ../src/thumbnail_bar.c:194
 msgid "border width"
-msgstr ""
+msgstr "گىرۋەك كەڭلىكى"
 
 #: ../src/thumbnail_bar.c:195
 msgid "the border width of the thumbnail-bar"
-msgstr ""
+msgstr "thumbnail-تاياقچىسىنىڭ گىرۋىكىنىڭ كەڭلىكى"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
@@ -527,7 +527,7 @@ msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
-msgstr ""
+msgstr "سۈرەت كۆرگۈ"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
@@ -535,46 +535,5 @@ msgstr ""
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
-msgstr ""
+msgstr "Ristretto سۈرەت كۆرگۈ"
 
-#~ msgid "_Thumbnail Bar"
-#~ msgstr "サムネイルバー(_T)"
-
-#~ msgid "Opening file(s)..."
-#~ msgstr "ファイルを開いています..."
-
-#~ msgid "_Recently used"
-#~ msgstr "最近開いたファイル(_R)"
-
-#~ msgid "No applications available"
-#~ msgstr "使用可能なアプリケーションはありません"
-
-#~ msgid "Thumbnail _Viewer"
-#~ msgstr "サムネイルビューア(_V)"
-
-#~ msgid "Show _Horizontally"
-#~ msgstr "横に表示(_H)"
-
-#~ msgid "Show _Vertically"
-#~ msgstr "縦に表示(_V)"
-
-#~ msgid "H_ide"
-#~ msgstr "表示しない(_I)"
-
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr "一つ以上の画像が修正されています。保存しますか?"
-
-#~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "画像の先行読み込み(_P)\n"
-#~ "(GUI の反応が向上しますが、CPU 負荷も上昇します)"
-
-#~ msgid "Hide the thumbnails bar during slideshow"
-#~ msgstr "スライドショー中はサムネイルを非表示にできます"
-
-#~ msgid "Xfce Image viewer"
-#~ msgstr "Xfce 画像ビューア"
-
-#~ msgid "Filename"
-#~ msgstr "ファイル名"
