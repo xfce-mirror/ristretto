@@ -479,9 +479,8 @@ msgid "Preload images"
 msgstr "Bilder _vorladen"
 
 #: ../src/preferences_dialog.c:544
-#, fuzzy
 msgid "Preferences"
-msgstr "Einstellungen für den Bildbetrachter"
+msgstr "_Einstellungen für den Bildbetrachter"
 
 #: ../src/xfce_wallpaper_manager.c:84
 #, fuzzy
@@ -562,7 +561,7 @@ msgstr "Bildbetrachter"
 #: ../ristretto.desktop.in.h:2
 #, fuzzy
 msgid "Look at your photo's easily"
-msgstr "Bildbetrachtung leicht gemacht"
+msgstr "Bilder anschauen leicht gemacht"
 
 #: ../ristretto.desktop.in.h:3
 #, fuzzy
