@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-01-15 00:57+0100\n"
-"PO-Revision-Date: 2010-06-10 00:26+0200\n"
+"PO-Revision-Date: 2010-06-11 19:40+0200\n"
 "Last-Translator: Ivica Kolić<ikoli@yahoo.com> <>\n"
 "Language-Team: Croatian <>\n"
 "MIME-Version: 1.0\n"
@@ -283,7 +283,7 @@ msgstr "Ristretto je preglednik slika za  Xfce radno okruženje"
 
 #: ../src/main_window.c:1563
 msgid "translator-credits"
-msgstr "zvacet <ikoli@yahoo.com>"
+msgstr "Ivica Kolić (zvacet) <ikoli@yahoo.com>"
 
 #: ../src/main_window.c:1878
 msgid "Open image"
