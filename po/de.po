@@ -387,16 +387,14 @@ msgid "Thumbnails"
 msgstr "Miniaturbilder"
 
 #: ../src/preferences_dialog.c:349
-#, fuzzy
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr "Die Miniaturbildleiste kann automatisch im \\n\\nVollbildmodus automatisch versteckt werden."
 
 #: ../src/preferences_dialog.c:351
-#, fuzzy
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "_Miniaturbilder verbergen"
+msgstr "_Miniaturbildleiste verbergen"
 
 #: ../src/preferences_dialog.c:364
 msgid "Control"
@@ -552,7 +550,7 @@ msgstr "Breite der Bildleiste"
 #: ../src/thumbnail_bar.c:202
 #, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "Die Randbreite der Vorschaubildleiste"
+msgstr "Die Breite der Miniaturbildleiste"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
