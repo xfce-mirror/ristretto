@@ -469,7 +469,7 @@ msgstr "MB"
 #: ../src/preferences_dialog.c:469
 #, fuzzy
 msgid "Enable cache"
-msgstr "Bildzwischenspeicher"
+msgstr "Bildzwischenspeicher aktivieren"
 
 #: ../src/preferences_dialog.c:474
 #, fuzzy
