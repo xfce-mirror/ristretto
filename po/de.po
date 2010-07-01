@@ -47,7 +47,6 @@ msgid "_Open"
 msgstr "Öffnen"
 
 #: ../src/main_window.c:263
-#, fuzzy
 msgid "Open an image"
 msgstr "Bild öffnen"
 
@@ -161,7 +160,6 @@ msgstr "_Normalgröße"
 
 #. Rotation submenu
 #: ../src/main_window.c:288
-#, fuzzy
 msgid "_Rotation"
 msgstr "_Drehen"
 
@@ -227,21 +225,18 @@ msgstr "Vollbildmodus verlassen"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:320
-#, fuzzy
 msgid "Show _File Toolbar"
 msgstr "_Werkzeugleiste anzeigen"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:322
-#, fuzzy
 msgid "Show _Navigation Toolbar"
 msgstr "_Navigationsleiste anzeigen"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:324
-#, fuzzy
 msgid "Show _Thumbnailbar"
-msgstr "_Werkzeugleiste anzeigen"
+msgstr "_Miniaturbildleiste anzeigen"
 
 #. Sort by Filename
 #: ../src/main_window.c:331
@@ -340,7 +335,6 @@ msgid "Quality"
 msgstr "Qualität"
 
 #: ../src/preferences_dialog.c:271
-#, fuzzy
 msgid "Maximum render quality:"
 msgstr "Maximale Qualität"
 
@@ -349,7 +343,6 @@ msgid "Show preview when loading image"
 msgstr "Vorschau während des Ladens anzeigen"
 
 #: ../src/preferences_dialog.c:281
-#, fuzzy
 msgid "Best"
 msgstr "Am Besten"
 
@@ -415,7 +408,6 @@ msgid "Zoom in and out"
 msgstr "Größe ändern"
 
 #: ../src/preferences_dialog.c:378
-#, fuzzy
 msgid "Switch images"
 msgstr "Bilder wechseln"
 
@@ -453,12 +445,10 @@ msgid "Memory"
 msgstr "Speicher"
 
 #: ../src/preferences_dialog.c:459
-#, fuzzy
 msgid "Image cache"
 msgstr "Bildzwischenspeicher"
 
 #: ../src/preferences_dialog.c:465
-#, fuzzy
 msgid "Cache size"
 msgstr "Zwischenspeichergröße:"
 
@@ -483,10 +473,9 @@ msgstr "_Einstellungen für den Bildbetrachter"
 #: ../src/xfce_wallpaper_manager.c:84
 #, fuzzy
 msgid "Set as wallpaper"
-msgstr "Al_s Hintergrundbild einstellen"
+msgstr "Al_s Hintergrundbild nutzen"
 
 #: ../src/xfce_wallpaper_manager.c:86
-#, fuzzy
 msgid "Style:"
 msgstr "Stil:"
 
@@ -557,12 +546,10 @@ msgid "Image Viewer"
 msgstr "Bildbetrachter"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your photo's easily"
 msgstr "Bilder anschauen leicht gemacht"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Photo Viewer"
 msgstr "Bildbetrachter Ristretto"
 
