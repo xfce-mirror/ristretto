@@ -1,5 +1,5 @@
-0.x.x
-=====
+0.0.91
+======
 - Remove dependency on thunar
 - Port to GIO instead of thunarvfs
 - Add option to select maximum render quality (can improve performance at the
@@ -9,6 +9,7 @@
 - Use dbus-thumbnailing spec to generate thumbnails
 - Add buttons to delete the image from disk
 - Restyle the toolbars to make room for more usefull options
+- Save position and size of thumbnail-bar
 
 0.0.22
 ======

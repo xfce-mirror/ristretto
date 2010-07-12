@@ -23,3 +23,7 @@ DISTCLEANFILES = \
 	$(desktop_DATA)
 
 DISTCHECK_CONFIGURE_FLAGS=--enable-xsltproc
+
+AUTOMAKE_OPTIONS = \
+	1.8	\
+	dist-bzip2

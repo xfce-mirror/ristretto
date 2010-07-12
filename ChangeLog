@@ -1,3 +1,15 @@
+2010-07-12 Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c, 
+	  src/settings.c,
+	  src/preferences_dialog.c: Re-implement preloading
+	* src/gnome_wallpaper_manager.c,
+	  src/gnome_wallpaper_manager.h: Add gnome-wallpaper-manager skeleton
+	* src/picture_viewer.c: Update when bgcolor-properties are changed
+	* src/thumbnail_bar.c: Fix compile warning (and evil bug that could've segfaulted the app)
+	* src/settings.c,
+	  src/main_window.c: Save thumbnailbar-size
+
 2010-01-13 Stephan Arts <stephan@xfce.org>
 
 	* src/picture_viewer.c: Fix box-zoom when image is rendered at below-maximum resolution
