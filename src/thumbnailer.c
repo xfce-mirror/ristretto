@@ -117,7 +117,7 @@ rstto_thumbnailer_init (GObject *object)
                                                                 "org.freedesktop.thumbnails.Thumbnailer1");
         dbus_g_proxy_add_signal (thumbnailer->priv->proxy, "Finished", G_TYPE_UINT, G_TYPE_INVALID);
 
-        dbus_g_proxy_connect_signal (thumbnailer->priv->proxy, "Finished", cb_rstto_thumbnailer_request_finished, thumbnailer, NULL);
+        dbus_g_proxy_connect_signal (thumbnailer->priv->proxy, "Finished", G_CALLBACK(cb_rstto_thumbnailer_request_finished), thumbnailer, NULL);
     }
 }
 
@@ -247,7 +247,7 @@ static gboolean
 rstto_thumbnailer_queue_request_timer (RsttoThumbnailer *thumbnailer)
 {
     gchar **uris;
-    gchar **mimetypes;
+    const gchar **mimetypes;
     GSList *iter;
     gint i = 0;
     GFile *file;
@@ -256,7 +256,7 @@ rstto_thumbnailer_queue_request_timer (RsttoThumbnailer *thumbnailer)
     GFileInfo *file_info;
 
     uris = g_new0 (gchar *, g_slist_length(thumbnailer->priv->queue)+1);
-    mimetypes = g_new0 (gchar *, g_slist_length(thumbnailer->priv->queue)+1);
+    mimetypes = g_new0 (const gchar *, g_slist_length(thumbnailer->priv->queue)+1);
 
     iter = thumbnailer->priv->queue;
     while (iter)

@@ -254,6 +254,9 @@ rstto_main_window_update_buttons (RsttoMainWindow *window);
 static void
 rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint orientation);
 
+static void
+cb_rstto_main_window_vpaned_pos_changed (GtkWidget *widget, gpointer user_data);
+
 static GtkWidgetClass *parent_class = NULL;
 
 static GtkActionEntry action_entries[] =
@@ -505,6 +508,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_paned_pack1 (GTK_PANED (window->priv->vpaned_bottom), window->priv->p_viewer_s_window, TRUE, FALSE);
     gtk_paned_pack2 (GTK_PANED (window->priv->hpaned_right), window->priv->thumbnailbar, FALSE, FALSE);
 
+
     window->priv->statusbar = gtk_statusbar_new();
     window->priv->statusbar_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR(window->priv->statusbar), "image-data");
     gtk_statusbar_push (GTK_STATUSBAR(window->priv->statusbar), 
@@ -629,6 +633,12 @@ rstto_main_window_init (RsttoMainWindow *window)
     g_signal_connect(G_OBJECT(window->priv->thumbnailbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
 
     g_signal_connect(G_OBJECT(window->priv->settings_manager), "notify", G_CALLBACK(cb_rstto_main_window_settings_notify), window);
+
+    g_signal_connect(G_OBJECT(window->priv->vpaned_top), "accept-position", G_CALLBACK(cb_rstto_main_window_vpaned_pos_changed), window);
+    g_signal_connect(G_OBJECT(window->priv->vpaned_bottom), "accept-position", G_CALLBACK(cb_rstto_main_window_vpaned_pos_changed), window);
+
+    gtk_paned_set_position (GTK_PANED(window->priv->vpaned_top), rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
+    gtk_paned_set_position (GTK_PANED(window->priv->vpaned_bottom), rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
 }
 
 static void
@@ -659,7 +669,6 @@ static void
 rstto_main_window_dispose(GObject *object)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW(object);
-    G_OBJECT_CLASS (parent_class)->dispose(object); 
 
     if (window->priv->ui_manager)
     {
@@ -669,9 +678,34 @@ rstto_main_window_dispose(GObject *object)
 
     if (window->priv->settings_manager)
     {
+        switch (rstto_settings_get_navbar_position (window->priv->settings_manager))
+        {
+            case 0:
+                rstto_settings_set_int_property (window->priv->settings_manager, 
+                                        "thumbnailbar-size",
+                                        gtk_paned_get_position (GTK_PANED(window->priv->hpaned_left)));
+                break;
+            case 1:
+                rstto_settings_set_int_property (window->priv->settings_manager, 
+                                        "thumbnailbar-size", 
+                                        gtk_paned_get_position (GTK_PANED(window->priv->hpaned_right)));
+                break;
+            case 2:
+                rstto_settings_set_int_property (window->priv->settings_manager, 
+                                        "thumbnailbar-size", 
+                                        gtk_paned_get_position (GTK_PANED(window->priv->vpaned_top)));
+                break;
+            case 3:
+                rstto_settings_set_int_property (window->priv->settings_manager, 
+                                        "thumbnailbar-size", 
+                                        gtk_paned_get_position (GTK_PANED(window->priv->vpaned_bottom)));
+                break;
+        }
         g_object_unref (window->priv->settings_manager);
         window->priv->settings_manager = NULL;
     }
+
+    G_OBJECT_CLASS (parent_class)->dispose(object); 
 }
 
 /**
@@ -2383,4 +2417,13 @@ cb_rstto_main_window_image_updated (RsttoImage *image, RsttoMainWindow *window)
 
         g_free (status);
     }
+}
+
+static void
+cb_rstto_main_window_vpaned_pos_changed (GtkWidget *widget, gpointer user_data)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+
+    rstto_settings_set_uint_property (RSTTO_SETTINGS (window->priv->settings_manager), "thumbnailbar-size", gtk_paned_get_position (GTK_PANED(widget)));
+    g_debug("%s", __FUNCTION__);
 }
