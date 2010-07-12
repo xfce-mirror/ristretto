@@ -45,7 +45,7 @@ cb_rstto_preferences_dialog_bgcolor_color_set (GtkColorButton *, gpointer);
 static void
 cb_rstto_preferences_dialog_cache_check_button_toggled (GtkToggleButton *, gpointer);
 static void
-cb_rstto_preferences_dialog_cache_preload_hscale_value_changed (GtkRange *range, 
+cb_rstto_preferences_dialog_cache_preload_check_button_toggled (GtkToggleButton *button, 
                                                                 gpointer user_data);
 static void
 cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *, gpointer);
@@ -143,8 +143,7 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *cache_check_button;
         GtkWidget *cache_alignment;
         GtkWidget *cache_spin_button;
-        GtkWidget *cache_preload_label;
-        GtkWidget *cache_preload_hscale;
+        GtkWidget *cache_preload_check_button;
     } cache_tab;
 };
 
@@ -179,7 +178,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 {
     guint uint_image_quality;
     guint uint_cache_size;
-    guint uint_preload_images;
+    gboolean bool_preload_images;
     gboolean bool_enable_cache;
     gboolean bool_bgcolor_override;
     gchar *scrollwheel_primary_action;
@@ -212,7 +211,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                   "image-quality", &uint_image_quality,
                   "cache-size", &uint_cache_size,
                   "show-preview", &bool_show_preview,
-                  "preload-images", &uint_preload_images,
+                  "preload-images", &bool_preload_images,
                   "enable-cache", &bool_enable_cache,
                   "bgcolor-override", &bool_bgcolor_override,
                   "bgcolor", &bgcolor,
@@ -471,11 +470,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_alignment_set_padding (GTK_ALIGNMENT (dialog->priv->cache_tab.cache_alignment), 0, 0, 20, 0);
     dialog->priv->cache_tab.cache_spin_button = gtk_spin_button_new(GTK_ADJUSTMENT(cache_adjustment), 1.0, 0);
 
-    dialog->priv->cache_tab.cache_preload_label = gtk_label_new (_("Preload images"));
-    gtk_misc_set_alignment(GTK_MISC(dialog->priv->cache_tab.cache_preload_label), 0, 0.5);
-    gtk_misc_set_padding(GTK_MISC(dialog->priv->cache_tab.cache_preload_label), 2, 2);
-    dialog->priv->cache_tab.cache_preload_hscale = gtk_hscale_new_with_range(0, 50, 1);
-    gtk_scale_set_value_pos (GTK_SCALE (dialog->priv->cache_tab.cache_preload_hscale), GTK_POS_LEFT);
+    dialog->priv->cache_tab.cache_preload_check_button = gtk_check_button_new_with_label (_("Enable preloading"));
 
     gtk_box_pack_start (GTK_BOX (dialog->priv->cache_tab.cache_hbox), 
                                  dialog->priv->cache_tab.cache_size_label, FALSE, FALSE, 0);
@@ -494,18 +489,13 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_box_pack_start (GTK_BOX (dialog->priv->cache_tab.cache_sub_vbox), 
                                  dialog->priv->cache_tab.cache_hbox, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (dialog->priv->cache_tab.cache_sub_vbox), 
-                                 dialog->priv->cache_tab.cache_preload_label, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (dialog->priv->cache_tab.cache_sub_vbox), 
-                                 dialog->priv->cache_tab.cache_preload_hscale, FALSE, FALSE, 0);
+                                 dialog->priv->cache_tab.cache_preload_check_button, FALSE, FALSE, 0);
     
     /* set current value */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->cache_tab.cache_check_button),
                                   bool_enable_cache);
     gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->cache_tab.cache_sub_vbox),
                               bool_enable_cache);
-
-    gtk_range_set_value ( GTK_RANGE(dialog->priv->cache_tab.cache_preload_hscale),
-                                  uint_preload_images);
 
     if (uint_cache_size < RSTTO_MIN_CACHE_SIZE)
     {
@@ -519,8 +509,8 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     /* connect signals */
     g_signal_connect (G_OBJECT (dialog->priv->cache_tab.cache_check_button), 
                       "toggled", (GCallback)cb_rstto_preferences_dialog_cache_check_button_toggled, dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->cache_tab.cache_preload_hscale), 
-                      "value-changed", (GCallback)cb_rstto_preferences_dialog_cache_preload_hscale_value_changed, dialog);
+    g_signal_connect (G_OBJECT (dialog->priv->cache_tab.cache_check_button), 
+                      "toggled", (GCallback)cb_rstto_preferences_dialog_cache_preload_check_button_toggled, dialog);
     g_signal_connect (G_OBJECT (dialog->priv->cache_tab.cache_spin_button), 
                       "value-changed", (GCallback)cb_rstto_preferences_dialog_cache_spin_button_value_changed, dialog);
 
@@ -613,17 +603,24 @@ cb_rstto_preferences_dialog_cache_check_button_toggled (GtkToggleButton *button,
 }
 
 static void
-cb_rstto_preferences_dialog_cache_preload_hscale_value_changed (GtkRange *range, 
+cb_rstto_preferences_dialog_cache_preload_check_button_toggled (GtkToggleButton *button, 
                                                                 gpointer user_data)
 {
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
 
     GValue value = {0, };
-    g_value_init (&value, G_TYPE_UINT);
-
-    g_value_set_uint (&value, gtk_range_get_value (range));
+    g_value_init (&value, G_TYPE_BOOLEAN);
+    if (gtk_toggle_button_get_active (button))
+    {
+        g_value_set_boolean (&value, TRUE);
+    }
+    else
+    {
+        g_value_set_boolean (&value, FALSE);
+    }
 
     g_object_set_property (G_OBJECT (dialog->priv->settings), "preload-images", &value);
+
     g_value_unset (&value);
 }
 

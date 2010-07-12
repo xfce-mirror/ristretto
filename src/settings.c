@@ -115,7 +115,7 @@ struct _RsttoSettingsPriv
     gboolean  hide_thumbnailbar_fullscreen;
     gboolean  open_entire_folder;
     gchar    *navigationbar_position;
-    guint     preload_images;
+    gboolean  preload_images;
     gboolean  enable_cache;
     guint     cache_size;
     guint     image_quality;
@@ -183,7 +183,7 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind (settings->priv->channel, "/window/bgcolor-override", G_TYPE_BOOLEAN, settings, "bgcolor-override");
 
     xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/window/bgcolor-fullscreen", settings, "bgcolor-fullscreen");
-    xfconf_g_property_bind (settings->priv->channel, "/image/preload", G_TYPE_UINT, settings, "preload-images");
+    xfconf_g_property_bind (settings->priv->channel, "/image/preload", G_TYPE_BOOLEAN, settings, "preload-images");
     xfconf_g_property_bind (settings->priv->channel, "/image/cache", G_TYPE_BOOLEAN, settings, "enable-cache");
     xfconf_g_property_bind (settings->priv->channel, "/image/cache-size", G_TYPE_UINT, settings, "cache-size");
     xfconf_g_property_bind (settings->priv->channel, "/image/quality", G_TYPE_UINT, settings, "image-quality");
@@ -292,13 +292,11 @@ rstto_settings_class_init (GObjectClass *object_class)
                                      PROP_SHOW_PREVIEW,
                                      pspec);
 
-    pspec = g_param_spec_uint ("preload-images",
-                               "",
-                               "",
-                               0,
-                               50,
-                               0,
-                               G_PARAM_READWRITE);
+    pspec = g_param_spec_boolean ("preload-images",
+                                  "",
+                                  "",
+                                  TRUE,
+                                  G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_PRELOAD_IMAGES,
                                      pspec);
@@ -526,7 +524,7 @@ rstto_settings_set_property    (GObject      *object,
             settings->priv->show_preview = g_value_get_boolean (value);
             break;
         case PROP_PRELOAD_IMAGES:
-            settings->priv->preload_images = g_value_get_uint (value);
+            settings->priv->preload_images = g_value_get_boolean (value);
             break;
         case PROP_ENABLE_CACHE:
             settings->priv->enable_cache = g_value_get_boolean (value);
@@ -620,7 +618,7 @@ rstto_settings_get_property    (GObject    *object,
             g_value_set_boolean (value, settings->priv->show_preview);
             break;
         case PROP_PRELOAD_IMAGES:
-            g_value_set_uint (value, settings->priv->preload_images);
+            g_value_set_boolean (value, settings->priv->preload_images);
             break;
         case PROP_ENABLE_CACHE:
             g_value_set_boolean (value, settings->priv->enable_cache);
