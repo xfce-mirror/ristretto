@@ -75,6 +75,7 @@ enum
     PROP_SCROLLWHEEL_SECONDARY_ACTION,
     PROP_OPEN_ENTIRE_FOLDER,
     PROP_WRAP_IMAGES,
+    PROP_THUMBNAILBAR_SIZE,
 };
 
 GType
@@ -128,6 +129,7 @@ struct _RsttoSettingsPriv
     gchar    *scrollwheel_primary_action;
     gchar    *scrollwheel_secondary_action;
     gboolean  wrap_images;
+    gint     thumbnailbar_size;
 };
 
 
@@ -186,6 +188,7 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind (settings->priv->channel, "/image/cache-size", G_TYPE_UINT, settings, "cache-size");
     xfconf_g_property_bind (settings->priv->channel, "/image/quality", G_TYPE_UINT, settings, "image-quality");
     xfconf_g_property_bind (settings->priv->channel, "/image/wrap", G_TYPE_BOOLEAN, settings, "wrap-images");
+    xfconf_g_property_bind (settings->priv->channel, "/window/thumbnailbar/size", G_TYPE_INT, settings, "thumbnailbar-size");
 }
 
 
@@ -404,6 +407,17 @@ rstto_settings_class_init (GObjectClass *object_class)
     g_object_class_install_property (object_class,
                                      PROP_WRAP_IMAGES,
                                      pspec);
+
+    pspec = g_param_spec_int    ("thumbnailbar-size",
+                                  "",
+                                  "",
+                                  -1,
+                                  4000,
+                                  70,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_THUMBNAILBAR_SIZE,
+                                     pspec);
 }
 
 /**
@@ -565,6 +579,9 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_WRAP_IMAGES:
             settings->priv->wrap_images = g_value_get_boolean (value);
             break;
+        case PROP_THUMBNAILBAR_SIZE:
+            settings->priv->thumbnailbar_size = g_value_get_int (value);
+            break;
         default:
             break;
     }
@@ -643,6 +660,9 @@ rstto_settings_get_property    (GObject    *object,
         case PROP_WRAP_IMAGES:
             g_value_set_boolean (value, settings->priv->wrap_images);
             break;
+        case PROP_THUMBNAILBAR_SIZE:
+            g_value_set_int (value, settings->priv->thumbnailbar_size);
+            break;
         default:
             break;
 
@@ -719,6 +739,37 @@ rstto_settings_get_uint_property (RsttoSettings *settings,
 
     g_object_get_property (G_OBJECT(settings), property_name, &val);
     value = g_value_get_uint (&val);
+
+    g_value_reset (&val);
+
+    return value;
+}
+
+void
+rstto_settings_set_int_property (RsttoSettings *settings,
+                                  const gchar *property_name,
+                                  gint value)
+{
+    GValue val = {0, };
+    g_value_init (&val, G_TYPE_INT);
+
+    g_value_set_int (&val, value);
+
+    g_object_set_property (G_OBJECT(settings), property_name, &val);
+
+    g_value_reset (&val);
+}
+
+gint
+rstto_settings_get_int_property (RsttoSettings *settings,
+                                  const gchar *property_name)
+{
+    gint value;
+    GValue val = {0, };
+    g_value_init (&val, G_TYPE_INT);
+
+    g_object_get_property (G_OBJECT(settings), property_name, &val);
+    value = g_value_get_int (&val);
 
     g_value_reset (&val);
 
