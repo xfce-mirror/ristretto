@@ -161,6 +161,9 @@ cb_rstto_picture_viewer_motion_notify_event (RsttoPictureViewer *viewer,
 static void
 cb_rstto_picture_viewer_popup_menu (RsttoPictureViewer *viewer, gboolean user_data);
 
+static void
+cb_rstto_picture_viewer_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_data);
+
 static GtkWidgetClass *parent_class = NULL;
 
 GType
@@ -422,6 +425,12 @@ rstto_picture_viewer_paint (GtkWidget *widget)
     g_value_init (&val_bg_color, GDK_TYPE_COLOR);
     g_value_init (&val_bg_color_fs, GDK_TYPE_COLOR);
     g_value_init (&val_bg_color_override, G_TYPE_BOOLEAN);
+
+    g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::bgcolor", G_CALLBACK (cb_rstto_picture_viewer_bgcolor_changed), viewer);
+    g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::bgcolor-override", G_CALLBACK (cb_rstto_picture_viewer_bgcolor_changed), viewer);
+    /*
+    g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::bgcolor-fullscreen", G_CALLBACK (cb_rstto_picture_viewer_bgcolor_changed), viewer);
+    */
 
     g_object_get_property (G_OBJECT(viewer->priv->settings), "bgcolor", &val_bg_color);
     g_object_get_property (G_OBJECT(viewer->priv->settings), "bgcolor-override", &val_bg_color_override);
@@ -1781,4 +1790,11 @@ cb_rstto_picture_viewer_nav_iter_changed (RsttoImageListIter *iter, gpointer use
 {
     RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER (user_data);
     rstto_picture_viewer_set_image (viewer, rstto_image_list_iter_get_image (iter));
+}
+
+static void
+cb_rstto_picture_viewer_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
+{
+    RsttoPictureViewer *viewer = RSTTO_PICTURE_VIEWER (user_data);
+    rstto_picture_viewer_queued_repaint (viewer, TRUE);
 }
