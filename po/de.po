@@ -390,8 +390,9 @@ msgid "Hide thumbnailbar when fullscreen"
 msgstr "Miniaturbildleiste verbergen"
 
 #: ../src/preferences_dialog.c:364
+#, fuzzy
 msgid "Control"
-msgstr ""
+msgstr "Steuerung"
 
 #: ../src/preferences_dialog.c:368
 msgid "Scrollwheel"
@@ -465,7 +466,7 @@ msgstr "Bilder vorladen"
 
 #: ../src/preferences_dialog.c:544
 msgid "Preferences"
-msgstr "_Einstellungen für den Bildbetrachter"
+msgstr "Einstellungen für den Bildbetrachter"
 
 #: ../src/xfce_wallpaper_manager.c:84
 msgid "Set as wallpaper"
