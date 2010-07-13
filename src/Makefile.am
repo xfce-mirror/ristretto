@@ -41,7 +41,7 @@ ristretto_LDADD = \
 	$(CAIRO_LIBS) \
 	$(XFCONF_LIBS) \
 	$(LIBXFCE4UTIL_LIBS) \
-	$(LIBXFCEGUI4_LIBS)
+	$(LIBXFCEGUI4_LIBS) -lX11
 
 INCLUDES = \
 	-I${top_srcdir}
