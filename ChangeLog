@@ -1,4 +1,9 @@
 2010-07-13 Stephan Arts <stephan@xfce.org>
+
+	* src/image_list.c: Fix reference-count bug.
+
+2010-07-13 Stephan Arts <stephan@xfce.org>
+
 	* src/Makefile.am: Add -lX11 to LDADD, fixes --no-add-needed build
 
 2010-07-12 Stephan Arts <stephan@xfce.org>

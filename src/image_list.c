@@ -293,7 +293,7 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
     iter = image_list->priv->iterators;
     while (iter)
     {
-        rstto_image_list_iter_set_position (iter->data, 0);
+        rstto_image_list_iter_set_position (iter->data, -1);
         iter = g_slist_next (iter);
     }
     g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL], 0, NULL);
@@ -372,7 +372,6 @@ rstto_image_list_iter_dispose (GObject *object)
     RsttoImageListIter *iter = RSTTO_IMAGE_LIST_ITER(object);
     if (iter->priv->image)
     {
-        g_object_unref (iter->priv->image);
         iter->priv->image = NULL;
     }
 
@@ -390,10 +389,6 @@ rstto_image_list_iter_new (RsttoImageList *nav, RsttoImage *image)
 
     iter = g_object_new(RSTTO_TYPE_IMAGE_LIST_ITER, NULL);
     iter->priv->image = image;
-    if (image)
-    {
-        g_object_ref (image);
-    }
     iter->priv->image_list = nav;
 
     return iter;
@@ -409,12 +404,7 @@ rstto_image_list_iter_find_image (RsttoImageListIter *iter, RsttoImage *image)
 
         if (iter->priv->image)
         {
-            g_object_unref (iter->priv->image);
             iter->priv->image = NULL;
-        }
-        if (image)
-        {
-            g_object_ref (image);
         }
         iter->priv->image = image;
 
@@ -449,14 +439,12 @@ rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos)
 
     if (iter->priv->image)
     {
-        g_object_unref (iter->priv->image);
         iter->priv->image = NULL;
     }
 
-    iter->priv->image = g_list_nth_data (iter->priv->image_list->priv->images, pos); 
-    if (iter->priv->image)
+    if (pos >= 0)
     {
-        g_object_ref (iter->priv->image);
+        iter->priv->image = g_list_nth_data (iter->priv->image_list->priv->images, pos); 
     }
 
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
@@ -473,7 +461,6 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
     if (iter->priv->image)
     {
         position = g_list_find (iter->priv->image_list->priv->images, iter->priv->image);
-        g_object_unref (iter->priv->image);
         iter->priv->image = NULL;
     }
 
@@ -497,11 +484,6 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
         g_object_unref (settings);
     }
 
-    if (iter->priv->image)
-    {
-        g_object_ref (iter->priv->image);
-    }
-
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
 }
 
@@ -517,7 +499,6 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter)
     {
         position = g_list_find (iter->priv->image_list->priv->images, iter->priv->image);
         iter->priv->image = NULL;
-        g_object_unref (iter->priv->image);
     }
 
     position = g_list_previous (position);
@@ -539,12 +520,6 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter)
 
         g_object_unref (settings);
     }
-
-    if (iter->priv->image)
-    {
-        g_object_ref (iter->priv->image);
-    }
-
 
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
 }
