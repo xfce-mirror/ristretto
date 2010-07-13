@@ -496,7 +496,8 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                                   bool_enable_cache);
     gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->cache_tab.cache_sub_vbox),
                               bool_enable_cache);
-
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->cache_tab.cache_preload_check_button),
+                                  bool_preload_images);
     if (uint_cache_size < RSTTO_MIN_CACHE_SIZE)
     {
         gtk_adjustment_set_value (GTK_ADJUSTMENT (cache_adjustment), RSTTO_DEFAULT_CACHE_SIZE);
