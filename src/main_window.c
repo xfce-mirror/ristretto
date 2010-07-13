@@ -381,6 +381,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     GtkWidget       *main_vbox = gtk_vbox_new (FALSE, 0);
     GtkRecentFilter *recent_filter;
     guint            window_width, window_height;
+    RsttoWallpaperManager *wallpaper_manager = NULL;
 
     GClosure        *leave_fullscreen_closure = g_cclosure_new_swap ((GCallback)gtk_window_unfullscreen, window, NULL);
     GClosure        *next_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_next_image, window, NULL);
@@ -391,7 +392,20 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
 
     window->priv = g_new0(RsttoMainWindowPriv, 1);
-    window->priv->wallpaper_manager = RSTTO_WALLPAPER_MANAGER (rstto_xfce_wallpaper_manager_new());
+    wallpaper_manager = RSTTO_WALLPAPER_MANAGER (rstto_gnome_wallpaper_manager_new());
+    if (rstto_wallpaper_manager_check_running (wallpaper_manager) == FALSE)
+    {
+        g_object_unref (wallpaper_manager);
+        wallpaper_manager = NULL;
+    }
+
+    wallpaper_manager = RSTTO_WALLPAPER_MANAGER (rstto_xfce_wallpaper_manager_new());
+    if (rstto_wallpaper_manager_check_running (wallpaper_manager) == FALSE)
+    {
+        g_object_unref (wallpaper_manager);
+        wallpaper_manager = NULL;
+    }
+    window->priv->wallpaper_manager = wallpaper_manager;
 
     window->priv->iter = NULL;
 
@@ -930,7 +944,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             
 
             /* View Menu */
-            if (rstto_wallpaper_manager_check_running (window->priv->wallpaper_manager))
+            if (window->priv->wallpaper_manager)
             {
                 gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), TRUE);
             }
@@ -978,7 +992,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             
 
             /* View Menu */
-            if (rstto_wallpaper_manager_check_running (window->priv->wallpaper_manager))
+            if (window->priv->wallpaper_manager)
             {
                 gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), TRUE);
             }
@@ -1262,7 +1276,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
         image = rstto_image_list_iter_get_image (window->priv->iter);
     g_return_if_fail (image);
 
-    if (rstto_wallpaper_manager_check_running (window->priv->wallpaper_manager))
+    if (window->priv->wallpaper_manager)
     {
         if (rstto_wallpaper_manager_configure_dialog_run (window->priv->wallpaper_manager, image) == GTK_RESPONSE_OK)
         {

@@ -1,3 +1,8 @@
+2010-07-14 Stephan Arts <stephan@xfce.org>
+
+	* src/main_window.c,
+	  src/gnome_wallpaper_manager.c: Add check for nautilus - to set the wallpaper under gnome
+
 2010-07-13 Stephan Arts <stephan@xfce.org>
 
 	* src/image_list.c: Fix reference-count bug.

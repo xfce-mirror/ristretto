@@ -22,6 +22,8 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <X11/Xproto.h>
 #include <gio/gio.h>
 
 #include "image.h"
@@ -74,6 +76,29 @@ rstto_gnome_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self,
 static gboolean
 rstto_gnome_wallpaper_manager_check_running (RsttoWallpaperManager *self)
 {
+    GdkScreen *gdk_screen = gdk_screen_get_default();
+    GdkAtom gnome_selection_atom;
+    GdkAtom actual_type;
+    gint actual_format;
+    gint actual_length;
+    guchar *data;
+
+    gnome_selection_atom = gdk_atom_intern("NAUTILUS_DESKTOP_WINDOW_ID", FALSE);
+
+    if (gdk_property_get(gdk_screen_get_root_window(gdk_screen),
+                         gnome_selection_atom,
+                         GDK_NONE,
+                         0,
+                         1,
+                         FALSE,
+                         &actual_type,
+                         &actual_format,
+                         &actual_length,
+                         &data))
+    {
+        return TRUE;
+    }
+
     return FALSE;
 }
 
