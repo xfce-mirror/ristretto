@@ -264,9 +264,8 @@ msgid "Bottom"
 msgstr "Unten"
 
 #: ../src/main_window.c:512 ../src/main_window.c:778
-#, fuzzy
 msgid "Press open to select an image"
-msgstr "Zum Bild Auswählen »Öffnen« drücken"
+msgstr "Zum Auswählen eines Bildes »Öffnen« drücken"
 
 #: ../src/main_window.c:765 ../src/main_window.c:770
 msgid "Empty"
@@ -375,7 +374,6 @@ msgstr ""
 "(in Sekunden)"
 
 #: ../src/preferences_dialog.c:346
-#, fuzzy
 msgid "Thumbnails"
 msgstr "Miniaturbilder"
 
@@ -457,23 +455,21 @@ msgid "MB"
 msgstr "MB"
 
 #: ../src/preferences_dialog.c:469
-#, fuzzy
 msgid "Enable cache"
 msgstr "Bildzwischenspeicher aktivieren"
 
 #: ../src/preferences_dialog.c:474
 #, fuzzy
 msgid "Preload images"
-msgstr "Bilder _vorladen"
+msgstr "Bilder vorladen"
 
 #: ../src/preferences_dialog.c:544
 msgid "Preferences"
 msgstr "_Einstellungen für den Bildbetrachter"
 
 #: ../src/xfce_wallpaper_manager.c:84
-#, fuzzy
 msgid "Set as wallpaper"
-msgstr "Al_s Hintergrundbild nutzen"
+msgstr "Als Hintergrundbild nutzen"
 
 #: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
