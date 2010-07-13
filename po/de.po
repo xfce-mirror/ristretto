@@ -35,7 +35,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Versuchen Sie »%s --help«, um eine komplette Liste verfügbarer Kommandozeilenoptionen anzusehen.\n"
+"Versuchen Sie »%s --help«, um eine komplette Liste verfügbarer Kommandozeilenoptionen anzuzeigen.\n"
 
 #. File Menu
 #: ../src/main_window.c:262
@@ -44,7 +44,7 @@ msgstr "_Datei"
 
 #: ../src/main_window.c:263
 msgid "_Open"
-msgstr "Öffnen"
+msgstr "Ö_ffnen"
 
 #: ../src/main_window.c:263
 msgid "Open an image"
@@ -56,27 +56,27 @@ msgstr "_Ordner öffnen"
 
 #: ../src/main_window.c:264
 msgid "Open a folder"
-msgstr "einen _Ordner öffnen"
+msgstr "Einen Ordner öffnen"
 
 #: ../src/main_window.c:265
 msgid "_Save copy"
-msgstr "Kopie Speichern"
+msgstr "Kopie _speichern"
 
 #: ../src/main_window.c:265
 msgid "Save a copy of the image"
-msgstr "Kopie des Bildes speichern"
+msgstr "Eine Kopie des Bildes speichern"
 
 #: ../src/main_window.c:266
 msgid "_Print"
-msgstr "Drucken"
+msgstr "_Drucken"
 
 #: ../src/main_window.c:266
 msgid "Print the image"
-msgstr "Bild drucken"
+msgstr "Das Bild drucken"
 
 #: ../src/main_window.c:267
 msgid "_Close"
-msgstr "Schließen"
+msgstr "S_chließen"
 
 #: ../src/main_window.c:267
 msgid "Close this image"
@@ -88,11 +88,11 @@ msgstr "_Alle schließen"
 
 #: ../src/main_window.c:268
 msgid "Close all images"
-msgstr "_Alle Bilder schließen"
+msgstr "Alle Bilder schließen"
 
 #: ../src/main_window.c:269
 msgid "_Quit"
-msgstr "B_eenden"
+msgstr "_Beenden"
 
 #: ../src/main_window.c:269
 msgid "Quit Ristretto"
@@ -105,19 +105,19 @@ msgstr "_Bearbeiten"
 
 #: ../src/main_window.c:272
 msgid "_Open with..."
-msgstr "Öffnen mit..."
+msgstr "Öffnen _mit…"
 
 #: ../src/main_window.c:273
 msgid "_Sorting"
-msgstr "Sortierung"
+msgstr "_Sortierung"
 
 #: ../src/main_window.c:274
 msgid "_Delete"
-msgstr "Löschen"
+msgstr "_Löschen"
 
 #: ../src/main_window.c:275
 msgid "_Preferences"
-msgstr "_Einstellungen für den Bildbetrachter"
+msgstr "_Einstellungen"
 
 #. View Menu
 #: ../src/main_window.c:277
@@ -126,7 +126,7 @@ msgstr "_Ansicht"
 
 #: ../src/main_window.c:278
 msgid "_Fullscreen"
-msgstr "Vollbildmodus"
+msgstr "_Vollbildmodus"
 
 #: ../src/main_window.c:279
 msgid "_Leave Fullscreen"
@@ -139,18 +139,17 @@ msgstr "Al_s Hintergrundbild einstellen"
 #. Zoom submenu
 #: ../src/main_window.c:282
 msgid "_Zooming"
-msgstr "_Vergrößerung"
+msgstr "_Zoom"
 
 #: ../src/main_window.c:283
 msgid "Zoom _In"
-msgstr "_vergrößern"
+msgstr "Ver_größern"
 
 #: ../src/main_window.c:284
 msgid "Zoom _Out"
-msgstr "verkleinern"
+msgstr "Ver_kleinern"
 
 #: ../src/main_window.c:285
-#, fuzzy
 msgid "Zoom _Fit"
 msgstr "Passende Größe"
 
@@ -178,19 +177,19 @@ msgstr "_Gehe zu"
 
 #: ../src/main_window.c:293
 msgid "_Forward"
-msgstr "Vor"
+msgstr "_Vor"
 
 #: ../src/main_window.c:294
 msgid "_Back"
-msgstr "Zurück"
+msgstr "_Zurück"
 
 #: ../src/main_window.c:295
 msgid "_First"
-msgstr "Erstes"
+msgstr "_Erstes"
 
 #: ../src/main_window.c:296
 msgid "_Last"
-msgstr "Letztes"
+msgstr "_Letztes"
 
 #. Help Menu
 #: ../src/main_window.c:298
@@ -199,7 +198,7 @@ msgstr "_Hilfe"
 
 #: ../src/main_window.c:300
 msgid "_Contents"
-msgstr "Inhalt"
+msgstr "I_nhalt"
 
 #: ../src/main_window.c:302
 msgid "Display ristretto user manual"
@@ -207,11 +206,11 @@ msgstr "Ristretto Nutzerhandbuch anzeigen"
 
 #: ../src/main_window.c:305
 msgid "_About"
-msgstr "Über"
+msgstr "_Info"
 
 #: ../src/main_window.c:307
 msgid "Display information about ristretto"
-msgstr "Informationen über ristretto anzeigen"
+msgstr "Informationen über Ristretto anzeigen"
 
 #. Position Menu
 #: ../src/main_window.c:310
@@ -221,7 +220,7 @@ msgstr "_Position"
 #. Misc
 #: ../src/main_window.c:312
 msgid "Leave _Fullscreen"
-msgstr "Vollbildmodus verlassen"
+msgstr "_Vollbildmodus verlassen"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:320
@@ -236,7 +235,7 @@ msgstr "_Navigationsleiste anzeigen"
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:324
 msgid "Show _Thumbnailbar"
-msgstr "_Miniaturbildleiste anzeigen"
+msgstr "_Miniaturbilderleiste anzeigen"
 
 #. Sort by Filename
 #: ../src/main_window.c:331
@@ -285,7 +284,8 @@ msgstr "Ristretto ist ein Bildbetrachter für die Arbeitsumgebung Xfce."
 msgid "translator-credits"
 msgstr ""
 "Christian Dywan <christian@twotoasts.de>\n"
-"Fabian Nowak <timystery@arcor.de>"
+"Fabian Nowak <timystery@arcor.de>\n"
+"Christoph Wickert <cwickert@fedoraproject.org>"
 
 #: ../src/main_window.c:1878
 msgid "Open image"
@@ -306,16 +306,16 @@ msgstr "Datei konnte nicht geöffnet werden"
 
 #: ../src/main_window.c:1992
 msgid "Open folder"
-msgstr "_Ordner öffnen"
+msgstr "Ordner öffnen"
 
 #: ../src/main_window.c:2137
 msgid "Save copy"
 msgstr "Kopie speichern"
 
 #: ../src/main_window.c:2210
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Sind Sie sicher, dass Sie das Bild '%s' von der Festplatte löschen möchten?"
+msgstr "Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
 
 #: ../src/preferences_dialog.c:230
 msgid "Display"
@@ -326,17 +326,17 @@ msgid "Background color"
 msgstr "Hintergrundfarbe"
 
 #: ../src/preferences_dialog.c:239
-#, fuzzy
 msgid "Override background color:"
-msgstr "_Hintergrundfarbe überschreiben"
+msgstr "_Hintergrundfarbe ersetzen:"
 
 #: ../src/preferences_dialog.c:267
 msgid "Quality"
 msgstr "Qualität"
 
 #: ../src/preferences_dialog.c:271
+#, fuzzy
 msgid "Maximum render quality:"
-msgstr "Maximale Qualität"
+msgstr "Maximale Darstellungsqualität:"
 
 #: ../src/preferences_dialog.c:274
 msgid "Show preview when loading image"
@@ -371,7 +371,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"Die Zeitspanne, während der ein Bild angezeigt wird\n"
+"Die Zeitspanne, die ein Bild angezeigt wird\n"
 "(in Sekunden)"
 
 #: ../src/preferences_dialog.c:346
@@ -383,11 +383,13 @@ msgstr "Miniaturbilder"
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
-msgstr "Die Miniaturbildleiste kann automatisch im \\n\\nVollbildmodus automatisch versteckt werden."
+msgstr ""
+"Die Miniaturbilderleiste kann im \n"
+"Vollbildmodus automatisch versteckt werden."
 
 #: ../src/preferences_dialog.c:351
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "_Miniaturbildleiste verbergen"
+msgstr "Miniaturbildleiste verbergen"
 
 #: ../src/preferences_dialog.c:364
 msgid "Control"
@@ -398,9 +400,8 @@ msgid "Scrollwheel"
 msgstr "Mausrad"
 
 #: ../src/preferences_dialog.c:371
-#, fuzzy
 msgid "No action"
-msgstr "keine Aktion"
+msgstr "Keine Aktion"
 
 #: ../src/preferences_dialog.c:375
 #, fuzzy
@@ -436,9 +437,8 @@ msgid "Open entire folder on startup"
 msgstr "Ganzen Ordner beim Start öffnen"
 
 #: ../src/preferences_dialog.c:437
-#, fuzzy
 msgid "Wrap around images"
-msgstr "Bild öffnen"
+msgstr ""
 
 #: ../src/preferences_dialog.c:453
 msgid "Memory"
@@ -485,11 +485,11 @@ msgstr "Bildschirm:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr "Helligkeit"
+msgstr "Helligkeit:"
 
 #: ../src/xfce_wallpaper_manager.c:91
 msgid "Saturation:"
-msgstr "_Drehen"
+msgstr "Sättigung:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
@@ -521,7 +521,7 @@ msgstr "Abstand"
 
 #: ../src/thumbnail_bar.c:188
 msgid "The amount of space between the thumbnails"
-msgstr "Die Größe des  Abstands zwischen den Vorschaubildern"
+msgstr "Die Größe des Abstands zwischen den Vorschaubildern"
 
 #: ../src/thumbnail_bar.c:194
 msgid "border width"
@@ -537,9 +537,8 @@ msgid "filmstrip width"
 msgstr "Breite der Bildleiste"
 
 #: ../src/thumbnail_bar.c:202
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "Die Breite der Miniaturbildleiste"
+msgstr "Die Breite der Miniaturbilderleiste"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -551,7 +550,7 @@ msgstr "Bilder anschauen leicht gemacht"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
-msgstr "Bildbetrachter Ristretto"
+msgstr "Ristretto Bildbetrachter"
 
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
