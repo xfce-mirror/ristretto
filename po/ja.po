@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2010-07-13 23:08+0900\n"
+"POT-Creation-Date: 2010-07-14 00:31+0200\n"
 "PO-Revision-Date: 2010-07-13 23:08+0900\n"
 "Last-Translator: Masato Hashimoto <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <xfce-users-jp@ml.fdiary.net>\n"
-"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../src/main.c:59
@@ -265,54 +265,64 @@ msgstr "上"
 msgid "Bottom"
 msgstr "下"
 
-#: ../src/main_window.c:517 ../src/main_window.c:813
+#. Create Recently used items Action
+#: ../src/main_window.c:444
+msgid "_Recently used"
+msgstr "最近開いたファイル(_R)"
+
+#: ../src/main_window.c:444
+#, fuzzy
+msgid "Recently used"
+msgstr "最近開いたファイル(_R)"
+
+#: ../src/main_window.c:531 ../src/main_window.c:827
 msgid "Press open to select an image"
 msgstr "画像を選ぶには開くボタンを押してください。"
 
-#: ../src/main_window.c:800 ../src/main_window.c:805
+#: ../src/main_window.c:814 ../src/main_window.c:819
 msgid "Empty"
 msgstr "空"
 
-#: ../src/main_window.c:1596
+#: ../src/main_window.c:1610
 msgid "Developer:"
 msgstr "開発者:"
 
-#: ../src/main_window.c:1606
+#: ../src/main_window.c:1620
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto は Xfce デスクトップ環境向けの\n"
 "画像ビューアです。"
 
-#: ../src/main_window.c:1614
+#: ../src/main_window.c:1628
 msgid "translator-credits"
 msgstr "Masato Hashimoto <hashimo@xfce.org>"
 
-#: ../src/main_window.c:1929
+#: ../src/main_window.c:1943
 msgid "Open image"
 msgstr "画像を開く"
 
-#: ../src/main_window.c:1941
+#: ../src/main_window.c:1955
 msgid "Images"
 msgstr "画像"
 
-#: ../src/main_window.c:1946
+#: ../src/main_window.c:1960
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1968 ../src/main_window.c:1991
-#: ../src/main_window.c:2150 ../src/main_window.c:2165
+#: ../src/main_window.c:1982 ../src/main_window.c:2005
+#: ../src/main_window.c:2164 ../src/main_window.c:2179
 msgid "Could not open file"
 msgstr "ファイルを開けませんでした"
 
-#: ../src/main_window.c:2043
+#: ../src/main_window.c:2057
 msgid "Open folder"
 msgstr "フォルダを開く"
 
-#: ../src/main_window.c:2188
+#: ../src/main_window.c:2202
 msgid "Save copy"
 msgstr "コピーを保存"
 
-#: ../src/main_window.c:2261
+#: ../src/main_window.c:2275
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "画像 '%s' をドライブから削除してもよろしいですか?"
@@ -460,7 +470,7 @@ msgstr "キャッシュを有効にする"
 msgid "Enable preloading"
 msgstr "先読みを有効にする"
 
-#: ../src/preferences_dialog.c:534
+#: ../src/preferences_dialog.c:535
 msgid "Preferences"
 msgstr "設定"
 
@@ -552,9 +562,6 @@ msgstr "Ristretto フォトビューア"
 
 #~ msgid "Opening file(s)..."
 #~ msgstr "ファイルを開いています..."
-
-#~ msgid "_Recently used"
-#~ msgstr "最近開いたファイル(_R)"
 
 #~ msgid "No applications available"
 #~ msgstr "使用可能なアプリケーションはありません"

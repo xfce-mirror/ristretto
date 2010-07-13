@@ -441,7 +441,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->pause_action = gtk_action_new ("pause", "_Pause", "Pause slideshow", GTK_STOCK_MEDIA_PAUSE);
 
     /* Create Recently used items Action */
-    window->priv->recent_action = gtk_recent_action_new_for_manager ("document-open-recent", "_Recently used", "Recently used", 0, GTK_RECENT_MANAGER(window->priv->recent_manager));
+    window->priv->recent_action = gtk_recent_action_new_for_manager ("document-open-recent", N_("_Recently used"), N_("Recently used"), 0, GTK_RECENT_MANAGER(window->priv->recent_manager));
 
     gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (window->priv->recent_action), GTK_RECENT_SORT_MRU);
 
