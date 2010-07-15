@@ -88,6 +88,13 @@ rstto_app_menu_item_class_init(RsttoAppMenuItemClass *app_menu_item_class)
     menu_item_class->activate = rstto_app_menu_item_activate;
 }
 
+/**
+ * rstto_app_menu_item_finalize:
+ * @object: application-menu-item
+ *
+ * Cleanup the app-menu-item internals
+ *
+ */
 static void
 rstto_app_menu_item_finalize(GObject *object)
 {
@@ -105,6 +112,12 @@ rstto_app_menu_item_finalize(GObject *object)
 
 }
 
+/**
+ * rstto_app_menu_item_activate:
+ * @object: GtkMenuItem that is activated
+ *
+ * Launch the associated application
+ */
 static void
 rstto_app_menu_item_activate (GtkMenuItem *object)
 {
@@ -116,7 +129,15 @@ rstto_app_menu_item_activate (GtkMenuItem *object)
     GTK_MENU_ITEM_CLASS(parent_class)->activate (GTK_MENU_ITEM (object));
 }
 
-
+/**
+ * rstto_app_menu_item_new:
+ * @app_info: Application info
+ * @file: File
+ * 
+ * Creates new RsttoAppMenuItem
+ *
+ * Returns: RsttoAppMenuItem that launches application @app_info with @file 
+ */
 GtkWidget *
 rstto_app_menu_item_new (GAppInfo *app_info, GFile *file)
 {
