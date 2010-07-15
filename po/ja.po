@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Stephan Arts
 # This file is distributed under the same license as the ristretto package.
 # HASHIMOTO Masato <cabezon.hashimoto@gmail.com>, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
@@ -273,7 +273,7 @@ msgstr "最近開いたファイル(_R)"
 #: ../src/main_window.c:444
 #, fuzzy
 msgid "Recently used"
-msgstr "最近開いたファイル(_R)"
+msgstr "最近開いたファイル"
 
 #: ../src/main_window.c:531 ../src/main_window.c:827
 msgid "Press open to select an image"
@@ -390,9 +390,7 @@ msgstr "サムネイル"
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
-msgstr ""
-"イメージビューアが全画面化されたときにサムネイルバーを自動的に隠すことができ"
-"ます。"
+msgstr "イメージビューアが全画面化されたときにサムネイルバーを自動的に隠すことができます。"
 
 #: ../src/preferences_dialog.c:350
 msgid "Hide thumbnailbar when fullscreen"
@@ -578,8 +576,7 @@ msgstr "Ristretto フォトビューア"
 #~ msgid "H_ide"
 #~ msgstr "表示しない(_I)"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "一つ以上の画像が修正されています。保存しますか?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
