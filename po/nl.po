@@ -22,7 +22,7 @@ msgstr "Versie informatie"
 
 #: ../src/main.c:63
 msgid "Start in fullscreen mode"
-msgstr "Start in volledig scherm mode"
+msgstr "Start in volledig scherm modus"
 
 #: ../src/main.c:67
 msgid "Start a slideshow"
