@@ -116,6 +116,8 @@ struct _RsttoImagePriv
     gint       height;
     guint      max_size;
 
+    /* Animation data for animated images (like .gif/.mng) */
+    /*******************************************************/
     GdkPixbufAnimation  *animation;
     GdkPixbufAnimationIter *iter;
     gint    animation_timeout_id;
@@ -129,6 +131,7 @@ rstto_image_init (GObject *object)
 
     image->priv = g_new0 (RsttoImagePriv, 1);
 
+    /* Initialize buffer for image-loading */
     image->priv->buffer = g_new0 (guchar, RSTTO_IMAGE_BUFFER_SIZE);
     image->priv->cancellable = g_cancellable_new();
 
@@ -144,6 +147,15 @@ rstto_image_class_init (GObjectClass *object_class)
 
     object_class->dispose = rstto_image_dispose;
 
+    /* The 'updated' signal is emitted when the contents
+     * of the root pixbuf is changed. This can happen when:
+     *    1) The image-loading is complete, this can be caused by:
+     *       a) The initial load of the image in memory
+     *       b) The image is updated on disk, the monitor has 
+     *          triggered a reload, and the loading is complete.
+     *       c) A reload is issued with a different scale
+     *    2) The next frame in an animated image is ready
+     */
     rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED] = g_signal_new("updated",
             G_TYPE_FROM_CLASS (image_class),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
@@ -155,6 +167,9 @@ rstto_image_class_init (GObjectClass *object_class)
             0,
             NULL);
 
+    /* The 'prepared' signal is emitted when the size of the image is known
+     * and the initial pixbuf is loaded. - Usually this is still missing the data.
+     */
     rstto_image_signals[RSTTO_IMAGE_SIGNAL_PREPARED] = g_signal_new("prepared",
             G_TYPE_FROM_CLASS (image_class),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
@@ -257,14 +272,18 @@ rstto_image_new (GFile *file)
     if (image->priv->exif_data) {
         exif_entry = exif_data_get_entry (image->priv->exif_data, EXIF_TAG_ORIENTATION);
     }
+    /* Check if the image has exif-data available */
     if (exif_entry && exif_entry->data != NULL)
     {
+        /* Get the image-orientation from EXIF data */
         image->priv->orientation = exif_get_short (exif_entry->data, exif_data_get_byte_order (exif_entry->parent->parent));
         if (image->priv->orientation == 0)
+            /* Default orientation */
             image->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
     }
     else
     {
+        /* Default orientation */
         image->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
     }
 
@@ -272,83 +291,6 @@ rstto_image_new (GFile *file)
 }
 
 
-static void
-cb_rstto_image_read_file_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
-{
-    GFile *file = G_FILE (source_object);
-    RsttoImage *image = RSTTO_IMAGE (user_data);
-    GFileInputStream *file_input_stream = g_file_read_finish (file, result, NULL);
-    
-    if (g_cancellable_is_cancelled (image->priv->cancellable))
-    {
-        g_object_unref (image);
-        return;
-    }
-
-
-    g_input_stream_read_async (G_INPUT_STREAM (file_input_stream),
-                               image->priv->buffer,
-                               RSTTO_IMAGE_BUFFER_SIZE,
-                               G_PRIORITY_DEFAULT,
-                               NULL,
-                               (GAsyncReadyCallback) cb_rstto_image_read_input_stream_ready,
-                               image);
-}
-
-static void
-cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
-{
-    RsttoImage *image = RSTTO_IMAGE (user_data);
-    gssize read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, NULL);
-    GError *error = NULL;
-
-    if (g_cancellable_is_cancelled (image->priv->cancellable))
-    {
-        g_object_unref (image);
-        return;
-    }
-
-    if (image->priv->loader == NULL)
-        return;
-
-
-    if (read_bytes > 0)
-    {
-        if(gdk_pixbuf_loader_write (image->priv->loader, (const guchar *)image->priv->buffer, read_bytes, &error) == FALSE)
-        {
-            g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
-            g_object_unref (image);
-        }
-        else
-        {
-            g_input_stream_read_async (G_INPUT_STREAM (source_object),
-                                       image->priv->buffer,
-                                       RSTTO_IMAGE_BUFFER_SIZE,
-                                       G_PRIORITY_DEFAULT,
-                                       NULL,
-                                       (GAsyncReadyCallback) cb_rstto_image_read_input_stream_ready,
-                                       image);
-        }
-    }
-    else
-    if (read_bytes == 0)
-    {
-        if (read_bytes == 0)
-        {
-            /* OK */
-            g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
-            gdk_pixbuf_loader_close (image->priv->loader, NULL);
-            g_object_unref (image);
-        }
-        else
-        {
-            /* I/O ERROR */
-            g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
-            gdk_pixbuf_loader_close (image->priv->loader, NULL);
-            g_object_unref (image);
-        }
-    }
-}
 
 /**
  * rstto_image_load:
@@ -378,7 +320,8 @@ rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, gbool
 
     g_cancellable_reset (image->priv->cancellable);
 
-    /* NEW */
+    /* maximum size */
+    /* TODO: replace by 'scale' */
     image->priv->max_size = max_size;
 
     /* Check if a GIOChannel is present, if so... the load is already in progress */
@@ -545,7 +488,7 @@ rstto_image_get_thumbnail (RsttoImage *image)
     }
     else
     {
-
+        /* What else ?! */
     }
 
     g_free (file_uri);
@@ -575,8 +518,153 @@ rstto_image_get_pixbuf (RsttoImage *image)
 }
 
 /**
+ * rstto_image_get_size;
+ * @image: Image object
+ *
+ * Returns the image-size in bytes (approx)
+ *
+ * Returns: Image-size (bytes) 
+ */
+guint64
+rstto_image_get_size (RsttoImage *image)
+{
+    GdkPixbuf *pixbuf = rstto_image_get_pixbuf (image);
+    if (pixbuf)
+    {
+        gint rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+        gint height = gdk_pixbuf_get_height (pixbuf);
+        /* HACK HACK HACK HACK */
+        /* multiplied by 2 since it is unclear why the nr of bytes
+         * in memory is twice what is calculated here, based on the dimensions
+         */
+        //return rowstride * height * 2;
+        return (guint64)rowstride * (guint64)height;
+    }
+    return 0;
+}
+
+/**
+ * rstto_image_get_orientation;
+ * @image:
+ *
+ * Returns: Image orientation
+ */
+RsttoImageOrientation
+rstto_image_get_orientation (RsttoImage *image)
+{
+    return image->priv->orientation;
+}
+
+/**
+ * rstto_image_set_orientation;
+ * @image:
+ * @orientation:
+ *
+ */
+void
+rstto_image_set_orientation (RsttoImage *image, RsttoImageOrientation orientation)
+{
+    image->priv->orientation = orientation;
+    g_signal_emit (G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED], 0, image, NULL);
+}
+
+/**
  * PRIVATE CALLBACKS 
  */
+
+/**
+ * cb_rstto_image_read_file_ready:
+ * @source_object:
+ * @result:
+ * @user_data:
+ * 
+ *
+ */
+static void
+cb_rstto_image_read_file_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+    GFile *file = G_FILE (source_object);
+    RsttoImage *image = RSTTO_IMAGE (user_data);
+    GFileInputStream *file_input_stream = g_file_read_finish (file, result, NULL);
+    
+    if (g_cancellable_is_cancelled (image->priv->cancellable))
+    {
+        g_object_unref (image);
+        return;
+    }
+
+
+    g_input_stream_read_async (G_INPUT_STREAM (file_input_stream),
+                               image->priv->buffer,
+                               RSTTO_IMAGE_BUFFER_SIZE,
+                               G_PRIORITY_DEFAULT,
+                               NULL,
+                               (GAsyncReadyCallback) cb_rstto_image_read_input_stream_ready,
+                               image);
+}
+
+/**
+ * cb_rstto_image_read_input_stream_ready:
+ * @source_object:
+ * @result:
+ * @user_data:
+ * 
+ *
+ */
+static void
+cb_rstto_image_read_input_stream_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+    RsttoImage *image = RSTTO_IMAGE (user_data);
+    gssize read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, NULL);
+    GError *error = NULL;
+
+    if (g_cancellable_is_cancelled (image->priv->cancellable))
+    {
+        g_object_unref (image);
+        return;
+    }
+
+    if (image->priv->loader == NULL)
+        return;
+
+
+    if (read_bytes > 0)
+    {
+        if(gdk_pixbuf_loader_write (image->priv->loader, (const guchar *)image->priv->buffer, read_bytes, &error) == FALSE)
+        {
+            g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
+            g_object_unref (image);
+        }
+        else
+        {
+            g_input_stream_read_async (G_INPUT_STREAM (source_object),
+                                       image->priv->buffer,
+                                       RSTTO_IMAGE_BUFFER_SIZE,
+                                       G_PRIORITY_DEFAULT,
+                                       NULL,
+                                       (GAsyncReadyCallback) cb_rstto_image_read_input_stream_ready,
+                                       image);
+        }
+    }
+    else
+    if (read_bytes == 0)
+    {
+        if (read_bytes == 0)
+        {
+            /* OK */
+            g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
+            gdk_pixbuf_loader_close (image->priv->loader, NULL);
+            g_object_unref (image);
+        }
+        else
+        {
+            /* I/O ERROR */
+            g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
+            gdk_pixbuf_loader_close (image->priv->loader, NULL);
+            g_object_unref (image);
+        }
+    }
+}
 
 /**
  * cb_rstto_image_size_prepared:
@@ -647,6 +735,8 @@ cb_rstto_image_area_prepared (GdkPixbufLoader *loader, RsttoImage *image)
  * @loader:
  * @image:
  *
+ * Image loading is complete
+ *
  */
 static void
 cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image)
@@ -668,6 +758,9 @@ cb_rstto_image_closed (GdkPixbufLoader *loader, RsttoImage *image)
 /**
  * cb_rstto_image_update:
  * @image:
+ * 
+ * Used for advancing to the next frame in an animated image,
+ * TODO: rename - to make it's purpose more clear.
  *
  * Return value:
  */
@@ -708,33 +801,3 @@ cb_rstto_image_update(RsttoImage *image)
     return TRUE;
 }
 
-guint64
-rstto_image_get_size (RsttoImage *image)
-{
-    GdkPixbuf *pixbuf = rstto_image_get_pixbuf (image);
-    if (pixbuf)
-    {
-        gint rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-        gint height = gdk_pixbuf_get_height (pixbuf);
-        /* HACK HACK HACK HACK */
-        /* multiplied by 2 since it is unclear why the nr of bytes
-         * in memory is twice what is calculated here, based on the dimensions
-         */
-        //return rowstride * height * 2;
-        return (guint64)rowstride * (guint64)height;
-    }
-    return 0;
-}
-
-RsttoImageOrientation
-rstto_image_get_orientation (RsttoImage *image)
-{
-    return image->priv->orientation;
-}
-
-void
-rstto_image_set_orientation (RsttoImage *image, RsttoImageOrientation orientation)
-{
-    image->priv->orientation = orientation;
-    g_signal_emit (G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_UPDATED], 0, image, NULL);
-}
