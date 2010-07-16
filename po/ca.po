@@ -4,7 +4,7 @@
 # This file is distributed under the same license as the ristretto package.
 # Carles Muñoz Gorriz <carlesmu@internautas.org>, 2008-2010.
 # Harald Servat <redcrash@gmail.com>, 2009.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -273,9 +273,8 @@ msgid "_Recently used"
 msgstr "Emprats _recentment"
 
 #: ../src/main_window.c:444
-#, fuzzy
 msgid "Recently used"
-msgstr "Emprats _recentment"
+msgstr "Emprats recentment"
 
 #: ../src/main_window.c:531 ../src/main_window.c:827
 msgid "Press open to select an image"
@@ -471,7 +470,7 @@ msgstr "Habilita la memòria cau"
 
 #: ../src/preferences_dialog.c:473
 msgid "Enable preloading"
-msgstr ""
+msgstr "Activar la precàrrega"
 
 #: ../src/preferences_dialog.c:535
 msgid "Preferences"
@@ -560,11 +559,9 @@ msgstr "Visualitzador de fotografies Ristretto"
 #~ msgid "Preload images"
 #~ msgstr "Càrrega prèvia d'imatges"
 
-#, fuzzy
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
 
-#, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Miniatures"
 
@@ -586,17 +583,14 @@ msgstr "Visualitzador de fotografies Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "_Amaga"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "S'ha modificat alguna imatge, voleu desar els canvis?"
 
 #~ msgid "Image viewer Preferences"
 #~ msgstr "Preferències del visor d'imatges"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "Càrrega _prèvia d'imatges (La GUI respondrà millor però emprarà més la "
-#~ "CPU)"
+#~ msgstr "Càrrega _prèvia d'imatges (La GUI respondrà millor però emprarà més la CPU)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Amaga les miniatures durant la seqüència d'imatges"
