@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Nuno Miguel <nunis@netcabo.pt>, 2007
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.22\n"
@@ -37,8 +37,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Tente %s --help para ver uma lista completa de opções em linha de comandos "
-"disponíveis.\n"
+"Tente %s --help para ver uma lista completa de opções em linha de comandos disponíveis.\n"
 
 #. File Menu
 #: ../src/main_window.c:266
@@ -269,11 +268,11 @@ msgstr "Inferior"
 #. Create Recently used items Action
 #: ../src/main_window.c:444
 msgid "_Recently used"
-msgstr ""
+msgstr "_Recentemente utilizado"
 
 #: ../src/main_window.c:444
 msgid "Recently used"
-msgstr ""
+msgstr "Recentemente utilizado"
 
 #: ../src/main_window.c:531 ../src/main_window.c:827
 msgid "Press open to select an image"
@@ -378,8 +377,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"O período de tempo que uma imagem individual é exibida durante uma "
-"apresentação\n"
+"O período de tempo que uma imagem individual é exibida durante uma apresentação\n"
 "(em segundos)"
 
 #: ../src/preferences_dialog.c:345
@@ -468,7 +466,7 @@ msgstr "Ligar cache"
 
 #: ../src/preferences_dialog.c:473
 msgid "Enable preloading"
-msgstr ""
+msgstr "Activar pré-carregamento"
 
 #: ../src/preferences_dialog.c:535
 msgid "Preferences"
