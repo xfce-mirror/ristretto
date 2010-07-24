@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Fabio Vergnani <monghitri@aruba.it>, 2007.
 # Cristian Marchi <cri.penta@gmail.com>, 2009.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -11,8 +11,7 @@ msgstr ""
 "POT-Creation-Date: 2010-07-14 00:31+0200\n"
 "PO-Revision-Date: 2009-12-10 19:43+0100\n"
 "Last-Translator: Cristian Marchi <cri.penta@gmail.com>\n"
-"Language-Team: Italian Translation Team <xfce-it-translators@googlegroups."
-"com>\n"
+"Language-Team: Italian Translation Team <xfce-it-translators@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,8 +36,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Utilizzare il comando %s --help per visualizzare la lista completa delle "
-"opzioni da linea di comando.\n"
+"Utilizzare il comando %s --help per visualizzare la lista completa delle opzioni da linea di comando.\n"
 
 #. File Menu
 #: ../src/main_window.c:266
@@ -272,9 +270,8 @@ msgid "_Recently used"
 msgstr "Apri _recenti"
 
 #: ../src/main_window.c:444
-#, fuzzy
 msgid "Recently used"
-msgstr "Apri _recenti"
+msgstr "Usati di recente"
 
 #: ../src/main_window.c:531 ../src/main_window.c:827
 msgid "Press open to select an image"
@@ -430,8 +427,7 @@ msgstr "Ridimensionamento"
 
 #: ../src/preferences_dialog.c:421
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
-"Non ingrandire l'immagine oltre il 100% quando si massimizza la finestra"
+msgstr "Non ingrandire l'immagine oltre il 100% quando si massimizza la finestra"
 
 #: ../src/preferences_dialog.c:425
 msgid "Startup"
@@ -471,7 +467,7 @@ msgstr "Abilita cache"
 
 #: ../src/preferences_dialog.c:473
 msgid "Enable preloading"
-msgstr ""
+msgstr "Abilita il precaricamento"
 
 #: ../src/preferences_dialog.c:535
 msgid "Preferences"
@@ -584,14 +580,11 @@ msgstr "Visualizzatore di foto Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "_Nascondi"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Una o più immagini sono state modificate; salvare i cambiamenti?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Precarica le immagini (l'interfaccia è più rapida ma richiede più lavoro "
-#~ "del processore)"
+#~ msgstr "_Precarica le immagini (l'interfaccia è più rapida ma richiede più lavoro del processore)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Nascondi la barra delle miniature durante la presentazione"
