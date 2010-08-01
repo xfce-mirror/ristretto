@@ -752,7 +752,7 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 {
-    gchar *path, *path_basename, *title, *status;
+    gchar *file_basename, *title, *status;
     GFile *file = NULL;
     GFileInfo *file_info = NULL;
     RsttoImage *cur_image;
@@ -793,21 +793,19 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             height = rstto_image_get_height(cur_image);
 
 
-            path = g_file_get_path (file);
-            path_basename = g_path_get_basename (path);
+            file_basename = g_file_get_basename (file);
 
-            title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  path_basename, position+1, count);
+            title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  file_basename, position+1, count);
             if (width > 0)
             {
                 status = g_strdup_printf ("%d x %d", width, height);
             }
             else
             {
-                status = g_strdup_printf ("Loading '%s'", path_basename);
+                status = g_strdup_printf ("Loading '%s'", file_basename);
             }
 
-            g_free (path_basename);
-            g_free (path);
+            g_free (file_basename);
         }
         else
         {
@@ -2263,8 +2261,7 @@ cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
 {
     RsttoImage *image = rstto_image_list_iter_get_image (window->priv->iter);
     GFile *file = rstto_image_get_file (image);
-    gchar *path = g_file_get_path (file);
-    gchar *path_basename = g_path_get_basename (path);
+    gchar *file_basename = g_file_get_basename (file);
     GtkWidget *dialog;
     g_return_if_fail (rstto_image_list_get_n_images (window->priv->props.image_list) > 0);
 
@@ -2273,7 +2270,7 @@ cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
                                                 GTK_MESSAGE_WARNING,
                                                 GTK_BUTTONS_OK_CANCEL,
                                                 N_("Are you sure you want to delete image '%s' from disk?"),
-                                                path_basename);
+                                                file_basename);
 
     g_object_ref (image);
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
@@ -2288,8 +2285,7 @@ cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
         }
     }
     gtk_widget_destroy (dialog);
-    g_free (path_basename);
-    g_free (path);
+    g_free (file_basename);
     g_object_unref (image);
 }
 
