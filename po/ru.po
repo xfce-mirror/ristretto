@@ -1,7 +1,7 @@
 # Russian translations for ristretto package.
 # This file is distributed under the same license as the ristretto package.
 # Stefan Zerkalica <zerkalica@gmail.com>, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -33,8 +33,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Попробуйте %s --help для просмотра полного списка параметров командной "
-"строки.\n"
+"Попробуйте %s --help для просмотра полного списка параметров командной строки.\n"
 
 #. File Menu
 #: ../src/main_window.c:266
@@ -286,9 +285,7 @@ msgstr "Разработчик:"
 
 #: ../src/main_window.c:1620
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto - быстрый и легковесный просмотрщик картинок для рабочего "
-"окружения Xfce"
+msgstr "Ristretto - быстрый и легковесный просмотрщик картинок для рабочего окружения Xfce"
 
 #: ../src/main_window.c:1628
 msgid "translator-credits"
@@ -377,8 +374,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"Период времени, в течение которого будет показано изображение в режиме "
-"слайдшоу\n"
+"Период времени, в течение которого будет показано изображение в режиме слайдшоу\n"
 "(в секундах)"
 
 #: ../src/preferences_dialog.c:345
@@ -466,8 +462,9 @@ msgid "Enable cache"
 msgstr "Включить кэш изображений"
 
 #: ../src/preferences_dialog.c:473
+#, fuzzy
 msgid "Enable preloading"
-msgstr ""
+msgstr "Включить предварительную загрузку"
 
 #: ../src/preferences_dialog.c:535
 msgid "Preferences"
