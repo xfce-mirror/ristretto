@@ -267,9 +267,8 @@ msgid "_Recently used"
 msgstr "_Недавно просмотренные"
 
 #: ../src/main_window.c:444
-#, fuzzy
 msgid "Recently used"
-msgstr "_Недавно просмотренные"
+msgstr "Недавно просмотренные"
 
 #: ../src/main_window.c:531 ../src/main_window.c:827
 msgid "Press open to select an image"
@@ -462,9 +461,8 @@ msgid "Enable cache"
 msgstr "Включить кэш изображений"
 
 #: ../src/preferences_dialog.c:473
-#, fuzzy
 msgid "Enable preloading"
-msgstr "Включить предварительную загрузку"
+msgstr "Предзагрузка изображений"
 
 #: ../src/preferences_dialog.c:535
 msgid "Preferences"
