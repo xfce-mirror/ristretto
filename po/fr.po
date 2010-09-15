@@ -395,7 +395,7 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:350
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "_Cacher les miniatures en plein écran"
+msgstr "Cacher les miniatures en plein écran"
 
 #: ../src/preferences_dialog.c:363
 msgid "Control"
@@ -477,7 +477,7 @@ msgstr "Préférences"
 
 #: ../src/xfce_wallpaper_manager.c:84
 msgid "Set as wallpaper"
-msgstr "_Utiliser en tant que fond d'écran"
+msgstr "Utiliser en tant que fond d'écran"
 
 #: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
@@ -505,7 +505,7 @@ msgstr "Centré"
 
 #: ../src/xfce_wallpaper_manager.c:125
 msgid "Tiled"
-msgstr "_Chevauchement"
+msgstr "Chevauchement"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
