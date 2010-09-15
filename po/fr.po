@@ -270,9 +270,8 @@ msgid "_Recently used"
 msgstr "_Récemment ouvert"
 
 #: ../src/main_window.c:444
-#, fuzzy
 msgid "Recently used"
-msgstr "_Récemment ouvert"
+msgstr "Utilisé récemment"
 
 #: ../src/main_window.c:531 ../src/main_window.c:827
 msgid "Press open to select an image"
@@ -469,7 +468,6 @@ msgid "Enable cache"
 msgstr "Activer la mise en cache"
 
 #: ../src/preferences_dialog.c:473
-#, fuzzy
 msgid "Enable preloading"
 msgstr "Activer préchargement"
 
@@ -506,9 +504,8 @@ msgid "Centered"
 msgstr "Centré"
 
 #: ../src/xfce_wallpaper_manager.c:125
-#, fuzzy
 msgid "Tiled"
-msgstr "_Fichier"
+msgstr "_Chevauchement"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
