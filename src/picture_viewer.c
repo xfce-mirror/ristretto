@@ -771,6 +771,9 @@ rstto_picture_viewer_set_scale (RsttoPictureViewer *viewer, gdouble scale)
              * since the old and new values are required in the above code
              */
             *img_scale = scale;
+            g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-scale", img_scale);
+
+            rstto_image_load (viewer->priv->image, TRUE, scale, FALSE, NULL);
 
             rstto_picture_viewer_queued_repaint (viewer, TRUE);
         }
@@ -896,6 +899,8 @@ cb_rstto_picture_viewer_scroll_event (RsttoPictureViewer *viewer, GdkEventScroll
 
                     break;
             }
+
+            rstto_picture_viewer_set_scale (viewer, *p_scale);
             gtk_adjustment_value_changed(viewer->hadjustment);
             gtk_adjustment_value_changed(viewer->vadjustment);
             viewer->priv->repaint.idle_id = g_idle_add((GSourceFunc)cb_rstto_picture_viewer_queued_repaint, viewer);
@@ -1479,6 +1484,7 @@ cb_rstto_picture_viewer_button_release_event (RsttoPictureViewer *viewer, GdkEve
                             }
 
                             g_object_set_data (G_OBJECT(viewer->priv->image), "viewer-scale", scale);
+                            rstto_picture_viewer_set_scale(viewer, *scale);
 
                             if(viewer->hadjustment)
                             {
@@ -1594,8 +1600,7 @@ rstto_picture_viewer_set_zoom_mode(RsttoPictureViewer *viewer, RsttoZoomMode mod
                 g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", p_fit_to_screen);
             }
             scale = rstto_picture_viewer_calculate_scale (viewer);
-            if (scale != -1.0)
-                rstto_picture_viewer_set_scale (viewer, scale);
+            rstto_picture_viewer_set_scale (viewer, scale);
             break;
         case RSTTO_ZOOM_MODE_100:
             if (viewer->priv->image)
@@ -1658,7 +1663,7 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
             g_object_set_data (G_OBJECT (viewer->priv->image), "viewer-fit-to-screen", fit_to_screen);
         }
 
-        rstto_image_load (viewer->priv->image, FALSE, g_value_get_uint (&max_size), FALSE, NULL);
+        rstto_image_load (viewer->priv->image, FALSE, *scale, FALSE, NULL);
     }
     else
     {

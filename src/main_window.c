@@ -1680,10 +1680,10 @@ cb_rstto_main_window_image_list_new_image (RsttoImageList *image_list, RsttoImag
     else
     {
         rstto_image_list_iter_find_image (window->priv->iter, image);
+        rstto_main_window_image_list_iter_changed (window);
     }
     window->priv->open_image_timer_id = g_timeout_add (
             1000, rstto_window_open_image_timer, window);
-    rstto_main_window_image_list_iter_changed (window);
 }
 
 static gboolean
@@ -1946,6 +1946,8 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                                          NULL);
 
     gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
+    gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
+
     if (g_value_get_string (&current_uri_val))
         gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), g_value_get_string (&current_uri_val));
 
@@ -1957,6 +1959,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     gtk_file_filter_add_mime_type (filter, "image/jpeg");
     gtk_file_filter_set_name (filter, _(".jp(e)g"));
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
+    gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER(dialog), FALSE);
 
 
     response = gtk_dialog_run(GTK_DIALOG(dialog));

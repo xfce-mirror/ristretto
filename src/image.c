@@ -34,6 +34,8 @@
 #define RSTTO_IMAGE_BUFFER_SIZE 131072
 #endif
 
+#define STD_IMAGE_SIZE 1024
+
 enum
 {
     RSTTO_IMAGE_SIGNAL_UPDATED= 0,
@@ -114,7 +116,7 @@ struct _RsttoImagePriv
     GdkPixbuf *pixbuf;
     gint       width;
     gint       height;
-    guint      max_size;
+    gdouble    scale;
 
     /* Animation data for animated images (like .gif/.mng) */
     /*******************************************************/
@@ -310,8 +312,9 @@ rstto_image_new (GFile *file)
  * Return value: TRUE on success.
  */
 gboolean
-rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, gboolean preload, GError **error)
+rstto_image_load (RsttoImage *image, gboolean empty_cache, gdouble scale, gboolean preload, GError **error)
 {
+    g_debug("%s: %f", __FUNCTION__, scale);
     RsttoImageCache *cache;
 
     g_return_val_if_fail (image != NULL, FALSE);
@@ -320,9 +323,8 @@ rstto_image_load (RsttoImage *image, gboolean empty_cache, guint max_size, gbool
 
     g_cancellable_reset (image->priv->cancellable);
 
-    /* maximum size */
-    /* TODO: replace by 'scale' */
-    image->priv->max_size = max_size;
+    /* Image scale */
+    image->priv->scale = scale;
 
     /* Check if a GIOChannel is present, if so... the load is already in progress */
     /* The image needs to be loaded if:
@@ -680,11 +682,27 @@ cb_rstto_image_size_prepared (GdkPixbufLoader *loader, gint width, gint height, 
     image->priv->width = width;
     image->priv->height = height;
 
-    if (image->priv->max_size > 0)
+    if (image->priv->scale > 0.0)
     {
-        gdouble ratio = (gdouble)(image->priv->max_size)/(gdouble)(width * height);
-        if (ratio < 1)
-    	    gdk_pixbuf_loader_set_size (loader, width*ratio, height*ratio);
+    	gdk_pixbuf_loader_set_size (loader, (gint)((gdouble)width*image->priv->scale), (gint)((gdouble)height*image->priv->scale));
+    }
+    else
+    {
+        if (width > height)
+        {
+            if (width > STD_IMAGE_SIZE)
+            {
+    	        gdk_pixbuf_loader_set_size (loader, STD_IMAGE_SIZE, (height*STD_IMAGE_SIZE)/width);
+            }
+        }
+        else
+        {
+            if (height > STD_IMAGE_SIZE)
+            {
+    	        gdk_pixbuf_loader_set_size (loader, (width*STD_IMAGE_SIZE)/height, STD_IMAGE_SIZE);
+            }
+
+        }
     }
 
     g_signal_emit(G_OBJECT(image), rstto_image_signals[RSTTO_IMAGE_SIGNAL_PREPARED], 0, image, NULL);

@@ -50,8 +50,6 @@ cb_rstto_preferences_dialog_cache_preload_check_button_toggled (GtkToggleButton 
 static void
 cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *, gpointer);
 static void
-cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *, gpointer);
-static void
 cb_rstto_preferences_dialog_image_preview_toggled (GtkToggleButton *button, 
                                                       gpointer user_data);
 static void
@@ -90,12 +88,6 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *bgcolor_color_button;
         GtkWidget *bgcolor_override_check_button;
 
-
-        GtkWidget *image_quality_frame;
-        GtkWidget *image_quality_vbox;
-        GtkWidget *image_quality_hbox;
-        GtkWidget *image_quality_label;
-        GtkWidget *image_quality_combo;
         GtkWidget *image_preview_check_button;
     } display_tab;
 
@@ -176,7 +168,6 @@ rstto_preferences_dialog_get_type (void)
 static void
 rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 {
-    guint uint_image_quality;
     guint uint_cache_size;
     gboolean bool_preload_images;
     gboolean bool_enable_cache;
@@ -208,7 +199,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
     dialog->priv->settings = rstto_settings_new ();
     g_object_get (G_OBJECT (dialog->priv->settings),
-                  "image-quality", &uint_image_quality,
                   "cache-size", &uint_cache_size,
                   "show-preview", &bool_show_preview,
                   "preload-images", &bool_preload_images,
@@ -261,60 +251,12 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_color_button), 
                       "color-set", G_CALLBACK (cb_rstto_preferences_dialog_bgcolor_color_set), dialog);
 
-/** Image-quality frame */
-    dialog->priv->display_tab.image_quality_vbox = gtk_vbox_new(FALSE, 0);
-    dialog->priv->display_tab.image_quality_frame = xfce_create_framebox_with_content (_("Quality"),
-                                                                                 dialog->priv->display_tab.image_quality_vbox);
-    gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.image_quality_frame, FALSE, FALSE, 0);
-
-    dialog->priv->display_tab.image_quality_label = gtk_label_new (_("Maximum render quality:"));
-    dialog->priv->display_tab.image_quality_hbox= gtk_hbox_new (FALSE, 4);
-    dialog->priv->display_tab.image_quality_combo= gtk_combo_box_new_text ();
     dialog->priv->display_tab.image_preview_check_button = gtk_check_button_new_with_label (_("Show preview when loading image"));
 
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.image_preview_check_button),
                                   bool_show_preview);
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.image_preview_check_button), 
                       "toggled", (GCallback)cb_rstto_preferences_dialog_image_preview_toggled, dialog);
-
-    gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), _("Best"));
-    gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), _("High"));
-    gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), _("Medium"));
-    gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), _("Low"));
-
-    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_vbox), 
-                                 dialog->priv->display_tab.image_quality_hbox, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_vbox), 
-                                 dialog->priv->display_tab.image_preview_check_button, FALSE, FALSE, 0);
-
-    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_hbox), 
-                                 dialog->priv->display_tab.image_quality_label, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.image_quality_hbox), 
-                                 dialog->priv->display_tab.image_quality_combo, FALSE, FALSE, 0);
-    /* set current value */
-    switch (uint_image_quality-(uint_image_quality%1000000))
-    {
-        case 0:
-            gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 0);
-            break;
-        case 8000000:
-            gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 1);
-            break;
-        case 4000000:
-            gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 2);
-            break;
-        case 2000000:
-            gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 3);
-            break;
-        default:
-            gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->display_tab.image_quality_combo), 2);
-            break;
-    }
-
-    /* connect signals */
-    g_signal_connect (G_OBJECT (dialog->priv->display_tab.image_quality_combo), 
-                      "changed", (GCallback)cb_rstto_preferences_dialog_image_quality_combo_box_changed, dialog);
-    
 
 /*******************/
 /** Slideshow tab **/
@@ -639,38 +581,6 @@ cb_rstto_preferences_dialog_cache_spin_button_value_changed (GtkSpinButton *butt
     g_object_set_property (G_OBJECT (dialog->priv->settings), "cache-size", &value);
 
     g_value_unset (&value);
-}
-
-static void
-cb_rstto_preferences_dialog_image_quality_combo_box_changed (GtkComboBox *combo_box,
-                                                             gpointer user_data)
-
-{
-    /* FIXME */
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-    switch (gtk_combo_box_get_active (combo_box))
-    {
-        case 0: /* unlimited */
-            g_object_set (G_OBJECT (dialog->priv->settings),
-                          "image-quality", 0,
-                          NULL);
-            break;
-        case 1: /* 1 MegaPixel */
-            g_object_set (G_OBJECT (dialog->priv->settings),
-                          "image-quality", 8000000,
-                          NULL);
-            break;
-        case 2: /* 2 MegaPixel */
-            g_object_set (G_OBJECT (dialog->priv->settings),
-                          "image-quality", 4000000,
-                          NULL);
-            break;
-        case 3: /* 4 MegaPixel */
-            g_object_set (G_OBJECT (dialog->priv->settings),
-                          "image-quality", 2000000,
-                          NULL);
-            break;
-    }
 }
 
 static void
