@@ -76,6 +76,7 @@ enum
     PROP_OPEN_ENTIRE_FOLDER,
     PROP_WRAP_IMAGES,
     PROP_THUMBNAILBAR_SIZE,
+    PROP_DESKTOP_TYPE,
 };
 
 GType
@@ -129,7 +130,8 @@ struct _RsttoSettingsPriv
     gchar    *scrollwheel_primary_action;
     gchar    *scrollwheel_secondary_action;
     gboolean  wrap_images;
-    gint     thumbnailbar_size;
+    gint      thumbnailbar_size;
+    gchar    *desktop_type;
 };
 
 
@@ -416,6 +418,15 @@ rstto_settings_class_init (GObjectClass *object_class)
     g_object_class_install_property (object_class,
                                      PROP_THUMBNAILBAR_SIZE,
                                      pspec);
+
+    pspec = g_param_spec_string  ("desktop-type",
+                                  "",
+                                  "",
+                                  "xfce",
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_DESKTOP_TYPE,
+                                     pspec);
 }
 
 /**
@@ -580,6 +591,11 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_THUMBNAILBAR_SIZE:
             settings->priv->thumbnailbar_size = g_value_get_int (value);
             break;
+        case PROP_DESKTOP_TYPE:
+            if (settings->priv->desktop_type)
+                g_free (settings->priv->desktop_type);
+            settings->priv->desktop_type = g_value_dup_string (value);
+            break;
         default:
             break;
     }
@@ -660,6 +676,9 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_THUMBNAILBAR_SIZE:
             g_value_set_int (value, settings->priv->thumbnailbar_size);
+            break;
+        case PROP_DESKTOP_TYPE:
+            g_value_set_string (value, settings->priv->desktop_type);
             break;
         default:
             break;

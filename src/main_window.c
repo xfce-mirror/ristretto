@@ -41,6 +41,7 @@
 #include "wallpaper_manager.h"
 #include "xfce_wallpaper_manager.h"
 #include "gnome_wallpaper_manager.h"
+#include "meego_wallpaper_manager.h"
 
 #include "preferences_dialog.h"
 #include "app_menu_item.h"
