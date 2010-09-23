@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the ristretto package.
 # Christian Dywan <christian@twotoasts.de>, 2007.
 # Fabian Nowak <timystery@arcor.de>, 2007, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -33,10 +33,7 @@ msgstr "Diavorführung starten"
 msgid ""
 "%s: %s\n"
 "Try %s --help to see a full list of available command line options.\n"
-msgstr ""
-"%s: %s\n"
-"Versuchen Sie »%s --help«, um eine komplette Liste verfügbarer "
-"Kommandozeilenoptionen anzuzeigen.\n"
+msgstr "%s: %s\\Geben Sie »%s --help« ein, um eine komplette Liste verfügbarer Kommandozeilenoptionen zu eralten.\n"
 
 #. File Menu
 #: ../src/main_window.c:266
@@ -131,7 +128,7 @@ msgstr "_Vollbildmodus"
 
 #: ../src/main_window.c:283
 msgid "_Leave Fullscreen"
-msgstr "Vollbildmodus verlassen"
+msgstr "_Vollbildmodus verlassen"
 
 #: ../src/main_window.c:284
 msgid "_Set as Wallpaper"
@@ -203,7 +200,7 @@ msgstr "I_nhalt"
 
 #: ../src/main_window.c:306
 msgid "Display ristretto user manual"
-msgstr "Ristretto Nutzerhandbuch anzeigen"
+msgstr "Nutzerhandbuch zu Ristretto anzeigen"
 
 #: ../src/main_window.c:309
 msgid "_About"
@@ -270,9 +267,8 @@ msgid "_Recently used"
 msgstr "_Zuletzt geöffnet"
 
 #: ../src/main_window.c:444
-#, fuzzy
 msgid "Recently used"
-msgstr "_Zuletzt geöffnet"
+msgstr "Zuletzt geöffnet"
 
 #: ../src/main_window.c:531 ../src/main_window.c:827
 msgid "Press open to select an image"
@@ -325,8 +321,7 @@ msgstr "Kopie speichern"
 #: ../src/main_window.c:2275
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr ""
-"Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
+msgstr "Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
 
 #: ../src/preferences_dialog.c:229
 msgid "Display"
@@ -338,14 +333,13 @@ msgstr "Hintergrundfarbe"
 
 #: ../src/preferences_dialog.c:238
 msgid "Override background color:"
-msgstr "_Hintergrundfarbe ersetzen:"
+msgstr "Hintergrundfarbe ersetzen:"
 
 #: ../src/preferences_dialog.c:266
 msgid "Quality"
 msgstr "Qualität"
 
 #: ../src/preferences_dialog.c:270
-#, fuzzy
 msgid "Maximum render quality:"
 msgstr "Maximale Darstellungsqualität:"
 
@@ -402,7 +396,6 @@ msgid "Hide thumbnailbar when fullscreen"
 msgstr "Miniaturbildleiste verbergen"
 
 #: ../src/preferences_dialog.c:363
-#, fuzzy
 msgid "Control"
 msgstr "Steuerung"
 
@@ -415,9 +408,8 @@ msgid "No action"
 msgstr "Keine Aktion"
 
 #: ../src/preferences_dialog.c:374
-#, fuzzy
 msgid "Zoom in and out"
-msgstr "Größe ändern"
+msgstr "Hinein und heraus zoomen"
 
 #: ../src/preferences_dialog.c:377
 msgid "Switch images"
@@ -449,7 +441,7 @@ msgstr "Ganzen Ordner beim Start öffnen"
 
 #: ../src/preferences_dialog.c:436
 msgid "Wrap around images"
-msgstr ""
+msgstr "Um Bilder herum packen"
 
 #: ../src/preferences_dialog.c:452
 msgid "Memory"
@@ -461,7 +453,7 @@ msgstr "Bildzwischenspeicher"
 
 #: ../src/preferences_dialog.c:464
 msgid "Cache size"
-msgstr "Zwischenspeichergröße:"
+msgstr "Zwischenspeichergröße"
 
 #: ../src/preferences_dialog.c:465
 msgid "MB"
@@ -473,7 +465,7 @@ msgstr "Bildzwischenspeicher aktivieren"
 
 #: ../src/preferences_dialog.c:473
 msgid "Enable preloading"
-msgstr ""
+msgstr "Bilder im Voraus laden"
 
 #: ../src/preferences_dialog.c:535
 msgid "Preferences"
@@ -540,7 +532,6 @@ msgid "the border width of the thumbnail-bar"
 msgstr "Randbreite der Vorschaubildleiste"
 
 #: ../src/thumbnail_bar.c:201
-#, fuzzy
 msgid "filmstrip width"
 msgstr "Breite der Bildleiste"
 
@@ -558,9 +549,8 @@ msgstr "Bilder anschauen leicht gemacht"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
-msgstr "Ristretto Bildbetrachter"
+msgstr "Bildbetrachter Ristretto"
 
-#, fuzzy
 #~ msgid "Preload images"
 #~ msgstr "Bilder vorladen"
 
@@ -588,11 +578,8 @@ msgstr "Ristretto Bildbetrachter"
 #~ msgid "H_ide"
 #~ msgstr "Ver_bergen"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Ein oder mehrere Bilder wurden geändert. Möchten Sie die Änderungen "
-#~ "speichern?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
+#~ msgstr "Ein oder mehrere Bilder wurden geändert. Möchten Sie die Änderungen speichern?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr "_Bilder vorladen (schnellere Oberfläche, aber mehr CPU-Last)"

@@ -271,7 +271,6 @@ msgid "_Recently used"
 msgstr "最近開いたファイル(_R)"
 
 #: ../src/main_window.c:444
-#, fuzzy
 msgid "Recently used"
 msgstr "最近開いたファイル"
 
