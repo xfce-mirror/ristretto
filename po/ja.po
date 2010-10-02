@@ -37,7 +37,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"%s --help で使用可能な全てのコマンドラインオプションが表示されます。\n"
+"%s --help で使用可能なすべてのコマンドラインオプションが表示されます。\n"
 
 #. File Menu
 #: ../src/main_window.c:266
@@ -86,11 +86,11 @@ msgstr "画像を閉じます。"
 
 #: ../src/main_window.c:272
 msgid "_Close All"
-msgstr "全て閉じる(_A)"
+msgstr "すべて閉じる(_A)"
 
 #: ../src/main_window.c:272
 msgid "Close all images"
-msgstr "画像を全て閉じます"
+msgstr "画像をすべて閉じます"
 
 #: ../src/main_window.c:273
 msgid "_Quit"
