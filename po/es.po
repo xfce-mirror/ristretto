@@ -2,7 +2,7 @@
 # Copyright (C) 2007 THE ristretto'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Abel Martín <abel.martin.ruiz@gmail.com>, 2008
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -35,8 +35,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Pruebe %s --help para ver una lista completa de opciones de línea de comando "
-"disponibles.\n"
+"Pruebe %s --help para ver una lista completa de opciones de línea de comando disponibles.\n"
 
 #. File Menu
 #: ../src/main_window.c:266
@@ -270,9 +269,8 @@ msgid "_Recently used"
 msgstr "_Recientemente usados"
 
 #: ../src/main_window.c:444
-#, fuzzy
 msgid "Recently used"
-msgstr "_Recientemente usados"
+msgstr "Usados recientemente"
 
 #: ../src/main_window.c:531 ../src/main_window.c:827
 msgid "Press open to select an image"
@@ -288,9 +286,7 @@ msgstr "Desarrollador:"
 
 #: ../src/main_window.c:1620
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto es un visor de imágenes rápido y ligero para el entorno de "
-"escritorio de Xfce."
+msgstr "Ristretto es un visor de imágenes rápido y ligero para el entorno de escritorio de Xfce."
 
 #: ../src/main_window.c:1628
 msgid "translator-credits"
@@ -381,8 +377,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"El periodo de tiempo que una imagen individual es mostrada durante la vista "
-"de diapositivas\n"
+"El periodo de tiempo que una imagen individual es mostrada durante la vista de diapositivas\n"
 "(en segundos)"
 
 #: ../src/preferences_dialog.c:345
@@ -471,7 +466,7 @@ msgstr "Habilitar caché"
 
 #: ../src/preferences_dialog.c:473
 msgid "Enable preloading"
-msgstr ""
+msgstr "Activar precarga"
 
 #: ../src/preferences_dialog.c:535
 msgid "Preferences"
@@ -584,18 +579,14 @@ msgstr "Visor de imágenes Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "_Ocultar"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Una o más imágenes han sido modificadas. ¿Desea guardar los cambios?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
+#~ msgstr "Una o más imágenes han sido modificadas. ¿Desea guardar los cambios?"
 
 #~ msgid "Image viewer Preferences"
 #~ msgstr "Preferencias del visor de imágenes"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Precargar imágenes (la interfaz gráfica responde mejor a cambio de un "
-#~ "mayor consumo de CPU)"
+#~ msgstr "_Precargar imágenes (la interfaz gráfica responde mejor a cambio de un mayor consumo de CPU)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Ocultar la barra de miniaturas en la vista de diapositivas"
