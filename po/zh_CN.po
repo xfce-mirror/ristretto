@@ -268,9 +268,8 @@ msgid "_Recently used"
 msgstr "最近使用(_R)"
 
 #: ../src/main_window.c:444
-#, fuzzy
 msgid "Recently used"
-msgstr "最近使用(_R)"
+msgstr "最近使用"
 
 #: ../src/main_window.c:531 ../src/main_window.c:827
 msgid "Press open to select an image"
@@ -462,7 +461,7 @@ msgstr "启用图像缓存"
 
 #: ../src/preferences_dialog.c:473
 msgid "Enable preloading"
-msgstr ""
+msgstr "启用预载"
 
 #: ../src/preferences_dialog.c:535
 msgid "Preferences"
@@ -575,8 +574,7 @@ msgstr "Ristretto 图像查看器"
 #~ msgid "H_ide"
 #~ msgstr "隐藏(_I)"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "有图像已被修改，是否保存修改？"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
