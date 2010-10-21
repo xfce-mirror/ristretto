@@ -1,18 +1,18 @@
 # Galician translation of ristretto
 # Copyright (C) 2008, 2009, 2010 Leandro Regueiro.
 # This file is distributed under the same license as the Xfce package.
-# 
+#
 # Leandro Regueiro <leandro DOT regueiro AT gmail DOT com>, 2008, 2009, 2010.
-# 
+#
 # Proxecto Trasno - Adaptación do software libre á lingua galega:  Se desexas
 # colaborar connosco, podes atopar máis información en <http://trasno.net>
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-07-14 00:31+0200\n"
-"PO-Revision-Date: 2010-02-08 21:43+0100\n"
+"PO-Revision-Date: 2010-10-20 09:48+0100\n"
 "Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Execute %s --help para ver unha lista completa das opcións de liña de comandos dispoñibles.\n"
+"Execute %s --help para ver unha lista completa das opcións de liña de ordes dispoñibles.\n"
 
 #. File Menu
 #: ../src/main_window.c:266
@@ -276,11 +276,13 @@ msgstr "Usados _recentemente"
 msgid "Recently used"
 msgstr "Usados recentemente"
 
-#: ../src/main_window.c:531 ../src/main_window.c:827
+#: ../src/main_window.c:531
+#: ../src/main_window.c:827
 msgid "Press open to select an image"
 msgstr "Prema abrir para seleccionar unha imaxe"
 
-#: ../src/main_window.c:814 ../src/main_window.c:819
+#: ../src/main_window.c:814
+#: ../src/main_window.c:819
 msgid "Empty"
 msgstr "Baleiro"
 
@@ -311,8 +313,10 @@ msgstr "Imaxes"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:1982 ../src/main_window.c:2005
-#: ../src/main_window.c:2164 ../src/main_window.c:2179
+#: ../src/main_window.c:1982
+#: ../src/main_window.c:2005
+#: ../src/main_window.c:2164
+#: ../src/main_window.c:2179
 msgid "Could not open file"
 msgstr "Non se puido abrir o ficheiro"
 
@@ -433,7 +437,7 @@ msgstr "Redimensionamento"
 
 #: ../src/preferences_dialog.c:421
 msgid "Don't scale over 100% when maximizing the window."
-msgstr "Non redimensionar máis alá do 100% ao maximizar a fiestra."
+msgstr "Non redimensionar máis alá do 100% ao maximizar a xanela."
 
 #: ../src/preferences_dialog.c:425
 msgid "Startup"
@@ -441,7 +445,7 @@ msgstr "Inicio"
 
 #: ../src/preferences_dialog.c:427
 msgid "Resize window to image on startup"
-msgstr "Redimensionar a fiestra ao tamaño da imaxe ao iniciar"
+msgstr "Redimensionar a xanela ao tamaño da imaxe ao iniciar"
 
 #: ../src/preferences_dialog.c:431
 msgid "Open entire folder on startup"
@@ -563,33 +567,24 @@ msgstr "Visor de fotos Ristretto"
 
 #~ msgid "Preload images"
 #~ msgstr "Precargar as imaxes"
-
 #~ msgid "Opening file(s)..."
 #~ msgstr "Abrindo ficheiros..."
-
 #~ msgid "No applications available"
 #~ msgstr "Non hai aplicacións dispoñibles"
-
 #~ msgid "Thumbnail _Viewer"
 #~ msgstr "_Visor de miniaturas"
-
 #~ msgid "Show _Horizontally"
 #~ msgstr "Mostrar en _horizontal"
-
 #~ msgid "Show _Vertically"
 #~ msgstr "Mostrar en _vertical"
-
 #~ msgid "H_ide"
 #~ msgstr "_Agochar"
-
 #~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Modificáronse unha ou máis imaxes, desexa gardar os cambios?"
-
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr "_Precargar as imaxes (a GUI vai máis rápida pero úsase máis a CPU)"
-
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Agochar a barra de miniaturas durante a presentación"
-
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Visor de imaxes de Xfce"
+
