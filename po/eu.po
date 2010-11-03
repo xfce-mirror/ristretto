@@ -268,9 +268,8 @@ msgid "_Recently used"
 msgstr "Az_kenak"
 
 #: ../src/main_window.c:444
-#, fuzzy
 msgid "Recently used"
-msgstr "Az_kenak"
+msgstr "Azkenaldian erabilia"
 
 #: ../src/main_window.c:531 ../src/main_window.c:827
 msgid "Press open to select an image"
@@ -386,9 +385,7 @@ msgstr "Argazkitxoak"
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
-msgstr ""
-"Argazkitxo-barra automatikoki ezkutatu daiteke irudi-ikustatzailea pantaila-"
-"osoa moduan dagoenean."
+msgstr "Argazkitxo-barra automatikoki ezkutatu daiteke irudi-ikustatzailea pantaila-osoa moduan dagoenean."
 
 #: ../src/preferences_dialog.c:350
 msgid "Hide thumbnailbar when fullscreen"
@@ -464,7 +461,7 @@ msgstr "Gaitu katxea"
 
 #: ../src/preferences_dialog.c:473
 msgid "Enable preloading"
-msgstr ""
+msgstr "Gaitu aurrekarga"
 
 #: ../src/preferences_dialog.c:535
 msgid "Preferences"
@@ -577,15 +574,11 @@ msgstr "Ristretto argazki ikustatzailea"
 #~ msgid "H_ide"
 #~ msgstr "Ezk_utatu"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Irudi bat edo gehiago eraldatua izan da, aldaketak gorde nahi al dituzu?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
+#~ msgstr "Irudi bat edo gehiago eraldatua izan da, aldaketak gorde nahi al dituzu?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Aurrekargatu irudiak (Interfazea hobe ibiliko da baina CPU erabilera "
-#~ "handiagoaz)"
+#~ msgstr "_Aurrekargatu irudiak (Interfazea hobe ibiliko da baina CPU erabilera handiagoaz)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Ezkutatu argazkitxo barra aurkezpenean"
