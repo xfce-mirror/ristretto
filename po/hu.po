@@ -1,7 +1,7 @@
 # Hungarian translation of ristretto
 # Copyright 2009. Free Software Foundation, Inc.
 # This file is distributed under the same license as the ristretto package.
-#
+# 
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2009, 2010.
 # SZERVÁC Attila <sas@321.hu>
 msgid ""
@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: ../src/main.c:59
 msgid "Version information"
@@ -268,11 +268,11 @@ msgstr "Lent"
 #. Create Recently used items Action
 #: ../src/main_window.c:444
 msgid "_Recently used"
-msgstr ""
+msgstr "_Nemrég használt"
 
 #: ../src/main_window.c:444
 msgid "Recently used"
-msgstr ""
+msgstr "Nemrég használt"
 
 #: ../src/main_window.c:531 ../src/main_window.c:827
 msgid "Press open to select an image"
@@ -464,7 +464,7 @@ msgstr "Gyorsítótár engedélyezése"
 
 #: ../src/preferences_dialog.c:473
 msgid "Enable preloading"
-msgstr ""
+msgstr "Előtöltés engedélyezése"
 
 #: ../src/preferences_dialog.c:535
 msgid "Preferences"
