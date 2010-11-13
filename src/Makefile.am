@@ -17,6 +17,7 @@ ristretto_SOURCES = \
 	thumbnail_bar.c thumbnail_bar.h \
 	thumbnail.c thumbnail.h \
 	thumbnailer.c thumbnailer.h \
+    marshal.c marshal.h \
 	main.c
 
 ristretto_CFLAGS = \
@@ -47,13 +48,51 @@ ristretto_LDADD = \
 INCLUDES = \
 	-I${top_srcdir}
 
+DISTCLEANFILES =
+
 if MAINTAINER_MODE
 
+ristretto_built_sources = \
+    marshal.h \
+    marshal.c
+
 BUILT_SOURCES = \
+    $(ristretto_built_sources) \
 	main_window_ui.h
 
 main_window_ui.h: main_window_ui.xml
 	exo-csource --strip-comments --strip-content --static --name=main_window_ui $< > $@
+
+marshal.h: stamp-marshal.h
+	@true
+
+stamp-marshal.h: marshal.list Makefile
+	$(AM_V_GEN) ( \
+		cd $(srcdir) \
+		&& echo "#ifndef __RSTTO_MARSHAL_H__" > xgen-tmh \
+		&& echo "#define __RSTTO_MARSHAL_H__" >> xgen-tmh \
+		&& ( glib-genmarshal \
+			--prefix=rstto_marshal \
+			--header marshal.list ) >> xgen-tmh \
+		&& echo "#endif /* !__RSTTO_MARSHAL_H__ */" >> xgen-tmh \
+		&& ( cmp -s xgen-tmh marshal.h || cp xgen-tmh marshal.h ) \
+		&& rm -f xgen-tmh \
+		&& echo timestamp > $(@F) \
+	)
+
+marshal.c: marshal.list Makefile
+	$(AM_V_GEN) ( \
+		cd $(srcdir) \
+		&& echo "#include \"marshal.h\"" > xgen-tmc \
+		&& ( glib-genmarshal \
+			--prefix=rstto_marshal \
+			--body marshal.list ) >> xgen-tmc \
+		&& cp xgen-tmc marshal.c \
+		&& rm -f xgen-tmc \
+	)
+
+DISTCLEANFILES += \
+    stamp-marshal.h
 
 endif
 

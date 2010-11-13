@@ -26,6 +26,7 @@
 #include "image.h"
 #include "thumbnail.h"
 #include "thumbnailer.h"
+#include "marshal.h"
 
 static void
 rstto_thumbnailer_init (GObject *);
@@ -115,9 +116,18 @@ rstto_thumbnailer_init (GObject *object)
                                                                 "org.freedesktop.thumbnails.Thumbnailer1",
                                                                 "/org/freedesktop/thumbnails/Thumbnailer1",
                                                                 "org.freedesktop.thumbnails.Thumbnailer1");
+
+        dbus_g_object_register_marshaller ((GClosureMarshal) rstto_marshal_VOID__UINT_BOXED,
+                                            G_TYPE_NONE,
+                                            G_TYPE_UINT,
+                                            G_TYPE_STRV,
+                                            G_TYPE_INVALID);
+
         dbus_g_proxy_add_signal (thumbnailer->priv->proxy, "Finished", G_TYPE_UINT, G_TYPE_INVALID);
+        dbus_g_proxy_add_signal (thumbnailer->priv->proxy, "Ready", G_TYPE_UINT, G_TYPE_STRV, G_TYPE_INVALID);
 
         dbus_g_proxy_connect_signal (thumbnailer->priv->proxy, "Finished", G_CALLBACK(cb_rstto_thumbnailer_request_finished), thumbnailer, NULL);
+        dbus_g_proxy_connect_signal (thumbnailer->priv->proxy, "Ready", G_CALLBACK(cb_rstto_thumbnailer_thumbnail_ready), thumbnailer, NULL);
     }
 }
 
@@ -225,22 +235,50 @@ void
 rstto_thumbnailer_queue_image (RsttoThumbnailer *thumbnailer, RsttoImage *image)
 {
     if (thumbnailer->priv->request_timer_id)
+    {
         g_source_remove (thumbnailer->priv->request_timer_id);
+        if (thumbnailer->priv->handle)
+        {
+            if(dbus_g_proxy_call(thumbnailer->priv->proxy,
+                "Dequeue",
+                 NULL,
+                 G_TYPE_UINT, thumbnailer->priv->handle,
+                 G_TYPE_INVALID) == FALSE);
+            thumbnailer->priv->handle = 0;
+        }
 
-    thumbnailer->priv->queue = g_slist_prepend (thumbnailer->priv->queue, image);
+    }
 
-    thumbnailer->priv->request_timer_id = g_timeout_add_full (G_PRIORITY_LOW, 100, (GSourceFunc)rstto_thumbnailer_queue_request_timer, thumbnailer, NULL);
+    if (g_slist_find (thumbnailer->priv->queue, image) == NULL)
+    {
+        thumbnailer->priv->queue = g_slist_prepend (thumbnailer->priv->queue, image);
+    }
+
+    thumbnailer->priv->request_timer_id = g_timeout_add_full (G_PRIORITY_LOW, 300, (GSourceFunc)rstto_thumbnailer_queue_request_timer, thumbnailer, NULL);
+    /* g_debug("%s, len: %d", __FUNCTION__, g_slist_length(thumbnailer->priv->queue)); */
 }
 
 void
 rstto_thumbnailer_dequeue_image (RsttoThumbnailer *thumbnailer, RsttoImage *image)
 {
     if (thumbnailer->priv->request_timer_id)
+    {
         g_source_remove (thumbnailer->priv->request_timer_id);
+        if (thumbnailer->priv->handle)
+        {
+            if(dbus_g_proxy_call(thumbnailer->priv->proxy,
+                "Dequeue",
+                 NULL,
+                 G_TYPE_UINT, thumbnailer->priv->handle,
+                 G_TYPE_INVALID) == FALSE);
+            thumbnailer->priv->handle = 0;
+        }
+    }
 
     thumbnailer->priv->queue = g_slist_remove_all (thumbnailer->priv->queue, image);
 
-    thumbnailer->priv->request_timer_id = g_timeout_add_full (G_PRIORITY_LOW, 100, (GSourceFunc)rstto_thumbnailer_queue_request_timer, thumbnailer, NULL);
+    thumbnailer->priv->request_timer_id = g_timeout_add_full (G_PRIORITY_LOW, 300, (GSourceFunc)rstto_thumbnailer_queue_request_timer, thumbnailer, NULL);
+    /* g_debug("%s, len: %d", __FUNCTION__, g_slist_length(thumbnailer->priv->queue)); */
 }
 
 static gboolean
@@ -285,7 +323,7 @@ rstto_thumbnailer_queue_request_timer (RsttoThumbnailer *thumbnailer)
                  G_TYPE_UINT, &thumbnailer->priv->handle,
                  G_TYPE_INVALID) == FALSE)
     {
-        g_debug("call faile:%s", error->message);
+        g_debug("call failed:%s", error->message);
         /* TOOO: Nice cleanup */
     }
     
@@ -297,13 +335,6 @@ static void
 cb_rstto_thumbnailer_request_finished (DBusGProxy *proxy, gint handle, gpointer data)
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
-    GSList *iter = thumbnailer->priv->queue;
-    GSList *prev;
-    while (iter)
-    {
-        rstto_thumbnail_update (iter->data);
-        iter = g_slist_next(iter);
-    } 
     g_slist_free (thumbnailer->priv->queue);
     thumbnailer->priv->queue = NULL;
 }
@@ -311,7 +342,39 @@ cb_rstto_thumbnailer_request_finished (DBusGProxy *proxy, gint handle, gpointer 
 static void
 cb_rstto_thumbnailer_thumbnail_ready (DBusGProxy *proxy, gint handle, const gchar **uri, gpointer data)
 {
-    g_debug("Ready");   
+    /* g_debug("Ready"); */
+    RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
+    RsttoThumbnail *thumbnail;
+    RsttoImage *image;
+    GFile *file;
+    GSList *iter = thumbnailer->priv->queue;
+    GSList *prev;
+    gint x = 0;
+    gchar *f_uri;
+    while (iter)
+    {
+        if (uri[x] == NULL)
+        {
+            break;
+        }
+
+        thumbnail = iter->data;
+        image = rstto_thumbnail_get_image (thumbnail);
+        file = rstto_image_get_file (image);
+        f_uri = g_file_get_uri (file);
+        if (strcmp (uri[x], f_uri) == 0)
+        {
+            rstto_thumbnail_update (thumbnail);
+            thumbnailer->priv->queue = g_slist_remove (thumbnailer->priv->queue, iter->data);
+
+            iter = thumbnailer->priv->queue;
+            x++;
+        }
+        else
+        {
+            iter = g_slist_next(iter);
+        }
+    } 
 }
 
 /*

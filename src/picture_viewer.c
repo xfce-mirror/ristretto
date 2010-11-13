@@ -29,6 +29,7 @@
 #include "image_list.h"
 #include "picture_viewer.h"
 #include "settings.h"
+#include "marshal.h"
 
 typedef enum
 {
@@ -128,14 +129,6 @@ static gboolean
 rstto_picture_viewer_set_scroll_adjustments(RsttoPictureViewer *, GtkAdjustment *, GtkAdjustment *);
 
 static void
-rstto_marshal_VOID__OBJECT_OBJECT (GClosure     *closure,
-                                   GValue       *return_value,
-                                   guint         n_param_values,
-                                   const GValue *param_values,
-                                   gpointer      invocation_hint,
-                                   gpointer      marshal_data);
-
-static void
 cb_rstto_picture_viewer_value_changed(GtkAdjustment *, RsttoPictureViewer *);
 static void
 cb_rstto_picture_viewer_nav_iter_changed (RsttoImageListIter *iter, gpointer user_data);
@@ -217,54 +210,6 @@ rstto_picture_viewer_init(RsttoPictureViewer *viewer)
 
     gtk_drag_dest_set(GTK_WIDGET(viewer), 0, drop_targets, G_N_ELEMENTS(drop_targets),
                       GDK_ACTION_COPY | GDK_ACTION_LINK | GDK_ACTION_MOVE | GDK_ACTION_PRIVATE);
-}
-
-/**
- * rstto_marshal_VOID__OBJECT_OBJECT:
- * @closure:
- * @return_value:
- * @n_param_values:
- * @param_values:
- * @invocation_hint:
- * @marshal_data:
- *
- * A marshaller for the set_scroll_adjustments signal.
- */
-static void
-rstto_marshal_VOID__OBJECT_OBJECT (GClosure     *closure,
-                                   GValue       *return_value,
-                                   guint         n_param_values,
-                                   const GValue *param_values,
-                                   gpointer      invocation_hint,
-                                   gpointer      marshal_data)
-{
-    typedef void (*GMarshalFunc_VOID__OBJECT_OBJECT) (gpointer data1,
-                                                      gpointer arg_1,
-                                                      gpointer arg_2,
-                                                      gpointer data2);
-    register GMarshalFunc_VOID__OBJECT_OBJECT callback;
-    register GCClosure *cc = (GCClosure*) closure;
-    register gpointer data1, data2;
-
-    g_return_if_fail (n_param_values == 3);
-
-    if (G_CCLOSURE_SWAP_DATA (closure))
-    {
-        data1 = closure->data;
-        data2 = g_value_get_object (param_values + 0);
-    }
-    else
-    {
-        data1 = g_value_get_object (param_values + 0);
-        data2 = closure->data;
-    }
-    callback = (GMarshalFunc_VOID__OBJECT_OBJECT) (marshal_data ?
-    marshal_data : cc->callback);
-
-    callback (data1,
-              g_value_get_object (param_values + 1),
-              g_value_get_object (param_values + 2),
-              data2);
 }
 
 /**
