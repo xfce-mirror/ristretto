@@ -441,6 +441,12 @@ rstto_settings_dispose (GObject *object)
 
     if (settings->priv)
     {
+        if (settings->priv->channel)
+        {
+            xfconf_g_property_unbind_all (settings->priv->channel);
+            g_object_unref (settings->priv->channel);
+            settings->priv->channel = NULL;
+        }
         g_free (settings->priv);
         settings->priv = NULL;
     }
