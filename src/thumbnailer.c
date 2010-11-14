@@ -96,8 +96,8 @@ struct _RsttoThumbnailerPriv
 {
     DBusGConnection   *connection;
     DBusGProxy        *proxy;
-    GSList *queue;
-    gint handle;
+    GSList            *queue;
+    gint               handle;
 
     gint request_timer_id;
 };
@@ -246,7 +246,6 @@ rstto_thumbnailer_queue_image (RsttoThumbnailer *thumbnailer, RsttoImage *image)
                  G_TYPE_INVALID) == FALSE);
             thumbnailer->priv->handle = 0;
         }
-
     }
 
     if (g_slist_find (thumbnailer->priv->queue, image) == NULL)

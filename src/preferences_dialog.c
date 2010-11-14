@@ -35,7 +35,10 @@
 static void
 rstto_preferences_dialog_init(RsttoPreferencesDialog *);
 static void
-rstto_preferences_dialog_class_init(RsttoPreferencesDialogClass *);
+rstto_preferences_dialog_class_init(GObjectClass *);
+
+static void
+rstto_preferences_dialog_dispose (GObject *object);
 
 
 static void
@@ -465,9 +468,24 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 }
 
 static void
-rstto_preferences_dialog_class_init(RsttoPreferencesDialogClass *dialog_class)
+rstto_preferences_dialog_class_init(GObjectClass *object_class)
 {
-    parent_class = g_type_class_peek_parent (dialog_class);
+    parent_class = g_type_class_peek_parent (RSTTO_PREFERENCES_DIALOG_CLASS (object_class));
+
+    object_class->dispose = rstto_preferences_dialog_dispose;
+}
+
+static void
+rstto_preferences_dialog_dispose (GObject *object)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (object);
+    if (dialog->priv->settings)
+    {
+        g_object_unref (dialog->priv->settings);
+        dialog->priv->settings = NULL;
+    }
+    
+    G_OBJECT_CLASS(parent_class)->dispose(object);
 }
 
 GtkWidget *
