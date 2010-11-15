@@ -21,7 +21,7 @@
 
 #include <gio/gio.h>
 
-#include <libxfcegui4/libxfcegui4.h>
+#include <libxfce4ui/libxfce4ui.h>
 #include <libexif/exif-data.h>
 
 #include "image.h"

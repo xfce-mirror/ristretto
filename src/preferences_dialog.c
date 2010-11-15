@@ -18,7 +18,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
-#include <libxfcegui4/libxfcegui4.h>
+#include <libxfce4ui/libxfce4ui.h>
 #include <libxfce4util/libxfce4util.h>
 
 #include "settings.h"
@@ -224,7 +224,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
 /** Bg-color frame */
     dialog->priv->display_tab.bgcolor_vbox = gtk_vbox_new (FALSE, 0);
-    dialog->priv->display_tab.bgcolor_frame = xfce_create_framebox_with_content (_("Background color"),
+    dialog->priv->display_tab.bgcolor_frame = xfce_gtk_frame_box_new_with_content(_("Background color"),
                                                                                  dialog->priv->display_tab.bgcolor_vbox);
     gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.bgcolor_frame, FALSE, FALSE, 0);
 
@@ -269,7 +269,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), slideshow_main_vbox, slideshow_main_lbl);
 
     dialog->priv->slideshow_tab.timeout_vbox = gtk_vbox_new(FALSE, 0);
-    dialog->priv->slideshow_tab.timeout_frame = xfce_create_framebox_with_content (_("Timeout"), dialog->priv->slideshow_tab.timeout_vbox);
+    dialog->priv->slideshow_tab.timeout_frame = xfce_gtk_frame_box_new_with_content(_("Timeout"), dialog->priv->slideshow_tab.timeout_vbox);
     gtk_box_pack_start (GTK_BOX (slideshow_main_vbox), dialog->priv->slideshow_tab.timeout_frame, FALSE, FALSE, 0);
 
     timeout_lbl = gtk_label_new(_("The time period an individual image is displayed during a slideshow\n(in seconds)"));
@@ -287,7 +287,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
     
     dialog->priv->slideshow_tab.thumbnail_vbox = gtk_vbox_new(FALSE, 0);
-    dialog->priv->slideshow_tab.thumbnail_frame = xfce_create_framebox_with_content (_("Thumbnails"), dialog->priv->slideshow_tab.thumbnail_vbox);
+    dialog->priv->slideshow_tab.thumbnail_frame = xfce_gtk_frame_box_new_with_content(_("Thumbnails"), dialog->priv->slideshow_tab.thumbnail_vbox);
     gtk_box_pack_start (GTK_BOX (slideshow_main_vbox), dialog->priv->slideshow_tab.thumbnail_frame, FALSE, FALSE, 0);
 
     dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_lbl = gtk_label_new(_("The thumbnailbar can be automatically hidden \nwhen the image-viewer is fullscreen."));
@@ -309,7 +309,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), control_main_vbox, control_main_lbl);
 
     dialog->priv->control_tab.scroll_vbox = gtk_vbox_new(FALSE, 0);
-    dialog->priv->control_tab.scroll_frame = xfce_create_framebox_with_content (_("Scrollwheel"), dialog->priv->control_tab.scroll_vbox);
+    dialog->priv->control_tab.scroll_frame = xfce_gtk_frame_box_new_with_content(_("Scrollwheel"), dialog->priv->control_tab.scroll_vbox);
     gtk_box_pack_start (GTK_BOX (control_main_vbox), dialog->priv->control_tab.scroll_frame, FALSE, FALSE, 0);
 
     dialog->priv->control_tab.no_scrollwheel_action_radio_button = gtk_radio_button_new_with_label (NULL, _("No action"));
@@ -358,7 +358,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
     /********************************************/
     dialog->priv->behaviour_tab.scaling_vbox = gtk_vbox_new(FALSE, 0);
-    dialog->priv->behaviour_tab.scaling_frame = xfce_create_framebox_with_content (_("Scaling"), dialog->priv->behaviour_tab.scaling_vbox);
+    dialog->priv->behaviour_tab.scaling_frame = xfce_gtk_frame_box_new_with_content(_("Scaling"), dialog->priv->behaviour_tab.scaling_vbox);
     gtk_box_pack_start (GTK_BOX (behaviour_main_vbox), dialog->priv->behaviour_tab.scaling_frame, FALSE, FALSE, 0);
     /* not used */
     gtk_widget_set_sensitive (dialog->priv->behaviour_tab.scaling_vbox, FALSE);
@@ -367,7 +367,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_container_add (GTK_CONTAINER (dialog->priv->behaviour_tab.scaling_vbox), dialog->priv->behaviour_tab.resize_image_on_maximize);
 
     dialog->priv->behaviour_tab.startup_vbox = gtk_vbox_new(FALSE, 0);
-    dialog->priv->behaviour_tab.startup_frame = xfce_create_framebox_with_content (_("Startup"), dialog->priv->behaviour_tab.startup_vbox);
+    dialog->priv->behaviour_tab.startup_frame = xfce_gtk_frame_box_new_with_content(_("Startup"), dialog->priv->behaviour_tab.startup_vbox);
     gtk_box_pack_start (GTK_BOX (behaviour_main_vbox), dialog->priv->behaviour_tab.startup_frame, FALSE, FALSE, 0);
     dialog->priv->behaviour_tab.resize_window_on_startup_check_button = gtk_check_button_new_with_label (_("Resize window to image on startup"));
     gtk_container_add (GTK_CONTAINER (dialog->priv->behaviour_tab.startup_vbox), dialog->priv->behaviour_tab.resize_window_on_startup_check_button);
@@ -400,7 +400,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
 /** Image-cache frame */
     dialog->priv->cache_tab.cache_vbox = gtk_vbox_new(FALSE, 0);
-    dialog->priv->cache_tab.cache_frame = xfce_create_framebox_with_content (_("Image cache"),
+    dialog->priv->cache_tab.cache_frame = xfce_gtk_frame_box_new_with_content(_("Image cache"),
                                                                                  dialog->priv->cache_tab.cache_vbox);
     gtk_box_pack_start (GTK_BOX (cache_main_vbox), dialog->priv->cache_tab.cache_frame, FALSE, FALSE, 0);
 
