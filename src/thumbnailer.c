@@ -250,6 +250,7 @@ rstto_thumbnailer_queue_image (RsttoThumbnailer *thumbnailer, RsttoImage *image)
 
     if (g_slist_find (thumbnailer->priv->queue, image) == NULL)
     {
+        g_object_ref (image);
         thumbnailer->priv->queue = g_slist_prepend (thumbnailer->priv->queue, image);
     }
 
@@ -274,7 +275,11 @@ rstto_thumbnailer_dequeue_image (RsttoThumbnailer *thumbnailer, RsttoImage *imag
         }
     }
 
-    thumbnailer->priv->queue = g_slist_remove_all (thumbnailer->priv->queue, image);
+    if (g_slist_find (thumbnailer->priv->queue, image) != NULL)
+    {
+        thumbnailer->priv->queue = g_slist_remove_all (thumbnailer->priv->queue, image);
+        g_object_unref (image);
+    }
 
     thumbnailer->priv->request_timer_id = g_timeout_add_full (G_PRIORITY_LOW, 300, (GSourceFunc)rstto_thumbnailer_queue_request_timer, thumbnailer, NULL);
     /* g_debug("%s, len: %d", __FUNCTION__, g_slist_length(thumbnailer->priv->queue)); */
@@ -298,13 +303,16 @@ rstto_thumbnailer_queue_request_timer (RsttoThumbnailer *thumbnailer)
     iter = thumbnailer->priv->queue;
     while (iter)
     {
-        image = rstto_thumbnail_get_image (RSTTO_THUMBNAIL(iter->data));
-        file = rstto_image_get_file (image);
-        uris[i] = g_file_get_uri (file);
-        file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
-        if (file_info)
+        if (iter->data)
         {
-            mimetypes[i] = g_file_info_get_attribute_string (file_info, "standard::content-type");
+            image = rstto_thumbnail_get_image (RSTTO_THUMBNAIL(iter->data));
+            file = rstto_image_get_file (image);
+            uris[i] = g_file_get_uri (file);
+            file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
+            if (file_info)
+            {
+                mimetypes[i] = g_file_info_get_attribute_string (file_info, "standard::content-type");
+            }
         }
         iter = g_slist_next(iter);
         i++;
@@ -351,7 +359,7 @@ cb_rstto_thumbnailer_thumbnail_ready (DBusGProxy *proxy, gint handle, const gcha
     gchar *f_uri;
     while (iter)
     {
-        if (uri[x] == NULL)
+        if ((uri[x] == NULL) || (iter->data == NULL))
         {
             break;
         }
@@ -364,6 +372,7 @@ cb_rstto_thumbnailer_thumbnail_ready (DBusGProxy *proxy, gint handle, const gcha
         {
             rstto_thumbnail_update (thumbnail);
             thumbnailer->priv->queue = g_slist_remove (thumbnailer->priv->queue, iter->data);
+            g_object_unref (thumbnail);
 
             iter = thumbnailer->priv->queue;
             x++;
