@@ -100,7 +100,6 @@ struct _RsttoImagePriv
     /* File data */
     /*************/
     GFile *file;
-    GFileMonitor *monitor;
     GCancellable *cancellable;
 
     /* File I/O data */
@@ -136,7 +135,6 @@ rstto_image_init (GObject *object)
     /* Initialize buffer for image-loading */
     image->priv->buffer = g_new0 (guchar, RSTTO_IMAGE_BUFFER_SIZE);
     image->priv->cancellable = g_cancellable_new();
-
 }
 
 
