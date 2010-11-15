@@ -1,6 +1,6 @@
 - Implement preferences dialog
 - Generate and save thumbnails (DONE)
-    - Listen to Ready signal
+    - Listen to Ready signal (DONE)
 
 - Support setting wallpapers
     - nautilus
@@ -12,7 +12,7 @@
 - Write comments
 
 - Improve thumbnailbar
-- Save thumbnailbar size
+- Save thumbnailbar size (DONE)
 
 - Support image collections
     - Export to tarball/zip

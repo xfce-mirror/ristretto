@@ -341,7 +341,6 @@ cb_rstto_thumbnailer_request_finished (DBusGProxy *proxy, gint handle, gpointer 
 static void
 cb_rstto_thumbnailer_thumbnail_ready (DBusGProxy *proxy, gint handle, const gchar **uri, gpointer data)
 {
-    /* g_debug("Ready"); */
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
     RsttoThumbnail *thumbnail;
     RsttoImage *image;

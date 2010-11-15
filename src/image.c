@@ -314,7 +314,7 @@ rstto_image_new (GFile *file)
 gboolean
 rstto_image_load (RsttoImage *image, gboolean empty_cache, gdouble scale, gboolean preload, GError **error)
 {
-    g_debug("%s: %f", __FUNCTION__, scale);
+    /* g_debug("%s: %f", __FUNCTION__, scale); */
     RsttoImageCache *cache;
 
     g_return_val_if_fail (image != NULL, FALSE);

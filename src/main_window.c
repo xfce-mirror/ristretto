@@ -702,7 +702,6 @@ rstto_main_window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
     /* if the panel-position is unset, set it */
     if (gtk_paned_get_position (GTK_PANED(window->priv->vpaned_top)) == 0)
     {
-        g_debug ("set size");
         gtk_paned_set_position (GTK_PANED(window->priv->vpaned_top), rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
         gtk_paned_set_position (GTK_PANED(window->priv->vpaned_bottom), window->priv->vpaned_bottom->allocation.height - rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
 
