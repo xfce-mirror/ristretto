@@ -60,7 +60,7 @@ msgstr "Map openen"
 
 #: ../src/main_window.c:270
 msgid "_Save copy"
-msgstr "Kopie Opslaan"
+msgstr "Kopie Op_slaan"
 
 #: ../src/main_window.c:270
 msgid "Save a copy of the image"
@@ -72,7 +72,7 @@ msgstr "_Print"
 
 #: ../src/main_window.c:271
 msgid "Print the image"
-msgstr "_Afbeelding printen"
+msgstr "Afbeelding printen"
 
 #: ../src/main_window.c:272
 msgid "_Close"
@@ -88,7 +88,7 @@ msgstr "_Alles Sluiten"
 
 #: ../src/main_window.c:273
 msgid "Close all images"
-msgstr "_Alle afbeeldingen sluiten"
+msgstr "Alle afbeeldingen sluiten"
 
 #: ../src/main_window.c:274
 msgid "_Quit"
@@ -122,7 +122,7 @@ msgstr "_Voorkeuren"
 #. View Menu
 #: ../src/main_window.c:282
 msgid "_View"
-msgstr "_Beeld"
+msgstr "Beel_d"
 
 #: ../src/main_window.c:283
 #, fuzzy
@@ -153,7 +153,7 @@ msgstr "_Uitzoomen"
 
 #: ../src/main_window.c:290
 msgid "Zoom _Fit"
-msgstr ""
+msgstr "_Passend maken"
 
 #: ../src/main_window.c:291
 msgid "_Normal Size"
@@ -271,9 +271,8 @@ msgid "_Recently used"
 msgstr "_Recent geopend"
 
 #: ../src/main_window.c:445
-#, fuzzy
 msgid "Recently used"
-msgstr "_Recent geopend"
+msgstr "Recent geopend"
 
 #: ../src/main_window.c:532 ../src/main_window.c:826
 msgid "Press open to select an image"
@@ -294,7 +293,8 @@ msgstr ""
 
 #: ../src/main_window.c:1627
 msgid "translator-credits"
-msgstr "Timo Verbeek <timoverbeek10@hotmail.com>"
+msgstr ""
+"Timo Verbeek <timoverbeek10@hotmail.com>\nStephan Arts<stephan@xfce.org>"
 
 #: ../src/main_window.c:1942
 msgid "Open image"
@@ -359,7 +359,6 @@ msgstr ""
 "diaweergave (in seconden)"
 
 #: ../src/preferences_dialog.c:290
-#, fuzzy
 msgid "Thumbnails"
 msgstr "Miniaturen"
 
@@ -373,7 +372,7 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:295
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "Miniaturen _verbergen bij volledig scherm mode"
+msgstr "Miniaturen verbergen bij volledig scherm mode"
 
 #: ../src/preferences_dialog.c:308
 msgid "Control"
@@ -392,7 +391,6 @@ msgid "Zoom in and out"
 msgstr "In-en uitzoomen"
 
 #: ../src/preferences_dialog.c:322
-#, fuzzy
 msgid "Switch images"
 msgstr "Afbeeldingen wisselen"
 
@@ -415,9 +413,8 @@ msgid "Startup"
 msgstr "Opstarten"
 
 #: ../src/preferences_dialog.c:372
-#, fuzzy
 msgid "Resize window to image on startup"
-msgstr "Resize venster naar afbeelding bij het opstarten"
+msgstr "Venstergrootte aan afbeelding aanpassen bij het opstarten"
 
 #: ../src/preferences_dialog.c:376
 msgid "Open entire folder on startup"
@@ -472,9 +469,8 @@ msgid "Brightness:"
 msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "_Rotatie"
+msgstr "Verzadiging:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
@@ -485,22 +481,20 @@ msgid "Centered"
 msgstr "Gecentreerd"
 
 #: ../src/xfce_wallpaper_manager.c:125
-#, fuzzy
 msgid "Tiled"
 msgstr "Als Tegels"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr ""
+msgstr "Uitgerekt"
 
 #: ../src/xfce_wallpaper_manager.c:127
 msgid "Scaled"
 msgstr "Schalen"
 
 #: ../src/xfce_wallpaper_manager.c:128
-#, fuzzy
 msgid "Zoomed"
-msgstr "Ingezoomt"
+msgstr "Ingezoomd"
 
 #: ../src/thumbnail_bar.c:187
 msgid "Spacing"
@@ -512,21 +506,19 @@ msgstr "De ruimte tussen de miniaturen"
 
 #: ../src/thumbnail_bar.c:194
 msgid "border width"
-msgstr "rand breedte"
+msgstr "randbreedte"
 
 #: ../src/thumbnail_bar.c:195
 msgid "the border width of the thumbnail-bar"
 msgstr "de randbreedte van de miniaturen balk"
 
 #: ../src/thumbnail_bar.c:201
-#, fuzzy
 msgid "filmstrip width"
-msgstr "filmstrip breedte"
+msgstr "Miniaturenbalkbreedte"
 
 #: ../src/thumbnail_bar.c:202
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "De breedte van de miniaturen balk"
+msgstr "De breedte van de miniaturenbalk"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
