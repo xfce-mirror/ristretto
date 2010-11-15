@@ -1,3 +1,14 @@
+0.0.92
+======
+- Remove dependency on libxfcegui4
+- Restore size of thumbnail-bar
+- Save and restore image zoom-state when navigating
+- Implement 'Ready' signal-handler for thumbnailer-spec
+- Fix build with --no-add-needed
+- Set 'preload-images' checkbox to the right state when the 
+  preferences-window is created
+- Correctly cleanup the references to xfconf
+
 0.0.91
 ======
 - Remove dependency on thunar
