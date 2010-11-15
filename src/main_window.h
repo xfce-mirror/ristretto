@@ -69,6 +69,8 @@ GType      rstto_main_window_get_type();
 
 GtkWidget *rstto_main_window_new (RsttoImageList *, gboolean);
 
+gboolean   rstto_main_window_add_file_to_recent_files (GFile *);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_MAIN_WINDOW_H__ */

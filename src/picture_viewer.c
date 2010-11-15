@@ -29,6 +29,7 @@
 #include "image_list.h"
 #include "picture_viewer.h"
 #include "settings.h"
+#include "main_window.h"
 #include "marshal.h"
 
 typedef enum
@@ -1609,6 +1610,8 @@ rstto_picture_viewer_set_image (RsttoPictureViewer *viewer, RsttoImage *image)
         }
 
         rstto_image_load (viewer->priv->image, FALSE, *scale, FALSE, NULL);
+
+        g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, rstto_image_get_file(viewer->priv->image), NULL);
     }
     else
     {

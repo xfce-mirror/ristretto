@@ -55,6 +55,9 @@
 #define ZOOM_FACTOR 1.2
 #endif
 
+#define RSTTO_RECENT_FILES_APP_NAME "ristretto"
+#define RSTTO_RECENT_FILES_GROUP "Graphics"
+
 struct _RsttoMainWindowPriv
 {
     struct {
@@ -261,6 +264,10 @@ static void
 cb_rstto_main_window_vpaned_pos_changed (GtkWidget *widget, gpointer user_data);
 static void
 cb_rstto_main_window_hpaned_pos_changed (GtkWidget *widget, gpointer user_data);
+
+gboolean
+rstto_main_window_add_file_to_recent_files (GFile *file);
+
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -2016,13 +2023,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                     gtk_dialog_run(GTK_DIALOG(dialog));
                     gtk_widget_destroy(dialog);
                 }
-                else
-                {
-                    uri = g_file_get_uri (_files_iter->data);
-                    gtk_recent_manager_add_item (window->priv->recent_manager, uri);
-                    g_free (uri);
-                    uri = NULL;
-                }
+
                 _files_iter = g_slist_next (_files_iter);
             }
         }
@@ -2038,15 +2039,6 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                                                 _("Could not open file"));
                 gtk_dialog_run(GTK_DIALOG(dialog));
                 gtk_widget_destroy(dialog);
-            }
-            else
-            {
-
-                uri = g_file_get_uri (files->data);
-                gtk_recent_manager_add_item (window->priv->recent_manager, uri);
-                g_free (uri);
-                uri = NULL;
-
             }
         }
 
@@ -2082,7 +2074,6 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
     GFileInfo *file_info = NULL;
     const gchar *filename = NULL;
     const gchar *content_type = NULL;
-    gchar *uri = NULL;
     gint pos = 0;
     GtkWidget *dialog;
     gchar *current_uri = rstto_settings_get_string_property (RSTTO_SETTINGS (window->priv->settings_manager), "current-uri");
@@ -2127,10 +2118,8 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
         if (pos == -1)
             rstto_image_list_iter_set_position (window->priv->iter, 0);
 
-        uri = g_file_get_uri (file);
-        gtk_recent_manager_add_item (window->priv->recent_manager, uri);
-        g_free (uri);
-        uri = NULL;
+        g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files,
+        file, NULL);
 
         rstto_settings_set_string_property (RSTTO_SETTINGS (window->priv->settings_manager),
                                             "current-uri",
@@ -2521,4 +2510,41 @@ cb_rstto_main_window_hpaned_pos_changed (GtkWidget *widget, gpointer user_data)
     }
 
     rstto_settings_set_uint_property (RSTTO_SETTINGS (window->priv->settings_manager), "thumbnailbar-size", size);
+}
+
+gboolean
+rstto_main_window_add_file_to_recent_files (GFile *file)
+{
+    GFileInfo *file_info;
+    GtkRecentData *recent_data;
+    gchar* uri;
+    static gchar *groups[2] = { RSTTO_RECENT_FILES_GROUP , NULL };
+
+    if (file == NULL) return FALSE;
+
+    uri = g_file_get_uri (file);
+    if(uri == NULL) return FALSE;
+
+    file_info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+            0, NULL, NULL);
+    if (file_info == NULL) return FALSE;
+
+    recent_data = g_slice_new (GtkRecentData);
+    recent_data->display_name = NULL;
+    recent_data->description = NULL; //NULL
+    recent_data->mime_type = (gchar *) g_file_info_get_content_type (file_info);
+    recent_data->app_name = RSTTO_RECENT_FILES_APP_NAME;
+    recent_data->app_exec = g_strjoin(" ", g_get_prgname (), "%u", NULL);
+    recent_data->groups = groups;
+    recent_data->is_private = FALSE;
+
+    gtk_recent_manager_add_full (gtk_recent_manager_get_default(), uri, recent_data);
+
+    g_free (recent_data->app_exec);
+    g_free (uri);
+    g_object_unref (file_info);
+
+    g_slice_free (GtkRecentData, recent_data);
+
+    return FALSE;
 }

@@ -261,33 +261,14 @@ RsttoImage *
 rstto_image_new (GFile *file)
 {
     RsttoImage *image = g_object_new (RSTTO_TYPE_IMAGE, NULL);
-    gchar *file_path = g_file_get_path (file);
-    ExifEntry *exif_entry = NULL;
 
     g_object_ref (file);
 
     image->priv->file = file;
-    image->priv->exif_data = exif_data_new_from_file (file_path);
+    image->priv->exif_data = NULL;
     image->priv->thumbnail = NULL;
     image->priv->pixbuf = NULL;
-
-    if (image->priv->exif_data) {
-        exif_entry = exif_data_get_entry (image->priv->exif_data, EXIF_TAG_ORIENTATION);
-    }
-    /* Check if the image has exif-data available */
-    if (exif_entry && exif_entry->data != NULL)
-    {
-        /* Get the image-orientation from EXIF data */
-        image->priv->orientation = exif_get_short (exif_entry->data, exif_data_get_byte_order (exif_entry->parent->parent));
-        if (image->priv->orientation == 0)
-            /* Default orientation */
-            image->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
-    }
-    else
-    {
-        /* Default orientation */
-        image->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
-    }
+    image->priv->orientation = RSTTO_IMAGE_ORIENT_NOT_DETERMINED;
 
     return image;
 }
@@ -554,6 +535,31 @@ rstto_image_get_size (RsttoImage *image)
 RsttoImageOrientation
 rstto_image_get_orientation (RsttoImage *image)
 {
+	if (image->priv->orientation == RSTTO_IMAGE_ORIENT_NOT_DETERMINED){
+	    gchar *file_path = g_file_get_path (image->priv->file);
+		ExifEntry *exif_entry = NULL;
+
+		image->priv->exif_data = exif_data_new_from_file (file_path);
+
+	    if (image->priv->exif_data) {
+	        exif_entry = exif_data_get_entry (image->priv->exif_data, EXIF_TAG_ORIENTATION);
+	    }
+	    /* Check if the image has exif-data available */
+	    if (exif_entry && exif_entry->data != NULL)
+	    {
+	        /* Get the image-orientation from EXIF data */
+	        image->priv->orientation = exif_get_short (exif_entry->data, exif_data_get_byte_order (exif_entry->parent->parent));
+	        if (image->priv->orientation == 0)
+	            /* Default orientation */
+	            image->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
+	    }
+	    else
+	    {
+	        /* Default orientation */
+	        image->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
+	    }
+	}
+
     return image->priv->orientation;
 }
 

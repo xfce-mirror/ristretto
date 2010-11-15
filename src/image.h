@@ -31,6 +31,7 @@ typedef enum
   RSTTO_IMAGE_ORIENT_90,
   RSTTO_IMAGE_ORIENT_TRANSVERSE,
   RSTTO_IMAGE_ORIENT_270,
+  RSTTO_IMAGE_ORIENT_NOT_DETERMINED,
 } RsttoImageOrientation;
 
 #define RSTTO_TYPE_IMAGE rstto_image_get_type()
