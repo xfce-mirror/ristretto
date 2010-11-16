@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Nuno Miguel <nunis@netcabo.pt>, 2007
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.22\n"
@@ -37,8 +37,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Tente %s --help para ver uma lista completa de opções em linha de comandos "
-"disponíveis.\n"
+"Tente %s --help para ver uma lista completa de opções em linha de comandos disponíveis.\n"
 
 #. File Menu
 #: ../src/main_window.c:277
@@ -55,7 +54,7 @@ msgstr "Abrir uma imagem"
 
 #: ../src/main_window.c:279
 msgid "Open _Folder"
-msgstr "Abrir _Pasta"
+msgstr "Abrir _pasta"
 
 #: ../src/main_window.c:279
 msgid "Open a folder"
@@ -87,7 +86,7 @@ msgstr "Fechar esta imagem"
 
 #: ../src/main_window.c:283
 msgid "_Close All"
-msgstr "_Fechar Todas"
+msgstr "_Fechar todas"
 
 #: ../src/main_window.c:283
 msgid "Close all images"
@@ -129,11 +128,11 @@ msgstr "_Ver"
 
 #: ../src/main_window.c:293
 msgid "_Fullscreen"
-msgstr "_Ecrã inteiro"
+msgstr "_Ecrã completo"
 
 #: ../src/main_window.c:294
 msgid "_Leave Fullscreen"
-msgstr "_Deixar Ecrã Inteiro"
+msgstr "Sair do ecrã comp_leto"
 
 #: ../src/main_window.c:295
 msgid "_Set as Wallpaper"
@@ -158,7 +157,7 @@ msgstr "Aju_star tamanho"
 
 #: ../src/main_window.c:301
 msgid "_Normal Size"
-msgstr "Tamanho _Normal"
+msgstr "Tamanho _normal"
 
 #. Rotation submenu
 #: ../src/main_window.c:303
@@ -167,11 +166,11 @@ msgstr "_Rotação"
 
 #: ../src/main_window.c:304
 msgid "Rotate _Right"
-msgstr "Rodar à _Direita"
+msgstr "Rodar à _direita"
 
 #: ../src/main_window.c:305
 msgid "Rotate _Left"
-msgstr "Rodar à _Esquerda"
+msgstr "Rodar à _esquerda"
 
 #. Go Menu
 #: ../src/main_window.c:307
@@ -184,15 +183,15 @@ msgstr "_Avançar"
 
 #: ../src/main_window.c:309
 msgid "_Back"
-msgstr "_Retroceder"
+msgstr "_Voltar"
 
 #: ../src/main_window.c:310
 msgid "_First"
-msgstr "_Primeiro"
+msgstr "_Primeira"
 
 #: ../src/main_window.c:311
 msgid "_Last"
-msgstr "Últi_mo"
+msgstr "Últi_ma"
 
 #. Help Menu
 #: ../src/main_window.c:313
@@ -223,22 +222,22 @@ msgstr "_Posição"
 #. Misc
 #: ../src/main_window.c:327
 msgid "Leave _Fullscreen"
-msgstr "Deixar _Ecrã inteiro"
+msgstr "Sair do_ecrã completo"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:335
 msgid "Show _File Toolbar"
-msgstr "Mostrar Barra de _Ficheiro"
+msgstr "Mostrar barra de _ficheiro"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:337
 msgid "Show _Navigation Toolbar"
-msgstr "Mostrar Barra de _Navegação"
+msgstr "Mostrar barra de _navegação"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:339
 msgid "Show _Thumbnailbar"
-msgstr "Mostrar _Barra de Miniaturas"
+msgstr "Mostrar _barra de miniaturas"
 
 #. Sort by Filename
 #: ../src/main_window.c:346
@@ -269,7 +268,7 @@ msgstr "Inferior"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Reproduzir"
 
 #: ../src/main_window.c:451
 #, fuzzy
@@ -278,7 +277,7 @@ msgstr "Iniciar uma apresentação"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Pausar"
 
 #: ../src/main_window.c:452
 #, fuzzy
@@ -342,7 +341,7 @@ msgstr "Gravar cópia"
 #: ../src/main_window.c:2296
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Tem a certeza que quer apagar do disco a imagem '%s'?"
+msgstr "Tem a certeza que quer apagar do disco a imagem \"%s\"?"
 
 #: ../src/preferences_dialog.c:222
 msgid "Display"
@@ -358,7 +357,7 @@ msgstr "Substituir cor de fundo:"
 
 #: ../src/preferences_dialog.c:257
 msgid "Show preview when loading image"
-msgstr "Mostrar pré-visualização ao carregar imagem"
+msgstr "Mostrar antevisão ao carregar imagem"
 
 #: ../src/preferences_dialog.c:268
 msgid "Slideshow"
@@ -366,15 +365,14 @@ msgstr "Apresentação"
 
 #: ../src/preferences_dialog.c:272
 msgid "Timeout"
-msgstr "Tempo de Espera"
+msgstr "Tempo de espera"
 
 #: ../src/preferences_dialog.c:275
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"O período de tempo que uma imagem individual é exibida durante uma "
-"apresentação\n"
+"A duração da exibição de uma imagem durante uma apresentação\n"
 "(em segundos)"
 
 #: ../src/preferences_dialog.c:290
@@ -386,12 +384,12 @@ msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
-"A barra de miniaturas pode ser automaticamente ocultada \n"
-"quando o visualizador está em ecrã inteiro."
+"A barra de miniaturas pode ser automaticamente ocultada\n"
+"se o visualizador estiver em ecrã completo."
 
 #: ../src/preferences_dialog.c:295
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "Ocultar barra de miniaturas em ecrã inteiro"
+msgstr "Ocultar barra de miniaturas em ecrã completo"
 
 #: ../src/preferences_dialog.c:308
 msgid "Control"
@@ -419,11 +417,11 @@ msgstr "Comportamento"
 
 #: ../src/preferences_dialog.c:361
 msgid "Scaling"
-msgstr "Redimensionamento"
+msgstr "Escala"
 
 #: ../src/preferences_dialog.c:366
 msgid "Don't scale over 100% when maximizing the window."
-msgstr "Não escalonar acima de 100% ao maximizar a janela."
+msgstr "Ao maximizar a janela, não escalonar acima de 100%."
 
 #: ../src/preferences_dialog.c:370
 msgid "Startup"
@@ -431,11 +429,11 @@ msgstr "Início"
 
 #: ../src/preferences_dialog.c:372
 msgid "Resize window to image on startup"
-msgstr "Redimensionar janela à imagem ao iniciar"
+msgstr "Ao iniciar, ajustar a janela à imagem"
 
 #: ../src/preferences_dialog.c:376
 msgid "Open entire folder on startup"
-msgstr "Abrir janela inteira ao iniciar"
+msgstr "Ao iniciar, abrir toda a pasta"
 
 #: ../src/preferences_dialog.c:381
 msgid "Wrap around images"
@@ -447,7 +445,7 @@ msgstr "Memória"
 
 #: ../src/preferences_dialog.c:403
 msgid "Image cache"
-msgstr "Cache de Imagem"
+msgstr "Cache de imagens"
 
 #: ../src/preferences_dialog.c:409
 msgid "Cache size"
@@ -459,7 +457,7 @@ msgstr "MB"
 
 #: ../src/preferences_dialog.c:413
 msgid "Enable cache"
-msgstr "Ligar cache"
+msgstr "Activar cache"
 
 #: ../src/preferences_dialog.c:418
 msgid "Enable preloading"
@@ -495,7 +493,7 @@ msgstr "Auto"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr "Centrado"
+msgstr "Centrada"
 
 #: ../src/xfce_wallpaper_manager.c:125
 msgid "Tiled"
@@ -503,15 +501,15 @@ msgstr "Mosaico"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr "Esticado"
+msgstr "Esticada"
 
 #: ../src/xfce_wallpaper_manager.c:127
 msgid "Scaled"
-msgstr "Escalonado"
+msgstr "À escala"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
-msgstr "Ampliado"
+msgstr "Ampliada"
 
 #: ../src/thumbnail_bar.c:187
 msgid "Spacing"
@@ -519,15 +517,15 @@ msgstr "Espaçamento"
 
 #: ../src/thumbnail_bar.c:188
 msgid "The amount of space between the thumbnails"
-msgstr "A quantidade de espaço entre miniaturas"
+msgstr "A quantidade de espaço entre as miniaturas"
 
 #: ../src/thumbnail_bar.c:194
 msgid "border width"
-msgstr "largura da borda"
+msgstr "largura do contorno"
 
 #: ../src/thumbnail_bar.c:195
 msgid "the border width of the thumbnail-bar"
-msgstr "a largura da borda da barra de miniaturas"
+msgstr "a largura do contorno da barra de miniaturas"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
@@ -539,7 +537,7 @@ msgstr "a largura da barra de película das miniaturas"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
-msgstr "Visualizador de Imagem"
+msgstr "Visualizador de imagens"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
@@ -547,7 +545,7 @@ msgstr "Veja as suas fotos facilmente"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
-msgstr "Visualizador de Fotos Ristretto"
+msgstr "Visualizador de fotos Ristretto"
 
 #~ msgid "Quality"
 #~ msgstr "Qualidade"
