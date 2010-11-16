@@ -271,18 +271,16 @@ msgid "_Play"
 msgstr "_Reproduzir"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
-msgstr "Iniciar uma apresentação"
+msgstr "Iniciar apresentação"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
 msgstr "_Pausar"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Iniciar uma apresentação"
+msgstr "Pausar apresentação"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
