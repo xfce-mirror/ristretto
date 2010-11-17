@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ristretto 0.0.90-gio\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-11-15 20:25+0100\n"
-"PO-Revision-Date: 2010-10-11 12:51+0300\n"
+"PO-Revision-Date: 2010-11-17 13:08+0200\n"
 "Last-Translator: Jari Rahkonen <jari.rahkonen@pp1.inet.fi>\n"
 "Language-Team: Finnish <xfce-i18n@xfce.org>\n"
 "MIME-Version: 1.0\n"
@@ -265,30 +265,28 @@ msgstr "Alhaalla"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Toista"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
 msgstr "Aloita diaesitys"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Keskeytä"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Aloita diaesitys"
+msgstr "Pysäytä diaesitys"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
 msgid "_Recently used"
-msgstr "_Viimeksi käytetyt"
+msgstr "_Viimeaikaiset"
 
 #: ../src/main_window.c:455
 msgid "Recently used"
-msgstr "Viimeksi käytetyt"
+msgstr "Viimeksi avatut"
 
 #: ../src/main_window.c:542 ../src/main_window.c:864
 msgid "Press open to select an image"
