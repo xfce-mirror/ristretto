@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Mike Massonnet <mmassonnet@xfce.org>, 2007, 2008.
 # Patrick Douart <patrick.2@laposte.net>, 2009, 2010.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -36,8 +36,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Essayez %s --help pour voir une liste complète des options en ligne de "
-"commande.\n"
+"Essayez %s --help pour voir une liste complète des options en ligne de commande.\n"
 
 #. File Menu
 #: ../src/main_window.c:277
@@ -268,21 +267,19 @@ msgstr "Bas"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Jouer"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
 msgstr "Démarrer le diaporama"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Pause"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Démarrer le diaporama"
+msgstr "Mettre le diaporama en pause"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
@@ -307,9 +304,7 @@ msgstr "Développeur :"
 
 #: ../src/main_window.c:1657
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto est une visionneuse d’images légère et rapide pour l’environnement "
-"de bureau Xfce."
+msgstr "Ristretto est une visionneuse d’images légère et rapide pour l’environnement de bureau Xfce."
 
 #: ../src/main_window.c:1665
 msgid "translator-credits"
@@ -598,10 +593,8 @@ msgstr "Visionneuse d’Images Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "_Cacher"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Une ou plusieurs images ont été modifiées, voulez-vous les enregistrer ?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
+#~ msgstr "Une ou plusieurs images ont été modifiées, voulez-vous les enregistrer ?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr ""
