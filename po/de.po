@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the ristretto package.
 # Christian Dywan <christian@twotoasts.de>, 2007.
 # Fabian Nowak <timystery@arcor.de>, 2007, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -33,9 +33,7 @@ msgstr "Diavorführung starten"
 msgid ""
 "%s: %s\n"
 "Try %s --help to see a full list of available command line options.\n"
-msgstr ""
-"%s: %s\\Geben Sie »%s --help« ein, um eine komplette Liste verfügbarer "
-"Kommandozeilenoptionen zu eralten.\n"
+msgstr "%s: %s\\Geben Sie »%s --help« ein, um eine komplette Liste verfügbarer Kommandozeilenoptionen zu eralten.\n"
 
 #. File Menu
 #: ../src/main_window.c:277
@@ -266,21 +264,19 @@ msgstr "Unten"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Starten"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
 msgstr "Diavorführung starten"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Pause"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Diavorführung starten"
+msgstr "Diavorführung pausieren"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
@@ -342,8 +338,7 @@ msgstr "Kopie speichern"
 #: ../src/main_window.c:2296
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr ""
-"Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
+msgstr "Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
 
 #: ../src/preferences_dialog.c:222
 msgid "Display"
@@ -594,11 +589,8 @@ msgstr "Bildbetrachter Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "Ver_bergen"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Ein oder mehrere Bilder wurden geändert. Möchten Sie die Änderungen "
-#~ "speichern?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
+#~ msgstr "Ein oder mehrere Bilder wurden geändert. Möchten Sie die Änderungen speichern?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr "_Bilder vorladen (schnellere Oberfläche, aber mehr CPU-Last)"
