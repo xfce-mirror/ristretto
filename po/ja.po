@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2010-11-15 20:25+0100\n"
-"PO-Revision-Date: 2010-07-13 23:08+0900\n"
+"POT-Creation-Date: 2010-11-23 14:59+0900\n"
+"PO-Revision-Date: 2010-11-23 14:59+0900\n"
 "Last-Translator: Masato Hashimoto <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <xfce-users-jp@ml.fdiary.net>\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../src/main.c:59
@@ -268,21 +268,19 @@ msgstr "下"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "再生(_P)"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
-msgstr "スライドショーを開始する"
+msgstr "スライドショーを開始します"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "一時停止(_P)"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "スライドショーを開始する"
+msgstr "スライドショーを一時停止します"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
