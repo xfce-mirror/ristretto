@@ -1,7 +1,7 @@
 # Hungarian translation of ristretto
 # Copyright 2009. Free Software Foundation, Inc.
 # This file is distributed under the same license as the ristretto package.
-#
+# 
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2009, 2010.
 # SZERVÁC Attila <sas@321.hu>
 msgid ""
@@ -268,21 +268,19 @@ msgstr "Lent"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Lejátszás"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
-msgstr "Diavetítés indítása"
+msgstr "Diavetítés lejátszása"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "S_zünet"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Diavetítés indítása"
+msgstr "Diavetítés szüneteltetése"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
