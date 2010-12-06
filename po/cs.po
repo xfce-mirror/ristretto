@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-11-15 20:25+0100\n"
-"PO-Revision-Date: 2009-11-06 13:16+0100\n"
+"PO-Revision-Date: 2010-12-06 22:22+0100\n"
 "Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -266,21 +266,19 @@ msgstr "Dolů"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Přehrát"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
 msgstr "Spustit promítání"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Pozastavit"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Spustit promítání"
+msgstr "Pozastavit promítání"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
@@ -288,15 +286,16 @@ msgid "_Recently used"
 msgstr "_Naposledy otevřené"
 
 #: ../src/main_window.c:455
-#, fuzzy
 msgid "Recently used"
-msgstr "_Naposledy otevřené"
+msgstr "Naposledy použité"
 
-#: ../src/main_window.c:542 ../src/main_window.c:864
+#: ../src/main_window.c:542
+#: ../src/main_window.c:864
 msgid "Press open to select an image"
 msgstr "Obrázek vyberete stisknutím tlačítka Otevřít"
 
-#: ../src/main_window.c:851 ../src/main_window.c:856
+#: ../src/main_window.c:851
+#: ../src/main_window.c:856
 msgid "Empty"
 msgstr "Prázdný"
 
@@ -324,8 +323,10 @@ msgstr "Obrázky"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2022 ../src/main_window.c:2039
-#: ../src/main_window.c:2186 ../src/main_window.c:2201
+#: ../src/main_window.c:2022
+#: ../src/main_window.c:2039
+#: ../src/main_window.c:2186
+#: ../src/main_window.c:2201
 msgid "Could not open file"
 msgstr "Nelze otevřít soubor"
 
@@ -420,8 +421,7 @@ msgstr "Probíhá změna velikosti"
 
 #: ../src/preferences_dialog.c:366
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
-"Nezvětšovat obrázek nad jeho skutečnou velikost při maximalizování okna."
+msgstr "Nezvětšovat obrázek nad jeho skutečnou velikost při maximalizování okna."
 
 #: ../src/preferences_dialog.c:370
 msgid "Startup"
@@ -461,7 +461,7 @@ msgstr "Povolit vyrovnávací paměť"
 
 #: ../src/preferences_dialog.c:418
 msgid "Enable preloading"
-msgstr ""
+msgstr "Povolit přednačítání"
 
 #: ../src/preferences_dialog.c:495
 msgid "Preferences"
@@ -549,76 +549,55 @@ msgstr "Prohlížeč fotografií Ristretto"
 
 #~ msgid "Quality"
 #~ msgstr "Kvalita"
-
 #~ msgid "Maximum render quality:"
 #~ msgstr "Maximální kvalita vykreslení:"
-
 #~ msgid "Best"
 #~ msgstr "Nejlepší"
-
 #~ msgid "High"
 #~ msgstr "Vysoká"
-
 #~ msgid "Medium"
 #~ msgstr "Střední"
-
 #~ msgid "Low"
 #~ msgstr "Nízká"
-
 #~ msgid "Preload images"
 #~ msgstr "Načítat dopředu"
-
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
-
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Náhledy"
-
 #~ msgid "Opening file(s)..."
 #~ msgstr "Načítám soubor(y)..."
-
 #~ msgid "No applications available"
 #~ msgstr "Nejsou k dispozici žádné aplikace"
-
 #~ msgid "Thumbnail _Viewer"
 #~ msgstr "_Prohlížeč náhledů"
-
 #~ msgid "Show _Horizontally"
 #~ msgstr "_Vodorovně"
-
 #~ msgid "Show _Vertically"
 #~ msgstr "_Svisle"
-
 #~ msgid "H_ide"
 #~ msgstr "_Skrýt"
-
 #~ msgid ""
 #~ "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Některé obrázky byly upraveny, přejete si uložit změny?"
-
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr ""
 #~ "_Přednačítat obrázky (Grafické uživatelské rozhraní bude odpovídat "
 #~ "rychleji, ale vytížení procesoru se zvýší)"
-
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Nezobrazovat lištu s náhledy při promítání"
-
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Prohlížeč obrázků pro Xfce"
-
 #~ msgid "Preload"
 #~ msgstr "Načítat dopředu"
-
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
 #~ "Načítat snímky do paměti ještě předtím, než mají být zobrazeny\n"
 #~ "(použije se více paměti)"
-
 #~ msgid "Flip _Vertically"
 #~ msgstr "Překlopit _vertikálně"
-
 #~ msgid "Flip _Horizontally"
 #~ msgstr "Překlopit _horizontálně"
+
