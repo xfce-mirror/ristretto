@@ -1,6 +1,6 @@
 # Ukrainian translation of ristretto package.
 # This file is distributed under the same license as the ristretto package.
-#
+# 
 # Dmitry Nikitin <luckas_fb@mail.ru>, 2008.
 msgid ""
 msgstr ""
@@ -34,8 +34,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Спробуйте %s --help для перегляду повного списку параметрів командної "
-"стрічки.\n"
+"Спробуйте %s --help для перегляду повного списку параметрів командної стрічки.\n"
 
 #. File Menu
 #: ../src/main_window.c:277
@@ -266,21 +265,19 @@ msgstr "Внизу"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Програвати"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
-msgstr "Стартувати з слайд-шоу"
+msgstr "Програти слайд-шоу"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Пауза"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Стартувати з слайд-шоу"
+msgstr "Призупинити слайд-шоу"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
@@ -590,14 +587,11 @@ msgstr "Переглядач фотографій Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "С_ховати"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Одне або більше зображень було змінено, бажаєте зберегти зміни?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "Попереднє з_авантаження малюнків (GUI більш кероване, але завантаження "
-#~ "CPU більше)"
+#~ msgstr "Попереднє з_авантаження малюнків (GUI більш кероване, але завантаження CPU більше)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Ховати панель ескізів під час слайд-шоу"
