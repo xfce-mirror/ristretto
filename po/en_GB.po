@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the ristretto package.
 # Jeff Bailes <thepizzaking@gmail.com>, 2009
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -267,30 +267,28 @@ msgstr "Bottom"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Play"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
-msgstr "Start a slideshow"
+msgstr "Play slideshow"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Pause"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Start a slideshow"
+msgstr "Pause slideshow"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
 msgid "_Recently used"
-msgstr ""
+msgstr "_Recently used"
 
 #: ../src/main_window.c:455
 msgid "Recently used"
-msgstr ""
+msgstr "Recently used"
 
 #: ../src/main_window.c:542 ../src/main_window.c:864
 msgid "Press open to select an image"
@@ -460,7 +458,7 @@ msgstr "Enable cache"
 
 #: ../src/preferences_dialog.c:418
 msgid "Enable preloading"
-msgstr ""
+msgstr "Enable preloading"
 
 #: ../src/preferences_dialog.c:495
 msgid "Preferences"
