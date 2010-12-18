@@ -2,7 +2,7 @@
 # Copyright (C) 2008, 2009 Free Software Foundation, Inc.
 # This file is distributed under the same license as the ristretto package.
 # Daniel Nylander <po@danielnylander.se>, 2008, 2009.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -34,8 +34,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Prova %s --help för att se en komplett lista över tillgängliga "
-"kommandoradsflaggor.\n"
+"Prova %s --help för att se en komplett lista över tillgängliga kommandoradsflaggor.\n"
 
 #. File Menu
 #: ../src/main_window.c:277
@@ -269,7 +268,7 @@ msgstr "Nederkant"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "Spela _upp"
 
 #: ../src/main_window.c:451
 #, fuzzy
@@ -278,12 +277,11 @@ msgstr "Starta ett bildspel"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Paus"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Starta ett bildspel"
+msgstr "Pausa bildspelet"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
@@ -291,13 +289,12 @@ msgid "_Recently used"
 msgstr "_Tidigare använda"
 
 #: ../src/main_window.c:455
-#, fuzzy
 msgid "Recently used"
-msgstr "_Tidigare använda"
+msgstr "Tidigare använda"
 
 #: ../src/main_window.c:542 ../src/main_window.c:864
 msgid "Press open to select an image"
-msgstr ""
+msgstr "Tryck Öppna för att välja en bild"
 
 #: ../src/main_window.c:851 ../src/main_window.c:856
 msgid "Empty"
@@ -487,7 +484,7 @@ msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Ljusstyrka:"
 
 #: ../src/xfce_wallpaper_manager.c:91
 #, fuzzy
@@ -571,11 +568,9 @@ msgstr "Fotovisaren Ristretto"
 #~ msgid "Low"
 #~ msgstr "Låg"
 
-#, fuzzy
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
 
-#, fuzzy
 #~ msgid "_Thumbnail Bar"
 #~ msgstr "Miniatyrbilder"
 
@@ -597,17 +592,11 @@ msgstr "Fotovisaren Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "D_ölj"
 
-#~ msgid ""
-#~ "The orientation of one or more images has been modified, do you want to "
-#~ "save the changes?"
-#~ msgstr ""
-#~ "Orienteringen för en eller flera bilder har ändrats. Vill du spara "
-#~ "ändringarna?"
+#~ msgid "The orientation of one or more images has been modified, do you want to save the changes?"
+#~ msgstr "Orienteringen för en eller flera bilder har ändrats. Vill du spara ändringarna?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Förinläs bilder (grafiska gränssnittet snabbare men mer "
-#~ "processorkrävande)"
+#~ msgstr "_Förinläs bilder (grafiska gränssnittet snabbare men mer processorkrävande)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Dölj miniatyrbildsraden under bildspel"
