@@ -477,14 +477,12 @@ msgid "Monitor:"
 msgstr "Skjerm:"
 
 #: ../src/xfce_wallpaper_manager.c:90
-#, fuzzy
 msgid "Brightness:"
-msgstr "Brightness:"
+msgstr "Lys:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "Saturation:"
+msgstr "Metning:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
