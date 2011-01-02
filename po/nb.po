@@ -160,7 +160,6 @@ msgstr "_Vanlig størrelse"
 
 #. Rotation submenu
 #: ../src/main_window.c:303
-#, fuzzy
 msgid "_Rotation"
 msgstr "_Roter"
 
@@ -179,19 +178,19 @@ msgstr "_Gå"
 
 #: ../src/main_window.c:308
 msgid "_Forward"
-msgstr ""
+msgstr "_Neste"
 
 #: ../src/main_window.c:309
 msgid "_Back"
-msgstr ""
+msgstr "_Forrige"
 
 #: ../src/main_window.c:310
 msgid "_First"
-msgstr ""
+msgstr "_Første"
 
 #: ../src/main_window.c:311
 msgid "_Last"
-msgstr ""
+msgstr "_Siste"
 
 #. Help Menu
 #: ../src/main_window.c:313
@@ -200,92 +199,87 @@ msgstr "_Hjelp"
 
 #: ../src/main_window.c:315
 msgid "_Contents"
-msgstr ""
+msgstr "_Innhold"
 
 #: ../src/main_window.c:317
 msgid "Display ristretto user manual"
-msgstr ""
+msgstr "Vis Ristretto brukermanual"
 
 #: ../src/main_window.c:320
 msgid "_About"
-msgstr ""
+msgstr "_Om"
 
 #: ../src/main_window.c:322
 msgid "Display information about ristretto"
-msgstr ""
+msgstr "Vis informasjon om Ristretto"
 
 #. Position Menu
 #: ../src/main_window.c:325
 msgid "_Position"
-msgstr ""
+msgstr "_Posisjon"
 
 #. Misc
 #: ../src/main_window.c:327
 msgid "Leave _Fullscreen"
-msgstr ""
+msgstr "Avslutt _fullskjerm"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:335
-#, fuzzy
 msgid "Show _File Toolbar"
-msgstr "Vis _verktøylinje"
+msgstr "Vis _filverktøylinje"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:337
-#, fuzzy
 msgid "Show _Navigation Toolbar"
-msgstr "Vis _verktøylinje"
+msgstr "Vis _navigasjonsverktøylinje"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:339
-#, fuzzy
 msgid "Show _Thumbnailbar"
-msgstr "Vis _verktøylinje"
+msgstr "Vis _miniatyrlinje"
 
 #. Sort by Filename
 #: ../src/main_window.c:346
 msgid "sort by filename"
-msgstr ""
+msgstr "sorter etter filnavn"
 
 #. Sort by Date
 #: ../src/main_window.c:348
 msgid "sort by date"
-msgstr ""
+msgstr "sorter etter dato"
 
 #: ../src/main_window.c:354
 msgid "Left"
-msgstr ""
+msgstr "Venstre"
 
 #: ../src/main_window.c:355
 msgid "Right"
-msgstr ""
+msgstr "Høyre"
 
 #: ../src/main_window.c:356
 msgid "Top"
-msgstr ""
+msgstr "Topp"
 
 #: ../src/main_window.c:357
 msgid "Bottom"
-msgstr ""
+msgstr "Bunn"
 
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Start"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
 msgstr "Start lysbildefremvisning"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Pause"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Start lysbildefremvisning"
+msgstr "Pause lysbildefremvisning"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
@@ -293,26 +287,24 @@ msgid "_Recently used"
 msgstr "Nylig _brukt"
 
 #: ../src/main_window.c:455
-#, fuzzy
 msgid "Recently used"
-msgstr "Nylig _brukt"
+msgstr "Nylig brukt"
 
 #: ../src/main_window.c:542 ../src/main_window.c:864
 msgid "Press open to select an image"
-msgstr ""
+msgstr "Trykk åpne for å velge et bilde"
 
 #: ../src/main_window.c:851 ../src/main_window.c:856
 msgid "Empty"
-msgstr ""
+msgstr "Tom"
 
 #: ../src/main_window.c:1647
 msgid "Developer:"
 msgstr "Utvikler:"
 
 #: ../src/main_window.c:1657
-#, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr "Ristretto er en rask og lettvekts bildefremviser for Xfce skrivebordet"
+msgstr "Ristretto er en bildefremviser for Xfce skrivebordsmiljøet"
 
 #: ../src/main_window.c:1665
 msgid "translator-credits"
@@ -324,11 +316,11 @@ msgstr "Åpne bilde"
 
 #: ../src/main_window.c:1994
 msgid "Images"
-msgstr ""
+msgstr "Bilder"
 
 #: ../src/main_window.c:1999
 msgid ".jp(e)g"
-msgstr ""
+msgstr ".jp(e)g"
 
 #: ../src/main_window.c:2022 ../src/main_window.c:2039
 #: ../src/main_window.c:2186 ../src/main_window.c:2201
@@ -340,32 +332,29 @@ msgid "Open folder"
 msgstr "Åpne mappe"
 
 #: ../src/main_window.c:2224
-#, fuzzy
 msgid "Save copy"
-msgstr "Lagre"
+msgstr "Lagre kopi"
 
 #: ../src/main_window.c:2296
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Er du sikker på at du vil tømme Ristretto's liste over nylig brukte dokumenter?"
+msgstr "Er du sikker på at du vil slette bildet '%s' fra disken?"
 
 #: ../src/preferences_dialog.c:222
 msgid "Display"
 msgstr "Skjerm"
 
 #: ../src/preferences_dialog.c:227
-#, fuzzy
 msgid "Background color"
 msgstr "Bakgrunnsfarge"
 
 #: ../src/preferences_dialog.c:231
-#, fuzzy
 msgid "Override background color:"
-msgstr "_Overstyr bakgrunnsfarge"
+msgstr "Overstyr bakgrunnsfarge"
 
 #: ../src/preferences_dialog.c:257
 msgid "Show preview when loading image"
-msgstr ""
+msgstr "Vis forhåndsvisning når bilde lastes"
 
 #: ../src/preferences_dialog.c:268
 msgid "Slideshow"
@@ -384,7 +373,6 @@ msgstr ""
 "(i sekunder)"
 
 #: ../src/preferences_dialog.c:290
-#, fuzzy
 msgid "Thumbnails"
 msgstr "Miniatyrbilder"
 
@@ -393,31 +381,32 @@ msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
+"Miniatyrlinjen kan skjules automatisk \n"
+"når fullskjermvisning er på"
 
 #: ../src/preferences_dialog.c:295
-#, fuzzy
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "_Skjul miniatyrbilder"
+msgstr "Skjul miniatyrlinje ved fullskjermvisning"
 
 #: ../src/preferences_dialog.c:308
 msgid "Control"
-msgstr ""
+msgstr "Kontroll"
 
 #: ../src/preferences_dialog.c:312
 msgid "Scrollwheel"
-msgstr ""
+msgstr "Rullehjul"
 
 #: ../src/preferences_dialog.c:315
 msgid "No action"
-msgstr ""
+msgstr "Ingen aksjon"
 
 #: ../src/preferences_dialog.c:319
 msgid "Zoom in and out"
-msgstr ""
+msgstr "Forstørre og forminske"
 
 #: ../src/preferences_dialog.c:322
 msgid "Switch images"
-msgstr ""
+msgstr "Bytt bilder"
 
 #: ../src/preferences_dialog.c:356
 msgid "Behaviour"
@@ -433,32 +422,29 @@ msgstr "Ikkeskaler over 100% når vindu maksimeres"
 
 #: ../src/preferences_dialog.c:370
 msgid "Startup"
-msgstr ""
+msgstr "Oppstart"
 
 #: ../src/preferences_dialog.c:372
 msgid "Resize window to image on startup"
-msgstr ""
+msgstr "Endre størrelse på vindu etter bildet ved oppstart"
 
 #: ../src/preferences_dialog.c:376
 msgid "Open entire folder on startup"
-msgstr ""
+msgstr "Åpne hele mappen ved oppstart"
 
 #: ../src/preferences_dialog.c:381
-#, fuzzy
 msgid "Wrap around images"
-msgstr "Åpne bilde"
+msgstr "Linjebryt bilder"
 
 #: ../src/preferences_dialog.c:397
 msgid "Memory"
-msgstr ""
+msgstr "Minne"
 
 #: ../src/preferences_dialog.c:403
-#, fuzzy
 msgid "Image cache"
 msgstr "Bildehurtiglager"
 
 #: ../src/preferences_dialog.c:409
-#, fuzzy
 msgid "Cache size"
 msgstr "Hurtiglager størrelse:"
 
@@ -467,66 +453,62 @@ msgid "MB"
 msgstr "MB"
 
 #: ../src/preferences_dialog.c:413
-#, fuzzy
 msgid "Enable cache"
-msgstr "Bildehurtiglager"
+msgstr "Skru på hurtiglager"
 
 #: ../src/preferences_dialog.c:418
 msgid "Enable preloading"
-msgstr ""
+msgstr "Aktiver forhåndslasting"
 
 #: ../src/preferences_dialog.c:495
-#, fuzzy
 msgid "Preferences"
-msgstr "Bildefremviser innstillinger"
+msgstr "Innstillinger"
 
 #: ../src/xfce_wallpaper_manager.c:84
-#, fuzzy
 msgid "Set as wallpaper"
-msgstr "Bruk _som bakgrunnsbilde"
+msgstr "Bruk som bakgrunnsbilde"
 
 #: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
-msgstr ""
+msgstr "Stil:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Skjerm:"
 
 #: ../src/xfce_wallpaper_manager.c:90
+#, fuzzy
 msgid "Brightness:"
-msgstr ""
+msgstr "Brightness:"
 
 #: ../src/xfce_wallpaper_manager.c:91
 #, fuzzy
 msgid "Saturation:"
-msgstr "_Roter"
+msgstr "Saturation:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
-msgstr ""
+msgstr "Auto"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr ""
+msgstr "Sentrert"
 
 #: ../src/xfce_wallpaper_manager.c:125
-#, fuzzy
 msgid "Tiled"
-msgstr "_Fil"
+msgstr "Flislagt"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr ""
+msgstr "Strukket"
 
 #: ../src/xfce_wallpaper_manager.c:127
-#, fuzzy
 msgid "Scaled"
-msgstr "Skalering"
+msgstr "Skalert"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
-msgstr ""
+msgstr "Zoomet"
 
 #: ../src/thumbnail_bar.c:187
 msgid "Spacing"
@@ -537,23 +519,20 @@ msgid "The amount of space between the thumbnails"
 msgstr "Hvor mye mellomrom det skal være mellom miniatyrbildene"
 
 #: ../src/thumbnail_bar.c:194
-#, fuzzy
 msgid "border width"
-msgstr "Bredde på ramme"
+msgstr "bredde på ramme"
 
 #: ../src/thumbnail_bar.c:195
-#, fuzzy
 msgid "the border width of the thumbnail-bar"
-msgstr "Rammebredde på miniatyrbildelinjen"
+msgstr "bredde på miniatyrbildelinjen"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
-msgstr ""
+msgstr "filmstripebredde"
 
 #: ../src/thumbnail_bar.c:202
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "Rammebredde på miniatyrbildelinjen"
+msgstr "bredde på filmstripe"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -561,11 +540,11 @@ msgstr "Bildefremviser"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
-msgstr ""
+msgstr "Se på bildene dine"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
-msgstr ""
+msgstr "Ristretto bildefremviser"
 
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
