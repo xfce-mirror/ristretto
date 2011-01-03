@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: xfce\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-11-15 20:25+0100\n"
-"PO-Revision-Date: 2008-07-15 15:07+0200\n"
-"Last-Translator: Mohamed Magdy <mohamedmk@gmail.com>\n"
+"PO-Revision-Date: 2011-01-02 18:13-0000\n"
+"Last-Translator: كريم أولاد الشلحة <herr.linux88@gmail.com>\n"
 "Language-Team: Arabeyes <doc@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,15 +13,15 @@ msgstr ""
 
 #: ../src/main.c:59
 msgid "Version information"
-msgstr ""
+msgstr "معلومات النسخة"
 
 #: ../src/main.c:63
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "بدء في نمط بدء التشغيل"
 
 #: ../src/main.c:67
 msgid "Start a slideshow"
-msgstr ""
+msgstr "بدء عرض الشرائح"
 
 #: ../src/main.c:94
 #, c-format
@@ -29,332 +29,340 @@ msgid ""
 "%s: %s\n"
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
+"%s: %s\n"
+"جرب %s --help لرأية قائمة كاملة بخيارات سطر الأوامر المتوفرة.\n"
 
 #. File Menu
 #: ../src/main_window.c:277
 msgid "_File"
-msgstr ""
+msgstr "_ملف"
 
 #: ../src/main_window.c:278
 msgid "_Open"
-msgstr ""
+msgstr "ا_فتح"
 
 #: ../src/main_window.c:278
 msgid "Open an image"
-msgstr ""
+msgstr "فتح الصورة"
 
 #: ../src/main_window.c:279
 msgid "Open _Folder"
-msgstr ""
+msgstr "فتح م_جلّد"
 
 #: ../src/main_window.c:279
 msgid "Open a folder"
-msgstr ""
+msgstr "فتح مجلّد"
 
 #: ../src/main_window.c:280
 msgid "_Save copy"
-msgstr ""
+msgstr "_حفظ النسخة"
 
 #: ../src/main_window.c:280
 msgid "Save a copy of the image"
-msgstr ""
+msgstr "حفظ نسخة من الصورة"
 
 #: ../src/main_window.c:281
 msgid "_Print"
-msgstr ""
+msgstr "_طباعة"
 
 #: ../src/main_window.c:281
 msgid "Print the image"
-msgstr ""
+msgstr "طباعة الصورة"
 
 #: ../src/main_window.c:282
 msgid "_Close"
-msgstr ""
+msgstr "أ_غلق"
 
 #: ../src/main_window.c:282
 msgid "Close this image"
-msgstr ""
+msgstr "أغلق هذه الصورة"
 
 #: ../src/main_window.c:283
 msgid "_Close All"
-msgstr ""
+msgstr "أغلق ال_كل"
 
 #: ../src/main_window.c:283
 msgid "Close all images"
-msgstr ""
+msgstr "أغلق كل الصور"
 
 #: ../src/main_window.c:284
 msgid "_Quit"
-msgstr ""
+msgstr "_خروج"
 
 #: ../src/main_window.c:284
 msgid "Quit Ristretto"
-msgstr ""
+msgstr "الخروج من Ristretto"
 
 #. Edit Menu
 #: ../src/main_window.c:286
 msgid "_Edit"
-msgstr ""
+msgstr "_تحرير"
 
 #: ../src/main_window.c:287
 msgid "_Open with..."
-msgstr ""
+msgstr "فتح _بـ..."
 
 #: ../src/main_window.c:288
 msgid "_Sorting"
-msgstr ""
+msgstr "ت_صنيف"
 
 #: ../src/main_window.c:289
 msgid "_Delete"
-msgstr ""
+msgstr "_حذف"
 
 #: ../src/main_window.c:290
 msgid "_Preferences"
-msgstr ""
+msgstr "ال_تفضيلات"
 
 #. View Menu
 #: ../src/main_window.c:292
 msgid "_View"
-msgstr ""
+msgstr "_أظهر"
 
 #: ../src/main_window.c:293
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_ملأ الشاشة"
 
 #: ../src/main_window.c:294
 msgid "_Leave Fullscreen"
-msgstr ""
+msgstr "_غادر نمط ملء الشاشة"
 
 #: ../src/main_window.c:295
 msgid "_Set as Wallpaper"
-msgstr ""
+msgstr "_تعيين كخلفية"
 
 #. Zoom submenu
 #: ../src/main_window.c:297
 msgid "_Zooming"
-msgstr ""
+msgstr "الت_كبير"
 
 #: ../src/main_window.c:298
 msgid "Zoom _In"
-msgstr ""
+msgstr "قرّب"
 
 #: ../src/main_window.c:299
 msgid "Zoom _Out"
-msgstr ""
+msgstr "صغّر_"
 
 #: ../src/main_window.c:300
 msgid "Zoom _Fit"
-msgstr ""
+msgstr "تكب_ير"
 
 #: ../src/main_window.c:301
 msgid "_Normal Size"
-msgstr ""
+msgstr "_حجم عادي"
 
 #. Rotation submenu
 #: ../src/main_window.c:303
 msgid "_Rotation"
-msgstr ""
+msgstr "دورا_ن"
 
 #: ../src/main_window.c:304
 msgid "Rotate _Right"
-msgstr ""
+msgstr "تدوير إلى اليمين"
 
 #: ../src/main_window.c:305
 msgid "Rotate _Left"
-msgstr ""
+msgstr "تدوير إلى اليسار"
 
 #. Go Menu
 #: ../src/main_window.c:307
 msgid "_Go"
-msgstr ""
+msgstr "_ذهاب"
 
 #: ../src/main_window.c:308
 msgid "_Forward"
-msgstr ""
+msgstr "للأ_مام"
 
 #: ../src/main_window.c:309
 msgid "_Back"
-msgstr ""
+msgstr "لل_خلف"
 
 #: ../src/main_window.c:310
 msgid "_First"
-msgstr ""
+msgstr "ا_لأول"
 
 #: ../src/main_window.c:311
 msgid "_Last"
-msgstr ""
+msgstr "الأ_خير"
 
 #. Help Menu
 #: ../src/main_window.c:313
 msgid "_Help"
-msgstr ""
+msgstr "_مساعدة"
 
 #: ../src/main_window.c:315
 msgid "_Contents"
-msgstr ""
+msgstr "الم_حتويات"
 
 #: ../src/main_window.c:317
 msgid "Display ristretto user manual"
-msgstr ""
+msgstr "أظهر دليل المستخدم لـ ristretto"
 
 #: ../src/main_window.c:320
 msgid "_About"
-msgstr ""
+msgstr "_عنْ"
 
 #: ../src/main_window.c:322
 msgid "Display information about ristretto"
-msgstr ""
+msgstr "أظهر معلومات حول ristretto"
 
 #. Position Menu
 #: ../src/main_window.c:325
 msgid "_Position"
-msgstr ""
+msgstr "موضع"
 
 #. Misc
 #: ../src/main_window.c:327
 msgid "Leave _Fullscreen"
-msgstr ""
+msgstr "غادر نمط مل_ء الشاشة"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:335
 msgid "Show _File Toolbar"
-msgstr ""
+msgstr "أ_ظهر ملف شريط الأدواة"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:337
 msgid "Show _Navigation Toolbar"
-msgstr ""
+msgstr "أظهر متص_فح شريط الأدواة"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:339
 msgid "Show _Thumbnailbar"
-msgstr ""
+msgstr "أظ_هر المصغرات"
 
 #. Sort by Filename
 #: ../src/main_window.c:346
 msgid "sort by filename"
-msgstr ""
+msgstr "رتب حسب الإسم"
 
 #. Sort by Date
 #: ../src/main_window.c:348
 msgid "sort by date"
-msgstr ""
+msgstr "رتب حسب التاريخ"
 
 #: ../src/main_window.c:354
 msgid "Left"
-msgstr ""
+msgstr "يسار"
 
 #: ../src/main_window.c:355
 msgid "Right"
-msgstr ""
+msgstr "يمين"
 
 #: ../src/main_window.c:356
 msgid "Top"
-msgstr ""
+msgstr "أعلى"
 
 #: ../src/main_window.c:357
 msgid "Bottom"
-msgstr ""
+msgstr "أسفل"
 
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "تش_غيل"
 
 #: ../src/main_window.c:451
 msgid "Play slideshow"
-msgstr ""
+msgstr "تشغيل عرض الشرائح"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_إيقاف مؤقت"
 
 #: ../src/main_window.c:452
 msgid "Pause slideshow"
-msgstr ""
+msgstr "إيقاف مؤقت لعرض الشرائح"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
 msgid "_Recently used"
-msgstr ""
+msgstr "مستخدمة حدي_ثا"
 
 #: ../src/main_window.c:455
 msgid "Recently used"
-msgstr ""
+msgstr "مستخدمة حديثا"
 
-#: ../src/main_window.c:542 ../src/main_window.c:864
+#: ../src/main_window.c:542
+#: ../src/main_window.c:864
 msgid "Press open to select an image"
-msgstr ""
+msgstr "إضغط غلى فتح لإختيار صورة"
 
-#: ../src/main_window.c:851 ../src/main_window.c:856
+#: ../src/main_window.c:851
+#: ../src/main_window.c:856
 msgid "Empty"
-msgstr ""
+msgstr "فارغ"
 
 #: ../src/main_window.c:1647
 msgid "Developer:"
-msgstr ""
+msgstr "مطوّر:"
 
 #: ../src/main_window.c:1657
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
+msgstr "Ristrettoهو عارض صور لسطح مكتب Xfce ."
 
 #: ../src/main_window.c:1665
 msgid "translator-credits"
 msgstr ""
+"Karim Oulad Chalha <herr.linux88@gmail.com>\n"
+"Xfce Transifex Arabic Team"
 
 #: ../src/main_window.c:1980
 msgid "Open image"
-msgstr ""
+msgstr "فتح صورة"
 
 #: ../src/main_window.c:1994
 msgid "Images"
-msgstr ""
+msgstr "صور"
 
 #: ../src/main_window.c:1999
 msgid ".jp(e)g"
-msgstr ""
+msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2022 ../src/main_window.c:2039
-#: ../src/main_window.c:2186 ../src/main_window.c:2201
+#: ../src/main_window.c:2022
+#: ../src/main_window.c:2039
+#: ../src/main_window.c:2186
+#: ../src/main_window.c:2201
 msgid "Could not open file"
-msgstr ""
+msgstr "فشل فتح ملف"
 
 #: ../src/main_window.c:2081
 msgid "Open folder"
-msgstr ""
+msgstr "فتح مجلّد"
 
 #: ../src/main_window.c:2224
 msgid "Save copy"
-msgstr ""
+msgstr "حفظ نسخة"
 
 #: ../src/main_window.c:2296
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr ""
+msgstr "هل أنت متأكد من انك تود حذف الصورة '%s' من القرص?"
 
 #: ../src/preferences_dialog.c:222
 msgid "Display"
-msgstr ""
+msgstr "عرض"
 
 #: ../src/preferences_dialog.c:227
 msgid "Background color"
-msgstr ""
+msgstr "لون الخلفية"
 
 #: ../src/preferences_dialog.c:231
 msgid "Override background color:"
-msgstr ""
+msgstr "تجاهل لون الخلفية:"
 
 #: ../src/preferences_dialog.c:257
 msgid "Show preview when loading image"
-msgstr ""
+msgstr "عرض معاينة عنذ تحميل الصورة"
 
 #: ../src/preferences_dialog.c:268
 msgid "Slideshow"
-msgstr ""
+msgstr "شرائح"
 
 #: ../src/preferences_dialog.c:272
 msgid "Timeout"
-msgstr ""
+msgstr "مهلة"
 
 #: ../src/preferences_dialog.c:275
 msgid ""
@@ -364,7 +372,7 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:290
 msgid "Thumbnails"
-msgstr ""
+msgstr "المُصغّرات"
 
 #: ../src/preferences_dialog.c:293
 msgid ""
@@ -374,147 +382,147 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:295
 msgid "Hide thumbnailbar when fullscreen"
-msgstr ""
+msgstr "إخفاء المصغرات عنذ ملء الشاشة"
 
 #: ../src/preferences_dialog.c:308
 msgid "Control"
-msgstr ""
+msgstr "تحكم"
 
 #: ../src/preferences_dialog.c:312
 msgid "Scrollwheel"
-msgstr ""
+msgstr "العجلة الدوار"
 
 #: ../src/preferences_dialog.c:315
 msgid "No action"
-msgstr ""
+msgstr "بدون إخراء"
 
 #: ../src/preferences_dialog.c:319
 msgid "Zoom in and out"
-msgstr ""
+msgstr "التكبير والتصغي"
 
 #: ../src/preferences_dialog.c:322
 msgid "Switch images"
-msgstr ""
+msgstr "تبديل الصور"
 
 #: ../src/preferences_dialog.c:356
 msgid "Behaviour"
-msgstr ""
+msgstr "السّلوك"
 
 #: ../src/preferences_dialog.c:361
 msgid "Scaling"
-msgstr ""
+msgstr "تحجيم"
 
 #: ../src/preferences_dialog.c:366
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
+msgstr "لا نطاق أكثر من 100 ٪ عنذ تحجيم النافذة."
 
 #: ../src/preferences_dialog.c:370
 msgid "Startup"
-msgstr ""
+msgstr "بدء التشغيل"
 
 #: ../src/preferences_dialog.c:372
 msgid "Resize window to image on startup"
-msgstr ""
+msgstr "تحجيم نافذة الصورة عنذ بدء التشغيل"
 
 #: ../src/preferences_dialog.c:376
 msgid "Open entire folder on startup"
-msgstr ""
+msgstr "فتح مجلد كامل عنذ بدء التشغيل"
 
 #: ../src/preferences_dialog.c:381
 msgid "Wrap around images"
-msgstr ""
+msgstr "يلتف حول الصور"
 
 #: ../src/preferences_dialog.c:397
 msgid "Memory"
-msgstr ""
+msgstr "الذاكرة"
 
 #: ../src/preferences_dialog.c:403
 msgid "Image cache"
-msgstr ""
+msgstr "الملفات المؤقتة لصور "
 
 #: ../src/preferences_dialog.c:409
 msgid "Cache size"
-msgstr ""
+msgstr "حجم مخبأ "
 
 #: ../src/preferences_dialog.c:410
 msgid "MB"
-msgstr ""
+msgstr "م ب"
 
 #: ../src/preferences_dialog.c:413
 msgid "Enable cache"
-msgstr ""
+msgstr "تفعيل المخبأت"
 
 #: ../src/preferences_dialog.c:418
 msgid "Enable preloading"
-msgstr ""
+msgstr "تفعيل التحميل المسبق"
 
 #: ../src/preferences_dialog.c:495
 msgid "Preferences"
-msgstr ""
+msgstr "تفضيلات"
 
 #: ../src/xfce_wallpaper_manager.c:84
 msgid "Set as wallpaper"
-msgstr ""
+msgstr "تعيين كخلفية"
 
 #: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
-msgstr ""
+msgstr "الأسلوب:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "مراقب:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "السطوع:"
 
 #: ../src/xfce_wallpaper_manager.c:91
 msgid "Saturation:"
-msgstr ""
+msgstr "الإشباع:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
-msgstr ""
+msgstr "آلي"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr ""
+msgstr "مركز"
 
 #: ../src/xfce_wallpaper_manager.c:125
 msgid "Tiled"
-msgstr ""
+msgstr "تجانب"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr ""
+msgstr "تمديد"
 
 #: ../src/xfce_wallpaper_manager.c:127
 msgid "Scaled"
-msgstr ""
+msgstr "تحجيم"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
-msgstr ""
+msgstr "أسرع"
 
 #: ../src/thumbnail_bar.c:187
 msgid "Spacing"
-msgstr ""
+msgstr "مسافة"
 
 #: ../src/thumbnail_bar.c:188
 msgid "The amount of space between the thumbnails"
-msgstr ""
+msgstr "مقدار المسافة بين المصغرات"
 
 #: ../src/thumbnail_bar.c:194
 msgid "border width"
-msgstr ""
+msgstr "عرض الحد"
 
 #: ../src/thumbnail_bar.c:195
 msgid "the border width of the thumbnail-bar"
-msgstr ""
+msgstr "عرض الحدود شريط تصغيرات"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
-msgstr ""
+msgstr "عرض مقطع سينمائ"
 
 #: ../src/thumbnail_bar.c:202
 msgid "the width of the thumbnail-bar film-strip"
@@ -522,12 +530,13 @@ msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
-msgstr ""
+msgstr "عارض الصور"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
-msgstr ""
+msgstr "نظرة على الصورك الخاصة بسهول"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
-msgstr ""
+msgstr "عراض الصور Ristretto"
+
