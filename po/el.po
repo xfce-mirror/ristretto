@@ -13,11 +13,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: Greek\n"
-"X-Poedit-Country: GREECE\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Country: GREECE\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../src/main.c:59
 msgid "Version information"
@@ -38,8 +38,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Δοκίμασε %s --help για να δεις μία πλήρη λίστα με τις διαθέσιμες παραμέτρους "
-"στην γραμμή εντολών.\n"
+"Δοκίμασε %s --help για να δεις μία πλήρη λίστα με τις διαθέσιμες παραμέτρους στην γραμμή εντολών.\n"
 
 #. File Menu
 #: ../src/main_window.c:277
@@ -270,30 +269,28 @@ msgstr "Κάτω"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Εκκίνηση"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
 msgstr "Εκκίνηση προβολής διαφανειών"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Παύση"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Εκκίνηση προβολής διαφανειών"
+msgstr "Παύση προβολής διαφανειών"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
 msgid "_Recently used"
-msgstr ""
+msgstr "_Χρησιμοποιήθηκε πρόσφατα"
 
 #: ../src/main_window.c:455
 msgid "Recently used"
-msgstr ""
+msgstr "Χρησιμοποιήθηκε πρόσφατα"
 
 #: ../src/main_window.c:542 ../src/main_window.c:864
 msgid "Press open to select an image"
@@ -309,8 +306,7 @@ msgstr "Δημιουργός:"
 
 #: ../src/main_window.c:1657
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Το ristretto είναι ένα εμφάνισης εικόνων για το γραφικό περιβάλλον xfce."
+msgstr "Το ristretto είναι ένα εμφάνισης εικόνων για το γραφικό περιβάλλον xfce."
 
 #: ../src/main_window.c:1665
 msgid "translator-credits"
@@ -375,8 +371,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"Η χρονική περίοδος εμφάνισης μία ανεξάρτητης εικόνας ανάμεσα στις "
-"διαφάνειες\n"
+"Η χρονική περίοδος εμφάνισης μία ανεξάρτητης εικόνας ανάμεσα στις διαφάνειες\n"
 "(σε δευτερόλεπτα)"
 
 #: ../src/preferences_dialog.c:290
@@ -433,8 +428,7 @@ msgstr "Εκκίνηση"
 
 #: ../src/preferences_dialog.c:372
 msgid "Resize window to image on startup"
-msgstr ""
-"Να αλλάζει το μέγεθος του παραθύρου στο μέγεθος της εικόνας κατά την εκκίνηση"
+msgstr "Να αλλάζει το μέγεθος του παραθύρου στο μέγεθος της εικόνας κατά την εκκίνηση"
 
 #: ../src/preferences_dialog.c:376
 msgid "Open entire folder on startup"
@@ -466,7 +460,7 @@ msgstr "Ενεργοποίηση προσωρινής μνήμης"
 
 #: ../src/preferences_dialog.c:418
 msgid "Enable preloading"
-msgstr ""
+msgstr "Ενεργοποίηση προφόρτισης"
 
 #: ../src/preferences_dialog.c:495
 msgid "Preferences"
