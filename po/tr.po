@@ -2,10 +2,10 @@
 # German translations for ristretto package.
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the ristretto package.
-#
+# 
 # Onur Küçük <onur@pardus.org.tr>, 2008.
 # Gökmen Görgen <gkmngrgn@gmail.com>, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
@@ -269,21 +269,19 @@ msgstr "Alt"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Oynat"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
 msgstr "Slayt gösterisini başlat"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Dur"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Slayt gösterisini başlat"
+msgstr "Slayt gösterisini durdur"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
@@ -291,7 +289,6 @@ msgid "_Recently used"
 msgstr "_Son kullanılanlar"
 
 #: ../src/main_window.c:455
-#, fuzzy
 msgid "Recently used"
 msgstr "_Son kullanılanlar"
 
@@ -465,7 +462,7 @@ msgstr "Önbellek açık"
 
 #: ../src/preferences_dialog.c:418
 msgid "Enable preloading"
-msgstr ""
+msgstr "Öynüklemeyi etkinleştir"
 
 #: ../src/preferences_dialog.c:495
 msgid "Preferences"
@@ -596,16 +593,11 @@ msgstr "Ristretto Fotoğraf Gösterici"
 #~ msgid "H_ide"
 #~ msgstr "Giz_le"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Bir ya da daha fazla resim değiştirildi, değişiklikleri kaydetmek ister "
-#~ "misiniz?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
+#~ msgstr "Bir ya da daha fazla resim değiştirildi, değişiklikleri kaydetmek ister misiniz?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Resimleri önceden yükle (Arayüz daha erken hazır olur; ama daha fazla "
-#~ "işlemci sömürür)"
+#~ msgstr "_Resimleri önceden yükle (Arayüz daha erken hazır olur; ama daha fazla işlemci sömürür)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Slayt gösterisi sırasında önizlemeleri gizle"
