@@ -1,12 +1,12 @@
 # Galician translation of ristretto
 # Copyright (C) 2008, 2009, 2010 Leandro Regueiro.
 # This file is distributed under the same license as the Xfce package.
-#
+# 
 # Leandro Regueiro <leandro DOT regueiro AT gmail DOT com>, 2008, 2009, 2010.
-#
+# 
 # Proxecto Trasno - Adaptación do software libre á lingua galega:  Se desexas
 # colaborar connosco, podes atopar máis información en <http://trasno.net>
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -39,8 +39,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Execute %s --help para ver unha lista completa das opcións de liña de ordes "
-"dispoñibles.\n"
+"Execute %s --help para ver unha lista completa das opcións de liña de ordes dispoñibles.\n"
 
 #. File Menu
 #: ../src/main_window.c:277
@@ -271,21 +270,19 @@ msgstr "Inferior"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Iniciar"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
-msgstr "Iniciar unha presentación"
+msgstr "Iniciar a presentación"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Pausar"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Iniciar unha presentación"
+msgstr "Pausar a presentación"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
@@ -596,8 +593,7 @@ msgstr "Visor de fotos Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "_Agochar"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Modificáronse unha ou máis imaxes, desexa gardar os cambios?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
