@@ -2,21 +2,23 @@
 # Polskie tłumaczenia dla pakietu ristretto.
 # Copyright © 2006-2008 Stephan Arts.
 # This file is distributed under the same license as the ristretto package.
-# Piotr Sokół <psokol@jabster.pl>, 2009, 2010.
 #
+# Piotr Sokół <psokol@jabster.pl>, 2009, 2010.
+# Ireneusz Gierlach <irek.gierlach@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.0.21\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-11-15 20:25+0100\n"
-"PO-Revision-Date: 2010-12-23 23:54+0100\n"
-"Last-Translator: Piotr Sokół <psokol@jabster.pl>\n"
-"Language-Team: Polish <>\n"
+"PO-Revision-Date: 2011-01-13 09:09-0500\n"
+"Last-Translator: Ireneusz Gierlach <irek.gierlach@gmail.com>\n"
+"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : ((n%10>=2 && n%10<=4 && (n"
-"%100<10 || n%100>=20)) ? 1 : 2));\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : ((n%10>=2 && n%10<=4 && "
+"(n%100<10 || n%100>=20)) ? 1 : 2));\n"
+"X-Generator: Lokalize 1.1\n"
 
 #: ../src/main.c:59
 msgid "Version information"
@@ -490,29 +492,27 @@ msgstr "Nasycenie:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
-msgstr ""
+msgstr "Automatycznie"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr ""
+msgstr "Wyśrodkowane"
 
 #: ../src/xfce_wallpaper_manager.c:125
-#, fuzzy
 msgid "Tiled"
-msgstr "_Plik"
+msgstr "Kafelkowane"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr ""
+msgstr "Rozciągnięte"
 
 #: ../src/xfce_wallpaper_manager.c:127
-#, fuzzy
 msgid "Scaled"
-msgstr "Skalowanie"
+msgstr "Skalowane"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
-msgstr ""
+msgstr "Zbliżone"
 
 #: ../src/thumbnail_bar.c:187
 msgid "Spacing"
@@ -523,23 +523,20 @@ msgid "The amount of space between the thumbnails"
 msgstr "Odstęp pomiędzy miniaturami"
 
 #: ../src/thumbnail_bar.c:194
-#, fuzzy
 msgid "border width"
-msgstr "szerokość obramowania"
+msgstr "szerokość krawędzi"
 
 #: ../src/thumbnail_bar.c:195
-#, fuzzy
 msgid "the border width of the thumbnail-bar"
-msgstr "Długość linii na pasku miniatur"
+msgstr "szerokość krawędzi paska miniatur"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
-msgstr ""
+msgstr "szerokość kliszy"
 
 #: ../src/thumbnail_bar.c:202
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "Długość linii na pasku miniatur"
+msgstr "szerokość kliszy paska miniatur"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
