@@ -262,6 +262,14 @@ rstto_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image)
             if (rstto_image_list_iter_get_image (iter->data) == image)
             {
                 rstto_image_list_iter_previous (iter->data);
+                /* If the image is still the same, 
+                 * it's a single item list,
+                 * and we should force the image in this iter to NULL
+                 */
+                if (rstto_image_list_iter_get_image (iter->data) == image)
+                {
+                    ((RsttoImageListIter *)(iter->data))->priv->image = NULL;
+                }
             }
             iter = g_slist_next (iter);
         }
@@ -503,7 +511,9 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter)
 
     position = g_list_previous (position);
     if (position)
+    {
         iter->priv->image = position->data; 
+    }
     else
     {
         settings = rstto_settings_new();
