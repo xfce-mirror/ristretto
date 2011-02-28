@@ -1,3 +1,7 @@
+0.0.93
+======
+- Fix version number
+
 0.0.92
 ======
 - Remove dependency on libxfcegui4
@@ -8,6 +12,7 @@
 - Set 'preload-images' checkbox to the right state when the 
   preferences-window is created
 - Correctly cleanup the references to xfconf
+- Fix bug #7336 (segfault when closing last image)
 
 0.0.91
 ======
