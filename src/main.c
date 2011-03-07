@@ -143,6 +143,7 @@ main(int argc, char **argv)
 static gboolean
 cb_rstto_open_files (RsttoOpenFiles *rof)
 {
+    GFileType file_type;
     GFile *file, *p_file, *child_file;
     GFileInfo *file_info;
     const gchar *content_type, *filename;
@@ -156,7 +157,15 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
             file = g_file_new_for_commandline_arg (rof->argv[rof->iter]);
             if (file)
             {
-                file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
+                if (rof->open_entire_folder) 
+                {
+                    file_info = g_file_query_info (file, "standard::content-type,standard::type", 0, NULL, NULL);
+                }
+                else
+                {
+                    file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
+                }
+
                 if (file_info)
                 {
                     content_type = g_file_info_get_attribute_string (file_info, "standard::content-type");
@@ -164,6 +173,29 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
                     if (strncmp (content_type, "image/", 6) == 0)
                     {
                         rstto_image_list_add_file (rof->image_list, file, NULL);
+                    }
+
+                    if (rof->open_entire_folder) 
+                    {
+                        file_type = g_file_info_get_file_type(file_info);
+                        if (file_type == G_FILE_TYPE_DIRECTORY)
+                        {
+                            file_enumarator = g_file_enumerate_children (file, "standard::*", 0, NULL, NULL);
+                            for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+                            {
+                                filename = g_file_info_get_name (file_info);
+                                content_type  = g_file_info_get_content_type (file_info);
+                                child_file = g_file_get_child (file, filename);
+
+                                if (strncmp (content_type, "image/", 6) == 0)
+                                {
+                                    rstto_image_list_add_file (rof->image_list, child_file, NULL);
+                                }
+
+                                g_object_unref (child_file);
+                                g_object_unref (file_info);
+                            }
+                        }
                     }
                 }
             }
@@ -176,10 +208,11 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
         file = g_file_new_for_commandline_arg (rof->argv[rof->iter]);
         if (file)
         {
-            file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
+            file_info = g_file_query_info (file, "standard::content-type,standard::type", 0, NULL, NULL);
             if (file_info)
             {
                 content_type = g_file_info_get_attribute_string (file_info, "standard::content-type");
+                file_type = g_file_info_get_file_type (file_info);
 
                 if (strncmp (content_type, "image/", 6) == 0)
                 {
@@ -187,7 +220,13 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
                 }
             }
         }
-        p_file = g_file_get_parent (file);
+        if (file_type != G_FILE_TYPE_DIRECTORY) {
+            p_file = g_file_get_parent (file);
+        }
+        else
+        {
+            p_file = file;
+        }
         file_enumarator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
         for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
         {
