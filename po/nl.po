@@ -125,12 +125,10 @@ msgid "_View"
 msgstr "Beel_d"
 
 #: ../src/main_window.c:293
-#, fuzzy
 msgid "_Fullscreen"
 msgstr "_Volledig scherm"
 
 #: ../src/main_window.c:294
-#, fuzzy
 msgid "_Leave Fullscreen"
 msgstr "_Volledig scherm sluiten"
 
@@ -268,21 +266,19 @@ msgstr "Onderkant"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "Afs_pelen"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
 msgstr "Start een dia-presentatie"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Pauze"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Start een dia-presentatie"
+msgstr "Stop een dia-presentatie"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
