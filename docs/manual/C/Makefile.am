@@ -3,7 +3,7 @@
 SUBDIRS = 					\
 	images
 
-TARGET_DIR = $(datadir)/doc/ristretto/html/C
+TARGET_DIR = $(docdir)/html/C
 STYLESHEET = ../ristretto.xsl
 DOCUMENT = ristretto.xml
 
