@@ -399,6 +399,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     GClosure        *leave_fullscreen_closure = g_cclosure_new_swap ((GCallback)gtk_window_unfullscreen, window, NULL);
     GClosure        *next_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_next_image, window, NULL);
     GClosure        *previous_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_previous_image, window, NULL);
+    GClosure        *quit_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_quit, window, NULL);
 
     guint navigationbar_position = 3;
 
@@ -434,10 +435,12 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_accel_group_connect_by_path (accel_group, "<Window>/unfullscreen", leave_fullscreen_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/next-image", next_image_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/previous-image", previous_image_closure);
+    gtk_accel_group_connect_by_path (accel_group, "<Window>/quit", quit_closure);
     /* Set default accelerators */
     gtk_accel_map_change_entry ("<Window>/unfullscreen", GDK_Escape, 0, FALSE);
     gtk_accel_map_change_entry ("<Window>/next-image", GDK_Page_Down, 0, FALSE);
     gtk_accel_map_change_entry ("<Window>/previous-image", GDK_Page_Up, 0, FALSE);
+    gtk_accel_map_change_entry ("<Window>/quit", GDK_q, 0, FALSE);
 
     /* Create mergeid's for adding ui-components */
     window->priv->recent_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
