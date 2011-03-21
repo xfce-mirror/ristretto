@@ -201,7 +201,7 @@ msgstr "_Innehåll"
 
 #: ../src/main_window.c:317
 msgid "Display ristretto user manual"
-msgstr ""
+msgstr "Visa användarhandboken för ristretto"
 
 #: ../src/main_window.c:320
 msgid "_About"
@@ -271,9 +271,8 @@ msgid "_Play"
 msgstr "Spela _upp"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
-msgstr "Starta ett bildspel"
+msgstr "Starta bildspel"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
@@ -389,9 +388,8 @@ msgid ""
 msgstr ""
 
 #: ../src/preferences_dialog.c:295
-#, fuzzy
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "_Dölj miniatyrbilder"
+msgstr "Dölj miniatyrbildsraden i helskärmsläge"
 
 #: ../src/preferences_dialog.c:308
 msgid "Control"
@@ -487,9 +485,8 @@ msgid "Brightness:"
 msgstr "Ljusstyrka:"
 
 #: ../src/xfce_wallpaper_manager.c:91
-#, fuzzy
 msgid "Saturation:"
-msgstr "_Rotering"
+msgstr "Färgmättnad:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
@@ -528,18 +525,16 @@ msgid "border width"
 msgstr "rambredd"
 
 #: ../src/thumbnail_bar.c:195
-#, fuzzy
 msgid "the border width of the thumbnail-bar"
-msgstr "Rambredden för miniatyrbildsraden"
+msgstr "rambredden för miniatyrbildsraden"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
-msgstr ""
+msgstr "bredd på filmruta"
 
 #: ../src/thumbnail_bar.c:202
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "Rambredden för miniatyrbildsraden"
+msgstr "bredden för miniatyrbildsradens filmruta"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
