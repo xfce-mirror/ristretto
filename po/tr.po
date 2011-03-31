@@ -498,7 +498,7 @@ msgstr "Merkezle"
 
 #: ../src/xfce_wallpaper_manager.c:125
 msgid "Tiled"
-msgstr ""
+msgstr "Bölünmüş"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
