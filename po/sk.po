@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Ristretto 0.0.20\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-11-15 20:25+0100\n"
-"PO-Revision-Date: 2011-05-09 13:02+0100\n"
+"PO-Revision-Date: 2011-05-09 17:02+0100\n"
 "Last-Translator: Tomáš Vadina <kyberdev@gmail.com>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -292,7 +292,7 @@ msgstr "_Nedávno použité"
 #: ../src/main_window.c:542
 #: ../src/main_window.c:864
 msgid "Press open to select an image"
-msgstr "Stlačte tlačidlo Otvoriť pre vybratie obrázka"
+msgstr "Stlačte tlačidlo Otvoriť pre výber obrázka"
 
 #: ../src/main_window.c:851
 #: ../src/main_window.c:856
