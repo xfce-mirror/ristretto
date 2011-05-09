@@ -518,21 +518,19 @@ msgstr "Množstvo priestoru medzi náhľadmi"
 
 #: ../src/thumbnail_bar.c:194
 msgid "border width"
-msgstr "Hrúbka okraja"
+msgstr "Šírka okraja"
 
 #: ../src/thumbnail_bar.c:195
-#, fuzzy
 msgid "the border width of the thumbnail-bar"
-msgstr "Hrúbka okraja lišty náhľadov"
+msgstr "Šírka okraja panela s náhľadmi"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
-msgstr ""
+msgstr "Šírka filmového pása"
 
 #: ../src/thumbnail_bar.c:202
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "Hrúbka okraja lišty náhľadov"
+msgstr "Šírka filmového pása v panely s náhľadmi"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
