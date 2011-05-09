@@ -386,7 +386,7 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:295
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "_Skryť panel náhľadov pri zobrazení na celú obrazovku"
+msgstr "Skryť panel náhľadov pri zobrazení na celú obrazovku"
 
 #: ../src/preferences_dialog.c:308
 msgid "Control"
@@ -442,7 +442,7 @@ msgstr "Pamäť"
 
 #: ../src/preferences_dialog.c:403
 msgid "Image cache"
-msgstr "Vyrovnávajúca pamäť obrázkov"
+msgstr "Vyrovnávacia pamäť obrázkov"
 
 #: ../src/preferences_dialog.c:409
 msgid "Cache size"
@@ -486,7 +486,7 @@ msgstr "Sýtosť:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
-msgstr "Automaticky"
+msgstr "Automatický"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
@@ -494,7 +494,7 @@ msgstr "Na stred"
 
 #: ../src/xfce_wallpaper_manager.c:125
 msgid "Tiled"
-msgstr "Dlaždicový"
+msgstr "Dlaždice"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
