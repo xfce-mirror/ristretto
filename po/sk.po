@@ -350,7 +350,7 @@ msgstr "Farba pozadia"
 
 #: ../src/preferences_dialog.c:231
 msgid "Override background color:"
-msgstr "_Určiť farbu pozadia:"
+msgstr "Určiť farbu pozadia:"
 
 #: ../src/preferences_dialog.c:257
 msgid "Show preview when loading image"
@@ -381,8 +381,8 @@ msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
-"Panel s náhľadmi môže byť automatický skrytý \n"
-"ak prehliadač zobrazený na celej obrazovke."
+"Panel s náhľadmi môže byť automatický skrytý, \n"
+"ak je prehliadač obrázkov zobrazený v režime celej obrazovky."
 
 #: ../src/preferences_dialog.c:295
 msgid "Hide thumbnailbar when fullscreen"
@@ -458,7 +458,7 @@ msgstr "Povoliť vyrovnávaciu pamäť"
 
 #: ../src/preferences_dialog.c:418
 msgid "Enable preloading"
-msgstr "Povoliť načítanie vopred"
+msgstr "Povoliť prednačítanie"
 
 #: ../src/preferences_dialog.c:495
 msgid "Preferences"
