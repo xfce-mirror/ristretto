@@ -265,40 +265,36 @@ msgstr "Spodok"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Spustiť"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
 msgstr "Spustiť prezentáciu "
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "_Pozastaviť"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Spustiť prezentáciu "
+msgstr "Pozastaviť prezentáciu "
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
 msgid "_Recently used"
-msgstr "_Nedávno otvorené"
+msgstr "_Nedávno použité"
 
 #: ../src/main_window.c:455
-#, fuzzy
 msgid "Recently used"
-msgstr "_Nedávno otvorené"
+msgstr "_Nedávno použité"
 
 #: ../src/main_window.c:542 ../src/main_window.c:864
-#, fuzzy
 msgid "Press open to select an image"
-msgstr "Stlačte tlačidlo Otvoriť a vyberte obrázok"
+msgstr "Stlačte tlačidlo Otvoriť pre vybratie obrázka"
 
 #: ../src/main_window.c:851 ../src/main_window.c:856
 msgid "Empty"
-msgstr ""
+msgstr "Prázdne"
 
 #: ../src/main_window.c:1647
 msgid "Developer:"
@@ -385,6 +381,8 @@ msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
+"Panel s náhľadmi môže byť automatický skrytý \n"
+"ak prehliadač zobrazený na celej obrazovke."
 
 #: ../src/preferences_dialog.c:295
 msgid "Hide thumbnailbar when fullscreen"
@@ -392,7 +390,7 @@ msgstr "_Skryť panel náhľadov pri zobrazení na celú obrazovku"
 
 #: ../src/preferences_dialog.c:308
 msgid "Control"
-msgstr ""
+msgstr "Ovládanie"
 
 #: ../src/preferences_dialog.c:312
 msgid "Scrollwheel"
@@ -404,11 +402,11 @@ msgstr "Žiadna akcia"
 
 #: ../src/preferences_dialog.c:319
 msgid "Zoom in and out"
-msgstr ""
+msgstr "Priblížiť a oddialiť"
 
 #: ../src/preferences_dialog.c:322
 msgid "Switch images"
-msgstr ""
+msgstr "Prepínať obrázky"
 
 #: ../src/preferences_dialog.c:356
 msgid "Behaviour"
@@ -416,7 +414,7 @@ msgstr "Správanie"
 
 #: ../src/preferences_dialog.c:361
 msgid "Scaling"
-msgstr "Medzery"
+msgstr "Prispôsobenie"
 
 #: ../src/preferences_dialog.c:366
 msgid "Don't scale over 100% when maximizing the window."
@@ -424,32 +422,29 @@ msgstr "Nezväčšovať obrázok na viac ako 100% keď sa maximalizuje okno."
 
 #: ../src/preferences_dialog.c:370
 msgid "Startup"
-msgstr ""
+msgstr "Pri spustení"
 
 #: ../src/preferences_dialog.c:372
 msgid "Resize window to image on startup"
-msgstr ""
+msgstr "Zmeniť veľkosť okna na veľkosť obrázka pri spustení"
 
 #: ../src/preferences_dialog.c:376
 msgid "Open entire folder on startup"
-msgstr ""
+msgstr "Otvoriť celý priečinok pri spustení"
 
 #: ../src/preferences_dialog.c:381
-#, fuzzy
 msgid "Wrap around images"
-msgstr "Otvoriť obrázok"
+msgstr "Obrázky točiť dookola"
 
 #: ../src/preferences_dialog.c:397
 msgid "Memory"
 msgstr "Pamäť"
 
 #: ../src/preferences_dialog.c:403
-#, fuzzy
 msgid "Image cache"
-msgstr "Vyrovnávajúca pamäť"
+msgstr "Vyrovnávajúca pamäť obrázkov"
 
 #: ../src/preferences_dialog.c:409
-#, fuzzy
 msgid "Cache size"
 msgstr "Veľkosť vyrovnávajúcej pamäte"
 
@@ -463,7 +458,7 @@ msgstr "Povoliť vyrovnávaciu pamäť"
 
 #: ../src/preferences_dialog.c:418
 msgid "Enable preloading"
-msgstr ""
+msgstr "Povoliť načítanie vopred"
 
 #: ../src/preferences_dialog.c:495
 msgid "Preferences"
@@ -495,24 +490,23 @@ msgstr "Automaticky"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr ""
+msgstr "Na stred"
 
 #: ../src/xfce_wallpaper_manager.c:125
 msgid "Tiled"
-msgstr ""
+msgstr "Dlaždicový"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr ""
+msgstr "Roztiahnutý"
 
 #: ../src/xfce_wallpaper_manager.c:127
-#, fuzzy
 msgid "Scaled"
-msgstr "Medzery"
+msgstr "Prispôsobený"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
-msgstr ""
+msgstr "Zväčšený"
 
 #: ../src/thumbnail_bar.c:187
 msgid "Spacing"
@@ -523,7 +517,6 @@ msgid "The amount of space between the thumbnails"
 msgstr "Množstvo priestoru medzi náhľadmi"
 
 #: ../src/thumbnail_bar.c:194
-#, fuzzy
 msgid "border width"
 msgstr "Hrúbka okraja"
 
