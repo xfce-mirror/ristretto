@@ -1,4 +1,4 @@
-# translation of Ristretto.
+# Slovak translation of Ristretto.
 # Copyright (C) 2008 THE Ristretto'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the Ristretto package.
 # <>, 2008.
@@ -194,7 +194,7 @@ msgstr "_Posledný"
 #. Help Menu
 #: ../src/main_window.c:313
 msgid "_Help"
-msgstr "_Nápoveda"
+msgstr "P_omocník"
 
 #: ../src/main_window.c:315
 msgid "_Contents"
