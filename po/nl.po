@@ -1,4 +1,4 @@
-# Dutch translations for ristretto package.
+# Dutch translations for the ristretto package.
 # Copyright (C) The Xfce development team.
 # This file is distributed under the same license as the ristretto package.
 # Stephan Arts <stephan@xfce.org>, 2007.
@@ -6,7 +6,7 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
+"Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-11-15 20:25+0100\n"
 "PO-Revision-Date: 2011-05-27 00:48+0200\n"
@@ -110,7 +110,7 @@ msgstr "_Openen met..."
 
 #: ../src/main_window.c:288
 msgid "_Sorting"
-msgstr "Aan het _sorteren"
+msgstr "_Sorteren"
 
 #: ../src/main_window.c:289
 msgid "_Delete"
@@ -342,7 +342,7 @@ msgstr "Bewaar kopie"
 #: ../src/main_window.c:2296
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Weet u zeker dat u afbeelding '%s' van de schijf wilt verwijderen?"
+msgstr "Weet u zeker dat u afbeelding '%s' van de schijf wil verwijderen?"
 
 #: ../src/preferences_dialog.c:222
 msgid "Display"
@@ -464,7 +464,7 @@ msgstr "Opslag aanzetten"
 
 #: ../src/preferences_dialog.c:418
 msgid "Enable preloading"
-msgstr "Voorladen inschakelen"
+msgstr "Vooraf-laden inschakelen"
 
 #: ../src/preferences_dialog.c:495
 msgid "Preferences"
@@ -569,7 +569,7 @@ msgstr "Ristretto Fotokijker"
 #~ msgstr "Laag"
 
 #~ msgid "Preload images"
-#~ msgstr "Afbeeldingen voorladen"
+#~ msgstr "Afbeeldingen vooraf-laden"
 
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
@@ -612,13 +612,13 @@ msgstr "Ristretto Fotokijker"
 #~ msgstr "Xfce Afbeeldingskijker"
 
 #~ msgid "Preload"
-#~ msgstr "Voorladen"
+#~ msgstr "Vooraf-laden"
 
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
-#~ "Afbeeldingen voorladen gedurende een diavertoning\n"
+#~ "Afbeeldingen vooraf-laden gedurende een diavertoning\n"
 #~ "(gebruikt meer geheugen)"
 
 #~ msgid "Flip _Vertically"
