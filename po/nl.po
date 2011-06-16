@@ -305,7 +305,7 @@ msgstr "Ontwikkelaar:"
 #: ../src/main_window.c:1657
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr ""
-"Ristretto is een afbeeldingskijker voor de Xfce-werkomgeving."
+"Ristretto is een afbeeldingkijker voor de Xfce-werkomgeving."
 
 #: ../src/main_window.c:1665
 msgid "translator-credits"
@@ -386,7 +386,7 @@ msgid ""
 "when the image-viewer is fullscreen."
 msgstr ""
 "De miniaturenbalk kan automatisch verborgen worden \n"
-"wanneer de afbeeldingskijker in schermvullende modus is."
+"wanneer de afbeeldingkijker in schermvullende modus is."
 
 #: ../src/preferences_dialog.c:295
 msgid "Hide thumbnailbar when fullscreen"
@@ -540,7 +540,7 @@ msgstr "De breedte van de filmstrook van de miniaturenbalk"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
-msgstr "Afbeeldingskijker"
+msgstr "Afbeeldingkijker"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
@@ -609,7 +609,7 @@ msgstr "Ristretto Fotokijker"
 #~ msgstr "Miniaturen verbergen gedurende diavertoning"
 
 #~ msgid "Xfce Image viewer"
-#~ msgstr "Xfce Afbeeldingskijker"
+#~ msgstr "Xfce Afbeeldingkijker"
 
 #~ msgid "Preload"
 #~ msgstr "Vooraf-laden"
