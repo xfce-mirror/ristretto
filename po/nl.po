@@ -1,4 +1,4 @@
-# Dutch translations for the ristretto package.
+# Dutch translation for the ristretto package.
 # Copyright (C) The Xfce development team.
 # This file is distributed under the same license as the ristretto package.
 # Stephan Arts <stephan@xfce.org>, 2007.
@@ -7,15 +7,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
-"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-15 20:25+0100\n"
-"PO-Revision-Date: 2011-05-27 00:48+0200\n"
+"PO-Revision-Date: 2011-06-15 00:48+0200\n"
 "Last-Translator: Pjotr\n"
 "Language-Team: Dutch (Flemish)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
+"Language: nl (Dutch)\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/main.c:59
@@ -28,7 +28,7 @@ msgstr "Start in schermvullende modus"
 
 #: ../src/main.c:67
 msgid "Start a slideshow"
-msgstr "Start een diavertoning"
+msgstr "Begin een diavertoning"
 
 #: ../src/main.c:94
 #, c-format
@@ -272,7 +272,7 @@ msgstr "Afs_pelen"
 
 #: ../src/main_window.c:451
 msgid "Play slideshow"
-msgstr "Start een diapresentatie"
+msgstr "Speel een diapresentatie af"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
@@ -359,7 +359,7 @@ msgstr "Achtergrondkleur wijzigen:"
 
 #: ../src/preferences_dialog.c:257
 msgid "Show preview when loading image"
-msgstr "Toon voorvertoning bij het laden van afbeelding"
+msgstr "Toon voorvertoning bij het laden van een afbeelding"
 
 #: ../src/preferences_dialog.c:268
 msgid "Slideshow"
@@ -367,7 +367,7 @@ msgstr "Diavertoning"
 
 #: ../src/preferences_dialog.c:272
 msgid "Timeout"
-msgstr "Timeout"
+msgstr "Pauze"
 
 #: ../src/preferences_dialog.c:275
 msgid ""
