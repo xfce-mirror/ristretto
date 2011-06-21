@@ -1,0 +1,550 @@
+# Slovenian translations for ristretto package
+# Slovenski prevodi paketa ristretto.
+# Copyright (C) 2011 THE ristretto'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the ristretto package.
+#  <gasper@gmx.com>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ristretto 0.0.93-dev\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2011-06-18 22:32+0200\n"
+"PO-Revision-Date: 2011-06-18 22:39+0200\n"
+"Last-Translator: <gasper@gmx.com>\n"
+"Language-Team: Slovenian\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"X-Language: sl_SI\n"
+"X-Source-Language: C\n"
+
+#: ../src/main.c:59
+msgid "Version information"
+msgstr "Informacije o verziji"
+
+#: ../src/main.c:63
+msgid "Start in fullscreen mode"
+msgstr "Zaženi v celozaslonskem načinu"
+
+#: ../src/main.c:67
+msgid "Start a slideshow"
+msgstr "Začni diaprojekcijo"
+
+#: ../src/main.c:94
+#, c-format
+msgid ""
+"%s: %s\n"
+"Try %s --help to see a full list of available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"Uporabi %s --help za celoten seznam razpoložljivih možnosti.\n"
+
+#. File Menu
+#: ../src/main_window.c:279
+msgid "_File"
+msgstr "_Datoteka"
+
+#: ../src/main_window.c:280
+msgid "_Open"
+msgstr "_Odpri"
+
+#: ../src/main_window.c:280
+msgid "Open an image"
+msgstr "Odpri sliko"
+
+#: ../src/main_window.c:281
+msgid "Open _Folder"
+msgstr "Odpri _Mapo"
+
+#: ../src/main_window.c:281
+msgid "Open a folder"
+msgstr "Odpre mapo"
+
+#: ../src/main_window.c:282
+msgid "_Save copy"
+msgstr "_Shrani kopijo"
+
+#: ../src/main_window.c:282
+msgid "Save a copy of the image"
+msgstr "Shrani kopijo slike"
+
+#: ../src/main_window.c:283
+msgid "_Print"
+msgstr "_Natisni"
+
+#: ../src/main_window.c:283
+msgid "Print the image"
+msgstr "Natistni sliko"
+
+#: ../src/main_window.c:284
+msgid "_Close"
+msgstr "_Zapri"
+
+#: ../src/main_window.c:284
+msgid "Close this image"
+msgstr "Zapre sliko"
+
+#: ../src/main_window.c:285
+msgid "_Close All"
+msgstr "_Zapri Vse"
+
+#: ../src/main_window.c:285
+msgid "Close all images"
+msgstr "Zapre vse slike"
+
+#: ../src/main_window.c:286
+msgid "_Quit"
+msgstr "_Izhod"
+
+#: ../src/main_window.c:286
+msgid "Quit Ristretto"
+msgstr "Izhod iz Ristretta"
+
+#. Edit Menu
+#: ../src/main_window.c:288
+msgid "_Edit"
+msgstr "_Uredi"
+
+# Za odpiranje uporabi?
+#: ../src/main_window.c:289
+msgid "_Open with..."
+msgstr "_Odpri z..."
+
+#: ../src/main_window.c:290
+msgid "_Sorting"
+msgstr "_Razvrščanje"
+
+#: ../src/main_window.c:291
+msgid "_Delete"
+msgstr "_Izbriši"
+
+#: ../src/main_window.c:292
+msgid "_Preferences"
+msgstr "_Nastavitve"
+
+#. View Menu
+#: ../src/main_window.c:294
+msgid "_View"
+msgstr "_Pogled"
+
+#: ../src/main_window.c:295
+msgid "_Fullscreen"
+msgstr "_Celozaslonski način"
+
+#: ../src/main_window.c:296
+msgid "_Leave Fullscreen"
+msgstr "_Zapusti Celozaslonski način"
+
+#: ../src/main_window.c:297
+msgid "_Set as Wallpaper"
+msgstr "_Nastavi kot Ozadje"
+
+#. Zoom submenu
+#: ../src/main_window.c:299
+msgid "_Zooming"
+msgstr "_Povečava"
+
+#: ../src/main_window.c:300
+msgid "Zoom _In"
+msgstr "_Povečaj"
+
+#: ../src/main_window.c:301
+msgid "Zoom _Out"
+msgstr "_Pomanjšaj"
+
+#: ../src/main_window.c:302
+msgid "Zoom _Fit"
+msgstr "_Prilagodi"
+
+#: ../src/main_window.c:303
+msgid "_Normal Size"
+msgstr "_Originalna velikost"
+
+#. Rotation submenu
+#: ../src/main_window.c:305
+msgid "_Rotation"
+msgstr "_Vrtenje"
+
+#: ../src/main_window.c:306
+msgid "Rotate _Right"
+msgstr "Zavrti _Desno"
+
+#: ../src/main_window.c:307
+msgid "Rotate _Left"
+msgstr "Zavrti _Levo"
+
+#. Go Menu
+#: ../src/main_window.c:309
+msgid "_Go"
+msgstr "_Pojdi"
+
+#: ../src/main_window.c:310
+msgid "_Forward"
+msgstr "_Naprej"
+
+#: ../src/main_window.c:311
+msgid "_Back"
+msgstr "_Nazaj"
+
+#: ../src/main_window.c:312
+msgid "_First"
+msgstr "_Prvi"
+
+#: ../src/main_window.c:313
+msgid "_Last"
+msgstr "_Zadnji"
+
+#. Help Menu
+#: ../src/main_window.c:315
+msgid "_Help"
+msgstr "_Pomoč"
+
+#: ../src/main_window.c:317
+msgid "_Contents"
+msgstr "_Vsebina"
+
+# Pokaže?
+#: ../src/main_window.c:319
+msgid "Display ristretto user manual"
+msgstr "Odpri ristretto uporabniški priročnik"
+
+#: ../src/main_window.c:322
+msgid "_About"
+msgstr "_O programu"
+
+#: ../src/main_window.c:324
+msgid "Display information about ristretto"
+msgstr "Pokaži informacije o programu ristretto"
+
+#. Position Menu
+#: ../src/main_window.c:327
+msgid "_Position"
+msgstr "_Položaj"
+
+#. Misc
+#: ../src/main_window.c:329
+msgid "Leave _Fullscreen"
+msgstr "Zapusti _Celozaslonski način"
+
+#. Toggle visibility of the main file toolbar
+#: ../src/main_window.c:337
+msgid "Show _File Toolbar"
+msgstr "Pokaži _Datotečno Orodno vrstico"
+
+#. Toggle visibility of the main navigation toolbar
+#: ../src/main_window.c:339
+msgid "Show _Navigation Toolbar"
+msgstr "Pokaži _Navigacijsko Orodno vrstico"
+
+#. Toggle visibility of the thumbnailbar
+#: ../src/main_window.c:341
+msgid "Show _Thumbnailbar"
+msgstr "Pokaži _Vrstico s sličicami"
+
+#. Sort by Filename
+#: ../src/main_window.c:348
+msgid "sort by filename"
+msgstr "razvrsti po imenu datoteke"
+
+#. Sort by Date
+#: ../src/main_window.c:350
+msgid "sort by date"
+msgstr "razvrsti po datumu"
+
+#: ../src/main_window.c:356
+msgid "Left"
+msgstr "Leva"
+
+#: ../src/main_window.c:357
+msgid "Right"
+msgstr "Desna"
+
+#: ../src/main_window.c:358
+msgid "Top"
+msgstr "Vrh"
+
+#: ../src/main_window.c:359
+msgid "Bottom"
+msgstr "Dno"
+
+#. Create Play/Pause Slideshow actions
+#: ../src/main_window.c:456
+msgid "_Play"
+msgstr "_Zaženi"
+
+#: ../src/main_window.c:456
+msgid "Play slideshow"
+msgstr "Zaženi diaprojekcijo"
+
+#: ../src/main_window.c:457
+msgid "_Pause"
+msgstr "_Ustavi"
+
+#: ../src/main_window.c:457
+msgid "Pause slideshow"
+msgstr "Ustavi diaprojekcijo"
+
+#. Create Recently used items Action
+#: ../src/main_window.c:460
+msgid "_Recently used"
+msgstr "_Nedavno uporabljene"
+
+#: ../src/main_window.c:460
+msgid "Recently used"
+msgstr "Nedavno uporabljene"
+
+#: ../src/main_window.c:547 ../src/main_window.c:869
+msgid "Press open to select an image"
+msgstr "Klikni odpri za izbiro slike"
+
+#: ../src/main_window.c:856 ../src/main_window.c:861
+msgid "Empty"
+msgstr "Prazno"
+
+#: ../src/main_window.c:1652
+msgid "Developer:"
+msgstr "Razvijalec:"
+
+#: ../src/main_window.c:1662
+msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr "Ristretto je pregledovalnik slik za Xfce okolje."
+
+#: ../src/main_window.c:1670
+msgid "translator-credits"
+msgstr "prevajanje"
+
+#: ../src/main_window.c:1985
+msgid "Open image"
+msgstr "Odpri sliko"
+
+#: ../src/main_window.c:1999
+msgid "Images"
+msgstr "Slike"
+
+#: ../src/main_window.c:2004
+msgid ".jp(e)g"
+msgstr ".jp(e)g"
+
+#: ../src/main_window.c:2027 ../src/main_window.c:2044
+#: ../src/main_window.c:2191 ../src/main_window.c:2206
+msgid "Could not open file"
+msgstr "Ne morem odpreti slike"
+
+#: ../src/main_window.c:2086
+msgid "Open folder"
+msgstr "Odpri mapo"
+
+#: ../src/main_window.c:2229
+msgid "Save copy"
+msgstr "Shrani kopijo"
+
+#: ../src/main_window.c:2301
+#, c-format
+msgid "Are you sure you want to delete image '%s' from disk?"
+msgstr "Ali ste prepričani, da želite izbrisati sliko '%s' z diska?"
+
+#: ../src/preferences_dialog.c:222
+msgid "Display"
+msgstr "Prikaz"
+
+#: ../src/preferences_dialog.c:227
+msgid "Background color"
+msgstr "Barva ozadja"
+
+#: ../src/preferences_dialog.c:231
+msgid "Override background color:"
+msgstr "Zamenjaj barvo ozadja:"
+
+#: ../src/preferences_dialog.c:257
+msgid "Show preview when loading image"
+msgstr "Pokaži predogled med nalaganjem slike"
+
+#: ../src/preferences_dialog.c:268
+msgid "Slideshow"
+msgstr "Diaprojekcija"
+
+#: ../src/preferences_dialog.c:272
+msgid "Timeout"
+msgstr "Časovna omejitev"
+
+#: ../src/preferences_dialog.c:275
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"Časovna perioda v kateri je prikazana posamezna slika med diaprojekcijo (v "
+"skundah)"
+
+#: ../src/preferences_dialog.c:290
+msgid "Thumbnails"
+msgstr "Sličice"
+
+#: ../src/preferences_dialog.c:293
+msgid ""
+"The thumbnailbar can be automatically hidden \n"
+"when the image-viewer is fullscreen."
+msgstr ""
+"Vrstica s sličicami se lahko samodejno skirje, ko je pregledovalnik slik v "
+"celozaslonskem načinu."
+
+#: ../src/preferences_dialog.c:295
+msgid "Hide thumbnailbar when fullscreen"
+msgstr "V celozaslonskem načinu skrij vrstico s sličicami"
+
+#: ../src/preferences_dialog.c:308
+msgid "Control"
+msgstr "Nadzor"
+
+#: ../src/preferences_dialog.c:312
+msgid "Scrollwheel"
+msgstr "Miškin kolešček"
+
+#: ../src/preferences_dialog.c:315
+msgid "No action"
+msgstr "Ne naredi ničesar"
+
+#: ../src/preferences_dialog.c:319
+msgid "Zoom in and out"
+msgstr "Povečaj in zmanjšaj"
+
+#: ../src/preferences_dialog.c:322
+msgid "Switch images"
+msgstr "Zamenjaj slike"
+
+#: ../src/preferences_dialog.c:356
+msgid "Behaviour"
+msgstr "Obnašanje"
+
+#: ../src/preferences_dialog.c:361
+msgid "Scaling"
+msgstr ""
+
+#: ../src/preferences_dialog.c:366
+msgid "Don't scale over 100% when maximizing the window."
+msgstr ""
+
+#: ../src/preferences_dialog.c:370
+msgid "Startup"
+msgstr "Zagon"
+
+#: ../src/preferences_dialog.c:372
+msgid "Resize window to image on startup"
+msgstr "Ob zagonu razširi okno na velikost slike"
+
+#: ../src/preferences_dialog.c:376
+msgid "Open entire folder on startup"
+msgstr "Ob zagonu odpri celo mapo"
+
+#: ../src/preferences_dialog.c:381
+msgid "Wrap around images"
+msgstr "Ovij okoli slik"
+
+#: ../src/preferences_dialog.c:397
+msgid "Memory"
+msgstr "Pomnilnik"
+
+#: ../src/preferences_dialog.c:403
+msgid "Image cache"
+msgstr "Slikovni predpomnilnik"
+
+#: ../src/preferences_dialog.c:409
+msgid "Cache size"
+msgstr "Velikost predpomnilnika"
+
+#: ../src/preferences_dialog.c:410
+msgid "MB"
+msgstr "MB"
+
+#: ../src/preferences_dialog.c:413
+msgid "Enable cache"
+msgstr "Omogoči predpomnilnik"
+
+#: ../src/preferences_dialog.c:418
+msgid "Enable preloading"
+msgstr "Pomogoči prednalaganje"
+
+#: ../src/preferences_dialog.c:495
+msgid "Preferences"
+msgstr "Nastavitve"
+
+#: ../src/xfce_wallpaper_manager.c:84
+msgid "Set as wallpaper"
+msgstr "Nastavi kot ozadje"
+
+#: ../src/xfce_wallpaper_manager.c:86
+msgid "Style:"
+msgstr "Slog:"
+
+#: ../src/xfce_wallpaper_manager.c:88
+msgid "Monitor:"
+msgstr "Zaslon:"
+
+#: ../src/xfce_wallpaper_manager.c:90
+msgid "Brightness:"
+msgstr "Svetlost:"
+
+#: ../src/xfce_wallpaper_manager.c:91
+msgid "Saturation:"
+msgstr "Nasičenost:"
+
+#: ../src/xfce_wallpaper_manager.c:123
+msgid "Auto"
+msgstr "Samodejno"
+
+#: ../src/xfce_wallpaper_manager.c:124
+msgid "Centered"
+msgstr "Centrirano"
+
+#: ../src/xfce_wallpaper_manager.c:125
+msgid "Tiled"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:126
+msgid "Stretched"
+msgstr "Raztegnjeno"
+
+#: ../src/xfce_wallpaper_manager.c:127
+msgid "Scaled"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:128
+msgid "Zoomed"
+msgstr "Povečano"
+
+#: ../src/thumbnail_bar.c:187
+msgid "Spacing"
+msgstr "Razmik"
+
+#: ../src/thumbnail_bar.c:188
+msgid "The amount of space between the thumbnails"
+msgstr "Razmik med sličicami"
+
+#: ../src/thumbnail_bar.c:194
+msgid "border width"
+msgstr "širina roba"
+
+#: ../src/thumbnail_bar.c:195
+msgid "the border width of the thumbnail-bar"
+msgstr "širina roba vrstice s sličicami"
+
+#: ../src/thumbnail_bar.c:201
+msgid "filmstrip width"
+msgstr "Širina filmskega traku"
+
+#: ../src/thumbnail_bar.c:202
+msgid "the width of the thumbnail-bar film-strip"
+msgstr ""
+
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Pregledovalnik Slik"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Look at your photo's easily"
+msgstr "Na preprost način si oglejte svoje fotografije"
+
+#: ../ristretto.desktop.in.h:3
+msgid "Ristretto Photo Viewer"
+msgstr "RIstretto Pregledovalnik Slik"
