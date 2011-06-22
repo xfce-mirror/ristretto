@@ -88,7 +88,7 @@ msgstr "Zapre sliko"
 
 #: ../src/main_window.c:285
 msgid "_Close All"
-msgstr "_Zapri Vse"
+msgstr "Zapri _Vse"
 
 #: ../src/main_window.c:285
 msgid "Close all images"
@@ -107,10 +107,9 @@ msgstr "Izhod iz Ristretta"
 msgid "_Edit"
 msgstr "_Uredi"
 
-# Za odpiranje uporabi?
 #: ../src/main_window.c:289
 msgid "_Open with..."
-msgstr "_Odpri z..."
+msgstr "_Za odprianje uporabi..."
 
 #: ../src/main_window.c:290
 msgid "_Sorting"
@@ -139,7 +138,7 @@ msgstr "_Zapusti Celozaslonski način"
 
 #: ../src/main_window.c:297
 msgid "_Set as Wallpaper"
-msgstr "_Nastavi kot Ozadje"
+msgstr "Nastavi kot _Ozadje"
 
 #. Zoom submenu
 #: ../src/main_window.c:299
@@ -165,7 +164,7 @@ msgstr "_Originalna velikost"
 #. Rotation submenu
 #: ../src/main_window.c:305
 msgid "_Rotation"
-msgstr "_Vrtenje"
+msgstr "Vrten_je"
 
 #: ../src/main_window.c:306
 msgid "Rotate _Right"
@@ -178,7 +177,7 @@ msgstr "Zavrti _Levo"
 #. Go Menu
 #: ../src/main_window.c:309
 msgid "_Go"
-msgstr "_Pojdi"
+msgstr "Poj_di"
 
 #: ../src/main_window.c:310
 msgid "_Forward"
@@ -199,7 +198,7 @@ msgstr "_Zadnji"
 #. Help Menu
 #: ../src/main_window.c:315
 msgid "_Help"
-msgstr "_Pomoč"
+msgstr "Po_moč"
 
 #: ../src/main_window.c:317
 msgid "_Contents"
@@ -313,7 +312,9 @@ msgstr "Ristretto je pregledovalnik slik za Xfce okolje."
 
 #: ../src/main_window.c:1670
 msgid "translator-credits"
-msgstr "prevajanje"
+msgstr ""
+"Prevedel:\n"
+"Gašper <gasper@gmx.com>"
 
 #: ../src/main_window.c:1985
 msgid "Open image"
