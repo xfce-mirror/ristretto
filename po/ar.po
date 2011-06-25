@@ -1,3 +1,4 @@
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: xfce\n"
@@ -284,13 +285,11 @@ msgstr "مستخدمة حدي_ثا"
 msgid "Recently used"
 msgstr "مستخدمة حديثا"
 
-#: ../src/main_window.c:542
-#: ../src/main_window.c:864
+#: ../src/main_window.c:542 ../src/main_window.c:864
 msgid "Press open to select an image"
 msgstr "إضغط غلى فتح لإختيار صورة"
 
-#: ../src/main_window.c:851
-#: ../src/main_window.c:856
+#: ../src/main_window.c:851 ../src/main_window.c:856
 msgid "Empty"
 msgstr "فارغ"
 
@@ -320,10 +319,8 @@ msgstr "صور"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2022
-#: ../src/main_window.c:2039
-#: ../src/main_window.c:2186
-#: ../src/main_window.c:2201
+#: ../src/main_window.c:2022 ../src/main_window.c:2039
+#: ../src/main_window.c:2186 ../src/main_window.c:2201
 msgid "Could not open file"
 msgstr "فشل فتح ملف"
 
@@ -369,6 +366,8 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
+"فترة العرض يتم عرض صورة فردية خلال العرض\n"
+" (بالثانية)"
 
 #: ../src/preferences_dialog.c:290
 msgid "Thumbnails"
@@ -379,6 +378,8 @@ msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
+"الشريط المصغر يمكن أن يكون مخفياً تلقائيا\n"
+"عند عرض الصورة بكامل الشاشة."
 
 #: ../src/preferences_dialog.c:295
 msgid "Hide thumbnailbar when fullscreen"
@@ -526,7 +527,7 @@ msgstr "عرض مقطع سينمائ"
 
 #: ../src/thumbnail_bar.c:202
 msgid "the width of the thumbnail-bar film-strip"
-msgstr ""
+msgstr "عرض الشريط المصغر"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -539,4 +540,3 @@ msgstr "نظرة على الصورك الخاصة بسهول"
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
 msgstr "عراض الصور Ristretto"
-
