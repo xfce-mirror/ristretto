@@ -356,11 +356,11 @@ msgstr "Xem trước trong khi nạp ảnh"
 
 #: ../src/preferences_dialog.c:268
 msgid "Slideshow"
-msgstr "Slideshow"
+msgstr "Trình diễn"
 
 #: ../src/preferences_dialog.c:272
 msgid "Timeout"
-msgstr "Hết thời gian"
+msgstr "Hết thời giandiễn"
 
 #: ../src/preferences_dialog.c:275
 msgid ""
@@ -430,7 +430,7 @@ msgstr "Mở toàn bộ thư mục khi khởi động"
 
 #: ../src/preferences_dialog.c:381
 msgid "Wrap around images"
-msgstr "Bao bọc xung quan ảnh"
+msgstr "Bao bọc xung quanh ảnh"
 
 #: ../src/preferences_dialog.c:397
 msgid "Memory"
