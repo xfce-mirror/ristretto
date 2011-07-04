@@ -46,7 +46,6 @@ msgid "_Open"
 msgstr "_Mở"
 
 #: ../src/main_window.c:278
-#, fuzzy
 msgid "Open an image"
 msgstr "Mở ảnh"
 
@@ -64,44 +63,39 @@ msgstr "_Lưu với tên khác "
 
 #: ../src/main_window.c:280
 msgid "Save a copy of the image"
-msgstr ""
+msgstr "Lưu với tên khác"
 
 #: ../src/main_window.c:281
 msgid "_Print"
-msgstr ""
+msgstr "_In"
 
 #: ../src/main_window.c:281
 msgid "Print the image"
-msgstr ""
+msgstr "In ảnh này"
 
 #: ../src/main_window.c:282
-#, fuzzy
 msgid "_Close"
-msgstr "Đóng tất _cả"
+msgstr "Đóng lại"
 
 #: ../src/main_window.c:282
 msgid "Close this image"
-msgstr ""
+msgstr "Đóng ảnh này lại"
 
 #: ../src/main_window.c:283
-#, fuzzy
 msgid "_Close All"
 msgstr "Đóng tất _cả"
 
 #: ../src/main_window.c:283
-#, fuzzy
 msgid "Close all images"
 msgstr "Đóng tất _cả"
 
 #: ../src/main_window.c:284
-#, fuzzy
 msgid "_Quit"
-msgstr "_Sửa"
+msgstr "Th_oát"
 
 #: ../src/main_window.c:284
-#, fuzzy
 msgid "Quit Ristretto"
-msgstr "Ristretto"
+msgstr "Thoát Ristretto"
 
 #. Edit Menu
 #: ../src/main_window.c:286
@@ -109,23 +103,20 @@ msgid "_Edit"
 msgstr "_Sửa"
 
 #: ../src/main_window.c:287
-#, fuzzy
 msgid "_Open with..."
-msgstr "Mở với..."
+msgstr "Mở _với chương trình khác"
 
 #: ../src/main_window.c:288
-#, fuzzy
 msgid "_Sorting"
-msgstr "_Phóng to"
+msgstr "_Sắp xếp ảnh"
 
 #: ../src/main_window.c:289
 msgid "_Delete"
-msgstr ""
+msgstr "_Xóa"
 
 #: ../src/main_window.c:290
-#, fuzzy
 msgid "_Preferences"
-msgstr "Cấu hình trình xem ảnh"
+msgstr "Thiết lập"
 
 #. View Menu
 #: ../src/main_window.c:292
@@ -134,16 +125,15 @@ msgstr "_Xem"
 
 #: ../src/main_window.c:293
 msgid "_Fullscreen"
-msgstr ""
+msgstr "Đầy màn _hình"
 
 #: ../src/main_window.c:294
 msgid "_Leave Fullscreen"
-msgstr ""
+msgstr "_Trở về chế độ thường"
 
 #: ../src/main_window.c:295
-#, fuzzy
 msgid "_Set as Wallpaper"
-msgstr "Thiết lập màn hình nền"
+msgstr "Dùng làm ảnh nền "
 
 #. Zoom submenu
 #: ../src/main_window.c:297
@@ -157,21 +147,20 @@ msgstr "_Phóng to"
 
 #: ../src/main_window.c:299
 msgid "Zoom _Out"
-msgstr ""
+msgstr "_Thu nhỏ"
 
 #: ../src/main_window.c:300
 msgid "Zoom _Fit"
-msgstr ""
+msgstr "_Khít màn hình"
 
 #: ../src/main_window.c:301
 msgid "_Normal Size"
-msgstr ""
+msgstr "_Kích thước bình thường"
 
 #. Rotation submenu
 #: ../src/main_window.c:303
-#, fuzzy
 msgid "_Rotation"
-msgstr "_Quay"
+msgstr "_Quay ảnh"
 
 #: ../src/main_window.c:304
 msgid "Rotate _Right"
@@ -188,15 +177,15 @@ msgstr "_Di chuyển"
 
 #: ../src/main_window.c:308
 msgid "_Forward"
-msgstr ""
+msgstr "_Tiếp"
 
 #: ../src/main_window.c:309
 msgid "_Back"
-msgstr ""
+msgstr "_Trước"
 
 #: ../src/main_window.c:310
 msgid "_First"
-msgstr ""
+msgstr "_Đầu"
 
 #: ../src/main_window.c:311
 msgid "_Last"
