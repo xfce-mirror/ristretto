@@ -43,7 +43,7 @@ msgstr "_Tập tin"
 
 #: ../src/main_window.c:278
 msgid "_Open"
-msgstr "_Mởệnh"
+msgstr "_Mở"
 
 #: ../src/main_window.c:278
 msgid "Open an image"
