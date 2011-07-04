@@ -360,7 +360,7 @@ msgstr "Trình diễn"
 
 #: ../src/preferences_dialog.c:272
 msgid "Timeout"
-msgstr "Hết thời giandiễn"
+msgstr "Hết giờ"
 
 #: ../src/preferences_dialog.c:275
 msgid ""
@@ -414,7 +414,7 @@ msgstr "Kéo dãn"
 
 #: ../src/preferences_dialog.c:366
 msgid "Don't scale over 100% when maximizing the window."
-msgstr "Đừng giãn anh quá 100% khi cực đại hoá cửa sổ"
+msgstr "Đừng giãn anh quá 100% khi cực đại hoá cửa sổiờ"
 
 #: ../src/preferences_dialog.c:370
 msgid "Startup"
