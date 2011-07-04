@@ -334,9 +334,9 @@ msgid "Save copy"
 msgstr "Lưu một bản khác"
 
 #: ../src/main_window.c:2296
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Bạn chắc chắn muốn để xoá danh sách các tập tin được mở gần đây?"
+msgstr "Chắc chắn muốn xóa ảnh '%s\" từ đĩa?"
 
 #: ../src/preferences_dialog.c:222
 msgid "Display"
@@ -461,51 +461,49 @@ msgid "Preferences"
 msgstr "Thiết lập"
 
 #: ../src/xfce_wallpaper_manager.c:84
-#, fuzzy
 msgid "Set as wallpaper"
 msgstr "Thiết lập màn hình nền"
 
 #: ../src/xfce_wallpaper_manager.c:86
 msgid "Style:"
-msgstr ""
+msgstr "Kiểu:"
 
 #: ../src/xfce_wallpaper_manager.c:88
 msgid "Monitor:"
-msgstr ""
+msgstr "Màn hình:"
 
 #: ../src/xfce_wallpaper_manager.c:90
 msgid "Brightness:"
-msgstr ""
+msgstr "Độ sáng:"
 
 #: ../src/xfce_wallpaper_manager.c:91
 msgid "Saturation:"
-msgstr ""
+msgstr "Độ sẩm:"
 
 #: ../src/xfce_wallpaper_manager.c:123
 msgid "Auto"
-msgstr ""
+msgstr "_Tự động"
 
 #: ../src/xfce_wallpaper_manager.c:124
 msgid "Centered"
-msgstr ""
+msgstr "Giữa"
 
 #: ../src/xfce_wallpaper_manager.c:125
-#, fuzzy
 msgid "Tiled"
-msgstr "_Tập tin"
+msgstr "_Xếp lớp"
 
 #: ../src/xfce_wallpaper_manager.c:126
 msgid "Stretched"
-msgstr ""
+msgstr "Kéo _giãn"
 
 #: ../src/xfce_wallpaper_manager.c:127
 #, fuzzy
 msgid "Scaled"
-msgstr "Kéo dãn"
+msgstr "Xếp liên tục"
 
 #: ../src/xfce_wallpaper_manager.c:128
 msgid "Zoomed"
-msgstr ""
+msgstr "Phóng to"
 
 #: ../src/thumbnail_bar.c:187
 msgid "Spacing"
@@ -516,23 +514,20 @@ msgid "The amount of space between the thumbnails"
 msgstr "Khoảng cách giữa các ảnh thu nhỏ"
 
 #: ../src/thumbnail_bar.c:194
-#, fuzzy
 msgid "border width"
-msgstr "Cỡ đường viền"
+msgstr "cỡ đường viền"
 
 #: ../src/thumbnail_bar.c:195
-#, fuzzy
 msgid "the border width of the thumbnail-bar"
 msgstr "Cỡ đường viền của ảnh thu nhỏ"
 
 #: ../src/thumbnail_bar.c:201
 msgid "filmstrip width"
-msgstr ""
+msgstr "độ rộng dải ảnh"
 
 #: ../src/thumbnail_bar.c:202
-#, fuzzy
 msgid "the width of the thumbnail-bar film-strip"
-msgstr "Cỡ đường viền của ảnh thu nhỏ"
+msgstr "độ rộng của dải ảnh thu nhỏ"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -540,11 +535,11 @@ msgstr "Trình xem ảnh"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
-msgstr ""
+msgstr "Xem ảnh của bạn dễ dàng"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
-msgstr ""
+msgstr "Trình xem ảnh Ristretto"
 
 #~ msgid "Opening file(s)..."
 #~ msgstr "Mở tập tin"
