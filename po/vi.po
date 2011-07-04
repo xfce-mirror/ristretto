@@ -129,16 +129,16 @@ msgstr "Đầy màn _hình"
 
 #: ../src/main_window.c:294
 msgid "_Leave Fullscreen"
-msgstr "_Trở về chế độ thường"
+msgstr "_Thoát chế độ đầy màn hình"
 
 #: ../src/main_window.c:295
 msgid "_Set as Wallpaper"
-msgstr "Dùng làm ảnh nền "
+msgstr "Dùng _làm ảnh nền "
 
 #. Zoom submenu
 #: ../src/main_window.c:297
 msgid "_Zooming"
-msgstr "_Phóng to"
+msgstr "_Phóng to / Thu nhỏ"
 
 #: ../src/main_window.c:298
 msgid "Zoom _In"
@@ -172,7 +172,7 @@ msgstr "Quay _trái"
 #. Go Menu
 #: ../src/main_window.c:307
 msgid "_Go"
-msgstr "_Di chuyển"
+msgstr "_Đi"
 
 #: ../src/main_window.c:308
 msgid "_Forward"
@@ -219,7 +219,7 @@ msgstr "_Vị trí"
 #. Misc
 #: ../src/main_window.c:327
 msgid "Leave _Fullscreen"
-msgstr "í"
+msgstr "Thoát chế độ đầy _màn hình"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:335
