@@ -314,11 +314,11 @@ msgstr "Mở ảnh"
 
 #: ../src/main_window.c:1994
 msgid "Images"
-msgstr ""
+msgstr "Ảnh"
 
 #: ../src/main_window.c:1999
 msgid ".jp(e)g"
-msgstr ""
+msgstr ".jp(e)g"
 
 #: ../src/main_window.c:2022 ../src/main_window.c:2039
 #: ../src/main_window.c:2186 ../src/main_window.c:2201
@@ -331,7 +331,7 @@ msgstr "Mở thư mục"
 
 #: ../src/main_window.c:2224
 msgid "Save copy"
-msgstr ""
+msgstr "Lưu một bản khác"
 
 #: ../src/main_window.c:2296
 #, fuzzy, c-format
@@ -343,18 +343,16 @@ msgid "Display"
 msgstr "Hiển thị"
 
 #: ../src/preferences_dialog.c:227
-#, fuzzy
 msgid "Background color"
 msgstr "Màu nền"
 
 #: ../src/preferences_dialog.c:231
-#, fuzzy
 msgid "Override background color:"
 msgstr "_Ghi đè màu nền"
 
 #: ../src/preferences_dialog.c:257
 msgid "Show preview when loading image"
-msgstr ""
+msgstr "Xem trước trong khi nạp ảnh"
 
 #: ../src/preferences_dialog.c:268
 msgid "Slideshow"
@@ -362,7 +360,7 @@ msgstr "Slideshow"
 
 #: ../src/preferences_dialog.c:272
 msgid "Timeout"
-msgstr ""
+msgstr "Hết thời gian"
 
 #: ../src/preferences_dialog.c:275
 msgid ""
@@ -380,32 +378,31 @@ msgstr "Ảnh thu nhỏ"
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
-msgstr ""
+msgstr "Ảnh thu nhỏ có thể tự động ẩn đi khi kích hoạt chế độ đầy màn _hình"
 
 #: ../src/preferences_dialog.c:295
-#, fuzzy
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "Ẩn _ảnh thu nhỏ"
+msgstr "Ẩn _ảnh thu nhỏ khi hiển thị đầy màn hình"
 
 #: ../src/preferences_dialog.c:308
 msgid "Control"
-msgstr ""
+msgstr "Điều khiển"
 
 #: ../src/preferences_dialog.c:312
 msgid "Scrollwheel"
-msgstr ""
+msgstr "Cuộn chuột"
 
 #: ../src/preferences_dialog.c:315
 msgid "No action"
-msgstr ""
+msgstr "Không thực hiện"
 
 #: ../src/preferences_dialog.c:319
 msgid "Zoom in and out"
-msgstr ""
+msgstr "Phóng to và thu nhỏ"
 
 #: ../src/preferences_dialog.c:322
 msgid "Switch images"
-msgstr ""
+msgstr "Chuyển ảnh"
 
 #: ../src/preferences_dialog.c:356
 msgid "Behaviour"
@@ -421,31 +418,29 @@ msgstr "Đừng giãn anh quá 100% khi cực đại hoá cửa sổ"
 
 #: ../src/preferences_dialog.c:370
 msgid "Startup"
-msgstr ""
+msgstr "Khởi động"
 
 #: ../src/preferences_dialog.c:372
 msgid "Resize window to image on startup"
-msgstr ""
+msgstr "Đổi kích thước cửa sổ bằng ảnh khi khởi động"
 
 #: ../src/preferences_dialog.c:376
 msgid "Open entire folder on startup"
-msgstr ""
+msgstr "Mở toàn bộ thư mục khi khởi động"
 
 #: ../src/preferences_dialog.c:381
 msgid "Wrap around images"
-msgstr ""
+msgstr "Bao bọc xung quan ảnh"
 
 #: ../src/preferences_dialog.c:397
 msgid "Memory"
-msgstr ""
+msgstr "Bộ nhớ"
 
 #: ../src/preferences_dialog.c:403
-#, fuzzy
 msgid "Image cache"
 msgstr "Bộ đệm ảnh"
 
 #: ../src/preferences_dialog.c:409
-#, fuzzy
 msgid "Cache size"
 msgstr "Cỡ bộ đệm"
 
@@ -454,18 +449,16 @@ msgid "MB"
 msgstr "MB"
 
 #: ../src/preferences_dialog.c:413
-#, fuzzy
 msgid "Enable cache"
 msgstr "Bộ đệm ảnh"
 
 #: ../src/preferences_dialog.c:418
 msgid "Enable preloading"
-msgstr ""
+msgstr "Vận hành nạp trước"
 
 #: ../src/preferences_dialog.c:495
-#, fuzzy
 msgid "Preferences"
-msgstr "Cấu hình trình xem ảnh"
+msgstr "Thiết lập"
 
 #: ../src/xfce_wallpaper_manager.c:84
 #, fuzzy
