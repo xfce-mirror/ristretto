@@ -141,7 +141,6 @@ msgid "_Zooming"
 msgstr "_Phóng to"
 
 #: ../src/main_window.c:298
-#, fuzzy
 msgid "Zoom _In"
 msgstr "_Phóng to"
 
@@ -189,7 +188,7 @@ msgstr "_Đầu"
 
 #: ../src/main_window.c:311
 msgid "_Last"
-msgstr ""
+msgstr "_Cuối cùng"
 
 #. Help Menu
 #: ../src/main_window.c:313
@@ -198,92 +197,87 @@ msgstr "_Trợ giúp"
 
 #: ../src/main_window.c:315
 msgid "_Contents"
-msgstr ""
+msgstr "Nội _dung"
 
 #: ../src/main_window.c:317
 msgid "Display ristretto user manual"
-msgstr ""
+msgstr "Xem sổ tay sử dụng ristretto"
 
 #: ../src/main_window.c:320
 msgid "_About"
-msgstr ""
+msgstr "Thông t_in"
 
 #: ../src/main_window.c:322
 msgid "Display information about ristretto"
-msgstr ""
+msgstr "Thông tin về ristretto"
 
 #. Position Menu
 #: ../src/main_window.c:325
 msgid "_Position"
-msgstr ""
+msgstr "_Vị trí"
 
 #. Misc
 #: ../src/main_window.c:327
 msgid "Leave _Fullscreen"
-msgstr ""
+msgstr "í"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:335
-#, fuzzy
 msgid "Show _File Toolbar"
 msgstr "Hiển thị thanh cô_ng cụ"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:337
-#, fuzzy
 msgid "Show _Navigation Toolbar"
-msgstr "Hiển thị thanh cô_ng cụ"
+msgstr "Hiển thị thanh điều _hướng"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:339
-#, fuzzy
 msgid "Show _Thumbnailbar"
-msgstr "Hiển thị thanh cô_ng cụ"
+msgstr "Hiển thị ảnh nhỏ"
 
 #. Sort by Filename
 #: ../src/main_window.c:346
 msgid "sort by filename"
-msgstr ""
+msgstr "sắp xếp theo tên ảnh"
 
 #. Sort by Date
 #: ../src/main_window.c:348
 msgid "sort by date"
-msgstr ""
+msgstr "sắp xếp theo ngày"
 
 #: ../src/main_window.c:354
 msgid "Left"
-msgstr ""
+msgstr "Trái"
 
 #: ../src/main_window.c:355
 msgid "Right"
-msgstr ""
+msgstr "Phải"
 
 #: ../src/main_window.c:356
 msgid "Top"
-msgstr ""
+msgstr "Trên"
 
 #: ../src/main_window.c:357
 msgid "Bottom"
-msgstr ""
+msgstr "Dưới"
 
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:451
 msgid "_Play"
-msgstr ""
+msgstr "_Chạy"
 
 #: ../src/main_window.c:451
-#, fuzzy
 msgid "Play slideshow"
 msgstr "Chạy show trình diễn"
 
 #: ../src/main_window.c:452
 msgid "_Pause"
-msgstr ""
+msgstr "Tạm _dừng"
 
 #: ../src/main_window.c:452
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Chạy show trình diễn"
+msgstr "Tạm dừng trình diễn"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
@@ -291,26 +285,24 @@ msgid "_Recently used"
 msgstr "Tập tin mở gần đây"
 
 #: ../src/main_window.c:455
-#, fuzzy
 msgid "Recently used"
-msgstr "Tập tin mở gần đây"
+msgstr "Mở gần đây"
 
 #: ../src/main_window.c:542 ../src/main_window.c:864
 msgid "Press open to select an image"
-msgstr ""
+msgstr "Nhấn nút mở để chọn ảnh"
 
 #: ../src/main_window.c:851 ../src/main_window.c:856
 msgid "Empty"
-msgstr ""
+msgstr "Trống"
 
 #: ../src/main_window.c:1647
 msgid "Developer:"
 msgstr "Người phát triển"
 
 #: ../src/main_window.c:1657
-#, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr "Ristretto là một trình xem ảnh nhỏ gọn, tốc độ cho môi trường Xfce"
+msgstr "Ristretto là một chương trình xem ảnh nhỏ gọn cho môi trường màn hình Xfce"
 
 #: ../src/main_window.c:1665
 msgid "translator-credits"
