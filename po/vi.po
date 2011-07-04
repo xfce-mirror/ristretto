@@ -497,7 +497,6 @@ msgid "Stretched"
 msgstr "Kéo _giãn"
 
 #: ../src/xfce_wallpaper_manager.c:127
-#, fuzzy
 msgid "Scaled"
 msgstr "Xếp liên tục"
 
