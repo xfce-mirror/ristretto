@@ -21,11 +21,11 @@ msgstr "Thông tin phiên bản"
 
 #: ../src/main.c:63
 msgid "Start in fullscreen mode"
-msgstr "Khởi động ở chế độ đầy màn hình"
+msgstr "Bắt đầu chế độ đầy màn hình"
 
 #: ../src/main.c:67
 msgid "Start a slideshow"
-msgstr "Chạy show trình diễn"
+msgstr "Bắt đầu trình diễn ảnh"
 
 #: ../src/main.c:94
 #, c-format
@@ -34,7 +34,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Dùng %s --help để xem toàn bộ tham số khả dụng cho lệnh.\n"
+"Dùng %s --help để xem toàn bộ tham số dòng lệnh.\n"
 
 #. File Menu
 #: ../src/main_window.c:277
@@ -43,7 +43,7 @@ msgstr "_Tập tin"
 
 #: ../src/main_window.c:278
 msgid "_Open"
-msgstr "_Mở"
+msgstr "_Mởệnh"
 
 #: ../src/main_window.c:278
 msgid "Open an image"
@@ -59,11 +59,11 @@ msgstr "Mở thư mục"
 
 #: ../src/main_window.c:280
 msgid "_Save copy"
-msgstr "_Lưu với tên khác "
+msgstr "_Nhân bản ảnh này"
 
 #: ../src/main_window.c:280
 msgid "Save a copy of the image"
-msgstr "Lưu với tên khác"
+msgstr "Lưu một phiên bản của ảnh này"
 
 #: ../src/main_window.c:281
 msgid "_Print"
@@ -71,7 +71,7 @@ msgstr "_In"
 
 #: ../src/main_window.c:281
 msgid "Print the image"
-msgstr "In ảnh này"
+msgstr "In ảnh"
 
 #: ../src/main_window.c:282
 msgid "_Close"
@@ -108,7 +108,7 @@ msgstr "Mở _với chương trình khác"
 
 #: ../src/main_window.c:288
 msgid "_Sorting"
-msgstr "_Sắp xếp ảnh"
+msgstr "_Sắp xếp"
 
 #: ../src/main_window.c:289
 msgid "_Delete"
