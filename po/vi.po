@@ -1,7 +1,7 @@
 # Copyright (C) 2009 Ristretto
 # This file is distributed under the same license as the Ristretto package.
 # Nguyễn Quốc Vinh <kureikain@gmail.com>, 2009.
-#
+# 
 # 2, fuzzy
 msgid ""
 msgstr ""
@@ -43,7 +43,7 @@ msgstr "_Tập tin"
 
 #: ../src/main_window.c:278
 msgid "_Open"
-msgstr ""
+msgstr "_Mở"
 
 #: ../src/main_window.c:278
 #, fuzzy
@@ -51,18 +51,16 @@ msgid "Open an image"
 msgstr "Mở ảnh"
 
 #: ../src/main_window.c:279
-#, fuzzy
 msgid "Open _Folder"
-msgstr "_Mở thư mục"
+msgstr "Mở _thư mục"
 
 #: ../src/main_window.c:279
-#, fuzzy
 msgid "Open a folder"
 msgstr "Mở thư mục"
 
 #: ../src/main_window.c:280
 msgid "_Save copy"
-msgstr ""
+msgstr "_Lưu với tên khác "
 
 #: ../src/main_window.c:280
 msgid "Save a copy of the image"
@@ -592,14 +590,11 @@ msgstr ""
 #~ msgid "H_ide"
 #~ msgstr "Ẩn"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Một vài ảnh đã bị thay đổi, bạn có muốn lưu lại không?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Nạp trước anh(Giao diện đồ hoạ sẽ chạy mượt mà hơn nhưng cần nhiều tài "
-#~ "nguyên CPU)"
+#~ msgstr "_Nạp trước anh(Giao diện đồ hoạ sẽ chạy mượt mà hơn nhưng cần nhiều tài nguyên CPU)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Ẩn các ảnh thu nhỏ khi trình chiếu"
