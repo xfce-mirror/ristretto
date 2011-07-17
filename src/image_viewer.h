@@ -70,6 +70,9 @@ GType      rstto_image_viewer_get_type();
 GtkWidget *rstto_image_viewer_new ();
 void       rstto_image_viewer_set_file (RsttoImageViewer *viewer, GFile *file);
 
+void       rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale);
+gdouble    rstto_image_viewer_get_scale (RsttoImageViewer *viewer);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_IMAGE_VIEWER_H__ */

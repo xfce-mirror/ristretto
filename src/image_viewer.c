@@ -60,6 +60,9 @@ struct _RsttoImageViewerPriv
     GdkPixbufAnimationIter *iter;
     gint                    animation_timeout_id;
 
+    gdouble                 scale;
+    gboolean                auto_scale;
+
     struct
     {
         gint idle_id;
@@ -118,6 +121,8 @@ static gboolean
 rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *, GtkAdjustment *, GtkAdjustment *);
 static void
 rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer, gboolean);
+static void
+rstto_image_viewer_paint_checkers (GdkDrawable *drawable, GdkGC *gc, gint width, gint height, gint x_offset, gint y_offset);
 
 static void
 cb_rstto_image_viewer_value_changed(GtkAdjustment *adjustment, RsttoImageViewer *viewer);
@@ -383,7 +388,6 @@ rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *viewer, GtkAdjustmen
 static void
 rstto_image_viewer_paint (GtkWidget *widget)
 {
-    g_debug("%s", __FUNCTION__);
 
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
 
@@ -391,7 +395,6 @@ rstto_image_viewer_paint (GtkWidget *widget)
     GValue val_bg_color = {0, }, val_bg_color_override = {0, }, val_bg_color_fs = {0, };
     GdkPixbuf *pixbuf = viewer->priv->dst_pixbuf;
     /** BELOW THIS LINE THE VARIABLE_NAMES GET MESSY **/
-    GdkColor color;
     GdkColor line_color;
     GdkPixbuf *n_pixbuf = NULL;
     gint width, height;
@@ -440,7 +443,6 @@ rstto_image_viewer_paint (GtkWidget *widget)
         /* Check if there is a destination pixbuf */
         if(pixbuf)
         {
-            g_debug ("Draw image");
             x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
             y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
             x2 = gdk_pixbuf_get_width(pixbuf);
@@ -449,41 +451,8 @@ rstto_image_viewer_paint (GtkWidget *widget)
             /* We only need to paint a checkered background if the image is transparent */
             if(gdk_pixbuf_get_has_alpha(pixbuf))
             {
-                for(i = 0; i <= x2/10; i++)
-                {
-                    if(i == x2/10)
-                    {
-                        width = x2-10*i;
-                    }
-                    else
-                    {   
-                        width = 10;
-                    }
-                    for(a = 0; a <= y2/10; a++)
-                    {
-                        if(a%2?i%2:!(i%2))
-                            color.pixel = 0xcccccccc;
-                        else
-                            color.pixel = 0xdddddddd;
-                        gdk_gc_set_foreground(gc, &color);
-                        if(a == y2/10)
-                        {
-                            height = y2-10*a;
-                        }
-                        else
-                        {   
-                            height = 10;
-                        }
-
-                        gdk_draw_rectangle(GDK_DRAWABLE(buffer),
-                                        gc,
-                                        TRUE,
-                                        x1+10*i,
-                                        y1+10*a,
-                                        width,
-                                        height);
-                    }
-                }
+                /* TODO: give these variables correct names */
+                rstto_image_viewer_paint_checkers (GDK_DRAWABLE(buffer), gc, x2, y2, x1, y1);
             }
             gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
                             NULL, 
@@ -496,6 +465,7 @@ rstto_image_viewer_paint (GtkWidget *widget)
                             y2,
                             GDK_RGB_DITHER_NONE,
                             0,0);
+
             if(viewer->priv->motion.state == RSTTO_PICTURE_VIEWER_MOTION_STATE_BOX_ZOOM)
             {
                 gdk_gc_set_foreground(gc,
@@ -631,6 +601,60 @@ rstto_image_viewer_paint (GtkWidget *widget)
 }
 
 static void
+rstto_image_viewer_paint_checkers (GdkDrawable *drawable, GdkGC *gc, gint width, gint height, gint x_offset, gint y_offset)
+{
+    gint x, y;
+    gint block_width, block_height;
+    GdkColor color;
+
+    /* This is to remind me of a bug in this function, 
+     * the top-left square is colored red, it shouldn't
+     */
+    color.pixel = 0xeeee0000;
+
+    for(x = 0; x <= width/10; x++)
+    {
+        if(x == width/10)
+        {
+            block_width = width-10*x;
+        }
+        else
+        {   
+            block_width = 10;
+        }
+        for(y = 0; y <= height/10; y++)
+        {
+            gdk_gc_set_foreground(gc, &color);
+            if(y == height/10)
+            {
+                block_height = height-10*y;
+            }
+            else
+            {   
+                block_height = 10;
+            }
+
+            if((y%2?x%2:!(x%2))) {
+                color.pixel = 0xcccccccc;
+            }
+            else
+            {
+                color.pixel = 0xdddddddd;
+            }
+
+            gdk_draw_rectangle(GDK_DRAWABLE(drawable),
+                            gc,
+                            TRUE,
+                            x_offset+10*x,
+                            y_offset+10*y,
+                            block_width,
+                            block_height);
+        }
+    }
+    
+}
+
+static void
 rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer, gboolean refresh)
 {
     if (viewer->priv->repaint.idle_id > 0)
@@ -668,7 +692,6 @@ rstto_image_viewer_new (void)
 void
 rstto_image_viewer_set_file (RsttoImageViewer *viewer, GFile *file)
 {
-    g_debug("%s", __FUNCTION__);
 
     /*
      * Check if a file is set, or unset.
@@ -697,12 +720,14 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, GFile *file)
 
                 g_object_unref (viewer->priv->file);
                 viewer->priv->file = g_file_dup(file);
+                viewer->priv->scale = -1;
                 rstto_image_viewer_load_image (viewer, viewer->priv->file);
             }
         }
         else
         {
             viewer->priv->file = g_file_dup(file);
+            viewer->priv->scale = -1;
             rstto_image_viewer_load_image (viewer, viewer->priv->file);
         }
     } 
@@ -712,6 +737,12 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, GFile *file)
         {
             g_object_unref (viewer->priv->file);
             viewer->priv->file = NULL;
+            if (viewer->priv->pixbuf)
+            {
+                g_object_unref (viewer->priv->pixbuf);
+                viewer->priv->pixbuf = NULL;
+            }
+            rstto_image_viewer_queued_repaint (viewer, TRUE);
         }
     }
 }
@@ -754,7 +785,6 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, GFile *file)
 static void
 rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr)
 {
-    g_debug("%s", __FUNCTION__);
     /*
      * Check if this transaction is current,
      * if so, remove the reference from the viewer.
@@ -768,6 +798,28 @@ rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr)
     g_object_unref (tr->file);
     g_free (tr->buffer);
     g_free (tr);
+}
+
+void
+rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
+{
+    viewer->priv->scale = scale;
+    if (scale == 0)
+    {
+        viewer->priv->auto_scale = TRUE;
+    }
+    else
+    {
+        viewer->priv->auto_scale = FALSE;
+    }
+
+    rstto_image_viewer_queued_repaint (viewer, TRUE);
+}
+
+gdouble
+rstto_image_viewer_get_scale (RsttoImageViewer *viewer)
+{
+    return viewer->priv->scale;
 }
 
 
@@ -807,7 +859,6 @@ cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *res
 static void
 cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-    g_debug("%s", __FUNCTION__);
     GError *error = NULL;
     RsttoImageViewerTransaction *transaction = (RsttoImageViewerTransaction *)user_data;
     gssize read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, &error);
@@ -911,7 +962,6 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
 static void
 cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
 {
-    g_debug("%s", __FUNCTION__);
 
     rstto_image_viewer_queued_repaint (transaction->viewer, TRUE);
 }
@@ -960,17 +1010,75 @@ cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer)
 static gboolean 
 cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
 {
-    g_debug("%s", __FUNCTION__);
+    gint width, height;
     g_source_remove (viewer->priv->repaint.idle_id);
     viewer->priv->repaint.idle_id = -1;
     viewer->priv->repaint.refresh = FALSE;
 
     if (viewer->priv->pixbuf)
     {
-    viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (viewer->priv->pixbuf,
-                               (GTK_WIDGET(viewer)->allocation.width),
-                               (GTK_WIDGET(viewer)->allocation.height),
-                               GDK_INTERP_BILINEAR);
+        width = gdk_pixbuf_get_width (viewer->priv->pixbuf);
+        height = gdk_pixbuf_get_height (viewer->priv->pixbuf);
+
+        /*
+         * Scale == -1, this means the image is not loaded before, 
+         * and it should be rendered at the best possible quality.
+         * This means:
+         *      - Images smaller then the widget-size: at 100%
+         *      - Images larger then the widget-size, scaled to fit.
+         */
+        if (viewer->priv->scale == -1)
+        {
+            if (width > height)
+            { 
+                viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)width;
+            }
+            else
+            {
+                viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)width;
+            }
+
+            viewer->priv->auto_scale = TRUE;
+            /*
+             * If the scale is greater then 1.0 (meaning the image is smaller then the window)
+             * reset the scale to 1.0, so the image won't be blown-up.
+             */
+            if (viewer->priv->scale > 1.0)
+            {
+                viewer->priv->scale = 1.0;
+                viewer->priv->auto_scale = FALSE;
+            }
+        }
+        else
+        {
+            /*
+             * if auto_scale == true, calculate the scale
+             */
+            if (viewer->priv->auto_scale)
+            {
+                if (width > height)
+                { 
+                    viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)width;
+                }
+                else
+                {
+                    viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)width;
+                }
+            }
+        }
+
+        viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (viewer->priv->pixbuf,
+                                   (gint)((gdouble)width*viewer->priv->scale),
+                                   (gint)((gdouble)height*viewer->priv->scale),
+                                   GDK_INTERP_BILINEAR);
+    }
+    else
+    {
+        if (viewer->priv->dst_pixbuf)
+        {
+            g_object_unref (viewer->priv->dst_pixbuf);
+            viewer->priv->dst_pixbuf = NULL;
+        }
     }
     rstto_image_viewer_paint (GTK_WIDGET (viewer));
 

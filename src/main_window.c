@@ -796,7 +796,6 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 {
-    g_debug("%s", __FUNCTION__);
     gchar *file_basename, *title, *status;
     GFile *file = NULL;
     GFileInfo *file_info = NULL;
@@ -862,6 +861,8 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             GtkWidget *menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
             gtk_widget_set_sensitive (menu_item, FALSE);
+
+            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), NULL);
 
 
             menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
@@ -1778,7 +1779,7 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
 static void
 cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window)
 {
-    //rstto_picture_viewer_zoom_fit (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer));
+    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), 0);
 }
 
 /**
@@ -1791,7 +1792,7 @@ cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window)
 {
-    //rstto_picture_viewer_zoom_100 (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer));
+    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), 1);
 }
 
 /**
@@ -1804,7 +1805,8 @@ cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_zoom_in (GtkWidget *widget, RsttoMainWindow *window)
 {
-    //rstto_picture_viewer_zoom_in (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), ZOOM_FACTOR);
+    gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer));
+    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), scale*1.2);
 }
 
 /**
@@ -1817,7 +1819,8 @@ cb_rstto_main_window_zoom_in (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_zoom_out (GtkWidget *widget, RsttoMainWindow *window)
 {
-    //rstto_picture_viewer_zoom_out (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), ZOOM_FACTOR);
+    gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer));
+    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), scale/1.2);
 }
 
 /**********************/
