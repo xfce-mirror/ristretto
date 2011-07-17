@@ -34,7 +34,7 @@
 #include "settings.h"
 #include "image_list.h"
 #include "image_cache.h"
-#include "picture_viewer.h"
+#include "image_viewer.h"
 #include "main_window.h"
 #include "main_window_ui.h"
 #include "thumbnail_bar.h"
@@ -86,7 +86,7 @@ struct _RsttoMainWindowPriv
     GtkWidget *image_list_toolbar;
     GtkWidget *image_viewer_menu;
     GtkWidget *position_menu;
-    GtkWidget *picture_viewer;
+    GtkWidget *image_viewer;
     GtkWidget *p_viewer_s_window;
     GtkWidget *table;
     GtkWidget *hpaned_left;
@@ -253,7 +253,7 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
                                              GdkEventMotion *event,
                                              gpointer user_data);
 static gboolean
-cb_rstto_main_window_picture_viewer_enter_notify_event (GtkWidget *widget,
+cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget,
                                                         GdkEventCrossing *event,
                                                         gpointer user_data);
 
@@ -518,12 +518,12 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_tool_item_set_is_important (GTK_TOOL_ITEM (window->priv->back), TRUE);
     gtk_tool_item_set_is_important (GTK_TOOL_ITEM (window->priv->forward), TRUE);
     
-    window->priv->picture_viewer = rstto_picture_viewer_new ();
+    window->priv->image_viewer = rstto_image_viewer_new ();
     window->priv->p_viewer_s_window = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-    gtk_container_add (GTK_CONTAINER (window->priv->p_viewer_s_window), window->priv->picture_viewer);
+    gtk_container_add (GTK_CONTAINER (window->priv->p_viewer_s_window), window->priv->image_viewer);
 
-    rstto_picture_viewer_set_menu (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), GTK_MENU(window->priv->image_viewer_menu));
+    //rstto_picture_viewer_set_menu (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), GTK_MENU(window->priv->image_viewer_menu));
     window->priv->thumbnailbar = rstto_thumbnail_bar_new (NULL);
 
     window->priv->hpaned_left = gtk_hpaned_new();
@@ -657,7 +657,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     }
 
     g_signal_connect(G_OBJECT(window), "motion-notify-event", G_CALLBACK(cb_rstto_main_window_motion_notify_event), window);
-    g_signal_connect(G_OBJECT(window->priv->picture_viewer), "enter-notify-event", G_CALLBACK(cb_rstto_main_window_picture_viewer_enter_notify_event), window);
+    g_signal_connect(G_OBJECT(window->priv->image_viewer), "enter-notify-event", G_CALLBACK(cb_rstto_main_window_image_viewer_enter_notify_event), window);
     g_signal_connect(G_OBJECT(window), "configure-event", G_CALLBACK(cb_rstto_main_window_configure_event), NULL);
     g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_main_window_state_event), NULL);
     g_signal_connect(G_OBJECT(window->priv->image_list_toolbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
@@ -714,11 +714,11 @@ rstto_main_window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
     /* if the panel-position is unset, set it */
     if (gtk_paned_get_position (GTK_PANED(window->priv->vpaned_top)) == 0)
     {
-        gtk_paned_set_position (GTK_PANED(window->priv->vpaned_top), rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
-        gtk_paned_set_position (GTK_PANED(window->priv->vpaned_bottom), window->priv->vpaned_bottom->allocation.height - rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
+        //gtk_paned_set_position (GTK_PANED(window->priv->vpaned_top), rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
+        //gtk_paned_set_position (GTK_PANED(window->priv->vpaned_bottom), window->priv->vpaned_bottom->allocation.height - rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
 
-        gtk_paned_set_position (GTK_PANED(window->priv->hpaned_left), rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
-        gtk_paned_set_position (GTK_PANED(window->priv->hpaned_right), window->priv->hpaned_right->allocation.width - rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
+        //gtk_paned_set_position (GTK_PANED(window->priv->hpaned_left), rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
+        //gtk_paned_set_position (GTK_PANED(window->priv->hpaned_right), window->priv->hpaned_right->allocation.width - rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
     }
 }
 
@@ -796,6 +796,7 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 {
+    g_debug("%s", __FUNCTION__);
     gchar *file_basename, *title, *status;
     GFile *file = NULL;
     GFileInfo *file_info = NULL;
@@ -804,6 +805,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
     RsttoImageList *image_list = window->priv->props.image_list;
     GList *app_list, *iter;
     const gchar *content_type;
+    gchar *uri = NULL;
     GtkWidget *open_with_menu = gtk_menu_new();
     GtkWidget *open_with_window_menu = gtk_menu_new();
     gtk_menu_item_set_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/image-viewer-menu/open-with-menu")), open_with_menu);
@@ -819,7 +821,11 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             file = rstto_image_get_file (cur_image);
             file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
             content_type  = g_file_info_get_content_type (file_info);
+
+            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), file);
+
             app_list = g_app_info_get_all_for_type (content_type);
+
 
             for (iter = app_list; iter; iter = g_list_next (iter))
             {
@@ -1104,7 +1110,6 @@ rstto_main_window_set_property (GObject      *object,
                 g_signal_connect (G_OBJECT (window->priv->iter), "changed", G_CALLBACK (cb_rstto_main_window_image_list_iter_changed), window);
                 rstto_thumbnail_bar_set_image_list (RSTTO_THUMBNAIL_BAR (window->priv->thumbnailbar), window->priv->props.image_list);
                 rstto_thumbnail_bar_set_iter (RSTTO_THUMBNAIL_BAR (window->priv->thumbnailbar), window->priv->iter);
-                rstto_picture_viewer_set_iter (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), window->priv->iter);
                 rstto_main_window_update_buttons (window);
             }
             break;
@@ -1434,9 +1439,9 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
 }
 
 static gboolean
-cb_rstto_main_window_picture_viewer_enter_notify_event (GtkWidget *widget,
-                                                        GdkEventCrossing *event,
-                                                        gpointer user_data)
+cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget,
+                                                      GdkEventCrossing *event,
+                                                      gpointer user_data)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
     if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
@@ -1571,7 +1576,7 @@ cb_rstto_main_window_play_slideshow (RsttoMainWindow *window)
             preload_iter = rstto_image_list_iter_clone (window->priv->iter);   
 
             rstto_image_list_iter_next (preload_iter);
-            rstto_image_load (rstto_image_list_iter_get_image (preload_iter), TRUE, g_value_get_uint (&max_size), TRUE, NULL);
+            //rstto_image_load (rstto_image_list_iter_get_image (preload_iter), TRUE, g_value_get_uint (&max_size), TRUE, NULL);
 
             g_value_reset(&max_size);
             g_object_unref (preload_iter);
@@ -1773,7 +1778,7 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
 static void
 cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_picture_viewer_zoom_fit (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer));
+    //rstto_picture_viewer_zoom_fit (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer));
 }
 
 /**
@@ -1786,7 +1791,7 @@ cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_picture_viewer_zoom_100 (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer));
+    //rstto_picture_viewer_zoom_100 (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer));
 }
 
 /**
@@ -1799,7 +1804,7 @@ cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_zoom_in (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_picture_viewer_zoom_in (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), ZOOM_FACTOR);
+    //rstto_picture_viewer_zoom_in (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), ZOOM_FACTOR);
 }
 
 /**
@@ -1812,7 +1817,7 @@ cb_rstto_main_window_zoom_in (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_zoom_out (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_picture_viewer_zoom_out (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), ZOOM_FACTOR);
+    //rstto_picture_viewer_zoom_out (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), ZOOM_FACTOR);
 }
 
 /**********************/
@@ -1973,7 +1978,6 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     GFile *file;
     GSList *files = NULL, *_files_iter;
     GValue current_uri_val = {0, };
-    gchar *uri = NULL;
     gint pos = 0;
     GtkFileFilter *filter;
 
