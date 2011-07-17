@@ -36,6 +36,13 @@
 #define RSTTO_IMAGE_VIEWER_BUFFER_SIZE 131072
 #endif
 
+typedef enum
+{
+    RSTTO_PICTURE_VIEWER_MOTION_STATE_NORMAL = 0,
+    RSTTO_PICTURE_VIEWER_MOTION_STATE_BOX_ZOOM,
+    RSTTO_PICTURE_VIEWER_MOTION_STATE_MOVE
+} RsttoPictureViewerMotionState;
+
 typedef struct _RsttoImageViewerTransaction RsttoImageViewerTransaction;
 
 struct _RsttoImageViewerPriv
@@ -44,12 +51,31 @@ struct _RsttoImageViewerPriv
     RsttoSettings               *settings;
 
     RsttoImageViewerTransaction *transaction;
+    GdkPixbuf                   *pixbuf;
+    GdkPixbuf                   *dst_pixbuf;
 
     /* Animation data for animated images (like .gif/.mng) */
     /*******************************************************/
     GdkPixbufAnimation     *animation;
     GdkPixbufAnimationIter *iter;
     gint                    animation_timeout_id;
+
+    struct
+    {
+        gint idle_id;
+        gboolean refresh;
+    } repaint;
+
+    struct
+    {
+        gdouble x;
+        gdouble y;
+        gdouble current_x;
+        gdouble current_y;
+        gint h_val;
+        gint v_val;
+        RsttoPictureViewerMotionState state;
+    } motion;
 
     /* CALLBACKS */
     /*************/
@@ -90,6 +116,8 @@ rstto_image_viewer_paint (GtkWidget *widget);
 
 static gboolean
 rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *, GtkAdjustment *, GtkAdjustment *);
+static void
+rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer, gboolean);
 
 static void
 cb_rstto_image_viewer_value_changed(GtkAdjustment *adjustment, RsttoImageViewer *viewer);
@@ -103,6 +131,10 @@ static void
 cb_rstto_image_loader_size_prepared (GdkPixbufLoader *, gint , gint , RsttoImageViewerTransaction *);
 static void
 cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction);
+static gboolean
+cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer);
+static gboolean 
+cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer);
 
 static void
 rstto_image_viewer_load_image (RsttoImageViewer *viewer, GFile *file);
@@ -150,7 +182,13 @@ rstto_image_viewer_init(RsttoImageViewer *viewer)
     viewer->priv->cb_value_changed = cb_rstto_image_viewer_value_changed;
     viewer->priv->settings = rstto_settings_new();
 
-    gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), TRUE);
+    gtk_widget_set_double_buffered (GTK_WIDGET(viewer), TRUE);
+
+    /* Set to false, experimental...
+     * improves performance, but I am not sure what will give.
+     */
+    gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), FALSE);
+
     gtk_widget_set_events (GTK_WIDGET(viewer),
                            GDK_BUTTON_PRESS_MASK |
                            GDK_BUTTON_RELEASE_MASK |
@@ -279,7 +317,7 @@ rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     /** 
      * TODO: Check if we really nead a refresh
      */
-    //rstto_image_viewer_queued_repaint (viewer, TRUE);
+    rstto_image_viewer_queued_repaint (viewer, TRUE);
 }
 
 /**
@@ -296,7 +334,7 @@ rstto_image_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
     /** 
      * TODO: Check if we really nead a refresh
      */
-    //rstto_image_viewer_queued_repaint (viewer, TRUE);
+    rstto_image_viewer_queued_repaint (viewer, TRUE);
     return FALSE;
 }
 
@@ -345,6 +383,265 @@ rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *viewer, GtkAdjustmen
 static void
 rstto_image_viewer_paint (GtkWidget *widget)
 {
+    g_debug("%s", __FUNCTION__);
+
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+
+    GdkColor *bg_color = NULL;
+    GValue val_bg_color = {0, }, val_bg_color_override = {0, }, val_bg_color_fs = {0, };
+    GdkPixbuf *pixbuf = viewer->priv->dst_pixbuf;
+    /** BELOW THIS LINE THE VARIABLE_NAMES GET MESSY **/
+    GdkColor color;
+    GdkColor line_color;
+    GdkPixbuf *n_pixbuf = NULL;
+    gint width, height;
+    gdouble m_x1, m_x2, m_y1, m_y2;
+    gint x1, x2, y1, y2;
+    gint i, a;
+    /** ABOVE THIS LINE THE VARIABLE_NAMES GET MESSY **/
+
+    g_value_init (&val_bg_color, GDK_TYPE_COLOR);
+    g_value_init (&val_bg_color_fs, GDK_TYPE_COLOR);
+    g_value_init (&val_bg_color_override, G_TYPE_BOOLEAN);
+
+    g_object_get_property (G_OBJECT(viewer->priv->settings), "bgcolor", &val_bg_color);
+    g_object_get_property (G_OBJECT(viewer->priv->settings), "bgcolor-override", &val_bg_color_override);
+    g_object_get_property (G_OBJECT(viewer->priv->settings), "bgcolor-fullscreen", &val_bg_color_fs);
+
+    /* required for transparent pixbufs... add double buffering to fix flickering*/
+    if(GTK_WIDGET_REALIZED(widget))
+    {          
+        GdkPixmap *buffer = gdk_pixmap_new(NULL, widget->allocation.width, widget->allocation.height, gdk_drawable_get_depth(widget->window));
+        GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(buffer));
+
+        if(gdk_window_get_state(gdk_window_get_toplevel(GTK_WIDGET(viewer)->window)) & GDK_WINDOW_STATE_FULLSCREEN)
+        {
+           bg_color = g_value_get_boxed (&val_bg_color_fs);
+        }
+        else
+        {
+            if (g_value_get_boxed (&val_bg_color) && g_value_get_boolean (&val_bg_color_override))
+            {
+                bg_color = g_value_get_boxed (&val_bg_color);
+            }
+            else
+            {
+                bg_color = &(widget->style->bg[GTK_STATE_NORMAL]);
+            }
+        }
+
+        gdk_window_set_background (widget->window, bg_color);
+
+        gdk_colormap_alloc_color (gdk_gc_get_colormap (gc), bg_color, FALSE, TRUE);
+        gdk_gc_set_rgb_bg_color (gc, bg_color);
+
+        gdk_draw_rectangle(GDK_DRAWABLE(buffer), gc, TRUE, 0, 0, widget->allocation.width, widget->allocation.height);
+
+        /* Check if there is a destination pixbuf */
+        if(pixbuf)
+        {
+            g_debug ("Draw image");
+            x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
+            y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
+            x2 = gdk_pixbuf_get_width(pixbuf);
+            y2 = gdk_pixbuf_get_height(pixbuf);
+            
+            /* We only need to paint a checkered background if the image is transparent */
+            if(gdk_pixbuf_get_has_alpha(pixbuf))
+            {
+                for(i = 0; i <= x2/10; i++)
+                {
+                    if(i == x2/10)
+                    {
+                        width = x2-10*i;
+                    }
+                    else
+                    {   
+                        width = 10;
+                    }
+                    for(a = 0; a <= y2/10; a++)
+                    {
+                        if(a%2?i%2:!(i%2))
+                            color.pixel = 0xcccccccc;
+                        else
+                            color.pixel = 0xdddddddd;
+                        gdk_gc_set_foreground(gc, &color);
+                        if(a == y2/10)
+                        {
+                            height = y2-10*a;
+                        }
+                        else
+                        {   
+                            height = 10;
+                        }
+
+                        gdk_draw_rectangle(GDK_DRAWABLE(buffer),
+                                        gc,
+                                        TRUE,
+                                        x1+10*i,
+                                        y1+10*a,
+                                        width,
+                                        height);
+                    }
+                }
+            }
+            gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
+                            NULL, 
+                            pixbuf,
+                            0,
+                            0,
+                            x1,
+                            y1,
+                            x2, 
+                            y2,
+                            GDK_RGB_DITHER_NONE,
+                            0,0);
+            if(viewer->priv->motion.state == RSTTO_PICTURE_VIEWER_MOTION_STATE_BOX_ZOOM)
+            {
+                gdk_gc_set_foreground(gc,
+                        &(widget->style->fg[GTK_STATE_SELECTED]));
+
+                if (viewer->priv->motion.x < viewer->priv->motion.current_x)
+                {
+                    m_x1 = viewer->priv->motion.x;
+                    m_x2 = viewer->priv->motion.current_x;
+                }
+                else
+                {
+                    m_x1 = viewer->priv->motion.current_x;
+                    m_x2 = viewer->priv->motion.x;
+                }
+                if (viewer->priv->motion.y < viewer->priv->motion.current_y)
+                {
+                    m_y1 = viewer->priv->motion.y;
+                    m_y2 = viewer->priv->motion.current_y;
+                }
+                else
+                {
+                    m_y1 = viewer->priv->motion.current_y;
+                    m_y2 = viewer->priv->motion.y;
+                }
+                if (m_y1 < y1)
+                    m_y1 = y1;
+                if (m_x1 < x1)
+                    m_x1 = x1;
+
+                if (m_x2 > x2 + x1)
+                    m_x2 = x2 + x1;
+                if (m_y2 > y2 + y1)
+                    m_y2 = y2 + y1;
+
+                if ((m_x2 - m_x1 >= 2) && (m_y2 - m_y1 >= 2))
+                {
+                    GdkPixbuf *sub = gdk_pixbuf_new_subpixbuf(pixbuf,
+                                                              m_x1-x1,
+                                                              m_y1-y1,
+                                                              m_x2-m_x1,
+                                                              m_y2-m_y1);
+                    if(sub)
+                    {
+                        sub = gdk_pixbuf_composite_color_simple(sub,
+                                                          m_x2-m_x1,
+                                                          m_y2-m_y1,
+                                                          GDK_INTERP_BILINEAR,
+                                                          200,
+                                                          200,
+                                                          widget->style->bg[GTK_STATE_SELECTED].pixel,
+                                                          widget->style->bg[GTK_STATE_SELECTED].pixel);
+
+                        gdk_draw_pixbuf(GDK_DRAWABLE(buffer),
+                                        gc,
+                                        sub,
+                                        0,0,
+                                        m_x1,
+                                        m_y1,
+                                        -1, -1,
+                                        GDK_RGB_DITHER_NONE,
+                                        0, 0);
+
+                        gdk_pixbuf_unref(sub);
+                        sub = NULL;
+                    }
+                }
+
+                gdk_draw_rectangle(GDK_DRAWABLE(buffer),
+                                gc,
+                                FALSE,
+                                m_x1,
+                                m_y1,
+                                m_x2 - m_x1,
+                                m_y2 - m_y1);
+            }
+
+        }
+        else
+        {
+            /* HACK HACK HACK HACK */
+            guint size = 0;
+            if ((GTK_WIDGET (viewer)->allocation.width) < (GTK_WIDGET (viewer)->allocation.height))
+            {
+                size = GTK_WIDGET (viewer)->allocation.width;
+            }
+            else
+            {
+                size = GTK_WIDGET (viewer)->allocation.height;
+            }
+            pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default(), 
+                                               "ristretto", 
+                                               (size*0.8),
+                                               GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
+            if (pixbuf)
+            {
+                gdk_pixbuf_saturate_and_pixelate (pixbuf, pixbuf, 0, TRUE);
+                n_pixbuf = gdk_pixbuf_composite_color_simple (pixbuf, (size*0.8), (size*0.8), GDK_INTERP_BILINEAR, 40, 40, bg_color->pixel, bg_color->pixel);
+                g_object_unref (pixbuf);
+                pixbuf = n_pixbuf;
+
+                x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
+                y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
+                x2 = gdk_pixbuf_get_width(pixbuf);
+                y2 = gdk_pixbuf_get_height(pixbuf);
+
+                gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
+                                NULL, 
+                                pixbuf,
+                                0,
+                                0,
+                                x1,
+                                y1,
+                                x2, 
+                                y2,
+                                GDK_RGB_DITHER_NONE,
+                                0,0);
+            }
+        }
+
+        gdk_draw_drawable(GDK_DRAWABLE(widget->window), 
+                        gdk_gc_new(widget->window), 
+                        buffer,
+                        0,
+                        0,
+                        0,
+                        0,
+                        widget->allocation.width,
+                        widget->allocation.height);
+        g_object_unref(buffer);
+
+    }
+}
+
+static void
+rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer, gboolean refresh)
+{
+    if (viewer->priv->repaint.idle_id > 0)
+    {
+        g_source_remove(viewer->priv->repaint.idle_id);
+    }
+    if (refresh)
+    {
+        viewer->priv->repaint.refresh = TRUE;
+    }
+    viewer->priv->repaint.idle_id = g_idle_add((GSourceFunc)cb_rstto_image_viewer_queued_repaint, viewer);
 }
 
 
@@ -441,6 +738,8 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, GFile *file)
     transaction->file = file;
     transaction->viewer = viewer;
 
+    g_signal_connect(transaction->loader, "area-prepared", G_CALLBACK(cb_rstto_image_loader_area_prepared), transaction);
+    g_signal_connect(transaction->loader, "size-prepared", G_CALLBACK(cb_rstto_image_loader_size_prepared), transaction);
     g_signal_connect(transaction->loader, "closed", G_CALLBACK(cb_rstto_image_loader_closed), transaction);
 
     viewer->priv->transaction = transaction;
@@ -516,6 +815,7 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
     /* TODO: FIXME -- Clean up the transaction*/
     if (read_bytes == -1)
     {
+        gdk_pixbuf_loader_close (transaction->loader, NULL);
         rstto_image_viewer_transaction_free (transaction);
         return;
     }
@@ -526,6 +826,7 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
         {
             g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
 
+            gdk_pixbuf_loader_close (transaction->loader, NULL);
             rstto_image_viewer_transaction_free (transaction);
         }
         else
@@ -551,17 +852,43 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
     }
 }
 
-static void
-cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
-{
-    g_debug("%s", __FUNCTION__);
-
-}
 
 static void
 cb_rstto_image_loader_area_prepared (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
 {
+    gint timeout = 0;
+    RsttoImageViewer *viewer = transaction->viewer;
 
+    if (viewer->priv->transaction == transaction)
+    {
+        viewer->priv->animation = gdk_pixbuf_loader_get_animation (loader);
+        viewer->priv->iter = gdk_pixbuf_animation_get_iter (viewer->priv->animation, NULL);
+
+        g_object_ref (viewer->priv->animation);
+
+        timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
+    }
+
+    if (timeout != -1)
+    {
+        /* fix borked stuff */
+        if (timeout == 0)
+        {
+            g_warning("timeout == 0: defaulting to 40ms");
+            timeout = 40;
+        }
+
+        viewer->priv->animation_timeout_id = g_timeout_add(timeout, (GSourceFunc)cb_rstto_image_viewer_update_pixbuf, viewer);
+    }   
+    else
+    {
+        /* This is a single-frame image, there is no need to copy the pixbuf since it won't change.
+         */
+        viewer->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
+        g_object_ref (viewer->priv->pixbuf);
+
+        rstto_image_viewer_queued_repaint (viewer, TRUE);
+    }
 }
 
 static void
@@ -578,5 +905,75 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
     {
         gdk_pixbuf_loader_set_size (loader, s_width, s_height); 
     }
+
 }
 
+static void
+cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
+{
+    g_debug("%s", __FUNCTION__);
+
+    rstto_image_viewer_queued_repaint (transaction->viewer, TRUE);
+}
+
+static gboolean
+cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer)
+{
+    gint timeout = 0;
+
+    if (viewer->priv->iter)
+    {
+        if(gdk_pixbuf_animation_iter_advance (viewer->priv->iter, NULL))
+        {
+            /* Cleanup old image */
+            if (viewer->priv->pixbuf)
+            {
+                g_object_unref (viewer->priv->pixbuf);
+                viewer->priv->pixbuf = NULL;
+            }
+
+            /* The pixbuf returned by the GdkPixbufAnimationIter might be reused, 
+             * lets make a copy for myself just in case
+             */
+            viewer->priv->pixbuf = gdk_pixbuf_copy (gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter));
+        }
+
+        timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
+
+        if (timeout != -1)
+        {
+            if (timeout == 0)
+            {
+                g_warning("timeout == 0: defaulting to 40ms");
+                timeout = 40;
+            }
+            viewer->priv->animation_timeout_id = g_timeout_add(timeout, (GSourceFunc)cb_rstto_image_viewer_update_pixbuf, viewer);
+        }
+
+        rstto_image_viewer_queued_repaint (viewer, TRUE);
+
+        return FALSE;
+    }
+    return FALSE;
+}
+
+static gboolean 
+cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
+{
+    g_debug("%s", __FUNCTION__);
+    g_source_remove (viewer->priv->repaint.idle_id);
+    viewer->priv->repaint.idle_id = -1;
+    viewer->priv->repaint.refresh = FALSE;
+
+    if (viewer->priv->pixbuf)
+    {
+    viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (viewer->priv->pixbuf,
+                               (GTK_WIDGET(viewer)->allocation.width),
+                               (GTK_WIDGET(viewer)->allocation.height),
+                               GDK_INTERP_BILINEAR);
+    }
+    rstto_image_viewer_paint (GTK_WIDGET (viewer));
+
+
+
+}
