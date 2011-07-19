@@ -321,6 +321,8 @@ rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 
     /** 
      * TODO: Check if we really nead a refresh
+     * This is required for the occasions the widget is 
+     * resized and shrunk, because that won't trigger an expose event.
      */
     rstto_image_viewer_queued_repaint (viewer, TRUE);
 }
@@ -937,8 +939,6 @@ cb_rstto_image_loader_area_prepared (GdkPixbufLoader *loader, RsttoImageViewerTr
          */
         viewer->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
         g_object_ref (viewer->priv->pixbuf);
-
-        rstto_image_viewer_queued_repaint (viewer, TRUE);
     }
 }
 
@@ -1029,19 +1029,30 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
          */
         if (viewer->priv->scale == -1)
         {
-            if (width > height)
+            /**
+             * Check if the image should scale to the horizontal
+             * or vertical dimensions of the widget.
+             *
+             * This is done by calculating the ratio between the 
+             * widget-dimensions and image-dimensions, the smallest 
+             * one is used for scaling the image.
+             */
+            if ((gdouble)(GTK_WIDGET(viewer)->allocation.width/(gdouble)width) > 
+                (gdouble)(GTK_WIDGET(viewer)->allocation.height/(gdouble)height))
             { 
-                viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)width;
+                viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)height;
             }
             else
             {
-                viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)width;
+                viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)width;
             }
 
             viewer->priv->auto_scale = TRUE;
+
             /*
              * If the scale is greater then 1.0 (meaning the image is smaller then the window)
              * reset the scale to 1.0, so the image won't be blown-up.
+             * Also, disable 'auto_scale'.
              */
             if (viewer->priv->scale > 1.0)
             {
@@ -1056,13 +1067,22 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
              */
             if (viewer->priv->auto_scale)
             {
-                if (width > height)
+                /**
+                 * Check if the image should scale to the horizontal
+                 * or vertical dimensions of the widget.
+                 *
+                 * This is done by calculating the ratio between the 
+                 * widget-dimensions and image-dimensions, the smallest 
+                 * one is used for scaling the image.
+                 */
+                if ((gdouble)(GTK_WIDGET(viewer)->allocation.width/(gdouble)width) > 
+                    (gdouble)(GTK_WIDGET(viewer)->allocation.height/(gdouble)height))
                 { 
-                    viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)width;
+                    viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)height;
                 }
                 else
                 {
-                    viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)width;
+                    viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)width;
                 }
             }
         }
@@ -1081,7 +1101,4 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
         }
     }
     rstto_image_viewer_paint (GTK_WIDGET (viewer));
-
-
-
 }
