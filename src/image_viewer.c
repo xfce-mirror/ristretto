@@ -1011,6 +1011,8 @@ static gboolean
 cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
 {
     gint width, height;
+    gdouble v_scale, h_scale;
+
     g_source_remove (viewer->priv->repaint.idle_id);
     viewer->priv->repaint.idle_id = -1;
     viewer->priv->repaint.refresh = FALSE;
@@ -1019,6 +1021,9 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
     {
         width = gdk_pixbuf_get_width (viewer->priv->pixbuf);
         height = gdk_pixbuf_get_height (viewer->priv->pixbuf);
+
+        v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)height;
+        h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)width;
 
         /*
          * Scale == -1, this means the image is not loaded before, 
@@ -1037,14 +1042,13 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
              * widget-dimensions and image-dimensions, the smallest 
              * one is used for scaling the image.
              */
-            if ((gdouble)(GTK_WIDGET(viewer)->allocation.width/(gdouble)width) > 
-                (gdouble)(GTK_WIDGET(viewer)->allocation.height/(gdouble)height))
+            if (h_scale > v_scale)
             { 
-                viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)height;
+                viewer->priv->scale = v_scale;
             }
             else
             {
-                viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)width;
+                viewer->priv->scale = h_scale;
             }
 
             viewer->priv->auto_scale = TRUE;
@@ -1075,14 +1079,13 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
                  * widget-dimensions and image-dimensions, the smallest 
                  * one is used for scaling the image.
                  */
-                if ((gdouble)(GTK_WIDGET(viewer)->allocation.width/(gdouble)width) > 
-                    (gdouble)(GTK_WIDGET(viewer)->allocation.height/(gdouble)height))
+                if (h_scale > v_scale)
                 { 
-                    viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)height;
+                    viewer->priv->scale = v_scale;
                 }
                 else
                 {
-                    viewer->priv->scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)width;
+                    viewer->priv->scale = h_scale;
                 }
             }
         }
