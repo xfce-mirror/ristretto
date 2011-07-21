@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-15 20:25+0100\n"
-"PO-Revision-Date: 2011-06-15 00:48+0200\n"
+"PO-Revision-Date: 2011-07-20 00:48+0200\n"
 "Last-Translator: Pjotr\n"
 "Language-Team: Dutch (Flemish)\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgstr "_Normale Grootte"
 #. Rotation submenu
 #: ../src/main_window.c:303
 msgid "_Rotation"
-msgstr "_Rotatie"
+msgstr "_Draaiing"
 
 #: ../src/main_window.c:304
 msgid "Rotate _Right"
@@ -204,7 +204,7 @@ msgstr "_Inhoud"
 
 #: ../src/main_window.c:317
 msgid "Display ristretto user manual"
-msgstr "Laat ristretto-handleiding zien"
+msgstr "Laat Ristretto-handleiding zien"
 
 #: ../src/main_window.c:320
 msgid "_About"
@@ -212,7 +212,7 @@ msgstr "_Over"
 
 #: ../src/main_window.c:322
 msgid "Display information about ristretto"
-msgstr "Laat informatie over ristretto zien"
+msgstr "Laat informatie over Ristretto zien"
 
 #. Position Menu
 #: ../src/main_window.c:325
@@ -280,7 +280,7 @@ msgstr "_Pauzeer"
 
 #: ../src/main_window.c:452
 msgid "Pause slideshow"
-msgstr "Pauzeer een diapresentatie"
+msgstr "Pauzeer diapresentatie"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:455
@@ -359,7 +359,7 @@ msgstr "Achtergrondkleur wijzigen:"
 
 #: ../src/preferences_dialog.c:257
 msgid "Show preview when loading image"
-msgstr "Toon voorvertoning bij het laden van een afbeelding"
+msgstr "Toon voorvertoning bij laden van afbeelding"
 
 #: ../src/preferences_dialog.c:268
 msgid "Slideshow"
@@ -386,12 +386,12 @@ msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
-"De miniaturenbalk kan automatisch verborgen worden \n"
+"De miniaturenbalk kan automatisch worden verborgen \n"
 "wanneer de afbeeldingkijker in schermvullende modus is."
 
 #: ../src/preferences_dialog.c:295
 msgid "Hide thumbnailbar when fullscreen"
-msgstr "Miniaturen verbergen bij schermvullende modus"
+msgstr "Miniaturenbalk verbergen bij schermvullende modus"
 
 #: ../src/preferences_dialog.c:308
 msgid "Control"
@@ -424,8 +424,8 @@ msgstr "Schalen"
 #: ../src/preferences_dialog.c:366
 msgid "Don't scale over 100% when maximizing the window."
 msgstr ""
-"Afbeelding niet voorbij 100% schalen wanneer het venster wordt "
-"gemaximaliseerd"
+"Afbeelding niet voorbij 100 % schalen wanneer het venster "
+"wordt gemaximaliseerd"
 
 #: ../src/preferences_dialog.c:370
 msgid "Startup"
@@ -433,7 +433,7 @@ msgstr "Opstarten"
 
 #: ../src/preferences_dialog.c:372
 msgid "Resize window to image on startup"
-msgstr "Venstergrootte aan afbeelding aanpassen bij het opstarten"
+msgstr "Venstergrootte aan afbeelding aanpassen bij opstarten"
 
 #: ../src/preferences_dialog.c:376
 msgid "Open entire folder on startup"
@@ -441,7 +441,7 @@ msgstr "Open de hele map bij opstarten"
 
 #: ../src/preferences_dialog.c:381
 msgid "Wrap around images"
-msgstr "Om afbeeldingen vouwen"
+msgstr "Om afbeeldingen heen vouwen"
 
 #: ../src/preferences_dialog.c:397
 msgid "Memory"
@@ -545,7 +545,7 @@ msgstr "Afbeeldingkijker"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your photo's easily"
-msgstr "Kijk gemakkelijk naar uw foto's "
+msgstr "Kijk gemakkelijk naar uw foto's"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
@@ -570,7 +570,7 @@ msgstr "Ristretto Fotokijker"
 #~ msgstr "Laag"
 
 #~ msgid "Preload images"
-#~ msgstr "Afbeeldingen vooraf-laden"
+#~ msgstr "Afbeeldingen vooraf laden"
 
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
@@ -603,23 +603,23 @@ msgstr "Ristretto Fotokijker"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr ""
-#~ "Af_beeldingen vooruit inladen (kijker reageert sneller, maar vergt meer van "
+#~ "Af_beeldingen vooraf laden (kijker reageert sneller, maar vergt meer van "
 #~ "de CPU)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
-#~ msgstr "Miniaturen verbergen gedurende diavertoning"
+#~ msgstr "Miniaturenbalk verbergen gedurende diavertoning"
 
 #~ msgid "Xfce Image viewer"
 #~ msgstr "Xfce Afbeeldingkijker"
 
 #~ msgid "Preload"
-#~ msgstr "Vooraf-laden"
+#~ msgstr "Vooraf laden"
 
 #~ msgid ""
 #~ "Preload images during slideshow\n"
 #~ "(uses more memory)"
 #~ msgstr ""
-#~ "Afbeeldingen vooraf-laden gedurende een diavertoning\n"
+#~ "Afbeeldingen vooraf laden gedurende een diavertoning\n"
 #~ "(gebruikt meer geheugen)"
 
 #~ msgid "Flip _Vertically"
