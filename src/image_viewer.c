@@ -142,6 +142,17 @@ static gboolean
 cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer);
 
 static void
+cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *event);
+static gboolean 
+cb_rstto_image_viewer_motion_notify_event (RsttoImageViewer *viewer,
+                                           GdkEventMotion *event,
+                                           gpointer user_data);
+static void
+cb_rstto_image_viewer_button_press_event (RsttoImageViewer *viewer, GdkEventButton *event);
+static void
+cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventButton *event);
+
+static void
 rstto_image_viewer_load_image (RsttoImageViewer *viewer, GFile *file);
 static void
 rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr);
@@ -200,6 +211,11 @@ rstto_image_viewer_init(RsttoImageViewer *viewer)
                            GDK_BUTTON1_MOTION_MASK |
                            GDK_ENTER_NOTIFY_MASK |
                            GDK_POINTER_MOTION_MASK);
+
+    g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_image_viewer_scroll_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_image_viewer_button_press_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "button_release_event", G_CALLBACK(cb_rstto_image_viewer_button_release_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "motion_notify_event", G_CALLBACK(cb_rstto_image_viewer_motion_notify_event), NULL);
 
     /*
     gtk_drag_dest_set(GTK_WIDGET(viewer), 0, drop_targets, G_N_ELEMENTS(drop_targets),
@@ -312,11 +328,17 @@ rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 
     if (GTK_WIDGET_REALIZED (widget))
     {
-         gdk_window_move_resize (widget->window,
+        gdk_window_move_resize (widget->window,
             allocation->x + border_width,
             allocation->y + border_width,
             allocation->width - border_width * 2,
             allocation->height - border_width * 2);
+
+        viewer->hadjustment->page_size = allocation->width;
+        gtk_adjustment_changed(viewer->hadjustment);
+
+        viewer->vadjustment->page_size = allocation->height;
+        gtk_adjustment_changed(viewer->vadjustment);
     }
 
     /** 
@@ -948,6 +970,21 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
     gint s_width = gdk_screen_get_width (default_screen);
     gint s_height = gdk_screen_get_height (default_screen);
 
+    /* TODO:
+     * place these values inside the transaction 
+     * so the adjustments get adjusted at a later time
+     */
+    RsttoImageViewer *viewer = transaction->viewer;
+
+    viewer->hadjustment->upper = width;
+    viewer->hadjustment->lower = 0;
+    gtk_adjustment_changed(viewer->hadjustment);
+
+    viewer->vadjustment->upper = height;
+    viewer->vadjustment->lower = 0;
+    gtk_adjustment_changed(viewer->vadjustment);
+    /****************************/
+
     /*
      * Set the maximum size of the loaded image to the screen-size.
      * TODO: Add some 'smart-stuff' here
@@ -1089,6 +1126,10 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
                 }
             }
         }
+        /**
+         * TODO: subpixbuf stuff for zooming
+         *
+         */
 
         viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (viewer->priv->pixbuf,
                                    (gint)((gdouble)width*viewer->priv->scale),
@@ -1104,4 +1145,26 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
         }
     }
     rstto_image_viewer_paint (GTK_WIDGET (viewer));
+}
+
+static void
+cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *event)
+{
+}
+
+static gboolean 
+cb_rstto_image_viewer_motion_notify_event (RsttoImageViewer *viewer,
+                                           GdkEventMotion *event,
+                                           gpointer user_data)
+{
+}
+
+static void
+cb_rstto_image_viewer_button_press_event (RsttoImageViewer *viewer, GdkEventButton *event)
+{
+}
+
+static void
+cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventButton *event)
+{
 }
