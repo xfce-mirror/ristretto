@@ -38,10 +38,10 @@
 
 typedef enum
 {
-    RSTTO_PICTURE_VIEWER_MOTION_STATE_NORMAL = 0,
-    RSTTO_PICTURE_VIEWER_MOTION_STATE_BOX_ZOOM,
-    RSTTO_PICTURE_VIEWER_MOTION_STATE_MOVE
-} RsttoPictureViewerMotionState;
+    RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL = 0,
+    RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM,
+    RSTTO_IMAGE_VIEWER_MOTION_STATE_MOVE
+} RsttoImageViewerMotionState;
 
 typedef struct _RsttoImageViewerTransaction RsttoImageViewerTransaction;
 
@@ -81,7 +81,7 @@ struct _RsttoImageViewerPriv
         gdouble current_y;
         gint h_val;
         gint v_val;
-        RsttoPictureViewerMotionState state;
+        RsttoImageViewerMotionState state;
     } motion;
 
     /* CALLBACKS */
@@ -124,6 +124,11 @@ static gboolean
 rstto_image_viewer_expose(GtkWidget *, GdkEventExpose *);
 static void
 rstto_image_viewer_paint (GtkWidget *widget);
+
+static void
+rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerMotionState state);
+static RsttoImageViewerMotionState
+rstto_image_viewer_get_motion_state (RsttoImageViewer *viewer);
 
 static gboolean
 rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *, GtkAdjustment *, GtkAdjustment *);
@@ -816,6 +821,18 @@ rstto_image_viewer_get_scale (RsttoImageViewer *viewer)
     return viewer->priv->scale;
 }
 
+static void
+rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerMotionState state)
+{
+    viewer->priv->motion.state = state;
+}
+
+static RsttoImageViewerMotionState
+rstto_image_viewer_get_motion_state (RsttoImageViewer *viewer)
+{
+    return viewer->priv->motion.state;
+}
+
 
 /************************/
 /** CALLBACK FUNCTIONS **/
@@ -1137,12 +1154,6 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
                                        (gint)(gdk_pixbuf_get_height(tmp_pixbuf)*viewer->priv->scale),
                                        GDK_INTERP_BILINEAR);
         }
-        /*
-        viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (viewer->priv->pixbuf,
-                                   (gint)((gdouble)width*viewer->priv->scale),
-                                   (gint)((gdouble)height*viewer->priv->scale),
-                                   GDK_INTERP_BILINEAR);
-        */
 
         /* 
          * Set adjustments
@@ -1180,14 +1191,86 @@ cb_rstto_image_viewer_motion_notify_event (RsttoImageViewer *viewer,
                                            GdkEventMotion *event,
                                            gpointer user_data)
 {
+    if (event->state & GDK_BUTTON1_MASK)
+    {
+        viewer->priv->motion.current_x = event->x;
+        viewer->priv->motion.current_y = event->y;
+
+        switch (viewer->priv->motion.state)
+        {
+            case RSTTO_IMAGE_VIEWER_MOTION_STATE_MOVE:
+                if (viewer->priv->motion.x != viewer->priv->motion.current_x)
+                {
+                    gint val = viewer->hadjustment->value;
+                    viewer->hadjustment->value = viewer->priv->motion.h_val + (viewer->priv->motion.x - viewer->priv->motion.current_x);
+                    if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+                    {
+                        viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+                    }
+                    if((viewer->hadjustment->value) < viewer->hadjustment->lower)
+                    {
+                        viewer->hadjustment->value = viewer->hadjustment->lower;
+                    }
+                    if (val != viewer->hadjustment->value)
+                        gtk_adjustment_value_changed(viewer->hadjustment);
+                }
+
+                if (viewer->priv->motion.y != viewer->priv->motion.current_y)
+                {
+                    gint val = viewer->vadjustment->value;
+                    viewer->vadjustment->value = viewer->priv->motion.v_val + (viewer->priv->motion.y - viewer->priv->motion.current_y);
+                    if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+                    {
+                        viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+                    }
+                    if((viewer->vadjustment->value) < viewer->vadjustment->lower)
+                    {
+                        viewer->vadjustment->value = viewer->vadjustment->lower;
+                    }
+                    if (val != viewer->vadjustment->value)
+                        gtk_adjustment_value_changed(viewer->vadjustment);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    return FALSE;
 }
 
 static void
 cb_rstto_image_viewer_button_press_event (RsttoImageViewer *viewer, GdkEventButton *event)
 {
+    if(event->button == 1)
+    {
+        viewer->priv->motion.x = event->x;
+        viewer->priv->motion.y = event->y;
+        viewer->priv->motion.current_x = event->x;
+        viewer->priv->motion.current_y = event->y;
+        viewer->priv->motion.h_val = viewer->hadjustment->value;
+        viewer->priv->motion.v_val = viewer->vadjustment->value;
+
+        //if (viewer->priv->file != NULL && rstto_image_viewer_get_state (viewer) == RSTTO_IMAGE_VIEWER_STATE_NORMAL)
+        if (viewer->priv->file != NULL )
+        {
+                GtkWidget *widget = GTK_WIDGET(viewer);
+                GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
+                gdk_window_set_cursor(widget->window, cursor);
+                gdk_cursor_unref(cursor);
+                rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_MOVE);
+        }
+    }
 }
 
 static void
 cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventButton *event)
 {
+    GtkWidget *widget = GTK_WIDGET(viewer);
+    switch (event->button)
+    {
+        case 1:
+            gdk_window_set_cursor(widget->window, NULL);
+            rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL);
+            break;
+    }
 }
