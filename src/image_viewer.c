@@ -63,6 +63,10 @@ struct _RsttoImageViewerPriv
     gdouble                 scale;
     gboolean                auto_scale;
 
+    gdouble                 image_scale;
+    gint                    image_width;
+    gint                    image_height;
+
     struct
     {
         gint idle_id;
@@ -92,6 +96,10 @@ struct _RsttoImageViewerTransaction
     GFile            *file;
     GCancellable     *cancellable;
     GdkPixbufLoader  *loader;
+
+    gint              image_width;
+    gint              image_height;
+    gdouble           image_scale;
 
     /* File I/O data */
     /*****************/
@@ -197,6 +205,8 @@ rstto_image_viewer_init(RsttoImageViewer *viewer)
     viewer->priv = g_new0(RsttoImageViewerPriv, 1);
     viewer->priv->cb_value_changed = cb_rstto_image_viewer_value_changed;
     viewer->priv->settings = rstto_settings_new();
+    viewer->priv->image_width = 0;
+    viewer->priv->image_height = 0;
 
     gtk_widget_set_double_buffered (GTK_WIDGET(viewer), TRUE);
 
@@ -317,7 +327,6 @@ rstto_image_viewer_size_request(GtkWidget *widget, GtkRequisition *requisition)
  * @widget:
  * @allocation:
  *
- *
  */
 static void
 rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
@@ -334,17 +343,14 @@ rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
             allocation->width - border_width * 2,
             allocation->height - border_width * 2);
 
-        viewer->hadjustment->page_size = allocation->width;
-        gtk_adjustment_changed(viewer->hadjustment);
-
-        viewer->vadjustment->page_size = allocation->height;
-        gtk_adjustment_changed(viewer->vadjustment);
+        gtk_adjustment_set_page_size (viewer->hadjustment, ((gdouble)allocation->width));
+        gtk_adjustment_set_page_size (viewer->vadjustment, ((gdouble)allocation->height));
     }
 
     /** 
      * TODO: Check if we really nead a refresh
      * This is required for the occasions the widget is 
-     * resized and shrunk, because that won't trigger an expose event.
+     * resized and shrunk, because that apparently won't trigger an expose event.
      */
     rstto_image_viewer_queued_repaint (viewer, TRUE);
 }
@@ -396,13 +402,20 @@ rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *viewer, GtkAdjustmen
     viewer->hadjustment = hadjustment;
     viewer->vadjustment = vadjustment;
 
+
     if(viewer->hadjustment)
     {
+        gtk_adjustment_set_lower (viewer->hadjustment, 0);
+        gtk_adjustment_set_upper (viewer->hadjustment, 0);
+
         g_signal_connect(G_OBJECT(viewer->hadjustment), "value-changed", (GCallback)viewer->priv->cb_value_changed, viewer);
         g_object_ref(viewer->hadjustment);
     }
     if(viewer->vadjustment)
     {
+        gtk_adjustment_set_lower (viewer->vadjustment, 0);
+        gtk_adjustment_set_upper (viewer->vadjustment, 0);
+
         g_signal_connect(G_OBJECT(viewer->vadjustment), "value-changed", (GCallback)viewer->priv->cb_value_changed, viewer);
         g_object_ref(viewer->vadjustment);
     }
@@ -412,7 +425,6 @@ rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *viewer, GtkAdjustmen
 static void
 rstto_image_viewer_paint (GtkWidget *widget)
 {
-
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
 
     GdkColor *bg_color = NULL;
@@ -461,6 +473,7 @@ rstto_image_viewer_paint (GtkWidget *widget)
 
         gdk_colormap_alloc_color (gdk_gc_get_colormap (gc), bg_color, FALSE, TRUE);
         gdk_gc_set_rgb_bg_color (gc, bg_color);
+        gdk_gc_set_foreground (gc, bg_color);
 
         gdk_draw_rectangle(GDK_DRAWABLE(buffer), gc, TRUE, 0, 0, widget->allocation.width, widget->allocation.height);
 
@@ -774,7 +787,6 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, GFile *file)
 static void
 rstto_image_viewer_load_image (RsttoImageViewer *viewer, GFile *file)
 {
-
     /*
      * This will first need to return to the 'main' loop before it cleans up after itself.
      * We can forget about the transaction, once it's cancelled, it will clean-up itself. -- (it should)
@@ -854,6 +866,7 @@ rstto_image_viewer_get_scale (RsttoImageViewer *viewer)
 static void
 cb_rstto_image_viewer_value_changed(GtkAdjustment *adjustment, RsttoImageViewer *viewer)
 {
+    rstto_image_viewer_queued_repaint (viewer, TRUE);
 }
 
 static void
@@ -864,10 +877,8 @@ cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *res
 
     GFileInputStream *file_input_stream = g_file_read_finish (file, result, NULL);
 
-    /* TODO: FIXME -- Clean up the transaction*/
     if (file_input_stream == NULL)
     {
-        rstto_image_viewer_transaction_free (transaction);
         return;
     }
 
@@ -887,11 +898,9 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
     RsttoImageViewerTransaction *transaction = (RsttoImageViewerTransaction *)user_data;
     gssize read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, &error);
 
-    /* TODO: FIXME -- Clean up the transaction*/
     if (read_bytes == -1)
     {
         gdk_pixbuf_loader_close (transaction->loader, NULL);
-        rstto_image_viewer_transaction_free (transaction);
         return;
     }
 
@@ -902,7 +911,6 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
             g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
 
             gdk_pixbuf_loader_close (transaction->loader, NULL);
-            rstto_image_viewer_transaction_free (transaction);
         }
         else
         {
@@ -920,10 +928,6 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
         g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
         gdk_pixbuf_loader_close (transaction->loader, NULL);
 
-        if (g_cancellable_is_cancelled(transaction->cancellable))
-        {
-            rstto_image_viewer_transaction_free (transaction);
-        }
     }
 }
 
@@ -970,20 +974,8 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
     gint s_width = gdk_screen_get_width (default_screen);
     gint s_height = gdk_screen_get_height (default_screen);
 
-    /* TODO:
-     * place these values inside the transaction 
-     * so the adjustments get adjusted at a later time
-     */
-    RsttoImageViewer *viewer = transaction->viewer;
-
-    viewer->hadjustment->upper = width;
-    viewer->hadjustment->lower = 0;
-    gtk_adjustment_changed(viewer->hadjustment);
-
-    viewer->vadjustment->upper = height;
-    viewer->vadjustment->lower = 0;
-    gtk_adjustment_changed(viewer->vadjustment);
-    /****************************/
+    transaction->image_width = width;
+    transaction->image_height = height;
 
     /*
      * Set the maximum size of the loaded image to the screen-size.
@@ -991,7 +983,21 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
      */
     if (s_width < width || s_height < height)
     {
-        gdk_pixbuf_loader_set_size (loader, s_width, s_height); 
+        /*
+         * The image is loaded at the screen_size, calculate how this fits best.
+         *  scale = MIN(width / screen_width, height / screen_height)
+         *
+         */
+        if(((gdouble)width / (gdouble)s_width) < ((gdouble)height / (gdouble)s_height))
+        {
+            transaction->image_scale = (gdouble)s_width / (gdouble)width;
+            gdk_pixbuf_loader_set_size (loader, s_width, (gint)((gdouble)height/(gdouble)width*(gdouble)s_width)); 
+        }
+        else
+        {
+            transaction->image_scale = (gdouble)s_height / (gdouble)height;
+            gdk_pixbuf_loader_set_size (loader, (gint)((gdouble)width/(gdouble)height*(gdouble)s_width), s_height); 
+        }
     }
 
 }
@@ -999,6 +1005,19 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
 static void
 cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
 {
+    RsttoImageViewer *viewer = transaction->viewer;
+
+    if (viewer->priv->transaction == transaction)
+    {
+        viewer->priv->image_scale = transaction->image_scale;
+        viewer->priv->image_width = transaction->image_width;
+        viewer->priv->image_height = transaction->image_height;
+    }
+
+    if (g_cancellable_is_cancelled(transaction->cancellable))
+    {
+        rstto_image_viewer_transaction_free (transaction);
+    }
 
     rstto_image_viewer_queued_repaint (transaction->viewer, TRUE);
 }
@@ -1079,7 +1098,7 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
              * widget-dimensions and image-dimensions, the smallest 
              * one is used for scaling the image.
              */
-            if (h_scale > v_scale)
+            if (h_scale < v_scale)
             { 
                 viewer->priv->scale = v_scale;
             }
@@ -1087,6 +1106,7 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
             {
                 viewer->priv->scale = h_scale;
             }
+
 
             viewer->priv->auto_scale = TRUE;
 
@@ -1126,15 +1146,52 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
                 }
             }
         }
-        /**
-         * TODO: subpixbuf stuff for zooming
+
+        /*
+         *
          *
          */
+        if ((gtk_adjustment_get_page_size (viewer->vadjustment) + gtk_adjustment_get_value(viewer->vadjustment)) > (height*viewer->priv->scale))
+        {
+            gtk_adjustment_set_value (viewer->vadjustment,
+                    (height*viewer->priv->scale) - gtk_adjustment_get_page_size (viewer->vadjustment));
+        }
+        if ((gtk_adjustment_get_page_size (viewer->hadjustment) + gtk_adjustment_get_value(viewer->hadjustment)) > (width*viewer->priv->scale))
+        {
+            gtk_adjustment_set_value (viewer->hadjustment,
+                    (width*viewer->priv->scale) - gtk_adjustment_get_page_size (viewer->hadjustment));
+        }
 
+        if (gtk_adjustment_get_page_size (viewer->vadjustment) > 0)
+        {
+            GdkPixbuf *tmp_pixbuf = gdk_pixbuf_new_subpixbuf (viewer->priv->pixbuf,
+                    (gint)(gtk_adjustment_get_value (viewer->hadjustment) / viewer->priv->scale),
+                    (gint)(gtk_adjustment_get_value (viewer->vadjustment) / viewer->priv->scale),
+                    (gint)((gtk_adjustment_get_page_size (viewer->hadjustment) / viewer->priv->scale) < width)?
+                           (gtk_adjustment_get_page_size (viewer->hadjustment) / viewer->priv->scale):
+                           (width),
+                    (gint)((gtk_adjustment_get_page_size (viewer->vadjustment) / viewer->priv->scale) < height)?
+                           (gtk_adjustment_get_page_size (viewer->vadjustment) / viewer->priv->scale):
+                           (height));
+
+            viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (tmp_pixbuf,
+                                       (gint)(gdk_pixbuf_get_width(tmp_pixbuf)*viewer->priv->scale),
+                                       (gint)(gdk_pixbuf_get_height(tmp_pixbuf)*viewer->priv->scale),
+                                       GDK_INTERP_BILINEAR);
+        }
+        /*
         viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (viewer->priv->pixbuf,
                                    (gint)((gdouble)width*viewer->priv->scale),
                                    (gint)((gdouble)height*viewer->priv->scale),
                                    GDK_INTERP_BILINEAR);
+        */
+
+        /* 
+         * Set adjustments
+         */
+        gtk_adjustment_set_upper (viewer->hadjustment, (gdouble)width*(viewer->priv->scale));
+        gtk_adjustment_set_upper (viewer->vadjustment, (gdouble)height*(viewer->priv->scale));
+
     }
     else
     {
@@ -1143,7 +1200,15 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
             g_object_unref (viewer->priv->dst_pixbuf);
             viewer->priv->dst_pixbuf = NULL;
         }
+
+        /* 
+         * Set adjustments
+         */
+        gtk_adjustment_set_upper (viewer->hadjustment, 0);
+        gtk_adjustment_set_upper (viewer->vadjustment, 0);
     }
+
+
     rstto_image_viewer_paint (GTK_WIDGET (viewer));
 }
 
