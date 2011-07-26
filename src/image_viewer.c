@@ -782,7 +782,8 @@ rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr)
 void
 rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
 {
-    viewer->priv->scale = scale;
+    gdouble tmp_x, tmp_y;
+
     if (scale == 0)
     {
         viewer->priv->auto_scale = TRUE;
@@ -790,7 +791,21 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
     else
     {
         viewer->priv->auto_scale = FALSE;
+        
+        /*
+         * When zooming in or out, 
+         * try keeping the center of the viewport in the center.
+         */
+        tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + (gtk_adjustment_get_page_size (viewer->vadjustment) / 2)) / viewer->priv->scale;
+        gtk_adjustment_set_value (viewer->vadjustment, (tmp_y*scale - (gtk_adjustment_get_page_size(viewer->vadjustment)/2)));
+
+
+        tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + (gtk_adjustment_get_page_size (viewer->hadjustment) / 2)) / viewer->priv->scale;
+        gtk_adjustment_set_value (viewer->hadjustment, (tmp_x*scale - (gtk_adjustment_get_page_size(viewer->hadjustment)/2)));
+
     }
+
+    viewer->priv->scale = scale;
 
     rstto_image_viewer_queued_repaint (viewer, TRUE);
 }
