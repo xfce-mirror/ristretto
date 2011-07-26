@@ -422,6 +422,7 @@ rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *viewer, GtkAdjustmen
     return TRUE;
 }
 
+
 static void
 rstto_image_viewer_paint (GtkWidget *widget)
 {
@@ -450,8 +451,16 @@ rstto_image_viewer_paint (GtkWidget *widget)
     /* required for transparent pixbufs... add double buffering to fix flickering*/
     if(GTK_WIDGET_REALIZED(widget))
     {          
+
+        /*
+         * Create a buffer to draw on
+         */
         GdkPixmap *buffer = gdk_pixmap_new(NULL, widget->allocation.width, widget->allocation.height, gdk_drawable_get_depth(widget->window));
         GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(buffer));
+
+        /*
+         * Determine the background-color and draw the background.
+         */
 
         if(gdk_window_get_state(gdk_window_get_toplevel(GTK_WIDGET(viewer)->window)) & GDK_WINDOW_STATE_FULLSCREEN)
         {
@@ -477,9 +486,15 @@ rstto_image_viewer_paint (GtkWidget *widget)
 
         gdk_draw_rectangle(GDK_DRAWABLE(buffer), gc, TRUE, 0, 0, widget->allocation.width, widget->allocation.height);
 
-        /* Check if there is a destination pixbuf */
+
+        /*
+         * Check if there is a source image
+         */
         if(pixbuf)
         {
+            /*
+             * Draw the image on the background
+             */
             x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
             y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
             x2 = gdk_pixbuf_get_width(pixbuf);
@@ -505,7 +520,9 @@ rstto_image_viewer_paint (GtkWidget *widget)
         }
         else
         {
-            /* HACK HACK HACK HACK */
+            /*
+             * There is no image, draw the ristretto icon on the background
+             */
             guint size = 0;
             if ((GTK_WIDGET (viewer)->allocation.width) < (GTK_WIDGET (viewer)->allocation.height))
             {
@@ -544,6 +561,10 @@ rstto_image_viewer_paint (GtkWidget *widget)
                                 0,0);
             }
         }
+
+        /*
+         * Draw the buffer on the window
+         */
 
         gdk_draw_drawable(GDK_DRAWABLE(widget->window), 
                         gdk_gc_new(widget->window), 
