@@ -68,7 +68,7 @@ struct _RsttoImageViewerClass
 GType      rstto_image_viewer_get_type();
 
 GtkWidget *rstto_image_viewer_new ();
-void       rstto_image_viewer_set_file (RsttoImageViewer *viewer, GFile *file);
+void       rstto_image_viewer_set_file (RsttoImageViewer *viewer, GFile *file, gdouble scale);
 
 void       rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale);
 gdouble    rstto_image_viewer_get_scale (RsttoImageViewer *viewer);
