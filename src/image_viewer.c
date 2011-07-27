@@ -789,7 +789,6 @@ rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr)
     }
     g_object_unref (tr->cancellable);
     g_object_unref (tr->loader);
-    g_object_unref (tr->file);
     g_free (tr->buffer);
     g_free (tr);
 }
@@ -1005,15 +1004,8 @@ cb_rstto_image_loader_area_prepared (GdkPixbufLoader *loader, RsttoImageViewerTr
         timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
     }
 
-    if (timeout != -1)
+    if (timeout > 0)
     {
-        /* fix borked stuff */
-        if (timeout == 0)
-        {
-            g_warning("timeout == 0: defaulting to 40ms");
-            timeout = 40;
-        }
-
         viewer->priv->animation_timeout_id = g_timeout_add(timeout, (GSourceFunc)cb_rstto_image_viewer_update_pixbuf, viewer);
     }   
     else
@@ -1083,7 +1075,7 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
         rstto_image_viewer_transaction_free (transaction);
     }
 
-    rstto_image_viewer_queued_repaint (transaction->viewer, TRUE);
+    rstto_image_viewer_queued_repaint (viewer, TRUE);
 }
 
 static gboolean
