@@ -1125,6 +1125,15 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
     gint width, height;
     gdouble v_scale, h_scale;
 
+    /*
+     * relative_scale contains viewer->priv->scale / viewer->priv->image_scale
+     * this value is used a lot in this function, storing it once reduces 
+     * nr of floating-point divisions
+     *
+     * It is the scale converted from the original image-size to the actual size of the source pixbuf.
+     */
+    gdouble relative_scale;
+
     g_source_remove (viewer->priv->repaint.idle_id);
     viewer->priv->repaint.idle_id = -1;
     viewer->priv->repaint.refresh = FALSE;
@@ -1180,9 +1189,9 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
         else
         {
             /*
-             * if auto_scale == true, calculate the scale
+             * if auto_scale == TRUE, calculate the scale
              */
-            if (viewer->priv->auto_scale)
+            if (viewer->priv->auto_scale == TRUE)
             {
                 /**
                  * Check if the image should scale to the horizontal
@@ -1203,6 +1212,8 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
             }
         }
 
+        relative_scale = viewer->priv->scale / viewer->priv->image_scale;
+
         /*
          *
          *
@@ -1211,14 +1222,14 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
                 gtk_adjustment_get_value(viewer->vadjustment)) > (viewer->priv->image_height*viewer->priv->scale))
         {
             gtk_adjustment_set_value (viewer->vadjustment,
-                    (height*(viewer->priv->scale/viewer->priv->image_scale)) -
+                    (height*relative_scale) -
                     gtk_adjustment_get_page_size (viewer->vadjustment));
         }
         if ((gtk_adjustment_get_page_size (viewer->hadjustment) + 
                 gtk_adjustment_get_value(viewer->hadjustment)) > (viewer->priv->image_width*viewer->priv->scale))
         {
             gtk_adjustment_set_value (viewer->hadjustment,
-                    (width*(viewer->priv->scale/viewer->priv->image_scale)) - 
+                    (width*relative_scale) - 
                     gtk_adjustment_get_page_size (viewer->hadjustment));
         }
 
@@ -1226,13 +1237,13 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
         {
 
             GdkPixbuf *tmp_pixbuf = gdk_pixbuf_new_subpixbuf (viewer->priv->pixbuf,
-                    (gint)(gtk_adjustment_get_value (viewer->hadjustment) / (viewer->priv->scale/viewer->priv->image_scale)),
-                    (gint)(gtk_adjustment_get_value (viewer->vadjustment) / (viewer->priv->scale/viewer->priv->image_scale)),
-                    (gint)((gtk_adjustment_get_page_size (viewer->hadjustment) / (viewer->priv->scale/viewer->priv->image_scale)) < width)?
-                           (gtk_adjustment_get_page_size (viewer->hadjustment) / (viewer->priv->scale/viewer->priv->image_scale)):
+                    (gint)(gtk_adjustment_get_value (viewer->hadjustment) / relative_scale),
+                    (gint)(gtk_adjustment_get_value (viewer->vadjustment) / relative_scale),
+                    (gint)((gtk_adjustment_get_page_size (viewer->hadjustment) / relative_scale) < width)?
+                           (gtk_adjustment_get_page_size (viewer->hadjustment) / relative_scale):
                            (width),
-                    (gint)((gtk_adjustment_get_page_size (viewer->vadjustment) / (viewer->priv->scale/viewer->priv->image_scale)) < height)?
-                           (gtk_adjustment_get_page_size (viewer->vadjustment) / (viewer->priv->scale/viewer->priv->image_scale)):
+                    (gint)((gtk_adjustment_get_page_size (viewer->vadjustment) / relative_scale) < height)?
+                           (gtk_adjustment_get_page_size (viewer->vadjustment) / relative_scale):
                            (height));
 
             if (viewer->priv->dst_pixbuf)
@@ -1242,8 +1253,8 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
             }
 
             viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (tmp_pixbuf,
-                                       (gint)(gdk_pixbuf_get_width(tmp_pixbuf)*(viewer->priv->scale/viewer->priv->image_scale)),
-                                       (gint)(gdk_pixbuf_get_height(tmp_pixbuf)*(viewer->priv->scale/viewer->priv->image_scale)),
+                                       (gint)(gdk_pixbuf_get_width(tmp_pixbuf) * relative_scale),
+                                       (gint)(gdk_pixbuf_get_height(tmp_pixbuf) * relative_scale),
                                        GDK_INTERP_BILINEAR);
 
             g_object_unref (tmp_pixbuf);
