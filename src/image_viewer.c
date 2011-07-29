@@ -37,7 +37,7 @@
 #endif
 
 #ifndef RSTTO_MAX_SCALE
-#define RSTTO_MAX_SCALE 2.0
+#define RSTTO_MAX_SCALE 4.0
 #endif
 
 typedef enum
