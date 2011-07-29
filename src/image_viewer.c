@@ -1243,14 +1243,23 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
         if (gtk_adjustment_get_page_size (viewer->vadjustment) > 0)
         {
 
+            /*
+             * Converting a double to an integer will result in rounding-errors,
+             * everything behind the point will be cut off, this results in an 
+             * image that won't fit nicely in the window.
+             *
+             * This will look like bg-color borders around the image.
+             * Adding '1' when the tmp_pixbuf is smaller then the full width or
+             * height of the image solves this.
+             */
             GdkPixbuf *tmp_pixbuf = gdk_pixbuf_new_subpixbuf (viewer->priv->pixbuf,
                     (gint)(gtk_adjustment_get_value (viewer->hadjustment) / relative_scale),
                     (gint)(gtk_adjustment_get_value (viewer->vadjustment) / relative_scale),
                     (gint)((gtk_adjustment_get_page_size (viewer->hadjustment) / relative_scale) < width)?
-                           (gtk_adjustment_get_page_size (viewer->hadjustment) / relative_scale):
+                           (gtk_adjustment_get_page_size (viewer->hadjustment) / relative_scale)+1:
                            (width),
                     (gint)((gtk_adjustment_get_page_size (viewer->vadjustment) / relative_scale) < height)?
-                           (gtk_adjustment_get_page_size (viewer->vadjustment) / relative_scale):
+                           (gtk_adjustment_get_page_size (viewer->vadjustment) / relative_scale)+1:
                            (height));
 
             if (viewer->priv->dst_pixbuf)
