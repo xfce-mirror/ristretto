@@ -825,9 +825,9 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
             /*
              * Assuming image_scale == 1.0
              */
-
             gdouble v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_height;
             gdouble h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_width;
+
             if ((h_scale > RSTTO_MAX_SCALE) || (v_scale > RSTTO_MAX_SCALE))
             {
                 if(h_scale < v_scale)
@@ -843,6 +843,13 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
                     {
                         scale = v_scale;
                     }
+                }
+            }
+            else
+            {
+                if (scale > RSTTO_MAX_SCALE)
+                {
+                    scale = RSTTO_MAX_SCALE;
                 }
             }
         }
@@ -1333,6 +1340,7 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
 
                 gdouble v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_height;
                 gdouble h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_width;
+
                 if ((h_scale > RSTTO_MAX_SCALE) || (v_scale > RSTTO_MAX_SCALE))
                 {
                     if(h_scale < v_scale)
@@ -1349,6 +1357,14 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
                             scale = v_scale;
                         }
                     }
+                }
+                else
+                {
+                    if (scale > RSTTO_MAX_SCALE)
+                    {
+                        scale = RSTTO_MAX_SCALE;
+                    }
+
                 }
             }
 
