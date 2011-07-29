@@ -139,7 +139,10 @@ rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *, GtkAdjustment *, G
 static void
 rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer, gboolean);
 static void
-rstto_image_viewer_paint_checkers (GdkDrawable *drawable, GdkGC *gc, gint width, gint height, gint x_offset, gint y_offset);
+rstto_image_viewer_paint_checkers (RsttoImageViewer *viewer, GdkDrawable *drawable, GdkGC *gc, gint width, gint height, gint x_offset, gint y_offset);
+static void
+rstto_image_viewer_paint_selection (RsttoImageViewer *viewer, GdkDrawable *drawable, GdkGC *gc, gint width, gint height, gint x_offset, gint y_offset);
+
 
 static void
 cb_rstto_image_viewer_value_changed(GtkAdjustment *adjustment, RsttoImageViewer *viewer);
@@ -446,11 +449,17 @@ rstto_image_viewer_paint (GtkWidget *widget)
     GdkColor *bg_color = NULL;
     GValue val_bg_color = {0, }, val_bg_color_override = {0, }, val_bg_color_fs = {0, };
     GdkPixbuf *pixbuf = viewer->priv->dst_pixbuf;
+
+    /*
+     * Variables used for the selection-box.
+     */
+    gint box_x, box_y;
+    gint box_width, box_height;
+
     /** BELOW THIS LINE THE VARIABLE_NAMES GET MESSY **/
     GdkColor line_color;
     GdkPixbuf *n_pixbuf = NULL;
     gint width, height;
-    gdouble m_x1, m_x2, m_y1, m_y2;
     gint x1, x2, y1, y2;
     gint i, a;
     /** ABOVE THIS LINE THE VARIABLE_NAMES GET MESSY **/
@@ -519,7 +528,7 @@ rstto_image_viewer_paint (GtkWidget *widget)
             if(gdk_pixbuf_get_has_alpha(pixbuf))
             {
                 /* TODO: give these variables correct names */
-                rstto_image_viewer_paint_checkers (GDK_DRAWABLE(buffer), gc, x2, y2, x1, y1);
+                rstto_image_viewer_paint_checkers (viewer, GDK_DRAWABLE(buffer), gc, x2, y2, x1, y1);
             }
             gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
                             NULL, 
@@ -532,6 +541,33 @@ rstto_image_viewer_paint (GtkWidget *widget)
                             y2,
                             GDK_RGB_DITHER_NONE,
                             0,0);
+
+            if(viewer->priv->motion.state == RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM)
+            {
+                if (viewer->priv->motion.y < viewer->priv->motion.current_y)
+                {
+                    box_y = viewer->priv->motion.y;
+                    box_height = viewer->priv->motion.current_y - box_y;
+                }
+                else
+                {
+                    box_y = viewer->priv->motion.current_y;
+                    box_height = viewer->priv->motion.y - box_y;
+                }
+
+                if (viewer->priv->motion.x < viewer->priv->motion.current_x)
+                {
+                    box_x = viewer->priv->motion.x;
+                    box_width = viewer->priv->motion.current_x - box_x;
+                }
+                else
+                {
+                    box_x = viewer->priv->motion.current_x;
+                    box_width = viewer->priv->motion.x - box_x;
+                }
+
+                rstto_image_viewer_paint_selection (viewer, GDK_DRAWABLE(buffer), gc, box_width, box_height, box_x, box_y);
+            }
         }
         else
         {
@@ -574,6 +610,7 @@ rstto_image_viewer_paint (GtkWidget *widget)
                                 y2,
                                 GDK_RGB_DITHER_NONE,
                                 0,0);
+
             }
         }
 
@@ -596,7 +633,13 @@ rstto_image_viewer_paint (GtkWidget *widget)
 }
 
 static void
-rstto_image_viewer_paint_checkers (GdkDrawable *drawable, GdkGC *gc, gint width, gint height, gint x_offset, gint y_offset)
+rstto_image_viewer_paint_checkers (RsttoImageViewer *viewer,
+                                   GdkDrawable *drawable,
+                                   GdkGC *gc,
+                                   gint width,
+                                   gint height,
+                                   gint x_offset,
+                                   gint y_offset)
 {
     gint x, y;
     gint block_width, block_height;
@@ -647,6 +690,23 @@ rstto_image_viewer_paint_checkers (GdkDrawable *drawable, GdkGC *gc, gint width,
         }
     }
     
+}
+
+static void
+rstto_image_viewer_paint_selection (RsttoImageViewer *viewer, GdkDrawable *drawable, GdkGC *gc, gint width, gint height, gint x_offset, gint y_offset)
+{
+    GtkWidget *widget = GTK_WIDGET(viewer);
+
+    gdk_gc_set_foreground(gc,
+            &(widget->style->fg[GTK_STATE_SELECTED]));
+
+    gdk_draw_rectangle(drawable,
+                    gc,
+                    FALSE,
+                    x_offset,
+                    y_offset,
+                    width,
+                    height);
 }
 
 static void
@@ -1172,11 +1232,11 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
              */
             if (h_scale < v_scale)
             { 
-                viewer->priv->scale = v_scale;
+                viewer->priv->scale = h_scale;
             }
             else
             {
-                viewer->priv->scale = h_scale;
+                viewer->priv->scale = v_scale;
             }
 
 
@@ -1458,6 +1518,9 @@ cb_rstto_image_viewer_motion_notify_event (RsttoImageViewer *viewer,
                         gtk_adjustment_value_changed(viewer->vadjustment);
                 }
                 break;
+            case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
+                rstto_image_viewer_queued_repaint (viewer, FALSE);
+                break;
             default:
                 break;
         }
@@ -1480,11 +1543,24 @@ cb_rstto_image_viewer_button_press_event (RsttoImageViewer *viewer, GdkEventButt
         //if (viewer->priv->file != NULL && rstto_image_viewer_get_state (viewer) == RSTTO_IMAGE_VIEWER_STATE_NORMAL)
         if (viewer->priv->file != NULL )
         {
+            if (!(event->state & (GDK_CONTROL_MASK)))
+            {
                 GtkWidget *widget = GTK_WIDGET(viewer);
                 GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
                 gdk_window_set_cursor(widget->window, cursor);
                 gdk_cursor_unref(cursor);
                 rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_MOVE);
+            }
+
+            if (event->state & GDK_CONTROL_MASK)
+            {
+                GtkWidget *widget = GTK_WIDGET(viewer);
+                GdkCursor *cursor = gdk_cursor_new(GDK_UL_ANGLE);
+                gdk_window_set_cursor(widget->window, cursor);
+                gdk_cursor_unref(cursor);
+
+                rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM);
+            }
         }
     }
 }
@@ -1497,7 +1573,16 @@ cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventBu
     {
         case 1:
             gdk_window_set_cursor(widget->window, NULL);
+            switch (viewer->priv->motion.state)
+            {
+                case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
+                    break;
+                default:
+                    rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL);
+                    break;
+            }
             rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL);
+            rstto_image_viewer_queued_repaint (viewer, FALSE);
             break;
     }
 }
