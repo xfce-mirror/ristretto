@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) Stephan Arts 2006-2010 <stephan@xfce.org>
+ *  Copyright (c) Stephan Arts 2006-2011 <stephan@xfce.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -1677,7 +1677,7 @@ cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
     gtk_about_dialog_set_license((GtkAboutDialog *)about_dialog,
         xfce_get_license_text(XFCE_LICENSE_TEXT_GPL));
     gtk_about_dialog_set_copyright((GtkAboutDialog *)about_dialog,
-        "Copyright \302\251 2006-2010 Stephan Arts");
+        "Copyright \302\251 2006-2011 Stephan Arts");
 
     gtk_dialog_run(GTK_DIALOG(about_dialog));
 
