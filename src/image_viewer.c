@@ -696,17 +696,102 @@ static void
 rstto_image_viewer_paint_selection (RsttoImageViewer *viewer, GdkDrawable *drawable, GdkGC *gc, gint width, gint height, gint x_offset, gint y_offset)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
+    gint pixbuf_width;
+    gint pixbuf_height;
+    gint pixbuf_x_offset;
+    gint pixbuf_y_offset;
+
+    gint rel_x_offset;
+    gint rel_y_offset;
 
     gdk_gc_set_foreground(gc,
             &(widget->style->fg[GTK_STATE_SELECTED]));
 
-    gdk_draw_rectangle(drawable,
-                    gc,
-                    FALSE,
-                    x_offset,
-                    y_offset,
-                    width,
-                    height);
+    pixbuf_width = gdk_pixbuf_get_width(viewer->priv->dst_pixbuf);
+    pixbuf_height = gdk_pixbuf_get_height(viewer->priv->dst_pixbuf);
+    pixbuf_x_offset = ((widget->allocation.width - pixbuf_width)/2);
+    pixbuf_y_offset = ((widget->allocation.height - pixbuf_height)/2);
+
+    /*
+     * Constrain the selection-box to the left
+     * and top sides of the image.
+     */
+    if (x_offset < pixbuf_x_offset)
+    {
+        width -= (pixbuf_x_offset - x_offset);
+        x_offset = pixbuf_x_offset;
+    }
+    if (y_offset < pixbuf_y_offset)
+    {
+        height -= (pixbuf_y_offset - y_offset);
+        y_offset = pixbuf_y_offset;
+    }
+
+    /*
+     * Constrain the selection-box to the right
+     * and bottom sides of the image.
+     */
+    if ((x_offset + width) > (pixbuf_x_offset+pixbuf_width))
+    {
+        width = (pixbuf_x_offset+pixbuf_width)-x_offset;
+    }
+    if ((y_offset + height) > (pixbuf_y_offset+pixbuf_height))
+    {
+        height = (pixbuf_y_offset+pixbuf_height)-y_offset;
+    }
+
+
+    /*
+     * Calculate the offset relative to the position 
+     * of the image in the window.
+     */
+    rel_x_offset = x_offset - pixbuf_x_offset;
+    rel_y_offset = y_offset - pixbuf_y_offset;
+
+
+
+    if ((width > 0) && (height > 0))
+    {
+
+        GdkPixbuf *sub = gdk_pixbuf_new_subpixbuf(viewer->priv->dst_pixbuf,
+                                                 rel_x_offset,
+                                                 rel_y_offset,
+                                                 x_offset + width>(pixbuf_x_offset+pixbuf_width)?pixbuf_width-rel_x_offset:width,
+                                                 y_offset + height>(pixbuf_y_offset+pixbuf_height)?pixbuf_height-rel_y_offset:height);
+        if(sub)
+        {
+            sub = gdk_pixbuf_composite_color_simple(sub,
+                                              x_offset + width>(pixbuf_x_offset+pixbuf_width)?pixbuf_width-rel_x_offset:width,
+                                              y_offset + height>(pixbuf_y_offset+pixbuf_height)?pixbuf_height-rel_y_offset:height,
+                                              GDK_INTERP_BILINEAR,
+                                              200,
+                                              200,
+                                              widget->style->bg[GTK_STATE_SELECTED].pixel,
+                                              widget->style->bg[GTK_STATE_SELECTED].pixel);
+
+            gdk_draw_pixbuf(drawable,
+                            gc,
+                            sub,
+                            0,0,
+                            x_offset,
+                            y_offset,
+                            -1, -1,
+                            GDK_RGB_DITHER_NONE,
+                            0, 0);
+
+            gdk_pixbuf_unref(sub);
+            sub = NULL;
+        }
+
+        gdk_draw_rectangle(drawable,
+                        gc,
+                        FALSE,
+                        x_offset,
+                        y_offset,
+                        width,
+                        height);
+    }
+
 }
 
 static void
@@ -1578,7 +1663,6 @@ cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventBu
                 case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
                     break;
                 default:
-                    rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL);
                     break;
             }
             rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL);
