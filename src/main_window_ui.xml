@@ -30,6 +30,7 @@
             </menu>
             <menuitem action="delete"/>
             <separator/>
+            <menuitem action="clear-private-data"/>
             <menuitem action="preferences"/>
         </menu>
         <menu action="view-menu">

@@ -239,6 +239,8 @@ cb_rstto_main_window_fullscreen (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_preferences (GtkWidget *widget, RsttoMainWindow *window);
 static void
+cb_rstto_main_window_clear_private_data (GtkWidget *widget, RsttoMainWindow *window);
+static void
 cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_contents (GtkWidget *widget, RsttoMainWindow *window);
@@ -289,6 +291,7 @@ static GtkActionEntry action_entries[] =
   { "open-with-menu", NULL, N_ ("_Open with..."), NULL, },
   { "sorting-menu", NULL, N_ ("_Sorting"), NULL, },
   { "delete", GTK_STOCK_DELETE, N_ ("_Delete"), "Delete", NULL, G_CALLBACK (cb_rstto_main_window_delete), },
+  { "clear-private-data", GTK_STOCK_PREFERENCES, N_ ("_Clear private data"), "<control><shift>Delete", NULL, G_CALLBACK(cb_rstto_main_window_clear_private_data), },
   { "preferences", GTK_STOCK_PREFERENCES, N_ ("_Preferences"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_preferences), },
 /* View Menu */
   { "view-menu", NULL, N_ ("_View"), NULL, },
@@ -2559,4 +2562,10 @@ rstto_main_window_add_file_to_recent_files (GFile *file)
     g_slice_free (GtkRecentData, recent_data);
 
     return FALSE;
+}
+
+static void
+cb_rstto_main_window_clear_private_data (GtkWidget *widget, RsttoMainWindow *window)
+{
+    g_debug("%s", __FUNCTION__);
 }
