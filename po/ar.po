@@ -1,16 +1,17 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: xfce\n"
+"Project-Id-Version: Ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2010-11-15 20:25+0100\n"
-"PO-Revision-Date: 2011-01-02 18:13-0000\n"
-"Last-Translator: كريم أولاد الشلحة <herr.linux88@gmail.com>\n"
-"Language-Team: Arabeyes <doc@arabeyes.org>\n"
+"PO-Revision-Date: 2011-08-01 16:57-0000\n"
+"Last-Translator: كريم اولاد الشلحة <herr.linux88@gmail.com>\n"
+"Language-Team: Arabic Xfce Translation Team <doc@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Arabic\n"
+"X-Poedit-Country: Morocco\n"
 
 #: ../src/main.c:59
 msgid "Version information"
@@ -285,11 +286,13 @@ msgstr "مستخدمة حدي_ثا"
 msgid "Recently used"
 msgstr "مستخدمة حديثا"
 
-#: ../src/main_window.c:542 ../src/main_window.c:864
+#: ../src/main_window.c:542
+#: ../src/main_window.c:864
 msgid "Press open to select an image"
 msgstr "إضغط غلى فتح لإختيار صورة"
 
-#: ../src/main_window.c:851 ../src/main_window.c:856
+#: ../src/main_window.c:851
+#: ../src/main_window.c:856
 msgid "Empty"
 msgstr "فارغ"
 
@@ -319,8 +322,10 @@ msgstr "صور"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2022 ../src/main_window.c:2039
-#: ../src/main_window.c:2186 ../src/main_window.c:2201
+#: ../src/main_window.c:2022
+#: ../src/main_window.c:2039
+#: ../src/main_window.c:2186
+#: ../src/main_window.c:2201
 msgid "Could not open file"
 msgstr "فشل فتح ملف"
 
@@ -540,3 +545,4 @@ msgstr "نظرة على الصورك الخاصة بسهول"
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
 msgstr "عراض الصور Ristretto"
+
