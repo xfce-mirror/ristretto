@@ -1779,7 +1779,7 @@ cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventBu
                          * Calculate the new scale
                          */
                         gdouble scale;
-                        if ((gtk_adjustment_get_page_size(viewer->hadjustment) / box_width) > 
+                        if ((gtk_adjustment_get_page_size(viewer->hadjustment) / box_width) < 
                             (gtk_adjustment_get_page_size(viewer->vadjustment) / box_height))
                         {
                             scale = viewer->priv->scale * (gtk_adjustment_get_page_size(viewer->hadjustment) / box_width);
@@ -1801,14 +1801,15 @@ cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventBu
 
                         
                         g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
+                        g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
+
                         gtk_adjustment_set_upper (viewer->hadjustment, (gdouble)width*(viewer->priv->scale/viewer->priv->image_scale));
                         gtk_adjustment_set_value (viewer->hadjustment, (tmp_x * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->hadjustment)/2)));
-                        g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
-
-                        g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
                         gtk_adjustment_set_upper (viewer->vadjustment, (gdouble)height*(viewer->priv->scale/viewer->priv->image_scale));
                         gtk_adjustment_set_value (viewer->vadjustment, (tmp_y * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->vadjustment)/2)));
+
                         g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
+                        g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
 
                         gtk_adjustment_changed(viewer->hadjustment);
                         gtk_adjustment_changed(viewer->vadjustment);
