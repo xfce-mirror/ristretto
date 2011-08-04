@@ -544,6 +544,13 @@ rstto_image_viewer_paint (GtkWidget *widget)
 
             if(viewer->priv->motion.state == RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM)
             {
+                /*
+                 * The user can create a selection-box when dragging from four corners.
+                 * Check if the endpoint is before or after the starting-point,
+                 * calculate the offset and box-size accordingly.
+                 * 
+                 * Perform the calculations for the vertical movement.
+                 */
                 if (viewer->priv->motion.y < viewer->priv->motion.current_y)
                 {
                     box_y = viewer->priv->motion.y;
@@ -555,6 +562,9 @@ rstto_image_viewer_paint (GtkWidget *widget)
                     box_height = viewer->priv->motion.y - box_y;
                 }
 
+                /*
+                 * Above comment applies here aswell, for the horizontal movement.
+                 */
                 if (viewer->priv->motion.x < viewer->priv->motion.current_x)
                 {
                     box_x = viewer->priv->motion.x;
@@ -566,6 +576,9 @@ rstto_image_viewer_paint (GtkWidget *widget)
                     box_width = viewer->priv->motion.x - box_x;
                 }
 
+                /*
+                 * Finally, paint the selection-box.
+                 */
                 rstto_image_viewer_paint_selection (viewer, GDK_DRAWABLE(buffer), gc, box_width, box_height, box_x, box_y);
             }
         }
@@ -1452,12 +1465,27 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
 {
     gdouble tmp_x, tmp_y;
     gdouble scale;
+    GtkWidget *widget = GTK_WIDGET(viewer);
+
+    gint pixbuf_width;
+    gint pixbuf_height;
+    gint pixbuf_x_offset;
+    gint pixbuf_y_offset;
+
+
+    if (viewer->priv->dst_pixbuf)
+    {
+        pixbuf_width = gdk_pixbuf_get_width(viewer->priv->dst_pixbuf);
+        pixbuf_height = gdk_pixbuf_get_height(viewer->priv->dst_pixbuf);
+        pixbuf_x_offset = ((widget->allocation.width - pixbuf_width)/2);
+        pixbuf_y_offset = ((widget->allocation.height - pixbuf_height)/2);
+    }
 
     if ((event->state & (GDK_CONTROL_MASK)))
     {
             viewer->priv->auto_scale = FALSE;
-            tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + event->x) / viewer->priv->scale;
-            tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + event->y) / viewer->priv->scale;
+            tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + event->x) / viewer->priv->scale + pixbuf_x_offset;
+            tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + event->y) / viewer->priv->scale + pixbuf_y_offset;
 
             switch(event->direction)
             {
@@ -1654,6 +1682,49 @@ static void
 cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventButton *event)
 {
     GtkWidget *widget = GTK_WIDGET(viewer);
+    gint box_x;
+    gint box_y;
+    gint box_width;
+    gint box_height;
+    gint pixbuf_width;
+    gint pixbuf_height;
+    gint pixbuf_x_offset;
+    gint pixbuf_y_offset;
+    gint width;
+    gint height;
+
+
+    pixbuf_width = gdk_pixbuf_get_width(viewer->priv->dst_pixbuf);
+    pixbuf_height = gdk_pixbuf_get_height(viewer->priv->dst_pixbuf);
+    pixbuf_x_offset = ((widget->allocation.width - pixbuf_width)/2);
+    pixbuf_y_offset = ((widget->allocation.height - pixbuf_height)/2);
+
+    width = gdk_pixbuf_get_width (viewer->priv->pixbuf);
+    height = gdk_pixbuf_get_height (viewer->priv->pixbuf);
+
+    if (viewer->priv->motion.y < viewer->priv->motion.current_y)
+    {
+        box_y = viewer->priv->motion.y;
+        box_height = viewer->priv->motion.current_y - box_y;
+    }
+    else
+    {
+        box_y = viewer->priv->motion.current_y;
+        box_height = viewer->priv->motion.y - box_y;
+    }
+
+    if (viewer->priv->motion.x < viewer->priv->motion.current_x)
+    {
+        box_x = viewer->priv->motion.x;
+        box_width = viewer->priv->motion.current_x - box_x;
+    }
+    else
+    {
+        box_x = viewer->priv->motion.current_x;
+        box_width = viewer->priv->motion.x - box_x;
+    }
+
+
     switch (event->button)
     {
         case 1:
@@ -1661,6 +1732,88 @@ cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventBu
             switch (viewer->priv->motion.state)
             {
                 case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
+                    /*
+                     * Constrain the selection-box to the left
+                     * and top sides of the image.
+                     */
+                    if (box_x < pixbuf_x_offset)
+                    {
+                        box_width -= (pixbuf_x_offset - box_x);
+                        box_x = pixbuf_x_offset;
+                    }
+                    if (box_y < pixbuf_y_offset)
+                    {
+                        box_height -= (pixbuf_y_offset - box_y);
+                        box_y = pixbuf_y_offset;
+                    }
+
+                    /*
+                     * Constrain the selection-box to the right
+                     * and bottom sides of the image.
+                     */
+                    if ((box_x + box_width) > (pixbuf_x_offset+pixbuf_width))
+                    {
+                        box_width = (pixbuf_x_offset+pixbuf_width)-box_x;
+                    }
+                    if ((box_y + box_height) > (pixbuf_y_offset+pixbuf_height))
+                    {
+                        box_height = (pixbuf_y_offset+pixbuf_height)-box_y;
+                    }
+
+                    if ((box_width > 0) && (box_height > 0))
+                    {
+                        /*
+                         * Using BOX_ZOOM disables auto-scale (zoom-to-fit-widget)
+                         */
+                        viewer->priv->auto_scale = FALSE;
+                        
+                        /*
+                         * Calculate the center of the selection-box.
+                         */
+
+                        gdouble tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + (gdouble)box_y + ((gdouble)box_height/ 2)) / viewer->priv->scale + pixbuf_y_offset;
+
+                        gdouble tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + (gdouble)box_x + ((gdouble)box_width / 2)) / viewer->priv->scale + pixbuf_x_offset;
+
+                        /*
+                         * Calculate the new scale
+                         */
+                        gdouble scale;
+                        if ((gtk_adjustment_get_page_size(viewer->hadjustment) / box_width) > 
+                            (gtk_adjustment_get_page_size(viewer->vadjustment) / box_height))
+                        {
+                            scale = viewer->priv->scale * (gtk_adjustment_get_page_size(viewer->hadjustment) / box_width);
+                        }
+                        else
+                        {
+                            scale = viewer->priv->scale * (gtk_adjustment_get_page_size(viewer->vadjustment) / box_height);
+                        }
+
+                        /*
+                         * Prevent the widget from zooming in beyond the MAX_SCALE.
+                         */
+                        if (scale > RSTTO_MAX_SCALE)
+                        {
+                            scale = RSTTO_MAX_SCALE;
+                        }
+
+                        viewer->priv->scale = scale;
+
+                        
+                        g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
+                        gtk_adjustment_set_upper (viewer->hadjustment, (gdouble)width*(viewer->priv->scale/viewer->priv->image_scale));
+                        gtk_adjustment_set_value (viewer->hadjustment, (tmp_x * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->hadjustment)/2)));
+                        g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
+
+                        g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
+                        gtk_adjustment_set_upper (viewer->vadjustment, (gdouble)height*(viewer->priv->scale/viewer->priv->image_scale));
+                        gtk_adjustment_set_value (viewer->vadjustment, (tmp_y * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->vadjustment)/2)));
+                        g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
+
+                        gtk_adjustment_changed(viewer->hadjustment);
+                        gtk_adjustment_changed(viewer->vadjustment);
+
+                    }
                     break;
                 default:
                     break;
