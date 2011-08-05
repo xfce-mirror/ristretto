@@ -1467,25 +1467,11 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
     gdouble scale;
     GtkWidget *widget = GTK_WIDGET(viewer);
 
-    gint pixbuf_width;
-    gint pixbuf_height;
-    gint pixbuf_x_offset;
-    gint pixbuf_y_offset;
-
-
-    if (viewer->priv->dst_pixbuf)
-    {
-        pixbuf_width = gdk_pixbuf_get_width(viewer->priv->dst_pixbuf);
-        pixbuf_height = gdk_pixbuf_get_height(viewer->priv->dst_pixbuf);
-        pixbuf_x_offset = ((widget->allocation.width - pixbuf_width)/2);
-        pixbuf_y_offset = ((widget->allocation.height - pixbuf_height)/2);
-    }
-
     if ((event->state & (GDK_CONTROL_MASK)))
     {
             viewer->priv->auto_scale = FALSE;
-            tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + event->x) / viewer->priv->scale + pixbuf_x_offset;
-            tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + event->y) / viewer->priv->scale + pixbuf_y_offset;
+            tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + event->x) / viewer->priv->scale;
+            tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + event->y) / viewer->priv->scale;
 
             switch(event->direction)
             {
@@ -1771,9 +1757,9 @@ cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventBu
                          * Calculate the center of the selection-box.
                          */
 
-                        gdouble tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + (gdouble)box_y + ((gdouble)box_height/ 2)) / viewer->priv->scale + pixbuf_y_offset;
+                        gdouble tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + (gdouble)box_y + ((gdouble)box_height/ 2) - pixbuf_y_offset) / viewer->priv->scale;
 
-                        gdouble tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + (gdouble)box_x + ((gdouble)box_width / 2)) / viewer->priv->scale + pixbuf_x_offset;
+                        gdouble tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + (gdouble)box_x + ((gdouble)box_width / 2) - pixbuf_x_offset) / viewer->priv->scale;
 
                         /*
                          * Calculate the new scale
