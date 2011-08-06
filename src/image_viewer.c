@@ -1267,13 +1267,8 @@ cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer)
 
         timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
 
-        if (timeout != -1)
+        if (timeout > 0)
         {
-            if (timeout == 0)
-            {
-                g_warning("timeout == 0: defaulting to 40ms");
-                timeout = 40;
-            }
             viewer->priv->animation_timeout_id = g_timeout_add(timeout, (GSourceFunc)cb_rstto_image_viewer_update_pixbuf, viewer);
         }
 
