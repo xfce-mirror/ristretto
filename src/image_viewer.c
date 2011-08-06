@@ -1777,6 +1777,11 @@ cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventBu
                         viewer->priv->scale = scale;
 
                         
+                        /*
+                         * Prevent the adjustments from emitting the 'changed' signal,
+                         * this way both the upper-limit and value can be changed before the
+                         * rest of the application is informed.
+                         */
                         g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
                         g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
 
@@ -1785,9 +1790,16 @@ cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventBu
                         gtk_adjustment_set_upper (viewer->vadjustment, (gdouble)height*(viewer->priv->scale/viewer->priv->image_scale));
                         gtk_adjustment_set_value (viewer->vadjustment, (tmp_y * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->vadjustment)/2)));
 
+                        /*
+                         * Enable signals on the adjustments.
+                         */
                         g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
                         g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
 
+                        /*
+                         * Trigger the 'changed' signal, update the rest of
+                         * the appliaction.
+                         */
                         gtk_adjustment_changed(viewer->hadjustment);
                         gtk_adjustment_changed(viewer->vadjustment);
 
