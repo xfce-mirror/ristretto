@@ -23,12 +23,8 @@
 #include <gio/gio.h>
 #include <libexif/exif-data.h>
 
-#include "image.h"
-#include "image_list.h"
-
 #include "image_viewer.h"
 #include "settings.h"
-#include "main_window.h"
 #include "marshal.h"
 
 #ifndef RSTTO_IMAGE_VIEWER_BUFFER_SIZE
