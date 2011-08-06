@@ -269,6 +269,7 @@ rstto_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image)
                 if (rstto_image_list_iter_get_image (iter->data) == image)
                 {
                     ((RsttoImageListIter *)(iter->data))->priv->image = NULL;
+                    g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
                 }
             }
             iter = g_slist_next (iter);
