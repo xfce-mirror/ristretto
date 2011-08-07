@@ -960,26 +960,10 @@ void
 rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
 {
     gdouble tmp_x, tmp_y;
-    GtkAdjustment *vadjustment, *hadjustment;
     gint pixbuf_width = 0;
     gint pixbuf_height = 0;
     gint pixbuf_x_offset = 0;
     gint pixbuf_y_offset = 0;
-
-    switch (viewer->priv->orientation)
-    {
-        case RSTTO_IMAGE_VIEWER_ORIENT_NONE:
-        case RSTTO_IMAGE_VIEWER_ORIENT_180:
-            hadjustment = viewer->hadjustment;
-            vadjustment = viewer->vadjustment;
-            break;
-        case RSTTO_IMAGE_VIEWER_ORIENT_270:
-        case RSTTO_IMAGE_VIEWER_ORIENT_90:
-            hadjustment = viewer->vadjustment;
-            vadjustment = viewer->hadjustment;
-            break;
-    }
-
 
     if (scale == 0)
     {
@@ -1077,12 +1061,14 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
          * When zooming in or out, 
          * try keeping the center of the viewport in the center.
          */
-        tmp_y = (gtk_adjustment_get_value(vadjustment) + (gtk_adjustment_get_page_size (vadjustment) / 2) - pixbuf_y_offset) / viewer->priv->scale;
-        gtk_adjustment_set_value (vadjustment, (tmp_y*scale - (gtk_adjustment_get_page_size(vadjustment)/2)));
+        tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + 
+                        (gtk_adjustment_get_page_size (viewer->vadjustment) / 2) - pixbuf_y_offset) / viewer->priv->scale;
+        gtk_adjustment_set_value (viewer->vadjustment, (tmp_y*scale - (gtk_adjustment_get_page_size(viewer->vadjustment)/2)));
 
 
-        tmp_x = (gtk_adjustment_get_value(hadjustment) + (gtk_adjustment_get_page_size (hadjustment) / 2) - pixbuf_x_offset) / viewer->priv->scale;
-        gtk_adjustment_set_value (hadjustment, (tmp_x*scale - (gtk_adjustment_get_page_size(hadjustment)/2)));
+        tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) +
+                        (gtk_adjustment_get_page_size (viewer->hadjustment) / 2) - pixbuf_x_offset) / viewer->priv->scale;
+        gtk_adjustment_set_value (viewer->hadjustment, (tmp_x*scale - (gtk_adjustment_get_page_size(viewer->hadjustment)/2)));
 
     }
 
@@ -1109,6 +1095,28 @@ static RsttoImageViewerMotionState
 rstto_image_viewer_get_motion_state (RsttoImageViewer *viewer)
 {
     return viewer->priv->motion.state;
+}
+
+/*
+ * rstto_image_viewer_set_orientation:
+ * @viewer:
+ * @orientation:
+ *
+ * Set orientation for the image shown here.
+ */
+void
+rstto_image_viewer_set_orientation (
+        RsttoImageViewer *viewer, 
+        RsttoImageViewerOrientation orientation)
+{
+    viewer->priv->orientation = orientation;
+    rstto_image_viewer_queued_repaint (viewer, TRUE);
+}
+
+RsttoImageViewerOrientation
+rstto_image_viewer_get_orientation (RsttoImageViewer *viewer)
+{
+    return viewer->priv->orientation;
 }
 
 
