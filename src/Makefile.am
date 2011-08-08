@@ -3,7 +3,6 @@ bin_PROGRAMS = ristretto
 ristretto_SOURCES = \
 	image_list.c image_list.h \
 	image.c image.h \
-	image_cache.c image_cache.h \
 	image_viewer.c image_viewer.h \
 	settings.c settings.h \
 	preferences_dialog.h preferences_dialog.c \

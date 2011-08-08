@@ -73,16 +73,35 @@ struct _RsttoImageViewerClass
           GtkAdjustment     *vadjustment);
 };
 
-GType      rstto_image_viewer_get_type();
+GType
+rstto_image_viewer_get_type();
 
-GtkWidget *rstto_image_viewer_new ();
-void       rstto_image_viewer_set_file (RsttoImageViewer *viewer,
-                                        GFile *file,
-                                        gdouble scale,
-                                        RsttoImageViewerOrientation orientation);
+GtkWidget *
+rstto_image_viewer_new ();
 
-void       rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale);
-gdouble    rstto_image_viewer_get_scale (RsttoImageViewer *viewer);
+void
+rstto_image_viewer_set_file (
+        RsttoImageViewer *viewer,
+        GFile *file,
+        gdouble scale,
+        RsttoImageViewerOrientation orientation);
+
+void
+rstto_image_viewer_set_scale (
+        RsttoImageViewer *viewer,
+        gdouble scale);
+
+gdouble
+rstto_image_viewer_get_scale (
+        RsttoImageViewer *viewer);
+
+void
+rstto_image_viewer_set_orientation (
+        RsttoImageViewer *viewer, 
+        RsttoImageViewerOrientation orientation);
+
+RsttoImageViewerOrientation
+rstto_image_viewer_get_orientation (RsttoImageViewer *viewer);
 
 G_END_DECLS
 

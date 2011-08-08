@@ -53,7 +53,7 @@ rstto_xfce_wallpaper_manager_finalize (GObject *object);
 
 static GObjectClass *parent_class = NULL;
 
-static RsttoXfceWallpaperManager *xfce_wallpaper_manager_object;
+static RsttoWallpaperManager *xfce_wallpaper_manager_object;
 
 struct _RsttoXfceWallpaperManagerPriv
 {
@@ -353,7 +353,7 @@ rstto_xfce_wallpaper_manager_finalize (GObject *object)
  *
  * Singleton
  */
-RsttoXfceWallpaperManager *
+RsttoWallpaperManager *
 rstto_xfce_wallpaper_manager_new (void)
 {
     if (xfce_wallpaper_manager_object == NULL)
