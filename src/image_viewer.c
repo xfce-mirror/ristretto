@@ -1216,6 +1216,12 @@ cb_rstto_image_loader_area_prepared (GdkPixbufLoader *loader, RsttoImageViewerTr
     }   
     else
     {
+
+        if (viewer->priv->pixbuf)
+        {
+            g_object_unref (viewer->priv->pixbuf);
+            viewer->priv->pixbuf = NULL;
+        }
         /* This is a single-frame image, there is no need to copy the pixbuf since it won't change.
          */
         viewer->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
