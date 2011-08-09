@@ -278,7 +278,7 @@ static GtkActionEntry action_entries[] =
   { "edit-menu", NULL, N_ ("_Edit"), NULL, },
   { "open-with-menu", NULL, N_ ("_Open with..."), NULL, },
   { "sorting-menu", NULL, N_ ("_Sorting"), NULL, },
-  { "delete", GTK_STOCK_DELETE, N_ ("_Delete"), "Delete", NULL, G_CALLBACK (cb_rstto_main_window_delete), },
+  { "delete", GTK_STOCK_DELETE, N_ ("_Delete"), "Delete", N_ ("Delete this image from disk"), G_CALLBACK (cb_rstto_main_window_delete), },
   { "clear-private-data", GTK_STOCK_PREFERENCES, N_ ("_Clear private data"), "<control><shift>Delete", NULL, G_CALLBACK(cb_rstto_main_window_clear_private_data), },
   { "preferences", GTK_STOCK_PREFERENCES, N_ ("_Preferences"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_preferences), },
 /* View Menu */
