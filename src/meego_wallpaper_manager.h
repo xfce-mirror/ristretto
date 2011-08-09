@@ -59,7 +59,7 @@ struct _RsttoMeegoWallpaperManagerClass
     GObjectClass parent_class;
 };
 
-RsttoMeegoWallpaperManager *rstto_meego_wallpaper_manager_new (void);
+RsttoWallpaperManager *rstto_meego_wallpaper_manager_new (void);
 GType          rstto_meego_wallpaper_manager_get_type (void);
 
 G_END_DECLS

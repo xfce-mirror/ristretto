@@ -33,7 +33,6 @@
 #include "image.h"
 #include "image_list.h"
 #include "settings.h"
-#include "picture_viewer.h"
 #include "main_window.h"
 
 

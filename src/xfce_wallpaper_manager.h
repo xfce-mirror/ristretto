@@ -59,7 +59,7 @@ struct _RsttoXfceWallpaperManagerClass
     GObjectClass parent_class;
 };
 
-RsttoXfceWallpaperManager *rstto_xfce_wallpaper_manager_new (void);
+RsttoWallpaperManager *rstto_xfce_wallpaper_manager_new (void);
 GType          rstto_xfce_wallpaper_manager_get_type (void);
 
 G_END_DECLS

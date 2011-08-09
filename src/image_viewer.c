@@ -54,6 +54,7 @@ struct _RsttoImageViewerPriv
     GdkPixbuf                   *pixbuf;
     GdkPixbuf                   *dst_pixbuf;
     RsttoImageViewerOrientation  orientation;
+    gdouble                      quality;
 
     /* Animation data for animated images (like .gif/.mng) */
     /*******************************************************/

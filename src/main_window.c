@@ -33,7 +33,6 @@
 
 #include "settings.h"
 #include "image_list.h"
-#include "image_cache.h"
 #include "image_viewer.h"
 #include "main_window.h"
 #include "main_window_ui.h"
@@ -45,8 +44,6 @@
 
 #include "preferences_dialog.h"
 #include "app_menu_item.h"
-
-#define XFDESKTOP_SELECTION_FMT "XFDESKTOP_SELECTION_%d"
 
 #ifndef RISTRETTO_APP_TITLE
 #define RISTRETTO_APP_TITLE "Image viewer"
@@ -214,14 +211,6 @@ static void
 cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
 
 static void
-cb_rstto_main_window_print (GtkWidget *widget, RsttoMainWindow *window);
-static void
-rstto_main_window_print_draw_page (GtkPrintOperation *operation,
-           GtkPrintContext   *print_context,
-           gint               page_nr,
-          RsttoMainWindow *window);
-
-static void
 cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_pause(GtkWidget *widget, RsttoMainWindow *window);
@@ -282,7 +271,6 @@ static GtkActionEntry action_entries[] =
   { "open", "document-open", N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
   { "open-folder", "folder-open", N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
   { "save-copy", GTK_STOCK_SAVE_AS, N_ ("_Save copy"), "<control>s", N_ ("Save a copy of the image"), G_CALLBACK (cb_rstto_main_window_save_copy), },
-  { "print", GTK_STOCK_PRINT, N_ ("_Print"), "<control>p", N_ ("Print the image"), G_CALLBACK (cb_rstto_main_window_print), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
   { "close-all", NULL, N_ ("_Close All"), NULL, N_ ("Close all images"), G_CALLBACK (cb_rstto_main_window_close_all), },
   { "quit", GTK_STOCK_QUIT, N_ ("_Quit"), "<control>Q", N_ ("Quit Ristretto"), G_CALLBACK (cb_rstto_main_window_quit), },
@@ -398,6 +386,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     GtkRecentFilter *recent_filter;
     guint            window_width, window_height;
     RsttoWallpaperManager *wallpaper_manager = NULL;
+    gchar           *desktop_type = NULL;
 
     GClosure        *leave_fullscreen_closure = g_cclosure_new_swap ((GCallback)gtk_window_unfullscreen, window, NULL);
     GClosure        *next_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_next_image, window, NULL);
@@ -409,26 +398,36 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
 
     window->priv = g_new0(RsttoMainWindowPriv, 1);
-    wallpaper_manager = RSTTO_WALLPAPER_MANAGER (rstto_gnome_wallpaper_manager_new());
-    if (rstto_wallpaper_manager_check_running (wallpaper_manager) == FALSE)
-    {
-        g_object_unref (wallpaper_manager);
-        wallpaper_manager = NULL;
-    }
-
-    wallpaper_manager = RSTTO_WALLPAPER_MANAGER (rstto_xfce_wallpaper_manager_new());
-    if (rstto_wallpaper_manager_check_running (wallpaper_manager) == FALSE)
-    {
-        g_object_unref (wallpaper_manager);
-        wallpaper_manager = NULL;
-    }
-    window->priv->wallpaper_manager = wallpaper_manager;
+    
 
     window->priv->iter = NULL;
 
     window->priv->ui_manager = gtk_ui_manager_new ();
     window->priv->recent_manager = gtk_recent_manager_get_default();
     window->priv->settings_manager = rstto_settings_new();
+
+    desktop_type = rstto_settings_get_string_property (window->priv->settings_manager, "desktop-type");
+    if (desktop_type)
+    {
+        if (!g_strcasecmp(desktop_type, "xfce"))
+        {
+            window->priv->wallpaper_manager = rstto_xfce_wallpaper_manager_new();
+        }
+
+        if (!g_strcasecmp(desktop_type, "gnome"))
+        {
+            window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new();
+        }
+
+        if (!g_strcasecmp(desktop_type, "meego"))
+        {
+            window->priv->wallpaper_manager = rstto_meego_wallpaper_manager_new();
+        }
+
+        g_free (desktop_type);
+        desktop_type = NULL;
+    }
+
 
     navigationbar_position = rstto_settings_get_navbar_position (window->priv->settings_manager);
 
@@ -1580,7 +1579,6 @@ cb_rstto_main_window_play_slideshow (RsttoMainWindow *window)
             preload_iter = rstto_image_list_iter_clone (window->priv->iter);   
 
             rstto_image_list_iter_next (preload_iter);
-            //rstto_image_load (rstto_image_list_iter_get_image (preload_iter), TRUE, g_value_get_uint (&max_size), TRUE, NULL);
 
             g_value_reset(&max_size);
             g_object_unref (preload_iter);
@@ -1641,7 +1639,6 @@ cb_rstto_main_window_preferences (GtkWidget *widget, RsttoMainWindow *window)
 
     if (g_value_get_uint (&val1) != g_value_get_uint (&val2))
     {
-        rstto_image_cache_clear (rstto_image_cache_new());
     }
 
     gtk_widget_destroy (dialog);
@@ -2317,71 +2314,6 @@ cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
 /**********************/
 /* PRINTING CALLBACKS */
 /**********************/
-
-/**
- * cb_rstto_main_window_print:
- * @widget:
- * @window:
- *
- *
- */
-static void
-cb_rstto_main_window_print (GtkWidget *widget, RsttoMainWindow *window)
-{
-
-    GtkPrintSettings *print_settings = gtk_print_settings_new ();
-    GtkPrintOperation *print_operation = gtk_print_operation_new (); 
-    GtkPageSetup *page_setup = gtk_page_setup_new ();
-
-    gtk_print_settings_set_resolution (print_settings, 300);
-
-    gtk_page_setup_set_orientation (page_setup, GTK_PAGE_ORIENTATION_LANDSCAPE);
-
-    gtk_print_operation_set_default_page_setup (print_operation, page_setup);
-    gtk_print_operation_set_print_settings (print_operation, print_settings);
-
-    g_object_set (print_operation,
-                  "n-pages", 1,
-                  NULL);
-    
-    g_signal_connect (print_operation, "draw-page", G_CALLBACK (rstto_main_window_print_draw_page), window);
-
-    gtk_print_operation_run (print_operation, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, GTK_WINDOW(window), NULL);
-    
-}
-
-static void
-rstto_main_window_print_draw_page (GtkPrintOperation *operation,
-           GtkPrintContext   *print_context,
-           gint               page_nr,
-           RsttoMainWindow *window)
-{
-    RsttoImage *image = rstto_image_list_iter_get_image (window->priv->iter);
-    GdkPixbuf *pixbuf = rstto_image_get_pixbuf (image);
-    gdouble w = gdk_pixbuf_get_width (pixbuf);
-    gdouble w1 = gtk_print_context_get_width (print_context);
-    gdouble h = gdk_pixbuf_get_height (pixbuf);
-    gdouble h1 = gtk_print_context_get_height (print_context);
-
-    cairo_t *context = gtk_print_context_get_cairo_context (print_context);
-
-    cairo_translate (context, 0, 0);
-    /* Scale to page-width */
-    if ((w1/w) < (h1/h))
-    {
-        cairo_scale (context, w1/w, w1/w);
-    }
-    else
-    {
-        cairo_scale (context, h1/h, h1/h);
-    }
-    //cairo_rotate (context, 90 * 3.141592/180);
-    gdk_cairo_set_source_pixbuf (context, pixbuf, 0, 0);
-
-    //cairo_rectangle (context, 0, 0, 200, 200);
-
-    cairo_paint (context);
-}
 
 /*************************/
 /* GUI-RELATED CALLBACKS */

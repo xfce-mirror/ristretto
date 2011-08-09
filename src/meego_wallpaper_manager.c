@@ -31,8 +31,6 @@
 #include "wallpaper_manager.h"
 #include "meego_wallpaper_manager.h"
 
-#define XFDESKTOP_SELECTION_FMT "XFDESKTOP_SELECTION_%d"
-
 typedef struct {
     gint16 r;
     gint16 g;
@@ -53,7 +51,7 @@ rstto_meego_wallpaper_manager_finalize (GObject *object);
 
 static GObjectClass *parent_class = NULL;
 
-static RsttoMeegoWallpaperManager *meego_wallpaper_manager_object;
+static RsttoWallpaperManager *meego_wallpaper_manager_object;
 
 struct _RsttoMeegoWallpaperManagerPriv
 {
@@ -209,7 +207,7 @@ rstto_meego_wallpaper_manager_finalize (GObject *object)
  *
  * Singleton
  */
-RsttoMeegoWallpaperManager *
+RsttoWallpaperManager *
 rstto_meego_wallpaper_manager_new (void)
 {
     if (meego_wallpaper_manager_object == NULL)

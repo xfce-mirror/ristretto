@@ -31,8 +31,6 @@
 #include "wallpaper_manager.h"
 #include "gnome_wallpaper_manager.h"
 
-#define XFDESKTOP_SELECTION_FMT "XFDESKTOP_SELECTION_%d"
-
 typedef struct {
     gint16 r;
     gint16 g;
@@ -53,7 +51,7 @@ rstto_gnome_wallpaper_manager_finalize (GObject *object);
 
 static GObjectClass *parent_class = NULL;
 
-static RsttoGnomeWallpaperManager *gnome_wallpaper_manager_object;
+static RsttoWallpaperManager *gnome_wallpaper_manager_object;
 
 struct _RsttoGnomeWallpaperManagerPriv
 {
@@ -209,7 +207,7 @@ rstto_gnome_wallpaper_manager_finalize (GObject *object)
  *
  * Singleton
  */
-RsttoGnomeWallpaperManager *
+RsttoWallpaperManager *
 rstto_gnome_wallpaper_manager_new (void)
 {
     if (gnome_wallpaper_manager_object == NULL)
