@@ -159,7 +159,7 @@ cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer);
 static gboolean 
 cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer);
 
-static void
+static gboolean
 cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *event);
 static gboolean 
 cb_rstto_image_viewer_motion_notify_event (RsttoImageViewer *viewer,
@@ -238,10 +238,10 @@ rstto_image_viewer_init(RsttoImageViewer *viewer)
                            GDK_ENTER_NOTIFY_MASK |
                            GDK_POINTER_MOTION_MASK);
 
-    g_signal_connect(G_OBJECT(viewer), "scroll_event", G_CALLBACK(cb_rstto_image_viewer_scroll_event), NULL);
-    g_signal_connect(G_OBJECT(viewer), "button_press_event", G_CALLBACK(cb_rstto_image_viewer_button_press_event), NULL);
-    g_signal_connect(G_OBJECT(viewer), "button_release_event", G_CALLBACK(cb_rstto_image_viewer_button_release_event), NULL);
-    g_signal_connect(G_OBJECT(viewer), "motion_notify_event", G_CALLBACK(cb_rstto_image_viewer_motion_notify_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "scroll-event", G_CALLBACK(cb_rstto_image_viewer_scroll_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "button-press-event", G_CALLBACK(cb_rstto_image_viewer_button_press_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "button-release-event", G_CALLBACK(cb_rstto_image_viewer_button_release_event), NULL);
+    g_signal_connect(G_OBJECT(viewer), "motion-notify-event", G_CALLBACK(cb_rstto_image_viewer_motion_notify_event), NULL);
 
     /*
     gtk_drag_dest_set(GTK_WIDGET(viewer), 0, drop_targets, G_N_ELEMENTS(drop_targets),
@@ -1640,14 +1640,14 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
     rstto_image_viewer_paint (GTK_WIDGET (viewer));
 }
 
-static void
+static gboolean
 cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *event)
 {
     gdouble tmp_x, tmp_y;
     gdouble scale;
     GtkWidget *widget = GTK_WIDGET(viewer);
 
-    if ((event->state & (GDK_CONTROL_MASK)))
+    if (event->state & (GDK_CONTROL_MASK))
     {
             viewer->priv->auto_scale = FALSE;
             tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + event->x) / viewer->priv->scale;
@@ -1750,6 +1750,7 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
 
             rstto_image_viewer_queued_repaint (viewer, TRUE);
     }
+    return FALSE;
 }
 
 static gboolean 
