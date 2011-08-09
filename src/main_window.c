@@ -247,6 +247,10 @@ static gboolean
 cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget,
                                                         GdkEventCrossing *event,
                                                         gpointer user_data);
+static gboolean
+cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget,
+                                                GdkEventScroll *event,
+                                                gpointer user_data);
 
 static void
 rstto_main_window_update_buttons (RsttoMainWindow *window);
@@ -278,7 +282,7 @@ static GtkActionEntry action_entries[] =
   { "edit-menu", NULL, N_ ("_Edit"), NULL, },
   { "open-with-menu", NULL, N_ ("_Open with..."), NULL, },
   { "sorting-menu", NULL, N_ ("_Sorting"), NULL, },
-  { "delete", GTK_STOCK_DELETE, N_ ("_Delete"), "Delete", NULL, G_CALLBACK (cb_rstto_main_window_delete), },
+  { "delete", GTK_STOCK_DELETE, N_ ("_Delete"), "Delete", N_ ("Delete this image from disk"), G_CALLBACK (cb_rstto_main_window_delete), },
   { "clear-private-data", GTK_STOCK_PREFERENCES, N_ ("_Clear private data"), "<control><shift>Delete", NULL, G_CALLBACK(cb_rstto_main_window_clear_private_data), },
   { "preferences", GTK_STOCK_PREFERENCES, N_ ("_Preferences"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_preferences), },
 /* View Menu */
@@ -438,6 +442,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_accel_group_connect_by_path (accel_group, "<Window>/next-image", next_image_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/previous-image", previous_image_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/quit", quit_closure);
+
     /* Set default accelerators */
     gtk_accel_map_change_entry ("<Window>/unfullscreen", GDK_Escape, 0, FALSE);
     gtk_accel_map_change_entry ("<Window>/next-image", GDK_Page_Down, 0, FALSE);
@@ -660,6 +665,8 @@ rstto_main_window_init (RsttoMainWindow *window)
 
     g_signal_connect(G_OBJECT(window), "motion-notify-event", G_CALLBACK(cb_rstto_main_window_motion_notify_event), window);
     g_signal_connect(G_OBJECT(window->priv->image_viewer), "enter-notify-event", G_CALLBACK(cb_rstto_main_window_image_viewer_enter_notify_event), window);
+    g_signal_connect(G_OBJECT(window->priv->image_viewer), "scroll-event", G_CALLBACK(cb_rstto_main_window_image_viewer_scroll_event), window);
+
     g_signal_connect(G_OBJECT(window), "configure-event", G_CALLBACK(cb_rstto_main_window_configure_event), NULL);
     g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_main_window_state_event), NULL);
     g_signal_connect(G_OBJECT(window->priv->image_list_toolbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
@@ -1439,6 +1446,30 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
         }
     }
     return TRUE;
+}
+
+static gboolean
+cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget,
+                                                GdkEventScroll *event,
+                                                gpointer user_data)
+{
+    g_debug("%s", __FUNCTION__);
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    if (!(event->state & (GDK_CONTROL_MASK)))
+    {
+        switch(event->direction)
+        {
+            case GDK_SCROLL_UP:
+            case GDK_SCROLL_LEFT:
+                rstto_image_list_iter_previous (window->priv->iter);
+                break;
+            case GDK_SCROLL_DOWN:
+            case GDK_SCROLL_RIGHT:
+                rstto_image_list_iter_next (window->priv->iter);
+                break;
+        }
+    }
+    return FALSE;
 }
 
 static gboolean
