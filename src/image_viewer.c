@@ -622,6 +622,9 @@ rstto_image_viewer_paint (GtkWidget *widget)
                                 GDK_RGB_DITHER_NONE,
                                 0,0);
 
+                /* Cleanup pixbuf */
+                g_object_unref (pixbuf);
+                pixbuf = NULL;
             }
         }
 
@@ -892,15 +895,26 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
     } 
     else
     {
+        if (viewer->priv->iter)
+        {
+            g_object_unref (viewer->priv->iter);
+            viewer->priv->iter = NULL;
+        }
+
+        if (viewer->priv->animation)
+        {
+            g_object_unref (viewer->priv->animation);
+            viewer->priv->animation = NULL;
+        }
+        if (viewer->priv->pixbuf)
+        {
+            g_object_unref (viewer->priv->pixbuf);
+            viewer->priv->pixbuf = NULL;
+        }
         if (viewer->priv->file)
         {
             g_object_unref (viewer->priv->file);
             viewer->priv->file = NULL;
-            if (viewer->priv->pixbuf)
-            {
-                g_object_unref (viewer->priv->pixbuf);
-                viewer->priv->pixbuf = NULL;
-            }
             rstto_image_viewer_queued_repaint (viewer, TRUE);
         }
     }
@@ -1170,7 +1184,9 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
     {
         if(gdk_pixbuf_loader_write (transaction->loader, (const guchar *)transaction->buffer, read_bytes, &error) == FALSE)
         {
+            /* Clean up the input-stream */
             g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
+            g_object_unref(source_object);
 
             gdk_pixbuf_loader_close (transaction->loader, NULL);
         }
@@ -1187,9 +1203,11 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
     }
     else {
         /* Loading complete, transaction should not be free-ed */
-        g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
         gdk_pixbuf_loader_close (transaction->loader, NULL);
 
+        /* Clean up the input-stream */
+        g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
+        g_object_unref(source_object);
     }
 }
 
@@ -1202,30 +1220,43 @@ cb_rstto_image_loader_area_prepared (GdkPixbufLoader *loader, RsttoImageViewerTr
 
     if (viewer->priv->transaction == transaction)
     {
-        viewer->priv->animation = gdk_pixbuf_loader_get_animation (loader);
-        viewer->priv->iter = gdk_pixbuf_animation_get_iter (viewer->priv->animation, NULL);
-
-        g_object_ref (viewer->priv->animation);
-
-        timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
-    }
-
-    if (timeout > 0)
-    {
-        viewer->priv->animation_timeout_id = g_timeout_add(timeout, (GSourceFunc)cb_rstto_image_viewer_update_pixbuf, viewer);
-    }   
-    else
-    {
+        if (viewer->priv->iter)
+        {
+            g_object_unref (viewer->priv->iter);
+            viewer->priv->iter = NULL;
+        }
 
         if (viewer->priv->pixbuf)
         {
             g_object_unref (viewer->priv->pixbuf);
             viewer->priv->pixbuf = NULL;
         }
-        /* This is a single-frame image, there is no need to copy the pixbuf since it won't change.
-         */
-        viewer->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
-        g_object_ref (viewer->priv->pixbuf);
+
+        if (viewer->priv->animation)
+        {
+            g_object_unref (viewer->priv->animation);
+            viewer->priv->animation = NULL;
+        }
+
+        viewer->priv->animation = gdk_pixbuf_loader_get_animation (loader);
+        viewer->priv->iter = gdk_pixbuf_animation_get_iter (viewer->priv->animation, NULL);
+
+        g_object_ref (viewer->priv->animation);
+
+        timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
+
+        if (timeout > 0)
+        {
+            viewer->priv->animation_timeout_id = g_timeout_add(timeout, (GSourceFunc)cb_rstto_image_viewer_update_pixbuf, viewer);
+        }   
+        else
+        {
+
+            /* This is a single-frame image, there is no need to copy the pixbuf since it won't change.
+             */
+            viewer->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
+            g_object_ref (viewer->priv->pixbuf);
+        }
     }
 }
 
@@ -1277,17 +1308,16 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
 
     if (viewer->priv->transaction == transaction)
     {
+        
         viewer->priv->image_scale = transaction->image_scale;
         viewer->priv->image_width = transaction->image_width;
         viewer->priv->image_height = transaction->image_height;
+
+        viewer->priv->transaction = NULL;
+        rstto_image_viewer_queued_repaint (viewer, TRUE);
     }
 
-    if (g_cancellable_is_cancelled(transaction->cancellable))
-    {
-        rstto_image_viewer_transaction_free (transaction);
-    }
-
-    rstto_image_viewer_queued_repaint (viewer, TRUE);
+    rstto_image_viewer_transaction_free (transaction);
 }
 
 static gboolean
@@ -1307,7 +1337,8 @@ cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer)
             }
 
             /* The pixbuf returned by the GdkPixbufAnimationIter might be reused, 
-             * lets make a copy for myself just in case
+             * lets make a copy for myself just in case. Since it's a copy, we
+             * own the only reference to it. There is no need to add another.
              */
             viewer->priv->pixbuf = gdk_pixbuf_copy (gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter));
         }

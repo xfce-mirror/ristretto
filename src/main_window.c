@@ -1453,7 +1453,6 @@ cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget,
                                                 GdkEventScroll *event,
                                                 gpointer user_data)
 {
-    g_debug("%s", __FUNCTION__);
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
     if (!(event->state & (GDK_CONTROL_MASK)))
     {
