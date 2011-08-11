@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2011-08-09 20:36+0200\n"
-"PO-Revision-Date: 2010-01-16 18:20+0100\n"
-"Last-Translator: Carles Muñoz Gorriz <carlesmu@internautas.org>\n"
+"PO-Revision-Date: 2011-08-11 17:29+0100\n"
+"Last-Translator: Pol Ruzafa <kiari62@gmail.com>\n"
 "Language-Team: Catalan <xfce-i18n@xfce.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -113,13 +113,12 @@ msgid "_Delete"
 msgstr "_Esborra"
 
 #: ../src/main_window.c:285
-#, fuzzy
 msgid "Delete this image from disk"
-msgstr "Tanca aquesta finestra"
+msgstr "Esborra aquesta imatge del disc"
 
 #: ../src/main_window.c:286
 msgid "_Clear private data"
-msgstr ""
+msgstr "_Neteja l'informació privada"
 
 #: ../src/main_window.c:287
 msgid "_Preferences"
@@ -295,11 +294,13 @@ msgstr "Emprats _recentment"
 msgid "Recently used"
 msgstr "Emprats recentment"
 
-#: ../src/main_window.c:554 ../src/main_window.c:885
+#: ../src/main_window.c:554
+#: ../src/main_window.c:885
 msgid "Press open to select an image"
 msgstr "Feu clic a Obrir per seleccionar una imatge"
 
-#: ../src/main_window.c:870 ../src/main_window.c:877
+#: ../src/main_window.c:870
+#: ../src/main_window.c:877
 msgid "Empty"
 msgstr "Buit"
 
@@ -329,8 +330,10 @@ msgstr "Imatges"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2051 ../src/main_window.c:2068
-#: ../src/main_window.c:2215 ../src/main_window.c:2230
+#: ../src/main_window.c:2051
+#: ../src/main_window.c:2068
+#: ../src/main_window.c:2215
+#: ../src/main_window.c:2230
 msgid "Could not open file"
 msgstr "No s'ha pogut obrir el fitxer"
 
