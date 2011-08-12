@@ -464,7 +464,11 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), notebook);
     gtk_widget_show_all (notebook);
 
+    /* Window should not be resizable */
+    gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
+
     gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CLOSE, GTK_RESPONSE_OK);
+
 }
 
 static void

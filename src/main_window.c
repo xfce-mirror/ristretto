@@ -42,6 +42,7 @@
 #include "gnome_wallpaper_manager.h"
 #include "meego_wallpaper_manager.h"
 
+#include "privacy_dialog.h"
 #include "preferences_dialog.h"
 #include "app_menu_item.h"
 
@@ -283,7 +284,7 @@ static GtkActionEntry action_entries[] =
   { "open-with-menu", NULL, N_ ("_Open with..."), NULL, },
   { "sorting-menu", NULL, N_ ("_Sorting"), NULL, },
   { "delete", GTK_STOCK_DELETE, N_ ("_Delete"), "Delete", N_ ("Delete this image from disk"), G_CALLBACK (cb_rstto_main_window_delete), },
-  { "clear-private-data", GTK_STOCK_PREFERENCES, N_ ("_Clear private data"), "<control><shift>Delete", NULL, G_CALLBACK(cb_rstto_main_window_clear_private_data), },
+  { "clear-private-data", GTK_STOCK_CLEAR, N_ ("_Clear private data"), "<control><shift>Delete", NULL, G_CALLBACK(cb_rstto_main_window_clear_private_data), },
   { "preferences", GTK_STOCK_PREFERENCES, N_ ("_Preferences"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_preferences), },
 /* View Menu */
   { "view-menu", NULL, N_ ("_View"), NULL, },
@@ -377,7 +378,11 @@ rstto_main_window_get_type (void)
         };
 
         rstto_main_window_type = g_type_register_static (GTK_TYPE_WINDOW, "RsttoMainWindow", &rstto_main_window_info, 0);
+
     }
+
+
+
     return rstto_main_window_type;
 }
 
@@ -708,6 +713,9 @@ rstto_main_window_class_init(RsttoMainWindowClass *window_class)
                                      PROP_IMAGE_LIST,
                                      pspec);
 }
+
+
+
 
 static void
 rstto_main_window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
@@ -2515,5 +2523,9 @@ rstto_main_window_add_file_to_recent_files (GFile *file)
 static void
 cb_rstto_main_window_clear_private_data (GtkWidget *widget, RsttoMainWindow *window)
 {
-    g_debug("%s", __FUNCTION__);
+    GtkWidget *dialog = rstto_privacy_dialog_new (GTK_WINDOW (window));
+
+    gtk_dialog_run (GTK_DIALOG (dialog));
+
+    gtk_widget_destroy (dialog);
 }

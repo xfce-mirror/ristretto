@@ -5,6 +5,7 @@ ristretto_SOURCES = \
 	image.c image.h \
 	image_viewer.c image_viewer.h \
 	settings.c settings.h \
+	privacy_dialog.h privacy_dialog.c \
 	preferences_dialog.h preferences_dialog.c \
 	main_window_ui.h \
 	main_window.c main_window.h \
