@@ -2,7 +2,7 @@
 # Copyright (C) 2008 ristretto'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the ristretto package.
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -11,10 +11,10 @@ msgstr ""
 "PO-Revision-Date: 2008-12-19 22:32+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
-"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: id\n"
 
 #: ../src/main.c:58
 msgid "Version information"
@@ -35,8 +35,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Coba %s --help untuk melihat senarai penuh dari opsi baris perintah yang "
-"tersedia.\n"
+"Coba %s --help untuk melihat senarai penuh dari opsi baris perintah yang tersedia.\n"
 
 #. File Menu
 #: ../src/main_window.c:274
@@ -109,13 +108,12 @@ msgid "_Delete"
 msgstr "_Hapus"
 
 #: ../src/main_window.c:285
-#, fuzzy
 msgid "Delete this image from disk"
-msgstr "Tutup gambar ini"
+msgstr "Hapus gambar ini dari cakram"
 
 #: ../src/main_window.c:286
 msgid "_Clear private data"
-msgstr ""
+msgstr "_Hapus data pribadi"
 
 #: ../src/main_window.c:287
 msgid "_Preferences"
@@ -578,11 +576,8 @@ msgstr "Penilik Gambar Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "S_embunyikan"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Satu atau beberapa gambar telah dimodifikasi, anda ingin menyimpan "
-#~ "perubahan ini?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
+#~ msgstr "Satu atau beberapa gambar telah dimodifikasi, anda ingin menyimpan perubahan ini?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
 #~ msgstr "_Citra pramuat (GUI lebih responsif tapi lebih CPU-intensif)"
