@@ -1,6 +1,6 @@
 # Ukrainian translation of ristretto package.
 # This file is distributed under the same license as the ristretto package.
-#
+# 
 # Dmitry Nikitin <luckas_fb@mail.ru>, 2008.
 msgid ""
 msgstr ""
@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2008-11-17 11:15+0200\n"
 "Last-Translator: Dmitry Nikitin <luckas_fb@mail.ru>\n"
 "Language-Team: Ukrainian <xfce4-dev@xfce.org>\n"
-"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: uk\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #: ../src/main.c:58
@@ -35,8 +35,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Спробуйте %s --help для перегляду повного списку параметрів командної "
-"стрічки.\n"
+"Спробуйте %s --help для перегляду повного списку параметрів командної стрічки.\n"
 
 #. File Menu
 #: ../src/main_window.c:274
@@ -109,13 +108,12 @@ msgid "_Delete"
 msgstr "_Видалити"
 
 #: ../src/main_window.c:285
-#, fuzzy
 msgid "Delete this image from disk"
-msgstr "Закрити малюнок"
+msgstr "Вилучити малюнок з диску"
 
 #: ../src/main_window.c:286
 msgid "_Clear private data"
-msgstr ""
+msgstr "_Очистити приватні дані"
 
 #: ../src/main_window.c:287
 msgid "_Preferences"
@@ -596,14 +594,11 @@ msgstr "Переглядач фотографій Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "С_ховати"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Одне або більше зображень було змінено, бажаєте зберегти зміни?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "Попереднє з_авантаження малюнків (GUI більш кероване, але завантаження "
-#~ "CPU більше)"
+#~ msgstr "Попереднє з_авантаження малюнків (GUI більш кероване, але завантаження CPU більше)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Ховати панель ескізів під час слайд-шоу"
