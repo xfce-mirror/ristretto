@@ -2060,7 +2060,6 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                 else
                 {
                     g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, file, NULL);
-
                 }
 
                 _files_iter = g_slist_next (_files_iter);
@@ -2081,7 +2080,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
             }
             else
             {
-                g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, file, NULL);
+                g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, files->data, NULL);
             }
         }
 
