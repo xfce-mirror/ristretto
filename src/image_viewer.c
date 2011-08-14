@@ -664,7 +664,7 @@ rstto_image_viewer_paint_checkers (RsttoImageViewer *viewer,
      */
     color.pixel = 0xeeee0000;
 
-    for(x = 0; x <= width/10; x++)
+    for(x = 0; x <= width/10; ++x)
     {
         if(x == width/10)
         {
@@ -674,7 +674,7 @@ rstto_image_viewer_paint_checkers (RsttoImageViewer *viewer,
         {   
             block_width = 10;
         }
-        for(y = 0; y <= height/10; y++)
+        for(y = 0; y <= height/10; ++y)
         {
             gdk_gc_set_foreground(gc, &color);
             if(y == height/10)
@@ -1687,8 +1687,8 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
     if (event->state & (GDK_CONTROL_MASK))
     {
             viewer->priv->auto_scale = FALSE;
-            tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + event->x) / viewer->priv->scale;
-            tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + event->y) / viewer->priv->scale;
+            tmp_x = (gdouble)(gtk_adjustment_get_value(viewer->hadjustment) + (gdouble)event->x) / viewer->priv->scale;
+            tmp_y = (gdouble)(gtk_adjustment_get_value(viewer->vadjustment) + (gdouble)event->y) / viewer->priv->scale;
 
             switch(event->direction)
             {
