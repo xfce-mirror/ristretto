@@ -62,7 +62,10 @@ GType
 rstto_privacy_dialog_get_type();
 
 GtkWidget *
-rstto_privacy_dialog_new (GtkWindow *parent);
+rstto_privacy_dialog_new (
+        GtkWindow *parent,
+        GtkRecentManager *recent_manager
+        );
 
 G_END_DECLS
 

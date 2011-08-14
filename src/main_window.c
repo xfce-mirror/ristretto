@@ -2523,9 +2523,24 @@ rstto_main_window_add_file_to_recent_files (GFile *file)
 static void
 cb_rstto_main_window_clear_private_data (GtkWidget *widget, RsttoMainWindow *window)
 {
-    GtkWidget *dialog = rstto_privacy_dialog_new (GTK_WINDOW (window));
+    GtkRecentFilter *recent_filter;
+    gsize n_uris = 0;
+    gchar **uris = NULL;
+    gint i = 0;
+
+    GtkWidget *dialog = rstto_privacy_dialog_new (GTK_WINDOW (window), window->priv->recent_manager);
+
+    recent_filter = gtk_recent_filter_new();
+    gtk_recent_filter_add_application (recent_filter, "ristretto");
+    gtk_recent_chooser_add_filter(GTK_RECENT_CHOOSER(dialog), recent_filter);
 
     gtk_dialog_run (GTK_DIALOG (dialog));
+
+    uris = gtk_recent_chooser_get_uris (GTK_RECENT_CHOOSER(dialog), &n_uris);
+    for (i = 0; i < n_uris; ++i)
+    {
+        gtk_recent_manager_remove_item (window->priv->recent_manager, uris[i], NULL);
+    }
 
     gtk_widget_destroy (dialog);
 }

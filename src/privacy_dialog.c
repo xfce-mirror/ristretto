@@ -25,9 +25,9 @@
 #include "privacy_dialog.h"
 
 static void
-rstto_privacy_dialog_init(RsttoPrivacyDialog *);
+rstto_privacy_dialog_init (RsttoPrivacyDialog *);
 static void
-rstto_privacy_dialog_class_init(GObjectClass *);
+rstto_privacy_dialog_class_init (GObjectClass *);
 static void
 rstto_recent_chooser_init (GtkRecentChooserIface *iface);
 
@@ -44,9 +44,20 @@ rstto_privacy_dialog_get_property    (GObject    *object,
                                       guint       property_id,
                                       GValue     *value,
                                       GParamSpec *pspec);
+static void
+rstto_recent_chooser_add_filter (
+        GtkRecentChooser  *chooser,
+        GtkRecentFilter   *filter);
+static GList *
+rstto_recent_chooser_get_items (
+        GtkRecentChooser  *chooser);
 
 static void
 cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *, gpointer user_data);
+gboolean
+cb_rstto_recent_filter_filter_timeframe(
+        const GtkRecentFilterInfo *filter_info,
+        gpointer user_data);
 
 
 static GtkWidgetClass *parent_class = NULL;
@@ -73,6 +84,12 @@ struct _RsttoPrivacyDialogPriv
     GtkWidget *cleanup_frame;
     GtkWidget *cleanup_vbox;
     GtkWidget *cleanup_timeframe_combo;
+
+    GtkRecentManager *recent_manager;
+    GSList           *filters;
+    GtkRecentFilter  *timeframe_filter;
+    time_t            time_now;
+    time_t            time_offset;
 };
 
 GType
@@ -111,7 +128,7 @@ rstto_privacy_dialog_get_type (void)
 }
 
 static void
-rstto_privacy_dialog_init(RsttoPrivacyDialog *dialog)
+rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
 {
     GtkWidget *display_main_hbox;
     GtkWidget *display_main_lbl;
@@ -119,6 +136,16 @@ rstto_privacy_dialog_init(RsttoPrivacyDialog *dialog)
     dialog->priv = g_new0 (RsttoPrivacyDialogPriv, 1);
 
     dialog->priv->settings = rstto_settings_new ();
+    dialog->priv->time_now = time(0);
+    dialog->priv->timeframe_filter = gtk_recent_filter_new ();
+
+    /* Add recent-filter function to filter in access-time */    
+    gtk_recent_filter_add_custom (
+            dialog->priv->timeframe_filter,
+            GTK_RECENT_FILTER_URI,
+            (GtkRecentFilterFunc)cb_rstto_recent_filter_filter_timeframe,
+            dialog,
+            NULL);
 
     display_main_hbox = gtk_hbox_new(FALSE, 0);
     display_main_lbl = gtk_label_new(_("Timerange to clear:"));
@@ -156,7 +183,7 @@ rstto_privacy_dialog_init(RsttoPrivacyDialog *dialog)
 }
 
 static void
-rstto_privacy_dialog_class_init(GObjectClass *object_class)
+rstto_privacy_dialog_class_init (GObjectClass *object_class)
 {
     GParamSpec *pspec;
 
@@ -256,6 +283,8 @@ rstto_privacy_dialog_class_init(GObjectClass *object_class)
 static void
 rstto_recent_chooser_init (GtkRecentChooserIface *iface)
 {
+    iface->add_filter = rstto_recent_chooser_add_filter;
+    iface->get_items  = rstto_recent_chooser_get_items;
 }
 
 static void
@@ -272,24 +301,21 @@ rstto_privacy_dialog_dispose (GObject *object)
 }
 
 
-GtkWidget *
-rstto_privacy_dialog_new (GtkWindow *parent)
-{
-    GtkWidget *dialog = g_object_new (RSTTO_TYPE_PRIVACY_DIALOG,
-                                      "title", _("Clear private data"),
-                                      "icon-name", GTK_STOCK_CLEAR,
-                                      NULL);
-    gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
-
-    return dialog;
-}
-
 static void
 rstto_privacy_dialog_set_property    (GObject      *object,
                                       guint         property_id,
                                       const GValue *value,
                                       GParamSpec   *pspec)
 {
+    RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (object);
+
+    switch (property_id)
+    {
+        case PROP_RECENT_MANAGER:
+            dialog->priv->recent_manager =  g_value_get_object (value);
+            break;
+    }
+
 }
 
 static void
@@ -299,6 +325,80 @@ rstto_privacy_dialog_get_property    (GObject    *object,
                                       GParamSpec *pspec)
 {
 }
+
+/******************************************/
+/* GtkRecentChooserIface static functions */
+/*                                        */
+/******************************************/
+
+static void
+rstto_recent_chooser_add_filter (
+        GtkRecentChooser  *chooser,
+        GtkRecentFilter   *filter)
+{
+    RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (chooser);
+
+    /* Add the filter to the list of available filters */
+    dialog->priv->filters = 
+            g_slist_append (dialog->priv->filters, filter);
+}
+
+static GList *
+rstto_recent_chooser_get_items (
+        GtkRecentChooser  *chooser)
+{
+    RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (chooser);
+    GList *all_items = gtk_recent_manager_get_items (dialog->priv->recent_manager);
+    GList *all_items_iter = all_items;
+    GList *items = g_list_copy (all_items);
+    GSList *filters = dialog->priv->filters;
+    GtkRecentInfo *info;
+    GtkRecentFilterInfo filter_info;
+    gsize n_applications;
+
+    g_list_foreach (items, (GFunc)gtk_recent_info_ref, NULL);
+
+    while (NULL != all_items_iter)
+    {
+        info = all_items_iter->data;
+
+        filter_info.contains = GTK_RECENT_FILTER_URI | GTK_RECENT_FILTER_APPLICATION;
+        filter_info.uri = gtk_recent_info_get_uri (info);
+        filter_info.applications = (const gchar **)gtk_recent_info_get_applications (info, &n_applications);
+    
+        if (FALSE == gtk_recent_filter_filter(dialog->priv->timeframe_filter, &filter_info))
+        {
+            items = g_list_remove (items, info);
+        }
+        else
+        {
+            filters = dialog->priv->filters;
+
+            while (NULL != filters)
+            {
+                if (FALSE == gtk_recent_filter_filter(filters->data, &filter_info))
+                {
+                    items = g_list_remove (items, info);
+                    break;
+                }
+                
+                filters = g_slist_next (filters);
+            }
+        }
+
+        g_strfreev ((gchar **)filter_info.applications);
+        all_items_iter = g_list_next (all_items_iter);
+    }
+
+    g_list_foreach (all_items, (GFunc)gtk_recent_info_unref, NULL);
+    g_list_free (all_items);
+
+    return items;
+}
+
+
+
+
 /***************/
 /*  CALLBACKS  */
 /***************/
@@ -306,4 +406,57 @@ static void
 cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *combobox, gpointer user_data)
 {
     RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (user_data);
+
+    switch (gtk_combo_box_get_active (combobox))
+    {
+        case 0:
+            dialog->priv->time_offset = 3600;
+            break;
+        case 1:
+            dialog->priv->time_offset = 7200;
+            break;
+        case 2:
+            dialog->priv->time_offset = 14200;
+            break;
+        case 3:
+            /* TODO: calculate the time from time_now to midnight */
+            dialog->priv->time_offset = 14200;
+            break;
+        case 4:
+            dialog->priv->time_offset = dialog->priv->time_now;
+            break;
+    }
+}
+
+gboolean
+cb_rstto_recent_filter_filter_timeframe(
+        const GtkRecentFilterInfo *filter_info,
+        gpointer user_data)
+{
+    RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (user_data);
+    GtkRecentInfo *info = gtk_recent_manager_lookup_item (dialog->priv->recent_manager, filter_info->uri, NULL);
+ 
+    if ((dialog->priv->time_now - gtk_recent_info_get_visited (info)) < dialog->priv->time_offset)
+    {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+/********************/
+/* Public functions */
+/********************/
+
+GtkWidget *
+rstto_privacy_dialog_new (GtkWindow *parent, GtkRecentManager *recent_manager)
+{
+    GtkWidget *dialog = g_object_new (RSTTO_TYPE_PRIVACY_DIALOG,
+                                      "title", _("Clear private data"),
+                                      "icon-name", GTK_STOCK_CLEAR,
+                                      "recent-manager", recent_manager,
+                                      NULL);
+
+    gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
+
+    return dialog;
 }
