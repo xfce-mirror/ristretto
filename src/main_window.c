@@ -2059,6 +2059,11 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                     gtk_dialog_run(GTK_DIALOG(dialog));
                     gtk_widget_destroy(dialog);
                 }
+                else
+                {
+                    g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, file, NULL);
+
+                }
 
                 _files_iter = g_slist_next (_files_iter);
             }
@@ -2534,12 +2539,13 @@ cb_rstto_main_window_clear_private_data (GtkWidget *widget, RsttoMainWindow *win
     gtk_recent_filter_add_application (recent_filter, "ristretto");
     gtk_recent_chooser_add_filter(GTK_RECENT_CHOOSER(dialog), recent_filter);
 
-    gtk_dialog_run (GTK_DIALOG (dialog));
-
-    uris = gtk_recent_chooser_get_uris (GTK_RECENT_CHOOSER(dialog), &n_uris);
-    for (i = 0; i < n_uris; ++i)
+    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
     {
-        gtk_recent_manager_remove_item (window->priv->recent_manager, uris[i], NULL);
+        uris = gtk_recent_chooser_get_uris (GTK_RECENT_CHOOSER(dialog), &n_uris);
+        for (i = 0; i < n_uris; ++i)
+        {
+            gtk_recent_manager_remove_item (window->priv->recent_manager, uris[i], NULL);
+        }
     }
 
     gtk_widget_destroy (dialog);
