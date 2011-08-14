@@ -1682,13 +1682,28 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
 {
     gdouble tmp_x, tmp_y;
     gdouble scale;
+    gint width, height;
+    gint pixbuf_width = 0;
+    gint pixbuf_height = 0;
+    gint pixbuf_x_offset = 0;
+    gint pixbuf_y_offset = 0;
+
+
     GtkWidget *widget = GTK_WIDGET(viewer);
+
+    if (viewer->priv->dst_pixbuf)
+    {
+        pixbuf_width = gdk_pixbuf_get_width(viewer->priv->dst_pixbuf);
+        pixbuf_height = gdk_pixbuf_get_height(viewer->priv->dst_pixbuf);
+        pixbuf_x_offset = ((GTK_WIDGET(viewer)->allocation.width - pixbuf_width)/2);
+        pixbuf_y_offset = ((GTK_WIDGET(viewer)->allocation.height - pixbuf_height)/2);
+    }
 
     if (event->state & (GDK_CONTROL_MASK))
     {
             viewer->priv->auto_scale = FALSE;
-            tmp_x = (gdouble)(gtk_adjustment_get_value(viewer->hadjustment) + (gdouble)event->x) / viewer->priv->scale;
-            tmp_y = (gdouble)(gtk_adjustment_get_value(viewer->vadjustment) + (gdouble)event->y) / viewer->priv->scale;
+            tmp_x = (gdouble)(gtk_adjustment_get_value(viewer->hadjustment) + (gdouble)event->x - pixbuf_x_offset) / viewer->priv->scale;
+            tmp_y = (gdouble)(gtk_adjustment_get_value(viewer->vadjustment) + (gdouble)event->y - pixbuf_y_offset) / viewer->priv->scale;
 
             switch(event->direction)
             {
@@ -1781,9 +1796,24 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
             }
 
             viewer->priv->scale = scale;
+            g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
+            g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
+
+            width = gdk_pixbuf_get_width (viewer->priv->pixbuf);
+            height = gdk_pixbuf_get_height (viewer->priv->pixbuf);
+
+            gtk_adjustment_set_upper (viewer->hadjustment, (gdouble)width*(viewer->priv->scale/viewer->priv->image_scale));
+            gtk_adjustment_set_upper (viewer->vadjustment, (gdouble)height*(viewer->priv->scale/viewer->priv->image_scale));
+
 
             gtk_adjustment_set_value (viewer->hadjustment, (tmp_x * scale - event->x));
             gtk_adjustment_set_value (viewer->vadjustment, (tmp_y * scale - event->y));
+
+            g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
+            g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
+
+            gtk_adjustment_changed(viewer->hadjustment);
+            gtk_adjustment_changed(viewer->vadjustment);
 
             rstto_image_viewer_queued_repaint (viewer, TRUE);
     }

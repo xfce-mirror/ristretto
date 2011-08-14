@@ -2081,6 +2081,10 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                 gtk_dialog_run(GTK_DIALOG(dialog));
                 gtk_widget_destroy(dialog);
             }
+            else
+            {
+                g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, file, NULL);
+            }
         }
 
         if (pos == -1)
