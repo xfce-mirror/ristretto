@@ -263,8 +263,6 @@ cb_rstto_main_window_vpaned_pos_changed (GtkWidget *widget, gpointer user_data);
 static void
 cb_rstto_main_window_hpaned_pos_changed (GtkWidget *widget, gpointer user_data);
 
-gboolean
-rstto_main_window_add_file_to_recent_files (GFile *file);
 
 
 static GtkWidgetClass *parent_class = NULL;

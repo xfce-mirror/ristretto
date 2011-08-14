@@ -118,7 +118,6 @@ main(int argc, char **argv)
         rof.argc = argc;
         rof.argv = argv;
     	rof.iter = 1;
-        rof.window = RSTTO_MAIN_WINDOW (window);
         rof.open_entire_folder = rstto_settings_get_boolean_property (settings, "open-entire-folder");
 
         g_idle_add ((GSourceFunc )cb_rstto_open_files, &rof);
@@ -171,7 +170,10 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
                     if (strncmp (content_type, "image/", 6) == 0)
                     {
-                        rstto_image_list_add_file (rof->image_list, file, NULL);
+                        if (rstto_image_list_add_file (rof->image_list, file, NULL) == TRUE)
+                        {
+                            rstto_main_window_add_file_to_recent_files (file);
+                        }
                     }
 
                     if (rof->open_entire_folder) 
@@ -179,6 +181,8 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
                         file_type = g_file_info_get_file_type(file_info);
                         if (file_type == G_FILE_TYPE_DIRECTORY)
                         {
+                            rstto_main_window_add_file_to_recent_files (file);
+
                             file_enumarator = g_file_enumerate_children (file, "standard::*", 0, NULL, NULL);
                             for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
                             {
@@ -215,7 +219,10 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
                 if (strncmp (content_type, "image/", 6) == 0)
                 {
-                    rstto_image_list_add_file (rof->image_list, file, NULL);
+                    if (rstto_image_list_add_file (rof->image_list, file, NULL) == TRUE)
+                    {
+                        rstto_main_window_add_file_to_recent_files (file);
+                    }
                 }
             }
         }
@@ -224,6 +231,7 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
         }
         else
         {
+            rstto_main_window_add_file_to_recent_files (file);
             p_file = file;
         }
         file_enumarator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
