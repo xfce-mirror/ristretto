@@ -1071,6 +1071,18 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
             pixbuf_x_offset = ((GTK_WIDGET(viewer)->allocation.width - pixbuf_width)/2);
             pixbuf_y_offset = ((GTK_WIDGET(viewer)->allocation.height - pixbuf_height)/2);
         }
+
+        /*
+         * Prevent the adjustments from emitting the 'changed' signal,
+         * this way both the upper-limit and value can be changed before the
+         * rest of the application is informed.
+         */
+        g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
+        g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
+
+
+        gtk_adjustment_set_upper (viewer->hadjustment, ((gdouble)viewer->priv->image_width)*scale);
+        gtk_adjustment_set_upper (viewer->vadjustment, ((gdouble)viewer->priv->image_height)*scale);
         
         /*
          * When zooming in or out, 
@@ -1084,6 +1096,19 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
         tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) +
                         (gtk_adjustment_get_page_size (viewer->hadjustment) / 2) - pixbuf_x_offset) / viewer->priv->scale;
         gtk_adjustment_set_value (viewer->hadjustment, (tmp_x*scale - (gtk_adjustment_get_page_size(viewer->hadjustment)/2)));
+
+        /*
+         * Enable signals on the adjustments.
+         */
+        g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
+        g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
+
+        /*
+         * Trigger the 'changed' signal, update the rest of
+         * the appliaction.
+         */
+        gtk_adjustment_changed(viewer->hadjustment);
+        gtk_adjustment_changed(viewer->vadjustment);
 
     }
 

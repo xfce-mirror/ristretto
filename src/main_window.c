@@ -864,10 +864,6 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             {
                 status = g_strdup_printf ("%d x %d", width, height);
             }
-            else
-            {
-                status = g_strdup_printf ("Loading '%s'", file_basename);
-            }
 
             g_free (file_basename);
         }
@@ -894,10 +890,15 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         rstto_main_window_update_buttons (window);
         gtk_window_set_title (GTK_WINDOW (window), title);
         gtk_statusbar_pop (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id);
-        gtk_statusbar_push (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id, status);
+
+        if (status)
+        {
+            gtk_statusbar_push (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id, status);
+            g_free (status);
+            status = NULL;
+        }
 
         g_free (title);
-        g_free (status);
     }
 
 }
