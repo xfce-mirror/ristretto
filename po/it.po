@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Fabio Vergnani <monghitri@aruba.it>, 2007.
 # Cristian Marchi <cri.penta@gmail.com>, 2009.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -11,12 +11,11 @@ msgstr ""
 "POT-Creation-Date: 2011-08-09 20:36+0200\n"
 "PO-Revision-Date: 2009-12-10 19:43+0100\n"
 "Last-Translator: Cristian Marchi <cri.penta@gmail.com>\n"
-"Language-Team: Italian Translation Team <xfce-it-translators@googlegroups."
-"com>\n"
-"Language: \n"
+"Language-Team: Italian Translation Team <xfce-it-translators@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,11,-1,-1,-1\n"
 
 #: ../src/main.c:58
@@ -38,8 +37,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Utilizzare il comando %s --help per visualizzare la lista completa delle "
-"opzioni da linea di comando.\n"
+"Utilizzare il comando %s --help per visualizzare la lista completa delle opzioni da linea di comando.\n"
 
 #. File Menu
 #: ../src/main_window.c:274
@@ -112,13 +110,12 @@ msgid "_Delete"
 msgstr "_Cancella"
 
 #: ../src/main_window.c:285
-#, fuzzy
 msgid "Delete this image from disk"
-msgstr "Chiude questa immagine"
+msgstr "Elimina questa immagine dal disco"
 
 #: ../src/main_window.c:286
 msgid "_Clear private data"
-msgstr ""
+msgstr "_Cancella dati privati"
 
 #: ../src/main_window.c:287
 msgid "_Preferences"
@@ -424,8 +421,7 @@ msgstr "Ridimensionamento"
 
 #: ../src/preferences_dialog.c:366
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
-"Non ingrandire l'immagine oltre il 100% quando si massimizza la finestra"
+msgstr "Non ingrandire l'immagine oltre il 100% quando si massimizza la finestra"
 
 #: ../src/preferences_dialog.c:370
 msgid "Startup"
@@ -602,14 +598,11 @@ msgstr "Visualizzatore di foto Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "_Nascondi"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Una o più immagini sono state modificate; salvare i cambiamenti?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Precarica le immagini (l'interfaccia è più rapida ma richiede più lavoro "
-#~ "del processore)"
+#~ msgstr "_Precarica le immagini (l'interfaccia è più rapida ma richiede più lavoro del processore)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Nascondi la barra delle miniature durante la presentazione"
