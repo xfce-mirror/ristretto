@@ -849,7 +849,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
                              gdouble scale,
                              RsttoImageViewerOrientation orientation)
 {
-
+    
     /*
      * Set the image-orientation
      */
@@ -876,7 +876,10 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
                  */
                 if (viewer->priv->transaction)
                 {
-                    g_cancellable_cancel (viewer->priv->transaction->cancellable);
+                    if (FALSE == g_cancellable_is_cancelled (viewer->priv->transaction->cancellable))
+                    {
+                        g_cancellable_cancel (viewer->priv->transaction->cancellable);
+                    }
                     viewer->priv->transaction = NULL;
                 } 
 
@@ -900,7 +903,6 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
             g_object_unref (viewer->priv->iter);
             viewer->priv->iter = NULL;
         }
-
         if (viewer->priv->animation)
         {
             g_object_unref (viewer->priv->animation);
@@ -910,6 +912,14 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
         {
             g_object_unref (viewer->priv->pixbuf);
             viewer->priv->pixbuf = NULL;
+        }
+        if (viewer->priv->transaction)
+        {
+            if (FALSE == g_cancellable_is_cancelled (viewer->priv->transaction->cancellable))
+            {
+                g_cancellable_cancel (viewer->priv->transaction->cancellable);
+            }
+            viewer->priv->transaction = NULL;
         }
         if (viewer->priv->file)
         {
