@@ -1,0 +1,9 @@
+
+*.o
+Makefile
+Makefile.in
+src/.deps
+src/ristretto
+src/marshal.[ch]
+src/main_window_ui.h
+src/stamp-marshal.h
