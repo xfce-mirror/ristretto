@@ -811,7 +811,9 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 {
-    gchar *file_basename, *title, *status;
+    gchar *file_basename = NULL;
+    gchar *title = NULL;
+    gchar *status = NULL;
     GFile *file = NULL;
     GFileInfo *file_info = NULL;
     RsttoImage *cur_image;
