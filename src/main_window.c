@@ -434,6 +434,11 @@ rstto_main_window_init (RsttoMainWindow *window)
         g_free (desktop_type);
         desktop_type = NULL;
     }
+    else
+    {
+        /* Default to xfce */
+        window->priv->wallpaper_manager = rstto_xfce_wallpaper_manager_new();
+    }
 
 
     navigationbar_position = rstto_settings_get_navbar_position (window->priv->settings_manager);
