@@ -989,6 +989,7 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
     gint pixbuf_height = 0;
     gint pixbuf_x_offset = 0;
     gint pixbuf_y_offset = 0;
+    gboolean auto_scale = FALSE;
 
     if (scale == 0)
     {
@@ -1023,15 +1024,23 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
             {
                 if(h_scale < v_scale)
                 {
+                    /* If the image is scaled beyond the window-size, 
+                     * force the scale to fit the window and set auto_scale = TRUE.
+                     */
                     if (scale > h_scale)
                     {
+                        auto_scale = TRUE;
                         scale = h_scale;
                     }
                 }
                 else
                 {
+                    /* If the image is scaled beyond the window-size, 
+                     * force the scale to fit the window and set auto_scale = TRUE.
+                     */
                     if (scale > v_scale)
                     {
+                        auto_scale = TRUE;
                         scale = v_scale;
                     }
                 }
@@ -1072,7 +1081,7 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
             }
         }
 
-        viewer->priv->auto_scale = FALSE;
+        viewer->priv->auto_scale = auto_scale;
 
         if (viewer->priv->dst_pixbuf)
         {
@@ -1722,6 +1731,7 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
     gint pixbuf_height = 0;
     gint pixbuf_x_offset = 0;
     gint pixbuf_y_offset = 0;
+    gboolean auto_scale = FALSE;
 
 
     GtkWidget *widget = GTK_WIDGET(viewer);
@@ -1780,15 +1790,23 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
                 {
                     if(h_scale < v_scale)
                     {
+                        /* If the image is scaled beyond the window-size, 
+                         * force the scale to fit the window and set auto_scale = TRUE.
+                         */
                         if (scale > h_scale)
                         {
+                            auto_scale = TRUE;
                             scale = h_scale;
                         }
                     }
                     else
                     {
+                        /* If the image is scaled beyond the window-size, 
+                         * force the scale to fit the window and set auto_scale = TRUE.
+                         */
                         if (scale > v_scale)
                         {
+                            auto_scale = TRUE;
                             scale = v_scale;
                         }
                     }
@@ -1830,7 +1848,9 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
                 }
             }
 
+            viewer->priv->auto_scale = auto_scale;
             viewer->priv->scale = scale;
+
             g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
             g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
 
