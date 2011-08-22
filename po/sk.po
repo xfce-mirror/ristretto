@@ -4,18 +4,20 @@
 # <>, 2008.
 # Robert Hartl <hartl.robert@gmail.com>, 2009.
 # Tomáš Vadina <kyberdev@gmail.com>, 2011.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.0.20\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2011-08-09 20:36+0200\n"
-"PO-Revision-Date: 2011-07-24 13:34+0100\n"
+"PO-Revision-Date: 2011-08-22 16:10+0200\n"
 "Last-Translator: Tomáš Vadina <kyberdev@gmail.com>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
 
 #: ../src/main.c:58
 msgid "Version information"
@@ -109,13 +111,12 @@ msgid "_Delete"
 msgstr "_Zmazať"
 
 #: ../src/main_window.c:285
-#, fuzzy
 msgid "Delete this image from disk"
-msgstr "Zavrieť tento obrázok"
+msgstr "Zmazať tento obrázok z disku"
 
 #: ../src/main_window.c:286
 msgid "_Clear private data"
-msgstr ""
+msgstr "_Vymazať súkromné dáta"
 
 #: ../src/main_window.c:287
 msgid "_Preferences"
@@ -546,7 +547,7 @@ msgstr "Prezerajte Vaše fotografie jednoducho"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
-msgstr "Ristretto - prehliadač fotiek"
+msgstr "Ristretto - prehliadač fotografií"
 
 #~ msgid "_Print"
 #~ msgstr "_Tlačiť"
