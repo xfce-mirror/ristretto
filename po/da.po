@@ -2,7 +2,7 @@
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the Ristretto package.
 # Per Kongstad <p_kongstad@op.pl>, 2008, 2009.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.90\n"
@@ -11,10 +11,10 @@ msgstr ""
 "PO-Revision-Date: 2010-01-15 12:00+0100\n"
 "Last-Translator: Per Kongstad <p_kongstad@op.pl>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
-"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
 "X-Poedit-Language: Danish\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Country: DENMARK\n"
@@ -38,8 +38,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Prøv %s --help for at se en fuld liste over tilgængelige "
-"kommandolinjetilvalg.\n"
+"Prøv %s --help for at se en fuld liste over tilgængelige kommandolinjetilvalg.\n"
 
 #. File Menu
 #: ../src/main_window.c:268
@@ -111,14 +110,14 @@ msgstr "_Sortér"
 msgid "_Delete"
 msgstr "_Slet"
 
-#: ../src/main_window.c:279
+#: ../src/main_window.c:285
 #, fuzzy
 msgid "Delete this image from disk"
-msgstr "Luk dette billede"
+msgstr "Slet dette billede fra disken"
 
 #: ../src/main_window.c:280
 msgid "_Clear private data"
-msgstr ""
+msgstr "_Ryd private data"
 
 #: ../src/main_window.c:281
 msgid "_Preferences"
@@ -633,19 +632,14 @@ msgstr "Ristretto billedfremviser"
 #~ msgid "H_ide"
 #~ msgstr "S_kjul"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Et eller flere billeder er blevet ændret, ønsker du at gemme disse "
-#~ "ændringer?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
+#~ msgstr "Et eller flere billeder er blevet ændret, ønsker du at gemme disse ændringer?"
 
 #~ msgid "Image viewer Preferences"
 #~ msgstr "Indstillinger for billedfremviser"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Forindlæs billeder (Grafisk miljø reagerer hurtigere men vil bruge flere "
-#~ "processorresurser)"
+#~ msgstr "_Forindlæs billeder (Grafisk miljø reagerer hurtigere men vil bruge flere processorresurser)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Skjul miniaturebjælke under diasshow"
