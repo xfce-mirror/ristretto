@@ -102,27 +102,33 @@ GCompareFunc rstto_image_list_get_compare_func (RsttoImageList *image_list);
 void         rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func);
 
 /** Built-in Sorting Functions */
-void         rstto_image_list_set_sort_by_name (RsttoImageList *image_list);
-void         rstto_image_list_set_sort_by_date (RsttoImageList *image_list);
+void
+rstto_image_list_set_sort_by_name (RsttoImageList *image_list);
+void
+rstto_image_list_set_sort_by_date (RsttoImageList *image_list);
 
 RsttoImageListIter *rstto_image_list_get_iter (RsttoImageList *image_list);
 
 /** Iter functions */
 GType       rstto_image_list_iter_get_type ();
-RsttoImage *rstto_image_list_iter_get_image (RsttoImageListIter *iter);
+
+GFile *
+rstto_image_list_iter_get_file ( RsttoImageListIter *iter );
+
 void        rstto_image_list_iter_previous (RsttoImageListIter *iter);
 void        rstto_image_list_iter_next (RsttoImageListIter *iter);
+
 gint        rstto_image_list_iter_get_position (RsttoImageListIter *iter);
 void        rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos);
 
-void        rstto_image_list_remove_all (RsttoImageList *image_list);
-void        rstto_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image);
-gboolean    rstto_image_list_iter_find_image (RsttoImageListIter *iter, RsttoImage *image);
+void
+rstto_image_list_remove_all (RsttoImageList *image_list);
+void
+rstto_image_list_remove_file (RsttoImageList *image_list, GFile *file);
+gboolean
+rstto_image_list_iter_find_image (RsttoImageListIter *iter, GFile *file);
+
 RsttoImageListIter *rstto_image_list_iter_clone (RsttoImageListIter *iter);
-
-
-
-
 
 G_END_DECLS
 

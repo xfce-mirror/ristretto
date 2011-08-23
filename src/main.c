@@ -30,7 +30,6 @@
 #include <libxfce4util/libxfce4util.h>
 #include <libexif/exif-data.h>
 
-#include "image.h"
 #include "image_list.h"
 #include "settings.h"
 #include "main_window.h"

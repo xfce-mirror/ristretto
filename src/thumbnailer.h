@@ -63,9 +63,9 @@ RsttoThumbnailer *rstto_thumbnailer_new (void);
 GType             rstto_thumbnailer_get_type (void);
 
 void
-rstto_thumbnailer_queue_image (RsttoThumbnailer *thumbnailer, RsttoImage *image);
+rstto_thumbnailer_queue_thumbnail (RsttoThumbnailer *thumbnailer, RsttoThumbnail *thumb);
 void
-rstto_thumbnailer_dequeue_image (RsttoThumbnailer *thumbnailer, RsttoImage *image);
+rstto_thumbnailer_dequeue_thumbnail (RsttoThumbnailer *thumbnailer, RsttoThumbnail *thumb);
 G_END_DECLS
 
 #endif /* __RISTRETTO_THUMBNAILER_H__ */

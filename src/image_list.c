@@ -25,7 +25,6 @@
 
 #include <libexif/exif-data.h>
 
-#include "image.h"
 #include "image_list.h"
 #include "settings.h"
 
@@ -46,11 +45,11 @@ rstto_image_list_iter_dispose(GObject *object);
 static RsttoImageListIter * rstto_image_list_iter_new ();
 
 static gint
-cb_rstto_image_list_image_name_compare_func (RsttoImage *a, RsttoImage *b);
+cb_rstto_image_list_image_name_compare_func (GFile *a, GFile *b);
 static gint
-cb_rstto_image_list_exif_date_compare_func (RsttoImage *a, RsttoImage *b);
+cb_rstto_image_list_exif_date_compare_func (GFile *a, GFile *b);
 static gint
-cb_rstto_image_list_file_compare_func (RsttoImage *a, GFile *file);
+cb_rstto_image_list_file_compare_func (GFile *a, GFile *file);
 
 static GObjectClass *parent_class = NULL;
 static GObjectClass *iter_parent_class = NULL;
@@ -73,7 +72,7 @@ enum
 struct _RsttoImageListIterPriv
 {
     RsttoImageList *image_list;
-    RsttoImage *image;
+    GFile *file;
 };
 
 struct _RsttoImageListPriv
@@ -186,19 +185,18 @@ rstto_image_list_new (void)
 gboolean
 rstto_image_list_add_file (RsttoImageList *image_list, GFile *file, GError **error)
 {
-    RsttoImage *image = NULL;
-
-    GList *image_iter = g_list_find_custom (image_list->priv->images, file, (GCompareFunc)cb_rstto_image_list_file_compare_func);
+    GList *image_iter = g_list_find_custom (image_list->priv->images, file, rstto_image_list_get_compare_func (image_list));
 
     if (!image_iter)
     {
-        image = rstto_image_new (file);
-        if (image)
+        if (file)
         {
-            image_list->priv->images = g_list_insert_sorted (image_list->priv->images, image, rstto_image_list_get_compare_func (image_list));
+            image_list->priv->images = g_list_insert_sorted (image_list->priv->images, file, rstto_image_list_get_compare_func (image_list));
+            g_object_ref (file);
+
             image_list->priv->n_images++;
 
-            g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, image, NULL);
+            g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, file, NULL);
             if (image_list->priv->n_images == 1)
             {
                 /** TODO: update all iterators */
@@ -235,12 +233,12 @@ rstto_image_list_get_n_images (RsttoImageList *image_list)
 RsttoImageListIter *
 rstto_image_list_get_iter (RsttoImageList *image_list)
 {
-    RsttoImage *image = NULL;
+    GFile *file = NULL;
     RsttoImageListIter *iter = NULL;
     if (image_list->priv->images)
-        image = image_list->priv->images->data;
+        file = image_list->priv->images->data;
 
-    iter = rstto_image_list_iter_new (image_list, image);
+    iter = rstto_image_list_iter_new (image_list, file);
 
     image_list->priv->iterators = g_slist_prepend (image_list->priv->iterators, iter);
 
@@ -249,51 +247,58 @@ rstto_image_list_get_iter (RsttoImageList *image_list)
 
 
 void
-rstto_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image)
+rstto_image_list_remove_file (RsttoImageList *image_list, GFile *file)
 {
     GSList *iter = NULL;
+    GFile *afile = NULL;
 
-    if (g_list_find (image_list->priv->images, image))
+    if (g_list_find(image_list->priv->images, file))
     {
 
         iter = image_list->priv->iterators;
         while (iter)
         {
-            if (rstto_image_list_iter_get_image (iter->data) == image)
+            if (g_file_equal(rstto_image_list_iter_get_file (iter->data), file))
             {
                 rstto_image_list_iter_previous (iter->data);
                 /* If the image is still the same, 
                  * it's a single item list,
                  * and we should force the image in this iter to NULL
                  */
-                if (rstto_image_list_iter_get_image (iter->data) == image)
+                if (g_file_equal(rstto_image_list_iter_get_file (iter->data), file))
                 {
-                    ((RsttoImageListIter *)(iter->data))->priv->image = NULL;
+                    ((RsttoImageListIter *)(iter->data))->priv->file = NULL;
                     g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
                 }
             }
             iter = g_slist_next (iter);
         }
 
-        image_list->priv->images = g_list_remove (image_list->priv->images, image);
+        image_list->priv->images = g_list_remove (image_list->priv->images, file);
         iter = image_list->priv->iterators;
+        g_object_ref(file);
         while (iter)
         {
-            if (rstto_image_list_iter_get_image (iter->data) == image)
+            afile = rstto_image_list_iter_get_file(iter->data);
+            if (NULL != afile)
             {
-                rstto_image_list_iter_previous (iter->data);
+                if (g_file_equal(afile, file))
+                {
+                    rstto_image_list_iter_previous (iter->data);
+                }
             }
             iter = g_slist_next (iter);
         }
 
-        g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE], 0, image, NULL);
-        g_object_unref (image);
+        g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE], 0, file, NULL);
+        g_object_unref(file);
     }
 }
 
 void
 rstto_image_list_remove_all (RsttoImageList *image_list)
 {
+#if 0
     GSList *iter = NULL;
     g_list_foreach (image_list->priv->images, (GFunc)g_object_unref, NULL);
     g_list_free (image_list->priv->images);
@@ -306,6 +311,7 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
         iter = g_slist_next (iter);
     }
     g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL], 0, NULL);
+#endif
 }
 
 
@@ -379,9 +385,9 @@ static void
 rstto_image_list_iter_dispose (GObject *object)
 {
     RsttoImageListIter *iter = RSTTO_IMAGE_LIST_ITER(object);
-    if (iter->priv->image)
+    if (iter->priv->file)
     {
-        iter->priv->image = NULL;
+        iter->priv->file = NULL;
     }
 
     if (iter->priv->image_list)
@@ -392,30 +398,30 @@ rstto_image_list_iter_dispose (GObject *object)
 }
 
 static RsttoImageListIter *
-rstto_image_list_iter_new (RsttoImageList *nav, RsttoImage *image)
+rstto_image_list_iter_new (RsttoImageList *nav, GFile *file)
 {
     RsttoImageListIter *iter;
 
     iter = g_object_new(RSTTO_TYPE_IMAGE_LIST_ITER, NULL);
-    iter->priv->image = image;
+    iter->priv->file = file;
     iter->priv->image_list = nav;
 
     return iter;
 }
 
 gboolean
-rstto_image_list_iter_find_image (RsttoImageListIter *iter, RsttoImage *image)
+rstto_image_list_iter_find_file (RsttoImageListIter *iter, GFile *file)
 {
-    gint pos = g_list_index (iter->priv->image_list->priv->images, image);
+    gint pos = g_list_index (iter->priv->image_list->priv->images, file);
     if (pos > -1)
     {
         g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
 
-        if (iter->priv->image)
+        if (iter->priv->file)
         {
-            iter->priv->image = NULL;
+            iter->priv->file = NULL;
         }
-        iter->priv->image = image;
+        iter->priv->file = file;
 
         g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
 
@@ -427,17 +433,17 @@ rstto_image_list_iter_find_image (RsttoImageListIter *iter, RsttoImage *image)
 gint
 rstto_image_list_iter_get_position (RsttoImageListIter *iter)
 {
-    if (iter->priv->image == NULL)
+    if ( NULL == iter->priv->file )
     {
         return -1;
     }
-    return g_list_index (iter->priv->image_list->priv->images, iter->priv->image);
+    return g_list_index (iter->priv->image_list->priv->images, iter->priv->file);
 }
 
-RsttoImage *
-rstto_image_list_iter_get_image (RsttoImageListIter *iter)
+GFile *
+rstto_image_list_iter_get_file (RsttoImageListIter *iter)
 {
-    return iter->priv->image;
+    return iter->priv->file;
 }
 
 
@@ -446,14 +452,14 @@ rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos)
 {
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
 
-    if (iter->priv->image)
+    if (iter->priv->file)
     {
-        iter->priv->image = NULL;
+        iter->priv->file = NULL;
     }
 
     if (pos >= 0)
     {
-        iter->priv->image = g_list_nth_data (iter->priv->image_list->priv->images, pos); 
+        iter->priv->file = g_list_nth_data (iter->priv->image_list->priv->images, pos); 
     }
 
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
@@ -467,15 +473,15 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
 
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
 
-    if (iter->priv->image)
+    if (iter->priv->file)
     {
-        position = g_list_find (iter->priv->image_list->priv->images, iter->priv->image);
-        iter->priv->image = NULL;
+        position = g_list_find (iter->priv->image_list->priv->images, iter->priv->file);
+        iter->priv->file = NULL;
     }
 
     position = g_list_next (position);
     if (position)
-        iter->priv->image = position->data; 
+        iter->priv->file = position->data; 
     else
     {
         settings = rstto_settings_new();
@@ -486,9 +492,9 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
             position = g_list_last (iter->priv->image_list->priv->images);
 
         if (position)
-            iter->priv->image = position->data; 
+            iter->priv->file = position->data; 
         else
-            iter->priv->image = NULL;
+            iter->priv->file = NULL;
 
         g_object_unref (settings);
     }
@@ -504,16 +510,16 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter)
 
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
 
-    if (iter->priv->image)
+    if (iter->priv->file)
     {
-        position = g_list_find (iter->priv->image_list->priv->images, iter->priv->image);
-        iter->priv->image = NULL;
+        position = g_list_find (iter->priv->image_list->priv->images, iter->priv->file);
+        iter->priv->file = NULL;
     }
 
     position = g_list_previous (position);
     if (position)
     {
-        iter->priv->image = position->data; 
+        iter->priv->file = position->data; 
     }
     else
     {
@@ -525,9 +531,9 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter)
             position = g_list_first (iter->priv->image_list->priv->images);
 
         if (position)
-            iter->priv->image = position->data; 
+            iter->priv->file = position->data; 
         else
-            iter->priv->image = NULL;
+            iter->priv->file = NULL;
 
         g_object_unref (settings);
     }
@@ -538,7 +544,7 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter)
 RsttoImageListIter *
 rstto_image_list_iter_clone (RsttoImageListIter *iter)
 {
-    RsttoImageListIter *new_iter = rstto_image_list_iter_new (iter->priv->image_list, iter->priv->image);
+    RsttoImageListIter *new_iter = rstto_image_list_iter_new (iter->priv->image_list, iter->priv->file);
     rstto_image_list_iter_set_position (new_iter, rstto_image_list_iter_get_position(iter));
 
     return new_iter;
@@ -556,6 +562,7 @@ rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func
     GSList *iter = NULL;
     image_list->priv->cb_rstto_image_list_compare_func = func;
     image_list->priv->images = g_list_sort (image_list->priv->images,  func);
+
     for (iter = image_list->priv->iterators; iter != NULL; iter = g_slist_next (iter))
     {
         g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
@@ -587,10 +594,10 @@ rstto_image_list_set_sort_by_date (RsttoImageList *image_list)
  * Return value: (see strcmp)
  */
 static gint
-cb_rstto_image_list_image_name_compare_func (RsttoImage *a, RsttoImage *b)
+cb_rstto_image_list_image_name_compare_func (GFile *a, GFile *b)
 {
-    gchar *a_base = g_file_get_basename (rstto_image_get_file (a));  
-    gchar *b_base = g_file_get_basename (rstto_image_get_file (b));  
+    gchar *a_base = g_file_get_basename (a);  
+    gchar *b_base = g_file_get_basename (b);  
     gint result = 0;
 
     result = g_strcasecmp (a_base, b_base);
@@ -610,12 +617,12 @@ cb_rstto_image_list_image_name_compare_func (RsttoImage *a, RsttoImage *b)
  * Return value: (see strcmp)
  */
 static gint
-cb_rstto_image_list_exif_date_compare_func (RsttoImage *a, RsttoImage *b)
+cb_rstto_image_list_exif_date_compare_func (GFile *a, GFile *b)
 {
     gint result = 0;
     
-    GFileInfo *file_info_a = g_file_query_info (rstto_image_get_file (a), "time::modified", 0, NULL, NULL);
-    GFileInfo *file_info_b = g_file_query_info (rstto_image_get_file (b), "time::modified", 0, NULL, NULL);
+    GFileInfo *file_info_a = g_file_query_info (a, "time::modified", 0, NULL, NULL);
+    GFileInfo *file_info_b = g_file_query_info (b, "time::modified", 0, NULL, NULL);
 
     guint64 a_i = g_file_info_get_attribute_uint64(file_info_a, "time::modified");
     guint64 b_i = g_file_info_get_attribute_uint64(file_info_b, "time::modified");
@@ -626,19 +633,5 @@ cb_rstto_image_list_exif_date_compare_func (RsttoImage *a, RsttoImage *b)
 
     g_object_unref (file_info_a);
     g_object_unref (file_info_b);
-    return result;
-}
-
-static gint
-cb_rstto_image_list_file_compare_func (RsttoImage *a, GFile *file)
-{
-    gchar *a_base = g_file_get_uri (rstto_image_get_file (a));  
-    gchar *b_base = g_file_get_uri (file);  
-    gint result = 0;
-
-    result = g_strcasecmp (a_base, b_base);
-
-    g_free (a_base);
-    g_free (b_base);
     return result;
 }

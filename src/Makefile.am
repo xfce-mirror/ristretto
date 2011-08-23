@@ -2,7 +2,6 @@ bin_PROGRAMS = ristretto
 
 ristretto_SOURCES = \
 	image_list.c image_list.h \
-	image.c image.h \
 	image_viewer.c image_viewer.h \
 	settings.c settings.h \
 	privacy_dialog.h privacy_dialog.c \
@@ -12,7 +11,6 @@ ristretto_SOURCES = \
 	wallpaper_manager.c wallpaper_manager.h \
 	xfce_wallpaper_manager.c xfce_wallpaper_manager.h \
 	gnome_wallpaper_manager.c gnome_wallpaper_manager.h \
-	meego_wallpaper_manager.c meego_wallpaper_manager.h \
 	app_menu_item.c app_menu_item.h \
 	thumbnail_bar.c thumbnail_bar.h \
 	thumbnail.c thumbnail.h \

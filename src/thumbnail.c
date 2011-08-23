@@ -23,14 +23,15 @@
 
 #include <libexif/exif-data.h>
 
-#include "image.h"
 #include "image_list.h"
 #include "thumbnail.h"
 
 struct _RsttoThumbnailPriv
 {
-    RsttoImage          *image;
-    GdkPixbuf           *pixbuf;
+    GFile       *file;
+    GdkPixbuf   *pixbuf;
+    GdkPixbuf   *thumb_pixbuf;
+    gchar       *thumbnail_path;
 };
 
 static GtkWidgetClass *parent_class = NULL;
@@ -135,10 +136,10 @@ static void
 rstto_thumbnail_finalize(GObject *object)
 {
     RsttoThumbnail *thumb = RSTTO_THUMBNAIL(object);
-    if (thumb->priv->image)
+    if (thumb->priv->file)
     {
-        g_object_unref (thumb->priv->image);
-        thumb->priv->image = NULL;
+        g_object_unref (thumb->priv->file);
+        thumb->priv->file = NULL;
     }
 
 }
@@ -179,17 +180,21 @@ rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
 
     if (GTK_WIDGET_REALIZED (widget))
     {
-        if (thumb->priv->image)
+        if (NULL == thumb->priv->thumb_pixbuf)
         {
-            thumb_pixbuf = rstto_image_get_thumbnail (thumb->priv->image);
+            thumb->priv->thumb_pixbuf = gdk_pixbuf_new_from_file_at_scale (thumb->priv->thumbnail_path, 128, 128, TRUE, NULL);
         }
-
+        if (NULL != thumb->priv->thumb_pixbuf)
+        {
+            thumb_pixbuf = thumb->priv->thumb_pixbuf;
+            g_object_ref (thumb_pixbuf);
+        }
+        /* TODO: perform a check if we can open the real thumbnail */
         if (thumb_pixbuf == NULL)
         {
             thumb_pixbuf = thumbnail_missing_icon;
+            g_object_ref (thumb_pixbuf);
         }
-
-        g_object_ref (thumb_pixbuf);
 
         if (thumb_pixbuf)
         {
@@ -241,79 +246,71 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 
     GtkStateType state = GTK_WIDGET_STATE(widget);
 
-    if(thumb->priv->image)
+    if (GTK_WIDGET_STATE(widget) != GTK_STATE_PRELIGHT)
     {
+    }
 
-        if (GTK_WIDGET_STATE(widget) != GTK_STATE_PRELIGHT)
-        {
-        }
+    gtk_paint_box(widget->style,
+                  widget->window,
+                  state,
+                  GTK_SHADOW_ETCHED_IN,
+                  NULL,
+                  widget,
+                  NULL,
+                  widget->allocation.x, widget->allocation.y,
+                  widget->allocation.width, widget->allocation.height);
 
-        gtk_paint_box(widget->style,
-                      widget->window,
-                      state,
-                      GTK_SHADOW_ETCHED_IN,
-                      NULL,
-                      widget,
-                      NULL,
-                      widget->allocation.x, widget->allocation.y,
-                      widget->allocation.width, widget->allocation.height);
-
-        if (thumb->priv->pixbuf)
-        {
-            gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
-                            NULL,
-                            thumb->priv->pixbuf,
-                            0, 0,
-                            (0.5 * (widget->allocation.width - gdk_pixbuf_get_width(thumb->priv->pixbuf))) + widget->allocation.x,
-                            (0.5 * (widget->allocation.height - gdk_pixbuf_get_height(thumb->priv->pixbuf))) + widget->allocation.y,
-                            -1, -1,
-                            GDK_RGB_DITHER_NORMAL,
-                            0, 0);
-        }
-
-        /*
-        gtk_paint_focus (widget->style,
-                      widget->window,
-                      state,
-                      NULL,
-                      widget,
-                      NULL,
-                      widget->allocation.x+3, widget->allocation.y+3,
-                      widget->allocation.width-6, widget->allocation.height-6);
-        */
-
+    if (thumb->priv->pixbuf)
+    {
+        gdk_draw_pixbuf(GDK_DRAWABLE(widget->window),
+                        NULL,
+                        thumb->priv->pixbuf,
+                        0, 0,
+                        (0.5 * (widget->allocation.width - gdk_pixbuf_get_width(thumb->priv->pixbuf))) + widget->allocation.x,
+                        (0.5 * (widget->allocation.height - gdk_pixbuf_get_height(thumb->priv->pixbuf))) + widget->allocation.y,
+                        -1, -1,
+                        GDK_RGB_DITHER_NORMAL,
+                        0, 0);
     }
 }
 
 GtkWidget *
-rstto_thumbnail_new (RsttoImage *image)
+rstto_thumbnail_new (GFile *file)
 {
     gchar *file_basename;
-    GFile *file = NULL;
+    gchar *filename;
+    gchar *file_uri;
+    gchar *file_uri_checksum;
+
     RsttoThumbnail *thumb;
 
-    g_return_val_if_fail (image != NULL, NULL);
+    g_return_val_if_fail (file != NULL, NULL);
 
     thumb = g_object_new(RSTTO_TYPE_THUMBNAIL, NULL);
 
-    thumb->priv->image = image;
-    g_object_ref (image);
-
-    file = rstto_image_get_file (image);
+    thumb->priv->file = file ;
+    g_object_ref (file);
 
     file_basename = g_file_get_basename (file);
+    file_uri = g_file_get_uri (file);
+    file_uri_checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, file_uri, strlen (file_uri));
+    filename = g_strconcat (file_uri_checksum, ".png", NULL);
+
+    thumb->priv->thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", filename, NULL);
 
     gtk_widget_set_tooltip_text(GTK_WIDGET(thumb), file_basename);
 
     g_free (file_basename);
+    g_free (file_uri);
+    g_free (file_uri_checksum);
 
     return GTK_WIDGET(thumb);
 }
 
-RsttoImage *
-rstto_thumbnail_get_image (RsttoThumbnail *thumb)
+GFile *
+rstto_thumbnail_get_file (RsttoThumbnail *thumb)
 {
-    return thumb->priv->image;
+    return thumb->priv->file;
 }
 
 /* CALLBACKS */
@@ -342,6 +339,10 @@ rstto_thumbnail_leave (GtkButton *button)
 void
 rstto_thumbnail_update (RsttoThumbnail *thumb)
 {
-    
+    if (thumb->priv->thumb_pixbuf)
+    {
+        g_object_unref (thumb->priv->thumb_pixbuf);
+    }
+    thumb->priv->thumb_pixbuf = gdk_pixbuf_new_from_file_at_scale (thumb->priv->thumbnail_path, 128, 128, TRUE, NULL);
     gtk_widget_queue_draw (GTK_WIDGET (thumb));
 }

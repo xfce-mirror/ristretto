@@ -24,7 +24,6 @@
 #include <libxfce4ui/libxfce4ui.h>
 #include <libexif/exif-data.h>
 
-#include "image.h"
 #include "image_list.h"
 #include "thumbnail.h"
 #include "thumbnail_bar.h"
@@ -72,9 +71,9 @@ static void
 rstto_thumbnail_bar_unrealize(GtkWidget *widget);
 
 static void
-cb_rstto_thumbnail_bar_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, gpointer user_data);
+cb_rstto_thumbnail_bar_image_list_new_file (RsttoImageList *image_list, GFile *file, gpointer user_data);
 static void
-cb_rstto_thumbnail_bar_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image, gpointer user_data);
+cb_rstto_thumbnail_bar_image_list_remove_file (RsttoImageList *image_list, GFile *file, gpointer user_data);
 static void
 cb_rstto_thumbnail_bar_image_list_remove_all (RsttoImageList *image_list, gpointer user_data);
 void
@@ -244,7 +243,7 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     GtkRequisition child_requisition;
     GList *iter = bar->priv->thumbs;
 
-    RsttoImage *image = NULL;
+    GFile *file = NULL;
 
 	gtk_widget_style_get(widget, "spacing", &spacing, NULL);
     widget->allocation = *allocation;
@@ -309,12 +308,13 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
                     gtk_widget_size_allocate(GTK_WIDGET(iter->data), &child_allocation);
 
                     /* Do thumbnailing stuff */
-                    rstto_thumbnailer_queue_image (bar->priv->thumbnailer, iter->data);
+                    rstto_thumbnailer_queue_thumbnail (bar->priv->thumbnailer, iter->data);
                 }
                 else
                 {
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), FALSE);
-                    rstto_thumbnailer_dequeue_image (bar->priv->thumbnailer, iter->data);
+
+                    rstto_thumbnailer_dequeue_thumbnail (bar->priv->thumbnailer, iter->data);
                 }
 
                 child_allocation.x += child_allocation.width + spacing;
@@ -363,12 +363,12 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
                     gtk_widget_size_allocate(GTK_WIDGET(iter->data), &child_allocation);
 
                     /* Do thumbnailing stuff */
-                    rstto_thumbnailer_queue_image (bar->priv->thumbnailer, iter->data);
+                    rstto_thumbnailer_queue_thumbnail (bar->priv->thumbnailer, iter->data);
                 }
                 else
                 {
                     gtk_widget_set_child_visible(GTK_WIDGET(iter->data), FALSE);
-                    rstto_thumbnailer_dequeue_image (bar->priv->thumbnailer, iter->data);
+                    rstto_thumbnailer_dequeue_thumbnail (bar->priv->thumbnailer, iter->data);
                 }
 
                 gtk_widget_size_allocate(GTK_WIDGET(iter->data), &child_allocation);
@@ -568,8 +568,8 @@ rstto_thumbnail_bar_set_image_list (RsttoThumbnailBar *bar, RsttoImageList *nav)
 
     if (bar->priv->image_list)
     {
-        g_signal_connect (G_OBJECT (bar->priv->image_list), "new-image", G_CALLBACK (cb_rstto_thumbnail_bar_image_list_new_image), bar);
-        g_signal_connect (G_OBJECT (bar->priv->image_list), "remove-image", G_CALLBACK (cb_rstto_thumbnail_bar_image_list_remove_image), bar);
+        g_signal_connect (G_OBJECT (bar->priv->image_list), "new-image", G_CALLBACK (cb_rstto_thumbnail_bar_image_list_new_file), bar);
+        g_signal_connect (G_OBJECT (bar->priv->image_list), "remove-image", G_CALLBACK (cb_rstto_thumbnail_bar_image_list_remove_file), bar);
         g_signal_connect (G_OBJECT (bar->priv->image_list), "remove-all", G_CALLBACK (cb_rstto_thumbnail_bar_image_list_remove_all), bar);
         g_object_ref (nav);
     }
@@ -623,7 +623,7 @@ rstto_thumbnail_bar_remove(GtkContainer *container, GtkWidget *child)
 
 	widget_was_visible = GTK_WIDGET_VISIBLE(child);
 
-    rstto_thumbnailer_dequeue_image (bar->priv->thumbnailer, rstto_thumbnail_get_image(RSTTO_THUMBNAIL(child)));
+    rstto_thumbnailer_dequeue_thumbnail (bar->priv->thumbnailer, RSTTO_THUMBNAIL(child));
 
     bar->priv->thumbs = g_list_remove(bar->priv->thumbs, child);
 
@@ -656,8 +656,8 @@ static gint
 cb_rstto_thumbnail_bar_compare (GtkWidget *a, GtkWidget *b, gpointer user_data)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
-    RsttoImage *a_i = rstto_thumbnail_get_image (RSTTO_THUMBNAIL (a));
-    RsttoImage *b_i = rstto_thumbnail_get_image (RSTTO_THUMBNAIL (b));
+    GFile *a_i = rstto_thumbnail_get_file (RSTTO_THUMBNAIL (a));
+    GFile *b_i = rstto_thumbnail_get_file (RSTTO_THUMBNAIL (b));
 
     return rstto_image_list_get_compare_func (bar->priv->image_list) (a_i, b_i);
 }
@@ -865,21 +865,21 @@ cb_rstto_thumbnail_bar_image_list_iter_changed (RsttoImageListIter *iter, gpoint
 }
 
 static void
-cb_rstto_thumbnail_bar_image_list_new_image (RsttoImageList *image_list, RsttoImage *image, gpointer user_data)
+cb_rstto_thumbnail_bar_image_list_new_file (RsttoImageList *image_list, GFile *file, gpointer user_data)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
     GtkWidget *thumb;
     GList *iter;
 
-    g_return_if_fail (rstto_image_list_iter_find_image (bar->priv->internal_iter, image));
+    g_return_if_fail (rstto_image_list_iter_find_file (bar->priv->internal_iter, file));
 
     for (iter = bar->priv->thumbs; iter != NULL; iter = g_list_next (iter))
     {
-        if (image == rstto_thumbnail_get_image (iter->data))
+        if (g_file_equal(file,rstto_thumbnail_get_file (iter->data)))
             return;
     }
 
-    thumb = rstto_thumbnail_new (image);
+    thumb = rstto_thumbnail_new (file);
 
     gtk_container_add (GTK_CONTAINER (bar), thumb);
     gtk_widget_show_all (thumb);
@@ -891,14 +891,14 @@ cb_rstto_thumbnail_bar_image_list_new_image (RsttoImageList *image_list, RsttoIm
 }
 
 static void
-cb_rstto_thumbnail_bar_image_list_remove_image (RsttoImageList *image_list, RsttoImage *image, gpointer user_data)
+cb_rstto_thumbnail_bar_image_list_remove_file (RsttoImageList *image_list, GFile *file, gpointer user_data)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
     GList *iter = bar->priv->thumbs;
 
     while (iter)
     {
-        if (rstto_thumbnail_get_image (iter->data) == image)
+        if (g_file_equal(rstto_thumbnail_get_file(iter->data), file))
         {
             GtkWidget *widget = iter->data;
             gtk_container_remove (GTK_CONTAINER (bar), widget);

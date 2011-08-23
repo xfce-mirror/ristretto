@@ -25,7 +25,6 @@
 #include <gio/gio.h>
 #include <dbus/dbus-glib.h>
 
-#include "image.h"
 #include "thumbnail.h"
 #include "thumbnailer.h"
 #include "marshal.h"
@@ -234,7 +233,7 @@ rstto_thumbnailer_get_property    (GObject    *object,
 }
 
 void
-rstto_thumbnailer_queue_image (RsttoThumbnailer *thumbnailer, RsttoImage *image)
+rstto_thumbnailer_queue_thumbnail (RsttoThumbnailer *thumbnailer, RsttoThumbnail *thumb)
 {
     if (thumbnailer->priv->request_timer_id)
     {
@@ -250,10 +249,10 @@ rstto_thumbnailer_queue_image (RsttoThumbnailer *thumbnailer, RsttoImage *image)
         }
     }
 
-    if (g_slist_find (thumbnailer->priv->queue, image) == NULL)
+    if (g_slist_find (thumbnailer->priv->queue, thumb) == NULL)
     {
-        g_object_ref (image);
-        thumbnailer->priv->queue = g_slist_prepend (thumbnailer->priv->queue, image);
+        g_object_ref (thumb);
+        thumbnailer->priv->queue = g_slist_prepend (thumbnailer->priv->queue, thumb);
     }
 
     thumbnailer->priv->request_timer_id = g_timeout_add_full (G_PRIORITY_LOW, 300, (GSourceFunc)rstto_thumbnailer_queue_request_timer, thumbnailer, NULL);
@@ -261,7 +260,7 @@ rstto_thumbnailer_queue_image (RsttoThumbnailer *thumbnailer, RsttoImage *image)
 }
 
 void
-rstto_thumbnailer_dequeue_image (RsttoThumbnailer *thumbnailer, RsttoImage *image)
+rstto_thumbnailer_dequeue_thumbnail (RsttoThumbnailer *thumbnailer, RsttoThumbnail *thumb)
 {
     if (thumbnailer->priv->request_timer_id)
     {
@@ -277,14 +276,13 @@ rstto_thumbnailer_dequeue_image (RsttoThumbnailer *thumbnailer, RsttoImage *imag
         }
     }
 
-    if (g_slist_find (thumbnailer->priv->queue, image) != NULL)
+    if (g_slist_find (thumbnailer->priv->queue, thumb) != NULL)
     {
-        thumbnailer->priv->queue = g_slist_remove_all (thumbnailer->priv->queue, image);
-        g_object_unref (image);
+        thumbnailer->priv->queue = g_slist_remove_all (thumbnailer->priv->queue, thumb);
+        g_object_unref (thumb);
     }
 
     thumbnailer->priv->request_timer_id = g_timeout_add_full (G_PRIORITY_LOW, 300, (GSourceFunc)rstto_thumbnailer_queue_request_timer, thumbnailer, NULL);
-    /* g_debug("%s, len: %d", __FUNCTION__, g_slist_length(thumbnailer->priv->queue)); */
 }
 
 static gboolean
@@ -295,7 +293,6 @@ rstto_thumbnailer_queue_request_timer (RsttoThumbnailer *thumbnailer)
     GSList *iter;
     gint i = 0;
     GFile *file;
-    RsttoImage *image;
     GError *error = NULL;
     GFileInfo *file_info;
 
@@ -307,8 +304,7 @@ rstto_thumbnailer_queue_request_timer (RsttoThumbnailer *thumbnailer)
     {
         if (iter->data)
         {
-            image = rstto_thumbnail_get_image (RSTTO_THUMBNAIL(iter->data));
-            file = rstto_image_get_file (image);
+            file = rstto_thumbnail_get_file (RSTTO_THUMBNAIL(iter->data));
             uris[i] = g_file_get_uri (file);
             file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
             if (file_info)
@@ -344,6 +340,7 @@ static void
 cb_rstto_thumbnailer_request_finished (DBusGProxy *proxy, gint handle, gpointer data)
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
+    g_slist_foreach (thumbnailer->priv->queue, (GFunc)g_object_unref, NULL);
     g_slist_free (thumbnailer->priv->queue);
     thumbnailer->priv->queue = NULL;
 }
@@ -353,7 +350,6 @@ cb_rstto_thumbnailer_thumbnail_ready (DBusGProxy *proxy, gint handle, const gcha
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
     RsttoThumbnail *thumbnail;
-    RsttoImage *image;
     GFile *file;
     GSList *iter = thumbnailer->priv->queue;
     GSList *prev;
@@ -367,8 +363,7 @@ cb_rstto_thumbnailer_thumbnail_ready (DBusGProxy *proxy, gint handle, const gcha
         }
 
         thumbnail = iter->data;
-        image = rstto_thumbnail_get_image (thumbnail);
-        file = rstto_image_get_file (image);
+        file = rstto_thumbnail_get_file (thumbnail);
         f_uri = g_file_get_uri (file);
         if (strcmp (uri[x], f_uri) == 0)
         {

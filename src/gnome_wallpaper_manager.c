@@ -26,8 +26,6 @@
 #include <X11/Xproto.h>
 #include <gio/gio.h>
 
-#include "image.h"
-
 #include "wallpaper_manager.h"
 #include "gnome_wallpaper_manager.h"
 
@@ -64,7 +62,7 @@ enum
 };
 
 static gint 
-rstto_gnome_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, RsttoImage *image)
+rstto_gnome_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, GFile *file)
 {
     RsttoGnomeWallpaperManager *manager = RSTTO_GNOME_WALLPAPER_MANAGER (self);
     gint response = GTK_RESPONSE_OK;
@@ -101,7 +99,7 @@ rstto_gnome_wallpaper_manager_check_running (RsttoWallpaperManager *self)
 }
 
 static gboolean
-rstto_gnome_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoImage *image)
+rstto_gnome_wallpaper_manager_set (RsttoWallpaperManager *self, GFile *file)
 {
     RsttoGnomeWallpaperManager *manager = RSTTO_GNOME_WALLPAPER_MANAGER (self);
 

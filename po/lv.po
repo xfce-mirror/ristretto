@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-08-09 20:36+0200\n"
+"POT-Creation-Date: 2011-08-23 22:54+0200\n"
 "PO-Revision-Date: 2010-03-25 21:52+0100\n"
 "Last-Translator: Rihards Priedītis <rprieditis@gmail.com>\n"
 "Language-Team: Latvian <translation-team-lv@lists.sourceforge.net>\n"
@@ -20,19 +20,19 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
-#: ../src/main.c:58
+#: ../src/main.c:57
 msgid "Version information"
 msgstr "Versijas informācija"
 
-#: ../src/main.c:62
+#: ../src/main.c:61
 msgid "Start in fullscreen mode"
 msgstr "Sākt pilnekrāna režīmā"
 
-#: ../src/main.c:66
+#: ../src/main.c:65
 msgid "Start a slideshow"
 msgstr "Sākt slīdrādi"
 
-#: ../src/main.c:93
+#: ../src/main.c:92
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -42,310 +42,342 @@ msgstr ""
 "Mēģiniet %s --help , lai redzētu pilnu pieejamo komandu sarakstu.\n"
 
 #. File Menu
-#: ../src/main_window.c:274
+#: ../src/main_window.c:268
 msgid "_File"
 msgstr "_Fails"
 
-#: ../src/main_window.c:275
+#: ../src/main_window.c:269
 msgid "_Open"
 msgstr "_Atvērt"
 
-#: ../src/main_window.c:275
+#: ../src/main_window.c:269
 msgid "Open an image"
 msgstr "Atvērt attēlu"
 
-#: ../src/main_window.c:276
+#: ../src/main_window.c:270
 msgid "Open _Folder"
 msgstr "Atvērt _mapi"
 
-#: ../src/main_window.c:276
+#: ../src/main_window.c:270
 msgid "Open a folder"
 msgstr "Atvērt mapi"
 
-#: ../src/main_window.c:277
+#: ../src/main_window.c:271
 msgid "_Save copy"
 msgstr "_Saglabāt kopiju"
 
-#: ../src/main_window.c:277
+#: ../src/main_window.c:271
 msgid "Save a copy of the image"
 msgstr "Saglabāt attēla kopiju"
 
-#: ../src/main_window.c:278
+#: ../src/main_window.c:272
 msgid "_Close"
 msgstr "Ai_zvērt"
 
-#: ../src/main_window.c:278
+#: ../src/main_window.c:272
 msgid "Close this image"
 msgstr "Aizvērt attēlu"
 
-#: ../src/main_window.c:279
+#: ../src/main_window.c:273
 msgid "_Close All"
 msgstr "_Aizvērt visu"
 
-#: ../src/main_window.c:279
+#: ../src/main_window.c:273
 msgid "Close all images"
 msgstr "Aizvērt visus attēlus"
 
-#: ../src/main_window.c:280
+#: ../src/main_window.c:274
 msgid "_Quit"
 msgstr "_Iziet"
 
-#: ../src/main_window.c:280
+#: ../src/main_window.c:274
 msgid "Quit Ristretto"
 msgstr "Iziet no Ristretto"
 
 #. Edit Menu
-#: ../src/main_window.c:282
+#: ../src/main_window.c:276
 msgid "_Edit"
 msgstr "_Rediģēt"
 
-#: ../src/main_window.c:283
+#: ../src/main_window.c:277
 msgid "_Open with..."
 msgstr "_Atvērt ar..."
 
-#: ../src/main_window.c:284
+#: ../src/main_window.c:278
 msgid "_Sorting"
 msgstr "_Kārtot"
 
-#: ../src/main_window.c:285
+#: ../src/main_window.c:279
 msgid "_Delete"
 msgstr "_Dzēst"
 
-#: ../src/main_window.c:285
+#: ../src/main_window.c:279
 #, fuzzy
 msgid "Delete this image from disk"
 msgstr "Aizvērt attēlu"
 
-#: ../src/main_window.c:286
+#: ../src/main_window.c:280
 msgid "_Clear private data"
 msgstr ""
 
-#: ../src/main_window.c:287
+#: ../src/main_window.c:281
 msgid "_Preferences"
 msgstr "_Uzstādījumi"
 
 #. View Menu
-#: ../src/main_window.c:289
+#: ../src/main_window.c:283
 msgid "_View"
 msgstr "_Skats"
 
-#: ../src/main_window.c:290
+#: ../src/main_window.c:284
 msgid "_Fullscreen"
 msgstr "_Pilnekrāns"
 
-#: ../src/main_window.c:291
+#: ../src/main_window.c:285
 msgid "_Leave Fullscreen"
 msgstr "_Iziet no pilnekrāna"
 
-#: ../src/main_window.c:292
+#: ../src/main_window.c:286
 msgid "_Set as Wallpaper"
 msgstr "_Uzstādīt, kā darbavirsmas fonu"
 
 #. Zoom submenu
-#: ../src/main_window.c:294
+#: ../src/main_window.c:288
 msgid "_Zooming"
 msgstr "_Mērogot"
 
-#: ../src/main_window.c:295
+#: ../src/main_window.c:289
 msgid "Zoom _In"
 msgstr "Tuv_ināt"
 
-#: ../src/main_window.c:296
+#: ../src/main_window.c:290
 msgid "Zoom _Out"
 msgstr "A_ttālināt"
 
-#: ../src/main_window.c:297
+#: ../src/main_window.c:291
 msgid "Zoom _Fit"
 msgstr "I_etilpināt"
 
-#: ../src/main_window.c:298
+#: ../src/main_window.c:292
 msgid "_Normal Size"
 msgstr "_Parastais izmērs"
 
 #. Rotation submenu
-#: ../src/main_window.c:300
+#: ../src/main_window.c:294
 msgid "_Rotation"
 msgstr "_Rotācija"
 
-#: ../src/main_window.c:301
+#: ../src/main_window.c:295
 msgid "Rotate _Right"
 msgstr "Rotēt pa _labi"
 
-#: ../src/main_window.c:302
+#: ../src/main_window.c:296
 msgid "Rotate _Left"
 msgstr "Rotēt pa _kreisi"
 
 #. Go Menu
-#: ../src/main_window.c:304
+#: ../src/main_window.c:298
 msgid "_Go"
 msgstr "_Doties"
 
-#: ../src/main_window.c:305
+#: ../src/main_window.c:299
 msgid "_Forward"
 msgstr "_Uz priekšu"
 
-#: ../src/main_window.c:306
+#: ../src/main_window.c:300
 msgid "_Back"
 msgstr "_Atpakaļ"
 
-#: ../src/main_window.c:307
+#: ../src/main_window.c:301
 msgid "_First"
 msgstr "_Pirmais"
 
-#: ../src/main_window.c:308
+#: ../src/main_window.c:302
 msgid "_Last"
 msgstr "_Pēdējais"
 
 #. Help Menu
-#: ../src/main_window.c:310
+#: ../src/main_window.c:304
 msgid "_Help"
 msgstr "_Palīdzība"
 
-#: ../src/main_window.c:312
+#: ../src/main_window.c:306
 msgid "_Contents"
 msgstr "_Saturs"
 
-#: ../src/main_window.c:314
+#: ../src/main_window.c:308
 msgid "Display ristretto user manual"
 msgstr "Attēlot ristretto lietošanas pamācību"
 
-#: ../src/main_window.c:317
+#: ../src/main_window.c:311
 msgid "_About"
 msgstr "_Par"
 
-#: ../src/main_window.c:319
+#: ../src/main_window.c:313
 msgid "Display information about ristretto"
 msgstr "Attēlot informāciju par ristretto"
 
 #. Position Menu
-#: ../src/main_window.c:322
+#: ../src/main_window.c:316
 msgid "_Position"
 msgstr "_Pozīcija"
 
 #. Misc
-#: ../src/main_window.c:324
+#: ../src/main_window.c:318
 msgid "Leave _Fullscreen"
 msgstr "Iziet no _pilnekrāna"
 
 #. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:332
+#: ../src/main_window.c:326
 msgid "Show _File Toolbar"
 msgstr "Rādīt _failu rīkjoslu"
 
 #. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:334
+#: ../src/main_window.c:328
 msgid "Show _Navigation Toolbar"
 msgstr "Rādīt _navigācijas rīkjoslu"
 
 #. Toggle visibility of the thumbnailbar
-#: ../src/main_window.c:336
+#: ../src/main_window.c:330
 msgid "Show _Thumbnailbar"
 msgstr "Rādīt _sīktēljoslu"
 
 #. Sort by Filename
-#: ../src/main_window.c:343
+#: ../src/main_window.c:337
 msgid "sort by filename"
 msgstr "kārtot pēc faila nosaukuma"
 
 #. Sort by Date
-#: ../src/main_window.c:345
+#: ../src/main_window.c:339
 msgid "sort by date"
 msgstr "kārtot pēc datuma"
 
-#: ../src/main_window.c:351
+#: ../src/main_window.c:345
 msgid "Left"
 msgstr "Pa kreisi"
 
-#: ../src/main_window.c:352
+#: ../src/main_window.c:346
 msgid "Right"
 msgstr "Pa labi"
 
-#: ../src/main_window.c:353
+#: ../src/main_window.c:347
 msgid "Top"
 msgstr "Augšā"
 
-#: ../src/main_window.c:354
+#: ../src/main_window.c:348
 msgid "Bottom"
 msgstr "Apakšā"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:463
+#: ../src/main_window.c:461
 msgid "_Play"
 msgstr ""
 
-#: ../src/main_window.c:463
+#: ../src/main_window.c:461
 #, fuzzy
 msgid "Play slideshow"
 msgstr "Sākt slīdrādi"
 
-#: ../src/main_window.c:464
+#: ../src/main_window.c:462
 msgid "_Pause"
 msgstr ""
 
-#: ../src/main_window.c:464
+#: ../src/main_window.c:462
 #, fuzzy
 msgid "Pause slideshow"
 msgstr "Sākt slīdrādi"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:467
+#: ../src/main_window.c:465
 msgid "_Recently used"
 msgstr "_Nesenie"
 
-#: ../src/main_window.c:467
+#: ../src/main_window.c:465
 #, fuzzy
 msgid "Recently used"
 msgstr "_Nesenie"
 
-#: ../src/main_window.c:554 ../src/main_window.c:885
+#: ../src/main_window.c:552 ../src/main_window.c:876
 msgid "Press open to select an image"
 msgstr "Nospiediet atvērt, lai atlasītu attēlu"
 
-#: ../src/main_window.c:870 ../src/main_window.c:877
+#: ../src/main_window.c:861 ../src/main_window.c:868
 msgid "Empty"
 msgstr "Tukšs"
 
-#: ../src/main_window.c:1689
+#: ../src/main_window.c:1687
 msgid "Developer:"
 msgstr "Izstrādātājs:"
 
-#: ../src/main_window.c:1699
+#: ../src/main_window.c:1697
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr "Ristretto ir attēlu skatītājs priekš Xfce darbvirsmas vides."
 
-#: ../src/main_window.c:1707
+#: ../src/main_window.c:1705
 msgid "translator-credits"
 msgstr "Rihards Priedītis"
 
-#: ../src/main_window.c:2009
+#: ../src/main_window.c:2007
 msgid "Open image"
 msgstr "Atvērt attēlu"
 
-#: ../src/main_window.c:2023
+#: ../src/main_window.c:2021
 msgid "Images"
 msgstr "Attēli"
 
-#: ../src/main_window.c:2028
+#: ../src/main_window.c:2026
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2051 ../src/main_window.c:2068
-#: ../src/main_window.c:2215 ../src/main_window.c:2230
+#: ../src/main_window.c:2049 ../src/main_window.c:2070
+#: ../src/main_window.c:2221 ../src/main_window.c:2236
 msgid "Could not open file"
 msgstr "Nevarēju atvērt failu"
 
-#: ../src/main_window.c:2110
+#: ../src/main_window.c:2116
 msgid "Open folder"
 msgstr "Atvērt mapi"
 
-#: ../src/main_window.c:2253
+#: ../src/main_window.c:2259
 msgid "Save copy"
 msgstr "Saglabāt kopiju"
 
-#: ../src/main_window.c:2325
+#: ../src/main_window.c:2330
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Esat drošs, ka vēlaties dzēst attēlu \"%s\" no diska?"
+
+#: ../src/privacy_dialog.c:151
+msgid "Timerange to clear:"
+msgstr ""
+
+#: ../src/privacy_dialog.c:155
+msgid "Cleanup"
+msgstr ""
+
+#: ../src/privacy_dialog.c:157
+msgid "Last Hour"
+msgstr ""
+
+#: ../src/privacy_dialog.c:158
+msgid "Last Two Hours"
+msgstr ""
+
+#: ../src/privacy_dialog.c:159
+msgid "Last Four Hours"
+msgstr ""
+
+#: ../src/privacy_dialog.c:160
+msgid "Today"
+msgstr ""
+
+#: ../src/privacy_dialog.c:161
+msgid "Everything"
+msgstr ""
+
+#: ../src/privacy_dialog.c:454
+msgid "Clear private data"
+msgstr ""
 
 #: ../src/preferences_dialog.c:222
 msgid "Display"
@@ -467,77 +499,69 @@ msgstr "Ieslēgt kešu"
 msgid "Enable preloading"
 msgstr ""
 
-#: ../src/preferences_dialog.c:495
+#: ../src/preferences_dialog.c:499
 msgid "Preferences"
 msgstr "Uzstādījumi"
 
-#: ../src/xfce_wallpaper_manager.c:84
-msgid "Set as wallpaper"
-msgstr "Uzstādīt, kā darbavirsmas fonu"
-
-#: ../src/xfce_wallpaper_manager.c:86
-msgid "Style:"
-msgstr "Stils:"
-
-#: ../src/xfce_wallpaper_manager.c:88
-msgid "Monitor:"
-msgstr "Monitors:"
-
-#: ../src/xfce_wallpaper_manager.c:90
-msgid "Brightness:"
-msgstr "Spilgtums:"
-
-#: ../src/xfce_wallpaper_manager.c:91
-msgid "Saturation:"
-msgstr "Piesātinājums:"
-
-#: ../src/xfce_wallpaper_manager.c:123
-msgid "Auto"
-msgstr "Automātiski"
-
-#: ../src/xfce_wallpaper_manager.c:124
-msgid "Centered"
-msgstr "Centrēts"
-
-#: ../src/xfce_wallpaper_manager.c:125
-msgid "Tiled"
-msgstr "Sakrauti"
-
-#: ../src/xfce_wallpaper_manager.c:126
-msgid "Stretched"
-msgstr "Izstiepts"
-
-#: ../src/xfce_wallpaper_manager.c:127
-msgid "Scaled"
-msgstr "Mērogots"
-
-#: ../src/xfce_wallpaper_manager.c:128
-msgid "Zoomed"
-msgstr "Pietuvināts"
-
-#: ../src/thumbnail_bar.c:187
+#: ../src/thumbnail_bar.c:186
 msgid "Spacing"
 msgstr "Atkāpes"
 
-#: ../src/thumbnail_bar.c:188
+#: ../src/thumbnail_bar.c:187
 msgid "The amount of space between the thumbnails"
 msgstr "Atstarpe starp sīktēliem"
 
-#: ../src/thumbnail_bar.c:194
+#: ../src/thumbnail_bar.c:193
 msgid "border width"
 msgstr "robežas platums"
 
-#: ../src/thumbnail_bar.c:195
+#: ../src/thumbnail_bar.c:194
 msgid "the border width of the thumbnail-bar"
 msgstr "sīktēlu-joslas film-rindas robežas platums"
 
-#: ../src/thumbnail_bar.c:201
-msgid "filmstrip width"
-msgstr "filmu rindas platums"
+#: ../src/xfce_wallpaper_manager.c:82
+msgid "Set as wallpaper"
+msgstr "Uzstādīt, kā darbavirsmas fonu"
 
-#: ../src/thumbnail_bar.c:202
-msgid "the width of the thumbnail-bar film-strip"
-msgstr "sīktēlu-joslas film-rindas platums"
+#: ../src/xfce_wallpaper_manager.c:84
+msgid "Style:"
+msgstr "Stils:"
+
+#: ../src/xfce_wallpaper_manager.c:86
+msgid "Monitor:"
+msgstr "Monitors:"
+
+#: ../src/xfce_wallpaper_manager.c:88
+msgid "Brightness:"
+msgstr "Spilgtums:"
+
+#: ../src/xfce_wallpaper_manager.c:89
+msgid "Saturation:"
+msgstr "Piesātinājums:"
+
+#: ../src/xfce_wallpaper_manager.c:125
+msgid "Auto"
+msgstr "Automātiski"
+
+#: ../src/xfce_wallpaper_manager.c:126
+msgid "Centered"
+msgstr "Centrēts"
+
+#: ../src/xfce_wallpaper_manager.c:127
+msgid "Tiled"
+msgstr "Sakrauti"
+
+#: ../src/xfce_wallpaper_manager.c:128
+msgid "Stretched"
+msgstr "Izstiepts"
+
+#: ../src/xfce_wallpaper_manager.c:129
+msgid "Scaled"
+msgstr "Mērogots"
+
+#: ../src/xfce_wallpaper_manager.c:130
+msgid "Zoomed"
+msgstr "Pietuvināts"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -550,6 +574,12 @@ msgstr "Apskaties savas fotogrāfijas viegli"
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
 msgstr "Ristretto attēlu skatītājs"
+
+#~ msgid "filmstrip width"
+#~ msgstr "filmu rindas platums"
+
+#~ msgid "the width of the thumbnail-bar film-strip"
+#~ msgstr "sīktēlu-joslas film-rindas platums"
 
 #~ msgid "_Print"
 #~ msgstr "_Drukāt"

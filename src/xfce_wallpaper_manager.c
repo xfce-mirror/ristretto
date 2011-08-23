@@ -26,8 +26,6 @@
 #include <libxfce4util/libxfce4util.h>
 #include <gio/gio.h>
 
-#include "image.h"
-
 #include "wallpaper_manager.h"
 #include "xfce_wallpaper_manager.h"
 
@@ -74,7 +72,7 @@ enum
 };
 
 static gint 
-rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, RsttoImage *image)
+rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, GFile *file)
 {
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
     gint response = GTK_RESPONSE_OK;
@@ -94,7 +92,11 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, 
     GtkWidget *brightness_slider = gtk_hscale_new (GTK_ADJUSTMENT (brightness_adjustment));
     GtkWidget *saturation_slider = gtk_hscale_new (GTK_ADJUSTMENT (saturation_adjustment));
     GtkWidget *image_hbox = gtk_hbox_new (FALSE, 4);
-    GdkPixbuf *image_pixbuf = rstto_image_get_thumbnail (image);
+    GdkPixbuf *image_pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default(),
+                                                     "image-missing",
+                                                     128,
+                                                     0,
+                                                     NULL);
     GtkWidget *image_box = gtk_image_new_from_pixbuf (image_pixbuf);
     GtkWidget *prop_table = gtk_table_new (1, 2, FALSE);
     GtkWidget *image_prop_table = gtk_table_new (2, 2, FALSE);
@@ -175,10 +177,9 @@ rstto_xfce_wallpaper_manager_check_running (RsttoWallpaperManager *self)
 }
 
 static gboolean
-rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoImage *image)
+rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, GFile *file)
 {
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
-    GFile *file = rstto_image_get_file (image);
     gchar *uri = g_file_get_path (file);
 
     gchar *image_path_prop = g_strdup_printf("/backdrop/screen%d/monitor%d/image-path",

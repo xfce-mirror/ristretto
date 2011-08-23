@@ -24,16 +24,12 @@
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 
-
-
-#include "image.h"
-
 #include "wallpaper_manager.h"
 
 gint 
-rstto_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, RsttoImage *image)
+rstto_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, GFile *file)
 {
-    return RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->configure_dialog_run(self, image);
+    return RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->configure_dialog_run(self, file);
 }
 
 gboolean 
@@ -43,9 +39,9 @@ rstto_wallpaper_manager_check_running (RsttoWallpaperManager *self)
 }
 
 gboolean
-rstto_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoImage *image)
+rstto_wallpaper_manager_set (RsttoWallpaperManager *self, GFile *file)
 {
-    return RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->set (self, image);
+    return RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->set (self, file);
 }
 
 
