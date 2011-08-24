@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Ristretto 0.0.20\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2011-08-23 22:54+0200\n"
-"PO-Revision-Date: 2011-08-22 16:10+0200\n"
+"PO-Revision-Date: 2011-08-24 15:18+0200\n"
 "Last-Translator: Tomáš Vadina <kyberdev@gmail.com>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "Language: sk\n"
@@ -347,36 +347,35 @@ msgstr "Naozaj chcete zmazať obrázok '%s' z disku?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Timerange to clear:"
-msgstr ""
+msgstr "Obdobie na vymazanie:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Vymazať"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr ""
+msgstr "Posledná hodina"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Posledné dve hodiny"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Posledné štyri hodiny"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
-msgstr ""
+msgstr "Dnes"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr ""
+msgstr "Všetko"
 
 #: ../src/privacy_dialog.c:454
-#, fuzzy
 msgid "Clear private data"
-msgstr "_Vymazať súkromné dáta"
+msgstr "Vymazať súkromné dáta"
 
 #: ../src/preferences_dialog.c:222
 msgid "Display"
