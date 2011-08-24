@@ -347,7 +347,6 @@ msgid "Timerange to clear:"
 msgstr "Intervalo a apagar:"
 
 #: ../src/privacy_dialog.c:155
-#, fuzzy
 msgid "Cleanup"
 msgstr "Limpeza"
 
