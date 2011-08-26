@@ -1,6 +1,6 @@
 # Ukrainian translation of ristretto package.
 # This file is distributed under the same license as the ristretto package.
-#
+# 
 # Dmitry Nikitin <luckas_fb@mail.ru>, 2008.
 msgid ""
 msgstr ""
@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2008-11-17 11:15+0200\n"
 "Last-Translator: Dmitry Nikitin <luckas_fb@mail.ru>\n"
 "Language-Team: Ukrainian <xfce4-dev@xfce.org>\n"
-"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: uk\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #: ../src/main.c:57
@@ -35,8 +35,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Спробуйте %s --help для перегляду повного списку параметрів командної "
-"стрічки.\n"
+"Спробуйте %s --help для перегляду повного списку параметрів командної стрічки.\n"
 
 #. File Menu
 #: ../src/main_window.c:268
@@ -342,36 +341,35 @@ msgstr "Ви впевнені, що бажаєте видалити малюно
 
 #: ../src/privacy_dialog.c:151
 msgid "Timerange to clear:"
-msgstr ""
+msgstr "Часовий діапазон для очистки:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Очистка"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr ""
+msgstr "Остання година"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Останні дві години"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Останні чотири години"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
-msgstr ""
+msgstr "Сьогодні"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr ""
+msgstr "Усе"
 
 #: ../src/privacy_dialog.c:454
-#, fuzzy
 msgid "Clear private data"
-msgstr "_Очистити приватні дані"
+msgstr "Очистити приватні дані"
 
 #: ../src/preferences_dialog.c:222
 msgid "Display"
@@ -626,14 +624,11 @@ msgstr "Переглядач фотографій Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "С_ховати"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
 #~ msgstr "Одне або більше зображень було змінено, бажаєте зберегти зміни?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "Попереднє з_авантаження малюнків (GUI більш кероване, але завантаження "
-#~ "CPU більше)"
+#~ msgstr "Попереднє з_авантаження малюнків (GUI більш кероване, але завантаження CPU більше)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Ховати панель ескізів під час слайд-шоу"
