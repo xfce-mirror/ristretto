@@ -49,6 +49,8 @@ struct _RsttoImageViewerPriv
 {
     GFile                       *file;
     RsttoSettings               *settings;
+    GdkVisual                   *visual;
+    GdkColormap                 *colormap;
 
     RsttoImageViewerTransaction *transaction;
     GdkPixbuf                   *pixbuf;
@@ -220,6 +222,8 @@ rstto_image_viewer_init(RsttoImageViewer *viewer)
     viewer->priv->settings = rstto_settings_new();
     viewer->priv->image_width = 0;
     viewer->priv->image_height = 0;
+    viewer->priv->visual = gdk_rgb_get_visual();
+    viewer->priv->colormap = gdk_colormap_new (viewer->priv->visual, TRUE);
 
     g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::bgcolor", G_CALLBACK (cb_rstto_image_viewer_bgcolor_changed), viewer);
     g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::bgcolor-override", G_CALLBACK (cb_rstto_image_viewer_bgcolor_changed), viewer);
@@ -657,12 +661,19 @@ rstto_image_viewer_paint_checkers (RsttoImageViewer *viewer,
 {
     gint x, y;
     gint block_width, block_height;
-    GdkColor color;
+    GdkColor color_a;
+    GdkColor color_b;
 
-    /* This is to remind me of a bug in this function, 
-     * the top-left square is colored red, it shouldn't
-     */
-    color.pixel = 0xeeee0000;
+    color_a.red   = 0xcccc;
+    color_a.green = 0xcccc;
+    color_a.blue  = 0xcccc;
+
+    color_b.red   = 0xdddd;
+    color_b.green = 0xdddd;
+    color_b.blue  = 0xdddd;
+
+    gdk_colormap_alloc_color (viewer->priv->colormap, &color_a, FALSE, TRUE);
+    gdk_colormap_alloc_color (viewer->priv->colormap, &color_b, FALSE, TRUE);
 
     for(x = 0; x <= width/10; ++x)
     {
@@ -676,7 +687,6 @@ rstto_image_viewer_paint_checkers (RsttoImageViewer *viewer,
         }
         for(y = 0; y <= height/10; ++y)
         {
-            gdk_gc_set_foreground(gc, &color);
             if(y == height/10)
             {
                 block_height = height-10*y;
@@ -686,12 +696,13 @@ rstto_image_viewer_paint_checkers (RsttoImageViewer *viewer,
                 block_height = 10;
             }
 
-            if((y%2?x%2:!(x%2))) {
-                color.pixel = 0xcccccccc;
+            if ((y%2?x%2:!(x%2)))
+            {
+                gdk_gc_set_foreground(gc, &color_a);
             }
             else
             {
-                color.pixel = 0xdddddddd;
+                gdk_gc_set_foreground(gc, &color_b);
             }
 
             gdk_draw_rectangle(GDK_DRAWABLE(drawable),
