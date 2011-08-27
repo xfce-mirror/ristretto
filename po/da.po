@@ -111,7 +111,6 @@ msgid "_Delete"
 msgstr "_Slet"
 
 #: ../src/main_window.c:285
-#, fuzzy
 msgid "Delete this image from disk"
 msgstr "Slet dette billede fra disken"
 
@@ -349,35 +348,35 @@ msgstr "Er du sikker på, at du vil slette billedet '%s' fra disken?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Timerange to clear:"
-msgstr ""
+msgstr "Tidsrum der skal ryddes:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Ryd op"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr ""
+msgstr "Sidste time"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Sidste 2 timer"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Sidste 4 timer"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
-msgstr ""
+msgstr "I dag"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr ""
+msgstr "Alt"
 
 #: ../src/privacy_dialog.c:454
 msgid "Clear private data"
-msgstr ""
+msgstr "Slet private data"
 
 #: ../src/preferences_dialog.c:222
 msgid "Display"
