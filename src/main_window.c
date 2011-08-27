@@ -2086,6 +2086,8 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
 
     gtk_widget_destroy(dialog);
 
+    rstto_main_window_update_buttons (window);
+
     if (files)
     {
         g_slist_foreach (files, (GFunc)g_object_unref, NULL);
@@ -2163,6 +2165,8 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
 
     gtk_widget_destroy(dialog);
 
+    rstto_main_window_update_buttons (window);
+
     if (file)
     {
         g_object_unref (file);
@@ -2238,6 +2242,8 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
         gtk_widget_destroy (err_dialog);
     }
 
+    rstto_main_window_update_buttons (window);
+
     g_object_unref (file);
     g_free (uri);
 }
@@ -2291,6 +2297,8 @@ cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window)
 {
     GFile *file = rstto_image_list_iter_get_file (window->priv->iter);
     rstto_image_list_remove_file (window->priv->props.image_list, file);
+
+    rstto_main_window_update_buttons (window);
 }
 
 /**
@@ -2305,6 +2313,8 @@ cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window)
 {
     rstto_image_list_remove_all (window->priv->props.image_list);
     rstto_main_window_image_list_iter_changed (window);
+
+    rstto_main_window_update_buttons (window);
 }
 
 
