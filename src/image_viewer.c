@@ -1747,7 +1747,7 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
 
     GtkWidget *widget = GTK_WIDGET(viewer);
 
-    if (viewer->priv->dst_pixbuf)
+    if ( NULL != viewer->priv->dst_pixbuf )
     {
         pixbuf_width = gdk_pixbuf_get_width(viewer->priv->dst_pixbuf);
         pixbuf_height = gdk_pixbuf_get_height(viewer->priv->dst_pixbuf);
@@ -1757,7 +1757,10 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
 
     if (event->state & (GDK_CONTROL_MASK))
     {
+        if ( NULL != viewer->priv->file )
+        {
             viewer->priv->auto_scale = FALSE;
+
             tmp_x = (gdouble)(gtk_adjustment_get_value(viewer->hadjustment) + (gdouble)event->x - pixbuf_x_offset) / viewer->priv->scale;
             tmp_y = (gdouble)(gtk_adjustment_get_value(viewer->vadjustment) + (gdouble)event->y - pixbuf_y_offset) / viewer->priv->scale;
 
@@ -1865,8 +1868,11 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
             g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
             g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
 
-            width = gdk_pixbuf_get_width (viewer->priv->pixbuf);
-            height = gdk_pixbuf_get_height (viewer->priv->pixbuf);
+            if ( NULL != viewer->priv->pixbuf )
+            {
+                width = gdk_pixbuf_get_width (viewer->priv->pixbuf);
+                height = gdk_pixbuf_get_height (viewer->priv->pixbuf);
+            }
 
             gtk_adjustment_set_upper (viewer->hadjustment, (gdouble)width*(viewer->priv->scale/viewer->priv->image_scale));
             gtk_adjustment_set_upper (viewer->vadjustment, (gdouble)height*(viewer->priv->scale/viewer->priv->image_scale));
@@ -1882,6 +1888,7 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
             gtk_adjustment_changed(viewer->vadjustment);
 
             rstto_image_viewer_queued_repaint (viewer, TRUE);
+        }
     }
     return FALSE;
 }
@@ -1993,35 +2000,37 @@ cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventBu
     gint width;
     gint height;
 
-
-    pixbuf_width = gdk_pixbuf_get_width(viewer->priv->dst_pixbuf);
-    pixbuf_height = gdk_pixbuf_get_height(viewer->priv->dst_pixbuf);
-    pixbuf_x_offset = ((widget->allocation.width - pixbuf_width)/2);
-    pixbuf_y_offset = ((widget->allocation.height - pixbuf_height)/2);
-
-    width = gdk_pixbuf_get_width (viewer->priv->pixbuf);
-    height = gdk_pixbuf_get_height (viewer->priv->pixbuf);
-
-    if (viewer->priv->motion.y < viewer->priv->motion.current_y)
+    if ( NULL != viewer->priv->dst_pixbuf )
     {
-        box_y = viewer->priv->motion.y;
-        box_height = viewer->priv->motion.current_y - box_y;
-    }
-    else
-    {
-        box_y = viewer->priv->motion.current_y;
-        box_height = viewer->priv->motion.y - box_y;
-    }
+        pixbuf_width = gdk_pixbuf_get_width(viewer->priv->dst_pixbuf);
+        pixbuf_height = gdk_pixbuf_get_height(viewer->priv->dst_pixbuf);
+        pixbuf_x_offset = ((widget->allocation.width - pixbuf_width)/2);
+        pixbuf_y_offset = ((widget->allocation.height - pixbuf_height)/2);
 
-    if (viewer->priv->motion.x < viewer->priv->motion.current_x)
-    {
-        box_x = viewer->priv->motion.x;
-        box_width = viewer->priv->motion.current_x - box_x;
-    }
-    else
-    {
-        box_x = viewer->priv->motion.current_x;
-        box_width = viewer->priv->motion.x - box_x;
+        width = gdk_pixbuf_get_width (viewer->priv->pixbuf);
+        height = gdk_pixbuf_get_height (viewer->priv->pixbuf);
+
+        if (viewer->priv->motion.y < viewer->priv->motion.current_y)
+        {
+            box_y = viewer->priv->motion.y;
+            box_height = viewer->priv->motion.current_y - box_y;
+        }
+        else
+        {
+            box_y = viewer->priv->motion.current_y;
+            box_height = viewer->priv->motion.y - box_y;
+        }
+
+        if (viewer->priv->motion.x < viewer->priv->motion.current_x)
+        {
+            box_x = viewer->priv->motion.x;
+            box_width = viewer->priv->motion.current_x - box_x;
+        }
+        else
+        {
+            box_x = viewer->priv->motion.current_x;
+            box_width = viewer->priv->motion.x - box_x;
+        }
     }
 
 
