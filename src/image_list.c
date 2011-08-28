@@ -298,7 +298,6 @@ rstto_image_list_remove_file (RsttoImageList *image_list, GFile *file)
 void
 rstto_image_list_remove_all (RsttoImageList *image_list)
 {
-#if 0
     GSList *iter = NULL;
     g_list_foreach (image_list->priv->images, (GFunc)g_object_unref, NULL);
     g_list_free (image_list->priv->images);
@@ -311,7 +310,6 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
         iter = g_slist_next (iter);
     }
     g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL], 0, NULL);
-#endif
 }
 
 
