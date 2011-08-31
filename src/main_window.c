@@ -2152,8 +2152,10 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
             g_object_unref (file_info);
         }
 
-        if (pos == -1)
+        if (-1 == pos)
+        {
             rstto_image_list_iter_set_position (window->priv->iter, 0);
+        }
 
         g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files,
         file, NULL);
@@ -2192,11 +2194,13 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     GFileEnumerator *file_enumarator = NULL;
     GFileInfo *child_file_info = NULL;
     GFileInfo *file_info = g_file_query_info (file, "standard::type", 0, NULL, &error);
+    gint pos = 0;
 
     if (error == NULL)
     {
         if (g_file_info_get_file_type (file_info) == G_FILE_TYPE_DIRECTORY)
         {
+            pos = rstto_image_list_iter_get_position(window->priv->iter);
             file_enumarator = g_file_enumerate_children (file, "standard::*", 0, NULL, NULL);
             for(child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); child_file_info != NULL; child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
             {
@@ -2211,6 +2215,11 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
 
                 g_object_unref (child_file);
                 g_object_unref (child_file_info);
+            }
+
+            if (-1 == pos)
+            {
+                rstto_image_list_iter_set_position (window->priv->iter, 0);
             }
 
         }
