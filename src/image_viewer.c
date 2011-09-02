@@ -58,6 +58,10 @@ struct _RsttoImageViewerPriv
     RsttoImageViewerOrientation  orientation;
     gdouble                      quality;
 
+    /* */
+    /***/
+    gboolean                     revert_zoom_direction;
+
     /* Animation data for animated images (like .gif/.mng) */
     /*******************************************************/
     GdkPixbufAnimation     *animation;
@@ -174,6 +178,8 @@ cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventBu
 
 static void
 cb_rstto_image_viewer_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_data);
+static void
+cb_rstto_image_viewer_zoom_direction_changed (GObject *settings, GParamSpec *pspec, gpointer user_data);
 
 static void
 rstto_image_viewer_load_image (RsttoImageViewer *viewer, GFile *file);
@@ -227,6 +233,7 @@ rstto_image_viewer_init(RsttoImageViewer *viewer)
 
     g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::bgcolor", G_CALLBACK (cb_rstto_image_viewer_bgcolor_changed), viewer);
     g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::bgcolor-override", G_CALLBACK (cb_rstto_image_viewer_bgcolor_changed), viewer);
+    g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::revert-zoom-direction", G_CALLBACK (cb_rstto_image_viewer_zoom_direction_changed), viewer);
 
     gtk_widget_set_double_buffered (GTK_WIDGET(viewer), TRUE);
 
@@ -1743,6 +1750,7 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
     gint pixbuf_x_offset = 0;
     gint pixbuf_y_offset = 0;
     gboolean auto_scale = FALSE;
+    gboolean revert_zoom_direction = viewer->priv->revert_zoom_direction;
 
 
     GtkWidget *widget = GTK_WIDGET(viewer);
@@ -1768,11 +1776,25 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
             {
                 case GDK_SCROLL_UP:
                 case GDK_SCROLL_LEFT:
-                    scale = viewer->priv->scale / 1.1;
+                    if (revert_zoom_direction)
+                    {
+                        scale = viewer->priv->scale / 1.1;
+                    }
+                    else
+                    {
+                        scale = viewer->priv->scale * 1.1;
+                    }
                     break;
                 case GDK_SCROLL_DOWN:
                 case GDK_SCROLL_RIGHT:
-                    scale = viewer->priv->scale * 1.1;
+                    if (revert_zoom_direction)
+                    {
+                        scale = viewer->priv->scale * 1.1;
+                    }
+                    else
+                    {
+                        scale = viewer->priv->scale / 1.1;
+                    }
                     break;
             }
 
@@ -2151,4 +2173,11 @@ cb_rstto_image_viewer_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpo
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
     rstto_image_viewer_queued_repaint (viewer, TRUE);
+}
+
+static void
+cb_rstto_image_viewer_zoom_direction_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
+{
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
+    viewer->priv->revert_zoom_direction = rstto_settings_get_boolean_property (RSTTO_SETTINGS (settings), "revert-zoom-direction"); 
 }

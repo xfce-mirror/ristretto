@@ -57,12 +57,8 @@ enum
     PROP_SHOW_NAV_TOOLBAR,
     PROP_NAVBAR_POSITION,
     PROP_SHOW_THUMBNAILBAR,
-    PROP_SHOW_PREVIEW,
     PROP_HIDE_THUMBNAILBAR_FULLSCREEN,
     PROP_TOOLBAR_OPEN,
-    PROP_ENABLE_CACHE,
-    PROP_PRELOAD_IMAGES,
-    PROP_CACHE_SIZE,
     PROP_IMAGE_QUALITY,
     PROP_WINDOW_WIDTH,
     PROP_WINDOW_HEIGHT,
@@ -77,6 +73,7 @@ enum
     PROP_WRAP_IMAGES,
     PROP_THUMBNAILBAR_SIZE,
     PROP_DESKTOP_TYPE,
+    PROP_REVERT_ZOOM_DIRECTION,
 };
 
 GType
@@ -112,13 +109,10 @@ struct _RsttoSettingsPriv
     gboolean  show_file_toolbar;
     gboolean  show_nav_toolbar;
     gboolean  show_thumbnailbar;
-    gboolean  show_preview;
     gboolean  hide_thumbnailbar_fullscreen;
     gboolean  open_entire_folder;
     gchar    *navigationbar_position;
-    gboolean  preload_images;
-    gboolean  enable_cache;
-    guint     cache_size;
+    gboolean  revert_zoom_direction;
     guint     image_quality;
     guint     window_width;
     guint     window_height;
@@ -175,7 +169,6 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind (settings->priv->channel, "/window/show-thumbnailbar", G_TYPE_BOOLEAN, settings, "show-thumbnailbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/hide-thumbnailbar-fullscreen", G_TYPE_BOOLEAN, settings, "hide-thumbnailbar-fullscreen");
     xfconf_g_property_bind (settings->priv->channel, "/window/navigationbar-position", G_TYPE_STRING, settings, "navigationbar-position");
-    xfconf_g_property_bind (settings->priv->channel, "/window/show-preview", G_TYPE_BOOLEAN, settings, "show-preview");
     xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-primary-action", G_TYPE_STRING, settings, "scrollwheel-primary-action");
     xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-secondary-action", G_TYPE_STRING, settings, "scrollwheel-secondary-action");
 
@@ -185,9 +178,7 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind (settings->priv->channel, "/window/bgcolor-override", G_TYPE_BOOLEAN, settings, "bgcolor-override");
 
     xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/window/bgcolor-fullscreen", settings, "bgcolor-fullscreen");
-    xfconf_g_property_bind (settings->priv->channel, "/image/preload", G_TYPE_BOOLEAN, settings, "preload-images");
-    xfconf_g_property_bind (settings->priv->channel, "/image/cache", G_TYPE_BOOLEAN, settings, "enable-cache");
-    xfconf_g_property_bind (settings->priv->channel, "/image/cache-size", G_TYPE_UINT, settings, "cache-size");
+    xfconf_g_property_bind (settings->priv->channel, "/window/revert-zoom-direction", G_TYPE_BOOLEAN, settings, "revert-zoom-direction");
     xfconf_g_property_bind (settings->priv->channel, "/image/quality", G_TYPE_UINT, settings, "image-quality");
     xfconf_g_property_bind (settings->priv->channel, "/image/wrap", G_TYPE_BOOLEAN, settings, "wrap-images");
     xfconf_g_property_bind (settings->priv->channel, "/window/thumbnailbar/size", G_TYPE_INT, settings, "thumbnailbar-size");
@@ -285,42 +276,13 @@ rstto_settings_class_init (GObjectClass *object_class)
                                      PROP_NAVBAR_POSITION,
                                      pspec);
 
-    pspec = g_param_spec_boolean ("show-preview",
+    pspec = g_param_spec_boolean ("revert-zoom-direction",
                                   "",
                                   "",
                                   TRUE,
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
-                                     PROP_SHOW_PREVIEW,
-                                     pspec);
-
-    pspec = g_param_spec_boolean ("preload-images",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_PRELOAD_IMAGES,
-                                     pspec);
-
-    pspec = g_param_spec_boolean ("enable-cache",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_ENABLE_CACHE,
-                                     pspec);
-
-    pspec = g_param_spec_uint    ("cache-size",
-                                  "",
-                                  "",
-                                  0,
-                                  G_MAXUINT,
-                                  256,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_CACHE_SIZE,
+                                     PROP_REVERT_ZOOM_DIRECTION,
                                      pspec);
 
     pspec = g_param_spec_uint    ("image-quality",
@@ -537,20 +499,11 @@ rstto_settings_set_property    (GObject      *object,
                 settings->priv->navigationbar_position = g_strdup (str_val);
             }
             break;
-        case PROP_SHOW_PREVIEW:
-            settings->priv->show_preview = g_value_get_boolean (value);
-            break;
-        case PROP_PRELOAD_IMAGES:
-            settings->priv->preload_images = g_value_get_boolean (value);
-            break;
-        case PROP_ENABLE_CACHE:
-            settings->priv->enable_cache = g_value_get_boolean (value);
+        case PROP_REVERT_ZOOM_DIRECTION:
+            settings->priv->revert_zoom_direction = g_value_get_boolean (value);
             break;
         case PROP_IMAGE_QUALITY:
             settings->priv->image_quality = g_value_get_uint (value);
-            break;
-        case PROP_CACHE_SIZE:
-            settings->priv->cache_size = g_value_get_uint (value);
             break;
         case PROP_WINDOW_WIDTH:
             settings->priv->window_width = g_value_get_uint (value);
@@ -636,20 +589,11 @@ rstto_settings_get_property    (GObject    *object,
         case PROP_NAVBAR_POSITION:
             g_value_set_string (value, settings->priv->navigationbar_position);
             break;
-        case PROP_SHOW_PREVIEW:
-            g_value_set_boolean (value, settings->priv->show_preview);
-            break;
-        case PROP_PRELOAD_IMAGES:
-            g_value_set_boolean (value, settings->priv->preload_images);
-            break;
-        case PROP_ENABLE_CACHE:
-            g_value_set_boolean (value, settings->priv->enable_cache);
+        case PROP_REVERT_ZOOM_DIRECTION:
+            g_value_set_boolean (value, settings->priv->revert_zoom_direction);
             break;
         case PROP_IMAGE_QUALITY:
             g_value_set_uint (value, settings->priv->image_quality);
-            break;
-        case PROP_CACHE_SIZE:
-            g_value_set_uint (value, settings->priv->cache_size);
             break;
         case PROP_WINDOW_WIDTH:
             g_value_set_uint (value, settings->priv->window_width);
