@@ -419,8 +419,7 @@ cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *combobox, gpoin
             dialog->priv->time_offset = 14200;
             break;
         case 3:
-            /* TODO: calculate the time from time_now to midnight */
-            dialog->priv->time_offset = 14200;
+            dialog->priv->time_offset = (dialog->priv->time_now % 86400);
             break;
         case 4:
             dialog->priv->time_offset = dialog->priv->time_now;
