@@ -406,6 +406,7 @@ static void
 cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *combobox, gpointer user_data)
 {
     RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (user_data);
+    struct tm *time_info;
 
     switch (gtk_combo_box_get_active (combobox))
     {
@@ -419,7 +420,12 @@ cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *combobox, gpoin
             dialog->priv->time_offset = 14200;
             break;
         case 3:
-            dialog->priv->time_offset = (dialog->priv->time_now % 86400);
+            /* Convert to localtime */
+            time_info = localtime (&(dialog->priv->time_now));
+
+            dialog->priv->time_offset = (time_info->tm_hour * 3600) +
+                                        (time_info->tm_min * 60) + 
+                                        time_info->tm_sec;
             break;
         case 4:
             dialog->priv->time_offset = dialog->priv->time_now;
