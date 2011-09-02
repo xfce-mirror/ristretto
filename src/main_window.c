@@ -253,6 +253,9 @@ rstto_main_window_update_buttons (RsttoMainWindow *window);
 static void
 rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint orientation);
 
+static gboolean
+cb_rstto_main_window_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
+
 static void
 cb_rstto_main_window_vpaned_pos_changed (GtkWidget *widget, gpointer user_data);
 static void
@@ -667,6 +670,7 @@ rstto_main_window_init (RsttoMainWindow *window)
 
     g_signal_connect(G_OBJECT(window), "configure-event", G_CALLBACK(cb_rstto_main_window_configure_event), NULL);
     g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_main_window_state_event), NULL);
+    g_signal_connect(G_OBJECT(window), "key-press-event", G_CALLBACK(cb_rstto_main_window_key_press_event), NULL);
     g_signal_connect(G_OBJECT(window->priv->image_list_toolbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
     g_signal_connect(G_OBJECT(window->priv->thumbnailbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
 
@@ -2568,4 +2572,27 @@ cb_rstto_main_window_clear_private_data (GtkWidget *widget, RsttoMainWindow *win
     }
 
     gtk_widget_destroy (dialog);
+}
+
+
+static gboolean
+cb_rstto_main_window_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+{
+    GtkWindow *window = GTK_WINDOW(widget);
+    RsttoMainWindow *rstto_window = RSTTO_MAIN_WINDOW(widget);
+    if(gtk_window_activate_key(window, event) == FALSE)
+    {
+        switch(event->keyval)
+        {
+            case GDK_Up:
+            case GDK_Left:
+                rstto_image_list_iter_previous (rstto_window->priv->iter);
+                break;
+            case GDK_Right:
+            case GDK_Down:
+                rstto_image_list_iter_next (rstto_window->priv->iter);
+                break;
+        }
+    }
+    return TRUE;
 }
