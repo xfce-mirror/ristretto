@@ -848,7 +848,15 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 
             file_basename = g_file_get_basename (cur_file);
 
-            title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  file_basename, position+1, count);
+            if (count > 1)
+            {
+                title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  file_basename, position+1, count);
+            }
+            else
+            {
+                title = g_strdup_printf ("%s - %s", RISTRETTO_APP_TITLE,  file_basename);
+            }
+
             if (width > 0)
             {
                 status = g_strdup_printf ("%d x %d", width, height);
@@ -2180,6 +2188,7 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
     gtk_widget_destroy(dialog);
 
     rstto_main_window_update_buttons (window);
+    rstto_main_window_image_list_iter_changed (window);
 
     if (file)
     {
@@ -2234,6 +2243,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
                 rstto_image_list_iter_set_position (window->priv->iter, 0);
             }
 
+            rstto_main_window_image_list_iter_changed (window);
         }
         else
         {
