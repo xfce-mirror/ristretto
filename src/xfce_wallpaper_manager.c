@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) Stephan Arts 2009-2010 <stephan@xfce.org>
+ *  Copyright (c) Stephan Arts 2009-2011 <stephan@xfce.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -134,11 +134,13 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, 
     {
         gtk_table_attach (GTK_TABLE (prop_table), monitor_label, 0, 1, 1, 2, 0, 0, 0, 0);
         gtk_table_attach (GTK_TABLE (prop_table), monitor_combo, 1, 2, 1, 2, 0, 0, 0, 0);
-        for (i = 0; i  < n_monitors; ++i)
-        {
-            gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), "1");
-        }
     }
+    for (i = 0; i  < n_monitors; ++i)
+    {
+        gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), "1");
+    }
+
+    gtk_combo_box_set_active (GTK_COMBO_BOX (monitor_combo), 0);
 
     manager->priv->screen = gdk_screen_get_number (screen);
 
@@ -151,7 +153,7 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, 
         manager->priv->style = gtk_combo_box_get_active (GTK_COMBO_BOX (style_combo));
         manager->priv->saturation = gtk_adjustment_get_value (GTK_ADJUSTMENT (saturation_adjustment));
         manager->priv->brightness = (gint)gtk_adjustment_get_value (GTK_ADJUSTMENT (brightness_adjustment));
-        manager->priv->monitor = 0;
+        manager->priv->monitor = gtk_combo_box_get_active (GTK_COMBO_BOX(monitor_combo));
     }
 
     gtk_widget_destroy (dialog);
