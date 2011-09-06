@@ -77,6 +77,7 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, 
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
     gint response = GTK_RESPONSE_OK;
     gint i;
+    gchar *str = NULL;
     GdkScreen *screen = gdk_screen_get_default ();
     gint n_monitors = gdk_screen_get_n_monitors (screen);
     GtkWidget *dialog = gtk_dialog_new_with_buttons (_("Set as wallpaper"), NULL, 0, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
@@ -137,7 +138,26 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, 
     }
     for (i = 0; i  < n_monitors; ++i)
     {
-        gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), "1");
+        switch ( i )
+        {
+            case 0:
+                gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), _("One"));
+                break;
+            case 1:
+                gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), _("Two"));
+                break;
+            case 2:
+                gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), _("Three"));
+                break;
+            case 3:
+                gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), _("Four"));
+                break;
+            default:
+                str = g_strdup_printf("%d", i+1);
+                gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), str);
+                g_free (str);
+                break;
+        }
     }
 
     gtk_combo_box_set_active (GTK_COMBO_BOX (monitor_combo), 0);

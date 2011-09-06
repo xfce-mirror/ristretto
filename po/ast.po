@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-08-23 22:54+0200\n"
+"POT-Creation-Date: 2011-09-06 19:16+0200\n"
 "PO-Revision-Date: 2009-10-05 18:16+0100\n"
 "Last-Translator: astur <malditoastur@gmail.com>\n"
 "Language-Team: Asturian <alministradores@softastur.org>\n"
@@ -35,309 +35,309 @@ msgstr ""
 "disponibles.\n"
 
 #. File Menu
-#: ../src/main_window.c:268
+#: ../src/main_window.c:271
 msgid "_File"
 msgstr "_Ficheru"
 
-#: ../src/main_window.c:269
+#: ../src/main_window.c:272
 msgid "_Open"
 msgstr "_Abrir"
 
-#: ../src/main_window.c:269
+#: ../src/main_window.c:272
 msgid "Open an image"
 msgstr "Abrir imaxe"
 
-#: ../src/main_window.c:270
+#: ../src/main_window.c:273
 msgid "Open _Folder"
 msgstr "_Abrir carpeta"
 
-#: ../src/main_window.c:270
+#: ../src/main_window.c:273
 msgid "Open a folder"
 msgstr "Abrir una carpeta"
 
-#: ../src/main_window.c:271
+#: ../src/main_window.c:274
 msgid "_Save copy"
 msgstr "_Guardar copia"
 
-#: ../src/main_window.c:271
+#: ../src/main_window.c:274
 msgid "Save a copy of the image"
 msgstr "Guardar una copia de la imaxe"
 
-#: ../src/main_window.c:272
+#: ../src/main_window.c:275
 msgid "_Close"
 msgstr "Z_arrar"
 
-#: ../src/main_window.c:272
+#: ../src/main_window.c:275
 msgid "Close this image"
 msgstr "Zarrar esta imaxe"
 
-#: ../src/main_window.c:273
+#: ../src/main_window.c:276
 msgid "_Close All"
 msgstr "Zarrar _too"
 
-#: ../src/main_window.c:273
+#: ../src/main_window.c:276
 msgid "Close all images"
 msgstr "Zarrar toles imáxenes"
 
-#: ../src/main_window.c:274
+#: ../src/main_window.c:277
 msgid "_Quit"
 msgstr "_Colar"
 
-#: ../src/main_window.c:274
+#: ../src/main_window.c:277
 msgid "Quit Ristretto"
 msgstr "Quitar Ristretto"
 
 #. Edit Menu
-#: ../src/main_window.c:276
+#: ../src/main_window.c:279
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/main_window.c:277
+#: ../src/main_window.c:280
 msgid "_Open with..."
 msgstr "Abrir _con..."
 
-#: ../src/main_window.c:278
+#: ../src/main_window.c:281
 msgid "_Sorting"
 msgstr "_Axeitar"
 
-#: ../src/main_window.c:279
+#: ../src/main_window.c:282
 msgid "_Delete"
 msgstr "_Desaniciar"
 
-#: ../src/main_window.c:279
+#: ../src/main_window.c:282
 #, fuzzy
 msgid "Delete this image from disk"
 msgstr "Zarrar esta imaxe"
 
-#: ../src/main_window.c:280
+#: ../src/main_window.c:283
 msgid "_Clear private data"
 msgstr ""
 
-#: ../src/main_window.c:281
+#: ../src/main_window.c:284
 msgid "_Preferences"
 msgstr "_Preferencies"
 
 #. View Menu
-#: ../src/main_window.c:283
+#: ../src/main_window.c:286
 msgid "_View"
 msgstr "_Ver"
 
-#: ../src/main_window.c:284
+#: ../src/main_window.c:287
 msgid "_Fullscreen"
 msgstr "_Pantalla completa"
 
-#: ../src/main_window.c:285
+#: ../src/main_window.c:288
 msgid "_Leave Fullscreen"
 msgstr "_Colar de pantalla completa"
 
-#: ../src/main_window.c:286
+#: ../src/main_window.c:289
 msgid "_Set as Wallpaper"
 msgstr "_Afitar como fondu d'escritoriu"
 
 #. Zoom submenu
-#: ../src/main_window.c:288
+#: ../src/main_window.c:291
 msgid "_Zooming"
 msgstr "_Ampliar"
 
-#: ../src/main_window.c:289
+#: ../src/main_window.c:292
 msgid "Zoom _In"
 msgstr "_Ampliar"
 
-#: ../src/main_window.c:290
+#: ../src/main_window.c:293
 msgid "Zoom _Out"
 msgstr "_Amenorgar"
 
-#: ../src/main_window.c:291
+#: ../src/main_window.c:294
 msgid "Zoom _Fit"
 msgstr "_Axustar"
 
-#: ../src/main_window.c:292
+#: ../src/main_window.c:295
 msgid "_Normal Size"
 msgstr "_Tamañu normal"
 
 #. Rotation submenu
-#: ../src/main_window.c:294
+#: ../src/main_window.c:297
 msgid "_Rotation"
 msgstr "_Voltiar"
 
-#: ../src/main_window.c:295
+#: ../src/main_window.c:298
 msgid "Rotate _Right"
 msgstr "Voltiar a man_drecha"
 
-#: ../src/main_window.c:296
+#: ../src/main_window.c:299
 msgid "Rotate _Left"
 msgstr "Voltiar a man_zorga"
 
 #. Go Menu
-#: ../src/main_window.c:298
+#: ../src/main_window.c:301
 msgid "_Go"
 msgstr "_Dir"
 
-#: ../src/main_window.c:299
+#: ../src/main_window.c:302
 msgid "_Forward"
 msgstr "_Avanzar"
 
-#: ../src/main_window.c:300
+#: ../src/main_window.c:303
 msgid "_Back"
 msgstr "_Retroceder"
 
-#: ../src/main_window.c:301
+#: ../src/main_window.c:304
 msgid "_First"
 msgstr "_Primera"
 
-#: ../src/main_window.c:302
+#: ../src/main_window.c:305
 msgid "_Last"
 msgstr "_Cabera"
 
 #. Help Menu
-#: ../src/main_window.c:304
+#: ../src/main_window.c:307
 msgid "_Help"
 msgstr "A_ida"
 
-#: ../src/main_window.c:306
+#: ../src/main_window.c:309
 msgid "_Contents"
 msgstr "_Conteníos"
 
-#: ../src/main_window.c:308
+#: ../src/main_window.c:311
 msgid "Display ristretto user manual"
 msgstr "Amosar el manual d'usuariu de ristretto"
 
-#: ../src/main_window.c:311
+#: ../src/main_window.c:314
 msgid "_About"
 msgstr "_Tocante a"
 
-#: ../src/main_window.c:313
+#: ../src/main_window.c:316
 msgid "Display information about ristretto"
 msgstr "Amosar información tocante a ristretto"
 
 #. Position Menu
-#: ../src/main_window.c:316
+#: ../src/main_window.c:319
 msgid "_Position"
 msgstr "_Posición"
 
 #. Misc
-#: ../src/main_window.c:318
+#: ../src/main_window.c:321
 msgid "Leave _Fullscreen"
 msgstr "Colar de _pantalla completa"
 
 #. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:326
+#: ../src/main_window.c:329
 msgid "Show _File Toolbar"
 msgstr "Amosar _barra de ficheru"
 
 #. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:328
+#: ../src/main_window.c:331
 msgid "Show _Navigation Toolbar"
 msgstr "Amosar _barra  de navegación"
 
 #. Toggle visibility of the thumbnailbar
-#: ../src/main_window.c:330
+#: ../src/main_window.c:333
 msgid "Show _Thumbnailbar"
 msgstr "Amosar _barra de miniatures"
 
 #. Sort by Filename
-#: ../src/main_window.c:337
+#: ../src/main_window.c:340
 msgid "sort by filename"
 msgstr "axeitar por nome"
 
 #. Sort by Date
-#: ../src/main_window.c:339
+#: ../src/main_window.c:342
 msgid "sort by date"
 msgstr "axeitar per data"
 
-#: ../src/main_window.c:345
+#: ../src/main_window.c:348
 msgid "Left"
 msgstr "Esquierda"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:349
 msgid "Right"
 msgstr "Drecha"
 
-#: ../src/main_window.c:347
+#: ../src/main_window.c:350
 msgid "Top"
 msgstr "Arriba"
 
-#: ../src/main_window.c:348
+#: ../src/main_window.c:351
 msgid "Bottom"
 msgstr "Abaxo"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:461
+#: ../src/main_window.c:464
 msgid "_Play"
 msgstr ""
 
-#: ../src/main_window.c:461
+#: ../src/main_window.c:464
 #, fuzzy
 msgid "Play slideshow"
 msgstr "Entamar diapositives"
 
-#: ../src/main_window.c:462
+#: ../src/main_window.c:465
 msgid "_Pause"
 msgstr ""
 
-#: ../src/main_window.c:462
+#: ../src/main_window.c:465
 #, fuzzy
 msgid "Pause slideshow"
 msgstr "Entamar diapositives"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:465
+#: ../src/main_window.c:468
 msgid "_Recently used"
 msgstr "_Usaos recientemente"
 
-#: ../src/main_window.c:465
+#: ../src/main_window.c:468
 #, fuzzy
 msgid "Recently used"
 msgstr "_Usaos recientemente"
 
-#: ../src/main_window.c:552 ../src/main_window.c:876
+#: ../src/main_window.c:555 ../src/main_window.c:888
 msgid "Press open to select an image"
 msgstr "Calca en \"abrir\" pa seleicionar una imaxe"
 
-#: ../src/main_window.c:861 ../src/main_window.c:868
+#: ../src/main_window.c:873 ../src/main_window.c:880
 msgid "Empty"
 msgstr "Ermu"
 
-#: ../src/main_window.c:1687
+#: ../src/main_window.c:1699
 msgid "Developer:"
 msgstr "Desendolcador:"
 
-#: ../src/main_window.c:1697
+#: ../src/main_window.c:1709
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto ye un visor d'imáxenes rápidu y llixeru pal entornu d'escritoriu "
 "de Xfce."
 
-#: ../src/main_window.c:1705
+#: ../src/main_window.c:1717
 msgid "translator-credits"
 msgstr "Astur <malditoastur@gmail.com>"
 
-#: ../src/main_window.c:2007
+#: ../src/main_window.c:2019
 msgid "Open image"
 msgstr "Abrir imaxe"
 
-#: ../src/main_window.c:2021
+#: ../src/main_window.c:2033
 msgid "Images"
 msgstr "Imaxes"
 
-#: ../src/main_window.c:2026
+#: ../src/main_window.c:2038
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2049 ../src/main_window.c:2070
-#: ../src/main_window.c:2221 ../src/main_window.c:2236
+#: ../src/main_window.c:2061 ../src/main_window.c:2086
+#: ../src/main_window.c:2260 ../src/main_window.c:2275
 msgid "Could not open file"
 msgstr "Nun pudo abrise'l ficheru"
 
-#: ../src/main_window.c:2116
+#: ../src/main_window.c:2138
 msgid "Open folder"
 msgstr "Abrir direutoriu"
 
-#: ../src/main_window.c:2259
+#: ../src/main_window.c:2300
 msgid "Save copy"
 msgstr "Guardar copia"
 
-#: ../src/main_window.c:2330
+#: ../src/main_window.c:2377
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "¿De xuru que quies esborrar la imaxe '%s' del discu?"
@@ -370,35 +370,31 @@ msgstr ""
 msgid "Everything"
 msgstr ""
 
-#: ../src/privacy_dialog.c:454
+#: ../src/privacy_dialog.c:459
 msgid "Clear private data"
 msgstr ""
 
-#: ../src/preferences_dialog.c:222
+#: ../src/preferences_dialog.c:186
 msgid "Display"
 msgstr "Visualizador"
 
-#: ../src/preferences_dialog.c:227
+#: ../src/preferences_dialog.c:191
 msgid "Background color"
 msgstr "Color de fondu"
 
-#: ../src/preferences_dialog.c:231
+#: ../src/preferences_dialog.c:195
 msgid "Override background color:"
 msgstr "Inorar color de fondu:"
 
-#: ../src/preferences_dialog.c:257
-msgid "Show preview when loading image"
-msgstr "Amosar previsualización al cargar imáxenes"
-
-#: ../src/preferences_dialog.c:268
+#: ../src/preferences_dialog.c:225
 msgid "Slideshow"
 msgstr "Diapositives"
 
-#: ../src/preferences_dialog.c:272
+#: ../src/preferences_dialog.c:229
 msgid "Timeout"
 msgstr "Tiempu d'espiración"
 
-#: ../src/preferences_dialog.c:275
+#: ../src/preferences_dialog.c:232
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -407,11 +403,11 @@ msgstr ""
 "diapositives\n"
 "(en segundos)"
 
-#: ../src/preferences_dialog.c:290
+#: ../src/preferences_dialog.c:247
 msgid "Thumbnails"
 msgstr "Miniatures"
 
-#: ../src/preferences_dialog.c:293
+#: ../src/preferences_dialog.c:250
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
@@ -419,84 +415,52 @@ msgstr ""
 "La barra de miniature puede anubrise automáticamente \n"
 "cuando'l visor d'imáxenes ta a pantalla completa."
 
-#: ../src/preferences_dialog.c:295
+#: ../src/preferences_dialog.c:252
 msgid "Hide thumbnailbar when fullscreen"
 msgstr "Anubrir la barra de miniatures en mou pantalla completa"
 
-#: ../src/preferences_dialog.c:308
+#: ../src/preferences_dialog.c:265
 msgid "Control"
 msgstr "Control"
 
-#: ../src/preferences_dialog.c:312
+#: ../src/preferences_dialog.c:269
 msgid "Scrollwheel"
 msgstr "Rueda de desplazamientu"
 
-#: ../src/preferences_dialog.c:315
-msgid "No action"
-msgstr "Denguna aición"
+#: ../src/preferences_dialog.c:272
+msgid "Revert zoom direction"
+msgstr ""
 
-#: ../src/preferences_dialog.c:319
-msgid "Zoom in and out"
-msgstr "Acercar y allonxar"
-
-#: ../src/preferences_dialog.c:322
-msgid "Switch images"
-msgstr "Cambiar imáxenes"
-
-#: ../src/preferences_dialog.c:356
+#: ../src/preferences_dialog.c:281
 msgid "Behaviour"
 msgstr "Comportamientu"
 
-#: ../src/preferences_dialog.c:361
+#: ../src/preferences_dialog.c:286
 msgid "Scaling"
 msgstr "Escala"
 
-#: ../src/preferences_dialog.c:366
+#: ../src/preferences_dialog.c:291
 msgid "Don't scale over 100% when maximizing the window."
 msgstr "Nun aumentar per enriba del 100% al maximizar la ventana."
 
-#: ../src/preferences_dialog.c:370
+#: ../src/preferences_dialog.c:295
 msgid "Startup"
 msgstr "Aniciu"
 
-#: ../src/preferences_dialog.c:372
+#: ../src/preferences_dialog.c:297
 msgid "Resize window to image on startup"
 msgstr "Redimensionar la ventana a la imaxe al aniciu"
 
-#: ../src/preferences_dialog.c:376
+#: ../src/preferences_dialog.c:301
 msgid "Open entire folder on startup"
 msgstr "Abrir una carpeta entera al aniciu"
 
-#: ../src/preferences_dialog.c:381
+#: ../src/preferences_dialog.c:306
 #, fuzzy
 msgid "Wrap around images"
 msgstr "Abrir imaxe"
 
-#: ../src/preferences_dialog.c:397
-msgid "Memory"
-msgstr "Memoria"
-
-#: ../src/preferences_dialog.c:403
-msgid "Image cache"
-msgstr "Caché d'imaxe"
-
-#: ../src/preferences_dialog.c:409
-msgid "Cache size"
-msgstr "Tamañu del caché"
-
-#: ../src/preferences_dialog.c:410
-msgid "MB"
-msgstr "MB"
-
-#: ../src/preferences_dialog.c:413
-msgid "Enable cache"
-msgstr "Habilitar Caché"
-
-#: ../src/preferences_dialog.c:418
-msgid "Enable preloading"
-msgstr ""
-
-#: ../src/preferences_dialog.c:499
+#: ../src/preferences_dialog.c:354
 msgid "Preferences"
 msgstr "Preferencies"
 
@@ -518,53 +482,70 @@ msgstr "Anchor del berbesu"
 msgid "the border width of the thumbnail-bar"
 msgstr "L'anchor del berbesu de la barra de miniatures"
 
-#: ../src/xfce_wallpaper_manager.c:82
+#: ../src/xfce_wallpaper_manager.c:83
 #, fuzzy
 msgid "Set as wallpaper"
 msgstr "_Afitar como fondu d'escritoriu"
 
-#: ../src/xfce_wallpaper_manager.c:84
+#: ../src/xfce_wallpaper_manager.c:85
 msgid "Style:"
 msgstr ""
 
-#: ../src/xfce_wallpaper_manager.c:86
+#: ../src/xfce_wallpaper_manager.c:87
 msgid "Monitor:"
 msgstr ""
 
-#: ../src/xfce_wallpaper_manager.c:88
+#: ../src/xfce_wallpaper_manager.c:89
 msgid "Brightness:"
 msgstr ""
 
-#: ../src/xfce_wallpaper_manager.c:89
+#: ../src/xfce_wallpaper_manager.c:90
 #, fuzzy
 msgid "Saturation:"
 msgstr "_Voltiar"
 
-#: ../src/xfce_wallpaper_manager.c:125
+#: ../src/xfce_wallpaper_manager.c:126
 #, fuzzy
 msgid "Auto"
 msgstr "_Tocante a"
 
-#: ../src/xfce_wallpaper_manager.c:126
+#: ../src/xfce_wallpaper_manager.c:127
 msgid "Centered"
 msgstr ""
 
-#: ../src/xfce_wallpaper_manager.c:127
+#: ../src/xfce_wallpaper_manager.c:128
 #, fuzzy
 msgid "Tiled"
 msgstr "_Ficheru"
 
-#: ../src/xfce_wallpaper_manager.c:128
+#: ../src/xfce_wallpaper_manager.c:129
 msgid "Stretched"
 msgstr ""
 
-#: ../src/xfce_wallpaper_manager.c:129
+#: ../src/xfce_wallpaper_manager.c:130
 #, fuzzy
 msgid "Scaled"
 msgstr "Escala"
 
-#: ../src/xfce_wallpaper_manager.c:130
+#: ../src/xfce_wallpaper_manager.c:131
 msgid "Zoomed"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:144
+msgid "One"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:147
+#, fuzzy
+msgid "Two"
+msgstr "Arriba"
+
+#: ../src/xfce_wallpaper_manager.c:150
+msgid "Three"
+msgstr ""
+
+#: ../src/xfce_wallpaper_manager.c:153
+msgid "Four"
 msgstr ""
 
 #: ../ristretto.desktop.in.h:1
@@ -579,6 +560,33 @@ msgstr "Ver semeyes cenciellamente"
 #, fuzzy
 msgid "Ristretto Photo Viewer"
 msgstr "Visualizador d'imáxenes"
+
+#~ msgid "Show preview when loading image"
+#~ msgstr "Amosar previsualización al cargar imáxenes"
+
+#~ msgid "No action"
+#~ msgstr "Denguna aición"
+
+#~ msgid "Zoom in and out"
+#~ msgstr "Acercar y allonxar"
+
+#~ msgid "Switch images"
+#~ msgstr "Cambiar imáxenes"
+
+#~ msgid "Memory"
+#~ msgstr "Memoria"
+
+#~ msgid "Image cache"
+#~ msgstr "Caché d'imaxe"
+
+#~ msgid "Cache size"
+#~ msgstr "Tamañu del caché"
+
+#~ msgid "MB"
+#~ msgstr "MB"
+
+#~ msgid "Enable cache"
+#~ msgstr "Habilitar Caché"
 
 #, fuzzy
 #~ msgid "the width of the thumbnail-bar film-strip"
