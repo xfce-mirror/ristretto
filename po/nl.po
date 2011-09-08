@@ -1,4 +1,4 @@
-# Dutch translation for the ristretto package.
+# Dutch translation of the ristretto package.
 # Copyright (C) The Xfce development team.
 # This file is distributed under the same license as the ristretto package.
 # Stephan Arts <stephan@xfce.org>, 2007.
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2011-09-06 19:16+0200\n"
-"PO-Revision-Date: 2011-07-20 00:48+0200\n"
+"PO-Revision-Date: 2011-09-08 00:48+0200\n"
 "Last-Translator: Pjotr\n"
 "Language-Team: Dutch (Flemish)\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgstr "Map openen"
 
 #: ../src/main_window.c:274
 msgid "_Save copy"
-msgstr "Kopie Op_slaan"
+msgstr "Kopie op_slaan"
 
 #: ../src/main_window.c:274
 msgid "Save a copy of the image"
@@ -78,7 +78,7 @@ msgstr "Sluit deze afbeelding"
 
 #: ../src/main_window.c:276
 msgid "_Close All"
-msgstr "_Alles Sluiten"
+msgstr "_Alles sluiten"
 
 #: ../src/main_window.c:276
 msgid "Close all images"
@@ -157,7 +157,7 @@ msgstr "_Passend maken"
 
 #: ../src/main_window.c:295
 msgid "_Normal Size"
-msgstr "_Normale Grootte"
+msgstr "_Normale grootte"
 
 #. Rotation submenu
 #: ../src/main_window.c:297
@@ -222,22 +222,22 @@ msgstr "_Positie"
 #. Misc
 #: ../src/main_window.c:321
 msgid "Leave _Fullscreen"
-msgstr "Verlaat _Schermvullende modus"
+msgstr "Verlaat _schermvullende modus"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:329
 msgid "Show _File Toolbar"
-msgstr "Toon _Bestandenwerkbalk"
+msgstr "Toon _bestandenwerkbalk"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:331
 msgid "Show _Navigation Toolbar"
-msgstr "Toon _Navigatiewerkbalk"
+msgstr "Toon _navigatiewerkbalk"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:333
 msgid "Show _Thumbnailbar"
-msgstr "Toon _Miniaturenbalk"
+msgstr "Toon _miniaturenbalk"
 
 #. Sort by Filename
 #: ../src/main_window.c:340
@@ -550,7 +550,7 @@ msgstr "Kijk gemakkelijk naar uw foto's"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Photo Viewer"
-msgstr "Ristretto Fotokijker"
+msgstr "Ristretto fotokijker"
 
 #~ msgid "Show preview when loading image"
 #~ msgstr "Toon voorvertoning bij laden van afbeelding"
@@ -649,7 +649,7 @@ msgstr "Ristretto Fotokijker"
 #~ msgstr "Miniaturenbalk verbergen gedurende diavertoning"
 
 #~ msgid "Xfce Image viewer"
-#~ msgstr "Xfce Afbeeldingkijker"
+#~ msgstr "Xfce afbeeldingkijker"
 
 #~ msgid "Preload"
 #~ msgstr "Vooraf laden"
