@@ -1612,18 +1612,6 @@ cb_rstto_main_window_play_slideshow (RsttoMainWindow *window)
     if (window->priv->playing)
     {
         rstto_image_list_iter_next (window->priv->iter);
-        if (rstto_settings_get_boolean_property(window->priv->settings_manager, "preload-images"))
-        {
-            g_value_init (&max_size, G_TYPE_UINT);
-            g_object_get_property (G_OBJECT(window->priv->settings_manager), "image-quality", &max_size);
-
-            preload_iter = rstto_image_list_iter_clone (window->priv->iter);   
-
-            rstto_image_list_iter_next (preload_iter);
-
-            g_value_reset(&max_size);
-            g_object_unref (preload_iter);
-        }
         rstto_main_window_image_list_iter_changed (window);
     }
     else
