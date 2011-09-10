@@ -343,12 +343,13 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "¿Está seguro de querer eliminar la imagen  '%s' de su disco?"
 
 #: ../src/privacy_dialog.c:151
+#, fuzzy
 msgid "Timerange to clear:"
-msgstr ""
+msgstr "TimeRange para borrar:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Limpieza"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
@@ -428,7 +429,7 @@ msgstr "Rueda de desplazamiento"
 
 #: ../src/preferences_dialog.c:272
 msgid "Revert zoom direction"
-msgstr ""
+msgstr "Revertir la dirección del zoom"
 
 #: ../src/preferences_dialog.c:281
 msgid "Behaviour"
