@@ -2,7 +2,7 @@
 # Copyright (C) 2007 THE ristretto'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Abel Martín <abel.martin.ruiz@gmail.com>, 2008
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -11,10 +11,10 @@ msgstr ""
 "PO-Revision-Date: 2009-11-06 09:18-0300\n"
 "Last-Translator: elega <elega@elega.com.ar>\n"
 "Language-Team: Spanish <xfce-i18n@xfce.org>\n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,84,11,-1,-1,-1\n"
 
 #: ../src/main.c:57
@@ -36,8 +36,7 @@ msgid ""
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Pruebe %s --help para ver una lista completa de opciones de línea de comando "
-"disponibles.\n"
+"Pruebe %s --help para ver una lista completa de opciones de línea de comando disponibles.\n"
 
 #. File Menu
 #: ../src/main_window.c:271
@@ -305,9 +304,7 @@ msgstr "Desarrollador:"
 
 #: ../src/main_window.c:1709
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto es un visor de imágenes rápido y ligero para el entorno de "
-"escritorio de Xfce."
+msgstr "Ristretto es un visor de imágenes rápido y ligero para el entorno de escritorio de Xfce."
 
 #: ../src/main_window.c:1717
 msgid "translator-credits"
@@ -355,28 +352,27 @@ msgstr ""
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr ""
+msgstr "Última Hora"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Últimas Dos Horas"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Últimas Cuatro Horas"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
-msgstr ""
+msgstr "Hoy"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr ""
+msgstr "Todo"
 
 #: ../src/privacy_dialog.c:459
-#, fuzzy
 msgid "Clear private data"
-msgstr "_Limpiar datos privados"
+msgstr "Borrar datos privados"
 
 #: ../src/preferences_dialog.c:186
 msgid "Display"
@@ -403,8 +399,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"El periodo de tiempo que una imagen individual es mostrada durante la vista "
-"de diapositivas\n"
+"El periodo de tiempo que una imagen individual es mostrada durante la vista de diapositivas\n"
 "(en segundos)"
 
 #: ../src/preferences_dialog.c:247
@@ -529,20 +524,19 @@ msgstr "Ampliado"
 
 #: ../src/xfce_wallpaper_manager.c:144
 msgid "One"
-msgstr ""
+msgstr "Uno"
 
 #: ../src/xfce_wallpaper_manager.c:147
-#, fuzzy
 msgid "Two"
-msgstr "Arriba"
+msgstr "Dos"
 
 #: ../src/xfce_wallpaper_manager.c:150
 msgid "Three"
-msgstr ""
+msgstr "Tres"
 
 #: ../src/xfce_wallpaper_manager.c:153
 msgid "Four"
-msgstr ""
+msgstr "Cuatro"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -643,18 +637,14 @@ msgstr "Visor de imágenes Ristretto"
 #~ msgid "H_ide"
 #~ msgstr "_Ocultar"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Una o más imágenes han sido modificadas. ¿Desea guardar los cambios?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
+#~ msgstr "Una o más imágenes han sido modificadas. ¿Desea guardar los cambios?"
 
 #~ msgid "Image viewer Preferences"
 #~ msgstr "Preferencias del visor de imágenes"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Precargar imágenes (la interfaz gráfica responde mejor a cambio de un "
-#~ "mayor consumo de CPU)"
+#~ msgstr "_Precargar imágenes (la interfaz gráfica responde mejor a cambio de un mayor consumo de CPU)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Ocultar la barra de miniaturas en la vista de diapositivas"
