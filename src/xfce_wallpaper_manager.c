@@ -26,6 +26,7 @@
 #include <libxfce4util/libxfce4util.h>
 #include <gio/gio.h>
 
+#include "monitor_chooser.h"
 #include "wallpaper_manager.h"
 #include "xfce_wallpaper_manager.h"
 
@@ -80,6 +81,7 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, 
     gchar *str = NULL;
     GdkScreen *screen = gdk_screen_get_default ();
     gint n_monitors = gdk_screen_get_n_monitors (screen);
+    GdkRectangle monitor_geometry;
     GtkWidget *dialog = gtk_dialog_new_with_buttons (_("Set as wallpaper"), NULL, 0, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
     GtkWidget *vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
     GtkWidget *style_label = gtk_label_new( _("Style:"));
@@ -92,22 +94,32 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, 
     GtkObject *saturation_adjustment = gtk_adjustment_new (1.0, 0.0, 10.0, 0.1, 0.5, 0);
     GtkWidget *brightness_slider = gtk_hscale_new (GTK_ADJUSTMENT (brightness_adjustment));
     GtkWidget *saturation_slider = gtk_hscale_new (GTK_ADJUSTMENT (saturation_adjustment));
-    GtkWidget *image_hbox = gtk_hbox_new (FALSE, 4);
     GdkPixbuf *image_pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default(),
                                                      "image-missing",
                                                      128,
                                                      0,
                                                      NULL);
-    GtkWidget *image_box = gtk_image_new_from_pixbuf (image_pixbuf);
     GtkWidget *prop_table = gtk_table_new (1, 2, FALSE);
     GtkWidget *image_prop_table = gtk_table_new (2, 2, FALSE);
+    GtkWidget *monitor_chooser = rstto_monitor_chooser_new ();
 
-    gtk_widget_set_size_request (image_box, 128, 128);
-    gtk_misc_set_padding (GTK_MISC (image_box), 4, 4);
+    for (i = 0; i < n_monitors; ++i)
+    {
+        gdk_screen_get_monitor_geometry (screen, i, &monitor_geometry);
+        rstto_monitor_chooser_add (RSTTO_MONITOR_CHOOSER(monitor_chooser), monitor_geometry.width, monitor_geometry.height);
+        rstto_monitor_chooser_set_pixbuf (
+                RSTTO_MONITOR_CHOOSER(monitor_chooser),
+                i,
+                gdk_pixbuf_new_from_file_at_size(
+                        g_file_get_path(file),
+                        500,
+                        500,
+                        NULL),
+                NULL);
+    }
 
-    gtk_box_pack_start (GTK_BOX (vbox), image_hbox, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (image_hbox), image_box, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (image_hbox), prop_table, FALSE, FALSE, 0);
+
+    gtk_box_pack_start (GTK_BOX (vbox), monitor_chooser, FALSE, FALSE, 0);
     gtk_table_attach (GTK_TABLE (prop_table), style_label, 0, 1, 0, 1, 0, 0, 0, 0);
     gtk_table_attach (GTK_TABLE (prop_table), style_combo, 1, 2, 0, 1, 0, 0, 0, 0);
 
@@ -130,37 +142,6 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, 
     gtk_combo_box_append_text (GTK_COMBO_BOX (style_combo), _("Scaled"));
     gtk_combo_box_append_text (GTK_COMBO_BOX (style_combo), _("Zoomed"));
     gtk_combo_box_set_active (GTK_COMBO_BOX (style_combo), 4);
-
-    if (n_monitors > 1)
-    {
-        gtk_table_attach (GTK_TABLE (prop_table), monitor_label, 0, 1, 1, 2, 0, 0, 0, 0);
-        gtk_table_attach (GTK_TABLE (prop_table), monitor_combo, 1, 2, 1, 2, 0, 0, 0, 0);
-    }
-    for (i = 0; i  < n_monitors; ++i)
-    {
-        switch ( i )
-        {
-            case 0:
-                gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), _("One"));
-                break;
-            case 1:
-                gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), _("Two"));
-                break;
-            case 2:
-                gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), _("Three"));
-                break;
-            case 3:
-                gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), _("Four"));
-                break;
-            default:
-                str = g_strdup_printf("%d", i+1);
-                gtk_combo_box_append_text (GTK_COMBO_BOX (monitor_combo), str);
-                g_free (str);
-                break;
-        }
-    }
-
-    gtk_combo_box_set_active (GTK_COMBO_BOX (monitor_combo), 0);
 
     manager->priv->screen = gdk_screen_get_number (screen);
 
