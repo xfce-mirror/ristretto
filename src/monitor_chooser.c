@@ -357,6 +357,8 @@ paint_monitor ( cairo_t *cr,
     gdouble vscale = 1.0;
     PangoLayout *layout;
     PangoFontDescription *font_description;
+    GdkPixbuf *dst_pixbuf = NULL;
+
     g_return_if_fail (NULL != monitor);
     
     /*
@@ -455,12 +457,14 @@ paint_monitor ( cairo_t *cr,
                                              y/vscale+((height/vscale)-gdk_pixbuf_get_height(monitor->pixbuf))/2);
                 break;
             default:
+                dst_pixbuf = gdk_pixbuf_copy (monitor->pixbuf);
+                gdk_pixbuf_saturate_and_pixelate (monitor->pixbuf, dst_pixbuf, 0.0, TRUE);
                 hscale = width / (gdk_pixbuf_get_width(monitor->pixbuf));
                 vscale = hscale;
                 cairo_scale (cr, hscale, vscale);
 
                 gdk_cairo_set_source_pixbuf (cr,
-                                             monitor->pixbuf,
+                                             dst_pixbuf,
                                              x/hscale+((width/hscale)-gdk_pixbuf_get_width(monitor->pixbuf))/2,
                                              y/vscale+((height/vscale)-gdk_pixbuf_get_height(monitor->pixbuf))/2);
                 break;
@@ -469,6 +473,11 @@ paint_monitor ( cairo_t *cr,
     cairo_paint(cr);
     cairo_reset_clip(cr);
     cairo_scale (cr, 1/hscale, 1/vscale);
+    if (NULL != dst_pixbuf)
+    {
+        g_object_unref (dst_pixbuf);
+        dst_pixbuf = NULL;
+    }
 
     if (FALSE == active)
     {
