@@ -136,11 +136,6 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, 
             500,
             NULL),
         NULL);
-        rstto_monitor_chooser_add (
-            RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser),
-            monitor_geometry.width,
-            monitor_geometry.height);
-
 
     gtk_box_pack_start (GTK_BOX (vbox), manager->priv->monitor_chooser, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (vbox), image_prop_table, FALSE, FALSE, 0);
