@@ -628,12 +628,14 @@ rstto_monitor_chooser_set_style (
         gint monitor_id,
         RsttoMonitorStyle style )
 {
+    GtkWidget *widget = GTK_WIDGET(chooser);
     Monitor *monitor = g_slist_nth_data (chooser->priv->monitors, monitor_id);
     g_return_val_if_fail (monitor != NULL, FALSE);
     if ( NULL != monitor )
     {
         monitor->style = style;
-        rstto_monitor_chooser_paint (GTK_WIDGET(chooser));
+        if (GTK_WIDGET_REALIZED (widget))
+            rstto_monitor_chooser_paint (GTK_WIDGET(chooser));
         return TRUE;
     }
     return FALSE;

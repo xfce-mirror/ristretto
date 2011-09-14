@@ -164,6 +164,11 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
                     500,
                     NULL),
             NULL);
+    rstto_monitor_chooser_set_style (
+            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
+            0,
+            MONITOR_STYLE_SCALED);
+        
 
     gtk_box_pack_start (
             GTK_BOX (vbox),
