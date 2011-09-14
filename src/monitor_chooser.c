@@ -28,6 +28,7 @@ typedef struct {
     gint width;
     gint height;
     GdkPixbuf *pixbuf;
+    RsttoMonitorStyle style;
 } Monitor;
 
 struct _RsttoMonitorChooserPriv
@@ -70,6 +71,15 @@ paint_monitor ( cairo_t *cr,
                 gchar *label,
                 Monitor *monitor,
                 gboolean active);
+
+enum
+{
+    RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED = 0,
+    RSTTO_MONITOR_CHOOSER_SIGNAL_COUNT
+};
+
+static gint
+rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_COUNT];
 
 GType
 rstto_monitor_chooser_get_type (void)
@@ -131,6 +141,17 @@ rstto_monitor_chooser_class_init(RsttoMonitorChooserClass *chooser_class)
     widget_class->size_allocate = rstto_monitor_chooser_size_allocate;
 
     object_class->finalize = rstto_monitor_chooser_finalize;
+
+    rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED] = g_signal_new("changed",
+            G_TYPE_FROM_CLASS(chooser_class),
+            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+            0,
+            NULL,
+            NULL,
+            g_cclosure_marshal_VOID__VOID,
+            G_TYPE_NONE,
+            0,
+            NULL);
 }
 
 static void
@@ -480,7 +501,9 @@ rstto_monitor_chooser_set_pixbuf (
 }
 
 static void
-cb_rstto_button_press_event (GtkWidget *widget, GdkEventButton *event)
+cb_rstto_button_press_event (
+        GtkWidget *widget,
+        GdkEventButton *event )
 {
     RsttoMonitorChooser *chooser = RSTTO_MONITOR_CHOOSER(widget);
     gint row_width = 0;
@@ -520,9 +543,34 @@ cb_rstto_button_press_event (GtkWidget *widget, GdkEventButton *event)
                     chooser->priv->selected = id+1;
                 }
 
+                g_signal_emit (G_OBJECT (chooser), rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED], 0, NULL);
+
                 rstto_monitor_chooser_paint (widget);
             }
         }
 
     }
+}
+
+gint
+rstto_monitor_chooser_get_selected (
+        RsttoMonitorChooser *chooser )
+{
+    return chooser->priv->selected;
+}
+
+gboolean
+rstto_monitor_chooser_set_style (
+        RsttoMonitorChooser *chooser,
+        gint monitor_id,
+        RsttoMonitorStyle style )
+{
+    Monitor *monitor = g_slist_nth_data (chooser->priv->monitors, monitor_id);
+    g_return_val_if_fail (monitor != NULL, FALSE);
+    if ( NULL != monitor )
+    {
+        monitor->style = style;
+        return TRUE;
+    }
+    return FALSE;
 }
