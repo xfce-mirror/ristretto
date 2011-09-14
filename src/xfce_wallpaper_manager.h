@@ -21,7 +21,8 @@
 
 G_BEGIN_DECLS
 
-#define RSTTO_TYPE_XFCE_WALLPAPER_MANAGER rstto_xfce_wallpaper_manager_get_type()
+#define RSTTO_TYPE_XFCE_WALLPAPER_MANAGER \
+        rstto_xfce_wallpaper_manager_get_type()
 
 #define RSTTO_XFCE_WALLPAPER_MANAGER(obj)( \
         G_TYPE_CHECK_INSTANCE_CAST ((obj), \
@@ -59,8 +60,11 @@ struct _RsttoXfceWallpaperManagerClass
     GObjectClass parent_class;
 };
 
-RsttoWallpaperManager *rstto_xfce_wallpaper_manager_new (void);
-GType          rstto_xfce_wallpaper_manager_get_type (void);
+RsttoWallpaperManager *
+rstto_xfce_wallpaper_manager_new (void);
+
+GType
+rstto_xfce_wallpaper_manager_get_type (void);
 
 G_END_DECLS
 
