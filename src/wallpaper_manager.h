@@ -21,10 +21,19 @@
 
 G_BEGIN_DECLS
 
-#define RSTTO_WALLPAPER_MANAGER_TYPE    rstto_wallpaper_manager_get_type ()
-#define RSTTO_WALLPAPER_MANAGER(obj)    (G_TYPE_CHECK_INSTANCE_CAST ((obj), RSTTO_WALLPAPER_MANAGER_TYPE, RsttoWallpaperManager))
-#define RSTTO_IS_WALLPAPER_MANAGER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), RSTTO_WALLPAPER_MANAGER_TYPE))
-#define RSTTO_WALLPAPER_MANAGER_GET_IFACE(inst) (G_TYPE_INSTANCE_GET_INTERFACE ((inst), RSTTO_WALLPAPER_MANAGER_TYPE, RsttoWallpaperManagerIface))
+#define RSTTO_WALLPAPER_MANAGER_TYPE \
+        rstto_wallpaper_manager_get_type ()
+#define RSTTO_WALLPAPER_MANAGER(obj)( \
+        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
+                RSTTO_WALLPAPER_MANAGER_TYPE, \
+                RsttoWallpaperManager))
+#define RSTTO_IS_WALLPAPER_MANAGER(obj)( \
+        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
+                RSTTO_WALLPAPER_MANAGER_TYPE))
+#define RSTTO_WALLPAPER_MANAGER_GET_IFACE(inst)( \
+        G_TYPE_INSTANCE_GET_INTERFACE ((inst), \
+                RSTTO_WALLPAPER_MANAGER_TYPE, \
+                RsttoWallpaperManagerIface))
 
 typedef struct _RsttoWallpaperManager RsttoWallpaperManager; /* dummy object */
 typedef struct _RsttoWallpaperManagerIface RsttoWallpaperManagerIface;
@@ -37,15 +46,21 @@ struct _RsttoWallpaperManagerIface {
     gboolean (*check_running) (RsttoWallpaperManager *self);
 };
 
-GType rstto_wallpaper_manager_get_type (void);
-
-gboolean rstto_wallpaper_manager_check_running (RsttoWallpaperManager *self);
-
-gint
-rstto_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, GFile *file);
+GType
+rstto_wallpaper_manager_get_type (void);
 
 gboolean
-rstto_wallpaper_manager_set (RsttoWallpaperManager *self, GFile *file);
+rstto_wallpaper_manager_check_running (RsttoWallpaperManager *self);
+
+gint
+rstto_wallpaper_manager_configure_dialog_run (
+        RsttoWallpaperManager *self,
+        GFile *file);
+
+gboolean
+rstto_wallpaper_manager_set (
+        RsttoWallpaperManager *self,
+        GFile *file);
 
 G_END_DECLS
 

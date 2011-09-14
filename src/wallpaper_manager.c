@@ -27,7 +27,9 @@
 #include "wallpaper_manager.h"
 
 gint 
-rstto_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, GFile *file)
+rstto_wallpaper_manager_configure_dialog_run (
+        RsttoWallpaperManager *self,
+        GFile *file)
 {
     return RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->configure_dialog_run(self, file);
 }
@@ -39,7 +41,9 @@ rstto_wallpaper_manager_check_running (RsttoWallpaperManager *self)
 }
 
 gboolean
-rstto_wallpaper_manager_set (RsttoWallpaperManager *self, GFile *file)
+rstto_wallpaper_manager_set (
+        RsttoWallpaperManager *self,
+        GFile *file)
 {
     return RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->set (self, file);
 }
@@ -49,7 +53,6 @@ static void
 rstto_wallpaper_manager_iface_init (gpointer g_iface)
 {
     RsttoWallpaperManagerIface *iface = (RsttoWallpaperManagerIface *)g_iface;
-    iface->configure_dialog_run = rstto_wallpaper_manager_configure_dialog_run;
 }
 
 
@@ -65,10 +68,11 @@ rstto_wallpaper_manager_get_type (void)
             NULL,   /* base_finalize */
         };
 
-        iface_type = g_type_register_static (G_TYPE_INTERFACE, "RsttoWallpaperManagerIface",
-                               &info, 0);
+        iface_type = g_type_register_static (
+                G_TYPE_INTERFACE,
+                "RsttoWallpaperManagerIface",
+                &info, 0);
     }
 
     return iface_type;
-
 }
