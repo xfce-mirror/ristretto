@@ -353,7 +353,8 @@ paint_monitor ( cairo_t *cr,
     double degrees = M_PI / 180.0;
     gint text_width = 0.0;
     gint text_height = 0.0;
-    gdouble scale = 1.0;
+    gdouble hscale = 1.0;
+    gdouble vscale = 1.0;
     PangoLayout *layout;
     PangoFontDescription *font_description;
     g_return_if_fail (NULL != monitor);
@@ -404,17 +405,70 @@ paint_monitor ( cairo_t *cr,
     cairo_clip_preserve (cr);
     if (monitor->pixbuf)
     {
-        scale = width / (gdk_pixbuf_get_width(monitor->pixbuf));
-        cairo_scale (cr, scale, scale);
+        switch (monitor->style)
+        {
+            case MONITOR_STYLE_STRETCHED:
+                hscale = (width) / (gdk_pixbuf_get_width(monitor->pixbuf));
+                vscale = (height) / (gdk_pixbuf_get_height(monitor->pixbuf));
+                cairo_scale (cr, hscale, vscale);
 
-        gdk_cairo_set_source_pixbuf (cr,
-                                     monitor->pixbuf,
-                                     x/scale+((width/scale)-gdk_pixbuf_get_width(monitor->pixbuf))/2,
-                                     y/scale+((height/10)/scale));
+                gdk_cairo_set_source_pixbuf (cr,
+                                             monitor->pixbuf,
+                                             x/hscale+((width/hscale)-gdk_pixbuf_get_width(monitor->pixbuf))/2,
+                                             y/vscale+((height/vscale)-gdk_pixbuf_get_height(monitor->pixbuf))/2);
+                break;
+            case MONITOR_STYLE_SCALED:
+                hscale = (width) / (gdk_pixbuf_get_width(monitor->pixbuf));
+                vscale = (height) / (gdk_pixbuf_get_height(monitor->pixbuf));
+                if (hscale < vscale)
+                {
+                    vscale = hscale;
+                }
+                else
+                {
+                    hscale = vscale;
+                }
+                cairo_scale (cr, hscale, vscale);
+
+                gdk_cairo_set_source_pixbuf (cr,
+                                             monitor->pixbuf,
+                                             x/hscale+((width/hscale)-gdk_pixbuf_get_width(monitor->pixbuf))/2,
+                                             y/vscale+((height/vscale)-gdk_pixbuf_get_height(monitor->pixbuf))/2);
+
+                break;
+            case MONITOR_STYLE_ZOOMED:
+                hscale = (width) / (gdk_pixbuf_get_width(monitor->pixbuf));
+                vscale = (height) / (gdk_pixbuf_get_height(monitor->pixbuf));
+                if (hscale > vscale)
+                {
+                    vscale = hscale;
+                }
+                else
+                {
+                    hscale = vscale;
+                }
+                cairo_scale (cr, hscale, vscale);
+
+                gdk_cairo_set_source_pixbuf (cr,
+                                             monitor->pixbuf,
+                                             x/hscale+((width/hscale)-gdk_pixbuf_get_width(monitor->pixbuf))/2,
+                                             y/vscale+((height/vscale)-gdk_pixbuf_get_height(monitor->pixbuf))/2);
+                break;
+            default:
+                hscale = width / (gdk_pixbuf_get_width(monitor->pixbuf));
+                vscale = hscale;
+                cairo_scale (cr, hscale, vscale);
+
+                gdk_cairo_set_source_pixbuf (cr,
+                                             monitor->pixbuf,
+                                             x/hscale+((width/hscale)-gdk_pixbuf_get_width(monitor->pixbuf))/2,
+                                             y/vscale+((height/vscale)-gdk_pixbuf_get_height(monitor->pixbuf))/2);
+                break;
+        }
     }
     cairo_paint(cr);
     cairo_reset_clip(cr);
-    cairo_scale (cr, 1/scale, 1/scale);
+    cairo_scale (cr, 1/hscale, 1/vscale);
 
     if (FALSE == active)
     {
@@ -570,6 +624,7 @@ rstto_monitor_chooser_set_style (
     if ( NULL != monitor )
     {
         monitor->style = style;
+        rstto_monitor_chooser_paint (GTK_WIDGET(chooser));
         return TRUE;
     }
     return FALSE;
