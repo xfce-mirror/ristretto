@@ -101,7 +101,7 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
 
     rstto_monitor_chooser_set_pixbuf (
             RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
-            0,
+            manager->priv->monitor,
             gdk_pixbuf_new_from_file_at_size(
                     g_file_get_path(file),
                     500,
