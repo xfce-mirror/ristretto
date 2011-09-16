@@ -1337,6 +1337,8 @@ static void
 cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *window)
 {
     GFile *file = NULL;
+    gint response = GTK_RESPONSE_APPLY;
+
     if (window->priv->iter)
     {
         file = rstto_image_list_iter_get_file (window->priv->iter);
@@ -1346,9 +1348,16 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
 
     if (window->priv->wallpaper_manager)
     {
-        if (rstto_wallpaper_manager_configure_dialog_run (window->priv->wallpaper_manager, file) == GTK_RESPONSE_OK)
+        while (GTK_RESPONSE_APPLY == response)
         {
-            rstto_wallpaper_manager_set (window->priv->wallpaper_manager, file);
+            response = rstto_wallpaper_manager_configure_dialog_run (window->priv->wallpaper_manager, file);
+            switch (response)
+            {
+                case GTK_RESPONSE_OK:
+                case GTK_RESPONSE_APPLY:
+                    rstto_wallpaper_manager_set (window->priv->wallpaper_manager, file);
+                    break;
+            }
         }
     }
 }

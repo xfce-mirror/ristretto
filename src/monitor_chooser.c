@@ -555,11 +555,11 @@ rstto_monitor_chooser_set_pixbuf (
         {
             g_object_unref (monitor->pixbuf);
         }
-        if (pixbuf)
-        {
-            g_object_ref (pixbuf);
-        }
         monitor->pixbuf = pixbuf;
+    }
+    if (GTK_WIDGET_REALIZED (GTK_WIDGET(chooser)))
+    {
+        rstto_monitor_chooser_paint (GTK_WIDGET(chooser));
     }
 }
 

@@ -78,6 +78,10 @@ struct _RsttoXfceWallpaperManagerPriv
 
     GtkWidget *monitor_chooser;
     GtkWidget *style_combo;
+    GtkObject *saturation_adjustment;
+    GtkObject *brightness_adjustment;
+
+    GtkWidget *dialog;
 };
 
 
@@ -92,69 +96,9 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
         GFile *file)
 {
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
-    gint response = GTK_RESPONSE_OK;
-    gint i;
-    gchar *str = NULL;
-    GdkScreen *screen = gdk_screen_get_default ();
-    gint n_monitors = gdk_screen_get_n_monitors (screen);
-    GdkRectangle monitor_geometry;
-    GtkWidget *dialog = gtk_dialog_new_with_buttons (
-            _("Set as wallpaper"),
-            NULL,
-            0,
-            GTK_STOCK_CANCEL,
-            GTK_RESPONSE_CANCEL,
-            GTK_STOCK_OK,
-            GTK_RESPONSE_OK,
-            NULL);
-    GtkWidget *vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-    GtkWidget *style_label = gtk_label_new( _("Style:"));
-    GtkWidget *monitor_label = gtk_label_new( _("Monitor:"));
-    GtkWidget *brightness_label = gtk_label_new( _("Brightness:"));
-    GtkWidget *saturation_label = gtk_label_new( _("Saturation:"));
-    GtkObject *brightness_adjustment = gtk_adjustment_new (
-            0.0,
-            -128.0,
-            127.0,
-            1.0,
-            10.0,
-            0.0);
-    GtkObject *saturation_adjustment = gtk_adjustment_new (
-            1.0,
-            -10.0,
-            10.0,
-            0.1,
-            0.5,
-            0.0);
-    GtkWidget *brightness_slider = gtk_hscale_new (
-            GTK_ADJUSTMENT (brightness_adjustment));
-    GtkWidget *saturation_slider = gtk_hscale_new (
-            GTK_ADJUSTMENT (saturation_adjustment));
-    GdkPixbuf *image_pixbuf = gtk_icon_theme_load_icon (
-            gtk_icon_theme_get_default(),
-            "image-missing",
-            128,
-            0,
-            NULL);
-    GtkWidget *image_prop_table = gtk_table_new (3, 2, FALSE);
-
-    manager->priv->monitor_chooser = rstto_monitor_chooser_new ();
-    manager->priv->style_combo = gtk_combo_box_text_new();
+    gint response = 0;
     manager->priv->file = file;
 
-    gtk_table_set_row_spacing (GTK_TABLE(image_prop_table), 1, 4);
-
-    for (i = 0; i < n_monitors; ++i)
-    {
-        gdk_screen_get_monitor_geometry (
-                screen,
-                i,
-                &monitor_geometry);
-        rstto_monitor_chooser_add (
-                RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser),
-                monitor_geometry.width,
-                monitor_geometry.height);
-    }
     rstto_monitor_chooser_set_pixbuf (
             RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
             0,
@@ -164,159 +108,20 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
                     500,
                     NULL),
             NULL);
-    rstto_monitor_chooser_set_style (
-            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
-            0,
-            MONITOR_STYLE_SCALED);
-        
 
-    gtk_box_pack_start (
-            GTK_BOX (vbox),
-            manager->priv->monitor_chooser,
-            FALSE,
-            FALSE,
-            0);
-    gtk_box_pack_start (
-            GTK_BOX (vbox),
-            image_prop_table,
-            FALSE,
-            FALSE,
-            0);
-
-    gtk_scale_set_value_pos (
-            GTK_SCALE (brightness_slider),
-            GTK_POS_RIGHT);
-    gtk_scale_set_digits (
-            GTK_SCALE (brightness_slider),
-            0);
-
-    gtk_scale_set_value_pos (
-            GTK_SCALE (saturation_slider),
-            GTK_POS_RIGHT);
-    gtk_scale_set_digits (
-            GTK_SCALE (saturation_slider),
-            1);
-    gtk_table_attach (
-            GTK_TABLE (image_prop_table),
-            brightness_label,
-            0,
-            1,
-            0,
-            1,
-            0,
-            0,
-            0,
-            0);
-    gtk_table_attach (
-            GTK_TABLE (image_prop_table),
-            brightness_slider,
-            1,
-            2,
-            0,
-            1,
-            GTK_EXPAND|GTK_FILL,
-            0,
-            0,
-            0);
-    gtk_table_attach (
-            GTK_TABLE (image_prop_table),
-            saturation_label,
-            0,
-            1,
-            1,
-            2,
-            0,
-            0,
-            0,
-            0);
-    gtk_table_attach (
-            GTK_TABLE (image_prop_table),
-            saturation_slider,
-            1,
-            2,
-            1,
-            2,
-            GTK_EXPAND|GTK_FILL,
-            0,
-            0,
-            0);
-    gtk_table_attach (
-            GTK_TABLE (image_prop_table),
-            style_label,
-            0,
-            1,
-            2,
-            3,
-            0,
-            0,
-            0,
-            0);
-    gtk_table_attach (
-            GTK_TABLE (image_prop_table),
-            manager->priv->style_combo,
-            1,
-            2,
-            2,
-            3,
-            GTK_EXPAND|GTK_FILL,
-            0,
-            0,
-            0);
-
-    gtk_combo_box_append_text (
-            GTK_COMBO_BOX (manager->priv->style_combo),
-            _("Auto"));
-    gtk_combo_box_append_text (
-            GTK_COMBO_BOX (manager->priv->style_combo),
-            _("Centered"));
-    gtk_combo_box_append_text (
-            GTK_COMBO_BOX (manager->priv->style_combo),
-            _("Tiled"));
-    gtk_combo_box_append_text (
-            GTK_COMBO_BOX (manager->priv->style_combo),
-            _("Stretched"));
-    gtk_combo_box_append_text (
-            GTK_COMBO_BOX (manager->priv->style_combo),
-            _("Scaled"));
-    gtk_combo_box_append_text (
-            GTK_COMBO_BOX (manager->priv->style_combo),
-            _("Zoomed"));
-
-    gtk_combo_box_set_active (
-            GTK_COMBO_BOX (manager->priv->style_combo),
-            4);
-
-    manager->priv->screen = gdk_screen_get_number (screen);
-
-    gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
-
-    g_signal_connect (
-            G_OBJECT(manager->priv->monitor_chooser),
-            "changed",
-            G_CALLBACK (cb_monitor_chooser_changed),
-            manager);
-    g_signal_connect (
-            G_OBJECT(manager->priv->style_combo),
-            "changed",
-            G_CALLBACK (cb_style_combo_changed),
-            manager);
-
-    gtk_widget_show_all (vbox);
-    response = gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_hide (dialog);
-    if (response == GTK_RESPONSE_OK)
+    response = gtk_dialog_run (GTK_DIALOG (manager->priv->dialog));
+    gtk_widget_hide (manager->priv->dialog);
+    if ((response == GTK_RESPONSE_OK) || (response == GTK_RESPONSE_APPLY))
     {
         manager->priv->style = gtk_combo_box_get_active (
                 GTK_COMBO_BOX (manager->priv->style_combo));
         manager->priv->saturation = gtk_adjustment_get_value (
-                GTK_ADJUSTMENT (saturation_adjustment));
+                GTK_ADJUSTMENT (manager->priv->saturation_adjustment));
         manager->priv->brightness = (gint)gtk_adjustment_get_value (
-                GTK_ADJUSTMENT (brightness_adjustment));
+                GTK_ADJUSTMENT (manager->priv->brightness_adjustment));
         manager->priv->monitor = rstto_monitor_chooser_get_selected (
                 RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser));
     }
-
-    gtk_widget_destroy (dialog);
     return response;
 }
 
@@ -478,17 +283,224 @@ rstto_xfce_wallpaper_manager_get_type (void)
 static void
 rstto_xfce_wallpaper_manager_init (GObject *object)
 {
-    RsttoXfceWallpaperManager *xfce_wallpaper_manager = RSTTO_XFCE_WALLPAPER_MANAGER (object);
+    RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (object);
 
-    xfce_wallpaper_manager->priv = g_new0 (RsttoXfceWallpaperManagerPriv, 1);
-    xfce_wallpaper_manager->priv->channel = xfconf_channel_new ("xfce4-desktop");
-    xfce_wallpaper_manager->priv->color1 = g_new0 (RsttoColor, 1);
-    xfce_wallpaper_manager->priv->color1->a = 0xffff;
-    xfce_wallpaper_manager->priv->color2 = g_new0 (RsttoColor, 1);
-    xfce_wallpaper_manager->priv->color2->a = 0xffff;
-    xfce_wallpaper_manager->priv->style = 4;
-    xfce_wallpaper_manager->priv->brightness = 0;
-    xfce_wallpaper_manager->priv->saturation = 1.0;
+    manager->priv = g_new0 (RsttoXfceWallpaperManagerPriv, 1);
+    manager->priv->channel = xfconf_channel_new ("xfce4-desktop");
+    manager->priv->color1 = g_new0 (RsttoColor, 1);
+    manager->priv->color1->a = 0xffff;
+    manager->priv->color2 = g_new0 (RsttoColor, 1);
+    manager->priv->color2->a = 0xffff;
+    manager->priv->style = 4;
+    manager->priv->brightness = 0;
+    manager->priv->saturation = 1.0;
+
+    gint i;
+    gchar *str = NULL;
+    GdkScreen *screen = gdk_screen_get_default ();
+    gint n_monitors = gdk_screen_get_n_monitors (screen);
+    GdkRectangle monitor_geometry;
+    manager->priv->dialog = gtk_dialog_new_with_buttons (
+            _("Set as wallpaper"),
+            NULL,
+            0,
+            GTK_STOCK_CANCEL,
+            GTK_RESPONSE_CANCEL,
+            GTK_STOCK_APPLY,
+            GTK_RESPONSE_APPLY,
+            GTK_STOCK_OK,
+            GTK_RESPONSE_OK,
+            NULL);
+    GtkWidget *vbox = gtk_dialog_get_content_area (
+            GTK_DIALOG (manager->priv->dialog));
+    GtkWidget *style_label = gtk_label_new( _("Style:"));
+    GtkWidget *monitor_label = gtk_label_new( _("Monitor:"));
+    GtkWidget *brightness_label = gtk_label_new( _("Brightness:"));
+    GtkWidget *saturation_label = gtk_label_new( _("Saturation:"));
+    manager->priv->brightness_adjustment = gtk_adjustment_new (
+            0.0,
+            -128.0,
+            127.0,
+            1.0,
+            10.0,
+            0.0);
+    manager->priv->saturation_adjustment = gtk_adjustment_new (
+            1.0,
+            -10.0,
+            10.0,
+            0.1,
+            0.5,
+            0.0);
+    GtkWidget *brightness_slider = gtk_hscale_new (
+            GTK_ADJUSTMENT (manager->priv->brightness_adjustment));
+    GtkWidget *saturation_slider = gtk_hscale_new (
+            GTK_ADJUSTMENT (manager->priv->saturation_adjustment));
+    GdkPixbuf *image_pixbuf = gtk_icon_theme_load_icon (
+            gtk_icon_theme_get_default(),
+            "image-missing",
+            128,
+            0,
+            NULL);
+    GtkWidget *image_prop_table = gtk_table_new (3, 2, FALSE);
+
+    manager->priv->monitor_chooser = rstto_monitor_chooser_new ();
+    manager->priv->style_combo = gtk_combo_box_text_new();
+
+    gtk_table_set_row_spacing (GTK_TABLE(image_prop_table), 1, 4);
+
+    for (i = 0; i < n_monitors; ++i)
+    {
+        gdk_screen_get_monitor_geometry (
+                screen,
+                i,
+                &monitor_geometry);
+        rstto_monitor_chooser_add (
+                RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser),
+                monitor_geometry.width,
+                monitor_geometry.height);
+    }
+        rstto_monitor_chooser_add (
+                RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser),
+                monitor_geometry.width,
+                monitor_geometry.height);
+    rstto_monitor_chooser_set_style (
+            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
+            0,
+            MONITOR_STYLE_SCALED);
+        
+
+    gtk_box_pack_start (
+            GTK_BOX (vbox),
+            manager->priv->monitor_chooser,
+            FALSE,
+            FALSE,
+            0);
+    gtk_box_pack_start (
+            GTK_BOX (vbox),
+            image_prop_table,
+            FALSE,
+            FALSE,
+            0);
+
+    gtk_scale_set_value_pos (
+            GTK_SCALE (brightness_slider),
+            GTK_POS_RIGHT);
+    gtk_scale_set_digits (
+            GTK_SCALE (brightness_slider),
+            0);
+
+    gtk_scale_set_value_pos (
+            GTK_SCALE (saturation_slider),
+            GTK_POS_RIGHT);
+    gtk_scale_set_digits (
+            GTK_SCALE (saturation_slider),
+            1);
+    gtk_table_attach (
+            GTK_TABLE (image_prop_table),
+            brightness_label,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0);
+    gtk_table_attach (
+            GTK_TABLE (image_prop_table),
+            brightness_slider,
+            1,
+            2,
+            0,
+            1,
+            GTK_EXPAND|GTK_FILL,
+            0,
+            0,
+            0);
+    gtk_table_attach (
+            GTK_TABLE (image_prop_table),
+            saturation_label,
+            0,
+            1,
+            1,
+            2,
+            0,
+            0,
+            0,
+            0);
+    gtk_table_attach (
+            GTK_TABLE (image_prop_table),
+            saturation_slider,
+            1,
+            2,
+            1,
+            2,
+            GTK_EXPAND|GTK_FILL,
+            0,
+            0,
+            0);
+    gtk_table_attach (
+            GTK_TABLE (image_prop_table),
+            style_label,
+            0,
+            1,
+            2,
+            3,
+            0,
+            0,
+            0,
+            0);
+    gtk_table_attach (
+            GTK_TABLE (image_prop_table),
+            manager->priv->style_combo,
+            1,
+            2,
+            2,
+            3,
+            GTK_EXPAND|GTK_FILL,
+            0,
+            0,
+            0);
+
+    gtk_combo_box_append_text (
+            GTK_COMBO_BOX (manager->priv->style_combo),
+            _("Auto"));
+    gtk_combo_box_append_text (
+            GTK_COMBO_BOX (manager->priv->style_combo),
+            _("Centered"));
+    gtk_combo_box_append_text (
+            GTK_COMBO_BOX (manager->priv->style_combo),
+            _("Tiled"));
+    gtk_combo_box_append_text (
+            GTK_COMBO_BOX (manager->priv->style_combo),
+            _("Stretched"));
+    gtk_combo_box_append_text (
+            GTK_COMBO_BOX (manager->priv->style_combo),
+            _("Scaled"));
+    gtk_combo_box_append_text (
+            GTK_COMBO_BOX (manager->priv->style_combo),
+            _("Zoomed"));
+
+    gtk_combo_box_set_active (
+            GTK_COMBO_BOX (manager->priv->style_combo),
+            4);
+
+    manager->priv->screen = gdk_screen_get_number (screen);
+
+    gtk_window_set_resizable (GTK_WINDOW (manager->priv->dialog), FALSE);
+
+    g_signal_connect (
+            G_OBJECT(manager->priv->monitor_chooser),
+            "changed",
+            G_CALLBACK (cb_monitor_chooser_changed),
+            manager);
+    g_signal_connect (
+            G_OBJECT(manager->priv->style_combo),
+            "changed",
+            G_CALLBACK (cb_style_combo_changed),
+            manager);
+
+    gtk_widget_show_all (vbox);
 }
 
 
