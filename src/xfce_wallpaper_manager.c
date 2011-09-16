@@ -359,10 +359,6 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
                 monitor_geometry.width,
                 monitor_geometry.height);
     }
-        rstto_monitor_chooser_add (
-                RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser),
-                monitor_geometry.width,
-                monitor_geometry.height);
     rstto_monitor_chooser_set_style (
             RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
             0,
