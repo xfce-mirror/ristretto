@@ -583,8 +583,12 @@ cb_monitor_chooser_changed (
         RsttoXfceWallpaperManager *manager)
 {
     gint monitor_id;
+    RsttoMonitorStyle style;
 
     monitor_id = rstto_monitor_chooser_get_selected (monitor_chooser);
+    style = gtk_combo_box_get_active (
+            GTK_COMBO_BOX(manager->priv->style_combo));
+
     rstto_monitor_chooser_set_pixbuf (
             monitor_chooser,
             manager->priv->monitor,
@@ -592,14 +596,20 @@ cb_monitor_chooser_changed (
             NULL);
 
     rstto_monitor_chooser_set_pixbuf (
-        RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
-        monitor_id,
-        gdk_pixbuf_new_from_file_at_size(
-            g_file_get_path(manager->priv->file),
-            500,
-            500,
-            NULL),
-        NULL);
+            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
+            monitor_id,
+            gdk_pixbuf_new_from_file_at_size(
+                g_file_get_path(manager->priv->file),
+                500,
+                500,
+                NULL),
+            NULL);
+
+    rstto_monitor_chooser_set_style (
+            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
+            monitor_id,
+            style);
+        
 
     manager->priv->monitor = monitor_id;
 }
