@@ -260,13 +260,13 @@ rstto_image_list_remove_file (RsttoImageList *image_list, GFile *file)
         {
             if (g_file_equal(rstto_image_list_iter_get_file (iter->data), file))
             {
-                if (0 == rstto_image_list_iter_get_position (iter->data))
+                if (rstto_image_list_iter_get_position (iter->data) == rstto_image_list_get_n_images (image_list)-1)
                 {
-                    rstto_image_list_iter_next (iter->data);
+                    rstto_image_list_iter_previous (iter->data);
                 }
                 else
                 {
-                    rstto_image_list_iter_previous (iter->data);
+                    rstto_image_list_iter_next (iter->data);
                 }
                 /* If the image is still the same, 
                  * it's a single item list,
@@ -291,7 +291,7 @@ rstto_image_list_remove_file (RsttoImageList *image_list, GFile *file)
             {
                 if (g_file_equal(afile, file))
                 {
-                    rstto_image_list_iter_previous (iter->data);
+                    rstto_image_list_iter_next (iter->data);
                 }
             }
             iter = g_slist_next (iter);
