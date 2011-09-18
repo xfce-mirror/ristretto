@@ -344,7 +344,7 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
     GtkWidget *image_prop_table = gtk_table_new (3, 2, FALSE);
 
     manager->priv->monitor_chooser = rstto_monitor_chooser_new ();
-    manager->priv->style_combo = gtk_combo_box_text_new();
+    manager->priv->style_combo = gtk_combo_box_new_text();
 
     gtk_table_set_row_spacing (GTK_TABLE(image_prop_table), 1, 4);
 
