@@ -1699,7 +1699,6 @@ cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
 
     GtkWidget *about_dialog = gtk_about_dialog_new();
 
-    gtk_about_dialog_set_name((GtkAboutDialog *)about_dialog, PACKAGE_NAME);
     gtk_about_dialog_set_version((GtkAboutDialog *)about_dialog, PACKAGE_VERSION);
 
     gtk_about_dialog_set_comments((GtkAboutDialog *)about_dialog,
