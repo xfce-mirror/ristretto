@@ -107,7 +107,6 @@ msgid "_Delete"
 msgstr "_Löschen"
 
 #: ../src/main_window.c:282
-#, fuzzy
 msgid "Delete this image from disk"
 msgstr "Dieses Bild von der Festplatte löschen"
 
@@ -343,42 +342,34 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
 
 #: ../src/privacy_dialog.c:151
-#, fuzzy
 msgid "Timerange to clear:"
-msgstr "Zu löschender Zeitraum"
+msgstr "Zu löschender Zeitraum:"
 
 #: ../src/privacy_dialog.c:155
-#, fuzzy
 msgid "Cleanup"
 msgstr "Aufräumen"
 
 #: ../src/privacy_dialog.c:157
-#, fuzzy
 msgid "Last Hour"
 msgstr "Letzte Stunde"
 
 #: ../src/privacy_dialog.c:158
-#, fuzzy
 msgid "Last Two Hours"
-msgstr "Letzten beiden Stunden"
+msgstr "Letzte beiden Stunden"
 
 #: ../src/privacy_dialog.c:159
-#, fuzzy
 msgid "Last Four Hours"
-msgstr "Letzten vier Stunden"
+msgstr "Letzte vier Stunden"
 
 #: ../src/privacy_dialog.c:160
-#, fuzzy
 msgid "Today"
 msgstr "Heute"
 
 #: ../src/privacy_dialog.c:161
-#, fuzzy
 msgid "Everything"
 msgstr "Alles"
 
 #: ../src/privacy_dialog.c:459
-#, fuzzy
 msgid "Clear private data"
 msgstr "Private Daten löschen"
 
@@ -435,7 +426,6 @@ msgid "Scrollwheel"
 msgstr "Mausrad"
 
 #: ../src/preferences_dialog.c:272
-#, fuzzy
 msgid "Revert zoom direction"
 msgstr "Zoomrichtung umkehren"
 
@@ -532,22 +522,18 @@ msgid "Zoomed"
 msgstr "Vergrößert"
 
 #: ../src/xfce_wallpaper_manager.c:144
-#, fuzzy
 msgid "One"
 msgstr "Eins"
 
 #: ../src/xfce_wallpaper_manager.c:147
-#, fuzzy
 msgid "Two"
 msgstr "Zwei"
 
 #: ../src/xfce_wallpaper_manager.c:150
-#, fuzzy
 msgid "Three"
 msgstr "Drei"
 
 #: ../src/xfce_wallpaper_manager.c:153
-#, fuzzy
 msgid "Four"
 msgstr "Vier"
 
