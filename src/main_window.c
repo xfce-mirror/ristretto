@@ -1218,7 +1218,7 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
 
             gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
             gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 1, 0, 3, GTK_FILL, GTK_EXPAND|GTK_FILL, 0, 0);
-            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_VERTICAL);
+            gtk_orientable_set_orientation (GTK_ORIENTABLE(window->priv->image_list_toolbar), GTK_ORIENTATION_VERTICAL);
             rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_VERTICAL);
             break;
         case 1: /* Right */
@@ -1234,7 +1234,7 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
 
             gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
             gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 2, 3, 0, 3, GTK_FILL,GTK_EXPAND|GTK_FILL, 0, 0);
-            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_VERTICAL);
+            gtk_orientable_set_orientation (GTK_ORIENTABLE (window->priv->image_list_toolbar), GTK_ORIENTATION_VERTICAL);
             rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_VERTICAL);
             break;
         case 2: /* Top */
@@ -1250,7 +1250,7 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
 
             gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
             gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 3, 0, 1, GTK_EXPAND|GTK_FILL,GTK_FILL, 0, 0);
-            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_HORIZONTAL);
+            gtk_orientable_set_orientation (GTK_ORIENTABLE (window->priv->image_list_toolbar), GTK_ORIENTATION_HORIZONTAL);
             rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_HORIZONTAL);
             break;
         case 3: /* Bottom */
@@ -1265,7 +1265,7 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
 
             gtk_container_remove (GTK_CONTAINER (window->priv->table), window->priv->image_list_toolbar);
             gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 3, 2, 3, GTK_EXPAND|GTK_FILL,GTK_FILL, 0, 0);
-            gtk_toolbar_set_orientation (GTK_TOOLBAR (window->priv->image_list_toolbar), GTK_ORIENTATION_HORIZONTAL);
+            gtk_orientable_set_orientation (GTK_ORIENTABLE(window->priv->image_list_toolbar), GTK_ORIENTATION_HORIZONTAL);
             rstto_thumbnail_bar_set_orientation (RSTTO_THUMBNAIL_BAR(window->priv->thumbnailbar), GTK_ORIENTATION_HORIZONTAL);
             break;
         default:
