@@ -235,8 +235,6 @@ rstto_image_viewer_init(RsttoImageViewer *viewer)
     g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::bgcolor-override", G_CALLBACK (cb_rstto_image_viewer_bgcolor_changed), viewer);
     g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::revert-zoom-direction", G_CALLBACK (cb_rstto_image_viewer_zoom_direction_changed), viewer);
 
-    gtk_widget_set_double_buffered (GTK_WIDGET(viewer), TRUE);
-
     /* Set to false, experimental...
      * improves performance, but I am not sure what will give.
      */
