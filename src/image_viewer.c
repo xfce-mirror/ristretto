@@ -809,7 +809,7 @@ rstto_image_viewer_paint_selection (RsttoImageViewer *viewer, GdkDrawable *drawa
                             GDK_RGB_DITHER_NONE,
                             0, 0);
 
-            gdk_pixbuf_unref(sub);
+            g_object_unref(sub);
             sub = NULL;
         }
 
