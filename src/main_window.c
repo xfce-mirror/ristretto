@@ -393,6 +393,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     RsttoWallpaperManager *wallpaper_manager = NULL;
     gchar           *desktop_type = NULL;
 
+    GClosure        *toggle_fullscreen_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_fullscreen, window, NULL);
     GClosure        *leave_fullscreen_closure = g_cclosure_new_swap ((GCallback)gtk_window_unfullscreen, window, NULL);
     GClosure        *next_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_next_image, window, NULL);
     GClosure        *previous_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_previous_image, window, NULL);
@@ -439,12 +440,14 @@ rstto_main_window_init (RsttoMainWindow *window)
     accel_group = gtk_ui_manager_get_accel_group (window->priv->ui_manager);
     gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
 
+    gtk_accel_group_connect_by_path (accel_group, "<Window>/fullscreen", toggle_fullscreen_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/unfullscreen", leave_fullscreen_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/next-image", next_image_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/previous-image", previous_image_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/quit", quit_closure);
 
     /* Set default accelerators */
+    gtk_accel_map_change_entry ("<Window>/fullscreen", GDK_F, 0, FALSE);
     gtk_accel_map_change_entry ("<Window>/unfullscreen", GDK_Escape, 0, FALSE);
     gtk_accel_map_change_entry ("<Window>/next-image", GDK_Page_Down, 0, FALSE);
     gtk_accel_map_change_entry ("<Window>/previous-image", GDK_Page_Up, 0, FALSE);
