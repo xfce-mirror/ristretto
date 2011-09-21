@@ -1,0 +1,7 @@
+ - Implement a fallback properties-dialog, for when thunar is not available
+   (it happens, bug #4054)
+
+ - Implement file-monitoring, to track an opened file even when it moves
+   across the filesystem. The thunar-properties dialog allows renaming
+   of the files, using that dialog makes ristretto lose track of an
+   opened file at runtime.
