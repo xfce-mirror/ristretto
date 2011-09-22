@@ -42,6 +42,7 @@
 #include "gnome_wallpaper_manager.h"
 
 #include "privacy_dialog.h"
+#include "properties_dialog.h"
 #include "preferences_dialog.h"
 #include "app_menu_item.h"
 
@@ -2350,21 +2351,39 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
     GdkDisplay *display = gdk_display_get_default();
     GError *error = NULL;
     GFile *file = rstto_image_list_iter_get_file (window->priv->iter);
+    gchar *uri = NULL;
+    GtkWidget *dialog = NULL;
     if (file)
     {
-        gchar *uri = g_file_get_uri(file);
-        if(dbus_g_proxy_call(window->priv->filemanager_proxy,
-                             "DisplayFileProperties",
-                             &error,
-                             G_TYPE_STRING, uri,
-                             G_TYPE_STRING, gdk_display_get_name(display),
-                             G_TYPE_STRING, "",
-                             G_TYPE_INVALID,
-                             G_TYPE_INVALID) == FALSE)
+        /* TODO: Add a property that allows forcing the built-in
+         * properties dialog
+         * 
+         * For now this is here for development purposes.
+         */
+        if ( 0 )
         {
-            g_warning("DBUS CALL FAILED: '%s'", error->message);
+            uri = g_file_get_uri(file);
+            if(dbus_g_proxy_call(window->priv->filemanager_proxy,
+                                 "DisplayFileProperties",
+                                 &error,
+                                 G_TYPE_STRING, uri,
+                                 G_TYPE_STRING, gdk_display_get_name(display),
+                                 G_TYPE_STRING, "",
+                                 G_TYPE_INVALID,
+                                 G_TYPE_INVALID) == FALSE)
+            {
+                g_warning("DBUS CALL FAILED: '%s'", error->message);
+            }
+            g_free(uri);
         }
-        g_free(uri);
+        else
+        {
+            dialog = rstto_properties_dialog_new (
+                    GTK_WINDOW (window),
+                    file);
+            gtk_dialog_run (GTK_DIALOG(dialog));
+            gtk_widget_destroy(dialog);
+        }
     }
 }
 /**
