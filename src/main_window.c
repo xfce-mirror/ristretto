@@ -27,6 +27,8 @@
 #include <libxfce4ui/libxfce4ui.h>
 #include <libexif/exif-data.h>
 
+#include <dbus/dbus-glib.h>
+
 #include <cairo/cairo.h>
 
 #include "settings.h"
@@ -40,6 +42,7 @@
 #include "gnome_wallpaper_manager.h"
 
 #include "privacy_dialog.h"
+#include "properties_dialog.h"
 #include "preferences_dialog.h"
 #include "app_menu_item.h"
 
@@ -61,6 +64,9 @@ struct _RsttoMainWindowPriv
         RsttoImageList *image_list;
         gboolean        toolbar_visible;
     } props;
+
+    DBusGConnection *connection;
+    DBusGProxy *filemanager_proxy;
 
     guint show_fs_toolbar_timeout_id;
     gint window_save_geometry_timer_id;
@@ -189,6 +195,8 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *window);
 static void
+cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window);
+static void
 cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window);
@@ -272,6 +280,7 @@ static GtkActionEntry action_entries[] =
   { "open", "document-open", N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
   { "open-folder", "folder-open", N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
   { "save-copy", GTK_STOCK_SAVE_AS, N_ ("_Save copy"), "<control>s", N_ ("Save a copy of the image"), G_CALLBACK (cb_rstto_main_window_save_copy), },
+  { "properties", GTK_STOCK_PROPERTIES, N_ ("_Properties"), NULL, N_ ("Show file properties"), G_CALLBACK (cb_rstto_main_window_properties), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
   { "close-all", NULL, N_ ("_Close All"), NULL, N_ ("Close all images"), G_CALLBACK (cb_rstto_main_window_close_all), },
   { "quit", GTK_STOCK_QUIT, N_ ("_Quit"), "<control>Q", N_ ("Quit Ristretto"), G_CALLBACK (cb_rstto_main_window_quit), },
@@ -411,6 +420,19 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->ui_manager = gtk_ui_manager_new ();
     window->priv->recent_manager = gtk_recent_manager_get_default();
     window->priv->settings_manager = rstto_settings_new();
+
+    /* D-Bus stuff */
+
+    window->priv->connection = dbus_g_bus_get(DBUS_BUS_SESSION, NULL);
+    if (window->priv->connection)
+    {
+        window->priv->filemanager_proxy =
+                dbus_g_proxy_new_for_name(
+                        window->priv->connection,
+                        "org.xfce.FileManager",
+                        "/org/xfce/FileManager",
+                        "org.xfce.FileManager");
+    }
 
     desktop_type = rstto_settings_get_string_property (window->priv->settings_manager, "desktop-type");
     if (desktop_type)
@@ -924,6 +946,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             /*
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), FALSE);
             */
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/properties"), FALSE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close"), FALSE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close-all"), FALSE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), FALSE);
@@ -984,6 +1007,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             /*
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), TRUE);
             */
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/properties"), TRUE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close"), TRUE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close-all"), FALSE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), TRUE);
@@ -1046,6 +1070,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             /*
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), TRUE);
             */
+            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/properties"), TRUE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close"), TRUE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close-all"), TRUE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), TRUE);
@@ -2319,6 +2344,56 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
 
 }
 
+static void
+cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
+{
+    /* The display object is owned by gdk, do not unref it */
+    GdkDisplay *display = gdk_display_get_default();
+    GError *error = NULL;
+    GFile *file = rstto_image_list_iter_get_file (window->priv->iter);
+    gchar *uri = NULL;
+    GtkWidget *dialog = NULL;
+    gboolean use_thunar_properties = rstto_settings_get_boolean_property (
+            window->priv->settings_manager,
+            "use-thunar-properties");
+    if (file)
+    {
+        /* TODO: Add a property that allows forcing the built-in
+         * properties dialog
+         * 
+         * For now this is here for development purposes.
+         */
+        if ( TRUE == use_thunar_properties )
+        {
+            uri = g_file_get_uri(file);
+            if(dbus_g_proxy_call(window->priv->filemanager_proxy,
+                                 "DisplayFileProperties",
+                                 &error,
+                                 G_TYPE_STRING, uri,
+                                 G_TYPE_STRING, gdk_display_get_name(display),
+                                 G_TYPE_STRING, "",
+                                 G_TYPE_INVALID,
+                                 G_TYPE_INVALID) == FALSE)
+            {
+                g_warning("DBUS CALL FAILED: '%s'", error->message);
+                dialog = rstto_properties_dialog_new (
+                        GTK_WINDOW (window),
+                        file);
+                gtk_dialog_run (GTK_DIALOG(dialog));
+                gtk_widget_destroy(dialog);
+            }
+            g_free(uri);
+        }
+        else
+        {
+            dialog = rstto_properties_dialog_new (
+                    GTK_WINDOW (window),
+                    file);
+            gtk_dialog_run (GTK_DIALOG(dialog));
+            gtk_widget_destroy(dialog);
+        }
+    }
+}
 /**
  * cb_rstto_main_window_close:
  * @widget:

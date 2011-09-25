@@ -6,6 +6,7 @@ ristretto_SOURCES = \
 	settings.c settings.h \
 	privacy_dialog.h privacy_dialog.c \
 	preferences_dialog.h preferences_dialog.c \
+	properties_dialog.h properties_dialog.c \
 	main_window_ui.h \
 	main_window.c main_window.h \
 	wallpaper_manager.c wallpaper_manager.h \

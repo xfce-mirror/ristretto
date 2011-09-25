@@ -74,6 +74,7 @@ enum
     PROP_THUMBNAILBAR_SIZE,
     PROP_DESKTOP_TYPE,
     PROP_REVERT_ZOOM_DIRECTION,
+    PROP_USE_THUNAR_PROPERTIES,
 };
 
 GType
@@ -126,6 +127,7 @@ struct _RsttoSettingsPriv
     gboolean  wrap_images;
     gint      thumbnailbar_size;
     gchar    *desktop_type;
+    gboolean  use_thunar_properties;
 };
 
 
@@ -157,6 +159,7 @@ rstto_settings_init (GObject *object)
     settings->priv->window_width = 600;
     settings->priv->window_height = 400;
     settings->priv->wrap_images = TRUE;
+    settings->priv->use_thunar_properties = TRUE;
 
     xfconf_g_property_bind (settings->priv->channel, "/window/width", G_TYPE_UINT, settings, "window-width");
     xfconf_g_property_bind (settings->priv->channel, "/window/height", G_TYPE_UINT, settings, "window-height");
@@ -179,9 +182,10 @@ rstto_settings_init (GObject *object)
 
     xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/window/bgcolor-fullscreen", settings, "bgcolor-fullscreen");
     xfconf_g_property_bind (settings->priv->channel, "/window/revert-zoom-direction", G_TYPE_BOOLEAN, settings, "revert-zoom-direction");
+    xfconf_g_property_bind (settings->priv->channel, "/window/thumbnailbar/size", G_TYPE_INT, settings, "thumbnailbar-size");
     xfconf_g_property_bind (settings->priv->channel, "/image/quality", G_TYPE_UINT, settings, "image-quality");
     xfconf_g_property_bind (settings->priv->channel, "/image/wrap", G_TYPE_BOOLEAN, settings, "wrap-images");
-    xfconf_g_property_bind (settings->priv->channel, "/window/thumbnailbar/size", G_TYPE_INT, settings, "thumbnailbar-size");
+    xfconf_g_property_bind (settings->priv->channel, "/window/use-thunar-properties", G_TYPE_BOOLEAN, settings, "use-thunar-properties");
 }
 
 
@@ -389,6 +393,15 @@ rstto_settings_class_init (GObjectClass *object_class)
     g_object_class_install_property (object_class,
                                      PROP_DESKTOP_TYPE,
                                      pspec);
+
+    pspec = g_param_spec_boolean ("use-thunar-properties",
+                                  "",
+                                  "",
+                                  TRUE,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_USE_THUNAR_PROPERTIES,
+                                     pspec);
 }
 
 /**
@@ -555,6 +568,9 @@ rstto_settings_set_property    (GObject      *object,
                 g_free (settings->priv->desktop_type);
             settings->priv->desktop_type = g_value_dup_string (value);
             break;
+        case PROP_USE_THUNAR_PROPERTIES:
+            settings->priv->use_thunar_properties = g_value_get_boolean (value);
+            break;
         default:
             break;
     }
@@ -629,6 +645,9 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_DESKTOP_TYPE:
             g_value_set_string (value, settings->priv->desktop_type);
+            break;
+        case PROP_USE_THUNAR_PROPERTIES:
+            g_value_set_boolean (value, settings->priv->use_thunar_properties);
             break;
         default:
             break;
