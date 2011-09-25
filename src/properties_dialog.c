@@ -44,6 +44,10 @@ rstto_properties_dialog_get_property (
         guint       property_id,
         GValue     *value,
         GParamSpec *pspec);
+static void
+properties_dialog_set_file (
+        RsttoPropertiesDialog *dialog,
+        GFile *file);
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -326,30 +330,11 @@ rstto_properties_dialog_set_property (
         GParamSpec   *pspec)
 {
     RsttoPropertiesDialog *dialog = RSTTO_PROPERTIES_DIALOG (object);
-    GFileInfo *file_info = NULL;
 
     switch (property_id)
     {
         case PROP_FILE:
-            dialog->priv->file = g_value_get_object (value);
-            file_info = g_file_query_info (
-                    dialog->priv->file,
-                    "standard::content-type,standard::edit-name,standard::size,time::modified,time_accessed",
-                    0,
-                    NULL,
-                    NULL);
-            gtk_label_set_text (
-                    GTK_LABEL (dialog->priv->mime_content_label),
-                    g_file_info_get_attribute_string (
-                            file_info,
-                            "standard::content-type")
-                    );
-            gtk_entry_set_text (
-                    GTK_ENTRY (dialog->priv->name_entry),
-                    g_file_info_get_attribute_string (
-                            file_info,
-                            "standard::edit-name")
-                    );
+            properties_dialog_set_file (dialog, g_value_get_object (value));
             break;
         default:
             break;
@@ -364,6 +349,43 @@ rstto_properties_dialog_get_property (
         GValue     *value,
         GParamSpec *pspec)
 {
+}
+
+static void
+properties_dialog_set_file (
+        RsttoPropertiesDialog *dialog,
+        GFile *file)
+{
+    GFileInfo *file_info = NULL;
+    gchar *description;
+
+    dialog->priv->file = file;
+
+    if (dialog->priv->file)
+    {
+        file_info = g_file_query_info (
+                dialog->priv->file,
+                "standard::content-type,standard::edit-name,standard::size,time::modified,time_accessed",
+                0,
+                NULL,
+                NULL);
+        description = g_content_type_get_description (
+                g_file_info_get_attribute_string (
+                        file_info,
+                        "standard::content-type")
+                );
+        gtk_label_set_text (
+                GTK_LABEL (dialog->priv->mime_content_label),
+                description
+                );
+        gtk_entry_set_text (
+                GTK_ENTRY (dialog->priv->name_entry),
+                g_file_info_get_attribute_string (
+                        file_info,
+                        "standard::edit-name")
+                );
+        g_free (description);
+    }
 }
 
 /********************/
@@ -386,3 +408,4 @@ rstto_properties_dialog_new (
 
     return dialog;
 }
+
