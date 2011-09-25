@@ -50,12 +50,19 @@ static GtkWidgetClass *parent_class = NULL;
 enum
 {
     PROP_0,
+    PROP_FILE,
 };
 
 struct _RsttoPropertiesDialogPriv
 {
     GFile *file;
     RsttoSettings *settings;
+
+    GtkWidget *name_entry;
+    GtkWidget *mime_content_label;
+    GtkWidget *modified_content_label;
+    GtkWidget *accessed_content_label;
+    GtkWidget *size_content_label;
 };
 
 GType
@@ -91,9 +98,185 @@ rstto_properties_dialog_get_type (void)
 static void
 rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
 {
+    GtkWidget *vbox;
+    GtkWidget *notebook;
+    GtkWidget *table;
+    GtkWidget *general_label;
+    GtkWidget *name_label = gtk_label_new(NULL);
+    GtkWidget *mime_label = gtk_label_new(NULL);
+
+    GtkWidget *modified_label = gtk_label_new(NULL);
+    GtkWidget *accessed_label = gtk_label_new(NULL);
+    GtkWidget *created_label  = gtk_label_new(NULL);
+
+    GtkWidget *size_label  = gtk_label_new(NULL);
+
     dialog->priv = g_new0 (RsttoPropertiesDialogPriv, 1);
 
     dialog->priv->settings = rstto_settings_new ();
+    dialog->priv->name_entry = gtk_entry_new();
+    dialog->priv->mime_content_label = gtk_label_new(NULL);
+    dialog->priv->modified_content_label = gtk_label_new(NULL);
+    dialog->priv->accessed_content_label = gtk_label_new(NULL);
+    dialog->priv->size_content_label = gtk_label_new(NULL);
+
+    gtk_misc_set_alignment (
+            GTK_MISC (dialog->priv->mime_content_label),
+            0.0,
+            0.5);
+    gtk_misc_set_alignment (
+            GTK_MISC (dialog->priv->modified_content_label),
+            0.0,
+            0.5);
+    gtk_misc_set_alignment (
+            GTK_MISC (dialog->priv->accessed_content_label),
+            0.0,
+            0.5);
+    gtk_misc_set_alignment (
+            GTK_MISC (dialog->priv->size_content_label),
+            0.0,
+            0.5);
+
+    vbox = gtk_dialog_get_content_area (
+            GTK_DIALOG (dialog));
+    notebook = gtk_notebook_new ();
+
+    table = gtk_table_new (5, 2, FALSE);
+    gtk_label_set_markup (GTK_LABEL(name_label), _("<b>Name:</b>"));
+    gtk_label_set_markup (GTK_LABEL(mime_label), _("<b>Kind:</b>"));
+    gtk_label_set_markup (GTK_LABEL(modified_label), _("<b>Modified:</b>"));
+    gtk_label_set_markup (GTK_LABEL(accessed_label), _("<b>Accessed:</b>"));
+    gtk_label_set_markup (GTK_LABEL(size_label), _("<b>Size:</b>"));
+
+    gtk_misc_set_alignment (GTK_MISC (name_label), 1.0, 0.5);
+    gtk_misc_set_alignment (GTK_MISC (mime_label), 1.0, 0.5);
+    gtk_misc_set_alignment (GTK_MISC (modified_label), 1.0, 0.5);
+    gtk_misc_set_alignment (GTK_MISC (accessed_label), 1.0, 0.5);
+    gtk_misc_set_alignment (GTK_MISC (size_label), 1.0, 0.5);
+
+    gtk_table_attach (
+            GTK_TABLE (table),
+            name_label,
+            0,
+            1,
+            0,
+            1,
+            GTK_SHRINK | GTK_FILL,
+            GTK_SHRINK,
+            4,
+            4);
+
+    gtk_table_attach (
+            GTK_TABLE (table),
+            dialog->priv->name_entry,
+            1,
+            2,
+            0,
+            1,
+            GTK_EXPAND | GTK_FILL,
+            GTK_SHRINK,
+            4,
+            4);
+
+    gtk_table_attach (
+            GTK_TABLE (table),
+            mime_label,
+            0,
+            1,
+            1,
+            2,
+            GTK_SHRINK | GTK_FILL,
+            GTK_SHRINK,
+            4,
+            4);
+    gtk_table_attach (
+            GTK_TABLE (table),
+            dialog->priv->mime_content_label,
+            1,
+            2,
+            1,
+            2,
+            GTK_EXPAND | GTK_FILL,
+            GTK_SHRINK,
+            4,
+            4);
+
+    gtk_table_attach (
+            GTK_TABLE (table),
+            modified_label,
+            0,
+            1,
+            2,
+            3,
+            GTK_SHRINK | GTK_FILL,
+            GTK_SHRINK,
+            4,
+            4);
+    gtk_table_attach (
+            GTK_TABLE (table),
+            dialog->priv->modified_content_label,
+            1,
+            2,
+            2,
+            3,
+            GTK_EXPAND | GTK_FILL,
+            GTK_SHRINK,
+            4,
+            4);
+
+    gtk_table_attach (
+            GTK_TABLE (table),
+            accessed_label,
+            0,
+            1,
+            3,
+            4,
+            GTK_SHRINK | GTK_FILL,
+            GTK_SHRINK,
+            4,
+            4);
+    gtk_table_attach (
+            GTK_TABLE (table),
+            dialog->priv->accessed_content_label,
+            1,
+            2,
+            3,
+            4,
+            GTK_EXPAND | GTK_FILL,
+            GTK_SHRINK,
+            4,
+            4);
+
+    gtk_table_attach (
+            GTK_TABLE (table),
+            size_label,
+            0,
+            1,
+            4,
+            5,
+            GTK_SHRINK | GTK_FILL,
+            GTK_SHRINK,
+            4,
+            4);
+    gtk_table_attach (
+            GTK_TABLE (table),
+            dialog->priv->size_content_label,
+            1,
+            2,
+            4,
+            5,
+            GTK_EXPAND | GTK_FILL,
+            GTK_SHRINK,
+            4,
+            4);
+
+    general_label = gtk_label_new (_("General"));
+    gtk_notebook_append_page (GTK_NOTEBOOK (notebook), table, general_label);
+
+    gtk_box_pack_start (GTK_BOX(vbox), notebook, TRUE, TRUE, 3);
+
+    gtk_widget_show_all (vbox);
+
 
     gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CLOSE, GTK_RESPONSE_OK);
 }
@@ -110,6 +293,15 @@ rstto_properties_dialog_class_init (GObjectClass *object_class)
 
     object_class->set_property = rstto_properties_dialog_set_property;
     object_class->get_property = rstto_properties_dialog_get_property;
+
+    pspec = g_param_spec_object ("file",
+                                 "",
+                                 "",
+                                 G_TYPE_FILE,
+                                 G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_FILE,
+                                     pspec);
 }
 
 static void
@@ -134,9 +326,31 @@ rstto_properties_dialog_set_property (
         GParamSpec   *pspec)
 {
     RsttoPropertiesDialog *dialog = RSTTO_PROPERTIES_DIALOG (object);
+    GFileInfo *file_info = NULL;
 
     switch (property_id)
     {
+        case PROP_FILE:
+            dialog->priv->file = g_value_get_object (value);
+            file_info = g_file_query_info (
+                    dialog->priv->file,
+                    "standard::content-type,standard::edit-name,standard::size,time::modified,time_accessed",
+                    0,
+                    NULL,
+                    NULL);
+            gtk_label_set_text (
+                    GTK_LABEL (dialog->priv->mime_content_label),
+                    g_file_info_get_attribute_string (
+                            file_info,
+                            "standard::content-type")
+                    );
+            gtk_entry_set_text (
+                    GTK_ENTRY (dialog->priv->name_entry),
+                    g_file_info_get_attribute_string (
+                            file_info,
+                            "standard::edit-name")
+                    );
+            break;
         default:
             break;
     }
@@ -165,6 +379,7 @@ rstto_properties_dialog_new (
     GtkWidget *dialog = g_object_new (RSTTO_TYPE_PROPERTIES_DIALOG,
                                       "title", title,
                                       "icon-name", GTK_STOCK_PROPERTIES,
+                                      "file", file,
                                       NULL);
 
     gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
