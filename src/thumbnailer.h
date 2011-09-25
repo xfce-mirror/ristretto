@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) Stephan Arts 2009-2010 <stephan@xfce.org>
+ *  Copyright (c) Stephan Arts 2009-2011 <stephan@xfce.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -59,13 +59,20 @@ struct _RsttoThumbnailerClass
     GObjectClass parent_class;
 };
 
-RsttoThumbnailer *rstto_thumbnailer_new (void);
-GType             rstto_thumbnailer_get_type (void);
+RsttoThumbnailer *
+rstto_thumbnailer_new (void);
+
+GType
+rstto_thumbnailer_get_type (void);
 
 void
-rstto_thumbnailer_queue_thumbnail (RsttoThumbnailer *thumbnailer, RsttoThumbnail *thumb);
+rstto_thumbnailer_queue_thumbnail (
+        RsttoThumbnailer *thumbnailer,
+        RsttoThumbnail *thumb);
 void
-rstto_thumbnailer_dequeue_thumbnail (RsttoThumbnailer *thumbnailer, RsttoThumbnail *thumb);
+rstto_thumbnailer_dequeue_thumbnail (
+        RsttoThumbnailer *thumbnailer,
+        RsttoThumbnail *thumb);
 G_END_DECLS
 
 #endif /* __RISTRETTO_THUMBNAILER_H__ */
