@@ -2353,6 +2353,9 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
     GFile *file = rstto_image_list_iter_get_file (window->priv->iter);
     gchar *uri = NULL;
     GtkWidget *dialog = NULL;
+    gboolean use_thunar_properties = rstto_settings_get_boolean_property (
+            window->priv->settings_manager,
+            "use-thunar-properties");
     if (file)
     {
         /* TODO: Add a property that allows forcing the built-in
@@ -2360,7 +2363,7 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
          * 
          * For now this is here for development purposes.
          */
-        if ( 0 )
+        if ( TRUE == use_thunar_properties )
         {
             uri = g_file_get_uri(file);
             if(dbus_g_proxy_call(window->priv->filemanager_proxy,
@@ -2373,6 +2376,11 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
                                  G_TYPE_INVALID) == FALSE)
             {
                 g_warning("DBUS CALL FAILED: '%s'", error->message);
+                dialog = rstto_properties_dialog_new (
+                        GTK_WINDOW (window),
+                        file);
+                gtk_dialog_run (GTK_DIALOG(dialog));
+                gtk_widget_destroy(dialog);
             }
             g_free(uri);
         }
