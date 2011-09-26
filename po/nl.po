@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the ristretto package.
 # Stephan Arts <stephan@xfce.org>, 2007.
 # Pjotr, 2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2011-09-08 00:48+0200\n"
 "Last-Translator: Pjotr\n"
 "Language-Team: Dutch (Flemish)\n"
-"Language: nl (Dutch)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl (Dutch)\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/main.c:57
@@ -70,11 +70,11 @@ msgstr "Sla een kopie van de afbeelding op"
 
 #: ../src/main_window.c:283
 msgid "_Properties"
-msgstr ""
+msgstr "Eigenschappen"
 
 #: ../src/main_window.c:283
 msgid "Show file properties"
-msgstr ""
+msgstr "Toon bestandeigenschappen"
 
 #: ../src/main_window.c:284
 msgid "_Close"
@@ -450,9 +450,7 @@ msgstr "Schalen"
 
 #: ../src/preferences_dialog.c:291
 msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
-"Afbeelding niet voorbij 100 % schalen wanneer het venster wordt "
-"gemaximaliseerd"
+msgstr "Afbeelding niet voorbij 100 % schalen wanneer het venster wordt gemaximaliseerd"
 
 #: ../src/preferences_dialog.c:295
 msgid "Startup"
@@ -645,15 +643,11 @@ msgstr "Ristretto fotokijker"
 #~ msgid "H_ide"
 #~ msgstr "Ver_bergen"
 
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Een of meer afbeeldingen zijn gewijzigd, wilt u de wijzigingen opslaan?"
+#~ msgid "One or more images have been modified, do you want to save the changes?"
+#~ msgstr "Een of meer afbeeldingen zijn gewijzigd, wilt u de wijzigingen opslaan?"
 
 #~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "Af_beeldingen vooraf laden (kijker reageert sneller, maar vergt meer van "
-#~ "de CPU)"
+#~ msgstr "Af_beeldingen vooraf laden (kijker reageert sneller, maar vergt meer van de CPU)"
 
 #~ msgid "Hide the thumbnails bar during slideshow"
 #~ msgstr "Miniaturenbalk verbergen gedurende diavertoning"
