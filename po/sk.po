@@ -4,7 +4,7 @@
 # <>, 2008.
 # Robert Hartl <hartl.robert@gmail.com>, 2009.
 # Tomáš Vadina <kyberdev@gmail.com>, 2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.0.20\n"
@@ -13,10 +13,10 @@ msgstr ""
 "PO-Revision-Date: 2011-08-24 15:18+0200\n"
 "Last-Translator: Tomáš Vadina <kyberdev@gmail.com>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
-"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
 
 #: ../src/main.c:57
@@ -71,11 +71,11 @@ msgstr "Uložiť kópiu obrázku"
 
 #: ../src/main_window.c:283
 msgid "_Properties"
-msgstr ""
+msgstr "_Vlastnosti"
 
 #: ../src/main_window.c:283
 msgid "Show file properties"
-msgstr ""
+msgstr "Zobraziť vlastnosti súboru"
 
 #: ../src/main_window.c:284
 msgid "_Close"
@@ -545,7 +545,6 @@ msgstr "Prezerajte Vaše fotografie jednoducho"
 msgid "Ristretto Photo Viewer"
 msgstr "Ristretto - prehliadač fotografií"
 
-#, fuzzy
 #~ msgid "Two"
 #~ msgstr "Vrch"
 
