@@ -277,23 +277,20 @@ msgstr "Abaixo"
 
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:489
-#, fuzzy
 msgid "_Play"
 msgstr "_Iniciar"
 
 #: ../src/main_window.c:489
-#, fuzzy
 msgid "Play slideshow"
-msgstr "Iniciar uma apresentação de slides"
+msgstr "Iniciar apresentação de slides"
 
 #: ../src/main_window.c:490
 msgid "_Pause"
-msgstr ""
+msgstr "_Pausar"
 
 #: ../src/main_window.c:490
-#, fuzzy
 msgid "Pause slideshow"
-msgstr "Iniciar uma apresentação de slides"
+msgstr "Pausar apresentação de slides"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:493
@@ -301,26 +298,24 @@ msgid "_Recently used"
 msgstr "Usado _recentemente"
 
 #: ../src/main_window.c:493
-#, fuzzy
 msgid "Recently used"
 msgstr "Usado _recentemente"
 
 #: ../src/main_window.c:580 ../src/main_window.c:913
 msgid "Press open to select an image"
-msgstr ""
+msgstr "Pressione abrir para selecionar uma imagem"
 
 #: ../src/main_window.c:898 ../src/main_window.c:905
 msgid "Empty"
-msgstr ""
+msgstr "Vazio"
 
 #: ../src/main_window.c:1724
 msgid "Developer:"
 msgstr "Desenvolvedor:"
 
 #: ../src/main_window.c:1733
-#, fuzzy
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
-msgstr "Ristretto é um visualizador de imagens rápido e leve para o ambiente de trabalho do Xfce."
+msgstr "Ristretto é um visualizador de imagens para o ambiente de trabalho do Xfce."
 
 #: ../src/main_window.c:1741
 msgid "translator-credits"
@@ -334,11 +329,11 @@ msgstr "Abrir imagem"
 
 #: ../src/main_window.c:2057
 msgid "Images"
-msgstr ""
+msgstr "Imagens"
 
 #: ../src/main_window.c:2062
 msgid ".jp(e)g"
-msgstr ""
+msgstr ".jp(e)g"
 
 #: ../src/main_window.c:2085 ../src/main_window.c:2110
 #: ../src/main_window.c:2284 ../src/main_window.c:2299
@@ -351,12 +346,12 @@ msgstr "Abrir pasta"
 
 #: ../src/main_window.c:2324
 msgid "Save copy"
-msgstr ""
+msgstr "Salvar cópia"
 
 #: ../src/main_window.c:2451
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Você tem certeza que deseja apagar do Ristretto a lista dos documentos abertos mais recentes?"
+msgstr "Você tem certeza que deseja apagar a imagem '%s' do disco?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Timerange to clear:"
@@ -364,43 +359,41 @@ msgstr ""
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Limpar"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr ""
+msgstr "Última hora"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Últimas duas horas"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Últimas quatro horas"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
-msgstr ""
+msgstr "Hoje"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr ""
+msgstr "Tudo"
 
 #: ../src/privacy_dialog.c:459
 msgid "Clear private data"
-msgstr ""
+msgstr "Limpar dados privados"
 
 #: ../src/preferences_dialog.c:186
 msgid "Display"
 msgstr "Exibir"
 
 #: ../src/preferences_dialog.c:191
-#, fuzzy
 msgid "Background color"
 msgstr "Cor de Fundo"
 
 #: ../src/preferences_dialog.c:195
-#, fuzzy
 msgid "Override background color:"
 msgstr "_Substituir Cor de Fundo:"
 
@@ -421,7 +414,6 @@ msgstr ""
 "(em segundos)"
 
 #: ../src/preferences_dialog.c:247
-#, fuzzy
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
