@@ -68,7 +68,7 @@ msgstr "Gorde irudiaren kopia bat"
 
 #: ../src/main_window.c:279
 msgid "_Properties"
-msgstr "_Prpoietateak"
+msgstr "_Propietateak"
 
 #: ../src/main_window.c:279
 msgid "Show file properties"
