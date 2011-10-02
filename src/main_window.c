@@ -2452,7 +2452,7 @@ cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
                                                 GTK_DIALOG_DESTROY_WITH_PARENT,
                                                 GTK_MESSAGE_WARNING,
                                                 GTK_BUTTONS_OK_CANCEL,
-                                                N_("Are you sure you want to delete image '%s' from disk?"),
+                                                _("Are you sure you want to delete image '%s' from disk?"),
                                                 file_basename);
 
     g_object_ref (file);
