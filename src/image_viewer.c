@@ -167,24 +167,35 @@ static gboolean
 cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer);
 
 static gboolean
-rstto_image_viewer_scroll_event (
+rstto_scroll_event (
         GtkWidget *widget,
         GdkEventScroll *event);
+
 static gboolean 
-cb_rstto_image_viewer_motion_notify_event (
-        RsttoImageViewer *viewer,
-        GdkEventMotion *event,
+rstto_motion_notify_event (
+        GtkWidget *widget,
+        GdkEventMotion *event);
+
+static gboolean
+rstto_button_press_event (
+        GtkWidget *widget,
+        GdkEventButton *event);
+
+static gboolean
+rstto_button_release_event (
+        GtkWidget *widget,
+        GdkEventButton *event);
+
+static void
+cb_rstto_bgcolor_changed (
+        GObject *settings,
+        GParamSpec *pspec,
         gpointer user_data);
-
 static void
-cb_rstto_image_viewer_button_press_event (RsttoImageViewer *viewer, GdkEventButton *event);
-static void
-cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventButton *event);
-
-static void
-cb_rstto_image_viewer_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_data);
-static void
-cb_rstto_image_viewer_zoom_direction_changed (GObject *settings, GParamSpec *pspec, gpointer user_data);
+cb_rstto_zoom_direction_changed (
+        GObject *settings,
+        GParamSpec *pspec,
+        gpointer user_data);
 
 static void
 rstto_image_viewer_load_image (
@@ -239,9 +250,22 @@ rstto_image_viewer_init(RsttoImageViewer *viewer)
     viewer->priv->visual = gdk_rgb_get_visual();
     viewer->priv->colormap = gdk_colormap_new (viewer->priv->visual, TRUE);
 
-    g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::bgcolor", G_CALLBACK (cb_rstto_image_viewer_bgcolor_changed), viewer);
-    g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::bgcolor-override", G_CALLBACK (cb_rstto_image_viewer_bgcolor_changed), viewer);
-    g_signal_connect (G_OBJECT(viewer->priv->settings), "notify::revert-zoom-direction", G_CALLBACK (cb_rstto_image_viewer_zoom_direction_changed), viewer);
+    g_signal_connect (
+            G_OBJECT(viewer->priv->settings),
+            "notify::bgcolor",
+            G_CALLBACK (cb_rstto_bgcolor_changed),
+            viewer);
+
+    g_signal_connect (
+            G_OBJECT(viewer->priv->settings),
+            "notify::bgcolor-override",
+            G_CALLBACK (cb_rstto_bgcolor_changed),
+            viewer);
+    g_signal_connect (
+            G_OBJECT(viewer->priv->settings),
+            "notify::revert-zoom-direction",
+            G_CALLBACK (cb_rstto_zoom_direction_changed),
+            viewer);
 
     /* Set to false, experimental...
      * improves performance, but I am not sure what will give.
@@ -254,10 +278,6 @@ rstto_image_viewer_init(RsttoImageViewer *viewer)
                            GDK_BUTTON1_MOTION_MASK |
                            GDK_ENTER_NOTIFY_MASK |
                            GDK_POINTER_MOTION_MASK);
-
-    g_signal_connect(G_OBJECT(viewer), "button-press-event", G_CALLBACK(cb_rstto_image_viewer_button_press_event), NULL);
-    g_signal_connect(G_OBJECT(viewer), "button-release-event", G_CALLBACK(cb_rstto_image_viewer_button_release_event), NULL);
-    g_signal_connect(G_OBJECT(viewer), "motion-notify-event", G_CALLBACK(cb_rstto_image_viewer_motion_notify_event), NULL);
 
     /*
     gtk_drag_dest_set(GTK_WIDGET(viewer), 0, drop_targets, G_N_ELEMENTS(drop_targets),
@@ -288,7 +308,11 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
     widget_class->expose_event = rstto_image_viewer_expose;
     widget_class->size_request = rstto_image_viewer_size_request;
     widget_class->size_allocate = rstto_image_viewer_size_allocate;
-    widget_class->scroll_event = rstto_image_viewer_scroll_event;
+    widget_class->scroll_event = rstto_scroll_event;
+
+    widget_class->button_press_event = rstto_button_press_event;
+    widget_class->button_release_event = rstto_button_release_event;
+    widget_class->motion_notify_event = rstto_motion_notify_event;
 
     object_class->destroy = rstto_image_viewer_destroy;
 
@@ -1748,7 +1772,9 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
 }
 
 static gboolean
-rstto_image_viewer_scroll_event (GtkWidget *widget, GdkEventScroll *event)
+rstto_scroll_event (
+        GtkWidget *widget,
+        GdkEventScroll *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gdouble tmp_x, tmp_y;
@@ -1924,10 +1950,12 @@ rstto_image_viewer_scroll_event (GtkWidget *widget, GdkEventScroll *event)
 }
 
 static gboolean 
-cb_rstto_image_viewer_motion_notify_event (RsttoImageViewer *viewer,
-                                           GdkEventMotion *event,
-                                           gpointer user_data)
+rstto_motion_notify_event (
+        GtkWidget *widget,
+        GdkEventMotion *event)
 {
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+
     if (event->state & GDK_BUTTON1_MASK)
     {
         viewer->priv->motion.current_x = event->x;
@@ -1978,9 +2006,13 @@ cb_rstto_image_viewer_motion_notify_event (RsttoImageViewer *viewer,
     return FALSE;
 }
 
-static void
-cb_rstto_image_viewer_button_press_event (RsttoImageViewer *viewer, GdkEventButton *event)
+static gboolean
+rstto_button_press_event (
+        GtkWidget *widget,
+        GdkEventButton *event)
 {
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+
     if(event->button == 1)
     {
         viewer->priv->motion.x = event->x;
@@ -2013,12 +2045,15 @@ cb_rstto_image_viewer_button_press_event (RsttoImageViewer *viewer, GdkEventButt
             }
         }
     }
+    return FALSE;
 }
 
-static void
-cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventButton *event)
+static gboolean
+rstto_button_release_event (
+        GtkWidget *widget,
+        GdkEventButton *event)
 {
-    GtkWidget *widget = GTK_WIDGET(viewer);
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gint box_x;
     gint box_y;
     gint box_width;
@@ -2174,17 +2209,24 @@ cb_rstto_image_viewer_button_release_event (RsttoImageViewer *viewer, GdkEventBu
             rstto_image_viewer_queued_repaint (viewer, FALSE);
             break;
     }
+    return FALSE;
 }
 
 static void
-cb_rstto_image_viewer_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
+cb_rstto_bgcolor_changed (
+        GObject *settings,
+        GParamSpec *pspec,
+        gpointer user_data)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
     rstto_image_viewer_queued_repaint (viewer, TRUE);
 }
 
 static void
-cb_rstto_image_viewer_zoom_direction_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
+cb_rstto_zoom_direction_changed (
+        GObject *settings,
+        GParamSpec *pspec,
+        gpointer user_data)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
     viewer->priv->revert_zoom_direction = rstto_settings_get_boolean_property (RSTTO_SETTINGS (settings), "revert-zoom-direction"); 
