@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2008-12-08 01:19+0100\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Generator: KBabel 1.11.4\n"
 
 #: ../src/main.c:57
@@ -68,11 +68,11 @@ msgstr "Gorde irudiaren kopia bat"
 
 #: ../src/main_window.c:279
 msgid "_Properties"
-msgstr ""
+msgstr "_Prpoietateak"
 
 #: ../src/main_window.c:279
 msgid "Show file properties"
-msgstr ""
+msgstr "Ikusi propietateak"
 
 #: ../src/main_window.c:280
 msgid "_Close"
@@ -452,7 +452,6 @@ msgid "Startup"
 msgstr "Hasiera"
 
 #: ../src/preferences_dialog.c:302
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
 msgstr "Leiho-tamaina argazkira doitu abiaraztean"
 
@@ -470,32 +469,32 @@ msgstr "Hobespenak"
 
 #: ../src/properties_dialog.c:149
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Izena:</b>"
 
 #: ../src/properties_dialog.c:150
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Mota:</b>"
 
 #: ../src/properties_dialog.c:151
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Eraldaketa:</b>"
 
 #: ../src/properties_dialog.c:152
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Atzipena:</b>"
 
 #: ../src/properties_dialog.c:153
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Tamaina:</b>"
 
 #: ../src/properties_dialog.c:277
 msgid "General"
-msgstr ""
+msgstr "Orokorra"
 
 #: ../src/properties_dialog.c:400
 #, c-format
 msgid "%s - Properties"
-msgstr ""
+msgstr "%s - Propietateak"
 
 #: ../src/thumbnail_bar.c:186
 msgid "Spacing"
@@ -562,12 +561,10 @@ msgid "Image Viewer"
 msgstr "Irudi ikustatzailea"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images's easily"
 msgstr "Ikusi zure argazkiak erraz"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto argazki ikustatzailea"
 
