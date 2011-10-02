@@ -38,6 +38,8 @@ x.x.x
 - Re-implement the file-properties dialog. Open thunar's properties 
   dialog when thunar is available. Add a 'fallback' dialog for when
   thunar is not available
+- Update the Gtk+ dependency to version 2.20 and the Glib dependency
+  to version 2.24
 
 0.0.93
 ======
