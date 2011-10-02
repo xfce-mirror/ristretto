@@ -1910,7 +1910,7 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
             rstto_image_viewer_queued_repaint (viewer, TRUE);
         }
     }
-    return FALSE;
+    return TRUE;
 }
 
 static gboolean 
