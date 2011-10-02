@@ -166,11 +166,15 @@ static gboolean
 cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer);
 
 static gboolean
-cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *event);
+rstto_image_viewer_scroll_event (
+        GtkWidget *widget,
+        GdkEventScroll *event);
 static gboolean 
-cb_rstto_image_viewer_motion_notify_event (RsttoImageViewer *viewer,
-                                           GdkEventMotion *event,
-                                           gpointer user_data);
+cb_rstto_image_viewer_motion_notify_event (
+        RsttoImageViewer *viewer,
+        GdkEventMotion *event,
+        gpointer user_data);
+
 static void
 cb_rstto_image_viewer_button_press_event (RsttoImageViewer *viewer, GdkEventButton *event);
 static void
@@ -247,7 +251,6 @@ rstto_image_viewer_init(RsttoImageViewer *viewer)
                            GDK_ENTER_NOTIFY_MASK |
                            GDK_POINTER_MOTION_MASK);
 
-    g_signal_connect(G_OBJECT(viewer), "scroll-event", G_CALLBACK(cb_rstto_image_viewer_scroll_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "button-press-event", G_CALLBACK(cb_rstto_image_viewer_button_press_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "button-release-event", G_CALLBACK(cb_rstto_image_viewer_button_release_event), NULL);
     g_signal_connect(G_OBJECT(viewer), "motion-notify-event", G_CALLBACK(cb_rstto_image_viewer_motion_notify_event), NULL);
@@ -281,6 +284,7 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
     widget_class->expose_event = rstto_image_viewer_expose;
     widget_class->size_request = rstto_image_viewer_size_request;
     widget_class->size_allocate = rstto_image_viewer_size_allocate;
+    widget_class->scroll_event = rstto_image_viewer_scroll_event;
 
     object_class->destroy = rstto_image_viewer_destroy;
 
@@ -1738,8 +1742,9 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
 }
 
 static gboolean
-cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *event)
+rstto_image_viewer_scroll_event (GtkWidget *widget, GdkEventScroll *event)
 {
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gdouble tmp_x, tmp_y;
     gdouble scale;
     gint width, height;
@@ -1750,8 +1755,6 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
     gboolean auto_scale = FALSE;
     gboolean revert_zoom_direction = viewer->priv->revert_zoom_direction;
 
-
-    GtkWidget *widget = GTK_WIDGET(viewer);
 
     if ( NULL != viewer->priv->dst_pixbuf )
     {
@@ -1909,8 +1912,9 @@ cb_rstto_image_viewer_scroll_event (RsttoImageViewer *viewer, GdkEventScroll *ev
 
             rstto_image_viewer_queued_repaint (viewer, TRUE);
         }
+        return TRUE;
     }
-    return TRUE;
+    return FALSE;
 }
 
 static gboolean 
