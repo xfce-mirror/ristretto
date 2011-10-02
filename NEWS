@@ -18,6 +18,7 @@ x.x.x
 - Fix bug #7884 (Strange behavior with open-entire-folder set to TRUE)
 - Fix bug #7954 (Fix multiple-monitor support for xfdesktop)
 - Fix bug #7960 (Improve image zoom)
+- Fix bug #7962 (Some strings are untranslatable)
 - Emit the 'iter-changed' signal when the image-list is empty.
 - Add 'Clear private data' dialog, for clearing the recently-used list.
 - Improve the 'Set Wallpaper' dialog for setting the wallpaper on
