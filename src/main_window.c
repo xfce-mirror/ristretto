@@ -2295,6 +2295,14 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
                                         _("Could not open file"));
         gtk_dialog_run (GTK_DIALOG (err_dialog));
         gtk_widget_destroy (err_dialog);
+
+        /* Something is wrong with the file (perhaps it was removed?),
+         * remove the item from the recently-used list.
+         */
+        gtk_recent_manager_remove_item (
+                window->priv->recent_manager,
+                uri,
+                NULL);
     }
 
     rstto_main_window_update_buttons (window);
