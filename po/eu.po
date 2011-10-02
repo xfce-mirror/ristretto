@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:26+0200\n"
+"POT-Creation-Date: 2011-10-02 11:54+0200\n"
 "PO-Revision-Date: 2008-12-08 01:19+0100\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
@@ -338,11 +338,11 @@ msgstr "Ezin da fitxategia ireki"
 msgid "Open folder"
 msgstr "Ireki karpeta"
 
-#: ../src/main_window.c:2320
+#: ../src/main_window.c:2328
 msgid "Save copy"
 msgstr "Gorde kopia"
 
-#: ../src/main_window.c:2447
+#: ../src/main_window.c:2455
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Ziur zaude '%s' irudia diskotik ezabatu nahi duzula?"

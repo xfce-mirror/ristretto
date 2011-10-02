@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.0.21\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:26+0200\n"
+"POT-Creation-Date: 2011-10-02 11:54+0200\n"
 "PO-Revision-Date: 2011-01-13 09:09-0500\n"
 "Last-Translator: Ireneusz Gierlach <irek.gierlach@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -347,11 +347,11 @@ msgstr "Nie można otworzyć pliku"
 msgid "Open folder"
 msgstr "Wybór katalogu"
 
-#: ../src/main_window.c:2320
+#: ../src/main_window.c:2328
 msgid "Save copy"
 msgstr "Wybór pliku"
 
-#: ../src/main_window.c:2447
+#: ../src/main_window.c:2455
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Usunąć plik „%s”?"

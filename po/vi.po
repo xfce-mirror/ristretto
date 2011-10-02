@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:26+0200\n"
+"POT-Creation-Date: 2011-10-02 11:54+0200\n"
 "PO-Revision-Date: 2009-9-9 16:MI+ZONE\n"
 "Last-Translator: Nguyễn Quốc Vinh <kureikain@gmail.com>\n"
 "Language-Team: Vietnamese <kureikain@gmail.com>\n"
@@ -340,11 +340,11 @@ msgstr "Không mở tập tin được"
 msgid "Open folder"
 msgstr "Mở thư mục"
 
-#: ../src/main_window.c:2320
+#: ../src/main_window.c:2328
 msgid "Save copy"
 msgstr "Lưu một bản khác"
 
-#: ../src/main_window.c:2447
+#: ../src/main_window.c:2455
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Chắc chắn muốn xóa ảnh '%s\" khỏi đĩa?"

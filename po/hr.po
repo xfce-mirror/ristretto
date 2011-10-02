@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:26+0200\n"
+"POT-Creation-Date: 2011-10-02 11:54+0200\n"
 "PO-Revision-Date: 2010-06-11 19:40+0200\n"
 "Last-Translator: Ivica Kolić<ikoli@yahoo.com> <>\n"
 "Language-Team: Croatian <>\n"
@@ -341,11 +341,11 @@ msgstr "Ne mogu otvoriti datotewku"
 msgid "Open folder"
 msgstr "Otvori mapu"
 
-#: ../src/main_window.c:2320
+#: ../src/main_window.c:2328
 msgid "Save copy"
 msgstr "Spremi kopiju"
 
-#: ../src/main_window.c:2447
+#: ../src/main_window.c:2455
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "jeste li sigurni da želite izbrisati sliku '%s sa diska?"

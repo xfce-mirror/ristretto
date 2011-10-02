@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:26+0200\n"
+"POT-Creation-Date: 2011-10-02 11:54+0200\n"
 "PO-Revision-Date: 2010-10-20 09:48+0100\n"
 "Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
@@ -348,11 +348,11 @@ msgstr "Non se puido abrir o ficheiro"
 msgid "Open folder"
 msgstr "Abrir cartafol"
 
-#: ../src/main_window.c:2320
+#: ../src/main_window.c:2328
 msgid "Save copy"
 msgstr "Gardar unha copia"
 
-#: ../src/main_window.c:2447
+#: ../src/main_window.c:2455
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Está seguro de que desexa eliminar a imaxe \"%s\" do disco?"

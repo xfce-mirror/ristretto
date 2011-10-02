@@ -482,11 +482,11 @@ rstto_main_window_init (RsttoMainWindow *window)
 
 
     /* Create Play/Pause Slideshow actions */
-    window->priv->play_action = gtk_action_new ("play", N_("_Play"), N_("Play slideshow"), GTK_STOCK_MEDIA_PLAY);
-    window->priv->pause_action = gtk_action_new ("pause", N_("_Pause"), N_("Pause slideshow"), GTK_STOCK_MEDIA_PAUSE);
+    window->priv->play_action = gtk_action_new ("play", _("_Play"), _("Play slideshow"), GTK_STOCK_MEDIA_PLAY);
+    window->priv->pause_action = gtk_action_new ("pause", _("_Pause"), _("Pause slideshow"), GTK_STOCK_MEDIA_PAUSE);
 
     /* Create Recently used items Action */
-    window->priv->recent_action = gtk_recent_action_new_for_manager ("document-open-recent", N_("_Recently used"), N_("Recently used"), 0, GTK_RECENT_MANAGER(window->priv->recent_manager));
+    window->priv->recent_action = gtk_recent_action_new_for_manager ("document-open-recent", _("_Recently used"), _("Recently used"), 0, GTK_RECENT_MANAGER(window->priv->recent_manager));
 
     gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (window->priv->recent_action), GTK_RECENT_SORT_MRU);
 
