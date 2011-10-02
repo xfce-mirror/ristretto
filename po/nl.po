@@ -572,7 +572,6 @@ msgid "Look at your images's easily"
 msgstr "Kijk gemakkelijk naar uw afbeeldingen"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto fotokijker"
 
