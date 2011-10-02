@@ -2,6 +2,7 @@ x.x.x
 =====
 - Fix bug #5977 (Add key-bindings for using the arrow buttons)
 - Fix bug #6266 (Can't set the image as wallpaper)
+- Fix bug #6910 (Patch for translation of menu-items)
 - Fix bug #7068 (Segfault after deleting a file from it)
 - Fix bug #7390 (Ristretto should not hard-code the documentation
   install path)
