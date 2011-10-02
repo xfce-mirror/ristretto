@@ -108,6 +108,7 @@ struct _RsttoImageViewerTransaction
     gint              image_width;
     gint              image_height;
     gdouble           image_scale;
+    gdouble           scale;
 
     /* File I/O data */
     /*****************/
@@ -186,7 +187,10 @@ static void
 cb_rstto_image_viewer_zoom_direction_changed (GObject *settings, GParamSpec *pspec, gpointer user_data);
 
 static void
-rstto_image_viewer_load_image (RsttoImageViewer *viewer, GFile *file);
+rstto_image_viewer_load_image (
+        RsttoImageViewer *viewer,
+        GFile *file,
+        gdouble scale);
 static void
 rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr);
 
@@ -905,16 +909,16 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
 
                 g_object_unref (viewer->priv->file);
                 viewer->priv->file = g_file_dup(file);
-                viewer->priv->scale = scale;
-                rstto_image_viewer_load_image (viewer, viewer->priv->file);
+                rstto_image_viewer_load_image (
+                        viewer,
+                        viewer->priv->file,
+                        scale);
             }
         }
         else
         {
             viewer->priv->file = g_file_dup(file);
-            viewer->priv->scale = scale;
-            rstto_image_viewer_load_image (viewer, viewer->priv->file);
-        }
+            rstto_image_viewer_load_image (viewer, viewer->priv->file, scale); }
     } 
     else
     {
@@ -951,7 +955,10 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
 }
 
 static void
-rstto_image_viewer_load_image (RsttoImageViewer *viewer, GFile *file)
+rstto_image_viewer_load_image (
+        RsttoImageViewer *viewer,
+        GFile *file,
+        gdouble scale)
 {
     /*
      * This will first need to return to the 'main' loop before it cleans up after itself.
@@ -970,6 +977,7 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, GFile *file)
     transaction->buffer = g_new0 (guchar, RSTTO_IMAGE_VIEWER_BUFFER_SIZE);
     transaction->file = file;
     transaction->viewer = viewer;
+    transaction->scale = scale;
 
     g_signal_connect(transaction->loader, "area-prepared", G_CALLBACK(cb_rstto_image_loader_area_prepared), transaction);
     g_signal_connect(transaction->loader, "size-prepared", G_CALLBACK(cb_rstto_image_loader_size_prepared), transaction);
@@ -1152,8 +1160,6 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
     }
 
     viewer->priv->scale = scale;
-
-
 
     rstto_image_viewer_queued_repaint (viewer, TRUE);
 }
@@ -1373,6 +1379,7 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
     if (viewer->priv->transaction == transaction)
     {
         
+        viewer->priv->scale = transaction->scale;
         viewer->priv->image_scale = transaction->image_scale;
         viewer->priv->image_width = transaction->image_width;
         viewer->priv->image_height = transaction->image_height;
@@ -1540,7 +1547,6 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
                 }
             }
         }
-
 
         relative_scale = viewer->priv->scale / viewer->priv->image_scale;
 
