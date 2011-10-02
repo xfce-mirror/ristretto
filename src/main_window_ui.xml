@@ -87,6 +87,7 @@
     <popup name="image-viewer-menu">
         <menuitem action="open"/>
         <menuitem action="open-folder"/>
+        <menuitem action="properties"/>
         <menuitem action="close"/>
         <separator/>
         <menu action="open-with-menu">
