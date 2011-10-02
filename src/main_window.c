@@ -51,10 +51,6 @@
 #endif
 
 
-#ifndef ZOOM_FACTOR
-#define ZOOM_FACTOR 1.2
-#endif
-
 #define RSTTO_RECENT_FILES_APP_NAME "ristretto"
 #define RSTTO_RECENT_FILES_GROUP "Graphics"
 

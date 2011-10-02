@@ -75,6 +75,7 @@ enum
     PROP_DESKTOP_TYPE,
     PROP_REVERT_ZOOM_DIRECTION,
     PROP_USE_THUNAR_PROPERTIES,
+    PROP_MAXIMIZE_ON_STARTUP,
 };
 
 GType
@@ -128,6 +129,7 @@ struct _RsttoSettingsPriv
     gint      thumbnailbar_size;
     gchar    *desktop_type;
     gboolean  use_thunar_properties;
+    gboolean  maximize_on_startup;
 };
 
 
@@ -160,6 +162,7 @@ rstto_settings_init (GObject *object)
     settings->priv->window_height = 400;
     settings->priv->wrap_images = TRUE;
     settings->priv->use_thunar_properties = TRUE;
+    settings->priv->maximize_on_startup = TRUE;
 
     xfconf_g_property_bind (settings->priv->channel, "/window/width", G_TYPE_UINT, settings, "window-width");
     xfconf_g_property_bind (settings->priv->channel, "/window/height", G_TYPE_UINT, settings, "window-height");
@@ -186,6 +189,12 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind (settings->priv->channel, "/image/quality", G_TYPE_UINT, settings, "image-quality");
     xfconf_g_property_bind (settings->priv->channel, "/image/wrap", G_TYPE_BOOLEAN, settings, "wrap-images");
     xfconf_g_property_bind (settings->priv->channel, "/window/use-thunar-properties", G_TYPE_BOOLEAN, settings, "use-thunar-properties");
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/maximize-on-startup",
+            G_TYPE_BOOLEAN,
+            settings,
+            "maximize-on-startup");
 }
 
 
@@ -402,6 +411,15 @@ rstto_settings_class_init (GObjectClass *object_class)
     g_object_class_install_property (object_class,
                                      PROP_USE_THUNAR_PROPERTIES,
                                      pspec);
+
+    pspec = g_param_spec_boolean ("maximize-on-startup",
+                                  "",
+                                  "",
+                                  TRUE,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class,
+                                     PROP_MAXIMIZE_ON_STARTUP,
+                                     pspec);
 }
 
 /**
@@ -571,6 +589,9 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_USE_THUNAR_PROPERTIES:
             settings->priv->use_thunar_properties = g_value_get_boolean (value);
             break;
+        case PROP_MAXIMIZE_ON_STARTUP:
+            settings->priv->maximize_on_startup = g_value_get_boolean (value);
+            break;
         default:
             break;
     }
@@ -648,6 +669,9 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_USE_THUNAR_PROPERTIES:
             g_value_set_boolean (value, settings->priv->use_thunar_properties);
+            break;
+        case PROP_MAXIMIZE_ON_STARTUP:
+            g_value_set_boolean (value, settings->priv->maximize_on_startup);
             break;
         default:
             break;

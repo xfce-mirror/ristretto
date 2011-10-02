@@ -44,7 +44,7 @@ typedef struct {
     gint argc;
     gchar **argv;
     gint iter;
-    RsttoMainWindow *window;
+    GtkWidget *window;
     gboolean open_entire_folder;
 } RsttoOpenFiles;
 
@@ -118,9 +118,16 @@ main(int argc, char **argv)
         rof.argv = argv;
     	rof.iter = 1;
         rof.open_entire_folder = rstto_settings_get_boolean_property (settings, "open-entire-folder");
+        rof.window = window;
 
         g_idle_add ((GSourceFunc )cb_rstto_open_files, &rof);
 
+        if (TRUE == rstto_settings_get_boolean_property (
+                    settings,
+                    "maximize-on-startup"))
+        {
+            gtk_window_maximize (GTK_WINDOW(window));
+        }
     }
 
     g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
