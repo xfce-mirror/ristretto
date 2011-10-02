@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.15\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:09+0200\n"
+"POT-Creation-Date: 2011-10-02 08:26+0200\n"
 "PO-Revision-Date: 2008-01-02 23:03+0200\n"
 "Last-Translator: Plamen Stoev <piros89@gmail.com>\n"
 "Language-Team: \n"
@@ -590,12 +590,12 @@ msgid "Image Viewer"
 msgstr "Програма за преглед на изображения"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Look at your photo's easily"
+msgid "Look at your images's easily"
 msgstr ""
 
 #: ../ristretto.desktop.in.h:3
 #, fuzzy
-msgid "Ristretto Photo Viewer"
+msgid "Ristretto Image Viewer"
 msgstr "Програма за преглед на изображения Ristretto"
 
 #, fuzzy

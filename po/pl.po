@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.0.21\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:09+0200\n"
+"POT-Creation-Date: 2011-10-02 08:26+0200\n"
 "PO-Revision-Date: 2011-01-13 09:09-0500\n"
 "Last-Translator: Ireneusz Gierlach <irek.gierlach@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -571,11 +571,13 @@ msgid "Image Viewer"
 msgstr "Przeglądarka obrazów"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Look at your photo's easily"
+#, fuzzy
+msgid "Look at your images's easily"
 msgstr "Umożliwia wygodne przeglądanie zdjęć i obrazów"
 
 #: ../ristretto.desktop.in.h:3
-msgid "Ristretto Photo Viewer"
+#, fuzzy
+msgid "Ristretto Image Viewer"
 msgstr "Przeglądarka obrazów Ristretto"
 
 #, fuzzy

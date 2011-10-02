@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:09+0200\n"
+"POT-Creation-Date: 2011-10-02 08:26+0200\n"
 "PO-Revision-Date: 2009-12-10 19:43+0100\n"
 "Last-Translator: Cristian Marchi <cri.penta@gmail.com>\n"
 "Language-Team: Italian Translation Team <xfce-it-translators@googlegroups."
@@ -569,11 +569,13 @@ msgid "Image Viewer"
 msgstr "Visualizzatore di immagini"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Look at your photo's easily"
+#, fuzzy
+msgid "Look at your images's easily"
 msgstr "Guardare le proprie foto con semplicità"
 
 #: ../ristretto.desktop.in.h:3
-msgid "Ristretto Photo Viewer"
+#, fuzzy
+msgid "Ristretto Image Viewer"
 msgstr "Visualizzatore di foto Ristretto"
 
 #~ msgid "One"

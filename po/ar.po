@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:09+0200\n"
+"POT-Creation-Date: 2011-10-02 08:26+0200\n"
 "PO-Revision-Date: 2011-08-01 16:57-0000\n"
 "Last-Translator: كريم اولاد الشلحة <herr.linux88@gmail.com>\n"
 "Language-Team: Arabic Xfce Translation Team <doc@arabeyes.org>\n"
@@ -563,11 +563,13 @@ msgid "Image Viewer"
 msgstr "عارض الصور"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Look at your photo's easily"
+#, fuzzy
+msgid "Look at your images's easily"
 msgstr "نظرة على الصورك الخاصة بسهول"
 
 #: ../ristretto.desktop.in.h:3
-msgid "Ristretto Photo Viewer"
+#, fuzzy
+msgid "Ristretto Image Viewer"
 msgstr "عراض الصور Ristretto"
 
 #, fuzzy
