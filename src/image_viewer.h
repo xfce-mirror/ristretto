@@ -103,6 +103,11 @@ rstto_image_viewer_set_orientation (
 RsttoImageViewerOrientation
 rstto_image_viewer_get_orientation (RsttoImageViewer *viewer);
 
+void
+rstto_image_viewer_set_menu (
+    RsttoImageViewer *viewer,
+    GtkMenu *menu);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_IMAGE_VIEWER_H__ */

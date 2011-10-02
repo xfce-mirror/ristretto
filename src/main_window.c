@@ -529,8 +529,6 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->image_viewer_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/image-viewer-menu");
     window->priv->position_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar-menu");
 
-    
-    
     /**
      * Get the separator toolitem and tell it to expand
      */
@@ -551,6 +549,13 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->p_viewer_s_window = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add (GTK_CONTAINER (window->priv->p_viewer_s_window), window->priv->image_viewer);
+
+    rstto_image_viewer_set_menu (
+        RSTTO_IMAGE_VIEWER(window->priv->image_viewer),
+        GTK_MENU(window->priv->image_viewer_menu));
+
+    
+    
 
     //rstto_picture_viewer_set_menu (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), GTK_MENU(window->priv->image_viewer_menu));
     window->priv->thumbnailbar = rstto_thumbnail_bar_new (NULL);

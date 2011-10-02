@@ -58,6 +58,8 @@ struct _RsttoImageViewerPriv
     RsttoImageViewerOrientation  orientation;
     gdouble                      quality;
 
+
+    GtkMenu                     *menu;
     /* */
     /***/
     gboolean                     revert_zoom_direction;
@@ -185,6 +187,9 @@ static gboolean
 rstto_button_release_event (
         GtkWidget *widget,
         GdkEventButton *event);
+static gboolean
+rstto_popup_menu (
+        GtkWidget *widget);
 
 static void
 cb_rstto_bgcolor_changed (
@@ -313,6 +318,7 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
     widget_class->button_press_event = rstto_button_press_event;
     widget_class->button_release_event = rstto_button_release_event;
     widget_class->motion_notify_event = rstto_motion_notify_event;
+    widget_class->popup_menu = rstto_popup_menu;
 
     object_class->destroy = rstto_image_viewer_destroy;
 
@@ -1228,6 +1234,29 @@ rstto_image_viewer_get_orientation (RsttoImageViewer *viewer)
     return viewer->priv->orientation;
 }
 
+void
+rstto_image_viewer_set_menu (
+    RsttoImageViewer *viewer,
+    GtkMenu *menu)
+{
+    if (viewer->priv->menu)
+    {
+        gtk_menu_detach(viewer->priv->menu);
+        gtk_widget_destroy(GTK_WIDGET(viewer->priv->menu));
+    }
+
+    viewer->priv->menu = menu;
+
+    if (viewer->priv->menu)
+    {
+        gtk_menu_attach_to_widget(
+                viewer->priv->menu,
+                GTK_WIDGET(viewer),
+                NULL);
+    }
+
+}
+
 
 /************************/
 /** CALLBACK FUNCTIONS **/
@@ -2044,6 +2073,22 @@ rstto_button_press_event (
                 rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM);
             }
         }
+        return TRUE;
+    }
+    if(event->button == 3)
+    {
+        if (viewer->priv->menu)
+        {
+            gtk_widget_show_all(GTK_WIDGET(viewer->priv->menu));
+            gtk_menu_popup(viewer->priv->menu,
+                           NULL,
+                           NULL,
+                           NULL,
+                           NULL,
+                           3,
+                           event->time);
+        }
+        return TRUE;
     }
     return FALSE;
 }
@@ -2230,4 +2275,25 @@ cb_rstto_zoom_direction_changed (
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
     viewer->priv->revert_zoom_direction = rstto_settings_get_boolean_property (RSTTO_SETTINGS (settings), "revert-zoom-direction"); 
+}
+ 
+static gboolean
+rstto_popup_menu (
+        GtkWidget *widget)
+{
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (viewer);
+
+    if (viewer->priv->menu)
+    {
+        gtk_widget_show_all(GTK_WIDGET(viewer->priv->menu));
+        gtk_menu_popup(viewer->priv->menu,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       0,
+                       gtk_get_current_event_time());
+        return TRUE;
+    }
+    return FALSE;
 }
