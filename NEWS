@@ -1,3 +1,44 @@
+x.x.x
+=====
+- Fix bug #5977 (Add key-bindings for using the arrow buttons)
+- Fix bug #6266 (Can't set the image as wallpaper)
+- Fix bug #7068 (Segfault after deleting a file from it)
+- Fix bug #7390 (Ristretto should not hard-code the documentation
+  install path)
+- Fix bug #7391 (Ristretto 0.0.93 is missing an include)
+- Fix bug #7424 (Patch to add shortcut (q))
+- Fix bug #7689 (ristretto freezes after selecting the show thumbnail
+  bar option)
+- Fix bug #7730 (Checking Open entire folder on startup seems to have no
+  effect)
+- Fix bug #7776 (Ristretto hangs after start)
+- Fix bug #7817 (f as additional keyboard shortcut for fullscreen)
+- Fix bug #7882 (Memory leak when navigating through a set of images)
+- Fix bug #7884 (Strange behavior with open-entire-folder set to TRUE)
+- Fix bug #7954 (Fix multiple-monitor support for xfdesktop)
+- Fix bug #7960 (Improve image zoom)
+- Emit the 'iter-changed' signal when the image-list is empty.
+- Add 'Clear private data' dialog, for clearing the recently-used list.
+- Improve the 'Set Wallpaper' dialog for setting the wallpaper on
+  xfdesktop.
+- Add an option to 'inverse' the zoom-direction when scrolling.
+- Set the maximum render-quality to the screen-size, this improves the
+  render-speed and reduces the memory-usage of ristretto.
+- Limit the maximum-scale to 400% or the window-size (whichever comes
+  last)
+- Limit the minimum-scale to an image-size of 32x32 pixels
+- Improve the subpixbuf size calculation to reduce the anoying
+  black-borders when zooming in dramatically.
+- Add tooltip to the delete button
+- Add files opened from the cli to the recently-used list
+- Move the image-iterator to the next image instead of the previous
+  image when closing.
+- Open the first image from a folder when opening a folder from the
+  recently-used-items list.
+- Re-implement the file-properties dialog. Open thunar's properties 
+  dialog when thunar is available. Add a 'fallback' dialog for when
+  thunar is not available
+
 0.0.93
 ======
 - Fix version number
