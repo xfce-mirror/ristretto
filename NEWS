@@ -1,5 +1,6 @@
 x.x.x
 =====
+- Fix bug #3640 (During GIF animation shows a little arrow icon)
 - Fix bug #5977 (Add key-bindings for using the arrow buttons)
 - Fix bug #6266 (Can't set the image as wallpaper)
 - Fix bug #6910 (Patch for translation of menu-items)
