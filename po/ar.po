@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:05+0200\n"
+"POT-Creation-Date: 2011-10-02 08:09+0200\n"
 "PO-Revision-Date: 2011-08-01 16:57-0000\n"
 "Last-Translator: كريم اولاد الشلحة <herr.linux88@gmail.com>\n"
 "Language-Team: Arabic Xfce Translation Team <doc@arabeyes.org>\n"
@@ -454,7 +454,7 @@ msgstr "بدء التشغيل"
 
 #: ../src/preferences_dialog.c:302
 #, fuzzy
-msgid "Maximize window on startup"
+msgid "Maximize window on startup when opening an image"
 msgstr "تحجيم نافذة الصورة عنذ بدء التشغيل"
 
 #: ../src/preferences_dialog.c:308

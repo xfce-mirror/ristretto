@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.1-svn-r02537\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:05+0200\n"
+"POT-Creation-Date: 2011-10-02 08:09+0200\n"
 "PO-Revision-Date: 2010-03-25 21:52+0100\n"
 "Last-Translator: Rihards Priedītis <rprieditis@gmail.com>\n"
 "Language-Team: Latvian <translation-team-lv@lists.sourceforge.net>\n"
@@ -461,7 +461,7 @@ msgstr "Palaišanās"
 
 #: ../src/preferences_dialog.c:302
 #, fuzzy
-msgid "Maximize window on startup"
+msgid "Maximize window on startup when opening an image"
 msgstr "Mainīt loga izmēru uz attēla palaišanos"
 
 #: ../src/preferences_dialog.c:308

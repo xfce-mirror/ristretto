@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:05+0200\n"
+"POT-Creation-Date: 2011-10-02 08:09+0200\n"
 "PO-Revision-Date: 2010-11-21 19:12+0300\n"
 "Last-Translator: Mișu Moldovan <dumol@xfce.org>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -459,7 +459,7 @@ msgstr "Pornire"
 
 #: ../src/preferences_dialog.c:302
 #, fuzzy
-msgid "Maximize window on startup"
+msgid "Maximize window on startup when opening an image"
 msgstr "Redimensionează fereastra la imagine la pornire"
 
 #: ../src/preferences_dialog.c:308

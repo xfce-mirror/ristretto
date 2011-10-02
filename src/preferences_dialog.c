@@ -299,7 +299,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     dialog->priv->behaviour_tab.startup_vbox = gtk_vbox_new(FALSE, 0);
     dialog->priv->behaviour_tab.startup_frame = xfce_gtk_frame_box_new_with_content(_("Startup"), dialog->priv->behaviour_tab.startup_vbox);
     gtk_box_pack_start (GTK_BOX (behaviour_main_vbox), dialog->priv->behaviour_tab.startup_frame, FALSE, FALSE, 0);
-    dialog->priv->behaviour_tab.maximize_window_on_startup_check_button = gtk_check_button_new_with_label (_("Maximize window on startup"));
+    dialog->priv->behaviour_tab.maximize_window_on_startup_check_button = gtk_check_button_new_with_label (_("Maximize window on startup when opening an image"));
     gtk_container_add (GTK_CONTAINER (dialog->priv->behaviour_tab.startup_vbox), dialog->priv->behaviour_tab.maximize_window_on_startup_check_button);
     gtk_toggle_button_set_active (
             GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.maximize_window_on_startup_check_button),

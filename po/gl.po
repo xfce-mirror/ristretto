@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:05+0200\n"
+"POT-Creation-Date: 2011-10-02 08:09+0200\n"
 "PO-Revision-Date: 2010-10-20 09:48+0100\n"
 "Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
@@ -465,7 +465,7 @@ msgstr "Inicio"
 
 #: ../src/preferences_dialog.c:302
 #, fuzzy
-msgid "Maximize window on startup"
+msgid "Maximize window on startup when opening an image"
 msgstr "Redimensionar a xanela ao tamaño da imaxe ao iniciar"
 
 #: ../src/preferences_dialog.c:308

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-02 08:05+0200\n"
+"POT-Creation-Date: 2011-10-02 08:09+0200\n"
 "PO-Revision-Date: 2009-9-9 16:MI+ZONE\n"
 "Last-Translator: Nguyễn Quốc Vinh <kureikain@gmail.com>\n"
 "Language-Team: Vietnamese <kureikain@gmail.com>\n"
@@ -453,7 +453,7 @@ msgstr "Khởi động"
 
 #: ../src/preferences_dialog.c:302
 #, fuzzy
-msgid "Maximize window on startup"
+msgid "Maximize window on startup when opening an image"
 msgstr "Đổi kích thước cửa sổ bằng ảnh khi khởi động"
 
 #: ../src/preferences_dialog.c:308
