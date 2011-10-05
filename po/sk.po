@@ -458,8 +458,9 @@ msgid "Startup"
 msgstr "Pri spustení"
 
 #: ../src/preferences_dialog.c:302
+#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Maximalizovať okno pri spustení počas otvárania obrázka"
+msgstr "Zmeniť veľkosť okna na veľkosť obrázka pri spustení"
 
 #: ../src/preferences_dialog.c:308
 msgid "Open entire folder on startup"
