@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Ristretto 0.0.20\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2011-10-02 11:58+0200\n"
-"PO-Revision-Date: 2011-08-24 15:18+0200\n"
+"PO-Revision-Date: 2011-10-05 07:38+0200\n"
 "Last-Translator: Tomáš Vadina <kyberdev@gmail.com>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "Language: sk\n"
@@ -458,9 +458,8 @@ msgid "Startup"
 msgstr "Pri spustení"
 
 #: ../src/preferences_dialog.c:302
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Zmeniť veľkosť okna na veľkosť obrázka pri spustení"
+msgstr "Maximalizovať okno pri spustení počas otvárania obrázka"
 
 #: ../src/preferences_dialog.c:308
 msgid "Open entire folder on startup"
@@ -476,32 +475,32 @@ msgstr "Predvoľby"
 
 #: ../src/properties_dialog.c:149
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Názov:</b>"
 
 #: ../src/properties_dialog.c:150
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Typ:</b>"
 
 #: ../src/properties_dialog.c:151
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Čas zmeny:</b>"
 
 #: ../src/properties_dialog.c:152
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Čas prístupu:</b>"
 
 #: ../src/properties_dialog.c:153
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Veľkosť:</b>"
 
 #: ../src/properties_dialog.c:277
 msgid "General"
-msgstr ""
+msgstr "Všeobecné"
 
 #: ../src/properties_dialog.c:400
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Properties"
-msgstr "_Vlastnosti"
+msgstr "%s - Vlastnosti"
 
 #: ../src/thumbnail_bar.c:186
 msgid "Spacing"
@@ -568,14 +567,12 @@ msgid "Image Viewer"
 msgstr "Prehliadač obrázkov"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images's easily"
-msgstr "Prezerajte Vaše fotografie jednoducho"
+msgstr "Prezerajte obrázky jednoduchšie"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
-msgstr "Ristretto - prehliadač fotografií"
+msgstr "Prehliadač obrázkov Ristretto"
 
 #~ msgid "Two"
 #~ msgstr "Vrch"
