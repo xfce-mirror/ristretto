@@ -4,13 +4,13 @@
 # <>, 2008.
 # Robert Hartl <hartl.robert@gmail.com>, 2009.
 # Tomáš Vadina <kyberdev@gmail.com>, 2011.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.0.20\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2011-10-02 11:58+0200\n"
-"PO-Revision-Date: 2011-10-05 07:38+0200\n"
+"PO-Revision-Date: 2011-10-05 11:54+0200\n"
 "Last-Translator: Tomáš Vadina <kyberdev@gmail.com>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -458,9 +458,8 @@ msgid "Startup"
 msgstr "Pri spustení"
 
 #: ../src/preferences_dialog.c:302
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Zmeniť veľkosť okna na veľkosť obrázka pri spustení"
+msgstr "Maximalizovať okno pri spustení počas otvárania obrázka"
 
 #: ../src/preferences_dialog.c:308
 msgid "Open entire folder on startup"
