@@ -1,4 +1,4 @@
-x.x.x
+0.1.0
 =====
 - Fix bug #3640 (During GIF animation shows a little arrow icon)
 - Fix bug #5977 (Add key-bindings for using the arrow buttons)
