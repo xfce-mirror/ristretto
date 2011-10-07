@@ -30,13 +30,11 @@ ristretto_CFLAGS = \
 	$(CAIRO_CFLAGS) \
 	$(LIBXFCE4UTIL_CFLAGS) \
 	$(LIBXFCE4UI_CFLAGS) \
+	$(LIBX11_CFLAGS) \
 	-DDATADIR=\"$(datadir)\" \
 	-DSRCDIR=\"$(top_srcdir)\" \
 	-DLOCALEDIR=\"$(localedir)\"
 
-ristretto_LDFLAGS = \
-    -lm -lX11
- 
 ristretto_LDADD = \
 	$(GTK_LIBS) \
 	$(GLIB_LIBS) \
@@ -46,7 +44,9 @@ ristretto_LDADD = \
 	$(CAIRO_LIBS) \
 	$(XFCONF_LIBS) \
 	$(LIBXFCE4UTIL_LIBS) \
-	$(LIBXFCE4UI_LIBS)
+	$(LIBXFCE4UI_LIBS) \
+	$(LIBX11_LIBS) \
+	$(LIBM)
 
 INCLUDES = \
 	-I${top_srcdir}

@@ -65,6 +65,11 @@ XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [4.8.0])
 
 XDT_CHECK_PACKAGE([CAIRO], [cairo], [1.8.0])
 
+XDT_CHECK_LIBX11()
+
+AC_CHECK_LIBM
+AC_SUBST(LIBM)
+
 dnl **************************
 dnl *** Check for xsltproc ***
 dnl **************************
