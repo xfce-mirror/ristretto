@@ -335,6 +335,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                     TRUE);
         }
     }
+    return FALSE;
 }
 
 static void
@@ -549,6 +550,8 @@ rstto_monitor_chooser_set_pixbuf (
         GError **error)
 {
     Monitor *monitor = g_slist_nth_data (chooser->priv->monitors, monitor_id);
+    gint retval = -1;
+
     if (monitor)
     {
         if (monitor->pixbuf)
@@ -556,11 +559,14 @@ rstto_monitor_chooser_set_pixbuf (
             g_object_unref (monitor->pixbuf);
         }
         monitor->pixbuf = pixbuf;
+        retval = monitor_id;
     }
     if (GTK_WIDGET_REALIZED (GTK_WIDGET(chooser)))
     {
         rstto_monitor_chooser_paint (GTK_WIDGET(chooser));
     }
+
+    return retval;
 }
 
 static void

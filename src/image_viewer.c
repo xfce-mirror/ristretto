@@ -1798,6 +1798,8 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
 
 
     rstto_image_viewer_paint (GTK_WIDGET (viewer));
+
+    return FALSE;
 }
 
 static gboolean
@@ -2281,7 +2283,7 @@ static gboolean
 rstto_popup_menu (
         GtkWidget *widget)
 {
-    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (viewer);
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
 
     if (viewer->priv->menu)
     {
