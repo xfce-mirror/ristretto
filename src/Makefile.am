@@ -33,6 +33,9 @@ ristretto_CFLAGS = \
 	-DDATADIR=\"$(datadir)\" \
 	-DSRCDIR=\"$(top_srcdir)\" \
 	-DLOCALEDIR=\"$(localedir)\"
+
+ristretto_LDFLAGS = \
+    -lm -lX11
  
 ristretto_LDADD = \
 	$(GTK_LIBS) \
@@ -43,7 +46,7 @@ ristretto_LDADD = \
 	$(CAIRO_LIBS) \
 	$(XFCONF_LIBS) \
 	$(LIBXFCE4UTIL_LIBS) \
-	$(LIBXFCE4UI_LIBS) -lX11
+	$(LIBXFCE4UI_LIBS)
 
 INCLUDES = \
 	-I${top_srcdir}
