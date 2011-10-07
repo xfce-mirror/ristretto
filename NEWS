@@ -1,3 +1,9 @@
+0.1.1
+=====
+- Fix linking problems against libm
+- Improve linking against X11
+- Set return statements in various functions returning random values
+
 0.1.0
 =====
 - Fix bug #3640 (During GIF animation shows a little arrow icon)
