@@ -158,6 +158,7 @@ rstto_settings_init (GObject *object)
     settings->priv->navigationbar_position = g_strdup ("bottom");
     settings->priv->show_file_toolbar = TRUE;
     settings->priv->show_nav_toolbar = TRUE;
+    settings->priv->open_entire_folder = TRUE;
     settings->priv->window_width = 600;
     settings->priv->window_height = 400;
     settings->priv->wrap_images = TRUE;
