@@ -601,14 +601,85 @@ rstto_image_list_set_sort_by_date (RsttoImageList *image_list)
 static gint
 cb_rstto_image_list_image_name_compare_func (GFile *a, GFile *b)
 {
-    gchar *a_base = g_file_get_basename (a);  
-    gchar *b_base = g_file_get_basename (b);  
+    GFileInfo *info_a = g_file_query_info (
+            a,
+            G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME,
+            0,
+            NULL,
+            NULL );
+    GFileInfo *info_b = g_file_query_info (
+            b,
+            G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME,
+            0,
+            NULL,
+            NULL );
+    const gchar *a_base = g_file_info_get_display_name (info_a);
+    const gchar *b_base = g_file_info_get_display_name (info_b);
+    guint  ac;
+    guint  bc;
+    const gchar *ap = a_base;
+    const gchar *bp = b_base;
+
     gint result = 0;
+    guint a_num = 0;
+    guint b_num = 0;
 
-    result = g_strcasecmp (a_base, b_base);
+    /* try simple (fast) ASCII comparison first */
+    for (;; ++ap, ++bp)
+    {
+        /* check if the characters differ or we have a non-ASCII char
+         */
+        ac = *((const guchar *) ap);
+        bc = *((const guchar *) bp);
+        if (ac != bc || ac == 0 || ac > 127)
+            break;
+    }
 
-    g_free (a_base);
-    g_free (b_base);
+    /* fallback to Unicode comparison */
+    if (G_UNLIKELY (ac > 127 || bc > 127))
+    {
+        for (;; ap = g_utf8_next_char (ap), bp = g_utf8_next_char (bp))
+        {
+            /* check if characters differ or end of string */
+            ac = g_utf8_get_char (ap);
+            bc = g_utf8_get_char (bp);
+            if (ac != bc || ac == 0)
+                break;
+        }
+    }
+
+    /* If both strings are equal, we're done */
+    if (ac != bc)
+    {
+        if (G_UNLIKELY (g_ascii_isdigit (ac) || g_ascii_isdigit (bc)))
+        {
+            /* if both strings differ in a digit, we use a smarter comparison
+             * to get sorting 'file1', 'file5', 'file10' done the right way.
+             */
+            if (g_ascii_isdigit (ac) && g_ascii_isdigit (bc))
+            {
+                a_num = strtoul (ap, NULL, 10); 
+                b_num = strtoul (bp, NULL, 10); 
+
+                if (a_num < b_num)
+                    result = -1;
+                if (a_num > b_num)
+                    result = 1;
+            }
+        }
+    }
+
+    if (result == 0)
+    {
+        if (ac > bc)
+            result = 1;
+        else
+            result = -1;
+    }
+
+
+    g_object_unref (info_a);
+    g_object_unref (info_b);
     return result;
 }
 
@@ -633,8 +704,8 @@ cb_rstto_image_list_exif_date_compare_func (GFile *a, GFile *b)
     guint64 b_i = g_file_info_get_attribute_uint64(file_info_b, "time::modified");
     if (a_i > b_i)
         result = 1;
-    else
-        result = 0;
+    if (a_i < b_i)
+        result = -1;
 
     g_object_unref (file_info_a);
     g_object_unref (file_info_b);
