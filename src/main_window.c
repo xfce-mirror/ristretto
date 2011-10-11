@@ -297,7 +297,7 @@ static GtkActionEntry action_entries[] =
   { "view-menu", NULL, N_ ("_View"), NULL, },
   { "fullscreen", GTK_STOCK_FULLSCREEN, N_ ("_Fullscreen"), "F11", NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "unfullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("_Leave Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
-  { "set-as-wallpaper", NULL, N_ ("_Set as Wallpaper"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_set_as_wallpaper), },
+  { "set-as-wallpaper", "preferences-desktop-wallpaper", N_ ("_Set as Wallpaper"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_set_as_wallpaper), },
 /* Zoom submenu */
   { "zoom-menu", NULL, N_ ("_Zooming"), NULL, },
   { "zoom-in", GTK_STOCK_ZOOM_IN, N_ ("Zoom _In"), "<control>plus", NULL, G_CALLBACK (cb_rstto_main_window_zoom_in),},
