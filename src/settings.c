@@ -155,7 +155,7 @@ rstto_settings_init (GObject *object)
     settings->priv->bgcolor = g_new0 (GdkColor, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkColor, 1);
     settings->priv->image_quality = 2000000;
-    settings->priv->navigationbar_position = g_strdup ("bottom");
+    settings->priv->navigationbar_position = g_strdup ("left");
     settings->priv->show_file_toolbar = TRUE;
     settings->priv->show_nav_toolbar = TRUE;
     settings->priv->open_entire_folder = TRUE;
