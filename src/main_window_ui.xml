@@ -38,6 +38,12 @@
             <menuitem action="show-file-toolbar"/>
             <menuitem action="show-nav-toolbar"/>
             <menuitem action="show-thumbnailbar"/>
+            <menu action="thumbnailbar-position-menu">
+                <menuitem action="pos-left"/>
+                <menuitem action="pos-right"/>
+                <menuitem action="pos-top"/>
+                <menuitem action="pos-bottom"/>
+            </menu>
             <separator/>
             <menu action="zoom-menu">
                 <menuitem action="zoom-in"/>
@@ -117,6 +123,13 @@
 
     -->
     <toolbar name="navigation-toolbar">
+        <toolitem action="open"/>
+        <toolitem action="open-folder"/>
+        <separator />
+        <toolitem action="save-copy"/>
+        <toolitem action="close"/>
+        <toolitem action="delete"/>
+        <separator />
         <toolitem action="back"/>
         <placeholder name="placeholder-slideshow" />
         <toolitem action="forward"/>

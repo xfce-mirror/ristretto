@@ -265,6 +265,12 @@ cb_rstto_main_window_vpaned_pos_changed (GtkWidget *widget, gpointer user_data);
 static void
 cb_rstto_main_window_hpaned_pos_changed (GtkWidget *widget, gpointer user_data);
 
+static void
+cb_rstto_merge_toolbars_changed (
+        GObject *settings,
+        GParamSpec *pspec,
+        gpointer user_data);
+
 
 
 static GtkWidgetClass *parent_class = NULL;
@@ -322,6 +328,7 @@ static GtkActionEntry action_entries[] =
                 G_CALLBACK (cb_rstto_main_window_about), },
 /* Position Menu */
   { "position-menu", NULL, N_ ("_Position"), NULL, },
+  { "thumbnailbar-position-menu", NULL, N_ ("Thumbnailbar _Position"), NULL, },
 /* Misc */
   { "leave-fullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("Leave _Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "tb-menu", NULL, NULL, NULL, }
@@ -706,6 +713,12 @@ rstto_main_window_init (RsttoMainWindow *window)
     g_signal_connect(G_OBJECT(window->priv->hpaned_right), "accept-position", G_CALLBACK(cb_rstto_main_window_hpaned_pos_changed), window);
     g_signal_connect(G_OBJECT(window->priv->vpaned_top), "accept-position", G_CALLBACK(cb_rstto_main_window_vpaned_pos_changed), window);
     g_signal_connect(G_OBJECT(window->priv->vpaned_bottom), "accept-position", G_CALLBACK(cb_rstto_main_window_vpaned_pos_changed), window);
+
+    g_signal_connect (
+            G_OBJECT(window->priv->settings_manager),
+            "notify::merge-toolbars",
+            G_CALLBACK (cb_rstto_merge_toolbars_changed),
+            window);
 
 }
 
@@ -1114,6 +1127,88 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/image-viewer-menu/zoom-100"), TRUE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/image-viewer-menu/zoom-fit"), TRUE);
             break;
+    }
+
+    if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
+    {
+        gtk_widget_hide (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/view-menu/show-file-toolbar"));
+        gtk_widget_hide (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/file-toolbar"));
+
+        gtk_widget_show (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/navigation-toolbar/open"));
+        gtk_widget_show (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/navigation-toolbar/open-folder"));
+        gtk_widget_show (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/navigation-toolbar/save-copy"));
+        gtk_widget_show (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/navigation-toolbar/close"));
+        gtk_widget_show (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/navigation-toolbar/delete"));
+    }
+    else
+    {
+        gtk_widget_show (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/view-menu/show-file-toolbar"));
+
+        if (rstto_settings_get_boolean_property (
+                window->priv->settings_manager,
+                "show-file-toolbar") )
+        {
+            gtk_widget_show (
+                gtk_ui_manager_get_widget (
+                        window->priv->ui_manager,
+                        "/file-toolbar"));
+        }
+        if (FALSE == rstto_settings_get_boolean_property (
+                window->priv->settings_manager,
+                "show-nav-toolbar") )
+        {
+            gtk_widget_hide (
+                gtk_ui_manager_get_widget (
+                        window->priv->ui_manager,
+                        "/navigation-toolbar"));
+        }
+
+        /* Hide buttons */
+        gtk_widget_hide (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/navigation-toolbar/open"));
+        gtk_widget_hide (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/navigation-toolbar/open-folder"));
+        gtk_widget_hide (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/navigation-toolbar/save-copy"));
+        gtk_widget_hide (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/navigation-toolbar/close"));
+        gtk_widget_hide (
+            gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/navigation-toolbar/delete"));
+
     }
 }
 
@@ -2678,4 +2773,14 @@ cb_rstto_main_window_key_press_event(GtkWidget *widget, GdkEventKey *event, gpoi
         }
     }
     return TRUE;
+}
+
+static void
+cb_rstto_merge_toolbars_changed (
+        GObject *object,
+        GParamSpec *pspec,
+        gpointer user_data)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    rstto_main_window_update_buttons (window);
 }
