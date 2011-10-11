@@ -543,6 +543,10 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_tool_item_set_expand (GTK_TOOL_ITEM (separator), TRUE);
     gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (separator), FALSE);
 
+    separator = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar/separator-2");
+    gtk_tool_item_set_expand (GTK_TOOL_ITEM (separator), TRUE);
+    gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (separator), FALSE);
+
     /**
      * Make the back and forward toolitems important,
      * when they are, the labels are shown when the toolbar style is 'both-horizontal'
