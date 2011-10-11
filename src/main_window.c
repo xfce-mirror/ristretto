@@ -960,6 +960,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
     switch (rstto_image_list_get_n_images (window->priv->props.image_list))
     {
         case 0: 
+            gtk_widget_hide (window->priv->thumbnailbar);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), FALSE);
             /*
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), FALSE);
@@ -1021,6 +1022,10 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/image-viewer-menu/zoom-fit"), FALSE);
             break;
         case 1: 
+            if (rstto_settings_get_boolean_property (window->priv->settings_manager, "show-thumbnailbar"))
+            {
+                gtk_widget_show (window->priv->thumbnailbar);
+            }
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), TRUE);
             /*
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), TRUE);
@@ -1084,6 +1089,10 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/image-viewer-menu/zoom-fit"), TRUE);
             break;
         default: 
+            if (rstto_settings_get_boolean_property (window->priv->settings_manager, "show-thumbnailbar"))
+            {
+                gtk_widget_show (window->priv->thumbnailbar);
+            }
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), TRUE);
             /*
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), TRUE);
