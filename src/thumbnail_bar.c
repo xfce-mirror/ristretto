@@ -24,6 +24,7 @@
 #include <libxfce4ui/libxfce4ui.h>
 #include <libexif/exif-data.h>
 
+#include "file.h"
 #include "image_list.h"
 #include "thumbnail.h"
 #include "thumbnail_bar.h"
@@ -71,9 +72,15 @@ static void
 rstto_thumbnail_bar_unrealize(GtkWidget *widget);
 
 static void
-cb_rstto_thumbnail_bar_image_list_new_file (RsttoImageList *image_list, GFile *file, gpointer user_data);
+cb_rstto_thumbnail_bar_image_list_new_file (
+        RsttoImageList *image_list,
+        RsttoFile *file,
+        gpointer user_data);
 static void
-cb_rstto_thumbnail_bar_image_list_remove_file (RsttoImageList *image_list, GFile *file, gpointer user_data);
+cb_rstto_thumbnail_bar_image_list_remove_file (
+        RsttoImageList *image_list,
+        RsttoFile *file,
+        gpointer user_data);
 static void
 cb_rstto_thumbnail_bar_image_list_remove_all (RsttoImageList *image_list, gpointer user_data);
 void
@@ -656,8 +663,8 @@ static gint
 cb_rstto_thumbnail_bar_compare (GtkWidget *a, GtkWidget *b, gpointer user_data)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
-    GFile *a_i = rstto_thumbnail_get_file (RSTTO_THUMBNAIL (a));
-    GFile *b_i = rstto_thumbnail_get_file (RSTTO_THUMBNAIL (b));
+    RsttoFile *a_i = rstto_thumbnail_get_file (RSTTO_THUMBNAIL (a));
+    RsttoFile *b_i = rstto_thumbnail_get_file (RSTTO_THUMBNAIL (b));
 
     return rstto_image_list_get_compare_func (bar->priv->image_list) (a_i, b_i);
 }
@@ -865,7 +872,10 @@ cb_rstto_thumbnail_bar_image_list_iter_changed (RsttoImageListIter *iter, gpoint
 }
 
 static void
-cb_rstto_thumbnail_bar_image_list_new_file (RsttoImageList *image_list, GFile *file, gpointer user_data)
+cb_rstto_thumbnail_bar_image_list_new_file (
+        RsttoImageList *image_list,
+        RsttoFile *file,
+        gpointer user_data)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
     GtkWidget *thumb;
@@ -875,7 +885,7 @@ cb_rstto_thumbnail_bar_image_list_new_file (RsttoImageList *image_list, GFile *f
 
     for (iter = bar->priv->thumbs; iter != NULL; iter = g_list_next (iter))
     {
-        if (g_file_equal(file,rstto_thumbnail_get_file (iter->data)))
+        if (rstto_file_equal(file,rstto_thumbnail_get_file (iter->data)))
             return;
     }
 
@@ -891,14 +901,17 @@ cb_rstto_thumbnail_bar_image_list_new_file (RsttoImageList *image_list, GFile *f
 }
 
 static void
-cb_rstto_thumbnail_bar_image_list_remove_file (RsttoImageList *image_list, GFile *file, gpointer user_data)
+cb_rstto_thumbnail_bar_image_list_remove_file (
+        RsttoImageList *image_list,
+        RsttoFile *file,
+        gpointer user_data )
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (user_data);
     GList *iter = bar->priv->thumbs;
 
     while (iter)
     {
-        if (g_file_equal(rstto_thumbnail_get_file(iter->data), file))
+        if (rstto_file_equal(rstto_thumbnail_get_file(iter->data), file))
         {
             GtkWidget *widget = iter->data;
             gtk_container_remove (GTK_CONTAINER (bar), widget);

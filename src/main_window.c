@@ -32,6 +32,7 @@
 #include <cairo/cairo.h>
 
 #include "settings.h"
+#include "file.h"
 #include "image_list.h"
 #include "image_viewer.h"
 #include "main_window.h"
@@ -447,7 +448,7 @@ rstto_main_window_init (RsttoMainWindow *window)
 
         if (!g_strcasecmp(desktop_type, "gnome"))
         {
-            window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new();
+            //window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new();
         }
 
         g_free (desktop_type);
@@ -853,11 +854,10 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 {
-    gchar *file_basename = NULL;
+    const gchar *file_basename = NULL;
     gchar *title = NULL;
     gchar *status = NULL;
-    GFile *cur_file = NULL;
-    GFileInfo *file_info = NULL;
+    RsttoFile *cur_file = NULL;
     gint position, count, width, height;
     RsttoImageList *image_list = window->priv->props.image_list;
     GList *app_list, *iter;
@@ -875,25 +875,28 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         cur_file = rstto_image_list_iter_get_file (window->priv->iter);
         if (NULL != cur_file)
         {
-            file_info = g_file_query_info (cur_file, "standard::content-type", 0, NULL, NULL);
-            content_type  = g_file_info_get_content_type (file_info);
+            content_type  = rstto_file_get_content_type (cur_file);
 
-            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), cur_file, -1, RSTTO_IMAGE_VIEWER_ORIENT_NONE);
+            rstto_image_viewer_set_file (
+                    RSTTO_IMAGE_VIEWER(window->priv->image_viewer),
+                    cur_file,
+                    -1.0,
+                    RSTTO_IMAGE_VIEWER_ORIENT_NONE);
 
             app_list = g_app_info_get_all_for_type (content_type);
 
             for (iter = app_list; iter; iter = g_list_next (iter))
             {
-                GtkWidget *menu_item = rstto_app_menu_item_new (iter->data, cur_file);
+                GtkWidget *menu_item = rstto_app_menu_item_new (iter->data, rstto_file_get_file (cur_file));
                 gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
-                menu_item = rstto_app_menu_item_new (iter->data, cur_file);
+                menu_item = rstto_app_menu_item_new (iter->data, rstto_file_get_file (cur_file));
                 gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
             }
 
             gtk_widget_show_all (open_with_menu);
             gtk_widget_show_all (open_with_window_menu);
 
-            file_basename = g_file_get_basename (cur_file);
+            file_basename = rstto_file_get_display_name (cur_file);
 
             if (count > 1)
             {
@@ -908,8 +911,6 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             {
                 status = g_strdup_printf ("%d x %d", width, height);
             }
-
-            g_free (file_basename);
         }
         else
         {
@@ -1473,7 +1474,7 @@ cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action,
 static void
 cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *window)
 {
-    GFile *file = NULL;
+    RsttoFile *file = NULL;
     gint response = GTK_RESPONSE_APPLY;
 
     if (window->priv->iter)
@@ -2185,7 +2186,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
             while (_files_iter)
             {
                 file = _files_iter->data;
-                if (rstto_image_list_add_file (window->priv->props.image_list, file, NULL) == FALSE)
+                if (rstto_image_list_add_file (window->priv->props.image_list, rstto_file_new(file), NULL) == FALSE)
                 {
                     err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
                                                     GTK_DIALOG_MODAL,
@@ -2298,7 +2299,7 @@ cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
 
             if (strncmp (content_type, "image/", 6) == 0)
             {
-                rstto_image_list_add_file (window->priv->props.image_list, child_file, NULL);
+                rstto_image_list_add_file (window->priv->props.image_list,rstto_file_new(child_file), NULL);
             }
 
             g_object_unref (child_file);
@@ -2368,7 +2369,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
 
                 if (strncmp (content_type, "image/", 6) == 0)
                 {
-                    rstto_image_list_add_file (window->priv->props.image_list, child_file, NULL);
+                    rstto_image_list_add_file (window->priv->props.image_list, rstto_file_new(child_file), NULL);
                 }
 
                 g_object_unref (child_file);
@@ -2384,7 +2385,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
         }
         else
         {
-            if (rstto_image_list_add_file (window->priv->props.image_list, file, NULL) == FALSE)
+            if (rstto_image_list_add_file (window->priv->props.image_list, rstto_file_new(file), NULL) == FALSE)
             {
                 err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
                                                 GTK_DIALOG_MODAL,
@@ -2450,10 +2451,10 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
     if(response == GTK_RESPONSE_OK)
     {
         file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
-        s_file = rstto_image_list_iter_get_file (window->priv->iter);
+        s_file = rstto_file_get_file(rstto_image_list_iter_get_file (window->priv->iter));
         if (g_file_copy (s_file, file, G_FILE_COPY_OVERWRITE, NULL, NULL, NULL, NULL))
         {
-            rstto_image_list_add_file (window->priv->props.image_list, file, NULL);
+            rstto_image_list_add_file (window->priv->props.image_list, rstto_file_new(file), NULL);
         }
     }
 
@@ -2467,8 +2468,8 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
     /* The display object is owned by gdk, do not unref it */
     GdkDisplay *display = gdk_display_get_default();
     GError *error = NULL;
-    GFile *file = rstto_image_list_iter_get_file (window->priv->iter);
-    gchar *uri = NULL;
+    RsttoFile *file = rstto_image_list_iter_get_file (window->priv->iter);
+    const gchar *uri = NULL;
     GtkWidget *dialog = NULL;
     gboolean use_thunar_properties = rstto_settings_get_boolean_property (
             window->priv->settings_manager,
@@ -2482,7 +2483,7 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
          */
         if ( TRUE == use_thunar_properties )
         {
-            uri = g_file_get_uri(file);
+            uri = rstto_file_get_uri(file);
             if(dbus_g_proxy_call(window->priv->filemanager_proxy,
                                  "DisplayFileProperties",
                                  &error,
@@ -2499,7 +2500,6 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
                 gtk_dialog_run (GTK_DIALOG(dialog));
                 gtk_widget_destroy(dialog);
             }
-            g_free(uri);
         }
         else
         {
@@ -2521,7 +2521,7 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window)
 {
-    GFile *file = rstto_image_list_iter_get_file (window->priv->iter);
+    RsttoFile *file = rstto_image_list_iter_get_file (window->priv->iter);
     rstto_image_list_remove_file (window->priv->props.image_list, file);
 
     rstto_main_window_update_buttons (window);
@@ -2556,8 +2556,8 @@ cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
 {
-    GFile *file = rstto_image_list_iter_get_file (window->priv->iter);
-    gchar *file_basename = g_file_get_basename (file);
+    RsttoFile *file = rstto_image_list_iter_get_file (window->priv->iter);
+    const gchar *file_basename = rstto_file_get_display_name(file);
     GtkWidget *dialog;
     g_return_if_fail (rstto_image_list_get_n_images (window->priv->props.image_list) > 0);
 
@@ -2571,7 +2571,7 @@ cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
     g_object_ref (file);
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
     {
-        if (g_file_trash (file, NULL, NULL) == TRUE)
+        if (g_file_trash (rstto_file_get_file(file), NULL, NULL) == TRUE)
         {
             rstto_image_list_remove_file (window->priv->props.image_list, file);
         }
@@ -2581,7 +2581,6 @@ cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
         }
     }
     gtk_widget_destroy (dialog);
-    g_free (file_basename);
     g_object_unref (file);
 }
 

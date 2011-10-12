@@ -26,6 +26,7 @@
 #include <libxfce4util/libxfce4util.h>
 #include <gio/gio.h>
 
+#include "file.h"
 #include "monitor_chooser.h"
 #include "wallpaper_manager.h"
 #include "xfce_wallpaper_manager.h"
@@ -74,7 +75,7 @@ struct _RsttoXfceWallpaperManagerPriv
     RsttoColor *color1;
     RsttoColor *color2;
 
-    GFile *file;
+    RsttoFile *file;
 
     GtkWidget *monitor_chooser;
     GtkWidget *style_combo;
@@ -93,7 +94,7 @@ enum
 static gint 
 rstto_xfce_wallpaper_manager_configure_dialog_run (
         RsttoWallpaperManager *self,
-        GFile *file)
+        RsttoFile *file)
 {
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
     gint response = 0;
@@ -103,7 +104,7 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
             RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
             manager->priv->monitor,
             gdk_pixbuf_new_from_file_at_size(
-                    g_file_get_path(file),
+                    rstto_file_get_path(file),
                     500,
                     500,
                     NULL),
@@ -144,11 +145,11 @@ rstto_xfce_wallpaper_manager_check_running (RsttoWallpaperManager *self)
 }
 
 static gboolean
-rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, GFile *file)
+rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoFile *file)
 {
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
 
-    gchar *uri = g_file_get_path (file);
+    const gchar *uri = rstto_file_get_path (file);
 
     gchar *image_path_prop = g_strdup_printf (
             "/backdrop/screen%d/monitor%d/image-path",
@@ -285,7 +286,7 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
 {
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (object);
 
-    manager->priv = g_new0 (RsttoXfceWallpaperManagerPriv, 1);
+    manager->priv = g_new0(RsttoXfceWallpaperManagerPriv, 1);
     manager->priv->channel = xfconf_channel_new ("xfce4-desktop");
     manager->priv->color1 = g_new0 (RsttoColor, 1);
     manager->priv->color1->a = 0xffff;
@@ -607,7 +608,7 @@ cb_monitor_chooser_changed (
             RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
             monitor_id,
             gdk_pixbuf_new_from_file_at_size(
-                g_file_get_path(manager->priv->file),
+                rstto_file_get_path(manager->priv->file),
                 500,
                 500,
                 NULL),

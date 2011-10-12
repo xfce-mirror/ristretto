@@ -30,6 +30,7 @@
 #include <libxfce4util/libxfce4util.h>
 #include <libexif/exif-data.h>
 
+#include "file.h"
 #include "image_list.h"
 #include "settings.h"
 #include "main_window.h"
@@ -176,7 +177,7 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
                     if (strncmp (content_type, "image/", 6) == 0)
                     {
-                        if (rstto_image_list_add_file (rof->image_list, file, NULL) == TRUE)
+                        if (rstto_image_list_add_file (rof->image_list, rstto_file_new(file), NULL) == TRUE)
                         {
                             rstto_main_window_add_file_to_recent_files (file);
                         }
@@ -198,7 +199,7 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
                                 if (strncmp (content_type, "image/", 6) == 0)
                                 {
-                                    rstto_image_list_add_file (rof->image_list, child_file, NULL);
+                                    rstto_image_list_add_file (rof->image_list, rstto_file_new(child_file), NULL);
                                 }
 
                                 g_object_unref (child_file);
@@ -207,6 +208,7 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
                         }
                     }
                 }
+                g_object_unref (file);
             }
             rof->iter++;
             return TRUE;
@@ -225,7 +227,7 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
                 if (strncmp (content_type, "image/", 6) == 0)
                 {
-                    if (rstto_image_list_add_file (rof->image_list, file, NULL) == TRUE)
+                    if (rstto_image_list_add_file (rof->image_list, rstto_file_new(file), NULL) == TRUE)
                     {
                         rstto_main_window_add_file_to_recent_files (file);
                     }
@@ -249,7 +251,7 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
             if (strncmp (content_type, "image/", 6) == 0)
             {
-                rstto_image_list_add_file (rof->image_list, child_file, NULL);
+                rstto_image_list_add_file (rof->image_list, rstto_file_new(child_file), NULL);
             }
 
             g_object_unref (child_file);

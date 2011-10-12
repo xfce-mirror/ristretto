@@ -25,6 +25,7 @@
 #include <gio/gio.h>
 #include <dbus/dbus-glib.h>
 
+#include "file.h"
 #include "thumbnail.h"
 #include "thumbnailer.h"
 #include "marshal.h"
@@ -347,16 +348,15 @@ static gboolean
 rstto_thumbnailer_queue_request_timer (
         RsttoThumbnailer *thumbnailer)
 {
-    gchar **uris;
+    const gchar **uris;
     const gchar **mimetypes;
     GSList *iter;
     gint i = 0;
-    GFile *file;
+    RsttoFile *file;
     GError *error = NULL;
-    GFileInfo *file_info;
 
     uris = g_new0 (
-            gchar *,
+            const gchar *,
             g_slist_length(thumbnailer->priv->queue) + 1);
     mimetypes = g_new0 (
             const gchar *,
@@ -368,19 +368,8 @@ rstto_thumbnailer_queue_request_timer (
         if (iter->data)
         {
             file = rstto_thumbnail_get_file (RSTTO_THUMBNAIL(iter->data));
-            uris[i] = g_file_get_uri (file);
-            file_info = g_file_query_info (
-                    file,
-                    "standard::content-type",
-                    0,
-                    NULL,
-                    NULL);
-            if (file_info)
-            {
-                mimetypes[i] = g_file_info_get_attribute_string (
-                        file_info,
-                        "standard::content-type");
-            }
+            uris[i] = rstto_file_get_uri (file);
+            mimetypes[i] = rstto_file_get_content_type (file);
         }
         iter = g_slist_next(iter);
         i++;
@@ -427,11 +416,11 @@ cb_rstto_thumbnailer_thumbnail_ready (
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
     RsttoThumbnail *thumbnail;
-    GFile *file;
+    RsttoFile *file;
     GSList *iter = thumbnailer->priv->queue;
     GSList *prev;
     gint x = 0;
-    gchar *f_uri;
+    const gchar *f_uri;
     while (iter)
     {
         if ((uri[x] == NULL) || (iter->data == NULL))
@@ -441,7 +430,7 @@ cb_rstto_thumbnailer_thumbnail_ready (
 
         thumbnail = iter->data;
         file = rstto_thumbnail_get_file (thumbnail);
-        f_uri = g_file_get_uri (file);
+        f_uri = rstto_file_get_uri (file);
         if (strcmp (uri[x], f_uri) == 0)
         {
             rstto_thumbnail_update (thumbnail);

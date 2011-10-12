@@ -61,8 +61,9 @@ struct _RsttoThumbnailClass
 
 GType      rstto_thumbnail_get_type();
 
-GtkWidget  *rstto_thumbnail_new (GFile *);
-GFile *
+GtkWidget  *rstto_thumbnail_new ( RsttoFile * );
+
+RsttoFile *
 rstto_thumbnail_get_file (RsttoThumbnail *thumb);
 
 

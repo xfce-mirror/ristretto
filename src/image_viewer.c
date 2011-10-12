@@ -23,6 +23,7 @@
 #include <gio/gio.h>
 #include <libexif/exif-data.h>
 
+#include "file.h"
 #include "image_viewer.h"
 #include "settings.h"
 #include "marshal.h"
@@ -47,7 +48,7 @@ typedef struct _RsttoImageViewerTransaction RsttoImageViewerTransaction;
 
 struct _RsttoImageViewerPriv
 {
-    GFile                       *file;
+    RsttoFile                   *file;
     RsttoSettings               *settings;
     GdkVisual                   *visual;
     GdkColormap                 *colormap;
@@ -103,7 +104,7 @@ struct _RsttoImageViewerPriv
 struct _RsttoImageViewerTransaction
 {
     RsttoImageViewer *viewer;
-    GFile            *file;
+    RsttoFile        *file;
     GCancellable     *cancellable;
     GdkPixbufLoader  *loader;
 
@@ -205,7 +206,7 @@ cb_rstto_zoom_direction_changed (
 static void
 rstto_image_viewer_load_image (
         RsttoImageViewer *viewer,
-        GFile *file,
+        RsttoFile *file,
         gdouble scale);
 static void
 rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr);
@@ -898,10 +899,11 @@ rstto_image_viewer_new (void)
  *  - cancellable...
  */
 void
-rstto_image_viewer_set_file (RsttoImageViewer *viewer,
-                             GFile *file,
-                             gdouble scale,
-                             RsttoImageViewerOrientation orientation)
+rstto_image_viewer_set_file (
+        RsttoImageViewer *viewer,
+        RsttoFile *file,
+        gdouble scale,
+        RsttoImageViewerOrientation orientation)
 {
     
     /*
@@ -922,7 +924,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
             /*
              * If the old, and new file are equal, do nothing.
              */
-            if (!g_file_equal (viewer->priv->file, file))
+            if (!rstto_file_equal (viewer->priv->file, file))
             {
                 /*
                  * This will first need to return to the 'main' loop before it cleans up after itself.
@@ -937,8 +939,11 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
                     viewer->priv->transaction = NULL;
                 } 
 
+                g_object_ref (file);
                 g_object_unref (viewer->priv->file);
-                viewer->priv->file = g_file_dup(file);
+
+                viewer->priv->file = file;
+
                 rstto_image_viewer_load_image (
                         viewer,
                         viewer->priv->file,
@@ -947,8 +952,10 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
         }
         else
         {
-            viewer->priv->file = g_file_dup(file);
-            rstto_image_viewer_load_image (viewer, viewer->priv->file, scale); }
+            g_object_ref (file);
+            viewer->priv->file = file;
+            rstto_image_viewer_load_image (viewer, viewer->priv->file, scale);
+        }
     } 
     else
     {
@@ -987,7 +994,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
 static void
 rstto_image_viewer_load_image (
         RsttoImageViewer *viewer,
-        GFile *file,
+        RsttoFile *file,
         gdouble scale)
 {
     /*
@@ -1015,7 +1022,7 @@ rstto_image_viewer_load_image (
 
     viewer->priv->transaction = transaction;
 
-    g_file_read_async (transaction->file,
+    g_file_read_async (rstto_file_get_file (transaction->file),
                        0,
                        transaction->cancellable,
                        (GAsyncReadyCallback)cb_rstto_image_viewer_read_file_ready,
@@ -1269,7 +1276,10 @@ cb_rstto_image_viewer_value_changed(GtkAdjustment *adjustment, RsttoImageViewer 
 }
 
 static void
-cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
+cb_rstto_image_viewer_read_file_ready (
+        GObject *source_object,
+        GAsyncResult *result,
+        gpointer user_data )
 {
     GFile *file = G_FILE (source_object);
     RsttoImageViewerTransaction *transaction = (RsttoImageViewerTransaction *)user_data;
@@ -1291,7 +1301,10 @@ cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *res
 }
 
 static void
-cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
+cb_rstto_image_viewer_read_input_stream_ready (
+        GObject *source_object,
+        GAsyncResult *result,
+        gpointer user_data )
 {
     GError *error = NULL;
     RsttoImageViewerTransaction *transaction = (RsttoImageViewerTransaction *)user_data;
@@ -2053,7 +2066,6 @@ rstto_button_press_event (
         viewer->priv->motion.h_val = viewer->hadjustment->value;
         viewer->priv->motion.v_val = viewer->vadjustment->value;
 
-        //if (viewer->priv->file != NULL && rstto_image_viewer_get_state (viewer) == RSTTO_IMAGE_VIEWER_STATE_NORMAL)
         if (viewer->priv->file != NULL )
         {
             if (!(event->state & (GDK_CONTROL_MASK)))

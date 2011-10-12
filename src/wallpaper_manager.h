@@ -41,8 +41,8 @@ typedef struct _RsttoWallpaperManagerIface RsttoWallpaperManagerIface;
 struct _RsttoWallpaperManagerIface {
     GTypeInterface parent;
 
-    gint (*configure_dialog_run) (RsttoWallpaperManager *self, GFile *file);
-    gboolean (*set) (RsttoWallpaperManager *self, GFile *file);
+    gint (*configure_dialog_run) (RsttoWallpaperManager *self, RsttoFile *file);
+    gboolean (*set) (RsttoWallpaperManager *self, RsttoFile *file);
     gboolean (*check_running) (RsttoWallpaperManager *self);
 };
 
@@ -55,12 +55,12 @@ rstto_wallpaper_manager_check_running (RsttoWallpaperManager *self);
 gint
 rstto_wallpaper_manager_configure_dialog_run (
         RsttoWallpaperManager *self,
-        GFile *file);
+        RsttoFile *file);
 
 gboolean
 rstto_wallpaper_manager_set (
         RsttoWallpaperManager *self,
-        GFile *file);
+        RsttoFile *file);
 
 G_END_DECLS
 

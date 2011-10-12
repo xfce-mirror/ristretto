@@ -23,12 +23,13 @@
 
 #include <libexif/exif-data.h>
 
+#include "file.h"
 #include "image_list.h"
 #include "thumbnail.h"
 
 struct _RsttoThumbnailPriv
 {
-    GFile       *file;
+    RsttoFile   *file;
     GdkPixbuf   *pixbuf;
     GdkPixbuf   *thumb_pixbuf;
     gchar       *thumbnail_path;
@@ -275,12 +276,11 @@ rstto_thumbnail_paint(RsttoThumbnail *thumb)
 }
 
 GtkWidget *
-rstto_thumbnail_new (GFile *file)
+rstto_thumbnail_new (RsttoFile *file)
 {
-    gchar *file_basename;
-    gchar *filename;
-    gchar *file_uri;
+    const gchar *file_uri;
     gchar *file_uri_checksum;
+    gchar *filename;
 
     RsttoThumbnail *thumb;
 
@@ -291,23 +291,20 @@ rstto_thumbnail_new (GFile *file)
     thumb->priv->file = file ;
     g_object_ref (file);
 
-    file_basename = g_file_get_basename (file);
-    file_uri = g_file_get_uri (file);
+    file_uri = rstto_file_get_uri (file);
     file_uri_checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, file_uri, strlen (file_uri));
     filename = g_strconcat (file_uri_checksum, ".png", NULL);
 
     thumb->priv->thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", filename, NULL);
 
-    gtk_widget_set_tooltip_text(GTK_WIDGET(thumb), file_basename);
+    gtk_widget_set_tooltip_text(GTK_WIDGET(thumb), rstto_file_get_display_name (file));
 
-    g_free (file_basename);
-    g_free (file_uri);
     g_free (file_uri_checksum);
-
+    g_free (filename);
     return GTK_WIDGET(thumb);
 }
 
-GFile *
+RsttoFile *
 rstto_thumbnail_get_file (RsttoThumbnail *thumb)
 {
     return thumb->priv->file;

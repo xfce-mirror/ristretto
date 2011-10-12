@@ -22,6 +22,7 @@
 #include <libxfce4util/libxfce4util.h>
 
 #include "settings.h"
+#include "file.h"
 #include "properties_dialog.h"
 
 static void
@@ -47,7 +48,7 @@ rstto_properties_dialog_get_property (
 static void
 properties_dialog_set_file (
         RsttoPropertiesDialog *dialog,
-        GFile *file);
+        RsttoFile *file);
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -59,7 +60,7 @@ enum
 
 struct _RsttoPropertiesDialogPriv
 {
-    GFile *file;
+    RsttoFile *file;
     RsttoSettings *settings;
 
     GtkWidget *name_entry;
@@ -301,7 +302,7 @@ rstto_properties_dialog_class_init (GObjectClass *object_class)
     pspec = g_param_spec_object ("file",
                                  "",
                                  "",
-                                 G_TYPE_FILE,
+                                 RSTTO_TYPE_FILE,
                                  G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_FILE,
@@ -354,35 +355,22 @@ rstto_properties_dialog_get_property (
 static void
 properties_dialog_set_file (
         RsttoPropertiesDialog *dialog,
-        GFile *file)
+        RsttoFile *file)
 {
-    GFileInfo *file_info = NULL;
     gchar *description;
 
     dialog->priv->file = file;
 
     if (dialog->priv->file)
     {
-        file_info = g_file_query_info (
-                dialog->priv->file,
-                "standard::content-type,standard::edit-name,standard::size,time::modified,time_accessed",
-                0,
-                NULL,
-                NULL);
-        description = g_content_type_get_description (
-                g_file_info_get_attribute_string (
-                        file_info,
-                        "standard::content-type")
-                );
+        description = g_content_type_get_description (rstto_file_get_content_type (file));
         gtk_label_set_text (
                 GTK_LABEL (dialog->priv->mime_content_label),
                 description
                 );
         gtk_entry_set_text (
                 GTK_ENTRY (dialog->priv->name_entry),
-                g_file_info_get_attribute_string (
-                        file_info,
-                        "standard::edit-name")
+                rstto_file_get_display_name (file)
                 );
         g_free (description);
     }
@@ -395,9 +383,9 @@ properties_dialog_set_file (
 GtkWidget *
 rstto_properties_dialog_new (
         GtkWindow *parent,
-        GFile *file)
+        RsttoFile *file)
 {
-    gchar *title = g_strdup_printf (_("%s - Properties"), g_file_get_basename(file));
+    gchar *title = g_strdup_printf (_("%s - Properties"), rstto_file_get_display_name (file));
     GtkWidget *dialog = g_object_new (RSTTO_TYPE_PROPERTIES_DIALOG,
                                       "title", title,
                                       "icon-name", GTK_STOCK_PROPERTIES,

@@ -10,14 +10,14 @@ ristretto_SOURCES = \
 	main_window_ui.h \
 	main_window.c main_window.h \
 	wallpaper_manager.c wallpaper_manager.h \
-    monitor_chooser.c monitor_chooser.h \
+	monitor_chooser.c monitor_chooser.h \
 	xfce_wallpaper_manager.c xfce_wallpaper_manager.h \
-	gnome_wallpaper_manager.c gnome_wallpaper_manager.h \
 	app_menu_item.c app_menu_item.h \
 	thumbnail_bar.c thumbnail_bar.h \
 	thumbnail.c thumbnail.h \
 	thumbnailer.c thumbnailer.h \
-    marshal.c marshal.h \
+	marshal.c marshal.h \
+	file.c file.h \
 	main.c
 
 ristretto_CFLAGS = \

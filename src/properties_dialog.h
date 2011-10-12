@@ -64,7 +64,7 @@ rstto_properties_dialog_get_type();
 GtkWidget *
 rstto_properties_dialog_new (
         GtkWindow *parent,
-        GFile *file
+        RsttoFile *file
         );
 
 G_END_DECLS
