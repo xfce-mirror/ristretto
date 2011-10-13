@@ -142,6 +142,11 @@ rstto_thumbnail_finalize(GObject *object)
         g_object_unref (thumb->priv->file);
         thumb->priv->file = NULL;
     }
+    if (thumb->priv->thumb_pixbuf)
+    {
+        g_object_unref (thumb->priv->thumb_pixbuf);
+        thumb->priv->thumb_pixbuf = NULL;
+    }
 
 }
 
