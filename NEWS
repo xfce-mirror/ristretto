@@ -1,3 +1,14 @@
+x.x.x
+=====
+- Improve the sorting algorythm for filenames (Bug #6866, #3837)
+- Add Stock-icon to set-wallpaper menu-item (Bug #8025)
+- Improve open-file and close-file behaviour
+- Hide thumbnailbar when no images are opened
+- Add option to merge the 2 toolbars into one
+- Fix memory-leak of the thumbnail pixbuf
+- Make open-entire-folder the default and remove the option from
+  the preferences dialog
+
 0.1.1
 =====
 - Fix linking problems against libm
