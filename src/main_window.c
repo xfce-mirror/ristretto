@@ -1183,13 +1183,13 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
                 /* Do not make the widget visible when in
                  * fullscreen mode.
                  */
-                if ( 0 == gdk_window_get_state (GTK_WIDGET
-(window)->window) & GDK_WINDOW_STATE_FULLSCREEN )
+                if ( 0 == (gdk_window_get_state (GTK_WIDGET
+(window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
                 {
-            gtk_widget_show (
-                gtk_ui_manager_get_widget (
-                        window->priv->ui_manager,
-                        "/file-toolbar"));
+                    gtk_widget_show (
+                        gtk_ui_manager_get_widget (
+                                window->priv->ui_manager,
+                                "/file-toolbar"));
                 }
             }
         }
