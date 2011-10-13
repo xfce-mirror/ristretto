@@ -25,6 +25,8 @@
 #include <gio/gio.h>
 #include <dbus/dbus-glib.h>
 
+#include <libexif/exif-data.h>
+
 #include "file.h"
 #include "thumbnail.h"
 #include "thumbnailer.h"

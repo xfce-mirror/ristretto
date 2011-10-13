@@ -99,7 +99,6 @@ struct _RsttoMainWindowPriv
     GtkWidget *forward;
 
     guint      t_open_merge_id;
-    guint      t_open_folder_merge_id;
     guint      recent_merge_id;
     guint      play_merge_id;
     guint      pause_merge_id;
@@ -188,15 +187,11 @@ cb_rstto_main_window_last_image (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window);
 static void
-cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window);
-static void
 cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window);
-static void
-cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window);
 static void
@@ -281,11 +276,9 @@ static GtkActionEntry action_entries[] =
 /* File Menu */
   { "file-menu", NULL, N_ ("_File"), NULL, },
   { "open", "document-open", N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
-  { "open-folder", "folder-open", N_ ("Open _Folder"), NULL, N_ ("Open a folder"), G_CALLBACK (cb_rstto_main_window_open_folder), },
   { "save-copy", GTK_STOCK_SAVE_AS, N_ ("_Save copy"), "<control>s", N_ ("Save a copy of the image"), G_CALLBACK (cb_rstto_main_window_save_copy), },
   { "properties", GTK_STOCK_PROPERTIES, N_ ("_Properties"), NULL, N_ ("Show file properties"), G_CALLBACK (cb_rstto_main_window_properties), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
-  { "close-all", NULL, N_ ("_Close All"), NULL, N_ ("Close all images"), G_CALLBACK (cb_rstto_main_window_close_all), },
   { "quit", GTK_STOCK_QUIT, N_ ("_Quit"), "<control>Q", N_ ("Quit Ristretto"), G_CALLBACK (cb_rstto_main_window_quit), },
 /* Edit Menu */
   { "edit-menu", NULL, N_ ("_Edit"), NULL, },
@@ -885,12 +878,18 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 
             app_list = g_app_info_get_all_for_type (content_type);
 
-            for (iter = app_list; iter; iter = g_list_next (iter))
+            if (NULL != app_list)
             {
-                GtkWidget *menu_item = rstto_app_menu_item_new (iter->data, rstto_file_get_file (cur_file));
-                gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
-                menu_item = rstto_app_menu_item_new (iter->data, rstto_file_get_file (cur_file));
-                gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
+		for (iter = app_list; iter; iter = g_list_next (iter))
+		{
+		    GtkWidget *menu_item = rstto_app_menu_item_new (iter->data, rstto_file_get_file (cur_file));
+		    gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
+		    menu_item = rstto_app_menu_item_new (iter->data, rstto_file_get_file (cur_file));
+		    gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
+		}
+            }
+            else
+            {
             }
 
             gtk_widget_show_all (open_with_menu);
@@ -968,7 +967,6 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             */
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/properties"), FALSE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close"), FALSE);
-            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close-all"), FALSE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), FALSE);
 
             /* Go Menu */
@@ -1033,7 +1031,6 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             */
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/properties"), TRUE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close"), TRUE);
-            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close-all"), FALSE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), TRUE);
 
             /* Go Menu */
@@ -1100,7 +1097,6 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             */
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/properties"), TRUE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close"), TRUE);
-            gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/close-all"), TRUE);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), TRUE);
 
             /* Go Menu */
@@ -1161,10 +1157,6 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
         gtk_widget_show (
             gtk_ui_manager_get_widget (
                     window->priv->ui_manager,
-                    "/navigation-toolbar/open-folder"));
-        gtk_widget_show (
-            gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
                     "/navigation-toolbar/save-copy"));
         gtk_widget_show (
             gtk_ui_manager_get_widget (
@@ -1186,10 +1178,20 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
                 window->priv->settings_manager,
                 "show-file-toolbar") )
         {
+            if ( GTK_WIDGET_VISIBLE (window) )
+            {
+                /* Do not make the widget visible when in
+                 * fullscreen mode.
+                 */
+                if ( 0 == gdk_window_get_state (GTK_WIDGET
+(window)->window) & GDK_WINDOW_STATE_FULLSCREEN )
+                {
             gtk_widget_show (
                 gtk_ui_manager_get_widget (
                         window->priv->ui_manager,
                         "/file-toolbar"));
+                }
+            }
         }
         if (FALSE == rstto_settings_get_boolean_property (
                 window->priv->settings_manager,
@@ -1206,10 +1208,6 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             gtk_ui_manager_get_widget (
                     window->priv->ui_manager,
                     "/navigation-toolbar/open"));
-        gtk_widget_hide (
-            gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/navigation-toolbar/open-folder"));
         gtk_widget_hide (
             gtk_ui_manager_get_widget (
                     window->priv->ui_manager,
@@ -1562,7 +1560,13 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
             gtk_widget_show (window->priv->statusbar);
 
             if (rstto_settings_get_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-file-toolbar"))
-                gtk_widget_show (window->priv->toolbar);
+            {
+                if (FALSE == rstto_settings_get_boolean_property (RSTTO_SETTINGS
+(window->priv->settings_manager), "merge-toolbars"))
+                {
+                    gtk_widget_show (window->priv->toolbar);
+                }
+            }
 
             if (rstto_settings_get_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-nav-toolbar"))
                 gtk_widget_show (window->priv->image_list_toolbar);
@@ -2140,10 +2144,17 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *dialog, *err_dialog;
     gint response;
     GFile *file;
+    GFile *p_file;
+    GFileEnumerator *file_enumarator = NULL;
     GSList *files = NULL, *_files_iter;
     GValue current_uri_val = {0, };
     gint pos = 0;
     GtkFileFilter *filter;
+    GFileInfo *file_info;
+    const gchar *filename;
+    const gchar *content_type;
+    GFile *child_file;
+    RsttoFile *rfile;
 
     g_value_init (&current_uri_val, G_TYPE_STRING);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
@@ -2210,29 +2221,30 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
         }
         else
         {
-
-            if (rstto_image_list_add_file (window->priv->props.image_list, files->data, NULL) == FALSE)
+            rfile = rstto_file_new (files->data);
+            g_object_ref (rfile);
+            if (rstto_image_list_add_file (window->priv->props.image_list, rfile, NULL) == TRUE )
             {
-                err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
-                                                GTK_DIALOG_MODAL,
-                                                GTK_MESSAGE_ERROR,
-                                                GTK_BUTTONS_OK,
-                                                _("Could not open file"));
-                gtk_dialog_run(GTK_DIALOG(dialog));
-                gtk_widget_destroy(dialog);
+                rstto_image_list_remove_all (window->priv->props.image_list);
+                rstto_image_list_add_file (window->priv->props.image_list, rfile, NULL);
             }
-            else
+            p_file = g_file_get_parent (files->data);
+            file_enumarator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
+            for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
             {
-                /* Add a reference to the file, it is owned by the
-                 * sourcefunc and will be unref-ed by it.
-                 */
-                g_object_ref (files->data);
-                g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, files->data, NULL);
+                filename = g_file_info_get_name (file_info);
+                content_type  = g_file_info_get_content_type (file_info);
+                child_file = g_file_get_child (p_file, filename);
+                if (strncmp (content_type, "image/", 6) == 0)
+                {
+                    rstto_image_list_add_file (window->priv->props.image_list, rstto_file_new (child_file), NULL);
+                }
             }
         }
-
-        if (pos == -1)
-            rstto_image_list_iter_set_position (window->priv->iter, 0);
+        rstto_image_list_iter_find_file (
+                window->priv->iter,
+                rfile );
+ 
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
 
@@ -2246,91 +2258,6 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     {
         g_slist_foreach (files, (GFunc)g_object_unref, NULL);
         g_slist_free (files);
-    }
-}
-
-/**
- * cb_rstto_main_window_open_folder:
- * @widget:
- * @window:
- *
- *
- */
-static void
-cb_rstto_main_window_open_folder (GtkWidget *widget, RsttoMainWindow *window)
-{
-    gint response;
-    GFile *file = NULL, *child_file = NULL;
-    GFileEnumerator *file_enumarator = NULL;
-    GFileInfo *file_info = NULL;
-    const gchar *filename = NULL;
-    const gchar *content_type = NULL;
-    gint pos = 0;
-    GtkWidget *dialog;
-    gchar *current_uri = rstto_settings_get_string_property (RSTTO_SETTINGS (window->priv->settings_manager), "current-uri");
-
-    dialog = gtk_file_chooser_dialog_new(_("Open folder"),
-                                                    GTK_WINDOW(window),
-                                                    GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                                    GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-                                                    NULL);
-
-    if (current_uri)
-    {
-        gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), current_uri);
-        g_free (current_uri);
-        current_uri = NULL;
-    }
-
-    response = gtk_dialog_run(GTK_DIALOG(dialog));
-    if(response == GTK_RESPONSE_ACCEPT)
-    {
-        gtk_widget_hide(dialog);
-        file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
-
-        file_enumarator = g_file_enumerate_children (file, "standard::*", 0, NULL, NULL);
-        pos = rstto_image_list_iter_get_position (window->priv->iter);
-        for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
-        {
-            filename = g_file_info_get_name (file_info);
-            content_type  = g_file_info_get_content_type (file_info);
-            child_file = g_file_get_child (file, filename);
-
-            if (strncmp (content_type, "image/", 6) == 0)
-            {
-                rstto_image_list_add_file (window->priv->props.image_list,rstto_file_new(child_file), NULL);
-            }
-
-            g_object_unref (child_file);
-            g_object_unref (file_info);
-        }
-
-        if (-1 == pos)
-        {
-            rstto_image_list_iter_set_position (window->priv->iter, 0);
-        }
-
-        /* Add a reference to the file, it is owned by the
-         * sourcefunc and will be unref-ed by it.
-         */
-        g_object_ref (file);
-        g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files,
-        file, NULL);
-
-        rstto_settings_set_string_property (RSTTO_SETTINGS (window->priv->settings_manager),
-                                            "current-uri",
-                                            gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
-    }
-
-    gtk_widget_destroy(dialog);
-
-    rstto_main_window_update_buttons (window);
-    rstto_main_window_image_list_iter_changed (window);
-
-    if (file)
-    {
-        g_object_unref (file);
     }
 }
 
@@ -2349,56 +2276,37 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     const gchar *content_type = NULL;
     GError *error = NULL;
     GFile *file = g_file_new_for_uri (uri);
-    GFile *child_file;
+    GFile *child_file, *p_file;
     GFileEnumerator *file_enumarator = NULL;
     GFileInfo *child_file_info = NULL;
     GFileInfo *file_info = g_file_query_info (file, "standard::type", 0, NULL, &error);
     gint pos = 0;
+    RsttoFile *rfile;
 
     if (error == NULL)
     {
-        if (g_file_info_get_file_type (file_info) == G_FILE_TYPE_DIRECTORY)
-        {
-            pos = rstto_image_list_iter_get_position(window->priv->iter);
-            file_enumarator = g_file_enumerate_children (file, "standard::*", 0, NULL, NULL);
-            for(child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); child_file_info != NULL; child_file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
-            {
-                filename = g_file_info_get_name (child_file_info);
-                content_type  = g_file_info_get_content_type (child_file_info);
-                child_file = g_file_get_child (file, filename);
-
-                if (strncmp (content_type, "image/", 6) == 0)
-                {
-                    rstto_image_list_add_file (window->priv->props.image_list, rstto_file_new(child_file), NULL);
-                }
-
-                g_object_unref (child_file);
-                g_object_unref (child_file_info);
-            }
-
-            if (-1 == pos)
-            {
-                rstto_image_list_iter_set_position (window->priv->iter, 0);
-            }
-
-            rstto_main_window_image_list_iter_changed (window);
-        }
-        else
-        {
-            if (rstto_image_list_add_file (window->priv->props.image_list, rstto_file_new(file), NULL) == FALSE)
-            {
-                err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
-                                                GTK_DIALOG_MODAL,
-                                                GTK_MESSAGE_ERROR,
-                                                GTK_BUTTONS_OK,
-                                                _("Could not open file"));
-                gtk_dialog_run( GTK_DIALOG(err_dialog));
-                gtk_widget_destroy(err_dialog);
-            }
-            else
-            {
-            }
-        }
+	rfile = rstto_file_new (file);
+	g_object_ref (rfile);
+	if (rstto_image_list_add_file (window->priv->props.image_list, rfile, NULL) == TRUE )
+	{
+	    rstto_image_list_remove_all (window->priv->props.image_list);
+	    rstto_image_list_add_file (window->priv->props.image_list, rfile, NULL);
+	}
+	p_file = g_file_get_parent (file);
+	file_enumarator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
+	for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+	{
+	    filename = g_file_info_get_name (file_info);
+	    content_type  = g_file_info_get_content_type (file_info);
+	    child_file = g_file_get_child (p_file, filename);
+	    if (strncmp (content_type, "image/", 6) == 0)
+	    {
+		rstto_image_list_add_file (window->priv->props.image_list, rstto_file_new (child_file), NULL);
+	    }
+	}
+        rstto_image_list_iter_find_file (
+                window->priv->iter,
+                rfile );
     }
     else
     {
@@ -2521,30 +2429,12 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window)
 {
-    RsttoFile *file = rstto_image_list_iter_get_file (window->priv->iter);
-    rstto_image_list_remove_file (window->priv->props.image_list, file);
-
-    rstto_main_window_update_buttons (window);
-    rstto_main_window_image_list_iter_changed (window);
-}
-
-/**
- * cb_rstto_main_window_close_all:
- * @widget:
- * @window:
- *
- *
- */
-static void
-cb_rstto_main_window_close_all (GtkWidget *widget, RsttoMainWindow *window)
-{
     rstto_image_list_remove_all (window->priv->props.image_list);
     rstto_main_window_image_list_iter_changed (window);
 
     rstto_main_window_update_buttons (window);
     rstto_main_window_image_list_iter_changed (window);
 }
-
 
 /**
  * cb_rstto_main_window_delete:

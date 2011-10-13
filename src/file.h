@@ -83,6 +83,13 @@ rstto_file_get_uri ( RsttoFile * );
 const gchar *
 rstto_file_get_content_type ( RsttoFile * );
 
+guint64
+rstto_file_get_modified_time ( RsttoFile *);
+
+gchar *
+rstto_file_get_exif ( RsttoFile *, ExifTag );
+
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_FILE_H__ */

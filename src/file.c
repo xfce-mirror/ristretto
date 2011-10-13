@@ -21,6 +21,8 @@
 #include <glib.h>
 #include <gio/gio.h>
 
+#include <libexif/exif-data.h>
+
 #include <libxfce4util/libxfce4util.h>
 
 #include "file.h"
@@ -93,6 +95,11 @@ struct _RsttoFilePriv
 
     gchar *display_name;
     gchar *content_type;
+
+    gchar *uri;
+    gchar *path;
+
+    ExifData *exif_data;
 };
 
 
@@ -145,6 +152,16 @@ rstto_file_dispose (GObject *object)
         {
             g_free (file->priv->content_type);
             file->priv->content_type = NULL;
+        }
+        if (file->priv->path)
+        {
+            g_free (file->priv->path);
+            file->priv->path = NULL;
+        }
+        if (file->priv->uri)
+        {
+            g_free (file->priv->uri);
+            file->priv->uri = NULL;
         }
 
         g_free (file->priv);
@@ -265,13 +282,21 @@ rstto_file_get_display_name ( RsttoFile *file )
 const gchar *
 rstto_file_get_path ( RsttoFile *file )
 {
-    return g_file_get_path (file->priv->file);
+    if ( NULL == file->priv->path )
+    {
+        file->priv->path = g_file_get_path (file->priv->file);
+    }
+    return (const gchar *)file->priv->path;
 }
 
 const gchar *
 rstto_file_get_uri ( RsttoFile *file )
 {
-    return g_file_get_uri (file->priv->file);
+    if ( NULL == file->priv->uri )
+    {
+        file->priv->uri = g_file_get_uri (file->priv->file);
+    }
+    return (const gchar *)file->priv->uri;
 }
 
 const gchar *
@@ -300,4 +325,49 @@ rstto_file_get_content_type ( RsttoFile *file )
     }
 
     return (const gchar *)file->priv->content_type;
+}
+
+guint64
+rstto_file_get_modified_time ( RsttoFile *file )
+{
+    guint64 time = 0;
+    GFileInfo *file_info = g_file_query_info (file->priv->file, "time::modified", 0, NULL, NULL);
+
+    time = g_file_info_get_attribute_uint64 ( file_info, "time::modified" );
+
+    g_object_unref (file_info);
+
+    return time;
+}
+
+gchar *
+rstto_file_get_exif ( RsttoFile *file, ExifTag id )
+{
+    gchar *val = NULL;
+    ExifEntry *exif_entry = NULL;
+
+    /* If there is no exif-data object, try to create it */
+    if ( NULL == file->priv->exif_data )
+    {
+        file->priv->exif_data = exif_data_new_from_file ( rstto_file_get_path (file) );
+    }
+    if ( NULL != file->priv->exif_data )
+    {
+        exif_entry = exif_data_get_entry (
+                file->priv->exif_data,
+                id );
+        if ( NULL != exif_entry )
+        {
+            switch ( id )
+            {
+                default:
+                    val = g_new0 (gchar, 20);
+                    exif_entry_get_value (exif_entry, val, 20);
+                    break;
+            }
+        }
+
+    }
+
+    return val;
 }

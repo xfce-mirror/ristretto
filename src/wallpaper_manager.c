@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 
+#include <libexif/exif-data.h>
+
 #include "file.h"
 #include "wallpaper_manager.h"
 

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) Stephan Arts 2006-2010 <stephan@xfce.org>
+ *  Copyright (c) Stephan Arts 2006-2011 <stephan@xfce.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -46,7 +46,6 @@ typedef struct {
     gchar **argv;
     gint iter;
     GtkWidget *window;
-    gboolean open_entire_folder;
 } RsttoOpenFiles;
 
 static gboolean
@@ -118,7 +117,6 @@ main(int argc, char **argv)
         rof.argc = argc;
         rof.argv = argv;
     	rof.iter = 1;
-        rof.open_entire_folder = rstto_settings_get_boolean_property (settings, "open-entire-folder");
         rof.window = window;
 
         g_idle_add ((GSourceFunc )cb_rstto_open_files, &rof);
@@ -155,21 +153,14 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
     GFileEnumerator *file_enumarator = NULL;
 
-    if ((rof->argc > 2) || (rof->open_entire_folder == FALSE))
+    if (rof->argc > 2)
     {
         if (rof->iter < rof->argc)
         {
             file = g_file_new_for_commandline_arg (rof->argv[rof->iter]);
             if (file)
             {
-                if (rof->open_entire_folder) 
-                {
-                    file_info = g_file_query_info (file, "standard::content-type,standard::type", 0, NULL, NULL);
-                }
-                else
-                {
-                    file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
-                }
+                file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
 
                 if (file_info)
                 {
@@ -183,30 +174,6 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
                         }
                     }
 
-                    if (rof->open_entire_folder) 
-                    {
-                        file_type = g_file_info_get_file_type(file_info);
-                        if (file_type == G_FILE_TYPE_DIRECTORY)
-                        {
-                            rstto_main_window_add_file_to_recent_files (file);
-
-                            file_enumarator = g_file_enumerate_children (file, "standard::*", 0, NULL, NULL);
-                            for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
-                            {
-                                filename = g_file_info_get_name (file_info);
-                                content_type  = g_file_info_get_content_type (file_info);
-                                child_file = g_file_get_child (file, filename);
-
-                                if (strncmp (content_type, "image/", 6) == 0)
-                                {
-                                    rstto_image_list_add_file (rof->image_list, rstto_file_new(child_file), NULL);
-                                }
-
-                                g_object_unref (child_file);
-                                g_object_unref (file_info);
-                            }
-                        }
-                    }
                 }
                 g_object_unref (file);
             }
@@ -236,12 +203,6 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
         }
         if (file_type != G_FILE_TYPE_DIRECTORY) {
             p_file = g_file_get_parent (file);
-        }
-        else
-        {
-            rstto_main_window_add_file_to_recent_files (file);
-            p_file = file;
-        }
         file_enumarator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
         for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
         {
@@ -256,6 +217,7 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
             g_object_unref (child_file);
             g_object_unref (file_info);
+        }
         }
     }
     return FALSE;

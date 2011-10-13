@@ -26,6 +26,8 @@
 #include <libxfce4util/libxfce4util.h>
 #include <gio/gio.h>
 
+#include <libexif/exif-data.h>
+
 #include "file.h"
 #include "monitor_chooser.h"
 #include "wallpaper_manager.h"

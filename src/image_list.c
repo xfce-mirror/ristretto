@@ -678,21 +678,12 @@ cb_rstto_image_list_image_name_compare_func (RsttoFile *a, RsttoFile *b)
 static gint
 cb_rstto_image_list_exif_date_compare_func (RsttoFile *a, RsttoFile *b)
 {
-    gint result = 0;
-    GFile *file_a = rstto_file_get_file (a);
-    GFile *file_b = rstto_file_get_file (b);
-    
-    GFileInfo *file_info_a = g_file_query_info (file_a, "time::modified", 0, NULL, NULL);
-    GFileInfo *file_info_b = g_file_query_info (file_b, "time::modified", 0, NULL, NULL);
+    guint64 a_t = rstto_file_get_modified_time (a);
+    guint64 b_t = rstto_file_get_modified_time (b);
 
-    guint64 a_i = g_file_info_get_attribute_uint64(file_info_a, "time::modified");
-    guint64 b_i = g_file_info_get_attribute_uint64(file_info_b, "time::modified");
-    if (a_i > b_i)
-        result = 1;
-    if (a_i < b_i)
-        result = -1;
-
-    g_object_unref (file_info_a);
-    g_object_unref (file_info_b);
-    return result;
+    if (a_t < b_t)
+    {
+        return -1;
+    }
+    return 1;
 }

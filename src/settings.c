@@ -69,7 +69,6 @@ enum
     PROP_SLIDESHOW_TIMEOUT,
     PROP_SCROLLWHEEL_PRIMARY_ACTION,
     PROP_SCROLLWHEEL_SECONDARY_ACTION,
-    PROP_OPEN_ENTIRE_FOLDER,
     PROP_WRAP_IMAGES,
     PROP_THUMBNAILBAR_SIZE,
     PROP_DESKTOP_TYPE,
@@ -171,8 +170,6 @@ rstto_settings_init (GObject *object)
     xfconf_g_property_bind (settings->priv->channel, "/window/height", G_TYPE_UINT, settings, "window-height");
 
     xfconf_g_property_bind (settings->priv->channel, "/file/current-uri", G_TYPE_STRING, settings, "current-uri");
-    xfconf_g_property_bind (settings->priv->channel, "/file/open-entire-folder", G_TYPE_BOOLEAN, settings, "open-entire-folder");
-
     xfconf_g_property_bind (settings->priv->channel, "/window/show-file-toolbar", G_TYPE_BOOLEAN, settings, "show-file-toolbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/show-navigation-toolbar", G_TYPE_BOOLEAN, settings, "show-nav-toolbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/show-thumbnailbar", G_TYPE_BOOLEAN, settings, "show-thumbnailbar");
@@ -279,15 +276,6 @@ rstto_settings_class_init (GObjectClass *object_class)
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_HIDE_THUMBNAILBAR_FULLSCREEN,
-                                     pspec);
-
-    pspec = g_param_spec_boolean ("open-entire-folder",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_OPEN_ENTIRE_FOLDER,
                                      pspec);
 
     pspec = g_param_spec_string  ("navigationbar-position",
@@ -533,9 +521,6 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_HIDE_THUMBNAILBAR_FULLSCREEN:
             settings->priv->hide_thumbnailbar_fullscreen = g_value_get_boolean (value);
             break;
-        case PROP_OPEN_ENTIRE_FOLDER:
-            settings->priv->open_entire_folder= g_value_get_boolean (value);
-            break;
         case PROP_NAVBAR_POSITION:
             str_val = g_value_get_string (value);
 
@@ -641,9 +626,6 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_HIDE_THUMBNAILBAR_FULLSCREEN:
             g_value_set_boolean (value, settings->priv->hide_thumbnailbar_fullscreen);
-            break;
-        case PROP_OPEN_ENTIRE_FOLDER:
-            g_value_set_boolean (value, settings->priv->open_entire_folder);
             break;
         case PROP_NAVBAR_POSITION:
             g_value_set_string (value, settings->priv->navigationbar_position);

@@ -6,7 +6,6 @@
     <menubar name="main-menu">
         <menu action="file-menu">
             <menuitem action="open"/>
-            <menuitem action="open-folder"/>
             <placeholder name="placeholder-open-recent"/>
             <separator/>
             <menuitem action="save-copy"/>
@@ -17,7 +16,6 @@
             <separator/>
             <menuitem action="properties"/>
             <menuitem action="close"/>
-            <menuitem action="close-all"/>
             <menuitem action="quit"/>
         </menu>
         <menu action="edit-menu">
@@ -92,7 +90,6 @@
 
     <popup name="image-viewer-menu">
         <menuitem action="open"/>
-        <menuitem action="open-folder"/>
         <menuitem action="properties"/>
         <menuitem action="close"/>
         <separator/>
@@ -111,7 +108,6 @@
     -->
     <toolbar name="file-toolbar">
         <toolitem action="open"/>
-        <toolitem action="open-folder"/>
         <separator />
         <toolitem action="save-copy"/>
         <toolitem action="close"/>
@@ -124,7 +120,6 @@
     -->
     <toolbar name="navigation-toolbar">
         <toolitem action="open"/>
-        <toolitem action="open-folder"/>
         <separator />
         <toolitem action="save-copy"/>
         <toolitem action="close"/>
