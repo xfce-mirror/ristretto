@@ -497,7 +497,7 @@ msgstr "<b>Modificado:</b>"
 
 #: ../src/properties_dialog.c:152
 msgid "<b>Accessed:</b>"
-msgstr "<b>Acedido:</b>"
+msgstr "<b>Acedida:</b>"
 
 #: ../src/properties_dialog.c:153
 msgid "<b>Size:</b>"
