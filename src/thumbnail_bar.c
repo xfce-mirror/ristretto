@@ -939,5 +939,6 @@ static void
 cb_rstto_thumbnail_bar_thumbnail_clicked (GtkWidget *thumb, RsttoThumbnailBar *bar)
 {
     g_return_if_fail (bar->priv->iter);
-    rstto_image_list_iter_set_position (bar->priv->iter, g_list_index(bar->priv->thumbs, thumb));
+    RsttoFile *file = rstto_thumbnail_get_file (RSTTO_THUMBNAIL(thumb));
+    rstto_image_list_iter_find_file (bar->priv->iter, file);
 }
