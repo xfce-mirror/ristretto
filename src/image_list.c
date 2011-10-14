@@ -634,7 +634,11 @@ cb_rstto_image_list_image_name_compare_func (RsttoFile *a, RsttoFile *b)
     }
 
     /* If both strings are equal, we're done */
-    if (ac != bc)
+    if (ac == bc)
+    {
+        return 0;
+    }
+    else
     {
         if (G_UNLIKELY (g_ascii_isdigit (ac) || g_ascii_isdigit (bc)))
         {
@@ -658,7 +662,7 @@ cb_rstto_image_list_image_name_compare_func (RsttoFile *a, RsttoFile *b)
     {
         if (ac > bc)
             result = 1;
-        else
+        if (ac < bc)
             result = -1;
     }
 
