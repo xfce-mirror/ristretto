@@ -10,10 +10,12 @@ src/stamp-marshal.h
 autom4te.cache
 INSTALL
 aclocal.m4
+config.guess
 config.h
 config.h.in
 config.log
 config.status
+config.sub
 configure
 configure.in
 depcomp
