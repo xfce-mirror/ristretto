@@ -2,7 +2,7 @@
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the Ristretto package.
 # Per Kongstad <p_kongstad@op.pl>, 2008, 2009.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.90\n"
@@ -11,10 +11,10 @@ msgstr ""
 "PO-Revision-Date: 2010-01-15 12:00+0100\n"
 "Last-Translator: Per Kongstad <p_kongstad@op.pl>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
-"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
 "X-Poedit-Language: Danish\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Country: DENMARK\n"
@@ -214,9 +214,8 @@ msgid "_Position"
 msgstr "_Placering"
 
 #: ../src/main_window.c:328
-#, fuzzy
 msgid "Thumbnailbar _Position"
-msgstr "Miniaturer"
+msgstr "Miniaturbjælke_position"
 
 #. Misc
 #: ../src/main_window.c:330
@@ -381,16 +380,15 @@ msgstr "Baggrundsfarve"
 
 #: ../src/preferences_dialog.c:195
 msgid "Toolbars"
-msgstr ""
+msgstr "Værktøjsbjælke"
 
 #: ../src/preferences_dialog.c:200
 msgid "Override background color:"
 msgstr "Tilsidesæt baggrundsfarve:"
 
 #: ../src/preferences_dialog.c:211
-#, fuzzy
 msgid "Merge toolbars"
-msgstr "Tidsrum der skal ryddes:"
+msgstr "Forén værktøjsbjælker"
 
 #: ../src/preferences_dialog.c:239
 msgid "Slideshow"
@@ -453,9 +451,8 @@ msgid "Startup"
 msgstr "Opstart"
 
 #: ../src/preferences_dialog.c:311
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Tilpas vindue til billede ved opstart"
+msgstr "Maksimér vindue ved opstart når et billede åbnes"
 
 #: ../src/preferences_dialog.c:317
 msgid "Wrap around images"
