@@ -112,23 +112,30 @@
         <toolitem action="save-copy"/>
         <toolitem action="close"/>
         <toolitem action="delete"/>
+        <separator name="separator-1"/>
+        <toolitem action="back"/>
+        <placeholder name="placeholder-slideshow" />
+        <toolitem action="forward"/>
+        <separator name="separator-2"/>
+        <toolitem action="rotate-ccw"/>
+        <toolitem action="rotate-cw"/>
         <separator />
+        <toolitem action="zoom-in"/>
+        <toolitem action="zoom-out"/>
+        <toolitem action="zoom-100"/>
+        <toolitem action="zoom-fit"/>
+        <separator />
+        <placeholder name="placeholder-fullscreen" />
     </toolbar>
 
     <!--
 
     -->
     <toolbar name="navigation-toolbar">
-        <toolitem action="open"/>
-        <separator />
-        <toolitem action="save-copy"/>
-        <toolitem action="close"/>
-        <toolitem action="delete"/>
-        <separator name="separator-1"/>
         <toolitem action="back"/>
         <placeholder name="placeholder-slideshow" />
         <toolitem action="forward"/>
-        <separator name="separator-2"/>
+        <separator name="separator-1"/>
         <toolitem action="rotate-ccw"/>
         <toolitem action="rotate-cw"/>
         <separator />
