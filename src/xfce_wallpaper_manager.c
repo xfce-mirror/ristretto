@@ -291,15 +291,12 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
     GdkScreen *screen = gdk_screen_get_default ();
     gint n_monitors = gdk_screen_get_n_monitors (screen);
     GdkRectangle monitor_geometry;
-    GtkWidget *vbox = gtk_dialog_get_content_area (
-            GTK_DIALOG (manager->priv->dialog));
+    GtkWidget *vbox;
     GtkWidget *style_label = gtk_label_new( _("Style:"));
     GtkWidget *brightness_label = gtk_label_new( _("Brightness:"));
     GtkWidget *saturation_label = gtk_label_new( _("Saturation:"));
-    GtkWidget *brightness_slider = gtk_hscale_new (
-            GTK_ADJUSTMENT (manager->priv->brightness_adjustment));
-    GtkWidget *saturation_slider = gtk_hscale_new (
-            GTK_ADJUSTMENT (manager->priv->saturation_adjustment));
+    GtkWidget *brightness_slider;
+    GtkWidget *saturation_slider;
     GtkWidget *image_prop_table = gtk_table_new (3, 2, FALSE);
 
 
@@ -324,6 +321,7 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
             GTK_STOCK_OK,
             GTK_RESPONSE_OK,
             NULL);
+    vbox = gtk_dialog_get_content_area ( GTK_DIALOG (manager->priv->dialog));
     manager->priv->brightness_adjustment = gtk_adjustment_new (
             0.0,
             -128.0,
@@ -338,6 +336,10 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
             0.1,
             0.5,
             0.0);
+    brightness_slider = gtk_hscale_new (
+            GTK_ADJUSTMENT (manager->priv->brightness_adjustment));
+    saturation_slider = gtk_hscale_new (
+            GTK_ADJUSTMENT (manager->priv->saturation_adjustment));
     manager->priv->monitor_chooser = rstto_monitor_chooser_new ();
     manager->priv->style_combo = gtk_combo_box_new_text();
 
