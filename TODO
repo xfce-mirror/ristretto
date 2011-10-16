@@ -16,4 +16,6 @@
 
  - Write documentation
 
+ - Refactor main-window code, it is a mess.
+
  - ... whatever pops up on http://bugs.xfce.org/
