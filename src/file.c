@@ -167,8 +167,7 @@ rstto_file_dispose (GObject *object)
         g_free (file->priv);
         file->priv = NULL;
 
-	open_files = g_list_remove_all (open_files, file);
-    	g_debug ("Open files: %d", g_list_length (open_files));
+        open_files = g_list_remove_all (open_files, file);
     }
 }
 
