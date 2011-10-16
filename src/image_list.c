@@ -655,6 +655,20 @@ cb_rstto_image_list_image_name_compare_func (RsttoFile *a, RsttoFile *b)
                 if (a_num > b_num)
                     result = 1;
             }
+
+            if (ap > a_base &&
+                bp > b_base &&
+                g_ascii_isdigit (*(ap -1)) &&
+                g_ascii_isdigit (*(bp -1)) )
+            {
+                a_num = strtoul (ap-1, NULL, 10); 
+                b_num = strtoul (bp-1, NULL, 10); 
+
+                if (a_num < b_num)
+                    result = -1;
+                if (a_num > b_num)
+                    result = 1;
+            }
         }
     }
 
