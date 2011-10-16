@@ -55,7 +55,6 @@ rstto_wallpaper_manager_set (
 static void
 rstto_wallpaper_manager_iface_init (gpointer g_iface)
 {
-    RsttoWallpaperManagerIface *iface = (RsttoWallpaperManagerIface *)g_iface;
 }
 
 

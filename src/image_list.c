@@ -23,6 +23,7 @@
 #include <gtk/gtk.h>
 #include <gtk/gtkmarshal.h>
 
+#include <stdlib.h>
 #include <string.h>
 
 #include <libexif/exif-data.h>

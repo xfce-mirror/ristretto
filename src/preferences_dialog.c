@@ -149,14 +149,12 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gboolean bool_bgcolor_override;
     guint uint_slideshow_timeout;
     gboolean bool_hide_thumbnailbar_fullscreen;
-    gboolean bool_show_preview;
     gboolean bool_wrap_images;
     gboolean bool_maximize_on_startup;
     gboolean bool_merge_toolbars;
 
     GdkColor *bgcolor;
     GtkWidget *timeout_lbl, *timeout_hscale;
-    GtkObject *cache_adjustment;
     GtkWidget *display_main_vbox;
     GtkWidget *display_main_lbl;
     GtkWidget *slideshow_main_vbox;
@@ -165,8 +163,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *control_main_lbl;
     GtkWidget *behaviour_main_vbox;
     GtkWidget *behaviour_main_lbl;
-    GtkWidget *cache_main_vbox;
-    GtkWidget *cache_main_lbl;
     GtkWidget *notebook = gtk_notebook_new ();
 
 

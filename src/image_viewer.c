@@ -139,8 +139,6 @@ rstto_image_viewer_paint (GtkWidget *widget);
 
 static void
 rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerMotionState state);
-static RsttoImageViewerMotionState
-rstto_image_viewer_get_motion_state (RsttoImageViewer *viewer);
 
 static gboolean
 rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *, GtkAdjustment *, GtkAdjustment *);
@@ -503,11 +501,8 @@ rstto_image_viewer_paint (GtkWidget *widget)
     gint box_width, box_height;
 
     /** BELOW THIS LINE THE VARIABLE_NAMES GET MESSY **/
-    GdkColor line_color;
     GdkPixbuf *n_pixbuf = NULL;
-    gint width, height;
     gint x1, x2, y1, y2;
-    gint i, a;
     /** ABOVE THIS LINE THE VARIABLE_NAMES GET MESSY **/
 
     g_value_init (&val_bg_color, GDK_TYPE_COLOR);
@@ -997,6 +992,8 @@ rstto_image_viewer_load_image (
         RsttoFile *file,
         gdouble scale)
 {
+    RsttoImageViewerTransaction *transaction = g_new0 (RsttoImageViewerTransaction, 1);
+
     /*
      * This will first need to return to the 'main' loop before it cleans up after itself.
      * We can forget about the transaction, once it's cancelled, it will clean-up itself. -- (it should)
@@ -1006,8 +1003,6 @@ rstto_image_viewer_load_image (
         g_cancellable_cancel (viewer->priv->transaction->cancellable);
         viewer->priv->transaction = NULL;
     }
-
-    RsttoImageViewerTransaction *transaction = g_new0 (RsttoImageViewerTransaction, 1);
 
     transaction->loader = gdk_pixbuf_loader_new();
     transaction->cancellable = g_cancellable_new();
@@ -1211,12 +1206,6 @@ static void
 rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerMotionState state)
 {
     viewer->priv->motion.state = state;
-}
-
-static RsttoImageViewerMotionState
-rstto_image_viewer_get_motion_state (RsttoImageViewer *viewer)
-{
-    return viewer->priv->motion.state;
 }
 
 /*
@@ -1772,6 +1761,8 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
                     g_object_unref (tmp_pixbuf);
                     tmp_pixbuf = tmp_pixbuf2;
                     break;
+                case RSTTO_IMAGE_VIEWER_ORIENT_NONE:
+                    break;
             }
 
             viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (tmp_pixbuf,
@@ -2070,7 +2061,6 @@ rstto_button_press_event (
         {
             if (!(event->state & (GDK_CONTROL_MASK)))
             {
-                GtkWidget *widget = GTK_WIDGET(viewer);
                 GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
                 gdk_window_set_cursor(widget->window, cursor);
                 gdk_cursor_unref(cursor);
@@ -2079,7 +2069,6 @@ rstto_button_press_event (
 
             if (event->state & GDK_CONTROL_MASK)
             {
-                GtkWidget *widget = GTK_WIDGET(viewer);
                 GdkCursor *cursor = gdk_cursor_new(GDK_UL_ANGLE);
                 gdk_window_set_cursor(widget->window, cursor);
                 gdk_cursor_unref(cursor);
@@ -2123,6 +2112,7 @@ rstto_button_release_event (
     gint pixbuf_y_offset;
     gint width;
     gint height;
+    gdouble tmp_x, tmp_y, scale;
 
     if ( NULL != viewer->priv->dst_pixbuf )
     {
@@ -2204,14 +2194,13 @@ rstto_button_release_event (
                          * Calculate the center of the selection-box.
                          */
 
-                        gdouble tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + (gdouble)box_y + ((gdouble)box_height/ 2) - pixbuf_y_offset) / viewer->priv->scale;
+                        tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + (gdouble)box_y + ((gdouble)box_height/ 2) - pixbuf_y_offset) / viewer->priv->scale;
 
-                        gdouble tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + (gdouble)box_x + ((gdouble)box_width / 2) - pixbuf_x_offset) / viewer->priv->scale;
+                        tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + (gdouble)box_x + ((gdouble)box_width / 2) - pixbuf_x_offset) / viewer->priv->scale;
 
                         /*
                          * Calculate the new scale
                          */
-                        gdouble scale;
                         if ((gtk_adjustment_get_page_size(viewer->hadjustment) / box_width) < 
                             (gtk_adjustment_get_page_size(viewer->vadjustment) / box_height))
                         {

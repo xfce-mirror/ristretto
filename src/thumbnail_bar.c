@@ -250,8 +250,6 @@ rstto_thumbnail_bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     GtkRequisition child_requisition;
     GList *iter = bar->priv->thumbs;
 
-    GFile *file = NULL;
-
 	gtk_widget_style_get(widget, "spacing", &spacing, NULL);
     widget->allocation = *allocation;
 
@@ -397,7 +395,6 @@ rstto_thumbnail_bar_expose(GtkWidget *widget, GdkEventExpose *ex)
 
     GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(widget->window));
     gint border_width = GTK_CONTAINER(bar)->border_width;
-    gint i = 0;
     GdkColor color, dot_color, bar_color;
     color.red= 0;
     color.green= 0;
@@ -938,7 +935,10 @@ cb_rstto_thumbnail_bar_image_list_remove_all (RsttoImageList *image_list, gpoint
 static void
 cb_rstto_thumbnail_bar_thumbnail_clicked (GtkWidget *thumb, RsttoThumbnailBar *bar)
 {
+    RsttoFile *file;
+
     g_return_if_fail (bar->priv->iter);
-    RsttoFile *file = rstto_thumbnail_get_file (RSTTO_THUMBNAIL(thumb));
+
+    file = rstto_thumbnail_get_file (RSTTO_THUMBNAIL(thumb));
     rstto_image_list_iter_find_file (bar->priv->iter, file);
 }

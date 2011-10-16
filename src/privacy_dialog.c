@@ -113,14 +113,14 @@ rstto_privacy_dialog_get_type (void)
             NULL
         };
 
-        rstto_privacy_dialog_type = g_type_register_static (XFCE_TYPE_TITLED_DIALOG, "RsttoPrivacyDialog", &rstto_privacy_dialog_info, 0);
-
         static const GInterfaceInfo recent_chooser_info =
         {
             (GInterfaceInitFunc) rstto_recent_chooser_init,
             NULL,
             NULL
         };
+
+        rstto_privacy_dialog_type = g_type_register_static (XFCE_TYPE_TITLED_DIALOG, "RsttoPrivacyDialog", &rstto_privacy_dialog_info, 0);
 
         g_type_add_interface_static (rstto_privacy_dialog_type, GTK_TYPE_RECENT_CHOOSER, &recent_chooser_info);
     }

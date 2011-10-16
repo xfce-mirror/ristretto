@@ -127,11 +127,9 @@ rstto_monitor_chooser_class_init(RsttoMonitorChooserClass *chooser_class)
 {
     GtkWidgetClass *widget_class;
     GObjectClass *object_class;
-    GtkButtonClass *button_class;
 
     widget_class = (GtkWidgetClass*)chooser_class;
     object_class = (GObjectClass*)chooser_class;
-    button_class = (GtkButtonClass*)chooser_class;
 
     parent_class = g_type_class_peek_parent(chooser_class);
 
@@ -157,7 +155,6 @@ rstto_monitor_chooser_class_init(RsttoMonitorChooserClass *chooser_class)
 static void
 rstto_monitor_chooser_finalize(GObject *object)
 {
-    RsttoMonitorChooser *chooser = RSTTO_MONITOR_CHOOSER(object);
 }
 
 /**
@@ -237,11 +234,6 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
     gint row_width = 0;
     gint id = 0;
 
-    GdkPixbuf *pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default(),
-                                                  "image-missing",
-                                                  128,
-                                                  0,
-                                                  NULL);
     gdk_window_clear (widget->window);
 
     if (g_slist_length (chooser->priv->monitors) > 1)
@@ -513,7 +505,7 @@ paint_monitor ( cairo_t *cr,
 }
 
 GtkWidget *
-rstto_monitor_chooser_new ()
+rstto_monitor_chooser_new ( void )
 {
     RsttoMonitorChooser *chooser;
 
@@ -586,7 +578,7 @@ cb_rstto_button_press_event (
         width = widget->allocation.width*(0.4/((gdouble)row_width+1));
         height = width;
 
-        for (id = 0; id < g_slist_length(chooser->priv->monitors); ++id)
+        for (id = 0; id < (gint)g_slist_length(chooser->priv->monitors); ++id)
         {
             if ( (event->x > ((gdouble)widget->allocation.width/2)+
                                 (((gdouble)widget->allocation.width/2)/

@@ -1,4 +1,4 @@
-x.x.x
+0.2.0
 =====
 - Improve the sorting algorythm for filenames (Bug #6866, #3837)
 - Add Stock-icon to set-wallpaper menu-item (Bug #8025)

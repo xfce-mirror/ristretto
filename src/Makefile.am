@@ -4,7 +4,6 @@ ristretto_SOURCES = \
 	image_list.c image_list.h \
 	image_viewer.c image_viewer.h \
 	settings.c settings.h \
-	privacy_dialog.h privacy_dialog.c \
 	preferences_dialog.h preferences_dialog.c \
 	properties_dialog.h properties_dialog.c \
 	main_window_ui.h \
@@ -18,6 +17,7 @@ ristretto_SOURCES = \
 	thumbnailer.c thumbnailer.h \
 	marshal.c marshal.h \
 	file.c file.h \
+	privacy_dialog.h privacy_dialog.c \
 	main.c
 
 ristretto_CFLAGS = \

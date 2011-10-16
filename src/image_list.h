@@ -126,7 +126,7 @@ rstto_image_list_remove_all (RsttoImageList *image_list);
 void
 rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file);
 gboolean
-rstto_image_list_iter_find_image (RsttoImageListIter *iter, RsttoFile *file);
+rstto_image_list_iter_find_file (RsttoImageListIter *iter, RsttoFile *file);
 
 RsttoImageListIter *rstto_image_list_iter_clone (RsttoImageListIter *iter);
 

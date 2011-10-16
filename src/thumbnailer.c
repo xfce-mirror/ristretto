@@ -173,8 +173,6 @@ rstto_thumbnailer_init (GObject *object)
 static void
 rstto_thumbnailer_class_init (GObjectClass *object_class)
 {
-    GParamSpec *pspec;
-
     RsttoThumbnailerClass *thumbnailer_class = RSTTO_THUMBNAILER_CLASS (
             object_class);
 
@@ -246,8 +244,6 @@ rstto_thumbnailer_set_property (
         const GValue *value,
         GParamSpec   *pspec)
 {
-    RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (object);
-
     switch (property_id)
     {
         default:
@@ -263,8 +259,6 @@ rstto_thumbnailer_get_property (
         GValue     *value,
         GParamSpec *pspec)
 {
-    RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (object);
-
     switch (property_id)
     {
         default:
@@ -420,7 +414,6 @@ cb_rstto_thumbnailer_thumbnail_ready (
     RsttoThumbnail *thumbnail;
     RsttoFile *file;
     GSList *iter = thumbnailer->priv->queue;
-    GSList *prev;
     gint x = 0;
     const gchar *f_uri;
     while (iter)

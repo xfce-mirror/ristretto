@@ -206,18 +206,15 @@ rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
         {
             gint height = gdk_pixbuf_get_height (thumb->priv->pixbuf) - 10;
             gint width = gdk_pixbuf_get_width (thumb->priv->pixbuf) - 10;
-            gdouble scale = 1.0;
             GdkPixbuf *dst_thumb_pixbuf = NULL;
 
             if (gdk_pixbuf_get_width (thumb_pixbuf) > gdk_pixbuf_get_height (thumb_pixbuf))
             {
                 height = (gint)(((gdouble)gdk_pixbuf_get_height (thumb_pixbuf) / (gdouble)gdk_pixbuf_get_width (thumb_pixbuf)) * width);
-                scale = ((gdouble)width / (gdouble)gdk_pixbuf_get_width (thumb_pixbuf));
             }
             else
             {
                 width = (gint)(((gdouble)gdk_pixbuf_get_width (thumb_pixbuf) / (gdouble)gdk_pixbuf_get_height (thumb_pixbuf)) * height);
-                scale = ((gdouble)height / (gdouble)gdk_pixbuf_get_height (thumb_pixbuf));
             }
 
             gdk_pixbuf_fill (thumb->priv->pixbuf, 0x00000000);

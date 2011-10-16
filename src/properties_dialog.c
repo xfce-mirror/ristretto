@@ -115,7 +115,6 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
 
     GtkWidget *modified_label = gtk_label_new(NULL);
     GtkWidget *accessed_label = gtk_label_new(NULL);
-    GtkWidget *created_label  = gtk_label_new(NULL);
 
     GtkWidget *size_label  = gtk_label_new(NULL);
 

@@ -329,14 +329,14 @@ rstto_file_get_content_type ( RsttoFile *file )
 guint64
 rstto_file_get_modified_time ( RsttoFile *file )
 {
-    guint64 time = 0;
+    guint64 time_ = 0;
     GFileInfo *file_info = g_file_query_info (file->priv->file, "time::modified", 0, NULL, NULL);
 
-    time = g_file_info_get_attribute_uint64 ( file_info, "time::modified" );
+    time_ = g_file_info_get_attribute_uint64 ( file_info, "time::modified" );
 
     g_object_unref (file_info);
 
-    return time;
+    return time_;
 }
 
 gchar *
