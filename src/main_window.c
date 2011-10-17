@@ -40,7 +40,6 @@
 #include "thumbnail_bar.h"
 #include "wallpaper_manager.h"
 #include "xfce_wallpaper_manager.h"
-#include "gnome_wallpaper_manager.h"
 
 #include "privacy_dialog.h"
 #include "properties_dialog.h"
