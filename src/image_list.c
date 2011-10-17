@@ -475,6 +475,7 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
 {
     GList *position = NULL;
     RsttoSettings *settings = NULL;
+    RsttoFile *file = iter->priv->file;
 
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
 
@@ -504,7 +505,10 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
         g_object_unref (settings);
     }
 
-    g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
+    if (file != iter->priv->file)
+    {
+        g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
+    }
 }
 
 void
@@ -512,6 +516,7 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter)
 {
     GList *position = NULL;
     RsttoSettings *settings = NULL;
+    RsttoFile *file = iter->priv->file;
 
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
 
@@ -543,7 +548,10 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter)
         g_object_unref (settings);
     }
 
-    g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
+    if (file != iter->priv->file)
+    {
+        g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
+    }
 }
 
 RsttoImageListIter *
