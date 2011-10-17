@@ -1919,7 +1919,10 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
 
             if (rstto_settings_get_boolean_property (window->priv->settings_manager, "show-thumbnailbar"))
             {
-                gtk_widget_show (window->priv->thumbnailbar);
+                if (rstto_image_list_get_n_images (window->priv->props.image_list) > 0)
+                {
+                    gtk_widget_show (window->priv->thumbnailbar);
+                }
             }
             
         }
