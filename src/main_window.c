@@ -1782,7 +1782,7 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
                 }
                 if (rstto_image_list_get_n_images (window->priv->props.image_list) != 0)
                 {
-                    window->priv->show_fs_toolbar_timeout_id = g_timeout_add (1500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+                    window->priv->show_fs_toolbar_timeout_id = g_timeout_add (500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
                 }
             }
             else
@@ -1969,7 +1969,7 @@ cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget,
                 g_source_remove (window->priv->show_fs_toolbar_timeout_id);
                 window->priv->show_fs_toolbar_timeout_id = 0;
             }
-            window->priv->show_fs_toolbar_timeout_id = g_timeout_add (1500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+            window->priv->show_fs_toolbar_timeout_id = g_timeout_add (500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
         }
     }
 
