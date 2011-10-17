@@ -1067,7 +1067,24 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
         case 1: 
             if (rstto_settings_get_boolean_property (window->priv->settings_manager, "show-thumbnailbar"))
             {
-                gtk_widget_show (window->priv->thumbnailbar);
+                if ( 0 == (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+                {
+                    gtk_widget_show (window->priv->thumbnailbar);
+                }
+                else
+                {
+                    if (rstto_settings_get_boolean_property (
+                            window->priv->settings_manager,
+                            "hide-thumbnailbar-fullscreen"))
+                    {
+                        gtk_widget_hide (window->priv->thumbnailbar);
+                    }
+                    else
+                    {
+                        gtk_widget_show (window->priv->thumbnailbar);
+                    }
+                
+                }
             }
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), TRUE);
             /*
@@ -1173,7 +1190,24 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
         default: 
             if (rstto_settings_get_boolean_property (window->priv->settings_manager, "show-thumbnailbar"))
             {
-                gtk_widget_show (window->priv->thumbnailbar);
+                if ( 0 == (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+                {
+                    gtk_widget_show (window->priv->thumbnailbar);
+                }
+                else
+                {
+                    if (rstto_settings_get_boolean_property (
+                            window->priv->settings_manager,
+                            "hide-thumbnailbar-fullscreen"))
+                    {
+                        gtk_widget_hide (window->priv->thumbnailbar);
+                    }
+                    else
+                    {
+                        gtk_widget_show (window->priv->thumbnailbar);
+                    }
+                
+                }
             }
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), TRUE);
             /*
@@ -1343,43 +1377,43 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             gtk_ui_manager_get_widget (
                     window->priv->ui_manager,
                     "/main-menu/view-menu/show-nav-toolbar"));
-
-        if (rstto_settings_get_boolean_property (
-                window->priv->settings_manager,
-                "show-file-toolbar") )
+        if ( GTK_WIDGET_VISIBLE (window) )
         {
-            if ( GTK_WIDGET_VISIBLE (window) )
-            {
-                /* Do not make the widget visible when in
-                 * fullscreen mode.
-                 */
-                if ( 0 == (gdk_window_get_state (GTK_WIDGET
+            /* Do not make the widget visible when in
+             * fullscreen mode.
+             */
+            if ( 0 == (gdk_window_get_state (GTK_WIDGET
 (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+            {
+                if (rstto_settings_get_boolean_property (
+                        window->priv->settings_manager,
+                        "show-file-toolbar") )
                 {
                     gtk_widget_show (
                         gtk_ui_manager_get_widget (
                                 window->priv->ui_manager,
                                 "/file-toolbar"));
                 }
+                else
+                {
+                    gtk_widget_hide (
+                        gtk_ui_manager_get_widget (
+                                window->priv->ui_manager,
+                                "/file-toolbar"));
+
+                }
+                if (rstto_settings_get_boolean_property (
+                        window->priv->settings_manager,
+                        "show-nav-toolbar") )
+                {
+                    gtk_widget_show (
+                        gtk_ui_manager_get_widget (
+                                window->priv->ui_manager,
+                                "/navigation-toolbar"));
+                }
             }
         }
-        else
-        {
-            gtk_widget_hide (
-                gtk_ui_manager_get_widget (
-                        window->priv->ui_manager,
-                        "/file-toolbar"));
 
-        }
-        if (rstto_settings_get_boolean_property (
-                window->priv->settings_manager,
-                "show-nav-toolbar") )
-        {
-            gtk_widget_show (
-                gtk_ui_manager_get_widget (
-                        window->priv->ui_manager,
-                        "/navigation-toolbar"));
-        }
 
         /* Hide buttons */
         gtk_widget_hide (
