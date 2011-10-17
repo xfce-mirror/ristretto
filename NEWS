@@ -1,13 +1,18 @@
 0.2.0
 =====
-- Improve the sorting algorythm for filenames (Bug #6866, #3837)
-- Add Stock-icon to set-wallpaper menu-item (Bug #8025)
+- Fix bug #6866 (Improve the sorting algorythm for filenames)
+- Fix bug #8025 (Add Stock-icon to set-wallpaper menu-item)
+- Fix bug #7867 ( Fix a problem where the image-viewer is updated too 
+  often, sometimes indefinately until the widget-size is changed again.)
 - Improve open-file and close-file behaviour
 - Hide thumbnailbar when no images are opened
 - Add option to merge the 2 toolbars into one
 - Fix memory-leak of the thumbnail pixbuf
-- Make open-entire-folder the default and remove the option from
-  the preferences dialog
+- Make open-entire-folder the default and remove the option from the
+  preferences dialog
+- Show the toolbar when going to fullscreen-mode without any open images
+- Fix error with open-dialog because current-uri is not set correctly.
+- Reduce timeout before toolbar is hidden from 3000 to 500ms
 
 0.1.1
 =====
