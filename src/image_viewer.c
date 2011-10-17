@@ -405,8 +405,6 @@ rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
             allocation->width - border_width * 2,
             allocation->height - border_width * 2);
 
-        gtk_adjustment_set_page_size (viewer->hadjustment, ((gdouble)allocation->width));
-        gtk_adjustment_set_page_size (viewer->vadjustment, ((gdouble)allocation->height));
     }
 
     /** 
@@ -1486,6 +1484,7 @@ cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer)
 static gboolean 
 cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
 {
+    GtkWidget *widget = GTK_WIDGET(viewer);
     gint width, height;
     gdouble v_scale, h_scale;
     GtkAdjustment *hadjustment, *vadjustment;
@@ -1793,6 +1792,9 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
         gtk_adjustment_set_upper (viewer->hadjustment, 0);
         gtk_adjustment_set_upper (viewer->vadjustment, 0);
     }
+
+    gtk_adjustment_set_page_size (viewer->hadjustment, (gdouble)(widget->allocation.width));
+    gtk_adjustment_set_page_size (viewer->vadjustment, (gdouble)(widget->allocation.height));
 
     g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
     g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
