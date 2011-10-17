@@ -1764,7 +1764,14 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
         if(event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN)
         {
             gtk_widget_hide (window->priv->menubar);
-            gtk_widget_hide (window->priv->toolbar);
+            if (rstto_image_list_get_n_images (window->priv->props.image_list) != 0)
+            {
+                gtk_widget_hide (window->priv->toolbar);
+            }
+            else
+            {
+                gtk_widget_show (window->priv->toolbar);
+            }
             gtk_widget_hide (window->priv->statusbar);
             if (window->priv->fs_toolbar_sticky)
             {
@@ -1773,7 +1780,10 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
                     g_source_remove (window->priv->show_fs_toolbar_timeout_id);
                     window->priv->show_fs_toolbar_timeout_id = 0;
                 }
-                window->priv->show_fs_toolbar_timeout_id = g_timeout_add (1500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+                if (rstto_image_list_get_n_images (window->priv->props.image_list) != 0)
+                {
+                    window->priv->show_fs_toolbar_timeout_id = g_timeout_add (1500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+                }
             }
             else
             {
@@ -1787,7 +1797,8 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
 
             if (rstto_settings_get_boolean_property (
                     window->priv->settings_manager,
-                    "merge-toolbars"))
+                    "merge-toolbars") ||
+                rstto_image_list_get_n_images (window->priv->props.image_list) == 0)
             {
                 gtk_ui_manager_add_ui (
                         window->priv->ui_manager,
@@ -1896,20 +1907,23 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
 
         if ((event->x_root == 0) || (event->y_root == 0) || (((gint)event->x_root) == (width-1)) || (((gint)event->y_root) == (height-1)))
         {
-            if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
+            if (rstto_image_list_get_n_images (window->priv->props.image_list) != 0)
             {
-                gtk_widget_show (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar"));
-            }
-            else
-            {
-                gtk_widget_show (window->priv->image_list_toolbar);
-            }
-            window->priv->fs_toolbar_sticky = TRUE;
+                if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
+                {
+                    gtk_widget_show (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar"));
+                }
+                else
+                {
+                    gtk_widget_show (window->priv->image_list_toolbar);
+                }
+                window->priv->fs_toolbar_sticky = TRUE;
 
-            if (window->priv->show_fs_toolbar_timeout_id > 0)
-            {
-                g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-                window->priv->show_fs_toolbar_timeout_id = 0;
+                if (window->priv->show_fs_toolbar_timeout_id > 0)
+                {
+                    g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+                    window->priv->show_fs_toolbar_timeout_id = 0;
+                }
             }
         }
     }
@@ -1947,13 +1961,16 @@ cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget,
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
     if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
     {
-        window->priv->fs_toolbar_sticky = FALSE;
-        if (window->priv->show_fs_toolbar_timeout_id > 0)
+        if (rstto_image_list_get_n_images (window->priv->props.image_list) != 0)
         {
-            g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-            window->priv->show_fs_toolbar_timeout_id = 0;
+            window->priv->fs_toolbar_sticky = FALSE;
+            if (window->priv->show_fs_toolbar_timeout_id > 0)
+            {
+                g_source_remove (window->priv->show_fs_toolbar_timeout_id);
+                window->priv->show_fs_toolbar_timeout_id = 0;
+            }
+            window->priv->show_fs_toolbar_timeout_id = g_timeout_add (1500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
         }
-        window->priv->show_fs_toolbar_timeout_id = g_timeout_add (1500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
     }
 
     return TRUE;
@@ -2245,6 +2262,10 @@ cb_rstto_main_window_image_list_new_image (
         RsttoFile *file,
         RsttoMainWindow *window )
 {
+    if ( 0 != (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+    {
+        gtk_widget_hide (window->priv->toolbar);
+    }
     if (rstto_image_list_iter_get_position (window->priv->iter) == -1)
         rstto_image_list_iter_set_position (window->priv->iter, 0);
     if (window->priv->open_image_timer_id > 0)
