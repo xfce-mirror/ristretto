@@ -1510,6 +1510,9 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
     g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
     g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
 
+    gtk_adjustment_set_page_size (viewer->hadjustment, (gdouble)(widget->allocation.width));
+    gtk_adjustment_set_page_size (viewer->vadjustment, (gdouble)(widget->allocation.height));
+
     if (viewer->priv->pixbuf)
     {
         switch (viewer->priv->orientation)
@@ -1793,8 +1796,6 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
         gtk_adjustment_set_upper (viewer->vadjustment, 0);
     }
 
-    gtk_adjustment_set_page_size (viewer->hadjustment, (gdouble)(widget->allocation.width));
-    gtk_adjustment_set_page_size (viewer->vadjustment, (gdouble)(widget->allocation.height));
 
     g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
     g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
