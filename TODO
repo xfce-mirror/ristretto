@@ -11,9 +11,6 @@
  - Try the possibilities of replacing the thumbnail-bar with an iconview
    widget.
 
- - Modify the merge toolbar option so it merges in the file-toolbar
-   instead of the navigation-toolbar
-
  - Write documentation
 
  - Refactor main-window code, it is a mess.
