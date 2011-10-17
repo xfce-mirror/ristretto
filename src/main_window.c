@@ -2571,7 +2571,12 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
 
     if (g_value_get_string (&current_uri_val))
-        gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), g_value_get_string (&current_uri_val));
+    {
+        if (strlen (g_value_get_string (&current_uri_val)) > 0)
+        {
+            gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), g_value_get_string (&current_uri_val));
+        }
+    }
 
     gtk_file_filter_add_pixbuf_formats (filter);
     gtk_file_filter_set_name (filter, _("Images"));
