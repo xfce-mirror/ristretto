@@ -603,6 +603,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_widget_set_no_show_all (window->priv->toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->image_list_toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->thumbnailbar, TRUE);
+    gtk_widget_set_no_show_all ( gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-nav-toolbar"), TRUE);
 
     rstto_main_window_set_navigationbar_position (window, navigationbar_position);
 
@@ -630,29 +631,6 @@ rstto_main_window_init (RsttoMainWindow *window)
                            "play",
                            GTK_UI_MANAGER_TOOLITEM,
                            FALSE);
-    if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
-    {
-        gtk_ui_manager_add_ui (
-                window->priv->ui_manager,
-                window->priv->toolbar_fullscreen_merge_id,
-                "/file-toolbar/placeholder-fullscreen",
-                "fullscreen",
-                "fullscreen",
-                GTK_UI_MANAGER_TOOLITEM,
-                FALSE);
-    }
-    else
-    {
-        gtk_ui_manager_add_ui (
-                window->priv->ui_manager,
-                window->priv->toolbar_fullscreen_merge_id,
-                "/navigation-toolbar/placeholder-fullscreen",
-                "fullscreen",
-                "fullscreen",
-                GTK_UI_MANAGER_TOOLITEM,
-                FALSE);
-    }
-
     /**
      * Retrieve the last window-size from the settings-manager
      * and make it the default for this window
@@ -731,6 +709,38 @@ rstto_main_window_init (RsttoMainWindow *window)
     g_signal_connect(G_OBJECT(window->priv->hpaned_right), "accept-position", G_CALLBACK(cb_rstto_main_window_hpaned_pos_changed), window);
     g_signal_connect(G_OBJECT(window->priv->vpaned_top), "accept-position", G_CALLBACK(cb_rstto_main_window_vpaned_pos_changed), window);
     g_signal_connect(G_OBJECT(window->priv->vpaned_bottom), "accept-position", G_CALLBACK(cb_rstto_main_window_vpaned_pos_changed), window);
+
+    if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
+    {
+        gtk_ui_manager_add_ui (
+                window->priv->ui_manager,
+                window->priv->toolbar_fullscreen_merge_id,
+                "/file-toolbar/placeholder-fullscreen",
+                "fullscreen",
+                "fullscreen",
+                GTK_UI_MANAGER_TOOLITEM,
+                FALSE);
+        gtk_widget_hide (
+                gtk_ui_manager_get_widget (
+                        window->priv->ui_manager,
+                        "/main-menu/view-menu/show-nav-toolbar"));
+    }
+    else
+    {
+        gtk_ui_manager_add_ui (
+                window->priv->ui_manager,
+                window->priv->toolbar_fullscreen_merge_id,
+                "/navigation-toolbar/placeholder-fullscreen",
+                "fullscreen",
+                "fullscreen",
+                GTK_UI_MANAGER_TOOLITEM,
+                FALSE);
+        gtk_widget_show (
+                gtk_ui_manager_get_widget (
+                        window->priv->ui_manager,
+                        "/main-menu/view-menu/show-nav-toolbar"));
+    }
+
 
     g_signal_connect (
             G_OBJECT(window->priv->settings_manager),
@@ -1376,6 +1386,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             gtk_ui_manager_get_widget (
                     window->priv->ui_manager,
                     "/main-menu/view-menu/show-nav-toolbar"));
+
         if ( GTK_WIDGET_VISIBLE (window) )
         {
             /* Do not make the widget visible when in
