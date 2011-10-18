@@ -1711,9 +1711,9 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
 
                 subpixbuf_x_offset = (gint)(gtk_adjustment_get_value (hadjustment) / relative_scale);
                 subpixbuf_y_offset = (gint)(gtk_adjustment_get_value (vadjustment) / relative_scale);
-                subpixbuf_width = (gint)((gtk_adjustment_get_page_size (hadjustment) / relative_scale) < width)?
+                subpixbuf_width = (gint)((gtk_adjustment_get_page_size (hadjustment) / relative_scale)+1 < width)?
                                (gtk_adjustment_get_page_size (hadjustment) / relative_scale)+1:(width);
-                subpixbuf_height = (gint)((gtk_adjustment_get_page_size (vadjustment) / relative_scale) < height)?
+                subpixbuf_height = (gint)((gtk_adjustment_get_page_size (vadjustment) / relative_scale)+1 < height)?
                                (gtk_adjustment_get_page_size (vadjustment) / relative_scale)+1:(height);
                 break;
         }
