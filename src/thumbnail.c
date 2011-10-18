@@ -184,6 +184,7 @@ rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
 {
     RsttoThumbnail *thumb = RSTTO_THUMBNAIL(widget);
     GdkPixbuf *thumb_pixbuf = NULL;
+    GdkPixbuf *tmp_pixbuf = NULL;
 
     if (GTK_WIDGET_REALIZED (widget))
     {
@@ -209,18 +210,44 @@ rstto_thumbnail_expose(GtkWidget *widget, GdkEventExpose *event)
             gint width = gdk_pixbuf_get_width (thumb->priv->pixbuf) - 10;
             GdkPixbuf *dst_thumb_pixbuf = NULL;
 
-            if (gdk_pixbuf_get_width (thumb_pixbuf) > gdk_pixbuf_get_height (thumb_pixbuf))
+            switch (rstto_file_get_orientation (thumb->priv->file))
             {
-                height = (gint)(((gdouble)gdk_pixbuf_get_height (thumb_pixbuf) / (gdouble)gdk_pixbuf_get_width (thumb_pixbuf)) * width);
+                case RSTTO_IMAGE_ORIENT_90:
+                    tmp_pixbuf = gdk_pixbuf_rotate_simple (
+                            thumb_pixbuf,
+                            GDK_PIXBUF_ROTATE_CLOCKWISE);
+                    break;
+                case RSTTO_IMAGE_ORIENT_180:
+                    tmp_pixbuf = gdk_pixbuf_rotate_simple (
+                            thumb_pixbuf,
+                            GDK_PIXBUF_ROTATE_UPSIDEDOWN);
+                    break;
+                case RSTTO_IMAGE_ORIENT_270:
+                    tmp_pixbuf = gdk_pixbuf_rotate_simple (
+                            thumb_pixbuf,
+                            GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
+                    break;
+                default:
+                    tmp_pixbuf = thumb_pixbuf;
+                    g_object_ref (tmp_pixbuf);
+                    break;
+            }
+
+            if (gdk_pixbuf_get_width (tmp_pixbuf) > gdk_pixbuf_get_height (tmp_pixbuf))
+            {
+                height = (gint)(((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf)) * width);
             }
             else
             {
-                width = (gint)(((gdouble)gdk_pixbuf_get_width (thumb_pixbuf) / (gdouble)gdk_pixbuf_get_height (thumb_pixbuf)) * height);
+                width = (gint)(((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf)) * height);
             }
 
             gdk_pixbuf_fill (thumb->priv->pixbuf, 0x00000000);
 
-            dst_thumb_pixbuf = gdk_pixbuf_scale_simple (thumb_pixbuf, width, height, GDK_INTERP_BILINEAR);
+            dst_thumb_pixbuf = gdk_pixbuf_scale_simple (tmp_pixbuf, width, height, GDK_INTERP_BILINEAR);
+
+            g_object_unref (tmp_pixbuf);
+            tmp_pixbuf = NULL;
 
             gdk_pixbuf_copy_area (dst_thumb_pixbuf,
                                   0, 0,
