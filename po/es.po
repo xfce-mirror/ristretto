@@ -214,7 +214,7 @@ msgstr "_Posición"
 #: ../src/main_window.c:328
 #, fuzzy
 msgid "Thumbnailbar _Position"
-msgstr "Miniaturas"
+msgstr "Thumbnailbar _Position"
 
 #. Misc
 #: ../src/main_window.c:330
@@ -340,7 +340,7 @@ msgstr "¿Está seguro de querer eliminar la imagen  '%s' de su disco?"
 #: ../src/privacy_dialog.c:151
 #, fuzzy
 msgid "Timerange to clear:"
-msgstr "TimeRange para borrar:"
+msgstr "TimeRange para aclarar:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
@@ -379,7 +379,6 @@ msgid "Background color"
 msgstr "Color de fondo"
 
 #: ../src/preferences_dialog.c:195
-#, fuzzy
 msgid "Toolbars"
 msgstr "Barras de herramientas"
 
@@ -388,9 +387,8 @@ msgid "Override background color:"
 msgstr "Reemplazar el color de fondo:"
 
 #: ../src/preferences_dialog.c:211
-#, fuzzy
 msgid "Merge toolbars"
-msgstr "TimeRange para borrar:"
+msgstr "Combinar las barras de herramientas"
 
 #: ../src/preferences_dialog.c:239
 msgid "Slideshow"
@@ -454,9 +452,8 @@ msgid "Startup"
 msgstr "Inicio"
 
 #: ../src/preferences_dialog.c:311
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Redimensionar la ventana a la imagen al inicio"
+msgstr "Maximizar la ventana de inicio al abrir una imagen"
 
 #: ../src/preferences_dialog.c:317
 msgid "Wrap around images"
@@ -557,14 +554,12 @@ msgid "Image Viewer"
 msgstr "Visor de imágenes"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images's easily"
-msgstr "Mire su foto fácilmente"
+msgstr "Mire sus imágenes fácilmente"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
-msgstr "Visor de imágenes Ristretto"
+msgstr "Visor de Imágenes Ristretto"
 
 #~ msgid "Open _Folder"
 #~ msgstr "Abrir _carpeta"
