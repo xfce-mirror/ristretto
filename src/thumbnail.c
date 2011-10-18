@@ -23,6 +23,7 @@
 
 #include <libexif/exif-data.h>
 
+#include "util.h"
 #include "file.h"
 #include "image_list.h"
 #include "thumbnail.h"

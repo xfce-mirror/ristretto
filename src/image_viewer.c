@@ -23,6 +23,8 @@
 #include <gio/gio.h>
 #include <libexif/exif-data.h>
 
+#include "util.h"
+
 #include "file.h"
 #include "image_viewer.h"
 #include "settings.h"
@@ -56,7 +58,7 @@ struct _RsttoImageViewerPriv
     RsttoImageViewerTransaction *transaction;
     GdkPixbuf                   *pixbuf;
     GdkPixbuf                   *dst_pixbuf;
-    RsttoImageViewerOrientation  orientation;
+    RsttoImageOrientation        orientation;
     gdouble                      quality;
 
 
@@ -112,6 +114,7 @@ struct _RsttoImageViewerTransaction
     gint              image_height;
     gdouble           image_scale;
     gdouble           scale;
+    RsttoImageOrientation orientation;
 
     /* File I/O data */
     /*****************/
@@ -896,7 +899,7 @@ rstto_image_viewer_set_file (
         RsttoImageViewer *viewer,
         RsttoFile *file,
         gdouble scale,
-        RsttoImageViewerOrientation orientation)
+        RsttoImageOrientation orientation)
 {
     
     /*
@@ -1216,13 +1219,15 @@ rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerM
 void
 rstto_image_viewer_set_orientation (
         RsttoImageViewer *viewer, 
-        RsttoImageViewerOrientation orientation)
+        RsttoImageOrientation orientation)
 {
     viewer->priv->orientation = orientation;
+    rstto_file_set_orientation (viewer->priv->file, orientation);
+
     rstto_image_viewer_queued_repaint (viewer, TRUE);
 }
 
-RsttoImageViewerOrientation
+RsttoImageOrientation
 rstto_image_viewer_get_orientation (RsttoImageViewer *viewer)
 {
     return viewer->priv->orientation;
@@ -1420,6 +1425,8 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
          */
         transaction->image_scale = 1.0;
     }
+
+    transaction->orientation = rstto_file_get_orientation (transaction->file);
 }
 
 static void
@@ -1434,6 +1441,7 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
         viewer->priv->image_scale = transaction->image_scale;
         viewer->priv->image_width = transaction->image_width;
         viewer->priv->image_height = transaction->image_height;
+        viewer->priv->orientation = transaction->orientation;
 
         viewer->priv->transaction = NULL;
         rstto_image_viewer_queued_repaint (viewer, TRUE);
@@ -1515,8 +1523,17 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
     {
         switch (viewer->priv->orientation)
         {
-            case RSTTO_IMAGE_VIEWER_ORIENT_NONE:
-            case RSTTO_IMAGE_VIEWER_ORIENT_180:
+            case RSTTO_IMAGE_ORIENT_90:
+            case RSTTO_IMAGE_ORIENT_270:
+                hadjustment = viewer->vadjustment;
+                vadjustment = viewer->hadjustment;
+
+                v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_width;
+                h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_height;
+                break;
+            case RSTTO_IMAGE_ORIENT_NONE:
+            case RSTTO_IMAGE_ORIENT_180:
+            default:
                 hadjustment = viewer->hadjustment;
                 vadjustment = viewer->vadjustment;
 
@@ -1524,14 +1541,6 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
                 h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_width;
                 break;
 
-            case RSTTO_IMAGE_VIEWER_ORIENT_90:
-            case RSTTO_IMAGE_VIEWER_ORIENT_270:
-                hadjustment = viewer->vadjustment;
-                vadjustment = viewer->hadjustment;
-
-                v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_width;
-                h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_height;
-                break;
         }
 
         width = gdk_pixbuf_get_width (viewer->priv->pixbuf);
@@ -1611,32 +1620,7 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
          */
         switch (viewer->priv->orientation)
         {
-            case RSTTO_IMAGE_VIEWER_ORIENT_NONE:
-                if ((gtk_adjustment_get_page_size (vadjustment) + 
-                        gtk_adjustment_get_value(vadjustment)) > (viewer->priv->image_height*viewer->priv->scale))
-                {
-                    gtk_adjustment_set_value (vadjustment,
-                            (height*relative_scale) -
-                            gtk_adjustment_get_page_size (vadjustment));
-                }
-                if ((gtk_adjustment_get_page_size (hadjustment) + 
-                        gtk_adjustment_get_value(hadjustment)) > (viewer->priv->image_width*viewer->priv->scale))
-                {
-                    gtk_adjustment_set_value (hadjustment,
-                            (width*relative_scale) - 
-                            gtk_adjustment_get_page_size (hadjustment));
-                }
-                gtk_adjustment_set_upper (hadjustment, (gdouble)width*(viewer->priv->scale/viewer->priv->image_scale));
-                gtk_adjustment_set_upper (vadjustment, (gdouble)height*(viewer->priv->scale/viewer->priv->image_scale));
-
-                subpixbuf_x_offset = (gint)(gtk_adjustment_get_value (hadjustment) / relative_scale);
-                subpixbuf_y_offset = (gint)(gtk_adjustment_get_value (vadjustment) / relative_scale);
-                subpixbuf_width = (gint)((gtk_adjustment_get_page_size (hadjustment) / relative_scale) < width)?
-                               (gtk_adjustment_get_page_size (hadjustment) / relative_scale)+1:(width);
-                subpixbuf_height = (gint)((gtk_adjustment_get_page_size (vadjustment) / relative_scale) < height)?
-                               (gtk_adjustment_get_page_size (vadjustment) / relative_scale)+1:(height);
-                break;
-            case RSTTO_IMAGE_VIEWER_ORIENT_180:
+            case RSTTO_IMAGE_ORIENT_180:
                 gtk_adjustment_set_upper (hadjustment, (gdouble)width*(viewer->priv->scale/viewer->priv->image_scale));
                 gtk_adjustment_set_upper (vadjustment, (gdouble)height*(viewer->priv->scale/viewer->priv->image_scale));
                 subpixbuf_x_offset = (gint)((gtk_adjustment_get_upper(hadjustment) - 
@@ -1650,7 +1634,7 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
                 subpixbuf_height = (gint)((gtk_adjustment_get_page_size (vadjustment) / relative_scale) < height)?
                                (gtk_adjustment_get_page_size (vadjustment) / relative_scale)+1:(height);
                 break;
-            case RSTTO_IMAGE_VIEWER_ORIENT_270:
+            case RSTTO_IMAGE_ORIENT_270:
                 gtk_adjustment_set_upper (hadjustment, (gdouble)width*(viewer->priv->scale/viewer->priv->image_scale));
                 gtk_adjustment_set_upper (vadjustment, (gdouble)height*(viewer->priv->scale/viewer->priv->image_scale));
 
@@ -1678,7 +1662,7 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
                 subpixbuf_height = (gint)((gtk_adjustment_get_page_size (vadjustment) / relative_scale) < height)?
                                (gtk_adjustment_get_page_size (vadjustment) / relative_scale)+1:(height);
                 break;
-            case RSTTO_IMAGE_VIEWER_ORIENT_90:
+            case RSTTO_IMAGE_ORIENT_90:
                 gtk_adjustment_set_upper (hadjustment, (gdouble)width*(viewer->priv->scale/viewer->priv->image_scale));
                 gtk_adjustment_set_upper (vadjustment, (gdouble)height*(viewer->priv->scale/viewer->priv->image_scale));
 
@@ -1701,6 +1685,32 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
                 subpixbuf_y_offset = (gint)((gtk_adjustment_get_upper(vadjustment) - 
                                              (gtk_adjustment_get_page_size(vadjustment) + 
                                              gtk_adjustment_get_value (vadjustment))) / relative_scale);
+                subpixbuf_width = (gint)((gtk_adjustment_get_page_size (hadjustment) / relative_scale) < width)?
+                               (gtk_adjustment_get_page_size (hadjustment) / relative_scale)+1:(width);
+                subpixbuf_height = (gint)((gtk_adjustment_get_page_size (vadjustment) / relative_scale) < height)?
+                               (gtk_adjustment_get_page_size (vadjustment) / relative_scale)+1:(height);
+                break;
+            case RSTTO_IMAGE_ORIENT_NONE:
+            default:
+                if ((gtk_adjustment_get_page_size (vadjustment) + 
+                        gtk_adjustment_get_value(vadjustment)) > (viewer->priv->image_height*viewer->priv->scale))
+                {
+                    gtk_adjustment_set_value (vadjustment,
+                            (height*relative_scale) -
+                            gtk_adjustment_get_page_size (vadjustment));
+                }
+                if ((gtk_adjustment_get_page_size (hadjustment) + 
+                        gtk_adjustment_get_value(hadjustment)) > (viewer->priv->image_width*viewer->priv->scale))
+                {
+                    gtk_adjustment_set_value (hadjustment,
+                            (width*relative_scale) - 
+                            gtk_adjustment_get_page_size (hadjustment));
+                }
+                gtk_adjustment_set_upper (hadjustment, (gdouble)width*(viewer->priv->scale/viewer->priv->image_scale));
+                gtk_adjustment_set_upper (vadjustment, (gdouble)height*(viewer->priv->scale/viewer->priv->image_scale));
+
+                subpixbuf_x_offset = (gint)(gtk_adjustment_get_value (hadjustment) / relative_scale);
+                subpixbuf_y_offset = (gint)(gtk_adjustment_get_value (vadjustment) / relative_scale);
                 subpixbuf_width = (gint)((gtk_adjustment_get_page_size (hadjustment) / relative_scale) < width)?
                                (gtk_adjustment_get_page_size (hadjustment) / relative_scale)+1:(width);
                 subpixbuf_height = (gint)((gtk_adjustment_get_page_size (vadjustment) / relative_scale) < height)?
@@ -1746,22 +1756,23 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
 
             switch (viewer->priv->orientation)
             {
-                case RSTTO_IMAGE_VIEWER_ORIENT_180:
+                case RSTTO_IMAGE_ORIENT_180:
                     tmp_pixbuf2 = gdk_pixbuf_rotate_simple (tmp_pixbuf, GDK_PIXBUF_ROTATE_UPSIDEDOWN);
                     g_object_unref (tmp_pixbuf);
                     tmp_pixbuf = tmp_pixbuf2;
                     break;
-                case RSTTO_IMAGE_VIEWER_ORIENT_270:
+                case RSTTO_IMAGE_ORIENT_270:
                     tmp_pixbuf2 = gdk_pixbuf_rotate_simple (tmp_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
                     g_object_unref (tmp_pixbuf);
                     tmp_pixbuf = tmp_pixbuf2;
                     break;
-                case RSTTO_IMAGE_VIEWER_ORIENT_90:
+                case RSTTO_IMAGE_ORIENT_90:
                     tmp_pixbuf2 = gdk_pixbuf_rotate_simple (tmp_pixbuf, GDK_PIXBUF_ROTATE_CLOCKWISE);
                     g_object_unref (tmp_pixbuf);
                     tmp_pixbuf = tmp_pixbuf2;
                     break;
-                case RSTTO_IMAGE_VIEWER_ORIENT_NONE:
+                case RSTTO_IMAGE_ORIENT_NONE:
+                default:
                     break;
             }
 

@@ -27,6 +27,7 @@
 
 #include <libexif/exif-data.h>
 
+#include "util.h"
 #include "file.h"
 #include "thumbnail.h"
 #include "thumbnailer.h"

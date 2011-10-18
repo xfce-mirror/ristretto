@@ -21,13 +21,6 @@
 
 G_BEGIN_DECLS
 
-typedef enum
-{
-  RSTTO_IMAGE_VIEWER_ORIENT_NONE,
-  RSTTO_IMAGE_VIEWER_ORIENT_90,
-  RSTTO_IMAGE_VIEWER_ORIENT_180,
-  RSTTO_IMAGE_VIEWER_ORIENT_270
-} RsttoImageViewerOrientation;
 
 #define RSTTO_TYPE_IMAGE_VIEWER rstto_image_viewer_get_type()
 
@@ -84,7 +77,7 @@ rstto_image_viewer_set_file (
         RsttoImageViewer *viewer,
         RsttoFile *file,
         gdouble scale,
-        RsttoImageViewerOrientation orientation);
+        RsttoImageOrientation orientation);
 
 void
 rstto_image_viewer_set_scale (
@@ -98,9 +91,9 @@ rstto_image_viewer_get_scale (
 void
 rstto_image_viewer_set_orientation (
         RsttoImageViewer *viewer, 
-        RsttoImageViewerOrientation orientation);
+        RsttoImageOrientation orientation);
 
-RsttoImageViewerOrientation
+RsttoImageOrientation
 rstto_image_viewer_get_orientation (RsttoImageViewer *viewer);
 
 void

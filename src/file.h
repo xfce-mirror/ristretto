@@ -86,8 +86,16 @@ rstto_file_get_content_type ( RsttoFile * );
 guint64
 rstto_file_get_modified_time ( RsttoFile *);
 
-gchar *
+ExifEntry *
 rstto_file_get_exif ( RsttoFile *, ExifTag );
+
+RsttoImageOrientation
+rstto_file_get_orientation ( RsttoFile * );
+
+void
+rstto_file_set_orientation (
+        RsttoFile * ,
+        RsttoImageOrientation );
 
 
 G_END_DECLS

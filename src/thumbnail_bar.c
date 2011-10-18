@@ -24,6 +24,7 @@
 #include <libxfce4ui/libxfce4ui.h>
 #include <libexif/exif-data.h>
 
+#include "util.h"
 #include "file.h"
 #include "image_list.h"
 #include "thumbnail.h"

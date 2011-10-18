@@ -25,6 +25,7 @@
 
 #include <libxfce4util/libxfce4util.h>
 
+#include "util.h"
 #include "file.h"
 
 static void
@@ -100,6 +101,7 @@ struct _RsttoFilePriv
     gchar *path;
 
     ExifData *exif_data;
+    RsttoImageOrientation orientation;
 };
 
 
@@ -212,7 +214,6 @@ rstto_file_new ( GFile *file )
     o_file = g_object_new (RSTTO_TYPE_FILE, NULL);
     o_file->priv->file = file;
     g_object_ref (file);
-
 
     open_files = g_list_append (open_files, o_file);
 
@@ -339,10 +340,9 @@ rstto_file_get_modified_time ( RsttoFile *file )
     return time_;
 }
 
-gchar *
+ExifEntry *
 rstto_file_get_exif ( RsttoFile *file, ExifTag id )
 {
-    gchar *val = NULL;
     ExifEntry *exif_entry = NULL;
 
     /* If there is no exif-data object, try to create it */
@@ -352,21 +352,42 @@ rstto_file_get_exif ( RsttoFile *file, ExifTag id )
     }
     if ( NULL != file->priv->exif_data )
     {
-        exif_entry = exif_data_get_entry (
+        return exif_data_get_entry (
                 file->priv->exif_data,
                 id );
-        if ( NULL != exif_entry )
+    }
+    return NULL;
+}
+
+RsttoImageOrientation
+rstto_file_get_orientation ( RsttoFile *file )
+{
+    ExifEntry *exif_entry = NULL;
+    if (file->priv->orientation == 0 )
+    {
+        exif_entry = rstto_file_get_exif (file, EXIF_TAG_ORIENTATION);
+        if (NULL != exif_entry)
         {
-            switch ( id )
-            {
-                default:
-                    val = g_new0 (gchar, 20);
-                    exif_entry_get_value (exif_entry, val, 20);
-                    break;
-            }
+            file->priv->orientation = exif_get_short (
+                    exif_entry->data,
+                    exif_data_get_byte_order (exif_entry->parent->parent));
+
+            exif_entry_free (exif_entry);
+        }
+        if (file->priv->orientation == 0)
+        {
+            /* Default orientation */
+            file->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
         }
 
     }
+    return file->priv->orientation;
+}
 
-    return val;
+void
+rstto_file_set_orientation (
+        RsttoFile *file ,
+        RsttoImageOrientation orientation )
+{
+    file->priv->orientation = orientation;
 }

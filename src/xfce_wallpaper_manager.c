@@ -28,6 +28,7 @@
 
 #include <libexif/exif-data.h>
 
+#include "util.h"
 #include "file.h"
 #include "monitor_chooser.h"
 #include "wallpaper_manager.h"

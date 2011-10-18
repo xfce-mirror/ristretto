@@ -32,6 +32,7 @@
 #include <cairo/cairo.h>
 
 #include "settings.h"
+#include "util.h"
 #include "file.h"
 #include "image_list.h"
 #include "image_viewer.h"
@@ -903,7 +904,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
                     RSTTO_IMAGE_VIEWER(window->priv->image_viewer),
                     cur_file,
                     -1.0,
-                    RSTTO_IMAGE_VIEWER_ORIENT_NONE);
+                    0);
 
             app_list = g_app_info_get_all_for_type (content_type);
 
@@ -941,7 +942,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
             gtk_widget_set_sensitive (menu_item, FALSE);
 
-            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), NULL, -1, RSTTO_IMAGE_VIEWER_ORIENT_NONE);
+            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), NULL, -1, 0);
 
 
             menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
@@ -2433,17 +2434,17 @@ cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
     switch (rstto_image_viewer_get_orientation (viewer))
     {
         default:
-        case RSTTO_IMAGE_VIEWER_ORIENT_NONE:
-            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_VIEWER_ORIENT_90);
+        case RSTTO_IMAGE_ORIENT_NONE:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_90);
             break;
-        case RSTTO_IMAGE_VIEWER_ORIENT_90:
-            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_VIEWER_ORIENT_180);
+        case RSTTO_IMAGE_ORIENT_90:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_180);
             break;
-        case RSTTO_IMAGE_VIEWER_ORIENT_180:
-            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_VIEWER_ORIENT_270);
+        case RSTTO_IMAGE_ORIENT_180:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_270);
             break;
-        case RSTTO_IMAGE_VIEWER_ORIENT_270:
-            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_VIEWER_ORIENT_NONE);
+        case RSTTO_IMAGE_ORIENT_270:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_NONE);
             break;
     }
 }
@@ -2462,17 +2463,17 @@ cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
     switch (rstto_image_viewer_get_orientation (viewer))
     {
         default:
-        case RSTTO_IMAGE_VIEWER_ORIENT_NONE:
-            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_VIEWER_ORIENT_270);
+        case RSTTO_IMAGE_ORIENT_NONE:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_270);
             break;
-        case RSTTO_IMAGE_VIEWER_ORIENT_90:
-            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_VIEWER_ORIENT_NONE);
+        case RSTTO_IMAGE_ORIENT_90:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_NONE);
             break;
-        case RSTTO_IMAGE_VIEWER_ORIENT_180:
-            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_VIEWER_ORIENT_90);
+        case RSTTO_IMAGE_ORIENT_180:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_90);
             break;
-        case RSTTO_IMAGE_VIEWER_ORIENT_270:
-            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_VIEWER_ORIENT_180);
+        case RSTTO_IMAGE_ORIENT_270:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_180);
             break;
     }
 }
