@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the ristretto package.
 # Christian Dywan <christian@twotoasts.de>, 2007.
 # Fabian Nowak <timystery@arcor.de>, 2007, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2010-02-18 15:50+0100\n"
 "Last-Translator: Fabian Nowak <timystery@arcor.de>\n"
 "Language-Team: German\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 
 #: ../src/main.c:57
 msgid "Version information"
@@ -61,11 +61,11 @@ msgstr "Eine Kopie des Bildes speichern"
 
 #: ../src/main_window.c:283
 msgid "_Properties"
-msgstr ""
+msgstr "_Eigenschaften"
 
 #: ../src/main_window.c:283
 msgid "Show file properties"
-msgstr ""
+msgstr "Eigenschaften der Datei anzeigen"
 
 #: ../src/main_window.c:284
 msgid "_Close"
@@ -211,9 +211,8 @@ msgid "_Position"
 msgstr "_Position"
 
 #: ../src/main_window.c:328
-#, fuzzy
 msgid "Thumbnailbar _Position"
-msgstr "Miniaturbilder"
+msgstr "_Position der Miniaturvorschau"
 
 #. Misc
 #: ../src/main_window.c:330
@@ -378,16 +377,15 @@ msgstr "Hintergrundfarbe"
 
 #: ../src/preferences_dialog.c:195
 msgid "Toolbars"
-msgstr ""
+msgstr "Werkzeugleisten"
 
 #: ../src/preferences_dialog.c:200
 msgid "Override background color:"
 msgstr "Hintergrundfarbe ersetzen:"
 
 #: ../src/preferences_dialog.c:211
-#, fuzzy
 msgid "Merge toolbars"
-msgstr "Zu löschender Zeitraum:"
+msgstr "Werkzeugleisten zusammenfassen"
 
 #: ../src/preferences_dialog.c:239
 msgid "Slideshow"
@@ -464,32 +462,33 @@ msgstr "Einstellungen für den Bildbetrachter"
 
 #: ../src/properties_dialog.c:152
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Name:</b>"
 
 #: ../src/properties_dialog.c:153
+#, fuzzy
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Typ:</b>"
 
 #: ../src/properties_dialog.c:154
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Geändert:</b>"
 
 #: ../src/properties_dialog.c:155
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Zugegriffen:</b>"
 
 #: ../src/properties_dialog.c:156
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Größe:</b>"
 
 #: ../src/properties_dialog.c:280
 msgid "General"
-msgstr ""
+msgstr "Allgemein"
 
 #: ../src/properties_dialog.c:390
 #, c-format
 msgid "%s - Properties"
-msgstr ""
+msgstr "Eigenschaften von %s"
 
 #: ../src/thumbnail_bar.c:193
 msgid "Spacing"
@@ -557,9 +556,8 @@ msgid "Look at your images's easily"
 msgstr "Bilder anschauen leicht gemacht"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
-msgstr "Bildbetrachter Ristretto"
+msgstr "Ristretto Bildbetrachter"
 
 #~ msgid "Open _Folder"
 #~ msgstr "_Ordner öffnen"
