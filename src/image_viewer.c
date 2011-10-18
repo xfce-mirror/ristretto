@@ -1310,8 +1310,6 @@ cb_rstto_image_viewer_read_input_stream_ready (
             /* Clean up the input-stream */
             g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
             g_object_unref(source_object);
-
-            gdk_pixbuf_loader_close (transaction->loader, NULL);
         }
         else
         {
