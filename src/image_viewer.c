@@ -29,9 +29,11 @@
 #include "settings.h"
 #include "marshal.h"
 
+/* Do not make this buffer too large,
+ * this breaks some pixbufloaders.
+ */
 #ifndef RSTTO_IMAGE_VIEWER_BUFFER_SIZE
-/* #define RSTTO_IMAGE_VIEWER_BUFFER_SIZE 1024 */
-#define RSTTO_IMAGE_VIEWER_BUFFER_SIZE 131072
+#define RSTTO_IMAGE_VIEWER_BUFFER_SIZE 4096
 #endif
 
 #ifndef RSTTO_MAX_SCALE
