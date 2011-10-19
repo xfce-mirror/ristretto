@@ -214,9 +214,8 @@ msgid "_Position"
 msgstr "_Posição"
 
 #: ../src/main_window.c:328
-#, fuzzy
 msgid "Thumbnailbar _Position"
-msgstr "Miniaturas"
+msgstr "_Posição das miniaturas"
 
 #. Misc
 #: ../src/main_window.c:330
@@ -390,7 +389,7 @@ msgstr "Sobrescrever cor de fundo:"
 
 #: ../src/preferences_dialog.c:211
 msgid "Merge toolbars"
-msgstr ""
+msgstr "Barra de fusão"
 
 #: ../src/preferences_dialog.c:239
 msgid "Slideshow"
@@ -455,7 +454,7 @@ msgstr "Iniciar"
 
 #: ../src/preferences_dialog.c:311
 msgid "Maximize window on startup when opening an image"
-msgstr ""
+msgstr "Maximizar a janela ao iniciar quando abrindo uma imagem"
 
 #: ../src/preferences_dialog.c:317
 msgid "Wrap around images"
