@@ -37,6 +37,9 @@
 #define RSTTO_IMAGE_VIEWER_BUFFER_SIZE 4096
 #endif
 
+#define BACKGROUND_ICON_NAME "ristretto"
+#define BACKGROUND_ICON_SIZE 256
+
 #ifndef RSTTO_MAX_SCALE
 #define RSTTO_MAX_SCALE 4.0
 #endif
@@ -56,6 +59,11 @@ struct _RsttoImageViewerPriv
     RsttoSettings               *settings;
     GdkVisual                   *visual;
     GdkColormap                 *colormap;
+
+    GtkIconTheme                *icon_theme;
+    GdkPixbuf                   *bg_icon;
+    GdkColor                    *bg_color;
+    GdkColor                    *bg_color_fs;
 
     RsttoImageViewerTransaction *transaction;
     GdkPixbuf                   *pixbuf;
@@ -125,7 +133,7 @@ struct _RsttoImageViewerTransaction
 
 
 static void
-rstto_image_viewer_init(RsttoImageViewer *);
+rstto_image_viewer_init (GObject *);
 static void
 rstto_image_viewer_class_init(RsttoImageViewerClass *);
 static void
@@ -244,8 +252,11 @@ rstto_image_viewer_get_type (void)
 }
 
 static void
-rstto_image_viewer_init(RsttoImageViewer *viewer)
+rstto_image_viewer_init ( GObject *object )
 {
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (object);
+    GtkWidget        *widget = GTK_WIDGET (object);
+
     if (default_screen == NULL)
     {
         default_screen = gdk_screen_get_default();
@@ -258,6 +269,18 @@ rstto_image_viewer_init(RsttoImageViewer *viewer)
     viewer->priv->image_height = 0;
     viewer->priv->visual = gdk_rgb_get_visual();
     viewer->priv->colormap = gdk_colormap_new (viewer->priv->visual, TRUE);
+
+    viewer->priv->icon_theme = gtk_icon_theme_get_default ();
+    viewer->priv->bg_icon = gtk_icon_theme_load_icon (
+            viewer->priv->icon_theme,
+            BACKGROUND_ICON_NAME,
+            BACKGROUND_ICON_SIZE,
+            0,
+            NULL);
+    gdk_pixbuf_saturate_and_pixelate (
+            viewer->priv->bg_icon,
+            viewer->priv->bg_icon,
+            0, FALSE);
 
     g_signal_connect (
             G_OBJECT(viewer->priv->settings),
@@ -346,6 +369,11 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
 static void
 rstto_image_viewer_realize(GtkWidget *widget)
 {
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    GValue val_bg_color = {0, };
+    GValue val_bg_color_override = {0, };
+    GValue val_bg_color_fs = {0, };
+
     GdkWindowAttr attributes;
     gint attributes_mask;
 
@@ -353,6 +381,10 @@ rstto_image_viewer_realize(GtkWidget *widget)
     g_return_if_fail (RSTTO_IS_IMAGE_VIEWER(widget));
 
     GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
+
+    g_value_init (&val_bg_color, GDK_TYPE_COLOR);
+    g_value_init (&val_bg_color_fs, GDK_TYPE_COLOR);
+    g_value_init (&val_bg_color_override, G_TYPE_BOOLEAN);
 
     attributes.x = widget->allocation.x;
     attributes.y = widget->allocation.y;
@@ -372,6 +404,18 @@ rstto_image_viewer_realize(GtkWidget *widget)
     gdk_window_set_user_data (widget->window, widget);
 
     gtk_style_set_background (widget->style, widget->window, GTK_STATE_ACTIVE);
+
+
+    if (TRUE == g_value_get_boolean (&val_bg_color_override))
+    {
+        viewer->priv->bg_color = g_value_get_boxed (&val_bg_color);
+    }
+    else
+    {
+        viewer->priv->bg_color = &(widget->style->bg[GTK_STATE_NORMAL]);
+    }
+
+    viewer->priv->bg_color_fs = g_value_get_boxed (&val_bg_color_fs);
 }
 
 /**
@@ -492,203 +536,86 @@ static void
 rstto_image_viewer_paint (GtkWidget *widget)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-
     GdkColor *bg_color = NULL;
-    GValue val_bg_color = {0, }, val_bg_color_override = {0, }, val_bg_color_fs = {0, };
-    GdkPixbuf *pixbuf = viewer->priv->dst_pixbuf;
+    cairo_t *ctx = NULL;
+    gdouble bg_scale = 1.0;
 
-    /*
-     * Variables used for the selection-box.
-     */
-    gint box_x, box_y;
-    gint box_width, box_height;
-
-    /** BELOW THIS LINE THE VARIABLE_NAMES GET MESSY **/
-    GdkPixbuf *n_pixbuf = NULL;
-    gint x1, x2, y1, y2;
-    /** ABOVE THIS LINE THE VARIABLE_NAMES GET MESSY **/
-
-    g_value_init (&val_bg_color, GDK_TYPE_COLOR);
-    g_value_init (&val_bg_color_fs, GDK_TYPE_COLOR);
-    g_value_init (&val_bg_color_override, G_TYPE_BOOLEAN);
-
-    g_object_get_property (G_OBJECT(viewer->priv->settings), "bgcolor", &val_bg_color);
-    g_object_get_property (G_OBJECT(viewer->priv->settings), "bgcolor-override", &val_bg_color_override);
-    g_object_get_property (G_OBJECT(viewer->priv->settings), "bgcolor-fullscreen", &val_bg_color_fs);
-
-    /* required for transparent pixbufs... add double buffering to fix flickering*/
     if(GTK_WIDGET_REALIZED(widget))
     {          
-
-        /*
-         * Create a buffer to draw on
+        /* Create the cairo context */
+        ctx = gdk_cairo_create (widget->window);
+        
+        /* Determine if we draw the 'default' background-color,
+         * or the fullscreen-background-color.
          */
-        GdkPixmap *buffer = gdk_pixmap_new(NULL, widget->allocation.width, widget->allocation.height, gdk_drawable_get_depth(widget->window));
-        GdkGC *gc = gdk_gc_new(GDK_DRAWABLE(buffer));
-
-        /*
-         * Determine the background-color and draw the background.
-         */
-
-        if(gdk_window_get_state(gdk_window_get_toplevel(GTK_WIDGET(viewer)->window)) & GDK_WINDOW_STATE_FULLSCREEN)
+        if ( GDK_WINDOW_STATE_FULLSCREEN & gdk_window_get_state (
+                    gdk_window_get_toplevel (widget->window) ) )
         {
-           bg_color = g_value_get_boxed (&val_bg_color_fs);
+            bg_color = viewer->priv->bg_color_fs;
         }
-        else
+
+        if ( NULL == bg_color )
         {
-            if (g_value_get_boxed (&val_bg_color) && g_value_get_boolean (&val_bg_color_override))
+            bg_color = viewer->priv->bg_color;
+        }
+    
+        /* Paint the background-color */
+        /******************************/
+        gdk_cairo_set_source_color ( ctx, bg_color );
+        cairo_paint (ctx);
+
+
+        /* Check if a file should be rendered */
+        if ( NULL == viewer->priv->file )
+        {
+
+            /* If there is no image shown, render the ristretto
+             * logo on the background.
+             */
+
+            /* Calculate the icon-size */
+            /***************************/
+            if (widget->allocation.width < widget->allocation.height)
             {
-                bg_color = g_value_get_boxed (&val_bg_color);
+                bg_scale = (gdouble)BACKGROUND_ICON_SIZE /
+                    (gdouble)widget->allocation.width * 1.2;
             }
             else
             {
-                bg_color = &(widget->style->bg[GTK_STATE_NORMAL]);
+                bg_scale = (gdouble)BACKGROUND_ICON_SIZE /
+                    (gdouble)widget->allocation.height * 1.2;
             }
-        }
 
-        gdk_window_set_background (widget->window, bg_color);
-
-        gdk_colormap_alloc_color (gdk_gc_get_colormap (gc), bg_color, FALSE, TRUE);
-        gdk_gc_set_rgb_bg_color (gc, bg_color);
-        gdk_gc_set_foreground (gc, bg_color);
-
-        gdk_draw_rectangle(GDK_DRAWABLE(buffer), gc, TRUE, 0, 0, widget->allocation.width, widget->allocation.height);
-
-
-        /*
-         * Check if there is a source image
-         */
-        if(pixbuf)
-        {
-            /*
-             * Draw the image on the background
+            /* Move the cairo context in position so the
+             * background-image is painted in the center
+             * of the widget.
              */
-            x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
-            y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
-            x2 = gdk_pixbuf_get_width(pixbuf);
-            y2 = gdk_pixbuf_get_height(pixbuf);
-            
-            /* We only need to paint a checkered background if the image is transparent */
-            if(gdk_pixbuf_get_has_alpha(pixbuf))
-            {
-                /* TODO: give these variables correct names */
-                rstto_image_viewer_paint_checkers (viewer, GDK_DRAWABLE(buffer), gc, x2, y2, x1, y1);
-            }
-            gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
-                            NULL, 
-                            pixbuf,
-                            0,
-                            0,
-                            x1,
-                            y1,
-                            x2, 
-                            y2,
-                            GDK_RGB_DITHER_NONE,
-                            0,0);
+            cairo_translate (
+                    ctx,
+                    (gdouble)(widget->allocation.width-BACKGROUND_ICON_SIZE/bg_scale)/2.0,
+                    (gdouble)(widget->allocation.height-BACKGROUND_ICON_SIZE/bg_scale)/2.0);
 
-            if(viewer->priv->motion.state == RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM)
-            {
-                /*
-                 * The user can create a selection-box when dragging from four corners.
-                 * Check if the endpoint is before or after the starting-point,
-                 * calculate the offset and box-size accordingly.
-                 * 
-                 * Perform the calculations for the vertical movement.
-                 */
-                if (viewer->priv->motion.y < viewer->priv->motion.current_y)
-                {
-                    box_y = viewer->priv->motion.y;
-                    box_height = viewer->priv->motion.current_y - box_y;
-                }
-                else
-                {
-                    box_y = viewer->priv->motion.current_y;
-                    box_height = viewer->priv->motion.y - box_y;
-                }
+            /* Scale the context so the image
+             * fills the same part of the cairo-context
+             */
+            cairo_scale (
+                    ctx,
+                    1.0 / bg_scale,
+                    1.0 / bg_scale);
 
-                /*
-                 * Above comment applies here aswell, for the horizontal movement.
-                 */
-                if (viewer->priv->motion.x < viewer->priv->motion.current_x)
-                {
-                    box_x = viewer->priv->motion.x;
-                    box_width = viewer->priv->motion.current_x - box_x;
-                }
-                else
-                {
-                    box_x = viewer->priv->motion.current_x;
-                    box_width = viewer->priv->motion.x - box_x;
-                }
-
-                /*
-                 * Finally, paint the selection-box.
-                 */
-                rstto_image_viewer_paint_selection (viewer, GDK_DRAWABLE(buffer), gc, box_width, box_height, box_x, box_y);
-            }
+            /* Draw the pixbuf on the cairo-context */
+            /****************************************/
+            gdk_cairo_set_source_pixbuf (
+                    ctx,
+                    viewer->priv->bg_icon,
+                    0.0,
+                    0.0);
+            cairo_paint_with_alpha (ctx, 0.1);
         }
         else
         {
-            /*
-             * There is no image, draw the ristretto icon on the background
-             */
-            guint size = 0;
-            if ((GTK_WIDGET (viewer)->allocation.width) < (GTK_WIDGET (viewer)->allocation.height))
-            {
-                size = GTK_WIDGET (viewer)->allocation.width;
-            }
-            else
-            {
-                size = GTK_WIDGET (viewer)->allocation.height;
-            }
-            pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default(), 
-                                               "ristretto", 
-                                               (size*0.8),
-                                               GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
-            if (pixbuf)
-            {
-                gdk_pixbuf_saturate_and_pixelate (pixbuf, pixbuf, 0, TRUE);
-                n_pixbuf = gdk_pixbuf_composite_color_simple (pixbuf, (size*0.8), (size*0.8), GDK_INTERP_BILINEAR, 40, 40, bg_color->pixel, bg_color->pixel);
-                g_object_unref (pixbuf);
-                pixbuf = n_pixbuf;
 
-                x1 = (widget->allocation.width-gdk_pixbuf_get_width(pixbuf))<0?0:(widget->allocation.width-gdk_pixbuf_get_width(pixbuf))/2;
-                y1 = (widget->allocation.height-gdk_pixbuf_get_height(pixbuf))<0?0:(widget->allocation.height-gdk_pixbuf_get_height(pixbuf))/2;
-                x2 = gdk_pixbuf_get_width(pixbuf);
-                y2 = gdk_pixbuf_get_height(pixbuf);
-
-                gdk_draw_pixbuf(GDK_DRAWABLE(buffer), 
-                                NULL, 
-                                pixbuf,
-                                0,
-                                0,
-                                x1,
-                                y1,
-                                x2, 
-                                y2,
-                                GDK_RGB_DITHER_NONE,
-                                0,0);
-
-                /* Cleanup pixbuf */
-                g_object_unref (pixbuf);
-                pixbuf = NULL;
-            }
         }
-
-        /*
-         * Draw the buffer on the window
-         */
-
-        gdk_draw_drawable(GDK_DRAWABLE(widget->window), 
-                        gdk_gc_new(widget->window), 
-                        buffer,
-                        0,
-                        0,
-                        0,
-                        0,
-                        widget->allocation.width,
-                        widget->allocation.height);
-        g_object_unref(buffer);
-
     }
 }
 
@@ -2281,6 +2208,39 @@ cb_rstto_bgcolor_changed (
         gpointer user_data)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
+    GtkWidget *widget = GTK_WIDGET (user_data);
+
+    GValue val_bg_color = {0, };
+    GValue val_bg_color_override = {0, };
+    GValue val_bg_color_fs = {0, };
+
+    g_value_init (&val_bg_color, GDK_TYPE_COLOR);
+    g_value_init (&val_bg_color_fs, GDK_TYPE_COLOR);
+    g_value_init (&val_bg_color_override, G_TYPE_BOOLEAN);
+
+    g_object_get_property (
+            G_OBJECT(viewer->priv->settings),
+            "bgcolor",
+            &val_bg_color);
+    g_object_get_property (
+            G_OBJECT(viewer->priv->settings),
+            "bgcolor-override",
+            &val_bg_color_override);
+    g_object_get_property (
+            G_OBJECT(viewer->priv->settings),
+            "bgcolor-fullscreen",
+            &val_bg_color_fs);
+
+    if (TRUE == g_value_get_boolean (&val_bg_color_override))
+    {
+        viewer->priv->bg_color = g_value_get_boxed (&val_bg_color);
+    }
+    else
+    {
+        viewer->priv->bg_color = &(widget->style->bg[GTK_STATE_NORMAL]);
+    }
+    viewer->priv->bg_color_fs = g_value_get_boxed (&val_bg_color_fs);
+
     rstto_image_viewer_queued_repaint (viewer, TRUE);
 }
 
