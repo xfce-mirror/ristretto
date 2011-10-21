@@ -85,8 +85,6 @@ struct _RsttoImageViewerPriv
 
 
     GtkMenu                     *menu;
-    /* */
-    /***/
     gboolean                     revert_zoom_direction;
 
     /* Animation data for animated images (like .gif/.mng) */
@@ -101,12 +99,6 @@ struct _RsttoImageViewerPriv
     gdouble                 image_scale;
     gint                    image_width;
     gint                    image_height;
-
-    struct
-    {
-        gint idle_id;
-        gboolean refresh;
-    } repaint;
 
     struct
     {
@@ -180,16 +172,10 @@ rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerM
 
 static gboolean
 rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *, GtkAdjustment *, GtkAdjustment *);
-static void
-rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer, gboolean);
-static void
-rstto_image_viewer_paint_checkers (RsttoImageViewer *viewer, GdkDrawable *drawable, GdkGC *gc, gint width, gint height, gint x_offset, gint y_offset);
-static void
-rstto_image_viewer_paint_selection (RsttoImageViewer *viewer, GdkDrawable *drawable, GdkGC *gc, gint width, gint height, gint x_offset, gint y_offset);
-
 
 static void
 cb_rstto_image_viewer_value_changed(GtkAdjustment *adjustment, RsttoImageViewer *viewer);
+
 static void
 cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *result, gpointer user_data);
 static void
@@ -224,6 +210,7 @@ static gboolean
 rstto_button_release_event (
         GtkWidget *widget,
         GdkEventButton *event);
+
 static gboolean
 rstto_popup_menu (
         GtkWidget *widget);
@@ -323,11 +310,6 @@ rstto_image_viewer_init ( GObject *object )
             "notify::revert-zoom-direction",
             G_CALLBACK (cb_rstto_zoom_direction_changed),
             viewer);
-
-    /* Set to false, experimental...
-     * improves performance, but I am not sure what will give.
-     */
-    gtk_widget_set_redraw_on_allocate(GTK_WIDGET(viewer), FALSE);
 
     gtk_widget_set_events (GTK_WIDGET(viewer),
                            GDK_BUTTON_PRESS_MASK |
@@ -969,8 +951,8 @@ paint_image (
                         -1.0 * viewer->priv->image_height * viewer->priv->scale);
                 cairo_translate (
                         ctx,
-                        -1.0 * viewer->priv->rendering.y_offset,
-                        viewer->priv->rendering.x_offset);
+                        viewer->priv->rendering.y_offset,
+                        -1.0 * viewer->priv->rendering.x_offset);
                 break;
             case RSTTO_IMAGE_ORIENT_270:
                 cairo_rotate (
@@ -987,8 +969,8 @@ paint_image (
 
                 cairo_translate (
                         ctx,
-                        viewer->priv->rendering.y_offset,
-                        -1.0 * viewer->priv->rendering.x_offset);
+                        -1.0 * viewer->priv->rendering.y_offset,
+                        viewer->priv->rendering.x_offset);
                 break;
             case RSTTO_IMAGE_ORIENT_180:
                 cairo_rotate (
@@ -1174,21 +1156,6 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
         }
     }
 }
-
-static void
-rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer, gboolean refresh)
-{
-    if (viewer->priv->repaint.idle_id > 0)
-    {
-        g_source_remove(viewer->priv->repaint.idle_id);
-    }
-    if (refresh)
-    {
-        viewer->priv->repaint.refresh = TRUE;
-    }
-    viewer->priv->repaint.idle_id = g_idle_add((GSourceFunc)cb_rstto_image_viewer_queued_repaint, viewer);
-}
-
 
 GtkWidget *
 rstto_image_viewer_new (void)
@@ -1889,6 +1856,157 @@ rstto_button_release_event (
         GdkEventButton *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    gdouble box_y = 0.0;
+    gdouble box_x = 0.0;
+    gdouble box_width = 0.0;
+    gdouble box_height = 0.0;
+    gdouble x_offset = viewer->priv->rendering.x_offset;
+    gdouble y_offset = viewer->priv->rendering.y_offset;
+    gdouble image_width = viewer->priv->rendering.width;
+    gdouble image_height = viewer->priv->rendering.height;
+    gdouble scale = viewer->priv->scale;
+    gdouble tmp_x = 0.0;
+    gdouble tmp_y = 0.0;
+
+    switch (viewer->priv->motion.state)
+    {
+        case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
+            /* A selection-box can be created moving the cursor from
+             * left to right, aswell as from right to left.
+             * 
+             * Calculate the box dimensions accordingly.
+             */
+            if (viewer->priv->motion.y < viewer->priv->motion.current_y)
+            {
+                box_y = (gdouble)viewer->priv->motion.y;
+                box_height = (gdouble)viewer->priv->motion.current_y - box_y;
+            }
+            else
+            {
+                box_y = (gdouble)viewer->priv->motion.current_y;
+                box_height = (gdouble)viewer->priv->motion.y - box_y;
+            }
+
+            /* A selection-box can be created moving the cursor from
+             * top to bottom, aswell as from bottom to top.
+             * 
+             * Calculate the box dimensions accordingly.
+             */
+            if (viewer->priv->motion.x < viewer->priv->motion.current_x)
+            {
+                box_x = (gdouble)viewer->priv->motion.x;
+                box_width = (gdouble)viewer->priv->motion.current_x - box_x;
+            }
+            else
+            {
+                box_x = (gdouble)viewer->priv->motion.current_x;
+                box_width = (gdouble)viewer->priv->motion.x - box_x;
+            }
+
+            /*
+             * Constrain the selection-box to the left
+             * and top sides of the image.
+             */
+            if (box_x < x_offset)
+            {
+                box_width = box_width - (x_offset - box_x);
+                box_x = x_offset;
+            }
+            if (box_y < y_offset)
+            {
+                box_height = box_height - (y_offset - box_y);
+                box_y = y_offset;
+            }
+
+            if ((x_offset + image_width) < (box_x + box_width))
+            {
+                box_width = (x_offset + image_width) - box_x - 1;
+            }
+            if ((y_offset + image_height) < (box_y + box_height))
+            {
+                box_height = (y_offset + image_height) - box_y - 1;
+            }
+            
+            if ( box_width > 0 && box_height > 0 )
+            {
+                /* Set auto_scale to false, we are going manual */
+                viewer->priv->auto_scale = FALSE;
+
+                if (scale == RSTTO_MAX_SCALE)
+                    break;
+
+                /*
+                 * Calculate the center of the selection-box.
+                 */
+                tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + (gdouble)box_y +
+((gdouble)box_height/ 2) - viewer->priv->rendering.y_offset) / viewer->priv->scale;
+                tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + (gdouble)box_x +
+((gdouble)box_width/ 2) - viewer->priv->rendering.x_offset) / viewer->priv->scale;
+
+                /*
+                 * Calculate the new scale
+                 */
+                if ((gtk_adjustment_get_page_size(viewer->hadjustment) / box_width) < 
+                    (gtk_adjustment_get_page_size(viewer->vadjustment) / box_height))
+                {
+                    scale = viewer->priv->scale * (gtk_adjustment_get_page_size(viewer->hadjustment) / box_width);
+                }
+                else
+                {
+                    scale = viewer->priv->scale * (gtk_adjustment_get_page_size(viewer->vadjustment) / box_height);
+                }
+
+                /*
+                 * Prevent the widget from zooming in beyond the
+                 * MAX_SCALE.
+                 */
+                if (scale > RSTTO_MAX_SCALE)
+                {
+                    scale = RSTTO_MAX_SCALE;
+                }
+
+                viewer->priv->scale = scale;
+
+                /*
+                 * Prevent the adjustments from emitting the
+                 * 'changed' signal,
+                 * this way both the upper-limit and value can
+                 * be changed before the
+                 * rest of the application is informed.
+                 */
+                g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
+                g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
+
+                gtk_adjustment_set_upper (
+                        viewer->hadjustment,
+                        (gdouble)viewer->priv->image_width*viewer->priv->scale);
+                gtk_adjustment_set_value (
+                        viewer->hadjustment,
+                        (tmp_x * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->hadjustment)/2)));
+
+                gtk_adjustment_set_upper (
+                        viewer->vadjustment,
+                        (gdouble)viewer->priv->image_height*viewer->priv->scale);
+                gtk_adjustment_set_value (
+                        viewer->vadjustment,
+                        (tmp_y * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->vadjustment)/2)));
+
+                /*
+                 * Enable signals on the adjustments.
+                 */
+                g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
+                g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
+
+                /*
+                 * Trigger the 'changed' signal, update the rest
+                 * of
+                 * the appliaction.
+                 */
+                gtk_adjustment_changed(viewer->hadjustment);
+                gtk_adjustment_changed(viewer->vadjustment);
+            }
+            break;
+    }
     rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL);
     gdk_window_invalidate_rect (
             widget->window,
@@ -1937,7 +2055,10 @@ cb_rstto_bgcolor_changed (
     }
     viewer->priv->bg_color_fs = g_value_get_boxed (&val_bg_color_fs);
 
-    rstto_image_viewer_queued_repaint (viewer, TRUE);
+    gdk_window_invalidate_rect (
+            widget->window,
+            NULL,
+            FALSE);
 }
 
 static void
