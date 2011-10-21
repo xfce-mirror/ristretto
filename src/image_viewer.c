@@ -795,6 +795,9 @@ static void
 rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    gdouble x_offset = 0.0;
+    gdouble y_offset = 0.0;
+    
 
     if(GTK_WIDGET_REALIZED(widget))
     {          
@@ -837,9 +840,29 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
                                 ctx,
                                 0.0 - gtk_adjustment_get_value (viewer->hadjustment),
                                 0.0 - gtk_adjustment_get_value (viewer->vadjustment));
+                        x_offset = ((gdouble)widget->allocation.width - (
+                                    (gdouble)viewer->priv->image_width * 
+                                        viewer->priv->scale) ) / 2.0;
+                        y_offset = ((gdouble)widget->allocation.height - (
+                                    (gdouble)viewer->priv->image_height * 
+                                        viewer->priv->scale) ) / 2.0;
                         break;
 
                 }
+
+                if (x_offset < 0.)
+                {
+                    x_offset = 0.0;
+                }
+                if (y_offset < 0.)
+                {
+                    y_offset = 0.0;
+                }
+
+                cairo_translate (
+                        ctx,
+                        x_offset,
+                        y_offset);
 
                 /* TODO: center image on widget when zoomed out */
                 cairo_scale (
