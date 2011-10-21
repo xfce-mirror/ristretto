@@ -74,9 +74,14 @@ struct _RsttoImageViewerPriv
 
     RsttoImageViewerTransaction *transaction;
     GdkPixbuf                   *pixbuf;
-    GdkPixbuf                   *dst_pixbuf;
     RsttoImageOrientation        orientation;
-    gdouble                      quality;
+    struct
+    {
+        gdouble x_offset;
+        gdouble y_offset;
+        gdouble width;
+        gdouble height;
+    } rendering;
 
 
     GtkMenu                     *menu;
@@ -903,11 +908,50 @@ paint_image (
         cairo_t *ctx )
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-    gdouble x_offset = 0.0;
-    gdouble y_offset = 0.0;
 
     if (viewer->priv->pixbuf)
     {
+        switch (viewer->priv->orientation)
+        {
+            case RSTTO_IMAGE_ORIENT_90:
+            case RSTTO_IMAGE_ORIENT_270:
+                viewer->priv->rendering.x_offset = ((gdouble)widget->allocation.width - (
+                            (gdouble)viewer->priv->image_height * 
+                                viewer->priv->scale) ) / 2.0;
+                viewer->priv->rendering.y_offset = ((gdouble)widget->allocation.height - (
+                            (gdouble)viewer->priv->image_width * 
+                                viewer->priv->scale) ) / 2.0;
+                viewer->priv->rendering.width = 
+                        (gdouble)viewer->priv->image_height * viewer->priv->scale;
+                viewer->priv->rendering.height = 
+                        (gdouble)viewer->priv->image_width * viewer->priv->scale;
+                break;
+            case RSTTO_IMAGE_ORIENT_NONE:
+            case RSTTO_IMAGE_ORIENT_180:
+            default:
+                viewer->priv->rendering.x_offset = ((gdouble)widget->allocation.width - (
+                            (gdouble)viewer->priv->image_width * 
+                                viewer->priv->scale) ) / 2.0;
+                viewer->priv->rendering.y_offset = ((gdouble)widget->allocation.height - (
+                            (gdouble)viewer->priv->image_height * 
+                                viewer->priv->scale) ) / 2.0;
+                viewer->priv->rendering.width = 
+                        (gdouble)viewer->priv->image_width * viewer->priv->scale;
+                viewer->priv->rendering.height = 
+                        (gdouble)viewer->priv->image_height * viewer->priv->scale;
+                break;
+
+        }
+
+        if (viewer->priv->rendering.x_offset < 0.0)
+        {
+            viewer->priv->rendering.x_offset = 0.0;
+        }
+        if (viewer->priv->rendering.y_offset < 0.0)
+        {
+            viewer->priv->rendering.y_offset = 0.0;
+        }
+
         /* TODO: make this work for all rotations */
         switch (viewer->priv->orientation)
         {
@@ -923,21 +967,10 @@ paint_image (
                         ctx,
                         0.0,
                         -1.0 * viewer->priv->image_height * viewer->priv->scale);
-
-                y_offset = -1.0 * (((gdouble)widget->allocation.width - (
-                            (gdouble)viewer->priv->image_height * 
-                                viewer->priv->scale) ) / 2.0);
-                x_offset =  ((gdouble)widget->allocation.height - (
-                            (gdouble)viewer->priv->image_width * 
-                                viewer->priv->scale) ) / 2.0;
-                if (x_offset < 0.0)
-                {
-                    x_offset = 0.0;
-                }
-                if (y_offset > 0.0)
-                {
-                    y_offset = 0.0;
-                }
+                cairo_translate (
+                        ctx,
+                        -1.0 * viewer->priv->rendering.y_offset,
+                        viewer->priv->rendering.x_offset);
                 break;
             case RSTTO_IMAGE_ORIENT_270:
                 cairo_rotate (
@@ -952,20 +985,10 @@ paint_image (
                         -1.0 * viewer->priv->image_width * viewer->priv->scale,
                         0.0);
 
-                y_offset = (((gdouble)widget->allocation.width - (
-                            (gdouble)viewer->priv->image_height * 
-                                viewer->priv->scale) ) / 2.0);
-                x_offset = -1.0 * ((gdouble)widget->allocation.height - (
-                            (gdouble)viewer->priv->image_width * 
-                                viewer->priv->scale) ) / 2.0;
-                if (x_offset > 0.0)
-                {
-                    x_offset = 0.0;
-                }
-                if (y_offset < 0.0)
-                {
-                    y_offset = 0.0;
-                }
+                cairo_translate (
+                        ctx,
+                        viewer->priv->rendering.y_offset,
+                        -1.0 * viewer->priv->rendering.x_offset);
                 break;
             case RSTTO_IMAGE_ORIENT_180:
                 cairo_rotate (
@@ -980,21 +1003,10 @@ paint_image (
                         -1.0 * viewer->priv->image_width * viewer->priv->scale,
                         -1.0 * viewer->priv->image_height * viewer->priv->scale);
 
-                x_offset = -1.0 * ((gdouble)widget->allocation.width - (
-                            (gdouble)viewer->priv->image_width * 
-                                viewer->priv->scale) ) / 2.0;
-                y_offset = -1.0 * ((gdouble)widget->allocation.height - (
-                            (gdouble)viewer->priv->image_height * 
-                                viewer->priv->scale) ) / 2.0;
-
-                if (x_offset > 0.0)
-                {
-                    x_offset = 0.0;
-                }
-                if (y_offset > 0.0)
-                {
-                    y_offset = 0.0;
-                }
+                cairo_translate (
+                        ctx,
+                        -1.0 * viewer->priv->rendering.x_offset,
+                        -1.0 * viewer->priv->rendering.y_offset);
                 break;
             case RSTTO_IMAGE_ORIENT_NONE:
             default:
@@ -1002,29 +1014,14 @@ paint_image (
                         ctx,
                         0.0 - gtk_adjustment_get_value (viewer->hadjustment),
                         0.0 - gtk_adjustment_get_value (viewer->vadjustment));
-                x_offset = ((gdouble)widget->allocation.width - (
-                            (gdouble)viewer->priv->image_width * 
-                                viewer->priv->scale) ) / 2.0;
-                y_offset = ((gdouble)widget->allocation.height - (
-                            (gdouble)viewer->priv->image_height * 
-                                viewer->priv->scale) ) / 2.0;
-                if (x_offset < 0.0)
-                {
-                    x_offset = 0.0;
-                }
-                if (y_offset < 0.0)
-                {
-                    y_offset = 0.0;
-                }
+
+                cairo_translate (
+                        ctx,
+                        viewer->priv->rendering.x_offset,
+                        viewer->priv->rendering.y_offset);
                 break;
 
         }
-
-
-        cairo_translate (
-                ctx,
-                x_offset,
-                y_offset);
 
         cairo_scale (
                 ctx,
@@ -1051,7 +1048,16 @@ paint_selection_box (
     gdouble box_x = 0.0;
     gdouble box_width = 0.0;
     gdouble box_height = 0.0;
+    gdouble x_offset = viewer->priv->rendering.x_offset;
+    gdouble y_offset = viewer->priv->rendering.y_offset;
+    gdouble image_width = viewer->priv->rendering.width;
+    gdouble image_height = viewer->priv->rendering.height;
 
+    /* A selection-box can be created moving the cursor from
+     * left to right, aswell as from right to left.
+     * 
+     * Calculate the box dimensions accordingly.
+     */
     if (viewer->priv->motion.y < viewer->priv->motion.current_y)
     {
         box_y = (gdouble)viewer->priv->motion.y;
@@ -1063,6 +1069,11 @@ paint_selection_box (
         box_height = (gdouble)viewer->priv->motion.y - box_y;
     }
 
+    /* A selection-box can be created moving the cursor from
+     * top to bottom, aswell as from bottom to top.
+     * 
+     * Calculate the box dimensions accordingly.
+     */
     if (viewer->priv->motion.x < viewer->priv->motion.current_x)
     {
         box_x = (gdouble)viewer->priv->motion.x;
@@ -1074,9 +1085,33 @@ paint_selection_box (
         box_width = (gdouble)viewer->priv->motion.x - box_x;
     }
 
+    /*
+     * Constrain the selection-box to the left
+     * and top sides of the image.
+     */
+    if (box_x < x_offset)
+    {
+        box_width = box_width - (x_offset - box_x);
+        box_x = x_offset;
+    }
+    if (box_y < y_offset)
+    {
+        box_height = box_height - (y_offset - box_y);
+        box_y = y_offset;
+    }
+
+    if ((x_offset + image_width) < (box_x + box_width))
+    {
+        box_width = (x_offset + image_width) - box_x - 1;
+    }
+    if ((y_offset + image_height) < (box_y + box_height))
+    {
+        box_height = (y_offset + image_height) - box_y - 1;
+    }
+
     cairo_rectangle (
         ctx,
-        box_x-0.5, box_y-0.5,
+        box_x+0.5, box_y+0.5,
         box_width, box_height);
 
     cairo_set_source_rgba (ctx, 0.9, 0.9, 0.9, 0.2);
@@ -1854,164 +1889,11 @@ rstto_button_release_event (
         GdkEventButton *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-    gint box_x;
-    gint box_y;
-    gint box_width;
-    gint box_height;
-    gint pixbuf_width;
-    gint pixbuf_height;
-    gint pixbuf_x_offset;
-    gint pixbuf_y_offset;
-    gint width;
-    gint height;
-    gdouble tmp_x, tmp_y, scale;
-
-    if ( NULL != viewer->priv->dst_pixbuf )
-    {
-        pixbuf_width = gdk_pixbuf_get_width(viewer->priv->dst_pixbuf);
-        pixbuf_height = gdk_pixbuf_get_height(viewer->priv->dst_pixbuf);
-        pixbuf_x_offset = ((widget->allocation.width - pixbuf_width)/2);
-        pixbuf_y_offset = ((widget->allocation.height - pixbuf_height)/2);
-
-        width = gdk_pixbuf_get_width (viewer->priv->pixbuf);
-        height = gdk_pixbuf_get_height (viewer->priv->pixbuf);
-
-        if (viewer->priv->motion.y < viewer->priv->motion.current_y)
-        {
-            box_y = viewer->priv->motion.y;
-            box_height = viewer->priv->motion.current_y - box_y;
-        }
-        else
-        {
-            box_y = viewer->priv->motion.current_y;
-            box_height = viewer->priv->motion.y - box_y;
-        }
-
-        if (viewer->priv->motion.x < viewer->priv->motion.current_x)
-        {
-            box_x = viewer->priv->motion.x;
-            box_width = viewer->priv->motion.current_x - box_x;
-        }
-        else
-        {
-            box_x = viewer->priv->motion.current_x;
-            box_width = viewer->priv->motion.x - box_x;
-        }
-    }
-
-
-    switch (event->button)
-    {
-        case 1:
-            gdk_window_set_cursor(widget->window, NULL);
-            switch (viewer->priv->motion.state)
-            {
-                case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
-                    /*
-                     * Constrain the selection-box to the left
-                     * and top sides of the image.
-                     */
-                    if (box_x < pixbuf_x_offset)
-                    {
-                        box_width -= (pixbuf_x_offset - box_x);
-                        box_x = pixbuf_x_offset;
-                    }
-                    if (box_y < pixbuf_y_offset)
-                    {
-                        box_height -= (pixbuf_y_offset - box_y);
-                        box_y = pixbuf_y_offset;
-                    }
-
-                    /*
-                     * Constrain the selection-box to the right
-                     * and bottom sides of the image.
-                     */
-                    if ((box_x + box_width) > (pixbuf_x_offset+pixbuf_width))
-                    {
-                        box_width = (pixbuf_x_offset+pixbuf_width)-box_x;
-                    }
-                    if ((box_y + box_height) > (pixbuf_y_offset+pixbuf_height))
-                    {
-                        box_height = (pixbuf_y_offset+pixbuf_height)-box_y;
-                    }
-
-                    if ((box_width > 0) && (box_height > 0))
-                    {
-                        /*
-                         * Using BOX_ZOOM disables auto-scale (zoom-to-fit-widget)
-                         */
-                        viewer->priv->auto_scale = FALSE;
-                        
-                        /*
-                         * Calculate the center of the selection-box.
-                         */
-
-                        tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + (gdouble)box_y + ((gdouble)box_height/ 2) - pixbuf_y_offset) / viewer->priv->scale;
-
-                        tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + (gdouble)box_x + ((gdouble)box_width / 2) - pixbuf_x_offset) / viewer->priv->scale;
-
-                        /*
-                         * Calculate the new scale
-                         */
-                        if ((gtk_adjustment_get_page_size(viewer->hadjustment) / box_width) < 
-                            (gtk_adjustment_get_page_size(viewer->vadjustment) / box_height))
-                        {
-                            scale = viewer->priv->scale * (gtk_adjustment_get_page_size(viewer->hadjustment) / box_width);
-                        }
-                        else
-                        {
-                            scale = viewer->priv->scale * (gtk_adjustment_get_page_size(viewer->vadjustment) / box_height);
-                        }
-
-                        /*
-                         * Prevent the widget from zooming in beyond the MAX_SCALE.
-                         */
-                        if (scale > RSTTO_MAX_SCALE)
-                        {
-                            scale = RSTTO_MAX_SCALE;
-                        }
-
-                        viewer->priv->scale = scale;
-
-                        
-                        /*
-                         * Prevent the adjustments from emitting the 'changed' signal,
-                         * this way both the upper-limit and value can be changed before the
-                         * rest of the application is informed.
-                         */
-                        g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
-                        g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
-
-                        gtk_adjustment_set_upper (viewer->hadjustment, (gdouble)width*(viewer->priv->scale/viewer->priv->image_scale));
-                        gtk_adjustment_set_value (viewer->hadjustment, (tmp_x * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->hadjustment)/2)));
-                        gtk_adjustment_set_upper (viewer->vadjustment, (gdouble)height*(viewer->priv->scale/viewer->priv->image_scale));
-                        gtk_adjustment_set_value (viewer->vadjustment, (tmp_y * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->vadjustment)/2)));
-
-                        /*
-                         * Enable signals on the adjustments.
-                         */
-                        g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
-                        g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
-
-                        /*
-                         * Trigger the 'changed' signal, update the rest of
-                         * the appliaction.
-                         */
-                        gtk_adjustment_changed(viewer->hadjustment);
-                        gtk_adjustment_changed(viewer->vadjustment);
-
-                    }
-                    break;
-                default:
-                    break;
-            }
-            rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL);
-            gdk_window_invalidate_rect (
-                    widget->window,
-                    NULL,
-                    FALSE);
-            break;
-    }
+    rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL);
+    gdk_window_invalidate_rect (
+            widget->window,
+            NULL,
+            FALSE);
     return FALSE;
 }
 
