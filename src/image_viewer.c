@@ -188,8 +188,6 @@ static void
 cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction);
 static gboolean
 cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer);
-static gboolean 
-cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer);
 
 static gboolean
 rstto_scroll_event (
@@ -1718,16 +1716,209 @@ cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer)
     return FALSE;
 }
 
-static gboolean 
-cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
-{
-}
-
 static gboolean
 rstto_scroll_event (
         GtkWidget *widget,
         GdkEventScroll *event)
 {
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    gboolean auto_scale = FALSE;
+    gboolean revert_zoom_direction = viewer->priv->revert_zoom_direction;
+    gdouble x_offset = viewer->priv->rendering.x_offset;
+    gdouble y_offset = viewer->priv->rendering.y_offset;
+    gdouble image_width = viewer->priv->rendering.width;
+    gdouble image_height = viewer->priv->rendering.height;
+    gdouble tmp_x = 0.0;
+    gdouble tmp_y = 0.0;
+    gdouble scale = viewer->priv->scale;
+    gdouble v_scale;
+    gdouble h_scale;
+
+    if (event->state & (GDK_CONTROL_MASK))
+    {
+        if ( NULL != viewer->priv->file )
+        {
+            viewer->priv->auto_scale = FALSE;
+
+            tmp_x = (gdouble)(gtk_adjustment_get_value(viewer->hadjustment) + 
+                    (gdouble)event->x - x_offset) / viewer->priv->scale;
+            tmp_y = (gdouble)(gtk_adjustment_get_value(viewer->vadjustment) + 
+                    (gdouble)event->y - y_offset) / viewer->priv->scale;
+
+            switch(event->direction)
+            {
+                case GDK_SCROLL_UP:
+                case GDK_SCROLL_LEFT:
+                    if (revert_zoom_direction)
+                    {
+                        scale = viewer->priv->scale / 1.1;
+                    }
+                    else
+                    {
+                        scale = viewer->priv->scale * 1.1;
+                    }
+                    break;
+                case GDK_SCROLL_DOWN:
+                case GDK_SCROLL_RIGHT:
+                    if (revert_zoom_direction)
+                    {
+                        scale = viewer->priv->scale * 1.1;
+                    }
+                    else
+                    {
+                        scale = viewer->priv->scale / 1.1;
+                    }
+                    break;
+            }
+
+            /*
+             * If the image is larger then the screen-dimensions,
+             * there is no reason to zoom in beyond RSTTO_MAX_SCALE.
+             *
+             * If the image is smaller then the screen-dimensions,
+             * zoom in to RSTTO_MAX_SCALE OR the window-size, whichever
+             * comes last.
+             *
+             */
+            if (viewer->priv->image_scale < 1.0)
+            {
+                if (scale > RSTTO_MAX_SCALE)
+                {
+                    scale = RSTTO_MAX_SCALE;
+                }
+            }
+            else
+            {
+                /*
+                 * Assuming image_scale == 1.0
+                 */
+
+                switch (viewer->priv->orientation)
+                {
+                    case RSTTO_IMAGE_ORIENT_90:
+                    case RSTTO_IMAGE_ORIENT_270:
+                        v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_height;
+                        h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_width;
+                        break;
+                    case RSTTO_IMAGE_ORIENT_NONE:
+                    case RSTTO_IMAGE_ORIENT_180:
+                    default:
+                        v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_width;
+                        h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_height;
+                        break;
+                }
+
+                if ((h_scale > RSTTO_MAX_SCALE) || (v_scale > RSTTO_MAX_SCALE))
+                {
+                    if(h_scale < v_scale)
+                    {
+                        /* If the image is scaled beyond the
+                         * window-size, 
+                         * force the scale to fit the window and set
+                         * auto_scale = TRUE.
+                         */
+                        if (scale > h_scale)
+                        {
+                            auto_scale = TRUE;
+                            scale = h_scale;
+                        }
+                    }
+                    else
+                    {
+                        /* If the image is scaled beyond the
+                         * window-size, 
+                         * force the scale to fit the window and set
+                         * auto_scale = TRUE.
+                         */
+                        if (scale > v_scale)
+                        {
+                            auto_scale = TRUE;
+                            scale = v_scale;
+                        }
+                    }
+                }
+                else
+                {
+                    if (scale > RSTTO_MAX_SCALE)
+                    {
+                        scale = RSTTO_MAX_SCALE;
+                    }
+
+                }
+            }
+
+            /*
+             * There is no need to zoom out beyond 32x32 pixels
+             * unless, ofcourse the image itself is smaller then 32x32
+             * pixels.
+             */
+            if (viewer->priv->image_width > viewer->priv->image_height)
+            {
+                if ((viewer->priv->image_width >= 48) && ((scale * viewer->priv->image_width) < 48))
+                {
+                    scale = (48.0 / (gdouble)viewer->priv->image_width);
+                }
+                if ((viewer->priv->image_width < 48) && (scale < 1.0))
+                {
+                    scale = 1.0; 
+                }
+            }
+            else
+            {
+                if ((viewer->priv->image_height >= 48) && ((scale * viewer->priv->image_height) < 48))
+                {
+                    scale = (48.0 / (gdouble)viewer->priv->image_height);
+                }
+                if ((viewer->priv->image_height < 48) && (scale < 1.0))
+                {
+                    scale = 1.0; 
+                }
+            }
+
+            viewer->priv->auto_scale = auto_scale;
+            viewer->priv->scale = scale;
+
+            g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
+            g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
+
+            gtk_adjustment_set_upper (
+                    viewer->hadjustment,
+                    (gdouble)viewer->priv->image_width*viewer->priv->scale);
+            gtk_adjustment_set_value (
+                    viewer->hadjustment,
+                    (tmp_x * scale - event->x));
+
+            gtk_adjustment_set_upper (
+                    viewer->vadjustment,
+                    (gdouble)viewer->priv->image_height*viewer->priv->scale);
+            gtk_adjustment_set_value (
+                    viewer->vadjustment,
+                    (tmp_y * scale - event->y));
+
+            /*
+             * Enable signals on the adjustments.
+             */
+            g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
+            g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
+
+
+            /*
+             * Trigger the 'changed' signal, update the rest
+             * of
+             * the appliaction.
+             */
+            gtk_adjustment_changed(viewer->hadjustment);
+            gtk_adjustment_changed(viewer->vadjustment);
+
+            /* Invalidate the entire window */
+            gdk_window_invalidate_rect (
+                    widget->window,
+                    NULL,
+                    FALSE); 
+        }
+        return TRUE;
+    }
+    return FALSE;
 }
 
 static gboolean 
@@ -1868,6 +2059,8 @@ rstto_button_release_event (
     gdouble tmp_x = 0.0;
     gdouble tmp_y = 0.0;
 
+    gdk_window_set_cursor(widget->window, NULL);
+
     switch (viewer->priv->motion.state)
     {
         case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
@@ -1939,9 +2132,9 @@ rstto_button_release_event (
                  * Calculate the center of the selection-box.
                  */
                 tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + (gdouble)box_y +
-((gdouble)box_height/ 2) - viewer->priv->rendering.y_offset) / viewer->priv->scale;
+                        ((gdouble)box_height/ 2) - viewer->priv->rendering.y_offset) / viewer->priv->scale;
                 tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + (gdouble)box_x +
-((gdouble)box_width/ 2) - viewer->priv->rendering.x_offset) / viewer->priv->scale;
+                        ((gdouble)box_width/ 2) - viewer->priv->rendering.x_offset) / viewer->priv->scale;
 
                 /*
                  * Calculate the new scale
