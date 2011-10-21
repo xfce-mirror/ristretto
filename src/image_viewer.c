@@ -808,10 +808,10 @@ correct_adjustments ( RsttoImageViewer *viewer )
         case RSTTO_IMAGE_ORIENT_180:
             gtk_adjustment_set_upper (
                     viewer->hadjustment,
-                    ceil(image_width * scale));
+                    floor(image_width * scale));
             gtk_adjustment_set_upper (
                     viewer->vadjustment,
-                    ceil(image_height * scale));
+                    floor(image_height * scale));
 
             gtk_adjustment_set_page_size (
                     viewer->hadjustment,
@@ -826,8 +826,8 @@ correct_adjustments ( RsttoImageViewer *viewer )
             {
                 gtk_adjustment_set_value (
                         viewer->hadjustment,
-                        (image_width * scale) - 
-                            (gdouble)widget->allocation.width);
+                        floor((image_width * scale) - 
+                            (gdouble)widget->allocation.width));
             }
 
             if ( ( gtk_adjustment_get_value (viewer->vadjustment) +
@@ -836,18 +836,18 @@ correct_adjustments ( RsttoImageViewer *viewer )
             {
                 gtk_adjustment_set_value (
                         viewer->vadjustment,
-                        (image_height * scale) - 
-                            (gdouble)widget->allocation.height);
+                        floor((image_height * scale) - 
+                            (gdouble)widget->allocation.height));
             }
             break;
         case RSTTO_IMAGE_ORIENT_90:
         case RSTTO_IMAGE_ORIENT_270:
             gtk_adjustment_set_upper (
                     viewer->hadjustment,
-                    ceil(image_height * scale));
+                    floor(image_height * scale));
             gtk_adjustment_set_upper (
                     viewer->vadjustment,
-                    ceil(image_width * scale));
+                    floor(image_width * scale));
 
             gtk_adjustment_set_page_size (
                     viewer->hadjustment,
@@ -1187,7 +1187,6 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     
-
     if(GTK_WIDGET_REALIZED(widget))
     {
 
@@ -1964,14 +1963,14 @@ rstto_scroll_event (
 
             gtk_adjustment_set_upper (
                     viewer->hadjustment,
-                    (gdouble)viewer->priv->image_width*viewer->priv->scale);
+                    floor((gdouble)viewer->priv->image_width*viewer->priv->scale));
             gtk_adjustment_set_value (
                     viewer->hadjustment,
                     (tmp_x * scale - event->x));
 
             gtk_adjustment_set_upper (
                     viewer->vadjustment,
-                    (gdouble)viewer->priv->image_height*viewer->priv->scale);
+                    floor((gdouble)viewer->priv->image_height*viewer->priv->scale));
             gtk_adjustment_set_value (
                     viewer->vadjustment,
                     (tmp_y * scale - event->y));
@@ -1982,14 +1981,6 @@ rstto_scroll_event (
             g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
             g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
 
-
-            /*
-             * Trigger the 'changed' signal, update the rest
-             * of
-             * the appliaction.
-             */
-            gtk_adjustment_changed(viewer->hadjustment);
-            gtk_adjustment_changed(viewer->vadjustment);
 
             /* Invalidate the entire window */
             gdk_window_invalidate_rect (
@@ -2253,14 +2244,14 @@ rstto_button_release_event (
 
                 gtk_adjustment_set_upper (
                         viewer->hadjustment,
-                        (gdouble)viewer->priv->image_width*viewer->priv->scale);
+                        floor((gdouble)viewer->priv->image_width*viewer->priv->scale));
                 gtk_adjustment_set_value (
                         viewer->hadjustment,
                         (tmp_x * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->hadjustment)/2)));
 
                 gtk_adjustment_set_upper (
                         viewer->vadjustment,
-                        (gdouble)viewer->priv->image_height*viewer->priv->scale);
+                        floor((gdouble)viewer->priv->image_height*viewer->priv->scale));
                 gtk_adjustment_set_value (
                         viewer->vadjustment,
                         (tmp_y * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->vadjustment)/2)));
