@@ -969,8 +969,8 @@ paint_image (
                 }
                 cairo_rectangle (
                         ctx,
-                        x_offset + i*10 - 0.5,
-                        y_offset + a*10 - 0.5,
+                        x_offset + i*10,
+                        y_offset + a*10,
                         block_width,
                         block_height);
                 cairo_fill (ctx);
@@ -1003,8 +1003,8 @@ paint_image (
                 }
                 cairo_rectangle (
                         ctx,
-                        x_offset + i*10 - 0.5,
-                        y_offset + a*10 - 0.5,
+                        x_offset + i*10,
+                        y_offset + a*10,
                         block_width,
                         block_height);
                 cairo_fill (ctx);
