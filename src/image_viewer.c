@@ -888,6 +888,12 @@ paint_image (
         cairo_t *ctx )
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    gint i = 0;
+    gint a = 0;
+    gdouble x_offset;
+    gdouble y_offset;
+    gint block_width = 10;
+    gint block_height = 10;
 
     if (viewer->priv->pixbuf)
     {
@@ -931,6 +937,81 @@ paint_image (
         {
             viewer->priv->rendering.y_offset = 0.0;
         }
+
+        cairo_save (ctx);
+        x_offset = viewer->priv->rendering.x_offset;
+        y_offset = viewer->priv->rendering.y_offset;
+
+/* BEGIN PAINT CHECKERED BACKGROUND */
+        cairo_set_source_rgba (ctx, 0.8, 0.8, 0.8, 1.0);
+        for (i = 0; i < viewer->priv->rendering.width/10; ++i)
+        {
+            if(i%2){a=0;}
+            else{a=1;}
+
+            if ((i+1) <= (viewer->priv->rendering.width/10))
+            {
+                block_width = 10;
+            }
+            else
+            {
+                block_width = ((gint)viewer->priv->rendering.width)%10;
+            }
+            for (; a < viewer->priv->rendering.height/10; a+=2)
+            {
+                if ((a+1) <= (viewer->priv->rendering.height/10))
+                {
+                    block_height = 10;
+                }
+                else
+                {
+                    block_height = ((gint)viewer->priv->rendering.height%10);
+                }
+                cairo_rectangle (
+                        ctx,
+                        x_offset + i*10 - 0.5,
+                        y_offset + a*10 - 0.5,
+                        block_width,
+                        block_height);
+                cairo_fill (ctx);
+            }
+        }
+
+        cairo_set_source_rgba (ctx, 0.4, 0.4, 0.4, 1.0);
+        for (i = 0; i < viewer->priv->rendering.width/10; ++i)
+        {
+            if(i%2){a=1;}
+            else{a=0;}
+
+            if ((i+1) <= (viewer->priv->rendering.width/10))
+            {
+                block_width = 10;
+            }
+            else
+            {
+                block_width = ((gint)viewer->priv->rendering.width)%10;
+            }
+            for (; a < viewer->priv->rendering.height/10; a+=2)
+            {
+                if ((a+1) <= (viewer->priv->rendering.height/10))
+                {
+                    block_height = 10;
+                }
+                else
+                {
+                    block_height = ((gint)viewer->priv->rendering.height%10);
+                }
+                cairo_rectangle (
+                        ctx,
+                        x_offset + i*10 - 0.5,
+                        y_offset + a*10 - 0.5,
+                        block_width,
+                        block_height);
+                cairo_fill (ctx);
+            }
+        }
+/* END PAINT CHECKERED BACKGROUND */
+        cairo_restore (ctx);
 
         /* TODO: make this work for all rotations */
         switch (viewer->priv->orientation)
