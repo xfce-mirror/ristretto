@@ -23,6 +23,8 @@
 #include <gio/gio.h>
 #include <libexif/exif-data.h>
 
+#include <math.h>
+
 #include "util.h"
 
 #include "file.h"
@@ -792,6 +794,56 @@ paint_background_icon (
 }
 
 static void
+correct_adjustments ( RsttoImageViewer *viewer )
+{
+    GtkWidget *widget = GTK_WIDGET (viewer);
+    gdouble image_width = (gdouble)viewer->priv->image_width;
+    gdouble image_height = (gdouble)viewer->priv->image_height;
+    gdouble scale = viewer->priv->scale;
+
+
+    g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
+    g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
+
+    gtk_adjustment_set_upper (
+            viewer->hadjustment,
+            ceil(image_width * scale));
+    gtk_adjustment_set_upper (
+            viewer->vadjustment,
+            ceil(image_height * scale));
+
+    gtk_adjustment_set_page_size (
+            viewer->hadjustment,
+            (gdouble)widget->allocation.width);
+    gtk_adjustment_set_page_size (
+            viewer->vadjustment,
+            (gdouble)widget->allocation.height);
+
+    if ( ( gtk_adjustment_get_value (viewer->hadjustment) +
+           gtk_adjustment_get_page_size (viewer->hadjustment) ) >
+           gtk_adjustment_get_upper (viewer->hadjustment) )
+    {
+        gtk_adjustment_set_value (
+                viewer->hadjustment,
+                (image_width * scale) - 
+                    (gdouble)widget->allocation.width);
+    }
+
+    if ( ( gtk_adjustment_get_value (viewer->vadjustment) +
+           gtk_adjustment_get_page_size (viewer->vadjustment) ) >
+           gtk_adjustment_get_upper (viewer->vadjustment) )
+    {
+        gtk_adjustment_set_value (
+                viewer->vadjustment,
+                (image_height * scale) - 
+                    (gdouble)widget->allocation.height);
+    }
+
+    g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
+    g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
+}
+
+static void
 rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
@@ -800,7 +852,10 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
     
 
     if(GTK_WIDGET_REALIZED(widget))
-    {          
+    {
+
+        correct_adjustments (viewer);
+
         cairo_rectangle (
                 ctx,
                 0.0,
@@ -1074,7 +1129,48 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
 
+    gdouble x_offset = ((gdouble)widget->allocation.width - (
+            (gdouble)viewer->priv->image_width * 
+                viewer->priv->scale) ) / 2.0;
+    gdouble y_offset = ((gdouble)widget->allocation.height - (
+            (gdouble)viewer->priv->image_height * 
+                viewer->priv->scale) ) / 2.0;
+    gdouble tmp_x;
+    gdouble tmp_y;
+
+    if (x_offset < 0) x_offset = 0;
+    if (y_offset < 0) y_offset = 0;
+
+    tmp_x = (gtk_adjustment_get_value(viewer->hadjustment) + 
+            (gtk_adjustment_get_page_size (viewer->hadjustment) / 2) - 
+                x_offset) / viewer->priv->scale;
+    tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + 
+            (gtk_adjustment_get_page_size (viewer->vadjustment) / 2) - 
+                y_offset) / viewer->priv->scale;
+    
     set_scale (viewer, scale);
+
+    g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
+    g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
+
+    /* The value here can possibly be set to a wrong value,
+     * the _paint function calls 'correct adjustments' to
+     * solve this issue. Hence, we do not need to call it
+     * here.
+     */
+    gtk_adjustment_set_value (
+            viewer->vadjustment,
+            ( tmp_y * viewer->priv->scale -
+                ( gtk_adjustment_get_page_size (
+                        viewer->vadjustment) / 2 )));
+    gtk_adjustment_set_value (
+            viewer->hadjustment,
+            ( tmp_x * viewer->priv->scale -
+                ( gtk_adjustment_get_page_size (
+                        viewer->hadjustment) / 2 )));
+
+    g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
+    g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
 
     gdk_window_invalidate_rect (
             widget->window,
@@ -1155,7 +1251,11 @@ rstto_image_viewer_set_menu (
 static void
 cb_rstto_image_viewer_value_changed(GtkAdjustment *adjustment, RsttoImageViewer *viewer)
 {
-    rstto_image_viewer_queued_repaint (viewer, TRUE);
+    GtkWidget *widget = GTK_WIDGET (viewer);
+    gdk_window_invalidate_rect (
+            widget->window,
+            NULL,
+            FALSE);
 }
 
 static void
