@@ -583,8 +583,23 @@ set_scale (
         gdouble scale )
 {
     gboolean auto_scale = FALSE;
-    gdouble v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_height;
-    gdouble h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_width;
+    gdouble v_scale;
+    gdouble h_scale;
+
+    switch (viewer->priv->orientation)
+    {
+        case RSTTO_IMAGE_ORIENT_90:
+        case RSTTO_IMAGE_ORIENT_270:
+            v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_height;
+            h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_width;
+            break;
+        case RSTTO_IMAGE_ORIENT_NONE:
+        case RSTTO_IMAGE_ORIENT_180:
+        default:
+            v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_width;
+            h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_height;
+            break;
+    }
 
     if (scale == -1.0)
     {
@@ -641,9 +656,6 @@ set_scale (
              *
              * Whichever comes last.
              */
-            v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_height;
-            h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_width;
-
             if ((h_scale > RSTTO_MAX_SCALE) || (v_scale > RSTTO_MAX_SCALE))
             {
                 if(h_scale < v_scale)
@@ -805,38 +817,80 @@ correct_adjustments ( RsttoImageViewer *viewer )
     g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
     g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
 
-    gtk_adjustment_set_upper (
-            viewer->hadjustment,
-            ceil(image_width * scale));
-    gtk_adjustment_set_upper (
-            viewer->vadjustment,
-            ceil(image_height * scale));
-
-    gtk_adjustment_set_page_size (
-            viewer->hadjustment,
-            (gdouble)widget->allocation.width);
-    gtk_adjustment_set_page_size (
-            viewer->vadjustment,
-            (gdouble)widget->allocation.height);
-
-    if ( ( gtk_adjustment_get_value (viewer->hadjustment) +
-           gtk_adjustment_get_page_size (viewer->hadjustment) ) >
-           gtk_adjustment_get_upper (viewer->hadjustment) )
+    switch (viewer->priv->orientation)
     {
-        gtk_adjustment_set_value (
-                viewer->hadjustment,
-                (image_width * scale) - 
+        case RSTTO_IMAGE_ORIENT_NONE:
+        case RSTTO_IMAGE_ORIENT_180:
+            gtk_adjustment_set_upper (
+                    viewer->hadjustment,
+                    ceil(image_width * scale));
+            gtk_adjustment_set_upper (
+                    viewer->vadjustment,
+                    ceil(image_height * scale));
+
+            gtk_adjustment_set_page_size (
+                    viewer->hadjustment,
                     (gdouble)widget->allocation.width);
-    }
-
-    if ( ( gtk_adjustment_get_value (viewer->vadjustment) +
-           gtk_adjustment_get_page_size (viewer->vadjustment) ) >
-           gtk_adjustment_get_upper (viewer->vadjustment) )
-    {
-        gtk_adjustment_set_value (
-                viewer->vadjustment,
-                (image_height * scale) - 
+            gtk_adjustment_set_page_size (
+                    viewer->vadjustment,
                     (gdouble)widget->allocation.height);
+
+            if ( ( gtk_adjustment_get_value (viewer->hadjustment) +
+                   gtk_adjustment_get_page_size (viewer->hadjustment) ) >
+                   gtk_adjustment_get_upper (viewer->hadjustment) )
+            {
+                gtk_adjustment_set_value (
+                        viewer->hadjustment,
+                        (image_width * scale) - 
+                            (gdouble)widget->allocation.width);
+            }
+
+            if ( ( gtk_adjustment_get_value (viewer->vadjustment) +
+                   gtk_adjustment_get_page_size (viewer->vadjustment) ) >
+                   gtk_adjustment_get_upper (viewer->vadjustment) )
+            {
+                gtk_adjustment_set_value (
+                        viewer->vadjustment,
+                        (image_height * scale) - 
+                            (gdouble)widget->allocation.height);
+            }
+            break;
+        case RSTTO_IMAGE_ORIENT_90:
+        case RSTTO_IMAGE_ORIENT_270:
+            gtk_adjustment_set_upper (
+                    viewer->hadjustment,
+                    ceil(image_height * scale));
+            gtk_adjustment_set_upper (
+                    viewer->vadjustment,
+                    ceil(image_width * scale));
+
+            gtk_adjustment_set_page_size (
+                    viewer->hadjustment,
+                    (gdouble)widget->allocation.width);
+            gtk_adjustment_set_page_size (
+                    viewer->vadjustment,
+                    (gdouble)widget->allocation.height);
+
+            if ( ( gtk_adjustment_get_value (viewer->hadjustment) +
+                   gtk_adjustment_get_page_size (viewer->hadjustment) ) >
+                   gtk_adjustment_get_upper (viewer->hadjustment) )
+            {
+                gtk_adjustment_set_value (
+                        viewer->hadjustment,
+                        (image_height * scale) - 
+                            (gdouble)widget->allocation.width);
+            }
+
+            if ( ( gtk_adjustment_get_value (viewer->vadjustment) +
+                   gtk_adjustment_get_page_size (viewer->vadjustment) ) >
+                   gtk_adjustment_get_upper (viewer->vadjustment) )
+            {
+                gtk_adjustment_set_value (
+                        viewer->vadjustment,
+                        (image_width * scale) - 
+                            (gdouble)widget->allocation.height);
+            }
+            break;
     }
 
     g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
@@ -890,7 +944,93 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
                 /* TODO: make this work for all rotations */
                 switch (viewer->priv->orientation)
                 {
+                    case RSTTO_IMAGE_ORIENT_90:
+                        cairo_rotate (
+                                ctx,
+                                M_PI*0.5);
+                        cairo_translate (
+                                ctx,
+                                0.0 - gtk_adjustment_get_value (viewer->vadjustment),
+                                gtk_adjustment_get_value (viewer->hadjustment));
+                        cairo_translate (
+                                ctx,
+                                0.0,
+                                -1.0 * viewer->priv->image_height * viewer->priv->scale);
+
+                        y_offset = -1.0 * (((gdouble)widget->allocation.width - (
+                                    (gdouble)viewer->priv->image_height * 
+                                        viewer->priv->scale) ) / 2.0);
+                        x_offset =  ((gdouble)widget->allocation.height - (
+                                    (gdouble)viewer->priv->image_width * 
+                                        viewer->priv->scale) ) / 2.0;
+                        if (x_offset < 0.0)
+                        {
+                            x_offset = 0.0;
+                        }
+                        if (y_offset > 0.0)
+                        {
+                            y_offset = 0.0;
+                        }
+                        break;
+                    case RSTTO_IMAGE_ORIENT_270:
+                        cairo_rotate (
+                                ctx,
+                                M_PI*1.5);
+                        cairo_translate (
+                                ctx,
+                                gtk_adjustment_get_value (viewer->vadjustment),
+                                0.0 - gtk_adjustment_get_value (viewer->hadjustment));
+                        cairo_translate (
+                                ctx,
+                                -1.0 * viewer->priv->image_width * viewer->priv->scale,
+                                0.0);
+
+                        y_offset = (((gdouble)widget->allocation.width - (
+                                    (gdouble)viewer->priv->image_height * 
+                                        viewer->priv->scale) ) / 2.0);
+                        x_offset = -1.0 * ((gdouble)widget->allocation.height - (
+                                    (gdouble)viewer->priv->image_width * 
+                                        viewer->priv->scale) ) / 2.0;
+                        if (x_offset > 0.0)
+                        {
+                            x_offset = 0.0;
+                        }
+                        if (y_offset < 0.0)
+                        {
+                            y_offset = 0.0;
+                        }
+                        break;
+                    case RSTTO_IMAGE_ORIENT_180:
+                        cairo_rotate (
+                                ctx,
+                                M_PI);
+                        cairo_translate (
+                                ctx,
+                                gtk_adjustment_get_value (viewer->hadjustment),
+                                gtk_adjustment_get_value (viewer->vadjustment));
+                        cairo_translate (
+                                ctx,
+                                -1.0 * viewer->priv->image_width * viewer->priv->scale,
+                                -1.0 * viewer->priv->image_height * viewer->priv->scale);
+
+                        x_offset = -1.0 * ((gdouble)widget->allocation.width - (
+                                    (gdouble)viewer->priv->image_width * 
+                                        viewer->priv->scale) ) / 2.0;
+                        y_offset = -1.0 * ((gdouble)widget->allocation.height - (
+                                    (gdouble)viewer->priv->image_height * 
+                                        viewer->priv->scale) ) / 2.0;
+
+                        if (x_offset > 0.0)
+                        {
+                            x_offset = 0.0;
+                        }
+                        if (y_offset > 0.0)
+                        {
+                            y_offset = 0.0;
+                        }
+                        break;
                     case RSTTO_IMAGE_ORIENT_NONE:
+                    default:
                         cairo_translate (
                                 ctx,
                                 0.0 - gtk_adjustment_get_value (viewer->hadjustment),
@@ -901,25 +1041,24 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
                         y_offset = ((gdouble)widget->allocation.height - (
                                     (gdouble)viewer->priv->image_height * 
                                         viewer->priv->scale) ) / 2.0;
+                        if (x_offset < 0.0)
+                        {
+                            x_offset = 0.0;
+                        }
+                        if (y_offset < 0.0)
+                        {
+                            y_offset = 0.0;
+                        }
                         break;
 
                 }
 
-                if (x_offset < 0.)
-                {
-                    x_offset = 0.0;
-                }
-                if (y_offset < 0.)
-                {
-                    y_offset = 0.0;
-                }
 
                 cairo_translate (
                         ctx,
                         x_offset,
                         y_offset);
 
-                /* TODO: center image on widget when zoomed out */
                 cairo_scale (
                         ctx,
                         (viewer->priv->scale/viewer->priv->image_scale),
@@ -1129,14 +1268,32 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
 
-    gdouble x_offset = ((gdouble)widget->allocation.width - (
-            (gdouble)viewer->priv->image_width * 
-                viewer->priv->scale) ) / 2.0;
-    gdouble y_offset = ((gdouble)widget->allocation.height - (
-            (gdouble)viewer->priv->image_height * 
-                viewer->priv->scale) ) / 2.0;
+    gdouble x_offset;
+    gdouble y_offset;
     gdouble tmp_x;
     gdouble tmp_y;
+
+    switch (viewer->priv->orientation)
+    {
+        case RSTTO_IMAGE_ORIENT_90:
+        case RSTTO_IMAGE_ORIENT_270:
+            x_offset = ((gdouble)widget->allocation.width - (
+                (gdouble)viewer->priv->image_height * 
+                    viewer->priv->scale) ) / 2.0;
+            y_offset = ((gdouble)widget->allocation.height - (
+                (gdouble)viewer->priv->image_width * 
+                    viewer->priv->scale) ) / 2.0;
+            break;
+        case RSTTO_IMAGE_ORIENT_NONE:
+        default:
+            x_offset = ((gdouble)widget->allocation.width - (
+                (gdouble)viewer->priv->image_width * 
+                    viewer->priv->scale) ) / 2.0;
+            y_offset = ((gdouble)widget->allocation.height - (
+                (gdouble)viewer->priv->image_height * 
+                    viewer->priv->scale) ) / 2.0;
+            break;
+    }
 
     if (x_offset < 0) x_offset = 0;
     if (y_offset < 0) y_offset = 0;
@@ -1205,6 +1362,12 @@ rstto_image_viewer_set_orientation (
     GtkWidget *widget = GTK_WIDGET (viewer); 
 
     viewer->priv->orientation = orientation;
+
+    if (viewer->priv->auto_scale)
+    {
+        set_scale (viewer, 0.0);
+    }
+
     rstto_file_set_orientation (viewer->priv->file, orientation);
 
     gdk_window_invalidate_rect (
