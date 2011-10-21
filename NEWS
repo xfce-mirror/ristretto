@@ -3,6 +3,7 @@ x.x.x
 - Re-introduce autorotation based on the exif-orientation tag, a
   regression since 0.0.93
 - Prevent segmentation fault when an error occurs while loading an image
+- Port image-viewer to cairo.
 
 0.2.0
 =====
