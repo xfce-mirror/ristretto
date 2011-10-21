@@ -898,11 +898,198 @@ correct_adjustments ( RsttoImageViewer *viewer )
 }
 
 static void
-rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
+paint_image (
+        GtkWidget *widget,
+        cairo_t *ctx )
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gdouble x_offset = 0.0;
     gdouble y_offset = 0.0;
+
+    if (viewer->priv->pixbuf)
+    {
+        /* TODO: make this work for all rotations */
+        switch (viewer->priv->orientation)
+        {
+            case RSTTO_IMAGE_ORIENT_90:
+                cairo_rotate (
+                        ctx,
+                        M_PI*0.5);
+                cairo_translate (
+                        ctx,
+                        0.0 - gtk_adjustment_get_value (viewer->vadjustment),
+                        gtk_adjustment_get_value (viewer->hadjustment));
+                cairo_translate (
+                        ctx,
+                        0.0,
+                        -1.0 * viewer->priv->image_height * viewer->priv->scale);
+
+                y_offset = -1.0 * (((gdouble)widget->allocation.width - (
+                            (gdouble)viewer->priv->image_height * 
+                                viewer->priv->scale) ) / 2.0);
+                x_offset =  ((gdouble)widget->allocation.height - (
+                            (gdouble)viewer->priv->image_width * 
+                                viewer->priv->scale) ) / 2.0;
+                if (x_offset < 0.0)
+                {
+                    x_offset = 0.0;
+                }
+                if (y_offset > 0.0)
+                {
+                    y_offset = 0.0;
+                }
+                break;
+            case RSTTO_IMAGE_ORIENT_270:
+                cairo_rotate (
+                        ctx,
+                        M_PI*1.5);
+                cairo_translate (
+                        ctx,
+                        gtk_adjustment_get_value (viewer->vadjustment),
+                        0.0 - gtk_adjustment_get_value (viewer->hadjustment));
+                cairo_translate (
+                        ctx,
+                        -1.0 * viewer->priv->image_width * viewer->priv->scale,
+                        0.0);
+
+                y_offset = (((gdouble)widget->allocation.width - (
+                            (gdouble)viewer->priv->image_height * 
+                                viewer->priv->scale) ) / 2.0);
+                x_offset = -1.0 * ((gdouble)widget->allocation.height - (
+                            (gdouble)viewer->priv->image_width * 
+                                viewer->priv->scale) ) / 2.0;
+                if (x_offset > 0.0)
+                {
+                    x_offset = 0.0;
+                }
+                if (y_offset < 0.0)
+                {
+                    y_offset = 0.0;
+                }
+                break;
+            case RSTTO_IMAGE_ORIENT_180:
+                cairo_rotate (
+                        ctx,
+                        M_PI);
+                cairo_translate (
+                        ctx,
+                        gtk_adjustment_get_value (viewer->hadjustment),
+                        gtk_adjustment_get_value (viewer->vadjustment));
+                cairo_translate (
+                        ctx,
+                        -1.0 * viewer->priv->image_width * viewer->priv->scale,
+                        -1.0 * viewer->priv->image_height * viewer->priv->scale);
+
+                x_offset = -1.0 * ((gdouble)widget->allocation.width - (
+                            (gdouble)viewer->priv->image_width * 
+                                viewer->priv->scale) ) / 2.0;
+                y_offset = -1.0 * ((gdouble)widget->allocation.height - (
+                            (gdouble)viewer->priv->image_height * 
+                                viewer->priv->scale) ) / 2.0;
+
+                if (x_offset > 0.0)
+                {
+                    x_offset = 0.0;
+                }
+                if (y_offset > 0.0)
+                {
+                    y_offset = 0.0;
+                }
+                break;
+            case RSTTO_IMAGE_ORIENT_NONE:
+            default:
+                cairo_translate (
+                        ctx,
+                        0.0 - gtk_adjustment_get_value (viewer->hadjustment),
+                        0.0 - gtk_adjustment_get_value (viewer->vadjustment));
+                x_offset = ((gdouble)widget->allocation.width - (
+                            (gdouble)viewer->priv->image_width * 
+                                viewer->priv->scale) ) / 2.0;
+                y_offset = ((gdouble)widget->allocation.height - (
+                            (gdouble)viewer->priv->image_height * 
+                                viewer->priv->scale) ) / 2.0;
+                if (x_offset < 0.0)
+                {
+                    x_offset = 0.0;
+                }
+                if (y_offset < 0.0)
+                {
+                    y_offset = 0.0;
+                }
+                break;
+
+        }
+
+
+        cairo_translate (
+                ctx,
+                x_offset,
+                y_offset);
+
+        cairo_scale (
+                ctx,
+                (viewer->priv->scale/viewer->priv->image_scale),
+                (viewer->priv->scale/viewer->priv->image_scale));
+
+        gdk_cairo_set_source_pixbuf (
+                ctx,
+                viewer->priv->pixbuf,
+                0.0,
+                0.0);
+        cairo_paint (ctx);
+    }
+
+}
+
+static void
+paint_selection_box (
+        GtkWidget *widget,
+        cairo_t *ctx )
+{
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    gdouble box_y = 0.0;
+    gdouble box_x = 0.0;
+    gdouble box_width = 0.0;
+    gdouble box_height = 0.0;
+
+    if (viewer->priv->motion.y < viewer->priv->motion.current_y)
+    {
+        box_y = (gdouble)viewer->priv->motion.y;
+        box_height = (gdouble)viewer->priv->motion.current_y - box_y;
+    }
+    else
+    {
+        box_y = (gdouble)viewer->priv->motion.current_y;
+        box_height = (gdouble)viewer->priv->motion.y - box_y;
+    }
+
+    if (viewer->priv->motion.x < viewer->priv->motion.current_x)
+    {
+        box_x = (gdouble)viewer->priv->motion.x;
+        box_width = (gdouble)viewer->priv->motion.current_x - box_x;
+    }
+    else
+    {
+        box_x = (gdouble)viewer->priv->motion.current_x;
+        box_width = (gdouble)viewer->priv->motion.x - box_x;
+    }
+
+    cairo_rectangle (
+        ctx,
+        box_x-0.5, box_y-0.5,
+        box_width, box_height);
+
+    cairo_set_source_rgba (ctx, 0.9, 0.9, 0.9, 0.2);
+    cairo_fill_preserve (ctx);
+    cairo_set_source_rgba (ctx, 0.2, 0.2, 0.2, 1.0);
+    cairo_set_line_width (ctx, 1.0);
+    cairo_stroke (ctx);
+}
+
+static void
+rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
+{
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     
 
     if(GTK_WIDGET_REALIZED(widget))
@@ -939,137 +1126,15 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
         }
         else
         {
-            if (viewer->priv->pixbuf)
+            cairo_save (ctx);
+            paint_image (widget, ctx);        
+            cairo_restore (ctx);
+
+            if (viewer->priv->motion.state == RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM)
             {
-                /* TODO: make this work for all rotations */
-                switch (viewer->priv->orientation)
-                {
-                    case RSTTO_IMAGE_ORIENT_90:
-                        cairo_rotate (
-                                ctx,
-                                M_PI*0.5);
-                        cairo_translate (
-                                ctx,
-                                0.0 - gtk_adjustment_get_value (viewer->vadjustment),
-                                gtk_adjustment_get_value (viewer->hadjustment));
-                        cairo_translate (
-                                ctx,
-                                0.0,
-                                -1.0 * viewer->priv->image_height * viewer->priv->scale);
-
-                        y_offset = -1.0 * (((gdouble)widget->allocation.width - (
-                                    (gdouble)viewer->priv->image_height * 
-                                        viewer->priv->scale) ) / 2.0);
-                        x_offset =  ((gdouble)widget->allocation.height - (
-                                    (gdouble)viewer->priv->image_width * 
-                                        viewer->priv->scale) ) / 2.0;
-                        if (x_offset < 0.0)
-                        {
-                            x_offset = 0.0;
-                        }
-                        if (y_offset > 0.0)
-                        {
-                            y_offset = 0.0;
-                        }
-                        break;
-                    case RSTTO_IMAGE_ORIENT_270:
-                        cairo_rotate (
-                                ctx,
-                                M_PI*1.5);
-                        cairo_translate (
-                                ctx,
-                                gtk_adjustment_get_value (viewer->vadjustment),
-                                0.0 - gtk_adjustment_get_value (viewer->hadjustment));
-                        cairo_translate (
-                                ctx,
-                                -1.0 * viewer->priv->image_width * viewer->priv->scale,
-                                0.0);
-
-                        y_offset = (((gdouble)widget->allocation.width - (
-                                    (gdouble)viewer->priv->image_height * 
-                                        viewer->priv->scale) ) / 2.0);
-                        x_offset = -1.0 * ((gdouble)widget->allocation.height - (
-                                    (gdouble)viewer->priv->image_width * 
-                                        viewer->priv->scale) ) / 2.0;
-                        if (x_offset > 0.0)
-                        {
-                            x_offset = 0.0;
-                        }
-                        if (y_offset < 0.0)
-                        {
-                            y_offset = 0.0;
-                        }
-                        break;
-                    case RSTTO_IMAGE_ORIENT_180:
-                        cairo_rotate (
-                                ctx,
-                                M_PI);
-                        cairo_translate (
-                                ctx,
-                                gtk_adjustment_get_value (viewer->hadjustment),
-                                gtk_adjustment_get_value (viewer->vadjustment));
-                        cairo_translate (
-                                ctx,
-                                -1.0 * viewer->priv->image_width * viewer->priv->scale,
-                                -1.0 * viewer->priv->image_height * viewer->priv->scale);
-
-                        x_offset = -1.0 * ((gdouble)widget->allocation.width - (
-                                    (gdouble)viewer->priv->image_width * 
-                                        viewer->priv->scale) ) / 2.0;
-                        y_offset = -1.0 * ((gdouble)widget->allocation.height - (
-                                    (gdouble)viewer->priv->image_height * 
-                                        viewer->priv->scale) ) / 2.0;
-
-                        if (x_offset > 0.0)
-                        {
-                            x_offset = 0.0;
-                        }
-                        if (y_offset > 0.0)
-                        {
-                            y_offset = 0.0;
-                        }
-                        break;
-                    case RSTTO_IMAGE_ORIENT_NONE:
-                    default:
-                        cairo_translate (
-                                ctx,
-                                0.0 - gtk_adjustment_get_value (viewer->hadjustment),
-                                0.0 - gtk_adjustment_get_value (viewer->vadjustment));
-                        x_offset = ((gdouble)widget->allocation.width - (
-                                    (gdouble)viewer->priv->image_width * 
-                                        viewer->priv->scale) ) / 2.0;
-                        y_offset = ((gdouble)widget->allocation.height - (
-                                    (gdouble)viewer->priv->image_height * 
-                                        viewer->priv->scale) ) / 2.0;
-                        if (x_offset < 0.0)
-                        {
-                            x_offset = 0.0;
-                        }
-                        if (y_offset < 0.0)
-                        {
-                            y_offset = 0.0;
-                        }
-                        break;
-
-                }
-
-
-                cairo_translate (
-                        ctx,
-                        x_offset,
-                        y_offset);
-
-                cairo_scale (
-                        ctx,
-                        (viewer->priv->scale/viewer->priv->image_scale),
-                        (viewer->priv->scale/viewer->priv->image_scale));
-
-                gdk_cairo_set_source_pixbuf (
-                        ctx,
-                        viewer->priv->pixbuf,
-                        0.0,
-                        0.0);
-                cairo_paint (ctx);
+                cairo_save (ctx);
+                paint_selection_box (widget, ctx);        
+                cairo_restore (ctx);
             }
         }
     }
@@ -1711,7 +1776,15 @@ rstto_motion_notify_event (
                 }
                 break;
             case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
-                rstto_image_viewer_queued_repaint (viewer, FALSE);
+                /* TODO: Calculate the rectangle to invalidate.
+                 * 
+                 * It should be a rectangle covering both the original
+                 * selection-box and the new one.
+                 */
+                gdk_window_invalidate_rect (
+                        widget->window,
+                        NULL,
+                        FALSE); 
                 break;
             default:
                 break;
@@ -1933,7 +2006,10 @@ rstto_button_release_event (
                     break;
             }
             rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL);
-            rstto_image_viewer_queued_repaint (viewer, FALSE);
+            gdk_window_invalidate_rect (
+                    widget->window,
+                    NULL,
+                    FALSE);
             break;
     }
     return FALSE;
