@@ -1347,6 +1347,29 @@ rstto_image_viewer_set_file (
         {
             g_object_unref (viewer->priv->file);
             viewer->priv->file = NULL;
+
+            g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
+            g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
+
+            gtk_adjustment_set_upper (
+                    viewer->hadjustment,
+                    0.0);
+            gtk_adjustment_set_value (
+                    viewer->hadjustment,
+                    0.0);
+
+            gtk_adjustment_set_upper (
+                    viewer->vadjustment,
+                    0.0);
+            gtk_adjustment_set_value (
+                    viewer->vadjustment,
+                    0.0);
+
+            /*
+             * Enable signals on the adjustments.
+             */
+            g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
+            g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
             
             gdk_window_invalidate_rect (
                     widget->window,
