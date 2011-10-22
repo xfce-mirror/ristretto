@@ -679,27 +679,27 @@ set_scale (
         }
 
         /*
-         * There is no need to zoom out beyond 48x48 pixels
-         * unless, ofcourse the image itself is smaller then 48x48 pixels.
+         * There is no need to zoom out beyond 64x64 pixels
+         * unless, ofcourse the image itself is smaller then 64x64 pixels.
          */
         if (viewer->priv->image_width > viewer->priv->image_height)
         {
-            if ((viewer->priv->image_width >= 48) && ((scale * viewer->priv->image_width) < 48))
+            if ((viewer->priv->image_width >= 64) && ((scale * viewer->priv->image_width) < 64))
             {
-                scale = (48.0 / (gdouble)viewer->priv->image_width);
+                scale = (64.0 / (gdouble)viewer->priv->image_width);
             }
-            if ((viewer->priv->image_width < 48) && (scale < 1.0))
+            if ((viewer->priv->image_width < 64) && (scale < 1.0))
             {
                 scale = 1.0; 
             }
         }
         else
         {
-            if ((viewer->priv->image_height >= 48) && ((scale * viewer->priv->image_height) < 48))
+            if ((viewer->priv->image_height >= 64) && ((scale * viewer->priv->image_height) < 64))
             {
-                scale = (48.0 / (gdouble)viewer->priv->image_height);
+                scale = (64.0 / (gdouble)viewer->priv->image_height);
             }
-            if ((viewer->priv->image_height < 48) && (scale < 1.0))
+            if ((viewer->priv->image_height < 64) && (scale < 1.0))
             {
                 scale = 1.0; 
             }
@@ -943,71 +943,74 @@ paint_image (
         y_offset = viewer->priv->rendering.y_offset;
 
 /* BEGIN PAINT CHECKERED BACKGROUND */
-        cairo_set_source_rgba (ctx, 0.8, 0.8, 0.8, 1.0);
-        for (i = 0; i < viewer->priv->rendering.width/10; ++i)
+        if (TRUE == gdk_pixbuf_get_has_alpha (viewer->priv->pixbuf))
         {
-            if(i%2){a=0;}
-            else{a=1;}
+            cairo_set_source_rgba (ctx, 0.8, 0.8, 0.8, 1.0);
+            for (i = 0; i < viewer->priv->rendering.width/10; ++i)
+            {
+                if(i%2){a=0;}
+                else{a=1;}
 
-            if ((i+1) <= (viewer->priv->rendering.width/10))
-            {
-                block_width = 10;
-            }
-            else
-            {
-                block_width = ((gint)viewer->priv->rendering.width)%10;
-            }
-            for (; a < viewer->priv->rendering.height/10; a+=2)
-            {
-                if ((a+1) <= (viewer->priv->rendering.height/10))
+                if ((i+1) <= (viewer->priv->rendering.width/10))
                 {
-                    block_height = 10;
+                    block_width = 10;
                 }
                 else
                 {
-                    block_height = ((gint)viewer->priv->rendering.height%10);
+                    block_width = ((gint)viewer->priv->rendering.width)%10;
                 }
-                cairo_rectangle (
-                        ctx,
-                        x_offset + i*10,
-                        y_offset + a*10,
-                        block_width,
-                        block_height);
-                cairo_fill (ctx);
-            }
-        }
-
-        cairo_set_source_rgba (ctx, 0.4, 0.4, 0.4, 1.0);
-        for (i = 0; i < viewer->priv->rendering.width/10; ++i)
-        {
-            if(i%2){a=1;}
-            else{a=0;}
-
-            if ((i+1) <= (viewer->priv->rendering.width/10))
-            {
-                block_width = 10;
-            }
-            else
-            {
-                block_width = ((gint)viewer->priv->rendering.width)%10;
-            }
-            for (; a < viewer->priv->rendering.height/10; a+=2)
-            {
-                if ((a+1) <= (viewer->priv->rendering.height/10))
+                for (; a < viewer->priv->rendering.height/10; a+=2)
                 {
-                    block_height = 10;
+                    if ((a+1) <= (viewer->priv->rendering.height/10))
+                    {
+                        block_height = 10;
+                    }
+                    else
+                    {
+                        block_height = ((gint)viewer->priv->rendering.height%10);
+                    }
+                    cairo_rectangle (
+                            ctx,
+                            x_offset + i*10,
+                            y_offset + a*10,
+                            block_width,
+                            block_height);
+                    cairo_fill (ctx);
+                }
+            }
+
+            cairo_set_source_rgba (ctx, 0.4, 0.4, 0.4, 1.0);
+            for (i = 0; i < viewer->priv->rendering.width/10; ++i)
+            {
+                if(i%2){a=1;}
+                else{a=0;}
+
+                if ((i+1) <= (viewer->priv->rendering.width/10))
+                {
+                    block_width = 10;
                 }
                 else
                 {
-                    block_height = ((gint)viewer->priv->rendering.height%10);
+                    block_width = ((gint)viewer->priv->rendering.width)%10;
                 }
-                cairo_rectangle (
-                        ctx,
-                        x_offset + i*10,
-                        y_offset + a*10,
-                        block_width,
-                        block_height);
-                cairo_fill (ctx);
+                for (; a < viewer->priv->rendering.height/10; a+=2)
+                {
+                    if ((a+1) <= (viewer->priv->rendering.height/10))
+                    {
+                        block_height = 10;
+                    }
+                    else
+                    {
+                        block_height = ((gint)viewer->priv->rendering.height%10);
+                    }
+                    cairo_rectangle (
+                            ctx,
+                            x_offset + i*10,
+                            y_offset + a*10,
+                            block_width,
+                            block_height);
+                    cairo_fill (ctx);
+                }
             }
         }
 /* END PAINT CHECKERED BACKGROUND */
@@ -1928,28 +1931,28 @@ rstto_scroll_event (
             }
 
             /*
-             * There is no need to zoom out beyond 32x32 pixels
-             * unless, ofcourse the image itself is smaller then 32x32
+             * There is no need to zoom out beyond 64x64 pixels
+             * unless, ofcourse the image itself is smaller then 64x64
              * pixels.
              */
             if (viewer->priv->image_width > viewer->priv->image_height)
             {
-                if ((viewer->priv->image_width >= 48) && ((scale * viewer->priv->image_width) < 48))
+                if ((viewer->priv->image_width >= 64) && ((scale * viewer->priv->image_width) < 64))
                 {
-                    scale = (48.0 / (gdouble)viewer->priv->image_width);
+                    scale = (64.0 / (gdouble)viewer->priv->image_width);
                 }
-                if ((viewer->priv->image_width < 48) && (scale < 1.0))
+                if ((viewer->priv->image_width < 64) && (scale < 1.0))
                 {
                     scale = 1.0; 
                 }
             }
             else
             {
-                if ((viewer->priv->image_height >= 48) && ((scale * viewer->priv->image_height) < 48))
+                if ((viewer->priv->image_height >= 64) && ((scale * viewer->priv->image_height) < 64))
                 {
-                    scale = (48.0 / (gdouble)viewer->priv->image_height);
+                    scale = (64.0 / (gdouble)viewer->priv->image_height);
                 }
-                if ((viewer->priv->image_height < 48) && (scale < 1.0))
+                if ((viewer->priv->image_height < 64) && (scale < 1.0))
                 {
                     scale = 1.0; 
                 }
