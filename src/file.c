@@ -391,3 +391,17 @@ rstto_file_set_orientation (
 {
     file->priv->orientation = orientation;
 }
+
+gboolean
+rstto_file_has_exif ( RsttoFile *file )
+{
+    if ( NULL == file->priv->exif_data )
+    {
+        file->priv->exif_data = exif_data_new_from_file ( rstto_file_get_path (file) );
+    }
+    if ( NULL == file->priv->exif_data )
+    {
+        return FALSE;
+    }
+    return TRUE;
+}

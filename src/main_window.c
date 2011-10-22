@@ -588,7 +588,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->statusbar = gtk_statusbar_new();
     window->priv->statusbar_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR(window->priv->statusbar), "image-data");
     gtk_statusbar_push (GTK_STATUSBAR(window->priv->statusbar), 
-                        window->priv->statusbar_context_id, 
+                        gtk_statusbar_get_context_id (GTK_STATUSBAR(window->priv->statusbar), "fallback-data"),
                         _("Press open to select an image"));
 
 
@@ -881,11 +881,14 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
     const gchar *file_basename = NULL;
     gchar *title = NULL;
     gchar *status = NULL;
+    gchar *tmp_status = NULL;
     RsttoFile *cur_file = NULL;
     gint position, count;
     RsttoImageList *image_list = window->priv->props.image_list;
     GList *app_list, *iter;
     const gchar *content_type;
+    ExifEntry *exif_entry = NULL;
+    gchar exif_data[20];
     GtkWidget *open_with_menu = gtk_menu_new();
     GtkWidget *open_with_window_menu = gtk_menu_new();
     gtk_menu_item_set_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/image-viewer-menu/open-with-menu")), open_with_menu);
@@ -935,6 +938,42 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             {
                 title = g_strdup_printf ("%s - %s", RISTRETTO_APP_TITLE,  file_basename);
             }
+
+            status = g_strdup(file_basename);
+
+            if (TRUE == rstto_file_has_exif (cur_file))
+            {
+                /* Extend the status-message with exif-info */
+                /********************************************/
+                exif_entry = rstto_file_get_exif (
+                        cur_file,
+                        EXIF_TAG_FNUMBER);
+                if (exif_entry)
+                {
+                    exif_entry_get_value (exif_entry, exif_data, 20);
+
+                    tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
+
+                    g_free (status);
+                    status = tmp_status;
+
+                    exif_entry_free (exif_entry);
+                }
+                exif_entry = rstto_file_get_exif (
+                        cur_file,
+                        EXIF_TAG_EXPOSURE_TIME);
+                if (exif_entry)
+                {
+                    exif_entry_get_value (exif_entry, exif_data, 20);
+
+                    tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
+
+                    g_free (status);
+                    status = tmp_status;
+
+                    exif_entry_free (exif_entry);
+                }
+            }
         }
         else
         {
@@ -943,7 +982,6 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             gtk_widget_set_sensitive (menu_item, FALSE);
 
             rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), NULL, -1, 0);
-
 
             menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
