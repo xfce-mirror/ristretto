@@ -523,6 +523,11 @@ rstto_image_viewer_destroy(GtkObject *object)
         g_object_unref (viewer->priv->settings);
         viewer->priv->settings = NULL;
     }
+    if (viewer->priv->bg_icon)
+    {
+        g_object_unref (viewer->priv->bg_icon);
+        viewer->priv->bg_icon = NULL;
+    }
 }
 
 static gboolean  

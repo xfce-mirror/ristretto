@@ -2597,7 +2597,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     gint response;
     GFile *file;
     GFile *p_file;
-    GFileEnumerator *file_enumarator = NULL;
+    GFileEnumerator *file_enumerator = NULL;
     GSList *files = NULL, *_files_iter;
     GValue current_uri_val = {0, };
     GtkFileFilter *filter;
@@ -2684,16 +2684,23 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                 rstto_image_list_add_file (window->priv->props.image_list, rfile, NULL);
             }
             p_file = g_file_get_parent (files->data);
-            file_enumarator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
-            for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+            file_enumerator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
+            if (NULL != file_enumerator)
             {
-                filename = g_file_info_get_name (file_info);
-                content_type  = g_file_info_get_content_type (file_info);
-                child_file = g_file_get_child (p_file, filename);
-                if (strncmp (content_type, "image/", 6) == 0)
+                for(file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL);
+                    file_info != NULL;
+                    file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL))
                 {
-                    rstto_image_list_add_file (window->priv->props.image_list, rstto_file_new (child_file), NULL);
+                    filename = g_file_info_get_name (file_info);
+                    content_type  = g_file_info_get_content_type (file_info);
+                    child_file = g_file_get_child (p_file, filename);
+                    if (strncmp (content_type, "image/", 6) == 0)
+                    {
+                        rstto_image_list_add_file (window->priv->props.image_list, rstto_file_new (child_file), NULL);
+                    }
                 }
+                g_object_unref (file_enumerator);
+                file_enumerator = NULL;
             }
         }
         rstto_image_list_iter_find_file (
@@ -2732,7 +2739,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     GError *error = NULL;
     GFile *file = g_file_new_for_uri (uri);
     GFile *child_file, *p_file;
-    GFileEnumerator *file_enumarator = NULL;
+    GFileEnumerator *file_enumerator = NULL;
     GFileInfo *file_info = g_file_query_info (file, "standard::type", 0, NULL, &error);
     RsttoFile *rfile;
 
@@ -2746,20 +2753,28 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
             rstto_image_list_add_file (window->priv->props.image_list, rfile, NULL);
         }
         p_file = g_file_get_parent (file);
-        file_enumarator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
-        for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+        file_enumerator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
+        if (NULL != file_enumerator)
         {
-            filename = g_file_info_get_name (file_info);
-            content_type  = g_file_info_get_content_type (file_info);
-            child_file = g_file_get_child (p_file, filename);
-            if (strncmp (content_type, "image/", 6) == 0)
+            for(file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL);
+                file_info != NULL;
+                file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL))
             {
-                rstto_image_list_add_file (window->priv->props.image_list, rstto_file_new (child_file), NULL);
+                filename = g_file_info_get_name (file_info);
+                content_type  = g_file_info_get_content_type (file_info);
+                child_file = g_file_get_child (p_file, filename);
+                if (strncmp (content_type, "image/", 6) == 0)
+                {
+                    rstto_image_list_add_file (window->priv->props.image_list, rstto_file_new (child_file), NULL);
+                }
             }
+            g_object_unref (file_enumerator);
+            file_enumerator = NULL;
         }
         rstto_image_list_iter_find_file (
                 window->priv->iter,
                 rfile );
+        
     }
     else
     {
