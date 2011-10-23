@@ -165,6 +165,7 @@ rstto_settings_init (GObject *object)
     settings->priv->wrap_images = TRUE;
     settings->priv->use_thunar_properties = TRUE;
     settings->priv->maximize_on_startup = TRUE;
+    settings->priv->hide_thumbnailbar_fullscreen = TRUE;
 
     xfconf_g_property_bind (settings->priv->channel, "/window/width", G_TYPE_UINT, settings, "window-width");
     xfconf_g_property_bind (settings->priv->channel, "/window/height", G_TYPE_UINT, settings, "window-height");
