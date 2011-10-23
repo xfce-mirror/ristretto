@@ -234,7 +234,16 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
     gint row_width = 0;
     gint id = 0;
 
-    gdk_window_clear (widget->window);
+    gdk_cairo_set_source_color (
+            ctx,
+            &(widget->style->bg[GTK_STATE_NORMAL]));
+    cairo_rectangle (
+            ctx,
+            0.0,
+            0.0,
+            (gdouble)widget->allocation.width,
+            (gdouble)widget->allocation.height);
+    cairo_fill (ctx);
 
     if (g_slist_length (chooser->priv->monitors) > 1)
     {
