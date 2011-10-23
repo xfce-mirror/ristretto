@@ -1023,6 +1023,13 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
     switch (rstto_image_list_get_n_images (window->priv->props.image_list))
     {
         case 0: 
+            if ( GTK_WIDGET_VISIBLE (window) )
+            {
+                if ( 0 != (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+                {
+                    gtk_widget_show (window->priv->toolbar);
+                }
+            }
             gtk_widget_hide (window->priv->thumbnailbar);
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), FALSE);
             /*
@@ -1045,8 +1052,14 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             /* Stop the slideshow if no image is opened */
             if (window->priv->playing == TRUE)
             {
-                gtk_ui_manager_add_ui (window->priv->ui_manager, window->priv->play_merge_id, "/main-menu/go-menu/placeholder-slideshow",
-                                       "play", "play", GTK_UI_MANAGER_MENUITEM, FALSE);
+                gtk_ui_manager_add_ui (
+                        window->priv->ui_manager,
+                        window->priv->play_merge_id,
+                        "/main-menu/go-menu/placeholder-slideshow",
+                        "play",
+                        "play",
+                        GTK_UI_MANAGER_MENUITEM,
+                        FALSE);
                 gtk_ui_manager_remove_ui (window->priv->ui_manager, window->priv->pause_merge_id);
 
                 /* Check if the toolbars are merged */
@@ -1431,8 +1444,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             /* Do not make the widget visible when in
              * fullscreen mode.
              */
-            if ( 0 == (gdk_window_get_state (GTK_WIDGET
-(window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+            if ( 0 == (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
             {
                 if (rstto_settings_get_boolean_property (
                         window->priv->settings_manager,
@@ -1550,13 +1562,28 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             }
             else
             {
-                gtk_ui_manager_add_ui (window->priv->ui_manager,
-                                       window->priv->toolbar_unfullscreen_merge_id,
-                                       "/navigation-toolbar/placeholder-fullscreen",
-                                       "unfullscreen",
-                                       "unfullscreen",
-                                       GTK_UI_MANAGER_TOOLITEM,
-                                       FALSE);
+                if (rstto_image_list_get_n_images (window->priv->props.image_list) > 0)
+                {
+                    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                                           window->priv->toolbar_unfullscreen_merge_id,
+                                           "/navigation-toolbar/placeholder-fullscreen",
+                                           "unfullscreen",
+                                           "unfullscreen",
+                                           GTK_UI_MANAGER_TOOLITEM,
+                                           FALSE);
+                }
+                else
+                {
+                    gtk_ui_manager_add_ui (
+                            window->priv->ui_manager,
+                            window->priv->toolbar_unfullscreen_merge_id,
+                            "/file-toolbar/placeholder-fullscreen",
+                            "unfullscreen",
+                            "unfullscreen",
+                            GTK_UI_MANAGER_TOOLITEM,
+                            FALSE);
+
+                }
             }
         }
 
@@ -1997,7 +2024,7 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
             {
                 if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
                 {
-                    gtk_widget_show (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar"));
+                    gtk_widget_show (window->priv->toolbar);
                 }
                 else
                 {
