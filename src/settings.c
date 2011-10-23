@@ -163,6 +163,7 @@ rstto_settings_init (GObject *object)
     settings->priv->window_width = 600;
     settings->priv->window_height = 400;
     settings->priv->wrap_images = TRUE;
+    settings->priv->show_thumbnailbar = TRUE;
     settings->priv->use_thunar_properties = TRUE;
     settings->priv->maximize_on_startup = TRUE;
     settings->priv->hide_thumbnailbar_fullscreen = TRUE;
