@@ -161,7 +161,7 @@ rstto_settings_init (GObject *object)
     settings->priv->show_nav_toolbar = TRUE;
     settings->priv->open_entire_folder = TRUE;
     settings->priv->window_width = 600;
-    settings->priv->window_height = 400;
+    settings->priv->window_height = 440;
     settings->priv->wrap_images = TRUE;
     settings->priv->show_thumbnailbar = TRUE;
     settings->priv->use_thunar_properties = TRUE;
