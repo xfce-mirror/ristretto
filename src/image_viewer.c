@@ -951,40 +951,15 @@ paint_image (
         if (TRUE == gdk_pixbuf_get_has_alpha (viewer->priv->pixbuf))
         {
             cairo_set_source_rgba (ctx, 0.8, 0.8, 0.8, 1.0);
-            for (i = 0; i < viewer->priv->rendering.width/10; ++i)
-            {
-                if(i%2){a=0;}
-                else{a=1;}
+            cairo_rectangle (
+                    ctx,
+                    x_offset,
+                    y_offset,
+                    viewer->priv->rendering.width,
+                    viewer->priv->rendering.height);
+            cairo_fill (ctx);
 
-                if ((i+1) <= (viewer->priv->rendering.width/10))
-                {
-                    block_width = 10;
-                }
-                else
-                {
-                    block_width = ((gint)viewer->priv->rendering.width)%10;
-                }
-                for (; a < viewer->priv->rendering.height/10; a+=2)
-                {
-                    if ((a+1) <= (viewer->priv->rendering.height/10))
-                    {
-                        block_height = 10;
-                    }
-                    else
-                    {
-                        block_height = ((gint)viewer->priv->rendering.height%10);
-                    }
-                    cairo_rectangle (
-                            ctx,
-                            x_offset + i*10,
-                            y_offset + a*10,
-                            block_width,
-                            block_height);
-                    cairo_fill (ctx);
-                }
-            }
-
-            cairo_set_source_rgba (ctx, 0.4, 0.4, 0.4, 1.0);
+            cairo_set_source_rgba (ctx, 0.7, 0.7, 0.7, 1.0);
             for (i = 0; i < viewer->priv->rendering.width/10; ++i)
             {
                 if(i%2){a=1;}
