@@ -6,8 +6,6 @@
    of the files, using that dialog makes ristretto lose track of an
    opened file at runtime.
 
- - Port image-viewer widget to cairo
-
  - Try the possibilities of replacing the thumbnail-bar with an iconview
    widget.
 

@@ -343,8 +343,6 @@ rstto_file_get_modified_time ( RsttoFile *file )
 ExifEntry *
 rstto_file_get_exif ( RsttoFile *file, ExifTag id )
 {
-    ExifEntry *exif_entry = NULL;
-
     /* If there is no exif-data object, try to create it */
     if ( NULL == file->priv->exif_data )
     {

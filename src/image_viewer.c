@@ -265,7 +265,6 @@ static void
 rstto_image_viewer_init ( GObject *object )
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (object);
-    GtkWidget        *widget = GTK_WIDGET (object);
 
     if (default_screen == NULL)
     {
@@ -823,6 +822,7 @@ correct_adjustments ( RsttoImageViewer *viewer )
     {
         case RSTTO_IMAGE_ORIENT_NONE:
         case RSTTO_IMAGE_ORIENT_180:
+        default:
             gtk_adjustment_set_upper (
                     viewer->hadjustment,
                     floor(image_width * scale));
@@ -1824,8 +1824,6 @@ rstto_scroll_event (
     gboolean revert_zoom_direction = viewer->priv->revert_zoom_direction;
     gdouble x_offset = viewer->priv->rendering.x_offset;
     gdouble y_offset = viewer->priv->rendering.y_offset;
-    gdouble image_width = viewer->priv->rendering.width;
-    gdouble image_height = viewer->priv->rendering.height;
     gdouble tmp_x = 0.0;
     gdouble tmp_y = 0.0;
     gdouble scale = viewer->priv->scale;
@@ -2288,6 +2286,8 @@ rstto_button_release_event (
                 gtk_adjustment_changed(viewer->hadjustment);
                 gtk_adjustment_changed(viewer->vadjustment);
             }
+            break;
+        default:
             break;
     }
     rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL);
