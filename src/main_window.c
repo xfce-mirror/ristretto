@@ -473,6 +473,10 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_accel_map_change_entry ("<Window>/next-image", GDK_Page_Down, 0, FALSE);
     gtk_accel_map_change_entry ("<Window>/previous-image", GDK_Page_Up, 0, FALSE);
     gtk_accel_map_change_entry ("<Window>/quit", GDK_q, 0, FALSE);
+    if (gtk_accel_map_lookup_entry ("<Actions>/RsttoWindow/play", NULL) == FALSE)
+    {
+        gtk_accel_map_change_entry ("<Actions>/RsttoWindow/play", GDK_F5, 0, FALSE);
+    }
 
     /* Create mergeid's for adding ui-components */
     window->priv->recent_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
