@@ -1745,34 +1745,34 @@ cb_rstto_image_viewer_queued_repaint (RsttoImageViewer *viewer)
                     subpixbuf_y_offset,
                     subpixbuf_width,
                     subpixbuf_height);
-
-            switch (viewer->priv->orientation)
+            if (NULL != tmp_pixbuf)
             {
-                case RSTTO_IMAGE_VIEWER_ORIENT_180:
-                    tmp_pixbuf2 = gdk_pixbuf_rotate_simple (tmp_pixbuf, GDK_PIXBUF_ROTATE_UPSIDEDOWN);
-                    g_object_unref (tmp_pixbuf);
-                    tmp_pixbuf = tmp_pixbuf2;
-                    break;
-                case RSTTO_IMAGE_VIEWER_ORIENT_270:
-                    tmp_pixbuf2 = gdk_pixbuf_rotate_simple (tmp_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
-                    g_object_unref (tmp_pixbuf);
-                    tmp_pixbuf = tmp_pixbuf2;
-                    break;
-                case RSTTO_IMAGE_VIEWER_ORIENT_90:
-                    tmp_pixbuf2 = gdk_pixbuf_rotate_simple (tmp_pixbuf, GDK_PIXBUF_ROTATE_CLOCKWISE);
-                    g_object_unref (tmp_pixbuf);
-                    tmp_pixbuf = tmp_pixbuf2;
-                    break;
-                case RSTTO_IMAGE_VIEWER_ORIENT_NONE:
-                    break;
+                switch (viewer->priv->orientation)
+                {
+                    case RSTTO_IMAGE_VIEWER_ORIENT_180:
+                        tmp_pixbuf2 = gdk_pixbuf_rotate_simple (tmp_pixbuf, GDK_PIXBUF_ROTATE_UPSIDEDOWN);
+                        g_object_unref (tmp_pixbuf);
+                        tmp_pixbuf = tmp_pixbuf2;
+                        break;
+                    case RSTTO_IMAGE_VIEWER_ORIENT_270:
+                        tmp_pixbuf2 = gdk_pixbuf_rotate_simple (tmp_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
+                        g_object_unref (tmp_pixbuf);
+                        tmp_pixbuf = tmp_pixbuf2;
+                        break;
+                    case RSTTO_IMAGE_VIEWER_ORIENT_90:
+                        tmp_pixbuf2 = gdk_pixbuf_rotate_simple (tmp_pixbuf, GDK_PIXBUF_ROTATE_CLOCKWISE);
+                        g_object_unref (tmp_pixbuf);
+                        tmp_pixbuf = tmp_pixbuf2;
+                        break;
+                }
+
+                viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (tmp_pixbuf,
+                                           (gint)(gdk_pixbuf_get_width(tmp_pixbuf) * relative_scale),
+                                           (gint)(gdk_pixbuf_get_height(tmp_pixbuf) * relative_scale),
+                                           GDK_INTERP_BILINEAR);
+
+                g_object_unref (tmp_pixbuf);
             }
-
-            viewer->priv->dst_pixbuf = gdk_pixbuf_scale_simple (tmp_pixbuf,
-                                       (gint)(gdk_pixbuf_get_width(tmp_pixbuf) * relative_scale),
-                                       (gint)(gdk_pixbuf_get_height(tmp_pixbuf) * relative_scale),
-                                       GDK_INTERP_BILINEAR);
-
-            g_object_unref (tmp_pixbuf);
         }
 
         /* 
