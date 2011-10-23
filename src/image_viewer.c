@@ -410,6 +410,18 @@ rstto_image_viewer_realize(GtkWidget *widget)
 
     gtk_style_set_background (widget->style, widget->window, GTK_STATE_ACTIVE);
 
+    g_object_get_property (
+            G_OBJECT(viewer->priv->settings),
+            "bgcolor",
+            &val_bg_color);
+    g_object_get_property (
+            G_OBJECT(viewer->priv->settings),
+            "bgcolor-override",
+            &val_bg_color_override);
+    g_object_get_property (
+            G_OBJECT(viewer->priv->settings),
+            "bgcolor-fullscreen",
+            &val_bg_color_fs);
 
     if (TRUE == g_value_get_boolean (&val_bg_color_override))
     {
