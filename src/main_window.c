@@ -227,9 +227,6 @@ cb_rstto_main_window_contents (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_quit (GtkWidget *widget, RsttoMainWindow *window);
 
-static void
-cb_rstto_main_window_settings_notify (GObject *settings, GParamSpec *spec, RsttoMainWindow *window);
-
 static gboolean 
 cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
                                              GdkEventMotion *event,
@@ -691,8 +688,6 @@ rstto_main_window_init (RsttoMainWindow *window)
     g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_main_window_state_event), NULL);
     g_signal_connect(G_OBJECT(window->priv->image_list_toolbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
     g_signal_connect(G_OBJECT(window->priv->thumbnailbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
-
-    g_signal_connect(G_OBJECT(window->priv->settings_manager), "notify", G_CALLBACK(cb_rstto_main_window_settings_notify), window);
 
     if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
     {
@@ -2016,20 +2011,6 @@ cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window)
     return FALSE;
 }
 
-static void
-cb_rstto_main_window_settings_notify (GObject *settings, GParamSpec *spec, RsttoMainWindow *window)
-{
-    GValue val = {0,};
-    g_return_if_fail (RSTTO_IS_SETTINGS (settings));
-    g_return_if_fail (RSTTO_IS_MAIN_WINDOW (window));
-
-    g_value_init (&val, spec->value_type);
-    g_object_get_property (settings, spec->name, &val);
-
-
-    g_value_unset (&val);
-}
-
 /**
  * cb_rstto_main_window_play:
  * @widget:
@@ -2154,7 +2135,6 @@ cb_rstto_main_window_play_slideshow (RsttoMainWindow *window)
     if (window->priv->playing)
     {
         rstto_image_list_iter_next (window->priv->iter);
-        rstto_main_window_image_list_iter_changed (window);
     }
     else
     {
@@ -2194,23 +2174,9 @@ cb_rstto_main_window_fullscreen (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_preferences (GtkWidget *widget, RsttoMainWindow *window)
 {
-    GValue val1 = {0,};
-    GValue val2 = {0,};
     GtkWidget *dialog = rstto_preferences_dialog_new (GTK_WINDOW (window));
 
-    g_value_init (&val1, G_TYPE_UINT);
-    g_value_init (&val2, G_TYPE_UINT);
-
-
-    g_object_get_property (G_OBJECT (window->priv->settings_manager), "image-quality", &val1);
-
     gtk_dialog_run (GTK_DIALOG (dialog));
-
-    g_object_get_property (G_OBJECT (window->priv->settings_manager), "image-quality", &val2);
-
-    if (g_value_get_uint (&val1) != g_value_get_uint (&val2))
-    {
-    }
 
     gtk_widget_destroy (dialog);
 }
@@ -2861,7 +2827,9 @@ cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window)
  *
  */
 static void
-cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window)
+cb_rstto_main_window_delete (
+        GtkWidget *widget,
+        RsttoMainWindow *window )
 {
     RsttoFile *file = rstto_image_list_iter_get_file (window->priv->iter);
     const gchar *file_basename = rstto_file_get_display_name(file);
@@ -3004,7 +2972,9 @@ rstto_main_window_add_file_to_recent_files (GFile *file)
 }
 
 static void
-cb_rstto_main_window_clear_private_data (GtkWidget *widget, RsttoMainWindow *window)
+cb_rstto_main_window_clear_private_data (
+        GtkWidget *widget,
+        RsttoMainWindow *window)
 {
     GtkRecentFilter *recent_filter;
     gsize n_uris = 0;
