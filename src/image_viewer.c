@@ -1386,7 +1386,11 @@ cb_rstto_image_loader_area_prepared (GdkPixbufLoader *loader, RsttoImageViewerTr
 }
 
 static void
-cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint height, RsttoImageViewerTransaction *transaction)
+cb_rstto_image_loader_size_prepared (
+        GdkPixbufLoader *loader,
+        gint width,
+        gint height,
+        RsttoImageViewerTransaction *transaction)
 {
     gint s_width = gdk_screen_get_width (default_screen);
     gint s_height = gdk_screen_get_height (default_screen);
@@ -1408,12 +1412,18 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
         if(((gdouble)width / (gdouble)s_width) < ((gdouble)height / (gdouble)s_height))
         {
             transaction->image_scale = (gdouble)s_width / (gdouble)width;
-            gdk_pixbuf_loader_set_size (loader, s_width, (gint)((gdouble)height/(gdouble)width*(gdouble)s_width)); 
+            gdk_pixbuf_loader_set_size (
+                    loader,
+                    s_width,
+                    (gint)((gdouble)height/(gdouble)width*(gdouble)s_width)); 
         }
         else
         {
             transaction->image_scale = (gdouble)s_height / (gdouble)height;
-            gdk_pixbuf_loader_set_size (loader, (gint)((gdouble)width/(gdouble)height*(gdouble)s_width), s_height); 
+            gdk_pixbuf_loader_set_size (
+                    loader,
+                    (gint)((gdouble)width/(gdouble)height*(gdouble)s_height),
+                    s_height); 
         }
     }
     else
