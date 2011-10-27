@@ -10,7 +10,7 @@
 #
 
 export XDT_AUTOGEN_REQUIRED_VERSION="4.8.0"
-export XDT_AUTOGET_CHECK_DOCS="docs"
+export XDT_AUTOGEN_CHECK_DOCS="docs"
 
 (type xdt-autogen) >/dev/null 2>&1 || {
   cat >&2 <<EOF

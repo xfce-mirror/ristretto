@@ -28,10 +28,12 @@ ristretto_CFLAGS = \
 	$(GIO_CFLAGS) \
 	$(LIBEXIF_CFLAGS) \
 	$(XFCONF_CFLAGS) \
+	$(EXO_CFLAGS) \
 	$(CAIRO_CFLAGS) \
 	$(LIBXFCE4UTIL_CFLAGS) \
 	$(LIBXFCE4UI_CFLAGS) \
 	$(LIBX11_CFLAGS) \
+	-DDOCDIR=\"$(DESTDIR)$(docdir)\" \
 	-DDATADIR=\"$(datadir)\" \
 	-DSRCDIR=\"$(top_srcdir)\" \
 	-DLOCALEDIR=\"$(localedir)\"
@@ -42,8 +44,9 @@ ristretto_LDADD = \
 	$(GTHREAD_LIBS) \
 	$(GIO_LIBS) \
 	$(LIBEXIF_LIBS) \
-	$(CAIRO_LIBS) \
 	$(XFCONF_LIBS) \
+	$(EXO_LIBS) \
+	$(CAIRO_LIBS) \
 	$(LIBXFCE4UTIL_LIBS) \
 	$(LIBXFCE4UI_LIBS) \
 	$(LIBX11_LIBS) \

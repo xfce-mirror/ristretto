@@ -66,9 +66,7 @@
             <placeholder name="placeholder-slideshow" />
         </menu>
         <menu action="help-menu">
-            <!--
             <menuitem action="contents"/>
-            -->
             <menuitem action="about"/>
         </menu>
     </menubar>

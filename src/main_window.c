@@ -24,6 +24,8 @@
 
 #include <gio/gio.h>
 
+#include <exo/exo.h>
+
 #include <libxfce4ui/libxfce4ui.h>
 #include <libexif/exif-data.h>
 
@@ -49,6 +51,10 @@
 
 #ifndef RISTRETTO_APP_TITLE
 #define RISTRETTO_APP_TITLE _("Image Viewer")
+#endif
+
+#ifndef RISTRETTO_HELP_LOCATION
+#define RISTRETTO_HELP_LOCATION "file://"DOCDIR"/html/C/index.html"
 #endif
 
 
@@ -2230,7 +2236,15 @@ cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_contents (GtkWidget *widget, RsttoMainWindow *window)
 {
-    g_debug ("%s", __FUNCTION__);
+    if (FALSE == exo_execute_preferred_application (
+            "WebBrowser",
+            RISTRETTO_HELP_LOCATION,
+            "/tmp",
+            NULL,
+            NULL))
+    {
+
+    }
 }
 
 
