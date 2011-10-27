@@ -18,6 +18,7 @@ ristretto_SOURCES = \
 	marshal.c marshal.h \
 	file.c file.h \
 	privacy_dialog.h privacy_dialog.c \
+	util.h \
 	main.c
 
 ristretto_CFLAGS = \
