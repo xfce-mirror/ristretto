@@ -22,7 +22,7 @@ DISTCLEANFILES = \
 	intltool-update \
 	$(desktop_DATA)
 
-DISTCHECK_CONFIGURE_FLAGS=--enable-xsltproc
+DISTCHECK_CONFIGURE_FLAGS=--enable-gen-doc
 
 AUTOMAKE_OPTIONS = \
 	1.8	\
