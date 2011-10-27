@@ -950,7 +950,7 @@ paint_image (
         {
             viewer->priv->rendering.x_offset = 0.5;
         }
-        if (viewer->priv->rendering.y_offset < 0.0)
+        if (viewer->priv->rendering.y_offset < 0.5)
         {
             viewer->priv->rendering.y_offset = 0.5;
         }
