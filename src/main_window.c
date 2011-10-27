@@ -48,7 +48,7 @@
 #include "app_menu_item.h"
 
 #ifndef RISTRETTO_APP_TITLE
-#define RISTRETTO_APP_TITLE "Image viewer"
+#define RISTRETTO_APP_TITLE _("Image Viewer")
 #endif
 
 

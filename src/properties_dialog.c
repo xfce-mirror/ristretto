@@ -17,6 +17,7 @@
  */
 
 #include <config.h>
+
 #include <gtk/gtk.h>
 
 #include <libexif/exif-data.h>
