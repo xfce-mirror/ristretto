@@ -153,7 +153,7 @@ main(int argc, char **argv)
     else
     {
         window = rstto_preferences_dialog_new (NULL);
-        while (gtk_dialog_run (GTK_DIALOG(window)) != GTK_RESPONSE_HELP)
+        while (gtk_dialog_run (GTK_DIALOG(window)) == GTK_RESPONSE_HELP)
         {
             rstto_launch_help ();
         }

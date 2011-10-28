@@ -369,8 +369,8 @@ GtkWidget *
 rstto_preferences_dialog_new (GtkWindow *parent)
 {
     GtkWidget *dialog = g_object_new (RSTTO_TYPE_PREFERENCES_DIALOG,
-                                      "title", _("Preferences"),
-                                      "icon-name", GTK_STOCK_PREFERENCES,
+                                      "title", _("Image Viewer Preferences"),
+                                      "icon-name", "ristretto",
                                       NULL);
     gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
 

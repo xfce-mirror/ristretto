@@ -3,7 +3,7 @@
 SUBDIRS = src po icons docs
 
 desktopdir = $(datadir)/applications
-desktop_in_files = ristretto.desktop.in
+desktop_in_files = ristretto.desktop.in ristretto-settings.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
