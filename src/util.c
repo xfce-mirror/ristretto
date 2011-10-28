@@ -25,5 +25,81 @@
 gboolean
 rstto_launch_help (void)
 {
+    gchar *locale = NULL;
+    gchar *offset;
+    gchar *docpath = NULL;
+    gchar *cur_dir = g_get_current_dir();
+  
+    /* Find localized documentation path on disk */
+#ifdef ENABLE_NLS
+#ifdef HAVE_LOCALE_H
+    locale = g_strdup (setlocale (LC_MESSAGES, ""));
+    if (locale != NULL)
+    {
+        offset = g_strrstr (locale, ".");
+        if (offset != NULL)
+        {
+            *offset = '\0';
+        }
+    }
+    else
+    {
+        locale = g_strdup ("C");
+    }
+#else
+    locale = g_strdup ("C");
+#endif
 
+    docpath = g_strdup_printf (DOCDIR"/html/%s/index.html", locale);
+    if (!g_file_test (docpath, G_FILE_TEST_EXISTS))
+    {
+        offset = g_strrstr (locale, "_");
+        if (offset == NULL)
+        {
+            g_free (docpath);
+            docpath = g_strdup (DOCDIR"/html/C/index.html");
+        }
+        else
+        {
+            *offset = '\0';
+            g_free (docpath);
+            docpath = g_strdup_printf (DOCDIR"/html/%s/index.html", locale);
+            if (!g_file_test (docpath, G_FILE_TEST_EXISTS))
+            {
+                g_free (docpath);
+                docpath = g_strdup (DOCDIR"/html/C/index.html");
+            }
+        }
+    }
+
+    g_free (locale);
+#else
+    docpath = g_strdup (DOCDIR"/html/C/index.html");
+#endif
+
+    /* Revert to online documentation if not available on disk */
+    if (g_file_test (docpath, G_FILE_TEST_EXISTS))
+    {
+        gchar *tmp = docpath;
+        docpath = g_strdup_printf ("file://%s", docpath);
+        g_free (tmp);
+    }
+    else
+    {
+        g_free (docpath);
+        docpath = g_strdup("http://docs.xfce.org/help.php?package=ristretto");
+    }
+
+    if (FALSE == exo_execute_preferred_application (
+            "WebBrowser",
+            docpath,
+            cur_dir,
+            NULL,
+            NULL))
+    {
+
+    }
+
+    g_free (docpath);
+    g_free (cur_dir);
 }
