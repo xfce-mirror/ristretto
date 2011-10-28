@@ -16,25 +16,14 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __RISTRETTO_UTIL_H__
-#define __RISTRETTO_UTIL_H__
+#include <config.h>
+#include <glib.h>
 
-G_BEGIN_DECLS
+#include <exo/exo.h>
 
-typedef enum
-{
-  RSTTO_IMAGE_ORIENT_NONE = 1,
-  RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL,
-  RSTTO_IMAGE_ORIENT_180,
-  RSTTO_IMAGE_ORIENT_FLIP_VERTICAL,
-  RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE,
-  RSTTO_IMAGE_ORIENT_90,
-  RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE,
-  RSTTO_IMAGE_ORIENT_270,
-  RSTTO_IMAGE_ORIENT_NOT_DETERMINED,
-} RsttoImageOrientation;
 
 gboolean
-rstto_launch_help (void);
+rstto_launch_help (void)
+{
 
-#endif /* __RSTTO_UTIL_H__ */
+}

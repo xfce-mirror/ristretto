@@ -27,6 +27,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 
+#include <libxfce4ui/libxfce4ui.h>
 #include <libxfce4util/libxfce4util.h>
 #include <libexif/exif-data.h>
 
@@ -35,11 +36,13 @@
 #include "image_list.h"
 #include "settings.h"
 #include "main_window.h"
+#include "preferences_dialog.h"
 
 
 gboolean version = FALSE;
 gboolean start_fullscreen = FALSE;
 gboolean start_slideshow = FALSE;
+gboolean show_settings = FALSE;
 
 typedef struct {
     RsttoImageList *image_list;
@@ -64,6 +67,14 @@ static GOptionEntry entries[] =
     },
     {    "slideshow", 's', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &start_slideshow,
         N_("Start a slideshow"),
+        NULL
+    },
+    { "settings",
+            'S',
+            G_OPTION_FLAG_IN_MAIN,
+            G_OPTION_ARG_NONE,
+            &show_settings,
+            N_("Show settings dialog"),
         NULL
     },
     { NULL, ' ', 0, 0, NULL, NULL, NULL }
@@ -107,35 +118,46 @@ main(int argc, char **argv)
     gtk_window_set_default_icon_name("ristretto");
     settings = rstto_settings_new();
 
-    image_list = rstto_image_list_new ();
-    window = rstto_main_window_new (image_list, FALSE);
-
-    if (argc > 1)
+    if (FALSE == show_settings)
     {
-        RsttoOpenFiles rof;
+        image_list = rstto_image_list_new ();
+        window = rstto_main_window_new (image_list, FALSE);
 
-        rof.image_list = image_list;
-        rof.argc = argc;
-        rof.argv = argv;
-    	rof.iter = 1;
-        rof.window = window;
-
-        g_idle_add ((GSourceFunc )cb_rstto_open_files, &rof);
-
-        if (TRUE == rstto_settings_get_boolean_property (
-                    settings,
-                    "maximize-on-startup"))
+        if (argc > 1)
         {
-            gtk_window_maximize (GTK_WINDOW(window));
+            RsttoOpenFiles rof;
+
+            rof.image_list = image_list;
+            rof.argc = argc;
+            rof.argv = argv;
+            rof.iter = 1;
+            rof.window = window;
+
+            g_idle_add ((GSourceFunc )cb_rstto_open_files, &rof);
+
+            if (TRUE == rstto_settings_get_boolean_property (
+                        settings,
+                        "maximize-on-startup"))
+            {
+                gtk_window_maximize (GTK_WINDOW(window));
+            }
+        }
+
+        g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+        gtk_widget_show_all (window);
+     
+        GDK_THREADS_ENTER();
+        gtk_main();
+        GDK_THREADS_LEAVE();
+    }
+    else
+    {
+        window = rstto_preferences_dialog_new (NULL);
+        while (gtk_dialog_run (GTK_DIALOG(window)) != GTK_RESPONSE_HELP)
+        {
+            rstto_launch_help ();
         }
     }
-
-    g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
-    gtk_widget_show_all (window);
-
-    GDK_THREADS_ENTER();
-    gtk_main();
-    GDK_THREADS_LEAVE();
 
     g_object_unref (settings);
 

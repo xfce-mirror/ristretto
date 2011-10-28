@@ -2236,15 +2236,7 @@ cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_contents (GtkWidget *widget, RsttoMainWindow *window)
 {
-    if (FALSE == exo_execute_preferred_application (
-            "WebBrowser",
-            RISTRETTO_HELP_LOCATION,
-            "/tmp",
-            NULL,
-            NULL))
-    {
-
-    }
+    rstto_launch_help ();
 }
 
 
