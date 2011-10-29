@@ -554,7 +554,6 @@ msgid "Look at your images's easily"
 msgstr "Pogledajte lako svoje fotografije "
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto preglednik fotografija"
 
