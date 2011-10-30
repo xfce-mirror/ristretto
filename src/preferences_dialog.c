@@ -296,15 +296,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), behaviour_main_vbox, behaviour_main_lbl);
 
     /********************************************/
-    dialog->priv->behaviour_tab.scaling_vbox = gtk_vbox_new(FALSE, 0);
-    dialog->priv->behaviour_tab.scaling_frame = xfce_gtk_frame_box_new_with_content(_("Scaling"), dialog->priv->behaviour_tab.scaling_vbox);
-    gtk_box_pack_start (GTK_BOX (behaviour_main_vbox), dialog->priv->behaviour_tab.scaling_frame, FALSE, FALSE, 0);
-    /* not used */
-    gtk_widget_set_sensitive (dialog->priv->behaviour_tab.scaling_vbox, FALSE);
-
-    dialog->priv->behaviour_tab.resize_image_on_maximize = gtk_check_button_new_with_label (_("Don't scale over 100% when maximizing the window."));
-    gtk_container_add (GTK_CONTAINER (dialog->priv->behaviour_tab.scaling_vbox), dialog->priv->behaviour_tab.resize_image_on_maximize);
-
     dialog->priv->behaviour_tab.startup_vbox = gtk_vbox_new(FALSE, 0);
     dialog->priv->behaviour_tab.startup_frame = xfce_gtk_frame_box_new_with_content(_("Startup"), dialog->priv->behaviour_tab.startup_vbox);
     gtk_box_pack_start (GTK_BOX (behaviour_main_vbox), dialog->priv->behaviour_tab.startup_frame, FALSE, FALSE, 0);
