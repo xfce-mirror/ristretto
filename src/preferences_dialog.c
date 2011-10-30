@@ -82,16 +82,16 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *toolbars_frame;
         GtkWidget *toolbars_vbox;
         GtkWidget *merge_toolbars_check_button;
+        GtkWidget *thumbnail_vbox;
+        GtkWidget *thumbnail_frame;
+        GtkWidget *hide_thumbnails_fullscreen_lbl;
+        GtkWidget *hide_thumbnails_fullscreen_check_button;
     } display_tab;
 
     struct
     {
         GtkWidget *timeout_vbox;
         GtkWidget *timeout_frame;
-        GtkWidget *thumbnail_vbox;
-        GtkWidget *thumbnail_frame;
-        GtkWidget *hide_thumbnails_fullscreen_lbl;
-        GtkWidget *hide_thumbnails_fullscreen_check_button;
     } slideshow_tab;
 
     struct
@@ -212,6 +212,24 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.toolbars_vbox), 
                         dialog->priv->display_tab.merge_toolbars_check_button, FALSE, FALSE, 0);
 
+    dialog->priv->display_tab.thumbnail_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->display_tab.thumbnail_frame = xfce_gtk_frame_box_new_with_content(_("Thumbnails"), dialog->priv->display_tab.thumbnail_vbox);
+    gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.thumbnail_frame, FALSE, FALSE, 0);
+
+    dialog->priv->display_tab.hide_thumbnails_fullscreen_lbl = gtk_label_new(_("The thumbnailbar can be automatically hidden \nwhen the image-viewer is fullscreen."));
+    gtk_misc_set_alignment(GTK_MISC(dialog->priv->display_tab.hide_thumbnails_fullscreen_lbl), 0, 0.5);
+    dialog->priv->display_tab.hide_thumbnails_fullscreen_check_button = gtk_check_button_new_with_label (_("Hide thumbnailbar when fullscreen"));
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.thumbnail_vbox), dialog->priv->display_tab.hide_thumbnails_fullscreen_lbl, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.thumbnail_vbox), dialog->priv->display_tab.hide_thumbnails_fullscreen_check_button, FALSE, FALSE, 0);
+
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.hide_thumbnails_fullscreen_check_button),
+                                  bool_hide_thumbnailbar_fullscreen);
+
+    g_signal_connect (G_OBJECT (dialog->priv->display_tab.hide_thumbnails_fullscreen_check_button), 
+                      "toggled", (GCallback)cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled, dialog);
+
+
+
     /* set current value */
     gtk_color_button_set_color (GTK_COLOR_BUTTON (dialog->priv->display_tab.bgcolor_color_button),
                                 bgcolor);
@@ -257,23 +275,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                       "value-changed", (GCallback)cb_rstto_preferences_dialog_slideshow_timeout_value_changed, dialog);
 
     
-    dialog->priv->slideshow_tab.thumbnail_vbox = gtk_vbox_new(FALSE, 0);
-    dialog->priv->slideshow_tab.thumbnail_frame = xfce_gtk_frame_box_new_with_content(_("Thumbnails"), dialog->priv->slideshow_tab.thumbnail_vbox);
-    gtk_box_pack_start (GTK_BOX (slideshow_main_vbox), dialog->priv->slideshow_tab.thumbnail_frame, FALSE, FALSE, 0);
-
-    dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_lbl = gtk_label_new(_("The thumbnailbar can be automatically hidden \nwhen the image-viewer is fullscreen."));
-    gtk_misc_set_alignment(GTK_MISC(dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_lbl), 0, 0.5);
-    dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_check_button = gtk_check_button_new_with_label (_("Hide thumbnailbar when fullscreen"));
-    gtk_box_pack_start (GTK_BOX (dialog->priv->slideshow_tab.thumbnail_vbox), dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_lbl, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (dialog->priv->slideshow_tab.thumbnail_vbox), dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_check_button, FALSE, FALSE, 0);
-
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_check_button),
-                                  bool_hide_thumbnailbar_fullscreen);
-
-    g_signal_connect (G_OBJECT (dialog->priv->slideshow_tab.hide_thumbnails_fullscreen_check_button), 
-                      "toggled", (GCallback)cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled, dialog);
-
-
 /********************************************/
     control_main_vbox = gtk_vbox_new(FALSE, 0);
     control_main_lbl = gtk_label_new(_("Control"));
