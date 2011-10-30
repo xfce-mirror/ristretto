@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the ristretto package.
 # Christian Dywan <christian@twotoasts.de>, 2007.
 # Fabian Nowak <timystery@arcor.de>, 2007, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2010-02-18 15:50+0100\n"
 "Last-Translator: Fabian Nowak <timystery@arcor.de>\n"
 "Language-Team: German\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -31,7 +31,7 @@ msgstr "Diavorführung starten"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "Einstellungsdialog anzeigen"
 
 #: ../src/main.c:104
 #, c-format
@@ -458,23 +458,21 @@ msgstr "Programmstart"
 #: ../src/preferences_dialog.c:311
 #, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Fenster beim Start ans Bild anpassen"
+msgstr "Fenster beim Start maximieren, wenn ein Bild geöffnet wird"
 
 #: ../src/preferences_dialog.c:317
 msgid "Wrap around images"
 msgstr "Um Bilder herum packen"
 
 #: ../src/preferences_dialog.c:372
-#, fuzzy
 msgid "Image Viewer Preferences"
-msgstr "Bildbetrachter"
+msgstr "Einstellungen des Bildbetrachters"
 
 #: ../src/properties_dialog.c:154
 msgid "<b>Name:</b>"
 msgstr "<b>Name:</b>"
 
 #: ../src/properties_dialog.c:155
-#, fuzzy
 msgid "<b>Kind:</b>"
 msgstr "<b>Typ:</b>"
 
@@ -556,7 +554,6 @@ msgid "Zoomed"
 msgstr "Vergrößert"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images's easily"
 msgstr "Bilder anschauen leicht gemacht"
 
@@ -567,7 +564,6 @@ msgstr "Ristretto Bildbetrachter"
 #~ msgid "Preferences"
 #~ msgstr "Einstellungen für den Bildbetrachter"
 
-#, fuzzy
 #~ msgid "Image viewer"
 #~ msgstr "Bildbetrachter"
 
