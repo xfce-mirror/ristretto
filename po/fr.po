@@ -109,7 +109,7 @@ msgstr "Fermer cette image"
 
 #: ../src/main_window.c:291
 msgid "_Clear private data"
-msgstr ""
+msgstr "_Nettoyer les données personnelles"
 
 #: ../src/main_window.c:292
 msgid "_Preferences"
@@ -369,7 +369,7 @@ msgstr "Tout"
 
 #: ../src/privacy_dialog.c:459
 msgid "Clear private data"
-msgstr "Purger les données personnelles"
+msgstr "Nettoyer les données personnelles"
 
 #: ../src/preferences_dialog.c:187
 msgid "Display"
@@ -432,9 +432,8 @@ msgid "Scrollwheel"
 msgstr "Défilement de la molette"
 
 #: ../src/preferences_dialog.c:286
-#, fuzzy
 msgid "Revert zoom direction"
-msgstr "Rétablir la direction du zoom"
+msgstr "Inverser la direction du zoom"
 
 #: ../src/preferences_dialog.c:295
 msgid "Behaviour"
@@ -468,23 +467,23 @@ msgstr "Préférences"
 
 #: ../src/properties_dialog.c:152
 msgid "<b>Name:</b>"
-msgstr "<b>Nom:</b>"
+msgstr "<b>Nom :</b>"
 
 #: ../src/properties_dialog.c:153
 msgid "<b>Kind:</b>"
-msgstr "<b>Type:</b>"
+msgstr "<b>Type :</b>"
 
 #: ../src/properties_dialog.c:154
 msgid "<b>Modified:</b>"
-msgstr "<b>Modifié(e):</b>"
+msgstr "<b>Modifié :</b>"
 
 #: ../src/properties_dialog.c:155
 msgid "<b>Accessed:</b>"
-msgstr "<b>Consulté(e):</b>"
+msgstr "<b>Accédé :</b>"
 
 #: ../src/properties_dialog.c:156
 msgid "<b>Size:</b>"
-msgstr "<b>Taille:</b>"
+msgstr "<b>Taille :</b>"
 
 #: ../src/properties_dialog.c:280
 msgid "General"
