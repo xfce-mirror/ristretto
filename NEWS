@@ -1,3 +1,8 @@
+0.2.2
+=====
+- Fix a problem with the calculation of the scaled-pixbuf of images
+  where the ratio width/screen-width < height/screen-height.
+
 0.2.1
 =====
 - Fix bug #8036 (ristretto crashes when rotating images)
