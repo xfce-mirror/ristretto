@@ -103,9 +103,8 @@ msgid "_Delete"
 msgstr "_Effacer"
 
 #: ../src/main_window.c:290
-#, fuzzy
 msgid "Delete this image from disk"
-msgstr "Fermer cette image"
+msgstr "Supprimer cette image du disque"
 
 #: ../src/main_window.c:291
 msgid "_Clear private data"
@@ -214,9 +213,8 @@ msgid "_Position"
 msgstr "_Position"
 
 #: ../src/main_window.c:328
-#, fuzzy
 msgid "Thumbnailbar _Position"
-msgstr "Miniatures"
+msgstr "_Position de la barre de miniatures"
 
 #. Misc
 #: ../src/main_window.c:330
@@ -341,7 +339,7 @@ msgstr "Désirez-vous vraiment supprimer l'image '%s' du disque ?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Timerange to clear:"
-msgstr ""
+msgstr "Effacer les éléments datant :"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
@@ -559,7 +557,6 @@ msgid "Look at your images's easily"
 msgstr "Regardez vos photos facilement"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
 msgstr "Visionneuse d’Images Ristretto"
 
