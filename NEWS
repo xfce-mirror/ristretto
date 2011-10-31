@@ -1,3 +1,8 @@
+0.1.3
+=====
+- Fix a problem with the calculation of the scaled-pixbuf of images
+  where the ratio width/screen-width < height/screen-height.
+
 0.1.2
 =====
 - Fix crash when rotating images (Bug #8036)
