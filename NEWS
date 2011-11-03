@@ -2,8 +2,27 @@ x.x.x
 =====
 - Re-introduce autorotation based on the exif-orientation tag, a
   regression since 0.0.93
-- Prevent segmentation fault when an error occurs while loading an image
+- Prevent segmentation fault when an error occurs while loading
+  an image
 - Port image-viewer to cairo.
+- Fix Bug #8097  (Prevent thumbnails from disappearing)
+- Read the bgcolor properties on startup
+- Let the file properties-dialog show file-properties.
+- Add --settings cli-option to launch the settings-dialog.
+- Add help->contents menuitem, launching documentation
+- Add a user-manual
+- Solve problem with size-calculation in size_prepared callback
+- Set default height to 440px, Show all buttons on a vertically aligned 
+  navigationbar
+- Show thumbnailbar by default
+- Show toolbar when closing images in fullscreen-mode
+- Improve background-color of monitor-chooser
+- Make 'hide thumbnailbar fullscreen' the default
+- Cleanup some memory-leaks
+- Fix rounding error that generates continues rewrites.
+- Decrease buffersize when loading images, solves a problem with the
+  JPEG pixbufloader.
+- Rotate thumbnails.
 
 0.2.0
 =====
