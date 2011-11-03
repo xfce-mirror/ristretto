@@ -68,6 +68,7 @@ struct _RsttoPropertiesDialogPriv
     RsttoFile *file;
     RsttoSettings *settings;
 
+    GtkWidget *image_thumbnail;
     GtkWidget *name_entry;
     GtkWidget *mime_content_label;
     GtkWidget *modified_content_label;
@@ -112,6 +113,7 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
     GtkWidget *notebook;
     GtkWidget *table;
     GtkWidget *general_label;
+    GtkWidget *name_hbox = gtk_hbox_new (FALSE, 4);
     GtkWidget *name_label = gtk_label_new(NULL);
     GtkWidget *mime_label = gtk_label_new(NULL);
 
@@ -123,6 +125,7 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
     dialog->priv = g_new0 (RsttoPropertiesDialogPriv, 1);
 
     dialog->priv->settings = rstto_settings_new ();
+    dialog->priv->image_thumbnail = gtk_image_new ();
     dialog->priv->name_entry = gtk_entry_new();
     dialog->priv->mime_content_label = gtk_label_new(NULL);
     dialog->priv->modified_content_label = gtk_label_new(NULL);
@@ -151,6 +154,14 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
     notebook = gtk_notebook_new ();
 
     table = gtk_table_new (5, 2, FALSE);
+    gtk_box_pack_start (
+            GTK_BOX (name_hbox),
+            dialog->priv->image_thumbnail,
+            FALSE, TRUE, 0);
+    gtk_box_pack_end (
+            GTK_BOX (name_hbox),
+            name_label,
+            TRUE, TRUE, 0);
     gtk_label_set_markup (GTK_LABEL(name_label), _("<b>Name:</b>"));
     gtk_label_set_markup (GTK_LABEL(mime_label), _("<b>Kind:</b>"));
     gtk_label_set_markup (GTK_LABEL(modified_label), _("<b>Modified:</b>"));
@@ -165,7 +176,7 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
 
     gtk_table_attach (
             GTK_TABLE (table),
-            name_label,
+            name_hbox,
             0,
             1,
             0,
@@ -361,13 +372,78 @@ properties_dialog_set_file (
         RsttoPropertiesDialog *dialog,
         RsttoFile *file)
 {
-    gchar *description;
+    gchar  *description;
+    time_t  mtime;
+    time_t  atime;
+    gchar   buf[20];
+    guint64 size;
+
+    const gchar *file_uri;
+    gchar *file_uri_checksum;
+    gchar *filename;
+    gchar *thumbnail_path;
+    GdkPixbuf *pixbuf;
+
+    GFile  *g_file;
+    GFileInfo *file_info = NULL;
 
     dialog->priv->file = file;
 
     if (dialog->priv->file)
     {
-        description = g_content_type_get_description (rstto_file_get_content_type (file));
+
+        file_uri = rstto_file_get_uri (file);
+        file_uri_checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, file_uri, strlen (file_uri));
+        filename = g_strconcat (file_uri_checksum, ".png", NULL);
+
+        thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", filename, NULL);
+        pixbuf = gdk_pixbuf_new_from_file_at_scale (thumbnail_path, 96, 96, TRUE, NULL);
+        if (NULL != pixbuf)
+        {
+            gtk_image_set_from_pixbuf (GTK_IMAGE(dialog->priv->image_thumbnail), pixbuf);
+            g_object_unref (pixbuf);
+        }
+
+        g_file = rstto_file_get_file (file);
+        file_info = g_file_query_info (
+                g_file,
+                "standard::content-type,standard::size,time::modified,time::access",
+                0,
+                NULL,
+                NULL );
+        description = g_content_type_get_description (g_file_info_get_content_type (file_info));
+        mtime = (time_t)g_file_info_get_attribute_uint64 ( file_info, "time::modified" );
+        atime = (time_t)g_file_info_get_attribute_uint64 ( file_info, "time::access" );
+        size = g_file_info_get_attribute_uint64 (file_info, "standard::size");
+        strftime (
+                buf,
+                20,
+                "%Y/%m/%d",
+                localtime (&mtime));
+        gtk_label_set_text (
+                GTK_LABEL (dialog->priv->modified_content_label),
+                buf 
+                );
+        strftime (
+                buf,
+                20,
+                "%Y/%m/%d",
+                localtime (&atime));
+        gtk_label_set_text (
+                GTK_LABEL (dialog->priv->accessed_content_label),
+                buf 
+                );
+
+        g_snprintf (
+                buf,
+                20,
+                "%lu bytes",
+                size);
+        gtk_label_set_text (
+                GTK_LABEL (dialog->priv->size_content_label),
+                buf 
+                );
+
         gtk_label_set_text (
                 GTK_LABEL (dialog->priv->mime_content_label),
                 description
