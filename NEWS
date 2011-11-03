@@ -1,3 +1,9 @@
+0.2.x
+=====
+- Fix bug #8097 (Scrolling to the right of a horizontal positioned
+  thumbnailbar will make the images disappear)
+- Decrease buffersize, prevents some pixbufloaders to behave oddly.
+
 0.2.2
 =====
 - Fix a problem with the calculation of the scaled-pixbuf of images
