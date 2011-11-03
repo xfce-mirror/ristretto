@@ -4,19 +4,19 @@
 # <>, 2008.
 # Robert Hartl <hartl.robert@gmail.com>, 2009.
 # Tomáš Vadina <kyberdev@gmail.com>, 2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.0.20\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-28 20:12+0200\n"
+"POT-Creation-Date: 2011-11-02 11:04+0000\n"
 "PO-Revision-Date: 2011-10-05 11:54+0200\n"
 "Last-Translator: Tomáš Vadina <kyberdev@gmail.com>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
-"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
 
 #: ../src/main.c:61
@@ -33,7 +33,7 @@ msgstr "Spustiť prezentáciu "
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "Zobraziť dialóg nastavenia"
 
 #: ../src/main.c:104
 #, c-format
@@ -396,27 +396,11 @@ msgstr "Určiť farbu pozadia:"
 msgid "Merge toolbars"
 msgstr "Zlúčiť panely nástrojov"
 
-#: ../src/preferences_dialog.c:239
-msgid "Slideshow"
-msgstr "Premietanie snímkov"
-
-#: ../src/preferences_dialog.c:243
-msgid "Timeout"
-msgstr "Timeout"
-
-#: ../src/preferences_dialog.c:246
-msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr ""
-"Časový interval počas ktorého je zobrazený jeden snímok pri premietaní\n"
-"(v sekundách)"
-
-#: ../src/preferences_dialog.c:261
+#: ../src/preferences_dialog.c:216
 msgid "Thumbnails"
 msgstr "Náhľady"
 
-#: ../src/preferences_dialog.c:264
+#: ../src/preferences_dialog.c:219
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
@@ -424,50 +408,57 @@ msgstr ""
 "Panel s náhľadmi môže byť automatický skrytý, \n"
 "ak je prehliadač obrázkov zobrazený v režime celej obrazovky."
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:221
 msgid "Hide thumbnailbar when fullscreen"
 msgstr "Skryť panel náhľadov pri zobrazení na celú obrazovku"
 
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:257
+msgid "Slideshow"
+msgstr "Premietanie snímkov"
+
+#: ../src/preferences_dialog.c:261
+msgid "Timeout"
+msgstr "Timeout"
+
+#: ../src/preferences_dialog.c:264
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"Časový interval počas ktorého je zobrazený jeden snímok pri premietaní\n"
+"(v sekundách)"
+
+#: ../src/preferences_dialog.c:280
 msgid "Control"
 msgstr "Ovládanie"
 
-#: ../src/preferences_dialog.c:283
+#: ../src/preferences_dialog.c:284
 msgid "Scrollwheel"
 msgstr "Koliesko myši"
 
-#: ../src/preferences_dialog.c:286
+#: ../src/preferences_dialog.c:287
 msgid "Revert zoom direction"
 msgstr "Obrátiť smer priblíženia"
 
-#: ../src/preferences_dialog.c:295
+#: ../src/preferences_dialog.c:296
 msgid "Behaviour"
 msgstr "Správanie"
 
-#: ../src/preferences_dialog.c:300
-msgid "Scaling"
-msgstr "Prispôsobenie"
-
-#: ../src/preferences_dialog.c:305
-msgid "Don't scale over 100% when maximizing the window."
-msgstr "Nezväčšovať obrázok na viac ako 100% keď sa maximalizuje okno."
-
-#: ../src/preferences_dialog.c:309
+#: ../src/preferences_dialog.c:301
 msgid "Startup"
 msgstr "Pri spustení"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:303
 msgid "Maximize window on startup when opening an image"
 msgstr "Maximalizovať okno pri spustení počas otvárania obrázka"
 
-#: ../src/preferences_dialog.c:317
+#: ../src/preferences_dialog.c:309
 msgid "Wrap around images"
 msgstr "Obrázky točiť dookola"
 
-#: ../src/preferences_dialog.c:372
-#, fuzzy
+#: ../src/preferences_dialog.c:364
 msgid "Image Viewer Preferences"
-msgstr "Prehliadač obrázkov"
+msgstr "Predvoľby prehliadača obrázkov"
 
 #: ../src/properties_dialog.c:154
 msgid "<b>Name:</b>"
@@ -562,10 +553,15 @@ msgstr "Prezerajte obrázky jednoduchšie"
 msgid "Ristretto Image Viewer"
 msgstr "Prehliadač obrázkov Ristretto"
 
+#~ msgid "Scaling"
+#~ msgstr "Prispôsobenie"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr "Nezväčšovať obrázok na viac ako 100% keď sa maximalizuje okno."
+
 #~ msgid "Preferences"
 #~ msgstr "Predvoľby"
 
-#, fuzzy
 #~ msgid "Image viewer"
 #~ msgstr "Prehliadač obrázkov"
 

@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2010-11-23 23:34+0800\n"
 "Last-Translator: Chipong Luo <chipong_l@yahoo.com>\n"
 "Language-Team: Simplified Chinese <xfce-i18n@xfce.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -31,7 +31,7 @@ msgstr "开始幻灯片播放"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "显示设置对话框"
 
 #: ../src/main.c:104
 #, c-format
@@ -459,9 +459,8 @@ msgid "Wrap around images"
 msgstr "环绕图片"
 
 #: ../src/preferences_dialog.c:372
-#, fuzzy
 msgid "Image Viewer Preferences"
-msgstr "图片查看器"
+msgstr "图片查看器首选项"
 
 #: ../src/properties_dialog.c:154
 msgid "<b>Name:</b>"
@@ -559,6 +558,5 @@ msgstr "Ristretto 图片查看器"
 #~ msgid "Preferences"
 #~ msgstr "首选项"
 
-#, fuzzy
 #~ msgid "Image viewer"
 #~ msgstr "图片查看器"

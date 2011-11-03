@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-28 20:12+0200\n"
-"PO-Revision-Date: 2011-10-15 20:12+0900\n"
+"POT-Creation-Date: 2011-11-02 22:38+0900\n"
+"PO-Revision-Date: 2011-11-02 22:38+0900\n"
 "Last-Translator: Masato Hashimoto <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <xfce-users-jp@ml.fdiary.net>\n"
 "Language: ja\n"
@@ -32,7 +32,7 @@ msgstr "スライドショーを開始する"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "設定ダイアログを表示する"
 
 #: ../src/main.c:104
 #, c-format
@@ -43,7 +43,8 @@ msgstr ""
 "%s: %s\n"
 "%s --help で使用可能なすべてのコマンドラインオプションが表示されます。\n"
 
-#: ../src/main_window.c:53 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:53
+#: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "画像ビューア"
 
@@ -221,7 +222,7 @@ msgstr "位置(_P)"
 
 #: ../src/main_window.c:316
 msgid "Thumbnailbar _Position"
-msgstr "サムネイルバーの位置"
+msgstr "サムネイルバーの位置(_P)"
 
 #. Misc
 #: ../src/main_window.c:318
@@ -295,11 +296,13 @@ msgstr "最近開いたファイル(_R)"
 msgid "Recently used"
 msgstr "最近開いたファイル"
 
-#: ../src/main_window.c:584 ../src/main_window.c:988
+#: ../src/main_window.c:584
+#: ../src/main_window.c:988
 msgid "Press open to select an image"
 msgstr "画像を選ぶには開くボタンを押してください。"
 
-#: ../src/main_window.c:974 ../src/main_window.c:980
+#: ../src/main_window.c:974
+#: ../src/main_window.c:980
 msgid "Empty"
 msgstr "空"
 
@@ -329,7 +332,8 @@ msgstr "画像"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2582 ../src/main_window.c:2706
+#: ../src/main_window.c:2582
+#: ../src/main_window.c:2706
 msgid "Could not open file"
 msgstr "ファイルを開けませんでした"
 
@@ -394,77 +398,66 @@ msgstr "背景色を変更する:"
 msgid "Merge toolbars"
 msgstr "ツールバーを統合する"
 
-#: ../src/preferences_dialog.c:239
+#: ../src/preferences_dialog.c:216
+msgid "Thumbnails"
+msgstr "サムネイル"
+
+#: ../src/preferences_dialog.c:219
+msgid ""
+"The thumbnailbar can be automatically hidden \n"
+"when the image-viewer is fullscreen."
+msgstr "イメージビューアが全画面化されたときにサムネイルバーを自動的に隠すことができます。"
+
+#: ../src/preferences_dialog.c:221
+msgid "Hide thumbnailbar when fullscreen"
+msgstr "全画面時サムネイルを表示しない"
+
+#: ../src/preferences_dialog.c:257
 msgid "Slideshow"
 msgstr "スライドショー"
 
-#: ../src/preferences_dialog.c:243
+#: ../src/preferences_dialog.c:261
 msgid "Timeout"
 msgstr "タイムアウト"
 
 # In ja translation, It's unnecessary to break the line.
-#: ../src/preferences_dialog.c:246
+#: ../src/preferences_dialog.c:264
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr "スライドショー中に各画像を表示する時間 (秒)"
 
-#: ../src/preferences_dialog.c:261
-msgid "Thumbnails"
-msgstr "サムネイル"
-
-#: ../src/preferences_dialog.c:264
-msgid ""
-"The thumbnailbar can be automatically hidden \n"
-"when the image-viewer is fullscreen."
-msgstr ""
-"イメージビューアが全画面化されたときにサムネイルバーを自動的に隠すことができ"
-"ます。"
-
-#: ../src/preferences_dialog.c:266
-msgid "Hide thumbnailbar when fullscreen"
-msgstr "全画面時サムネイルを表示しない"
-
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:280
 msgid "Control"
 msgstr "制御"
 
-#: ../src/preferences_dialog.c:283
+#: ../src/preferences_dialog.c:284
 msgid "Scrollwheel"
 msgstr "スクロールホイール"
 
-#: ../src/preferences_dialog.c:286
+#: ../src/preferences_dialog.c:287
 msgid "Revert zoom direction"
 msgstr "ズームの方向を反転する"
 
-#: ../src/preferences_dialog.c:295
+#: ../src/preferences_dialog.c:296
 msgid "Behaviour"
 msgstr "振る舞い"
 
-#: ../src/preferences_dialog.c:300
-msgid "Scaling"
-msgstr "サイズ変更"
-
-#: ../src/preferences_dialog.c:305
-msgid "Don't scale over 100% when maximizing the window."
-msgstr "ウィンドウを最大化したときにサイズを 100% より大きくしない"
-
-#: ../src/preferences_dialog.c:309
+#: ../src/preferences_dialog.c:301
 msgid "Startup"
 msgstr "起動"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:303
 msgid "Maximize window on startup when opening an image"
 msgstr "画像を開いて起動する時にウィンドウを最大化する"
 
-#: ../src/preferences_dialog.c:317
+#: ../src/preferences_dialog.c:309
 msgid "Wrap around images"
 msgstr "最後の画像に来たら先頭に戻る"
 
-#: ../src/preferences_dialog.c:372
-#, fuzzy
+#: ../src/preferences_dialog.c:364
 msgid "Image Viewer Preferences"
-msgstr "画像ビューア"
+msgstr "画像ビューア設定"
 
 #: ../src/properties_dialog.c:154
 msgid "<b>Name:</b>"
@@ -558,6 +551,12 @@ msgstr "気軽に画像を見ましょう"
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto 画像ビューア"
+
+#~ msgid "Scaling"
+#~ msgstr "サイズ変更"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr "ウィンドウを最大化したときにサイズを 100% より大きくしない"
 
 #~ msgid "Preferences"
 #~ msgstr "設定"
