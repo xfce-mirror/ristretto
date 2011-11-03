@@ -806,7 +806,7 @@ cb_rstto_thumbnail_bar_scroll_event (RsttoThumbnailBar *bar,
                         thumb_size = GTK_WIDGET(bar->priv->thumbs->data)->allocation.width;
                         for (thumb = bar->priv->thumbs; thumb != NULL; thumb = g_list_next(thumb))
                         {
-                            size += thumb_size * g_list_length (bar->priv->thumbs);
+                            size += GTK_WIDGET(thumb->data)->allocation.width;
                             if (g_list_next (thumb))
                                 size += spacing;
                         }
