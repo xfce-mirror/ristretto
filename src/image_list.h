@@ -115,8 +115,10 @@ GType       rstto_image_list_iter_get_type ();
 RsttoFile *
 rstto_image_list_iter_get_file ( RsttoImageListIter *iter );
 
-void        rstto_image_list_iter_previous (RsttoImageListIter *iter);
-void        rstto_image_list_iter_next (RsttoImageListIter *iter);
+gboolean
+rstto_image_list_iter_previous (RsttoImageListIter *iter);
+gboolean
+rstto_image_list_iter_next (RsttoImageListIter *iter);
 
 gint        rstto_image_list_iter_get_position (RsttoImageListIter *iter);
 void        rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos);

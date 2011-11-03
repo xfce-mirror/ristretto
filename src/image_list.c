@@ -471,12 +471,13 @@ rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos)
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
 }
 
-void
+gboolean
 rstto_image_list_iter_next (RsttoImageListIter *iter)
 {
     GList *position = NULL;
     RsttoSettings *settings = NULL;
     RsttoFile *file = iter->priv->file;
+    gboolean ret_val = FALSE;
 
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
 
@@ -488,13 +489,25 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
 
     position = g_list_next (position);
     if (position)
+    {
         iter->priv->file = position->data; 
+
+        /* We could move forward, set ret_val to TRUE */
+        ret_val = TRUE;
+    }
     else
     {
         settings = rstto_settings_new();
 
         if (rstto_settings_get_boolean_property (settings, "wrap-images"))
+        {
             position = g_list_first (iter->priv->image_list->priv->images);
+
+            /* We could move forward, wrapped back to the start of the
+             * list, set ret_val to TRUE
+             */
+            ret_val = TRUE;
+        }
         else
             position = g_list_last (iter->priv->image_list->priv->images);
 
@@ -510,14 +523,17 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
     {
         g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
     }
+
+    return ret_val;
 }
 
-void
+gboolean
 rstto_image_list_iter_previous (RsttoImageListIter *iter)
 {
     GList *position = NULL;
     RsttoSettings *settings = NULL;
     RsttoFile *file = iter->priv->file;
+    gboolean ret_val = FALSE;
 
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
 
@@ -553,6 +569,8 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter)
     {
         g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
     }
+
+    return ret_val;
 }
 
 RsttoImageListIter *

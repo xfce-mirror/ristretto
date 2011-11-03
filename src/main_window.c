@@ -2140,7 +2140,13 @@ cb_rstto_main_window_play_slideshow (RsttoMainWindow *window)
 {
     if (window->priv->playing)
     {
-        rstto_image_list_iter_next (window->priv->iter);
+        /* Check if we could navigate forward, if not, wrapping is
+         * disabled and we should force the iter to position 0
+         */
+        if (rstto_image_list_iter_next (window->priv->iter) == FALSE)
+        {
+            rstto_image_list_iter_set_position (window->priv->iter, 0);
+        }
     }
     else
     {
