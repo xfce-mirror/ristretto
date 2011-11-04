@@ -19,7 +19,8 @@ x.x.x
 - Improve background-color of monitor-chooser
 - Make 'hide thumbnailbar fullscreen' the default
 - Cleanup some memory-leaks
-- Fix rounding error that generates continues rewrites.
+- Fix rounding error that generates continues rewrites of the main
+  window.
 - Decrease buffersize when loading images, solves a problem with the
   JPEG pixbufloader.
 - Rotate thumbnails.
