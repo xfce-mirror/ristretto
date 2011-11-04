@@ -1,19 +1,19 @@
 # Ukrainian translation of ristretto package.
 # This file is distributed under the same license as the ristretto package.
-# 
+#
 # Dmitry Nikitin <luckas_fb@mail.ru>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-28 20:12+0200\n"
+"POT-Creation-Date: 2011-11-04 11:37+0100\n"
 "PO-Revision-Date: 2008-11-17 11:15+0200\n"
 "Last-Translator: Dmitry Nikitin <luckas_fb@mail.ru>\n"
 "Language-Team: Ukrainian <xfce4-dev@xfce.org>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: uk\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #: ../src/main.c:61
@@ -391,27 +391,11 @@ msgstr "Замінити колір тла:"
 msgid "Merge toolbars"
 msgstr "Об'єднати панелі"
 
-#: ../src/preferences_dialog.c:239
-msgid "Slideshow"
-msgstr "Слайд-шоу"
-
-#: ../src/preferences_dialog.c:243
-msgid "Timeout"
-msgstr "Затримка"
-
-#: ../src/preferences_dialog.c:246
-msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr ""
-"Тривалість показу окремого зображення в слайд-шоу\n"
-"(в секундах)"
-
-#: ../src/preferences_dialog.c:261
+#: ../src/preferences_dialog.c:216
 msgid "Thumbnails"
 msgstr "Мініатюри"
 
-#: ../src/preferences_dialog.c:264
+#: ../src/preferences_dialog.c:219
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
@@ -419,75 +403,99 @@ msgstr ""
 "Панель мініатюр може автоматично ховатись,   \n"
 "коли переглядач зображень перебуває в повноекранному режимі."
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:221
 msgid "Hide thumbnailbar when fullscreen"
 msgstr "Приховувати панель мініатюр в повноекранному режимі"
 
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:257
+msgid "Slideshow"
+msgstr "Слайд-шоу"
+
+#: ../src/preferences_dialog.c:261
+msgid "Timeout"
+msgstr "Затримка"
+
+#: ../src/preferences_dialog.c:264
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"Тривалість показу окремого зображення в слайд-шоу\n"
+"(в секундах)"
+
+#: ../src/preferences_dialog.c:280
 msgid "Control"
 msgstr "Контроль"
 
-#: ../src/preferences_dialog.c:283
+#: ../src/preferences_dialog.c:284
 msgid "Scrollwheel"
 msgstr "Прокрутка"
 
-#: ../src/preferences_dialog.c:286
+#: ../src/preferences_dialog.c:287
 msgid "Revert zoom direction"
 msgstr "Повернути напрямок збільшення"
 
-#: ../src/preferences_dialog.c:295
+#: ../src/preferences_dialog.c:296
 msgid "Behaviour"
 msgstr "Поведінка"
 
-#: ../src/preferences_dialog.c:300
-msgid "Scaling"
-msgstr "Масштабування"
-
-#: ../src/preferences_dialog.c:305
-msgid "Don't scale over 100% when maximizing the window."
-msgstr "Не масштабувати більше 100%, коли розгорнуто вікно."
-
-#: ../src/preferences_dialog.c:309
+#: ../src/preferences_dialog.c:301
 msgid "Startup"
 msgstr "Початок"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:303
 msgid "Maximize window on startup when opening an image"
 msgstr "Максималізувати розмір вікна під час запуску коли відкивається малюнок"
 
-#: ../src/preferences_dialog.c:317
+#: ../src/preferences_dialog.c:309
 msgid "Wrap around images"
 msgstr "Обернутись навколо зображень"
 
-#: ../src/preferences_dialog.c:372
+#: ../src/preferences_dialog.c:364
 msgid "Image Viewer Preferences"
 msgstr "Уподобання переглядача зображень"
 
-#: ../src/properties_dialog.c:154
+#: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
 msgstr "<b>Назва:</b>"
 
-#: ../src/properties_dialog.c:155
+#: ../src/properties_dialog.c:182
 msgid "<b>Kind:</b>"
 msgstr "<b>Тип:</b>"
 
-#: ../src/properties_dialog.c:156
+#: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
 msgstr "<b>Змінено:</b>"
 
-#: ../src/properties_dialog.c:157
+#: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
 msgstr "<b>Доступ:</b>"
 
-#: ../src/properties_dialog.c:158
+#: ../src/properties_dialog.c:185
 msgid "<b>Size:</b>"
 msgstr "<b>Розмір:</b>"
 
-#: ../src/properties_dialog.c:282
+#: ../src/properties_dialog.c:309
 msgid "General"
 msgstr "Загальне"
 
-#: ../src/properties_dialog.c:392
+#: ../src/properties_dialog.c:313
+#, fuzzy
+msgid "Image"
+msgstr "Малюнки"
+
+#: ../src/properties_dialog.c:526
+#, fuzzy, c-format
+msgid "<b>Date taken:</b>"
+msgstr "<b>Назва:</b>"
+
+#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:562
+#, fuzzy, c-format
+msgid "<b>%s</b>"
+msgstr "<b>Назва:</b>"
+
+#: ../src/properties_dialog.c:624
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Властивості"
@@ -555,6 +563,12 @@ msgstr "Переглядайте легко Ваші фотографії"
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Image Viewer"
 msgstr "Переглядач фотографій Ristretto"
+
+#~ msgid "Scaling"
+#~ msgstr "Масштабування"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr "Не масштабувати більше 100%, коли розгорнуто вікно."
 
 #~ msgid "Preferences"
 #~ msgstr "Налаштування"

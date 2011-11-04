@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-28 20:12+0200\n"
+"POT-Creation-Date: 2011-11-04 11:37+0100\n"
 "PO-Revision-Date: 2011-08-01 16:57-0000\n"
 "Last-Translator: كريم اولاد الشلحة <herr.linux88@gmail.com>\n"
 "Language-Team: Arabic Xfce Translation Team <doc@arabeyes.org>\n"
@@ -392,27 +392,11 @@ msgstr "تجاهل لون الخلفية:"
 msgid "Merge toolbars"
 msgstr ""
 
-#: ../src/preferences_dialog.c:239
-msgid "Slideshow"
-msgstr "شرائح"
-
-#: ../src/preferences_dialog.c:243
-msgid "Timeout"
-msgstr "مهلة"
-
-#: ../src/preferences_dialog.c:246
-msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr ""
-"فترة العرض يتم عرض صورة فردية خلال العرض\n"
-" (بالثانية)"
-
-#: ../src/preferences_dialog.c:261
+#: ../src/preferences_dialog.c:216
 msgid "Thumbnails"
 msgstr "المُصغّرات"
 
-#: ../src/preferences_dialog.c:264
+#: ../src/preferences_dialog.c:219
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
@@ -420,77 +404,101 @@ msgstr ""
 "الشريط المصغر يمكن أن يكون مخفياً تلقائيا\n"
 "عند عرض الصورة بكامل الشاشة."
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:221
 msgid "Hide thumbnailbar when fullscreen"
 msgstr "إخفاء المصغرات عنذ ملء الشاشة"
 
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:257
+msgid "Slideshow"
+msgstr "شرائح"
+
+#: ../src/preferences_dialog.c:261
+msgid "Timeout"
+msgstr "مهلة"
+
+#: ../src/preferences_dialog.c:264
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"فترة العرض يتم عرض صورة فردية خلال العرض\n"
+" (بالثانية)"
+
+#: ../src/preferences_dialog.c:280
 msgid "Control"
 msgstr "تحكم"
 
-#: ../src/preferences_dialog.c:283
+#: ../src/preferences_dialog.c:284
 msgid "Scrollwheel"
 msgstr "العجلة الدوار"
 
-#: ../src/preferences_dialog.c:286
+#: ../src/preferences_dialog.c:287
 msgid "Revert zoom direction"
 msgstr ""
 
-#: ../src/preferences_dialog.c:295
+#: ../src/preferences_dialog.c:296
 msgid "Behaviour"
 msgstr "السّلوك"
 
-#: ../src/preferences_dialog.c:300
-msgid "Scaling"
-msgstr "تحجيم"
-
-#: ../src/preferences_dialog.c:305
-msgid "Don't scale over 100% when maximizing the window."
-msgstr "لا نطاق أكثر من 100 ٪ عنذ تحجيم النافذة."
-
-#: ../src/preferences_dialog.c:309
+#: ../src/preferences_dialog.c:301
 msgid "Startup"
 msgstr "بدء التشغيل"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:303
 #, fuzzy
 msgid "Maximize window on startup when opening an image"
 msgstr "تحجيم نافذة الصورة عنذ بدء التشغيل"
 
-#: ../src/preferences_dialog.c:317
+#: ../src/preferences_dialog.c:309
 msgid "Wrap around images"
 msgstr "يلتف حول الصور"
 
-#: ../src/preferences_dialog.c:372
+#: ../src/preferences_dialog.c:364
 #, fuzzy
 msgid "Image Viewer Preferences"
 msgstr "عارض الصور"
 
-#: ../src/properties_dialog.c:154
+#: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:155
+#: ../src/properties_dialog.c:182
 msgid "<b>Kind:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:156
+#: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:157
+#: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:158
+#: ../src/properties_dialog.c:185
 msgid "<b>Size:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:282
+#: ../src/properties_dialog.c:309
 msgid "General"
 msgstr ""
 
-#: ../src/properties_dialog.c:392
+#: ../src/properties_dialog.c:313
+#, fuzzy
+msgid "Image"
+msgstr "صور"
+
+#: ../src/properties_dialog.c:526
+#, c-format
+msgid "<b>Date taken:</b>"
+msgstr ""
+
+#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:562
+#, c-format
+msgid "<b>%s</b>"
+msgstr ""
+
+#: ../src/properties_dialog.c:624
 #, c-format
 msgid "%s - Properties"
 msgstr ""
@@ -560,6 +568,12 @@ msgstr "نظرة على الصورك الخاصة بسهول"
 #, fuzzy
 msgid "Ristretto Image Viewer"
 msgstr "عراض الصور Ristretto"
+
+#~ msgid "Scaling"
+#~ msgstr "تحجيم"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr "لا نطاق أكثر من 100 ٪ عنذ تحجيم النافذة."
 
 #~ msgid "Preferences"
 #~ msgstr "تفضيلات"

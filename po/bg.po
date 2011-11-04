@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.15\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-28 20:12+0200\n"
+"POT-Creation-Date: 2011-11-04 11:37+0100\n"
 "PO-Revision-Date: 2008-01-02 23:03+0200\n"
 "Last-Translator: Plamen Stoev <piros89@gmail.com>\n"
 "Language-Team: \n"
@@ -414,15 +414,30 @@ msgstr "Замяна на фоновия цвят"
 msgid "Merge toolbars"
 msgstr ""
 
-#: ../src/preferences_dialog.c:239
+#: ../src/preferences_dialog.c:216
+#, fuzzy
+msgid "Thumbnails"
+msgstr "Визуализатор на умалени изображения"
+
+#: ../src/preferences_dialog.c:219
+msgid ""
+"The thumbnailbar can be automatically hidden \n"
+"when the image-viewer is fullscreen."
+msgstr ""
+
+#: ../src/preferences_dialog.c:221
+msgid "Hide thumbnailbar when fullscreen"
+msgstr ""
+
+#: ../src/preferences_dialog.c:257
 msgid "Slideshow"
 msgstr "Прожекция"
 
-#: ../src/preferences_dialog.c:243
+#: ../src/preferences_dialog.c:261
 msgid "Timeout"
 msgstr "Пауза"
 
-#: ../src/preferences_dialog.c:246
+#: ../src/preferences_dialog.c:264
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -430,88 +445,81 @@ msgstr ""
 "Времето за което се показва едно изображение при прожекция\n"
 "(в секунди)"
 
-#: ../src/preferences_dialog.c:261
-#, fuzzy
-msgid "Thumbnails"
-msgstr "Визуализатор на умалени изображения"
-
-#: ../src/preferences_dialog.c:264
-msgid ""
-"The thumbnailbar can be automatically hidden \n"
-"when the image-viewer is fullscreen."
-msgstr ""
-
-#: ../src/preferences_dialog.c:266
-msgid "Hide thumbnailbar when fullscreen"
-msgstr ""
-
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:280
 msgid "Control"
 msgstr ""
 
-#: ../src/preferences_dialog.c:283
+#: ../src/preferences_dialog.c:284
 msgid "Scrollwheel"
 msgstr ""
 
-#: ../src/preferences_dialog.c:286
+#: ../src/preferences_dialog.c:287
 msgid "Revert zoom direction"
 msgstr ""
 
-#: ../src/preferences_dialog.c:295
+#: ../src/preferences_dialog.c:296
 msgid "Behaviour"
 msgstr ""
 
-#: ../src/preferences_dialog.c:300
-msgid "Scaling"
-msgstr ""
-
-#: ../src/preferences_dialog.c:305
-msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
-
-#: ../src/preferences_dialog.c:309
+#: ../src/preferences_dialog.c:301
 msgid "Startup"
 msgstr ""
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:303
 msgid "Maximize window on startup when opening an image"
 msgstr ""
 
-#: ../src/preferences_dialog.c:317
+#: ../src/preferences_dialog.c:309
 #, fuzzy
 msgid "Wrap around images"
 msgstr "Отваряне на изображение"
 
-#: ../src/preferences_dialog.c:372
+#: ../src/preferences_dialog.c:364
 #, fuzzy
 msgid "Image Viewer Preferences"
 msgstr "Програма за преглед на изображения"
 
-#: ../src/properties_dialog.c:154
+#: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:155
+#: ../src/properties_dialog.c:182
 msgid "<b>Kind:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:156
+#: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:157
+#: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:158
+#: ../src/properties_dialog.c:185
 msgid "<b>Size:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:282
+#: ../src/properties_dialog.c:309
 msgid "General"
 msgstr ""
 
-#: ../src/properties_dialog.c:392
+#: ../src/properties_dialog.c:313
+#, fuzzy
+msgid "Image"
+msgstr "Програма за преглед на изображения"
+
+#: ../src/properties_dialog.c:526
+#, c-format
+msgid "<b>Date taken:</b>"
+msgstr ""
+
+#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:562
+#, c-format
+msgid "<b>%s</b>"
+msgstr ""
+
+#: ../src/properties_dialog.c:624
 #, c-format
 msgid "%s - Properties"
 msgstr ""
@@ -605,10 +613,6 @@ msgstr "Програма за преглед на изображения Ristret
 
 #~ msgid "Open folder"
 #~ msgstr "Отваряне на папка"
-
-#, fuzzy
-#~ msgid "Image cache"
-#~ msgstr "Програма за преглед на изображения"
 
 #, fuzzy
 #~ msgid "Enable cache"

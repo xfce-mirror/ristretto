@@ -2,19 +2,19 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Nuno Miguel <nunis@netcabo.pt>, 2007
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.22\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-28 20:12+0200\n"
+"POT-Creation-Date: 2011-11-04 11:37+0100\n"
 "PO-Revision-Date: 2010-01-15 14:16-0000\n"
 "Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Language: Portuguese\n"
 "X-Poedit-Country: PORTUGAL\n"
@@ -394,27 +394,11 @@ msgstr "Substituir cor de fundo:"
 msgid "Merge toolbars"
 msgstr "Unir barras de ferramentas"
 
-#: ../src/preferences_dialog.c:239
-msgid "Slideshow"
-msgstr "Apresentação"
-
-#: ../src/preferences_dialog.c:243
-msgid "Timeout"
-msgstr "Tempo de espera"
-
-#: ../src/preferences_dialog.c:246
-msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr ""
-"A duração da exibição de uma imagem durante uma apresentação\n"
-"(em segundos)"
-
-#: ../src/preferences_dialog.c:261
+#: ../src/preferences_dialog.c:216
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
-#: ../src/preferences_dialog.c:264
+#: ../src/preferences_dialog.c:219
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
@@ -422,75 +406,99 @@ msgstr ""
 "A barra de miniaturas pode ser automaticamente ocultada\n"
 "se o visualizador estiver em ecrã completo."
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:221
 msgid "Hide thumbnailbar when fullscreen"
 msgstr "Ocultar barra de miniaturas se em ecrã completo"
 
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:257
+msgid "Slideshow"
+msgstr "Apresentação"
+
+#: ../src/preferences_dialog.c:261
+msgid "Timeout"
+msgstr "Tempo de espera"
+
+#: ../src/preferences_dialog.c:264
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"A duração da exibição de uma imagem durante uma apresentação\n"
+"(em segundos)"
+
+#: ../src/preferences_dialog.c:280
 msgid "Control"
 msgstr "Controlo"
 
-#: ../src/preferences_dialog.c:283
+#: ../src/preferences_dialog.c:284
 msgid "Scrollwheel"
 msgstr "Roda de deslocamento"
 
-#: ../src/preferences_dialog.c:286
+#: ../src/preferences_dialog.c:287
 msgid "Revert zoom direction"
 msgstr "Reverter orientação"
 
-#: ../src/preferences_dialog.c:295
+#: ../src/preferences_dialog.c:296
 msgid "Behaviour"
 msgstr "Comportamento"
 
-#: ../src/preferences_dialog.c:300
-msgid "Scaling"
-msgstr "Escala"
-
-#: ../src/preferences_dialog.c:305
-msgid "Don't scale over 100% when maximizing the window."
-msgstr "Ao maximizar a janela, não escalonar acima de 100%."
-
-#: ../src/preferences_dialog.c:309
+#: ../src/preferences_dialog.c:301
 msgid "Startup"
 msgstr "Início"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:303
 msgid "Maximize window on startup when opening an image"
 msgstr "Ao abrir uma imagem, maximizar a janela"
 
-#: ../src/preferences_dialog.c:317
+#: ../src/preferences_dialog.c:309
 msgid "Wrap around images"
 msgstr "Contorno em redor das imagens"
 
-#: ../src/preferences_dialog.c:372
+#: ../src/preferences_dialog.c:364
 msgid "Image Viewer Preferences"
 msgstr "Preferências do visualizador de imagens"
 
-#: ../src/properties_dialog.c:154
+#: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
 msgstr "<b>Nome:</b>"
 
-#: ../src/properties_dialog.c:155
+#: ../src/properties_dialog.c:182
 msgid "<b>Kind:</b>"
 msgstr "<b>Tipo:</b>"
 
-#: ../src/properties_dialog.c:156
+#: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
 msgstr "<b>Modificada:</b>"
 
-#: ../src/properties_dialog.c:157
+#: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
 msgstr "<b>Acedida:</b>"
 
-#: ../src/properties_dialog.c:158
+#: ../src/properties_dialog.c:185
 msgid "<b>Size:</b>"
 msgstr "<b>Tamanho:</b>"
 
-#: ../src/properties_dialog.c:282
+#: ../src/properties_dialog.c:309
 msgid "General"
 msgstr "Geral"
 
-#: ../src/properties_dialog.c:392
+#: ../src/properties_dialog.c:313
+#, fuzzy
+msgid "Image"
+msgstr "Imagens"
+
+#: ../src/properties_dialog.c:526
+#, fuzzy, c-format
+msgid "<b>Date taken:</b>"
+msgstr "<b>Nome:</b>"
+
+#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:562
+#, fuzzy, c-format
+msgid "<b>%s</b>"
+msgstr "<b>Nome:</b>"
+
+#: ../src/properties_dialog.c:624
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Propriedades"
@@ -558,6 +566,12 @@ msgstr "Ver imagens com simplicidade"
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto - Visualizador de imagens"
+
+#~ msgid "Scaling"
+#~ msgstr "Escala"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr "Ao maximizar a janela, não escalonar acima de 100%."
 
 #~ msgid "Preferences"
 #~ msgstr "Preferências"

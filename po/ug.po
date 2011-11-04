@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-28 20:12+0200\n"
+"POT-Creation-Date: 2011-11-04 11:37+0100\n"
 "PO-Revision-Date: 2009-10-12 15:32+0900\n"
 "Last-Translator: Gheyret T.Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -396,102 +396,110 @@ msgstr "قاپلايدىغان تەگلىك رەڭگى:"
 msgid "Merge toolbars"
 msgstr ""
 
-#: ../src/preferences_dialog.c:239
-msgid "Slideshow"
-msgstr "Slideshow"
-
-#: ../src/preferences_dialog.c:243
-msgid "Timeout"
-msgstr "ۋاقىت ئېچىپ كەتتى"
-
-# In ja translation, It's unnecessary to break the line.
-#: ../src/preferences_dialog.c:246
-msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr "slideshow قىلىنغاندا، سۈرەتنىڭ كۆرسىتىلىش ۋاقتى(مىللىي سېكۇنت)"
-
-#: ../src/preferences_dialog.c:261
+#: ../src/preferences_dialog.c:216
 msgid "Thumbnails"
 msgstr "كىچىك سۈرەت"
 
-#: ../src/preferences_dialog.c:264
+#: ../src/preferences_dialog.c:219
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:221
 msgid "Hide thumbnailbar when fullscreen"
 msgstr "تولۇق ئېكران ھالىتىدە thumbnailbar نى يوشۇرسۇن"
 
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:257
+msgid "Slideshow"
+msgstr "Slideshow"
+
+#: ../src/preferences_dialog.c:261
+msgid "Timeout"
+msgstr "ۋاقىت ئېچىپ كەتتى"
+
+# In ja translation, It's unnecessary to break the line.
+#: ../src/preferences_dialog.c:264
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr "slideshow قىلىنغاندا، سۈرەتنىڭ كۆرسىتىلىش ۋاقتى(مىللىي سېكۇنت)"
+
+#: ../src/preferences_dialog.c:280
 msgid "Control"
 msgstr "كونترول"
 
-#: ../src/preferences_dialog.c:283
+#: ../src/preferences_dialog.c:284
 msgid "Scrollwheel"
 msgstr "غالتەك"
 
-#: ../src/preferences_dialog.c:286
+#: ../src/preferences_dialog.c:287
 msgid "Revert zoom direction"
 msgstr ""
 
-#: ../src/preferences_dialog.c:295
+#: ../src/preferences_dialog.c:296
 msgid "Behaviour"
 msgstr "قىلمىش"
 
-#: ../src/preferences_dialog.c:300
-msgid "Scaling"
-msgstr "كۆرسىتىش نىسبىتى"
-
-#: ../src/preferences_dialog.c:305
-msgid "Don't scale over 100% when maximizing the window."
-msgstr ""
-
-#: ../src/preferences_dialog.c:309
+#: ../src/preferences_dialog.c:301
 msgid "Startup"
 msgstr "قوزغىلىش"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:303
 #, fuzzy
 msgid "Maximize window on startup when opening an image"
 msgstr "قوزغالغاندا كۆزنەكنى سۈرەت بىلەن ئوخشاش قىلسۇن"
 
-#: ../src/preferences_dialog.c:317
+#: ../src/preferences_dialog.c:309
 msgid "Wrap around images"
 msgstr ""
 
-#: ../src/preferences_dialog.c:372
+#: ../src/preferences_dialog.c:364
 #, fuzzy
 msgid "Image Viewer Preferences"
 msgstr "سۈرەت كۆرگۈ"
 
-#: ../src/properties_dialog.c:154
+#: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:155
+#: ../src/properties_dialog.c:182
 msgid "<b>Kind:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:156
+#: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:157
+#: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:158
+#: ../src/properties_dialog.c:185
 msgid "<b>Size:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:282
+#: ../src/properties_dialog.c:309
 msgid "General"
 msgstr ""
 
-#: ../src/properties_dialog.c:392
+#: ../src/properties_dialog.c:313
+#, fuzzy
+msgid "Image"
+msgstr "سۈرەتلەر"
+
+#: ../src/properties_dialog.c:526
+#, c-format
+msgid "<b>Date taken:</b>"
+msgstr ""
+
+#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:562
+#, c-format
+msgid "<b>%s</b>"
+msgstr ""
+
+#: ../src/properties_dialog.c:624
 #, c-format
 msgid "%s - Properties"
 msgstr ""
@@ -560,6 +568,9 @@ msgstr ""
 #, fuzzy
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto سۈرەت كۆرگۈ"
+
+#~ msgid "Scaling"
+#~ msgstr "كۆرسىتىش نىسبىتى"
 
 #~ msgid "Preferences"
 #~ msgstr "تەڭشەكلەر"

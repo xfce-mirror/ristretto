@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-28 20:12+0200\n"
+"POT-Creation-Date: 2011-11-04 11:37+0100\n"
 "PO-Revision-Date: 2011-08-11 17:29+0100\n"
 "Last-Translator: Pol Ruzafa <kiari62@gmail.com>\n"
 "Language-Team: Catalan <xfce-i18n@xfce.org>\n"
@@ -399,27 +399,11 @@ msgstr "Força el color de fons:"
 msgid "Merge toolbars"
 msgstr ""
 
-#: ../src/preferences_dialog.c:239
-msgid "Slideshow"
-msgstr "Seqüència d'imatges"
-
-#: ../src/preferences_dialog.c:243
-msgid "Timeout"
-msgstr "Temps esgotat"
-
-#: ../src/preferences_dialog.c:246
-msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr ""
-"El temps que una imatge en concret es mostra durant la seqüència d'imatges\n"
-"(en segons)"
-
-#: ../src/preferences_dialog.c:261
+#: ../src/preferences_dialog.c:216
 msgid "Thumbnails"
 msgstr "Miniatures"
 
-#: ../src/preferences_dialog.c:264
+#: ../src/preferences_dialog.c:219
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
@@ -427,77 +411,101 @@ msgstr ""
 "La barra de miniatures es pot amagar automàticament quan \n"
 "el visor d'imatges està funcionant a pantalla sencera."
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:221
 msgid "Hide thumbnailbar when fullscreen"
 msgstr "Amaga la barra de miniatures en pantalla sencera"
 
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:257
+msgid "Slideshow"
+msgstr "Seqüència d'imatges"
+
+#: ../src/preferences_dialog.c:261
+msgid "Timeout"
+msgstr "Temps esgotat"
+
+#: ../src/preferences_dialog.c:264
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"El temps que una imatge en concret es mostra durant la seqüència d'imatges\n"
+"(en segons)"
+
+#: ../src/preferences_dialog.c:280
 msgid "Control"
 msgstr "Control"
 
-#: ../src/preferences_dialog.c:283
+#: ../src/preferences_dialog.c:284
 msgid "Scrollwheel"
 msgstr "Roda de navegació"
 
-#: ../src/preferences_dialog.c:286
+#: ../src/preferences_dialog.c:287
 msgid "Revert zoom direction"
 msgstr ""
 
-#: ../src/preferences_dialog.c:295
+#: ../src/preferences_dialog.c:296
 msgid "Behaviour"
 msgstr "Comportament"
 
-#: ../src/preferences_dialog.c:300
-msgid "Scaling"
-msgstr "Escalat"
-
-#: ../src/preferences_dialog.c:305
-msgid "Don't scale over 100% when maximizing the window."
-msgstr "No escalis per sobre del 100% quan es maximitzi la finestra."
-
-#: ../src/preferences_dialog.c:309
+#: ../src/preferences_dialog.c:301
 msgid "Startup"
 msgstr "Inici"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:303
 #, fuzzy
 msgid "Maximize window on startup when opening an image"
 msgstr "Ajusta la mida de la finestra a la imatge a l'iniciar"
 
-#: ../src/preferences_dialog.c:317
+#: ../src/preferences_dialog.c:309
 msgid "Wrap around images"
 msgstr "Ajusta al voltant de les imatges"
 
-#: ../src/preferences_dialog.c:372
+#: ../src/preferences_dialog.c:364
 #, fuzzy
 msgid "Image Viewer Preferences"
 msgstr "Preferències del visor d'imatges"
 
-#: ../src/properties_dialog.c:154
+#: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:155
+#: ../src/properties_dialog.c:182
 msgid "<b>Kind:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:156
+#: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:157
+#: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:158
+#: ../src/properties_dialog.c:185
 msgid "<b>Size:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:282
+#: ../src/properties_dialog.c:309
 msgid "General"
 msgstr ""
 
-#: ../src/properties_dialog.c:392
+#: ../src/properties_dialog.c:313
+#, fuzzy
+msgid "Image"
+msgstr "Imatges"
+
+#: ../src/properties_dialog.c:526
+#, c-format
+msgid "<b>Date taken:</b>"
+msgstr ""
+
+#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:562
+#, c-format
+msgid "<b>%s</b>"
+msgstr ""
+
+#: ../src/properties_dialog.c:624
 #, c-format
 msgid "%s - Properties"
 msgstr ""
@@ -567,6 +575,12 @@ msgstr "Mira fàcilment les teves fotos"
 #, fuzzy
 msgid "Ristretto Image Viewer"
 msgstr "Visualitzador de fotografies Ristretto"
+
+#~ msgid "Scaling"
+#~ msgstr "Escalat"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr "No escalis per sobre del 100% quan es maximitzi la finestra."
 
 #~ msgid "Preferences"
 #~ msgstr "Preferències"

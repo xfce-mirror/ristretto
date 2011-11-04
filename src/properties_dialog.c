@@ -30,6 +30,8 @@
 #include "file.h"
 #include "properties_dialog.h"
 
+#define EXIF_DATA_BUFFER_SIZE 40
+
 static void
 rstto_properties_dialog_init (RsttoPropertiesDialog *);
 static void
@@ -57,6 +59,15 @@ properties_dialog_set_file (
 
 static GtkWidgetClass *parent_class = NULL;
 
+static enum
+{
+    EXIF_PROP_DATE_TIME = 0,
+    EXIF_PROP_MODEL,
+    EXIF_PROP_MAKE,
+    EXIF_PROP_APERATURE,
+    EXIF_PROP_COUNT
+} RsttoExifProp;
+
 enum
 {
     PROP_0,
@@ -67,6 +78,10 @@ struct _RsttoPropertiesDialogPriv
 {
     RsttoFile *file;
     RsttoSettings *settings;
+
+    GtkWidget *notebook;
+    GtkWidget *image_table;
+    GtkWidget *image_label;
 
     GtkWidget *image_thumbnail;
     GtkWidget *name_entry;
@@ -112,6 +127,7 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
     GtkWidget *vbox;
     GtkWidget *notebook;
     GtkWidget *table;
+    /* General tab */
     GtkWidget *general_label;
     GtkWidget *name_hbox = gtk_hbox_new (FALSE, 4);
     GtkWidget *name_label = gtk_label_new(NULL);
@@ -151,13 +167,13 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
 
     vbox = gtk_dialog_get_content_area (
             GTK_DIALOG (dialog));
-    notebook = gtk_notebook_new ();
+    dialog->priv->notebook = gtk_notebook_new ();
 
     table = gtk_table_new (5, 2, FALSE);
     gtk_box_pack_start (
             GTK_BOX (name_hbox),
             dialog->priv->image_thumbnail,
-            FALSE, TRUE, 0);
+            FALSE, TRUE, 3);
     gtk_box_pack_end (
             GTK_BOX (name_hbox),
             name_label,
@@ -291,9 +307,17 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
             4);
 
     general_label = gtk_label_new (_("General"));
-    gtk_notebook_append_page (GTK_NOTEBOOK (notebook), table, general_label);
+    gtk_notebook_append_page (GTK_NOTEBOOK (dialog->priv->notebook), table, general_label);
 
-    gtk_box_pack_start (GTK_BOX(vbox), notebook, TRUE, TRUE, 3);
+    dialog->priv->image_table = gtk_table_new (5, 2, FALSE);
+    dialog->priv->image_label = gtk_label_new (_("Image"));
+
+    gtk_notebook_append_page (
+            GTK_NOTEBOOK (dialog->priv->notebook),
+            dialog->priv->image_table,
+            dialog->priv->image_label);
+
+    gtk_box_pack_start (GTK_BOX(vbox), dialog->priv->notebook, TRUE, TRUE, 3);
 
     gtk_widget_show_all (vbox);
 
@@ -387,6 +411,19 @@ properties_dialog_set_file (
     gchar *thumbnail_path;
     GdkPixbuf *pixbuf;
 
+    ExifEntry   *exif_entry = NULL;
+    ExifIfd      exif_ifd;
+    const gchar *exif_title = NULL;
+    gchar        exif_data[EXIF_DATA_BUFFER_SIZE];
+
+    gchar       *label_string;
+    GtkWidget   *exif_label;
+    GtkWidget   *exif_content_label;
+    gint i;
+
+    GList *children = NULL;
+    GList *child_iter = NULL;
+
     GFile  *g_file;
     GFileInfo *file_info = NULL;
 
@@ -456,6 +493,122 @@ properties_dialog_set_file (
                 rstto_file_get_display_name (file)
                 );
         g_free (description);
+
+        /* Show or hide the image tab containing exif data */
+        if ( TRUE == rstto_file_has_exif (file) )
+        {
+            children = gtk_container_get_children (
+                    GTK_CONTAINER (dialog->priv->image_table));
+            child_iter = children;
+
+            while (NULL != child_iter)
+            {
+                gtk_container_remove (
+                        GTK_CONTAINER (dialog->priv->image_table),
+                        child_iter->data); 
+                child_iter = g_list_next (child_iter);
+            }
+            if (NULL != children)
+            {
+                g_list_free (children);
+            }
+            for (i = 0; i < EXIF_PROP_COUNT; ++i)
+            {
+                label_string = NULL;
+                exif_data[0] = '\0';
+                switch (i)
+                {
+                    case EXIF_PROP_DATE_TIME:
+                        exif_entry  = rstto_file_get_exif ( file, EXIF_TAG_DATE_TIME );
+                        if (NULL != exif_entry)
+                        {
+                            exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
+                            label_string = g_strdup_printf(_("<b>Date taken:</b>"));
+                        }
+                        break;
+                    case EXIF_PROP_MODEL:
+                        exif_entry  = rstto_file_get_exif ( file, EXIF_TAG_MODEL);
+                        if (NULL != exif_entry)
+                        {
+                            exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
+                            exif_ifd = exif_entry_get_ifd (exif_entry);
+                            exif_title = exif_tag_get_title_in_ifd (
+                                    EXIF_TAG_MODEL,
+                                    exif_ifd);
+                            label_string = g_strdup_printf(_("<b>%s</b>"), exif_title);
+                        }
+                        break;
+                    case EXIF_PROP_MAKE:
+                        exif_entry  = rstto_file_get_exif ( file, EXIF_TAG_MAKE);
+                        if (NULL != exif_entry)
+                        {
+                            exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
+                            exif_ifd = exif_entry_get_ifd (exif_entry);
+                            exif_title = exif_tag_get_title_in_ifd (
+                                    EXIF_TAG_MAKE,
+                                    exif_ifd);
+                            label_string = g_strdup_printf(_("<b>%s</b>"), exif_title);
+                        }
+                        break;
+                    case EXIF_PROP_APERATURE:
+                        exif_entry  = rstto_file_get_exif ( file, EXIF_TAG_APERTURE_VALUE);
+                        if (NULL != exif_entry)
+                        {
+                            exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
+                            exif_ifd = exif_entry_get_ifd (exif_entry);
+                            exif_title = exif_tag_get_title_in_ifd (
+                                    EXIF_TAG_APERTURE_VALUE,
+                                    exif_ifd);
+                            label_string = g_strdup_printf(_("<b>%s</b>"), exif_title);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                exif_label = gtk_label_new (NULL);
+                exif_content_label = gtk_label_new (NULL);
+                gtk_label_set_markup (
+                        GTK_LABEL (exif_label),
+                        label_string);
+                gtk_misc_set_alignment (
+                        GTK_MISC (exif_label),
+                        1.0,
+                        0.5);
+                gtk_label_set_text (
+                        GTK_LABEL (exif_content_label),
+                        exif_data
+                        );
+
+                gtk_table_attach (
+                        GTK_TABLE (dialog->priv->image_table),
+                        exif_label,
+                        0,
+                        1,
+                        i,
+                        i+1,
+                        GTK_SHRINK | GTK_FILL,
+                        GTK_SHRINK,
+                        4,
+                        4);
+                gtk_table_attach (
+                        GTK_TABLE (dialog->priv->image_table),
+                        exif_content_label,
+                        1,
+                        2,
+                        i,
+                        i+1,
+                        GTK_EXPAND | GTK_FILL,
+                        GTK_SHRINK,
+                        4,
+                        4);
+            }
+
+            gtk_widget_show_all (dialog->priv->image_table);
+        }
+        else
+        {
+            gtk_widget_hide (dialog->priv->image_table);
+        }
     }
 }
 

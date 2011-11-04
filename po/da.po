@@ -2,19 +2,19 @@
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the Ristretto package.
 # Per Kongstad <p_kongstad@op.pl>, 2008, 2009.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.90\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-10-28 20:12+0200\n"
+"POT-Creation-Date: 2011-11-04 11:37+0100\n"
 "PO-Revision-Date: 2010-01-15 12:00+0100\n"
 "Last-Translator: Per Kongstad <p_kongstad@op.pl>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "X-Poedit-Language: Danish\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Country: DENMARK\n"
@@ -398,27 +398,11 @@ msgstr "Tilsidesæt baggrundsfarve:"
 msgid "Merge toolbars"
 msgstr "Forén værktøjsbjælker"
 
-#: ../src/preferences_dialog.c:239
-msgid "Slideshow"
-msgstr "Diasshow"
-
-#: ../src/preferences_dialog.c:243
-msgid "Timeout"
-msgstr "Tidsudløb"
-
-#: ../src/preferences_dialog.c:246
-msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr ""
-"Den tid de enkelte billeder bliver vist under et diasshow\n"
-"(i sekunder)"
-
-#: ../src/preferences_dialog.c:261
+#: ../src/preferences_dialog.c:216
 msgid "Thumbnails"
 msgstr "Miniaturer"
 
-#: ../src/preferences_dialog.c:264
+#: ../src/preferences_dialog.c:219
 msgid ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
@@ -426,75 +410,99 @@ msgstr ""
 "Miniaturebjælken kan skjules automatisk \n"
 "når billedviseren er i fuldskærmtilstand."
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:221
 msgid "Hide thumbnailbar when fullscreen"
 msgstr "Skjul miniaturebjælke ved fuldskærmstilstand"
 
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:257
+msgid "Slideshow"
+msgstr "Diasshow"
+
+#: ../src/preferences_dialog.c:261
+msgid "Timeout"
+msgstr "Tidsudløb"
+
+#: ../src/preferences_dialog.c:264
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"Den tid de enkelte billeder bliver vist under et diasshow\n"
+"(i sekunder)"
+
+#: ../src/preferences_dialog.c:280
 msgid "Control"
 msgstr "Kontrol"
 
-#: ../src/preferences_dialog.c:283
+#: ../src/preferences_dialog.c:284
 msgid "Scrollwheel"
 msgstr "Rullehjul"
 
-#: ../src/preferences_dialog.c:286
+#: ../src/preferences_dialog.c:287
 msgid "Revert zoom direction"
 msgstr "Spejlvend zoomretning"
 
-#: ../src/preferences_dialog.c:295
+#: ../src/preferences_dialog.c:296
 msgid "Behaviour"
 msgstr "Opførsel"
 
-#: ../src/preferences_dialog.c:300
-msgid "Scaling"
-msgstr "Skalering"
-
-#: ../src/preferences_dialog.c:305
-msgid "Don't scale over 100% when maximizing the window."
-msgstr "Undlad at skalere mere end 100%, når vindue maksimeres."
-
-#: ../src/preferences_dialog.c:309
+#: ../src/preferences_dialog.c:301
 msgid "Startup"
 msgstr "Opstart"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:303
 msgid "Maximize window on startup when opening an image"
 msgstr "Maksimér vindue ved opstart når et billede åbnes"
 
-#: ../src/preferences_dialog.c:317
+#: ../src/preferences_dialog.c:309
 msgid "Wrap around images"
 msgstr "Svøb omkring billeder"
 
-#: ../src/preferences_dialog.c:372
+#: ../src/preferences_dialog.c:364
 msgid "Image Viewer Preferences"
 msgstr "Indstillinger for billedfremviser"
 
-#: ../src/properties_dialog.c:154
+#: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
 msgstr "<b>Navn:</b>"
 
-#: ../src/properties_dialog.c:155
+#: ../src/properties_dialog.c:182
 msgid "<b>Kind:</b>"
 msgstr "<b>Type:</b>"
 
-#: ../src/properties_dialog.c:156
+#: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
 msgstr "<b>Modificeret:</b>"
 
-#: ../src/properties_dialog.c:157
+#: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
 msgstr "<b>Tilgået:</b>"
 
-#: ../src/properties_dialog.c:158
+#: ../src/properties_dialog.c:185
 msgid "<b>Size:</b>"
 msgstr "<b>Størrelse:</b>"
 
-#: ../src/properties_dialog.c:282
+#: ../src/properties_dialog.c:309
 msgid "General"
 msgstr "Generelt"
 
-#: ../src/properties_dialog.c:392
+#: ../src/properties_dialog.c:313
+#, fuzzy
+msgid "Image"
+msgstr "Billeder"
+
+#: ../src/properties_dialog.c:526
+#, fuzzy, c-format
+msgid "<b>Date taken:</b>"
+msgstr "<b>Navn:</b>"
+
+#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:562
+#, fuzzy, c-format
+msgid "<b>%s</b>"
+msgstr "<b>Navn:</b>"
+
+#: ../src/properties_dialog.c:624
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Egenskaber"
@@ -562,6 +570,12 @@ msgstr "Se nemt dine billeder"
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto billedfremviser"
+
+#~ msgid "Scaling"
+#~ msgstr "Skalering"
+
+#~ msgid "Don't scale over 100% when maximizing the window."
+#~ msgstr "Undlad at skalere mere end 100%, når vindue maksimeres."
 
 #~ msgid "Preferences"
 #~ msgstr "Indstillinger"
