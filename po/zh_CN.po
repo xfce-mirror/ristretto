@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-04 11:37+0100\n"
+"POT-Creation-Date: 2011-11-05 11:05+0000\n"
 "PO-Revision-Date: 2010-11-23 23:34+0800\n"
 "Last-Translator: Chipong Luo <chipong_l@yahoo.com>\n"
 "Language-Team: Simplified Chinese <xfce-i18n@xfce.org>\n"
@@ -479,20 +479,19 @@ msgid "General"
 msgstr "一般"
 
 #: ../src/properties_dialog.c:313
-#, fuzzy
 msgid "Image"
 msgstr "图片"
 
 #: ../src/properties_dialog.c:526
-#, fuzzy, c-format
+#, c-format
 msgid "<b>Date taken:</b>"
-msgstr "<b>名称：</b>"
+msgstr "<b>获取日期：</b>"
 
 #: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
 #: ../src/properties_dialog.c:562
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b>"
-msgstr "<b>名称：</b>"
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:624
 #, c-format
@@ -562,15 +561,3 @@ msgstr "轻松看您的图片"
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto 图片查看器"
-
-#~ msgid "Scaling"
-#~ msgstr "伸缩"
-
-#~ msgid "Don't scale over 100% when maximizing the window."
-#~ msgstr "最大化窗口时不伸缩超过 100%"
-
-#~ msgid "Preferences"
-#~ msgstr "首选项"
-
-#~ msgid "Image viewer"
-#~ msgstr "图片查看器"
