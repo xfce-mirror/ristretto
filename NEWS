@@ -1,4 +1,4 @@
-0.2.x
+0.2.3
 =====
 - Fix bug #8097 (Scrolling to the right of a horizontal positioned
   thumbnailbar will make the images disappear)
