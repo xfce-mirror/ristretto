@@ -1,4 +1,4 @@
-x.x.x
+0.3.0
 =====
 - Re-introduce autorotation based on the exif-orientation tag, a
   regression since 0.0.93
