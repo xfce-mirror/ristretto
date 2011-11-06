@@ -14,6 +14,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
+ *  The adjust-brightness code is written by
+ *  Brian Tarricone <bjt23@cornell.edu>, originally written for xfdesktop.
  */
 
 #include <config.h>
@@ -25,6 +28,9 @@
 #include <xfconf/xfconf.h>
 #include <libxfce4util/libxfce4util.h>
 #include <gio/gio.h>
+
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gdk-pixbuf/gdk-pixdata.h>
 
 #include <libexif/exif-data.h>
 
@@ -53,6 +59,11 @@ static void
 rstto_xfce_wallpaper_manager_dispose (GObject *object);
 static void
 rstto_xfce_wallpaper_manager_finalize (GObject *object);
+
+static GdkPixbuf *
+adjust_brightness (
+        GdkPixbuf *src,
+        gint amount );
 
 static void
 cb_style_combo_changed (
@@ -113,6 +124,7 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
     manager->priv->file = file;
     GdkPixbuf *monitor_pixbuf = NULL;
     gdouble saturation = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->saturation_adjustment));
+    gdouble brightness = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->brightness_adjustment));
 
     if (manager->priv->pixbuf)
     {
@@ -129,12 +141,18 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
     {
         monitor_pixbuf = gdk_pixbuf_copy (manager->priv->pixbuf);
         gdk_pixbuf_saturate_and_pixelate (
+                monitor_pixbuf,
+                monitor_pixbuf,
+                saturation,
+                FALSE);
+        monitor_pixbuf = adjust_brightness (
             monitor_pixbuf,
-            monitor_pixbuf,
-            saturation,
-            FALSE);
+            (gint)brightness);
     }
 
+    /* The monitor-chooser adds a reference to the pixbuf,
+     * so we should unref this pixbuf at a later time.
+     */
     rstto_monitor_chooser_set_pixbuf (
             RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
             manager->priv->monitor,
@@ -661,18 +679,11 @@ cb_monitor_chooser_changed (
 static void
 cb_brightness_adjustment_value_changed (
         GtkAdjustment *adjustment,
-        RsttoXfceWallpaperManager *man)
-{
-
-}
-
-static void
-cb_saturation_adjustment_value_changed (
-        GtkAdjustment *adjustment,
         RsttoXfceWallpaperManager *manager)
 {
     GdkPixbuf *monitor_pixbuf = NULL;
-    gdouble saturation = gtk_adjustment_get_value (adjustment);
+    gdouble saturation = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->saturation_adjustment));
+    gdouble brightness = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->brightness_adjustment));
 
     if (manager->priv->pixbuf)
     {
@@ -682,6 +693,9 @@ cb_saturation_adjustment_value_changed (
             monitor_pixbuf,
             saturation,
             FALSE);
+        monitor_pixbuf = adjust_brightness (
+            monitor_pixbuf,
+            (gint)brightness);
     }
 
     rstto_monitor_chooser_set_pixbuf (
@@ -691,4 +705,93 @@ cb_saturation_adjustment_value_changed (
             NULL);
 
     g_object_unref (monitor_pixbuf);
+}
+
+static void
+cb_saturation_adjustment_value_changed (
+        GtkAdjustment *adjustment,
+        RsttoXfceWallpaperManager *manager)
+{
+    GdkPixbuf *monitor_pixbuf = NULL;
+    gdouble saturation = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->saturation_adjustment));
+    gdouble brightness = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->brightness_adjustment));
+
+    if (manager->priv->pixbuf)
+    {
+        monitor_pixbuf = gdk_pixbuf_copy (manager->priv->pixbuf);
+        gdk_pixbuf_saturate_and_pixelate (
+            monitor_pixbuf,
+            monitor_pixbuf,
+            saturation,
+            FALSE);
+        monitor_pixbuf = adjust_brightness (
+            monitor_pixbuf,
+            (gint)brightness);
+    }
+
+    rstto_monitor_chooser_set_pixbuf (
+            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
+            manager->priv->monitor,
+            monitor_pixbuf,
+            NULL);
+
+    g_object_unref (monitor_pixbuf);
+}
+
+/** adjust_brightness:
+ * @src: Source Pixbuf
+ * @amount: Amount of brightness to be adjusted, a positive value means
+ * increased brightness, a negative value means decreased brightness.
+ *
+ * The contents of this function are copied from xfdesktop, written by 
+ * Brian Tarricone
+ */
+static GdkPixbuf *
+adjust_brightness (
+        GdkPixbuf *src,
+        gint amount )
+{
+    GdkPixbuf *newpix;
+    GdkPixdata pdata;
+    gboolean has_alpha = FALSE;
+    gint i, len;
+    GError *err = NULL;
+    
+    g_return_val_if_fail(src != NULL, NULL);
+    if(amount == 0)
+    {
+        return src;
+    }
+    
+    gdk_pixdata_from_pixbuf(&pdata, src, FALSE);
+    has_alpha = (pdata.pixdata_type & GDK_PIXDATA_COLOR_TYPE_RGBA);
+    if(pdata.length < 1)
+        len = pdata.width * pdata.height * (has_alpha?4:3);
+    else
+        len = pdata.length - GDK_PIXDATA_HEADER_LENGTH;
+    
+    for(i = 0; i < len; i++) {
+        gshort scaled;
+        
+        if(has_alpha && (i+1)%4)
+            continue;
+        
+        scaled = pdata.pixel_data[i] + amount;
+        if(scaled > 255)
+            scaled = 255;
+        if(scaled < 0)
+            scaled = 0;
+        pdata.pixel_data[i] = scaled;
+    }
+    
+    newpix = gdk_pixbuf_from_pixdata(&pdata, TRUE, &err);
+    if(!newpix) {
+        g_warning("%s: Unable to modify image brightness: %s", PACKAGE,
+                err->message);
+        g_error_free(err);
+        return src;
+    }
+    g_object_unref(G_OBJECT(src));
+    
+    return newpix;
 }
