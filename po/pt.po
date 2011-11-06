@@ -2,19 +2,19 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Nuno Miguel <nunis@netcabo.pt>, 2007
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.22\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-04 11:37+0100\n"
+"POT-Creation-Date: 2011-11-06 17:05+0000\n"
 "PO-Revision-Date: 2010-01-15 14:16-0000\n"
 "Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Language: Portuguese\n"
 "X-Poedit-Country: PORTUGAL\n"
@@ -483,20 +483,19 @@ msgid "General"
 msgstr "Geral"
 
 #: ../src/properties_dialog.c:313
-#, fuzzy
 msgid "Image"
-msgstr "Imagens"
+msgstr "Imagem"
 
 #: ../src/properties_dialog.c:526
-#, fuzzy, c-format
+#, c-format
 msgid "<b>Date taken:</b>"
-msgstr "<b>Nome:</b>"
+msgstr "<b>Tirada em:</b>"
 
 #: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
 #: ../src/properties_dialog.c:562
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b>"
-msgstr "<b>Nome:</b>"
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:624
 #, c-format
@@ -519,43 +518,43 @@ msgstr "largura do contorno"
 msgid "the border width of the thumbnail-bar"
 msgstr "a largura do contorno da barra de miniaturas"
 
-#: ../src/xfce_wallpaper_manager.c:296
+#: ../src/xfce_wallpaper_manager.c:344
 msgid "Style:"
 msgstr "Estilo:"
 
-#: ../src/xfce_wallpaper_manager.c:297
+#: ../src/xfce_wallpaper_manager.c:345
 msgid "Brightness:"
 msgstr "Brilho:"
 
-#: ../src/xfce_wallpaper_manager.c:298
+#: ../src/xfce_wallpaper_manager.c:346
 msgid "Saturation:"
 msgstr "Saturação:"
 
-#: ../src/xfce_wallpaper_manager.c:315
+#: ../src/xfce_wallpaper_manager.c:363
 msgid "Set as wallpaper"
 msgstr "Definir como papel de parede"
 
-#: ../src/xfce_wallpaper_manager.c:461
+#: ../src/xfce_wallpaper_manager.c:521
 msgid "Auto"
 msgstr "Automático"
 
-#: ../src/xfce_wallpaper_manager.c:464
+#: ../src/xfce_wallpaper_manager.c:524
 msgid "Centered"
 msgstr "Centrada"
 
-#: ../src/xfce_wallpaper_manager.c:467
+#: ../src/xfce_wallpaper_manager.c:527
 msgid "Tiled"
 msgstr "Mosaico"
 
-#: ../src/xfce_wallpaper_manager.c:470
+#: ../src/xfce_wallpaper_manager.c:530
 msgid "Stretched"
 msgstr "Esticada"
 
-#: ../src/xfce_wallpaper_manager.c:473
+#: ../src/xfce_wallpaper_manager.c:533
 msgid "Scaled"
 msgstr "À escala"
 
-#: ../src/xfce_wallpaper_manager.c:476
+#: ../src/xfce_wallpaper_manager.c:536
 msgid "Zoomed"
 msgstr "Ampliada"
 
