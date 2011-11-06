@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Mike Massonnet <mmassonnet@xfce.org>, 2007, 2008.
 # Patrick Douart <patrick.2@laposte.net>, 2009, 2010.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-04 11:37+0100\n"
+"POT-Creation-Date: 2011-11-06 17:05+0000\n"
 "PO-Revision-Date: 2010-02-11 15:32+0100\n"
 "Last-Translator: Douart Patrick <patrick.2@laposte.net>\n"
 "Language-Team: French\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,11,-1,-1,-1\n"
 
 #: ../src/main.c:61
@@ -32,7 +32,7 @@ msgstr "Démarrer le diaporama"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "Afficher la fenêtre des préférences"
 
 #: ../src/main.c:104
 #, c-format
@@ -458,9 +458,8 @@ msgid "Wrap around images"
 msgstr "Adapter autour de l'image"
 
 #: ../src/preferences_dialog.c:364
-#, fuzzy
 msgid "Image Viewer Preferences"
-msgstr "Visualiseur d’images"
+msgstr "Préférences du visualiseur d’images"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
@@ -487,20 +486,19 @@ msgid "General"
 msgstr "Général"
 
 #: ../src/properties_dialog.c:313
-#, fuzzy
 msgid "Image"
-msgstr "Images"
+msgstr "Image"
 
 #: ../src/properties_dialog.c:526
-#, fuzzy, c-format
+#, c-format
 msgid "<b>Date taken:</b>"
-msgstr "<b>Nom :</b>"
+msgstr "<b>Date de prise:</b>"
 
 #: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
 #: ../src/properties_dialog.c:562
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b>"
-msgstr "<b>Nom :</b>"
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:624
 #, c-format
@@ -523,43 +521,43 @@ msgstr "Largeur des bordures"
 msgid "the border width of the thumbnail-bar"
 msgstr "Largeur de la barre des miniatures"
 
-#: ../src/xfce_wallpaper_manager.c:296
+#: ../src/xfce_wallpaper_manager.c:344
 msgid "Style:"
 msgstr "Style:"
 
-#: ../src/xfce_wallpaper_manager.c:297
+#: ../src/xfce_wallpaper_manager.c:345
 msgid "Brightness:"
 msgstr "Luminosité:"
 
-#: ../src/xfce_wallpaper_manager.c:298
+#: ../src/xfce_wallpaper_manager.c:346
 msgid "Saturation:"
 msgstr "Saturation:"
 
-#: ../src/xfce_wallpaper_manager.c:315
+#: ../src/xfce_wallpaper_manager.c:363
 msgid "Set as wallpaper"
 msgstr "Utiliser en tant que fond d'écran"
 
-#: ../src/xfce_wallpaper_manager.c:461
+#: ../src/xfce_wallpaper_manager.c:521
 msgid "Auto"
 msgstr "Auto"
 
-#: ../src/xfce_wallpaper_manager.c:464
+#: ../src/xfce_wallpaper_manager.c:524
 msgid "Centered"
 msgstr "Centré"
 
-#: ../src/xfce_wallpaper_manager.c:467
+#: ../src/xfce_wallpaper_manager.c:527
 msgid "Tiled"
 msgstr "Chevauchement"
 
-#: ../src/xfce_wallpaper_manager.c:470
+#: ../src/xfce_wallpaper_manager.c:530
 msgid "Stretched"
 msgstr "Etendu"
 
-#: ../src/xfce_wallpaper_manager.c:473
+#: ../src/xfce_wallpaper_manager.c:533
 msgid "Scaled"
 msgstr "mMise à l'échelle"
 
-#: ../src/xfce_wallpaper_manager.c:476
+#: ../src/xfce_wallpaper_manager.c:536
 msgid "Zoomed"
 msgstr "Zoomé"
 
