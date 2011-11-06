@@ -559,7 +559,13 @@ rstto_monitor_chooser_set_pixbuf (
         {
             g_object_unref (monitor->pixbuf);
         }
+
         monitor->pixbuf = pixbuf;
+
+        if (monitor->pixbuf)
+        {
+            g_object_ref (monitor->pixbuf);
+        }
         retval = monitor_id;
     }
     if (GTK_WIDGET_REALIZED (GTK_WIDGET(chooser)))
