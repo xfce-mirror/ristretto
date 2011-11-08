@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-05 17:05+0000\n"
+"POT-Creation-Date: 2011-11-08 11:04+0000\n"
 "PO-Revision-Date: 2008-11-17 11:15+0200\n"
 "Last-Translator: Dmitry Nikitin <luckas_fb@mail.ru>\n"
 "Language-Team: Ukrainian <xfce4-dev@xfce.org>\n"
@@ -296,7 +296,7 @@ msgstr "Нещодавно використані"
 
 #: ../src/main_window.c:584 ../src/main_window.c:988
 msgid "Press open to select an image"
-msgstr "Нажміть відкрити для вибору малюнка"
+msgstr "Натисніть відкрити для вибору малюнка"
 
 #: ../src/main_window.c:974 ../src/main_window.c:980
 msgid "Empty"
@@ -445,7 +445,7 @@ msgstr "Початок"
 
 #: ../src/preferences_dialog.c:303
 msgid "Maximize window on startup when opening an image"
-msgstr "Максималізувати розмір вікна під час запуску коли відкивається малюнок"
+msgstr "Максимізувати розмір вікна під час запуску коли відкривається малюнок"
 
 #: ../src/preferences_dialog.c:309
 msgid "Wrap around images"
@@ -515,43 +515,43 @@ msgstr "ширина рамки"
 msgid "the border width of the thumbnail-bar"
 msgstr "ширина рамки панелі мініатюр"
 
-#: ../src/xfce_wallpaper_manager.c:296
+#: ../src/xfce_wallpaper_manager.c:344
 msgid "Style:"
 msgstr "Стиль:"
 
-#: ../src/xfce_wallpaper_manager.c:297
+#: ../src/xfce_wallpaper_manager.c:345
 msgid "Brightness:"
 msgstr "Яскравість:"
 
-#: ../src/xfce_wallpaper_manager.c:298
+#: ../src/xfce_wallpaper_manager.c:346
 msgid "Saturation:"
 msgstr "Гамма:"
 
-#: ../src/xfce_wallpaper_manager.c:315
+#: ../src/xfce_wallpaper_manager.c:363
 msgid "Set as wallpaper"
 msgstr "Встановити як шпалери"
 
-#: ../src/xfce_wallpaper_manager.c:461
+#: ../src/xfce_wallpaper_manager.c:521
 msgid "Auto"
 msgstr "Автоматично"
 
-#: ../src/xfce_wallpaper_manager.c:464
+#: ../src/xfce_wallpaper_manager.c:524
 msgid "Centered"
 msgstr "Центрувати"
 
-#: ../src/xfce_wallpaper_manager.c:467
+#: ../src/xfce_wallpaper_manager.c:527
 msgid "Tiled"
 msgstr "Плиткою"
 
-#: ../src/xfce_wallpaper_manager.c:470
+#: ../src/xfce_wallpaper_manager.c:530
 msgid "Stretched"
 msgstr "Розмножити"
 
-#: ../src/xfce_wallpaper_manager.c:473
+#: ../src/xfce_wallpaper_manager.c:533
 msgid "Scaled"
 msgstr "Масштабувати"
 
-#: ../src/xfce_wallpaper_manager.c:476
+#: ../src/xfce_wallpaper_manager.c:536
 msgid "Zoomed"
 msgstr "Розтягнути"
 
