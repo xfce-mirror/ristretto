@@ -2641,6 +2641,9 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                             rfile );
                 }
             }
+            rstto_image_list_monitor_dir (
+                window->priv->image_list,
+                p_file );
         }
  
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
@@ -2707,6 +2710,9 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
             g_object_unref (file_enumerator);
             file_enumerator = NULL;
         }
+        rstto_image_list_monitor_dir (
+            window->priv->image_list,
+            p_file );
         rstto_image_list_iter_find_file (
                 window->priv->iter,
                 rfile );

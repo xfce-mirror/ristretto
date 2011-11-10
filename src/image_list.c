@@ -40,6 +40,14 @@ rstto_image_list_class_init(RsttoImageListClass *);
 static void
 rstto_image_list_dispose(GObject *object);
 
+static void
+cb_file_monitor_changed (
+        GFileMonitor      *monitor,
+        GFile             *file,
+        GFile             *other_file,
+        GFileMonitorEvent  event_type,
+        gpointer           user_data );
+
 static void 
 rstto_image_list_iter_init(RsttoImageListIter *);
 static void
@@ -80,11 +88,13 @@ struct _RsttoImageListIterPriv
 
 struct _RsttoImageListPriv
 {
-    GList *images;
-    gint n_images;
+    GFileMonitor *monitor;
 
-    GSList *iterators;
-    GCompareFunc cb_rstto_image_list_compare_func;
+    GList        *images;
+    gint          n_images;
+
+    GSList       *iterators;
+    GCompareFunc  cb_rstto_image_list_compare_func;
 };
 
 static gint rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_COUNT];
@@ -318,6 +328,77 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
         iter = g_slist_next (iter);
     }
     g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL], 0, NULL);
+}
+
+void
+rstto_image_list_monitor_dir (
+        RsttoImageList *image_list,
+        GFile *dir )
+{
+    GFileMonitor *monitor = NULL;
+
+    if ( NULL != image_list->priv->monitor )
+    {
+        g_object_unref (image_list->priv->monitor);
+        image_list->priv->monitor = NULL;
+    }
+
+    monitor = g_file_monitor_directory (
+            dir,
+            G_FILE_MONITOR_NONE,
+            NULL,
+            NULL);
+
+    g_signal_connect (
+            G_OBJECT(monitor),
+            "changed",
+            G_CALLBACK (cb_file_monitor_changed),
+            image_list);
+
+    image_list->priv->monitor = monitor;
+}
+
+static void
+cb_file_monitor_changed (
+        GFileMonitor      *monitor,
+        GFile             *file,
+        GFile             *other_file,
+        GFileMonitorEvent  event_type,
+        gpointer           user_data )
+{
+    RsttoImageList *image_list = RSTTO_IMAGE_LIST (user_data);
+    RsttoFile *r_file = rstto_file_new (file);
+
+    g_return_if_fail ( monitor == image_list->priv->monitor);
+
+    switch ( event_type )
+    {
+        case G_FILE_MONITOR_EVENT_DELETED:
+            g_debug("file deleted");
+            rstto_image_list_remove_file ( image_list, r_file );
+            r_file = NULL;
+            break;
+        case G_FILE_MONITOR_EVENT_CREATED:
+            g_debug("file created");
+            rstto_image_list_add_file (image_list, r_file, NULL);
+            r_file = NULL;
+            break;
+        case G_FILE_MONITOR_EVENT_MOVED:
+            g_debug("file moved");
+            rstto_image_list_remove_file ( image_list, r_file );
+
+            r_file = rstto_file_new (other_file);
+            rstto_image_list_add_file (image_list, r_file, NULL);
+            r_file = NULL;
+            break;
+        default:
+            break;
+    }
+
+    if ( NULL != r_file )
+    {
+        g_object_unref (r_file);
+    }
 }
 
 
