@@ -497,7 +497,7 @@ msgstr "<b>Taget på dato:</b>"
 
 #: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
 #: ../src/properties_dialog.c:562
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
