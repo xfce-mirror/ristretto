@@ -157,12 +157,6 @@ static void
 cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window);
 
 static void
-cb_rstto_main_window_image_list_new_image (
-        RsttoImageList *image_list,
-        RsttoFile *file,
-        RsttoMainWindow *window );
-
-static void
 cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window);
@@ -837,11 +831,6 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
     window->priv->image_list = image_list;
     g_object_ref (image_list);
 
-    g_signal_connect (
-            G_OBJECT (window->priv->image_list),
-            "new-image",
-            G_CALLBACK (cb_rstto_main_window_image_list_new_image),
-            window);
     window->priv->iter = rstto_image_list_get_iter (window->priv->image_list);
     g_signal_connect (
             G_OBJECT (window->priv->iter),
@@ -2257,41 +2246,6 @@ static void
 cb_rstto_main_window_quit (GtkWidget *widget, RsttoMainWindow *window)
 {
     gtk_widget_destroy (GTK_WIDGET (window));
-}
-
-/**
- * cb_rstto_main_window_image_list_new_image:
- * @image_list:
- * @image:
- * @window:
- *
- */
-static void
-cb_rstto_main_window_image_list_new_image (
-        RsttoImageList *image_list,
-        RsttoFile *file,
-        RsttoMainWindow *window )
-{
-    if ( 0 != (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
-    {
-        gtk_widget_hide (window->priv->toolbar);
-    }
-    if (rstto_image_list_iter_get_position (window->priv->iter) == -1)
-        rstto_image_list_iter_set_position (window->priv->iter, 0);
-    if (window->priv->open_image_timer_id > 0)
-    {
-        g_source_remove (window->priv->open_image_timer_id);
-    }
-    else
-    {
-        rstto_image_list_iter_find_file (window->priv->iter, file);
-        rstto_main_window_image_list_iter_changed (window);
-    }
-
-    rstto_main_window_update_buttons (window);
-
-    window->priv->open_image_timer_id = g_timeout_add (
-            1000, rstto_window_open_image_timer, window);
 }
 
 static gboolean
