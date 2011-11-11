@@ -2,6 +2,9 @@ x.x.x
 =====
 - Apply saturation and brightness settings in the set-wallpaper
   preview widget.
+- Fix bug #8134 (Fix Segmentation fault when 
+  paint_background_icon tries to use a NULL bg_icon)
+- Fix bug #8135 (Fix compile with --enable-debug=full)
 
 0.3.0
 =====
