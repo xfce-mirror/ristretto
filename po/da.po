@@ -2,19 +2,19 @@
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the Ristretto package.
 # Per Kongstad <p_kongstad@op.pl>, 2008, 2009.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.90\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-04 11:37+0100\n"
+"POT-Creation-Date: 2011-11-11 05:05+0000\n"
 "PO-Revision-Date: 2010-01-15 12:00+0100\n"
 "Last-Translator: Per Kongstad <p_kongstad@op.pl>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
-"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
 "X-Poedit-Language: Danish\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Country: DENMARK\n"
@@ -487,20 +487,19 @@ msgid "General"
 msgstr "Generelt"
 
 #: ../src/properties_dialog.c:313
-#, fuzzy
 msgid "Image"
-msgstr "Billeder"
+msgstr "Billede"
 
 #: ../src/properties_dialog.c:526
-#, fuzzy, c-format
+#, c-format
 msgid "<b>Date taken:</b>"
-msgstr "<b>Navn:</b>"
+msgstr "<b>Taget på dato:</b>"
 
 #: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
 #: ../src/properties_dialog.c:562
 #, fuzzy, c-format
 msgid "<b>%s</b>"
-msgstr "<b>Navn:</b>"
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:624
 #, c-format
@@ -523,43 +522,43 @@ msgstr "kantbredde"
 msgid "the border width of the thumbnail-bar"
 msgstr "bredden af kanten rundt om miniaturebjælken"
 
-#: ../src/xfce_wallpaper_manager.c:296
+#: ../src/xfce_wallpaper_manager.c:344
 msgid "Style:"
 msgstr "Stil:"
 
-#: ../src/xfce_wallpaper_manager.c:297
+#: ../src/xfce_wallpaper_manager.c:345
 msgid "Brightness:"
 msgstr "Lysstyrke:"
 
-#: ../src/xfce_wallpaper_manager.c:298
+#: ../src/xfce_wallpaper_manager.c:346
 msgid "Saturation:"
 msgstr "Mætning:"
 
-#: ../src/xfce_wallpaper_manager.c:315
+#: ../src/xfce_wallpaper_manager.c:363
 msgid "Set as wallpaper"
 msgstr "Brug som skrivebordsbaggrund"
 
-#: ../src/xfce_wallpaper_manager.c:461
+#: ../src/xfce_wallpaper_manager.c:521
 msgid "Auto"
 msgstr "Automatisk"
 
-#: ../src/xfce_wallpaper_manager.c:464
+#: ../src/xfce_wallpaper_manager.c:524
 msgid "Centered"
 msgstr "Centreret"
 
-#: ../src/xfce_wallpaper_manager.c:467
+#: ../src/xfce_wallpaper_manager.c:527
 msgid "Tiled"
 msgstr "Fliselagt"
 
-#: ../src/xfce_wallpaper_manager.c:470
+#: ../src/xfce_wallpaper_manager.c:530
 msgid "Stretched"
 msgstr "Udstrukket"
 
-#: ../src/xfce_wallpaper_manager.c:473
+#: ../src/xfce_wallpaper_manager.c:533
 msgid "Scaled"
 msgstr "Skaleret"
 
-#: ../src/xfce_wallpaper_manager.c:476
+#: ../src/xfce_wallpaper_manager.c:536
 msgid "Zoomed"
 msgstr "Forstørret"
 
