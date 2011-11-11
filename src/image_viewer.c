@@ -798,12 +798,15 @@ paint_background_icon (
 
     /* Draw the pixbuf on the cairo-context */
     /****************************************/
-    gdk_cairo_set_source_pixbuf (
-            ctx,
-            viewer->priv->bg_icon,
-            0.0,
-            0.0);
-    cairo_paint_with_alpha (ctx, 0.1);
+    if(viewer->priv->bg_icon != NULL)
+    {
+        gdk_cairo_set_source_pixbuf (
+                ctx,
+                viewer->priv->bg_icon,
+                0.0,
+                0.0);
+        cairo_paint_with_alpha (ctx, 0.1);
+    }
 }
 
 static void
