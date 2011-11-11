@@ -2741,7 +2741,7 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
 static void
 cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
 {
-    GtkWidget *dialog;
+    GtkWidget *dialog, *err_dialog;
     gint response;
     GFile *file, *s_file;
 
@@ -2758,9 +2758,22 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
     {
         file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
         s_file = rstto_file_get_file(rstto_image_list_iter_get_file (window->priv->iter));
-        if (g_file_copy (s_file, file, G_FILE_COPY_OVERWRITE, NULL, NULL, NULL, NULL))
+        if ( FALSE == g_file_copy (
+                s_file,
+                file,
+                G_FILE_COPY_OVERWRITE,
+                NULL,
+                NULL,
+                NULL,
+                NULL) )
         {
-            rstto_image_list_add_file (window->priv->image_list, rstto_file_new(file), NULL);
+            err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+                                            GTK_DIALOG_MODAL,
+                                            GTK_MESSAGE_ERROR,
+                                            GTK_BUTTONS_OK,
+                                            _("Could not save file"));
+            gtk_dialog_run(GTK_DIALOG(err_dialog));
+            gtk_widget_destroy(err_dialog);
         }
     }
 
