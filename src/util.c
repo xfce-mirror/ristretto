@@ -21,9 +21,9 @@
 #include <locale.h>
 #include <exo/exo.h>
 
-void rstto_launch_help (void);
+#include "util.h"
 
-void
+gboolean
 rstto_launch_help (void)
 {
     gchar *locale = NULL;
@@ -103,4 +103,6 @@ rstto_launch_help (void)
 
     g_free (docpath);
     g_free (cur_dir);
+
+    return TRUE;
 }
