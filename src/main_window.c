@@ -2573,23 +2573,26 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
             while (_files_iter)
             {
                 file = _files_iter->data;
-                if (rstto_image_list_add_file (window->priv->image_list, rstto_file_new(file), NULL) == FALSE)
+                if (g_file_query_exists (file, NULL) )
                 {
-                    err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
-                                                    GTK_DIALOG_MODAL,
-                                                    GTK_MESSAGE_ERROR,
-                                                    GTK_BUTTONS_OK,
-                                                    _("Could not open file"));
-                    gtk_dialog_run(GTK_DIALOG(err_dialog));
-                    gtk_widget_destroy(err_dialog);
-                }
-                else
-                {
-                    /* Add a reference to the file, it is owned by the
-                     * sourcefunc and will be unref-ed by it.
-                     */
-                    g_object_ref (file);
-                    g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, file, NULL);
+                    if (rstto_image_list_add_file (window->priv->image_list, rstto_file_new(file), NULL) == FALSE)
+                    {
+                        err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+                                                        GTK_DIALOG_MODAL,
+                                                        GTK_MESSAGE_ERROR,
+                                                        GTK_BUTTONS_OK,
+                                                        _("Could not open file"));
+                        gtk_dialog_run(GTK_DIALOG(err_dialog));
+                        gtk_widget_destroy(err_dialog);
+                    }
+                    else
+                    {
+                        /* Add a reference to the file, it is owned by the
+                         * sourcefunc and will be unref-ed by it.
+                         */
+                        g_object_ref (file);
+                        g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, file, NULL);
+                    }
                 }
 
                 _files_iter = g_slist_next (_files_iter);
@@ -2597,36 +2600,42 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
         }
         else
         {
-            rfile = rstto_file_new (files->data);
-            g_object_ref (rfile);
-            if (rstto_image_list_add_file (window->priv->image_list, rfile, NULL) == TRUE )
+            if (g_slist_length (files) == 1)
             {
-                rstto_image_list_remove_all (window->priv->image_list);
-                rstto_image_list_add_file (window->priv->image_list, rfile, NULL);
-            }
-            p_file = g_file_get_parent (files->data);
-            file_enumerator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
-            if (NULL != file_enumerator)
-            {
-                for(file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL);
-                    file_info != NULL;
-                    file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL))
+                if (g_file_query_exists (files->data, NULL) )
                 {
-                    filename = g_file_info_get_name (file_info);
-                    content_type  = g_file_info_get_content_type (file_info);
-                    child_file = g_file_get_child (p_file, filename);
-                    if (strncmp (content_type, "image/", 6) == 0)
+                    rfile = rstto_file_new (files->data);
+                    g_object_ref (rfile);
+                    if (rstto_image_list_add_file (window->priv->image_list, rfile, NULL) == TRUE )
                     {
-                        rstto_image_list_add_file (window->priv->image_list, rstto_file_new (child_file), NULL);
+                        rstto_image_list_remove_all (window->priv->image_list);
+                        rstto_image_list_add_file (window->priv->image_list, rfile, NULL);
                     }
+                    p_file = g_file_get_parent (files->data);
+                    file_enumerator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
+                    if (NULL != file_enumerator)
+                    {
+                        for(file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL);
+                            file_info != NULL;
+                            file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL))
+                        {
+                            filename = g_file_info_get_name (file_info);
+                            content_type  = g_file_info_get_content_type (file_info);
+                            child_file = g_file_get_child (p_file, filename);
+                            if (strncmp (content_type, "image/", 6) == 0)
+                            {
+                                rstto_image_list_add_file (window->priv->image_list, rstto_file_new (child_file), NULL);
+                            }
+                        }
+                        g_object_unref (file_enumerator);
+                        file_enumerator = NULL;
+                    }
+                    rstto_image_list_iter_find_file (
+                            window->priv->iter,
+                            rfile );
                 }
-                g_object_unref (file_enumerator);
-                file_enumerator = NULL;
             }
         }
-        rstto_image_list_iter_find_file (
-                window->priv->iter,
-                rfile );
  
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
         g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
