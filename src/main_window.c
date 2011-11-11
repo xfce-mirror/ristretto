@@ -70,7 +70,6 @@ struct _RsttoMainWindowPriv
 
     guint show_fs_toolbar_timeout_id;
     gint window_save_geometry_timer_id;
-    gint open_image_timer_id;
     
     gboolean fs_toolbar_sticky;
 
@@ -142,8 +141,6 @@ key_press_event (
 static gboolean
 rstto_window_save_geometry_timer (gpointer user_data);
 
-static gboolean
-rstto_window_open_image_timer(gpointer user_data);
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
 
@@ -1598,14 +1595,6 @@ rstto_window_save_geometry_timer (gpointer user_data)
                           NULL);
         }
     }
-    return FALSE;
-}
-
-static gboolean
-rstto_window_open_image_timer (gpointer user_data)
-{
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
-    window->priv->open_image_timer_id = 0;
     return FALSE;
 }
 
