@@ -18,11 +18,12 @@
 
 #include <config.h>
 #include <glib.h>
-
+#include <locale.h>
 #include <exo/exo.h>
 
+void rstto_launch_help (void);
 
-gboolean
+void
 rstto_launch_help (void)
 {
     gchar *locale = NULL;

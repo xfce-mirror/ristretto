@@ -59,7 +59,7 @@ properties_dialog_set_file (
 
 static GtkWidgetClass *parent_class = NULL;
 
-static enum
+enum
 {
     EXIF_PROP_DATE_TIME = 0,
     EXIF_PROP_MODEL,
@@ -125,7 +125,6 @@ static void
 rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
 {
     GtkWidget *vbox;
-    GtkWidget *notebook;
     GtkWidget *table;
     /* General tab */
     GtkWidget *general_label;

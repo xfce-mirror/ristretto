@@ -119,12 +119,15 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
         RsttoWallpaperManager *self,
         RsttoFile *file)
 {
+    GdkPixbuf *monitor_pixbuf;
+    gdouble saturation;
+    gdouble brightness;
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
     gint response = 0;
     manager->priv->file = file;
-    GdkPixbuf *monitor_pixbuf = NULL;
-    gdouble saturation = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->saturation_adjustment));
-    gdouble brightness = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->brightness_adjustment));
+    monitor_pixbuf = NULL;
+    saturation = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->saturation_adjustment));
+    brightness = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->brightness_adjustment));
 
     if (manager->priv->pixbuf)
     {
