@@ -98,6 +98,11 @@ RsttoImageList *rstto_image_list_new ();
 gint     rstto_image_list_get_n_images (RsttoImageList *image_list);
 gboolean rstto_image_list_add_file (RsttoImageList *image_list, RsttoFile *file, GError **);
 
+void
+rstto_image_list_monitor_dir (
+        RsttoImageList *image_list,
+        GFile *dir );
+
 GCompareFunc rstto_image_list_get_compare_func (RsttoImageList *image_list);
 void         rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func);
 
