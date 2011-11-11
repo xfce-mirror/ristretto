@@ -137,6 +137,10 @@ rstto_image_list_iter_find_file (RsttoImageListIter *iter, RsttoFile *file);
 
 RsttoImageListIter *rstto_image_list_iter_clone (RsttoImageListIter *iter);
 
+gboolean
+rstto_image_list_iter_get_sticky (
+        RsttoImageListIter *iter);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_IMAGE_LIST_H__ */

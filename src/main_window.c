@@ -1709,6 +1709,7 @@ cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget, Gd
 static void
 cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window)
 {
+    g_debug("Sticky: %d", rstto_image_list_iter_get_sticky (iter));
     rstto_main_window_image_list_iter_changed (window);
 }
 

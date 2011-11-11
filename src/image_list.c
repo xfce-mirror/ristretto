@@ -55,6 +55,20 @@ rstto_image_list_iter_class_init(RsttoImageListIterClass *);
 static void
 rstto_image_list_iter_dispose(GObject *object);
 
+static gboolean
+iter_next (
+        RsttoImageListIter *iter,
+        gboolean sticky);
+static gboolean
+iter_previous (
+        RsttoImageListIter *iter,
+        gboolean sticky);
+static void 
+iter_set_position (
+        RsttoImageListIter *iter,
+        gint pos,
+        gboolean sticky);
+
 static RsttoImageListIter * rstto_image_list_iter_new ();
 
 static gint
@@ -83,7 +97,10 @@ enum
 struct _RsttoImageListIterPriv
 {
     RsttoImageList *image_list;
-    RsttoFile *file;
+    RsttoFile      *file;
+    
+    /* This is set if the iter-position is chosen by the user */
+    gboolean        sticky; 
 };
 
 struct _RsttoImageListPriv
@@ -199,6 +216,7 @@ gboolean
 rstto_image_list_add_file (RsttoImageList *image_list, RsttoFile *file, GError **error)
 {
     GList *image_iter = g_list_find (image_list->priv->images, file);
+    GSList *iter = image_list->priv->iterators;
 
     if (!image_iter)
     {
@@ -209,15 +227,15 @@ rstto_image_list_add_file (RsttoImageList *image_list, RsttoFile *file, GError *
             image_list->priv->n_images++;
 
             g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, file, NULL);
-            if (image_list->priv->n_images == 1)
+            /** TODO: update all iterators */
+            while (iter)
             {
-                /** TODO: update all iterators */
-                GSList *iter = image_list->priv->iterators;
-                while (iter)
+                if (FALSE == RSTTO_IMAGE_LIST_ITER(iter->data)->priv->sticky)
                 {
-                    g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
-                    iter = g_slist_next (iter);
+                    g_debug("find file");
+                    rstto_image_list_iter_find_file (iter->data, file);
                 }
+                iter = g_slist_next (iter);
             }
             return TRUE;
         }
@@ -274,11 +292,11 @@ rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file)
             {
                 if (rstto_image_list_iter_get_position (iter->data) == rstto_image_list_get_n_images (image_list)-1)
                 {
-                    rstto_image_list_iter_previous (iter->data);
+                    iter_previous (iter->data, FALSE);
                 }
                 else
                 {
-                    rstto_image_list_iter_next (iter->data);
+                    iter_next (iter->data, FALSE);
                 }
                 /* If the image is still the same, 
                  * it's a single item list,
@@ -302,7 +320,7 @@ rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file)
             {
                 if (rstto_file_equal(afile, file))
                 {
-                    rstto_image_list_iter_next (iter->data);
+                    iter_next (iter->data, FALSE);
                 }
             }
             iter = g_slist_next (iter);
@@ -324,7 +342,7 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
     iter = image_list->priv->iterators;
     while (iter)
     {
-        rstto_image_list_iter_set_position (iter->data, -1);
+        iter_set_position (iter->data, -1, FALSE);
         iter = g_slist_next (iter);
     }
     g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL], 0, NULL);
@@ -386,7 +404,6 @@ cb_file_monitor_changed (
         case G_FILE_MONITOR_EVENT_MOVED:
             g_debug("file moved");
             rstto_image_list_remove_file ( image_list, r_file );
-
             r_file = rstto_file_new (other_file);
             rstto_image_list_add_file (image_list, r_file, NULL);
             r_file = NULL;
@@ -509,6 +526,7 @@ rstto_image_list_iter_find_file (RsttoImageListIter *iter, RsttoFile *file)
             iter->priv->file = NULL;
         }
         iter->priv->file = file;
+        iter->priv->sticky = TRUE;
 
         g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
 
@@ -533,9 +551,11 @@ rstto_image_list_iter_get_file (RsttoImageListIter *iter)
     return iter->priv->file;
 }
 
-
-void
-rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos)
+static void
+iter_set_position (
+        RsttoImageListIter *iter,
+        gint pos,
+        gboolean sticky )
 {
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE], 0, NULL);
 
@@ -552,8 +572,16 @@ rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos)
     g_signal_emit (G_OBJECT (iter), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
 }
 
-gboolean
-rstto_image_list_iter_next (RsttoImageListIter *iter)
+void
+rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos)
+{
+    iter_set_position ( iter, pos, TRUE );
+}
+
+static gboolean
+iter_next (
+        RsttoImageListIter *iter,
+        gboolean sticky)
 {
     GList *position = NULL;
     RsttoSettings *settings = NULL;
@@ -567,6 +595,8 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
         position = g_list_find (iter->priv->image_list->priv->images, iter->priv->file);
         iter->priv->file = NULL;
     }
+
+    iter->priv->sticky = sticky;
 
     position = g_list_next (position);
     if (position)
@@ -609,7 +639,15 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
 }
 
 gboolean
-rstto_image_list_iter_previous (RsttoImageListIter *iter)
+rstto_image_list_iter_next (RsttoImageListIter *iter)
+{
+    return iter_next (iter, TRUE);
+}
+
+static gboolean
+iter_previous (
+        RsttoImageListIter *iter,
+        gboolean sticky)
 {
     GList *position = NULL;
     RsttoSettings *settings = NULL;
@@ -623,6 +661,8 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter)
         position = g_list_find (iter->priv->image_list->priv->images, iter->priv->file);
         iter->priv->file = NULL;
     }
+
+    iter->priv->sticky = sticky;
 
     position = g_list_previous (position);
     if (position)
@@ -652,6 +692,13 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter)
     }
 
     return ret_val;
+
+}
+
+gboolean
+rstto_image_list_iter_previous (RsttoImageListIter *iter)
+{
+    return iter_previous (iter, TRUE);
 }
 
 RsttoImageListIter *
@@ -815,4 +862,11 @@ cb_rstto_image_list_exif_date_compare_func (RsttoFile *a, RsttoFile *b)
         return -1;
     }
     return 1;
+}
+
+gboolean
+rstto_image_list_iter_get_sticky (
+        RsttoImageListIter *iter)
+{
+    return iter->priv->sticky;
 }
