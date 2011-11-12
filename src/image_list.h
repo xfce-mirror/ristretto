@@ -98,10 +98,12 @@ RsttoImageList *rstto_image_list_new ();
 gint     rstto_image_list_get_n_images (RsttoImageList *image_list);
 gboolean rstto_image_list_add_file (RsttoImageList *image_list, RsttoFile *file, GError **);
 
-void
-rstto_image_list_monitor_dir (
+gboolean
+rstto_image_list_set_directory (
         RsttoImageList *image_list,
-        GFile *dir );
+        GFile *dir,
+        GError **);
+
 
 GCompareFunc rstto_image_list_get_compare_func (RsttoImageList *image_list);
 void         rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func);
@@ -112,10 +114,12 @@ rstto_image_list_set_sort_by_name (RsttoImageList *image_list);
 void
 rstto_image_list_set_sort_by_date (RsttoImageList *image_list);
 
-RsttoImageListIter *rstto_image_list_get_iter (RsttoImageList *image_list);
+RsttoImageListIter *
+rstto_image_list_get_iter (RsttoImageList *image_list);
 
 /** Iter functions */
-GType       rstto_image_list_iter_get_type ();
+GType
+rstto_image_list_iter_get_type ();
 
 RsttoFile *
 rstto_image_list_iter_get_file ( RsttoImageListIter *iter );
@@ -125,11 +129,11 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter);
 gboolean
 rstto_image_list_iter_next (RsttoImageListIter *iter);
 
-gint        rstto_image_list_iter_get_position (RsttoImageListIter *iter);
-void        rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos);
-
+gint
+rstto_image_list_iter_get_position (RsttoImageListIter *iter);
 void
-rstto_image_list_remove_all (RsttoImageList *image_list);
+rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos);
+
 void
 rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file);
 gboolean

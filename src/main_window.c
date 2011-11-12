@@ -1709,7 +1709,6 @@ cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget, Gd
 static void
 cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window)
 {
-    g_debug("Sticky: %d", rstto_image_list_iter_get_sticky (iter));
     rstto_main_window_image_list_iter_changed (window);
 }
 
@@ -2468,14 +2467,9 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     gint response;
     GFile *file;
     GFile *p_file;
-    GFileEnumerator *file_enumerator = NULL;
     GSList *files = NULL, *_files_iter;
     GValue current_uri_val = {0, };
     GtkFileFilter *filter;
-    GFileInfo *file_info;
-    const gchar *filename;
-    const gchar *content_type;
-    GFile *child_file;
     RsttoFile *rfile;
 
     g_value_init (&current_uri_val, G_TYPE_STRING);
@@ -2556,38 +2550,17 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                 {
                     rfile = rstto_file_new (files->data);
                     g_object_ref (rfile);
-                    if (rstto_image_list_add_file (window->priv->image_list, rfile, NULL) == TRUE )
-                    {
-                        rstto_image_list_remove_all (window->priv->image_list);
-                        rstto_image_list_add_file (window->priv->image_list, rfile, NULL);
-                    }
+
                     p_file = g_file_get_parent (files->data);
-                    file_enumerator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
-                    if (NULL != file_enumerator)
-                    {
-                        for(file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL);
-                            file_info != NULL;
-                            file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL))
-                        {
-                            filename = g_file_info_get_name (file_info);
-                            content_type  = g_file_info_get_content_type (file_info);
-                            child_file = g_file_get_child (p_file, filename);
-                            if (strncmp (content_type, "image/", 6) == 0)
-                            {
-                                rstto_image_list_add_file (window->priv->image_list, rstto_file_new (child_file), NULL);
-                            }
-                        }
-                        g_object_unref (file_enumerator);
-                        file_enumerator = NULL;
-                    }
+                    rstto_image_list_set_directory (
+                            window->priv->image_list,
+                            p_file,
+                            NULL );
                     rstto_image_list_iter_find_file (
                             window->priv->iter,
                             rfile );
                 }
             }
-            rstto_image_list_monitor_dir (
-                window->priv->image_list,
-                p_file );
         }
  
         g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
@@ -2617,46 +2590,21 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
 {
     GtkWidget *err_dialog;
     gchar *uri = gtk_recent_chooser_get_current_uri (chooser);
-    const gchar *filename;
-    const gchar *content_type = NULL;
     GError *error = NULL;
     GFile *file = g_file_new_for_uri (uri);
-    GFile *child_file, *p_file;
-    GFileEnumerator *file_enumerator = NULL;
-    GFileInfo *file_info = g_file_query_info (file, "standard::type", 0, NULL, &error);
+    GFile *p_file;
     RsttoFile *rfile;
 
     if (error == NULL)
     {
         rfile = rstto_file_new (file);
         g_object_ref (rfile);
-        if (rstto_image_list_add_file (window->priv->image_list, rfile, NULL) == TRUE )
-        {
-            rstto_image_list_remove_all (window->priv->image_list);
-            rstto_image_list_add_file (window->priv->image_list, rfile, NULL);
-        }
+
         p_file = g_file_get_parent (file);
-        file_enumerator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
-        if (NULL != file_enumerator)
-        {
-            for(file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL);
-                file_info != NULL;
-                file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL))
-            {
-                filename = g_file_info_get_name (file_info);
-                content_type  = g_file_info_get_content_type (file_info);
-                child_file = g_file_get_child (p_file, filename);
-                if (strncmp (content_type, "image/", 6) == 0)
-                {
-                    rstto_image_list_add_file (window->priv->image_list, rstto_file_new (child_file), NULL);
-                }
-            }
-            g_object_unref (file_enumerator);
-            file_enumerator = NULL;
-        }
-        rstto_image_list_monitor_dir (
-            window->priv->image_list,
-            p_file );
+        rstto_image_list_set_directory (
+                window->priv->image_list,
+                p_file,
+                NULL);
         rstto_image_list_iter_find_file (
                 window->priv->iter,
                 rfile );
@@ -2796,7 +2744,11 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_image_list_remove_all (window->priv->image_list);
+    rstto_image_list_set_directory (
+            window->priv->image_list,
+            NULL,
+            NULL);
+
     rstto_main_window_image_list_iter_changed (window);
 
     rstto_main_window_update_buttons (window);

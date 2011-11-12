@@ -55,14 +55,25 @@ rstto_image_list_iter_class_init(RsttoImageListIterClass *);
 static void
 rstto_image_list_iter_dispose(GObject *object);
 
+static void
+rstto_image_list_monitor_dir (
+        RsttoImageList *image_list,
+        GFile *dir );
+
+static void
+rstto_image_list_remove_all (
+        RsttoImageList *image_list);
+
 static gboolean
 iter_next (
         RsttoImageListIter *iter,
         gboolean sticky);
+
 static gboolean
 iter_previous (
         RsttoImageListIter *iter,
         gboolean sticky);
+
 static void 
 iter_set_position (
         RsttoImageListIter *iter,
@@ -232,7 +243,6 @@ rstto_image_list_add_file (RsttoImageList *image_list, RsttoFile *file, GError *
             {
                 if (FALSE == RSTTO_IMAGE_LIST_ITER(iter->data)->priv->sticky)
                 {
-                    g_debug("find file");
                     rstto_image_list_iter_find_file (iter->data, file);
                 }
                 iter = g_slist_next (iter);
@@ -331,7 +341,7 @@ rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file)
     }
 }
 
-void
+static void
 rstto_image_list_remove_all (RsttoImageList *image_list)
 {
     GSList *iter = NULL;
@@ -348,7 +358,52 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
     g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL], 0, NULL);
 }
 
-void
+gboolean
+rstto_image_list_set_directory (
+        RsttoImageList *image_list,
+        GFile *dir,
+        GError **error )
+{
+    /* Declare variables */
+    GFileEnumerator *file_enumerator = NULL;
+    GFileInfo *file_info;
+    const gchar *filename;
+    const gchar *content_type;
+    GFile *child_file;
+
+    /* Source code block */
+    rstto_image_list_remove_all (image_list);
+
+    /* Allow all images to be removed by providing NULL to dir */
+    if ( NULL != dir )
+    {
+        file_enumerator = g_file_enumerate_children (dir, "standard::*", 0, NULL, NULL);
+
+        if (NULL != file_enumerator)
+        {
+            for(file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL);
+                NULL != file_info;
+                file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL))
+            {
+                filename = g_file_info_get_name (file_info);
+                content_type  = g_file_info_get_content_type (file_info);
+                child_file = g_file_get_child (dir, filename);
+                if (strncmp (content_type, "image/", 6) == 0)
+                {
+                    rstto_image_list_add_file (image_list, rstto_file_new (child_file), NULL);
+                }
+            }
+            g_object_unref (file_enumerator);
+            file_enumerator = NULL;
+        }
+    }
+
+    rstto_image_list_monitor_dir ( image_list, dir );
+
+    return TRUE;
+}
+
+static void
 rstto_image_list_monitor_dir (
         RsttoImageList *image_list,
         GFile *dir )
@@ -361,17 +416,21 @@ rstto_image_list_monitor_dir (
         image_list->priv->monitor = NULL;
     }
 
-    monitor = g_file_monitor_directory (
-            dir,
-            G_FILE_MONITOR_NONE,
-            NULL,
-            NULL);
+    /* Allow a monitor to be removed by providing NULL to dir */
+    if ( NULL != dir )
+    {
+        monitor = g_file_monitor_directory (
+                dir,
+                G_FILE_MONITOR_NONE,
+                NULL,
+                NULL);
 
-    g_signal_connect (
-            G_OBJECT(monitor),
-            "changed",
-            G_CALLBACK (cb_file_monitor_changed),
-            image_list);
+        g_signal_connect (
+                G_OBJECT(monitor),
+                "changed",
+                G_CALLBACK (cb_file_monitor_changed),
+                image_list);
+    }
 
     image_list->priv->monitor = monitor;
 }
@@ -392,17 +451,14 @@ cb_file_monitor_changed (
     switch ( event_type )
     {
         case G_FILE_MONITOR_EVENT_DELETED:
-            g_debug("file deleted");
             rstto_image_list_remove_file ( image_list, r_file );
             r_file = NULL;
             break;
         case G_FILE_MONITOR_EVENT_CREATED:
-            g_debug("file created");
             rstto_image_list_add_file (image_list, r_file, NULL);
             r_file = NULL;
             break;
         case G_FILE_MONITOR_EVENT_MOVED:
-            g_debug("file moved");
             rstto_image_list_remove_file ( image_list, r_file );
             r_file = rstto_file_new (other_file);
             rstto_image_list_add_file (image_list, r_file, NULL);
