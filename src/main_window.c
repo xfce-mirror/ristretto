@@ -2541,6 +2541,9 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
 
                 _files_iter = g_slist_next (_files_iter);
             }
+            rstto_image_list_iter_set_position (
+                window->priv->iter,
+                0);
         }
         else
         {
