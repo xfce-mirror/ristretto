@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-04 11:04+0000\n"
+"POT-Creation-Date: 2011-11-12 23:04+0000\n"
 "PO-Revision-Date: 2011-09-08 00:48+0200\n"
 "Last-Translator: Pjotr\n"
 "Language-Team: Dutch (Flemish)\n"
@@ -330,15 +330,19 @@ msgstr "Afbeeldingen"
 msgid ".jp(e)g"
 msgstr ". jp(e)g"
 
-#: ../src/main_window.c:2582 ../src/main_window.c:2706
+#: ../src/main_window.c:2584 ../src/main_window.c:2715
 msgid "Could not open file"
 msgstr "Kon bestand niet openen"
 
-#: ../src/main_window.c:2739
+#: ../src/main_window.c:2748
 msgid "Save copy"
 msgstr "Bewaar kopie"
 
-#: ../src/main_window.c:2849
+#: ../src/main_window.c:2774
+msgid "Could not save file"
+msgstr "Kon bestand niet opslaan"
+
+#: ../src/main_window.c:2871
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Weet u zeker dat u afbeelding '%s' van de schijf wil verwijderen?"
@@ -460,46 +464,46 @@ msgstr "Om afbeeldingen heen vouwen"
 msgid "Image Viewer Preferences"
 msgstr "Voorkeuren van Afbeeldingkijker"
 
-#: ../src/properties_dialog.c:181
+#: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
 msgstr "<b>Naam:</b>"
 
-#: ../src/properties_dialog.c:182
+#: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
 msgstr "<b>Soort:</b>"
 
-#: ../src/properties_dialog.c:183
+#: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
 msgstr "<b>Aangepast:</b>"
 
-#: ../src/properties_dialog.c:184
+#: ../src/properties_dialog.c:183
 msgid "<b>Accessed:</b>"
 msgstr "<b>Benaderd:</b>"
 
-#: ../src/properties_dialog.c:185
+#: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
 msgstr "<b>Grootte:</b>"
 
-#: ../src/properties_dialog.c:309
+#: ../src/properties_dialog.c:308
 msgid "General"
 msgstr "Algemeen"
 
-#: ../src/properties_dialog.c:313
+#: ../src/properties_dialog.c:312
 msgid "Image"
 msgstr "Afbeelding"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:525
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Datum genomen:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
+#: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:623
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Eigenschappen"
@@ -520,43 +524,43 @@ msgstr "randbreedte"
 msgid "the border width of the thumbnail-bar"
 msgstr "de randbreedte van de miniaturenbalk"
 
-#: ../src/xfce_wallpaper_manager.c:296
+#: ../src/xfce_wallpaper_manager.c:347
 msgid "Style:"
 msgstr "Stijl:"
 
-#: ../src/xfce_wallpaper_manager.c:297
+#: ../src/xfce_wallpaper_manager.c:348
 msgid "Brightness:"
 msgstr "Helderheid:"
 
-#: ../src/xfce_wallpaper_manager.c:298
+#: ../src/xfce_wallpaper_manager.c:349
 msgid "Saturation:"
 msgstr "Verzadiging:"
 
-#: ../src/xfce_wallpaper_manager.c:315
+#: ../src/xfce_wallpaper_manager.c:366
 msgid "Set as wallpaper"
 msgstr "Instellen als bureaubladachtergrond"
 
-#: ../src/xfce_wallpaper_manager.c:461
+#: ../src/xfce_wallpaper_manager.c:524
 msgid "Auto"
 msgstr "Automatisch"
 
-#: ../src/xfce_wallpaper_manager.c:464
+#: ../src/xfce_wallpaper_manager.c:527
 msgid "Centered"
 msgstr "Gecentreerd"
 
-#: ../src/xfce_wallpaper_manager.c:467
+#: ../src/xfce_wallpaper_manager.c:530
 msgid "Tiled"
 msgstr "Naast elkaar"
 
-#: ../src/xfce_wallpaper_manager.c:470
+#: ../src/xfce_wallpaper_manager.c:533
 msgid "Stretched"
 msgstr "Uitgerekt"
 
-#: ../src/xfce_wallpaper_manager.c:473
+#: ../src/xfce_wallpaper_manager.c:536
 msgid "Scaled"
 msgstr "Geschaald"
 
-#: ../src/xfce_wallpaper_manager.c:476
+#: ../src/xfce_wallpaper_manager.c:539
 msgid "Zoomed"
 msgstr "Ingezoomd"
 
