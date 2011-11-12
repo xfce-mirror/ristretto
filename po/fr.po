@@ -40,7 +40,7 @@ msgid ""
 "%s: %s\n"
 "Try %s --help to see a full list of available command line options.\n"
 msgstr ""
-"%s: %s\n"
+"%s : %s\n"
 "Essayez %s --help pour voir une liste complète des options en ligne de "
 "commande.\n"
 
@@ -492,7 +492,7 @@ msgstr "Image"
 #: ../src/properties_dialog.c:526
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr "<b>Date de prise:</b>"
+msgstr "<b>Date de prise :</b>"
 
 #: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
 #: ../src/properties_dialog.c:562
@@ -523,15 +523,15 @@ msgstr "Largeur de la barre des miniatures"
 
 #: ../src/xfce_wallpaper_manager.c:344
 msgid "Style:"
-msgstr "Style:"
+msgstr "Style :"
 
 #: ../src/xfce_wallpaper_manager.c:345
 msgid "Brightness:"
-msgstr "Luminosité:"
+msgstr "Luminosité :"
 
 #: ../src/xfce_wallpaper_manager.c:346
 msgid "Saturation:"
-msgstr "Saturation:"
+msgstr "Saturation :"
 
 #: ../src/xfce_wallpaper_manager.c:363
 msgid "Set as wallpaper"
@@ -555,7 +555,7 @@ msgstr "Etendu"
 
 #: ../src/xfce_wallpaper_manager.c:533
 msgid "Scaled"
-msgstr "mMise à l'échelle"
+msgstr "Mise à l'échelle"
 
 #: ../src/xfce_wallpaper_manager.c:536
 msgid "Zoomed"
@@ -568,157 +568,3 @@ msgstr "Regardez vos photos facilement"
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Image Viewer"
 msgstr "Visionneuse d’Images Ristretto"
-
-#~ msgid "Scaling"
-#~ msgstr "Taille d'image"
-
-#~ msgid "Don't scale over 100% when maximizing the window."
-#~ msgstr ""
-#~ "Adapter l'image lors de l'agrandissement de la fenêtre\n"
-#~ "(jamais au-delà de 100%)"
-
-#~ msgid "Preferences"
-#~ msgstr "Préférences"
-
-#~ msgid "Open _Folder"
-#~ msgstr "O_uvrir un répertoire"
-
-#~ msgid "Open a folder"
-#~ msgstr "Ouvrir un répertoire"
-
-#~ msgid "_Close All"
-#~ msgstr "Fermer _Tout"
-
-#~ msgid "Close all images"
-#~ msgstr "Fermer toutes les images"
-
-#~ msgid "Open folder"
-#~ msgstr "Ouvrir un répertoire"
-
-#~ msgid "Open entire folder on startup"
-#~ msgstr "Ouvrir le dossier complet au démarrage"
-
-#~ msgid "Monitor:"
-#~ msgstr "Moniteur:"
-
-#~ msgid "Two"
-#~ msgstr "Haut"
-
-#~ msgid "Show preview when loading image"
-#~ msgstr "Afficher une prévisualisation lors du chargement de l'image"
-
-#~ msgid "No action"
-#~ msgstr "Aucune action"
-
-#~ msgid "Zoom in and out"
-#~ msgstr "Zoomer en avant / arrière"
-
-#~ msgid "Switch images"
-#~ msgstr "Changer d'image"
-
-#~ msgid "Memory"
-#~ msgstr "Mémoire"
-
-#~ msgid "Image cache"
-#~ msgstr "Mise en cache d'images"
-
-#~ msgid "Cache size"
-#~ msgstr "Taille du cache :"
-
-#~ msgid "MB"
-#~ msgstr "Mo"
-
-#~ msgid "Enable cache"
-#~ msgstr "Activer la mise en cache"
-
-#~ msgid "Enable preloading"
-#~ msgstr "Activer préchargement"
-
-#~ msgid "filmstrip width"
-#~ msgstr "Largeur de bande de film"
-
-#~ msgid "the width of the thumbnail-bar film-strip"
-#~ msgstr "Largeur de barre de miniature de la bande de film"
-
-#~ msgid "_Print"
-#~ msgstr "_Imprimer"
-
-#~ msgid "Print the image"
-#~ msgstr "_Imprimer l'image"
-
-#~ msgid "Quality"
-#~ msgstr "Qualité"
-
-#~ msgid "Maximum render quality:"
-#~ msgstr "Qualité d'image maximale :"
-
-#~ msgid "Best"
-#~ msgstr "Meilleure"
-
-#~ msgid "High"
-#~ msgstr "Haute"
-
-#~ msgid "Medium"
-#~ msgstr "Moyenne"
-
-#~ msgid "Low"
-#~ msgstr "Faible"
-
-#~ msgid "Preload images"
-#~ msgstr "Précharger les images"
-
-#~ msgid "Ristretto"
-#~ msgstr "Ristretto"
-
-#~ msgid "_Thumbnail Bar"
-#~ msgstr "Miniatures"
-
-#~ msgid "Opening file(s)..."
-#~ msgstr "Ouvrir des fichiers..."
-
-#~ msgid "No applications available"
-#~ msgstr "Aucune application disponible"
-
-#~ msgid "Thumbnail _Viewer"
-#~ msgstr "Vue des _miniatures"
-
-#~ msgid "Show _Horizontally"
-#~ msgstr "Afficher _horizontalement"
-
-#~ msgid "Show _Vertically"
-#~ msgstr "Afficher _verticalement"
-
-#~ msgid "H_ide"
-#~ msgstr "_Cacher"
-
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Une ou plusieurs images ont été modifiées, voulez-vous les enregistrer ?"
-
-#~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Précharger les images\n"
-#~ "(l'interface est plus réactive mais demande plus de charge CPU)"
-
-#~ msgid "Hide the thumbnails bar during slideshow"
-#~ msgstr "Cacher les miniatures durant le diaporama"
-
-#~ msgid "Xfce Image viewer"
-#~ msgstr "Visualiseur d’images pour Xfce"
-
-#~ msgid "Preload"
-#~ msgstr "Préchargement"
-
-#~ msgid ""
-#~ "Preload images during slideshow\n"
-#~ "(uses more memory)"
-#~ msgstr ""
-#~ "Précharger les images durant le diaporama\n"
-#~ "(nécessite plus de mémoire vive)"
-
-#~ msgid "Flip _Vertically"
-#~ msgstr "Retourner _verticalement"
-
-#~ msgid "Flip _Horizontally"
-#~ msgstr "Retourner _horizontalement"
