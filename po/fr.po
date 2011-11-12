@@ -120,7 +120,7 @@ msgstr "_Nettoyer les données personnelles"
 
 #: ../src/main_window.c:280
 msgid "_Preferences"
-msgstr "Préférences"
+msgstr "_Préférences"
 
 #. View Menu
 #: ../src/main_window.c:282
