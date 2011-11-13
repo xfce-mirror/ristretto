@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-04 23:05+0000\n"
+"POT-Creation-Date: 2011-11-13 17:04+0000\n"
 "PO-Revision-Date: 2010-06-11 19:40+0200\n"
 "Last-Translator: Ivica Kolić<ikoli@yahoo.com> <>\n"
 "Language-Team: Croatian <>\n"
@@ -327,15 +327,19 @@ msgstr "Slike"
 msgid ".jp(e)g"
 msgstr ". Jp (e) g"
 
-#: ../src/main_window.c:2582 ../src/main_window.c:2706
+#: ../src/main_window.c:2584 ../src/main_window.c:2715
 msgid "Could not open file"
 msgstr "Ne mogu otvoriti datotewku"
 
-#: ../src/main_window.c:2739
+#: ../src/main_window.c:2748
 msgid "Save copy"
 msgstr "Spremi kopiju"
 
-#: ../src/main_window.c:2849
+#: ../src/main_window.c:2774
+msgid "Could not save file"
+msgstr "Ne mogu spremiti datoteku"
+
+#: ../src/main_window.c:2871
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "jeste li sigurni da želite izbrisati sliku '%s sa diska?"
@@ -456,46 +460,46 @@ msgstr "Omotaj oko skika"
 msgid "Image Viewer Preferences"
 msgstr "Osobitosti preglednika slika"
 
-#: ../src/properties_dialog.c:181
+#: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:182
+#: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:183
+#: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:184
+#: ../src/properties_dialog.c:183
 msgid "<b>Accessed:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:185
+#: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:309
+#: ../src/properties_dialog.c:308
 msgid "General"
 msgstr ""
 
-#: ../src/properties_dialog.c:313
+#: ../src/properties_dialog.c:312
 msgid "Image"
 msgstr "Slika"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:525
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
+#: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
 msgstr ""
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:623
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Svojstva"
@@ -516,43 +520,43 @@ msgstr "širina ruba"
 msgid "the border width of the thumbnail-bar"
 msgstr "Širina ruba trake sličica"
 
-#: ../src/xfce_wallpaper_manager.c:296
+#: ../src/xfce_wallpaper_manager.c:347
 msgid "Style:"
 msgstr "Stil"
 
-#: ../src/xfce_wallpaper_manager.c:297
+#: ../src/xfce_wallpaper_manager.c:348
 msgid "Brightness:"
 msgstr "Osvijetljenost"
 
-#: ../src/xfce_wallpaper_manager.c:298
+#: ../src/xfce_wallpaper_manager.c:349
 msgid "Saturation:"
 msgstr "Zasićenost"
 
-#: ../src/xfce_wallpaper_manager.c:315
+#: ../src/xfce_wallpaper_manager.c:366
 msgid "Set as wallpaper"
 msgstr ""
 
-#: ../src/xfce_wallpaper_manager.c:461
+#: ../src/xfce_wallpaper_manager.c:524
 msgid "Auto"
 msgstr ""
 
-#: ../src/xfce_wallpaper_manager.c:464
+#: ../src/xfce_wallpaper_manager.c:527
 msgid "Centered"
 msgstr "Centrirano"
 
-#: ../src/xfce_wallpaper_manager.c:467
+#: ../src/xfce_wallpaper_manager.c:530
 msgid "Tiled"
 msgstr ""
 
-#: ../src/xfce_wallpaper_manager.c:470
+#: ../src/xfce_wallpaper_manager.c:533
 msgid "Stretched"
 msgstr "Rastegnuto"
 
-#: ../src/xfce_wallpaper_manager.c:473
+#: ../src/xfce_wallpaper_manager.c:536
 msgid "Scaled"
 msgstr "Skalirano"
 
-#: ../src/xfce_wallpaper_manager.c:476
+#: ../src/xfce_wallpaper_manager.c:539
 msgid "Zoomed"
 msgstr "Zumirano"
 
