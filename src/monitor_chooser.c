@@ -412,8 +412,8 @@ paint_monitor ( cairo_t *cr,
         switch (monitor->style)
         {
             case MONITOR_STYLE_STRETCHED:
-                hscale = (width) / (gdk_pixbuf_get_width(monitor->pixbuf));
-                vscale = (height) / (gdk_pixbuf_get_height(monitor->pixbuf));
+                hscale = (width-20) / (gdk_pixbuf_get_width(monitor->pixbuf));
+                vscale = (height-20) / (gdk_pixbuf_get_height(monitor->pixbuf));
                 cairo_scale (cr, hscale, vscale);
 
                 gdk_cairo_set_source_pixbuf (cr,
@@ -422,8 +422,8 @@ paint_monitor ( cairo_t *cr,
                                              y/vscale+((height/vscale)-gdk_pixbuf_get_height(monitor->pixbuf))/2);
                 break;
             case MONITOR_STYLE_SCALED:
-                hscale = (width) / (gdk_pixbuf_get_width(monitor->pixbuf));
-                vscale = (height) / (gdk_pixbuf_get_height(monitor->pixbuf));
+                hscale = (width-20) / (gdk_pixbuf_get_width(monitor->pixbuf));
+                vscale = (height-20) / (gdk_pixbuf_get_height(monitor->pixbuf));
                 if (hscale < vscale)
                 {
                     vscale = hscale;
@@ -441,8 +441,8 @@ paint_monitor ( cairo_t *cr,
 
                 break;
             case MONITOR_STYLE_ZOOMED:
-                hscale = (width) / (gdk_pixbuf_get_width(monitor->pixbuf));
-                vscale = (height) / (gdk_pixbuf_get_height(monitor->pixbuf));
+                hscale = (width-20) / (gdk_pixbuf_get_width(monitor->pixbuf));
+                vscale = (height-20) / (gdk_pixbuf_get_height(monitor->pixbuf));
                 if (hscale > vscale)
                 {
                     vscale = hscale;
@@ -461,8 +461,16 @@ paint_monitor ( cairo_t *cr,
             default:
                 dst_pixbuf = gdk_pixbuf_copy (monitor->pixbuf);
                 gdk_pixbuf_saturate_and_pixelate (monitor->pixbuf, dst_pixbuf, 0.0, TRUE);
-                hscale = width / (gdk_pixbuf_get_width(monitor->pixbuf));
-                vscale = hscale;
+                hscale = (width-20) / (gdk_pixbuf_get_width(monitor->pixbuf));
+                vscale = (height-20) / (gdk_pixbuf_get_height(monitor->pixbuf));
+                if (hscale < vscale)
+                {
+                    vscale = hscale;
+                }
+                else
+                {
+                    hscale = vscale;
+                }
                 cairo_scale (cr, hscale, vscale);
 
                 gdk_cairo_set_source_pixbuf (cr,
