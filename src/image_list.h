@@ -129,6 +129,11 @@ rstto_image_list_iter_previous (RsttoImageListIter *iter);
 gboolean
 rstto_image_list_iter_next (RsttoImageListIter *iter);
 
+gboolean
+rstto_image_list_iter_has_previous (RsttoImageListIter *iter);
+gboolean
+rstto_image_list_iter_has_next (RsttoImageListIter *iter);
+
 gint
 rstto_image_list_iter_get_position (RsttoImageListIter *iter);
 void

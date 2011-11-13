@@ -56,6 +56,12 @@ static void
 rstto_image_list_iter_dispose(GObject *object);
 
 static void
+cb_rstto_wrap_images_changed (
+        GObject *settings,
+        GParamSpec *pspec,
+        gpointer user_data);
+
+static void
 rstto_image_list_monitor_dir (
         RsttoImageList *image_list,
         GFile *dir );
@@ -117,12 +123,15 @@ struct _RsttoImageListIterPriv
 struct _RsttoImageListPriv
 {
     GFileMonitor *monitor;
+    RsttoSettings *settings;
 
     GList        *images;
     gint          n_images;
 
     GSList       *iterators;
     GCompareFunc  cb_rstto_image_list_compare_func;
+
+    gboolean      wrap_images;
 };
 
 static gint rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_COUNT];
@@ -159,7 +168,20 @@ rstto_image_list_init(RsttoImageList *image_list)
 {
 
     image_list->priv = g_new0 (RsttoImageListPriv, 1);
+    image_list->priv->settings = rstto_settings_new ();
+
     image_list->priv->cb_rstto_image_list_compare_func = (GCompareFunc)cb_rstto_image_list_image_name_compare_func;
+
+    image_list->priv->wrap_images = rstto_settings_get_boolean_property (
+            image_list->priv->settings,
+            "wrap-images");
+
+    g_signal_connect (
+            G_OBJECT(image_list->priv->settings),
+            "notify::wrap-images",
+            G_CALLBACK (cb_rstto_wrap_images_changed),
+            image_list);
+
 }
 
 static void
@@ -210,7 +232,18 @@ rstto_image_list_class_init(RsttoImageListClass *nav_class)
 static void
 rstto_image_list_dispose(GObject *object)
 {
-    /*RsttoImageList *image_list = RSTTO_IMAGE_LIST(object);*/
+    RsttoImageList *image_list = RSTTO_IMAGE_LIST(object);
+    if (NULL != image_list->priv)
+    {
+        if (image_list->priv->settings)
+        {
+            g_object_unref (image_list->priv->settings);
+            image_list->priv->settings = NULL;
+        }
+        
+        g_free (image_list->priv);
+        image_list->priv = NULL;
+    }
 }
 
 RsttoImageList *
@@ -640,7 +673,7 @@ iter_next (
         gboolean sticky)
 {
     GList *position = NULL;
-    RsttoSettings *settings = NULL;
+    RsttoImageList *image_list = iter->priv->image_list;
     RsttoFile *file = iter->priv->file;
     gboolean ret_val = FALSE;
 
@@ -664,9 +697,8 @@ iter_next (
     }
     else
     {
-        settings = rstto_settings_new();
 
-        if (rstto_settings_get_boolean_property (settings, "wrap-images"))
+        if (TRUE == image_list->priv->wrap_images)
         {
             position = g_list_first (iter->priv->image_list->priv->images);
 
@@ -682,8 +714,6 @@ iter_next (
             iter->priv->file = position->data; 
         else
             iter->priv->file = NULL;
-
-        g_object_unref (settings);
     }
 
     if (file != iter->priv->file)
@@ -700,13 +730,36 @@ rstto_image_list_iter_next (RsttoImageListIter *iter)
     return iter_next (iter, TRUE);
 }
 
+gboolean
+rstto_image_list_iter_has_next (RsttoImageListIter *iter)
+{
+    RsttoImageList *image_list = iter->priv->image_list;
+
+    if (image_list->priv->wrap_images)
+    {
+        return TRUE;
+    }
+    else
+    {
+        if (rstto_image_list_iter_get_position (iter) ==
+            (rstto_image_list_get_n_images (image_list) -1))
+        {
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+    }
+}
+
 static gboolean
 iter_previous (
         RsttoImageListIter *iter,
         gboolean sticky)
 {
     GList *position = NULL;
-    RsttoSettings *settings = NULL;
+    RsttoImageList *image_list = iter->priv->image_list;
     RsttoFile *file = iter->priv->file;
     gboolean ret_val = FALSE;
 
@@ -727,19 +780,23 @@ iter_previous (
     }
     else
     {
-        settings = rstto_settings_new();
-
-        if (rstto_settings_get_boolean_property (settings, "wrap-images"))
+        if (TRUE == image_list->priv->wrap_images)
+        {
             position = g_list_last (iter->priv->image_list->priv->images);
+        }
         else
+        {
             position = g_list_first (iter->priv->image_list->priv->images);
+        }
 
         if (position)
+        {
             iter->priv->file = position->data; 
+        }
         else
+        {
             iter->priv->file = NULL;
-
-        g_object_unref (settings);
+        }
     }
 
     if (file != iter->priv->file)
@@ -750,12 +807,35 @@ iter_previous (
     return ret_val;
 
 }
-
 gboolean
 rstto_image_list_iter_previous (RsttoImageListIter *iter)
 {
     return iter_previous (iter, TRUE);
 }
+
+
+gboolean
+rstto_image_list_iter_has_previous (RsttoImageListIter *iter)
+{
+    RsttoImageList *image_list = iter->priv->image_list;
+
+    if (image_list->priv->wrap_images)
+    {
+        return TRUE;
+    }
+    else
+    {
+        if (rstto_image_list_iter_get_position (iter) == 0)
+        {
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+    }
+}
+
 
 RsttoImageListIter *
 rstto_image_list_iter_clone (RsttoImageListIter *iter)
@@ -925,4 +1005,24 @@ rstto_image_list_iter_get_sticky (
         RsttoImageListIter *iter)
 {
     return iter->priv->sticky;
+}
+
+static void
+cb_rstto_wrap_images_changed (
+        GObject *settings,
+        GParamSpec *pspec,
+        gpointer user_data)
+{
+    GValue val_wrap_images = { 0, };
+
+    RsttoImageList *image_list = RSTTO_IMAGE_LIST (user_data);
+
+    g_value_init (&val_wrap_images, G_TYPE_BOOLEAN);
+
+    g_object_get_property (
+            settings,
+            "wrap-images",
+            &val_wrap_images);
+
+    image_list->priv->wrap_images = g_value_get_boolean (&val_wrap_images);
 }

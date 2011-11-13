@@ -248,6 +248,11 @@ cb_rstto_merge_toolbars_changed (
         GObject *settings,
         GParamSpec *pspec,
         gpointer user_data);
+static void
+cb_rstto_wrap_images_changed (
+        GObject *object,
+        GParamSpec *pspec,
+        gpointer user_data);
 
 
 
@@ -722,6 +727,11 @@ rstto_main_window_init (RsttoMainWindow *window)
             G_OBJECT(window->priv->settings_manager),
             "notify::merge-toolbars",
             G_CALLBACK (cb_rstto_merge_toolbars_changed),
+            window);
+    g_signal_connect (
+            G_OBJECT(window->priv->settings_manager),
+            "notify::wrap-images",
+            G_CALLBACK (cb_rstto_wrap_images_changed),
             window);
 
 }
@@ -1259,8 +1269,26 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/edit-menu/delete"), TRUE);
 
             /* Go Menu */
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/forward"), TRUE);
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/back"), TRUE);
+            if (rstto_image_list_iter_has_next (window->priv->iter))
+            {
+                gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/forward"), TRUE);
+                gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/forward"), TRUE);
+            }
+            else
+            {
+                gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/forward"), FALSE);
+                gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/forward"), FALSE);
+            }
+            if (rstto_image_list_iter_has_previous (window->priv->iter))
+            {
+                gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/back"), TRUE);
+                gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/back"), TRUE);
+            }
+            else
+            {
+                gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/back"), FALSE);
+                gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/back"), FALSE);
+            }
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/first"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/go-menu/last"), TRUE); 
 
@@ -1280,8 +1308,6 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/save-copy"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/close"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/delete"), TRUE);
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/forward"), TRUE);
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/back"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/zoom-in"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/zoom-out"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/zoom-fit"), TRUE);
@@ -2973,6 +2999,16 @@ key_press_event (
 
 static void
 cb_rstto_merge_toolbars_changed (
+        GObject *object,
+        GParamSpec *pspec,
+        gpointer user_data)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    rstto_main_window_update_buttons (window);
+}
+
+static void
+cb_rstto_wrap_images_changed (
         GObject *object,
         GParamSpec *pspec,
         gpointer user_data)
