@@ -529,15 +529,25 @@ rstto_image_viewer_destroy(GtkObject *object)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER(object);
 
-    if (viewer->priv->settings)
+    if (viewer->priv)
     {
-        g_object_unref (viewer->priv->settings);
-        viewer->priv->settings = NULL;
-    }
-    if (viewer->priv->bg_icon)
-    {
-        g_object_unref (viewer->priv->bg_icon);
-        viewer->priv->bg_icon = NULL;
+        if (viewer->priv->settings)
+        {
+            g_object_unref (viewer->priv->settings);
+            viewer->priv->settings = NULL;
+        }
+        if (viewer->priv->bg_icon)
+        {
+            g_object_unref (viewer->priv->bg_icon);
+            viewer->priv->bg_icon = NULL;
+        }
+        if (viewer->priv->pixbuf)
+        {
+            g_object_unref (viewer->priv->pixbuf);
+            viewer->priv->pixbuf = NULL;
+        }
+        g_free (viewer->priv);
+        viewer->priv = NULL;
     }
 }
 
