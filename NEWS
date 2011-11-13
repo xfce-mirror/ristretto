@@ -10,6 +10,7 @@ x.x.x
 - Add 'has-next' and 'has-previous' functions to disable the sensitivity
   of the 'back' and 'forward' buttons when showing the first or last
   image in a list.
+- Improve preview of the set-wallpaper dialog.
 
 0.3.0
 =====
