@@ -101,7 +101,14 @@ main(int argc, char **argv)
     {
         if (cli_error != NULL)
         {
-            g_print (_("%s: %s\nTry %s --help to see a full list of available command line options.\n"), PACKAGE, cli_error->message, PACKAGE_NAME);
+            g_print (
+                    _("%s: %s\n\n"
+                      "Try %s --help to see a full list of\n"
+                      "available command line options.\n"),
+                    PACKAGE,
+                    cli_error->message,
+                    PACKAGE_NAME);
+
             g_error_free (cli_error);
             return 1;
         }
@@ -170,11 +177,11 @@ static gboolean
 cb_rstto_open_files (RsttoOpenFiles *rof)
 {
     GFileType file_type;
-    GFile *file, *p_file, *child_file;
+    GFile *file, *p_file;
     GFileInfo *file_info;
-    const gchar *content_type, *filename;
-
-    GFileEnumerator *file_enumarator = NULL;
+    RsttoFile *r_file = NULL;
+    RsttoImageListIter *iter = NULL;
+    const gchar *content_type;
 
     if (rof->argc > 2)
     {
@@ -212,35 +219,35 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
             file_info = g_file_query_info (file, "standard::content-type,standard::type", 0, NULL, NULL);
             if (file_info)
             {
-                content_type = g_file_info_get_attribute_string (file_info, "standard::content-type");
                 file_type = g_file_info_get_file_type (file_info);
+                content_type = g_file_info_get_attribute_string (file_info, "standard::content-type");
 
                 if (strncmp (content_type, "image/", 6) == 0)
                 {
-                    if (rstto_image_list_add_file (rof->image_list, rstto_file_new(file), NULL) == TRUE)
-                    {
-                        rstto_main_window_add_file_to_recent_files (file);
-                    }
+                    r_file = rstto_file_new (file);
+                }
+                else
+                {
+                    /* TODO: show error dialog */
                 }
             }
         }
-        if (file_type != G_FILE_TYPE_DIRECTORY) {
-            p_file = g_file_get_parent (file);
-        file_enumarator = g_file_enumerate_children (p_file, "standard::*", 0, NULL, NULL);
-        for(file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL); file_info != NULL; file_info = g_file_enumerator_next_file (file_enumarator, NULL, NULL))
+
+        if (file_type != G_FILE_TYPE_DIRECTORY && r_file != NULL)
         {
-            filename = g_file_info_get_name (file_info);
-            content_type  = g_file_info_get_content_type (file_info);
-            child_file = g_file_get_child (p_file, filename);
+            /* Get the iterator used by the main-window, it should be
+             * set to point to the right file later.
+             */
+            iter = rstto_main_window_get_iter (RSTTO_MAIN_WINDOW (rof->window));
 
-            if (strncmp (content_type, "image/", 6) == 0)
-            {
-                rstto_image_list_add_file (rof->image_list, rstto_file_new(child_file), NULL);
-            }
+            /* Get the file's parent directory */
+            p_file = g_file_get_parent (file);
 
-            g_object_unref (child_file);
-            g_object_unref (file_info);
-        }
+            /* Open the directory */
+            rstto_image_list_set_directory (rof->image_list, p_file, NULL);
+
+            /* Point the iterator to the correct image */
+            rstto_image_list_iter_find_file (iter, r_file);
         }
     }
     return FALSE;

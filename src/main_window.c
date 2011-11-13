@@ -2872,6 +2872,13 @@ cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindo
     }
 }
 
+RsttoImageListIter *
+rstto_main_window_get_iter (
+        RsttoMainWindow *window)
+{
+    return window->priv->iter;
+}
+
 gboolean
 rstto_main_window_add_file_to_recent_files (GFile *file)
 {

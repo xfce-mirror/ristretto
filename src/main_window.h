@@ -67,7 +67,12 @@ typedef enum {
 
 GType      rstto_main_window_get_type();
 
-GtkWidget *rstto_main_window_new (RsttoImageList *, gboolean);
+GtkWidget *
+rstto_main_window_new (RsttoImageList *, gboolean);
+
+RsttoImageListIter *
+rstto_main_window_get_iter (
+        RsttoMainWindow *);
 
 gboolean   rstto_main_window_add_file_to_recent_files (GFile *);
 
