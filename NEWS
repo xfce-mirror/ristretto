@@ -6,6 +6,10 @@ x.x.x
   paint_background_icon tries to use a NULL bg_icon)
 - Fix bug #8135 (Fix compile with --enable-debug=full)
 - Do not open the copy of an image when saving.
+- Fix bug #6509 (Implement file-monitor)
+- Add 'has-next' and 'has-previous' functions to disable the sensitivity
+  of the 'back' and 'forward' buttons when showing the first or last
+  image in a list.
 
 0.3.0
 =====
