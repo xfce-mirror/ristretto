@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.22\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-06 17:05+0000\n"
+"POT-Creation-Date: 2011-11-12 23:04+0000\n"
 "PO-Revision-Date: 2010-01-15 14:16-0000\n"
 "Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
 "Language-Team: \n"
@@ -329,15 +329,19 @@ msgstr "Imagens"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2582 ../src/main_window.c:2706
+#: ../src/main_window.c:2584 ../src/main_window.c:2715
 msgid "Could not open file"
 msgstr "Incapaz de abrir ficheiro"
 
-#: ../src/main_window.c:2739
+#: ../src/main_window.c:2748
 msgid "Save copy"
 msgstr "Gravar cópia"
 
-#: ../src/main_window.c:2849
+#: ../src/main_window.c:2774
+msgid "Could not save file"
+msgstr "Incapaz de gravar ficheiro"
+
+#: ../src/main_window.c:2871
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Tem a certeza que quer apagar do disco a imagem \"%s\"?"
@@ -458,46 +462,46 @@ msgstr "Contorno em redor das imagens"
 msgid "Image Viewer Preferences"
 msgstr "Preferências do visualizador de imagens"
 
-#: ../src/properties_dialog.c:181
+#: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
 msgstr "<b>Nome:</b>"
 
-#: ../src/properties_dialog.c:182
+#: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
 msgstr "<b>Tipo:</b>"
 
-#: ../src/properties_dialog.c:183
+#: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
 msgstr "<b>Modificada:</b>"
 
-#: ../src/properties_dialog.c:184
+#: ../src/properties_dialog.c:183
 msgid "<b>Accessed:</b>"
 msgstr "<b>Acedida:</b>"
 
-#: ../src/properties_dialog.c:185
+#: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
 msgstr "<b>Tamanho:</b>"
 
-#: ../src/properties_dialog.c:309
+#: ../src/properties_dialog.c:308
 msgid "General"
 msgstr "Geral"
 
-#: ../src/properties_dialog.c:313
+#: ../src/properties_dialog.c:312
 msgid "Image"
 msgstr "Imagem"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:525
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Tirada em:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
+#: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:623
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Propriedades"
@@ -518,43 +522,43 @@ msgstr "largura do contorno"
 msgid "the border width of the thumbnail-bar"
 msgstr "a largura do contorno da barra de miniaturas"
 
-#: ../src/xfce_wallpaper_manager.c:344
+#: ../src/xfce_wallpaper_manager.c:347
 msgid "Style:"
 msgstr "Estilo:"
 
-#: ../src/xfce_wallpaper_manager.c:345
+#: ../src/xfce_wallpaper_manager.c:348
 msgid "Brightness:"
 msgstr "Brilho:"
 
-#: ../src/xfce_wallpaper_manager.c:346
+#: ../src/xfce_wallpaper_manager.c:349
 msgid "Saturation:"
 msgstr "Saturação:"
 
-#: ../src/xfce_wallpaper_manager.c:363
+#: ../src/xfce_wallpaper_manager.c:366
 msgid "Set as wallpaper"
 msgstr "Definir como papel de parede"
 
-#: ../src/xfce_wallpaper_manager.c:521
+#: ../src/xfce_wallpaper_manager.c:524
 msgid "Auto"
 msgstr "Automático"
 
-#: ../src/xfce_wallpaper_manager.c:524
+#: ../src/xfce_wallpaper_manager.c:527
 msgid "Centered"
 msgstr "Centrada"
 
-#: ../src/xfce_wallpaper_manager.c:527
+#: ../src/xfce_wallpaper_manager.c:530
 msgid "Tiled"
 msgstr "Mosaico"
 
-#: ../src/xfce_wallpaper_manager.c:530
+#: ../src/xfce_wallpaper_manager.c:533
 msgid "Stretched"
 msgstr "Esticada"
 
-#: ../src/xfce_wallpaper_manager.c:533
+#: ../src/xfce_wallpaper_manager.c:536
 msgid "Scaled"
 msgstr "À escala"
 
-#: ../src/xfce_wallpaper_manager.c:536
+#: ../src/xfce_wallpaper_manager.c:539
 msgid "Zoomed"
 msgstr "Ampliada"
 
