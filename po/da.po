@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.90\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-11 05:05+0000\n"
+"POT-Creation-Date: 2011-11-13 05:04+0000\n"
 "PO-Revision-Date: 2010-01-15 12:00+0100\n"
 "Last-Translator: Per Kongstad <p_kongstad@op.pl>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -333,15 +333,19 @@ msgstr "Billeder"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2582 ../src/main_window.c:2706
+#: ../src/main_window.c:2584 ../src/main_window.c:2715
 msgid "Could not open file"
 msgstr "Kunne ikke åbne fil"
 
-#: ../src/main_window.c:2739
+#: ../src/main_window.c:2748
 msgid "Save copy"
 msgstr "Gem kopi"
 
-#: ../src/main_window.c:2849
+#: ../src/main_window.c:2774
+msgid "Could not save file"
+msgstr "Kunne ikke gemme fil"
+
+#: ../src/main_window.c:2871
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Er du sikker på, at du vil slette billedet '%s' fra disken?"
@@ -462,46 +466,46 @@ msgstr "Svøb omkring billeder"
 msgid "Image Viewer Preferences"
 msgstr "Indstillinger for billedfremviser"
 
-#: ../src/properties_dialog.c:181
+#: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
 msgstr "<b>Navn:</b>"
 
-#: ../src/properties_dialog.c:182
+#: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
 msgstr "<b>Type:</b>"
 
-#: ../src/properties_dialog.c:183
+#: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
 msgstr "<b>Modificeret:</b>"
 
-#: ../src/properties_dialog.c:184
+#: ../src/properties_dialog.c:183
 msgid "<b>Accessed:</b>"
 msgstr "<b>Tilgået:</b>"
 
-#: ../src/properties_dialog.c:185
+#: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
 msgstr "<b>Størrelse:</b>"
 
-#: ../src/properties_dialog.c:309
+#: ../src/properties_dialog.c:308
 msgid "General"
 msgstr "Generelt"
 
-#: ../src/properties_dialog.c:313
+#: ../src/properties_dialog.c:312
 msgid "Image"
 msgstr "Billede"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:525
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Taget på dato:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
+#: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:623
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Egenskaber"
@@ -522,43 +526,43 @@ msgstr "kantbredde"
 msgid "the border width of the thumbnail-bar"
 msgstr "bredden af kanten rundt om miniaturebjælken"
 
-#: ../src/xfce_wallpaper_manager.c:344
+#: ../src/xfce_wallpaper_manager.c:347
 msgid "Style:"
 msgstr "Stil:"
 
-#: ../src/xfce_wallpaper_manager.c:345
+#: ../src/xfce_wallpaper_manager.c:348
 msgid "Brightness:"
 msgstr "Lysstyrke:"
 
-#: ../src/xfce_wallpaper_manager.c:346
+#: ../src/xfce_wallpaper_manager.c:349
 msgid "Saturation:"
 msgstr "Mætning:"
 
-#: ../src/xfce_wallpaper_manager.c:363
+#: ../src/xfce_wallpaper_manager.c:366
 msgid "Set as wallpaper"
 msgstr "Brug som skrivebordsbaggrund"
 
-#: ../src/xfce_wallpaper_manager.c:521
+#: ../src/xfce_wallpaper_manager.c:524
 msgid "Auto"
 msgstr "Automatisk"
 
-#: ../src/xfce_wallpaper_manager.c:524
+#: ../src/xfce_wallpaper_manager.c:527
 msgid "Centered"
 msgstr "Centreret"
 
-#: ../src/xfce_wallpaper_manager.c:527
+#: ../src/xfce_wallpaper_manager.c:530
 msgid "Tiled"
 msgstr "Fliselagt"
 
-#: ../src/xfce_wallpaper_manager.c:530
+#: ../src/xfce_wallpaper_manager.c:533
 msgid "Stretched"
 msgstr "Udstrukket"
 
-#: ../src/xfce_wallpaper_manager.c:533
+#: ../src/xfce_wallpaper_manager.c:536
 msgid "Scaled"
 msgstr "Skaleret"
 
-#: ../src/xfce_wallpaper_manager.c:536
+#: ../src/xfce_wallpaper_manager.c:539
 msgid "Zoomed"
 msgstr "Forstørret"
 
