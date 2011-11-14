@@ -28,7 +28,6 @@ typedef struct {
     gint width;
     gint height;
     GdkPixbuf *pixbuf;
-    RsttoMonitorStyle style;
 } Monitor;
 
 struct _RsttoMonitorChooserPriv
@@ -349,9 +348,9 @@ paint_monitor ( cairo_t *cr,
                 Monitor *monitor,
                 gboolean active)
 {
-    gdouble line_width = 3.0;
-    double corner_radius = height / 10;
-    double radius = corner_radius / 1.0;
+    gdouble line_width = 2.0;
+    double corner_radius = 5.0;
+    double radius = corner_radius * 2.0;
     double degrees = M_PI / 180.0;
     gint text_width = 0.0;
     gint text_height = 0.0;
@@ -367,10 +366,34 @@ paint_monitor ( cairo_t *cr,
      * Set path for monitor outline and background-color.
      */
     cairo_new_sub_path (cr);
-    cairo_arc (cr, x + width - radius, y + radius, radius, -90 * degrees, 0 * degrees);
-    cairo_arc (cr, x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees);
-    cairo_arc (cr, x + radius, y + height - radius, radius, 90 * degrees, 180 * degrees);
-    cairo_arc (cr, x + radius, y + radius, radius, 180 * degrees, 270 * degrees);
+    cairo_arc (
+            cr,
+            x + width,
+            y,
+            radius,
+            -90 * degrees,
+            0);
+    cairo_arc (
+            cr,
+            x + width,
+            y + height,
+            radius,
+            0,
+            90 * degrees);
+    cairo_arc (
+            cr,
+            x,
+            y + height,
+            radius,
+            90 * degrees,
+            180 * degrees);
+    cairo_arc (
+            cr,
+            x,
+            y,
+            radius,
+            180 * degrees,
+            270 * degrees);
     cairo_close_path (cr);
 
     /* Fill the background-color */
@@ -382,24 +405,43 @@ paint_monitor ( cairo_t *cr,
     cairo_set_line_width (cr, line_width);
     cairo_stroke (cr);
 
+    /* Draw a monitor-foot */
     cairo_new_sub_path (cr);
-    cairo_arc (cr, x + width - radius-line_width, y + radius+line_width, radius, -90 * degrees, 0 * degrees);
-    cairo_arc (cr, x + width - radius-line_width, y + height - radius-line_width, radius, 0 * degrees, 90 * degrees);
-    cairo_arc (cr, x + radius+line_width, y + height - radius-line_width, radius, 90 * degrees, 180 * degrees);
-    cairo_arc (cr, x + radius+line_width, y + radius+line_width, radius, 180 * degrees, 270 * degrees);
+    cairo_move_to (
+            cr,
+            x+width/2-10,
+            y+height+radius);
+    cairo_line_to (cr, x + width/2+10, y+height+radius);
+    cairo_line_to (cr, x + width/2+10, y+height+10+radius);
+    cairo_line_to (cr, x + width/2+30, y+height+10+radius);
+    cairo_line_to (cr, x + width/2+30, y+height+20+radius);
+    cairo_line_to (cr, x + width/2-30, y+height+20+radius);
+    cairo_line_to (cr, x + width/2-30, y+height+10+radius);
+    cairo_line_to (cr, x + width/2-10, y+height+10+radius);
     cairo_close_path (cr);
-
-    /* Paint the inside border */
-    cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0);
+    cairo_set_source_rgb (cr, 0.9, 0.9, 0.9);
+    cairo_fill_preserve (cr);
+    cairo_set_source_rgba (cr, 0.2, 0.2, 0.2, 1.0);
     cairo_set_line_width (cr, line_width);
+    cairo_stroke (cr);
+
+    /* Draw a line around the image */
+    cairo_new_sub_path (cr);
+    cairo_move_to (cr, x-0.5, y-0.5);
+    cairo_line_to (cr, x + width+0.5, y-0.5);
+    cairo_line_to (cr, x + width+0.5, y + height+0.5);
+    cairo_line_to (cr, x-0.5, y + height+0.5);
+    cairo_close_path (cr);
+    cairo_set_source_rgba (cr, 0.2, 0.2, 0.2, 1.0);
+    cairo_set_line_width (cr, 1.0);
     cairo_stroke (cr);
 
     /* Set the path that limits the image-size */
     cairo_new_sub_path (cr);
-    cairo_move_to (cr, x + height / 10.0, y + height / 10.0);
-    cairo_line_to (cr, x + width - height / 10, y + height / 10.0);
-    cairo_line_to (cr, x + width - height / 10, y + height - height / 10.0);
-    cairo_line_to (cr, x + height / 10.0, y + height - height / 10.0);
+    cairo_move_to (cr, x, y);
+    cairo_line_to (cr, x + width, y);
+    cairo_line_to (cr, x + width, y + height);
+    cairo_line_to (cr, x, y + height);
     cairo_close_path (cr);
 
     /* Color the background black */
@@ -409,76 +451,15 @@ paint_monitor ( cairo_t *cr,
     cairo_clip_preserve (cr);
     if (monitor->pixbuf)
     {
-        switch (monitor->style)
-        {
-            case MONITOR_STYLE_STRETCHED:
-                hscale = (width-20) / (gdk_pixbuf_get_width(monitor->pixbuf));
-                vscale = (height-20) / (gdk_pixbuf_get_height(monitor->pixbuf));
-                cairo_scale (cr, hscale, vscale);
+        hscale = width / (gdk_pixbuf_get_width(monitor->pixbuf));
+        vscale = height / (gdk_pixbuf_get_height(monitor->pixbuf));
+        cairo_scale (cr, hscale, vscale);
 
-                gdk_cairo_set_source_pixbuf (cr,
-                                             monitor->pixbuf,
-                                             x/hscale+((width/hscale)-gdk_pixbuf_get_width(monitor->pixbuf))/2,
-                                             y/vscale+((height/vscale)-gdk_pixbuf_get_height(monitor->pixbuf))/2);
-                break;
-            case MONITOR_STYLE_SCALED:
-                hscale = (width-20) / (gdk_pixbuf_get_width(monitor->pixbuf));
-                vscale = (height-20) / (gdk_pixbuf_get_height(monitor->pixbuf));
-                if (hscale < vscale)
-                {
-                    vscale = hscale;
-                }
-                else
-                {
-                    hscale = vscale;
-                }
-                cairo_scale (cr, hscale, vscale);
-
-                gdk_cairo_set_source_pixbuf (cr,
-                                             monitor->pixbuf,
-                                             x/hscale+((width/hscale)-gdk_pixbuf_get_width(monitor->pixbuf))/2,
-                                             y/vscale+((height/vscale)-gdk_pixbuf_get_height(monitor->pixbuf))/2);
-
-                break;
-            case MONITOR_STYLE_ZOOMED:
-                hscale = (width-20) / (gdk_pixbuf_get_width(monitor->pixbuf));
-                vscale = (height-20) / (gdk_pixbuf_get_height(monitor->pixbuf));
-                if (hscale > vscale)
-                {
-                    vscale = hscale;
-                }
-                else
-                {
-                    hscale = vscale;
-                }
-                cairo_scale (cr, hscale, vscale);
-
-                gdk_cairo_set_source_pixbuf (cr,
-                                             monitor->pixbuf,
-                                             x/hscale+((width/hscale)-gdk_pixbuf_get_width(monitor->pixbuf))/2,
-                                             y/vscale+((height/vscale)-gdk_pixbuf_get_height(monitor->pixbuf))/2);
-                break;
-            default:
-                dst_pixbuf = gdk_pixbuf_copy (monitor->pixbuf);
-                gdk_pixbuf_saturate_and_pixelate (monitor->pixbuf, dst_pixbuf, 0.0, TRUE);
-                hscale = (width-20) / (gdk_pixbuf_get_width(monitor->pixbuf));
-                vscale = (height-20) / (gdk_pixbuf_get_height(monitor->pixbuf));
-                if (hscale < vscale)
-                {
-                    vscale = hscale;
-                }
-                else
-                {
-                    hscale = vscale;
-                }
-                cairo_scale (cr, hscale, vscale);
-
-                gdk_cairo_set_source_pixbuf (cr,
-                                             dst_pixbuf,
-                                             x/hscale+((width/hscale)-gdk_pixbuf_get_width(monitor->pixbuf))/2,
-                                             y/vscale+((height/vscale)-gdk_pixbuf_get_height(monitor->pixbuf))/2);
-                break;
-        }
+        gdk_cairo_set_source_pixbuf (
+                cr,
+                monitor->pixbuf,
+                x/hscale+((width/hscale)-gdk_pixbuf_get_width(monitor->pixbuf))/2,
+                y/vscale+((height/vscale)-gdk_pixbuf_get_height(monitor->pixbuf))/2);
     }
     cairo_paint(cr);
     cairo_reset_clip(cr);
@@ -649,15 +630,5 @@ rstto_monitor_chooser_set_style (
         gint monitor_id,
         RsttoMonitorStyle style )
 {
-    GtkWidget *widget = GTK_WIDGET(chooser);
-    Monitor *monitor = g_slist_nth_data (chooser->priv->monitors, monitor_id);
-    g_return_val_if_fail (monitor != NULL, FALSE);
-    if ( NULL != monitor )
-    {
-        monitor->style = style;
-        if (GTK_WIDGET_REALIZED (widget))
-            rstto_monitor_chooser_paint (GTK_WIDGET(chooser));
-        return TRUE;
-    }
     return FALSE;
 }
