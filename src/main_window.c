@@ -2624,7 +2624,8 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     GFile *p_file;
     RsttoFile *rfile;
 
-    if (error == NULL)
+    if ((error == NULL) &&
+        (g_file_query_exists (file, NULL)))
     {
         rfile = rstto_file_new (file);
         g_object_ref (rfile);
@@ -2637,7 +2638,6 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
         rstto_image_list_iter_find_file (
                 window->priv->iter,
                 rfile );
-        
     }
     else
     {
