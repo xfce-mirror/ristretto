@@ -253,6 +253,11 @@ cb_rstto_wrap_images_changed (
         GObject *object,
         GParamSpec *pspec,
         gpointer user_data);
+static void
+cb_rstto_desktop_type_changed (
+        GObject *object,
+        GParamSpec *pspec,
+        gpointer user_data);
 
 
 
@@ -428,6 +433,11 @@ rstto_main_window_init (RsttoMainWindow *window)
         if (!g_strcasecmp(desktop_type, "gnome"))
         {
             //window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new();
+        }
+
+        if (!g_strcasecmp(desktop_type, "none"))
+        {
+            window->priv->wallpaper_manager = NULL;
         }
 
         g_free (desktop_type);
@@ -732,6 +742,11 @@ rstto_main_window_init (RsttoMainWindow *window)
             G_OBJECT(window->priv->settings_manager),
             "notify::wrap-images",
             G_CALLBACK (cb_rstto_wrap_images_changed),
+            window);
+    g_signal_connect (
+            G_OBJECT(window->priv->settings_manager),
+            "notify::desktop-type",
+            G_CALLBACK (cb_rstto_desktop_type_changed),
             window);
 
 }
@@ -1171,6 +1186,10 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             {
                 gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), TRUE);
             }
+            else
+            {
+                gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), FALSE);
+            }
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/zoom-menu"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/rotation-menu"), TRUE);
 
@@ -1265,6 +1284,10 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             if (window->priv->wallpaper_manager)
             {
                 gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), TRUE);
+            }
+            else
+            {
+                gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/set-as-wallpaper"), FALSE);
             }
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/zoom-menu"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/rotation-menu"), TRUE);
@@ -2979,5 +3002,51 @@ cb_rstto_wrap_images_changed (
         gpointer user_data)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    rstto_main_window_update_buttons (window);
+}
+
+static void
+cb_rstto_desktop_type_changed (
+        GObject *object,
+        GParamSpec *pspec,
+        gpointer user_data)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    gchar *desktop_type = NULL;
+
+    if (window->priv->wallpaper_manager)
+    {
+        g_object_unref(window->priv->wallpaper_manager);
+        window->priv->wallpaper_manager = NULL;
+    }
+
+    desktop_type = rstto_settings_get_string_property (window->priv->settings_manager, "desktop-type");
+
+    if (desktop_type)
+    {
+        if (!g_strcasecmp(desktop_type, "xfce"))
+        {
+            window->priv->wallpaper_manager = rstto_xfce_wallpaper_manager_new();
+        }
+
+        if (!g_strcasecmp(desktop_type, "gnome"))
+        {
+            //window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new();
+        }
+
+        if (!g_strcasecmp(desktop_type, "none"))
+        {
+            window->priv->wallpaper_manager = NULL;
+        }
+
+        g_free (desktop_type);
+        desktop_type = NULL;
+    }
+    else
+    {
+        /* Default to xfce */
+        window->priv->wallpaper_manager = rstto_xfce_wallpaper_manager_new();
+    }
+
     rstto_main_window_update_buttons (window);
 }
