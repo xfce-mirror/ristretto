@@ -602,6 +602,10 @@ rstto_xfce_wallpaper_manager_dispose (GObject *object)
 static void
 rstto_xfce_wallpaper_manager_finalize (GObject *object)
 {
+    if (xfce_wallpaper_manager_object)
+    {
+        xfce_wallpaper_manager_object = NULL;
+    }
 }
 
 
