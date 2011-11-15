@@ -32,6 +32,13 @@
 #define RSTTO_DEFAULT_CACHE_SIZE 256
 #endif
 
+enum {
+    DESKTOP_TYPE_NONE = 0,
+    DESKTOP_TYPE_XFCE,
+    DESKTOP_TYPE_GNOME,
+    DESKTOP_TYPE_OPENBOX
+};
+
 static void
 rstto_preferences_dialog_init(RsttoPreferencesDialog *);
 static void
@@ -62,6 +69,10 @@ cb_wrap_images_check_button_toggled (
 static void
 cb_maximize_on_startup_check_button_toggled (
         GtkToggleButton *button, 
+        gpointer user_data);
+static void
+cb_choose_desktop_combo_box_changed (
+        GtkComboBox *combo_box,
         gpointer user_data);
 static void
 cb_rstto_preferences_dialog_slideshow_timeout_value_changed (GtkRange *, gpointer);
@@ -103,9 +114,9 @@ struct _RsttoPreferencesDialogPriv
 
     struct
     {
-        GtkWidget *scaling_frame;
-        GtkWidget *scaling_vbox;
-        GtkWidget *resize_image_on_maximize;
+        GtkWidget *desktop_frame;
+        GtkWidget *desktop_vbox;
+        GtkWidget *choose_desktop_combo_box;
 
         GtkWidget *startup_frame;
         GtkWidget *startup_vbox;
@@ -152,6 +163,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gboolean bool_wrap_images;
     gboolean bool_maximize_on_startup;
     gboolean bool_merge_toolbars;
+    gchar   *str_desktop_type = NULL;
 
     GdkColor *bgcolor;
     GtkWidget *timeout_lbl, *timeout_hscale;
@@ -163,6 +175,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *control_main_lbl;
     GtkWidget *behaviour_main_vbox;
     GtkWidget *behaviour_main_lbl;
+    GtkWidget *behaviour_desktop_lbl;
     GtkWidget *notebook = gtk_notebook_new ();
 
 
@@ -178,6 +191,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                   "maximize-on-startup", &bool_maximize_on_startup,
                   "wrap-images", &bool_wrap_images,
                   "merge-toolbars", &bool_merge_toolbars,
+                  "desktop-type", &str_desktop_type,
                   NULL);
 
 /*****************/
@@ -289,6 +303,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.zoom_revert_check_button), bool_revert_zoom_direction);
 
     g_signal_connect (G_OBJECT (dialog->priv->control_tab.zoom_revert_check_button), "toggled", (GCallback)cb_rstto_preferences_dialog_zoom_revert_check_button_toggled, dialog);
+
 /*******************/
 /** Behaviour tab **/
 /*******************/
@@ -322,6 +337,103 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
             "toggled",
             (GCallback)cb_maximize_on_startup_check_button_toggled,
             dialog);
+    /********************************************/
+    dialog->priv->behaviour_tab.desktop_vbox = gtk_vbox_new(FALSE, 4);
+    dialog->priv->behaviour_tab.desktop_frame = xfce_gtk_frame_box_new_with_content(
+            _("Desktop"),
+            dialog->priv->behaviour_tab.desktop_vbox);
+    gtk_box_pack_start (
+            GTK_BOX (behaviour_main_vbox),
+            dialog->priv->behaviour_tab.desktop_frame,
+            FALSE,
+            FALSE,
+            0);
+    behaviour_desktop_lbl = gtk_label_new(NULL);
+    gtk_label_set_markup (
+            GTK_LABEL (behaviour_desktop_lbl),
+            _("Configure which system is currently managing your desktop.\n"
+              "This setting determines the method <i>Ristretto</i> will use\n"
+              "to configure the desktop wallpaper."));
+    gtk_misc_set_alignment(
+            GTK_MISC(behaviour_desktop_lbl),
+            0,
+            0.5);
+    gtk_box_pack_start (
+            GTK_BOX (dialog->priv->behaviour_tab.desktop_vbox),
+            behaviour_desktop_lbl,
+            FALSE,
+            FALSE,
+            0);
+    dialog->priv->behaviour_tab.choose_desktop_combo_box =
+            gtk_combo_box_text_new();
+    gtk_box_pack_start (
+            GTK_BOX (dialog->priv->behaviour_tab.desktop_vbox),
+            dialog->priv->behaviour_tab.choose_desktop_combo_box,
+            FALSE,
+            FALSE,
+            0);
+    gtk_combo_box_text_insert_text(
+            GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+            DESKTOP_TYPE_NONE,
+            _("None"));
+    gtk_combo_box_text_insert_text (
+            GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+            DESKTOP_TYPE_XFCE,
+            _("Xfce"));
+    /*
+    gtk_combo_box_text_insert_text (
+            GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+            DESKTOP_TYPE_GNOME,
+            _("GNOME"));
+    */
+
+    if (str_desktop_type != NULL)
+    {
+        if (0 == g_strcasecmp (str_desktop_type, "xfce"))
+        {
+            gtk_combo_box_set_active (
+                GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+                DESKTOP_TYPE_XFCE);
+        }
+        else
+        {
+            if (0 == g_strcasecmp (str_desktop_type, "gnome"))
+            {
+                gtk_combo_box_set_active (
+                    GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+                    DESKTOP_TYPE_GNOME);
+            }
+            else
+            {
+                if (0 == g_strcasecmp (str_desktop_type, "openbox"))
+                {
+                    gtk_combo_box_set_active (
+                        GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+                        DESKTOP_TYPE_OPENBOX);
+                }
+                else
+                {
+                    gtk_combo_box_set_active (
+                        GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+                        DESKTOP_TYPE_NONE);
+                }
+            }
+        }
+    }
+    else
+    {
+        /* Default, set it to xfce */
+        gtk_combo_box_set_active (
+            GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+            DESKTOP_TYPE_XFCE);
+    }
+
+    g_signal_connect (
+            G_OBJECT(dialog->priv->behaviour_tab.choose_desktop_combo_box),
+            "changed",
+            (GCallback)cb_choose_desktop_combo_box_changed,
+            dialog);
+    
 
 
 
@@ -461,8 +573,9 @@ cb_wrap_images_check_button_toggled (GtkToggleButton *button,
 }
 
 static void
-cb_maximize_on_startup_check_button_toggled (GtkToggleButton *button, 
-                                                      gpointer user_data)
+cb_maximize_on_startup_check_button_toggled (
+        GtkToggleButton *button, 
+        gpointer user_data)
 {
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
 
@@ -470,4 +583,39 @@ cb_maximize_on_startup_check_button_toggled (GtkToggleButton *button,
             dialog->priv->settings,
             "maximize-on-startup",
             gtk_toggle_button_get_active(button));
+}
+
+static void
+cb_choose_desktop_combo_box_changed (
+        GtkComboBox *combo_box,
+        gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combo_box)))
+    {
+        case DESKTOP_TYPE_NONE:
+            rstto_settings_set_string_property (
+                    dialog->priv->settings,
+                    "desktop-type",
+                    "none");
+            break;
+        case DESKTOP_TYPE_XFCE:
+            rstto_settings_set_string_property (
+                    dialog->priv->settings,
+                    "desktop-type",
+                    "xfce");
+            break;
+        case DESKTOP_TYPE_GNOME:
+            rstto_settings_set_string_property (
+                    dialog->priv->settings,
+                    "desktop-type",
+                    "gnome");
+            break;
+        case DESKTOP_TYPE_OPENBOX:
+            rstto_settings_set_string_property (
+                    dialog->priv->settings,
+                    "desktop-type",
+                    "openbox");
+            break;
+    }
 }

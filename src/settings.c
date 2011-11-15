@@ -195,6 +195,7 @@ rstto_settings_init (GObject *object)
             G_TYPE_BOOLEAN,
             settings,
             "show-nav-toolbar");
+
     xfconf_g_property_bind (
             settings->priv->channel,
             "/window/navigationbar/position",
@@ -208,6 +209,7 @@ rstto_settings_init (GObject *object)
             G_TYPE_BOOLEAN,
             settings,
             "show-thumbnailbar");
+
     xfconf_g_property_bind (
             settings->priv->channel,
             "/window/thumbnails/hide-fullscreen",
@@ -246,18 +248,21 @@ rstto_settings_init (GObject *object)
             G_TYPE_BOOLEAN,
             settings,
             "revert-zoom-direction");
+
     xfconf_g_property_bind (
             settings->priv->channel,
             "/image/wrap",
             G_TYPE_BOOLEAN,
             settings,
             "wrap-images");
+
     xfconf_g_property_bind (
             settings->priv->channel,
             "/window/use-thunar-properties",
             G_TYPE_BOOLEAN,
             settings,
             "use-thunar-properties");
+
     xfconf_g_property_bind (
             settings->priv->channel,
             "/window/maximize-on-startup",
@@ -278,6 +283,14 @@ rstto_settings_init (GObject *object)
             G_TYPE_BOOLEAN,
             settings,
             "show-error-missing-thumbnailer");
+
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/desktop/type",
+            G_TYPE_STRING,
+            settings,
+            "desktop-type");
+
 }
 
 
