@@ -21,6 +21,7 @@
 #include <libxfce4ui/libxfce4ui.h>
 #include <libxfce4util/libxfce4util.h>
 
+#include "util.h"
 #include "settings.h"
 #include "preferences_dialog.h"
 
@@ -32,12 +33,6 @@
 #define RSTTO_DEFAULT_CACHE_SIZE 256
 #endif
 
-enum {
-    DESKTOP_TYPE_NONE = 0,
-    DESKTOP_TYPE_XFCE,
-    DESKTOP_TYPE_GNOME,
-    DESKTOP_TYPE_OPENBOX
-};
 
 static void
 rstto_preferences_dialog_init(RsttoPreferencesDialog *);
@@ -380,12 +375,10 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
             GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
             DESKTOP_TYPE_XFCE,
             _("Xfce"));
-    /*
     gtk_combo_box_text_insert_text (
             GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
             DESKTOP_TYPE_GNOME,
             _("GNOME"));
-    */
 
     if (str_desktop_type != NULL)
     {
@@ -405,18 +398,9 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
             }
             else
             {
-                if (0 == g_strcasecmp (str_desktop_type, "openbox"))
-                {
-                    gtk_combo_box_set_active (
-                        GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
-                        DESKTOP_TYPE_OPENBOX);
-                }
-                else
-                {
-                    gtk_combo_box_set_active (
-                        GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
-                        DESKTOP_TYPE_NONE);
-                }
+                gtk_combo_box_set_active (
+                    GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+                    DESKTOP_TYPE_NONE);
             }
         }
     }
@@ -610,12 +594,6 @@ cb_choose_desktop_combo_box_changed (
                     dialog->priv->settings,
                     "desktop-type",
                     "gnome");
-            break;
-        case DESKTOP_TYPE_OPENBOX:
-            rstto_settings_set_string_property (
-                    dialog->priv->settings,
-                    "desktop-type",
-                    "openbox");
             break;
     }
 }

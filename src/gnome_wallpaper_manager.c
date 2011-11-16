@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) Stephan Arts 2009-2010 <stephan@gnome.org>
+ *  Copyright (c) Stephan Arts 2009-2011 <stephan@gnome.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,9 +22,15 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <X11/Xproto.h>
+#include <xfconf/xfconf.h>
+#include <libxfce4util/libxfce4util.h>
 #include <gio/gio.h>
+
+
+#include <libexif/exif-data.h>
+
+#include "util.h"
+#include "file.h"
 
 #include "wallpaper_manager.h"
 #include "gnome_wallpaper_manager.h"
@@ -36,6 +42,8 @@ typedef struct {
     gint16 a;
 } RsttoColor;
 
+#define IMAGE_PATH_PROP "/desktop/gnome/background/picture_filename"
+#define IMAGE_SHOW_PROP "/desktop/gnome/background/draw_background"
 
 static void
 rstto_gnome_wallpaper_manager_init (GObject *);
@@ -53,6 +61,9 @@ static RsttoWallpaperManager *gnome_wallpaper_manager_object;
 
 struct _RsttoGnomeWallpaperManagerPriv
 {
+    RsttoFile *file;
+
+    GtkWidget *dialog;
 };
 
 
@@ -62,46 +73,48 @@ enum
 };
 
 static gint 
-rstto_gnome_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self, GFile *file)
+rstto_gnome_wallpaper_manager_configure_dialog_run (
+        RsttoWallpaperManager *self,
+        RsttoFile *file)
 {
-    RsttoGnomeWallpaperManager *manager = RSTTO_GNOME_WALLPAPER_MANAGER (self);
+    //RsttoGnomeWallpaperManager *manager = RSTTO_GNOME_WALLPAPER_MANAGER (self);
     gint response = GTK_RESPONSE_OK;
+
+    //response = gtk_dialog_run (GTK_DIALOG(manager->priv->dialog));
+    //gtk_widget_hide (manager->priv->dialog);
     return response;
 }
 
 static gboolean
-rstto_gnome_wallpaper_manager_check_running (RsttoWallpaperManager *self)
+rstto_gnome_wallpaper_manager_check_running (
+        RsttoWallpaperManager *self)
 {
-    GdkScreen *gdk_screen = gdk_screen_get_default();
-    GdkAtom gnome_selection_atom;
-    GdkAtom actual_type;
-    gint actual_format;
-    gint actual_length;
-    guchar *data;
-
-    gnome_selection_atom = gdk_atom_intern("NAUTILUS_DESKTOP_WINDOW_ID", FALSE);
-
-    if (gdk_property_get(gdk_screen_get_root_window(gdk_screen),
-                         gnome_selection_atom,
-                         GDK_NONE,
-                         0,
-                         1,
-                         FALSE,
-                         &actual_type,
-                         &actual_format,
-                         &actual_length,
-                         &data))
-    {
-        return TRUE;
-    }
-
-    return FALSE;
+    return TRUE;
 }
 
 static gboolean
-rstto_gnome_wallpaper_manager_set (RsttoWallpaperManager *self, GFile *file)
+rstto_gnome_wallpaper_manager_set (
+        RsttoWallpaperManager *self,
+        RsttoFile *file)
 {
-    RsttoGnomeWallpaperManager *manager = RSTTO_GNOME_WALLPAPER_MANAGER (self);
+    gchar *command = NULL;
+    gchar *escaped_file_name = g_shell_quote (
+            rstto_file_get_path (file));
+
+    command = g_strdup_printf (
+            "gconftool-2 %s --set %s --type string",
+            IMAGE_PATH_PROP,
+            escaped_file_name);
+
+    g_spawn_command_line_async (command, NULL);
+    g_free (command);
+
+    command = g_strdup_printf (
+            "gconftool-2 %s --set true --type boolean",
+            IMAGE_SHOW_PROP);
+
+    g_spawn_command_line_async (command, NULL);
+    g_free (command);
 
     return FALSE;
 }
@@ -153,9 +166,21 @@ rstto_gnome_wallpaper_manager_get_type (void)
 static void
 rstto_gnome_wallpaper_manager_init (GObject *object)
 {
-    RsttoGnomeWallpaperManager *gnome_wallpaper_manager = RSTTO_GNOME_WALLPAPER_MANAGER (object);
+    RsttoGnomeWallpaperManager *manager = RSTTO_GNOME_WALLPAPER_MANAGER (object);
 
-    gnome_wallpaper_manager->priv = g_new0 (RsttoGnomeWallpaperManagerPriv, 1);
+    manager->priv = g_new0 (RsttoGnomeWallpaperManagerPriv, 1);
+
+    manager->priv->dialog = gtk_dialog_new_with_buttons (
+            _("Set as wallpaper"),
+            NULL,
+            0,
+            GTK_STOCK_CANCEL,
+            GTK_RESPONSE_CANCEL,
+            GTK_STOCK_APPLY,
+            GTK_RESPONSE_APPLY,
+            GTK_STOCK_OK,
+            GTK_RESPONSE_OK,
+            NULL);
 }
 
 
@@ -219,3 +244,4 @@ rstto_gnome_wallpaper_manager_new (void)
 
     return gnome_wallpaper_manager_object;
 }
+

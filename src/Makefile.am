@@ -11,6 +11,7 @@ ristretto_SOURCES = \
 	wallpaper_manager.c wallpaper_manager.h \
 	monitor_chooser.c monitor_chooser.h \
 	xfce_wallpaper_manager.c xfce_wallpaper_manager.h \
+	gnome_wallpaper_manager.c gnome_wallpaper_manager.h \
 	app_menu_item.c app_menu_item.h \
 	thumbnail_bar.c thumbnail_bar.h \
 	thumbnail.c thumbnail.h \

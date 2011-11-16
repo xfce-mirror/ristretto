@@ -42,7 +42,9 @@
 #include "main_window_ui.h"
 #include "thumbnail_bar.h"
 #include "wallpaper_manager.h"
+
 #include "xfce_wallpaper_manager.h"
+#include "gnome_wallpaper_manager.h"
 
 #include "privacy_dialog.h"
 #include "properties_dialog.h"
@@ -432,7 +434,7 @@ rstto_main_window_init (RsttoMainWindow *window)
 
         if (!g_strcasecmp(desktop_type, "gnome"))
         {
-            //window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new();
+            window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new();
         }
 
         if (!g_strcasecmp(desktop_type, "none"))
@@ -1750,8 +1752,13 @@ cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action,
 static void
 cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *window)
 {
-    RsttoFile *file = NULL;
     gint response = GTK_RESPONSE_APPLY;
+    RsttoFile *file = NULL;
+    gchar *desktop_type = NULL;
+    GtkWidget *dialog = NULL;
+    GtkWidget *content_area = NULL;
+    GtkWidget *behaviour_desktop_lbl;
+    GtkWidget *choose_desktop_combo_box;
 
     if (window->priv->iter)
     {
@@ -1760,8 +1767,129 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
 
     g_return_if_fail (NULL != file);
 
+    desktop_type = rstto_settings_get_string_property (window->priv->settings_manager, "desktop-type");
+    if (G_UNLIKELY (NULL == desktop_type))
+    {
+        /* No desktop has been selected, first time this feature is
+         * used. -- Ask the user which method he wants ristretto to
+         * apply to set the desktop wallpaper.
+         */
+        dialog = gtk_dialog_new_with_buttons (
+                _("Choose 'set wallpaper' method"),
+                GTK_WINDOW(window),
+                GTK_DIALOG_DESTROY_WITH_PARENT,
+                GTK_STOCK_OK,
+                GTK_RESPONSE_OK,
+                GTK_STOCK_CANCEL,
+                GTK_RESPONSE_CANCEL,
+                NULL);
+
+        /* Populate the dialog */
+        content_area = gtk_dialog_get_content_area (GTK_DIALOG(dialog));
+
+        behaviour_desktop_lbl = gtk_label_new(NULL);
+        gtk_label_set_markup (
+                GTK_LABEL (behaviour_desktop_lbl),
+                _("Configure which system is currently managing your desktop.\n"
+                  "This setting determines the method <i>Ristretto</i> will use\n"
+                  "to configure the desktop wallpaper."));
+        gtk_misc_set_alignment(
+                GTK_MISC(behaviour_desktop_lbl),
+                0,
+                0.5);
+        gtk_box_pack_start (
+                GTK_BOX (content_area),
+                behaviour_desktop_lbl,
+                FALSE,
+                FALSE,
+                0);
+
+        choose_desktop_combo_box =
+                gtk_combo_box_text_new();
+        gtk_box_pack_start (
+                GTK_BOX (content_area),
+                choose_desktop_combo_box,
+                FALSE,
+                FALSE,
+                0);
+        gtk_combo_box_text_insert_text(
+                GTK_COMBO_BOX_TEXT (choose_desktop_combo_box),
+                DESKTOP_TYPE_NONE,
+                _("None"));
+        gtk_combo_box_text_insert_text (
+                GTK_COMBO_BOX_TEXT (choose_desktop_combo_box),
+                DESKTOP_TYPE_XFCE,
+                _("Xfce"));
+        gtk_combo_box_text_insert_text (
+                GTK_COMBO_BOX_TEXT (choose_desktop_combo_box),
+                DESKTOP_TYPE_GNOME,
+                _("GNOME"));
+
+        gtk_combo_box_set_active (
+            GTK_COMBO_BOX (choose_desktop_combo_box),
+            DESKTOP_TYPE_XFCE);
+
+        gtk_widget_show_all (content_area);
+        
+
+
+        /* Show the dialog */
+        response = gtk_dialog_run (GTK_DIALOG(dialog));
+
+        /* If the response was 'OK', the user has made a choice */
+        if ( GTK_RESPONSE_OK == response )
+        {
+            switch (gtk_combo_box_get_active (
+                    GTK_COMBO_BOX (choose_desktop_combo_box)))
+            {
+                case DESKTOP_TYPE_NONE:
+                    rstto_settings_set_string_property (
+                            window->priv->settings_manager,
+                            "desktop-type",
+                            "none");
+                    if (NULL != window->priv->wallpaper_manager)
+                    {
+                        g_object_unref (window->priv->wallpaper_manager);
+                        window->priv->wallpaper_manager = NULL;
+                    }
+                    break;
+                case DESKTOP_TYPE_XFCE:
+                    rstto_settings_set_string_property (
+                            window->priv->settings_manager,
+                            "desktop-type",
+                            "xfce");
+                    if (NULL != window->priv->wallpaper_manager)
+                    {
+                        g_object_unref (window->priv->wallpaper_manager);
+                    }
+                    window->priv->wallpaper_manager = rstto_xfce_wallpaper_manager_new ();
+                    break;
+                case DESKTOP_TYPE_GNOME:
+                    rstto_settings_set_string_property (
+                            window->priv->settings_manager,
+                            "desktop-type",
+                            "gnome");
+                    if (NULL != window->priv->wallpaper_manager)
+                    {
+                        g_object_unref (window->priv->wallpaper_manager);
+                    }
+                    window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new ();
+                    break;
+            }
+        
+        }
+
+        /* Clean-up the dialog */
+        gtk_widget_destroy (dialog);
+        dialog = NULL;
+    }
+
     if (window->priv->wallpaper_manager)
     {
+        /* Set the response to GTK_RESPONSE_APPLY,
+         * so we at least do one run.
+         */
+        response = GTK_RESPONSE_APPLY;
         while (GTK_RESPONSE_APPLY == response)
         {
             response = rstto_wallpaper_manager_configure_dialog_run (window->priv->wallpaper_manager, file);
@@ -1773,6 +1901,12 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
                     break;
             }
         }
+    }
+
+    if (G_LIKELY (NULL != desktop_type))
+    {
+        g_free (desktop_type);
+        desktop_type = NULL;
     }
 }
 
@@ -3031,7 +3165,7 @@ cb_rstto_desktop_type_changed (
 
         if (!g_strcasecmp(desktop_type, "gnome"))
         {
-            //window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new();
+            window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new();
         }
 
         if (!g_strcasecmp(desktop_type, "none"))
@@ -3050,3 +3184,4 @@ cb_rstto_desktop_type_changed (
 
     rstto_main_window_update_buttons (window);
 }
+

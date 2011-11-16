@@ -34,6 +34,12 @@ typedef enum
   RSTTO_IMAGE_ORIENT_NOT_DETERMINED,
 } RsttoImageOrientation;
 
+typedef enum {
+    DESKTOP_TYPE_NONE = 0,
+    DESKTOP_TYPE_XFCE,
+    DESKTOP_TYPE_GNOME
+} RsttoDesktopType;
+
 gboolean
 rstto_launch_help (void);
 
