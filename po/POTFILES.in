@@ -10,4 +10,5 @@ src/thumbnail.c
 src/thumbnail_bar.c
 src/wallpaper_manager.c
 src/xfce_wallpaper_manager.c
+src/gnome_wallpaper_manager.c
 ristretto.desktop.in
