@@ -763,16 +763,6 @@ rstto_main_window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
     gtk_widget_size_request (window->priv->vpaned_top, &panel_requisition);
 
-
-    /* if the panel-position is unset, set it */
-    if (gtk_paned_get_position (GTK_PANED(window->priv->vpaned_top)) == 0)
-    {
-        //gtk_paned_set_position (GTK_PANED(window->priv->vpaned_top), rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
-        //gtk_paned_set_position (GTK_PANED(window->priv->vpaned_bottom), window->priv->vpaned_bottom->allocation.height - rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
-
-        //gtk_paned_set_position (GTK_PANED(window->priv->hpaned_left), rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
-        //gtk_paned_set_position (GTK_PANED(window->priv->hpaned_right), window->priv->hpaned_right->allocation.width - rstto_settings_get_uint_property(window->priv->settings_manager, "thumbnailbar-size"));
-    }
 }
 
 static void
@@ -788,31 +778,6 @@ rstto_main_window_dispose(GObject *object)
 
     if (window->priv->settings_manager)
     {
-        switch (rstto_settings_get_navbar_position (window->priv->settings_manager))
-        {
-            case 0:
-                rstto_settings_set_int_property (window->priv->settings_manager, 
-                                        "thumbnailbar-size",
-                                        gtk_paned_get_position (GTK_PANED(window->priv->hpaned_left)));
-                break;
-            case 1:
-                rstto_settings_set_int_property (window->priv->settings_manager, 
-                                        "thumbnailbar-size", 
-                                        GTK_WIDGET(window->priv->hpaned_right)->allocation.width - 
-                                            gtk_paned_get_position (GTK_PANED(window->priv->hpaned_right)));
-                break;
-            case 2:
-                rstto_settings_set_int_property (window->priv->settings_manager, 
-                                        "thumbnailbar-size", 
-                                        gtk_paned_get_position (GTK_PANED(window->priv->vpaned_top)));
-                break;
-            case 3:
-                rstto_settings_set_int_property (window->priv->settings_manager, 
-                                        "thumbnailbar-size", 
-                                        GTK_WIDGET(window->priv->vpaned_bottom)->allocation.height - 
-                                            gtk_paned_get_position (GTK_PANED(window->priv->vpaned_bottom)));
-                break;
-        }
         g_object_unref (window->priv->settings_manager);
         window->priv->settings_manager = NULL;
     }

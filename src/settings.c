@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) Stephan Arts 2009-2010 <stephan@xfce.org>
+ *  Copyright (c) Stephan Arts 2009-2011 <stephan@xfce.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -58,8 +58,6 @@ enum
     PROP_NAVBAR_POSITION,
     PROP_SHOW_THUMBNAILBAR,
     PROP_HIDE_THUMBNAILBAR_FULLSCREEN,
-    PROP_TOOLBAR_OPEN,
-    PROP_IMAGE_QUALITY,
     PROP_WINDOW_WIDTH,
     PROP_WINDOW_HEIGHT,
     PROP_BGCOLOR,
@@ -67,10 +65,7 @@ enum
     PROP_BGCOLOR_FULLSCREEN,
     PROP_CURRENT_URI,
     PROP_SLIDESHOW_TIMEOUT,
-    PROP_SCROLLWHEEL_PRIMARY_ACTION,
-    PROP_SCROLLWHEEL_SECONDARY_ACTION,
     PROP_WRAP_IMAGES,
-    PROP_THUMBNAILBAR_SIZE,
     PROP_DESKTOP_TYPE,
     PROP_REVERT_ZOOM_DIRECTION,
     PROP_USE_THUNAR_PROPERTIES,
@@ -168,29 +163,102 @@ rstto_settings_init (GObject *object)
     settings->priv->maximize_on_startup = TRUE;
     settings->priv->hide_thumbnailbar_fullscreen = TRUE;
 
-    xfconf_g_property_bind (settings->priv->channel, "/window/width", G_TYPE_UINT, settings, "window-width");
-    xfconf_g_property_bind (settings->priv->channel, "/window/height", G_TYPE_UINT, settings, "window-height");
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/width",
+            G_TYPE_UINT,
+            settings,
+            "window-width");
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/height",
+            G_TYPE_UINT,
+            settings,
+            "window-height");
 
-    xfconf_g_property_bind (settings->priv->channel, "/file/current-uri", G_TYPE_STRING, settings, "current-uri");
-    xfconf_g_property_bind (settings->priv->channel, "/window/show-file-toolbar", G_TYPE_BOOLEAN, settings, "show-file-toolbar");
-    xfconf_g_property_bind (settings->priv->channel, "/window/show-navigation-toolbar", G_TYPE_BOOLEAN, settings, "show-nav-toolbar");
-    xfconf_g_property_bind (settings->priv->channel, "/window/show-thumbnailbar", G_TYPE_BOOLEAN, settings, "show-thumbnailbar");
-    xfconf_g_property_bind (settings->priv->channel, "/window/hide-thumbnailbar-fullscreen", G_TYPE_BOOLEAN, settings, "hide-thumbnailbar-fullscreen");
-    xfconf_g_property_bind (settings->priv->channel, "/window/navigationbar-position", G_TYPE_STRING, settings, "navigationbar-position");
-    xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-primary-action", G_TYPE_STRING, settings, "scrollwheel-primary-action");
-    xfconf_g_property_bind (settings->priv->channel, "/window/scrollwheel-secondary-action", G_TYPE_STRING, settings, "scrollwheel-secondary-action");
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/file/current-uri",
+            G_TYPE_STRING,
+            settings,
+            "current-uri");
 
-    xfconf_g_property_bind (settings->priv->channel, "/slideshow/timeout", G_TYPE_UINT, settings, "slideshow-timeout");
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/toolbar/show",
+            G_TYPE_BOOLEAN,
+            settings,
+            "show-file-toolbar");
 
-    xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/window/bgcolor", settings, "bgcolor");
-    xfconf_g_property_bind (settings->priv->channel, "/window/bgcolor-override", G_TYPE_BOOLEAN, settings, "bgcolor-override");
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/navigationbar/show",
+            G_TYPE_BOOLEAN,
+            settings,
+            "show-nav-toolbar");
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/navigationbar/position",
+            G_TYPE_STRING,
+            settings,
+            "navigationbar-position");
 
-    xfconf_g_property_bind_gdkcolor (settings->priv->channel, "/window/bgcolor-fullscreen", settings, "bgcolor-fullscreen");
-    xfconf_g_property_bind (settings->priv->channel, "/window/revert-zoom-direction", G_TYPE_BOOLEAN, settings, "revert-zoom-direction");
-    xfconf_g_property_bind (settings->priv->channel, "/window/thumbnailbar/size", G_TYPE_INT, settings, "thumbnailbar-size");
-    xfconf_g_property_bind (settings->priv->channel, "/image/quality", G_TYPE_UINT, settings, "image-quality");
-    xfconf_g_property_bind (settings->priv->channel, "/image/wrap", G_TYPE_BOOLEAN, settings, "wrap-images");
-    xfconf_g_property_bind (settings->priv->channel, "/window/use-thunar-properties", G_TYPE_BOOLEAN, settings, "use-thunar-properties");
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/thumbnails/show",
+            G_TYPE_BOOLEAN,
+            settings,
+            "show-thumbnailbar");
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/thumbnails/hide-fullscreen",
+            G_TYPE_BOOLEAN,
+            settings,
+            "hide-thumbnailbar-fullscreen");
+
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/slideshow/timeout",
+            G_TYPE_UINT,
+            settings,
+            "slideshow-timeout");
+
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/bgcolor-override",
+            G_TYPE_BOOLEAN,
+            settings,
+            "bgcolor-override");
+
+    xfconf_g_property_bind_gdkcolor (
+            settings->priv->channel,
+            "/window/bgcolor",
+            settings,
+            "bgcolor");
+    xfconf_g_property_bind_gdkcolor (
+            settings->priv->channel,
+            "/window/bgcolor-fullscreen",
+            settings,
+            "bgcolor-fullscreen");
+
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/revert-zoom-direction",
+            G_TYPE_BOOLEAN,
+            settings,
+            "revert-zoom-direction");
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/image/wrap",
+            G_TYPE_BOOLEAN,
+            settings,
+            "wrap-images");
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/use-thunar-properties",
+            G_TYPE_BOOLEAN,
+            settings,
+            "use-thunar-properties");
     xfconf_g_property_bind (
             settings->priv->channel,
             "/window/maximize-on-startup",
@@ -222,213 +290,209 @@ rstto_settings_class_init (GObjectClass *object_class)
     object_class->set_property = rstto_settings_set_property;
     object_class->get_property = rstto_settings_get_property;
 
-    pspec = g_param_spec_uint    ("window-width",
-                                  "",
-                                  "",
-                                  0,
-                                  G_MAXUINT,
-                                  600,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_WINDOW_WIDTH,
-                                     pspec);
+    pspec = g_param_spec_uint (
+            "window-width",
+            "",
+            "",
+            0,
+            G_MAXUINT,
+            600,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_WINDOW_WIDTH,
+            pspec);
 
-    pspec = g_param_spec_uint    ("window-height",
-                                  "",
-                                  "",
-                                  0,
-                                  G_MAXUINT,
-                                  400,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_WINDOW_HEIGHT,
-                                     pspec);
+    pspec = g_param_spec_uint (
+            "window-height",
+            "",
+            "",
+            0,
+            G_MAXUINT,
+            400,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_WINDOW_HEIGHT,
+            pspec);
 
-    pspec = g_param_spec_boolean ("show-file-toolbar",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_SHOW_FILE_TOOLBAR,
-                                     pspec);
+    pspec = g_param_spec_boolean (
+            "show-file-toolbar",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_SHOW_FILE_TOOLBAR,
+            pspec);
 
-    pspec = g_param_spec_boolean ("show-nav-toolbar",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_SHOW_NAV_TOOLBAR,
-                                     pspec);
+    pspec = g_param_spec_boolean (
+            "show-nav-toolbar",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_SHOW_NAV_TOOLBAR,
+            pspec);
 
-    pspec = g_param_spec_boolean ("show-thumbnailbar",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_SHOW_THUMBNAILBAR,
-                                     pspec);
+    pspec = g_param_spec_boolean (
+            "show-thumbnailbar",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_SHOW_THUMBNAILBAR,
+            pspec);
 
-    pspec = g_param_spec_boolean ("hide-thumbnailbar-fullscreen",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_HIDE_THUMBNAILBAR_FULLSCREEN,
-                                     pspec);
+    pspec = g_param_spec_boolean (
+            "hide-thumbnailbar-fullscreen",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_HIDE_THUMBNAILBAR_FULLSCREEN,
+            pspec);
 
-    pspec = g_param_spec_string  ("navigationbar-position",
-                                  "",
-                                  "",
-                                  "bottom",
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_NAVBAR_POSITION,
-                                     pspec);
+    pspec = g_param_spec_string (
+            "navigationbar-position",
+            "",
+            "",
+            "bottom",
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_NAVBAR_POSITION,
+            pspec);
 
-    pspec = g_param_spec_boolean ("revert-zoom-direction",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_REVERT_ZOOM_DIRECTION,
-                                     pspec);
+    pspec = g_param_spec_boolean (
+            "revert-zoom-direction",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_REVERT_ZOOM_DIRECTION,
+            pspec);
 
-    pspec = g_param_spec_uint    ("image-quality",
-                                  "",
-                                  "",
-                                  0,
-                                  50000000,
-                                  2000000,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_IMAGE_QUALITY,
-                                     pspec);
+    pspec = g_param_spec_string (
+            "current-uri",
+            "",
+            "",
+            "file://~/",
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_CURRENT_URI,
+            pspec);
 
-    pspec = g_param_spec_string  ("current-uri",
-                                  "",
-                                  "",
-                                  "file://~/",
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_CURRENT_URI,
-                                     pspec);
+    pspec = g_param_spec_uint (
+            "slideshow-timeout",
+            "",
+            "",
+            1,
+            300,
+            5,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_SLIDESHOW_TIMEOUT,
+            pspec);
 
-    pspec = g_param_spec_string  ("scrollwheel-primary-action",
-                                  "",
-                                  "",
-                                  "navigate",
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_SCROLLWHEEL_PRIMARY_ACTION,
-                                     pspec);
+    pspec = g_param_spec_boxed (
+            "bgcolor",
+            "",
+            "",
+            GDK_TYPE_COLOR,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_BGCOLOR,
+            pspec);
 
-    pspec = g_param_spec_string  ("scrollwheel-secondary-action",
-                                  "",
-                                  "",
-                                  "zoom",
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_SCROLLWHEEL_SECONDARY_ACTION,
-                                     pspec);
+    pspec = g_param_spec_boolean (
+            "bgcolor-override",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_BGCOLOR_OVERRIDE,
+            pspec);
 
-    pspec = g_param_spec_uint    ("slideshow-timeout",
-                                  "",
-                                  "",
-                                  1,
-                                  300,
-                                  5,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_SLIDESHOW_TIMEOUT,
-                                     pspec);
+    pspec = g_param_spec_boxed (
+            "bgcolor-fullscreen",
+            "",
+            "",
+            GDK_TYPE_COLOR,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_BGCOLOR_FULLSCREEN,
+            pspec);
 
-    pspec = g_param_spec_boxed   ("bgcolor",
-                                  "",
-                                  "",
-                                  GDK_TYPE_COLOR,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_BGCOLOR,
-                                     pspec);
+    pspec = g_param_spec_boolean (
+            "wrap-images",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_WRAP_IMAGES,
+            pspec);
 
-    pspec = g_param_spec_boolean ("bgcolor-override",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_BGCOLOR_OVERRIDE,
-                                     pspec);
+    pspec = g_param_spec_string (
+            "desktop-type",
+            "",
+            "",
+            NULL,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_DESKTOP_TYPE,
+            pspec);
 
-    pspec = g_param_spec_boxed   ("bgcolor-fullscreen",
-                                  "",
-                                  "",
-                                  GDK_TYPE_COLOR,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_BGCOLOR_FULLSCREEN,
-                                     pspec);
+    pspec = g_param_spec_boolean (
+            "use-thunar-properties",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_USE_THUNAR_PROPERTIES,
+            pspec);
 
-    pspec = g_param_spec_boolean ("wrap-images",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_WRAP_IMAGES,
-                                     pspec);
+    pspec = g_param_spec_boolean (
+            "maximize-on-startup",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_MAXIMIZE_ON_STARTUP,
+            pspec);
 
-    pspec = g_param_spec_int    ("thumbnailbar-size",
-                                  "",
-                                  "",
-                                  -1,
-                                  4000,
-                                  70,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_THUMBNAILBAR_SIZE,
-                                     pspec);
-
-    pspec = g_param_spec_string  ("desktop-type",
-                                  "",
-                                  "",
-                                  "xfce",
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_DESKTOP_TYPE,
-                                     pspec);
-
-    pspec = g_param_spec_boolean ("use-thunar-properties",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_USE_THUNAR_PROPERTIES,
-                                     pspec);
-
-    pspec = g_param_spec_boolean ("maximize-on-startup",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_MAXIMIZE_ON_STARTUP,
-                                     pspec);
-
-    pspec = g_param_spec_boolean ("merge-toolbars",
-                                  "",
-                                  "",
-                                  TRUE,
-                                  G_PARAM_READWRITE);
-    g_object_class_install_property (object_class,
-                                     PROP_MERGE_TOOLBARS,
-                                     pspec);
+    pspec = g_param_spec_boolean (
+            "merge-toolbars",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_MERGE_TOOLBARS,
+            pspec);
 }
 
 /**
@@ -539,9 +603,6 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_REVERT_ZOOM_DIRECTION:
             settings->priv->revert_zoom_direction = g_value_get_boolean (value);
             break;
-        case PROP_IMAGE_QUALITY:
-            settings->priv->image_quality = g_value_get_uint (value);
-            break;
         case PROP_WINDOW_WIDTH:
             settings->priv->window_width = g_value_get_uint (value);
             break;
@@ -571,21 +632,8 @@ rstto_settings_set_property    (GObject      *object,
             settings->priv->bgcolor_fullscreen->green = color->green;
             settings->priv->bgcolor_fullscreen->blue = color->blue;
             break;
-        case PROP_SCROLLWHEEL_PRIMARY_ACTION:
-            if (settings->priv->scrollwheel_primary_action)
-                g_free (settings->priv->scrollwheel_primary_action);
-            settings->priv->scrollwheel_primary_action = g_value_dup_string (value);
-            break;
-        case PROP_SCROLLWHEEL_SECONDARY_ACTION:
-            if (settings->priv->scrollwheel_secondary_action)
-                g_free (settings->priv->scrollwheel_secondary_action);
-            settings->priv->scrollwheel_secondary_action = g_value_dup_string (value);
-            break;
         case PROP_WRAP_IMAGES:
             settings->priv->wrap_images = g_value_get_boolean (value);
-            break;
-        case PROP_THUMBNAILBAR_SIZE:
-            settings->priv->thumbnailbar_size = g_value_get_int (value);
             break;
         case PROP_DESKTOP_TYPE:
             if (settings->priv->desktop_type)
@@ -635,9 +683,6 @@ rstto_settings_get_property    (GObject    *object,
         case PROP_REVERT_ZOOM_DIRECTION:
             g_value_set_boolean (value, settings->priv->revert_zoom_direction);
             break;
-        case PROP_IMAGE_QUALITY:
-            g_value_set_uint (value, settings->priv->image_quality);
-            break;
         case PROP_WINDOW_WIDTH:
             g_value_set_uint (value, settings->priv->window_width);
             break;
@@ -659,16 +704,8 @@ rstto_settings_get_property    (GObject    *object,
         case PROP_BGCOLOR_OVERRIDE:
             g_value_set_boolean (value, settings->priv->bgcolor_override);
             break;
-        case PROP_SCROLLWHEEL_PRIMARY_ACTION:
-            g_value_set_string (value, settings->priv->scrollwheel_primary_action);
-            break;
-        case PROP_SCROLLWHEEL_SECONDARY_ACTION:
-            g_value_set_string (value, settings->priv->scrollwheel_secondary_action);
         case PROP_WRAP_IMAGES:
             g_value_set_boolean (value, settings->priv->wrap_images);
-            break;
-        case PROP_THUMBNAILBAR_SIZE:
-            g_value_set_int (value, settings->priv->thumbnailbar_size);
             break;
         case PROP_DESKTOP_TYPE:
             g_value_set_string (value, settings->priv->desktop_type);
