@@ -29,6 +29,7 @@
 
 #include "util.h"
 #include "file.h"
+#include "settings.h"
 #include "thumbnail.h"
 #include "thumbnailer.h"
 #include "marshal.h"
@@ -114,8 +115,12 @@ struct _RsttoThumbnailerPriv
 {
     DBusGConnection   *connection;
     DBusGProxy        *proxy;
+    RsttoSettings     *settings;
+
     GSList            *queue;
     gint               handle;
+
+    gboolean           show_missing_thumbnailer_error;
 
     gint request_timer_id;
 };
@@ -127,6 +132,13 @@ rstto_thumbnailer_init (GObject *object)
 
     thumbnailer->priv = g_new0 (RsttoThumbnailerPriv, 1);
     thumbnailer->priv->connection = dbus_g_bus_get(DBUS_BUS_SESSION, NULL);
+    thumbnailer->priv->settings = rstto_settings_new();
+
+    thumbnailer->priv->show_missing_thumbnailer_error =
+            rstto_settings_get_boolean_property (
+                    thumbnailer->priv->settings,
+                    "show-error-missing-thumbnailer");
+
     if (thumbnailer->priv->connection)
     {
     
@@ -199,6 +211,11 @@ rstto_thumbnailer_dispose (GObject *object)
 
     if (thumbnailer->priv)
     {
+        if (thumbnailer->priv->settings)
+        {
+            g_object_unref (thumbnailer->priv->settings);
+            thumbnailer->priv->settings = NULL;
+        }
         g_free (thumbnailer->priv);
         thumbnailer->priv = NULL;
     }
@@ -351,6 +368,7 @@ rstto_thumbnailer_queue_request_timer (
     gint i = 0;
     RsttoFile *file;
     GError *error = NULL;
+    GtkWidget *error_dialog = NULL;
 
     uris = g_new0 (
             const gchar *,
@@ -384,7 +402,36 @@ rstto_thumbnailer_queue_request_timer (
             G_TYPE_UINT, &thumbnailer->priv->handle,
             G_TYPE_INVALID) == FALSE)
     {
-        g_warning("DBUS-call failed:%s", error->message);
+        if (NULL != error)
+        {
+            g_warning("DBUS-call failed:%s", error->message);
+            if ((error->domain == DBUS_GERROR) &&
+                (error->code == DBUS_GERROR_SERVICE_UNKNOWN) &&
+                thumbnailer->priv->show_missing_thumbnailer_error == TRUE)
+            {
+                GDK_THREADS_ENTER();
+
+                error_dialog = gtk_message_dialog_new_with_markup (
+                        NULL,
+                        0,
+                        GTK_MESSAGE_WARNING,
+                        GTK_BUTTONS_OK,
+                        "The thumbnailer-service can not be reached,\n"
+                        "for this reason, the thumbnails can not be\n"
+                        "created.\n\n"
+                        "Install <b>Tumbler</b> to resolve this issue."
+                        );
+                gtk_dialog_run (GTK_DIALOG(error_dialog));
+                gtk_widget_destroy (error_dialog);
+
+                GDK_THREADS_LEAVE();
+                thumbnailer->priv->show_missing_thumbnailer_error = FALSE;
+                rstto_settings_set_boolean_property (
+                    thumbnailer->priv->settings,
+                    "show-error-missing-thumbnailer",
+                    FALSE);
+            }
+        }
         /* TOOO: Nice cleanup */
     }
     
