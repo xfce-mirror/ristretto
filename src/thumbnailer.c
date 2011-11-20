@@ -419,7 +419,8 @@ rstto_thumbnailer_queue_request_timer (
                         "The thumbnailer-service can not be reached,\n"
                         "for this reason, the thumbnails can not be\n"
                         "created.\n\n"
-                        "Install <b>Tumbler</b> to resolve this issue."
+                        "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
+                        "to resolve this issue."
                         );
                 gtk_dialog_run (GTK_DIALOG(error_dialog));
                 gtk_widget_destroy (error_dialog);
