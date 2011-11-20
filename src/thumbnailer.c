@@ -384,7 +384,7 @@ rstto_thumbnailer_queue_request_timer (
             G_TYPE_UINT, &thumbnailer->priv->handle,
             G_TYPE_INVALID) == FALSE)
     {
-        g_debug("call failed:%s", error->message);
+        g_warning("DBUS-call failed:%s", error->message);
         /* TOOO: Nice cleanup */
     }
     
