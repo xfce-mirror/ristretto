@@ -108,10 +108,8 @@ struct _RsttoSettingsPriv
     gboolean  show_nav_toolbar;
     gboolean  show_thumbnailbar;
     gboolean  hide_thumbnailbar_fullscreen;
-    gboolean  open_entire_folder;
     gchar    *navigationbar_position;
     gboolean  revert_zoom_direction;
-    guint     image_quality;
     guint     window_width;
     guint     window_height;
     gchar    *last_file_path;
@@ -119,10 +117,7 @@ struct _RsttoSettingsPriv
     GdkColor *bgcolor;
     gboolean  bgcolor_override;
     GdkColor *bgcolor_fullscreen;
-    gchar    *scrollwheel_primary_action;
-    gchar    *scrollwheel_secondary_action;
     gboolean  wrap_images;
-    gint      thumbnailbar_size;
     gchar    *desktop_type;
     gboolean  use_thunar_properties;
     gboolean  maximize_on_startup;
@@ -155,11 +150,9 @@ rstto_settings_init (GObject *object)
     settings->priv->slideshow_timeout = 5;
     settings->priv->bgcolor = g_new0 (GdkColor, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkColor, 1);
-    settings->priv->image_quality = 2000000;
     settings->priv->navigationbar_position = g_strdup ("left");
     settings->priv->show_file_toolbar = TRUE;
     settings->priv->show_nav_toolbar = TRUE;
-    settings->priv->open_entire_folder = TRUE;
     settings->priv->window_width = 600;
     settings->priv->window_height = 440;
     settings->priv->wrap_images = TRUE;
@@ -167,6 +160,7 @@ rstto_settings_init (GObject *object)
     settings->priv->use_thunar_properties = TRUE;
     settings->priv->maximize_on_startup = TRUE;
     settings->priv->hide_thumbnailbar_fullscreen = TRUE;
+    settings->priv->errors.missing_thumbnailer = TRUE;
 
     xfconf_g_property_bind (
             settings->priv->channel,
