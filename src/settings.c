@@ -71,6 +71,7 @@ enum
     PROP_USE_THUNAR_PROPERTIES,
     PROP_MAXIMIZE_ON_STARTUP,
     PROP_MERGE_TOOLBARS,
+    PROP_ERROR_MISSING_THUMBNAILER,
 };
 
 GType
@@ -126,6 +127,10 @@ struct _RsttoSettingsPriv
     gboolean  use_thunar_properties;
     gboolean  maximize_on_startup;
     gboolean  merge_toolbars;
+
+    struct {
+        gboolean missing_thumbnailer;
+    } errors;
 };
 
 
@@ -272,6 +277,13 @@ rstto_settings_init (GObject *object)
             G_TYPE_BOOLEAN,
             settings,
             "merge-toolbars");
+
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/errors/missing-thumbnailer",
+            G_TYPE_BOOLEAN,
+            settings,
+            "show-error-missing-thumbnailer");
 }
 
 
@@ -493,6 +505,17 @@ rstto_settings_class_init (GObjectClass *object_class)
             object_class,
             PROP_MERGE_TOOLBARS,
             pspec);
+
+    pspec = g_param_spec_boolean (
+            "show-error-missing-thumbnailer",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_ERROR_MISSING_THUMBNAILER,
+            pspec);
 }
 
 /**
@@ -649,6 +672,9 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_MERGE_TOOLBARS:
             settings->priv->merge_toolbars = g_value_get_boolean (value);
             break;
+        case PROP_ERROR_MISSING_THUMBNAILER:
+            settings->priv->errors.missing_thumbnailer = g_value_get_boolean (value);
+            break;
         default:
             break;
     }
@@ -718,6 +744,11 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_MERGE_TOOLBARS:
             g_value_set_boolean (value, settings->priv->merge_toolbars);
+            break;
+        case PROP_ERROR_MISSING_THUMBNAILER:
+            g_value_set_boolean (
+                    value,
+                    settings->priv->errors.missing_thumbnailer);
             break;
         default:
             break;
