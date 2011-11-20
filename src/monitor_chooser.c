@@ -32,7 +32,8 @@ typedef struct {
 
 struct _RsttoMonitorChooserPriv
 {
-    GSList *monitors;
+    Monitor **monitors;
+    gint n_monitors;
     gint selected;
 };
 
@@ -111,6 +112,7 @@ rstto_monitor_chooser_init(RsttoMonitorChooser *chooser)
 {
     chooser->priv = g_new0(RsttoMonitorChooserPriv, 1);
     chooser->priv->selected = -1;
+    chooser->priv->monitors = g_new0 (Monitor *, 1);
 
     gtk_widget_set_double_buffered (GTK_WIDGET(chooser), TRUE);
 
@@ -225,9 +227,10 @@ static gboolean
 rstto_monitor_chooser_paint(GtkWidget *widget)
 {
     RsttoMonitorChooser *chooser = RSTTO_MONITOR_CHOOSER (widget);
-    GSList *iter = chooser->priv->monitors;
     cairo_t *ctx = gdk_cairo_create (widget->window);
     Monitor *monitor;
+    gint index = 0;
+
     gdouble width, height;
     gchar *label = NULL;
     gint row_width = 0;
@@ -244,13 +247,13 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
             (gdouble)widget->allocation.height);
     cairo_fill (ctx);
 
-    if (g_slist_length (chooser->priv->monitors) > 1)
+    if (chooser->priv->n_monitors > 1)
     {
-        while (NULL != iter)
+        for (; chooser->priv->monitors[index]; ++index)
         {
-            monitor = iter->data;
+            monitor = chooser->priv->monitors[index];
             /* Render the selected monitor a little bigger */
-            if (chooser->priv->selected == g_slist_index (chooser->priv->monitors, monitor))
+            if (chooser->priv->monitors[chooser->priv->selected] == monitor)
             {
                 if (monitor->width > monitor->height)
                 {
@@ -262,7 +265,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                     height = widget->allocation.width*0.4;
                     width = height;
                 }
-                label = g_strdup_printf("%d", g_slist_index (chooser->priv->monitors, monitor)+1);
+                label = g_strdup_printf("%d", index+1);
                 paint_monitor (ctx,
                         ((gdouble)widget->allocation.width/4) - (width/2.0),
                         ((gdouble)widget->allocation.height - height)/2.0,
@@ -275,7 +278,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
             }
             else
             {
-                row_width = sqrt (g_slist_length(chooser->priv->monitors));
+                row_width = sqrt (chooser->priv->n_monitors);
 
                 if (monitor->width > monitor->height)
                 {
@@ -284,12 +287,12 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                 } 
                 else
                 {
-                    height = widget->allocation.width*(0.4/g_slist_length(chooser->priv->monitors));
+                    height = widget->allocation.width*(0.4/chooser->priv->n_monitors);
                     width = height;
                 }
             
 
-                label = g_strdup_printf("%d", g_slist_index (chooser->priv->monitors, monitor)+1);
+                label = g_strdup_printf("%d", index+1);
                 paint_monitor (ctx,
                         ((gdouble)widget->allocation.width/2)+
                             (((gdouble)widget->allocation.width/2)/
@@ -307,14 +310,13 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
 
                 id++;
             }
-            iter = g_slist_next(iter);
         }
     }
     else
     {
-        if (iter)
+        if (chooser->priv->monitors[0])
         {
-            monitor = iter->data;
+            monitor = chooser->priv->monitors[0];
             if (monitor->width > monitor->height)
             {
                 width = 200;
@@ -335,6 +337,9 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                     TRUE);
         }
     }
+
+    cairo_destroy (ctx);
+
     return FALSE;
 }
 
@@ -593,18 +598,32 @@ rstto_monitor_chooser_add (
         gint width,
         gint height)
 {
+    Monitor **monitors = g_new0 (Monitor *, chooser->priv->n_monitors+1);
+    gint index = 0;
+
     Monitor *monitor = g_new0 (Monitor, 1);
     monitor->width = width;
     monitor->height = height;
+
     if (NULL == chooser->priv->monitors)
     {
         chooser->priv->selected = 0;
     }
+    else
+    {
+        for (index = 0; chooser->priv->monitors[index]; ++index)
+        {
+            monitors[index] = chooser->priv->monitors[index];
+        }
+        g_free (chooser->priv->monitors);
+    }
     
+    monitors[index] = monitor;
 
-    chooser->priv->monitors = g_slist_append (chooser->priv->monitors, monitor);
+    chooser->priv->monitors = monitors;
+    chooser->priv->n_monitors++;
 
-    return g_slist_index (chooser->priv->monitors, monitor);
+    return index;
 }
 
 gint
@@ -614,8 +633,12 @@ rstto_monitor_chooser_set_pixbuf (
         GdkPixbuf *pixbuf,
         GError **error)
 {
-    Monitor *monitor = g_slist_nth_data (chooser->priv->monitors, monitor_id);
+    Monitor *monitor;
     gint retval = -1;
+
+    g_return_if_fail (monitor_id < chooser->priv->n_monitors);
+
+    monitor = chooser->priv->monitors[monitor_id];
 
     if (monitor)
     {
@@ -649,16 +672,15 @@ cb_rstto_button_press_event (
     gint row_width = 0;
     gint id = 0;
     gint width, height;
-    gint n_monitors = (gint)g_slist_length(chooser->priv->monitors);
     
-    if (g_slist_length (chooser->priv->monitors) > 1)
+    if (chooser->priv->n_monitors > 1)
     {
-        row_width = sqrt (g_slist_length(chooser->priv->monitors));
+        row_width = sqrt (chooser->priv->n_monitors);
 
         width = widget->allocation.width*(0.4/((gdouble)row_width+1));
         height = width;
 
-        for (id = 0; id < n_monitors; ++id)
+        for (id = 0; id < chooser->priv->n_monitors; ++id)
         {
             if ( (event->x > ((gdouble)widget->allocation.width/2)+
                                 (((gdouble)widget->allocation.width/2)/
@@ -681,7 +703,7 @@ cb_rstto_button_press_event (
                 }
                 else
                 {
-                    if (id+1 != n_monitors)
+                    if (id+1 != chooser->priv->n_monitors)
                     {
                         chooser->priv->selected = id+1;
                     }
