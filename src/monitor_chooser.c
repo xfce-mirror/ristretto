@@ -24,17 +24,28 @@
 
 #include "monitor_chooser.h"
 
+#define RSTTO_MAX_MONITORS 9
+
 typedef struct {
     gint width;
     gint height;
     GdkPixbuf *pixbuf;
 } Monitor;
 
+typedef struct {
+    guint x;
+    guint y;
+    guint width;
+    guint height;
+} MonitorPosition;
+
 struct _RsttoMonitorChooserPriv
 {
     Monitor **monitors;
     gint n_monitors;
     gint selected;
+
+    MonitorPosition monitor_positions[RSTTO_MAX_MONITORS];
 };
 
 static GtkWidgetClass *parent_class = NULL;
@@ -61,6 +72,10 @@ rstto_monitor_chooser_paint(GtkWidget *widget);
 
 static void
 cb_rstto_button_press_event (GtkWidget *, GdkEventButton *event);
+
+static void
+calculate_monitor_positions (
+        RsttoMonitorChooser *chooser );
 
 static void
 paint_monitor ( cairo_t *cr,
@@ -252,8 +267,9 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
         for (; chooser->priv->monitors[index]; ++index)
         {
             monitor = chooser->priv->monitors[index];
+
             /* Render the selected monitor a little bigger */
-            if (chooser->priv->monitors[chooser->priv->selected] == monitor)
+            if (index == chooser->priv->selected)
             {
                 if (monitor->width > monitor->height)
                 {
@@ -266,6 +282,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                     width = height;
                 }
                 label = g_strdup_printf("%d", index+1);
+                cairo_save (ctx);
                 paint_monitor (ctx,
                         ((gdouble)widget->allocation.width/4) - (width/2.0),
                         ((gdouble)widget->allocation.height - height)/2.0,
@@ -274,6 +291,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                         label,
                         monitor,
                         TRUE);
+                cairo_restore (ctx);
                 g_free (label);
             }
             else
@@ -293,6 +311,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
             
 
                 label = g_strdup_printf("%d", index+1);
+                cairo_save (ctx);
                 paint_monitor (ctx,
                         ((gdouble)widget->allocation.width/2)+
                             (((gdouble)widget->allocation.width/2)/
@@ -306,6 +325,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                         label,
                         monitor,
                         FALSE);
+                cairo_restore (ctx);
                 g_free (label);
 
                 id++;
@@ -327,6 +347,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                 height = 200;
                 width = 200;
             }
+            cairo_save (ctx);
             paint_monitor (ctx,
                     ((gdouble)widget->allocation.width - width)/2.0,
                     ((gdouble)widget->allocation.height - height)/2.0,
@@ -335,6 +356,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                     "1",
                     monitor,
                     TRUE);
+            cairo_restore (ctx);
         }
     }
 
@@ -487,6 +509,8 @@ paint_monitor ( cairo_t *cr,
             monitor_x+(monitor_width-foot_height)/2.0,
             monitor_y+(monitor_height+monitor_border_width+foot_height*0.5));
     cairo_close_path (cr);
+    cairo_set_source (cr, monitor_pattern);
+    cairo_fill_preserve (cr);
     cairo_set_source_rgba (cr, 0.2, 0.2, 0.2, 1.0);
     cairo_set_line_width (cr, 1.0);
     cairo_stroke (cr);
@@ -575,8 +599,9 @@ paint_monitor ( cairo_t *cr,
     pango_cairo_layout_path (cr, layout);
     cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.8);
     cairo_fill_preserve (cr);
+    cairo_set_line_width (cr, 1.0);
     cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.9);
-    cairo_stroke_preserve (cr);
+    cairo_stroke (cr);
 
     g_object_unref (layout);
     pango_font_description_free (font_description);
@@ -611,6 +636,8 @@ rstto_monitor_chooser_add (
     }
     else
     {
+        chooser->priv->selected = 0;
+
         for (index = 0; chooser->priv->monitors[index]; ++index)
         {
             monitors[index] = chooser->priv->monitors[index];
@@ -732,4 +759,11 @@ rstto_monitor_chooser_set_style (
         RsttoMonitorStyle style )
 {
     return FALSE;
+}
+
+static void
+calculate_monitor_positions (
+        RsttoMonitorChooser *chooser )
+{
+
 }
