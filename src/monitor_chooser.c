@@ -558,7 +558,7 @@ paint_monitor ( cairo_t *cr,
     font_description = pango_font_description_new ();
     pango_font_description_set_family (font_description, "sans");
     pango_font_description_set_weight (font_description, PANGO_WEIGHT_BOLD);
-    pango_font_description_set_absolute_size (font_description, height*0.4 * PANGO_SCALE);
+    pango_font_description_set_absolute_size (font_description, height*0.3 * PANGO_SCALE);
 
 
     layout = pango_cairo_create_layout (cr);
