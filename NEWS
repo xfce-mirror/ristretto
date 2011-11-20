@@ -11,6 +11,8 @@ x.x.x
   of the 'back' and 'forward' buttons when showing the first or last
   image in a list.
 - Improve preview of the set-wallpaper dialog.
+- Fix bug #8176 (Request for warning dialog window informing user
+  tumblerd is not reachable/installed)
 
 0.3.0
 =====
