@@ -27,6 +27,8 @@
 
 #include <libexif/exif-data.h>
 
+#include <libxfce4util/libxfce4util.h>
+
 #include "util.h"
 #include "file.h"
 #include "settings.h"
@@ -369,6 +371,7 @@ rstto_thumbnailer_queue_request_timer (
     RsttoFile *file;
     GError *error = NULL;
     GtkWidget *error_dialog = NULL;
+    GtkWidget *vbox, *do_not_show_checkbox;
 
     uris = g_new0 (
             const gchar *,
@@ -416,21 +419,37 @@ rstto_thumbnailer_queue_request_timer (
                         0,
                         GTK_MESSAGE_WARNING,
                         GTK_BUTTONS_OK,
-                        "The thumbnailer-service can not be reached,\n"
+                        _("The thumbnailer-service can not be reached,\n"
                         "for this reason, the thumbnails can not be\n"
                         "created.\n\n"
                         "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
-                        "to resolve this issue."
+                        "to resolve this issue.")
                         );
-                gtk_dialog_run (GTK_DIALOG(error_dialog));
-                gtk_widget_destroy (error_dialog);
+                vbox = gtk_message_dialog_get_message_area (
+                        GTK_MESSAGE_DIALOG (error_dialog));
 
-                GDK_THREADS_LEAVE();
+                do_not_show_checkbox = gtk_check_button_new_with_mnemonic (
+                        _("Do _not show this message again"));
+                gtk_box_pack_end (
+                        GTK_BOX (vbox),
+                        do_not_show_checkbox,
+                        TRUE,
+                        FALSE,
+                        0);
+                gtk_widget_show (do_not_show_checkbox);
+                gtk_dialog_run (GTK_DIALOG(error_dialog));
+
                 thumbnailer->priv->show_missing_thumbnailer_error = FALSE;
-                rstto_settings_set_boolean_property (
-                    thumbnailer->priv->settings,
-                    "show-error-missing-thumbnailer",
-                    FALSE);
+                if (TRUE == gtk_toggle_button_get_active (
+                        GTK_TOGGLE_BUTTON (do_not_show_checkbox)))
+                {
+                    rstto_settings_set_boolean_property (
+                        thumbnailer->priv->settings,
+                        "show-error-missing-thumbnailer",
+                         FALSE);
+                }
+                gtk_widget_destroy (error_dialog);
+                GDK_THREADS_LEAVE();
             }
         }
         /* TOOO: Nice cleanup */
