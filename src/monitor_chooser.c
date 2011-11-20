@@ -353,7 +353,7 @@ paint_monitor ( cairo_t *cr,
      */
     gdouble border_padding = 10.0;
     gdouble foot_height = height / 10.0;
-    gdouble monitor_border_width = height * 0.05;
+    gdouble monitor_border_width = height * 0.04;
 
     /* Assumption: monitor-width is always larger then monitor-height */
     /******************************************************************/
@@ -371,12 +371,13 @@ paint_monitor ( cairo_t *cr,
                     foot_height - monitor_height);
 
     gdouble line_width = 2.0;
-    double radius = monitor_border_width;
+    double radius = monitor_border_width * 0.5;
     double degrees = M_PI / 180.0;
     gint text_width = 0.0;
     gint text_height = 0.0;
     gdouble hscale = 1.0;
     gdouble vscale = 1.0;
+    cairo_pattern_t *monitor_pattern;
 
     /*******************************************/
     PangoLayout *layout;
@@ -388,6 +389,24 @@ paint_monitor ( cairo_t *cr,
     /*
      * Set path for monitor outline and background-color.
      */
+
+    monitor_pattern = cairo_pattern_create_linear (
+                0.0,
+                y,
+                0.0,
+                y+height);
+    cairo_pattern_add_color_stop_rgb (
+                monitor_pattern,
+                0.0,
+                0.4,
+                0.4,
+                0.4);
+    cairo_pattern_add_color_stop_rgb (
+                monitor_pattern,
+                1.0,
+                0.0,
+                0.0,
+                0.0);
     cairo_new_sub_path (cr);
     cairo_arc (
             cr,
@@ -420,7 +439,7 @@ paint_monitor ( cairo_t *cr,
     cairo_close_path (cr);
 
     /* Fill the background-color */
-    cairo_set_source_rgb (cr, 0.9, 0.9, 0.9);
+    cairo_set_source (cr, monitor_pattern);
     cairo_fill_preserve (cr);
 
     /* Paint the outside border */
@@ -475,7 +494,7 @@ paint_monitor ( cairo_t *cr,
     cairo_line_to (cr, monitor_x, monitor_y + monitor_height);
     cairo_close_path (cr);
     cairo_set_source_rgba (cr, 0.2, 0.2, 0.2, 1.0);
-    cairo_set_line_width (cr, 1.0);
+    cairo_set_line_width (cr, 0.5);
     cairo_stroke (cr);
 
     /* Set the path that limits the image-size */
@@ -544,12 +563,15 @@ paint_monitor ( cairo_t *cr,
     pango_cairo_update_layout (cr, layout);
     pango_layout_get_pixel_size (layout, &text_width, &text_height); 
 
-    cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.9);
     cairo_move_to (
             cr,
             monitor_x+(monitor_width-(gdouble)text_width) / 2,
-            monitor_y+(monitor_height/2 + ((gdouble)text_height / 3)));
-    pango_cairo_show_layout_line (cr, pango_layout_get_line (layout, 0));
+            monitor_y+(monitor_height- (gdouble)text_height) / 2);
+    pango_cairo_layout_path (cr, layout);
+    cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.8);
+    cairo_fill_preserve (cr);
+    cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.9);
+    cairo_stroke_preserve (cr);
 
     g_object_unref (layout);
     pango_font_description_free (font_description);
