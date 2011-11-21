@@ -2,20 +2,21 @@
 # Copyright (C) 2010 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the ristretto package.
 #  Ivica Kolić<ikoli@yahoo.com>, 2010.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-14 11:04+0000\n"
+"POT-Creation-Date: 2011-11-21 07:42+0100\n"
 "PO-Revision-Date: 2010-06-11 19:40+0200\n"
 "Last-Translator: Ivica Kolić<ikoli@yahoo.com> <>\n"
 "Language-Team: Croatian <>\n"
+"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hr\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -297,51 +298,51 @@ msgstr "_Nedavno korišteno"
 msgid "Recently used"
 msgstr "Nedavno korišteno"
 
-#: ../src/main_window.c:580 ../src/main_window.c:984
+#: ../src/main_window.c:580 ../src/main_window.c:949
 msgid "Press open to select an image"
 msgstr "Pritisnite otvori za odabir slike"
 
-#: ../src/main_window.c:970 ../src/main_window.c:976
+#: ../src/main_window.c:935 ../src/main_window.c:941
 msgid "Empty"
 msgstr "Prazno"
 
-#: ../src/main_window.c:2211
+#: ../src/main_window.c:2176
 msgid "Developer:"
 msgstr ""
 
-#: ../src/main_window.c:2220
+#: ../src/main_window.c:2185
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr "Ristretto je preglednik slika za  Xfce radno okruženje"
 
-#: ../src/main_window.c:2228
+#: ../src/main_window.c:2193
 msgid "translator-credits"
 msgstr "Ivica Kolić (zvacet) <ikoli@yahoo.com>"
 
-#: ../src/main_window.c:2506
+#: ../src/main_window.c:2471
 msgid "Open image"
 msgstr "Otvori sliku"
 
-#: ../src/main_window.c:2525
+#: ../src/main_window.c:2490
 msgid "Images"
 msgstr "Slike"
 
-#: ../src/main_window.c:2530
+#: ../src/main_window.c:2495
 msgid ".jp(e)g"
 msgstr ". Jp (e) g"
 
-#: ../src/main_window.c:2554 ../src/main_window.c:2648
+#: ../src/main_window.c:2519 ../src/main_window.c:2613
 msgid "Could not open file"
 msgstr "Ne mogu otvoriti datotewku"
 
-#: ../src/main_window.c:2681
+#: ../src/main_window.c:2646
 msgid "Save copy"
 msgstr "Spremi kopiju"
 
-#: ../src/main_window.c:2707
+#: ../src/main_window.c:2672
 msgid "Could not save file"
 msgstr "Ne mogu spremiti datoteku"
 
-#: ../src/main_window.c:2808
+#: ../src/main_window.c:2773
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "jeste li sigurni da želite izbrisati sliku '%s sa diska?"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-15 19:02+0000\n"
+"POT-Creation-Date: 2011-11-21 07:42+0100\n"
 "PO-Revision-Date: 2010-11-23 23:34+0800\n"
 "Last-Translator: Chipong Luo <chipong_l@yahoo.com>\n"
 "Language-Team: Chinese (simplified) <xfce-i18n@xfce.org>\n"
@@ -298,54 +298,54 @@ msgstr "最近使用(_R)"
 msgid "Recently used"
 msgstr "最近使用"
 
-#: ../src/main_window.c:580 ../src/main_window.c:984
+#: ../src/main_window.c:580 ../src/main_window.c:949
 msgid "Press open to select an image"
 msgstr "点击打开选择图片"
 
-#: ../src/main_window.c:970 ../src/main_window.c:976
+#: ../src/main_window.c:935 ../src/main_window.c:941
 msgid "Empty"
 msgstr "空"
 
-#: ../src/main_window.c:2211
+#: ../src/main_window.c:2176
 msgid "Developer:"
 msgstr "开发者："
 
-#: ../src/main_window.c:2220
+#: ../src/main_window.c:2185
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr "Ristretto 是 Xfce 桌面环境的一个图片查看器。"
 
-#: ../src/main_window.c:2228
+#: ../src/main_window.c:2193
 msgid "translator-credits"
 msgstr ""
 "WuLi <wurisky@gmail.com>, 2008.\n"
 "Hunt Xu <mhuntxu@gmail.com>, 2008, 2009, 2010.\n"
 "Chipong Luo <chipong_l@yahoo.com>, 2011."
 
-#: ../src/main_window.c:2506
+#: ../src/main_window.c:2471
 msgid "Open image"
 msgstr "打开图片"
 
-#: ../src/main_window.c:2525
+#: ../src/main_window.c:2490
 msgid "Images"
 msgstr "图片"
 
-#: ../src/main_window.c:2530
+#: ../src/main_window.c:2495
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2554 ../src/main_window.c:2648
+#: ../src/main_window.c:2519 ../src/main_window.c:2613
 msgid "Could not open file"
 msgstr "无法打开文件"
 
-#: ../src/main_window.c:2681
+#: ../src/main_window.c:2646
 msgid "Save copy"
 msgstr "保存副本"
 
-#: ../src/main_window.c:2707
+#: ../src/main_window.c:2672
 msgid "Could not save file"
 msgstr "未能保存文件"
 
-#: ../src/main_window.c:2808
+#: ../src/main_window.c:2773
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "您确定要从磁盘上删除图片 ‘%s’ 吗？"

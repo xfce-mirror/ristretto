@@ -2,19 +2,19 @@
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the Ristretto package.
 # Per Kongstad <p_kongstad@op.pl>, 2008, 2009.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.90\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-15 14:18+0000\n"
+"POT-Creation-Date: 2011-11-21 07:42+0100\n"
 "PO-Revision-Date: 2010-01-15 12:00+0100\n"
 "Last-Translator: Per Kongstad <p_kongstad@op.pl>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "X-Poedit-Language: Danish\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Country: DENMARK\n"
@@ -299,23 +299,23 @@ msgstr "_Senest brugte"
 msgid "Recently used"
 msgstr "Senest brugte"
 
-#: ../src/main_window.c:580 ../src/main_window.c:984
+#: ../src/main_window.c:580 ../src/main_window.c:949
 msgid "Press open to select an image"
 msgstr "Tryk åbn for at vælge et billede"
 
-#: ../src/main_window.c:970 ../src/main_window.c:976
+#: ../src/main_window.c:935 ../src/main_window.c:941
 msgid "Empty"
 msgstr "Tom"
 
-#: ../src/main_window.c:2211
+#: ../src/main_window.c:2176
 msgid "Developer:"
 msgstr "Udvikler:"
 
-#: ../src/main_window.c:2220
+#: ../src/main_window.c:2185
 msgid "Ristretto is an imageviewer for the Xfce desktop environment."
 msgstr "Ristretto er en billedfremviser til skrivebordsmiljøet Xfce."
 
-#: ../src/main_window.c:2228
+#: ../src/main_window.c:2193
 msgid "translator-credits"
 msgstr ""
 "Per Kongstad\n"
@@ -323,31 +323,31 @@ msgstr ""
 "Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
 "Mere info: http://www.dansk-gruppen.dk"
 
-#: ../src/main_window.c:2506
+#: ../src/main_window.c:2471
 msgid "Open image"
 msgstr "Åbn billede"
 
-#: ../src/main_window.c:2525
+#: ../src/main_window.c:2490
 msgid "Images"
 msgstr "Billeder"
 
-#: ../src/main_window.c:2530
+#: ../src/main_window.c:2495
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2554 ../src/main_window.c:2648
+#: ../src/main_window.c:2519 ../src/main_window.c:2613
 msgid "Could not open file"
 msgstr "Kunne ikke åbne fil"
 
-#: ../src/main_window.c:2681
+#: ../src/main_window.c:2646
 msgid "Save copy"
 msgstr "Gem kopi"
 
-#: ../src/main_window.c:2707
+#: ../src/main_window.c:2672
 msgid "Could not save file"
 msgstr "Kunne ikke gemme fil"
 
-#: ../src/main_window.c:2808
+#: ../src/main_window.c:2773
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Er du sikker på, at du vil slette billedet '%s' fra disken?"
