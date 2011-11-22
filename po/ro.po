@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-21 07:42+0100\n"
+"POT-Creation-Date: 2011-11-22 11:58+0000\n"
 "PO-Revision-Date: 2010-11-21 19:12+0300\n"
 "Last-Translator: Mișu Moldovan <dumol@xfce.org>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
-"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2);;\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);;\n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -32,10 +31,10 @@ msgstr "Pornește o prezentare"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "Arată fereastra cu opțiuni"
 
 #: ../src/main.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
@@ -73,11 +72,11 @@ msgstr "Salvează o copie a mesajului"
 
 #: ../src/main_window.c:267
 msgid "_Properties"
-msgstr ""
+msgstr "_Proprietăți"
 
 #: ../src/main_window.c:267
 msgid "Show file properties"
-msgstr ""
+msgstr "Arată proprietățile fișierului"
 
 #: ../src/main_window.c:268
 msgid "_Close"
@@ -223,9 +222,8 @@ msgid "_Position"
 msgstr "_Poziție"
 
 #: ../src/main_window.c:312
-#, fuzzy
 msgid "Thumbnailbar _Position"
-msgstr "Miniaturi"
+msgstr "_Poziția miniaturilor"
 
 #. Misc
 #: ../src/main_window.c:314
@@ -342,9 +340,8 @@ msgid "Save copy"
 msgstr "Salvează o copie"
 
 #: ../src/main_window.c:2672
-#, fuzzy
 msgid "Could not save file"
-msgstr "Nu s-a putut deschide fișierul"
+msgstr "Nu s-a putut salva fișierul"
 
 #: ../src/main_window.c:2773
 #, c-format
@@ -353,36 +350,35 @@ msgstr "Sigur doriți să ștergeți imaginea „%s” de pe disc?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Timerange to clear:"
-msgstr ""
+msgstr "Șterge datele: "
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Curățare"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr ""
+msgstr "Ultimei ore"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Ultimelor două ore"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Ultimelor patru ore"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
-msgstr ""
+msgstr "Zilei de azi"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr ""
+msgstr "Dintotdeauna"
 
 #: ../src/privacy_dialog.c:459
-#, fuzzy
 msgid "Clear private data"
-msgstr "Șt_erge datele private"
+msgstr "Șterge datele private"
 
 #: ../src/preferences_dialog.c:187
 msgid "Display"
@@ -394,7 +390,7 @@ msgstr "Culoare de fundal"
 
 #: ../src/preferences_dialog.c:195
 msgid "Toolbars"
-msgstr ""
+msgstr "Bare cu unelte"
 
 #: ../src/preferences_dialog.c:200
 msgid "Override background color:"
@@ -402,7 +398,7 @@ msgstr "Substituie culoarea de fundal:"
 
 #: ../src/preferences_dialog.c:211
 msgid "Merge toolbars"
-msgstr ""
+msgstr "Combină barele cu unelte"
 
 #: ../src/preferences_dialog.c:216
 msgid "Thumbnails"
@@ -446,7 +442,7 @@ msgstr "Rotița de derulare"
 
 #: ../src/preferences_dialog.c:287
 msgid "Revert zoom direction"
-msgstr ""
+msgstr "Schimbă direcția zoomului"
 
 #: ../src/preferences_dialog.c:296
 msgid "Behaviour"
@@ -457,63 +453,60 @@ msgid "Startup"
 msgstr "Pornire"
 
 #: ../src/preferences_dialog.c:303
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Redimensionează fereastra la imagine la pornire"
+msgstr "Maximizează la pornire fereastra când se deschide o image"
 
 #: ../src/preferences_dialog.c:309
 msgid "Wrap around images"
 msgstr "Reia de la început imaginile"
 
 #: ../src/preferences_dialog.c:364
-#, fuzzy
 msgid "Image Viewer Preferences"
-msgstr "Vizualizare de imagini"
+msgstr "Preferințe pentru vizualizarea de imagini"
 
 #: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Nume:</b>"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Tip:</b>"
 
 #: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Modificat:</b>"
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Accesat:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Mărime:</b>"
 
 #: ../src/properties_dialog.c:308
 msgid "General"
-msgstr ""
+msgstr "Generale"
 
 #: ../src/properties_dialog.c:312
-#, fuzzy
 msgid "Image"
-msgstr "Imagini"
+msgstr "Imagine"
 
 #: ../src/properties_dialog.c:525
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr ""
+msgstr "<b>Data fotografierii:</b>"
 
 #: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:623
 #, c-format
 msgid "%s - Properties"
-msgstr ""
+msgstr "%s - Proprietăți"
 
 #: ../src/thumbnail_bar.c:194
 msgid "Spacing"
@@ -572,12 +565,10 @@ msgid "Zoomed"
 msgstr "Mărită"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images's easily"
-msgstr "De văzut rapid poze"
+msgstr "Pentru o afișare rapidă a imaginilor"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
 msgstr "Vizualizare de imagini Ristretto"
 
@@ -590,7 +581,6 @@ msgstr "Vizualizare de imagini Ristretto"
 #~ msgid "Preferences"
 #~ msgstr "Preferințe"
 
-#, fuzzy
 #~ msgid "Image viewer"
 #~ msgstr "Vizualizare de imagini"
 
@@ -615,7 +605,6 @@ msgstr "Vizualizare de imagini Ristretto"
 #~ msgid "Monitor:"
 #~ msgstr "Monitor:"
 
-#, fuzzy
 #~ msgid "Two"
 #~ msgstr "Sus"
 
