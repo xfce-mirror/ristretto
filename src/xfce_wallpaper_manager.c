@@ -40,6 +40,17 @@
 #include "wallpaper_manager.h"
 #include "xfce_wallpaper_manager.h"
 
+enum MonitorStyle
+{
+    MONITOR_STYLE_AUTOMATIC = 0,
+    MONITOR_STYLE_CENTERED,
+    MONITOR_STYLE_TILED,
+    MONITOR_STYLE_STRETCHED,
+    MONITOR_STYLE_SCALED,
+    MONITOR_STYLE_ZOOMED
+};
+
+
 #define XFDESKTOP_SELECTION_FMT "XFDESKTOP_SELECTION_%d"
 
 typedef struct {
@@ -59,6 +70,10 @@ static void
 rstto_xfce_wallpaper_manager_dispose (GObject *object);
 static void
 rstto_xfce_wallpaper_manager_finalize (GObject *object);
+
+static void
+configure_monitor_chooser_pixbuf (
+    RsttoXfceWallpaperManager *manager );
 
 static GdkPixbuf *
 adjust_brightness (
@@ -91,7 +106,7 @@ struct _RsttoXfceWallpaperManagerPriv
     XfconfChannel *channel;
     gint    screen;
     gint    monitor;
-    gint    style;
+    enum MonitorStyle style;
     gdouble saturation;
     gint    brightness;
     RsttoColor *color1;
@@ -119,13 +134,11 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
         RsttoWallpaperManager *self,
         RsttoFile *file)
 {
-    GdkPixbuf *monitor_pixbuf;
     gdouble saturation;
     gdouble brightness;
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
     gint response = 0;
     manager->priv->file = file;
-    monitor_pixbuf = NULL;
     saturation = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->saturation_adjustment));
     brightness = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->brightness_adjustment));
 
@@ -140,27 +153,7 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
             500,
             NULL);
 
-    if (manager->priv->pixbuf)
-    {
-        monitor_pixbuf = gdk_pixbuf_copy (manager->priv->pixbuf);
-        gdk_pixbuf_saturate_and_pixelate (
-                monitor_pixbuf,
-                monitor_pixbuf,
-                saturation,
-                FALSE);
-        monitor_pixbuf = adjust_brightness (
-            monitor_pixbuf,
-            (gint)brightness);
-    }
-
-    /* The monitor-chooser adds a reference to the pixbuf,
-     * so we should unref this pixbuf at a later time.
-     */
-    rstto_monitor_chooser_set_pixbuf (
-            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
-            manager->priv->monitor,
-            monitor_pixbuf,
-            NULL);
+    configure_monitor_chooser_pixbuf (manager);
 
     response = gtk_dialog_run (GTK_DIALOG (manager->priv->dialog));
     gtk_widget_hide (manager->priv->dialog);
@@ -176,7 +169,6 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
                 RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser));
     }
 
-    g_object_unref (monitor_pixbuf);
     return response;
 }
 
@@ -420,11 +412,6 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
                 monitor_geometry.width,
                 monitor_geometry.height);
     }
-    rstto_monitor_chooser_set_style (
-            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
-            0,
-            MONITOR_STYLE_SCALED);
-        
 
     gtk_box_pack_start (
             GTK_BOX (vbox),
@@ -638,16 +625,13 @@ cb_style_combo_changed (
         GtkComboBox *style_combo,
         RsttoXfceWallpaperManager *manager)
 {
-    RsttoMonitorStyle style = gtk_combo_box_get_active (style_combo);
 
-    gint monitor_id = rstto_monitor_chooser_get_selected (
+    manager->priv->style = gtk_combo_box_get_active (style_combo);
+
+    manager->priv->monitor = rstto_monitor_chooser_get_selected (
             RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser));
 
-    rstto_monitor_chooser_set_style (
-            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
-            monitor_id,
-            style);
-    
+    configure_monitor_chooser_pixbuf (manager);
 }
 
 static void
@@ -655,10 +639,8 @@ cb_monitor_chooser_changed (
         RsttoMonitorChooser *monitor_chooser,
         RsttoXfceWallpaperManager *manager)
 {
-    gint monitor_id;
-    RsttoMonitorStyle style;
+    enum MonitorStyle style = MONITOR_STYLE_AUTOMATIC;
 
-    monitor_id = rstto_monitor_chooser_get_selected (monitor_chooser);
     style = gtk_combo_box_get_active (
             GTK_COMBO_BOX(manager->priv->style_combo));
 
@@ -668,19 +650,9 @@ cb_monitor_chooser_changed (
             NULL,
             NULL);
 
-    rstto_monitor_chooser_set_pixbuf (
-            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
-            monitor_id,
-            manager->priv->pixbuf,
-            NULL);
+    manager->priv->monitor = rstto_monitor_chooser_get_selected (monitor_chooser);
 
-    rstto_monitor_chooser_set_style (
-            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
-            monitor_id,
-            style);
-        
-
-    manager->priv->monitor = monitor_id;
+    configure_monitor_chooser_pixbuf (manager);
 }
 
 static void
@@ -688,30 +660,7 @@ cb_brightness_adjustment_value_changed (
         GtkAdjustment *adjustment,
         RsttoXfceWallpaperManager *manager)
 {
-    GdkPixbuf *monitor_pixbuf = NULL;
-    gdouble saturation = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->saturation_adjustment));
-    gdouble brightness = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->brightness_adjustment));
-
-    if (manager->priv->pixbuf)
-    {
-        monitor_pixbuf = gdk_pixbuf_copy (manager->priv->pixbuf);
-        gdk_pixbuf_saturate_and_pixelate (
-            monitor_pixbuf,
-            monitor_pixbuf,
-            saturation,
-            FALSE);
-        monitor_pixbuf = adjust_brightness (
-            monitor_pixbuf,
-            (gint)brightness);
-    }
-
-    rstto_monitor_chooser_set_pixbuf (
-            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
-            manager->priv->monitor,
-            monitor_pixbuf,
-            NULL);
-
-    g_object_unref (monitor_pixbuf);
+    configure_monitor_chooser_pixbuf (manager);
 }
 
 static void
@@ -719,30 +668,7 @@ cb_saturation_adjustment_value_changed (
         GtkAdjustment *adjustment,
         RsttoXfceWallpaperManager *manager)
 {
-    GdkPixbuf *monitor_pixbuf = NULL;
-    gdouble saturation = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->saturation_adjustment));
-    gdouble brightness = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->brightness_adjustment));
-
-    if (manager->priv->pixbuf)
-    {
-        monitor_pixbuf = gdk_pixbuf_copy (manager->priv->pixbuf);
-        gdk_pixbuf_saturate_and_pixelate (
-            monitor_pixbuf,
-            monitor_pixbuf,
-            saturation,
-            FALSE);
-        monitor_pixbuf = adjust_brightness (
-            monitor_pixbuf,
-            (gint)brightness);
-    }
-
-    rstto_monitor_chooser_set_pixbuf (
-            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
-            manager->priv->monitor,
-            monitor_pixbuf,
-            NULL);
-
-    g_object_unref (monitor_pixbuf);
+    configure_monitor_chooser_pixbuf (manager);
 }
 
 /** adjust_brightness:
@@ -801,4 +727,133 @@ adjust_brightness (
     g_object_unref(G_OBJECT(src));
     
     return newpix;
+}
+
+static void
+configure_monitor_chooser_pixbuf (
+    RsttoXfceWallpaperManager *manager )
+{
+    GdkPixbuf *monitor_pixbuf = NULL;
+    GdkPixbuf *tmp_pixbuf = NULL;
+    gint monitor_width = 0;
+    gint monitor_height = 0;
+    gdouble saturation = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->saturation_adjustment));
+    gdouble brightness = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->brightness_adjustment));
+
+    gint pixbuf_width = 0;
+    gint pixbuf_height = 0;
+    gint dest_x = 0;
+    gint dest_y = 0;
+    gint dest_width = 0;
+    gint dest_height = 0;
+    gdouble x_scale = 0.0;
+    gdouble y_scale = 0.0;
+
+    if (manager->priv->pixbuf)
+    {
+        tmp_pixbuf = gdk_pixbuf_copy (manager->priv->pixbuf);
+        if ( NULL != tmp_pixbuf )
+        {
+            gdk_pixbuf_saturate_and_pixelate (
+                tmp_pixbuf,
+                tmp_pixbuf,
+                saturation,
+                FALSE);
+            tmp_pixbuf = adjust_brightness (
+                tmp_pixbuf,
+                (gint)brightness);
+
+            rstto_monitor_chooser_get_dimensions (
+                    RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser),
+                    manager->priv->monitor,
+                    &monitor_width,
+                    &monitor_height);
+
+            pixbuf_width = monitor_width * 0.2;
+            pixbuf_height = monitor_height * 0.2;
+
+            monitor_pixbuf = gdk_pixbuf_new (
+                    GDK_COLORSPACE_RGB,     /* Colorspace       */
+                    FALSE,                  /* has-alpha        */
+                    8,                      /* bits per sample  */
+                    pixbuf_width,           /* width            */
+                    pixbuf_height);         /* height           */
+            gdk_pixbuf_fill (
+                    monitor_pixbuf,
+                    0x00000000);
+
+            switch (manager->priv->style)
+            {
+                case MONITOR_STYLE_ZOOMED:
+                    dest_x = 0;
+                    dest_y = 0;
+                    dest_width = pixbuf_width;
+                    dest_height = pixbuf_height;
+                    x_scale = (gdouble)dest_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
+                    y_scale = (gdouble)dest_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
+                    if (x_scale > y_scale)
+                    {
+                        y_scale = x_scale;
+                    }
+                    else
+                    {
+                        x_scale = y_scale;
+                    }
+                    break;
+                case MONITOR_STYLE_SCALED:
+                    x_scale = (gdouble)pixbuf_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
+                    y_scale = (gdouble)pixbuf_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
+                    if (x_scale > y_scale)
+                    {
+                        x_scale = y_scale;
+                    }
+                    else
+                    {
+                        y_scale = x_scale;
+                    }
+                    dest_width = x_scale * (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
+                    dest_height = y_scale * (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
+                    dest_x = (gdouble)(dest_width - gdk_pixbuf_get_width (tmp_pixbuf)*x_scale) / 2;
+                    dest_y = (gdouble)(dest_height - gdk_pixbuf_get_height (tmp_pixbuf)*y_scale) / 2;
+                    break;
+                case MONITOR_STYLE_AUTOMATIC:
+                case MONITOR_STYLE_STRETCHED:
+                default:
+                    dest_x = 0;
+                    dest_y = 0;
+                    dest_width = pixbuf_width;
+                    dest_height = pixbuf_height;
+                    x_scale = (gdouble)dest_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
+                    y_scale = (gdouble)dest_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
+                    break;
+            }
+
+            gdk_pixbuf_composite (
+                tmp_pixbuf,
+                monitor_pixbuf,
+                dest_x,
+                dest_y,
+                dest_width,
+                dest_height,
+                0.0,
+                0.0,
+                x_scale,
+                y_scale,
+                GDK_INTERP_BILINEAR,
+                255);
+
+            g_object_unref (tmp_pixbuf);
+        }
+    }
+
+    rstto_monitor_chooser_set_pixbuf (
+            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
+            manager->priv->monitor,
+            monitor_pixbuf,
+            NULL);
+
+    if ( NULL != monitor_pixbuf )
+    {
+       g_object_unref (monitor_pixbuf);
+    }
 }

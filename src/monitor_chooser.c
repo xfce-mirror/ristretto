@@ -550,12 +550,8 @@ paint_monitor ( cairo_t *cr,
         gdk_cairo_set_source_pixbuf (
                 cr,
                 monitor->pixbuf,
-                monitor_x/hscale + (
-                    (monitor_width/hscale) -
-                    gdk_pixbuf_get_width(monitor->pixbuf) ) / 2,
-                monitor_y/vscale + (
-                    (monitor_height/vscale) -
-                    gdk_pixbuf_get_height(monitor->pixbuf) ) / 2);
+                monitor_x,
+                monitor_y);
         cairo_paint(cr);
 
         cairo_reset_clip(cr);
@@ -752,18 +748,22 @@ rstto_monitor_chooser_get_selected (
     return chooser->priv->selected;
 }
 
-gboolean
-rstto_monitor_chooser_set_style (
-        RsttoMonitorChooser *chooser,
-        gint monitor_id,
-        RsttoMonitorStyle style )
-{
-    return FALSE;
-}
-
 static void
 calculate_monitor_positions (
         RsttoMonitorChooser *chooser )
 {
 
+}
+
+void
+rstto_monitor_chooser_get_dimensions (
+        RsttoMonitorChooser *chooser,
+        gint nr,
+        gint *width,
+        gint *height)
+{
+    g_return_if_fail (nr < chooser->priv->n_monitors);
+
+    *width = chooser->priv->monitors[nr]->width;
+    *height = chooser->priv->monitors[nr]->height;
 }

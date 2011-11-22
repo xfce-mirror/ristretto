@@ -21,16 +21,6 @@
 
 G_BEGIN_DECLS
 
-typedef enum
-{
-    MONITOR_STYLE_AUTOMATIC = 0,
-    MONITOR_STYLE_CENTERED,
-    MONITOR_STYLE_TILED,
-    MONITOR_STYLE_STRETCHED,
-    MONITOR_STYLE_SCALED,
-    MONITOR_STYLE_ZOOMED
-} RsttoMonitorStyle;
-
 #define RSTTO_TYPE_MONITOR_CHOOSER rstto_monitor_chooser_get_type()
 
 #define RSTTO_MONITOR_CHOOSER(obj)( \
@@ -89,11 +79,12 @@ gint
 rstto_monitor_chooser_get_selected (
         RsttoMonitorChooser *);
 
-gboolean
-rstto_monitor_chooser_set_style (
-        RsttoMonitorChooser *chooser,
-        gint monitor_id,
-        RsttoMonitorStyle style );
+void
+rstto_monitor_chooser_get_dimensions (
+        RsttoMonitorChooser *,
+        gint nr,
+        gint *width,
+        gint *height);
 
 G_END_DECLS
 
