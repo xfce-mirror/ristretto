@@ -3,20 +3,21 @@
 # Copyright © 2006-2008 Stephan Arts.
 # This file is distributed under the same license as the ristretto package.
 #
-# Piotr Sokół <psokol@jabster.pl>, 2009, 2010.
 # Ireneusz Gierlach <irek.gierlach@gmail.com>, 2011.
+# Piotr Sokół <psokol@jabster.pl>, 2009, 2010, 2011.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.0.21\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-21 07:42+0100\n"
-"PO-Revision-Date: 2011-01-13 09:09-0500\n"
-"Last-Translator: Ireneusz Gierlach <irek.gierlach@gmail.com>\n"
-"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+"POT-Creation-Date: 2011-11-22 16:42+0000\n"
+"PO-Revision-Date: 2011-11-22 19:22+0100\n"
+"Last-Translator: Piotr Sokół <psokol@jabster.pl>\n"
+"Language-Team: polski <>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bits\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : ((n%10>=2 && n%10<=4 && (n"
 "%100<10 || n%100>=20)) ? 1 : 2));\n"
 "X-Generator: Lokalize 1.1\n"
@@ -35,10 +36,10 @@ msgstr "Rozpoczyna pokaz obrazów po uruchomieniu"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "Wyświetla okno preferencji programu"
 
 #: ../src/main.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
@@ -46,7 +47,7 @@ msgid ""
 "available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Proszę wprowadzić „%s --help” aby wypisać pełną listę opcji wiersza "
+"Proszę wprowadzić „%s --help”, aby wypisać pełną listę opcji wiersza "
 "poleceń.\n"
 
 #: ../src/main_window.c:53 ../ristretto.desktop.in.h:1
@@ -76,11 +77,11 @@ msgstr "Zapisuje kopię obrazu"
 
 #: ../src/main_window.c:267
 msgid "_Properties"
-msgstr ""
+msgstr "_Właściwości"
 
 #: ../src/main_window.c:267
 msgid "Show file properties"
-msgstr ""
+msgstr "Wyświetla właściwości pliku"
 
 #: ../src/main_window.c:268
 msgid "_Close"
@@ -116,13 +117,12 @@ msgid "_Delete"
 msgstr "_Usuń"
 
 #: ../src/main_window.c:274
-#, fuzzy
 msgid "Delete this image from disk"
-msgstr "Zamyka bieżący plik"
+msgstr "Trwale usuwa plik obrazu"
 
 #: ../src/main_window.c:275
 msgid "_Clear private data"
-msgstr ""
+msgstr "_Wyczyść prywatne dane"
 
 #: ../src/main_window.c:276
 msgid "_Preferences"
@@ -211,7 +211,7 @@ msgstr "_Spis treści"
 
 #: ../src/main_window.c:303
 msgid "Display ristretto user manual"
-msgstr "Wyświetla podręcznik użytkownika programu"
+msgstr "Otwiera podręcznik użytkownika programu"
 
 #: ../src/main_window.c:306
 msgid "_About"
@@ -227,14 +227,13 @@ msgid "_Position"
 msgstr "_Położenie"
 
 #: ../src/main_window.c:312
-#, fuzzy
 msgid "Thumbnailbar _Position"
-msgstr "Miniatury"
+msgstr "_Położenie miniatur"
 
 #. Misc
 #: ../src/main_window.c:314
 msgid "Leave _Fullscreen"
-msgstr "Opuść _pełny ekran"
+msgstr "Opuść p_ełny ekran"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:322
@@ -323,7 +322,7 @@ msgstr "Przeglądarka obrazów dla środowiska Xfce"
 msgid "translator-credits"
 msgstr ""
 "Łukasz Romanowicz <lukasz210@gmail.com>\n"
-"Piotr Sokół <psokol@jabster.pl>, 2010"
+"Piotr Sokół <psokol@jabster.pl>, 2010, 2011"
 
 #: ../src/main_window.c:2471
 msgid "Open image"
@@ -346,9 +345,8 @@ msgid "Save copy"
 msgstr "Wybór pliku"
 
 #: ../src/main_window.c:2672
-#, fuzzy
 msgid "Could not save file"
-msgstr "Nie można otworzyć pliku"
+msgstr "Nie można zapisać pliku"
 
 #: ../src/main_window.c:2773
 #, c-format
@@ -357,35 +355,35 @@ msgstr "Usunąć plik „%s”?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Timerange to clear:"
-msgstr ""
+msgstr "Zakres czasu:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Czyszczenie"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr ""
+msgstr "Ostatnia godzina"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Ostatnie 2 godziny"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Ostatnie 4 godziny"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
-msgstr ""
+msgstr "Dzisiaj"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr ""
+msgstr "Wszystkie"
 
 #: ../src/privacy_dialog.c:459
 msgid "Clear private data"
-msgstr ""
+msgstr "Czyszczenie prywatnych danych"
 
 #: ../src/preferences_dialog.c:187
 msgid "Display"
@@ -397,7 +395,7 @@ msgstr "Kolor tła"
 
 #: ../src/preferences_dialog.c:195
 msgid "Toolbars"
-msgstr ""
+msgstr "Paski narzędziowe"
 
 #: ../src/preferences_dialog.c:200
 msgid "Override background color:"
@@ -405,7 +403,7 @@ msgstr "Własny:"
 
 #: ../src/preferences_dialog.c:211
 msgid "Merge toolbars"
-msgstr ""
+msgstr "Połączenie pasków narzędziowych"
 
 #: ../src/preferences_dialog.c:216
 msgid "Thumbnails"
@@ -435,7 +433,7 @@ msgstr "Czas"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr "Czas wyświetlania pojedynczego obrazu (w sekundach):"
+msgstr "Czas wyświetlania pojedynczego obrazu (s):"
 
 #: ../src/preferences_dialog.c:280
 msgid "Control"
@@ -447,7 +445,7 @@ msgstr "Kółko myszy"
 
 #: ../src/preferences_dialog.c:287
 msgid "Revert zoom direction"
-msgstr ""
+msgstr "Odwrócenie kierunku powiększania obrazu"
 
 #: ../src/preferences_dialog.c:296
 msgid "Behaviour"
@@ -458,63 +456,60 @@ msgid "Startup"
 msgstr "Uruchamianie"
 
 #: ../src/preferences_dialog.c:303
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Dopasowanie rozmiaru okna do obrazu"
+msgstr "Maksymalizowanie okna podczas uruchamiania programu"
 
 #: ../src/preferences_dialog.c:309
 msgid "Wrap around images"
 msgstr "Przechodzenie pomiędzy początkiem i końcem katalogu"
 
 #: ../src/preferences_dialog.c:364
-#, fuzzy
 msgid "Image Viewer Preferences"
-msgstr "Przeglądarka obrazów"
+msgstr "Preferencje"
 
 #: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Nazwa:</b>"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Typ:</b>"
 
 #: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Czas modyfikacji:</b>"
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Czas dostępu:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Rozmiar:</b>"
 
 #: ../src/properties_dialog.c:308
 msgid "General"
-msgstr ""
+msgstr "Ogólne"
 
 #: ../src/properties_dialog.c:312
-#, fuzzy
 msgid "Image"
-msgstr "Wszystkie obrazy"
+msgstr "Obraz"
 
 #: ../src/properties_dialog.c:525
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr ""
+msgstr "<b>Data wykonania:</b>"
 
 #: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:623
 #, c-format
 msgid "%s - Properties"
-msgstr ""
+msgstr "%s - Właściwości"
 
 #: ../src/thumbnail_bar.c:194
 msgid "Spacing"
@@ -573,12 +568,10 @@ msgid "Zoomed"
 msgstr "Zbliżone"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images's easily"
 msgstr "Umożliwia wygodne przeglądanie zdjęć i obrazów"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
 msgstr "Przeglądarka obrazów Ristretto"
 
