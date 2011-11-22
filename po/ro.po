@@ -117,7 +117,7 @@ msgstr "Șterge această imagine de pe disc"
 
 #: ../src/main_window.c:275
 msgid "_Clear private data"
-msgstr "Șt_erge datele private"
+msgstr "Șterge _datele private"
 
 #: ../src/main_window.c:276
 msgid "_Preferences"
