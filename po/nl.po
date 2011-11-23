@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the ristretto package.
 # Stephan Arts <stephan@xfce.org>, 2007.
 # Pjotr, 2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-23 06:58+0100\n"
+"POT-Creation-Date: 2011-11-23 06:54+0000\n"
 "PO-Revision-Date: 2011-09-08 00:48+0200\n"
 "Last-Translator: Pjotr\n"
 "Language-Team: Dutch (Flemish)\n"
-"Language: nl (Dutch)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl (Dutch)\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/main.c:61
@@ -307,7 +307,7 @@ msgstr "Leeg"
 
 #: ../src/main_window.c:1778
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "Kies de methode voor het instellen van een bureaubladachtergrond"
 
 #: ../src/main_window.c:1793 ../src/preferences_dialog.c:349
 msgid ""
@@ -315,18 +315,21 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
+"Configureer welk systeem thans uw werkomgeving beheert.\n"
+"Deze instelling bepaalt de methode die <i>Ristretto</i> zal gebruiken\n"
+"om de bureaubladachtergrond in te stellen."
 
 #: ../src/main_window.c:1818 ../src/preferences_dialog.c:373
 msgid "None"
-msgstr ""
+msgstr "Geen"
 
 #: ../src/main_window.c:1822 ../src/preferences_dialog.c:377
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
 #: ../src/main_window.c:1826 ../src/preferences_dialog.c:381
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ../src/main_window.c:2333
 msgid "Developer:"
@@ -487,7 +490,7 @@ msgstr "Om afbeeldingen heen vouwen"
 
 #: ../src/preferences_dialog.c:338
 msgid "Desktop"
-msgstr ""
+msgstr "Werkomgeving"
 
 #: ../src/preferences_dialog.c:460
 msgid "Image Viewer Preferences"
@@ -553,43 +556,43 @@ msgstr "randbreedte"
 msgid "the border width of the thumbnail-bar"
 msgstr "de randbreedte van de miniaturenbalk"
 
-#: ../src/xfce_wallpaper_manager.c:339
+#: ../src/xfce_wallpaper_manager.c:335
 msgid "Style:"
 msgstr "Stijl:"
 
-#: ../src/xfce_wallpaper_manager.c:340
+#: ../src/xfce_wallpaper_manager.c:336
 msgid "Brightness:"
 msgstr "Helderheid:"
 
-#: ../src/xfce_wallpaper_manager.c:341
+#: ../src/xfce_wallpaper_manager.c:337
 msgid "Saturation:"
 msgstr "Verzadiging:"
 
-#: ../src/xfce_wallpaper_manager.c:358 ../src/gnome_wallpaper_manager.c:174
+#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:174
 msgid "Set as wallpaper"
 msgstr "Instellen als bureaubladachtergrond"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:507
 msgid "Auto"
 msgstr "Automatisch"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:510
 msgid "Centered"
 msgstr "Gecentreerd"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:513
 msgid "Tiled"
 msgstr "Naast elkaar"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:516
 msgid "Stretched"
 msgstr "Uitgerekt"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:519
 msgid "Scaled"
 msgstr "Geschaald"
 
-#: ../src/xfce_wallpaper_manager.c:526
+#: ../src/xfce_wallpaper_manager.c:522
 msgid "Zoomed"
 msgstr "Ingezoomd"
 
