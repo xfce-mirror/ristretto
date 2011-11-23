@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.0.20\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-23 06:58+0100\n"
-"PO-Revision-Date: 2011-10-05 11:54+0200\n"
+"POT-Creation-Date: 2011-11-23 06:54+0000\n"
+"PO-Revision-Date: 2011-11-23 08:51+0100\n"
 "Last-Translator: Tomáš Vadina <kyberdev@gmail.com>\n"
-"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
+"Language-Team: slovenčina <sk-i18n@lists.linux.sk>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bits\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
 
 #: ../src/main.c:61
@@ -36,7 +36,7 @@ msgid "Show settings dialog"
 msgstr "Zobraziť dialóg nastavenia"
 
 #: ../src/main.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
@@ -44,7 +44,9 @@ msgid ""
 "available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Skúste %s --help pre kompletné zobrazenie zoznamu dostupných volieb.\n"
+"\n"
+"Skúste %s --help pre zobrazenie zoznamu\n"
+"dostupných možností príkazového riadka.\n"
 
 #: ../src/main_window.c:55 ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -308,7 +310,7 @@ msgstr "Prázdne"
 
 #: ../src/main_window.c:1778
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "Zvoliť metódu 'nastaviť pozadie'"
 
 #: ../src/main_window.c:1793 ../src/preferences_dialog.c:349
 msgid ""
@@ -316,18 +318,21 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
+"Nastaví, ktorý systém aktuálne spravuje pracovnú polochu.\n"
+"Toto nastavenie určuje metódu, ktorú <i>Ristretto</i> použije \n"
+"pre nastavenie pozadia pracovnej plochy."
 
 #: ../src/main_window.c:1818 ../src/preferences_dialog.c:373
 msgid "None"
-msgstr ""
+msgstr "Žiadne"
 
 #: ../src/main_window.c:1822 ../src/preferences_dialog.c:377
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
 #: ../src/main_window.c:1826 ../src/preferences_dialog.c:381
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ../src/main_window.c:2333
 msgid "Developer:"
@@ -365,9 +370,8 @@ msgid "Save copy"
 msgstr "Uložiť kópiu"
 
 #: ../src/main_window.c:2829
-#, fuzzy
 msgid "Could not save file"
-msgstr "Nemôžem otvoriť súbor"
+msgstr "Nie je možné uložiť súbor"
 
 #: ../src/main_window.c:2930
 #, c-format
@@ -488,7 +492,7 @@ msgstr "Obrázky točiť dookola"
 
 #: ../src/preferences_dialog.c:338
 msgid "Desktop"
-msgstr ""
+msgstr "Pracovná plocha"
 
 #: ../src/preferences_dialog.c:460
 msgid "Image Viewer Preferences"
@@ -519,20 +523,19 @@ msgid "General"
 msgstr "Všeobecné"
 
 #: ../src/properties_dialog.c:312
-#, fuzzy
 msgid "Image"
-msgstr "Obrázky"
+msgstr "Obrázok"
 
 #: ../src/properties_dialog.c:525
-#, fuzzy, c-format
+#, c-format
 msgid "<b>Date taken:</b>"
-msgstr "<b>Názov:</b>"
+msgstr "<b>Dátum získania:</b>"
 
 #: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b>"
-msgstr "<b>Názov:</b>"
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:623
 #, c-format
@@ -555,43 +558,43 @@ msgstr "Šírka okraja"
 msgid "the border width of the thumbnail-bar"
 msgstr "Šírka okraja panela s náhľadmi"
 
-#: ../src/xfce_wallpaper_manager.c:339
+#: ../src/xfce_wallpaper_manager.c:335
 msgid "Style:"
 msgstr "Štýl:"
 
-#: ../src/xfce_wallpaper_manager.c:340
+#: ../src/xfce_wallpaper_manager.c:336
 msgid "Brightness:"
 msgstr "Jas:"
 
-#: ../src/xfce_wallpaper_manager.c:341
+#: ../src/xfce_wallpaper_manager.c:337
 msgid "Saturation:"
 msgstr "Sýtosť:"
 
-#: ../src/xfce_wallpaper_manager.c:358 ../src/gnome_wallpaper_manager.c:174
+#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:174
 msgid "Set as wallpaper"
 msgstr "Nastaviť ako tapetu"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:507
 msgid "Auto"
 msgstr "Automatický"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:510
 msgid "Centered"
 msgstr "Na stred"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:513
 msgid "Tiled"
 msgstr "Dlaždice"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:516
 msgid "Stretched"
 msgstr "Roztiahnutý"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:519
 msgid "Scaled"
 msgstr "Prispôsobený"
 
-#: ../src/xfce_wallpaper_manager.c:526
+#: ../src/xfce_wallpaper_manager.c:522
 msgid "Zoomed"
 msgstr "Zväčšený"
 
