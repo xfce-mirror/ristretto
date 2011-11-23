@@ -74,10 +74,6 @@ static void
 cb_rstto_button_press_event (GtkWidget *, GdkEventButton *event);
 
 static void
-calculate_monitor_positions (
-        RsttoMonitorChooser *chooser );
-
-static void
 paint_monitor ( cairo_t *cr,
                 gdouble x,
                 gdouble y,
@@ -244,7 +240,6 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
     RsttoMonitorChooser *chooser = RSTTO_MONITOR_CHOOSER (widget);
     cairo_t *ctx = gdk_cairo_create (widget->window);
     Monitor *monitor;
-    gint index = 0;
 
     gdouble width, height;
     gchar *label = NULL;
@@ -264,12 +259,12 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
 
     if (chooser->priv->n_monitors > 1)
     {
-        for (; chooser->priv->monitors[index]; ++index)
+        for (; chooser->priv->monitors[id]; ++id)
         {
-            monitor = chooser->priv->monitors[index];
+            monitor = chooser->priv->monitors[id];
 
             /* Render the selected monitor a little bigger */
-            if (index == chooser->priv->selected)
+            if (id == chooser->priv->selected)
             {
                 if (monitor->width > monitor->height)
                 {
@@ -281,7 +276,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                     height = widget->allocation.width*0.4;
                     width = height;
                 }
-                label = g_strdup_printf("%d", index+1);
+                label = g_strdup_printf("%d", id+1);
                 cairo_save (ctx);
                 paint_monitor (ctx,
                         ((gdouble)widget->allocation.width/4) - (width/2.0),
@@ -310,7 +305,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                 }
             
 
-                label = g_strdup_printf("%d", index+1);
+                label = g_strdup_printf("%d", id+1);
                 cairo_save (ctx);
                 paint_monitor (ctx,
                         ((gdouble)widget->allocation.width/2)+
@@ -620,7 +615,7 @@ rstto_monitor_chooser_add (
         gint height)
 {
     Monitor **monitors = g_new0 (Monitor *, chooser->priv->n_monitors+1);
-    gint index = 0;
+    gint id = 0;
 
     Monitor *monitor = g_new0 (Monitor, 1);
     monitor->width = width;
@@ -634,19 +629,19 @@ rstto_monitor_chooser_add (
     {
         chooser->priv->selected = 0;
 
-        for (index = 0; chooser->priv->monitors[index]; ++index)
+        for (id = 0; chooser->priv->monitors[id]; ++id)
         {
-            monitors[index] = chooser->priv->monitors[index];
+            monitors[id] = chooser->priv->monitors[id];
         }
         g_free (chooser->priv->monitors);
     }
     
-    monitors[index] = monitor;
+    monitors[id] = monitor;
 
     chooser->priv->monitors = monitors;
     chooser->priv->n_monitors++;
 
-    return index;
+    return id;
 }
 
 gint
@@ -659,7 +654,7 @@ rstto_monitor_chooser_set_pixbuf (
     Monitor *monitor;
     gint retval = -1;
 
-    g_return_if_fail (monitor_id < chooser->priv->n_monitors);
+    g_return_val_if_fail (monitor_id < chooser->priv->n_monitors, retval);
 
     monitor = chooser->priv->monitors[monitor_id];
 
@@ -746,13 +741,6 @@ rstto_monitor_chooser_get_selected (
         RsttoMonitorChooser *chooser )
 {
     return chooser->priv->selected;
-}
-
-static void
-calculate_monitor_positions (
-        RsttoMonitorChooser *chooser )
-{
-
 }
 
 void

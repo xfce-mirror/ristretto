@@ -134,13 +134,9 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
         RsttoWallpaperManager *self,
         RsttoFile *file)
 {
-    gdouble saturation;
-    gdouble brightness;
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
     gint response = 0;
     manager->priv->file = file;
-    saturation = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->saturation_adjustment));
-    brightness = gtk_adjustment_get_value (GTK_ADJUSTMENT(manager->priv->brightness_adjustment));
 
     if (manager->priv->pixbuf)
     {
@@ -639,11 +635,6 @@ cb_monitor_chooser_changed (
         RsttoMonitorChooser *monitor_chooser,
         RsttoXfceWallpaperManager *manager)
 {
-    enum MonitorStyle style = MONITOR_STYLE_AUTOMATIC;
-
-    style = gtk_combo_box_get_active (
-            GTK_COMBO_BOX(manager->priv->style_combo));
-
     rstto_monitor_chooser_set_pixbuf (
             monitor_chooser,
             manager->priv->monitor,

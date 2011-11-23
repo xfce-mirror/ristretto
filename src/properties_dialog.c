@@ -476,7 +476,7 @@ properties_dialog_set_file (
         g_snprintf (
                 buf,
                 20,
-                "%llu bytes",
+                "%"G_GUINT64_FORMAT" bytes",
                 size);
         gtk_label_set_text (
                 GTK_LABEL (dialog->priv->size_content_label),
