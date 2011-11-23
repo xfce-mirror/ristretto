@@ -542,16 +542,16 @@ paint_monitor ( cairo_t *cr,
     {
         cairo_clip_preserve (cr);
 
-        hscale = width / (gdk_pixbuf_get_width(monitor->pixbuf));
-        vscale = height / (gdk_pixbuf_get_height(monitor->pixbuf));
+        hscale = monitor_width / (gdk_pixbuf_get_width(monitor->pixbuf));
+        vscale = monitor_height / (gdk_pixbuf_get_height(monitor->pixbuf));
 
         cairo_scale (cr, hscale, vscale);
 
         gdk_cairo_set_source_pixbuf (
                 cr,
                 monitor->pixbuf,
-                monitor_x,
-                monitor_y);
+                monitor_x/hscale,
+                monitor_y/vscale);
         cairo_paint(cr);
 
         cairo_reset_clip(cr);

@@ -800,6 +800,7 @@ configure_monitor_chooser_pixbuf (
                         x_scale = y_scale;
                     }
                     break;
+                case MONITOR_STYLE_AUTOMATIC:
                 case MONITOR_STYLE_SCALED:
                     x_scale = (gdouble)pixbuf_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
                     y_scale = (gdouble)pixbuf_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
@@ -813,12 +814,10 @@ configure_monitor_chooser_pixbuf (
                     }
                     dest_width = x_scale * (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
                     dest_height = y_scale * (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
-                    dest_x = (gdouble)(dest_width - gdk_pixbuf_get_width (tmp_pixbuf)*x_scale) / 2;
-                    dest_y = (gdouble)(dest_height - gdk_pixbuf_get_height (tmp_pixbuf)*y_scale) / 2;
+                    dest_x = (gdouble)(pixbuf_width - gdk_pixbuf_get_width (tmp_pixbuf)*x_scale) / 2;
+                    dest_y = (gdouble)(pixbuf_height - gdk_pixbuf_get_height (tmp_pixbuf)*y_scale) / 2;
                     break;
-                case MONITOR_STYLE_AUTOMATIC:
                 case MONITOR_STYLE_STRETCHED:
-                default:
                     dest_x = 0;
                     dest_y = 0;
                     dest_width = pixbuf_width;
@@ -826,6 +825,26 @@ configure_monitor_chooser_pixbuf (
                     x_scale = (gdouble)dest_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
                     y_scale = (gdouble)dest_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
                     break;
+                default:
+                    x_scale = (gdouble)pixbuf_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
+                    y_scale = (gdouble)pixbuf_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
+                    if (x_scale > y_scale)
+                    {
+                        x_scale = y_scale;
+                    }
+                    else
+                    {
+                        y_scale = x_scale;
+                    }
+                    dest_width = x_scale * (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
+                    dest_height = y_scale * (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
+                    dest_x = (gdouble)(pixbuf_width - gdk_pixbuf_get_width (tmp_pixbuf)*x_scale) / 2;
+                    dest_y = (gdouble)(pixbuf_height - gdk_pixbuf_get_height (tmp_pixbuf)*y_scale) / 2;
+                    gdk_pixbuf_saturate_and_pixelate (
+                        tmp_pixbuf,
+                        tmp_pixbuf,
+                        0.0,
+                        TRUE);
             }
 
             gdk_pixbuf_composite (
