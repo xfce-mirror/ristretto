@@ -13,6 +13,8 @@ x.x.x
 - Improve preview of the set-wallpaper dialog.
 - Fix bug #8176 (Request for warning dialog window informing user
   tumblerd is not reachable/installed)
+- Fix bug #8026 (monitors in "set as wallpaper" dialog alignment) add
+  'foot' to the monitors, and align to that.
 
 0.3.0
 =====
