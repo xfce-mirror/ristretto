@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-23 06:58+0100\n"
-"PO-Revision-Date: 2011-11-20 19:32+0900\n"
+"POT-Creation-Date: 2011-11-23 20:03+0900\n"
+"PO-Revision-Date: 2011-11-23 20:03+0900\n"
 "Last-Translator: Masato Hashimoto <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <xfce-users-jp@ml.fdiary.net>\n"
 "Language: ja\n"
@@ -35,7 +35,7 @@ msgid "Show settings dialog"
 msgstr "設定ダイアログを表示する"
 
 #: ../src/main.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
@@ -309,7 +309,7 @@ msgstr "空"
 
 #: ../src/main_window.c:1778
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "'壁紙に設定' 方式の選択"
 
 #: ../src/main_window.c:1793 ../src/preferences_dialog.c:349
 msgid ""
@@ -317,18 +317,20 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
+"デスクトップを管理しているシステムを指定してください。\n"
+"<i>Ristretto</i> はこの方式でデスクトップの壁紙を設定します。"
 
 #: ../src/main_window.c:1818 ../src/preferences_dialog.c:373
 msgid "None"
-msgstr ""
+msgstr "なし"
 
 #: ../src/main_window.c:1822 ../src/preferences_dialog.c:377
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
 #: ../src/main_window.c:1826 ../src/preferences_dialog.c:381
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ../src/main_window.c:2333
 msgid "Developer:"
@@ -486,7 +488,7 @@ msgstr "最後の画像に来たら先頭に戻る"
 
 #: ../src/preferences_dialog.c:338
 msgid "Desktop"
-msgstr ""
+msgstr "デスクトップ"
 
 #: ../src/preferences_dialog.c:460
 msgid "Image Viewer Preferences"
@@ -552,43 +554,43 @@ msgstr "境界線幅"
 msgid "the border width of the thumbnail-bar"
 msgstr "サムネイルバーの境界線幅"
 
-#: ../src/xfce_wallpaper_manager.c:339
+#: ../src/xfce_wallpaper_manager.c:335
 msgid "Style:"
 msgstr "スタイル:"
 
-#: ../src/xfce_wallpaper_manager.c:340
+#: ../src/xfce_wallpaper_manager.c:336
 msgid "Brightness:"
 msgstr "明度:"
 
-#: ../src/xfce_wallpaper_manager.c:341
+#: ../src/xfce_wallpaper_manager.c:337
 msgid "Saturation:"
 msgstr "彩度:"
 
-#: ../src/xfce_wallpaper_manager.c:358 ../src/gnome_wallpaper_manager.c:174
+#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:174
 msgid "Set as wallpaper"
 msgstr "壁紙に設定"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:507
 msgid "Auto"
 msgstr "自動"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:510
 msgid "Centered"
 msgstr "中央揃え"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:513
 msgid "Tiled"
 msgstr "タイル状"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:516
 msgid "Stretched"
 msgstr "縦横比を維持せず全画面化"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:519
 msgid "Scaled"
 msgstr "長辺を画面に合わせる"
 
-#: ../src/xfce_wallpaper_manager.c:526
+#: ../src/xfce_wallpaper_manager.c:522
 msgid "Zoomed"
 msgstr "短辺を画面に合わせる"
 
