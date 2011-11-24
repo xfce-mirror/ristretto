@@ -1843,10 +1843,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
                     GTK_COMBO_BOX (choose_desktop_combo_box)))
             {
                 case DESKTOP_TYPE_NONE:
-                    rstto_settings_set_string_property (
-                            window->priv->settings_manager,
-                            "desktop-type",
-                            "none");
+                    desktop_type = g_strdup ("none");
                     if (NULL != window->priv->wallpaper_manager)
                     {
                         g_object_unref (window->priv->wallpaper_manager);
@@ -1854,10 +1851,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
                     }
                     break;
                 case DESKTOP_TYPE_XFCE:
-                    rstto_settings_set_string_property (
-                            window->priv->settings_manager,
-                            "desktop-type",
-                            "xfce");
+                    desktop_type = g_strdup ("xfce");
                     if (NULL != window->priv->wallpaper_manager)
                     {
                         g_object_unref (window->priv->wallpaper_manager);
@@ -1865,10 +1859,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
                     window->priv->wallpaper_manager = rstto_xfce_wallpaper_manager_new ();
                     break;
                 case DESKTOP_TYPE_GNOME:
-                    rstto_settings_set_string_property (
-                            window->priv->settings_manager,
-                            "desktop-type",
-                            "gnome");
+                    desktop_type = g_strdup ("gnome");
                     if (NULL != window->priv->wallpaper_manager)
                     {
                         g_object_unref (window->priv->wallpaper_manager);
@@ -1876,6 +1867,10 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
                     window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new ();
                     break;
             }
+	    rstto_settings_set_string_property (
+		    window->priv->settings_manager,
+		    "desktop-type",
+		    desktop_type);
         
         }
 
@@ -1884,7 +1879,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
         dialog = NULL;
     }
 
-    if (window->priv->wallpaper_manager)
+    if (NULL != desktop_type && NULL != window->priv->wallpaper_manager)
     {
         /* Set the response to GTK_RESPONSE_APPLY,
          * so we at least do one run.
