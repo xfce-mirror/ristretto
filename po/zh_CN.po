@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-23 06:58+0100\n"
+"POT-Creation-Date: 2011-11-25 15:42+0000\n"
 "PO-Revision-Date: 2010-11-23 23:34+0800\n"
 "Last-Translator: Chipong Luo <chipong_l@yahoo.com>\n"
 "Language-Team: Chinese (simplified) <xfce-i18n@xfce.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -308,7 +308,7 @@ msgstr "空"
 
 #: ../src/main_window.c:1778
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "选择 ‘设置壁纸’ 的模式"
 
 #: ../src/main_window.c:1793 ../src/preferences_dialog.c:349
 msgid ""
@@ -316,18 +316,21 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
+"配置当前用何种系统管理您的桌面。\r\n"
+"此设置决定用于 <i>Ristretto</i> \r\n"
+"配置桌面壁纸的模式。"
 
 #: ../src/main_window.c:1818 ../src/preferences_dialog.c:373
 msgid "None"
-msgstr ""
+msgstr "无"
 
 #: ../src/main_window.c:1822 ../src/preferences_dialog.c:377
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
 #: ../src/main_window.c:1826 ../src/preferences_dialog.c:381
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ../src/main_window.c:2333
 msgid "Developer:"
@@ -483,7 +486,7 @@ msgstr "环绕图片"
 
 #: ../src/preferences_dialog.c:338
 msgid "Desktop"
-msgstr ""
+msgstr "桌面"
 
 #: ../src/preferences_dialog.c:460
 msgid "Image Viewer Preferences"
@@ -549,43 +552,43 @@ msgstr "边框宽度"
 msgid "the border width of the thumbnail-bar"
 msgstr "缩略图工具栏的边框宽度"
 
-#: ../src/xfce_wallpaper_manager.c:339
+#: ../src/xfce_wallpaper_manager.c:335
 msgid "Style:"
 msgstr "样式："
 
-#: ../src/xfce_wallpaper_manager.c:340
+#: ../src/xfce_wallpaper_manager.c:336
 msgid "Brightness:"
 msgstr "亮度："
 
-#: ../src/xfce_wallpaper_manager.c:341
+#: ../src/xfce_wallpaper_manager.c:337
 msgid "Saturation:"
 msgstr "饱和度："
 
-#: ../src/xfce_wallpaper_manager.c:358 ../src/gnome_wallpaper_manager.c:174
+#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:174
 msgid "Set as wallpaper"
 msgstr "设置为壁纸"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:507
 msgid "Auto"
 msgstr "自动"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:510
 msgid "Centered"
 msgstr "居中"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:513
 msgid "Tiled"
 msgstr "平铺"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:516
 msgid "Stretched"
 msgstr "拉伸"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:519
 msgid "Scaled"
 msgstr "伸缩"
 
-#: ../src/xfce_wallpaper_manager.c:526
+#: ../src/xfce_wallpaper_manager.c:522
 msgid "Zoomed"
 msgstr "缩放"
 
