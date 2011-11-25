@@ -2,19 +2,19 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Nuno Miguel <nunis@netcabo.pt>, 2007
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.22\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-23 06:58+0100\n"
+"POT-Creation-Date: 2011-11-25 10:58+0000\n"
 "PO-Revision-Date: 2010-01-15 14:16-0000\n"
 "Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Language: Portuguese\n"
 "X-Poedit-Country: PORTUGAL\n"
@@ -309,7 +309,7 @@ msgstr "Vazio"
 
 #: ../src/main_window.c:1778
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "Escolha o método \"definir papel de parede\""
 
 #: ../src/main_window.c:1793 ../src/preferences_dialog.c:349
 msgid ""
@@ -317,18 +317,20 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
+"Configurar o sistema que faz a gestão do ambiente de trabalho.\n"
+"Esta definição determina o método utilizado pelo <i>Ristretto</i> para configurar o papel de parede."
 
 #: ../src/main_window.c:1818 ../src/preferences_dialog.c:373
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
 #: ../src/main_window.c:1822 ../src/preferences_dialog.c:377
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
 #: ../src/main_window.c:1826 ../src/preferences_dialog.c:381
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ../src/main_window.c:2333
 msgid "Developer:"
@@ -485,7 +487,7 @@ msgstr "Contorno em redor das imagens"
 
 #: ../src/preferences_dialog.c:338
 msgid "Desktop"
-msgstr ""
+msgstr "Ambiente de trabalho"
 
 #: ../src/preferences_dialog.c:460
 msgid "Image Viewer Preferences"
@@ -551,43 +553,43 @@ msgstr "largura do contorno"
 msgid "the border width of the thumbnail-bar"
 msgstr "a largura do contorno da barra de miniaturas"
 
-#: ../src/xfce_wallpaper_manager.c:339
+#: ../src/xfce_wallpaper_manager.c:335
 msgid "Style:"
 msgstr "Estilo:"
 
-#: ../src/xfce_wallpaper_manager.c:340
+#: ../src/xfce_wallpaper_manager.c:336
 msgid "Brightness:"
 msgstr "Brilho:"
 
-#: ../src/xfce_wallpaper_manager.c:341
+#: ../src/xfce_wallpaper_manager.c:337
 msgid "Saturation:"
 msgstr "Saturação:"
 
-#: ../src/xfce_wallpaper_manager.c:358 ../src/gnome_wallpaper_manager.c:174
+#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:174
 msgid "Set as wallpaper"
 msgstr "Definir como papel de parede"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:507
 msgid "Auto"
 msgstr "Automático"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:510
 msgid "Centered"
 msgstr "Centrada"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:513
 msgid "Tiled"
 msgstr "Mosaico"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:516
 msgid "Stretched"
 msgstr "Esticada"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:519
 msgid "Scaled"
 msgstr "À escala"
 
-#: ../src/xfce_wallpaper_manager.c:526
+#: ../src/xfce_wallpaper_manager.c:522
 msgid "Zoomed"
 msgstr "Ampliada"
 
