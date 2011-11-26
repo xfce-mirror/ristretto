@@ -29,7 +29,8 @@
 typedef struct {
     gint width;
     gint height;
-    GdkPixbuf *pixbuf;
+
+    cairo_surface_t *image_surface;
 } Monitor;
 
 typedef struct {
@@ -404,7 +405,6 @@ paint_monitor ( cairo_t *cr,
     /*******************************************/
     PangoLayout *layout;
     PangoFontDescription *font_description;
-    GdkPixbuf *dst_pixbuf = NULL;
 
     g_return_if_fail (NULL != monitor);
     
@@ -533,30 +533,24 @@ paint_monitor ( cairo_t *cr,
     cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1.0);
     cairo_fill_preserve (cr);
 
-    if (monitor->pixbuf)
+    if (monitor->image_surface)
     {
         cairo_clip_preserve (cr);
 
-        hscale = monitor_width / (gdk_pixbuf_get_width(monitor->pixbuf));
-        vscale = monitor_height / (gdk_pixbuf_get_height(monitor->pixbuf));
+        hscale = monitor_width / (cairo_image_surface_get_width(monitor->image_surface));
+        vscale = monitor_height / (cairo_image_surface_get_height(monitor->image_surface));
 
         cairo_scale (cr, hscale, vscale);
 
-        gdk_cairo_set_source_pixbuf (
+        cairo_set_source_surface (
                 cr,
-                monitor->pixbuf,
+                monitor->image_surface,
                 monitor_x/hscale,
                 monitor_y/vscale);
         cairo_paint(cr);
 
         cairo_reset_clip(cr);
         cairo_scale (cr, 1/hscale, 1/vscale);
-    }
-
-    if (NULL != dst_pixbuf)
-    {
-        g_object_unref (dst_pixbuf);
-        dst_pixbuf = NULL;
     }
 
     if (FALSE == active)
@@ -645,10 +639,10 @@ rstto_monitor_chooser_add (
 }
 
 gint
-rstto_monitor_chooser_set_pixbuf (
+rstto_monitor_chooser_set_image_surface (
         RsttoMonitorChooser *chooser,
         gint monitor_id,
-        GdkPixbuf *pixbuf,
+        cairo_surface_t *surface,
         GError **error)
 {
     Monitor *monitor;
@@ -660,17 +654,13 @@ rstto_monitor_chooser_set_pixbuf (
 
     if (monitor)
     {
-        if (monitor->pixbuf)
+        if (monitor->image_surface)
         {
-            g_object_unref (monitor->pixbuf);
+            cairo_surface_destroy(monitor->image_surface);
         }
 
-        monitor->pixbuf = pixbuf;
+        monitor->image_surface = surface;
 
-        if (monitor->pixbuf)
-        {
-            g_object_ref (monitor->pixbuf);
-        }
         retval = monitor_id;
     }
     if (GTK_WIDGET_REALIZED (GTK_WIDGET(chooser)))

@@ -405,7 +405,7 @@ cb_monitor_chooser_changed (
         RsttoMonitorChooser *monitor_chooser,
         RsttoGnomeWallpaperManager *manager)
 {
-    rstto_monitor_chooser_set_pixbuf (
+    rstto_monitor_chooser_set_image_surface (
             monitor_chooser,
             manager->priv->monitor,
             NULL,
@@ -420,13 +420,17 @@ static void
 configure_monitor_chooser_pixbuf (
     RsttoGnomeWallpaperManager *manager )
 {
-    GdkPixbuf *monitor_pixbuf = NULL;
+    cairo_surface_t *image_surface = NULL;
+    cairo_t *ctx;
+    //GdkColor bg_color;
+
     GdkPixbuf *tmp_pixbuf = NULL;
+
     gint monitor_width = 0;
     gint monitor_height = 0;
 
-    gint pixbuf_width = 0;
-    gint pixbuf_height = 0;
+    gint surface_width = 0;
+    gint surface_height = 0;
     gint dest_x = 0;
     gint dest_y = 0;
     gint dest_width = 0;
@@ -439,116 +443,101 @@ configure_monitor_chooser_pixbuf (
         tmp_pixbuf = gdk_pixbuf_copy (manager->priv->pixbuf);
         if ( NULL != tmp_pixbuf )
         {
+
             rstto_monitor_chooser_get_dimensions (
                     RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser),
                     manager->priv->monitor,
                     &monitor_width,
                     &monitor_height);
 
-            pixbuf_width = monitor_width * 0.2;
-            pixbuf_height = monitor_height * 0.2;
+            surface_width = monitor_width * 0.2;
+            surface_height = monitor_height * 0.2;
 
-            monitor_pixbuf = gdk_pixbuf_new (
-                    GDK_COLORSPACE_RGB,     /* Colorspace       */
-                    FALSE,                  /* has-alpha        */
-                    8,                      /* bits per sample  */
-                    pixbuf_width,           /* width            */
-                    pixbuf_height);         /* height           */
+            image_surface = cairo_image_surface_create (
+                    CAIRO_FORMAT_ARGB32,
+                    surface_width,
+                    surface_height);
+            ctx = cairo_create ( image_surface );
+
+            //gdk_cairo_set_source_color ( ctx, bg_color );
+            cairo_set_source_rgb (ctx, 0, 0, 0);
+            cairo_paint (ctx);
+
+            x_scale = (gdouble)surface_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
+            y_scale = (gdouble)surface_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
 
             switch (manager->priv->style)
             {
                 case MONITOR_STYLE_ZOOMED:
-                    dest_x = 0;
-                    dest_y = 0;
-                    dest_width = pixbuf_width;
-                    dest_height = pixbuf_height;
-                    x_scale = (gdouble)dest_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
-                    y_scale = (gdouble)dest_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
                     if (x_scale > y_scale)
                     {
+                        dest_width = (gint)((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) * x_scale);
+                        dest_height = (gint)((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) * x_scale);
+                        dest_x = (gint)((gdouble)(surface_width - dest_width) / 2);
+                        dest_y = (gint)((gdouble)(surface_height - dest_height) / 2);
                         y_scale = x_scale;
                     }
                     else
                     {
+                        dest_width = (gint)((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) * y_scale);
+                        dest_height = (gint)((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) * y_scale);
+                        dest_x = (gint)((gdouble)(surface_width - dest_width) / 2);
+                        dest_y = (gint)((gdouble)(surface_height - dest_height) / 2);
                         x_scale = y_scale;
                     }
+                    break;
+                case MONITOR_STYLE_STRETCHED:
+                    dest_x = 0.0;
+                    dest_y = 0.0;
                     break;
                 case MONITOR_STYLE_AUTOMATIC:
                 case MONITOR_STYLE_SCALED:
-                    x_scale = (gdouble)pixbuf_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
-                    y_scale = (gdouble)pixbuf_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
-                    if (x_scale > y_scale)
+                    if (x_scale < y_scale)
                     {
-                        x_scale = y_scale;
+                        dest_width = (gint)((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) * x_scale);
+                        dest_height = (gint)((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) * x_scale);
+                        dest_x = (gint)((gdouble)(surface_width - dest_width) / 2);
+                        dest_y = (gint)((gdouble)(surface_height - dest_height) / 2);
+                        y_scale = x_scale;
                     }
                     else
                     {
-                        y_scale = x_scale;
+                        dest_width = (gint)((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) * y_scale);
+                        dest_height = (gint)((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) * y_scale);
+                        dest_x = (gint)((gdouble)(surface_width - dest_width) / 2);
+                        dest_y = (gint)((gdouble)(surface_height - dest_height) / 2);
+                        x_scale = y_scale;
                     }
-                    dest_width = x_scale * (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
-                    dest_height = y_scale * (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
-                    dest_x = (gdouble)(pixbuf_width - gdk_pixbuf_get_width (tmp_pixbuf)*x_scale) / 2;
-                    dest_y = (gdouble)(pixbuf_height - gdk_pixbuf_get_height (tmp_pixbuf)*y_scale) / 2;
-                    break;
-                case MONITOR_STYLE_STRETCHED:
-                    dest_x = 0;
-                    dest_y = 0;
-                    dest_width = pixbuf_width;
-                    dest_height = pixbuf_height;
-                    x_scale = (gdouble)dest_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
-                    y_scale = (gdouble)dest_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
                     break;
                 default:
-                    x_scale = (gdouble)pixbuf_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
-                    y_scale = (gdouble)pixbuf_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
-                    if (x_scale > y_scale)
-                    {
-                        x_scale = y_scale;
-                    }
-                    else
-                    {
-                        y_scale = x_scale;
-                    }
-                    dest_width = x_scale * (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
-                    dest_height = y_scale * (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
-                    dest_x = (gdouble)(pixbuf_width - dest_width) / 2;
-                    dest_y = (gdouble)(pixbuf_height - dest_height) / 2;
                     gdk_pixbuf_saturate_and_pixelate (
                         tmp_pixbuf,
                         tmp_pixbuf,
                         0.0,
                         TRUE);
+                    break;
             }
+            cairo_scale (ctx, x_scale, y_scale);
+            gdk_cairo_set_source_pixbuf (
+                    ctx,
+                    tmp_pixbuf,
+                    dest_x/x_scale,
+                    dest_y/y_scale);
+            cairo_paint (ctx);
+            cairo_destroy (ctx);
 
-            gdk_pixbuf_composite (
-                tmp_pixbuf,
-                monitor_pixbuf,
-                dest_x,
-                dest_y,
-                dest_width,
-                dest_height,
-                0.0,
-                0.0,
-                x_scale,
-                y_scale,
-                GDK_INTERP_BILINEAR,
-                255);
 
             g_object_unref (tmp_pixbuf);
         }
     }
 
-    rstto_monitor_chooser_set_pixbuf (
-            RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser),
+    rstto_monitor_chooser_set_image_surface (
+            RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser),
             manager->priv->monitor,
-            monitor_pixbuf,
+            image_surface,
             NULL);
-
-    if ( NULL != monitor_pixbuf )
-    {
-       g_object_unref (monitor_pixbuf);
-    }
 }
+
 
 static void
 cb_style_combo_changed (
@@ -563,3 +552,4 @@ cb_style_combo_changed (
 
     configure_monitor_chooser_pixbuf (manager);
 }
+

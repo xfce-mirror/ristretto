@@ -69,11 +69,11 @@ rstto_monitor_chooser_add (
         gint height);
 
 gint
-rstto_monitor_chooser_set_pixbuf (
-        RsttoMonitorChooser *,
+rstto_monitor_chooser_set_image_surface (
+        RsttoMonitorChooser *chooser,
         gint monitor_id,
-        GdkPixbuf *pixbuf,
-        GError **);
+        cairo_surface_t *surface,
+        GError **error);
 
 gint
 rstto_monitor_chooser_get_selected (
