@@ -202,8 +202,9 @@ rstto_file_new ( GFile *file )
         /* Check if the file is already opened, if so
          * return that one.
          */
+        o_file = RSTTO_FILE (iter->data);
         if ( TRUE == g_file_equal (
-                RSTTO_FILE (iter->data)->priv->file,
+                o_file->priv->file,
                 file) )
         {
             return (RsttoFile *)iter->data;
@@ -282,6 +283,9 @@ rstto_file_get_display_name ( RsttoFile *file )
 const gchar *
 rstto_file_get_path ( RsttoFile *file )
 {
+    g_return_val_if_fail (RSTTO_IS_FILE (file), NULL);
+    g_return_val_if_fail (G_IS_FILE (file->priv->file), NULL);
+
     if ( NULL == file->priv->path )
     {
         file->priv->path = g_file_get_path (file->priv->file);

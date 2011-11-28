@@ -206,7 +206,6 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
                     }
 
                 }
-                g_object_unref (file);
             }
             rof->iter++;
             return TRUE;
@@ -232,7 +231,6 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
                     /* TODO: show error dialog */
                 }
             }
-            g_object_unref (file);
         }
 
         if (file_type != G_FILE_TYPE_DIRECTORY && r_file != NULL)
