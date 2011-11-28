@@ -75,7 +75,8 @@ static void
 cb_rstto_button_press_event (GtkWidget *, GdkEventButton *event);
 
 static void
-paint_monitor ( cairo_t *cr,
+paint_monitor ( GtkWidget *widget,
+                cairo_t *cr,
                 gdouble x,
                 gdouble y,
                 gdouble width,
@@ -279,7 +280,9 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                 }
                 label = g_strdup_printf("%d", id+1);
                 cairo_save (ctx);
-                paint_monitor (ctx,
+                paint_monitor (
+                        widget,
+                        ctx,
                         ((gdouble)widget->allocation.width/4) - (width/2.0),
                         ((gdouble)widget->allocation.height - height)/2.0,
                         width,
@@ -308,7 +311,9 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
 
                 label = g_strdup_printf("%d", id+1);
                 cairo_save (ctx);
-                paint_monitor (ctx,
+                paint_monitor (
+                        widget,
+                        ctx,
                         ((gdouble)widget->allocation.width/2)+
                             (((gdouble)widget->allocation.width/2)/
                             (row_width+1))*(id%(row_width)+1)-
@@ -344,7 +349,9 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                 width = 200;
             }
             cairo_save (ctx);
-            paint_monitor (ctx,
+            paint_monitor (
+                    widget,
+                    ctx,
                     ((gdouble)widget->allocation.width - width)/2.0,
                     ((gdouble)widget->allocation.height - height)/2.0,
                     width,
@@ -362,7 +369,8 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
 }
 
 static void
-paint_monitor ( cairo_t *cr,
+paint_monitor ( GtkWidget *widget,
+                cairo_t *cr,
                 gdouble x,
                 gdouble y,
                 gdouble width,
@@ -400,7 +408,6 @@ paint_monitor ( cairo_t *cr,
     gint text_height = 0.0;
     gdouble hscale = 1.0;
     gdouble vscale = 1.0;
-    cairo_pattern_t *monitor_pattern;
 
     /*******************************************/
     PangoLayout *layout;
@@ -411,24 +418,6 @@ paint_monitor ( cairo_t *cr,
     /*
      * Set path for monitor outline and background-color.
      */
-
-    monitor_pattern = cairo_pattern_create_linear (
-                0.0,
-                y,
-                0.0,
-                y+height);
-    cairo_pattern_add_color_stop_rgb (
-                monitor_pattern,
-                0.0,
-                0.4,
-                0.4,
-                0.4);
-    cairo_pattern_add_color_stop_rgb (
-                monitor_pattern,
-                1.0,
-                0.0,
-                0.0,
-                0.0);
     cairo_new_sub_path (cr);
     cairo_arc (
             cr,
@@ -461,11 +450,15 @@ paint_monitor ( cairo_t *cr,
     cairo_close_path (cr);
 
     /* Fill the background-color */
-    cairo_set_source (cr, monitor_pattern);
+    gdk_cairo_set_source_color (
+            cr,
+            &(widget->style->base[GTK_STATE_NORMAL]));
     cairo_fill_preserve (cr);
 
     /* Paint the outside border */
-    cairo_set_source_rgba (cr, 0.2, 0.2, 0.2, 1.0);
+    gdk_cairo_set_source_color (
+            cr,
+            &(widget->style->fg[GTK_STATE_NORMAL]));
     cairo_set_line_width (cr, line_width);
     cairo_stroke (cr);
 
@@ -504,10 +497,14 @@ paint_monitor ( cairo_t *cr,
             monitor_x+(monitor_width-foot_height)/2.0,
             monitor_y+(monitor_height+monitor_border_width+foot_height*0.5));
     cairo_close_path (cr);
-    cairo_set_source (cr, monitor_pattern);
+    gdk_cairo_set_source_color (
+            cr,
+            &(widget->style->base[GTK_STATE_NORMAL]));
     cairo_fill_preserve (cr);
-    cairo_set_source_rgba (cr, 0.2, 0.2, 0.2, 1.0);
-    cairo_set_line_width (cr, 1.0);
+    gdk_cairo_set_source_color (
+            cr,
+            &(widget->style->fg[GTK_STATE_NORMAL]));
+    cairo_set_line_width (cr, line_width);
     cairo_stroke (cr);
 
     /* Draw a line around the image */
@@ -517,8 +514,10 @@ paint_monitor ( cairo_t *cr,
     cairo_line_to (cr, monitor_x+monitor_width, monitor_y + monitor_height);
     cairo_line_to (cr, monitor_x, monitor_y + monitor_height);
     cairo_close_path (cr);
-    cairo_set_source_rgba (cr, 0.2, 0.2, 0.2, 1.0);
-    cairo_set_line_width (cr, 0.5);
+    gdk_cairo_set_source_color (
+            cr,
+            &(widget->style->fg[GTK_STATE_NORMAL]));
+    cairo_set_line_width (cr, line_width);
     cairo_stroke (cr);
 
     /* Set the path that limits the image-size */
@@ -560,7 +559,7 @@ paint_monitor ( cairo_t *cr,
     }
 
     cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 1.0);
-    cairo_set_line_width (cr, 2.0);
+    cairo_set_line_width (cr, line_width);
     cairo_stroke (cr);
 
 
@@ -584,7 +583,7 @@ paint_monitor ( cairo_t *cr,
     pango_cairo_layout_path (cr, layout);
     cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.8);
     cairo_fill_preserve (cr);
-    cairo_set_line_width (cr, 1.0);
+    cairo_set_line_width (cr, line_width);
     cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.9);
     cairo_stroke (cr);
 
