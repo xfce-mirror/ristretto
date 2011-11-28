@@ -198,7 +198,8 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
                     if (strncmp (content_type, "image/", 6) == 0)
                     {
-                        if (rstto_image_list_add_file (rof->image_list, rstto_file_new(file), NULL) == TRUE)
+                        r_file = rstto_file_new (file);
+                        if (rstto_image_list_add_file (rof->image_list, r_file, NULL) == TRUE)
                         {
                             rstto_main_window_add_file_to_recent_files (file);
                         }
@@ -231,6 +232,7 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
                     /* TODO: show error dialog */
                 }
             }
+            g_object_unref (file);
         }
 
         if (file_type != G_FILE_TYPE_DIRECTORY && r_file != NULL)
