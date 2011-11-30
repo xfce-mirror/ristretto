@@ -167,6 +167,7 @@ main(int argc, char **argv)
     }
 
     g_object_unref (settings);
+    g_object_unref (image_list);
 
     xfconf_shutdown();
 

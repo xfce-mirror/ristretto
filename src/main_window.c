@@ -767,9 +767,6 @@ rstto_main_window_class_init(RsttoMainWindowClass *window_class)
     widget_class->key_press_event = key_press_event;
 }
 
-
-
-
 static void
 rstto_main_window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
@@ -797,6 +794,12 @@ rstto_main_window_dispose(GObject *object)
     {
         g_object_unref (window->priv->settings_manager);
         window->priv->settings_manager = NULL;
+    }
+
+    if (window->priv->image_list)
+    {
+        g_object_unref (window->priv->image_list);
+        window->priv->image_list = NULL;
     }
 
     G_OBJECT_CLASS (parent_class)->dispose(object); 

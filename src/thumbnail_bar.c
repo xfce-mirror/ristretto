@@ -62,6 +62,9 @@ static void
 rstto_thumbnail_bar_class_init(RsttoThumbnailBarClass *);
 
 static void
+rstto_thumbnail_bar_dispose (GObject *object);
+
+static void
 rstto_thumbnail_bar_size_request(GtkWidget *, GtkRequisition *);
 static void
 rstto_thumbnail_bar_size_allocate(GtkWidget *, GtkAllocation *);
@@ -173,10 +176,14 @@ rstto_thumbnail_bar_class_init(RsttoThumbnailBarClass *bar_class)
     GtkWidgetClass *widget_class;
     GtkContainerClass *container_class;
 
+    GObjectClass *object_class = (GObjectClass*)bar_class;
+
     widget_class = (GtkWidgetClass*)bar_class;
     container_class = (GtkContainerClass*)bar_class;
 
     parent_class = g_type_class_peek_parent(bar_class);
+
+    object_class->dispose = rstto_thumbnail_bar_dispose;
 
     widget_class->size_request = rstto_thumbnail_bar_size_request;
     widget_class->size_allocate = rstto_thumbnail_bar_size_allocate;
@@ -203,6 +210,21 @@ rstto_thumbnail_bar_class_init(RsttoThumbnailBarClass *bar_class)
 		0, G_MAXINT, 0,
 		G_PARAM_READABLE));
 
+}
+
+
+static void
+rstto_thumbnail_bar_dispose (GObject *object)
+{
+    RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (object);
+
+    if (bar->priv->image_list)
+    {
+        g_object_unref (bar->priv->image_list);
+        bar->priv->image_list = NULL;
+    }
+
+    G_OBJECT_CLASS (parent_class)->dispose(object); 
 }
 
 static void
