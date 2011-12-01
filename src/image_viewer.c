@@ -363,6 +363,12 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
                                 G_TYPE_NONE, 2,
                                 GTK_TYPE_ADJUSTMENT,
                                 GTK_TYPE_ADJUSTMENT);
+    g_signal_new ("size-ready", G_TYPE_FROM_CLASS (object_class),
+                                G_SIGNAL_RUN_FIRST,
+                                0,
+                                NULL, NULL,
+                                g_cclosure_marshal_VOID__VOID,
+                                G_TYPE_NONE, 0);
 }
 
 /**
@@ -1559,6 +1565,25 @@ rstto_image_viewer_get_orientation (RsttoImageViewer *viewer)
     return viewer->priv->orientation;
 }
 
+gint
+rstto_image_viewer_get_width (RsttoImageViewer *viewer)
+{
+    if (viewer)
+    {
+        return viewer->priv->image_width;
+    }
+    return 0;
+}
+gint
+rstto_image_viewer_get_height (RsttoImageViewer *viewer)
+{
+    if (viewer)
+    {
+        return viewer->priv->image_height;
+    }
+    return 0;
+}
+
 void
 rstto_image_viewer_set_menu (
     RsttoImageViewer *viewer,
@@ -1793,6 +1818,7 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
                 FALSE);
     }
 
+    g_signal_emit_by_name(transaction->viewer, "size-ready");
     rstto_image_viewer_transaction_free (transaction);
 }
 

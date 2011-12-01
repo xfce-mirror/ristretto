@@ -96,6 +96,12 @@ rstto_image_viewer_set_orientation (
 RsttoImageOrientation
 rstto_image_viewer_get_orientation (RsttoImageViewer *viewer);
 
+gint
+rstto_image_viewer_get_width (RsttoImageViewer *viewer);
+
+gint
+rstto_image_viewer_get_height (RsttoImageViewer *viewer);
+
 void
 rstto_image_viewer_set_menu (
     RsttoImageViewer *viewer,

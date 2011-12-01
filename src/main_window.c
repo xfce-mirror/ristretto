@@ -154,6 +154,8 @@ static gboolean
 cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
 static void
 cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window);
+static void
+rstto_main_window_update_statusbar (RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window);
@@ -199,6 +201,8 @@ static void
 cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *, GtkRadioAction *,  RsttoMainWindow *window);
 static void
 cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+static void
+cb_rstto_main_window_update_statusbar (GtkWidget *widget, RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window);
@@ -702,6 +706,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     g_signal_connect(G_OBJECT(window), "window-state-event", G_CALLBACK(cb_rstto_main_window_state_event), NULL);
     g_signal_connect(G_OBJECT(window->priv->image_list_toolbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
     g_signal_connect(G_OBJECT(window->priv->thumbnailbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
+    g_signal_connect(G_OBJECT(window->priv->image_viewer), "size-ready", G_CALLBACK(cb_rstto_main_window_update_statusbar), window);
 
     if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
     {
@@ -855,15 +860,11 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 {
     const gchar *file_basename = NULL;
     gchar *title = NULL;
-    gchar *status = NULL;
-    gchar *tmp_status = NULL;
     RsttoFile *cur_file = NULL;
     gint position, count;
     RsttoImageList *image_list = window->priv->image_list;
     GList *app_list, *iter;
     const gchar *content_type;
-    ExifEntry *exif_entry = NULL;
-    gchar exif_data[20];
     GtkWidget *open_with_menu = gtk_menu_new();
     GtkWidget *open_with_window_menu = gtk_menu_new();
     gtk_menu_item_set_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/image-viewer-menu/open-with-menu")), open_with_menu);
@@ -914,6 +915,55 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
                 title = g_strdup_printf ("%s - %s", RISTRETTO_APP_TITLE,  file_basename);
             }
 
+        }
+        else
+        {
+            GtkWidget *menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
+            gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
+            gtk_widget_set_sensitive (menu_item, FALSE);
+
+            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), NULL, -1, 0);
+
+            menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
+            gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
+            gtk_widget_set_sensitive (menu_item, FALSE);
+
+            gtk_widget_show_all (open_with_menu);
+            gtk_widget_show_all (open_with_window_menu);
+
+            title = g_strdup (RISTRETTO_APP_TITLE);
+        }
+
+        rstto_main_window_update_buttons (window);
+        gtk_window_set_title (GTK_WINDOW (window), title);
+        g_free (title);
+
+    }
+}
+
+/**
+ * rstto_main_window_update_statusbar:
+ * @window:
+ *
+ */
+static void
+rstto_main_window_update_statusbar (RsttoMainWindow *window)
+{
+    const gchar *file_basename = NULL;
+    gchar *status = NULL;
+    gchar *tmp_status = NULL;
+    RsttoFile *cur_file = NULL;
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER(window->priv->image_viewer);
+    ExifEntry *exif_entry = NULL;
+    gchar exif_data[20];
+
+    if (window->priv->image_list)
+    {
+        cur_file = rstto_image_list_iter_get_file (window->priv->iter);
+        if (NULL != cur_file)
+        {
+            file_basename = rstto_file_get_display_name (cur_file);
+
             status = g_strdup(file_basename);
 
             if (TRUE == rstto_file_has_exif (cur_file))
@@ -932,7 +982,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
                     g_free (status);
                     status = tmp_status;
 
-                    exif_entry_free (exif_entry);
+                    /*exif_entry_free (exif_entry);*/
                 }
                 exif_entry = rstto_file_get_exif (
                         cur_file,
@@ -946,31 +996,26 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
                     g_free (status);
                     status = tmp_status;
 
-                    exif_entry_free (exif_entry);
+                    /*exif_entry_free (exif_entry);*/
                 }
+            }
+
+            if(rstto_image_viewer_get_width(viewer) != 0 && rstto_image_viewer_get_height(viewer) != 0)
+            {
+                tmp_status = g_strdup_printf ("%s\t%d x %d\t%.1f%%", status,
+                                            rstto_image_viewer_get_width(viewer),
+                                            rstto_image_viewer_get_height(viewer),
+                                            (100 * rstto_image_viewer_get_scale(viewer)));
+
+                g_free (status);
+                status = tmp_status;
             }
         }
         else
         {
-            GtkWidget *menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
-            gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
-            gtk_widget_set_sensitive (menu_item, FALSE);
-
-            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), NULL, -1, 0);
-
-            menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
-            gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
-            gtk_widget_set_sensitive (menu_item, FALSE);
-
-            gtk_widget_show_all (open_with_menu);
-            gtk_widget_show_all (open_with_window_menu);
-
-            title = g_strdup (RISTRETTO_APP_TITLE);
             status = g_strdup (_("Press open to select an image"));
         }
 
-        rstto_main_window_update_buttons (window);
-        gtk_window_set_title (GTK_WINDOW (window), title);
         gtk_statusbar_pop (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id);
 
         if (status)
@@ -980,7 +1025,6 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             status = NULL;
         }
 
-        g_free (title);
     }
 
 }
@@ -2412,6 +2456,12 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
     return FALSE;
 }
 
+static void
+cb_rstto_main_window_update_statusbar (GtkWidget *widget, RsttoMainWindow *window)
+{
+    rstto_main_window_update_statusbar(window);
+}
+
 /******************/
 /* ZOOM CALLBACKS */
 /******************/
@@ -2427,6 +2477,7 @@ static void
 cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window)
 {
     rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), 0);
+    rstto_main_window_update_statusbar(window);
 }
 
 /**
@@ -2440,6 +2491,7 @@ static void
 cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window)
 {
     rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), 1);
+    rstto_main_window_update_statusbar(window);
 }
 
 /**
@@ -2454,6 +2506,7 @@ cb_rstto_main_window_zoom_in (GtkWidget *widget, RsttoMainWindow *window)
 {
     gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer));
     rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), scale*1.2);
+    rstto_main_window_update_statusbar(window);
 }
 
 /**
@@ -2468,6 +2521,7 @@ cb_rstto_main_window_zoom_out (GtkWidget *widget, RsttoMainWindow *window)
 {
     gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer));
     rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), scale/1.2);
+    rstto_main_window_update_statusbar(window);
 }
 
 /**********************/
@@ -2501,6 +2555,7 @@ cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
             rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_NONE);
             break;
     }
+    rstto_main_window_update_statusbar(window);
 }
 
 /**
@@ -2530,6 +2585,7 @@ cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
             rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_180);
             break;
     }
+    rstto_main_window_update_statusbar(window);
 }
 
 
