@@ -789,22 +789,27 @@ rstto_main_window_dispose(GObject *object)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW(object);
 
-    if (window->priv->ui_manager)
+    if (window->priv)
     {
-        g_object_unref (window->priv->ui_manager);
-        window->priv->ui_manager = NULL;
-    } 
+        if (window->priv->ui_manager)
+        {
+            g_object_unref (window->priv->ui_manager);
+            window->priv->ui_manager = NULL;
+        } 
 
-    if (window->priv->settings_manager)
-    {
-        g_object_unref (window->priv->settings_manager);
-        window->priv->settings_manager = NULL;
-    }
+        if (window->priv->settings_manager)
+        {
+            g_object_unref (window->priv->settings_manager);
+            window->priv->settings_manager = NULL;
+        }
 
-    if (window->priv->image_list)
-    {
-        g_object_unref (window->priv->image_list);
-        window->priv->image_list = NULL;
+        if (window->priv->image_list)
+        {
+            g_object_unref (window->priv->image_list);
+            window->priv->image_list = NULL;
+        }
+        g_free (window->priv);
+        window->priv = NULL;
     }
 
     G_OBJECT_CLASS (parent_class)->dispose(object); 

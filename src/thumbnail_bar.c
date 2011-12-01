@@ -151,7 +151,14 @@ rstto_thumbnail_bar_get_type (void)
 static void
 rstto_thumbnail_bar_init(RsttoThumbnailBar *bar)
 {
-    bar->priv = g_new0(RsttoThumbnailBarPriv, 1);
+    RsttoThumbnailBarPriv *priv;
+
+    priv = G_TYPE_INSTANCE_GET_PRIVATE (
+            bar,
+            RSTTO_TYPE_THUMBNAIL_BAR,
+            RsttoThumbnailBarPriv);
+
+    bar->priv = priv;
 
     bar->priv->auto_center = TRUE;
     bar->priv->thumbnailer = rstto_thumbnailer_new();
@@ -210,6 +217,7 @@ rstto_thumbnail_bar_class_init(RsttoThumbnailBarClass *bar_class)
 		0, G_MAXINT, 0,
 		G_PARAM_READABLE));
 
+    g_type_class_add_private (bar_class, sizeof (RsttoThumbnailBarPriv));
 }
 
 
@@ -218,10 +226,19 @@ rstto_thumbnail_bar_dispose (GObject *object)
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR (object);
 
-    if (bar->priv->image_list)
+    if (bar->priv)
     {
-        g_object_unref (bar->priv->image_list);
-        bar->priv->image_list = NULL;
+        if (bar->priv->image_list)
+        {
+            g_object_unref (bar->priv->image_list);
+            bar->priv->image_list = NULL;
+        }
+
+        if (bar->priv->thumbnailer)
+        {
+            g_object_unref (bar->priv->thumbnailer);
+            bar->priv->thumbnailer = NULL;
+        }
     }
 
     G_OBJECT_CLASS (parent_class)->dispose(object); 
@@ -662,14 +679,17 @@ rstto_thumbnail_bar_remove(GtkContainer *container, GtkWidget *child)
 }
 
 static void
-rstto_thumbnail_bar_forall(GtkContainer *container, gboolean include_internals, GtkCallback callback, gpointer callback_data)
+rstto_thumbnail_bar_forall (
+        GtkContainer *container,
+        gboolean include_internals,
+        GtkCallback callback,
+        gpointer callback_data )
 {
     RsttoThumbnailBar *bar = RSTTO_THUMBNAIL_BAR(container);
 
     g_return_if_fail(callback != NULL);
 
     g_list_foreach(bar->priv->thumbs, (GFunc)callback, callback_data);
-
 }
 
 static GType

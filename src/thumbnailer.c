@@ -269,7 +269,6 @@ rstto_thumbnailer_set_property (
         default:
             break;
     }
-
 }
 
 static void
