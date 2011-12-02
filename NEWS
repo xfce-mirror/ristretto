@@ -16,6 +16,9 @@ x.x.x
 - Fix bug #8026 (monitors in "set as wallpaper" dialog alignment) add
   'foot' to the monitors, and align to that.
 - Implement set-wallpaper support for Gnome-3 (bug #5246)
+- Fix bug #7818 (statusbar pixel inf0) Improve statusbar messages.
+- Fix bug #8211 (Segfault on exit) Correctly cleanup the thumbnailer on
+  shutdown.
 
 0.3.0
 =====
