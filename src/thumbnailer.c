@@ -327,6 +327,8 @@ rstto_thumbnailer_dequeue_thumbnail (
         RsttoThumbnailer *thumbnailer,
         RsttoThumbnail *thumb)
 {
+    g_return_if_fail(thumbnailer != NULL);
+    
     if (thumbnailer->priv->request_timer_id)
     {
         g_source_remove (thumbnailer->priv->request_timer_id);

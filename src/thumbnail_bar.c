@@ -664,6 +664,8 @@ rstto_thumbnail_bar_remove(GtkContainer *container, GtkWidget *child)
 
 	g_return_if_fail(GTK_IS_WIDGET(child));
 
+    if (bar->priv->thumbnailer == NULL)
+        return;
 
 	widget_was_visible = GTK_WIDGET_VISIBLE(child);
 
