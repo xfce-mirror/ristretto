@@ -290,6 +290,10 @@ rstto_thumbnailer_queue_thumbnail (
         RsttoThumbnailer *thumbnailer,
         RsttoThumbnail *thumb)
 {
+    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+
+    g_return_if_fail ( RSTTO_IS_THUMBNAIL (thumb) );
+
     if (thumbnailer->priv->request_timer_id)
     {
         g_source_remove (thumbnailer->priv->request_timer_id);
@@ -327,7 +331,9 @@ rstto_thumbnailer_dequeue_thumbnail (
         RsttoThumbnailer *thumbnailer,
         RsttoThumbnail *thumb)
 {
-    g_return_if_fail(thumbnailer != NULL);
+    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+
+    g_return_if_fail ( RSTTO_IS_THUMBNAIL (thumb) );
     
     if (thumbnailer->priv->request_timer_id)
     {
@@ -373,6 +379,8 @@ rstto_thumbnailer_queue_request_timer (
     GError *error = NULL;
     GtkWidget *error_dialog = NULL;
     GtkWidget *vbox, *do_not_show_checkbox;
+
+    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
 
     uris = g_new0 (
             const gchar *,
@@ -467,6 +475,9 @@ cb_rstto_thumbnailer_request_finished (
         gpointer data)
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
+
+    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+
     g_slist_foreach (thumbnailer->priv->queue, (GFunc)g_object_unref, NULL);
     g_slist_free (thumbnailer->priv->queue);
     thumbnailer->priv->queue = NULL;
@@ -485,6 +496,9 @@ cb_rstto_thumbnailer_thumbnail_ready (
     GSList *iter = thumbnailer->priv->queue;
     gint x = 0;
     const gchar *f_uri;
+
+    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+
     while (iter)
     {
         if ((uri[x] == NULL) || (iter->data == NULL))
