@@ -380,7 +380,7 @@ rstto_thumbnailer_queue_request_timer (
     GtkWidget *error_dialog = NULL;
     GtkWidget *vbox, *do_not_show_checkbox;
 
-    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+    g_return_val_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer), FALSE);
 
     uris = g_new0 (
             const gchar *,
