@@ -328,8 +328,6 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                         FALSE);
                 cairo_restore (ctx);
                 g_free (label);
-
-                id++;
             }
         }
     }
@@ -607,7 +605,7 @@ rstto_monitor_chooser_add (
         gint width,
         gint height)
 {
-    Monitor **monitors = g_new0 (Monitor *, chooser->priv->n_monitors+1);
+    Monitor **monitors = g_new0 (Monitor *, chooser->priv->n_monitors+2);
     gint id = 0;
 
     Monitor *monitor = g_new0 (Monitor, 1);
