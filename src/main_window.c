@@ -940,6 +940,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         }
 
         rstto_main_window_update_buttons (window);
+        rstto_main_window_update_statusbar (window);
         gtk_window_set_title (GTK_WINDOW (window), title);
         g_free (title);
 
