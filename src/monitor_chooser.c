@@ -311,21 +311,42 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
 
                 label = g_strdup_printf("%d", id+1);
                 cairo_save (ctx);
-                paint_monitor (
-                        widget,
-                        ctx,
-                        ((gdouble)widget->allocation.width/2)+
-                            (((gdouble)widget->allocation.width/2)/
-                            (row_width+1))*(id%(row_width)+1)-
-                            (width/2.0),
-                        ((gdouble)widget->allocation.height/
-                            (row_width+2)*(id/row_width+1))-
-                            (height/2.0),
-                        width,
-                        height,
-                        label,
-                        monitor,
-                        FALSE);
+                if (id < chooser->priv->selected)
+                {
+                    paint_monitor (
+                            widget,
+                            ctx,
+                            ((gdouble)widget->allocation.width/2)+
+                                (((gdouble)widget->allocation.width/2)/
+                                (row_width+1))*(id%(row_width)+1)-
+                                (width/2.0),
+                            ((gdouble)widget->allocation.height/
+                                (row_width+2)*(id/row_width+1))-
+                                (height/2.0),
+                            width,
+                            height,
+                            label,
+                            monitor,
+                            FALSE);
+                }
+                else
+                {
+                    paint_monitor (
+                            widget,
+                            ctx,
+                            ((gdouble)widget->allocation.width/2)+
+                                (((gdouble)widget->allocation.width/2)/
+                                (row_width+1))*((id-1)%(row_width)+1)-
+                                (width/2.0),
+                            ((gdouble)widget->allocation.height/
+                                (row_width+2)*((id-1)/row_width+1))-
+                                (height/2.0),
+                            width,
+                            height,
+                            label,
+                            monitor,
+                            FALSE);
+                }
                 cairo_restore (ctx);
                 g_free (label);
             }
