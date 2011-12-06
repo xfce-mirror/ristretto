@@ -148,7 +148,7 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
             NULL);
 
     display_main_hbox = gtk_hbox_new(FALSE, 0);
-    display_main_lbl = gtk_label_new(_("Timerange to clear:"));
+    display_main_lbl = gtk_label_new(_("Time range to clear:"));
 
 
     dialog->priv->cleanup_vbox = gtk_vbox_new(FALSE, 0);
