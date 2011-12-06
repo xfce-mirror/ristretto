@@ -291,7 +291,7 @@ static GtkActionEntry action_entries[] =
   { "unfullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("_Leave Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "set-as-wallpaper", "preferences-desktop-wallpaper", N_ ("_Set as Wallpaper"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_set_as_wallpaper), },
 /* Zoom submenu */
-  { "zoom-menu", NULL, N_ ("_Zooming"), NULL, },
+  { "zoom-menu", NULL, N_ ("_Zoom"), NULL, },
   { "zoom-in", GTK_STOCK_ZOOM_IN, N_ ("Zoom _In"), "<control>plus", NULL, G_CALLBACK (cb_rstto_main_window_zoom_in),},
   { "zoom-out", GTK_STOCK_ZOOM_OUT, N_ ("Zoom _Out"), "<control>minus", NULL, G_CALLBACK (cb_rstto_main_window_zoom_out), },
   { "zoom-fit", GTK_STOCK_ZOOM_FIT, N_ ("Zoom _Fit"), "<control>equal", NULL, G_CALLBACK (cb_rstto_main_window_zoom_fit), },
@@ -320,7 +320,7 @@ static GtkActionEntry action_entries[] =
                 G_CALLBACK (cb_rstto_main_window_about), },
 /* Position Menu */
   { "position-menu", NULL, N_ ("_Position"), NULL, },
-  { "thumbnailbar-position-menu", NULL, N_ ("Thumbnailbar _Position"), NULL, },
+  { "thumbnailbar-position-menu", NULL, N_ ("Thumbnail Bar _Position"), NULL, },
 /* Misc */
   { "leave-fullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("Leave _Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "tb-menu", NULL, NULL, NULL, }
@@ -334,7 +334,7 @@ static const GtkToggleActionEntry toggle_action_entries[] =
     /* Toggle visibility of the main navigation toolbar */
     { "show-nav-toolbar", NULL, N_ ("Show _Navigation Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_nav_toolbar), TRUE, },
     /* Toggle visibility of the thumbnailbar*/
-    { "show-thumbnailbar", NULL, N_ ("Show _Thumbnailbar"), "<control>M", NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_thumbnailbar), TRUE, },
+    { "show-thumbnailbar", NULL, N_ ("Show _Thumbnail Bar"), "<control>M", NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_thumbnailbar), TRUE, },
 };
 
 /** Image sorting options*/
@@ -2387,7 +2387,7 @@ cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
     gtk_about_dialog_set_version((GtkAboutDialog *)about_dialog, PACKAGE_VERSION);
 
     gtk_about_dialog_set_comments((GtkAboutDialog *)about_dialog,
-        _("Ristretto is an imageviewer for the Xfce desktop environment."));
+        _("Ristretto is an image viewer for the Xfce desktop environment."));
     gtk_about_dialog_set_website((GtkAboutDialog *)about_dialog,
         "http://goodies.xfce.org/projects/applications/ristretto");
     gtk_about_dialog_set_logo_icon_name((GtkAboutDialog *)about_dialog,
