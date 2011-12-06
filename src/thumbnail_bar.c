@@ -213,7 +213,7 @@ rstto_thumbnail_bar_class_init(RsttoThumbnailBarClass *bar_class)
 	gtk_widget_class_install_style_property (widget_class,
 		g_param_spec_int ("border-width",
 		_("border width"),
-		_("the border width of the thumbnail-bar"),
+		_("the border width of the thumbnail bar"),
 		0, G_MAXINT, 0,
 		G_PARAM_READABLE));
 
@@ -664,8 +664,6 @@ rstto_thumbnail_bar_remove(GtkContainer *container, GtkWidget *child)
 
 	g_return_if_fail(GTK_IS_WIDGET(child));
 
-    if (bar->priv->thumbnailer == NULL)
-        return;
 
 	widget_was_visible = GTK_WIDGET_VISIBLE(child);
 
