@@ -1,21 +1,23 @@
-# Simplified Chinese translations for Ristretto.
-# Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
-# This file is distributed under the same license as the ristretto package.
+# Simplified Chinese translations for
+# the ristretto package.
+# This file is distributed under the same license as
+# the ristretto package.
 # wuli <wurisky@gmail.com>, 2008.
 # Hunt Xu <mhuntxu@gmail.com>, 2008, 2009, 2010.
 # Chipong Luo <chipong_l@yahoo.com>, 2011.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-11-25 15:42+0000\n"
+"POT-Creation-Date: 2011-11-25 10:58+0000\n"
 "PO-Revision-Date: 2010-11-23 23:34+0800\n"
 "Last-Translator: Chipong Luo <chipong_l@yahoo.com>\n"
-"Language-Team: Chinese (simplified) <xfce-i18n@xfce.org>\n"
+"Language-Team: Chinese (Simplified) <xfce-i18n@xfce.org>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -316,8 +318,8 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
-"配置当前用何种系统管理您的桌面。\r\n"
-"此设置决定用于 <i>Ristretto</i> \r\n"
+"配置当前用何种系统管理您的桌面。\n"
+"此设置决定用于 <i>Ristretto</i> \n"
 "配置桌面壁纸的模式。"
 
 #: ../src/main_window.c:1818 ../src/preferences_dialog.c:373
