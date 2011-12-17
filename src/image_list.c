@@ -124,6 +124,7 @@ struct _RsttoImageListPriv
 {
     GFileMonitor *monitor;
     RsttoSettings *settings;
+    GtkFileFilter *filter;
 
     GList        *images;
     gint          n_images;
@@ -169,6 +170,9 @@ rstto_image_list_init(RsttoImageList *image_list)
 
     image_list->priv = g_new0 (RsttoImageListPriv, 1);
     image_list->priv->settings = rstto_settings_new ();
+    image_list->priv->filter = gtk_file_filter_new ();
+    g_object_ref_sink (image_list->priv->filter);
+    gtk_file_filter_add_pixbuf_formats (image_list->priv->filter);
 
     image_list->priv->cb_rstto_image_list_compare_func = (GCompareFunc)cb_rstto_image_list_image_name_compare_func;
 
@@ -240,6 +244,12 @@ rstto_image_list_dispose(GObject *object)
             g_object_unref (image_list->priv->settings);
             image_list->priv->settings = NULL;
         }
+
+        if (image_list->priv->filter)
+        {
+            g_object_unref (image_list->priv->filter);
+            image_list->priv->filter= NULL;
+        }
         
         g_free (image_list->priv);
         image_list->priv = NULL;
@@ -259,6 +269,7 @@ rstto_image_list_new (void)
 gboolean
 rstto_image_list_add_file (RsttoImageList *image_list, RsttoFile *file, GError **error)
 {
+    GtkFileFilterInfo filter_info;
     GList *image_iter = g_list_find (image_list->priv->images, file);
     GSList *iter = image_list->priv->iterators;
 
@@ -266,21 +277,33 @@ rstto_image_list_add_file (RsttoImageList *image_list, RsttoFile *file, GError *
     {
         if (file)
         {
-            image_list->priv->images = g_list_insert_sorted (image_list->priv->images, file, rstto_image_list_get_compare_func (image_list));
+            filter_info.contains =  GTK_FILE_FILTER_MIME_TYPE | GTK_FILE_FILTER_URI;
+            filter_info.uri = rstto_file_get_uri (file);
+            filter_info.mime_type = rstto_file_get_content_type (file);
 
-            image_list->priv->n_images++;
-
-            g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, file, NULL);
-            /** TODO: update all iterators */
-            while (iter)
+            if ( TRUE == gtk_file_filter_filter (image_list->priv->filter, &filter_info))
             {
-                if (FALSE == RSTTO_IMAGE_LIST_ITER(iter->data)->priv->sticky)
+                image_list->priv->images = g_list_insert_sorted (image_list->priv->images, file, rstto_image_list_get_compare_func (image_list));
+
+                image_list->priv->n_images++;
+
+                g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, file, NULL);
+                /** TODO: update all iterators */
+                while (iter)
                 {
-                    rstto_image_list_iter_find_file (iter->data, file);
+                    if (FALSE == RSTTO_IMAGE_LIST_ITER(iter->data)->priv->sticky)
+                    {
+                        rstto_image_list_iter_find_file (iter->data, file);
+                    }
+                    iter = g_slist_next (iter);
                 }
-                iter = g_slist_next (iter);
+                return TRUE;
             }
-            return TRUE;
+            else
+            {
+                g_object_unref (file);
+                return FALSE;
+            }
         }
         return FALSE;
     }
