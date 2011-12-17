@@ -19,6 +19,8 @@ x.x.x
 - Fix bug #7818 (statusbar pixel inf0) Improve statusbar messages.
 - Fix bug #8211 (Segfault on exit) Correctly cleanup the thumbnailer on
   shutdown.
+- Make sure file-types insupported by gdkpixbufloader are not accidently
+  included in the image-list.
 
 0.3.0
 =====
