@@ -1189,10 +1189,13 @@ paint_selection_box (
      */
     if (box_width < 0.0)
     {
+        /* Return, do not draw the box.  */
         return;
     }
+    /* Same as above, for the vertical dimensions this time */
     if (box_height < 0.0)
     {
+        /* Return, do not draw the box.  */
         return;
     }
 
