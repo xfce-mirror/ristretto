@@ -242,7 +242,6 @@ msgstr "Показать панель _навигации"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:337
-#, fuzzy
 msgid "Show _Thumbnail Bar"
 msgstr "Показать панель _эскизов"
 
