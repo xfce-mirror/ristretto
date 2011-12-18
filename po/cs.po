@@ -2,14 +2,14 @@
 # Copyright (C) 2007 THE ristretto'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Miro Hrončok <churchyard@gmail.com>, 2007.
-# Michal Várady <miko.vaji@gmail.com>, 2008.
+# Michal Várady <miko.vaji@gmail.com>, 2008-2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-12-18 08:43+0100\n"
-"PO-Revision-Date: 2010-12-06 22:22+0100\n"
+"POT-Creation-Date: 2011-12-18 08:12+0000\n"
+"PO-Revision-Date: 2011-12-18 11:09+0100\n"
 "Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech\n"
 "Language: \n"
@@ -31,10 +31,10 @@ msgstr "Spustit promítání"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "Zobrazit dialogové okno nastavení"
 
 #: ../src/main.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
@@ -42,9 +42,11 @@ msgid ""
 "available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Napište %s --help pro zobrazení seznamu všech dostupných parametrů.\n"
+"Pro zobrazení seznamu všech dostupných\n"
+"parametrů použijte příkaz %s --help\n"
 
-#: ../src/main_window.c:55 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:55
+#: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "Prohlížeč obrázků"
 
@@ -71,11 +73,11 @@ msgstr "Uložit kopii obrázku"
 
 #: ../src/main_window.c:278
 msgid "_Properties"
-msgstr ""
+msgstr "_Vlastnosti"
 
 #: ../src/main_window.c:278
 msgid "Show file properties"
-msgstr ""
+msgstr "Zobrazit vlastnosti souboru"
 
 #: ../src/main_window.c:279
 msgid "_Close"
@@ -111,13 +113,12 @@ msgid "_Delete"
 msgstr "_Smazat"
 
 #: ../src/main_window.c:285
-#, fuzzy
 msgid "Delete this image from disk"
-msgstr "Zavřít tento obrázek"
+msgstr "Smazat tento obrázek z disku"
 
 #: ../src/main_window.c:286
 msgid "_Clear private data"
-msgstr ""
+msgstr "_Smazat soukromé údaje"
 
 #: ../src/main_window.c:287
 msgid "_Preferences"
@@ -142,9 +143,8 @@ msgstr "Nastavit jako _tapetu"
 
 #. Zoom submenu
 #: ../src/main_window.c:294
-#, fuzzy
 msgid "_Zoom"
-msgstr "_Přiblížit"
+msgstr "_Přiblížení"
 
 #: ../src/main_window.c:295
 msgid "Zoom _In"
@@ -152,11 +152,11 @@ msgstr "_Přiblížit"
 
 #: ../src/main_window.c:296
 msgid "Zoom _Out"
-msgstr "Při_blížit"
+msgstr "O_ddálit"
 
 #: ../src/main_window.c:297
 msgid "Zoom _Fit"
-msgstr "O_ddálit"
+msgstr "Při_způsobit oknu"
 
 #: ../src/main_window.c:298
 msgid "_Normal Size"
@@ -223,9 +223,8 @@ msgid "_Position"
 msgstr "_Pozice"
 
 #: ../src/main_window.c:323
-#, fuzzy
 msgid "Thumbnail Bar _Position"
-msgstr "Náhledy"
+msgstr "_Umístění panelu Náhledy"
 
 #. Misc
 #: ../src/main_window.c:325
@@ -244,7 +243,6 @@ msgstr "Zobrazit panel _Navigace"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:337
-#, fuzzy
 msgid "Show _Thumbnail Bar"
 msgstr "Zobrazit panel Ná_hledy"
 
@@ -300,49 +298,57 @@ msgstr "_Naposledy otevřené"
 msgid "Recently used"
 msgstr "Naposledy použité"
 
-#: ../src/main_window.c:596 ../src/main_window.c:1022
+#: ../src/main_window.c:596
+#: ../src/main_window.c:1022
 msgid "Press open to select an image"
 msgstr "Obrázek vyberete stisknutím tlačítka Otevřít"
 
-#: ../src/main_window.c:926 ../src/main_window.c:932
+#: ../src/main_window.c:926
+#: ../src/main_window.c:932
 msgid "Empty"
 msgstr "Prázdný"
 
 #: ../src/main_window.c:1831
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "Zvolit metodu 'nastavení tapety'"
 
-#: ../src/main_window.c:1846 ../src/preferences_dialog.c:349
+#: ../src/main_window.c:1846
+#: ../src/preferences_dialog.c:349
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
+"Konfiguruje, který systém aktuálně spravuje pracovní plochu.\n"
+"Toto nastavení určuje metodu, kterou aplikace <i>Ristretto</i>\n"
+"použije k nastavení tapety pracovní plochy."
 
-#: ../src/main_window.c:1871 ../src/preferences_dialog.c:373
+#: ../src/main_window.c:1871
+#: ../src/preferences_dialog.c:373
 msgid "None"
-msgstr ""
+msgstr "Žádný"
 
-#: ../src/main_window.c:1875 ../src/preferences_dialog.c:377
+#: ../src/main_window.c:1875
+#: ../src/preferences_dialog.c:377
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
-#: ../src/main_window.c:1879 ../src/preferences_dialog.c:381
+#: ../src/main_window.c:1879
+#: ../src/preferences_dialog.c:381
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ../src/main_window.c:2381
 msgid "Developer:"
 msgstr "Vývojář:"
 
 #: ../src/main_window.c:2390
-#, fuzzy
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto je prohlížeč obrázků pro desktopové prostředí Xfce."
+msgstr "Ristretto je prohlížeč obrázků pro pracovní prostředí Xfce."
 
 #: ../src/main_window.c:2398
 msgid "translator-credits"
-msgstr "Miro Hrončok <churchyard@gmail.com>"
+msgstr "Miro Hrončok <churchyard@gmail.com>, Michal Várady <miko.vaji@gmail.com>"
 
 #: ../src/main_window.c:2688
 msgid "Open image"
@@ -356,7 +362,8 @@ msgstr "Obrázky"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2736 ../src/main_window.c:2830
+#: ../src/main_window.c:2736
+#: ../src/main_window.c:2830
 msgid "Could not open file"
 msgstr "Nelze otevřít soubor"
 
@@ -365,9 +372,8 @@ msgid "Save copy"
 msgstr "Uložit kopii"
 
 #: ../src/main_window.c:2889
-#, fuzzy
 msgid "Could not save file"
-msgstr "Nelze otevřít soubor"
+msgstr "Nelze uložit soubor"
 
 #: ../src/main_window.c:2990
 #, c-format
@@ -376,35 +382,35 @@ msgstr "Opravdu chcete smazat obrázek %s z disku?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
-msgstr ""
+msgstr "Časový rozsah ke smazání:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Vyčištění"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr ""
+msgstr "Poslední hodina"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Poslední dvě hodiny"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Poslední čtyři hodiny"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
-msgstr ""
+msgstr "Dnes"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr ""
+msgstr "Vše"
 
 #: ../src/privacy_dialog.c:459
 msgid "Clear private data"
-msgstr ""
+msgstr "Smazat soukromé údaje"
 
 #: ../src/preferences_dialog.c:196
 msgid "Display"
@@ -416,7 +422,7 @@ msgstr "Barva pozadí"
 
 #: ../src/preferences_dialog.c:204
 msgid "Toolbars"
-msgstr ""
+msgstr "Panely nástrojů"
 
 #: ../src/preferences_dialog.c:209
 msgid "Override background color:"
@@ -424,25 +430,23 @@ msgstr "Vynutit barvu pozadí:"
 
 #: ../src/preferences_dialog.c:220
 msgid "Merge toolbars"
-msgstr ""
+msgstr "Sloučit panely nástrojů"
 
 #: ../src/preferences_dialog.c:225
 msgid "Thumbnails"
 msgstr "Náhledy"
 
 #: ../src/preferences_dialog.c:228
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
 msgstr ""
 "Panel náhledů je možné automaticky schovat, \n"
-"pokud je prohlížeč obrázků v režimu celé obrazovky."
+"pokud je okno v režimu celé obrazovky."
 
 #: ../src/preferences_dialog.c:230
-#, fuzzy
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Skrýt náhledy v režimu celé obrazovky"
+msgstr "Skrýt panel náhledů v režimu celé obrazovky"
 
 #: ../src/preferences_dialog.c:266
 msgid "Slideshow"
@@ -465,13 +469,12 @@ msgid "Control"
 msgstr "Ovládání"
 
 #: ../src/preferences_dialog.c:293
-#, fuzzy
 msgid "Scroll wheel"
 msgstr "Kolečko myši"
 
 #: ../src/preferences_dialog.c:296
 msgid "Invert zoom direction"
-msgstr ""
+msgstr "Zaměnit směr přiblížení"
 
 #: ../src/preferences_dialog.c:306
 msgid "Behaviour"
@@ -482,9 +485,8 @@ msgid "Startup"
 msgstr "Při spuštění"
 
 #: ../src/preferences_dialog.c:313
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Změnit velikost okna na velikost obrázku při spuštění"
+msgstr "Maximalizovat okno při spuštění během otevírání obrázku"
 
 #: ../src/preferences_dialog.c:319
 msgid "Wrap around images"
@@ -492,57 +494,56 @@ msgstr "Orámování obrázků"
 
 #: ../src/preferences_dialog.c:338
 msgid "Desktop"
-msgstr ""
+msgstr "Pracovní plocha"
 
 #: ../src/preferences_dialog.c:460
-#, fuzzy
 msgid "Image Viewer Preferences"
-msgstr "Prohlížeč obrázků"
+msgstr "Předvolby Prohlížeče obrázků"
 
 #: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Název:</b>"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Druh:</b>"
 
 #: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Změněno:</b>"
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Otevřeno:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Velikost:</b>"
 
 #: ../src/properties_dialog.c:308
 msgid "General"
-msgstr ""
+msgstr "Obecné"
 
 #: ../src/properties_dialog.c:312
-#, fuzzy
 msgid "Image"
-msgstr "Obrázky"
+msgstr "Obrázek"
 
 #: ../src/properties_dialog.c:525
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr ""
+msgstr "<b>Datum pořízení:</b>"
 
-#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
+#: ../src/properties_dialog.c:537
+#: ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:623
 #, c-format
 msgid "%s - Properties"
-msgstr ""
+msgstr "%s - Vlastnosti"
 
 #: ../src/thumbnail_bar.c:208
 msgid "Spacing"
@@ -557,11 +558,11 @@ msgid "border width"
 msgstr "šířka okraje"
 
 #: ../src/thumbnail_bar.c:216
-#, fuzzy
 msgid "the border width of the thumbnail bar"
-msgstr "šířka okraje panelu s náhledy"
+msgstr "šířka okraje panelu náhledů"
 
-#: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
+#: ../src/xfce_wallpaper_manager.c:335
+#: ../src/gnome_wallpaper_manager.c:234
 msgid "Style:"
 msgstr "Styl:"
 
@@ -573,11 +574,13 @@ msgstr "Jas:"
 msgid "Saturation:"
 msgstr "Sytost:"
 
-#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:245
+#: ../src/xfce_wallpaper_manager.c:354
+#: ../src/gnome_wallpaper_manager.c:245
 msgid "Set as wallpaper"
 msgstr "Nastavit jako tapetu"
 
-#: ../src/xfce_wallpaper_manager.c:507 ../src/gnome_wallpaper_manager.c:312
+#: ../src/xfce_wallpaper_manager.c:507
+#: ../src/gnome_wallpaper_manager.c:312
 msgid "Auto"
 msgstr "Automaticky"
 
@@ -602,12 +605,10 @@ msgid "Zoomed"
 msgstr "Přiblížený"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images easily"
-msgstr "Prohlížejte si své fotografie jednoduše"
+msgstr "Prohlížejte si obrázky jednoduše"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
 msgstr "Prohlížeč fotografií Ristretto"
 
