@@ -2,19 +2,19 @@
 # This file is distributed under the same license as the ristretto package.
 # Stefan Zerkalica <zerkalica@gmail.com>, 2008.
 # Denis Koryavov <dkoryavov@yandex.ru>, 2010.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-12-18 08:43+0100\n"
+"POT-Creation-Date: 2011-12-18 08:12+0000\n"
 "PO-Revision-Date: 2011-09-10 03:49+0700\n"
 "Last-Translator: Urmas <davian818@gmail.com>\n"
 "Language-Team: Russian\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Poedit-Language: Russian\n"
 
 #: ../src/main.c:61
@@ -142,7 +142,6 @@ msgstr "_Сделать фоном рабочего стола"
 
 #. Zoom submenu
 #: ../src/main_window.c:294
-#, fuzzy
 msgid "_Zoom"
 msgstr "_Масштаб"
 
@@ -223,7 +222,6 @@ msgid "_Position"
 msgstr "_Позиция"
 
 #: ../src/main_window.c:323
-#, fuzzy
 msgid "Thumbnail Bar _Position"
 msgstr "По_ложение панели эскизов"
 
@@ -339,7 +337,6 @@ msgid "Developer:"
 msgstr "Разработчик:"
 
 #: ../src/main_window.c:2390
-#, fuzzy
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto - быстрый и легковесный просмотрщик изображений для рабочего "
@@ -379,7 +376,6 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Удалить изображение '%s' с диска?"
 
 #: ../src/privacy_dialog.c:151
-#, fuzzy
 msgid "Time range to clear:"
 msgstr "За:"
 
@@ -436,7 +432,6 @@ msgid "Thumbnails"
 msgstr "Эскизы"
 
 #: ../src/preferences_dialog.c:228
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
@@ -445,7 +440,6 @@ msgstr ""
 "при переходе в полноэкранный режим"
 
 #: ../src/preferences_dialog.c:230
-#, fuzzy
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Спрятать панель эскизов в полноэкранном режиме"
 
@@ -470,12 +464,10 @@ msgid "Control"
 msgstr "Управление"
 
 #: ../src/preferences_dialog.c:293
-#, fuzzy
 msgid "Scroll wheel"
-msgstr "Колесо мыши"
+msgstr "Колесико мыши"
 
 #: ../src/preferences_dialog.c:296
-#, fuzzy
 msgid "Invert zoom direction"
 msgstr "Изменить направление масштабирования"
 
@@ -560,9 +552,8 @@ msgid "border width"
 msgstr "Ширина рамки"
 
 #: ../src/thumbnail_bar.c:216
-#, fuzzy
 msgid "the border width of the thumbnail bar"
-msgstr "Ширина рамки панели эскизов"
+msgstr "ширина рамки панели эскизов"
 
 #: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
 msgid "Style:"
@@ -605,7 +596,6 @@ msgid "Zoomed"
 msgstr "Приближенно"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images easily"
 msgstr "Просмотр фотографий — это просто"
 
