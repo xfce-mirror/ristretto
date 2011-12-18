@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-12-18 01:14+0100\n"
+"POT-Creation-Date: 2011-12-18 08:43+0100\n"
 "PO-Revision-Date: 2009-9-9 16:MI+ZONE\n"
 "Last-Translator: Nguyễn Quốc Vinh <kureikain@gmail.com>\n"
 "Language-Team: Vietnamese <kureikain@gmail.com>\n"
@@ -434,7 +434,7 @@ msgstr "Ảnh thu nhỏ"
 #, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
-"when the image-viewer is fullscreen."
+"when the window is fullscreen."
 msgstr "Ảnh thu nhỏ có thể tự động ẩn đi khi kích hoạt chế độ đầy màn _hình"
 
 #: ../src/preferences_dialog.c:230

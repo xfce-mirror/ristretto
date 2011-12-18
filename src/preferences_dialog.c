@@ -225,7 +225,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     dialog->priv->display_tab.thumbnail_frame = xfce_gtk_frame_box_new_with_content(_("Thumbnails"), dialog->priv->display_tab.thumbnail_vbox);
     gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.thumbnail_frame, FALSE, FALSE, 0);
 
-    dialog->priv->display_tab.hide_thumbnails_fullscreen_lbl = gtk_label_new(_("The thumbnail bar can be automatically hidden \nwhen the image-viewer is fullscreen."));
+    dialog->priv->display_tab.hide_thumbnails_fullscreen_lbl = gtk_label_new(_("The thumbnail bar can be automatically hidden \nwhen the window is fullscreen."));
     gtk_misc_set_alignment(GTK_MISC(dialog->priv->display_tab.hide_thumbnails_fullscreen_lbl), 0, 0.5);
     dialog->priv->display_tab.hide_thumbnails_fullscreen_check_button = gtk_check_button_new_with_label (_("Hide thumbnail bar when fullscreen"));
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.thumbnail_vbox), dialog->priv->display_tab.hide_thumbnails_fullscreen_lbl, FALSE, FALSE, 0);
