@@ -1189,11 +1189,11 @@ paint_selection_box (
      */
     if (box_width < 0.0)
     {
-        box_width = 0.0;
+        return;
     }
     if (box_height < 0.0)
     {
-        box_height = 0.0;
+        return;
     }
 
     cairo_rectangle (
