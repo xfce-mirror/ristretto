@@ -667,7 +667,11 @@ rstto_thumbnail_bar_remove(GtkContainer *container, GtkWidget *child)
 
 	widget_was_visible = GTK_WIDGET_VISIBLE(child);
 
-    rstto_thumbnailer_dequeue_thumbnail (bar->priv->thumbnailer, RSTTO_THUMBNAIL(child));
+    /* Check if there still is a thumbnailer present */
+    if (NULL != bar->priv->thumbnailer)
+    {
+        rstto_thumbnailer_dequeue_thumbnail (bar->priv->thumbnailer, RSTTO_THUMBNAIL(child));
+    }
 
     bar->priv->thumbs = g_list_remove(bar->priv->thumbs, child);
 
