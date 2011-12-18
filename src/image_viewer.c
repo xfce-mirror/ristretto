@@ -1184,6 +1184,18 @@ paint_selection_box (
         box_height = (y_offset + image_height) - box_y - 1;
     }
 
+    /* Make sure the box dimensions are not negative,
+     * This results in rendering-artifacts.
+     */
+    if (box_width < 0.0)
+    {
+        box_width = 0.0;
+    }
+    if (box_height < 0.0)
+    {
+        box_height = 0.0;
+    }
+
     cairo_rectangle (
         ctx,
         box_x+0.5, box_y+0.5,
