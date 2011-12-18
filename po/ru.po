@@ -2,19 +2,19 @@
 # This file is distributed under the same license as the ristretto package.
 # Stefan Zerkalica <zerkalica@gmail.com>, 2008.
 # Denis Koryavov <dkoryavov@yandex.ru>, 2010.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-12-03 08:06+0000\n"
+"POT-Creation-Date: 2011-12-18 01:14+0100\n"
 "PO-Revision-Date: 2011-09-10 03:49+0700\n"
 "Last-Translator: Urmas <davian818@gmail.com>\n"
 "Language-Team: Russian\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "X-Poedit-Language: Russian\n"
 
 #: ../src/main.c:61
@@ -142,7 +142,8 @@ msgstr "_Сделать фоном рабочего стола"
 
 #. Zoom submenu
 #: ../src/main_window.c:294
-msgid "_Zooming"
+#, fuzzy
+msgid "_Zoom"
 msgstr "_Масштаб"
 
 #: ../src/main_window.c:295
@@ -222,7 +223,8 @@ msgid "_Position"
 msgstr "_Позиция"
 
 #: ../src/main_window.c:323
-msgid "Thumbnailbar _Position"
+#, fuzzy
+msgid "Thumbnail Bar _Position"
 msgstr "По_ложение панели эскизов"
 
 #. Misc
@@ -242,7 +244,8 @@ msgstr "Показать панель _навигации"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:337
-msgid "Show _Thumbnailbar"
+#, fuzzy
+msgid "Show _Thumbnail Bar"
 msgstr "Показать панель _эскизов"
 
 #. Sort by Filename
@@ -297,7 +300,7 @@ msgstr "_Недавно просмотренные"
 msgid "Recently used"
 msgstr "Недавно просмотренные"
 
-#: ../src/main_window.c:596 ../src/main_window.c:1021
+#: ../src/main_window.c:596 ../src/main_window.c:1022
 msgid "Press open to select an image"
 msgstr "Нажмите открыть для выбора изображения"
 
@@ -305,76 +308,79 @@ msgstr "Нажмите открыть для выбора изображения
 msgid "Empty"
 msgstr "Пусто"
 
-#: ../src/main_window.c:1830
+#: ../src/main_window.c:1831
 msgid "Choose 'set wallpaper' method"
 msgstr "Выберите способ установки обоев"
 
-#: ../src/main_window.c:1845 ../src/preferences_dialog.c:349
+#: ../src/main_window.c:1846 ../src/preferences_dialog.c:349
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
 "Выберите ваше текущее рабочее окружение.\n"
-"Эта настройка указывает способ, которым <i>Ristretto</i> будет устанавливать ваши обои рабочего стола."
+"Эта настройка указывает способ, которым <i>Ristretto</i> будет устанавливать "
+"ваши обои рабочего стола."
 
-#: ../src/main_window.c:1870 ../src/preferences_dialog.c:373
+#: ../src/main_window.c:1871 ../src/preferences_dialog.c:373
 msgid "None"
 msgstr "Нет"
 
-#: ../src/main_window.c:1874 ../src/preferences_dialog.c:377
+#: ../src/main_window.c:1875 ../src/preferences_dialog.c:377
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:1878 ../src/preferences_dialog.c:381
+#: ../src/main_window.c:1879 ../src/preferences_dialog.c:381
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2380
+#: ../src/main_window.c:2381
 msgid "Developer:"
 msgstr "Разработчик:"
 
-#: ../src/main_window.c:2389
-msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+#: ../src/main_window.c:2390
+#, fuzzy
+msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto - быстрый и легковесный просмотрщик изображений для рабочего "
 "окружения Xfce"
 
-#: ../src/main_window.c:2397
+#: ../src/main_window.c:2398
 msgid "translator-credits"
 msgstr "Urmas <davian818@gmail.com>, 2011"
 
-#: ../src/main_window.c:2687
+#: ../src/main_window.c:2688
 msgid "Open image"
 msgstr "Открыть изображение"
 
-#: ../src/main_window.c:2706
+#: ../src/main_window.c:2707
 msgid "Images"
 msgstr "Изображения"
 
-#: ../src/main_window.c:2711
+#: ../src/main_window.c:2712
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2735 ../src/main_window.c:2829
+#: ../src/main_window.c:2736 ../src/main_window.c:2830
 msgid "Could not open file"
 msgstr "Невозможно открыть файл"
 
-#: ../src/main_window.c:2862
+#: ../src/main_window.c:2863
 msgid "Save copy"
 msgstr "Сохранить копию"
 
-#: ../src/main_window.c:2888
+#: ../src/main_window.c:2889
 msgid "Could not save file"
 msgstr "Не удалось сохранить файл"
 
-#: ../src/main_window.c:2989
+#: ../src/main_window.c:2990
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Удалить изображение '%s' с диска?"
 
 #: ../src/privacy_dialog.c:151
-msgid "Timerange to clear:"
+#, fuzzy
+msgid "Time range to clear:"
 msgstr "За:"
 
 #: ../src/privacy_dialog.c:155
@@ -430,15 +436,17 @@ msgid "Thumbnails"
 msgstr "Эскизы"
 
 #: ../src/preferences_dialog.c:228
+#, fuzzy
 msgid ""
-"The thumbnailbar can be automatically hidden \n"
+"The thumbnail bar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
 "Панель эскизов будет спрятана\n"
 "при переходе в полноэкранный режим"
 
 #: ../src/preferences_dialog.c:230
-msgid "Hide thumbnailbar when fullscreen"
+#, fuzzy
+msgid "Hide thumbnail bar when fullscreen"
 msgstr "Спрятать панель эскизов в полноэкранном режиме"
 
 #: ../src/preferences_dialog.c:266
@@ -462,11 +470,13 @@ msgid "Control"
 msgstr "Управление"
 
 #: ../src/preferences_dialog.c:293
-msgid "Scrollwheel"
+#, fuzzy
+msgid "Scroll wheel"
 msgstr "Колесо мыши"
 
 #: ../src/preferences_dialog.c:296
-msgid "Revert zoom direction"
+#, fuzzy
+msgid "Invert zoom direction"
 msgstr "Изменить направление масштабирования"
 
 #: ../src/preferences_dialog.c:306
@@ -550,7 +560,8 @@ msgid "border width"
 msgstr "Ширина рамки"
 
 #: ../src/thumbnail_bar.c:216
-msgid "the border width of the thumbnail-bar"
+#, fuzzy
+msgid "the border width of the thumbnail bar"
 msgstr "Ширина рамки панели эскизов"
 
 #: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
@@ -594,7 +605,8 @@ msgid "Zoomed"
 msgstr "Приближенно"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Look at your images's easily"
+#, fuzzy
+msgid "Look at your images easily"
 msgstr "Просмотр фотографий — это просто"
 
 #: ../ristretto.desktop.in.h:3

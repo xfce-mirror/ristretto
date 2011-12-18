@@ -2,19 +2,19 @@
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the Ristretto package.
 # Per Kongstad <p_kongstad@op.pl>, 2008, 2009.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.90\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-12-14 12:42+0000\n"
+"POT-Creation-Date: 2011-12-18 01:14+0100\n"
 "PO-Revision-Date: 2010-01-15 12:00+0100\n"
 "Last-Translator: Per Kongstad <p_kongstad@op.pl>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "X-Poedit-Language: Danish\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Country: DENMARK\n"
@@ -144,7 +144,8 @@ msgstr "_Brug som skrivebordsbaggrund"
 
 #. Zoom submenu
 #: ../src/main_window.c:294
-msgid "_Zooming"
+#, fuzzy
+msgid "_Zoom"
 msgstr "_Zooming"
 
 #: ../src/main_window.c:295
@@ -224,7 +225,8 @@ msgid "_Position"
 msgstr "_Placering"
 
 #: ../src/main_window.c:323
-msgid "Thumbnailbar _Position"
+#, fuzzy
+msgid "Thumbnail Bar _Position"
 msgstr "Miniaturbjælke_position"
 
 #. Misc
@@ -244,7 +246,8 @@ msgstr "Vis _værktøjslinje"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:337
-msgid "Show _Thumbnailbar"
+#, fuzzy
+msgid "Show _Thumbnail Bar"
 msgstr "Vis _miniaturebjælke"
 
 #. Sort by Filename
@@ -335,7 +338,8 @@ msgid "Developer:"
 msgstr "Udvikler:"
 
 #: ../src/main_window.c:2390
-msgid "Ristretto is an imageviewer for the Xfce desktop environment."
+#, fuzzy
+msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto er en billedfremviser til skrivebordsmiljøet Xfce."
 
 #: ../src/main_window.c:2398
@@ -376,7 +380,8 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Er du sikker på, at du vil slette billedet '%s' fra disken?"
 
 #: ../src/privacy_dialog.c:151
-msgid "Timerange to clear:"
+#, fuzzy
+msgid "Time range to clear:"
 msgstr "Tidsrum der skal ryddes:"
 
 #: ../src/privacy_dialog.c:155
@@ -432,15 +437,17 @@ msgid "Thumbnails"
 msgstr "Miniaturer"
 
 #: ../src/preferences_dialog.c:228
+#, fuzzy
 msgid ""
-"The thumbnailbar can be automatically hidden \n"
+"The thumbnail bar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 msgstr ""
 "Miniaturebjælken kan skjules automatisk \n"
 "når billedviseren er i fuldskærmtilstand."
 
 #: ../src/preferences_dialog.c:230
-msgid "Hide thumbnailbar when fullscreen"
+#, fuzzy
+msgid "Hide thumbnail bar when fullscreen"
 msgstr "Skjul miniaturebjælke ved fuldskærmstilstand"
 
 #: ../src/preferences_dialog.c:266
@@ -464,11 +471,13 @@ msgid "Control"
 msgstr "Kontrol"
 
 #: ../src/preferences_dialog.c:293
-msgid "Scrollwheel"
+#, fuzzy
+msgid "Scroll wheel"
 msgstr "Rullehjul"
 
 #: ../src/preferences_dialog.c:296
-msgid "Revert zoom direction"
+#, fuzzy
+msgid "Invert zoom direction"
 msgstr "Spejlvend zoomretning"
 
 #: ../src/preferences_dialog.c:306
@@ -552,7 +561,8 @@ msgid "border width"
 msgstr "kantbredde"
 
 #: ../src/thumbnail_bar.c:216
-msgid "the border width of the thumbnail-bar"
+#, fuzzy
+msgid "the border width of the thumbnail bar"
 msgstr "bredden af kanten rundt om miniaturebjælken"
 
 #: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
@@ -596,7 +606,8 @@ msgid "Zoomed"
 msgstr "Forstørret"
 
 #: ../ristretto.desktop.in.h:2
-msgid "Look at your images's easily"
+#, fuzzy
+msgid "Look at your images easily"
 msgstr "Se nemt dine billeder"
 
 #: ../ristretto.desktop.in.h:3
