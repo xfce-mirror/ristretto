@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the ristretto package.
 # Stephan Arts <stephan@xfce.org>, 2007.
 # Pjotr, 2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-12-18 08:43+0100\n"
+"POT-Creation-Date: 2011-12-18 14:18+0000\n"
 "PO-Revision-Date: 2011-09-08 00:48+0200\n"
 "Last-Translator: Pjotr\n"
 "Language-Team: Dutch (Flemish)\n"
-"Language: nl (Dutch)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl (Dutch)\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/main.c:61
@@ -142,7 +142,6 @@ msgstr "In_stellen als bureaubladachtergrond"
 
 #. Zoom submenu
 #: ../src/main_window.c:294
-#, fuzzy
 msgid "_Zoom"
 msgstr "_Zoomen"
 
@@ -223,7 +222,6 @@ msgid "_Position"
 msgstr "_Positie"
 
 #: ../src/main_window.c:323
-#, fuzzy
 msgid "Thumbnail Bar _Position"
 msgstr "Positie van miniaturenbalk"
 
@@ -244,9 +242,8 @@ msgstr "Toon _navigatiewerkbalk"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:337
-#, fuzzy
 msgid "Show _Thumbnail Bar"
-msgstr "Toon _miniaturenbalk"
+msgstr "Miniaturenbalk tonen"
 
 #. Sort by Filename
 #: ../src/main_window.c:344
@@ -339,7 +336,6 @@ msgid "Developer:"
 msgstr "Ontwikkelaar:"
 
 #: ../src/main_window.c:2390
-#, fuzzy
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto is een afbeeldingkijker voor de Xfce-werkomgeving."
 
@@ -380,7 +376,6 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Weet u zeker dat u afbeelding '%s' van de schijf wil verwijderen?"
 
 #: ../src/privacy_dialog.c:151
-#, fuzzy
 msgid "Time range to clear:"
 msgstr "Te wissen tijdvak:"
 
@@ -437,7 +432,6 @@ msgid "Thumbnails"
 msgstr "Miniaturen"
 
 #: ../src/preferences_dialog.c:228
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
@@ -446,7 +440,6 @@ msgstr ""
 "wanneer de afbeeldingkijker in schermvullende modus is."
 
 #: ../src/preferences_dialog.c:230
-#, fuzzy
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Miniaturenbalk verbergen bij schermvullende modus"
 
@@ -471,14 +464,12 @@ msgid "Control"
 msgstr "Control"
 
 #: ../src/preferences_dialog.c:293
-#, fuzzy
 msgid "Scroll wheel"
 msgstr "Bladerwieltje"
 
 #: ../src/preferences_dialog.c:296
-#, fuzzy
 msgid "Invert zoom direction"
-msgstr "Draai zoomrichting om"
+msgstr "Zoomrichting omdraaien"
 
 #: ../src/preferences_dialog.c:306
 msgid "Behaviour"
@@ -562,7 +553,6 @@ msgid "border width"
 msgstr "randbreedte"
 
 #: ../src/thumbnail_bar.c:216
-#, fuzzy
 msgid "the border width of the thumbnail bar"
 msgstr "de randbreedte van de miniaturenbalk"
 
@@ -607,7 +597,6 @@ msgid "Zoomed"
 msgstr "Ingezoomd"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images easily"
 msgstr "Kijk gemakkelijk naar uw afbeeldingen"
 
