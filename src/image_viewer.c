@@ -2127,6 +2127,25 @@ rstto_motion_notify_event (
                         widget->window,
                         NULL,
                         FALSE); 
+
+                /* Only change the cursor when hovering over the image
+                 */
+                if ( (event->x > viewer->priv->rendering.x_offset) &&
+                     (event->y > viewer->priv->rendering.y_offset) &&
+                     (event->y < (viewer->priv->rendering.y_offset + viewer->priv->rendering.height)) &&
+                     (event->x < (viewer->priv->rendering.x_offset + viewer->priv->rendering.width)))
+                {
+                    GdkCursor *cursor = gdk_cursor_new(GDK_UL_ANGLE);
+                    gdk_window_set_cursor(widget->window, cursor);
+                    gdk_cursor_unref(cursor);
+                }
+                else
+                {
+                    /* Set back to default when moving over the
+                     * background.
+                     */
+                    gdk_window_set_cursor(widget->window, NULL);
+                }
                 break;
             default:
                 break;
@@ -2169,6 +2188,8 @@ rstto_button_press_event (
 
             if (event->state & GDK_CONTROL_MASK)
             {
+                /* Only change the cursor when hovering over the image
+                 */
                 if ( (event->x > viewer->priv->rendering.x_offset) &&
                      (event->y > viewer->priv->rendering.y_offset) &&
                      (event->y < (viewer->priv->rendering.y_offset + viewer->priv->rendering.height)) &&
@@ -2177,9 +2198,14 @@ rstto_button_press_event (
                     GdkCursor *cursor = gdk_cursor_new(GDK_UL_ANGLE);
                     gdk_window_set_cursor(widget->window, cursor);
                     gdk_cursor_unref(cursor);
-
-                    rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM);
                 }
+
+                /* Set the zoom-state even if not hovering over the
+                 * image, this allows for easier selection.
+                 * Dragging from / to somewhere outside the image to
+                 * make sure the border is selected too.
+                 */
+                rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM);
             }
         }
         return TRUE;
