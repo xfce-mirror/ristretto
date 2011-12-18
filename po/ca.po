@@ -1,17 +1,19 @@
 # Catalan translations for ristretto package
 # Traduccions al català del paquet «ristretto».
 # Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the ristretto package.
-# Carles Muñoz Gorriz <carlesmu@internautas.org>, 2008-2010.
+# This file is distributed under the same license as the
+# ristretto package.
+# Carles Muñoz Gorriz <carlesmu@internautas.org>, 2008-2011.
 # Harald Servat <redcrash@gmail.com>, 2009.
+# Pol Ruzafa <kiari62@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-12-18 08:43+0100\n"
-"PO-Revision-Date: 2011-08-11 17:29+0100\n"
-"Last-Translator: Pol Ruzafa <kiari62@gmail.com>\n"
+"POT-Creation-Date: 2011-12-18 14:18+0000\n"
+"PO-Revision-Date: 2011-12-18 17:17+0100\n"
+"Last-Translator: Carles Muñoz Gorriz <carlesmu@internautas.org>\n"
 "Language-Team: Catalan <xfce-i18n@xfce.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -34,10 +36,10 @@ msgstr "Inicia una seqüència d'imatges"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "Mostra el diàleg d'ajustaments"
 
 #: ../src/main.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
@@ -45,8 +47,9 @@ msgid ""
 "available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Feu %s --help per veure la llista complerta d'opcions disponibles \n"
-"de la línia d'ordres.\n"
+"\n"
+"Feu %s --help per veure la llista completa \n"
+"d'opcions disponibles de la línia d'ordres.\n"
 
 #: ../src/main_window.c:55 ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -75,11 +78,11 @@ msgstr "Desa una còpia de la imatge"
 
 #: ../src/main_window.c:278
 msgid "_Properties"
-msgstr ""
+msgstr "_Propietats"
 
 #: ../src/main_window.c:278
 msgid "Show file properties"
-msgstr ""
+msgstr "Mostra les propietats del fitxer"
 
 #: ../src/main_window.c:279
 msgid "_Close"
@@ -133,19 +136,18 @@ msgstr "_Mostra"
 
 #: ../src/main_window.c:290
 msgid "_Fullscreen"
-msgstr "_Pantalla sencera"
+msgstr "_Pantalla completa"
 
 #: ../src/main_window.c:291
 msgid "_Leave Fullscreen"
-msgstr "_Surt de la pantalla sencera"
+msgstr "_Surt de la pantalla completa"
 
 #: ../src/main_window.c:292
 msgid "_Set as Wallpaper"
-msgstr "Posa com a _fons d'escriptori"
+msgstr "Posa com _fons d'escriptori"
 
 #. Zoom submenu
 #: ../src/main_window.c:294
-#, fuzzy
 msgid "_Zoom"
 msgstr "_Zoom"
 
@@ -226,14 +228,13 @@ msgid "_Position"
 msgstr "_Posició"
 
 #: ../src/main_window.c:323
-#, fuzzy
 msgid "Thumbnail Bar _Position"
-msgstr "Miniatures"
+msgstr "_Posició de la barra de miniatures"
 
 #. Misc
 #: ../src/main_window.c:325
 msgid "Leave _Fullscreen"
-msgstr "Surt de la _pantalla sencera"
+msgstr "Surt de la _pantalla completa"
 
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:333
@@ -247,7 +248,6 @@ msgstr "Mostra la barra de _navegació"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:337
-#, fuzzy
 msgid "Show _Thumbnail Bar"
 msgstr "Mostra la _barra de miniatures"
 
@@ -313,7 +313,7 @@ msgstr "Buit"
 
 #: ../src/main_window.c:1831
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "Trieu el mètode «Posa com fons d'escriptori»"
 
 #: ../src/main_window.c:1846 ../src/preferences_dialog.c:349
 msgid ""
@@ -321,27 +321,29 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
+"Configureu quin sistema gestiona el vostre escriptori.\n"
+"Aquest paràmetre determina quin mètode emprarà <i>Ristretto</i>\n"
+"per configurar el fons de l'escriptori."
 
 #: ../src/main_window.c:1871 ../src/preferences_dialog.c:373
 msgid "None"
-msgstr ""
+msgstr "Cap"
 
 #: ../src/main_window.c:1875 ../src/preferences_dialog.c:377
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
 #: ../src/main_window.c:1879 ../src/preferences_dialog.c:381
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ../src/main_window.c:2381
 msgid "Developer:"
 msgstr "Autor:"
 
 #: ../src/main_window.c:2390
-#, fuzzy
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto és visor d'imatges per l'entorn d'escriptori Xfce."
+msgstr "Ristretto és un visor d'imatges per l'entorn d'escriptori Xfce."
 
 #: ../src/main_window.c:2398
 msgid "translator-credits"
@@ -370,9 +372,8 @@ msgid "Save copy"
 msgstr "Desa una còpia"
 
 #: ../src/main_window.c:2889
-#, fuzzy
 msgid "Could not save file"
-msgstr "No s'ha pogut obrir el fitxer"
+msgstr "No s'ha pogut desar el fitxer"
 
 #: ../src/main_window.c:2990
 #, c-format
@@ -381,36 +382,35 @@ msgstr "Voleu suprimir la imatge «%s» del disc?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
-msgstr ""
+msgstr "Interval per netejar:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Neteja"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr ""
+msgstr "Darrera hora"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Darreres dues hores"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Darreres quatre hores"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
-msgstr ""
+msgstr "Avui"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr ""
+msgstr "Tot"
 
 #: ../src/privacy_dialog.c:459
-#, fuzzy
 msgid "Clear private data"
-msgstr "_Neteja l'informació privada"
+msgstr "Esborrar les dades privades"
 
 #: ../src/preferences_dialog.c:196
 msgid "Display"
@@ -422,7 +422,7 @@ msgstr "Color de fons"
 
 #: ../src/preferences_dialog.c:204
 msgid "Toolbars"
-msgstr ""
+msgstr "Barres d'eines"
 
 #: ../src/preferences_dialog.c:209
 msgid "Override background color:"
@@ -430,25 +430,23 @@ msgstr "Força el color de fons:"
 
 #: ../src/preferences_dialog.c:220
 msgid "Merge toolbars"
-msgstr ""
+msgstr "Junta les barres d'eines"
 
 #: ../src/preferences_dialog.c:225
 msgid "Thumbnails"
 msgstr "Miniatures"
 
 #: ../src/preferences_dialog.c:228
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
 msgstr ""
-"La barra de miniatures es pot amagar automàticament quan \n"
-"el visor d'imatges està funcionant a pantalla sencera."
+"La barra de miniatures es pot amagar automàticament \n"
+"quan la finestra es mostra a pantalla completa."
 
 #: ../src/preferences_dialog.c:230
-#, fuzzy
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Amaga la barra de miniatures en pantalla sencera"
+msgstr "Amaga la barra de miniatures en pantalla completa"
 
 #: ../src/preferences_dialog.c:266
 msgid "Slideshow"
@@ -471,13 +469,12 @@ msgid "Control"
 msgstr "Control"
 
 #: ../src/preferences_dialog.c:293
-#, fuzzy
 msgid "Scroll wheel"
-msgstr "Roda de navegació"
+msgstr "Roda de desplaçament"
 
 #: ../src/preferences_dialog.c:296
 msgid "Invert zoom direction"
-msgstr ""
+msgstr "Inverteix la direcció del zoom"
 
 #: ../src/preferences_dialog.c:306
 msgid "Behaviour"
@@ -488,9 +485,8 @@ msgid "Startup"
 msgstr "Inici"
 
 #: ../src/preferences_dialog.c:313
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Ajusta la mida de la finestra a la imatge a l'iniciar"
+msgstr "Maximitza la finestra a l'inici quan obriu una imatge"
 
 #: ../src/preferences_dialog.c:319
 msgid "Wrap around images"
@@ -498,57 +494,55 @@ msgstr "Ajusta al voltant de les imatges"
 
 #: ../src/preferences_dialog.c:338
 msgid "Desktop"
-msgstr ""
+msgstr "Escriptori"
 
 #: ../src/preferences_dialog.c:460
-#, fuzzy
 msgid "Image Viewer Preferences"
 msgstr "Preferències del visor d'imatges"
 
 #: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Nom:</b>"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Tipus:</b>"
 
 #: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Modificada:</b>"
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Accedida:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Mida:</b>"
 
 #: ../src/properties_dialog.c:308
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: ../src/properties_dialog.c:312
-#, fuzzy
 msgid "Image"
-msgstr "Imatges"
+msgstr "Imatge"
 
 #: ../src/properties_dialog.c:525
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr ""
+msgstr "<b>Data de captura:</b>"
 
 #: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:623
 #, c-format
 msgid "%s - Properties"
-msgstr ""
+msgstr "%s - Propietats"
 
 #: ../src/thumbnail_bar.c:208
 msgid "Spacing"
@@ -563,9 +557,8 @@ msgid "border width"
 msgstr "Amplada de la bora"
 
 #: ../src/thumbnail_bar.c:216
-#, fuzzy
 msgid "the border width of the thumbnail bar"
-msgstr "L'amplada de la bora de la barra de miniatures"
+msgstr "l'amplada de la bora de la barra de miniatures"
 
 #: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
 msgid "Style:"
@@ -581,7 +574,7 @@ msgstr "Saturació:"
 
 #: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:245
 msgid "Set as wallpaper"
-msgstr "Posa com a _fons d'escriptori"
+msgstr "Posa com fons d'escriptori"
 
 #: ../src/xfce_wallpaper_manager.c:507 ../src/gnome_wallpaper_manager.c:312
 msgid "Auto"
@@ -608,14 +601,12 @@ msgid "Zoomed"
 msgstr "Ampliat"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images easily"
-msgstr "Mira fàcilment les teves fotos"
+msgstr "Veieu les vostres imatges fàcilment"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
-msgstr "Visualitzador de fotografies Ristretto"
+msgstr "Visor d'imatges Ristretto"
 
 #~ msgid "Scaling"
 #~ msgstr "Escalat"
