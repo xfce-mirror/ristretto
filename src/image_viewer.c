@@ -2155,19 +2155,31 @@ rstto_button_press_event (
         {
             if (!(event->state & (GDK_CONTROL_MASK)))
             {
-                GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
-                gdk_window_set_cursor(widget->window, cursor);
-                gdk_cursor_unref(cursor);
-                rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_MOVE);
+                if ( (event->x > viewer->priv->rendering.x_offset) &&
+                     (event->y > viewer->priv->rendering.y_offset) &&
+                     (event->y < (viewer->priv->rendering.y_offset + viewer->priv->rendering.height)) &&
+                     (event->x < (viewer->priv->rendering.x_offset + viewer->priv->rendering.width)))
+                {
+                    GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
+                    gdk_window_set_cursor(widget->window, cursor);
+                    gdk_cursor_unref(cursor);
+                    rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_MOVE);
+                }
             }
 
             if (event->state & GDK_CONTROL_MASK)
             {
-                GdkCursor *cursor = gdk_cursor_new(GDK_UL_ANGLE);
-                gdk_window_set_cursor(widget->window, cursor);
-                gdk_cursor_unref(cursor);
+                if ( (event->x > viewer->priv->rendering.x_offset) &&
+                     (event->y > viewer->priv->rendering.y_offset) &&
+                     (event->y < (viewer->priv->rendering.y_offset + viewer->priv->rendering.height)) &&
+                     (event->x < (viewer->priv->rendering.x_offset + viewer->priv->rendering.width)))
+                {
+                    GdkCursor *cursor = gdk_cursor_new(GDK_UL_ANGLE);
+                    gdk_window_set_cursor(widget->window, cursor);
+                    gdk_cursor_unref(cursor);
 
-                rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM);
+                    rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM);
+                }
             }
         }
         return TRUE;
