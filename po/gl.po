@@ -38,7 +38,7 @@ msgid "Show settings dialog"
 msgstr "Mostrar o diálogo de configuración"
 
 #: ../src/main.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
@@ -482,9 +482,8 @@ msgid "Startup"
 msgstr "Inicio"
 
 #: ../src/preferences_dialog.c:313
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Redimensionar a xanela ao tamaño da imaxe ao iniciar"
+msgstr "Maximizar a xanela cando se inicie para ver unha imaxe"
 
 #: ../src/preferences_dialog.c:319
 msgid "Wrap around images"
@@ -504,15 +503,15 @@ msgstr "<b>Nome:</b>"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Clase:</b>"
 
 #: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Modificación:</b>"
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Acceso:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
