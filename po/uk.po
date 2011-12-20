@@ -1,19 +1,19 @@
 # Ukrainian translation of ristretto package.
 # This file is distributed under the same license as the ristretto package.
-#
+# 
 # Dmitry Nikitin <luckas_fb@mail.ru>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-12-18 08:43+0100\n"
+"POT-Creation-Date: 2011-12-20 09:00+0000\n"
 "PO-Revision-Date: 2008-11-17 11:15+0200\n"
 "Last-Translator: Dmitry Nikitin <luckas_fb@mail.ru>\n"
 "Language-Team: Ukrainian <xfce4-dev@xfce.org>\n"
-"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: uk\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #: ../src/main.c:61
@@ -141,9 +141,8 @@ msgstr "Встановити як шпа_лери"
 
 #. Zoom submenu
 #: ../src/main_window.c:294
-#, fuzzy
 msgid "_Zoom"
-msgstr "_Масштабування"
+msgstr "_Масштаб"
 
 #: ../src/main_window.c:295
 msgid "Zoom _In"
@@ -222,7 +221,6 @@ msgid "_Position"
 msgstr "По_зиція"
 
 #: ../src/main_window.c:323
-#, fuzzy
 msgid "Thumbnail Bar _Position"
 msgstr "Позиція _панелі мініатюр"
 
@@ -243,7 +241,6 @@ msgstr "Показа_ти навігаційну панель"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:337
-#, fuzzy
 msgid "Show _Thumbnail Bar"
 msgstr "Показати пан_ель мініатюр"
 
@@ -338,7 +335,6 @@ msgid "Developer:"
 msgstr "Розробник:"
 
 #: ../src/main_window.c:2390
-#, fuzzy
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto - переглядач зображень для робочого середовища Xfce."
 
@@ -376,7 +372,6 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Ви впевнені, що бажаєте видалити малюнок '%s' з диску?"
 
 #: ../src/privacy_dialog.c:151
-#, fuzzy
 msgid "Time range to clear:"
 msgstr "Часовий діапазон для очистки:"
 
@@ -433,7 +428,6 @@ msgid "Thumbnails"
 msgstr "Мініатюри"
 
 #: ../src/preferences_dialog.c:228
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
@@ -442,7 +436,6 @@ msgstr ""
 "коли переглядач зображень перебуває в повноекранному режимі."
 
 #: ../src/preferences_dialog.c:230
-#, fuzzy
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Приховувати панель мініатюр в повноекранному режимі"
 
@@ -467,12 +460,10 @@ msgid "Control"
 msgstr "Контроль"
 
 #: ../src/preferences_dialog.c:293
-#, fuzzy
 msgid "Scroll wheel"
 msgstr "Прокрутка"
 
 #: ../src/preferences_dialog.c:296
-#, fuzzy
 msgid "Invert zoom direction"
 msgstr "Повернути напрямок збільшення"
 
@@ -557,7 +548,6 @@ msgid "border width"
 msgstr "ширина рамки"
 
 #: ../src/thumbnail_bar.c:216
-#, fuzzy
 msgid "the border width of the thumbnail bar"
 msgstr "ширина рамки панелі мініатюр"
 
@@ -602,9 +592,8 @@ msgid "Zoomed"
 msgstr "Розтягнути"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images easily"
-msgstr "Переглядайте легко Ваші фотографії"
+msgstr "Легко переглядайте Ваші фотографії"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Image Viewer"
