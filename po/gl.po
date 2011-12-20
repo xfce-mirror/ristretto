@@ -1,24 +1,24 @@
 # Galician translation of ristretto
 # Copyright (C) 2008, 2009, 2010 Leandro Regueiro.
 # This file is distributed under the same license as the Xfce package.
-#
+# 
 # Leandro Regueiro <leandro DOT regueiro AT gmail DOT com>, 2008, 2009, 2010.
-#
+# 
 # Proxecto Trasno - Adaptación do software libre á lingua galega:  Se desexas
 # colaborar connosco, podes atopar máis información en <http://trasno.net>
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-12-18 08:43+0100\n"
+"POT-Creation-Date: 2011-12-20 09:00+0000\n"
 "PO-Revision-Date: 2010-10-20 09:48+0100\n"
 "Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
-"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/main.c:61
@@ -35,7 +35,7 @@ msgstr "Iniciar unha presentación"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "Mostrar o diálogo de configuración"
 
 #: ../src/main.c:105
 #, fuzzy, c-format
@@ -76,11 +76,11 @@ msgstr "Gardar unha copia da imaxe"
 
 #: ../src/main_window.c:278
 msgid "_Properties"
-msgstr ""
+msgstr "_Propiedades"
 
 #: ../src/main_window.c:278
 msgid "Show file properties"
-msgstr ""
+msgstr "Mostrar as propiedades do ficheiro"
 
 #: ../src/main_window.c:279
 msgid "_Close"
@@ -116,13 +116,12 @@ msgid "_Delete"
 msgstr "_Eliminar"
 
 #: ../src/main_window.c:285
-#, fuzzy
 msgid "Delete this image from disk"
-msgstr "Pechar esta imaxe"
+msgstr "Eliminar esta imaxe do disco"
 
 #: ../src/main_window.c:286
 msgid "_Clear private data"
-msgstr ""
+msgstr "_Limpar os datos privados"
 
 #: ../src/main_window.c:287
 msgid "_Preferences"
@@ -147,7 +146,6 @@ msgstr "Definir como _fondo de escritorio"
 
 #. Zoom submenu
 #: ../src/main_window.c:294
-#, fuzzy
 msgid "_Zoom"
 msgstr "_Ampliación"
 
@@ -228,9 +226,8 @@ msgid "_Position"
 msgstr "_Posición"
 
 #: ../src/main_window.c:323
-#, fuzzy
 msgid "Thumbnail Bar _Position"
-msgstr "Miniaturas"
+msgstr "_Posición da barra de miniaturas"
 
 #. Misc
 #: ../src/main_window.c:325
@@ -249,7 +246,6 @@ msgstr "Mostrar a barra de ferramentas de _navegación"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:337
-#, fuzzy
 msgid "Show _Thumbnail Bar"
 msgstr "Mos_trar a barra de miniaturas"
 
@@ -326,22 +322,21 @@ msgstr ""
 
 #: ../src/main_window.c:1871 ../src/preferences_dialog.c:373
 msgid "None"
-msgstr ""
+msgstr "Ningún"
 
 #: ../src/main_window.c:1875 ../src/preferences_dialog.c:377
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
 #: ../src/main_window.c:1879 ../src/preferences_dialog.c:381
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ../src/main_window.c:2381
 msgid "Developer:"
 msgstr "Desenvolvedor:"
 
 #: ../src/main_window.c:2390
-#, fuzzy
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto é un visor de imaxes para o ambiente de escritorio Xfce."
 
@@ -373,9 +368,8 @@ msgid "Save copy"
 msgstr "Gardar unha copia"
 
 #: ../src/main_window.c:2889
-#, fuzzy
 msgid "Could not save file"
-msgstr "Non se puido abrir o ficheiro"
+msgstr "Non se puido gardar o ficheiro"
 
 #: ../src/main_window.c:2990
 #, c-format
@@ -392,27 +386,27 @@ msgstr ""
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr ""
+msgstr "Última hora"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Últimas dúas horas"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Últimas catro horas"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
-msgstr ""
+msgstr "Hoxe"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr ""
+msgstr "Todo"
 
 #: ../src/privacy_dialog.c:459
 msgid "Clear private data"
-msgstr ""
+msgstr "Limpar os datos privados"
 
 #: ../src/preferences_dialog.c:196
 msgid "Display"
@@ -424,7 +418,7 @@ msgstr "Cor de fondo"
 
 #: ../src/preferences_dialog.c:204
 msgid "Toolbars"
-msgstr ""
+msgstr "Barras de ferramentas"
 
 #: ../src/preferences_dialog.c:209
 msgid "Override background color:"
@@ -432,14 +426,13 @@ msgstr "Substituír a cor de fondo:"
 
 #: ../src/preferences_dialog.c:220
 msgid "Merge toolbars"
-msgstr ""
+msgstr "Fusionar as barras de ferramentas"
 
 #: ../src/preferences_dialog.c:225
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
 #: ../src/preferences_dialog.c:228
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
@@ -449,7 +442,6 @@ msgstr ""
 "pantalla completa."
 
 #: ../src/preferences_dialog.c:230
-#, fuzzy
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Ocultar a barra de miniaturas cando se estea a pantalla completa"
 
@@ -474,7 +466,6 @@ msgid "Control"
 msgstr "Control"
 
 #: ../src/preferences_dialog.c:293
-#, fuzzy
 msgid "Scroll wheel"
 msgstr "Roda do rato"
 
@@ -501,16 +492,15 @@ msgstr "Envoltorio arredor das imaxes"
 
 #: ../src/preferences_dialog.c:338
 msgid "Desktop"
-msgstr ""
+msgstr "Escritorio"
 
 #: ../src/preferences_dialog.c:460
-#, fuzzy
 msgid "Image Viewer Preferences"
-msgstr "Visor de imaxes"
+msgstr "Preferencias do visor de imaxes"
 
 #: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Nome:</b>"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
@@ -526,16 +516,15 @@ msgstr ""
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Tamaño:</b>"
 
 #: ../src/properties_dialog.c:308
 msgid "General"
-msgstr ""
+msgstr "Xeral"
 
 #: ../src/properties_dialog.c:312
-#, fuzzy
 msgid "Image"
-msgstr "Imaxes"
+msgstr "Imaxe"
 
 #: ../src/properties_dialog.c:525
 #, c-format
@@ -546,12 +535,12 @@ msgstr ""
 #: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:623
 #, c-format
 msgid "%s - Properties"
-msgstr ""
+msgstr "%s - Propiedades"
 
 #: ../src/thumbnail_bar.c:208
 msgid "Spacing"
@@ -566,9 +555,8 @@ msgid "border width"
 msgstr "Ancho do bordo"
 
 #: ../src/thumbnail_bar.c:216
-#, fuzzy
 msgid "the border width of the thumbnail bar"
-msgstr "O ancho do bordo da barra de miniaturas"
+msgstr "o ancho do bordo da barra de miniaturas"
 
 #: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
 msgid "Style:"
@@ -613,16 +601,13 @@ msgid "Zoomed"
 msgstr "Ampliada"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images easily"
-msgstr "Mire as súas fotos sen complicarse"
+msgstr "Mire as súas imaxes sen complicarse"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
-msgstr "Visor de fotos Ristretto"
+msgstr "Visor de imaxes Ristretto"
 
-# expandir escalar redimensionar
 #~ msgid "Scaling"
 #~ msgstr "Redimensionamento"
 
@@ -632,7 +617,6 @@ msgstr "Visor de fotos Ristretto"
 #~ msgid "Preferences"
 #~ msgstr "Preferencias"
 
-#, fuzzy
 #~ msgid "Image viewer"
 #~ msgstr "Visor de imaxes"
 
@@ -657,7 +641,6 @@ msgstr "Visor de fotos Ristretto"
 #~ msgid "Monitor:"
 #~ msgstr "Monitor:"
 
-#, fuzzy
 #~ msgid "Two"
 #~ msgstr "Superior"
 
