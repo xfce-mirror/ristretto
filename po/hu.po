@@ -2,22 +2,22 @@
 # Copyright 2009. Free Software Foundation, Inc.
 # This file is distributed under the same license as the ristretto package.
 #
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2009, 2010.
 # SZERVÁC Attila <sas@321.hu>
+# Gabor Kelemen <kelemeng at gnome dot hu>, 2009, 2010, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2011-12-18 08:43+0100\n"
-"PO-Revision-Date: 2010-02-05 16:48+0100\n"
+"POT-Creation-Date: 2011-12-19 20:48+0000\n"
+"PO-Revision-Date: 2011-12-22 03:52+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
-"Language-Team: Hungarian <gnome at fsf dot hu>\n"
+"Language-Team: Magyar <gnome-hu-list at gnome dot org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.0\n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -33,10 +33,10 @@ msgstr "Diavetítés indítása"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "Beállítások ablak megjelenítése"
 
 #: ../src/main.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
@@ -44,7 +44,9 @@ msgid ""
 "available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Az elérhető kapcsolók listájáért adja ki az %s --help parancsot.\n"
+"\n"
+"Az elérhető kapcsolók listájáért adja\n"
+"ki a %s --help parancsot.\n"
 
 #: ../src/main_window.c:55 ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -73,11 +75,11 @@ msgstr "A kép másolatának mentése"
 
 #: ../src/main_window.c:278
 msgid "_Properties"
-msgstr ""
+msgstr "T_ulajdonságok"
 
 #: ../src/main_window.c:278
 msgid "Show file properties"
-msgstr ""
+msgstr "Fájltulajdonságok megjelenítése"
 
 #: ../src/main_window.c:279
 msgid "_Close"
@@ -113,13 +115,12 @@ msgid "_Delete"
 msgstr "_Törlés"
 
 #: ../src/main_window.c:285
-#, fuzzy
 msgid "Delete this image from disk"
-msgstr "Kép bezárása"
+msgstr "Kép törlése a lemezről"
 
 #: ../src/main_window.c:286
 msgid "_Clear private data"
-msgstr ""
+msgstr "Sze_mélyes adatok törlése"
 
 #: ../src/main_window.c:287
 msgid "_Preferences"
@@ -144,7 +145,6 @@ msgstr "Beállítás _háttérképként"
 
 #. Zoom submenu
 #: ../src/main_window.c:294
-#, fuzzy
 msgid "_Zoom"
 msgstr "_Nagyítás"
 
@@ -225,9 +225,8 @@ msgid "_Position"
 msgstr "_Pozíció"
 
 #: ../src/main_window.c:323
-#, fuzzy
 msgid "Thumbnail Bar _Position"
-msgstr "Bélyegképek"
+msgstr "Bélyegképsá_v helye"
 
 #. Misc
 #: ../src/main_window.c:325
@@ -246,9 +245,8 @@ msgstr "_Navigáció eszköztár megjelenítése"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:337
-#, fuzzy
 msgid "Show _Thumbnail Bar"
-msgstr "_Bélyegképsor megjelenítése"
+msgstr "_Bélyegképsáv megjelenítése"
 
 #. Sort by Filename
 #: ../src/main_window.c:344
@@ -312,7 +310,7 @@ msgstr "Üres"
 
 #: ../src/main_window.c:1831
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "A „háttérkép-beállítási” mód kiválasztása"
 
 #: ../src/main_window.c:1846 ../src/preferences_dialog.c:349
 msgid ""
@@ -320,31 +318,33 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
+"Adja meg, hogy melyik rendszer kezeli jelenleg az asztalát.\n"
+"Ez a beállítás meghatározza, hogy a <i>Ristretto</i> melyik\n"
+"módszert használja az asztal háttérképének beállítására."
 
 #: ../src/main_window.c:1871 ../src/preferences_dialog.c:373
 msgid "None"
-msgstr ""
+msgstr "Nincs"
 
 #: ../src/main_window.c:1875 ../src/preferences_dialog.c:377
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
 #: ../src/main_window.c:1879 ../src/preferences_dialog.c:381
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ../src/main_window.c:2381
 msgid "Developer:"
 msgstr "Fejlesztő:"
 
 #: ../src/main_window.c:2390
-#, fuzzy
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "A Ristretto egy képmegjelenítő az Xfce asztali környezethez."
 
 #: ../src/main_window.c:2398
 msgid "translator-credits"
-msgstr "Kelemen Gábor <kelemeng@gnome.hu>"
+msgstr "Kelemen Gábor <kelemeng at gnome dot hu>"
 
 #: ../src/main_window.c:2688
 msgid "Open image"
@@ -367,9 +367,8 @@ msgid "Save copy"
 msgstr "Másolat mentése"
 
 #: ../src/main_window.c:2889
-#, fuzzy
 msgid "Could not save file"
-msgstr "Nem lehet megnyitni a fájlt"
+msgstr "Nem lehet menteni a fájlt"
 
 #: ../src/main_window.c:2990
 #, c-format
@@ -378,35 +377,35 @@ msgstr "Biztosan törli a(z) „%s” képet a lemezről?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
-msgstr ""
+msgstr "Törlendő időszak:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Törlés"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr ""
+msgstr "Utolsó óra"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Utolsó két óra"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Utolsó négy óra"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
-msgstr ""
+msgstr "Ma"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr ""
+msgstr "Minden"
 
 #: ../src/privacy_dialog.c:459
 msgid "Clear private data"
-msgstr ""
+msgstr "Személyes adatok törlése"
 
 #: ../src/preferences_dialog.c:196
 msgid "Display"
@@ -418,7 +417,7 @@ msgstr "Háttérszín"
 
 #: ../src/preferences_dialog.c:204
 msgid "Toolbars"
-msgstr ""
+msgstr "Eszköztárak"
 
 #: ../src/preferences_dialog.c:209
 msgid "Override background color:"
@@ -426,23 +425,21 @@ msgstr "Háttérszín felülbírálása:"
 
 #: ../src/preferences_dialog.c:220
 msgid "Merge toolbars"
-msgstr ""
+msgstr "Eszköztárak egyesítése"
 
 #: ../src/preferences_dialog.c:225
 msgid "Thumbnails"
 msgstr "Bélyegképek"
 
 #: ../src/preferences_dialog.c:228
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
 msgstr ""
 "A bélyegképsáv automatikusan elrejthető\n"
-"ha a képmegjelenítő teljes képernyőn van."
+"ha az ablak teljes képernyőn van."
 
 #: ../src/preferences_dialog.c:230
-#, fuzzy
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Bélyegképsáv elrejtése teljes képernyőn"
 
@@ -465,13 +462,12 @@ msgid "Control"
 msgstr "Vezérlés"
 
 #: ../src/preferences_dialog.c:293
-#, fuzzy
 msgid "Scroll wheel"
 msgstr "Egérgörgő"
 
 #: ../src/preferences_dialog.c:296
 msgid "Invert zoom direction"
-msgstr ""
+msgstr "Nagyítási irány megfordítása"
 
 #: ../src/preferences_dialog.c:306
 msgid "Behaviour"
@@ -482,9 +478,8 @@ msgid "Startup"
 msgstr "Indítás"
 
 #: ../src/preferences_dialog.c:313
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Ablak átméretezése a képhez indításkor"
+msgstr "Ablak maximalizálása indításkor kép megnyitásakor"
 
 #: ../src/preferences_dialog.c:319
 msgid "Wrap around images"
@@ -492,57 +487,55 @@ msgstr "Képek körbefuttatása"
 
 #: ../src/preferences_dialog.c:338
 msgid "Desktop"
-msgstr ""
+msgstr "Asztal"
 
 #: ../src/preferences_dialog.c:460
-#, fuzzy
 msgid "Image Viewer Preferences"
-msgstr "Képmegjelenítő"
+msgstr "Képmegjelenítő beállításai"
 
 #: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Név:</b>"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Típus:</b>"
 
 #: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Módosítva:</b>"
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Elérés:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Méret:</b>"
 
 #: ../src/properties_dialog.c:308
 msgid "General"
-msgstr ""
+msgstr "Általános"
 
 #: ../src/properties_dialog.c:312
-#, fuzzy
 msgid "Image"
-msgstr "Képek"
+msgstr "Kép"
 
 #: ../src/properties_dialog.c:525
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr ""
+msgstr "<b>Felvétel dátuma:</b>"
 
 #: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:623
 #, c-format
 msgid "%s - Properties"
-msgstr ""
+msgstr "%s tulajdonságai"
 
 #: ../src/thumbnail_bar.c:208
 msgid "Spacing"
@@ -557,7 +550,6 @@ msgid "border width"
 msgstr "Szegély szélessége"
 
 #: ../src/thumbnail_bar.c:216
-#, fuzzy
 msgid "the border width of the thumbnail bar"
 msgstr "A bélyegképsáv szegélyének szélessége"
 
@@ -602,14 +594,12 @@ msgid "Zoomed"
 msgstr "Nagyított"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images easily"
-msgstr "Fényképek egyszerű megjelenítése"
+msgstr "Képek egyszerű megjelenítése"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
-msgstr "Ristretto fénykép-megjelenítő"
+msgstr "Ristretto képmegjelenítő"
 
 #~ msgid "Scaling"
 #~ msgstr "Méretezés"
