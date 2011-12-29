@@ -37,8 +37,15 @@ typedef enum
 typedef enum {
     DESKTOP_TYPE_NONE = 0,
     DESKTOP_TYPE_XFCE,
-    DESKTOP_TYPE_GNOME
+    DESKTOP_TYPE_GNOME,
+    DESKTOP_TYPE_COUNT
 } RsttoDesktopType;
+
+typedef enum {
+    SORT_TYPE_NAME = 0,
+    SORT_TYPE_DATE,
+    SORT_TYPE_COUNT,
+} RsttoSortType;
 
 gboolean
 rstto_launch_help (void);

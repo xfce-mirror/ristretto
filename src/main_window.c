@@ -529,6 +529,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_sort_entries , G_N_ELEMENTS (radio_action_sort_entries), 0, G_CALLBACK (cb_rstto_main_window_sorting_function_changed), GTK_WIDGET (window));
     gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_pos_entries, G_N_ELEMENTS (radio_action_pos_entries), navigationbar_position, G_CALLBACK (cb_rstto_main_window_navigationtoolbar_position_changed), GTK_WIDGET (window));
 
+
     gtk_ui_manager_add_ui_from_string (window->priv->ui_manager,main_window_ui, main_window_ui_length, NULL);
     window->priv->menubar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu");
     window->priv->toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar");
@@ -568,9 +569,6 @@ rstto_main_window_init (RsttoMainWindow *window)
     rstto_image_viewer_set_menu (
         RSTTO_IMAGE_VIEWER(window->priv->image_viewer),
         GTK_MENU(window->priv->image_viewer_menu));
-
-    
-    
 
     //rstto_picture_viewer_set_menu (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), GTK_MENU(window->priv->image_viewer_menu));
     window->priv->thumbnailbar = rstto_thumbnail_bar_new (NULL);
@@ -698,6 +696,32 @@ rstto_main_window_init (RsttoMainWindow *window)
         gtk_widget_hide (window->priv->thumbnailbar);
     }
 
+    /**
+     * Set sort-type
+     */
+    switch (rstto_settings_get_uint_property (window->priv->settings_manager, "sort-type"))
+    {
+        case SORT_TYPE_NAME:
+            gtk_check_menu_item_set_active (
+                    GTK_CHECK_MENU_ITEM (
+                            gtk_ui_manager_get_widget (
+                                    window->priv->ui_manager,
+                                    "/main-menu/edit-menu/sorting-menu/sort-filename")),
+                    TRUE);
+            break;
+        case SORT_TYPE_DATE:
+            gtk_check_menu_item_set_active (
+                    GTK_CHECK_MENU_ITEM (
+                            gtk_ui_manager_get_widget (
+                                    window->priv->ui_manager,
+                                    "/main-menu/edit-menu/sorting-menu/sort-date")),
+                    TRUE);
+            break;
+        default:
+            g_warning("Sort type unsupported");
+            break;
+    }
+
     g_signal_connect(G_OBJECT(window), "motion-notify-event", G_CALLBACK(cb_rstto_main_window_motion_notify_event), window);
     g_signal_connect(G_OBJECT(window->priv->image_viewer), "enter-notify-event", G_CALLBACK(cb_rstto_main_window_image_viewer_enter_notify_event), window);
     g_signal_connect(G_OBJECT(window->priv->image_viewer), "scroll-event", G_CALLBACK(cb_rstto_main_window_image_viewer_scroll_event), window);
@@ -707,6 +731,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     g_signal_connect(G_OBJECT(window->priv->image_list_toolbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
     g_signal_connect(G_OBJECT(window->priv->thumbnailbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
     g_signal_connect(G_OBJECT(window->priv->image_viewer), "size-ready", G_CALLBACK(cb_rstto_main_window_update_statusbar), window);
+    g_signal_connect(G_OBJECT(window->priv->image_viewer), "scale-changed", G_CALLBACK(cb_rstto_main_window_update_statusbar), window);
 
     if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
     {
@@ -832,6 +857,20 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 
     window->priv->image_list = image_list;
     g_object_ref (image_list);
+
+    switch (rstto_settings_get_uint_property (window->priv->settings_manager, "sort-type"))
+    {
+        case SORT_TYPE_NAME:
+            rstto_image_list_set_sort_by_name (window->priv->image_list);
+            break;
+        case SORT_TYPE_DATE:
+            rstto_image_list_set_sort_by_date (window->priv->image_list);
+            break;
+        default:
+            g_warning("Sort type unsupported");
+            break;
+    }
+
 
     window->priv->iter = rstto_image_list_get_iter (window->priv->image_list);
     g_signal_connect (
@@ -1788,10 +1827,18 @@ cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action, GtkRadioA
     {
         case 0:  /* Sort by filename */
         default:
-            rstto_image_list_set_sort_by_name (window->priv->image_list);
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_by_name (window->priv->image_list);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_NAME);
+            }
             break;
         case 1: /* Sort by date */
-            rstto_image_list_set_sort_by_date (window->priv->image_list);
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_by_date (window->priv->image_list);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_DATE);
+            }
             break;
     }
 }

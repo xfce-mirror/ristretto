@@ -363,12 +363,21 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
                                 G_TYPE_NONE, 2,
                                 GTK_TYPE_ADJUSTMENT,
                                 GTK_TYPE_ADJUSTMENT);
-    g_signal_new ("size-ready", G_TYPE_FROM_CLASS (object_class),
-                                G_SIGNAL_RUN_FIRST,
-                                0,
-                                NULL, NULL,
-                                g_cclosure_marshal_VOID__VOID,
-                                G_TYPE_NONE, 0);
+    g_signal_new (
+            "size-ready",
+            G_TYPE_FROM_CLASS (object_class),
+            G_SIGNAL_RUN_FIRST,
+            0,
+            NULL, NULL,
+            g_cclosure_marshal_VOID__VOID,
+            G_TYPE_NONE, 0);
+    g_signal_new ("scale-changed",
+            G_TYPE_FROM_CLASS (object_class),
+            G_SIGNAL_RUN_FIRST,
+            0,
+            NULL, NULL,
+            g_cclosure_marshal_VOID__VOID,
+            G_TYPE_NONE, 0);
 }
 
 /**
@@ -2067,6 +2076,8 @@ rstto_scroll_event (
                     widget->window,
                     NULL,
                     FALSE); 
+
+            g_signal_emit_by_name(viewer, "scale-changed");
         }
         return TRUE;
     }

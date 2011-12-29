@@ -23,6 +23,7 @@
 #include <xfconf/xfconf.h>
 #include <libxfce4util/libxfce4util.h>
 
+#include "util.h"
 #include "settings.h"
 
 static void
@@ -72,6 +73,7 @@ enum
     PROP_MAXIMIZE_ON_STARTUP,
     PROP_MERGE_TOOLBARS,
     PROP_ERROR_MISSING_THUMBNAILER,
+    PROP_SORT_TYPE,
 };
 
 GType
@@ -122,6 +124,8 @@ struct _RsttoSettingsPriv
     gboolean  use_thunar_properties;
     gboolean  maximize_on_startup;
     gboolean  merge_toolbars;
+
+    RsttoSortType sort_type;
 
     struct {
         gboolean missing_thumbnailer;
@@ -195,6 +199,13 @@ rstto_settings_init (GObject *object)
             G_TYPE_BOOLEAN,
             settings,
             "show-nav-toolbar");
+
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/navigationbar/sort-type",
+            G_TYPE_UINT,
+            settings,
+            "sort-type");
 
     xfconf_g_property_bind (
             settings->priv->channel,
@@ -523,6 +534,19 @@ rstto_settings_class_init (GObjectClass *object_class)
             object_class,
             PROP_ERROR_MISSING_THUMBNAILER,
             pspec);
+
+    pspec = g_param_spec_uint (
+            "sort-type",
+            "",
+            "",
+            0,
+            SORT_TYPE_COUNT,
+            0,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_SORT_TYPE,
+            pspec);
 }
 
 /**
@@ -682,6 +706,9 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_ERROR_MISSING_THUMBNAILER:
             settings->priv->errors.missing_thumbnailer = g_value_get_boolean (value);
             break;
+        case PROP_SORT_TYPE:
+            settings->priv->sort_type = g_value_get_uint ( value );
+            break;
         default:
             break;
     }
@@ -756,6 +783,11 @@ rstto_settings_get_property    (GObject    *object,
             g_value_set_boolean (
                     value,
                     settings->priv->errors.missing_thumbnailer);
+            break;
+        case PROP_SORT_TYPE:
+            g_value_set_uint (
+                    value,
+                    settings->priv->sort_type);
             break;
         default:
             break;
