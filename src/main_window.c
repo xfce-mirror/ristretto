@@ -205,48 +205,85 @@ static void
 cb_rstto_main_window_update_statusbar (GtkWidget *widget, RsttoMainWindow *window);
 
 static void
-cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_play (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
 static void
-cb_rstto_main_window_pause(GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_pause(
+        GtkWidget *widget,
+        RsttoMainWindow *window);
 static gboolean
-cb_rstto_main_window_play_slideshow (RsttoMainWindow *window);
+cb_rstto_main_window_play_slideshow (
+        RsttoMainWindow *window);
 
 static void
-cb_rstto_main_window_toggle_show_file_toolbar (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_toggle_show_file_toolbar (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
 static void
-cb_rstto_main_window_toggle_show_nav_toolbar (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_toggle_show_nav_toolbar (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
 static void
-cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_toggle_show_thumbnailbar (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
+
 static void
-cb_rstto_main_window_fullscreen (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_fullscreen (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
 static void
-cb_rstto_main_window_preferences (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_preferences (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
+
 static void
-cb_rstto_main_window_clear_private_data (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_clear_private_data (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
+
 static void
-cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_about (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
+
 static void
-cb_rstto_main_window_contents (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_contents (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
+
 static void
-cb_rstto_main_window_quit (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_quit (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
 
 static gboolean 
-cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
-                                             GdkEventMotion *event,
-                                             gpointer user_data);
+cb_rstto_main_window_motion_notify_event (
+        RsttoMainWindow *window,
+        GdkEventMotion *event,
+        gpointer user_data);
+
 static gboolean
-cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget,
-                                                        GdkEventCrossing *event,
-                                                        gpointer user_data);
+cb_rstto_main_window_image_viewer_enter_notify_event (
+        GtkWidget *widget,
+        GdkEventCrossing *event,
+        gpointer user_data);
+
 static gboolean
-cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget,
-                                                GdkEventScroll *event,
-                                                gpointer user_data);
+cb_rstto_main_window_image_viewer_scroll_event (
+        GtkWidget *widget,
+        GdkEventScroll *event,
+        gpointer user_data);
 
 static void
-rstto_main_window_update_buttons (RsttoMainWindow *window);
+rstto_main_window_update_buttons (
+        RsttoMainWindow *window);
+
 static void
-rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint orientation);
+rstto_main_window_set_navigationbar_position (
+        RsttoMainWindow *window,
+        guint orientation);
 
 
 static void
@@ -570,7 +607,6 @@ rstto_main_window_init (RsttoMainWindow *window)
         RSTTO_IMAGE_VIEWER(window->priv->image_viewer),
         GTK_MENU(window->priv->image_viewer_menu));
 
-    //rstto_picture_viewer_set_menu (RSTTO_PICTURE_VIEWER (window->priv->picture_viewer), GTK_MENU(window->priv->image_viewer_menu));
     window->priv->thumbnailbar = rstto_thumbnail_bar_new (NULL);
 
     window->priv->hpaned_left = gtk_hpaned_new();
@@ -2530,7 +2566,6 @@ static void
 cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window)
 {
     rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), 0);
-    rstto_main_window_update_statusbar(window);
 }
 
 /**
@@ -2544,7 +2579,6 @@ static void
 cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window)
 {
     rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), 1);
-    rstto_main_window_update_statusbar(window);
 }
 
 /**
@@ -2559,7 +2593,6 @@ cb_rstto_main_window_zoom_in (GtkWidget *widget, RsttoMainWindow *window)
 {
     gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer));
     rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), scale*1.2);
-    rstto_main_window_update_statusbar(window);
 }
 
 /**
@@ -2574,7 +2607,6 @@ cb_rstto_main_window_zoom_out (GtkWidget *widget, RsttoMainWindow *window)
 {
     gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer));
     rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), scale/1.2);
-    rstto_main_window_update_statusbar(window);
 }
 
 /**********************/
@@ -3153,7 +3185,7 @@ rstto_main_window_add_file_to_recent_files (GFile *file)
 
     recent_data = g_slice_new (GtkRecentData);
     recent_data->display_name = NULL;
-    recent_data->description = NULL; //NULL
+    recent_data->description = NULL; 
     recent_data->mime_type = (gchar *) g_file_info_get_content_type (file_info);
     recent_data->app_name = RSTTO_RECENT_FILES_APP_NAME;
     recent_data->app_exec = g_strjoin(" ", g_get_prgname (), "%u", NULL);

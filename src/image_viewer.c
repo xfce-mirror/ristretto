@@ -749,6 +749,7 @@ set_scale (
 
     viewer->priv->auto_scale = auto_scale;
     viewer->priv->scale = scale;
+    g_signal_emit_by_name(viewer, "scale-changed");
 }
  
 static void
