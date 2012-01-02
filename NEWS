@@ -21,6 +21,9 @@ x.x.x
   shutdown.
 - Make sure file-types insupported by gdkpixbufloader are not accidently
   included in the image-list.
+- Fix bug #8296 (Ristretto crashes when a file is added to the monitored
+  dir), reconsidered reference-counting on file-objects. Do not let
+  image-list assume reference, but add it's own.
 
 0.3.0
 =====
