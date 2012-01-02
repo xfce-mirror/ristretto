@@ -22,7 +22,7 @@ x.x.x
   of the 'back' and 'forward' buttons when showing the first or last
   image in a list.
 - Improve preview of the set-wallpaper dialog.
-- Make sure file-types insupported by gdkpixbufloader are not accidently
+- Make sure file-types unsupported by gdkpixbufloader are not accidently
   included in the image-list.
 
 0.3.0
