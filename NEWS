@@ -1,29 +1,29 @@
 x.x.x
 =====
-- Apply saturation and brightness settings in the set-wallpaper
-  preview widget.
+- Fix bug #5246 (Set as wallpaper doesn't work in GNOME)
+- Fix bug #6509 (Implement file-monitor)
+- Fix bug #7818 (statusbar pixel inf0) Improve statusbar messages.
+- Fix bug #8026 (monitors in "set as wallpaper" dialog alignment) add
+  'foot' to the monitors and align to that.
 - Fix bug #8134 (Fix Segmentation fault when 
   paint_background_icon tries to use a NULL bg_icon)
 - Fix bug #8135 (Fix compile with --enable-debug=full)
+- Fix bug #8176 (Request for warning dialog window informing user
+  tumblerd is not reachable/installed)
+- Fix bug #8211 (Segfault on exit) Correctly cleanup the thumbnailer on
+  shutdown.
+- Fix bug #8296 (Ristretto crashes when a file is added to the monitored
+  dir), reconsidered reference-counting on file-objects. Do not let
+  image-list assume reference, but add it's own.
 - Do not open the copy of an image when saving.
-- Fix bug #6509 (Implement file-monitor)
+- Apply saturation and brightness settings in the set-wallpaper
+  preview widget.
 - Add 'has-next' and 'has-previous' functions to disable the sensitivity
   of the 'back' and 'forward' buttons when showing the first or last
   image in a list.
 - Improve preview of the set-wallpaper dialog.
-- Fix bug #8176 (Request for warning dialog window informing user
-  tumblerd is not reachable/installed)
-- Fix bug #8026 (monitors in "set as wallpaper" dialog alignment) add
-  'foot' to the monitors and align to that.
-- Implement set-wallpaper support for Gnome-3 (bug #5246)
-- Fix bug #7818 (statusbar pixel inf0) Improve statusbar messages.
-- Fix bug #8211 (Segfault on exit) Correctly cleanup the thumbnailer on
-  shutdown.
 - Make sure file-types insupported by gdkpixbufloader are not accidently
   included in the image-list.
-- Fix bug #8296 (Ristretto crashes when a file is added to the monitored
-  dir), reconsidered reference-counting on file-objects. Do not let
-  image-list assume reference, but add it's own.
 
 0.3.0
 =====
