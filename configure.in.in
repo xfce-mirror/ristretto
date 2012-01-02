@@ -90,6 +90,11 @@ if test x"$enable_gen_doc" = x"yes"; then
         if test x"$GNOME_DOC_TOOL" = x"no"; then
             enable_gen_doc=no
         fi
+
+        AC_PATH_PROG([XML2PO], [xml2po], [no])
+        if test x"$XML2PO" = x"no"; then
+            enable_gen_doc=no
+        fi
     ],
     [
         enable_gen_doc=no
