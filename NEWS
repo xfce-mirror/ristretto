@@ -2,7 +2,7 @@ x.x.x
 =====
 - Fix bug #5246 (Set as wallpaper doesn't work in GNOME)
 - Fix bug #6509 (Implement file-monitor)
-- Fix bug #7818 (statusbar pixel inf0) Improve statusbar messages.
+- Fix bug #7818 (statusbar pixel info) Improve statusbar messages.
 - Fix bug #8026 (monitors in "set as wallpaper" dialog alignment) add
   'foot' to the monitors and align to that.
 - Fix bug #8134 (Fix Segmentation fault when 
@@ -24,6 +24,8 @@ x.x.x
 - Improve preview of the set-wallpaper dialog.
 - Make sure file-types unsupported by gdkpixbufloader are not accidently
   included in the image-list.
+- Save the sorting algoritm.
+- Limit rendering of selection-box to the inside of the image.
 
 0.3.0
 =====
