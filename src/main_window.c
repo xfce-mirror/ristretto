@@ -2757,7 +2757,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     GSList *files = NULL, *_files_iter;
     GValue current_uri_val = {0, };
     GtkFileFilter *filter;
-    RsttoFile *rfile;
+    RsttoFile *r_file = NULL;
 
     g_value_init (&current_uri_val, G_TYPE_STRING);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
@@ -2806,23 +2806,29 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                 file = _files_iter->data;
                 if (g_file_query_exists (file, NULL) )
                 {
-                    if (rstto_image_list_add_file (window->priv->image_list, rstto_file_new(file), NULL) == FALSE)
+                    r_file = rstto_file_new (file);
+                    if (NULL != r_file)
                     {
-                        err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
-                                                        GTK_DIALOG_MODAL,
-                                                        GTK_MESSAGE_ERROR,
-                                                        GTK_BUTTONS_OK,
-                                                        _("Could not open file"));
-                        gtk_dialog_run(GTK_DIALOG(err_dialog));
-                        gtk_widget_destroy(err_dialog);
-                    }
-                    else
-                    {
-                        /* Add a reference to the file, it is owned by the
-                         * sourcefunc and will be unref-ed by it.
-                         */
-                        g_object_ref (file);
-                        g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, file, NULL);
+                        if (rstto_image_list_add_file (window->priv->image_list, r_file, NULL) == FALSE)
+                        {
+                            err_dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+                                                            GTK_DIALOG_MODAL,
+                                                            GTK_MESSAGE_ERROR,
+                                                            GTK_BUTTONS_OK,
+                                                            _("Could not open file"));
+                            gtk_dialog_run(GTK_DIALOG(err_dialog));
+                            gtk_widget_destroy(err_dialog);
+                        }
+                        else
+                        {
+                            /* Add a reference to the file, it is owned by the
+                             * sourcefunc and will be unref-ed by it.
+                             */
+                            g_object_ref (file);
+                            g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, file, NULL);
+                        }
+                        g_object_unref (G_OBJECT (r_file));
+                        r_file = NULL;
                     }
                 }
 
@@ -2838,8 +2844,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
             {
                 if (g_file_query_exists (files->data, NULL) )
                 {
-                    rfile = rstto_file_new (files->data);
-                    g_object_ref (rfile);
+                    r_file = rstto_file_new (files->data);
 
                     p_file = g_file_get_parent (files->data);
                     rstto_image_list_set_directory (
@@ -2848,7 +2853,9 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                             NULL );
                     rstto_image_list_iter_find_file (
                             window->priv->iter,
-                            rfile );
+                            r_file );
+
+                    g_object_unref (r_file);
                 }
             }
         }
@@ -2883,22 +2890,26 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
     GError *error = NULL;
     GFile *file = g_file_new_for_uri (uri);
     GFile *p_file;
-    RsttoFile *rfile;
+    RsttoFile *r_file = NULL;
 
     if ((error == NULL) &&
         (g_file_query_exists (file, NULL)))
     {
-        rfile = rstto_file_new (file);
-        g_object_ref (rfile);
+        r_file = rstto_file_new (file);
+        if ( NULL != r_file )
+        {
+            p_file = g_file_get_parent (file);
+            rstto_image_list_set_directory (
+                    window->priv->image_list,
+                    p_file,
+                    NULL);
+            rstto_image_list_iter_find_file (
+                    window->priv->iter,
+                    r_file );
 
-        p_file = g_file_get_parent (file);
-        rstto_image_list_set_directory (
-                window->priv->image_list,
-                p_file,
-                NULL);
-        rstto_image_list_iter_find_file (
-                window->priv->iter,
-                rfile );
+            g_object_unref (G_OBJECT (r_file));
+            r_file = NULL;
+        }
     }
     else
     {

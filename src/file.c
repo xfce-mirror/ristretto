@@ -207,6 +207,7 @@ rstto_file_new ( GFile *file )
                 o_file->priv->file,
                 file) )
         {
+            g_object_ref (G_OBJECT (iter->data));
             return (RsttoFile *)iter->data;
         }
         iter = g_list_next (iter);

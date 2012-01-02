@@ -204,6 +204,8 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
                         {
                             rstto_main_window_add_file_to_recent_files (file);
                         }
+                        g_object_unref (r_file);
+                        r_file = NULL;
                     }
 
                 }
@@ -249,6 +251,9 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
             /* Point the iterator to the correct image */
             rstto_image_list_iter_find_file (iter, r_file);
+
+            g_object_unref (r_file);
+            r_file = NULL;
         }
     }
     return FALSE;

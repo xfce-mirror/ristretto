@@ -267,11 +267,17 @@ rstto_image_list_new (void)
 }
 
 gboolean
-rstto_image_list_add_file (RsttoImageList *image_list, RsttoFile *file, GError **error)
+rstto_image_list_add_file (
+        RsttoImageList *image_list,
+        RsttoFile *file,
+        GError **error )
 {
     GtkFileFilterInfo filter_info;
     GList *image_iter = g_list_find (image_list->priv->images, file);
     GSList *iter = image_list->priv->iterators;
+
+    g_return_val_if_fail ( NULL != file , FALSE);
+    g_return_val_if_fail ( RSTTO_IS_FILE (file) , FALSE);
 
     if (!image_iter)
     {
@@ -283,6 +289,8 @@ rstto_image_list_add_file (RsttoImageList *image_list, RsttoFile *file, GError *
 
             if ( TRUE == gtk_file_filter_filter (image_list->priv->filter, &filter_info))
             {
+                g_object_ref (G_OBJECT (file));
+
                 image_list->priv->images = g_list_insert_sorted (image_list->priv->images, file, rstto_image_list_get_compare_func (image_list));
 
                 image_list->priv->n_images++;
@@ -301,12 +309,12 @@ rstto_image_list_add_file (RsttoImageList *image_list, RsttoFile *file, GError *
             }
             else
             {
-                g_object_unref (file);
                 return FALSE;
             }
         }
         return FALSE;
     }
+
     g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, image_iter->data, NULL);
 
     return TRUE;
@@ -508,17 +516,18 @@ cb_file_monitor_changed (
     {
         case G_FILE_MONITOR_EVENT_DELETED:
             rstto_image_list_remove_file ( image_list, r_file );
-            r_file = NULL;
             break;
         case G_FILE_MONITOR_EVENT_CREATED:
             rstto_image_list_add_file (image_list, r_file, NULL);
-            r_file = NULL;
             break;
         case G_FILE_MONITOR_EVENT_MOVED:
             rstto_image_list_remove_file ( image_list, r_file );
+
+            /* Remove our reference, reusing pointer */
+            g_object_unref (r_file);
+
             r_file = rstto_file_new (other_file);
             rstto_image_list_add_file (image_list, r_file, NULL);
-            r_file = NULL;
             break;
         default:
             break;
