@@ -35,7 +35,7 @@ msgid "Show settings dialog"
 msgstr "Einstellungsdialog anzeigen"
 
 #: ../src/main.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
@@ -223,7 +223,6 @@ msgid "_Position"
 msgstr "_Position"
 
 #: ../src/main_window.c:360
-#, fuzzy
 msgid "Thumbnail Bar _Position"
 msgstr "_Position der Miniaturvorschau"
 
@@ -244,9 +243,8 @@ msgstr "_Navigationsleiste anzeigen"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:374
-#, fuzzy
 msgid "Show _Thumbnail Bar"
-msgstr "_Miniaturbilderleiste anzeigen"
+msgstr "Miniaturbilderleis_te anzeigen"
 
 #. Sort by Filename
 #: ../src/main_window.c:381
@@ -309,12 +307,10 @@ msgid "Empty"
 msgstr "Leer"
 
 #: ../src/main_window.c:1914
-#, fuzzy
 msgid "Choose 'set wallpaper' method"
 msgstr "Wählen Sie die Methode zum Setzen des Hintergrundbildes"
 
 #: ../src/main_window.c:1929 ../src/preferences_dialog.c:349
-#, fuzzy
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -325,17 +321,14 @@ msgstr ""
 "um das Hintergrundbild des Schreibtisches festzulegen"
 
 #: ../src/main_window.c:1954 ../src/preferences_dialog.c:373
-#, fuzzy
 msgid "None"
 msgstr "Keine/Andere"
 
 #: ../src/main_window.c:1958 ../src/preferences_dialog.c:377
-#, fuzzy
 msgid "Xfce"
 msgstr "Xfce"
 
 #: ../src/main_window.c:1962 ../src/preferences_dialog.c:381
-#, fuzzy
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -344,7 +337,6 @@ msgid "Developer:"
 msgstr "Entwickler:"
 
 #: ../src/main_window.c:2473
-#, fuzzy
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto ist ein Bildbetrachter für die Arbeitsumgebung Xfce."
 
@@ -376,7 +368,6 @@ msgid "Save copy"
 msgstr "Kopie speichern"
 
 #: ../src/main_window.c:2979
-#, fuzzy
 msgid "Could not save file"
 msgstr "Datei konnte nicht gespeichert werden"
 
@@ -387,7 +378,6 @@ msgstr ""
 "Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
 
 #: ../src/privacy_dialog.c:151
-#, fuzzy
 msgid "Time range to clear:"
 msgstr "Zu löschender Zeitraum:"
 
@@ -444,7 +434,6 @@ msgid "Thumbnails"
 msgstr "Miniaturbilder"
 
 #: ../src/preferences_dialog.c:228
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
@@ -453,7 +442,6 @@ msgstr ""
 "Vollbildmodus automatisch versteckt werden."
 
 #: ../src/preferences_dialog.c:230
-#, fuzzy
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Miniaturbildleiste im Vollbildmodus verbergen"
 
@@ -478,12 +466,10 @@ msgid "Control"
 msgstr "Steuerung"
 
 #: ../src/preferences_dialog.c:293
-#, fuzzy
 msgid "Scroll wheel"
 msgstr "Mausrad"
 
 #: ../src/preferences_dialog.c:296
-#, fuzzy
 msgid "Invert zoom direction"
 msgstr "Zoomrichtung umkehren"
 
@@ -496,7 +482,6 @@ msgid "Startup"
 msgstr "Programmstart"
 
 #: ../src/preferences_dialog.c:313
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
 msgstr "Fenster beim Start maximieren, wenn ein Bild geöffnet wird"
 
@@ -505,7 +490,6 @@ msgid "Wrap around images"
 msgstr "Um Bilder herum packen"
 
 #: ../src/preferences_dialog.c:338
-#, fuzzy
 msgid "Desktop"
 msgstr "Arbeitsumgebung"
 
@@ -538,18 +522,17 @@ msgid "General"
 msgstr "Allgemein"
 
 #: ../src/properties_dialog.c:312
-#, fuzzy
 msgid "Image"
 msgstr "Bild"
 
 #: ../src/properties_dialog.c:525
-#, fuzzy, c-format
+#, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Aufnahmedatum:</b>"
 
 #: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
@@ -616,7 +599,6 @@ msgid "Zoomed"
 msgstr "Vergrößert"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images easily"
 msgstr "Bilder anschauen leicht gemacht"
 
