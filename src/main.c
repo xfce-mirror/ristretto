@@ -236,13 +236,13 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
             }
         }
 
+        /* Get the iterator used by the main-window, it should be
+         * set to point to the right file later.
+         */
+        iter = rstto_main_window_get_iter (RSTTO_MAIN_WINDOW (rof->window));
+
         if (file_type != G_FILE_TYPE_DIRECTORY && r_file != NULL)
         {
-            /* Get the iterator used by the main-window, it should be
-             * set to point to the right file later.
-             */
-            iter = rstto_main_window_get_iter (RSTTO_MAIN_WINDOW (rof->window));
-
             /* Get the file's parent directory */
             p_file = g_file_get_parent (file);
 
@@ -254,6 +254,14 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
 
             g_object_unref (r_file);
             r_file = NULL;
+        }
+        else
+        {
+            /* Open the directory */
+            rstto_image_list_set_directory (rof->image_list, file, NULL);
+
+            /* Point the iterator to the correct image */
+            rstto_image_list_iter_set_position (iter, 0);
         }
     }
     return FALSE;
