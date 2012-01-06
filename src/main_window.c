@@ -2998,16 +2998,21 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
     gboolean use_thunar_properties = rstto_settings_get_boolean_property (
             window->priv->settings_manager,
             "use-thunar-properties");
-    if (file)
+
+    if (NULL != file)
     {
-        /* TODO: Add a property that allows forcing the built-in
-         * properties dialog
-         * 
-         * For now this is here for development purposes.
+        /* Check if we should first ask Thunar
+         * to show the file properties dialog.
          */
         if ( TRUE == use_thunar_properties )
         {
+            /* Get the file-uri */
             uri = rstto_file_get_uri(file);
+
+            /* Call the DisplayFileProperties dbus
+             * interface. If it fails, fall back to the
+             * internal properties-dialog.
+             */
             if(dbus_g_proxy_call(window->priv->filemanager_proxy,
                                  "DisplayFileProperties",
                                  &error,
@@ -3018,42 +3023,53 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
                                  G_TYPE_INVALID) == FALSE)
             {
                 g_warning("DBUS CALL FAILED: '%s'", error->message);
+
+                /* Create the internal file-properties dialog */
                 dialog = rstto_properties_dialog_new (
                         GTK_WINDOW (window),
                         file);
+
                 gtk_dialog_run (GTK_DIALOG(dialog));
+
+                /* Cleanup the file-properties dialog */
                 gtk_widget_destroy(dialog);
             }
         }
         else
         {
+            /* Create the internal file-properties dialog */
             dialog = rstto_properties_dialog_new (
                     GTK_WINDOW (window),
                     file);
+
             gtk_dialog_run (GTK_DIALOG(dialog));
+
+            /* Cleanup the file-properties dialog */
             gtk_widget_destroy(dialog);
         }
     }
 }
+
 /**
  * cb_rstto_main_window_close:
  * @widget:
  * @window:
  *
+ * Close all images.
  *
+ * Set the directory to NULL, the image-list-iter will emit an 
+ * 'iter-changed' signal. The ui will be updated in response to 
+ * that just like it is when an image is opened.
  */
 static void
-cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window)
+cb_rstto_main_window_close (
+        GtkWidget *widget,
+        RsttoMainWindow *window)
 {
     rstto_image_list_set_directory (
             window->priv->image_list,
             NULL,
             NULL);
-
-    rstto_main_window_image_list_iter_changed (window);
-
-    rstto_main_window_update_buttons (window);
-    rstto_main_window_image_list_iter_changed (window);
 }
 
 /**
