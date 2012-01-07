@@ -188,9 +188,6 @@ static void
 cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction);
 static gboolean
 cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer);
-static void
-cb_rstto_image_viewer_dnd (GtkWidget *widget, GdkDragContext *context, gint x, gint y, GtkSelectionData *data,
-                           guint info, guint time_, RsttoImageViewer *viewer);
 
 static gboolean
 rstto_scroll_event (
@@ -310,11 +307,6 @@ rstto_image_viewer_init ( GObject *object )
             "notify::revert-zoom-direction",
             G_CALLBACK (cb_rstto_zoom_direction_changed),
             viewer);
-    g_signal_connect (
-            G_OBJECT(viewer),
-            "drag-data-received",
-            G_CALLBACK (cb_rstto_image_viewer_dnd),
-            viewer);
 
     gtk_widget_set_events (GTK_WIDGET(viewer),
                            GDK_BUTTON_PRESS_MASK |
@@ -323,11 +315,10 @@ rstto_image_viewer_init ( GObject *object )
                            GDK_ENTER_NOTIFY_MASK |
                            GDK_POINTER_MOTION_MASK);
 
-
-    gtk_drag_dest_set(GTK_WIDGET(viewer), GTK_DEST_DEFAULT_ALL, NULL, 0,
+    /*
+    gtk_drag_dest_set(GTK_WIDGET(viewer), 0, drop_targets, G_N_ELEMENTS(drop_targets),
                       GDK_ACTION_COPY | GDK_ACTION_LINK | GDK_ACTION_MOVE | GDK_ACTION_PRIVATE);
-    gtk_drag_dest_add_uri_targets (GTK_WIDGET(viewer));
-
+    */
 }
 
 /**
@@ -387,14 +378,6 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
             NULL, NULL,
             g_cclosure_marshal_VOID__VOID,
             G_TYPE_NONE, 0);
-    g_signal_new ("files-dnd",
-            G_TYPE_FROM_CLASS (object_class),
-            G_SIGNAL_RUN_FIRST,
-            0,
-            NULL, NULL,
-            g_cclosure_marshal_VOID__POINTER,
-            G_TYPE_NONE, 1,
-            G_TYPE_POINTER);
 }
 
 /**
@@ -2504,27 +2487,4 @@ rstto_popup_menu (
         return TRUE;
     }
     return FALSE;
-}
-
-static void
-cb_rstto_image_viewer_dnd (GtkWidget *widget, GdkDragContext *context, gint x, gint y, GtkSelectionData *data,
-              guint info, guint time_, RsttoImageViewer *viewer)
-{
-    g_return_if_fail ( RSTTO_IS_IMAGE_VIEWER(viewer) );
-
-    if ((data->length >= 0) && (data->format == 8))
-    {
-        gchar **uris;
-
-        uris = g_uri_list_extract_uris ((const gchar*)data->data);
-
-        g_signal_emit_by_name (viewer, "files-dnd", uris);
-
-        gtk_drag_finish (context, TRUE, FALSE, time_);
-        g_strfreev (uris);
-    }
-    else
-    {
-        gtk_drag_finish (context, FALSE, FALSE, time_);
-    }
 }
