@@ -1,5 +1,7 @@
 x.x.x
 =====
+- Fix bug #3688 (Drag and Drop support for ristretto) When an image
+  is dropped on the main-window, ristretto opens it and its siblings.
 - Fix bug #5246 (Set as wallpaper doesn't work in GNOME)
 - Fix bug #6509 (Implement file-monitor)
 - Fix bug #7818 (statusbar pixel info) Improve statusbar messages.
@@ -26,6 +28,7 @@ x.x.x
   included in the image-list.
 - Save the sorting algoritm.
 - Limit rendering of selection-box to the inside of the image.
+- Allow a directory to be passed in as a command-line argument.
 
 0.3.0
 =====
