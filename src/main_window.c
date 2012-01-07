@@ -117,6 +117,8 @@ struct _RsttoMainWindowPriv
 
     gboolean playing;
     gint play_timeout_id;
+
+    GtkFileFilter *filter;
 };
 
 enum
@@ -192,6 +194,8 @@ static void
 cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_dnd_files (GtkWidget *widget, gchar **uris, RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *window);
@@ -451,6 +455,11 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->ui_manager = gtk_ui_manager_new ();
     window->priv->recent_manager = gtk_recent_manager_get_default();
     window->priv->settings_manager = rstto_settings_new();
+
+    /* Setup the image filter list for drag and drop */
+    window->priv->filter = gtk_file_filter_new ();
+    g_object_ref_sink (window->priv->filter);
+    gtk_file_filter_add_pixbuf_formats (window->priv->filter);
 
     /* D-Bus stuff */
 
@@ -768,6 +777,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     g_signal_connect(G_OBJECT(window->priv->thumbnailbar), "button-press-event", G_CALLBACK(cb_rstto_main_window_navigationtoolbar_button_press_event), window);
     g_signal_connect(G_OBJECT(window->priv->image_viewer), "size-ready", G_CALLBACK(cb_rstto_main_window_update_statusbar), window);
     g_signal_connect(G_OBJECT(window->priv->image_viewer), "scale-changed", G_CALLBACK(cb_rstto_main_window_update_statusbar), window);
+    g_signal_connect(G_OBJECT(window->priv->image_viewer), "files-dnd", G_CALLBACK(cb_rstto_main_window_dnd_files), window);
 
     if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
     {
@@ -868,6 +878,12 @@ rstto_main_window_dispose(GObject *object)
         {
             g_object_unref (window->priv->image_list);
             window->priv->image_list = NULL;
+        }
+
+        if (window->priv->filter)
+        {
+            g_object_unref (window->priv->filter);
+            window->priv->filter= NULL;
         }
         g_free (window->priv);
         window->priv = NULL;
@@ -3110,6 +3126,139 @@ cb_rstto_main_window_delete (
     }
     gtk_widget_destroy (dialog);
     g_object_unref (file);
+}
+
+static gboolean
+rstto_main_window_is_valid_image (RsttoMainWindow *window,
+                                  RsttoFile *file)
+{
+    GtkFileFilterInfo filter_info;
+
+    filter_info.contains =  GTK_FILE_FILTER_MIME_TYPE | GTK_FILE_FILTER_URI;
+    filter_info.uri = rstto_file_get_uri (file);
+    filter_info.mime_type = rstto_file_get_content_type (file);
+
+    return gtk_file_filter_filter (window->priv->filter, &filter_info);
+}
+
+/**
+ * cb_rstto_main_window_dnd_files:
+ * @widget:
+ * @uris:
+ * @window:
+ *
+ */
+static void
+cb_rstto_main_window_dnd_files (GtkWidget *widget,
+                                gchar **uris,
+                                RsttoMainWindow *window)
+{
+    RsttoFile *file;
+    guint n;
+    gboolean first = TRUE;
+
+    g_return_if_fail ( RSTTO_IS_MAIN_WINDOW(window) );
+
+    for (n = 0; n < g_strv_length (uris); n++)
+    {
+        file = rstto_file_new (g_file_new_for_uri (uris[n]));
+
+        if ( TRUE == rstto_main_window_is_valid_image (window, file))
+        {
+            if ( TRUE == first )
+            {
+                first = FALSE;
+
+                /* On the first valid image, we reset the thumbnailbar. */
+                rstto_image_list_set_directory (
+                                            window->priv->image_list,
+                                            NULL,
+                                            NULL);
+
+                /* User dropped a single image, load all images in the
+                 * directory and select the image.
+                 */
+                if (n + 1 == g_strv_length (uris))
+                {
+                    GFile *p_file;
+                    p_file = g_file_get_parent (rstto_file_get_file (file));
+                    rstto_image_list_set_directory (window->priv->image_list,
+                                                    p_file,
+                                                    NULL );
+                    rstto_image_list_iter_find_file (window->priv->iter,
+                                                     file );
+
+                    return;
+                }
+            }
+
+            /* User dropped a selection of images, load only them. */
+            rstto_image_list_add_file ( window->priv->image_list, file, NULL);
+            rstto_image_list_iter_find_file ( window->priv->iter,
+                                              file );
+        }
+        else if ( g_file_query_file_type ( rstto_file_get_file (file),
+                                           G_FILE_QUERY_INFO_NONE,
+                                           NULL) == G_FILE_TYPE_DIRECTORY)
+        {
+            GFileEnumerator *enumerator;
+
+            /* User dropped in a directory, get the files in it */
+            enumerator = g_file_enumerate_children (
+                            rstto_file_get_file (file),
+                            "standard::name,access::can-read",
+                            G_FILE_QUERY_INFO_NONE,
+                            NULL,
+                            NULL);
+
+            if (enumerator)
+            {
+                GFileInfo *f_info;
+                RsttoFile *child;
+
+                /* Check all the files for a valid image */
+                for (f_info = g_file_enumerator_next_file (enumerator, NULL, NULL);
+                     f_info != NULL;
+                     f_info = g_file_enumerator_next_file (enumerator, NULL, NULL))
+                {
+                    gchar *path = g_strdup_printf ("%s/%s",
+                                                   rstto_file_get_path (file),
+                                                   g_file_info_get_name (f_info));
+
+                    child = rstto_file_new (g_file_new_for_path (path));
+
+                    g_object_unref (f_info);
+                    g_free (path);
+
+                    if ( TRUE == rstto_main_window_is_valid_image (
+                                                                window,
+                                                                child))
+                    {
+                        /* Found a valid image, use the directory
+                         * and select the first image in the dir */
+                        rstto_image_list_set_directory (
+                                            window->priv->image_list,
+                                            rstto_file_get_file (file),
+                                            NULL );
+                        rstto_image_list_iter_find_file (
+                                                    window->priv->iter,
+                                                    child );
+
+                        break;
+                    }
+                    /* Not a valid image file */
+                    g_object_unref (child);
+                }
+                g_file_enumerator_close (enumerator, NULL, NULL);
+                g_object_unref (enumerator);
+            }
+        }
+        else
+        {
+            /* Not an image file or directory */
+            g_object_unref (file);
+        }
+    }
 }
 
 /**********************/
