@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = src po icons docs
+SUBDIRS = src po icons
 
 desktopdir = $(datadir)/applications
 desktop_in_files = ristretto.desktop.in
