@@ -562,7 +562,7 @@ msgstr ""
 #: ../src/thumbnailer.c:441
 #, fuzzy
 msgid "Do _not show this message again"
-msgstr "Zeige die Nachricht_nicht noch einmal an"
+msgstr "Diese Nachricht _nicht noch einmal anzeigen"
 
 #: ../src/thumbnail_bar.c:208
 msgid "Spacing"
