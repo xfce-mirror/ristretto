@@ -27,7 +27,7 @@ gboolean
 rstto_launch_help (void)
 {
     gchar *cur_dir = g_get_current_dir();
-    gchar *docpath = g_strdup("http://docs.xfce.org/apps/ristretto");
+    gchar *docpath = g_strdup("http://docs.xfce.org/apps/ristretto/start");
 
     if (FALSE == exo_execute_preferred_application (
             "WebBrowser",
