@@ -7,6 +7,7 @@ src/preferences_dialog.c
 src/properties_dialog.c
 src/image_list.c
 src/thumbnail.c
+src/thumbnailer.c
 src/thumbnail_bar.c
 src/wallpaper_manager.c
 src/xfce_wallpaper_manager.c
