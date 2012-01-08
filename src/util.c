@@ -88,7 +88,7 @@ rstto_launch_help (void)
     else
     {
         g_free (docpath);
-        docpath = g_strdup("http://docs.xfce.org/help.php?package=ristretto");
+        docpath = g_strdup("http://docs.xfce.org/apps/ristretto");
     }
 
     if (FALSE == exo_execute_preferred_application (
