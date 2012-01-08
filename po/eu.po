@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-01-08 13:32+0100\n"
+"POT-Creation-Date: 2012-01-08 16:12+0000\n"
 "PO-Revision-Date: 2008-12-08 01:19+0100\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Generator: KBabel 1.11.4\n"
 
 #: ../src/main.c:61
@@ -33,7 +33,7 @@ msgid "Show settings dialog"
 msgstr "Ikusi ezarpen leihoa"
 
 #: ../src/main.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
@@ -140,9 +140,8 @@ msgstr "E_zarri idazmahai-irudi gisa"
 
 #. Zoom submenu
 #: ../src/main_window.c:335
-#, fuzzy
 msgid "_Zoom"
-msgstr "_Zooma gerturatzen"
+msgstr "_Zooma"
 
 #: ../src/main_window.c:336
 msgid "Zoom _In"
@@ -221,7 +220,6 @@ msgid "_Position"
 msgstr "_Kokalekua"
 
 #: ../src/main_window.c:364
-#, fuzzy
 msgid "Thumbnail Bar _Position"
 msgstr "Argazkitxo-barra _kokalekua"
 
@@ -242,7 +240,6 @@ msgstr "Ikusi _nabigazio tresna-barra"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:378
-#, fuzzy
 msgid "Show _Thumbnail Bar"
 msgstr "Ikusi _argazkitxo tresna-barra"
 
@@ -308,7 +305,7 @@ msgstr "Hutsik"
 
 #: ../src/main_window.c:1930
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "Hautattu 'ezarri mahagaina' metodoa"
 
 #: ../src/main_window.c:1945 ../src/preferences_dialog.c:349
 msgid ""
@@ -316,27 +313,29 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
+"Konfiguratu zure mahaigaina kudeatzen duen sistema zein den.\n"
+" Ezarpen honek <i>Ristrettok<i> mahagain irudia\n"
+" konfiguratzeko zein metodo erabiliko duen ezartzen du."
 
 #: ../src/main_window.c:1970 ../src/preferences_dialog.c:373
 msgid "None"
-msgstr ""
+msgstr "Batez"
 
 #: ../src/main_window.c:1974 ../src/preferences_dialog.c:377
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
 #: ../src/main_window.c:1978 ../src/preferences_dialog.c:381
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ../src/main_window.c:2480
 msgid "Developer:"
 msgstr "Garatzailea:"
 
 #: ../src/main_window.c:2489
-#, fuzzy
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto Xfce idazmahai inguruneko irudi-ikustatzailea da."
+msgstr "Ristretto Xfce idazmahai inguruneko irudi-ikustatzaile bat da."
 
 #: ../src/main_window.c:2497
 msgid "translator-credits"
@@ -363,9 +362,8 @@ msgid "Save copy"
 msgstr "Gorde kopia"
 
 #: ../src/main_window.c:2995
-#, fuzzy
 msgid "Could not save file"
-msgstr "Ezin da fitxategia ireki"
+msgstr "Ezin da fitxategia gorde"
 
 #: ../src/main_window.c:3112
 #, c-format
@@ -373,9 +371,8 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Ziur zaude '%s' irudia diskotik ezabatu nahi duzula?"
 
 #: ../src/privacy_dialog.c:151
-#, fuzzy
 msgid "Time range to clear:"
-msgstr "Garbitzeko denbora-eremua"
+msgstr "Garbitzeko denbora-eremua:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
@@ -430,7 +427,6 @@ msgid "Thumbnails"
 msgstr "Argazkitxoak"
 
 #: ../src/preferences_dialog.c:228
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
@@ -439,7 +435,6 @@ msgstr ""
 "osoa moduan dagoenean."
 
 #: ../src/preferences_dialog.c:230
-#, fuzzy
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "E_zkutatu argazkitxo-barra pantaila-osoan"
 
@@ -464,12 +459,10 @@ msgid "Control"
 msgstr "Kontrola"
 
 #: ../src/preferences_dialog.c:293
-#, fuzzy
 msgid "Scroll wheel"
 msgstr "Sagu-gurpila"
 
 #: ../src/preferences_dialog.c:296
-#, fuzzy
 msgid "Invert zoom direction"
 msgstr "Aldatu zoom norantza"
 
@@ -491,7 +484,7 @@ msgstr "Bildu inguruko irudiak"
 
 #: ../src/preferences_dialog.c:338
 msgid "Desktop"
-msgstr ""
+msgstr "Mahaigaina"
 
 #: ../src/preferences_dialog.c:460
 msgid "Image Viewer Preferences"
@@ -550,10 +543,15 @@ msgid ""
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
 msgstr ""
+"Argazkitxo-zerbitzua ezin da eskuratu,\n"
+"hau dela eta ezin da argazkitxorik \n"
+"sortu.\n"
+"\n"
+"<b>Tumbler</b> edo beste <i>argazkitxo-sortze deabru</i> bat intalatu arazo hau konpontzeko."
 
 #: ../src/thumbnailer.c:441
 msgid "Do _not show this message again"
-msgstr ""
+msgstr "Ez eraku_tzi mezu hau berriz"
 
 #: ../src/thumbnail_bar.c:208
 msgid "Spacing"
@@ -568,9 +566,8 @@ msgid "border width"
 msgstr "Ertz zabalera"
 
 #: ../src/thumbnail_bar.c:216
-#, fuzzy
 msgid "the border width of the thumbnail bar"
-msgstr "Argazkitxo-barraren ertzaren zabalera"
+msgstr "argazkitxo-barraren ertzaren zabalera"
 
 #: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
 msgid "Style:"
@@ -613,9 +610,8 @@ msgid "Zoomed"
 msgstr "Gerturatua"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images easily"
-msgstr "Ikusi zure argazkiak erraz"
+msgstr "Ikusi zure irudiak erraz"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Image Viewer"
