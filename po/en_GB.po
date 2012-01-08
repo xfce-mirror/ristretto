@@ -2,21 +2,21 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the ristretto package.
 # Jeff Bailes <thepizzaking@gmail.com>, 2009
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-01-08 13:32+0100\n"
+"POT-Creation-Date: 2012-01-08 10:21+0000\n"
 "PO-Revision-Date: 2010-01-24 14:08+1100\n"
 "Last-Translator: Jeff Bailes <thepizzaking@gmail.com>\n"
 "Language-Team: English/GB\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
+"Language: \n"
+"X-Poedit-Language: English\n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -32,10 +32,10 @@ msgstr "Start a slideshow"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "Show settings dialogue"
 
 #: ../src/main.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
@@ -72,11 +72,11 @@ msgstr "Save a copy of the image"
 
 #: ../src/main_window.c:319
 msgid "_Properties"
-msgstr ""
+msgstr "_Properties"
 
 #: ../src/main_window.c:319
 msgid "Show file properties"
-msgstr ""
+msgstr "Show file properties"
 
 #: ../src/main_window.c:320
 msgid "_Close"
@@ -112,13 +112,12 @@ msgid "_Delete"
 msgstr "_Delete"
 
 #: ../src/main_window.c:326
-#, fuzzy
 msgid "Delete this image from disk"
-msgstr "Close this image"
+msgstr "Delete this image from disk"
 
 #: ../src/main_window.c:327
 msgid "_Clear private data"
-msgstr ""
+msgstr "_Clear private data"
 
 #: ../src/main_window.c:328
 msgid "_Preferences"
@@ -143,9 +142,8 @@ msgstr "_Set as Wallpaper"
 
 #. Zoom submenu
 #: ../src/main_window.c:335
-#, fuzzy
 msgid "_Zoom"
-msgstr "_Zooming"
+msgstr "_Zoom"
 
 #: ../src/main_window.c:336
 msgid "Zoom _In"
@@ -224,9 +222,8 @@ msgid "_Position"
 msgstr "_Position"
 
 #: ../src/main_window.c:364
-#, fuzzy
 msgid "Thumbnail Bar _Position"
-msgstr "Thumbnails"
+msgstr "Thumbnail Bar _Position"
 
 #. Misc
 #: ../src/main_window.c:366
@@ -245,9 +242,8 @@ msgstr "Show _Navigation Toolbar"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:378
-#, fuzzy
 msgid "Show _Thumbnail Bar"
-msgstr "Show _Thumbnailbar"
+msgstr "Show _Thumbnail Bar"
 
 #. Sort by Filename
 #: ../src/main_window.c:385
@@ -311,7 +307,7 @@ msgstr "Empty"
 
 #: ../src/main_window.c:1930
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "Choose 'set wallpaper' method"
 
 #: ../src/main_window.c:1945 ../src/preferences_dialog.c:349
 msgid ""
@@ -319,27 +315,29 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
+"Configure which system is currently managing your desktop.\n"
+"This setting determines the method <i>Ristretto</i> will use\n"
+"to configure the desktop wallpaper."
 
 #: ../src/main_window.c:1970 ../src/preferences_dialog.c:373
 msgid "None"
-msgstr ""
+msgstr "None"
 
 #: ../src/main_window.c:1974 ../src/preferences_dialog.c:377
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
 #: ../src/main_window.c:1978 ../src/preferences_dialog.c:381
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ../src/main_window.c:2480
 msgid "Developer:"
 msgstr "Developer:"
 
 #: ../src/main_window.c:2489
-#, fuzzy
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto is an imageviewer for the Xfce desktop environment."
+msgstr "Ristretto is an image viewer for the Xfce desktop environment."
 
 #: ../src/main_window.c:2497
 msgid "translator-credits"
@@ -366,9 +364,8 @@ msgid "Save copy"
 msgstr "Save copy"
 
 #: ../src/main_window.c:2995
-#, fuzzy
 msgid "Could not save file"
-msgstr "Could not open file"
+msgstr "Could not save file"
 
 #: ../src/main_window.c:3112
 #, c-format
@@ -377,35 +374,35 @@ msgstr "Are you sure you want to delete image '%s' from disk?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
-msgstr ""
+msgstr "Time range to clear:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Cleanup"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr ""
+msgstr "Last Hour"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Last Two Hours"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Last Four Hours"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
-msgstr ""
+msgstr "Today"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr ""
+msgstr "Everything"
 
 #: ../src/privacy_dialog.c:459
 msgid "Clear private data"
-msgstr ""
+msgstr "Clear private data"
 
 #: ../src/preferences_dialog.c:196
 msgid "Display"
@@ -417,7 +414,7 @@ msgstr "Background colour"
 
 #: ../src/preferences_dialog.c:204
 msgid "Toolbars"
-msgstr ""
+msgstr "Toolbars"
 
 #: ../src/preferences_dialog.c:209
 msgid "Override background color:"
@@ -425,14 +422,13 @@ msgstr "Override background colour:"
 
 #: ../src/preferences_dialog.c:220
 msgid "Merge toolbars"
-msgstr ""
+msgstr "Merge toolbars"
 
 #: ../src/preferences_dialog.c:225
 msgid "Thumbnails"
 msgstr "Thumbnails"
 
 #: ../src/preferences_dialog.c:228
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
@@ -441,9 +437,8 @@ msgstr ""
 "when the image-viewer is fullscreen."
 
 #: ../src/preferences_dialog.c:230
-#, fuzzy
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Hide thumbnailbar when fullscreen"
+msgstr "Hide thumbnail bar when fullscreen"
 
 #: ../src/preferences_dialog.c:266
 msgid "Slideshow"
@@ -466,13 +461,12 @@ msgid "Control"
 msgstr "Control"
 
 #: ../src/preferences_dialog.c:293
-#, fuzzy
 msgid "Scroll wheel"
-msgstr "Scrollwheel"
+msgstr "Scroll wheel"
 
 #: ../src/preferences_dialog.c:296
 msgid "Invert zoom direction"
-msgstr ""
+msgstr "Invert zoom direction"
 
 #: ../src/preferences_dialog.c:306
 msgid "Behaviour"
@@ -483,9 +477,8 @@ msgid "Startup"
 msgstr "Startup"
 
 #: ../src/preferences_dialog.c:313
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Resize window to image on startup"
+msgstr "Maximise window on startup when opening an image"
 
 #: ../src/preferences_dialog.c:319
 msgid "Wrap around images"
@@ -493,71 +486,55 @@ msgstr "Wrap around images"
 
 #: ../src/preferences_dialog.c:338
 msgid "Desktop"
-msgstr ""
+msgstr "Desktop"
 
 #: ../src/preferences_dialog.c:460
-#, fuzzy
 msgid "Image Viewer Preferences"
-msgstr "Image Viewer"
+msgstr "Image Viewer Preferences"
 
 #: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Name:</b>"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Kind:</b>"
 
 #: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Modified:</b>"
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Accessed:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Size:</b>"
 
 #: ../src/properties_dialog.c:308
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: ../src/properties_dialog.c:312
-#, fuzzy
 msgid "Image"
-msgstr "Images"
+msgstr "Image"
 
 #: ../src/properties_dialog.c:525
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr ""
+msgstr "<b>Date taken:</b>"
 
 #: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:623
 #, c-format
 msgid "%s - Properties"
-msgstr ""
-
-#: ../src/thumbnailer.c:431
-msgid ""
-"The thumbnailer-service can not be reached,\n"
-"for this reason, the thumbnails can not be\n"
-"created.\n"
-"\n"
-"Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
-"to resolve this issue."
-msgstr ""
-
-#: ../src/thumbnailer.c:441
-msgid "Do _not show this message again"
-msgstr ""
+msgstr "%s - Properties"
 
 #: ../src/thumbnail_bar.c:208
 msgid "Spacing"
@@ -572,9 +549,8 @@ msgid "border width"
 msgstr "border width"
 
 #: ../src/thumbnail_bar.c:216
-#, fuzzy
 msgid "the border width of the thumbnail bar"
-msgstr "the border width of the thumbnail-bar"
+msgstr "the border width of the thumbnail bar"
 
 #: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
 msgid "Style:"
@@ -617,14 +593,12 @@ msgid "Zoomed"
 msgstr "Zoomed"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images easily"
-msgstr "Look at your photo's easily"
+msgstr "Look at your images easily"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
-msgstr "Ristretto Photo Viewer"
+msgstr "Ristretto Image Viewer"
 
 #~ msgid "Scaling"
 #~ msgstr "Scaling"
@@ -635,7 +609,6 @@ msgstr "Ristretto Photo Viewer"
 #~ msgid "Preferences"
 #~ msgstr "Preferences"
 
-#, fuzzy
 #~ msgid "Image viewer"
 #~ msgstr "Image Viewer"
 
@@ -660,7 +633,6 @@ msgstr "Ristretto Photo Viewer"
 #~ msgid "Monitor:"
 #~ msgstr "Monitor:"
 
-#, fuzzy
 #~ msgid "Two"
 #~ msgstr "Top"
 
