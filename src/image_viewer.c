@@ -966,10 +966,10 @@ paint_image (
             case RSTTO_IMAGE_ORIENT_270:
                 viewer->priv->rendering.x_offset = ((gdouble)widget->allocation.width - (
                             (gdouble)viewer->priv->image_height * 
-                                viewer->priv->scale) ) / 2.0+0.5;
+                                viewer->priv->scale) ) / 2.0;
                 viewer->priv->rendering.y_offset = ((gdouble)widget->allocation.height - (
                             (gdouble)viewer->priv->image_width * 
-                                viewer->priv->scale) ) / 2.0+0.5;
+                                viewer->priv->scale) ) / 2.0;
                 viewer->priv->rendering.width = 
                         (gdouble)viewer->priv->image_height * viewer->priv->scale;
                 viewer->priv->rendering.height = 
@@ -980,10 +980,10 @@ paint_image (
             default:
                 viewer->priv->rendering.x_offset = ((gdouble)widget->allocation.width - (
                             (gdouble)viewer->priv->image_width * 
-                                viewer->priv->scale) ) / 2.0+0.5;
+                                viewer->priv->scale) ) / 2.0;
                 viewer->priv->rendering.y_offset = ((gdouble)widget->allocation.height - (
                             (gdouble)viewer->priv->image_height * 
-                                viewer->priv->scale) ) / 2.0+0.5;
+                                viewer->priv->scale) ) / 2.0;
                 viewer->priv->rendering.width = 
                         (gdouble)viewer->priv->image_width * viewer->priv->scale;
                 viewer->priv->rendering.height = 
@@ -992,13 +992,13 @@ paint_image (
 
         }
 
-        if (viewer->priv->rendering.x_offset < 0.5)
+        if (viewer->priv->rendering.x_offset < 0)
         {
-            viewer->priv->rendering.x_offset = 0.5;
+            viewer->priv->rendering.x_offset = 0;
         }
-        if (viewer->priv->rendering.y_offset < 0.5)
+        if (viewer->priv->rendering.y_offset < 0)
         {
-            viewer->priv->rendering.y_offset = 0.5;
+            viewer->priv->rendering.y_offset = 0;
         }
 
         cairo_save (ctx);
