@@ -552,12 +552,11 @@ msgid ""
 "to resolve this issue."
 msgstr ""
 "Der Dienst für Vorschaubilder ist nicht erreichbar,\n"
-"daher können keine Vorschaubilder erstellt\n"
-"werden.\n"
+"daher können keine Vorschaubilder erstellt werden\n"
 "\n"
 "Bitte installieren Sie <b>Tumbler</b> oder einen\n"
-"anderen <i>Dienst für Vorschaubilder</i>, um\n"
-"das Problem zu beheben."
+"anderen <i>Dienst für Vorschaubilder</i>, um das\n"
+"Problem zu beheben."
 
 #: ../src/thumbnailer.c:441
 #, fuzzy
