@@ -4,7 +4,7 @@
 # the ristretto package.
 # wuli <wurisky@gmail.com>, 2008.
 # Hunt Xu <mhuntxu@gmail.com>, 2008, 2009, 2010.
-# Chipong Luo <chipong_l@yahoo.com>, 2011.
+# Chipong Luo <chipong_l@yahoo.com>, 2011, 2012.
 #
 msgid ""
 msgstr ""
@@ -347,7 +347,7 @@ msgid "translator-credits"
 msgstr ""
 "WuLi <wurisky@gmail.com>, 2008.\n"
 "Hunt Xu <mhuntxu@gmail.com>, 2008, 2009, 2010.\n"
-"Chipong Luo <chipong_l@yahoo.com>, 2011."
+"Chipong Luo <chipong_l@yahoo.com>, 2011, 2012."
 
 #: ../src/main_window.c:2783
 msgid "Open image"
