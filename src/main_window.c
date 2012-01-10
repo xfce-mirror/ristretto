@@ -55,11 +55,6 @@
 #define RISTRETTO_APP_TITLE _("Image Viewer")
 #endif
 
-#ifndef RISTRETTO_HELP_LOCATION
-#define RISTRETTO_HELP_LOCATION "file://"DOCDIR"/html/C/index.html"
-#endif
-
-
 #define RSTTO_RECENT_FILES_APP_NAME "ristretto"
 #define RSTTO_RECENT_FILES_GROUP "Graphics"
 

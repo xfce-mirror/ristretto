@@ -34,7 +34,6 @@ ristretto_CFLAGS = \
 	$(LIBXFCE4UTIL_CFLAGS) \
 	$(LIBXFCE4UI_CFLAGS) \
 	$(LIBX11_CFLAGS) \
-	-DDOCDIR=\"$(DESTDIR)$(docdir)\" \
 	-DDATADIR=\"$(datadir)\" \
 	-DSRCDIR=\"$(top_srcdir)\" \
 	-DLOCALEDIR=\"$(localedir)\"
