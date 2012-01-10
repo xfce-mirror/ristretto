@@ -1,4 +1,4 @@
-x.x.x
+0.3.1
 =====
 - Fix bug #3688 (Drag and Drop support for ristretto) When an image
   is dropped on the main-window, ristretto opens it and its siblings.
@@ -17,6 +17,8 @@ x.x.x
 - Fix bug #8296 (Ristretto crashes when a file is added to the monitored
   dir), reconsidered reference-counting on file-objects. Do not let
   image-list assume reference, but add it's own.
+- Fix bug #8317 (Blurred full-screen image) off-by-0.5 only applies to
+  single lines, not pixbufs.
 - Do not open the copy of an image when saving.
 - Apply saturation and brightness settings in the set-wallpaper
   preview widget.
