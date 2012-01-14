@@ -1,3 +1,7 @@
+0.3.2
+=====
+- Add missing docs
+
 0.3.1
 =====
 - Fix bug #3688 (Drag and Drop support for ristretto) When an image
