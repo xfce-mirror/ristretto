@@ -72,6 +72,42 @@ XDT_CHECK_LIBX11()
 AC_CHECK_LIBM
 AC_SUBST(LIBM)
 
+dnl *******************************
+dnl *** Check for documentation ***
+dnl *******************************
+AC_ARG_ENABLE([gen-doc], [AC_HELP_STRING([--enable-gen-doc],
+              [Generate HTML documentation (requires gnome-doc-utils) [default=no]])],,
+              [enable_gen_doc=no])
+if test x"$enable_gen_doc" = x"yes"; then
+    XDT_CHECK_PACKAGE([GNOME_DOC_UTILS], [gnome-doc-utils], [0.19.2],
+    [
+        AC_PATH_PROG([ITSTOOL], [itstool], [no])
+        if test x"$ITSTOOL" = x"no"; then
+            enable_gen_doc=no
+        fi
+
+        AC_PATH_PROG([GNOME_DOC_TOOL], [gnome-doc-tool], [no])
+        if test x"$GNOME_DOC_TOOL" = x"no"; then
+            enable_gen_doc=no
+        fi
+
+        AC_PATH_PROG([XML2PO], [xml2po], [no])
+        if test x"$XML2PO" = x"no"; then
+            enable_gen_doc=no
+        fi
+    ],
+    [
+        enable_gen_doc=no
+    ])
+
+    if test x"$enable_gen_doc" = x"no"; then
+        AC_MSG_ERROR([Compiling with --enable-gen-doc but no suitable gnome-doc-utils found.])
+    fi
+fi
+AM_CONDITIONAL([GENERATE_DOCUMENTATION], [test x"$enable_gen_doc" = x"yes"])
+
+
+
 dnl check for debugging support
 XDT_FEATURE_DEBUG
 
@@ -79,6 +115,10 @@ AC_OUTPUT([
 Makefile
 po/Makefile.in
 src/Makefile
+docs/Makefile
+docs/manual/Makefile
+docs/manual/po/Makefile
+docs/manual/media/Makefile
 icons/Makefile
 icons/16x16/Makefile
 icons/22x22/Makefile
