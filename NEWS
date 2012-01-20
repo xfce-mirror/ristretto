@@ -1,6 +1,8 @@
 x.x.x
 =====
 - Fix bug #8343 (Do not use symbols from gtk+ > 2.20)
+- Autogenerate Changelog on make dist
+- Update scale information when box-zoom is used.
 
 0.3.2
 =====
