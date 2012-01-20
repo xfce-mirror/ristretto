@@ -2416,6 +2416,8 @@ rstto_button_release_event (
                  */
                 gtk_adjustment_changed(viewer->hadjustment);
                 gtk_adjustment_changed(viewer->vadjustment);
+
+                g_signal_emit_by_name(viewer, "scale-changed");
             }
             break;
         default:
