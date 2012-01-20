@@ -1,629 +1,214 @@
-# French translation for the ristretto package.
-# Copyright (C) 2008 Stephan Arts
-# This file is distributed under the same license as the PACKAGE package.
-# Mike Massonnet <mmassonnet@xfce.org>, 2007, 2008.
-# Patrick Douart <patrick.2@laposte.net>, 2009, 2010.
+# French translations for the xfce-radio-plugin
+# Copyright (C) 2006 Stefan Ott
+# This file is distributed under the same license as the xfce4-radio-plugin
+# Maximilian Schleiss <maximilian@xfce.org>, 2006.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: ristretto\n"
-"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-01-08 13:32+0100\n"
-"PO-Revision-Date: 2010-02-11 15:32+0100\n"
-"Last-Translator: Douart Patrick <patrick.2@laposte.net>\n"
-"Language-Team: French\n"
-"Language: \n"
+"Project-Id-Version: xfce4-radio-plugin v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-05-21 03:11+0200\n"
+"PO-Revision-Date: 2012-01-19 19:00+0100\n"
+"Last-Translator: Benoit <frombenny@gmail.com>\n"
+"Language-Team: French <xfce-i18n@xfce.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,11,-1,-1,-1\n"
+"Language: fr\n"
 
-#: ../src/main.c:61
-msgid "Version information"
-msgstr "Information sur la version"
+#: ../panel-plugin/radio.desktop.in.in.h:1
+msgid "Radio Plugin"
+msgstr "Greffon Radio"
 
-#: ../src/main.c:65
-msgid "Start in fullscreen mode"
-msgstr "Démarrer en mode plein écran"
+#: ../panel-plugin/radio.desktop.in.in.h:2
+msgid "V4l radio plugin"
+msgstr "Greffon de radio V4l"
 
-#: ../src/main.c:69
-msgid "Start a slideshow"
-msgstr "Démarrer le diaporama"
-
-#: ../src/main.c:77
-msgid "Show settings dialog"
-msgstr "Afficher la fenêtre des préférences"
-
-#: ../src/main.c:105
-#, fuzzy, c-format
-msgid ""
-"%s: %s\n"
-"\n"
-"Try %s --help to see a full list of\n"
-"available command line options.\n"
-msgstr ""
-"%s : %s\n"
-"Essayez %s --help pour voir une liste complète des options en ligne de "
-"commande.\n"
-
-#: ../src/main_window.c:55 ../ristretto.desktop.in.h:1
-msgid "Image Viewer"
-msgstr "Visualiseur d’images"
-
-#. File Menu
-#: ../src/main_window.c:316
-msgid "_File"
-msgstr "_Fichier"
-
-#: ../src/main_window.c:317
-msgid "_Open"
-msgstr "_Ouvrir"
-
-#: ../src/main_window.c:317
-msgid "Open an image"
-msgstr "Ouvrir une image"
-
-#: ../src/main_window.c:318
-msgid "_Save copy"
-msgstr "_Enregistrer une copie"
-
-#: ../src/main_window.c:318
-msgid "Save a copy of the image"
-msgstr "Enregistrer une copie de l'image"
-
-#: ../src/main_window.c:319
-msgid "_Properties"
-msgstr "_Propriétés"
-
-#: ../src/main_window.c:319
-msgid "Show file properties"
-msgstr "Afficher les propriétés du fichier"
-
-#: ../src/main_window.c:320
-msgid "_Close"
-msgstr "_Fermer"
-
-#: ../src/main_window.c:320
-msgid "Close this image"
-msgstr "Fermer cette image"
-
-#: ../src/main_window.c:321
-msgid "_Quit"
-msgstr "_Quitter"
-
-#: ../src/main_window.c:321
-msgid "Quit Ristretto"
-msgstr "Quitter Ristretto"
-
-#. Edit Menu
-#: ../src/main_window.c:323
-msgid "_Edit"
-msgstr "_Éditer"
-
-#: ../src/main_window.c:324
-msgid "_Open with..."
-msgstr "_Ouvrir avec..."
-
-#: ../src/main_window.c:325
-msgid "_Sorting"
-msgstr "_Trier par"
-
-#: ../src/main_window.c:326
-msgid "_Delete"
-msgstr "_Effacer"
-
-#: ../src/main_window.c:326
-msgid "Delete this image from disk"
-msgstr "Supprimer cette image du disque"
-
-#: ../src/main_window.c:327
-msgid "_Clear private data"
-msgstr "_Nettoyer les données personnelles"
-
-#: ../src/main_window.c:328
-msgid "_Preferences"
-msgstr "_Préférences"
-
-#. View Menu
-#: ../src/main_window.c:330
-msgid "_View"
-msgstr "_Afficher"
-
-#: ../src/main_window.c:331
-msgid "_Fullscreen"
-msgstr "_Plein écran"
-
-#: ../src/main_window.c:332
-msgid "_Leave Fullscreen"
-msgstr "_Quitter le plein écran"
-
-#: ../src/main_window.c:333
-msgid "_Set as Wallpaper"
-msgstr "_Utiliser en tant que fond d'écran"
-
-#. Zoom submenu
-#: ../src/main_window.c:335
-#, fuzzy
-msgid "_Zoom"
-msgstr "_Zoom"
-
-#: ../src/main_window.c:336
-msgid "Zoom _In"
-msgstr "Zoom _Avant"
-
-#: ../src/main_window.c:337
-msgid "Zoom _Out"
-msgstr "Zoom _Avant"
-
-#: ../src/main_window.c:338
-msgid "Zoom _Fit"
-msgstr "Zoom au _Mieux"
-
-#: ../src/main_window.c:339
-msgid "_Normal Size"
-msgstr "_Taille Normale"
-
-#. Rotation submenu
-#: ../src/main_window.c:341
-msgid "_Rotation"
-msgstr "_Rotation"
-
-#: ../src/main_window.c:342
-msgid "Rotate _Right"
-msgstr "Tourner vers la _Droite"
-
-#: ../src/main_window.c:343
-msgid "Rotate _Left"
-msgstr "Tourner vers la _Gauche"
-
-#. Go Menu
-#: ../src/main_window.c:345
-msgid "_Go"
-msgstr "A_ller à"
-
-#: ../src/main_window.c:346
-msgid "_Forward"
-msgstr "_Suivante"
-
-#: ../src/main_window.c:347
-msgid "_Back"
-msgstr "_Précédente"
-
-#: ../src/main_window.c:348
-msgid "_First"
-msgstr "Pre_mière"
-
-#: ../src/main_window.c:349
-msgid "_Last"
-msgstr "_Dernière"
-
-#. Help Menu
-#: ../src/main_window.c:351
-msgid "_Help"
-msgstr "A_ide"
-
-#: ../src/main_window.c:353
-msgid "_Contents"
-msgstr "_Contenu"
-
-#: ../src/main_window.c:355
-msgid "Display ristretto user manual"
-msgstr "Afficher le manuel de ristretto"
-
-#: ../src/main_window.c:358
-msgid "_About"
-msgstr "_À propos"
-
-#: ../src/main_window.c:360
-msgid "Display information about ristretto"
-msgstr "Afficher les informations à propos de ristretto"
-
-#. Position Menu
-#: ../src/main_window.c:363
-msgid "_Position"
-msgstr "_Position"
-
-#: ../src/main_window.c:364
-#, fuzzy
-msgid "Thumbnail Bar _Position"
-msgstr "_Position de la barre de miniatures"
-
-#. Misc
-#: ../src/main_window.c:366
-msgid "Leave _Fullscreen"
-msgstr "Quitter le _plein écran"
-
-#. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:374
-msgid "Show _File Toolbar"
-msgstr "Montrer la Barre de _Fichiers"
-
-#. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:376
-msgid "Show _Navigation Toolbar"
-msgstr "Montrer la Barre de _Navigation"
-
-#. Toggle visibility of the thumbnailbar
-#: ../src/main_window.c:378
-#, fuzzy
-msgid "Show _Thumbnail Bar"
-msgstr "Montrer la Barre de _Miniatures"
-
-#. Sort by Filename
-#: ../src/main_window.c:385
-msgid "sort by filename"
-msgstr "Trier par nom de fichier"
-
-#. Sort by Date
-#: ../src/main_window.c:387
-msgid "sort by date"
-msgstr "Trier par date"
-
-#: ../src/main_window.c:393
-msgid "Left"
-msgstr "Gauche"
-
-#: ../src/main_window.c:394
-msgid "Right"
-msgstr "Droite"
-
-#: ../src/main_window.c:395
-msgid "Top"
-msgstr "Haut"
-
-#: ../src/main_window.c:396
-msgid "Bottom"
-msgstr "Bas"
-
-#. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:538
-msgid "_Play"
-msgstr "_Jouer"
-
-#: ../src/main_window.c:538
-msgid "Play slideshow"
-msgstr "Démarrer le diaporama"
-
-#: ../src/main_window.c:539
-msgid "_Pause"
-msgstr "_Pause"
-
-#: ../src/main_window.c:539
-msgid "Pause slideshow"
-msgstr "Mettre le diaporama en pause"
-
-#. Create Recently used items Action
-#: ../src/main_window.c:542
-msgid "_Recently used"
-msgstr "_Récemment ouvert"
-
-#: ../src/main_window.c:542
-msgid "Recently used"
-msgstr "Utilisé récemment"
-
-#: ../src/main_window.c:639 ../src/main_window.c:1113
-msgid "Press open to select an image"
-msgstr "Cliquez sur ouvrir pour sélectionner une image"
-
-#: ../src/main_window.c:1017 ../src/main_window.c:1023
-msgid "Empty"
-msgstr "Vide"
-
-#: ../src/main_window.c:1930
-msgid "Choose 'set wallpaper' method"
-msgstr ""
-
-#: ../src/main_window.c:1945 ../src/preferences_dialog.c:349
-msgid ""
-"Configure which system is currently managing your desktop.\n"
-"This setting determines the method <i>Ristretto</i> will use\n"
-"to configure the desktop wallpaper."
-msgstr ""
-
-#: ../src/main_window.c:1970 ../src/preferences_dialog.c:373
-msgid "None"
-msgstr ""
-
-#: ../src/main_window.c:1974 ../src/preferences_dialog.c:377
-msgid "Xfce"
-msgstr ""
-
-#: ../src/main_window.c:1978 ../src/preferences_dialog.c:381
-msgid "GNOME"
-msgstr ""
-
-#: ../src/main_window.c:2480
-msgid "Developer:"
-msgstr "Développeur :"
-
-#: ../src/main_window.c:2489
-#, fuzzy
-msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto est une visionneuse d’images légère et rapide pour l’environnement "
-"de bureau Xfce."
-
-#: ../src/main_window.c:2497
-msgid "translator-credits"
-msgstr ""
-"Mike Massonnet <mmassonnet@xfce.org>\n"
-"Steve Dodier <sidnioulz@gmail.com>"
-
-#: ../src/main_window.c:2783
-msgid "Open image"
-msgstr "Ouvrir une image"
-
-#: ../src/main_window.c:2802
-msgid "Images"
-msgstr "Images"
-
-#: ../src/main_window.c:2807
-msgid ".jp(e)g"
-msgstr ".jp(e)g"
-
-#: ../src/main_window.c:2834 ../src/main_window.c:2936
-msgid "Could not open file"
-msgstr "Impossible d’ouvrir le fichier"
-
-#: ../src/main_window.c:2969
-msgid "Save copy"
-msgstr "Sauvegarder une copie"
-
-#: ../src/main_window.c:2995
-#, fuzzy
-msgid "Could not save file"
-msgstr "Impossible d’ouvrir le fichier"
-
-#: ../src/main_window.c:3112
+#: ../panel-plugin/xfce4-radio.c:191
 #, c-format
-msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Désirez-vous vraiment supprimer l'image '%s' du disque ?"
+msgid "Tuned to station %s"
+msgstr "Syntonisé sur la station %s"
 
-#: ../src/privacy_dialog.c:151
-#, fuzzy
-msgid "Time range to clear:"
-msgstr "Effacer les éléments datant :"
-
-#: ../src/privacy_dialog.c:155
-msgid "Cleanup"
-msgstr "Nettoyage"
-
-#: ../src/privacy_dialog.c:157
-msgid "Last Hour"
-msgstr "Dernière heure"
-
-#: ../src/privacy_dialog.c:158
-msgid "Last Two Hours"
-msgstr "Dernières deux heures"
-
-#: ../src/privacy_dialog.c:159
-msgid "Last Four Hours"
-msgstr "Dernières quatre heures"
-
-#: ../src/privacy_dialog.c:160
-msgid "Today"
-msgstr "Aujourd'hui"
-
-#: ../src/privacy_dialog.c:161
-msgid "Everything"
-msgstr "Tout"
-
-#: ../src/privacy_dialog.c:459
-msgid "Clear private data"
-msgstr "Nettoyer les données personnelles"
-
-#: ../src/preferences_dialog.c:196
-msgid "Display"
-msgstr "Affichage"
-
-#: ../src/preferences_dialog.c:202
-msgid "Background color"
-msgstr "Couleur d'arrière plan"
-
-#: ../src/preferences_dialog.c:204
-msgid "Toolbars"
-msgstr "Barres d'outils"
-
-#: ../src/preferences_dialog.c:209
-msgid "Override background color:"
-msgstr "_Passer outre la couleur d’arrière plan :"
-
-#: ../src/preferences_dialog.c:220
-msgid "Merge toolbars"
-msgstr "Fusionner les barres d'outils"
-
-#: ../src/preferences_dialog.c:225
-msgid "Thumbnails"
-msgstr "Miniatures"
-
-#: ../src/preferences_dialog.c:228
-#, fuzzy
-msgid ""
-"The thumbnail bar can be automatically hidden \n"
-"when the window is fullscreen."
-msgstr ""
-"La barre de miniatures peut être cachée automatiquement \n"
-"lorsque la visionneuse d'images est en plein écran."
-
-#: ../src/preferences_dialog.c:230
-#, fuzzy
-msgid "Hide thumbnail bar when fullscreen"
-msgstr "Cacher les miniatures en plein écran"
-
-#: ../src/preferences_dialog.c:266
-msgid "Slideshow"
-msgstr "Diaporama"
-
-#: ../src/preferences_dialog.c:270
-msgid "Timeout"
-msgstr "Durée"
-
-#: ../src/preferences_dialog.c:273
-msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr ""
-"La durée d’affichage d’une image individuelle durant le diaporama\n"
-"(en secondes)"
-
-#: ../src/preferences_dialog.c:289
-msgid "Control"
-msgstr "Contrôles"
-
-#: ../src/preferences_dialog.c:293
-#, fuzzy
-msgid "Scroll wheel"
-msgstr "Défilement de la molette"
-
-#: ../src/preferences_dialog.c:296
-#, fuzzy
-msgid "Invert zoom direction"
-msgstr "Inverser la direction du zoom"
-
-#: ../src/preferences_dialog.c:306
-msgid "Behaviour"
-msgstr "Comportement"
-
-#: ../src/preferences_dialog.c:311
-msgid "Startup"
-msgstr "Démarrage"
-
-#: ../src/preferences_dialog.c:313
-msgid "Maximize window on startup when opening an image"
-msgstr "Maximiser le fenêtre à l'ouverture d'une image"
-
-#: ../src/preferences_dialog.c:319
-msgid "Wrap around images"
-msgstr "Adapter autour de l'image"
-
-#: ../src/preferences_dialog.c:338
-msgid "Desktop"
-msgstr ""
-
-#: ../src/preferences_dialog.c:460
-msgid "Image Viewer Preferences"
-msgstr "Préférences du visualiseur d’images"
-
-#: ../src/properties_dialog.c:180
-msgid "<b>Name:</b>"
-msgstr "<b>Nom :</b>"
-
-#: ../src/properties_dialog.c:181
-msgid "<b>Kind:</b>"
-msgstr "<b>Type :</b>"
-
-#: ../src/properties_dialog.c:182
-msgid "<b>Modified:</b>"
-msgstr "<b>Modifié :</b>"
-
-#: ../src/properties_dialog.c:183
-msgid "<b>Accessed:</b>"
-msgstr "<b>Accédé :</b>"
-
-#: ../src/properties_dialog.c:184
-msgid "<b>Size:</b>"
-msgstr "<b>Taille :</b>"
-
-#: ../src/properties_dialog.c:308
-msgid "General"
-msgstr "Général"
-
-#: ../src/properties_dialog.c:312
-msgid "Image"
-msgstr "Image"
-
-#: ../src/properties_dialog.c:525
+#: ../panel-plugin/xfce4-radio.c:196
 #, c-format
-msgid "<b>Date taken:</b>"
-msgstr "<b>Date de prise :</b>"
+msgid "Tuned to %s MHz"
+msgstr "Syntonisé à %s MHz"
 
-#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
-#: ../src/properties_dialog.c:561
-#, c-format
-msgid "<b>%s</b>"
-msgstr "<b>%s</b>"
+#: ../panel-plugin/xfce4-radio.c:241
+msgid "- off -"
+msgstr "- off -"
 
-#: ../src/properties_dialog.c:623
-#, c-format
-msgid "%s - Properties"
-msgstr "%s - Propriétés"
+#: ../panel-plugin/xfce4-radio.c:248
+msgid "Radio is off"
+msgstr "La radio est éteinte"
 
-#: ../src/thumbnailer.c:431
+#: ../panel-plugin/xfce4-radio.c:321
+msgid "Error opening radio device"
+msgstr "Erreur à l'ouverture du périphérique radio"
+
+#: ../panel-plugin/xfce4-radio.c:416
+msgid "Tune radio"
+msgstr "Régler une station"
+
+#: ../panel-plugin/xfce4-radio.c:422
+msgid "Frequency [MHz]:"
+msgstr "Fréquence (Mhz):"
+
+#: ../panel-plugin/xfce4-radio.c:446
+msgid "Illegal frequency."
+msgstr "Fréquence illégale."
+
+#. Notebook tabs
+#: ../panel-plugin/xfce4-radio.c:501
+#: ../panel-plugin/xfce4-radio.c:1160
+msgid "Presets"
+msgstr "Réglages"
+
+#: ../panel-plugin/xfce4-radio.c:533
+msgid "Tune to frequency"
+msgstr "Régler une fréquence"
+
+#: ../panel-plugin/xfce4-radio.c:868
+msgid "unnamed"
+msgstr "anonyme"
+
+#: ../panel-plugin/xfce4-radio.c:1001
+msgid "Select command"
+msgstr "Sélectionner une commande"
+
+#: ../panel-plugin/xfce4-radio.c:1058
+msgid "Radio"
+msgstr "Radio"
+
+#: ../panel-plugin/xfce4-radio.c:1067
+msgid "Configure the radio plugin"
+msgstr "Configurer le plugin Radio"
+
+#: ../panel-plugin/xfce4-radio.c:1161
+msgid "User interface"
+msgstr "Interface utilisateur"
+
+#: ../panel-plugin/xfce4-radio.c:1162
+msgid "Radio device"
+msgstr "Périphérique radio"
+
+#: ../panel-plugin/xfce4-radio.c:1163
+msgid "Commands"
+msgstr "Commandes"
+
+#. - Signal strength
+#: ../panel-plugin/xfce4-radio.c:1185
+msgid "Signal strength"
+msgstr "Puissance du signal"
+
+#: ../panel-plugin/xfce4-radio.c:1201
+msgid "Show the signal strength indicator"
+msgstr "Afficher l'indicateur de puissance du signal"
+
+#: ../panel-plugin/xfce4-radio.c:1207
+msgid "Use graphics instead of text labels and progress bars"
+msgstr "Utiliser des graphiques au lieu d'étiquettes et des barres de progression"
+
+#. - Current station
+#: ../panel-plugin/xfce4-radio.c:1212
+msgid "Current station"
+msgstr "Station actuelle"
+
+#: ../panel-plugin/xfce4-radio.c:1228
+msgid "Show the current station"
+msgstr "Afficher la station actuelle"
+
+#: ../panel-plugin/xfce4-radio.c:1234
+msgid "Show preset names instead of frequencies"
+msgstr "Afficher les noms prédéfinis au lieu des fréquences"
+
+#. - Mouse
+#: ../panel-plugin/xfce4-radio.c:1239
+msgid "Mouse interaction"
+msgstr "Interaction de la souris"
+
+#: ../panel-plugin/xfce4-radio.c:1255
+msgid "Mouse scrolling changes"
+msgstr "Changement du défilement de la souris"
+
+#: ../panel-plugin/xfce4-radio.c:1275
+msgid "frequency"
+msgstr "fréquence"
+
+#: ../panel-plugin/xfce4-radio.c:1277
+msgid "station preset"
+msgstr "Préréglage de station"
+
+#: ../panel-plugin/xfce4-radio.c:1298
+msgid "Radio device:"
+msgstr "Périphérique radio"
+
+#: ../panel-plugin/xfce4-radio.c:1312
+msgid "Synchronize state with the card"
+msgstr "Synchroniser l'état avec la carte"
+
+#: ../panel-plugin/xfce4-radio.c:1322
 msgid ""
-"The thumbnailer-service can not be reached,\n"
-"for this reason, the thumbnails can not be\n"
-"created.\n"
-"\n"
-"Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
-"to resolve this issue."
+"This watches your radio card for changes done by other\n"
+"applications. Note that this may cause issues with some\n"
+"tuner cards."
 msgstr ""
+"Observe les modifications faites par d'autres applications\n"
+"sur votre carte tuner radio. Cela peut causer quelques\n"
+"désagréments selon le type de carte."
 
-#: ../src/thumbnailer.c:441
-msgid "Do _not show this message again"
-msgstr ""
+#: ../panel-plugin/xfce4-radio.c:1351
+msgid "Command to run after startup"
+msgstr "Commande à exécuter lors du démarrage du système"
 
-#: ../src/thumbnail_bar.c:208
-msgid "Spacing"
-msgstr "Espacement"
+#: ../panel-plugin/xfce4-radio.c:1385
+msgid "Command to run after shutdown"
+msgstr "Commande à exécuter lors de l'arrêt du système"
 
-#: ../src/thumbnail_bar.c:209
-msgid "The amount of space between the thumbnails"
-msgstr "L'espacement entre les miniatures"
+#~ msgid "Properties"
+#~ msgstr "Propriétés"
 
-#: ../src/thumbnail_bar.c:215
-msgid "border width"
-msgstr "Largeur des bordures"
+#~ msgid "Options"
+#~ msgstr "Options"
 
-#: ../src/thumbnail_bar.c:216
-#, fuzzy
-msgid "the border width of the thumbnail bar"
-msgstr "Largeur de la barre des miniatures"
+#~ msgid "Device"
+#~ msgstr "Périphérique"
 
-#: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
-msgid "Style:"
-msgstr "Style :"
+#~ msgid "yes"
+#~ msgstr "oui"
 
-#: ../src/xfce_wallpaper_manager.c:336
-msgid "Brightness:"
-msgstr "Luminosité :"
+#~ msgid "no"
+#~ msgstr "non"
 
-#: ../src/xfce_wallpaper_manager.c:337
-msgid "Saturation:"
-msgstr "Saturation :"
+#~ msgid "preset"
+#~ msgstr "réglage"
 
-#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:245
-msgid "Set as wallpaper"
-msgstr "Utiliser en tant que fond d'écran"
+#~ msgid "Show the label"
+#~ msgstr "Afficher l'étiquette"
 
-#: ../src/xfce_wallpaper_manager.c:507 ../src/gnome_wallpaper_manager.c:312
-msgid "Auto"
-msgstr "Auto"
+#~ msgid "Show graphics"
+#~ msgstr "Afficher les graphiques"
 
-#: ../src/xfce_wallpaper_manager.c:510
-msgid "Centered"
-msgstr "Centré"
+#~ msgid "When radio is running"
+#~ msgstr "Quand la radio fonctionne"
 
-#: ../src/xfce_wallpaper_manager.c:513
-msgid "Tiled"
-msgstr "Chevauchement"
+#~ msgid "as a bar"
+#~ msgstr "comme une barre"
 
-#: ../src/xfce_wallpaper_manager.c:516
-msgid "Stretched"
-msgstr "Etendu"
+#~ msgid "graphically"
+#~ msgstr "graphiquement"
 
-#: ../src/xfce_wallpaper_manager.c:519
-msgid "Scaled"
-msgstr "Mise à l'échelle"
+#~ msgid "Not tuned"
+#~ msgstr "Pas de station"
 
-#: ../src/xfce_wallpaper_manager.c:522
-msgid "Zoomed"
-msgstr "Zoomé"
+#~ msgid "Add preset"
+#~ msgstr "Ajouter un réglage"
 
-#: ../ristretto.desktop.in.h:2
-#, fuzzy
-msgid "Look at your images easily"
-msgstr "Regardez vos photos facilement"
+#~ msgid "Station name:"
+#~ msgstr "Nom de la station:"
 
-#: ../ristretto.desktop.in.h:3
-msgid "Ristretto Image Viewer"
-msgstr "Visionneuse d’Images Ristretto"
+#~ msgid "There is already a preset with this frequency."
+#~ msgstr "Il-y-a déjà un réglage avec cette fréquence"
+
+#~ msgid "Rename active preset"
+#~ msgstr "Renommer la fréquence active"
