@@ -2,19 +2,19 @@
 # Copyright (C) 2007 THE ristretto'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Abel Martín <abel.martin.ruiz@gmail.com>, 2008
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-01-08 13:32+0100\n"
+"POT-Creation-Date: 2012-01-21 13:00+0000\n"
 "PO-Revision-Date: 2009-11-06 09:18-0300\n"
 "Last-Translator: elega <elega@elega.com.ar>\n"
 "Language-Team: Spanish <xfce-i18n@xfce.org>\n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,84,11,-1,-1,-1\n"
 
 #: ../src/main.c:61
@@ -142,7 +142,6 @@ msgstr "_Establecer como fondo de escritorio"
 
 #. Zoom submenu
 #: ../src/main_window.c:335
-#, fuzzy
 msgid "_Zoom"
 msgstr "_Zoom"
 
