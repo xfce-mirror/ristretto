@@ -2515,7 +2515,11 @@ cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_contents (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_launch_help ();
+    xfce_dialog_show_help (
+            GTK_WINDOW (window),
+            "ristretto",
+            "start",
+            "");
 }
 
 

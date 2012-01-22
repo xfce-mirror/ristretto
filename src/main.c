@@ -162,7 +162,11 @@ main(int argc, char **argv)
         window = rstto_preferences_dialog_new (NULL);
         while (gtk_dialog_run (GTK_DIALOG(window)) == GTK_RESPONSE_HELP)
         {
-            rstto_launch_help ();
+            xfce_dialog_show_help (
+                    GTK_WINDOW (window),
+                    "ristretto",
+                    "preferences",
+                    NULL);
         }
     }
 

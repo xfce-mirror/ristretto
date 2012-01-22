@@ -47,7 +47,4 @@ typedef enum {
     SORT_TYPE_COUNT,
 } RsttoSortType;
 
-gboolean
-rstto_launch_help (void);
-
 #endif /* __RSTTO_UTIL_H__ */
