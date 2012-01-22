@@ -1071,8 +1071,8 @@ paint_image (
                         -1.0 * viewer->priv->image_height * viewer->priv->scale);
                 cairo_translate (
                         ctx,
-                        viewer->priv->rendering.y_offset,
-                        -1.0 * viewer->priv->rendering.x_offset);
+                        y_offset,
+                        -1.0 * x_offset);
                 break;
             case RSTTO_IMAGE_ORIENT_270:
                 cairo_rotate (
@@ -1089,8 +1089,8 @@ paint_image (
 
                 cairo_translate (
                         ctx,
-                        -1.0 * viewer->priv->rendering.y_offset,
-                        viewer->priv->rendering.x_offset);
+                        -1.0 * y_offset,
+                        x_offset);
                 break;
             case RSTTO_IMAGE_ORIENT_180:
                 cairo_rotate (
@@ -1107,8 +1107,8 @@ paint_image (
 
                 cairo_translate (
                         ctx,
-                        -1.0 * viewer->priv->rendering.x_offset,
-                        -1.0 * viewer->priv->rendering.y_offset);
+                        -1.0 * x_offset,
+                        -1.0 * y_offset);
                 break;
             case RSTTO_IMAGE_ORIENT_NONE:
             default:
@@ -1119,8 +1119,8 @@ paint_image (
 
                 cairo_translate (
                         ctx,
-                        viewer->priv->rendering.x_offset,
-                        viewer->priv->rendering.y_offset);
+                        x_offset,
+                        y_offset);
                 break;
 
         }
