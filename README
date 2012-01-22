@@ -1,3 +1,0 @@
-ChangeLog is generated as followed:
-
-git log --format=medium --max-parents=1 > ChangeLog
