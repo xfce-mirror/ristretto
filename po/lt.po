@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-01-22 08:11+0200\n"
-"PO-Revision-Date: 2012-01-22 08:38+0200\n"
+"PO-Revision-Date: 2012-01-22 08:48+0200\n"
 "Last-Translator: Algimantas Margevičius <margevicius.algimantas@gmail.com>\n"
 "Language-Team: Lietuvių <>\n"
 "Language: \n"
@@ -108,7 +108,7 @@ msgstr "_Atverti su..."
 
 #: ../src/main_window.c:325
 msgid "_Sorting"
-msgstr "_Rikiuojama"
+msgstr "_Rikiavimas"
 
 #: ../src/main_window.c:326
 msgid "_Delete"
@@ -260,19 +260,19 @@ msgstr "rikiuoti pagal datą"
 
 #: ../src/main_window.c:393
 msgid "Left"
-msgstr "Kairė"
+msgstr "Kairėje"
 
 #: ../src/main_window.c:394
 msgid "Right"
-msgstr "Dešinė"
+msgstr "Dešinėje"
 
 #: ../src/main_window.c:395
 msgid "Top"
-msgstr "Viršus"
+msgstr "Viršuje"
 
 #: ../src/main_window.c:396
 msgid "Bottom"
-msgstr "Apačia"
+msgstr "Apačioje"
 
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:538
@@ -346,7 +346,7 @@ msgstr ""
 
 #: ../src/main_window.c:2497
 msgid "translator-credits"
-msgstr "Algimantas Margevičius"
+msgstr "Algimantas Margevičius <margevicius.algimantas@gmail.com>"
 
 #: ../src/main_window.c:2783
 msgid "Open image"
@@ -464,7 +464,7 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:289
 msgid "Control"
-msgstr "Control"
+msgstr "Valdymas"
 
 #: ../src/preferences_dialog.c:293
 msgid "Scroll wheel"
@@ -472,7 +472,7 @@ msgstr "Slinkties ratukas"
 
 #: ../src/preferences_dialog.c:296
 msgid "Invert zoom direction"
-msgstr "Apversti mastelio kryptį"
+msgstr "Invertuoti mastelio kryptį"
 
 #: ../src/preferences_dialog.c:306
 msgid "Behaviour"
@@ -496,7 +496,7 @@ msgstr "Darbastalis"
 
 #: ../src/preferences_dialog.c:460
 msgid "Image Viewer Preferences"
-msgstr "Paveikslėlių žiūryklės nustatymai"
+msgstr "Paveikslėlių peržiūros programos nustatymai"
 
 #: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
@@ -619,7 +619,7 @@ msgstr "Pritauktas"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
-msgstr "Ristretto paveikslėlių žiūryklė"
+msgstr "Ristretto paveikslėlių peržiūros programa"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
