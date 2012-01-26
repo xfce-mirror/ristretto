@@ -1002,8 +1002,8 @@ paint_image (
         }
 
         cairo_save (ctx);
-        x_offset = viewer->priv->rendering.x_offset;
-        y_offset = viewer->priv->rendering.y_offset;
+        x_offset = floor ( viewer->priv->rendering.x_offset );
+        y_offset = floor ( viewer->priv->rendering.y_offset );
 
 /* BEGIN PAINT CHECKERED BACKGROUND */
         if (TRUE == gdk_pixbuf_get_has_alpha (viewer->priv->pixbuf))
@@ -1063,8 +1063,8 @@ paint_image (
                         M_PI*0.5);
                 cairo_translate (
                         ctx,
-                        0.0 - gtk_adjustment_get_value (viewer->vadjustment),
-                        gtk_adjustment_get_value (viewer->hadjustment));
+                        0.0 - floor (gtk_adjustment_get_value (viewer->vadjustment)),
+                        floor (gtk_adjustment_get_value (viewer->hadjustment)));
                 cairo_translate (
                         ctx,
                         0.0,
@@ -1080,8 +1080,8 @@ paint_image (
                         M_PI*1.5);
                 cairo_translate (
                         ctx,
-                        gtk_adjustment_get_value (viewer->vadjustment),
-                        0.0 - gtk_adjustment_get_value (viewer->hadjustment));
+                        floor(gtk_adjustment_get_value (viewer->vadjustment)),
+                        0.0 - floor(gtk_adjustment_get_value (viewer->hadjustment)));
                 cairo_translate (
                         ctx,
                         -1.0 * viewer->priv->image_width * viewer->priv->scale,
@@ -1098,8 +1098,8 @@ paint_image (
                         M_PI);
                 cairo_translate (
                         ctx,
-                        gtk_adjustment_get_value (viewer->hadjustment),
-                        gtk_adjustment_get_value (viewer->vadjustment));
+                        floor(gtk_adjustment_get_value (viewer->hadjustment)),
+                        floor(gtk_adjustment_get_value (viewer->vadjustment)));
                 cairo_translate (
                         ctx,
                         -1.0 * viewer->priv->image_width * viewer->priv->scale,
@@ -1114,8 +1114,8 @@ paint_image (
             default:
                 cairo_translate (
                         ctx,
-                        0.0 - gtk_adjustment_get_value (viewer->hadjustment),
-                        0.0 - gtk_adjustment_get_value (viewer->vadjustment));
+                        0.0 - floor(gtk_adjustment_get_value (viewer->hadjustment)),
+                        0.0 - floor(gtk_adjustment_get_value (viewer->vadjustment)));
 
                 cairo_translate (
                         ctx,
