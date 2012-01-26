@@ -150,9 +150,15 @@ main(int argc, char **argv)
             }
         }
 
+        /* Start fullscreen */
+        if (TRUE == start_fullscreen)
+        {
+           gtk_window_fullscreen (GTK_WINDOW (window));
+        }
+
         g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
         gtk_widget_show_all (window);
-     
+
         GDK_THREADS_ENTER();
         gtk_main();
         GDK_THREADS_LEAVE();
@@ -267,6 +273,12 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
             /* Point the iterator to the correct image */
             rstto_image_list_iter_set_position (iter, 0);
         }
+
+        if (TRUE == start_slideshow)
+        {
+            rstto_main_window_play_slideshow (RSTTO_MAIN_WINDOW(rof->window));
+        }
+
     }
     return FALSE;
 }

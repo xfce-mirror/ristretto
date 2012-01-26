@@ -74,7 +74,11 @@ RsttoImageListIter *
 rstto_main_window_get_iter (
         RsttoMainWindow *);
 
-gboolean   rstto_main_window_add_file_to_recent_files (GFile *);
+gboolean
+rstto_main_window_add_file_to_recent_files (GFile *);
+
+gboolean
+rstto_main_window_play_slideshow (RsttoMainWindow *);
 
 G_END_DECLS
 
