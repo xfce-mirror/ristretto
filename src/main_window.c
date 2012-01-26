@@ -1263,6 +1263,10 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
                 
                 }
             }
+            if ( 0 != (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+            {
+                gtk_widget_hide (window->priv->toolbar);
+            }
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), TRUE);
             /*
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/print"), TRUE);
@@ -1389,6 +1393,10 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
                     }
                 
                 }
+            }
+            if ( 0 != (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+            {
+                gtk_widget_hide (window->priv->toolbar);
             }
             gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( window->priv->ui_manager, "/main-menu/file-menu/save-copy"), TRUE);
             /*
@@ -2301,53 +2309,7 @@ cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window)
 static void
 cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window)
 {
-    GValue timeout = {0, };
-
-    gtk_ui_manager_add_ui (window->priv->ui_manager,
-                           window->priv->pause_merge_id,
-                           "/main-menu/go-menu/placeholder-slideshow",
-                           "pause",
-                           "pause",
-                           GTK_UI_MANAGER_MENUITEM,
-                           FALSE);
-    gtk_ui_manager_remove_ui (window->priv->ui_manager,
-                              window->priv->play_merge_id);
-
-    if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
-    {
-        gtk_ui_manager_add_ui (
-                window->priv->ui_manager,
-                window->priv->toolbar_pause_merge_id,
-                "/file-toolbar/placeholder-slideshow",
-                "pause",
-                "pause",
-                GTK_UI_MANAGER_TOOLITEM,
-                FALSE);
-        gtk_ui_manager_remove_ui (
-                window->priv->ui_manager,
-                window->priv->toolbar_play_merge_id);
-    }
-    else
-    {
-        gtk_ui_manager_add_ui (
-                window->priv->ui_manager,
-                window->priv->toolbar_pause_merge_id,
-                "/navigation-toolbar/placeholder-slideshow",
-                "pause",
-                "pause",
-                GTK_UI_MANAGER_TOOLITEM,
-                FALSE);
-        gtk_ui_manager_remove_ui (
-                window->priv->ui_manager,
-                window->priv->toolbar_play_merge_id);
-    }
-
-
-    g_value_init (&timeout, G_TYPE_UINT);
-    g_object_get_property (G_OBJECT(window->priv->settings_manager), "slideshow-timeout", &timeout);
-
-    window->priv->playing = TRUE;
-    window->priv->play_timeout_id = g_timeout_add (g_value_get_uint (&timeout)*1000, (GSourceFunc)cb_rstto_main_window_play_slideshow, window);
+    rstto_main_window_play_slideshow (window);
 }
 
 /**
@@ -3500,3 +3462,55 @@ cb_rstto_desktop_type_changed (
     rstto_main_window_update_buttons (window);
 }
 
+
+gboolean
+rstto_main_window_play_slideshow (RsttoMainWindow *window)
+{
+    GValue timeout = {0, };
+
+    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->pause_merge_id,
+                           "/main-menu/go-menu/placeholder-slideshow",
+                           "pause",
+                           "pause",
+                           GTK_UI_MANAGER_MENUITEM,
+                           FALSE);
+    gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                              window->priv->play_merge_id);
+
+    if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
+    {
+        gtk_ui_manager_add_ui (
+                window->priv->ui_manager,
+                window->priv->toolbar_pause_merge_id,
+                "/file-toolbar/placeholder-slideshow",
+                "pause",
+                "pause",
+                GTK_UI_MANAGER_TOOLITEM,
+                FALSE);
+        gtk_ui_manager_remove_ui (
+                window->priv->ui_manager,
+                window->priv->toolbar_play_merge_id);
+    }
+    else
+    {
+        gtk_ui_manager_add_ui (
+                window->priv->ui_manager,
+                window->priv->toolbar_pause_merge_id,
+                "/navigation-toolbar/placeholder-slideshow",
+                "pause",
+                "pause",
+                GTK_UI_MANAGER_TOOLITEM,
+                FALSE);
+        gtk_ui_manager_remove_ui (
+                window->priv->ui_manager,
+                window->priv->toolbar_play_merge_id);
+    }
+
+
+    g_value_init (&timeout, G_TYPE_UINT);
+    g_object_get_property (G_OBJECT(window->priv->settings_manager), "slideshow-timeout", &timeout);
+
+    window->priv->playing = TRUE;
+    window->priv->play_timeout_id = g_timeout_add (g_value_get_uint (&timeout)*1000, (GSourceFunc)cb_rstto_main_window_play_slideshow, window);
+}
