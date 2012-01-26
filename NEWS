@@ -3,6 +3,9 @@ x.x.x
 - Fix bug #8343 (Do not use symbols from gtk+ > 2.20)
 - Autogenerate Changelog on make dist
 - Update scale information when box-zoom is used.
+- Fix bug #8317 (Blurred full-screen image) - round offset to nearest
+  pixel.
+- Fix --fullscreen and --slideshow CLI options.
 
 0.3.2
 =====
