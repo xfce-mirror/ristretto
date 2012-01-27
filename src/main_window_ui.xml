@@ -127,8 +127,9 @@
         <toolitem action="open"/>
         <separator />
         <toolitem action="save-copy"/>
-        <toolitem action="close"/>
         <toolitem action="delete"/>
+        <separator />
+        <toolitem action="edit"/>
         <separator name="separator-1"/>
         <toolitem action="back"/>
         <placeholder name="placeholder-slideshow" />

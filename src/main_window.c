@@ -193,6 +193,8 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window);
 static void
+cb_rstto_main_window_edit (GtkWidget *widget, RsttoMainWindow *window);
+static void
 cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window);
@@ -335,6 +337,7 @@ static GtkActionEntry action_entries[] =
   { "open", "document-open", N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
   { "save-copy", GTK_STOCK_SAVE_AS, N_ ("_Save copy"), "<control>s", N_ ("Save a copy of the image"), G_CALLBACK (cb_rstto_main_window_save_copy), },
   { "properties", GTK_STOCK_PROPERTIES, N_ ("_Properties"), NULL, N_ ("Show file properties"), G_CALLBACK (cb_rstto_main_window_properties), },
+  { "edit", GTK_STOCK_EDIT, N_ ("_Edit"), NULL, N_ ("Edit this image"), G_CALLBACK (cb_rstto_main_window_edit), },
   { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
   { "quit", GTK_STOCK_QUIT, N_ ("_Quit"), "<control>Q", N_ ("Quit Ristretto"), G_CALLBACK (cb_rstto_main_window_quit), },
 /* Edit Menu */
@@ -1308,7 +1311,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
 
             /* Toolbar */
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/save-copy"), FALSE);
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/close"), FALSE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/edit"), FALSE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/delete"), FALSE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/forward"), FALSE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/back"), FALSE);
@@ -1439,7 +1442,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
 
             /* Toolbar */
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/save-copy"), TRUE);
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/close"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/edit"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/delete"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/forward"), FALSE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/back"), FALSE);
@@ -1542,7 +1545,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
 
             /* Toolbar */
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/save-copy"), TRUE);
-            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/close"), TRUE);
+            gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/edit"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/delete"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/zoom-in"), TRUE);
             gtk_widget_set_sensitive (gtk_ui_manager_get_widget (window->priv->ui_manager, "/file-toolbar/zoom-out"), TRUE);
@@ -3261,6 +3264,33 @@ cb_rstto_main_window_close (
             NULL,
             NULL);
     gtk_widget_hide (window->priv->warning);
+}
+
+/**
+ * cb_rstto_main_window_edit:
+ * @widget:
+ * @window:
+ *
+ * Edit images.
+ *
+ */
+static void
+cb_rstto_main_window_edit (
+        GtkWidget *widget,
+        RsttoMainWindow *window)
+{
+    RsttoFile *r_file = rstto_image_list_iter_get_file(window->priv->iter);
+    gchar *content_type = rstto_file_get_content_type (r_file);
+    GList *app_infos = g_app_info_get_all_for_type (content_type);
+    GList *iter = app_infos;
+
+    while (iter)
+    {
+        g_debug("N: %s", g_app_info_get_name (iter->data));
+        g_debug("DN:%s", g_app_info_get_display_name (iter->data));
+        g_debug("D: %s", g_app_info_get_description (iter->data));
+        iter = g_list_next (iter);
+    }
 }
 
 /**
