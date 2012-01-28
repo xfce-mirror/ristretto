@@ -1,4 +1,4 @@
-x.x.x
+0.3.3
 =====
 - Fix bug #8343 (Do not use symbols from gtk+ > 2.20)
 - Autogenerate Changelog on make dist

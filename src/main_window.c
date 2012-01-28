@@ -3513,4 +3513,5 @@ rstto_main_window_play_slideshow (RsttoMainWindow *window)
 
     window->priv->playing = TRUE;
     window->priv->play_timeout_id = g_timeout_add (g_value_get_uint (&timeout)*1000, (GSourceFunc)cb_rstto_main_window_play_slideshow, window);
+    return FALSE;
 }
