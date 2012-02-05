@@ -47,8 +47,6 @@ static void
 cb_rstto_preferences_dialog_bgcolor_override_toggled (GtkToggleButton *, gpointer);
 static void
 cb_rstto_preferences_dialog_bgcolor_color_set (GtkColorButton *, gpointer);
-static void
-cb_rstto_preferences_dialog_merge_toolbars_toggled (GtkToggleButton *, gpointer);
 
 static void
 cb_rstto_preferences_dialog_zoom_revert_check_button_toggled (GtkToggleButton *, gpointer);
@@ -85,9 +83,6 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *bgcolor_hbox;
         GtkWidget *bgcolor_color_button;
         GtkWidget *bgcolor_override_check_button;
-        GtkWidget *toolbars_frame;
-        GtkWidget *toolbars_vbox;
-        GtkWidget *merge_toolbars_check_button;
         GtkWidget *thumbnail_vbox;
         GtkWidget *thumbnail_frame;
         GtkWidget *hide_thumbnails_fullscreen_lbl;
@@ -157,7 +152,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gboolean bool_hide_thumbnailbar_fullscreen;
     gboolean bool_wrap_images;
     gboolean bool_maximize_on_startup;
-    gboolean bool_merge_toolbars;
     gchar   *str_desktop_type = NULL;
 
     GdkColor *bgcolor;
@@ -185,7 +179,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                   "hide-thumbnailbar-fullscreen", &bool_hide_thumbnailbar_fullscreen,
                   "maximize-on-startup", &bool_maximize_on_startup,
                   "wrap-images", &bool_wrap_images,
-                  "merge-toolbars", &bool_merge_toolbars,
                   "desktop-type", &str_desktop_type,
                   NULL);
 
@@ -198,13 +191,9 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
 /** Bg-color frame */
     dialog->priv->display_tab.bgcolor_vbox = gtk_vbox_new (FALSE, 0);
-    dialog->priv->display_tab.toolbars_vbox = gtk_vbox_new (FALSE, 0);
     dialog->priv->display_tab.bgcolor_frame = xfce_gtk_frame_box_new_with_content(_("Background color"),
                                                                                  dialog->priv->display_tab.bgcolor_vbox);
-    dialog->priv->display_tab.toolbars_frame = xfce_gtk_frame_box_new_with_content(_("Toolbars"),
-                                                                                 dialog->priv->display_tab.toolbars_vbox);
     gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.bgcolor_frame, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.toolbars_frame, FALSE, FALSE, 0);
 
     dialog->priv->display_tab.bgcolor_override_check_button = gtk_check_button_new_with_label (_("Override background color:"));
     dialog->priv->display_tab.bgcolor_hbox = gtk_hbox_new (FALSE, 4);
@@ -216,10 +205,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                         dialog->priv->display_tab.bgcolor_color_button, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_vbox), 
                         dialog->priv->display_tab.bgcolor_hbox, FALSE, FALSE, 0);
-
-    dialog->priv->display_tab.merge_toolbars_check_button = gtk_check_button_new_with_label (_("Merge toolbars"));
-    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.toolbars_vbox), 
-                        dialog->priv->display_tab.merge_toolbars_check_button, FALSE, FALSE, 0);
 
     dialog->priv->display_tab.thumbnail_vbox = gtk_vbox_new(FALSE, 0);
     dialog->priv->display_tab.thumbnail_frame = xfce_gtk_frame_box_new_with_content(_("Thumbnails"), dialog->priv->display_tab.thumbnail_vbox);
@@ -248,16 +233,11 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_widget_set_sensitive (GTK_WIDGET (dialog->priv->display_tab.bgcolor_color_button),
                               bool_bgcolor_override);
 
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.merge_toolbars_check_button),
-                                  bool_merge_toolbars);
-    
     /* connect signals */
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_override_check_button), 
                       "toggled", (GCallback)cb_rstto_preferences_dialog_bgcolor_override_toggled, dialog);
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_color_button), 
                       "color-set", G_CALLBACK (cb_rstto_preferences_dialog_bgcolor_color_set), dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->display_tab.merge_toolbars_check_button), 
-                      "toggled", (GCallback)cb_rstto_preferences_dialog_merge_toolbars_toggled, dialog);
 
 /*******************/
 /** Slideshow tab **/
@@ -500,20 +480,6 @@ cb_rstto_preferences_dialog_bgcolor_color_set (GtkColorButton *button, gpointer 
     g_object_get_property (G_OBJECT(button), "color", &bgcolor_val);
     g_object_set_property (G_OBJECT(dialog->priv->settings), "bgcolor", &bgcolor_val);
     
-}
-
-static void
-cb_rstto_preferences_dialog_merge_toolbars_toggled (
-        GtkToggleButton *button,
-        gpointer user_data)
-{
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-    gboolean merge_toolbars = gtk_toggle_button_get_active (button);
-
-    rstto_settings_set_boolean_property (
-            dialog->priv->settings,
-            "merge-toolbars",
-            merge_toolbars);
 }
 
 static void

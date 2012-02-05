@@ -1,8 +1,4 @@
 <ui>
-    <!--
-
-
-    -->
     <menubar name="main-menu">
         <menu action="file-menu">
             <menuitem action="open"/>
@@ -33,8 +29,7 @@
             <menuitem action="preferences"/>
         </menu>
         <menu action="view-menu">
-            <menuitem action="show-file-toolbar"/>
-            <menuitem action="show-nav-toolbar"/>
+            <menuitem action="show-toolbar"/>
             <menuitem action="show-statusbar"/>
             <menuitem action="show-thumbnailbar"/>
             <menu action="thumbnailbar-position-menu">
@@ -81,12 +76,6 @@
         </menu>
     </menubar>
 
-    <!--
-    <popup name="tb-menu">
-        <menuitem action="open"/>
-    </popup>
-    -->
-
     <popup name="navigation-toolbar-menu">
         <menu action="position-menu">
             <menuitem action="pos-left"/>
@@ -123,7 +112,7 @@
     <!--
 
     -->
-    <toolbar name="file-toolbar">
+    <toolbar name="main-toolbar">
         <toolitem action="open"/>
         <separator />
         <toolitem action="save-copy"/>
@@ -135,28 +124,6 @@
         <placeholder name="placeholder-slideshow" />
         <toolitem action="forward"/>
         <separator name="separator-2"/>
-        <toolitem action="rotate-ccw"/>
-        <toolitem action="rotate-cw"/>
-        <separator />
-        <toolitem action="zoom-in"/>
-        <toolitem action="zoom-out"/>
-        <toolitem action="zoom-100"/>
-        <toolitem action="zoom-fit"/>
-        <separator />
-        <placeholder name="placeholder-fullscreen" />
-    </toolbar>
-
-    <!--
-
-    -->
-    <toolbar name="navigation-toolbar">
-        <toolitem action="back"/>
-        <placeholder name="placeholder-slideshow" />
-        <toolitem action="forward"/>
-        <separator name="separator-1"/>
-        <toolitem action="rotate-ccw"/>
-        <toolitem action="rotate-cw"/>
-        <separator />
         <toolitem action="zoom-in"/>
         <toolitem action="zoom-out"/>
         <toolitem action="zoom-100"/>

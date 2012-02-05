@@ -54,8 +54,7 @@ static RsttoSettings *settings_object;
 enum
 {
     PROP_0,
-    PROP_SHOW_FILE_TOOLBAR,
-    PROP_SHOW_NAV_TOOLBAR,
+    PROP_SHOW_TOOLBAR,
     PROP_NAVBAR_POSITION,
     PROP_SHOW_THUMBNAILBAR,
     PROP_SHOW_STATUSBAR,
@@ -108,8 +107,7 @@ struct _RsttoSettingsPriv
 {
     XfconfChannel *channel;
 
-    gboolean  show_file_toolbar;
-    gboolean  show_nav_toolbar;
+    gboolean  show_toolbar;
     gboolean  show_thumbnailbar;
     gboolean  show_statusbar;
     gboolean  hide_thumbnailbar_fullscreen;
@@ -159,8 +157,7 @@ rstto_settings_init (GObject *object)
     settings->priv->bgcolor = g_new0 (GdkColor, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkColor, 1);
     settings->priv->navigationbar_position = g_strdup ("left");
-    settings->priv->show_file_toolbar = TRUE;
-    settings->priv->show_nav_toolbar = TRUE;
+    settings->priv->show_toolbar = TRUE;
     settings->priv->window_width = 600;
     settings->priv->window_height = 440;
     settings->priv->wrap_images = TRUE;
@@ -197,14 +194,7 @@ rstto_settings_init (GObject *object)
             "/window/toolbar/show",
             G_TYPE_BOOLEAN,
             settings,
-            "show-file-toolbar");
-
-    xfconf_g_property_bind (
-            settings->priv->channel,
-            "/window/navigationbar/show",
-            G_TYPE_BOOLEAN,
-            settings,
-            "show-nav-toolbar");
+            "show-toolbar");
 
     xfconf_g_property_bind (
             settings->priv->channel,
@@ -367,25 +357,14 @@ rstto_settings_class_init (GObjectClass *object_class)
             pspec);
 
     pspec = g_param_spec_boolean (
-            "show-file-toolbar",
+            "show-toolbar",
             "",
             "",
             TRUE,
             G_PARAM_READWRITE);
     g_object_class_install_property (
             object_class,
-            PROP_SHOW_FILE_TOOLBAR,
-            pspec);
-
-    pspec = g_param_spec_boolean (
-            "show-nav-toolbar",
-            "",
-            "",
-            TRUE,
-            G_PARAM_READWRITE);
-    g_object_class_install_property (
-            object_class,
-            PROP_SHOW_NAV_TOOLBAR,
+            PROP_SHOW_TOOLBAR,
             pspec);
 
     pspec = g_param_spec_boolean (
@@ -673,11 +652,8 @@ rstto_settings_set_property    (GObject      *object,
 
     switch (property_id)
     {
-        case PROP_SHOW_FILE_TOOLBAR:
-            settings->priv->show_file_toolbar = g_value_get_boolean (value);
-            break;
-        case PROP_SHOW_NAV_TOOLBAR:
-            settings->priv->show_nav_toolbar = g_value_get_boolean (value);
+        case PROP_SHOW_TOOLBAR:
+            settings->priv->show_toolbar = g_value_get_boolean (value);
             break;
         case PROP_SHOW_THUMBNAILBAR:
             settings->priv->show_thumbnailbar = g_value_get_boolean (value);
@@ -775,11 +751,8 @@ rstto_settings_get_property    (GObject    *object,
 
     switch (property_id)
     {
-        case PROP_SHOW_FILE_TOOLBAR:
-            g_value_set_boolean (value, settings->priv->show_file_toolbar);
-            break;
-        case PROP_SHOW_NAV_TOOLBAR:
-            g_value_set_boolean (value, settings->priv->show_nav_toolbar);
+        case PROP_SHOW_TOOLBAR:
+            g_value_set_boolean (value, settings->priv->show_toolbar);
             break;
         case PROP_SHOW_THUMBNAILBAR:
             g_value_set_boolean (value, settings->priv->show_thumbnailbar);
