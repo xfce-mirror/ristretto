@@ -42,6 +42,15 @@
                 <menuitem action="pos-top"/>
                 <menuitem action="pos-bottom"/>
             </menu>
+            <menu action="thumbnailbar-size-menu">
+                <menuitem action="size-very-small"/>
+                <menuitem action="size-smaller"/>
+                <menuitem action="size-small"/>
+                <menuitem action="size-normal"/>
+                <menuitem action="size-large"/>
+                <menuitem action="size-larger"/>
+                <menuitem action="size-very-large"/>
+            </menu>
             <separator/>
             <menu action="zoom-menu">
                 <menuitem action="zoom-in"/>
@@ -83,6 +92,15 @@
             <menuitem action="pos-right"/>
             <menuitem action="pos-top"/>
             <menuitem action="pos-bottom"/>
+        </menu>
+        <menu action="size-menu">
+            <menuitem action="size-very-small"/>
+            <menuitem action="size-smaller"/>
+            <menuitem action="size-small"/>
+            <menuitem action="size-normal"/>
+            <menuitem action="size-large"/>
+            <menuitem action="size-larger"/>
+            <menuitem action="size-very-large"/>
         </menu>
     </popup>
 

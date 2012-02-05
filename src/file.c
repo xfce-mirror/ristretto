@@ -20,6 +20,7 @@
 
 #include <glib.h>
 #include <gio/gio.h>
+#include <gtk/gtk.h>
 
 #include <libexif/exif-data.h>
 
@@ -100,6 +101,9 @@ struct _RsttoFilePriv
     gchar *uri;
     gchar *path;
 
+    gchar *thumbnail_path;
+    GdkPixbuf *thumbnails[THUMBNAIL_SIZE_COUNT];
+
     ExifData *exif_data;
     RsttoImageOrientation orientation;
 };
@@ -137,6 +141,7 @@ static void
 rstto_file_dispose (GObject *object)
 {
     RsttoFile *file = RSTTO_FILE (object);
+    gint i = 0;
 
     if (file->priv)
     {
@@ -160,10 +165,24 @@ rstto_file_dispose (GObject *object)
             g_free (file->priv->path);
             file->priv->path = NULL;
         }
+        if (file->priv->thumbnail_path)
+        {
+            g_free (file->priv->thumbnail_path);
+            file->priv->thumbnail_path = NULL;
+        }
         if (file->priv->uri)
         {
             g_free (file->priv->uri);
             file->priv->uri = NULL;
+        }
+
+        for (i = 0; i < THUMBNAIL_SIZE_COUNT; ++i)
+        {
+            if (file->priv->thumbnails[i])
+            {
+                g_object_unref (file->priv->thumbnails[i]);
+                file->priv->thumbnails[i] = NULL;
+            }
         }
 
         g_free (file->priv);
@@ -407,4 +426,46 @@ rstto_file_has_exif ( RsttoFile *file )
         return FALSE;
     }
     return TRUE;
+}
+
+const gchar *
+rstto_file_get_thumbnail_path ( RsttoFile *file)
+{
+    const gchar *uri;
+    gchar *checksum;
+    gchar *filename;
+
+    if (NULL == file->priv->thumbnail_path)
+    {
+        uri = rstto_file_get_uri (file);
+        checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, strlen (uri));
+        filename = g_strconcat (checksum, ".png", NULL);
+
+        file->priv->thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", filename, NULL);
+
+        g_free (checksum);
+        g_free (filename);
+    }
+
+    return file->priv->thumbnail_path;
+}
+
+const GdkPixbuf *
+rstto_file_get_thumbnail ( RsttoFile *file , RsttoThumbnailSize size)
+{
+    const gchar *thumbnail_path;
+
+    if (file->priv->thumbnails[size])
+        return file->priv->thumbnails[size];
+
+    thumbnail_path = rstto_file_get_thumbnail_path (file);
+
+    file->priv->thumbnails[size] = gdk_pixbuf_new_from_file_at_scale (
+            thumbnail_path,
+            rstto_thumbnail_size[size],
+            rstto_thumbnail_size[size],
+            TRUE,
+            NULL);
+
+    return file->priv->thumbnails[size];
 }

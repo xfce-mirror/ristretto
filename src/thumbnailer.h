@@ -66,13 +66,14 @@ GType
 rstto_thumbnailer_get_type (void);
 
 void
-rstto_thumbnailer_queue_thumbnail (
+rstto_thumbnailer_queue_file (
         RsttoThumbnailer *thumbnailer,
-        RsttoThumbnail *thumb);
+        RsttoFile *file);
 void
-rstto_thumbnailer_dequeue_thumbnail (
+rstto_thumbnailer_dequeue_file (
         RsttoThumbnailer *thumbnailer,
-        RsttoThumbnail *thumb);
+        RsttoFile *file );
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_THUMBNAILER_H__ */

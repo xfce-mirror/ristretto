@@ -83,6 +83,12 @@ rstto_file_get_uri ( RsttoFile * );
 const gchar *
 rstto_file_get_content_type ( RsttoFile * );
 
+const gchar *
+rstto_file_get_thumbnail_path ( RsttoFile *);
+
+const GdkPixbuf *
+rstto_file_get_thumbnail ( RsttoFile *, RsttoThumbnailSize );
+
 guint64
 rstto_file_get_modified_time ( RsttoFile *);
 

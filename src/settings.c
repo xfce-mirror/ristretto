@@ -74,6 +74,7 @@ enum
     PROP_MERGE_TOOLBARS,
     PROP_ERROR_MISSING_THUMBNAILER,
     PROP_SORT_TYPE,
+    PROP_THUMBNAIL_SIZE,
 };
 
 GType
@@ -124,6 +125,7 @@ struct _RsttoSettingsPriv
     gboolean  use_thunar_properties;
     gboolean  maximize_on_startup;
     gboolean  merge_toolbars;
+    RsttoThumbnailSize thumbnail_size;
 
     RsttoSortType sort_type;
 
@@ -165,6 +167,7 @@ rstto_settings_init (GObject *object)
     settings->priv->maximize_on_startup = TRUE;
     settings->priv->hide_thumbnailbar_fullscreen = TRUE;
     settings->priv->errors.missing_thumbnailer = TRUE;
+    settings->priv->thumbnail_size = THUMBNAIL_SIZE_NORMAL;
 
     xfconf_g_property_bind (
             settings->priv->channel,
@@ -220,6 +223,13 @@ rstto_settings_init (GObject *object)
             G_TYPE_BOOLEAN,
             settings,
             "show-thumbnailbar");
+
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/thumbnails/size",
+            G_TYPE_UINT,
+            settings,
+            "thumbnail-size");
 
     xfconf_g_property_bind (
             settings->priv->channel,
@@ -547,6 +557,19 @@ rstto_settings_class_init (GObjectClass *object_class)
             object_class,
             PROP_SORT_TYPE,
             pspec);
+
+    pspec = g_param_spec_uint (
+            "thumbnail-size",
+            "",
+            "",
+            0,
+            THUMBNAIL_SIZE_COUNT,
+            0,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_THUMBNAIL_SIZE,
+            pspec);
 }
 
 /**
@@ -709,6 +732,9 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_SORT_TYPE:
             settings->priv->sort_type = g_value_get_uint ( value );
             break;
+        case PROP_THUMBNAIL_SIZE:
+            settings->priv->thumbnail_size = g_value_get_uint (value);
+            break;
         default:
             break;
     }
@@ -788,6 +814,11 @@ rstto_settings_get_property    (GObject    *object,
             g_value_set_uint (
                     value,
                     settings->priv->sort_type);
+            break;
+        case PROP_THUMBNAIL_SIZE:
+            g_value_set_uint (
+                    value,
+                    settings->priv->thumbnail_size);
             break;
         default:
             break;

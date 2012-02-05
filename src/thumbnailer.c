@@ -32,7 +32,6 @@
 #include "util.h"
 #include "file.h"
 #include "settings.h"
-#include "thumbnail.h"
 #include "thumbnailer.h"
 #include "marshal.h"
 
@@ -151,7 +150,7 @@ rstto_thumbnailer_init (GObject *object)
                 "org.freedesktop.thumbnails.Thumbnailer1");
 
         dbus_g_object_register_marshaller (
-                (GClosureMarshal) rstto_marshal_VOID__UINT_BOXED,
+                (GClosureMarshal) _rstto_marshal_VOID__UINT_BOXED,
                 G_TYPE_NONE,
                 G_TYPE_UINT,
                 G_TYPE_STRV,
@@ -286,13 +285,13 @@ rstto_thumbnailer_get_property (
 }
 
 void
-rstto_thumbnailer_queue_thumbnail (
+rstto_thumbnailer_queue_file (
         RsttoThumbnailer *thumbnailer,
-        RsttoThumbnail *thumb)
+        RsttoFile *file )
 {
     g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
 
-    g_return_if_fail ( RSTTO_IS_THUMBNAIL (thumb) );
+    g_return_if_fail ( RSTTO_IS_FILE (file) );
 
     if (thumbnailer->priv->request_timer_id)
     {
@@ -310,12 +309,12 @@ rstto_thumbnailer_queue_thumbnail (
         }
     }
 
-    if (g_slist_find (thumbnailer->priv->queue, thumb) == NULL)
+    if (g_slist_find (thumbnailer->priv->queue, file) == NULL)
     {
-        g_object_ref (thumb);
+        g_object_ref (file);
         thumbnailer->priv->queue = g_slist_prepend (
                 thumbnailer->priv->queue,
-                thumb);
+                file);
     }
 
     thumbnailer->priv->request_timer_id = g_timeout_add_full (
@@ -327,13 +326,13 @@ rstto_thumbnailer_queue_thumbnail (
 }
 
 void
-rstto_thumbnailer_dequeue_thumbnail (
+rstto_thumbnailer_dequeue_file (
         RsttoThumbnailer *thumbnailer,
-        RsttoThumbnail *thumb)
+        RsttoFile *file)
 {
     g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
 
-    g_return_if_fail ( RSTTO_IS_THUMBNAIL (thumb) );
+    g_return_if_fail ( RSTTO_IS_FILE (file) );
     
     if (thumbnailer->priv->request_timer_id)
     {
@@ -351,12 +350,12 @@ rstto_thumbnailer_dequeue_thumbnail (
         }
     }
 
-    if (g_slist_find (thumbnailer->priv->queue, thumb) != NULL)
+    if (g_slist_find (thumbnailer->priv->queue, file) != NULL)
     {
         thumbnailer->priv->queue = g_slist_remove_all (
                 thumbnailer->priv->queue,
-                thumb);
-        g_object_unref (thumb);
+                file);
+        g_object_unref (file);
     }
 
     thumbnailer->priv->request_timer_id = g_timeout_add_full (
@@ -394,7 +393,7 @@ rstto_thumbnailer_queue_request_timer (
     {
         if (iter->data)
         {
-            file = rstto_thumbnail_get_file (RSTTO_THUMBNAIL(iter->data));
+            file = RSTTO_FILE(iter->data);
             uris[i] = rstto_file_get_uri (file);
             mimetypes[i] = rstto_file_get_content_type (file);
         }
@@ -491,7 +490,6 @@ cb_rstto_thumbnailer_thumbnail_ready (
         gpointer data)
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
-    RsttoThumbnail *thumbnail;
     RsttoFile *file;
     GSList *iter = thumbnailer->priv->queue;
     gint x = 0;
@@ -506,16 +504,14 @@ cb_rstto_thumbnailer_thumbnail_ready (
             break;
         }
 
-        thumbnail = iter->data;
-        file = rstto_thumbnail_get_file (thumbnail);
+        file = RSTTO_FILE (iter->data);
         f_uri = rstto_file_get_uri (file);
         if (strcmp (uri[x], f_uri) == 0)
         {
-            rstto_thumbnail_update (thumbnail);
             thumbnailer->priv->queue = g_slist_remove (
                     thumbnailer->priv->queue,
-                    iter->data);
-            g_object_unref (thumbnail);
+                    file);
+            g_object_unref (file);
 
             iter = thumbnailer->priv->queue;
             x++;

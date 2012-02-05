@@ -15,7 +15,8 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- *  Sorting-algorithm taken from the thunar filemanager.
+ *  Sorting-algorithm taken from the thunar filemanager. 
+ *    Copyright (c) Benedict Meurer <benny@xfce.org>
  */
 
 #include <config.h>
@@ -32,6 +33,11 @@
 #include "file.h"
 #include "image_list.h"
 #include "settings.h"
+
+static void
+rstto_image_list_tree_model_init (GtkTreeModelIface *iface);
+static void
+rstto_image_list_tree_sortable_init(GtkTreeSortableIface *iface);
 
 static void 
 rstto_image_list_init(RsttoImageList *);
@@ -86,6 +92,77 @@ iter_set_position (
         gint pos,
         gboolean sticky);
 
+/***************************************/
+/*  Begin TreeModelIface Functions     */
+/***************************************/
+
+static GtkTreeModelFlags
+image_list_model_get_flags ( GtkTreeModel *tree_model );
+
+static gint
+image_list_model_get_n_columns ( GtkTreeModel *tree_model );
+
+static GType
+image_list_model_get_column_type (
+        GtkTreeModel *tree_model,
+        gint index_ );
+
+static gboolean
+image_list_model_get_iter (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter,
+        GtkTreePath *path );
+
+static GtkTreePath *
+image_list_model_get_path (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter );
+
+static void 
+image_list_model_get_value (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter,
+        gint column,
+        GValue *value );
+
+static gboolean
+image_list_model_iter_children (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter,
+        GtkTreeIter *parent );
+
+static gboolean
+image_list_model_iter_has_child (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter );
+
+static gboolean
+image_list_model_iter_parent (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter,
+        GtkTreeIter *child );
+
+static gint
+image_list_model_iter_n_children (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter );
+
+static gboolean 
+image_list_model_iter_nth_child (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter,
+        GtkTreeIter *parent,
+        gint n );
+
+static gboolean
+image_list_model_iter_next (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter );
+
+/***************************************/
+/*  End TreeModelIface Functions       */
+/***************************************/
+
 static RsttoImageListIter * rstto_image_list_iter_new ();
 
 static gint
@@ -98,8 +175,7 @@ static GObjectClass *iter_parent_class = NULL;
 
 enum
 {
-    RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE = 0,
-    RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE,
+    RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE = 0,
     RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL,
     RSTTO_IMAGE_LIST_SIGNAL_COUNT
 };
@@ -110,6 +186,11 @@ enum
     RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE,
     RSTTO_IMAGE_LIST_ITER_SIGNAL_COUNT
 };
+
+/* Missing image thumbnail, should be re-generated every time
+ * the thumbnail-size changed.
+ */
+static GdkPixbuf *thumbnail_missing = NULL;
 
 struct _RsttoImageListIterPriv
 {
@@ -122,7 +203,8 @@ struct _RsttoImageListIterPriv
 
 struct _RsttoImageListPriv
 {
-    GFileMonitor *monitor;
+    gint           stamp;
+    GFileMonitor  *monitor;
     RsttoSettings *settings;
     GtkFileFilter *filter;
 
@@ -141,6 +223,18 @@ static gint rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_COUNT];
 GType
 rstto_image_list_get_type (void)
 {
+    static const GInterfaceInfo tree_model_info =
+    {
+        (GInterfaceInitFunc) rstto_image_list_tree_model_init,
+            NULL,
+            NULL
+    };
+    static const GInterfaceInfo tree_sort_info =
+    {
+        (GInterfaceInitFunc) rstto_image_list_tree_sortable_init,
+            NULL,
+            NULL
+    };
     static GType rstto_image_list_type = 0;
 
     if (!rstto_image_list_type)
@@ -160,8 +254,43 @@ rstto_image_list_get_type (void)
         };
 
         rstto_image_list_type = g_type_register_static (G_TYPE_OBJECT, "RsttoImageList", &rstto_image_list_info, 0);
+
+        g_type_add_interface_static (rstto_image_list_type, GTK_TYPE_TREE_MODEL, &tree_model_info);
+
+        g_type_add_interface_static (rstto_image_list_type, GTK_TYPE_TREE_SORTABLE, &tree_sort_info);
     }
+
+
     return rstto_image_list_type;
+}
+
+static void
+rstto_image_list_tree_model_init (GtkTreeModelIface *iface)
+{
+    iface->get_flags       = image_list_model_get_flags;
+    iface->get_n_columns   = image_list_model_get_n_columns;
+    iface->get_column_type = image_list_model_get_column_type;
+    iface->get_iter        = image_list_model_get_iter;
+    iface->get_path        = image_list_model_get_path;
+    iface->get_value       = image_list_model_get_value;
+    iface->iter_children   = image_list_model_iter_children;
+    iface->iter_has_child  = image_list_model_iter_has_child;
+    iface->iter_n_children = image_list_model_iter_n_children;
+    iface->iter_nth_child  = image_list_model_iter_nth_child;
+    iface->iter_parent     = image_list_model_iter_parent;
+    iface->iter_next       = image_list_model_iter_next;
+}
+
+static void
+rstto_image_list_tree_sortable_init(GtkTreeSortableIface *iface)
+{
+#if 0 
+    iface->get_sort_column_id    = sq_archive_store_get_sort_column_id;
+    iface->set_sort_column_id    = sq_archive_store_set_sort_column_id;
+    iface->set_sort_func         = sq_archive_store_set_sort_func;            /*NOT SUPPORTED*/
+    iface->set_default_sort_func = sq_archive_store_set_default_sort_func;    /*NOT SUPPORTED*/
+    iface->has_default_sort_func = sq_archive_store_has_default_sort_func;
+#endif 
 }
 
 static void
@@ -169,6 +298,7 @@ rstto_image_list_init(RsttoImageList *image_list)
 {
 
     image_list->priv = g_new0 (RsttoImageListPriv, 1);
+    image_list->priv->stamp = g_random_int();
     image_list->priv->settings = rstto_settings_new ();
     image_list->priv->filter = gtk_file_filter_new ();
     g_object_ref_sink (image_list->priv->filter);
@@ -196,18 +326,6 @@ rstto_image_list_class_init(RsttoImageListClass *nav_class)
     parent_class = g_type_class_peek_parent(nav_class);
 
     object_class->dispose = rstto_image_list_dispose;
-
-    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE] = g_signal_new("new-image",
-            G_TYPE_FROM_CLASS(nav_class),
-            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-            0,
-            NULL,
-            NULL,
-            g_cclosure_marshal_VOID__OBJECT,
-            G_TYPE_NONE,
-            1,
-            G_TYPE_OBJECT,
-            NULL);
 
     rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE] = g_signal_new("remove-image",
             G_TYPE_FROM_CLASS(nav_class),
@@ -275,6 +393,9 @@ rstto_image_list_add_file (
     GtkFileFilterInfo filter_info;
     GList *image_iter = g_list_find (image_list->priv->images, file);
     GSList *iter = image_list->priv->iterators;
+    gint i = 0;
+    GtkTreePath *path = NULL;
+    GtkTreeIter t_iter;
 
     g_return_val_if_fail ( NULL != file , FALSE);
     g_return_val_if_fail ( RSTTO_IS_FILE (file) , FALSE);
@@ -294,8 +415,16 @@ rstto_image_list_add_file (
                 image_list->priv->images = g_list_insert_sorted (image_list->priv->images, file, rstto_image_list_get_compare_func (image_list));
 
                 image_list->priv->n_images++;
+                i = g_list_index (image_list->priv->images, file);
 
-                g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, file, NULL);
+                path = gtk_tree_path_new();
+                gtk_tree_path_append_index (path, i);
+                t_iter.stamp = image_list->priv->stamp;
+                t_iter.user_data = file;
+                t_iter.user_data3 = GINT_TO_POINTER(i);
+
+                gtk_tree_model_row_inserted(GTK_TREE_MODEL(image_list), path, &t_iter);
+
                 /** TODO: update all iterators */
                 while (iter)
                 {
@@ -305,6 +434,7 @@ rstto_image_list_add_file (
                     }
                     iter = g_slist_next (iter);
                 }
+
                 return TRUE;
             }
             else
@@ -314,8 +444,6 @@ rstto_image_list_add_file (
         }
         return FALSE;
     }
-
-    g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_NEW_IMAGE], 0, image_iter->data, NULL);
 
     return TRUE;
 }
@@ -355,6 +483,7 @@ rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file)
 {
     GSList *iter = NULL;
     RsttoFile *afile = NULL;
+    GtkTreePath *path_ = NULL;
 
     if (g_list_find(image_list->priv->images, file))
     {
@@ -364,6 +493,12 @@ rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file)
         {
             if (rstto_file_equal(rstto_image_list_iter_get_file (iter->data), file))
             {
+                
+                path_ = gtk_tree_path_new();
+                gtk_tree_path_append_index(path_,rstto_image_list_iter_get_position (iter->data));
+
+                gtk_tree_model_row_deleted(GTK_TREE_MODEL(image_list), path_);
+
                 if (rstto_image_list_iter_get_position (iter->data) == rstto_image_list_get_n_images (image_list)-1)
                 {
                     iter_previous (iter->data, FALSE);
@@ -409,6 +544,22 @@ static void
 rstto_image_list_remove_all (RsttoImageList *image_list)
 {
     GSList *iter = NULL;
+    GList *image_iter = image_list->priv->images;
+    GtkTreePath *path_ = NULL;
+    gint i = g_list_length (image_iter);
+
+    while (image_iter)
+    {
+        i--;
+        path_ = gtk_tree_path_new();
+        gtk_tree_path_append_index(path_, i);
+
+        gtk_tree_model_row_deleted(GTK_TREE_MODEL(image_list), path_);
+
+        
+        image_iter = g_list_next (image_iter);     
+    }
+
     g_list_foreach (image_list->priv->images, (GFunc)g_object_unref, NULL);
     g_list_free (image_list->priv->images);
     image_list->priv->images = NULL;
@@ -1057,4 +1208,221 @@ cb_rstto_wrap_images_changed (
             &val_wrap_images);
 
     image_list->priv->wrap_images = g_value_get_boolean (&val_wrap_images);
+}
+
+/***************************************/
+/*      TreeModelIface Functions       */
+/***************************************/
+
+static GtkTreeModelFlags
+image_list_model_get_flags ( GtkTreeModel *tree_model )
+{
+    g_return_val_if_fail(RSTTO_IS_IMAGE_LIST(tree_model), (GtkTreeModelFlags)0);
+
+    return (GTK_TREE_MODEL_LIST_ONLY | GTK_TREE_MODEL_ITERS_PERSIST);
+}
+
+static gint
+image_list_model_get_n_columns ( GtkTreeModel *tree_model )
+{
+    g_return_val_if_fail(RSTTO_IS_IMAGE_LIST(tree_model), 0);
+
+    return 2;
+}
+
+static GType
+image_list_model_get_column_type (
+        GtkTreeModel *tree_model,
+        gint index_ )
+{
+    g_return_val_if_fail(RSTTO_IS_IMAGE_LIST(tree_model), G_TYPE_INVALID);
+
+    switch (index_)
+    {
+        case 0: /* file */
+            return RSTTO_TYPE_FILE;
+        case 1:
+            return GDK_TYPE_PIXBUF;
+            break;
+        default:
+            return G_TYPE_INVALID;
+            break;
+    }
+}
+
+static gboolean
+image_list_model_get_iter (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter,
+        GtkTreePath *path )
+{
+    gint *indices;
+    gint depth;
+    gint index_;
+    RsttoImageList *image_list;
+    RsttoFile *file = NULL;
+
+    g_return_val_if_fail(RSTTO_IS_IMAGE_LIST(tree_model), FALSE);
+
+    image_list = RSTTO_IMAGE_LIST (tree_model);
+
+    indices = gtk_tree_path_get_indices(path);
+    depth = gtk_tree_path_get_depth(path) - 1;
+
+    /* only support list: depth is always 0 */
+    g_return_val_if_fail(depth == 0, FALSE);
+
+    index_ = indices[depth];
+
+    if (index_ >= 0)
+    {
+        file = g_list_nth_data (image_list->priv->images, index_);
+    }
+
+    if (NULL == file)
+    {
+        return FALSE;
+    }
+
+    /* set the stamp, identify the iter as ours */
+    iter->stamp = image_list->priv->stamp;
+
+    iter->user_data = file;
+
+    /* the index_ in the child list */
+    iter->user_data3 = GINT_TO_POINTER(index_);
+    return TRUE;
+}
+
+static GtkTreePath *
+image_list_model_get_path (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter )
+{
+    GtkTreePath *path = NULL;
+    gint pos;
+
+    g_return_val_if_fail(RSTTO_IS_IMAGE_LIST(tree_model), NULL);
+
+    pos = GPOINTER_TO_INT (iter->user_data3);
+
+    path = gtk_tree_path_new();
+    gtk_tree_path_append_index(path, pos);
+
+    return path;
+}
+
+static gboolean
+image_list_model_iter_children (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter,
+        GtkTreeIter *parent )
+{
+    RsttoFile *file = NULL;
+    RsttoImageList *image_list;
+
+    g_return_val_if_fail(RSTTO_IS_IMAGE_LIST(tree_model), FALSE);
+
+    /* only support lists: parent is always NULL */
+    g_return_val_if_fail(parent == NULL, FALSE);
+
+    image_list = RSTTO_IMAGE_LIST (tree_model);
+    
+    file = g_list_nth_data (image_list->priv->images, 0);
+
+    if (NULL == file)
+    {
+        return FALSE;
+    }
+
+    iter->stamp = image_list->priv->stamp;
+    iter->user_data = file;
+    iter->user_data3 = GINT_TO_POINTER(0);
+
+    return TRUE;
+}
+
+static gboolean
+image_list_model_iter_has_child (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter )
+{
+    return FALSE;
+}
+
+static gboolean
+image_list_model_iter_parent (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter,
+        GtkTreeIter *child )
+{
+    return FALSE;
+}
+
+static gint
+image_list_model_iter_n_children (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter )
+{
+    return FALSE;
+}
+
+static gboolean 
+image_list_model_iter_nth_child (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter,
+        GtkTreeIter *parent,
+        gint n )
+{
+    return FALSE;
+}
+
+static gboolean
+image_list_model_iter_next (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter )
+{
+    RsttoImageList *image_list;
+    RsttoFile *file = NULL;
+    gint pos = 0;
+
+    g_return_val_if_fail(RSTTO_IS_IMAGE_LIST(tree_model), FALSE);
+
+    image_list = RSTTO_IMAGE_LIST (tree_model);
+
+    file = iter->user_data;
+    pos = GPOINTER_TO_INT(iter->user_data3);
+    pos++;
+
+    file = g_list_nth_data (image_list->priv->images, pos);
+
+    if (NULL == file)
+    {
+        return FALSE;
+    }
+
+    iter->stamp = image_list->priv->stamp;
+    iter->user_data = file;
+    iter->user_data3 = GINT_TO_POINTER(pos);
+
+    return TRUE;
+}
+
+static void 
+image_list_model_get_value (
+        GtkTreeModel *tree_model,
+        GtkTreeIter *iter,
+        gint column,
+        GValue *value )
+{
+    RsttoImageList *image_list = RSTTO_IMAGE_LIST (tree_model);
+    RsttoFile *file = RSTTO_FILE(iter->user_data);
+
+    switch (column)
+    {
+        case 0:
+            g_value_init (value, RSTTO_TYPE_FILE);
+            g_value_set_object (value, file);
+            break;
+    }
 }

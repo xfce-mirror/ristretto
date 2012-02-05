@@ -368,7 +368,7 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
                                 G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
                                 G_STRUCT_OFFSET (RsttoImageViewerClass, set_scroll_adjustments),
                                 NULL, NULL,
-                                rstto_marshal_VOID__OBJECT_OBJECT,
+                                _rstto_marshal_VOID__OBJECT_OBJECT,
                                 G_TYPE_NONE, 2,
                                 GTK_TYPE_ADJUSTMENT,
                                 GTK_TYPE_ADJUSTMENT);
@@ -1063,8 +1063,8 @@ paint_image (
                         M_PI*0.5);
                 cairo_translate (
                         ctx,
-                        0.0 - floor (gtk_adjustment_get_value (viewer->vadjustment)),
-                        floor (gtk_adjustment_get_value (viewer->hadjustment)));
+                        floor(0.0 - gtk_adjustment_get_value (viewer->vadjustment)),
+                        floor(gtk_adjustment_get_value (viewer->hadjustment)));
                 cairo_translate (
                         ctx,
                         0.0,

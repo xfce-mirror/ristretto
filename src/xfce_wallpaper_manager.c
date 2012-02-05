@@ -409,6 +409,11 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
                 monitor_geometry.height);
     }
 
+    rstto_monitor_chooser_add (
+            RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser),
+            800,
+            600);
+
     gtk_box_pack_start (
             GTK_BOX (vbox),
             manager->priv->monitor_chooser,

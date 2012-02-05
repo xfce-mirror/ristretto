@@ -13,13 +13,12 @@ ristretto_SOURCES = \
 	xfce_wallpaper_manager.c xfce_wallpaper_manager.h \
 	gnome_wallpaper_manager.c gnome_wallpaper_manager.h \
 	app_menu_item.c app_menu_item.h \
-	thumbnail_bar.c thumbnail_bar.h \
-	thumbnail.c thumbnail.h \
 	thumbnailer.c thumbnailer.h \
 	marshal.c marshal.h \
 	file.c file.h \
 	privacy_dialog.h privacy_dialog.c \
 	util.c util.h \
+	icon_bar.c icon_bar.h \
 	main.c
 
 ristretto_CFLAGS = \
@@ -80,7 +79,7 @@ stamp-marshal.h: marshal.list Makefile
 		&& echo "#ifndef __RSTTO_MARSHAL_H__" > xgen-tmh \
 		&& echo "#define __RSTTO_MARSHAL_H__" >> xgen-tmh \
 		&& ( glib-genmarshal \
-			--prefix=rstto_marshal \
+			--prefix=_rstto_marshal \
 			--header marshal.list ) >> xgen-tmh \
 		&& echo "#endif /* !__RSTTO_MARSHAL_H__ */" >> xgen-tmh \
 		&& ( cmp -s xgen-tmh marshal.h || cp xgen-tmh marshal.h ) \
@@ -93,7 +92,7 @@ marshal.c: marshal.list Makefile
 		cd $(srcdir) \
 		&& echo "#include \"marshal.h\"" > xgen-tmc \
 		&& ( glib-genmarshal \
-			--prefix=rstto_marshal \
+			--prefix=_rstto_marshal \
 			--body marshal.list ) >> xgen-tmc \
 		&& cp xgen-tmc marshal.c \
 		&& rm -f xgen-tmc \
