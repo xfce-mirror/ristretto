@@ -225,7 +225,7 @@ msgstr "_Position"
 #: ../src/main_window.c:376
 #, fuzzy
 msgid "_Size"
-msgstr "_Größe"
+msgstr "Größe"
 
 #: ../src/main_window.c:377
 msgid "Thumbnail Bar _Position"
