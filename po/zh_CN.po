@@ -226,7 +226,7 @@ msgstr "位置(_P)"
 
 #: ../src/main_window.c:376
 msgid "_Size"
-msgstr ""
+msgstr "大小(_S)"
 
 #: ../src/main_window.c:377
 msgid "Thumbnail Bar _Position"
