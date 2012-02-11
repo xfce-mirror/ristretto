@@ -18,7 +18,7 @@ msgstr ""
 
 #: ../src/main.c:61
 msgid "Version information"
-msgstr "معلومات النسخة"
+msgstr "معلومات الإصدار"
 
 #: ../src/main.c:65
 msgid "Start in fullscreen mode"
@@ -310,7 +310,7 @@ msgstr "كبير جدا"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:566
 msgid "_Play"
-msgstr "_شَغِّل"
+msgstr "_شَغِّل"
 
 #: ../src/main_window.c:566
 msgid "Play slideshow"
@@ -335,7 +335,7 @@ msgstr "مستخدمة مؤخراً"
 
 #: ../src/main_window.c:666 ../src/main_window.c:1147
 msgid "Press open to select an image"
-msgstr "إضغط غلى فتح لإختيار صورة"
+msgstr "إضغط على فتح لإختيار صورة"
 
 #: ../src/main_window.c:1051 ../src/main_window.c:1057
 msgid "Empty"
