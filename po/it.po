@@ -233,7 +233,7 @@ msgstr "_Posizione barra miniature"
 
 #: ../src/main_window.c:378
 msgid "Thumbnail _Size"
-msgstr "Dimensione delle _miniature"
+msgstr "_Dimensione delle miniature"
 
 #. Misc
 #: ../src/main_window.c:380
