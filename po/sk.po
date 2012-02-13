@@ -4,13 +4,13 @@
 # <>, 2008.
 # Robert Hartl <hartl.robert@gmail.com>, 2009.
 # Tomáš Vadina <kyberdev@gmail.com>, 2011, 2012.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.0.20\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-02-13 06:00+0000\n"
-"PO-Revision-Date: 2012-02-07 09:57+0100\n"
+"PO-Revision-Date: 2012-02-13 09:41+0100\n"
 "Last-Translator: Tomáš Vadina <kyberdev@gmail.com>\n"
 "Language-Team: slovenčina <slovenska-lokalizacia-xfce@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -354,7 +354,7 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
-"Nastaví, ktorý systém aktuálne spravuje pracovnú polochu.\n"
+"Nastaví, ktorý systém aktuálne spravuje pracovnú plochu.\n"
 "Toto nastavenie určuje metódu, ktorú <i>Ristretto</i> použije \n"
 "pre nastavenie pozadia pracovnej plochy."
 
