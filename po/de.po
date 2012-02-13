@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-02-07 16:36+0000\n"
+"POT-Creation-Date: 2012-02-13 17:36+0000\n"
 "PO-Revision-Date: 2010-02-18 15:50+0100\n"
 "Last-Translator: Thomas Schütz <xfce@thschuetz.de>\n"
 "Language-Team: German\n"
@@ -223,7 +223,6 @@ msgid "_Position"
 msgstr "_Position"
 
 #: ../src/main_window.c:376
-#, fuzzy
 msgid "_Size"
 msgstr "_Größe"
 
@@ -232,7 +231,6 @@ msgid "Thumbnail Bar _Position"
 msgstr "_Position der Miniaturvorschau"
 
 #: ../src/main_window.c:378
-#, fuzzy
 msgid "Thumbnail _Size"
 msgstr "_Miniaturbilder"
 
@@ -283,37 +281,30 @@ msgid "Bottom"
 msgstr "Unten"
 
 #: ../src/main_window.c:416
-#, fuzzy
 msgid "Very Small"
 msgstr "Sehr klein"
 
 #: ../src/main_window.c:417
-#, fuzzy
 msgid "Smaller"
 msgstr "Kleiner"
 
 #: ../src/main_window.c:418
-#, fuzzy
 msgid "Small"
 msgstr "Klein"
 
 #: ../src/main_window.c:419
-#, fuzzy
 msgid "Normal"
-msgstr "_Normal"
+msgstr "Normal"
 
 #: ../src/main_window.c:420
-#, fuzzy
 msgid "Large"
 msgstr "Groß"
 
 #: ../src/main_window.c:421
-#, fuzzy
 msgid "Larger"
 msgstr "Größer"
 
 #: ../src/main_window.c:422
-#, fuzzy
 msgid "Very Large"
 msgstr "Sehr groß"
 
@@ -587,7 +578,6 @@ msgid "%s - Properties"
 msgstr "Eigenschaften von %s"
 
 #: ../src/thumbnailer.c:430
-#, fuzzy
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -604,7 +594,6 @@ msgstr ""
 "Problem zu beheben."
 
 #: ../src/thumbnailer.c:440
-#, fuzzy
 msgid "Do _not show this message again"
 msgstr "Diese Nachricht _nicht noch einmal anzeigen"
 
