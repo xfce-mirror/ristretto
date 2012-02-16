@@ -239,6 +239,10 @@ static void
 cb_rstto_main_window_toggle_show_thumbnailbar (
         GtkWidget *widget,
         RsttoMainWindow *window);
+static void
+cb_rstto_main_window_toggle_show_statusbar (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_fullscreen (
@@ -390,6 +394,8 @@ static const GtkToggleActionEntry toggle_action_entries[] =
     { "show-nav-toolbar", NULL, N_ ("Show _Navigation Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_nav_toolbar), TRUE, },
     /* Toggle visibility of the thumbnailbar*/
     { "show-thumbnailbar", NULL, N_ ("Show _Thumbnail Bar"), "<control>M", NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_thumbnailbar), TRUE, },
+    /* Toggle visibility of the statusbar*/
+    { "show-statusbar", NULL, N_ ("Show _Status Bar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_statusbar), TRUE, },
 };
 
 /** Image sorting options*/
@@ -679,6 +685,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_widget_set_no_show_all (window->priv->toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->image_list_toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->t_bar_s_window, TRUE);
+    gtk_widget_set_no_show_all (window->priv->statusbar, TRUE);
     gtk_widget_show_all (window->priv->thumbnailbar);
 
     gtk_widget_set_no_show_all ( gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-nav-toolbar"), TRUE);
@@ -769,6 +776,22 @@ rstto_main_window_init (RsttoMainWindow *window)
                         gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-thumbnailbar")),
                 FALSE);
         gtk_widget_hide (window->priv->t_bar_s_window);
+    }
+    if (rstto_settings_get_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-statusbar"))
+    {
+        gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (
+                        gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-statusbar")),
+                TRUE);
+        gtk_widget_show (window->priv->statusbar);
+    }
+    else
+    {
+        gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (
+                        gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-statusbar")),
+                FALSE);
+        gtk_widget_hide (window->priv->statusbar);
     }
 
     /**
@@ -3447,6 +3470,28 @@ cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindo
     {
         gtk_widget_hide (window->priv->t_bar_s_window);
         rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-thumbnailbar", FALSE);
+    }
+}
+
+/**
+ * cb_rstto_main_window_toggle_show_statusbar:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_toggle_show_statusbar (GtkWidget *widget, RsttoMainWindow *window)
+{
+    if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (widget)))
+    {
+        gtk_widget_show (window->priv->statusbar);
+        rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-statusbar", TRUE);
+    }
+    else
+    {
+        gtk_widget_hide (window->priv->statusbar);
+        rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-statusbar", FALSE);
     }
 }
 

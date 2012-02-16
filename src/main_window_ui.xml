@@ -35,6 +35,7 @@
         <menu action="view-menu">
             <menuitem action="show-file-toolbar"/>
             <menuitem action="show-nav-toolbar"/>
+            <menuitem action="show-statusbar"/>
             <menuitem action="show-thumbnailbar"/>
             <menu action="thumbnailbar-position-menu">
                 <menuitem action="pos-left"/>
