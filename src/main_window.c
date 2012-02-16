@@ -3439,7 +3439,8 @@ cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindo
 {
     if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (widget)))
     {
-        gtk_widget_show (window->priv->t_bar_s_window);
+        if (rstto_image_list_get_n_images (window->priv->image_list) > 0)
+            gtk_widget_show (window->priv->t_bar_s_window);
         rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-thumbnailbar", TRUE);
     }
     else

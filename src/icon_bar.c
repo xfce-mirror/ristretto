@@ -824,6 +824,9 @@ rstto_icon_bar_size_allocate (
 
     widget->allocation = *allocation;
 
+    if (!icon_bar->priv->active_item)
+        g_warning ("thumbnail bar shown when no images are available");
+
     if (GTK_WIDGET_REALIZED (widget))
     {
         gdk_window_move_resize (widget->window,
@@ -858,7 +861,8 @@ rstto_icon_bar_size_allocate (
         if (icon_bar->priv->auto_center == TRUE)
         {
             page_size = gtk_adjustment_get_page_size (icon_bar->priv->vadjustment);
-            value = icon_bar->priv->active_item->index * icon_bar->priv->item_height - ((page_size-icon_bar->priv->item_height)/2);
+            if (icon_bar->priv->active_item)
+                value = icon_bar->priv->active_item->index * icon_bar->priv->item_height - ((page_size-icon_bar->priv->item_height)/2);
 
             if (value > (gtk_adjustment_get_upper (icon_bar->priv->vadjustment)-page_size))
                 value = (gtk_adjustment_get_upper (icon_bar->priv->vadjustment)-page_size);
