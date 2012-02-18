@@ -34,7 +34,7 @@ msgstr "Slayt gösterisini başlat"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr ""
+msgstr "Ayar penceresini göster"
 
 #: ../src/main.c:105
 #, fuzzy, c-format
@@ -74,11 +74,11 @@ msgstr "Resmin bir kopyasını kaydet"
 
 #: ../src/main_window.c:331
 msgid "_Properties"
-msgstr ""
+msgstr "_Özellikler"
 
 #: ../src/main_window.c:331
 msgid "Show file properties"
-msgstr ""
+msgstr "Dosya özelliklerini göster"
 
 #: ../src/main_window.c:332
 msgid "_Close"
@@ -118,8 +118,9 @@ msgid "Delete this image from disk"
 msgstr "Bu resim diskten sil"
 
 #: ../src/main_window.c:339
+#, fuzzy
 msgid "_Clear private data"
-msgstr ""
+msgstr "_Özel veriyi temizle"
 
 #: ../src/main_window.c:340
 msgid "_Preferences"
@@ -229,9 +230,8 @@ msgid "_Size"
 msgstr "_Boyut"
 
 #: ../src/main_window.c:377
-#, fuzzy
 msgid "Thumbnail Bar _Position"
-msgstr "Küçük resimler"
+msgstr ""
 
 #: ../src/main_window.c:378
 #, fuzzy
@@ -376,7 +376,6 @@ msgid "Developer:"
 msgstr "Geliştirici:"
 
 #: ../src/main_window.c:2599
-#, fuzzy
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto, Xfce masaüstü ortamı için bir resim göstericidir."
 
@@ -506,13 +505,13 @@ msgid "Control"
 msgstr "Kontrol"
 
 #: ../src/preferences_dialog.c:293
-#, fuzzy
 msgid "Scroll wheel"
 msgstr "Kaydırma tekerleği"
 
 #: ../src/preferences_dialog.c:296
+#, fuzzy
 msgid "Invert zoom direction"
-msgstr ""
+msgstr "Ykınlaştırma yönünü ters çevir"
 
 #: ../src/preferences_dialog.c:306
 msgid "Behaviour"
@@ -574,14 +573,14 @@ msgstr ""
 
 #: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
-#, c-format, fuzzy
+#, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:623
-#, c-format, fuzzy
+#, c-format
 msgid "%s - Properties"
-msgstr "%s - özellikler"
+msgstr "%s - Özellikler"
 
 #: ../src/thumbnailer.c:430
 msgid ""
@@ -643,7 +642,6 @@ msgid "Look at your images easily"
 msgstr "Fotoğraflarına kolayca bak"
 
 #: ../ristretto.desktop.in.h:3
-#, fuzzy
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto Fotoğraf Gösterici"
 
