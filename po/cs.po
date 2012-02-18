@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-02-18 20:00+0000\n"
-"PO-Revision-Date: 2012-02-18 23:35+0100\n"
+"PO-Revision-Date: 2012-02-18 23:39+0100\n"
 "Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech\n"
 "Language: \n"
@@ -156,7 +156,7 @@ msgstr "O_ddálit"
 
 #: ../src/main_window.c:350
 msgid "Zoom _Fit"
-msgstr "Při_způsobit oknu"
+msgstr "Přizpů_sobit oknu"
 
 #: ../src/main_window.c:351
 msgid "_Normal Size"
