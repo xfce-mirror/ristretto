@@ -226,7 +226,7 @@ msgstr "_Konum"
 
 #: ../src/main_window.c:376
 msgid "_Size"
-msgstr ""
+msgstr "_Boyut"
 
 #: ../src/main_window.c:377
 #, fuzzy
@@ -287,15 +287,15 @@ msgstr "Alt"
 
 #: ../src/main_window.c:416
 msgid "Very Small"
-msgstr ""
+msgstr "Çok Küçük"
 
 #: ../src/main_window.c:417
 msgid "Smaller"
-msgstr ""
+msgstr "Daha Küçük"
 
 #: ../src/main_window.c:418
 msgid "Small"
-msgstr ""
+msgstr "Küçük"
 
 #: ../src/main_window.c:419
 #, fuzzy
@@ -304,15 +304,15 @@ msgstr "_Normal Boyut"
 
 #: ../src/main_window.c:420
 msgid "Large"
-msgstr ""
+msgstr "Büyük"
 
 #: ../src/main_window.c:421
 msgid "Larger"
-msgstr ""
+msgstr "Daha Büyük"
 
 #: ../src/main_window.c:422
 msgid "Very Large"
-msgstr ""
+msgstr "Çok büyük"
 
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:566
@@ -361,15 +361,15 @@ msgstr ""
 
 #: ../src/main_window.c:2126 ../src/preferences_dialog.c:373
 msgid "None"
-msgstr ""
+msgstr "Hiçbiri"
 
 #: ../src/main_window.c:2130 ../src/preferences_dialog.c:377
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
 #: ../src/main_window.c:2134 ../src/preferences_dialog.c:381
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ../src/main_window.c:2590
 msgid "Developer:"
@@ -407,9 +407,8 @@ msgid "Save copy"
 msgstr "Kopyayı kaydet"
 
 #: ../src/main_window.c:3109
-#, fuzzy
 msgid "Could not save file"
-msgstr "Dosya açılamadı"
+msgstr "Dosya kaydedilemedi"
 
 #: ../src/main_window.c:3226
 #, c-format
@@ -542,11 +541,11 @@ msgstr "Resim Gösterici Tercihleri"
 
 #: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>İsim:</b>"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Çeşit:</b>"
 
 #: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
@@ -558,16 +557,15 @@ msgstr ""
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Boyut:</b>"
 
 #: ../src/properties_dialog.c:308
 msgid "General"
-msgstr ""
+msgstr "Genel"
 
 #: ../src/properties_dialog.c:312
-#, fuzzy
 msgid "Image"
-msgstr "Resimler"
+msgstr "Resim"
 
 #: ../src/properties_dialog.c:525
 #, c-format
