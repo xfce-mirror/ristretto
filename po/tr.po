@@ -2,23 +2,26 @@
 # German translations for ristretto package.
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the ristretto package.
-# 
+#
+#
 # Onur Küçük <onur@pardus.org.tr>, 2008.
 # Gökmen Görgen <gkmngrgn@gmail.com>, 2008.
-# 
+# Ayhan YALÇINSOY <ayhanyalcinsoy@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-02-18 08:18+0000\n"
-"PO-Revision-Date: 2008-11-16 02:31+0200\n"
-"Last-Translator: Gökmen Görgen <gkmngrgn@gmail.com>\n"
-"Language-Team: Turkish\n"
+"PO-Revision-Date: 2012-02-19 20:08+0200\n"
+"Last-Translator: Ayhan YALÇINSOY <ayhanyalcinsoy@gmail.com>\n"
+"Language-Team: Turkish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.2\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -34,10 +37,10 @@ msgstr "Slayt gösterisini başlat"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr "Ayar penceresini göster"
+msgstr "Ayarlar iletişim kutusunu göster"
 
 #: ../src/main.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
@@ -45,7 +48,8 @@ msgid ""
 "available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Komutsatırı parametrelerini görmek için %s --help komutunu kullanınız.\n"
+"Komut satırı parametrelerini görmek için %s\n"
+" --help komutunu kullanınız.\n"
 
 #: ../src/main_window.c:53 ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
@@ -118,9 +122,8 @@ msgid "Delete this image from disk"
 msgstr "Bu resim diskten sil"
 
 #: ../src/main_window.c:339
-#, fuzzy
 msgid "_Clear private data"
-msgstr "_Özel veriyi temizle"
+msgstr "Kişisel verileri _temizle"
 
 #: ../src/main_window.c:340
 msgid "_Preferences"
@@ -145,9 +148,8 @@ msgstr "Duvar Kağıdı olarak _belirle"
 
 #. Zoom submenu
 #: ../src/main_window.c:347
-#, fuzzy
 msgid "_Zoom"
-msgstr "_Yakınlaşma"
+msgstr "_Yakınlaştır"
 
 #: ../src/main_window.c:348
 msgid "Zoom _In"
@@ -231,12 +233,11 @@ msgstr "_Boyut"
 
 #: ../src/main_window.c:377
 msgid "Thumbnail Bar _Position"
-msgstr ""
+msgstr "Küçük resim çubuğu _Konumu"
 
 #: ../src/main_window.c:378
-#, fuzzy
 msgid "Thumbnail _Size"
-msgstr "_Önizleme Gösterici"
+msgstr "Küçük resim _boyutu"
 
 #. Misc
 #: ../src/main_window.c:380
@@ -255,7 +256,6 @@ msgstr "_Dolaşma Araç Çubuğunu Göster"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:392
-#, fuzzy
 msgid "Show _Thumbnail Bar"
 msgstr "_Küçük resim çubuğunu göster"
 
@@ -287,20 +287,19 @@ msgstr "Alt"
 
 #: ../src/main_window.c:416
 msgid "Very Small"
-msgstr "Çok Küçük"
+msgstr "Çok küçük"
 
 #: ../src/main_window.c:417
 msgid "Smaller"
-msgstr "Daha Küçük"
+msgstr "Daha küçük"
 
 #: ../src/main_window.c:418
 msgid "Small"
 msgstr "Küçük"
 
 #: ../src/main_window.c:419
-#, fuzzy
 msgid "Normal"
-msgstr "_Normal Boyut"
+msgstr "_Normal"
 
 #: ../src/main_window.c:420
 msgid "Large"
@@ -308,7 +307,7 @@ msgstr "Büyük"
 
 #: ../src/main_window.c:421
 msgid "Larger"
-msgstr "Daha Büyük"
+msgstr "Daha büyük"
 
 #: ../src/main_window.c:422
 msgid "Very Large"
@@ -350,7 +349,7 @@ msgstr "Boş"
 
 #: ../src/main_window.c:2086
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "'Duvar kağıdı ayarla' yöntemini seçin"
 
 #: ../src/main_window.c:2101 ../src/preferences_dialog.c:349
 msgid ""
@@ -358,6 +357,9 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
+"Masaüstünüzü yöneten geçerli sistemi yapılandırın.\n"
+"Bu ayar <i>Ristretto</i>nun masaüstü duvar kağıdınızı\n"
+"yapılandırması için kullanılacağı yöntemini tanımlar."
 
 #: ../src/main_window.c:2126 ../src/preferences_dialog.c:373
 msgid "None"
@@ -383,7 +385,8 @@ msgstr "Ristretto, Xfce masaüstü ortamı için bir resim göstericidir."
 msgid "translator-credits"
 msgstr ""
 "Onur Küçük <onur@pardus.org.tr>\n"
-"Gökmen Görgen <gkmngrgn@gmail.com>"
+"Gökmen Görgen <gkmngrgn@gmail.com> \n"
+"Ayhan YALÇINSOY <ayhanyalcinsoy@gmail.com>"
 
 #: ../src/main_window.c:2897
 msgid "Open image"
@@ -416,11 +419,11 @@ msgstr "Diskinizden '%s' resmini silmek istediğinizden emin misiniz?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
-msgstr ""
+msgstr "Temizlemek için zaman aralığı:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Temizlik"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
@@ -456,7 +459,7 @@ msgstr "Arkaplan rengi"
 
 #: ../src/preferences_dialog.c:204
 msgid "Toolbars"
-msgstr "Araç Çubukları"
+msgstr "Araç çubukları"
 
 #: ../src/preferences_dialog.c:209
 msgid "Override background color:"
@@ -464,14 +467,13 @@ msgstr "Arkaplan rengini zorla:"
 
 #: ../src/preferences_dialog.c:220
 msgid "Merge toolbars"
-msgstr ""
+msgstr "Araç çubuklarını birleştir"
 
 #: ../src/preferences_dialog.c:225
 msgid "Thumbnails"
 msgstr "Küçük resimler"
 
 #: ../src/preferences_dialog.c:228
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
@@ -480,9 +482,8 @@ msgstr ""
 " küçük resim çubuğu otomatik olarak gizlenir."
 
 #: ../src/preferences_dialog.c:230
-#, fuzzy
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Tam ekrandayken küçük resimleri gizle"
+msgstr "Tam ekrandayken küçük resim çubuğunu gizle"
 
 #: ../src/preferences_dialog.c:266
 msgid "Slideshow"
@@ -509,9 +510,8 @@ msgid "Scroll wheel"
 msgstr "Kaydırma tekerleği"
 
 #: ../src/preferences_dialog.c:296
-#, fuzzy
 msgid "Invert zoom direction"
-msgstr "Ykınlaştırma yönünü ters çevir"
+msgstr "Yakınlaştırma yönünü tersine çevir"
 
 #: ../src/preferences_dialog.c:306
 msgid "Behaviour"
@@ -522,9 +522,8 @@ msgid "Startup"
 msgstr "Başlangıç"
 
 #: ../src/preferences_dialog.c:313
-#, fuzzy
 msgid "Maximize window on startup when opening an image"
-msgstr "Açılırken resim için pencereyi yeniden boyutlandır"
+msgstr "Bir resim açılırken başlangıçta pencereyi büyüt"
 
 #: ../src/preferences_dialog.c:319
 msgid "Wrap around images"
@@ -544,15 +543,15 @@ msgstr "<b>İsim:</b>"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Kind:</b>"
-msgstr "<b>Çeşit:</b>"
+msgstr "<b>Tür:</b>"
 
 #: ../src/properties_dialog.c:182
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Değiştirildi:</b>"
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Erişildi:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Size:</b>"
@@ -569,7 +568,7 @@ msgstr "Resim"
 #: ../src/properties_dialog.c:525
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr ""
+msgstr "<b>Alınma tarihi:</b>"
 
 #: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
@@ -591,10 +590,15 @@ msgid ""
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
 msgstr ""
+"Küçük resim hizmeti bulunamıyor,\n"
+"bu yüzden, küçük resimler oluşturulamadı\n"
+"\n"
+"Bu sorunu çözmek için <b>Tumbler</b> veya başka bir\n"
+"<i>thumbnailing daemon</i> kurun."
 
 #: ../src/thumbnailer.c:440
 msgid "Do _not show this message again"
-msgstr "Bu mesajı bir daha gösterm_e"
+msgstr "Bu iletiyi tekrar gösterme"
 
 #: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
 msgid "Style:"
@@ -637,13 +641,12 @@ msgid "Zoomed"
 msgstr "Yakınlaştı"
 
 #: ../ristretto.desktop.in.h:2
-#, fuzzy
 msgid "Look at your images easily"
 msgstr "Fotoğraflarına kolayca bak"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Image Viewer"
-msgstr "Ristretto Fotoğraf Gösterici"
+msgstr "Ristretto Resim Gösterici"
 
 #~ msgid "Spacing"
 #~ msgstr "Aralık"
