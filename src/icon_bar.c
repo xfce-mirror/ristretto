@@ -940,14 +940,19 @@ rstto_icon_bar_expose (
         area.width = icon_bar->priv->item_width;
         area.height = icon_bar->priv->item_height;
 
+        iter = item->iter;
+        gtk_tree_model_get (icon_bar->priv->model, &iter,
+                icon_bar->priv->file_column, &file,
+                -1);
+
         if (gdk_region_rect_in (expose->region, &area) != GDK_OVERLAP_RECTANGLE_OUT)
         {
-            iter = item->iter;
-            gtk_tree_model_get (icon_bar->priv->model, &iter,
-                    icon_bar->priv->file_column, &file,
-                    -1);
             rstto_thumbnailer_queue_file (icon_bar->priv->thumbnailer, file);
             rstto_icon_bar_paint_item (icon_bar, item, &expose->area);
+        }
+        else
+        {
+            rstto_thumbnailer_dequeue_file (icon_bar->priv->thumbnailer, file);
         }
     }
 
