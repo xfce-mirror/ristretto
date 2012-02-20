@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto master\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-01-19 15:00+0000\n"
+"POT-Creation-Date: 2012-02-20 19:45+0100\n"
 "PO-Revision-Date: 2012-01-20 00:05+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: chinese-l10n <chinese-l10n@googlegroups.com>\n"
@@ -46,275 +46,315 @@ msgstr ""
 "試試 %s --help 來查看可用指令\n"
 "列選項的完整清單。\n"
 
-#: ../src/main_window.c:55
-#: ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:53 ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "影像檢視器"
 
 #. File Menu
-#: ../src/main_window.c:316
+#: ../src/main_window.c:332
 msgid "_File"
 msgstr "檔案(_F)"
 
-#: ../src/main_window.c:317
+#: ../src/main_window.c:333
 msgid "_Open"
 msgstr "開啟(_O)"
 
-#: ../src/main_window.c:317
+#: ../src/main_window.c:333
 msgid "Open an image"
 msgstr "開啟影像"
 
-#: ../src/main_window.c:318
+#: ../src/main_window.c:334
 msgid "_Save copy"
 msgstr "儲存副本(_S)"
 
-#: ../src/main_window.c:318
+#: ../src/main_window.c:334
 msgid "Save a copy of the image"
 msgstr "儲存一份該影像的副本"
 
-#: ../src/main_window.c:319
+#: ../src/main_window.c:335
 msgid "_Properties"
 msgstr "屬性(_P)"
 
-#: ../src/main_window.c:319
+#: ../src/main_window.c:335
 msgid "Show file properties"
 msgstr "顯示檔案屬性"
 
-#: ../src/main_window.c:320
+#: ../src/main_window.c:336
 msgid "_Close"
 msgstr "關閉(_C)"
 
-#: ../src/main_window.c:320
+#: ../src/main_window.c:336
 msgid "Close this image"
 msgstr "關閉此影像"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:337
 msgid "_Quit"
 msgstr "退出(_Q)"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:337
 msgid "Quit Ristretto"
 msgstr "退出 Ristretto"
 
 #. Edit Menu
-#: ../src/main_window.c:323
+#: ../src/main_window.c:339
 msgid "_Edit"
 msgstr "編輯(_E)"
 
-#: ../src/main_window.c:324
+#: ../src/main_window.c:340
 msgid "_Open with..."
 msgstr "以此開啟(_O)..."
 
-#: ../src/main_window.c:325
+#: ../src/main_window.c:341
 msgid "_Sorting"
 msgstr "排序(_S)"
 
-#: ../src/main_window.c:326
+#: ../src/main_window.c:342
 msgid "_Delete"
 msgstr "刪除(_D)"
 
-#: ../src/main_window.c:326
+#: ../src/main_window.c:342
 msgid "Delete this image from disk"
 msgstr "從磁碟刪除此影像"
 
-#: ../src/main_window.c:327
+#: ../src/main_window.c:343
 msgid "_Clear private data"
 msgstr "清除隱私資料(_C)"
 
-#: ../src/main_window.c:328
+#: ../src/main_window.c:344
 msgid "_Preferences"
 msgstr "偏好設定(_P)"
 
 #. View Menu
-#: ../src/main_window.c:330
+#: ../src/main_window.c:346
 msgid "_View"
 msgstr "檢視(_V)"
 
-#: ../src/main_window.c:331
+#: ../src/main_window.c:347
 msgid "_Fullscreen"
 msgstr "全螢幕(_F)"
 
-#: ../src/main_window.c:332
+#: ../src/main_window.c:348
 msgid "_Leave Fullscreen"
 msgstr "離開全螢幕(_L)"
 
-#: ../src/main_window.c:333
+#: ../src/main_window.c:349
 msgid "_Set as Wallpaper"
 msgstr "設定為桌布(_S)"
 
 #. Zoom submenu
-#: ../src/main_window.c:335
+#: ../src/main_window.c:351
 msgid "_Zoom"
 msgstr "遠近(_Z)"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:352
 msgid "Zoom _In"
 msgstr "拉近(_I)"
 
-#: ../src/main_window.c:337
+#: ../src/main_window.c:353
 msgid "Zoom _Out"
 msgstr "拉遠(_O)"
 
-#: ../src/main_window.c:338
+#: ../src/main_window.c:354
 msgid "Zoom _Fit"
 msgstr "拉至符合視窗(_F)"
 
-#: ../src/main_window.c:339
+#: ../src/main_window.c:355
 msgid "_Normal Size"
 msgstr "正常大小(_N)"
 
 #. Rotation submenu
-#: ../src/main_window.c:341
+#: ../src/main_window.c:357
 msgid "_Rotation"
 msgstr "旋轉(_R)"
 
-#: ../src/main_window.c:342
+#: ../src/main_window.c:358
 msgid "Rotate _Right"
 msgstr "向右旋轉(_R)"
 
-#: ../src/main_window.c:343
+#: ../src/main_window.c:359
 msgid "Rotate _Left"
 msgstr "向左旋轉(_L)"
 
 #. Go Menu
-#: ../src/main_window.c:345
+#: ../src/main_window.c:361
 msgid "_Go"
 msgstr "前往(_G)"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:362
 msgid "_Forward"
 msgstr "前進(_F)"
 
-#: ../src/main_window.c:347
+#: ../src/main_window.c:363
 msgid "_Back"
 msgstr "返回(_B)"
 
-#: ../src/main_window.c:348
+#: ../src/main_window.c:364
 msgid "_First"
 msgstr "首(_F)"
 
-#: ../src/main_window.c:349
+#: ../src/main_window.c:365
 msgid "_Last"
 msgstr "尾(_L)"
 
 #. Help Menu
-#: ../src/main_window.c:351
+#: ../src/main_window.c:367
 msgid "_Help"
 msgstr "幫助(_H)"
 
-#: ../src/main_window.c:353
+#: ../src/main_window.c:369
 msgid "_Contents"
 msgstr "內容(_C)"
 
-#: ../src/main_window.c:355
+#: ../src/main_window.c:371
 msgid "Display ristretto user manual"
 msgstr "顯示 ristretto 使用者手冊"
 
-#: ../src/main_window.c:358
+#: ../src/main_window.c:374
 msgid "_About"
 msgstr "關於(_A)"
 
-#: ../src/main_window.c:360
+#: ../src/main_window.c:376
 msgid "Display information about ristretto"
 msgstr "顯示有關 ristretto 的資訊"
 
 #. Position Menu
-#: ../src/main_window.c:363
+#: ../src/main_window.c:379
 msgid "_Position"
 msgstr "位置(_P)"
 
-#: ../src/main_window.c:364
+#: ../src/main_window.c:380
+msgid "_Size"
+msgstr ""
+
+#: ../src/main_window.c:381
 msgid "Thumbnail Bar _Position"
 msgstr "縮圖列位置(_P)"
 
+#: ../src/main_window.c:382
+#, fuzzy
+msgid "Thumbnail _Size"
+msgstr "縮圖"
+
 #. Misc
-#: ../src/main_window.c:366
+#: ../src/main_window.c:384
 msgid "Leave _Fullscreen"
 msgstr "離開全螢幕(_F)"
 
 #. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:374
+#: ../src/main_window.c:392
 msgid "Show _File Toolbar"
 msgstr "顯示檔案工具列(_F)"
 
 #. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:376
+#: ../src/main_window.c:394
 msgid "Show _Navigation Toolbar"
 msgstr "顯示導覽工具列(_N)"
 
 #. Toggle visibility of the thumbnailbar
-#: ../src/main_window.c:378
+#: ../src/main_window.c:396
 msgid "Show _Thumbnail Bar"
 msgstr "顯示縮圖列(_T)"
 
+#. Toggle visibility of the statusbar
+#: ../src/main_window.c:398
+#, fuzzy
+msgid "Show _Status Bar"
+msgstr "顯示縮圖列(_T)"
+
 #. Sort by Filename
-#: ../src/main_window.c:385
+#: ../src/main_window.c:405
 msgid "sort by filename"
 msgstr "依檔名排序"
 
 #. Sort by Date
-#: ../src/main_window.c:387
+#: ../src/main_window.c:407
 msgid "sort by date"
 msgstr "依日期排序"
 
-#: ../src/main_window.c:393
+#: ../src/main_window.c:413
 msgid "Left"
 msgstr "左"
 
-#: ../src/main_window.c:394
+#: ../src/main_window.c:414
 msgid "Right"
 msgstr "右"
 
-#: ../src/main_window.c:395
+#: ../src/main_window.c:415
 msgid "Top"
 msgstr "上"
 
-#: ../src/main_window.c:396
+#: ../src/main_window.c:416
 msgid "Bottom"
 msgstr "下"
 
+#: ../src/main_window.c:422
+msgid "Very Small"
+msgstr ""
+
+#: ../src/main_window.c:423
+msgid "Smaller"
+msgstr ""
+
+#: ../src/main_window.c:424
+msgid "Small"
+msgstr ""
+
+#: ../src/main_window.c:425
+#, fuzzy
+msgid "Normal"
+msgstr "正常大小(_N)"
+
+#: ../src/main_window.c:426
+msgid "Large"
+msgstr ""
+
+#: ../src/main_window.c:427
+msgid "Larger"
+msgstr ""
+
+#: ../src/main_window.c:428
+msgid "Very Large"
+msgstr ""
+
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:538
+#: ../src/main_window.c:572
 msgid "_Play"
 msgstr "播放(_P)"
 
-#: ../src/main_window.c:538
+#: ../src/main_window.c:572
 msgid "Play slideshow"
 msgstr "播放投影片秀"
 
-#: ../src/main_window.c:539
+#: ../src/main_window.c:573
 msgid "_Pause"
 msgstr "暫停(_P)"
 
-#: ../src/main_window.c:539
+#: ../src/main_window.c:573
 msgid "Pause slideshow"
 msgstr "暫停投影片秀"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:542
+#: ../src/main_window.c:576
 msgid "_Recently used"
 msgstr "近期使用(_R)"
 
-#: ../src/main_window.c:542
+#: ../src/main_window.c:576
 msgid "Recently used"
 msgstr "近期使用"
 
-#: ../src/main_window.c:639
-#: ../src/main_window.c:1113
+#: ../src/main_window.c:672 ../src/main_window.c:1170
 msgid "Press open to select an image"
 msgstr "按下開啟以選取影像"
 
-#: ../src/main_window.c:1017
-#: ../src/main_window.c:1023
+#: ../src/main_window.c:1074 ../src/main_window.c:1080
 msgid "Empty"
 msgstr "空"
 
-#: ../src/main_window.c:1930
+#: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
 msgstr "選擇「設定桌布」方法"
 
-#: ../src/main_window.c:1945
-#: ../src/preferences_dialog.c:349
+#: ../src/main_window.c:2124 ../src/preferences_dialog.c:349
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -324,59 +364,55 @@ msgstr ""
 "這個設定值決定 <i>Ristretto</i> 用來\n"
 "設定桌布的方法。"
 
-#: ../src/main_window.c:1970
-#: ../src/preferences_dialog.c:373
+#: ../src/main_window.c:2149 ../src/preferences_dialog.c:373
 msgid "None"
 msgstr "無"
 
-#: ../src/main_window.c:1974
-#: ../src/preferences_dialog.c:377
+#: ../src/main_window.c:2153 ../src/preferences_dialog.c:377
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:1978
-#: ../src/preferences_dialog.c:381
+#: ../src/main_window.c:2157 ../src/preferences_dialog.c:381
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2480
+#: ../src/main_window.c:2613
 msgid "Developer:"
 msgstr "開發者："
 
-#: ../src/main_window.c:2489
+#: ../src/main_window.c:2622
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto 是個 Xfce 桌面環境的影像檢視器。"
 
-#: ../src/main_window.c:2497
+#: ../src/main_window.c:2630
 msgid "translator-credits"
 msgstr "Cheng-Chia Tseng <pswo10680@gmail.com>, 2011."
 
-#: ../src/main_window.c:2783
+#: ../src/main_window.c:2920
 msgid "Open image"
 msgstr "開啟影像"
 
-#: ../src/main_window.c:2802
+#: ../src/main_window.c:2939
 msgid "Images"
 msgstr "影像"
 
-#: ../src/main_window.c:2807
+#: ../src/main_window.c:2944
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2834
-#: ../src/main_window.c:2936
+#: ../src/main_window.c:2971 ../src/main_window.c:3073
 msgid "Could not open file"
 msgstr "無法開啟檔案"
 
-#: ../src/main_window.c:2969
+#: ../src/main_window.c:3106
 msgid "Save copy"
 msgstr "儲存副本"
 
-#: ../src/main_window.c:2995
+#: ../src/main_window.c:3132
 msgid "Could not save file"
 msgstr "無法儲存檔案"
 
-#: ../src/main_window.c:3112
+#: ../src/main_window.c:3249
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "您確定要從磁碟刪除「%s」影像嗎？"
@@ -534,8 +570,7 @@ msgstr "影像"
 msgid "<b>Date taken:</b>"
 msgstr "<b>拍攝日期：</b>"
 
-#: ../src/properties_dialog.c:537
-#: ../src/properties_dialog.c:549
+#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
@@ -546,7 +581,7 @@ msgstr "<b>%s</b>"
 msgid "%s - Properties"
 msgstr "%s - 屬性"
 
-#: ../src/thumbnailer.c:431
+#: ../src/thumbnailer.c:430
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -562,28 +597,11 @@ msgstr ""
 "請安裝 <b>Tumbler</b> 或其他 <i>縮圖製作幕後程式</i>\n"
 "來解決此問題。"
 
-#: ../src/thumbnailer.c:441
+#: ../src/thumbnailer.c:440
 msgid "Do _not show this message again"
 msgstr "不要再顯示此訊息(_N)"
 
-#: ../src/thumbnail_bar.c:208
-msgid "Spacing"
-msgstr "間隔"
-
-#: ../src/thumbnail_bar.c:209
-msgid "The amount of space between the thumbnails"
-msgstr "縮圖之間的間隔"
-
-#: ../src/thumbnail_bar.c:215
-msgid "border width"
-msgstr "邊緣寬"
-
-#: ../src/thumbnail_bar.c:216
-msgid "the border width of the thumbnail bar"
-msgstr "縮圖列的邊緣寬度"
-
-#: ../src/xfce_wallpaper_manager.c:335
-#: ../src/gnome_wallpaper_manager.c:234
+#: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
 msgid "Style:"
 msgstr "樣式："
 
@@ -595,33 +613,31 @@ msgstr "亮度："
 msgid "Saturation:"
 msgstr "飽和度："
 
-#: ../src/xfce_wallpaper_manager.c:354
-#: ../src/gnome_wallpaper_manager.c:245
+#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:245
 msgid "Set as wallpaper"
 msgstr "設定為桌布"
 
-#: ../src/xfce_wallpaper_manager.c:507
-#: ../src/gnome_wallpaper_manager.c:312
+#: ../src/xfce_wallpaper_manager.c:512 ../src/gnome_wallpaper_manager.c:312
 msgid "Auto"
 msgstr "自動"
 
-#: ../src/xfce_wallpaper_manager.c:510
+#: ../src/xfce_wallpaper_manager.c:515
 msgid "Centered"
 msgstr "置中"
 
-#: ../src/xfce_wallpaper_manager.c:513
+#: ../src/xfce_wallpaper_manager.c:518
 msgid "Tiled"
 msgstr "鋪排"
 
-#: ../src/xfce_wallpaper_manager.c:516
+#: ../src/xfce_wallpaper_manager.c:521
 msgid "Stretched"
 msgstr "延展"
 
-#: ../src/xfce_wallpaper_manager.c:519
+#: ../src/xfce_wallpaper_manager.c:524
 msgid "Scaled"
 msgstr "縮放"
 
-#: ../src/xfce_wallpaper_manager.c:522
+#: ../src/xfce_wallpaper_manager.c:527
 msgid "Zoomed"
 msgstr "拉近"
 
@@ -633,3 +649,14 @@ msgstr "輕鬆查看您的影像"
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto 影像檢視器"
 
+#~ msgid "Spacing"
+#~ msgstr "間隔"
+
+#~ msgid "The amount of space between the thumbnails"
+#~ msgstr "縮圖之間的間隔"
+
+#~ msgid "border width"
+#~ msgstr "邊緣寬"
+
+#~ msgid "the border width of the thumbnail bar"
+#~ msgstr "縮圖列的邊緣寬度"
