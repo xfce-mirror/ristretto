@@ -10,7 +10,7 @@ dnl ***************************
 dnl *** Version information ***
 dnl ***************************
 m4_define([ristretto_version_major], [0])
-m4_define([ristretto_version_minor], [4])
+m4_define([ristretto_version_minor], [5])
 m4_define([ristretto_version_micro], [0])
 m4_define([ristretto_version_build], [r@REVISION@])
 m4_define([ristretto_version_tag], [git]) # Leave empty for releases
