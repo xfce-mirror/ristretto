@@ -824,6 +824,7 @@ rstto_icon_bar_size_allocate (
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
     gdouble value = 0.0;
     gdouble page_size = 0.0;
+    gdouble scale = 0.0;
 
     widget->allocation = *allocation;
 
@@ -842,6 +843,17 @@ rstto_icon_bar_size_allocate (
                 MAX (icon_bar->priv->height, allocation->height));
     }
 
+    if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
+    {
+        value = gtk_adjustment_get_value (icon_bar->priv->vadjustment);
+        value = value / icon_bar->priv->vadjustment->upper * MAX (allocation->height, icon_bar->priv->height);
+    }
+    else
+    {
+        value = gtk_adjustment_get_value (icon_bar->priv->hadjustment);
+        value = value / icon_bar->priv->hadjustment->upper * MAX (allocation->width, icon_bar->priv->width);
+    }
+
     icon_bar->priv->hadjustment->page_size = allocation->width;
     icon_bar->priv->hadjustment->page_increment = allocation->width * 0.9;
     icon_bar->priv->hadjustment->step_increment = allocation->width * 0.1;
@@ -854,16 +866,18 @@ rstto_icon_bar_size_allocate (
     icon_bar->priv->vadjustment->lower = 0;
     icon_bar->priv->vadjustment->upper = MAX (allocation->height, icon_bar->priv->height);
 
+
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
         icon_bar->priv->width = allocation->width;
         icon_bar->priv->item_width = icon_bar->priv->width;
         icon_bar->priv->hadjustment->value = 0;
 
+        page_size = gtk_adjustment_get_page_size (icon_bar->priv->vadjustment);
+
         /* If auto-center is true, center the selected item */
         if (icon_bar->priv->auto_center == TRUE)
         {
-            page_size = gtk_adjustment_get_page_size (icon_bar->priv->vadjustment);
             if (icon_bar->priv->active_item)
                 value = icon_bar->priv->active_item->index * icon_bar->priv->item_height - ((page_size-icon_bar->priv->item_height)/2);
 
@@ -876,6 +890,12 @@ rstto_icon_bar_size_allocate (
         }
         else
         {
+            if (value > (gtk_adjustment_get_upper (icon_bar->priv->vadjustment)-page_size))
+            {
+                value = gtk_adjustment_get_upper (icon_bar->priv->vadjustment)-page_size;
+            }
+            gtk_adjustment_set_value (icon_bar->priv->vadjustment, value);
+            rstto_icon_bar_adjustment_changed (icon_bar, icon_bar->priv->vadjustment);
             rstto_icon_bar_adjustment_changed (icon_bar, icon_bar->priv->hadjustment);
         }
     }
@@ -885,10 +905,11 @@ rstto_icon_bar_size_allocate (
         icon_bar->priv->item_height = icon_bar->priv->height;
         icon_bar->priv->vadjustment->value = 0;
 
+        page_size = gtk_adjustment_get_page_size (icon_bar->priv->hadjustment);
+
         /* If auto-center is true, center the selected item */
         if (icon_bar->priv->auto_center == TRUE)
         {
-            page_size = gtk_adjustment_get_page_size (icon_bar->priv->hadjustment);
             value = icon_bar->priv->active_item->index * icon_bar->priv->item_width - ((page_size-icon_bar->priv->item_width)/2);
 
             if (value > (gtk_adjustment_get_upper (icon_bar->priv->hadjustment)-page_size))
@@ -900,7 +921,13 @@ rstto_icon_bar_size_allocate (
         }
         else
         {
+            if (value > (gtk_adjustment_get_upper (icon_bar->priv->hadjustment)-page_size))
+            {
+                value = gtk_adjustment_get_upper (icon_bar->priv->hadjustment)-page_size;
+            }
+            gtk_adjustment_set_value (icon_bar->priv->hadjustment, value);
             rstto_icon_bar_adjustment_changed (icon_bar, icon_bar->priv->vadjustment);
+            rstto_icon_bar_adjustment_changed (icon_bar, icon_bar->priv->hadjustment);
         }
     }
 }
