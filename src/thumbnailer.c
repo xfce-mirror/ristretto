@@ -79,6 +79,14 @@ static RsttoThumbnailer *thumbnailer_object;
 
 enum
 {
+    RSTTO_THUMBNAILER_SIGNAL_READY = 0,
+    RSTTO_THUMBNAILER_SIGNAL_COUNT
+};
+
+static gint rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_COUNT];
+
+enum
+{
     PROP_0,
 };
 
@@ -119,6 +127,8 @@ struct _RsttoThumbnailerPriv
     RsttoSettings     *settings;
 
     GSList            *queue;
+
+    GSList            *in_process_queue;
     gint               handle;
 
     gboolean           show_missing_thumbnailer_error;
@@ -198,6 +208,18 @@ rstto_thumbnailer_class_init (GObjectClass *object_class)
     object_class->set_property = rstto_thumbnailer_set_property;
     object_class->get_property = rstto_thumbnailer_get_property;
 
+
+    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY] = g_signal_new("ready",
+            G_TYPE_FROM_CLASS(thumbnailer_class),
+            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+            0,
+            NULL,
+            NULL,
+            g_cclosure_marshal_VOID__OBJECT,
+            G_TYPE_NONE,
+            1,
+            G_TYPE_OBJECT,
+            NULL);
 }
 
 /**
@@ -381,14 +403,17 @@ rstto_thumbnailer_queue_request_timer (
 
     g_return_val_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer), FALSE);
 
+    thumbnailer->priv->in_process_queue = thumbnailer->priv->queue;
+    thumbnailer->priv->queue = NULL;
+
     uris = g_new0 (
             const gchar *,
-            g_slist_length(thumbnailer->priv->queue) + 1);
+            g_slist_length(thumbnailer->priv->in_process_queue) + 1);
     mimetypes = g_new0 (
             const gchar *,
-            g_slist_length (thumbnailer->priv->queue) + 1);
+            g_slist_length (thumbnailer->priv->in_process_queue) + 1);
 
-    iter = thumbnailer->priv->queue;
+    iter = thumbnailer->priv->in_process_queue;
     while (iter)
     {
         if (iter->data)
@@ -477,9 +502,9 @@ cb_rstto_thumbnailer_request_finished (
 
     g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
 
-    g_slist_foreach (thumbnailer->priv->queue, (GFunc)g_object_unref, NULL);
-    g_slist_free (thumbnailer->priv->queue);
-    thumbnailer->priv->queue = NULL;
+    g_slist_foreach (thumbnailer->priv->in_process_queue, (GFunc)g_object_unref, NULL);
+    g_slist_free (thumbnailer->priv->in_process_queue);
+    thumbnailer->priv->in_process_queue = NULL;
 }
 
 static void
@@ -491,7 +516,7 @@ cb_rstto_thumbnailer_thumbnail_ready (
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
     RsttoFile *file;
-    GSList *iter = thumbnailer->priv->queue;
+    GSList *iter = thumbnailer->priv->in_process_queue;
     gint x = 0;
     const gchar *f_uri;
 
@@ -508,12 +533,18 @@ cb_rstto_thumbnailer_thumbnail_ready (
         f_uri = rstto_file_get_uri (file);
         if (strcmp (uri[x], f_uri) == 0)
         {
-            thumbnailer->priv->queue = g_slist_remove (
-                    thumbnailer->priv->queue,
+            g_signal_emit (
+                    G_OBJECT (thumbnailer),
+                    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY],
+                    0,
+                    file,
+                    NULL);
+            thumbnailer->priv->in_process_queue = g_slist_remove (
+                    thumbnailer->priv->in_process_queue,
                     file);
             g_object_unref (file);
 
-            iter = thumbnailer->priv->queue;
+            iter = thumbnailer->priv->in_process_queue;
             x++;
         }
         else

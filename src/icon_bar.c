@@ -33,6 +33,7 @@
 
 #include "util.h"
 #include "file.h"
+#include "thumbnailer.h"
 #include "settings.h"
 #include "marshal.h"
 #include "icon_bar.h"
@@ -327,6 +328,7 @@ struct _RsttoIconBarPrivate
     GtkAdjustment  *vadjustment;
 
     RsttoSettings  *settings;
+    RsttoThumbnailer *thumbnailer;
 
     RsttoThumbnailSize thumbnail_size;
 
@@ -550,6 +552,7 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
     icon_bar->priv->show_text = TRUE;
     icon_bar->priv->auto_center = TRUE;
     icon_bar->priv->settings = rstto_settings_new ();
+    icon_bar->priv->thumbnailer = rstto_thumbnailer_new();
 
     icon_bar->priv->thumbnail_size = rstto_settings_get_uint_property (
             icon_bar->priv->settings,
@@ -573,7 +576,6 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
             "notify::thumbnail-size",
             G_CALLBACK (cb_rstto_thumbnail_size_changed),
             icon_bar);
-
 }
 
 
@@ -597,6 +599,7 @@ rstto_icon_bar_finalize (GObject *object)
 
     g_object_unref (G_OBJECT (icon_bar->priv->layout));
     g_object_unref (G_OBJECT (icon_bar->priv->settings));
+    g_object_unref (G_OBJECT (icon_bar->priv->thumbnailer));
 
     (*G_OBJECT_CLASS (rstto_icon_bar_parent_class)->finalize) (object);
 }
@@ -913,6 +916,8 @@ rstto_icon_bar_expose (
     GdkRectangle    area;
     RsttoIconBar     *icon_bar = RSTTO_ICON_BAR (widget);
     GList          *lp;
+    RsttoFile      *file;
+    GtkTreeIter     iter;
 
     if (expose->window != icon_bar->priv->bin_window)
         return FALSE;
@@ -936,7 +941,14 @@ rstto_icon_bar_expose (
         area.height = icon_bar->priv->item_height;
 
         if (gdk_region_rect_in (expose->region, &area) != GDK_OVERLAP_RECTANGLE_OUT)
+        {
+            iter = item->iter;
+            gtk_tree_model_get (icon_bar->priv->model, &iter,
+                    icon_bar->priv->file_column, &file,
+                    -1);
+            rstto_thumbnailer_queue_file (icon_bar->priv->thumbnailer, file);
             rstto_icon_bar_paint_item (icon_bar, item, &expose->area);
+        }
     }
 
     return TRUE;

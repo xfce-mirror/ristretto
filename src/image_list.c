@@ -32,6 +32,7 @@
 #include "util.h"
 #include "file.h"
 #include "image_list.h"
+#include "thumbnailer.h"
 #include "settings.h"
 
 static void
@@ -65,6 +66,12 @@ static void
 cb_rstto_wrap_images_changed (
         GObject *settings,
         GParamSpec *pspec,
+        gpointer user_data);
+
+static void
+cb_rstto_thumbnailer_ready(
+        RsttoThumbnailer *thumbnailer,
+        RsttoFile *file,
         gpointer user_data);
 
 static void
@@ -206,6 +213,7 @@ struct _RsttoImageListPriv
     gint           stamp;
     GFileMonitor  *monitor;
     RsttoSettings *settings;
+    RsttoThumbnailer *thumbnailer;
     GtkFileFilter *filter;
 
     GList        *images;
@@ -300,6 +308,7 @@ rstto_image_list_init(RsttoImageList *image_list)
     image_list->priv = g_new0 (RsttoImageListPriv, 1);
     image_list->priv->stamp = g_random_int();
     image_list->priv->settings = rstto_settings_new ();
+    image_list->priv->thumbnailer = rstto_thumbnailer_new();
     image_list->priv->filter = gtk_file_filter_new ();
     g_object_ref_sink (image_list->priv->filter);
     gtk_file_filter_add_pixbuf_formats (image_list->priv->filter);
@@ -314,6 +323,12 @@ rstto_image_list_init(RsttoImageList *image_list)
             G_OBJECT(image_list->priv->settings),
             "notify::wrap-images",
             G_CALLBACK (cb_rstto_wrap_images_changed),
+            image_list);
+
+    g_signal_connect (
+            G_OBJECT(image_list->priv->thumbnailer),
+            "ready",
+            G_CALLBACK (cb_rstto_thumbnailer_ready),
             image_list);
 
 }
@@ -361,6 +376,12 @@ rstto_image_list_dispose(GObject *object)
         {
             g_object_unref (image_list->priv->settings);
             image_list->priv->settings = NULL;
+        }
+
+        if (image_list->priv->thumbnailer)
+        {
+            g_object_unref (image_list->priv->thumbnailer);
+            image_list->priv->thumbnailer = NULL;
         }
 
         if (image_list->priv->filter)
@@ -1424,5 +1445,27 @@ image_list_model_get_value (
             g_value_init (value, RSTTO_TYPE_FILE);
             g_value_set_object (value, file);
             break;
+    }
+}
+
+static void
+cb_rstto_thumbnailer_ready(
+        RsttoThumbnailer *thumbnailer,
+        RsttoFile *file,
+        gpointer user_data)
+{
+    RsttoImageList *image_list = RSTTO_IMAGE_LIST (user_data);
+    GtkTreePath *path_ = NULL;
+    GtkTreeIter iter;
+    gint index_;
+
+    index_ = g_list_index (image_list->priv->images, file);
+    if (index_ > 0)
+    {
+        path_ = gtk_tree_path_new();
+        gtk_tree_path_append_index(path_,index_);
+        gtk_tree_model_get_iter (GTK_TREE_MODEL (image_list), &iter, path_);
+
+        gtk_tree_model_row_changed (GTK_TREE_MODEL(image_list), path_, &iter);
     }
 }
