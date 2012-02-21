@@ -2,19 +2,19 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Nuno Miguel <nunis@netcabo.pt>, 2007
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-02-20 19:45+0100\n"
+"POT-Creation-Date: 2012-02-21 12:21+0000\n"
 "PO-Revision-Date: 2012-01-27 18:08+0100\n"
 "Last-Translator: Nuno Miguel <nunis@netcabo.pt>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Language: Portuguese\n"
 "X-Poedit-Country: PORTUGAL\n"
@@ -258,9 +258,8 @@ msgstr "Mostrar barra de minia_turas"
 
 #. Toggle visibility of the statusbar
 #: ../src/main_window.c:398
-#, fuzzy
 msgid "Show _Status Bar"
-msgstr "Mostrar barra de minia_turas"
+msgstr "Mostrar barra de e_stado"
 
 #. Sort by Filename
 #: ../src/main_window.c:405
@@ -582,7 +581,7 @@ msgstr "<b>%s</b>"
 msgid "%s - Properties"
 msgstr "%s - Propriedades"
 
-#: ../src/thumbnailer.c:430
+#: ../src/thumbnailer.c:455
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -598,7 +597,7 @@ msgstr ""
 "Instale o <b>Tumbler</b> ou outro <i>serviço de miniaturas</i>\n"
 "para solucionar o problema"
 
-#: ../src/thumbnailer.c:440
+#: ../src/thumbnailer.c:465
 msgid "Do _not show this message again"
 msgstr "_Não mostrar novamente"
 
