@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-02-20 19:45+0100\n"
+"POT-Creation-Date: 2012-02-20 18:48+0000\n"
 "PO-Revision-Date: 2010-11-23 23:34+0800\n"
 "Last-Translator: Chipong Luo <chipong.luo@yahoo.com>\n"
 "Language-Team: Chinese (Simplified) <xfce-i18n@xfce.org>\n"
@@ -258,9 +258,8 @@ msgstr "显示缩略图栏(_T)"
 
 #. Toggle visibility of the statusbar
 #: ../src/main_window.c:398
-#, fuzzy
 msgid "Show _Status Bar"
-msgstr "显示缩略图栏(_T)"
+msgstr "显示状态栏(_S)"
 
 #. Sort by Filename
 #: ../src/main_window.c:405
