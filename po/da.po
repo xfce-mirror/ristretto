@@ -2,19 +2,19 @@
 # Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
 # This file is distributed under the same license as the Ristretto package.
 # Per Kongstad <p_kongstad@op.pl>, 2008, 2009.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.90\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-02-20 19:45+0100\n"
+"POT-Creation-Date: 2012-02-21 06:30+0000\n"
 "PO-Revision-Date: 2010-01-15 12:00+0100\n"
 "Last-Translator: Per Kongstad <p_kongstad@op.pl>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
-"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
 "X-Poedit-Language: Danish\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Country: DENMARK\n"
@@ -257,9 +257,8 @@ msgstr "Vis _miniaturbjælke"
 
 #. Toggle visibility of the statusbar
 #: ../src/main_window.c:398
-#, fuzzy
 msgid "Show _Status Bar"
-msgstr "Vis _miniaturbjælke"
+msgstr "Vis _statusbjælke"
 
 #. Sort by Filename
 #: ../src/main_window.c:405
@@ -584,7 +583,7 @@ msgstr "<b>%s</b>"
 msgid "%s - Properties"
 msgstr "%s - Egenskaber"
 
-#: ../src/thumbnailer.c:430
+#: ../src/thumbnailer.c:455
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -600,7 +599,7 @@ msgstr ""
 "Installer <b>Tumbler</b> eller en anden <i>thumbnailing tjeneste</i>\n"
 "for at løse dette."
 
-#: ../src/thumbnailer.c:440
+#: ../src/thumbnailer.c:465
 msgid "Do _not show this message again"
 msgstr "Undla_d at vise denne besked igen"
 
