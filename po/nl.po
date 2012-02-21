@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the ristretto package.
 # Stephan Arts <stephan@xfce.org>, 2007.
 # Pjotr, 2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-02-20 19:45+0100\n"
+"POT-Creation-Date: 2012-02-21 12:21+0000\n"
 "PO-Revision-Date: 2011-09-08 00:48+0200\n"
 "Last-Translator: Pjotr\n"
 "Language-Team: Dutch (Flemish)\n"
-"Language: nl (Dutch)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl (Dutch)\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/main.c:61
@@ -255,9 +255,8 @@ msgstr "Miniaturenbalk tonen"
 
 #. Toggle visibility of the statusbar
 #: ../src/main_window.c:398
-#, fuzzy
 msgid "Show _Status Bar"
-msgstr "Miniaturenbalk tonen"
+msgstr "Statusbalk tonen"
 
 #. Sort by Filename
 #: ../src/main_window.c:405
@@ -582,7 +581,7 @@ msgstr "<b>%s</b>"
 msgid "%s - Properties"
 msgstr "%s - Eigenschappen"
 
-#: ../src/thumbnailer.c:430
+#: ../src/thumbnailer.c:455
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -598,7 +597,7 @@ msgstr ""
 "Installeer Tumbler of een andere miniatuurmaker-achtergronddienst\n"
 "om dit probleem op te lossen."
 
-#: ../src/thumbnailer.c:440
+#: ../src/thumbnailer.c:465
 msgid "Do _not show this message again"
 msgstr "Toon deze boodschap niet opnieuw"
 
