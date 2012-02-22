@@ -836,7 +836,6 @@ rstto_icon_bar_size_allocate (
             if (icon_bar->priv->active_item)
             {
                 value = icon_bar->priv->active_item->index * icon_bar->priv->item_height;// - ((page_size-icon_bar->priv->item_height)/2);
-                g_debug("V: %f", value);
             }
 		
 
