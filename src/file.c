@@ -28,6 +28,7 @@
 
 #include "util.h"
 #include "file.h"
+#include "thumbnailer.h"
 
 static void
 rstto_file_init (GObject *);
@@ -454,18 +455,30 @@ const GdkPixbuf *
 rstto_file_get_thumbnail ( RsttoFile *file , RsttoThumbnailSize size)
 {
     const gchar *thumbnail_path;
+    RsttoThumbnailer *thumbnailer;
 
     if (file->priv->thumbnails[size])
         return file->priv->thumbnails[size];
 
     thumbnail_path = rstto_file_get_thumbnail_path (file);
 
+    thumbnailer = rstto_thumbnailer_new();
+    rstto_thumbnailer_queue_file (thumbnailer, file);
+
+    /* FIXME:
+     *
+     * The thumbnail should be updated on the "ready" signal
+     * of the thumbnailer, to account for changed thumbnails
+     * aswell as missing ones.
+     */
     file->priv->thumbnails[size] = gdk_pixbuf_new_from_file_at_scale (
             thumbnail_path,
             rstto_thumbnail_size[size],
             rstto_thumbnail_size[size],
             TRUE,
             NULL);
+
+    g_object_unref (thumbnailer);
 
     return file->priv->thumbnails[size];
 }

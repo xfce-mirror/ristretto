@@ -1,7 +1,9 @@
 /*-
  * Copyright (c) 2004-2006 os-cillation e.K.
+ * Copyright (c) 2012 Stephan Arts <stephan@xfce.org>
  *
  * Written by Benedikt Meurer <benny@xfce.org>.
+ * Modified by Stephan Arts <stephan@xfce.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -38,65 +40,18 @@
 #include "marshal.h"
 #include "icon_bar.h"
 
-/**
- * SECTION: rstto-icon-bar
- * @title: RsttoIconBar
- * @short_description: A widget for displaying icon bars
- * @include: rstto/rstto.h
- * @see_also: <ulink url="http://library.gnome.org/devel/gtk/stable/GtkTreeModel.html">
- *            GtkTreeModel</ulink>,
- *            <ulink url="http://library.gnome.org/devel/gtk/stable/TreeWidget.html">
- *            Tree and List Widget Overview</ulink>
- *
- * A widget that displays any object that implements the #GtkTreeModel interface
- * in an icon bar.
- *
- * <example>
- * <title>
- *   Creating a new <structname>RsttoIconBar</structname> with a <structname>GtkListStore</structname>
- * </title>
- * <programlisting>
- * enum
- * {
- *   PIXBUF_COLUMN,
- *   STRING_COLUMN,
- *   N_COLUMNS,
- * };
- *
- * {
- *   GtkListStore *store;
- *   GtkWidget    *bar;
- *
- *   // make a new list store
- *   store = gtk_list_store_new (N_COLUMNS, GDK_TYPE_PIXBUF, G_TYPE_STRING);
- *
- *   // fill the store with data
- *   fill_store (store);
- *
- *   // create the icon bar
- *   bar = rstto_icon_bar_new_with_model (GTK_TREE_MODEL (store));
- *   rstto_icon_bar_set_pixbuf_column (RSTTO_ICON_BAR (bar), PIXBUF_COLUMN);
- *   rstto_icon_bar_set_file_column (RSTTO_ICON_BAR (bar), FILE_COLUMN);
- *   gtk_widget_show (bar);
- *
- *   // the icon bar keeps a reference on the store now
- *   g_object_unref (G_OBJECT (store));
- *
- *   // add the bar to your GUI now...
- * }
- * </programlisting>
- * </example>
- **/
-
-
-
 #define MINIMUM_ICON_ITEM_WIDTH 32
 #define ICON_TEXT_PADDING 1
 
-#define RSTTO_ICON_BAR_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), RSTTO_TYPE_ICON_BAR, RsttoIconBarPrivate))
+#define RSTTO_ICON_BAR_GET_PRIVATE(obj) ( \
+            G_TYPE_INSTANCE_GET_PRIVATE ( \
+                    (obj), \
+                    RSTTO_TYPE_ICON_BAR, \
+                    RsttoIconBarPrivate))
 
-#define RSTTO_ICON_BAR_VALID_MODEL_AND_COLUMNS(obj) ((obj)->priv->model != NULL && \
-        (obj)->priv->file_column != -1)
+#define RSTTO_ICON_BAR_VALID_MODEL_AND_COLUMNS(obj) \
+            ((obj)->priv->model != NULL && \
+            (obj)->priv->file_column != -1)
 
 
 
@@ -879,7 +834,11 @@ rstto_icon_bar_size_allocate (
         if (icon_bar->priv->auto_center == TRUE)
         {
             if (icon_bar->priv->active_item)
-                value = icon_bar->priv->active_item->index * icon_bar->priv->item_height - ((page_size-icon_bar->priv->item_height)/2);
+            {
+                value = icon_bar->priv->active_item->index * icon_bar->priv->item_height;// - ((page_size-icon_bar->priv->item_height)/2);
+                g_debug("V: %f", value);
+            }
+		
 
             if (value > (gtk_adjustment_get_upper (icon_bar->priv->vadjustment)-page_size))
                 value = (gtk_adjustment_get_upper (icon_bar->priv->vadjustment)-page_size);
@@ -967,19 +926,19 @@ rstto_icon_bar_expose (
         area.width = icon_bar->priv->item_width;
         area.height = icon_bar->priv->item_height;
 
-        iter = item->iter;
-        gtk_tree_model_get (icon_bar->priv->model, &iter,
-                icon_bar->priv->file_column, &file,
-                -1);
 
         if (gdk_region_rect_in (expose->region, &area) != GDK_OVERLAP_RECTANGLE_OUT)
         {
-            rstto_thumbnailer_queue_file (icon_bar->priv->thumbnailer, file);
             rstto_icon_bar_paint_item (icon_bar, item, &expose->area);
         }
         else
         {
+            iter = item->iter;
+            gtk_tree_model_get (icon_bar->priv->model, &iter,
+                    icon_bar->priv->file_column, &file,
+                    -1);
             rstto_thumbnailer_dequeue_file (icon_bar->priv->thumbnailer, file);
+            g_object_unref (file);
         }
     }
 
@@ -1029,6 +988,7 @@ rstto_icon_bar_motion (
         gtk_tree_model_get (icon_bar->priv->model, &iter,
                 icon_bar->priv->file_column, &file,
                 -1);
+        g_object_unref (file);
 
         gtk_widget_trigger_tooltip_query (widget);
     }
@@ -1301,6 +1261,8 @@ rstto_icon_bar_paint_item (
             -1);
     
     pixbuf = rstto_file_get_thumbnail (file, icon_bar->priv->thumbnail_size);
+
+    g_object_unref (file);
 
     if (NULL == pixbuf)
     {
@@ -2175,6 +2137,7 @@ cb_rstto_thumbnail_size_changed (
 {
     GValue val_thumbnail_size = { 0, };
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (user_data);
+    gboolean auto_center = icon_bar->priv->auto_center;
 
     g_value_init (&val_thumbnail_size, G_TYPE_UINT);
 
@@ -2183,11 +2146,13 @@ cb_rstto_thumbnail_size_changed (
             "thumbnail-size",
             &val_thumbnail_size);
 
+
     icon_bar->priv->thumbnail_size = g_value_get_uint (&val_thumbnail_size);
 
     rstto_icon_bar_invalidate (icon_bar);
 
     rstto_icon_bar_update_missing_icon (icon_bar);
+    icon_bar->priv->auto_center = auto_center;
 }
 
 

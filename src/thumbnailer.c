@@ -359,17 +359,21 @@ rstto_thumbnailer_dequeue_file (
     if (thumbnailer->priv->request_timer_id)
     {
         g_source_remove (thumbnailer->priv->request_timer_id);
-        if (thumbnailer->priv->handle)
+    }
+
+    if (thumbnailer->priv->handle)
+    {
+        if(dbus_g_proxy_call(thumbnailer->priv->proxy,
+                "Dequeue",
+                NULL,
+                G_TYPE_UINT, thumbnailer->priv->handle,
+                G_TYPE_INVALID) == FALSE)
         {
-            if(dbus_g_proxy_call(thumbnailer->priv->proxy,
-                    "Dequeue",
-                    NULL,
-                    G_TYPE_UINT, thumbnailer->priv->handle,
-                    G_TYPE_INVALID) == FALSE)
-            {
-            }
-            thumbnailer->priv->handle = 0;
         }
+        thumbnailer->priv->handle = 0;
+        g_slist_foreach (thumbnailer->priv->in_process_queue, (GFunc)g_object_unref, NULL);
+        g_slist_free (thumbnailer->priv->in_process_queue);
+        thumbnailer->priv->in_process_queue = NULL;
     }
 
     if (g_slist_find (thumbnailer->priv->queue, file) != NULL)
@@ -502,9 +506,12 @@ cb_rstto_thumbnailer_request_finished (
 
     g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
 
-    g_slist_foreach (thumbnailer->priv->in_process_queue, (GFunc)g_object_unref, NULL);
-    g_slist_free (thumbnailer->priv->in_process_queue);
-    thumbnailer->priv->in_process_queue = NULL;
+    if (thumbnailer->priv->in_process_queue)
+    {
+        g_slist_foreach (thumbnailer->priv->in_process_queue, (GFunc)g_object_unref, NULL);
+        g_slist_free (thumbnailer->priv->in_process_queue);
+        thumbnailer->priv->in_process_queue = NULL;
+    }
 }
 
 static void
