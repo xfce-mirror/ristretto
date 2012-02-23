@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-02-20 19:45+0100\n"
-"PO-Revision-Date: 2012-02-18 23:39+0100\n"
+"POT-Creation-Date: 2012-02-23 05:18+0000\n"
+"PO-Revision-Date: 2012-02-23 11:18+0100\n"
 "Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech\n"
 "Language: \n"
@@ -45,7 +45,8 @@ msgstr ""
 "Pro zobrazení seznamu všech dostupných\n"
 "parametrů použijte příkaz %s --help\n"
 
-#: ../src/main_window.c:53 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:53
+#: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "Prohlížeč obrázků"
 
@@ -255,9 +256,8 @@ msgstr "Zobrazit panel Ná_hledy"
 
 #. Toggle visibility of the statusbar
 #: ../src/main_window.c:398
-#, fuzzy
 msgid "Show _Status Bar"
-msgstr "Zobrazit panel Ná_hledy"
+msgstr "Zobrazi_t stavový řádek"
 
 #. Sort by Filename
 #: ../src/main_window.c:405
@@ -339,11 +339,13 @@ msgstr "_Naposledy použité"
 msgid "Recently used"
 msgstr "Naposledy použité"
 
-#: ../src/main_window.c:672 ../src/main_window.c:1170
+#: ../src/main_window.c:672
+#: ../src/main_window.c:1170
 msgid "Press open to select an image"
 msgstr "Obrázek vyberete stisknutím tlačítka Otevřít"
 
-#: ../src/main_window.c:1074 ../src/main_window.c:1080
+#: ../src/main_window.c:1074
+#: ../src/main_window.c:1080
 msgid "Empty"
 msgstr "Prázdný"
 
@@ -351,7 +353,8 @@ msgstr "Prázdný"
 msgid "Choose 'set wallpaper' method"
 msgstr "Zvolit metodu 'nastavení tapety'"
 
-#: ../src/main_window.c:2124 ../src/preferences_dialog.c:349
+#: ../src/main_window.c:2124
+#: ../src/preferences_dialog.c:349
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -361,15 +364,18 @@ msgstr ""
 "Toto nastavení určuje metodu, kterou aplikace <i>Ristretto</i>\n"
 "použije k nastavení tapety pracovní plochy."
 
-#: ../src/main_window.c:2149 ../src/preferences_dialog.c:373
+#: ../src/main_window.c:2149
+#: ../src/preferences_dialog.c:373
 msgid "None"
 msgstr "Žádný"
 
-#: ../src/main_window.c:2153 ../src/preferences_dialog.c:377
+#: ../src/main_window.c:2153
+#: ../src/preferences_dialog.c:377
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2157 ../src/preferences_dialog.c:381
+#: ../src/main_window.c:2157
+#: ../src/preferences_dialog.c:381
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -399,7 +405,8 @@ msgstr "Obrázky"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2971 ../src/main_window.c:3073
+#: ../src/main_window.c:2971
+#: ../src/main_window.c:3073
 msgid "Could not open file"
 msgstr "Nelze otevřít soubor"
 
@@ -569,7 +576,8 @@ msgstr "Obrázek"
 msgid "<b>Date taken:</b>"
 msgstr "<b>Datum pořízení:</b>"
 
-#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
+#: ../src/properties_dialog.c:537
+#: ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
@@ -580,7 +588,7 @@ msgstr "<b>%s</b>"
 msgid "%s - Properties"
 msgstr "%s - Vlastnosti"
 
-#: ../src/thumbnailer.c:430
+#: ../src/thumbnailer.c:459
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -596,11 +604,12 @@ msgstr ""
 "Tyto potíže můžete vyřešit instalací aplikace <b>Tumbler</b> nebo\n"
 "jiného <i>démova pro vytváření náhledů</i>."
 
-#: ../src/thumbnailer.c:440
+#: ../src/thumbnailer.c:469
 msgid "Do _not show this message again"
 msgstr "Tuto zprávu již příště _nezobrazovat"
 
-#: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
+#: ../src/xfce_wallpaper_manager.c:335
+#: ../src/gnome_wallpaper_manager.c:234
 msgid "Style:"
 msgstr "Styl:"
 
@@ -612,11 +621,13 @@ msgstr "Jas:"
 msgid "Saturation:"
 msgstr "Sytost:"
 
-#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:245
+#: ../src/xfce_wallpaper_manager.c:354
+#: ../src/gnome_wallpaper_manager.c:245
 msgid "Set as wallpaper"
 msgstr "Nastavit jako tapetu"
 
-#: ../src/xfce_wallpaper_manager.c:512 ../src/gnome_wallpaper_manager.c:312
+#: ../src/xfce_wallpaper_manager.c:512
+#: ../src/gnome_wallpaper_manager.c:312
 msgid "Auto"
 msgstr "Automaticky"
 
