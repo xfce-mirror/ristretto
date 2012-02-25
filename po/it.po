@@ -258,7 +258,7 @@ msgstr "Mostra barra _miniature"
 #. Toggle visibility of the statusbar
 #: ../src/main_window.c:398
 msgid "Show _Status Bar"
-msgstr "Mostra barra di _stato"
+msgstr "Mostra barra di s_tato"
 
 #. Sort by Filename
 #: ../src/main_window.c:405
