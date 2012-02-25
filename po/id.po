@@ -2,19 +2,19 @@
 # Copyright (C) 2008 ristretto'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the ristretto package.
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-02-20 19:45+0100\n"
+"POT-Creation-Date: 2012-02-25 09:57+0000\n"
 "PO-Revision-Date: 2008-12-19 22:32+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
-"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: id\n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -254,9 +254,8 @@ msgstr "_Tampilkan Batang Miniatur"
 
 #. Toggle visibility of the statusbar
 #: ../src/main_window.c:398
-#, fuzzy
 msgid "Show _Status Bar"
-msgstr "_Tampilkan Batang Miniatur"
+msgstr "Tampilkan Batang _Status"
 
 #. Sort by Filename
 #: ../src/main_window.c:405
@@ -577,7 +576,7 @@ msgstr "<b>%s</b>"
 msgid "%s - Properties"
 msgstr "%s - Properti"
 
-#: ../src/thumbnailer.c:430
+#: ../src/thumbnailer.c:459
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -593,7 +592,7 @@ msgstr ""
 "Instal <b>Tumbler</b> atau <i>jurik miniatur</i>\n"
 "untuk mengatasi hal ini."
 
-#: ../src/thumbnailer.c:440
+#: ../src/thumbnailer.c:469
 msgid "Do _not show this message again"
 msgstr "Jangan _tampilkan pesan ini lagi"
 
