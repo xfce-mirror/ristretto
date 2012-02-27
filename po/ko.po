@@ -1,0 +1,662 @@
+# Korean translation for Ristretto.master package.
+# Copyright (C) 2006-2012 Stephan Arts et al.
+# This file is distributed under the same license as the Ristretto package.
+# Seong-ho, Cho <darkcircle.0426@gmail.com>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ristretto\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2012-02-27 08:45+0000\n"
+"PO-Revision-Date: 2012-02-27 19:35+0900\n"
+"Last-Translator: Seong-ho, Cho <darkcircle.0426@gmail.com>\n"
+"Language-Team: xfce4-users-kr-i18n <xfce4-users-kr-i18n@lists.sourceforce.net>\n"
+"Language: Korean\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Korean\n"
+"X-Poedit-Country: KOREA, REPUBLIC OF\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../src/main.c:61
+msgid "Version information"
+msgstr "버전 정보"
+
+#: ../src/main.c:65
+msgid "Start in fullscreen mode"
+msgstr "전체화면 모드로 시작하기"
+
+#: ../src/main.c:69
+msgid "Start a slideshow"
+msgstr "슬라이드 쇼 시작하기"
+
+#: ../src/main.c:77
+msgid "Show settings dialog"
+msgstr "설정 대화상자 보이기"
+
+#: ../src/main.c:105
+#, c-format
+msgid ""
+"%s: %s\n"
+"\n"
+"Try %s --help to see a full list of\n"
+"available command line options.\n"
+msgstr ""
+"%s: %s\n"
+"\n"
+"사용할 수 있는 명령줄 옵션의 전체 목록을\n"
+"보려면 %s --help를 입력합니다.\n"
+
+#: ../src/main_window.c:53
+#: ../ristretto.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "이미지 보기"
+
+#. File Menu
+#: ../src/main_window.c:332
+msgid "_File"
+msgstr "파일(_F)"
+
+#: ../src/main_window.c:333
+msgid "_Open"
+msgstr "열기(_O)"
+
+#: ../src/main_window.c:333
+msgid "Open an image"
+msgstr "이미지 열기"
+
+#: ../src/main_window.c:334
+msgid "_Save copy"
+msgstr "사본 저장(_S)"
+
+#: ../src/main_window.c:334
+msgid "Save a copy of the image"
+msgstr "이미지 사본 저장"
+
+#: ../src/main_window.c:335
+msgid "_Properties"
+msgstr "속성(_P)"
+
+#: ../src/main_window.c:335
+msgid "Show file properties"
+msgstr "파일 속성 보이기"
+
+#: ../src/main_window.c:336
+msgid "_Close"
+msgstr "닫기(_C)"
+
+#: ../src/main_window.c:336
+msgid "Close this image"
+msgstr "이 이미지 닫기"
+
+#: ../src/main_window.c:337
+msgid "_Quit"
+msgstr "나가기(_Q)"
+
+#: ../src/main_window.c:337
+msgid "Quit Ristretto"
+msgstr "리스트레또 나가기"
+
+#. Edit Menu
+#: ../src/main_window.c:339
+msgid "_Edit"
+msgstr "편집(_E)"
+
+#: ../src/main_window.c:340
+msgid "_Open with..."
+msgstr "다음으로 열기(_O)..."
+
+#: ../src/main_window.c:341
+msgid "_Sorting"
+msgstr "정렬(_S)"
+
+#: ../src/main_window.c:342
+msgid "_Delete"
+msgstr "삭제(_D)"
+
+#: ../src/main_window.c:342
+msgid "Delete this image from disk"
+msgstr "이 이미지를 디스크에서 삭제"
+
+#: ../src/main_window.c:343
+msgid "_Clear private data"
+msgstr "개인 데이터 지우기(_C)"
+
+#: ../src/main_window.c:344
+msgid "_Preferences"
+msgstr "기본 설정(_P)"
+
+#. View Menu
+#: ../src/main_window.c:346
+msgid "_View"
+msgstr "보기(_V)"
+
+#: ../src/main_window.c:347
+msgid "_Fullscreen"
+msgstr "전체 화면(_F)"
+
+#: ../src/main_window.c:348
+msgid "_Leave Fullscreen"
+msgstr "전체 화면 나가기(_L)"
+
+#: ../src/main_window.c:349
+msgid "_Set as Wallpaper"
+msgstr "배경화면으로 설정(_S)"
+
+#. Zoom submenu
+#: ../src/main_window.c:351
+msgid "_Zoom"
+msgstr "확대(_Z)"
+
+#: ../src/main_window.c:352
+msgid "Zoom _In"
+msgstr "확대(_I)"
+
+#: ../src/main_window.c:353
+msgid "Zoom _Out"
+msgstr "축소(_O)"
+
+#: ../src/main_window.c:354
+msgid "Zoom _Fit"
+msgstr "화면에 맞추기(_F)"
+
+#: ../src/main_window.c:355
+msgid "_Normal Size"
+msgstr "본래 크기(_N)"
+
+#. Rotation submenu
+#: ../src/main_window.c:357
+msgid "_Rotation"
+msgstr "회전(_R)"
+
+#: ../src/main_window.c:358
+msgid "Rotate _Right"
+msgstr "오른쪽으로 회전(_R)"
+
+#: ../src/main_window.c:359
+msgid "Rotate _Left"
+msgstr "왼쪽으로 회전(_L)"
+
+#. Go Menu
+#: ../src/main_window.c:361
+msgid "_Go"
+msgstr "이동(_G)"
+
+#: ../src/main_window.c:362
+msgid "_Forward"
+msgstr "다음(_F)"
+
+#: ../src/main_window.c:363
+msgid "_Back"
+msgstr "이전(_B)"
+
+#: ../src/main_window.c:364
+msgid "_First"
+msgstr "처음(_F)"
+
+#: ../src/main_window.c:365
+msgid "_Last"
+msgstr "마지막(_L)"
+
+#. Help Menu
+#: ../src/main_window.c:367
+msgid "_Help"
+msgstr "도움말(_H)"
+
+#: ../src/main_window.c:369
+msgid "_Contents"
+msgstr "내용(_C)"
+
+#: ../src/main_window.c:371
+msgid "Display ristretto user manual"
+msgstr "리스트레또 사용자 설명서 보이기"
+
+#: ../src/main_window.c:374
+msgid "_About"
+msgstr "정보(_A)"
+
+#: ../src/main_window.c:376
+msgid "Display information about ristretto"
+msgstr "리스트레또에 대한 정보 보이기"
+
+#. Position Menu
+#: ../src/main_window.c:379
+msgid "_Position"
+msgstr "위치(_P)"
+
+#: ../src/main_window.c:380
+msgid "_Size"
+msgstr "크기(_S)"
+
+#: ../src/main_window.c:381
+msgid "Thumbnail Bar _Position"
+msgstr "섬네일 막대 위치(_P)"
+
+#: ../src/main_window.c:382
+msgid "Thumbnail _Size"
+msgstr "섬네일 크기(_S)"
+
+#. Misc
+#: ../src/main_window.c:384
+msgid "Leave _Fullscreen"
+msgstr "전체 화면 나가기(_F)"
+
+#. Toggle visibility of the main file toolbar
+#: ../src/main_window.c:392
+msgid "Show _File Toolbar"
+msgstr "파일 도구막대 보이기(_F)"
+
+#. Toggle visibility of the main navigation toolbar
+#: ../src/main_window.c:394
+msgid "Show _Navigation Toolbar"
+msgstr "탐색 도구막대 보이기(_N)"
+
+#. Toggle visibility of the thumbnailbar
+#: ../src/main_window.c:396
+msgid "Show _Thumbnail Bar"
+msgstr "섬네일 막대 보이기(_T)"
+
+#. Toggle visibility of the statusbar
+#: ../src/main_window.c:398
+msgid "Show _Status Bar"
+msgstr "상태 표시줄 보이기(_S)"
+
+#. Sort by Filename
+#: ../src/main_window.c:405
+msgid "sort by filename"
+msgstr "파일 이름순 정렬"
+
+#. Sort by Date
+#: ../src/main_window.c:407
+msgid "sort by date"
+msgstr "날짜순 정렬"
+
+#: ../src/main_window.c:413
+msgid "Left"
+msgstr "왼쪽"
+
+#: ../src/main_window.c:414
+msgid "Right"
+msgstr "오른쪽"
+
+#: ../src/main_window.c:415
+msgid "Top"
+msgstr "위"
+
+#: ../src/main_window.c:416
+msgid "Bottom"
+msgstr "아래"
+
+#: ../src/main_window.c:422
+msgid "Very Small"
+msgstr "매우 작게"
+
+#: ../src/main_window.c:423
+msgid "Smaller"
+msgstr "더 작게"
+
+#: ../src/main_window.c:424
+msgid "Small"
+msgstr "작게"
+
+#: ../src/main_window.c:425
+msgid "Normal"
+msgstr "보통"
+
+#: ../src/main_window.c:426
+msgid "Large"
+msgstr "크게 "
+
+#: ../src/main_window.c:427
+msgid "Larger"
+msgstr "더 크게"
+
+#: ../src/main_window.c:428
+msgid "Very Large"
+msgstr "매우 크게"
+
+#. Create Play/Pause Slideshow actions
+#: ../src/main_window.c:572
+msgid "_Play"
+msgstr "재생(_P)"
+
+#: ../src/main_window.c:572
+msgid "Play slideshow"
+msgstr "슬라이드 쇼 재생"
+
+#: ../src/main_window.c:573
+msgid "_Pause"
+msgstr "멈춤(_P)"
+
+#: ../src/main_window.c:573
+msgid "Pause slideshow"
+msgstr "슬라이드 쇼 멈춤"
+
+#. Create Recently used items Action
+#: ../src/main_window.c:576
+msgid "_Recently used"
+msgstr "최근 사용(_R)"
+
+#: ../src/main_window.c:576
+msgid "Recently used"
+msgstr "최근 사용한 것"
+
+#: ../src/main_window.c:672
+#: ../src/main_window.c:1170
+msgid "Press open to select an image"
+msgstr "이미지를 선택하려면 열기를 누릅니다"
+
+#: ../src/main_window.c:1074
+#: ../src/main_window.c:1080
+msgid "Empty"
+msgstr "비어있음"
+
+#: ../src/main_window.c:2109
+msgid "Choose 'set wallpaper' method"
+msgstr "'배경 화면 설정' 방식 선택"
+
+#: ../src/main_window.c:2124
+#: ../src/preferences_dialog.c:349
+msgid ""
+"Configure which system is currently managing your desktop.\n"
+"This setting determines the method <i>Ristretto</i> will use\n"
+"to configure the desktop wallpaper."
+msgstr ""
+"지금 여러분의 데스크톱을 관리하고 있는 시스템을 설정합니다.\n"
+"이 설정은 <i>리스트레또</i>가 데스크톱 배경 화면을 설정할 때\n"
+"사용할 방식을 결정할 것입니다."
+
+#: ../src/main_window.c:2149
+#: ../src/preferences_dialog.c:373
+msgid "None"
+msgstr "없음"
+
+#: ../src/main_window.c:2153
+#: ../src/preferences_dialog.c:377
+msgid "Xfce"
+msgstr "Xfce"
+
+#: ../src/main_window.c:2157
+#: ../src/preferences_dialog.c:381
+msgid "GNOME"
+msgstr "그놈"
+
+#: ../src/main_window.c:2613
+msgid "Developer:"
+msgstr "개발자:"
+
+#: ../src/main_window.c:2622
+msgid "Ristretto is an image viewer for the Xfce desktop environment."
+msgstr "리스트레또는 Xfce 데스크톱 환경을 위한 이미지 뷰어 입니다."
+
+#: ../src/main_window.c:2630
+msgid "translator-credits"
+msgstr "Seong-ho Cho <darkcircle.0426@gmail.com>"
+
+#: ../src/main_window.c:2920
+msgid "Open image"
+msgstr "이미지 열기"
+
+#: ../src/main_window.c:2939
+msgid "Images"
+msgstr "이미지"
+
+#: ../src/main_window.c:2944
+msgid ".jp(e)g"
+msgstr ".jp(e)g"
+
+#: ../src/main_window.c:2971
+#: ../src/main_window.c:3073
+msgid "Could not open file"
+msgstr "파일을 열 수 없습니다"
+
+#: ../src/main_window.c:3106
+msgid "Save copy"
+msgstr "사본 저장"
+
+#: ../src/main_window.c:3132
+msgid "Could not save file"
+msgstr "파일을 저장할 수 없습니다"
+
+#: ../src/main_window.c:3249
+#, c-format
+msgid "Are you sure you want to delete image '%s' from disk?"
+msgstr "정말로 '%s' 이미지를 디스크에서 삭제하시렵니까?"
+
+#: ../src/privacy_dialog.c:151
+msgid "Time range to clear:"
+msgstr "지울 시간 범위:"
+
+#: ../src/privacy_dialog.c:155
+msgid "Cleanup"
+msgstr "지우기"
+
+#: ../src/privacy_dialog.c:157
+msgid "Last Hour"
+msgstr "마지막 시"
+
+#: ../src/privacy_dialog.c:158
+msgid "Last Two Hours"
+msgstr "두시간 전"
+
+#: ../src/privacy_dialog.c:159
+msgid "Last Four Hours"
+msgstr "네시간전"
+
+#: ../src/privacy_dialog.c:160
+msgid "Today"
+msgstr "오늘"
+
+#: ../src/privacy_dialog.c:161
+msgid "Everything"
+msgstr "몽땅"
+
+#: ../src/privacy_dialog.c:459
+msgid "Clear private data"
+msgstr "개인 데이터 지우기"
+
+#: ../src/preferences_dialog.c:196
+msgid "Display"
+msgstr "표시"
+
+#: ../src/preferences_dialog.c:202
+msgid "Background color"
+msgstr "배경 색"
+
+#: ../src/preferences_dialog.c:204
+msgid "Toolbars"
+msgstr "도구막대"
+
+#: ../src/preferences_dialog.c:209
+msgid "Override background color:"
+msgstr "바꿀 배경 색:"
+
+#: ../src/preferences_dialog.c:220
+msgid "Merge toolbars"
+msgstr "도구막대 합치기"
+
+#: ../src/preferences_dialog.c:225
+msgid "Thumbnails"
+msgstr "섬네일"
+
+#: ../src/preferences_dialog.c:228
+msgid ""
+"The thumbnail bar can be automatically hidden \n"
+"when the window is fullscreen."
+msgstr ""
+"창이 전체 화면 상태일 때 섬네일 막대를\n"
+"자동으로 숨길 수 있습니다."
+
+#: ../src/preferences_dialog.c:230
+msgid "Hide thumbnail bar when fullscreen"
+msgstr "전체화면일 때 섬네일 막대 숨기기"
+
+#: ../src/preferences_dialog.c:266
+msgid "Slideshow"
+msgstr "슬라이드쇼"
+
+#: ../src/preferences_dialog.c:270
+msgid "Timeout"
+msgstr "경과시간"
+
+#: ../src/preferences_dialog.c:273
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"슬라이드 쇼를 진행하는 동안 제각각의 이미지가 표시되는 시간의 간격입니다\n"
+"(초 단위)"
+
+#: ../src/preferences_dialog.c:289
+msgid "Control"
+msgstr "제어"
+
+#: ../src/preferences_dialog.c:293
+msgid "Scroll wheel"
+msgstr "스크롤 휠"
+
+#: ../src/preferences_dialog.c:296
+msgid "Invert zoom direction"
+msgstr "확대 방향 뒤집기"
+
+#: ../src/preferences_dialog.c:306
+msgid "Behaviour"
+msgstr "동작"
+
+#: ../src/preferences_dialog.c:311
+msgid "Startup"
+msgstr "시동"
+
+#: ../src/preferences_dialog.c:313
+msgid "Maximize window on startup when opening an image"
+msgstr "이미지 열 때 시작시 창 최대화"
+
+#: ../src/preferences_dialog.c:319
+msgid "Wrap around images"
+msgstr "이미지 주변 둘러싸기"
+
+#: ../src/preferences_dialog.c:338
+msgid "Desktop"
+msgstr "데스크톱"
+
+#: ../src/preferences_dialog.c:460
+msgid "Image Viewer Preferences"
+msgstr "이미지 보기 기본 설정"
+
+#: ../src/properties_dialog.c:180
+msgid "<b>Name:</b>"
+msgstr "<b>이름:</b>"
+
+#: ../src/properties_dialog.c:181
+msgid "<b>Kind:</b>"
+msgstr "<b>종류:</b>"
+
+#: ../src/properties_dialog.c:182
+msgid "<b>Modified:</b>"
+msgstr "<b>수정일시:</b>"
+
+#: ../src/properties_dialog.c:183
+msgid "<b>Accessed:</b>"
+msgstr "<b>접근:</b>"
+
+#: ../src/properties_dialog.c:184
+msgid "<b>Size:</b>"
+msgstr "<b>크기:</b>"
+
+#: ../src/properties_dialog.c:308
+msgid "General"
+msgstr "일반"
+
+#: ../src/properties_dialog.c:312
+msgid "Image"
+msgstr "이미지"
+
+#: ../src/properties_dialog.c:525
+#, c-format
+msgid "<b>Date taken:</b>"
+msgstr "<b>촬영일자:</b>"
+
+#: ../src/properties_dialog.c:537
+#: ../src/properties_dialog.c:549
+#: ../src/properties_dialog.c:561
+#, c-format
+msgid "<b>%s</b>"
+msgstr "<b>%s</b>"
+
+#: ../src/properties_dialog.c:623
+#, c-format
+msgid "%s - Properties"
+msgstr "%s - 속성"
+
+#: ../src/thumbnailer.c:459
+msgid ""
+"The thumbnailer-service can not be reached,\n"
+"for this reason, the thumbnails can not be\n"
+"created.\n"
+"\n"
+"Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
+"to resolve this issue."
+msgstr ""
+"섬네일러 서비스에 접근할 수 없습니다.\n"
+"때문에 섬네일을 만들 수 없습니다.\n"
+"\n"
+"이 문제를 해결하려면 <b>텀블러</b>나 다른\n"
+"<i>섬네일 데몬</i>을 설치합니다."
+
+#: ../src/thumbnailer.c:469
+msgid "Do _not show this message again"
+msgstr "이 메시지를 다시 표시하지 않습니다(_N)"
+
+#: ../src/xfce_wallpaper_manager.c:335
+#: ../src/gnome_wallpaper_manager.c:234
+msgid "Style:"
+msgstr "방식:"
+
+#: ../src/xfce_wallpaper_manager.c:336
+msgid "Brightness:"
+msgstr "밝기:"
+
+#: ../src/xfce_wallpaper_manager.c:337
+msgid "Saturation:"
+msgstr "채도:"
+
+#: ../src/xfce_wallpaper_manager.c:354
+#: ../src/gnome_wallpaper_manager.c:245
+msgid "Set as wallpaper"
+msgstr "바탕 화면으로 설정"
+
+#: ../src/xfce_wallpaper_manager.c:512
+#: ../src/gnome_wallpaper_manager.c:312
+msgid "Auto"
+msgstr "자동"
+
+#: ../src/xfce_wallpaper_manager.c:515
+msgid "Centered"
+msgstr "가운데"
+
+#: ../src/xfce_wallpaper_manager.c:518
+msgid "Tiled"
+msgstr "타일"
+
+#: ../src/xfce_wallpaper_manager.c:521
+msgid "Stretched"
+msgstr "늘임"
+
+#: ../src/xfce_wallpaper_manager.c:524
+msgid "Scaled"
+msgstr "크기조절됨"
+
+#: ../src/xfce_wallpaper_manager.c:527
+msgid "Zoomed"
+msgstr "확대"
+
+#: ../ristretto.desktop.in.h:2
+msgid "Look at your images easily"
+msgstr "이미지를 쉽게 봅니다"
+
+#: ../ristretto.desktop.in.h:3
+msgid "Ristretto Image Viewer"
+msgstr "리스트레또 이미지 보기"
+
