@@ -281,7 +281,7 @@ rstto_file_get_file ( RsttoFile *file )
 gboolean
 rstto_file_equal ( RsttoFile *a, RsttoFile *b )
 {
-    return g_file_equal (a->priv->file, b->priv->file);
+    return a == b;
 }
 
 const gchar *
