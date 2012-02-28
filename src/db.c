@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) Stephan Arts 2011 <stephan@xfce.org>
+ *  Copyright (c) Stephan Arts 2012 <stephan@xfce.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,4 +20,4 @@
 #include <glib.h>
 #include <locale.h>
 
-#include "util.h"
+#include "db.h"

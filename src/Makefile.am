@@ -18,6 +18,7 @@ ristretto_SOURCES = \
 	file.c file.h \
 	privacy_dialog.h privacy_dialog.c \
 	util.c util.h \
+	db.c db.h \
 	icon_bar.c icon_bar.h \
 	main.c
 

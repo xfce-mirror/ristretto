@@ -16,8 +16,11 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <config.h>
-#include <glib.h>
-#include <locale.h>
+#ifndef __RISTRETTO_DB_H__
+#define __RISTRETTO_DB_H__
 
-#include "util.h"
+G_BEGIN_DECLS
+
+G_END_DECLS
+
+#endif /* __RSTTO_DB_H__ */
