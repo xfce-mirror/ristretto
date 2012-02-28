@@ -1,3 +1,7 @@
+0.3.x
+=====
+- Fix bug #8343 (Do not use symbols from gtk+ > 2.20)
+
 0.3.4
 =====
 - Fix compiler-warning due to missing return-statement
