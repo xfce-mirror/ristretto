@@ -1053,6 +1053,7 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER(window->priv->image_viewer);
     ExifEntry *exif_entry = NULL;
     gchar exif_data[20];
+    GError *error = NULL;
 
     if (window->priv->image_list)
     {
@@ -1063,49 +1064,59 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
 
             status = g_strdup(file_basename);
 
-            if (TRUE == rstto_file_has_exif (cur_file))
+            error = rstto_image_viewer_get_error (RSTTO_IMAGE_VIEWER (window->priv->image_viewer));
+            if (NULL != error)
             {
-                /* Extend the status-message with exif-info */
-                /********************************************/
-                exif_entry = rstto_file_get_exif (
-                        cur_file,
-                        EXIF_TAG_FNUMBER);
-                if (exif_entry)
-                {
-                    exif_entry_get_value (exif_entry, exif_data, 20);
-
-                    tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
-
-                    g_free (status);
-                    status = tmp_status;
-
-                    /*exif_entry_free (exif_entry);*/
-                }
-                exif_entry = rstto_file_get_exif (
-                        cur_file,
-                        EXIF_TAG_EXPOSURE_TIME);
-                if (exif_entry)
-                {
-                    exif_entry_get_value (exif_entry, exif_data, 20);
-
-                    tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
-
-                    g_free (status);
-                    status = tmp_status;
-
-                    /*exif_entry_free (exif_entry);*/
-                }
-            }
-
-            if(rstto_image_viewer_get_width(viewer) != 0 && rstto_image_viewer_get_height(viewer) != 0)
-            {
-                tmp_status = g_strdup_printf ("%s\t%d x %d\t%.1f%%", status,
-                                            rstto_image_viewer_get_width(viewer),
-                                            rstto_image_viewer_get_height(viewer),
-                                            (100 * rstto_image_viewer_get_scale(viewer)));
-
+                tmp_status = g_strdup_printf ("%s\t- %s", status, error->message);
                 g_free (status);
                 status = tmp_status;
+            }
+            else
+            {
+                if (TRUE == rstto_file_has_exif (cur_file))
+                {
+                    /* Extend the status-message with exif-info */
+                    /********************************************/
+                    exif_entry = rstto_file_get_exif (
+                            cur_file,
+                            EXIF_TAG_FNUMBER);
+                    if (exif_entry)
+                    {
+                        exif_entry_get_value (exif_entry, exif_data, 20);
+
+                        tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
+
+                        g_free (status);
+                        status = tmp_status;
+
+                        /*exif_entry_free (exif_entry);*/
+                    }
+                    exif_entry = rstto_file_get_exif (
+                            cur_file,
+                            EXIF_TAG_EXPOSURE_TIME);
+                    if (exif_entry)
+                    {
+                        exif_entry_get_value (exif_entry, exif_data, 20);
+
+                        tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
+
+                        g_free (status);
+                        status = tmp_status;
+
+                        /*exif_entry_free (exif_entry);*/
+                    }
+                }
+
+                if(rstto_image_viewer_get_width(viewer) != 0 && rstto_image_viewer_get_height(viewer) != 0)
+                {
+                    tmp_status = g_strdup_printf ("%s\t%d x %d\t%.1f%%", status,
+                                                rstto_image_viewer_get_width(viewer),
+                                                rstto_image_viewer_get_height(viewer),
+                                                (100 * rstto_image_viewer_get_scale(viewer)));
+
+                    g_free (status);
+                    status = tmp_status;
+                }
             }
         }
         else

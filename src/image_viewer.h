@@ -107,6 +107,9 @@ rstto_image_viewer_set_menu (
     RsttoImageViewer *viewer,
     GtkMenu *menu);
 
+GError *
+rstto_image_viewer_get_error ( RsttoImageViewer *viewer );
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_IMAGE_VIEWER_H__ */
