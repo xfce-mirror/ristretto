@@ -21,6 +21,7 @@
 #include <gtk/gtkmarshal.h>
 #include <string.h>
 #include <gio/gio.h>
+#include <libxfce4ui/libxfce4ui.h>
 #include <libexif/exif-data.h>
 
 #include <math.h>
@@ -68,9 +69,13 @@ struct _RsttoImageViewerPriv
     GdkColormap                 *colormap;
 
     GtkIconTheme                *icon_theme;
+    GdkPixbuf                   *missing_icon;
     GdkPixbuf                   *bg_icon;
     GdkColor                    *bg_color;
     GdkColor                    *bg_color_fs;
+
+    GError                      *error;
+    gboolean                     show_broken_image_error;
 
     RsttoImageViewerTransaction *transaction;
     GdkPixbuf                   *pixbuf;
@@ -123,6 +128,8 @@ struct _RsttoImageViewerTransaction
     RsttoFile        *file;
     GCancellable     *cancellable;
     GdkPixbufLoader  *loader;
+
+    GError           *error;
 
     gint              image_width;
     gint              image_height;
@@ -282,10 +289,21 @@ rstto_image_viewer_init ( GObject *object )
     viewer->priv->visual = gdk_rgb_get_visual();
     viewer->priv->colormap = gdk_colormap_new (viewer->priv->visual, TRUE);
 
+    viewer->priv->show_broken_image_error =
+            rstto_settings_get_boolean_property (
+                    viewer->priv->settings,
+                    "show-error-broken-image");
+
     viewer->priv->icon_theme = gtk_icon_theme_get_default ();
     viewer->priv->bg_icon = gtk_icon_theme_load_icon (
             viewer->priv->icon_theme,
             BACKGROUND_ICON_NAME,
+            BACKGROUND_ICON_SIZE,
+            0,
+            NULL);
+    viewer->priv->missing_icon = gtk_icon_theme_load_icon (
+            viewer->priv->icon_theme,
+            "image-missing",
             BACKGROUND_ICON_SIZE,
             0,
             NULL);
@@ -572,6 +590,11 @@ rstto_image_viewer_destroy(GtkObject *object)
         {
             g_object_unref (viewer->priv->bg_icon);
             viewer->priv->bg_icon = NULL;
+        }
+        if (viewer->priv->missing_icon)
+        {
+            g_object_unref (viewer->priv->missing_icon);
+            viewer->priv->missing_icon = NULL;
         }
         if (viewer->priv->pixbuf)
         {
@@ -957,6 +980,7 @@ paint_image (
     gdouble y_offset;
     gint block_width = 10;
     gint block_height = 10;
+    gdouble bg_scale = 1.0;
 
     if (viewer->priv->pixbuf)
     {
@@ -1136,6 +1160,53 @@ paint_image (
                 0.0,
                 0.0);
         cairo_paint (ctx);
+    }
+    else
+    {
+        if (viewer->priv->error)
+        {
+            /* Calculate the icon-size */
+            /***************************/
+            if (widget->allocation.width < widget->allocation.height)
+            {
+                bg_scale = (gdouble)BACKGROUND_ICON_SIZE /
+                    (gdouble)widget->allocation.width * 1.2;
+            }
+            else
+            {
+                bg_scale = (gdouble)BACKGROUND_ICON_SIZE /
+                    (gdouble)widget->allocation.height * 1.2;
+            }
+
+            /* Move the cairo context in position so the
+             * background-image is painted in the center
+             * of the widget.
+             */
+            cairo_translate (
+                    ctx,
+                    (gdouble)(widget->allocation.width-BACKGROUND_ICON_SIZE/bg_scale)/2.0,
+                    (gdouble)(widget->allocation.height-BACKGROUND_ICON_SIZE/bg_scale)/2.0);
+
+            /* Scale the context so the image
+             * fills the same part of the cairo-context
+             */
+            cairo_scale (
+                    ctx,
+                    1.0 / bg_scale,
+                    1.0 / bg_scale);
+
+            /* Draw the pixbuf on the cairo-context */
+            /****************************************/
+            if(viewer->priv->missing_icon != NULL)
+            {
+                gdk_cairo_set_source_pixbuf (
+                        ctx,
+                        viewer->priv->missing_icon,
+                        0.0,
+                        0.0);
+                cairo_paint_with_alpha (ctx, 1.0);
+            }
+        }
     }
 
 }
@@ -1357,6 +1428,14 @@ rstto_image_viewer_set_file (
                 g_object_unref (viewer->priv->file);
 
                 viewer->priv->file = file;
+                if (viewer->priv->error)
+                {
+                    g_error_free (viewer->priv->error);
+                    viewer->priv->error = NULL;
+                }
+                viewer->priv->image_scale = 0;
+                viewer->priv->image_width = 0;
+                viewer->priv->image_height = 0;
 
                 rstto_image_viewer_load_image (
                         viewer,
@@ -1480,6 +1559,10 @@ rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr)
     if (tr->viewer->priv->transaction == tr)
     {
         tr->viewer->priv->transaction = NULL;
+    }
+    if (tr->error)
+    {
+        g_error_free (tr->error);
     }
     g_object_unref (tr->cancellable);
     g_object_unref (tr->loader);
@@ -1695,9 +1778,8 @@ cb_rstto_image_viewer_read_input_stream_ready (
         GAsyncResult *result,
         gpointer user_data )
 {
-    GError *error = NULL;
     RsttoImageViewerTransaction *transaction = (RsttoImageViewerTransaction *)user_data;
-    gssize read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, &error);
+    gssize read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, &transaction->error);
 
     if (read_bytes == -1)
     {
@@ -1707,7 +1789,7 @@ cb_rstto_image_viewer_read_input_stream_ready (
 
     if (read_bytes > 0)
     {
-        if(gdk_pixbuf_loader_write (transaction->loader, (const guchar *)transaction->buffer, read_bytes, &error) == FALSE)
+        if(gdk_pixbuf_loader_write (transaction->loader, (const guchar *)transaction->buffer, read_bytes, &transaction->error) == FALSE)
         {
             /* Clean up the input-stream */
             g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
@@ -1726,7 +1808,7 @@ cb_rstto_image_viewer_read_input_stream_ready (
     }
     else {
         /* Loading complete, transaction should not be free-ed */
-        gdk_pixbuf_loader_close (transaction->loader, NULL);
+        gdk_pixbuf_loader_close (transaction->loader, &transaction->error);
 
         /* Clean up the input-stream */
         g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
@@ -1841,17 +1923,71 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
 {
     RsttoImageViewer *viewer = transaction->viewer;
     GtkWidget *widget = GTK_WIDGET(viewer);
+    GtkWidget *error_dialog = NULL;
+    GtkWidget *vbox, *do_not_show_checkbox;
 
     if (viewer->priv->transaction == transaction)
     {
         
-        viewer->priv->image_scale = transaction->image_scale;
-        viewer->priv->image_width = transaction->image_width;
-        viewer->priv->image_height = transaction->image_height;
-        viewer->priv->orientation = transaction->orientation;
+        if (NULL == transaction->error)
+        {
+            gtk_widget_set_tooltip_text (GTK_WIDGET (viewer), NULL);
+            viewer->priv->image_scale = transaction->image_scale;
+            viewer->priv->image_width = transaction->image_width;
+            viewer->priv->image_height = transaction->image_height;
+            viewer->priv->orientation = transaction->orientation;
+            set_scale (viewer, transaction->scale);
+        }
+        else
+        {
+            if (viewer->priv->pixbuf)
+            {
+                g_object_unref (viewer->priv->pixbuf);
+                viewer->priv->pixbuf = NULL;
+            }
 
-        set_scale (viewer, transaction->scale);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (viewer), transaction->error->message);
+            if (viewer->priv->show_broken_image_error)
+            {
+                GDK_THREADS_ENTER();
+                error_dialog = gtk_message_dialog_new_with_markup (
+                        NULL,
+                        0,
+                        GTK_MESSAGE_WARNING,
+                        GTK_BUTTONS_OK,
+                        transaction->error->message
+                        );
+                vbox = gtk_message_dialog_get_message_area (
+                       GTK_MESSAGE_DIALOG (error_dialog));
 
+                do_not_show_checkbox = gtk_check_button_new_with_mnemonic (
+                        _("Do _not show this message again"));
+                gtk_box_pack_end (
+                        GTK_BOX (vbox),
+                        do_not_show_checkbox,
+                        TRUE,
+                        FALSE,
+                        0);
+                gtk_widget_show (do_not_show_checkbox);
+                gtk_dialog_run (GTK_DIALOG(error_dialog));
+
+                if (TRUE == gtk_toggle_button_get_active (
+                        GTK_TOGGLE_BUTTON (do_not_show_checkbox)))
+                {
+                    viewer->priv->show_broken_image_error = FALSE;
+                    rstto_settings_set_boolean_property (
+                        viewer->priv->settings,
+                        "show-error-broken-image",
+                        FALSE);
+                }
+                gtk_widget_destroy (error_dialog);
+                GDK_THREADS_LEAVE();
+            }
+        }
+
+
+        viewer->priv->error = transaction->error;
+        transaction->error = NULL;
         viewer->priv->transaction = NULL;
 
         gdk_window_invalidate_rect (
@@ -2529,4 +2665,14 @@ cb_rstto_image_viewer_dnd (GtkWidget *widget, GdkDragContext *context, gint x, g
     {
         gtk_drag_finish (context, FALSE, FALSE, time_);
     }
+}
+
+GError *
+rstto_image_viewer_get_error ( RsttoImageViewer *viewer )
+{
+    if (viewer->priv->error)
+    {
+        return g_error_copy (viewer->priv->error);
+    }
+    return NULL;
 }
