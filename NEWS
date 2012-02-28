@@ -1,6 +1,7 @@
 0.3.x
 =====
 - Fix bug #8343 (Do not use symbols from gtk+ > 2.20)
+- Report image-loading errors back to the user.
 
 0.3.4
 =====
