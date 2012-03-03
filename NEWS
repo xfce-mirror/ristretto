@@ -1,7 +1,8 @@
-0.3.x
+0.3.5
 =====
 - Fix bug #8343 (Do not use symbols from gtk+ > 2.20)
-- Report image-loading errors back to the user.
+- Fix bug #8512 (Report image-loading errors back to the user.)
+- Fix bug #8513 (ristretto.desktop mime-types list is incomplete)
 
 0.3.4
 =====
