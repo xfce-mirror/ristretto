@@ -75,7 +75,6 @@ struct _RsttoImageViewerPriv
     GdkColor                    *bg_color_fs;
 
     GError                      *error;
-    gboolean                     show_broken_image_error;
 
     RsttoImageViewerTransaction *transaction;
     GdkPixbuf                   *pixbuf;
@@ -288,11 +287,6 @@ rstto_image_viewer_init ( GObject *object )
     viewer->priv->image_height = 0;
     viewer->priv->visual = gdk_rgb_get_visual();
     viewer->priv->colormap = gdk_colormap_new (viewer->priv->visual, TRUE);
-
-    viewer->priv->show_broken_image_error =
-            rstto_settings_get_boolean_property (
-                    viewer->priv->settings,
-                    "show-error-broken-image");
 
     viewer->priv->icon_theme = gtk_icon_theme_get_default ();
     viewer->priv->bg_icon = gtk_icon_theme_load_icon (
@@ -1433,9 +1427,9 @@ rstto_image_viewer_set_file (
                     g_error_free (viewer->priv->error);
                     viewer->priv->error = NULL;
                 }
-                viewer->priv->image_scale = 0;
-                viewer->priv->image_width = 0;
-                viewer->priv->image_height = 0;
+                viewer->priv->image_scale = 1.0;
+                viewer->priv->image_width = 1.0;
+                viewer->priv->image_height = 1.0;
 
                 rstto_image_viewer_load_image (
                         viewer,
@@ -1923,7 +1917,6 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
 {
     RsttoImageViewer *viewer = transaction->viewer;
     GtkWidget *widget = GTK_WIDGET(viewer);
-    GtkWidget *error_dialog = NULL;
     GtkWidget *vbox, *do_not_show_checkbox;
 
     if (viewer->priv->transaction == transaction)
@@ -1940,6 +1933,9 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
         }
         else
         {
+            viewer->priv->image_scale = 1.0;
+            viewer->priv->image_width = 1.0;
+            viewer->priv->image_height = 1.0;
             if (viewer->priv->pixbuf)
             {
                 g_object_unref (viewer->priv->pixbuf);
@@ -1947,42 +1943,6 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
             }
 
             gtk_widget_set_tooltip_text (GTK_WIDGET (viewer), transaction->error->message);
-            if (viewer->priv->show_broken_image_error)
-            {
-                GDK_THREADS_ENTER();
-                error_dialog = gtk_message_dialog_new_with_markup (
-                        NULL,
-                        0,
-                        GTK_MESSAGE_WARNING,
-                        GTK_BUTTONS_OK,
-                        transaction->error->message
-                        );
-                vbox = gtk_message_dialog_get_message_area (
-                       GTK_MESSAGE_DIALOG (error_dialog));
-
-                do_not_show_checkbox = gtk_check_button_new_with_mnemonic (
-                        _("Do _not show this message again"));
-                gtk_box_pack_end (
-                        GTK_BOX (vbox),
-                        do_not_show_checkbox,
-                        TRUE,
-                        FALSE,
-                        0);
-                gtk_widget_show (do_not_show_checkbox);
-                gtk_dialog_run (GTK_DIALOG(error_dialog));
-
-                if (TRUE == gtk_toggle_button_get_active (
-                        GTK_TOGGLE_BUTTON (do_not_show_checkbox)))
-                {
-                    viewer->priv->show_broken_image_error = FALSE;
-                    rstto_settings_set_boolean_property (
-                        viewer->priv->settings,
-                        "show-error-broken-image",
-                        FALSE);
-                }
-                gtk_widget_destroy (error_dialog);
-                GDK_THREADS_LEAVE();
-            }
         }
 
 
