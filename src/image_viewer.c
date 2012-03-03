@@ -1501,6 +1501,8 @@ rstto_image_viewer_set_file (
                     widget->window,
                     NULL,
                     FALSE);
+
+            gtk_widget_set_tooltip_text (GTK_WIDGET (viewer), NULL);
         }
     }
 }
