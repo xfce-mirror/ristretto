@@ -304,17 +304,12 @@ rstto_main_window_set_thumbnail_size (
         RsttoMainWindow *window,
         RsttoThumbnailSize size);
 
-
-static void
-cb_rstto_merge_toolbars_changed (
-        GObject *settings,
-        GParamSpec *pspec,
-        gpointer user_data);
 static void
 cb_rstto_wrap_images_changed (
         GObject *object,
         GParamSpec *pspec,
         gpointer user_data);
+
 static void
 cb_rstto_desktop_type_changed (
         GObject *object,
