@@ -85,6 +85,8 @@ struct _RsttoMainWindowPriv
 
     GtkWidget *menubar;
     GtkWidget *toolbar;
+    GtkWidget *warning;
+    GtkWidget *warning_label;
     GtkWidget *image_list_toolbar;
     GtkWidget *image_viewer_menu;
     GtkWidget *position_menu;
@@ -582,6 +584,16 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->image_list_toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar");
     window->priv->image_viewer_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/image-viewer-menu");
     window->priv->position_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar-menu");
+    window->priv->warning = gtk_info_bar_new();
+    window->priv->warning_label = gtk_label_new(NULL);
+
+    GtkWidget *info_bar_content_area = gtk_info_bar_get_content_area (
+            GTK_INFO_BAR (window->priv->warning));
+    gtk_container_add (
+            GTK_CONTAINER (info_bar_content_area),
+            window->priv->warning_label);
+    gtk_widget_show_all (info_bar_content_area);
+    
 
     /**
      * Get the separator toolitem and tell it to expand
@@ -642,6 +654,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_container_add (GTK_CONTAINER (window), main_vbox);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->menubar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->toolbar, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->warning, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->table, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
 
@@ -649,6 +662,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_table_attach (GTK_TABLE (window->priv->table), window->priv->image_list_toolbar, 0, 1, 0, 3, GTK_FILL, GTK_EXPAND|GTK_FILL, 0, 0);
 
     gtk_widget_set_no_show_all (window->priv->toolbar, TRUE);
+    gtk_widget_set_no_show_all (window->priv->warning, TRUE);
     gtk_widget_set_no_show_all (window->priv->image_list_toolbar, TRUE);
     gtk_widget_set_no_show_all (window->priv->thumbnailbar, TRUE);
     gtk_widget_set_no_show_all ( gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/view-menu/show-nav-toolbar"), TRUE);
@@ -1070,9 +1084,12 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
                 tmp_status = g_strdup_printf ("%s\t- %s", status, error->message);
                 g_free (status);
                 status = tmp_status;
+                gtk_label_set_text (GTK_LABEL(window->priv->warning_label), error->message);
+                gtk_widget_show (window->priv->warning);
             }
             else
             {
+                gtk_widget_hide (window->priv->warning);
                 if (TRUE == rstto_file_has_exif (cur_file))
                 {
                     /* Extend the status-message with exif-info */
