@@ -47,6 +47,15 @@ typedef enum {
     SORT_TYPE_COUNT,
 } RsttoSortType;
 
+
+#define THUMBNAIL_SIZE_VERY_SMALL_SIZE   24
+#define THUMBNAIL_SIZE_SMALLER_SIZE      32
+#define THUMBNAIL_SIZE_SMALL_SIZE        48
+#define THUMBNAIL_SIZE_NORMAL_SIZE       64
+#define THUMBNAIL_SIZE_LARGE_SIZE        96
+#define THUMBNAIL_SIZE_LARGER_SIZE      128
+#define THUMBNAIL_SIZE_VERY_LARGE_SIZE  256
+
 typedef enum {
     THUMBNAIL_SIZE_VERY_SMALL = 0,
     THUMBNAIL_SIZE_SMALLER,
@@ -57,22 +66,5 @@ typedef enum {
     THUMBNAIL_SIZE_VERY_LARGE,
     THUMBNAIL_SIZE_COUNT,
 } RsttoThumbnailSize;
-
-static guint rstto_thumbnail_size[] = {
-    24,
-    32,
-    48,
-    64,
-    96,
-    128,
-    256};
-
-#define THUMBNAIL_SIZE_VERY_SMALL_SIZE   24
-#define THUMBNAIL_SIZE_SMALLER_SIZE      32
-#define THUMBNAIL_SIZE_SMALL_SIZE        48
-#define THUMBNAIL_SIZE_NORMAL_SIZE       64
-#define THUMBNAIL_SIZE_LARGE_SIZE        96
-#define THUMBNAIL_SIZE_LARGER_SIZE      128
-#define THUMBNAIL_SIZE_VERY_LARGE_SIZE  256
 
 #endif /* __RSTTO_UTIL_H__ */

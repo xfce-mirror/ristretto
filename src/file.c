@@ -30,6 +30,17 @@
 #include "file.h"
 #include "thumbnailer.h"
 
+static uint rstto_thumbnail_size[] =
+{
+    THUMBNAIL_SIZE_VERY_SMALL_SIZE,
+    THUMBNAIL_SIZE_SMALLER_SIZE,
+    THUMBNAIL_SIZE_SMALL_SIZE,
+    THUMBNAIL_SIZE_NORMAL_SIZE,
+    THUMBNAIL_SIZE_LARGE_SIZE,
+    THUMBNAIL_SIZE_LARGER_SIZE,
+    THUMBNAIL_SIZE_VERY_LARGE_SIZE
+};
+
 static void
 rstto_file_init (GObject *);
 static void

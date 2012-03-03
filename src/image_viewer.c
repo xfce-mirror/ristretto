@@ -1917,7 +1917,6 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
 {
     RsttoImageViewer *viewer = transaction->viewer;
     GtkWidget *widget = GTK_WIDGET(viewer);
-    GtkWidget *vbox, *do_not_show_checkbox;
 
     if (viewer->priv->transaction == transaction)
     {

@@ -194,11 +194,6 @@ enum
     RSTTO_IMAGE_LIST_ITER_SIGNAL_COUNT
 };
 
-/* Missing image thumbnail, should be re-generated every time
- * the thumbnail-size changed.
- */
-static GdkPixbuf *thumbnail_missing = NULL;
-
 struct _RsttoImageListIterPriv
 {
     RsttoImageList *image_list;
@@ -1436,7 +1431,6 @@ image_list_model_get_value (
         gint column,
         GValue *value )
 {
-    RsttoImageList *image_list = RSTTO_IMAGE_LIST (tree_model);
     RsttoFile *file = RSTTO_FILE(iter->user_data);
 
     switch (column)

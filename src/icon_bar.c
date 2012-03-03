@@ -181,11 +181,6 @@ rstto_icon_bar_calculate_item_size (
         RsttoIconBar     *icon_bar,
         RsttoIconBarItem *item);
 
-static GdkPixbuf *
-rstto_icon_bar_get_item_icon (
-        RsttoIconBar     *icon_bar,
-        RsttoIconBarItem *item);
-
 static void
 rstto_icon_bar_adjustment_changed (
         RsttoIconBar  *icon_bar,
@@ -779,7 +774,6 @@ rstto_icon_bar_size_allocate (
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
     gdouble value = 0.0;
     gdouble page_size = 0.0;
-    gdouble scale = 0.0;
 
     widget->allocation = *allocation;
 
@@ -971,7 +965,6 @@ rstto_icon_bar_motion (
 {
     RsttoIconBarItem *item;
     RsttoIconBar     *icon_bar = RSTTO_ICON_BAR (widget);
-    GtkTreePath      *path;
     GtkTreeIter       iter;
     RsttoFile        *file;
 
@@ -1235,14 +1228,12 @@ rstto_icon_bar_paint_item (
     const GdkPixbuf *pixbuf = NULL;
     GdkColor        *border_color;
     GdkColor        *fill_color;
-    GdkColor        *text_color;
     GdkGC           *gc;
     gint             focus_width;
     gint             focus_pad;
     gint             x, y;
     gint             px, py;
     gint             pixbuf_height, pixbuf_width;
-    const gchar     *thumbnail_path;
     RsttoFile       *file;
     GtkTreeIter      iter;
 
@@ -1387,7 +1378,6 @@ rstto_icon_bar_calculate_item_size (
         RsttoIconBar     *icon_bar,
         RsttoIconBarItem *item)
 {
-    GdkPixbuf *pixbuf;
     gint       focus_width;
     gint       focus_pad;
     gint       int_pad;
@@ -1423,6 +1413,8 @@ rstto_icon_bar_calculate_item_size (
             break;
         case THUMBNAIL_SIZE_VERY_LARGE:
             item->width = (2 * (int_pad + focus_width + focus_pad)) + THUMBNAIL_SIZE_VERY_LARGE_SIZE;
+            break;
+        default:
             break;
     }
 
@@ -2221,6 +2213,8 @@ rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar)
                     THUMBNAIL_SIZE_VERY_LARGE_SIZE,
                     0,
                     NULL);
+            break;
+        default:
             break;
     }
 
