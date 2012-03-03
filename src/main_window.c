@@ -622,6 +622,9 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->position_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar-menu");
     window->priv->warning = gtk_info_bar_new();
     window->priv->warning_label = gtk_label_new(NULL);
+    gtk_label_set_ellipsize (
+            GTK_LABEL (window->priv->warning_label),
+            PANGO_ELLIPSIZE_END);
 
     info_bar_content_area = gtk_info_bar_get_content_area (
             GTK_INFO_BAR (window->priv->warning));
@@ -1141,6 +1144,9 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
                 g_free (status);
                 status = tmp_status;
                 gtk_label_set_text (GTK_LABEL(window->priv->warning_label), error->message);
+                gtk_widget_set_tooltip_text(
+                        window->priv->warning_label,
+                        error->message);
                 gtk_widget_show (window->priv->warning);
             }
             else
@@ -3250,6 +3256,7 @@ cb_rstto_main_window_close (
             window->priv->image_list,
             NULL,
             NULL);
+    gtk_widget_hide (window->priv->warning);
 }
 
 /**
