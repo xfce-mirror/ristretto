@@ -438,8 +438,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     GtkRecentFilter *recent_filter;
     guint            window_width, window_height;
     gchar           *desktop_type = NULL;
-    GtkWidget *info_bar_content_area = gtk_info_bar_get_content_area (
-            GTK_INFO_BAR (window->priv->warning));
+    GtkWidget       *info_bar_content_area = NULL;
 
     GClosure        *toggle_fullscreen_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_fullscreen, window, NULL);
     GClosure        *leave_fullscreen_closure = g_cclosure_new_swap ((GCallback)gtk_window_unfullscreen, window, NULL);
@@ -587,7 +586,12 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->image_viewer_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/image-viewer-menu");
     window->priv->position_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/navigation-toolbar-menu");
     window->priv->warning = gtk_info_bar_new();
+    info_bar_content_area = gtk_info_bar_get_content_area (
+            GTK_INFO_BAR (window->priv->warning));
     window->priv->warning_label = gtk_label_new(NULL);
+    gtk_label_set_ellipsize (
+            GTK_LABEL (window->priv->warning_label),
+            PANGO_ELLIPSIZE_END);
 
     gtk_container_add (
             GTK_CONTAINER (info_bar_content_area),
@@ -1085,6 +1089,9 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
                 g_free (status);
                 status = tmp_status;
                 gtk_label_set_text (GTK_LABEL(window->priv->warning_label), error->message);
+                gtk_widget_set_tooltip_text (
+                        window->priv->warning_label,
+                        error->message);
                 gtk_widget_show (window->priv->warning);
             }
             else
@@ -3076,6 +3083,7 @@ cb_rstto_main_window_close (
             window->priv->image_list,
             NULL,
             NULL);
+    gtk_widget_hide (window->priv->warning);
 }
 
 /**
