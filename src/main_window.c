@@ -438,6 +438,8 @@ rstto_main_window_init (RsttoMainWindow *window)
     GtkRecentFilter *recent_filter;
     guint            window_width, window_height;
     gchar           *desktop_type = NULL;
+    GtkWidget *info_bar_content_area = gtk_info_bar_get_content_area (
+            GTK_INFO_BAR (window->priv->warning));
 
     GClosure        *toggle_fullscreen_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_fullscreen, window, NULL);
     GClosure        *leave_fullscreen_closure = g_cclosure_new_swap ((GCallback)gtk_window_unfullscreen, window, NULL);
@@ -587,8 +589,6 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->warning = gtk_info_bar_new();
     window->priv->warning_label = gtk_label_new(NULL);
 
-    GtkWidget *info_bar_content_area = gtk_info_bar_get_content_area (
-            GTK_INFO_BAR (window->priv->warning));
     gtk_container_add (
             GTK_CONTAINER (info_bar_content_area),
             window->priv->warning_label);
