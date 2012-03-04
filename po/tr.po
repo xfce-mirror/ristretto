@@ -89,7 +89,7 @@ msgstr "_Kapat"
 
 #: ../src/main_window.c:338
 msgid "Close this image"
-msgstr "Bu resi kapat"
+msgstr "Bu resmi kapat"
 
 #: ../src/main_window.c:339
 msgid "_Quit"
