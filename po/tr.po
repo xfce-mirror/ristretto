@@ -19,8 +19,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.2\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -118,7 +118,7 @@ msgstr "_Sil"
 
 #: ../src/main_window.c:344
 msgid "Delete this image from disk"
-msgstr "Bu resim diskten sil"
+msgstr "Bu resmi diskten sil"
 
 #: ../src/main_window.c:345
 msgid "_Clear private data"
@@ -160,7 +160,7 @@ msgstr "_Uzaklaş"
 
 #: ../src/main_window.c:356
 msgid "Zoom _Fit"
-msgstr "Uygun yaklaştır"
+msgstr "_Pencereye Sığdır"
 
 #: ../src/main_window.c:357
 msgid "_Normal Size"
@@ -232,11 +232,11 @@ msgstr "_Boyut"
 
 #: ../src/main_window.c:383
 msgid "Thumbnail Bar _Position"
-msgstr "Küçük resim çubuğu _Konumu"
+msgstr "Küçük Resim Çubuğu _Konumu"
 
 #: ../src/main_window.c:384
 msgid "Thumbnail _Size"
-msgstr "Küçük resim _boyutu"
+msgstr "Küçük Resim _Boyutu"
 
 #. Misc
 #: ../src/main_window.c:386
