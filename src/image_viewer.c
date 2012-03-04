@@ -1525,7 +1525,12 @@ rstto_image_viewer_load_image (
         viewer->priv->transaction = NULL;
     }
 
-    transaction->loader = gdk_pixbuf_loader_new();
+    transaction->loader = gdk_pixbuf_loader_new_with_mime_type (rstto_file_get_content_type (file), NULL);
+    /* HACK HACK HACK */
+    if (transaction->loader == NULL)
+    {
+        transaction->loader = gdk_pixbuf_loader_new();
+    }
     transaction->cancellable = g_cancellable_new();
     transaction->buffer = g_new0 (guchar, RSTTO_IMAGE_VIEWER_BUFFER_SIZE);
     transaction->file = file;
