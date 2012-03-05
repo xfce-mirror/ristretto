@@ -52,7 +52,7 @@ msgstr ""
 #: ../src/main_window.c:53
 #: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
-msgstr "이미지 보기"
+msgstr "그림 보기"
 
 #. File Menu
 #: ../src/main_window.c:332
@@ -65,7 +65,7 @@ msgstr "열기(_O)"
 
 #: ../src/main_window.c:333
 msgid "Open an image"
-msgstr "이미지 열기"
+msgstr "그림 열기"
 
 #: ../src/main_window.c:334
 msgid "_Save copy"
@@ -73,7 +73,7 @@ msgstr "사본 저장(_S)"
 
 #: ../src/main_window.c:334
 msgid "Save a copy of the image"
-msgstr "이미지 사본 저장"
+msgstr "그림 사본 저장"
 
 #: ../src/main_window.c:335
 msgid "_Properties"
@@ -89,7 +89,7 @@ msgstr "닫기(_C)"
 
 #: ../src/main_window.c:336
 msgid "Close this image"
-msgstr "이 이미지 닫기"
+msgstr "이 그림 닫기"
 
 #: ../src/main_window.c:337
 msgid "_Quit"
@@ -118,7 +118,7 @@ msgstr "삭제(_D)"
 
 #: ../src/main_window.c:342
 msgid "Delete this image from disk"
-msgstr "이 이미지를 디스크에서 삭제"
+msgstr "이 그림을 디스크에서 삭제"
 
 #: ../src/main_window.c:343
 msgid "_Clear private data"
@@ -346,7 +346,7 @@ msgstr "최근 사용한 것"
 #: ../src/main_window.c:672
 #: ../src/main_window.c:1170
 msgid "Press open to select an image"
-msgstr "이미지를 선택하려면 열기를 누릅니다"
+msgstr "그림을 선택하려면 열기를 누릅니다"
 
 #: ../src/main_window.c:1074
 #: ../src/main_window.c:1080
@@ -389,7 +389,7 @@ msgstr "개발자:"
 
 #: ../src/main_window.c:2622
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "리스트레또는 Xfce 데스크톱 환경을 위한 이미지 뷰어 입니다."
+msgstr "리스트레또는 Xfce 데스크톱 환경을 위한 그림 뷰어 입니다."
 
 #: ../src/main_window.c:2630
 msgid "translator-credits"
@@ -397,11 +397,11 @@ msgstr "Seong-ho Cho <darkcircle.0426@gmail.com>"
 
 #: ../src/main_window.c:2920
 msgid "Open image"
-msgstr "이미지 열기"
+msgstr "그림 열기"
 
 #: ../src/main_window.c:2939
 msgid "Images"
-msgstr "이미지"
+msgstr "그림"
 
 #: ../src/main_window.c:2944
 msgid ".jp(e)g"
@@ -423,7 +423,7 @@ msgstr "파일을 저장할 수 없습니다"
 #: ../src/main_window.c:3249
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "정말로 '%s' 이미지를 디스크에서 삭제하시렵니까?"
+msgstr "정말로 '%s' 그림을 디스크에서 삭제하시렵니까?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
@@ -506,7 +506,7 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
-"슬라이드 쇼를 진행하는 동안 제각각의 이미지가 표시되는 시간의 간격입니다\n"
+"슬라이드 쇼를 진행하는 동안 제각각의 그림이 표시되는 시간의 간격입니다\n"
 "(초 단위)"
 
 #: ../src/preferences_dialog.c:289
@@ -531,11 +531,11 @@ msgstr "시동"
 
 #: ../src/preferences_dialog.c:313
 msgid "Maximize window on startup when opening an image"
-msgstr "이미지 열 때 시작시 창 최대화"
+msgstr "그림 열 때 시작시 창 최대화"
 
 #: ../src/preferences_dialog.c:319
 msgid "Wrap around images"
-msgstr "이미지 주변 둘러싸기"
+msgstr "그림 주변 둘러싸기"
 
 #: ../src/preferences_dialog.c:338
 msgid "Desktop"
@@ -543,7 +543,7 @@ msgstr "데스크톱"
 
 #: ../src/preferences_dialog.c:460
 msgid "Image Viewer Preferences"
-msgstr "이미지 보기 기본 설정"
+msgstr "그림 보기 기본 설정"
 
 #: ../src/properties_dialog.c:180
 msgid "<b>Name:</b>"
@@ -571,7 +571,7 @@ msgstr "일반"
 
 #: ../src/properties_dialog.c:312
 msgid "Image"
-msgstr "이미지"
+msgstr "그림"
 
 #: ../src/properties_dialog.c:525
 #, c-format
@@ -654,9 +654,9 @@ msgstr "확대"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
-msgstr "이미지를 쉽게 봅니다"
+msgstr "그림을 쉽게 봅니다"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Image Viewer"
-msgstr "리스트레또 이미지 보기"
+msgstr "리스트레또 그림 보기"
 
