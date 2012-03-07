@@ -299,7 +299,6 @@ msgid "Small"
 msgstr "Petit"
 
 #: ../src/main_window.c:427
-#, fuzzy
 msgid "Normal"
 msgstr "_Taille Normale"
 
