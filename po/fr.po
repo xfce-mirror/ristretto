@@ -232,9 +232,8 @@ msgid "Thumbnail Bar _Position"
 msgstr "_Position de la barre de miniatures"
 
 #: ../src/main_window.c:384
-#, fuzzy
 msgid "Thumbnail _Size"
-msgstr "Miniatures"
+msgstr "_Taille des miniatures"
 
 #. Misc
 #: ../src/main_window.c:386
@@ -258,9 +257,8 @@ msgstr "Montrer la Barre de _Miniatures"
 
 #. Toggle visibility of the statusbar
 #: ../src/main_window.c:400
-#, fuzzy
 msgid "Show _Status Bar"
-msgstr "Montrer la Barre de _Miniatures"
+msgstr "Montrer la Barre de _Statut"
 
 #. Sort by Filename
 #: ../src/main_window.c:407
