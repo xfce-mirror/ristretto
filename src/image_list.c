@@ -206,11 +206,12 @@ struct _RsttoImageListIterPriv
 struct _RsttoImageListPriv
 {
     gint           stamp;
-    GFileMonitor  *monitor;
+    GFileMonitor  *dir_monitor;
     RsttoSettings *settings;
     RsttoThumbnailer *thumbnailer;
     GtkFileFilter *filter;
 
+    GList        *image_monitors;
     GList        *images;
     gint          n_images;
 
@@ -412,6 +413,7 @@ rstto_image_list_add_file (
     gint i = 0;
     GtkTreePath *path = NULL;
     GtkTreeIter t_iter;
+    GFileMonitor *monitor = NULL;
 
     g_return_val_if_fail ( NULL != file , FALSE);
     g_return_val_if_fail ( RSTTO_IS_FILE (file) , FALSE);
@@ -431,6 +433,23 @@ rstto_image_list_add_file (
                 image_list->priv->images = g_list_insert_sorted (image_list->priv->images, file, rstto_image_list_get_compare_func (image_list));
 
                 image_list->priv->n_images++;
+
+                if (image_list->priv->dir_monitor == NULL)
+                {
+                    monitor = g_file_monitor_file (
+                            rstto_file_get_file (file),
+                            G_FILE_MONITOR_NONE,
+                            NULL,
+                            NULL);
+                    g_signal_connect (
+                            G_OBJECT(monitor),
+                            "changed",
+                            G_CALLBACK (cb_file_monitor_changed),
+                            image_list);
+                    image_list->priv->image_monitors = g_list_prepend (
+                            image_list->priv->image_monitors, 
+                            monitor);
+                }
                 i = g_list_index (image_list->priv->images, file);
 
                 path = gtk_tree_path_new();
@@ -500,8 +519,9 @@ rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file)
     GSList *iter = NULL;
     RsttoFile *afile = NULL;
     GtkTreePath *path_ = NULL;
+    gint index = g_list_index (image_list->priv->images, file);
 
-    if (g_list_find(image_list->priv->images, file))
+    if (index != -1)
     {
 
         iter = image_list->priv->iterators;
@@ -510,11 +530,6 @@ rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file)
             if (rstto_file_equal(rstto_image_list_iter_get_file (iter->data), file))
             {
                 
-                path_ = gtk_tree_path_new();
-                gtk_tree_path_append_index(path_,rstto_image_list_iter_get_position (iter->data));
-
-                gtk_tree_model_row_deleted(GTK_TREE_MODEL(image_list), path_);
-
                 if (rstto_image_list_iter_get_position (iter->data) == rstto_image_list_get_n_images (image_list)-1)
                 {
                     iter_previous (iter->data, FALSE);
@@ -535,6 +550,11 @@ rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file)
             }
             iter = g_slist_next (iter);
         }
+
+        path_ = gtk_tree_path_new();
+        gtk_tree_path_append_index(path_,index);
+
+        gtk_tree_model_row_deleted(GTK_TREE_MODEL(image_list), path_);
 
         image_list->priv->images = g_list_remove (image_list->priv->images, file);
         iter = image_list->priv->iterators;
@@ -641,10 +661,10 @@ rstto_image_list_monitor_dir (
 {
     GFileMonitor *monitor = NULL;
 
-    if ( NULL != image_list->priv->monitor )
+    if ( NULL != image_list->priv->dir_monitor )
     {
-        g_object_unref (image_list->priv->monitor);
-        image_list->priv->monitor = NULL;
+        g_object_unref (image_list->priv->dir_monitor);
+        image_list->priv->dir_monitor = NULL;
     }
 
     /* Allow a monitor to be removed by providing NULL to dir */
@@ -663,7 +683,14 @@ rstto_image_list_monitor_dir (
                 image_list);
     }
 
-    image_list->priv->monitor = monitor;
+    if (image_list->priv->image_monitors)
+    {
+        g_list_foreach (image_list->priv->image_monitors, (GFunc)g_object_unref, NULL);
+        g_list_free (image_list->priv->image_monitors);
+        image_list->priv->image_monitors = NULL;
+    }
+
+    image_list->priv->dir_monitor = monitor;
 }
 
 static void
@@ -676,8 +703,6 @@ cb_file_monitor_changed (
 {
     RsttoImageList *image_list = RSTTO_IMAGE_LIST (user_data);
     RsttoFile *r_file = rstto_file_new (file);
-
-    g_return_if_fail ( monitor == image_list->priv->monitor);
 
     switch ( event_type )
     {
