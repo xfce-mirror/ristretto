@@ -519,9 +519,9 @@ rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file)
     GSList *iter = NULL;
     RsttoFile *afile = NULL;
     GtkTreePath *path_ = NULL;
-    gint index = g_list_index (image_list->priv->images, file);
+    gint index_ = g_list_index (image_list->priv->images, file);
 
-    if (index != -1)
+    if (index_ != -1)
     {
 
         iter = image_list->priv->iterators;
@@ -552,7 +552,7 @@ rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file)
         }
 
         path_ = gtk_tree_path_new();
-        gtk_tree_path_append_index(path_,index);
+        gtk_tree_path_append_index(path_,index_);
 
         gtk_tree_model_row_deleted(GTK_TREE_MODEL(image_list), path_);
 
