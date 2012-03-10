@@ -4,14 +4,15 @@
 # Christian Dywan <christian@twotoasts.de>, 2007.
 # Fabian Nowak <timystery@arcor.de>, 2007, 2008.
 # Thomas Schütz <xfce@thschuetz.de>, 2012.
-# 
+# Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>, 2012.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-03-10 21:32+0000\n"
-"PO-Revision-Date: 2010-02-18 15:50+0100\n"
-"Last-Translator: Thomas Schütz <xfce@thschuetz.de>\n"
+"PO-Revision-Date: 2012-03-10 23:07+0100\n"
+"Last-Translator: Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,11 +42,10 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr ""
-"%s: %s\\Geben Sie »%s --help« ein, um eine komplette Liste verfügbarer "
-"Kommandozeilenoptionen zu eralten.\n"
+msgstr "%s: %s\\Geben Sie »%s --help« ein, um eine komplette Liste verfügbarer Kommandozeilenoptionen zu eralten.\n"
 
-#: ../src/main_window.c:55 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:55
+#: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "Bildbetrachter"
 
@@ -297,11 +297,13 @@ msgstr "_Zuletzt geöffnet"
 msgid "Recently used"
 msgstr "Zuletzt geöffnet"
 
-#: ../src/main_window.c:659 ../src/main_window.c:1152
+#: ../src/main_window.c:659
+#: ../src/main_window.c:1152
 msgid "Press open to select an image"
 msgstr "Zum Auswählen eines Bildes »Öffnen« drücken"
 
-#: ../src/main_window.c:1039 ../src/main_window.c:1045
+#: ../src/main_window.c:1039
+#: ../src/main_window.c:1045
 msgid "Empty"
 msgstr "Leer"
 
@@ -309,7 +311,8 @@ msgstr "Leer"
 msgid "Choose 'set wallpaper' method"
 msgstr "Wählen Sie die Methode zum Setzen des Hintergrundbildes"
 
-#: ../src/main_window.c:1992 ../src/preferences_dialog.c:349
+#: ../src/main_window.c:1992
+#: ../src/preferences_dialog.c:349
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -319,15 +322,18 @@ msgstr ""
 "Diese Einstellung wird von <i>Ristretto</i> benutzt,\n"
 "um das Hintergrundbild des Schreibtisches festzulegen"
 
-#: ../src/main_window.c:2017 ../src/preferences_dialog.c:373
+#: ../src/main_window.c:2017
+#: ../src/preferences_dialog.c:373
 msgid "None"
 msgstr "Keine/Andere"
 
-#: ../src/main_window.c:2021 ../src/preferences_dialog.c:377
+#: ../src/main_window.c:2021
+#: ../src/preferences_dialog.c:377
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2025 ../src/preferences_dialog.c:381
+#: ../src/main_window.c:2025
+#: ../src/preferences_dialog.c:381
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -344,7 +350,8 @@ msgid "translator-credits"
 msgstr ""
 "Christian Dywan <christian@twotoasts.de>\n"
 "Fabian Nowak <timystery@arcor.de>\n"
-"Christoph Wickert <cwickert@fedoraproject.org>"
+"Christoph Wickert <cwickert@fedoraproject.org>\n"
+"Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>"
 
 #: ../src/main_window.c:2784
 msgid "Open image"
@@ -358,7 +365,8 @@ msgstr "Bilder"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2835 ../src/main_window.c:2937
+#: ../src/main_window.c:2835
+#: ../src/main_window.c:2937
 msgid "Could not open file"
 msgstr "Datei konnte nicht geöffnet werden"
 
@@ -373,14 +381,12 @@ msgstr "Datei konnte nicht gespeichert werden"
 #: ../src/main_window.c:3127
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr ""
-"Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
+msgstr "Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
 
 #: ../src/main_window.c:3151
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr ""
-"Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
+msgstr "Sind Sie sicher, dass Sie das Bild »%s« in den Papierkorb verschieben möchten?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
@@ -535,7 +541,8 @@ msgstr "Bild"
 msgid "<b>Date taken:</b>"
 msgstr "<b>Aufnahmedatum:</b>"
 
-#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
+#: ../src/properties_dialog.c:537
+#: ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
@@ -582,7 +589,8 @@ msgstr "Randbreite"
 msgid "the border width of the thumbnail bar"
 msgstr "Randbreite der Vorschaubildleiste"
 
-#: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
+#: ../src/xfce_wallpaper_manager.c:335
+#: ../src/gnome_wallpaper_manager.c:234
 msgid "Style:"
 msgstr "Stil:"
 
@@ -594,11 +602,13 @@ msgstr "Helligkeit:"
 msgid "Saturation:"
 msgstr "Sättigung:"
 
-#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:245
+#: ../src/xfce_wallpaper_manager.c:354
+#: ../src/gnome_wallpaper_manager.c:245
 msgid "Set as wallpaper"
 msgstr "Als Hintergrundbild nutzen"
 
-#: ../src/xfce_wallpaper_manager.c:507 ../src/gnome_wallpaper_manager.c:312
+#: ../src/xfce_wallpaper_manager.c:507
+#: ../src/gnome_wallpaper_manager.c:312
 msgid "Auto"
 msgstr "Automatisch"
 
