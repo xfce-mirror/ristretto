@@ -377,7 +377,7 @@ msgstr ""
 "Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
 
 #: ../src/main_window.c:3151
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr ""
 "Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
