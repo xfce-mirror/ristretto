@@ -374,9 +374,9 @@ rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file)
 {
     GSList *iter = NULL;
     RsttoFile *afile = NULL;
-    gint index = g_list_index (image_list->priv->images, file);
+    gint _index = g_list_index (image_list->priv->images, file);
 
-    if (index != -1)
+    if (_index != -1)
     {
 
         iter = image_list->priv->iterators;
