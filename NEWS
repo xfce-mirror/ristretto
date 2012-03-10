@@ -5,6 +5,7 @@ x.x.x
   guessing it.
 - Keep a list of file-monitors for each file when a selection of files
   is opened.
+- Make a difference between delete from disk and send to trash.
 
 0.3.5
 =====
