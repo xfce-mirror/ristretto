@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-01-08 16:12+0000\n"
+"POT-Creation-Date: 2012-03-10 21:32+0000\n"
 "PO-Revision-Date: 2010-11-21 19:12+0300\n"
 "Last-Translator: Mișu Moldovan <dumol@xfce.org>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -50,266 +50,266 @@ msgid "Image Viewer"
 msgstr "Vizualizare de imagini"
 
 #. File Menu
-#: ../src/main_window.c:316
+#: ../src/main_window.c:318
 msgid "_File"
 msgstr "_Fișier"
 
-#: ../src/main_window.c:317
+#: ../src/main_window.c:319
 msgid "_Open"
 msgstr "_Deschide"
 
-#: ../src/main_window.c:317
+#: ../src/main_window.c:319
 msgid "Open an image"
 msgstr "Deschide o imagine"
 
-#: ../src/main_window.c:318
+#: ../src/main_window.c:320
 msgid "_Save copy"
 msgstr "_Salvează o copie"
 
-#: ../src/main_window.c:318
+#: ../src/main_window.c:320
 msgid "Save a copy of the image"
 msgstr "Salvează o copie a mesajului"
 
-#: ../src/main_window.c:319
+#: ../src/main_window.c:321
 msgid "_Properties"
 msgstr "_Proprietăți"
 
-#: ../src/main_window.c:319
+#: ../src/main_window.c:321
 msgid "Show file properties"
 msgstr "Arată proprietățile fișierului"
 
-#: ../src/main_window.c:320
+#: ../src/main_window.c:322
 msgid "_Close"
 msgstr "În_chide"
 
-#: ../src/main_window.c:320
+#: ../src/main_window.c:322
 msgid "Close this image"
 msgstr "Închide această imagine"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:323
 msgid "_Quit"
 msgstr "_Ieșire"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:323
 msgid "Quit Ristretto"
 msgstr "Închidere Ristretto"
 
 #. Edit Menu
-#: ../src/main_window.c:323
+#: ../src/main_window.c:325
 msgid "_Edit"
 msgstr "_Editare"
 
-#: ../src/main_window.c:324
+#: ../src/main_window.c:326
 msgid "_Open with..."
 msgstr "Deschide c_u..."
 
-#: ../src/main_window.c:325
+#: ../src/main_window.c:327
 msgid "_Sorting"
 msgstr "_Sortare"
 
-#: ../src/main_window.c:326
+#: ../src/main_window.c:328
 msgid "_Delete"
 msgstr "Șt_erge"
 
-#: ../src/main_window.c:326
+#: ../src/main_window.c:328
 msgid "Delete this image from disk"
 msgstr "Șterge această imagine de pe disc"
 
-#: ../src/main_window.c:327
+#: ../src/main_window.c:329
 msgid "_Clear private data"
 msgstr "Șterge _datele private"
 
-#: ../src/main_window.c:328
+#: ../src/main_window.c:330
 msgid "_Preferences"
 msgstr "_Preferințe"
 
 #. View Menu
-#: ../src/main_window.c:330
+#: ../src/main_window.c:332
 msgid "_View"
 msgstr "_Vizualizare"
 
-#: ../src/main_window.c:331
+#: ../src/main_window.c:333
 msgid "_Fullscreen"
 msgstr "_Pe tot ecranul"
 
-#: ../src/main_window.c:332
+#: ../src/main_window.c:334
 msgid "_Leave Fullscreen"
 msgstr "_Ecran normal"
 
-#: ../src/main_window.c:333
+#: ../src/main_window.c:335
 msgid "_Set as Wallpaper"
 msgstr "_Utilizează ca fundal"
 
 #. Zoom submenu
-#: ../src/main_window.c:335
+#: ../src/main_window.c:337
 msgid "_Zoom"
 msgstr "_Zoom"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:338
 msgid "Zoom _In"
 msgstr "Ap_ropie"
 
-#: ../src/main_window.c:337
+#: ../src/main_window.c:339
 msgid "Zoom _Out"
 msgstr "Depăr_tează"
 
-#: ../src/main_window.c:338
+#: ../src/main_window.c:340
 msgid "Zoom _Fit"
 msgstr "_Potrivește"
 
-#: ../src/main_window.c:339
+#: ../src/main_window.c:341
 msgid "_Normal Size"
 msgstr "Mărime _originală"
 
 #. Rotation submenu
-#: ../src/main_window.c:341
+#: ../src/main_window.c:343
 msgid "_Rotation"
 msgstr "_Rotire"
 
-#: ../src/main_window.c:342
+#: ../src/main_window.c:344
 msgid "Rotate _Right"
 msgstr "Rotește la _dreapta"
 
-#: ../src/main_window.c:343
+#: ../src/main_window.c:345
 msgid "Rotate _Left"
 msgstr "Rotește la _stânga"
 
 #. Go Menu
-#: ../src/main_window.c:345
+#: ../src/main_window.c:347
 msgid "_Go"
 msgstr "_Navigare"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:348
 msgid "_Forward"
 msgstr "Înaint_e"
 
-#: ../src/main_window.c:347
+#: ../src/main_window.c:349
 msgid "_Back"
 msgstr "Înap_oi"
 
-#: ../src/main_window.c:348
+#: ../src/main_window.c:350
 msgid "_First"
 msgstr "_Prima"
 
-#: ../src/main_window.c:349
+#: ../src/main_window.c:351
 msgid "_Last"
 msgstr "_Ultima"
 
 #. Help Menu
-#: ../src/main_window.c:351
+#: ../src/main_window.c:353
 msgid "_Help"
 msgstr "_Ajutor"
 
-#: ../src/main_window.c:353
+#: ../src/main_window.c:355
 msgid "_Contents"
 msgstr "_Conținut"
 
-#: ../src/main_window.c:355
+#: ../src/main_window.c:357
 msgid "Display ristretto user manual"
 msgstr "Deschide manualul utilizatorului"
 
-#: ../src/main_window.c:358
+#: ../src/main_window.c:360
 msgid "_About"
 msgstr "_Despre"
 
-#: ../src/main_window.c:360
+#: ../src/main_window.c:362
 msgid "Display information about ristretto"
 msgstr "Arată detalii despre Ristretto"
 
 #. Position Menu
-#: ../src/main_window.c:363
+#: ../src/main_window.c:365
 msgid "_Position"
 msgstr "_Poziție"
 
-#: ../src/main_window.c:364
+#: ../src/main_window.c:366
 msgid "Thumbnail Bar _Position"
 msgstr "_Poziția barei cu miniaturi"
 
 #. Misc
-#: ../src/main_window.c:366
+#: ../src/main_window.c:368
 msgid "Leave _Fullscreen"
 msgstr "_Ecran normal"
 
 #. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:374
+#: ../src/main_window.c:376
 msgid "Show _File Toolbar"
 msgstr "Arată bara _fișierelor"
 
 #. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:376
+#: ../src/main_window.c:378
 msgid "Show _Navigation Toolbar"
 msgstr "Arată bara de _navigare"
 
 #. Toggle visibility of the thumbnailbar
-#: ../src/main_window.c:378
+#: ../src/main_window.c:380
 msgid "Show _Thumbnail Bar"
 msgstr "Arată bara cu _miniaturi"
 
 #. Sort by Filename
-#: ../src/main_window.c:385
+#: ../src/main_window.c:387
 msgid "sort by filename"
 msgstr "sortare după numele fișierelor"
 
 #. Sort by Date
-#: ../src/main_window.c:387
+#: ../src/main_window.c:389
 msgid "sort by date"
 msgstr "sortare după dată"
 
-#: ../src/main_window.c:393
+#: ../src/main_window.c:395
 msgid "Left"
 msgstr "Stânga"
 
-#: ../src/main_window.c:394
+#: ../src/main_window.c:396
 msgid "Right"
 msgstr "Dreapta"
 
-#: ../src/main_window.c:395
+#: ../src/main_window.c:397
 msgid "Top"
 msgstr "Sus"
 
-#: ../src/main_window.c:396
+#: ../src/main_window.c:398
 msgid "Bottom"
 msgstr "Jos"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:538
+#: ../src/main_window.c:545
 msgid "_Play"
 msgstr "_Redare"
 
-#: ../src/main_window.c:538
+#: ../src/main_window.c:545
 msgid "Play slideshow"
 msgstr "Pornește o prezentare"
 
-#: ../src/main_window.c:539
+#: ../src/main_window.c:546
 msgid "_Pause"
 msgstr "_Pauză"
 
-#: ../src/main_window.c:539
+#: ../src/main_window.c:546
 msgid "Pause slideshow"
 msgstr "Pune pauză prezentării"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:542
+#: ../src/main_window.c:549
 msgid "_Recently used"
 msgstr "_Recent utilizate"
 
-#: ../src/main_window.c:542
+#: ../src/main_window.c:549
 msgid "Recently used"
 msgstr "Recent utilizate"
 
-#: ../src/main_window.c:639 ../src/main_window.c:1113
+#: ../src/main_window.c:659 ../src/main_window.c:1152
 msgid "Press open to select an image"
 msgstr "Deschideți pentru a selecta o imagine"
 
-#: ../src/main_window.c:1017 ../src/main_window.c:1023
+#: ../src/main_window.c:1039 ../src/main_window.c:1045
 msgid "Empty"
 msgstr "Gol"
 
-#: ../src/main_window.c:1930
+#: ../src/main_window.c:1977
 msgid "Choose 'set wallpaper' method"
 msgstr "Mod de salvare a imaginii de fundal"
 
-#: ../src/main_window.c:1945 ../src/preferences_dialog.c:349
+#: ../src/main_window.c:1992 ../src/preferences_dialog.c:349
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -319,60 +319,65 @@ msgstr ""
 " Această opțiune determină metoda folosită de <i>Ristretto</i>\n"
 "pentru salvarea imaginii de fundal."
 
-#: ../src/main_window.c:1970 ../src/preferences_dialog.c:373
+#: ../src/main_window.c:2017 ../src/preferences_dialog.c:373
 msgid "None"
 msgstr "Niciunul"
 
-#: ../src/main_window.c:1974 ../src/preferences_dialog.c:377
+#: ../src/main_window.c:2021 ../src/preferences_dialog.c:377
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:1978 ../src/preferences_dialog.c:381
+#: ../src/main_window.c:2025 ../src/preferences_dialog.c:381
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2480
+#: ../src/main_window.c:2481
 msgid "Developer:"
 msgstr "Programator:"
 
-#: ../src/main_window.c:2489
+#: ../src/main_window.c:2490
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto este un vizualizator de imagini pentru mediul desktop Xfce."
 
-#: ../src/main_window.c:2497
+#: ../src/main_window.c:2498
 msgid "translator-credits"
 msgstr ""
 "Ionuț Ovejanu <ovejanu@yahoo.com>\n"
 "Mișu Moldovan <dumol@xfce.org>"
 
-#: ../src/main_window.c:2783
+#: ../src/main_window.c:2784
 msgid "Open image"
 msgstr "Deschide imaginea"
 
-#: ../src/main_window.c:2802
+#: ../src/main_window.c:2803
 msgid "Images"
 msgstr "Imagini"
 
-#: ../src/main_window.c:2807
+#: ../src/main_window.c:2808
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2834 ../src/main_window.c:2936
+#: ../src/main_window.c:2835 ../src/main_window.c:2937
 msgid "Could not open file"
 msgstr "Nu s-a putut deschide fișierul"
 
-#: ../src/main_window.c:2969
+#: ../src/main_window.c:2970
 msgid "Save copy"
 msgstr "Salvează o copie"
 
-#: ../src/main_window.c:2995
+#: ../src/main_window.c:2996
 msgid "Could not save file"
 msgstr "Nu s-a putut salva fișierul"
 
-#: ../src/main_window.c:3112
+#: ../src/main_window.c:3127
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Sigur doriți să ștergeți imaginea „%s” de pe disc?"
+
+#: ../src/main_window.c:3151
+#, c-format
+msgid "Are you sure you want to send image '%s' to trash?"
+msgstr "Sigur doriți să mutați imaginea „%s” în coșul de gunoi?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
