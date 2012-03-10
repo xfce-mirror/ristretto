@@ -477,6 +477,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     GClosure        *next_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_next_image, window, NULL);
     GClosure        *previous_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_previous_image, window, NULL);
     GClosure        *quit_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_quit, window, NULL);
+    GClosure        *delete_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_delete, window, NULL);
 
     guint navigationbar_position = 3;
     guint thumbnail_size = 3;
@@ -549,6 +550,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_accel_group_connect_by_path (accel_group, "<Window>/next-image", next_image_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/previous-image", previous_image_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/quit", quit_closure);
+    gtk_accel_group_connect_by_path (accel_group, "<Window>/delete", delete_closure);
 
     /* Set default accelerators */
     gtk_accel_map_change_entry ("<Window>/fullscreen", GDK_F, 0, FALSE);
@@ -556,6 +558,8 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_accel_map_change_entry ("<Window>/next-image", GDK_Page_Down, 0, FALSE);
     gtk_accel_map_change_entry ("<Window>/previous-image", GDK_Page_Up, 0, FALSE);
     gtk_accel_map_change_entry ("<Window>/quit", GDK_q, 0, FALSE);
+
+    gtk_accel_map_change_entry ("<Window>/delete", GDK_Delete, GDK_SHIFT_MASK, FALSE);
     if (gtk_accel_map_lookup_entry ("<Actions>/RsttoWindow/play", NULL) == FALSE)
     {
         gtk_accel_map_change_entry ("<Actions>/RsttoWindow/play", GDK_F5, 0, FALSE);
@@ -3274,29 +3278,67 @@ cb_rstto_main_window_delete (
     RsttoFile *file = rstto_image_list_iter_get_file (window->priv->iter);
     const gchar *file_basename = rstto_file_get_display_name(file);
     GtkWidget *dialog;
+    GdkModifierType state;
+    gboolean delete_file = FALSE;
+
     g_return_if_fail (rstto_image_list_get_n_images (window->priv->image_list) > 0);
 
-    dialog = gtk_message_dialog_new (GTK_WINDOW (window),
-                                                GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                GTK_MESSAGE_WARNING,
-                                                GTK_BUTTONS_OK_CANCEL,
-                                                _("Are you sure you want to delete image '%s' from disk?"),
-                                                file_basename);
-
-    g_object_ref (file);
-    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+    if (gtk_get_current_event_state (&state))
     {
-        if (g_file_trash (rstto_file_get_file(file), NULL, NULL) == TRUE)
+        if (state & GDK_SHIFT_MASK)
         {
-            rstto_image_list_remove_file (window->priv->image_list, file);
-        }
-        else
-        {
-            
+            delete_file = TRUE;
         }
     }
-    gtk_widget_destroy (dialog);
-    g_object_unref (file);
+
+    if (delete_file)
+    {
+        dialog = gtk_message_dialog_new (GTK_WINDOW (window),
+                                                    GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                    GTK_MESSAGE_WARNING,
+                                                    GTK_BUTTONS_OK_CANCEL,
+                                                    _("Are you sure you want to delete image '%s' from disk?"),
+                                                    file_basename);
+
+        g_object_ref (file);
+        if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+        {
+            if (g_file_delete (rstto_file_get_file(file), NULL, NULL) == TRUE)
+            {
+                rstto_image_list_remove_file (window->priv->image_list, file);
+            }
+            else
+            {
+                
+            }
+        }
+        gtk_widget_destroy (dialog);
+        g_object_unref (file);
+    }
+    else
+    {
+        dialog = gtk_message_dialog_new (GTK_WINDOW (window),
+                                                    GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                    GTK_MESSAGE_WARNING,
+                                                    GTK_BUTTONS_OK_CANCEL,
+                                                    _("Are you sure you want to send image '%s' to trash?"),
+                                                    file_basename);
+
+        g_object_ref (file);
+        if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+        {
+            if (g_file_trash (rstto_file_get_file(file), NULL, NULL) == TRUE)
+            {
+                rstto_image_list_remove_file (window->priv->image_list, file);
+            }
+            else
+            {
+                
+            }
+        }
+        gtk_widget_destroy (dialog);
+        g_object_unref (file);
+    }
 }
 
 static gboolean
