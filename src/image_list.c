@@ -541,6 +541,14 @@ cb_file_monitor_changed (
     {
         case G_FILE_MONITOR_EVENT_DELETED:
             rstto_image_list_remove_file ( image_list, r_file );
+            if (image_list->priv->dir_monitor == NULL)
+            {
+                image_list->priv->image_monitors = g_list_remove (
+                        image_list->priv->image_monitors,
+                        monitor);   
+                g_object_unref (monitor);
+                monitor = NULL;
+            }
             break;
         case G_FILE_MONITOR_EVENT_CREATED:
             rstto_image_list_add_file (image_list, r_file, NULL);
@@ -553,6 +561,27 @@ cb_file_monitor_changed (
 
             r_file = rstto_file_new (other_file);
             rstto_image_list_add_file (image_list, r_file, NULL);
+
+            if (image_list->priv->dir_monitor == NULL)
+            {
+                image_list->priv->image_monitors = g_list_remove (
+                        image_list->priv->image_monitors,
+                        monitor);   
+                g_object_unref (monitor);
+                monitor = g_file_monitor_file (
+                        other_file,
+                        G_FILE_MONITOR_NONE,
+                        NULL,
+                        NULL);
+                g_signal_connect (
+                        G_OBJECT(monitor),
+                        "changed",
+                        G_CALLBACK (cb_file_monitor_changed),
+                        image_list);
+                image_list->priv->image_monitors = g_list_prepend (
+                        image_list->priv->image_monitors, 
+                        monitor);
+            }
             break;
         default:
             break;
