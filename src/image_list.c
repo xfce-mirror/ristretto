@@ -596,6 +596,10 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
         image_iter = g_list_next (image_iter);     
     }
 
+    g_list_foreach (image_list->priv->image_monitors, (GFunc)g_object_unref, NULL);
+    g_list_free (image_list->priv->image_monitors);
+    image_list->priv->image_monitors = NULL;
+
     g_list_foreach (image_list->priv->images, (GFunc)g_object_unref, NULL);
     g_list_free (image_list->priv->images);
     image_list->priv->images = NULL;
