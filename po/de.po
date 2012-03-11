@@ -155,7 +155,7 @@ msgstr "Ver_kleinern"
 
 #: ../src/main_window.c:356
 msgid "Zoom _Fit"
-msgstr "Passende Größe"
+msgstr "_Passende Größe"
 
 #: ../src/main_window.c:357
 msgid "_Normal Size"
