@@ -360,6 +360,9 @@ msgid ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
+"Configure que sistema está xestionando o escritorio.\n"
+"Esta opción determina o método que empregará\n"
+"<i>Ristretto</i> para configurar o fondo de escritorio."
 
 #: ../src/main_window.c:2186 ../src/preferences_dialog.c:373
 msgid "None"
