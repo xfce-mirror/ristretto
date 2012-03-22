@@ -379,7 +379,7 @@ msgstr "Tem a certeza que quer apagar do disco a imagem '%s'?"
 #: ../src/main_window.c:3151
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Tem a certeza que quer mandar a imagem '%s' para o lixo?"
+msgstr "Tem a certeza que quer enviar a imagem '%s' para o lixo?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
