@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-03-13 15:27+0000\n"
+"POT-Creation-Date: 2012-03-22 14:03+0000\n"
 "PO-Revision-Date: 2012-01-27 18:08+0100\n"
 "Last-Translator: Nuno Miguel <nunis@netcabo.pt>\n"
 "Language-Team: \n"
@@ -386,7 +386,7 @@ msgstr ""
 
 #: ../src/main_window.c:2667
 msgid "translator-credits"
-msgstr "Nuno Miguel <nunis@netcabo.pt>"
+msgstr "Nuno Miguel <nunomgue@gmail.com>"
 
 #: ../src/main_window.c:2957
 msgid "Open image"
@@ -420,7 +420,7 @@ msgstr "Tem a certeza que quer apagar do disco a imagem '%s'?"
 #: ../src/main_window.c:3324
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Tem a certeza que pretende enviar a imagem \"%s\" para o lixo?"
+msgstr "Tem a certeza que quer enviar a imagem '%s' para o lixo?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
