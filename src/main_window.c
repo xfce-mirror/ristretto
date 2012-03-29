@@ -2876,9 +2876,67 @@ cb_rstto_main_window_edit (
     const gchar *content_type = rstto_file_get_content_type (r_file);
     const gchar *editor = rstto_mime_db_lookup (window->priv->db, content_type);
     GList *files = g_list_prepend (NULL, rstto_file_get_file (r_file));
+    GDesktopAppInfo *app_info = NULL;
+    GtkWidget *dialog = NULL;
+    GtkWidget *content_area;
+    GtkWidget *hbox;
+    GtkWidget *vbox;
+    GtkWidget *image;
+    GtkWidget *label;
+    GtkWidget *treeview;
+    GtkWidget *scrolled_window;
+    gchar *label_text = NULL;
 
-    GDesktopAppInfo *app_info = g_desktop_app_info_new (editor);
-    g_app_info_launch (G_APP_INFO(app_info), files, NULL, NULL);
+    if ( editor != NULL )
+    {
+        app_info = g_desktop_app_info_new (editor);
+        if ( app_info != NULL )
+        {
+            g_app_info_launch (G_APP_INFO(app_info), files, NULL, NULL);
+            g_list_free (files);
+            return;
+        }
+    }
+
+    dialog = gtk_dialog_new_with_buttons (
+            _("Edit with"),
+            GTK_WINDOW (window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_STOCK_CANCEL,
+            GTK_RESPONSE_CANCEL,
+            GTK_STOCK_OK,
+            GTK_RESPONSE_OK,
+            NULL);
+
+    content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+    vbox = gtk_vbox_new (FALSE, 0);
+    hbox = gtk_hbox_new (FALSE, 0);
+    image = gtk_image_new_from_icon_name (content_type, GTK_ICON_SIZE_DIALOG);
+    label_text = g_strdup_printf (_("Open %s and other files of type %s with:"), rstto_file_get_display_name (r_file), content_type);
+    label = gtk_label_new (label_text);
+    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+    treeview = gtk_tree_view_new ();
+
+    gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+
+    gtk_container_add (GTK_CONTAINER (scrolled_window), treeview);
+
+    gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
+    gtk_container_add (GTK_CONTAINER (content_area), vbox);
+
+    gtk_widget_show_all (content_area);
+
+    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+    {
+
+    }
+
+    gtk_widget_destroy (dialog);
+    
     g_list_free (files);
 }
 
