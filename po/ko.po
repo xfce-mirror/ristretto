@@ -12,9 +12,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.3\n"
-"Report-Msgid-Bugs-To: xfce-i18n <xfce-i18n@xfce.org>\n"
-"POT-Creation-Date: 2012-02-29 13:27+0000\n"
-"PO-Revision-Date: 2012-03-01 01:35+0900\n"
+"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
+"POT-Creation-Date: 2012-03-29 08:30+0000\n"
+"PO-Revision-Date: 2012-03-29 19:04+0900\n"
 "Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
 "Language-Team: xfce4-users-kr-i18n <xfce4-users-kr-i18n@lists.sourceforce.net>\n"
 "Language: ko\n"
@@ -61,268 +61,268 @@ msgid "Image Viewer"
 msgstr "그림 보기"
 
 #. File Menu
-#: ../src/main_window.c:316
+#: ../src/main_window.c:318
 msgid "_File"
 msgstr "파일(_F)"
 
-#: ../src/main_window.c:317
+#: ../src/main_window.c:319
 msgid "_Open"
 msgstr "열기(_O)"
 
-#: ../src/main_window.c:317
+#: ../src/main_window.c:319
 msgid "Open an image"
 msgstr "그림 열기"
 
-#: ../src/main_window.c:318
+#: ../src/main_window.c:320
 msgid "_Save copy"
 msgstr "사본 저장(_S)"
 
-#: ../src/main_window.c:318
+#: ../src/main_window.c:320
 msgid "Save a copy of the image"
 msgstr "그림 사본 저장"
 
-#: ../src/main_window.c:319
+#: ../src/main_window.c:321
 msgid "_Properties"
 msgstr "속성(_P)"
 
-#: ../src/main_window.c:319
+#: ../src/main_window.c:321
 msgid "Show file properties"
 msgstr "파일 속성 보이기"
 
-#: ../src/main_window.c:320
+#: ../src/main_window.c:322
 msgid "_Close"
 msgstr "닫기(_C)"
 
-#: ../src/main_window.c:320
+#: ../src/main_window.c:322
 msgid "Close this image"
 msgstr "이 그림 닫기"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:323
 msgid "_Quit"
 msgstr "나가기(_Q)"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:323
 msgid "Quit Ristretto"
 msgstr "리스트레또 나가기"
 
 #. Edit Menu
-#: ../src/main_window.c:323
+#: ../src/main_window.c:325
 msgid "_Edit"
 msgstr "편집(_E)"
 
-#: ../src/main_window.c:324
+#: ../src/main_window.c:326
 msgid "_Open with..."
 msgstr "다음으로 열기(_O)..."
 
-#: ../src/main_window.c:325
+#: ../src/main_window.c:327
 msgid "_Sorting"
 msgstr "정렬(_S)"
 
-#: ../src/main_window.c:326
+#: ../src/main_window.c:328
 msgid "_Delete"
 msgstr "삭제(_D)"
 
-#: ../src/main_window.c:326
+#: ../src/main_window.c:328
 msgid "Delete this image from disk"
 msgstr "이 그림을 디스크에서 삭제"
 
-#: ../src/main_window.c:327
+#: ../src/main_window.c:329
 msgid "_Clear private data"
 msgstr "개인 데이터 지우기(_C)"
 
-#: ../src/main_window.c:328
+#: ../src/main_window.c:330
 msgid "_Preferences"
 msgstr "기본 설정(_P)"
 
 #. View Menu
-#: ../src/main_window.c:330
+#: ../src/main_window.c:332
 msgid "_View"
 msgstr "보기(_V)"
 
-#: ../src/main_window.c:331
+#: ../src/main_window.c:333
 msgid "_Fullscreen"
 msgstr "전체 화면(_F)"
 
-#: ../src/main_window.c:332
+#: ../src/main_window.c:334
 msgid "_Leave Fullscreen"
 msgstr "전체 화면 나가기(_L)"
 
-#: ../src/main_window.c:333
+#: ../src/main_window.c:335
 msgid "_Set as Wallpaper"
 msgstr "배경화면으로 설정(_S)"
 
 #. Zoom submenu
-#: ../src/main_window.c:335
+#: ../src/main_window.c:337
 msgid "_Zoom"
 msgstr "확대(_Z)"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:338
 msgid "Zoom _In"
 msgstr "확대(_I)"
 
-#: ../src/main_window.c:337
+#: ../src/main_window.c:339
 msgid "Zoom _Out"
 msgstr "축소(_O)"
 
-#: ../src/main_window.c:338
+#: ../src/main_window.c:340
 msgid "Zoom _Fit"
 msgstr "화면에 맞추기(_F)"
 
-#: ../src/main_window.c:339
+#: ../src/main_window.c:341
 msgid "_Normal Size"
 msgstr "본래 크기(_N)"
 
 #. Rotation submenu
-#: ../src/main_window.c:341
+#: ../src/main_window.c:343
 msgid "_Rotation"
 msgstr "회전(_R)"
 
-#: ../src/main_window.c:342
+#: ../src/main_window.c:344
 msgid "Rotate _Right"
 msgstr "오른쪽으로 회전(_R)"
 
-#: ../src/main_window.c:343
+#: ../src/main_window.c:345
 msgid "Rotate _Left"
 msgstr "왼쪽으로 회전(_L)"
 
 #. Go Menu
-#: ../src/main_window.c:345
+#: ../src/main_window.c:347
 msgid "_Go"
 msgstr "이동(_G)"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:348
 msgid "_Forward"
 msgstr "다음(_F)"
 
-#: ../src/main_window.c:347
+#: ../src/main_window.c:349
 msgid "_Back"
 msgstr "이전(_B)"
 
-#: ../src/main_window.c:348
+#: ../src/main_window.c:350
 msgid "_First"
 msgstr "처음(_F)"
 
-#: ../src/main_window.c:349
+#: ../src/main_window.c:351
 msgid "_Last"
 msgstr "마지막(_L)"
 
 #. Help Menu
-#: ../src/main_window.c:351
+#: ../src/main_window.c:353
 msgid "_Help"
 msgstr "도움말(_H)"
 
-#: ../src/main_window.c:353
+#: ../src/main_window.c:355
 msgid "_Contents"
 msgstr "내용(_C)"
 
-#: ../src/main_window.c:355
+#: ../src/main_window.c:357
 msgid "Display ristretto user manual"
 msgstr "리스트레또 사용자 설명서 보이기"
 
-#: ../src/main_window.c:358
+#: ../src/main_window.c:360
 msgid "_About"
 msgstr "정보(_A)"
 
-#: ../src/main_window.c:360
+#: ../src/main_window.c:362
 msgid "Display information about ristretto"
 msgstr "리스트레또에 대한 정보 보이기"
 
 #. Position Menu
-#: ../src/main_window.c:363
+#: ../src/main_window.c:365
 msgid "_Position"
 msgstr "위치(_P)"
 
-#: ../src/main_window.c:364
+#: ../src/main_window.c:366
 msgid "Thumbnail Bar _Position"
 msgstr "섬네일 막대 위치(_P)"
 
 #. Misc
-#: ../src/main_window.c:366
+#: ../src/main_window.c:368
 msgid "Leave _Fullscreen"
 msgstr "전체 화면 나가기(_F)"
 
 #. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:374
+#: ../src/main_window.c:376
 msgid "Show _File Toolbar"
 msgstr "파일 도구막대 보이기(_F)"
 
 #. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:376
+#: ../src/main_window.c:378
 msgid "Show _Navigation Toolbar"
 msgstr "탐색 도구막대 보이기(_N)"
 
 #. Toggle visibility of the thumbnailbar
-#: ../src/main_window.c:378
+#: ../src/main_window.c:380
 msgid "Show _Thumbnail Bar"
 msgstr "섬네일 막대 보이기(_T)"
 
 #. Sort by Filename
-#: ../src/main_window.c:385
+#: ../src/main_window.c:387
 msgid "sort by filename"
 msgstr "파일 이름순 정렬"
 
 #. Sort by Date
-#: ../src/main_window.c:387
+#: ../src/main_window.c:389
 msgid "sort by date"
 msgstr "날짜순 정렬"
 
-#: ../src/main_window.c:393
+#: ../src/main_window.c:395
 msgid "Left"
 msgstr "왼쪽"
 
-#: ../src/main_window.c:394
+#: ../src/main_window.c:396
 msgid "Right"
 msgstr "오른쪽"
 
-#: ../src/main_window.c:395
+#: ../src/main_window.c:397
 msgid "Top"
 msgstr "위"
 
-#: ../src/main_window.c:396
+#: ../src/main_window.c:398
 msgid "Bottom"
 msgstr "아래"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:538
+#: ../src/main_window.c:545
 msgid "_Play"
 msgstr "재생(_P)"
 
-#: ../src/main_window.c:538
+#: ../src/main_window.c:545
 msgid "Play slideshow"
 msgstr "슬라이드 쇼 재생"
 
-#: ../src/main_window.c:539
+#: ../src/main_window.c:546
 msgid "_Pause"
 msgstr "멈춤(_P)"
 
-#: ../src/main_window.c:539
+#: ../src/main_window.c:546
 msgid "Pause slideshow"
 msgstr "슬라이드 쇼 멈춤"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:542
+#: ../src/main_window.c:549
 msgid "_Recently used"
 msgstr "최근 사용(_R)"
 
-#: ../src/main_window.c:542
+#: ../src/main_window.c:549
 msgid "Recently used"
 msgstr "최근 사용한 것"
 
-#: ../src/main_window.c:639
-#: ../src/main_window.c:1124
+#: ../src/main_window.c:659
+#: ../src/main_window.c:1152
 msgid "Press open to select an image"
 msgstr "그림을 선택하려면 열기를 누릅니다"
 
-#: ../src/main_window.c:1017
-#: ../src/main_window.c:1023
+#: ../src/main_window.c:1039
+#: ../src/main_window.c:1045
 msgid "Empty"
 msgstr "비어있음"
 
-#: ../src/main_window.c:1949
+#: ../src/main_window.c:1977
 msgid "Choose 'set wallpaper' method"
 msgstr "'배경 화면 설정' 방식 선택"
 
-#: ../src/main_window.c:1964
+#: ../src/main_window.c:1992
 #: ../src/preferences_dialog.c:349
 msgid ""
 "Configure which system is currently managing your desktop.\n"
@@ -333,67 +333,67 @@ msgstr ""
 "이 설정은 <i>리스트레또</i>가 데스크톱 배경 화면을 설정할 때\n"
 "사용할 방식을 결정할 것입니다."
 
-#: ../src/main_window.c:1989
+#: ../src/main_window.c:2017
 #: ../src/preferences_dialog.c:373
 msgid "None"
 msgstr "없음"
 
-#: ../src/main_window.c:1993
+#: ../src/main_window.c:2021
 #: ../src/preferences_dialog.c:377
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:1997
+#: ../src/main_window.c:2025
 #: ../src/preferences_dialog.c:381
 msgid "GNOME"
 msgstr "그놈"
 
-#: ../src/main_window.c:2453
+#: ../src/main_window.c:2481
 msgid "Developer:"
 msgstr "개발자:"
 
-#: ../src/main_window.c:2462
+#: ../src/main_window.c:2490
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "리스트레또는 Xfce 데스크톱 환경을 위한 그림 보기 프로그램입니다."
 
-#: ../src/main_window.c:2470
+#: ../src/main_window.c:2498
 msgid "translator-credits"
 msgstr "Seong-ho Cho <darkcircle.0426@gmail.com>"
 
-#: ../src/main_window.c:2756
+#: ../src/main_window.c:2784
 msgid "Open image"
 msgstr "그림 열기"
 
-#: ../src/main_window.c:2775
+#: ../src/main_window.c:2803
 msgid "Images"
 msgstr "그림"
 
-#: ../src/main_window.c:2780
+#: ../src/main_window.c:2808
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2807
-#: ../src/main_window.c:2909
+#: ../src/main_window.c:2835
+#: ../src/main_window.c:2937
 msgid "Could not open file"
 msgstr "파일을 열 수 없습니다"
 
-#: ../src/main_window.c:2942
+#: ../src/main_window.c:2970
 msgid "Save copy"
 msgstr "사본 저장"
 
-#: ../src/main_window.c:2968
+#: ../src/main_window.c:2996
 msgid "Could not save file"
 msgstr "파일을 저장할 수 없습니다"
 
-#: ../src/main_window.c:3085
+#: ../src/main_window.c:3127
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "정말로 '%s' 그림을 디스크에서 삭제하시렵니까?"
 
-#: ../src/image_viewer.c:1964
-#: ../src/thumbnailer.c:441
-msgid "Do _not show this message again"
-msgstr "이 메시지를 다시 표시하지 않습니다(_N)"
+#: ../src/main_window.c:3151
+#, c-format
+msgid "Are you sure you want to send image '%s' to trash?"
+msgstr "정말로 '%s' 그림을 휴지통으로 보내시렵니까?"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
@@ -574,6 +574,10 @@ msgstr ""
 "\n"
 "이 문제를 해결하려면 <b>텀블러</b>나 다른\n"
 "<i>섬네일 데몬</i>을 설치합니다."
+
+#: ../src/thumbnailer.c:441
+msgid "Do _not show this message again"
+msgstr "이 메시지를 다시 표시하지 않습니다(_N)"
 
 #: ../src/thumbnail_bar.c:208
 msgid "Spacing"
