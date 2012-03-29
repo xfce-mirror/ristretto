@@ -18,7 +18,7 @@ ristretto_SOURCES = \
 	file.c file.h \
 	privacy_dialog.h privacy_dialog.c \
 	util.c util.h \
-	db.c db.h \
+	mime_db.c mime_db.h \
 	icon_bar.c icon_bar.h \
 	main.c
 
@@ -27,6 +27,7 @@ ristretto_CFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(GTHREAD_CFLAGS) \
 	$(GIO_CFLAGS) \
+	$(GIO_UNIX_CFLAGS) \
 	$(LIBEXIF_CFLAGS) \
 	$(XFCONF_CFLAGS) \
 	$(EXO_CFLAGS) \
@@ -44,6 +45,7 @@ ristretto_LDADD = \
 	$(GLIB_LIBS) \
 	$(GTHREAD_LIBS) \
 	$(GIO_LIBS) \
+	$(GIO_UNIX_LIBS) \
 	$(LIBEXIF_LIBS) \
 	$(XFCONF_LIBS) \
 	$(EXO_LIBS) \

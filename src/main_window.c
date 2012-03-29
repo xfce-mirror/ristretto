@@ -23,6 +23,7 @@
 #include <string.h>
 
 #include <gio/gio.h>
+#include <gio/gdesktopappinfo.h>
 
 #include <libxfce4ui/libxfce4ui.h>
 #include <libexif/exif-data.h>
@@ -32,6 +33,7 @@
 #include <cairo/cairo.h>
 
 #include "settings.h"
+#include "mime_db.h"
 #include "util.h"
 #include "file.h"
 #include "icon_bar.h"
@@ -63,58 +65,60 @@
 
 struct _RsttoMainWindowPriv
 {
-    RsttoImageList *image_list;
+    RsttoImageList        *image_list;
 
-    DBusGConnection *connection;
-    DBusGProxy *filemanager_proxy;
+    RsttoMimeDB           *db;
 
-    guint show_fs_toolbar_timeout_id;
-    gint window_save_geometry_timer_id;
+    DBusGConnection       *connection;
+    DBusGProxy            *filemanager_proxy;
+
+    guint                  show_fs_toolbar_timeout_id;
+    gint                   window_save_geometry_timer_id;
     
-    gboolean fs_toolbar_sticky;
+    gboolean               fs_toolbar_sticky;
 
-    RsttoImageListIter *iter;
+    RsttoImageListIter    *iter;
 
-    GtkActionGroup   *action_group;
-    GtkUIManager     *ui_manager;
-    GtkRecentManager *recent_manager;
-    RsttoSettings    *settings_manager;
+    GtkActionGroup        *action_group;
+    GtkUIManager          *ui_manager;
+    GtkRecentManager      *recent_manager;
+    RsttoSettings         *settings_manager;
     RsttoWallpaperManager *wallpaper_manager;
 
-    GtkWidget *menubar;
-    GtkWidget *toolbar;
-    GtkWidget *warning;
-    GtkWidget *warning_label;
-    GtkWidget *image_viewer_menu;
-    GtkWidget *position_menu;
-    GtkWidget *image_viewer;
-    GtkWidget *p_viewer_s_window;
-    GtkWidget *table;
-    GtkWidget *t_bar_s_window;
-    GtkWidget *thumbnailbar;
-    GtkWidget *statusbar;
-    guint statusbar_context_id;
+    GtkWidget             *menubar;
+    GtkWidget             *toolbar;
+    GtkWidget             *warning;
+    GtkWidget             *warning_label;
+    GtkWidget             *image_viewer_menu;
+    GtkWidget             *position_menu;
+    GtkWidget             *image_viewer;
+    GtkWidget             *p_viewer_s_window;
+    GtkWidget             *table;
+    GtkWidget             *t_bar_s_window;
+    GtkWidget             *thumbnailbar;
+    GtkWidget             *statusbar;
+    guint                  statusbar_context_id;
 
-    GtkWidget *back;
-    GtkWidget *forward;
+    GtkWidget             *back;
+    GtkWidget             *forward;
 
-    guint      t_open_merge_id;
-    guint      recent_merge_id;
-    guint      play_merge_id;
-    guint      pause_merge_id;
-    guint      toolbar_play_merge_id;
-    guint      toolbar_pause_merge_id;
-    guint      toolbar_fullscreen_merge_id;
-    guint      toolbar_unfullscreen_merge_id;
+    guint                  t_open_merge_id;
+    guint                  recent_merge_id;
+    guint                  play_merge_id;
+    guint                  pause_merge_id;
+    guint                  toolbar_play_merge_id;
+    guint                  toolbar_pause_merge_id;
+    guint                  toolbar_fullscreen_merge_id;
+    guint                  toolbar_unfullscreen_merge_id;
 
-    GtkAction *play_action;
-    GtkAction *pause_action;
-    GtkAction *recent_action;
+    GtkAction             *play_action;
+    GtkAction             *pause_action;
+    GtkAction             *recent_action;
 
-    gboolean playing;
-    gint play_timeout_id;
+    gboolean               playing;
+    gint                   play_timeout_id;
 
-    GtkFileFilter *filter;
+    GtkFileFilter         *filter;
 };
 
 enum
@@ -472,11 +476,19 @@ rstto_main_window_init (RsttoMainWindow *window)
 
     guint navigationbar_position = 3;
     guint thumbnail_size = 3;
+    gchar *db_path = NULL;
 
     gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
 
     window->priv = g_new0(RsttoMainWindowPriv, 1);
+
+    db_path = xfce_resource_save_location (
+            XFCE_RESOURCE_DATA, "ristretto/mime.db", TRUE);
     
+    if (db_path != NULL)
+    {
+        window->priv->db = rstto_mime_db_new ( db_path, NULL);
+    }
 
     window->priv->iter = NULL;
 
@@ -2862,16 +2874,12 @@ cb_rstto_main_window_edit (
 {
     RsttoFile *r_file = rstto_image_list_iter_get_file(window->priv->iter);
     const gchar *content_type = rstto_file_get_content_type (r_file);
-    GList *app_infos = g_app_info_get_all_for_type (content_type);
-    GList *iter = app_infos;
+    const gchar *editor = rstto_mime_db_lookup (window->priv->db, content_type);
+    GList *files = g_list_prepend (NULL, rstto_file_get_file (r_file));
 
-    while (iter)
-    {
-        g_debug("N: %s", g_app_info_get_name (iter->data));
-        g_debug("DN:%s", g_app_info_get_display_name (iter->data));
-        g_debug("D: %s", g_app_info_get_description (iter->data));
-        iter = g_list_next (iter);
-    }
+    GDesktopAppInfo *app_info = g_desktop_app_info_new (editor);
+    g_app_info_launch (G_APP_INFO(app_info), files, NULL, NULL);
+    g_list_free (files);
 }
 
 /**
