@@ -525,7 +525,7 @@ msgstr "Invertuoti mastelio kryptį"
 
 #: ../src/preferences_dialog.c:286
 msgid "Behaviour"
-msgstr "Vaizdavimas"
+msgstr "Elgsena"
 
 #: ../src/preferences_dialog.c:291
 msgid "Startup"
