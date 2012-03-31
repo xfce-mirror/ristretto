@@ -537,7 +537,7 @@ msgstr "Atveriant paveikslėlį išdidinti jį"
 
 #: ../src/preferences_dialog.c:299
 msgid "Wrap around images"
-msgstr "Pritaikyti paveikslėlių dydį"
+msgstr "Paveikslėlių dydį pritaikyti prie lango dydžio"
 
 #: ../src/preferences_dialog.c:318
 msgid "Desktop"
