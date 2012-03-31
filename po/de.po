@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-03-10 23:39+0000\n"
+"POT-Creation-Date: 2012-03-31 18:27+0000\n"
 "PO-Revision-Date: 2010-02-18 15:50+0100\n"
 "Last-Translator: Thomas Schütz <xfce@thschuetz.de>\n"
 "Language-Team: German <xfce-i18n-de@xfce.org>\n"
@@ -45,312 +45,313 @@ msgstr ""
 "%s: %s\\Geben Sie »%s --help« ein, um eine komplette Liste verfügbarer "
 "Kommandozeilenoptionen zu eralten.\n"
 
-#: ../src/main_window.c:53 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:55 ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "Bildbetrachter"
 
 #. File Menu
-#: ../src/main_window.c:334
+#: ../src/main_window.c:330
 msgid "_File"
 msgstr "_Datei"
 
-#: ../src/main_window.c:335
+#: ../src/main_window.c:331
 msgid "_Open"
 msgstr "Ö_ffnen"
 
-#: ../src/main_window.c:335
+#: ../src/main_window.c:331
 msgid "Open an image"
 msgstr "Bild öffnen"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:332
 msgid "_Save copy"
 msgstr "Kopie _speichern"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:332
 msgid "Save a copy of the image"
 msgstr "Eine Kopie des Bildes speichern"
 
-#: ../src/main_window.c:337
+#: ../src/main_window.c:333
 msgid "_Properties"
 msgstr "_Eigenschaften"
 
-#: ../src/main_window.c:337
+#: ../src/main_window.c:333
 msgid "Show file properties"
 msgstr "Eigenschaften der Datei anzeigen"
 
-#: ../src/main_window.c:338
-msgid "_Close"
-msgstr "S_chließen"
-
-#: ../src/main_window.c:338
-msgid "Close this image"
-msgstr "Dieses Bild schließen"
-
-#: ../src/main_window.c:339
-msgid "_Quit"
-msgstr "_Beenden"
-
-#: ../src/main_window.c:339
-msgid "Quit Ristretto"
-msgstr "Ristretto beenden"
-
 #. Edit Menu
-#: ../src/main_window.c:341
+#: ../src/main_window.c:334 ../src/main_window.c:338
 msgid "_Edit"
 msgstr "_Bearbeiten"
 
-#: ../src/main_window.c:342
+#: ../src/main_window.c:334
+#, fuzzy
+msgid "Edit this image"
+msgstr "Dieses Bild bearbeiten"
+
+#: ../src/main_window.c:335
+msgid "_Close"
+msgstr "S_chließen"
+
+#: ../src/main_window.c:335
+msgid "Close this image"
+msgstr "Dieses Bild schließen"
+
+#: ../src/main_window.c:336
+msgid "_Quit"
+msgstr "_Beenden"
+
+#: ../src/main_window.c:336
+msgid "Quit Ristretto"
+msgstr "Ristretto beenden"
+
+#: ../src/main_window.c:339
 msgid "_Open with..."
 msgstr "Öffnen _mit…"
 
-#: ../src/main_window.c:343
+#: ../src/main_window.c:340
 msgid "_Sorting"
 msgstr "_Sortierung"
 
-#: ../src/main_window.c:344
+#: ../src/main_window.c:341
 msgid "_Delete"
 msgstr "_Löschen"
 
-#: ../src/main_window.c:344
+#: ../src/main_window.c:341
 msgid "Delete this image from disk"
 msgstr "Dieses Bild von der Festplatte löschen"
 
-#: ../src/main_window.c:345
+#: ../src/main_window.c:342
 msgid "_Clear private data"
 msgstr "Private Daten _löschen"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:343
 msgid "_Preferences"
 msgstr "_Einstellungen"
 
 #. View Menu
-#: ../src/main_window.c:348
+#: ../src/main_window.c:345
 msgid "_View"
 msgstr "_Ansicht"
 
-#: ../src/main_window.c:349
+#: ../src/main_window.c:346
 msgid "_Fullscreen"
 msgstr "_Vollbildmodus"
 
-#: ../src/main_window.c:350
+#: ../src/main_window.c:347
 msgid "_Leave Fullscreen"
 msgstr "_Vollbildmodus verlassen"
 
-#: ../src/main_window.c:351
+#: ../src/main_window.c:348
 msgid "_Set as Wallpaper"
 msgstr "Al_s Hintergrundbild einstellen"
 
 #. Zoom submenu
-#: ../src/main_window.c:353
+#: ../src/main_window.c:350
 msgid "_Zoom"
 msgstr "_Zoom"
 
-#: ../src/main_window.c:354
+#: ../src/main_window.c:351
 msgid "Zoom _In"
 msgstr "Ver_größern"
 
-#: ../src/main_window.c:355
+#: ../src/main_window.c:352
 msgid "Zoom _Out"
 msgstr "Ver_kleinern"
 
-#: ../src/main_window.c:356
+#: ../src/main_window.c:353
 msgid "Zoom _Fit"
 msgstr "_Passende Größe"
 
-#: ../src/main_window.c:357
+#: ../src/main_window.c:354
 msgid "_Normal Size"
 msgstr "_Normalgröße"
 
 #. Rotation submenu
-#: ../src/main_window.c:359
+#: ../src/main_window.c:356
 msgid "_Rotation"
 msgstr "_Drehen"
 
-#: ../src/main_window.c:360
+#: ../src/main_window.c:357
 msgid "Rotate _Right"
 msgstr "Nach _rechts drehen"
 
-#: ../src/main_window.c:361
+#: ../src/main_window.c:358
 msgid "Rotate _Left"
 msgstr "Nach _links drehen"
 
 #. Go Menu
-#: ../src/main_window.c:363
+#: ../src/main_window.c:360
 msgid "_Go"
 msgstr "_Gehe zu"
 
-#: ../src/main_window.c:364
+#: ../src/main_window.c:361
 msgid "_Forward"
 msgstr "_Vor"
 
-#: ../src/main_window.c:365
+#: ../src/main_window.c:362
 msgid "_Back"
 msgstr "_Zurück"
 
-#: ../src/main_window.c:366
+#: ../src/main_window.c:363
 msgid "_First"
 msgstr "_Erstes"
 
-#: ../src/main_window.c:367
+#: ../src/main_window.c:364
 msgid "_Last"
 msgstr "_Letztes"
 
 #. Help Menu
-#: ../src/main_window.c:369
+#: ../src/main_window.c:366
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: ../src/main_window.c:371
+#: ../src/main_window.c:368
 msgid "_Contents"
 msgstr "I_nhalt"
 
-#: ../src/main_window.c:373
+#: ../src/main_window.c:370
 msgid "Display ristretto user manual"
 msgstr "Nutzerhandbuch zu Ristretto anzeigen"
 
-#: ../src/main_window.c:376
+#: ../src/main_window.c:373
 msgid "_About"
 msgstr "_Info"
 
-#: ../src/main_window.c:378
+#: ../src/main_window.c:375
 msgid "Display information about ristretto"
 msgstr "Informationen über Ristretto anzeigen"
 
 #. Position Menu
-#: ../src/main_window.c:381
+#: ../src/main_window.c:378
 msgid "_Position"
 msgstr "_Position"
 
-#: ../src/main_window.c:382
+#: ../src/main_window.c:379
 msgid "_Size"
 msgstr "_Größe"
 
-#: ../src/main_window.c:383
+#: ../src/main_window.c:380
 msgid "Thumbnail Bar _Position"
 msgstr "_Position der Miniaturvorschau"
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:381
 msgid "Thumbnail _Size"
 msgstr "_Miniaturbilder"
 
 #. Misc
-#: ../src/main_window.c:386
+#: ../src/main_window.c:383
 msgid "Leave _Fullscreen"
 msgstr "_Vollbildmodus verlassen"
 
 #. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:394
-msgid "Show _File Toolbar"
+#: ../src/main_window.c:391
+#, fuzzy
+msgid "_Show Toolbar"
 msgstr "_Werkzeugleiste anzeigen"
 
 #. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:396
-msgid "Show _Navigation Toolbar"
-msgstr "_Navigationsleiste anzeigen"
-
-#. Toggle visibility of the thumbnailbar
-#: ../src/main_window.c:398
+#: ../src/main_window.c:393
 msgid "Show _Thumbnail Bar"
 msgstr "Miniaturbilderleis_te anzeigen"
 
 #. Toggle visibility of the statusbar
-#: ../src/main_window.c:400
+#: ../src/main_window.c:395
 msgid "Show _Status Bar"
 msgstr "_Statusleiste anzeigen"
 
 #. Sort by Filename
-#: ../src/main_window.c:407
+#: ../src/main_window.c:402
 msgid "sort by filename"
 msgstr "Nach Dateinamen sortieren"
 
 #. Sort by Date
-#: ../src/main_window.c:409
+#: ../src/main_window.c:404
 msgid "sort by date"
 msgstr "Nach Datum sortieren"
 
-#: ../src/main_window.c:415
+#: ../src/main_window.c:410
 msgid "Left"
 msgstr "Links"
 
-#: ../src/main_window.c:416
+#: ../src/main_window.c:411
 msgid "Right"
 msgstr "Rechts"
 
-#: ../src/main_window.c:417
+#: ../src/main_window.c:412
 msgid "Top"
 msgstr "Oben"
 
-#: ../src/main_window.c:418
+#: ../src/main_window.c:413
 msgid "Bottom"
 msgstr "Unten"
 
-#: ../src/main_window.c:424
+#: ../src/main_window.c:419
 msgid "Very Small"
 msgstr "Sehr klein"
 
-#: ../src/main_window.c:425
+#: ../src/main_window.c:420
 msgid "Smaller"
 msgstr "Kleiner"
 
-#: ../src/main_window.c:426
+#: ../src/main_window.c:421
 msgid "Small"
 msgstr "Klein"
 
-#: ../src/main_window.c:427
+#: ../src/main_window.c:422
 msgid "Normal"
 msgstr "Normal"
 
-#: ../src/main_window.c:428
+#: ../src/main_window.c:423
 msgid "Large"
 msgstr "Groß"
 
-#: ../src/main_window.c:429
+#: ../src/main_window.c:424
 msgid "Larger"
 msgstr "Größer"
 
-#: ../src/main_window.c:430
+#: ../src/main_window.c:425
 msgid "Very Large"
 msgstr "Sehr groß"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:579
+#: ../src/main_window.c:582
 msgid "_Play"
 msgstr "_Starten"
 
-#: ../src/main_window.c:579
+#: ../src/main_window.c:582
 msgid "Play slideshow"
 msgstr "Diavorführung starten"
 
-#: ../src/main_window.c:580
+#: ../src/main_window.c:583
 msgid "_Pause"
 msgstr "_Pause"
 
-#: ../src/main_window.c:580
+#: ../src/main_window.c:583
 msgid "Pause slideshow"
 msgstr "Diavorführung pausieren"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:583
+#: ../src/main_window.c:586
 msgid "_Recently used"
 msgstr "_Zuletzt geöffnet"
 
-#: ../src/main_window.c:583
+#: ../src/main_window.c:586
 msgid "Recently used"
 msgstr "Zuletzt geöffnet"
 
-#: ../src/main_window.c:692 ../src/main_window.c:1207
+#: ../src/main_window.c:690 ../src/main_window.c:1154
 msgid "Press open to select an image"
 msgstr "Zum Auswählen eines Bildes »Öffnen« drücken"
 
-#: ../src/main_window.c:1094 ../src/main_window.c:1100
+#: ../src/main_window.c:1041 ../src/main_window.c:1047
 msgid "Empty"
 msgstr "Leer"
 
-#: ../src/main_window.c:2146
+#: ../src/main_window.c:1758
 msgid "Choose 'set wallpaper' method"
 msgstr "Wählen Sie die Methode zum Setzen des Hintergrundbildes"
 
-#: ../src/main_window.c:2161 ../src/preferences_dialog.c:349
+#: ../src/main_window.c:1773 ../src/preferences_dialog.c:329
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -360,64 +361,79 @@ msgstr ""
 "Diese Einstellung wird von <i>Ristretto</i> benutzt,\n"
 "um das Hintergrundbild des Schreibtisches festzulegen"
 
-#: ../src/main_window.c:2186 ../src/preferences_dialog.c:373
+#: ../src/main_window.c:1798 ../src/preferences_dialog.c:353
 msgid "None"
 msgstr "Keine/Andere"
 
-#: ../src/main_window.c:2190 ../src/preferences_dialog.c:377
+#: ../src/main_window.c:1802 ../src/preferences_dialog.c:357
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2194 ../src/preferences_dialog.c:381
+#: ../src/main_window.c:1806 ../src/preferences_dialog.c:361
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2650
+#: ../src/main_window.c:2246
 msgid "Developer:"
 msgstr "Entwickler:"
 
-#: ../src/main_window.c:2659
+#: ../src/main_window.c:2255
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto ist ein Bildbetrachter für die Arbeitsumgebung Xfce."
 
-#: ../src/main_window.c:2667
+#: ../src/main_window.c:2263
 msgid "translator-credits"
 msgstr ""
 "Christian Dywan <christian@twotoasts.de>\n"
 "Fabian Nowak <timystery@arcor.de>\n"
 "Christoph Wickert <cwickert@fedoraproject.org>"
 
-#: ../src/main_window.c:2957
+#: ../src/main_window.c:2553
 msgid "Open image"
 msgstr "Bild öffnen"
 
-#: ../src/main_window.c:2976
+#: ../src/main_window.c:2572
 msgid "Images"
 msgstr "Bilder"
 
-#: ../src/main_window.c:2981
+#: ../src/main_window.c:2577
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3008 ../src/main_window.c:3110
+#: ../src/main_window.c:2604 ../src/main_window.c:2706
 msgid "Could not open file"
 msgstr "Datei konnte nicht geöffnet werden"
 
-#: ../src/main_window.c:3143
+#: ../src/main_window.c:2739
 msgid "Save copy"
 msgstr "Kopie speichern"
 
-#: ../src/main_window.c:3169
+#: ../src/main_window.c:2765
 msgid "Could not save file"
 msgstr "Datei konnte nicht gespeichert werden"
 
-#: ../src/main_window.c:3300
+#: ../src/main_window.c:2914
+#, fuzzy
+msgid "Edit with"
+msgstr "Bearbeiten mit"
+
+#: ../src/main_window.c:2927
+#, c-format, fuzzy
+msgid "Open %s and other files of type %s with:"
+msgstr "»%s« und andere Dateien des Typs »%s« öffnen mit:"
+
+#: ../src/main_window.c:2929
+#, fuzzy
+msgid "Use as _default for this kind of file"
+msgstr "Für diesen Dateitypen als _Standard festlegen"
+
+#: ../src/main_window.c:3054
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr ""
 "Sind Sie sicher, dass Sie das Bild »%s« von der Festplatte löschen möchten?"
 
-#: ../src/main_window.c:3324
+#: ../src/main_window.c:3078
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr ""
@@ -455,31 +471,23 @@ msgstr "Alles"
 msgid "Clear private data"
 msgstr "Private Daten löschen"
 
-#: ../src/preferences_dialog.c:196
+#: ../src/preferences_dialog.c:189
 msgid "Display"
 msgstr "Anzeige"
 
-#: ../src/preferences_dialog.c:202
+#: ../src/preferences_dialog.c:194
 msgid "Background color"
 msgstr "Hintergrundfarbe"
 
-#: ../src/preferences_dialog.c:204
-msgid "Toolbars"
-msgstr "Werkzeugleisten"
-
-#: ../src/preferences_dialog.c:209
+#: ../src/preferences_dialog.c:198
 msgid "Override background color:"
 msgstr "Hintergrundfarbe ersetzen:"
 
-#: ../src/preferences_dialog.c:220
-msgid "Merge toolbars"
-msgstr "Werkzeugleisten zusammenfassen"
-
-#: ../src/preferences_dialog.c:225
+#: ../src/preferences_dialog.c:210
 msgid "Thumbnails"
 msgstr "Miniaturbilder"
 
-#: ../src/preferences_dialog.c:228
+#: ../src/preferences_dialog.c:213
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
@@ -487,19 +495,19 @@ msgstr ""
 "Die Miniaturbilderleiste kann im \n"
 "Vollbildmodus automatisch versteckt werden."
 
-#: ../src/preferences_dialog.c:230
+#: ../src/preferences_dialog.c:215
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Miniaturbildleiste im Vollbildmodus verbergen"
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:246
 msgid "Slideshow"
 msgstr "Diavorführung"
 
-#: ../src/preferences_dialog.c:270
+#: ../src/preferences_dialog.c:250
 msgid "Timeout"
 msgstr "Zeitspanne"
 
-#: ../src/preferences_dialog.c:273
+#: ../src/preferences_dialog.c:253
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -507,39 +515,39 @@ msgstr ""
 "Die Zeitspanne, die ein Bild angezeigt wird\n"
 "(in Sekunden)"
 
-#: ../src/preferences_dialog.c:289
+#: ../src/preferences_dialog.c:269
 msgid "Control"
 msgstr "Steuerung"
 
-#: ../src/preferences_dialog.c:293
+#: ../src/preferences_dialog.c:273
 msgid "Scroll wheel"
 msgstr "Mausrad"
 
-#: ../src/preferences_dialog.c:296
+#: ../src/preferences_dialog.c:276
 msgid "Invert zoom direction"
 msgstr "Zoomrichtung umkehren"
 
-#: ../src/preferences_dialog.c:306
+#: ../src/preferences_dialog.c:286
 msgid "Behaviour"
 msgstr "Verhalten"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:291
 msgid "Startup"
 msgstr "Programmstart"
 
-#: ../src/preferences_dialog.c:313
+#: ../src/preferences_dialog.c:293
 msgid "Maximize window on startup when opening an image"
 msgstr "Fenster beim Start maximieren, wenn ein Bild geöffnet wird"
 
-#: ../src/preferences_dialog.c:319
+#: ../src/preferences_dialog.c:299
 msgid "Wrap around images"
 msgstr "Um Bilder herum packen"
 
-#: ../src/preferences_dialog.c:338
+#: ../src/preferences_dialog.c:318
 msgid "Desktop"
 msgstr "Arbeitsumgebung"
 
-#: ../src/preferences_dialog.c:460
+#: ../src/preferences_dialog.c:440
 msgid "Image Viewer Preferences"
 msgstr "Einstellungen des Bildbetrachters"
 
@@ -655,6 +663,15 @@ msgstr "Bilder anschauen leicht gemacht"
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto Bildbetrachter"
 
+#~ msgid "Show _Navigation Toolbar"
+#~ msgstr "_Navigationsleiste anzeigen"
+
+#~ msgid "Toolbars"
+#~ msgstr "Werkzeugleisten"
+
+#~ msgid "Merge toolbars"
+#~ msgstr "Werkzeugleisten zusammenfassen"
+
 #~ msgid "Spacing"
 #~ msgstr "Abstand"
 
@@ -750,9 +767,6 @@ msgstr "Ristretto Bildbetrachter"
 
 #~ msgid "_Print"
 #~ msgstr "_Drucken"
-
-#~ msgid "Print the image"
-#~ msgstr "Das Bild drucken"
 
 #~ msgid "Quality"
 #~ msgstr "Qualität"
