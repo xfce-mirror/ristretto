@@ -1,8 +1,3 @@
- - Implement file-monitoring, to track an opened file even when it moves
-   across the filesystem. The thunar-properties dialog allows renaming
-   of the files, using that dialog makes ristretto lose track of an
-   opened file at runtime.
-
  - Try the possibilities of replacing the thumbnail-bar with an iconview
    widget.
 
