@@ -247,7 +247,7 @@ msgstr "Lascia a schermo i_ntero"
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:391
 msgid "_Show Toolbar"
-msgstr "Mostra la barra degli _strumenti "
+msgstr "Mostra la barra degli str_umenti "
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:393
