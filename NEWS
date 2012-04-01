@@ -1,4 +1,4 @@
-x.x.x
+0.3.6
 =====
 - Clear tooltip if image is closed
 - Provide mime-type when loading image, gdkpixbufloader makes mistakes
