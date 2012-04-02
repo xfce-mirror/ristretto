@@ -2,6 +2,7 @@ src/main.c
 src/main_window.c
 src/app_menu_item.c
 src/image_viewer.c
+src/icon_bar.c
 src/privacy_dialog.c
 src/preferences_dialog.c
 src/properties_dialog.c
