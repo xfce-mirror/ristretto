@@ -3333,6 +3333,18 @@ rstto_main_window_launch_editor_chooser (
     label = gtk_label_new (label_text);
     check_button = gtk_check_button_new_with_mnemonic(_("Use as _default for this kind of file"));
     scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_policy (
+            GTK_SCROLLED_WINDOW (scrolled_window),
+            GTK_POLICY_AUTOMATIC,
+            GTK_POLICY_AUTOMATIC);
+    gtk_scrolled_window_set_shadow_type (
+            GTK_SCROLLED_WINDOW (scrolled_window),
+            GTK_SHADOW_IN);
+    gtk_widget_set_size_request (
+            scrolled_window,
+            300,
+            200);
+
     treeview = gtk_tree_view_new ();
     list_store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_OBJECT);
 
