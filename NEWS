@@ -1,47 +1,13 @@
-x.x.x
+0.5.0
 =====
-- Fix bug #8343 (Do not use symbols from gtk+ > 2.20)
-- Autogenerate Changelog on make dist
-- Update scale information when box-zoom is used.
-
-0.3.2
-=====
-- Add missing docs
-
-0.3.1
-=====
-- Fix bug #3688 (Drag and Drop support for ristretto) When an image
-  is dropped on the main-window, ristretto opens it and its siblings.
-- Fix bug #5246 (Set as wallpaper doesn't work in GNOME)
-- Fix bug #6509 (Implement file-monitor)
-- Fix bug #7818 (statusbar pixel info) Improve statusbar messages.
-- Fix bug #8026 (monitors in "set as wallpaper" dialog alignment) add
-  'foot' to the monitors and align to that.
-- Fix bug #8134 (Fix Segmentation fault when 
-  paint_background_icon tries to use a NULL bg_icon)
-- Fix bug #8135 (Fix compile with --enable-debug=full)
-- Fix bug #8176 (Request for warning dialog window informing user
-  tumblerd is not reachable/installed)
-- Fix bug #8211 (Segfault on exit) Correctly cleanup the thumbnailer on
-  shutdown.
-- Fix bug #8296 (Ristretto crashes when a file is added to the monitored
-  dir), reconsidered reference-counting on file-objects. Do not let
-  image-list assume reference, but add it's own.
-- Fix bug #8317 (Blurred full-screen image) off-by-0.5 only applies to
-  single lines, not pixbufs.
-- Do not open the copy of an image when saving.
-- Apply saturation and brightness settings in the set-wallpaper
-  preview widget.
-- Add 'has-next' and 'has-previous' functions to disable the sensitivity
-  of the 'back' and 'forward' buttons when showing the first or last
-  image in a list.
-- Improve preview of the set-wallpaper dialog.
-- Make sure file-types unsupported by gdkpixbufloader are not accidently
-  included in the image-list.
-- Save the sorting algoritm.
-- Limit rendering of selection-box to the inside of the image.
-- Allow a directory to be passed in as a command-line argument.
-
+- Use only one toolbar
+- Remove the 'close' button from the toolbar, and replace it
+  with an 'edit' quick-launcher.
+- Add support for a default editor.
+- Replace the thumbnailbar with a port of exo-icon-bar
+- Remove exo dependency
+- Support http://docs.xfce.org/ for documentation
+ 
 0.3.0
 =====
 - Re-introduce autorotation based on the exif-orientation tag, a
