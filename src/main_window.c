@@ -55,13 +55,11 @@
 #define RISTRETTO_APP_TITLE _("Image Viewer")
 #endif
 
-#ifndef RISTRETTO_HELP_LOCATION
-#define RISTRETTO_HELP_LOCATION "file://"DOCDIR"/html/C/index.html"
-#endif
-
+#define RISTRETTO_DESKTOP_ID "ristretto.desktop"
 
 #define RSTTO_RECENT_FILES_APP_NAME "ristretto"
 #define RSTTO_RECENT_FILES_GROUP "Graphics"
+
 
 struct _RsttoMainWindowPriv
 {
@@ -153,6 +151,10 @@ rstto_window_save_geometry_timer (gpointer user_data);
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
 
+static void
+rstto_main_window_launch_editor_chooser (
+        RsttoMainWindow *window);
+
 static gboolean
 cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event);
 static void
@@ -186,6 +188,9 @@ static void
 cb_rstto_main_window_first_image (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_last_image (GtkWidget *widget, RsttoMainWindow *window);
+
+static void
+cb_rstto_main_window_open_with_other_app (GtkWidget *widget, RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window);
@@ -983,6 +988,11 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
     RsttoImageList *image_list = window->priv->image_list;
     GList *app_list, *iter;
     const gchar *content_type;
+    const gchar *editor;
+    const gchar *id;
+    GtkWidget *menu_item = NULL;
+    GDesktopAppInfo *app_info = NULL;
+
     GtkWidget *open_with_menu = gtk_menu_new();
     GtkWidget *open_with_window_menu = gtk_menu_new();
     gtk_menu_item_set_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget ( window->priv->ui_manager, "/image-viewer-menu/open-with-menu")), open_with_menu);
@@ -1006,20 +1016,58 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
                     0);
 
             app_list = g_app_info_get_all_for_type (content_type);
+            editor = rstto_mime_db_lookup (window->priv->db, content_type);
+
+            if (editor)
+            {
+                app_info = g_desktop_app_info_new (editor);
+                if ( app_info != NULL )
+                {
+                    menu_item = rstto_app_menu_item_new (G_APP_INFO (app_info), rstto_file_get_file (cur_file));
+                    gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
+                    menu_item = rstto_app_menu_item_new (G_APP_INFO (app_info), rstto_file_get_file (cur_file));
+                    gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
+
+                    menu_item = gtk_separator_menu_item_new ();
+                    gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
+                    menu_item = gtk_separator_menu_item_new ();
+                    gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
+                }
+            }
 
             if (NULL != app_list)
             {
                 for (iter = app_list; iter; iter = g_list_next (iter))
                 {
-                    GtkWidget *menu_item = rstto_app_menu_item_new (iter->data, rstto_file_get_file (cur_file));
-                    gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
-                    menu_item = rstto_app_menu_item_new (iter->data, rstto_file_get_file (cur_file));
-                    gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
+                    id = g_app_info_get_id (iter->data);
+                    if (strcmp (id, RISTRETTO_DESKTOP_ID))
+                    {
+                        if ((!editor) || (editor && strcmp (id, editor)))
+                        {
+                            menu_item = rstto_app_menu_item_new (iter->data, rstto_file_get_file (cur_file));
+                            gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
+                            menu_item = rstto_app_menu_item_new (iter->data, rstto_file_get_file (cur_file));
+                            gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
+                        }
+                    }
                 }
+
+                menu_item = gtk_separator_menu_item_new ();
+                gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
+                menu_item = gtk_separator_menu_item_new ();
+                gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
             }
             else
             {
             }
+
+            menu_item = gtk_menu_item_new_with_mnemonic (_("Open With Other _Application"));
+            gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
+            g_signal_connect(G_OBJECT(menu_item), "activate", G_CALLBACK(cb_rstto_main_window_open_with_other_app), window);
+
+            menu_item = gtk_menu_item_new_with_mnemonic (_("Open With Other _Application"));
+            gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
+            g_signal_connect(G_OBJECT(menu_item), "activate", G_CALLBACK(cb_rstto_main_window_open_with_other_app), window);
 
             gtk_widget_show_all (open_with_menu);
             gtk_widget_show_all (open_with_window_menu);
@@ -1038,7 +1086,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         }
         else
         {
-            GtkWidget *menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
+            menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
             gtk_widget_set_sensitive (menu_item, FALSE);
 
@@ -2522,6 +2570,18 @@ cb_rstto_main_window_previous_image (GtkWidget *widget, RsttoMainWindow *window)
     rstto_image_list_iter_previous (window->priv->iter);
 }
 
+/**
+ * cb_rstto_main_window_open_with_other_app:
+ * @widget:
+ * @window:
+ *
+ */
+static void
+cb_rstto_main_window_open_with_other_app (GtkWidget *widget, RsttoMainWindow *window)
+{
+    rstto_main_window_launch_editor_chooser (window);
+}
+
 /**********************/
 /* FILE I/O CALLBACKS */
 /**********************/
@@ -2872,32 +2932,11 @@ cb_rstto_main_window_edit (
         GtkWidget *widget,
         RsttoMainWindow *window)
 {
-    RsttoFile *r_file = rstto_image_list_iter_get_file(window->priv->iter);
-    const gchar *content_type = rstto_file_get_content_type (r_file);
-    const gchar *editor = rstto_mime_db_lookup (window->priv->db, content_type);
-    GList *files = g_list_prepend (NULL, rstto_file_get_file (r_file));
-    GList *app_infos = NULL;
-    GList *app_infos_iter = NULL;
+    RsttoFile       *r_file = rstto_image_list_iter_get_file(window->priv->iter);
+    const gchar     *content_type = rstto_file_get_content_type (r_file);
+    const gchar     *editor = rstto_mime_db_lookup (window->priv->db, content_type);
+    GList           *files = g_list_prepend (NULL, rstto_file_get_file (r_file));
     GDesktopAppInfo *app_info = NULL;
-    GtkCellRenderer    *renderer;
-    GtkWidget *dialog = NULL;
-    GtkWidget *content_area;
-    GtkWidget *hbox;
-    GtkWidget *vbox;
-    GtkWidget *image;
-    GtkWidget *label;
-    GtkWidget *check_button;
-    GtkWidget *treeview;
-    GtkWidget *scrolled_window;
-    GtkListStore       *list_store;
-    GtkTreeIter   iter;
-    GtkTreeSelection *selection;
-    gchar *label_text = NULL;
-
-    const gchar *icon;
-    const gchar *id;
-    const gchar *name;
-    const GdkPixbuf *pixbuf;
 
     if ( editor != NULL )
     {
@@ -2910,109 +2949,7 @@ cb_rstto_main_window_edit (
         }
     }
 
-    dialog = gtk_dialog_new_with_buttons (
-            _("Edit with"),
-            GTK_WINDOW (window),
-            GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
-            GTK_STOCK_CANCEL,
-            GTK_RESPONSE_CANCEL,
-            GTK_STOCK_OK,
-            GTK_RESPONSE_OK,
-            NULL);
-
-    content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-    vbox = gtk_vbox_new (FALSE, 0);
-    hbox = gtk_hbox_new (FALSE, 0);
-    image = gtk_image_new_from_icon_name (content_type, GTK_ICON_SIZE_DIALOG);
-    label_text = g_strdup_printf (_("Open %s and other files of type %s with:"), rstto_file_get_display_name (r_file), content_type);
-    label = gtk_label_new (label_text);
-    check_button = gtk_check_button_new_with_mnemonic(_("Use as _default for this kind of file"));
-    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-    treeview = gtk_tree_view_new ();
-    list_store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_OBJECT);
-
-    gtk_tree_view_set_headers_visible (
-            GTK_TREE_VIEW (treeview),
-            FALSE);
-    gtk_tree_view_set_model (
-            GTK_TREE_VIEW (treeview),
-            GTK_TREE_MODEL (list_store));
-
-    renderer = gtk_cell_renderer_pixbuf_new();
-    gtk_tree_view_insert_column_with_attributes (
-        GTK_TREE_VIEW (treeview),
-        0,"", renderer, "pixbuf", 0, NULL);
-
-    renderer = gtk_cell_renderer_text_new ();
-    gtk_tree_view_insert_column_with_attributes (
-        GTK_TREE_VIEW (treeview),
-        1,"", renderer, "text", 1, NULL);
-
-    app_infos = g_app_info_get_all_for_type (content_type);
-    app_infos_iter = app_infos;
-
-    while (app_infos_iter)
-    {
-        id = g_app_info_get_id (app_infos_iter->data);
-
-        /* Do not add ristretto to the list */
-        if (strcmp (id, "ristretto.desktop"))
-        {
-            icon = g_icon_to_string (g_app_info_get_icon (app_infos_iter->data));
-
-            pixbuf = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default (),
-                    icon,
-                    36,
-                    GTK_ICON_LOOKUP_FORCE_SIZE,
-                    NULL);
-
-            name = g_app_info_get_display_name (app_infos_iter->data),
-
-            gtk_list_store_append (list_store, &iter);
-
-            gtk_list_store_set (list_store, &iter,
-                                0, pixbuf,
-                                1, name,
-                                2, app_infos_iter->data,
-                                -1);
-        }
-        app_infos_iter = g_list_next (app_infos_iter);
-    }
-
-
-    gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-
-    gtk_container_add (GTK_CONTAINER (scrolled_window), treeview);
-
-    gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), check_button, FALSE, FALSE, 0);
-    gtk_container_add (GTK_CONTAINER (content_area), vbox);
-
-    gtk_widget_show_all (content_area);
-
-    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
-    {
-        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (treeview));
-        if (gtk_tree_selection_get_selected (selection, NULL, &iter))
-        {
-            gtk_tree_model_get (GTK_TREE_MODEL (list_store), &iter, 2, &app_info, -1);
-            if ( app_info != NULL )
-            {
-                g_app_info_launch (G_APP_INFO(app_info), files, NULL, NULL);
-                if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button)))
-                {
-                    rstto_mime_db_store (window->priv->db, content_type, g_app_info_get_id (G_APP_INFO(app_info)));
-                }
-            }
-        }
-    }
-
-    gtk_widget_destroy (dialog);
+    rstto_main_window_launch_editor_chooser (window);
     
     g_list_free (files);
 }
@@ -3346,6 +3283,143 @@ rstto_main_window_add_file_to_recent_files (GFile *file)
 
     g_object_unref (file);
     return FALSE;
+}
+
+static void
+rstto_main_window_launch_editor_chooser (
+        RsttoMainWindow *window)
+{
+    RsttoFile *r_file = rstto_image_list_iter_get_file(window->priv->iter);
+    const gchar *content_type = rstto_file_get_content_type (r_file);
+    GList *files = g_list_prepend (NULL, rstto_file_get_file (r_file));
+    GList *app_infos = NULL;
+    GList *app_infos_iter = NULL;
+    GDesktopAppInfo *app_info = NULL;
+    GtkCellRenderer    *renderer;
+    GtkWidget *dialog = NULL;
+    GtkWidget *content_area;
+    GtkWidget *hbox;
+    GtkWidget *vbox;
+    GtkWidget *image;
+    GtkWidget *label;
+    GtkWidget *check_button;
+    GtkWidget *treeview;
+    GtkWidget *scrolled_window;
+    GtkListStore       *list_store;
+    GtkTreeIter   iter;
+    GtkTreeSelection *selection;
+    gchar *label_text = NULL;
+
+    const gchar *icon;
+    const gchar *id;
+    const gchar *name;
+    const GdkPixbuf *pixbuf;
+
+    dialog = gtk_dialog_new_with_buttons (
+            _("Edit with"),
+            GTK_WINDOW (window),
+            GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
+            GTK_STOCK_CANCEL,
+            GTK_RESPONSE_CANCEL,
+            GTK_STOCK_OK,
+            GTK_RESPONSE_OK,
+            NULL);
+
+    content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+    vbox = gtk_vbox_new (FALSE, 0);
+    hbox = gtk_hbox_new (FALSE, 0);
+    image = gtk_image_new_from_icon_name (content_type, GTK_ICON_SIZE_DIALOG);
+    label_text = g_strdup_printf (_("Open %s and other files of type %s with:"), rstto_file_get_display_name (r_file), content_type);
+    label = gtk_label_new (label_text);
+    check_button = gtk_check_button_new_with_mnemonic(_("Use as _default for this kind of file"));
+    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+    treeview = gtk_tree_view_new ();
+    list_store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_OBJECT);
+
+    gtk_tree_view_set_headers_visible (
+            GTK_TREE_VIEW (treeview),
+            FALSE);
+    gtk_tree_view_set_model (
+            GTK_TREE_VIEW (treeview),
+            GTK_TREE_MODEL (list_store));
+
+    renderer = gtk_cell_renderer_pixbuf_new();
+    gtk_tree_view_insert_column_with_attributes (
+        GTK_TREE_VIEW (treeview),
+        0,"", renderer, "pixbuf", 0, NULL);
+
+    renderer = gtk_cell_renderer_text_new ();
+    gtk_tree_view_insert_column_with_attributes (
+        GTK_TREE_VIEW (treeview),
+        1,"", renderer, "text", 1, NULL);
+
+    app_infos = g_app_info_get_all_for_type (content_type);
+    app_infos_iter = app_infos;
+
+    while (app_infos_iter)
+    {
+        id = g_app_info_get_id (app_infos_iter->data);
+
+        /* Do not add ristretto to the list */
+        if (strcmp (id, RISTRETTO_DESKTOP_ID))
+        {
+            icon = g_icon_to_string (g_app_info_get_icon (app_infos_iter->data));
+
+            pixbuf = gtk_icon_theme_load_icon (
+                    gtk_icon_theme_get_default (),
+                    icon,
+                    36,
+                    GTK_ICON_LOOKUP_FORCE_SIZE,
+                    NULL);
+
+            name = g_app_info_get_display_name (app_infos_iter->data),
+
+            gtk_list_store_append (list_store, &iter);
+
+            gtk_list_store_set (list_store, &iter,
+                                0, pixbuf,
+                                1, name,
+                                2, app_infos_iter->data,
+                                -1);
+        }
+        app_infos_iter = g_list_next (app_infos_iter);
+    }
+
+
+    gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+
+    gtk_container_add (GTK_CONTAINER (scrolled_window), treeview);
+
+    gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), check_button, FALSE, FALSE, 0);
+    gtk_container_add (GTK_CONTAINER (content_area), vbox);
+
+    gtk_widget_show_all (content_area);
+
+    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+    {
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (treeview));
+        if (gtk_tree_selection_get_selected (selection, NULL, &iter))
+        {
+            gtk_tree_model_get (GTK_TREE_MODEL (list_store), &iter, 2, &app_info, -1);
+            if ( app_info != NULL )
+            {
+                g_app_info_launch (G_APP_INFO(app_info), files, NULL, NULL);
+                if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button)))
+                {
+                    rstto_mime_db_store (window->priv->db, content_type, g_app_info_get_id (G_APP_INFO(app_info)));
+                }
+            }
+        }
+    }
+
+    gtk_widget_destroy (dialog);
+    
+    g_list_free (files);
 }
 
 static void
