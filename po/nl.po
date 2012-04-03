@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-02 05:15+0000\n"
+"POT-Creation-Date: 2012-04-03 04:27+0000\n"
 "PO-Revision-Date: 2011-09-08 00:48+0200\n"
 "Last-Translator: Pjotr\n"
 "Language-Team: Dutch (Flemish)\n"
@@ -436,6 +436,66 @@ msgstr "Open %s en andere bestanden van type %s met:"
 #: ../src/main_window.c:3334
 msgid "Use as _default for this kind of file"
 msgstr "Gebruik als standaard voor dit soort bestand"
+
+#: ../src/icon_bar.c:345
+msgid "Orientation"
+msgstr "Oriëntatie"
+
+#: ../src/icon_bar.c:346
+msgid "The orientation of the iconbar"
+msgstr "De oriëntatie van de pictogrambalk"
+
+#: ../src/icon_bar.c:362
+msgid "File column"
+msgstr "Bestandkolom"
+
+#: ../src/icon_bar.c:363
+msgid "Model column used to retrieve the file from"
+msgstr "Modelkolom gebruikt om het bestand uit op te halen"
+
+#: ../src/icon_bar.c:375
+msgid "Icon Bar Model"
+msgstr "Pictogrambalkmodel"
+
+#: ../src/icon_bar.c:376
+msgid "Model for the icon bar"
+msgstr "Model voor de pictogrambalk"
+
+#: ../src/icon_bar.c:392
+msgid "Active"
+msgstr "Actief"
+
+#: ../src/icon_bar.c:393
+msgid "Active item index"
+msgstr "Actieve elementenindex"
+
+#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+msgid "Show Text"
+msgstr "Tekst tonen"
+
+#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+msgid "Active item fill color"
+msgstr "Vulkleur van actieve element"
+
+#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+msgid "Active item border color"
+msgstr "Randkleur van actieve element"
+
+#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+msgid "Active item text color"
+msgstr "Tekstkleur van actieve element"
+
+#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+msgid "Cursor item fill color"
+msgstr "Vulkleur van aanwijzerelement"
+
+#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+msgid "Cursor item border color"
+msgstr "Randkleur van aanwijzerelement"
+
+#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+msgid "Cursor item text color"
+msgstr "Tekstkleur van aanwijzerelement"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
