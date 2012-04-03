@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-02 05:15+0000\n"
+"POT-Creation-Date: 2012-04-03 04:27+0000\n"
 "PO-Revision-Date: 2010-11-23 23:34+0800\n"
 "Last-Translator: Chipong Luo <chipong.luo@yahoo.com>\n"
 "Language-Team: Chinese (Simplified) <xfce-i18n@xfce.org>\n"
@@ -440,6 +440,66 @@ msgstr "打开 %s 和其它 %s 类型的文件用："
 #: ../src/main_window.c:3334
 msgid "Use as _default for this kind of file"
 msgstr "用作此种类文件的默认(_D)"
+
+#: ../src/icon_bar.c:345
+msgid "Orientation"
+msgstr "方向"
+
+#: ../src/icon_bar.c:346
+msgid "The orientation of the iconbar"
+msgstr "图标栏方向"
+
+#: ../src/icon_bar.c:362
+msgid "File column"
+msgstr "文件栏"
+
+#: ../src/icon_bar.c:363
+msgid "Model column used to retrieve the file from"
+msgstr "用来获取文件的模式栏"
+
+#: ../src/icon_bar.c:375
+msgid "Icon Bar Model"
+msgstr "图标栏模式"
+
+#: ../src/icon_bar.c:376
+msgid "Model for the icon bar"
+msgstr "图标栏模式"
+
+#: ../src/icon_bar.c:392
+msgid "Active"
+msgstr "当前的"
+
+#: ../src/icon_bar.c:393
+msgid "Active item index"
+msgstr "当前项目索引"
+
+#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+msgid "Show Text"
+msgstr "显示文字"
+
+#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+msgid "Active item fill color"
+msgstr "当前项目填充色"
+
+#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+msgid "Active item border color"
+msgstr "当前项目边框色"
+
+#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+msgid "Active item text color"
+msgstr "当前项目文字色"
+
+#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+msgid "Cursor item fill color"
+msgstr "光标项目填充色"
+
+#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+msgid "Cursor item border color"
+msgstr "光标项目边框色"
+
+#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+msgid "Cursor item text color"
+msgstr "光标项目文字色"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
