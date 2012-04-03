@@ -165,7 +165,7 @@ msgstr "_Priderinti prie lango"
 
 #: ../src/main_window.c:359
 msgid "_Normal Size"
-msgstr "_Normalus dydis"
+msgstr "_Tikras dydis"
 
 #. Rotation submenu
 #: ../src/main_window.c:361
