@@ -40,7 +40,7 @@ msgstr "슬라이드 쇼 시작하기"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr "설정 대화상자 보기"
+msgstr "설정 대화상자 표시"
 
 #: ../src/main.c:105
 #, c-format
@@ -87,7 +87,7 @@ msgstr "속성(_P)"
 
 #: ../src/main_window.c:321
 msgid "Show file properties"
-msgstr "파일 속성 보기"
+msgstr "파일 속성 표시"
 
 #: ../src/main_window.c:322
 msgid "_Close"
@@ -217,7 +217,7 @@ msgstr "내용(_C)"
 
 #: ../src/main_window.c:357
 msgid "Display ristretto user manual"
-msgstr "리스트레또 사용자 설명서 보기"
+msgstr "리스트레또 사용자 설명서 표시"
 
 #: ../src/main_window.c:360
 msgid "_About"
@@ -225,7 +225,7 @@ msgstr "정보(_A)"
 
 #: ../src/main_window.c:362
 msgid "Display information about ristretto"
-msgstr "리스트레또에 대한 정보 보기"
+msgstr "리스트레또에 대한 정보 표시"
 
 #. Position Menu
 #: ../src/main_window.c:365
@@ -244,17 +244,17 @@ msgstr "전체 화면 나가기(_F)"
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:376
 msgid "Show _File Toolbar"
-msgstr "파일 도구막대 보기(_F)"
+msgstr "파일 도구막대 표시(_F)"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:378
 msgid "Show _Navigation Toolbar"
-msgstr "탐색 도구막대 보기(_N)"
+msgstr "탐색 도구막대 표시(_N)"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:380
 msgid "Show _Thumbnail Bar"
-msgstr "섬네일 막대 보기(_T)"
+msgstr "섬네일 막대 표시(_T)"
 
 #. Sort by Filename
 #: ../src/main_window.c:387
