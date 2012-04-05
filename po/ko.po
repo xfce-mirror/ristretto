@@ -632,7 +632,7 @@ msgstr "늘임"
 
 #: ../src/xfce_wallpaper_manager.c:519
 msgid "Scaled"
-msgstr "크기조절됨"
+msgstr "크기조절함"
 
 #: ../src/xfce_wallpaper_manager.c:522
 msgid "Zoomed"
