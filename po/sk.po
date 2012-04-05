@@ -450,10 +450,9 @@ msgstr "Orientácia panelu s ikonami"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
-msgstr ""
+msgstr "Stĺpec súboru"
 
 #: ../src/icon_bar.c:363
-#, fuzzy
 msgid "Model column used to retrieve the file from"
 msgstr "Stĺpec modelu, na získanie súboru"
 
