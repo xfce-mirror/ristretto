@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-03-11 22:51+0000\n"
+"POT-Creation-Date: 2012-04-07 00:54+0000\n"
 "PO-Revision-Date: 2008-12-19 22:32+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -44,210 +44,209 @@ msgstr ""
 "Coba %s --help untuk melihat senarai penuh dari opsi baris perintah yang "
 "tersedia.\n"
 
-#: ../src/main_window.c:53 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:55 ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "Penilik Gambar"
 
 #. File Menu
-#: ../src/main_window.c:334
+#: ../src/main_window.c:335
 msgid "_File"
 msgstr "_Berkas"
 
-#: ../src/main_window.c:335
+#: ../src/main_window.c:336
 msgid "_Open"
 msgstr "_Buka"
 
-#: ../src/main_window.c:335
+#: ../src/main_window.c:336
 msgid "Open an image"
 msgstr "Buka sebuah gambar"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:337
 msgid "_Save copy"
 msgstr "_Simpan salinan"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:337
 msgid "Save a copy of the image"
 msgstr "Simpan sebuah salinan gambar"
 
-#: ../src/main_window.c:337
+#: ../src/main_window.c:338
 msgid "_Properties"
 msgstr "_Properti"
 
-#: ../src/main_window.c:337
+#: ../src/main_window.c:338
 msgid "Show file properties"
 msgstr "Tampilkan properti berkas"
 
-#: ../src/main_window.c:338
-msgid "_Close"
-msgstr "_Tutup"
-
-#: ../src/main_window.c:338
-msgid "Close this image"
-msgstr "Tutup gambar ini"
-
-#: ../src/main_window.c:339
-msgid "_Quit"
-msgstr "_Keluar"
-
-#: ../src/main_window.c:339
-msgid "Quit Ristretto"
-msgstr "Keluar Ristretto"
-
 #. Edit Menu
-#: ../src/main_window.c:341
+#: ../src/main_window.c:339 ../src/main_window.c:343
 msgid "_Edit"
 msgstr "_Sunting"
 
-#: ../src/main_window.c:342
+#: ../src/main_window.c:339
+msgid "Edit this image"
+msgstr "Ubah gambar ini"
+
+#: ../src/main_window.c:340
+msgid "_Close"
+msgstr "_Tutup"
+
+#: ../src/main_window.c:340
+msgid "Close this image"
+msgstr "Tutup gambar ini"
+
+#: ../src/main_window.c:341
+msgid "_Quit"
+msgstr "_Keluar"
+
+#: ../src/main_window.c:341
+msgid "Quit Ristretto"
+msgstr "Keluar Ristretto"
+
+#: ../src/main_window.c:344
 msgid "_Open with..."
 msgstr "_Buka dengan..."
 
-#: ../src/main_window.c:343
+#: ../src/main_window.c:345
 msgid "_Sorting"
 msgstr "_Pengurutan"
 
-#: ../src/main_window.c:344
+#: ../src/main_window.c:346
 msgid "_Delete"
 msgstr "_Hapus"
 
-#: ../src/main_window.c:344
+#: ../src/main_window.c:346
 msgid "Delete this image from disk"
 msgstr "Hapus gambar ini dari cakram"
 
-#: ../src/main_window.c:345
+#: ../src/main_window.c:347
 msgid "_Clear private data"
 msgstr "_Hapus data pribadi"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:348
 msgid "_Preferences"
 msgstr "_Pengaturan"
 
 #. View Menu
-#: ../src/main_window.c:348
+#: ../src/main_window.c:350
 msgid "_View"
 msgstr "_Tampilan"
 
-#: ../src/main_window.c:349
+#: ../src/main_window.c:351
 msgid "_Fullscreen"
 msgstr "_Layar Penuh"
 
-#: ../src/main_window.c:350
+#: ../src/main_window.c:352
 msgid "_Leave Fullscreen"
 msgstr "_Tinggalkan Layar Penuh"
 
-#: ../src/main_window.c:351
+#: ../src/main_window.c:353
 msgid "_Set as Wallpaper"
 msgstr "_Atur sebagai Gambar Latar"
 
 #. Zoom submenu
-#: ../src/main_window.c:353
+#: ../src/main_window.c:355
 msgid "_Zoom"
 msgstr "_Pembesaran"
 
-#: ../src/main_window.c:354
+#: ../src/main_window.c:356
 msgid "Zoom _In"
 msgstr "_Pembesaran"
 
-#: ../src/main_window.c:355
+#: ../src/main_window.c:357
 msgid "Zoom _Out"
 msgstr "P_engecilan"
 
-#: ../src/main_window.c:356
+#: ../src/main_window.c:358
 msgid "Zoom _Fit"
 msgstr "Pe_ngepasan"
 
-#: ../src/main_window.c:357
+#: ../src/main_window.c:359
 msgid "_Normal Size"
 msgstr "_Ukuran Normal"
 
 #. Rotation submenu
-#: ../src/main_window.c:359
+#: ../src/main_window.c:361
 msgid "_Rotation"
 msgstr "_Rotasi"
 
-#: ../src/main_window.c:360
+#: ../src/main_window.c:362
 msgid "Rotate _Right"
 msgstr "Rotasi ke Ka_nan"
 
-#: ../src/main_window.c:361
+#: ../src/main_window.c:363
 msgid "Rotate _Left"
 msgstr "Rotasi ke Ki_ri"
 
 #. Go Menu
-#: ../src/main_window.c:363
+#: ../src/main_window.c:365
 msgid "_Go"
 msgstr "_Ke"
 
-#: ../src/main_window.c:364
+#: ../src/main_window.c:366
 msgid "_Forward"
 msgstr "_Maju"
 
-#: ../src/main_window.c:365
+#: ../src/main_window.c:367
 msgid "_Back"
 msgstr "M_undur"
 
-#: ../src/main_window.c:366
+#: ../src/main_window.c:368
 msgid "_First"
 msgstr "Per_tama"
 
-#: ../src/main_window.c:367
+#: ../src/main_window.c:369
 msgid "_Last"
 msgstr "Te_rakhir"
 
 #. Help Menu
-#: ../src/main_window.c:369
+#: ../src/main_window.c:371
 msgid "_Help"
 msgstr "Ban_tuan"
 
-#: ../src/main_window.c:371
+#: ../src/main_window.c:373
 msgid "_Contents"
 msgstr "_Isi"
 
-#: ../src/main_window.c:373
+#: ../src/main_window.c:375
 msgid "Display ristretto user manual"
 msgstr "Tampilkan manual pengguna ristretto"
 
-#: ../src/main_window.c:376
+#: ../src/main_window.c:378
 msgid "_About"
 msgstr "_Tentang"
 
-#: ../src/main_window.c:378
+#: ../src/main_window.c:380
 msgid "Display information about ristretto"
 msgstr "Tampilkan informasi tentang ristretto"
 
 #. Position Menu
-#: ../src/main_window.c:381
+#: ../src/main_window.c:383
 msgid "_Position"
 msgstr "_Posisi"
 
-#: ../src/main_window.c:382
+#: ../src/main_window.c:384
 msgid "_Size"
 msgstr "_Ukuran"
 
-#: ../src/main_window.c:383
+#: ../src/main_window.c:385
 msgid "Thumbnail Bar _Position"
 msgstr "_Posisi Barang Miniatur"
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:386
 msgid "Thumbnail _Size"
 msgstr "Ukuran _Miniatur"
 
 #. Misc
-#: ../src/main_window.c:386
+#: ../src/main_window.c:388
 msgid "Leave _Fullscreen"
 msgstr "Tinggalkan _Layar Penuh"
 
 #. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:394
-msgid "Show _File Toolbar"
+#: ../src/main_window.c:396
+msgid "_Show Toolbar"
 msgstr "Tampi_lkan Batang Alat Berkas"
 
 #. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:396
-msgid "Show _Navigation Toolbar"
-msgstr "Tampi_lkan Batang Alat Navigasi"
-
-#. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:398
 msgid "Show _Thumbnail Bar"
 msgstr "_Tampilkan Batang Miniatur"
@@ -312,44 +311,48 @@ msgid "Very Large"
 msgstr "Sangat Besar"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:579
+#: ../src/main_window.c:587
 msgid "_Play"
 msgstr "_Putar"
 
-#: ../src/main_window.c:579
+#: ../src/main_window.c:587
 msgid "Play slideshow"
 msgstr "Putar salindia"
 
-#: ../src/main_window.c:580
+#: ../src/main_window.c:588
 msgid "_Pause"
 msgstr "_Jeda"
 
-#: ../src/main_window.c:580
+#: ../src/main_window.c:588
 msgid "Pause slideshow"
 msgstr "Jeda salindia"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:583
+#: ../src/main_window.c:591
 msgid "_Recently used"
 msgstr "Bar_u digunakan"
 
-#: ../src/main_window.c:583
+#: ../src/main_window.c:591
 msgid "Recently used"
 msgstr "Baru digunakan"
 
-#: ../src/main_window.c:692 ../src/main_window.c:1207
+#: ../src/main_window.c:695 ../src/main_window.c:1202
 msgid "Press open to select an image"
 msgstr "Tekan buka untuk memilih gambar"
 
-#: ../src/main_window.c:1094 ../src/main_window.c:1100
+#: ../src/main_window.c:1064 ../src/main_window.c:1068
+msgid "Open With Other _Application"
+msgstr "Buka dengan Aplikasi Lain"
+
+#: ../src/main_window.c:1089 ../src/main_window.c:1095
 msgid "Empty"
 msgstr "Kosong"
 
-#: ../src/main_window.c:2146
+#: ../src/main_window.c:1806
 msgid "Choose 'set wallpaper' method"
 msgstr "Pilih metode 'atur gambar belakang'"
 
-#: ../src/main_window.c:2161 ../src/preferences_dialog.c:349
+#: ../src/main_window.c:1821 ../src/preferences_dialog.c:329
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -359,63 +362,136 @@ msgstr ""
 "Pengaturan ini menentukan metode yang akan <i>Ristretto</i> gunakan\n"
 "untuk mengonfigurasi gambar belakang desktop."
 
-#: ../src/main_window.c:2186 ../src/preferences_dialog.c:373
+#: ../src/main_window.c:1846 ../src/preferences_dialog.c:353
 msgid "None"
 msgstr "Tak ada"
 
-#: ../src/main_window.c:2190 ../src/preferences_dialog.c:377
+#: ../src/main_window.c:1850 ../src/preferences_dialog.c:357
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2194 ../src/preferences_dialog.c:381
+#: ../src/main_window.c:1854 ../src/preferences_dialog.c:361
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2650
+#: ../src/main_window.c:2294
 msgid "Developer:"
 msgstr "Pengembang:"
 
-#: ../src/main_window.c:2659
+#: ../src/main_window.c:2303
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto adalah penilik gambar untuk lingkungan desktop Xfce."
 
-#: ../src/main_window.c:2667
+#: ../src/main_window.c:2311
 msgid "translator-credits"
 msgstr "Andhika Padmawan <andhika.padmawan@gmail.com>"
 
-#: ../src/main_window.c:2957
+#: ../src/main_window.c:2613
 msgid "Open image"
 msgstr "Buka gambar"
 
-#: ../src/main_window.c:2976
+#: ../src/main_window.c:2632
 msgid "Images"
 msgstr "Gambar"
 
-#: ../src/main_window.c:2981
+#: ../src/main_window.c:2637
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3008 ../src/main_window.c:3110
+#: ../src/main_window.c:2664 ../src/main_window.c:2766
 msgid "Could not open file"
 msgstr "Tak dapat membuka berkas"
 
-#: ../src/main_window.c:3143
+#: ../src/main_window.c:2799
 msgid "Save copy"
 msgstr "Simpan salinan"
 
-#: ../src/main_window.c:3169
+#: ../src/main_window.c:2825
 msgid "Could not save file"
 msgstr "Tak dapat menyimpan berkas"
 
-#: ../src/main_window.c:3300
+#: ../src/main_window.c:2991
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Anda yakin ingin menghapus gambar '%s' dari cakram?"
 
-#: ../src/main_window.c:3324
+#: ../src/main_window.c:3015
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Anda yakin anda ingin mengirim gambar '%s' ke kotak sampah?"
+
+#: ../src/main_window.c:3319
+msgid "Edit with"
+msgstr "Ubah dengan"
+
+#: ../src/main_window.c:3332
+#, c-format
+msgid "Open %s and other files of type %s with:"
+msgstr "Buka %s dan berkas bertipe %s dengan:"
+
+#: ../src/main_window.c:3334
+msgid "Use as _default for this kind of file"
+msgstr "Gunakan sebagai aplikasi stan_dar untuk jenis berkas ini"
+
+#: ../src/icon_bar.c:345
+msgid "Orientation"
+msgstr "Orientasi"
+
+#: ../src/icon_bar.c:346
+msgid "The orientation of the iconbar"
+msgstr "Orientasi batang ikon"
+
+#: ../src/icon_bar.c:362
+msgid "File column"
+msgstr "Kolom berkas"
+
+#: ../src/icon_bar.c:363
+msgid "Model column used to retrieve the file from"
+msgstr "Model kolom untuk mendapatkan berkas"
+
+#: ../src/icon_bar.c:375
+msgid "Icon Bar Model"
+msgstr "Model Batang Ikon"
+
+#: ../src/icon_bar.c:376
+msgid "Model for the icon bar"
+msgstr "Model untuk batang ikon"
+
+#: ../src/icon_bar.c:392
+msgid "Active"
+msgstr "Aktif"
+
+#: ../src/icon_bar.c:393
+msgid "Active item index"
+msgstr "Bagian item aktif"
+
+#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+msgid "Show Text"
+msgstr "Tampilkan Teks"
+
+#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+msgid "Active item fill color"
+msgstr "Warna isi item aktif"
+
+#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+msgid "Active item border color"
+msgstr "Warna pembatas item aktif"
+
+#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+msgid "Active item text color"
+msgstr "Warna tulisan item aktif"
+
+#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+msgid "Cursor item fill color"
+msgstr "Warna isi item kursor"
+
+#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+msgid "Cursor item border color"
+msgstr "Warna pembatas item kursor"
+
+#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+msgid "Cursor item text color"
+msgstr "Warna tulisan item kursor"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
@@ -449,31 +525,23 @@ msgstr "Semua"
 msgid "Clear private data"
 msgstr "Hapus data pribadi"
 
-#: ../src/preferences_dialog.c:196
+#: ../src/preferences_dialog.c:189
 msgid "Display"
 msgstr "Tampilan"
 
-#: ../src/preferences_dialog.c:202
+#: ../src/preferences_dialog.c:194
 msgid "Background color"
 msgstr "Warna latar belakang"
 
-#: ../src/preferences_dialog.c:204
-msgid "Toolbars"
-msgstr "Batang alat"
-
-#: ../src/preferences_dialog.c:209
+#: ../src/preferences_dialog.c:198
 msgid "Override background color:"
 msgstr "Timpa warna latar belakang:"
 
-#: ../src/preferences_dialog.c:220
-msgid "Merge toolbars"
-msgstr "Gabungkan batang alat"
-
-#: ../src/preferences_dialog.c:225
+#: ../src/preferences_dialog.c:210
 msgid "Thumbnails"
 msgstr "Miniatur"
 
-#: ../src/preferences_dialog.c:228
+#: ../src/preferences_dialog.c:213
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
@@ -481,19 +549,19 @@ msgstr ""
 "Batang alat miniatur dapat secara otomatis bersembunyi \n"
 "ketika penilik gambar sedang dalam layar penuh"
 
-#: ../src/preferences_dialog.c:230
+#: ../src/preferences_dialog.c:215
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Sembunyikan batang miniatur ketika layar penuh"
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:246
 msgid "Slideshow"
 msgstr "Tampil Salindia"
 
-#: ../src/preferences_dialog.c:270
+#: ../src/preferences_dialog.c:250
 msgid "Timeout"
 msgstr "Waktu Jeda"
 
-#: ../src/preferences_dialog.c:273
+#: ../src/preferences_dialog.c:253
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -501,39 +569,39 @@ msgstr ""
 "Waktu membatasi gambar individu yang ditayangkan ketika tampil salindia\n"
 "(dalam detik)"
 
-#: ../src/preferences_dialog.c:289
+#: ../src/preferences_dialog.c:269
 msgid "Control"
 msgstr "Kontrol"
 
-#: ../src/preferences_dialog.c:293
+#: ../src/preferences_dialog.c:273
 msgid "Scroll wheel"
 msgstr "Roda gulung"
 
-#: ../src/preferences_dialog.c:296
+#: ../src/preferences_dialog.c:276
 msgid "Invert zoom direction"
 msgstr "Arah pembesaran terbalik"
 
-#: ../src/preferences_dialog.c:306
+#: ../src/preferences_dialog.c:286
 msgid "Behaviour"
 msgstr "Perilaku"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:291
 msgid "Startup"
 msgstr "Mulai"
 
-#: ../src/preferences_dialog.c:313
+#: ../src/preferences_dialog.c:293
 msgid "Maximize window on startup when opening an image"
 msgstr "Maksimalkan jendela saat hidupkan ketika membuka gambar"
 
-#: ../src/preferences_dialog.c:319
+#: ../src/preferences_dialog.c:299
 msgid "Wrap around images"
 msgstr "Gulung sekeliling gambar"
 
-#: ../src/preferences_dialog.c:338
+#: ../src/preferences_dialog.c:318
 msgid "Desktop"
 msgstr "Desktop"
 
-#: ../src/preferences_dialog.c:460
+#: ../src/preferences_dialog.c:440
 msgid "Image Viewer Preferences"
 msgstr "Pengaturan Penilik Gambar"
 
@@ -649,6 +717,15 @@ msgstr "Lihat foto anda dengan mudah"
 msgid "Ristretto Image Viewer"
 msgstr "Penilik Gambar Ristretto"
 
+#~ msgid "Show _Navigation Toolbar"
+#~ msgstr "Tampi_lkan Batang Alat Navigasi"
+
+#~ msgid "Toolbars"
+#~ msgstr "Batang alat"
+
+#~ msgid "Merge toolbars"
+#~ msgstr "Gabungkan batang alat"
+
 #~ msgid "Spacing"
 #~ msgstr "Spasi"
 
@@ -735,9 +812,6 @@ msgstr "Penilik Gambar Ristretto"
 
 #~ msgid "_Print"
 #~ msgstr "_Cetak"
-
-#~ msgid "Print the image"
-#~ msgstr "Cetak gambar"
 
 #~ msgid "Preload images"
 #~ msgstr "Prata_yang gambar"
