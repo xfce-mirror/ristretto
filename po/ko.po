@@ -441,7 +441,7 @@ msgstr "도구막대"
 
 #: ../src/preferences_dialog.c:209
 msgid "Override background color:"
-msgstr "바꿀 배경 색:"
+msgstr "우선 적용할 배경 색:"
 
 #: ../src/preferences_dialog.c:220
 msgid "Merge toolbars"
