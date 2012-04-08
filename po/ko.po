@@ -400,7 +400,7 @@ msgstr "개발자:"
 
 #: ../src/main_window.c:2303
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "리스트레또는 Xfce 데스크톱 환경을 위한 그림 뷰어 입니다."
+msgstr "리스트레또는 Xfce 데스크톱 환경의 그림 뷰어 입니다."
 
 #: ../src/main_window.c:2311
 msgid "translator-credits"
