@@ -563,7 +563,7 @@ msgstr "배경 색"
 
 #: ../src/preferences_dialog.c:198
 msgid "Override background color:"
-msgstr "바꿀 배경 색:"
+msgstr "우선 적용할 배경 색:"
 
 #: ../src/preferences_dialog.c:210
 msgid "Thumbnails"
