@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-04-08 05:39+0000\n"
-"PO-Revision-Date: 2012-04-08 11:01+0100\n"
+"PO-Revision-Date: 2012-04-08 11:18+0100\n"
 "Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech\n"
 "Language: \n"
@@ -440,7 +440,7 @@ msgstr "Upravit pomocí"
 #: ../src/main_window.c:3332
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr "Otevřít typ %s a a jiné soubory typu %s pomocí:"
+msgstr "Otevřít soubor %s a a další soubory typu %s pomocí:"
 
 #: ../src/main_window.c:3334
 msgid "Use as _default for this kind of file"
@@ -460,15 +460,15 @@ msgstr "Sloupec soubor"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr ""
+msgstr "Model sloupce použitý pro získání souboru"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
-msgstr ""
+msgstr "Model panelu ikon"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr ""
+msgstr "Model pro panel ikon"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
@@ -679,7 +679,7 @@ msgid ""
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
 msgstr ""
-"V téti relaci nelze kontaktovat službu\n"
+"V této relaci nelze kontaktovat službu\n"
 "thumbnailer-service, náhledy nebudou\n"
 "vytvořeny.\n"
 "\n"
