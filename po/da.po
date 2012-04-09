@@ -423,9 +423,9 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Er du sikker på, at du vil slette billedet '%s' fra disken?"
 
 #: ../src/main_window.c:3015
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Er du sikker på, at du vil slette billedet '%s' fra disken?"
+msgstr "Er du sikker på, at du vil sende billedet '%s' i papirkurven?"
 
 #: ../src/main_window.c:3319
 msgid "Edit with"
@@ -438,16 +438,15 @@ msgstr "Åbn  %s og andre filer af typen %s med:"
 
 #: ../src/main_window.c:3334
 msgid "Use as _default for this kind of file"
-msgstr ""
+msgstr "Brug som _standard til denne type af filer"
 
 #: ../src/icon_bar.c:345
-#, fuzzy
 msgid "Orientation"
-msgstr "_Rotering"
+msgstr "_Orientering"
 
 #: ../src/icon_bar.c:346
 msgid "The orientation of the iconbar"
-msgstr ""
+msgstr "Orientering af ikonbjælken"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
@@ -459,7 +458,7 @@ msgstr ""
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
-msgstr ""
+msgstr "Ikonbjælkemodel"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
@@ -467,15 +466,15 @@ msgstr ""
 
 #: ../src/icon_bar.c:392
 msgid "Active"
-msgstr ""
+msgstr "Aktive"
 
 #: ../src/icon_bar.c:393
 msgid "Active item index"
-msgstr ""
+msgstr "Aktivt elementindeks"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
-msgstr ""
+msgstr "Vis tekst"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
