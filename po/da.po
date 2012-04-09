@@ -462,7 +462,7 @@ msgstr "Ikonbjælkemodel"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr ""
+msgstr "Model for ikonbjælken"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
@@ -478,11 +478,11 @@ msgstr "Vis tekst"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr ""
+msgstr "Aktiv elementfarve til udfyldning"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr ""
+msgstr "Aktiv elementkantfarve"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
