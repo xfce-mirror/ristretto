@@ -216,9 +216,8 @@ msgid "_Forward"
 msgstr "前进(_F)"
 
 #: ../src/main_window.c:381
-#, fuzzy
 msgid "Next image"
-msgstr "打开图片"
+msgstr "下一个图片"
 
 #: ../src/main_window.c:382
 msgid "_Back"
