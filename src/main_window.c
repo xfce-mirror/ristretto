@@ -3328,7 +3328,7 @@ rstto_main_window_launch_editor_chooser (
     GtkTreeViewColumn *column;
     gchar *label_text = NULL;
 
-    const gchar *icon;
+    gchar *icon;
     const gchar *id;
     const gchar *name;
     const GdkPixbuf *pixbuf = NULL;
@@ -3350,6 +3350,8 @@ rstto_main_window_launch_editor_chooser (
 
     g_icon = g_content_type_get_icon (content_type);
     image = gtk_image_new_from_gicon (g_icon,   GTK_ICON_SIZE_DIALOG);
+    g_object_unref (g_icon);
+
     label_text = g_strdup_printf (_("Open %s and other files of type %s with:"), rstto_file_get_display_name (r_file), content_type);
     label = gtk_label_new (label_text);
     check_button = gtk_check_button_new_with_mnemonic(_("Use as _default for this kind of file"));
@@ -3432,6 +3434,11 @@ rstto_main_window_launch_editor_chooser (
                         EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET, TRUE,
                         EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET, FALSE,
                         -1);
+    if (NULL != pixbuf)
+    {
+        g_object_unref (G_OBJECT(pixbuf));
+        pixbuf = NULL;
+    }
 
 
     while (app_infos_iter)
@@ -3441,14 +3448,22 @@ rstto_main_window_launch_editor_chooser (
         /* Do not add ristretto to the list */
         if (strcmp (id, RISTRETTO_DESKTOP_ID))
         {
-            icon = g_icon_to_string (g_app_info_get_icon (app_infos_iter->data));
 
-            pixbuf = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default (),
-                    icon,
-                    24,
-                    GTK_ICON_LOOKUP_FORCE_SIZE,
-                    NULL);
+            g_icon = g_app_info_get_icon (app_infos_iter->data);
+            if (g_icon != NULL)
+            {
+                icon = g_icon_to_string (g_icon);
+
+                pixbuf = gtk_icon_theme_load_icon (
+                        gtk_icon_theme_get_default (),
+                        icon,
+                        24,
+                        GTK_ICON_LOOKUP_FORCE_SIZE,
+                        NULL);
+
+                g_free (icon);
+                g_object_unref (G_OBJECT(g_icon));
+            }
 
             name = g_app_info_get_display_name (app_infos_iter->data),
 
@@ -3466,6 +3481,11 @@ rstto_main_window_launch_editor_chooser (
                     EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET, FALSE,
                     EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET, FALSE,
                     -1);
+            if (NULL != pixbuf)
+            {
+                g_object_unref (G_OBJECT(pixbuf));
+                pixbuf = NULL;
+            }
         }
         app_infos_iter = g_list_next (app_infos_iter);
     }
@@ -3486,6 +3506,11 @@ rstto_main_window_launch_editor_chooser (
                         EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET, TRUE,
                         EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET, FALSE,
                         -1);
+    if (NULL != pixbuf)
+    {
+        g_object_unref (G_OBJECT(pixbuf));
+        pixbuf = NULL;
+    }
 
     app_infos_iter = app_infos_all;
     while (app_infos_iter)
@@ -3508,6 +3533,8 @@ rstto_main_window_launch_editor_chooser (
                             24,
                             GTK_ICON_LOOKUP_FORCE_SIZE,
                             NULL);
+                    g_object_unref (G_OBJECT(g_icon));
+                    g_free (icon);
                 }
                 else
                 {
@@ -3532,6 +3559,11 @@ rstto_main_window_launch_editor_chooser (
                         EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET, FALSE,
                         EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET, FALSE,
                         -1);
+                if (NULL != pixbuf)
+                {
+                    g_object_unref (G_OBJECT(pixbuf));
+                    pixbuf = NULL;
+                }
             }
         }
         app_infos_iter = g_list_next (app_infos_iter);
@@ -3572,7 +3604,12 @@ rstto_main_window_launch_editor_chooser (
     }
 
     gtk_widget_destroy (dialog);
+
+    g_list_foreach (app_infos_recommended, (GFunc)g_object_unref, NULL);
+    g_list_foreach (app_infos_all, (GFunc)g_object_unref, NULL);
     
+    g_list_free (app_infos_recommended);
+    g_list_free (app_infos_all);
     g_list_free (files);
 }
 
