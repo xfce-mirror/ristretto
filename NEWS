@@ -1,6 +1,8 @@
 x.x.x
 =====
 - Add 'other' applications to the editor-chooser applications-list.
+- Show mime-type icon instead of 'broken-image' icon in the
+  editor-chooser.
 
 0.5.0
 =====
