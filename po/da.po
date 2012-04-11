@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.90\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-11 02:39+0000\n"
+"POT-Creation-Date: 2012-04-11 06:09+0000\n"
 "PO-Revision-Date: 2010-01-15 12:00+0100\n"
 "Last-Translator: Per Kongstad <p_kongstad@op.pl>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -139,18 +139,16 @@ msgid "_Fullscreen"
 msgstr "_Fuldskærm"
 
 #: ../src/main_window.c:366
-#, fuzzy
 msgid "Switch to fullscreen"
-msgstr "Start i fuldskærmstilstand"
+msgstr "Skift til fuldskærmstilstand"
 
 #: ../src/main_window.c:367
 msgid "_Leave Fullscreen"
 msgstr "_Forlad fuldskærm"
 
 #: ../src/main_window.c:367
-#, fuzzy
 msgid "Leave Fullscreen"
-msgstr "_Forlad fuldskærm"
+msgstr "Forlad fuldskærm"
 
 #: ../src/main_window.c:368
 msgid "_Set as Wallpaper"
@@ -166,27 +164,24 @@ msgid "Zoom _In"
 msgstr "Zoom _ind"
 
 #: ../src/main_window.c:371
-#, fuzzy
 msgid "Zoom in"
-msgstr "Zoom _ind"
+msgstr "Zoom ind"
 
 #: ../src/main_window.c:372
 msgid "Zoom _Out"
 msgstr "Zoom _ud"
 
 #: ../src/main_window.c:372
-#, fuzzy
 msgid "Zoom out"
-msgstr "Zoom _ud"
+msgstr "Zoom ud"
 
 #: ../src/main_window.c:373
 msgid "Zoom _Fit"
 msgstr "_Tilpas zoom"
 
 #: ../src/main_window.c:373
-#, fuzzy
 msgid "Zoom to fit window"
-msgstr "Zoom ind og ud"
+msgstr "Tilpas zoom til skærm"
 
 #: ../src/main_window.c:374
 msgid "_Normal Size"
@@ -194,7 +189,7 @@ msgstr "_Normal størrelse"
 
 #: ../src/main_window.c:374
 msgid "Zoom to 100%"
-msgstr ""
+msgstr "Zoom til 100%"
 
 #. Rotation submenu
 #: ../src/main_window.c:376
@@ -219,36 +214,32 @@ msgid "_Forward"
 msgstr "_Fremad"
 
 #: ../src/main_window.c:381
-#, fuzzy
 msgid "Next image"
-msgstr "Åbn billede"
+msgstr "Næste billede"
 
 #: ../src/main_window.c:382
 msgid "_Back"
 msgstr "_Tilbage"
 
 #: ../src/main_window.c:382
-#, fuzzy
 msgid "Previous image"
-msgstr "Forudindlæs billeder"
+msgstr "Forrige billede"
 
 #: ../src/main_window.c:383
 msgid "_First"
 msgstr "Førs_te"
 
 #: ../src/main_window.c:383
-#, fuzzy
 msgid "First image"
-msgstr "Skift billeder"
+msgstr "Første billede"
 
 #: ../src/main_window.c:384
 msgid "_Last"
 msgstr "S_idste"
 
 #: ../src/main_window.c:384
-#, fuzzy
 msgid "Last image"
-msgstr "Luk dette billede"
+msgstr "Sidste billede"
 
 #. Help Menu
 #: ../src/main_window.c:386
@@ -491,12 +482,11 @@ msgstr "Brug som _standard til denne type af filer"
 
 #: ../src/main_window.c:3431
 msgid "Recommended Applications"
-msgstr ""
+msgstr "Anbefalede programmer"
 
 #: ../src/main_window.c:3503
-#, fuzzy
 msgid "Other Applications"
-msgstr "Åbn med et andet _program"
+msgstr "Andre programmer"
 
 #: ../src/icon_bar.c:345
 msgid "Orientation"
