@@ -502,7 +502,7 @@ msgstr "Filkolonne"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr ""
+msgstr "Standardkolonne som bruges til at tage filen fra"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
