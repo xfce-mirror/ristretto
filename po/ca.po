@@ -6,19 +6,19 @@
 # Carles Muñoz Gorriz <carlesmu@internautas.org>, 2008-2012.
 # Harald Servat <redcrash@gmail.com>, 2009.
 # Pol Ruzafa <kiari62@gmail.com>, 2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-03-31 12:39+0000\n"
+"POT-Creation-Date: 2012-04-12 07:24+0000\n"
 "PO-Revision-Date: 2012-03-31 19:21+0100\n"
 "Last-Translator: Carles Muñoz Gorriz <carlesmu@internautas.org>\n"
 "Language-Team: Catalan <xfce-i18n@xfce.org>\n"
-"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: Catalan\n"
 
@@ -56,306 +56,350 @@ msgid "Image Viewer"
 msgstr "Visor d'imatges"
 
 #. File Menu
-#: ../src/main_window.c:330
+#: ../src/main_window.c:350
 msgid "_File"
 msgstr "_Fitxer"
 
-#: ../src/main_window.c:331
+#: ../src/main_window.c:351
 msgid "_Open"
 msgstr "_Obre"
 
-#: ../src/main_window.c:331
+#: ../src/main_window.c:351
 msgid "Open an image"
 msgstr "Obre una imatge"
 
-#: ../src/main_window.c:332
+#: ../src/main_window.c:352
 msgid "_Save copy"
 msgstr "_Desa una còpia"
 
-#: ../src/main_window.c:332
+#: ../src/main_window.c:352
 msgid "Save a copy of the image"
 msgstr "Desa una còpia de la imatge"
 
-#: ../src/main_window.c:333
+#: ../src/main_window.c:353
 msgid "_Properties"
 msgstr "_Propietats"
 
-#: ../src/main_window.c:333
+#: ../src/main_window.c:353
 msgid "Show file properties"
 msgstr "Mostra les propietats del fitxer"
 
 #. Edit Menu
-#: ../src/main_window.c:334 ../src/main_window.c:338
+#: ../src/main_window.c:354 ../src/main_window.c:358
 msgid "_Edit"
 msgstr "_Edita"
 
-#: ../src/main_window.c:334
+#: ../src/main_window.c:354
 msgid "Edit this image"
 msgstr "Edita aquesta imatge"
 
-#: ../src/main_window.c:335
+#: ../src/main_window.c:355
 msgid "_Close"
 msgstr "_Tanca"
 
-#: ../src/main_window.c:335
+#: ../src/main_window.c:355
 msgid "Close this image"
 msgstr "Tanca aquesta finestra"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:356
 msgid "_Quit"
 msgstr "_Surt"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:356
 msgid "Quit Ristretto"
 msgstr "Surt de Ristretto"
 
-#: ../src/main_window.c:339
+#: ../src/main_window.c:359
 msgid "_Open with..."
 msgstr "_Obre amb…"
 
-#: ../src/main_window.c:340
+#: ../src/main_window.c:360
 msgid "_Sorting"
 msgstr "_Ordenació"
 
-#: ../src/main_window.c:341
+#: ../src/main_window.c:361
 msgid "_Delete"
 msgstr "_Esborra"
 
-#: ../src/main_window.c:341
+#: ../src/main_window.c:361
 msgid "Delete this image from disk"
 msgstr "Esborra aquesta imatge del disc"
 
-#: ../src/main_window.c:342
+#: ../src/main_window.c:362
 msgid "_Clear private data"
 msgstr "_Neteja l'informació privada"
 
-#: ../src/main_window.c:343
+#: ../src/main_window.c:363
 msgid "_Preferences"
 msgstr "_Preferències"
 
 #. View Menu
-#: ../src/main_window.c:345
+#: ../src/main_window.c:365
 msgid "_View"
 msgstr "_Mostra"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:366
 msgid "_Fullscreen"
 msgstr "_Pantalla completa"
 
-#: ../src/main_window.c:347
+#: ../src/main_window.c:366
+msgid "Switch to fullscreen"
+msgstr "Canvia al mode de pantalla completa"
+
+#: ../src/main_window.c:367
 msgid "_Leave Fullscreen"
 msgstr "_Surt de la pantalla completa"
 
-#: ../src/main_window.c:348
+#: ../src/main_window.c:367
+msgid "Leave Fullscreen"
+msgstr "Surt del mode de pantalla completa"
+
+#: ../src/main_window.c:368
 msgid "_Set as Wallpaper"
 msgstr "Posa com _fons d'escriptori"
 
 #. Zoom submenu
-#: ../src/main_window.c:350
+#: ../src/main_window.c:370
 msgid "_Zoom"
 msgstr "_Zoom"
 
-#: ../src/main_window.c:351
+#: ../src/main_window.c:371
 msgid "Zoom _In"
 msgstr "Ampl_ia"
 
-#: ../src/main_window.c:352
+#: ../src/main_window.c:371
+msgid "Zoom in"
+msgstr "Amplia"
+
+#: ../src/main_window.c:372
 msgid "Zoom _Out"
 msgstr "Red_ueix"
 
-#: ../src/main_window.c:353
+#: ../src/main_window.c:372
+msgid "Zoom out"
+msgstr "Redueix"
+
+#: ../src/main_window.c:373
 msgid "Zoom _Fit"
 msgstr "_Ajusta"
 
-#: ../src/main_window.c:354
+#: ../src/main_window.c:373
+msgid "Zoom to fit window"
+msgstr "Encaixa a la finestra"
+
+#: ../src/main_window.c:374
 msgid "_Normal Size"
 msgstr "Mida _normal"
 
+#: ../src/main_window.c:374
+msgid "Zoom to 100%"
+msgstr "Mostra a mida real"
+
 #. Rotation submenu
-#: ../src/main_window.c:356
+#: ../src/main_window.c:376
 msgid "_Rotation"
 msgstr "_Rotació"
 
-#: ../src/main_window.c:357
+#: ../src/main_window.c:377
 msgid "Rotate _Right"
 msgstr "Gira a la _dreta"
 
-#: ../src/main_window.c:358
+#: ../src/main_window.c:378
 msgid "Rotate _Left"
 msgstr "Gira a l'_esquerra"
 
 #. Go Menu
-#: ../src/main_window.c:360
+#: ../src/main_window.c:380
 msgid "_Go"
 msgstr "_Vés"
 
-#: ../src/main_window.c:361
+#: ../src/main_window.c:381
 msgid "_Forward"
 msgstr "_Endavant"
 
-#: ../src/main_window.c:362
+#: ../src/main_window.c:381
+msgid "Next image"
+msgstr "Imatge següent"
+
+#: ../src/main_window.c:382
 msgid "_Back"
 msgstr "_Endarrere"
 
-#: ../src/main_window.c:363
+#: ../src/main_window.c:382
+msgid "Previous image"
+msgstr "Imatge anterior"
+
+#: ../src/main_window.c:383
 msgid "_First"
 msgstr "_Primer"
 
-#: ../src/main_window.c:364
+#: ../src/main_window.c:383
+msgid "First image"
+msgstr "Primera imatge"
+
+#: ../src/main_window.c:384
 msgid "_Last"
 msgstr "_Últim"
 
+#: ../src/main_window.c:384
+msgid "Last image"
+msgstr "Última imatge"
+
 #. Help Menu
-#: ../src/main_window.c:366
+#: ../src/main_window.c:386
 msgid "_Help"
 msgstr "A_juda"
 
-#: ../src/main_window.c:368
+#: ../src/main_window.c:388
 msgid "_Contents"
 msgstr "_Continguts"
 
-#: ../src/main_window.c:370
+#: ../src/main_window.c:390
 msgid "Display ristretto user manual"
 msgstr "Mostra el manual d'usuari de ristretto"
 
-#: ../src/main_window.c:373
+#: ../src/main_window.c:393
 msgid "_About"
 msgstr "_Quant a"
 
-#: ../src/main_window.c:375
+#: ../src/main_window.c:395
 msgid "Display information about ristretto"
 msgstr "Mostra informació referent a ristretto"
 
 #. Position Menu
-#: ../src/main_window.c:378
+#: ../src/main_window.c:398
 msgid "_Position"
 msgstr "_Posició"
 
-#: ../src/main_window.c:379
+#: ../src/main_window.c:399
 msgid "_Size"
 msgstr "_Mida"
 
-#: ../src/main_window.c:380
+#: ../src/main_window.c:400
 msgid "Thumbnail Bar _Position"
 msgstr "_Posició de la barra de miniatures"
 
-#: ../src/main_window.c:381
+#: ../src/main_window.c:401
 msgid "Thumbnail _Size"
 msgstr "_Mida de miniatures"
 
 #. Misc
-#: ../src/main_window.c:383
+#: ../src/main_window.c:403
 msgid "Leave _Fullscreen"
 msgstr "Surt de la _pantalla completa"
 
 #. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:391
+#: ../src/main_window.c:411
 msgid "_Show Toolbar"
 msgstr "Mostra la barra d'_eines "
 
 #. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:393
+#: ../src/main_window.c:413
 msgid "Show _Thumbnail Bar"
 msgstr "Mostra la _barra de miniatures"
 
 #. Toggle visibility of the statusbar
-#: ../src/main_window.c:395
+#: ../src/main_window.c:415
 msgid "Show _Status Bar"
 msgstr "Mostra la barra d'e_stat"
 
 #. Sort by Filename
-#: ../src/main_window.c:402
+#: ../src/main_window.c:422
 msgid "sort by filename"
 msgstr "Ordena per nom de fitxer"
 
 #. Sort by Date
-#: ../src/main_window.c:404
+#: ../src/main_window.c:424
 msgid "sort by date"
 msgstr "Ordena per data"
 
-#: ../src/main_window.c:410
+#: ../src/main_window.c:430
 msgid "Left"
 msgstr "Esquerra"
 
-#: ../src/main_window.c:411
+#: ../src/main_window.c:431
 msgid "Right"
 msgstr "Dreta"
 
-#: ../src/main_window.c:412
+#: ../src/main_window.c:432
 msgid "Top"
 msgstr "Superior"
 
-#: ../src/main_window.c:413
+#: ../src/main_window.c:433
 msgid "Bottom"
 msgstr "Inferior"
 
-#: ../src/main_window.c:419
+#: ../src/main_window.c:439
 msgid "Very Small"
 msgstr "Molt petita"
 
-#: ../src/main_window.c:420
+#: ../src/main_window.c:440
 msgid "Smaller"
 msgstr "Força petita"
 
-#: ../src/main_window.c:421
+#: ../src/main_window.c:441
 msgid "Small"
 msgstr "Petita"
 
-#: ../src/main_window.c:422
+#: ../src/main_window.c:442
 msgid "Normal"
 msgstr "Normal"
 
-#: ../src/main_window.c:423
+#: ../src/main_window.c:443
 msgid "Large"
 msgstr "Gran"
 
-#: ../src/main_window.c:424
+#: ../src/main_window.c:444
 msgid "Larger"
 msgstr "Força gran"
 
-#: ../src/main_window.c:425
+#: ../src/main_window.c:445
 msgid "Very Large"
 msgstr "Molt gran"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:582
+#: ../src/main_window.c:602
 msgid "_Play"
 msgstr "_Reproduir"
 
-#: ../src/main_window.c:582
+#: ../src/main_window.c:602
 msgid "Play slideshow"
 msgstr "Reprodueix la seqüència d'imatges"
 
-#: ../src/main_window.c:583
+#: ../src/main_window.c:603
 msgid "_Pause"
 msgstr "_Pausa"
 
-#: ../src/main_window.c:583
+#: ../src/main_window.c:603
 msgid "Pause slideshow"
 msgstr "Pausa la seqüència d'imatges"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:586
+#: ../src/main_window.c:606
 msgid "_Recently used"
 msgstr "Emprats _recentment"
 
-#: ../src/main_window.c:586
+#: ../src/main_window.c:606
 msgid "Recently used"
 msgstr "Emprats recentment"
 
-#: ../src/main_window.c:690 ../src/main_window.c:1154
+#: ../src/main_window.c:710 ../src/main_window.c:1217
 msgid "Press open to select an image"
 msgstr "Feu clic a Obrir per seleccionar una imatge"
 
-#: ../src/main_window.c:1041 ../src/main_window.c:1047
+#: ../src/main_window.c:1079 ../src/main_window.c:1083
+msgid "Open With Other _Application"
+msgstr "Obre amb una altra _aplicació"
+
+#: ../src/main_window.c:1104 ../src/main_window.c:1110
 msgid "Empty"
 msgstr "Buit"
 
-#: ../src/main_window.c:1758
+#: ../src/main_window.c:1821
 msgid "Choose 'set wallpaper' method"
 msgstr "Trieu el mètode «Posa com fons d'escriptori»"
 
-#: ../src/main_window.c:1773 ../src/preferences_dialog.c:329
+#: ../src/main_window.c:1836 ../src/preferences_dialog.c:329
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -365,78 +409,147 @@ msgstr ""
 "Aquest paràmetre determina quin mètode emprarà <i>Ristretto</i>\n"
 "per configurar el fons de l'escriptori."
 
-#: ../src/main_window.c:1798 ../src/preferences_dialog.c:353
+#: ../src/main_window.c:1861 ../src/preferences_dialog.c:353
 msgid "None"
 msgstr "Cap"
 
-#: ../src/main_window.c:1802 ../src/preferences_dialog.c:357
+#: ../src/main_window.c:1865 ../src/preferences_dialog.c:357
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:1806 ../src/preferences_dialog.c:361
+#: ../src/main_window.c:1869 ../src/preferences_dialog.c:361
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2246
+#: ../src/main_window.c:2309
 msgid "Developer:"
 msgstr "Autor:"
 
-#: ../src/main_window.c:2255
+#: ../src/main_window.c:2318
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto és un visor d'imatges per l'entorn d'escriptori Xfce."
 
-#: ../src/main_window.c:2263
+#: ../src/main_window.c:2326
 msgid "translator-credits"
 msgstr ""
 "Carles Muñoz Gorriz <carlesmu@internautas.org>, 2008-2010.\n"
 "Harald Servat <redcrash@gmail.com>, 2009."
 
-#: ../src/main_window.c:2553
+#: ../src/main_window.c:2628
 msgid "Open image"
 msgstr "Obre una imatge"
 
-#: ../src/main_window.c:2572
+#: ../src/main_window.c:2647
 msgid "Images"
 msgstr "Imatges"
 
-#: ../src/main_window.c:2577
+#: ../src/main_window.c:2652
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2604 ../src/main_window.c:2706
+#: ../src/main_window.c:2679 ../src/main_window.c:2781
 msgid "Could not open file"
 msgstr "No s'ha pogut obrir el fitxer"
 
-#: ../src/main_window.c:2739
+#: ../src/main_window.c:2814
 msgid "Save copy"
 msgstr "Desa una còpia"
 
-#: ../src/main_window.c:2765
+#: ../src/main_window.c:2840
 msgid "Could not save file"
 msgstr "No s'ha pogut desar el fitxer"
 
-#: ../src/main_window.c:2914
-msgid "Edit with"
-msgstr "Edita amb"
-
-#: ../src/main_window.c:2927
-#, c-format
-msgid "Open %s and other files of type %s with:"
-msgstr "Obra %s i altres fitxers del tipus %s amb:"
-
-#: ../src/main_window.c:2929
-msgid "Use as _default for this kind of file"
-msgstr "Per aquest tipus de fitxers empra'l per _defecte"
-
-#: ../src/main_window.c:3054
+#: ../src/main_window.c:3006
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Voleu suprimir la imatge «%s» del disc?"
 
-#: ../src/main_window.c:3078
+#: ../src/main_window.c:3030
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Voleu enviar la imatge «%s» a la paperera?"
+
+#: ../src/main_window.c:3338
+msgid "Edit with"
+msgstr "Edita amb"
+
+#: ../src/main_window.c:3355
+#, c-format
+msgid "Open %s and other files of type %s with:"
+msgstr "Obra %s i altres fitxers del tipus %s amb:"
+
+#: ../src/main_window.c:3357
+msgid "Use as _default for this kind of file"
+msgstr "Per aquest tipus de fitxers empra'l per _defecte"
+
+#: ../src/main_window.c:3431
+msgid "Recommended Applications"
+msgstr "Aplicacions recomanades"
+
+#: ../src/main_window.c:3503
+msgid "Other Applications"
+msgstr "Altres aplicacions"
+
+#: ../src/icon_bar.c:345
+msgid "Orientation"
+msgstr "Orientació"
+
+#: ../src/icon_bar.c:346
+#, fuzzy
+msgid "The orientation of the iconbar"
+msgstr "La orientació de la barra d'icones"
+
+#: ../src/icon_bar.c:362
+msgid "File column"
+msgstr "Columna de fitxers"
+
+#: ../src/icon_bar.c:363
+msgid "Model column used to retrieve the file from"
+msgstr ""
+
+#: ../src/icon_bar.c:375
+msgid "Icon Bar Model"
+msgstr ""
+
+#: ../src/icon_bar.c:376
+msgid "Model for the icon bar"
+msgstr ""
+
+#: ../src/icon_bar.c:392
+msgid "Active"
+msgstr ""
+
+#: ../src/icon_bar.c:393
+msgid "Active item index"
+msgstr ""
+
+#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+msgid "Show Text"
+msgstr "Mostra el text"
+
+#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+msgid "Active item fill color"
+msgstr ""
+
+#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+msgid "Active item border color"
+msgstr ""
+
+#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+msgid "Active item text color"
+msgstr ""
+
+#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+msgid "Cursor item fill color"
+msgstr ""
+
+#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+msgid "Cursor item border color"
+msgstr ""
+
+#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+msgid "Cursor item text color"
+msgstr ""
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
@@ -691,7 +804,6 @@ msgstr "Visor d'imatges Ristretto"
 #~ msgid "Preferences"
 #~ msgstr "Preferències"
 
-#, fuzzy
 #~ msgid "Image viewer"
 #~ msgstr "Visor d'imatges"
 
@@ -716,7 +828,6 @@ msgstr "Visor d'imatges Ristretto"
 #~ msgid "Monitor:"
 #~ msgstr "Pantalla:"
 
-#, fuzzy
 #~ msgid "Two"
 #~ msgstr "Superior"
 
@@ -725,12 +836,6 @@ msgstr "Visor d'imatges Ristretto"
 
 #~ msgid "No action"
 #~ msgstr "Cap acció"
-
-#~ msgid "Zoom in and out"
-#~ msgstr "Zoom d'apropar i allunyar"
-
-#~ msgid "Switch images"
-#~ msgstr "Canvia les imatges"
 
 #~ msgid "Memory"
 #~ msgstr "Memòria"
@@ -776,9 +881,6 @@ msgstr "Visor d'imatges Ristretto"
 
 #~ msgid "Low"
 #~ msgstr "Baixa"
-
-#~ msgid "Preload images"
-#~ msgstr "Càrrega prèvia d'imatges"
 
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
