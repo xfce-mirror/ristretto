@@ -139,18 +139,16 @@ msgid "_Fullscreen"
 msgstr "_Visas ekranas"
 
 #: ../src/main_window.c:366
-#, fuzzy
 msgid "Switch to fullscreen"
-msgstr "Paleisti viso ekrano režimu"
+msgstr "Perjungti į viso ekrano režimą"
 
 #: ../src/main_window.c:367
 msgid "_Leave Fullscreen"
 msgstr "_Palikti viso ekrano režimą"
 
 #: ../src/main_window.c:367
-#, fuzzy
 msgid "Leave Fullscreen"
-msgstr "_Palikti viso ekrano režimą"
+msgstr "Palikti viso ekrano režimą"
 
 #: ../src/main_window.c:368
 msgid "_Set as Wallpaper"
@@ -166,18 +164,16 @@ msgid "Zoom _In"
 msgstr "Pa_didinti"
 
 #: ../src/main_window.c:371
-#, fuzzy
 msgid "Zoom in"
-msgstr "Pa_didinti"
+msgstr "Padidinti"
 
 #: ../src/main_window.c:372
 msgid "Zoom _Out"
 msgstr "Su_mažinti"
 
 #: ../src/main_window.c:372
-#, fuzzy
 msgid "Zoom out"
-msgstr "Su_mažinti"
+msgstr "Sumažinti"
 
 #: ../src/main_window.c:373
 msgid "Zoom _Fit"
@@ -218,36 +214,32 @@ msgid "_Forward"
 msgstr "Pir_myn"
 
 #: ../src/main_window.c:381
-#, fuzzy
 msgid "Next image"
-msgstr "Atverti paveikslėlį"
+msgstr "Sekantis paveikslėlis"
 
 #: ../src/main_window.c:382
 msgid "_Back"
 msgstr "A_tgal"
 
 #: ../src/main_window.c:382
-#, fuzzy
 msgid "Previous image"
-msgstr "Užverti šį paveikslėlį"
+msgstr "Ankstesnis paveikslėlis"
 
 #: ../src/main_window.c:383
 msgid "_First"
 msgstr "_Pirmas"
 
 #: ../src/main_window.c:383
-#, fuzzy
 msgid "First image"
-msgstr "Redaguoti šį paveikslėlį"
+msgstr "Pirmas paveikslėlis"
 
 #: ../src/main_window.c:384
 msgid "_Last"
 msgstr "Pa_skutinis"
 
 #: ../src/main_window.c:384
-#, fuzzy
 msgid "Last image"
-msgstr "Užverti šį paveikslėlį"
+msgstr "Paskutinis paveikslėlis"
 
 #. Help Menu
 #: ../src/main_window.c:386
@@ -491,9 +483,8 @@ msgid "Recommended Applications"
 msgstr "Rekomenduojamos programos"
 
 #: ../src/main_window.c:3503
-#, fuzzy
 msgid "Other Applications"
-msgstr "Atverti su _kita programa"
+msgstr "Kitos programos"
 
 #: ../src/icon_bar.c:345
 msgid "Orientation"
