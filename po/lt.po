@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-03 04:27+0000\n"
+"POT-Creation-Date: 2012-04-12 13:09+0000\n"
 "PO-Revision-Date: 2012-01-28 18:13+0200\n"
 "Last-Translator: Algimantas Margevičius <margevicius.algimantas@gmail.com>\n"
 "Language-Team: Lietuvių <>\n"
@@ -52,310 +52,358 @@ msgid "Image Viewer"
 msgstr "Paveikslėlių peržiūros programa"
 
 #. File Menu
-#: ../src/main_window.c:335
+#: ../src/main_window.c:350
 msgid "_File"
 msgstr "_Failas"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:351
 msgid "_Open"
 msgstr "_Atverti"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:351
 msgid "Open an image"
 msgstr "Atverti paveikslėlį"
 
-#: ../src/main_window.c:337
+#: ../src/main_window.c:352
 msgid "_Save copy"
 msgstr "_Išsaugoti kopiją"
 
-#: ../src/main_window.c:337
+#: ../src/main_window.c:352
 msgid "Save a copy of the image"
 msgstr "Išsaugoti paveikslėlio kopiją"
 
-#: ../src/main_window.c:338
+#: ../src/main_window.c:353
 msgid "_Properties"
 msgstr "_Savybės"
 
-#: ../src/main_window.c:338
+#: ../src/main_window.c:353
 msgid "Show file properties"
 msgstr "Rodyti paveikslėlio savybes"
 
 #. Edit Menu
-#: ../src/main_window.c:339 ../src/main_window.c:343
+#: ../src/main_window.c:354 ../src/main_window.c:358
 msgid "_Edit"
 msgstr "_Keisti"
 
-#: ../src/main_window.c:339
+#: ../src/main_window.c:354
 msgid "Edit this image"
 msgstr "Redaguoti šį paveikslėlį"
 
-#: ../src/main_window.c:340
+#: ../src/main_window.c:355
 msgid "_Close"
 msgstr "_Užverti"
 
-#: ../src/main_window.c:340
+#: ../src/main_window.c:355
 msgid "Close this image"
 msgstr "Užverti šį paveikslėlį"
 
-#: ../src/main_window.c:341
+#: ../src/main_window.c:356
 msgid "_Quit"
 msgstr "I_šeiti"
 
-#: ../src/main_window.c:341
+#: ../src/main_window.c:356
 msgid "Quit Ristretto"
 msgstr "Išeiti Ristretto"
 
-#: ../src/main_window.c:344
+#: ../src/main_window.c:359
 msgid "_Open with..."
 msgstr "_Atverti su..."
 
-#: ../src/main_window.c:345
+#: ../src/main_window.c:360
 msgid "_Sorting"
 msgstr "_Rikiavimas"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:361
 msgid "_Delete"
 msgstr "Išt_rinti"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:361
 msgid "Delete this image from disk"
 msgstr "Ištrinti šį paveikslėlį iš disko"
 
-#: ../src/main_window.c:347
+#: ../src/main_window.c:362
 msgid "_Clear private data"
 msgstr "_Išvalyti duomenų saugyklą"
 
-#: ../src/main_window.c:348
+#: ../src/main_window.c:363
 msgid "_Preferences"
 msgstr "_Nustatymai"
 
 #. View Menu
-#: ../src/main_window.c:350
+#: ../src/main_window.c:365
 msgid "_View"
 msgstr "R_odymas"
 
-#: ../src/main_window.c:351
+#: ../src/main_window.c:366
 msgid "_Fullscreen"
 msgstr "_Visas ekranas"
 
-#: ../src/main_window.c:352
+#: ../src/main_window.c:366
+#, fuzzy
+msgid "Switch to fullscreen"
+msgstr "Paleisti viso ekrano režimu"
+
+#: ../src/main_window.c:367
 msgid "_Leave Fullscreen"
 msgstr "_Palikti viso ekrano režimą"
 
-#: ../src/main_window.c:353
+#: ../src/main_window.c:367
+#, fuzzy
+msgid "Leave Fullscreen"
+msgstr "_Palikti viso ekrano režimą"
+
+#: ../src/main_window.c:368
 msgid "_Set as Wallpaper"
 msgstr "_Nustatyti kaip darbastalio foną"
 
 #. Zoom submenu
-#: ../src/main_window.c:355
+#: ../src/main_window.c:370
 msgid "_Zoom"
 msgstr "Keisti _mastelį"
 
-#: ../src/main_window.c:356
+#: ../src/main_window.c:371
 msgid "Zoom _In"
 msgstr "Pa_didinti"
 
-#: ../src/main_window.c:357
+#: ../src/main_window.c:371
+#, fuzzy
+msgid "Zoom in"
+msgstr "Pa_didinti"
+
+#: ../src/main_window.c:372
 msgid "Zoom _Out"
 msgstr "Su_mažinti"
 
-#: ../src/main_window.c:358
+#: ../src/main_window.c:372
+#, fuzzy
+msgid "Zoom out"
+msgstr "Su_mažinti"
+
+#: ../src/main_window.c:373
 msgid "Zoom _Fit"
 msgstr "_Priderinti prie lango"
 
-#: ../src/main_window.c:359
+#: ../src/main_window.c:373
+msgid "Zoom to fit window"
+msgstr "Keisti mastelį iki lango dydžio"
+
+#: ../src/main_window.c:374
 msgid "_Normal Size"
 msgstr "_Tikras dydis"
 
+#: ../src/main_window.c:374
+msgid "Zoom to 100%"
+msgstr "Tikro dydžio"
+
 #. Rotation submenu
-#: ../src/main_window.c:361
+#: ../src/main_window.c:376
 msgid "_Rotation"
 msgstr "_Pasukimas"
 
-#: ../src/main_window.c:362
+#: ../src/main_window.c:377
 msgid "Rotate _Right"
 msgstr "Pasukti _dešinėn"
 
-#: ../src/main_window.c:363
+#: ../src/main_window.c:378
 msgid "Rotate _Left"
 msgstr "Pasukti _kairėn"
 
 #. Go Menu
-#: ../src/main_window.c:365
+#: ../src/main_window.c:380
 msgid "_Go"
 msgstr "_Eiti"
 
-#: ../src/main_window.c:366
+#: ../src/main_window.c:381
 msgid "_Forward"
 msgstr "Pir_myn"
 
-#: ../src/main_window.c:367
+#: ../src/main_window.c:381
+#, fuzzy
+msgid "Next image"
+msgstr "Atverti paveikslėlį"
+
+#: ../src/main_window.c:382
 msgid "_Back"
 msgstr "A_tgal"
 
-#: ../src/main_window.c:368
+#: ../src/main_window.c:382
+#, fuzzy
+msgid "Previous image"
+msgstr "Užverti šį paveikslėlį"
+
+#: ../src/main_window.c:383
 msgid "_First"
 msgstr "_Pirmas"
 
-#: ../src/main_window.c:369
+#: ../src/main_window.c:383
+#, fuzzy
+msgid "First image"
+msgstr "Redaguoti šį paveikslėlį"
+
+#: ../src/main_window.c:384
 msgid "_Last"
 msgstr "Pa_skutinis"
 
+#: ../src/main_window.c:384
+#, fuzzy
+msgid "Last image"
+msgstr "Užverti šį paveikslėlį"
+
 #. Help Menu
-#: ../src/main_window.c:371
+#: ../src/main_window.c:386
 msgid "_Help"
 msgstr "_Žinynas"
 
-#: ../src/main_window.c:373
+#: ../src/main_window.c:388
 msgid "_Contents"
 msgstr "_Turinys"
 
-#: ../src/main_window.c:375
+#: ../src/main_window.c:390
 msgid "Display ristretto user manual"
 msgstr "Rodyti ristretto naudotojo žinyną"
 
-#: ../src/main_window.c:378
+#: ../src/main_window.c:393
 msgid "_About"
 msgstr "_Apie"
 
-#: ../src/main_window.c:380
+#: ../src/main_window.c:395
 msgid "Display information about ristretto"
 msgstr "Rodyti informaciją apie ristretto"
 
 #. Position Menu
-#: ../src/main_window.c:383
+#: ../src/main_window.c:398
 msgid "_Position"
 msgstr "_Pozicija"
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:399
 msgid "_Size"
 msgstr "_Dydis"
 
-#: ../src/main_window.c:385
+#: ../src/main_window.c:400
 msgid "Thumbnail Bar _Position"
 msgstr "_Miniatiūrų juostos pozicija"
 
-#: ../src/main_window.c:386
+#: ../src/main_window.c:401
 msgid "Thumbnail _Size"
 msgstr "Miniatiūros _dydis"
 
 #. Misc
-#: ../src/main_window.c:388
+#: ../src/main_window.c:403
 msgid "Leave _Fullscreen"
 msgstr "Išjungti _viso ekrano veikseną"
 
 #. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:396
+#: ../src/main_window.c:411
 msgid "_Show Toolbar"
 msgstr "Rodyti į_rankių juostą"
 
 #. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:398
+#: ../src/main_window.c:413
 msgid "Show _Thumbnail Bar"
 msgstr "Rodyti _miniatiūrų juostą"
 
 #. Toggle visibility of the statusbar
-#: ../src/main_window.c:400
+#: ../src/main_window.c:415
 msgid "Show _Status Bar"
 msgstr "Rodyti _būsenos juostą"
 
 #. Sort by Filename
-#: ../src/main_window.c:407
+#: ../src/main_window.c:422
 msgid "sort by filename"
 msgstr "rikiuoti pagal failo vardą"
 
 #. Sort by Date
-#: ../src/main_window.c:409
+#: ../src/main_window.c:424
 msgid "sort by date"
 msgstr "rikiuoti pagal datą"
 
-#: ../src/main_window.c:415
+#: ../src/main_window.c:430
 msgid "Left"
 msgstr "Kairėje"
 
-#: ../src/main_window.c:416
+#: ../src/main_window.c:431
 msgid "Right"
 msgstr "Dešinėje"
 
-#: ../src/main_window.c:417
+#: ../src/main_window.c:432
 msgid "Top"
 msgstr "Viršuje"
 
-#: ../src/main_window.c:418
+#: ../src/main_window.c:433
 msgid "Bottom"
 msgstr "Apačioje"
 
-#: ../src/main_window.c:424
+#: ../src/main_window.c:439
 msgid "Very Small"
 msgstr "Labai mažas"
 
-#: ../src/main_window.c:425
+#: ../src/main_window.c:440
 msgid "Smaller"
 msgstr "Mažesnis"
 
-#: ../src/main_window.c:426
+#: ../src/main_window.c:441
 msgid "Small"
 msgstr "Mažas"
 
-#: ../src/main_window.c:427
+#: ../src/main_window.c:442
 msgid "Normal"
 msgstr "Normalus"
 
-#: ../src/main_window.c:428
+#: ../src/main_window.c:443
 msgid "Large"
 msgstr "Didelis"
 
-#: ../src/main_window.c:429
+#: ../src/main_window.c:444
 msgid "Larger"
 msgstr "Didesnis"
 
-#: ../src/main_window.c:430
+#: ../src/main_window.c:445
 msgid "Very Large"
 msgstr "Labai didelis"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:587
+#: ../src/main_window.c:602
 msgid "_Play"
 msgstr "_Leisti"
 
-#: ../src/main_window.c:587
+#: ../src/main_window.c:602
 msgid "Play slideshow"
 msgstr "Paleisti skaidrių peržiūrą"
 
-#: ../src/main_window.c:588
+#: ../src/main_window.c:603
 msgid "_Pause"
 msgstr "_Pristabdyti"
 
-#: ../src/main_window.c:588
+#: ../src/main_window.c:603
 msgid "Pause slideshow"
 msgstr "Pristabdyti skaidrių peržiūrą"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:591
+#: ../src/main_window.c:606
 msgid "_Recently used"
 msgstr "_Neseniai naudoti"
 
-#: ../src/main_window.c:591
+#: ../src/main_window.c:606
 msgid "Recently used"
 msgstr "Neseniai naudoti"
 
-#: ../src/main_window.c:695 ../src/main_window.c:1202
+#: ../src/main_window.c:710 ../src/main_window.c:1217
 msgid "Press open to select an image"
 msgstr "Paspauskite atverti norėdami pasirinkti paveikslėlį"
 
-#: ../src/main_window.c:1064 ../src/main_window.c:1068
+#: ../src/main_window.c:1079 ../src/main_window.c:1083
 msgid "Open With Other _Application"
 msgstr "Atverti su _kita programa"
 
-#: ../src/main_window.c:1089 ../src/main_window.c:1095
+#: ../src/main_window.c:1104 ../src/main_window.c:1110
 msgid "Empty"
 msgstr "Tuščia"
 
-#: ../src/main_window.c:1806
+#: ../src/main_window.c:1821
 msgid "Choose 'set wallpaper' method"
 msgstr "Pasirinkite „nustatyti kaip foną“ būdą"
 
-#: ../src/main_window.c:1821 ../src/preferences_dialog.c:329
+#: ../src/main_window.c:1836 ../src/preferences_dialog.c:329
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -365,78 +413,87 @@ msgstr ""
 "Šis nustatymas nustato būdą kurį <i>Ristretto</i> naudos\n"
 "sukonfigūruoti darbastalio foną."
 
-#: ../src/main_window.c:1846 ../src/preferences_dialog.c:353
+#: ../src/main_window.c:1861 ../src/preferences_dialog.c:353
 msgid "None"
 msgstr "Joks"
 
-#: ../src/main_window.c:1850 ../src/preferences_dialog.c:357
+#: ../src/main_window.c:1865 ../src/preferences_dialog.c:357
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:1854 ../src/preferences_dialog.c:361
+#: ../src/main_window.c:1869 ../src/preferences_dialog.c:361
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2294
+#: ../src/main_window.c:2309
 msgid "Developer:"
 msgstr "Kūrėjas:"
 
-#: ../src/main_window.c:2303
+#: ../src/main_window.c:2318
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr ""
 "Ristretto yra paveikslėlių peržiūros programa skirta Xfce darbastalio "
 "aplinkai."
 
-#: ../src/main_window.c:2311
+#: ../src/main_window.c:2326
 msgid "translator-credits"
 msgstr "Algimantas Margevičius <margevicius.algimantas@gmail.com>"
 
-#: ../src/main_window.c:2613
+#: ../src/main_window.c:2628
 msgid "Open image"
 msgstr "Atverti paveikslėlį"
 
-#: ../src/main_window.c:2632
+#: ../src/main_window.c:2647
 msgid "Images"
 msgstr "Paveikslėliai"
 
-#: ../src/main_window.c:2637
+#: ../src/main_window.c:2652
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2664 ../src/main_window.c:2766
+#: ../src/main_window.c:2679 ../src/main_window.c:2781
 msgid "Could not open file"
 msgstr "Nepavyko atverti failo"
 
-#: ../src/main_window.c:2799
+#: ../src/main_window.c:2814
 msgid "Save copy"
 msgstr "Išsaugoti kopiją"
 
-#: ../src/main_window.c:2825
+#: ../src/main_window.c:2840
 msgid "Could not save file"
 msgstr "Nepavyko išsaugoti failo"
 
-#: ../src/main_window.c:2991
+#: ../src/main_window.c:3006
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Ar tikrai norite ištrinti paveikslėlį „%s“ iš disko?"
 
-#: ../src/main_window.c:3015
+#: ../src/main_window.c:3030
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Ar tikrai norite nusiųsti paveikslėlį „%s“ į šiukšlinę?"
 
-#: ../src/main_window.c:3319
+#: ../src/main_window.c:3338
 msgid "Edit with"
 msgstr "Redaguoti su"
 
-#: ../src/main_window.c:3332
+#: ../src/main_window.c:3355
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Atverti %s ir kitus failų tipus %s su:"
 
-#: ../src/main_window.c:3334
+#: ../src/main_window.c:3357
 msgid "Use as _default for this kind of file"
 msgstr "Šiai failų _rūšiai naudoti kaip numatytą"
+
+#: ../src/main_window.c:3431
+msgid "Recommended Applications"
+msgstr "Rekomenduojamos programos"
+
+#: ../src/main_window.c:3503
+#, fuzzy
+msgid "Other Applications"
+msgstr "Atverti su _kita programa"
 
 #: ../src/icon_bar.c:345
 msgid "Orientation"
