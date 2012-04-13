@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-03 04:27+0000\n"
+"POT-Creation-Date: 2012-04-11 08:24+0000\n"
 "PO-Revision-Date: 2011-09-08 00:48+0200\n"
 "Last-Translator: Pjotr\n"
 "Language-Team: Dutch (Flemish)\n"
@@ -50,310 +50,350 @@ msgid "Image Viewer"
 msgstr "Afbeeldingkijker"
 
 #. File Menu
-#: ../src/main_window.c:335
+#: ../src/main_window.c:350
 msgid "_File"
 msgstr "_Bestand"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:351
 msgid "_Open"
 msgstr "_Open"
 
-#: ../src/main_window.c:336
+#: ../src/main_window.c:351
 msgid "Open an image"
 msgstr "Afbeelding openen"
 
-#: ../src/main_window.c:337
+#: ../src/main_window.c:352
 msgid "_Save copy"
 msgstr "Kopie op_slaan"
 
-#: ../src/main_window.c:337
+#: ../src/main_window.c:352
 msgid "Save a copy of the image"
 msgstr "Sla een kopie van de afbeelding op"
 
-#: ../src/main_window.c:338
+#: ../src/main_window.c:353
 msgid "_Properties"
 msgstr "Eigenschappen"
 
-#: ../src/main_window.c:338
+#: ../src/main_window.c:353
 msgid "Show file properties"
 msgstr "Toon bestandeigenschappen"
 
 #. Edit Menu
-#: ../src/main_window.c:339 ../src/main_window.c:343
+#: ../src/main_window.c:354 ../src/main_window.c:358
 msgid "_Edit"
 msgstr "Be_werken"
 
-#: ../src/main_window.c:339
+#: ../src/main_window.c:354
 msgid "Edit this image"
 msgstr "Deze afbeelding bewerken"
 
-#: ../src/main_window.c:340
+#: ../src/main_window.c:355
 msgid "_Close"
 msgstr "_Sluiten"
 
-#: ../src/main_window.c:340
+#: ../src/main_window.c:355
 msgid "Close this image"
 msgstr "Sluit deze afbeelding"
 
-#: ../src/main_window.c:341
+#: ../src/main_window.c:356
 msgid "_Quit"
 msgstr "_Afsluiten"
 
-#: ../src/main_window.c:341
+#: ../src/main_window.c:356
 msgid "Quit Ristretto"
 msgstr "Ristretto sluiten"
 
-#: ../src/main_window.c:344
+#: ../src/main_window.c:359
 msgid "_Open with..."
 msgstr "_Openen met..."
 
-#: ../src/main_window.c:345
+#: ../src/main_window.c:360
 msgid "_Sorting"
 msgstr "_Sorteren"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:361
 msgid "_Delete"
 msgstr "_Verwijderen"
 
-#: ../src/main_window.c:346
+#: ../src/main_window.c:361
 msgid "Delete this image from disk"
 msgstr "Verwijder deze afbeelding van de schijf"
 
-#: ../src/main_window.c:347
+#: ../src/main_window.c:362
 msgid "_Clear private data"
 msgstr "Verwijder privégegevens"
 
-#: ../src/main_window.c:348
+#: ../src/main_window.c:363
 msgid "_Preferences"
 msgstr "_Voorkeuren"
 
 #. View Menu
-#: ../src/main_window.c:350
+#: ../src/main_window.c:365
 msgid "_View"
 msgstr "Beel_d"
 
-#: ../src/main_window.c:351
+#: ../src/main_window.c:366
 msgid "_Fullscreen"
 msgstr "_Volledig scherm"
 
-#: ../src/main_window.c:352
+#: ../src/main_window.c:366
+msgid "Switch to fullscreen"
+msgstr "Overschakelen naar schermvullend"
+
+#: ../src/main_window.c:367
 msgid "_Leave Fullscreen"
 msgstr "_Volledig scherm sluiten"
 
-#: ../src/main_window.c:353
+#: ../src/main_window.c:367
+msgid "Leave Fullscreen"
+msgstr "Schermvullend verlaten"
+
+#: ../src/main_window.c:368
 msgid "_Set as Wallpaper"
 msgstr "In_stellen als bureaubladachtergrond"
 
 #. Zoom submenu
-#: ../src/main_window.c:355
+#: ../src/main_window.c:370
 msgid "_Zoom"
 msgstr "_Zoomen"
 
-#: ../src/main_window.c:356
+#: ../src/main_window.c:371
 msgid "Zoom _In"
 msgstr "_Inzoomen"
 
-#: ../src/main_window.c:357
+#: ../src/main_window.c:371
+msgid "Zoom in"
+msgstr "Inzoomen"
+
+#: ../src/main_window.c:372
 msgid "Zoom _Out"
 msgstr "_Uitzoomen"
 
-#: ../src/main_window.c:358
+#: ../src/main_window.c:372
+msgid "Zoom out"
+msgstr "Uitzoomen"
+
+#: ../src/main_window.c:373
 msgid "Zoom _Fit"
 msgstr "_Passend maken"
 
-#: ../src/main_window.c:359
+#: ../src/main_window.c:373
+msgid "Zoom to fit window"
+msgstr "Venstervullend zoomen"
+
+#: ../src/main_window.c:374
 msgid "_Normal Size"
 msgstr "_Normale grootte"
 
+#: ../src/main_window.c:374
+msgid "Zoom to 100%"
+msgstr "Zoomen naar 100 %"
+
 #. Rotation submenu
-#: ../src/main_window.c:361
+#: ../src/main_window.c:376
 msgid "_Rotation"
 msgstr "_Draaiing"
 
-#: ../src/main_window.c:362
+#: ../src/main_window.c:377
 msgid "Rotate _Right"
 msgstr "_Rechtsom draaien"
 
-#: ../src/main_window.c:363
+#: ../src/main_window.c:378
 msgid "Rotate _Left"
 msgstr "_Linksom draaien"
 
 #. Go Menu
-#: ../src/main_window.c:365
+#: ../src/main_window.c:380
 msgid "_Go"
 msgstr "_Ga"
 
-#: ../src/main_window.c:366
+#: ../src/main_window.c:381
 msgid "_Forward"
 msgstr "_Volgende"
 
-#: ../src/main_window.c:367
+#: ../src/main_window.c:381
+msgid "Next image"
+msgstr "Volgende afbeelding"
+
+#: ../src/main_window.c:382
 msgid "_Back"
 msgstr "_Vorige"
 
-#: ../src/main_window.c:368
+#: ../src/main_window.c:382
+msgid "Previous image"
+msgstr "Vorige afbeelding"
+
+#: ../src/main_window.c:383
 msgid "_First"
 msgstr "_Eerste"
 
-#: ../src/main_window.c:369
+#: ../src/main_window.c:383
+msgid "First image"
+msgstr "Eerste afbeelding"
+
+#: ../src/main_window.c:384
 msgid "_Last"
 msgstr "_Laatste"
 
+#: ../src/main_window.c:384
+msgid "Last image"
+msgstr "Laatste afbeelding"
+
 #. Help Menu
-#: ../src/main_window.c:371
+#: ../src/main_window.c:386
 msgid "_Help"
 msgstr "_Hulp"
 
-#: ../src/main_window.c:373
+#: ../src/main_window.c:388
 msgid "_Contents"
 msgstr "_Inhoud"
 
-#: ../src/main_window.c:375
+#: ../src/main_window.c:390
 msgid "Display ristretto user manual"
 msgstr "Laat Ristretto-handleiding zien"
 
-#: ../src/main_window.c:378
+#: ../src/main_window.c:393
 msgid "_About"
 msgstr "_Over"
 
-#: ../src/main_window.c:380
+#: ../src/main_window.c:395
 msgid "Display information about ristretto"
 msgstr "Laat informatie over Ristretto zien"
 
 #. Position Menu
-#: ../src/main_window.c:383
+#: ../src/main_window.c:398
 msgid "_Position"
 msgstr "_Positie"
 
-#: ../src/main_window.c:384
+#: ../src/main_window.c:399
 msgid "_Size"
 msgstr "Grootte"
 
-#: ../src/main_window.c:385
+#: ../src/main_window.c:400
 msgid "Thumbnail Bar _Position"
 msgstr "Positie van miniaturenbalk"
 
-#: ../src/main_window.c:386
+#: ../src/main_window.c:401
 msgid "Thumbnail _Size"
 msgstr "Grootte van miniatuur"
 
 #. Misc
-#: ../src/main_window.c:388
+#: ../src/main_window.c:403
 msgid "Leave _Fullscreen"
 msgstr "Verlaat _schermvullende modus"
 
 #. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:396
+#: ../src/main_window.c:411
 msgid "_Show Toolbar"
 msgstr "Werkbalk tonen"
 
 #. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:398
+#: ../src/main_window.c:413
 msgid "Show _Thumbnail Bar"
 msgstr "Miniaturenbalk tonen"
 
 #. Toggle visibility of the statusbar
-#: ../src/main_window.c:400
+#: ../src/main_window.c:415
 msgid "Show _Status Bar"
 msgstr "Statusbalk tonen"
 
 #. Sort by Filename
-#: ../src/main_window.c:407
+#: ../src/main_window.c:422
 msgid "sort by filename"
 msgstr "sorteren op bestandnaam"
 
 #. Sort by Date
-#: ../src/main_window.c:409
+#: ../src/main_window.c:424
 msgid "sort by date"
 msgstr "sorteren op datum"
 
-#: ../src/main_window.c:415
+#: ../src/main_window.c:430
 msgid "Left"
 msgstr "Links"
 
-#: ../src/main_window.c:416
+#: ../src/main_window.c:431
 msgid "Right"
 msgstr "Rechts"
 
-#: ../src/main_window.c:417
+#: ../src/main_window.c:432
 msgid "Top"
 msgstr "Bovenkant"
 
-#: ../src/main_window.c:418
+#: ../src/main_window.c:433
 msgid "Bottom"
 msgstr "Onderkant"
 
-#: ../src/main_window.c:424
+#: ../src/main_window.c:439
 msgid "Very Small"
 msgstr "Zeer klein"
 
-#: ../src/main_window.c:425
+#: ../src/main_window.c:440
 msgid "Smaller"
 msgstr "Kleiner"
 
-#: ../src/main_window.c:426
+#: ../src/main_window.c:441
 msgid "Small"
 msgstr "Klein"
 
-#: ../src/main_window.c:427
+#: ../src/main_window.c:442
 msgid "Normal"
 msgstr "Normaal"
 
-#: ../src/main_window.c:428
+#: ../src/main_window.c:443
 msgid "Large"
 msgstr "Groot"
 
-#: ../src/main_window.c:429
+#: ../src/main_window.c:444
 msgid "Larger"
 msgstr "Groter"
 
-#: ../src/main_window.c:430
+#: ../src/main_window.c:445
 msgid "Very Large"
 msgstr "Zeer groot"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:587
+#: ../src/main_window.c:602
 msgid "_Play"
 msgstr "Afs_pelen"
 
-#: ../src/main_window.c:587
+#: ../src/main_window.c:602
 msgid "Play slideshow"
 msgstr "Speel een diapresentatie af"
 
-#: ../src/main_window.c:588
+#: ../src/main_window.c:603
 msgid "_Pause"
 msgstr "_Pauzeer"
 
-#: ../src/main_window.c:588
+#: ../src/main_window.c:603
 msgid "Pause slideshow"
 msgstr "Pauzeer diapresentatie"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:591
+#: ../src/main_window.c:606
 msgid "_Recently used"
 msgstr "_Recent geopend"
 
-#: ../src/main_window.c:591
+#: ../src/main_window.c:606
 msgid "Recently used"
 msgstr "Recent gebruikt"
 
-#: ../src/main_window.c:695 ../src/main_window.c:1202
+#: ../src/main_window.c:710 ../src/main_window.c:1217
 msgid "Press open to select an image"
 msgstr "Druk op openen om een afbeelding te selecteren"
 
-#: ../src/main_window.c:1064 ../src/main_window.c:1068
+#: ../src/main_window.c:1079 ../src/main_window.c:1083
 msgid "Open With Other _Application"
 msgstr "Open met andere toepassing"
 
-#: ../src/main_window.c:1089 ../src/main_window.c:1095
+#: ../src/main_window.c:1104 ../src/main_window.c:1110
 msgid "Empty"
 msgstr "Leeg"
 
-#: ../src/main_window.c:1806
+#: ../src/main_window.c:1821
 msgid "Choose 'set wallpaper' method"
 msgstr "Kies de methode voor het instellen van een bureaubladachtergrond"
 
-#: ../src/main_window.c:1821 ../src/preferences_dialog.c:329
+#: ../src/main_window.c:1836 ../src/preferences_dialog.c:329
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -363,79 +403,87 @@ msgstr ""
 "Deze instelling bepaalt de methode die <i>Ristretto</i> zal gebruiken\n"
 "om de bureaubladachtergrond in te stellen."
 
-#: ../src/main_window.c:1846 ../src/preferences_dialog.c:353
+#: ../src/main_window.c:1861 ../src/preferences_dialog.c:353
 msgid "None"
 msgstr "Geen"
 
-#: ../src/main_window.c:1850 ../src/preferences_dialog.c:357
+#: ../src/main_window.c:1865 ../src/preferences_dialog.c:357
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:1854 ../src/preferences_dialog.c:361
+#: ../src/main_window.c:1869 ../src/preferences_dialog.c:361
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2294
+#: ../src/main_window.c:2309
 msgid "Developer:"
 msgstr "Ontwikkelaar:"
 
-#: ../src/main_window.c:2303
+#: ../src/main_window.c:2318
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto is een afbeeldingkijker voor de Xfce-werkomgeving."
 
-#: ../src/main_window.c:2311
+#: ../src/main_window.c:2326
 msgid "translator-credits"
 msgstr ""
 "Timo Verbeek <timoverbeek10@hotmail.com>\n"
 "Stephan Arts<stephan@xfce.org>\n"
 "Pjotr"
 
-#: ../src/main_window.c:2613
+#: ../src/main_window.c:2628
 msgid "Open image"
 msgstr "Afbeelding openen"
 
-#: ../src/main_window.c:2632
+#: ../src/main_window.c:2647
 msgid "Images"
 msgstr "Afbeeldingen"
 
-#: ../src/main_window.c:2637
+#: ../src/main_window.c:2652
 msgid ".jp(e)g"
 msgstr ". jp(e)g"
 
-#: ../src/main_window.c:2664 ../src/main_window.c:2766
+#: ../src/main_window.c:2679 ../src/main_window.c:2781
 msgid "Could not open file"
 msgstr "Kon bestand niet openen"
 
-#: ../src/main_window.c:2799
+#: ../src/main_window.c:2814
 msgid "Save copy"
 msgstr "Bewaar kopie"
 
-#: ../src/main_window.c:2825
+#: ../src/main_window.c:2840
 msgid "Could not save file"
 msgstr "Kon bestand niet opslaan"
 
-#: ../src/main_window.c:2991
+#: ../src/main_window.c:3006
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Weet u zeker dat u afbeelding '%s' van de schijf wil verwijderen?"
 
-#: ../src/main_window.c:3015
+#: ../src/main_window.c:3030
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Weet u zeker dat u afbeelding '%s' in de prullenbak wil gooien?"
 
-#: ../src/main_window.c:3319
+#: ../src/main_window.c:3338
 msgid "Edit with"
 msgstr "Bewerken met"
 
-#: ../src/main_window.c:3332
+#: ../src/main_window.c:3355
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Open %s en andere bestanden van type %s met:"
 
-#: ../src/main_window.c:3334
+#: ../src/main_window.c:3357
 msgid "Use as _default for this kind of file"
 msgstr "Gebruik als standaard voor dit soort bestand"
+
+#: ../src/main_window.c:3431
+msgid "Recommended Applications"
+msgstr "Aangeraden toepassingen"
+
+#: ../src/main_window.c:3503
+msgid "Other Applications"
+msgstr "Andere toepassingen"
 
 #: ../src/icon_bar.c:345
 msgid "Orientation"
@@ -796,12 +844,6 @@ msgstr "Ristretto afbeeldingkijker"
 #~ msgid "No action"
 #~ msgstr "Geen actie"
 
-#~ msgid "Zoom in and out"
-#~ msgstr "In-en uitzoomen"
-
-#~ msgid "Switch images"
-#~ msgstr "Afbeeldingen wisselen"
-
 #~ msgid "Memory"
 #~ msgstr "Geheugen"
 
@@ -846,9 +888,6 @@ msgstr "Ristretto afbeeldingkijker"
 
 #~ msgid "Low"
 #~ msgstr "Laag"
-
-#~ msgid "Preload images"
-#~ msgstr "Afbeeldingen vooraf laden"
 
 #~ msgid "Ristretto"
 #~ msgstr "Ristretto"
