@@ -162,7 +162,7 @@ msgstr "전체 화면 나가기"
 
 #: ../src/main_window.c:368
 msgid "_Set as Wallpaper"
-msgstr "배경화면으로 설정(_S)"
+msgstr "바탕 화면으로 설정(_S)"
 
 #. Zoom submenu
 #: ../src/main_window.c:370
