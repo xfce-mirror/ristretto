@@ -774,7 +774,7 @@ msgstr "가운데"
 
 #: ../src/xfce_wallpaper_manager.c:518
 msgid "Tiled"
-msgstr "타일"
+msgstr "바둑판"
 
 #: ../src/xfce_wallpaper_manager.c:521
 msgid "Stretched"
