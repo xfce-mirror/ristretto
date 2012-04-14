@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-10 20:54+0000\n"
+"POT-Creation-Date: 2012-04-14 11:09+0000\n"
 "PO-Revision-Date: 2011-12-24 10:08+0100\n"
 "Last-Translator: Cristian Marchi <cri.penta@gmail.com>\n"
 "Language-Team: Italian Translation Team <xfce-it-translators@googlegroups.com>\n"
@@ -487,14 +487,12 @@ msgid "Other Applications"
 msgstr "Altre applicazioni"
 
 #: ../src/icon_bar.c:345
-#, fuzzy
 msgid "Orientation"
 msgstr "Orientamento"
 
 #: ../src/icon_bar.c:346
-#, fuzzy
 msgid "The orientation of the iconbar"
-msgstr "Orientamento della barra delle icone"
+msgstr "L'orientamento della barra delle icone"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
@@ -515,7 +513,6 @@ msgid "Model for the icon bar"
 msgstr "Modello per la barra delle icone"
 
 #: ../src/icon_bar.c:392
-#, fuzzy
 msgid "Active"
 msgstr "Attivo"
 
@@ -530,15 +527,15 @@ msgstr "Mostra testo"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr ""
+msgstr "Colore di riempimento dell'elemento attivo"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr ""
+msgstr "Colore del bordo dell'elemento attivo"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr ""
+msgstr "Colore del testo dell'elemento attivo"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
@@ -744,27 +741,27 @@ msgstr "Saturazione:"
 msgid "Set as wallpaper"
 msgstr "Imposta come sfondo"
 
-#: ../src/xfce_wallpaper_manager.c:512 ../src/gnome_wallpaper_manager.c:312
+#: ../src/xfce_wallpaper_manager.c:507 ../src/gnome_wallpaper_manager.c:312
 msgid "Auto"
 msgstr "Automatico"
 
-#: ../src/xfce_wallpaper_manager.c:515
+#: ../src/xfce_wallpaper_manager.c:510
 msgid "Centered"
 msgstr "Centrata"
 
-#: ../src/xfce_wallpaper_manager.c:518
+#: ../src/xfce_wallpaper_manager.c:513
 msgid "Tiled"
 msgstr "Affiancata"
 
-#: ../src/xfce_wallpaper_manager.c:521
+#: ../src/xfce_wallpaper_manager.c:516
 msgid "Stretched"
 msgstr "Stirata"
 
-#: ../src/xfce_wallpaper_manager.c:524
+#: ../src/xfce_wallpaper_manager.c:519
 msgid "Scaled"
 msgstr "Scalata"
 
-#: ../src/xfce_wallpaper_manager.c:527
+#: ../src/xfce_wallpaper_manager.c:522
 msgid "Zoomed"
 msgstr "Ingrandita"
 
