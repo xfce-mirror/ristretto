@@ -503,7 +503,6 @@ msgid "Orientation"
 msgstr "Orientierung"
 
 #: ../src/icon_bar.c:346
-#, fuzzy
 msgid "The orientation of the iconbar"
 msgstr "Orientierung der Symbolleiste"
 
@@ -525,7 +524,6 @@ msgid "Model for the icon bar"
 msgstr ""
 
 #: ../src/icon_bar.c:392
-#, fuzzy
 msgid "Active"
 msgstr "Aktiv"
 
