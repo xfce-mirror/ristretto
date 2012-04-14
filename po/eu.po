@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-14 16:54+0000\n"
+"POT-Creation-Date: 2012-04-14 22:39+0000\n"
 "PO-Revision-Date: 2008-12-08 01:19+0100\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
@@ -470,7 +470,7 @@ msgstr "Ireki %s eta %s motako fitxategi guztiak honekin:"
 
 #: ../src/main_window.c:3357
 msgid "Use as _default for this kind of file"
-msgstr ""
+msgstr "Erabili lehenes_pen gisa mota honetako fitxategietntzat"
 
 #: ../src/main_window.c:3431
 msgid "Recommended Applications"
@@ -494,7 +494,7 @@ msgstr "Fitxategi zutabea"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr ""
+msgstr "Fitxategia bertatik eskuratzeko erabilitako zutabe modeloa"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
@@ -502,43 +502,43 @@ msgstr "Ikono barra modeloa"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr ""
+msgstr "Ikono barraren modeloa"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
-msgstr ""
+msgstr "Aktibo"
 
 #: ../src/icon_bar.c:393
 msgid "Active item index"
-msgstr ""
+msgstr "Elementu aktibo indizea"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
-msgstr ""
+msgstr "Ikusi testua"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr ""
+msgstr "Elementu aktibo barne kolorea"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr ""
+msgstr "Elementu aktibo ertz kolorea"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr ""
+msgstr "Elementu aktibo testu kolorea"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr ""
+msgstr "Kurtsore elementu barne kolorea"
 
 #: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr ""
+msgstr "Kurtsore elementu ertz kolorea"
 
 #: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 msgid "Cursor item text color"
-msgstr ""
+msgstr "Kurtsore elementu testu kolorea"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
