@@ -470,7 +470,7 @@ msgstr "Ireki %s eta %s motako fitxategi guztiak honekin:"
 
 #: ../src/main_window.c:3357
 msgid "Use as _default for this kind of file"
-msgstr "Erabili lehenes_pen gisa mota honetako fitxategietntzat"
+msgstr "Erabili lehenes_pen gisa mota honetako fitxategientzat"
 
 #: ../src/main_window.c:3431
 msgid "Recommended Applications"
