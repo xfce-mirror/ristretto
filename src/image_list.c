@@ -684,6 +684,32 @@ cb_rstto_read_file ( gpointer user_data )
             NULL );
     if ( NULL != file_info )
     {
+        /* Allow for 'progressive' loading */
+        if (loader->n_files == 100)
+        {
+            for (i = 0; i < loader->n_files; ++i)
+            {
+                rstto_image_list_add_file (
+                        loader->image_list,
+                        loader->files[i],
+                        NULL);
+
+                g_object_unref (loader->files[i]);
+            }
+
+            iter = loader->image_list->priv->iterators;
+            while (iter)
+            {
+                g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
+                iter = g_slist_next (iter);
+            }
+
+            g_free (loader->files);
+            loader->files = NULL;
+            loader->n_files = 0;
+        }
+
+        /* Add file to the list */
         content_type  = g_file_info_get_content_type (file_info);
         if (strncmp (content_type, "image/", 6) == 0)
         {
