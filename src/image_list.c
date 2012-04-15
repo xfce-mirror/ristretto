@@ -625,6 +625,7 @@ rstto_image_list_set_directory (
     const gchar *filename;
     const gchar *content_type;
     GFile *child_file;
+    RsttoFile *r_file;
 
     /* Source code block */
     rstto_image_list_remove_all (image_list);
@@ -643,10 +644,13 @@ rstto_image_list_set_directory (
                 filename = g_file_info_get_name (file_info);
                 content_type  = g_file_info_get_content_type (file_info);
                 child_file = g_file_get_child (dir, filename);
+                r_file = rstto_file_new (child_file);
                 if (strncmp (content_type, "image/", 6) == 0)
                 {
-                    rstto_image_list_add_file (image_list, rstto_file_new (child_file), NULL);
+                    rstto_image_list_add_file (image_list, r_file, NULL);
                 }
+                g_object_unref (r_file);
+                r_file = NULL;
             }
             g_object_unref (file_enumerator);
             file_enumerator = NULL;
