@@ -2708,14 +2708,31 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                     r_file = rstto_file_new (files->data);
 
                     p_file = g_file_get_parent (files->data);
+
+                    /* This call adds the contents of the
+                     * directory asynchronously.
+                     */
                     rstto_image_list_set_directory (
                             window->priv->image_list,
                             p_file,
                             NULL );
+
+                    /* Make sure the file we are looking
+                     * for is already in the list.
+                     */
+                    rstto_image_list_add_file (
+                            window->priv->image_list,
+                            r_file,
+                            NULL);
+
+                    /* Point the main iterator to the
+                     * correct file
+                     */
                     rstto_image_list_iter_find_file (
                             window->priv->iter,
                             r_file );
 
+                    /* Cleanup the reference */
                     g_object_unref (r_file);
                 }
             }
@@ -2760,14 +2777,31 @@ cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *win
         if ( NULL != r_file )
         {
             p_file = g_file_get_parent (file);
+
+            /* This call adds the contents of the
+             * directory asynchronously.
+             */
             rstto_image_list_set_directory (
                     window->priv->image_list,
                     p_file,
                     NULL);
+
+            /* Make sure the file we are looking
+             * for is already in the list.
+             */
+            rstto_image_list_add_file (
+                    window->priv->image_list,
+                    r_file,
+                    NULL );
+
+            /* Point the main iterator to the
+             * correct file
+             */
             rstto_image_list_iter_find_file (
                     window->priv->iter,
                     r_file );
 
+            /* Cleanup the reference */
             g_object_unref (G_OBJECT (r_file));
             r_file = NULL;
         }

@@ -221,6 +221,21 @@ struct _RsttoImageListPriv
     gboolean      wrap_images;
 };
 
+typedef struct _RsttoFileLoader RsttoFileLoader;
+
+struct _RsttoFileLoader
+{
+    GFile           *dir;
+    RsttoImageList  *image_list;
+    GFileEnumerator *file_enum;
+
+    guint            n_files;
+    RsttoFile      **files;
+};
+
+static gboolean
+cb_rstto_read_file ( gpointer user_data );
+
 static gint rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_COUNT];
 static gint rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_COUNT];
 
@@ -621,11 +636,7 @@ rstto_image_list_set_directory (
 {
     /* Declare variables */
     GFileEnumerator *file_enumerator = NULL;
-    GFileInfo *file_info;
-    const gchar *filename;
-    const gchar *content_type;
-    GFile *child_file;
-    RsttoFile *r_file;
+    RsttoFileLoader *loader = NULL;
 
     /* Source code block */
     rstto_image_list_remove_all (image_list);
@@ -637,28 +648,88 @@ rstto_image_list_set_directory (
 
         if (NULL != file_enumerator)
         {
-            for(file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL);
-                NULL != file_info;
-                file_info = g_file_enumerator_next_file (file_enumerator, NULL, NULL))
-            {
-                filename = g_file_info_get_name (file_info);
-                content_type  = g_file_info_get_content_type (file_info);
-                child_file = g_file_get_child (dir, filename);
-                r_file = rstto_file_new (child_file);
-                if (strncmp (content_type, "image/", 6) == 0)
-                {
-                    rstto_image_list_add_file (image_list, r_file, NULL);
-                }
-                g_object_unref (r_file);
-                r_file = NULL;
-            }
-            g_object_unref (file_enumerator);
-            file_enumerator = NULL;
+            g_object_ref (dir);
+
+            loader = g_new0 (RsttoFileLoader, 1);
+            loader->dir = dir;
+            loader->file_enum = file_enumerator;
+            loader->image_list = image_list;
+
+            g_idle_add ( (GSourceFunc) cb_rstto_read_file, loader );
         }
     }
 
-    rstto_image_list_monitor_dir ( image_list, dir );
+    return TRUE;
+}
 
+static gboolean
+cb_rstto_read_file ( gpointer user_data )
+{
+    RsttoFileLoader *loader = user_data;
+    GFileInfo       *file_info;
+    const gchar     *content_type;
+    const gchar     *filename;
+    RsttoFile      **files;
+    GFile           *child_file;
+    guint            i;
+    GSList          *iter;
+
+    /* Check the inputs */
+    g_return_val_if_fail ( NULL != loader, FALSE );
+    g_return_val_if_fail ( NULL != loader->file_enum, FALSE );
+
+    file_info = g_file_enumerator_next_file (
+            loader->file_enum,
+            NULL,
+            NULL );
+    if ( NULL != file_info )
+    {
+        content_type  = g_file_info_get_content_type (file_info);
+        if (strncmp (content_type, "image/", 6) == 0)
+        {
+            filename = g_file_info_get_name (file_info);
+            child_file = g_file_get_child (loader->dir, filename);
+            files = g_new0 ( RsttoFile *, loader->n_files+1);
+            files[0] = rstto_file_new (child_file);
+
+            for (i = 0; i < loader->n_files; ++i)
+            {
+                files[i+1] = loader->files[i];
+            }
+
+            if ( NULL != loader->files )
+            {
+                g_free (loader->files);
+            }
+            loader->files = files;
+            loader->n_files++;
+        }
+    }
+    else
+    {
+        for (i = 0; i < loader->n_files; ++i)
+        {
+            rstto_image_list_add_file (
+                    loader->image_list,
+                    loader->files[i],
+                    NULL);
+
+            g_object_unref (loader->files[i]);
+        }
+
+        rstto_image_list_monitor_dir ( 
+                loader->image_list,
+                loader->dir );
+
+        iter = loader->image_list->priv->iterators;
+        while (iter)
+        {
+            g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
+            iter = g_slist_next (iter);
+        }
+
+        return FALSE;
+    }
     return TRUE;
 }
 
