@@ -1014,6 +1014,8 @@ paint_clock (
     time_t t = time(NULL);
     struct tm *lt = localtime(&t);
 
+    gdouble hour_angle = (gdouble)(M_PI*2)/12*((gdouble)(lt->tm_hour%12+6)+((M_PI*2)/720.0*(gdouble)lt->tm_min));
+
     cairo_save (ctx);
 
     cairo_translate (
@@ -1059,7 +1061,7 @@ paint_clock (
     cairo_set_line_cap (ctx, CAIRO_LINE_CAP_ROUND);
     cairo_rotate (
         ctx,
-        (M_PI*2)/12*(lt->tm_hour%12+6));
+        hour_angle);
     cairo_move_to (ctx, 0, 0);
     cairo_line_to (
         ctx,
