@@ -207,6 +207,7 @@ struct _RsttoImageListPriv
 {
     gint           stamp;
     GFileMonitor  *dir_monitor;
+    gint           directory_loader;
     RsttoSettings *settings;
     RsttoThumbnailer *thumbnailer;
     GtkFileFilter *filter;
@@ -639,6 +640,12 @@ rstto_image_list_set_directory (
     RsttoFileLoader *loader = NULL;
 
     /* Source code block */
+    if (image_list->priv->directory_loader != 0)
+    {
+        g_source_remove (image_list->priv->directory_loader);
+        image_list->priv->directory_loader = 0;
+    }
+
     rstto_image_list_remove_all (image_list);
 
     /* Allow all images to be removed by providing NULL to dir */
@@ -655,7 +662,7 @@ rstto_image_list_set_directory (
             loader->file_enum = file_enumerator;
             loader->image_list = image_list;
 
-            g_idle_add ( (GSourceFunc) cb_rstto_read_file, loader );
+            image_list->priv->directory_loader = g_idle_add ( (GSourceFunc) cb_rstto_read_file, loader );
         }
     }
 
@@ -754,6 +761,12 @@ cb_rstto_read_file ( gpointer user_data )
             iter = g_slist_next (iter);
         }
 
+        /* This is a hack, use a closure */
+        if (loader->image_list->priv->directory_loader != 0)
+        {
+            g_source_remove (loader->image_list->priv->directory_loader);
+            loader->image_list->priv->directory_loader = 0;
+        }
         return FALSE;
     }
     return TRUE;
