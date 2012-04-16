@@ -1521,7 +1521,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
     {
         gtk_ui_manager_remove_ui (
                 window->priv->ui_manager,
-                window->priv->toolbar_pause_merge_id);
+                window->priv->toolbar_play_merge_id);
         gtk_ui_manager_add_ui (
                 window->priv->ui_manager,
                 window->priv->toolbar_pause_merge_id,
@@ -1535,7 +1535,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
     {
         gtk_ui_manager_remove_ui (
                 window->priv->ui_manager,
-                window->priv->toolbar_play_merge_id);
+                window->priv->toolbar_pause_merge_id);
         gtk_ui_manager_add_ui (
                 window->priv->ui_manager,
                 window->priv->toolbar_play_merge_id,
@@ -2176,6 +2176,29 @@ cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window)
 static void
 cb_rstto_main_window_play (GtkWidget *widget, RsttoMainWindow *window)
 {
+    gtk_ui_manager_add_ui (window->priv->ui_manager,
+                           window->priv->pause_merge_id,
+                           "/main-menu/go-menu/placeholder-slideshow",
+                           "pause",
+                           "pause",
+                           GTK_UI_MANAGER_MENUITEM,
+                           FALSE);
+    gtk_ui_manager_remove_ui (window->priv->ui_manager,
+                              window->priv->play_merge_id);
+
+    gtk_ui_manager_add_ui (
+            window->priv->ui_manager,
+            window->priv->toolbar_pause_merge_id,
+            "/main-toolbar/placeholder-slideshow",
+            "pause",
+            "pause",
+            GTK_UI_MANAGER_TOOLITEM,
+            FALSE);
+
+    gtk_ui_manager_remove_ui (
+            window->priv->ui_manager,
+            window->priv->toolbar_play_merge_id);
+
     rstto_main_window_play_slideshow (window);
 }
 
@@ -2200,34 +2223,17 @@ cb_rstto_main_window_pause (GtkWidget *widget, RsttoMainWindow *window)
     gtk_ui_manager_remove_ui (window->priv->ui_manager,
                               window->priv->pause_merge_id);
 
-    if ( TRUE == rstto_settings_get_boolean_property (window->priv->settings_manager, "merge-toolbars"))
-    {
-        gtk_ui_manager_add_ui (
-                window->priv->ui_manager,
-                window->priv->toolbar_play_merge_id,
-                "/main-toolbar/placeholder-slideshow",
-                "play",
-                "play",
-                GTK_UI_MANAGER_TOOLITEM,
-                FALSE);
-        gtk_ui_manager_remove_ui (
-                window->priv->ui_manager,
-                window->priv->toolbar_pause_merge_id);
-    }
-    else
-    {
-        gtk_ui_manager_add_ui (
-                window->priv->ui_manager,
-                window->priv->toolbar_play_merge_id,
-                "/navigation-toolbar/placeholder-slideshow",
-                "play",
-                "play",
-                GTK_UI_MANAGER_TOOLITEM,
-                FALSE);
-        gtk_ui_manager_remove_ui (
-                window->priv->ui_manager,
-                window->priv->toolbar_pause_merge_id);
-    }
+    gtk_ui_manager_add_ui (
+            window->priv->ui_manager,
+            window->priv->toolbar_play_merge_id,
+            "/main-toolbar/placeholder-slideshow",
+            "play",
+            "play",
+            GTK_UI_MANAGER_TOOLITEM,
+            FALSE);
+    gtk_ui_manager_remove_ui (
+            window->priv->ui_manager,
+            window->priv->toolbar_pause_merge_id);
 
     window->priv->playing = FALSE;
 }
