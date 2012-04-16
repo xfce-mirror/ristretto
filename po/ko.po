@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-04-11 08:24+0000\n"
-"PO-Revision-Date: 2012-04-11 19:21+0900\n"
+"PO-Revision-Date: 2012-04-17 02:13+0900\n"
 "Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
 "Language-Team: xfce-i18n <xfce-i18n@xfce.org>\n"
 "Language: ko\n"
@@ -595,7 +595,7 @@ msgstr "오늘"
 
 #: ../src/privacy_dialog.c:161
 msgid "Everything"
-msgstr "몽땅"
+msgstr "전부"
 
 #: ../src/privacy_dialog.c:459
 msgid "Clear private data"
