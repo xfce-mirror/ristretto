@@ -2725,6 +2725,12 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                             r_file,
                             NULL);
 
+                    /* Add a reference to the file, it is owned by the
+                     * sourcefunc and will be unref-ed by it.
+                     */
+                    g_object_ref (files->data);
+                    g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, files->data, NULL);
+
                     /* Point the main iterator to the
                      * correct file
                      */
