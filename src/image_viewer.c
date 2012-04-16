@@ -1025,7 +1025,7 @@ paint_clock (
         widget->allocation.width-offset-width,
         widget->allocation.height-offset-height);
 
-    cairo_set_source_rgba (ctx, 0.0, 0.0, 0.0, 0.3);
+    cairo_set_source_rgba (ctx, 0.0, 0.0, 0.0, 0.4);
     cairo_save(ctx);
     cairo_translate (
         ctx,
