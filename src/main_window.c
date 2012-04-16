@@ -576,17 +576,6 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_accel_group_connect_by_path (accel_group, "<Window>/delete", delete_closure);
 
     /* Set default accelerators */
-    gtk_accel_map_change_entry ("<Window>/fullscreen", GDK_F, 0, FALSE);
-    gtk_accel_map_change_entry ("<Window>/unfullscreen", GDK_Escape, 0, FALSE);
-    gtk_accel_map_change_entry ("<Window>/next-image", GDK_Page_Down, 0, FALSE);
-    gtk_accel_map_change_entry ("<Window>/previous-image", GDK_Page_Up, 0, FALSE);
-    gtk_accel_map_change_entry ("<Window>/quit", GDK_q, 0, FALSE);
-
-    gtk_accel_map_change_entry ("<Window>/delete", GDK_Delete, GDK_SHIFT_MASK, FALSE);
-    if (gtk_accel_map_lookup_entry ("<Actions>/RsttoWindow/play", NULL) == FALSE)
-    {
-        gtk_accel_map_change_entry ("<Actions>/RsttoWindow/play", GDK_F5, 0, FALSE);
-    }
 
     /* Create mergeid's for adding ui-components */
     window->priv->recent_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
