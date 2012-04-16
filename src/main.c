@@ -259,6 +259,14 @@ cb_rstto_open_files (RsttoOpenFiles *rof)
             /* Open the directory */
             rstto_image_list_set_directory (rof->image_list, p_file, NULL);
 
+            /* This call adds the contents of the
+             * directory asynchronously.
+             */
+            rstto_image_list_add_file (
+                    rof->image_list,
+                    r_file,
+                    NULL);
+
             /* Point the iterator to the correct image */
             rstto_image_list_iter_find_file (iter, r_file);
 
