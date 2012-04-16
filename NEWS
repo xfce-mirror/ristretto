@@ -1,4 +1,4 @@
-x.x.x
+0.5.2
 =====
 - Remove the 'debug' monitor from the wallpaper chooser.
 - Add option to show a clock in fullscreen mode.
