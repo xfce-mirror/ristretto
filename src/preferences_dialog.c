@@ -56,6 +56,10 @@ cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled (
                                                         GtkToggleButton *button, 
                                                         gpointer user_data);
 static void
+cb_show_clock_check_button_toggled (
+        GtkToggleButton *button, 
+        gpointer user_data);
+static void
 cb_wrap_images_check_button_toggled (
         GtkToggleButton *button, 
         gpointer user_data);
@@ -93,6 +97,10 @@ struct _RsttoPreferencesDialogPriv
     {
         GtkWidget *timeout_vbox;
         GtkWidget *timeout_frame;
+
+        GtkWidget *clock_vbox;
+        GtkWidget *clock_frame;
+        GtkWidget *clock_button;
     } slideshow_tab;
 
     struct
@@ -152,6 +160,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gboolean bool_hide_thumbnailbar_fullscreen;
     gboolean bool_wrap_images;
     gboolean bool_maximize_on_startup;
+    gboolean bool_show_clock;
     gchar   *str_desktop_type = NULL;
 
     GdkColor *bgcolor;
@@ -180,6 +189,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                   "maximize-on-startup", &bool_maximize_on_startup,
                   "wrap-images", &bool_wrap_images,
                   "desktop-type", &str_desktop_type,
+                  "show-clock", &bool_show_clock,
                   NULL);
 
 /*****************/
@@ -257,11 +267,21 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
     gtk_box_pack_start(GTK_BOX(dialog->priv->slideshow_tab.timeout_vbox), timeout_lbl, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(dialog->priv->slideshow_tab.timeout_vbox), timeout_hscale, FALSE, TRUE, 0);
+
+    dialog->priv->slideshow_tab.clock_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->slideshow_tab.clock_frame = xfce_gtk_frame_box_new_with_content(_("Clock"), dialog->priv->slideshow_tab.clock_vbox);
+    gtk_box_pack_start (GTK_BOX (slideshow_main_vbox), dialog->priv->slideshow_tab.clock_frame, FALSE, FALSE, 0);
+
+    dialog->priv->slideshow_tab.clock_button = gtk_check_button_new_with_label (_("Show Fullscreen Clock"));
+    gtk_container_add (GTK_CONTAINER (dialog->priv->slideshow_tab.clock_vbox), dialog->priv->slideshow_tab.clock_button);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->slideshow_tab.clock_button), bool_show_clock);
     
 
     gtk_range_set_value (GTK_RANGE (timeout_hscale), (gdouble)uint_slideshow_timeout);
     g_signal_connect (G_OBJECT (timeout_hscale),
                       "value-changed", (GCallback)cb_rstto_preferences_dialog_slideshow_timeout_value_changed, dialog);
+    g_signal_connect (G_OBJECT (dialog->priv->slideshow_tab.clock_button), 
+                      "toggled", (GCallback)cb_show_clock_check_button_toggled, dialog);
 
     
 /********************************************/
@@ -532,6 +552,19 @@ cb_maximize_on_startup_check_button_toggled (
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "maximize-on-startup",
+            gtk_toggle_button_get_active(button));
+}
+
+static void
+cb_show_clock_check_button_toggled (
+        GtkToggleButton *button, 
+        gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    rstto_settings_set_boolean_property (
+            dialog->priv->settings,
+            "show-clock",
             gtk_toggle_button_get_active(button));
 }
 

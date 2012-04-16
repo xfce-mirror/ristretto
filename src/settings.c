@@ -179,7 +179,6 @@ rstto_settings_init (GObject *object)
     settings->priv->wrap_images = TRUE;
     settings->priv->show_thumbnailbar = TRUE;
     settings->priv->show_statusbar = TRUE;
-    settings->priv->show_clock = TRUE;
     settings->priv->use_thunar_properties = TRUE;
     settings->priv->maximize_on_startup = TRUE;
     settings->priv->hide_thumbnailbar_fullscreen = TRUE;

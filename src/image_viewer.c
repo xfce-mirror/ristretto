@@ -2846,8 +2846,12 @@ rstto_image_viewer_set_show_clock (
     }
     else
     {
-        g_source_remove (
-                viewer->priv->refresh_timeout_id );
+        if (viewer->priv->refresh_timeout_id)
+        {
+            g_source_remove (
+                    viewer->priv->refresh_timeout_id );
+            viewer->priv->refresh_timeout_id = 0;
+        }
     }
 }
 
