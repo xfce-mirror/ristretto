@@ -107,6 +107,8 @@ struct _RsttoImageViewerPriv
     GdkPixbufAnimationIter *iter;
     gint                    animation_timeout_id;
 
+    gint                    refresh_timeout_id;
+
     gdouble                 scale;
     gboolean                auto_scale;
 
@@ -2817,10 +2819,35 @@ rstto_image_viewer_get_property (
     }
 }
 
+static gboolean
+cb_rstto_image_viewer_refresh (RsttoImageViewer *viewer)
+{
+    GtkWidget *widget = GTK_WIDGET (viewer);
+
+    gdk_window_invalidate_rect (
+            widget->window,
+            NULL,
+            FALSE);
+
+    return TRUE;
+}
+
 void
 rstto_image_viewer_set_show_clock (
         RsttoImageViewer *viewer,
         gboolean value)
 {
     viewer->priv->props.show_clock = value;
+    if ( viewer->priv->props.show_clock )
+    {
+        viewer->priv->refresh_timeout_id = g_timeout_add(
+                15000,
+                (GSourceFunc)cb_rstto_image_viewer_refresh, viewer);
+    }
+    else
+    {
+        g_source_remove (
+                viewer->priv->refresh_timeout_id );
+    }
 }
+
