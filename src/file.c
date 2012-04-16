@@ -30,7 +30,7 @@
 #include "file.h"
 #include "thumbnailer.h"
 
-static uint rstto_thumbnail_size[] =
+static guint rstto_thumbnail_size[] =
 {
     THUMBNAIL_SIZE_VERY_SMALL_SIZE,
     THUMBNAIL_SIZE_SMALLER_SIZE,
