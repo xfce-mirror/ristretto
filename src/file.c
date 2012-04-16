@@ -226,16 +226,17 @@ rstto_file_finalize (GObject *object)
 RsttoFile *
 rstto_file_new ( GFile *file )
 {
-    RsttoFile *o_file = NULL;
+    RsttoFile *r_file = NULL;
     GList *iter = open_files;
+
     while ( NULL != iter )
     {
         /* Check if the file is already opened, if so
          * return that one.
          */
-        o_file = RSTTO_FILE (iter->data);
+        r_file = RSTTO_FILE (iter->data);
         if ( TRUE == g_file_equal (
-                o_file->priv->file,
+                r_file->priv->file,
                 file) )
         {
             g_object_ref (G_OBJECT (iter->data));
@@ -244,13 +245,13 @@ rstto_file_new ( GFile *file )
         iter = g_list_next (iter);
     }
 
-    o_file = g_object_new (RSTTO_TYPE_FILE, NULL);
-    o_file->priv->file = file;
+    r_file = g_object_new (RSTTO_TYPE_FILE, NULL);
+    r_file->priv->file = file;
     g_object_ref (file);
 
-    open_files = g_list_append (open_files, o_file);
+    open_files = g_list_append (open_files, r_file);
 
-    return o_file;
+    return r_file;
 }
 
 
@@ -273,27 +274,27 @@ rstto_file_get_property (
 }
 
 GFile *
-rstto_file_get_file ( RsttoFile *file )
+rstto_file_get_file ( RsttoFile *r_file )
 {
-    return file->priv->file;
+    return r_file->priv->file;
 }
 
 gboolean
-rstto_file_equal ( RsttoFile *a, RsttoFile *b )
+rstto_file_equal ( RsttoFile *r_file_a, RsttoFile *r_file_b )
 {
-    return a == b;
+    return r_file_a == r_file_b;
 }
 
 const gchar *
-rstto_file_get_display_name ( RsttoFile *file )
+rstto_file_get_display_name ( RsttoFile *r_file )
 {
     GFileInfo *file_info = NULL;
     const gchar *display_name;
 
-    if ( NULL == file->priv->display_name )
+    if ( NULL == r_file->priv->display_name )
     {
         file_info = g_file_query_info (
-                file->priv->file,
+                r_file->priv->file,
                 G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME,
                 0,
                 NULL,
@@ -303,48 +304,48 @@ rstto_file_get_display_name ( RsttoFile *file )
             display_name = g_file_info_get_display_name (file_info);
             if ( NULL != display_name )
             {
-                file->priv->display_name = g_strdup (display_name);
+                r_file->priv->display_name = g_strdup (display_name);
             }
             g_object_unref (file_info);
         }
     }
 
-    return (const gchar *)file->priv->display_name;
+    return (const gchar *)r_file->priv->display_name;
 }
 
 const gchar *
-rstto_file_get_path ( RsttoFile *file )
+rstto_file_get_path ( RsttoFile *r_file )
 {
-    g_return_val_if_fail (RSTTO_IS_FILE (file), NULL);
-    g_return_val_if_fail (G_IS_FILE (file->priv->file), NULL);
+    g_return_val_if_fail (RSTTO_IS_FILE (r_file), NULL);
+    g_return_val_if_fail (G_IS_FILE (r_file->priv->file), NULL);
 
-    if ( NULL == file->priv->path )
+    if ( NULL == r_file->priv->path )
     {
-        file->priv->path = g_file_get_path (file->priv->file);
+        r_file->priv->path = g_file_get_path (r_file->priv->file);
     }
-    return (const gchar *)file->priv->path;
+    return (const gchar *)r_file->priv->path;
 }
 
 const gchar *
-rstto_file_get_uri ( RsttoFile *file )
+rstto_file_get_uri ( RsttoFile *r_file )
 {
-    if ( NULL == file->priv->uri )
+    if ( NULL == r_file->priv->uri )
     {
-        file->priv->uri = g_file_get_uri (file->priv->file);
+        r_file->priv->uri = g_file_get_uri (r_file->priv->file);
     }
-    return (const gchar *)file->priv->uri;
+    return (const gchar *)r_file->priv->uri;
 }
 
 const gchar *
-rstto_file_get_content_type ( RsttoFile *file )
+rstto_file_get_content_type ( RsttoFile *r_file )
 {
     GFileInfo *file_info = NULL;
     const gchar *content_type;
 
-    if ( NULL == file->priv->content_type )
+    if ( NULL == r_file->priv->content_type )
     {
         file_info = g_file_query_info (
-                file->priv->file,
+                r_file->priv->file,
                 "standard::content-type",
                 0,
                 NULL,
@@ -354,20 +355,20 @@ rstto_file_get_content_type ( RsttoFile *file )
             content_type = g_file_info_get_content_type (file_info);
             if ( NULL != content_type )
             {
-                file->priv->content_type = g_strdup (content_type);
+                r_file->priv->content_type = g_strdup (content_type);
             }
             g_object_unref (file_info);
         }
     }
 
-    return (const gchar *)file->priv->content_type;
+    return (const gchar *)r_file->priv->content_type;
 }
 
 guint64
-rstto_file_get_modified_time ( RsttoFile *file )
+rstto_file_get_modified_time ( RsttoFile *r_file )
 {
     guint64 time_ = 0;
-    GFileInfo *file_info = g_file_query_info (file->priv->file, "time::modified", 0, NULL, NULL);
+    GFileInfo *file_info = g_file_query_info (r_file->priv->file, "time::modified", 0, NULL, NULL);
 
     time_ = g_file_info_get_attribute_uint64 ( file_info, "time::modified" );
 
@@ -377,63 +378,70 @@ rstto_file_get_modified_time ( RsttoFile *file )
 }
 
 ExifEntry *
-rstto_file_get_exif ( RsttoFile *file, ExifTag id )
+rstto_file_get_exif ( RsttoFile *r_file, ExifTag id )
 {
     /* If there is no exif-data object, try to create it */
-    if ( NULL == file->priv->exif_data )
+    if ( NULL == r_file->priv->exif_data )
     {
-        file->priv->exif_data = exif_data_new_from_file ( rstto_file_get_path (file) );
+        r_file->priv->exif_data = exif_data_new_from_file (
+                rstto_file_get_path (r_file) );
     }
-    if ( NULL != file->priv->exif_data )
+
+    if ( NULL != r_file->priv->exif_data )
     {
         return exif_data_get_entry (
-                file->priv->exif_data,
+                r_file->priv->exif_data,
                 id );
     }
+
+    /* If there is no exif-data, return NULL */
     return NULL;
 }
 
 RsttoImageOrientation
-rstto_file_get_orientation ( RsttoFile *file )
+rstto_file_get_orientation ( RsttoFile *r_file )
 {
     ExifEntry *exif_entry = NULL;
-    if (file->priv->orientation == 0 )
+    if (r_file->priv->orientation == 0 )
     {
-        exif_entry = rstto_file_get_exif (file, EXIF_TAG_ORIENTATION);
+        /* Try to get the default orientation from the EXIF tag */
+        exif_entry = rstto_file_get_exif (r_file, EXIF_TAG_ORIENTATION);
         if (NULL != exif_entry)
         {
-            file->priv->orientation = exif_get_short (
+            r_file->priv->orientation = exif_get_short (
                     exif_entry->data,
                     exif_data_get_byte_order (exif_entry->parent->parent));
 
             exif_entry_free (exif_entry);
         }
-        if (file->priv->orientation == 0)
+
+        /* If the orientation-tag is not set, default to NONE */
+        if (r_file->priv->orientation == 0)
         {
             /* Default orientation */
-            file->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
+            r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
         }
 
     }
-    return file->priv->orientation;
+    return r_file->priv->orientation;
 }
 
 void
 rstto_file_set_orientation (
-        RsttoFile *file ,
+        RsttoFile *r_file ,
         RsttoImageOrientation orientation )
 {
-    file->priv->orientation = orientation;
+    r_file->priv->orientation = orientation;
 }
 
 gboolean
-rstto_file_has_exif ( RsttoFile *file )
+rstto_file_has_exif ( RsttoFile *r_file )
 {
-    if ( NULL == file->priv->exif_data )
+    if ( NULL == r_file->priv->exif_data )
     {
-        file->priv->exif_data = exif_data_new_from_file ( rstto_file_get_path (file) );
+        r_file->priv->exif_data = exif_data_new_from_file ( rstto_file_get_path (r_file) );
     }
-    if ( NULL == file->priv->exif_data )
+    if ( NULL == r_file->priv->exif_data )
     {
         return FALSE;
     }
@@ -441,40 +449,42 @@ rstto_file_has_exif ( RsttoFile *file )
 }
 
 const gchar *
-rstto_file_get_thumbnail_path ( RsttoFile *file)
+rstto_file_get_thumbnail_path ( RsttoFile *r_file)
 {
     const gchar *uri;
     gchar *checksum;
     gchar *filename;
 
-    if (NULL == file->priv->thumbnail_path)
+    if (NULL == r_file->priv->thumbnail_path)
     {
-        uri = rstto_file_get_uri (file);
+        uri = rstto_file_get_uri (r_file);
         checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, strlen (uri));
         filename = g_strconcat (checksum, ".png", NULL);
 
-        file->priv->thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", filename, NULL);
+        r_file->priv->thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", filename, NULL);
 
         g_free (checksum);
         g_free (filename);
     }
 
-    return file->priv->thumbnail_path;
+    return r_file->priv->thumbnail_path;
 }
 
 const GdkPixbuf *
-rstto_file_get_thumbnail ( RsttoFile *file , RsttoThumbnailSize size)
+rstto_file_get_thumbnail (
+        RsttoFile *r_file,
+        RsttoThumbnailSize size )
 {
     const gchar *thumbnail_path;
     RsttoThumbnailer *thumbnailer;
 
-    if (file->priv->thumbnails[size])
-        return file->priv->thumbnails[size];
+    if (r_file->priv->thumbnails[size])
+        return r_file->priv->thumbnails[size];
 
-    thumbnail_path = rstto_file_get_thumbnail_path (file);
+    thumbnail_path = rstto_file_get_thumbnail_path (r_file);
 
     thumbnailer = rstto_thumbnailer_new();
-    rstto_thumbnailer_queue_file (thumbnailer, file);
+    rstto_thumbnailer_queue_file (thumbnailer, r_file);
 
     /* FIXME:
      *
@@ -482,7 +492,7 @@ rstto_file_get_thumbnail ( RsttoFile *file , RsttoThumbnailSize size)
      * of the thumbnailer, to account for changed thumbnails
      * aswell as missing ones.
      */
-    file->priv->thumbnails[size] = gdk_pixbuf_new_from_file_at_scale (
+    r_file->priv->thumbnails[size] = gdk_pixbuf_new_from_file_at_scale (
             thumbnail_path,
             rstto_thumbnail_size[size],
             rstto_thumbnail_size[size],
@@ -491,5 +501,5 @@ rstto_file_get_thumbnail ( RsttoFile *file , RsttoThumbnailSize size)
 
     g_object_unref (thumbnailer);
 
-    return file->priv->thumbnails[size];
+    return r_file->priv->thumbnails[size];
 }
