@@ -110,6 +110,11 @@ rstto_image_viewer_set_menu (
 GError *
 rstto_image_viewer_get_error ( RsttoImageViewer *viewer );
 
+void
+rstto_image_viewer_set_show_clock (
+        RsttoImageViewer *viewer,
+        gboolean value);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_IMAGE_VIEWER_H__ */

@@ -52,6 +52,12 @@
 #define RSTTO_MAX_SCALE 4.0
 #endif
 
+enum
+{
+    PROP_0,
+    PROP_SHOW_CLOCK
+};
+
 typedef enum
 {
     RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL = 0,
@@ -87,6 +93,10 @@ struct _RsttoImageViewerPriv
         gdouble height;
     } rendering;
 
+    struct
+    {
+        gboolean show_clock;
+    } props;
 
     GtkMenu                     *menu;
     gboolean                     revert_zoom_direction;
@@ -172,6 +182,19 @@ static gboolean
 rstto_image_viewer_expose(GtkWidget *, GdkEventExpose *);
 static void
 rstto_image_viewer_paint (GtkWidget *widget, cairo_t *);
+
+static void
+rstto_image_viewer_set_property (
+        GObject      *object,
+        guint         property_id,
+        const GValue *value,
+        GParamSpec   *pspec);
+static void
+rstto_image_viewer_get_property (
+        GObject    *object,
+        guint       property_id,
+        GValue     *value,
+        GParamSpec *pspec);
 
 static void
 rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerMotionState state);
@@ -351,6 +374,7 @@ rstto_image_viewer_init ( GObject *object )
 static void
 rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
 {
+    GParamSpec *pspec;
     GtkWidgetClass *widget_class;
     GtkObjectClass *object_class;
 
@@ -373,6 +397,10 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
     widget_class->popup_menu = rstto_popup_menu;
 
     object_class->destroy = rstto_image_viewer_destroy;
+
+    G_OBJECT_CLASS(object_class)->set_property = rstto_image_viewer_set_property;
+    G_OBJECT_CLASS(object_class)->get_property = rstto_image_viewer_get_property;
+
 
     widget_class->set_scroll_adjustments_signal =
                   g_signal_new ("set_scroll_adjustments",
@@ -407,6 +435,17 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
             g_cclosure_marshal_VOID__POINTER,
             G_TYPE_NONE, 1,
             G_TYPE_POINTER);
+
+    pspec = g_param_spec_boolean (
+            "show-clock",
+            "",
+            "",
+            FALSE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            G_OBJECT_CLASS(object_class),
+            PROP_SHOW_CLOCK,
+            pspec);
 }
 
 /**
@@ -963,6 +1002,91 @@ correct_adjustments ( RsttoImageViewer *viewer )
 }
 
 static void
+paint_clock (
+        GtkWidget *widget,
+        cairo_t *ctx )
+{
+    //RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    gdouble width = 60;
+    gdouble height = 60;
+    gdouble offset = height*0.15;
+    gint i = 0;
+    time_t t = time(NULL);
+    struct tm *lt = localtime(&t);
+
+    cairo_save (ctx);
+
+    cairo_translate (
+        ctx,
+        widget->allocation.width-offset-width,
+        widget->allocation.height-offset-height);
+
+    cairo_set_source_rgba (ctx, 0.0, 0.0, 0.0, 0.3);
+    cairo_save(ctx);
+    cairo_translate (
+        ctx,
+        width/2,
+        height/2);
+    cairo_arc (
+        ctx,
+        00, 00,
+        width/2,
+        0,
+        2*M_PI );
+    cairo_fill (ctx);
+
+    cairo_set_source_rgba (ctx, 1.0, 1.0, 1.0, 0.8);
+
+    cairo_save(ctx);
+    for (i = 0; i < 12; ++i)
+    {
+        cairo_rotate (
+            ctx,
+            30*(M_PI/180));
+        cairo_arc (
+            ctx,
+            00, -1*((width/2)-5),
+            3,
+            0,
+            2*M_PI );
+        cairo_fill (ctx);
+    }
+    cairo_restore (ctx);
+
+/***/
+    cairo_save (ctx);
+    cairo_set_line_width (ctx, 5.0);
+    cairo_set_line_cap (ctx, CAIRO_LINE_CAP_ROUND);
+    cairo_rotate (
+        ctx,
+        (M_PI*2)/12*(lt->tm_hour%12+6));
+    cairo_move_to (ctx, 0, 0);
+    cairo_line_to (
+        ctx,
+        0,
+        height*0.2);
+    cairo_stroke (
+        ctx);
+    cairo_restore (ctx);
+/***/
+    cairo_set_line_width (ctx, 5.0);
+    cairo_set_line_cap (ctx, CAIRO_LINE_CAP_ROUND);
+    cairo_rotate (
+        ctx,
+        (M_PI*2)/60*(lt->tm_min%60+30));
+    cairo_move_to (ctx, 0, 0);
+    cairo_line_to (
+        ctx,
+        0,
+        height*0.3);
+    cairo_stroke (
+        ctx);
+
+    cairo_restore (ctx);
+    cairo_restore (ctx);
+}
+
+static void
 paint_image (
         GtkWidget *widget,
         cairo_t *ctx )
@@ -1339,6 +1463,13 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
             paint_background_icon (widget, ctx);        
 
             cairo_restore (ctx);
+
+            if (viewer->priv->props.show_clock)
+            {
+                cairo_save (ctx);
+                paint_clock (widget, ctx);        
+                cairo_restore (ctx);
+            }
         }
         else
         {
@@ -1350,6 +1481,13 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
             {
                 cairo_save (ctx);
                 paint_selection_box (widget, ctx);        
+                cairo_restore (ctx);
+            }
+
+            if (viewer->priv->props.show_clock)
+            {
+                cairo_save (ctx);
+                paint_clock (widget, ctx);        
                 cairo_restore (ctx);
             }
         }
@@ -2641,4 +2779,46 @@ rstto_image_viewer_get_error ( RsttoImageViewer *viewer )
         return g_error_copy (viewer->priv->error);
     }
     return NULL;
+}
+
+static void
+rstto_image_viewer_set_property (
+        GObject      *object,
+        guint         property_id,
+        const GValue *value,
+        GParamSpec   *pspec)
+{
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (object);
+
+    switch (property_id)
+    {
+        case PROP_SHOW_CLOCK:
+            viewer->priv->props.show_clock = g_value_get_boolean (value);
+            break;
+    }
+}
+
+static void
+rstto_image_viewer_get_property (
+        GObject    *object,
+        guint       property_id,
+        GValue     *value,
+        GParamSpec *pspec)
+{
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (object);
+
+    switch (property_id)
+    {
+        case PROP_SHOW_CLOCK:
+            g_value_set_boolean (value, viewer->priv->props.show_clock);
+            break;
+    }
+}
+
+void
+rstto_image_viewer_set_show_clock (
+        RsttoImageViewer *viewer,
+        gboolean value)
+{
+    viewer->priv->props.show_clock = value;
 }
