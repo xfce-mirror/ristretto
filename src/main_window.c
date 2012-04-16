@@ -1975,10 +1975,7 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
                 gtk_widget_hide (window->priv->t_bar_s_window);
             }
 
-            if (rstto_settings_get_boolean_property (
-                    window->priv->settings_manager,
-                    "merge-toolbars") ||
-                rstto_image_list_get_n_images (window->priv->image_list) == 0)
+            if (rstto_image_list_get_n_images (window->priv->image_list) == 0)
             {
                 gtk_ui_manager_add_ui (
                         window->priv->ui_manager,
@@ -2009,46 +2006,23 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
         }
         else
         {
-            if (rstto_settings_get_boolean_property (
-                    window->priv->settings_manager,
-                    "merge-toolbars"))
-            {
-                gtk_ui_manager_add_ui (
-                        window->priv->ui_manager,
-                        window->priv->toolbar_fullscreen_merge_id,
-                        "/main-toolbar/placeholder-fullscreen",
-                        "fullscreen",
-                        "fullscreen",
-                        GTK_UI_MANAGER_TOOLITEM,
-                        FALSE);
-                gtk_ui_manager_remove_ui (
-                        window->priv->ui_manager,
-                        window->priv->toolbar_unfullscreen_merge_id);
+            gtk_ui_manager_add_ui (
+                    window->priv->ui_manager,
+                    window->priv->toolbar_fullscreen_merge_id,
+                    "/main-toolbar/placeholder-fullscreen",
+                    "fullscreen",
+                    "fullscreen",
+                    GTK_UI_MANAGER_TOOLITEM,
+                    FALSE);
+            gtk_ui_manager_remove_ui (
+                    window->priv->ui_manager,
+                    window->priv->toolbar_unfullscreen_merge_id);
 
-                if (rstto_settings_get_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-toolbar"))
-                    gtk_widget_show (window->priv->toolbar);
-                else
-                    gtk_widget_hide(window->priv->toolbar);
-            }
+            if (rstto_settings_get_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-toolbar"))
+                gtk_widget_show (window->priv->toolbar);
             else
-            {
-                gtk_ui_manager_add_ui (
-                        window->priv->ui_manager,
-                        window->priv->toolbar_fullscreen_merge_id,
-                        "/main-toolbar/placeholder-fullscreen",
-                        "fullscreen",
-                        "fullscreen",
-                        GTK_UI_MANAGER_TOOLITEM,
-                        FALSE);
-                gtk_ui_manager_remove_ui (
-                        window->priv->ui_manager,
-                        window->priv->toolbar_unfullscreen_merge_id);
+                gtk_widget_hide(window->priv->toolbar);
 
-                if (rstto_settings_get_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-toolbar"))
-                    gtk_widget_show (window->priv->toolbar);
-                else
-                    gtk_widget_hide(window->priv->toolbar);
-            }
             if (window->priv->show_fs_toolbar_timeout_id > 0)
             {
                 g_source_remove (window->priv->show_fs_toolbar_timeout_id);

@@ -72,7 +72,6 @@ enum
     PROP_REVERT_ZOOM_DIRECTION,
     PROP_USE_THUNAR_PROPERTIES,
     PROP_MAXIMIZE_ON_STARTUP,
-    PROP_MERGE_TOOLBARS,
     PROP_ERROR_MISSING_THUMBNAILER,
     PROP_SORT_TYPE,
     PROP_THUMBNAIL_SIZE,
@@ -125,7 +124,6 @@ struct _RsttoSettingsPriv
     gchar    *desktop_type;
     gboolean  use_thunar_properties;
     gboolean  maximize_on_startup;
-    gboolean  merge_toolbars;
     RsttoThumbnailSize thumbnail_size;
 
     RsttoSortType sort_type;
@@ -306,13 +304,6 @@ rstto_settings_init (GObject *object)
             G_TYPE_BOOLEAN,
             settings,
             "maximize-on-startup");
-
-    xfconf_g_property_bind (
-            settings->priv->channel,
-            "/window/merge-toolbars",
-            G_TYPE_BOOLEAN,
-            settings,
-            "merge-toolbars");
 
     xfconf_g_property_bind (
             settings->priv->channel,
@@ -540,17 +531,6 @@ rstto_settings_class_init (GObjectClass *object_class)
             pspec);
 
     pspec = g_param_spec_boolean (
-            "merge-toolbars",
-            "",
-            "",
-            TRUE,
-            G_PARAM_READWRITE);
-    g_object_class_install_property (
-            object_class,
-            PROP_MERGE_TOOLBARS,
-            pspec);
-
-    pspec = g_param_spec_boolean (
             "show-error-missing-thumbnailer",
             "",
             "",
@@ -739,9 +719,6 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_MAXIMIZE_ON_STARTUP:
             settings->priv->maximize_on_startup = g_value_get_boolean (value);
             break;
-        case PROP_MERGE_TOOLBARS:
-            settings->priv->merge_toolbars = g_value_get_boolean (value);
-            break;
         case PROP_ERROR_MISSING_THUMBNAILER:
             settings->priv->errors.missing_thumbnailer = g_value_get_boolean (value);
             break;
@@ -817,9 +794,6 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_MAXIMIZE_ON_STARTUP:
             g_value_set_boolean (value, settings->priv->maximize_on_startup);
-            break;
-        case PROP_MERGE_TOOLBARS:
-            g_value_set_boolean (value, settings->priv->merge_toolbars);
             break;
         case PROP_ERROR_MISSING_THUMBNAILER:
             g_value_set_boolean (
