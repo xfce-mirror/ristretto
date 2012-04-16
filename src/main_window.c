@@ -1946,6 +1946,14 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
     {
         if(event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN)
         {
+            if (rstto_settings_get_boolean_property (
+                window->priv->settings_manager,
+                "show-clock"))
+            {
+                rstto_image_viewer_set_show_clock (
+                        RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
+                        TRUE);
+            }
             gtk_widget_hide (window->priv->menubar);
             if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
             {
@@ -2006,6 +2014,9 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
         }
         else
         {
+            rstto_image_viewer_set_show_clock (
+                    RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
+                    FALSE);
             gtk_ui_manager_add_ui (
                     window->priv->ui_manager,
                     window->priv->toolbar_fullscreen_merge_id,
