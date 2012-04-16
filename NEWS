@@ -1,6 +1,10 @@
 x.x.x
 =====
-- Remove the 'debug' monitor from the wallpaper chooser
+- Remove the 'debug' monitor from the wallpaper chooser.
+- Add option to show a clock in fullscreen mode.
+- Improve the way 'default'-accelerators are registered.
+- Load directory-contents asynchronously. - Prevent lockup of the
+  screen.
 
 0.5.1
 =====
