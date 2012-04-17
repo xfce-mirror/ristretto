@@ -405,15 +405,15 @@ msgstr "지우기"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
-msgstr "마지막 시"
+msgstr "한 시간 전"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Two Hours"
-msgstr "두시간 전"
+msgstr "두 시간 전"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr "네시간전"
+msgstr "네 시간 전"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
