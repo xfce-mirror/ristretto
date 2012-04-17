@@ -85,7 +85,7 @@ msgstr "تەھرىر(_E)"
 
 #: ../src/main_window.c:354
 msgid "Edit this image"
-msgstr ""
+msgstr "بۇ سۈرەتنى تەھرىرلەيدۇ"
 
 #: ../src/main_window.c:355
 msgid "_Close"
@@ -138,7 +138,7 @@ msgstr "تولۇق ئېكران(_F)"
 
 #: ../src/main_window.c:366
 msgid "Switch to fullscreen"
-msgstr ""
+msgstr "تولۇق ئېكرانغا ئۆزگەرتىدۇ"
 
 #: ../src/main_window.c:367
 msgid "_Leave Fullscreen"
@@ -146,7 +146,7 @@ msgstr "تولۇق ئېكران ھالىتىدىن چىق(_L)"
 
 #: ../src/main_window.c:367
 msgid "Leave Fullscreen"
-msgstr ""
+msgstr "تولۇق ئېكراندىن چىقىدۇ"
 
 #: ../src/main_window.c:368
 msgid "_Set as Wallpaper"
@@ -163,7 +163,7 @@ msgstr "چوڭايت(_I)"
 
 #: ../src/main_window.c:371
 msgid "Zoom in"
-msgstr ""
+msgstr "سۈرەتنى چوڭايتىدۇ"
 
 #: ../src/main_window.c:372
 msgid "Zoom _Out"
@@ -171,7 +171,7 @@ msgstr "كىچىكلەت(_O)"
 
 #: ../src/main_window.c:372
 msgid "Zoom out"
-msgstr ""
+msgstr "سۈرەتنى كىچىكلىتىدۇ"
 
 #: ../src/main_window.c:373
 msgid "Zoom _Fit"
@@ -179,7 +179,7 @@ msgstr "دەل كەلتۈر(_F)"
 
 #: ../src/main_window.c:373
 msgid "Zoom to fit window"
-msgstr ""
+msgstr "سۈرەتنى ئېكرانغا دەل كەلتۈرۈپ كۆرسىتىدۇ"
 
 #: ../src/main_window.c:374
 msgid "_Normal Size"
@@ -187,7 +187,7 @@ msgstr "نورمال چوڭلۇق(_N)"
 
 #: ../src/main_window.c:374
 msgid "Zoom to 100%"
-msgstr ""
+msgstr "ئەسلىدىكى چوڭلۇق(100%)"
 
 #. Rotation submenu
 #: ../src/main_window.c:376
@@ -213,7 +213,7 @@ msgstr "ئالدىغا(_F)"
 
 #: ../src/main_window.c:381
 msgid "Next image"
-msgstr ""
+msgstr "كېيىنكى سۈرەتنى كۆرسىتىدۇ"
 
 #: ../src/main_window.c:382
 msgid "_Back"
@@ -221,7 +221,7 @@ msgstr "كەينىگە(_B)"
 
 #: ../src/main_window.c:382
 msgid "Previous image"
-msgstr ""
+msgstr "ئالدىنقى سۈرەتنى كۆرسىتىدۇ"
 
 #: ../src/main_window.c:383
 msgid "_First"
@@ -229,7 +229,7 @@ msgstr "بىرىنچىسى(_F)"
 
 #: ../src/main_window.c:383
 msgid "First image"
-msgstr ""
+msgstr "ئەڭ باشتىكى سۈرەتنى كۆرسىتىدۇ"
 
 #: ../src/main_window.c:384
 msgid "_Last"
@@ -237,7 +237,7 @@ msgstr "ئەڭ ئاخىرقىسى(_L)"
 
 #: ../src/main_window.c:384
 msgid "Last image"
-msgstr ""
+msgstr "ئەڭ ئاخىرقى سۈرەتنى كۆرسىتىدۇ"
 
 #. Help Menu
 #: ../src/main_window.c:386
@@ -285,7 +285,7 @@ msgstr "تولۇق ئېكران ھالىتىدىن چىق(_F)"
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:411
 msgid "_Show Toolbar"
-msgstr ""
+msgstr "قورال بالداقنى كۆرسەت(_S)"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:413
@@ -383,7 +383,7 @@ msgstr "تاللانغان سۈرەتنى ئېچىش ئۈچۈن چېكىڭ"
 
 #: ../src/main_window.c:1068 ../src/main_window.c:1072
 msgid "Open With Other _Application"
-msgstr ""
+msgstr "باشقا پروگراممىدا ئاچ(_A)"
 
 #: ../src/main_window.c:1093 ../src/main_window.c:1099
 msgid "Empty"
@@ -458,88 +458,88 @@ msgstr "دىسكىدىكى ‹%s› دېگەن سۈرەتنى ئۆچۈرەمسى
 #: ../src/main_window.c:3050
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr ""
+msgstr "سۈرەت ‹%s› نى راستلا ئەخلەتخانىغا تاشلامسىز؟"
 
 #: ../src/main_window.c:3358
 msgid "Edit with"
-msgstr ""
+msgstr "باشقا پروگراممىدا تەھرىرلە"
 
 #: ../src/main_window.c:3375
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr ""
+msgstr "%s ۋە تىپى %s بولغان ھۆججەتلەرنى كۆرسىتىلگەن پروگراممىدا ئاچ:"
 
 #: ../src/main_window.c:3377
 msgid "Use as _default for this kind of file"
-msgstr ""
+msgstr "مۇشۇ تىپتىكى ھۆججەتكە نىسبەتەن كۆڭۈلدىكى بولسۇن(_D)"
 
 #: ../src/main_window.c:3451
 msgid "Recommended Applications"
-msgstr ""
+msgstr "تەۋسىيىلىك پروگراممىلار"
 
 #: ../src/main_window.c:3523
 msgid "Other Applications"
-msgstr ""
+msgstr "باشقا پروگراممىلار"
 
 #: ../src/icon_bar.c:345
 msgid "Orientation"
-msgstr ""
+msgstr "يۆنىلىشى"
 
 #: ../src/icon_bar.c:346
 msgid "The orientation of the iconbar"
-msgstr ""
+msgstr "سىنبەلگە بالدىقىنىڭ يۆنىلىشى"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
-msgstr ""
+msgstr "ھۆججەت ئىستونى"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr ""
+msgstr "ھۆججەت ئاتىنى ئىزدەشكە ئىشلىتىدىغان مودېل ئىستون"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
-msgstr ""
+msgstr "سىنبەلگە بالدىقى مودېلى"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr ""
+msgstr "سىنبەلگە بالدىقىنىڭ مودېلى"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
-msgstr ""
+msgstr "ئاكتىپ"
 
 #: ../src/icon_bar.c:393
 msgid "Active item index"
-msgstr ""
+msgstr "ئاكتىپ تۈرنىڭ ئىندېكسى"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
-msgstr ""
+msgstr "تېكىست كۆرسىتىش"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr ""
+msgstr "ئاكتىپ تۈرنىڭ رەڭگى"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr ""
+msgstr "ئاكتىپ تۈرنىڭ گىرۋەك رەڭگى"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr ""
+msgstr "ئاكتىپ تۈرنىڭ تېكىستىنىڭ رېڭى"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr ""
+msgstr "نۇربەلگىنىڭ رەڭگى"
 
 #: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr ""
+msgstr "نۇربەلگىنىڭ گىرۋىكىنىڭ رەڭگى"
 
 #: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 msgid "Cursor item text color"
-msgstr ""
+msgstr "نۇربەلگىنىڭ تېكىستىڭ رېڭى"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
@@ -617,11 +617,11 @@ msgstr "تام تەسۋىرى سۈپىتىدە كۆرسىتىلگەندە، سۈ
 
 #: ../src/preferences_dialog.c:272
 msgid "Clock"
-msgstr ""
+msgstr "سائەت"
 
 #: ../src/preferences_dialog.c:275
 msgid "Show Fullscreen Clock"
-msgstr ""
+msgstr "سائەتنى تولۇق ئېكراندا كۆرسىتىش"
 
 #: ../src/preferences_dialog.c:289
 msgid "Control"
@@ -645,7 +645,7 @@ msgstr "قوزغىلىش"
 
 #: ../src/preferences_dialog.c:313
 msgid "Maximize window on startup when opening an image"
-msgstr ""
+msgstr "ھۆججەتنى ئېچىپ باشلانغاندا كۆزنەكنى ئەڭ چوڭ قىلسۇن"
 
 #: ../src/preferences_dialog.c:319
 msgid "Wrap around images"
