@@ -881,6 +881,20 @@ correct_adjustments ( RsttoImageViewer *viewer )
     g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
     g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
 
+    /* Check if the image-size makes sense,
+     * if not, set the upper limits to 0.0
+     */
+    if ( (image_width < 1.0) || (image_height < 1.0) )
+    {
+        gtk_adjustment_set_upper (
+                viewer->hadjustment,
+                0.0 );
+        gtk_adjustment_set_upper (
+                viewer->vadjustment,
+                0.0 );
+        return;
+    }
+
     switch (viewer->priv->orientation)
     {
         case RSTTO_IMAGE_ORIENT_NONE:
@@ -1477,29 +1491,6 @@ rstto_image_viewer_set_file (
             /* Reset the image-size to 0.0 */
             viewer->priv->image_height = 0.0;
             viewer->priv->image_width = 0.0;
-
-            g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
-            g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
-
-            gtk_adjustment_set_upper (
-                    viewer->hadjustment,
-                    0.0);
-            gtk_adjustment_set_value (
-                    viewer->hadjustment,
-                    0.0);
-
-            gtk_adjustment_set_upper (
-                    viewer->vadjustment,
-                    0.0);
-            gtk_adjustment_set_value (
-                    viewer->vadjustment,
-                    0.0);
-
-            /*
-             * Enable signals on the adjustments.
-             */
-            g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
-            g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
             
             gdk_window_invalidate_rect (
                     widget->window,
