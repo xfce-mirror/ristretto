@@ -1,3 +1,7 @@
+x.x.x
+=====
+- Reset adjustment-limits on closing the image (hide scrollbars)
+
 0.3.6
 =====
 - Clear tooltip if image is closed
