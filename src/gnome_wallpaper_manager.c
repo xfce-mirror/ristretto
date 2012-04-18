@@ -83,7 +83,7 @@ cb_style_combo_changed (
 
 static void
 configure_monitor_chooser_pixbuf (
-    RsttoGnomeWallpaperManager *manager );
+        RsttoGnomeWallpaperManager *manager );
 
 static GObjectClass *parent_class = NULL;
 
@@ -91,17 +91,17 @@ static RsttoWallpaperManager *gnome_wallpaper_manager_object = NULL;
 
 struct _RsttoGnomeWallpaperManagerPriv
 {
-    gint screen;
-    gint    monitor;
-    enum MonitorStyle style;
+    gint               screen;
+    gint               monitor;
+    enum MonitorStyle  style;
 
-    RsttoFile *file;
-    GdkPixbuf *pixbuf;
+    RsttoFile         *file;
+    GdkPixbuf         *pixbuf;
 	
-    GtkWidget *monitor_chooser;
-    GtkWidget *style_combo;
+    GtkWidget         *monitor_chooser;
+    GtkWidget         *style_combo;
 
-    GtkWidget *dialog;
+    GtkWidget         *dialog;
 };
 
 
@@ -133,7 +133,10 @@ rstto_gnome_wallpaper_manager_configure_dialog_run (
     configure_monitor_chooser_pixbuf (manager);
 
     response = gtk_dialog_run (GTK_DIALOG (manager->priv->dialog));
+
+    /* First, hide the dialog */
     gtk_widget_hide (manager->priv->dialog);
+
     if ((response == GTK_RESPONSE_OK) || (response == GTK_RESPONSE_APPLY))
     {
         manager->priv->style = gtk_combo_box_get_active (
@@ -145,6 +148,15 @@ rstto_gnome_wallpaper_manager_configure_dialog_run (
     return response;
 }
 
+/**
+ * rstto_gnome_wallpaper_manager_check_running:
+ * @self:
+ *
+ * Returns: TRUE
+ *
+ * This function does not really check if the
+ * gnome-wallpaper-manager is running.
+ */
 static gboolean
 rstto_gnome_wallpaper_manager_check_running (
         RsttoWallpaperManager *self)
@@ -218,10 +230,19 @@ rstto_gnome_wallpaper_manager_get_type (void)
             NULL
         };
 
-        rstto_gnome_wallpaper_manager_type = g_type_register_static (G_TYPE_OBJECT, "RsttoGnomeWallpaperManager", &rstto_gnome_wallpaper_manager_info, 0);
-        g_type_add_interface_static (rstto_gnome_wallpaper_manager_type, RSTTO_WALLPAPER_MANAGER_TYPE,  &wallpaper_manager_iface_info);
+        rstto_gnome_wallpaper_manager_type = g_type_register_static (
+                G_TYPE_OBJECT,
+                "RsttoGnomeWallpaperManager",
+                &rstto_gnome_wallpaper_manager_info,
+                0);
+
+        g_type_add_interface_static (
+                rstto_gnome_wallpaper_manager_type,
+                RSTTO_WALLPAPER_MANAGER_TYPE,
+                &wallpaper_manager_iface_info);
 
     }
+
     return rstto_gnome_wallpaper_manager_type;
 }
 
@@ -422,7 +443,6 @@ configure_monitor_chooser_pixbuf (
 {
     cairo_surface_t *image_surface = NULL;
     cairo_t *ctx;
-    //GdkColor bg_color;
 
     GdkPixbuf *tmp_pixbuf = NULL;
 
@@ -441,6 +461,7 @@ configure_monitor_chooser_pixbuf (
     if (manager->priv->pixbuf)
     {
         tmp_pixbuf = gdk_pixbuf_copy (manager->priv->pixbuf);
+
         if ( NULL != tmp_pixbuf )
         {
 
@@ -459,7 +480,6 @@ configure_monitor_chooser_pixbuf (
                     surface_height);
             ctx = cairo_create ( image_surface );
 
-            //gdk_cairo_set_source_color ( ctx, bg_color );
             cairo_set_source_rgb (ctx, 0, 0, 0);
             cairo_paint (ctx);
 
@@ -511,21 +531,24 @@ configure_monitor_chooser_pixbuf (
                     break;
                 default:
                     gdk_pixbuf_saturate_and_pixelate (
-                        tmp_pixbuf,
-                        tmp_pixbuf,
-                        0.0,
-                        TRUE);
+                            tmp_pixbuf,
+                            tmp_pixbuf,
+                            0.0,
+                            TRUE);
                     break;
             }
+
             cairo_scale (ctx, x_scale, y_scale);
+
             gdk_cairo_set_source_pixbuf (
                     ctx,
                     tmp_pixbuf,
                     dest_x/x_scale,
                     dest_y/y_scale);
-            cairo_paint (ctx);
-            cairo_destroy (ctx);
 
+            cairo_paint (ctx);
+
+            cairo_destroy (ctx);
 
             g_object_unref (tmp_pixbuf);
         }

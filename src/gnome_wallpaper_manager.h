@@ -59,8 +59,11 @@ struct _RsttoGnomeWallpaperManagerClass
     GObjectClass parent_class;
 };
 
-RsttoWallpaperManager *rstto_gnome_wallpaper_manager_new (void);
-GType          rstto_gnome_wallpaper_manager_get_type (void);
+GType
+rstto_gnome_wallpaper_manager_get_type (void);
+
+RsttoWallpaperManager *
+rstto_gnome_wallpaper_manager_new (void);
 
 G_END_DECLS
 
