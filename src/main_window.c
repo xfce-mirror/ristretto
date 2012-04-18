@@ -1206,6 +1206,15 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
             status = g_strdup (_("Press open to select an image"));
         }
 
+        if ( rstto_image_viewer_is_busy (viewer) )
+        {
+            if (status)
+            {
+                g_free (status);
+            }
+            status = g_strdup (_("Loading..."));
+        }
+
         gtk_statusbar_pop (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id);
 
         if (status)

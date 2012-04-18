@@ -2850,3 +2850,13 @@ rstto_image_viewer_set_show_clock (
     }
 }
 
+gboolean
+rstto_image_viewer_is_busy (
+        RsttoImageViewer *viewer )
+{
+    if (viewer->priv->transaction != NULL)
+    {
+        return TRUE;
+    }
+    return FALSE;
+}

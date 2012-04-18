@@ -115,6 +115,11 @@ rstto_image_viewer_set_show_clock (
         RsttoImageViewer *viewer,
         gboolean value);
 
+gboolean
+rstto_image_viewer_is_busy (
+        RsttoImageViewer *viewer );
+
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_IMAGE_VIEWER_H__ */
