@@ -1474,6 +1474,10 @@ rstto_image_viewer_set_file (
             g_object_unref (viewer->priv->file);
             viewer->priv->file = NULL;
 
+            /* Reset the image-size to 0.0 */
+            viewer->priv->image_height = 0.0;
+            viewer->priv->image_width = 0.0;
+
             g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
             g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
 
