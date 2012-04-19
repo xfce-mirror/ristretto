@@ -2,6 +2,8 @@ x.x.x
 =====
 - Reset adjustment-limits when closing the image (hide scrollbars)
 - Show error-message when deleting an image fails.
+- Show a 'Loading...' message in the statusbar when loading an image or
+  directory-contents.
 
 0.5.2
 =====
