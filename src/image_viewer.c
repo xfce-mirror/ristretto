@@ -919,22 +919,29 @@ correct_adjustments ( RsttoImageViewer *viewer )
     gdouble scale = viewer->priv->scale;
 
 
-    g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
-    g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
-
     /* Check if the image-size makes sense,
      * if not, set the upper limits to 0.0
      */
-    if ( (image_width < 1.0) || (image_height < 1.0) )
+    if ( (image_width <= 1.0) || (image_height <= 1.0) )
     {
+        gtk_adjustment_set_value (
+                viewer->hadjustment,
+                0.0 );
         gtk_adjustment_set_upper (
                 viewer->hadjustment,
+                0.0 );
+        gtk_adjustment_set_value (
+                viewer->vadjustment,
                 0.0 );
         gtk_adjustment_set_upper (
                 viewer->vadjustment,
                 0.0 );
         return;
     }
+
+    g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
+    g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
+
 
     switch (viewer->priv->orientation)
     {
