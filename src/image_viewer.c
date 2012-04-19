@@ -1663,11 +1663,13 @@ rstto_image_viewer_load_image (
     }
 
     transaction->loader = gdk_pixbuf_loader_new_with_mime_type (rstto_file_get_content_type (file), NULL);
+
     /* HACK HACK HACK */
     if (transaction->loader == NULL)
     {
         transaction->loader = gdk_pixbuf_loader_new();
     }
+
     transaction->cancellable = g_cancellable_new();
     transaction->buffer = g_new0 (guchar, RSTTO_IMAGE_VIEWER_BUFFER_SIZE);
     transaction->file = file;
@@ -1709,7 +1711,9 @@ rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr)
 }
 
 void
-rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
+rstto_image_viewer_set_scale (
+        RsttoImageViewer *viewer,
+        gdouble scale)
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
 
@@ -1787,7 +1791,9 @@ rstto_image_viewer_get_scale (RsttoImageViewer *viewer)
 }
 
 static void
-rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerMotionState state)
+rstto_image_viewer_set_motion_state (
+        RsttoImageViewer *viewer,
+        RsttoImageViewerMotionState state)
 {
     viewer->priv->motion.state = state;
 }
@@ -1823,13 +1829,15 @@ rstto_image_viewer_set_orientation (
 }
 
 RsttoImageOrientation
-rstto_image_viewer_get_orientation (RsttoImageViewer *viewer)
+rstto_image_viewer_get_orientation (
+        RsttoImageViewer *viewer)
 {
     return viewer->priv->orientation;
 }
 
 gint
-rstto_image_viewer_get_width (RsttoImageViewer *viewer)
+rstto_image_viewer_get_width (
+        RsttoImageViewer *viewer)
 {
     if (viewer)
     {
@@ -1838,7 +1846,8 @@ rstto_image_viewer_get_width (RsttoImageViewer *viewer)
     return 0;
 }
 gint
-rstto_image_viewer_get_height (RsttoImageViewer *viewer)
+rstto_image_viewer_get_height (
+        RsttoImageViewer *viewer)
 {
     if (viewer)
     {
@@ -1849,8 +1858,8 @@ rstto_image_viewer_get_height (RsttoImageViewer *viewer)
 
 void
 rstto_image_viewer_set_menu (
-    RsttoImageViewer *viewer,
-    GtkMenu *menu)
+        RsttoImageViewer *viewer,
+        GtkMenu *menu)
 {
     if (viewer->priv->menu)
     {
@@ -1876,7 +1885,9 @@ rstto_image_viewer_set_menu (
 /************************/
 
 static void
-cb_rstto_image_viewer_value_changed(GtkAdjustment *adjustment, RsttoImageViewer *viewer)
+cb_rstto_image_viewer_value_changed (
+        GtkAdjustment *adjustment,
+        RsttoImageViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
     gdk_window_invalidate_rect (
@@ -1956,7 +1967,9 @@ cb_rstto_image_viewer_read_input_stream_ready (
 
 
 static void
-cb_rstto_image_loader_area_prepared (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
+cb_rstto_image_loader_area_prepared (
+        GdkPixbufLoader *loader,
+        RsttoImageViewerTransaction *transaction)
 {
     gint timeout = 0;
     RsttoImageViewer *viewer = transaction->viewer;
@@ -2057,7 +2070,9 @@ cb_rstto_image_loader_size_prepared (
 }
 
 static void
-cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
+cb_rstto_image_loader_closed (
+        GdkPixbufLoader *loader,
+        RsttoImageViewerTransaction *transaction)
 {
     RsttoImageViewer *viewer = transaction->viewer;
     GtkWidget *widget = GTK_WIDGET(viewer);
@@ -2486,13 +2501,14 @@ rstto_button_press_event (
         if (viewer->priv->menu)
         {
             gtk_widget_show_all(GTK_WIDGET(viewer->priv->menu));
-            gtk_menu_popup(viewer->priv->menu,
-                           NULL,
-                           NULL,
-                           NULL,
-                           NULL,
-                           3,
-                           event->time);
+            gtk_menu_popup (
+                    viewer->priv->menu,
+                    NULL,
+                    NULL,
+                    NULL,
+                    NULL,
+                    3,
+                    event->time);
         }
         return TRUE;
     }
@@ -2748,8 +2764,15 @@ rstto_popup_menu (
 }
 
 static void
-cb_rstto_image_viewer_dnd (GtkWidget *widget, GdkDragContext *context, gint x, gint y, GtkSelectionData *data,
-              guint info, guint time_, RsttoImageViewer *viewer)
+cb_rstto_image_viewer_dnd (
+        GtkWidget *widget,
+        GdkDragContext *context,
+        gint x,
+        gint y,
+        GtkSelectionData *data,
+        guint info,
+        guint time_,
+        RsttoImageViewer *viewer )
 {
     g_return_if_fail ( RSTTO_IS_IMAGE_VIEWER(viewer) );
 

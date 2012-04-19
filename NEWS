@@ -1,6 +1,7 @@
 x.x.x
 =====
 - Reset adjustment-limits when closing the image (hide scrollbars)
+- Show error-message when deleting an image fails.
 
 0.5.2
 =====

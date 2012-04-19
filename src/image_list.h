@@ -92,11 +92,21 @@ struct _RsttoImageListIterClass
 };
 
 
-GType           rstto_image_list_get_type ();
-RsttoImageList *rstto_image_list_new ();
+GType
+rstto_image_list_get_type (void);
 
-gint     rstto_image_list_get_n_images (RsttoImageList *image_list);
-gboolean rstto_image_list_add_file (RsttoImageList *image_list, RsttoFile *file, GError **);
+RsttoImageList *
+rstto_image_list_new (void);
+
+gint
+rstto_image_list_get_n_images (
+        RsttoImageList *image_list);
+
+gboolean
+rstto_image_list_add_file (
+        RsttoImageList *image_list,
+        RsttoFile *file,
+        GError **);
 
 gboolean
 rstto_image_list_set_directory (
@@ -104,15 +114,27 @@ rstto_image_list_set_directory (
         GFile *dir,
         GError **);
 
+gboolean
+rstto_image_list_is_busy (
+        RsttoImageList *list );
 
-GCompareFunc rstto_image_list_get_compare_func (RsttoImageList *image_list);
-void         rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func);
+
+GCompareFunc
+rstto_image_list_get_compare_func (
+        RsttoImageList *image_list);
+void
+rstto_image_list_set_compare_func (
+        RsttoImageList *image_list,
+        GCompareFunc func);
 
 /** Built-in Sorting Functions */
 void
-rstto_image_list_set_sort_by_name (RsttoImageList *image_list);
+rstto_image_list_set_sort_by_name (
+        RsttoImageList *image_list);
+
 void
-rstto_image_list_set_sort_by_date (RsttoImageList *image_list);
+rstto_image_list_set_sort_by_date (
+        RsttoImageList *image_list);
 
 RsttoImageListIter *
 rstto_image_list_get_iter (RsttoImageList *image_list);
@@ -122,29 +144,47 @@ GType
 rstto_image_list_iter_get_type ();
 
 RsttoFile *
-rstto_image_list_iter_get_file ( RsttoImageListIter *iter );
+rstto_image_list_iter_get_file (
+        RsttoImageListIter *iter );
 
 gboolean
-rstto_image_list_iter_previous (RsttoImageListIter *iter);
-gboolean
-rstto_image_list_iter_next (RsttoImageListIter *iter);
+rstto_image_list_iter_previous (
+        RsttoImageListIter *iter);
 
 gboolean
-rstto_image_list_iter_has_previous (RsttoImageListIter *iter);
+rstto_image_list_iter_next (
+        RsttoImageListIter *iter);
+
 gboolean
-rstto_image_list_iter_has_next (RsttoImageListIter *iter);
+rstto_image_list_iter_has_previous (
+        RsttoImageListIter *iter);
+
+gboolean
+rstto_image_list_iter_has_next (
+        RsttoImageListIter *iter);
 
 gint
-rstto_image_list_iter_get_position (RsttoImageListIter *iter);
-void
-rstto_image_list_iter_set_position (RsttoImageListIter *iter, gint pos);
+rstto_image_list_iter_get_position (
+        RsttoImageListIter *iter);
 
 void
-rstto_image_list_remove_file (RsttoImageList *image_list, RsttoFile *file);
+rstto_image_list_iter_set_position (
+        RsttoImageListIter *iter,
+        gint pos);
+
+void
+rstto_image_list_remove_file (
+        RsttoImageList *image_list,
+        RsttoFile *file);
+
 gboolean
-rstto_image_list_iter_find_file (RsttoImageListIter *iter, RsttoFile *file);
+rstto_image_list_iter_find_file (
+        RsttoImageListIter *iter,
+        RsttoFile *file);
 
-RsttoImageListIter *rstto_image_list_iter_clone (RsttoImageListIter *iter);
+RsttoImageListIter *
+rstto_image_list_iter_clone (
+        RsttoImageListIter *iter);
 
 gboolean
 rstto_image_list_iter_get_sticky (

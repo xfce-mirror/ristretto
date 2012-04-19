@@ -142,6 +142,7 @@ static void
 rstto_main_window_class_init(RsttoMainWindowClass *);
 static void
 rstto_main_window_dispose(GObject *object);
+
 static void
 rstto_main_window_size_allocate (GtkWidget *, GtkAllocation *);
 
@@ -347,102 +348,344 @@ static GtkWidgetClass *parent_class = NULL;
 static GtkActionEntry action_entries[] =
 {
 /* File Menu */
-  { "file-menu", NULL, N_ ("_File"), NULL, },
-  { "open", "document-open", N_ ("_Open"), "<control>O", N_ ("Open an image"), G_CALLBACK (cb_rstto_main_window_open_image), },
-  { "save-copy", GTK_STOCK_SAVE_AS, N_ ("_Save copy"), "<control>s", N_ ("Save a copy of the image"), G_CALLBACK (cb_rstto_main_window_save_copy), },
-  { "properties", GTK_STOCK_PROPERTIES, N_ ("_Properties"), NULL, N_ ("Show file properties"), G_CALLBACK (cb_rstto_main_window_properties), },
-  { "edit", GTK_STOCK_EDIT, N_ ("_Edit"), NULL, N_ ("Edit this image"), G_CALLBACK (cb_rstto_main_window_edit), },
-  { "close", GTK_STOCK_CLOSE, N_ ("_Close"), "<control>W", N_ ("Close this image"), G_CALLBACK (cb_rstto_main_window_close), },
-  { "quit", GTK_STOCK_QUIT, N_ ("_Quit"), "<control>Q", N_ ("Quit Ristretto"), G_CALLBACK (cb_rstto_main_window_quit), },
+  { "file-menu",
+            NULL,
+            N_ ("_File"),
+            NULL, },
+  { "open",
+            "document-open", /* Icon-name */
+            N_ ("_Open..."), /* Label-text */
+            "<control>O", /* Keyboard shortcut */
+            N_ ("Open an image"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_open_image), },
+  { "save-copy",
+            GTK_STOCK_SAVE_AS, /* Icon-name */
+            N_ ("_Save copy..."), /* Label-text */
+            "<control>s", /* Keyboard shortcut */
+            N_ ("Save a copy of the image"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_save_copy), },
+  { "properties",
+            GTK_STOCK_PROPERTIES, /* Icon-name */
+            N_ ("_Properties..."), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            N_ ("Show file properties"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_properties), },
+  { "edit",
+            GTK_STOCK_EDIT, /* Icon-name */
+            N_ ("_Edit"), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            N_ ("Edit this image"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_edit), },
+  { "close",
+            GTK_STOCK_CLOSE, /* Icon-name */
+            N_ ("_Close"), /* Label-text */
+            "<control>W", /* Keyboard shortcut */
+            N_ ("Close this image"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_close), },
+  { "quit",
+            GTK_STOCK_QUIT, /* Icon-name */
+            N_ ("_Quit"), /* Label-text */
+            "<control>Q", /* Keyboard shortcut */
+            N_ ("Quit Ristretto"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_quit), },
 /* Edit Menu */
-  { "edit-menu", NULL, N_ ("_Edit"), NULL, },
-  { "open-with-menu", NULL, N_ ("_Open with..."), NULL, },
-  { "sorting-menu", NULL, N_ ("_Sorting"), NULL, },
-  { "delete", GTK_STOCK_DELETE, N_ ("_Delete"), "Delete", N_ ("Delete this image from disk"), G_CALLBACK (cb_rstto_main_window_delete), },
-  { "clear-private-data", GTK_STOCK_CLEAR, N_ ("_Clear private data"), "<control><shift>Delete", NULL, G_CALLBACK(cb_rstto_main_window_clear_private_data), },
-  { "preferences", GTK_STOCK_PREFERENCES, N_ ("_Preferences"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_preferences), },
+  { "edit-menu",
+            NULL,
+            N_ ("_Edit"),
+            NULL, },
+  { "open-with-menu",
+            NULL,
+            N_ ("_Open with"),
+            NULL, },
+  { "sorting-menu",
+            NULL,
+            N_ ("_Sorting"),
+            NULL, },
+  { "delete",
+            GTK_STOCK_DELETE, /* Icon-name */
+            N_ ("_Delete"), /* Label-text */
+            "Delete", /* Keyboard shortcut */
+            N_ ("Delete this image from disk"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_delete), },
+  { "clear-private-data",
+            GTK_STOCK_CLEAR, /* Icon-name */
+            N_ ("_Clear private data..."), /* Label-text */
+            "<control><shift>Delete", /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            G_CALLBACK(cb_rstto_main_window_clear_private_data), },
+  { "preferences",
+            GTK_STOCK_PREFERENCES, /* Icon-name */
+            N_ ("_Preferences..."), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_preferences), },
 /* View Menu */
-  { "view-menu", NULL, N_ ("_View"), NULL, },
-  { "fullscreen", GTK_STOCK_FULLSCREEN, N_ ("_Fullscreen"), "F11", N_ ("Switch to fullscreen"), G_CALLBACK (cb_rstto_main_window_fullscreen), },
-  { "unfullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("_Leave Fullscreen"), NULL, N_ ("Leave Fullscreen"), G_CALLBACK (cb_rstto_main_window_fullscreen), },
-  { "set-as-wallpaper", "preferences-desktop-wallpaper", N_ ("_Set as Wallpaper"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_set_as_wallpaper), },
+  { "view-menu",
+            NULL,
+            N_ ("_View"),
+            NULL, },
+  { "fullscreen",
+            GTK_STOCK_FULLSCREEN, /* Icon-name */
+            N_ ("_Fullscreen"), /* Label-text */
+            "F11", /* Keyboard shortcut */
+            N_ ("Switch to fullscreen"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_fullscreen), },
+  { "unfullscreen",
+            GTK_STOCK_LEAVE_FULLSCREEN, /* Icon-name */
+            N_ ("_Leave Fullscreen"), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            N_ ("Leave Fullscreen"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_fullscreen), },
+  { "set-as-wallpaper",
+            "preferences-desktop-wallpaper", /* Icon-name */
+            N_ ("_Set as Wallpaper..."), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_set_as_wallpaper), },
 /* Zoom submenu */
-  { "zoom-menu", NULL, N_ ("_Zoom"), NULL, },
-  { "zoom-in", GTK_STOCK_ZOOM_IN, N_ ("Zoom _In"), "<control>plus", N_ ("Zoom in"), G_CALLBACK (cb_rstto_main_window_zoom_in),},
-  { "zoom-out", GTK_STOCK_ZOOM_OUT, N_ ("Zoom _Out"), "<control>minus", N_ ("Zoom out"), G_CALLBACK (cb_rstto_main_window_zoom_out), },
-  { "zoom-fit", GTK_STOCK_ZOOM_FIT, N_ ("Zoom _Fit"), "<control>equal", N_ ("Zoom to fit window"), G_CALLBACK (cb_rstto_main_window_zoom_fit), },
-  { "zoom-100", GTK_STOCK_ZOOM_100, N_ ("_Normal Size"), "<control>0", N_ ("Zoom to 100%"), G_CALLBACK (cb_rstto_main_window_zoom_100), },
+  { "zoom-menu",
+            NULL,
+            N_ ("_Zoom"),
+            NULL, },
+  { "zoom-in",
+            GTK_STOCK_ZOOM_IN, /* Icon-name */
+            N_ ("Zoom _In"), /* Label-text */
+            "<control>plus", /* Keyboard shortcut */
+            N_ ("Zoom in"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_zoom_in),},
+  { "zoom-out",
+            GTK_STOCK_ZOOM_OUT, /* Icon-name */
+            N_ ("Zoom _Out"), /* Label-text */
+            "<control>minus", /* Keyboard shortcut */
+            N_ ("Zoom out"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_zoom_out), },
+  { "zoom-fit",
+            GTK_STOCK_ZOOM_FIT, /* Icon-name */
+            N_ ("Zoom _Fit"), /* Label-text */
+            "<control>equal", /* Keyboard shortcut */
+            N_ ("Zoom to fit window"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_zoom_fit), },
+  { "zoom-100",
+            GTK_STOCK_ZOOM_100, /* Icon-name */
+            N_ ("_Normal Size"), /* Label-text */
+            "<control>0", /* Keyboard shortcut */
+            N_ ("Zoom to 100%"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_zoom_100), },
 /* Rotation submenu */
-  { "rotation-menu", NULL, N_ ("_Rotation"), NULL, },
-  { "rotate-cw", "object-rotate-right", N_ ("Rotate _Right"), "<control>bracketright", NULL, G_CALLBACK (cb_rstto_main_window_rotate_cw), },
-  { "rotate-ccw", "object-rotate-left", N_ ("Rotate _Left"), "<control>bracketleft", NULL, G_CALLBACK (cb_rstto_main_window_rotate_ccw), },
+  { "rotation-menu",
+            NULL,
+            N_ ("_Rotation"),
+            NULL, },
+  { "rotate-cw",
+            "object-rotate-right", /* Icon-name */
+            N_ ("Rotate _Right"), /* Label-text */
+            "<control>bracketright", /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_rotate_cw), },
+  { "rotate-ccw",
+            "object-rotate-left", /* Icon-name */
+            N_ ("Rotate _Left"), /* Label-text */
+            "<control>bracketleft", /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_rotate_ccw), },
 /* Go Menu */
-  { "go-menu",  NULL, N_ ("_Go"), NULL, },
-  { "forward",  GTK_STOCK_GO_FORWARD, N_ ("_Forward"), "space", N_("Next image"), G_CALLBACK (cb_rstto_main_window_next_image), },
-  { "back",     GTK_STOCK_GO_BACK, N_ ("_Back"), "BackSpace", N_("Previous image"), G_CALLBACK (cb_rstto_main_window_previous_image), },
-  { "first",    GTK_STOCK_GOTO_FIRST, N_ ("_First"), "Home", N_("First image"), G_CALLBACK (cb_rstto_main_window_first_image), },
-  { "last",     GTK_STOCK_GOTO_LAST, N_ ("_Last"), "End", N_("Last image"), G_CALLBACK (cb_rstto_main_window_last_image), },
+  { "go-menu",
+            NULL,
+            N_ ("_Go"),
+            NULL, },
+  { "forward",
+            GTK_STOCK_GO_FORWARD, /* Icon-name */
+            N_ ("_Forward"), /* Label-text */
+            "space", /* Keyboard shortcut */
+            N_("Next image"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_next_image), },
+  { "back",
+            GTK_STOCK_GO_BACK, /* Icon-name */
+            N_ ("_Back"), /* Label-text */
+            "BackSpace", /* Keyboard shortcut */
+            N_("Previous image"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_previous_image), },
+  { "first",
+            GTK_STOCK_GOTO_FIRST, /* Icon-name */
+            N_ ("F_irst"), /* Label-text */
+            "Home", /* Keyboard shortcut */
+            N_("First image"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_first_image), },
+  { "last",
+            GTK_STOCK_GOTO_LAST, /* Icon-name */
+            N_ ("_Last"), /* Label-text */
+            "End", /* Keyboard shortcut */
+            N_("Last image"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_last_image), },
 /* Help Menu */
-  { "help-menu", NULL, N_ ("_Help"), NULL, },
-  { "contents", GTK_STOCK_HELP,
-                N_ ("_Contents"),
-                "F1",
-                N_ ("Display ristretto user manual"),
-                G_CALLBACK (cb_rstto_main_window_contents), },
-  { "about",    GTK_STOCK_ABOUT, 
-                N_ ("_About"),
-                NULL,
-                N_ ("Display information about ristretto"),
-                G_CALLBACK (cb_rstto_main_window_about), },
+  { "help-menu",
+            NULL,
+            N_ ("_Help"),
+            NULL, },
+  { "contents",
+            GTK_STOCK_HELP, /* Icon-name */
+            N_ ("_Contents"), /* Label-text */
+            "F1", /* Keyboard shortcut */
+            N_ ("Display ristretto user manual"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_contents), },
+  { "about",
+            GTK_STOCK_ABOUT,  /* Icon-name */
+            N_ ("_About"), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            N_ ("Display information about ristretto"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_about), },
 /* Position Menu */
-  { "position-menu", NULL, N_ ("_Position"), NULL, },
-  { "size-menu", NULL, N_ ("_Size"), NULL, },
-  { "thumbnailbar-position-menu", NULL, N_ ("Thumbnail Bar _Position"), NULL, },
-  { "thumbnailbar-size-menu", NULL, N_ ("Thumbnail _Size"), NULL, },
+  { "position-menu",
+            NULL,
+            N_ ("_Position"),
+            NULL, },
+  { "size-menu",
+            NULL,
+            N_ ("_Size"),
+            NULL, },
+  { "thumbnailbar-position-menu",
+            NULL,
+            N_ ("Thumbnail Bar _Position"),
+            NULL, },
+  { "thumbnailbar-size-menu",
+            NULL,
+            N_ ("Thumbnail S_ize"),
+            NULL, },
 /* Misc */
-  { "leave-fullscreen", GTK_STOCK_LEAVE_FULLSCREEN, N_ ("Leave _Fullscreen"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_fullscreen), },
-  { "tb-menu", NULL, NULL, NULL, }
+  { "leave-fullscreen",
+            GTK_STOCK_LEAVE_FULLSCREEN, /* Icon-name */
+            N_ ("Leave _Fullscreen"), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_fullscreen), },
+  { "tb-menu",
+            NULL,
+            NULL,
+            NULL, }
 };
 
 /** Toggle Action Entries */
 static const GtkToggleActionEntry toggle_action_entries[] =
 {
     /* Toggle visibility of the main file toolbar */
-    { "show-toolbar", NULL, N_ ("_Show Toolbar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_toolbar), TRUE, },
+    { "show-toolbar",
+            NULL, /* Icon-name */
+            N_ ("_Show Toolbar"), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_toggle_show_toolbar),
+            TRUE, },
     /* Toggle visibility of the main navigation toolbar */
-    { "show-thumbnailbar", NULL, N_ ("Show _Thumbnail Bar"), "<control>M", NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_thumbnailbar), TRUE, },
+    { "show-thumbnailbar",
+            NULL, /* Icon-name */
+            N_ ("Show _Thumbnail Bar"), /* Label-text */
+            "<control>M", /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_toggle_show_thumbnailbar),
+            TRUE, },
     /* Toggle visibility of the statusbar*/
-    { "show-statusbar", NULL, N_ ("Show _Status Bar"), NULL, NULL, G_CALLBACK (cb_rstto_main_window_toggle_show_statusbar), TRUE, },
+    { "show-statusbar",
+            NULL, /* Icon-name */
+            N_ ("Show _Status Bar"), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_toggle_show_statusbar),
+            TRUE, },
 };
 
 /** Image sorting options*/
 static const GtkRadioActionEntry radio_action_sort_entries[] = 
 {
     /* Sort by Filename */
-    {"sort-filename", NULL, N_("sort by filename"), NULL, NULL, 0},
+    {"sort-filename",
+            NULL, /* Icon-name */
+            N_("sort by filename"), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            0},
     /* Sort by Date*/
-    {"sort-date", NULL, N_("sort by date"), NULL, NULL, 1},
+    {"sort-date",
+            NULL, /* Icon-name */
+            N_("sort by date"), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            1},
 };
 
 /** Navigationbar+Thumbnailbar positioning options*/
 static const GtkRadioActionEntry radio_action_pos_entries[] = 
 {
-    { "pos-left", NULL, N_("Left"), NULL, NULL, 0},
-    { "pos-right", NULL, N_("Right"), NULL, NULL, 1},
-    { "pos-top", NULL, N_("Top"), NULL, NULL, 2},
-    { "pos-bottom", NULL, N_("Bottom"), NULL, NULL, 3},
+    { "pos-left",
+            NULL, /* Icon-name */
+            N_("Left"), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            0},
+    { "pos-right",
+            NULL,
+            N_("Right"),
+            NULL,
+            NULL,
+            1},
+    { "pos-top",
+            NULL,
+            N_("Top"),
+            NULL,
+            NULL,
+            2},
+    { "pos-bottom",
+            NULL,
+            N_("Bottom"),
+            NULL,
+            NULL,
+            3},
 };
 
 /** Thumbnail-size options*/
 static const GtkRadioActionEntry radio_action_size_entries[] = 
 {
-    { "size-very-small", NULL, N_("Very Small"), NULL, NULL, 0},
-    { "size-smaller", NULL, N_("Smaller"), NULL, NULL, 1},
-    { "size-small", NULL, N_("Small"), NULL, NULL, 2},
-    { "size-normal", NULL, N_("Normal"), NULL, NULL, 3},
-    { "size-large", NULL, N_("Large"), NULL, NULL, 4},
-    { "size-larger", NULL, N_("Larger"), NULL, NULL, 5},
-    { "size-very-large", NULL, N_("Very Large"), NULL, NULL, 6},
+    { "size-very-small",
+            NULL,
+            N_("Very Small"),
+            NULL,
+            NULL,
+            0},
+    { "size-smaller",
+            NULL,
+            N_("Smaller"),
+            NULL,
+            NULL,
+            1},
+    { "size-small",
+            NULL,
+            N_("Small"),
+            NULL,
+            NULL,
+            2},
+    { "size-normal",
+            NULL,
+            N_("Normal"),
+            NULL,
+            NULL,
+            3},
+    { "size-large",
+            NULL,
+            N_("Large"),
+            NULL,
+            NULL,
+            4},
+    { "size-larger",
+            NULL,
+            N_("Larger"),
+            NULL,
+            NULL,
+            5},
+    { "size-very-large",
+            NULL,
+            N_("Very Large"),
+            NULL,
+            NULL,
+            6},
 };
 
 
@@ -1065,7 +1308,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             {
             }
 
-            menu_item = gtk_menu_item_new_with_mnemonic (_("Open With Other _Application"));
+            menu_item = gtk_menu_item_new_with_mnemonic (_("Open With Other _Application..."));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
             g_signal_connect(G_OBJECT(menu_item), "activate", G_CALLBACK(cb_rstto_main_window_open_with_other_app), window);
 
@@ -1206,7 +1449,8 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
             status = g_strdup (_("Press open to select an image"));
         }
 
-        if ( rstto_image_viewer_is_busy (viewer) )
+        if ( rstto_image_viewer_is_busy (viewer) ||
+             rstto_image_list_is_busy (window->priv->image_list) )
         {
             if (status)
             {
@@ -2316,7 +2560,7 @@ cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
     gtk_about_dialog_set_license((GtkAboutDialog *)about_dialog,
         xfce_get_license_text(XFCE_LICENSE_TEXT_GPL));
     gtk_about_dialog_set_copyright((GtkAboutDialog *)about_dialog,
-        "Copyright \302\251 2006-2011 Stephan Arts");
+        "Copyright \302\251 2006-2012 Stephan Arts");
 
     gtk_dialog_run(GTK_DIALOG(about_dialog));
 
@@ -3015,6 +3259,7 @@ cb_rstto_main_window_delete (
     GtkWidget *dialog;
     GdkModifierType state;
     gboolean delete_file = FALSE;
+    GError *error = NULL;
 
     g_return_if_fail (rstto_image_list_get_n_images (window->priv->image_list) > 0);
 
@@ -3028,23 +3273,33 @@ cb_rstto_main_window_delete (
 
     if (delete_file)
     {
-        dialog = gtk_message_dialog_new (GTK_WINDOW (window),
-                                                    GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                    GTK_MESSAGE_WARNING,
-                                                    GTK_BUTTONS_OK_CANCEL,
-                                                    _("Are you sure you want to delete image '%s' from disk?"),
-                                                    file_basename);
+        dialog = gtk_message_dialog_new (
+                GTK_WINDOW (window),
+                GTK_DIALOG_DESTROY_WITH_PARENT,
+                GTK_MESSAGE_WARNING,
+                GTK_BUTTONS_OK_CANCEL,
+                _("Are you sure you want to delete image '%s' from disk?"),
+                file_basename);
 
         g_object_ref (file);
         if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
         {
-            if (g_file_delete (rstto_file_get_file(file), NULL, NULL) == TRUE)
+            if (g_file_delete (rstto_file_get_file(file), NULL, &error) == TRUE)
             {
                 rstto_image_list_remove_file (window->priv->image_list, file);
             }
             else
             {
-                
+                gtk_widget_destroy (dialog);
+                dialog = gtk_message_dialog_new (
+                        GTK_WINDOW (window),
+                        GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_MESSAGE_ERROR,
+                        GTK_BUTTONS_OK,
+                        _("An error occurred when deleting image '%s' from disk.\n\n%s"),
+                        file_basename,
+                        error->message);
+                gtk_dialog_run (GTK_DIALOG (dialog)); 
             }
         }
         gtk_widget_destroy (dialog);
@@ -3052,23 +3307,33 @@ cb_rstto_main_window_delete (
     }
     else
     {
-        dialog = gtk_message_dialog_new (GTK_WINDOW (window),
-                                                    GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                    GTK_MESSAGE_WARNING,
-                                                    GTK_BUTTONS_OK_CANCEL,
-                                                    _("Are you sure you want to send image '%s' to trash?"),
-                                                    file_basename);
+        dialog = gtk_message_dialog_new (
+                GTK_WINDOW (window),
+                GTK_DIALOG_DESTROY_WITH_PARENT,
+                GTK_MESSAGE_WARNING,
+                GTK_BUTTONS_OK_CANCEL,
+                _("Are you sure you want to send image '%s' to trash?"),
+                file_basename);
 
         g_object_ref (file);
         if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
         {
-            if (g_file_trash (rstto_file_get_file(file), NULL, NULL) == TRUE)
+            if (g_file_trash (rstto_file_get_file(file), NULL, &error) == TRUE)
             {
                 rstto_image_list_remove_file (window->priv->image_list, file);
             }
             else
             {
-                
+                gtk_widget_destroy (dialog);
+                dialog = gtk_message_dialog_new (
+                        GTK_WINDOW (window),
+                        GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_MESSAGE_ERROR,
+                        GTK_BUTTONS_OK,
+                        _("An error occurred when sending image '%s' to trash.\n\n%s"),
+                        file_basename,
+                        error->message);
+                gtk_dialog_run (GTK_DIALOG (dialog)); 
             }
         }
         gtk_widget_destroy (dialog);
@@ -3299,14 +3564,27 @@ rstto_main_window_add_file_to_recent_files (GFile *file)
     gchar* uri;
     static gchar *groups[2] = { RSTTO_RECENT_FILES_GROUP , NULL };
 
-    if (file == NULL) return FALSE;
+    if (file == NULL)
+    {
+        return FALSE;
+    }
 
     uri = g_file_get_uri (file);
-    if(uri == NULL) return FALSE;
+    if (uri == NULL)
+    {
+        return FALSE;
+    }
 
-    file_info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
-            0, NULL, NULL);
-    if (file_info == NULL) return FALSE;
+    file_info = g_file_query_info (
+            file,
+            G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+            0,
+            NULL,
+            NULL);
+    if (file_info == NULL)
+    {
+        return FALSE;
+    }
 
     recent_data = g_slice_new (GtkRecentData);
     recent_data->display_name = NULL;
@@ -3381,9 +3659,14 @@ rstto_main_window_launch_editor_chooser (
     image = gtk_image_new_from_gicon (g_icon,   GTK_ICON_SIZE_DIALOG);
     g_object_unref (g_icon);
 
-    label_text = g_strdup_printf (_("Open %s and other files of type %s with:"), rstto_file_get_display_name (r_file), content_type);
+    label_text = g_strdup_printf (
+            _("Open %s and other files of type %s with:"),
+            rstto_file_get_display_name (r_file),
+            content_type);
     label = gtk_label_new (label_text);
+
     check_button = gtk_check_button_new_with_mnemonic(_("Use as _default for this kind of file"));
+
     scrolled_window = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_policy (
             GTK_SCROLLED_WINDOW (scrolled_window),
@@ -3392,6 +3675,7 @@ rstto_main_window_launch_editor_chooser (
     gtk_scrolled_window_set_shadow_type (
             GTK_SCROLLED_WINDOW (scrolled_window),
             GTK_SHADOW_IN);
+
     gtk_widget_set_size_request (
             scrolled_window,
             300,
@@ -3417,7 +3701,11 @@ rstto_main_window_launch_editor_chooser (
             GTK_TREE_VIEW (treeview),
             GTK_TREE_MODEL (tree_store));
 
-    column = g_object_new (GTK_TYPE_TREE_VIEW_COLUMN, "expand", TRUE, NULL);
+    column = g_object_new (
+            GTK_TYPE_TREE_VIEW_COLUMN,
+            "expand",
+            TRUE,
+            NULL);
     renderer = gtk_cell_renderer_pixbuf_new();
 
     gtk_tree_view_column_pack_start (column, renderer, FALSE);
@@ -3431,12 +3719,18 @@ rstto_main_window_launch_editor_chooser (
     renderer = gtk_cell_renderer_text_new ();
     gtk_tree_view_column_pack_start (column, renderer, TRUE);
     gtk_tree_view_column_set_attributes (
-            column, renderer,
-            "style", EDITOR_CHOOSER_MODEL_COLUMN_STYLE,
-            "style-set", EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET,
-            "text", EDITOR_CHOOSER_MODEL_COLUMN_NAME,
-            "weight", EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT,
-            "weight-set", EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET,
+            column,
+            renderer,
+            "style",
+            EDITOR_CHOOSER_MODEL_COLUMN_STYLE,
+            "style-set",
+            EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET,
+            "text",
+            EDITOR_CHOOSER_MODEL_COLUMN_NAME,
+            "weight",
+            EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT,
+            "weight-set",
+            EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET,
             NULL);
 
     gtk_tree_view_append_column (
@@ -3455,14 +3749,22 @@ rstto_main_window_launch_editor_chooser (
             NULL);
 
     gtk_tree_store_append (tree_store, &parent_iter, NULL);
-    gtk_tree_store_set (tree_store, &parent_iter,
-                        EDITOR_CHOOSER_MODEL_COLUMN_PIXBUF, pixbuf,
-                        EDITOR_CHOOSER_MODEL_COLUMN_NAME, _("Recommended Applications"),
-                        EDITOR_CHOOSER_MODEL_COLUMN_APPLICATION, NULL,
-                        EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT, PANGO_WEIGHT_SEMIBOLD,
-                        EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET, TRUE,
-                        EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET, FALSE,
-                        -1);
+    gtk_tree_store_set (
+            tree_store,
+            &parent_iter,
+            EDITOR_CHOOSER_MODEL_COLUMN_PIXBUF,
+            pixbuf,
+            EDITOR_CHOOSER_MODEL_COLUMN_NAME,
+            _("Recommended Applications"),
+            EDITOR_CHOOSER_MODEL_COLUMN_APPLICATION,
+            NULL,
+            EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT,
+            PANGO_WEIGHT_SEMIBOLD,
+            EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET,
+            TRUE,
+            EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET,
+            FALSE,
+            -1);
     if (NULL != pixbuf)
     {
         g_object_unref (G_OBJECT(pixbuf));
@@ -3527,14 +3829,22 @@ rstto_main_window_launch_editor_chooser (
             NULL);
 
     gtk_tree_store_append (tree_store, &parent_iter, NULL);
-    gtk_tree_store_set (tree_store, &parent_iter,
-                        EDITOR_CHOOSER_MODEL_COLUMN_PIXBUF, pixbuf,
-                        EDITOR_CHOOSER_MODEL_COLUMN_NAME, _("Other Applications"),
-                        EDITOR_CHOOSER_MODEL_COLUMN_APPLICATION, NULL,
-                        EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT, PANGO_WEIGHT_SEMIBOLD,
-                        EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET, TRUE,
-                        EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET, FALSE,
-                        -1);
+    gtk_tree_store_set (
+            tree_store,
+            &parent_iter,
+            EDITOR_CHOOSER_MODEL_COLUMN_PIXBUF,
+            pixbuf,
+            EDITOR_CHOOSER_MODEL_COLUMN_NAME,
+            _("Other Applications"),
+            EDITOR_CHOOSER_MODEL_COLUMN_APPLICATION,
+            NULL,
+            EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT,
+            PANGO_WEIGHT_SEMIBOLD,
+            EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET,
+            TRUE,
+            EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET,
+            FALSE,
+            -1);
     if (NULL != pixbuf)
     {
         g_object_unref (G_OBJECT(pixbuf));
@@ -3781,10 +4091,17 @@ rstto_main_window_play_slideshow (RsttoMainWindow *window)
             window->priv->toolbar_play_merge_id);
 
     g_value_init (&timeout, G_TYPE_UINT);
-    g_object_get_property (G_OBJECT(window->priv->settings_manager), "slideshow-timeout", &timeout);
+
+    g_object_get_property (
+            G_OBJECT(window->priv->settings_manager),
+            "slideshow-timeout",
+            &timeout);
 
     window->priv->playing = TRUE;
-    window->priv->play_timeout_id = g_timeout_add (g_value_get_uint (&timeout)*1000, (GSourceFunc)cb_rstto_main_window_play_slideshow, window);
+    window->priv->play_timeout_id = g_timeout_add (
+            g_value_get_uint (&timeout)*1000,
+            (GSourceFunc)cb_rstto_main_window_play_slideshow,
+            window);
     return TRUE;
 }
 
@@ -3794,6 +4111,7 @@ cb_icon_bar_selection_changed (
         gpointer user_data)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+
     gint position = rstto_image_list_iter_get_position (window->priv->iter);
     gint selection = rstto_icon_bar_get_active (RSTTO_ICON_BAR(window->priv->thumbnailbar));
 

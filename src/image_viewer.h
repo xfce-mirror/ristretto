@@ -61,13 +61,14 @@ struct _RsttoImageViewerClass
 {
     GtkWidgetClass  parent_class;
 
-    gboolean (* set_scroll_adjustments) (RsttoImageViewer *viewer,
-          GtkAdjustment     *hadjustment,
-          GtkAdjustment     *vadjustment);
+    gboolean (* set_scroll_adjustments) (
+            RsttoImageViewer *viewer,
+            GtkAdjustment     *hadjustment,
+            GtkAdjustment     *vadjustment);
 };
 
 GType
-rstto_image_viewer_get_type();
+rstto_image_viewer_get_type(void);
 
 GtkWidget *
 rstto_image_viewer_new ();
