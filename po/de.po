@@ -529,27 +529,27 @@ msgstr "Text anzeigen"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr ""
+msgstr "Füllfarbe des aktiven Objekts"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr ""
+msgstr "Randfarbe des aktiven Objekts"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr ""
+msgstr "Textfarbe des aktiven Objekts"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr ""
+msgstr "Füllfarbe des Zeigerobjekts"
 
 #: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr ""
+msgstr "Randfarbe des Zeigerobjekts"
 
 #: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 msgid "Cursor item text color"
-msgstr ""
+msgstr "Textfarbe des Zeigerobjekts"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
@@ -629,12 +629,11 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:272
 msgid "Clock"
-msgstr ""
+msgstr "Uhr"
 
 #: ../src/preferences_dialog.c:275
-#, fuzzy
 msgid "Show Fullscreen Clock"
-msgstr "In den Vollbildmodus wechseln"
+msgstr "Uhr im Vollbildmodus anzeigen"
 
 #: ../src/preferences_dialog.c:289
 msgid "Control"
