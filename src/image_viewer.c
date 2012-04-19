@@ -1030,14 +1030,26 @@ paint_clock (
         cairo_t *ctx )
 {
     //RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-    gdouble width = 60;
-    gdouble height = 60;
-    gdouble offset = height*0.15;
+    gdouble width;
+    gdouble height;
+    gdouble offset;
     gint i = 0;
     time_t t = time(NULL);
     struct tm *lt = localtime(&t);
 
     gdouble hour_angle = (gdouble)(M_PI*2)/12*((gdouble)(lt->tm_hour%12+6)+((M_PI*2)/720.0*(gdouble)lt->tm_min));
+
+    if (widget->allocation.width < widget->allocation.height)
+    {
+        width = widget->allocation.width * 0.1;
+    }
+    else
+    {
+        width = widget->allocation.height * 0.1;
+    }
+
+    height = width;
+    offset = height * 0.15;
 
     cairo_save (ctx);
 
