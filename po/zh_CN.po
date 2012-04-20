@@ -124,7 +124,6 @@ msgid "Quit Ristretto"
 msgstr "退出 Ristretto"
 
 #: ../src/main_window.c:398
-#, fuzzy
 msgid "_Open with"
 msgstr "打开方式(_O)"
 
