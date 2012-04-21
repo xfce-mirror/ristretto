@@ -442,7 +442,7 @@ static GtkActionEntry action_entries[] =
             G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "set-as-wallpaper",
             "preferences-desktop-wallpaper", /* Icon-name */
-            N_ ("_Set as Wallpaper..."), /* Label-text */
+            N_ ("Set as _Wallpaper..."), /* Label-text */
             NULL, /* Keyboard shortcut */
             NULL, /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_set_as_wallpaper), },
@@ -553,7 +553,7 @@ static GtkActionEntry action_entries[] =
             NULL, },
   { "thumbnailbar-size-menu",
             NULL,
-            N_ ("Thumbnail S_ize"),
+            N_ ("Thumb_nail Size"),
             NULL, },
 /* Misc */
   { "leave-fullscreen",
@@ -590,7 +590,7 @@ static const GtkToggleActionEntry toggle_action_entries[] =
     /* Toggle visibility of the statusbar*/
     { "show-statusbar",
             NULL, /* Icon-name */
-            N_ ("Show _Status Bar"), /* Label-text */
+            N_ ("Show Status _Bar"), /* Label-text */
             NULL, /* Keyboard shortcut */
             NULL, /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_toggle_show_statusbar),
