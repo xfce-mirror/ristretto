@@ -4,6 +4,8 @@ x.x.x
 - Show error-message when deleting an image fails.
 - Show a 'Loading...' message in the statusbar when loading an image or
   directory-contents.
+- Reload image when it is changed on the filesystem.
+- Add a new accelerator to force a reload (ctrl-r)
 
 0.5.2
 =====
