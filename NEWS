@@ -1,5 +1,6 @@
 x.x.x
 =====
+- Fix bug #8723 (Remove duplicate accelerators)
 - Reset adjustment-limits when closing the image (hide scrollbars)
 - Show error-message when deleting an image fails.
 - Show a 'Loading...' message in the statusbar when loading an image or
@@ -63,7 +64,7 @@ x.x.x
 =====
 - Fix bug #6866 (Improve the sorting algorythm for filenames)
 - Fix bug #8025 (Add Stock-icon to set-wallpaper menu-item)
-- Fix bug #7867 ( Fix a problem where the image-viewer is updated too 
+- Fix bug #7867 (Fix a problem where the image-viewer is updated too 
   often, sometimes indefinately until the widget-size is changed again.)
 - Improve open-file and close-file behaviour
 - Hide thumbnailbar when no images are opened
