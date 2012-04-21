@@ -223,6 +223,10 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window);
 static void
+cb_rstto_main_window_refresh (
+        GtkWidget *widget,
+        RsttoMainWindow *window );
+static void
 cb_rstto_main_window_dnd_files (GtkWidget *widget, gchar **uris, RsttoMainWindow *window);
 
 static void
@@ -736,6 +740,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     GClosure        *previous_image_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_previous_image, window, NULL);
     GClosure        *quit_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_quit, window, NULL);
     GClosure        *delete_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_delete, window, NULL);
+    GClosure        *refresh_closure = g_cclosure_new ((GCallback)cb_rstto_main_window_refresh, window, NULL);
 
     guint navigationbar_position = 3;
     guint thumbnail_size = 3;
@@ -817,6 +822,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_accel_group_connect_by_path (accel_group, "<Window>/previous-image", previous_image_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/quit", quit_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/delete", delete_closure);
+    gtk_accel_group_connect_by_path (accel_group, "<Window>/refresh", refresh_closure);
 
     /* Set default accelerators */
 
@@ -3340,6 +3346,24 @@ cb_rstto_main_window_delete (
         gtk_widget_destroy (dialog);
         g_object_unref (file);
     }
+}
+
+/**
+ * cb_rstto_main_window_refresh:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_refresh (
+        GtkWidget *widget,
+        RsttoMainWindow *window )
+{
+    RsttoFile *r_file = rstto_image_list_iter_get_file (window->priv->iter);
+
+    /* Trigger a reload of all things using this file */
+    rstto_file_changed (r_file);
 }
 
 static gboolean
