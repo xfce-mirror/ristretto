@@ -845,7 +845,6 @@ cb_file_monitor_changed (
 {
     RsttoImageList *image_list = RSTTO_IMAGE_LIST (user_data);
     RsttoFile *r_file = rstto_file_new (file);
-    GSList *iter = NULL;
 
     switch ( event_type )
     {
