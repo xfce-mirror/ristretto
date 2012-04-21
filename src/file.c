@@ -41,6 +41,15 @@ static guint rstto_thumbnail_size[] =
     THUMBNAIL_SIZE_VERY_LARGE_SIZE
 };
 
+enum
+{
+    RSTTO_FILE_SIGNAL_CHANGED = 0,
+    RSTTO_FILE_SIGNAL_COUNT
+};
+
+static gint
+rstto_file_signals[RSTTO_FILE_SIGNAL_COUNT];
+
 static void
 rstto_file_init (GObject *);
 static void
@@ -142,6 +151,17 @@ rstto_file_class_init (GObjectClass *object_class)
 
     object_class->set_property = rstto_file_set_property;
     object_class->get_property = rstto_file_get_property;
+
+    rstto_file_signals[RSTTO_FILE_SIGNAL_CHANGED] = g_signal_new("changed",
+            G_TYPE_FROM_CLASS(object_class),
+            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+            0,
+            NULL,
+            NULL,
+            g_cclosure_marshal_VOID__VOID,
+            G_TYPE_NONE,
+            0,
+            NULL);
 }
 
 /**
@@ -502,4 +522,14 @@ rstto_file_get_thumbnail (
     g_object_unref (thumbnailer);
 
     return r_file->priv->thumbnails[size];
+}
+
+void
+rstto_file_changed ( RsttoFile *r_file )
+{
+    g_signal_emit (
+            G_OBJECT (r_file),
+            rstto_file_signals[RSTTO_FILE_SIGNAL_CHANGED],
+            0,
+            NULL);
 }

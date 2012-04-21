@@ -671,6 +671,10 @@ rstto_image_list_set_directory (
 
     rstto_image_list_remove_all (image_list);
 
+    rstto_image_list_monitor_dir ( 
+            image_list,
+            dir );
+
     /* Allow all images to be removed by providing NULL to dir */
     if ( NULL != dir )
     {
@@ -773,10 +777,6 @@ cb_rstto_read_file ( gpointer user_data )
             g_object_unref (loader->files[i]);
         }
 
-        rstto_image_list_monitor_dir ( 
-                loader->image_list,
-                loader->dir );
-
         /* This is a hack, use a closure */
         if (loader->image_list->priv->directory_loader != 0)
         {
@@ -845,6 +845,7 @@ cb_file_monitor_changed (
 {
     RsttoImageList *image_list = RSTTO_IMAGE_LIST (user_data);
     RsttoFile *r_file = rstto_file_new (file);
+    GSList *iter = NULL;
 
     switch ( event_type )
     {
@@ -891,6 +892,9 @@ cb_file_monitor_changed (
                         image_list->priv->image_monitors, 
                         monitor);
             }
+            break;
+        case G_FILE_MONITOR_EVENT_CHANGED:
+            rstto_file_changed (r_file);
             break;
         default:
             break;
@@ -966,7 +970,6 @@ rstto_image_list_iter_class_init(RsttoImageListIterClass *iter_class)
             G_TYPE_NONE,
             0,
             NULL);
-
 }
 
 static void

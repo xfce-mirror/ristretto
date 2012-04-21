@@ -106,6 +106,9 @@ rstto_file_set_orientation (
 gboolean
 rstto_file_has_exif ( RsttoFile * );
 
+void
+rstto_file_changed ( RsttoFile * );
+
 
 G_END_DECLS
 

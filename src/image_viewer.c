@@ -199,6 +199,11 @@ rstto_image_viewer_get_property (
         GParamSpec *pspec);
 
 static void
+cb_rstto_image_viewer_file_changed (
+        RsttoFile        *r_file,
+        RsttoImageViewer *viewer );
+
+static void
 rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerMotionState state);
 
 static gboolean
@@ -423,6 +428,13 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
             g_cclosure_marshal_VOID__VOID,
             G_TYPE_NONE, 0);
     g_signal_new ("scale-changed",
+            G_TYPE_FROM_CLASS (object_class),
+            G_SIGNAL_RUN_FIRST,
+            0,
+            NULL, NULL,
+            g_cclosure_marshal_VOID__VOID,
+            G_TYPE_NONE, 0);
+    g_signal_new ("status-changed",
             G_TYPE_FROM_CLASS (object_class),
             G_SIGNAL_RUN_FIRST,
             0,
@@ -1594,6 +1606,15 @@ rstto_image_viewer_set_file (
                 } 
 
                 g_object_ref (file);
+                g_signal_connect (
+                        file,
+                        "changed",
+                        G_CALLBACK (cb_rstto_image_viewer_file_changed),
+                        viewer);
+                g_signal_handlers_disconnect_by_func (
+                        viewer->priv->file,
+                        cb_rstto_image_viewer_file_changed,
+                        viewer );
                 g_object_unref (viewer->priv->file);
 
                 viewer->priv->file = file;
@@ -1614,6 +1635,11 @@ rstto_image_viewer_set_file (
         }
         else
         {
+            g_signal_connect (
+                    file,
+                    "changed",
+                    G_CALLBACK (cb_rstto_image_viewer_file_changed),
+                    viewer);
             g_object_ref (file);
             viewer->priv->file = file;
             rstto_image_viewer_load_image (viewer, viewer->priv->file, scale);
@@ -1646,6 +1672,10 @@ rstto_image_viewer_set_file (
         }
         if (viewer->priv->file)
         {
+            g_signal_handlers_disconnect_by_func (
+                    viewer->priv->file,
+                    cb_rstto_image_viewer_file_changed,
+                    viewer );
             g_object_unref (viewer->priv->file);
             viewer->priv->file = NULL;
 
@@ -2901,4 +2931,17 @@ rstto_image_viewer_is_busy (
         return TRUE;
     }
     return FALSE;
+}
+
+static void
+cb_rstto_image_viewer_file_changed (
+        RsttoFile        *r_file,
+        RsttoImageViewer *viewer )
+{
+    rstto_image_viewer_load_image (
+            viewer,
+            r_file,
+            viewer->priv->scale);
+
+    g_signal_emit_by_name(viewer, "status-changed");
 }
