@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.18\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-21 22:08+0900\n"
-"PO-Revision-Date: 2012-04-21 22:07+0900\n"
+"POT-Creation-Date: 2012-04-22 16:56+0900\n"
+"PO-Revision-Date: 2012-04-22 17:04+0900\n"
 "Last-Translator: Masato Hashimoto <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <xfce-users-jp@ml.fdiary.net>\n"
 "Language: ja\n"
@@ -566,63 +566,63 @@ msgstr "他のアプリケーション"
 
 #: ../src/icon_bar.c:345
 msgid "Orientation"
-msgstr ""
+msgstr "方向"
 
 #: ../src/icon_bar.c:346
 msgid "The orientation of the iconbar"
-msgstr ""
+msgstr "アイコンバーが延びる方向です"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
-msgstr ""
+msgstr "ファイルカラム"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr ""
+msgstr "ファイルから取得するために使用されるモデルカラムです"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
-msgstr ""
+msgstr "アイコンバーモデル"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr ""
+msgstr "アイコンバーのモデルです"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
-msgstr ""
+msgstr "アクティブ"
 
 #: ../src/icon_bar.c:393
 msgid "Active item index"
-msgstr ""
+msgstr "アクティブなアイテムのインデックスです"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
-msgstr ""
+msgstr "テキストを表示"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr ""
+msgstr "アクティブなアイテムの塗り色"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr ""
+msgstr "アクティブなアイテムの枠の色"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr ""
+msgstr "アクティブなアイテムのテキストの色"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr ""
+msgstr "カーソルアイテムの塗り色"
 
 #: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr ""
+msgstr "カーソルアイテムの枠の色"
 
 #: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 msgid "Cursor item text color"
-msgstr ""
+msgstr "カーソルアイテムのテキストの色"
 
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
