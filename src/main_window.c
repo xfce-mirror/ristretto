@@ -1319,7 +1319,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
             g_signal_connect(G_OBJECT(menu_item), "activate", G_CALLBACK(cb_rstto_main_window_open_with_other_app), window);
 
-            menu_item = gtk_menu_item_new_with_mnemonic (_("Open With Other _Application"));
+            menu_item = gtk_menu_item_new_with_mnemonic (_("Open With Other _Application..."));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
             g_signal_connect(G_OBJECT(menu_item), "activate", G_CALLBACK(cb_rstto_main_window_open_with_other_app), window);
 
