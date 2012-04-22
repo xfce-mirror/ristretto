@@ -791,6 +791,13 @@ cb_rstto_read_file ( gpointer user_data )
             iter = g_slist_next (iter);
         }
 
+        if (loader->n_files > 0)
+        {
+            g_free (loader->files);
+        }
+        g_object_unref (loader->file_enum);
+        g_free (loader);
+
         return FALSE;
     }
     return TRUE;

@@ -6,7 +6,8 @@ x.x.x
 - Show a 'Loading...' message in the statusbar when loading an image or
   directory-contents.
 - Reload image when it is changed on the filesystem.
-- Add a new accelerator to force a reload (ctrl-r)
+- Add a new accelerator to force a reload (ctrl-r) - (requires the removal
+  of ~/.config/ristretto/accels.scm)
 
 0.5.2
 =====

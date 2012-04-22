@@ -1310,6 +1310,9 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
                 gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
                 menu_item = gtk_separator_menu_item_new ();
                 gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
+
+                g_list_foreach (app_list, (GFunc)g_object_unref, NULL);
+                g_list_free (app_list);
             }
             else
             {

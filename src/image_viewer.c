@@ -648,6 +648,11 @@ rstto_image_viewer_destroy(GtkObject *object)
             g_object_unref (viewer->priv->pixbuf);
             viewer->priv->pixbuf = NULL;
         }
+        if (viewer->priv->iter)
+        {
+            g_object_unref (viewer->priv->iter);
+            viewer->priv->iter = NULL;
+        }
         g_free (viewer->priv);
         viewer->priv = NULL;
     }
