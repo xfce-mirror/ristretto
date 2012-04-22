@@ -1053,11 +1053,11 @@ paint_clock (
 
     if (widget->allocation.width < widget->allocation.height)
     {
-        width = widget->allocation.width * 0.1;
+        width = 40 + ((gdouble)widget->allocation.width * 0.07);
     }
     else
     {
-        width = widget->allocation.height * 0.1;
+        width = 40 + ((gdouble)widget->allocation.height * 0.07);
     }
 
     height = width;
@@ -1095,7 +1095,7 @@ paint_clock (
         cairo_arc (
             ctx,
             00, -1*((width/2)-5),
-            3,
+            width/20,
             0,
             2*M_PI );
         cairo_fill (ctx);
@@ -1104,7 +1104,7 @@ paint_clock (
 
 /***/
     cairo_save (ctx);
-    cairo_set_line_width (ctx, 5.0);
+    cairo_set_line_width (ctx, width/15);
     cairo_set_line_cap (ctx, CAIRO_LINE_CAP_ROUND);
     cairo_rotate (
         ctx,
@@ -1118,7 +1118,7 @@ paint_clock (
         ctx);
     cairo_restore (ctx);
 /***/
-    cairo_set_line_width (ctx, 5.0);
+    cairo_set_line_width (ctx, width/15);
     cairo_set_line_cap (ctx, CAIRO_LINE_CAP_ROUND);
     cairo_rotate (
         ctx,
