@@ -637,7 +637,7 @@ msgstr "Intervalo de tempo a limpar:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
-msgstr ""
+msgstr "Limpeza"
 
 #: ../src/privacy_dialog.c:157
 msgid "Last Hour"
@@ -790,9 +790,9 @@ msgid "Image"
 msgstr "Imaxe"
 
 #: ../src/properties_dialog.c:525
-#, c-format
+#, c-format, fuzzy
 msgid "<b>Date taken:</b>"
-msgstr ""
+msgstr "<b>Data de creación:</b>"
 
 #: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
@@ -814,6 +814,12 @@ msgid ""
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
 msgstr ""
+"Non se pode contactar con thumbnailer-service,\n"
+"e debido a esta razón non se poden\n"
+"crear as miniaturas.\n"
+"\n"
+"Instale <b>Tumbler</b> ou outro <i>daemon de miniaturas</i>\n"
+"para resolver esta incidencia."
 
 #: ../src/thumbnailer.c:469
 msgid "Do _not show this message again"
