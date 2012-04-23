@@ -583,7 +583,6 @@ msgid "File column"
 msgstr "Columna de ficheiro"
 
 #: ../src/icon_bar.c:363
-#, fuzzy
 msgid "Model column used to retrieve the file from"
 msgstr "Columna modelo que se emprega para obter o ficheiro"
 
@@ -789,7 +788,7 @@ msgid "Image"
 msgstr "Imaxe"
 
 #: ../src/properties_dialog.c:525
-#, c-format, fuzzy
+#, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Data de creación:</b>"
 
