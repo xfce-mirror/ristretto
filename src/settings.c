@@ -689,10 +689,10 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_NAVBAR_POSITION:
             str_val = g_value_get_string (value);
 
-            if ((!g_strcasecmp (str_val, "left")) ||
-                (!g_strcasecmp (str_val, "right")) ||
-                (!g_strcasecmp (str_val, "bottom")) ||
-                (!g_strcasecmp (str_val, "top")))
+            if ((!g_ascii_strcasecmp (str_val, "left")) ||
+                (!g_ascii_strcasecmp (str_val, "right")) ||
+                (!g_ascii_strcasecmp (str_val, "bottom")) ||
+                (!g_ascii_strcasecmp (str_val, "top")))
             {
                 if (settings->priv->navigationbar_position)
                     g_free (settings->priv->navigationbar_position);
