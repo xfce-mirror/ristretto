@@ -786,17 +786,17 @@ rstto_main_window_init (RsttoMainWindow *window)
     desktop_type = rstto_settings_get_string_property (window->priv->settings_manager, "desktop-type");
     if (desktop_type)
     {
-        if (!g_strcasecmp(desktop_type, "xfce"))
+        if (!g_ascii_strcasecmp(desktop_type, "xfce"))
         {
             window->priv->wallpaper_manager = rstto_xfce_wallpaper_manager_new();
         }
 
-        if (!g_strcasecmp(desktop_type, "gnome"))
+        if (!g_ascii_strcasecmp(desktop_type, "gnome"))
         {
             window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new();
         }
 
-        if (!g_strcasecmp(desktop_type, "none"))
+        if (!g_ascii_strcasecmp(desktop_type, "none"))
         {
             window->priv->wallpaper_manager = NULL;
         }
@@ -4064,17 +4064,17 @@ cb_rstto_desktop_type_changed (
 
     if (desktop_type)
     {
-        if (!g_strcasecmp(desktop_type, "xfce"))
+        if (!g_ascii_strcasecmp(desktop_type, "xfce"))
         {
             window->priv->wallpaper_manager = rstto_xfce_wallpaper_manager_new();
         }
 
-        if (!g_strcasecmp(desktop_type, "gnome"))
+        if (!g_ascii_strcasecmp(desktop_type, "gnome"))
         {
             window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new();
         }
 
-        if (!g_strcasecmp(desktop_type, "none"))
+        if (!g_ascii_strcasecmp(desktop_type, "none"))
         {
             window->priv->wallpaper_manager = NULL;
         }

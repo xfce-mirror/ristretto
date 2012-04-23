@@ -389,7 +389,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
     if (str_desktop_type != NULL)
     {
-        if (0 == g_strcasecmp (str_desktop_type, "xfce"))
+        if (0 == g_ascii_strcasecmp (str_desktop_type, "xfce"))
         {
             gtk_combo_box_set_active (
                 GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
@@ -397,7 +397,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
         }
         else
         {
-            if (0 == g_strcasecmp (str_desktop_type, "gnome"))
+            if (0 == g_ascii_strcasecmp (str_desktop_type, "gnome"))
             {
                 gtk_combo_box_set_active (
                     GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
