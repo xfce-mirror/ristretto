@@ -711,7 +711,7 @@ msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr ""
-"缩略图栏在窗口全屏显示时显示一个带当前时间的模拟时钟。"
+"缩略图栏在窗口全屏显示时显示一个带当前时间的指针式时钟。"
 
 #: ../src/preferences_dialog.c:280
 msgid "Show Fullscreen Clock"
