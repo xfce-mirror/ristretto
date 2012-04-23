@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.0.20\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-19 06:09+0000\n"
-"PO-Revision-Date: 2012-04-19 08:13+0200\n"
+"POT-Creation-Date: 2012-04-23 02:09+0000\n"
+"PO-Revision-Date: 2012-04-23 09:38+0200\n"
 "Last-Translator: Tomáš Vadina <kyberdev@gmail.com>\n"
 "Language-Team: slovenčina <slovenska-lokalizacia-xfce@googlegroups.com>\n"
 "Language: sk\n"
@@ -52,355 +52,410 @@ msgstr ""
 msgid "Image Viewer"
 msgstr "Prehliadač obrázkov"
 
-#. File Menu
-#: ../src/main_window.c:350
+#: ../src/main_window.c:357
 msgid "_File"
 msgstr "_Súbor"
 
-#: ../src/main_window.c:351
-msgid "_Open"
-msgstr "_Otvoriť"
+#. Icon-name
+#: ../src/main_window.c:361
+msgid "_Open..."
+msgstr "_Otvoriť..."
 
-#: ../src/main_window.c:351
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:363
 msgid "Open an image"
 msgstr "Otvoriť obrázok"
 
-#: ../src/main_window.c:352
-msgid "_Save copy"
-msgstr "_Uložiť kópiu"
+#. Icon-name
+#: ../src/main_window.c:367
+msgid "_Save copy..."
+msgstr "_Uložiť kópiu..."
 
-#: ../src/main_window.c:352
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:369
 msgid "Save a copy of the image"
 msgstr "Uložiť kópiu obrázku"
 
-#: ../src/main_window.c:353
-msgid "_Properties"
-msgstr "_Vlastnosti"
+#. Icon-name
+#: ../src/main_window.c:373
+msgid "_Properties..."
+msgstr "_Vlastnosti..."
 
-#: ../src/main_window.c:353
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:375
 msgid "Show file properties"
 msgstr "Zobraziť vlastnosti súboru"
 
-#. Edit Menu
-#: ../src/main_window.c:354 ../src/main_window.c:358
+#. Icon-name
+#: ../src/main_window.c:379 ../src/main_window.c:398
 msgid "_Edit"
 msgstr "_Upraviť"
 
-#: ../src/main_window.c:354
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:381
 msgid "Edit this image"
 msgstr "Upraviť tento obrázok"
 
-#: ../src/main_window.c:355
+#. Icon-name
+#: ../src/main_window.c:385
 msgid "_Close"
 msgstr "_Zavrieť"
 
-#: ../src/main_window.c:355
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:387
 msgid "Close this image"
 msgstr "Zavrieť tento obrázok"
 
-#: ../src/main_window.c:356
+#. Icon-name
+#: ../src/main_window.c:391
 msgid "_Quit"
 msgstr "_Koniec"
 
-#: ../src/main_window.c:356
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:393
 msgid "Quit Ristretto"
 msgstr "Ukončiť Ristretto"
 
-#: ../src/main_window.c:359
-msgid "_Open with..."
-msgstr "_Otvoriť pomocou..."
+#: ../src/main_window.c:402
+msgid "_Open with"
+msgstr "_Otvoriť pomocou"
 
-#: ../src/main_window.c:360
+#: ../src/main_window.c:406
 msgid "_Sorting"
 msgstr "_Radenie"
 
-#: ../src/main_window.c:361
+#. Icon-name
+#: ../src/main_window.c:410
 msgid "_Delete"
 msgstr "_Zmazať"
 
-#: ../src/main_window.c:361
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:412
 msgid "Delete this image from disk"
 msgstr "Zmazať tento obrázok z disku"
 
-#: ../src/main_window.c:362
-msgid "_Clear private data"
-msgstr "_Vymazať súkromné dáta"
+#. Icon-name
+#: ../src/main_window.c:416
+msgid "_Clear private data..."
+msgstr "_Vymazať súkromné dáta..."
 
-#: ../src/main_window.c:363
-msgid "_Preferences"
-msgstr "_Predvoľby"
+#. Icon-name
+#: ../src/main_window.c:422
+msgid "_Preferences..."
+msgstr "_Predvoľby..."
 
-#. View Menu
-#: ../src/main_window.c:365
+#: ../src/main_window.c:429
 msgid "_View"
 msgstr "_Zobraziť"
 
-#: ../src/main_window.c:366
+#. Icon-name
+#: ../src/main_window.c:433
 msgid "_Fullscreen"
 msgstr "_Celá obrazovka"
 
-#: ../src/main_window.c:366
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:435
 msgid "Switch to fullscreen"
 msgstr "Prepnúť na celú obrazovku"
 
-#: ../src/main_window.c:367
+#. Icon-name
+#: ../src/main_window.c:439
 msgid "_Leave Fullscreen"
 msgstr "_Opustiť celú obrazovku"
 
-#: ../src/main_window.c:367
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:441
 msgid "Leave Fullscreen"
 msgstr "Opustiť celú obrazovku"
 
-#: ../src/main_window.c:368
-msgid "_Set as Wallpaper"
-msgstr "Nastaviť ako _tapetu"
+#. Icon-name
+#: ../src/main_window.c:445
+msgid "Set as _Wallpaper..."
+msgstr "Nastaviť ako _tapetu..."
 
-#. Zoom submenu
-#: ../src/main_window.c:370
+#: ../src/main_window.c:452
 msgid "_Zoom"
 msgstr "_Lupa"
 
-#: ../src/main_window.c:371
+#. Icon-name
+#: ../src/main_window.c:456
 msgid "Zoom _In"
 msgstr "_Priblížiť"
 
-#: ../src/main_window.c:371
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:458
 msgid "Zoom in"
 msgstr "Priblížiť"
 
-#: ../src/main_window.c:372
+#. Icon-name
+#: ../src/main_window.c:462
 msgid "Zoom _Out"
 msgstr "_Vzdialiť"
 
-#: ../src/main_window.c:372
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:464
 msgid "Zoom out"
 msgstr "Vzdialiť"
 
-#: ../src/main_window.c:373
+#. Icon-name
+#: ../src/main_window.c:468
 msgid "Zoom _Fit"
 msgstr "_Prispôsobiť"
 
-#: ../src/main_window.c:373
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:470
 msgid "Zoom to fit window"
 msgstr "Prispôsobiť oknu"
 
-#: ../src/main_window.c:374
+#. Icon-name
+#: ../src/main_window.c:474
 msgid "_Normal Size"
 msgstr "_Normálna veľkosť"
 
-#: ../src/main_window.c:374
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:476
 msgid "Zoom to 100%"
 msgstr "Priblížiť na 100%"
 
-#. Rotation submenu
-#: ../src/main_window.c:376
+#: ../src/main_window.c:481
 msgid "_Rotation"
 msgstr "_Otočenie"
 
-#: ../src/main_window.c:377
+#. Icon-name
+#: ../src/main_window.c:485
 msgid "Rotate _Right"
 msgstr "Otočiť v_pravo"
 
-#: ../src/main_window.c:378
+#. Icon-name
+#: ../src/main_window.c:491
 msgid "Rotate _Left"
 msgstr "Otočiť Vľa_vo"
 
-#. Go Menu
-#: ../src/main_window.c:380
+#: ../src/main_window.c:498
 msgid "_Go"
 msgstr "_Prejsť"
 
-#: ../src/main_window.c:381
+#. Icon-name
+#: ../src/main_window.c:502
 msgid "_Forward"
 msgstr "Ď_alej"
 
-#: ../src/main_window.c:381
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:504
 msgid "Next image"
 msgstr "Ďalší obrázok"
 
-#: ../src/main_window.c:382
+#. Icon-name
+#: ../src/main_window.c:508
 msgid "_Back"
 msgstr "_Späť"
 
-#: ../src/main_window.c:382
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:510
 msgid "Previous image"
 msgstr "Predchádzajúci obrázok"
 
-#: ../src/main_window.c:383
-msgid "_First"
+#. Icon-name
+#: ../src/main_window.c:514
+msgid "F_irst"
 msgstr "_Prvý"
 
-#: ../src/main_window.c:383
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:516
 msgid "First image"
 msgstr "Prvý obrázok"
 
-#: ../src/main_window.c:384
+#. Icon-name
+#: ../src/main_window.c:520
 msgid "_Last"
 msgstr "_Posledný"
 
-#: ../src/main_window.c:384
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:522
 msgid "Last image"
 msgstr "Posledný obrázok"
 
-#. Help Menu
-#: ../src/main_window.c:386
+#: ../src/main_window.c:527
 msgid "_Help"
 msgstr "P_omocník"
 
-#: ../src/main_window.c:388
+#. Icon-name
+#: ../src/main_window.c:531
 msgid "_Contents"
 msgstr "_Obsah"
 
-#: ../src/main_window.c:390
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:533
 msgid "Display ristretto user manual"
 msgstr "Zobraziť užívateľský manuál ristretto"
 
-#: ../src/main_window.c:393
+#. Icon-name
+#: ../src/main_window.c:537
 msgid "_About"
 msgstr "_O programe"
 
-#: ../src/main_window.c:395
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:539
 msgid "Display information about ristretto"
 msgstr "Zobraziť informácie o programe ristretto"
 
-#. Position Menu
-#: ../src/main_window.c:398
+#: ../src/main_window.c:544
 msgid "_Position"
 msgstr "_Umiestnenie"
 
-#: ../src/main_window.c:399
+#: ../src/main_window.c:548
 msgid "_Size"
 msgstr "_Veľkosť"
 
-#: ../src/main_window.c:400
+#: ../src/main_window.c:552
 msgid "Thumbnail Bar _Position"
 msgstr "_Pozícia panelu náhľadov"
 
-#: ../src/main_window.c:401
-msgid "Thumbnail _Size"
+#: ../src/main_window.c:556
+msgid "Thumb_nail Size"
 msgstr "_Veľkosť náhľadov"
 
-#. Misc
-#: ../src/main_window.c:403
+#. Icon-name
+#: ../src/main_window.c:561
 msgid "Leave _Fullscreen"
 msgstr "_Opustiť zobrazenie na celú obrazovku"
 
-#. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:411
+#. Icon-name
+#: ../src/main_window.c:577
 msgid "_Show Toolbar"
 msgstr "Zobraziť _panel nástrojov"
 
-#. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:413
+#. Icon-name
+#: ../src/main_window.c:585
 msgid "Show _Thumbnail Bar"
 msgstr "Zobraziť panel náhľadov"
 
-#. Toggle visibility of the statusbar
-#: ../src/main_window.c:415
-msgid "Show _Status Bar"
+#. Icon-name
+#: ../src/main_window.c:593
+msgid "Show Status _Bar"
 msgstr "Zobraziť panel _stavov"
 
-#. Sort by Filename
-#: ../src/main_window.c:422
+#. Icon-name
+#: ../src/main_window.c:606
 msgid "sort by filename"
 msgstr "usporiadať podľa názvu súboru"
 
-#. Sort by Date
-#: ../src/main_window.c:424
+#. Icon-name
+#: ../src/main_window.c:613
 msgid "sort by date"
 msgstr "usporiadať podľa dátumu"
 
-#: ../src/main_window.c:430
+#. Icon-name
+#: ../src/main_window.c:624
 msgid "Left"
 msgstr "Vľavo"
 
-#: ../src/main_window.c:431
+#: ../src/main_window.c:630
 msgid "Right"
 msgstr "Vpravo"
 
-#: ../src/main_window.c:432
+#: ../src/main_window.c:636
 msgid "Top"
 msgstr "Vrch"
 
-#: ../src/main_window.c:433
+#: ../src/main_window.c:642
 msgid "Bottom"
 msgstr "Spodok"
 
-#: ../src/main_window.c:439
+#: ../src/main_window.c:653
 msgid "Very Small"
 msgstr "Veľmi malá"
 
-#: ../src/main_window.c:440
+#: ../src/main_window.c:659
 msgid "Smaller"
 msgstr "Menšia"
 
-#: ../src/main_window.c:441
+#: ../src/main_window.c:665
 msgid "Small"
 msgstr "Malá"
 
-#: ../src/main_window.c:442
+#: ../src/main_window.c:671
 msgid "Normal"
 msgstr "Normálna"
 
-#: ../src/main_window.c:443
+#: ../src/main_window.c:677
 msgid "Large"
 msgstr "Veľká"
 
-#: ../src/main_window.c:444
+#: ../src/main_window.c:683
 msgid "Larger"
 msgstr "Väčšia"
 
-#: ../src/main_window.c:445
+#: ../src/main_window.c:689
 msgid "Very Large"
 msgstr "Veľmi veľká"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:591
+#: ../src/main_window.c:840
 msgid "_Play"
 msgstr "_Spustiť"
 
-#: ../src/main_window.c:591
+#: ../src/main_window.c:840
 msgid "Play slideshow"
 msgstr "Spustiť prezentáciu "
 
-#: ../src/main_window.c:592
+#: ../src/main_window.c:841
 msgid "_Pause"
 msgstr "_Pozastaviť"
 
-#: ../src/main_window.c:592
+#: ../src/main_window.c:841
 msgid "Pause slideshow"
 msgstr "Pozastaviť prezentáciu "
 
 #. Create Recently used items Action
-#: ../src/main_window.c:595
+#: ../src/main_window.c:844
 msgid "_Recently used"
 msgstr "_Nedávno použité"
 
-#: ../src/main_window.c:595
+#: ../src/main_window.c:844
 msgid "Recently used"
 msgstr "_Nedávno použité"
 
-#: ../src/main_window.c:699 ../src/main_window.c:1206
+#: ../src/main_window.c:948 ../src/main_window.c:1459
 msgid "Press open to select an image"
 msgstr "Stlačte tlačidlo Otvoriť pre výber obrázka"
 
-#: ../src/main_window.c:1068 ../src/main_window.c:1072
-msgid "Open With Other _Application"
-msgstr "Otvoriť s inou _aplikáciou"
+#: ../src/main_window.c:1321 ../src/main_window.c:1325
+msgid "Open With Other _Application..."
+msgstr "Otvoriť s inou _aplikáciou..."
 
-#: ../src/main_window.c:1093 ../src/main_window.c:1099
+#: ../src/main_window.c:1346 ../src/main_window.c:1352
 msgid "Empty"
 msgstr "Prázdne"
 
-#: ../src/main_window.c:1215
+#: ../src/main_window.c:1469
 msgid "Loading..."
 msgstr "Načítavanie..."
 
-#: ../src/main_window.c:1819
+#: ../src/main_window.c:2073
 msgid "Choose 'set wallpaper' method"
 msgstr "Zvoliť metódu 'nastaviť pozadie'"
 
-#: ../src/main_window.c:1834 ../src/preferences_dialog.c:349
+#: ../src/main_window.c:2088 ../src/preferences_dialog.c:355
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -410,85 +465,107 @@ msgstr ""
 "Toto nastavenie určuje metódu, ktorú <i>Ristretto</i> použije \n"
 "pre nastavenie pozadia pracovnej plochy."
 
-#: ../src/main_window.c:1859 ../src/preferences_dialog.c:373
+#: ../src/main_window.c:2113 ../src/preferences_dialog.c:379
 msgid "None"
 msgstr "Žiadne"
 
-#: ../src/main_window.c:1863 ../src/preferences_dialog.c:377
+#: ../src/main_window.c:2117 ../src/preferences_dialog.c:383
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:1867 ../src/preferences_dialog.c:381
+#: ../src/main_window.c:2121 ../src/preferences_dialog.c:387
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2298
+#: ../src/main_window.c:2552
 msgid "Developer:"
 msgstr "Vývojár:"
 
-#: ../src/main_window.c:2307
+#: ../src/main_window.c:2561
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto je prehliadač obrázkov pre pracovné prostredie Xfce."
 
-#: ../src/main_window.c:2315
+#: ../src/main_window.c:2569
 msgid "translator-credits"
 msgstr ""
 "Štefan Miklošovič <miklosovic@gmail.com>\n"
 "Robert Hartl <hartl.robert@gmail.com>, 2009\n"
 "Tomáš Vadina <kyberdev@gmail.com>, 2011"
 
-#: ../src/main_window.c:2617
+#: ../src/main_window.c:2871
 msgid "Open image"
 msgstr "Otvoriť obrázok"
 
-#: ../src/main_window.c:2636
+#: ../src/main_window.c:2890
 msgid "Images"
 msgstr "Obrázky"
 
-#: ../src/main_window.c:2641
+#: ../src/main_window.c:2895
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2668 ../src/main_window.c:2810
+#: ../src/main_window.c:2922 ../src/main_window.c:3064
 msgid "Could not open file"
 msgstr "Nemôžem otvoriť súbor"
 
-#: ../src/main_window.c:2843
+#: ../src/main_window.c:3097
 msgid "Save copy"
 msgstr "Uložiť kópiu"
 
-#: ../src/main_window.c:2869
+#: ../src/main_window.c:3123
 msgid "Could not save file"
 msgstr "Nie je možné uložiť súbor"
 
-#: ../src/main_window.c:3035
+#: ../src/main_window.c:3291
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Naozaj chcete zmazať obrázok '%s' z disku?"
 
-#: ../src/main_window.c:3059
+#: ../src/main_window.c:3309
+#, c-format
+msgid ""
+"An error occurred when deleting image '%s' from disk.\n"
+"\n"
+"%s"
+msgstr ""
+"Vyskytla sa chyba pri odstraňovaní obrázka '%s' z disku.\n"
+"\n"
+"%s"
+
+#: ../src/main_window.c:3325
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Naozaj chcete odoslať obrázok '%s' do koša?"
 
-#: ../src/main_window.c:3367
+#: ../src/main_window.c:3343
+#, c-format
+msgid ""
+"An error occurred when sending image '%s' to trash.\n"
+"\n"
+"%s"
+msgstr ""
+"Vyskytla sa chyba pri odosielaní obrázka '%s' do koša.\n"
+"\n"
+"%s"
+
+#: ../src/main_window.c:3673
 msgid "Edit with"
 msgstr "Upraviť s"
 
-#: ../src/main_window.c:3384
+#: ../src/main_window.c:3691
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Otvoriť %s a ostatné súbory typu %s s:"
 
-#: ../src/main_window.c:3386
+#: ../src/main_window.c:3696
 msgid "Use as _default for this kind of file"
 msgstr "Použiť ako _predvolené pre tento typ súboru"
 
-#: ../src/main_window.c:3460
+#: ../src/main_window.c:3786
 msgid "Recommended Applications"
 msgstr "Odporúčané aplikácie"
 
-#: ../src/main_window.c:3532
+#: ../src/main_window.c:3866
 msgid "Other Applications"
 msgstr "Ostatné aplikácie"
 
@@ -584,43 +661,42 @@ msgstr "Všetko"
 msgid "Clear private data"
 msgstr "Vymazať súkromné dáta"
 
-#: ../src/preferences_dialog.c:199
+#: ../src/preferences_dialog.c:200
 msgid "Display"
 msgstr "Zobrazenie"
 
-#: ../src/preferences_dialog.c:204
+#: ../src/preferences_dialog.c:205
 msgid "Background color"
 msgstr "Farba pozadia"
 
-#: ../src/preferences_dialog.c:208
+#: ../src/preferences_dialog.c:209
 msgid "Override background color:"
 msgstr "Určiť farbu pozadia:"
 
-#: ../src/preferences_dialog.c:220
+#: ../src/preferences_dialog.c:221
 msgid "Thumbnails"
 msgstr "Náhľady"
 
-#: ../src/preferences_dialog.c:223
+#: ../src/preferences_dialog.c:224
 msgid ""
-"The thumbnail bar can be automatically hidden \n"
-"when the window is fullscreen."
+"The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr ""
-"Panel s náhľadmi môže byť automatický skrytý, \n"
-"ak je prehliadač obrázkov zobrazený v režime celej obrazovky."
+"Panel s náhľadmi môže byť automatický skrytý, ak je okno zobrazené v režime "
+"celej obrazovky."
 
-#: ../src/preferences_dialog.c:225
+#: ../src/preferences_dialog.c:227
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Skryť panel náhľadov pri zobrazení na celú obrazovku"
 
-#: ../src/preferences_dialog.c:256
+#: ../src/preferences_dialog.c:258
 msgid "Slideshow"
 msgstr "Premietanie snímkov"
 
-#: ../src/preferences_dialog.c:260
+#: ../src/preferences_dialog.c:262
 msgid "Timeout"
 msgstr "Timeout"
 
-#: ../src/preferences_dialog.c:263
+#: ../src/preferences_dialog.c:265
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -628,47 +704,55 @@ msgstr ""
 "Časový interval počas ktorého je zobrazený jeden snímok pri premietaní\n"
 "(v sekundách)"
 
-#: ../src/preferences_dialog.c:272
+#: ../src/preferences_dialog.c:274
 msgid "Clock"
 msgstr "Hodiny"
 
-#: ../src/preferences_dialog.c:275
+#: ../src/preferences_dialog.c:277
+msgid ""
+"Show an analog clock that displays the current time when the window is "
+"fullscreen"
+msgstr ""
+"Zobraziť analógové hodiny zobrazujúce aktuálny čas, ak je okno zobrazené v "
+"režime celej obrazovky."
+
+#: ../src/preferences_dialog.c:280
 msgid "Show Fullscreen Clock"
 msgstr "Zobraziť hodiny na celej obrazovke"
 
-#: ../src/preferences_dialog.c:289
+#: ../src/preferences_dialog.c:295
 msgid "Control"
 msgstr "Ovládanie"
 
-#: ../src/preferences_dialog.c:293
+#: ../src/preferences_dialog.c:299
 msgid "Scroll wheel"
 msgstr "Koliesko myši"
 
-#: ../src/preferences_dialog.c:296
+#: ../src/preferences_dialog.c:302
 msgid "Invert zoom direction"
 msgstr "Obrátiť smer priblíženia"
 
-#: ../src/preferences_dialog.c:306
+#: ../src/preferences_dialog.c:312
 msgid "Behaviour"
 msgstr "Správanie"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:317
 msgid "Startup"
 msgstr "Pri spustení"
 
-#: ../src/preferences_dialog.c:313
+#: ../src/preferences_dialog.c:319
 msgid "Maximize window on startup when opening an image"
 msgstr "Maximalizovať okno pri spustení počas otvárania obrázka"
 
-#: ../src/preferences_dialog.c:319
+#: ../src/preferences_dialog.c:325
 msgid "Wrap around images"
 msgstr "Obrázky točiť dookola"
 
-#: ../src/preferences_dialog.c:338
+#: ../src/preferences_dialog.c:344
 msgid "Desktop"
 msgstr "Pracovná plocha"
 
-#: ../src/preferences_dialog.c:460
+#: ../src/preferences_dialog.c:466
 msgid "Image Viewer Preferences"
 msgstr "Predvoľby prehliadača obrázkov"
 
