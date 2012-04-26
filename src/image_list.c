@@ -575,6 +575,8 @@ rstto_image_list_remove_file (
                         rstto_image_list_iter_get_file (iter->data),
                         r_file ) )
                 {
+
+                    image_list->priv->images = g_list_remove (image_list->priv->images, r_file);
                     ((RsttoImageListIter *)(iter->data))->priv->r_file = NULL;
                     g_signal_emit (
                             G_OBJECT (iter->data),
@@ -586,12 +588,13 @@ rstto_image_list_remove_file (
             iter = g_slist_next (iter);
         }
 
+        image_list->priv->images = g_list_remove (image_list->priv->images, r_file);
+
         path_ = gtk_tree_path_new();
         gtk_tree_path_append_index(path_,index_);
 
         gtk_tree_model_row_deleted(GTK_TREE_MODEL(image_list), path_);
 
-        image_list->priv->images = g_list_remove (image_list->priv->images, r_file);
         iter = image_list->priv->iterators;
         while (iter)
         {
