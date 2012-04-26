@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-22 08:54+0000\n"
+"POT-Creation-Date: 2012-04-26 12:03+0000\n"
 "PO-Revision-Date: 2012-01-27 18:08+0100\n"
 "Last-Translator: Nuno Miguel <nunis@netcabo.pt>\n"
 "Language-Team: \n"
@@ -19,23 +19,23 @@ msgstr ""
 "X-Poedit-Language: Portuguese\n"
 "X-Poedit-Country: PORTUGAL\n"
 
-#: ../src/main.c:61
+#: ../src/main.c:62
 msgid "Version information"
 msgstr "Informações da versão"
 
-#: ../src/main.c:65
+#: ../src/main.c:66
 msgid "Start in fullscreen mode"
 msgstr "Iniciar no modo de ecrã inteiro"
 
-#: ../src/main.c:69
+#: ../src/main.c:70
 msgid "Start a slideshow"
 msgstr "Iniciar uma apresentação"
 
-#: ../src/main.c:77
+#: ../src/main.c:78
 msgid "Show settings dialog"
 msgstr "Mostrar janela de definições"
 
-#: ../src/main.c:105
+#: ../src/main.c:106
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -48,414 +48,414 @@ msgstr ""
 "Tente %s --help para ver uma lista completa\n"
 "de opções em linha de comandos disponíveis.\n"
 
-#: ../src/main_window.c:55 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:56 ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "Visualizador de imagens"
 
-#: ../src/main_window.c:357
+#: ../src/main_window.c:358
 msgid "_File"
 msgstr "_Ficheiro"
 
 #. Icon-name
-#: ../src/main_window.c:361
+#: ../src/main_window.c:362
 msgid "_Open..."
 msgstr "_Abrir"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:363
+#: ../src/main_window.c:364
 msgid "Open an image"
 msgstr "Abrir uma imagem"
 
 #. Icon-name
-#: ../src/main_window.c:367
+#: ../src/main_window.c:368
 msgid "_Save copy..."
 msgstr "_Gravar cópia"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:369
+#: ../src/main_window.c:370
 msgid "Save a copy of the image"
 msgstr "Gravar uma cópia da imagem"
 
 #. Icon-name
-#: ../src/main_window.c:373
+#: ../src/main_window.c:374
 msgid "_Properties..."
 msgstr "_Propriedades"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:375
+#: ../src/main_window.c:376
 msgid "Show file properties"
 msgstr "Mostrar propriedades do ficheiro"
 
 #. Icon-name
-#: ../src/main_window.c:379 ../src/main_window.c:398
+#: ../src/main_window.c:380 ../src/main_window.c:399
 msgid "_Edit"
 msgstr "_Editar"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:381
+#: ../src/main_window.c:382
 msgid "Edit this image"
 msgstr "Editar imagem"
 
 #. Icon-name
-#: ../src/main_window.c:385
+#: ../src/main_window.c:386
 msgid "_Close"
 msgstr "Fe_char"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:387
+#: ../src/main_window.c:388
 msgid "Close this image"
 msgstr "Fechar esta imagem"
 
 #. Icon-name
-#: ../src/main_window.c:391
+#: ../src/main_window.c:392
 msgid "_Quit"
 msgstr "_Sair"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:393
+#: ../src/main_window.c:394
 msgid "Quit Ristretto"
 msgstr "Sair do Ristretto"
 
-#: ../src/main_window.c:402
+#: ../src/main_window.c:403
 msgid "_Open with"
 msgstr "Abrir c_om..."
 
-#: ../src/main_window.c:406
+#: ../src/main_window.c:407
 msgid "_Sorting"
 msgstr "_Ordenação"
 
 #. Icon-name
-#: ../src/main_window.c:410
+#: ../src/main_window.c:411
 msgid "_Delete"
 msgstr "_Apagar"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:412
+#: ../src/main_window.c:413
 msgid "Delete this image from disk"
 msgstr "Apagar esta imagem do disco"
 
 #. Icon-name
-#: ../src/main_window.c:416
+#: ../src/main_window.c:417
 msgid "_Clear private data..."
 msgstr "_Limpar dados privados"
 
 #. Icon-name
-#: ../src/main_window.c:422
+#: ../src/main_window.c:423
 msgid "_Preferences..."
 msgstr "_Preferências"
 
-#: ../src/main_window.c:429
+#: ../src/main_window.c:430
 msgid "_View"
 msgstr "_Ver"
 
 #. Icon-name
-#: ../src/main_window.c:433
+#: ../src/main_window.c:434
 msgid "_Fullscreen"
 msgstr "_Ecrã completo"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:435
+#: ../src/main_window.c:436
 msgid "Switch to fullscreen"
 msgstr "Trocar para ecrã completo"
 
 #. Icon-name
-#: ../src/main_window.c:439
+#: ../src/main_window.c:440
 msgid "_Leave Fullscreen"
 msgstr "Sair do ecrã comp_leto"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:441
+#: ../src/main_window.c:442
 msgid "Leave Fullscreen"
 msgstr "Sair do ecrã completo"
 
 #. Icon-name
-#: ../src/main_window.c:445
+#: ../src/main_window.c:446
 msgid "Set as _Wallpaper..."
 msgstr "_Definir como papel de parede..."
 
-#: ../src/main_window.c:452
+#: ../src/main_window.c:453
 msgid "_Zoom"
 msgstr "Taman_ho"
 
 #. Icon-name
-#: ../src/main_window.c:456
+#: ../src/main_window.c:457
 msgid "Zoom _In"
 msgstr "A_mpliar"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:458
+#: ../src/main_window.c:459
 msgid "Zoom in"
 msgstr "Ampliar"
 
 #. Icon-name
-#: ../src/main_window.c:462
+#: ../src/main_window.c:463
 msgid "Zoom _Out"
 msgstr "Redu_zir"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:464
+#: ../src/main_window.c:465
 msgid "Zoom out"
 msgstr "Reduzir"
 
 #. Icon-name
-#: ../src/main_window.c:468
+#: ../src/main_window.c:469
 msgid "Zoom _Fit"
 msgstr "Aju_star tamanho"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:470
+#: ../src/main_window.c:471
 msgid "Zoom to fit window"
 msgstr "Ajustar à janela"
 
 #. Icon-name
-#: ../src/main_window.c:474
+#: ../src/main_window.c:475
 msgid "_Normal Size"
 msgstr "Tamanho _normal"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:476
+#: ../src/main_window.c:477
 msgid "Zoom to 100%"
 msgstr "Ajustar a 100%"
 
-#: ../src/main_window.c:481
+#: ../src/main_window.c:482
 msgid "_Rotation"
 msgstr "_Rotação"
 
 #. Icon-name
-#: ../src/main_window.c:485
+#: ../src/main_window.c:486
 msgid "Rotate _Right"
 msgstr "Rodar à _direita"
 
 #. Icon-name
-#: ../src/main_window.c:491
+#: ../src/main_window.c:492
 msgid "Rotate _Left"
 msgstr "Rodar à _esquerda"
 
-#: ../src/main_window.c:498
+#: ../src/main_window.c:499
 msgid "_Go"
 msgstr "_Ir"
 
 #. Icon-name
-#: ../src/main_window.c:502
+#: ../src/main_window.c:503
 msgid "_Forward"
 msgstr "_Avançar"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:504
+#: ../src/main_window.c:505
 msgid "Next image"
 msgstr "Imagem seguinte"
 
 #. Icon-name
-#: ../src/main_window.c:508
+#: ../src/main_window.c:509
 msgid "_Back"
 msgstr "_Recuar"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:510
+#: ../src/main_window.c:511
 msgid "Previous image"
 msgstr "Imagem anterior"
 
 #. Icon-name
-#: ../src/main_window.c:514
+#: ../src/main_window.c:515
 msgid "F_irst"
 msgstr "_Primeira"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:516
+#: ../src/main_window.c:517
 msgid "First image"
 msgstr "Primeira imagem"
 
 #. Icon-name
-#: ../src/main_window.c:520
+#: ../src/main_window.c:521
 msgid "_Last"
 msgstr "Últi_ma"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:522
+#: ../src/main_window.c:523
 msgid "Last image"
 msgstr "Última imagem"
 
-#: ../src/main_window.c:527
+#: ../src/main_window.c:528
 msgid "_Help"
 msgstr "_Ajuda"
 
 #. Icon-name
-#: ../src/main_window.c:531
+#: ../src/main_window.c:532
 msgid "_Contents"
 msgstr "_Conteúdo"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:533
+#: ../src/main_window.c:534
 msgid "Display ristretto user manual"
 msgstr "Abrir manual de utilizador"
 
 #. Icon-name
-#: ../src/main_window.c:537
+#: ../src/main_window.c:538
 msgid "_About"
 msgstr "_Sobre"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:539
+#: ../src/main_window.c:540
 msgid "Display information about ristretto"
 msgstr "Exibir informações do ristretto"
 
-#: ../src/main_window.c:544
+#: ../src/main_window.c:545
 msgid "_Position"
 msgstr "_Posição"
 
-#: ../src/main_window.c:548
+#: ../src/main_window.c:549
 msgid "_Size"
 msgstr "Dimen_são"
 
-#: ../src/main_window.c:552
+#: ../src/main_window.c:553
 msgid "Thumbnail Bar _Position"
 msgstr "_Posição da barra de miniaturas"
 
-#: ../src/main_window.c:556
+#: ../src/main_window.c:557
 msgid "Thumb_nail Size"
 msgstr "Tama_nho das miniaturas"
 
 #. Icon-name
-#: ../src/main_window.c:561
+#: ../src/main_window.c:562
 msgid "Leave _Fullscreen"
 msgstr "Sair de _ecrã completo"
 
 #. Icon-name
-#: ../src/main_window.c:577
+#: ../src/main_window.c:578
 msgid "_Show Toolbar"
 msgstr "Mo_strar barra de ferramentas"
 
 #. Icon-name
-#: ../src/main_window.c:585
+#: ../src/main_window.c:586
 msgid "Show _Thumbnail Bar"
 msgstr "Mostrar barra de minia_turas"
 
 #. Icon-name
-#: ../src/main_window.c:593
+#: ../src/main_window.c:594
 msgid "Show Status _Bar"
 msgstr "Mostrar _barra de estado"
 
 #. Icon-name
-#: ../src/main_window.c:606
+#: ../src/main_window.c:607
 msgid "sort by filename"
 msgstr "ordenar por nome"
 
 #. Icon-name
-#: ../src/main_window.c:613
+#: ../src/main_window.c:614
 msgid "sort by date"
 msgstr "ordenar por data"
 
 #. Icon-name
-#: ../src/main_window.c:624
+#: ../src/main_window.c:625
 msgid "Left"
 msgstr "Esquerda"
 
-#: ../src/main_window.c:630
+#: ../src/main_window.c:631
 msgid "Right"
 msgstr "Direita"
 
-#: ../src/main_window.c:636
+#: ../src/main_window.c:637
 msgid "Top"
 msgstr "Superior"
 
-#: ../src/main_window.c:642
+#: ../src/main_window.c:643
 msgid "Bottom"
 msgstr "Inferior"
 
-#: ../src/main_window.c:653
+#: ../src/main_window.c:654
 msgid "Very Small"
 msgstr "Extra pequenas"
 
-#: ../src/main_window.c:659
+#: ../src/main_window.c:660
 msgid "Smaller"
 msgstr "Muito pequenas"
 
-#: ../src/main_window.c:665
+#: ../src/main_window.c:666
 msgid "Small"
 msgstr "Pequenas"
 
-#: ../src/main_window.c:671
+#: ../src/main_window.c:672
 msgid "Normal"
 msgstr "Normais"
 
-#: ../src/main_window.c:677
+#: ../src/main_window.c:678
 msgid "Large"
 msgstr "Grandes"
 
-#: ../src/main_window.c:683
+#: ../src/main_window.c:684
 msgid "Larger"
 msgstr "Muito grandes"
 
-#: ../src/main_window.c:689
+#: ../src/main_window.c:690
 msgid "Very Large"
 msgstr "Extra grandes"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:840
+#: ../src/main_window.c:841
 msgid "_Play"
 msgstr "_Reproduzir"
 
-#: ../src/main_window.c:840
+#: ../src/main_window.c:841
 msgid "Play slideshow"
 msgstr "Iniciar apresentação"
 
-#: ../src/main_window.c:841
+#: ../src/main_window.c:842
 msgid "_Pause"
 msgstr "_Pausar"
 
-#: ../src/main_window.c:841
+#: ../src/main_window.c:842
 msgid "Pause slideshow"
 msgstr "Pausar apresentação"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:844
+#: ../src/main_window.c:845
 msgid "_Recently used"
 msgstr "_Recentes"
 
-#: ../src/main_window.c:844
+#: ../src/main_window.c:845
 msgid "Recently used"
 msgstr "Recentes"
 
-#: ../src/main_window.c:948 ../src/main_window.c:1456
+#: ../src/main_window.c:949 ../src/main_window.c:1460
 msgid "Press open to select an image"
 msgstr "Prima abrir para selecionar uma imagem"
 
-#: ../src/main_window.c:1318 ../src/main_window.c:1322
+#: ../src/main_window.c:1322 ../src/main_window.c:1326
 msgid "Open With Other _Application..."
 msgstr "_Abrir com outra aplicação"
 
-#: ../src/main_window.c:1343 ../src/main_window.c:1349
+#: ../src/main_window.c:1347 ../src/main_window.c:1353
 msgid "Empty"
 msgstr "Vazio"
 
-#: ../src/main_window.c:1466
+#: ../src/main_window.c:1470
 msgid "Loading..."
 msgstr "Carregando..."
 
-#: ../src/main_window.c:2070
+#: ../src/main_window.c:2074
 msgid "Choose 'set wallpaper' method"
 msgstr "Escolha o método 'definir papel de parede'"
 
-#: ../src/main_window.c:2085 ../src/preferences_dialog.c:349
+#: ../src/main_window.c:2089 ../src/preferences_dialog.c:356
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -465,61 +465,61 @@ msgstr ""
 "Esta definição determina o método uzado pelo <i>Ristretto</i> para\n"
 "configurar o papel de parede."
 
-#: ../src/main_window.c:2110 ../src/preferences_dialog.c:373
+#: ../src/main_window.c:2114 ../src/preferences_dialog.c:380
 msgid "None"
 msgstr "Nenhum"
 
-#: ../src/main_window.c:2114 ../src/preferences_dialog.c:377
+#: ../src/main_window.c:2118 ../src/preferences_dialog.c:384
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2118 ../src/preferences_dialog.c:381
+#: ../src/main_window.c:2122 ../src/preferences_dialog.c:388
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2549
+#: ../src/main_window.c:2553
 msgid "Developer:"
 msgstr "Programador:"
 
-#: ../src/main_window.c:2558
+#: ../src/main_window.c:2562
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr ""
 "O Ristretto é um visualizador de imagens para o ambiente de trabalho Xfce"
 
-#: ../src/main_window.c:2566
+#: ../src/main_window.c:2570
 msgid "translator-credits"
 msgstr "Nuno Miguel <nunomgue@gmail.com>"
 
-#: ../src/main_window.c:2868
+#: ../src/main_window.c:2872
 msgid "Open image"
 msgstr "Abrir imagem"
 
-#: ../src/main_window.c:2887
+#: ../src/main_window.c:2891
 msgid "Images"
 msgstr "Imagens"
 
-#: ../src/main_window.c:2892
+#: ../src/main_window.c:2896
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2919 ../src/main_window.c:3061
+#: ../src/main_window.c:2923 ../src/main_window.c:3065
 msgid "Could not open file"
 msgstr "Incapaz de abrir ficheiro"
 
-#: ../src/main_window.c:3094
+#: ../src/main_window.c:3098
 msgid "Save copy"
 msgstr "Gravar cópia"
 
-#: ../src/main_window.c:3120
+#: ../src/main_window.c:3124
 msgid "Could not save file"
 msgstr "Incapaz de gravar ficheiro"
 
-#: ../src/main_window.c:3288
+#: ../src/main_window.c:3292
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Tem a certeza que quer apagar do disco a imagem '%s'?"
 
-#: ../src/main_window.c:3306
+#: ../src/main_window.c:3310
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -527,12 +527,12 @@ msgid ""
 "%s"
 msgstr "Tem a certeza que quer apagar do disco a imagem '%s'?"
 
-#: ../src/main_window.c:3322
+#: ../src/main_window.c:3326
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Tem a certeza que quer enviar a imagem '%s' para o lixo?"
 
-#: ../src/main_window.c:3340
+#: ../src/main_window.c:3344
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -540,24 +540,24 @@ msgid ""
 "%s"
 msgstr "Tem a certeza que quer enviar a imagem '%s' para o lixo?"
 
-#: ../src/main_window.c:3670
+#: ../src/main_window.c:3674
 msgid "Edit with"
 msgstr "Editar com"
 
-#: ../src/main_window.c:3688
+#: ../src/main_window.c:3692
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Abrir %s e outros ficheiros do tipo %s com:"
 
-#: ../src/main_window.c:3693
+#: ../src/main_window.c:3697
 msgid "Use as _default for this kind of file"
 msgstr "Utilizar como omissão para este tipo _de ficheiros"
 
-#: ../src/main_window.c:3783
+#: ../src/main_window.c:3787
 msgid "Recommended Applications"
 msgstr "Aplicações recomendadas"
 
-#: ../src/main_window.c:3863
+#: ../src/main_window.c:3867
 msgid "Other Applications"
 msgstr "Outras aplicações"
 
@@ -621,75 +621,74 @@ msgstr "Cor do contorno do cursor"
 msgid "Cursor item text color"
 msgstr "Cor do texto do cursor"
 
-#: ../src/privacy_dialog.c:151
+#: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
 msgstr "Intervalo de tempo:"
 
-#: ../src/privacy_dialog.c:155
+#: ../src/privacy_dialog.c:156
 msgid "Cleanup"
 msgstr "Limpeza"
 
-#: ../src/privacy_dialog.c:157
+#: ../src/privacy_dialog.c:158
 msgid "Last Hour"
 msgstr "Última hora"
 
-#: ../src/privacy_dialog.c:158
+#: ../src/privacy_dialog.c:159
 msgid "Last Two Hours"
 msgstr "Últimas 2 horas"
 
-#: ../src/privacy_dialog.c:159
+#: ../src/privacy_dialog.c:160
 msgid "Last Four Hours"
 msgstr "Últimas 4 horas"
 
-#: ../src/privacy_dialog.c:160
+#: ../src/privacy_dialog.c:161
 msgid "Today"
 msgstr "Hoje"
 
-#: ../src/privacy_dialog.c:161
+#: ../src/privacy_dialog.c:162
 msgid "Everything"
 msgstr "Tudo"
 
-#: ../src/privacy_dialog.c:459
+#: ../src/privacy_dialog.c:460
 msgid "Clear private data"
 msgstr "Limpar dados privados"
 
-#: ../src/preferences_dialog.c:199
+#: ../src/preferences_dialog.c:201
 msgid "Display"
 msgstr "Exibir"
 
-#: ../src/preferences_dialog.c:204
+#: ../src/preferences_dialog.c:206
 msgid "Background color"
 msgstr "Cor de fundo"
 
-#: ../src/preferences_dialog.c:208
+#: ../src/preferences_dialog.c:210
 msgid "Override background color:"
 msgstr "Substituir cor de fundo:"
 
-#: ../src/preferences_dialog.c:220
+#: ../src/preferences_dialog.c:222
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
-#: ../src/preferences_dialog.c:223
+#: ../src/preferences_dialog.c:225
 msgid ""
-"The thumbnail bar can be automatically hidden \n"
-"when the window is fullscreen."
+"The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr ""
 "A barra de miniaturas pode ser automaticamente ocultada\n"
 "se o visualizador estiver em ecrã completo."
 
-#: ../src/preferences_dialog.c:225
+#: ../src/preferences_dialog.c:228
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Ocultar barra de miniaturas se em ecrã completo"
 
-#: ../src/preferences_dialog.c:256
+#: ../src/preferences_dialog.c:259
 msgid "Slideshow"
 msgstr "Apresentação"
 
-#: ../src/preferences_dialog.c:260
+#: ../src/preferences_dialog.c:263
 msgid "Timeout"
 msgstr "Tempo de espera"
 
-#: ../src/preferences_dialog.c:263
+#: ../src/preferences_dialog.c:266
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -697,95 +696,103 @@ msgstr ""
 "A duração da exibição de uma imagem durante uma apresentação\n"
 "(em segundos)"
 
-#: ../src/preferences_dialog.c:272
+#: ../src/preferences_dialog.c:275
 msgid "Clock"
 msgstr "Relógio"
 
-#: ../src/preferences_dialog.c:275
+#: ../src/preferences_dialog.c:278
+msgid ""
+"Show an analog clock that displays the current time when the window is "
+"fullscreen"
+msgstr ""
+"A barra de miniaturas pode ser automaticamente ocultada\n"
+"se o visualizador estiver em ecrã completo."
+
+#: ../src/preferences_dialog.c:281
 msgid "Show Fullscreen Clock"
 msgstr "Mostrar relógio em ecrã completo"
 
-#: ../src/preferences_dialog.c:289
+#: ../src/preferences_dialog.c:296
 msgid "Control"
 msgstr "Controlo"
 
-#: ../src/preferences_dialog.c:293
+#: ../src/preferences_dialog.c:300
 msgid "Scroll wheel"
 msgstr "Roda de deslocamento"
 
-#: ../src/preferences_dialog.c:296
+#: ../src/preferences_dialog.c:303
 msgid "Invert zoom direction"
 msgstr "Reverter orientação"
 
-#: ../src/preferences_dialog.c:306
+#: ../src/preferences_dialog.c:313
 msgid "Behaviour"
 msgstr "Comportamento"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:318
 msgid "Startup"
 msgstr "Arranque"
 
-#: ../src/preferences_dialog.c:313
+#: ../src/preferences_dialog.c:320
 msgid "Maximize window on startup when opening an image"
 msgstr "Maximizar janela no arranque ao abrir uma imagem"
 
-#: ../src/preferences_dialog.c:319
+#: ../src/preferences_dialog.c:326
 msgid "Wrap around images"
 msgstr "Contorno das imagens"
 
-#: ../src/preferences_dialog.c:338
+#: ../src/preferences_dialog.c:345
 msgid "Desktop"
 msgstr "Ambiente de trabalho"
 
-#: ../src/preferences_dialog.c:460
+#: ../src/preferences_dialog.c:467
 msgid "Image Viewer Preferences"
 msgstr "Preferências do visualizador de imagens"
 
-#: ../src/properties_dialog.c:180
+#: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
 msgstr "<b>Nome:</b>"
 
-#: ../src/properties_dialog.c:181
+#: ../src/properties_dialog.c:182
 msgid "<b>Kind:</b>"
 msgstr "<b>Tipo:</b>"
 
-#: ../src/properties_dialog.c:182
+#: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
 msgstr "<b>Modificada:</b>"
 
-#: ../src/properties_dialog.c:183
+#: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
 msgstr "<b>Acedida:</b>"
 
-#: ../src/properties_dialog.c:184
+#: ../src/properties_dialog.c:185
 msgid "<b>Size:</b>"
 msgstr "<b>Tamanho:</b>"
 
-#: ../src/properties_dialog.c:308
+#: ../src/properties_dialog.c:309
 msgid "General"
 msgstr "Geral"
 
-#: ../src/properties_dialog.c:312
+#: ../src/properties_dialog.c:313
 msgid "Image"
 msgstr "Imagem"
 
-#: ../src/properties_dialog.c:525
+#: ../src/properties_dialog.c:526
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Tirada em:</b>"
 
-#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
-#: ../src/properties_dialog.c:561
+#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:562
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:623
+#: ../src/properties_dialog.c:624
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Propriedades"
 
-#: ../src/thumbnailer.c:459
+#: ../src/thumbnailer.c:460
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -801,47 +808,47 @@ msgstr ""
 "Instale o <b>Tumbler</b> ou outro <i>serviço de miniaturas</i>\n"
 "para solucionar o problema"
 
-#: ../src/thumbnailer.c:469
+#: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
 msgstr "_Não mostrar novamente"
 
-#: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
+#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Estilo:"
 
-#: ../src/xfce_wallpaper_manager.c:336
+#: ../src/xfce_wallpaper_manager.c:337
 msgid "Brightness:"
 msgstr "Brilho:"
 
-#: ../src/xfce_wallpaper_manager.c:337
+#: ../src/xfce_wallpaper_manager.c:338
 msgid "Saturation:"
 msgstr "Saturação:"
 
-#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:245
+#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Definir como papel de parede"
 
-#: ../src/xfce_wallpaper_manager.c:507 ../src/gnome_wallpaper_manager.c:312
+#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Automático"
 
-#: ../src/xfce_wallpaper_manager.c:510
+#: ../src/xfce_wallpaper_manager.c:511
 msgid "Centered"
 msgstr "Centrada"
 
-#: ../src/xfce_wallpaper_manager.c:513
+#: ../src/xfce_wallpaper_manager.c:514
 msgid "Tiled"
 msgstr "Mosaico"
 
-#: ../src/xfce_wallpaper_manager.c:516
+#: ../src/xfce_wallpaper_manager.c:517
 msgid "Stretched"
 msgstr "Esticada"
 
-#: ../src/xfce_wallpaper_manager.c:519
+#: ../src/xfce_wallpaper_manager.c:520
 msgid "Scaled"
 msgstr "À escala"
 
-#: ../src/xfce_wallpaper_manager.c:522
+#: ../src/xfce_wallpaper_manager.c:523
 msgid "Zoomed"
 msgstr "Ampliada"
 
