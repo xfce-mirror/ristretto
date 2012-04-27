@@ -1,6 +1,8 @@
-x.x.x
+0.3.7
 =====
 - Reset adjustment-limits on closing the image (hide scrollbars)
+- Remove call to gtk_message_dialog_get_message_area  ( > gtk 2.20)
+- Improve rendering performance when closing a file
 
 0.3.6
 =====
