@@ -434,8 +434,8 @@ rstto_thumbnailer_queue_request_timer (
                         "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
                         "to resolve this issue.")
                         );
-                vbox = gtk_message_dialog_get_message_area (
-                        GTK_MESSAGE_DIALOG (error_dialog));
+                vbox = gtk_dialog_get_content_area (
+                        GTK_DIALOG (error_dialog));
 
                 do_not_show_checkbox = gtk_check_button_new_with_mnemonic (
                         _("Do _not show this message again"));
