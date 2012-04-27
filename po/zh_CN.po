@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-26 00:33+0000\n"
+"POT-Creation-Date: 2012-04-27 22:33+0000\n"
 "PO-Revision-Date: 2010-11-23 23:34+0800\n"
 "Last-Translator: Chipong Luo <chipong.luo@yahoo.com>\n"
 "Language-Team: Chinese (Simplified) <xfce-i18n-cn@xfce.org>\n"
@@ -456,7 +456,7 @@ msgstr "正在载入..."
 msgid "Choose 'set wallpaper' method"
 msgstr "选择 ‘设置壁纸’ 的方式"
 
-#: ../src/main_window.c:2089 ../src/preferences_dialog.c:356
+#: ../src/main_window.c:2089 ../src/preferences_dialog.c:398
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -466,15 +466,15 @@ msgstr ""
 "此设置决定用于 <i>Ristretto</i>\n"
 "配置桌面壁纸的方式。"
 
-#: ../src/main_window.c:2114 ../src/preferences_dialog.c:380
+#: ../src/main_window.c:2114 ../src/preferences_dialog.c:422
 msgid "None"
 msgstr "无"
 
-#: ../src/main_window.c:2118 ../src/preferences_dialog.c:384
+#: ../src/main_window.c:2118 ../src/preferences_dialog.c:426
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2122 ../src/preferences_dialog.c:388
+#: ../src/main_window.c:2122 ../src/preferences_dialog.c:430
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -662,92 +662,110 @@ msgstr "一切"
 msgid "Clear private data"
 msgstr "清除隐私数据"
 
-#: ../src/preferences_dialog.c:201
+#: ../src/preferences_dialog.c:219
 msgid "Display"
 msgstr "显示"
 
-#: ../src/preferences_dialog.c:206
+#: ../src/preferences_dialog.c:224
 msgid "Background color"
 msgstr "背景色"
 
-#: ../src/preferences_dialog.c:210
+#: ../src/preferences_dialog.c:228
 msgid "Override background color:"
 msgstr "覆盖背景色："
 
-#: ../src/preferences_dialog.c:222
+#: ../src/preferences_dialog.c:255
+msgid "Quality"
+msgstr "质量"
+
+#: ../src/preferences_dialog.c:259
+msgid ""
+"With this option enabled, the maximum image-quality will be limited to the "
+"screen-size."
+msgstr "启用此项后，最佳图片质量将仅限于屏幕大小。"
+
+#: ../src/preferences_dialog.c:262
+msgid "Limit rendering quality"
+msgstr "限制渲染质量"
+
+#: ../src/preferences_dialog.c:274
+msgid "Fullscreen"
+msgstr "全屏"
+
+#: ../src/preferences_dialog.c:279
 msgid "Thumbnails"
 msgstr "缩略图"
 
-#: ../src/preferences_dialog.c:225
+#: ../src/preferences_dialog.c:282
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "缩略图栏在窗口全屏显示时可以自动隐藏。"
 
-#: ../src/preferences_dialog.c:228
+#: ../src/preferences_dialog.c:285
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "全屏时隐藏缩略图栏"
 
-#: ../src/preferences_dialog.c:259
-msgid "Slideshow"
-msgstr "幻灯片"
-
-#: ../src/preferences_dialog.c:263
-msgid "Timeout"
-msgstr "超时"
-
-#: ../src/preferences_dialog.c:266
-msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr "幻灯片播放时单个图片持续显示的时间(以秒计)"
-
-#: ../src/preferences_dialog.c:275
+#: ../src/preferences_dialog.c:293
 msgid "Clock"
 msgstr "时钟"
 
-#: ../src/preferences_dialog.c:278
+#: ../src/preferences_dialog.c:296
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "缩略图栏在窗口全屏显示时显示一个带当前时间的指针式时钟。"
 
-#: ../src/preferences_dialog.c:281
+#: ../src/preferences_dialog.c:299
 msgid "Show Fullscreen Clock"
 msgstr "显示全屏时钟"
 
-#: ../src/preferences_dialog.c:296
+#: ../src/preferences_dialog.c:315
+msgid "Slideshow"
+msgstr "幻灯片"
+
+#: ../src/preferences_dialog.c:319
+msgid "Timeout"
+msgstr "超时"
+
+#: ../src/preferences_dialog.c:322
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr "幻灯片播放时单个图片持续显示的时间(以秒计)"
+
+#: ../src/preferences_dialog.c:338
 msgid "Control"
 msgstr "控制"
 
-#: ../src/preferences_dialog.c:300
+#: ../src/preferences_dialog.c:342
 msgid "Scroll wheel"
 msgstr "滚轮"
 
-#: ../src/preferences_dialog.c:303
+#: ../src/preferences_dialog.c:345
 msgid "Invert zoom direction"
 msgstr "倒转缩放方向"
 
-#: ../src/preferences_dialog.c:313
+#: ../src/preferences_dialog.c:355
 msgid "Behaviour"
 msgstr "行为"
 
-#: ../src/preferences_dialog.c:318
+#: ../src/preferences_dialog.c:360
 msgid "Startup"
 msgstr "启动"
 
-#: ../src/preferences_dialog.c:320
+#: ../src/preferences_dialog.c:362
 msgid "Maximize window on startup when opening an image"
 msgstr "打开图片时最小化启动窗口"
 
-#: ../src/preferences_dialog.c:326
+#: ../src/preferences_dialog.c:368
 msgid "Wrap around images"
 msgstr "环绕图片"
 
-#: ../src/preferences_dialog.c:345
+#: ../src/preferences_dialog.c:387
 msgid "Desktop"
 msgstr "桌面"
 
-#: ../src/preferences_dialog.c:467
+#: ../src/preferences_dialog.c:509
 msgid "Image Viewer Preferences"
 msgstr "图片查看器首选项"
 
