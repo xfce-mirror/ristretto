@@ -163,6 +163,8 @@ main(int argc, char **argv)
         GDK_THREADS_ENTER();
         gtk_main();
         GDK_THREADS_LEAVE();
+
+        g_object_unref (image_list);
     }
     else
     {
@@ -175,10 +177,10 @@ main(int argc, char **argv)
                     "preferences",
                     NULL);
         }
+        gtk_widget_destroy (window);
     }
 
     g_object_unref (settings);
-    g_object_unref (image_list);
 
     xfconf_shutdown();
 
