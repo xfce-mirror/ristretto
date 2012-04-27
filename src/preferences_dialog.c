@@ -256,7 +256,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.quality_frame, FALSE, FALSE, 0);
 
     dialog->priv->display_tab.quality_label = gtk_label_new (
-            _("With this option enabled, the visible image-quality will be limited to the screen-size."));
+            _("With this option enabled, the maximum image-quality will be limited to the screen-size."));
     gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->display_tab.quality_label), TRUE);
     gtk_misc_set_alignment(GTK_MISC(dialog->priv->display_tab.quality_label), 0, 0.5);
     dialog->priv->display_tab.quality_button = gtk_check_button_new_with_label (_("Limit rendering quality"));
