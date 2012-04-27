@@ -61,6 +61,7 @@ enum
     PROP_SHOW_THUMBNAILBAR,
     PROP_SHOW_STATUSBAR,
     PROP_SHOW_CLOCK,
+    PROP_LIMIT_QUALITY,
     PROP_HIDE_THUMBNAILBAR_FULLSCREEN,
     PROP_WINDOW_WIDTH,
     PROP_WINDOW_HEIGHT,
@@ -113,6 +114,7 @@ struct _RsttoSettingsPriv
     gboolean  show_thumbnailbar;
     gboolean  show_statusbar;
     gboolean  show_clock;
+    gboolean  limit_quality;
     gboolean  hide_thumbnailbar_fullscreen;
     gchar    *navigationbar_position;
     gboolean  revert_zoom_direction;
@@ -305,6 +307,13 @@ rstto_settings_init (GObject *object)
 
     xfconf_g_property_bind (
             settings->priv->channel,
+            "/image/limit-quality",
+            G_TYPE_BOOLEAN,
+            settings,
+            "limit-quality");
+
+    xfconf_g_property_bind (
+            settings->priv->channel,
             "/window/use-thunar-properties",
             G_TYPE_BOOLEAN,
             settings,
@@ -417,6 +426,17 @@ rstto_settings_class_init (GObjectClass *object_class)
     g_object_class_install_property (
             object_class,
             PROP_SHOW_CLOCK,
+            pspec);
+
+    pspec = g_param_spec_boolean (
+            "limit-quality",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_LIMIT_QUALITY,
             pspec);
 
     pspec = g_param_spec_boolean (
@@ -683,6 +703,9 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_SHOW_CLOCK:
             settings->priv->show_clock = g_value_get_boolean (value);
             break;
+        case PROP_LIMIT_QUALITY:
+            settings->priv->limit_quality = g_value_get_boolean (value);
+            break;
         case PROP_HIDE_THUMBNAILBAR_FULLSCREEN:
             settings->priv->hide_thumbnailbar_fullscreen = g_value_get_boolean (value);
             break;
@@ -781,6 +804,9 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_SHOW_CLOCK:
             g_value_set_boolean (value, settings->priv->show_clock);
+            break;
+        case PROP_LIMIT_QUALITY:
+            g_value_set_boolean (value, settings->priv->limit_quality);
             break;
         case PROP_HIDE_THUMBNAILBAR_FULLSCREEN:
             g_value_set_boolean (value, settings->priv->hide_thumbnailbar_fullscreen);

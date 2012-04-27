@@ -61,6 +61,10 @@ cb_show_clock_check_button_toggled (
         GtkToggleButton *button, 
         gpointer user_data);
 static void
+cb_limit_quality_check_button_toggled (
+        GtkToggleButton *button, 
+        gpointer user_data);
+static void
 cb_wrap_images_check_button_toggled (
         GtkToggleButton *button, 
         gpointer user_data);
@@ -88,22 +92,32 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *bgcolor_hbox;
         GtkWidget *bgcolor_color_button;
         GtkWidget *bgcolor_override_check_button;
-        GtkWidget *thumbnail_vbox;
-        GtkWidget *thumbnail_frame;
-        GtkWidget *hide_thumbnails_fullscreen_lbl;
-        GtkWidget *hide_thumbnails_fullscreen_check_button;
+
+        GtkWidget *quality_frame;
+        GtkWidget *quality_vbox;
+
+        GtkWidget *quality_label;
+        GtkWidget *quality_button;
     } display_tab;
 
     struct
     {
         GtkWidget *timeout_vbox;
         GtkWidget *timeout_frame;
+    } slideshow_tab;
+
+    struct
+    {
+        GtkWidget *thumbnail_vbox;
+        GtkWidget *thumbnail_frame;
+        GtkWidget *hide_thumbnails_fullscreen_lbl;
+        GtkWidget *hide_thumbnails_fullscreen_check_button;
 
         GtkWidget *clock_vbox;
         GtkWidget *clock_frame;
         GtkWidget *clock_label;
         GtkWidget *clock_button;
-    } slideshow_tab;
+    } fullscreen_tab;
 
     struct
     {
@@ -163,12 +177,15 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gboolean bool_wrap_images;
     gboolean bool_maximize_on_startup;
     gboolean bool_show_clock;
+    gboolean bool_limit_quality;
     gchar   *str_desktop_type = NULL;
 
     GdkColor *bgcolor;
     GtkWidget *timeout_lbl, *timeout_hscale;
     GtkWidget *display_main_vbox;
     GtkWidget *display_main_lbl;
+    GtkWidget *fullscreen_main_vbox;
+    GtkWidget *fullscreen_main_lbl;
     GtkWidget *slideshow_main_vbox;
     GtkWidget *slideshow_main_lbl;
     GtkWidget *control_main_vbox;
@@ -192,6 +209,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
                   "wrap-images", &bool_wrap_images,
                   "desktop-type", &str_desktop_type,
                   "show-clock", &bool_show_clock,
+                  "limit-quality", &bool_limit_quality,
                   NULL);
 
 /*****************/
@@ -218,25 +236,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_vbox), 
                         dialog->priv->display_tab.bgcolor_hbox, FALSE, FALSE, 0);
 
-    dialog->priv->display_tab.thumbnail_vbox = gtk_vbox_new(FALSE, 0);
-    dialog->priv->display_tab.thumbnail_frame = xfce_gtk_frame_box_new_with_content(_("Thumbnails"), dialog->priv->display_tab.thumbnail_vbox);
-    gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.thumbnail_frame, FALSE, FALSE, 0);
-
-    dialog->priv->display_tab.hide_thumbnails_fullscreen_lbl = gtk_label_new(_("The thumbnail bar can be automatically hidden when the window is fullscreen."));
-    gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->display_tab.hide_thumbnails_fullscreen_lbl), TRUE);
-    gtk_misc_set_alignment(GTK_MISC(dialog->priv->display_tab.hide_thumbnails_fullscreen_lbl), 0, 0.5);
-    dialog->priv->display_tab.hide_thumbnails_fullscreen_check_button = gtk_check_button_new_with_label (_("Hide thumbnail bar when fullscreen"));
-    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.thumbnail_vbox), dialog->priv->display_tab.hide_thumbnails_fullscreen_lbl, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.thumbnail_vbox), dialog->priv->display_tab.hide_thumbnails_fullscreen_check_button, FALSE, FALSE, 0);
-
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.hide_thumbnails_fullscreen_check_button),
-                                  bool_hide_thumbnailbar_fullscreen);
-
-    g_signal_connect (G_OBJECT (dialog->priv->display_tab.hide_thumbnails_fullscreen_check_button), 
-                      "toggled", (GCallback)cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled, dialog);
-
-
-
     /* set current value */
     gtk_color_button_set_color (GTK_COLOR_BUTTON (dialog->priv->display_tab.bgcolor_color_button),
                                 bgcolor);
@@ -252,6 +251,63 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_color_button), 
                       "color-set", G_CALLBACK (cb_rstto_preferences_dialog_bgcolor_color_set), dialog);
 
+    dialog->priv->display_tab.quality_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->display_tab.quality_frame = xfce_gtk_frame_box_new_with_content(_("Quality"), dialog->priv->display_tab.quality_vbox);
+    gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.quality_frame, FALSE, FALSE, 0);
+
+    dialog->priv->display_tab.quality_label = gtk_label_new (
+            _("With this option enabled, the visible image-quality will be limited to the screen-size."));
+    gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->display_tab.quality_label), TRUE);
+    gtk_misc_set_alignment(GTK_MISC(dialog->priv->display_tab.quality_label), 0, 0.5);
+    dialog->priv->display_tab.quality_button = gtk_check_button_new_with_label (_("Limit rendering quality"));
+    gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.quality_vbox), dialog->priv->display_tab.quality_label);
+    gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.quality_vbox), dialog->priv->display_tab.quality_button);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.quality_button), bool_limit_quality);
+
+    g_signal_connect (G_OBJECT (dialog->priv->display_tab.quality_button), 
+                      "toggled", (GCallback)cb_limit_quality_check_button_toggled, dialog);
+
+/********************/
+/** Fullscreen tab **/
+/********************/
+    fullscreen_main_vbox = gtk_vbox_new(FALSE, 0);
+    fullscreen_main_lbl = gtk_label_new(_("Fullscreen"));
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), fullscreen_main_vbox, fullscreen_main_lbl);
+
+
+    dialog->priv->fullscreen_tab.thumbnail_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->fullscreen_tab.thumbnail_frame = xfce_gtk_frame_box_new_with_content(_("Thumbnails"), dialog->priv->fullscreen_tab.thumbnail_vbox);
+    gtk_box_pack_start (GTK_BOX (fullscreen_main_vbox), dialog->priv->fullscreen_tab.thumbnail_frame, FALSE, FALSE, 0);
+
+    dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_lbl = gtk_label_new(_("The thumbnail bar can be automatically hidden when the window is fullscreen."));
+    gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_lbl), TRUE);
+    gtk_misc_set_alignment(GTK_MISC(dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_lbl), 0, 0.5);
+    dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button = gtk_check_button_new_with_label (_("Hide thumbnail bar when fullscreen"));
+    gtk_box_pack_start (GTK_BOX (dialog->priv->fullscreen_tab.thumbnail_vbox), dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_lbl, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->fullscreen_tab.thumbnail_vbox), dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button, FALSE, FALSE, 0);
+
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button),
+                                  bool_hide_thumbnailbar_fullscreen);
+
+    dialog->priv->fullscreen_tab.clock_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->fullscreen_tab.clock_frame = xfce_gtk_frame_box_new_with_content(_("Clock"), dialog->priv->fullscreen_tab.clock_vbox);
+    gtk_box_pack_start (GTK_BOX (fullscreen_main_vbox), dialog->priv->fullscreen_tab.clock_frame, FALSE, FALSE, 0);
+
+    dialog->priv->fullscreen_tab.clock_label = gtk_label_new ( _("Show an analog clock that displays the current time when the window is fullscreen"));
+    gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), TRUE);
+    gtk_misc_set_alignment(GTK_MISC(dialog->priv->fullscreen_tab.clock_label), 0, 0.5);
+    dialog->priv->fullscreen_tab.clock_button = gtk_check_button_new_with_label (_("Show Fullscreen Clock"));
+    gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.clock_vbox), dialog->priv->fullscreen_tab.clock_label);
+    gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.clock_vbox), dialog->priv->fullscreen_tab.clock_button);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->fullscreen_tab.clock_button), bool_show_clock);
+
+
+    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button), 
+                      "toggled", (GCallback)cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled, dialog);
+
+
+    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.clock_button), 
+                      "toggled", (GCallback)cb_show_clock_check_button_toggled, dialog);
 /*******************/
 /** Slideshow tab **/
 /*******************/
@@ -271,24 +327,10 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_box_pack_start(GTK_BOX(dialog->priv->slideshow_tab.timeout_vbox), timeout_lbl, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(dialog->priv->slideshow_tab.timeout_vbox), timeout_hscale, FALSE, TRUE, 0);
 
-    dialog->priv->slideshow_tab.clock_vbox = gtk_vbox_new(FALSE, 0);
-    dialog->priv->slideshow_tab.clock_frame = xfce_gtk_frame_box_new_with_content(_("Clock"), dialog->priv->slideshow_tab.clock_vbox);
-    gtk_box_pack_start (GTK_BOX (slideshow_main_vbox), dialog->priv->slideshow_tab.clock_frame, FALSE, FALSE, 0);
-
-    dialog->priv->slideshow_tab.clock_label = gtk_label_new ( _("Show an analog clock that displays the current time when the window is fullscreen"));
-    gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->slideshow_tab.clock_label), TRUE);
-    gtk_misc_set_alignment(GTK_MISC(dialog->priv->slideshow_tab.clock_label), 0, 0.5);
-    dialog->priv->slideshow_tab.clock_button = gtk_check_button_new_with_label (_("Show Fullscreen Clock"));
-    gtk_container_add (GTK_CONTAINER (dialog->priv->slideshow_tab.clock_vbox), dialog->priv->slideshow_tab.clock_label);
-    gtk_container_add (GTK_CONTAINER (dialog->priv->slideshow_tab.clock_vbox), dialog->priv->slideshow_tab.clock_button);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->slideshow_tab.clock_button), bool_show_clock);
-    
 
     gtk_range_set_value (GTK_RANGE (timeout_hscale), (gdouble)uint_slideshow_timeout);
     g_signal_connect (G_OBJECT (timeout_hscale),
                       "value-changed", (GCallback)cb_rstto_preferences_dialog_slideshow_timeout_value_changed, dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->slideshow_tab.clock_button), 
-                      "toggled", (GCallback)cb_show_clock_check_button_toggled, dialog);
 
     
 /********************************************/
@@ -572,6 +614,19 @@ cb_show_clock_check_button_toggled (
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "show-clock",
+            gtk_toggle_button_get_active(button));
+}
+
+static void
+cb_limit_quality_check_button_toggled (
+        GtkToggleButton *button, 
+        gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+    rstto_settings_set_boolean_property (
+            dialog->priv->settings,
+            "limit-quality",
             gtk_toggle_button_get_active(button));
 }
 

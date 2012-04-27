@@ -81,6 +81,8 @@ struct _RsttoImageViewerPriv
     GdkColor                    *bg_color;
     GdkColor                    *bg_color_fs;
 
+    gboolean                     limit_quality;
+
     GError                      *error;
 
     RsttoImageViewerTransaction *transaction;
@@ -254,6 +256,11 @@ rstto_popup_menu (
         GtkWidget *widget);
 
 static void
+cb_rstto_limit_quality_changed (
+        GObject *settings,
+        GParamSpec *pspec,
+        gpointer user_data);
+static void
 cb_rstto_bgcolor_changed (
         GObject *settings,
         GParamSpec *pspec,
@@ -348,6 +355,12 @@ rstto_image_viewer_init ( GObject *object )
             "notify::bgcolor-override",
             G_CALLBACK (cb_rstto_bgcolor_changed),
             viewer);
+    g_signal_connect (
+            G_OBJECT(viewer->priv->settings),
+            "notify::limit-quality",
+            G_CALLBACK (cb_rstto_limit_quality_changed),
+            viewer);
+
     g_signal_connect (
             G_OBJECT(viewer->priv->settings),
             "notify::revert-zoom-direction",
@@ -475,6 +488,7 @@ rstto_image_viewer_realize(GtkWidget *widget)
     GValue val_bg_color = {0, };
     GValue val_bg_color_override = {0, };
     GValue val_bg_color_fs = {0, };
+    GValue val_limit_quality = {0, };
 
     GdkWindowAttr attributes;
     gint attributes_mask;
@@ -487,6 +501,7 @@ rstto_image_viewer_realize(GtkWidget *widget)
     g_value_init (&val_bg_color, GDK_TYPE_COLOR);
     g_value_init (&val_bg_color_fs, GDK_TYPE_COLOR);
     g_value_init (&val_bg_color_override, G_TYPE_BOOLEAN);
+    g_value_init (&val_limit_quality, G_TYPE_BOOLEAN);
 
     attributes.x = widget->allocation.x;
     attributes.y = widget->allocation.y;
@@ -519,6 +534,12 @@ rstto_image_viewer_realize(GtkWidget *widget)
             G_OBJECT(viewer->priv->settings),
             "bgcolor-fullscreen",
             &val_bg_color_fs);
+    g_object_get_property (
+            G_OBJECT(viewer->priv->settings),
+            "limit-quality",
+            &val_limit_quality);
+
+    viewer->priv->limit_quality = g_value_get_boolean (&val_limit_quality);
 
     if (TRUE == g_value_get_boolean (&val_bg_color_override))
     {
@@ -2080,45 +2101,57 @@ cb_rstto_image_loader_size_prepared (
 {
     gint s_width = gdk_screen_get_width (default_screen);
     gint s_height = gdk_screen_get_height (default_screen);
+    gboolean limit_quality = transaction->viewer->priv->limit_quality;
+
+    /*
+     * By default, the image-size won't be limited to screen-size (since it's smaller)
+     * or, because we don't want to reduce it.
+     * Set the image_scale to 1.0 (100%)
+     */
+    transaction->image_scale = 1.0;
 
     transaction->image_width = width;
     transaction->image_height = height;
 
-    /*
-     * Set the maximum size of the loaded image to the screen-size.
-     * TODO: Add some 'smart-stuff' here
-     */
-    if (s_width < width || s_height < height)
+
+    if (limit_quality == TRUE)
     {
         /*
-         * The image is loaded at the screen_size, calculate how this fits best.
-         *  scale = MIN(width / screen_width, height / screen_height)
-         *
+         * Set the maximum size of the loaded image to the screen-size.
+         * TODO: Add some 'smart-stuff' here
          */
-        if(((gdouble)width / (gdouble)s_width) < ((gdouble)height / (gdouble)s_height))
+        if (s_width < width || s_height < height)
         {
-            transaction->image_scale = (gdouble)s_width / (gdouble)width;
-            gdk_pixbuf_loader_set_size (
-                    loader,
-                    s_width,
-                    (gint)((gdouble)height/(gdouble)width*(gdouble)s_width)); 
+            /*
+             * The image is loaded at the screen_size, calculate how this fits best.
+             *  scale = MIN(width / screen_width, height / screen_height)
+             *
+             */
+            if(((gdouble)width / (gdouble)s_width) < ((gdouble)height / (gdouble)s_height))
+            {
+                transaction->image_scale = (gdouble)s_width / (gdouble)width;
+                gdk_pixbuf_loader_set_size (
+                        loader,
+                        s_width,
+                        (gint)((gdouble)height/(gdouble)width*(gdouble)s_width)); 
+            }
+            else
+            {
+                transaction->image_scale = (gdouble)s_height / (gdouble)height;
+                gdk_pixbuf_loader_set_size (
+                        loader,
+                        (gint)((gdouble)width/(gdouble)height*(gdouble)s_height),
+                        s_height); 
+            }
         }
         else
         {
-            transaction->image_scale = (gdouble)s_height / (gdouble)height;
-            gdk_pixbuf_loader_set_size (
-                    loader,
-                    (gint)((gdouble)width/(gdouble)height*(gdouble)s_height),
-                    s_height); 
+            /*
+             * Image-size won't be limited to screen-size (since it's smaller)
+             * Set the image_scale to 1.0 (100%)
+             */
+            transaction->image_scale = 1.0;
         }
-    }
-    else
-    {
-        /*
-         * Image-size won't be limited to screen-size (since it's smaller)
-         * Set the image_scale to 1.0 (100%)
-         */
-        transaction->image_scale = 1.0;
     }
 
     transaction->orientation = rstto_file_get_orientation (transaction->file);
@@ -2739,6 +2772,32 @@ rstto_button_release_event (
             NULL,
             FALSE);
     return FALSE;
+}
+
+static void
+cb_rstto_limit_quality_changed (
+        GObject *settings,
+        GParamSpec *pspec,
+        gpointer user_data)
+{
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
+
+    GValue val_limit_quality = {0, };
+
+    g_value_init (&val_limit_quality, G_TYPE_BOOLEAN);
+
+    g_object_get_property (
+            G_OBJECT(viewer->priv->settings),
+            "limit-quality",
+            &val_limit_quality);
+
+    viewer->priv->limit_quality = g_value_get_boolean (
+            &val_limit_quality);
+
+    rstto_image_viewer_load_image (
+            viewer,
+            viewer->priv->file,
+            viewer->priv->scale);
 }
 
 static void
