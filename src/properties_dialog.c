@@ -627,6 +627,7 @@ rstto_properties_dialog_new (
                                       "icon-name", GTK_STOCK_PROPERTIES,
                                       "file", file,
                                       NULL);
+    g_free (title);
 
     gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
 
