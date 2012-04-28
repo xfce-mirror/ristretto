@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-04-28 04:18+0000\n"
-"PO-Revision-Date: 2012-04-28 01:52-0600\n"
+"PO-Revision-Date: 2012-04-28 15:22-0600\n"
 "Last-Translator: Sergio García <oigres200@gmail.com>\n"
 "Language-Team: Spanish <xfce-i18n@xfce.org>\n"
 "Language: es\n"
@@ -586,11 +586,11 @@ msgstr "La orientación de la barra de iconos"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
-msgstr ""
+msgstr "Columna de archivo"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr ""
+msgstr "Modelo de columna usado para recuperar el archivo de"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
@@ -631,17 +631,17 @@ msgstr "Activar color de texto de elemento"
 #: ../src/icon_bar.c:437
 #: ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr ""
+msgstr "Color de relleno de elemento del cursor"
 
 #: ../src/icon_bar.c:444
 #: ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr ""
+msgstr "Color de borde de elemento del cursor"
 
 #: ../src/icon_bar.c:451
 #: ../src/icon_bar.c:452
 msgid "Cursor item text color"
-msgstr ""
+msgstr "Color de texto de elemento del cursor"
 
 #: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
@@ -833,6 +833,12 @@ msgid ""
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
 msgstr ""
+"El servicio de vistas previas no puede ser hallado,\n"
+"por esta razón, las vistas previas no pueden\n"
+"ser generadas.\n"
+"\n"
+"Instale <b>Tumbler</b> u otro <i>demonio de vistas previas</i>\n"
+"para resolver este problema."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
