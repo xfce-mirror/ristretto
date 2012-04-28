@@ -383,6 +383,7 @@ static void
 rstto_image_list_dispose(GObject *object)
 {
     RsttoImageList *image_list = RSTTO_IMAGE_LIST(object);
+
     if (NULL != image_list->priv)
     {
         if (image_list->priv->settings)

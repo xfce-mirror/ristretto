@@ -134,9 +134,9 @@ struct _RsttoFilePriv
 static void
 rstto_file_init (GObject *object)
 {
-    RsttoFile *file = RSTTO_FILE (object);
+    RsttoFile *r_file = RSTTO_FILE (object);
 
-    file->priv = g_new0 (RsttoFilePriv, 1);
+    r_file->priv = g_new0 (RsttoFilePriv, 1);
 }
 
 
@@ -173,55 +173,55 @@ rstto_file_class_init (GObjectClass *object_class)
 static void
 rstto_file_dispose (GObject *object)
 {
-    RsttoFile *file = RSTTO_FILE (object);
+    RsttoFile *r_file = RSTTO_FILE (object);
     gint i = 0;
 
-    if (file->priv)
+    if (r_file->priv)
     {
-        if (file->priv->file)
+        if (r_file->priv->file)
         {
-            g_object_unref (file->priv->file);
-            file->priv->file = NULL;
+            g_object_unref (r_file->priv->file);
+            r_file->priv->file = NULL;
         }
-        if (file->priv->display_name)
+        if (r_file->priv->display_name)
         {
-            g_free (file->priv->display_name);
-            file->priv->display_name = NULL;
+            g_free (r_file->priv->display_name);
+            r_file->priv->display_name = NULL;
         }
-        if (file->priv->content_type)
+        if (r_file->priv->content_type)
         {
-            g_free (file->priv->content_type);
-            file->priv->content_type = NULL;
+            g_free (r_file->priv->content_type);
+            r_file->priv->content_type = NULL;
         }
-        if (file->priv->path)
+        if (r_file->priv->path)
         {
-            g_free (file->priv->path);
-            file->priv->path = NULL;
+            g_free (r_file->priv->path);
+            r_file->priv->path = NULL;
         }
-        if (file->priv->thumbnail_path)
+        if (r_file->priv->thumbnail_path)
         {
-            g_free (file->priv->thumbnail_path);
-            file->priv->thumbnail_path = NULL;
+            g_free (r_file->priv->thumbnail_path);
+            r_file->priv->thumbnail_path = NULL;
         }
-        if (file->priv->uri)
+        if (r_file->priv->uri)
         {
-            g_free (file->priv->uri);
-            file->priv->uri = NULL;
+            g_free (r_file->priv->uri);
+            r_file->priv->uri = NULL;
         }
 
         for (i = 0; i < THUMBNAIL_SIZE_COUNT; ++i)
         {
-            if (file->priv->thumbnails[i])
+            if (r_file->priv->thumbnails[i])
             {
-                g_object_unref (file->priv->thumbnails[i]);
-                file->priv->thumbnails[i] = NULL;
+                g_object_unref (r_file->priv->thumbnails[i]);
+                r_file->priv->thumbnails[i] = NULL;
             }
         }
 
-        g_free (file->priv);
-        file->priv = NULL;
+        g_free (r_file->priv);
+        r_file->priv = NULL;
 
-        open_files = g_list_remove_all (open_files, file);
+        open_files = g_list_remove_all (open_files, r_file);
     }
 }
 
