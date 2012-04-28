@@ -45,17 +45,22 @@ rstto_preferences_dialog_dispose (GObject *object);
 
 
 static void
-cb_rstto_preferences_dialog_bgcolor_override_toggled (GtkToggleButton *, gpointer);
+cb_bgcolor_override_toggled (
+        GtkToggleButton *,
+        gpointer);
 static void
-cb_rstto_preferences_dialog_bgcolor_color_set (GtkColorButton *, gpointer);
+cb_bgcolor_color_set (
+        GtkColorButton *,
+        gpointer );
+static void
+cb_invert_zoom_direction_check_button_toggled (
+        GtkToggleButton *,
+        gpointer );
 
 static void
-cb_rstto_preferences_dialog_zoom_revert_check_button_toggled (GtkToggleButton *, gpointer);
-
-static void
-cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled (
-                                                        GtkToggleButton *button, 
-                                                        gpointer user_data);
+cb_hide_thumbnails_fullscreen_check_button_toggled (
+        GtkToggleButton *button, 
+        gpointer user_data);
 static void
 cb_show_clock_check_button_toggled (
         GtkToggleButton *button, 
@@ -77,7 +82,9 @@ cb_choose_desktop_combo_box_changed (
         GtkComboBox *combo_box,
         gpointer user_data);
 static void
-cb_rstto_preferences_dialog_slideshow_timeout_value_changed (GtkRange *, gpointer);
+cb_slideshow_timeout_value_changed (
+        GtkRange *,
+        gpointer);
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -123,7 +130,7 @@ struct _RsttoPreferencesDialogPriv
     {
         GtkWidget *scroll_frame;
         GtkWidget *scroll_vbox;
-        GtkWidget *zoom_revert_check_button;
+        GtkWidget *zoom_invert_check_button;
     } control_tab;
 
     struct
@@ -170,10 +177,10 @@ rstto_preferences_dialog_get_type (void)
 static void
 rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 {
-    gboolean bool_revert_zoom_direction;
+    gboolean bool_invert_zoom_direction;
     gboolean bool_bgcolor_override;
     guint uint_slideshow_timeout;
-    gboolean bool_hide_thumbnailbar_fullscreen;
+    gboolean bool_hide_thumbnails_fullscreen;
     gboolean bool_wrap_images;
     gboolean bool_maximize_on_startup;
     gboolean bool_show_clock;
@@ -200,11 +207,11 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
     dialog->priv->settings = rstto_settings_new ();
     g_object_get (G_OBJECT (dialog->priv->settings),
-                  "revert-zoom-direction", &bool_revert_zoom_direction,
+                  "invert-zoom-direction", &bool_invert_zoom_direction,
                   "bgcolor-override", &bool_bgcolor_override,
                   "bgcolor", &bgcolor,
                   "slideshow-timeout", &uint_slideshow_timeout,
-                  "hide-thumbnailbar-fullscreen", &bool_hide_thumbnailbar_fullscreen,
+                  "hide-thumbnails-fullscreen", &bool_hide_thumbnails_fullscreen,
                   "maximize-on-startup", &bool_maximize_on_startup,
                   "wrap-images", &bool_wrap_images,
                   "desktop-type", &str_desktop_type,
@@ -247,9 +254,9 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
     /* connect signals */
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_override_check_button), 
-                      "toggled", (GCallback)cb_rstto_preferences_dialog_bgcolor_override_toggled, dialog);
+                      "toggled", (GCallback)cb_bgcolor_override_toggled, dialog);
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_color_button), 
-                      "color-set", G_CALLBACK (cb_rstto_preferences_dialog_bgcolor_color_set), dialog);
+                      "color-set", G_CALLBACK (cb_bgcolor_color_set), dialog);
 
     dialog->priv->display_tab.quality_vbox = gtk_vbox_new(FALSE, 0);
     dialog->priv->display_tab.quality_frame = xfce_gtk_frame_box_new_with_content(_("Quality"), dialog->priv->display_tab.quality_vbox);
@@ -287,7 +294,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     gtk_box_pack_start (GTK_BOX (dialog->priv->fullscreen_tab.thumbnail_vbox), dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button, FALSE, FALSE, 0);
 
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button),
-                                  bool_hide_thumbnailbar_fullscreen);
+                                  bool_hide_thumbnails_fullscreen);
 
     dialog->priv->fullscreen_tab.clock_vbox = gtk_vbox_new(FALSE, 0);
     dialog->priv->fullscreen_tab.clock_frame = xfce_gtk_frame_box_new_with_content(_("Clock"), dialog->priv->fullscreen_tab.clock_vbox);
@@ -303,7 +310,7 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
 
     g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button), 
-                      "toggled", (GCallback)cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled, dialog);
+                      "toggled", (GCallback)cb_hide_thumbnails_fullscreen_check_button_toggled, dialog);
 
 
     g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.clock_button), 
@@ -329,8 +336,11 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
 
     gtk_range_set_value (GTK_RANGE (timeout_hscale), (gdouble)uint_slideshow_timeout);
-    g_signal_connect (G_OBJECT (timeout_hscale),
-                      "value-changed", (GCallback)cb_rstto_preferences_dialog_slideshow_timeout_value_changed, dialog);
+    g_signal_connect (
+            G_OBJECT (timeout_hscale),
+            "value-changed",
+            (GCallback)cb_slideshow_timeout_value_changed,
+            dialog);
 
     
 /********************************************/
@@ -342,11 +352,15 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     dialog->priv->control_tab.scroll_frame = xfce_gtk_frame_box_new_with_content(_("Scroll wheel"), dialog->priv->control_tab.scroll_vbox);
     gtk_box_pack_start (GTK_BOX (control_main_vbox), dialog->priv->control_tab.scroll_frame, FALSE, FALSE, 0);
 
-    dialog->priv->control_tab.zoom_revert_check_button = gtk_check_button_new_with_label (_("Invert zoom direction"));
-    gtk_container_add (GTK_CONTAINER (dialog->priv->control_tab.scroll_vbox), dialog->priv->control_tab.zoom_revert_check_button);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.zoom_revert_check_button), bool_revert_zoom_direction);
+    dialog->priv->control_tab.zoom_invert_check_button = gtk_check_button_new_with_label (_("Invert zoom direction"));
+    gtk_container_add (GTK_CONTAINER (dialog->priv->control_tab.scroll_vbox), dialog->priv->control_tab.zoom_invert_check_button);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.zoom_invert_check_button), bool_invert_zoom_direction);
 
-    g_signal_connect (G_OBJECT (dialog->priv->control_tab.zoom_revert_check_button), "toggled", (GCallback)cb_rstto_preferences_dialog_zoom_revert_check_button_toggled, dialog);
+    g_signal_connect (
+            G_OBJECT (dialog->priv->control_tab.zoom_invert_check_button),
+            "toggled",
+            (GCallback)cb_invert_zoom_direction_check_button_toggled,
+            dialog);
 
 /*******************/
 /** Behaviour tab **/
@@ -515,68 +529,234 @@ rstto_preferences_dialog_new (GtkWindow *parent)
 }
 
 
+/**
+ * cb_bgcolor_override_toggled:
+ * @button:    The check-button the user clicked.
+ * @user_data: The user-data provided when connecting the
+ *             callback-function, the preferences-dialog.
+ *
+ *
+ * This function is called when a user toggles the 'bgcolor-override'
+ * check-button. This function then sets the right property in the
+ * ristretto settings container.
+ *
+ * When this property is set, the themed background-color of the
+ * image-viewer widget is overridden with the color defined in the
+ * 'bg-color' property.
+ *
+ *
+ *   active = toggle_button_get_active ()
+ *
+ *   if ( active == TRUE ) then
+ *
+ *       set_property ( "bgcolor-override", TRUE );
+ *
+ *       set_sensitive ( bgcolor_color_button, TRUE );
+ *
+ *   else
+ *
+ *       set_property ( "bgcolor-override", FALSE );
+ *
+ *       set_sensitive ( bgcolor_color_button, FALSE );
+ *
+ *   endif
+ */
 static void
-cb_rstto_preferences_dialog_bgcolor_override_toggled (GtkToggleButton *button, 
-                                                      gpointer user_data)
+cb_bgcolor_override_toggled (
+        GtkToggleButton *button, 
+        gpointer user_data )
 {
+    /* Variable Section */
+
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-    
-    GValue bgcolor_override_val = {0, };
-    g_value_init (&bgcolor_override_val, G_TYPE_BOOLEAN);
+    gboolean bgcolor_override = gtk_toggle_button_get_active ( button );
 
-    if (gtk_toggle_button_get_active (button))
-    {
-        g_value_set_boolean (&bgcolor_override_val, TRUE);
-        gtk_widget_set_sensitive (dialog->priv->display_tab.bgcolor_color_button, TRUE);
-    }
-    else
-    {
-        g_value_set_boolean (&bgcolor_override_val, FALSE);
-        gtk_widget_set_sensitive (dialog->priv->display_tab.bgcolor_color_button, FALSE);
-    }
 
-    g_object_set_property (G_OBJECT (dialog->priv->settings), "bgcolor-override", &bgcolor_override_val);
-    
+    /* Code Section */
+
+    gtk_widget_set_sensitive (
+            dialog->priv->display_tab.bgcolor_color_button,
+            bgcolor_override );
+
+    rstto_settings_set_boolean_property (
+            dialog->priv->settings,
+            "bgcolor-override",
+            bgcolor_override );
 }
 
+/**
+ * cb_bgcolor_color_set:
+ * @button:    The color-button the user clicked.
+ * @user_data: The user-data provided when connecting the
+ *             callback-function, the preferences-dialog.
+ *
+ *
+ * This function is called when a user changes the 'bg-color'
+ * color-button. This function then sets the right property
+ * in the ristretto settings container.
+ *
+ * When this property is set, the background-color is changed.
+ *
+ *
+ *   color = button_get_color ()
+ *
+ *   set_property ( "bg-color", color );
+ */
 static void
-cb_rstto_preferences_dialog_bgcolor_color_set (GtkColorButton *button, gpointer user_data)
+cb_bgcolor_color_set (
+        GtkColorButton *button,
+        gpointer user_data )
 {
+    /* Variable Section */
+
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
     GValue bgcolor_val = {0, };
+
+
+    /* Code Section */
+
     g_value_init (&bgcolor_val, GDK_TYPE_COLOR);
 
-    g_object_get_property (G_OBJECT(button), "color", &bgcolor_val);
-    g_object_set_property (G_OBJECT(dialog->priv->settings), "bgcolor", &bgcolor_val);
+    g_object_get_property (
+            G_OBJECT(button),
+            "color",
+            &bgcolor_val);
+    g_object_set_property (
+            G_OBJECT(dialog->priv->settings),
+            "bgcolor",
+            &bgcolor_val);
     
 }
 
+/**
+ * cb_invert_zoom_direction_check_button_toggled:
+ * @button:    The check-button the user clicked.
+ * @user_data: The user-data provided when connecting the
+ *             callback-function, the preferences-dialog.
+ *
+ *
+ * This function is called when a user toggles the
+ * 'invert-zoom-direction' check-button. This function then
+ * sets the right property in the ristretto settings container.
+ *
+ * When this property is set, the zoom-direction of the scroll-wheel
+ * is inverted.
+ *
+ *
+ *   active = toggle_button_get_active ()
+ *
+ *   if ( active == TRUE ) then
+ *
+ *       set_property ( "invert-zoom-direction", TRUE );
+ *
+ *   else
+ *
+ *       set_property ( "invert-zoom-direction", FALSE );
+ *
+ *   endif
+ */
 static void
-cb_rstto_preferences_dialog_zoom_revert_check_button_toggled (GtkToggleButton *button, 
-                                                              gpointer user_data)
+cb_invert_zoom_direction_check_button_toggled (
+        GtkToggleButton *button, 
+        gpointer user_data )
 {
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    /* Variable Section */
 
-    rstto_settings_set_boolean_property (dialog->priv->settings, "revert-zoom-direction", gtk_toggle_button_get_active(button));
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    gboolean invert_zoom = gtk_toggle_button_get_active ( button );
+
+
+    /* Code Section */
+
+    rstto_settings_set_boolean_property (
+            dialog->priv->settings,
+            "invert-zoom-direction",
+            invert_zoom );
 }
 
+/**
+ * cb_slideshow_timeout_value_changed:
+ * @range:     The slider the user moved.
+ * @user_data: The user-data provided when connecting the
+ *             callback-function, the preferences-dialog.
+ *
+ *
+ * This function is called when a user changes the position of the
+ * 'slideshow-timeout' slider. This function then sets the right
+ * property in the ristretto settings container.
+ *
+ * When this property is changed, the time between switching
+ * images when running a slideshow is changed. 
+ *
+ *
+ *   value = range_get_value ()
+ *
+ *   set_property ( "slideshow-timeout", value );
+ */
 static void
-cb_rstto_preferences_dialog_slideshow_timeout_value_changed (GtkRange *range, gpointer user_data)
+cb_slideshow_timeout_value_changed (
+        GtkRange *range,
+        gpointer user_data )
 {
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    /* Variable Section */
 
-    rstto_settings_set_uint_property (dialog->priv->settings, "slideshow-timeout", (guint)gtk_range_get_value (range));
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
+    guint slideshow_timeout = (guint)gtk_range_get_value ( range );
+
+
+    /* Code Section */
+
+    rstto_settings_set_uint_property (
+            dialog->priv->settings,
+            "slideshow-timeout",
+            slideshow_timeout );
 
 }
 
+/**
+ * cb_hide_thumbnails_fullscreen_check_button_toggled:
+ * @button:    The check-button the user clicked.
+ * @user_data: The user-data provided when connecting the
+ *             callback-function, the preferences-dialog.
+ *
+ *
+ * This function is called when a user toggles the
+ * 'hide-thumbnails-fullscreen' check-button. This function then 
+ * sets the right property in the ristretto settings container.
+ *
+ * When this property is set, the thumbnails are hidden when the 
+ * window is in fullscreen mode.
+ *
+ *
+ *   active = toggle_button_get_active ()
+ *
+ *   if ( active == TRUE ) then
+ *
+ *       set_property ( "hide-thumbnails-fullscreen", TRUE );
+ *
+ *   else
+ *
+ *       set_property ( "hide-thumbnails-fullscreen", FALSE );
+ *
+ *   endif
+ */
 static void
-cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled (
-                                                        GtkToggleButton *button, 
-                                                        gpointer user_data)
+cb_hide_thumbnails_fullscreen_check_button_toggled (
+        GtkToggleButton *button, 
+        gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    /* Variable Section */
 
-    rstto_settings_set_boolean_property (dialog->priv->settings, "hide-thumbnailbar-fullscreen", gtk_toggle_button_get_active(button));
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
+    gboolean hide_thumbnails = gtk_toggle_button_get_active ( button );
+
+
+    /* Code Section */
+
+    rstto_settings_set_boolean_property (
+            dialog->priv->settings,
+            "hide-thumbnails-fullscreen",
+            hide_thumbnails );
 }
 
 /**

@@ -1584,7 +1584,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
                 {
                     if (rstto_settings_get_boolean_property (
                             window->priv->settings_manager,
-                            "hide-thumbnailbar-fullscreen"))
+                            "hide-thumbnails-fullscreen"))
                     {
                         gtk_widget_hide (window->priv->t_bar_s_window);
                     }
@@ -1690,7 +1690,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
                 {
                     if (rstto_settings_get_boolean_property (
                             window->priv->settings_manager,
-                            "hide-thumbnailbar-fullscreen"))
+                            "hide-thumbnails-fullscreen"))
                     {
                         gtk_widget_hide (window->priv->t_bar_s_window);
                     }
@@ -2242,7 +2242,7 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
                 }
             }
 
-            if (rstto_settings_get_boolean_property (window->priv->settings_manager, "hide-thumbnailbar-fullscreen"))
+            if (rstto_settings_get_boolean_property (window->priv->settings_manager, "hide-thumbnails-fullscreen"))
             {
                 gtk_widget_hide (window->priv->t_bar_s_window);
             }

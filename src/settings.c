@@ -62,7 +62,7 @@ enum
     PROP_SHOW_STATUSBAR,
     PROP_SHOW_CLOCK,
     PROP_LIMIT_QUALITY,
-    PROP_HIDE_THUMBNAILBAR_FULLSCREEN,
+    PROP_HIDE_THUMBNAILS_FULLSCREEN,
     PROP_WINDOW_WIDTH,
     PROP_WINDOW_HEIGHT,
     PROP_BGCOLOR,
@@ -72,7 +72,7 @@ enum
     PROP_SLIDESHOW_TIMEOUT,
     PROP_WRAP_IMAGES,
     PROP_DESKTOP_TYPE,
-    PROP_REVERT_ZOOM_DIRECTION,
+    PROP_INVERT_ZOOM_DIRECTION,
     PROP_USE_THUNAR_PROPERTIES,
     PROP_MAXIMIZE_ON_STARTUP,
     PROP_ERROR_MISSING_THUMBNAILER,
@@ -115,9 +115,9 @@ struct _RsttoSettingsPriv
     gboolean  show_statusbar;
     gboolean  show_clock;
     gboolean  limit_quality;
-    gboolean  hide_thumbnailbar_fullscreen;
+    gboolean  hide_thumbnails_fullscreen;
     gchar    *navigationbar_position;
-    gboolean  revert_zoom_direction;
+    gboolean  invert_zoom_direction;
     guint     window_width;
     guint     window_height;
     gchar    *last_file_path;
@@ -186,7 +186,7 @@ rstto_settings_init (GObject *object)
     settings->priv->show_statusbar = TRUE;
     settings->priv->use_thunar_properties = TRUE;
     settings->priv->maximize_on_startup = TRUE;
-    settings->priv->hide_thumbnailbar_fullscreen = TRUE;
+    settings->priv->hide_thumbnails_fullscreen = TRUE;
     settings->priv->errors.missing_thumbnailer = TRUE;
     settings->priv->thumbnail_size = THUMBNAIL_SIZE_NORMAL;
 
@@ -257,7 +257,7 @@ rstto_settings_init (GObject *object)
             "/window/thumbnails/hide-fullscreen",
             G_TYPE_BOOLEAN,
             settings,
-            "hide-thumbnailbar-fullscreen");
+            "hide-thumbnails-fullscreen");
 
     xfconf_g_property_bind (
             settings->priv->channel,
@@ -286,10 +286,10 @@ rstto_settings_init (GObject *object)
 
     xfconf_g_property_bind (
             settings->priv->channel,
-            "/window/revert-zoom-direction",
+            "/window/invert-zoom-direction",
             G_TYPE_BOOLEAN,
             settings,
-            "revert-zoom-direction");
+            "invert-zoom-direction");
 
     xfconf_g_property_bind (
             settings->priv->channel,
@@ -440,14 +440,14 @@ rstto_settings_class_init (GObjectClass *object_class)
             pspec);
 
     pspec = g_param_spec_boolean (
-            "hide-thumbnailbar-fullscreen",
+            "hide-thumbnails-fullscreen",
             "",
             "",
             TRUE,
             G_PARAM_READWRITE);
     g_object_class_install_property (
             object_class,
-            PROP_HIDE_THUMBNAILBAR_FULLSCREEN,
+            PROP_HIDE_THUMBNAILS_FULLSCREEN,
             pspec);
 
     pspec = g_param_spec_string (
@@ -462,14 +462,14 @@ rstto_settings_class_init (GObjectClass *object_class)
             pspec);
 
     pspec = g_param_spec_boolean (
-            "revert-zoom-direction",
+            "invert-zoom-direction",
             "",
             "",
             TRUE,
             G_PARAM_READWRITE);
     g_object_class_install_property (
             object_class,
-            PROP_REVERT_ZOOM_DIRECTION,
+            PROP_INVERT_ZOOM_DIRECTION,
             pspec);
 
     pspec = g_param_spec_string (
@@ -706,8 +706,8 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_LIMIT_QUALITY:
             settings->priv->limit_quality = g_value_get_boolean (value);
             break;
-        case PROP_HIDE_THUMBNAILBAR_FULLSCREEN:
-            settings->priv->hide_thumbnailbar_fullscreen = g_value_get_boolean (value);
+        case PROP_HIDE_THUMBNAILS_FULLSCREEN:
+            settings->priv->hide_thumbnails_fullscreen = g_value_get_boolean (value);
             break;
         case PROP_NAVBAR_POSITION:
             str_val = g_value_get_string (value);
@@ -722,8 +722,8 @@ rstto_settings_set_property    (GObject      *object,
                 settings->priv->navigationbar_position = g_strdup (str_val);
             }
             break;
-        case PROP_REVERT_ZOOM_DIRECTION:
-            settings->priv->revert_zoom_direction = g_value_get_boolean (value);
+        case PROP_INVERT_ZOOM_DIRECTION:
+            settings->priv->invert_zoom_direction = g_value_get_boolean (value);
             break;
         case PROP_WINDOW_WIDTH:
             settings->priv->window_width = g_value_get_uint (value);
@@ -808,14 +808,14 @@ rstto_settings_get_property    (GObject    *object,
         case PROP_LIMIT_QUALITY:
             g_value_set_boolean (value, settings->priv->limit_quality);
             break;
-        case PROP_HIDE_THUMBNAILBAR_FULLSCREEN:
-            g_value_set_boolean (value, settings->priv->hide_thumbnailbar_fullscreen);
+        case PROP_HIDE_THUMBNAILS_FULLSCREEN:
+            g_value_set_boolean (value, settings->priv->hide_thumbnails_fullscreen);
             break;
         case PROP_NAVBAR_POSITION:
             g_value_set_string (value, settings->priv->navigationbar_position);
             break;
-        case PROP_REVERT_ZOOM_DIRECTION:
-            g_value_set_boolean (value, settings->priv->revert_zoom_direction);
+        case PROP_INVERT_ZOOM_DIRECTION:
+            g_value_set_boolean (value, settings->priv->invert_zoom_direction);
             break;
         case PROP_WINDOW_WIDTH:
             g_value_set_uint (value, settings->priv->window_width);
