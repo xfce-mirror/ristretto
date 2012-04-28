@@ -674,7 +674,7 @@ msgstr "Własny:"
 
 #: ../src/preferences_dialog.c:255
 msgid "Quality"
-msgstr ""
+msgstr "Jakość"
 
 #: ../src/preferences_dialog.c:259
 msgid ""
@@ -687,9 +687,8 @@ msgid "Limit rendering quality"
 msgstr ""
 
 #: ../src/preferences_dialog.c:274
-#, fuzzy
 msgid "Fullscreen"
-msgstr "_Pełny ekran"
+msgstr "Pełny ekran"
 
 #: ../src/preferences_dialog.c:279
 msgid "Thumbnails"
@@ -708,7 +707,7 @@ msgstr "Ukrywanie miniatur na pełnym ekranie"
 
 #: ../src/preferences_dialog.c:293
 msgid "Clock"
-msgstr ""
+msgstr "Zegar"
 
 #: ../src/preferences_dialog.c:296
 #, fuzzy
