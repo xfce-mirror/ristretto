@@ -611,6 +611,11 @@ paint_monitor ( GtkWidget *widget,
     pango_font_description_free (font_description);
 }
 
+/**
+ * rstto_monitor_chooser_new:
+ *
+ * @Returns: a new monitor-chooser object.
+ */
 GtkWidget *
 rstto_monitor_chooser_new ( void )
 {
@@ -621,6 +626,14 @@ rstto_monitor_chooser_new ( void )
     return GTK_WIDGET(chooser);
 }
 
+/**
+ * rstto_monitor_chooser_add:
+ * @chooser: MonitorChooser
+ * @width:   monitor-width (pixels)
+ * @height:  monitor-height (pixels)
+ *
+ * Add a monitor to the monitor-chooser.
+ */
 gint
 rstto_monitor_chooser_add ( 
         RsttoMonitorChooser *chooser,
@@ -657,6 +670,16 @@ rstto_monitor_chooser_add (
     return id;
 }
 
+/**
+ * rstto_monitor_chooser_set_image_surface:
+ * @chooser:    Monitor chooser
+ * @monitor_id: Monitor number
+ * @surface:    Surface
+ * @error:
+ *
+ * Set the image-surface for a specific monitor. (the image visible in
+ * the monitor )
+ */
 gint
 rstto_monitor_chooser_set_image_surface (
         RsttoMonitorChooser *chooser,
@@ -690,6 +713,13 @@ rstto_monitor_chooser_set_image_surface (
     return retval;
 }
 
+/**
+ * cb_rstto_button_press_event:
+ * @widget: Monitor-Chooser widget
+ * @event:  Event
+ *
+ * Switch the monitor based on the location where a user clicks.
+ */
 static void
 cb_rstto_button_press_event (
         GtkWidget *widget,
@@ -745,6 +775,12 @@ cb_rstto_button_press_event (
     }
 }
 
+/**
+ * rstto_monitor_chooser_get_selected:
+ * @chooser: The monitor-chooser widget
+ *
+ * Returns the id of the selected monitor.
+ */
 gint
 rstto_monitor_chooser_get_selected (
         RsttoMonitorChooser *chooser )
@@ -752,6 +788,15 @@ rstto_monitor_chooser_get_selected (
     return chooser->priv->selected;
 }
 
+/**
+ * rstto_monitor_chooser_get_dimensions:
+ * @chooser: The monitor-chooser widget
+ * @nr:      The monitor-number
+ * @width:   A gint to store the width of the monitor (in pixels)
+ * @height:  A gint to store the height of the monitor (in pixels)
+ *
+ * Returns the dimensions of a monitor identified by 'nr'.
+ */
 void
 rstto_monitor_chooser_get_dimensions (
         RsttoMonitorChooser *chooser,
