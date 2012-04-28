@@ -579,63 +579,234 @@ cb_rstto_preferences_dialog_hide_thumbnails_fullscreen_check_button_toggled (
     rstto_settings_set_boolean_property (dialog->priv->settings, "hide-thumbnailbar-fullscreen", gtk_toggle_button_get_active(button));
 }
 
+/**
+ * cb_wrap_images_check_button_toggled:
+ * @button:    The check-button the user clicked.
+ * @user_data: The user-data provided when connecting the
+ *             callback-function, the preferences-dialog.
+ *
+ *
+ * This function is called when a user toggles the 'wrap-images'
+ * check-button. This function then sets the right property in the
+ * ristretto settings container.
+ *
+ * When this property is set, the list of images can 'wrap', allowing 
+ * the user to go to the first image when moving beyond the last image
+ * and vice-versa.
+ *
+ *
+ *   active = toggle_button_get_active ()
+ *
+ *   if ( active == TRUE ) then
+ *
+ *       set_property ( "wrap-images", TRUE );
+ *
+ *   else
+ *
+ *       set_property ( "wrap-images", FALSE );
+ *
+ *   endif
+ */
 static void
-cb_wrap_images_check_button_toggled (GtkToggleButton *button, 
-                                                      gpointer user_data)
+cb_wrap_images_check_button_toggled (
+        GtkToggleButton *button, 
+        gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    /* Variable Section */
+
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
+    gboolean wrap_images = gtk_toggle_button_get_active ( button );
+
+
+    /* Code Section */
 
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "wrap-images",
-            gtk_toggle_button_get_active(button));
+            wrap_images );
 }
 
+/**
+ * cb_maximize_on_startup_check_button_toggled:
+ * @button:    The check-button the user clicked.
+ * @user_data: The user-data provided when connecting the
+ *             callback-function, the preferences-dialog.
+ *
+ *
+ * This function is called when a user toggles the 'maximize-on-startup'
+ * check-button. This function then sets the right property in the
+ * ristretto settings container.
+ * 
+ * When this property is set, the main-window is maximized directly when
+ * an image is opened on startup.
+ *
+ *
+ *   active = toggle_button_get_active ()
+ *
+ *   if ( active == TRUE ) then
+ *
+ *       set_property ( "maximize-on-startup", TRUE );
+ *
+ *   else
+ *
+ *       set_property ( "maximize-on-startup", FALSE );
+ *
+ *   endif
+ */
 static void
 cb_maximize_on_startup_check_button_toggled (
         GtkToggleButton *button, 
         gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    /* Variable Section */
+
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
+    gboolean maximize_on_startup = gtk_toggle_button_get_active ( button );
+
+
+    /* Code Section */
 
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "maximize-on-startup",
-            gtk_toggle_button_get_active(button));
+            maximize_on_startup );
 }
 
+/**
+ * cb_show_clock_check_button_toggled:
+ * @button:    The check-button the user clicked.
+ * @user_data: The user-data provided when connecting the
+ *             callback-function, the preferences-dialog.
+ *
+ *
+ * This function is called when a user toggles the 'show-clock'
+ * check-button. This function then sets the right property in the
+ * ristretto settings container.
+ * 
+ * When this property is set, a clock is rendered on the image-viewer
+ * widget when the window is in fullscreen mode.
+ *
+ *
+ *   active = toggle_button_get_active ()
+ *
+ *   if ( active == TRUE ) then
+ *
+ *       set_property ( "show-clock", TRUE );
+ *
+ *   else
+ *
+ *       set_property ( "show-clock", FALSE );
+ *
+ *   endif
+ */
 static void
 cb_show_clock_check_button_toggled (
         GtkToggleButton *button, 
         gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    /* Variable Section */
+
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
+    gboolean show_clock = gtk_toggle_button_get_active ( button );
+
+    /* Code Section */
 
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "show-clock",
-            gtk_toggle_button_get_active(button));
+            show_clock);
 }
 
+/**
+ * cb_limit_quality_check_button_toggled:
+ * @button:    The check-button the user clicked.
+ * @user_data: The user-data provided when connecting the
+ *             callback-function, the preferences-dialog.
+ *
+ *
+ * This function is called when a user toggles the 'limit-quality'
+ * check-button. This function then sets the right property in the
+ * ristretto settings container.
+ *
+ * When this property is set, the maximum render-quality of the
+ * images opened by ristretto is limited to the screen-size.
+ *
+ *
+ *   active = toggle_button_get_active ()
+ *
+ *   if ( active == TRUE ) then
+ *
+ *       set_property ( "limit-quality", TRUE );
+ *
+ *   else
+ *
+ *       set_property ( "limit-quality", FALSE );
+ *
+ *   endif
+ */
 static void
 cb_limit_quality_check_button_toggled (
         GtkToggleButton *button, 
         gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    /* Variable Section */
+
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
+    gboolean limit_quality = gtk_toggle_button_get_active ( button );
+
+
+    /* Code Section */
 
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "limit-quality",
-            gtk_toggle_button_get_active(button));
+            limit_quality );
 }
 
+/**
+ * cb_choose_desktop_combo_box_changed:
+ * @combo_box: The combo-box the user clicked.
+ * @user_data: The user-data provided when connecting the
+ *             callback-function, the preferences-dialog.
+ *
+ *
+ * This function is called when a user has changed the value
+ * of the desktop-type combo-box. This function sets the right
+ * property in the ristretto settings container.
+ *
+ * The value of this property determines the method used by
+ * ristretto to set the desktop wallpaper, or disable this
+ * functionality if DESKTOP_TYPE_NONE is selected.
+ *
+ *
+ *   active = combo_box_get_active ()
+ *
+ *   if ( active == DESKTOP_TYPE_NONE ) then
+ *
+ *       set_property ( "desktop-type", "none" );
+ *
+ *   else if ( active == DESKTOP_TYPE_XFCE ) then
+ *
+ *       set_property ( "desktop-type", "xfce" );
+ *
+ *   else if ( active == DESKTOP_TYPE_GNOME ) then
+ *
+ *       set_property ( "desktop-type", "gnome" );
+ *
+ *   endif
+ */
 static void
 cb_choose_desktop_combo_box_changed (
         GtkComboBox *combo_box,
         gpointer user_data)
 {
+    /* Variable Section */
+
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+
+
+    /* Code Section */
+
     switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combo_box)))
     {
         case DESKTOP_TYPE_NONE:
