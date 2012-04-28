@@ -169,25 +169,68 @@ rstto_preferences_dialog_get_type (void)
             NULL
         };
 
-        rstto_preferences_dialog_type = g_type_register_static (XFCE_TYPE_TITLED_DIALOG, "RsttoPreferencesDialog", &rstto_preferences_dialog_info, 0);
+        rstto_preferences_dialog_type = g_type_register_static (
+                XFCE_TYPE_TITLED_DIALOG,
+                "RsttoPreferencesDialog",
+                &rstto_preferences_dialog_info,
+                0);
     }
     return rstto_preferences_dialog_type;
 }
 
+/**
+ * rstto_preferences_dialog_init:
+ * @dialog: The PreferencesDialog, used for configuring ristretto
+ *          properties.
+ *
+ *
+ * This function initializes the preferences-dialog.
+ *
+ *
+ *   get_properties ()
+ *
+ *   configure_display_tab
+ *
+ *      background_color_frame
+ *
+ *      quality_frame 
+ *
+ *   configure_fullscreen_tab
+ *
+ *      clock_frame
+ *
+ *      thumbnails_frame
+ *
+ *   configure_slideshow_tab
+ *
+ *      slideshow_timeout_frame
+ *
+ *   configure_control_tab
+ *
+ *      scrollwheel_frame
+ *
+ *   configure_behaviour_tab
+ *
+ *      startup_frame
+ *
+ *      desktop_frame
+ */
 static void
-rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
+rstto_preferences_dialog_init ( RsttoPreferencesDialog *dialog )
 {
-    gboolean bool_invert_zoom_direction;
-    gboolean bool_bgcolor_override;
-    guint uint_slideshow_timeout;
-    gboolean bool_hide_thumbnails_fullscreen;
-    gboolean bool_wrap_images;
-    gboolean bool_maximize_on_startup;
-    gboolean bool_show_clock;
-    gboolean bool_limit_quality;
-    gchar   *str_desktop_type = NULL;
+    /* Variable Section */
 
-    GdkColor *bgcolor;
+    gboolean   bool_invert_zoom_direction;
+    gboolean   bool_bgcolor_override;
+    guint      uint_slideshow_timeout;
+    gboolean   bool_hide_thumbnails_fullscreen;
+    gboolean   bool_wrap_images;
+    gboolean   bool_maximize_on_startup;
+    gboolean   bool_show_clock;
+    gboolean   bool_limit_quality;
+    gchar     *str_desktop_type = NULL;
+
+    GdkColor  *bgcolor;
     GtkWidget *timeout_lbl, *timeout_hscale;
     GtkWidget *display_main_vbox;
     GtkWidget *display_main_lbl;
@@ -203,30 +246,39 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     GtkWidget *notebook = gtk_notebook_new ();
 
 
+    /* Code Section */
+
     dialog->priv = g_new0 (RsttoPreferencesDialogPriv, 1);
 
     dialog->priv->settings = rstto_settings_new ();
-    g_object_get (G_OBJECT (dialog->priv->settings),
-                  "invert-zoom-direction", &bool_invert_zoom_direction,
-                  "bgcolor-override", &bool_bgcolor_override,
-                  "bgcolor", &bgcolor,
-                  "slideshow-timeout", &uint_slideshow_timeout,
-                  "hide-thumbnails-fullscreen", &bool_hide_thumbnails_fullscreen,
-                  "maximize-on-startup", &bool_maximize_on_startup,
-                  "wrap-images", &bool_wrap_images,
-                  "desktop-type", &str_desktop_type,
-                  "show-clock", &bool_show_clock,
-                  "limit-quality", &bool_limit_quality,
-                  NULL);
 
-/*****************/
-/** DISPLAY TAB **/
-/*****************/
+    /*
+     * Get all properties from the ristretto settings container
+     */
+    g_object_get (
+            G_OBJECT (dialog->priv->settings),
+            "invert-zoom-direction", &bool_invert_zoom_direction,
+            "bgcolor-override", &bool_bgcolor_override,
+            "bgcolor", &bgcolor,
+            "slideshow-timeout", &uint_slideshow_timeout,
+            "hide-thumbnails-fullscreen", &bool_hide_thumbnails_fullscreen,
+            "maximize-on-startup", &bool_maximize_on_startup,
+            "wrap-images", &bool_wrap_images,
+            "desktop-type", &str_desktop_type,
+            "show-clock", &bool_show_clock,
+            "limit-quality", &bool_limit_quality,
+            NULL);
+
+    /*
+     * Configure the display tab
+     */
     display_main_vbox = gtk_vbox_new(FALSE, 0);
     display_main_lbl = gtk_label_new(_("Display"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), display_main_vbox, display_main_lbl);
 
-/** Bg-color frame */
+    /**
+     * Bg-color frame
+     */
     dialog->priv->display_tab.bgcolor_vbox = gtk_vbox_new (FALSE, 0);
     dialog->priv->display_tab.bgcolor_frame = xfce_gtk_frame_box_new_with_content(_("Background color"),
                                                                                  dialog->priv->display_tab.bgcolor_vbox);
@@ -274,9 +326,9 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
     g_signal_connect (G_OBJECT (dialog->priv->display_tab.quality_button), 
                       "toggled", (GCallback)cb_limit_quality_check_button_toggled, dialog);
 
-/********************/
-/** Fullscreen tab **/
-/********************/
+    /*
+     * Fullscreen tab
+     */
     fullscreen_main_vbox = gtk_vbox_new(FALSE, 0);
     fullscreen_main_lbl = gtk_label_new(_("Fullscreen"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), fullscreen_main_vbox, fullscreen_main_lbl);
@@ -315,9 +367,10 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
 
     g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.clock_button), 
                       "toggled", (GCallback)cb_show_clock_check_button_toggled, dialog);
-/*******************/
-/** Slideshow tab **/
-/*******************/
+
+    /*
+     * Slideshow tab
+     */
     slideshow_main_vbox = gtk_vbox_new(FALSE, 0);
     slideshow_main_lbl = gtk_label_new(_("Slideshow"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), slideshow_main_vbox, slideshow_main_lbl);
@@ -343,7 +396,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
             dialog);
 
     
-/********************************************/
     control_main_vbox = gtk_vbox_new(FALSE, 0);
     control_main_lbl = gtk_label_new(_("Control"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), control_main_vbox, control_main_lbl);
@@ -362,9 +414,9 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
             (GCallback)cb_invert_zoom_direction_check_button_toggled,
             dialog);
 
-/*******************/
-/** Behaviour tab **/
-/*******************/
+    /*
+     * Behaviour tab
+     */
     behaviour_main_vbox = gtk_vbox_new(FALSE, 0);
     behaviour_main_lbl = gtk_label_new(_("Behaviour"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), behaviour_main_vbox, behaviour_main_lbl);
@@ -390,11 +442,11 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
             (GCallback)cb_wrap_images_check_button_toggled,
             dialog);
     g_signal_connect (
-            G_OBJECT
-(dialog->priv->behaviour_tab.maximize_window_on_startup_check_button), 
+            G_OBJECT (dialog->priv->behaviour_tab.maximize_window_on_startup_check_button), 
             "toggled",
             (GCallback)cb_maximize_on_startup_check_button_toggled,
             dialog);
+
     /********************************************/
     dialog->priv->behaviour_tab.desktop_vbox = gtk_vbox_new(FALSE, 4);
     dialog->priv->behaviour_tab.desktop_frame = xfce_gtk_frame_box_new_with_content(
@@ -482,9 +534,6 @@ rstto_preferences_dialog_init(RsttoPreferencesDialog *dialog)
             dialog);
     
 
-
-
-/********************************************/
     gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), notebook);
     gtk_widget_show_all (notebook);
 
