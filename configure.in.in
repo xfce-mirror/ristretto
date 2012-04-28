@@ -1,5 +1,5 @@
 dnl
-dnl Copyright (c) 2006-2009
+dnl Copyright (c) 2006-2012
 dnl         The Xfce development team. All rights reserved.
 dnl
 dnl Originally written for Xfce by Benedikt Meurer <benny@xfce.org>
@@ -10,10 +10,10 @@ dnl ***************************
 dnl *** Version information ***
 dnl ***************************
 m4_define([ristretto_version_major], [0])
-m4_define([ristretto_version_minor], [5])
-m4_define([ristretto_version_micro], [2])
+m4_define([ristretto_version_minor], [6])
+m4_define([ristretto_version_micro], [0])
 m4_define([ristretto_version_build], [r@REVISION@])
-m4_define([ristretto_version_tag], [git]) # Leave empty for releases
+m4_define([ristretto_version_tag], []) # Leave empty for releases
 m4_define([ristretto_version], [ristretto_version_major().ristretto_version_minor().ristretto_version_micro()ifelse(ristretto_version_tag(), [], [], [ristretto_version_tag()-ristretto_version_build()])])
 
 dnl *******************************************
@@ -21,7 +21,7 @@ dnl *** Debugging support for SVN snapshots ***
 dnl *******************************************
 m4_define([ristretto_debug_default], [ifelse(ristretto_version_tag(), [git], [full], [minimum])])
 
-AC_COPYRIGHT([Copyright (c) 2006-2011
+AC_COPYRIGHT([Copyright (c) 2006-2012
         The Xfce development team. All rights reserved.
 
 Written for Xfce by Stephan Arts <stephan@xfce.org>.])
@@ -59,10 +59,10 @@ XDT_CHECK_PACKAGE([GOBJECT], [gobject-2.0], [2.24.0])
 XDT_CHECK_PACKAGE([GIO], [gio-2.0], [2.18.0])
 XDT_CHECK_PACKAGE([GIO_UNIX], [gio-unix-2.0], [2.18.0])
 XDT_CHECK_PACKAGE([DBUS_GLIB], [dbus-glib-1], [0.34])
-XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [4.8.0])
-XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-1], [4.9.0])
+XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [4.10.0])
+XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-1], [4.10.0])
 
-XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [4.8.0])
+XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [4.10.0])
 
 XDT_CHECK_PACKAGE([CAIRO], [cairo], [1.8.0])
 
