@@ -547,9 +547,9 @@ msgid ""
 msgstr "متأكد من انك تود حذف الصورة '%s' من القرص؟"
 
 #: ../src/main_window.c:3326
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "متأكد من انك تود حذف الصورة '%s' من القرص؟"
+msgstr "متأكد من أنك تريد حذف الصورة '%s' من القرص؟"
 
 #: ../src/main_window.c:3344
 #, c-format
@@ -558,15 +558,18 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"حدث خطأ عند إرسال الصورة '%s' إلى المهملات.\n"
+"\n"
+"%s"
 
 #: ../src/main_window.c:3674
 msgid "Edit with"
-msgstr ""
+msgstr "عدّل باستخدام"
 
 #: ../src/main_window.c:3692
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr ""
+msgstr "افتح %s والملفات الأخرى من النوع %s باستخدام:"
 
 #: ../src/main_window.c:3697
 msgid "Use as _default for this kind of file"
