@@ -161,17 +161,17 @@ rstto_settings_init (GObject *object)
         /* If the accels.scm file is missing, we are probably
          * dealing with a first-boot. Add default accelerators.
          */
-        gtk_accel_map_change_entry ("<Window>/fullscreen", GDK_F, 0, FALSE);
-        gtk_accel_map_change_entry ("<Window>/unfullscreen", GDK_Escape, 0, FALSE);
-        gtk_accel_map_change_entry ("<Window>/next-image", GDK_Page_Down, 0, FALSE);
-        gtk_accel_map_change_entry ("<Window>/previous-image", GDK_Page_Up, 0, FALSE);
-        gtk_accel_map_change_entry ("<Window>/quit", GDK_q, 0, FALSE);
+        gtk_accel_map_change_entry ("<Window>/fullscreen", GDK_KEY_F, 0, FALSE);
+        gtk_accel_map_change_entry ("<Window>/unfullscreen", GDK_KEY_Escape, 0, FALSE);
+        gtk_accel_map_change_entry ("<Window>/next-image", GDK_KEY_Page_Down, 0, FALSE);
+        gtk_accel_map_change_entry ("<Window>/previous-image", GDK_KEY_Page_Up, 0, FALSE);
+        gtk_accel_map_change_entry ("<Window>/quit", GDK_KEY_q, 0, FALSE);
 
-        gtk_accel_map_change_entry ("<Window>/delete", GDK_Delete, GDK_SHIFT_MASK, FALSE);
+        gtk_accel_map_change_entry ("<Window>/delete", GDK_KEY_Delete, GDK_SHIFT_MASK, FALSE);
 
-        gtk_accel_map_change_entry ("<Window>/refresh", GDK_r, GDK_CONTROL_MASK, FALSE);
+        gtk_accel_map_change_entry ("<Window>/refresh", GDK_KEY_r, GDK_CONTROL_MASK, FALSE);
 
-        gtk_accel_map_change_entry ("<Actions>/RsttoWindow/play", GDK_F5, 0, FALSE);
+        gtk_accel_map_change_entry ("<Actions>/RsttoWindow/play", GDK_KEY_F5, 0, FALSE);
     }
     
     settings->priv->slideshow_timeout = 5;
