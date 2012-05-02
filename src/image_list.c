@@ -23,7 +23,6 @@
 #include <config.h>
 
 #include <gtk/gtk.h>
-#include <gtk/gtkmarshal.h>
 
 #include <stdlib.h>
 #include <string.h>
