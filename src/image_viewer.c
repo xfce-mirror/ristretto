@@ -56,7 +56,13 @@
 enum
 {
     PROP_0,
-    PROP_SHOW_CLOCK
+    PROP_SHOW_CLOCK,
+
+    /* For scrollable interface */
+    PROP_HADJUSTMENT,
+    PROP_VADJUSTMENT,
+    PROP_HSCROLL_POLICY,
+    PROP_VSCROLL_POLICY
 };
 
 typedef enum
@@ -444,6 +450,24 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
             G_OBJECT_CLASS(object_class),
             PROP_SHOW_CLOCK,
             pspec);
+
+    /* Scrollable interface properties */
+    g_object_class_override_property (
+            object_class,
+            PROP_HADJUSTMENT,
+            "hadjustment");
+    g_object_class_override_property (
+            object_class,
+            PROP_VADJUSTMENT,
+            "vadjustment");
+    g_object_class_override_property (
+            object_class,
+            PROP_HSCROLL_POLICY,
+            "hscroll-policy");
+    g_object_class_override_property (
+            object_class,
+            PROP_VSCROLL_POLICY,
+            "vscroll-policy");
 }
 
 /**
@@ -573,7 +597,7 @@ rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     gtk_widget_set_allocation (widget, allocation);
     GdkWindow *window = gtk_widget_get_window (widget);
 
-    if (GTK_WIDGET_REALIZED (widget))
+    if (gtk_widget_get_realized (widget))
     {
         gdk_window_move_resize (window,
             allocation->x + border_width,
@@ -1498,7 +1522,7 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
     gdouble alloc_width = (gdouble)gtk_widget_get_allocated_width (widget);
     gdouble alloc_height = (gdouble)gtk_widget_get_allocated_height (widget);
     
-    if(GTK_WIDGET_REALIZED(widget))
+    if(gtk_widget_get_realized(widget))
     {
 
         correct_adjustments (viewer);
@@ -2953,6 +2977,14 @@ rstto_image_viewer_set_property (
         case PROP_SHOW_CLOCK:
             viewer->priv->props.show_clock = g_value_get_boolean (value);
             break;
+        case PROP_HADJUSTMENT:
+          break;
+        case PROP_VADJUSTMENT:
+          break;
+        case PROP_HSCROLL_POLICY:
+          break;
+        case PROP_VSCROLL_POLICY:
+          break;
     }
 }
 
@@ -2970,6 +3002,14 @@ rstto_image_viewer_get_property (
         case PROP_SHOW_CLOCK:
             g_value_set_boolean (value, viewer->priv->props.show_clock);
             break;
+        case PROP_HADJUSTMENT:
+          break;
+        case PROP_VADJUSTMENT:
+          break;
+        case PROP_HSCROLL_POLICY:
+          break;
+        case PROP_VSCROLL_POLICY:
+          break;
     }
 }
 

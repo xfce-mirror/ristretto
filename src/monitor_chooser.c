@@ -262,7 +262,7 @@ rstto_monitor_chooser_size_allocate(GtkWidget *widget, GtkAllocation *allocation
     GdkWindow *window = gtk_widget_get_window (widget);
     gtk_widget_set_allocation (widget, allocation);
 
-    if (GTK_WIDGET_REALIZED (widget))
+    if (gtk_widget_get_realized (widget))
     {
         gdk_window_move_resize (window,
             allocation->x,
@@ -762,7 +762,7 @@ rstto_monitor_chooser_set_image_surface (
 
         retval = monitor_id;
     }
-    if (GTK_WIDGET_REALIZED (GTK_WIDGET(chooser)))
+    if ( gtk_widget_get_realized (GTK_WIDGET(chooser)))
     {
         gdk_window_invalidate_rect (
                 window,

@@ -1498,7 +1498,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *main_window)
     switch (rstto_image_list_get_n_images (main_window->priv->image_list))
     {
         case 0: 
-            if ( GTK_WIDGET_VISIBLE (main_window) )
+            if ( gtk_widget_get_visible (GTK_WIDGET (main_window)) )
             {
                 if ( 0 != (gdk_window_get_state (window) & GDK_WINDOW_STATE_FULLSCREEN ))
                 {
@@ -1809,7 +1809,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *main_window)
                 FALSE);
     }
 
-    if ( GTK_WIDGET_VISIBLE (window) )
+    if ( gtk_widget_get_visible (GTK_WIDGET (main_window)) )
     {
         gtk_ui_manager_remove_ui (
             main_window->priv->ui_manager,
@@ -1853,7 +1853,7 @@ rstto_window_save_geometry_timer (gpointer user_data)
     gint width = 0;
     gint height = 0;
     /* check if the window is still visible */
-    if (GTK_WIDGET_VISIBLE (widget))
+    if ( gtk_widget_get_visible (widget))
     {
         /* determine the current state of the window */
         gint state = gdk_window_get_state (window);
@@ -2654,7 +2654,7 @@ cb_rstto_main_window_configure_event (
         window->priv->window_save_geometry_timer_id = 0;
 
         /* check if we should schedule another save timer */
-        if (GTK_WIDGET_VISIBLE (widget))
+        if ( gtk_widget_get_visible (widget))
         {
             /* save the geometry one second after the last configure event */
             window->priv->window_save_geometry_timer_id = g_timeout_add (
