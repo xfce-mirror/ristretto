@@ -90,6 +90,9 @@ struct _RsttoImageViewerPriv
 
     GError                      *error;
 
+    guint hscroll_policy : 1;
+    guint vscroll_policy : 1;
+
     RsttoImageViewerTransaction *transaction;
     GdkPixbuf                   *pixbuf;
     RsttoImageOrientation        orientation;
@@ -486,6 +489,7 @@ rstto_image_viewer_realize(GtkWidget *widget)
     GtkAllocation allocation;
 
     GdkWindowAttr attributes;
+    GdkWindow *window;
     gint attributes_mask;
 
     g_return_if_fail (widget != NULL);
@@ -510,12 +514,15 @@ rstto_image_viewer_realize(GtkWidget *widget)
     attributes.visual = gtk_widget_get_visual (widget);
 
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
+
+    window = gdk_window_new (gtk_widget_get_parent_window (widget),
+            &attributes, attributes_mask);
     gtk_widget_set_window (
             widget,
-            gdk_window_new (
-                    gtk_widget_get_parent_window(widget),
-                    &attributes,
-                    attributes_mask));
+            window);
+    gdk_window_set_user_data (window, widget);
+
+    g_object_ref (window);
 
     g_object_get_property (
             G_OBJECT(viewer->priv->settings),
@@ -2978,12 +2985,46 @@ rstto_image_viewer_set_property (
             viewer->priv->props.show_clock = g_value_get_boolean (value);
             break;
         case PROP_HADJUSTMENT:
+            if(viewer->hadjustment)
+            {
+                g_signal_handlers_disconnect_by_func(viewer->hadjustment, viewer->priv->cb_value_changed, viewer);
+                g_object_unref(viewer->hadjustment);
+            }
+            viewer->hadjustment = g_value_get_object (value);
+
+            if(viewer->hadjustment)
+            {
+                gtk_adjustment_set_lower (viewer->hadjustment, 0);
+                gtk_adjustment_set_upper (viewer->hadjustment, 0);
+
+                g_signal_connect(G_OBJECT(viewer->hadjustment), "value-changed", (GCallback)viewer->priv->cb_value_changed, viewer);
+                g_object_ref(viewer->hadjustment);
+            }
           break;
         case PROP_VADJUSTMENT:
+            if(viewer->vadjustment)
+            {
+                g_signal_handlers_disconnect_by_func(viewer->vadjustment, viewer->priv->cb_value_changed, viewer);
+                g_object_unref(viewer->vadjustment);
+            }
+            viewer->vadjustment = g_value_get_object (value);
+
+            if(viewer->vadjustment)
+            {
+                gtk_adjustment_set_lower (viewer->vadjustment, 0);
+                gtk_adjustment_set_upper (viewer->vadjustment, 0);
+
+                g_signal_connect(G_OBJECT(viewer->vadjustment), "value-changed", (GCallback)viewer->priv->cb_value_changed, viewer);
+                g_object_ref(viewer->vadjustment);
+            }
           break;
         case PROP_HSCROLL_POLICY:
+            viewer->priv->hscroll_policy = g_value_get_enum (value);
+            gtk_widget_queue_resize (GTK_WIDGET (viewer));
           break;
         case PROP_VSCROLL_POLICY:
+            viewer->priv->vscroll_policy = g_value_get_enum (value);
+            gtk_widget_queue_resize (GTK_WIDGET (viewer));
           break;
     }
 }
@@ -3003,13 +3044,17 @@ rstto_image_viewer_get_property (
             g_value_set_boolean (value, viewer->priv->props.show_clock);
             break;
         case PROP_HADJUSTMENT:
-          break;
+            g_value_set_object (value, viewer->hadjustment);
+            break;
         case PROP_VADJUSTMENT:
-          break;
+            g_value_set_object (value, viewer->vadjustment);
+            break;
         case PROP_HSCROLL_POLICY:
-          break;
+            g_value_set_enum (value, viewer->priv->hscroll_policy);
+            break;
         case PROP_VSCROLL_POLICY:
-          break;
+            g_value_set_enum (value, viewer->priv->vscroll_policy);
+            break;
     }
 }
 
