@@ -195,6 +195,7 @@ rstto_monitor_chooser_realize(GtkWidget *widget)
     GdkWindowAttr attributes;
     gint attributes_mask;
     GtkAllocation allocation;
+    GdkWindow     *window;
 
     g_return_if_fail (widget != NULL);
     g_return_if_fail (RSTTO_IS_MONITOR_CHOOSER (widget));
@@ -213,12 +214,14 @@ rstto_monitor_chooser_realize(GtkWidget *widget)
     attributes.visual = gtk_widget_get_visual (widget);
 
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
+    window = gdk_window_new (
+            gtk_widget_get_parent_window(widget),
+            &attributes,
+            attributes_mask);
     gtk_widget_set_window (
             widget,
-            gdk_window_new (
-                    gtk_widget_get_parent_window(widget),
-                    &attributes,
-                    attributes_mask));
+            window);
+    gdk_window_set_user_data (window, widget);
 }
 
 
