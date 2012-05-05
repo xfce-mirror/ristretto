@@ -2794,10 +2794,13 @@ cb_rstto_limit_quality_changed (
     viewer->priv->limit_quality = g_value_get_boolean (
             &val_limit_quality);
 
-    rstto_image_viewer_load_image (
-            viewer,
-            viewer->priv->file,
-            viewer->priv->scale);
+    if ( NULL != viewer->priv->file )
+    {
+        rstto_image_viewer_load_image (
+                viewer,
+                viewer->priv->file,
+                viewer->priv->scale);
+    }
 }
 
 static void
