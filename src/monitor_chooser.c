@@ -296,19 +296,9 @@ rstto_monitor_chooser_paint(GtkWidget *widget, cairo_t *ctx)
     gint id = 0;
     gdouble alloc_width = (gdouble)gtk_widget_get_allocated_width (widget);
     gdouble alloc_height = (gdouble)gtk_widget_get_allocated_height (widget);
+    GtkStyleContext *context = gtk_widget_get_style_context (widget);
 
-    /*
-    gdk_cairo_set_source_color (
-            ctx,
-            &(widget->style->bg[GTK_STATE_NORMAL]));
-    */
-    cairo_rectangle (
-            ctx,
-            0.0,
-            0.0,
-            alloc_width,
-            alloc_height);
-    cairo_fill (ctx);
+    gtk_render_background (context, ctx, 0, 0, alloc_width, alloc_height);
 
     if (chooser->priv->n_monitors > 1)
     {
@@ -476,6 +466,7 @@ paint_monitor ( GtkWidget *widget,
     gint text_height = 0.0;
     gdouble hscale = 1.0;
     gdouble vscale = 1.0;
+    GtkStyleContext *context = gtk_widget_get_style_context (widget);
 
     /*******************************************/
     PangoLayout *layout;

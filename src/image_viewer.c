@@ -884,6 +884,8 @@ paint_background (
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     GdkColor *bg_color = NULL;
     GdkWindow *window = gtk_widget_get_window (widget);
+    GtkAllocation allocation;
+    GtkStyleContext *context = gtk_widget_get_style_context (widget);
 
     /* Determine if we draw the 'default' background-color,
      * or the fullscreen-background-color.
@@ -901,8 +903,16 @@ paint_background (
 
     /* Paint the background-color */
     /******************************/
-    gdk_cairo_set_source_color ( ctx, bg_color );
-    cairo_paint (ctx);
+    if ( NULL != bg_color )
+    {
+        gdk_cairo_set_source_color ( ctx, bg_color );
+        cairo_paint (ctx);
+    }
+    else
+    {
+        gtk_widget_get_allocation (widget, &allocation);
+        gtk_render_background (context, ctx, 0, 0, allocation.width, allocation.height);
+    }
 }
 
 static void
@@ -2844,10 +2854,13 @@ cb_rstto_limit_quality_changed (
     viewer->priv->limit_quality = g_value_get_boolean (
             &val_limit_quality);
 
-    rstto_image_viewer_load_image (
-            viewer,
-            viewer->priv->file,
-            viewer->priv->scale);
+    if (viewer->priv->file)
+    {
+        rstto_image_viewer_load_image (
+                viewer,
+                viewer->priv->file,
+                viewer->priv->scale);
+    }
 }
 
 static void
@@ -2887,7 +2900,7 @@ cb_rstto_bgcolor_changed (
     }
     else
     {
-        //viewer->priv->bg_color = &(widget->style->bg[GTK_STATE_NORMAL]);
+        viewer->priv->bg_color = NULL;
     }
     viewer->priv->bg_color_fs = g_value_get_boxed (&val_bg_color_fs);
 
