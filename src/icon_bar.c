@@ -701,14 +701,18 @@ rstto_icon_bar_realize (GtkWidget *widget)
     attributes.width = allocation.width;
     attributes.height = allocation.height;
     attributes.wclass = GDK_INPUT_OUTPUT;
+    attributes.window_type = GDK_WINDOW_CHILD;
     attributes.visual = gtk_widget_get_visual (widget);
-    attributes.event_mask = GDK_VISIBILITY_NOTIFY_MASK;
+    attributes.event_mask = gtk_widget_get_events (widget)
+            | GDK_EXPOSURE_MASK
+            | GDK_VISIBILITY_NOTIFY_MASK;
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
 
     window = gdk_window_new (gtk_widget_get_parent_window (widget),
             &attributes, attributes_mask);
 
     gtk_widget_set_window (widget, window);
+    gdk_window_set_user_data (window, widget);
 
     attributes.x = 0;
     attributes.y = 0;
@@ -725,7 +729,8 @@ rstto_icon_bar_realize (GtkWidget *widget)
             | gtk_widget_get_events (widget);
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
 
-    icon_bar->priv->bin_window = gdk_window_new (window, &attributes, attributes_mask);
+    icon_bar->priv->bin_window = gdk_window_new (window,
+            &attributes, attributes_mask);
     gdk_window_set_user_data (icon_bar->priv->bin_window, widget);
 
     gdk_window_show (icon_bar->priv->bin_window);
@@ -738,9 +743,12 @@ rstto_icon_bar_unrealize (GtkWidget *widget)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
 
-    gdk_window_set_user_data (icon_bar->priv->bin_window, NULL);
-    gdk_window_destroy (icon_bar->priv->bin_window);
-    icon_bar->priv->bin_window = NULL;
+    if (icon_bar->priv->bin_window)
+    {
+        gdk_window_set_user_data (icon_bar->priv->bin_window, NULL);
+        gdk_window_destroy (icon_bar->priv->bin_window);
+        icon_bar->priv->bin_window = NULL;
+    }
 
     /* GtkWidget::unrealize destroys children and widget->window */
     (*GTK_WIDGET_CLASS (rstto_icon_bar_parent_class)->unrealize) (widget);
@@ -1031,6 +1039,30 @@ rstto_icon_bar_draw (
         GtkWidget      *widget,
         cairo_t        *ctx )
 {
+    GtkAllocation    allocation;
+    GtkStyleContext *context;
+
+
+    gtk_widget_get_allocation (widget, &allocation);
+
+
+    context = gtk_widget_get_style_context (widget);
+
+    gtk_style_context_save (context);
+    gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
+
+    gtk_render_background (
+            context,
+            ctx,
+            0.0,
+            0.0,
+            (gdouble)allocation.width,
+            (gdouble)allocation.height);
+
+    gtk_style_context_restore (context);
+
+    return FALSE;
+
 #if 0
     RsttoIconBarItem *item;
     GdkRectangle    area;
