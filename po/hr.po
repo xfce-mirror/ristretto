@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-05-01 18:36+0000\n"
+"POT-Creation-Date: 2012-05-19 21:33+0000\n"
 "PO-Revision-Date: 2010-06-11 19:40+0200\n"
 "Last-Translator: Ivica Kolić<ikoli@yahoo.com> <>\n"
 "Language-Team: Croatian <>\n"
@@ -546,11 +546,11 @@ msgstr "Uredi pomoću"
 #: ../src/main_window.c:3692
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr ""
+msgstr "Otvori %s i ostale datoteke tipa %s pomoću:"
 
 #: ../src/main_window.c:3697
 msgid "Use as _default for this kind of file"
-msgstr ""
+msgstr "Koristi kao _zadano za ovu vrstu datoteke"
 
 #: ../src/main_window.c:3787
 msgid "Recommended Applications"
@@ -662,7 +662,7 @@ msgstr "Pozadinska boja"
 
 #: ../src/preferences_dialog.c:287
 msgid "Override background color:"
-msgstr ""
+msgstr "Prebriši boju pozadine:"
 
 #: ../src/preferences_dialog.c:314
 msgid "Quality"
@@ -699,7 +699,7 @@ msgstr "Sakrij sličice kad je cijeli zaslon"
 
 #: ../src/preferences_dialog.c:352
 msgid "Clock"
-msgstr ""
+msgstr "Sat"
 
 #: ../src/preferences_dialog.c:355
 msgid ""
