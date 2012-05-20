@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-02-20 19:45+0100\n"
-"PO-Revision-Date: 2012-01-30 23:38+0300\n"
+"POT-Creation-Date: 2012-05-20 18:57+0000\n"
+"PO-Revision-Date: 2012-05-20 23:14+0300\n"
 "Last-Translator: mohammad <malham1@gmail.com>\n"
 "Language-Team: http://www.vertaal.com.ar/files/factory/ar/list/\n"
 "Language: ar\n"
@@ -13,9 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Poedit-Language: Arabic\n"
-"X-Poedit-Country: Morocco\n"
-"X-Generator: Virtaal 0.7.0\n"
+"X-Generator: Virtaal 0.7.1\n"
 
 #: ../src/main.c:61
 msgid "Version information"
@@ -55,25 +53,28 @@ msgstr "عارض الصور"
 msgid "_File"
 msgstr "_ملف"
 
-#: ../src/main_window.c:333
-msgid "_Open"
-msgstr "_افتح"
+#. Icon-name
+#: ../src/main_window.c:362
+msgid "_Open..."
+msgstr "_افتح..."
 
 #: ../src/main_window.c:333
 msgid "Open an image"
 msgstr "فتح الصورة"
 
-#: ../src/main_window.c:334
-msgid "_Save copy"
-msgstr "_حفظ نسخة"
+#. Icon-name
+#: ../src/main_window.c:368
+msgid "_Save copy..."
+msgstr "_حفظ نسخة..."
 
 #: ../src/main_window.c:334
 msgid "Save a copy of the image"
 msgstr "حفظ نسخة من الصورة"
 
-#: ../src/main_window.c:335
-msgid "_Properties"
-msgstr "_خصائص"
+#. Icon-name
+#: ../src/main_window.c:374
+msgid "_Properties..."
+msgstr "_خصائص..."
 
 #: ../src/main_window.c:335
 msgid "Show file properties"
@@ -95,14 +96,9 @@ msgstr "_خروج"
 msgid "Quit Ristretto"
 msgstr "الخروج من Ristretto"
 
-#. Edit Menu
-#: ../src/main_window.c:339
-msgid "_Edit"
-msgstr "_تحرير"
-
-#: ../src/main_window.c:340
-msgid "_Open with..."
-msgstr "_فتح باستخدام..."
+#: ../src/main_window.c:403
+msgid "_Open with"
+msgstr "_فتح باستخدام"
 
 #: ../src/main_window.c:341
 msgid "_Sorting"
@@ -116,13 +112,15 @@ msgstr "_حذف"
 msgid "Delete this image from disk"
 msgstr "حذف هذه الصورة من القرص"
 
-#: ../src/main_window.c:343
-msgid "_Clear private data"
-msgstr "_حذف المعلومات الخاصة"
+#. Icon-name
+#: ../src/main_window.c:417
+msgid "_Clear private data..."
+msgstr "_حذف البيانات الخاصة..."
 
-#: ../src/main_window.c:344
-msgid "_Preferences"
-msgstr "_تفضيلات"
+#. Icon-name
+#: ../src/main_window.c:423
+msgid "_Preferences..."
+msgstr "_تفضيلات..."
 
 #. View Menu
 #: ../src/main_window.c:346
@@ -137,9 +135,16 @@ msgstr "_ملء الشاشة"
 msgid "_Leave Fullscreen"
 msgstr "_غادر نمط ملء الشاشة"
 
-#: ../src/main_window.c:349
-msgid "_Set as Wallpaper"
-msgstr "_تعيين كخلفية"
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:442
+msgid "Leave Fullscreen"
+msgstr "غادر نمط ملء الشاشة"
+
+#. Icon-name
+#: ../src/main_window.c:446
+msgid "Set as _Wallpaper..."
+msgstr "تعيين كخلفية..."
 
 #. Zoom submenu
 #: ../src/main_window.c:351
@@ -188,9 +193,17 @@ msgstr "_للأمام"
 msgid "_Back"
 msgstr "_للخلف"
 
-#: ../src/main_window.c:364
-msgid "_First"
-msgstr "_ألأول"
+#. Label-text
+#. Keyboard shortcut
+#: ../src/main_window.c:511
+#, fuzzy
+msgid "Previous image"
+msgstr "طباعة الصورة"
+
+#. Icon-name
+#: ../src/main_window.c:515
+msgid "F_irst"
+msgstr "ألأول"
 
 #: ../src/main_window.c:365
 msgid "_Last"
@@ -239,10 +252,10 @@ msgstr "ح_جم المصغرات"
 msgid "Leave _Fullscreen"
 msgstr "غادر نمط مل_ء الشاشة"
 
-#. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:392
-msgid "Show _File Toolbar"
-msgstr "عرض ملف شريط الأدوات"
+#. Icon-name
+#: ../src/main_window.c:578
+msgid "_Show Toolbar"
+msgstr "_عرض شريط الأدوات"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:394
@@ -418,7 +431,115 @@ msgstr "لا يمكن حفظ الملف"
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "متأكد من انك تود حذف الصورة '%s' من القرص؟"
 
-#: ../src/privacy_dialog.c:151
+#: ../src/main_window.c:3310
+#, c-format
+msgid ""
+"An error occurred when deleting image '%s' from disk.\n"
+"\n"
+"%s"
+msgstr ""
+"تأكيد حذف الصورة '%s' من القرص.\n"
+"\n"
+"%s"
+
+#: ../src/main_window.c:3326
+#, c-format
+msgid "Are you sure you want to send image '%s' to trash?"
+msgstr "متأكد من أنك تريد حذف الصورة '%s' من القرص؟"
+
+#: ../src/main_window.c:3344
+#, c-format
+msgid ""
+"An error occurred when sending image '%s' to trash.\n"
+"\n"
+"%s"
+msgstr ""
+"حدث خطأ عند إرسال الصورة '%s' إلى المهملات.\n"
+"\n"
+"%s"
+
+#: ../src/main_window.c:3674
+msgid "Edit with"
+msgstr "عدّل باستخدام"
+
+#: ../src/main_window.c:3692
+#, c-format
+msgid "Open %s and other files of type %s with:"
+msgstr "افتح %s والملفات الأخرى من النوع %s باستخدام:"
+
+#: ../src/main_window.c:3697
+msgid "Use as _default for this kind of file"
+msgstr "استخدام كافتراضي لهذا النوع من الملفات"
+
+#: ../src/main_window.c:3787
+msgid "Recommended Applications"
+msgstr "تطبيقات المنصوح بها"
+
+#: ../src/main_window.c:3867
+msgid "Other Applications"
+msgstr "التطبيقات الأخرى"
+
+#: ../src/icon_bar.c:345
+msgid "Orientation"
+msgstr "الاتجاه"
+
+#: ../src/icon_bar.c:346
+msgid "The orientation of the iconbar"
+msgstr "اتجاه شريط الأيقونات"
+
+#: ../src/icon_bar.c:362
+msgid "File column"
+msgstr "ملف عمود"
+
+#: ../src/icon_bar.c:363
+msgid "Model column used to retrieve the file from"
+msgstr "نموذج عمود يستخدم لاسترداد الملف من"
+
+#: ../src/icon_bar.c:375
+msgid "Icon Bar Model"
+msgstr "نموذج شريط الأيقونات"
+
+#: ../src/icon_bar.c:376
+msgid "Model for the icon bar"
+msgstr "نموذج لشريط الأيقونات"
+
+#: ../src/icon_bar.c:392
+msgid "Active"
+msgstr "نشط"
+
+#: ../src/icon_bar.c:393
+msgid "Active item index"
+msgstr "تنشيط عنصر الفهرس"
+
+#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+msgid "Show Text"
+msgstr "اعرض النص"
+
+#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+msgid "Active item fill color"
+msgstr "لون تعبئة العنصر النشط"
+
+#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+msgid "Active item border color"
+msgstr "لون حدود العنصر النشط"
+
+#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+msgid "Active item text color"
+msgstr "لون نص العنصر النشط"
+
+#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+msgid "Cursor item fill color"
+msgstr "لون تعبئة البند المؤشر"
+
+#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+msgid "Cursor item border color"
+msgstr "لون حدود البند المؤشر"
+
+#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+msgid "Cursor item text color"
+msgstr "لون نص البند المؤشر"
+
+#: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
 msgstr "النطاق الزمني للمسح:"
 
@@ -466,27 +587,52 @@ msgstr "شريط الأدوات"
 msgid "Override background color:"
 msgstr "تجاهل لون الخلفية:"
 
-#: ../src/preferences_dialog.c:220
-msgid "Merge toolbars"
-msgstr "دمج أشرطة الأدوات"
+#: ../src/preferences_dialog.c:314
+msgid "Quality"
+msgstr "الجودة"
 
-#: ../src/preferences_dialog.c:225
+#: ../src/preferences_dialog.c:318
+msgid ""
+"With this option enabled, the maximum image-quality will be limited to the "
+"screen-size."
+msgstr "مع تمكين هذا الخيار، ستقتصر جودة الصورة على الحد الأقصى لحجم الشاشة."
+
+#: ../src/preferences_dialog.c:321
+msgid "Limit rendering quality"
+msgstr "تقديم نوعية محدودة"
+
+#: ../src/preferences_dialog.c:333
+msgid "Fullscreen"
+msgstr "ملء الشاشة"
+
+#: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
 msgstr "المُصغّرات"
 
-#: ../src/preferences_dialog.c:228
+#: ../src/preferences_dialog.c:341
 msgid ""
-"The thumbnail bar can be automatically hidden \n"
-"when the window is fullscreen."
-msgstr ""
-"شريط المصغرات يمكن أن يختفي تلقائيا\n"
-"عند عرض الصورة بكامل الشاشة."
+"The thumbnail bar can be automatically hidden when the window is fullscreen."
+msgstr "شريط المصغرات يمكن أن يختفي تلقائيا عند عرض الصورة بكامل الشاشة."
 
 #: ../src/preferences_dialog.c:230
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "إخفاء المصغرات عند ملء الشاشة"
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:352
+msgid "Clock"
+msgstr "الساعة"
+
+#: ../src/preferences_dialog.c:355
+msgid ""
+"Show an analog clock that displays the current time when the window is "
+"fullscreen"
+msgstr "شريط المصغرات يمكن أن يختفي تلقائيا عند عرض الصورة بكامل الشاشة"
+
+#: ../src/preferences_dialog.c:358
+msgid "Show Fullscreen Clock"
+msgstr "إظهار الساعة بملء الشاشة"
+
+#: ../src/preferences_dialog.c:375
 msgid "Slideshow"
 msgstr "عرض شرائح"
 
