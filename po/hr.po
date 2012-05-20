@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-24 18:24+0000\n"
+"POT-Creation-Date: 2012-05-19 21:33+0000\n"
 "PO-Revision-Date: 2010-06-11 19:40+0200\n"
 "Last-Translator: Ivica Kolić<ikoli@yahoo.com> <>\n"
 "Language-Team: Croatian <>\n"
@@ -546,11 +546,11 @@ msgstr "Uredi pomoću"
 #: ../src/main_window.c:3692
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr ""
+msgstr "Otvori %s i ostale datoteke tipa %s pomoću:"
 
 #: ../src/main_window.c:3697
 msgid "Use as _default for this kind of file"
-msgstr ""
+msgstr "Koristi kao _zadano za ovu vrstu datoteke"
 
 #: ../src/main_window.c:3787
 msgid "Recommended Applications"
@@ -662,7 +662,7 @@ msgstr "Pozadinska boja"
 
 #: ../src/preferences_dialog.c:210
 msgid "Override background color:"
-msgstr ""
+msgstr "Prebriši boju pozadine:"
 
 #: ../src/preferences_dialog.c:222
 msgid "Thumbnails"
@@ -679,7 +679,23 @@ msgstr ""
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Sakrij sličice kad je cijeli zaslon"
 
-#: ../src/preferences_dialog.c:259
+#: ../src/preferences_dialog.c:352
+msgid "Clock"
+msgstr "Sat"
+
+#: ../src/preferences_dialog.c:355
+msgid ""
+"Show an analog clock that displays the current time when the window is "
+"fullscreen"
+msgstr ""
+"Traka sličica može biti automatski skrivena \n"
+"kada je preglednik slika u punom zaslonu."
+
+#: ../src/preferences_dialog.c:358
+msgid "Show Fullscreen Clock"
+msgstr ""
+
+#: ../src/preferences_dialog.c:375
 msgid "Slideshow"
 msgstr "Klizni prikaz"
 
