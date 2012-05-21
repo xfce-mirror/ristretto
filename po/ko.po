@@ -351,7 +351,7 @@ msgstr "전체 화면 나가기(_F)"
 #. Icon-name
 #: ../src/main_window.c:577
 msgid "_Show Toolbar"
-msgstr "도구막대 표시(_S)"
+msgstr "도구 모음 표시(_S)"
 
 #. Icon-name
 #: ../src/main_window.c:585
