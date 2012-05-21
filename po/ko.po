@@ -244,12 +244,12 @@ msgstr "전체 화면 나가기(_F)"
 #. Toggle visibility of the main file toolbar
 #: ../src/main_window.c:376
 msgid "Show _File Toolbar"
-msgstr "파일 도구막대 표시(_F)"
+msgstr "파일 도구 모음 표시(_F)"
 
 #. Toggle visibility of the main navigation toolbar
 #: ../src/main_window.c:378
 msgid "Show _Navigation Toolbar"
-msgstr "탐색 도구막대 표시(_N)"
+msgstr "탐색 도구 모음 표시(_N)"
 
 #. Toggle visibility of the thumbnailbar
 #: ../src/main_window.c:380
@@ -437,7 +437,7 @@ msgstr "배경 색"
 
 #: ../src/preferences_dialog.c:204
 msgid "Toolbars"
-msgstr "도구막대"
+msgstr "도구 모음"
 
 #: ../src/preferences_dialog.c:209
 msgid "Override background color:"
@@ -445,7 +445,7 @@ msgstr "우선 적용할 배경 색:"
 
 #: ../src/preferences_dialog.c:220
 msgid "Merge toolbars"
-msgstr "도구막대 합치기"
+msgstr "도구 모음 합치기"
 
 #: ../src/preferences_dialog.c:225
 msgid "Thumbnails"
