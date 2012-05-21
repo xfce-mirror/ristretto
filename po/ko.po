@@ -32,7 +32,7 @@ msgstr "버전 정보"
 
 #: ../src/main.c:65
 msgid "Start in fullscreen mode"
-msgstr "전체화면 모드로 시작하기"
+msgstr "전체 화면 모드로 시작하기"
 
 #: ../src/main.c:69
 msgid "Start a slideshow"
@@ -700,13 +700,25 @@ msgstr "섬네일"
 
 #: ../src/preferences_dialog.c:224
 msgid "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "창이 전체화면 상태일 때 섬네일 막대를 자동으로 숨길 수 있습니다."
+msgstr "창이 전체 화면 상태일 때 섬네일 막대를 자동으로 숨길 수 있습니다."
 
 #: ../src/preferences_dialog.c:227
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "전체화면일 때 섬네일 막대 숨기기"
+msgstr "전체 화면일 때 섬네일 막대 숨기기"
 
-#: ../src/preferences_dialog.c:258
+#: ../src/preferences_dialog.c:352
+msgid "Clock"
+msgstr "시계"
+
+#: ../src/preferences_dialog.c:355
+msgid "Show an analog clock that displays the current time when the window is fullscreen"
+msgstr "창이 전체 화면 상태일 때 현재 시간을 보여주는 아날로그 시계를 보이기"
+
+#: ../src/preferences_dialog.c:358
+msgid "Show Fullscreen Clock"
+msgstr "전체 화면 시계 보기"
+
+#: ../src/preferences_dialog.c:375
 msgid "Slideshow"
 msgstr "슬라이드쇼"
 
