@@ -1,11 +1,11 @@
-# Uyghur translations for ristretto package
+# Uyghur translations for ristretto
 # Copyright (C) 2008 Stephan Arts
 # This file is distributed under the same license as the ristretto package.
 # Gheyret T.Kenji <gheyret@gmail.com>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.0.18\n"
+"Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-04-17 19:39+0000\n"
 "PO-Revision-Date: 2009-10-12 15:32+0900\n"
