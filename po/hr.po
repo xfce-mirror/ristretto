@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-05-19 21:33+0000\n"
+"POT-Creation-Date: 2012-06-12 12:39+0000\n"
 "PO-Revision-Date: 2010-06-11 19:40+0200\n"
 "Last-Translator: Ivica Kolić<ikoli@yahoo.com> <>\n"
 "Language-Team: Croatian <>\n"
@@ -566,7 +566,7 @@ msgstr "Orijentacija"
 
 #: ../src/icon_bar.c:346
 msgid "The orientation of the iconbar"
-msgstr ""
+msgstr "Orijentacija trake ikona"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
@@ -594,7 +594,7 @@ msgstr ""
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
-msgstr ""
+msgstr "Pokaži tekst"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
@@ -606,7 +606,7 @@ msgstr ""
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr ""
+msgstr "Boja teksta aktivne stavke"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
