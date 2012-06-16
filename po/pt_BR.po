@@ -231,17 +231,17 @@ msgstr "Ampliação em 100%"
 
 #: ../src/main_window.c:482
 msgid "_Rotation"
-msgstr "_Girar"
+msgstr "_Rotação"
 
 #. Icon-name
 #: ../src/main_window.c:486
 msgid "Rotate _Right"
-msgstr "Girar para _direita"
+msgstr "Rotacionar para _direita"
 
 #. Icon-name
 #: ../src/main_window.c:492
 msgid "Rotate _Left"
-msgstr "Girar para _esquerda"
+msgstr "Rotacionar para _esquerda"
 
 #: ../src/main_window.c:499
 msgid "_Go"
@@ -768,7 +768,7 @@ msgstr "Maximizar a janela ao iniciar quando abrindo uma imagem"
 
 #: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
-msgstr "Quebrar imagens ao redor"
+msgstr "Envolver imagens"
 
 #: ../src/preferences_dialog.c:453
 msgid "Desktop"
