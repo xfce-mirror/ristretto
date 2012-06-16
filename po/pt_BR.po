@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-06-13 04:42+0000\n"
+"POT-Creation-Date: 2012-06-15 20:54+0000\n"
 "PO-Revision-Date: 2011-10-02 23:57-0300\n"
 "Last-Translator: Frederico Schardong <frede_sch@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar2.conectiva.com.br>\n"
@@ -57,7 +57,6 @@ msgstr "_Arquivo"
 
 #. Icon-name
 #: ../src/main_window.c:362
-#, fuzzy
 msgid "_Open..."
 msgstr "_Abrir..."
 
@@ -69,7 +68,6 @@ msgstr "Abre uma imagem"
 
 #. Icon-name
 #: ../src/main_window.c:368
-#, fuzzy
 msgid "_Save copy..."
 msgstr "_Salvar cópia..."
 
@@ -81,7 +79,6 @@ msgstr "Salva uma cópia da imagem"
 
 #. Icon-name
 #: ../src/main_window.c:374
-#, fuzzy
 msgid "_Properties..."
 msgstr "_Propriedades..."
 
@@ -125,7 +122,6 @@ msgid "Quit Ristretto"
 msgstr "Sair do Ristretto"
 
 #: ../src/main_window.c:403
-#, fuzzy
 msgid "_Open with"
 msgstr "_Abrir com..."
 
@@ -146,15 +142,13 @@ msgstr "Exclui esta imagem do disco"
 
 #. Icon-name
 #: ../src/main_window.c:417
-#, fuzzy
 msgid "_Clear private data..."
-msgstr "_Limpar dados privados"
+msgstr "_Limpar dados privados..."
 
 #. Icon-name
 #: ../src/main_window.c:423
-#, fuzzy
 msgid "_Preferences..."
-msgstr "_Preferências"
+msgstr "_Preferências..."
 
 #: ../src/main_window.c:430
 msgid "_View"
@@ -184,9 +178,8 @@ msgstr "Sair do modo tela cheia"
 
 #. Icon-name
 #: ../src/main_window.c:446
-#, fuzzy
 msgid "Set as _Wallpaper..."
-msgstr "D_efinir como papel de parede"
+msgstr "D_efinir como papel de parede..."
 
 #: ../src/main_window.c:453
 msgid "_Zoom"
@@ -278,7 +271,6 @@ msgstr "Imagem anterior"
 
 #. Icon-name
 #: ../src/main_window.c:515
-#, fuzzy
 msgid "F_irst"
 msgstr "_Primeira"
 
@@ -338,7 +330,6 @@ msgid "Thumbnail Bar _Position"
 msgstr "_Posição da barra de miniaturas"
 
 #: ../src/main_window.c:557
-#, fuzzy
 msgid "Thumb_nail Size"
 msgstr "Tamanho das _miniaturas"
 
@@ -359,7 +350,6 @@ msgstr "Mostrar barra de _miniaturas"
 
 #. Icon-name
 #: ../src/main_window.c:594
-#, fuzzy
 msgid "Show Status _Bar"
 msgstr "Mostrar barra de _status"
 
@@ -449,7 +439,6 @@ msgid "Press open to select an image"
 msgstr "Pressione abrir para selecionar uma imagem"
 
 #: ../src/main_window.c:1322 ../src/main_window.c:1326
-#, fuzzy
 msgid "Open With Other _Application..."
 msgstr "Abrir com outro _aplicativo"
 
@@ -534,12 +523,15 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Você tem certeza que quer excluir a imagem \"%s\" do disco?"
 
 #: ../src/main_window.c:3310
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Você tem certeza que quer excluir a imagem \"%s\" do disco?"
+msgstr ""
+"Um erro ocorreu quando estava excluindo a imagem \"%s\" do disco.\n"
+"\n"
+"%s"
 
 #: ../src/main_window.c:3326
 #, c-format
@@ -547,12 +539,15 @@ msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Você tem certeza que quer enviar a imagem \"%s\" para a lixeira?"
 
 #: ../src/main_window.c:3344
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "Você tem certeza que quer enviar a imagem \"%s\" para a lixeira?"
+msgstr ""
+"Um erro ocorreu quando estava enviando a imagem \"%s\" para a lixeira.\n"
+"\n"
+"%s"
 
 #: ../src/main_window.c:3674
 msgid "Edit with"
@@ -687,23 +682,23 @@ msgstr "Qualidade"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Com esta opção habilitada, a qualidade máxima da imagem será limitada ao tamanho da tela"
+msgstr ""
+"Com esta opção habilitada, a qualidade máxima da imagem será limitada ao "
+"tamanho da tela"
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
 msgstr "Limitar qualidade de renderização"
 
 #: ../src/preferences_dialog.c:333
-#, fuzzy
 msgid "Fullscreen"
-msgstr "Tela _cheia"
+msgstr "_Tela cheia"
 
 #: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
 #: ../src/preferences_dialog.c:341
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr ""
@@ -719,7 +714,6 @@ msgid "Clock"
 msgstr "Relógio"
 
 #: ../src/preferences_dialog.c:355
-#, fuzzy
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
@@ -728,9 +722,8 @@ msgstr ""
 "quando o visualizador de imagens estiver em modo de tela cheia."
 
 #: ../src/preferences_dialog.c:358
-#, fuzzy
 msgid "Show Fullscreen Clock"
-msgstr "Alternar para tela cheia"
+msgstr "Mostrar relógio quando em tela cheia"
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
