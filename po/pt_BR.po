@@ -664,7 +664,7 @@ msgstr "Limpar dados privados"
 
 #: ../src/preferences_dialog.c:276
 msgid "Display"
-msgstr "Exibir"
+msgstr "Visão"
 
 #: ../src/preferences_dialog.c:283
 msgid "Background color"
@@ -692,7 +692,7 @@ msgstr "Limitar qualidade de renderização"
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
-msgstr "_Tela cheia"
+msgstr "Tela cheia"
 
 #: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
@@ -723,7 +723,7 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
-msgstr "Mostrar relógio quando em tela cheia"
+msgstr "Mostrar relógio em tela cheia"
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
@@ -752,7 +752,7 @@ msgstr "Roda do mouse"
 
 #: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
-msgstr "Reverter direção da ampliação"
+msgstr "Inverter direção da ampliação"
 
 #: ../src/preferences_dialog.c:421
 msgid "Behaviour"
@@ -776,7 +776,7 @@ msgstr "Área de Trabalho"
 
 #: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
-msgstr "Preferências do Visualizador de imagens"
+msgstr "Preferências do Visualizador de Imagens"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
