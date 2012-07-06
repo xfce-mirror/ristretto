@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-05-20 18:57+0000\n"
-"PO-Revision-Date: 2012-05-20 23:14+0300\n"
+"POT-Creation-Date: 2012-07-06 14:27+0000\n"
+"PO-Revision-Date: 2012-07-06 20:20+0300\n"
 "Last-Translator: mohammad <malham1@gmail.com>\n"
 "Language-Team: http://www.vertaal.com.ar/files/factory/ar/list/\n"
 "Language: ar\n"
@@ -93,9 +93,8 @@ msgstr "_تحرير"
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:382
-#, fuzzy
 msgid "Edit this image"
-msgstr "طباعة الصورة"
+msgstr "تحرير هذه الصورة"
 
 #. Icon-name
 #: ../src/main_window.c:386
@@ -160,9 +159,8 @@ msgstr "_ملء الشاشة"
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:436
-#, fuzzy
 msgid "Switch to fullscreen"
-msgstr "بدء في نمط شاشة كاملة"
+msgstr "التبديل إلى وضع ملء الشاشة"
 
 #. Icon-name
 #: ../src/main_window.c:440
@@ -192,9 +190,8 @@ msgstr "قرّب"
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:459
-#, fuzzy
 msgid "Zoom in"
-msgstr "قرّب"
+msgstr "تكبير"
 
 #. Icon-name
 #: ../src/main_window.c:463
@@ -204,9 +201,8 @@ msgstr "صغّر_"
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:465
-#, fuzzy
 msgid "Zoom out"
-msgstr "صغّر_"
+msgstr "تصغير"
 
 #. Icon-name
 #: ../src/main_window.c:469
@@ -256,9 +252,8 @@ msgstr "_للأمام"
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:505
-#, fuzzy
 msgid "Next image"
-msgstr "فتح صورة"
+msgstr "الصّورة التّالية"
 
 #. Icon-name
 #: ../src/main_window.c:509
@@ -268,9 +263,8 @@ msgstr "_للخلف"
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:511
-#, fuzzy
 msgid "Previous image"
-msgstr "طباعة الصورة"
+msgstr "الصّورة السّابقة"
 
 #. Icon-name
 #: ../src/main_window.c:515
@@ -280,9 +274,8 @@ msgstr "ألأول"
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:517
-#, fuzzy
 msgid "First image"
-msgstr "تبديل الصور"
+msgstr "الصورة الأولى"
 
 #. Icon-name
 #: ../src/main_window.c:521
@@ -292,9 +285,8 @@ msgstr "_الأخير"
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:523
-#, fuzzy
 msgid "Last image"
-msgstr "أغلق هذه الصورة"
+msgstr "الصّورة الأخيرة"
 
 #: ../src/main_window.c:528
 msgid "_Help"
@@ -335,9 +327,8 @@ msgid "Thumbnail Bar _Position"
 msgstr "موضع _شريط المصغرات"
 
 #: ../src/main_window.c:557
-#, fuzzy
 msgid "Thumb_nail Size"
-msgstr "ح_جم المصغرات"
+msgstr "قياس المصغرة"
 
 #. Icon-name
 #: ../src/main_window.c:562
@@ -356,9 +347,8 @@ msgstr "عرض شريط الم_صغرات"
 
 #. Icon-name
 #: ../src/main_window.c:594
-#, fuzzy
 msgid "Show Status _Bar"
-msgstr "عرض شريط الم_صغرات"
+msgstr "عرض شريط الحالة"
 
 #. Icon-name
 #: ../src/main_window.c:607
