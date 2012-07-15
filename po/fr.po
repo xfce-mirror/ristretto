@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-06-13 15:24+0000\n"
-"PO-Revision-Date: 2012-04-14 00:37+0100\n"
+"PO-Revision-Date: 2012-07-15 11:49+0200\n"
 "Last-Translator: Iliyas Jorio <inv.jorio@gmail.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -449,16 +449,14 @@ msgid "Press open to select an image"
 msgstr "Cliquez sur Ouvrir pour sélectionner une image"
 
 #: ../src/main_window.c:1322 ../src/main_window.c:1326
-#, fuzzy
 msgid "Open With Other _Application..."
-msgstr "Ouvrir avec une autre _application"
+msgstr "Ouvrir avec une autre _application..."
 
 #: ../src/main_window.c:1347 ../src/main_window.c:1353
 msgid "Empty"
 msgstr "Vide"
 
 #: ../src/main_window.c:1470
-#, fuzzy
 msgid "Loading..."
 msgstr "Chargement..."
 
@@ -684,24 +682,20 @@ msgid "Override background color:"
 msgstr "Couleur d’arrière plan personnalisée :"
 
 #: ../src/preferences_dialog.c:314
-#, fuzzy
 msgid "Quality"
 msgstr "Qualité"
 
 #: ../src/preferences_dialog.c:318
-#, fuzzy
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "Quand cette option est activée, la qualité d'image maximum va être limitée à la taille de l'écran."
 
 #: ../src/preferences_dialog.c:321
-#, fuzzy
 msgid "Limit rendering quality"
 msgstr "Limiter la qualité du rendu"
 
 #: ../src/preferences_dialog.c:333
-#, fuzzy
 msgid "Fullscreen"
 msgstr "_Plein écran"
 
@@ -710,35 +704,29 @@ msgid "Thumbnails"
 msgstr "Miniatures"
 
 #: ../src/preferences_dialog.c:341
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr ""
-"La barre des miniatures peut être masquée\n"
-"automatiquement en mode plein écran."
+"La barre des miniatures peut être masquée automatiquement en mode plein écran."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Cacher les miniatures en mode plein écran"
 
 #: ../src/preferences_dialog.c:352
-#, fuzzy
 msgid "Clock"
 msgstr "Horloge"
 
 #: ../src/preferences_dialog.c:355
-#, fuzzy
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr ""
-"La barre des miniatures peut être masquée\n"
-"automatiquement en mode plein écran."
+""
 
 #: ../src/preferences_dialog.c:358
-#, fuzzy
 msgid "Show Fullscreen Clock"
-msgstr "Basculer en plein écran"
+msgstr ""
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
