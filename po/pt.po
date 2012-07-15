@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-26 12:03+0000\n"
+"POT-Creation-Date: 2012-07-15 07:06+0000\n"
 "PO-Revision-Date: 2012-01-27 18:08+0100\n"
 "Last-Translator: Nuno Miguel <nunis@netcabo.pt>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: PORTUGAL\n"
 "Language: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: PORTUGAL\n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -25,7 +25,7 @@ msgstr "Informações da versão"
 
 #: ../src/main.c:66
 msgid "Start in fullscreen mode"
-msgstr "Iniciar no modo de ecrã inteiro"
+msgstr "Iniciar no modo de ecrã completo"
 
 #: ../src/main.c:70
 msgid "Start a slideshow"
@@ -169,13 +169,13 @@ msgstr "Trocar para ecrã completo"
 #. Icon-name
 #: ../src/main_window.c:440
 msgid "_Leave Fullscreen"
-msgstr "Sair do ecrã comp_leto"
+msgstr "Sair de ecrã comp_leto"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:442
 msgid "Leave Fullscreen"
-msgstr "Sair do ecrã completo"
+msgstr "Sair de ecrã completo"
 
 #. Icon-name
 #: ../src/main_window.c:446
@@ -294,7 +294,7 @@ msgstr "Última imagem"
 
 #: ../src/main_window.c:528
 msgid "_Help"
-msgstr "_Ajuda"
+msgstr "Aj_uda"
 
 #. Icon-name
 #: ../src/main_window.c:532
@@ -420,7 +420,7 @@ msgstr "Iniciar apresentação"
 
 #: ../src/main_window.c:842
 msgid "_Pause"
-msgstr "_Pausar"
+msgstr "_Pausa"
 
 #: ../src/main_window.c:842
 msgid "Pause slideshow"
@@ -449,7 +449,7 @@ msgstr "Vazio"
 
 #: ../src/main_window.c:1470
 msgid "Loading..."
-msgstr "Carregando..."
+msgstr "A carregar..."
 
 #: ../src/main_window.c:2074
 msgid "Choose 'set wallpaper' method"
@@ -517,7 +517,7 @@ msgstr "Incapaz de gravar ficheiro"
 #: ../src/main_window.c:3292
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Tem a certeza que quer apagar do disco a imagem '%s'?"
+msgstr "Tem a certeza que pretende apagar '%s' permanentemente?"
 
 #: ../src/main_window.c:3310
 #, c-format
@@ -525,12 +525,15 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Tem a certeza que quer apagar do disco a imagem '%s'?"
+msgstr ""
+"Ocorreu um erro ao apagar a imagem '%s' permanentemente.\n"
+"\n"
+"%s"
 
 #: ../src/main_window.c:3326
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Tem a certeza que quer enviar a imagem '%s' para o lixo?"
+msgstr "Tem a certeza que pretende enviar a imagem '%s' para o lixo?"
 
 #: ../src/main_window.c:3344
 #, c-format
@@ -538,7 +541,10 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "Tem a certeza que quer enviar a imagem '%s' para o lixo?"
+msgstr ""
+"Ocorreu um erro ao enviar a imagem '%s' para o lixo.\n"
+"\n"
+"%s"
 
 #: ../src/main_window.c:3674
 msgid "Edit with"
@@ -583,7 +589,7 @@ msgstr "Modelo da barra de ícones"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr "Modelo para a barra de ícones"
+msgstr "O modelo da barra de ícones"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
@@ -665,7 +671,27 @@ msgstr "Cor de fundo"
 msgid "Override background color:"
 msgstr "Substituir cor de fundo:"
 
-#: ../src/preferences_dialog.c:222
+#: ../src/preferences_dialog.c:314
+msgid "Quality"
+msgstr "Qualidade"
+
+#: ../src/preferences_dialog.c:318
+msgid ""
+"With this option enabled, the maximum image-quality will be limited to the "
+"screen-size."
+msgstr ""
+"Se ativar esta opção, a qualidade máxima das imagens será limitada ao "
+"tamanho do ecrã."
+
+#: ../src/preferences_dialog.c:321
+msgid "Limit rendering quality"
+msgstr "Limitar qualidade da imagem"
+
+#: ../src/preferences_dialog.c:333
+msgid "Fullscreen"
+msgstr "Ecrã completo"
+
+#: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
@@ -722,7 +748,7 @@ msgstr "Roda de deslocamento"
 
 #: ../src/preferences_dialog.c:303
 msgid "Invert zoom direction"
-msgstr "Reverter orientação"
+msgstr "Inverter orientação"
 
 #: ../src/preferences_dialog.c:313
 msgid "Behaviour"
@@ -734,7 +760,7 @@ msgstr "Arranque"
 
 #: ../src/preferences_dialog.c:320
 msgid "Maximize window on startup when opening an image"
-msgstr "Maximizar janela no arranque ao abrir uma imagem"
+msgstr "Maximizar janela ao abrir uma imagem"
 
 #: ../src/preferences_dialog.c:326
 msgid "Wrap around images"
@@ -854,7 +880,7 @@ msgstr "Ampliada"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
-msgstr "Veja as suas imagens facilmente"
+msgstr "Ver fotos facilmente"
 
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Image Viewer"
