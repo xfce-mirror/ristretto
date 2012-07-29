@@ -734,18 +734,6 @@ msgstr ""
 "슬라이드 쇼를 진행하는 동안 제각각의 그림을 표시하는 시간의 간격입니다\n"
 "(초 단위)"
 
-#: ../src/preferences_dialog.c:274
-msgid "Clock"
-msgstr "시계"
-
-#: ../src/preferences_dialog.c:277
-msgid "Show an analog clock that displays the current time when the window is fullscreen"
-msgstr "창이 전체화면 상태일 때 현재 시간을 보여주는 아날로그 시계를 보이기"
-
-#: ../src/preferences_dialog.c:280
-msgid "Show Fullscreen Clock"
-msgstr "전체화면 시계 보기"
-
 #: ../src/preferences_dialog.c:295
 msgid "Control"
 msgstr "제어"

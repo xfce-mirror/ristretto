@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-28 15:48+0000\n"
+"POT-Creation-Date: 2012-07-29 22:38+0200\n"
 "PO-Revision-Date: 2012-04-28 20:13+0100\n"
 "Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -45,8 +45,7 @@ msgstr ""
 "Pro zobrazení seznamu všech dostupných\n"
 "parametrů použijte příkaz %s --help\n"
 
-#: ../src/main_window.c:56
-#: ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:56 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
 msgstr "Prohlížeč obrázků"
 
@@ -88,8 +87,7 @@ msgid "Show file properties"
 msgstr "Zobrazit vlastnosti souboru"
 
 #. Icon-name
-#: ../src/main_window.c:380
-#: ../src/main_window.c:399
+#: ../src/main_window.c:380 ../src/main_window.c:399
 msgid "_Edit"
 msgstr "_Upravit"
 
@@ -434,18 +432,15 @@ msgstr "_Naposledy použité"
 msgid "Recently used"
 msgstr "Naposledy použité"
 
-#: ../src/main_window.c:949
-#: ../src/main_window.c:1460
+#: ../src/main_window.c:949 ../src/main_window.c:1460
 msgid "Press open to select an image"
 msgstr "Obrázek vyberete stisknutím tlačítka Otevřít"
 
-#: ../src/main_window.c:1322
-#: ../src/main_window.c:1326
+#: ../src/main_window.c:1322 ../src/main_window.c:1326
 msgid "Open With Other _Application..."
 msgstr "Otevřít v jiné _aplikaci..."
 
-#: ../src/main_window.c:1347
-#: ../src/main_window.c:1353
+#: ../src/main_window.c:1347 ../src/main_window.c:1353
 msgid "Empty"
 msgstr "Prázdný"
 
@@ -457,8 +452,7 @@ msgstr "Načítání..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Zvolit metodu 'nastavení tapety'"
 
-#: ../src/main_window.c:2089
-#: ../src/preferences_dialog.c:398
+#: ../src/main_window.c:2089 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -468,18 +462,15 @@ msgstr ""
 "Toto nastavení určuje metodu, kterou aplikace <i>Ristretto</i>\n"
 "použije k nastavení tapety pracovní plochy."
 
-#: ../src/main_window.c:2114
-#: ../src/preferences_dialog.c:422
+#: ../src/main_window.c:2114 ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "Žádný"
 
-#: ../src/main_window.c:2118
-#: ../src/preferences_dialog.c:426
+#: ../src/main_window.c:2118 ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2122
-#: ../src/preferences_dialog.c:430
+#: ../src/main_window.c:2122 ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -509,8 +500,7 @@ msgstr "Obrázky"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2923
-#: ../src/main_window.c:3065
+#: ../src/main_window.c:2923 ../src/main_window.c:3065
 msgid "Could not open file"
 msgstr "Nelze otevřít soubor"
 
@@ -607,38 +597,31 @@ msgstr "Aktivní"
 msgid "Active item index"
 msgstr "Aktivní položka indexu"
 
-#: ../src/icon_bar.c:409
-#: ../src/icon_bar.c:410
+#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
 msgstr "Zobrazit text"
 
-#: ../src/icon_bar.c:416
-#: ../src/icon_bar.c:417
+#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
 msgstr "Barva výplně aktivní položky"
 
-#: ../src/icon_bar.c:423
-#: ../src/icon_bar.c:424
+#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
 msgstr "Barva okraje aktivní položky"
 
-#: ../src/icon_bar.c:430
-#: ../src/icon_bar.c:431
+#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
 msgstr "Barva textu aktivní položky"
 
-#: ../src/icon_bar.c:437
-#: ../src/icon_bar.c:438
+#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
 msgstr "Barva výplně položky s umístěným kurzorem"
 
-#: ../src/icon_bar.c:444
-#: ../src/icon_bar.c:445
+#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
 msgstr "Barva okraje položky s umístěným kurzorem"
 
-#: ../src/icon_bar.c:451
-#: ../src/icon_bar.c:452
+#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 msgid "Cursor item text color"
 msgstr "Barva textu položky s umístěným kurzorem"
 
@@ -674,67 +657,77 @@ msgstr "Vše"
 msgid "Clear private data"
 msgstr "Smazat soukromé údaje"
 
-#: ../src/preferences_dialog.c:219
+#: ../src/preferences_dialog.c:276
 msgid "Display"
 msgstr "Zobrazení"
 
-#: ../src/preferences_dialog.c:224
+#: ../src/preferences_dialog.c:283
 msgid "Background color"
 msgstr "Barva pozadí"
 
-#: ../src/preferences_dialog.c:228
+#: ../src/preferences_dialog.c:287
 msgid "Override background color:"
 msgstr "Vynutit barvu pozadí:"
 
-#: ../src/preferences_dialog.c:255
+#: ../src/preferences_dialog.c:314
 msgid "Quality"
 msgstr "Kvalita"
 
-#: ../src/preferences_dialog.c:259
-msgid "With this option enabled, the maximum image-quality will be limited to the screen-size."
-msgstr "Zaškrtnete-li tuto volbu, bude maximální kvalita obrázku omezena velikostí obrazovky."
+#: ../src/preferences_dialog.c:318
+msgid ""
+"With this option enabled, the maximum image-quality will be limited to the "
+"screen-size."
+msgstr ""
+"Zaškrtnete-li tuto volbu, bude maximální kvalita obrázku omezena velikostí "
+"obrazovky."
 
-#: ../src/preferences_dialog.c:262
+#: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
 msgstr "Omezení kvality vykreslování"
 
-#: ../src/preferences_dialog.c:274
+#: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
 msgstr "Celá obrazovka"
 
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
 msgstr "Náhledy"
 
-#: ../src/preferences_dialog.c:282
-msgid "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Panel náhledů se automaticky schová, je-li okno v režimu celé obrazovky."
+#: ../src/preferences_dialog.c:341
+msgid ""
+"The thumbnail bar can be automatically hidden when the window is fullscreen."
+msgstr ""
+"Panel náhledů se automaticky schová, je-li okno v režimu celé obrazovky."
 
-#: ../src/preferences_dialog.c:285
+#: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Skrýt panel náhledů v režimu celé obrazovky"
 
-#: ../src/preferences_dialog.c:293
+#: ../src/preferences_dialog.c:352
 msgid "Clock"
 msgstr "Hodiny"
 
-#: ../src/preferences_dialog.c:296
-msgid "Show an analog clock that displays the current time when the window is fullscreen"
-msgstr "Zobrazí analogové hodiny zobrazující aktuální čas, když je okno v režimu celé obrazovkay"
+#: ../src/preferences_dialog.c:355
+msgid ""
+"Show an analog clock that displays the current time when the window is "
+"fullscreen"
+msgstr ""
+"Zobrazí analogové hodiny zobrazující aktuální čas, když je okno v režimu "
+"celé obrazovkay"
 
-#: ../src/preferences_dialog.c:299
+#: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
 msgstr "Zobrazit hodiny přes celou obrazovku"
 
-#: ../src/preferences_dialog.c:315
+#: ../src/preferences_dialog.c:375
 msgid "Slideshow"
 msgstr "Promítání snímků"
 
-#: ../src/preferences_dialog.c:319
+#: ../src/preferences_dialog.c:379
 msgid "Timeout"
 msgstr "Prodleva"
 
-#: ../src/preferences_dialog.c:322
+#: ../src/preferences_dialog.c:382
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -742,39 +735,39 @@ msgstr ""
 "Časový interval po který je zobrazen jeden snímek při promítání\n"
 "(v sekundách)"
 
-#: ../src/preferences_dialog.c:338
+#: ../src/preferences_dialog.c:400
 msgid "Control"
 msgstr "Ovládání"
 
-#: ../src/preferences_dialog.c:342
+#: ../src/preferences_dialog.c:404
 msgid "Scroll wheel"
 msgstr "Kolečko myši"
 
-#: ../src/preferences_dialog.c:345
+#: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
 msgstr "Zaměnit směr přiblížení"
 
-#: ../src/preferences_dialog.c:355
+#: ../src/preferences_dialog.c:421
 msgid "Behaviour"
 msgstr "Chování"
 
-#: ../src/preferences_dialog.c:360
+#: ../src/preferences_dialog.c:426
 msgid "Startup"
 msgstr "Při spuštění"
 
-#: ../src/preferences_dialog.c:362
+#: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
 msgstr "Maximalizovat okno při spuštění během otevírání obrázku"
 
-#: ../src/preferences_dialog.c:368
+#: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
 msgstr "Orámování obrázků"
 
-#: ../src/preferences_dialog.c:387
+#: ../src/preferences_dialog.c:453
 msgid "Desktop"
 msgstr "Pracovní plocha"
 
-#: ../src/preferences_dialog.c:509
+#: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
 msgstr "Předvolby Prohlížeče obrázků"
 
@@ -811,8 +804,7 @@ msgstr "Obrázek"
 msgid "<b>Date taken:</b>"
 msgstr "<b>Datum pořízení:</b>"
 
-#: ../src/properties_dialog.c:538
-#: ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
 #: ../src/properties_dialog.c:562
 #, c-format
 msgid "<b>%s</b>"
@@ -843,8 +835,7 @@ msgstr ""
 msgid "Do _not show this message again"
 msgstr "Tuto zprávu již příště _nezobrazovat"
 
-#: ../src/xfce_wallpaper_manager.c:336
-#: ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Styl:"
 
@@ -856,13 +847,11 @@ msgstr "Jas:"
 msgid "Saturation:"
 msgstr "Sytost:"
 
-#: ../src/xfce_wallpaper_manager.c:355
-#: ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Nastavit jako tapetu"
 
-#: ../src/xfce_wallpaper_manager.c:508
-#: ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Automaticky"
 
@@ -886,13 +875,13 @@ msgstr "Přizpůsobený změnou velikosti"
 msgid "Zoomed"
 msgstr "Přiblížený"
 
+#: ../ristretto.desktop.in.h:1
+msgid "Ristretto Image Viewer"
+msgstr "Prohlížeč fotografií Ristretto"
+
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Prohlížejte si obrázky jednoduše"
-
-#: ../ristretto.desktop.in.h:3
-msgid "Ristretto Image Viewer"
-msgstr "Prohlížeč fotografií Ristretto"
 
 #~ msgid "Show _Navigation Toolbar"
 #~ msgstr "Zobrazit panel _Navigace"

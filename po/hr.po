@@ -711,22 +711,6 @@ msgstr ""
 "Vremensko razdoblje u kojem je prikazana jedna slika u kliznom prikazu\n"
 "(u sekundama)"
 
-#: ../src/preferences_dialog.c:275
-msgid "Clock"
-msgstr ""
-
-#: ../src/preferences_dialog.c:278
-msgid ""
-"Show an analog clock that displays the current time when the window is "
-"fullscreen"
-msgstr ""
-"Traka sličica može biti automatski skrivena \n"
-"kada je preglednik slika u punom zaslonu."
-
-#: ../src/preferences_dialog.c:281
-msgid "Show Fullscreen Clock"
-msgstr ""
-
 #: ../src/preferences_dialog.c:296
 msgid "Control"
 msgstr "Kontrola"

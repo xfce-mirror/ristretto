@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-27 11:03+0000\n"
+"POT-Creation-Date: 2012-07-29 22:38+0200\n"
 "PO-Revision-Date: 2012-04-27 14:28+0300\n"
 "Last-Translator: Jari Rahkonen <jari.rahkonen@pp1.inet.fi>\n"
 "Language-Team: Finnish <xfce-i18n@xfce.org>\n"
@@ -45,7 +45,7 @@ msgstr ""
 "Saat listan komentorivivalitsimista\n"
 "kirjoittamalla %s --help.\n"
 
-#: ../src/main_window.c:56 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:56 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
 msgstr "Kuvakatselin"
 
@@ -452,7 +452,7 @@ msgstr "Ladataan..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Valitse taustakuvan asetustapa"
 
-#: ../src/main_window.c:2089 ../src/preferences_dialog.c:356
+#: ../src/main_window.c:2089 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -462,15 +462,15 @@ msgstr ""
 "Tämä asetus määrittää, millä tavoin <i>Ristretto</i> asettaa\n"
 "työpöytäsi taustakuvan."
 
-#: ../src/main_window.c:2114 ../src/preferences_dialog.c:380
+#: ../src/main_window.c:2114 ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "Ei mikään"
 
-#: ../src/main_window.c:2118 ../src/preferences_dialog.c:384
+#: ../src/main_window.c:2118 ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2122 ../src/preferences_dialog.c:388
+#: ../src/main_window.c:2122 ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -655,94 +655,111 @@ msgstr "Kaikki"
 msgid "Clear private data"
 msgstr "Poista yksityisiä tietoja"
 
-#: ../src/preferences_dialog.c:201
+#: ../src/preferences_dialog.c:276
 msgid "Display"
 msgstr "Näyttö"
 
-#: ../src/preferences_dialog.c:206
+#: ../src/preferences_dialog.c:283
 msgid "Background color"
 msgstr "Taustaväri"
 
-#: ../src/preferences_dialog.c:210
+#: ../src/preferences_dialog.c:287
 msgid "Override background color:"
 msgstr "Korvaa taustaväri:"
 
-#: ../src/preferences_dialog.c:222
+#: ../src/preferences_dialog.c:314
+msgid "Quality"
+msgstr ""
+
+#: ../src/preferences_dialog.c:318
+msgid ""
+"With this option enabled, the maximum image-quality will be limited to the "
+"screen-size."
+msgstr ""
+
+#: ../src/preferences_dialog.c:321
+msgid "Limit rendering quality"
+msgstr ""
+
+#: ../src/preferences_dialog.c:333
+#, fuzzy
+msgid "Fullscreen"
+msgstr "Koko_ruutu"
+
+#: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
 msgstr "Pienoiskuvat"
 
-#: ../src/preferences_dialog.c:225
+#: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr ""
-"Pienoiskuvapalkin voi piilottaa automaattisesti kokoruututilassa."
+msgstr "Pienoiskuvapalkin voi piilottaa automaattisesti kokoruututilassa."
 
-#: ../src/preferences_dialog.c:228
+#: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Piilota pienoiskuvat kokoruudussa"
 
-#: ../src/preferences_dialog.c:259
+#: ../src/preferences_dialog.c:352
+msgid "Clock"
+msgstr "Kello"
+
+#: ../src/preferences_dialog.c:355
+msgid ""
+"Show an analog clock that displays the current time when the window is "
+"fullscreen"
+msgstr "Näytä kokoruututilassa analoginen kello, joka näyttää kuluvan ajan"
+
+#: ../src/preferences_dialog.c:358
+msgid "Show Fullscreen Clock"
+msgstr "Näytä kello kokoruudussa"
+
+#: ../src/preferences_dialog.c:375
 msgid "Slideshow"
 msgstr "Diaesitys"
 
-#: ../src/preferences_dialog.c:263
+#: ../src/preferences_dialog.c:379
 msgid "Timeout"
 msgstr "Esitysaika"
 
-#: ../src/preferences_dialog.c:266
+#: ../src/preferences_dialog.c:382
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr "Montako sekuntia yksittäistä kuvaa esitetään diaesityksessä?"
 
-#: ../src/preferences_dialog.c:275
-msgid "Clock"
-msgstr "Kello"
-
-#: ../src/preferences_dialog.c:278
-msgid ""
-"Show an analog clock that displays the current time when the window is "
-"fullscreen"
-msgstr ""
-"Näytä kokoruututilassa analoginen kello, joka näyttää kuluvan ajan"
-
-#: ../src/preferences_dialog.c:281
-msgid "Show Fullscreen Clock"
-msgstr "Näytä kello kokoruudussa"
-
-#: ../src/preferences_dialog.c:296
+#: ../src/preferences_dialog.c:400
 msgid "Control"
 msgstr "Ohjaus"
 
-#: ../src/preferences_dialog.c:300
+#: ../src/preferences_dialog.c:404
 msgid "Scroll wheel"
 msgstr "Vierityspainike"
 
-#: ../src/preferences_dialog.c:303
+#: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
 msgstr "Käänteinen suurennus"
 
-#: ../src/preferences_dialog.c:313
+#: ../src/preferences_dialog.c:421
 msgid "Behaviour"
 msgstr "Käytös"
 
-#: ../src/preferences_dialog.c:318
+#: ../src/preferences_dialog.c:426
 msgid "Startup"
 msgstr "Käynnistys"
 
-#: ../src/preferences_dialog.c:320
+#: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
 msgstr "Sovita ikkuna kuvaan käynnistäessä"
 
-#: ../src/preferences_dialog.c:326
+#: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
 msgstr "Kierrätä kuvia"
 
-#: ../src/preferences_dialog.c:345
+#: ../src/preferences_dialog.c:453
 msgid "Desktop"
 msgstr "Työpöytä"
 
-#: ../src/preferences_dialog.c:467
+#: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
 msgstr "Kuvakatselimen asetukset"
 
@@ -849,10 +866,10 @@ msgstr "Skaalattu"
 msgid "Zoomed"
 msgstr "Suurennettu"
 
+#: ../ristretto.desktop.in.h:1
+msgid "Ristretto Image Viewer"
+msgstr "Ristretto-kuvakatselin"
+
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Katsele kuviasi helposti"
-
-#: ../ristretto.desktop.in.h:3
-msgid "Ristretto Image Viewer"
-msgstr "Ristretto-kuvakatselin"

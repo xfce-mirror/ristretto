@@ -2,19 +2,19 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the ristretto package.
 # Jeff Bailes <thepizzaking@gmail.com>, 2009
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-27 22:33+0000\n"
+"POT-Creation-Date: 2012-07-29 22:38+0200\n"
 "PO-Revision-Date: 2010-01-24 14:08+1100\n"
 "Last-Translator: Jeff Bailes <thepizzaking@gmail.com>\n"
 "Language-Team: English/GB\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
 
@@ -45,7 +45,7 @@ msgstr ""
 "%s: %s\n"
 "Try %s --help to see a full list of available command line options.\n"
 
-#: ../src/main_window.c:56 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:56 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
 msgstr "Image Viewer"
 
@@ -452,7 +452,7 @@ msgstr "Loading..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Choose 'set wallpaper' method"
 
-#: ../src/main_window.c:2089 ../src/preferences_dialog.c:398
+#: ../src/main_window.c:2089 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -462,15 +462,15 @@ msgstr ""
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 
-#: ../src/main_window.c:2114 ../src/preferences_dialog.c:422
+#: ../src/main_window.c:2114 ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "None"
 
-#: ../src/main_window.c:2118 ../src/preferences_dialog.c:426
+#: ../src/main_window.c:2118 ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2122 ../src/preferences_dialog.c:430
+#: ../src/main_window.c:2122 ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -655,56 +655,58 @@ msgstr "Everything"
 msgid "Clear private data"
 msgstr "Clear private data"
 
-#: ../src/preferences_dialog.c:219
+#: ../src/preferences_dialog.c:276
 msgid "Display"
 msgstr "Display"
 
-#: ../src/preferences_dialog.c:224
+#: ../src/preferences_dialog.c:283
 msgid "Background color"
 msgstr "Background colour"
 
-#: ../src/preferences_dialog.c:228
+#: ../src/preferences_dialog.c:287
 msgid "Override background color:"
 msgstr "Override background colour:"
 
-#: ../src/preferences_dialog.c:255
+#: ../src/preferences_dialog.c:314
 msgid "Quality"
 msgstr "Quality"
 
-#: ../src/preferences_dialog.c:259
+#: ../src/preferences_dialog.c:318
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "With this option enabled, the maximum image-quality will be limited to the screen-size."
+msgstr ""
+"With this option enabled, the maximum image-quality will be limited to the "
+"screen-size."
 
-#: ../src/preferences_dialog.c:262
+#: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
 msgstr "Limit rendering quality"
 
-#: ../src/preferences_dialog.c:274
+#: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
 msgstr "Fullscreen"
 
-#: ../src/preferences_dialog.c:279
+#: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
 msgstr "Thumbnails"
 
-#: ../src/preferences_dialog.c:282
+#: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 
-#: ../src/preferences_dialog.c:285
+#: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Hide thumbnail bar when fullscreen"
 
-#: ../src/preferences_dialog.c:293
+#: ../src/preferences_dialog.c:352
 msgid "Clock"
 msgstr "Clock"
 
-#: ../src/preferences_dialog.c:296
+#: ../src/preferences_dialog.c:355
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
@@ -712,19 +714,19 @@ msgstr ""
 "The thumbnailbar can be automatically hidden \n"
 "when the image-viewer is fullscreen."
 
-#: ../src/preferences_dialog.c:299
+#: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
 msgstr "Show Fullscreen Clock"
 
-#: ../src/preferences_dialog.c:315
+#: ../src/preferences_dialog.c:375
 msgid "Slideshow"
 msgstr "Slideshow"
 
-#: ../src/preferences_dialog.c:319
+#: ../src/preferences_dialog.c:379
 msgid "Timeout"
 msgstr "Timeout"
 
-#: ../src/preferences_dialog.c:322
+#: ../src/preferences_dialog.c:382
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
@@ -732,39 +734,39 @@ msgstr ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 
-#: ../src/preferences_dialog.c:338
+#: ../src/preferences_dialog.c:400
 msgid "Control"
 msgstr "Control"
 
-#: ../src/preferences_dialog.c:342
+#: ../src/preferences_dialog.c:404
 msgid "Scroll wheel"
 msgstr "Scroll wheel"
 
-#: ../src/preferences_dialog.c:345
+#: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
 msgstr "Invert zoom direction"
 
-#: ../src/preferences_dialog.c:355
+#: ../src/preferences_dialog.c:421
 msgid "Behaviour"
 msgstr "Behaviour"
 
-#: ../src/preferences_dialog.c:360
+#: ../src/preferences_dialog.c:426
 msgid "Startup"
 msgstr "Startup"
 
-#: ../src/preferences_dialog.c:362
+#: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
 msgstr "Maximise window on startup when opening an image"
 
-#: ../src/preferences_dialog.c:368
+#: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
 msgstr "Wrap around images"
 
-#: ../src/preferences_dialog.c:387
+#: ../src/preferences_dialog.c:453
 msgid "Desktop"
 msgstr "Desktop"
 
-#: ../src/preferences_dialog.c:509
+#: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
 msgstr "Image Viewer Preferences"
 
@@ -872,13 +874,13 @@ msgstr "Scaled"
 msgid "Zoomed"
 msgstr "Zoomed"
 
+#: ../ristretto.desktop.in.h:1
+msgid "Ristretto Image Viewer"
+msgstr "Ristretto Image Viewer"
+
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Look at your images easily"
-
-#: ../ristretto.desktop.in.h:3
-msgid "Ristretto Image Viewer"
-msgstr "Ristretto Image Viewer"
 
 #~ msgid "Show _Navigation Toolbar"
 #~ msgstr "Show _Navigation Toolbar"
