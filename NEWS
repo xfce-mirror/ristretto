@@ -1,3 +1,7 @@
+0.6.2
+=====
+- Fix backport of translations, (I should build before tagging)
+
 0.6.1
 =====
 - Fix segfault when changing the 'limit-quality' options.
