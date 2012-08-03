@@ -2391,21 +2391,29 @@ cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget,
                                                 gpointer user_data)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
-    if (!(event->state & (GDK_CONTROL_MASK)))
+    gboolean ret = FALSE;
+
+    /*
+     * - scroll through images with scroll
+     * - pan across current image with shift+scroll
+     * - zoom on current image with ctrl+scroll
+     */
+    if (!(event->state & (GDK_CONTROL_MASK)) &&
+        !(event->state & (GDK_SHIFT_MASK)))
     {
         switch(event->direction)
         {
             case GDK_SCROLL_UP:
             case GDK_SCROLL_LEFT:
                 rstto_image_list_iter_previous (window->priv->iter);
-                break;
+                ret = TRUE; /* don't call other callbacks */
             case GDK_SCROLL_DOWN:
             case GDK_SCROLL_RIGHT:
                 rstto_image_list_iter_next (window->priv->iter);
-                break;
+                ret = TRUE;
         }
     }
-    return FALSE;
+    return ret;
 }
 
 static gboolean
