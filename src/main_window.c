@@ -1291,7 +1291,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
                     -1.0,
                     0);
 
-            pixbuf = rstto_file_get_thumbnail (cur_file, THUMBNAIL_SIZE_VERY_SMALL);
+            pixbuf = rstto_file_get_thumbnail (cur_file, THUMBNAIL_SIZE_SMALL);
             if (pixbuf != NULL)
             {
                 gtk_window_set_icon (GTK_WINDOW (window), gdk_pixbuf_copy (pixbuf));
@@ -4205,7 +4205,7 @@ cb_rstto_thumbnailer_ready(
 
     if (file == cur_file)
     {
-        pixbuf = rstto_file_get_thumbnail (file, THUMBNAIL_SIZE_VERY_SMALL);
+        pixbuf = rstto_file_get_thumbnail (file, THUMBNAIL_SIZE_SMALL);
         if (pixbuf != NULL)
         {
             gtk_window_set_icon (GTK_WINDOW (window), gdk_pixbuf_copy(pixbuf));
