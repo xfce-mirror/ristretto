@@ -1175,6 +1175,12 @@ rstto_main_window_dispose(GObject *object)
             g_object_unref (window->priv->filter);
             window->priv->filter= NULL;
         }
+
+        if (window->priv->thumbnailer)
+        {
+            g_object_unref (window->priv->thumbnailer);
+            window->priv->thumbnailer = NULL;
+        }
         g_free (window->priv);
         window->priv = NULL;
     }
