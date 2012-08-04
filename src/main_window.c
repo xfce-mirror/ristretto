@@ -1366,11 +1366,11 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 
             if (count > 1)
             {
-                title = g_strdup_printf ("%s - %s [%d/%d]", RISTRETTO_APP_TITLE,  file_basename, position+1, count);
+                title = g_strdup_printf ("%s - %s [%d/%d]", file_basename, RISTRETTO_APP_TITLE,  position+1, count);
             }
             else
             {
-                title = g_strdup_printf ("%s - %s", RISTRETTO_APP_TITLE,  file_basename);
+                title = g_strdup_printf ("%s - %s", file_basename, RISTRETTO_APP_TITLE );
             }
 
         }
