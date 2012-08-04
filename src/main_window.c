@@ -38,6 +38,7 @@
 #include "util.h"
 #include "file.h"
 #include "icon_bar.h"
+#include "thumbnailer.h"
 #include "image_list.h"
 #include "image_viewer.h"
 #include "main_window.h"
@@ -94,6 +95,7 @@ struct _RsttoMainWindowPriv
     GtkRecentManager      *recent_manager;
     RsttoSettings         *settings_manager;
     RsttoWallpaperManager *wallpaper_manager;
+    RsttoThumbnailer      *thumbnailer;
 
     GtkWidget             *menubar;
     GtkWidget             *toolbar;
@@ -161,6 +163,11 @@ static gint
 cb_compare_app_infos (
         gconstpointer a,
         gconstpointer b);
+static void
+cb_rstto_thumbnailer_ready(
+        RsttoThumbnailer *thumbnailer,
+        RsttoFile *file,
+        gpointer user_data);
 
 static gboolean
 rstto_window_save_geometry_timer (gpointer user_data);
@@ -764,6 +771,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->ui_manager = gtk_ui_manager_new ();
     window->priv->recent_manager = gtk_recent_manager_get_default();
     window->priv->settings_manager = rstto_settings_new();
+    window->priv->thumbnailer = rstto_thumbnailer_new();
 
     /* Setup the image filter list for drag and drop */
     window->priv->filter = gtk_file_filter_new ();
@@ -1109,6 +1117,12 @@ rstto_main_window_init (RsttoMainWindow *window)
             G_CALLBACK (cb_rstto_desktop_type_changed),
             window);
 
+    g_signal_connect (
+            G_OBJECT(window->priv->thumbnailer),
+            "ready",
+            G_CALLBACK (cb_rstto_thumbnailer_ready),
+            window);
+
 }
 
 static void
@@ -1247,6 +1261,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
     const gchar *id;
     GtkWidget *menu_item = NULL;
     GDesktopAppInfo *app_info = NULL;
+    const GdkPixbuf *pixbuf = NULL;
 
     GtkWidget *open_with_menu = gtk_menu_new();
     GtkWidget *open_with_window_menu = gtk_menu_new();
@@ -1269,6 +1284,17 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
                     cur_file,
                     -1.0,
                     0);
+
+            pixbuf = rstto_file_get_thumbnail (cur_file, THUMBNAIL_SIZE_VERY_SMALL);
+            if (pixbuf != NULL)
+            {
+                gtk_window_set_icon (GTK_WINDOW (window), gdk_pixbuf_copy (pixbuf));
+            }
+            else
+            {
+                gtk_window_set_icon (GTK_WINDOW (window), NULL);
+                gtk_window_set_icon_name (GTK_WINDOW (window), "ristretto");
+            }
 
             app_list = g_app_info_get_all_for_type (content_type);
             editor = rstto_mime_db_lookup (window->priv->db, content_type);
@@ -1358,6 +1384,9 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             gtk_widget_show_all (open_with_window_menu);
 
             title = g_strdup (RISTRETTO_APP_TITLE);
+
+            gtk_window_set_icon (GTK_WINDOW (window), NULL);
+            gtk_window_set_icon_name (GTK_WINDOW (window), "ristretto");
         }
 
         rstto_main_window_update_buttons (window);
@@ -4156,4 +4185,29 @@ cb_compare_app_infos (
         gconstpointer b)
 {
   return g_app_info_equal (G_APP_INFO (a), G_APP_INFO (b)) ? 0 : 1;
+}
+
+static void
+cb_rstto_thumbnailer_ready(
+        RsttoThumbnailer *thumbnailer,
+        RsttoFile *file,
+        gpointer user_data)
+{
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    RsttoFile *cur_file = rstto_image_list_iter_get_file (window->priv->iter);
+    const GdkPixbuf *pixbuf = NULL;
+
+    if (file == cur_file)
+    {
+        pixbuf = rstto_file_get_thumbnail (file, THUMBNAIL_SIZE_VERY_SMALL);
+        if (pixbuf != NULL)
+        {
+            gtk_window_set_icon (GTK_WINDOW (window), gdk_pixbuf_copy(pixbuf));
+        }
+        else
+        {
+            gtk_window_set_icon (GTK_WINDOW (window), NULL);
+            gtk_window_set_icon_name (GTK_WINDOW (window), "ristretto");
+        }
+    } 
 }
