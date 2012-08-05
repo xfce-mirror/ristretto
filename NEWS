@@ -1,4 +1,4 @@
-x.x.x
+0.6.3
 =====
 - Fix bug #8837 (Use thumbnail as appicon)
 - Update the first image in the image-list when receiving a ready-signal.
