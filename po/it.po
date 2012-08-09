@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-23 19:24+0000\n"
+"POT-Creation-Date: 2012-05-01 12:51+0000\n"
 "PO-Revision-Date: 2011-12-24 10:08+0100\n"
 "Last-Translator: Cristian Marchi <cri.penta@gmail.com>\n"
 "Language-Team: Italian Translation Team <xfce-it-translators@googlegroups.com>\n"
@@ -454,7 +454,7 @@ msgstr "Caricamento..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Seleziona il metodo \"imposta sfondo\""
 
-#: ../src/main_window.c:2089 ../src/preferences_dialog.c:356
+#: ../src/main_window.c:2089 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -464,15 +464,15 @@ msgstr ""
 "Questa impostazione determina il metodo che <i>Ristretto</i>\n"
 "utilizzerà per configurare lo sfondo della scrivania."
 
-#: ../src/main_window.c:2114 ../src/preferences_dialog.c:380
+#: ../src/main_window.c:2114 ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "Nessuno"
 
-#: ../src/main_window.c:2118 ../src/preferences_dialog.c:384
+#: ../src/main_window.c:2118 ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2122 ../src/preferences_dialog.c:388
+#: ../src/main_window.c:2122 ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -661,54 +661,56 @@ msgstr "Tutto"
 msgid "Clear private data"
 msgstr "Cancella i dati privati"
 
-#: ../src/preferences_dialog.c:201
+#: ../src/preferences_dialog.c:276
 msgid "Display"
 msgstr "Visualizzazione"
 
-#: ../src/preferences_dialog.c:206
+#: ../src/preferences_dialog.c:283
 msgid "Background color"
 msgstr "Colore dello sfondo"
 
-#: ../src/preferences_dialog.c:210
+#: ../src/preferences_dialog.c:287
 msgid "Override background color:"
 msgstr "Cambia il colore dello sfondo:"
 
-#: ../src/preferences_dialog.c:222
+#: ../src/preferences_dialog.c:314
+msgid "Quality"
+msgstr "Qualità"
+
+#: ../src/preferences_dialog.c:318
+msgid ""
+"With this option enabled, the maximum image-quality will be limited to the "
+"screen-size."
+msgstr "Se questa opzione è abilitata, la massima qualità dell'immagine sarà limitata alla dimensione dello schermo"
+
+#: ../src/preferences_dialog.c:321
+msgid "Limit rendering quality"
+msgstr "Limita qualità di visualizzazione"
+
+#: ../src/preferences_dialog.c:333
+msgid "Fullscreen"
+msgstr "A schermo intero"
+
+#: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
 msgstr "Miniature"
 
-#: ../src/preferences_dialog.c:225
+#: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr ""
 "La barra delle miniature può essere nascosta automaticamente \n"
 "quando la visualizzazione è a schermo intero."
 
-#: ../src/preferences_dialog.c:228
+#: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Nascondi la barra delle miniature quando a schermo intero"
 
-#: ../src/preferences_dialog.c:259
-msgid "Slideshow"
-msgstr "Presentazione"
-
-#: ../src/preferences_dialog.c:263
-msgid "Timeout"
-msgstr "Durata"
-
-#: ../src/preferences_dialog.c:266
-msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr ""
-"Il tempo per cui viene visualizzata un'immagine durante una presentazione\n"
-"(in secondi)"
-
-#: ../src/preferences_dialog.c:275
+#: ../src/preferences_dialog.c:352
 msgid "Clock"
 msgstr "Orologio"
 
-#: ../src/preferences_dialog.c:278
+#: ../src/preferences_dialog.c:355
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
@@ -716,43 +718,59 @@ msgstr ""
 "La barra delle miniature può essere nascosta automaticamente \n"
 "quando la visualizzazione è a schermo intero."
 
-#: ../src/preferences_dialog.c:281
+#: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
 msgstr "Mostra orologio a schermo intero"
 
-#: ../src/preferences_dialog.c:296
+#: ../src/preferences_dialog.c:375
+msgid "Slideshow"
+msgstr "Presentazione"
+
+#: ../src/preferences_dialog.c:379
+msgid "Timeout"
+msgstr "Durata"
+
+#: ../src/preferences_dialog.c:382
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"Il tempo per cui viene visualizzata un'immagine durante una presentazione\n"
+"(in secondi)"
+
+#: ../src/preferences_dialog.c:400
 msgid "Control"
 msgstr "Controlli"
 
-#: ../src/preferences_dialog.c:300
+#: ../src/preferences_dialog.c:404
 msgid "Scroll wheel"
 msgstr "Rotella del mouse"
 
-#: ../src/preferences_dialog.c:303
+#: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
 msgstr "Inverti la direzione dello zoom"
 
-#: ../src/preferences_dialog.c:313
+#: ../src/preferences_dialog.c:421
 msgid "Behaviour"
 msgstr "Comportamento"
 
-#: ../src/preferences_dialog.c:318
+#: ../src/preferences_dialog.c:426
 msgid "Startup"
 msgstr "Avvio"
 
-#: ../src/preferences_dialog.c:320
+#: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
 msgstr "Massimizza la finestra all'avvio quando viene aperta un'immagine"
 
-#: ../src/preferences_dialog.c:326
+#: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
 msgstr "Scorrimento continuo delle immagini"
 
-#: ../src/preferences_dialog.c:345
+#: ../src/preferences_dialog.c:453
 msgid "Desktop"
 msgstr "Scrivania"
 
-#: ../src/preferences_dialog.c:467
+#: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
 msgstr "Preferenze del visualizzatore di immagini"
 
@@ -970,12 +988,6 @@ msgstr "Visualizzatore di immagini Ristretto"
 
 #~ msgid "_Print"
 #~ msgstr "Stam_pa"
-
-#~ msgid "Quality"
-#~ msgstr "Qualità"
-
-#~ msgid "Maximum render quality:"
-#~ msgstr "Qualità massima di visualizzazione:"
 
 #~ msgid "Best"
 #~ msgstr "Migliore"

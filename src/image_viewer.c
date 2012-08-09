@@ -2854,7 +2854,7 @@ cb_rstto_limit_quality_changed (
     viewer->priv->limit_quality = g_value_get_boolean (
             &val_limit_quality);
 
-    if (viewer->priv->file)
+    if ( NULL != viewer->priv->file )
     {
         rstto_image_viewer_load_image (
                 viewer,

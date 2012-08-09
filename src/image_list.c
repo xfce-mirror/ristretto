@@ -1717,7 +1717,7 @@ cb_rstto_thumbnailer_ready(
     gint index_;
 
     index_ = g_list_index (image_list->priv->images, file);
-    if (index_ > 0)
+    if (index_ >= 0)
     {
         path_ = gtk_tree_path_new();
         gtk_tree_path_append_index(path_,index_);

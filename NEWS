@@ -1,3 +1,8 @@
+x.x.x
+=====
+- Fix bug #8837 (Use thumbnail as appicon)
+- Update the first image in the image-list when receiving a ready-signal.
+
 0.6.0
 =====
 - Fix bug #8723 (Remove duplicate accelerators)

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-23 19:24+0000\n"
+"POT-Creation-Date: 2012-04-30 02:21+0000\n"
 "PO-Revision-Date: 2008-11-17 11:15+0200\n"
 "Last-Translator: Dmitry Nikitin <luckas_fb@mail.ru>\n"
 "Language-Team: Ukrainian <xfce4-dev@xfce.org>\n"
@@ -451,7 +451,7 @@ msgstr "Завантаження..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Виберіть метод для 'встановити шпалери'"
 
-#: ../src/main_window.c:2089 ../src/preferences_dialog.c:356
+#: ../src/main_window.c:2089 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -461,15 +461,15 @@ msgstr ""
 "Ці налаштування визначають метод, який використає <i>Ristretto</i>\n"
 "для конфігурації шпалер робочого столу."
 
-#: ../src/main_window.c:2114 ../src/preferences_dialog.c:380
+#: ../src/main_window.c:2114 ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "Нічого"
 
-#: ../src/main_window.c:2118 ../src/preferences_dialog.c:384
+#: ../src/main_window.c:2118 ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2122 ../src/preferences_dialog.c:388
+#: ../src/main_window.c:2122 ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -654,54 +654,56 @@ msgstr "Усе"
 msgid "Clear private data"
 msgstr "Очистити приватні дані"
 
-#: ../src/preferences_dialog.c:201
+#: ../src/preferences_dialog.c:276
 msgid "Display"
 msgstr "Відображення"
 
-#: ../src/preferences_dialog.c:206
+#: ../src/preferences_dialog.c:283
 msgid "Background color"
 msgstr "Колір тла"
 
-#: ../src/preferences_dialog.c:210
+#: ../src/preferences_dialog.c:287
 msgid "Override background color:"
 msgstr "Замінити колір тла:"
 
-#: ../src/preferences_dialog.c:222
+#: ../src/preferences_dialog.c:314
+msgid "Quality"
+msgstr "Якість"
+
+#: ../src/preferences_dialog.c:318
+msgid ""
+"With this option enabled, the maximum image-quality will be limited to the "
+"screen-size."
+msgstr "Коли включений цей параметр, тоді максимальна якість малюнка буде обмежена до розмірів екрану."
+
+#: ../src/preferences_dialog.c:321
+msgid "Limit rendering quality"
+msgstr "Обмеження якості відтворення"
+
+#: ../src/preferences_dialog.c:333
+msgid "Fullscreen"
+msgstr "Повний екран"
+
+#: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
 msgstr "Мініатюри"
 
-#: ../src/preferences_dialog.c:225
+#: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr ""
 "Панель мініатюр може автоматично ховатись,   \n"
 "коли переглядач зображень перебуває в повноекранному режимі."
 
-#: ../src/preferences_dialog.c:228
+#: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Приховувати панель мініатюр в повноекранному режимі"
 
-#: ../src/preferences_dialog.c:259
-msgid "Slideshow"
-msgstr "Слайд-шоу"
-
-#: ../src/preferences_dialog.c:263
-msgid "Timeout"
-msgstr "Затримка"
-
-#: ../src/preferences_dialog.c:266
-msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr ""
-"Тривалість показу окремого зображення в слайд-шоу\n"
-"(в секундах)"
-
-#: ../src/preferences_dialog.c:275
+#: ../src/preferences_dialog.c:352
 msgid "Clock"
 msgstr "Годинник"
 
-#: ../src/preferences_dialog.c:278
+#: ../src/preferences_dialog.c:355
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
@@ -709,43 +711,59 @@ msgstr ""
 "Панель мініатюр може автоматично ховатись,   \n"
 "коли переглядач зображень перебуває в повноекранному режимі."
 
-#: ../src/preferences_dialog.c:281
+#: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
 msgstr "Включити повноекранний режим"
 
-#: ../src/preferences_dialog.c:296
+#: ../src/preferences_dialog.c:375
+msgid "Slideshow"
+msgstr "Слайд-шоу"
+
+#: ../src/preferences_dialog.c:379
+msgid "Timeout"
+msgstr "Затримка"
+
+#: ../src/preferences_dialog.c:382
+msgid ""
+"The time period an individual image is displayed during a slideshow\n"
+"(in seconds)"
+msgstr ""
+"Тривалість показу окремого зображення в слайд-шоу\n"
+"(в секундах)"
+
+#: ../src/preferences_dialog.c:400
 msgid "Control"
 msgstr "Контроль"
 
-#: ../src/preferences_dialog.c:300
+#: ../src/preferences_dialog.c:404
 msgid "Scroll wheel"
 msgstr "Прокрутка"
 
-#: ../src/preferences_dialog.c:303
+#: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
 msgstr "Повернути напрямок збільшення"
 
-#: ../src/preferences_dialog.c:313
+#: ../src/preferences_dialog.c:421
 msgid "Behaviour"
 msgstr "Поведінка"
 
-#: ../src/preferences_dialog.c:318
+#: ../src/preferences_dialog.c:426
 msgid "Startup"
 msgstr "Початок"
 
-#: ../src/preferences_dialog.c:320
+#: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
 msgstr "Максимізувати розмір вікна під час запуску коли відкривається малюнок"
 
-#: ../src/preferences_dialog.c:326
+#: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
 msgstr "Обернутись навколо зображень"
 
-#: ../src/preferences_dialog.c:345
+#: ../src/preferences_dialog.c:453
 msgid "Desktop"
 msgstr "Робочий стіл"
 
-#: ../src/preferences_dialog.c:467
+#: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
 msgstr "Уподобання переглядача зображень"
 
@@ -961,12 +979,6 @@ msgstr "Переглядач фотографій Ristretto"
 
 #~ msgid "_Print"
 #~ msgstr "_Друкувати"
-
-#~ msgid "Quality"
-#~ msgstr "Якість"
-
-#~ msgid "Maximum render quality:"
-#~ msgstr "Максимальна якість відображення:"
 
 #~ msgid "Best"
 #~ msgstr "Кращий"
