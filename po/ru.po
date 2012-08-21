@@ -541,7 +541,7 @@ msgstr "Вы уверены, что хотите отправить изобра
 
 #: ../src/main_window.c:3709
 msgid "Edit with"
-msgstr ""
+msgstr "Открыть с помощью"
 
 #: ../src/main_window.c:3727
 #, c-format
@@ -550,15 +550,15 @@ msgstr ""
 
 #: ../src/main_window.c:3732
 msgid "Use as _default for this kind of file"
-msgstr ""
+msgstr "Использовать по _умолчанию для файлов данного типа"
 
 #: ../src/main_window.c:3822
 msgid "Recommended Applications"
-msgstr ""
+msgstr "Рекомендованные приложения"
 
 #: ../src/main_window.c:3902
 msgid "Other Applications"
-msgstr ""
+msgstr "Другие приложения"
 
 #: ../src/icon_bar.c:345
 #, fuzzy
