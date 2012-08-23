@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-08-19 12:24+0000\n"
-"PO-Revision-Date: 2012-08-19 21:51+0300\n"
+"PO-Revision-Date: 2012-08-24 00:46+0300\n"
 "Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
 "Language-Team: Ελληνικά, Σύγχρονα <opensuse-translation-el@opensuse.org>\n"
 "Language: el\n"
@@ -72,9 +72,8 @@ msgstr "Άνοιγμα μίας εικόνας"
 
 #. Icon-name
 #: ../src/main_window.c:375
-#, fuzzy
 msgid "_Save copy..."
-msgstr "_Αποθήκευση αντιγράφου"
+msgstr "_Αποθήκευση αντιγράφου..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -147,9 +146,8 @@ msgstr "Διαγραφή αυτής της εικόνας από τον δίσκ
 
 #. Icon-name
 #: ../src/main_window.c:424
-#, fuzzy
 msgid "_Clear private data..."
-msgstr "_Καθαρισμός προσωπικών δεδομένων"
+msgstr "_Εκκαθάριση προσωπικών δεδομένων..."
 
 #. Icon-name
 #: ../src/main_window.c:430
@@ -168,9 +166,8 @@ msgstr "_Πλήρης Οθόνη"
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:443
-#, fuzzy
 msgid "Switch to fullscreen"
-msgstr "Εκκίνηση σε πλήρη οθόνη"
+msgstr "Εναλλαγή σε πλήρη οθόνη"
 
 #. Icon-name
 #: ../src/main_window.c:447
@@ -186,9 +183,8 @@ msgstr "Έξ_οδος από πλήρη οθόνη"
 
 #. Icon-name
 #: ../src/main_window.c:453
-#, fuzzy
 msgid "Set as _Wallpaper..."
-msgstr "_Ορισμός της επιφάνεια εργασίας"
+msgstr "_Ορισμός ως επιφάνεια εργασίας..."
 
 #: ../src/main_window.c:460
 msgid "_Zoom"
@@ -281,7 +277,6 @@ msgstr "Προηγούμενη εικόνα"
 
 #. Icon-name
 #: ../src/main_window.c:522
-#, fuzzy
 msgid "F_irst"
 msgstr "_Πρώτη"
 
@@ -352,9 +347,8 @@ msgstr "Επαναφορά από πλ_ήρη οθόνη"
 
 #. Icon-name
 #: ../src/main_window.c:585
-#, fuzzy
 msgid "_Show Toolbar"
-msgstr "Εμφάνιση εργαλειοθήκης _αρχείο"
+msgstr "_Εμφάνιση Εργαλειοθήκης"
 
 #. Icon-name
 #: ../src/main_window.c:593
@@ -534,17 +528,20 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε την εικόνα '%s' από το δίσκο;"
 
 #: ../src/main_window.c:3345
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε την εικόνα '%s' από το δίσκο;"
+msgstr ""
+"Παρουσιάστηκε σφάλμα κατά την διαγραφή της εικόνας '%s' από το δίσκο.\n"
+"\n"
+"%s"
 
 #: ../src/main_window.c:3361
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε την εικόνα '%s' από το δίσκο;"
+msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε την εικόνα '%s';"
 
 #: ../src/main_window.c:3379
 #, c-format
@@ -580,9 +577,8 @@ msgid "Other Applications"
 msgstr "Άλλες Εφαρμογές"
 
 #: ../src/icon_bar.c:345
-#, fuzzy
 msgid "Orientation"
-msgstr "_Περιστροφή"
+msgstr "Προσανατολισμός"
 
 #: ../src/icon_bar.c:346
 msgid "The orientation of the iconbar"
@@ -700,9 +696,8 @@ msgid "Limit rendering quality"
 msgstr "Μέγιστη ποιότητα ανάλυσης:"
 
 #: ../src/preferences_dialog.c:333
-#, fuzzy
 msgid "Fullscreen"
-msgstr "_Πλήρης Οθόνη"
+msgstr "Πλήρης Οθόνη"
 
 #: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
