@@ -2,19 +2,19 @@
 # This file is distributed under the same license as the ristretto package.
 # Stefan Zerkalica <zerkalica@gmail.com>, 2008.
 # Denis Koryavov <dkoryavov@yandex.ru>, 2010.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-08-21 07:12+0000\n"
-"PO-Revision-Date: 2011-09-10 03:49+0700\n"
-"Last-Translator: Urmas <davian818@gmail.com>\n"
+"POT-Creation-Date: 2012-08-27 07:39+0000\n"
+"PO-Revision-Date: 2012-08-27 22:58+1000\n"
+"Last-Translator: Alex 'AdUser' Z <ad_user@lavabit.com>\n"
 "Language-Team: Russian\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "X-Poedit-Language: Russian\n"
 
 #: ../src/main.c:62
@@ -42,10 +42,10 @@ msgid ""
 "available command line options.\n"
 msgstr ""
 "%s: %s\n"
-"Попробуйте %s --help для просмотра полного списка параметров командной "
-"строки.\n"
+"Попробуйте %s --help для просмотра полного списка параметров командной строки.\n"
 
-#: ../src/main_window.c:57 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:57
+#: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "Просмотр изображений"
 
@@ -87,7 +87,8 @@ msgid "Show file properties"
 msgstr "Показать свойства файла"
 
 #. Icon-name
-#: ../src/main_window.c:387 ../src/main_window.c:406
+#: ../src/main_window.c:387
+#: ../src/main_window.c:406
 msgid "_Edit"
 msgstr "_Правка"
 
@@ -171,9 +172,8 @@ msgstr "_Выйти из полноэкранного режима"
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:449
-#, fuzzy
 msgid "Leave Fullscreen"
-msgstr "_Выйти из полноэкранного режима"
+msgstr "Выйти из полноэкранного режима"
 
 #. Icon-name
 #: ../src/main_window.c:453
@@ -433,15 +433,18 @@ msgstr "_Недавно просмотренные"
 msgid "Recently used"
 msgstr "Недавно просмотренные"
 
-#: ../src/main_window.c:957 ../src/main_window.c:1495
+#: ../src/main_window.c:957
+#: ../src/main_window.c:1495
 msgid "Press open to select an image"
 msgstr "Нажмите открыть для выбора изображения"
 
-#: ../src/main_window.c:1354 ../src/main_window.c:1358
+#: ../src/main_window.c:1354
+#: ../src/main_window.c:1358
 msgid "Open With Other _Application..."
-msgstr ""
+msgstr "Открыть с помощью..."
 
-#: ../src/main_window.c:1379 ../src/main_window.c:1385
+#: ../src/main_window.c:1379
+#: ../src/main_window.c:1385
 msgid "Empty"
 msgstr "Пусто"
 
@@ -453,25 +456,28 @@ msgstr "Загрузка..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Выберите способ установки обоев"
 
-#: ../src/main_window.c:2124 ../src/preferences_dialog.c:464
+#: ../src/main_window.c:2124
+#: ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
 "Выберите ваше текущее рабочее окружение.\n"
-"Эта настройка указывает способ, которым <i>Ristretto</i> будет устанавливать "
-"ваши обои рабочего стола."
+"Эта настройка указывает способ, которым <i>Ristretto</i> будет устанавливать ваши обои рабочего стола."
 
-#: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
+#: ../src/main_window.c:2149
+#: ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "Нет"
 
-#: ../src/main_window.c:2153 ../src/preferences_dialog.c:492
+#: ../src/main_window.c:2153
+#: ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2157 ../src/preferences_dialog.c:496
+#: ../src/main_window.c:2157
+#: ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -481,9 +487,7 @@ msgstr "Разработчик:"
 
 #: ../src/main_window.c:2597
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto - быстрый и легковесный просмотрщик изображений для рабочего "
-"окружения Xfce"
+msgstr "Ristretto - быстрый и легковесный просмотрщик изображений для рабочего окружения Xfce"
 
 #: ../src/main_window.c:2605
 msgid "translator-credits"
@@ -501,7 +505,8 @@ msgstr "Изображения"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2958 ../src/main_window.c:3100
+#: ../src/main_window.c:2958
+#: ../src/main_window.c:3100
 msgid "Could not open file"
 msgstr "Невозможно открыть файл"
 
@@ -519,12 +524,15 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Удалить изображение '%s' с диска?"
 
 #: ../src/main_window.c:3345
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Удалить изображение '%s' с диска?"
+msgstr ""
+"Ошибка при удалении изображения '%s' с диска.\n"
+"\n"
+"%s"
 
 #: ../src/main_window.c:3361
 #, c-format
@@ -532,12 +540,15 @@ msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Вы уверены, что хотите отправить изображение '%s' в корзину?"
 
 #: ../src/main_window.c:3379
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "Вы уверены, что хотите отправить изображение '%s' в корзину?"
+msgstr ""
+"Ошибка при перемещении изображения '%s' в корзину.\n"
+"\n"
+"%s"
 
 #: ../src/main_window.c:3709
 msgid "Edit with"
@@ -561,13 +572,13 @@ msgid "Other Applications"
 msgstr "Другие приложения"
 
 #: ../src/icon_bar.c:345
-#, fuzzy
 msgid "Orientation"
-msgstr "_Повернуть"
+msgstr "Ориентация"
 
 #: ../src/icon_bar.c:346
+#, fuzzy
 msgid "The orientation of the iconbar"
-msgstr ""
+msgstr "Ориентация "
 
 #: ../src/icon_bar.c:362
 msgid "File column"
@@ -593,31 +604,39 @@ msgstr ""
 msgid "Active item index"
 msgstr ""
 
-#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+#: ../src/icon_bar.c:409
+#: ../src/icon_bar.c:410
+#, fuzzy
 msgid "Show Text"
-msgstr ""
+msgstr "Показать текст"
 
-#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+#: ../src/icon_bar.c:416
+#: ../src/icon_bar.c:417
 msgid "Active item fill color"
 msgstr ""
 
-#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+#: ../src/icon_bar.c:423
+#: ../src/icon_bar.c:424
 msgid "Active item border color"
 msgstr ""
 
-#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+#: ../src/icon_bar.c:430
+#: ../src/icon_bar.c:431
 msgid "Active item text color"
 msgstr ""
 
-#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+#: ../src/icon_bar.c:437
+#: ../src/icon_bar.c:438
 msgid "Cursor item fill color"
 msgstr ""
 
-#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+#: ../src/icon_bar.c:444
+#: ../src/icon_bar.c:445
 msgid "Cursor item border color"
 msgstr ""
 
-#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+#: ../src/icon_bar.c:451
+#: ../src/icon_bar.c:452
 msgid "Cursor item text color"
 msgstr ""
 
@@ -670,10 +689,8 @@ msgid "Quality"
 msgstr "Качество"
 
 #: ../src/preferences_dialog.c:318
-msgid ""
-"With this option enabled, the maximum image-quality will be limited to the "
-"screen-size."
-msgstr ""
+msgid "With this option enabled, the maximum image-quality will be limited to the screen-size."
+msgstr "С этой опцией, максимальное качество изображения будет ограничено размером экрана."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
@@ -688,12 +705,8 @@ msgid "Thumbnails"
 msgstr "Эскизы"
 
 #: ../src/preferences_dialog.c:341
-#, fuzzy
-msgid ""
-"The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr ""
-"Панель эскизов будет спрятана\n"
-"при переходе в полноэкранный режим"
+msgid "The thumbnail bar can be automatically hidden when the window is fullscreen."
+msgstr "Панель эскизов будет спрятана при переходе в полноэкранный режим"
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
@@ -704,13 +717,8 @@ msgid "Clock"
 msgstr "Часы"
 
 #: ../src/preferences_dialog.c:355
-#, fuzzy
-msgid ""
-"Show an analog clock that displays the current time when the window is "
-"fullscreen"
-msgstr ""
-"Панель эскизов будет спрятана\n"
-"при переходе в полноэкранный режим"
+msgid "Show an analog clock that displays the current time when the window is fullscreen"
+msgstr "Показывать часы, отображающие текущее время, при просмотре в полноэкранном режиме"
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
@@ -801,7 +809,8 @@ msgstr "Изображение"
 msgid "<b>Date taken:</b>"
 msgstr "<b>Дата съемки:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:538
+#: ../src/properties_dialog.c:550
 #: ../src/properties_dialog.c:562
 #, c-format
 msgid "<b>%s</b>"
@@ -831,7 +840,8 @@ msgstr ""
 msgid "Do _not show this message again"
 msgstr "Больше _не показывать это сообщение"
 
-#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:336
+#: ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Стиль:"
 
@@ -843,11 +853,13 @@ msgstr "Яркость:"
 msgid "Saturation:"
 msgstr "Контраст:"
 
-#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:355
+#: ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Установить как обои"
 
-#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:508
+#: ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Автоматически"
 
