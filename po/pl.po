@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.5.1\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-09-24 09:45+0000\n"
+"POT-Creation-Date: 2012-09-26 15:15+0000\n"
 "PO-Revision-Date: 2012-04-15 12:27+0200\n"
 "Last-Translator: Piotr Sokół <psokol@jabster.pl>\n"
 "Language-Team: polski <>\n"
@@ -719,9 +719,8 @@ msgstr ""
 "podczas działania w trybie pełnoekranowym."
 
 #: ../src/preferences_dialog.c:358
-#, fuzzy
 msgid "Show Fullscreen Clock"
-msgstr "Włącza tryb pełnego ekranu"
+msgstr "Pokaż pełnoekranowy zegar"
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
