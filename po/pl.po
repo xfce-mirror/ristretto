@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.5.1\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-09-26 15:15+0000\n"
+"POT-Creation-Date: 2012-10-15 14:00+0000\n"
 "PO-Revision-Date: 2012-04-15 12:27+0200\n"
 "Last-Translator: Piotr Sokół <psokol@jabster.pl>\n"
 "Language-Team: polski <>\n"
@@ -710,7 +710,6 @@ msgid "Clock"
 msgstr "Zegar"
 
 #: ../src/preferences_dialog.c:355
-#, fuzzy
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
