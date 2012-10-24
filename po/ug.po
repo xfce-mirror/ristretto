@@ -2,19 +2,19 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Gheyret Kenji <gheyret@gmail.com>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-08-06 03:24+0000\n"
+"POT-Creation-Date: 2012-10-24 01:18+0000\n"
 "PO-Revision-Date: 2011-11-09 16:10+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -22,7 +22,7 @@ msgstr "نەشر ئۇچۇرى"
 
 #: ../src/main.c:66
 msgid "Start in fullscreen mode"
-msgstr "تولۇق ئېكران ھالىتىدە قوزغىتىش"
+msgstr "تولۇق ئېكران ھالىتىدە باشلا"
 
 #: ../src/main.c:70
 msgid "Start a slideshow"
@@ -39,8 +39,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr ""
-"%s: %s\n"
+msgstr "%s: %s\n"
 "\n"
 "بۇيرۇق قۇرىدا ئىشلەتكىلى بولىدىغان\n"
 "بۇيرۇقلارنى %s --help ئارقىلىق كۆرۈڭ.\n"
@@ -146,7 +145,7 @@ msgstr "شەخسىي سانلىق-مەلۇماتلارنى تازىلا(_C)..."
 #. Icon-name
 #: ../src/main_window.c:430
 msgid "_Preferences..."
-msgstr "مايىللىقلار(_P)..."
+msgstr "تەڭشەكلەر(_P)..."
 
 #: ../src/main_window.c:437
 msgid "_View"
@@ -457,8 +456,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr ""
-"نۆۋەتتە ئۈستەلئۈستىنى باشقۇرۇۋاتقان سىستېمىنى سەپلەيدۇ.\n"
+msgstr "نۆۋەتتە ئۈستەلئۈستىنى باشقۇرۇۋاتقان سىستېمىنى سەپلەيدۇ.\n"
 "بۇنىڭغا قاراپ <i>Ristretto</i> ئۈستەلئۈستى تام قەغىزىنى بەلگىلەش\n"
 "ئۇسۇلىنى بەلگىلەيدۇ."
 
@@ -484,7 +482,7 @@ msgstr "رىسترېتتو(Ristretto) بولسا Xfce ئۈستەلئۈستى م�
 
 #: ../src/main_window.c:2605
 msgid "translator-credits"
-msgstr "غەيرەت ت.كەنجى<gheyret@gmail.com>"
+msgstr "غەيرەت ت.كەنجى <gheyret@gmail.com>"
 
 #: ../src/main_window.c:2907
 msgid "Open image"
@@ -521,8 +519,7 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr ""
-"دىسكىدىن سۈرەت ‹%s› نى ئۆچۈرۈۋاتقاندا خاتالىق كۆرۈلدى\n"
+msgstr "دىسكىدىن سۈرەت ‹%s› نى ئۆچۈرۈۋاتقاندا خاتالىق كۆرۈلدى\n"
 "\n"
 "%s"
 
@@ -537,8 +534,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr ""
-"ئەخلەتخانىغا سۈرەت ‹%s› نى ئەۋەتىۋاتقاندا خاتالىق كۆرۈلدى.\n"
+msgstr "ئەخلەتخانىغا سۈرەت ‹%s› نى ئەۋەتىۋاتقاندا خاتالىق كۆرۈلدى.\n"
 "\n"
 "%s"
 
@@ -653,7 +649,7 @@ msgstr "ھەممىسى"
 
 #: ../src/privacy_dialog.c:460
 msgid "Clear private data"
-msgstr "شەخسىي سانلىق-ئاساسلارنى تازىلا"
+msgstr "شەخسىي سانلىق-مەلۇماتلارنى تازىلا"
 
 #: ../src/preferences_dialog.c:276
 msgid "Display"
@@ -675,9 +671,7 @@ msgstr "سۈپەت"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr ""
-"بۇ تاللانما ئىناۋەتلىك قىلىنسا، سۈرەتنىڭ ئەڭ چوڭ سۈپىتى ئېكراننىڭ چوڭلۇقىنىڭ "
-"چەكلىمىسىگە ئۇچرايدۇ."
+msgstr "بۇ تاللانما ئىناۋەتلىك قىلىنسا، سۈرەتنىڭ ئەڭ چوڭ سۈپىتى ئېكراننىڭ چوڭلۇقىنىڭ چەكلىمىسىگە ئۇچرايدۇ."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
@@ -694,8 +688,7 @@ msgstr "كىچىك سۈرەت"
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr ""
-"سىستېما تولۇق ئېكران ھالىتىدە بولغاندا كىچىك سۈرەتلەر ئاپتوماتىك يوشۇرۇنىدۇ."
+msgstr "سىستېما تولۇق ئېكران ھالىتىدە بولغاندا كىچىك سۈرەتلەر ئاپتوماتىك يوشۇرۇنىدۇ."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
@@ -709,8 +702,7 @@ msgstr "سائەت"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr ""
-"سىستېما تولۇق ئېكران ھالىتىدە بولغاندا كىچىك سۈرەتلەر ئاپتوماتىك يوشۇرۇنىدۇ"
+msgstr "سىستېما تولۇق ئېكران ھالىتىدە بولغاندا كىچىك سۈرەتلەر ئاپتوماتىك يوشۇرۇنىدۇ"
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
@@ -728,8 +720,7 @@ msgstr "مۆھلىتى"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr ""
-"تام تەسۋىرى سۈپىتىدە كۆرسىتىلگەندە، سۈرەتنىڭ كۆرسىتىلىش ۋاقتى(مىللىي سېكۇنت)"
+msgstr "تام تەسۋىرى سۈپىتىدە كۆرسىتىلگەندە، سۈرەتنىڭ كۆرسىتىلىش ۋاقتى(مىللىي سېكۇنت)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -741,7 +732,7 @@ msgstr "سىيرىش غالتىكى"
 
 #: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
-msgstr "چوڭايتىش يۆنىلىشىنى ئالماشتۇرۇش‪"
+msgstr "چوڭايتىش يۆنىلىشىنى ئالماشتۇرۇش"
 
 #: ../src/preferences_dialog.c:421
 msgid "Behaviour"
@@ -765,7 +756,7 @@ msgstr "ئۈستەلئۈستى"
 
 #: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
-msgstr "سۈرەت كۆرگۈ مايىللىقى"
+msgstr "سۈرەت كۆرگۈ تەڭشەكلىرى"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
@@ -819,13 +810,11 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr ""
-"كىچىك سۈرەت مۇلازىمىتى بىلەن ئالاقە قىلالمىدى، \n"
+msgstr "كىچىك سۈرەت مۇلازىمىتى بىلەن ئالاقە قىلالمىدى، \n"
 "شۇڭا كىچىك سۈرەتلەر\n"
 "ياسالمايدۇ\n"
 "\n"
-"بۇ مەسىلىنى ھەل قىلىش ئۈچۈن <b>Tumbler</b> ياكى <i>thumbnailing daemon</i> "
-"نى \n"
+"بۇ مەسىلىنى ھەل قىلىش ئۈچۈن <b>Tumbler</b> ياكى <i>thumbnailing مۇئەككىلى</i> نى \n"
 "ئورنىتىڭ."
 
 #: ../src/thumbnailer.c:470
