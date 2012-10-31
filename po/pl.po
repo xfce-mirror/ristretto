@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.5.1\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-10-15 14:00+0000\n"
+"POT-Creation-Date: 2012-10-31 15:12+0000\n"
 "PO-Revision-Date: 2012-04-15 12:27+0200\n"
 "Last-Translator: Piotr Sokół <psokol@jabster.pl>\n"
 "Language-Team: polski <>\n"
@@ -578,7 +578,7 @@ msgstr "Orientacja paska ikon"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
-msgstr ""
+msgstr "Kolumna plik"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
@@ -680,7 +680,7 @@ msgstr "Jakość"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr ""
+msgstr "Przy włączeniu tej opcji największa jakość obrazu będzie ograniczona do rozmiaru ekranu."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
