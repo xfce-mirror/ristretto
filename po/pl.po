@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ristretto 0.5.1\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-10-31 15:12+0000\n"
+"POT-Creation-Date: 2012-11-01 12:36+0000\n"
 "PO-Revision-Date: 2012-04-15 12:27+0200\n"
 "Last-Translator: Piotr Sokół <psokol@jabster.pl>\n"
 "Language-Team: polski <>\n"
@@ -582,7 +582,7 @@ msgstr "Kolumna plik"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr ""
+msgstr "Tworzenie kolumny używanej do otrzymania pliku z"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
@@ -594,11 +594,11 @@ msgstr "Model dla paska ikon"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
-msgstr ""
+msgstr "Czynny"
 
 #: ../src/icon_bar.c:393
 msgid "Active item index"
-msgstr ""
+msgstr "Spis czynnych pozycji"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
@@ -606,27 +606,27 @@ msgstr "Pokaż tekst"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr ""
+msgstr "Wypełnienie kolorem czynnej pozycji"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr ""
+msgstr "Kolor obramowania czynnej pozycji"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr ""
+msgstr "Kolor tekstu czynnej pozycji"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr ""
+msgstr "Kolor wypełnienia kursora"
 
 #: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr ""
+msgstr "Kolor obramowania kursora"
 
 #: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 msgid "Cursor item text color"
-msgstr ""
+msgstr "Kolor teksu kursora"
 
 #: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
@@ -680,11 +680,13 @@ msgstr "Jakość"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Przy włączeniu tej opcji największa jakość obrazu będzie ograniczona do rozmiaru ekranu."
+msgstr ""
+"Przy włączeniu tej opcji największa jakość obrazu będzie ograniczona do "
+"rozmiaru ekranu."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
-msgstr ""
+msgstr "Ograniczona jakość przetwarzania"
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
