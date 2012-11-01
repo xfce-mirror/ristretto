@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bits\n"
 "Language: pl\n"
-"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : ((n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20)) ? 1 : 2));\n"
 "X-Generator: Lokalize 1.1\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : ((n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20)) ? 1 : 2));\n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -81,7 +81,7 @@ msgstr "Zapisuje kopię obrazu"
 #. Icon-name
 #: ../src/main_window.c:381
 msgid "_Properties..."
-msgstr "_Właściwości..."
+msgstr "_Właściwości..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -554,7 +554,7 @@ msgstr "Wybór programu"
 #: ../src/main_window.c:3727
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr "Otwieranie pliku „%s” i innych plików typu „%s”, przy użyciu:"
+msgstr "Otwieranie pliku „%s” i innych plików typu „%s”, przy użyciu:"
 
 #: ../src/main_window.c:3732
 msgid "Use as _default for this kind of file"
@@ -874,7 +874,7 @@ msgstr "Przeskalowanie"
 
 #: ../src/xfce_wallpaper_manager.c:523
 msgid "Zoomed"
-msgstr "Powiększenie"
+msgstr "Powiększenie"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
