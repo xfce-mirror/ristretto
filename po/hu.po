@@ -1,23 +1,24 @@
 # Hungarian translation of ristretto
-# Copyright 2009. Free Software Foundation, Inc.
+# Copyright 2009, 2010, 2011, 2012. Free Software Foundation, Inc.
 # This file is distributed under the same license as the ristretto package.
 #
-# SZERVÁC Attila <sas@321.hu>
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2009, 2010, 2011, 2012.
+# SZERVÁC Attila <sas at 321 dot hu>
+# Imre Benedek <nucleo at indamail dot hu>
 msgid ""
 msgstr ""
-"Project-Id-Version: ristretto\n"
+"Project-Id-Version: ristretto master\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-11-18 00:30+0000\n"
-"PO-Revision-Date: 2012-11-18 04:05+0100\n"
-"Last-Translator: Imre Benedek <nucleo@indamail.hu>\n"
-"Language-Team: Magyar <gnome-hu-list at gnome dot org>\n"
+"PO-Revision-Date: 2012-11-20 16:20+0100\n"
+"Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
+"Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.0\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -709,8 +710,7 @@ msgstr "Bélyegképek"
 
 #: ../src/preferences_dialog.c:341
 msgid "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr ""
-"A bélyegképsáv automatikusan elrejthető, ha az ablak teljes képernyőn van."
+msgstr "A bélyegképsáv automatikusan elrejthető, ha az ablak teljes képernyőn van."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
@@ -891,107 +891,3 @@ msgstr "Képek egyszerű megjelenítése"
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto képmegjelenítő"
 
-#~ msgid "Open With Other _Application"
-#~ msgstr "Megnyitás _más alkalmazással"
-
-#~ msgid "Show _Navigation Toolbar"
-#~ msgstr "_Navigáció eszköztár megjelenítése"
-
-#~ msgid "Toolbars"
-#~ msgstr "Eszköztárak"
-
-#~ msgid "Merge toolbars"
-#~ msgstr "Eszköztárak egyesítése"
-
-#~ msgid "Spacing"
-#~ msgstr "Térköz"
-
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "A bélyegképek közötti terület mennyisége"
-
-#~ msgid "border width"
-#~ msgstr "Szegély szélessége"
-
-#~ msgid "the border width of the thumbnail bar"
-#~ msgstr "A bélyegképsáv szegélyének szélessége"
-
-#~ msgid "Scaling"
-#~ msgstr "Méretezés"
-
-#~ msgid "Don't scale over 100% when maximizing the window."
-#~ msgstr "Ne méretezzen 100% fölé az ablak maximalizálásakor."
-
-#~ msgid "Preferences"
-#~ msgstr "Beállítások"
-
-#~ msgid "Image viewer"
-#~ msgstr "Képmegjelenítő"
-
-#~ msgid "Open _Folder"
-#~ msgstr "_Mappa megnyitása"
-
-#~ msgid "Open a folder"
-#~ msgstr "Mappa megnyitása"
-
-#~ msgid "_Close All"
-#~ msgstr "Összes _bezárása"
-
-#~ msgid "Close all images"
-#~ msgstr "Összes kép bezárása"
-
-#~ msgid "Open folder"
-#~ msgstr "Mappa megnyitása"
-
-#~ msgid "Open entire folder on startup"
-#~ msgstr "Teljes mappa megnyitása indításkor"
-
-#~ msgid "Monitor:"
-#~ msgstr "Monitor:"
-
-#~ msgid "Two"
-#~ msgstr "Fent"
-
-#~ msgid "Show preview when loading image"
-#~ msgstr "Előnézet megjelenítése kép betöltésekor"
-
-#~ msgid "No action"
-#~ msgstr "Nincs művelet"
-
-#~ msgid "Memory"
-#~ msgstr "Memória"
-
-#~ msgid "Image cache"
-#~ msgstr "Képgyorsítótár"
-
-#~ msgid "Cache size"
-#~ msgstr "Gyorsítótár mérete"
-
-#~ msgid "MB"
-#~ msgstr "MB"
-
-#~ msgid "Enable cache"
-#~ msgstr "Gyorsítótár engedélyezése"
-
-#~ msgid "Enable preloading"
-#~ msgstr "Előtöltés engedélyezése"
-
-#~ msgid "filmstrip width"
-#~ msgstr "filmszalag szélessége"
-
-#~ msgid "the width of the thumbnail-bar film-strip"
-#~ msgstr "A bélyegképsáv filmszalagjának szélessége"
-
-#~ msgid "_Print"
-#~ msgstr "_Nyomtatás"
-
-#~ msgid "Best"
-#~ msgstr "Legjobb"
-
-#~ msgid "High"
-#~ msgstr "Magas"
-
-#~ msgid "Medium"
-#~ msgstr "Közepes"
-
-#~ msgid "Low"
-#~ msgstr "Alacsony"
