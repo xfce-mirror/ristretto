@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the ristretto package.
 #
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2009, 2010, 2011, 2012.
-# SZERVÁC Attila <sas at 321 dot hu>
-# Imre Benedek <nucleo at indamail dot hu>
+# SZERVÁC Attila <sas at 321 dot hu>, 2007, 2008, 2009.
+# Imre Benedek <nucleo at indamail dot hu>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto master\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-11-18 00:30+0000\n"
-"PO-Revision-Date: 2012-11-20 16:20+0100\n"
+"PO-Revision-Date: 2012-11-20 16:23+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: \n"
