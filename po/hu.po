@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-04-20 22:24+0000\n"
-"PO-Revision-Date: 2012-04-21 05:43+0200\n"
-"Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
+"POT-Creation-Date: 2012-11-18 00:30+0000\n"
+"PO-Revision-Date: 2012-11-18 04:05+0100\n"
+"Last-Translator: Imre Benedek <nucleo@indamail.hu>\n"
 "Language-Team: Magyar <gnome-hu-list at gnome dot org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -19,23 +19,23 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.0\n"
 
-#: ../src/main.c:61
+#: ../src/main.c:62
 msgid "Version information"
 msgstr "Verzióinformációk"
 
-#: ../src/main.c:65
+#: ../src/main.c:66
 msgid "Start in fullscreen mode"
 msgstr "Indítás teljes képernyős módban"
 
-#: ../src/main.c:69
+#: ../src/main.c:70
 msgid "Start a slideshow"
 msgstr "Diavetítés indítása"
 
-#: ../src/main.c:77
+#: ../src/main.c:78
 msgid "Show settings dialog"
 msgstr "Beállítások ablak megjelenítése"
 
-#: ../src/main.c:105
+#: ../src/main.c:106
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -48,418 +48,420 @@ msgstr ""
 "Az elérhető kapcsolók listájáért adja\n"
 "ki a %s --help parancsot.\n"
 
-#: ../src/main_window.c:55 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:57
+#: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "Képmegjelenítő"
 
-#: ../src/main_window.c:353
+#: ../src/main_window.c:365
 msgid "_File"
 msgstr "_Fájl"
 
 #. Icon-name
-#: ../src/main_window.c:357
+#: ../src/main_window.c:369
 msgid "_Open..."
 msgstr "_Megnyitás…"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:359
+#: ../src/main_window.c:371
 msgid "Open an image"
 msgstr "Kép megnyitása"
 
 #. Icon-name
-#: ../src/main_window.c:363
+#: ../src/main_window.c:375
 msgid "_Save copy..."
 msgstr "Más_olat mentése…"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:365
+#: ../src/main_window.c:377
 msgid "Save a copy of the image"
 msgstr "A kép másolatának mentése"
 
 #. Icon-name
-#: ../src/main_window.c:369
+#: ../src/main_window.c:381
 msgid "_Properties..."
 msgstr "T_ulajdonságok…"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:371
+#: ../src/main_window.c:383
 msgid "Show file properties"
 msgstr "Fájltulajdonságok megjelenítése"
 
 #. Icon-name
-#: ../src/main_window.c:375 ../src/main_window.c:394
+#: ../src/main_window.c:387
+#: ../src/main_window.c:406
 msgid "_Edit"
 msgstr "S_zerkesztés"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:377
+#: ../src/main_window.c:389
 msgid "Edit this image"
 msgstr "Kép szerkesztése"
 
 #. Icon-name
-#: ../src/main_window.c:381
+#: ../src/main_window.c:393
 msgid "_Close"
 msgstr "_Bezárás"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:383
+#: ../src/main_window.c:395
 msgid "Close this image"
 msgstr "Kép bezárása"
 
 #. Icon-name
-#: ../src/main_window.c:387
+#: ../src/main_window.c:399
 msgid "_Quit"
 msgstr "_Kilépés"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:389
+#: ../src/main_window.c:401
 msgid "Quit Ristretto"
 msgstr "Kilépés a Ristrettoból"
 
-#: ../src/main_window.c:398
+#: ../src/main_window.c:410
 msgid "_Open with"
 msgstr "Megnyitás e_zzel"
 
-#: ../src/main_window.c:402
+#: ../src/main_window.c:414
 msgid "_Sorting"
 msgstr "Ren_dezés"
 
 #. Icon-name
-#: ../src/main_window.c:406
+#: ../src/main_window.c:418
 msgid "_Delete"
 msgstr "_Törlés"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:408
+#: ../src/main_window.c:420
 msgid "Delete this image from disk"
 msgstr "Kép törlése a lemezről"
 
 #. Icon-name
-#: ../src/main_window.c:412
+#: ../src/main_window.c:424
 msgid "_Clear private data..."
 msgstr "Sze_mélyes adatok törlése…"
 
 #. Icon-name
-#: ../src/main_window.c:418
+#: ../src/main_window.c:430
 msgid "_Preferences..."
 msgstr "B_eállítások…"
 
-#: ../src/main_window.c:425
+#: ../src/main_window.c:437
 msgid "_View"
 msgstr "_Nézet"
 
 #. Icon-name
-#: ../src/main_window.c:429
+#: ../src/main_window.c:441
 msgid "_Fullscreen"
 msgstr "_Teljes képernyő"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:431
+#: ../src/main_window.c:443
 msgid "Switch to fullscreen"
 msgstr "Átváltás teljes képernyőre"
 
 #. Icon-name
-#: ../src/main_window.c:435
+#: ../src/main_window.c:447
 msgid "_Leave Fullscreen"
 msgstr "T_eljes képernyő elhagyása"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:437
+#: ../src/main_window.c:449
 msgid "Leave Fullscreen"
 msgstr "Teljes képernyő elhagyása"
 
 #. Icon-name
-#: ../src/main_window.c:441
-msgid "_Set as Wallpaper..."
+#: ../src/main_window.c:453
+msgid "Set as _Wallpaper..."
 msgstr "Beállítás _háttérképként…"
 
-#: ../src/main_window.c:448
+#: ../src/main_window.c:460
 msgid "_Zoom"
 msgstr "_Nagyítás"
 
 #. Icon-name
-#: ../src/main_window.c:452
+#: ../src/main_window.c:464
 msgid "Zoom _In"
 msgstr "_Nagyítás"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:454
+#: ../src/main_window.c:466
 msgid "Zoom in"
 msgstr "Nagyítás"
 
 #. Icon-name
-#: ../src/main_window.c:458
+#: ../src/main_window.c:470
 msgid "Zoom _Out"
 msgstr "_Kicsinyítés"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:460
+#: ../src/main_window.c:472
 msgid "Zoom out"
 msgstr "Kicsinyítés"
 
 #. Icon-name
-#: ../src/main_window.c:464
+#: ../src/main_window.c:476
 msgid "Zoom _Fit"
 msgstr "_Igazítás az ablakhoz"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:466
+#: ../src/main_window.c:478
 msgid "Zoom to fit window"
 msgstr "Illesztés az ablakhoz"
 
 #. Icon-name
-#: ../src/main_window.c:470
+#: ../src/main_window.c:482
 msgid "_Normal Size"
 msgstr "_Normál méret"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:472
+#: ../src/main_window.c:484
 msgid "Zoom to 100%"
 msgstr "100%-os nagyítás"
 
-#: ../src/main_window.c:477
+#: ../src/main_window.c:489
 msgid "_Rotation"
 msgstr "_Forgatás"
 
 #. Icon-name
-#: ../src/main_window.c:481
+#: ../src/main_window.c:493
 msgid "Rotate _Right"
 msgstr "Forgatás _jobbra"
 
 #. Icon-name
-#: ../src/main_window.c:487
+#: ../src/main_window.c:499
 msgid "Rotate _Left"
 msgstr "Forgatás _balra"
 
-#: ../src/main_window.c:494
+#: ../src/main_window.c:506
 msgid "_Go"
 msgstr "_Ugrás"
 
 #. Icon-name
-#: ../src/main_window.c:498
+#: ../src/main_window.c:510
 msgid "_Forward"
 msgstr "_Előre"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:500
+#: ../src/main_window.c:512
 msgid "Next image"
 msgstr "Következő kép"
 
 #. Icon-name
-#: ../src/main_window.c:504
+#: ../src/main_window.c:516
 msgid "_Back"
 msgstr "_Vissza"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:506
+#: ../src/main_window.c:518
 msgid "Previous image"
 msgstr "Előző kép"
 
 #. Icon-name
-#: ../src/main_window.c:510
+#: ../src/main_window.c:522
 msgid "F_irst"
 msgstr "_Első"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:512
+#: ../src/main_window.c:524
 msgid "First image"
 msgstr "Első kép"
 
 #. Icon-name
-#: ../src/main_window.c:516
+#: ../src/main_window.c:528
 msgid "_Last"
 msgstr "_Utolsó"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:518
+#: ../src/main_window.c:530
 msgid "Last image"
 msgstr "Utolsó kép"
 
-#: ../src/main_window.c:523
+#: ../src/main_window.c:535
 msgid "_Help"
 msgstr "_Súgó"
 
 #. Icon-name
-#: ../src/main_window.c:527
+#: ../src/main_window.c:539
 msgid "_Contents"
 msgstr "_Tartalom"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:529
+#: ../src/main_window.c:541
 msgid "Display ristretto user manual"
 msgstr "A Ristretto felhasználói kézikönyvének megjelenítése"
 
 #. Icon-name
-#: ../src/main_window.c:533
+#: ../src/main_window.c:545
 msgid "_About"
 msgstr "_Névjegy"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:535
+#: ../src/main_window.c:547
 msgid "Display information about ristretto"
 msgstr "Információk megjelenítése a Ristrettoról"
 
-#: ../src/main_window.c:540
+#: ../src/main_window.c:552
 msgid "_Position"
 msgstr "_Pozíció"
 
-#: ../src/main_window.c:544
+#: ../src/main_window.c:556
 msgid "_Size"
 msgstr "_Méret"
 
-#: ../src/main_window.c:548
+#: ../src/main_window.c:560
 msgid "Thumbnail Bar _Position"
 msgstr "Bélyegképsá_v helye"
 
-#: ../src/main_window.c:552
-msgid "Thumbnail S_ize"
+#: ../src/main_window.c:564
+msgid "Thumb_nail Size"
 msgstr "Bélyegkép _mérete"
 
 #. Icon-name
-#: ../src/main_window.c:557
+#: ../src/main_window.c:569
 msgid "Leave _Fullscreen"
 msgstr "T_eljes képernyő elhagyása"
 
 #. Icon-name
-#: ../src/main_window.c:573
+#: ../src/main_window.c:585
 msgid "_Show Toolbar"
 msgstr "_Eszköztár megjelenítése"
 
 #. Icon-name
-#: ../src/main_window.c:581
+#: ../src/main_window.c:593
 msgid "Show _Thumbnail Bar"
 msgstr "_Bélyegképsáv megjelenítése"
 
 #. Icon-name
-#: ../src/main_window.c:589
-msgid "Show _Status Bar"
+#: ../src/main_window.c:601
+msgid "Show Status _Bar"
 msgstr "Álla_potsor megjelenítése"
 
 #. Icon-name
-#: ../src/main_window.c:602
+#: ../src/main_window.c:614
 msgid "sort by filename"
 msgstr "rendezés fájlnév szerint"
 
 #. Icon-name
-#: ../src/main_window.c:609
+#: ../src/main_window.c:621
 msgid "sort by date"
 msgstr "rendezés dátum szerint"
 
 #. Icon-name
-#: ../src/main_window.c:620
+#: ../src/main_window.c:632
 msgid "Left"
 msgstr "Balra"
 
-#: ../src/main_window.c:626
+#: ../src/main_window.c:638
 msgid "Right"
 msgstr "Jobbra"
 
-#: ../src/main_window.c:632
+#: ../src/main_window.c:644
 msgid "Top"
 msgstr "Fent"
 
-#: ../src/main_window.c:638
+#: ../src/main_window.c:650
 msgid "Bottom"
 msgstr "Lent"
 
-#: ../src/main_window.c:649
+#: ../src/main_window.c:661
 msgid "Very Small"
 msgstr "Nagyon kicsi"
 
-#: ../src/main_window.c:655
+#: ../src/main_window.c:667
 msgid "Smaller"
 msgstr "Kisebb"
 
-#: ../src/main_window.c:661
+#: ../src/main_window.c:673
 msgid "Small"
 msgstr "Kicsi"
 
-#: ../src/main_window.c:667
+#: ../src/main_window.c:679
 msgid "Normal"
 msgstr "Normál"
 
-#: ../src/main_window.c:673
+#: ../src/main_window.c:685
 msgid "Large"
 msgstr "Nagy"
 
-#: ../src/main_window.c:679
+#: ../src/main_window.c:691
 msgid "Larger"
 msgstr "Nagyobb"
 
-#: ../src/main_window.c:685
+#: ../src/main_window.c:697
 msgid "Very Large"
 msgstr "Nagyon nagy"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:834
+#: ../src/main_window.c:849
 msgid "_Play"
 msgstr "_Lejátszás"
 
-#: ../src/main_window.c:834
+#: ../src/main_window.c:849
 msgid "Play slideshow"
 msgstr "Diavetítés lejátszása"
 
-#: ../src/main_window.c:835
+#: ../src/main_window.c:850
 msgid "_Pause"
 msgstr "S_zünet"
 
-#: ../src/main_window.c:835
+#: ../src/main_window.c:850
 msgid "Pause slideshow"
 msgstr "Diavetítés szüneteltetése"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:838
+#: ../src/main_window.c:853
 msgid "_Recently used"
 msgstr "_Nemrég használt"
 
-#: ../src/main_window.c:838
+#: ../src/main_window.c:853
 msgid "Recently used"
 msgstr "Nemrég használt"
 
-#: ../src/main_window.c:942 ../src/main_window.c:1449
+#: ../src/main_window.c:957
+#: ../src/main_window.c:1495
 msgid "Press open to select an image"
 msgstr "Kép kiválasztásához nyomja meg a Megnyitás gombot"
 
-#: ../src/main_window.c:1311
+#: ../src/main_window.c:1354
+#: ../src/main_window.c:1358
 msgid "Open With Other _Application..."
 msgstr "Megnyitás _más alkalmazással…"
 
-#: ../src/main_window.c:1315
-msgid "Open With Other _Application"
-msgstr "Megnyitás _más alkalmazással"
-
-#: ../src/main_window.c:1336 ../src/main_window.c:1342
+#: ../src/main_window.c:1379
+#: ../src/main_window.c:1385
 msgid "Empty"
 msgstr "Üres"
 
-#: ../src/main_window.c:1459
+#: ../src/main_window.c:1505
 msgid "Loading..."
 msgstr "Betöltés…"
 
-#: ../src/main_window.c:2063
+#: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
 msgstr "A „háttérkép-beállítási” mód kiválasztása"
 
-#: ../src/main_window.c:2078 ../src/preferences_dialog.c:349
+#: ../src/main_window.c:2124
+#: ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -469,60 +471,64 @@ msgstr ""
 "Ez a beállítás meghatározza, hogy a <i>Ristretto</i> melyik\n"
 "módszert használja az asztal háttérképének beállítására."
 
-#: ../src/main_window.c:2103 ../src/preferences_dialog.c:373
+#: ../src/main_window.c:2149
+#: ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "Nincs"
 
-#: ../src/main_window.c:2107 ../src/preferences_dialog.c:377
+#: ../src/main_window.c:2153
+#: ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2111 ../src/preferences_dialog.c:381
+#: ../src/main_window.c:2157
+#: ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2542
+#: ../src/main_window.c:2588
 msgid "Developer:"
 msgstr "Fejlesztő:"
 
-#: ../src/main_window.c:2551
+#: ../src/main_window.c:2597
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "A Ristretto egy képmegjelenítő az Xfce asztali környezethez."
 
-#: ../src/main_window.c:2559
+#: ../src/main_window.c:2605
 msgid "translator-credits"
 msgstr "Kelemen Gábor <kelemeng at gnome dot hu>"
 
-#: ../src/main_window.c:2861
+#: ../src/main_window.c:2907
 msgid "Open image"
 msgstr "Kép megnyitása"
 
-#: ../src/main_window.c:2880
+#: ../src/main_window.c:2926
 msgid "Images"
 msgstr "Képek"
 
-#: ../src/main_window.c:2885
+#: ../src/main_window.c:2931
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2912 ../src/main_window.c:3054
+#: ../src/main_window.c:2958
+#: ../src/main_window.c:3100
 msgid "Could not open file"
 msgstr "Nem lehet megnyitni a fájlt"
 
-#: ../src/main_window.c:3087
+#: ../src/main_window.c:3133
 msgid "Save copy"
 msgstr "Másolat mentése"
 
-#: ../src/main_window.c:3113
+#: ../src/main_window.c:3159
 msgid "Could not save file"
 msgstr "Nem lehet menteni a fájlt"
 
-#: ../src/main_window.c:3281
+#: ../src/main_window.c:3327
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Biztosan törli a(z) „%s” képet a lemezről?"
 
-#: ../src/main_window.c:3299
+#: ../src/main_window.c:3345
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -533,12 +539,12 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/main_window.c:3315
+#: ../src/main_window.c:3361
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Biztosan a Kukába dobja a(z) „%s” képet?"
 
-#: ../src/main_window.c:3333
+#: ../src/main_window.c:3379
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -549,24 +555,24 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/main_window.c:3645
+#: ../src/main_window.c:3709
 msgid "Edit with"
 msgstr "Szerkesztés ezzel"
 
-#: ../src/main_window.c:3663
+#: ../src/main_window.c:3727
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Válasszon alkalmazást a(z) %s és más %s típusú fájlok megnyitásához:"
 
-#: ../src/main_window.c:3668
+#: ../src/main_window.c:3732
 msgid "Use as _default for this kind of file"
 msgstr "_Legyen alapértelmezett ehhez a fájltípushoz"
 
-#: ../src/main_window.c:3758
+#: ../src/main_window.c:3822
 msgid "Recommended Applications"
 msgstr "Javasolt alkalmazások"
 
-#: ../src/main_window.c:3838
+#: ../src/main_window.c:3902
 msgid "Other Applications"
 msgstr "Más alkalmazások"
 
@@ -602,197 +608,222 @@ msgstr "Aktív"
 msgid "Active item index"
 msgstr "Aktív elem indexe"
 
-#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+#: ../src/icon_bar.c:409
+#: ../src/icon_bar.c:410
 msgid "Show Text"
 msgstr "Szöveg megjelenítése"
 
-#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+#: ../src/icon_bar.c:416
+#: ../src/icon_bar.c:417
 msgid "Active item fill color"
 msgstr "Aktív elem kitöltőszíne"
 
-#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+#: ../src/icon_bar.c:423
+#: ../src/icon_bar.c:424
 msgid "Active item border color"
 msgstr "Aktív elem szegélyszíne"
 
-#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+#: ../src/icon_bar.c:430
+#: ../src/icon_bar.c:431
 msgid "Active item text color"
 msgstr "Aktív elem szövegszíne"
 
-#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+#: ../src/icon_bar.c:437
+#: ../src/icon_bar.c:438
 msgid "Cursor item fill color"
 msgstr "Kurzorelem kitöltőszíne"
 
-#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+#: ../src/icon_bar.c:444
+#: ../src/icon_bar.c:445
 msgid "Cursor item border color"
 msgstr "Kurzorelem szegélyszíne"
 
-#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+#: ../src/icon_bar.c:451
+#: ../src/icon_bar.c:452
 msgid "Cursor item text color"
 msgstr "Kurzorelem szövegszíne"
 
-#: ../src/privacy_dialog.c:151
+#: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
 msgstr "Törlendő időszak:"
 
-#: ../src/privacy_dialog.c:155
+#: ../src/privacy_dialog.c:156
 msgid "Cleanup"
 msgstr "Törlés"
 
-#: ../src/privacy_dialog.c:157
+#: ../src/privacy_dialog.c:158
 msgid "Last Hour"
 msgstr "Utolsó óra"
 
-#: ../src/privacy_dialog.c:158
+#: ../src/privacy_dialog.c:159
 msgid "Last Two Hours"
 msgstr "Utolsó két óra"
 
-#: ../src/privacy_dialog.c:159
+#: ../src/privacy_dialog.c:160
 msgid "Last Four Hours"
 msgstr "Utolsó négy óra"
 
-#: ../src/privacy_dialog.c:160
+#: ../src/privacy_dialog.c:161
 msgid "Today"
 msgstr "Ma"
 
-#: ../src/privacy_dialog.c:161
+#: ../src/privacy_dialog.c:162
 msgid "Everything"
 msgstr "Minden"
 
-#: ../src/privacy_dialog.c:459
+#: ../src/privacy_dialog.c:460
 msgid "Clear private data"
 msgstr "Személyes adatok törlése"
 
-#: ../src/preferences_dialog.c:199
+#: ../src/preferences_dialog.c:276
 msgid "Display"
 msgstr "Megjelenítés"
 
-#: ../src/preferences_dialog.c:204
+#: ../src/preferences_dialog.c:283
 msgid "Background color"
 msgstr "Háttérszín"
 
-#: ../src/preferences_dialog.c:208
+#: ../src/preferences_dialog.c:287
 msgid "Override background color:"
 msgstr "Háttérszín felülbírálása:"
 
-#: ../src/preferences_dialog.c:220
+#: ../src/preferences_dialog.c:314
+msgid "Quality"
+msgstr "Minőség"
+
+#: ../src/preferences_dialog.c:318
+msgid "With this option enabled, the maximum image-quality will be limited to the screen-size."
+msgstr "A legjobb képminőség korlátozása a kijelző méretére"
+
+#: ../src/preferences_dialog.c:321
+msgid "Limit rendering quality"
+msgstr "Megjelenítési minőség korlátozása"
+
+#: ../src/preferences_dialog.c:333
+msgid "Fullscreen"
+msgstr "Teljes képernyő"
+
+#: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
 msgstr "Bélyegképek"
 
-#: ../src/preferences_dialog.c:223
-msgid ""
-"The thumbnail bar can be automatically hidden \n"
-"when the window is fullscreen."
+#: ../src/preferences_dialog.c:341
+msgid "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr ""
-"A bélyegképsáv automatikusan elrejthető\n"
-"ha az ablak teljes képernyőn van."
+"A bélyegképsáv automatikusan elrejthető, ha az ablak teljes képernyőn van."
 
-#: ../src/preferences_dialog.c:225
+#: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Bélyegképsáv elrejtése teljes képernyőn"
 
-#: ../src/preferences_dialog.c:256
+#: ../src/preferences_dialog.c:352
+msgid "Clock"
+msgstr "Óra"
+
+#: ../src/preferences_dialog.c:355
+msgid "Show an analog clock that displays the current time when the window is fullscreen"
+msgstr "Analóg óra megjelenítése, ha az ablak teljes képernyőn van"
+
+#: ../src/preferences_dialog.c:358
+msgid "Show Fullscreen Clock"
+msgstr "Teljes képernyős óra megjelenítése"
+
+#: ../src/preferences_dialog.c:375
 msgid "Slideshow"
 msgstr "Diavetítés"
 
-#: ../src/preferences_dialog.c:260
+#: ../src/preferences_dialog.c:379
 msgid "Timeout"
 msgstr "Időtúllépés"
 
-#: ../src/preferences_dialog.c:263
+#: ../src/preferences_dialog.c:382
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr "Egyes képek megjelenítése ennyi ideig diavetítés során (másodperc)"
 
-#: ../src/preferences_dialog.c:272
-msgid "Clock"
-msgstr "Óra"
-
-#: ../src/preferences_dialog.c:275
-msgid "Show Fullscreen Clock"
-msgstr "Teljes képernyős óra megjelenítése"
-
-#: ../src/preferences_dialog.c:289
+#: ../src/preferences_dialog.c:400
 msgid "Control"
 msgstr "Vezérlés"
 
-#: ../src/preferences_dialog.c:293
+#: ../src/preferences_dialog.c:404
 msgid "Scroll wheel"
 msgstr "Egérgörgő"
 
-#: ../src/preferences_dialog.c:296
+#: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
 msgstr "Nagyítási irány megfordítása"
 
-#: ../src/preferences_dialog.c:306
+#: ../src/preferences_dialog.c:421
 msgid "Behaviour"
 msgstr "Viselkedés"
 
-#: ../src/preferences_dialog.c:311
+#: ../src/preferences_dialog.c:426
 msgid "Startup"
 msgstr "Indítás"
 
-#: ../src/preferences_dialog.c:313
+#: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
 msgstr "Ablak maximalizálása indításkor kép megnyitásakor"
 
-#: ../src/preferences_dialog.c:319
+#: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
 msgstr "Képek körbefuttatása"
 
-#: ../src/preferences_dialog.c:338
+#: ../src/preferences_dialog.c:453
 msgid "Desktop"
 msgstr "Asztal"
 
-#: ../src/preferences_dialog.c:460
+#: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
 msgstr "Képmegjelenítő beállításai"
 
-#: ../src/properties_dialog.c:180
+#: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
 msgstr "<b>Név:</b>"
 
-#: ../src/properties_dialog.c:181
+#: ../src/properties_dialog.c:182
 msgid "<b>Kind:</b>"
 msgstr "<b>Típus:</b>"
 
-#: ../src/properties_dialog.c:182
+#: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
 msgstr "<b>Módosítva:</b>"
 
-#: ../src/properties_dialog.c:183
+#: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
 msgstr "<b>Elérés:</b>"
 
-#: ../src/properties_dialog.c:184
+#: ../src/properties_dialog.c:185
 msgid "<b>Size:</b>"
 msgstr "<b>Méret:</b>"
 
-#: ../src/properties_dialog.c:308
+#: ../src/properties_dialog.c:309
 msgid "General"
 msgstr "Általános"
 
-#: ../src/properties_dialog.c:312
+#: ../src/properties_dialog.c:313
 msgid "Image"
 msgstr "Kép"
 
-#: ../src/properties_dialog.c:525
+#: ../src/properties_dialog.c:526
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Felvétel dátuma:</b>"
 
-#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
-#: ../src/properties_dialog.c:561
+#: ../src/properties_dialog.c:538
+#: ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:562
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:623
+#: ../src/properties_dialog.c:624
 #, c-format
 msgid "%s - Properties"
 msgstr "%s tulajdonságai"
 
-#: ../src/thumbnailer.c:459
+#: ../src/thumbnailer.c:460
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -801,53 +832,54 @@ msgid ""
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
 msgstr ""
-"A bélyegkép-készítő szolgáltatás nem érhető el, emiatt a bélyegképek nem "
-"hozhatók létre.\n"
+"A bélyegkép-készítő szolgáltatás nem érhető el, emiatt a bélyegképek nem hozhatók létre.\n"
 "\n"
-"Telepítse a <b>Tumblert</b> vagy egy másik <i>bélyegkép-készítő démont</i> a "
-"probléma megoldásához."
+"Telepítse a <b>Tumblert</b> vagy egy másik <i>bélyegképkészítő démont</i> a probléma megoldásához."
 
-#: ../src/thumbnailer.c:469
+#: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
 msgstr "_Ne jelenjen meg ez újra"
 
-#: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
+#: ../src/xfce_wallpaper_manager.c:336
+#: ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Stílus:"
 
-#: ../src/xfce_wallpaper_manager.c:336
+#: ../src/xfce_wallpaper_manager.c:337
 msgid "Brightness:"
 msgstr "Fényerő:"
 
-#: ../src/xfce_wallpaper_manager.c:337
+#: ../src/xfce_wallpaper_manager.c:338
 msgid "Saturation:"
 msgstr "Telítettség:"
 
-#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:245
+#: ../src/xfce_wallpaper_manager.c:355
+#: ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Beállítás háttérképként"
 
-#: ../src/xfce_wallpaper_manager.c:507 ../src/gnome_wallpaper_manager.c:312
+#: ../src/xfce_wallpaper_manager.c:508
+#: ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Automatikus"
 
-#: ../src/xfce_wallpaper_manager.c:510
+#: ../src/xfce_wallpaper_manager.c:511
 msgid "Centered"
 msgstr "Középre helyezett"
 
-#: ../src/xfce_wallpaper_manager.c:513
+#: ../src/xfce_wallpaper_manager.c:514
 msgid "Tiled"
 msgstr "Mozaik"
 
-#: ../src/xfce_wallpaper_manager.c:516
+#: ../src/xfce_wallpaper_manager.c:517
 msgid "Stretched"
 msgstr "Nyújtott"
 
-#: ../src/xfce_wallpaper_manager.c:519
+#: ../src/xfce_wallpaper_manager.c:520
 msgid "Scaled"
 msgstr "Kifeszített"
 
-#: ../src/xfce_wallpaper_manager.c:522
+#: ../src/xfce_wallpaper_manager.c:523
 msgid "Zoomed"
 msgstr "Nagyított"
 
@@ -858,6 +890,9 @@ msgstr "Képek egyszerű megjelenítése"
 #: ../ristretto.desktop.in.h:3
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto képmegjelenítő"
+
+#~ msgid "Open With Other _Application"
+#~ msgstr "Megnyitás _más alkalmazással"
 
 #~ msgid "Show _Navigation Toolbar"
 #~ msgstr "_Navigáció eszköztár megjelenítése"
@@ -948,12 +983,6 @@ msgstr "Ristretto képmegjelenítő"
 
 #~ msgid "_Print"
 #~ msgstr "_Nyomtatás"
-
-#~ msgid "Quality"
-#~ msgstr "Minőség"
-
-#~ msgid "Maximum render quality:"
-#~ msgstr "Legjobb megjelenítési minőség:"
 
 #~ msgid "Best"
 #~ msgstr "Legjobb"
