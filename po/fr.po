@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Mike Massonnet <mmassonnet@xfce.org>, 2007, 2008.
 # Patrick Douart <patrick.2@laposte.net>, 2009, 2010.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-08-29 07:48+0000\n"
+"POT-Creation-Date: 2012-12-15 10:33+0000\n"
 "PO-Revision-Date: 2012-08-29 14:41+0100\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,11,-1,-1,-1\n"
 
 #: ../src/main.c:62
@@ -47,8 +47,7 @@ msgstr ""
 "%s --help pour voir une liste complète\n"
 "des options en ligne de commande.\n"
 
-#: ../src/main_window.c:57
-#: ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:57 ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "Visionneuse d’images"
 
@@ -90,8 +89,7 @@ msgid "Show file properties"
 msgstr "Afficher les propriétés du fichier"
 
 #. Icon-name
-#: ../src/main_window.c:387
-#: ../src/main_window.c:406
+#: ../src/main_window.c:387 ../src/main_window.c:406
 msgid "_Edit"
 msgstr "_Éditer"
 
@@ -273,7 +271,6 @@ msgstr "Image précédente"
 
 #. Icon-name
 #: ../src/main_window.c:522
-#, fuzzy
 msgid "F_irst"
 msgstr "Pre_mière"
 
@@ -437,18 +434,15 @@ msgstr "_Récemment utilisés"
 msgid "Recently used"
 msgstr "Récemment utilisés"
 
-#: ../src/main_window.c:957
-#: ../src/main_window.c:1495
+#: ../src/main_window.c:957 ../src/main_window.c:1495
 msgid "Press open to select an image"
 msgstr "Cliquez sur Ouvrir pour sélectionner une image"
 
-#: ../src/main_window.c:1354
-#: ../src/main_window.c:1358
+#: ../src/main_window.c:1354 ../src/main_window.c:1358
 msgid "Open With Other _Application..."
 msgstr "Ouvrir avec une autre _application..."
 
-#: ../src/main_window.c:1379
-#: ../src/main_window.c:1385
+#: ../src/main_window.c:1379 ../src/main_window.c:1385
 msgid "Empty"
 msgstr "Vide"
 
@@ -460,8 +454,7 @@ msgstr "Chargement..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Choisir la méthode pour 'Utiliser en tant que fond d'écran'"
 
-#: ../src/main_window.c:2124
-#: ../src/preferences_dialog.c:464
+#: ../src/main_window.c:2124 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
@@ -471,18 +464,15 @@ msgstr ""
 "Ce réglage permettra à <i>Ristretto</i> de déterminer la méthode\n"
 "adéquate pour changer le fond d'écran."
 
-#: ../src/main_window.c:2149
-#: ../src/preferences_dialog.c:488
+#: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "Aucun"
 
-#: ../src/main_window.c:2153
-#: ../src/preferences_dialog.c:492
+#: ../src/main_window.c:2153 ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2157
-#: ../src/preferences_dialog.c:496
+#: ../src/main_window.c:2157 ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -492,7 +482,8 @@ msgstr "Développeur :"
 
 #: ../src/main_window.c:2597
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto est une visionneuse d’images pour l’environnement de bureau Xfce."
+msgstr ""
+"Ristretto est une visionneuse d’images pour l’environnement de bureau Xfce."
 
 #: ../src/main_window.c:2605
 msgid "translator-credits"
@@ -513,8 +504,7 @@ msgstr "Images"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2958
-#: ../src/main_window.c:3100
+#: ../src/main_window.c:2958 ../src/main_window.c:3100
 msgid "Could not open file"
 msgstr "Impossible d’ouvrir le fichier"
 
@@ -532,12 +522,15 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Voulez-vous vraiment supprimer l'image « %s » du disque ?"
 
 #: ../src/main_window.c:3345
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Voulez-vous vraiment supprimer l'image « %s » du disque ?"
+msgstr ""
+"Une erreur s'est produite lors de la suppression d'image « %s » à partir du disque..\n"
+"\n"
+"%s"
 
 #: ../src/main_window.c:3361
 #, c-format
@@ -545,12 +538,15 @@ msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Voulez-vous vraiment mettre l'image « %s » à la corbeille ?"
 
 #: ../src/main_window.c:3379
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "Voulez-vous vraiment mettre l'image « %s » à la corbeille ?"
+msgstr ""
+"Une erreur s'est produite lors de l'envoi de l'image « %s » vers la corbeille.\n"
+"\n"
+"%s"
 
 #: ../src/main_window.c:3709
 msgid "Edit with"
@@ -606,41 +602,34 @@ msgstr "Active"
 msgid "Active item index"
 msgstr "Activer l'index article"
 
-#: ../src/icon_bar.c:409
-#: ../src/icon_bar.c:410
+#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
 msgstr "Afficher le texte"
 
-#: ../src/icon_bar.c:416
-#: ../src/icon_bar.c:417
+#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 #, fuzzy
 msgid "Active item fill color"
 msgstr "Couleur de l'élément actif"
 
-#: ../src/icon_bar.c:423
-#: ../src/icon_bar.c:424
+#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 #, fuzzy
 msgid "Active item border color"
 msgstr "Couleur de la bordure de l'élément actif"
 
-#: ../src/icon_bar.c:430
-#: ../src/icon_bar.c:431
+#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 #, fuzzy
 msgid "Active item text color"
 msgstr "Couleur du texte de l'élément actif"
 
-#: ../src/icon_bar.c:437
-#: ../src/icon_bar.c:438
+#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
 msgstr "Curseur de couleur de remplissage de l'article"
 
-#: ../src/icon_bar.c:444
-#: ../src/icon_bar.c:445
+#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
 msgstr "Curseur de couleur de bordure de l'article"
 
-#: ../src/icon_bar.c:451
-#: ../src/icon_bar.c:452
+#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 #, fuzzy
 msgid "Cursor item text color"
 msgstr "Curseur de couleur du texte de l'article"
@@ -694,8 +683,12 @@ msgid "Quality"
 msgstr "Qualité"
 
 #: ../src/preferences_dialog.c:318
-msgid "With this option enabled, the maximum image-quality will be limited to the screen-size."
-msgstr "Quand cette option est activée, la qualité d'image maximum va être limitée à la taille de l'écran."
+msgid ""
+"With this option enabled, the maximum image-quality will be limited to the "
+"screen-size."
+msgstr ""
+"Quand cette option est activée, la qualité d'image maximum va être limitée à "
+"la taille de l'écran."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
@@ -710,8 +703,11 @@ msgid "Thumbnails"
 msgstr "Miniatures"
 
 #: ../src/preferences_dialog.c:341
-msgid "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "La barre des miniatures peut être masquée automatiquement en mode plein écran."
+msgid ""
+"The thumbnail bar can be automatically hidden when the window is fullscreen."
+msgstr ""
+"La barre des miniatures peut être masquée automatiquement en mode plein "
+"écran."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
@@ -722,8 +718,12 @@ msgid "Clock"
 msgstr "Horloge"
 
 #: ../src/preferences_dialog.c:355
-msgid "Show an analog clock that displays the current time when the window is fullscreen"
-msgstr "Afficher une horloge analogique qui affiche l'heure courante lorsque la fenêtre est en plein écran"
+msgid ""
+"Show an analog clock that displays the current time when the window is "
+"fullscreen"
+msgstr ""
+"Afficher une horloge analogique qui affiche l'heure courante lorsque la "
+"fenêtre est en plein écran"
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
@@ -814,8 +814,7 @@ msgstr "Image"
 msgid "<b>Date taken:</b>"
 msgstr "<b>Date de prise :</b>"
 
-#: ../src/properties_dialog.c:538
-#: ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
 #: ../src/properties_dialog.c:562
 #, c-format
 msgid "<b>%s</b>"
@@ -846,8 +845,7 @@ msgstr ""
 msgid "Do _not show this message again"
 msgstr "_Ne plus afficher ce message"
 
-#: ../src/xfce_wallpaper_manager.c:336
-#: ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Style :"
 
@@ -859,13 +857,11 @@ msgstr "Luminosité :"
 msgid "Saturation:"
 msgstr "Saturation :"
 
-#: ../src/xfce_wallpaper_manager.c:355
-#: ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Utiliser comme fond d'écran"
 
-#: ../src/xfce_wallpaper_manager.c:508
-#: ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Auto"
 
