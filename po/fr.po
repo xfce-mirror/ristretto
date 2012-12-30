@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-12-15 10:33+0000\n"
+"POT-Creation-Date: 2012-12-30 19:42+0000\n"
 "PO-Revision-Date: 2012-08-29 14:41+0100\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
@@ -528,7 +528,8 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Une erreur s'est produite lors de la suppression d'image « %s » à partir du disque..\n"
+"Une erreur s'est produite lors de la suppression d'image « %s » à partir du "
+"disque..\n"
 "\n"
 "%s"
 
@@ -544,7 +545,8 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Une erreur s'est produite lors de l'envoi de l'image « %s » vers la corbeille.\n"
+"Une erreur s'est produite lors de l'envoi de l'image « %s » vers la "
+"corbeille.\n"
 "\n"
 "%s"
 
@@ -595,44 +597,39 @@ msgstr "Modèle de la barre d'icônes"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
-msgstr "Active"
+msgstr "Activer"
 
 #: ../src/icon_bar.c:393
-#, fuzzy
 msgid "Active item index"
-msgstr "Activer l'index article"
+msgstr "Activer l'index de l'élément"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
 msgstr "Afficher le texte"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
-#, fuzzy
 msgid "Active item fill color"
-msgstr "Couleur de l'élément actif"
+msgstr "Activer la couleur de remplissage de l'élément"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
-#, fuzzy
 msgid "Active item border color"
-msgstr "Couleur de la bordure de l'élément actif"
+msgstr "Activer la couleur de la bordure de l'élément"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
-#, fuzzy
 msgid "Active item text color"
-msgstr "Couleur du texte de l'élément actif"
+msgstr "Activer la couleur du texte de l'élément"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr "Curseur de couleur de remplissage de l'article"
+msgstr "Curseur de couleur de remplissage de l'élément"
 
 #: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr "Curseur de couleur de bordure de l'article"
+msgstr "Curseur de couleur de bordure de l'élément"
 
 #: ../src/icon_bar.c:451 ../src/icon_bar.c:452
-#, fuzzy
 msgid "Cursor item text color"
-msgstr "Curseur de couleur du texte de l'article"
+msgstr "Couleur du texte de l'élément du curseur"
 
 #: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
