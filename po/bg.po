@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.15\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-01-09 09:45+0000\n"
-"PO-Revision-Date: 2013-01-10 13:26+0200\n"
+"POT-Creation-Date: 2013-01-11 04:33+0000\n"
+"PO-Revision-Date: 2013-01-11 10:31+0200\n"
 "Last-Translator: Cybercop <cybercop_montana@abv.bg>\n"
 "Language-Team: Bulgarian\n"
 "Language: Bulgarian\n"
@@ -248,7 +248,7 @@ msgstr "Завъртане наляво"
 
 #: ../src/main_window.c:506
 msgid "_Go"
-msgstr "Отиди"
+msgstr "Отиване"
 
 #. Icon-name
 #: ../src/main_window.c:510
@@ -601,7 +601,7 @@ msgstr "Модел на лентата с икони"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr "Образец за лентата с икони"
+msgstr "Модел за лентата с икони"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
@@ -813,7 +813,7 @@ msgstr "Изображение"
 #: ../src/properties_dialog.c:526
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr "<b>Дата на снимане:</b>"
+msgstr "<b>Дата на заснемане:</b>"
 
 #: ../src/properties_dialog.c:538
 #: ../src/properties_dialog.c:550
@@ -907,9 +907,6 @@ msgstr "Ленти с инструменти"
 msgid "Merge toolbars"
 msgstr "Сливане на ленти с инструменти"
 
-msgid "Spacing"
-msgstr "Отместване"
-
 msgid "The amount of space between the thumbnails"
 msgstr "Разстояние между миниатюрите"
 
@@ -971,3 +968,5 @@ msgstr ""
 "Предварително зареждане на изображенията при прожекция\n"
 "(използва повече памет)"
 
+#~ msgid "Spacing"
+#~ msgstr "Отместване"
