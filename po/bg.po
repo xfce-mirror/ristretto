@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.15\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-01-13 16:57+0000\n"
-"PO-Revision-Date: 2012-01-13 21:43+0200\n"
-"Last-Translator: Milen Milev <fanfolet@gmail.com>\n"
+"POT-Creation-Date: 2013-01-14 18:12+0000\n"
+"PO-Revision-Date: 2013-01-14 21:25+0200\n"
+"Last-Translator: Kiril Kirilov (Cybercop) <cybercop_montana@abv.bg>\n"
 "Language-Team: Bulgarian\n"
 "Language: Bulgarian\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Информация за версията"
 
 #: ../src/main.c:65
 msgid "Start in fullscreen mode"
-msgstr "Стартирай на цял екран"
+msgstr "Стартирай в режим на цял екран"
 
 #: ../src/main.c:69
 msgid "Start a slideshow"
@@ -33,7 +33,7 @@ msgstr "Прожекция"
 
 #: ../src/main.c:77
 msgid "Show settings dialog"
-msgstr "Покажи настройките"
+msgstr "Покажи диалога за настройките"
 
 #: ../src/main.c:105
 #, c-format
@@ -46,7 +46,7 @@ msgstr ""
 "%s: %s\n"
 "\n"
 "Опитайте %s --help за да видите пълен списък\n"
-"с наличните опции на командния ред.\n"
+"с наличните команди.\n"
 
 #: ../src/main_window.c:55
 #: ../ristretto.desktop.in.h:1
@@ -54,268 +54,268 @@ msgid "Image Viewer"
 msgstr "Програма за преглед на изображения"
 
 #. File Menu
-#: ../src/main_window.c:311
+#: ../src/main_window.c:318
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/main_window.c:312
+#: ../src/main_window.c:319
 msgid "_Open"
 msgstr "_Отвори"
 
-#: ../src/main_window.c:312
+#: ../src/main_window.c:319
 msgid "Open an image"
 msgstr "Отваряне на изображение"
 
-#: ../src/main_window.c:313
+#: ../src/main_window.c:320
 msgid "_Save copy"
 msgstr "Запази копие"
 
-#: ../src/main_window.c:313
+#: ../src/main_window.c:320
 msgid "Save a copy of the image"
 msgstr "Запази копие на изображението"
 
-#: ../src/main_window.c:314
+#: ../src/main_window.c:321
 msgid "_Properties"
 msgstr "Свойства"
 
-#: ../src/main_window.c:314
+#: ../src/main_window.c:321
 msgid "Show file properties"
 msgstr "Покажи свойствата на файла"
 
-#: ../src/main_window.c:315
+#: ../src/main_window.c:322
 msgid "_Close"
 msgstr "Затвори"
 
-#: ../src/main_window.c:315
+#: ../src/main_window.c:322
 msgid "Close this image"
 msgstr "Затвори изображението"
 
-#: ../src/main_window.c:316
+#: ../src/main_window.c:323
 msgid "_Quit"
 msgstr "Изход"
 
-#: ../src/main_window.c:316
+#: ../src/main_window.c:323
 msgid "Quit Ristretto"
 msgstr "Изход от Ristretto"
 
 #. Edit Menu
-#: ../src/main_window.c:318
+#: ../src/main_window.c:325
 msgid "_Edit"
 msgstr "_Редактиране"
 
-#: ../src/main_window.c:319
+#: ../src/main_window.c:326
 msgid "_Open with..."
 msgstr "Отваряне с..."
 
-#: ../src/main_window.c:320
+#: ../src/main_window.c:327
 msgid "_Sorting"
 msgstr "Подреди"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:328
 msgid "_Delete"
 msgstr "Изтрий"
 
-#: ../src/main_window.c:321
+#: ../src/main_window.c:328
 msgid "Delete this image from disk"
 msgstr "Изтрий изображението от диска"
 
-#: ../src/main_window.c:322
+#: ../src/main_window.c:329
 msgid "_Clear private data"
 msgstr "Изчисти личните данни"
 
-#: ../src/main_window.c:323
+#: ../src/main_window.c:330
 msgid "_Preferences"
 msgstr "Предпочитания"
 
 #. View Menu
-#: ../src/main_window.c:325
+#: ../src/main_window.c:332
 msgid "_View"
 msgstr "Преглед"
 
-#: ../src/main_window.c:326
+#: ../src/main_window.c:333
 msgid "_Fullscreen"
-msgstr "На цял екран"
+msgstr "Режим на цял екран"
 
-#: ../src/main_window.c:327
+#: ../src/main_window.c:334
 msgid "_Leave Fullscreen"
-msgstr "Излез от цял екран"
+msgstr "Изход от режим на цял екран"
 
-#: ../src/main_window.c:328
+#: ../src/main_window.c:335
 msgid "_Set as Wallpaper"
 msgstr "Задай като тапет"
 
 #. Zoom submenu
-#: ../src/main_window.c:330
+#: ../src/main_window.c:337
 msgid "_Zoom"
 msgstr "Мащабиране"
 
-#: ../src/main_window.c:331
+#: ../src/main_window.c:338
 msgid "Zoom _In"
 msgstr "Увеличаване"
 
-#: ../src/main_window.c:332
+#: ../src/main_window.c:339
 msgid "Zoom _Out"
 msgstr "Намаляване"
 
-#: ../src/main_window.c:333
+#: ../src/main_window.c:340
 msgid "Zoom _Fit"
 msgstr "Запълни"
 
-#: ../src/main_window.c:334
+#: ../src/main_window.c:341
 msgid "_Normal Size"
 msgstr "Нормален размер"
 
 #. Rotation submenu
-#: ../src/main_window.c:336
+#: ../src/main_window.c:343
 msgid "_Rotation"
 msgstr "Завъртане"
 
-#: ../src/main_window.c:337
+#: ../src/main_window.c:344
 msgid "Rotate _Right"
 msgstr "Завъртане надясно"
 
-#: ../src/main_window.c:338
+#: ../src/main_window.c:345
 msgid "Rotate _Left"
 msgstr "Завъртане наляво"
 
 #. Go Menu
-#: ../src/main_window.c:340
+#: ../src/main_window.c:347
 msgid "_Go"
 msgstr "Отиди"
 
-#: ../src/main_window.c:341
+#: ../src/main_window.c:348
 msgid "_Forward"
 msgstr "Напред"
 
-#: ../src/main_window.c:342
+#: ../src/main_window.c:349
 msgid "_Back"
 msgstr "Назад"
 
-#: ../src/main_window.c:343
+#: ../src/main_window.c:350
 msgid "_First"
 msgstr "Първо"
 
-#: ../src/main_window.c:344
+#: ../src/main_window.c:351
 msgid "_Last"
 msgstr "Последно"
 
 #. Help Menu
-#: ../src/main_window.c:346
+#: ../src/main_window.c:353
 msgid "_Help"
 msgstr "Помощ"
 
-#: ../src/main_window.c:348
+#: ../src/main_window.c:355
 msgid "_Contents"
 msgstr "Съдържание"
 
-#: ../src/main_window.c:350
+#: ../src/main_window.c:357
 msgid "Display ristretto user manual"
 msgstr "Покажи Ръководството за употреба"
 
-#: ../src/main_window.c:353
+#: ../src/main_window.c:360
 msgid "_About"
 msgstr "Относно"
 
-#: ../src/main_window.c:355
+#: ../src/main_window.c:362
 msgid "Display information about ristretto"
-msgstr "Покажи инфо за ristretto"
+msgstr "Покажи информация за ristretto"
 
 #. Position Menu
-#: ../src/main_window.c:358
+#: ../src/main_window.c:365
 msgid "_Position"
 msgstr "Позиция"
 
-#: ../src/main_window.c:359
+#: ../src/main_window.c:366
 msgid "Thumbnail Bar _Position"
 msgstr "Позиция на лентата за умалени изображения"
 
 #. Misc
-#: ../src/main_window.c:361
+#: ../src/main_window.c:368
 msgid "Leave _Fullscreen"
-msgstr "Излез от цял екран"
+msgstr "Изход от режим на цял екран"
 
 #. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:369
+#: ../src/main_window.c:376
 msgid "Show _File Toolbar"
 msgstr "Показване на лентата на менюто"
 
 #. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:371
+#: ../src/main_window.c:378
 msgid "Show _Navigation Toolbar"
 msgstr "Показване на лентата за навигация"
 
 #. Toggle visibility of the thumbnailbar
-#: ../src/main_window.c:373
+#: ../src/main_window.c:380
 msgid "Show _Thumbnail Bar"
-msgstr "Показване на лентата с умалени изображения"
+msgstr "Показване на лентата с миниатюри"
 
 #. Sort by Filename
-#: ../src/main_window.c:380
+#: ../src/main_window.c:387
 msgid "sort by filename"
 msgstr "подреди по ИМЕ"
 
 #. Sort by Date
-#: ../src/main_window.c:382
+#: ../src/main_window.c:389
 msgid "sort by date"
 msgstr "подреди по ДАТА"
 
-#: ../src/main_window.c:388
+#: ../src/main_window.c:395
 msgid "Left"
 msgstr "Ляво"
 
-#: ../src/main_window.c:389
+#: ../src/main_window.c:396
 msgid "Right"
 msgstr "Дясно"
 
-#: ../src/main_window.c:390
+#: ../src/main_window.c:397
 msgid "Top"
 msgstr "Горе"
 
-#: ../src/main_window.c:391
+#: ../src/main_window.c:398
 msgid "Bottom"
 msgstr "Долу"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:533
+#: ../src/main_window.c:545
 msgid "_Play"
 msgstr "Изпълни"
 
-#: ../src/main_window.c:533
+#: ../src/main_window.c:545
 msgid "Play slideshow"
 msgstr "Изпълни прожекция"
 
-#: ../src/main_window.c:534
+#: ../src/main_window.c:546
 msgid "_Pause"
 msgstr "Пауза"
 
-#: ../src/main_window.c:534
+#: ../src/main_window.c:546
 msgid "Pause slideshow"
 msgstr "Пауза на прожекцията"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:537
+#: ../src/main_window.c:549
 msgid "_Recently used"
 msgstr "Отваряни наскоро"
 
-#: ../src/main_window.c:537
+#: ../src/main_window.c:549
 msgid "Recently used"
 msgstr "Отваряни наскоро"
 
-#: ../src/main_window.c:634
-#: ../src/main_window.c:1108
+#: ../src/main_window.c:659
+#: ../src/main_window.c:1152
 msgid "Press open to select an image"
 msgstr "Натисни отвори за да изберете изображение"
 
-#: ../src/main_window.c:1012
-#: ../src/main_window.c:1018
+#: ../src/main_window.c:1039
+#: ../src/main_window.c:1045
 msgid "Empty"
 msgstr "Опразни"
 
-#: ../src/main_window.c:1925
+#: ../src/main_window.c:1977
 msgid "Choose 'set wallpaper' method"
 msgstr "Избери метод за задаване на тапета"
 
-#: ../src/main_window.c:1940
+#: ../src/main_window.c:1992
 #: ../src/preferences_dialog.c:349
 msgid ""
 "Configure which system is currently managing your desktop.\n"
@@ -326,68 +326,73 @@ msgstr ""
 "Тази настройка определя метода,по който\n"
 "<i>Ristretto</i> ще зададе тапета."
 
-#: ../src/main_window.c:1965
+#: ../src/main_window.c:2017
 #: ../src/preferences_dialog.c:373
 msgid "None"
 msgstr "Без"
 
-#: ../src/main_window.c:1969
+#: ../src/main_window.c:2021
 #: ../src/preferences_dialog.c:377
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:1973
+#: ../src/main_window.c:2025
 #: ../src/preferences_dialog.c:381
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2475
+#: ../src/main_window.c:2481
 msgid "Developer:"
 msgstr "Разработчик:"
 
-#: ../src/main_window.c:2484
+#: ../src/main_window.c:2490
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto е бърза и лека програма за преглед на изображения за работната среда XFCE"
 
-#: ../src/main_window.c:2492
+#: ../src/main_window.c:2498
 msgid "translator-credits"
 msgstr ""
 "Пламен Стоев <piros89@gmail.com>\n"
 "Милен Милев <fanfolet@gmail.com>"
 
-#: ../src/main_window.c:2778
+#: ../src/main_window.c:2784
 msgid "Open image"
 msgstr "Отваряне на изображение"
 
-#: ../src/main_window.c:2797
+#: ../src/main_window.c:2803
 msgid "Images"
 msgstr "Изображения"
 
-#: ../src/main_window.c:2802
+#: ../src/main_window.c:2808
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2829
-#: ../src/main_window.c:2931
+#: ../src/main_window.c:2835
+#: ../src/main_window.c:2937
 msgid "Could not open file"
 msgstr "Файлът не може да бъде отворен"
 
-#: ../src/main_window.c:2964
+#: ../src/main_window.c:2970
 msgid "Save copy"
 msgstr "Запази копие"
 
-#: ../src/main_window.c:2990
+#: ../src/main_window.c:2996
 msgid "Could not save file"
 msgstr "Файлът не може да бъде запазен"
 
-#: ../src/main_window.c:3107
+#: ../src/main_window.c:3127
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Сигурни ли сте, че искате да изтриете изображението '%s' от диска?"
 
+#: ../src/main_window.c:3151
+#, c-format
+msgid "Are you sure you want to send image '%s' to trash?"
+msgstr "Сигурни ли сте, че искате да изтриете изображение '%s' от диска?"
+
 #: ../src/privacy_dialog.c:151
 msgid "Time range to clear:"
-msgstr "Откъс за изчистване:"
+msgstr "Период за изчистване:"
 
 #: ../src/privacy_dialog.c:155
 msgid "Cleanup"
@@ -403,7 +408,7 @@ msgstr "Последните два часа"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Four Hours"
-msgstr "Послените четири часа"
+msgstr "Последните четири часа"
 
 #: ../src/privacy_dialog.c:160
 msgid "Today"
@@ -439,19 +444,19 @@ msgstr "Сливане на ленти"
 
 #: ../src/preferences_dialog.c:225
 msgid "Thumbnails"
-msgstr "Умалени изображения"
+msgstr "Миниатюри"
 
 #: ../src/preferences_dialog.c:228
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
 msgstr ""
-"Лентата на умалените изображения може да се\n"
+"Лентата с миниатюри може да се\n"
 "скрива автоматично при режим на цял екран."
 
 #: ../src/preferences_dialog.c:230
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Скрий лентата за умалени изображения при цял екран"
+msgstr "Скрий лентата с миниатюри при режим на цял екран"
 
 #: ../src/preferences_dialog.c:266
 msgid "Slideshow"
@@ -560,7 +565,7 @@ msgid ""
 "to resolve this issue."
 msgstr ""
 "Услугата за умалени изображения не е налична,\n"
-"по тази причина, умалени изображения не могат\n"
+"по тази причина, миниатюрите не могат\n"
 "да бъдат създадени.\n"
 "\n"
 "Инсталирайте <b>Tumbler</b> или друг услуга,\n"
@@ -576,7 +581,7 @@ msgstr "Отместване"
 
 #: ../src/thumbnail_bar.c:209
 msgid "The amount of space between the thumbnails"
-msgstr "Разстояние между умалените изображения"
+msgstr "Разстояние между миниатюрите"
 
 #: ../src/thumbnail_bar.c:215
 msgid "border width"
@@ -584,7 +589,7 @@ msgstr "дебелина на рамката"
 
 #: ../src/thumbnail_bar.c:216
 msgid "the border width of the thumbnail bar"
-msgstr "дебелина на рамката на лентата на умалените изображения"
+msgstr "дебелина на рамката на лентата с миниатюри"
 
 #: ../src/xfce_wallpaper_manager.c:335
 #: ../src/gnome_wallpaper_manager.c:234
