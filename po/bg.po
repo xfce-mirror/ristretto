@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ristretto 0.0.15\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-01-11 04:33+0000\n"
-"PO-Revision-Date: 2013-01-11 10:31+0200\n"
-"Last-Translator: Cybercop <cybercop_montana@abv.bg>\n"
+"POT-Creation-Date: 2013-01-14 18:09+0000\n"
+"PO-Revision-Date: 2013-01-14 21:15+0200\n"
+"Last-Translator: Kiril Kirilov (Cybercop) <cybercop_montana@abv.bg>\n"
 "Language-Team: Bulgarian\n"
 "Language: Bulgarian\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgid ""
 msgstr ""
 "%s: %s\n"
 "\n"
-"Въведете %s --help за да видите пълният списък\n"
+"Опитайте %s --help за да видите пълният списък\n"
 "с наличните команди.\n"
 
 #: ../src/main_window.c:57
@@ -219,7 +219,7 @@ msgstr "Запълване"
 #. Keyboard shortcut
 #: ../src/main_window.c:478
 msgid "Zoom to fit window"
-msgstr "Оразмеряване по ширината на прозореца"
+msgstr "Оразмеряване до запълване на прозореца"
 
 #. Icon-name
 #: ../src/main_window.c:482
@@ -281,7 +281,7 @@ msgstr "Първо"
 #. Keyboard shortcut
 #: ../src/main_window.c:524
 msgid "First image"
-msgstr "Първото изображение"
+msgstr "Първо изображение"
 
 #. Icon-name
 #: ../src/main_window.c:528
@@ -292,7 +292,7 @@ msgstr "Последно"
 #. Keyboard shortcut
 #: ../src/main_window.c:530
 msgid "Last image"
-msgstr "Списък с изображения"
+msgstr "Последно изображение"
 
 #: ../src/main_window.c:535
 msgid "_Help"
@@ -458,7 +458,7 @@ msgstr "Зареждане..."
 
 #: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
-msgstr "Избиране на метод за задаване на тапета"
+msgstr "Избиране на метод за задаване на фон на работният плот"
 
 #: ../src/main_window.c:2124
 #: ../src/preferences_dialog.c:464
@@ -469,7 +469,7 @@ msgid ""
 msgstr ""
 "Определя коя система управлява вашият плот.\n"
 "Тази настройка определя метода, по който\n"
-"<i>Ristretto</i> ще зададе тапета."
+"<i>Ristretto</i> ще зададе фона на работният плот."
 
 #: ../src/main_window.c:2149
 #: ../src/preferences_dialog.c:488
@@ -634,17 +634,17 @@ msgstr "Цвят на текста на активният елемент"
 #: ../src/icon_bar.c:437
 #: ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr "Цвят за курсора на елемента"
+msgstr "Цвят на показваният елемент"
 
 #: ../src/icon_bar.c:444
 #: ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr "Цвят за границите на курсора на елемента"
+msgstr "Цвят на рамката на показваният елемент"
 
 #: ../src/icon_bar.c:451
 #: ../src/icon_bar.c:452
 msgid "Cursor item text color"
-msgstr "Цвят на текста на курсора на елемента"
+msgstr "Цвят на текста на показваният елемент"
 
 #: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
@@ -716,7 +716,7 @@ msgstr "Лентата с миниатюрите може да се скрива
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Скриване на лентата с миниатюрите при цял екран"
+msgstr "Скриване на лентата с миниатюрите при режим на цял екран"
 
 #: ../src/preferences_dialog.c:352
 msgid "Clock"
@@ -728,7 +728,7 @@ msgstr "Показване на аналогов часовник, който п
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
-msgstr "Показване часовник при режим на цял екран"
+msgstr "Показване на часовник при режим на цял екран"
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
@@ -837,7 +837,7 @@ msgid ""
 "to resolve this issue."
 msgstr ""
 "Услугата за умалени изображения не е налична,\n"
-"по тази причина, умалени изображения не могат\n"
+"по тази причина, миниатюрите не могат\n"
 "да бъдат създадени.\n"
 "\n"
 "Инсталирайте <b>Tumbler</b> или друг услуга,\n"
@@ -898,75 +898,75 @@ msgstr "Разглеждайте снимките си лесно"
 msgid "Ristretto Image Viewer"
 msgstr "Програма за преглед на изображения Ristretto"
 
-msgid "Show _Navigation Toolbar"
-msgstr "Показване на лентата за навигация"
+#~ msgid "Show _Navigation Toolbar"
+#~ msgstr "Показване на лентата за навигация"
 
-msgid "Toolbars"
-msgstr "Ленти с инструменти"
+#~ msgid "Toolbars"
+#~ msgstr "Ленти с инструменти"
 
-msgid "Merge toolbars"
-msgstr "Сливане на ленти с инструменти"
+#~ msgid "Merge toolbars"
+#~ msgstr "Сливане на ленти с инструменти"
 
-msgid "The amount of space between the thumbnails"
-msgstr "Разстояние между миниатюрите"
+#~ msgid "The amount of space between the thumbnails"
+#~ msgstr "Разстояние между миниатюрите"
 
-msgid "border width"
-msgstr "дебелина на рамката"
+#~ msgid "border width"
+#~ msgstr "дебелина на рамката"
 
-msgid "the border width of the thumbnail bar"
-msgstr "дебелина на рамката на лентата с миниатюри"
+#~ msgid "the border width of the thumbnail bar"
+#~ msgstr "дебелина на рамката на лентата с миниатюри"
 
-msgid "Preferences"
-msgstr "Предпочитания"
+#~ msgid "Preferences"
+#~ msgstr "Предпочитания"
 
-msgid "Image viewer"
-msgstr "Програма за преглед на изображения"
+#~ msgid "Image viewer"
+#~ msgstr "Програма за преглед на изображения"
 
-msgid "Open _Folder"
-msgstr "Отваряне на папка"
+#~ msgid "Open _Folder"
+#~ msgstr "Отваряне на папка"
 
-msgid "Open a folder"
-msgstr "Отваряне на папка"
+#~ msgid "Open a folder"
+#~ msgstr "Отваряне на папка"
 
-msgid "Close all images"
-msgstr "Затвори всички изображения"
+#~ msgid "Close all images"
+#~ msgstr "Затвори всички изображения"
 
-msgid "Open folder"
-msgstr "Отваряне на папка"
+#~ msgid "Open folder"
+#~ msgstr "Отваряне на папка"
 
-msgid "Enable cache"
-msgstr "Разреши кеширане"
+#~ msgid "Enable cache"
+#~ msgstr "Разреши кеширане"
 
-msgid "_Thumbnail Bar"
-msgstr "Лента с миниатюри"
+#~ msgid "_Thumbnail Bar"
+#~ msgstr "Лента с миниатюри"
 
-msgid "Opening file(s)..."
-msgstr "Отваряне на файл(ове)..."
+#~ msgid "Opening file(s)..."
+#~ msgstr "Отваряне на файл(ове)..."
 
-msgid "No applications available"
-msgstr "Няма налични приложения"
+#~ msgid "No applications available"
+#~ msgstr "Няма налични приложения"
 
-msgid "Show _Horizontally"
-msgstr "Покажи хоризонтално"
+#~ msgid "Show _Horizontally"
+#~ msgstr "Покажи хоризонтално"
 
-msgid "Show _Vertically"
-msgstr "Покажи вертикално"
+#~ msgid "Show _Vertically"
+#~ msgstr "Покажи вертикално"
 
-msgid "H_ide"
-msgstr "Скриване"
+#~ msgid "H_ide"
+#~ msgstr "Скриване"
 
-msgid "Xfce Image viewer"
-msgstr "Програма за преглед на изображения за XFCE"
+#~ msgid "Xfce Image viewer"
+#~ msgstr "Програма за преглед на изображения за XFCE"
 
-msgid "Preload"
-msgstr "Предварително зареждане"
+#~ msgid "Preload"
+#~ msgstr "Предварително зареждане"
 
-msgid ""
-"Preload images during slideshow\n"
-"(uses more memory)"
-msgstr ""
-"Предварително зареждане на изображенията при прожекция\n"
-"(използва повече памет)"
+#~ msgid ""
+#~ "Preload images during slideshow\n"
+#~ "(uses more memory)"
+#~ msgstr ""
+#~ "Предварително зареждане на изображенията при прожекция\n"
+#~ "(използва повече памет)"
 
-msgid "Spacing"
-msgstr "Отместване"
+#~ msgid "Spacing"
+#~ msgstr "Отместване"
