@@ -9,15 +9,14 @@ msgstr ""
 "Project-Id-Version: ristretto 0.0.93-dev\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-02-20 19:45+0100\n"
-"PO-Revision-Date: 2011-06-18 22:39+0200\n"
-"Last-Translator: <gasper@gmx.com>\n"
+"PO-Revision-Date: 2013-01-21 22:41+0100\n"
+"Last-Translator: Nenad <nenadlatinovic@lavabit.com>\n"
 "Language-Team: Slovenian\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 "X-Language: sl_SI\n"
 "X-Source-Language: C\n"
 
@@ -48,7 +47,8 @@ msgstr ""
 "%s: %s\n"
 "Uporabi %s --help za celoten seznam razpoložljivih možnosti.\n"
 
-#: ../src/main_window.c:53 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:53
+#: ../ristretto.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "Pregledovalnik Slik"
 
@@ -349,11 +349,13 @@ msgstr "_Nedavno uporabljene"
 msgid "Recently used"
 msgstr "Nedavno uporabljene"
 
-#: ../src/main_window.c:672 ../src/main_window.c:1170
+#: ../src/main_window.c:672
+#: ../src/main_window.c:1170
 msgid "Press open to select an image"
 msgstr "Klikni odpri za izbiro slike"
 
-#: ../src/main_window.c:1074 ../src/main_window.c:1080
+#: ../src/main_window.c:1074
+#: ../src/main_window.c:1080
 msgid "Empty"
 msgstr "Prazno"
 
@@ -361,23 +363,29 @@ msgstr "Prazno"
 msgid "Choose 'set wallpaper' method"
 msgstr "Izberi metodo nastavitve ozadja"
 
-#: ../src/main_window.c:2124 ../src/preferences_dialog.c:349
-msgid "Configure which system is currently managing your desktop.\n"
+#: ../src/main_window.c:2124
+#: ../src/preferences_dialog.c:349
+msgid ""
+"Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Nastavi sistem, ki trenutno upravlja z vašim namizjem. \n"
+msgstr ""
+"Nastavi sistem, ki trenutno upravlja z vašim namizjem. \n"
 "Ta nastavitev določi metodo, ki jo bo <i>Ristretto</i> uporabil\n"
 "za nastavitev ozadja namizja."
 
-#: ../src/main_window.c:2149 ../src/preferences_dialog.c:373
+#: ../src/main_window.c:2149
+#: ../src/preferences_dialog.c:373
 msgid "None"
 msgstr "Noben"
 
-#: ../src/main_window.c:2153 ../src/preferences_dialog.c:377
+#: ../src/main_window.c:2153
+#: ../src/preferences_dialog.c:377
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2157 ../src/preferences_dialog.c:381
+#: ../src/main_window.c:2157
+#: ../src/preferences_dialog.c:381
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -392,8 +400,8 @@ msgstr "Ristretto je pregledovalnik slik za Xfce okolje."
 
 #: ../src/main_window.c:2630
 msgid "translator-credits"
-msgstr "zasluge prevajalcev"
-"Prevedel:\n"
+msgstr ""
+"zasluge prevajalcevPrevedel:\n"
 "Gašper <gasper@gmx.com> & Nenad <nenadlatinovic@lavabit.com>"
 
 #: ../src/main_window.c:2920
@@ -408,7 +416,8 @@ msgstr "Slike"
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2971 ../src/main_window.c:3073
+#: ../src/main_window.c:2971
+#: ../src/main_window.c:3073
 msgid "Could not open file"
 msgstr "Ne morem odpreti slike"
 
@@ -487,9 +496,7 @@ msgstr "Sličice"
 msgid ""
 "The thumbnail bar can be automatically hidden \n"
 "when the window is fullscreen."
-msgstr ""
-"Vrstica s sličicami se lahko samodejno skirje, ko je pregledovalnik slik v "
-"celozaslonskem načinu."
+msgstr "Vrstica s sličicami se lahko samodejno skirje, ko je pregledovalnik slik v celozaslonskem načinu."
 
 #: ../src/preferences_dialog.c:230
 #, fuzzy
@@ -508,9 +515,7 @@ msgstr "Časovna omejitev"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr ""
-"Časovno obdobje v kateri je prikazana posamezna slika med projekcijo (v "
-"skundah)"
+msgstr "Časovno obdobje v kateri je prikazana posamezna slika med projekcijo (v skundah)"
 
 #: ../src/preferences_dialog.c:289
 msgid "Control"
@@ -585,7 +590,8 @@ msgstr "Slika"
 msgid "<b>Date taken:</b>"
 msgstr "<b>Datum posnetka:</b>"
 
-#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
+#: ../src/properties_dialog.c:537
+#: ../src/properties_dialog.c:549
 #: ../src/properties_dialog.c:561
 #, c-format
 msgid "<b>%s</b>"
@@ -598,22 +604,14 @@ msgstr "%s - Nastavitve"
 
 #: ../src/thumbnailer.c:430
 msgid "The thumbnailer-service can not be reached,\n"
-"for this reason, the thumbnails can not be\n"
-"created.\n"
-"\n"
-"Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
-"to resolve this issue."
 msgstr "Nastavitelj sličic je nedostopen,\n"
-"zaradi tega sličic ni možno\n"
-"ustvariti.\n"
-"Inštaliraj <b>Tumblerja</b> ali kateri drug <i>pritajeni strežnik sličic</i>\n" 
-"za razrešitev te težave.\n"
 
 #: ../src/thumbnailer.c:440
 msgid "Do _not show this message again"
 msgstr "Ne prikaži več tega spo_ročila"
 
-#: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
+#: ../src/xfce_wallpaper_manager.c:335
+#: ../src/gnome_wallpaper_manager.c:234
 msgid "Style:"
 msgstr "Slog:"
 
@@ -625,11 +623,13 @@ msgstr "Svetlost:"
 msgid "Saturation:"
 msgstr "Nasičenost:"
 
-#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:245
+#: ../src/xfce_wallpaper_manager.c:354
+#: ../src/gnome_wallpaper_manager.c:245
 msgid "Set as wallpaper"
 msgstr "Nastavi kot ozadje"
 
-#: ../src/xfce_wallpaper_manager.c:512 ../src/gnome_wallpaper_manager.c:312
+#: ../src/xfce_wallpaper_manager.c:512
+#: ../src/gnome_wallpaper_manager.c:312
 msgid "Auto"
 msgstr "Samodejno"
 
