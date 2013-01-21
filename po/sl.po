@@ -104,7 +104,7 @@ msgstr "_Uredi"
 
 #: ../src/main_window.c:340
 msgid "_Open with..."
-msgstr "_Za odprianje uporabi..."
+msgstr "_Za odpiranje uporabi..."
 
 #: ../src/main_window.c:341
 msgid "_Sorting"
@@ -362,12 +362,10 @@ msgid "Choose 'set wallpaper' method"
 msgstr "Izberi metodo nastavitve ozadja"
 
 #: ../src/main_window.c:2124 ../src/preferences_dialog.c:349
-msgid ""
-"Configure which system is currently managing your desktop.\n"
+msgid "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr ""
-"Nastavi sistem, ki trenutno upravlja z vašim namizjem. \n"
+msgstr "Nastavi sistem, ki trenutno upravlja z vašim namizjem. \n"
 "Ta nastavitev določi metodo, ki jo bo <i>Ristretto</i> uporabil\n"
 "za nastavitev ozadja namizja."
 
@@ -599,15 +597,13 @@ msgid "%s - Properties"
 msgstr "%s - Nastavitve"
 
 #: ../src/thumbnailer.c:430
-msgid ""
-"The thumbnailer-service can not be reached,\n"
+msgid "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
 "created.\n"
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr ""
-"Nastavitelj sličic je nedostopen,\n"
+msgstr "Nastavitelj sličic je nedostopen,\n"
 "zaradi tega sličic ni možno\n"
 "ustvariti.\n"
 "Inštaliraj <b>Tumblerja</b> ali kateri drug <i>pritajeni strežnik sličic</i>\n" 
@@ -667,86 +663,3 @@ msgstr "Na preprost način si oglejte svoje fotografije"
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto Pregledovalnik Slik"
 
-#~ msgid "Spacing"
-#~ msgstr "Razmik"
-
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "Razmik med sličicami"
-
-#~ msgid "border width"
-#~ msgstr "širina roba"
-
-#, fuzzy
-#~ msgid "the border width of the thumbnail bar"
-#~ msgstr "širina roba vrstice s sličicami"
-
-#~ msgid "Preferences"
-#~ msgstr "Nastavitve"
-
-#, fuzzy
-#~ msgid "Image viewer"
-#~ msgstr "Pregledovalnik Slik"
-
-#~ msgid "Open _Folder"
-#~ msgstr "Odpri _Mapo"
-
-#~ msgid "Open a folder"
-#~ msgstr "Odpre mapo"
-
-#~ msgid "_Close All"
-#~ msgstr "Zapri _Vse"
-
-#~ msgid "Close all images"
-#~ msgstr "Zapre vse slike"
-
-#~ msgid "Open folder"
-#~ msgstr "Odpri mapo"
-
-#~ msgid "Open entire folder on startup"
-#~ msgstr "Ob zagonu odpri celo mapo"
-
-#~ msgid "Monitor:"
-#~ msgstr "Zaslon:"
-
-#, fuzzy
-#~ msgid "Two"
-#~ msgstr "Dva"
-
-#~ msgid "Show preview when loading image"
-#~ msgstr "Pokaži predogled ob nalaganju slike"
-
-#~ msgid "No action"
-#~ msgstr "Ne stori ničesar"
-
-#~ msgid "Zoom in and out"
-#~ msgstr "Povečaj in pomanjšaj"
-
-#~ msgid "Switch images"
-#~ msgstr "Zamenjaj slike"
-
-#~ msgid "Memory"
-#~ msgstr "Pomnilnik"
-
-#~ msgid "Image cache"
-#~ msgstr "Slikovni predpomnilnik"
-
-#~ msgid "Cache size"
-#~ msgstr "Velikost predpomnilnika"
-
-#~ msgid "MB"
-#~ msgstr "MB"
-
-#~ msgid "Enable cache"
-#~ msgstr "Omogoči predpomnilnik"
-
-#~ msgid "Enable preloading"
-#~ msgstr "Pomogoči prednalaganje"
-
-#~ msgid "filmstrip width"
-#~ msgstr "Širina filmskega traku"
-
-#~ msgid "_Print"
-#~ msgstr "_Natisni"
-
-#~ msgid "Print the image"
-#~ msgstr "Natistni sliko"
