@@ -2406,12 +2406,13 @@ cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget,
             case GDK_SCROLL_UP:
             case GDK_SCROLL_LEFT:
                 rstto_image_list_iter_previous (window->priv->iter);
-                ret = TRUE; /* don't call other callbacks */
+                break;
             case GDK_SCROLL_DOWN:
             case GDK_SCROLL_RIGHT:
                 rstto_image_list_iter_next (window->priv->iter);
-                ret = TRUE;
+                break;
         }
+        ret = TRUE; /* don't call other callbacks */
     }
     return ret;
 }
