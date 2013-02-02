@@ -2411,7 +2411,15 @@ cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget,
                                                 gpointer user_data)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
-    if (!(event->state & (GDK_CONTROL_MASK)))
+    gboolean ret = FALSE;
+
+    /*
+     * - scroll through images with scroll
+     * - pan across current image with shift+scroll
+     * - zoom on current image with ctrl+scroll
+     */
+    if (!(event->state & (GDK_CONTROL_MASK)) &&
+        !(event->state & (GDK_SHIFT_MASK)))
     {
         switch(event->direction)
         {
@@ -2424,8 +2432,9 @@ cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget,
                 rstto_image_list_iter_next (window->priv->iter);
                 break;
         }
+        ret = TRUE; /* don't call other callbacks */
     }
-    return FALSE;
+    return ret;
 }
 
 static gboolean

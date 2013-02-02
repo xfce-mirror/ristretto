@@ -1362,8 +1362,8 @@ cb_rstto_image_list_image_name_compare_func (RsttoFile *a, RsttoFile *b)
     const gchar *bp = b_base;
 
     gint result = 0;
-    guint a_num = 0;
-    guint b_num = 0;
+    guint64 a_num = 0;
+    guint64 b_num = 0;
 
     /* try simple (fast) ASCII comparison first */
     for (;; ++ap, ++bp)
@@ -1403,8 +1403,8 @@ cb_rstto_image_list_image_name_compare_func (RsttoFile *a, RsttoFile *b)
              */
             if (g_ascii_isdigit (ac) && g_ascii_isdigit (bc))
             {
-                a_num = strtoul (ap, NULL, 10); 
-                b_num = strtoul (bp, NULL, 10); 
+                a_num = strtoull (ap, NULL, 10);
+                b_num = strtoull (bp, NULL, 10);
 
                 if (a_num < b_num)
                     result = -1;
@@ -1417,8 +1417,8 @@ cb_rstto_image_list_image_name_compare_func (RsttoFile *a, RsttoFile *b)
                 g_ascii_isdigit (*(ap -1)) &&
                 g_ascii_isdigit (*(bp -1)) )
             {
-                a_num = strtoul (ap-1, NULL, 10); 
-                b_num = strtoul (bp-1, NULL, 10); 
+                a_num = strtoull (ap-1, NULL, 10);
+                b_num = strtoull (bp-1, NULL, 10);
 
                 if (a_num < b_num)
                     result = -1;
