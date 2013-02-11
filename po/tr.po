@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-09-07 05:48+0000\n"
+"POT-Creation-Date: 2013-02-11 09:33+0000\n"
 "PO-Revision-Date: 2012-02-19 20:08+0200\n"
 "Last-Translator: Ayhan YALÇINSOY <ayhanyalcinsoy@gmail.com>\n"
 "Language-Team: Turkish <kde-i18n-doc@kde.org>\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
-"X-Generator: Lokalize 1.2\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 1.2\n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -479,51 +479,51 @@ msgstr "Xfce"
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2588
+#: ../src/main_window.c:2597
 msgid "Developer:"
 msgstr "Geliştirici:"
 
-#: ../src/main_window.c:2597
+#: ../src/main_window.c:2606
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto, Xfce masaüstü ortamı için bir resim göstericidir."
 
-#: ../src/main_window.c:2605
+#: ../src/main_window.c:2614
 msgid "translator-credits"
 msgstr ""
 "Onur Küçük <onur@pardus.org.tr>\n"
 "Gökmen Görgen <gkmngrgn@gmail.com> \n"
 "Ayhan YALÇINSOY <ayhanyalcinsoy@gmail.com>"
 
-#: ../src/main_window.c:2907
+#: ../src/main_window.c:2916
 msgid "Open image"
 msgstr "Dosya aç"
 
-#: ../src/main_window.c:2926
+#: ../src/main_window.c:2935
 msgid "Images"
 msgstr "Resimler"
 
-#: ../src/main_window.c:2931
+#: ../src/main_window.c:2940
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2958 ../src/main_window.c:3100
+#: ../src/main_window.c:2967 ../src/main_window.c:3109
 msgid "Could not open file"
 msgstr "Dosya açılamadı"
 
-#: ../src/main_window.c:3133
+#: ../src/main_window.c:3142
 msgid "Save copy"
 msgstr "Kopyayı kaydet"
 
-#: ../src/main_window.c:3159
+#: ../src/main_window.c:3168
 msgid "Could not save file"
 msgstr "Dosya kaydedilemedi"
 
-#: ../src/main_window.c:3327
+#: ../src/main_window.c:3336
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Diskinizden '%s' resmini silmek istediğinizden emin misiniz?"
 
-#: ../src/main_window.c:3345
+#: ../src/main_window.c:3354
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -534,12 +534,12 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/main_window.c:3361
+#: ../src/main_window.c:3370
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "'%s' resmini çöpe göndermek istediğinizden emin misiniz?"
 
-#: ../src/main_window.c:3379
+#: ../src/main_window.c:3388
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -550,35 +550,32 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/main_window.c:3709
-#, fuzzy
+#: ../src/main_window.c:3718
 msgid "Edit with"
-msgstr "İle düzenle"
+msgstr "Birlikte düzenle"
 
-#: ../src/main_window.c:3727
+#: ../src/main_window.c:3736
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "%s'i ve diğer %s biçimli dosyaları şununla aç:"
 
-#: ../src/main_window.c:3732
+#: ../src/main_window.c:3741
 msgid "Use as _default for this kind of file"
 msgstr "Bu tip dosyalar için öntanımlı yap."
 
-#: ../src/main_window.c:3822
+#: ../src/main_window.c:3831
 msgid "Recommended Applications"
 msgstr "Tavsiye Edilen Uygulamalar"
 
-#: ../src/main_window.c:3902
+#: ../src/main_window.c:3911
 msgid "Other Applications"
 msgstr "Diğer Uygulamalar"
 
 #: ../src/icon_bar.c:345
-#, fuzzy
 msgid "Orientation"
 msgstr "Konumlandırma"
 
 #: ../src/icon_bar.c:346
-#, fuzzy
 msgid "The orientation of the iconbar"
 msgstr "Simge çubuğunun konumlandırması"
 
@@ -686,7 +683,7 @@ msgstr "Kalite"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr ""
+msgstr "Bu seçeneğin aılması ile, en üst resim kalitesi ekran boyutu ile sınırlanacak."
 
 #: ../src/preferences_dialog.c:321
 #, fuzzy
