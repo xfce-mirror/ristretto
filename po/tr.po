@@ -683,7 +683,7 @@ msgstr "Kalite"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Bu seçeneğin aılması ile, en üst resim kalitesi ekran boyutu ile sınırlanacak."
+msgstr "Bu seçeneğin açılması ile, en üst resim kalitesi ekran boyutu ile sınırlanacak."
 
 #: ../src/preferences_dialog.c:321
 #, fuzzy
