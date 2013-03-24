@@ -1,7 +1,7 @@
 # Korean translation for Ristretto.master package.
 # Copyright (C) 2006-2012 Stephan Arts et al.
 # This file is distributed under the same license as the Ristretto package.
-# Seong-ho, Cho <darkcircle.0426@gmail.com>, 2012.
+# Seong-ho Cho <darkcircle.0426@gmail.com>, 2012, 2013.
 #
 # Please write your name and e-mail into "translator-credits" if you update this translation script.
 #
@@ -123,7 +123,7 @@ msgstr "이 그림 닫기"
 #. Icon-name
 #: ../src/main_window.c:392
 msgid "_Quit"
-msgstr "나가기(_Q)"
+msgstr "끝내기(_Q)"
 
 #. Label-text
 #. Keyboard shortcut
@@ -476,7 +476,7 @@ msgid ""
 msgstr ""
 "지금 여러분의 데스크톱을 관리하고 있는 시스템을 설정합니다.\n"
 "이 설정은 <i>리스트레또</i>가 데스크톱 배경 화면을 설정할 때\n"
-"사용할 방식을 결정할 것입니다."
+"사용할 방식을 결정합니다."
 
 #: ../src/main_window.c:2114
 #: ../src/preferences_dialog.c:488
@@ -700,7 +700,7 @@ msgstr "화질"
 
 #: ../src/preferences_dialog.c:318
 msgid "With this option enabled, the maximum image-quality will be limited to the screen-size."
-msgstr "이 옵션을 활성화 하면 화면 크기에 따라 최대 이미지 화질을 제한할 것입니다."
+msgstr "이 옵션을 활성화 하면 화면 크기에 따라 최대 이미지 화질을 제한합니다."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
@@ -732,7 +732,7 @@ msgstr "창이 전체 화면 상태일 때 현재 시간을 보여주는 아날�
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
-msgstr "전체 화면 시계 보기"
+msgstr "전체 화면 시계 표시"
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
