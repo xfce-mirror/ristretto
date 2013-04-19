@@ -95,7 +95,9 @@ main(int argc, char **argv)
     textdomain (GETTEXT_PACKAGE);
     #endif
 
+    #if !GLIB_CHECK_VERSION (2, 32, 0)
     g_thread_init(NULL);
+    #endif
     gdk_threads_init();
 
     if(!gtk_init_with_args(&argc, &argv, "", entries, PACKAGE, &cli_error))
