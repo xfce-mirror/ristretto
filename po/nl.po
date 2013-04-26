@@ -2,7 +2,7 @@
 # Copyright (C) The Xfce development team.
 # This file is distributed under the same license as the ristretto package.
 # Stephan Arts <stephan@xfce.org>, 2007.
-# Pjotr, 2011.
+# Pjotr pjotrvertaalt@gmail.com , 2011 - 2013.
 # 
 msgid ""
 msgstr ""
@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2012-04-28 10:03+0000\n"
 "PO-Revision-Date: 2011-09-08 00:48+0200\n"
-"Last-Translator: Pjotr\n"
+"Last-Translator: Pjotr pjotrvertaalt@gmail.com\n"
 "Language-Team: Dutch (Flemish)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +62,7 @@ msgstr "_Openen..."
 #. Keyboard shortcut
 #: ../src/main_window.c:364
 msgid "Open an image"
-msgstr "Afbeelding openen"
+msgstr "Open een afbeelding"
 
 #. Icon-name
 #: ../src/main_window.c:368
@@ -95,7 +95,7 @@ msgstr "Be_werken"
 #. Keyboard shortcut
 #: ../src/main_window.c:382
 msgid "Edit this image"
-msgstr "Deze afbeelding bewerken"
+msgstr "Bewerk deze afbeelding"
 
 #. Icon-name
 #: ../src/main_window.c:386
@@ -117,7 +117,7 @@ msgstr "_Afsluiten"
 #. Keyboard shortcut
 #: ../src/main_window.c:394
 msgid "Quit Ristretto"
-msgstr "Ristretto sluiten"
+msgstr "Sluit Ristretto"
 
 #: ../src/main_window.c:403
 msgid "_Open with"
@@ -146,7 +146,7 @@ msgstr "Verwijder _privégegevens..."
 #. Icon-name
 #: ../src/main_window.c:423
 msgid "_Preferences..."
-msgstr "_Voorkeuren"
+msgstr "_Voorkeuren..."
 
 #: ../src/main_window.c:430
 msgid "_View"
@@ -161,23 +161,23 @@ msgstr "_Volledig scherm"
 #. Keyboard shortcut
 #: ../src/main_window.c:436
 msgid "Switch to fullscreen"
-msgstr "Overschakelen naar schermvullend"
+msgstr "Schakel over naar schermvullend"
 
 #. Icon-name
 #: ../src/main_window.c:440
 msgid "_Leave Fullscreen"
-msgstr "_Volledig scherm sluiten"
+msgstr "Ver_laat schermvullend"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:442
 msgid "Leave Fullscreen"
-msgstr "Schermvullend verlaten"
+msgstr "Verlaat schermvullend"
 
 #. Icon-name
 #: ../src/main_window.c:446
 msgid "Set as _Wallpaper..."
-msgstr "Instellen als bureaubladachtergrond..."
+msgstr "Stel in als bureaubladachtergrond..."
 
 #: ../src/main_window.c:453
 msgid "_Zoom"
@@ -225,7 +225,7 @@ msgstr "_Normale grootte"
 #. Keyboard shortcut
 #: ../src/main_window.c:477
 msgid "Zoom to 100%"
-msgstr "Zoomen naar 100 %"
+msgstr "Zoom naar 100 %"
 
 #: ../src/main_window.c:482
 msgid "_Rotation"
@@ -302,7 +302,7 @@ msgstr "_Inhoud"
 #. Keyboard shortcut
 #: ../src/main_window.c:534
 msgid "Display ristretto user manual"
-msgstr "Laat Ristretto-handleiding zien"
+msgstr "Toon Ristretto-handleiding"
 
 #. Icon-name
 #: ../src/main_window.c:538
@@ -313,7 +313,7 @@ msgstr "_Over"
 #. Keyboard shortcut
 #: ../src/main_window.c:540
 msgid "Display information about ristretto"
-msgstr "Laat informatie over Ristretto zien"
+msgstr "Toon informatie over Ristretto"
 
 #: ../src/main_window.c:545
 msgid "_Position"
@@ -334,32 +334,32 @@ msgstr "Grootte van miniatuur"
 #. Icon-name
 #: ../src/main_window.c:562
 msgid "Leave _Fullscreen"
-msgstr "Verlaat _schermvullende modus"
+msgstr "Verlaat _schermvullend"
 
 #. Icon-name
 #: ../src/main_window.c:578
 msgid "_Show Toolbar"
-msgstr "Werkbalk tonen"
+msgstr "Toon werkbalk"
 
 #. Icon-name
 #: ../src/main_window.c:586
 msgid "Show _Thumbnail Bar"
-msgstr "Miniaturenbalk tonen"
+msgstr "Toon miniaturenbalk"
 
 #. Icon-name
 #: ../src/main_window.c:594
 msgid "Show Status _Bar"
-msgstr "Statusbalk tonen"
+msgstr "Toon statusbalk"
 
 #. Icon-name
 #: ../src/main_window.c:607
 msgid "sort by filename"
-msgstr "sorteren op bestandnaam"
+msgstr "sorteer op bestandnaam"
 
 #. Icon-name
 #: ../src/main_window.c:614
 msgid "sort by date"
-msgstr "sorteren op datum"
+msgstr "sorteer op datum"
 
 #. Icon-name
 #: ../src/main_window.c:625
@@ -438,7 +438,7 @@ msgstr "Druk op openen om een afbeelding te selecteren"
 
 #: ../src/main_window.c:1322 ../src/main_window.c:1326
 msgid "Open With Other _Application..."
-msgstr "Openen met andere _toepassing..."
+msgstr "Open met andere _toepassing..."
 
 #: ../src/main_window.c:1347 ../src/main_window.c:1353
 msgid "Empty"
@@ -487,11 +487,11 @@ msgid "translator-credits"
 msgstr ""
 "Timo Verbeek <timoverbeek10@hotmail.com>\n"
 "Stephan Arts<stephan@xfce.org>\n"
-"Pjotr"
+"Pjotr pjotrvertaalt@gmail.com"
 
 #: ../src/main_window.c:2872
 msgid "Open image"
-msgstr "Afbeelding openen"
+msgstr "Open afbeelding"
 
 #: ../src/main_window.c:2891
 msgid "Images"
@@ -562,7 +562,7 @@ msgstr "Gebruik als standaard voor dit soort bestand"
 
 #: ../src/main_window.c:3787
 msgid "Recommended Applications"
-msgstr "Aangeraden toepassingen"
+msgstr "Aanbevolen toepassingen"
 
 #: ../src/main_window.c:3867
 msgid "Other Applications"
@@ -598,11 +598,11 @@ msgstr "Actief"
 
 #: ../src/icon_bar.c:393
 msgid "Active item index"
-msgstr "Actieve elementenindex"
+msgstr "Index van actieve elementen"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
-msgstr "Tekst tonen"
+msgstr "Toon tekst"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
@@ -680,7 +680,9 @@ msgstr "Kwaliteit"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Met deze optie ingeschakeld wordt de maximale afbeeldingkwaliteit beperkt tot de schermomvang."
+msgstr ""
+"Met deze optie ingeschakeld wordt de maximale afbeeldingkwaliteit beperkt "
+"tot de schermgrootte."
 
 #: ../src/preferences_dialog.c:262
 msgid "Limit rendering quality"
@@ -698,12 +700,12 @@ msgstr "Miniaturen"
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr ""
-"De miniaturenbalk kan automatisch worden verborgen \n"
-"wanneer de afbeeldingkijker in schermvullende modus is."
+"De miniaturenbalk kan automatisch worden verborgen wanneer het venster "
+"schermvullend is."
 
 #: ../src/preferences_dialog.c:285
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Miniaturenbalk verbergen bij schermvullende modus"
+msgstr "Verberg miniaturenbalk bij schermvullend"
 
 #: ../src/preferences_dialog.c:293
 msgid "Clock"
@@ -714,12 +716,12 @@ msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr ""
-"De miniaturenbalk kan automatisch worden verborgen \n"
-"wanneer de afbeeldingkijker in schermvullende modus is."
+"De miniaturenbalk kan automatisch worden verborgen wanneer het venster "
+"schermvullend is."
 
 #: ../src/preferences_dialog.c:299
 msgid "Show Fullscreen Clock"
-msgstr "Schermvullende klok tonen"
+msgstr "Toon schermvullende klok"
 
 #: ../src/preferences_dialog.c:315
 msgid "Slideshow"
@@ -760,7 +762,7 @@ msgstr "Opstarten"
 #: ../src/preferences_dialog.c:362
 msgid "Maximize window on startup when opening an image"
 msgstr ""
-"Venstergrootte maximaliseren bij opstarten, bij het openen van een afbeelding"
+"Maximaliseer venstergrootte bij opstarten, bij het openen van een afbeelding"
 
 #: ../src/preferences_dialog.c:368
 msgid "Wrap around images"
@@ -864,7 +866,7 @@ msgstr "Gecentreerd"
 
 #: ../src/xfce_wallpaper_manager.c:514
 msgid "Tiled"
-msgstr "Naast elkaar"
+msgstr "Getegeld"
 
 #: ../src/xfce_wallpaper_manager.c:517
 msgid "Stretched"
