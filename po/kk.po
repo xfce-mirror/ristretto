@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: master\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2013-04-21 14:00+0000\n"
-"PO-Revision-Date: 2013-05-03 21:38+0600\n"
+"PO-Revision-Date: 2013-05-17 06:52+0600\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -436,7 +436,7 @@ msgstr "Соңғы қолданылған"
 
 #: ../src/main_window.c:957 ../src/main_window.c:1495
 msgid "Press open to select an image"
-msgstr ""
+msgstr "Суретті таңдау үшін ашу басыңыз"
 
 #: ../src/main_window.c:1354 ../src/main_window.c:1358
 msgid "Open With Other _Application..."
@@ -452,7 +452,7 @@ msgstr "Жүктелуде..."
 
 #: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "Түсқағазды орнату тәсілін таңдаңыз"
 
 #: ../src/main_window.c:2124 ../src/preferences_dialog.c:464
 msgid ""
@@ -675,10 +675,12 @@ msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr ""
+"Бұл опция іске қосылған кезде, суреттердің максималды сапасы экран "
+"өлшемдерімен шектелетін болады."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
-msgstr ""
+msgstr "Көрсету сапасын шектеу"
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
@@ -691,11 +693,11 @@ msgstr "Үлгілер"
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr ""
+msgstr "Үлгілер панелін толық экранды режимінде жасыруға болады."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
-msgstr ""
+msgstr "Толық экранда үлгілер панелін жасыру"
 
 #: ../src/preferences_dialog.c:352
 msgid "Clock"
@@ -705,7 +707,7 @@ msgstr "Сағат"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr ""
+msgstr "Толық экранды режимінде уақытты көрсететін сағатты көрсету"
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
@@ -724,6 +726,8 @@ msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr ""
+"Слайдшоу кезінде бір суретке кететін көрсету уақыты\n"
+"(секунд)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -731,7 +735,7 @@ msgstr "Басқару"
 
 #: ../src/preferences_dialog.c:404
 msgid "Scroll wheel"
-msgstr ""
+msgstr "Тышқан дөңгелегі"
 
 #: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
@@ -747,7 +751,7 @@ msgstr "Іске қосылу"
 
 #: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
-msgstr ""
+msgstr "Суретті ашып іске қосылған кезде, терезені толық экранға қылу"
 
 #: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
