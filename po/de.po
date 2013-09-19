@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2013-09-19 10:30+0000\n"
+"PO-Revision-Date: 2013-09-19 10:34+0000\n"
 "Last-Translator: gem <eckert.georg@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/xfce/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s: %s⏎\n⏎\nVersuchen Sie %s --help, um eine komplette Liste⏎\nder möglichen Befehlszeilen-Optionen zu sehen.⏎\n"
+msgstr "%s: %s\n\nVersuchen Sie %s --help, um eine komplette Liste\nder möglichen Befehlszeilen-Optionen zu sehen.\n"
 
 #: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
@@ -455,7 +455,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Stellen Sie ein welches System derzeit die Arbeitsfläche verwaltet.⏎\nDiese Einstellung bestimmt welche Methode <i>Ristretto</i> nutzen wird⏎\num das Hintergrundbild zu setzen."
+msgstr "Stellen Sie ein welches System derzeit die Arbeitsfläche verwaltet.\nDiese Einstellung bestimmt welche Methode <i>Ristretto</i> nutzen wird\num das Hintergrundbild zu setzen."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -516,7 +516,7 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Beim Löschen des Bildes '%s' vom Datenträger trat ein Fehler auf.⏎\n⏎\n%s"
+msgstr "Beim Löschen des Bildes '%s' vom Datenträger trat ein Fehler auf.\n\n%s"
 
 #: ../src/main_window.c:3370
 #, c-format
@@ -529,7 +529,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "Beim Verschieben des Bildes '%s' in den Müll trat ein Fehler auf.⏎\n⏎\n%s"
+msgstr "Beim Verschieben des Bildes '%s' in den Müll trat ein Fehler auf.\n\n%s"
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
@@ -713,7 +713,7 @@ msgstr "Zeitüberschreitung"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr "Die Zeitspanne, die ein Bild während der Diaschau angezeigt wird⏎\n(in Sekunden)"
+msgstr "Die Zeitspanne, die ein Bild während der Diaschau angezeigt wird\n(in Sekunden)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -807,52 +807,52 @@ msgstr "Der Miniaturbilder-Service ist nicht verfügbar,\naus diesem Grund könn
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
-msgstr ""
+msgstr "Diese Nachricht _nicht erneut anzeigen"
 
 #: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
-msgstr ""
+msgstr "Stil:"
 
 #: ../src/xfce_wallpaper_manager.c:337
 msgid "Brightness:"
-msgstr ""
+msgstr "Helligkeit:"
 
 #: ../src/xfce_wallpaper_manager.c:338
 msgid "Saturation:"
-msgstr ""
+msgstr "Sättigung:"
 
 #: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
-msgstr ""
+msgstr "Als Hintergrundbild verwenden"
 
 #: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
-msgstr ""
+msgstr "Automatisch"
 
 #: ../src/xfce_wallpaper_manager.c:511
 msgid "Centered"
-msgstr ""
+msgstr "Zentriert"
 
 #: ../src/xfce_wallpaper_manager.c:514
 msgid "Tiled"
-msgstr ""
+msgstr "Gekachelt"
 
 #: ../src/xfce_wallpaper_manager.c:517
 msgid "Stretched"
-msgstr ""
+msgstr "Gestreckt"
 
 #: ../src/xfce_wallpaper_manager.c:520
 msgid "Scaled"
-msgstr ""
+msgstr "Skaliert"
 
 #: ../src/xfce_wallpaper_manager.c:523
 msgid "Zoomed"
-msgstr ""
+msgstr "Vergrößert"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
-msgstr ""
+msgstr "Ristretto Bildbetrachter"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
-msgstr ""
+msgstr "Bilder anschauen leicht gemacht"
