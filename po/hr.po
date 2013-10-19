@@ -1,21 +1,23 @@
-# Croatian translations for ristretto package.
-# Copyright (C) 2010 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the ristretto package.
-#  Ivica Kolić<ikoli@yahoo.com>, 2010.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
+# Ivica  Kolić <ikoli@yahoo.com>, 2010
+# Ivica  Kolić <ikoli@yahoo.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: ristretto\n"
+"Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-01-11 15:15+0000\n"
-"PO-Revision-Date: 2010-06-11 19:40+0200\n"
-"Last-Translator: Ivica Kolić<ikoli@yahoo.com> <>\n"
-"Language-Team: Croatian <>\n"
+"POT-Creation-Date: 2013-07-03 20:30+0200\n"
+"PO-Revision-Date: 2013-10-19 22:06+0000\n"
+"Last-Translator: Ivica  Kolić <ikoli@yahoo.com>\n"
+"Language-Team: Croatian (http://www.transifex.com/projects/p/xfce/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: hr\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -40,12 +42,9 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr ""
-"%s: %s\n"
-"Try %s --help da biste vidjeli cijelu listu dostupnih opcija naredbenog "
-"retka\n"
+msgstr "%s: %s\nTry %s --help da biste vidjeli cijelu listu dostupnih opcija naredbenog retka\n"
 
-#: ../src/main_window.c:57 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
 msgstr "Preglednik slika"
 
@@ -186,13 +185,13 @@ msgstr "_Zumiranje"
 #. Icon-name
 #: ../src/main_window.c:464
 msgid "Zoom _In"
-msgstr ""
+msgstr "Zumi_raj"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:466
 msgid "Zoom in"
-msgstr ""
+msgstr "Zumiraj"
 
 #. Icon-name
 #: ../src/main_window.c:470
@@ -254,7 +253,7 @@ msgstr "_Naprijed"
 #. Keyboard shortcut
 #: ../src/main_window.c:512
 msgid "Next image"
-msgstr "Slijedeća sslika"
+msgstr "Slijedeća slika"
 
 #. Icon-name
 #: ../src/main_window.c:516
@@ -461,7 +460,7 @@ msgstr ""
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
-msgstr ""
+msgstr "NIjedan"
 
 #: ../src/main_window.c:2153 ../src/preferences_dialog.c:492
 msgid "Xfce"
@@ -471,92 +470,86 @@ msgstr "Xfce"
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2588
+#: ../src/main_window.c:2597
 msgid "Developer:"
 msgstr "Razvijatelj:"
 
-#: ../src/main_window.c:2597
+#: ../src/main_window.c:2606
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto je preglednik slika za  Xfce radno okruženje"
+msgstr "Ristretto je preglednik slika za  Xfce radno okruženje."
 
-#: ../src/main_window.c:2605
+#: ../src/main_window.c:2614
 msgid "translator-credits"
-msgstr "Ivica Kolić (zvacet) <ikoli@yahoo.com>"
+msgstr "Ivica Kolić <ikoli@yahoo.com>"
 
-#: ../src/main_window.c:2907
+#: ../src/main_window.c:2916
 msgid "Open image"
 msgstr "Otvori sliku"
 
-#: ../src/main_window.c:2926
+#: ../src/main_window.c:2935
 msgid "Images"
 msgstr "Slike"
 
-#: ../src/main_window.c:2931
+#: ../src/main_window.c:2940
 msgid ".jp(e)g"
 msgstr ". Jp (e) g"
 
-#: ../src/main_window.c:2958 ../src/main_window.c:3100
+#: ../src/main_window.c:2967 ../src/main_window.c:3109
 msgid "Could not open file"
-msgstr "Ne mogu otvoriti datotewku"
+msgstr "Ne mogu otvoriti datoteku"
 
-#: ../src/main_window.c:3133
+#: ../src/main_window.c:3142
 msgid "Save copy"
 msgstr "Spremi kopiju"
 
-#: ../src/main_window.c:3159
+#: ../src/main_window.c:3168
 msgid "Could not save file"
 msgstr "Ne mogu spremiti datoteku"
 
-#: ../src/main_window.c:3327
+#: ../src/main_window.c:3336
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "jeste li sigurni da želite izbrisati sliku '%s sa diska?"
 
-#: ../src/main_window.c:3345
+#: ../src/main_window.c:3354
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr ""
-"Došlo je do greške prilikom brisanja slike '%s sa diska.\n"
-"\n"
-"%s"
+msgstr "Došlo je do greške prilikom brisanja slike '%s sa diska.\n\n%s"
 
-#: ../src/main_window.c:3361
+#: ../src/main_window.c:3370
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "jeste li sigurni da želite poslati sliku '%s u smeće?"
 
-#: ../src/main_window.c:3379
+#: ../src/main_window.c:3388
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr ""
-"Došlo je do greške prilikom slanja slike '%s u smeće.\n"
-"\n"
-"%s"
+msgstr "Došlo je do greške prilikom slanja slike '%s u smeće.\n\n%s"
 
-#: ../src/main_window.c:3709
+#: ../src/main_window.c:3718
 msgid "Edit with"
 msgstr "Uredi pomoću"
 
-#: ../src/main_window.c:3727
+#: ../src/main_window.c:3736
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Otvori %s i ostale datoteke tipa %s pomoću:"
 
-#: ../src/main_window.c:3732
+#: ../src/main_window.c:3741
 msgid "Use as _default for this kind of file"
 msgstr "Koristi kao _zadano za ovu vrstu datoteke"
 
-#: ../src/main_window.c:3822
+#: ../src/main_window.c:3831
 msgid "Recommended Applications"
 msgstr "Preporučeni programi"
 
-#: ../src/main_window.c:3902
+#: ../src/main_window.c:3911
 msgid "Other Applications"
 msgstr "Ostali programi"
 
@@ -582,11 +575,11 @@ msgstr ""
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr ""
+msgstr "Model za traku ikona"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
-msgstr ""
+msgstr "Aktivno"
 
 #: ../src/icon_bar.c:393
 msgid "Active item index"
@@ -598,11 +591,11 @@ msgstr "Pokaži tekst"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr ""
+msgstr "Ispuna boje aktivne stavke"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr ""
+msgstr "Boja ruba aktivne stavke"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
@@ -689,9 +682,7 @@ msgstr "Sličice"
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr ""
-"Traka sličica može biti automatski skrivena \n"
-"kada je preglednik slika u punom zaslonu."
+msgstr "Traka sličica može biti automatski skrivena \nkada je preglednik slika u punom zaslonu."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
@@ -705,9 +696,7 @@ msgstr "Sat"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr ""
-"Traka sličica može biti automatski skrivena \n"
-"kada je preglednik slika u punom zaslonu."
+msgstr "Pokaži analogni sat koji prikazuje trenutno vrijeme kada je prozor u cijelom zaslonu"
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
@@ -725,9 +714,7 @@ msgstr ""
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr ""
-"Vremensko razdoblje u kojem je prikazana jedna slika u kliznom prikazu\n"
-"(u sekundama)"
+msgstr "Vremensko razdoblje u kojem je prikazana jedna slika u kliznom prikazu\n(u sekundama)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -755,7 +742,7 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
-msgstr "Omotaj oko skika"
+msgstr "Omotaj oko slika"
 
 #: ../src/preferences_dialog.c:453
 msgid "Desktop"
@@ -825,15 +812,15 @@ msgstr "Ne _pokazuj više ovu poruku"
 
 #: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
-msgstr "Stil"
+msgstr "Stil:"
 
 #: ../src/xfce_wallpaper_manager.c:337
 msgid "Brightness:"
-msgstr "Osvijetljenost"
+msgstr "Osvijetljenost:"
 
 #: ../src/xfce_wallpaper_manager.c:338
 msgid "Saturation:"
-msgstr "Zasićenost"
+msgstr "Zasićenost:"
 
 #: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
@@ -863,100 +850,10 @@ msgstr "Skalirano"
 msgid "Zoomed"
 msgstr "Zumirano"
 
-#: ../ristretto.desktop.in.h:2
-msgid "Look at your images easily"
-msgstr "Pogledajte lako svoje fotografije "
-
-#: ../ristretto.desktop.in.h:3
+#: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
 msgstr "Ristretto preglednik fotografija"
 
-#~ msgid "Show _Navigation Toolbar"
-#~ msgstr "Pokaži _ navigacijsku alatnu traku"
-
-#~ msgid "Toolbars"
-#~ msgstr "Alatne trake"
-
-#~ msgid "Merge toolbars"
-#~ msgstr "Spoji alatne trake"
-
-#~ msgid "Spacing"
-#~ msgstr "Razmak"
-
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "Razmak između sličica"
-
-#~ msgid "border width"
-#~ msgstr "širina ruba"
-
-#~ msgid "the border width of the thumbnail bar"
-#~ msgstr "Širina ruba trake sličica"
-
-#~ msgid "Scaling"
-#~ msgstr "Skaliranje"
-
-#~ msgid "Don't scale over 100% when maximizing the window."
-#~ msgstr "Nemoj skalirati preko 100% kada maksimiziraš prozor"
-
-#~ msgid "Preferences"
-#~ msgstr "Osobitosti"
-
-#~ msgid "Image viewer"
-#~ msgstr "Preglednik slika"
-
-#~ msgid "Open _Folder"
-#~ msgstr "Otvori _mapu"
-
-#~ msgid "Open a folder"
-#~ msgstr "Otvori mapu"
-
-#~ msgid "_Close All"
-#~ msgstr "_Zatvori sve"
-
-#~ msgid "Close all images"
-#~ msgstr "Zatvori sve slike"
-
-#~ msgid "Open folder"
-#~ msgstr "Otvori mapu"
-
-#~ msgid "Open entire folder on startup"
-#~ msgstr "Otvori cijelu mapu pri pokretanju"
-
-#~ msgid "Monitor:"
-#~ msgstr "Monitor:"
-
-#~ msgid "Two"
-#~ msgstr "Dva"
-
-#~ msgid "Show preview when loading image"
-#~ msgstr "Pokaži predpregled kada učitavaš sliku"
-
-#~ msgid "No action"
-#~ msgstr "Bez akcije"
-
-#~ msgid "Memory"
-#~ msgstr "Memorija"
-
-#~ msgid "Cache size"
-#~ msgstr "Veličina međuspremnika"
-
-#~ msgid "MB"
-#~ msgstr "MB"
-
-#~ msgid "Enable cache"
-#~ msgstr "Omogući međuspremnik"
-
-#~ msgid "_Print"
-#~ msgstr "_Ispis"
-
-#~ msgid "Best"
-#~ msgstr "Najbolje"
-
-#~ msgid "High"
-#~ msgstr "Visoko"
-
-#~ msgid "Medium"
-#~ msgstr "Srednje"
-
-#~ msgid "Low"
-#~ msgstr "Nisko"
+#: ../ristretto.desktop.in.h:2
+msgid "Look at your images easily"
+msgstr "Pogledajte lako svoje fotografije "
