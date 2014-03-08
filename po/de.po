@@ -4,13 +4,14 @@
 # 
 # Translators:
 # gem <eckert.georg@gmx.de>, 2013
+# to_ba, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2013-09-19 10:34+0000\n"
-"Last-Translator: gem <eckert.georg@gmx.de>\n"
+"PO-Revision-Date: 2014-03-08 20:18+0000\n"
+"Last-Translator: to_ba\n"
 "Language-Team: German (http://www.transifex.com/projects/p/xfce/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: ../src/main.c:62
 msgid "Version information"
-msgstr "Versions-Informationen"
+msgstr "Versionsinformationen"
 
 #: ../src/main.c:66
 msgid "Start in fullscreen mode"
@@ -54,7 +55,7 @@ msgstr "_Datei"
 #. Icon-name
 #: ../src/main_window.c:369
 msgid "_Open..."
-msgstr "Ö_ffnen…"
+msgstr "_Öffnen …"
 
 #. Label-text
 #. Keyboard shortcut
@@ -65,7 +66,7 @@ msgstr "Bild öffnen"
 #. Icon-name
 #: ../src/main_window.c:375
 msgid "_Save copy..."
-msgstr "Kopie _speichern..."
+msgstr "Kopie _speichern …"
 
 #. Label-text
 #. Keyboard shortcut
@@ -76,7 +77,7 @@ msgstr "Eine Kopie des Bildes speichern"
 #. Icon-name
 #: ../src/main_window.c:381
 msgid "_Properties..."
-msgstr "Ei_genschaften..."
+msgstr "Ei_genschaften …"
 
 #. Label-text
 #. Keyboard shortcut
@@ -305,7 +306,7 @@ msgstr "Handbuch zu Ristretto anzeigen"
 #. Icon-name
 #: ../src/main_window.c:545
 msgid "_About"
-msgstr "_Info"
+msgstr "_Über"
 
 #. Label-text
 #. Keyboard shortcut
@@ -479,7 +480,7 @@ msgstr "Ristretto ist ein Bildbetrachter für die Xfce-Arbeitsumgebung."
 
 #: ../src/main_window.c:2614
 msgid "translator-credits"
-msgstr ""
+msgstr "Übersetzerdanksagungen"
 
 #: ../src/main_window.c:2916
 msgid "Open image"
@@ -562,7 +563,7 @@ msgstr "Die Ausrichtung der Symbolleiste"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
-msgstr ""
+msgstr "Dateispalte"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
