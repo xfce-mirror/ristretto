@@ -6,13 +6,14 @@
 # jc1 <jc1.quebecos@gmail.com>, 2013
 # Mike Massonnet <mmassonnet@xfce.org>, 2007-2008
 # Patrick Douart <patrick.2@laposte.net>, 2009-2010
+# Urides <urien.desterres@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2013-07-30 15:48+0000\n"
-"Last-Translator: jc1 <jc1.quebecos@gmail.com>\n"
+"PO-Revision-Date: 2014-03-31 17:40+0000\n"
+"Last-Translator: Urides <urien.desterres@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/xfce/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +35,7 @@ msgstr "Démarrer un diaporama"
 
 #: ../src/main.c:78
 msgid "Show settings dialog"
-msgstr "Afficher la fenêtre des préférences"
+msgstr "Afficher la fenêtre des paramètres"
 
 #: ../src/main.c:106
 #, c-format
@@ -43,7 +44,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s : %s\n\n%s --help pour voir une liste complète\ndes options en ligne de commande.\n"
+msgstr "%s : %s\n\nEssayer %s --help pour voir une liste complète\ndes options de ligne de commande disponibles.\n"
 
 #: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
@@ -95,7 +96,7 @@ msgstr "_Éditer"
 #. Keyboard shortcut
 #: ../src/main_window.c:389
 msgid "Edit this image"
-msgstr "Editer cette image"
+msgstr "Éditer cette image"
 
 #. Icon-name
 #: ../src/main_window.c:393
@@ -125,12 +126,12 @@ msgstr "_Ouvrir avec"
 
 #: ../src/main_window.c:414
 msgid "_Sorting"
-msgstr "_Trier par"
+msgstr "_Trier"
 
 #. Icon-name
 #: ../src/main_window.c:418
 msgid "_Delete"
-msgstr "_Effacer"
+msgstr "_Supprimer"
 
 #. Label-text
 #. Keyboard shortcut
@@ -177,7 +178,7 @@ msgstr "Quitter le plein écran"
 #. Icon-name
 #: ../src/main_window.c:453
 msgid "Set as _Wallpaper..."
-msgstr "_Utiliser comme fond d'écran..."
+msgstr "_Définir comme fond d’écran..."
 
 #: ../src/main_window.c:460
 msgid "_Zoom"
@@ -225,7 +226,7 @@ msgstr "_Taille normale"
 #. Keyboard shortcut
 #: ../src/main_window.c:484
 msgid "Zoom to 100%"
-msgstr "Zoom à 100%"
+msgstr "Zoom à 100 %"
 
 #: ../src/main_window.c:489
 msgid "_Rotation"
@@ -354,12 +355,12 @@ msgstr "Afficher la barre d'é_tat"
 #. Icon-name
 #: ../src/main_window.c:614
 msgid "sort by filename"
-msgstr "trier par nom de fichier"
+msgstr "par nom de fichier"
 
 #. Icon-name
 #: ../src/main_window.c:621
 msgid "sort by date"
-msgstr "trier par date"
+msgstr "par date"
 
 #. Icon-name
 #: ../src/main_window.c:632
@@ -450,7 +451,7 @@ msgstr "Chargement..."
 
 #: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
-msgstr "Choisir la méthode pour 'Utiliser en tant que fond d'écran'"
+msgstr "Choisir la méthode pour « Définir le fond d’écran »"
 
 #: ../src/main_window.c:2124 ../src/preferences_dialog.c:464
 msgid ""
@@ -501,11 +502,11 @@ msgstr "Impossible d’ouvrir le fichier"
 
 #: ../src/main_window.c:3142
 msgid "Save copy"
-msgstr "Sauvegarder une copie"
+msgstr "Enregistrer une copie"
 
 #: ../src/main_window.c:3168
 msgid "Could not save file"
-msgstr "Impossible de sauvegarder le fichier"
+msgstr "Impossible d’enregistrer le fichier"
 
 #: ../src/main_window.c:3336
 #, c-format
@@ -518,7 +519,7 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Une erreur s'est produite lors de la suppression d'image « %s » du disque..\n\n%s"
+msgstr "Une erreur s’est produite lors de la suppression de l’image « %s » du disque.\n\n%s"
 
 #: ../src/main_window.c:3370
 #, c-format
@@ -805,7 +806,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "Impossible de lancer le service des miniatures.\nLes miniatures ne peuvent donc pas être\ncréées.\n\nInstallez <b>Tumbler</b> ou un autre <i>démon de création\nde miniatures</i> pour résoudre ce problème."
+msgstr "Impossible de lancer le service des miniatures.\nCelles-ci ne peuvent donc être créées.\n\nInstallez <b>Tumbler</b> ou un autre <i>démon de création\nde miniatures</i> pour résoudre ce problème."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
@@ -825,7 +826,7 @@ msgstr "Saturation :"
 
 #: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
-msgstr "Utiliser comme fond d'écran"
+msgstr "Définir comme fond d’écran"
 
 #: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
@@ -853,7 +854,7 @@ msgstr "Zoomée"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
-msgstr "Visionneuse d’Images Ristretto"
+msgstr "Visionneuse d’images Ristretto"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
