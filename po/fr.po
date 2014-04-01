@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2014-03-31 17:40+0000\n"
+"PO-Revision-Date: 2014-04-01 15:50+0000\n"
 "Last-Translator: Urides <urien.desterres@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/xfce/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -90,7 +90,7 @@ msgstr "Afficher les propriétés du fichier"
 #. Icon-name
 #: ../src/main_window.c:387 ../src/main_window.c:406
 msgid "_Edit"
-msgstr "_Éditer"
+msgstr "É_diter"
 
 #. Label-text
 #. Keyboard shortcut
@@ -142,7 +142,7 @@ msgstr "Supprimer cette image du disque"
 #. Icon-name
 #: ../src/main_window.c:424
 msgid "_Clear private data..."
-msgstr "_Nettoyer les données personnelles..."
+msgstr "_Effacer les données personnelles..."
 
 #. Icon-name
 #: ../src/main_window.c:430
@@ -151,7 +151,7 @@ msgstr "_Préférences..."
 
 #: ../src/main_window.c:437
 msgid "_View"
-msgstr "_Afficher"
+msgstr "_Affichage"
 
 #. Icon-name
 #: ../src/main_window.c:441
@@ -292,7 +292,7 @@ msgstr "Dernière image"
 
 #: ../src/main_window.c:535
 msgid "_Help"
-msgstr "A_ide"
+msgstr "Aid_e"
 
 #. Icon-name
 #: ../src/main_window.c:539
@@ -303,12 +303,12 @@ msgstr "_Contenu"
 #. Keyboard shortcut
 #: ../src/main_window.c:541
 msgid "Display ristretto user manual"
-msgstr "Afficher le manuel de ristretto"
+msgstr "Afficher le guide d’utilisation de ristretto"
 
 #. Icon-name
 #: ../src/main_window.c:545
 msgid "_About"
-msgstr "_À propos"
+msgstr "À _propos"
 
 #. Label-text
 #. Keyboard shortcut
@@ -653,11 +653,11 @@ msgstr "Affichage"
 
 #: ../src/preferences_dialog.c:283
 msgid "Background color"
-msgstr "Couleur d'arrière plan"
+msgstr "Couleur d’arrière-plan"
 
 #: ../src/preferences_dialog.c:287
 msgid "Override background color:"
-msgstr "Remplacer la couleur d’arrière plan :"
+msgstr "Remplacer la couleur d’arrière-plan :"
 
 #: ../src/preferences_dialog.c:314
 msgid "Quality"
@@ -698,7 +698,7 @@ msgstr "Horloge"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Afficher une horloge analogique qui affiche l'heure courante lorsque la fenêtre est en plein écran"
+msgstr "Afficher une horloge analogique indiquant l’heure courante lorsque la fenêtre est en plein écran."
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
