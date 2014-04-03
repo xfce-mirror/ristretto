@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Daniel Nylander <po@danielnylander.se>, 2008-2009
+# PavelNicklasson <pavelnicklasson@bahnhof.se>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2014-02-10 19:50+0000\n"
+"PO-Revision-Date: 2014-04-03 11:26+0000\n"
 "Last-Translator: PavelNicklasson <pavelnicklasson@bahnhof.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/xfce/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -432,7 +433,7 @@ msgstr "Tidigare använda"
 
 #: ../src/main_window.c:957 ../src/main_window.c:1495
 msgid "Press open to select an image"
-msgstr "Tryck Öppna för att välja en bild"
+msgstr "Klicka på öppna för att välja en bild"
 
 #: ../src/main_window.c:1354 ../src/main_window.c:1358
 msgid "Open With Other _Application..."
