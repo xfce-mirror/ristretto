@@ -4,15 +4,17 @@
 # 
 # Translators:
 # jc1 <jc1.quebecos@gmail.com>, 2013
+# jc1 <jc1.quebecos@gmail.com>, 2013
 # Mike Massonnet <mmassonnet@xfce.org>, 2007-2008
 # Patrick Douart <patrick.2@laposte.net>, 2009-2010
+# Urides <urien.desterres@gmail.com>, 2014
 # Urides <urien.desterres@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2014-04-01 15:50+0000\n"
+"PO-Revision-Date: 2014-04-04 13:40+0000\n"
 "Last-Translator: Urides <urien.desterres@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/xfce/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +25,7 @@ msgstr ""
 
 #: ../src/main.c:62
 msgid "Version information"
-msgstr "Information sur la version"
+msgstr "Informations sur la version"
 
 #: ../src/main.c:66
 msgid "Start in fullscreen mode"
@@ -44,7 +46,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s : %s\n\nEssayer %s --help pour voir une liste complète\ndes options de ligne de commande disponibles.\n"
+msgstr "%s : %s\n\nEssayez %s --help pour voir une liste complète\ndes options de ligne de commande disponibles.\n"
 
 #: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
@@ -74,7 +76,7 @@ msgstr "_Enregistrer une copie..."
 #. Keyboard shortcut
 #: ../src/main_window.c:377
 msgid "Save a copy of the image"
-msgstr "Enregistrer une copie de l'image"
+msgstr "Enregistrer une copie de l’image"
 
 #. Icon-name
 #: ../src/main_window.c:381
@@ -90,7 +92,7 @@ msgstr "Afficher les propriétés du fichier"
 #. Icon-name
 #: ../src/main_window.c:387 ../src/main_window.c:406
 msgid "_Edit"
-msgstr "É_diter"
+msgstr "É_dition"
 
 #. Label-text
 #. Keyboard shortcut
@@ -209,24 +211,24 @@ msgstr "Zoom arrière"
 #. Icon-name
 #: ../src/main_window.c:476
 msgid "Zoom _Fit"
-msgstr "Zoom au _mieux"
+msgstr "Zoom a_justé"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:478
 msgid "Zoom to fit window"
-msgstr "Zoomer pour ajuster à la fenêtre"
+msgstr "Zoom ajusté à la fenêtre"
 
 #. Icon-name
 #: ../src/main_window.c:482
 msgid "_Normal Size"
-msgstr "_Taille normale"
+msgstr "_Taille d’origine"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:484
 msgid "Zoom to 100%"
-msgstr "Zoom à 100 %"
+msgstr "Taille d’origine"
 
 #: ../src/main_window.c:489
 msgid "_Rotation"
@@ -282,7 +284,7 @@ msgstr "Première image"
 #. Icon-name
 #: ../src/main_window.c:528
 msgid "_Last"
-msgstr "_Dernière"
+msgstr "Der_nière"
 
 #. Label-text
 #. Keyboard shortcut
@@ -297,13 +299,13 @@ msgstr "Aid_e"
 #. Icon-name
 #: ../src/main_window.c:539
 msgid "_Contents"
-msgstr "_Contenu"
+msgstr "_Guide d’utilisation"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:541
 msgid "Display ristretto user manual"
-msgstr "Afficher le guide d’utilisation de ristretto"
+msgstr "Afficher le guide d’utilisation de Ristretto"
 
 #. Icon-name
 #: ../src/main_window.c:545
@@ -314,7 +316,7 @@ msgstr "À _propos"
 #. Keyboard shortcut
 #: ../src/main_window.c:547
 msgid "Display information about ristretto"
-msgstr "Afficher les informations à propos de ristretto"
+msgstr "Afficher les informations à propos de Ristretto"
 
 #: ../src/main_window.c:552
 msgid "_Position"
@@ -326,7 +328,7 @@ msgstr "_Taille"
 
 #: ../src/main_window.c:560
 msgid "Thumbnail Bar _Position"
-msgstr "_Position de la barre des miniatures"
+msgstr "P_osition de la barre des miniatures"
 
 #: ../src/main_window.c:564
 msgid "Thumb_nail Size"
@@ -340,7 +342,7 @@ msgstr "Quitter le _plein écran"
 #. Icon-name
 #: ../src/main_window.c:585
 msgid "_Show Toolbar"
-msgstr "_Afficher la barre d'outils"
+msgstr "Afficher la barre d’o_utils"
 
 #. Icon-name
 #: ../src/main_window.c:593
@@ -350,50 +352,50 @@ msgstr "Afficher la barre des _miniatures"
 #. Icon-name
 #: ../src/main_window.c:601
 msgid "Show Status _Bar"
-msgstr "Afficher la barre d'é_tat"
+msgstr "Afficher la barre d’ét_at"
 
 #. Icon-name
 #: ../src/main_window.c:614
 msgid "sort by filename"
-msgstr "par nom de fichier"
+msgstr "Trier par nom de fichier"
 
 #. Icon-name
 #: ../src/main_window.c:621
 msgid "sort by date"
-msgstr "par date"
+msgstr "Trier par date"
 
 #. Icon-name
 #: ../src/main_window.c:632
 msgid "Left"
-msgstr "Gauche"
+msgstr "À gauche"
 
 #: ../src/main_window.c:638
 msgid "Right"
-msgstr "Droite"
+msgstr "À droite"
 
 #: ../src/main_window.c:644
 msgid "Top"
-msgstr "Haut"
+msgstr "En haut"
 
 #: ../src/main_window.c:650
 msgid "Bottom"
-msgstr "Bas"
+msgstr "En bas"
 
 #: ../src/main_window.c:661
 msgid "Very Small"
-msgstr "Très petit"
+msgstr "Très petite"
 
 #: ../src/main_window.c:667
 msgid "Smaller"
-msgstr "Plus petit"
+msgstr "Plus petite"
 
 #: ../src/main_window.c:673
 msgid "Small"
-msgstr "Petit"
+msgstr "Petite"
 
 #: ../src/main_window.c:679
 msgid "Normal"
-msgstr "_Taille Normale"
+msgstr "_Taille d’origine"
 
 #: ../src/main_window.c:685
 msgid "Large"
@@ -422,20 +424,20 @@ msgstr "_Pause"
 
 #: ../src/main_window.c:850
 msgid "Pause slideshow"
-msgstr "Mettre le diaporama en pause"
+msgstr "Mettre en pause le diaporama"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:853
 msgid "_Recently used"
-msgstr "_Récemment utilisés"
+msgstr "_Récemment utilisé"
 
 #: ../src/main_window.c:853
 msgid "Recently used"
-msgstr "Récemment utilisés"
+msgstr "Récemment utilisé"
 
 #: ../src/main_window.c:957 ../src/main_window.c:1495
 msgid "Press open to select an image"
-msgstr "Appuyez sur Ouvrir pour sélectionner une image"
+msgstr "Cliquez sur « Ouvrir » pour sélectionner une image"
 
 #: ../src/main_window.c:1354 ../src/main_window.c:1358
 msgid "Open With Other _Application..."
@@ -451,14 +453,14 @@ msgstr "Chargement..."
 
 #: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
-msgstr "Choisir la méthode pour « Définir le fond d’écran »"
+msgstr "Choisir la méthode pour « Définir comme fond d’écran... »"
 
 #: ../src/main_window.c:2124 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Indiquer quel système gère votre bureau actuellement.\nCe réglage permettra à <i>Ristretto</i> de déterminer la méthode\nadéquate pour changer le fond d'écran."
+msgstr "Indiquez quel système gère actuellement votre bureau.\nCe réglage permettra à <i>Ristretto</i> de déterminer la\nméthode adéquate pour en modifier le fond d’écran."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -474,7 +476,7 @@ msgstr "GNOME"
 
 #: ../src/main_window.c:2597
 msgid "Developer:"
-msgstr "Développeur :"
+msgstr "Programmeur :"
 
 #: ../src/main_window.c:2606
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
@@ -482,7 +484,7 @@ msgstr "Ristretto est une visionneuse d’images pour l’environnement de burea
 
 #: ../src/main_window.c:2614
 msgid "translator-credits"
-msgstr "Mike Massonnet <mmassonnet@xfce.org>\nSteve Dodier <sidnioulz@gmail.com>\nIliyas Jorio <inv.jorio@gmail.com>"
+msgstr "L’équipe de traduction francophone de Xfce"
 
 #: ../src/main_window.c:2916
 msgid "Open image"
@@ -511,7 +513,7 @@ msgstr "Impossible d’enregistrer le fichier"
 #: ../src/main_window.c:3336
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Voulez-vous vraiment supprimer l'image « %s » du disque ?"
+msgstr "Voulez-vous vraiment supprimer l’image « %s » du disque ?"
 
 #: ../src/main_window.c:3354
 #, c-format
@@ -524,7 +526,7 @@ msgstr "Une erreur s’est produite lors de la suppression de l’image « %s »
 #: ../src/main_window.c:3370
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Voulez-vous vraiment mettre l'image « %s » dans la corbeille ?"
+msgstr "Voulez-vous vraiment mettre l’image « %s » dans la corbeille ?"
 
 #: ../src/main_window.c:3388
 #, c-format
@@ -532,7 +534,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "Une erreur s'est produite lors de l'envoi de l'image « %s » dans la corbeille.\n\n%s"
+msgstr "Une erreur s’est produite lors de l’envoi de l’image « %s » dans la corbeille.\n\n%s"
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
@@ -541,7 +543,7 @@ msgstr "Éditer avec"
 #: ../src/main_window.c:3736
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr "Ouvrir %s et les autres fichiers du type %s avec :"
+msgstr "Ouvrir %s et les autres fichiers de type %s avec :"
 
 #: ../src/main_window.c:3741
 msgid "Use as _default for this kind of file"
@@ -561,7 +563,7 @@ msgstr "Orientation"
 
 #: ../src/icon_bar.c:346
 msgid "The orientation of the iconbar"
-msgstr "L'orientation de la barre d'icônes"
+msgstr "L’orientation de la barre d’icônes"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
@@ -569,15 +571,15 @@ msgstr "Colonne fichier"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr "Colonne du modèle utilisée pour extraire le fichier depuis"
+msgstr "Colonne du modèle utilisé pour récupérer le fichier depuis"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
-msgstr "Modèle de barre d'icône"
+msgstr "Modèle de barre d’icônes"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr "Modèle pour la barre d'icônes"
+msgstr "Modèle pour la barre d’icônes"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
@@ -585,7 +587,7 @@ msgstr "Activer"
 
 #: ../src/icon_bar.c:393
 msgid "Active item index"
-msgstr "Activer l'index de l'élément"
+msgstr "Activer l’index de l’élément"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
@@ -593,27 +595,27 @@ msgstr "Afficher le texte"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr "Activer la couleur de remplissage de l'élément"
+msgstr "Couleur de remplissage de l’élément actif"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr "Activer la couleur de la bordure de l'élément"
+msgstr "Couleur de la bordure de l’élément actif"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr "Activer la couleur du texte de l'élément"
+msgstr "Couleur du texte de l’élément actif"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr "Curseur de couleur de remplissage de l'élément"
+msgstr "Couleur de remplissage de l’élément surligné"
 
 #: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr "Curseur de couleur de bordure de l'élément"
+msgstr "Couleur de la bordure de l’élément surligné"
 
 #: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 msgid "Cursor item text color"
-msgstr "Couleur du texte de l'élément du curseur"
+msgstr "Couleur du texte de l’élément surligné"
 
 #: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
@@ -637,7 +639,7 @@ msgstr "Les quatre dernières heures"
 
 #: ../src/privacy_dialog.c:161
 msgid "Today"
-msgstr "Aujourd'hui"
+msgstr "Aujourd’hui"
 
 #: ../src/privacy_dialog.c:162
 msgid "Everything"
@@ -657,7 +659,7 @@ msgstr "Couleur d’arrière-plan"
 
 #: ../src/preferences_dialog.c:287
 msgid "Override background color:"
-msgstr "Remplacer la couleur d’arrière-plan :"
+msgstr "Remplacer la couleur d’arrière-plan par :"
 
 #: ../src/preferences_dialog.c:314
 msgid "Quality"
@@ -667,7 +669,7 @@ msgstr "Qualité"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Quand cette option est activée, la qualité d'image maximum va être limitée à la taille de l'écran."
+msgstr "Avec cette option activée, la qualité maximale de l’image sera limitée à la taille de l’écran."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
@@ -684,11 +686,11 @@ msgstr "Miniatures"
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "La barre des miniatures peut être cachée automatiquement en mode plein écran."
+msgstr "La barre des miniatures peut être automatiquement masquée en mode plein écran."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Cacher la barre des miniatures en mode plein écran"
+msgstr "Masquer la barre des miniatures en mode plein écran"
 
 #: ../src/preferences_dialog.c:352
 msgid "Clock"
@@ -702,7 +704,7 @@ msgstr "Afficher une horloge analogique indiquant l’heure courante lorsque la 
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
-msgstr "Afficher l'horloge en plein écran"
+msgstr "Afficher l’horloge lors du mode plein écran"
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
@@ -716,7 +718,7 @@ msgstr "Durée"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr "La durée d’affichage d’une image individuelle durant le diaporama\n(en secondes)"
+msgstr "Durée d’affichage d’une image lors d’un diaporama (en secondes)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -728,7 +730,7 @@ msgstr "Molette de la souris"
 
 #: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
-msgstr "Inverser la direction du zoom"
+msgstr "Inverser le sens du zoom"
 
 #: ../src/preferences_dialog.c:421
 msgid "Behaviour"
@@ -740,11 +742,11 @@ msgstr "Démarrage"
 
 #: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
-msgstr "Maximiser la fenêtre à l'ouverture d'une image"
+msgstr "Agrandir la fenêtre à l’ouverture d’une image"
 
 #: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
-msgstr "Entourer autour des images"
+msgstr "Défilement en boucle des images"
 
 #: ../src/preferences_dialog.c:453
 msgid "Desktop"
@@ -806,7 +808,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "Impossible de lancer le service des miniatures.\nCelles-ci ne peuvent donc être créées.\n\nInstallez <b>Tumbler</b> ou un autre <i>démon de création\nde miniatures</i> pour résoudre ce problème."
+msgstr "Impossible d’accéder au service des miniatures.\nCelles-ci ne peuvent donc être créées.\n\nInstallez <b>Tumbler</b> ou un autre <i>démon de création\nde miniatures</i> pour résoudre ce problème."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
@@ -818,11 +820,11 @@ msgstr "Style :"
 
 #: ../src/xfce_wallpaper_manager.c:337
 msgid "Brightness:"
-msgstr "Luminosité :"
+msgstr "Luminosité : "
 
 #: ../src/xfce_wallpaper_manager.c:338
 msgid "Saturation:"
-msgstr "Saturation :"
+msgstr "Saturation : "
 
 #: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
@@ -830,11 +832,11 @@ msgstr "Définir comme fond d’écran"
 
 #: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
-msgstr "Auto"
+msgstr "Automatique"
 
 #: ../src/xfce_wallpaper_manager.c:511
 msgid "Centered"
-msgstr "Centrée"
+msgstr "Centré"
 
 #: ../src/xfce_wallpaper_manager.c:514
 msgid "Tiled"
@@ -842,15 +844,15 @@ msgstr "Mosaïque"
 
 #: ../src/xfce_wallpaper_manager.c:517
 msgid "Stretched"
-msgstr "Étendue"
+msgstr "Étiré"
 
 #: ../src/xfce_wallpaper_manager.c:520
 msgid "Scaled"
-msgstr "Mise à l'échelle"
+msgstr "Redimensionné"
 
 #: ../src/xfce_wallpaper_manager.c:523
 msgid "Zoomed"
-msgstr "Zoomée"
+msgstr "Zoomé"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
