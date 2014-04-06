@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2014-04-06 15:59+0000\n"
+"PO-Revision-Date: 2014-04-06 20:46+0000\n"
 "Last-Translator: Urides <urien.desterres@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/xfce/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -222,13 +222,13 @@ msgstr "Zoom ajusté à la fenêtre"
 #. Icon-name
 #: ../src/main_window.c:482
 msgid "_Normal Size"
-msgstr "_Taille d’origine"
+msgstr "_Taille réelle"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:484
 msgid "Zoom to 100%"
-msgstr "Taille d’origine"
+msgstr "Taille réelle"
 
 #: ../src/main_window.c:489
 msgid "_Rotation"
@@ -395,7 +395,7 @@ msgstr "Petite"
 
 #: ../src/main_window.c:679
 msgid "Normal"
-msgstr "_Taille d’origine"
+msgstr "Par défaut"
 
 #: ../src/main_window.c:685
 msgid "Large"
