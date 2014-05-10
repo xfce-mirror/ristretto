@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2014-04-28 13:42+0000\n"
+"PO-Revision-Date: 2014-05-10 12:47+0000\n"
 "Last-Translator: haarek <haarektrans@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/xfce-apps/language/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -481,7 +481,7 @@ msgstr ""
 
 #: ../src/main_window.c:2614
 msgid "translator-credits"
-msgstr "Terje Uriansrud <terje@uriansrud.net>"
+msgstr "haarek - Harald <https://www.transifex.com/accounts/profile/haarek/>\nkingu - Allan Nordhøy <https://www.transifex.com/accounts/profile/kingu/>\npapparonny - Ronny K. M. Olufsen <https://www.transifex.com/accounts/profile/papparonny/>\nTerje Uriansrud <terje@uriansrud.net>"
 
 #: ../src/main_window.c:2916
 msgid "Open image"
