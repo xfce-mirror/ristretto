@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
-# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
+# Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
+# Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2014-05-28 09:54+0000\n"
-"Last-Translator: Tornes Llume <l.lumex03.tornes@gmail.com>\n"
+"PO-Revision-Date: 2014-06-16 21:42+0000\n"
+"Last-Translator: Ḷḷumex03 <l.lumex03.tornes@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/xfce-apps/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -213,7 +213,7 @@ msgstr "_Axustar"
 #. Keyboard shortcut
 #: ../src/main_window.c:478
 msgid "Zoom to fit window"
-msgstr ""
+msgstr "Averar pa encaxar ventana"
 
 #. Icon-name
 #: ../src/main_window.c:482
@@ -567,7 +567,7 @@ msgstr "Columna de ficheros"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr ""
+msgstr "Columna de modelu usada dende la que se recibe'l ficheru"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
@@ -591,35 +591,35 @@ msgstr "Amoar testu"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr ""
+msgstr "Color d'enllena del oxetu activu"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr ""
+msgstr "Color del berbesu del oxetu activu"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr ""
+msgstr "Color de testu del oxetu activu"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr ""
+msgstr "Color d'enllena del oxetu cursor"
 
 #: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr ""
+msgstr "Color del berbesu del oxetu cursor"
 
 #: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 msgid "Cursor item text color"
-msgstr ""
+msgstr "Color de testu del oxetu cursor"
 
 #: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
-msgstr ""
+msgstr "Rangu de tiempu pa llimpiar:"
 
 #: ../src/privacy_dialog.c:156
 msgid "Cleanup"
-msgstr ""
+msgstr "Llimpiar"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Hour"
@@ -669,7 +669,7 @@ msgstr "Con esta opción habilitada, la calidá másima d'imaxe llimitaráse al 
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
-msgstr ""
+msgstr "Calidá de renderizáu llímite"
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
@@ -722,7 +722,7 @@ msgstr "Control"
 
 #: ../src/preferences_dialog.c:404
 msgid "Scroll wheel"
-msgstr ""
+msgstr "Rueda de desplazamientu"
 
 #: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
@@ -742,7 +742,7 @@ msgstr "Maximizar ventana nel aniciu cuando s'abra una imaxe"
 
 #: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
-msgstr ""
+msgstr "Arrodiar imáxenes"
 
 #: ../src/preferences_dialog.c:453
 msgid "Desktop"
@@ -840,7 +840,7 @@ msgstr "Mosaicu"
 
 #: ../src/xfce_wallpaper_manager.c:517
 msgid "Stretched"
-msgstr ""
+msgstr "Estiráu"
 
 #: ../src/xfce_wallpaper_manager.c:520
 msgid "Scaled"
