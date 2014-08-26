@@ -1,24 +1,23 @@
-# Polish translations for ristretto package.
-# Polskie tłumaczenia dla pakietu ristretto.
-# Copyright © 2006-2008 Stephan Arts.
-# This file is distributed under the same license as the ristretto package.
-# Ireneusz Gierlach <irek.gierlach@gmail.com>, 2011.
-# Piotr Sokół <psokol@jabster.pl>, 2009, 2010, 2011, 2012.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
+# Iro <irek.gierlach@gmail.com>, 2011
+# Piotr Sokół <psokol@jabster.pl>, 2009-2012,2014
 msgid ""
 msgstr ""
-"Project-Id-Version: Ristretto 0.5.1\n"
+"Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-11-01 12:36+0000\n"
-"PO-Revision-Date: 2012-04-15 12:27+0200\n"
+"POT-Creation-Date: 2013-07-03 20:30+0200\n"
+"PO-Revision-Date: 2014-08-26 06:56+0000\n"
 "Last-Translator: Piotr Sokół <psokol@jabster.pl>\n"
-"Language-Team: polski <>\n"
+"Language-Team: Polish (http://www.transifex.com/projects/p/xfce-apps/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bits\n"
+"Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
-"X-Generator: Lokalize 1.1\n"
-"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : ((n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20)) ? 1 : 2));\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -43,12 +42,9 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr ""
-"%s: %s\n"
-"Proszę wprowadzić „%s --help”, aby wypisać pełną listę opcji wiersza "
-"poleceń.\n"
+msgstr "%s: %s\nProszę wprowadzić „%s --help”, aby wypisać pełną listę opcji wiersza poleceń.\n"
 
-#: ../src/main_window.c:57 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
 msgstr "Przeglądarka obrazów"
 
@@ -180,7 +176,7 @@ msgstr "Wyłącza tryb pełnego ekranu"
 #. Icon-name
 #: ../src/main_window.c:453
 msgid "Set as _Wallpaper..."
-msgstr "_Ustaw jako tło pulpitu..."
+msgstr "_Ustal jako tło pulpitu..."
 
 #: ../src/main_window.c:460
 msgid "_Zoom"
@@ -453,17 +449,14 @@ msgstr "Wczytywanie..."
 
 #: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
-msgstr "Wybierz metodę 'ustaw tapetę'"
+msgstr "Metoda ustalania tła pulpitu"
 
 #: ../src/main_window.c:2124 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr ""
-"Ustawia, który system jest aktualnie twoim pulpitem.\n"
-"Ustawienie to wybiera metodę, którą <i>Ristretto>\n"
-"będzie używało do konfigurowania tapety pulpitu."
+msgstr "Wskazuje bieżące środowisko graficzne.\nTo ustawienie ustala metodę, którą program\nbędzie używał do konfigurowania tła pulpitu."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -477,94 +470,86 @@ msgstr "Xfce"
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2588
+#: ../src/main_window.c:2597
 msgid "Developer:"
 msgstr "Twórca:"
 
-#: ../src/main_window.c:2597
+#: ../src/main_window.c:2606
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Przeglądarka obrazów dla środowiska Xfce"
 
-#: ../src/main_window.c:2605
+#: ../src/main_window.c:2614
 msgid "translator-credits"
-msgstr ""
-"Łukasz Romanowicz <lukasz210@gmail.com>\n"
-"Piotr Sokół <psokol@jabster.pl>, 2010, 2011, 2012."
+msgstr "Piotr Sokół <psokol@jabster.pl>, 2010, 2011, 2012, 2014.\nŁukasz Romanowicz <lukasz210@gmail.com>"
 
-#: ../src/main_window.c:2907
+#: ../src/main_window.c:2916
 msgid "Open image"
 msgstr "Wybór pliku"
 
-#: ../src/main_window.c:2926
+#: ../src/main_window.c:2935
 msgid "Images"
 msgstr "Wszystkie obrazy"
 
-#: ../src/main_window.c:2931
+#: ../src/main_window.c:2940
 msgid ".jp(e)g"
 msgstr "Obrazy w formacie JPEG"
 
-#: ../src/main_window.c:2958 ../src/main_window.c:3100
+#: ../src/main_window.c:2967 ../src/main_window.c:3109
 msgid "Could not open file"
 msgstr "Nie można otworzyć pliku"
 
-#: ../src/main_window.c:3133
+#: ../src/main_window.c:3142
 msgid "Save copy"
 msgstr "Wybór pliku"
 
-#: ../src/main_window.c:3159
+#: ../src/main_window.c:3168
 msgid "Could not save file"
 msgstr "Nie można zapisać pliku"
 
-#: ../src/main_window.c:3327
+#: ../src/main_window.c:3336
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Usunąć plik „%s”?"
 
-#: ../src/main_window.c:3345
+#: ../src/main_window.c:3354
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr ""
-"Wystąpił błąd podczas usuwania obrazu „%s”.\n"
-"\n"
-"%s"
+msgstr "Wystąpił błąd podczas usuwania pliku „%s”.\n\n%s"
 
-#: ../src/main_window.c:3361
+#: ../src/main_window.c:3370
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Usunąć obrazek '%s'?"
+msgstr "Przenieść plik „%s” do kosza?"
 
-#: ../src/main_window.c:3379
+#: ../src/main_window.c:3388
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr ""
-"Wystąpił błąd podczas przenoszenia obrazu „%s” do kosza.\n"
-"\n"
-"%s"
+msgstr "Wystąpił błąd podczas przenoszenia pliku „%s” do kosza.\n\n%s"
 
-#: ../src/main_window.c:3709
+#: ../src/main_window.c:3718
 msgid "Edit with"
 msgstr "Wybór programu"
 
-#: ../src/main_window.c:3727
+#: ../src/main_window.c:3736
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Otwieranie pliku „%s” i innych plików typu „%s”, przy użyciu:"
 
-#: ../src/main_window.c:3732
+#: ../src/main_window.c:3741
 msgid "Use as _default for this kind of file"
 msgstr "_Domyślnie dla plików tego typu"
 
-#: ../src/main_window.c:3822
+#: ../src/main_window.c:3831
 msgid "Recommended Applications"
 msgstr "Preferowane programy"
 
-#: ../src/main_window.c:3902
+#: ../src/main_window.c:3911
 msgid "Other Applications"
 msgstr "Inne programy"
 
@@ -662,7 +647,7 @@ msgstr "Czyszczenie prywatnych danych"
 
 #: ../src/preferences_dialog.c:276
 msgid "Display"
-msgstr "Wygląd"
+msgstr "Wyświetlanie"
 
 #: ../src/preferences_dialog.c:283
 msgid "Background color"
@@ -680,13 +665,11 @@ msgstr "Jakość"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr ""
-"Przy włączeniu tej opcji największa jakość obrazu będzie ograniczona do "
-"rozmiaru ekranu."
+msgstr "Ogranicza maksymalną jakość obrazu do rozmiaru ekranu"
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
-msgstr "Ograniczona jakość przetwarzania"
+msgstr "Ograniczenie jakości renderowania"
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
@@ -699,13 +682,11 @@ msgstr "Miniatury"
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr ""
-"Pasek miniatur może być automatycznie ukrywany\n"
-"podczas działania w trybie pełnoekranowym."
+msgstr "Pasek miniatur może być automatycznie ukrywany\npodczas działania w trybie pełnoekranowym."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Ukrywanie miniatur na pełnym ekranie"
+msgstr "Ukrywanie paska miniatur w trybie pełnego ekranu"
 
 #: ../src/preferences_dialog.c:352
 msgid "Clock"
@@ -715,13 +696,11 @@ msgstr "Zegar"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr ""
-"Pasek miniatur może być automatycznie ukrywany\n"
-"podczas działania w trybie pełnoekranowym."
+msgstr "Wyświetla w trybie pełnego ekranu zegar analogowy wskazujący bieżący czas"
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
-msgstr "Pokaż pełnoekranowy zegar"
+msgstr "Wyświetlanie zegara w trybie pełnego ekranu"
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
@@ -825,16 +804,11 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr ""
-"Usługa podglądu miniatur jest niedostępna,\n"
-"z tego powodu,podgląd miniatur nie może zostać\n"
-"utworzony.\n"
-"Zainstaluj <b>Tumbler</b> lub inny <i>daemon podglądu miniatur</i>\n"
-"w celu rozwiązania problemu."
+msgstr "Usługa podglądu miniatur jest niedostępna.\nZ tego powodu, nie można utworzyć miniatur.\n\nW celu rozwiązania problemu, proszę zainstalować\nprogram <b>Tumbler</b> lub innego <i>demona\npodglądu miniatur</i>."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
-msgstr "Nie pokazuj tego wiadomości ponownie"
+msgstr "_Pomijanie wyświetlania tego komunikatu ponownie"
 
 #: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
@@ -876,148 +850,10 @@ msgstr "Przeskalowanie"
 msgid "Zoomed"
 msgstr "Powiększenie"
 
-#: ../ristretto.desktop.in.h:2
-msgid "Look at your images easily"
-msgstr "Umożliwia wygodne przeglądanie zdjęć i obrazów"
-
-#: ../ristretto.desktop.in.h:3
+#: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
 msgstr "Przeglądarka obrazów Ristretto"
 
-#~ msgid "Show _Navigation Toolbar"
-#~ msgstr "_Pasek poleceń nawigacji"
-
-#~ msgid "Toolbars"
-#~ msgstr "Paski narzędziowe"
-
-#~ msgid "Merge toolbars"
-#~ msgstr "Połączenie pasków narzędziowych"
-
-#~ msgid "Spacing"
-#~ msgstr "Odstęp"
-
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "Odstęp pomiędzy miniaturami"
-
-#~ msgid "border width"
-#~ msgstr "szerokość krawędzi"
-
-#~ msgid "the border width of the thumbnail bar"
-#~ msgstr "szerokość krawędzi paska miniatur"
-
-#~ msgid "Scaling"
-#~ msgstr "Skalowanie"
-
-#~ msgid "Don't scale over 100% when maximizing the window."
-#~ msgstr ""
-#~ "Wyłączenie powiększania powyżej 100% podczas\n"
-#~ "maksymalizowania okna"
-
-#~ msgid "Preferences"
-#~ msgstr "Preferencje"
-
-#~ msgid "Image viewer"
-#~ msgstr "Przeglądarka obrazów"
-
-#~ msgid "Open _Folder"
-#~ msgstr "O_twórz katalog"
-
-#~ msgid "Open a folder"
-#~ msgstr "Wybór katalogu"
-
-#~ msgid "_Close All"
-#~ msgstr "Zamknij w_szystkie"
-
-#~ msgid "Close all images"
-#~ msgstr "Zamyka wszystkie pliki"
-
-#~ msgid "Open folder"
-#~ msgstr "Wybór katalogu"
-
-#~ msgid "Open entire folder on startup"
-#~ msgstr "Otwieranie całego katalogu"
-
-#~ msgid "Monitor:"
-#~ msgstr "Ekran:"
-
-#~ msgid "Two"
-#~ msgstr "Góra"
-
-#~ msgid "Show preview when loading image"
-#~ msgstr "Wyświetlanie podglądu podczas wczytywania obrazu"
-
-#~ msgid "No action"
-#~ msgstr "Brak działania"
-
-#~ msgid "Memory"
-#~ msgstr "Pamięć"
-
-#~ msgid "Image cache"
-#~ msgstr "Pamięć podręczna"
-
-#~ msgid "Cache size"
-#~ msgstr "Rozmiar:"
-
-#~ msgid "MB"
-#~ msgstr "MB"
-
-#~ msgid "Enable cache"
-#~ msgstr "Włączenie"
-
-#~ msgid "Enable preloading"
-#~ msgstr "Wcześniejsze wczytywanie"
-
-#~ msgid "filmstrip width"
-#~ msgstr "szerokość kliszy"
-
-#~ msgid "the width of the thumbnail-bar film-strip"
-#~ msgstr "szerokość kliszy paska miniatur"
-
-#~ msgid "_Print"
-#~ msgstr "_Drukuj"
-
-#~ msgid "Ristretto"
-#~ msgstr "Przeglądarka obrazów Ristretto"
-
-#~ msgid "_Thumbnail Bar"
-#~ msgstr "Miniatury"
-
-#~ msgid "Opening file(s)..."
-#~ msgstr "Otwieranie pliku..."
-
-#~ msgid "No applications available"
-#~ msgstr "Brak odpowiedniego programu"
-
-#~ msgid "Show _Horizontally"
-#~ msgstr "P_oziomo"
-
-#~ msgid "Show _Vertically"
-#~ msgstr "P_ionowo"
-
-#~ msgid "H_ide"
-#~ msgstr "_Ukryj"
-
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr "Jeden lub więcej obrazów zostało zmodyfikowanych. Zapisać zmiany?"
-
-#~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Wcześniejsze wczytywanie obrazów\n"
-#~ "(zmniejsza czas reakcji kosztem obciążenia procesora)"
-
-#~ msgid "Hide the thumbnails bar during slideshow"
-#~ msgstr "Miniatury obrazów podczas pokazu slajdów mogą zostać ukryte."
-
-#~ msgid "Xfce Image viewer"
-#~ msgstr "Przeglądarka obrazów dla środowiska Xfce"
-
-#~ msgid "Preload"
-#~ msgstr "Preload"
-
-#~ msgid ""
-#~ "Preload images during slideshow\n"
-#~ "(uses more memory)"
-#~ msgstr ""
-#~ "Ładuje grafiki z pokazu slajdów\n"
-#~ "(zużywa więcej pamięci)"
+#: ../ristretto.desktop.in.h:2
+msgid "Look at your images easily"
+msgstr "Umożliwia wygodne przeglądanie zdjęć i obrazów"
