@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2014-09-04 01:17+0000\n"
+"PO-Revision-Date: 2014-10-10 14:31+0000\n"
 "Last-Translator: Tobias Bannert\n"
 "Language-Team: German (http://www.transifex.com/projects/p/xfce-apps/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s: %s\n\nVersuchen Sie %s --help, um eine komplette Liste\nder möglichen Befehlszeilen-Optionen zu sehen.\n"
+msgstr "%s: %s\n\n%s --help versuchen, um eine komplette Liste\nder möglichen Befehlszeilenoptionen zu sehen.\n"
 
 #: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
@@ -120,11 +120,11 @@ msgstr "Ristretto beenden"
 
 #: ../src/main_window.c:410
 msgid "_Open with"
-msgstr "_Öffnen mit ..."
+msgstr "_Öffnen mit …"
 
 #: ../src/main_window.c:414
 msgid "_Sorting"
-msgstr "S_ortierung"
+msgstr "_Sortierung"
 
 #. Icon-name
 #: ../src/main_window.c:418
@@ -140,12 +140,12 @@ msgstr "Dieses Bild vom Datenrträger löschen"
 #. Icon-name
 #: ../src/main_window.c:424
 msgid "_Clear private data..."
-msgstr "_Private Daten löschen ..."
+msgstr "_Private Daten löschen …"
 
 #. Icon-name
 #: ../src/main_window.c:430
 msgid "_Preferences..."
-msgstr "_Einstellungen ..."
+msgstr "_Einstellungen …"
 
 #: ../src/main_window.c:437
 msgid "_View"
@@ -176,7 +176,7 @@ msgstr "Vollbildmodus verlassen"
 #. Icon-name
 #: ../src/main_window.c:453
 msgid "Set as _Wallpaper..."
-msgstr "Als _Hintergrundbild verwenden ..."
+msgstr "Als _Hintergrundbild verwenden …"
 
 #: ../src/main_window.c:460
 msgid "_Zoom"
@@ -328,7 +328,7 @@ msgstr "_Position der Vorschauleiste"
 
 #: ../src/main_window.c:564
 msgid "Thumb_nail Size"
-msgstr "Größe V_orschaubilder"
+msgstr "Vorschaubild_größe"
 
 #. Icon-name
 #: ../src/main_window.c:569
@@ -437,7 +437,7 @@ msgstr "Zum Auswählen eines Bildes »Öffnen« drücken"
 
 #: ../src/main_window.c:1354 ../src/main_window.c:1358
 msgid "Open With Other _Application..."
-msgstr "Mit anderer _Anwendung öffnen ..."
+msgstr "Mit anderer _Anwendung öffnen …"
 
 #: ../src/main_window.c:1379 ../src/main_window.c:1385
 msgid "Empty"
@@ -449,7 +449,7 @@ msgstr "Ladevorgang …"
 
 #: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
-msgstr "Wähle Methode mit der Hintergrundbild gesetzt wird"
+msgstr "Methode, mit der das Hintergrundbild eingestellt wird"
 
 #: ../src/main_window.c:2124 ../src/preferences_dialog.c:464
 msgid ""
@@ -460,7 +460,7 @@ msgstr "Einstellen, welches System derzeit den Schreibtisch verwaltet.\nDiese Ei
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
-msgstr "Keine"
+msgstr "Kein"
 
 #: ../src/main_window.c:2153 ../src/preferences_dialog.c:492
 msgid "Xfce"
@@ -509,7 +509,7 @@ msgstr "Datei konnte nicht gespeichert werden"
 #: ../src/main_window.c:3336
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Soll das Bild '%s' wirklich vom Datenträger gelöscht werden?"
+msgstr "Soll das Bild »%s« wirklich vom Datenträger gelöscht werden?"
 
 #: ../src/main_window.c:3354
 #, c-format
@@ -517,12 +517,12 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Beim Löschen des Bildes '%s' vom Datenträger trat ein Fehler auf.\n\n%s"
+msgstr "Beim Löschen des Bildes »%s« vom Datenträger trat ein Fehler auf.\n\n%s"
 
 #: ../src/main_window.c:3370
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Sind Sie sicher, dass Sie das Bild '%s' in den Müll verschieben wollen?"
+msgstr "Sind Sie sicher, dass Sie das Bild »%s« in den Papierkorb verschieben wollen?"
 
 #: ../src/main_window.c:3388
 #, c-format
@@ -530,7 +530,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "Beim Verschieben des Bildes '%s' in den Müll trat ein Fehler auf.\n\n%s"
+msgstr "Beim Verschieben des Bildes »%s« in den Papierkorb trat ein Fehler auf.\n\n%s"
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
@@ -587,7 +587,7 @@ msgstr "Index des aktiven Elements"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
-msgstr "Zeige Text"
+msgstr "Text anzeigen"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
@@ -665,7 +665,7 @@ msgstr "Qualität"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Wenn diese Einstellung aktiviert ist, wird die maximale Bildqualität auf die Bildschirmgröße beschränkt."
+msgstr "Wenn diese Einstellung aktiviert ist, wird die größte Bildqualität auf die Bildschirmgröße beschränkt."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
@@ -677,16 +677,16 @@ msgstr "Vollbild"
 
 #: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
-msgstr "Miniaturbilder"
+msgstr "Vorschaubilder"
 
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Die Miniaturbilderleiste kann im Vollbildmodus automatisch versteckt werden."
+msgstr "Die Vorschaubildleiste kann im Vollbildmodus automatisch versteckt werden."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Miniaturbilderleiste im Vollbildmodus verstecken."
+msgstr "Vorschaubildleiste im Vollbildmodus verstecken."
 
 #: ../src/preferences_dialog.c:352
 msgid "Clock"
@@ -700,7 +700,7 @@ msgstr "Analoge Uhr im Vollbildmodus anzeigen, welche die aktuelle Uhrzeit anzei
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
-msgstr "Zeige Uhr im Vollbildmodus"
+msgstr "Uhr im Vollbildmodus anzeigen"
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
@@ -738,11 +738,11 @@ msgstr "Anwendungsstart"
 
 #: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
-msgstr "Fenster beim Anwendungsstart maximieren, wenn Bild geöffnet wird"
+msgstr "Beim Anwendungsstart das Fenster vergrößern, wenn Bild geöffnet wird"
 
 #: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
-msgstr "Um Bilder herum packen"
+msgstr "Nach dem letzten Bild wieder zum ersten Bild wechseln"
 
 #: ../src/preferences_dialog.c:453
 msgid "Desktop"
@@ -762,7 +762,7 @@ msgstr "<b>Art:</b>"
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
-msgstr "<b>Modifiziert:</b>"
+msgstr "<b>Geändert:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
@@ -804,7 +804,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "Der Miniaturbilder-Service ist nicht verfügbar,\naus diesem Grund können keine Miniaturbilder\nerzeugt werden.\n\nInstallieren Sie <b>Tumbler</b> oder einen anderen\n<i>Miniaturbilder Daemon</i> um dieses Problem zu beheben."
+msgstr "Der Vorschaubilddienst ist nicht verfügbar,\naus diesem Grund können keine Vorschaubilder\nerstellt werden.\n\nBitte <b>Tumbler</b> oder einen anderen\n<i>Vorschaubilddienst</i> installieren, um dieses Problem zu beheben."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
@@ -852,7 +852,7 @@ msgstr "Vergrößert"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
-msgstr "Ristretto Bildbetrachter"
+msgstr "Ristretto-Bildbetrachter"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
