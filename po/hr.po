@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# schizo <eveskovic@gmail.com>, 2014
+# Edin Veskovic <edin.veskovic@openmailbox.org>, 2014
 # Ivica  Kolić <ikoli@yahoo.com>, 2010
-# Ivica  Kolić <ikoli@yahoo.com>, 2013
+# Ivica  Kolić <ikoli@yahoo.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2014-02-21 19:43+0000\n"
-"Last-Translator: schizo <eveskovic@gmail.com>\n"
-"Language-Team: Croatian (http://www.transifex.com/projects/p/xfce/language/hr/)\n"
+"PO-Revision-Date: 2014-10-19 16:16+0000\n"
+"Last-Translator: Ivica  Kolić <ikoli@yahoo.com>\n"
+"Language-Team: Croatian (http://www.transifex.com/projects/p/xfce-apps/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -325,7 +325,7 @@ msgstr "_Veličina"
 
 #: ../src/main_window.c:560
 msgid "Thumbnail Bar _Position"
-msgstr "_Pozicija trake sa sličicama"
+msgstr "Pozicija trake sa _sličicama"
 
 #: ../src/main_window.c:564
 msgid "Thumb_nail Size"
