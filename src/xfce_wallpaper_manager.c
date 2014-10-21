@@ -26,6 +26,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include <X11/Xlib.h>
+#include <X11/Xatom.h>
 #include <xfconf/xfconf.h>
 #include <libxfce4util/libxfce4util.h>
 #include <gio/gio.h>
@@ -53,6 +54,7 @@ enum MonitorStyle
 
 
 #define XFDESKTOP_SELECTION_FMT "XFDESKTOP_SELECTION_%d"
+#define SINGLE_WORKSPACE_MODE "/backdrop/single-workspace-mode"
 
 typedef struct {
     gint16 r;
@@ -71,6 +73,9 @@ static void
 rstto_xfce_wallpaper_manager_dispose (GObject *object);
 static void
 rstto_xfce_wallpaper_manager_finalize (GObject *object);
+
+static gint
+rstto_get_active_workspace_number (GdkScreen *screen);
 
 static void
 configure_monitor_chooser_pixbuf (
@@ -97,6 +102,10 @@ static void
 cb_saturation_adjustment_value_changed (
         GtkAdjustment *adjustment,
         RsttoXfceWallpaperManager *man);
+static void
+cb_workspace_mode_changed (
+        GtkCheckButton *check_button,
+        RsttoXfceWallpaperManager *manager);
 
 static GObjectClass *parent_class = NULL;
 
@@ -112,12 +121,14 @@ struct _RsttoXfceWallpaperManagerPriv
     gint    brightness;
     RsttoColor *color1;
     RsttoColor *color2;
+    gboolean workspace_mode;
 
     RsttoFile *file;
     GdkPixbuf *pixbuf;
 
     GtkWidget *monitor_chooser;
     GtkWidget *style_combo;
+    GtkWidget *check_button;
     GtkObject *saturation_adjustment;
     GtkObject *brightness_adjustment;
 
@@ -164,6 +175,8 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
                 GTK_ADJUSTMENT (manager->priv->brightness_adjustment));
         manager->priv->monitor = rstto_monitor_chooser_get_selected (
                 RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser));
+        manager->priv->workspace_mode = gtk_toggle_button_get_active (
+                GTK_TOGGLE_BUTTON (manager->priv->check_button));
     }
 
     return response;
@@ -194,44 +207,92 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoFile *file)
 
     const gchar *uri = rstto_file_get_path (file);
 
-    gchar *image_path_prop = g_strdup_printf (
-            "/backdrop/screen%d/monitor%d/image-path",
-            manager->priv->screen,
-            manager->priv->monitor);
-    gchar *image_show_prop = g_strdup_printf (
-            "/backdrop/screen%d/monitor%d/image-show",
-            manager->priv->screen,
-            manager->priv->monitor);
-    gchar *image_style_prop = g_strdup_printf (
-            "/backdrop/screen%d/monitor%d/image-style",
-            manager->priv->screen,
-            manager->priv->monitor);
-    gchar *brightness_prop = g_strdup_printf (
-            "/backdrop/screen%d/monitor%d/brightness",
-            manager->priv->screen,
-            manager->priv->monitor);
-    gchar *saturation_prop = g_strdup_printf (
-            "/backdrop/screen%d/monitor%d/saturation",
-            manager->priv->screen,
+    GdkDisplay *display;
+    GdkScreen *gdk_screen;
+    gint workspace_nr;
+    gchar *monitor_name;
+    gchar *image_path_prop;
+    gchar *image_style_prop;
+    gchar *brightness_prop;
+    gchar *saturation_prop;
+
+    display = gdk_display_get_default ();
+    gdk_screen = gdk_display_get_screen (display,
+            manager->priv->screen);
+
+    workspace_nr = rstto_get_active_workspace_number (gdk_screen);
+
+    monitor_name = gdk_screen_get_monitor_plug_name (gdk_screen,
             manager->priv->monitor);
 
-    gchar *color1_prop = g_strdup_printf (
-            "/backdrop/screen%d/monitor%d/color1",
-            manager->priv->screen,
-            manager->priv->monitor);
-    gchar *color2_prop = g_strdup_printf (
-            "/backdrop/screen%d/monitor%d/color2",
-            manager->priv->screen,
-            manager->priv->monitor);
+    /* New properties since xfdesktop >= 4.11 */
+    if (monitor_name)
+    {
+        image_path_prop = g_strdup_printf (
+                "/backdrop/screen%d/monitor%s/workspace%d/last-image",
+                manager->priv->screen,
+                monitor_name,
+                workspace_nr);
+
+        image_style_prop = g_strdup_printf (
+                "/backdrop/screen%d/monitor%s/workspace%d/image-style",
+                manager->priv->screen,
+                monitor_name,
+                workspace_nr);
+
+        brightness_prop = g_strdup_printf (
+                "/backdrop/screen%d/monitor%s/workspace%d/brightness",
+                manager->priv->screen,
+                monitor_name,
+                workspace_nr);
+
+        saturation_prop = g_strdup_printf (
+                "/backdrop/screen%d/monitor%s/workspace%d/saturation",
+                manager->priv->screen,
+                monitor_name,
+                workspace_nr);
+    }
+    else
+    {
+        /* gdk_screen_get_monitor_plug_name can return NULL */
+        image_path_prop = g_strdup_printf (
+                "/backdrop/screen%d/monitor%d/workspace%d/last-image",
+                manager->priv->screen,
+                manager->priv->monitor,
+                workspace_nr);
+
+        image_style_prop = g_strdup_printf (
+                "/backdrop/screen%d/monitor%d/workspace%d/image-style",
+                manager->priv->screen,
+                manager->priv->monitor,
+                workspace_nr);
+
+        brightness_prop = g_strdup_printf (
+                "/backdrop/screen%d/monitor%d/workspace%d/brightness",
+                manager->priv->screen,
+                manager->priv->monitor,
+                workspace_nr);
+
+        saturation_prop = g_strdup_printf (
+                "/backdrop/screen%d/monitor%d/workspace%d/saturation",
+                manager->priv->screen,
+                manager->priv->monitor,
+                workspace_nr);
+    }
 
     xfconf_channel_set_string (
             manager->priv->channel,
             image_path_prop,
             uri);
-    xfconf_channel_set_bool (
-            manager->priv->channel,
-            image_show_prop,
-            TRUE);
+    /* Don't force to add 'single-workspace-mode' property */
+    if (xfconf_channel_has_property (manager->priv->channel,
+            SINGLE_WORKSPACE_MODE))
+    {
+        xfconf_channel_set_bool (
+                manager->priv->channel,
+                SINGLE_WORKSPACE_MODE,
+                manager->priv->workspace_mode);
+    }
     xfconf_channel_set_int (
             manager->priv->channel,
             image_style_prop,
@@ -246,28 +307,10 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoFile *file)
             saturation_prop,
             manager->priv->saturation);
 
-    xfconf_channel_set_struct (
-            manager->priv->channel,
-            color1_prop,
-            manager->priv->color1,
-            XFCONF_TYPE_INT16, XFCONF_TYPE_INT16,
-            XFCONF_TYPE_INT16, XFCONF_TYPE_INT16,
-            G_TYPE_INVALID);
-    xfconf_channel_set_struct (
-            manager->priv->channel,
-            color2_prop,
-            manager->priv->color2,
-            XFCONF_TYPE_INT16, XFCONF_TYPE_INT16,
-            XFCONF_TYPE_INT16, XFCONF_TYPE_INT16,
-            G_TYPE_INVALID);
-
     g_free (image_path_prop);
-    g_free (image_show_prop);
     g_free (image_style_prop);
     g_free (brightness_prop);
     g_free (saturation_prop);
-    g_free (color1_prop);
-    g_free (color2_prop);
 
     return FALSE;
 }
@@ -338,7 +381,7 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
     GtkWidget *saturation_label = gtk_label_new( _("Saturation:"));
     GtkWidget *brightness_slider;
     GtkWidget *saturation_slider;
-    GtkWidget *image_prop_table = gtk_table_new (3, 2, FALSE);
+    GtkWidget *image_prop_table = gtk_table_new (4, 2, FALSE);
 
 
     manager->priv = g_new0(RsttoXfceWallpaperManagerPriv, 1);
@@ -347,9 +390,15 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
     manager->priv->color1->a = 0xffff;
     manager->priv->color2 = g_new0 (RsttoColor, 1);
     manager->priv->color2->a = 0xffff;
-    manager->priv->style = 4;
+    manager->priv->style = 3; /* stretched is now default value */
     manager->priv->brightness = 0;
     manager->priv->saturation = 1.0;
+    manager->priv->check_button = gtk_check_button_new_with_label (
+            _("Apply to all workspaces"));
+    manager->priv->workspace_mode = xfconf_channel_get_bool (
+            manager->priv->channel,
+            SINGLE_WORKSPACE_MODE,
+            TRUE);
 
     manager->priv->dialog = gtk_dialog_new_with_buttons (
             _("Set as wallpaper"),
@@ -524,7 +573,7 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
 
     gtk_combo_box_set_active (
             GTK_COMBO_BOX (manager->priv->style_combo),
-            4);
+            3);
 
     manager->priv->screen = gdk_screen_get_number (screen);
 
@@ -539,6 +588,25 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
             G_OBJECT(manager->priv->style_combo),
             "changed",
             G_CALLBACK (cb_style_combo_changed),
+            manager);
+
+    gtk_toggle_button_set_active (
+            GTK_TOGGLE_BUTTON (manager->priv->check_button),
+            manager->priv->workspace_mode);
+    gtk_table_attach (
+            GTK_TABLE (image_prop_table),
+            manager->priv->check_button,
+            0,
+            2,
+            3,
+            4,
+            GTK_EXPAND|GTK_FILL,
+            0,
+            0,
+            0);
+    g_signal_connect (manager->priv->check_button,
+            "toggled",
+            G_CALLBACK (cb_workspace_mode_changed),
             manager);
 
     gtk_widget_show_all (vbox);
@@ -617,6 +685,71 @@ rstto_xfce_wallpaper_manager_new (void)
     return xfce_wallpaper_manager_object;
 }
 
+/* Based on xfce_spawn_get_active_workspace_number
+ * http://git.xfce.org/xfce/libxfce4ui/tree/libxfce4ui/xfce-spawn.c#n193
+ */
+static gint
+rstto_get_active_workspace_number (GdkScreen *screen)
+{
+    GdkWindow *root;
+    gulong     bytes_after_ret = 0;
+    gulong     nitems_ret = 0;
+    guint     *prop_ret = NULL;
+    Atom       _NET_CURRENT_DESKTOP;
+    Atom       _WIN_WORKSPACE;
+    Atom       type_ret = None;
+    gint       format_ret;
+    gint       ws_num = 0;
+
+    gdk_error_trap_push ();
+
+    root = gdk_screen_get_root_window (screen);
+
+    /* determine the X atom values */
+    _NET_CURRENT_DESKTOP = XInternAtom (GDK_WINDOW_XDISPLAY (root),
+            "_NET_CURRENT_DESKTOP",
+            False);
+    _WIN_WORKSPACE = XInternAtom (GDK_WINDOW_XDISPLAY (root),
+            "_WIN_WORKSPACE",
+            False);
+
+    if (XGetWindowProperty (GDK_WINDOW_XDISPLAY (root),
+            gdk_x11_get_default_root_xwindow(),
+            _NET_CURRENT_DESKTOP, 0, 32, False, XA_CARDINAL,
+            &type_ret, &format_ret, &nitems_ret, &bytes_after_ret,
+            (gpointer) &prop_ret) != Success)
+    {
+        if (XGetWindowProperty (GDK_WINDOW_XDISPLAY (root),
+            gdk_x11_get_default_root_xwindow(),
+            _WIN_WORKSPACE, 0, 32, False, XA_CARDINAL,
+            &type_ret, &format_ret, &nitems_ret, &bytes_after_ret,
+            (gpointer) &prop_ret) != Success)
+        {
+          if (G_UNLIKELY (prop_ret != NULL))
+            {
+                XFree (prop_ret);
+                prop_ret = NULL;
+            }
+        }
+    }
+
+    if (G_LIKELY (prop_ret != NULL))
+    {
+        if (G_LIKELY (type_ret != None && format_ret != 0))
+                ws_num = *prop_ret;
+        XFree (prop_ret);
+    }
+
+#if GTK_CHECK_VERSION (3, 0, 0)
+    gdk_error_trap_pop_ignored ();
+#else
+    if (gdk_error_trap_pop () != 0)
+        return 0;
+#endif
+
+    return ws_num;
+}
+
 static void
 cb_style_combo_changed (
         GtkComboBox *style_combo,
@@ -629,6 +762,21 @@ cb_style_combo_changed (
             RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser));
 
     configure_monitor_chooser_pixbuf (manager);
+}
+
+static void
+cb_workspace_mode_changed (
+        GtkCheckButton *button,
+        RsttoXfceWallpaperManager *manager)
+{
+    gboolean active;
+    
+    active = gtk_toggle_button_get_active (
+            GTK_TOGGLE_BUTTON (button));
+    
+    xfconf_channel_set_bool (manager->priv->channel,
+            SINGLE_WORKSPACE_MODE,
+            active);
 }
 
 static void
