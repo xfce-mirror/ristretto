@@ -436,7 +436,22 @@ properties_dialog_set_file (
         file_uri_checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, file_uri, strlen (file_uri));
         filename = g_strconcat (file_uri_checksum, ".png", NULL);
 
-        thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", filename, NULL);
+        /* build and check if the thumbnail is in the new location */
+        thumbnail_path = g_build_path ("/", g_get_user_cache_dir(), "thumbnails", "normal", filename, NULL);
+
+        if(!g_file_test (thumbnail_path, G_FILE_TEST_EXISTS))
+        {
+            /* Fallback to old version */
+            g_free (thumbnail_path);
+
+            thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", filename, NULL);
+            if(!g_file_test (thumbnail_path, G_FILE_TEST_EXISTS))
+            {
+                /* Thumbnail doesn't exist in either spot */
+                g_free (thumbnail_path);
+                thumbnail_path = NULL;
+            }
+        }
         pixbuf = gdk_pixbuf_new_from_file_at_scale (thumbnail_path, 96, 96, TRUE, NULL);
         if (NULL != pixbuf)
         {

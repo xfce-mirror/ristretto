@@ -482,7 +482,22 @@ rstto_file_get_thumbnail_path ( RsttoFile *r_file)
         checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, strlen (uri));
         filename = g_strconcat (checksum, ".png", NULL);
 
-        r_file->priv->thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", filename, NULL);
+        /* build and check if the thumbnail is in the new location */
+        r_file->priv->thumbnail_path = g_build_path ("/", g_get_user_cache_dir(), "thumbnails", "normal", filename, NULL);
+
+        if(!g_file_test (r_file->priv->thumbnail_path, G_FILE_TEST_EXISTS))
+        {
+            /* Fallback to old version */
+            g_free (r_file->priv->thumbnail_path);
+
+            r_file->priv->thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", filename, NULL);
+            if(!g_file_test (r_file->priv->thumbnail_path, G_FILE_TEST_EXISTS))
+            {
+                /* Thumbnail doesn't exist in either spot */
+                g_free (r_file->priv->thumbnail_path);
+                r_file->priv->thumbnail_path = NULL;
+            }
+        }
 
         g_free (checksum);
         g_free (filename);
@@ -506,6 +521,12 @@ rstto_file_get_thumbnail (
 
     thumbnailer = rstto_thumbnailer_new();
     rstto_thumbnailer_queue_file (thumbnailer, r_file);
+
+    if (NULL == thumbnail_path)
+    {
+        /* No thumbnail to return at this time */
+        return NULL;
+    }
 
     /* FIXME:
      *
