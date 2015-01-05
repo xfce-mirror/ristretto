@@ -1,23 +1,23 @@
-# Bulgarian Translations for ristretto package
-# Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
-# This file is distributed under the same license as the ristretto package.
-# Plamen Stoev <piros89@gmail.com>, 2007.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Kiril Kirilov <cybercop_montana@abv.bg>, 2015
+# Plamen Stoev <piros89@gmail.com>, 2007
 msgid ""
 msgstr ""
-"Project-Id-Version: ristretto 0.0.15\n"
+"Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-01-14 18:09+0000\n"
-"PO-Revision-Date: 2013-01-14 21:15+0200\n"
-"Last-Translator: Kiril Kirilov (Cybercop) <cybercop_montana@abv.bg>\n"
-"Language-Team: Bulgarian\n"
-"Language: Bulgarian\n"
+"POT-Creation-Date: 2013-07-03 20:30+0200\n"
+"PO-Revision-Date: 2015-01-05 12:16+0000\n"
+"Last-Translator: Kiril Kirilov <cybercop_montana@abv.bg>\n"
+"Language-Team: Bulgarian (http://www.transifex.com/projects/p/xfce-apps/language/bg/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Bulgarian\n"
-"X-Poedit-Country: BULGARIA\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"Language: bg\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -42,14 +42,9 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr ""
-"%s: %s\n"
-"\n"
-"Опитайте %s --help за да видите пълният списък\n"
-"с наличните команди.\n"
+msgstr "%s: %s\n\nОпитайте %s --help за да видите пълният списък\nс наличните команди.\n"
 
-#: ../src/main_window.c:57
-#: ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
 msgstr "Програма за преглед на изображения"
 
@@ -91,8 +86,7 @@ msgid "Show file properties"
 msgstr "Показване на свойствата на файла"
 
 #. Icon-name
-#: ../src/main_window.c:387
-#: ../src/main_window.c:406
+#: ../src/main_window.c:387 ../src/main_window.c:406
 msgid "_Edit"
 msgstr "_Редактиране"
 
@@ -437,18 +431,15 @@ msgstr "Отваряни наскоро"
 msgid "Recently used"
 msgstr "Отваряни наскоро"
 
-#: ../src/main_window.c:957
-#: ../src/main_window.c:1495
+#: ../src/main_window.c:957 ../src/main_window.c:1495
 msgid "Press open to select an image"
 msgstr "Натиснете Отваряне за да изберете изображение"
 
-#: ../src/main_window.c:1354
-#: ../src/main_window.c:1358
+#: ../src/main_window.c:1354 ../src/main_window.c:1358
 msgid "Open With Other _Application..."
 msgstr "Отваряне с друга програма..."
 
-#: ../src/main_window.c:1379
-#: ../src/main_window.c:1385
+#: ../src/main_window.c:1379 ../src/main_window.c:1385
 msgid "Empty"
 msgstr "Опразни"
 
@@ -460,122 +451,105 @@ msgstr "Зареждане..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Избиране на метод за задаване на фон на работният плот"
 
-#: ../src/main_window.c:2124
-#: ../src/preferences_dialog.c:464
+#: ../src/main_window.c:2124 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr ""
-"Определя коя система управлява вашият плот.\n"
-"Тази настройка определя метода, по който\n"
-"<i>Ristretto</i> ще зададе фона на работният плот."
+msgstr "Определя коя система управлява вашият плот.\nТази настройка определя метода, по който\n<i>Ristretto</i> ще зададе фона на работният плот."
 
-#: ../src/main_window.c:2149
-#: ../src/preferences_dialog.c:488
+#: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "Без"
 
-#: ../src/main_window.c:2153
-#: ../src/preferences_dialog.c:492
+#: ../src/main_window.c:2153 ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2157
-#: ../src/preferences_dialog.c:496
+#: ../src/main_window.c:2157 ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2588
+#: ../src/main_window.c:2597
 msgid "Developer:"
 msgstr "Разработчик:"
 
-#: ../src/main_window.c:2597
+#: ../src/main_window.c:2606
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto е бърза и лека програма за преглед на изображения за работната среда XFCE"
 
-#: ../src/main_window.c:2605
+#: ../src/main_window.c:2614
 msgid "translator-credits"
-msgstr ""
-"Пламен Стоев <piros89@gmail.com>\n"
-"Милен Милев <fanfolet@gmail.com>\n"
-"Кирил Кирилов <cybercop_montana@abv.bg>"
+msgstr "Пламен Стоев <piros89@gmail.com>\nМилен Милев <fanfolet@gmail.com>\nКирил Кирилов <cybercop_montana@abv.bg>"
 
-#: ../src/main_window.c:2907
+#: ../src/main_window.c:2916
 msgid "Open image"
 msgstr "Отваряне на изображение"
 
-#: ../src/main_window.c:2926
+#: ../src/main_window.c:2935
 msgid "Images"
 msgstr "Изображения"
 
-#: ../src/main_window.c:2931
+#: ../src/main_window.c:2940
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2958
-#: ../src/main_window.c:3100
+#: ../src/main_window.c:2967 ../src/main_window.c:3109
 msgid "Could not open file"
 msgstr "Файлът не може да бъде отворен"
 
-#: ../src/main_window.c:3133
+#: ../src/main_window.c:3142
 msgid "Save copy"
 msgstr "Запазване на копие"
 
-#: ../src/main_window.c:3159
+#: ../src/main_window.c:3168
 msgid "Could not save file"
 msgstr "Файлът не може да бъде запазен"
 
-#: ../src/main_window.c:3327
+#: ../src/main_window.c:3336
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Сигурни ли сте, че искате да изтриете изображение '%s' от диска?"
 
-#: ../src/main_window.c:3345
+#: ../src/main_window.c:3354
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr ""
-"Възникна грешка при изтриване на изображение '%s' от диска.\n"
-"\n"
-"%s"
+msgstr "Възникна грешка при изтриване на изображение '%s' от диска.\n\n%s"
 
-#: ../src/main_window.c:3361
+#: ../src/main_window.c:3370
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Сигурен ли сте, че искате да изпратите изображение '%s' в кошчето?"
 
-#: ../src/main_window.c:3379
+#: ../src/main_window.c:3388
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr ""
-"Възникна грешка при преместване на изображение '%s' в кошчето.\n"
-"\n"
-"%s"
+msgstr "Възникна грешка при преместване на изображение '%s' в кошчето.\n\n%s"
 
-#: ../src/main_window.c:3709
+#: ../src/main_window.c:3718
 msgid "Edit with"
 msgstr "Редактиране с"
 
-#: ../src/main_window.c:3727
+#: ../src/main_window.c:3736
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Отваряне на %s и други файлове от типа %s с:"
 
-#: ../src/main_window.c:3732
+#: ../src/main_window.c:3741
 msgid "Use as _default for this kind of file"
 msgstr "Използване по подразбиране за този вид файлове"
 
-#: ../src/main_window.c:3822
+#: ../src/main_window.c:3831
 msgid "Recommended Applications"
 msgstr "Препоръчителни програми"
 
-#: ../src/main_window.c:3902
+#: ../src/main_window.c:3911
 msgid "Other Applications"
 msgstr "Други програми"
 
@@ -611,38 +585,31 @@ msgstr "Активен"
 msgid "Active item index"
 msgstr "Индекс на активният елемент"
 
-#: ../src/icon_bar.c:409
-#: ../src/icon_bar.c:410
+#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
 msgstr "Показване на текст"
 
-#: ../src/icon_bar.c:416
-#: ../src/icon_bar.c:417
+#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
 msgstr "Цвят на активният елемент"
 
-#: ../src/icon_bar.c:423
-#: ../src/icon_bar.c:424
+#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
 msgstr "Цвят на рамката на активният елемент"
 
-#: ../src/icon_bar.c:430
-#: ../src/icon_bar.c:431
+#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
 msgstr "Цвят на текста на активният елемент"
 
-#: ../src/icon_bar.c:437
-#: ../src/icon_bar.c:438
+#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
 msgstr "Цвят на показваният елемент"
 
-#: ../src/icon_bar.c:444
-#: ../src/icon_bar.c:445
+#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
 msgstr "Цвят на рамката на показваният елемент"
 
-#: ../src/icon_bar.c:451
-#: ../src/icon_bar.c:452
+#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 msgid "Cursor item text color"
 msgstr "Цвят на текста на показваният елемент"
 
@@ -695,7 +662,9 @@ msgid "Quality"
 msgstr "Качество"
 
 #: ../src/preferences_dialog.c:318
-msgid "With this option enabled, the maximum image-quality will be limited to the screen-size."
+msgid ""
+"With this option enabled, the maximum image-quality will be limited to the "
+"screen-size."
 msgstr "Ако тази опция е разрешена, максимално качество на изображението ще бъде ограничено до размера на екрана."
 
 #: ../src/preferences_dialog.c:321
@@ -711,7 +680,8 @@ msgid "Thumbnails"
 msgstr "Умалени изображения (миниатюри)"
 
 #: ../src/preferences_dialog.c:341
-msgid "The thumbnail bar can be automatically hidden when the window is fullscreen."
+msgid ""
+"The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "Лентата с миниатюрите може да се скрива автоматично при режим на цял екран."
 
 #: ../src/preferences_dialog.c:344
@@ -723,7 +693,9 @@ msgid "Clock"
 msgstr "Часовник"
 
 #: ../src/preferences_dialog.c:355
-msgid "Show an analog clock that displays the current time when the window is fullscreen"
+msgid ""
+"Show an analog clock that displays the current time when the window is "
+"fullscreen"
 msgstr "Показване на аналогов часовник, който показва текущото време при режим на цял екран"
 
 #: ../src/preferences_dialog.c:358
@@ -742,9 +714,7 @@ msgstr "Пауза"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr ""
-"Времето, за което се показва едно изображение при прожекция\n"
-"(в секунди)"
+msgstr "Времето, за което се показва едно изображение при прожекция\n(в секунди)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -815,8 +785,7 @@ msgstr "Изображение"
 msgid "<b>Date taken:</b>"
 msgstr "<b>Дата на заснемане:</b>"
 
-#: ../src/properties_dialog.c:538
-#: ../src/properties_dialog.c:550
+#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
 #: ../src/properties_dialog.c:562
 #, c-format
 msgid "<b>%s</b>"
@@ -835,20 +804,13 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr ""
-"Услугата за умалени изображения не е налична,\n"
-"по тази причина, миниатюрите не могат\n"
-"да бъдат създадени.\n"
-"\n"
-"Инсталирайте <b>Tumbler</b> или друг услуга,\n"
-"за да решите проблема."
+msgstr "Услугата за умалени изображения не е налична,\nпо тази причина, миниатюрите не могат\nда бъдат създадени.\n\nИнсталирайте <b>Tumbler</b> или друг услуга,\nза да решите проблема."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
 msgstr "Не показвай това съобщение отново"
 
-#: ../src/xfce_wallpaper_manager.c:336
-#: ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Стил:"
 
@@ -860,13 +822,11 @@ msgstr "Яркост:"
 msgid "Saturation:"
 msgstr "Цветност:"
 
-#: ../src/xfce_wallpaper_manager.c:355
-#: ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Задаване като тапет"
 
-#: ../src/xfce_wallpaper_manager.c:508
-#: ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Автоматично"
 
@@ -890,83 +850,10 @@ msgstr "Мащабирано"
 msgid "Zoomed"
 msgstr "Увеличено"
 
+#: ../ristretto.desktop.in.h:1
+msgid "Ristretto Image Viewer"
+msgstr "Преглед на изображения Ristretto"
+
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
-msgstr "Разглеждайте снимките си лесно"
-
-#: ../ristretto.desktop.in.h:3
-msgid "Ristretto Image Viewer"
-msgstr "Програма за преглед на изображения Ristretto"
-
-#~ msgid "Show _Navigation Toolbar"
-#~ msgstr "Показване на лентата за навигация"
-
-#~ msgid "Toolbars"
-#~ msgstr "Ленти с инструменти"
-
-#~ msgid "Merge toolbars"
-#~ msgstr "Сливане на ленти с инструменти"
-
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "Разстояние между миниатюрите"
-
-#~ msgid "border width"
-#~ msgstr "дебелина на рамката"
-
-#~ msgid "the border width of the thumbnail bar"
-#~ msgstr "дебелина на рамката на лентата с миниатюри"
-
-#~ msgid "Preferences"
-#~ msgstr "Предпочитания"
-
-#~ msgid "Image viewer"
-#~ msgstr "Програма за преглед на изображения"
-
-#~ msgid "Open _Folder"
-#~ msgstr "Отваряне на папка"
-
-#~ msgid "Open a folder"
-#~ msgstr "Отваряне на папка"
-
-#~ msgid "Close all images"
-#~ msgstr "Затвори всички изображения"
-
-#~ msgid "Open folder"
-#~ msgstr "Отваряне на папка"
-
-#~ msgid "Enable cache"
-#~ msgstr "Разреши кеширане"
-
-#~ msgid "_Thumbnail Bar"
-#~ msgstr "Лента с миниатюри"
-
-#~ msgid "Opening file(s)..."
-#~ msgstr "Отваряне на файл(ове)..."
-
-#~ msgid "No applications available"
-#~ msgstr "Няма налични приложения"
-
-#~ msgid "Show _Horizontally"
-#~ msgstr "Покажи хоризонтално"
-
-#~ msgid "Show _Vertically"
-#~ msgstr "Покажи вертикално"
-
-#~ msgid "H_ide"
-#~ msgstr "Скриване"
-
-#~ msgid "Xfce Image viewer"
-#~ msgstr "Програма за преглед на изображения за XFCE"
-
-#~ msgid "Preload"
-#~ msgstr "Предварително зареждане"
-
-#~ msgid ""
-#~ "Preload images during slideshow\n"
-#~ "(uses more memory)"
-#~ msgstr ""
-#~ "Предварително зареждане на изображенията при прожекция\n"
-#~ "(използва повече памет)"
-
-#~ msgid "Spacing"
-#~ msgstr "Отместване"
+msgstr "Разглеждайте снимките си с лекота"
