@@ -4,15 +4,17 @@
 # 
 # Translators:
 # Denis Koryavov <dkoryavov@yandex.ru>, 2010
+# AlexanderFilev <ifillrok@gmail.com>, 2015
+# Sergey Alyoshin <alyoshin.s@gmail.com>, 2013
 # Stefan Zerkalica <zerkalica@gmail.com>, 2008
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2013-07-16 10:47+0000\n"
-"Last-Translator: Aleksandr P <davian818@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/xfce/language/ru/)\n"
+"POT-Creation-Date: 2015-01-18 12:31+0100\n"
+"PO-Revision-Date: 2015-01-19 09:22+0000\n"
+"Last-Translator: AlexanderFilev <ifillrok@gmail.com>\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/xfce-apps/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,13 +31,13 @@ msgstr "Запустить в полноэкранном режиме"
 
 #: ../src/main.c:70
 msgid "Start a slideshow"
-msgstr "Начать слайдшоу"
+msgstr "Начать слайд-шоу"
 
 #: ../src/main.c:78
 msgid "Show settings dialog"
 msgstr "Показать диалог настроек"
 
-#: ../src/main.c:106
+#: ../src/main.c:108
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -140,7 +142,7 @@ msgstr "Удалить изображение с диска"
 #. Icon-name
 #: ../src/main_window.c:424
 msgid "_Clear private data..."
-msgstr "О_чистить журнал..."
+msgstr "О_чистить личные данные..."
 
 #. Icon-name
 #: ../src/main_window.c:430
@@ -149,7 +151,7 @@ msgstr "_Настройки..."
 
 #: ../src/main_window.c:437
 msgid "_View"
-msgstr "_Просмотр"
+msgstr "Прос_мотр"
 
 #. Icon-name
 #: ../src/main_window.c:441
@@ -242,12 +244,12 @@ msgstr "Повернуть в_лево"
 
 #: ../src/main_window.c:506
 msgid "_Go"
-msgstr "П_ереход"
+msgstr "Пере_ход"
 
 #. Icon-name
 #: ../src/main_window.c:510
 msgid "_Forward"
-msgstr "_Вперед"
+msgstr "_Вперёд"
 
 #. Label-text
 #. Keyboard shortcut
@@ -290,7 +292,7 @@ msgstr "В конец"
 
 #: ../src/main_window.c:535
 msgid "_Help"
-msgstr "Помо_щь"
+msgstr "_Справка"
 
 #. Icon-name
 #: ../src/main_window.c:539
@@ -343,7 +345,7 @@ msgstr "Панель _инстрментов"
 #. Icon-name
 #: ../src/main_window.c:593
 msgid "Show _Thumbnail Bar"
-msgstr "Показать панель _эскизов"
+msgstr "Панель _эскизов"
 
 #. Icon-name
 #: ../src/main_window.c:601
@@ -425,7 +427,7 @@ msgstr "Остановить слайд-шоу"
 #. Create Recently used items Action
 #: ../src/main_window.c:853
 msgid "_Recently used"
-msgstr "_Недавно просмотренные"
+msgstr "_Недавние"
 
 #: ../src/main_window.c:853
 msgid "Recently used"
@@ -476,7 +478,7 @@ msgstr "Разработчик:"
 
 #: ../src/main_window.c:2606
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto - быстрый и легковесный просмотрщик изображений для рабочего окружения Xfce"
+msgstr "Ristretto — быстрая и легковесная программа просмотра изображений для рабочего окружения Xfce."
 
 #: ../src/main_window.c:2614
 msgid "translator-credits"
@@ -669,7 +671,7 @@ msgstr "С этой опцией, максимальное качество из
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
-msgstr "Ограничить качество отоюражения"
+msgstr "Ограничить качество отображения"
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
@@ -682,7 +684,7 @@ msgstr "Эскизы"
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Панель эскизов будет спрятана при переходе в полноэкранный режим"
+msgstr "Панель эскизов будет спрятана при переходе в полноэкранный режим."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
@@ -696,7 +698,7 @@ msgstr "Часы"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Показывать часы, отображающие текущее время, при просмотре в полноэкранном режиме"
+msgstr "Показывать часы, отображающие текущее время, при просмотре в полноэкранном режиме."
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
@@ -704,17 +706,17 @@ msgstr "Часы во весь экран"
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
-msgstr "Слайдшоу"
+msgstr "Слайд-шоу"
 
 #: ../src/preferences_dialog.c:379
 msgid "Timeout"
-msgstr "Тайм-аут"
+msgstr "Задержка"
 
 #: ../src/preferences_dialog.c:382
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr "Время, отображения изображений в режиме слайдшоу\n(в секундах)"
+msgstr "Время отображения изображений в режиме слайд-шоу\n(в секундах)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -722,7 +724,7 @@ msgstr "Управление"
 
 #: ../src/preferences_dialog.c:404
 msgid "Scroll wheel"
-msgstr "Колесико мыши"
+msgstr "Колёсико мыши"
 
 #: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
@@ -738,7 +740,7 @@ msgstr "Запуск"
 
 #: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
-msgstr "При открытии изображения развертывать окно во весь экран"
+msgstr "При открытии изображения развёртывать окно во весь экран"
 
 #: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
@@ -762,7 +764,7 @@ msgstr "<b>Тип:</b>"
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
-msgstr "<b>Изменен:</b>"
+msgstr "<b>Изменён:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
@@ -780,18 +782,18 @@ msgstr "Общие"
 msgid "Image"
 msgstr "Изображение"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:541
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr "<b>Дата съемки:</b>"
+msgstr "<b>Дата съёмки:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:553 ../src/properties_dialog.c:565
+#: ../src/properties_dialog.c:577
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:639
 #, c-format
 msgid "%s - Properties"
 msgstr "Свойства: %s"
@@ -810,45 +812,49 @@ msgstr "Не удалось установить соединение со сл�
 msgid "Do _not show this message again"
 msgstr "Больше _не показывать это сообщение"
 
-#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Стиль:"
 
-#: ../src/xfce_wallpaper_manager.c:337
+#: ../src/xfce_wallpaper_manager.c:380
 msgid "Brightness:"
 msgstr "Яркость:"
 
-#: ../src/xfce_wallpaper_manager.c:338
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Saturation:"
 msgstr "Контраст:"
 
-#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:397
+msgid "Apply to all workspaces"
+msgstr "Приметить для всех рабочих мест"
+
+#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Установить как обои"
 
-#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Автоматически"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:560
 msgid "Centered"
 msgstr "Центровать"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:563
 msgid "Tiled"
 msgstr "Сжать"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:566
 msgid "Stretched"
 msgstr "Замостить"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:569
 msgid "Scaled"
 msgstr "Растянуть"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:572
 msgid "Zoomed"
-msgstr "Приближенно"
+msgstr "Приближено"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
