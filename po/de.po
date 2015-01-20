@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Georg Eckert <eckert.georg@gmx.de>, 2013
-# Tobias Bannert, 2014
+# Tobias Bannert <tobannert@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2014-10-10 14:31+0000\n"
-"Last-Translator: Tobias Bannert\n"
+"POT-Creation-Date: 2015-01-18 12:31+0100\n"
+"PO-Revision-Date: 2015-01-20 14:22+0000\n"
+"Last-Translator: Tobias Bannert <tobannert@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/xfce-apps/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +35,7 @@ msgstr "Diaschau starten"
 msgid "Show settings dialog"
 msgstr "Einstellungsdialog anzeigen"
 
-#: ../src/main.c:106
+#: ../src/main.c:108
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -780,18 +780,18 @@ msgstr "Allgemein"
 msgid "Image"
 msgstr "Bild"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:541
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Aufnahmedatum:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:553 ../src/properties_dialog.c:565
+#: ../src/properties_dialog.c:577
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:639
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Eigenschaften"
@@ -810,43 +810,47 @@ msgstr "Der Vorschaubilddienst ist nicht verfügbar,\naus diesem Grund können k
 msgid "Do _not show this message again"
 msgstr "Diese Nachricht _nicht erneut anzeigen"
 
-#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Stil:"
 
-#: ../src/xfce_wallpaper_manager.c:337
+#: ../src/xfce_wallpaper_manager.c:380
 msgid "Brightness:"
 msgstr "Helligkeit:"
 
-#: ../src/xfce_wallpaper_manager.c:338
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Saturation:"
 msgstr "Sättigung:"
 
-#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:397
+msgid "Apply to all workspaces"
+msgstr "Auf allen Arbeitsflächen anwenden"
+
+#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Als Hintergrundbild verwenden"
 
-#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Automatisch"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:560
 msgid "Centered"
 msgstr "Zentriert"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:563
 msgid "Tiled"
 msgstr "Gekachelt"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:566
 msgid "Stretched"
 msgstr "Gestreckt"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:569
 msgid "Scaled"
 msgstr "Skaliert"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:572
 msgid "Zoomed"
 msgstr "Vergrößert"
 
