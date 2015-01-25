@@ -12,3 +12,4 @@ src/wallpaper_manager.c
 src/xfce_wallpaper_manager.c
 src/gnome_wallpaper_manager.c
 ristretto.desktop.in
+ristretto.appdata.xml.in

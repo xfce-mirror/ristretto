@@ -7,6 +7,14 @@ desktop_in_files = ristretto.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
+#
+# .appdata
+#
+@INTLTOOL_XML_RULE@
+appdatadir = $(datadir)/appdata
+appdata_DATA = $(appdata_in_files:.xml.in=.xml)
+appdata_in_files = ristretto.appdata.xml.in
+
 EXTRA_DIST = \
 	autogen.sh \
 	intltool-extract.in \
@@ -14,13 +22,15 @@ EXTRA_DIST = \
 	intltool-update.in \
 	$(desktop_in_files) \
 	$(pixmaps_DATA) \
-	$(wrapper_DATA)
+	$(wrapper_DATA) \
+	$(appdata_in_files)
 
 DISTCLEANFILES = \
 	intltool-extract \
 	intltool-merge \
 	intltool-update \
-	$(desktop_DATA)
+	$(desktop_DATA) \
+	$(appdata_DATA)
 
 DISTCHECK_CONFIGURE_FLAGS=--enable-gen-doc
 
