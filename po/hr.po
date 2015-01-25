@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2015-01-18 12:31+0100\n"
-"PO-Revision-Date: 2015-01-18 20:20+0000\n"
+"POT-Creation-Date: 2015-01-25 12:30+0100\n"
+"PO-Revision-Date: 2015-01-25 19:44+0000\n"
 "Last-Translator: Edin Veskovic <edin.veskovic@openmailbox.org>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/xfce-apps/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -476,7 +476,7 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "Razvijatelj:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto je preglednik slika za  Xfce radno okruženje."
 
@@ -863,3 +863,38 @@ msgstr "Ristretto preglednik fotografija"
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Pogledajte lako svoje fotografije "
+
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "Ristretto preglednik slika je aplikacija koja se može koristiti za otvaranje i pregledavanje slika. Slike se mogu pregledavati kao prezentacija, otvariti u uređivaču slika ili postaviti kao pozadina radne površine."
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr "Ova verzija dolazi sa poboljšanjima kao što su upotreba sličica kao ikona te ažuriranjem prve slike u listi slika kada je spremna što je potrebno za prikaz sličice kada je ona generirana."
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr "Ovo izdanje sadrži puno ažuriranja prijevoda te ispravak za rušenje aplikacije kada se izmjenjivalo svojstvo ograničavanja kvalitete."
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"http://docs.xfce.org, the option to limit the maximum image-quality to the "
+"screen dimensions to improve memory-usage and performance - now ristretto "
+"renders at full quality with this option disabled, only one toolbar - "
+"instead of two, a quick-launch button on the toolbar to execute an editor, "
+"the option to pick a default-editor per mime-type, an optional clock that "
+"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
+"message in the statusbar to indicate when it is busy and progressive loading"
+" of directories to prevent lockup of the UI. This version is designed to "
+"work with version 4.10 of Xfce."
+msgstr "Ova verzija dolazi s nekoliko ispravaka. Dodana je online dokumentacija na http://docs.xfce.org, dodana je opcija ograničavanja maksimalne kvalitete slike prema dimenzijama ekrana što poboljšava performanse i smanjuje upotrebu memorije. Ristretto stvara u punoj kvaliteti ako je ova opcija isključena. Sada se koristi samo jedna alatna traka umjesto dvije, dodan je gumb za brzo pokretanje uređivača te opcija za odabir zadanih uređivača prema ekstenziji slike. Dodan je opcionalni sat kada se vrši prikaz u punom ekranu, statusna traka sada pokazuje poruku 'Učitavanje...' kada Ristretto radi te se mape sada učitavaju progresivno kako bi se spriječilo nereagiranje sučelja. Ova verzija je dizajnirana da radi s 4.10 verzijom Xfcea."
