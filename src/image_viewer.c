@@ -102,7 +102,7 @@ struct _RsttoImageViewerPriv
     } props;
 
     GtkMenu                     *menu;
-    gboolean                     revert_zoom_direction;
+    gboolean                     invert_zoom_direction;
 
     /* Animation data for animated images (like .gif/.mng) */
     /*******************************************************/
@@ -363,7 +363,7 @@ rstto_image_viewer_init ( GObject *object )
 
     g_signal_connect (
             G_OBJECT(viewer->priv->settings),
-            "notify::revert-zoom-direction",
+            "notify::invert-zoom-direction",
             G_CALLBACK (cb_rstto_zoom_direction_changed),
             viewer);
     g_signal_connect (
@@ -489,6 +489,7 @@ rstto_image_viewer_realize(GtkWidget *widget)
     GValue val_bg_color_override = {0, };
     GValue val_bg_color_fs = {0, };
     GValue val_limit_quality = {0, };
+    GValue val_invert_zoom = {0, };
 
     GdkWindowAttr attributes;
     gint attributes_mask;
@@ -502,6 +503,7 @@ rstto_image_viewer_realize(GtkWidget *widget)
     g_value_init (&val_bg_color_fs, GDK_TYPE_COLOR);
     g_value_init (&val_bg_color_override, G_TYPE_BOOLEAN);
     g_value_init (&val_limit_quality, G_TYPE_BOOLEAN);
+    g_value_init (&val_invert_zoom, G_TYPE_BOOLEAN);
 
     attributes.x = widget->allocation.x;
     attributes.y = widget->allocation.y;
@@ -538,8 +540,13 @@ rstto_image_viewer_realize(GtkWidget *widget)
             G_OBJECT(viewer->priv->settings),
             "limit-quality",
             &val_limit_quality);
+    g_object_get_property (
+            G_OBJECT(viewer->priv->settings),
+            "invert-zoom-direction",
+            &val_invert_zoom);
 
     viewer->priv->limit_quality = g_value_get_boolean (&val_limit_quality);
+    viewer->priv->invert_zoom_direction = g_value_get_boolean (&val_invert_zoom);
 
     if (TRUE == g_value_get_boolean (&val_bg_color_override))
     {
@@ -2254,7 +2261,7 @@ rstto_scroll_event (
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gboolean auto_scale = FALSE;
-    gboolean revert_zoom_direction = viewer->priv->revert_zoom_direction;
+    gboolean invert_zoom_direction = viewer->priv->invert_zoom_direction;
     gdouble x_offset = viewer->priv->rendering.x_offset;
     gdouble y_offset = viewer->priv->rendering.y_offset;
     gdouble tmp_x = 0.0;
@@ -2278,7 +2285,7 @@ rstto_scroll_event (
             {
                 case GDK_SCROLL_UP:
                 case GDK_SCROLL_LEFT:
-                    if (revert_zoom_direction)
+                    if (invert_zoom_direction)
                     {
                         scale = viewer->priv->scale / 1.1;
                     }
@@ -2289,7 +2296,7 @@ rstto_scroll_event (
                     break;
                 case GDK_SCROLL_DOWN:
                 case GDK_SCROLL_RIGHT:
-                    if (revert_zoom_direction)
+                    if (invert_zoom_direction)
                     {
                         scale = viewer->priv->scale * 1.1;
                     }
@@ -2856,7 +2863,7 @@ cb_rstto_zoom_direction_changed (
         gpointer user_data)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
-    viewer->priv->revert_zoom_direction = rstto_settings_get_boolean_property (RSTTO_SETTINGS (settings), "revert-zoom-direction"); 
+    viewer->priv->invert_zoom_direction = rstto_settings_get_boolean_property (RSTTO_SETTINGS (settings), "invert-zoom-direction");
 }
  
 static gboolean
