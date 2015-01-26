@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Abel Martín <abel.martin.ruiz@gmail.com>, 2008
-# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2013
+# Adolfo Jayme Barrientos, 2013
 # Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2015-01-18 12:31+0100\n"
-"PO-Revision-Date: 2015-01-20 03:22+0000\n"
+"POT-Creation-Date: 2015-01-25 12:30+0100\n"
+"PO-Revision-Date: 2015-01-26 03:04+0000\n"
 "Last-Translator: Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -475,7 +475,7 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "Desarrollador:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto es un visor de imágenes rápido y ligero para el entorno de escritorio de Xfce."
 
@@ -862,3 +862,38 @@ msgstr "Visor de Imágenes Ristretto"
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Mire sus imágenes fácilmente"
+
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "El visor de imágenes Ristretto es una aplicación que se puede utilizar para ver y desplazarse a través de las imágenes, ejecutar una presentación de imágenes, abrir imágenes con otras aplicaciones como un editor de imágenes o configurar una imagen como fondo de escritorio."
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr "Esta versión viene con mejoras como el uso de miniaturas como icono de aplicación y actualización a la primera imagen de la lista de imagen cuando se recibe una señal, necesario para mostrar la imagen una vez que se ha generado la miniatura."
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr "Esta versión contiene gran cantidad de actualizaciones a las traducciones, y un corrección a un cuelgue al configurar la propiedad de calidad máxima de imagen."
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"http://docs.xfce.org, the option to limit the maximum image-quality to the "
+"screen dimensions to improve memory-usage and performance - now ristretto "
+"renders at full quality with this option disabled, only one toolbar - "
+"instead of two, a quick-launch button on the toolbar to execute an editor, "
+"the option to pick a default-editor per mime-type, an optional clock that "
+"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
+"message in the statusbar to indicate when it is busy and progressive loading"
+" of directories to prevent lockup of the UI. This version is designed to "
+"work with version 4.10 of Xfce."
+msgstr "Esta versión viene con varios cambios como documentación en línea en http://docs.xfce.org, la facultad de limitar la calidad máxima de la imagen para las dimensiones de la pantalla para mejorar el uso de memoria y el rendimiento, ahora Ristretto muestra a máxima calidad de las imágenes con esta opción deshabilitada solo en una barra de herramientas en lugar de dos, un botón de inicio rápido en la barra de herramientas para ejecutar un editor, la opción de escoger un editor predeterminado por tipo MIME, un reloj opcional que aparece cuando Ristretto es utilizado a pantalla completa, Ristretto ahora muestra un mensaje de «Cargando..» en la barra de estado para indicar cuando está ocupado cargando y progresivamente cargando directorios para evitar el bloqueo de la interfaz de usuario. Esta versión está diseñada para trabajar con la versión 4.10 de Xfce."
