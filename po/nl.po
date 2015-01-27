@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Pjotr <pjotrvertaalt@gmail.com>, 2015
 # Stephan Arts <stephan@xfce.org>, 2007
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2013-07-04 08:37+0000\n"
-"Last-Translator: Pjotr123 <pjotrvertaalt@gmail.com>\n"
-"Language-Team: Dutch (http://www.transifex.com/projects/p/xfce/language/nl/)\n"
+"POT-Creation-Date: 2015-01-25 12:30+0100\n"
+"PO-Revision-Date: 2015-01-27 12:08+0000\n"
+"Last-Translator: Pjotr <pjotrvertaalt@gmail.com>\n"
+"Language-Team: Dutch (http://www.transifex.com/projects/p/xfce-apps/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,14 +35,14 @@ msgstr "Begin een diavertoning"
 msgid "Show settings dialog"
 msgstr "Toon dialoogvenster voor instellingen"
 
-#: ../src/main.c:106
+#: ../src/main.c:108
 #, c-format
 msgid ""
 "%s: %s\n"
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s: %s\nProbeer %s --help voor een lijst van beschikbare opdrachtregelopties.\n"
+msgstr "%s: %s\n\nProbeer %s --help voor een lijst van \nbeschikbare opdrachtregelopties.\n"
 
 #: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
@@ -455,7 +456,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Configureer welk systeem thans uw werkomgeving beheert.\nDeze instelling bepaalt de methode die <i>Ristretto</i> zal gebruiken\nom de bureaubladachtergrond in te stellen."
+msgstr "Configureer welk systeem thans uw werkomgeving beheert.\nDeze instelling bepaalt de methode die <i>Ristretto</i> zal \ngebruiken om de bureaubladachtergrond in te stellen."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -473,7 +474,7 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "Ontwikkelaar:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto is een afbeeldingkijker voor de Xfce-werkomgeving."
 
@@ -516,7 +517,7 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Er is een fout opgetreden bij het verwijderen van afbeelding '%s' van de schijf.\n\n%s"
+msgstr "Er is een fout opgetreden bij het verwijderen van\nafbeelding '%s' van de schijf.\n%s"
 
 #: ../src/main_window.c:3370
 #, c-format
@@ -529,7 +530,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "Er is een fout opgetreden bij het verplaatsen van afbeelding '%s' naar de prullenbak.\n\n%s"
+msgstr "Er is een fout opgetreden bij het verplaatsen van\nafbeelding '%s' naar de prullenbak.\n%s"
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
@@ -779,18 +780,18 @@ msgstr "Algemeen"
 msgid "Image"
 msgstr "Afbeelding"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:541
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Datum genomen:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:553 ../src/properties_dialog.c:565
+#: ../src/properties_dialog.c:577
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:639
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Eigenschappen"
@@ -803,49 +804,53 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "De miniatuurmakerdienst kan niet worden bereikt.\nOm deze reden \nkunnen de miniaturen niet worden gemaakt.\n\nInstalleer Tumbler of een andere miniatuurmaker-achtergronddienst\nom dit probleem op te lossen."
+msgstr "De miniatuurmakerdienst kan niet worden bereikt.\nOm deze reden kunnen de miniaturen niet worden\ngemaakt.\n\nInstalleer Tumbler of een andere miniatuurmaker-achtergronddienst\nom dit probleem op te lossen."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
 msgstr "Toon deze boodschap niet opnieuw"
 
-#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Stijl:"
 
-#: ../src/xfce_wallpaper_manager.c:337
+#: ../src/xfce_wallpaper_manager.c:380
 msgid "Brightness:"
 msgstr "Helderheid:"
 
-#: ../src/xfce_wallpaper_manager.c:338
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Saturation:"
 msgstr "Verzadiging:"
 
-#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:397
+msgid "Apply to all workspaces"
+msgstr "Toepassen op alle werkbladen"
+
+#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Instellen als bureaubladachtergrond"
 
-#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Automatisch"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:560
 msgid "Centered"
 msgstr "Gecentreerd"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:563
 msgid "Tiled"
 msgstr "Getegeld"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:566
 msgid "Stretched"
 msgstr "Uitgerekt"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:569
 msgid "Scaled"
 msgstr "Geschaald"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:572
 msgid "Zoomed"
 msgstr "Ingezoomd"
 
@@ -856,3 +861,38 @@ msgstr "Ristretto afbeeldingkijker"
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Kijk gemakkelijk naar uw afbeeldingen"
+
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "De afbeeldingkijker Ristretto is een toepassing die kan worden gebruikt om door afbeeldingen te bladeren en ze te bekijken, een diapresentatie van afbeeldingen weer te geven, afbeeldingen te openen met andere toepassingen zoals een fotobewerker of om een afbeelding in te stellen als bureaubladachtergrond."
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr "Deze versie bevat verbeteringen zoals gebruik van miniaturen als toepassingspictogram en bijwerken naar de eerste afbeelding in de afbeeldingenlijst bij het ontvangen van een 'gereed'-signaal, wat vereist is om de miniatuur te tonen zodra deze is aangemaakt."
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr "Deze versie bevat veel bijgewerkte vertalingen, en een vastloper bij het instellen van de eigenschap 'kwaliteit beperken'."
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"http://docs.xfce.org, the option to limit the maximum image-quality to the "
+"screen dimensions to improve memory-usage and performance - now ristretto "
+"renders at full quality with this option disabled, only one toolbar - "
+"instead of two, a quick-launch button on the toolbar to execute an editor, "
+"the option to pick a default-editor per mime-type, an optional clock that "
+"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
+"message in the statusbar to indicate when it is busy and progressive loading"
+" of directories to prevent lockup of the UI. This version is designed to "
+"work with version 4.10 of Xfce."
+msgstr "Deze versie bevat verschillende wijzigingen zoals documentatie op het internet op http://docs.xfce.org, de optie om de maximale afbeeldingkwaliteit te beperken tot de schermgrootte om geheugengebruik en prestaties te verbeteren - Ristretto geeft thans weer op volledige kwaliteit met deze optie uitgeschakeld, slechts één werkbalk in plaats van twee, een snelstarterknop op de werkbalk voor het starten van een bewerkingsprogramma, de optie om een standaard-bewerkingsprogramma te kiezen per bestandtype, een optionele klok die verschijnt wanneer Ristretto schermvullend is, Ristretto toont nu een 'Bezig met laden...'-boodschap in de statusbalk om aan te geven wanneer hij bezig is en voortschrijdend laden van mappen om vastlopen van de gebruikersomgeving te voorkomen. Deze versie is ontworpen voor versie 4.10 van Xfce."
