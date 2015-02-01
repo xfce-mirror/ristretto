@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Theppitak Karoonboonyanan <thep@linux.thai.net>, 2013
-# theppitak <theppitak@gmail.com>, 2013
+# Theppitak Karoonboonyanan <theppitak@gmail.com>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2013-11-25 07:19+0000\n"
-"Last-Translator: theppitak <theppitak@gmail.com>\n"
-"Language-Team: Thai (http://www.transifex.com/projects/p/xfce/language/th/)\n"
+"POT-Creation-Date: 2015-01-25 12:30+0100\n"
+"PO-Revision-Date: 2015-02-01 15:48+0000\n"
+"Last-Translator: Theppitak Karoonboonyanan <theppitak@gmail.com>\n"
+"Language-Team: Thai (http://www.transifex.com/projects/p/xfce-apps/language/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -35,7 +35,7 @@ msgstr "เริ่มแสดงสไลด์"
 msgid "Show settings dialog"
 msgstr "แสดงกล่องโต้ตอบตั้งค่า"
 
-#: ../src/main.c:106
+#: ../src/main.c:108
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -474,7 +474,7 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "ผู้พัฒนา:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto คือโปรแกรมแสดงรูปภาพสำหรับเดสก์ท็อป Xfce"
 
@@ -780,18 +780,18 @@ msgstr "ทั่วไป"
 msgid "Image"
 msgstr "รูปภาพ"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:541
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>วันที่ถ่าย:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:553 ../src/properties_dialog.c:565
+#: ../src/properties_dialog.c:577
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:639
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - คุณสมบัติ"
@@ -810,43 +810,47 @@ msgstr "ไม่สามารถเข้าถึงบริการภา
 msgid "Do _not show this message again"
 msgstr "ไ_ม่ต้องแสดงข้อความนี้อีก"
 
-#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "รูปแบบ:"
 
-#: ../src/xfce_wallpaper_manager.c:337
+#: ../src/xfce_wallpaper_manager.c:380
 msgid "Brightness:"
 msgstr "ความสว่าง:"
 
-#: ../src/xfce_wallpaper_manager.c:338
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Saturation:"
 msgstr "ความอิ่มสี:"
 
-#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:397
+msgid "Apply to all workspaces"
+msgstr "ใช้กับทุกพื้นที่ทำงาน"
+
+#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "กำหนดเป็นภาพพื้นหลัง"
 
-#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "อัตโนมัติ"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:560
 msgid "Centered"
 msgstr "วางตรงกลาง"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:563
 msgid "Tiled"
 msgstr "เรียงกระเบื้อง"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:566
 msgid "Stretched"
 msgstr "ยืด"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:569
 msgid "Scaled"
 msgstr "ย่อ-ขยาย"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:572
 msgid "Zoomed"
 msgstr "ซูม"
 
@@ -857,3 +861,38 @@ msgstr "โปรแกรมดูรูปภาพ Ristretto"
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "ดูรูปภาพของคุณอย่างง่ายดาย"
+
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "โปรแกรมดูรูปภาพ Ristretto เป็นโปรแกรมที่สามารถใช้แสดงและเลื่อนดูรูปภาพต่างๆ, แสดงสไลด์ของรูปภาพ, เปิดรูปภาพด้วยโปรแกรมอื่นเช่นโปรแกรมแก้ไขรูปภาพ หรือกำหนดรูปภาพเป็นภาพพื้นหลัง"
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr "รุ่นนี้มาพร้อมกับการปรับปรุงหลายรายการ เช่น การใช้ภาพย่อของรูปภาพเป็นไอคอนของโปรแกรม และการปรับแสดงรูปภาพแรกในรายชื่อรูปภาพเมื่อได้รับสัญญาณพร้อม ซึ่งจำเป็นสำหรับการแสดงภาพย่อเมื่อสร้างเสร็จ"
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr "รุ่นนี้มีการปรับคำแปลจำนวนมาก และแก้อาการพังเมื่อตั้งค่า 'จำกัดคุณภาพ'"
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"http://docs.xfce.org, the option to limit the maximum image-quality to the "
+"screen dimensions to improve memory-usage and performance - now ristretto "
+"renders at full quality with this option disabled, only one toolbar - "
+"instead of two, a quick-launch button on the toolbar to execute an editor, "
+"the option to pick a default-editor per mime-type, an optional clock that "
+"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
+"message in the statusbar to indicate when it is busy and progressive loading"
+" of directories to prevent lockup of the UI. This version is designed to "
+"work with version 4.10 of Xfce."
+msgstr "รุ่นนี้มาพร้อมกับการเปลี่ยนแปลงหลายรายการ เช่น การใช้เอกสารออนไลน์ที่ http://docs.xfce.org, ตัวเลือกสำหรับจำกัดคุณภาพของรูปภาพตามขนาดของหน้าจอ เพื่อการใช้หน่วยความจำและสมรรถนะการทำงานที่ดีขึ้น - ขณะนี้ ristretto จะแสดงรูปภาพแบบคุณภาพเต็มถ้าปิดตัวเลือกนี้, ใช้แถบเครื่องมือเพียงแถบเดียว - แทนการใช้สองแถบ, ปุ่มเรียกโปรแกรมแบบเร็วบนแถบเครื่องมือสำหรับเรียกเครื่องมือแก้ไข, ตัวเลือกสำหรับเลือกเครื่องมือแก้ไขปริยายสำหรับชนิด MIME แต่ละชนิด, ตัวเลือกแสดงนาฬิกาเมื่อ ristretto แสดงเต็มจอ, ristretto รุ่นนี้จะแสดงข้อความ 'กำลังโหลด..' ที่แถบสถานะเพื่อบ่งบอกว่ากำลังทำงานอยู่ และการโหลดไดเรกทอรีแบบค่อยเป็นค่อยไปเพื่อป้องกันไม่ให้ UI ค้าง รุ่นนี้ออกแบบมาสำหรับทำงานกับ Xfce รุ่น 4.10"
