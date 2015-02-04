@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2015-01-18 12:31+0100\n"
-"PO-Revision-Date: 2015-01-23 00:43+0000\n"
+"POT-Creation-Date: 2015-01-25 12:30+0100\n"
+"PO-Revision-Date: 2015-02-04 15:53+0000\n"
 "Last-Translator: André Miranda <andreldm1989@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/xfce-apps/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -474,13 +474,13 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "Desenvolvedor:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "O Ristretto é um visualizador de imagens rápido e leve para o ambiente de trabalho Xfce."
 
 #: ../src/main_window.c:2614
 msgid "translator-credits"
-msgstr "Og Maciel <ogmaciel@gnome.org>,\nFábio Nogueira <deb-user-ba@ubuntu.com>,\nFrederico Schardong <frede_sch@gmail.com>"
+msgstr "Og Maciel <ogmaciel@gnome.org>,\nFábio Nogueira <deb-user-ba@ubuntu.com>,\nFrederico Schardong <frede_sch@gmail.com>,\nAndré Miranda <andreldm1989@gmail.com>"
 
 #: ../src/main_window.c:2916
 msgid "Open image"
@@ -861,3 +861,38 @@ msgstr "Visualizador de imagens Ristretto"
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Veja suas imagens facilmente"
+
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "O Visualizador de Imagens Ristretto é um aplicativo que pode ser usado para visualizar ou navegar por uma coleção de imagens, exibir uma apresentação de slides de imagens, abrir imagens com outros aplicativos como um editor de imagens or definir uma imagem como papel de parede da área de trabalho."
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr "Esta versão vem com melhorias, tais como o uso de miniaturas como ícone do aplicativo e atualizar a primeira imagem da lista de imagens quando receber um sinal de pronto, necessário para mostrar a miniatura assim que for gerada."
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr "Esta versão contém várias atualizações de tradução, e a correção de uma falha que ocorria durante a configuração da propriedade \"limite-qualidade\"."
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"http://docs.xfce.org, the option to limit the maximum image-quality to the "
+"screen dimensions to improve memory-usage and performance - now ristretto "
+"renders at full quality with this option disabled, only one toolbar - "
+"instead of two, a quick-launch button on the toolbar to execute an editor, "
+"the option to pick a default-editor per mime-type, an optional clock that "
+"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
+"message in the statusbar to indicate when it is busy and progressive loading"
+" of directories to prevent lockup of the UI. This version is designed to "
+"work with version 4.10 of Xfce."
+msgstr "Esta versão vem com várias mudanças como: documentação on-line em http://docs.xfce.org; a opção para limitar a qualidade máxima da imagem para as dimensões da tela visando melhorias no uso de memória e performance - atualmente o ristretto exibe imagens em qualidade máxima com esta opção desabilitada; apenas uma barra de ferramentas - em vez de duas; um botão de lançamento rápido na barra de ferramentas para executar um editor; a opção de escolher um editor padrão por mime-type; um relógio opcional que aparece quando o ristretto está no modo tela cheia; o Ristretto agora mostra a mensagem \"Carregando..\" na barra de status para indicar quando o carregamento está em andamento e progressivamente carrega diretórios a fim de evitar travamentos. Esta versão foi projetada para funcionar com a versão 4.10 do Xfce."
