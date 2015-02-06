@@ -4,13 +4,13 @@
 # 
 # Translators:
 # Саша Петровић <salepetronije@gmail.com>, 2012
-# Саша Петровић <salepetronije@gmail.com>, 2015
+# Саша Петровић <salepetronije@gmail.com>, 2012,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2015-01-18 12:31+0100\n"
-"PO-Revision-Date: 2015-01-20 10:59+0000\n"
+"POT-Creation-Date: 2015-01-25 12:30+0100\n"
+"PO-Revision-Date: 2015-02-06 23:12+0000\n"
 "Last-Translator: Саша Петровић <salepetronije@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/xfce-apps/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "Покрени као покретни приказ"
 
 #: ../src/main.c:78
 msgid "Show settings dialog"
-msgstr "Прикажи дијалог подешавања"
+msgstr "Прикажи прозорче поставки"
 
 #: ../src/main.c:108
 #, c-format
@@ -83,7 +83,7 @@ msgstr "_Својства..."
 #. Keyboard shortcut
 #: ../src/main_window.c:383
 msgid "Show file properties"
-msgstr "Прикажи особине датотеке"
+msgstr "Прикажи својства датотеке"
 
 #. Icon-name
 #: ../src/main_window.c:387 ../src/main_window.c:406
@@ -120,11 +120,11 @@ msgstr "Напусти Ристрето"
 
 #: ../src/main_window.c:410
 msgid "_Open with"
-msgstr "_Отвори са"
+msgstr "_Отвори помоћу"
 
 #: ../src/main_window.c:414
 msgid "_Sorting"
-msgstr "_Правило распореда"
+msgstr "_Распоред"
 
 #. Icon-name
 #: ../src/main_window.c:418
@@ -207,7 +207,7 @@ msgstr "Умањи"
 #. Icon-name
 #: ../src/main_window.c:476
 msgid "Zoom _Fit"
-msgstr "Увећај да _испуни"
+msgstr "Увећај до _попуне"
 
 #. Label-text
 #. Keyboard shortcut
@@ -218,7 +218,7 @@ msgstr "Увећај ради уклапања на величину прозо�
 #. Icon-name
 #: ../src/main_window.c:482
 msgid "_Normal Size"
-msgstr "_Нормална величина"
+msgstr "_Уобичајена величина"
 
 #. Label-text
 #. Keyboard shortcut
@@ -301,7 +301,7 @@ msgstr "_Садржај"
 #. Keyboard shortcut
 #: ../src/main_window.c:541
 msgid "Display ristretto user manual"
-msgstr "Прикажи корисничко упутство за Ристрето"
+msgstr "Прикажи корисничко упутство Ристрета"
 
 #. Icon-name
 #: ../src/main_window.c:545
@@ -324,11 +324,11 @@ msgstr "_Величина"
 
 #: ../src/main_window.c:560
 msgid "Thumbnail Bar _Position"
-msgstr "Положај _траке сличица"
+msgstr "Положај _траке умањених сличица"
 
 #: ../src/main_window.c:564
 msgid "Thumb_nail Size"
-msgstr "Величина _сличице"
+msgstr "Величина умањене _сличице"
 
 #. Icon-name
 #: ../src/main_window.c:569
@@ -338,17 +338,17 @@ msgstr "Напусти _цео екран"
 #. Icon-name
 #: ../src/main_window.c:585
 msgid "_Show Toolbar"
-msgstr "Прикажи траку _алата"
+msgstr "Приказуј траку _алата"
 
 #. Icon-name
 #: ../src/main_window.c:593
 msgid "Show _Thumbnail Bar"
-msgstr "Прикажи траку _сличица"
+msgstr "Приказуј траку умањених _сличица"
 
 #. Icon-name
 #: ../src/main_window.c:601
 msgid "Show Status _Bar"
-msgstr "Прикажи траку _стања"
+msgstr "Приказуј траку _стања"
 
 #. Icon-name
 #: ../src/main_window.c:614
@@ -379,11 +379,11 @@ msgstr "Доле"
 
 #: ../src/main_window.c:661
 msgid "Very Small"
-msgstr "Врло мале"
+msgstr "Најмање"
 
 #: ../src/main_window.c:667
 msgid "Smaller"
-msgstr "Јако мале"
+msgstr "Мање"
 
 #: ../src/main_window.c:673
 msgid "Small"
@@ -391,7 +391,7 @@ msgstr "Мале"
 
 #: ../src/main_window.c:679
 msgid "Normal"
-msgstr "Нормалне"
+msgstr "Уобичајене"
 
 #: ../src/main_window.c:685
 msgid "Large"
@@ -403,12 +403,12 @@ msgstr "Веће"
 
 #: ../src/main_window.c:697
 msgid "Very Large"
-msgstr "Врло велике"
+msgstr "Највеће"
 
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:849
 msgid "_Play"
-msgstr "_Пусти"
+msgstr "_Изведи"
 
 #: ../src/main_window.c:849
 msgid "Play slideshow"
@@ -437,7 +437,7 @@ msgstr "Притисните „Отвори“ да изаберете слик
 
 #: ../src/main_window.c:1354 ../src/main_window.c:1358
 msgid "Open With Other _Application..."
-msgstr "Отвори другим _програмом..."
+msgstr "Отвори неким другим _програмом..."
 
 #: ../src/main_window.c:1379 ../src/main_window.c:1385
 msgid "Empty"
@@ -456,7 +456,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Подеси који систем тренутно управља радном површином.\nОво подешавање одређује који начин ће <i>Ристрето</i>\nкористити за поставку позадине радне површи."
+msgstr "Подесите који систем тренутно управља радном површином.\nОва поставка одређује који начин ће <i>Ристрето</i>\nкористити за поставку позадине радне површи."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -464,7 +464,7 @@ msgstr "Ништа"
 
 #: ../src/main_window.c:2153 ../src/preferences_dialog.c:492
 msgid "Xfce"
-msgstr "ИксФЦЕ"
+msgstr "Иксфце"
 
 #: ../src/main_window.c:2157 ../src/preferences_dialog.c:496
 msgid "GNOME"
@@ -474,13 +474,13 @@ msgstr "Гном"
 msgid "Developer:"
 msgstr "Програмер:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ристрето је прегледач слика за ИксФЦЕ радно окружење"
+msgstr "Ристрето је прегледач слика радно окружење Иксфце-а."
 
 #: ../src/main_window.c:2614
 msgid "translator-credits"
-msgstr "Саша Пертовић <salepetronije@gmail.com>"
+msgstr "Саша Петровић <salepetronije@gmail.com>"
 
 #: ../src/main_window.c:2916
 msgid "Open image"
@@ -496,7 +496,7 @@ msgstr ".jp(e)g"
 
 #: ../src/main_window.c:2967 ../src/main_window.c:3109
 msgid "Could not open file"
-msgstr "Не могу да отворим датотеку"
+msgstr "Нисам успео да отворим датотеку"
 
 #: ../src/main_window.c:3142
 msgid "Save copy"
@@ -504,7 +504,7 @@ msgstr "Сачувај умножак"
 
 #: ../src/main_window.c:3168
 msgid "Could not save file"
-msgstr "Не могу да сачувам датотоеку"
+msgstr "Нисам успео да сачувам датотеку"
 
 #: ../src/main_window.c:3336
 #, c-format
@@ -522,7 +522,7 @@ msgstr "Десила се грешка приликом брисања слик�
 #: ../src/main_window.c:3370
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Да ли сигурно желите послати слику „%s“ у смеће?"
+msgstr "Да ли сигурно желите послати слику „%s“ у корпу?"
 
 #: ../src/main_window.c:3388
 #, c-format
@@ -530,20 +530,20 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "Десила се грешка приликом слања слике „%s“ у смеће.\n%s"
+msgstr "Десила се грешка приликом слања слике „%s“ у корпу.\n%s"
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
-msgstr "Уреди са"
+msgstr "Уреди помоћу"
 
 #: ../src/main_window.c:3736
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr "Отвори „%s“ и друге „%s“ датотеке програмом:"
+msgstr "Отвори „%s“ и остале датотеке „%s“ програмом:"
 
 #: ../src/main_window.c:3741
 msgid "Use as _default for this kind of file"
-msgstr "Користи као _задато за датотеке ове врсте"
+msgstr "Користи као _подразумевано за датотеке ове врсте"
 
 #: ../src/main_window.c:3831
 msgid "Recommended Applications"
@@ -551,7 +551,7 @@ msgstr "Препоручени програми"
 
 #: ../src/main_window.c:3911
 msgid "Other Applications"
-msgstr "Други програми"
+msgstr "Остали програми"
 
 #: ../src/icon_bar.c:345
 msgid "Orientation"
@@ -563,11 +563,11 @@ msgstr "Усмерење траке иконица"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
-msgstr "Колона датотека"
+msgstr "Стубац датотека"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr "Колона у моделу из којег се извлачи датотека"
+msgstr "Стубац из којег се добавља датотека"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
@@ -579,11 +579,11 @@ msgstr "Модел за траку иконица"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
-msgstr "Активни"
+msgstr "Радни"
 
 #: ../src/icon_bar.c:393
 msgid "Active item index"
-msgstr "Активан индекс ставке"
+msgstr "Радни списак ставки"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
@@ -591,27 +591,27 @@ msgstr "Прикажи текст"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr "Боја испуњавања активне ставке"
+msgstr "Боја попуне тренутне ставке"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr "Боја ивице активне ставке"
+msgstr "Боја ивице тренутне ставке"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr "Боја текста активне ставке"
+msgstr "Боја текста тренутне ставке"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr "Боја испуњавања ставке курсора"
+msgstr "Боја попуне ставке показивача"
 
 #: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr "Боја ивице ставке курсора"
+msgstr "Боја ивице ставке показивача"
 
 #: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 msgid "Cursor item text color"
-msgstr "Боја текста ставке курсора"
+msgstr "Боја текста ставке показивача"
 
 #: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
@@ -659,7 +659,7 @@ msgstr "Замени позадинску боју:"
 
 #: ../src/preferences_dialog.c:314
 msgid "Quality"
-msgstr "Квалитет"
+msgstr "Каквоћа"
 
 #: ../src/preferences_dialog.c:318
 msgid ""
@@ -669,7 +669,7 @@ msgstr "Са овом укљученом могућношћу, највиши к
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
-msgstr "Ограничи квалитет приказа"
+msgstr "Ограничи каквоћу приказа"
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
@@ -682,7 +682,7 @@ msgstr "Умањене сличице"
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Трака умањених сличица може бити аутоматски скривена кад је прозор преко целог екрана."
+msgstr "Трака умањених сличица се може сама скривати кад је прозор преко целог екрана."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
@@ -766,7 +766,7 @@ msgstr "<b>Измењена:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
-msgstr "<b>Приступљена:</b>"
+msgstr "<b>Приступано:</b>"
 
 #: ../src/properties_dialog.c:185
 msgid "<b>Size:</b>"
@@ -794,7 +794,7 @@ msgstr "<b>%s</b>"
 #: ../src/properties_dialog.c:639
 #, c-format
 msgid "%s - Properties"
-msgstr "%s — Особине"
+msgstr "%s — Својства"
 
 #: ../src/thumbnailer.c:460
 msgid ""
@@ -804,7 +804,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "Услуга умањења приказа сличица није доступна,\nзбог тога умањене сличице не могу бити\nнаправљене.\n\nИнсталирајте <b>Тамблер</b> или неки други <i>умањивач сличица</i>\nда решите овај проблем."
+msgstr "Услуга умањења приказа сличица није доступна,\nзбог тога умањене сличице не могу бити\nнаправљене.\n\nУградите <b>Тамблер</b> (tumbler) или неки други <i>умањивач сличица</i>\nда решите овај проблем."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
@@ -832,11 +832,11 @@ msgstr "Постави као позадину"
 
 #: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
-msgstr "Сам препознај"
+msgstr "Самостално"
 
 #: ../src/xfce_wallpaper_manager.c:560
 msgid "Centered"
-msgstr "Центрирано"
+msgstr "По средини"
 
 #: ../src/xfce_wallpaper_manager.c:563
 msgid "Tiled"
@@ -861,3 +861,38 @@ msgstr "Прегледник слика Ристрето"
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Прегледајте лако своје слике"
+
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "Прегледник слика Ристрето је програм који може да се користи за преглед и клизање кроз слике, покретање покретног приказа слика, отварање слика осталим програмима, као уредник слика или за подешавање слике да буде позадина радне површи."
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr "Ово издање долази са побољшањима употребе умањених сличица као сличице програма и освежавањем прве слике у списку слика при пријему знака спреман, потребном за приказ умањених сличица када оне буду образоване."
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr "Ово издање садржи доста освежења превода, и рушење програма при подешавању својства „ограничење каквоће“."
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"http://docs.xfce.org, the option to limit the maximum image-quality to the "
+"screen dimensions to improve memory-usage and performance - now ristretto "
+"renders at full quality with this option disabled, only one toolbar - "
+"instead of two, a quick-launch button on the toolbar to execute an editor, "
+"the option to pick a default-editor per mime-type, an optional clock that "
+"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
+"message in the statusbar to indicate when it is busy and progressive loading"
+" of directories to prevent lockup of the UI. This version is designed to "
+"work with version 4.10 of Xfce."
+msgstr "Ово издање доноси неколико измена попут оних описаних на мрежи на http://docs.xfce.org, могућност ограничења најбоље каквоће слике на размеру екрана ради побољшања употребе меморије и учинка - сада Ристрето приказује у пуном квалитету када је то онемогућено, само једну траку алата - уместо две, дугме за брзо покретање на траци алата за извршење уредника, могућност да се изабере подразумевани уредник по миме врсти, могућ приказ часовника када је Ристрето преко целог екрана, сада приказује поруку „Учитавам...“ у траци стања за указивање када је заузет и поступно учитавање фасцикли ради спречавања закључавања корисничког сучеља. Ово издање је осмишљено да ради са Иксфцеом издања 4.10."
