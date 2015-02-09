@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2015-01-18 12:31+0100\n"
-"PO-Revision-Date: 2015-01-22 11:16+0000\n"
+"POT-Creation-Date: 2015-01-25 12:30+0100\n"
+"PO-Revision-Date: 2015-02-09 15:05+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>\n"
 "Language-Team: Malay (http://www.transifex.com/projects/p/xfce-apps/language/ms/)\n"
 "MIME-Version: 1.0\n"
@@ -473,7 +473,7 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "Pembangun:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Mousepad merupakan pelihat imej untuk persekitaran desktop Xfce."
 
@@ -860,3 +860,38 @@ msgstr "Pelihat Imej Ristretto"
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Lihat imej anda dengan mudah"
+
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "Pelihat IMej Ristretto ialah aplikasi yang digunakan untuk melihat dan menatal imej, menjalankan paparan slaid imej, membuka imej dengan aplikasi lain seperti image-editor atau konfigur imej sebagai kertas dinding desktop."
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr "Versi ini disertakan dengan penambahbaikan seperti penggunaan lakaran kenit sebagai appicon dan kemaskini imej pertama di dalam image-list bila menerima ready-signal, diperlukan untuk menunjukkan lakaran kenit bilamana ia dijanakan."
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr "Keluaran ini mengandungi banyak kemaskini-terjemahan, dan mengalamai kerosakan bila mengkonfigur sifat 'limit-quality'."
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"http://docs.xfce.org, the option to limit the maximum image-quality to the "
+"screen dimensions to improve memory-usage and performance - now ristretto "
+"renders at full quality with this option disabled, only one toolbar - "
+"instead of two, a quick-launch button on the toolbar to execute an editor, "
+"the option to pick a default-editor per mime-type, an optional clock that "
+"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
+"message in the statusbar to indicate when it is busy and progressive loading"
+" of directories to prevent lockup of the UI. This version is designed to "
+"work with version 4.10 of Xfce."
+msgstr "Versi ini disertakan dengan beberapa perubahan seperti dokumentasi atas http://docs.xfce.org, pilihan untuk hadkan kualiti imej maksimum terhadap dimensi skrin untuk menambahbaik penggunaan-ingatan dan prestasi - kini ristretto dapat mempersembahkan dengan kualiti penuh jika pilihan ini dilumpuhkan, hanya satu palang alat - sebelum ini ada dua, butang lancar-pantas pada palang alat untuk membuka penyunting, pilihan untuk memilih penyunting- lalai per jenis-mime, jam pilihan yang ditunjukkan bila ristretto dalam mod skrin penuh, Ristretto kini memaparkan mesej 'Memuatkan..' di dalam palang status untuk menunjukkan ia sibuk dan masih memuatkan direktori untuk menghindari penguncian UI. Versi ini direka untuk berfungsi dengan Xfce versi 4.10."
