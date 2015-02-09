@@ -1355,90 +1355,10 @@ rstto_image_list_set_sort_by_date (RsttoImageList *image_list)
 static gint
 cb_rstto_image_list_image_name_compare_func (RsttoFile *a, RsttoFile *b)
 {
-    const gchar *a_base = rstto_file_get_display_name (a);
-    const gchar *b_base = rstto_file_get_display_name (b);
-    guint  ac;
-    guint  bc;
-    const gchar *ap = a_base;
-    const gchar *bp = b_base;
+    const gchar *a_collate_key = rstto_file_get_collate_key (a);
+    const gchar *b_collate_key = rstto_file_get_collate_key (b);
 
-    gint result = 0;
-    guint64 a_num = 0;
-    guint64 b_num = 0;
-
-    /* try simple (fast) ASCII comparison first */
-    for (;; ++ap, ++bp)
-    {
-        /* check if the characters differ or we have a non-ASCII char
-         */
-        ac = *((const guchar *) ap);
-        bc = *((const guchar *) bp);
-        if (ac != bc || ac == 0 || ac > 127)
-            break;
-    }
-
-    /* fallback to Unicode comparison */
-    if (G_UNLIKELY (ac > 127 || bc > 127))
-    {
-        for (;; ap = g_utf8_next_char (ap), bp = g_utf8_next_char (bp))
-        {
-            /* check if characters differ or end of string */
-            ac = g_utf8_get_char (ap);
-            bc = g_utf8_get_char (bp);
-            if (ac != bc || ac == 0)
-                break;
-        }
-    }
-
-    /* If both strings are equal, we're done */
-    if (ac == bc)
-    {
-        return 0;
-    }
-    else
-    {
-        if (G_UNLIKELY (g_ascii_isdigit (ac) || g_ascii_isdigit (bc)))
-        {
-            /* if both strings differ in a digit, we use a smarter comparison
-             * to get sorting 'file1', 'file5', 'file10' done the right way.
-             */
-            if (g_ascii_isdigit (ac) && g_ascii_isdigit (bc))
-            {
-                a_num = strtoull (ap, NULL, 10);
-                b_num = strtoull (bp, NULL, 10);
-
-                if (a_num < b_num)
-                    result = -1;
-                if (a_num > b_num)
-                    result = 1;
-            }
-
-            if (ap > a_base &&
-                bp > b_base &&
-                g_ascii_isdigit (*(ap -1)) &&
-                g_ascii_isdigit (*(bp -1)) )
-            {
-                a_num = strtoull (ap-1, NULL, 10);
-                b_num = strtoull (bp-1, NULL, 10);
-
-                if (a_num < b_num)
-                    result = -1;
-                if (a_num > b_num)
-                    result = 1;
-            }
-        }
-    }
-
-    if (result == 0)
-    {
-        if (ac > bc)
-            result = 1;
-        if (ac < bc)
-            result = -1;
-    }
-
-
-    return result;
+    return g_strcmp0(a_collate_key, b_collate_key);
 }
 
 /**

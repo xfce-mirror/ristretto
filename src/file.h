@@ -82,6 +82,9 @@ const gchar *
 rstto_file_get_uri ( RsttoFile * );
 
 const gchar *
+rstto_file_get_collate_key ( RsttoFile * );
+
+const gchar *
 rstto_file_get_content_type ( RsttoFile * );
 
 const gchar *

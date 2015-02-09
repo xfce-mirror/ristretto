@@ -122,6 +122,7 @@ struct _RsttoFilePriv
 
     gchar *uri;
     gchar *path;
+    gchar *collate_key;
 
     gchar *thumbnail_path;
     GdkPixbuf *thumbnails[THUMBNAIL_SIZE_COUNT];
@@ -207,6 +208,11 @@ rstto_file_dispose (GObject *object)
         {
             g_free (r_file->priv->uri);
             r_file->priv->uri = NULL;
+        }
+        if (r_file->priv->collate_key)
+        {
+            g_free (r_file->priv->collate_key);
+            r_file->priv->collate_key = NULL;
         }
 
         for (i = 0; i < THUMBNAIL_SIZE_COUNT; ++i)
@@ -355,6 +361,32 @@ rstto_file_get_uri ( RsttoFile *r_file )
         r_file->priv->uri = g_file_get_uri (r_file->priv->file);
     }
     return (const gchar *)r_file->priv->uri;
+}
+
+const gchar *
+rstto_file_get_collate_key ( RsttoFile *r_file )
+{
+    if ( NULL == r_file->priv->collate_key )
+    {
+        gchar *basename = g_file_get_basename (rstto_file_get_file (r_file));
+        if ( NULL != basename )
+        {
+            /* If we can use casefold for case insenstivie sorting, then
+             * do so */
+            gchar *casefold = g_utf8_casefold (basename, -1);
+            if ( NULL != casefold )
+            {
+                r_file->priv->collate_key = g_utf8_collate_key_for_filename (casefold, -1);
+                g_free (casefold);
+            }
+            else
+            {
+                r_file->priv->collate_key = g_utf8_collate_key_for_filename (basename, -1);
+            }
+            g_free (basename);
+        }
+    }
+    return (const gchar *)r_file->priv->collate_key;
 }
 
 const gchar *
