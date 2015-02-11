@@ -1,26 +1,26 @@
-# translation of tr.po to Turkish
-# German translations for ristretto package.
-# Copyright (C) 2007 Stephan Arts <stephan@xfce.org>
-# This file is distributed under the same license as the ristretto package.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
-# 
-# Onur Küçük <onur@pardus.org.tr>, 2008.
-# Gökmen Görgen <gkmngrgn@gmail.com>, 2008.
-# Ayhan YALÇINSOY <ayhanyalcinsoy@gmail.com>, 2012.
+# Translators:
+# Ayhan YALÇINSOY <ayhanyalcinsoy@gmail.com>, 2012
+# Gökmen Görgen <gkmngrgn@gmail.com>, 2008
+# Necdet Yücel <necdetyucel@gmail.com>, 2015
+# Onur Küçük <onur@pardus.org.tr>, 2008
+# Volkan Gezer <volkangezer@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: tr\n"
+"Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-02-11 09:33+0000\n"
-"PO-Revision-Date: 2012-02-19 20:08+0200\n"
-"Last-Translator: Ayhan YALÇINSOY <ayhanyalcinsoy@gmail.com>\n"
-"Language-Team: Turkish <kde-i18n-doc@kde.org>\n"
+"POT-Creation-Date: 2015-01-25 12:30+0100\n"
+"PO-Revision-Date: 2015-02-11 21:21+0000\n"
+"Last-Translator: Necdet Yücel <necdetyucel@gmail.com>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/xfce-apps/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 1.2\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -38,19 +38,16 @@ msgstr "Slayt gösterisini başlat"
 msgid "Show settings dialog"
 msgstr "Ayarlar iletişim kutusunu göster"
 
-#: ../src/main.c:106
+#: ../src/main.c:108
 #, c-format
 msgid ""
 "%s: %s\n"
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr ""
-"%s: %s\n"
-"Komut satırı parametrelerini görmek için %s\n"
-" --help komutunu kullanınız.\n"
+msgstr "%s: %s\nKomut satırı parametrelerini görmek için %s\n --help komutunu kullanınız.\n"
 
-#: ../src/main_window.c:57 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
 msgstr "Resim Gösterici"
 
@@ -462,10 +459,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr ""
-"Masaüstünüzü yöneten geçerli sistemi yapılandırın.\n"
-"Bu ayar <i>Ristretto</i>nun masaüstü duvar kağıdınızı\n"
-"yapılandırması için kullanılacağı yöntemini tanımlar."
+msgstr "Masaüstünüzü yöneten geçerli sistemi yapılandırın.\nBu ayar <i>Ristretto</i>nun masaüstü duvar kağıdınızı\nyapılandırması için kullanılacağı yöntemini tanımlar."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -483,16 +477,13 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "Geliştirici:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto, Xfce masaüstü ortamı için bir resim göstericidir."
 
 #: ../src/main_window.c:2614
 msgid "translator-credits"
-msgstr ""
-"Onur Küçük <onur@pardus.org.tr>\n"
-"Gökmen Görgen <gkmngrgn@gmail.com> \n"
-"Ayhan YALÇINSOY <ayhanyalcinsoy@gmail.com>"
+msgstr "Onur Küçük <onur@pardus.org.tr>\nGökmen Görgen <gkmngrgn@gmail.com> \nAyhan YALÇINSOY <ayhanyalcinsoy@gmail.com>"
 
 #: ../src/main_window.c:2916
 msgid "Open image"
@@ -529,10 +520,7 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr ""
-"'%s' resmini diskten silerken bir hata oluştu.\n"
-"\n"
-"%s"
+msgstr "'%s' resmini diskten silerken bir hata oluştu.\n\n%s"
 
 #: ../src/main_window.c:3370
 #, c-format
@@ -545,10 +533,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr ""
-"'%s' resmi çöp kutusuna gönerilirken bir hata oluştu.\n"
-"\n"
-"%s"
+msgstr "'%s' resmi çöp kutusuna gönerilirken bir hata oluştu.\n\n%s"
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
@@ -585,15 +570,15 @@ msgstr "Dosya sütunu"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr ""
+msgstr "Dosyayı almak için kullanılacak model sütun"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
-msgstr ""
+msgstr "Simge Çubuk Modeli"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr ""
+msgstr "Simge çubuğu için model"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
@@ -601,7 +586,7 @@ msgstr "Etkin"
 
 #: ../src/icon_bar.c:393
 msgid "Active item index"
-msgstr ""
+msgstr "Etkin öge indisi"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
@@ -609,27 +594,27 @@ msgstr "Metni Göster"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr ""
+msgstr "Etkin öge doldurma rengi"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr ""
+msgstr "Etkin öge kenar rengi"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr ""
+msgstr "Etkin öge metin reng"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr ""
+msgstr "İmleç ögesi doldurma rengi"
 
 #: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr ""
+msgstr "İmleç ögesi kenar rengi"
 
 #: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 msgid "Cursor item text color"
-msgstr ""
+msgstr "İmleç ögesi metin rengi"
 
 #: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
@@ -686,9 +671,8 @@ msgid ""
 msgstr "Bu seçeneğin açılması ile, en üst resim kalitesi ekran boyutu ile sınırlanacak."
 
 #: ../src/preferences_dialog.c:321
-#, fuzzy
 msgid "Limit rendering quality"
-msgstr "İşleme kalitesini sınırla"
+msgstr "Hazırlama kalitesini sınırla"
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
@@ -699,12 +683,9 @@ msgid "Thumbnails"
 msgstr "Küçük resimler"
 
 #: ../src/preferences_dialog.c:341
-#, fuzzy
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr ""
-"Resim gösterici tam ekran olduğuna \n"
-" küçük resim çubuğu otomatik olarak gizlenir."
+msgstr "Pencere tam etken olduğunda önizleme çubuğu otomatik olarak gizlenebilir."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
@@ -715,18 +696,14 @@ msgid "Clock"
 msgstr "Saat"
 
 #: ../src/preferences_dialog.c:355
-#, fuzzy
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr ""
-"Resim gösterici tam ekran olduğuna \n"
-" küçük resim çubuğu otomatik olarak gizlenir."
+msgstr "Pencere tam ekran iken geçerli saati gösteren analog bir saat göster"
 
 #: ../src/preferences_dialog.c:358
-#, fuzzy
 msgid "Show Fullscreen Clock"
-msgstr "_Tam ekran"
+msgstr "Tam Ekran Saatini Göster"
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
@@ -740,9 +717,7 @@ msgstr "Kalan süre"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr ""
-"Sırayla gösterim sırasında resim başına gösterim süresi\n"
-"(saniye cinsinden)"
+msgstr "Sırayla gösterim sırasında resim başına gösterim süresi\n(saniye cinsinden)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -808,18 +783,18 @@ msgstr "Genel"
 msgid "Image"
 msgstr "Resim"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:541
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Alınma tarihi:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:553 ../src/properties_dialog.c:565
+#: ../src/properties_dialog.c:577
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:639
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Özellikler"
@@ -832,220 +807,95 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr ""
-"Küçük resim hizmeti bulunamıyor,\n"
-"bu yüzden, küçük resimler oluşturulamadı\n"
-"\n"
-"Bu sorunu çözmek için <b>Tumbler</b> veya başka bir\n"
-"<i>thumbnailing daemon</i> kurun."
+msgstr "Küçük resim hizmeti bulunamıyor,\nbu yüzden, küçük resimler oluşturulamadı\n\nBu sorunu çözmek için <b>Tumbler</b> veya başka bir\n<i>thumbnailing daemon</i> kurun."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
 msgstr "Bu iletiyi tekrar gösterme"
 
-#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Stil:"
 
-#: ../src/xfce_wallpaper_manager.c:337
+#: ../src/xfce_wallpaper_manager.c:380
 msgid "Brightness:"
 msgstr "Parlaklık:"
 
-#: ../src/xfce_wallpaper_manager.c:338
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Saturation:"
 msgstr "Doygunluk:"
 
-#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:397
+msgid "Apply to all workspaces"
+msgstr "Tüm çalışma alanlarına uygula"
+
+#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Duvar kağıdı olarak belirle"
 
-#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Otomatik"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:560
 msgid "Centered"
 msgstr "Merkezle"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:563
 msgid "Tiled"
 msgstr "Bölünmüş"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:566
 msgid "Stretched"
 msgstr "Uzatıldı"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:569
 msgid "Scaled"
 msgstr "Ölçeklendi"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:572
 msgid "Zoomed"
 msgstr "Yakınlaştı"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Ristretto Image Viewer"
+msgstr "Ristretto Resim Gösterici"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Fotoğraflarına kolayca bak"
 
-#: ../ristretto.desktop.in.h:3
-msgid "Ristretto Image Viewer"
-msgstr "Ristretto Resim Gösterici"
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr ""
 
-#~ msgid "Show _Navigation Toolbar"
-#~ msgstr "_Dolaşma Araç Çubuğunu Göster"
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr ""
 
-#~ msgid "Toolbars"
-#~ msgstr "Araç çubukları"
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr ""
 
-#~ msgid "Merge toolbars"
-#~ msgstr "Araç çubuklarını birleştir"
-
-#~ msgid "Spacing"
-#~ msgstr "Aralık"
-
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "önizlemeler arasındaki aralığın boyutu"
-
-#~ msgid "border width"
-#~ msgstr "kenar genişliği"
-
-#~ msgid "the border width of the thumbnail bar"
-#~ msgstr "küçük resim çubuğunun kenar genişliği"
-
-#~ msgid "Scaling"
-#~ msgstr "Ölçekleme"
-
-#~ msgid "Don't scale over 100% when maximizing the window."
-#~ msgstr "Pencere büyütüldüğünde %100'den fazla ölçekleme yapma."
-
-#~ msgid "Preferences"
-#~ msgstr "Tercihler"
-
-#~ msgid "Image viewer"
-#~ msgstr "Resim Gösterici"
-
-#~ msgid "Open _Folder"
-#~ msgstr "_Dizin Aç"
-
-#~ msgid "Open a folder"
-#~ msgstr "Bir dizin aç"
-
-#~ msgid "_Close All"
-#~ msgstr "Tümünü _Kapat"
-
-#~ msgid "Close all images"
-#~ msgstr "Tüm resimleri kapat"
-
-#~ msgid "Open folder"
-#~ msgstr "Dizin aç"
-
-#~ msgid "Open entire folder on startup"
-#~ msgstr "Açılırken girdi dizinini aç"
-
-#~ msgid "Monitor:"
-#~ msgstr "Ekran:"
-
-#~ msgid "One"
-#~ msgstr "Bir"
-
-#~ msgid "Two"
-#~ msgstr "İki"
-
-#~ msgid "Three"
-#~ msgstr "Üç"
-
-#~ msgid "Four"
-#~ msgstr "Dört"
-
-#~ msgid "Show preview when loading image"
-#~ msgstr "Resim yüklenirken önizleme göster"
-
-#~ msgid "No action"
-#~ msgstr "Hareket yok"
-
-#~ msgid "Memory"
-#~ msgstr "Hafıza"
-
-#~ msgid "Image cache"
-#~ msgstr "Resim Önbelleği"
-
-#~ msgid "Cache size"
-#~ msgstr "Önbellek boyutu"
-
-#~ msgid "MB"
-#~ msgstr "MB"
-
-#~ msgid "Enable cache"
-#~ msgstr "Önbellek açık"
-
-#~ msgid "Enable preloading"
-#~ msgstr "Öynüklemeyi etkinleştir"
-
-#~ msgid "filmstrip width"
-#~ msgstr "film şeridi genişliği"
-
-#~ msgid "the width of the thumbnail-bar film-strip"
-#~ msgstr "küçük resim çubuğu film şeridinin genişliği"
-
-#~ msgid "_Print"
-#~ msgstr "_Yadır"
-
-#~ msgid "Best"
-#~ msgstr "En iyi"
-
-#~ msgid "High"
-#~ msgstr "Yüksek"
-
-#~ msgid "Medium"
-#~ msgstr "Orta"
-
-#~ msgid "Low"
-#~ msgstr "Düşük"
-
-#~ msgid "Ristretto"
-#~ msgstr "Ristretto"
-
-#~ msgid "_Thumbnail Bar"
-#~ msgstr "Önizlemeler"
-
-#~ msgid "Opening file(s)..."
-#~ msgstr "Dosya(lar) açılıyor..."
-
-#~ msgid "No applications available"
-#~ msgstr "Hiç bir uygulama bulunamadı"
-
-#~ msgid "Show _Horizontally"
-#~ msgstr "Ya_tay Sırala"
-
-#~ msgid "Show _Vertically"
-#~ msgstr "Di_key Sırala"
-
-#~ msgid "H_ide"
-#~ msgstr "Giz_le"
-
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr ""
-#~ "Bir ya da daha fazla resim değiştirildi, değişiklikleri kaydetmek ister "
-#~ "misiniz?"
-
-#~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Resimleri önceden yükle (Arayüz daha erken hazır olur; ama daha fazla "
-#~ "işlemci sömürür)"
-
-#~ msgid "Hide the thumbnails bar during slideshow"
-#~ msgstr "Slayt gösterisi sırasında önizlemeleri gizle"
-
-#~ msgid "Xfce Image viewer"
-#~ msgstr "Xfce Resim Gösterici"
-
-#~ msgid "Preload"
-#~ msgstr "Önyükleme"
-
-#~ msgid ""
-#~ "Preload images during slideshow\n"
-#~ "(uses more memory)"
-#~ msgstr ""
-#~ "Sırayla gösterim sırasında görüntüleri önyükle\n"
-#~ "(daha çok hafıza kullanır)"
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"http://docs.xfce.org, the option to limit the maximum image-quality to the "
+"screen dimensions to improve memory-usage and performance - now ristretto "
+"renders at full quality with this option disabled, only one toolbar - "
+"instead of two, a quick-launch button on the toolbar to execute an editor, "
+"the option to pick a default-editor per mime-type, an optional clock that "
+"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
+"message in the statusbar to indicate when it is busy and progressive loading"
+" of directories to prevent lockup of the UI. This version is designed to "
+"work with version 4.10 of Xfce."
+msgstr ""
