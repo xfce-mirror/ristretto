@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# kingu <comradekingu@gmail.com>, 2014
-# haarek <haarektrans@gmail.com>, 2014
+# Allan Nordhøy <comradekingu@gmail.com>, 2014-2015
+# Harald <haarektrans@gmail.com>, 2014
 # Terje Uriansrud <terje@uriansrud.net>, 2009
 # Terje Uriansrud <ter@operamail.com>, 2007
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2014-05-16 02:31+0000\n"
-"Last-Translator: kingu <comradekingu@gmail.com>\n"
+"POT-Creation-Date: 2015-01-25 12:30+0100\n"
+"PO-Revision-Date: 2015-02-21 15:42+0000\n"
+"Last-Translator: Allan Nordhøy <comradekingu@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/xfce-apps/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +37,7 @@ msgstr "Start lysbildefremvisning"
 msgid "Show settings dialog"
 msgstr "Vis dialogvindu for innstillinger"
 
-#: ../src/main.c:106
+#: ../src/main.c:108
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -476,7 +476,7 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "Utvikler:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto er en bildefremviser for Xfce-skrivebordsmiljøet"
 
@@ -782,18 +782,18 @@ msgstr "Generell"
 msgid "Image"
 msgstr "Bilde"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:541
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Dato tatt:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:553 ../src/properties_dialog.c:565
+#: ../src/properties_dialog.c:577
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:639
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Egenskaper"
@@ -812,43 +812,47 @@ msgstr "Miniatyrbilde-tjenesten kan ikke nåes,\nav denne grunn kan ikke miniaty
 msgid "Do _not show this message again"
 msgstr "Ikke _vis denne meldingen igjen"
 
-#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Stil:"
 
-#: ../src/xfce_wallpaper_manager.c:337
+#: ../src/xfce_wallpaper_manager.c:380
 msgid "Brightness:"
 msgstr "Lys:"
 
-#: ../src/xfce_wallpaper_manager.c:338
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Saturation:"
 msgstr "Metning:"
 
-#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:397
+msgid "Apply to all workspaces"
+msgstr "Legg til på alle arbeidsområder"
+
+#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Bruk som bakgrunnsbilde"
 
-#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Auto"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:560
 msgid "Centered"
 msgstr "Sentrert"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:563
 msgid "Tiled"
 msgstr "Flislagt"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:566
 msgid "Stretched"
 msgstr "Strukket"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:569
 msgid "Scaled"
 msgstr "Skalert"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:572
 msgid "Zoomed"
 msgstr "Zoomet"
 
@@ -859,3 +863,38 @@ msgstr "Risetto bildefremviser"
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Enkel visning av bilder"
+
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "Risetto bildeviser er et program som kan brukes til å se og bla igjennom bilder, kjøre bildefremvisning, åpne bilder med andre programmer, for eksempel et bilderedigeringsprogram, eller sette et bilde som skrivebordsbakgrunn."
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr "Denne versjonen kommer med forbedringer som miniatyrvisning som programikon som ved klarsignal vil oppdatere til første bilde i listen over bilder, påkrevd for å vise bilder i miniatyrvsningen når den er generert."
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr "Denne utgivelsen inneholder mange oversettelsesoppdateringer, og fikser et kræsj som oppstår ved oppsett av egenskapene for 'begrens-kvalitet'"
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"http://docs.xfce.org, the option to limit the maximum image-quality to the "
+"screen dimensions to improve memory-usage and performance - now ristretto "
+"renders at full quality with this option disabled, only one toolbar - "
+"instead of two, a quick-launch button on the toolbar to execute an editor, "
+"the option to pick a default-editor per mime-type, an optional clock that "
+"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
+"message in the statusbar to indicate when it is busy and progressive loading"
+" of directories to prevent lockup of the UI. This version is designed to "
+"work with version 4.10 of Xfce."
+msgstr "Denne versjonen kommer med flere endringer som nettsidebasert dokumentasjon på http://docs.xfce.org, muligheten til å begrense maksimal billedkvalitet til skjermdimensjonene for å forbedre minnebruk og ytelse - risetto tegner nå i full kvalitet hvis dette valget er avskrudd, bare en verktøylinje istedenfor to, en hurtigoppstartingsknapp på verktøylinjen for å kjøre en billedbehandler, muligheten til å velge forvalgt billedbehandler per mime-type en valgfri klokke når risetto er i fullskjermsvisning, Risetto viser nå en 'Laster inn..'-melding i statusfeltet for å indukere at den er i aksjon, og progressiv innlasting av mapper for å hindre låsning av grensesnittet. Denne versjonen er utviklet for å virke med versjon 4.10 av Xfce."
