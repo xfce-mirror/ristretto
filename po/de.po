@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Georg Eckert <eckert.georg@gmx.de>, 2013
+# Georg Eckert <eckert.georg@gmx.de>, 2013,2015
 # Tobias Bannert <tobannert@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2015-01-18 12:31+0100\n"
-"PO-Revision-Date: 2015-01-20 14:22+0000\n"
-"Last-Translator: Tobias Bannert <tobannert@gmail.com>\n"
+"POT-Creation-Date: 2015-01-25 12:30+0100\n"
+"PO-Revision-Date: 2015-02-26 20:20+0000\n"
+"Last-Translator: Georg Eckert <eckert.georg@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/xfce-apps/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -474,7 +474,7 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "Entwickler:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto ist ein Bildbetrachter für die Xfce-Arbeitsumgebung."
 
@@ -861,3 +861,38 @@ msgstr "Ristretto-Bildbetrachter"
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Bilder anschauen leicht gemacht"
+
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "Mit dem Ristretto Bildbetrachter können Bilder angezeigt, durchgeblättert und als Diaschau angezeigt werden. Außerdem können Bilder mit anderen Programmen wie Bildbearbeitungs-Anwendungen geöffnet, oder als Hintergrundbild gesetzt werden."
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr "Diese Version enthält Verbesserungen wie die Verwendung eines Vorschaubildes für das Anwendungssymbol und Aktualisierung sobald das erste Bild in der Bilderliste bereit ist."
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr "Diese Version aktualisiert einen Großteil der Übersetzung und stürzt ab, wenn die Eigenschaft 'Qualitätslimit' bearbeitet wird."
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"http://docs.xfce.org, the option to limit the maximum image-quality to the "
+"screen dimensions to improve memory-usage and performance - now ristretto "
+"renders at full quality with this option disabled, only one toolbar - "
+"instead of two, a quick-launch button on the toolbar to execute an editor, "
+"the option to pick a default-editor per mime-type, an optional clock that "
+"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
+"message in the statusbar to indicate when it is busy and progressive loading"
+" of directories to prevent lockup of the UI. This version is designed to "
+"work with version 4.10 of Xfce."
+msgstr "Diese Version bringt zahlreiche Neuerungen wie eine Onlinedokumentation unter http://docs.xfce.org, die Option die maximale Bildqualität auf Bildschirmgröße zu beschränken um Speichernutzung und Performance zu verbessern - Ristretto berechnet Bilder nun in voller Auflösung, wenn diese Option deaktiviert ist. Es gibt nur noch eine Werkzeugleiste - statt zwei, einen Schnellstartknopf in der Werkzeugleiste um ein Bildbearbeitungsprogramm zu starten, sowie die Option ein Standardbearbeitungsprogramm nach MIME-Typ zu wählen. Außerdem gibt es optional eine Uhr die im Vollbildmodus angezeigt wird, Ristretto zeigt eine 'Lädt...'-Nachricht in der Statusleiste um zu zeigen, dass es gerade beschäftigt ist und Ordner lädt, um ein Einfrieren der Oberfläche zu verhindern. Diese Version wurde für Xfce 4.10 entworfen."
