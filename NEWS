@@ -1,7 +1,34 @@
-x.x.x
+0.8.0
 =====
+Stable release of Ristretto
+
+* Miscellaneous bug fixes:
+- Use collate keys to handle filename sorting (Bug #9731)
+- Add AppData file (Bug #11296)
+- Fix invert zoom direction (Bug #10746)
+- Update xfconf settings for Xfdesktop >= 4.11
+- Check for thumbnails in the new location
+- Don't check item->width twice (Bug 10534)
+- Add version check because g_thread_init is deprecated
+- Support shift+scroll to pan across an image
+- Fixed an overflow when comparing filenames with large
+  numbers in them. (Bug #9485)
+- Show filename before apptitle
 - Fix bug #8837 (Use thumbnail as appicon)
-- Update the first image in the image-list when receiving a ready-signal.
+- Update the first image in the image-list when receiving
+  a ready-signal.
+
+* Translation updates:
+  Asturian (ast), Bulgarian (bg),
+  Czech (cs), German (de), English (Australia) (en_AU),
+  Spanish (Castilian) (es), Finnish (fi), French (fr),
+  Croatian (hr), Italian (it), Japanese (ja),
+  Korean (ko), Malay (ms), Norwegian Bokmål (nb),
+  Dutch (Flemish) (nl), Occitan (post 1500) (oc),
+  Polish (pl), Portuguese (pt), Portuguese (Brazilian) (pt_BR),
+  Russian (ru), Slovak (sk), Serbian (sr), Swedish (sv),
+  Thai (th), Turkish (tr), Ukrainian (uk),
+  Chinese (China) (zh_CN), Chinese (Taiwan) (zh_TW).
 
 0.6.0
 =====
