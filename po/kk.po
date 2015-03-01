@@ -1,22 +1,22 @@
-# Kazakh translation for ristretto.
-# Copyright (C) 2013 The ristretto authors.
-# This file is distributed under the same license as the ristretto package.
-# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015
 msgid ""
 msgstr ""
-"Project-Id-Version: master\n"
+"Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-04-21 14:00+0000\n"
-"PO-Revision-Date: 2013-05-17 06:52+0600\n"
+"POT-Creation-Date: 2015-01-25 12:30+0100\n"
+"PO-Revision-Date: 2015-03-01 15:12+0000\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
-"Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
+"Language-Team: Kazakh (http://www.transifex.com/projects/p/xfce-apps/language/kk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: kk\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.4\n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -34,20 +34,16 @@ msgstr "Слайдшоуды бастау"
 msgid "Show settings dialog"
 msgstr "Баптаулар сұхбатын көрсету"
 
-#: ../src/main.c:106
+#: ../src/main.c:108
 #, c-format
 msgid ""
 "%s: %s\n"
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr ""
-"%s: %s\n"
-"\n"
-"Қолжетерлік командалық жол опцияларының\n"
-"толық тізімін қарап шығу үшін %s --help енгізіңіз.\n"
+msgstr "%s: %s\n\nҚолжетерлік командалық жол опцияларының\nтолық тізімін қарап шығу үшін %s --help енгізіңіз.\n"
 
-#: ../src/main_window.c:57 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
 msgstr "Суреттерді көрсетуші"
 
@@ -216,7 +212,7 @@ msgstr "Сы_йдыру"
 #. Keyboard shortcut
 #: ../src/main_window.c:478
 msgid "Zoom to fit window"
-msgstr "Терезеге сыятандай етіп масштабтау"
+msgstr "Терезеге сыятындай етіп масштабтау"
 
 #. Icon-name
 #: ../src/main_window.c:482
@@ -459,10 +455,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr ""
-"Жұмыс үстеліңізді қазір қандай жүйе басқаратынын көрсетіңіз.\n"
-"Бұл баптау <i>Ristretto</i> түсқағазды орнатуға\n"
-"қолданатын тәсілді анықтайды."
+msgstr "Жұмыс үстеліңізді қазір қандай жүйе басқаратынын көрсетіңіз.\nБұл баптау <i>Ristretto</i> түсқағазды орнатуға\nқолданатын тәсілді анықтайды."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -480,7 +473,7 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "Өндіруші:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto - Xfce жұмыс үстел ортасы үшін суреттер көрсетушісі."
 
@@ -523,10 +516,7 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr ""
-"'%s' суретін дисктен өшіру кезінде қате орын алды.\n"
-"\n"
-"%s"
+msgstr "'%s' суретін дисктен өшіру кезінде қате орын алды.\n\n%s"
 
 #: ../src/main_window.c:3370
 #, c-format
@@ -539,10 +529,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr ""
-"'%s' суретін қоқыс шелегіне тастау кезінде қате орын алды.\n"
-"\n"
-"%s"
+msgstr "'%s' суретін қоқыс шелегіне тастау кезінде қате орын алды.\n\n%s"
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
@@ -677,9 +664,7 @@ msgstr "Сапасы"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr ""
-"Бұл опция іске қосылған кезде, суреттердің максималды сапасы экран "
-"өлшемдерімен шектелетін болады."
+msgstr "Бұл опция іске қосылған кезде, суреттердің максималды сапасы экран өлшемдерімен шектелетін болады."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
@@ -728,9 +713,7 @@ msgstr "Күту"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr ""
-"Слайдшоу кезінде бір суретке кететін көрсету уақыты\n"
-"(секунд)"
+msgstr "Слайдшоу кезінде бір суретке кететін көрсету уақыты\n(секунд)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -796,18 +779,18 @@ msgstr "Жалпы"
 msgid "Image"
 msgstr "Сурет"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:541
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Түсірілген күні:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:553 ../src/properties_dialog.c:565
+#: ../src/properties_dialog.c:577
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:639
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - қасиеттері"
@@ -820,62 +803,95 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr ""
-"Үлгілерді жасайтын қызметке қатынау мүмкін емес,\n"
-"сондықтан, үлгілерді жасау\n"
-"мүмкін емес.\n"
-"\n"
-"Бұл мәселені шешу үшін <b>Tumbler</b> немесе басқа\n"
-"<i>үлгілер қызметін</i> орнатыңыз."
+msgstr "Үлгілерді жасайтын қызметке қатынау мүмкін емес,\nсондықтан, үлгілерді жасау\nмүмкін емес.\n\nБұл мәселені шешу үшін <b>Tumbler</b> немесе басқа\n<i>үлгілер қызметін</i> орнатыңыз."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
 msgstr "Бұл хабарламаны келесіде _көрсетпеу"
 
-#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Стилі:"
 
-#: ../src/xfce_wallpaper_manager.c:337
+#: ../src/xfce_wallpaper_manager.c:380
 msgid "Brightness:"
 msgstr "Жарықтылығы:"
 
-#: ../src/xfce_wallpaper_manager.c:338
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Saturation:"
 msgstr "Қаңықтылығы:"
 
-#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:397
+msgid "Apply to all workspaces"
+msgstr "Барлық жұмыс орындары үшін іске асыру"
+
+#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Түсқағаз ретінде орналастыру"
 
-#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Авто"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:560
 msgid "Centered"
 msgstr "Ортасына қарай"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:563
 msgid "Tiled"
 msgstr "Плитка"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:566
 msgid "Stretched"
 msgstr "Созылған"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:569
 msgid "Scaled"
 msgstr "Масштабталған"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:572
 msgid "Zoomed"
 msgstr "Үлкейтілген"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Ristretto Image Viewer"
+msgstr "Ristretto суреттерді көрсетушісі"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Суреттеріңізді жеңіл түрде шолыңыз"
 
-#: ../ristretto.desktop.in.h:3
-msgid "Ristretto Image Viewer"
-msgstr "Ristretto суреттерді көрсетушісі"
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr ""
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr ""
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr ""
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"http://docs.xfce.org, the option to limit the maximum image-quality to the "
+"screen dimensions to improve memory-usage and performance - now ristretto "
+"renders at full quality with this option disabled, only one toolbar - "
+"instead of two, a quick-launch button on the toolbar to execute an editor, "
+"the option to pick a default-editor per mime-type, an optional clock that "
+"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
+"message in the statusbar to indicate when it is busy and progressive loading"
+" of directories to prevent lockup of the UI. This version is designed to "
+"work with version 4.10 of Xfce."
+msgstr ""
