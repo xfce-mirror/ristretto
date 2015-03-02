@@ -66,7 +66,7 @@
     <release version="0.6.0" timestamp="1335662454">
       <description>
         <_p>This version comes with several changes such as online documentation on
-           http://docs.xfce.org, the option to limit the maximum image-quality to
+           docs.xfce.org, the option to limit the maximum image-quality to
            the screen dimensions to improve memory-usage and performance - now ristretto
            renders at full quality with this option disabled, only one toolbar - instead 
            of two, a quick-launch button on the toolbar to execute an editor, the option
