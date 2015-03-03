@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2015-01-18 12:31+0100\n"
-"PO-Revision-Date: 2015-01-19 09:19+0000\n"
+"POT-Creation-Date: 2015-03-02 18:31+0100\n"
+"PO-Revision-Date: 2015-03-03 12:13+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/xfce-apps/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -475,7 +475,7 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "開發者："
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto 是個 Xfce 桌面環境的影像檢視器。"
 
@@ -862,3 +862,38 @@ msgstr "Ristretto 影像檢視器"
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "輕鬆查看您的影像"
+
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "Ristretto 影像檢視器是一個用來檢視及捲動瀏覽影象、播放影像幻燈片、以其他應用程式（如影像編輯器）開啟、或是將影像設定為桌面的桌布的應用程式。"
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr "此版本帶有一些像是將縮圖使用為應用程式的小圖示、及當收到預備訊號時更新在影像列表中的第一個影像、及當生成後需要顯示縮圖。"
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr "此版本包含了許多翻譯更新，會在設定「品質極限」屬性時當掉。"
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"docs.xfce.org, the option to limit the maximum image-quality to the screen "
+"dimensions to improve memory-usage and performance - now ristretto renders "
+"at full quality with this option disabled, only one toolbar - instead of "
+"two, a quick-launch button on the toolbar to execute an editor, the option "
+"to pick a default-editor per mime-type, an optional clock that shows up when"
+" ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the "
+"statusbar to indicate when it is busy and progressive loading of directories"
+" to prevent lockup of the UI. This version is designed to work with version "
+"4.10 of Xfce."
+msgstr "此版本帶來許多改變，像是在 docs.xfce.org 的線上文件、以螢幕的解析度限制最大影像品質以改善記憶體使用量及效能 - ristretto 現在可以以停用這個選項來以完整品質渲染、現在只有一個工具列 - 而非兩個、在工具列上的快速啟動按鈕可以執行編輯器、選取每個 MIME 類型的預設編輯器的選項、一個可以在 ristretto 處於全螢幕狀態選擇性顯示的時鐘、Ristretto 現在會在忙碌及載入資料夾時在狀態列上顯示「載入中..」訊息，以防止使用者介面鎖死。此版本是設計來與 Xfce 4.10 一同運作的。"
