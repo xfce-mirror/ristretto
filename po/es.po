@@ -6,14 +6,15 @@
 # Abel Martín <abel.martin.ruiz@gmail.com>, 2008
 # Adolfo Jayme Barrientos, 2013
 # Adolfo Jayme Barrientos, 2013
+# gabrieltandil <gabriel.tandil@gmail.com>, 2015
 # Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2015-01-25 12:30+0100\n"
-"PO-Revision-Date: 2015-02-23 18:03+0000\n"
-"Last-Translator: Manolo Díaz <diaz.manolo@gmail.com>\n"
+"POT-Creation-Date: 2015-03-02 18:31+0100\n"
+"PO-Revision-Date: 2015-03-03 11:04+0000\n"
+"Last-Translator: gabrieltandil <gabriel.tandil@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -482,7 +483,7 @@ msgstr "Ristretto es un visor de imágenes rápido y ligero para el entorno de e
 
 #: ../src/main_window.c:2614
 msgid "translator-credits"
-msgstr "Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\nAbel Martín <abel.martin.ruiz@gmail.com>\nElega <elega@elega.com.ar>"
+msgstr "Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\nAbel Martín <abel.martin.ruiz@gmail.com>\nElega <elega@elega.com.ar>\nGabriel <gabriel.tandil@gmail.com>"
 
 #: ../src/main_window.c:2916
 msgid "Open image"
@@ -888,13 +889,13 @@ msgstr "Esta versión contiene gran cantidad de actualizaciones a las traduccion
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
 "This version comes with several changes such as online documentation on "
-"http://docs.xfce.org, the option to limit the maximum image-quality to the "
-"screen dimensions to improve memory-usage and performance - now ristretto "
-"renders at full quality with this option disabled, only one toolbar - "
-"instead of two, a quick-launch button on the toolbar to execute an editor, "
-"the option to pick a default-editor per mime-type, an optional clock that "
-"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
-"message in the statusbar to indicate when it is busy and progressive loading"
-" of directories to prevent lockup of the UI. This version is designed to "
-"work with version 4.10 of Xfce."
-msgstr "Esta versión viene con varios cambios como documentación en línea en http://docs.xfce.org, la facultad de limitar la calidad máxima de la imagen para las dimensiones de la pantalla para mejorar el uso de memoria y el rendimiento: ahora Ristretto muestra a máxima calidad de las imágenes con esta opción deshabilitada; solo una barra de herramientas en lugar de dos, un botón de inicio rápido en la barra de herramientas para ejecutar un editor, la opción de escoger un editor predeterminado por tipo MIME, un reloj opcional que aparece cuando Ristretto es utilizado a pantalla completa, Ristretto ahora muestra un mensaje de «Cargando..» en la barra de estado para indicar cuando está ocupado y progresivamente cargando directorios para evitar el bloqueo de la interfaz de usuario. Esta versión está diseñada para trabajar con la versión 4.10 de Xfce."
+"docs.xfce.org, the option to limit the maximum image-quality to the screen "
+"dimensions to improve memory-usage and performance - now ristretto renders "
+"at full quality with this option disabled, only one toolbar - instead of "
+"two, a quick-launch button on the toolbar to execute an editor, the option "
+"to pick a default-editor per mime-type, an optional clock that shows up when"
+" ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the "
+"statusbar to indicate when it is busy and progressive loading of directories"
+" to prevent lockup of the UI. This version is designed to work with version "
+"4.10 of Xfce."
+msgstr "Esta versión viene con varios cambios como documentación en línea en docs.xfce.org, la facultad de limitar la calidad máxima de la imagen para las dimensiones de la pantalla para mejorar el uso de memoria y el rendimiento, ahora Ristretto muestra a máxima calidad de las imágenes con esta opción deshabilitada solo en una barra de herramientas en lugar de dos, un botón de inicio rápido en la barra de herramientas para ejecutar un editor, la opción de escoger un editor predeterminado por tipo MIME, un reloj opcional que aparece cuando Ristretto es utilizado a pantalla completa, Ristretto ahora muestra un mensaje de «Cargando..» en la barra de estado para indicar cuando está ocupado cargando y progresivamente cargando directorios para evitar el bloqueo de la interfaz de usuario. Esta versión está diseñada para trabajar con la versión 4.10 de Xfce."
