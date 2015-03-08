@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2015-01-18 12:31+0100\n"
-"PO-Revision-Date: 2015-01-20 18:56+0000\n"
+"POT-Creation-Date: 2015-03-02 18:31+0100\n"
+"PO-Revision-Date: 2015-03-08 13:08+0000\n"
 "Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/xfce-apps/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -474,7 +474,7 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "Vývojář:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto je prohlížeč obrázků pro pracovní prostředí Xfce."
 
@@ -861,3 +861,38 @@ msgstr "Prohlížeč fotografií Ristretto"
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Prohlížejte si obrázky jednoduše"
+
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "Prohlížeč obrázků Ristretto je aplikace pro prohlížení a procházení obrázků, spuštění prezentace obrázků, otevírání obrázků v jiných aplikacích, např. v editoru obrázků, nebo pro nastavení obrázku jako tapety pracovní plochy."
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr "Tato verze přináší následující vylepšení: použití náhledu pro ikonu aplikace a aktualizace prvního obrázku v seznamu obrázků po obdržení signálu \"připraven\", vyžadovaného pro zobrazení náhledu ihned po jeho vygenerování."
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr "Toto vydání obsahuje mnoho aktualizací překladů a chybu při konfiguraci vlastnosti 'limit-quality'."
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"docs.xfce.org, the option to limit the maximum image-quality to the screen "
+"dimensions to improve memory-usage and performance - now ristretto renders "
+"at full quality with this option disabled, only one toolbar - instead of "
+"two, a quick-launch button on the toolbar to execute an editor, the option "
+"to pick a default-editor per mime-type, an optional clock that shows up when"
+" ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the "
+"statusbar to indicate when it is busy and progressive loading of directories"
+" to prevent lockup of the UI. This version is designed to work with version "
+"4.10 of Xfce."
+msgstr "Tato verze přináší mnoho změn, např. online dokumentaci na stránkách docs.xfce.org, volbu pro omezení maximální kvality obrázku pro rozměry obrazovky ke zlepšení využití paměti a rychlosti - při zakázání této volby nyní Ristretto vykresluje v plné kvalitě, pouze jeden panel nástrojů - namísto dvou, tlačítko rychlé spuštění na panelu nástrojů pro spuštění editoru, možnost výběru výchozího editoru podle typu MIME, volitelné hodiny, které se zobrazují v celoobrazovkovém režimu, Ristretto nyní zobrazuje zprávu 'Načítání...' ve stavovém řádku pro oznámení zaneprázdněnosti a progresivní načítání adresářů tak, aby se zabránilo zamrznutí uživatelského prostředí. Tato verze je navržena pro práci s prostředím Xfce 4.10."
