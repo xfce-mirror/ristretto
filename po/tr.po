@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ali Polatel <ali.polatel@ozguryazilim.com.tr>, 2015
 # Ayhan YALÇINSOY <ayhanyalcinsoy@gmail.com>, 2012
 # Gökmen Görgen <gkmngrgn@gmail.com>, 2008
 # Necdet Yücel <necdetyucel@gmail.com>, 2015
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2015-01-25 12:30+0100\n"
-"PO-Revision-Date: 2015-02-11 21:21+0000\n"
-"Last-Translator: Necdet Yücel <necdetyucel@gmail.com>\n"
+"POT-Creation-Date: 2015-03-02 18:31+0100\n"
+"PO-Revision-Date: 2015-05-18 00:13+0000\n"
+"Last-Translator: Ali Polatel <ali.polatel@ozguryazilim.com.tr>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/xfce-apps/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -871,7 +872,7 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Ristretto Resim Gösterici, resimleri görüntülemek, resimler arasında gezinmek, resimlerle sunum  yapmak, resimleri resim düzenleyici gibi farklı uygulamalarla açmak ya da resimi masaüstü arkaplanı olarak ayarlamak için kullanılabilecek bir uygulamadır."
 
 #: ../ristretto.appdata.xml.in.h:3
 msgid ""
@@ -889,13 +890,13 @@ msgstr ""
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
 "This version comes with several changes such as online documentation on "
-"http://docs.xfce.org, the option to limit the maximum image-quality to the "
-"screen dimensions to improve memory-usage and performance - now ristretto "
-"renders at full quality with this option disabled, only one toolbar - "
-"instead of two, a quick-launch button on the toolbar to execute an editor, "
-"the option to pick a default-editor per mime-type, an optional clock that "
-"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
-"message in the statusbar to indicate when it is busy and progressive loading"
-" of directories to prevent lockup of the UI. This version is designed to "
-"work with version 4.10 of Xfce."
-msgstr ""
+"docs.xfce.org, the option to limit the maximum image-quality to the screen "
+"dimensions to improve memory-usage and performance - now ristretto renders "
+"at full quality with this option disabled, only one toolbar - instead of "
+"two, a quick-launch button on the toolbar to execute an editor, the option "
+"to pick a default-editor per mime-type, an optional clock that shows up when"
+" ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the "
+"statusbar to indicate when it is busy and progressive loading of directories"
+" to prevent lockup of the UI. This version is designed to work with version "
+"4.10 of Xfce."
+msgstr "Bu sürümde docs.xfce.org sayfasında çevrimiçi belge görüntüleme, bellek kullanımı ve başarımı arttırmak için resim kalitesi eşiğini ekran boyutlarıyla sınırlandırma seçeneği  - ristretto, bu sınırlandırma seçeneği etkin değilken resmi özgün çözünürlüğünde görüntüler - iki araç çubuğu yerine tek araç çubuğu, dosya türüne (mime-type) göre öntanımlı düzenleyici belirleme seçeneği, ristretto tam ekran görünümündeyken tercihe bağlı görüntülenebilecek saat gibi birçok yeni özellik vardır. Ristretto artık işlem yaparken meşgul olduğunu belirtmek için durum çubuğunda 'Yükleniyor...' iletisi göstermekte ve arayüz kullanımını engellememek için dizinleri aşamalı olarak yüklemektedir. Bu sürüm Xfce'nin 4.10 sürümüyle birlikte kullanolmak üzere tasarlanmıştır."
