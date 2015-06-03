@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Daniel Nylander <po@danielnylander.se>, 2008-2009
-# PavelNicklasson <pavelnicklasson@bahnhof.se>, 2014
+# Påvel Nicklasson <pavel@frimix.se>, 2014-2015
+# Påvel Nicklasson <pavelnicklasson@bahnhof.se>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-07-03 20:30+0200\n"
-"PO-Revision-Date: 2014-04-03 11:26+0000\n"
-"Last-Translator: PavelNicklasson <pavelnicklasson@bahnhof.se>\n"
-"Language-Team: Swedish (http://www.transifex.com/projects/p/xfce/language/sv/)\n"
+"POT-Creation-Date: 2015-03-02 18:31+0100\n"
+"PO-Revision-Date: 2015-06-03 15:41+0000\n"
+"Last-Translator: Påvel Nicklasson <pavelnicklasson@bahnhof.se>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/xfce-apps/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +26,7 @@ msgstr "Versionsinformation"
 
 #: ../src/main.c:66
 msgid "Start in fullscreen mode"
-msgstr "Starta i helskärmsläge"
+msgstr "Starta i fullskärmsläge"
 
 #: ../src/main.c:70
 msgid "Start a slideshow"
@@ -35,7 +36,7 @@ msgstr "Starta ett bildspel"
 msgid "Show settings dialog"
 msgstr "Visa dialogrutan inställningar"
 
-#: ../src/main.c:106
+#: ../src/main.c:108
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -154,29 +155,29 @@ msgstr "_Visa"
 #. Icon-name
 #: ../src/main_window.c:441
 msgid "_Fullscreen"
-msgstr "_Helskärm"
+msgstr "_Fullskärmsläge"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:443
 msgid "Switch to fullscreen"
-msgstr "Växla till helskärm"
+msgstr "Växla till fullskärmsläge"
 
 #. Icon-name
 #: ../src/main_window.c:447
 msgid "_Leave Fullscreen"
-msgstr "_Lämna helskärmsläge"
+msgstr "_Lämna fullskärmsläge"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:449
 msgid "Leave Fullscreen"
-msgstr "Lämna helskärm"
+msgstr "Lämna fullskärmsläge"
 
 #. Icon-name
 #: ../src/main_window.c:453
 msgid "Set as _Wallpaper..."
-msgstr "Ställ in som _bakgrundsbild"
+msgstr "Ställ in som _skrivbordsbakgrund"
 
 #: ../src/main_window.c:460
 msgid "_Zoom"
@@ -228,7 +229,7 @@ msgstr "Zooma till 100%"
 
 #: ../src/main_window.c:489
 msgid "_Rotation"
-msgstr "_Rotering"
+msgstr "_Rotation"
 
 #. Icon-name
 #: ../src/main_window.c:493
@@ -324,16 +325,16 @@ msgstr "_Storlek"
 
 #: ../src/main_window.c:560
 msgid "Thumbnail Bar _Position"
-msgstr "Miniatyrradens _position"
+msgstr "Miniatyrbildsradens _position"
 
 #: ../src/main_window.c:564
 msgid "Thumb_nail Size"
-msgstr "Miniatyrbild_storlek"
+msgstr "Miniatyrbilds_storlek"
 
 #. Icon-name
 #: ../src/main_window.c:569
 msgid "Leave _Fullscreen"
-msgstr "Lämna _helskärmsläge"
+msgstr "Lämna _fullskärmsläge"
 
 #. Icon-name
 #: ../src/main_window.c:585
@@ -449,7 +450,7 @@ msgstr "Läser in..."
 
 #: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
-msgstr "Välj 'som bakgrundsbild'-metoden"
+msgstr "Välj 'ställ in som skrivbordsbakgrunds'-metoden"
 
 #: ../src/main_window.c:2124 ../src/preferences_dialog.c:464
 msgid ""
@@ -474,7 +475,7 @@ msgstr "GNOME"
 msgid "Developer:"
 msgstr "Utvecklare:"
 
-#: ../src/main_window.c:2606
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto är en bildvisare för skrivbordsmiljön Xfce"
 
@@ -673,7 +674,7 @@ msgstr "Begränsa återgivningskvalitet"
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
-msgstr "Helskärm"
+msgstr "Fullskärmsläge"
 
 #: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
@@ -682,11 +683,11 @@ msgstr "Miniatyrbilder"
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Miniatyrbildsraden kan automatiskt gömmas då fönstret är i helskärm."
+msgstr "Miniatyrbildsraden kan döljas automatiskt när fönstret är i fullskärmsläge."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Göm miniatyrrad om helskärm"
+msgstr "Dölj miniatyrbildsrad i fullskärmsläge"
 
 #: ../src/preferences_dialog.c:352
 msgid "Clock"
@@ -696,11 +697,11 @@ msgstr "Klocka"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Visa en analog klocka som visar aktuell tid då fönstret är i helskärm"
+msgstr "Visa en analog klocka med aktuell tid då fönstret är i fullskärmsläge"
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
-msgstr "Visa helskärmsklocka"
+msgstr "Visa fullskärmslägesklocka"
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
@@ -742,7 +743,7 @@ msgstr "Maximera fönster vid start då en bild öppnas"
 
 #: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
-msgstr "Linda runt bilder"
+msgstr "Fortsätt bildbläddring från början"
 
 #: ../src/preferences_dialog.c:453
 msgid "Desktop"
@@ -780,18 +781,18 @@ msgstr "Allmänt"
 msgid "Image"
 msgstr "Bild"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:541
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Tagen datum:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:553 ../src/properties_dialog.c:565
+#: ../src/properties_dialog.c:577
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:639
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Egenskaper"
@@ -810,43 +811,47 @@ msgstr "Miniatyrbildtjänsten kan inte nås.\nPå grund av detta, kan inte minia
 msgid "Do _not show this message again"
 msgstr "Visa i_nte detta meddelande igen"
 
-#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Stil:"
 
-#: ../src/xfce_wallpaper_manager.c:337
+#: ../src/xfce_wallpaper_manager.c:380
 msgid "Brightness:"
 msgstr "Ljusstyrka:"
 
-#: ../src/xfce_wallpaper_manager.c:338
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Saturation:"
 msgstr "Färgmättnad:"
 
-#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
-msgid "Set as wallpaper"
-msgstr "Ange som skrivbordsbakgrund"
+#: ../src/xfce_wallpaper_manager.c:397
+msgid "Apply to all workspaces"
+msgstr "Tillämpa på alla skrivbord"
 
-#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
+msgid "Set as wallpaper"
+msgstr "Ställ in som skrivbordsbakgrund"
+
+#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Auto"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:560
 msgid "Centered"
 msgstr "Centrerad"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:563
 msgid "Tiled"
 msgstr "Sida vid sida"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:566
 msgid "Stretched"
 msgstr "Utsträckt"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:569
 msgid "Scaled"
 msgstr "Skalad"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:572
 msgid "Zoomed"
 msgstr "Zoomad"
 
@@ -857,3 +862,38 @@ msgstr "Ristretto bildvisare"
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Titta på dina bilder enkelt"
+
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "Bildvisaren Ristretto är ett program som kan användas för att visa och bläddra bland bilder, köra ett bildspel, öppna bilder med andra program som en bildredigerare eller ställa in en bild som skrivbordsbakgrund."
+
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr "Den här version kommer med förbättringar som miniatyrbildsanvändning som appicon och uppdatering till den första bilden i bildlistan när du tar emot en klarsignal, som krävs för att visa miniatyrbilden när den har skapats."
+
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr "Denna version innehåller många översättningsuppdateringar, och en krasch då 'begränsad kvalitet' egenskapen ställs in."
+
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"docs.xfce.org, the option to limit the maximum image-quality to the screen "
+"dimensions to improve memory-usage and performance - now ristretto renders "
+"at full quality with this option disabled, only one toolbar - instead of "
+"two, a quick-launch button on the toolbar to execute an editor, the option "
+"to pick a default-editor per mime-type, an optional clock that shows up when"
+" ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the "
+"statusbar to indicate when it is busy and progressive loading of directories"
+" to prevent lockup of the UI. This version is designed to work with version "
+"4.10 of Xfce."
+msgstr "Denna version har flera förändringar såsom online-dokumentation på docs.xfce.org, möjligheten att begränsa den maximala bildkvaliteten till måtten på skärmen för att förbättra minnesanvändning och prestanda - nu visar ristretto i full kvalitet med det här alternativet inaktiverat, endast ett verktygsfält - i stället för två, till en snabbstartsknapp i verktygsfältet startar en redigerare, möjlighet att välja en standardredigerare per mime-typ, en valfri klocka som visas när ristretto är i fullskärmsläge, Ristretto visar nu en \"Öppnar.. \"meddelande i statusraden för att indikera när det är upptaget och stegivs öppning av kataloger för att förhindra låsning av användargränssnittet. Denna version är utformad för att fungera med version 4.10 av Xfce."
