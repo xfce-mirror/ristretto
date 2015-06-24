@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2015-06-11 17:53+0000\n"
+"PO-Revision-Date: 2015-06-24 12:29+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/projects/p/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Versijos informacija"
 
 #: ../src/main.c:66
 msgid "Start in fullscreen mode"
-msgstr "Paleisti viso ekrano režimu"
+msgstr "Paleisti viso ekrano veiksenoje"
 
 #: ../src/main.c:70
 msgid "Start a slideshow"
@@ -176,7 +176,7 @@ msgstr "Palikti viso ekrano režimą"
 #. Icon-name
 #: ../src/main_window.c:453
 msgid "Set as _Wallpaper..."
-msgstr "_Nustatyti kaip darbastalio foną..."
+msgstr "_Nustatyti kaip darbalaukio foną..."
 
 #: ../src/main_window.c:460
 msgid "_Zoom"
@@ -456,7 +456,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Pasirinkite kuri sistema tvarkosi su jūsų darbastaliu.\nŠis nustatymas nustato būdą kurį <i>Ristretto</i> naudos\nsukonfigūruoti darbastalio foną."
+msgstr "Pasirinkite kuri sistema tvarkosi su jūsų darbalaukiu.\nŠis nustatymas nustato būdą kurį <i>Ristretto</i> naudos\nsukonfigūruoti darbalaukio foną."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -476,7 +476,7 @@ msgstr "Kūrėjas:"
 
 #: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto yra paveikslėlių peržiūros programa skirta Xfce darbastalio aplinkai."
+msgstr "Ristretto yra paveikslėlių peržiūros programa skirta Xfce darbalaukio aplinkai."
 
 #: ../src/main_window.c:2614
 msgid "translator-credits"
@@ -746,7 +746,7 @@ msgstr "Paveikslėlių dydį pritaikyti prie lango dydžio"
 
 #: ../src/preferences_dialog.c:453
 msgid "Desktop"
-msgstr "Darbastalis"
+msgstr "Darbalaukis"
 
 #: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
@@ -868,7 +868,7 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "Ristretto Paveikslėlių Peržiūros Programa yra programa, kuri gali būti naudojama paveikslėlių peržiūrai, skaidrių rodymui, paveikslėlių atidarymui per kitas, tokias kaip paveikslėlių redaktorius, programas arba paveikslėlių, kaip darbastalio fono, konfigūravimui."
+msgstr "Ristretto Paveikslėlių Peržiūros Programa yra programa, kuri gali būti naudojama paveikslėlių peržiūrai, skaidrių rodymui, paveikslėlių atidarymui per kitas, tokias kaip paveikslėlių redaktorius, programas arba paveikslėlių, kaip darbalaukio fono, konfigūravimui."
 
 #: ../ristretto.appdata.xml.in.h:3
 msgid ""
