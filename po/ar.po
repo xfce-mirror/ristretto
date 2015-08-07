@@ -1,20 +1,23 @@
-# mohammad <malham1@gmail.com>, 2012.
-# محمد الحرقان <malham1@gmail.com>, 2012.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# محمد الحرقان <malham1@gmail.com>, 2012
+# محمد الحرقان <malham1@gmail.com>, 2012
 msgid ""
 msgstr ""
-"Project-Id-Version: Ristretto\n"
+"Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-11-10 15:57+0000\n"
-"PO-Revision-Date: 2012-11-10 21:52+0300\n"
-"Last-Translator: محمد الحرقان <malham1@gmail.com>\n"
-"Language-Team: http://www.vertaal.com.ar/files/factory/ar/list/\n"
-"Language: ar\n"
+"POT-Creation-Date: 2015-03-02 18:31+0100\n"
+"PO-Revision-Date: 2015-08-07 18:15+0000\n"
+"Last-Translator: عبدالله رضوان <abbodmar@gmail.com>\n"
+"Language-Team: Arabic (http://www.transifex.com/xfce/xfce-apps/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Virtaal 0.7.1\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -32,20 +35,16 @@ msgstr "بدء عرض الشرائح"
 msgid "Show settings dialog"
 msgstr "عرض حوار الإعدادات"
 
-#: ../src/main.c:106
+#: ../src/main.c:108
 #, c-format
 msgid ""
 "%s: %s\n"
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr ""
-"%s: %s\n"
-"\n"
-"جرب %s --help لتشاهد قائمة كاملة \n"
-"من خيارات سطر الأوامر المتوفرة.\n"
+msgstr "%s: %s\n\nجرب %s --help لتشاهد قائمة كاملة \nمن خيارات سطر الأوامر المتوفرة.\n"
 
-#: ../src/main_window.c:57 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
 msgstr "عارض الصور"
 
@@ -457,10 +456,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr ""
-"إعداد إي نظام يقوم حاليا بإدارة سطح المكتب.\n"
-"هذا الإعداد يحدد طريقة ايتخدام <i>Ristretto</i> لإعداد\n"
-"خلفية سطح المكتب."
+msgstr "إعداد إي نظام يقوم حاليا بإدارة سطح المكتب.\nهذا الإعداد يحدد طريقة ايتخدام <i>Ristretto</i> لإعداد\nخلفية سطح المكتب."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -474,92 +470,86 @@ msgstr "إكسفسي"
 msgid "GNOME"
 msgstr "جنوم"
 
-#: ../src/main_window.c:2588
+#: ../src/main_window.c:2597
 msgid "Developer:"
 msgstr "مطوّر:"
 
-#: ../src/main_window.c:2597
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto هو عارض صور لسطح مكتب إكسفسي."
 
-#: ../src/main_window.c:2605
+#: ../src/main_window.c:2614
 msgid "translator-credits"
 msgstr "Karim Oulad Chalha محمد الحرقان"
 
-#: ../src/main_window.c:2907
+#: ../src/main_window.c:2916
 msgid "Open image"
 msgstr "فتح الصورة"
 
-#: ../src/main_window.c:2926
+#: ../src/main_window.c:2935
 msgid "Images"
 msgstr "صور"
 
-#: ../src/main_window.c:2931
+#: ../src/main_window.c:2940
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2958 ../src/main_window.c:3100
+#: ../src/main_window.c:2967 ../src/main_window.c:3109
 msgid "Could not open file"
 msgstr "لا يمكن فتح الملف"
 
-#: ../src/main_window.c:3133
+#: ../src/main_window.c:3142
 msgid "Save copy"
 msgstr "حفظ نسخة"
 
-#: ../src/main_window.c:3159
+#: ../src/main_window.c:3168
 msgid "Could not save file"
 msgstr "لا يمكن حفظ الملف"
 
-#: ../src/main_window.c:3327
+#: ../src/main_window.c:3336
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "متأكد انك تود حذف الصورة '%s' من القرص؟"
 
-#: ../src/main_window.c:3345
+#: ../src/main_window.c:3354
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr ""
-"تأكيد حذف الصورة '%s' من القرص.\n"
-"\n"
-"%s"
+msgstr "تأكيد حذف الصورة '%s' من القرص.\n\n%s"
 
-#: ../src/main_window.c:3361
+#: ../src/main_window.c:3370
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "متأكد أنك تريد حذف الصورة '%s' من القرص؟"
 
-#: ../src/main_window.c:3379
+#: ../src/main_window.c:3388
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr ""
-"حدث خطأ عند إرسال الصورة '%s' إلى المهملات.\n"
-"\n"
-"%s"
+msgstr "حدث خطأ عند إرسال الصورة '%s' إلى المهملات.\n\n%s"
 
-#: ../src/main_window.c:3709
+#: ../src/main_window.c:3718
 msgid "Edit with"
 msgstr "عدّل باستخدام"
 
-#: ../src/main_window.c:3727
+#: ../src/main_window.c:3736
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "افتح %s والملفات الأخرى من النوع %s باستخدام:"
 
-#: ../src/main_window.c:3732
+#: ../src/main_window.c:3741
 msgid "Use as _default for this kind of file"
 msgstr "استخدام كافتراضي لهذا النوع من الملفات"
 
-#: ../src/main_window.c:3822
+#: ../src/main_window.c:3831
 msgid "Recommended Applications"
 msgstr "تطبيقات المنصوح بها"
 
-#: ../src/main_window.c:3902
+#: ../src/main_window.c:3911
 msgid "Other Applications"
 msgstr "التطبيقات الأخرى"
 
@@ -724,9 +714,7 @@ msgstr "المهلة"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr ""
-"فترة العرض يتم عرض صورة فردية خلال عرض الشرائح\n"
-"(بالثانية)"
+msgstr "فترة العرض يتم عرض صورة فردية خلال عرض الشرائح\n(بالثانية)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -792,18 +780,18 @@ msgstr "عام"
 msgid "Image"
 msgstr "صورة"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:541
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>تاريخ الالتقاط:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:553 ../src/properties_dialog.c:565
+#: ../src/properties_dialog.c:577
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:639
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - خصائص"
@@ -816,152 +804,95 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr ""
-"لم يتسن الوصول إلى خدمة-thumbnailer،\n"
-"ولهذا السبب، لا يمكن إنشاء صور\n"
-"مصغرة.\n"
-"\n"
-"ثبت <b>Tumbler</b> أو <i>thumbnailing daemon</i>\n"
-"لحل هذه المشكلة."
+msgstr "لم يتسن الوصول إلى خدمة-thumbnailer،\nولهذا السبب، لا يمكن إنشاء صور\nمصغرة.\n\nثبت <b>Tumbler</b> أو <i>thumbnailing daemon</i>\nلحل هذه المشكلة."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
 msgstr "لا تظهر هذه الرسالة مرة أخرى"
 
-#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "الأسلوب:"
 
-#: ../src/xfce_wallpaper_manager.c:337
+#: ../src/xfce_wallpaper_manager.c:380
 msgid "Brightness:"
 msgstr "السطوع:"
 
-#: ../src/xfce_wallpaper_manager.c:338
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Saturation:"
 msgstr "الإشباع:"
 
-#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:397
+msgid "Apply to all workspaces"
+msgstr "تطبيق إلى كافة مساحات العمل"
+
+#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "تعيين كخلفية"
 
-#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "تلقائي"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:560
 msgid "Centered"
 msgstr "في الوسط"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:563
 msgid "Tiled"
 msgstr "تجانب"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:566
 msgid "Stretched"
 msgstr "تمديد"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:569
 msgid "Scaled"
 msgstr "مكبرة"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:572
 msgid "Zoomed"
 msgstr "أسرع"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Ristretto Image Viewer"
+msgstr "عارض الصور Ristretto"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "استعرض صورك بسهول"
 
-#: ../ristretto.desktop.in.h:3
-msgid "Ristretto Image Viewer"
-msgstr "عارض الصور Ristretto"
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr ""
 
-#~ msgid "Show _Navigation Toolbar"
-#~ msgstr "عرض متص_فح شريط الأدوات"
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr ""
 
-#~ msgid "Toolbars"
-#~ msgstr "شريط الأدوات"
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr ""
 
-#~ msgid "Merge toolbars"
-#~ msgstr "دمج أشرطة الأدوات"
-
-#~ msgid "Spacing"
-#~ msgstr "مباعدة"
-
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "مقدار المسافة بين المصغرات"
-
-#~ msgid "border width"
-#~ msgstr "عرض الحافة"
-
-#~ msgid "the border width of the thumbnail bar"
-#~ msgstr "سمك حدود شريط المصغرات"
-
-#~ msgid "Scaling"
-#~ msgstr "تحجيم"
-
-#~ msgid "Don't scale over 100% when maximizing the window."
-#~ msgstr "لا نطاق أكثر من 100 ٪ عنذ تحجيم النافذة."
-
-#~ msgid "Preferences"
-#~ msgstr "تفضيلات"
-
-#~ msgid "Image viewer"
-#~ msgstr "عارض الصور"
-
-#~ msgid "Open _Folder"
-#~ msgstr "فتح م_جلّد"
-
-#~ msgid "Open a folder"
-#~ msgstr "فتح مجلّد"
-
-#~ msgid "_Close All"
-#~ msgstr "أغلق ال_كل"
-
-#~ msgid "Close all images"
-#~ msgstr "أغلق كل الصور"
-
-#~ msgid "Open folder"
-#~ msgstr "فتح مجلّد"
-
-#~ msgid "Open entire folder on startup"
-#~ msgstr "فتح مجلد كامل عنذ بدء التشغيل"
-
-#~ msgid "Monitor:"
-#~ msgstr "مراقب:"
-
-#~ msgid "Two"
-#~ msgstr "أعلى"
-
-#~ msgid "Show preview when loading image"
-#~ msgstr "عرض معاينة عنذ تحميل الصورة"
-
-#~ msgid "No action"
-#~ msgstr "بدون إخراء"
-
-#~ msgid "Memory"
-#~ msgstr "الذاكرة"
-
-#~ msgid "Image cache"
-#~ msgstr "الملفات المؤقتة لصور "
-
-#~ msgid "Cache size"
-#~ msgstr "حجم مخبأ "
-
-#~ msgid "MB"
-#~ msgstr "م ب"
-
-#~ msgid "Enable cache"
-#~ msgstr "تفعيل المخبأت"
-
-#~ msgid "Enable preloading"
-#~ msgstr "تفعيل التحميل المسبق"
-
-#~ msgid "filmstrip width"
-#~ msgstr "عرض مقطع سينمائ"
-
-#~ msgid "the width of the thumbnail-bar film-strip"
-#~ msgstr "عرض الشريط المصغر"
-
-#~ msgid "_Print"
-#~ msgstr "_طباعة"
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"docs.xfce.org, the option to limit the maximum image-quality to the screen "
+"dimensions to improve memory-usage and performance - now ristretto renders "
+"at full quality with this option disabled, only one toolbar - instead of "
+"two, a quick-launch button on the toolbar to execute an editor, the option "
+"to pick a default-editor per mime-type, an optional clock that shows up when"
+" ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the "
+"statusbar to indicate when it is busy and progressive loading of directories"
+" to prevent lockup of the UI. This version is designed to work with version "
+"4.10 of Xfce."
+msgstr ""
