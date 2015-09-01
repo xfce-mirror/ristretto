@@ -3176,6 +3176,8 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
                                          GTK_STOCK_SAVE, GTK_RESPONSE_OK,
                                          NULL);
     gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
+    gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog),
+        rstto_file_get_display_name (r_file));
 
     response = gtk_dialog_run(GTK_DIALOG(dialog));
     if(response == GTK_RESPONSE_OK)
