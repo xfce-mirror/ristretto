@@ -131,6 +131,8 @@ struct _RsttoMainWindowPriv
     gint                   play_timeout_id;
 
     GtkFileFilter         *filter;
+
+    gchar                 *last_copy_folder_uri;
 };
 
 enum
@@ -773,6 +775,8 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->settings_manager = rstto_settings_new();
     window->priv->thumbnailer = rstto_thumbnailer_new();
 
+    window->priv->last_copy_folder_uri = NULL;
+
     /* Setup the image filter list for drag and drop */
     window->priv->filter = gtk_file_filter_new ();
     g_object_ref_sink (window->priv->filter);
@@ -1192,6 +1196,12 @@ rstto_main_window_dispose(GObject *object)
         {
             g_object_unref (window->priv->thumbnailer);
             window->priv->thumbnailer = NULL;
+        }
+
+        if (window->priv->last_copy_folder_uri)
+        {
+            g_free (window->priv->last_copy_folder_uri);
+            window->priv->last_copy_folder_uri = NULL;
         }
 
         if (window->priv->action_group)
@@ -3176,6 +3186,11 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
                                          GTK_STOCK_SAVE, GTK_RESPONSE_OK,
                                          NULL);
     gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
+
+    if (window->priv->last_copy_folder_uri)
+        gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog),
+            window->priv->last_copy_folder_uri);
+
     gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog),
         rstto_file_get_display_name (r_file));
 
@@ -3201,6 +3216,10 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
             gtk_dialog_run(GTK_DIALOG(err_dialog));
             gtk_widget_destroy(err_dialog);
         }
+
+        g_free (window->priv->last_copy_folder_uri);
+        window->priv->last_copy_folder_uri = gtk_file_chooser_get_current_folder_uri (
+            GTK_FILE_CHOOSER (dialog));
     }
 
     gtk_widget_destroy(dialog);
