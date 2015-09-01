@@ -240,6 +240,13 @@ rstto_thumbnailer_dispose (GObject *object)
             g_object_unref (thumbnailer->priv->settings);
             thumbnailer->priv->settings = NULL;
         }
+
+        if (thumbnailer->priv->proxy)
+        {
+            g_object_unref (thumbnailer->priv->proxy);
+            thumbnailer->priv->proxy = NULL;
+        }
+
         g_free (thumbnailer->priv);
         thumbnailer->priv = NULL;
     }
@@ -493,6 +500,9 @@ rstto_thumbnailer_queue_request_timer (
         /* TOOO: Nice cleanup */
     }
     
+    g_free (uris);
+    g_free (mimetypes);
+
     thumbnailer->priv->request_timer_id = 0;
     return FALSE;
 }

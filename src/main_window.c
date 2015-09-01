@@ -1170,10 +1170,22 @@ rstto_main_window_dispose(GObject *object)
             window->priv->image_list = NULL;
         }
 
+        if (window->priv->iter)
+        {
+            g_object_unref (window->priv->iter);
+            window->priv->iter = NULL;
+        }
+
         if (window->priv->filter)
         {
             g_object_unref (window->priv->filter);
             window->priv->filter= NULL;
+        }
+
+        if (window->priv->db)
+        {
+            g_object_unref (window->priv->db);
+            window->priv->db = NULL;
         }
 
         if (window->priv->thumbnailer)
@@ -1181,6 +1193,13 @@ rstto_main_window_dispose(GObject *object)
             g_object_unref (window->priv->thumbnailer);
             window->priv->thumbnailer = NULL;
         }
+
+        if (window->priv->action_group)
+        {
+            g_object_unref (window->priv->action_group);
+            window->priv->action_group = NULL;
+        }
+
         g_free (window->priv);
         window->priv = NULL;
     }
@@ -1268,6 +1287,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
     GtkWidget *menu_item = NULL;
     GDesktopAppInfo *app_info = NULL;
     const GdkPixbuf *pixbuf = NULL;
+    GdkPixbuf *tmp;
 
     GtkWidget *open_with_menu = gtk_menu_new();
     GtkWidget *open_with_window_menu = gtk_menu_new();
@@ -1294,7 +1314,9 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
             pixbuf = rstto_file_get_thumbnail (cur_file, THUMBNAIL_SIZE_SMALL);
             if (pixbuf != NULL)
             {
-                gtk_window_set_icon (GTK_WINDOW (window), gdk_pixbuf_copy (pixbuf));
+                tmp = gdk_pixbuf_copy (pixbuf);
+                gtk_window_set_icon (GTK_WINDOW (window), tmp);
+                g_object_unref (tmp);
             }
             else
             {
@@ -2907,6 +2929,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     GValue current_uri_val = {0, };
     GtkFileFilter *filter;
     RsttoFile *r_file = NULL;
+    gchar *tmp;
 
     g_value_init (&current_uri_val, G_TYPE_STRING);
     g_object_get_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
@@ -3031,10 +3054,11 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                 }
             }
         }
- 
-        g_value_set_string (&current_uri_val, gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog)));
-        g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
 
+        tmp = gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog));
+        g_value_take_string (&current_uri_val, tmp);
+        g_object_set_property (G_OBJECT(window->priv->settings_manager), "current-uri", &current_uri_val);
+        g_value_unset (&current_uri_val);
     }
 
     gtk_widget_destroy(dialog);
@@ -4211,13 +4235,16 @@ cb_rstto_thumbnailer_ready(
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
     RsttoFile *cur_file = rstto_image_list_iter_get_file (window->priv->iter);
     const GdkPixbuf *pixbuf = NULL;
+    GdkPixbuf *tmp;
 
     if (file == cur_file)
     {
         pixbuf = rstto_file_get_thumbnail (file, THUMBNAIL_SIZE_SMALL);
         if (pixbuf != NULL)
         {
-            gtk_window_set_icon (GTK_WINDOW (window), gdk_pixbuf_copy(pixbuf));
+            tmp = gdk_pixbuf_copy (pixbuf);
+            gtk_window_set_icon (GTK_WINDOW (window), tmp);
+            g_object_unref (tmp);
         }
         else
         {

@@ -629,6 +629,31 @@ rstto_settings_dispose (GObject *object)
             g_object_unref (settings->priv->channel);
             settings->priv->channel = NULL;
         }
+
+        if (settings->priv->last_file_path)
+        {
+            g_free (settings->priv->last_file_path);
+            settings->priv->last_file_path = NULL;
+        }
+
+        if (settings->priv->navigationbar_position)
+        {
+            g_free (settings->priv->navigationbar_position);
+            settings->priv->navigationbar_position = NULL;
+        }
+
+        if (settings->priv->bgcolor)
+        {
+            g_free (settings->priv->bgcolor);
+            settings->priv->bgcolor = NULL;
+        }
+
+        if (settings->priv->bgcolor_fullscreen)
+        {
+            g_free (settings->priv->bgcolor_fullscreen);
+            settings->priv->bgcolor_fullscreen = NULL;
+        }
+
         g_free (settings->priv);
         settings->priv = NULL;
     }

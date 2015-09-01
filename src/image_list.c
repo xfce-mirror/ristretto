@@ -484,6 +484,8 @@ rstto_image_list_add_file (
                         path,
                         &t_iter);
 
+                gtk_tree_path_free (path);
+
                 /** TODO: update all iterators */
                 while (iter)
                 {
@@ -757,6 +759,8 @@ cb_rstto_read_file ( gpointer user_data )
             files = g_new0 ( RsttoFile *, loader->n_files+1);
             files[0] = rstto_file_new (child_file);
 
+            g_object_unref (child_file);
+
             for (i = 0; i < loader->n_files; ++i)
             {
                 files[i+1] = loader->files[i];
@@ -769,6 +773,8 @@ cb_rstto_read_file ( gpointer user_data )
             loader->files = files;
             loader->n_files++;
         }
+
+        g_object_unref (file_info);
     }
     else
     {
@@ -987,15 +993,22 @@ static void
 rstto_image_list_iter_dispose (GObject *object)
 {
     RsttoImageListIter *iter = RSTTO_IMAGE_LIST_ITER(object);
-    if (iter->priv->r_file)
-    {
-        iter->priv->r_file = NULL;
-    }
 
-    if (iter->priv->image_list)
+    if (iter->priv)
     {
-        iter->priv->image_list->priv->iterators = g_slist_remove (iter->priv->image_list->priv->iterators, iter);
-        iter->priv->image_list= NULL;
+        if (iter->priv->r_file)
+        {
+            iter->priv->r_file = NULL;
+        }
+
+        if (iter->priv->image_list)
+        {
+            iter->priv->image_list->priv->iterators = g_slist_remove (iter->priv->image_list->priv->iterators, iter);
+            iter->priv->image_list= NULL;
+        }
+
+        g_free (iter->priv);
+        iter->priv = NULL;
     }
 }
 
@@ -1645,6 +1658,7 @@ cb_rstto_thumbnailer_ready(
         gtk_tree_model_get_iter (GTK_TREE_MODEL (image_list), &iter, path_);
 
         gtk_tree_model_row_changed (GTK_TREE_MODEL(image_list), path_, &iter);
+        gtk_tree_path_free (path_);
     }
 }
 
