@@ -3162,6 +3162,12 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
     GtkWidget *dialog, *err_dialog;
     gint response;
     GFile *file, *s_file;
+    RsttoFile *r_file;
+
+    r_file = rstto_image_list_iter_get_file (window->priv->iter);
+
+    if (r_file == NULL)
+        return;
 
     dialog = gtk_file_chooser_dialog_new(_("Save copy"),
                                          GTK_WINDOW(window),
