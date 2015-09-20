@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2015-07-21 14:42+0000\n"
+"PO-Revision-Date: 2015-09-20 20:03+0000\n"
 "Last-Translator: Moo\n"
-"Language-Team: Lithuanian (http://www.transifex.com/projects/p/xfce-apps/language/lt/)\n"
+"Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,7 +42,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s: %s\n\nNorėdami pamatyti komandų eilutės \nparametrų sąrašą, paleiskite „%s --help“.\n"
+msgstr "%s: %s\n\nNorėdami pamatyti komandų eilutės \nparinkčių sąrašą, paleiskite „%s --help“.\n"
 
 #: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
@@ -145,7 +145,7 @@ msgstr "_Išvalyti duomenų saugyklą..."
 #. Icon-name
 #: ../src/main_window.c:430
 msgid "_Preferences..."
-msgstr "_Nustatymai..."
+msgstr "_Nuostatos..."
 
 #: ../src/main_window.c:437
 msgid "_View"
@@ -456,7 +456,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Pasirinkite kuri sistema tvarkosi su jūsų darbalaukiu.\nŠis nustatymas nustato būdą kurį <i>Ristretto</i> naudos\nsukonfigūruoti darbalaukio foną."
+msgstr "Pasirinkite kuri sistema tvarkosi su jūsų darbalaukiu.\nŠis nustatymas nustato būdą, kurį <i>Ristretto</i> naudos\ndarbalaukio fono sukonfigūravimui."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -665,7 +665,7 @@ msgstr "Kokybė"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Įjungus šią parinkty, didžiausia paveikslėlio kokybė bus ribojama iki ekrano dydžio."
+msgstr "Įjungus šią parinktį, didžiausia paveikslėlio kokybė bus ribojama iki ekrano dydžio."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
@@ -750,7 +750,7 @@ msgstr "Darbalaukis"
 
 #: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
-msgstr "Paveikslėlių peržiūros programos nustatymai"
+msgstr "Paveikslėlių peržiūros programos nuostatos"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
