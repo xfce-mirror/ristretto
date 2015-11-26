@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2015-09-20 20:03+0000\n"
+"PO-Revision-Date: 2015-11-26 23:15+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -160,18 +160,18 @@ msgstr "_Visas ekranas"
 #. Keyboard shortcut
 #: ../src/main_window.c:443
 msgid "Switch to fullscreen"
-msgstr "Perjungti į viso ekrano režimą"
+msgstr "Perjungti į viso ekrano veikseną"
 
 #. Icon-name
 #: ../src/main_window.c:447
 msgid "_Leave Fullscreen"
-msgstr "_Palikti viso ekrano režimą"
+msgstr "_Išjungti viso ekrano veikseną"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:449
 msgid "Leave Fullscreen"
-msgstr "Palikti viso ekrano režimą"
+msgstr "Išjungti viso ekrano veikseną"
 
 #. Icon-name
 #: ../src/main_window.c:453
@@ -686,7 +686,7 @@ msgstr "Kai langas visame ekrane, miniatiūrų juosta \ngali būti automatiškai
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Slėpti miniatiūrų juostą, viso ekrano režime"
+msgstr "Slėpti miniatiūrų juostą, viso ekrano veiksenoje"
 
 #: ../src/preferences_dialog.c:352
 msgid "Clock"
@@ -895,4 +895,4 @@ msgid ""
 "statusbar to indicate when it is busy and progressive loading of directories"
 " to prevent lockup of the UI. This version is designed to work with version "
 "4.10 of Xfce."
-msgstr "Šioje versijoje yra keli pakeitimai, tokie kaip dokumentacija internete, puslapyje docs.xfce.org, parinktis sumažinti aukščiausią paveikslo kokybę iki ekrano matmenų, siekiant pagerinti atminties naudojimą bei greitį - dabar ristretto atvaizduoja pilną kokybę, šiai parinkčiai esant išjungtai, tik viena įrankių juosta vietoj dviejų, irankių juostoje esantis greitasis redaktoriaus paleidimo mygtukas, parinktis pasirinkti kiekvienam mime tipui numatytąjį redaktorių, pasirinktinas laikrodis, pasirodantis, kuomet ristretto perjungiama į visą ekraną, Ristretto, siekiant apsaugoti nuo naudotojo sąsajos blokavimo, dabar būsenos juostoje rodo pranešimą 'Įkeliama..', taip nurodydamas apie savo užimtumą ir progresinį katalogų įkėlimą. Ši versija yra sukurta, kad veiktų su Xfce 4.10 versija."
+msgstr "Šioje versijoje yra keli pakeitimai, tokie kaip dokumentacija internete, puslapyje docs.xfce.org, parinktis sumažinti aukščiausią paveikslo kokybę iki ekrano matmenų, siekiant pagerinti atminties naudojimą bei greitį - dabar ristretto atvaizduoja pilną kokybę, šiai parinkčiai esant išjungtai, tik viena įrankių juosta vietoj dviejų, įrankių juostoje esantis greitasis redaktoriaus paleidimo mygtukas, parinktis pasirinkti kiekvienam mime tipui numatytąjį redaktorių, pasirinktinas laikrodis, pasirodantis, kuomet ristretto perjungiama į visą ekraną, Ristretto, siekiant apsaugoti nuo naudotojo sąsajos blokavimo, dabar būsenos juostoje rodo pranešimą \"Įkeliama..\", taip nurodydamas apie savo užimtumą ir progresinį katalogų įkėlimą. Ši versija yra sukurta, kad veiktų su Xfce 4.10 versija."
