@@ -1389,6 +1389,18 @@ cb_rstto_image_list_exif_date_compare_func (RsttoFile *a, RsttoFile *b)
     return 1;
 }
 
+static gint
+cb_rstto_image_list_image_size_compare_func (RsttoFile *a, RsttoFile *b)
+{
+    guint64 a_s = rstto_file_get_file_size (a);
+    guint64 b_s = rstto_file_get_file_size (b);
+    if(a_s < b_s)
+    {
+        return -1;
+    }
+    return 1;
+}
+
 gboolean
 rstto_image_list_iter_get_sticky (
         RsttoImageListIter *iter)
