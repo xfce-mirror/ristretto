@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2015-12-23 21:55+0000\n"
+"PO-Revision-Date: 2016-01-12 15:39+0000\n"
 "Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -673,7 +673,7 @@ msgstr ""
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
-msgstr ""
+msgstr "Pantalla completa"
 
 #: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
