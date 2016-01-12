@@ -1344,6 +1344,12 @@ rstto_image_list_set_sort_by_date (RsttoImageList *image_list)
     rstto_image_list_set_compare_func (image_list, (GCompareFunc)cb_rstto_image_list_exif_date_compare_func);
 }
 
+void
+rstto_image_list_set_sort_by_size (RsttoImageList *image_list)
+{
+    rstto_image_list_set_compare_func (image_list, (GCompareFunc) cb_rstto_image_list_image_size_compare_func);
+}
+
 /**
  * cb_rstto_image_list_image_name_compare_func:
  * @a:
