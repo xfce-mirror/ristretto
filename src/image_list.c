@@ -1344,6 +1344,12 @@ rstto_image_list_set_sort_by_date (RsttoImageList *image_list)
     rstto_image_list_set_compare_func (image_list, (GCompareFunc)cb_rstto_image_list_exif_date_compare_func);
 }
 
+void
+rstto_image_list_set_sort_by_size (RsttoImageList *image_list)
+{
+    rstto_image_list_set_compare_func (image_list, (GCompareFunc) cb_rstto_image_list_image_size_compare_func);
+}
+
 /**
  * cb_rstto_image_list_image_name_compare_func:
  * @a:
@@ -1377,6 +1383,18 @@ cb_rstto_image_list_exif_date_compare_func (RsttoFile *a, RsttoFile *b)
     guint64 b_t = rstto_file_get_modified_time (b);
 
     if (a_t < b_t)
+    {
+        return -1;
+    }
+    return 1;
+}
+
+static gint
+cb_rstto_image_list_image_size_compare_func (RsttoFile *a, RsttoFile *b)
+{
+    guint64 a_s = rstto_file_get_file_size (a);
+    guint64 b_s = rstto_file_get_file_size (b);
+    if(a_s < b_s)
     {
         return -1;
     }

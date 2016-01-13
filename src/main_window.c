@@ -622,6 +622,13 @@ static const GtkRadioActionEntry radio_action_sort_entries[] =
             NULL, /* Keyboard shortcut */
             NULL, /* Tooltip text */
             1},
+    /*Sort by Size */
+    {"sort-size",
+            NULL,
+            N_("sort by size"),
+            NULL,
+            NULL,
+            2}
 };
 
 /** Navigationbar+Thumbnailbar positioning options*/
@@ -1089,6 +1096,13 @@ rstto_main_window_init (RsttoMainWindow *window)
                                     "/main-menu/edit-menu/sorting-menu/sort-date")),
                     TRUE);
             break;
+        case SORT_TYPE_SIZE:
+            gtk_check_menu_item_set_active (
+                    GTK_CHECK_MENU_ITEM (
+                            gtk_ui_manager_get_widget (
+                                    window->priv->ui_manager,
+                                    "/main-menu/edit-menu/sorting-menu/sort-size")),
+                    TRUE);
         default:
             g_warning("Sort type unsupported");
             break;
@@ -1213,6 +1227,9 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
             break;
         case SORT_TYPE_DATE:
             rstto_image_list_set_sort_by_date (window->priv->image_list);
+            break;
+        case SORT_TYPE_SIZE:
+            rstto_image_list_set_sort_by_size (window->priv->image_list);
             break;
         default:
             g_warning("Sort type unsupported");
@@ -2060,6 +2077,13 @@ cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action, GtkRadioA
             {
                 rstto_image_list_set_sort_by_date (window->priv->image_list);
                 rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_DATE);
+            }
+            break;
+        case 2:
+            if(window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_by_size (window->priv->image_list);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_SIZE);
             }
             break;
     }
