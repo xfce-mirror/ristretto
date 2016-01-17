@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-01-17 17:30+0000\n"
+"PO-Revision-Date: 2016-01-17 17:41+0000\n"
 "Last-Translator: Elishai Eliyahu <e1907@mm.st>\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -707,57 +707,57 @@ msgstr "מצגת"
 
 #: ../src/preferences_dialog.c:379
 msgid "Timeout"
-msgstr ""
+msgstr "פסק זמן"
 
 #: ../src/preferences_dialog.c:382
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr ""
+msgstr "משך הזמן בו תמונה בודדת מוצגת במהלך מצגת\n(בשניות)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
-msgstr ""
+msgstr "בקרה"
 
 #: ../src/preferences_dialog.c:404
 msgid "Scroll wheel"
-msgstr ""
+msgstr "גלגל גלילה"
 
 #: ../src/preferences_dialog.c:407
 msgid "Invert zoom direction"
-msgstr ""
+msgstr "הפוך כיוון זום"
 
 #: ../src/preferences_dialog.c:421
 msgid "Behaviour"
-msgstr ""
+msgstr "התנהגות"
 
 #: ../src/preferences_dialog.c:426
 msgid "Startup"
-msgstr ""
+msgstr "התחלה"
 
 #: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
-msgstr ""
+msgstr "הגדל חלון בהתחלה כאשר תמונה נפתחת"
 
 #: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
-msgstr ""
+msgstr "עטוף מסביב לתמונות"
 
 #: ../src/preferences_dialog.c:453
 msgid "Desktop"
-msgstr ""
+msgstr "שולחן עבודה"
 
 #: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
-msgstr ""
+msgstr "העדפות מציג תמונות"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>שם:<b/> "
 
 #: ../src/properties_dialog.c:182
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>סוג:<b/> "
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
