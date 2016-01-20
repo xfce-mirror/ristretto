@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2015-10-05 20:51+0000\n"
+"PO-Revision-Date: 2016-01-20 12:18+0000\n"
 "Last-Translator: Påvel Nicklasson <pavelnicklasson@bahnhof.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/xfce/xfce-apps/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -735,7 +735,7 @@ msgstr "Beteende"
 
 #: ../src/preferences_dialog.c:426
 msgid "Startup"
-msgstr "Uppstart"
+msgstr "Start"
 
 #: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
