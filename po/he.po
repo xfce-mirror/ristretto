@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-01-20 15:43+0000\n"
-"Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
+"PO-Revision-Date: 2016-01-20 20:04+0000\n"
+"Last-Translator: Elishai Eliyahu <e1907@mm.st>\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +46,7 @@ msgstr "%s: %s\n\nTry %s --help to see a full list of\navailable command line op
 
 #: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
-msgstr "מציג התמונות"
+msgstr "מציג תמונות"
 
 #: ../src/main_window.c:365
 msgid "_File"
@@ -83,7 +83,7 @@ msgstr "_תכונות..."
 #. Keyboard shortcut
 #: ../src/main_window.c:383
 msgid "Show file properties"
-msgstr "הצג את תכונות הקובץ"
+msgstr "הצג מאפייני קובץ"
 
 #. Icon-name
 #: ../src/main_window.c:387 ../src/main_window.c:406
@@ -94,7 +94,7 @@ msgstr "ע_ריכה"
 #. Keyboard shortcut
 #: ../src/main_window.c:389
 msgid "Edit this image"
-msgstr "ערוך את התמונה הזו"
+msgstr "ערוך את תמונה זו"
 
 #. Icon-name
 #: ../src/main_window.c:393
@@ -105,26 +105,26 @@ msgstr "_סגור"
 #. Keyboard shortcut
 #: ../src/main_window.c:395
 msgid "Close this image"
-msgstr "סגור את התמונה הזו"
+msgstr "סגור את תמונה זו"
 
 #. Icon-name
 #: ../src/main_window.c:399
 msgid "_Quit"
-msgstr "_צא"
+msgstr "י_ציאה"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:401
 msgid "Quit Ristretto"
-msgstr "צא מריסטרטו"
+msgstr "צא מ- Ristretto"
 
 #: ../src/main_window.c:410
 msgid "_Open with"
-msgstr "_פתח עם"
+msgstr "_פתח בעזרת"
 
 #: ../src/main_window.c:414
 msgid "_Sorting"
-msgstr "_ממיין"
+msgstr "_מיון"
 
 #. Icon-name
 #: ../src/main_window.c:418
@@ -135,7 +135,7 @@ msgstr "_מחק"
 #. Keyboard shortcut
 #: ../src/main_window.c:420
 msgid "Delete this image from disk"
-msgstr "מחק את התמונה הזו מהכונן"
+msgstr "מחק את תמונה זו מתוך הכונן"
 
 #. Icon-name
 #: ../src/main_window.c:424
@@ -224,7 +224,7 @@ msgstr "גודל _רגיל"
 #. Keyboard shortcut
 #: ../src/main_window.c:484
 msgid "Zoom to 100%"
-msgstr "זום ל 100%"
+msgstr "זום 100%"
 
 #: ../src/main_window.c:489
 msgid "_Rotation"
@@ -301,7 +301,7 @@ msgstr "_תכנים"
 #. Keyboard shortcut
 #: ../src/main_window.c:541
 msgid "Display ristretto user manual"
-msgstr "הצג את מדריך המשתמש של ריסטרטו"
+msgstr "הצג מדריך משתמש Ristretto"
 
 #. Icon-name
 #: ../src/main_window.c:545
@@ -324,11 +324,11 @@ msgstr "_גודל"
 
 #: ../src/main_window.c:560
 msgid "Thumbnail Bar _Position"
-msgstr "_מיקום בר מיני תמונות"
+msgstr "_מיקום סרגל תמונות מוקטנות"
 
 #: ../src/main_window.c:564
 msgid "Thumb_nail Size"
-msgstr "גודל מיני_תמונה"
+msgstr "גודל _תמונה מוקטנת"
 
 #. Icon-name
 #: ../src/main_window.c:569
@@ -343,12 +343,12 @@ msgstr "_הצג סרגל כלים"
 #. Icon-name
 #: ../src/main_window.c:593
 msgid "Show _Thumbnail Bar"
-msgstr "הצג בר _מיני תמונות"
+msgstr "הצג סרגל תמונות _מוקטנות"
 
 #. Icon-name
 #: ../src/main_window.c:601
 msgid "Show Status _Bar"
-msgstr "הצג _בר סטטוס"
+msgstr "הצג _סרגל מצב"
 
 #. Icon-name
 #: ../src/main_window.c:614
@@ -379,7 +379,7 @@ msgstr "מטה"
 
 #: ../src/main_window.c:661
 msgid "Very Small"
-msgstr "מאוד קטן"
+msgstr "קטן מאוד"
 
 #: ../src/main_window.c:667
 msgid "Smaller"
@@ -476,7 +476,7 @@ msgstr "מפתח:"
 
 #: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "ריסטרטו הוא מציג תמונות עבור סביבת שולחן עבודה Xfce."
+msgstr "‏Ristretto הוא מציג תמונות עבור סביבת שולחן עבודה Xfce."
 
 #: ../src/main_window.c:2614
 msgid "translator-credits"
@@ -534,7 +534,7 @@ msgstr ""
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
-msgstr "ערוך עם"
+msgstr "ערוך בעזרת"
 
 #: ../src/main_window.c:3736
 #, c-format
@@ -547,11 +547,11 @@ msgstr "השתמש כ_ברירת מחדל עבור סוג קובץ זה"
 
 #: ../src/main_window.c:3831
 msgid "Recommended Applications"
-msgstr "תוכנות מומלצות"
+msgstr "יישומים מומלצים"
 
 #: ../src/main_window.c:3911
 msgid "Other Applications"
-msgstr "תוכנות אחרות"
+msgstr "יישומים אחרים"
 
 #: ../src/icon_bar.c:345
 msgid "Orientation"
@@ -559,7 +559,7 @@ msgstr "כיוון"
 
 #: ../src/icon_bar.c:346
 msgid "The orientation of the iconbar"
-msgstr "הכיוון של בר האייקונים"
+msgstr "הכיוון של סרגל האייקונים"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
@@ -571,11 +571,11 @@ msgstr "עמודה לדוגמה המשמשת להבאת הקובץ"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
-msgstr "דוגמת בר אייקונים"
+msgstr "דוגמת סרגל אייקונים"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr "דוגמה עבור בר האייקונים"
+msgstr "דוגמה עבור סרגל האייקונים"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
@@ -677,16 +677,16 @@ msgstr "מסך מלא"
 
 #: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
-msgstr "מיני תמונות"
+msgstr "תמונות מוקטנות"
 
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "בר המיני תמונות יכול להיות מוסתר אוטומטית כאשר החלון במצב מסך מלא."
+msgstr "סרגל תמונות מוקטנות יכול להיות מוסתר אוטומטית כאשר החלון במצב מסך מלא."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "הסתר את בר המיני תמונות כאשר במצב מסך מלא"
+msgstr "הסתר סרגל תמונות מוזערות כאשר במצב מסך מלא"
 
 #: ../src/preferences_dialog.c:352
 msgid "Clock"
@@ -774,11 +774,11 @@ msgstr ""
 
 #: ../src/properties_dialog.c:309
 msgid "General"
-msgstr ""
+msgstr "כללי"
 
 #: ../src/properties_dialog.c:313
 msgid "Image"
-msgstr ""
+msgstr "תמונה"
 
 #: ../src/properties_dialog.c:541
 #, c-format
@@ -794,7 +794,7 @@ msgstr ""
 #: ../src/properties_dialog.c:639
 #, c-format
 msgid "%s - Properties"
-msgstr ""
+msgstr "%s - מאפיינים"
 
 #: ../src/thumbnailer.c:460
 msgid ""
@@ -808,7 +808,7 @@ msgstr ""
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
-msgstr ""
+msgstr "אל תציג את הודעה זו _שוב"
 
 #: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
@@ -816,11 +816,11 @@ msgstr "סגנון:"
 
 #: ../src/xfce_wallpaper_manager.c:380
 msgid "Brightness:"
-msgstr ""
+msgstr "בהירות:"
 
 #: ../src/xfce_wallpaper_manager.c:381
 msgid "Saturation:"
-msgstr ""
+msgstr "רוויה:"
 
 #: ../src/xfce_wallpaper_manager.c:397
 msgid "Apply to all workspaces"
@@ -832,23 +832,23 @@ msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
-msgstr ""
+msgstr "אוטומטי"
 
 #: ../src/xfce_wallpaper_manager.c:560
 msgid "Centered"
-msgstr ""
+msgstr "ממורכז"
 
 #: ../src/xfce_wallpaper_manager.c:563
 msgid "Tiled"
-msgstr ""
+msgstr "מרוצף"
 
 #: ../src/xfce_wallpaper_manager.c:566
 msgid "Stretched"
-msgstr ""
+msgstr "מתוח"
 
 #: ../src/xfce_wallpaper_manager.c:569
 msgid "Scaled"
-msgstr ""
+msgstr "מותאם"
 
 #: ../src/xfce_wallpaper_manager.c:572
 msgid "Zoomed"
@@ -856,11 +856,11 @@ msgstr ""
 
 #: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
-msgstr ""
+msgstr "‏Ristretto מציג תמונות"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
-msgstr ""
+msgstr "התבונן בתמונות שלך בקלות"
 
 #: ../ristretto.appdata.xml.in.h:2
 msgid ""
