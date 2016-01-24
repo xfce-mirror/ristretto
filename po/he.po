@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-01-20 20:04+0000\n"
+"PO-Revision-Date: 2016-01-24 22:51+0000\n"
 "Last-Translator: Elishai Eliyahu <e1907@mm.st>\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -509,7 +509,7 @@ msgstr "לא יכול לשמור קובץ"
 #: ../src/main_window.c:3336
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr ""
+msgstr "האם אתה בטוח שאתה רוצה למחוק מהדיסק את התמונה '%s'?"
 
 #: ../src/main_window.c:3354
 #, c-format
@@ -517,12 +517,12 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr ""
+msgstr "אירעה תקלה בעת מחיקה מהדיסק של תמונה '%s'.\n\n%s"
 
 #: ../src/main_window.c:3370
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr ""
+msgstr "האם אתה בטוח שאתה רוצה לשלוח לאשפה את התמונה '%s'? "
 
 #: ../src/main_window.c:3388
 #, c-format
@@ -530,7 +530,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr ""
+msgstr "אירעה תקלה בעת שליחה לאשפה של תמונה '%s' .\n\n%s"
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
@@ -539,7 +539,7 @@ msgstr "ערוך בעזרת"
 #: ../src/main_window.c:3736
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr ""
+msgstr "פתח %s וקבצים אחרים מסוג %s עם:"
 
 #: ../src/main_window.c:3741
 msgid "Use as _default for this kind of file"
@@ -762,15 +762,15 @@ msgstr "<b>סוג:<b/> "
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>שונה:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>ניגש:</b>"
 
 #: ../src/properties_dialog.c:185
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>גודל:</b>"
 
 #: ../src/properties_dialog.c:309
 msgid "General"
@@ -783,13 +783,13 @@ msgstr "תמונה"
 #: ../src/properties_dialog.c:541
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr ""
+msgstr "<b>תאריך נלקח:</b>"
 
 #: ../src/properties_dialog.c:553 ../src/properties_dialog.c:565
 #: ../src/properties_dialog.c:577
 #, c-format
 msgid "<b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>"
 
 #: ../src/properties_dialog.c:639
 #, c-format
@@ -804,7 +804,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr ""
+msgstr "שירות תמונות מוקטנות אינו ניתן להשגה,\nמסיבה זו, התמונות המוקטנות לא ניתנות\nליצירה.\n\nהתקן <b>Tumbler</b> או <b>דמון הקטנת תמונות</b> אחר \nעל מנת לפתור את הבעיה הזו."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
@@ -824,11 +824,11 @@ msgstr "רוויה:"
 
 #: ../src/xfce_wallpaper_manager.c:397
 msgid "Apply to all workspaces"
-msgstr ""
+msgstr "יישם לכל מרחבי העבודה"
 
 #: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
-msgstr ""
+msgstr "קבע כרקע"
 
 #: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
@@ -852,7 +852,7 @@ msgstr "מותאם"
 
 #: ../src/xfce_wallpaper_manager.c:572
 msgid "Zoomed"
-msgstr ""
+msgstr "בוצע זום"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
@@ -868,20 +868,20 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr ""
+msgstr "מציג תמונות Ristretto הוא תוכנה הניתנת לשימוש לצפייה ודפדוף בתמונות, להרצת מצגת, לפתיחת תמונות עם תוכנות אחרות כמו עורך תמונות או להגדרת תמונה כרקע שולחן עבודה."
 
 #: ../ristretto.appdata.xml.in.h:3
 msgid ""
 "This version comes with the improvements such as thumbnail usage as appicon "
 "and update to the first image in the image-list when receiving a ready-"
 "signal, required to show the thumbnail once it's generated."
-msgstr ""
+msgstr "גרסה זו באה עם שיפורים כמו שימוש תמונות מוקטנות כ- appicon ועדכון לתמונה הראשונה ברשימת התמונות בעת קבלת איתות מוכן, הנדרש להצגת התמונה המוקטנת לאחר יצירתה."
 
 #: ../ristretto.appdata.xml.in.h:4
 msgid ""
 "This release contains lots of translation-updates, and a crash when "
 "configuring the 'limit-quality' property."
-msgstr ""
+msgstr "גרסה זו כוללת הרבה עדכוני תרגום, וקריסה בעת הגדרת תכונת גבול-איכות."
 
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
@@ -895,4 +895,4 @@ msgid ""
 "statusbar to indicate when it is busy and progressive loading of directories"
 " to prevent lockup of the UI. This version is designed to work with version "
 "4.10 of Xfce."
-msgstr ""
+msgstr "גרסה זו באה עם מספר שינויים כמו תיעוד מקוון ב- docs.xfce.org, האפשרות להגביל את איכות התמונה המירבית למימדי המסך על מנת לשפר את השימוש בזיכרון והביצועים - עכשיו Ristretto מבצע באיכות מלאה עם אפשרות זו מכובית, רק סרגל כלים אחד - במקום שניים, כפתור הפעלה מהירה בסרגל הכלים להפעלת העורך, האפשרות לבחור עורך ברירת מחדל לכל סוג mime , שעון אופציונלי המופיע כאשר Ristretto במצב מסך מלא, Ristretto עכשיו מציג מסר מעלה... בסרגל הסטטוס להראות שהוא עסוק והעלאה מתקדמת של תיקיות למניעת נעילה של ממשק המשתמש. גרסה זו מתוכננת לעבוד עם גרסה 4.10 של Xfce."
