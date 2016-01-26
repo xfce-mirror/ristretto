@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Harald Servat <redcrash@gmail.com>, 2009
+# Davidmp <medipas@gmail.com>, 2016
 # Pol Ruzafa <kiari62@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-01-13 00:29+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2016-01-26 16:03+0000\n"
+"Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,7 +67,7 @@ msgstr "Obre una imatge"
 #. Icon-name
 #: ../src/main_window.c:375
 msgid "_Save copy..."
-msgstr ""
+msgstr "_Desa'n una còpia..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -77,7 +78,7 @@ msgstr "Desa una còpia de la imatge"
 #. Icon-name
 #: ../src/main_window.c:381
 msgid "_Properties..."
-msgstr ""
+msgstr "_Propietats..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -120,7 +121,7 @@ msgstr "Surt de Ristretto"
 
 #: ../src/main_window.c:410
 msgid "_Open with"
-msgstr ""
+msgstr "_Obre amb:"
 
 #: ../src/main_window.c:414
 msgid "_Sorting"
@@ -140,12 +141,12 @@ msgstr "Esborra aquesta imatge del disc"
 #. Icon-name
 #: ../src/main_window.c:424
 msgid "_Clear private data..."
-msgstr ""
+msgstr "_Neteja les dades privades...."
 
 #. Icon-name
 #: ../src/main_window.c:430
 msgid "_Preferences..."
-msgstr ""
+msgstr "_Preferències"
 
 #: ../src/main_window.c:437
 msgid "_View"
@@ -176,7 +177,7 @@ msgstr "Surt del mode de pantalla completa"
 #. Icon-name
 #: ../src/main_window.c:453
 msgid "Set as _Wallpaper..."
-msgstr ""
+msgstr "Estableix com a _fons d'escriptori...."
 
 #: ../src/main_window.c:460
 msgid "_Zoom"
@@ -269,7 +270,7 @@ msgstr "Imatge anterior"
 #. Icon-name
 #: ../src/main_window.c:522
 msgid "F_irst"
-msgstr ""
+msgstr "Pr_imer"
 
 #. Label-text
 #. Keyboard shortcut
@@ -328,7 +329,7 @@ msgstr "_Posició de la barra de miniatures"
 
 #: ../src/main_window.c:564
 msgid "Thumb_nail Size"
-msgstr ""
+msgstr "Mida de mi_niatura"
 
 #. Icon-name
 #: ../src/main_window.c:569
@@ -348,7 +349,7 @@ msgstr "Mostra la _barra de miniatures"
 #. Icon-name
 #: ../src/main_window.c:601
 msgid "Show Status _Bar"
-msgstr ""
+msgstr "Mostra la _barra d'estat"
 
 #. Icon-name
 #: ../src/main_window.c:614
@@ -437,7 +438,7 @@ msgstr "Feu clic a Obrir per seleccionar una imatge"
 
 #: ../src/main_window.c:1354 ../src/main_window.c:1358
 msgid "Open With Other _Application..."
-msgstr ""
+msgstr "Obre amb una altra _aplicació..."
 
 #: ../src/main_window.c:1379 ../src/main_window.c:1385
 msgid "Empty"
@@ -445,7 +446,7 @@ msgstr "Buit"
 
 #: ../src/main_window.c:1505
 msgid "Loading..."
-msgstr ""
+msgstr "Carregant..."
 
 #: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
@@ -517,7 +518,7 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr ""
+msgstr "S'ha produït un error en esborrar la imatge \"%s\" del disc.\n\n%s"
 
 #: ../src/main_window.c:3370
 #, c-format
@@ -530,7 +531,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr ""
+msgstr "S'ha produït un error en enviar la imatge \"%s\" a la paperera.\n\n%s"
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
@@ -559,7 +560,7 @@ msgstr "Orientació"
 
 #: ../src/icon_bar.c:346
 msgid "The orientation of the iconbar"
-msgstr ""
+msgstr "La orientació de la barra d'icones"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
@@ -567,23 +568,23 @@ msgstr "Columna de fitxers"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr ""
+msgstr "Columna de model usada per recuperar-ne el fitxer"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
-msgstr ""
+msgstr "Model de barra d'icones"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr ""
+msgstr "Model per a la barra d'icones"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
-msgstr ""
+msgstr "Actiu"
 
 #: ../src/icon_bar.c:393
 msgid "Active item index"
-msgstr ""
+msgstr "Índex d'elements actius"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
@@ -591,27 +592,27 @@ msgstr "Mostra el text"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr ""
+msgstr "Color d'emplenament de l'element actiu"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
-msgstr ""
+msgstr "Color de la vora de l'element actiu"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr ""
+msgstr "Color del text de l'element actiu"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr ""
+msgstr "Color d'emplenament de l'element del cursor"
 
 #: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
-msgstr ""
+msgstr "Color de la vora de l'element del cursor"
 
 #: ../src/icon_bar.c:451 ../src/icon_bar.c:452
 msgid "Cursor item text color"
-msgstr ""
+msgstr "Color del text de l'element del cursor"
 
 #: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
@@ -659,17 +660,17 @@ msgstr "Força el color de fons:"
 
 #: ../src/preferences_dialog.c:314
 msgid "Quality"
-msgstr ""
+msgstr "Qualitat"
 
 #: ../src/preferences_dialog.c:318
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr ""
+msgstr "Amb aquesta opció habilitada, la qualitat màxima de la imatge es limitarà a la mida de la pantalla."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
-msgstr ""
+msgstr "Límit de la qualitat de representació"
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
@@ -682,7 +683,7 @@ msgstr "Miniatures"
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr ""
+msgstr "La barra de miniatures es pot amagar automàticament quan la finestra ocupi tota la pantalla."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
@@ -690,17 +691,17 @@ msgstr "Amaga la barra de miniatures en pantalla completa"
 
 #: ../src/preferences_dialog.c:352
 msgid "Clock"
-msgstr ""
+msgstr "Rellotge"
 
 #: ../src/preferences_dialog.c:355
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr ""
+msgstr "Mostra un rellotge analògic que indiqui l'hora actual quan la finestra ocupi tota la pantalla."
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
-msgstr ""
+msgstr "Mostra el rellotge de pantalla completa"
 
 #: ../src/preferences_dialog.c:375
 msgid "Slideshow"
@@ -824,7 +825,7 @@ msgstr "Saturació:"
 
 #: ../src/xfce_wallpaper_manager.c:397
 msgid "Apply to all workspaces"
-msgstr ""
+msgstr "Aplica a tots els espais de treball"
 
 #: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
@@ -868,20 +869,20 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr ""
+msgstr "El Ristretto Image Viewer és una aplicació que es pot utilitzar per veure i desplaçar-se a través de les imatges, executar una presentació de diapositives obrir imatges amb altres aplicacions com ara un editor o configurar una imatge com a fons d'escriptori."
 
 #: ../ristretto.appdata.xml.in.h:3
 msgid ""
 "This version comes with the improvements such as thumbnail usage as appicon "
 "and update to the first image in the image-list when receiving a ready-"
 "signal, required to show the thumbnail once it's generated."
-msgstr ""
+msgstr "Aquesta versió ve amb millores com ara l'ús de miniatures com a icona de l'aplicació i l'actualització a la primera imatge de la llista d'imatges quan es rep un senyal de preparat, necessaris per mostrar la imatge un cop es genera."
 
 #: ../ristretto.appdata.xml.in.h:4
 msgid ""
 "This release contains lots of translation-updates, and a crash when "
 "configuring the 'limit-quality' property."
-msgstr ""
+msgstr "Aquesta versió conté una gran quantitat d'actualitzacions de traduccions i una fallada en configurar la propietat de qualitat límit."
 
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
@@ -895,4 +896,4 @@ msgid ""
 "statusbar to indicate when it is busy and progressive loading of directories"
 " to prevent lockup of the UI. This version is designed to work with version "
 "4.10 of Xfce."
-msgstr ""
+msgstr "Aquesta versió ve amb diversos canvis com ara la documentació en línia a docs.xfce.org, l'opció de limitar la màxima qualitat d'imatge a les dimensions de la pantalla per millorar l'ús de la memòria i el rendiment. Ara el Ristretto representa les imatges amb la qualitat total amb aquesta opció desactivada, amb només un barra d'eines en lloc de dues, un botó d'inici ràpid a la barra d'eines per executar un editor, l'opció de triar un editor per defecte per tipus MIME i un rellotge opcional que apareix quan el Ristretto és en pantalla completa. El Ristretto ara mostra un missatge de \"Carregant...\" a la barra d'estat per indicar quan està ocupat i executa una càrrega progressiva de directoris per evitar el bloqueig de la interfície d'usuari. Aquesta versió està dissenyada per treballar amb la versió 4.10 de l'Xfce."
