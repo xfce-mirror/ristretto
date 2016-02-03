@@ -1,28 +1,26 @@
-# translation of el.po to Greek
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Evaggelos Balaskas <ebalaskas@ebalaskas.gr>, 2008.
-# Georgios Stefanakis <nonviotale@gmail.com>, 2012.
-# Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
-# Γιώργος Στεφανάκης <nonviotale@gmail.com>, 2013.
-#
+# 
+# Translators:
+# Apostolos Papadimitriu <apostolos.papadimitriu@gmail.com>, 2016
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2012
+# ebal <ebalaskas@ebalaskas.gr>, 2008
+# Georgios Stefanakis <nonviotale@gmail.com>, 2012
+# Γιώργος Στεφανάκης <nonviotale@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: el\n"
+"Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2013-01-18 18:27+0000\n"
-"PO-Revision-Date: 2013-01-18 22:38+0200\n"
-"Last-Translator: Γιώργος Στεφανάκης <nonviotale@gmail.com>\n"
-"Language-Team: Greek, Modern (1453-) <>\n"
-"Language: el\n"
+"POT-Creation-Date: 2015-03-02 18:31+0100\n"
+"PO-Revision-Date: 2016-02-03 13:28+0000\n"
+"Last-Translator: Apostolos Papadimitriu <apostolos.papadimitriu@gmail.com>\n"
+"Language-Team: Greek (http://www.transifex.com/xfce/xfce-apps/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: Greek\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Country: GREECE\n"
-"X-Generator: Gtranslator 2.91.5\n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -40,19 +38,16 @@ msgstr "Εκκίνηση προβολής διαφανειών"
 msgid "Show settings dialog"
 msgstr "Εμφάνιση διαλόγου ρυθμίσεων"
 
-#: ../src/main.c:106
+#: ../src/main.c:108
 #, c-format
 msgid ""
 "%s: %s\n"
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr ""
-"%s: %s\n"
-"Δοκίμαστε %s --help για να δείτε μία πλήρη λίστα με όλες τις διαθέσιμες "
-"επιλογές της γραμμής εντολών.\n"
+msgstr "%s: %s\nΔοκίμαστε %s --help για να δείτε μία πλήρη λίστα με όλες τις διαθέσιμες επιλογές της γραμμής εντολών.\n"
 
-#: ../src/main_window.c:57 ../ristretto.desktop.in.h:1
+#: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
 msgstr "Εφαρμογή προβολής εικόνων"
 
@@ -464,11 +459,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr ""
-"Ρυθμίστε πιο σύστημα ελέγχει το περιβάλλον εργασίας σας.\n"
-"Αυτή η ρύθμιση καθορίζει την μέθοδο την οποία θα χρησιμοποίηση το "
-"<i>Ristretto</i>\n"
-"για την ρύθμιση της ταπετσαρίας του περιβάλλοντος εργασίας."
+msgstr "Ρυθμίστε πιο σύστημα ελέγχει το περιβάλλον εργασίας σας.\nΑυτή η ρύθμιση καθορίζει την μέθοδο την οποία θα χρησιμοποίηση το <i>Ristretto</i>\nγια την ρύθμιση της ταπετσαρίας του περιβάλλοντος εργασίας."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -482,94 +473,86 @@ msgstr "Xfce"
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2588
+#: ../src/main_window.c:2597
 msgid "Developer:"
 msgstr "Δημιουργός:"
 
-#: ../src/main_window.c:2597
+#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr ""
-"Το ristretto είναι ένας διαχειριστής εικόνων για το γραφικό περιβάλλον xfce."
+msgstr "Το ristretto είναι ένας διαχειριστής εικόνων για το γραφικό περιβάλλον xfce."
 
-#: ../src/main_window.c:2605
+#: ../src/main_window.c:2614
 msgid "translator-credits"
 msgstr "Evaggelos Balaskas <ebalaskas@ebalaskas.gr> 2008, 2009"
 
-#: ../src/main_window.c:2907
+#: ../src/main_window.c:2916
 msgid "Open image"
 msgstr "Άνοιγμα εικόνας"
 
-#: ../src/main_window.c:2926
+#: ../src/main_window.c:2935
 msgid "Images"
 msgstr "Εικόνες"
 
-#: ../src/main_window.c:2931
+#: ../src/main_window.c:2940
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2958 ../src/main_window.c:3100
+#: ../src/main_window.c:2967 ../src/main_window.c:3109
 msgid "Could not open file"
 msgstr "Αποτυχία ανοίγματος εικόνας"
 
-#: ../src/main_window.c:3133
+#: ../src/main_window.c:3142
 msgid "Save copy"
 msgstr "Αποθήκευση αντίγραφου"
 
-#: ../src/main_window.c:3159
+#: ../src/main_window.c:3168
 msgid "Could not save file"
 msgstr "Αδυναμία αποθήκευσης αρχείου"
 
-#: ../src/main_window.c:3327
+#: ../src/main_window.c:3336
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε την εικόνα '%s' από το δίσκο;"
 
-#: ../src/main_window.c:3345
+#: ../src/main_window.c:3354
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr ""
-"Παρουσιάστηκε σφάλμα κατά την διαγραφή της εικόνας '%s' από το δίσκο.\n"
-"\n"
-"%s"
+msgstr "Παρουσιάστηκε σφάλμα κατά την διαγραφή της εικόνας '%s' από το δίσκο.\n\n%s"
 
-#: ../src/main_window.c:3361
+#: ../src/main_window.c:3370
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε την εικόνα '%s';"
 
-#: ../src/main_window.c:3379
+#: ../src/main_window.c:3388
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr ""
-"Εμφανίστηκε σφάλμα κατά την αποστολή της εικόνας '%s' στον κάδο "
-"ανακύκλωσης.\n"
-"\n"
-"%s"
+msgstr "Εμφανίστηκε σφάλμα κατά την αποστολή της εικόνας '%s' στον κάδο ανακύκλωσης.\n\n%s"
 
-#: ../src/main_window.c:3709
+#: ../src/main_window.c:3718
 msgid "Edit with"
 msgstr "Επεξεργασία με"
 
-#: ../src/main_window.c:3727
+#: ../src/main_window.c:3736
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Άνοιγμα του %s και άλλων αρχείων του τύπου %s με:"
 
-#: ../src/main_window.c:3732
+#: ../src/main_window.c:3741
 msgid "Use as _default for this kind of file"
 msgstr "Χρήση ως _προεπιλογή για αυτό τον τύπο αρχείων"
 
-#: ../src/main_window.c:3822
+#: ../src/main_window.c:3831
 msgid "Recommended Applications"
 msgstr "Συνιστώμενες Εφαρμογές"
 
-#: ../src/main_window.c:3902
+#: ../src/main_window.c:3911
 msgid "Other Applications"
 msgstr "Άλλες Εφαρμογές"
 
@@ -685,9 +668,7 @@ msgstr "Ποιότητα"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr ""
-"Με αυτή την επιλογή ενεργοποιημένη, η μέγιστη ποιότητα εικόνας περιορίζεται "
-"στο μέγεθος της οθόνης."
+msgstr "Με αυτή την επιλογή ενεργοποιημένη, η μέγιστη ποιότητα εικόνας περιορίζεται στο μέγεθος της οθόνης."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
@@ -704,9 +685,7 @@ msgstr "Μικρογραφίες"
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr ""
-"Η μπάρα μικρογραφιών μπορεί να κρύβετε αυτόματα όταν το παράθυρο είναι σε "
-"πλήρη οθόνη"
+msgstr "Η μπάρα μικρογραφιών μπορεί να κρύβετε αυτόματα όταν το παράθυρο είναι σε πλήρη οθόνη"
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
@@ -720,9 +699,7 @@ msgstr "Ρολόι"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr ""
-"Προβολή ενός αναλογικού ρολογιού το οποίο προβάλει την τρέχουσα ώρα όταν το "
-"παράθυρο είναι σε πλήρη οθόνη"
+msgstr "Προβολή ενός αναλογικού ρολογιού το οποίο προβάλει την τρέχουσα ώρα όταν το παράθυρο είναι σε πλήρη οθόνη"
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
@@ -740,10 +717,7 @@ msgstr "Χρονικό όριο"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr ""
-"Η χρονική περίοδος εμφάνισης μία ανεξάρτητης εικόνας ανάμεσα στις "
-"διαφάνειες\n"
-"(σε δευτερόλεπτα)"
+msgstr "Η χρονική περίοδος εμφάνισης μία ανεξάρτητης εικόνας ανάμεσα στις διαφάνειες\n(σε δευτερόλεπτα)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -809,18 +783,18 @@ msgstr "Γενικά"
 msgid "Image"
 msgstr "Εικόνα"
 
-#: ../src/properties_dialog.c:526
+#: ../src/properties_dialog.c:541
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Ημερομηνία λήψης:</b>"
 
-#: ../src/properties_dialog.c:538 ../src/properties_dialog.c:550
-#: ../src/properties_dialog.c:562
+#: ../src/properties_dialog.c:553 ../src/properties_dialog.c:565
+#: ../src/properties_dialog.c:577
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:624
+#: ../src/properties_dialog.c:639
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Ιδιότητες"
@@ -833,168 +807,95 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr ""
-"Η υπηρεσία thumbnailer-service δεν μπορεί να λειτουργήσει,\n"
-"για αυτό το λόγο δεν μπορούν να δημιουργηθούν\n"
-"μικρογραφίες.\n"
-"\n"
-"Εγκαταστήστε το  <b>Tumbler</b> ή κάποιο άλλο <i>thumbnailing daemon</i>\n"
-"για να επιλύσετε αυτό το ζήτημα."
+msgstr "Η υπηρεσία thumbnailer-service δεν μπορεί να λειτουργήσει,\nγια αυτό το λόγο δεν μπορούν να δημιουργηθούν\nμικρογραφίες.\n\nΕγκαταστήστε το  <b>Tumbler</b> ή κάποιο άλλο <i>thumbnailing daemon</i>\nγια να επιλύσετε αυτό το ζήτημα."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
 msgstr "_Να μην εμφανιστεί ξανά αυτό το μήνυμα"
 
-#: ../src/xfce_wallpaper_manager.c:336 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Στυλ:"
 
-#: ../src/xfce_wallpaper_manager.c:337
+#: ../src/xfce_wallpaper_manager.c:380
 msgid "Brightness:"
 msgstr "Φωτεινότητα:"
 
-#: ../src/xfce_wallpaper_manager.c:338
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Saturation:"
 msgstr "Περιστροφή:"
 
-#: ../src/xfce_wallpaper_manager.c:355 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:397
+msgid "Apply to all workspaces"
+msgstr "Εφαρμογή σε όλες τις επιφάνειες εργασίας"
+
+#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Ορισμός ως φόντο"
 
-#: ../src/xfce_wallpaper_manager.c:508 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Αυτόματο"
 
-#: ../src/xfce_wallpaper_manager.c:511
+#: ../src/xfce_wallpaper_manager.c:560
 msgid "Centered"
 msgstr "Κεντραρισμένο"
 
-#: ../src/xfce_wallpaper_manager.c:514
+#: ../src/xfce_wallpaper_manager.c:563
 msgid "Tiled"
 msgstr "Μικρογραφία"
 
-#: ../src/xfce_wallpaper_manager.c:517
+#: ../src/xfce_wallpaper_manager.c:566
 msgid "Stretched"
 msgstr "Τεντωμένο"
 
-#: ../src/xfce_wallpaper_manager.c:520
+#: ../src/xfce_wallpaper_manager.c:569
 msgid "Scaled"
 msgstr "Σε κλίμακα"
 
-#: ../src/xfce_wallpaper_manager.c:523
+#: ../src/xfce_wallpaper_manager.c:572
 msgid "Zoomed"
 msgstr "Μεγενθημένο"
+
+#: ../ristretto.desktop.in.h:1
+msgid "Ristretto Image Viewer"
+msgstr "Προβολέας εικόνων ristretto"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
 msgstr "Δείτε τις εικόνες σας εύκολα"
 
-#: ../ristretto.desktop.in.h:3
-msgid "Ristretto Image Viewer"
-msgstr "Προβολέας εικόνων ristretto"
+#: ../ristretto.appdata.xml.in.h:2
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr ""
 
-#~ msgid "Show _Navigation Toolbar"
-#~ msgstr "Εμφάνιση εργαλειοθήκης _περιήγηση"
+#: ../ristretto.appdata.xml.in.h:3
+msgid ""
+"This version comes with the improvements such as thumbnail usage as appicon "
+"and update to the first image in the image-list when receiving a ready-"
+"signal, required to show the thumbnail once it's generated."
+msgstr ""
 
-#~ msgid "Toolbars"
-#~ msgstr "Εργαλειοθήκες"
+#: ../ristretto.appdata.xml.in.h:4
+msgid ""
+"This release contains lots of translation-updates, and a crash when "
+"configuring the 'limit-quality' property."
+msgstr ""
 
-#~ msgid "Merge toolbars"
-#~ msgstr "Συγχώνευση εργαλειοθηκών"
-
-#~ msgid "Spacing"
-#~ msgstr "Διαστήματα"
-
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "Το διάστημα μεταξύ των μικρογραφιών"
-
-#~ msgid "border width"
-#~ msgstr "μέγεθος περιγράμματος"
-
-#, fuzzy
-#~ msgid "the border width of the thumbnail bar"
-#~ msgstr "Το πλάτος του περιγράμματος της μπάρας των μικρογραφιών"
-
-#~ msgid "Scaling"
-#~ msgstr "Αλλαγή κλίμακας"
-
-#~ msgid "Don't scale over 100% when maximizing the window."
-#~ msgstr ""
-#~ "Να μην γίνει μεγέθυνση πάνω από 100% όταν μεγιστοποιείται το παράθυρο."
-
-#~ msgid "Preferences"
-#~ msgstr "Προτιμήσεις"
-
-#, fuzzy
-#~ msgid "Image viewer"
-#~ msgstr "Εφαρμογή προβολής εικόνων"
-
-#~ msgid "Open _Folder"
-#~ msgstr "Άνοιγμα _φακέλου"
-
-#~ msgid "Open a folder"
-#~ msgstr "Άνοιγμα ενός φακέλου"
-
-#~ msgid "_Close All"
-#~ msgstr "_Κλείσιμο Όλων"
-
-#~ msgid "Close all images"
-#~ msgstr "Κλείσιμο όλων των εικόνων"
-
-#~ msgid "Open folder"
-#~ msgstr "Άνοιγμα καταλόγου"
-
-#~ msgid "Open entire folder on startup"
-#~ msgstr "Άνοιγμα ολόκληρου του φακέλου κατά την εκκίνηση"
-
-#~ msgid "Monitor:"
-#~ msgstr "Οθόνη:"
-
-#, fuzzy
-#~ msgid "Two"
-#~ msgstr "Πάνω"
-
-#~ msgid "Show preview when loading image"
-#~ msgstr "Να εμφανίζεται η προεσκόπιση κατά την φόρτωση των εικόνων"
-
-#~ msgid "No action"
-#~ msgstr "Καμία ενέργεια"
-
-#~ msgid "Memory"
-#~ msgstr "Μνήμη"
-
-#~ msgid "Image cache"
-#~ msgstr "Προσωρινή μνήμη εικόνας"
-
-#~ msgid "Cache size"
-#~ msgstr "Μέγεθος προσωρινής μνήμης"
-
-#~ msgid "MB"
-#~ msgstr "ΜΒ"
-
-#~ msgid "Enable cache"
-#~ msgstr "Ενεργοποίηση προσωρινής μνήμης"
-
-#~ msgid "Enable preloading"
-#~ msgstr "Ενεργοποίηση προφόρτισης"
-
-#~ msgid "filmstrip width"
-#~ msgstr "πλάτος φιλμ"
-
-#~ msgid "the width of the thumbnail-bar film-strip"
-#~ msgstr "το πλάτος της εργαλειοθήκης των μικρογραφιών φίλμ"
-
-#~ msgid "_Print"
-#~ msgstr "_Εκτύπωση"
-
-#~ msgid "Best"
-#~ msgstr "Καλύτερο"
-
-#~ msgid "High"
-#~ msgstr "Υψηλή"
-
-#~ msgid "Medium"
-#~ msgstr "Μεσαίο"
-
-#~ msgid "Low"
-#~ msgstr "Χαμηλή"
+#: ../ristretto.appdata.xml.in.h:5
+msgid ""
+"This version comes with several changes such as online documentation on "
+"docs.xfce.org, the option to limit the maximum image-quality to the screen "
+"dimensions to improve memory-usage and performance - now ristretto renders "
+"at full quality with this option disabled, only one toolbar - instead of "
+"two, a quick-launch button on the toolbar to execute an editor, the option "
+"to pick a default-editor per mime-type, an optional clock that shows up when"
+" ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the "
+"statusbar to indicate when it is busy and progressive loading of directories"
+" to prevent lockup of the UI. This version is designed to work with version "
+"4.10 of Xfce."
+msgstr ""
