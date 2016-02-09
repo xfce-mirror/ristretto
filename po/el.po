@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-02-08 22:26+0000\n"
+"PO-Revision-Date: 2016-02-09 22:22+0000\n"
 "Last-Translator: Apostolos Papadimitriu <apostolos.papadimitriu@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/xfce/xfce-apps/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +157,7 @@ msgstr "_Εμφάνιση"
 #. Icon-name
 #: ../src/main_window.c:441
 msgid "_Fullscreen"
-msgstr "_Πλήρης Οθόνη"
+msgstr "_Πλήρης oθόνη"
 
 #. Label-text
 #. Keyboard shortcut
