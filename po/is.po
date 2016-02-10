@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-02-09 17:58+0000\n"
+"PO-Revision-Date: 2016-02-10 08:05+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic (http://www.transifex.com/xfce/xfce-apps/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -449,14 +449,14 @@ msgstr "Hleð inn..."
 
 #: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
-msgstr ""
+msgstr "Veldu aðferð fyrir 'set wallpaper' skipun"
 
 #: ../src/main_window.c:2124 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr ""
+msgstr "Stillir hvaða kerfi er notað til að stjórna skjáborðinu þínu.\nÞessi stilling ákvarðar hvaða aðferð <i>Ristretto</i> mun\nnota til að stýra bakgrunnsmynd skjáborðsins."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -567,7 +567,7 @@ msgstr "Skráadálkur"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr ""
+msgstr "Dálkur módels sem notaður er til að sækja skrána"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
@@ -665,7 +665,7 @@ msgstr "Gæði"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr ""
+msgstr "Sé þetta valið, munu hámarks myndgæði verða takmörkuð við skjástærðina."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
@@ -696,7 +696,7 @@ msgstr "Klukka"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr ""
+msgstr "Birta hliðræna klukku þegar glugginn er í heilskjásham"
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
@@ -714,7 +714,7 @@ msgstr "Tímamörk"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr ""
+msgstr "Tíminn sem hver mynd birtist í skyggnusýningu\n(í sekúndum)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -804,7 +804,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr ""
+msgstr "Ekki var hægt að ná sambandi við smámyndagerðarþjónustu,\nþar af leiðandi er ekki hægt að útbúa smámyndir.\n\nSettu upp <b>Tumbler</b> eða annan <i>smámyndagerðarmiðlara</i>\ntil að leysa þetta mál."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
@@ -868,7 +868,7 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Ristretto myndaskoðarinn er forrit sem nota má til að skoða og vafra í gegnum myndir, keyra skyggnusýningu  með myndum, opna myndir í öðrum forritum eins og til dæmis myndvinnsluforritum, nú eða nota það til að setja mynd sem bakgrunn á skjáborð."
 
 #: ../ristretto.appdata.xml.in.h:3
 msgid ""
