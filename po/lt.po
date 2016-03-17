@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-03-01 21:04+0000\n"
+"PO-Revision-Date: 2016-03-17 18:00+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -66,13 +66,13 @@ msgstr "Atverti paveikslėlį"
 #. Icon-name
 #: ../src/main_window.c:375
 msgid "_Save copy..."
-msgstr "_Išsaugoti kopiją..."
+msgstr "Įr_ašyti kopiją..."
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:377
 msgid "Save a copy of the image"
-msgstr "Išsaugoti paveikslėlio kopiją"
+msgstr "Įrašyti paveikslėlio kopiją"
 
 #. Icon-name
 #: ../src/main_window.c:381
@@ -445,7 +445,7 @@ msgstr "Tuščia"
 
 #: ../src/main_window.c:1505
 msgid "Loading..."
-msgstr "Įkraunama..."
+msgstr "Įkeliama..."
 
 #: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
@@ -500,11 +500,11 @@ msgstr "Nepavyko atverti failo"
 
 #: ../src/main_window.c:3142
 msgid "Save copy"
-msgstr "Išsaugoti kopiją"
+msgstr "Įrašyti kopiją"
 
 #: ../src/main_window.c:3168
 msgid "Could not save file"
-msgstr "Nepavyko išsaugoti failo"
+msgstr "Nepavyko įrašyti failo"
 
 #: ../src/main_window.c:3336
 #, c-format
@@ -868,7 +868,7 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "Ristretto Paveikslėlių Peržiūros Programa yra programa, kuri gali būti naudojama paveikslėlių peržiūrai, skaidrių rodymui, paveikslėlių atidarymui per kitas, tokias kaip paveikslėlių redaktorius, programas arba paveikslėlių, kaip darbalaukio fono, konfigūravimui."
+msgstr "Ristretto Paveikslėlių Peržiūros Programa yra programa, kuri gali būti naudojama paveikslėlių peržiūrai, skaidrių rodymui, paveikslėlių atvėrimui per kitas, tokias kaip paveikslėlių redaktorius, programas arba paveikslėlių, kaip darbalaukio fono, konfigūravimui."
 
 #: ../ristretto.appdata.xml.in.h:3
 msgid ""
