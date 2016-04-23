@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-02-10 08:05+0000\n"
+"PO-Revision-Date: 2016-04-23 09:57+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic (http://www.transifex.com/xfce/xfce-apps/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -338,7 +338,7 @@ msgstr "Hætta í skjá_fylliham"
 #. Icon-name
 #: ../src/main_window.c:585
 msgid "_Show Toolbar"
-msgstr "Birta áhalda_stiku"
+msgstr "_Birta verkfærastiku"
 
 #. Icon-name
 #: ../src/main_window.c:593
