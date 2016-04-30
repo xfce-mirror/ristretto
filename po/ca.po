@@ -6,13 +6,14 @@
 # Harald Servat <redcrash@gmail.com>, 2009
 # Davidmp <medipas@gmail.com>, 2016
 # Pol Ruzafa <kiari62@gmail.com>, 2011
+# Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-01-26 16:03+0000\n"
-"Last-Translator: Davidmp <medipas@gmail.com>\n"
+"PO-Revision-Date: 2016-04-30 10:27+0000\n"
+"Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -426,11 +427,11 @@ msgstr "Pausa la seqüència d'imatges"
 #. Create Recently used items Action
 #: ../src/main_window.c:853
 msgid "_Recently used"
-msgstr "Emprats _recentment"
+msgstr "Utilitzat _recentment"
 
 #: ../src/main_window.c:853
 msgid "Recently used"
-msgstr "Emprats recentment"
+msgstr "Utilitzat recentment"
 
 #: ../src/main_window.c:957 ../src/main_window.c:1495
 msgid "Press open to select an image"
@@ -457,7 +458,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Configureu quin sistema gestiona el vostre escriptori.\nAquest paràmetre determina quin mètode emprarà <i>Ristretto</i>\nper configurar el fons de l'escriptori."
+msgstr "Configureu quin sistema gestiona el vostre escriptori.\nAquest paràmetre determina quin mètode utilitzarà <i>Ristretto</i>\nper configurar el fons de l'escriptori."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
