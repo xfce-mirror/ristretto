@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-04-30 10:27+0000\n"
+"PO-Revision-Date: 2016-04-30 21:57+0000\n"
 "Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr "%s: %s\n\nFeu %s --help per veure la llista completa \nd'opcions disponi
 
 #: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
-msgstr "Visor d'imatges"
+msgstr "Visualitzador d'imatges"
 
 #: ../src/main_window.c:365
 msgid "_File"
@@ -57,7 +57,7 @@ msgstr "_Fitxer"
 #. Icon-name
 #: ../src/main_window.c:369
 msgid "_Open..."
-msgstr "_obre"
+msgstr "_Obre..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -122,7 +122,7 @@ msgstr "Surt de Ristretto"
 
 #: ../src/main_window.c:410
 msgid "_Open with"
-msgstr "_Obre amb:"
+msgstr "_Obre amb"
 
 #: ../src/main_window.c:414
 msgid "_Sorting"
@@ -131,13 +131,13 @@ msgstr "_Ordenació"
 #. Icon-name
 #: ../src/main_window.c:418
 msgid "_Delete"
-msgstr "_Esborra"
+msgstr "_Suprimeix"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:420
 msgid "Delete this image from disk"
-msgstr "Esborra aquesta imatge del disc"
+msgstr "Suprimeix aquesta imatge del disc"
 
 #. Icon-name
 #: ../src/main_window.c:424
@@ -187,24 +187,24 @@ msgstr "_Zoom"
 #. Icon-name
 #: ../src/main_window.c:464
 msgid "Zoom _In"
-msgstr "Ampl_ia"
+msgstr "Ampl_ia el zoom"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:466
 msgid "Zoom in"
-msgstr "Amplia"
+msgstr "Amplia el zoom"
 
 #. Icon-name
 #: ../src/main_window.c:470
 msgid "Zoom _Out"
-msgstr "Red_ueix"
+msgstr "Redueix  el z_oom"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:472
 msgid "Zoom out"
-msgstr "Redueix"
+msgstr "Redueix el zoom"
 
 #. Icon-name
 #: ../src/main_window.c:476
@@ -330,7 +330,7 @@ msgstr "_Posició de la barra de miniatures"
 
 #: ../src/main_window.c:564
 msgid "Thumb_nail Size"
-msgstr "Mida de mi_niatura"
+msgstr "Mida de la mi_niatura"
 
 #. Icon-name
 #: ../src/main_window.c:569
@@ -355,12 +355,12 @@ msgstr "Mostra la _barra d'estat"
 #. Icon-name
 #: ../src/main_window.c:614
 msgid "sort by filename"
-msgstr "Ordena per nom de fitxer"
+msgstr "Ordena pel nom de fitxer"
 
 #. Icon-name
 #: ../src/main_window.c:621
 msgid "sort by date"
-msgstr "Ordena per data"
+msgstr "Ordena per la data"
 
 #. Icon-name
 #: ../src/main_window.c:632
@@ -410,7 +410,7 @@ msgstr "Molt gran"
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:849
 msgid "_Play"
-msgstr "_Reproduir"
+msgstr "Re_produeix"
 
 #: ../src/main_window.c:849
 msgid "Play slideshow"
@@ -435,7 +435,7 @@ msgstr "Utilitzat recentment"
 
 #: ../src/main_window.c:957 ../src/main_window.c:1495
 msgid "Press open to select an image"
-msgstr "Feu clic a Obrir per seleccionar una imatge"
+msgstr "Feu clic a Obre per seleccionar una imatge"
 
 #: ../src/main_window.c:1354 ../src/main_window.c:1358
 msgid "Open With Other _Application..."
@@ -447,7 +447,7 @@ msgstr "Buit"
 
 #: ../src/main_window.c:1505
 msgid "Loading..."
-msgstr "Carregant..."
+msgstr "S'està carregant..."
 
 #: ../src/main_window.c:2109
 msgid "Choose 'set wallpaper' method"
@@ -474,15 +474,15 @@ msgstr "GNOME"
 
 #: ../src/main_window.c:2597
 msgid "Developer:"
-msgstr "Autor:"
+msgstr "Desenvolupador:"
 
 #: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto és un visor d'imatges per l'entorn d'escriptori Xfce."
+msgstr "Ristretto és un visualitzador d'imatges per a l'entorn d'escriptori Xfce."
 
 #: ../src/main_window.c:2614
 msgid "translator-credits"
-msgstr "Carles Muñoz Gorriz <carlesmu@internautas.org>, 2008-2010.\nHarald Servat <redcrash@gmail.com>, 2009."
+msgstr "Carles Muñoz Gorriz <carlesmu@internautas.org>, 2008-2010.\nHarald Servat <redcrash@gmail.com>, 2009.\nRobert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2016."
 
 #: ../src/main_window.c:2916
 msgid "Open image"
@@ -519,7 +519,7 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "S'ha produït un error en esborrar la imatge \"%s\" del disc.\n\n%s"
+msgstr "S'ha produït un error en suprimir la imatge «%s» del disc.\n\n%s"
 
 #: ../src/main_window.c:3370
 #, c-format
@@ -532,7 +532,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "S'ha produït un error en enviar la imatge \"%s\" a la paperera.\n\n%s"
+msgstr "S'ha produït un error en enviar la imatge «%s» a la paperera.\n\n%s"
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
@@ -541,11 +541,11 @@ msgstr "Edita amb"
 #: ../src/main_window.c:3736
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr "Obra %s i altres fitxers del tipus %s amb:"
+msgstr "Obra %s i els altres fitxers del tipus %s amb:"
 
 #: ../src/main_window.c:3741
 msgid "Use as _default for this kind of file"
-msgstr "Per aquest tipus de fitxers empra'l per _defecte"
+msgstr "Utilitza-ho com a pre_determinat per a aquest tipus de fitxer"
 
 #: ../src/main_window.c:3831
 msgid "Recommended Applications"
@@ -569,7 +569,7 @@ msgstr "Columna de fitxers"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr "Columna de model usada per recuperar-ne el fitxer"
+msgstr "Columna de model que s'utilitza per recuperar-ne el fitxer"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
@@ -593,7 +593,7 @@ msgstr "Mostra el text"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
-msgstr "Color d'emplenament de l'element actiu"
+msgstr "Color de l'emplenament de l'element actiu"
 
 #: ../src/icon_bar.c:423 ../src/icon_bar.c:424
 msgid "Active item border color"
@@ -605,7 +605,7 @@ msgstr "Color del text de l'element actiu"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
-msgstr "Color d'emplenament de l'element del cursor"
+msgstr "Color de l'emplenament de l'element del cursor"
 
 #: ../src/icon_bar.c:444 ../src/icon_bar.c:445
 msgid "Cursor item border color"
@@ -625,15 +625,15 @@ msgstr "Neteja"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Hour"
-msgstr "Darrera hora"
+msgstr "Última hora"
 
 #: ../src/privacy_dialog.c:159
 msgid "Last Two Hours"
-msgstr "Darreres dues hores"
+msgstr "Últimes dues hores"
 
 #: ../src/privacy_dialog.c:160
 msgid "Last Four Hours"
-msgstr "Darreres quatre hores"
+msgstr "Últimes quatre hores"
 
 #: ../src/privacy_dialog.c:161
 msgid "Today"
@@ -645,11 +645,11 @@ msgstr "Tot"
 
 #: ../src/privacy_dialog.c:460
 msgid "Clear private data"
-msgstr "Esborrar les dades privades"
+msgstr "Neteja les dades privades"
 
 #: ../src/preferences_dialog.c:276
 msgid "Display"
-msgstr "Visualització"
+msgstr "Pantalla"
 
 #: ../src/preferences_dialog.c:283
 msgid "Background color"
@@ -671,7 +671,7 @@ msgstr "Amb aquesta opció habilitada, la qualitat màxima de la imatge es limit
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
-msgstr "Límit de la qualitat de representació"
+msgstr "Límita la qualitat de la representació"
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
@@ -716,7 +716,7 @@ msgstr "Temps esgotat"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr "El temps que una imatge en concret es mostra durant la seqüència d'imatges\n(en segons)"
+msgstr "El període de temps que una imatge individual es mostra durant la seqüència d'imatges\n(en segons)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -740,7 +740,7 @@ msgstr "Inici"
 
 #: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
-msgstr "Maximitza la finestra a l'inici quan obriu una imatge"
+msgstr "Maximitza la finestra a l'inici en obrir una imatge"
 
 #: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
@@ -752,7 +752,7 @@ msgstr "Escriptori"
 
 #: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
-msgstr "Preferències del visor d'imatges"
+msgstr "Preferències del visualitzador d'imatges"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
@@ -764,11 +764,11 @@ msgstr "<b>Tipus:</b>"
 
 #: ../src/properties_dialog.c:183
 msgid "<b>Modified:</b>"
-msgstr "<b>Modificada:</b>"
+msgstr "<b>Modificació:</b>"
 
 #: ../src/properties_dialog.c:184
 msgid "<b>Accessed:</b>"
-msgstr "<b>Accedida:</b>"
+msgstr "<b>Accés:</b>"
 
 #: ../src/properties_dialog.c:185
 msgid "<b>Size:</b>"
@@ -806,7 +806,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "No s'ha trobat el servei de miniatures,per aquest\nmotiu no es poden crear les miniatures.\n\nInstaŀleu <b>Tumbler</b> o algun altre <i>dimoni de\nminiatures</i> per resoldre el problema."
+msgstr "No s'ha trobat el servei de miniatures, per aquest\nmotiu no es poden crear les miniatures.\n\nInstal·leu <b>Tumbler</b> o algun altre <i>dimoni de\nminiatures</i> per resoldre el problema."
 
 #: ../src/thumbnailer.c:470
 msgid "Do _not show this message again"
@@ -858,7 +858,7 @@ msgstr "Ampliat"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
-msgstr "Visor d'imatges Ristretto"
+msgstr "Visualitzador d'imatges Ristretto"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
@@ -870,7 +870,7 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "El Ristretto Image Viewer és una aplicació que es pot utilitzar per veure i desplaçar-se a través de les imatges, executar una presentació de diapositives obrir imatges amb altres aplicacions com ara un editor o configurar una imatge com a fons d'escriptori."
+msgstr "El visualitzador d'imatges Ristretto és una aplicació que es pot utilitzar per visualitzar i desplaçar-se a través de les imatges, executar una presentació de diapositives, obrir imatges amb altres aplicacions com ara un editor o configurar una imatge com a fons d'escriptori."
 
 #: ../ristretto.appdata.xml.in.h:3
 msgid ""
@@ -883,7 +883,7 @@ msgstr "Aquesta versió ve amb millores com ara l'ús de miniatures com a icona 
 msgid ""
 "This release contains lots of translation-updates, and a crash when "
 "configuring the 'limit-quality' property."
-msgstr "Aquesta versió conté una gran quantitat d'actualitzacions de traduccions i una fallada en configurar la propietat de qualitat límit."
+msgstr "Aquesta versió conté una gran nombre d'actualitzacions de les traduccions i una fallada en configurar la propietat de la limitació de la qualitat."
 
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
