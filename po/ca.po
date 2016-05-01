@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-04-30 21:57+0000\n"
+"PO-Revision-Date: 2016-05-01 13:13+0000\n"
 "Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s: %s\n\nFeu %s --help per veure la llista completa \nd'opcions disponibles de la línia d'ordres.\n"
+msgstr "%s: %s\n\nProveu %s --help per a visualitzar la llista completa \nd'opcions disponibles de la línia d'ordres.\n"
 
 #: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
@@ -147,7 +147,7 @@ msgstr "_Neteja les dades privades...."
 #. Icon-name
 #: ../src/main_window.c:430
 msgid "_Preferences..."
-msgstr "_Preferències"
+msgstr "_Preferències..."
 
 #: ../src/main_window.c:437
 msgid "_View"
@@ -671,7 +671,7 @@ msgstr "Amb aquesta opció habilitada, la qualitat màxima de la imatge es limit
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
-msgstr "Límita la qualitat de la representació"
+msgstr "Limita la qualitat de la representació"
 
 #: ../src/preferences_dialog.c:333
 msgid "Fullscreen"
@@ -897,4 +897,4 @@ msgid ""
 "statusbar to indicate when it is busy and progressive loading of directories"
 " to prevent lockup of the UI. This version is designed to work with version "
 "4.10 of Xfce."
-msgstr "Aquesta versió ve amb diversos canvis com ara la documentació en línia a docs.xfce.org, l'opció de limitar la màxima qualitat d'imatge a les dimensions de la pantalla per millorar l'ús de la memòria i el rendiment. Ara el Ristretto representa les imatges amb la qualitat total amb aquesta opció desactivada, amb només un barra d'eines en lloc de dues, un botó d'inici ràpid a la barra d'eines per executar un editor, l'opció de triar un editor per defecte per tipus MIME i un rellotge opcional que apareix quan el Ristretto és en pantalla completa. El Ristretto ara mostra un missatge de \"Carregant...\" a la barra d'estat per indicar quan està ocupat i executa una càrrega progressiva de directoris per evitar el bloqueig de la interfície d'usuari. Aquesta versió està dissenyada per treballar amb la versió 4.10 de l'Xfce."
+msgstr "Aquesta versió ve amb diversos canvis com ara la documentació en línia a docs.xfce.org, l'opció de limitar la màxima qualitat d'imatge a les dimensions de la pantalla per millorar l'ús de la memòria i el rendiment. Ara Ristretto representa les imatges amb la qualitat total amb aquesta opció desactivada, amb només un barra d'eines en lloc de dues, un botó d'inici ràpid a la barra d'eines per executar un editor, l'opció de triar un editor per defecte per tipus MIME i un rellotge opcional que apareix quan Ristretto és en pantalla completa. Ristretto ara mostra un missatge \"S'està carregant...\" a la barra d'estat per indicar quan està ocupat i executa una càrrega progressiva de directoris per evitar el bloqueig de la interfície d'usuari. Aquesta versió està dissenyada per treballar amb la versió 4.10 de Xfce."
