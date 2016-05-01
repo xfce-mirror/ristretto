@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-05-01 13:13+0000\n"
+"PO-Revision-Date: 2016-05-01 22:15+0000\n"
 "Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -519,7 +519,7 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "S'ha produït un error en suprimir la imatge «%s» del disc.\n\n%s"
+msgstr "S'ha produït un error mentre s'estava suprimint la imatge «%s» del disc.\n\n%s"
 
 #: ../src/main_window.c:3370
 #, c-format
@@ -532,7 +532,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "S'ha produït un error en enviar la imatge «%s» a la paperera.\n\n%s"
+msgstr "S'ha produït un error mentre s'estava enviant la imatge «%s» a la paperera.\n\n%s"
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
