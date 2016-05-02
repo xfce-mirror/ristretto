@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-05-01 22:15+0000\n"
+"PO-Revision-Date: 2016-05-02 14:47+0000\n"
 "Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Inicia una seqüència d'imatges"
 
 #: ../src/main.c:78
 msgid "Show settings dialog"
-msgstr "Mostra el diàleg d'ajustaments"
+msgstr "Mostra el diàleg d'ajusts"
 
 #: ../src/main.c:108
 #, c-format
@@ -458,7 +458,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Configureu quin sistema gestiona el vostre escriptori.\nAquest paràmetre determina quin mètode utilitzarà <i>Ristretto</i>\nper configurar el fons de l'escriptori."
+msgstr "Configureu quin sistema gestiona el vostre escriptori.\nAquest ajust determina quin mètode utilitzarà <i>Ristretto</i>\nper configurar el fons de l'escriptori."
 
 #: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
 msgid "None"
@@ -862,7 +862,7 @@ msgstr "Visualitzador d'imatges Ristretto"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
-msgstr "Veieu les vostres imatges fàcilment"
+msgstr "Doneu fàcilment un cop d'ull a les vostres imatges"
 
 #: ../ristretto.appdata.xml.in.h:2
 msgid ""
