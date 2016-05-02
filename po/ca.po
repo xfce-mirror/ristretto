@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-05-02 14:47+0000\n"
+"PO-Revision-Date: 2016-05-02 19:56+0000\n"
 "Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -198,7 +198,7 @@ msgstr "Amplia el zoom"
 #. Icon-name
 #: ../src/main_window.c:470
 msgid "Zoom _Out"
-msgstr "Redueix  el z_oom"
+msgstr "Redueix el z_oom"
 
 #. Label-text
 #. Keyboard shortcut
@@ -561,7 +561,7 @@ msgstr "Orientació"
 
 #: ../src/icon_bar.c:346
 msgid "The orientation of the iconbar"
-msgstr "La orientació de la barra d'icones"
+msgstr "L'orientació de la barra d'icones"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
@@ -883,7 +883,7 @@ msgstr "Aquesta versió ve amb millores com ara l'ús de miniatures com a icona 
 msgid ""
 "This release contains lots of translation-updates, and a crash when "
 "configuring the 'limit-quality' property."
-msgstr "Aquesta versió conté una gran nombre d'actualitzacions de les traduccions i una fallada en configurar la propietat de la limitació de la qualitat."
+msgstr "Aquesta versió conté un gran nombre d'actualitzacions de les traduccions i una fallada en configurar la propietat de la limitació de la qualitat."
 
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
