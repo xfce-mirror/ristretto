@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-05-02 19:56+0000\n"
+"PO-Revision-Date: 2016-05-04 08:56+0000\n"
 "Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -340,7 +340,7 @@ msgstr "Surt de la _pantalla completa"
 #. Icon-name
 #: ../src/main_window.c:585
 msgid "_Show Toolbar"
-msgstr "Mostra la barra d'_eines "
+msgstr "Mostra la barra d'_eines"
 
 #. Icon-name
 #: ../src/main_window.c:593
@@ -684,11 +684,11 @@ msgstr "Miniatures"
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "La barra de miniatures es pot amagar automàticament quan la finestra ocupi tota la pantalla."
+msgstr "La barra de miniatures es pot ocultar automàticament quan la finestra ocupi tota la pantalla."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Amaga la barra de miniatures en pantalla completa"
+msgstr "Oculta la barra de miniatures en pantalla completa"
 
 #: ../src/preferences_dialog.c:352
 msgid "Clock"
