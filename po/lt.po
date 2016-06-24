@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2015-03-02 18:31+0100\n"
-"PO-Revision-Date: 2016-03-17 18:00+0000\n"
+"PO-Revision-Date: 2016-06-24 10:43+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "%s: %s\n\nNorėdami pamatyti komandų eilutės \nparinkčių sąrašą, 
 
 #: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
-msgstr "Paveikslėlių peržiūros programa"
+msgstr "Paveikslų peržiūros programa"
 
 #: ../src/main_window.c:365
 msgid "_File"
@@ -61,7 +61,7 @@ msgstr "_Atverti..."
 #. Keyboard shortcut
 #: ../src/main_window.c:371
 msgid "Open an image"
-msgstr "Atverti paveikslėlį"
+msgstr "Atverti paveikslą"
 
 #. Icon-name
 #: ../src/main_window.c:375
@@ -72,7 +72,7 @@ msgstr "Įr_ašyti kopiją..."
 #. Keyboard shortcut
 #: ../src/main_window.c:377
 msgid "Save a copy of the image"
-msgstr "Įrašyti paveikslėlio kopiją"
+msgstr "Įrašyti paveikslo kopiją"
 
 #. Icon-name
 #: ../src/main_window.c:381
@@ -83,7 +83,7 @@ msgstr "_Savybės..."
 #. Keyboard shortcut
 #: ../src/main_window.c:383
 msgid "Show file properties"
-msgstr "Rodyti paveikslėlio savybes"
+msgstr "Rodyti paveikslo savybes"
 
 #. Icon-name
 #: ../src/main_window.c:387 ../src/main_window.c:406
@@ -94,7 +94,7 @@ msgstr "_Keisti"
 #. Keyboard shortcut
 #: ../src/main_window.c:389
 msgid "Edit this image"
-msgstr "Redaguoti šį paveikslėlį"
+msgstr "Redaguoti šį paveikslą"
 
 #. Icon-name
 #: ../src/main_window.c:393
@@ -105,7 +105,7 @@ msgstr "_Užverti"
 #. Keyboard shortcut
 #: ../src/main_window.c:395
 msgid "Close this image"
-msgstr "Užverti šį paveikslėlį"
+msgstr "Užverti šį paveikslą"
 
 #. Icon-name
 #: ../src/main_window.c:399
@@ -135,7 +135,7 @@ msgstr "Išt_rinti"
 #. Keyboard shortcut
 #: ../src/main_window.c:420
 msgid "Delete this image from disk"
-msgstr "Ištrinti šį paveikslėlį iš disko"
+msgstr "Ištrinti šį paveikslą iš disko"
 
 #. Icon-name
 #: ../src/main_window.c:424
@@ -253,7 +253,7 @@ msgstr "Pir_myn"
 #. Keyboard shortcut
 #: ../src/main_window.c:512
 msgid "Next image"
-msgstr "Sekantis paveikslėlis"
+msgstr "Kitas paveikslas"
 
 #. Icon-name
 #: ../src/main_window.c:516
@@ -264,7 +264,7 @@ msgstr "A_tgal"
 #. Keyboard shortcut
 #: ../src/main_window.c:518
 msgid "Previous image"
-msgstr "Ankstesnis paveikslėlis"
+msgstr "Ankstesnis paveikslas"
 
 #. Icon-name
 #: ../src/main_window.c:522
@@ -275,7 +275,7 @@ msgstr "_Pirmas"
 #. Keyboard shortcut
 #: ../src/main_window.c:524
 msgid "First image"
-msgstr "Pirmas paveikslėlis"
+msgstr "Pirmas paveikslas"
 
 #. Icon-name
 #: ../src/main_window.c:528
@@ -286,7 +286,7 @@ msgstr "Pa_skutinis"
 #. Keyboard shortcut
 #: ../src/main_window.c:530
 msgid "Last image"
-msgstr "Paskutinis paveikslėlis"
+msgstr "Paskutinis paveikslas"
 
 #: ../src/main_window.c:535
 msgid "_Help"
@@ -433,7 +433,7 @@ msgstr "Neseniai naudoti"
 
 #: ../src/main_window.c:957 ../src/main_window.c:1495
 msgid "Press open to select an image"
-msgstr "Paspauskite atverti norėdami pasirinkti paveikslėlį"
+msgstr "Paspauskite atverti, norėdami pasirinkti paveikslą"
 
 #: ../src/main_window.c:1354 ../src/main_window.c:1358
 msgid "Open With Other _Application..."
@@ -476,7 +476,7 @@ msgstr "Kūrėjas:"
 
 #: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto yra paveikslėlių peržiūros programa skirta Xfce darbalaukio aplinkai."
+msgstr "Ristretto yra paveikslų peržiūros programa skirta Xfce darbalaukio aplinkai."
 
 #: ../src/main_window.c:2614
 msgid "translator-credits"
@@ -484,11 +484,11 @@ msgstr "Algimantas Margevičius <margevicius.algimantas@gmail.com>"
 
 #: ../src/main_window.c:2916
 msgid "Open image"
-msgstr "Atverti paveikslėlį"
+msgstr "Atverti paveikslą"
 
 #: ../src/main_window.c:2935
 msgid "Images"
-msgstr "Paveikslėliai"
+msgstr "Paveikslai"
 
 #: ../src/main_window.c:2940
 msgid ".jp(e)g"
@@ -509,7 +509,7 @@ msgstr "Nepavyko įrašyti failo"
 #: ../src/main_window.c:3336
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Ar tikrai norite ištrinti paveikslėlį „%s“ iš disko?"
+msgstr "Ar tikrai norite ištrinti paveikslą „%s“ iš disko?"
 
 #: ../src/main_window.c:3354
 #, c-format
@@ -517,12 +517,12 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Trinant paveikslėlį „%s“ iš disko įvyko klaida.\n\n%s"
+msgstr "Trinant paveikslą „%s“ iš disko, įvyko klaida.\n\n%s"
 
 #: ../src/main_window.c:3370
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Ar tikrai norite nusiųsti paveikslėlį „%s“ į šiukšlinę?"
+msgstr "Ar tikrai norite nusiųsti paveikslą „%s“ į šiukšlinę?"
 
 #: ../src/main_window.c:3388
 #, c-format
@@ -530,7 +530,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "Siunčiant paveikslėlį „%s“ į šiukšlinę įvyko klaida.\n\n%s"
+msgstr "Siunčiant paveikslą „%s“ į šiukšlinę, įvyko klaida.\n\n%s"
 
 #: ../src/main_window.c:3718
 msgid "Edit with"
@@ -665,7 +665,7 @@ msgstr "Kokybė"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Įjungus šią parinktį, didžiausia paveikslėlio kokybė bus ribojama iki ekrano dydžio."
+msgstr "Įjungus šią parinktį, didžiausia paveikslo kokybė bus ribojama iki ekrano dydžio."
 
 #: ../src/preferences_dialog.c:321
 msgid "Limit rendering quality"
@@ -714,7 +714,7 @@ msgstr "Laukimo laikas"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr "Laiko intervalas kurį, skaidrių peržiūroje, bus rodomas kiekvienas paveikslėlis\n(sekundėmis)"
+msgstr "Laiko intervalas kurį, skaidrių peržiūroje, bus rodomas kiekvienas paveikslas\n(sekundėmis)"
 
 #: ../src/preferences_dialog.c:400
 msgid "Control"
@@ -738,11 +738,11 @@ msgstr "Paleidimas"
 
 #: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
-msgstr "Paleidus programą, kuomet atveriamas paveikslėlis, išskleisti langą"
+msgstr "Paleidus programą, kuomet atveriamas paveikslas, išskleisti langą"
 
 #: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
-msgstr "Paveikslėlių dydį pritaikyti prie lango dydžio"
+msgstr "Paveikslų dydį pritaikyti prie lango dydžio"
 
 #: ../src/preferences_dialog.c:453
 msgid "Desktop"
@@ -750,7 +750,7 @@ msgstr "Darbalaukis"
 
 #: ../src/preferences_dialog.c:572
 msgid "Image Viewer Preferences"
-msgstr "Paveikslėlių peržiūros programos nuostatos"
+msgstr "Paveikslų peržiūros programos nuostatos"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Name:</b>"
@@ -778,7 +778,7 @@ msgstr "Bendra"
 
 #: ../src/properties_dialog.c:313
 msgid "Image"
-msgstr "Paveikslėlis"
+msgstr "Paveikslas"
 
 #: ../src/properties_dialog.c:541
 #, c-format
@@ -856,11 +856,11 @@ msgstr "Pritauktas"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
-msgstr "Ristretto paveikslėlių peržiūros programa"
+msgstr "Ristretto paveikslų peržiūros programa"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
-msgstr "Peržiūrėkite savo paveikslėlius paprastai"
+msgstr "Paprastai peržiūrėkite savo paveikslus"
 
 #: ../ristretto.appdata.xml.in.h:2
 msgid ""
@@ -868,7 +868,7 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "Ristretto Paveikslėlių Peržiūros Programa yra programa, kuri gali būti naudojama paveikslėlių peržiūrai, skaidrių rodymui, paveikslėlių atvėrimui per kitas, tokias kaip paveikslėlių redaktorius, programas arba paveikslėlių, kaip darbalaukio fono, konfigūravimui."
+msgstr "Ristretto paveikslų peržiūros programa yra programa, kuri gali būti naudojama paveikslų peržiūrai, skaidrių rodymui, paveikslų atvėrimui per kitas, tokias kaip paveikslų redaktorius, programas arba paveikslų, kaip darbalaukio fono, konfigūravimui."
 
 #: ../ristretto.appdata.xml.in.h:3
 msgid ""
@@ -895,4 +895,4 @@ msgid ""
 "statusbar to indicate when it is busy and progressive loading of directories"
 " to prevent lockup of the UI. This version is designed to work with version "
 "4.10 of Xfce."
-msgstr "Šioje versijoje yra keli pakeitimai, tokie kaip dokumentacija internete, puslapyje docs.xfce.org, parinktis sumažinti aukščiausią paveikslo kokybę iki ekrano matmenų, siekiant pagerinti atminties naudojimą bei greitį - dabar ristretto atvaizduoja pilną kokybę, šiai parinkčiai esant išjungtai, tik viena įrankių juosta vietoj dviejų, įrankių juostoje esantis greitasis redaktoriaus paleidimo mygtukas, parinktis pasirinkti kiekvienam mime tipui numatytąjį redaktorių, pasirinktinas laikrodis, pasirodantis, kuomet ristretto perjungiama į visą ekraną, Ristretto, siekiant apsaugoti nuo naudotojo sąsajos blokavimo, dabar būsenos juostoje rodo pranešimą \"Įkeliama..\", taip nurodydamas apie savo užimtumą ir progresinį katalogų įkėlimą. Ši versija yra sukurta, kad veiktų su Xfce 4.10 versija."
+msgstr "Šioje versijoje yra keli pakeitimai, tokie kaip dokumentacija internete, puslapyje docs.xfce.org, parinktis sumažinti aukščiausią paveikslo kokybę iki ekrano matmenų, siekiant pagerinti atminties naudojimą bei greitį - dabar, šiai parinkčiai esant išjungtai, ristretto atvaizduoja pilną kokybę, tik viena įrankių juosta vietoj dviejų, įrankių juostoje esantis greitasis redaktoriaus paleidimo mygtukas, parinktis pasirinkti kiekvienam mime tipui numatytąjį redaktorių, pasirinktinas laikrodis, pasirodantis, kuomet ristretto perjungiama į visą ekraną, programa Ristretto, siekdama apsaugoti nuo naudotojo sąsajos blokavimo, dabar būsenos juostoje rodo pranešimą \"Įkeliama..\", taip nurodydama apie savo užimtumą ir progresinį katalogų įkėlimą. Ši versija yra sukurta, kad veiktų su Xfce 4.10 versija."
