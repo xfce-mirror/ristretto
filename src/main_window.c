@@ -3349,6 +3349,67 @@ cb_rstto_main_window_edit (
 }
 
 /**
+ * rstto_confirm_deletion:
+ * @window: Ristretto main window
+ * @file: Ristretto file to delete
+ * @to_trash: File is to be trashed (TRUE) or deleted (FALSE)
+ *
+ * Show dialog to confirm deletion/trashing.
+ * Use can choose not be be asked again if the file is to be trashed.
+ */
+static int
+rstto_confirm_deletion(
+    RsttoMainWindow *window,
+    RsttoFile *file,
+    gboolean to_trash )
+{
+    static gboolean dont_ask_trash = FALSE;
+    gchar *prompt = NULL;
+    const gchar *file_basename = rstto_file_get_display_name(file);
+    GtkWidget *dialog;
+    GtkWidget* dont_ask_checkbox = NULL;
+
+    if ( to_trash )
+    {
+        if ( dont_ask_trash )
+        {
+            return GTK_RESPONSE_OK;
+        }
+        prompt = g_strdup_printf( _("Are you sure you want to send image '%s' to trash?"), file_basename );
+    }
+    else
+    {
+        prompt = g_strdup_printf( _("Are you sure you want to delete image '%s' from disk?"), file_basename );
+    }
+    dialog = gtk_message_dialog_new(
+            GTK_WINDOW(window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_WARNING,
+            GTK_BUTTONS_OK_CANCEL,
+            "%s",
+            prompt);
+
+    if ( to_trash ) {
+        dont_ask_checkbox = gtk_check_button_new_with_mnemonic (_("_Do not ask again for this session"));
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dont_ask_checkbox), FALSE);
+        gtk_box_pack_end (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), dont_ask_checkbox, TRUE, TRUE, 0);
+        gtk_widget_show( dont_ask_checkbox );
+        gtk_widget_grab_focus(gtk_dialog_get_widget_for_response(GTK_DIALOG(dialog), GTK_RESPONSE_CANCEL));
+    }
+
+    int response = gtk_dialog_run( GTK_DIALOG( dialog ) );
+    if ( to_trash && (response == GTK_RESPONSE_OK) )
+    {
+      dont_ask_trash = gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON(dont_ask_checkbox) );
+    }
+    gtk_widget_destroy(dialog);
+
+    g_free( prompt );
+
+    return response;
+}
+
+/**
  * cb_rstto_main_window_delete:
  * @widget:
  * @window:
@@ -3365,6 +3426,8 @@ cb_rstto_main_window_delete (
     GtkWidget *dialog;
     GdkModifierType state;
     gboolean delete_file = FALSE;
+    gboolean success = FALSE;
+    gchar *prompt = NULL;
     GError *error = NULL;
 
     g_return_if_fail (rstto_image_list_get_n_images (window->priv->image_list) > 0);
@@ -3377,72 +3440,44 @@ cb_rstto_main_window_delete (
         }
     }
 
-    if (delete_file)
+    int response = rstto_confirm_deletion( window, file, !delete_file );
+    if ( response == GTK_RESPONSE_OK )
     {
-        dialog = gtk_message_dialog_new (
-                GTK_WINDOW (window),
-                GTK_DIALOG_DESTROY_WITH_PARENT,
-                GTK_MESSAGE_WARNING,
-                GTK_BUTTONS_OK_CANCEL,
-                _("Are you sure you want to delete image '%s' from disk?"),
-                file_basename);
-
         g_object_ref (file);
-        if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+        if (delete_file)
         {
-            if (g_file_delete (rstto_file_get_file(file), NULL, &error) == TRUE)
+            success = g_file_delete (rstto_file_get_file(file), NULL, &error);
+        }
+        else
+        {
+            success = g_file_trash (rstto_file_get_file(file), NULL, &error);
+        }
+
+	if ( success )
+        {
+            rstto_image_list_remove_file (window->priv->image_list, file);
+        }
+        else
+        {
+            if ( delete_file )
             {
-                rstto_image_list_remove_file (window->priv->image_list, file);
+                prompt = g_strdup_printf( _("An error occurred when deleting image '%s' from disk.\n\n%s"), file_basename, error->message );
             }
             else
             {
-                gtk_widget_destroy (dialog);
-                dialog = gtk_message_dialog_new (
-                        GTK_WINDOW (window),
-                        GTK_DIALOG_DESTROY_WITH_PARENT,
-                        GTK_MESSAGE_ERROR,
-                        GTK_BUTTONS_OK,
-                        _("An error occurred when deleting image '%s' from disk.\n\n%s"),
-                        file_basename,
-                        error->message);
-                gtk_dialog_run (GTK_DIALOG (dialog)); 
+                prompt = g_strdup_printf( _("An error occurred when sending image '%s' to trash.\n\n%s"), file_basename, error->message );
             }
+            dialog = gtk_message_dialog_new (
+                    GTK_WINDOW (window),
+                    GTK_DIALOG_DESTROY_WITH_PARENT,
+                    GTK_MESSAGE_ERROR,
+                    GTK_BUTTONS_OK,
+                    "%s",
+                    prompt);
+            gtk_dialog_run (GTK_DIALOG (dialog));
+            gtk_widget_destroy (dialog);
+            g_free( prompt );
         }
-        gtk_widget_destroy (dialog);
-        g_object_unref (file);
-    }
-    else
-    {
-        dialog = gtk_message_dialog_new (
-                GTK_WINDOW (window),
-                GTK_DIALOG_DESTROY_WITH_PARENT,
-                GTK_MESSAGE_WARNING,
-                GTK_BUTTONS_OK_CANCEL,
-                _("Are you sure you want to send image '%s' to trash?"),
-                file_basename);
-
-        g_object_ref (file);
-        if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
-        {
-            if (g_file_trash (rstto_file_get_file(file), NULL, &error) == TRUE)
-            {
-                rstto_image_list_remove_file (window->priv->image_list, file);
-            }
-            else
-            {
-                gtk_widget_destroy (dialog);
-                dialog = gtk_message_dialog_new (
-                        GTK_WINDOW (window),
-                        GTK_DIALOG_DESTROY_WITH_PARENT,
-                        GTK_MESSAGE_ERROR,
-                        GTK_BUTTONS_OK,
-                        _("An error occurred when sending image '%s' to trash.\n\n%s"),
-                        file_basename,
-                        error->message);
-                gtk_dialog_run (GTK_DIALOG (dialog)); 
-            }
-        }
-        gtk_widget_destroy (dialog);
         g_object_unref (file);
     }
 }
