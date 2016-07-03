@@ -4131,7 +4131,7 @@ key_press_event (
                     cb_rstto_main_window_pause( GTK_WIDGET(window), rstto_window );
                 }
                 else {
-                    if ( !(gdk_window_get_state( GTK_WIDGET(window)->window ) & GDK_WINDOW_STATE_FULLSCREEN) )
+                    if ( !(gdk_window_get_state( gtk_widget_get_window(GTK_WIDGET(window)) ) & GDK_WINDOW_STATE_FULLSCREEN) )
                     {
                         gtk_widget_destroy( GTK_WIDGET(window) );
                     }
