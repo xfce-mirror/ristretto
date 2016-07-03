@@ -4125,6 +4125,18 @@ key_press_event (
             case GDK_Down:
                 rstto_image_list_iter_next (rstto_window->priv->iter);
                 break;
+            case GDK_KEY_Escape:
+                if ( rstto_window->priv->playing == TRUE )
+                {
+                    cb_rstto_main_window_pause( GTK_WIDGET(window), rstto_window );
+                }
+                else {
+                    if ( !(gdk_window_get_state( GTK_WIDGET(window)->window ) & GDK_WINDOW_STATE_FULLSCREEN) )
+                    {
+                        gtk_widget_destroy( GTK_WIDGET(window) );
+                    }
+                }
+                break;
         }
     }
     return TRUE;
