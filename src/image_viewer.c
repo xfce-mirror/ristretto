@@ -19,7 +19,6 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
-#include <gtk/gtkmarshal.h>
 #include <string.h>
 #include <gio/gio.h>
 #include <libxfce4ui/libxfce4ui.h>

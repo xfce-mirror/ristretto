@@ -27,7 +27,6 @@
 
 #include <glib.h>
 #include <gtk/gtk.h>
-#include <gtk/gtkmarshal.h>
 
 #include <libxfce4util/libxfce4util.h>
 
