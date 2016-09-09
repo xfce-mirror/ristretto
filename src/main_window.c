@@ -4152,12 +4152,12 @@ key_press_event (
     {
         switch(event->keyval)
         {
-            case GDK_Up:
-            case GDK_Left:
+            case GDK_KEY_Up:
+            case GDK_KEY_Left:
                 rstto_image_list_iter_previous (rstto_window->priv->iter);
                 break;
-            case GDK_Right:
-            case GDK_Down:
+            case GDK_KEY_Right:
+            case GDK_KEY_Down:
                 rstto_image_list_iter_next (rstto_window->priv->iter);
                 break;
             case GDK_KEY_Escape:
