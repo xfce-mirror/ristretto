@@ -2689,9 +2689,13 @@ static gboolean
 cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW(widget);
+    GtkAllocation allocation;
+
+    gtk_widget_get_allocation (widget, &allocation);
+
     /* shamelessly copied from thunar, written by benny */
     /* check if we have a new dimension here */
-    if (widget->allocation.width != event->width || widget->allocation.height != event->height)
+    if (allocation.width != event->width || allocation.height != event->height)
     {
         /* drop any previous timer source */
         if (window->priv->window_save_geometry_timer_id > 0)

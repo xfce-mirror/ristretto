@@ -657,14 +657,17 @@ rstto_icon_bar_realize (GtkWidget *widget)
     GdkWindowAttr attributes;
     RsttoIconBar   *icon_bar = RSTTO_ICON_BAR (widget);
     gint          attributes_mask;
+    GtkAllocation allocation;
 
     GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
 
+    gtk_widget_get_allocation (widget, &allocation);
+
     attributes.window_type = GDK_WINDOW_CHILD;
-    attributes.x = widget->allocation.x;
-    attributes.y = widget->allocation.y;
-    attributes.width = widget->allocation.width;
-    attributes.height = widget->allocation.height;
+    attributes.x = allocation.x;
+    attributes.y = allocation.y;
+    attributes.width = allocation.width;
+    attributes.height = allocation.height;
     attributes.wclass = GDK_INPUT_OUTPUT;
     attributes.visual = gtk_widget_get_visual (widget);
     attributes.colormap = gtk_widget_get_colormap (widget);
@@ -677,8 +680,8 @@ rstto_icon_bar_realize (GtkWidget *widget)
 
     attributes.x = 0;
     attributes.y = 0;
-    attributes.width = MAX (icon_bar->priv->width, widget->allocation.width);
-    attributes.height = MAX (icon_bar->priv->height, widget->allocation.height);
+    attributes.width = MAX (icon_bar->priv->width, allocation.width);
+    attributes.height = MAX (icon_bar->priv->height, allocation.height);
     attributes.event_mask = (GDK_SCROLL_MASK
             | GDK_EXPOSURE_MASK
             | GDK_LEAVE_NOTIFY_MASK
@@ -774,7 +777,7 @@ rstto_icon_bar_size_allocate (
     gdouble value = 0.0;
     gdouble page_size = 0.0;
 
-    widget->allocation = *allocation;
+    gtk_widget_set_allocation (widget, allocation);
 
     if (!icon_bar->priv->active_item)
         g_warning ("thumbnail bar shown when no images are available");

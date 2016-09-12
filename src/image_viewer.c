@@ -490,6 +490,7 @@ rstto_image_viewer_realize(GtkWidget *widget)
     GValue val_limit_quality = {0, };
     GValue val_invert_zoom = {0, };
 
+    GtkAllocation allocation;
     GdkWindowAttr attributes;
     gint attributes_mask;
 
@@ -504,14 +505,14 @@ rstto_image_viewer_realize(GtkWidget *widget)
     g_value_init (&val_limit_quality, G_TYPE_BOOLEAN);
     g_value_init (&val_invert_zoom, G_TYPE_BOOLEAN);
 
-    attributes.x = widget->allocation.x;
-    attributes.y = widget->allocation.y;
-    attributes.width = widget->allocation.width;
-    attributes.height = widget->allocation.height;
+    gtk_widget_get_allocation (widget, &allocation);
+    attributes.x = allocation.x;
+    attributes.y = allocation.y;
+    attributes.width = allocation.width;
+    attributes.height = allocation.height;
     attributes.wclass = GDK_INPUT_OUTPUT;
     attributes.window_type = GDK_WINDOW_CHILD;
-    attributes.event_mask = gtk_widget_get_events (widget) | 
-    GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK;
+    attributes.event_mask = gtk_widget_get_events (widget) | GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK;
     attributes.visual = gtk_widget_get_visual (widget);
     attributes.colormap = gtk_widget_get_colormap (widget);
 
@@ -588,8 +589,8 @@ rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER(widget);
     gint border_width = 0;
-    widget->allocation = *allocation;
 
+    gtk_widget_set_allocation (widget, allocation);
     if (GTK_WIDGET_REALIZED (widget))
     {
         gdk_window_move_resize (widget->window,
@@ -611,7 +612,6 @@ rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
                 NULL,
                 FALSE);
     }
-
 }
 
 /**
@@ -727,32 +727,33 @@ rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *viewer, GtkAdjustmen
 }
 
 static void
-set_scale (
-        RsttoImageViewer *viewer,
-        gdouble scale )
+set_scale (RsttoImageViewer *viewer, gdouble scale )
 {
     gboolean auto_scale = FALSE;
     gdouble v_scale;
     gdouble h_scale;
+    GtkAllocation allocation;
+
+    gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
 
     switch (viewer->priv->orientation)
     {
         case RSTTO_IMAGE_ORIENT_90:
         case RSTTO_IMAGE_ORIENT_270:
-            v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_height;
-            h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_width;
+            v_scale = (gdouble)(allocation.width) / (gdouble)viewer->priv->image_height;
+            h_scale = (gdouble)(allocation.height) / (gdouble)viewer->priv->image_width;
             break;
         case RSTTO_IMAGE_ORIENT_NONE:
         case RSTTO_IMAGE_ORIENT_180:
         default:
-            v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_width;
-            h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_height;
+            v_scale = (gdouble)(allocation.width) / (gdouble)viewer->priv->image_width;
+            h_scale = (gdouble)(allocation.height) / (gdouble)viewer->priv->image_height;
             break;
     }
 
     if (scale == -1.0)
     {
-        if(h_scale < v_scale)
+        if (h_scale < v_scale)
         {
             scale = h_scale;
         }
@@ -775,7 +776,7 @@ set_scale (
     {
         auto_scale = TRUE;
 
-        if(h_scale < v_scale)
+        if (h_scale < v_scale)
         {
             scale = h_scale;
         }
@@ -807,7 +808,7 @@ set_scale (
              */
             if ((h_scale > RSTTO_MAX_SCALE) || (v_scale > RSTTO_MAX_SCALE))
             {
-                if(h_scale < v_scale)
+                if (h_scale < v_scale)
                 {
                     /* If the image is scaled beyond the window-size, 
                      * force the scale to fit the window and set auto_scale = TRUE.
@@ -876,9 +877,7 @@ set_scale (
 }
  
 static void
-paint_background (
-        GtkWidget *widget,
-        cairo_t *ctx )
+paint_background (GtkWidget *widget, cairo_t *ctx )
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     GdkColor *bg_color = NULL;
@@ -904,12 +903,13 @@ paint_background (
 }
 
 static void
-paint_background_icon (
-        GtkWidget *widget,
-        cairo_t *ctx )
+paint_background_icon (GtkWidget *widget, cairo_t *ctx )
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gdouble bg_scale = 1.0;
+    GtkAllocation allocation;
+
+    gtk_widget_get_allocation (widget, &allocation);
 
     /* If there is no image shown, render the ristretto
      * logo on the background.
@@ -917,16 +917,9 @@ paint_background_icon (
 
     /* Calculate the icon-size */
     /***************************/
-    if (widget->allocation.width < widget->allocation.height)
-    {
-        bg_scale = (gdouble)BACKGROUND_ICON_SIZE /
-            (gdouble)widget->allocation.width * 1.2;
-    }
-    else
-    {
-        bg_scale = (gdouble)BACKGROUND_ICON_SIZE /
-            (gdouble)widget->allocation.height * 1.2;
-    }
+    bg_scale = (allocation.width < allocation.height)
+            ? (gdouble)BACKGROUND_ICON_SIZE / (gdouble)allocation.width * 1.2
+            : (gdouble)BACKGROUND_ICON_SIZE / (gdouble)allocation.height * 1.2;
 
     /* Move the cairo context in position so the
      * background-image is painted in the center
@@ -934,8 +927,8 @@ paint_background_icon (
      */
     cairo_translate (
             ctx,
-            (gdouble)(widget->allocation.width-BACKGROUND_ICON_SIZE/bg_scale)/2.0,
-            (gdouble)(widget->allocation.height-BACKGROUND_ICON_SIZE/bg_scale)/2.0);
+            (gdouble)(allocation.width-BACKGROUND_ICON_SIZE/bg_scale)/2.0,
+            (gdouble)(allocation.height-BACKGROUND_ICON_SIZE/bg_scale)/2.0);
 
     /* Scale the context so the image
      * fills the same part of the cairo-context
@@ -947,7 +940,7 @@ paint_background_icon (
 
     /* Draw the pixbuf on the cairo-context */
     /****************************************/
-    if(viewer->priv->bg_icon != NULL)
+    if (viewer->priv->bg_icon != NULL)
     {
         gdk_cairo_set_source_pixbuf (
                 ctx,
@@ -959,13 +952,13 @@ paint_background_icon (
 }
 
 static void
-correct_adjustments ( RsttoImageViewer *viewer )
+correct_adjustments (RsttoImageViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
     gdouble image_width = (gdouble)viewer->priv->image_width;
     gdouble image_height = (gdouble)viewer->priv->image_height;
     gdouble scale = viewer->priv->scale;
-
+    GtkAllocation allocation;
 
     /* Check if the image-size makes sense,
      * if not, set the upper limits to 0.0
@@ -990,6 +983,7 @@ correct_adjustments ( RsttoImageViewer *viewer )
     g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
     g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
 
+    gtk_widget_get_allocation (widget, &allocation);
 
     switch (viewer->priv->orientation)
     {
@@ -1005,10 +999,10 @@ correct_adjustments ( RsttoImageViewer *viewer )
 
             gtk_adjustment_set_page_size (
                     viewer->hadjustment,
-                    (gdouble)widget->allocation.width);
+                    (gdouble)allocation.width);
             gtk_adjustment_set_page_size (
                     viewer->vadjustment,
-                    (gdouble)widget->allocation.height);
+                    (gdouble)allocation.height);
 
             if ( ( gtk_adjustment_get_value (viewer->hadjustment) +
                    gtk_adjustment_get_page_size (viewer->hadjustment) ) >
@@ -1017,7 +1011,7 @@ correct_adjustments ( RsttoImageViewer *viewer )
                 gtk_adjustment_set_value (
                         viewer->hadjustment,
                         floor((image_width * scale) - 
-                            (gdouble)widget->allocation.width));
+                            (gdouble)allocation.width));
             }
 
             if ( ( gtk_adjustment_get_value (viewer->vadjustment) +
@@ -1027,7 +1021,7 @@ correct_adjustments ( RsttoImageViewer *viewer )
                 gtk_adjustment_set_value (
                         viewer->vadjustment,
                         floor((image_height * scale) - 
-                            (gdouble)widget->allocation.height));
+                            (gdouble)allocation.height));
             }
             break;
         case RSTTO_IMAGE_ORIENT_90:
@@ -1041,10 +1035,10 @@ correct_adjustments ( RsttoImageViewer *viewer )
 
             gtk_adjustment_set_page_size (
                     viewer->hadjustment,
-                    (gdouble)widget->allocation.width);
+                    (gdouble)allocation.width);
             gtk_adjustment_set_page_size (
                     viewer->vadjustment,
-                    (gdouble)widget->allocation.height);
+                    (gdouble)allocation.height);
 
             if ( ( gtk_adjustment_get_value (viewer->hadjustment) +
                    gtk_adjustment_get_page_size (viewer->hadjustment) ) >
@@ -1053,7 +1047,7 @@ correct_adjustments ( RsttoImageViewer *viewer )
                 gtk_adjustment_set_value (
                         viewer->hadjustment,
                         (image_height * scale) - 
-                            (gdouble)widget->allocation.width);
+                            (gdouble)allocation.width);
             }
 
             if ( ( gtk_adjustment_get_value (viewer->vadjustment) +
@@ -1063,7 +1057,7 @@ correct_adjustments ( RsttoImageViewer *viewer )
                 gtk_adjustment_set_value (
                         viewer->vadjustment,
                         (image_width * scale) - 
-                            (gdouble)widget->allocation.height);
+                            (gdouble)allocation.height);
             }
             break;
     }
@@ -1073,9 +1067,7 @@ correct_adjustments ( RsttoImageViewer *viewer )
 }
 
 static void
-paint_clock (
-        GtkWidget *widget,
-        cairo_t *ctx )
+paint_clock (GtkWidget *widget, cairo_t *ctx)
 {
     //RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gdouble width;
@@ -1084,17 +1076,14 @@ paint_clock (
     gint i = 0;
     time_t t = time(NULL);
     struct tm *lt = localtime(&t);
+    GtkAllocation allocation;
 
     gdouble hour_angle = (gdouble)(M_PI*2)/12*((gdouble)(lt->tm_hour%12+6)+((M_PI*2)/720.0*(gdouble)lt->tm_min));
+    gtk_widget_get_allocation (widget, &allocation);
 
-    if (widget->allocation.width < widget->allocation.height)
-    {
-        width = 40 + ((gdouble)widget->allocation.width * 0.07);
-    }
-    else
-    {
-        width = 40 + ((gdouble)widget->allocation.height * 0.07);
-    }
+    width = (allocation.width < allocation.height)
+            ? 40 + ((gdouble)allocation.width * 0.07)
+            : 40 + ((gdouble)allocation.height * 0.07);
 
     height = width;
     offset = height * 0.15;
@@ -1103,8 +1092,8 @@ paint_clock (
 
     cairo_translate (
         ctx,
-        widget->allocation.width-offset-width,
-        widget->allocation.height-offset-height);
+        allocation.width - offset - width,
+        allocation.height - offset - height);
 
     cairo_set_source_rgba (ctx, 0.0, 0.0, 0.0, 0.4);
     cairo_save(ctx);
@@ -1172,9 +1161,7 @@ paint_clock (
 }
 
 static void
-paint_image (
-        GtkWidget *widget,
-        cairo_t *ctx )
+paint_image (GtkWidget *widget, cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gint i = 0;
@@ -1184,6 +1171,9 @@ paint_image (
     gint block_width = 10;
     gint block_height = 10;
     gdouble bg_scale = 1.0;
+    GtkAllocation allocation;
+
+    gtk_widget_get_allocation (widget, &allocation);
 
     if (viewer->priv->pixbuf)
     {
@@ -1191,10 +1181,10 @@ paint_image (
         {
             case RSTTO_IMAGE_ORIENT_90:
             case RSTTO_IMAGE_ORIENT_270:
-                viewer->priv->rendering.x_offset = ((gdouble)widget->allocation.width - (
+                viewer->priv->rendering.x_offset = ((gdouble)allocation.width - (
                             (gdouble)viewer->priv->image_height * 
                                 viewer->priv->scale) ) / 2.0;
-                viewer->priv->rendering.y_offset = ((gdouble)widget->allocation.height - (
+                viewer->priv->rendering.y_offset = ((gdouble)allocation.height - (
                             (gdouble)viewer->priv->image_width * 
                                 viewer->priv->scale) ) / 2.0;
                 viewer->priv->rendering.width = 
@@ -1205,10 +1195,10 @@ paint_image (
             case RSTTO_IMAGE_ORIENT_NONE:
             case RSTTO_IMAGE_ORIENT_180:
             default:
-                viewer->priv->rendering.x_offset = ((gdouble)widget->allocation.width - (
+                viewer->priv->rendering.x_offset = ((gdouble)allocation.width - (
                             (gdouble)viewer->priv->image_width * 
                                 viewer->priv->scale) ) / 2.0;
-                viewer->priv->rendering.y_offset = ((gdouble)widget->allocation.height - (
+                viewer->priv->rendering.y_offset = ((gdouble)allocation.height - (
                             (gdouble)viewer->priv->image_height * 
                                 viewer->priv->scale) ) / 2.0;
                 viewer->priv->rendering.width = 
@@ -1370,16 +1360,9 @@ paint_image (
         {
             /* Calculate the icon-size */
             /***************************/
-            if (widget->allocation.width < widget->allocation.height)
-            {
-                bg_scale = (gdouble)BACKGROUND_ICON_SIZE /
-                    (gdouble)widget->allocation.width * 1.2;
-            }
-            else
-            {
-                bg_scale = (gdouble)BACKGROUND_ICON_SIZE /
-                    (gdouble)widget->allocation.height * 1.2;
-            }
+            bg_scale = (allocation.width < allocation.height)
+                    ? (gdouble)BACKGROUND_ICON_SIZE / (gdouble)allocation.width * 1.2
+                    : (gdouble)BACKGROUND_ICON_SIZE / (gdouble)allocation.height * 1.2;
 
             /* Move the cairo context in position so the
              * background-image is painted in the center
@@ -1387,8 +1370,8 @@ paint_image (
              */
             cairo_translate (
                     ctx,
-                    (gdouble)(widget->allocation.width-BACKGROUND_ICON_SIZE/bg_scale)/2.0,
-                    (gdouble)(widget->allocation.height-BACKGROUND_ICON_SIZE/bg_scale)/2.0);
+                    (gdouble)(allocation.width-BACKGROUND_ICON_SIZE/bg_scale)/2.0,
+                    (gdouble)(allocation.height-BACKGROUND_ICON_SIZE/bg_scale)/2.0);
 
             /* Scale the context so the image
              * fills the same part of the cairo-context
@@ -1415,9 +1398,7 @@ paint_image (
 }
 
 static void
-paint_selection_box (
-        GtkWidget *widget,
-        cairo_t *ctx )
+paint_selection_box (GtkWidget *widget, cairo_t *ctx )
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gdouble box_y = 0.0;
@@ -1516,18 +1497,19 @@ static void
 rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    GtkAllocation allocation;
     
-    if(GTK_WIDGET_REALIZED(widget))
+    if (GTK_WIDGET_REALIZED (widget))
     {
-
+        gtk_widget_get_allocation (widget, &allocation);
         correct_adjustments (viewer);
 
         cairo_rectangle (
                 ctx,
                 0.0,
                 0.0,
-                (gdouble)widget->allocation.width,
-                (gdouble)widget->allocation.height);
+                (gdouble)allocation.width,
+                (gdouble)allocation.height);
         cairo_clip (ctx);
         cairo_save (ctx);
         
@@ -1584,7 +1566,7 @@ rstto_image_viewer_new (void)
 {
     GtkWidget *widget;
 
-    widget = g_object_new(RSTTO_TYPE_IMAGE_VIEWER, NULL);
+    widget = g_object_new (RSTTO_TYPE_IMAGE_VIEWER, NULL);
 
     return widget;
 }
@@ -1600,11 +1582,7 @@ rstto_image_viewer_new (void)
  *  - cancellable...
  */
 void
-rstto_image_viewer_set_file (
-        RsttoImageViewer *viewer,
-        RsttoFile *file,
-        gdouble scale,
-        RsttoImageOrientation orientation)
+rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble scale, RsttoImageOrientation orientation)
 {
     GtkWidget *widget = GTK_WIDGET (viewer); 
 
@@ -1730,10 +1708,7 @@ rstto_image_viewer_set_file (
 }
 
 static void
-rstto_image_viewer_load_image (
-        RsttoImageViewer *viewer,
-        RsttoFile *file,
-        gdouble scale)
+rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdouble scale)
 {
     RsttoImageViewerTransaction *transaction = g_new0 (RsttoImageViewerTransaction, 1);
 
@@ -1796,9 +1771,7 @@ rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr)
 }
 
 void
-rstto_image_viewer_set_scale (
-        RsttoImageViewer *viewer,
-        gdouble scale)
+rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
 
@@ -1806,24 +1779,27 @@ rstto_image_viewer_set_scale (
     gdouble y_offset;
     gdouble tmp_x;
     gdouble tmp_y;
+    GtkAllocation allocation;
+
+    gtk_widget_get_allocation (widget, &allocation);
 
     switch (viewer->priv->orientation)
     {
         case RSTTO_IMAGE_ORIENT_90:
         case RSTTO_IMAGE_ORIENT_270:
-            x_offset = ((gdouble)widget->allocation.width - (
+            x_offset = ((gdouble)allocation.width - (
                 (gdouble)viewer->priv->image_height * 
                     viewer->priv->scale) ) / 2.0;
-            y_offset = ((gdouble)widget->allocation.height - (
+            y_offset = ((gdouble)allocation.height - (
                 (gdouble)viewer->priv->image_width * 
                     viewer->priv->scale) ) / 2.0;
             break;
         case RSTTO_IMAGE_ORIENT_NONE:
         default:
-            x_offset = ((gdouble)widget->allocation.width - (
+            x_offset = ((gdouble)allocation.width - (
                 (gdouble)viewer->priv->image_width * 
                     viewer->priv->scale) ) / 2.0;
-            y_offset = ((gdouble)widget->allocation.height - (
+            y_offset = ((gdouble)allocation.height - (
                 (gdouble)viewer->priv->image_height * 
                     viewer->priv->scale) ) / 2.0;
             break;
@@ -1876,9 +1852,7 @@ rstto_image_viewer_get_scale (RsttoImageViewer *viewer)
 }
 
 static void
-rstto_image_viewer_set_motion_state (
-        RsttoImageViewer *viewer,
-        RsttoImageViewerMotionState state)
+rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerMotionState state)
 {
     viewer->priv->motion.state = state;
 }
@@ -1891,9 +1865,7 @@ rstto_image_viewer_set_motion_state (
  * Set orientation for the image shown here.
  */
 void
-rstto_image_viewer_set_orientation (
-        RsttoImageViewer *viewer, 
-        RsttoImageOrientation orientation)
+rstto_image_viewer_set_orientation (RsttoImageViewer *viewer, RsttoImageOrientation orientation)
 {
     GtkWidget *widget = GTK_WIDGET (viewer); 
 
@@ -1914,15 +1886,17 @@ rstto_image_viewer_set_orientation (
 }
 
 RsttoImageOrientation
-rstto_image_viewer_get_orientation (
-        RsttoImageViewer *viewer)
+rstto_image_viewer_get_orientation (RsttoImageViewer *viewer)
 {
-    return viewer->priv->orientation;
+    if (viewer)
+    {
+        return viewer->priv->orientation;
+    }
+    return RSTTO_IMAGE_ORIENT_NONE;
 }
 
 gint
-rstto_image_viewer_get_width (
-        RsttoImageViewer *viewer)
+rstto_image_viewer_get_width (RsttoImageViewer *viewer)
 {
     if (viewer)
     {
@@ -1931,8 +1905,7 @@ rstto_image_viewer_get_width (
     return 0;
 }
 gint
-rstto_image_viewer_get_height (
-        RsttoImageViewer *viewer)
+rstto_image_viewer_get_height (RsttoImageViewer *viewer)
 {
     if (viewer)
     {
@@ -1942,9 +1915,7 @@ rstto_image_viewer_get_height (
 }
 
 void
-rstto_image_viewer_set_menu (
-        RsttoImageViewer *viewer,
-        GtkMenu *menu)
+rstto_image_viewer_set_menu (RsttoImageViewer *viewer, GtkMenu *menu)
 {
     if (viewer->priv->menu)
     {
@@ -1970,9 +1941,7 @@ rstto_image_viewer_set_menu (
 /************************/
 
 static void
-cb_rstto_image_viewer_value_changed (
-        GtkAdjustment *adjustment,
-        RsttoImageViewer *viewer)
+cb_rstto_image_viewer_value_changed (GtkAdjustment *adjustment, RsttoImageViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
     gdk_window_invalidate_rect (
@@ -1982,10 +1951,7 @@ cb_rstto_image_viewer_value_changed (
 }
 
 static void
-cb_rstto_image_viewer_read_file_ready (
-        GObject *source_object,
-        GAsyncResult *result,
-        gpointer user_data )
+cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
     GFile *file = G_FILE (source_object);
     RsttoImageViewerTransaction *transaction = (RsttoImageViewerTransaction *)user_data;
@@ -2007,10 +1973,7 @@ cb_rstto_image_viewer_read_file_ready (
 }
 
 static void
-cb_rstto_image_viewer_read_input_stream_ready (
-        GObject *source_object,
-        GAsyncResult *result,
-        gpointer user_data )
+cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
     RsttoImageViewerTransaction *transaction = (RsttoImageViewerTransaction *)user_data;
     gssize read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, &transaction->error);
@@ -2052,9 +2015,7 @@ cb_rstto_image_viewer_read_input_stream_ready (
 
 
 static void
-cb_rstto_image_loader_area_prepared (
-        GdkPixbufLoader *loader,
-        RsttoImageViewerTransaction *transaction)
+cb_rstto_image_loader_area_prepared (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
 {
     gint timeout = 0;
     RsttoImageViewer *viewer = transaction->viewer;
@@ -2102,11 +2063,7 @@ cb_rstto_image_loader_area_prepared (
 }
 
 static void
-cb_rstto_image_loader_size_prepared (
-        GdkPixbufLoader *loader,
-        gint width,
-        gint height,
-        RsttoImageViewerTransaction *transaction)
+cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint height, RsttoImageViewerTransaction *transaction)
 {
     gint s_width = gdk_screen_get_width (default_screen);
     gint s_height = gdk_screen_get_height (default_screen);
@@ -2167,9 +2124,7 @@ cb_rstto_image_loader_size_prepared (
 }
 
 static void
-cb_rstto_image_loader_closed (
-        GdkPixbufLoader *loader,
-        RsttoImageViewerTransaction *transaction)
+cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
 {
     RsttoImageViewer *viewer = transaction->viewer;
     GtkWidget *widget = GTK_WIDGET(viewer);
@@ -2257,9 +2212,7 @@ cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer)
 }
 
 static gboolean
-rstto_scroll_event (
-        GtkWidget *widget,
-        GdkEventScroll *event)
+rstto_scroll_event (GtkWidget *widget, GdkEventScroll *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gboolean auto_scale = FALSE;
@@ -2271,6 +2224,7 @@ rstto_scroll_event (
     gdouble scale = viewer->priv->scale;
     gdouble v_scale;
     gdouble h_scale;
+    GtkAllocation allocation;
 
     if (event->state & (GDK_CONTROL_MASK))
     {
@@ -2283,29 +2237,15 @@ rstto_scroll_event (
             tmp_y = (gdouble)(gtk_adjustment_get_value(viewer->vadjustment) + 
                     (gdouble)event->y - y_offset) / viewer->priv->scale;
 
-            switch(event->direction)
+            switch (event->direction)
             {
                 case GDK_SCROLL_UP:
                 case GDK_SCROLL_LEFT:
-                    if (invert_zoom_direction)
-                    {
-                        scale = viewer->priv->scale / 1.1;
-                    }
-                    else
-                    {
-                        scale = viewer->priv->scale * 1.1;
-                    }
+                    scale = (invert_zoom_direction) ? viewer->priv->scale / 1.1 : viewer->priv->scale * 1.1;
                     break;
                 case GDK_SCROLL_DOWN:
                 case GDK_SCROLL_RIGHT:
-                    if (invert_zoom_direction)
-                    {
-                        scale = viewer->priv->scale * 1.1;
-                    }
-                    else
-                    {
-                        scale = viewer->priv->scale / 1.1;
-                    }
+                    scale = (invert_zoom_direction) ? viewer->priv->scale * 1.1 : viewer->priv->scale / 1.1;
                     break;
             }
 
@@ -2331,18 +2271,19 @@ rstto_scroll_event (
                  * Assuming image_scale == 1.0
                  */
 
+                gtk_widget_get_allocation (widget, &allocation);
                 switch (viewer->priv->orientation)
                 {
                     case RSTTO_IMAGE_ORIENT_90:
                     case RSTTO_IMAGE_ORIENT_270:
-                        v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_height;
-                        h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_width;
+                        v_scale = (gdouble)(allocation.width) / (gdouble)viewer->priv->image_height;
+                        h_scale = (gdouble)(allocation.height) / (gdouble)viewer->priv->image_width;
                         break;
                     case RSTTO_IMAGE_ORIENT_NONE:
                     case RSTTO_IMAGE_ORIENT_180:
                     default:
-                        v_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.width) / (gdouble)viewer->priv->image_width;
-                        h_scale = (gdouble)(GTK_WIDGET (viewer)->allocation.height) / (gdouble)viewer->priv->image_height;
+                        v_scale = (gdouble)(allocation.width) / (gdouble)viewer->priv->image_width;
+                        h_scale = (gdouble)(allocation.height) / (gdouble)viewer->priv->image_height;
                         break;
                 }
 
