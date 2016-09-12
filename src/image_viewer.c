@@ -493,6 +493,7 @@ rstto_image_viewer_realize(GtkWidget *widget)
     GtkAllocation allocation;
     GdkWindowAttr attributes;
     GdkWindow *window;
+    GtkStyle *style;
     gint attributes_mask;
 
     g_return_if_fail (widget != NULL);
@@ -521,10 +522,11 @@ rstto_image_viewer_realize(GtkWidget *widget)
     window = gdk_window_new (gtk_widget_get_parent_window(widget), &attributes, attributes_mask);
     gtk_widget_set_window (widget, window);
 
-    widget->style = gtk_style_attach (widget->style, window);
+    style = gtk_style_attach (gtk_widget_get_style (widget), window);
+    gtk_widget_set_style (widget, style);
     gdk_window_set_user_data (window, widget);
 
-    gtk_style_set_background (widget->style, window, GTK_STATE_ACTIVE);
+    gtk_style_set_background (gtk_widget_get_style (widget), window, GTK_STATE_ACTIVE);
 
     g_object_get_property (
             G_OBJECT(viewer->priv->settings),
@@ -556,7 +558,7 @@ rstto_image_viewer_realize(GtkWidget *widget)
     }
     else
     {
-        viewer->priv->bg_color = &(widget->style->bg[GTK_STATE_NORMAL]);
+        viewer->priv->bg_color = &(gtk_widget_get_style (widget)->bg[GTK_STATE_NORMAL]);
     }
 
     viewer->priv->bg_color_fs = g_value_get_boxed (&val_bg_color_fs);
@@ -2779,7 +2781,7 @@ cb_rstto_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_da
     }
     else
     {
-        viewer->priv->bg_color = &(widget->style->bg[GTK_STATE_NORMAL]);
+        viewer->priv->bg_color = &(gtk_widget_get_style (widget)->bg[GTK_STATE_NORMAL]);
     }
     viewer->priv->bg_color_fs = g_value_get_boxed (&val_bg_color_fs);
 

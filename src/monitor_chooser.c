@@ -183,6 +183,7 @@ rstto_monitor_chooser_realize(GtkWidget *widget)
     gint attributes_mask;
     GtkAllocation allocation;
     GdkWindow *window;
+    GtkStyle *style;
 
     g_return_if_fail (widget != NULL);
     g_return_if_fail (RSTTO_IS_MONITOR_CHOOSER (widget));
@@ -202,13 +203,14 @@ rstto_monitor_chooser_realize(GtkWidget *widget)
     attributes.colormap = gtk_widget_get_colormap (widget);
 
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
-    window = gdk_window_new (gtk_widget_get_parent_window(widget), &attributes, attributes_mask);
+    window = gdk_window_new (gtk_widget_get_parent_window (widget), &attributes, attributes_mask);
     gtk_widget_set_window (widget, window);
 
-    widget->style = gtk_style_attach (widget->style, window);
+    style = gtk_style_attach (gtk_widget_get_style (widget), window);
+    gtk_widget_set_style (widget, style);
     gdk_window_set_user_data (window, widget);
 
-    gtk_style_set_background (widget->style, window, GTK_STATE_ACTIVE);
+    gtk_style_set_background (gtk_widget_get_style (widget), window, GTK_STATE_ACTIVE);
 }
 
 
@@ -257,7 +259,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
 
     gdk_cairo_set_source_color (
             ctx,
-            &(widget->style->bg[GTK_STATE_NORMAL]));
+            &(gtk_widget_get_style (widget)->bg[GTK_STATE_NORMAL]));
     cairo_rectangle (
             ctx,
             0.0,
@@ -478,13 +480,13 @@ paint_monitor ( GtkWidget *widget,
     /* Fill the background-color */
     gdk_cairo_set_source_color (
             cr,
-            &(widget->style->base[GTK_STATE_NORMAL]));
+            &(gtk_widget_get_style (widget)->base[GTK_STATE_NORMAL]));
     cairo_fill_preserve (cr);
 
     /* Paint the outside border */
     gdk_cairo_set_source_color (
             cr,
-            &(widget->style->fg[GTK_STATE_NORMAL]));
+            &(gtk_widget_get_style (widget)->fg[GTK_STATE_NORMAL]));
     cairo_set_line_width (cr, line_width);
     cairo_stroke (cr);
 
@@ -525,11 +527,11 @@ paint_monitor ( GtkWidget *widget,
     cairo_close_path (cr);
     gdk_cairo_set_source_color (
             cr,
-            &(widget->style->base[GTK_STATE_NORMAL]));
+            &(gtk_widget_get_style (widget)->base[GTK_STATE_NORMAL]));
     cairo_fill_preserve (cr);
     gdk_cairo_set_source_color (
             cr,
-            &(widget->style->fg[GTK_STATE_NORMAL]));
+            &(gtk_widget_get_style (widget)->fg[GTK_STATE_NORMAL]));
     cairo_set_line_width (cr, line_width);
     cairo_stroke (cr);
 
@@ -542,7 +544,7 @@ paint_monitor ( GtkWidget *widget,
     cairo_close_path (cr);
     gdk_cairo_set_source_color (
             cr,
-            &(widget->style->fg[GTK_STATE_NORMAL]));
+            &(gtk_widget_get_style (widget)->fg[GTK_STATE_NORMAL]));
     cairo_set_line_width (cr, line_width);
     cairo_stroke (cr);
 

@@ -645,7 +645,7 @@ rstto_icon_bar_style_set (
     if (GTK_WIDGET_REALIZED (widget))
     {
         gdk_window_set_background (icon_bar->priv->bin_window,
-                &widget->style->base[widget->state]);
+                &(gtk_widget_get_style (widget)->base[widget->state]));
     }
 }
 
@@ -659,6 +659,7 @@ rstto_icon_bar_realize (GtkWidget *widget)
     gint          attributes_mask;
     GtkAllocation allocation;
     GdkWindow    *window;
+    GtkStyle     *style;
 
     GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
 
@@ -698,9 +699,10 @@ rstto_icon_bar_realize (GtkWidget *widget)
     icon_bar->priv->bin_window = gdk_window_new (window, &attributes, attributes_mask);
     gdk_window_set_user_data (icon_bar->priv->bin_window, widget);
 
-    widget->style = gtk_style_attach (widget->style, window);
-    gdk_window_set_background (window, &widget->style->base[widget->state]);
-    gdk_window_set_background (icon_bar->priv->bin_window, &widget->style->base[widget->state]);
+    style = gtk_style_attach (gtk_widget_get_style (widget), window);
+    gtk_widget_set_style (widget, style);
+    gdk_window_set_background (window, &(gtk_widget_get_style (widget)->base[widget->state]));
+    gdk_window_set_background (icon_bar->priv->bin_window, &(gtk_widget_get_style (widget)->base[widget->state]));
     gdk_window_show (icon_bar->priv->bin_window);
 }
 
@@ -1295,13 +1297,13 @@ rstto_icon_bar_paint_item (
 
         if (fill_color == NULL)
         {
-            fill_color = gdk_color_copy (&GTK_WIDGET (icon_bar)->style->base[GTK_STATE_SELECTED]);
+            fill_color = gdk_color_copy (&(gtk_widget_get_style (GTK_WIDGET (icon_bar))->base[GTK_STATE_SELECTED]));
             gdk_color_parse ("#c1d2ee", fill_color);
         }
 
         if (border_color == NULL)
         {
-            border_color = gdk_color_copy (&GTK_WIDGET (icon_bar)->style->base[GTK_STATE_SELECTED]);
+            border_color = gdk_color_copy (&(gtk_widget_get_style (GTK_WIDGET (icon_bar))->base[GTK_STATE_SELECTED]));
             gdk_color_parse ("#316ac5", border_color);
         }
 
@@ -1333,13 +1335,13 @@ rstto_icon_bar_paint_item (
 
         if (fill_color == NULL)
         {
-            fill_color = gdk_color_copy (&GTK_WIDGET (icon_bar)->style->base[GTK_STATE_SELECTED]);
+            fill_color = gdk_color_copy (&(gtk_widget_get_style (GTK_WIDGET (icon_bar))->base[GTK_STATE_SELECTED]));
             gdk_color_parse ("#e0e8f6", fill_color);
         }
 
         if (border_color == NULL)
         {
-            border_color = gdk_color_copy (&GTK_WIDGET (icon_bar)->style->base[GTK_STATE_SELECTED]);
+            border_color = gdk_color_copy (&(gtk_widget_get_style (GTK_WIDGET (icon_bar))->base[GTK_STATE_SELECTED]));
             gdk_color_parse ("#98b4e2", border_color);
         }
 
