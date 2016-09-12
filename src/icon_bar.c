@@ -658,6 +658,7 @@ rstto_icon_bar_realize (GtkWidget *widget)
     RsttoIconBar   *icon_bar = RSTTO_ICON_BAR (widget);
     gint          attributes_mask;
     GtkAllocation allocation;
+    GdkWindow    *window;
 
     GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
 
@@ -674,9 +675,10 @@ rstto_icon_bar_realize (GtkWidget *widget)
     attributes.event_mask = GDK_VISIBILITY_NOTIFY_MASK;
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
 
-    widget->window = gdk_window_new (gtk_widget_get_parent_window (widget),
+    window = gdk_window_new (gtk_widget_get_parent_window (widget),
             &attributes, attributes_mask);
-    gdk_window_set_user_data (widget->window, widget);
+    gtk_widget_set_window (widget, window);
+    gdk_window_set_user_data (window, widget);
 
     attributes.x = 0;
     attributes.y = 0;
@@ -693,12 +695,11 @@ rstto_icon_bar_realize (GtkWidget *widget)
             | gtk_widget_get_events (widget);
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
 
-    icon_bar->priv->bin_window = gdk_window_new (widget->window,
-            &attributes, attributes_mask);
+    icon_bar->priv->bin_window = gdk_window_new (window, &attributes, attributes_mask);
     gdk_window_set_user_data (icon_bar->priv->bin_window, widget);
 
-    widget->style = gtk_style_attach (widget->style, widget->window);
-    gdk_window_set_background (widget->window, &widget->style->base[widget->state]);
+    widget->style = gtk_style_attach (widget->style, window);
+    gdk_window_set_background (window, &widget->style->base[widget->state]);
     gdk_window_set_background (icon_bar->priv->bin_window, &widget->style->base[widget->state]);
     gdk_window_show (icon_bar->priv->bin_window);
 }
@@ -784,7 +785,7 @@ rstto_icon_bar_size_allocate (
 
     if (GTK_WIDGET_REALIZED (widget))
     {
-        gdk_window_move_resize (widget->window,
+        gdk_window_move_resize (gtk_widget_get_window (widget),
                 allocation->x,
                 allocation->y,
                 allocation->width,

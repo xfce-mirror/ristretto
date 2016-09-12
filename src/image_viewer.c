@@ -492,6 +492,7 @@ rstto_image_viewer_realize(GtkWidget *widget)
 
     GtkAllocation allocation;
     GdkWindowAttr attributes;
+    GdkWindow *window;
     gint attributes_mask;
 
     g_return_if_fail (widget != NULL);
@@ -517,12 +518,13 @@ rstto_image_viewer_realize(GtkWidget *widget)
     attributes.colormap = gtk_widget_get_colormap (widget);
 
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
-    widget->window = gdk_window_new (gtk_widget_get_parent_window(widget), &attributes, attributes_mask);
+    window = gdk_window_new (gtk_widget_get_parent_window(widget), &attributes, attributes_mask);
+    gtk_widget_set_window (widget, window);
 
-    widget->style = gtk_style_attach (widget->style, widget->window);
-    gdk_window_set_user_data (widget->window, widget);
+    widget->style = gtk_style_attach (widget->style, window);
+    gdk_window_set_user_data (window, widget);
 
-    gtk_style_set_background (widget->style, widget->window, GTK_STATE_ACTIVE);
+    gtk_style_set_background (widget->style, window, GTK_STATE_ACTIVE);
 
     g_object_get_property (
             G_OBJECT(viewer->priv->settings),
@@ -587,17 +589,17 @@ rstto_image_viewer_size_request(GtkWidget *widget, GtkRequisition *requisition)
 static void
 rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 {
-    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER(widget);
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gint border_width = 0;
 
     gtk_widget_set_allocation (widget, allocation);
     if (GTK_WIDGET_REALIZED (widget))
     {
-        gdk_window_move_resize (widget->window,
-            allocation->x + border_width,
-            allocation->y + border_width,
-            allocation->width - border_width * 2,
-            allocation->height - border_width * 2);
+        gdk_window_move_resize (gtk_widget_get_window (widget),
+                allocation->x + border_width,
+                allocation->y + border_width,
+                allocation->width - border_width * 2,
+                allocation->height - border_width * 2);
 
         /* Check if auto_scale == TRUE, if so, calculate the new
          * scale based on the new widget-size.
@@ -608,7 +610,7 @@ rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
         }
 
         gdk_window_invalidate_rect (
-                widget->window,
+                gtk_widget_get_window (widget),
                 NULL,
                 FALSE);
     }
@@ -628,7 +630,7 @@ rstto_image_viewer_expose(GtkWidget *widget, GdkEventExpose *event)
     cairo_t *ctx;
 
     /* get a cairo_t */
-    ctx = gdk_cairo_create (widget->window);
+    ctx = gdk_cairo_create (gtk_widget_get_window (widget));
 
     /* set a clip region for the expose event */
     if (FALSE == viewer->priv->auto_scale)
@@ -877,7 +879,7 @@ set_scale (RsttoImageViewer *viewer, gdouble scale )
 }
  
 static void
-paint_background (GtkWidget *widget, cairo_t *ctx )
+paint_background (GtkWidget *widget, cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     GdkColor *bg_color = NULL;
@@ -885,20 +887,20 @@ paint_background (GtkWidget *widget, cairo_t *ctx )
     /* Determine if we draw the 'default' background-color,
      * or the fullscreen-background-color.
      */
-    if ( GDK_WINDOW_STATE_FULLSCREEN & gdk_window_get_state (
-                gdk_window_get_toplevel (widget->window) ) )
+    if (GDK_WINDOW_STATE_FULLSCREEN & gdk_window_get_state (
+                gdk_window_get_toplevel (gtk_widget_get_window (widget))))
     {
         bg_color = viewer->priv->bg_color_fs;
     }
 
-    if ( NULL == bg_color )
+    if (NULL == bg_color)
     {
         bg_color = viewer->priv->bg_color;
     }
 
     /* Paint the background-color */
     /******************************/
-    gdk_cairo_set_source_color ( ctx, bg_color );
+    gdk_cairo_set_source_color (ctx, bg_color);
     cairo_paint (ctx);
 }
 
@@ -1698,7 +1700,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
             viewer->priv->image_width = 0.0;
             
             gdk_window_invalidate_rect (
-                    widget->window,
+                    gtk_widget_get_window (widget),
                     NULL,
                     FALSE);
 
@@ -1840,7 +1842,7 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
     g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
 
     gdk_window_invalidate_rect (
-            widget->window,
+            gtk_widget_get_window (widget),
             NULL,
             FALSE);
 }
@@ -1879,7 +1881,7 @@ rstto_image_viewer_set_orientation (RsttoImageViewer *viewer, RsttoImageOrientat
     rstto_file_set_orientation (viewer->priv->file, orientation);
 
     gdk_window_invalidate_rect (
-            widget->window,
+            gtk_widget_get_window (widget),
             NULL,
             FALSE);
 
@@ -1945,7 +1947,7 @@ cb_rstto_image_viewer_value_changed (GtkAdjustment *adjustment, RsttoImageViewer
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
     gdk_window_invalidate_rect (
-            widget->window,
+            gtk_widget_get_window (widget),
             NULL,
             FALSE);
 }
@@ -2161,7 +2163,7 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
         viewer->priv->transaction = NULL;
 
         gdk_window_invalidate_rect (
-                widget->window,
+                gtk_widget_get_window (widget),
                 NULL,
                 FALSE);
     }
@@ -2202,7 +2204,7 @@ cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer)
         }
 
         gdk_window_invalidate_rect (
-                widget->window,
+                gtk_widget_get_window (widget),
                 NULL,
                 FALSE);
 
@@ -2383,7 +2385,7 @@ rstto_scroll_event (GtkWidget *widget, GdkEventScroll *event)
 
             /* Invalidate the entire window */
             gdk_window_invalidate_rect (
-                    widget->window,
+                    gtk_widget_get_window (widget),
                     NULL,
                     FALSE); 
 
@@ -2395,9 +2397,7 @@ rstto_scroll_event (GtkWidget *widget, GdkEventScroll *event)
 }
 
 static gboolean 
-rstto_motion_notify_event (
-        GtkWidget *widget,
-        GdkEventMotion *event)
+rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
 
@@ -2448,7 +2448,7 @@ rstto_motion_notify_event (
                  * selection-box and the new one.
                  */
                 gdk_window_invalidate_rect (
-                        widget->window,
+                        gtk_widget_get_window (widget),
                         NULL,
                         FALSE); 
 
@@ -2460,7 +2460,7 @@ rstto_motion_notify_event (
                      (event->x < (viewer->priv->rendering.x_offset + viewer->priv->rendering.width)))
                 {
                     GdkCursor *cursor = gdk_cursor_new(GDK_UL_ANGLE);
-                    gdk_window_set_cursor(widget->window, cursor);
+                    gdk_window_set_cursor(gtk_widget_get_window (widget), cursor);
                     gdk_cursor_unref(cursor);
                 }
                 else
@@ -2468,7 +2468,7 @@ rstto_motion_notify_event (
                     /* Set back to default when moving over the
                      * background.
                      */
-                    gdk_window_set_cursor(widget->window, NULL);
+                    gdk_window_set_cursor(gtk_widget_get_window (widget), NULL);
                 }
                 break;
             default:
@@ -2479,9 +2479,7 @@ rstto_motion_notify_event (
 }
 
 static gboolean
-rstto_button_press_event (
-        GtkWidget *widget,
-        GdkEventButton *event)
+rstto_button_press_event (GtkWidget *widget, GdkEventButton *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
 
@@ -2504,7 +2502,7 @@ rstto_button_press_event (
                      (event->x < (viewer->priv->rendering.x_offset + viewer->priv->rendering.width)))
                 {
                     GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
-                    gdk_window_set_cursor(widget->window, cursor);
+                    gdk_window_set_cursor(gtk_widget_get_window (widget), cursor);
                     gdk_cursor_unref(cursor);
                     rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_MOVE);
                 }
@@ -2520,7 +2518,7 @@ rstto_button_press_event (
                      (event->x < (viewer->priv->rendering.x_offset + viewer->priv->rendering.width)))
                 {
                     GdkCursor *cursor = gdk_cursor_new(GDK_UL_ANGLE);
-                    gdk_window_set_cursor(widget->window, cursor);
+                    gdk_window_set_cursor(gtk_widget_get_window (widget), cursor);
                     gdk_cursor_unref(cursor);
                 }
 
@@ -2554,9 +2552,7 @@ rstto_button_press_event (
 }
 
 static gboolean
-rstto_button_release_event (
-        GtkWidget *widget,
-        GdkEventButton *event)
+rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gdouble box_y = 0.0;
@@ -2571,7 +2567,7 @@ rstto_button_release_event (
     gdouble tmp_x = 0.0;
     gdouble tmp_y = 0.0;
 
-    gdk_window_set_cursor(widget->window, NULL);
+    gdk_window_set_cursor (gtk_widget_get_window (widget), NULL);
 
     switch (viewer->priv->motion.state)
     {
@@ -2718,17 +2714,14 @@ rstto_button_release_event (
     }
     rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL);
     gdk_window_invalidate_rect (
-            widget->window,
+            gtk_widget_get_window (widget),
             NULL,
             FALSE);
     return FALSE;
 }
 
 static void
-cb_rstto_limit_quality_changed (
-        GObject *settings,
-        GParamSpec *pspec,
-        gpointer user_data)
+cb_rstto_limit_quality_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
 
@@ -2754,10 +2747,7 @@ cb_rstto_limit_quality_changed (
 }
 
 static void
-cb_rstto_bgcolor_changed (
-        GObject *settings,
-        GParamSpec *pspec,
-        gpointer user_data)
+cb_rstto_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
     GtkWidget *widget = GTK_WIDGET (user_data);
@@ -2794,52 +2784,37 @@ cb_rstto_bgcolor_changed (
     viewer->priv->bg_color_fs = g_value_get_boxed (&val_bg_color_fs);
 
     gdk_window_invalidate_rect (
-            widget->window,
+            gtk_widget_get_window (widget),
             NULL,
             FALSE);
 }
 
 static void
-cb_rstto_zoom_direction_changed (
-        GObject *settings,
-        GParamSpec *pspec,
-        gpointer user_data)
+cb_rstto_zoom_direction_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
     viewer->priv->invert_zoom_direction = rstto_settings_get_boolean_property (RSTTO_SETTINGS (settings), "invert-zoom-direction");
 }
  
 static gboolean
-rstto_popup_menu (
-        GtkWidget *widget)
+rstto_popup_menu (GtkWidget *widget)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
 
     if (viewer->priv->menu)
     {
-        gtk_widget_show_all(GTK_WIDGET(viewer->priv->menu));
-        gtk_menu_popup(viewer->priv->menu,
-                       NULL,
-                       NULL,
-                       NULL,
-                       NULL,
-                       0,
-                       gtk_get_current_event_time());
+        gtk_widget_show_all (GTK_WIDGET (viewer->priv->menu));
+        gtk_menu_popup (viewer->priv->menu,
+                        NULL, NULL, NULL, NULL, 0,
+                        gtk_get_current_event_time());
         return TRUE;
     }
     return FALSE;
 }
 
 static void
-cb_rstto_image_viewer_dnd (
-        GtkWidget *widget,
-        GdkDragContext *context,
-        gint x,
-        gint y,
-        GtkSelectionData *data,
-        guint info,
-        guint time_,
-        RsttoImageViewer *viewer )
+cb_rstto_image_viewer_dnd (GtkWidget *widget, GdkDragContext *context, gint x, gint y, GtkSelectionData *data,
+                           guint info, guint time_, RsttoImageViewer *viewer)
 {
     g_return_if_fail ( RSTTO_IS_IMAGE_VIEWER(viewer) );
 
@@ -2861,7 +2836,7 @@ cb_rstto_image_viewer_dnd (
 }
 
 GError *
-rstto_image_viewer_get_error ( RsttoImageViewer *viewer )
+rstto_image_viewer_get_error (RsttoImageViewer *viewer)
 {
     if (viewer->priv->error)
     {
@@ -2871,11 +2846,7 @@ rstto_image_viewer_get_error ( RsttoImageViewer *viewer )
 }
 
 static void
-rstto_image_viewer_set_property (
-        GObject      *object,
-        guint         property_id,
-        const GValue *value,
-        GParamSpec   *pspec)
+rstto_image_viewer_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (object);
 
@@ -2888,11 +2859,7 @@ rstto_image_viewer_set_property (
 }
 
 static void
-rstto_image_viewer_get_property (
-        GObject    *object,
-        guint       property_id,
-        GValue     *value,
-        GParamSpec *pspec)
+rstto_image_viewer_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (object);
 
@@ -2910,7 +2877,7 @@ cb_rstto_image_viewer_refresh (RsttoImageViewer *viewer)
     GtkWidget *widget = GTK_WIDGET (viewer);
 
     gdk_window_invalidate_rect (
-            widget->window,
+            gtk_widget_get_window (widget),
             NULL,
             FALSE);
 
@@ -2918,14 +2885,12 @@ cb_rstto_image_viewer_refresh (RsttoImageViewer *viewer)
 }
 
 void
-rstto_image_viewer_set_show_clock (
-        RsttoImageViewer *viewer,
-        gboolean value)
+rstto_image_viewer_set_show_clock (RsttoImageViewer *viewer, gboolean value)
 {
     viewer->priv->props.show_clock = value;
-    if ( viewer->priv->props.show_clock )
+    if (viewer->priv->props.show_clock)
     {
-        viewer->priv->refresh_timeout_id = g_timeout_add(
+        viewer->priv->refresh_timeout_id = g_timeout_add (
                 15000,
                 (GSourceFunc)cb_rstto_image_viewer_refresh, viewer);
     }
@@ -2933,16 +2898,14 @@ rstto_image_viewer_set_show_clock (
     {
         if (viewer->priv->refresh_timeout_id)
         {
-            g_source_remove (
-                    viewer->priv->refresh_timeout_id );
+            g_source_remove (viewer->priv->refresh_timeout_id);
             viewer->priv->refresh_timeout_id = 0;
         }
     }
 }
 
 gboolean
-rstto_image_viewer_is_busy (
-        RsttoImageViewer *viewer )
+rstto_image_viewer_is_busy (RsttoImageViewer *viewer )
 {
     if (viewer->priv->transaction != NULL)
     {
@@ -2952,9 +2915,7 @@ rstto_image_viewer_is_busy (
 }
 
 static void
-cb_rstto_image_viewer_file_changed (
-        RsttoFile        *r_file,
-        RsttoImageViewer *viewer )
+cb_rstto_image_viewer_file_changed (RsttoFile *r_file, RsttoImageViewer *viewer )
 {
     rstto_image_viewer_load_image (
             viewer,

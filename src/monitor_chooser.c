@@ -182,6 +182,7 @@ rstto_monitor_chooser_realize(GtkWidget *widget)
     GdkWindowAttr attributes;
     gint attributes_mask;
     GtkAllocation allocation;
+    GdkWindow *window;
 
     g_return_if_fail (widget != NULL);
     g_return_if_fail (RSTTO_IS_MONITOR_CHOOSER (widget));
@@ -201,12 +202,13 @@ rstto_monitor_chooser_realize(GtkWidget *widget)
     attributes.colormap = gtk_widget_get_colormap (widget);
 
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
-    widget->window = gdk_window_new (gtk_widget_get_parent_window(widget), &attributes, attributes_mask);
+    window = gdk_window_new (gtk_widget_get_parent_window(widget), &attributes, attributes_mask);
+    gtk_widget_set_window (widget, window);
 
-    widget->style = gtk_style_attach (widget->style, widget->window);
-    gdk_window_set_user_data (widget->window, widget);
+    widget->style = gtk_style_attach (widget->style, window);
+    gdk_window_set_user_data (window, widget);
 
-    gtk_style_set_background (widget->style, widget->window, GTK_STATE_ACTIVE);
+    gtk_style_set_background (widget->style, window, GTK_STATE_ACTIVE);
 }
 
 
@@ -223,7 +225,7 @@ rstto_monitor_chooser_size_allocate(GtkWidget *widget, GtkAllocation *allocation
     gtk_widget_set_allocation (widget, allocation);
     if (GTK_WIDGET_REALIZED (widget))
     {
-        gdk_window_move_resize (widget->window,
+        gdk_window_move_resize (gtk_widget_get_window (widget),
             allocation->x,
             allocation->y,
             allocation->width,
@@ -242,7 +244,7 @@ static gboolean
 rstto_monitor_chooser_paint(GtkWidget *widget)
 {
     RsttoMonitorChooser *chooser = RSTTO_MONITOR_CHOOSER (widget);
-    cairo_t *ctx = gdk_cairo_create (widget->window);
+    cairo_t *ctx = gdk_cairo_create (gtk_widget_get_window (widget));
     Monitor *monitor;
     GtkAllocation allocation;
 
