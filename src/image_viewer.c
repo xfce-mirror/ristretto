@@ -499,7 +499,7 @@ rstto_image_viewer_realize(GtkWidget *widget)
     g_return_if_fail (widget != NULL);
     g_return_if_fail (RSTTO_IS_IMAGE_VIEWER(widget));
 
-    GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
+    gtk_widget_set_realized (widget, TRUE);
 
     g_value_init (&val_bg_color, GDK_TYPE_COLOR);
     g_value_init (&val_bg_color_fs, GDK_TYPE_COLOR);
@@ -595,7 +595,7 @@ rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
     gint border_width = 0;
 
     gtk_widget_set_allocation (widget, allocation);
-    if (GTK_WIDGET_REALIZED (widget))
+    if (gtk_widget_get_realized (widget))
     {
         gdk_window_move_resize (gtk_widget_get_window (widget),
                 allocation->x + border_width,
@@ -1503,7 +1503,7 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     GtkAllocation allocation;
     
-    if (GTK_WIDGET_REALIZED (widget))
+    if (gtk_widget_get_realized (widget))
     {
         gtk_widget_get_allocation (widget, &allocation);
         correct_adjustments (viewer);

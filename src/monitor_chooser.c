@@ -188,7 +188,7 @@ rstto_monitor_chooser_realize(GtkWidget *widget)
     g_return_if_fail (widget != NULL);
     g_return_if_fail (RSTTO_IS_MONITOR_CHOOSER (widget));
 
-    GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
+    gtk_widget_set_realized (widget, TRUE);
 
     gtk_widget_get_allocation (widget, &allocation);
 
@@ -225,13 +225,13 @@ static void
 rstto_monitor_chooser_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 {
     gtk_widget_set_allocation (widget, allocation);
-    if (GTK_WIDGET_REALIZED (widget))
+    if (gtk_widget_get_realized (widget))
     {
         gdk_window_move_resize (gtk_widget_get_window (widget),
-            allocation->x,
-            allocation->y,
-            allocation->width,
-            allocation->height);
+                allocation->x,
+                allocation->y,
+                allocation->width,
+                allocation->height);
     }
 }
 
@@ -706,16 +706,16 @@ rstto_monitor_chooser_set_image_surface (
     {
         if (monitor->image_surface)
         {
-            cairo_surface_destroy(monitor->image_surface);
+            cairo_surface_destroy (monitor->image_surface);
         }
 
         monitor->image_surface = surface;
 
         retval = monitor_id;
     }
-    if (GTK_WIDGET_REALIZED (GTK_WIDGET(chooser)))
+    if (gtk_widget_get_realized (GTK_WIDGET (chooser)))
     {
-        rstto_monitor_chooser_paint (GTK_WIDGET(chooser));
+        rstto_monitor_chooser_paint (GTK_WIDGET (chooser));
     }
 
     return retval;
