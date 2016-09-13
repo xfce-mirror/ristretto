@@ -1565,7 +1565,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
         case 0: 
             if ( gtk_widget_get_visible (GTK_WIDGET (window)) )
             {
-                if ( 0 != (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+                if ( 0 != (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN ))
                 {
                     gtk_widget_show (window->priv->toolbar);
                 }
@@ -1643,7 +1643,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
         case 1: 
             if (rstto_settings_get_boolean_property (window->priv->settings_manager, "show-thumbnailbar"))
             {
-                if ( 0 == (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+                if ( 0 == (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN ))
                 {
                     gtk_widget_show (window->priv->t_bar_s_window);
                 }
@@ -1662,7 +1662,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
                 
                 }
             }
-            if ( 0 != (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+            if ( 0 != (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN ))
             {
                 gtk_widget_hide (window->priv->toolbar);
             }
@@ -1749,7 +1749,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
         default: 
             if (rstto_settings_get_boolean_property (window->priv->settings_manager, "show-thumbnailbar"))
             {
-                if ( 0 == (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+                if ( 0 == (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN ))
                 {
                     gtk_widget_show (window->priv->t_bar_s_window);
                 }
@@ -1768,7 +1768,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
                 
                 }
             }
-            if ( 0 != (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+            if ( 0 != (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN ))
             {
                 gtk_widget_hide (window->priv->toolbar);
             }
@@ -1877,7 +1877,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
         /* Do not make the widget visible when in
          * fullscreen mode.
          */
-        if ( 0 == (gdk_window_get_state (GTK_WIDGET (window)->window) & GDK_WINDOW_STATE_FULLSCREEN ))
+        if ( 0 == (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN ))
         {
             gtk_ui_manager_add_ui (window->priv->ui_manager,
                                    window->priv->toolbar_fullscreen_merge_id,
@@ -1910,7 +1910,7 @@ rstto_window_save_geometry_timer (gpointer user_data)
     if (gtk_widget_get_visible (GTK_WIDGET (window)))
     {
         /* determine the current state of the window */
-        gint state = gdk_window_get_state (GTK_WIDGET (window)->window);
+        gint state = gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window)));
 
         /* don't save geometry for maximized or fullscreen windows */
         if ((state & (GDK_WINDOW_STATE_MAXIMIZED | GDK_WINDOW_STATE_FULLSCREEN)) == 0)
@@ -2395,9 +2395,9 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
                                          gpointer user_data)
 {
     gint width, height;
-    if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
+    if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET(window))) & GDK_WINDOW_STATE_FULLSCREEN)
     {
-        gdk_drawable_get_size (GDK_DRAWABLE(GTK_WIDGET(window)->window), &width, &height);
+        gdk_drawable_get_size (GDK_DRAWABLE (gtk_widget_get_window (GTK_WIDGET (window))), &width, &height);
 
         if ((event->x_root == 0) || (event->y_root == 0) || (((gint)event->x_root) == (width-1)) || (((gint)event->y_root) == (height-1)))
         {
@@ -2455,7 +2455,7 @@ cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget,
                                                       gpointer user_data)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
-    if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
+    if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET(window))) & GDK_WINDOW_STATE_FULLSCREEN)
     {
         if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
         {
@@ -2588,13 +2588,13 @@ cb_rstto_main_window_play_slideshow (RsttoMainWindow *window)
 static void
 cb_rstto_main_window_fullscreen (GtkWidget *widget, RsttoMainWindow *window)
 {
-    if(gdk_window_get_state(GTK_WIDGET(window)->window) & GDK_WINDOW_STATE_FULLSCREEN)
+    if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN)
     {
-        gtk_window_unfullscreen(GTK_WINDOW(window));
+        gtk_window_unfullscreen (GTK_WINDOW (window));
     }
     else
     {
-        gtk_window_fullscreen(GTK_WINDOW(window));
+        gtk_window_fullscreen (GTK_WINDOW (window));
     }
 }
 

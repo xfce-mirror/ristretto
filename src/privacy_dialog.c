@@ -171,7 +171,7 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
     gtk_box_pack_start (GTK_BOX (display_main_hbox), 
                         dialog->priv->cleanup_timeframe_combo, FALSE, FALSE, 0);
 
-    gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 
+    gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
                        dialog->priv->cleanup_frame);
 
     gtk_widget_show_all (dialog->priv->cleanup_frame);

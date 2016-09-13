@@ -2402,6 +2402,7 @@ static gboolean
 rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    GtkAdjustment *adjustment;
 
     if (event->state & GDK_BUTTON1_MASK)
     {
@@ -2413,34 +2414,44 @@ rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
             case RSTTO_IMAGE_VIEWER_MOTION_STATE_MOVE:
                 if (viewer->priv->motion.x != viewer->priv->motion.current_x)
                 {
-                    gint val = viewer->hadjustment->value;
-                    viewer->hadjustment->value = viewer->priv->motion.h_val + (viewer->priv->motion.x - viewer->priv->motion.current_x);
-                    if((viewer->hadjustment->value + viewer->hadjustment->page_size) > viewer->hadjustment->upper)
+                    adjustment = viewer->hadjustment;
+                    gint val = gtk_adjustment_get_value (adjustment);
+                    gtk_adjustment_set_value (adjustment,
+                            viewer->priv->motion.h_val + (viewer->priv->motion.x - viewer->priv->motion.current_x));
+                    if ((gtk_adjustment_get_value (adjustment) + gtk_adjustment_get_page_size (adjustment)) >
+                            gtk_adjustment_get_upper (adjustment))
                     {
-                        viewer->hadjustment->value = viewer->hadjustment->upper - viewer->hadjustment->page_size;
+                        gtk_adjustment_set_value (adjustment,
+                                gtk_adjustment_get_upper (adjustment) - gtk_adjustment_get_page_size (adjustment));
                     }
-                    if((viewer->hadjustment->value) < viewer->hadjustment->lower)
+                    if (gtk_adjustment_get_value (adjustment) < gtk_adjustment_get_lower (adjustment))
                     {
-                        viewer->hadjustment->value = viewer->hadjustment->lower;
+                        gtk_adjustment_set_value (adjustment,
+                                gtk_adjustment_get_lower (adjustment));
                     }
-                    if (val != viewer->hadjustment->value)
-                        gtk_adjustment_value_changed(viewer->hadjustment);
+                    if (val != gtk_adjustment_get_value (adjustment))
+                        gtk_adjustment_value_changed (adjustment);
                 }
 
                 if (viewer->priv->motion.y != viewer->priv->motion.current_y)
                 {
-                    gint val = viewer->vadjustment->value;
-                    viewer->vadjustment->value = viewer->priv->motion.v_val + (viewer->priv->motion.y - viewer->priv->motion.current_y);
-                    if((viewer->vadjustment->value + viewer->vadjustment->page_size) > viewer->vadjustment->upper)
+                    adjustment = viewer->vadjustment;
+                    gint val = gtk_adjustment_get_value (adjustment);
+                    gtk_adjustment_set_value (adjustment,
+                            viewer->priv->motion.v_val + (viewer->priv->motion.y - viewer->priv->motion.current_y));
+                    if ((gtk_adjustment_get_value (adjustment) + gtk_adjustment_get_page_size (adjustment)) >
+                            gtk_adjustment_get_upper (adjustment))
                     {
-                        viewer->vadjustment->value = viewer->vadjustment->upper - viewer->vadjustment->page_size;
+                        gtk_adjustment_set_value (adjustment,
+                                gtk_adjustment_get_upper (adjustment) - gtk_adjustment_get_page_size (adjustment));
                     }
-                    if((viewer->vadjustment->value) < viewer->vadjustment->lower)
+                    if (gtk_adjustment_get_value (adjustment) < gtk_adjustment_get_lower (adjustment))
                     {
-                        viewer->vadjustment->value = viewer->vadjustment->lower;
+                        gtk_adjustment_set_value (adjustment,
+                                gtk_adjustment_get_lower (adjustment));
                     }
-                    if (val != viewer->vadjustment->value)
-                        gtk_adjustment_value_changed(viewer->vadjustment);
+                    if (val != gtk_adjustment_get_value (adjustment))
+                        gtk_adjustment_value_changed (adjustment);
                 }
                 break;
             case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
@@ -2491,8 +2502,8 @@ rstto_button_press_event (GtkWidget *widget, GdkEventButton *event)
         viewer->priv->motion.y = event->y;
         viewer->priv->motion.current_x = event->x;
         viewer->priv->motion.current_y = event->y;
-        viewer->priv->motion.h_val = viewer->hadjustment->value;
-        viewer->priv->motion.v_val = viewer->vadjustment->value;
+        viewer->priv->motion.h_val = gtk_adjustment_get_value (viewer->hadjustment);
+        viewer->priv->motion.v_val = gtk_adjustment_get_value (viewer->vadjustment);
 
         if (viewer->priv->file != NULL )
         {
@@ -2820,11 +2831,11 @@ cb_rstto_image_viewer_dnd (GtkWidget *widget, GdkDragContext *context, gint x, g
 {
     g_return_if_fail ( RSTTO_IS_IMAGE_VIEWER(viewer) );
 
-    if ((data->length >= 0) && (data->format == 8))
+    if ((gtk_selection_data_get_length (data) >= 0) && (gtk_selection_data_get_format (data) == 8))
     {
         gchar **uris;
 
-        uris = g_uri_list_extract_uris ((const gchar*)data->data);
+        uris = g_uri_list_extract_uris ((const gchar*) gtk_selection_data_get_data (data));
 
         g_signal_emit_by_name (viewer, "files-dnd", uris);
 
