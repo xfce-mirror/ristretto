@@ -1113,7 +1113,8 @@ rstto_icon_bar_set_adjustments (
     {
         icon_bar->priv->hadjustment = hadj;
         g_object_ref (icon_bar->priv->hadjustment);
-        gtk_object_sink (GTK_OBJECT (icon_bar->priv->hadjustment));
+        // TODO: is this needed?
+        g_object_ref_sink (icon_bar->priv->hadjustment);
 
         g_signal_connect (icon_bar->priv->hadjustment, "value_changed",
                 G_CALLBACK (cb_rstto_icon_bar_adjustment_value_changed), icon_bar);
@@ -1124,7 +1125,8 @@ rstto_icon_bar_set_adjustments (
     {
         icon_bar->priv->vadjustment = vadj;
         g_object_ref (icon_bar->priv->vadjustment);
-        gtk_object_sink (GTK_OBJECT (icon_bar->priv->vadjustment));
+        // TODO: is this needed?
+        g_object_ref_sink (icon_bar->priv->vadjustment);
 
         g_signal_connect (icon_bar->priv->vadjustment, "value_changed",
                 G_CALLBACK (cb_rstto_icon_bar_adjustment_value_changed), icon_bar);

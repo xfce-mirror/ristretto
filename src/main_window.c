@@ -2168,23 +2168,23 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
                 0);
 
         choose_desktop_combo_box =
-                gtk_combo_box_new_text();
+                gtk_combo_box_text_new ();
         gtk_box_pack_start (
                 GTK_BOX (content_area),
                 choose_desktop_combo_box,
                 FALSE,
                 FALSE,
                 0);
-        gtk_combo_box_insert_text(
-                GTK_COMBO_BOX (choose_desktop_combo_box),
+        gtk_combo_box_text_insert_text (
+                GTK_COMBO_BOX_TEXT (choose_desktop_combo_box),
                 DESKTOP_TYPE_NONE,
                 _("None"));
-        gtk_combo_box_insert_text (
-                GTK_COMBO_BOX (choose_desktop_combo_box),
+        gtk_combo_box_text_insert_text (
+                GTK_COMBO_BOX_TEXT (choose_desktop_combo_box),
                 DESKTOP_TYPE_XFCE,
                 _("Xfce"));
-        gtk_combo_box_insert_text (
-                GTK_COMBO_BOX (choose_desktop_combo_box),
+        gtk_combo_box_text_insert_text (
+                GTK_COMBO_BOX_TEXT (choose_desktop_combo_box),
                 DESKTOP_TYPE_GNOME,
                 _("GNOME"));
 
@@ -2390,14 +2390,15 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
 }
 
 static gboolean 
-cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
-                                         GdkEventMotion *event,
-                                         gpointer user_data)
+cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotion *event, gpointer user_data)
 {
+    GdkWindow *gdk_window = gtk_widget_get_window (GTK_WIDGET (window));
     gint width, height;
-    if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET(window))) & GDK_WINDOW_STATE_FULLSCREEN)
+
+    if (gdk_window_get_state (gdk_window) & GDK_WINDOW_STATE_FULLSCREEN)
     {
-        gdk_drawable_get_size (GDK_DRAWABLE (gtk_widget_get_window (GTK_WIDGET (window))), &width, &height);
+        width = gdk_window_get_width (gdk_window);
+        height = gdk_window_get_height (gdk_window);
 
         if ((event->x_root == 0) || (event->y_root == 0) || (((gint)event->x_root) == (width-1)) || (((gint)event->y_root) == (height-1)))
         {

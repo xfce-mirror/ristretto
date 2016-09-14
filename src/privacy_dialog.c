@@ -154,12 +154,12 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
 
     dialog->priv->cleanup_vbox = gtk_vbox_new(FALSE, 0);
     dialog->priv->cleanup_frame = xfce_gtk_frame_box_new_with_content(_("Cleanup"), dialog->priv->cleanup_vbox);
-    dialog->priv->cleanup_timeframe_combo = gtk_combo_box_new_text();
-    gtk_combo_box_insert_text(GTK_COMBO_BOX(dialog->priv->cleanup_timeframe_combo), 0, _("Last Hour"));
-    gtk_combo_box_insert_text(GTK_COMBO_BOX(dialog->priv->cleanup_timeframe_combo), 1, _("Last Two Hours"));
-    gtk_combo_box_insert_text(GTK_COMBO_BOX(dialog->priv->cleanup_timeframe_combo), 2, _("Last Four Hours"));
-    gtk_combo_box_insert_text(GTK_COMBO_BOX(dialog->priv->cleanup_timeframe_combo), 3, _("Today"));
-    gtk_combo_box_insert_text(GTK_COMBO_BOX(dialog->priv->cleanup_timeframe_combo), 4, _("Everything"));
+    dialog->priv->cleanup_timeframe_combo = gtk_combo_box_text_new();
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dialog->priv->cleanup_timeframe_combo), 0, _("Last Hour"));
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dialog->priv->cleanup_timeframe_combo), 1, _("Last Two Hours"));
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dialog->priv->cleanup_timeframe_combo), 2, _("Last Four Hours"));
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dialog->priv->cleanup_timeframe_combo), 3, _("Today"));
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dialog->priv->cleanup_timeframe_combo), 4, _("Everything"));
     g_signal_connect (G_OBJECT (dialog->priv->cleanup_timeframe_combo), 
                       "changed", (GCallback)cb_rstto_privacy_dialog_combobox_timeframe_changed, dialog);
     gtk_combo_box_set_active(GTK_COMBO_BOX(dialog->priv->cleanup_timeframe_combo), 0);

@@ -319,10 +319,10 @@ rstto_image_viewer_init ( GObject *object )
 
     viewer->priv = g_new0(RsttoImageViewerPriv, 1);
     viewer->priv->cb_value_changed = cb_rstto_image_viewer_value_changed;
-    viewer->priv->settings = rstto_settings_new();
+    viewer->priv->settings = rstto_settings_new ();
     viewer->priv->image_width = 0;
     viewer->priv->image_height = 0;
-    viewer->priv->visual = gdk_rgb_get_visual();
+    viewer->priv->visual = gdk_visual_get_system ();
     viewer->priv->colormap = gdk_colormap_new (viewer->priv->visual, TRUE);
 
     viewer->priv->icon_theme = gtk_icon_theme_get_default ();

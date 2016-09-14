@@ -475,23 +475,23 @@ rstto_preferences_dialog_init ( RsttoPreferencesDialog *dialog )
             FALSE,
             0);
     dialog->priv->behaviour_tab.choose_desktop_combo_box =
-            gtk_combo_box_new_text();
+            gtk_combo_box_text_new ();
     gtk_box_pack_start (
             GTK_BOX (dialog->priv->behaviour_tab.desktop_vbox),
             dialog->priv->behaviour_tab.choose_desktop_combo_box,
             FALSE,
             FALSE,
             0);
-    gtk_combo_box_insert_text(
-            GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+    gtk_combo_box_text_insert_text (
+            GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
             DESKTOP_TYPE_NONE,
             _("None"));
-    gtk_combo_box_insert_text (
-            GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+    gtk_combo_box_text_insert_text (
+            GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
             DESKTOP_TYPE_XFCE,
             _("Xfce"));
-    gtk_combo_box_insert_text (
-            GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+    gtk_combo_box_text_insert_text (
+            GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
             DESKTOP_TYPE_GNOME,
             _("GNOME"));
 

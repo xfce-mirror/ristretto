@@ -257,7 +257,7 @@ rstto_gnome_wallpaper_manager_init (GObject *object)
     vbox = gtk_dialog_get_content_area ( GTK_DIALOG (manager->priv->dialog));
 
     manager->priv->monitor_chooser = rstto_monitor_chooser_new ();
-    manager->priv->style_combo = gtk_combo_box_new_text();
+    manager->priv->style_combo = gtk_combo_box_text_new ();
 
     gtk_table_set_row_spacing (GTK_TABLE(image_prop_table), 1, 4);
 
@@ -308,8 +308,8 @@ rstto_gnome_wallpaper_manager_init (GObject *object)
             0,
             0);
 
-    gtk_combo_box_append_text (
-            GTK_COMBO_BOX (manager->priv->style_combo),
+    gtk_combo_box_text_append_text (
+            GTK_COMBO_BOX_TEXT (manager->priv->style_combo),
             _("Auto"));
 
     gtk_combo_box_set_active (
