@@ -325,7 +325,7 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
     gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
 
 
-    gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CLOSE, GTK_RESPONSE_OK);
+    gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Close"), GTK_RESPONSE_OK);
 }
 
 static void
@@ -639,7 +639,7 @@ rstto_properties_dialog_new (
     gchar *title = g_strdup_printf (_("%s - Properties"), rstto_file_get_display_name (file));
     GtkWidget *dialog = g_object_new (RSTTO_TYPE_PROPERTIES_DIALOG,
                                       "title", title,
-                                      "icon-name", GTK_STOCK_PROPERTIES,
+                                      "icon-name", "document-properties",
                                       "file", file,
                                       NULL);
     g_free (title);

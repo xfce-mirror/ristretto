@@ -373,31 +373,31 @@ static GtkActionEntry action_entries[] =
             N_ ("Open an image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_open_image), },
   { "save-copy",
-            GTK_STOCK_SAVE_AS, /* Icon-name */
+            "document-save-as", /* Icon-name */
             N_ ("_Save copy..."), /* Label-text */
             "<control>s", /* Keyboard shortcut */
             N_ ("Save a copy of the image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_save_copy), },
   { "properties",
-            GTK_STOCK_PROPERTIES, /* Icon-name */
+            "document-properties", /* Icon-name */
             N_ ("_Properties..."), /* Label-text */
             NULL, /* Keyboard shortcut */
             N_ ("Show file properties"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_properties), },
   { "edit",
-            GTK_STOCK_EDIT, /* Icon-name */
+            "gtk-edit", /* Icon-name */
             N_ ("_Edit"), /* Label-text */
             NULL, /* Keyboard shortcut */
             N_ ("Edit this image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_edit), },
   { "close",
-            GTK_STOCK_CLOSE, /* Icon-name */
+            "window-close", /* Icon-name */
             N_ ("_Close"), /* Label-text */
             "<control>W", /* Keyboard shortcut */
             N_ ("Close this image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_close), },
   { "quit",
-            GTK_STOCK_QUIT, /* Icon-name */
+            "application-exit", /* Icon-name */
             N_ ("_Quit"), /* Label-text */
             "<control>Q", /* Keyboard shortcut */
             N_ ("Quit Ristretto"), /* Tooltip text */
@@ -416,19 +416,19 @@ static GtkActionEntry action_entries[] =
             N_ ("_Sorting"),
             NULL, },
   { "delete",
-            GTK_STOCK_DELETE, /* Icon-name */
+            "edit-delete", /* Icon-name */
             N_ ("_Delete"), /* Label-text */
             "Delete", /* Keyboard shortcut */
             N_ ("Delete this image from disk"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_delete), },
   { "clear-private-data",
-            GTK_STOCK_CLEAR, /* Icon-name */
+            "edit-clear", /* Icon-name */
             N_ ("_Clear private data..."), /* Label-text */
             "<control><shift>Delete", /* Keyboard shortcut */
             NULL, /* Tooltip text */
             G_CALLBACK(cb_rstto_main_window_clear_private_data), },
   { "preferences",
-            GTK_STOCK_PREFERENCES, /* Icon-name */
+            "preferences-system", /* Icon-name */
             N_ ("_Preferences..."), /* Label-text */
             NULL, /* Keyboard shortcut */
             NULL, /* Tooltip text */
@@ -439,13 +439,13 @@ static GtkActionEntry action_entries[] =
             N_ ("_View"),
             NULL, },
   { "fullscreen",
-            GTK_STOCK_FULLSCREEN, /* Icon-name */
+            "view-fullscreen", /* Icon-name */
             N_ ("_Fullscreen"), /* Label-text */
             "F11", /* Keyboard shortcut */
             N_ ("Switch to fullscreen"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "unfullscreen",
-            GTK_STOCK_LEAVE_FULLSCREEN, /* Icon-name */
+            "view-restore", /* Icon-name */
             N_ ("_Leave Fullscreen"), /* Label-text */
             NULL, /* Keyboard shortcut */
             N_ ("Leave Fullscreen"), /* Tooltip text */
@@ -462,25 +462,25 @@ static GtkActionEntry action_entries[] =
             N_ ("_Zoom"),
             NULL, },
   { "zoom-in",
-            GTK_STOCK_ZOOM_IN, /* Icon-name */
+            "zoom-in", /* Icon-name */
             N_ ("Zoom _In"), /* Label-text */
             "<control>plus", /* Keyboard shortcut */
             N_ ("Zoom in"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_zoom_in),},
   { "zoom-out",
-            GTK_STOCK_ZOOM_OUT, /* Icon-name */
+            "zoom-out", /* Icon-name */
             N_ ("Zoom _Out"), /* Label-text */
             "<control>minus", /* Keyboard shortcut */
             N_ ("Zoom out"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_zoom_out), },
   { "zoom-fit",
-            GTK_STOCK_ZOOM_FIT, /* Icon-name */
+            "zoom-fit-best", /* Icon-name */
             N_ ("Zoom _Fit"), /* Label-text */
             "<control>equal", /* Keyboard shortcut */
             N_ ("Zoom to fit window"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_zoom_fit), },
   { "zoom-100",
-            GTK_STOCK_ZOOM_100, /* Icon-name */
+            "zoom-original", /* Icon-name */
             N_ ("_Normal Size"), /* Label-text */
             "<control>0", /* Keyboard shortcut */
             N_ ("Zoom to 100%"), /* Tooltip text */
@@ -508,25 +508,25 @@ static GtkActionEntry action_entries[] =
             N_ ("_Go"),
             NULL, },
   { "forward",
-            GTK_STOCK_GO_FORWARD, /* Icon-name */
+            "go-next", /* Icon-name */
             N_ ("_Forward"), /* Label-text */
             "space", /* Keyboard shortcut */
             N_("Next image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_next_image), },
   { "back",
-            GTK_STOCK_GO_BACK, /* Icon-name */
+            "go-previous", /* Icon-name */
             N_ ("_Back"), /* Label-text */
             "BackSpace", /* Keyboard shortcut */
             N_("Previous image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_previous_image), },
   { "first",
-            GTK_STOCK_GOTO_FIRST, /* Icon-name */
+            "go-first", /* Icon-name */
             N_ ("F_irst"), /* Label-text */
             "Home", /* Keyboard shortcut */
             N_("First image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_first_image), },
   { "last",
-            GTK_STOCK_GOTO_LAST, /* Icon-name */
+            "go-last", /* Icon-name */
             N_ ("_Last"), /* Label-text */
             "End", /* Keyboard shortcut */
             N_("Last image"), /* Tooltip text */
@@ -537,13 +537,13 @@ static GtkActionEntry action_entries[] =
             N_ ("_Help"),
             NULL, },
   { "contents",
-            GTK_STOCK_HELP, /* Icon-name */
+            "help-browser", /* Icon-name */
             N_ ("_Contents"), /* Label-text */
             "F1", /* Keyboard shortcut */
             N_ ("Display ristretto user manual"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_contents), },
   { "about",
-            GTK_STOCK_ABOUT,  /* Icon-name */
+            "help-about",  /* Icon-name */
             N_ ("_About"), /* Label-text */
             NULL, /* Keyboard shortcut */
             N_ ("Display information about ristretto"), /* Tooltip text */
@@ -567,7 +567,7 @@ static GtkActionEntry action_entries[] =
             NULL, },
 /* Misc */
   { "leave-fullscreen",
-            GTK_STOCK_LEAVE_FULLSCREEN, /* Icon-name */
+            "view-restore", /* Icon-name */
             N_ ("Leave _Fullscreen"), /* Label-text */
             NULL, /* Keyboard shortcut */
             NULL, /* Tooltip text */
@@ -850,8 +850,8 @@ rstto_main_window_init (RsttoMainWindow *window)
 
 
     /* Create Play/Pause Slideshow actions */
-    window->priv->play_action = gtk_action_new ("play", _("_Play"), _("Play slideshow"), GTK_STOCK_MEDIA_PLAY);
-    window->priv->pause_action = gtk_action_new ("pause", _("_Pause"), _("Pause slideshow"), GTK_STOCK_MEDIA_PAUSE);
+    window->priv->play_action = gtk_action_new ("play", _("_Play"), _("Play slideshow"), "gtk-media-play");
+    window->priv->pause_action = gtk_action_new ("pause", _("_Pause"), _("Pause slideshow"), "gtk-media-pause");
 
     /* Create Recently used items Action */
     window->priv->recent_action = gtk_recent_action_new_for_manager ("document-open-recent", _("_Recently used"), _("Recently used"), 0, GTK_RECENT_MANAGER(window->priv->recent_manager));
@@ -2141,9 +2141,9 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
                 _("Choose 'set wallpaper' method"),
                 GTK_WINDOW(window),
                 GTK_DIALOG_DESTROY_WITH_PARENT,
-                GTK_STOCK_OK,
+                _("_OK"),
                 GTK_RESPONSE_OK,
-                GTK_STOCK_CANCEL,
+                _("_Cancel"),
                 GTK_RESPONSE_CANCEL,
                 NULL);
 
@@ -2954,8 +2954,8 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     dialog = gtk_file_chooser_dialog_new(_("Open image"),
                                          GTK_WINDOW(window),
                                          GTK_FILE_CHOOSER_ACTION_OPEN,
-                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                         GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
+                                         _("_Open"), GTK_RESPONSE_OK,
                                          NULL);
 
     gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
@@ -3187,8 +3187,8 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
     dialog = gtk_file_chooser_dialog_new(_("Save copy"),
                                          GTK_WINDOW(window),
                                          GTK_FILE_CHOOSER_ACTION_SAVE,
-                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                         GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
+                                         _("_Save"), GTK_RESPONSE_OK,
                                          NULL);
     gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
 
@@ -3809,9 +3809,9 @@ rstto_main_window_launch_editor_chooser (
             _("Edit with"),
             GTK_WINDOW (window),
             GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
-            GTK_STOCK_CANCEL,
+            _("_Cancel"),
             GTK_RESPONSE_CANCEL,
-            GTK_STOCK_OK,
+            _("_OK"),
             GTK_RESPONSE_OK,
             NULL);
 

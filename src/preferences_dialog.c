@@ -540,7 +540,7 @@ rstto_preferences_dialog_init ( RsttoPreferencesDialog *dialog )
     /* Window should not be resizable */
     gtk_window_set_resizable (GTK_WINDOW(dialog), FALSE);
 
-    gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CLOSE, GTK_RESPONSE_OK);
+    gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Close"), GTK_RESPONSE_OK);
 
 }
 

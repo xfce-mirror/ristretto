@@ -246,11 +246,11 @@ rstto_gnome_wallpaper_manager_init (GObject *object)
             _("Set as wallpaper"),
             NULL,
             0,
-            GTK_STOCK_CANCEL,
+            _("_Cancel"),
             GTK_RESPONSE_CANCEL,
-            GTK_STOCK_APPLY,
+            _("_Apply"),
             GTK_RESPONSE_APPLY,
-            GTK_STOCK_OK,
+            _("_OK"),
             GTK_RESPONSE_OK,
             NULL);
 

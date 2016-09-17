@@ -179,8 +179,8 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
     /* Window should not be resizable */
     gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
 
-    gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-    gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_APPLY, GTK_RESPONSE_OK);
+    gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Cancel"), GTK_RESPONSE_CANCEL);
+    gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Apply"), GTK_RESPONSE_OK);
 }
 
 static void
@@ -458,7 +458,7 @@ rstto_privacy_dialog_new (GtkWindow *parent, GtkRecentManager *recent_manager)
 {
     GtkWidget *dialog = g_object_new (RSTTO_TYPE_PRIVACY_DIALOG,
                                       "title", _("Clear private data"),
-                                      "icon-name", GTK_STOCK_CLEAR,
+                                      "icon-name", "edit-clear",
                                       "recent-manager", recent_manager,
                                       NULL);
 
