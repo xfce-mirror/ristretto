@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2016-07-03 18:31+0200\n"
-"PO-Revision-Date: 2016-07-04 09:50+0000\n"
+"POT-Creation-Date: 2016-09-18 00:31+0200\n"
+"PO-Revision-Date: 2016-09-18 08:18+0000\n"
 "Last-Translator: Yannick Le Guen <leguen.yannick@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/xfce/xfce-apps/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -103,7 +103,8 @@ msgid "Edit this image"
 msgstr "Modifier cette image"
 
 #. Icon-name
-#: ../src/main_window.c:395
+#: ../src/main_window.c:395 ../src/preferences_dialog.c:543
+#: ../src/properties_dialog.c:328
 msgid "_Close"
 msgstr "_Fermer"
 
@@ -457,6 +458,18 @@ msgstr "Chargement..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Choisir la méthode pour « Définir comme fond d’écran... »"
 
+#: ../src/main_window.c:2144 ../src/main_window.c:3814
+#: ../src/xfce_wallpaper_manager.c:411 ../src/gnome_wallpaper_manager.c:253
+msgid "_OK"
+msgstr "_OK"
+
+#: ../src/main_window.c:2146 ../src/main_window.c:2957
+#: ../src/main_window.c:3190 ../src/main_window.c:3812
+#: ../src/privacy_dialog.c:182 ../src/xfce_wallpaper_manager.c:407
+#: ../src/gnome_wallpaper_manager.c:249
+msgid "_Cancel"
+msgstr "_Annuler"
+
 #: ../src/main_window.c:2156 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
@@ -476,57 +489,65 @@ msgstr "Xfce"
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2629
+#: ../src/main_window.c:2630
 msgid "Developer:"
 msgstr "Programmeur :"
 
-#: ../src/main_window.c:2638 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2639 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto est un visionneur d’images pour l’environnement de bureau Xfce."
 
-#: ../src/main_window.c:2646
+#: ../src/main_window.c:2647
 msgid "translator-credits"
 msgstr "L’équipe de traduction francophone de Xfce"
 
-#: ../src/main_window.c:2949
+#: ../src/main_window.c:2954
 msgid "Open image"
 msgstr "Ouvrir une image"
 
-#: ../src/main_window.c:2968
+#: ../src/main_window.c:2958
+msgid "_Open"
+msgstr "_Ouvrir"
+
+#: ../src/main_window.c:2973
 msgid "Images"
 msgstr "Images"
 
-#: ../src/main_window.c:2973
+#: ../src/main_window.c:2978
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3000 ../src/main_window.c:3143
+#: ../src/main_window.c:3005 ../src/main_window.c:3148
 msgid "Could not open file"
 msgstr "Impossible d’ouvrir le fichier"
 
-#: ../src/main_window.c:3182
+#: ../src/main_window.c:3187
 msgid "Save copy"
 msgstr "Enregistrer une copie"
 
-#: ../src/main_window.c:3215
+#: ../src/main_window.c:3191
+msgid "_Save"
+msgstr "_Enregistrer"
+
+#: ../src/main_window.c:3220
 msgid "Could not save file"
 msgstr "Impossible d’enregistrer le fichier"
 
-#: ../src/main_window.c:3378
+#: ../src/main_window.c:3383
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Voulez-vous vraiment mettre l’image « %s » dans la corbeille ?"
 
-#: ../src/main_window.c:3382
+#: ../src/main_window.c:3387
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Voulez-vous vraiment supprimer l’image « %s » du disque ?"
 
-#: ../src/main_window.c:3393
+#: ../src/main_window.c:3398
 msgid "_Do not ask again for this session"
 msgstr "_Ne plus demander pour cette session"
 
-#: ../src/main_window.c:3464
+#: ../src/main_window.c:3469
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -534,7 +555,7 @@ msgid ""
 "%s"
 msgstr "Une erreur s’est produite lors de la suppression de l’image « %s » du disque.\n\n%s"
 
-#: ../src/main_window.c:3468
+#: ../src/main_window.c:3473
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -542,84 +563,84 @@ msgid ""
 "%s"
 msgstr "Une erreur s’est produite lors de l’envoi de l’image « %s » dans la corbeille.\n\n%s"
 
-#: ../src/main_window.c:3804
+#: ../src/main_window.c:3809
 msgid "Edit with"
 msgstr "Modifier avec"
 
-#: ../src/main_window.c:3822
+#: ../src/main_window.c:3827
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Ouvrir %s et les autres fichiers de type %s avec :"
 
-#: ../src/main_window.c:3827
+#: ../src/main_window.c:3832
 msgid "Use as _default for this kind of file"
 msgstr "Utiliser par _défaut pour ce type de fichier"
 
-#: ../src/main_window.c:3917
+#: ../src/main_window.c:3922
 msgid "Recommended Applications"
 msgstr "Applications recommandées"
 
-#: ../src/main_window.c:3997
+#: ../src/main_window.c:4002
 msgid "Other Applications"
 msgstr "Autres applications"
 
-#: ../src/icon_bar.c:345
+#: ../src/icon_bar.c:344
 msgid "Orientation"
 msgstr "Orientation"
 
-#: ../src/icon_bar.c:346
+#: ../src/icon_bar.c:345
 msgid "The orientation of the iconbar"
 msgstr "L’orientation de la barre d’icônes"
 
-#: ../src/icon_bar.c:362
+#: ../src/icon_bar.c:361
 msgid "File column"
 msgstr "Colonne fichier"
 
-#: ../src/icon_bar.c:363
+#: ../src/icon_bar.c:362
 msgid "Model column used to retrieve the file from"
 msgstr "Colonne du modèle utilisé pour récupérer le fichier depuis"
 
-#: ../src/icon_bar.c:375
+#: ../src/icon_bar.c:374
 msgid "Icon Bar Model"
 msgstr "Modèle de barre d’icônes"
 
-#: ../src/icon_bar.c:376
+#: ../src/icon_bar.c:375
 msgid "Model for the icon bar"
 msgstr "Modèle pour la barre d’icônes"
 
-#: ../src/icon_bar.c:392
+#: ../src/icon_bar.c:391
 msgid "Active"
 msgstr "Activer"
 
-#: ../src/icon_bar.c:393
+#: ../src/icon_bar.c:392
 msgid "Active item index"
 msgstr "Activer l’index de l’élément"
 
-#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+#: ../src/icon_bar.c:408 ../src/icon_bar.c:409
 msgid "Show Text"
 msgstr "Afficher le texte"
 
-#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+#: ../src/icon_bar.c:415 ../src/icon_bar.c:416
 msgid "Active item fill color"
 msgstr "Couleur de remplissage de l’élément actif"
 
-#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+#: ../src/icon_bar.c:422 ../src/icon_bar.c:423
 msgid "Active item border color"
 msgstr "Couleur de la bordure de l’élément actif"
 
-#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+#: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item text color"
 msgstr "Couleur du texte de l’élément actif"
 
-#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+#: ../src/icon_bar.c:436 ../src/icon_bar.c:437
 msgid "Cursor item fill color"
 msgstr "Couleur de remplissage de l’élément surligné"
 
-#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+#: ../src/icon_bar.c:443 ../src/icon_bar.c:444
 msgid "Cursor item border color"
 msgstr "Couleur de la bordure de l’élément surligné"
 
-#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+#: ../src/icon_bar.c:450 ../src/icon_bar.c:451
 msgid "Cursor item text color"
 msgstr "Couleur du texte de l’élément surligné"
 
@@ -650,6 +671,11 @@ msgstr "Aujourd’hui"
 #: ../src/privacy_dialog.c:162
 msgid "Everything"
 msgstr "Tout"
+
+#: ../src/privacy_dialog.c:183 ../src/xfce_wallpaper_manager.c:409
+#: ../src/gnome_wallpaper_manager.c:251
+msgid "_Apply"
+msgstr "_Appliquer"
 
 #: ../src/privacy_dialog.c:460
 msgid "Clear private data"
