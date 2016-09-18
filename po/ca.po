@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2016-07-03 18:31+0200\n"
-"PO-Revision-Date: 2016-08-06 18:39+0000\n"
+"POT-Creation-Date: 2016-09-18 00:31+0200\n"
+"PO-Revision-Date: 2016-09-18 07:30+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,8 @@ msgid "Edit this image"
 msgstr "Edita aquesta imatge"
 
 #. Icon-name
-#: ../src/main_window.c:395
+#: ../src/main_window.c:395 ../src/preferences_dialog.c:543
+#: ../src/properties_dialog.c:328
 msgid "_Close"
 msgstr "_Tanca"
 
@@ -454,6 +455,18 @@ msgstr "S'està carregant..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Trieu el mètode «Estableix el fons de l'escriptori»"
 
+#: ../src/main_window.c:2144 ../src/main_window.c:3814
+#: ../src/xfce_wallpaper_manager.c:411 ../src/gnome_wallpaper_manager.c:253
+msgid "_OK"
+msgstr "D'ac_ord"
+
+#: ../src/main_window.c:2146 ../src/main_window.c:2957
+#: ../src/main_window.c:3190 ../src/main_window.c:3812
+#: ../src/privacy_dialog.c:182 ../src/xfce_wallpaper_manager.c:407
+#: ../src/gnome_wallpaper_manager.c:249
+msgid "_Cancel"
+msgstr "_Cancel·la"
+
 #: ../src/main_window.c:2156 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
@@ -473,57 +486,65 @@ msgstr "Xfce"
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2629
+#: ../src/main_window.c:2630
 msgid "Developer:"
 msgstr "Desenvolupador:"
 
-#: ../src/main_window.c:2638 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2639 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto és un visualitzador d'imatges per a l'entorn d'escriptori Xfce."
 
-#: ../src/main_window.c:2646
+#: ../src/main_window.c:2647
 msgid "translator-credits"
 msgstr "Carles Muñoz Gorriz <carlesmu@internautas.org>, 2008-2010.\nHarald Servat <redcrash@gmail.com>, 2009.\nRobert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2016."
 
-#: ../src/main_window.c:2949
+#: ../src/main_window.c:2954
 msgid "Open image"
 msgstr "Obre una imatge"
 
-#: ../src/main_window.c:2968
+#: ../src/main_window.c:2958
+msgid "_Open"
+msgstr "_Obre"
+
+#: ../src/main_window.c:2973
 msgid "Images"
 msgstr "Imatges"
 
-#: ../src/main_window.c:2973
+#: ../src/main_window.c:2978
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3000 ../src/main_window.c:3143
+#: ../src/main_window.c:3005 ../src/main_window.c:3148
 msgid "Could not open file"
 msgstr "No s'ha pogut obrir el fitxer"
 
-#: ../src/main_window.c:3182
+#: ../src/main_window.c:3187
 msgid "Save copy"
 msgstr "Desa una còpia"
 
-#: ../src/main_window.c:3215
+#: ../src/main_window.c:3191
+msgid "_Save"
+msgstr "De_sa"
+
+#: ../src/main_window.c:3220
 msgid "Could not save file"
 msgstr "No s'ha pogut desar el fitxer"
 
-#: ../src/main_window.c:3378
+#: ../src/main_window.c:3383
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Voleu enviar la imatge «%s» a la paperera?"
 
-#: ../src/main_window.c:3382
+#: ../src/main_window.c:3387
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Voleu suprimir la imatge «%s» del disc?"
 
-#: ../src/main_window.c:3393
+#: ../src/main_window.c:3398
 msgid "_Do not ask again for this session"
 msgstr "_No tornis a preguntar-ho durant aquesta sessió"
 
-#: ../src/main_window.c:3464
+#: ../src/main_window.c:3469
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -531,7 +552,7 @@ msgid ""
 "%s"
 msgstr "S'ha produït un error mentre s'estava suprimint la imatge «%s» del disc.\n\n%s"
 
-#: ../src/main_window.c:3468
+#: ../src/main_window.c:3473
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -539,84 +560,84 @@ msgid ""
 "%s"
 msgstr "S'ha produït un error mentre s'estava enviant la imatge «%s» a la paperera.\n\n%s"
 
-#: ../src/main_window.c:3804
+#: ../src/main_window.c:3809
 msgid "Edit with"
 msgstr "Edita amb"
 
-#: ../src/main_window.c:3822
+#: ../src/main_window.c:3827
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Obra %s i els altres fitxers del tipus %s amb:"
 
-#: ../src/main_window.c:3827
+#: ../src/main_window.c:3832
 msgid "Use as _default for this kind of file"
 msgstr "Utilitza-ho com a pre_determinat per a aquest tipus de fitxer"
 
-#: ../src/main_window.c:3917
+#: ../src/main_window.c:3922
 msgid "Recommended Applications"
 msgstr "Aplicacions recomanades"
 
-#: ../src/main_window.c:3997
+#: ../src/main_window.c:4002
 msgid "Other Applications"
 msgstr "Altres aplicacions"
 
-#: ../src/icon_bar.c:345
+#: ../src/icon_bar.c:344
 msgid "Orientation"
 msgstr "Orientació"
 
-#: ../src/icon_bar.c:346
+#: ../src/icon_bar.c:345
 msgid "The orientation of the iconbar"
 msgstr "L'orientació de la barra d'icones"
 
-#: ../src/icon_bar.c:362
+#: ../src/icon_bar.c:361
 msgid "File column"
 msgstr "Columna de fitxers"
 
-#: ../src/icon_bar.c:363
+#: ../src/icon_bar.c:362
 msgid "Model column used to retrieve the file from"
 msgstr "Columna de model que s'utilitza per recuperar-ne el fitxer"
 
-#: ../src/icon_bar.c:375
+#: ../src/icon_bar.c:374
 msgid "Icon Bar Model"
 msgstr "Model de barra d'icones"
 
-#: ../src/icon_bar.c:376
+#: ../src/icon_bar.c:375
 msgid "Model for the icon bar"
 msgstr "Model per a la barra d'icones"
 
-#: ../src/icon_bar.c:392
+#: ../src/icon_bar.c:391
 msgid "Active"
 msgstr "Actiu"
 
-#: ../src/icon_bar.c:393
+#: ../src/icon_bar.c:392
 msgid "Active item index"
 msgstr "Índex d'elements actius"
 
-#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+#: ../src/icon_bar.c:408 ../src/icon_bar.c:409
 msgid "Show Text"
 msgstr "Mostra el text"
 
-#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+#: ../src/icon_bar.c:415 ../src/icon_bar.c:416
 msgid "Active item fill color"
 msgstr "Color de l'emplenament de l'element actiu"
 
-#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+#: ../src/icon_bar.c:422 ../src/icon_bar.c:423
 msgid "Active item border color"
 msgstr "Color de la vora de l'element actiu"
 
-#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+#: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item text color"
 msgstr "Color del text de l'element actiu"
 
-#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+#: ../src/icon_bar.c:436 ../src/icon_bar.c:437
 msgid "Cursor item fill color"
 msgstr "Color de l'emplenament de l'element del cursor"
 
-#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+#: ../src/icon_bar.c:443 ../src/icon_bar.c:444
 msgid "Cursor item border color"
 msgstr "Color de la vora de l'element del cursor"
 
-#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+#: ../src/icon_bar.c:450 ../src/icon_bar.c:451
 msgid "Cursor item text color"
 msgstr "Color del text de l'element del cursor"
 
@@ -647,6 +668,11 @@ msgstr "Avui"
 #: ../src/privacy_dialog.c:162
 msgid "Everything"
 msgstr "Tot"
+
+#: ../src/privacy_dialog.c:183 ../src/xfce_wallpaper_manager.c:409
+#: ../src/gnome_wallpaper_manager.c:251
+msgid "_Apply"
+msgstr "_Aplica"
 
 #: ../src/privacy_dialog.c:460
 msgid "Clear private data"
