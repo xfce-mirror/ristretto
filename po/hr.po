@@ -7,13 +7,14 @@
 # Edin Veskovic <edin.veskovic@openmailbox.org>, 2014
 # Ivica  Kolić <ikoli@yahoo.com>, 2010
 # Ivica  Kolić <ikoli@yahoo.com>, 2013-2014,2016
+# Lovro Kudelić <lovro.kudelic@outlook.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2016-07-03 18:31+0200\n"
-"PO-Revision-Date: 2016-08-08 18:19+0000\n"
-"Last-Translator: Ivica  Kolić <ikoli@yahoo.com>\n"
+"POT-Creation-Date: 2016-09-18 00:31+0200\n"
+"PO-Revision-Date: 2016-09-18 20:17+0000\n"
+"Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/xfce/xfce-apps/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -99,7 +100,8 @@ msgid "Edit this image"
 msgstr "Uredi ovu sliku"
 
 #. Icon-name
-#: ../src/main_window.c:395
+#: ../src/main_window.c:395 ../src/preferences_dialog.c:543
+#: ../src/properties_dialog.c:328
 msgid "_Close"
 msgstr "_Zatvori"
 
@@ -453,6 +455,18 @@ msgstr "Učitavam..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Izaberi 'postavi pozadinu' način"
 
+#: ../src/main_window.c:2144 ../src/main_window.c:3814
+#: ../src/xfce_wallpaper_manager.c:411 ../src/gnome_wallpaper_manager.c:253
+msgid "_OK"
+msgstr "_OK"
+
+#: ../src/main_window.c:2146 ../src/main_window.c:2957
+#: ../src/main_window.c:3190 ../src/main_window.c:3812
+#: ../src/privacy_dialog.c:182 ../src/xfce_wallpaper_manager.c:407
+#: ../src/gnome_wallpaper_manager.c:249
+msgid "_Cancel"
+msgstr "_Odustani"
+
 #: ../src/main_window.c:2156 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
@@ -472,57 +486,65 @@ msgstr "Xfce"
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2629
+#: ../src/main_window.c:2630
 msgid "Developer:"
 msgstr "Razvijatelj:"
 
-#: ../src/main_window.c:2638 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2639 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto je preglednik slika za  Xfce radno okruženje."
 
-#: ../src/main_window.c:2646
+#: ../src/main_window.c:2647
 msgid "translator-credits"
 msgstr "Ivica Kolić <ikoli@yahoo.com>"
 
-#: ../src/main_window.c:2949
+#: ../src/main_window.c:2954
 msgid "Open image"
 msgstr "Otvori sliku"
 
-#: ../src/main_window.c:2968
+#: ../src/main_window.c:2958
+msgid "_Open"
+msgstr "_Otvori"
+
+#: ../src/main_window.c:2973
 msgid "Images"
 msgstr "Slike"
 
-#: ../src/main_window.c:2973
+#: ../src/main_window.c:2978
 msgid ".jp(e)g"
 msgstr ". Jp (e) g"
 
-#: ../src/main_window.c:3000 ../src/main_window.c:3143
+#: ../src/main_window.c:3005 ../src/main_window.c:3148
 msgid "Could not open file"
 msgstr "Ne mogu otvoriti datoteku"
 
-#: ../src/main_window.c:3182
+#: ../src/main_window.c:3187
 msgid "Save copy"
 msgstr "Spremi kopiju"
 
-#: ../src/main_window.c:3215
+#: ../src/main_window.c:3191
+msgid "_Save"
+msgstr "_Spremi"
+
+#: ../src/main_window.c:3220
 msgid "Could not save file"
 msgstr "Ne mogu spremiti datoteku"
 
-#: ../src/main_window.c:3378
+#: ../src/main_window.c:3383
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "jeste li sigurni da želite poslati sliku '%s u smeće?"
 
-#: ../src/main_window.c:3382
+#: ../src/main_window.c:3387
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "jeste li sigurni da želite izbrisati sliku '%s sa diska?"
 
-#: ../src/main_window.c:3393
+#: ../src/main_window.c:3398
 msgid "_Do not ask again for this session"
 msgstr "_Ne pitaj ponovno za ovu sesiju"
 
-#: ../src/main_window.c:3464
+#: ../src/main_window.c:3469
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -530,7 +552,7 @@ msgid ""
 "%s"
 msgstr "Došlo je do greške prilikom brisanja slike '%s sa diska.\n\n%s"
 
-#: ../src/main_window.c:3468
+#: ../src/main_window.c:3473
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -538,84 +560,84 @@ msgid ""
 "%s"
 msgstr "Došlo je do greške prilikom slanja slike '%s u smeće.\n\n%s"
 
-#: ../src/main_window.c:3804
+#: ../src/main_window.c:3809
 msgid "Edit with"
 msgstr "Uredi pomoću"
 
-#: ../src/main_window.c:3822
+#: ../src/main_window.c:3827
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Otvori %s i ostale datoteke tipa %s pomoću:"
 
-#: ../src/main_window.c:3827
+#: ../src/main_window.c:3832
 msgid "Use as _default for this kind of file"
 msgstr "Koristi kao _zadano za ovu vrstu datoteke"
 
-#: ../src/main_window.c:3917
+#: ../src/main_window.c:3922
 msgid "Recommended Applications"
 msgstr "Preporučeni programi"
 
-#: ../src/main_window.c:3997
+#: ../src/main_window.c:4002
 msgid "Other Applications"
 msgstr "Ostali programi"
 
-#: ../src/icon_bar.c:345
+#: ../src/icon_bar.c:344
 msgid "Orientation"
 msgstr "Orijentacija"
 
-#: ../src/icon_bar.c:346
+#: ../src/icon_bar.c:345
 msgid "The orientation of the iconbar"
 msgstr "Orijentacija trake ikona"
 
-#: ../src/icon_bar.c:362
+#: ../src/icon_bar.c:361
 msgid "File column"
 msgstr "Stupac datoteka"
 
-#: ../src/icon_bar.c:363
+#: ../src/icon_bar.c:362
 msgid "Model column used to retrieve the file from"
 msgstr "Model stupca koji se koristi za pribavljanje datoteke"
 
-#: ../src/icon_bar.c:375
+#: ../src/icon_bar.c:374
 msgid "Icon Bar Model"
 msgstr "Model trake ikona"
 
-#: ../src/icon_bar.c:376
+#: ../src/icon_bar.c:375
 msgid "Model for the icon bar"
 msgstr "Model za traku ikona"
 
-#: ../src/icon_bar.c:392
+#: ../src/icon_bar.c:391
 msgid "Active"
 msgstr "Aktivno"
 
-#: ../src/icon_bar.c:393
+#: ../src/icon_bar.c:392
 msgid "Active item index"
 msgstr "Indeks aktivne stavke"
 
-#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+#: ../src/icon_bar.c:408 ../src/icon_bar.c:409
 msgid "Show Text"
 msgstr "Pokaži tekst"
 
-#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+#: ../src/icon_bar.c:415 ../src/icon_bar.c:416
 msgid "Active item fill color"
 msgstr "Ispuna boje aktivne stavke"
 
-#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+#: ../src/icon_bar.c:422 ../src/icon_bar.c:423
 msgid "Active item border color"
 msgstr "Boja ruba aktivne stavke"
 
-#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+#: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item text color"
 msgstr "Boja teksta aktivne stavke"
 
-#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+#: ../src/icon_bar.c:436 ../src/icon_bar.c:437
 msgid "Cursor item fill color"
 msgstr "Boja ispune stavke pokazivača"
 
-#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+#: ../src/icon_bar.c:443 ../src/icon_bar.c:444
 msgid "Cursor item border color"
 msgstr "Boja obruba stavke pokazivača"
 
-#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+#: ../src/icon_bar.c:450 ../src/icon_bar.c:451
 msgid "Cursor item text color"
 msgstr "Boja teksta stavke pokazivača"
 
@@ -646,6 +668,11 @@ msgstr "Danas"
 #: ../src/privacy_dialog.c:162
 msgid "Everything"
 msgstr "Sve"
+
+#: ../src/privacy_dialog.c:183 ../src/xfce_wallpaper_manager.c:409
+#: ../src/gnome_wallpaper_manager.c:251
+msgid "_Apply"
+msgstr "_Primijeni"
 
 #: ../src/privacy_dialog.c:460
 msgid "Clear private data"
