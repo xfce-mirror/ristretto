@@ -1230,7 +1230,7 @@ rstto_icon_bar_paint_item (
     const GdkPixbuf *pixbuf = NULL;
     GdkColor        *border_color;
     GdkColor        *fill_color;
-    GdkGC           *gc;
+    cairo_t         *cr;
     gint             focus_width;
     gint             focus_pad;
     gint             x, y;
@@ -1304,24 +1304,26 @@ rstto_icon_bar_paint_item (
             gdk_color_parse ("#316ac5", border_color);
         }
 
-        gc = gdk_gc_new (icon_bar->priv->bin_window);
-        gdk_gc_set_clip_rectangle (gc, area);
-        gdk_gc_set_rgb_fg_color (gc, fill_color);
-        gdk_draw_rectangle (icon_bar->priv->bin_window, gc, TRUE,
-                x + focus_pad + focus_width,
-                y + focus_pad + focus_width,
-                icon_bar->priv->item_width - 2 * (focus_width + focus_pad),
-                icon_bar->priv->item_height - 2 * (focus_width + focus_pad));
-        gdk_gc_set_rgb_fg_color (gc, border_color);
-        gdk_gc_set_line_attributes (gc, focus_width, GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
-        gdk_draw_rectangle (icon_bar->priv->bin_window, gc, FALSE,
-                x + focus_pad + focus_width / 2,
-                y + focus_pad + focus_width / 2,
-                icon_bar->priv->item_width - (2 * focus_pad + focus_width),
-                icon_bar->priv->item_height - (2 * focus_pad + focus_width));
+        cr = gdk_cairo_create (icon_bar->priv->bin_window);
+        gdk_cairo_rectangle (cr, area);
+        cairo_clip (cr);
+        cairo_set_source_rgb (cr, fill_color->red/65535., fill_color->green/65535., fill_color->blue/65535.);
+        cairo_rectangle (cr, x + focus_pad + focus_width, y + focus_pad + focus_width,
+                         icon_bar->priv->item_width - 2 * (focus_width + focus_pad),
+                         icon_bar->priv->item_height - 2 * (focus_width + focus_pad));
+        cairo_fill (cr);
+        cairo_set_source_rgb (cr, border_color->red/65535., border_color->green/65535., border_color->blue/65535.);
+        cairo_set_line_width (cr, focus_width);
+        cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
+        cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
+        cairo_rectangle (cr, x + focus_pad + focus_width / 2, y + focus_pad + focus_width / 2,
+                         icon_bar->priv->item_width - (2 * focus_pad + focus_width),
+                         icon_bar->priv->item_height - (2 * focus_pad + focus_width));
+        cairo_stroke (cr);
+        cairo_destroy (cr);
+
         gdk_color_free (border_color);
         gdk_color_free (fill_color);
-        g_object_unref (gc);
     }
     else if (icon_bar->priv->cursor_item == item)
     {
@@ -1342,34 +1344,35 @@ rstto_icon_bar_paint_item (
             gdk_color_parse ("#98b4e2", border_color);
         }
 
-        gc = gdk_gc_new (icon_bar->priv->bin_window);
-        gdk_gc_set_clip_rectangle (gc, area);
-        gdk_gc_set_rgb_fg_color (gc, fill_color);
-        gdk_draw_rectangle (icon_bar->priv->bin_window, gc, TRUE,
-                x + focus_pad + focus_width,
-                y + focus_pad + focus_width,
-                icon_bar->priv->item_width - 2 * (focus_width + focus_pad),
-                icon_bar->priv->item_height - 2 * (focus_width + focus_pad));
-        gdk_gc_set_rgb_fg_color (gc, border_color);
-        gdk_gc_set_line_attributes (gc, focus_width, GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
-        gdk_draw_rectangle (icon_bar->priv->bin_window, gc, FALSE,
-                x + focus_pad + focus_width / 2,
-                y + focus_pad + focus_width / 2,
-                icon_bar->priv->item_width - (2 * focus_pad + focus_width),
-                icon_bar->priv->item_height - (2 * focus_pad + focus_width));
+        cr = gdk_cairo_create (icon_bar->priv->bin_window);
+        gdk_cairo_rectangle (cr, area);
+        cairo_clip (cr);
+        cairo_set_source_rgb (cr, fill_color->red/65535., fill_color->green/65535., fill_color->blue/65535.);
+        cairo_rectangle (cr, x + focus_pad + focus_width, y + focus_pad + focus_width,
+                         icon_bar->priv->item_width - 2 * (focus_width + focus_pad),
+                         icon_bar->priv->item_height - 2 * (focus_width + focus_pad));
+        cairo_fill (cr);
+        cairo_set_source_rgb (cr, border_color->red/65535., border_color->green/65535., border_color->blue/65535.);
+        cairo_set_line_width (cr, focus_width);
+        cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
+        cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
+        cairo_rectangle (cr, x + focus_pad + focus_width / 2, y + focus_pad + focus_width / 2,
+                         icon_bar->priv->item_width - (2 * focus_pad + focus_width),
+                         icon_bar->priv->item_height - (2 * focus_pad + focus_width));
+        cairo_stroke (cr);
+        cairo_destroy (cr);
+
         gdk_color_free (border_color);
         gdk_color_free (fill_color);
-        g_object_unref (gc);
     }
 
 
     if (NULL != pixbuf)
     {
-        gdk_draw_pixbuf (icon_bar->priv->bin_window, NULL, pixbuf, 0, 0,
-                px, py, 
-                pixbuf_width, pixbuf_height,
-                GDK_RGB_DITHER_NORMAL,
-                pixbuf_width, pixbuf_height);
+        cr = gdk_cairo_create (icon_bar->priv->bin_window);
+        gdk_cairo_set_source_pixbuf (cr, pixbuf, px, py);
+        cairo_paint (cr);
+        cairo_destroy (cr);
     }
 }
 
