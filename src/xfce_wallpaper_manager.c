@@ -189,11 +189,12 @@ rstto_xfce_wallpaper_manager_check_running (RsttoWallpaperManager *self)
     Atom xfce_selection_atom;
     GdkScreen *gdk_screen = gdk_screen_get_default();
     gint xscreen = gdk_screen_get_number(gdk_screen);
+    Display *gdk_display = gdk_x11_get_default_xdisplay();
 
     g_snprintf(selection_name, 100, XFDESKTOP_SELECTION_FMT, xscreen);
 
     xfce_selection_atom = XInternAtom (gdk_display, selection_name, False);
-    if((XGetSelectionOwner(GDK_DISPLAY(), xfce_selection_atom)))
+    if((XGetSelectionOwner(gdk_display, xfce_selection_atom)))
     {
         return TRUE;
     }
