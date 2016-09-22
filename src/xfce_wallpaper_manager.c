@@ -635,13 +635,13 @@ rstto_xfce_wallpaper_manager_dispose (GObject *object)
 {
     RsttoXfceWallpaperManager *xfce_wallpaper_manager = RSTTO_XFCE_WALLPAPER_MANAGER (object);
 
-    if (xfce_wallpaper_manager->priv->channel)
-    {
-        g_object_unref (xfce_wallpaper_manager->priv->channel);
-        xfce_wallpaper_manager->priv->channel = NULL;
-    }
     if (xfce_wallpaper_manager->priv)
     {
+        if (xfce_wallpaper_manager->priv->channel)
+        {
+            g_object_unref (xfce_wallpaper_manager->priv->channel);
+            xfce_wallpaper_manager->priv->channel = NULL;
+        }
         g_free (xfce_wallpaper_manager->priv);
         xfce_wallpaper_manager->priv = NULL;
     }
