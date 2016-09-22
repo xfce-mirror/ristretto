@@ -2044,27 +2044,14 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
 static gboolean
 cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 {
-    int button, event_time;
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
-    GtkWidget *menu = NULL;
+
     if (event->button == 3 && event->type == GDK_BUTTON_PRESS)
     {
-        if (event)
-        {
-            button = event->button;
-            event_time = event->time;
-        }
-        else
-        {
-            button = 0;
-            event_time = gtk_get_current_event_time ();
-        }
-
-
-        menu = window->priv->position_menu;
-        gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 
-                  button, event_time);
+        gtk_menu_popup (GTK_MENU (window->priv->position_menu), NULL, NULL, NULL, NULL,
+                event->button, event->time);
     }
+
     return FALSE;
 }
 
