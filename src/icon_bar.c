@@ -800,12 +800,12 @@ rstto_icon_bar_size_allocate (
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
         value = gtk_adjustment_get_value (icon_bar->priv->vadjustment);
-        value /= gtk_adjustment_get_upper (icon_bar->priv->vadjustment) * MAX (allocation->height, icon_bar->priv->height);
+        value = value / gtk_adjustment_get_upper (icon_bar->priv->vadjustment) * MAX (allocation->height, icon_bar->priv->height);
     }
     else
     {
         value = gtk_adjustment_get_value (icon_bar->priv->hadjustment);
-        value /= gtk_adjustment_get_upper (icon_bar->priv->hadjustment) * MAX (allocation->width, icon_bar->priv->width);
+        value = value / gtk_adjustment_get_upper (icon_bar->priv->hadjustment) * MAX (allocation->width, icon_bar->priv->width);
     }
 
     gtk_adjustment_set_page_size (icon_bar->priv->hadjustment, allocation->width);
