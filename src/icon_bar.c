@@ -863,7 +863,8 @@ rstto_icon_bar_size_allocate (
         /* If auto-center is true, center the selected item */
         if (icon_bar->priv->auto_center == TRUE)
         {
-            value = icon_bar->priv->active_item->index * icon_bar->priv->item_width - ((page_size-icon_bar->priv->item_width)/2);
+            if (icon_bar->priv->active_item)
+                value = icon_bar->priv->active_item->index * icon_bar->priv->item_width - ((page_size-icon_bar->priv->item_width)/2);
 
             if (value > (gtk_adjustment_get_upper (icon_bar->priv->hadjustment) - page_size))
                 value = (gtk_adjustment_get_upper (icon_bar->priv->hadjustment) - page_size);
