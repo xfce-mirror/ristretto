@@ -1236,7 +1236,7 @@ rstto_icon_bar_paint_item (
     gint             focus_pad;
     gint             x, y;
     gint             px, py;
-    gint             pixbuf_height, pixbuf_width;
+    gint             pixbuf_height = 0, pixbuf_width = 0;
     RsttoFile       *file;
     GtkTreeIter      iter;
 
