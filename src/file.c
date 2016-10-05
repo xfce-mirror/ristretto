@@ -551,14 +551,14 @@ rstto_file_get_thumbnail (
 
     thumbnail_path = rstto_file_get_thumbnail_path (r_file);
 
-    thumbnailer = rstto_thumbnailer_new();
-    rstto_thumbnailer_queue_file (thumbnailer, r_file);
-
     if (NULL == thumbnail_path)
     {
         /* No thumbnail to return at this time */
         return NULL;
     }
+
+    thumbnailer = rstto_thumbnailer_new();
+    rstto_thumbnailer_queue_file (thumbnailer, r_file);
 
     /* FIXME:
      *
