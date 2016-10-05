@@ -3414,13 +3414,18 @@ cb_rstto_main_window_delete (
         RsttoMainWindow *window )
 {
     RsttoFile *file = rstto_image_list_iter_get_file (window->priv->iter);
-    const gchar *file_basename = rstto_file_get_display_name(file);
+    const gchar *file_basename;
     GtkWidget *dialog;
     GdkModifierType state;
     gboolean delete_file = FALSE;
     gboolean success = FALSE;
     gchar *prompt = NULL;
     GError *error = NULL;
+
+    if (file == NULL)
+    {
+        return;
+    }
 
     g_return_if_fail (rstto_image_list_get_n_images (window->priv->image_list) > 0);
 
@@ -3451,6 +3456,7 @@ cb_rstto_main_window_delete (
         }
         else
         {
+            file_basename = rstto_file_get_display_name(file);
             if ( delete_file )
             {
                 prompt = g_strdup_printf( _("An error occurred when deleting image '%s' from disk.\n\n%s"), file_basename, error->message );
