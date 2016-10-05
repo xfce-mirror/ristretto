@@ -371,17 +371,24 @@ rstto_file_get_collate_key ( RsttoFile *r_file )
         gchar *basename = g_file_get_basename (rstto_file_get_file (r_file));
         if ( NULL != basename )
         {
-            /* If we can use casefold for case insenstivie sorting, then
-             * do so */
-            gchar *casefold = g_utf8_casefold (basename, -1);
-            if ( NULL != casefold )
+            if ( g_utf8_validate (basename, -1, NULL) )
             {
-                r_file->priv->collate_key = g_utf8_collate_key_for_filename (casefold, -1);
-                g_free (casefold);
+                /* If we can use casefold for case insenstivie sorting, then
+                 * do so */
+                gchar *casefold = g_utf8_casefold (basename, -1);
+                if ( NULL != casefold )
+                {
+                    r_file->priv->collate_key = g_utf8_collate_key_for_filename (casefold, -1);
+                    g_free (casefold);
+                }
+                else
+                {
+                    r_file->priv->collate_key = g_utf8_collate_key_for_filename (basename, -1);
+                }
             }
             else
             {
-                r_file->priv->collate_key = g_utf8_collate_key_for_filename (basename, -1);
+                r_file->priv->collate_key = g_strdup (basename);
             }
             g_free (basename);
         }
