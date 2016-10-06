@@ -1,3 +1,41 @@
+0.8.1
+=====
+- Prepare for gtk3 migration: Do not include individual headers;
+  Replace GDK_<keyname> with GDK_KEY_<keyname>;
+  Use gtk_widget_get_allocation; Use gtk_widget_get/set_window;
+  Use gtk_widget_get/set_style; Do not use GTK_WIDGET_* macros;
+  Use accessor functions instead of direct access;
+  Do not use deprecated symbols; Do not use deprecated GTK_STOCK_*;
+  Use cairo for drawing; Do not use GDK_DISPLAY()
+- Check if file name is a valid utf8 string to avoid crashes (Bug #12445)
+- Fix SEGFAULT when pressing Delete without shown image (Bug #12860)
+- Fix memory leak in thumbnailer if image file not found (Bug #12034)
+- Prevent from using garbage values when pixbuf==NULL
+- Fix NULL pointer dereference
+- Remove dead code; found by Coverity
+- Fix possible NULL pointer dereference; found by Coverity
+- Added option to "not ask again for this session" when sending files to the
+  trash. Image deletions still require confirmation.
+- Replaced "GTK_WIDGET(window)->window" with more future compatible
+  "gtk_widget_get_window(GTK_WIDGET(window))"
+- ESC-key now quits Ristretto, or pauses a running slideshow
+- Remember last location in save-copy dialog
+- Use default filename in save-copy dialog
+- Disable save-copy dialog if no image is loaded
+- Fix various memory leaks
+- Appdata fails validation (Bug #11622)
+- Fix icon installation (Bug #11614)
+
+* Translation updates:
+  Arabic (ar), Bulgarian (bg), Catalan (ca), Czech (cs), Danish (da),
+  German (de), Greek (el), English (Australia) (en_AU), Spanish (es),
+  French (fr), Hebrew (he), Hungarian (hu), Icelandic (is), Italian (it),
+  Japanese (ja), Kazakh (kk), Korean (ko), Lithuanian (lt), Malay (ms),
+  Norwegian Bokmål (nb), Dutch (nl), Polish (pl), Portuguese (pt),
+  Portuguese (Brazilian) (pt_BR), Romanian (ro), Russian (ru), Slovak (sk),
+  Swedish (sv), Thai (th), Turkish (tr), Ukrainian (uk),
+  Chinese (China) (zh_CN), Chinese (Taiwan) (zh_TW).
+
 0.8.0
 =====
 Stable release of Ristretto
