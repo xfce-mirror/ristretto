@@ -21,6 +21,7 @@
             <separator/>
             <menu action="sorting-menu">
                 <menuitem action="sort-filename"/>
+                <menuitem action="sort-filetype"/>
                 <menuitem action="sort-date"/>
             </menu>
             <menuitem action="delete"/>

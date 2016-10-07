@@ -134,6 +134,10 @@ rstto_image_list_set_sort_by_name (
         RsttoImageList *image_list);
 
 void
+rstto_image_list_set_sort_by_type (
+        RsttoImageList *image_list);
+
+void
 rstto_image_list_set_sort_by_date (
         RsttoImageList *image_list);
 

@@ -610,20 +610,24 @@ static const GtkToggleActionEntry toggle_action_entries[] =
 /** Image sorting options*/
 static const GtkRadioActionEntry radio_action_sort_entries[] = 
 {
-    /* Sort by Filename */
     {"sort-filename",
             NULL, /* Icon-name */
             N_("sort by filename"), /* Label-text */
             NULL, /* Keyboard shortcut */
             NULL, /* Tooltip text */
-            0},
-    /* Sort by Date*/
+            SORT_TYPE_NAME},
+    {"sort-filetype",
+            NULL, /* Icon-name */
+            N_("sort by filetype"), /* Label-text */
+            NULL, /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            SORT_TYPE_TYPE},
     {"sort-date",
             NULL, /* Icon-name */
             N_("sort by date"), /* Label-text */
             NULL, /* Keyboard shortcut */
             NULL, /* Tooltip text */
-            1},
+            SORT_TYPE_DATE},
 };
 
 /** Navigationbar+Thumbnailbar positioning options*/
@@ -1083,6 +1087,14 @@ rstto_main_window_init (RsttoMainWindow *window)
                             gtk_ui_manager_get_widget (
                                     window->priv->ui_manager,
                                     "/main-menu/edit-menu/sorting-menu/sort-filename")),
+                    TRUE);
+            break;
+        case SORT_TYPE_TYPE:
+            gtk_check_menu_item_set_active (
+                    GTK_CHECK_MENU_ITEM (
+                            gtk_ui_manager_get_widget (
+                                    window->priv->ui_manager,
+                                    "/main-menu/edit-menu/sorting-menu/sort-filetype")),
                     TRUE);
             break;
         case SORT_TYPE_DATE:
@@ -2066,7 +2078,7 @@ cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action, GtkRadioA
 {
     switch (gtk_radio_action_get_current_value (current))
     {
-        case 0:  /* Sort by filename */
+        case SORT_TYPE_NAME:
         default:
             if (window->priv->image_list != NULL)
             {
@@ -2074,7 +2086,14 @@ cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action, GtkRadioA
                 rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_NAME);
             }
             break;
-        case 1: /* Sort by date */
+        case SORT_TYPE_TYPE:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_by_type (window->priv->image_list);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_TYPE);
+            }
+            break;
+        case SORT_TYPE_DATE:
             if (window->priv->image_list != NULL)
             {
                 rstto_image_list_set_sort_by_date (window->priv->image_list);
