@@ -24,7 +24,6 @@
 #include <sys/types.h>
 #include <sys/mman.h>
 
-
 #include <glib.h>
 #include <gio/gio.h>
 #include <locale.h>

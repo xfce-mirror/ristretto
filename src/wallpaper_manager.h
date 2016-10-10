@@ -20,6 +20,10 @@
 #ifndef __RISTRETTO_WALLPAPER_MANAGER_IFACE__
 #define __RISTRETTO_WALLPAPER_MANAGER_IFACE__
 
+#include <gtk/gtk.h>
+
+#include "file.h"
+
 G_BEGIN_DECLS
 
 #define RSTTO_WALLPAPER_MANAGER_TYPE \

@@ -20,6 +20,10 @@
 #ifndef __RISTRETTO_GNOME_WALLPAPER_MANAGER_H__
 #define __RISTRETTO_GNOME_WALLPAPER_MANAGER_H__
 
+#include <gtk/gtk.h>
+
+#include "wallpaper_manager.h"
+
 G_BEGIN_DECLS
 
 #define RSTTO_TYPE_GNOME_WALLPAPER_MANAGER rstto_gnome_wallpaper_manager_get_type()

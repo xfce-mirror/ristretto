@@ -19,15 +19,10 @@
 
 #include <config.h>
 
-#include <glib.h>
 #include <gio/gio.h>
-#include <gtk/gtk.h>
-
-#include <libexif/exif-data.h>
 
 #include <libxfce4util/libxfce4util.h>
 
-#include "util.h"
 #include "file.h"
 #include "thumbnailer.h"
 

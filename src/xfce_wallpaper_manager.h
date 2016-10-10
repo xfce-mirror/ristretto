@@ -20,6 +20,10 @@
 #ifndef __RISTRETTO_XFCE_WALLPAPER_MANAGER_H__
 #define __RISTRETTO_XFCE_WALLPAPER_MANAGER_H__
 
+#include <gtk/gtk.h>
+
+#include "wallpaper_manager.h"
+
 G_BEGIN_DECLS
 
 #define RSTTO_TYPE_XFCE_WALLPAPER_MANAGER \

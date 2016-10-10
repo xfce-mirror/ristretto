@@ -22,15 +22,12 @@
 
 #include <config.h>
 
-#include <gtk/gtk.h>
-
 #include <stdlib.h>
 #include <string.h>
 
 #include <libexif/exif-data.h>
 
 #include "util.h"
-#include "file.h"
 #include "image_list.h"
 #include "thumbnailer.h"
 #include "settings.h"

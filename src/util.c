@@ -18,7 +18,6 @@
  */
 
 #include <config.h>
-#include <glib.h>
 #include <locale.h>
 
 #include "util.h"

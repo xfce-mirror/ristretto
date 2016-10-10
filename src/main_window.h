@@ -20,6 +20,10 @@
 #ifndef __RISTRETTO_MAIN_WINDOW_H__
 #define __RISTRETTO_MAIN_WINDOW_H__
 
+#include <gtk/gtk.h>
+
+#include "image_list.h"
+
 G_BEGIN_DECLS
 
 #define RSTTO_TYPE_MAIN_WINDOW rstto_main_window_get_type()

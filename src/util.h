@@ -20,6 +20,8 @@
 #ifndef __RISTRETTO_UTIL_H__
 #define __RISTRETTO_UTIL_H__
 
+#include <glib.h>
+
 G_BEGIN_DECLS
 
 typedef enum

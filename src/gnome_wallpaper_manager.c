@@ -19,8 +19,6 @@
 
 #include <config.h>
 
-#include <glib.h>
-#include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include <X11/Xlib.h>
 #include <xfconf/xfconf.h>
@@ -28,14 +26,11 @@
 #include <libxfce4ui/libxfce4ui.h>
 #include <gio/gio.h>
 
-
 #include <libexif/exif-data.h>
 
 #include "util.h"
 #include "file.h"
-
 #include "monitor_chooser.h"
-#include "wallpaper_manager.h"
 #include "gnome_wallpaper_manager.h"
 
 enum MonitorStyle

@@ -20,8 +20,11 @@
 #ifndef __RISTRETTO_IMAGE_VIEWER_H__
 #define __RISTRETTO_IMAGE_VIEWER_H__
 
-G_BEGIN_DECLS
+#include <gtk/gtk.h>
 
+#include "file.h"
+
+G_BEGIN_DECLS
 
 #define RSTTO_TYPE_IMAGE_VIEWER rstto_image_viewer_get_type()
 

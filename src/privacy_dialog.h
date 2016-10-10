@@ -20,6 +20,8 @@
 #ifndef __RISTRETTO_PRIVACY_DIALOG_H__
 #define __RISTRETTO_PRIVACY_DIALOG_H__
 
+#include <libxfce4ui/libxfce4ui.h>
+
 G_BEGIN_DECLS
 
 #define RSTTO_TYPE_PRIVACY_DIALOG rstto_privacy_dialog_get_type()

@@ -20,6 +20,8 @@
 #ifndef __RISTRETTO_PROPERTIES_DIALOG_H__
 #define __RISTRETTO_PROPERTIES_DIALOG_H__
 
+#include <libxfce4ui/libxfce4ui.h>
+
 G_BEGIN_DECLS
 
 #define RSTTO_TYPE_PROPERTIES_DIALOG rstto_properties_dialog_get_type()

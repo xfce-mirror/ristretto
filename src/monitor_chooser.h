@@ -20,6 +20,8 @@
 #ifndef __RISTRETTO_MONITOR_CHOOSER_H__
 #define __RISTRETTO_MONITOR_CHOOSER_H__
 
+#include <gtk/gtk.h>
+
 G_BEGIN_DECLS
 
 #define RSTTO_TYPE_MONITOR_CHOOSER rstto_monitor_chooser_get_type()

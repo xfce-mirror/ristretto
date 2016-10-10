@@ -19,11 +19,8 @@
 
 #include <config.h>
 
-#include <gtk/gtk.h>
-
 #include <libexif/exif-data.h>
 
-#include <libxfce4ui/libxfce4ui.h>
 #include <libxfce4util/libxfce4util.h>
 
 #include "settings.h"

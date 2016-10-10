@@ -22,13 +22,11 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include <gtk/gtk.h>
 #include <gio/gio.h>
 
 #include <libexif/exif-data.h>
 
 #include "util.h"
-#include "file.h"
 #include "wallpaper_manager.h"
 
 gint 

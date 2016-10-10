@@ -20,6 +20,8 @@
 #ifndef __RISTRETTO_SETTINGS_H__
 #define __RISTRETTO_SETTINGS_H__
 
+#include <gtk/gtk.h>
+
 G_BEGIN_DECLS
 
 #define RSTTO_TYPE_SETTINGS rstto_settings_get_type()

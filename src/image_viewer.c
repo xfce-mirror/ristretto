@@ -18,7 +18,6 @@
  */
 
 #include <config.h>
-#include <gtk/gtk.h>
 #include <string.h>
 #include <gio/gio.h>
 #include <libxfce4ui/libxfce4ui.h>
@@ -27,8 +26,6 @@
 #include <math.h>
 
 #include "util.h"
-
-#include "file.h"
 #include "image_viewer.h"
 #include "settings.h"
 #include "marshal.h"

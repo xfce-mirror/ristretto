@@ -23,7 +23,6 @@
 #include <config.h>
 
 #include <glib.h>
-#include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -39,7 +38,6 @@
 #include "util.h"
 #include "file.h"
 #include "monitor_chooser.h"
-#include "wallpaper_manager.h"
 #include "xfce_wallpaper_manager.h"
 
 enum MonitorStyle

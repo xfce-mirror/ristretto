@@ -25,9 +25,6 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-#include <gtk/gtk.h>
-
 #include <libxfce4util/libxfce4util.h>
 
 #include <libexif/exif-data.h>

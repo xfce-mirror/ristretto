@@ -20,6 +20,11 @@
 #ifndef __RISTRETTO_FILE_H__
 #define __RISTRETTO_FILE_H__
 
+#include <gtk/gtk.h>
+#include <libexif/exif-data.h>
+
+#include "util.h"
+
 G_BEGIN_DECLS
 
 #define RSTTO_TYPE_FILE rstto_file_get_type()

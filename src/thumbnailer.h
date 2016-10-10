@@ -20,6 +20,8 @@
 #ifndef __RISTRETTO_THUMBNAILER_H__
 #define __RISTRETTO_THUMBNAILER_H__
 
+#include <gtk/gtk.h>
+
 G_BEGIN_DECLS
 
 #define RSTTO_TYPE_THUMBNAILER rstto_thumbnailer_get_type()

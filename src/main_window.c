@@ -18,7 +18,6 @@
  */
 
 #include <config.h>
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <X11/Xlib.h>
 #include <string.h>
@@ -39,7 +38,6 @@
 #include "file.h"
 #include "icon_bar.h"
 #include "thumbnailer.h"
-#include "image_list.h"
 #include "image_viewer.h"
 #include "main_window.h"
 #include "main_window_ui.h"

@@ -20,6 +20,8 @@
 #ifndef __RISTRETTO_APP_MENU_ITEM_H__
 #define __RISTRETTO_APP_MENU_ITEM_H__
 
+#include <gtk/gtk.h>
+
 G_BEGIN_DECLS
 
 #define RSTTO_TYPE_APP_MENU_ITEM rstto_app_menu_item_get_type()

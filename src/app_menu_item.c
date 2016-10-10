@@ -19,7 +19,6 @@
 
 #include <config.h>
 #include <gio/gio.h>
-#include <gtk/gtk.h>
 #include <string.h>
 
 #include "app_menu_item.h"

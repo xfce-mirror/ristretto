@@ -20,8 +20,9 @@
 #ifndef __RISTRETTO_MIME_DB_H__
 #define __RISTRETTO_MIME_DB_H__
 
-G_BEGIN_DECLS
+#include <gtk/gtk.h>
 
+G_BEGIN_DECLS
 
 #define RSTTO_TYPE_MIME_DB rstto_mime_db_get_type()
 
