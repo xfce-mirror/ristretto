@@ -26,6 +26,10 @@
 #include "file.h"
 #include "thumbnailer.h"
 
+#if HAVE_MAGIC_H
+#include <magic.h>
+#endif
+
 static guint rstto_thumbnail_size[] =
 {
     THUMBNAIL_SIZE_VERY_SMALL_SIZE,
@@ -394,8 +398,34 @@ rstto_file_get_collate_key ( RsttoFile *r_file )
 const gchar *
 rstto_file_get_content_type ( RsttoFile *r_file )
 {
-    GFileInfo *file_info = NULL;
     const gchar *content_type;
+
+#if HAVE_MAGIC_H
+    magic_t magic = NULL;
+
+    if ((magic = magic_open(MAGIC_MIME_TYPE)) == NULL)
+    {
+        fprintf(stderr, "unable to initialize magic library\n");
+        return NULL;
+    }
+
+    if (magic_load(magic, NULL) != 0)
+    {
+        fprintf(stderr, "cannot load magic database: %s\n", magic_error(magic));
+        magic_close(magic);
+        return NULL;
+    }
+
+    content_type = magic_file(magic, rstto_file_get_path(r_file));
+
+    if (NULL != content_type)
+    {
+        r_file->priv->content_type = g_strdup (content_type);
+    }
+
+    magic_close(magic);
+#else
+    GFileInfo *file_info = NULL;
 
     if ( NULL == r_file->priv->content_type )
     {
@@ -415,6 +445,7 @@ rstto_file_get_content_type ( RsttoFile *r_file )
             g_object_unref (file_info);
         }
     }
+#endif
 
     return (const gchar *)r_file->priv->content_type;
 }

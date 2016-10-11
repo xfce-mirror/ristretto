@@ -53,7 +53,8 @@ ristretto_LDADD = \
 	$(LIBXFCE4UTIL_LIBS) \
 	$(LIBXFCE4UI_LIBS) \
 	$(LIBX11_LIBS) \
-	$(LIBM)
+	$(LIBM) \
+	$(MAGIC_LIBS)
 
 INCLUDES = \
 	-I${top_srcdir}

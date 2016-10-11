@@ -68,6 +68,10 @@ XDT_CHECK_PACKAGE([CAIRO], [cairo], [1.8.0])
 
 XDT_CHECK_LIBX11()
 
+AC_CHECK_HEADERS([magic.h],, [libmagic=false])
+AC_CHECK_LIB(magic, [magic_open], [MAGIC_LIBS="-lmagic"],[libmagic=false])
+AC_SUBST(MAGIC_LIBS)
+
 AC_CHECK_LIBM
 AC_SUBST(LIBM)
 
