@@ -641,6 +641,12 @@ rstto_settings_dispose (GObject *object)
             settings->priv->navigationbar_position = NULL;
         }
 
+        if (settings->priv->desktop_type)
+        {
+            g_free (settings->priv->desktop_type);
+            settings->priv->desktop_type = NULL;
+        }
+
         if (settings->priv->bgcolor)
         {
             g_free (settings->priv->bgcolor);
