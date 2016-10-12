@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2016-10-07 18:30+0200\n"
-"PO-Revision-Date: 2016-10-08 06:37+0000\n"
+"PO-Revision-Date: 2016-10-12 18:11+0000\n"
 "Last-Translator: Igor <f2404@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/xfce/xfce-apps/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -279,7 +279,7 @@ msgstr "П_ервое"
 #. Keyboard shortcut
 #: ../src/main_window.c:526
 msgid "First image"
-msgstr "В начало"
+msgstr "Первое изображение"
 
 #. Icon-name
 #: ../src/main_window.c:530
@@ -290,7 +290,7 @@ msgstr "_Последнее"
 #. Keyboard shortcut
 #: ../src/main_window.c:532
 msgid "Last image"
-msgstr "В конец"
+msgstr "Последнее изображение"
 
 #: ../src/main_window.c:537
 msgid "_Help"
@@ -337,7 +337,7 @@ msgstr "Раз_мер эскизов"
 #. Icon-name
 #: ../src/main_window.c:571
 msgid "Leave _Fullscreen"
-msgstr "Выйти из полноэкранного режима"
+msgstr "Выйти из полно_экранного режима"
 
 #. Icon-name
 #: ../src/main_window.c:587
@@ -425,7 +425,7 @@ msgstr "Начать слайд-шоу"
 
 #: ../src/main_window.c:858
 msgid "_Pause"
-msgstr "Пауза"
+msgstr "_Пауза"
 
 #: ../src/main_window.c:858
 msgid "Pause slideshow"
@@ -442,11 +442,11 @@ msgstr "Недавно просмотренные"
 
 #: ../src/main_window.c:965 ../src/main_window.c:1539
 msgid "Press open to select an image"
-msgstr "Нажмите открыть для выбора изображения"
+msgstr "Нажмите Открыть для выбора изображения"
 
 #: ../src/main_window.c:1398 ../src/main_window.c:1402
 msgid "Open With Other _Application..."
-msgstr "Открыть с помощью..."
+msgstr "Открыть с помо_щью..."
 
 #: ../src/main_window.c:1423 ../src/main_window.c:1429
 msgid "Empty"
