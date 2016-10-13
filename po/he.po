@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2016-09-18 00:31+0200\n"
-"PO-Revision-Date: 2016-09-22 06:46+0000\n"
-"Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
+"POT-Creation-Date: 2016-10-07 18:30+0200\n"
+"PO-Revision-Date: 2016-10-13 15:49+0000\n"
+"Last-Translator: Elishai Eliyahu <e1907@mm.st>\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -352,196 +352,201 @@ msgid "Show Status _Bar"
 msgstr "הצג _שורת מצב"
 
 #. Icon-name
-#: ../src/main_window.c:616
+#: ../src/main_window.c:615
 msgid "sort by filename"
 msgstr "מיין לפי שם קובץ"
 
 #. Icon-name
-#: ../src/main_window.c:623
+#: ../src/main_window.c:621
+msgid "sort by filetype"
+msgstr "מיין לפי סוג קובץ"
+
+#. Icon-name
+#: ../src/main_window.c:627
 msgid "sort by date"
 msgstr "מיין לפי תאריך"
 
 #. Icon-name
-#: ../src/main_window.c:634
+#: ../src/main_window.c:638
 msgid "Left"
 msgstr "שמאל"
 
-#: ../src/main_window.c:640
+#: ../src/main_window.c:644
 msgid "Right"
 msgstr "ימין"
 
-#: ../src/main_window.c:646
+#: ../src/main_window.c:650
 msgid "Top"
 msgstr "מעלה"
 
-#: ../src/main_window.c:652
+#: ../src/main_window.c:656
 msgid "Bottom"
 msgstr "מטה"
 
-#: ../src/main_window.c:663
+#: ../src/main_window.c:667
 msgid "Very Small"
 msgstr "קטן מאוד"
 
-#: ../src/main_window.c:669
+#: ../src/main_window.c:673
 msgid "Smaller"
 msgstr "קטן יותר"
 
-#: ../src/main_window.c:675
+#: ../src/main_window.c:679
 msgid "Small"
 msgstr "קטן"
 
-#: ../src/main_window.c:681
+#: ../src/main_window.c:685
 msgid "Normal"
 msgstr "רגיל"
 
-#: ../src/main_window.c:687
+#: ../src/main_window.c:691
 msgid "Large"
 msgstr "גדול"
 
-#: ../src/main_window.c:693
+#: ../src/main_window.c:697
 msgid "Larger"
 msgstr "גדול יותר"
 
-#: ../src/main_window.c:699
+#: ../src/main_window.c:703
 msgid "Very Large"
 msgstr "גדול מאוד"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:853
+#: ../src/main_window.c:857
 msgid "_Play"
 msgstr "_נגן"
 
-#: ../src/main_window.c:853
+#: ../src/main_window.c:857
 msgid "Play slideshow"
 msgstr "נגן מצגת"
 
-#: ../src/main_window.c:854
+#: ../src/main_window.c:858
 msgid "_Pause"
 msgstr "_השהה"
 
-#: ../src/main_window.c:854
+#: ../src/main_window.c:858
 msgid "Pause slideshow"
 msgstr "השהה מצגת"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:857
+#: ../src/main_window.c:861
 msgid "_Recently used"
 msgstr "בשימוש _לאחרונה"
 
-#: ../src/main_window.c:857
+#: ../src/main_window.c:861
 msgid "Recently used"
 msgstr "בשימוש לאחרונה"
 
-#: ../src/main_window.c:961 ../src/main_window.c:1527
+#: ../src/main_window.c:965 ../src/main_window.c:1539
 msgid "Press open to select an image"
 msgstr "לחץ פתח לבחירת תמונה"
 
-#: ../src/main_window.c:1386 ../src/main_window.c:1390
+#: ../src/main_window.c:1398 ../src/main_window.c:1402
 msgid "Open With Other _Application..."
 msgstr "פתח עם _תוכנה אחרת..."
 
-#: ../src/main_window.c:1411 ../src/main_window.c:1417
+#: ../src/main_window.c:1423 ../src/main_window.c:1429
 msgid "Empty"
 msgstr "ריק"
 
-#: ../src/main_window.c:1537
+#: ../src/main_window.c:1549
 msgid "Loading..."
 msgstr "מעלה..."
 
-#: ../src/main_window.c:2141
+#: ../src/main_window.c:2147
 msgid "Choose 'set wallpaper' method"
 msgstr "בחר שיטת 'קביעת רקע'"
 
-#: ../src/main_window.c:2144 ../src/main_window.c:3814
-#: ../src/xfce_wallpaper_manager.c:411 ../src/gnome_wallpaper_manager.c:253
+#: ../src/main_window.c:2150 ../src/main_window.c:3826
+#: ../src/xfce_wallpaper_manager.c:412 ../src/gnome_wallpaper_manager.c:253
 msgid "_OK"
 msgstr "_אישור"
 
-#: ../src/main_window.c:2146 ../src/main_window.c:2957
-#: ../src/main_window.c:3190 ../src/main_window.c:3812
-#: ../src/privacy_dialog.c:182 ../src/xfce_wallpaper_manager.c:407
+#: ../src/main_window.c:2152 ../src/main_window.c:2963
+#: ../src/main_window.c:3196 ../src/main_window.c:3824
+#: ../src/privacy_dialog.c:182 ../src/xfce_wallpaper_manager.c:408
 #: ../src/gnome_wallpaper_manager.c:249
 msgid "_Cancel"
 msgstr "_בטל"
 
-#: ../src/main_window.c:2156 ../src/preferences_dialog.c:464
+#: ../src/main_window.c:2162 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "הגדר איזו מערכת מנהלת כרגע את שולחן העבודה שלך.\nהגדרה זו קובעת את השיטה בשימוש <i> ריסטרטו </i>\nלהגדרת הרקע של שולחן העבודה."
 
-#: ../src/main_window.c:2181 ../src/preferences_dialog.c:488
+#: ../src/main_window.c:2187 ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "ללא"
 
-#: ../src/main_window.c:2185 ../src/preferences_dialog.c:492
+#: ../src/main_window.c:2191 ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2189 ../src/preferences_dialog.c:496
+#: ../src/main_window.c:2195 ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2630
+#: ../src/main_window.c:2636
 msgid "Developer:"
 msgstr "מפתח:"
 
-#: ../src/main_window.c:2639 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2645 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "‏Ristretto הוא מציג תמונות עבור סביבת שולחן עבודה Xfce."
 
-#: ../src/main_window.c:2647
+#: ../src/main_window.c:2653
 msgid "translator-credits"
 msgstr "גם אתם יכולים לתרגם את פרויקט Xfce. אתם מוזמנים להצטרף לנבחרת"
 
-#: ../src/main_window.c:2954
+#: ../src/main_window.c:2960
 msgid "Open image"
 msgstr "פתח תמונה"
 
-#: ../src/main_window.c:2958
+#: ../src/main_window.c:2964
 msgid "_Open"
 msgstr "_פתח"
 
-#: ../src/main_window.c:2973
+#: ../src/main_window.c:2979
 msgid "Images"
 msgstr "תמונות"
 
-#: ../src/main_window.c:2978
+#: ../src/main_window.c:2984
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3005 ../src/main_window.c:3148
+#: ../src/main_window.c:3011 ../src/main_window.c:3154
 msgid "Could not open file"
 msgstr "לא יכול לפתוח קובץ"
 
-#: ../src/main_window.c:3187
+#: ../src/main_window.c:3193
 msgid "Save copy"
 msgstr "שמור העתק"
 
-#: ../src/main_window.c:3191
+#: ../src/main_window.c:3197
 msgid "_Save"
 msgstr "_שמור"
 
-#: ../src/main_window.c:3220
+#: ../src/main_window.c:3226
 msgid "Could not save file"
 msgstr "לא יכול לשמור קובץ"
 
-#: ../src/main_window.c:3383
+#: ../src/main_window.c:3389
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "האם אתה בטוח כי ברצונך לשלוח לאשפה את התמונה '%s'? "
 
-#: ../src/main_window.c:3387
+#: ../src/main_window.c:3393
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "האם אתה בטוח כי ברצונך למחוק מהכונן את התמונה '%s'?"
 
-#: ../src/main_window.c:3398
+#: ../src/main_window.c:3404
 msgid "_Do not ask again for this session"
 msgstr "_אל תשאל שוב בסשן זה "
 
-#: ../src/main_window.c:3469
+#: ../src/main_window.c:3481
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -549,7 +554,7 @@ msgid ""
 "%s"
 msgstr "אירעה תקלה בעת מחיקה מהדיסק של תמונה '%s'.\n\n%s"
 
-#: ../src/main_window.c:3473
+#: ../src/main_window.c:3485
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -557,24 +562,24 @@ msgid ""
 "%s"
 msgstr "אירעה תקלה בעת שליחה לאשפה של תמונה '%s' .\n\n%s"
 
-#: ../src/main_window.c:3809
+#: ../src/main_window.c:3821
 msgid "Edit with"
 msgstr "ערוך בעזרת"
 
-#: ../src/main_window.c:3827
+#: ../src/main_window.c:3839
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "פתח %s וקבצים אחרים מסוג %s עם:"
 
-#: ../src/main_window.c:3832
+#: ../src/main_window.c:3844
 msgid "Use as _default for this kind of file"
 msgstr "השתמש כ_ברירת מחדל עבור סוג קובץ זה"
 
-#: ../src/main_window.c:3922
+#: ../src/main_window.c:3934
 msgid "Recommended Applications"
 msgstr "יישומים מומלצים"
 
-#: ../src/main_window.c:4002
+#: ../src/main_window.c:4014
 msgid "Other Applications"
 msgstr "יישומים אחרים"
 
@@ -666,7 +671,7 @@ msgstr "היום"
 msgid "Everything"
 msgstr "הכל"
 
-#: ../src/privacy_dialog.c:183 ../src/xfce_wallpaper_manager.c:409
+#: ../src/privacy_dialog.c:183 ../src/xfce_wallpaper_manager.c:410
 #: ../src/gnome_wallpaper_manager.c:251
 msgid "_Apply"
 msgstr "_החל"
@@ -840,47 +845,47 @@ msgstr "שירות תמונות מוקטנות אינו ניתן להשגה,\nמ
 msgid "Do _not show this message again"
 msgstr "אל תציג את הודעה זו _שוב"
 
-#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:380 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "סגנון:"
 
-#: ../src/xfce_wallpaper_manager.c:380
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Brightness:"
 msgstr "בהירות:"
 
-#: ../src/xfce_wallpaper_manager.c:381
+#: ../src/xfce_wallpaper_manager.c:382
 msgid "Saturation:"
 msgstr "רוויה:"
 
-#: ../src/xfce_wallpaper_manager.c:397
+#: ../src/xfce_wallpaper_manager.c:398
 msgid "Apply to all workspaces"
 msgstr "החל לכל מרחבי העבודה"
 
-#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:405 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "קבע כרקע"
 
-#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:558 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "אוטומטי"
 
-#: ../src/xfce_wallpaper_manager.c:560
+#: ../src/xfce_wallpaper_manager.c:561
 msgid "Centered"
 msgstr "ממורכז"
 
-#: ../src/xfce_wallpaper_manager.c:563
+#: ../src/xfce_wallpaper_manager.c:564
 msgid "Tiled"
 msgstr "מרוצף"
 
-#: ../src/xfce_wallpaper_manager.c:566
+#: ../src/xfce_wallpaper_manager.c:567
 msgid "Stretched"
 msgstr "מתוח"
 
-#: ../src/xfce_wallpaper_manager.c:569
+#: ../src/xfce_wallpaper_manager.c:570
 msgid "Scaled"
 msgstr "מותאם"
 
-#: ../src/xfce_wallpaper_manager.c:572
+#: ../src/xfce_wallpaper_manager.c:573
 msgid "Zoomed"
 msgstr "בוצע זום"
 
