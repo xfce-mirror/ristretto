@@ -51,13 +51,6 @@ enum ColorStyle
 };
 	
 
-typedef struct {
-    gint16 r;
-    gint16 g;
-    gint16 b;
-    gint16 a;
-} RsttoColor;
-
 static void
 rstto_gnome_wallpaper_manager_init (GObject *);
 static void

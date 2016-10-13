@@ -55,10 +55,10 @@ enum MonitorStyle
 #define SINGLE_WORKSPACE_MODE "/backdrop/single-workspace-mode"
 
 typedef struct {
-    gint16 r;
-    gint16 g;
-    gint16 b;
-    gint16 a;
+    guint16 r;
+    guint16 g;
+    guint16 b;
+    guint16 a;
 } RsttoColor;
 
 
