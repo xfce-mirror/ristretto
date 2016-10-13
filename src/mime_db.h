@@ -63,7 +63,7 @@ struct _RsttoMimeDBClass
 };
 
 GType
-rstto_mime_db_get_type ();
+rstto_mime_db_get_type (void);
 
 RsttoMimeDB *
 rstto_mime_db_new (const gchar *path, GError **);

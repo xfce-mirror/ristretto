@@ -62,7 +62,7 @@ struct _RsttoPropertiesDialogClass
 };
 
 GType
-rstto_properties_dialog_get_type();
+rstto_properties_dialog_get_type (void);
 
 GtkWidget *
 rstto_properties_dialog_new (

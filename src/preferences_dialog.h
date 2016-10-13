@@ -61,7 +61,8 @@ struct _RsttoPreferencesDialogClass
     XfceTitledDialogClass  parent_class;
 };
 
-GType      rstto_preferences_dialog_get_type();
+GType
+rstto_preferences_dialog_get_type (void);
 
 GtkWidget *
 rstto_preferences_dialog_new (GtkWindow *parent);

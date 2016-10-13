@@ -150,7 +150,7 @@ rstto_image_list_get_iter (RsttoImageList *image_list);
 
 /** Iter functions */
 GType
-rstto_image_list_iter_get_type ();
+rstto_image_list_iter_get_type (void);
 
 RsttoFile *
 rstto_image_list_iter_get_file (

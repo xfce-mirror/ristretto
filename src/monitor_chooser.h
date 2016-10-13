@@ -61,9 +61,11 @@ struct _RsttoMonitorChooserClass
     GtkWidgetClass  parent_class;
 };
 
-GType      rstto_monitor_chooser_get_type();
+GType
+rstto_monitor_chooser_get_type (void);
 
-GtkWidget  *rstto_monitor_chooser_new ();
+GtkWidget *
+rstto_monitor_chooser_new (void);
 
 gint
 rstto_monitor_chooser_add ( 

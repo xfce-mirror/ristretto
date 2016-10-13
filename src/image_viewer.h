@@ -72,10 +72,10 @@ struct _RsttoImageViewerClass
 };
 
 GType
-rstto_image_viewer_get_type(void);
+rstto_image_viewer_get_type (void);
 
 GtkWidget *
-rstto_image_viewer_new ();
+rstto_image_viewer_new (void);
 
 void
 rstto_image_viewer_set_file (

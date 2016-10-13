@@ -62,7 +62,7 @@ struct _RsttoPrivacyDialogClass
 };
 
 GType
-rstto_privacy_dialog_get_type();
+rstto_privacy_dialog_get_type (void);
 
 GtkWidget *
 rstto_privacy_dialog_new (

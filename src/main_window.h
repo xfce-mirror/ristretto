@@ -70,7 +70,8 @@ typedef enum {
 } RsttoDesktop;
 
 
-GType      rstto_main_window_get_type();
+GType
+rstto_main_window_get_type (void);
 
 GtkWidget *
 rstto_main_window_new (RsttoImageList *, gboolean);

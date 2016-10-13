@@ -61,7 +61,7 @@ struct _RsttoAppMenuItemClass
     GtkImageMenuItemClass  parent_class;
 };
 
-GType       rstto_app_menu_item_get_type();
+GType       rstto_app_menu_item_get_type (void);
 GtkWidget  *rstto_app_menu_item_new (GAppInfo *app_info, GFile *file);
 
 G_END_DECLS

@@ -58,6 +58,10 @@ static void
 rstto_image_list_iter_class_init(RsttoImageListIterClass *);
 static void
 rstto_image_list_iter_dispose(GObject *object);
+static RsttoImageListIter *
+rstto_image_list_iter_new (
+        RsttoImageList *nav,
+        RsttoFile *r_file);
 
 static void
 cb_rstto_wrap_images_changed (
@@ -166,8 +170,6 @@ image_list_model_iter_next (
 /***************************************/
 /*  End TreeModelIface Functions       */
 /***************************************/
-
-static RsttoImageListIter * rstto_image_list_iter_new ();
 
 static gint
 cb_rstto_image_list_image_name_compare_func (RsttoFile *a, RsttoFile *b);
