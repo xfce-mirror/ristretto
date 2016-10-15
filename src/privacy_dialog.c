@@ -289,6 +289,7 @@ rstto_recent_chooser_init (GtkRecentChooserIface *iface)
 static void
 rstto_privacy_dialog_dispose (GObject *object)
 {
+    RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (object);
     if (dialog->priv)
     {
         if (dialog->priv->settings)
