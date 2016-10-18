@@ -352,12 +352,18 @@ static void
 rstto_properties_dialog_dispose (GObject *object)
 {
     RsttoPropertiesDialog *dialog = RSTTO_PROPERTIES_DIALOG (object);
-    if (dialog->priv->settings)
+    if (dialog->priv)
     {
-        g_object_unref (dialog->priv->settings);
-        dialog->priv->settings = NULL;
+        if (dialog->priv->settings)
+        {
+            g_object_unref (dialog->priv->settings);
+            dialog->priv->settings = NULL;
+        }
+
+        g_free (dialog->priv);
+        dialog->priv = NULL;
     }
-    
+
     G_OBJECT_CLASS(parent_class)->dispose(object);
 }
 
@@ -428,27 +434,28 @@ properties_dialog_set_file (
 
     if (dialog->priv->file)
     {
-
         file_uri = rstto_file_get_uri (file);
         file_uri_checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, file_uri, strlen (file_uri));
         filename = g_strconcat (file_uri_checksum, ".png", NULL);
+        g_free (file_uri_checksum);
 
         /* build and check if the thumbnail is in the new location */
         thumbnail_path = g_build_path ("/", g_get_user_cache_dir(), "thumbnails", "normal", filename, NULL);
-
-        if(!g_file_test (thumbnail_path, G_FILE_TEST_EXISTS))
+        if (!g_file_test (thumbnail_path, G_FILE_TEST_EXISTS))
         {
             /* Fallback to old version */
             g_free (thumbnail_path);
 
             thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", filename, NULL);
-            if(!g_file_test (thumbnail_path, G_FILE_TEST_EXISTS))
+            if (!g_file_test (thumbnail_path, G_FILE_TEST_EXISTS))
             {
                 /* Thumbnail doesn't exist in either spot */
                 g_free (thumbnail_path);
                 thumbnail_path = NULL;
             }
         }
+        g_free (filename);
+
         pixbuf = gdk_pixbuf_new_from_file_at_scale (thumbnail_path, 96, 96, TRUE, NULL);
         if (NULL != pixbuf)
         {
@@ -613,6 +620,10 @@ properties_dialog_set_file (
                         GTK_SHRINK,
                         4,
                         4);
+                if (NULL != label_string)
+                {
+                    g_free (label_string);
+                }
             }
 
             gtk_widget_show_all (dialog->priv->image_table);
