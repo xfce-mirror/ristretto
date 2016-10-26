@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2015-01-25 12:30+0100\n"
-"PO-Revision-Date: 2015-03-01 15:12+0000\n"
+"POT-Creation-Date: 2016-10-07 18:30+0200\n"
+"PO-Revision-Date: 2016-10-26 07:55+0000\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
-"Language-Team: Kazakh (http://www.transifex.com/projects/p/xfce-apps/language/kk/)\n"
+"Language-Team: Kazakh (http://www.transifex.com/xfce/xfce-apps/language/kk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,470 +47,505 @@ msgstr "%s: %s\n\nҚолжетерлік командалық жол опция�
 msgid "Image Viewer"
 msgstr "Суреттерді көрсетуші"
 
-#: ../src/main_window.c:365
+#: ../src/main_window.c:367
 msgid "_File"
 msgstr "_Файл"
 
 #. Icon-name
-#: ../src/main_window.c:369
+#: ../src/main_window.c:371
 msgid "_Open..."
 msgstr "А_шу..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:371
+#: ../src/main_window.c:373
 msgid "Open an image"
 msgstr "Суретті ашу"
 
 #. Icon-name
-#: ../src/main_window.c:375
+#: ../src/main_window.c:377
 msgid "_Save copy..."
 msgstr "Көшірмесін _сақтау..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:377
+#: ../src/main_window.c:379
 msgid "Save a copy of the image"
 msgstr "Сурет көшірмесін сақтау"
 
 #. Icon-name
-#: ../src/main_window.c:381
+#: ../src/main_window.c:383
 msgid "_Properties..."
 msgstr "Қас_иеттері..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:383
+#: ../src/main_window.c:385
 msgid "Show file properties"
 msgstr "Файл қасиеттерін көрсету"
 
 #. Icon-name
-#: ../src/main_window.c:387 ../src/main_window.c:406
+#: ../src/main_window.c:389 ../src/main_window.c:408
 msgid "_Edit"
 msgstr "Түз_ету"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:389
+#: ../src/main_window.c:391
 msgid "Edit this image"
 msgstr "Бұл суретті түзету"
 
 #. Icon-name
-#: ../src/main_window.c:393
+#: ../src/main_window.c:395 ../src/preferences_dialog.c:543
+#: ../src/properties_dialog.c:328
 msgid "_Close"
 msgstr "_Жабу"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:395
+#: ../src/main_window.c:397
 msgid "Close this image"
 msgstr "Бұл суретті жабу"
 
 #. Icon-name
-#: ../src/main_window.c:399
+#: ../src/main_window.c:401
 msgid "_Quit"
 msgstr "_Шығу"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:401
+#: ../src/main_window.c:403
 msgid "Quit Ristretto"
 msgstr "Ristretto-дан шығу"
 
-#: ../src/main_window.c:410
+#: ../src/main_window.c:412
 msgid "_Open with"
 msgstr "Кө_мегімен ашу"
 
-#: ../src/main_window.c:414
+#: ../src/main_window.c:416
 msgid "_Sorting"
 msgstr "_Сұрыптау"
 
 #. Icon-name
-#: ../src/main_window.c:418
+#: ../src/main_window.c:420
 msgid "_Delete"
 msgstr "Ө_шіру"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:420
+#: ../src/main_window.c:422
 msgid "Delete this image from disk"
 msgstr "Бұл суретті дисктен өшіру"
 
 #. Icon-name
-#: ../src/main_window.c:424
+#: ../src/main_window.c:426
 msgid "_Clear private data..."
 msgstr "Жеке ақпаратты та_зарту..."
 
 #. Icon-name
-#: ../src/main_window.c:430
+#: ../src/main_window.c:432
 msgid "_Preferences..."
 msgstr "_Баптаулар..."
 
-#: ../src/main_window.c:437
+#: ../src/main_window.c:439
 msgid "_View"
 msgstr "Тү_рі"
 
 #. Icon-name
-#: ../src/main_window.c:441
+#: ../src/main_window.c:443
 msgid "_Fullscreen"
 msgstr "Т_олық экранға"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:443
+#: ../src/main_window.c:445
 msgid "Switch to fullscreen"
 msgstr "Толық экранға ауысу"
 
 #. Icon-name
-#: ../src/main_window.c:447
+#: ../src/main_window.c:449
 msgid "_Leave Fullscreen"
 msgstr "Толық _экраннан шығу"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:449
+#: ../src/main_window.c:451
 msgid "Leave Fullscreen"
 msgstr "Толық экраннан шығу"
 
 #. Icon-name
-#: ../src/main_window.c:453
+#: ../src/main_window.c:455
 msgid "Set as _Wallpaper..."
 msgstr "Тү_сқағаз ретінде орналастыру..."
 
-#: ../src/main_window.c:460
+#: ../src/main_window.c:462
 msgid "_Zoom"
 msgstr "_Масштаб"
 
 #. Icon-name
-#: ../src/main_window.c:464
+#: ../src/main_window.c:466
 msgid "Zoom _In"
 msgstr "Үлке_йту"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:466
+#: ../src/main_window.c:468
 msgid "Zoom in"
 msgstr "Үлкейту"
 
 #. Icon-name
-#: ../src/main_window.c:470
+#: ../src/main_window.c:472
 msgid "Zoom _Out"
 msgstr "Кі_шірейту"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:472
+#: ../src/main_window.c:474
 msgid "Zoom out"
 msgstr "Кішірейту"
 
 #. Icon-name
-#: ../src/main_window.c:476
+#: ../src/main_window.c:478
 msgid "Zoom _Fit"
 msgstr "Сы_йдыру"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:478
+#: ../src/main_window.c:480
 msgid "Zoom to fit window"
 msgstr "Терезеге сыятындай етіп масштабтау"
 
 #. Icon-name
-#: ../src/main_window.c:482
+#: ../src/main_window.c:484
 msgid "_Normal Size"
 msgstr "Қалы_пты өлшемі"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:484
+#: ../src/main_window.c:486
 msgid "Zoom to 100%"
 msgstr "100% дейін масштабтау"
 
-#: ../src/main_window.c:489
+#: ../src/main_window.c:491
 msgid "_Rotation"
 msgstr "Бұ_рылуы"
 
 #. Icon-name
-#: ../src/main_window.c:493
+#: ../src/main_window.c:495
 msgid "Rotate _Right"
 msgstr "Оңғ_а бұру"
 
 #. Icon-name
-#: ../src/main_window.c:499
+#: ../src/main_window.c:501
 msgid "Rotate _Left"
 msgstr "С_олға бұру"
 
-#: ../src/main_window.c:506
+#: ../src/main_window.c:508
 msgid "_Go"
 msgstr "Ө_ту"
 
 #. Icon-name
-#: ../src/main_window.c:510
+#: ../src/main_window.c:512
 msgid "_Forward"
 msgstr "А_лға"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:512
+#: ../src/main_window.c:514
 msgid "Next image"
 msgstr "Келесі сурет"
 
 #. Icon-name
-#: ../src/main_window.c:516
+#: ../src/main_window.c:518
 msgid "_Back"
 msgstr "Ар_тқа"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:518
+#: ../src/main_window.c:520
 msgid "Previous image"
 msgstr "Алдыңғы сурет"
 
 #. Icon-name
-#: ../src/main_window.c:522
+#: ../src/main_window.c:524
 msgid "F_irst"
 msgstr "Бірі_нші"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:524
+#: ../src/main_window.c:526
 msgid "First image"
 msgstr "Бірінші сурет"
 
 #. Icon-name
-#: ../src/main_window.c:528
+#: ../src/main_window.c:530
 msgid "_Last"
 msgstr "_Соңғы"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:530
+#: ../src/main_window.c:532
 msgid "Last image"
 msgstr "Соңғы сурет"
 
-#: ../src/main_window.c:535
+#: ../src/main_window.c:537
 msgid "_Help"
 msgstr "Кө_мек"
 
 #. Icon-name
-#: ../src/main_window.c:539
+#: ../src/main_window.c:541
 msgid "_Contents"
 msgstr "Құра_масы"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:541
+#: ../src/main_window.c:543
 msgid "Display ristretto user manual"
 msgstr "Ristretto пайдаланушы нұсқаулығын көрсету"
 
 #. Icon-name
-#: ../src/main_window.c:545
+#: ../src/main_window.c:547
 msgid "_About"
 msgstr "Осы турал_ы"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:547
+#: ../src/main_window.c:549
 msgid "Display information about ristretto"
 msgstr "Ristretto туралы ақпаратты көрсету"
 
-#: ../src/main_window.c:552
+#: ../src/main_window.c:554
 msgid "_Position"
 msgstr "_Орны"
 
-#: ../src/main_window.c:556
+#: ../src/main_window.c:558
 msgid "_Size"
 msgstr "Өл_шемі"
 
-#: ../src/main_window.c:560
+#: ../src/main_window.c:562
 msgid "Thumbnail Bar _Position"
 msgstr "Үлгілер панелінің ор_наласуы"
 
-#: ../src/main_window.c:564
+#: ../src/main_window.c:566
 msgid "Thumb_nail Size"
 msgstr "Үл_гілер өлшемі"
 
 #. Icon-name
-#: ../src/main_window.c:569
+#: ../src/main_window.c:571
 msgid "Leave _Fullscreen"
 msgstr "Т_олық экраннан шығу"
 
 #. Icon-name
-#: ../src/main_window.c:585
+#: ../src/main_window.c:587
 msgid "_Show Toolbar"
 msgstr "Саймандар _панелін көрсету"
 
 #. Icon-name
-#: ../src/main_window.c:593
+#: ../src/main_window.c:595
 msgid "Show _Thumbnail Bar"
 msgstr "Үлгілер _панелін көрсету"
 
 #. Icon-name
-#: ../src/main_window.c:601
+#: ../src/main_window.c:603
 msgid "Show Status _Bar"
 msgstr "Қалып-күй жо_лағын көрсету"
 
 #. Icon-name
-#: ../src/main_window.c:614
+#: ../src/main_window.c:615
 msgid "sort by filename"
 msgstr "файл аты бойынша сұрыптау"
 
 #. Icon-name
 #: ../src/main_window.c:621
+msgid "sort by filetype"
+msgstr "файл түрі бойынша сұрыптау"
+
+#. Icon-name
+#: ../src/main_window.c:627
 msgid "sort by date"
 msgstr "күні бойынша сұрыптау"
 
 #. Icon-name
-#: ../src/main_window.c:632
+#: ../src/main_window.c:638
 msgid "Left"
 msgstr "Сол жақ"
 
-#: ../src/main_window.c:638
+#: ../src/main_window.c:644
 msgid "Right"
 msgstr "Оң жақ"
 
-#: ../src/main_window.c:644
+#: ../src/main_window.c:650
 msgid "Top"
 msgstr "Жоғары"
 
-#: ../src/main_window.c:650
+#: ../src/main_window.c:656
 msgid "Bottom"
 msgstr "Төмен"
 
-#: ../src/main_window.c:661
+#: ../src/main_window.c:667
 msgid "Very Small"
 msgstr "Өте кішкентай"
 
-#: ../src/main_window.c:667
+#: ../src/main_window.c:673
 msgid "Smaller"
 msgstr "Кішірек"
 
-#: ../src/main_window.c:673
+#: ../src/main_window.c:679
 msgid "Small"
 msgstr "Кішкентай"
 
-#: ../src/main_window.c:679
+#: ../src/main_window.c:685
 msgid "Normal"
 msgstr "Қалыпты"
 
-#: ../src/main_window.c:685
+#: ../src/main_window.c:691
 msgid "Large"
 msgstr "Үлкен"
 
-#: ../src/main_window.c:691
+#: ../src/main_window.c:697
 msgid "Larger"
 msgstr "Үлкенірек"
 
-#: ../src/main_window.c:697
+#: ../src/main_window.c:703
 msgid "Very Large"
 msgstr "Өте үлкен"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:849
+#: ../src/main_window.c:857
 msgid "_Play"
 msgstr "Ой_нату"
 
-#: ../src/main_window.c:849
+#: ../src/main_window.c:857
 msgid "Play slideshow"
 msgstr "Слайдшоуды ойнату"
 
-#: ../src/main_window.c:850
+#: ../src/main_window.c:858
 msgid "_Pause"
 msgstr "А_ялдату"
 
-#: ../src/main_window.c:850
+#: ../src/main_window.c:858
 msgid "Pause slideshow"
 msgstr "Слайдшоуды аялдату"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:853
+#: ../src/main_window.c:861
 msgid "_Recently used"
 msgstr "Соңғы қо_лданылған"
 
-#: ../src/main_window.c:853
+#: ../src/main_window.c:861
 msgid "Recently used"
 msgstr "Соңғы қолданылған"
 
-#: ../src/main_window.c:957 ../src/main_window.c:1495
+#: ../src/main_window.c:965 ../src/main_window.c:1539
 msgid "Press open to select an image"
 msgstr "Суретті таңдау үшін ашу басыңыз"
 
-#: ../src/main_window.c:1354 ../src/main_window.c:1358
+#: ../src/main_window.c:1398 ../src/main_window.c:1402
 msgid "Open With Other _Application..."
 msgstr "Б_асқа қолданба көмегімен ашу..."
 
-#: ../src/main_window.c:1379 ../src/main_window.c:1385
+#: ../src/main_window.c:1423 ../src/main_window.c:1429
 msgid "Empty"
 msgstr "Бос"
 
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1549
 msgid "Loading..."
 msgstr "Жүктелуде..."
 
-#: ../src/main_window.c:2109
+#: ../src/main_window.c:2147
 msgid "Choose 'set wallpaper' method"
 msgstr "Түсқағазды орнату тәсілін таңдаңыз"
 
-#: ../src/main_window.c:2124 ../src/preferences_dialog.c:464
+#: ../src/main_window.c:2150 ../src/main_window.c:3826
+#: ../src/xfce_wallpaper_manager.c:412 ../src/gnome_wallpaper_manager.c:253
+msgid "_OK"
+msgstr "_ОК"
+
+#: ../src/main_window.c:2152 ../src/main_window.c:2963
+#: ../src/main_window.c:3196 ../src/main_window.c:3824
+#: ../src/privacy_dialog.c:182 ../src/xfce_wallpaper_manager.c:408
+#: ../src/gnome_wallpaper_manager.c:249
+msgid "_Cancel"
+msgstr "_Бас тарту"
+
+#: ../src/main_window.c:2162 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Жұмыс үстеліңізді қазір қандай жүйе басқаратынын көрсетіңіз.\nБұл баптау <i>Ristretto</i> түсқағазды орнатуға\nқолданатын тәсілді анықтайды."
 
-#: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
+#: ../src/main_window.c:2187 ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "Ешнәрсе"
 
-#: ../src/main_window.c:2153 ../src/preferences_dialog.c:492
+#: ../src/main_window.c:2191 ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2157 ../src/preferences_dialog.c:496
+#: ../src/main_window.c:2195 ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2597
+#: ../src/main_window.c:2636
 msgid "Developer:"
 msgstr "Өндіруші:"
 
-#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2645 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto - Xfce жұмыс үстел ортасы үшін суреттер көрсетушісі."
 
-#: ../src/main_window.c:2614
+#: ../src/main_window.c:2653
 msgid "translator-credits"
 msgstr "Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013"
 
-#: ../src/main_window.c:2916
+#: ../src/main_window.c:2960
 msgid "Open image"
 msgstr "Суретті ашу"
 
-#: ../src/main_window.c:2935
+#: ../src/main_window.c:2964
+msgid "_Open"
+msgstr "А_шу"
+
+#: ../src/main_window.c:2979
 msgid "Images"
 msgstr "Суреттер"
 
-#: ../src/main_window.c:2940
+#: ../src/main_window.c:2984
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2967 ../src/main_window.c:3109
+#: ../src/main_window.c:3011 ../src/main_window.c:3154
 msgid "Could not open file"
 msgstr "Файлды ашу мүмкін емес"
 
-#: ../src/main_window.c:3142
+#: ../src/main_window.c:3193
 msgid "Save copy"
 msgstr "Көшірмесін сақтау"
 
-#: ../src/main_window.c:3168
+#: ../src/main_window.c:3197
+msgid "_Save"
+msgstr "_Сақтау"
+
+#: ../src/main_window.c:3226
 msgid "Could not save file"
 msgstr "Файлды сақтау мүмкін емес"
 
-#: ../src/main_window.c:3336
+#: ../src/main_window.c:3389
+#, c-format
+msgid "Are you sure you want to send image '%s' to trash?"
+msgstr "'%s' суретін қоқыс шелегіне тастауды шынымен қалайсыз ба?"
+
+#: ../src/main_window.c:3393
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "'%s' суретін дисктен өшіруді шынымен қалайсыз ба?"
 
-#: ../src/main_window.c:3354
+#: ../src/main_window.c:3404
+msgid "_Do not ask again for this session"
+msgstr "Бұл сессия үшін қайта сұра_мау"
+
+#: ../src/main_window.c:3481
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -518,12 +553,7 @@ msgid ""
 "%s"
 msgstr "'%s' суретін дисктен өшіру кезінде қате орын алды.\n\n%s"
 
-#: ../src/main_window.c:3370
-#, c-format
-msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "'%s' суретін қоқыс шелегіне тастауды шынымен қалайсыз ба?"
-
-#: ../src/main_window.c:3388
+#: ../src/main_window.c:3485
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -531,84 +561,84 @@ msgid ""
 "%s"
 msgstr "'%s' суретін қоқыс шелегіне тастау кезінде қате орын алды.\n\n%s"
 
-#: ../src/main_window.c:3718
+#: ../src/main_window.c:3821
 msgid "Edit with"
 msgstr "Көмегімен түзету"
 
-#: ../src/main_window.c:3736
+#: ../src/main_window.c:3839
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "%s және басқа да %s түрдегі барлық файлдарды көмегімен ашу:"
 
-#: ../src/main_window.c:3741
+#: ../src/main_window.c:3844
 msgid "Use as _default for this kind of file"
 msgstr "Файлд_ардың осы түрі үшін негізгі ретінде қылу"
 
-#: ../src/main_window.c:3831
+#: ../src/main_window.c:3934
 msgid "Recommended Applications"
 msgstr "Ұсынылатын қолданбалар"
 
-#: ../src/main_window.c:3911
+#: ../src/main_window.c:4014
 msgid "Other Applications"
 msgstr "Басқа қолданбалар"
 
-#: ../src/icon_bar.c:345
+#: ../src/icon_bar.c:344
 msgid "Orientation"
 msgstr "Бағдары"
 
-#: ../src/icon_bar.c:346
+#: ../src/icon_bar.c:345
 msgid "The orientation of the iconbar"
 msgstr "Таңбаша жолағының бағдарлануы"
 
-#: ../src/icon_bar.c:362
+#: ../src/icon_bar.c:361
 msgid "File column"
 msgstr "Файл бағаны"
 
-#: ../src/icon_bar.c:363
+#: ../src/icon_bar.c:362
 msgid "Model column used to retrieve the file from"
 msgstr "Файлды алу үшін модель бағаны"
 
-#: ../src/icon_bar.c:375
+#: ../src/icon_bar.c:374
 msgid "Icon Bar Model"
 msgstr "Таңба панель түрі"
 
-#: ../src/icon_bar.c:376
+#: ../src/icon_bar.c:375
 msgid "Model for the icon bar"
 msgstr "Таңба панель түрі"
 
-#: ../src/icon_bar.c:392
+#: ../src/icon_bar.c:391
 msgid "Active"
 msgstr "Белсенді"
 
-#: ../src/icon_bar.c:393
+#: ../src/icon_bar.c:392
 msgid "Active item index"
 msgstr "Белсенді элемент индексі"
 
-#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+#: ../src/icon_bar.c:408 ../src/icon_bar.c:409
 msgid "Show Text"
 msgstr "Мәтінді көрсету"
 
-#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+#: ../src/icon_bar.c:415 ../src/icon_bar.c:416
 msgid "Active item fill color"
 msgstr "Белсенді элемент құйма түсі"
 
-#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+#: ../src/icon_bar.c:422 ../src/icon_bar.c:423
 msgid "Active item border color"
 msgstr "Белсенді элемент шет түсі"
 
-#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+#: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item text color"
 msgstr "Белсенді элемент мәтін түсі"
 
-#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+#: ../src/icon_bar.c:436 ../src/icon_bar.c:437
 msgid "Cursor item fill color"
 msgstr "Курсордың элемент құйма түсі"
 
-#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+#: ../src/icon_bar.c:443 ../src/icon_bar.c:444
 msgid "Cursor item border color"
 msgstr "Курсордың элемент шет түсі"
 
-#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+#: ../src/icon_bar.c:450 ../src/icon_bar.c:451
 msgid "Cursor item text color"
 msgstr "Курсордың элемент мәтін түсі"
 
@@ -639,6 +669,11 @@ msgstr "Бүгін"
 #: ../src/privacy_dialog.c:162
 msgid "Everything"
 msgstr "Барлығы"
+
+#: ../src/privacy_dialog.c:183 ../src/xfce_wallpaper_manager.c:410
+#: ../src/gnome_wallpaper_manager.c:251
+msgid "_Apply"
+msgstr "Іс_ке асыру"
 
 #: ../src/privacy_dialog.c:460
 msgid "Clear private data"
@@ -795,7 +830,7 @@ msgstr "<b>%s</b>"
 msgid "%s - Properties"
 msgstr "%s - қасиеттері"
 
-#: ../src/thumbnailer.c:460
+#: ../src/thumbnailer.c:467
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -805,51 +840,51 @@ msgid ""
 "to resolve this issue."
 msgstr "Үлгілерді жасайтын қызметке қатынау мүмкін емес,\nсондықтан, үлгілерді жасау\nмүмкін емес.\n\nБұл мәселені шешу үшін <b>Tumbler</b> немесе басқа\n<i>үлгілер қызметін</i> орнатыңыз."
 
-#: ../src/thumbnailer.c:470
+#: ../src/thumbnailer.c:477
 msgid "Do _not show this message again"
 msgstr "Бұл хабарламаны келесіде _көрсетпеу"
 
-#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:380 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "Стилі:"
 
-#: ../src/xfce_wallpaper_manager.c:380
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Brightness:"
 msgstr "Жарықтылығы:"
 
-#: ../src/xfce_wallpaper_manager.c:381
+#: ../src/xfce_wallpaper_manager.c:382
 msgid "Saturation:"
 msgstr "Қаңықтылығы:"
 
-#: ../src/xfce_wallpaper_manager.c:397
+#: ../src/xfce_wallpaper_manager.c:398
 msgid "Apply to all workspaces"
 msgstr "Барлық жұмыс орындары үшін іске асыру"
 
-#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:405 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "Түсқағаз ретінде орналастыру"
 
-#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:558 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "Авто"
 
-#: ../src/xfce_wallpaper_manager.c:560
+#: ../src/xfce_wallpaper_manager.c:561
 msgid "Centered"
 msgstr "Ортасына қарай"
 
-#: ../src/xfce_wallpaper_manager.c:563
+#: ../src/xfce_wallpaper_manager.c:564
 msgid "Tiled"
 msgstr "Плитка"
 
-#: ../src/xfce_wallpaper_manager.c:566
+#: ../src/xfce_wallpaper_manager.c:567
 msgid "Stretched"
 msgstr "Созылған"
 
-#: ../src/xfce_wallpaper_manager.c:569
+#: ../src/xfce_wallpaper_manager.c:570
 msgid "Scaled"
 msgstr "Масштабталған"
 
-#: ../src/xfce_wallpaper_manager.c:572
+#: ../src/xfce_wallpaper_manager.c:573
 msgid "Zoomed"
 msgstr "Үлкейтілген"
 
@@ -885,13 +920,13 @@ msgstr ""
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
 "This version comes with several changes such as online documentation on "
-"http://docs.xfce.org, the option to limit the maximum image-quality to the "
-"screen dimensions to improve memory-usage and performance - now ristretto "
-"renders at full quality with this option disabled, only one toolbar - "
-"instead of two, a quick-launch button on the toolbar to execute an editor, "
-"the option to pick a default-editor per mime-type, an optional clock that "
-"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
-"message in the statusbar to indicate when it is busy and progressive loading"
-" of directories to prevent lockup of the UI. This version is designed to "
-"work with version 4.10 of Xfce."
+"docs.xfce.org, the option to limit the maximum image-quality to the screen "
+"dimensions to improve memory-usage and performance - now ristretto renders "
+"at full quality with this option disabled, only one toolbar - instead of "
+"two, a quick-launch button on the toolbar to execute an editor, the option "
+"to pick a default-editor per mime-type, an optional clock that shows up when"
+" ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the "
+"statusbar to indicate when it is busy and progressive loading of directories"
+" to prevent lockup of the UI. This version is designed to work with version "
+"4.10 of Xfce."
 msgstr ""
