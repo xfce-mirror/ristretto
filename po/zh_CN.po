@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Chipong Luo <chipong.luo@yahoo.com>, 2011-2012
-# Hunt Xu <mhuntxu@gmail.com>, 2008-2010
+# Hunt Xu <mhuntxu@gmail.com>, 2008-2010,2016
 # Mingcong Bai <jeffbai@aosc.xyz>, 2016
 # wuli <wurisky@gmail.com>, 2008
 # 玉堂白鹤 <yjwork@qq.com>, 2015-2016
@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2016-09-18 00:31+0200\n"
-"PO-Revision-Date: 2016-09-20 07:26+0000\n"
-"Last-Translator: 玉堂白鹤 <yjwork@qq.com>\n"
+"POT-Creation-Date: 2016-10-07 18:30+0200\n"
+"PO-Revision-Date: 2016-10-28 14:18+0000\n"
+"Last-Translator: Hunt Xu <mhuntxu@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/xfce/xfce-apps/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -356,196 +356,201 @@ msgid "Show Status _Bar"
 msgstr "显示状态栏(_B)"
 
 #. Icon-name
-#: ../src/main_window.c:616
+#: ../src/main_window.c:615
 msgid "sort by filename"
 msgstr "以文件名排列"
 
 #. Icon-name
-#: ../src/main_window.c:623
+#: ../src/main_window.c:621
+msgid "sort by filetype"
+msgstr "按文件类型排序"
+
+#. Icon-name
+#: ../src/main_window.c:627
 msgid "sort by date"
 msgstr "以日期排列"
 
 #. Icon-name
-#: ../src/main_window.c:634
+#: ../src/main_window.c:638
 msgid "Left"
 msgstr "左边"
 
-#: ../src/main_window.c:640
+#: ../src/main_window.c:644
 msgid "Right"
 msgstr "右边"
 
-#: ../src/main_window.c:646
+#: ../src/main_window.c:650
 msgid "Top"
 msgstr "顶部"
 
-#: ../src/main_window.c:652
+#: ../src/main_window.c:656
 msgid "Bottom"
 msgstr "底部"
 
-#: ../src/main_window.c:663
+#: ../src/main_window.c:667
 msgid "Very Small"
 msgstr "非常小"
 
-#: ../src/main_window.c:669
+#: ../src/main_window.c:673
 msgid "Smaller"
 msgstr "较小"
 
-#: ../src/main_window.c:675
+#: ../src/main_window.c:679
 msgid "Small"
 msgstr "小"
 
-#: ../src/main_window.c:681
+#: ../src/main_window.c:685
 msgid "Normal"
 msgstr "正常"
 
-#: ../src/main_window.c:687
+#: ../src/main_window.c:691
 msgid "Large"
 msgstr "大"
 
-#: ../src/main_window.c:693
+#: ../src/main_window.c:697
 msgid "Larger"
 msgstr "较大"
 
-#: ../src/main_window.c:699
+#: ../src/main_window.c:703
 msgid "Very Large"
 msgstr "非常大"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:853
+#: ../src/main_window.c:857
 msgid "_Play"
 msgstr "播放(_P)"
 
-#: ../src/main_window.c:853
+#: ../src/main_window.c:857
 msgid "Play slideshow"
 msgstr "播放幻灯片"
 
-#: ../src/main_window.c:854
+#: ../src/main_window.c:858
 msgid "_Pause"
 msgstr "暂停(_P)"
 
-#: ../src/main_window.c:854
+#: ../src/main_window.c:858
 msgid "Pause slideshow"
 msgstr "暂停幻灯片"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:857
+#: ../src/main_window.c:861
 msgid "_Recently used"
 msgstr "最近使用(_R)"
 
-#: ../src/main_window.c:857
+#: ../src/main_window.c:861
 msgid "Recently used"
 msgstr "最近使用"
 
-#: ../src/main_window.c:961 ../src/main_window.c:1527
+#: ../src/main_window.c:965 ../src/main_window.c:1539
 msgid "Press open to select an image"
 msgstr "按打开选择图片"
 
-#: ../src/main_window.c:1386 ../src/main_window.c:1390
+#: ../src/main_window.c:1398 ../src/main_window.c:1402
 msgid "Open With Other _Application..."
 msgstr "用其它应用程序打开(_A)..."
 
-#: ../src/main_window.c:1411 ../src/main_window.c:1417
+#: ../src/main_window.c:1423 ../src/main_window.c:1429
 msgid "Empty"
 msgstr "空"
 
-#: ../src/main_window.c:1537
+#: ../src/main_window.c:1549
 msgid "Loading..."
 msgstr "正在载入..."
 
-#: ../src/main_window.c:2141
+#: ../src/main_window.c:2147
 msgid "Choose 'set wallpaper' method"
 msgstr "选择 ‘设置壁纸’ 的方式"
 
-#: ../src/main_window.c:2144 ../src/main_window.c:3814
-#: ../src/xfce_wallpaper_manager.c:411 ../src/gnome_wallpaper_manager.c:253
+#: ../src/main_window.c:2150 ../src/main_window.c:3826
+#: ../src/xfce_wallpaper_manager.c:412 ../src/gnome_wallpaper_manager.c:253
 msgid "_OK"
 msgstr "确定(_O)"
 
-#: ../src/main_window.c:2146 ../src/main_window.c:2957
-#: ../src/main_window.c:3190 ../src/main_window.c:3812
-#: ../src/privacy_dialog.c:182 ../src/xfce_wallpaper_manager.c:407
+#: ../src/main_window.c:2152 ../src/main_window.c:2963
+#: ../src/main_window.c:3196 ../src/main_window.c:3824
+#: ../src/privacy_dialog.c:182 ../src/xfce_wallpaper_manager.c:408
 #: ../src/gnome_wallpaper_manager.c:249
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: ../src/main_window.c:2156 ../src/preferences_dialog.c:464
+#: ../src/main_window.c:2162 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "配置当前用何种系统管理您的桌面。\n此设置决定用于 <i>Ristretto</i>\n配置桌面壁纸的方式。"
 
-#: ../src/main_window.c:2181 ../src/preferences_dialog.c:488
+#: ../src/main_window.c:2187 ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "无"
 
-#: ../src/main_window.c:2185 ../src/preferences_dialog.c:492
+#: ../src/main_window.c:2191 ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2189 ../src/preferences_dialog.c:496
+#: ../src/main_window.c:2195 ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2630
+#: ../src/main_window.c:2636
 msgid "Developer:"
 msgstr "开发者："
 
-#: ../src/main_window.c:2639 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2645 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto 是 Xfce 桌面环境下的图片查看器。"
 
-#: ../src/main_window.c:2647
+#: ../src/main_window.c:2653
 msgid "translator-credits"
 msgstr "WuLi <wurisky@gmail.com>, 2008.\nHunt Xu <mhuntxu@gmail.com>, 2008, 2009, 2010.\nChipong Luo <chipong.luo@yahoo.com>, 2011, 2012."
 
-#: ../src/main_window.c:2954
+#: ../src/main_window.c:2960
 msgid "Open image"
 msgstr "打开图片"
 
-#: ../src/main_window.c:2958
+#: ../src/main_window.c:2964
 msgid "_Open"
 msgstr "打开(_O)"
 
-#: ../src/main_window.c:2973
+#: ../src/main_window.c:2979
 msgid "Images"
 msgstr "图片"
 
-#: ../src/main_window.c:2978
+#: ../src/main_window.c:2984
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3005 ../src/main_window.c:3148
+#: ../src/main_window.c:3011 ../src/main_window.c:3154
 msgid "Could not open file"
 msgstr "未能打开文件"
 
-#: ../src/main_window.c:3187
+#: ../src/main_window.c:3193
 msgid "Save copy"
 msgstr "保存副本"
 
-#: ../src/main_window.c:3191
+#: ../src/main_window.c:3197
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: ../src/main_window.c:3220
+#: ../src/main_window.c:3226
 msgid "Could not save file"
 msgstr "未能保存文件"
 
-#: ../src/main_window.c:3383
+#: ../src/main_window.c:3389
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "您确定要将图片 ‘%s’ 发送至回收站吗？"
 
-#: ../src/main_window.c:3387
+#: ../src/main_window.c:3393
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "您确定要从磁盘上删除图片 ‘%s’ 吗？"
 
-#: ../src/main_window.c:3398
+#: ../src/main_window.c:3404
 msgid "_Do not ask again for this session"
 msgstr "本会话中不再询问(_D)"
 
-#: ../src/main_window.c:3469
+#: ../src/main_window.c:3481
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -553,7 +558,7 @@ msgid ""
 "%s"
 msgstr "从磁盘上删除图片 ‘%s’ 时出错。\n\n%s"
 
-#: ../src/main_window.c:3473
+#: ../src/main_window.c:3485
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -561,24 +566,24 @@ msgid ""
 "%s"
 msgstr "将图片 ‘%s’ 发送至回收站时出错。\n\n%s"
 
-#: ../src/main_window.c:3809
+#: ../src/main_window.c:3821
 msgid "Edit with"
 msgstr "编辑方式"
 
-#: ../src/main_window.c:3827
+#: ../src/main_window.c:3839
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "用此打开 %s 和其它 %s 类型的文件："
 
-#: ../src/main_window.c:3832
+#: ../src/main_window.c:3844
 msgid "Use as _default for this kind of file"
 msgstr "用作此种类文件的默认(_D)"
 
-#: ../src/main_window.c:3922
+#: ../src/main_window.c:3934
 msgid "Recommended Applications"
 msgstr "推荐的应用程序"
 
-#: ../src/main_window.c:4002
+#: ../src/main_window.c:4014
 msgid "Other Applications"
 msgstr "其它应用程序"
 
@@ -670,7 +675,7 @@ msgstr "今天"
 msgid "Everything"
 msgstr "一切"
 
-#: ../src/privacy_dialog.c:183 ../src/xfce_wallpaper_manager.c:409
+#: ../src/privacy_dialog.c:183 ../src/xfce_wallpaper_manager.c:410
 #: ../src/gnome_wallpaper_manager.c:251
 msgid "_Apply"
 msgstr "应用(_A)"
@@ -844,47 +849,47 @@ msgstr "未能与 thumbnailer-service 联系，\n因此，未能创建缩略图�
 msgid "Do _not show this message again"
 msgstr "不再显示此信息(_N)"
 
-#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:380 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "样式："
 
-#: ../src/xfce_wallpaper_manager.c:380
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Brightness:"
 msgstr "亮度："
 
-#: ../src/xfce_wallpaper_manager.c:381
+#: ../src/xfce_wallpaper_manager.c:382
 msgid "Saturation:"
 msgstr "饱和度："
 
-#: ../src/xfce_wallpaper_manager.c:397
+#: ../src/xfce_wallpaper_manager.c:398
 msgid "Apply to all workspaces"
 msgstr "应用至所有工作区"
 
-#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:405 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "设置为壁纸"
 
-#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:558 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "自动"
 
-#: ../src/xfce_wallpaper_manager.c:560
+#: ../src/xfce_wallpaper_manager.c:561
 msgid "Centered"
 msgstr "居中"
 
-#: ../src/xfce_wallpaper_manager.c:563
+#: ../src/xfce_wallpaper_manager.c:564
 msgid "Tiled"
 msgstr "平铺"
 
-#: ../src/xfce_wallpaper_manager.c:566
+#: ../src/xfce_wallpaper_manager.c:567
 msgid "Stretched"
 msgstr "拉伸"
 
-#: ../src/xfce_wallpaper_manager.c:569
+#: ../src/xfce_wallpaper_manager.c:570
 msgid "Scaled"
 msgstr "伸缩"
 
-#: ../src/xfce_wallpaper_manager.c:572
+#: ../src/xfce_wallpaper_manager.c:573
 msgid "Zoomed"
 msgstr "缩放"
 
