@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# cges30901 <cges30901@gmail.com>, 2016
 # Cheng-Chia Tseng <pswo10680@gmail.com>, 2011
 # Jeff Huang <s8321414@gmail.com>, 2015-2016
 # Walter Cheuk <wwycheuk@gmail.com>, 2014
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2016-07-03 18:31+0200\n"
-"PO-Revision-Date: 2016-07-04 08:17+0000\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
+"POT-Creation-Date: 2016-10-07 18:30+0200\n"
+"PO-Revision-Date: 2016-11-24 11:38+0000\n"
+"Last-Translator: cges30901 <cges30901@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/xfce/xfce-apps/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -98,7 +99,8 @@ msgid "Edit this image"
 msgstr "編輯此影像"
 
 #. Icon-name
-#: ../src/main_window.c:395
+#: ../src/main_window.c:395 ../src/preferences_dialog.c:543
+#: ../src/properties_dialog.c:328
 msgid "_Close"
 msgstr "關閉(_C)"
 
@@ -281,13 +283,13 @@ msgstr "第一張影像"
 #. Icon-name
 #: ../src/main_window.c:530
 msgid "_Last"
-msgstr "尾(_L)"
+msgstr "最後一張影像(_L)"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:532
 msgid "Last image"
-msgstr "最後張影像"
+msgstr "最後一張影像"
 
 #: ../src/main_window.c:537
 msgid "_Help"
@@ -352,176 +354,201 @@ msgid "Show Status _Bar"
 msgstr "顯示狀態列(_B)"
 
 #. Icon-name
-#: ../src/main_window.c:616
+#: ../src/main_window.c:615
 msgid "sort by filename"
 msgstr "依檔名排序"
 
 #. Icon-name
-#: ../src/main_window.c:623
+#: ../src/main_window.c:621
+msgid "sort by filetype"
+msgstr "依檔案類型排序"
+
+#. Icon-name
+#: ../src/main_window.c:627
 msgid "sort by date"
 msgstr "依日期排序"
 
 #. Icon-name
-#: ../src/main_window.c:634
+#: ../src/main_window.c:638
 msgid "Left"
 msgstr "左"
 
-#: ../src/main_window.c:640
+#: ../src/main_window.c:644
 msgid "Right"
 msgstr "右"
 
-#: ../src/main_window.c:646
+#: ../src/main_window.c:650
 msgid "Top"
 msgstr "上"
 
-#: ../src/main_window.c:652
+#: ../src/main_window.c:656
 msgid "Bottom"
 msgstr "下"
 
-#: ../src/main_window.c:663
+#: ../src/main_window.c:667
 msgid "Very Small"
 msgstr "非常小"
 
-#: ../src/main_window.c:669
+#: ../src/main_window.c:673
 msgid "Smaller"
 msgstr "更小"
 
-#: ../src/main_window.c:675
+#: ../src/main_window.c:679
 msgid "Small"
 msgstr "小"
 
-#: ../src/main_window.c:681
+#: ../src/main_window.c:685
 msgid "Normal"
 msgstr "正常"
 
-#: ../src/main_window.c:687
+#: ../src/main_window.c:691
 msgid "Large"
 msgstr "大"
 
-#: ../src/main_window.c:693
+#: ../src/main_window.c:697
 msgid "Larger"
 msgstr "更大"
 
-#: ../src/main_window.c:699
+#: ../src/main_window.c:703
 msgid "Very Large"
 msgstr "非常大"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:853
+#: ../src/main_window.c:857
 msgid "_Play"
 msgstr "播放(_P)"
 
-#: ../src/main_window.c:853
+#: ../src/main_window.c:857
 msgid "Play slideshow"
 msgstr "播放投影片秀"
 
-#: ../src/main_window.c:854
+#: ../src/main_window.c:858
 msgid "_Pause"
 msgstr "暫停(_P)"
 
-#: ../src/main_window.c:854
+#: ../src/main_window.c:858
 msgid "Pause slideshow"
 msgstr "暫停投影片秀"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:857
+#: ../src/main_window.c:861
 msgid "_Recently used"
 msgstr "近期使用(_R)"
 
-#: ../src/main_window.c:857
+#: ../src/main_window.c:861
 msgid "Recently used"
 msgstr "近期使用"
 
-#: ../src/main_window.c:961 ../src/main_window.c:1527
+#: ../src/main_window.c:965 ../src/main_window.c:1539
 msgid "Press open to select an image"
 msgstr "按下開啟以選取影像"
 
-#: ../src/main_window.c:1386 ../src/main_window.c:1390
+#: ../src/main_window.c:1398 ../src/main_window.c:1402
 msgid "Open With Other _Application..."
 msgstr "以其他應用程式開啟(_A)..."
 
-#: ../src/main_window.c:1411 ../src/main_window.c:1417
+#: ../src/main_window.c:1423 ../src/main_window.c:1429
 msgid "Empty"
 msgstr "空"
 
-#: ../src/main_window.c:1537
+#: ../src/main_window.c:1549
 msgid "Loading..."
 msgstr "正在載入..."
 
-#: ../src/main_window.c:2141
+#: ../src/main_window.c:2147
 msgid "Choose 'set wallpaper' method"
 msgstr "選擇「設定桌布」方法"
 
-#: ../src/main_window.c:2156 ../src/preferences_dialog.c:464
+#: ../src/main_window.c:2150 ../src/main_window.c:3826
+#: ../src/xfce_wallpaper_manager.c:412 ../src/gnome_wallpaper_manager.c:253
+msgid "_OK"
+msgstr "確定(_O)"
+
+#: ../src/main_window.c:2152 ../src/main_window.c:2963
+#: ../src/main_window.c:3196 ../src/main_window.c:3824
+#: ../src/privacy_dialog.c:182 ../src/xfce_wallpaper_manager.c:408
+#: ../src/gnome_wallpaper_manager.c:249
+msgid "_Cancel"
+msgstr "取消(_C)"
+
+#: ../src/main_window.c:2162 ../src/preferences_dialog.c:464
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "設定目前管理您桌面的系統為何。\n這個設定值決定 <i>Ristretto</i> 用來\n設定桌布的方法。"
 
-#: ../src/main_window.c:2181 ../src/preferences_dialog.c:488
+#: ../src/main_window.c:2187 ../src/preferences_dialog.c:488
 msgid "None"
 msgstr "無"
 
-#: ../src/main_window.c:2185 ../src/preferences_dialog.c:492
+#: ../src/main_window.c:2191 ../src/preferences_dialog.c:492
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2189 ../src/preferences_dialog.c:496
+#: ../src/main_window.c:2195 ../src/preferences_dialog.c:496
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2629
+#: ../src/main_window.c:2636
 msgid "Developer:"
 msgstr "開發者："
 
-#: ../src/main_window.c:2638 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2645 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto 是個 Xfce 桌面環境的影像檢視器。"
 
-#: ../src/main_window.c:2646
+#: ../src/main_window.c:2653
 msgid "translator-credits"
 msgstr "Cheng-Chia Tseng <pswo10680@gmail.com>, 2011."
 
-#: ../src/main_window.c:2949
+#: ../src/main_window.c:2960
 msgid "Open image"
 msgstr "開啟影像"
 
-#: ../src/main_window.c:2968
+#: ../src/main_window.c:2964
+msgid "_Open"
+msgstr "開啟(_O)"
+
+#: ../src/main_window.c:2979
 msgid "Images"
 msgstr "影像"
 
-#: ../src/main_window.c:2973
+#: ../src/main_window.c:2984
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3000 ../src/main_window.c:3143
+#: ../src/main_window.c:3011 ../src/main_window.c:3154
 msgid "Could not open file"
 msgstr "無法開啟檔案"
 
-#: ../src/main_window.c:3182
+#: ../src/main_window.c:3193
 msgid "Save copy"
 msgstr "儲存副本"
 
-#: ../src/main_window.c:3215
+#: ../src/main_window.c:3197
+msgid "_Save"
+msgstr "儲存(_S)"
+
+#: ../src/main_window.c:3226
 msgid "Could not save file"
 msgstr "無法儲存檔案"
 
-#: ../src/main_window.c:3378
+#: ../src/main_window.c:3389
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "您確定要將「%s」影像傳送至垃圾桶嗎？"
 
-#: ../src/main_window.c:3382
+#: ../src/main_window.c:3393
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "您確定要從磁碟刪除「%s」影像嗎？"
 
-#: ../src/main_window.c:3393
+#: ../src/main_window.c:3404
 msgid "_Do not ask again for this session"
 msgstr "在此工作階段不要再詢問(_D)"
 
-#: ../src/main_window.c:3464
+#: ../src/main_window.c:3481
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -529,7 +556,7 @@ msgid ""
 "%s"
 msgstr "從磁碟刪除「%s」影像時遭遇錯誤。\n\n%s"
 
-#: ../src/main_window.c:3468
+#: ../src/main_window.c:3485
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -537,84 +564,84 @@ msgid ""
 "%s"
 msgstr "將「%s」影像傳送至垃圾桶時遭遇錯誤。\n\n%s"
 
-#: ../src/main_window.c:3804
+#: ../src/main_window.c:3821
 msgid "Edit with"
 msgstr "以此編輯："
 
-#: ../src/main_window.c:3822
+#: ../src/main_window.c:3839
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "以此開啟 %s 與 %s 類型的其他檔案："
 
-#: ../src/main_window.c:3827
+#: ../src/main_window.c:3844
 msgid "Use as _default for this kind of file"
 msgstr "作為這類型檔案的預設值(_D)"
 
-#: ../src/main_window.c:3917
+#: ../src/main_window.c:3934
 msgid "Recommended Applications"
 msgstr "建議的應用程式"
 
-#: ../src/main_window.c:3997
+#: ../src/main_window.c:4014
 msgid "Other Applications"
 msgstr "其他應用程式"
 
-#: ../src/icon_bar.c:345
+#: ../src/icon_bar.c:344
 msgid "Orientation"
 msgstr "方向"
 
-#: ../src/icon_bar.c:346
+#: ../src/icon_bar.c:345
 msgid "The orientation of the iconbar"
 msgstr "圖示列的方向"
 
-#: ../src/icon_bar.c:362
+#: ../src/icon_bar.c:361
 msgid "File column"
 msgstr "檔案欄"
 
-#: ../src/icon_bar.c:363
+#: ../src/icon_bar.c:362
 msgid "Model column used to retrieve the file from"
 msgstr "用來從何處擷取檔案的模型欄"
 
-#: ../src/icon_bar.c:375
+#: ../src/icon_bar.c:374
 msgid "Icon Bar Model"
 msgstr "圖示列模型"
 
-#: ../src/icon_bar.c:376
+#: ../src/icon_bar.c:375
 msgid "Model for the icon bar"
 msgstr "圖示列的模型"
 
-#: ../src/icon_bar.c:392
+#: ../src/icon_bar.c:391
 msgid "Active"
 msgstr "使用中"
 
-#: ../src/icon_bar.c:393
+#: ../src/icon_bar.c:392
 msgid "Active item index"
 msgstr "使用中項目索引"
 
-#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+#: ../src/icon_bar.c:408 ../src/icon_bar.c:409
 msgid "Show Text"
 msgstr "顯示文字"
 
-#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+#: ../src/icon_bar.c:415 ../src/icon_bar.c:416
 msgid "Active item fill color"
 msgstr "使用中項目填充色彩"
 
-#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+#: ../src/icon_bar.c:422 ../src/icon_bar.c:423
 msgid "Active item border color"
 msgstr "使用中項目邊緣色彩"
 
-#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+#: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item text color"
 msgstr "使用中項目文字色彩"
 
-#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+#: ../src/icon_bar.c:436 ../src/icon_bar.c:437
 msgid "Cursor item fill color"
 msgstr "游標項目填充色彩"
 
-#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+#: ../src/icon_bar.c:443 ../src/icon_bar.c:444
 msgid "Cursor item border color"
 msgstr "游標項目邊緣色彩"
 
-#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+#: ../src/icon_bar.c:450 ../src/icon_bar.c:451
 msgid "Cursor item text color"
 msgstr "游標項目文字色彩"
 
@@ -645,6 +672,11 @@ msgstr "今天"
 #: ../src/privacy_dialog.c:162
 msgid "Everything"
 msgstr "每個"
+
+#: ../src/privacy_dialog.c:183 ../src/xfce_wallpaper_manager.c:410
+#: ../src/gnome_wallpaper_manager.c:251
+msgid "_Apply"
+msgstr "套用(_A)"
 
 #: ../src/privacy_dialog.c:460
 msgid "Clear private data"
@@ -815,47 +847,47 @@ msgstr "無法聯絡縮圖製作器服務，\n基於這個原因，縮圖無法\
 msgid "Do _not show this message again"
 msgstr "不要再顯示此訊息(_N)"
 
-#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:380 ../src/gnome_wallpaper_manager.c:235
 msgid "Style:"
 msgstr "樣式："
 
-#: ../src/xfce_wallpaper_manager.c:380
+#: ../src/xfce_wallpaper_manager.c:381
 msgid "Brightness:"
 msgstr "亮度："
 
-#: ../src/xfce_wallpaper_manager.c:381
+#: ../src/xfce_wallpaper_manager.c:382
 msgid "Saturation:"
 msgstr "飽和度："
 
-#: ../src/xfce_wallpaper_manager.c:397
+#: ../src/xfce_wallpaper_manager.c:398
 msgid "Apply to all workspaces"
 msgstr "套用到所有工作空間"
 
-#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:405 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
 msgstr "設定為桌布"
 
-#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:558 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
 msgstr "自動"
 
-#: ../src/xfce_wallpaper_manager.c:560
+#: ../src/xfce_wallpaper_manager.c:561
 msgid "Centered"
 msgstr "置中"
 
-#: ../src/xfce_wallpaper_manager.c:563
+#: ../src/xfce_wallpaper_manager.c:564
 msgid "Tiled"
 msgstr "鋪排"
 
-#: ../src/xfce_wallpaper_manager.c:566
+#: ../src/xfce_wallpaper_manager.c:567
 msgid "Stretched"
 msgstr "延展"
 
-#: ../src/xfce_wallpaper_manager.c:569
+#: ../src/xfce_wallpaper_manager.c:570
 msgid "Scaled"
 msgstr "縮放"
 
-#: ../src/xfce_wallpaper_manager.c:572
+#: ../src/xfce_wallpaper_manager.c:573
 msgid "Zoomed"
 msgstr "拉近"
 
