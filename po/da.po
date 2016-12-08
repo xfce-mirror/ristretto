@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2016-10-07 18:30+0200\n"
-"PO-Revision-Date: 2016-12-08 05:24+0000\n"
+"PO-Revision-Date: 2016-12-08 07:57+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -467,7 +467,7 @@ msgstr "_OK"
 #: ../src/privacy_dialog.c:182 ../src/xfce_wallpaper_manager.c:408
 #: ../src/gnome_wallpaper_manager.c:249
 msgid "_Cancel"
-msgstr ""
+msgstr "_Annullér"
 
 #: ../src/main_window.c:2162 ../src/preferences_dialog.c:464
 msgid ""
@@ -859,7 +859,7 @@ msgstr "Mætning:"
 
 #: ../src/xfce_wallpaper_manager.c:398
 msgid "Apply to all workspaces"
-msgstr ""
+msgstr "Anvend på alle arbejdsområder"
 
 #: ../src/xfce_wallpaper_manager.c:405 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
