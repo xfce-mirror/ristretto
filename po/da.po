@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2016-10-07 18:30+0200\n"
-"PO-Revision-Date: 2016-12-08 07:57+0000\n"
+"PO-Revision-Date: 2016-12-08 22:51+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -177,7 +177,7 @@ msgstr "Forlad fuldskærm"
 #. Icon-name
 #: ../src/main_window.c:455
 msgid "Set as _Wallpaper..."
-msgstr "_Brug som skrivebordsbaggrund..."
+msgstr "_Brug som skrivebordstapet..."
 
 #: ../src/main_window.c:462
 msgid "_Zoom"
@@ -455,7 +455,7 @@ msgstr "Indlæser..."
 
 #: ../src/main_window.c:2147
 msgid "Choose 'set wallpaper' method"
-msgstr "Vælg \"sæt tapetmetode\""
+msgstr "Vælg \"sæt skrivebordstapet\"-metode"
 
 #: ../src/main_window.c:2150 ../src/main_window.c:3826
 #: ../src/xfce_wallpaper_manager.c:412 ../src/gnome_wallpaper_manager.c:253
@@ -863,7 +863,7 @@ msgstr "Anvend på alle arbejdsområder"
 
 #: ../src/xfce_wallpaper_manager.c:405 ../src/gnome_wallpaper_manager.c:246
 msgid "Set as wallpaper"
-msgstr "Brug som skrivebordsbaggrund"
+msgstr "Brug som skrivebordstapet"
 
 #: ../src/xfce_wallpaper_manager.c:558 ../src/gnome_wallpaper_manager.c:313
 msgid "Auto"
@@ -903,20 +903,20 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Ristretto billedfremviser er et program som kan bruges til at vise og gennemse billeder, køre et diasshow af billeder, åbne billeder med andre programmer såsom et billedredigeringsprogram eller konfigurere et billede som et skrivebordstapet."
 
 #: ../ristretto.appdata.xml.in.h:3
 msgid ""
 "This version comes with the improvements such as thumbnail usage as appicon "
 "and update to the first image in the image-list when receiving a ready-"
 "signal, required to show the thumbnail once it's generated."
-msgstr ""
+msgstr "Denne version kommer med forbedringer såsom anvendelse af miniature som programikon og opdatering til det første billede i billedlisten ved modtagelse af klar-signal, krævet til at vise miniature når den er genereret."
 
 #: ../ristretto.appdata.xml.in.h:4
 msgid ""
 "This release contains lots of translation-updates, and a crash when "
 "configuring the 'limit-quality' property."
-msgstr ""
+msgstr "Denne udgivelse indholder massere af opdateringer til oversættelser og retter et nedbrud ved konfigurering af egenskaben 'limit-quality'."
 
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
@@ -930,4 +930,4 @@ msgid ""
 "statusbar to indicate when it is busy and progressive loading of directories"
 " to prevent lockup of the UI. This version is designed to work with version "
 "4.10 of Xfce."
-msgstr ""
+msgstr "Denne version kommer med adskillige ændringer såsom online-dokumentation på docs.xfce.org, mulighed for at begrænse den maksimale billedkvalitet til skærmdimensionerne for at forbedre hukommelsesforbruget og ydelsen - nu gengiver ristretto i fuld kvalitet hvis denne valgmulighed er deaktiveret,  kun én værktøjslinje - i stedet for to, en hurtig-start-knap på værktøjslinjen til at eksekvere et redigeringsprogram, mulighed for at vælge et standardredigeringsprogram efter mime-type, et valgfrit ur der vises når ristretto er i fuldskærm, Ristretto viser nu en 'Indlæser..'-meddelelse på statuslinjen for at indikere når den er optages og løbende indlæser mapper for at forhindre fastfrysning af brugerfladen. Denne version er designet til at virke med version 4.10 af Xfce."
