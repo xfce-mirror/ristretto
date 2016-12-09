@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2016-10-07 18:30+0200\n"
-"PO-Revision-Date: 2016-12-08 22:51+0000\n"
+"PO-Revision-Date: 2016-12-09 04:46+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -564,7 +564,7 @@ msgstr "Der opstod en fejl under overførsel af billede '%s' til papirkurven.\n\
 
 #: ../src/main_window.c:3821
 msgid "Edit with"
-msgstr "Redigér med "
+msgstr "Redigér med"
 
 #: ../src/main_window.c:3839
 #, c-format
