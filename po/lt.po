@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2016-10-07 18:30+0200\n"
-"PO-Revision-Date: 2016-10-11 17:48+0000\n"
+"PO-Revision-Date: 2016-12-12 23:37+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +117,7 @@ msgstr "I_šeiti"
 #. Keyboard shortcut
 #: ../src/main_window.c:403
 msgid "Quit Ristretto"
-msgstr "Išeiti Ristretto"
+msgstr "Išeiti iš Ristretto"
 
 #: ../src/main_window.c:412
 msgid "_Open with"
