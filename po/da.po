@@ -4,13 +4,13 @@
 # 
 # Translators:
 # Per Kongstad <p_kongstad@op.pl>, 2008-2009
-# scootergrisen, 2016
+# scootergrisen, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2016-10-07 18:30+0200\n"
-"PO-Revision-Date: 2016-12-09 04:46+0000\n"
+"PO-Revision-Date: 2017-01-14 11:02+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s: %s\nPrøv %s --help for at se en fuld liste over tilgængelige kommandolinjetilvalg.\n"
+msgstr "%s: %s\n\nPrøv %s --help for at se en fuld liste over tilgængelige kommandolinjetilvalg.\n"
 
 #: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
@@ -585,7 +585,7 @@ msgstr "Andre programmer"
 
 #: ../src/icon_bar.c:344
 msgid "Orientation"
-msgstr "_Orientering"
+msgstr "Orientering"
 
 #: ../src/icon_bar.c:345
 msgid "The orientation of the iconbar"
