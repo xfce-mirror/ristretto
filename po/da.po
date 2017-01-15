@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2016-10-07 18:30+0200\n"
-"PO-Revision-Date: 2017-01-14 11:02+0000\n"
+"PO-Revision-Date: 2017-01-15 20:23+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -637,7 +637,7 @@ msgstr "Udfyldningsfarve for markør"
 
 #: ../src/icon_bar.c:443 ../src/icon_bar.c:444
 msgid "Cursor item border color"
-msgstr "Kantfarve  for markør"
+msgstr "Kantfarve for markør"
 
 #: ../src/icon_bar.c:450 ../src/icon_bar.c:451
 msgid "Cursor item text color"
