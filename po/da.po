@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2016-10-07 18:30+0200\n"
-"PO-Revision-Date: 2017-01-19 09:56+0000\n"
+"PO-Revision-Date: 2017-01-20 13:22+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -569,7 +569,7 @@ msgstr "Redigér med"
 #: ../src/main_window.c:3839
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr "Åbn  %s og andre filer af typen %s med:"
+msgstr "Åbn %s og andre filer af typen %s med:"
 
 #: ../src/main_window.c:3844
 msgid "Use as _default for this kind of file"
@@ -717,7 +717,7 @@ msgstr "Miniaturer"
 #: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Miniaturebjælken kan skjules automatisk \nnår billedviseren er i fuldskærmtilstand."
+msgstr "Miniaturebjælken kan skjules automatisk når billedviseren er i fuldskærmtilstand."
 
 #: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
@@ -731,7 +731,7 @@ msgstr "Ur"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Miniaturebjælken kan skjules automatisk \nnår billedviseren er i fuldskærmtilstand"
+msgstr "Miniaturebjælken kan skjules automatisk når billedviseren er i fuldskærmtilstand"
 
 #: ../src/preferences_dialog.c:358
 msgid "Show Fullscreen Clock"
@@ -839,7 +839,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "Thumbnailer-tjenesten kan ikke kontaktes,\nog derfor kan ikonbilleder ikke  blive \ndannet.\n\nInstaller <b>Tumbler</b> eller en anden <i>thumbnailing tjeneste</i>\nfor at løse dette."
+msgstr "Thumbnailer-tjenesten kan ikke kontaktes,\nog derfor kan miniaturer ikke blive\noprettet.\n\nInstaller <b>Tumbler</b> eller en anden <i>thumbnailing tjeneste</i>\nfor at løse dette."
 
 #: ../src/thumbnailer.c:477
 msgid "Do _not show this message again"
@@ -930,4 +930,4 @@ msgid ""
 "statusbar to indicate when it is busy and progressive loading of directories"
 " to prevent lockup of the UI. This version is designed to work with version "
 "4.10 of Xfce."
-msgstr "Denne version kommer med adskillige ændringer såsom online-dokumentation på docs.xfce.org, mulighed for at begrænse den maksimale billedkvalitet til skærmdimensionerne for at forbedre hukommelsesforbruget og ydelsen - nu gengiver ristretto i fuld kvalitet hvis denne valgmulighed er deaktiveret,  kun én værktøjslinje - i stedet for to, en hurtig-start-knap på værktøjslinjen til at eksekvere et redigeringsprogram, mulighed for at vælge et standardredigeringsprogram efter mime-type, et valgfrit ur der vises når ristretto er i fuldskærm, Ristretto viser nu en 'Indlæser..'-meddelelse på statuslinjen for at indikere når den er optages og løbende indlæser mapper for at forhindre fastfrysning af brugerfladen. Denne version er designet til at virke med version 4.10 af Xfce."
+msgstr "Denne version kommer med adskillige ændringer såsom online-dokumentation på docs.xfce.org, mulighed for at begrænse den maksimale billedkvalitet til skærmdimensionerne for at forbedre hukommelsesforbruget og ydelsen - nu gengiver ristretto i fuld kvalitet hvis denne valgmulighed er deaktiveret, kun én værktøjslinje - i stedet for to, en hurtig-start-knap på værktøjslinjen til at eksekvere et redigeringsprogram, mulighed for at vælge et standardredigeringsprogram efter mime-type, et valgfrit ur der vises når ristretto er i fuldskærm, Ristretto viser nu en 'Indlæser..'-meddelelse på statuslinjen for at indikere når den er optages og løbende indlæser mapper for at forhindre fastfrysning af brugerfladen. Denne version er designet til at virke med version 4.10 af Xfce."
