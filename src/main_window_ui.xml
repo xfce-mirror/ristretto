@@ -59,6 +59,10 @@
                 <menuitem action="rotate-cw"/>
                 <menuitem action="rotate-ccw"/>
             </menu>
+            <menu action="flip-menu">
+                <menuitem action="flip-horizontally"/>
+                <menuitem action="flip-vertically"/>
+            </menu>
             <separator/>
             <menuitem action="fullscreen"/>
             <menuitem action="set-as-wallpaper"/>

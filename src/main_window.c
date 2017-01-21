@@ -205,6 +205,11 @@ static void
 cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window);
 
 static void
+cb_rstto_main_window_flip_hz (GtkWidget *widget, RsttoMainWindow *window);
+static void
+cb_rstto_main_window_flip_vt (GtkWidget *widget, RsttoMainWindow *window);
+
+static void
 cb_rstto_main_window_next_image (GtkWidget *widget, RsttoMainWindow *window);
 static void
 cb_rstto_main_window_previous_image (GtkWidget *widget, RsttoMainWindow *window);
@@ -500,6 +505,23 @@ static GtkActionEntry action_entries[] =
             "<control>bracketleft", /* Keyboard shortcut */
             NULL, /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_rotate_ccw), },
+/* Flip submenu */
+  { "flip-menu",
+            NULL,
+            N_ ("_Flip"),
+            NULL, },
+  { "flip-horizontally",
+            "object-flip-horizontal",
+            N_ ("Flip _Horizontally"), /* Label-text */
+            "<control>braceright", /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_flip_hz), },
+  { "flip-vertically",
+            "object-flip-vertical",
+            N_ ("Flip _Vertically"), /* Label-text */
+            "<control>braceleft", /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_flip_vt), },
 /* Go Menu */
   { "go-menu",
             NULL,
@@ -2817,6 +2839,18 @@ cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window)
         case RSTTO_IMAGE_ORIENT_270:
             rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_NONE);
             break;
+        case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_VERTICAL);
+            break;
     }
     rstto_main_window_update_statusbar(window);
 }
@@ -2846,6 +2880,106 @@ cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window)
             break;
         case RSTTO_IMAGE_ORIENT_270:
             rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_180);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_VERTICAL);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL);
+            break;
+    }
+    rstto_main_window_update_statusbar(window);
+}
+
+/**********************/
+/* FLIP CALLBACKS */
+/**********************/
+
+/**
+ * cb_rstto_main_window_flip_hz:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_flip_hz (GtkWidget *widget, RsttoMainWindow *window)
+{
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER(window->priv->image_viewer);
+    switch (rstto_image_viewer_get_orientation (viewer))
+    {
+        default:
+        case RSTTO_IMAGE_ORIENT_NONE:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL);
+            break;
+        case RSTTO_IMAGE_ORIENT_90:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE);
+            break;
+        case RSTTO_IMAGE_ORIENT_180:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_VERTICAL);
+            break;
+        case RSTTO_IMAGE_ORIENT_270:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_NONE);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_180);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_90);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_270);
+            break;
+    }
+    rstto_main_window_update_statusbar(window);
+}
+
+/**
+ * cb_rstto_main_window_flip_vt:
+ * @widget:
+ * @window:
+ *
+ *
+ */
+static void
+cb_rstto_main_window_flip_vt (GtkWidget *widget, RsttoMainWindow *window)
+{
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER(window->priv->image_viewer);
+    switch (rstto_image_viewer_get_orientation (viewer))
+    {
+        default:
+        case RSTTO_IMAGE_ORIENT_NONE:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_VERTICAL);
+            break;
+        case RSTTO_IMAGE_ORIENT_90:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE);
+            break;
+        case RSTTO_IMAGE_ORIENT_180:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL);
+            break;
+        case RSTTO_IMAGE_ORIENT_270:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_180);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_NONE);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_270);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
+            rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_90);
             break;
     }
     rstto_main_window_update_statusbar(window);
