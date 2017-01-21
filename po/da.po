@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2016-10-07 18:30+0200\n"
-"PO-Revision-Date: 2017-01-20 13:22+0000\n"
+"PO-Revision-Date: 2017-01-21 17:08+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -474,7 +474,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Indstil hvilket system der håndterer aktivt dit skrivebordsmiljø.\nDenne indstilling bestemmer metoden <i>Ristretto</i> vil bruge\ntil at indstille skrivebordstapetet."
+msgstr "Indstil hvilket system der på nuværende tidspunkt håndterer dit skrivebord.\nDenne indstilling bestemmer den metode <i>Ristretto</i> vil bruge\ntil at indstille skrivebordstapetet."
 
 #: ../src/main_window.c:2187 ../src/preferences_dialog.c:488
 msgid "None"
@@ -613,7 +613,7 @@ msgstr "Aktive"
 
 #: ../src/icon_bar.c:392
 msgid "Active item index"
-msgstr "Aktivt elementindeks"
+msgstr "Indeks for aktive element"
 
 #: ../src/icon_bar.c:408 ../src/icon_bar.c:409
 msgid "Show Text"
@@ -621,11 +621,11 @@ msgstr "Vis tekst"
 
 #: ../src/icon_bar.c:415 ../src/icon_bar.c:416
 msgid "Active item fill color"
-msgstr "Aktiv elementfarve til udfyldning"
+msgstr "Fyldfarve for aktive element"
 
 #: ../src/icon_bar.c:422 ../src/icon_bar.c:423
 msgid "Active item border color"
-msgstr "Aktiv elementkantfarve"
+msgstr "Kantfarve for aktive element"
 
 #: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item text color"
