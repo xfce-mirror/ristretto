@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2016-10-07 18:30+0200\n"
-"PO-Revision-Date: 2017-01-21 17:08+0000\n"
+"PO-Revision-Date: 2017-01-21 18:37+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -377,11 +377,11 @@ msgstr "Højre"
 
 #: ../src/main_window.c:650
 msgid "Top"
-msgstr "Top"
+msgstr "Øverst"
 
 #: ../src/main_window.c:656
 msgid "Bottom"
-msgstr "Bund"
+msgstr "Nederst"
 
 #: ../src/main_window.c:667
 msgid "Very Small"
@@ -589,7 +589,7 @@ msgstr "Orientering"
 
 #: ../src/icon_bar.c:345
 msgid "The orientation of the iconbar"
-msgstr "Orientering af ikonbjælken"
+msgstr "Orienteringen af ikonbjælken"
 
 #: ../src/icon_bar.c:361
 msgid "File column"
@@ -633,15 +633,15 @@ msgstr "Tekstfarve for aktive element"
 
 #: ../src/icon_bar.c:436 ../src/icon_bar.c:437
 msgid "Cursor item fill color"
-msgstr "Udfyldningsfarve for markør"
+msgstr "Udfyldningsfarve for markørelement"
 
 #: ../src/icon_bar.c:443 ../src/icon_bar.c:444
 msgid "Cursor item border color"
-msgstr "Kantfarve for markør"
+msgstr "Kantfarve for markørelement"
 
 #: ../src/icon_bar.c:450 ../src/icon_bar.c:451
 msgid "Cursor item text color"
-msgstr "Tekstfarve for markør"
+msgstr "Tekstfarve for markørelement"
 
 #: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
@@ -649,7 +649,7 @@ msgstr "Tidsinterval der skal ryddes:"
 
 #: ../src/privacy_dialog.c:156
 msgid "Cleanup"
-msgstr "Ryd op"
+msgstr "Oprydning"
 
 #: ../src/privacy_dialog.c:158
 msgid "Last Hour"
@@ -773,7 +773,7 @@ msgstr "Opstart"
 
 #: ../src/preferences_dialog.c:428
 msgid "Maximize window on startup when opening an image"
-msgstr "Maksimér vindue ved opstart når et billede åbnes"
+msgstr "Maksimer vindue ved opstart når et billede åbnes"
 
 #: ../src/preferences_dialog.c:434
 msgid "Wrap around images"
@@ -879,7 +879,7 @@ msgstr "Fliselagt"
 
 #: ../src/xfce_wallpaper_manager.c:567
 msgid "Stretched"
-msgstr "Udstrukket"
+msgstr "Strukket"
 
 #: ../src/xfce_wallpaper_manager.c:570
 msgid "Scaled"
@@ -887,7 +887,7 @@ msgstr "Skaleret"
 
 #: ../src/xfce_wallpaper_manager.c:573
 msgid "Zoomed"
-msgstr "Forstørret"
+msgstr "Zoomet"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
