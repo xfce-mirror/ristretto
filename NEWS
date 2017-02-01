@@ -1,3 +1,19 @@
+0.8.2
+=====
+- Implement sorting by file type (Bug #12749)
+- Detect image type by its mime type instead of file extension
+  (ligmagic is used) (Bugs #11680, 12499)
+- Allow images to be flipped vertically and horizontally (Bug #13313)
+- Fix memory leaks
+
+* Translation updates:
+  Catalan (ca), Czech (cs), Danish (da), Deutsch (de), English (Australia)
+  (en_AU), Spanish (es), French (fr), Hebrew (he), Croatian (hr), Italian (it),
+  Japanese (ja), Kazakh (kk), Korean (ko), Lithuanian (lt), Malay (ms),
+  Norwegian Bokmål (nb), Polish (pl), Portuguese (pt), Portuguese (Brazilian)
+  (pt_BR), Russian (ru), Slovak (sk), Swedish (sv), Ukrainian (uk), Chinese
+  (China) (zh_CN), Chinese (Taiwan) (zh_TW).
+
 0.8.1
 =====
 - Prepare for gtk3 migration: Do not include individual headers;
