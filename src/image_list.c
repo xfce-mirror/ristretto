@@ -836,11 +836,14 @@ rstto_image_list_monitor_dir (
                 NULL,
                 NULL);
 
-        g_signal_connect (
-                G_OBJECT(monitor),
-                "changed",
-                G_CALLBACK (cb_file_monitor_changed),
-                image_list);
+        if ( monitor != NULL )
+        {
+            g_signal_connect (
+                    G_OBJECT (monitor),
+                    "changed",
+                    G_CALLBACK (cb_file_monitor_changed),
+                    image_list);
+        }
     }
 
     if (image_list->priv->image_monitors)
