@@ -404,21 +404,18 @@ rstto_file_get_content_type ( RsttoFile *r_file )
     {
 #if HAVE_MAGIC_H
         magic_t magic = magic_open (MAGIC_MIME_TYPE);
-        if ( magic != NULL )
+        if ( NULL != magic )
         {
-            if ( magic_load (magic, NULL) == 0 )
+            file_path = rstto_file_get_path (r_file);
+            if ( NULL != file_path && magic_load (magic, NULL) == 0 )
             {
-                file_path = rstto_file_get_path (r_file);
-                if ( file_path != NULL )
+                content_type = magic_file (magic, file_path);
+                if ( NULL != content_type )
                 {
-                    content_type = magic_file (magic, file_path);
-                    if ( NULL != content_type )
-                    {
-                        r_file->priv->content_type = g_strdup (content_type);
-                    }
+                    r_file->priv->content_type = g_strdup (content_type);
                 }
             }
-            magic_close(magic);
+            magic_close (magic);
         }
 #endif
 
