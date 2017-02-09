@@ -559,9 +559,6 @@ rstto_image_viewer_realize(GtkWidget *widget)
     }
 
     viewer->priv->bg_color_fs = g_value_get_boxed (&val_bg_color_fs);
-
-    g_value_unset (&val_bg_color);
-    g_value_unset (&val_bg_color_fs);
 }
 
 /**
