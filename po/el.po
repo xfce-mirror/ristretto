@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-03-11 22:03+0000\n"
+"PO-Revision-Date: 2017-04-30 07:59+0000\n"
 "Last-Translator: Apóstolos Papaðimitríu <apostolos.papadimitriu@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/xfce/xfce-apps/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -247,15 +247,15 @@ msgstr "Αρ_ιστερή περιστροφή"
 
 #: ../src/main_window.c:511
 msgid "_Flip"
-msgstr ""
+msgstr "_Αναστροφή"
 
 #: ../src/main_window.c:515
 msgid "Flip _Horizontally"
-msgstr ""
+msgstr "Αναστροφή _Οριζοντίως"
 
 #: ../src/main_window.c:521
 msgid "Flip _Vertically"
-msgstr ""
+msgstr "Αναστροφή _Καθέτως"
 
 #: ../src/main_window.c:528
 msgid "_Go"
