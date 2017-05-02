@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Саша Петровић <salepetronije@gmail.com>, 2012
-# Саша Петровић <salepetronije@gmail.com>, 2012,2015
+# Саша Петровић <salepetronije@gmail.com>, 2012,2015,2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2015-01-25 12:30+0100\n"
-"PO-Revision-Date: 2015-02-06 23:12+0000\n"
+"POT-Creation-Date: 2017-01-26 18:30+0100\n"
+"PO-Revision-Date: 2017-05-02 19:01+0000\n"
 "Last-Translator: Саша Петровић <salepetronije@gmail.com>\n"
-"Language-Team: Serbian (http://www.transifex.com/projects/p/xfce-apps/language/sr/)\n"
+"Language-Team: Serbian (http://www.transifex.com/xfce/xfce-apps/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -44,474 +44,521 @@ msgid ""
 "available command line options.\n"
 msgstr "%s: %s\n\nПокушајте „%s --help“ да видите списак\nдоступних могућности линије наредби.\n"
 
-#: ../src/main_window.c:57 ../ristretto.desktop.in.h:3
+#: ../src/main_window.c:55 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
 msgstr "Прегледач слика"
 
-#: ../src/main_window.c:365
+#: ../src/main_window.c:370
 msgid "_File"
 msgstr "_Датотека"
 
 #. Icon-name
-#: ../src/main_window.c:369
+#: ../src/main_window.c:374
 msgid "_Open..."
 msgstr "_Отвори..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:371
+#: ../src/main_window.c:376
 msgid "Open an image"
 msgstr "Отвори слику"
 
 #. Icon-name
-#: ../src/main_window.c:375
+#: ../src/main_window.c:380
 msgid "_Save copy..."
 msgstr "_Сачувај умножак..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:377
+#: ../src/main_window.c:382
 msgid "Save a copy of the image"
 msgstr "Сачувај умножак слике"
 
 #. Icon-name
-#: ../src/main_window.c:381
+#: ../src/main_window.c:386
 msgid "_Properties..."
 msgstr "_Својства..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:383
+#: ../src/main_window.c:388
 msgid "Show file properties"
 msgstr "Прикажи својства датотеке"
 
 #. Icon-name
-#: ../src/main_window.c:387 ../src/main_window.c:406
+#: ../src/main_window.c:392 ../src/main_window.c:411
 msgid "_Edit"
 msgstr "_Уреди"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:389
+#: ../src/main_window.c:394
 msgid "Edit this image"
 msgstr "Уреди ову слику"
 
 #. Icon-name
-#: ../src/main_window.c:393
+#: ../src/main_window.c:398 ../src/preferences_dialog.c:541
+#: ../src/properties_dialog.c:325
 msgid "_Close"
 msgstr "_Затвори"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:395
+#: ../src/main_window.c:400
 msgid "Close this image"
 msgstr "Затвори ову слику"
 
 #. Icon-name
-#: ../src/main_window.c:399
+#: ../src/main_window.c:404
 msgid "_Quit"
 msgstr "_Напусти"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:401
+#: ../src/main_window.c:406
 msgid "Quit Ristretto"
 msgstr "Напусти Ристрето"
 
-#: ../src/main_window.c:410
+#: ../src/main_window.c:415
 msgid "_Open with"
 msgstr "_Отвори помоћу"
 
-#: ../src/main_window.c:414
+#: ../src/main_window.c:419
 msgid "_Sorting"
 msgstr "_Распоред"
 
 #. Icon-name
-#: ../src/main_window.c:418
+#: ../src/main_window.c:423
 msgid "_Delete"
 msgstr "_Обриши"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:420
+#: ../src/main_window.c:425
 msgid "Delete this image from disk"
 msgstr "Обриши ову слику са диска"
 
 #. Icon-name
-#: ../src/main_window.c:424
+#: ../src/main_window.c:429
 msgid "_Clear private data..."
 msgstr "_Очисти личне податке..."
 
 #. Icon-name
-#: ../src/main_window.c:430
+#: ../src/main_window.c:435
 msgid "_Preferences..."
 msgstr "_Поставке..."
 
-#: ../src/main_window.c:437
+#: ../src/main_window.c:442
 msgid "_View"
 msgstr "_Преглед"
 
 #. Icon-name
-#: ../src/main_window.c:441
+#: ../src/main_window.c:446
 msgid "_Fullscreen"
 msgstr "_Преко целог екана"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:443
+#: ../src/main_window.c:448
 msgid "Switch to fullscreen"
 msgstr "Пребаци на цео екран"
 
 #. Icon-name
-#: ../src/main_window.c:447
+#: ../src/main_window.c:452
 msgid "_Leave Fullscreen"
 msgstr "_Напусти цео екран"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:449
+#: ../src/main_window.c:454
 msgid "Leave Fullscreen"
 msgstr "Напусти цео екран"
 
 #. Icon-name
-#: ../src/main_window.c:453
+#: ../src/main_window.c:458
 msgid "Set as _Wallpaper..."
 msgstr "Постави као _позадину..."
 
-#: ../src/main_window.c:460
+#: ../src/main_window.c:465
 msgid "_Zoom"
 msgstr "_Увећање"
 
 #. Icon-name
-#: ../src/main_window.c:464
+#: ../src/main_window.c:469
 msgid "Zoom _In"
 msgstr "У_већај"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:466
+#: ../src/main_window.c:471
 msgid "Zoom in"
 msgstr "Увећај"
 
 #. Icon-name
-#: ../src/main_window.c:470
+#: ../src/main_window.c:475
 msgid "Zoom _Out"
 msgstr "У_мањи"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:472
+#: ../src/main_window.c:477
 msgid "Zoom out"
 msgstr "Умањи"
 
 #. Icon-name
-#: ../src/main_window.c:476
+#: ../src/main_window.c:481
 msgid "Zoom _Fit"
 msgstr "Увећај до _попуне"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:478
+#: ../src/main_window.c:483
 msgid "Zoom to fit window"
 msgstr "Увећај ради уклапања на величину прозора"
 
 #. Icon-name
-#: ../src/main_window.c:482
+#: ../src/main_window.c:487
 msgid "_Normal Size"
 msgstr "_Уобичајена величина"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:484
+#: ../src/main_window.c:489
 msgid "Zoom to 100%"
 msgstr "Увећај 100%"
 
-#: ../src/main_window.c:489
+#: ../src/main_window.c:494
 msgid "_Rotation"
 msgstr "_Обртање"
 
 #. Icon-name
-#: ../src/main_window.c:493
+#: ../src/main_window.c:498
 msgid "Rotate _Right"
 msgstr "Обрни _десно"
 
 #. Icon-name
-#: ../src/main_window.c:499
+#: ../src/main_window.c:504
 msgid "Rotate _Left"
 msgstr "Обрни _лево"
 
-#: ../src/main_window.c:506
+#: ../src/main_window.c:511
+msgid "_Flip"
+msgstr "_Преокрени"
+
+#: ../src/main_window.c:515
+msgid "Flip _Horizontally"
+msgstr "Преокрени _водоравно"
+
+#: ../src/main_window.c:521
+msgid "Flip _Vertically"
+msgstr "Преокрени _усправно"
+
+#: ../src/main_window.c:528
 msgid "_Go"
 msgstr "_Иди"
 
 #. Icon-name
-#: ../src/main_window.c:510
+#: ../src/main_window.c:532
 msgid "_Forward"
 msgstr "_Напред"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:512
+#: ../src/main_window.c:534
 msgid "Next image"
 msgstr "Следећа слика"
 
 #. Icon-name
-#: ../src/main_window.c:516
+#: ../src/main_window.c:538
 msgid "_Back"
 msgstr "_Назад"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:518
+#: ../src/main_window.c:540
 msgid "Previous image"
 msgstr "Претходна слика"
 
 #. Icon-name
-#: ../src/main_window.c:522
+#: ../src/main_window.c:544
 msgid "F_irst"
 msgstr "П_рва"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:524
+#: ../src/main_window.c:546
 msgid "First image"
 msgstr "Прва слика"
 
 #. Icon-name
-#: ../src/main_window.c:528
+#: ../src/main_window.c:550
 msgid "_Last"
 msgstr "_Последња"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:530
+#: ../src/main_window.c:552
 msgid "Last image"
 msgstr "Последња слика"
 
-#: ../src/main_window.c:535
+#: ../src/main_window.c:557
 msgid "_Help"
 msgstr "По_моћ"
 
 #. Icon-name
-#: ../src/main_window.c:539
+#: ../src/main_window.c:561
 msgid "_Contents"
 msgstr "_Садржај"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:541
+#: ../src/main_window.c:563
 msgid "Display ristretto user manual"
 msgstr "Прикажи корисничко упутство Ристрета"
 
 #. Icon-name
-#: ../src/main_window.c:545
+#: ../src/main_window.c:567
 msgid "_About"
 msgstr "_О програму"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:547
+#: ../src/main_window.c:569
 msgid "Display information about ristretto"
 msgstr "Прикажи податке о Ристрету"
 
-#: ../src/main_window.c:552
+#: ../src/main_window.c:574
 msgid "_Position"
 msgstr "_Положај"
 
-#: ../src/main_window.c:556
+#: ../src/main_window.c:578
 msgid "_Size"
 msgstr "_Величина"
 
-#: ../src/main_window.c:560
+#: ../src/main_window.c:582
 msgid "Thumbnail Bar _Position"
 msgstr "Положај _траке умањених сличица"
 
-#: ../src/main_window.c:564
+#: ../src/main_window.c:586
 msgid "Thumb_nail Size"
 msgstr "Величина умањене _сличице"
 
 #. Icon-name
-#: ../src/main_window.c:569
+#: ../src/main_window.c:591
 msgid "Leave _Fullscreen"
 msgstr "Напусти _цео екран"
 
 #. Icon-name
-#: ../src/main_window.c:585
+#: ../src/main_window.c:607
 msgid "_Show Toolbar"
 msgstr "Приказуј траку _алата"
 
 #. Icon-name
-#: ../src/main_window.c:593
+#: ../src/main_window.c:615
 msgid "Show _Thumbnail Bar"
 msgstr "Приказуј траку умањених _сличица"
 
 #. Icon-name
-#: ../src/main_window.c:601
+#: ../src/main_window.c:623
 msgid "Show Status _Bar"
 msgstr "Приказуј траку _стања"
 
 #. Icon-name
-#: ../src/main_window.c:614
+#: ../src/main_window.c:635
 msgid "sort by filename"
 msgstr "поређај по називу"
 
 #. Icon-name
-#: ../src/main_window.c:621
+#: ../src/main_window.c:641
+msgid "sort by filetype"
+msgstr "поређај по врсти датотеке"
+
+#. Icon-name
+#: ../src/main_window.c:647
 msgid "sort by date"
 msgstr "поређај по времену"
 
 #. Icon-name
-#: ../src/main_window.c:632
+#: ../src/main_window.c:658
 msgid "Left"
 msgstr "Лево"
 
-#: ../src/main_window.c:638
+#: ../src/main_window.c:664
 msgid "Right"
 msgstr "Десно"
 
-#: ../src/main_window.c:644
+#: ../src/main_window.c:670
 msgid "Top"
 msgstr "Горе"
 
-#: ../src/main_window.c:650
+#: ../src/main_window.c:676
 msgid "Bottom"
 msgstr "Доле"
 
-#: ../src/main_window.c:661
+#: ../src/main_window.c:687
 msgid "Very Small"
 msgstr "Најмање"
 
-#: ../src/main_window.c:667
+#: ../src/main_window.c:693
 msgid "Smaller"
 msgstr "Мање"
 
-#: ../src/main_window.c:673
+#: ../src/main_window.c:699
 msgid "Small"
 msgstr "Мале"
 
-#: ../src/main_window.c:679
+#: ../src/main_window.c:705
 msgid "Normal"
 msgstr "Уобичајене"
 
-#: ../src/main_window.c:685
+#: ../src/main_window.c:711
 msgid "Large"
 msgstr "Велике"
 
-#: ../src/main_window.c:691
+#: ../src/main_window.c:717
 msgid "Larger"
 msgstr "Веће"
 
-#: ../src/main_window.c:697
+#: ../src/main_window.c:723
 msgid "Very Large"
 msgstr "Највеће"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:849
+#: ../src/main_window.c:877
 msgid "_Play"
 msgstr "_Изведи"
 
-#: ../src/main_window.c:849
+#: ../src/main_window.c:877
 msgid "Play slideshow"
 msgstr "Пусти покретни приказ"
 
-#: ../src/main_window.c:850
+#: ../src/main_window.c:878
 msgid "_Pause"
 msgstr "_Застани"
 
-#: ../src/main_window.c:850
+#: ../src/main_window.c:878
 msgid "Pause slideshow"
 msgstr "Застани с покретним приказом"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:853
+#: ../src/main_window.c:881
 msgid "_Recently used"
 msgstr "_Скоро коришћене"
 
-#: ../src/main_window.c:853
+#: ../src/main_window.c:881
 msgid "Recently used"
 msgstr "Скоро коришћене"
 
-#: ../src/main_window.c:957 ../src/main_window.c:1495
+#: ../src/main_window.c:985 ../src/main_window.c:1559
 msgid "Press open to select an image"
 msgstr "Притисните „Отвори“ да изаберете слику"
 
-#: ../src/main_window.c:1354 ../src/main_window.c:1358
+#: ../src/main_window.c:1418 ../src/main_window.c:1422
 msgid "Open With Other _Application..."
 msgstr "Отвори неким другим _програмом..."
 
-#: ../src/main_window.c:1379 ../src/main_window.c:1385
+#: ../src/main_window.c:1443 ../src/main_window.c:1449
 msgid "Empty"
 msgstr "Празно"
 
-#: ../src/main_window.c:1505
+#: ../src/main_window.c:1569
 msgid "Loading..."
 msgstr "Учитавам..."
 
-#: ../src/main_window.c:2109
+#: ../src/main_window.c:2167
 msgid "Choose 'set wallpaper' method"
 msgstr "Изабери начин „подеси позадину“"
 
-#: ../src/main_window.c:2124 ../src/preferences_dialog.c:464
+#: ../src/main_window.c:2170 ../src/main_window.c:3958
+#: ../src/xfce_wallpaper_manager.c:410 ../src/gnome_wallpaper_manager.c:241
+msgid "_OK"
+msgstr "_У реду"
+
+#: ../src/main_window.c:2172 ../src/main_window.c:3095
+#: ../src/main_window.c:3328 ../src/main_window.c:3956
+#: ../src/privacy_dialog.c:180 ../src/xfce_wallpaper_manager.c:406
+#: ../src/gnome_wallpaper_manager.c:237
+msgid "_Cancel"
+msgstr "_Откажи"
+
+#: ../src/main_window.c:2182 ../src/preferences_dialog.c:462
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Подесите који систем тренутно управља радном површином.\nОва поставка одређује који начин ће <i>Ристрето</i>\nкористити за поставку позадине радне површи."
 
-#: ../src/main_window.c:2149 ../src/preferences_dialog.c:488
+#: ../src/main_window.c:2207 ../src/preferences_dialog.c:486
 msgid "None"
 msgstr "Ништа"
 
-#: ../src/main_window.c:2153 ../src/preferences_dialog.c:492
+#: ../src/main_window.c:2211 ../src/preferences_dialog.c:490
 msgid "Xfce"
 msgstr "Иксфце"
 
-#: ../src/main_window.c:2157 ../src/preferences_dialog.c:496
+#: ../src/main_window.c:2215 ../src/preferences_dialog.c:494
 msgid "GNOME"
 msgstr "Гном"
 
-#: ../src/main_window.c:2597
+#: ../src/main_window.c:2656
 msgid "Developer:"
 msgstr "Програмер:"
 
-#: ../src/main_window.c:2606 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2665 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ристрето је прегледач слика радно окружење Иксфце-а."
+msgstr "Ристрето је прегледач слика радног окружења Иксфце-а."
 
-#: ../src/main_window.c:2614
+#: ../src/main_window.c:2673
 msgid "translator-credits"
 msgstr "Саша Петровић <salepetronije@gmail.com>"
 
-#: ../src/main_window.c:2916
+#: ../src/main_window.c:3092
 msgid "Open image"
 msgstr "Отвори слику"
 
-#: ../src/main_window.c:2935
+#: ../src/main_window.c:3096
+msgid "_Open"
+msgstr "_Отвори"
+
+#: ../src/main_window.c:3111
 msgid "Images"
 msgstr "Слике"
 
-#: ../src/main_window.c:2940
+#: ../src/main_window.c:3116
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2967 ../src/main_window.c:3109
+#: ../src/main_window.c:3143 ../src/main_window.c:3286
 msgid "Could not open file"
 msgstr "Нисам успео да отворим датотеку"
 
-#: ../src/main_window.c:3142
+#: ../src/main_window.c:3325
 msgid "Save copy"
 msgstr "Сачувај умножак"
 
-#: ../src/main_window.c:3168
+#: ../src/main_window.c:3329
+msgid "_Save"
+msgstr "_Сачувај"
+
+#: ../src/main_window.c:3358
 msgid "Could not save file"
 msgstr "Нисам успео да сачувам датотеку"
 
-#: ../src/main_window.c:3336
+#: ../src/main_window.c:3521
+#, c-format
+msgid "Are you sure you want to send image '%s' to trash?"
+msgstr "Да ли сигурно желите послати слику „%s“ у корпу?"
+
+#: ../src/main_window.c:3525
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Да ли сте сигурни да желите обрисати слику „%s“ са диска?"
 
-#: ../src/main_window.c:3354
+#: ../src/main_window.c:3536
+msgid "_Do not ask again for this session"
+msgstr "_Не питај поново у овом заседању"
+
+#: ../src/main_window.c:3613
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -519,12 +566,7 @@ msgid ""
 "%s"
 msgstr "Десила се грешка приликом брисања слике „%s“ са диска.\n\n%s"
 
-#: ../src/main_window.c:3370
-#, c-format
-msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Да ли сигурно желите послати слику „%s“ у корпу?"
-
-#: ../src/main_window.c:3388
+#: ../src/main_window.c:3617
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -532,271 +574,276 @@ msgid ""
 "%s"
 msgstr "Десила се грешка приликом слања слике „%s“ у корпу.\n%s"
 
-#: ../src/main_window.c:3718
+#: ../src/main_window.c:3953
 msgid "Edit with"
 msgstr "Уреди помоћу"
 
-#: ../src/main_window.c:3736
+#: ../src/main_window.c:3971
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Отвори „%s“ и остале датотеке „%s“ програмом:"
 
-#: ../src/main_window.c:3741
+#: ../src/main_window.c:3976
 msgid "Use as _default for this kind of file"
 msgstr "Користи као _подразумевано за датотеке ове врсте"
 
-#: ../src/main_window.c:3831
+#: ../src/main_window.c:4066
 msgid "Recommended Applications"
 msgstr "Препоручени програми"
 
-#: ../src/main_window.c:3911
+#: ../src/main_window.c:4146
 msgid "Other Applications"
 msgstr "Остали програми"
 
-#: ../src/icon_bar.c:345
+#: ../src/icon_bar.c:339
 msgid "Orientation"
 msgstr "Усмерење"
 
-#: ../src/icon_bar.c:346
+#: ../src/icon_bar.c:340
 msgid "The orientation of the iconbar"
-msgstr "Усмерење траке иконица"
+msgstr "Усмерење траке сличица"
 
-#: ../src/icon_bar.c:362
+#: ../src/icon_bar.c:356
 msgid "File column"
 msgstr "Стубац датотека"
 
-#: ../src/icon_bar.c:363
+#: ../src/icon_bar.c:357
 msgid "Model column used to retrieve the file from"
 msgstr "Стубац из којег се добавља датотека"
 
-#: ../src/icon_bar.c:375
+#: ../src/icon_bar.c:369
 msgid "Icon Bar Model"
-msgstr "Модел траке иконица"
+msgstr "Образац траке сличица"
 
-#: ../src/icon_bar.c:376
+#: ../src/icon_bar.c:370
 msgid "Model for the icon bar"
-msgstr "Модел за траку иконица"
+msgstr "Образац за траку сличица"
 
-#: ../src/icon_bar.c:392
+#: ../src/icon_bar.c:386
 msgid "Active"
 msgstr "Радни"
 
-#: ../src/icon_bar.c:393
+#: ../src/icon_bar.c:387
 msgid "Active item index"
 msgstr "Радни списак ставки"
 
-#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+#: ../src/icon_bar.c:403 ../src/icon_bar.c:404
 msgid "Show Text"
-msgstr "Прикажи текст"
+msgstr "Прикажи писмо"
 
-#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+#: ../src/icon_bar.c:410 ../src/icon_bar.c:411
 msgid "Active item fill color"
 msgstr "Боја попуне тренутне ставке"
 
-#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+#: ../src/icon_bar.c:417 ../src/icon_bar.c:418
 msgid "Active item border color"
 msgstr "Боја ивице тренутне ставке"
 
-#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+#: ../src/icon_bar.c:424 ../src/icon_bar.c:425
 msgid "Active item text color"
-msgstr "Боја текста тренутне ставке"
+msgstr "Боја писма тренутне ставке"
 
-#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+#: ../src/icon_bar.c:431 ../src/icon_bar.c:432
 msgid "Cursor item fill color"
 msgstr "Боја попуне ставке показивача"
 
-#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+#: ../src/icon_bar.c:438 ../src/icon_bar.c:439
 msgid "Cursor item border color"
 msgstr "Боја ивице ставке показивача"
 
-#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+#: ../src/icon_bar.c:445 ../src/icon_bar.c:446
 msgid "Cursor item text color"
-msgstr "Боја текста ставке показивача"
+msgstr "Боја писма ставке показивача"
 
-#: ../src/privacy_dialog.c:152
+#: ../src/privacy_dialog.c:150
 msgid "Time range to clear:"
 msgstr "Временски опсег за чишћење:"
 
-#: ../src/privacy_dialog.c:156
+#: ../src/privacy_dialog.c:154
 msgid "Cleanup"
 msgstr "Чишћење"
 
-#: ../src/privacy_dialog.c:158
+#: ../src/privacy_dialog.c:156
 msgid "Last Hour"
 msgstr "Последњи сат"
 
-#: ../src/privacy_dialog.c:159
+#: ../src/privacy_dialog.c:157
 msgid "Last Two Hours"
 msgstr "Последња два сата"
 
-#: ../src/privacy_dialog.c:160
+#: ../src/privacy_dialog.c:158
 msgid "Last Four Hours"
 msgstr "Последња четири сата"
 
-#: ../src/privacy_dialog.c:161
+#: ../src/privacy_dialog.c:159
 msgid "Today"
 msgstr "Данас"
 
-#: ../src/privacy_dialog.c:162
+#: ../src/privacy_dialog.c:160
 msgid "Everything"
 msgstr "Све"
 
-#: ../src/privacy_dialog.c:460
+#: ../src/privacy_dialog.c:181 ../src/xfce_wallpaper_manager.c:408
+#: ../src/gnome_wallpaper_manager.c:239
+msgid "_Apply"
+msgstr "_Примени"
+
+#: ../src/privacy_dialog.c:464
 msgid "Clear private data"
 msgstr "Очисти личне податке"
 
-#: ../src/preferences_dialog.c:276
+#: ../src/preferences_dialog.c:274
 msgid "Display"
 msgstr "Приказ"
 
-#: ../src/preferences_dialog.c:283
+#: ../src/preferences_dialog.c:281
 msgid "Background color"
 msgstr "Боја позадине"
 
-#: ../src/preferences_dialog.c:287
+#: ../src/preferences_dialog.c:285
 msgid "Override background color:"
 msgstr "Замени позадинску боју:"
 
-#: ../src/preferences_dialog.c:314
+#: ../src/preferences_dialog.c:312
 msgid "Quality"
 msgstr "Каквоћа"
 
-#: ../src/preferences_dialog.c:318
+#: ../src/preferences_dialog.c:316
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "Са овом укљученом могућношћу, највиши квалитет слика ће бити ограничен на величину екрана."
 
-#: ../src/preferences_dialog.c:321
+#: ../src/preferences_dialog.c:319
 msgid "Limit rendering quality"
 msgstr "Ограничи каквоћу приказа"
 
-#: ../src/preferences_dialog.c:333
+#: ../src/preferences_dialog.c:331
 msgid "Fullscreen"
 msgstr "Преко целог екана"
 
-#: ../src/preferences_dialog.c:338
+#: ../src/preferences_dialog.c:336
 msgid "Thumbnails"
 msgstr "Умањене сличице"
 
-#: ../src/preferences_dialog.c:341
+#: ../src/preferences_dialog.c:339
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "Трака умањених сличица се може сама скривати кад је прозор преко целог екрана."
 
-#: ../src/preferences_dialog.c:344
+#: ../src/preferences_dialog.c:342
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Сакриј траку умањених сличица при приказу преко целог екрана"
 
-#: ../src/preferences_dialog.c:352
+#: ../src/preferences_dialog.c:350
 msgid "Clock"
 msgstr "Часовник"
 
-#: ../src/preferences_dialog.c:355
+#: ../src/preferences_dialog.c:353
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "Прикажи аналогни часовник који приказује тренутно време кад је прозор у приказу преко целог екрана"
 
-#: ../src/preferences_dialog.c:358
+#: ../src/preferences_dialog.c:356
 msgid "Show Fullscreen Clock"
 msgstr "Прикажи часовник преко целог екрана"
 
-#: ../src/preferences_dialog.c:375
+#: ../src/preferences_dialog.c:373
 msgid "Slideshow"
 msgstr "Покретни приказ слика"
 
-#: ../src/preferences_dialog.c:379
+#: ../src/preferences_dialog.c:377
 msgid "Timeout"
 msgstr "Време истека"
 
-#: ../src/preferences_dialog.c:382
+#: ../src/preferences_dialog.c:380
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr "Време приказа једне слике приликом покретног приказа слика\n(у секундама)"
 
-#: ../src/preferences_dialog.c:400
+#: ../src/preferences_dialog.c:398
 msgid "Control"
 msgstr "Управљање"
 
-#: ../src/preferences_dialog.c:404
+#: ../src/preferences_dialog.c:402
 msgid "Scroll wheel"
 msgstr "Точкић миша"
 
-#: ../src/preferences_dialog.c:407
+#: ../src/preferences_dialog.c:405
 msgid "Invert zoom direction"
 msgstr "Обрни правац за увећање"
 
-#: ../src/preferences_dialog.c:421
+#: ../src/preferences_dialog.c:419
 msgid "Behaviour"
 msgstr "Понашање"
 
-#: ../src/preferences_dialog.c:426
+#: ../src/preferences_dialog.c:424
 msgid "Startup"
 msgstr "Покретање"
 
-#: ../src/preferences_dialog.c:428
+#: ../src/preferences_dialog.c:426
 msgid "Maximize window on startup when opening an image"
 msgstr "Увећај прозор на покретању приликом отварања слике"
 
-#: ../src/preferences_dialog.c:434
+#: ../src/preferences_dialog.c:432
 msgid "Wrap around images"
 msgstr "Прелом око слика"
 
-#: ../src/preferences_dialog.c:453
+#: ../src/preferences_dialog.c:451
 msgid "Desktop"
 msgstr "Радна површ"
 
-#: ../src/preferences_dialog.c:572
+#: ../src/preferences_dialog.c:576
 msgid "Image Viewer Preferences"
 msgstr "Поставке прегледника слика"
 
-#: ../src/properties_dialog.c:181
+#: ../src/properties_dialog.c:178
 msgid "<b>Name:</b>"
 msgstr "<b>Назив:</b>"
 
-#: ../src/properties_dialog.c:182
+#: ../src/properties_dialog.c:179
 msgid "<b>Kind:</b>"
 msgstr "<b>Врста:</b>"
 
-#: ../src/properties_dialog.c:183
+#: ../src/properties_dialog.c:180
 msgid "<b>Modified:</b>"
 msgstr "<b>Измењена:</b>"
 
-#: ../src/properties_dialog.c:184
+#: ../src/properties_dialog.c:181
 msgid "<b>Accessed:</b>"
 msgstr "<b>Приступано:</b>"
 
-#: ../src/properties_dialog.c:185
+#: ../src/properties_dialog.c:182
 msgid "<b>Size:</b>"
 msgstr "<b>Величина:</b>"
 
-#: ../src/properties_dialog.c:309
+#: ../src/properties_dialog.c:306
 msgid "General"
 msgstr "Опште"
 
-#: ../src/properties_dialog.c:313
+#: ../src/properties_dialog.c:310
 msgid "Image"
 msgstr "Слика"
 
-#: ../src/properties_dialog.c:541
+#: ../src/properties_dialog.c:545
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Време снимања:</b>"
 
-#: ../src/properties_dialog.c:553 ../src/properties_dialog.c:565
-#: ../src/properties_dialog.c:577
+#: ../src/properties_dialog.c:557 ../src/properties_dialog.c:569
+#: ../src/properties_dialog.c:581
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:639
+#: ../src/properties_dialog.c:647
 #, c-format
 msgid "%s - Properties"
 msgstr "%s — Својства"
 
-#: ../src/thumbnailer.c:460
+#: ../src/thumbnailer.c:466
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -806,51 +853,51 @@ msgid ""
 "to resolve this issue."
 msgstr "Услуга умањења приказа сличица није доступна,\nзбог тога умањене сличице не могу бити\nнаправљене.\n\nУградите <b>Тамблер</b> (tumbler) или неки други <i>умањивач сличица</i>\nда решите овај проблем."
 
-#: ../src/thumbnailer.c:470
+#: ../src/thumbnailer.c:476
 msgid "Do _not show this message again"
 msgstr "_Не приказуј поново ову поруку"
 
-#: ../src/xfce_wallpaper_manager.c:379 ../src/gnome_wallpaper_manager.c:235
+#: ../src/xfce_wallpaper_manager.c:378 ../src/gnome_wallpaper_manager.c:223
 msgid "Style:"
 msgstr "Начин:"
 
-#: ../src/xfce_wallpaper_manager.c:380
+#: ../src/xfce_wallpaper_manager.c:379
 msgid "Brightness:"
 msgstr "Осветљење:"
 
-#: ../src/xfce_wallpaper_manager.c:381
+#: ../src/xfce_wallpaper_manager.c:380
 msgid "Saturation:"
 msgstr "Засићење:"
 
-#: ../src/xfce_wallpaper_manager.c:397
+#: ../src/xfce_wallpaper_manager.c:396
 msgid "Apply to all workspaces"
 msgstr "Примени на све радне површи"
 
-#: ../src/xfce_wallpaper_manager.c:404 ../src/gnome_wallpaper_manager.c:246
+#: ../src/xfce_wallpaper_manager.c:403 ../src/gnome_wallpaper_manager.c:234
 msgid "Set as wallpaper"
 msgstr "Постави као позадину"
 
-#: ../src/xfce_wallpaper_manager.c:557 ../src/gnome_wallpaper_manager.c:313
+#: ../src/xfce_wallpaper_manager.c:556 ../src/gnome_wallpaper_manager.c:301
 msgid "Auto"
 msgstr "Самостално"
 
-#: ../src/xfce_wallpaper_manager.c:560
+#: ../src/xfce_wallpaper_manager.c:559
 msgid "Centered"
 msgstr "По средини"
 
-#: ../src/xfce_wallpaper_manager.c:563
+#: ../src/xfce_wallpaper_manager.c:562
 msgid "Tiled"
 msgstr "Поплочано"
 
-#: ../src/xfce_wallpaper_manager.c:566
+#: ../src/xfce_wallpaper_manager.c:565
 msgid "Stretched"
 msgstr "Развучено"
 
-#: ../src/xfce_wallpaper_manager.c:569
+#: ../src/xfce_wallpaper_manager.c:568
 msgid "Scaled"
 msgstr "Раширено"
 
-#: ../src/xfce_wallpaper_manager.c:572
+#: ../src/xfce_wallpaper_manager.c:571
 msgid "Zoomed"
 msgstr "Увећано"
 
@@ -886,13 +933,13 @@ msgstr "Ово издање садржи доста освежења прево�
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
 "This version comes with several changes such as online documentation on "
-"http://docs.xfce.org, the option to limit the maximum image-quality to the "
-"screen dimensions to improve memory-usage and performance - now ristretto "
-"renders at full quality with this option disabled, only one toolbar - "
-"instead of two, a quick-launch button on the toolbar to execute an editor, "
-"the option to pick a default-editor per mime-type, an optional clock that "
-"shows up when ristretto is fullscreen, Ristretto now shows a 'Loading..' "
-"message in the statusbar to indicate when it is busy and progressive loading"
-" of directories to prevent lockup of the UI. This version is designed to "
-"work with version 4.10 of Xfce."
-msgstr "Ово издање доноси неколико измена попут оних описаних на мрежи на http://docs.xfce.org, могућност ограничења најбоље каквоће слике на размеру екрана ради побољшања употребе меморије и учинка - сада Ристрето приказује у пуном квалитету када је то онемогућено, само једну траку алата - уместо две, дугме за брзо покретање на траци алата за извршење уредника, могућност да се изабере подразумевани уредник по миме врсти, могућ приказ часовника када је Ристрето преко целог екрана, сада приказује поруку „Учитавам...“ у траци стања за указивање када је заузет и поступно учитавање фасцикли ради спречавања закључавања корисничког сучеља. Ово издање је осмишљено да ради са Иксфцеом издања 4.10."
+"docs.xfce.org, the option to limit the maximum image-quality to the screen "
+"dimensions to improve memory-usage and performance - now ristretto renders "
+"at full quality with this option disabled, only one toolbar - instead of "
+"two, a quick-launch button on the toolbar to execute an editor, the option "
+"to pick a default-editor per mime-type, an optional clock that shows up when"
+" ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the "
+"statusbar to indicate when it is busy and progressive loading of directories"
+" to prevent lockup of the UI. This version is designed to work with version "
+"4.10 of Xfce."
+msgstr "Ово издање доноси неколико измена попут оних описаних на мрежи на http://docs.xfce.org, могућност ограничења најбоље каквоће слике на размеру екрана ради побољшања употребе меморије и учинка - сада Ристрето приказује у пуном квалитету када је ово онемогућено, само једну траку прибора - уместо две, дугме за брзо покретање на траци прибора за извршење уредника, могућност да се изабере подразумевани уредник по миме врсти, могућ приказ часовника када је Ристрето преко целог екрана, сада приказује поруку „Учитавам...“ у траци стања за указивање када је заузет и поступно учитавање фасцикли ради спречавања закључавања корисничког сучеља. Ово издање је осмишљено да ради са Иксфцеом издања 4.10."
