@@ -403,7 +403,7 @@ rstto_file_get_content_type ( RsttoFile *r_file )
     if ( NULL == r_file->priv->content_type )
     {
 #if HAVE_MAGIC_H
-        magic_t magic = magic_open (MAGIC_MIME_TYPE);
+        magic_t magic = magic_open (MAGIC_MIME_TYPE | MAGIC_SYMLINK);
         if ( NULL != magic )
         {
             file_path = rstto_file_get_path (r_file);
