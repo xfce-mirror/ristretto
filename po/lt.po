@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-04-13 13:55+0000\n"
+"PO-Revision-Date: 2017-06-20 22:58+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "%s: %s\n\nNorėdami pamatyti komandų eilutės \nparametrų sąrašą, p
 
 #: ../src/main_window.c:55 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
-msgstr "Paveikslų peržiūros programa"
+msgstr "Paveikslų žiūryklė"
 
 #: ../src/main_window.c:370
 msgid "_File"
@@ -506,7 +506,7 @@ msgstr "Kūrėjas:"
 
 #: ../src/main_window.c:2665 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto yra paveikslų peržiūros programa skirta Xfce darbalaukio aplinkai."
+msgstr "Ristretto yra paveikslų žiūryklė, skirta Xfce darbalaukio aplinkai."
 
 #: ../src/main_window.c:2673
 msgid "translator-credits"
@@ -797,7 +797,7 @@ msgstr "Darbalaukis"
 
 #: ../src/preferences_dialog.c:576
 msgid "Image Viewer Preferences"
-msgstr "Paveikslų peržiūros programos nuostatos"
+msgstr "Paveikslų žiūryklės nuostatos"
 
 #: ../src/properties_dialog.c:178
 msgid "<b>Name:</b>"
@@ -903,7 +903,7 @@ msgstr "Pritauktas"
 
 #: ../ristretto.desktop.in.h:1
 msgid "Ristretto Image Viewer"
-msgstr "Ristretto paveikslų peržiūros programa"
+msgstr "Ristretto paveikslų žiūryklė"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
@@ -915,7 +915,7 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "Ristretto paveikslų peržiūros programa yra programa, kuri gali būti naudojama paveikslų peržiūrai, skaidrių rodymui, paveikslų atvėrimui per kitas, tokias kaip paveikslų redaktorius, programas arba paveikslų, kaip darbalaukio fono, konfigūravimui."
+msgstr "Ristretto paveikslų žiūryklė yra programa, kuri gali būti naudojama paveikslų peržiūrai, skaidrių rodymui, paveikslų atvėrimui per kitas, tokias kaip paveikslų redaktorius, programas arba paveikslų, kaip darbalaukio fono, konfigūravimui."
 
 #: ../ristretto.appdata.xml.in.h:3
 msgid ""
