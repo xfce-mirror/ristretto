@@ -23,7 +23,6 @@
 
 #include <glib.h>
 #include <gio/gio.h>
-#include <dbus/dbus-glib.h>
 
 #include <libexif/exif-data.h>
 
@@ -34,6 +33,7 @@
 #include "settings.h"
 #include "thumbnailer.h"
 #include "marshal.h"
+#include "tumbler.h"
 
 static void
 rstto_thumbnailer_init (GObject *);
@@ -60,14 +60,14 @@ rstto_thumbnailer_get_property (
 
 static void
 cb_rstto_thumbnailer_request_finished (
-        DBusGProxy *proxy,
-        gint handle,
+        TumblerThumbnailer1 *proxy,
+        guint arg_handle,
         gpointer data);
 static void
 cb_rstto_thumbnailer_thumbnail_ready (
-        DBusGProxy *proxy,
-        gint handle,
-        const gchar **uri,
+        TumblerThumbnailer1 *proxy,
+        guint handle,
+        const gchar *const *uri,
         gpointer data);
 
 static gboolean
@@ -122,18 +122,18 @@ rstto_thumbnailer_get_type (void)
 
 struct _RsttoThumbnailerPriv
 {
-    DBusGConnection   *connection;
-    DBusGProxy        *proxy;
-    RsttoSettings     *settings;
+    GDBusConnection     *connection;
+    TumblerThumbnailer1 *proxy;
+    RsttoSettings       *settings;
 
-    GSList            *queue;
+    GSList              *queue;
 
-    GSList            *in_process_queue;
-    gint               handle;
+    GSList              *in_process_queue;
+    gint                 handle;
 
-    gboolean           show_missing_thumbnailer_error;
+    gboolean             show_missing_thumbnailer_error;
 
-    gint request_timer_id;
+    gint                 request_timer_id;
 };
 
 static void
@@ -142,7 +142,7 @@ rstto_thumbnailer_init (GObject *object)
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (object);
 
     thumbnailer->priv = g_new0 (RsttoThumbnailerPriv, 1);
-    thumbnailer->priv->connection = dbus_g_bus_get(DBUS_BUS_SESSION, NULL);
+    thumbnailer->priv->connection = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, NULL);
     thumbnailer->priv->settings = rstto_settings_new();
 
     thumbnailer->priv->show_missing_thumbnailer_error =
@@ -153,43 +153,22 @@ rstto_thumbnailer_init (GObject *object)
     if (thumbnailer->priv->connection)
     {
     
-        thumbnailer->priv->proxy = dbus_g_proxy_new_for_name (
+        thumbnailer->priv->proxy = tumbler_thumbnailer1_proxy_new_sync (
                 thumbnailer->priv->connection,
+                G_DBUS_PROXY_FLAGS_NONE,
                 "org.freedesktop.thumbnails.Thumbnailer1",
                 "/org/freedesktop/thumbnails/Thumbnailer1",
-                "org.freedesktop.thumbnails.Thumbnailer1");
-
-        dbus_g_object_register_marshaller (
-                (GClosureMarshal) _rstto_marshal_VOID__UINT_BOXED,
-                G_TYPE_NONE,
-                G_TYPE_UINT,
-                G_TYPE_STRV,
-                G_TYPE_INVALID);
-
-        dbus_g_proxy_add_signal (
-                thumbnailer->priv->proxy,
-                "Finished",
-                G_TYPE_UINT,
-                G_TYPE_INVALID);
-        dbus_g_proxy_add_signal (
-                thumbnailer->priv->proxy,
-                "Ready",
-                G_TYPE_UINT,
-                G_TYPE_STRV,
-                G_TYPE_INVALID);
-
-        dbus_g_proxy_connect_signal (
-                thumbnailer->priv->proxy,
-                "Finished",
-                G_CALLBACK (cb_rstto_thumbnailer_request_finished),
-                thumbnailer,
+                NULL,
                 NULL);
-        dbus_g_proxy_connect_signal (
-                thumbnailer->priv->proxy,
-                "Ready",
-                G_CALLBACK(cb_rstto_thumbnailer_thumbnail_ready),
-                thumbnailer,
-                NULL);
+
+        g_signal_connect(thumbnailer->priv->proxy,
+                         "finished",
+                         G_CALLBACK (cb_rstto_thumbnailer_request_finished),
+                         thumbnailer);
+        g_signal_connect(thumbnailer->priv->proxy,
+                         "ready",
+                         G_CALLBACK(cb_rstto_thumbnailer_thumbnail_ready),
+                         thumbnailer);
     }
 }
 
@@ -234,20 +213,11 @@ rstto_thumbnailer_dispose (GObject *object)
 
     if (thumbnailer->priv)
     {
-        if (thumbnailer->priv->settings)
-        {
-            g_object_unref (thumbnailer->priv->settings);
-            thumbnailer->priv->settings = NULL;
-        }
+        g_clear_object (&thumbnailer->priv->settings);
+        g_clear_object (&thumbnailer->priv->proxy);
+        g_clear_object (&thumbnailer->priv->connection);
 
-        if (thumbnailer->priv->proxy)
-        {
-            g_object_unref (thumbnailer->priv->proxy);
-            thumbnailer->priv->proxy = NULL;
-        }
-
-        g_free (thumbnailer->priv);
-        thumbnailer->priv = NULL;
+        g_clear_pointer (&thumbnailer->priv, g_free);
     }
 }
 
@@ -327,12 +297,14 @@ rstto_thumbnailer_queue_file (
         g_source_remove (thumbnailer->priv->request_timer_id);
         if (thumbnailer->priv->handle)
         {
-            if(dbus_g_proxy_call(thumbnailer->priv->proxy,
-                    "Dequeue",
-                    NULL,
-                    G_TYPE_UINT, thumbnailer->priv->handle,
-                    G_TYPE_INVALID) == FALSE)
+            if(tumbler_thumbnailer1_call_dequeue_sync(
+                thumbnailer->priv->proxy,
+                thumbnailer->priv->handle,
+                NULL,
+                NULL) == FALSE)
             {
+                /* If this fails it usually means there's a thumbnail already
+                 * being processed, no big deal */
             }
             thumbnailer->priv->handle = 0;
         }
@@ -370,12 +342,14 @@ rstto_thumbnailer_dequeue_file (
 
     if (thumbnailer->priv->handle)
     {
-        if(dbus_g_proxy_call(thumbnailer->priv->proxy,
-                "Dequeue",
+        if(tumbler_thumbnailer1_call_dequeue_sync(
+                thumbnailer->priv->proxy,
+                thumbnailer->priv->handle,
                 NULL,
-                G_TYPE_UINT, thumbnailer->priv->handle,
-                G_TYPE_INVALID) == FALSE)
+                NULL) == FALSE)
         {
+            /* If this fails it usually means there's a thumbnail already
+             * being processed, no big deal */
         }
         thumbnailer->priv->handle = 0;
         g_slist_foreach (thumbnailer->priv->in_process_queue, (GFunc)g_object_unref, NULL);
@@ -437,23 +411,22 @@ rstto_thumbnailer_queue_request_timer (
         i++;
     }
 
-    if(dbus_g_proxy_call(thumbnailer->priv->proxy,
-            "Queue",
-            &error,
-            G_TYPE_STRV, uris,
-            G_TYPE_STRV, mimetypes,
-            G_TYPE_STRING, "normal",
-            G_TYPE_STRING, "default",
-            G_TYPE_UINT, 0,
-            G_TYPE_INVALID,
-            G_TYPE_UINT, &thumbnailer->priv->handle,
-            G_TYPE_INVALID) == FALSE)
+    if(tumbler_thumbnailer1_call_queue_sync(
+        thumbnailer->priv->proxy,
+        (const gchar * const*)uris,
+        (const gchar * const*)mimetypes,
+        "normal",
+        "default",
+        0,
+        &thumbnailer->priv->handle,
+        NULL,
+        &error) == FALSE)
     {
         if (NULL != error)
         {
             g_warning("DBUS-call failed:%s", error->message);
-            if ((error->domain == DBUS_GERROR) &&
-                (error->code == DBUS_GERROR_SERVICE_UNKNOWN) &&
+            if ((error->domain == G_DBUS_ERROR) &&
+                (error->code == G_DBUS_ERROR_SERVICE_UNKNOWN) &&
                 thumbnailer->priv->show_missing_thumbnailer_error == TRUE)
             {
                 GDK_THREADS_ENTER();
@@ -508,8 +481,8 @@ rstto_thumbnailer_queue_request_timer (
 
 static void
 cb_rstto_thumbnailer_request_finished (
-        DBusGProxy *proxy,
-        gint handle,
+        TumblerThumbnailer1 *proxy,
+        guint arg_handle,
         gpointer data)
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
@@ -526,9 +499,9 @@ cb_rstto_thumbnailer_request_finished (
 
 static void
 cb_rstto_thumbnailer_thumbnail_ready (
-        DBusGProxy *proxy,
-        gint handle,
-        const gchar **uri,
+        TumblerThumbnailer1 *proxy,
+        guint handle,
+        const gchar *const *uri,
         gpointer data)
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);

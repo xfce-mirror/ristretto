@@ -28,8 +28,6 @@
 #include <libxfce4ui/libxfce4ui.h>
 #include <libexif/exif-data.h>
 
-#include <dbus/dbus-glib.h>
-
 #include <cairo/cairo.h>
 
 #include "settings.h"
@@ -78,8 +76,7 @@ struct _RsttoMainWindowPriv
 
     RsttoMimeDB           *db;
 
-    DBusGConnection       *connection;
-    DBusGProxy            *filemanager_proxy;
+    GDBusProxy            *filemanager_proxy;
 
     guint                  show_fs_toolbar_timeout_id;
     gint                   window_save_geometry_timer_id;
@@ -808,16 +805,15 @@ rstto_main_window_init (RsttoMainWindow *window)
 
     /* D-Bus stuff */
 
-    window->priv->connection = dbus_g_bus_get(DBUS_BUS_SESSION, NULL);
-    if (window->priv->connection)
-    {
-        window->priv->filemanager_proxy =
-                dbus_g_proxy_new_for_name(
-                        window->priv->connection,
-                        "org.xfce.FileManager",
-                        "/org/xfce/FileManager",
-                        "org.xfce.FileManager");
-    }
+    window->priv->filemanager_proxy =
+            g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                           G_DBUS_PROXY_FLAGS_NONE,
+                                           NULL,
+                                           "org.xfce.FileManager",
+                                           "/org/xfce/FileManager",
+                                           "org.xfce.FileManager",
+                                           NULL,
+                                           NULL);
 
     desktop_type = rstto_settings_get_string_property (window->priv->settings_manager, "desktop-type");
     if (desktop_type)
@@ -1241,6 +1237,8 @@ rstto_main_window_dispose(GObject *object)
             g_object_unref (window->priv->action_group);
             window->priv->action_group = NULL;
         }
+
+        g_clear_object (&window->priv->filemanager_proxy);
 
         g_free (window->priv);
         window->priv = NULL;
@@ -3390,6 +3388,8 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
          */
         if ( TRUE == use_thunar_properties )
         {
+            GVariant *unused = NULL;
+
             /* Get the file-uri */
             uri = rstto_file_get_uri(file);
 
@@ -3397,14 +3397,17 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
              * interface. If it fails, fall back to the
              * internal properties-dialog.
              */
-            if(dbus_g_proxy_call(window->priv->filemanager_proxy,
-                                 "DisplayFileProperties",
-                                 &error,
-                                 G_TYPE_STRING, uri,
-                                 G_TYPE_STRING, gdk_display_get_name(display),
-                                 G_TYPE_STRING, "",
-                                 G_TYPE_INVALID,
-                                 G_TYPE_INVALID) == FALSE)
+            unused = g_dbus_proxy_call_sync (window->priv->filemanager_proxy,
+                                             "DisplayFileProperties",
+                                              g_variant_new ("(sss)",
+                                                             uri,
+                                                             gdk_display_get_name(display),
+                                                             ""),
+                                             G_DBUS_CALL_FLAGS_NONE,
+                                             -1,
+                                             NULL,
+                                             &error);
+            if (error != NULL)
             {
                 g_warning("DBUS CALL FAILED: '%s'", error->message);
 
@@ -3417,6 +3420,8 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
 
                 /* Cleanup the file-properties dialog */
                 gtk_widget_destroy(dialog);
+            } else {
+                g_variant_unref (unused);
             }
         }
         else

@@ -14,6 +14,7 @@ ristretto_SOURCES = \
 	gnome_wallpaper_manager.c gnome_wallpaper_manager.h \
 	app_menu_item.c app_menu_item.h \
 	thumbnailer.c thumbnailer.h \
+	tumbler.c tumbler.h \
 	marshal.c marshal.h \
 	file.c file.h \
 	privacy_dialog.h privacy_dialog.c \
@@ -65,7 +66,9 @@ if MAINTAINER_MODE
 
 ristretto_built_sources = \
     marshal.h \
-    marshal.c
+    marshal.c \
+    tumbler.c \
+    tumbler.h
 
 BUILT_SOURCES = \
     $(ristretto_built_sources) \
@@ -102,10 +105,18 @@ marshal.c: marshal.list Makefile
 		&& rm -f xgen-tmc \
 	)
 
+tumbler.c tumbler.h : $(srcdir)/tumbler-service-dbus.xml Makefile.am
+	gdbus-codegen \
+		--c-namespace=Tumbler \
+		--interface-prefix=org.freedesktop.thumbnails. \
+		--generate-c-code=tumbler \
+		$(srcdir)/tumbler-service-dbus.xml
+
 DISTCLEANFILES += \
     stamp-marshal.h
 
 endif
 
 EXTRA_DIST = \
-	main_window_ui.xml
+	main_window_ui.xml \
+	tumbler-service-dbus.xml

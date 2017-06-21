@@ -5,6 +5,7 @@ Makefile.in
 src/.deps
 src/ristretto
 src/marshal.[ch]
+src/tumbler.[ch]
 src/main_window_ui.h
 src/stamp-marshal.h
 autom4te.cache
