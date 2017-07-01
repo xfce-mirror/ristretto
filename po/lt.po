@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-06-20 22:58+0000\n"
+"PO-Revision-Date: 2017-07-01 12:06+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "Išeiti iš Ristretto"
 
 #: ../src/main_window.c:415
 msgid "_Open with"
-msgstr "_Atverti su"
+msgstr "_Atverti naudojant"
 
 #: ../src/main_window.c:419
 msgid "_Sorting"
@@ -141,7 +141,7 @@ msgstr "Ištrinti šį paveikslą iš disko"
 #. Icon-name
 #: ../src/main_window.c:429
 msgid "_Clear private data..."
-msgstr "_Išvalyti duomenų saugyklą..."
+msgstr "_Išvalyti privačiuosius duomenis..."
 
 #. Icon-name
 #: ../src/main_window.c:435
@@ -186,7 +186,7 @@ msgstr "Keisti _mastelį"
 #. Icon-name
 #: ../src/main_window.c:469
 msgid "Zoom _In"
-msgstr "Pa_didinti"
+msgstr "_Didinti"
 
 #. Label-text
 #. Keyboard shortcut
@@ -197,7 +197,7 @@ msgstr "Padidinti"
 #. Icon-name
 #: ../src/main_window.c:475
 msgid "Zoom _Out"
-msgstr "Su_mažinti"
+msgstr "_Mažinti"
 
 #. Label-text
 #. Keyboard shortcut
@@ -219,7 +219,7 @@ msgstr "Keisti mastelį iki lango dydžio"
 #. Icon-name
 #: ../src/main_window.c:487
 msgid "_Normal Size"
-msgstr "_Tikras dydis"
+msgstr "_Normalus dydis"
 
 #. Label-text
 #. Keyboard shortcut
@@ -455,7 +455,7 @@ msgstr "Paspauskite atverti, norėdami pasirinkti paveikslą"
 
 #: ../src/main_window.c:1418 ../src/main_window.c:1422
 msgid "Open With Other _Application..."
-msgstr "Atverti su _kita programa..."
+msgstr "Atverti naudojant _kitą programą..."
 
 #: ../src/main_window.c:1443 ../src/main_window.c:1449
 msgid "Empty"
