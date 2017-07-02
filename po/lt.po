@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-07-01 12:06+0000\n"
+"PO-Revision-Date: 2017-07-02 20:07+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -150,7 +150,7 @@ msgstr "_Nuostatos..."
 
 #: ../src/main_window.c:442
 msgid "_View"
-msgstr "R_odymas"
+msgstr "R_odinys"
 
 #. Icon-name
 #: ../src/main_window.c:446
@@ -855,7 +855,7 @@ msgstr "„thumbnailer-service“ nepasiekiamas,\ntodėl miniatiūros negali bū
 
 #: ../src/thumbnailer.c:476
 msgid "Do _not show this message again"
-msgstr "_Daugiau nerodyti šio pranešimo"
+msgstr "_Daugiau neberodyti šio pranešimo"
 
 #: ../src/xfce_wallpaper_manager.c:378 ../src/gnome_wallpaper_manager.c:223
 msgid "Style:"
