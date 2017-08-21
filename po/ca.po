@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-02-14 15:09+0000\n"
+"PO-Revision-Date: 2017-08-21 07:44+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -719,7 +719,7 @@ msgstr "Amb aquesta opció habilitada, la qualitat màxima de la imatge es limit
 
 #: ../src/preferences_dialog.c:319
 msgid "Limit rendering quality"
-msgstr "Limita la qualitat de la representació"
+msgstr "Limita la qualitat de la renderització"
 
 #: ../src/preferences_dialog.c:331
 msgid "Fullscreen"
@@ -788,7 +788,7 @@ msgstr "Inici"
 
 #: ../src/preferences_dialog.c:426
 msgid "Maximize window on startup when opening an image"
-msgstr "Maximitza la finestra a l'inici en obrir una imatge"
+msgstr "Maximitza la finestra a l'inici quan s'obre una imatge"
 
 #: ../src/preferences_dialog.c:432
 msgid "Wrap around images"
