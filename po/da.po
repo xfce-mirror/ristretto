@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-09-13 16:33+0000\n"
+"PO-Revision-Date: 2017-09-13 21:40+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "Start et diasshow"
 
 #: ../src/main.c:78
 msgid "Show settings dialog"
-msgstr "Vis indstillingsdialogen"
+msgstr "Vis indstillingsdialog"
 
 #: ../src/main.c:108
 #, c-format
@@ -337,7 +337,7 @@ msgstr "_Størrelse"
 
 #: ../src/main_window.c:582
 msgid "Thumbnail Bar _Position"
-msgstr "Miniaturbjælke_position"
+msgstr "Miniaturelinje_position"
 
 #: ../src/main_window.c:586
 msgid "Thumb_nail Size"
@@ -356,12 +356,12 @@ msgstr "Vis _værktøjslinje"
 #. Icon-name
 #: ../src/main_window.c:615
 msgid "Show _Thumbnail Bar"
-msgstr "Vis _miniaturbjælke"
+msgstr "Vis _miniaturelinje"
 
 #. Icon-name
 #: ../src/main_window.c:623
 msgid "Show Status _Bar"
-msgstr "Vis _statusbjælke"
+msgstr "Vis _statuslinje"
 
 #. Icon-name
 #: ../src/main_window.c:635
@@ -490,7 +490,7 @@ msgstr "Indstil hvilket system der på nuværende tidspunkt håndterer dit skriv
 
 #: ../src/main_window.c:2207 ../src/preferences_dialog.c:486
 msgid "None"
-msgstr "Ingen"
+msgstr "Intet"
 
 #: ../src/main_window.c:2211 ../src/preferences_dialog.c:490
 msgid "Xfce"
@@ -601,7 +601,7 @@ msgstr "Orientering"
 
 #: ../src/icon_bar.c:340
 msgid "The orientation of the iconbar"
-msgstr "Orienteringen af ikonbjælken"
+msgstr "Orienteringen af ikonlinjen"
 
 #: ../src/icon_bar.c:356
 msgid "File column"
@@ -613,15 +613,15 @@ msgstr "Standardkolonne som bruges til at tage filen fra"
 
 #: ../src/icon_bar.c:369
 msgid "Icon Bar Model"
-msgstr "Ikonbjælkemodel"
+msgstr "Ikonlinjemodel"
 
 #: ../src/icon_bar.c:370
 msgid "Model for the icon bar"
-msgstr "Model for ikonbjælken"
+msgstr "Model for ikonlinjen"
 
 #: ../src/icon_bar.c:386
 msgid "Active"
-msgstr "Aktive"
+msgstr "Aktiv"
 
 #: ../src/icon_bar.c:387
 msgid "Active item index"
@@ -729,11 +729,11 @@ msgstr "Miniaturer"
 #: ../src/preferences_dialog.c:339
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Miniaturebjælken kan skjules automatisk når billedviseren er i fuldskærmtilstand."
+msgstr "Miniaturelinjen kan skjules automatisk når billedviseren er i fuldskærmtilstand."
 
 #: ../src/preferences_dialog.c:342
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Skjul miniaturbjælke ved fuldskærmstilstand"
+msgstr "Skjul miniaturelinje ved fuldskærmstilstand"
 
 #: ../src/preferences_dialog.c:350
 msgid "Clock"
@@ -743,7 +743,7 @@ msgstr "Ur"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Miniaturebjælken kan skjules automatisk når billedviseren er i fuldskærmtilstand"
+msgstr "Miniaturelinjen kan skjules automatisk når billedviseren er i fuldskærmtilstand"
 
 #: ../src/preferences_dialog.c:356
 msgid "Show Fullscreen Clock"
