@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-01-27 12:34+0000\n"
+"PO-Revision-Date: 2017-09-13 16:33+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "Start et diasshow"
 
 #: ../src/main.c:78
 msgid "Show settings dialog"
-msgstr "Vis indstillingdialogen"
+msgstr "Vis indstillingsdialogen"
 
 #: ../src/main.c:108
 #, c-format
@@ -146,7 +146,7 @@ msgstr "_Ryd private data..."
 #. Icon-name
 #: ../src/main_window.c:435
 msgid "_Preferences..."
-msgstr "_Indstillinger..."
+msgstr "_Præferencer..."
 
 #: ../src/main_window.c:442
 msgid "_View"
@@ -797,7 +797,7 @@ msgstr "Skrivebord"
 
 #: ../src/preferences_dialog.c:576
 msgid "Image Viewer Preferences"
-msgstr "Indstillinger for billedfremviser"
+msgstr "Billedfremviser-præferencer"
 
 #: ../src/properties_dialog.c:178
 msgid "<b>Name:</b>"
