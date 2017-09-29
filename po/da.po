@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-09-29 16:30+0000\n"
+"PO-Revision-Date: 2017-09-29 17:23+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -506,7 +506,7 @@ msgstr "Udvikler:"
 
 #: ../src/main_window.c:2665 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto er en billedfremviser til skrivebordsmiljøet Xfce."
+msgstr "Ristretto er en billedfremviser til Xfce-skrivebordsmiljøet."
 
 #: ../src/main_window.c:2673
 msgid "translator-credits"
@@ -712,7 +712,7 @@ msgstr "Kvalitet"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Med dette tilvalg slået til, vil maksimal billedkvalitet blive begrænset til skærmstørrelsen."
+msgstr "Med dette tilvalg er aktiveret, vil maksimal billedkvalitet blive begrænset til skærmstørrelsen."
 
 #: ../src/preferences_dialog.c:319
 msgid "Limit rendering quality"
