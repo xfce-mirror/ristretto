@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-09-19 18:05+0000\n"
+"PO-Revision-Date: 2017-09-29 16:30+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -716,7 +716,7 @@ msgstr "Med dette tilvalg slået til, vil maksimal billedkvalitet blive begræns
 
 #: ../src/preferences_dialog.c:319
 msgid "Limit rendering quality"
-msgstr "Maksimal renderingskvalitet"
+msgstr "Maksimal optegningskvalitet"
 
 #: ../src/preferences_dialog.c:331
 msgid "Fullscreen"
