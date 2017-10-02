@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-09-19 18:05+0000\n"
+"PO-Revision-Date: 2017-10-02 10:39+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -576,12 +576,12 @@ msgstr "Siunčiant paveikslą „%s“ į šiukšlinę, įvyko klaida.\n\n%s"
 
 #: ../src/main_window.c:3953
 msgid "Edit with"
-msgstr "Redaguoti su"
+msgstr "Redaguoti naudojant"
 
 #: ../src/main_window.c:3971
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr "Atverti %s ir kitus failų tipus %s su:"
+msgstr "Atverti %s ir kitus failų tipus %s naudojant:"
 
 #: ../src/main_window.c:3976
 msgid "Use as _default for this kind of file"
