@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-09-29 17:23+0000\n"
+"PO-Revision-Date: 2017-11-17 15:03+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -88,13 +88,13 @@ msgstr "Vil filegenskaber"
 #. Icon-name
 #: ../src/main_window.c:392 ../src/main_window.c:411
 msgid "_Edit"
-msgstr "_Redigér"
+msgstr "_Rediger"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:394
 msgid "Edit this image"
-msgstr "Redigér billedet"
+msgstr "Rediger billedet"
 
 #. Icon-name
 #: ../src/main_window.c:398 ../src/preferences_dialog.c:541
@@ -479,7 +479,7 @@ msgstr "_OK"
 #: ../src/privacy_dialog.c:180 ../src/xfce_wallpaper_manager.c:406
 #: ../src/gnome_wallpaper_manager.c:237
 msgid "_Cancel"
-msgstr "_Annullér"
+msgstr "_Annuller"
 
 #: ../src/main_window.c:2182 ../src/preferences_dialog.c:462
 msgid ""
@@ -576,7 +576,7 @@ msgstr "Der opstod en fejl under overførsel af billede '%s' til papirkurven.\n\
 
 #: ../src/main_window.c:3953
 msgid "Edit with"
-msgstr "Redigér med"
+msgstr "Rediger med"
 
 #: ../src/main_window.c:3971
 #, c-format
