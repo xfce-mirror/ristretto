@@ -4,13 +4,13 @@
 # 
 # Translators:
 # Per Kongstad <p_kongstad@op.pl>, 2008-2009
-# scootergrisen, 2016-2017
+# scootergrisen, 2016-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-11-27 21:32+0000\n"
+"PO-Revision-Date: 2018-03-04 20:19+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -928,7 +928,7 @@ msgstr "Denne version kommer med forbedringer såsom anvendelse af miniature som
 msgid ""
 "This release contains lots of translation-updates, and a crash when "
 "configuring the 'limit-quality' property."
-msgstr "Denne udgivelse indholder massere af opdateringer til oversættelser og retter et nedbrud ved konfigurering af egenskaben 'limit-quality'."
+msgstr "Denne udgivelse indeholder massere af opdateringer til oversættelser og retter et nedbrud ved konfigurering af egenskaben 'limit-quality'."
 
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
