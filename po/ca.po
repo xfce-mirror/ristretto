@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2018-05-05 20:14+0000\n"
+"PO-Revision-Date: 2018-05-17 11:08+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -103,7 +103,7 @@ msgstr "Edita aquesta imatge"
 #: ../src/main_window.c:398 ../src/preferences_dialog.c:541
 #: ../src/properties_dialog.c:325
 msgid "_Close"
-msgstr "_Tanca"
+msgstr "Tan_ca"
 
 #. Label-text
 #. Keyboard shortcut
@@ -153,7 +153,7 @@ msgstr "_Preferències..."
 
 #: ../src/main_window.c:442
 msgid "_View"
-msgstr "_Mostra"
+msgstr "_Visualitza"
 
 #. Icon-name
 #: ../src/main_window.c:446
@@ -285,7 +285,7 @@ msgstr "Imatge anterior"
 #. Icon-name
 #: ../src/main_window.c:544
 msgid "F_irst"
-msgstr "Pr_imer"
+msgstr "Pr_imera"
 
 #. Label-text
 #. Keyboard shortcut
@@ -296,7 +296,7 @@ msgstr "Primera imatge"
 #. Icon-name
 #: ../src/main_window.c:550
 msgid "_Last"
-msgstr "_Últim"
+msgstr "_Última"
 
 #. Label-text
 #. Keyboard shortcut
@@ -328,7 +328,7 @@ msgstr "_Quant a"
 #. Keyboard shortcut
 #: ../src/main_window.c:569
 msgid "Display information about ristretto"
-msgstr "Mostra informació referent a ristretto"
+msgstr "Mostra la informació quant a ristretto"
 
 #: ../src/main_window.c:574
 msgid "_Position"
@@ -705,7 +705,7 @@ msgstr "Color del fons"
 
 #: ../src/preferences_dialog.c:285
 msgid "Override background color:"
-msgstr "Força el color del fons:"
+msgstr "Redefineix el color del fons:"
 
 #: ../src/preferences_dialog.c:312
 msgid "Quality"
