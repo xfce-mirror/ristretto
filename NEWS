@@ -1,3 +1,24 @@
+0.8.3
+=====
+- Fix GLib-GObject-CRITICAL in directory monitoring code
+- Fix loading image from an URL
+- Freeing memory used for storing bg colors was done wrong (bug #13335)
+- Fix opening image files that are symlinks (bug #13576)
+- Fix BMP files failing to load with libmagic (bug #13489)
+- Port to GDBus
+
+* Translation updates:
+  Arabic (ar), Asturian (ast), Bulgarian (bg), Catalan (ca), Czech (cs), Danish
+  (da), German (de), Greek (el), English (Australia) (en_AU), English (United
+  Kingdom) (en_GB), Spanish (es), Basque (eu), Finnish (fi), French (fr),
+  Galician (gl), Hebrew (he), Croatian (hr), Hungarian (hu), Indonesian (id),
+  Icelandic (is), Italian (it), Japanese (ja), Kazakh (kk), Korean (ko),
+  Lithuanian (lt), Malay (ms), Norwegian Bokmål (nb), Dutch (nl), Occitan (oc),
+  Polish (pl), Portuguese (pt), Portuguese (Brazil) (pt_BR), Romanian (ro),
+  Russian (ru), Slovak (sk), Slovenian (sl), Albanian (sq), Serbian (sr),
+  Swedish (sv), Thai (th), Turkish (tr), Uighur (ug), Ukrainian (uk), Chinese
+  (China) (zh_CN), Chinese (Taiwan) (zh_TW)
+
 0.8.2
 =====
 - Implement sorting by file type (Bug #12749)

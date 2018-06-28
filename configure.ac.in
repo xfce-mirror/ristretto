@@ -11,9 +11,9 @@ dnl *** Version information ***
 dnl ***************************
 m4_define([ristretto_version_major], [0])
 m4_define([ristretto_version_minor], [8])
-m4_define([ristretto_version_micro], [2])
+m4_define([ristretto_version_micro], [3])
 m4_define([ristretto_version_build], [r@REVISION@])
-m4_define([ristretto_version_tag], [git]) # Leave empty for releases
+m4_define([ristretto_version_tag], []) # Leave empty for releases
 m4_define([ristretto_version], [ristretto_version_major().ristretto_version_minor().ristretto_version_micro()ifelse(ristretto_version_tag(), [], [], [ristretto_version_tag()-ristretto_version_build()])])
 
 dnl *******************************************
