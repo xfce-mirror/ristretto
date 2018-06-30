@@ -1406,8 +1406,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
                 menu_item = gtk_separator_menu_item_new ();
                 gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
 
-                g_list_foreach (app_list, (GFunc)g_object_unref, NULL);
-                g_list_free (app_list);
+                g_list_free_full (app_list, (GDestroyNotify) g_object_unref);
             }
             else
             {
@@ -3219,8 +3218,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
 
     if (files)
     {
-        g_slist_foreach (files, (GFunc)g_object_unref, NULL);
-        g_slist_free (files);
+        g_slist_free_full (files, (GDestroyNotify) g_object_unref);
     }
 }
 
@@ -4258,11 +4256,8 @@ rstto_main_window_launch_editor_chooser (
 
     gtk_widget_destroy (dialog);
 
-    g_list_foreach (app_infos_recommended, (GFunc)g_object_unref, NULL);
-    g_list_foreach (app_infos_all, (GFunc)g_object_unref, NULL);
-    
-    g_list_free (app_infos_recommended);
-    g_list_free (app_infos_all);
+    g_list_free_full (app_infos_recommended, (GDestroyNotify) g_object_unref);
+    g_list_free_full (app_infos_all, (GDestroyNotify) g_object_unref);
     g_list_free (files);
 }
 

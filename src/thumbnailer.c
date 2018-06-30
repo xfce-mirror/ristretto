@@ -352,8 +352,7 @@ rstto_thumbnailer_dequeue_file (
              * being processed, no big deal */
         }
         thumbnailer->priv->handle = 0;
-        g_slist_foreach (thumbnailer->priv->in_process_queue, (GFunc)g_object_unref, NULL);
-        g_slist_free (thumbnailer->priv->in_process_queue);
+        g_slist_free_full (thumbnailer->priv->in_process_queue, (GDestroyNotify) g_object_unref);
         thumbnailer->priv->in_process_queue = NULL;
     }
 
@@ -491,8 +490,7 @@ cb_rstto_thumbnailer_request_finished (
 
     if (thumbnailer->priv->in_process_queue)
     {
-        g_slist_foreach (thumbnailer->priv->in_process_queue, (GFunc)g_object_unref, NULL);
-        g_slist_free (thumbnailer->priv->in_process_queue);
+        g_slist_free_full (thumbnailer->priv->in_process_queue, (GDestroyNotify) g_object_unref);
         thumbnailer->priv->in_process_queue = NULL;
     }
 }

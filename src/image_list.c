@@ -638,16 +638,13 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
 
         gtk_tree_model_row_deleted(GTK_TREE_MODEL(image_list), path_);
 
-        
-        image_iter = g_list_next (image_iter);     
+        image_iter = g_list_next (image_iter);
     }
 
-    g_list_foreach (image_list->priv->image_monitors, (GFunc)g_object_unref, NULL);
-    g_list_free (image_list->priv->image_monitors);
+    g_list_free_full (image_list->priv->image_monitors, (GDestroyNotify) g_object_unref);
     image_list->priv->image_monitors = NULL;
 
-    g_list_foreach (image_list->priv->images, (GFunc)g_object_unref, NULL);
-    g_list_free (image_list->priv->images);
+    g_list_free_full (image_list->priv->images, (GDestroyNotify) g_object_unref);
     image_list->priv->images = NULL;
 
     iter = image_list->priv->iterators;
@@ -848,8 +845,7 @@ rstto_image_list_monitor_dir (
 
     if (image_list->priv->image_monitors)
     {
-        g_list_foreach (image_list->priv->image_monitors, (GFunc)g_object_unref, NULL);
-        g_list_free (image_list->priv->image_monitors);
+        g_list_free_full (image_list->priv->image_monitors, (GDestroyNotify) g_object_unref);
         image_list->priv->image_monitors = NULL;
     }
 

@@ -1725,8 +1725,7 @@ rstto_icon_bar_set_model (
 
         g_object_unref (G_OBJECT (icon_bar->priv->model));
 
-        g_list_foreach (icon_bar->priv->items, (GFunc) rstto_icon_bar_item_free, NULL);
-        g_list_free (icon_bar->priv->items);
+        g_list_free_full (icon_bar->priv->items, (GDestroyNotify) rstto_icon_bar_item_free);
         icon_bar->priv->active_item = NULL;
         icon_bar->priv->cursor_item = NULL;
         icon_bar->priv->items = NULL;
