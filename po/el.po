@@ -8,14 +8,15 @@
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2012
 # ebal <ebalaskas@ebalaskas.gr>, 2008
 # Georgios Stefanakis <nonviotale@gmail.com>, 2012
+# Georgios Zarkadas <georgios.zarkadas@gmail.com>, 2018
 # Γιώργος Στεφανάκης <nonviotale@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-09-19 18:05+0000\n"
-"Last-Translator: Apóstolos Papaðimitríu <apostolos.papadimitriu@gmail.com>\n"
+"PO-Revision-Date: 2018-07-02 14:21+0000\n"
+"Last-Translator: Georgios Zarkadas <georgios.zarkadas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/xfce/xfce-apps/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -926,7 +927,7 @@ msgid ""
 "This version comes with the improvements such as thumbnail usage as appicon "
 "and update to the first image in the image-list when receiving a ready-"
 "signal, required to show the thumbnail once it's generated."
-msgstr ""
+msgstr "Αυτή η έκδοση έρχεται με βελτιώσεις όπως χρήση μικρογραφιών ως εικονίδιο εφαρμογής και ενημέρωση της πρώτης εικόνας στη λίστα εικόνων όταν λαμβάνεται ένα σήμα ετοιμότητας, απαιτούμενο για την προβολή της μικρογραφίας άπαξ και δημιουργηθεί."
 
 #: ../ristretto.appdata.xml.in.h:4
 msgid ""
