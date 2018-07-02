@@ -65,9 +65,9 @@ rstto_wallpaper_manager_get_type (void)
     if (iface_type == 0)
     {
         static const GTypeInfo info = {
-            sizeof (RsttoWallpaperManagerIface),
-            rstto_wallpaper_manager_iface_init,   /* base_init */
-            NULL,   /* base_finalize */
+            /* other fields are initialized to 0 */
+            .class_size = sizeof (RsttoWallpaperManagerIface),
+            .base_init = rstto_wallpaper_manager_iface_init,
         };
 
         iface_type = g_type_register_static (

@@ -80,7 +80,7 @@ struct _RsttoMainWindowPriv
 
     guint                  show_fs_toolbar_timeout_id;
     gint                   window_save_geometry_timer_id;
-    
+
     gboolean               fs_toolbar_sticky;
 
     RsttoImageListIter    *iter;
@@ -365,6 +365,8 @@ static GtkActionEntry action_entries[] =
   { "file-menu",
             NULL,
             N_ ("_File"),
+            NULL,
+            NULL,
             NULL, },
   { "open",
             "document-open", /* Icon-name */
@@ -406,14 +408,20 @@ static GtkActionEntry action_entries[] =
   { "edit-menu",
             NULL,
             N_ ("_Edit"),
+            NULL,
+            NULL,
             NULL, },
   { "open-with-menu",
             NULL,
             N_ ("_Open with"),
+            NULL,
+            NULL,
             NULL, },
   { "sorting-menu",
             NULL,
             N_ ("_Sorting"),
+            NULL,
+            NULL,
             NULL, },
   { "delete",
             "edit-delete", /* Icon-name */
@@ -437,6 +445,8 @@ static GtkActionEntry action_entries[] =
   { "view-menu",
             NULL,
             N_ ("_View"),
+            NULL,
+            NULL,
             NULL, },
   { "fullscreen",
             "view-fullscreen", /* Icon-name */
@@ -460,6 +470,8 @@ static GtkActionEntry action_entries[] =
   { "zoom-menu",
             NULL,
             N_ ("_Zoom"),
+            NULL,
+            NULL,
             NULL, },
   { "zoom-in",
             "zoom-in", /* Icon-name */
@@ -489,6 +501,8 @@ static GtkActionEntry action_entries[] =
   { "rotation-menu",
             NULL,
             N_ ("_Rotation"),
+            NULL,
+            NULL,
             NULL, },
   { "rotate-cw",
             "object-rotate-right", /* Icon-name */
@@ -506,6 +520,8 @@ static GtkActionEntry action_entries[] =
   { "flip-menu",
             NULL,
             N_ ("_Flip"),
+            NULL,
+            NULL,
             NULL, },
   { "flip-horizontally",
             "object-flip-horizontal",
@@ -523,6 +539,8 @@ static GtkActionEntry action_entries[] =
   { "go-menu",
             NULL,
             N_ ("_Go"),
+            NULL,
+            NULL,
             NULL, },
   { "forward",
             "go-next", /* Icon-name */
@@ -552,6 +570,8 @@ static GtkActionEntry action_entries[] =
   { "help-menu",
             NULL,
             N_ ("_Help"),
+            NULL,
+            NULL,
             NULL, },
   { "contents",
             "help-browser", /* Icon-name */
@@ -569,18 +589,26 @@ static GtkActionEntry action_entries[] =
   { "position-menu",
             NULL,
             N_ ("_Position"),
+            NULL,
+            NULL,
             NULL, },
   { "size-menu",
             NULL,
             N_ ("_Size"),
+            NULL,
+            NULL,
             NULL, },
   { "thumbnailbar-position-menu",
             NULL,
             N_ ("Thumbnail Bar _Position"),
+            NULL,
+            NULL,
             NULL, },
   { "thumbnailbar-size-menu",
             NULL,
             N_ ("Thumb_nail Size"),
+            NULL,
+            NULL,
             NULL, },
 /* Misc */
   { "leave-fullscreen",
@@ -590,6 +618,8 @@ static GtkActionEntry action_entries[] =
             NULL, /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_fullscreen), },
   { "tb-menu",
+            NULL,
+            NULL,
             NULL,
             NULL,
             NULL, }
