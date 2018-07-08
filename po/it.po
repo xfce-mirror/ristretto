@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Cristian Marchi <cri.penta@gmail.com>, 2009,2013,2015-2016
+# Emanuele Petriglia <inbox@emanuelepetriglia.me>, 2018
 # Enrico B. <enricobe@hotmail.com>, 2017
 # Fabio Vergnani <monghitri@aruba.it>, 2007
 msgid ""
@@ -11,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2018-06-16 16:26+0000\n"
+"PO-Revision-Date: 2018-07-08 12:23+0000\n"
 "Last-Translator: Emanuele Petriglia <inbox@emanuelepetriglia.me>\n"
 "Language-Team: Italian (http://www.transifex.com/xfce/xfce-apps/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +44,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s: %s\n\nUtilizzare il comando %s --help per visualizzare la lista\ncompleta delle opzioni da linea di comando.\n"
+msgstr "%s: %s\n\nUtilizzare il comando %s --help per visualizzare la lista\ncompleta delle opzioni da riga di comando.\n"
 
 #: ../src/main_window.c:55 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
@@ -56,7 +57,7 @@ msgstr "_File"
 #. Icon-name
 #: ../src/main_window.c:374
 msgid "_Open..."
-msgstr "_Apri..."
+msgstr "_Apri…"
 
 #. Label-text
 #. Keyboard shortcut
@@ -67,7 +68,7 @@ msgstr "Apre una immagine"
 #. Icon-name
 #: ../src/main_window.c:380
 msgid "_Save copy..."
-msgstr "_Salva copia..."
+msgstr "_Salva copia…"
 
 #. Label-text
 #. Keyboard shortcut
@@ -78,7 +79,7 @@ msgstr "Salva una copia dell'immagine"
 #. Icon-name
 #: ../src/main_window.c:386
 msgid "_Properties..."
-msgstr "_Proprietà..."
+msgstr "_Proprietà…"
 
 #. Label-text
 #. Keyboard shortcut
@@ -142,12 +143,12 @@ msgstr "Elimina questa immagine dal disco"
 #. Icon-name
 #: ../src/main_window.c:429
 msgid "_Clear private data..."
-msgstr "Cancella dati _privati..."
+msgstr "Cancella dati _privati…"
 
 #. Icon-name
 #: ../src/main_window.c:435
 msgid "_Preferences..."
-msgstr "_Preferenze..."
+msgstr "_Preferenze…"
 
 #: ../src/main_window.c:442
 msgid "_View"
@@ -178,7 +179,7 @@ msgstr "Lascia a schermo intero"
 #. Icon-name
 #: ../src/main_window.c:458
 msgid "Set as _Wallpaper..."
-msgstr "Imposta come _sfondo..."
+msgstr "Imposta come _sfondo…"
 
 #: ../src/main_window.c:465
 msgid "_Zoom"
@@ -367,7 +368,7 @@ msgstr "Mostra barra di s_tato"
 #. Icon-name
 #: ../src/main_window.c:635
 msgid "sort by filename"
-msgstr "ordina per nome file"
+msgstr "ordina per nome di file"
 
 #. Icon-name
 #: ../src/main_window.c:641
@@ -456,7 +457,7 @@ msgstr "Premere «Apri» per selezionare un'immagine"
 
 #: ../src/main_window.c:1418 ../src/main_window.c:1422
 msgid "Open With Other _Application..."
-msgstr "Apri con a_ltra applicazione..."
+msgstr "Apri con a_ltra applicazione…"
 
 #: ../src/main_window.c:1443 ../src/main_window.c:1449
 msgid "Empty"
@@ -464,11 +465,11 @@ msgstr "Vuota"
 
 #: ../src/main_window.c:1569
 msgid "Loading..."
-msgstr "Caricamento..."
+msgstr "Caricamento…"
 
 #: ../src/main_window.c:2167
 msgid "Choose 'set wallpaper' method"
-msgstr "Seleziona il metodo \"imposta sfondo\""
+msgstr "Seleziona il metodo 'imposta sfondo'"
 
 #: ../src/main_window.c:2170 ../src/main_window.c:3958
 #: ../src/xfce_wallpaper_manager.c:410 ../src/gnome_wallpaper_manager.c:241
@@ -511,7 +512,7 @@ msgstr "Ristretto è un visualizzatore di immagini per l'ambiente grafico Xfce."
 
 #: ../src/main_window.c:2673
 msgid "translator-credits"
-msgstr "Fabio Vergnani <monghitri@aruba.it> 2007\nCristian Marchi <cri.penta@gmail.com> 2009-2013"
+msgstr "Emanuele Petriglia <inbox@emanuelepetriglia.me> 2018\nCristian Marchi <cri.penta@gmail.com> 2009-2013\nFabio Vergnani <monghitri@aruba.it> 2007"
 
 #: ../src/main_window.c:3092
 msgid "Open image"
@@ -548,16 +549,16 @@ msgstr "Impossibile salvare il file"
 #: ../src/main_window.c:3521
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Spostare l'immagine «%s» nel cestino?"
+msgstr "Spostare l'immagine '%s' nel cestino?"
 
 #: ../src/main_window.c:3525
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Eliminare davvero l'immagine «%s» dal disco?"
+msgstr "Eliminare davvero l'immagine '%s' dal disco?"
 
 #: ../src/main_window.c:3536
 msgid "_Do not ask again for this session"
-msgstr "_Non chiedermelo di nuovo in questa sessione"
+msgstr "_Non chiederlo di nuovo in questa sessione"
 
 #: ../src/main_window.c:3613
 #, c-format
@@ -565,7 +566,7 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Si è verificato un errore durante l'eliminazione dell'immagine «%s» dal disco.\n\n%s"
+msgstr "Si è verificato un errore durante l'eliminazione dell'immagine '%s' dal disco.\n\n%s"
 
 #: ../src/main_window.c:3617
 #, c-format
@@ -573,7 +574,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "Si è verificato un errore durante lo spostamento dell'immagine «%s» nel cestino.\n\n%s"
+msgstr "Si è verificato un errore durante lo spostamento dell'immagine '%s' nel cestino.\n\n%s"
 
 #: ../src/main_window.c:3953
 msgid "Edit with"
@@ -582,7 +583,7 @@ msgstr "Modifica con"
 #: ../src/main_window.c:3971
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr "Apri %s e gli altri file del tipo \"%s\" con:"
+msgstr "Apri %s e gli altri file del tipo %s con:"
 
 #: ../src/main_window.c:3976
 msgid "Use as _default for this kind of file"
@@ -598,11 +599,11 @@ msgstr "Altre applicazioni"
 
 #: ../src/icon_bar.c:339
 msgid "Orientation"
-msgstr "Orientazione"
+msgstr "Orientamento"
 
 #: ../src/icon_bar.c:340
 msgid "The orientation of the iconbar"
-msgstr "L'orientazione della barra delle icone"
+msgstr "L'orientamento della barra delle icone"
 
 #: ../src/icon_bar.c:356
 msgid "File column"
@@ -703,7 +704,7 @@ msgstr "Colore dello sfondo"
 
 #: ../src/preferences_dialog.c:285
 msgid "Override background color:"
-msgstr "Cambia il colore dello sfondo:"
+msgstr "Sostituisci il colore dello sfondo:"
 
 #: ../src/preferences_dialog.c:312
 msgid "Quality"
@@ -713,7 +714,7 @@ msgstr "Qualità"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Se questa opzione è abilitata, la massima qualità dell'immagine sarà limitata alla dimensione dello schermo"
+msgstr "Se questa opzione è abilitata, la massima qualità dell'immagine sarà limitata alla dimensione dello schermo."
 
 #: ../src/preferences_dialog.c:319
 msgid "Limit rendering quality"
@@ -730,7 +731,7 @@ msgstr "Miniature"
 #: ../src/preferences_dialog.c:339
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "La barra delle miniature può essere nascosta automaticamente \nquando la visualizzazione è a schermo intero"
+msgstr "La barra delle miniature può essere nascosta automaticamente \nquando la visualizzazione è a schermo intero."
 
 #: ../src/preferences_dialog.c:342
 msgid "Hide thumbnail bar when fullscreen"
@@ -744,7 +745,7 @@ msgstr "Orologio"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Mostra un orologio analogico che visualizza l'orario corrente nella modalità a schermo intero"
+msgstr "Mostra un orologio analogico nella modalità a schermo intero"
 
 #: ../src/preferences_dialog.c:356
 msgid "Show Fullscreen Clock"
@@ -852,7 +853,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "Il servizio di creazione delle miniature non può essere raggiunto;\nper questo motivo le miniature non possono essere create.\n\nInstallare <b>Tumbler</b> o un altro <i>demone di creazione delle miniature</i>\nper risolvere il problema."
+msgstr "Il servizio di creazione delle miniature non può essere raggiunto, per questo motivo le miniature non possono \nessere create.\n\nInstallare <b>Tumbler</b> o un altro <i>demone di creazione delle miniature</i>\nper risolvere il problema."
 
 #: ../src/thumbnailer.c:476
 msgid "Do _not show this message again"
@@ -929,7 +930,7 @@ msgstr "Questa versione aggiunge la possibilità di utilizzare le miniature come
 msgid ""
 "This release contains lots of translation-updates, and a crash when "
 "configuring the 'limit-quality' property."
-msgstr "Questo rilascio contiene molti aggiornamenti alle traduzioni e a un problema di configurazione della proprietà \"limite qualità\""
+msgstr "Questo rilascio contiene molti aggiornamenti alle traduzioni e corregge un problema quando si configura la proprietà che limita la qualità di visualizzazione."
 
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
@@ -943,4 +944,4 @@ msgid ""
 "statusbar to indicate when it is busy and progressive loading of directories"
 " to prevent lockup of the UI. This version is designed to work with version "
 "4.10 of Xfce."
-msgstr "Questa versione introduce le seguenti novità:\n- documentazione su http://docs.xfce.org;\n- opzione per limitare la massima qualità dell'immagine alla dimensione dello schermo per migliorare le prestazioni e il consumo di memoria;\n- una sola barra degli strumenti in luogo di due;\n- un pulsante di avvio veloce nella barra strumenti per avviare un editor;\n- opzione per selezionare un editor in funzione dei tipi mime;\n- un orologio opzionale visualizzato quando Ristretto è in modalità a schermo intero;\n- Ristretto mostra ora un messaggio di caricamento nella barra di stato quando è occupato ed è stato aggiunto il caricamento progressivo delle cartelle per impedire il blocco dell'interfaccia.\nQuesta versione è pensata per funzionare con la versione 4.10 di Xfce\nQuesta versione è progettata per funzionare con Xfce 4.10"
+msgstr "Questa versione introduce le seguenti novità:\n- documentazione su http://docs.xfce.org;\n- opzione per limitare la massima qualità dell'immagine alla dimensione dello schermo per migliorare le prestazioni e il consumo di memoria;\n- una sola barra degli strumenti invece di due;\n- un pulsante di avvio veloce nella barra strumenti per avviare un editor;\n- opzione per selezionare un editor in funzione dei tipi mime;\n- un orologio opzionale visualizzato quando Ristretto è in modalità a schermo intero;\n- Ristretto mostra ora un messaggio di caricamento nella barra di stato quando è occupato ed è stato aggiunto il caricamento progressivo delle cartelle per impedire il blocco dell'interfaccia.\nQuesta versione è pensata per funzionare con la versione 4.10 di Xfce."
