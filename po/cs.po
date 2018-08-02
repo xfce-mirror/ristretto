@@ -5,20 +5,21 @@
 # Translators:
 # Michal Várady <miko.vaji@gmail.com>, 2015-2016
 # Miro Hrončok <churchyard@gmail.com>, 2007
+# Pavel Borecki <pavel.borecki@gmail.com>, 2018
 # Petr Šimáček <petr.simacek@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-09-19 18:05+0000\n"
-"Last-Translator: Petr Šimáček <petr.simacek@gmail.com>\n"
+"PO-Revision-Date: 2018-08-02 05:47+0000\n"
+"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/xfce/xfce-apps/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
 #: ../src/main.c:62
 msgid "Version information"
@@ -26,7 +27,7 @@ msgstr "Informace o verzi"
 
 #: ../src/main.c:66
 msgid "Start in fullscreen mode"
-msgstr "Spustit v režimu celá obrazovka"
+msgstr "Spustit v režimu na celou obrazovku"
 
 #: ../src/main.c:70
 msgid "Start a slideshow"
@@ -56,7 +57,7 @@ msgstr "_Soubor"
 #. Icon-name
 #: ../src/main_window.c:374
 msgid "_Open..."
-msgstr "_Otevřít..."
+msgstr "_Otevřít…"
 
 #. Label-text
 #. Keyboard shortcut
@@ -67,7 +68,7 @@ msgstr "Načíst obrázek"
 #. Icon-name
 #: ../src/main_window.c:380
 msgid "_Save copy..."
-msgstr "Uložit _kopii..."
+msgstr "Uložit _kopii…"
 
 #. Label-text
 #. Keyboard shortcut
