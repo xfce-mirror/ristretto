@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2017-09-19 18:05+0000\n"
+"PO-Revision-Date: 2018-09-14 00:15+0000\n"
 "Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Icelandic (http://www.transifex.com/xfce/xfce-apps/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -518,7 +518,7 @@ msgstr "Opna mynd"
 
 #: ../src/main_window.c:3096
 msgid "_Open"
-msgstr ""
+msgstr "_Opna"
 
 #: ../src/main_window.c:3111
 msgid "Images"
