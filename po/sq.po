@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2018-02-28 01:16+0000\n"
+"PO-Revision-Date: 2018-09-14 00:15+0000\n"
 "Last-Translator: Besnik <besnik@programeshqip.org>\n"
 "Language-Team: Albanian (http://www.transifex.com/xfce/xfce-apps/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -148,7 +148,7 @@ msgstr "_Parapëlqime…"
 
 #: ../src/main_window.c:442
 msgid "_View"
-msgstr ""
+msgstr "_Parje"
 
 #. Icon-name
 #: ../src/main_window.c:446
@@ -164,13 +164,13 @@ msgstr ""
 #. Icon-name
 #: ../src/main_window.c:452
 msgid "_Leave Fullscreen"
-msgstr ""
+msgstr "_Dil nga Sa tërë ekrani"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:454
 msgid "Leave Fullscreen"
-msgstr ""
+msgstr "Dil nga Sa tërë ekrani"
 
 #. Icon-name
 #: ../src/main_window.c:458
@@ -344,7 +344,7 @@ msgstr ""
 #. Icon-name
 #: ../src/main_window.c:591
 msgid "Leave _Fullscreen"
-msgstr ""
+msgstr "Dil nga _Sa tërë ekrani"
 
 #. Icon-name
 #: ../src/main_window.c:607
@@ -432,7 +432,7 @@ msgstr ""
 
 #: ../src/main_window.c:878
 msgid "_Pause"
-msgstr ""
+msgstr "_Pushoje"
 
 #: ../src/main_window.c:878
 msgid "Pause slideshow"
@@ -508,7 +508,7 @@ msgstr ""
 
 #: ../src/main_window.c:2673
 msgid "translator-credits"
-msgstr ""
+msgstr "translator-credits"
 
 #: ../src/main_window.c:3092
 msgid "Open image"
@@ -692,7 +692,7 @@ msgstr "Pastroji të dhëna private"
 
 #: ../src/preferences_dialog.c:274
 msgid "Display"
-msgstr ""
+msgstr "Ekran"
 
 #: ../src/preferences_dialog.c:281
 msgid "Background color"
@@ -893,7 +893,7 @@ msgstr ""
 
 #: ../src/xfce_wallpaper_manager.c:568
 msgid "Scaled"
-msgstr ""
+msgstr "Shkallëzuar"
 
 #: ../src/xfce_wallpaper_manager.c:571
 msgid "Zoomed"
