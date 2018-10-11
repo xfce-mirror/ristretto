@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Charles Monzat <c.monzat@laposte.net>, 2018
+# Charles Monzat <c.monzat@laposte.net>, 2018
 # jc1 <jc1.quebecos@gmail.com>, 2013
 # jc1 <jc1.quebecos@gmail.com>, 2013
 # Mike Massonnet <mmassonnet@xfce.org>, 2007-2008
@@ -19,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2018-10-11 09:08+0000\n"
+"PO-Revision-Date: 2018-10-11 13:16+0000\n"
 "Last-Translator: Charles Monzat <c.monzat@laposte.net>\n"
 "Language-Team: French (http://www.transifex.com/xfce/xfce-apps/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +31,7 @@ msgstr ""
 
 #: ../src/main.c:62
 msgid "Version information"
-msgstr "Informations sur la version"
+msgstr "Informations de version"
 
 #: ../src/main.c:66
 msgid "Start in fullscreen mode"
@@ -51,7 +52,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s : %s\n\nEssayez %s --help pour voir une liste complète\ndes options de ligne de commande disponibles.\n"
+msgstr "%s : %s\n\nEssayez %s --help pour afficher une liste complète\ndes options disponibles en ligne de commande.\n"
 
 #: ../src/main_window.c:55 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
@@ -64,7 +65,7 @@ msgstr "_Fichier"
 #. Icon-name
 #: ../src/main_window.c:374
 msgid "_Open..."
-msgstr "_Ouvrir..."
+msgstr "_Ouvrir…"
 
 #. Label-text
 #. Keyboard shortcut
@@ -75,7 +76,7 @@ msgstr "Ouvrir une image"
 #. Icon-name
 #: ../src/main_window.c:380
 msgid "_Save copy..."
-msgstr "_Enregistrer une copie..."
+msgstr "_Enregistrer une copie…"
 
 #. Label-text
 #. Keyboard shortcut
@@ -86,7 +87,7 @@ msgstr "Enregistrer une copie de l’image"
 #. Icon-name
 #: ../src/main_window.c:386
 msgid "_Properties..."
-msgstr "_Propriétés..."
+msgstr "_Propriétés…"
 
 #. Label-text
 #. Keyboard shortcut
@@ -130,7 +131,7 @@ msgstr "Quitter Ristretto"
 
 #: ../src/main_window.c:415
 msgid "_Open with"
-msgstr "_Ouvrir avec"
+msgstr "O_uvrir avec"
 
 #: ../src/main_window.c:419
 msgid "_Sorting"
@@ -150,12 +151,12 @@ msgstr "Supprimer cette image du disque"
 #. Icon-name
 #: ../src/main_window.c:429
 msgid "_Clear private data..."
-msgstr "_Effacer les données personnelles..."
+msgstr "_Effacer les données personnelles…"
 
 #. Icon-name
 #: ../src/main_window.c:435
 msgid "_Preferences..."
-msgstr "_Préférences..."
+msgstr "_Préférences…"
 
 #: ../src/main_window.c:442
 msgid "_View"
@@ -186,7 +187,7 @@ msgstr "Quitter le plein écran"
 #. Icon-name
 #: ../src/main_window.c:458
 msgid "Set as _Wallpaper..."
-msgstr "_Définir comme fond d’écran..."
+msgstr "_Définir comme fond d’écran…"
 
 #: ../src/main_window.c:465
 msgid "_Zoom"
@@ -252,7 +253,7 @@ msgstr "Rotation vers la _gauche"
 
 #: ../src/main_window.c:511
 msgid "_Flip"
-msgstr "R_etourner"
+msgstr "R_etournement"
 
 #: ../src/main_window.c:515
 msgid "Flip _Horizontally"
@@ -334,7 +335,7 @@ msgstr "À _propos"
 #. Keyboard shortcut
 #: ../src/main_window.c:569
 msgid "Display information about ristretto"
-msgstr "Afficher les informations à propos de Ristretto"
+msgstr "Afficher les informations sur Ristretto"
 
 #: ../src/main_window.c:574
 msgid "_Position"
@@ -422,15 +423,15 @@ msgstr "Par défaut"
 
 #: ../src/main_window.c:711
 msgid "Large"
-msgstr "Large"
+msgstr "Grande"
 
 #: ../src/main_window.c:717
 msgid "Larger"
-msgstr "Plus large"
+msgstr "Plus grande"
 
 #: ../src/main_window.c:723
 msgid "Very Large"
-msgstr "Très large"
+msgstr "Très grande"
 
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:877
@@ -460,11 +461,11 @@ msgstr "Récemment utilisé"
 
 #: ../src/main_window.c:985 ../src/main_window.c:1559
 msgid "Press open to select an image"
-msgstr "Cliquez sur « Ouvrir... » pour sélectionner une image"
+msgstr "Cliquez sur « Ouvrir… » pour sélectionner une image"
 
 #: ../src/main_window.c:1418 ../src/main_window.c:1422
 msgid "Open With Other _Application..."
-msgstr "Ouvrir avec une autre _application..."
+msgstr "Ouvrir avec une autre _application…"
 
 #: ../src/main_window.c:1443 ../src/main_window.c:1449
 msgid "Empty"
@@ -472,23 +473,23 @@ msgstr "Vide"
 
 #: ../src/main_window.c:1569
 msgid "Loading..."
-msgstr "Chargement..."
+msgstr "Chargement…"
 
 #: ../src/main_window.c:2167
 msgid "Choose 'set wallpaper' method"
-msgstr "Choisir la méthode pour « Définir comme fond d’écran... »"
+msgstr "Choisir la méthode pour « Définir comme fond d’écran… »"
 
 #: ../src/main_window.c:2170 ../src/main_window.c:3958
 #: ../src/xfce_wallpaper_manager.c:410 ../src/gnome_wallpaper_manager.c:241
 msgid "_OK"
-msgstr "_OK"
+msgstr "_Valider"
 
 #: ../src/main_window.c:2172 ../src/main_window.c:3095
 #: ../src/main_window.c:3328 ../src/main_window.c:3956
 #: ../src/privacy_dialog.c:180 ../src/xfce_wallpaper_manager.c:406
 #: ../src/gnome_wallpaper_manager.c:237
 msgid "_Cancel"
-msgstr "_Annuler"
+msgstr "A_nnuler"
 
 #: ../src/main_window.c:2182 ../src/preferences_dialog.c:462
 msgid ""
@@ -511,7 +512,7 @@ msgstr "GNOME"
 
 #: ../src/main_window.c:2656
 msgid "Developer:"
-msgstr "Programmeur :"
+msgstr "Développeur :"
 
 #: ../src/main_window.c:2665 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
@@ -556,7 +557,7 @@ msgstr "Impossible d’enregistrer le fichier"
 #: ../src/main_window.c:3521
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Voulez-vous vraiment mettre l’image « %s » dans la corbeille ?"
+msgstr "Voulez-vous vraiment envoyer l’image « %s » dans la corbeille ?"
 
 #: ../src/main_window.c:3525
 #, c-format
@@ -573,7 +574,7 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Une erreur s’est produite lors de la suppression de l’image « %s » du disque.\n\n%s"
+msgstr "Une erreur s’est produite lors de la suppression de l’image « %s » du disque.\n\n%s"
 
 #: ../src/main_window.c:3617
 #, c-format
@@ -581,7 +582,7 @@ msgid ""
 "An error occurred when sending image '%s' to trash.\n"
 "\n"
 "%s"
-msgstr "Une erreur s’est produite lors de l’envoi de l’image « %s » dans la corbeille.\n\n%s"
+msgstr " Une erreur s’est produite lors de l’envoi de l’image « %s » dans la corbeille.\n\n%s"
 
 #: ../src/main_window.c:3953
 msgid "Edit with"
@@ -666,7 +667,7 @@ msgstr "Couleur du texte de l’élément surligné"
 
 #: ../src/privacy_dialog.c:150
 msgid "Time range to clear:"
-msgstr "Période à effacer : "
+msgstr "Période à effacer : "
 
 #: ../src/privacy_dialog.c:154
 msgid "Cleanup"
@@ -711,7 +712,7 @@ msgstr "Couleur d’arrière-plan"
 
 #: ../src/preferences_dialog.c:285
 msgid "Override background color:"
-msgstr "Remplacer la couleur d’arrière-plan par :"
+msgstr "Remplacer la couleur d’arrière-plan par :"
 
 #: ../src/preferences_dialog.c:312
 msgid "Quality"
@@ -752,7 +753,7 @@ msgstr "Horloge"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Afficher une horloge analogique indiquant l’heure courante lorsque la fenêtre est en plein écran."
+msgstr "Afficher une horloge analogique indiquant l’heure actuelle lorsque la fenêtre est en plein écran."
 
 #: ../src/preferences_dialog.c:356
 msgid "Show Fullscreen Clock"
@@ -810,23 +811,23 @@ msgstr "Préférences du visionneur d’images"
 
 #: ../src/properties_dialog.c:178
 msgid "<b>Name:</b>"
-msgstr "<b>Nom :</b>"
+msgstr "<b>Nom :</b>"
 
 #: ../src/properties_dialog.c:179
 msgid "<b>Kind:</b>"
-msgstr "<b>Type :</b>"
+msgstr "<b>Type :</b>"
 
 #: ../src/properties_dialog.c:180
 msgid "<b>Modified:</b>"
-msgstr "<b>Modifié :</b>"
+msgstr "<b>Modifié :</b>"
 
 #: ../src/properties_dialog.c:181
 msgid "<b>Accessed:</b>"
-msgstr "<b>Accédé :</b>"
+msgstr "<b>Accédé :</b>"
 
 #: ../src/properties_dialog.c:182
 msgid "<b>Size:</b>"
-msgstr "<b>Taille :</b>"
+msgstr "<b>Taille :</b>"
 
 #: ../src/properties_dialog.c:306
 msgid "General"
@@ -839,7 +840,7 @@ msgstr "Image"
 #: ../src/properties_dialog.c:545
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr "<b>Date de prise :</b>"
+msgstr "<b>Date de prise :</b>"
 
 #: ../src/properties_dialog.c:557 ../src/properties_dialog.c:569
 #: ../src/properties_dialog.c:581
@@ -868,15 +869,15 @@ msgstr "_Ne plus afficher ce message"
 
 #: ../src/xfce_wallpaper_manager.c:378 ../src/gnome_wallpaper_manager.c:223
 msgid "Style:"
-msgstr "Style :"
+msgstr "Style :"
 
 #: ../src/xfce_wallpaper_manager.c:379
 msgid "Brightness:"
-msgstr "Luminosité : "
+msgstr "Luminosité : "
 
 #: ../src/xfce_wallpaper_manager.c:380
 msgid "Saturation:"
-msgstr "Saturation : "
+msgstr "Saturation : "
 
 #: ../src/xfce_wallpaper_manager.c:396
 msgid "Apply to all workspaces"
@@ -951,4 +952,4 @@ msgid ""
 "statusbar to indicate when it is busy and progressive loading of directories"
 " to prevent lockup of the UI. This version is designed to work with version "
 "4.10 of Xfce."
-msgstr "Cette version est conçue pour fonctionner avec Xfce 4.10 et apporte plusieurs changements : la documentation est désormais disponible sur http://docs.xfce.org ; il est possible de limiter la qualité de rendu de l’image à la dimension de l’écran afin d’améliorer l’utilisation de la mémoire et la performance ; une seule barre d’outils, possédant un bouton de lancement rapide pour exécuter un éditeur, a été conservée ; il est possible d’assigner un éditeur par défaut par type MIME ; une horloge peut s’afficher en mode plein écran ; Ristretto affiche dorénavant un message de chargement dans la barre d’état pour indiquer qu’il est occupé et empêcher le blocage de l’interface utilisateur."
+msgstr "Cette version est conçue pour fonctionner avec Xfce 4.10 et apporte plusieurs changements : la documentation est désormais disponible sur http://docs.xfce.org ; il est possible de limiter la qualité de rendu de l’image à la dimension de l’écran afin d’améliorer l’utilisation de la mémoire et la performance ; une seule barre d’outils, possédant un bouton de lancement rapide pour exécuter un éditeur, a été conservée ; il est possible d’assigner un éditeur par défaut par type MIME ; une horloge peut s’afficher en mode plein écran ; Ristretto affiche dorénavant un message de chargement dans la barre d’état pour indiquer qu’il est occupé et empêcher le blocage de l’interface utilisateur."
