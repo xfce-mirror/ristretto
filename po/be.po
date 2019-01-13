@@ -6,13 +6,14 @@
 # AlexanderFilev, 2015
 # Denis Koryavov <dkoryavov@yandex.ru>, 2010
 # Stefan Zerkalica <zerkalica@gmail.com>, 2008
+# Zmicer Turok <zmicerturok@gmail.com>, 2019
 # Zmicer Turok <zmicerturok@gmail.com >, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2018-07-06 20:35+0000\n"
+"PO-Revision-Date: 2019-01-13 17:36+0000\n"
 "Last-Translator: Zmicer Turok <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/xfce/xfce-apps/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -853,7 +854,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "Не атрымалася злучыцца з дэманам стварэння мініяцюр.\nМініяцюры длявыяў стварацца не будуць.\n\nУсталюйце <b>Tumbler</b> альбо<i>альбо іншы дэман мініяцюр</i>,\nкаб гэта выправіць."
+msgstr "Не атрымалася злучыцца з дэманам стварэння мініяцюр.\nМініяцюры для выяў стварацца не будуць.\n\nУсталюйце <b>Tumbler</b> альбо<i>альбо іншы дэман мініяцюр</i>,\nкаб гэта выправіць."
 
 #: ../src/thumbnailer.c:476
 msgid "Do _not show this message again"
@@ -924,13 +925,13 @@ msgid ""
 "This version comes with the improvements such as thumbnail usage as appicon "
 "and update to the first image in the image-list when receiving a ready-"
 "signal, required to show the thumbnail once it's generated."
-msgstr "У дадзеным выпуску дададзены такія магчымасці як выкарыстанне мініяцюр у якасці значкоў праграм і абнаўленне першай выявы са спіса выяў, што патрабуецца для стварэння мініяцюры."
+msgstr "У дадзеным выпуску дададзеныя такія магчымасці як выкарыстанне мініяцюр у якасці значкоў праграм і абнаўленне першай выявы са спіса выяў, што патрабуецца для стварэння мініяцюры."
 
 #: ../ristretto.appdata.xml.in.h:4
 msgid ""
 "This release contains lots of translation-updates, and a crash when "
 "configuring the 'limit-quality' property."
-msgstr "У дадзеным выпуску абноўлены пераклады і выпраўлена хіба, пры якой праграма аварыйна завяршалася падчас наладкі параметра абмежавання якасці."
+msgstr "У дадзеным выпуску абноўленыя пераклады і выпраўлена хіба, пры якой праграма аварыйна завяршалася падчас наладкі параметра абмежавання якасці."
 
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
@@ -944,4 +945,4 @@ msgid ""
 "statusbar to indicate when it is busy and progressive loading of directories"
 " to prevent lockup of the UI. This version is designed to work with version "
 "4.10 of Xfce."
-msgstr "У дадзенай версіі ў параўнанні з папярэдняй адбылося некалькі змен: з'явілася сеціўная дакументацыя наdocs.xfce.org, з'явіўся новы параметр абмежавання максімальнай якасці па памеры экрана для памяншэння выкарыстання памяці і паляпшэння хуткадзейнасці.Ад гэтай пары пры выключэнні гэтага параметра Ristretto будзе адмалёўваць выяву ў найлепшай якасці. Яшчэ змены: адна панэль прылад замест дзвух,кнопка хуткага запуску рэдактара, параметр выбару прадвызначанага рэдактара па mime-тыпах, магчымасць адлюстравання гадзінніка ў поўнаэкранным рэжыме. Ад гэтай парыRistretto будзе адлюстроўваць паведамленне \"Загрузка...\" у радку стану падчас працы альбозагрузцы каталогаў для прадухілення блакавання інтэрфейсу. Дадзеная версія прадугледжана для Xfce 4.10."
+msgstr "У дадзенай версіі ў параўнанні з папярэдняй адбылося некалькі змен: з'явілася сеціўная дакументацыя наdocs.xfce.org, з'явіўся новы параметр абмежавання максімальнай якасці па памеры экрана для памяншэння выкарыстання памяці і паляпшэння хуткадзейнасці. Ад гэтай пары пры выключэнні гэтага параметра Ristretto будзе адмалёўваць выяву ў найлепшай якасці. Яшчэ змены: адна панэль прылад замест дзвух,кнопка хуткага запуску рэдактара, параметр выбару прадвызначанага рэдактара па mime-тыпах, магчымасць адлюстравання гадзінніка ў поўнаэкранным рэжыме. Ад гэтай парыRistretto будзе адлюстроўваць паведамленне \"Загрузка...\" у радку стану падчас працы альбозагрузцы каталогаў для прадухілення блакавання інтэрфейсу. Дадзеная версія прадугледжана для Xfce 4.10."
