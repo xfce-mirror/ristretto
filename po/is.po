@@ -5,13 +5,13 @@
 # Translators:
 # Sveinn í Felli <sv1@fellsnet.is>, 2014
 # Sveinn í Felli <sveinki@nett.is>, 2011,2015-2016
-# Sveinn í Felli <sveinki@nett.is>, 2011,2015-2016, 2018
+# Sveinn í Felli <sveinki@nett.is>, 2011,2015-2016, 2018-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2018-11-06 12:08+0000\n"
+"PO-Revision-Date: 2019-01-15 12:37+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic (http://www.transifex.com/xfce/xfce-apps/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -943,4 +943,4 @@ msgid ""
 "statusbar to indicate when it is busy and progressive loading of directories"
 " to prevent lockup of the UI. This version is designed to work with version "
 "4.10 of Xfce."
-msgstr ""
+msgstr "Þessi útgáfa felur í sér ýmsar breytingar eins og hjálparskjöl á docs.xfce.org, möguleikann á að takmarka myndgæði við skjástærðir til að nýta sem best minni og afköst - núna myndgerir Ristretto í fullum myndgæðum þegar þessi valkostur er óvirkur, einungis ein verkfærastika - í stað tveggja, flýtiræsihnappur á verkfærastiku til að ræsa ritil, möguleiki á að velja ritil eftir mime-tegund, möguleiki á að birta klukku þegar Ristretto er í skjáfylli, Ristretto birtir núna skilaboðin 'Hleður...' í stöðustiku þegar það er að vinna og núna er möppum hlaðið inn eftir þörfum til að koma í veg fyrir að notandaviðmótið frjósi. Þessi útgáfa er hönnuð til að vinna með útgáfu 4.10 af Xfce."
