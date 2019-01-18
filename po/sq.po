@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2018-09-14 00:15+0000\n"
+"PO-Revision-Date: 2019-01-18 15:53+0000\n"
 "Last-Translator: Besnik <besnik@programeshqip.org>\n"
 "Language-Team: Albanian (http://www.transifex.com/xfce/xfce-apps/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -179,12 +179,12 @@ msgstr ""
 
 #: ../src/main_window.c:465
 msgid "_Zoom"
-msgstr ""
+msgstr "_Zoom"
 
 #. Icon-name
 #: ../src/main_window.c:469
 msgid "Zoom _In"
-msgstr ""
+msgstr "Z_madhoje"
 
 #. Label-text
 #. Keyboard shortcut
@@ -195,7 +195,7 @@ msgstr ""
 #. Icon-name
 #: ../src/main_window.c:475
 msgid "Zoom _Out"
-msgstr ""
+msgstr "Z_vogëloje"
 
 #. Label-text
 #. Keyboard shortcut
