@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2017-01-26 18:30+0100\n"
-"PO-Revision-Date: 2019-03-07 11:16+0000\n"
+"PO-Revision-Date: 2019-03-07 13:49+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -855,7 +855,7 @@ msgstr "Tjenesten til miniaturer kan ikke kontaktes,\nog derfor kan miniaturer i
 
 #: ../src/thumbnailer.c:476
 msgid "Do _not show this message again"
-msgstr "Undla_d at vise denne besked igen"
+msgstr "Undla_d at vise denne meddelelse igen"
 
 #: ../src/xfce_wallpaper_manager.c:378 ../src/gnome_wallpaper_manager.c:223
 msgid "Style:"
