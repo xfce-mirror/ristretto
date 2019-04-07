@@ -462,6 +462,19 @@ rstto_file_get_modified_time ( RsttoFile *r_file )
     return time_;
 }
 
+goffset
+rstto_file_get_size (RsttoFile *r_file )
+{
+    goffset size = 0;
+    GFileInfo *file_info = g_file_query_info (r_file->priv->file, G_FILE_ATTRIBUTE_STANDARD_SIZE, 0, NULL, NULL);
+
+    size = g_file_info_get_size ( file_info );
+
+    g_object_unref (file_info);
+
+    return size;
+}
+
 ExifEntry *
 rstto_file_get_exif ( RsttoFile *r_file, ExifTag id )
 {

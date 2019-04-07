@@ -1573,11 +1573,14 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
 
                 if(rstto_image_viewer_get_width(viewer) != 0 && rstto_image_viewer_get_height(viewer) != 0)
                 {
-                    tmp_status = g_strdup_printf ("%s\t%d x %d\t%.1f%%", status,
+                    gchar *size_string = g_format_size(rstto_file_get_size(cur_file));
+                    tmp_status = g_strdup_printf ("%s\t%d x %d\t%s\t%.1f%%", status,
                                                 rstto_image_viewer_get_width(viewer),
                                                 rstto_image_viewer_get_height(viewer),
+                                                size_string,
                                                 (100 * rstto_image_viewer_get_scale(viewer)));
 
+                    g_free (size_string);
                     g_free (status);
                     status = tmp_status;
                 }

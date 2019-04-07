@@ -101,6 +101,9 @@ rstto_file_get_thumbnail ( RsttoFile *, RsttoThumbnailSize );
 guint64
 rstto_file_get_modified_time ( RsttoFile *);
 
+goffset
+rstto_file_get_size ( RsttoFile * );
+
 ExifEntry *
 rstto_file_get_exif ( RsttoFile *, ExifTag );
 
