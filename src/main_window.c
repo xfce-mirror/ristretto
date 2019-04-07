@@ -2712,7 +2712,7 @@ cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
         xfce_get_license_text(XFCE_LICENSE_TEXT_GPL));
     gtk_about_dialog_set_copyright((GtkAboutDialog *)about_dialog,
         "Copyright \302\251 2006-2012 Stephan Arts\n"
-        "Copyright \302\251 2013-2017 Xfce Developers");
+        "Copyright \302\251 2013-2019 Xfce Developers");
 
     gtk_dialog_run(GTK_DIALOG(about_dialog));
 
