@@ -291,7 +291,11 @@ struct _RsttoIconBarPrivate
 
 static guint icon_bar_signals[LAST_SIGNAL];
 
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_38
 G_DEFINE_TYPE (RsttoIconBar, rstto_icon_bar, GTK_TYPE_CONTAINER)
+#else
+G_DEFINE_TYPE_WITH_CODE (RsttoIconBar, rstto_icon_bar, GTK_TYPE_CONTAINER, G_ADD_PRIVATE (RsttoIconBar))
+#endif
 
 
 static void
@@ -301,7 +305,9 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
     GtkWidgetClass *gtkwidget_class;
     GObjectClass   *gobject_class;
 
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_38
     g_type_class_add_private (klass, sizeof (RsttoIconBarPrivate));
+#endif
 
     gobject_class = G_OBJECT_CLASS (klass);
     gobject_class->finalize = rstto_icon_bar_finalize;
