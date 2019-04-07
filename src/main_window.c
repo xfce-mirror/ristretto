@@ -2701,7 +2701,7 @@ cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
     gtk_about_dialog_set_comments((GtkAboutDialog *)about_dialog,
         _("Ristretto is an image viewer for the Xfce desktop environment."));
     gtk_about_dialog_set_website((GtkAboutDialog *)about_dialog,
-        "http://docs.xfce.org/apps/ristretto/start");
+        "https://docs.xfce.org/apps/ristretto/start");
     gtk_about_dialog_set_logo_icon_name((GtkAboutDialog *)about_dialog,
         "ristretto");
     gtk_about_dialog_set_authors((GtkAboutDialog *)about_dialog,
