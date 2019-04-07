@@ -589,6 +589,7 @@ rstto_file_get_thumbnail (
     if (NULL == thumbnail_path)
     {
         /* No thumbnail to return at this time */
+        g_object_unref (thumbnailer);
         return NULL;
     }
 
