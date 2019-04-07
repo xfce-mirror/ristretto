@@ -167,7 +167,9 @@ cb_rstto_thumbnailer_ready(
         gpointer user_data);
 
 static gboolean
-rstto_window_save_geometry_timer (gpointer user_data);
+rstto_main_window_save_geometry_timer (gpointer user_data);
+static void
+rstto_main_window_save_geometry_timer_destroy (gpointer user_data);
 
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
@@ -1960,7 +1962,7 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
 }
 
 static gboolean
-rstto_window_save_geometry_timer (gpointer user_data)
+rstto_main_window_save_geometry_timer (gpointer user_data)
 {
     GtkWindow *window = GTK_WINDOW(user_data);
     gint width = 0;
@@ -1987,6 +1989,11 @@ rstto_window_save_geometry_timer (gpointer user_data)
     return FALSE;
 }
 
+static void
+rstto_main_window_save_geometry_timer_destroy (gpointer user_data)
+{
+    RSTTO_MAIN_WINDOW (user_data)->priv->window_save_geometry_timer_id = 0;
+}
 
 static void
 rstto_main_window_set_thumbnail_size (
@@ -2757,15 +2764,14 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
         {
             g_source_remove (window->priv->window_save_geometry_timer_id);
         }
-        window->priv->window_save_geometry_timer_id = 0;
 
         /* check if we should schedule another save timer */
         if (gtk_widget_get_visible (GTK_WIDGET (window)))
         {
             /* save the geometry one second after the last configure event */
-            window->priv->window_save_geometry_timer_id = g_timeout_add (
-                    1000, rstto_window_save_geometry_timer,
-                    widget);
+            window->priv->window_save_geometry_timer_id = g_timeout_add_seconds_full (
+                    G_PRIORITY_DEFAULT, 1, rstto_main_window_save_geometry_timer,
+                    widget, rstto_main_window_save_geometry_timer_destroy);
         }
     }
 
