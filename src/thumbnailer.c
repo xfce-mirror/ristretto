@@ -129,7 +129,7 @@ struct _RsttoThumbnailerPriv
     GSList              *queue;
 
     GSList              *in_process_queue;
-    gint                 handle;
+    guint                handle;
 
     gboolean             show_missing_thumbnailer_error;
 
