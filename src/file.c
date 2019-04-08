@@ -412,11 +412,14 @@ rstto_file_get_content_type ( RsttoFile *r_file )
                 content_type = magic_file (magic, file_path);
                 if ( NULL != content_type )
                 {
-                    /* "image/x-ms-bmp" isn't supported by gdk_pixbuf_loader_new_with_mime_type ()
-                       see https://bugzilla.xfce.org/show_bug.cgi?id=13489 */
+                    /* image types that aren't supported by gdk_pixbuf_loader_new_with_mime_type () */
                     if ( g_strcmp0 (content_type, "image/x-ms-bmp") == 0 )
                     {
-                        content_type = "image/bmp";
+                        content_type = "image/bmp"; // bug #13489
+                    }
+                    else if ( g_strcmp0 (content_type, "image/x-portable-greymap") == 0 )
+                    {
+                        content_type = "image/x-portable-graymap"; // bug #14709
                     }
 
                     r_file->priv->content_type = g_strdup (content_type);
