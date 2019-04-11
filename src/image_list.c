@@ -649,6 +649,7 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
         gtk_tree_path_append_index(path_, i);
 
         gtk_tree_model_row_deleted(GTK_TREE_MODEL(image_list), path_);
+        gtk_tree_path_free (path_);
 
         image_iter = g_list_next (image_iter);
     }
