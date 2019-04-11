@@ -403,7 +403,19 @@ rstto_image_list_dispose(GObject *object)
             g_object_unref (image_list->priv->filter);
             image_list->priv->filter= NULL;
         }
-        
+
+        if (image_list->priv->image_monitors)
+        {
+            g_list_free_full (image_list->priv->image_monitors, (GDestroyNotify) g_object_unref);
+            image_list->priv->image_monitors = NULL;
+        }
+
+        if (image_list->priv->images)
+        {
+            g_list_free_full (image_list->priv->images, (GDestroyNotify) g_object_unref);
+            image_list->priv->images = NULL;
+        }
+
         g_free (image_list->priv);
         image_list->priv = NULL;
     }
