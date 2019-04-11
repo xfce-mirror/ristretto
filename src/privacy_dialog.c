@@ -298,6 +298,12 @@ rstto_privacy_dialog_dispose (GObject *object)
             dialog->priv->settings = NULL;
         }
 
+        if (dialog->priv->filters)
+        {
+            g_slist_free (dialog->priv->filters);
+            dialog->priv->filters = NULL;
+        }
+
         g_free (dialog->priv);
         dialog->priv = NULL;
     }
