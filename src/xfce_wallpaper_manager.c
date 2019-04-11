@@ -640,6 +640,8 @@ rstto_xfce_wallpaper_manager_dispose (GObject *object)
             g_object_unref (xfce_wallpaper_manager->priv->channel);
             xfce_wallpaper_manager->priv->channel = NULL;
         }
+        g_free (xfce_wallpaper_manager->priv->color1);
+        g_free (xfce_wallpaper_manager->priv->color2);
         g_free (xfce_wallpaper_manager->priv);
         xfce_wallpaper_manager->priv = NULL;
     }
