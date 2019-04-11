@@ -4015,6 +4015,7 @@ rstto_main_window_launch_editor_chooser (
             rstto_file_get_display_name (r_file),
             content_type);
     label = gtk_label_new (label_text);
+    g_free (label_text);
 
     check_button = gtk_check_button_new_with_mnemonic(_("Use as _default for this kind of file"));
 
