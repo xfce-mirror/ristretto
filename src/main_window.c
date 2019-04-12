@@ -1302,6 +1302,9 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
         case SORT_TYPE_NAME:
             rstto_image_list_set_sort_by_name (window->priv->image_list);
             break;
+        case SORT_TYPE_TYPE:
+            rstto_image_list_set_sort_by_type (window->priv->image_list);
+            break;
         case SORT_TYPE_DATE:
             rstto_image_list_set_sort_by_date (window->priv->image_list);
             break;
@@ -1309,7 +1312,6 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
             g_warning("Sort type unsupported");
             break;
     }
-
 
     window->priv->iter = rstto_image_list_get_iter (window->priv->image_list);
     g_signal_connect (
