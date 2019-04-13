@@ -76,6 +76,11 @@ static void
 configure_monitor_chooser_pixbuf (
     RsttoXfceWallpaperManager *manager );
 
+static gchar *
+get_human_monitor_name (gchar *prop_name);
+static gchar *
+retrieve_monitor_name (gint monitor_id);
+
 static void
 cb_style_combo_changed (
         GtkComboBox *style_combo,
@@ -118,6 +123,88 @@ enum
 {
     PROP_0,
 };
+
+static gchar *
+get_human_monitor_name (gchar *prop_name)
+{
+    GRegex *regex;
+    GMatchInfo *info;
+    gchar *res = NULL;
+
+    regex = g_regex_new ("/(?P<monitor>monitor\\D+-\\d+)/", 0, 0, NULL);
+    if (regex != NULL)
+    {
+        if (g_regex_match (regex, prop_name, 0, &info))
+            res = g_match_info_fetch_named (info, "monitor");
+
+        g_match_info_free (info);
+        g_regex_unref (regex);
+    }
+
+    return res;
+}
+
+static gchar *
+retrieve_monitor_name (gint monitor_id)
+{
+    GDBusProxy *proxy;
+    GError *err;
+    GVariant *variant;
+    GVariantIter *iter;
+    gchar *key, *monitor_name, *result;
+
+    proxy = g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                           G_DBUS_PROXY_FLAGS_NONE,
+                                           NULL,
+                                           "org.xfce.Xfconf",
+                                           "/org/xfce/Xfconf",
+                                           "org.xfce.Xfconf",
+                                           NULL, &err);
+    if (proxy == NULL)
+    {
+        g_warning ("Could not access to the D-Bus interface: %s",
+                   err->message);
+        g_error_free (err);
+    }
+    else
+    {
+        variant = g_dbus_proxy_call_sync (proxy, "GetAllProperties",
+                                          g_variant_new ("(ss)",
+                                                         "xfce4-desktop",
+                                                         "/"),
+                                          G_DBUS_CALL_FLAGS_NONE,
+                                          -1, NULL, &err);
+        if (variant == NULL)
+        {
+            g_warning ("Can't invoke the method: %s", err->message);
+            g_error_free (err);
+        }
+        else
+        {
+            g_variant_get (variant, "(a{sv})", &iter);
+            /* Only keys are interesting */
+            while (g_variant_iter_loop (iter, "{&sv}", &key))
+            {
+                monitor_name = get_human_monitor_name (key);
+                if (monitor_name)
+                    break;
+            }
+            g_variant_iter_free (iter);
+            g_variant_unref (variant);
+        }
+        g_object_unref (proxy);
+    }
+
+    if (monitor_name)
+    {
+        result = g_strdup_printf ("%s", monitor_name);
+        g_free (monitor_name);
+    }
+    else
+        result = g_strdup_printf ("monitor%d", monitor_id);
+
+    return result;
+}
 
 static gint 
 rstto_xfce_wallpaper_manager_configure_dialog_run (
@@ -216,18 +303,23 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoFile *file)
     else
     {
         /* gdk_screen_get_monitor_plug_name can return NULL */
+        monitor_name = retrieve_monitor_name (manager->priv->monitor);
+
         image_path_prop = g_strdup_printf (
-                "/backdrop/screen%d/monitor%d/workspace%d/last-image",
+                "/backdrop/screen%d/%s/workspace%d/last-image",
                 manager->priv->screen,
-                manager->priv->monitor,
+                monitor_name,
                 workspace_nr);
 
         image_style_prop = g_strdup_printf (
-                "/backdrop/screen%d/monitor%d/workspace%d/image-style",
+                "/backdrop/screen%d/%s/workspace%d/image-style",
                 manager->priv->screen,
-                manager->priv->monitor,
+                monitor_name,
                 workspace_nr);
+
+        g_free (monitor_name);
     }
+
 
     xfconf_channel_set_string (
             manager->priv->channel,
