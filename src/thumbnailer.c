@@ -216,6 +216,7 @@ rstto_thumbnailer_dispose (GObject *object)
         g_clear_object (&thumbnailer->priv->settings);
         g_clear_object (&thumbnailer->priv->proxy);
         g_clear_object (&thumbnailer->priv->connection);
+        g_slist_free_full (thumbnailer->priv->queue, g_object_unref);
 
         g_clear_pointer (&thumbnailer->priv, g_free);
     }
