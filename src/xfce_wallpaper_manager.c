@@ -314,9 +314,8 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
     gint n_monitors = gdk_screen_get_n_monitors (screen);
     GdkRectangle monitor_geometry;
     GtkWidget *vbox;
-    GtkWidget *style_label = gtk_label_new( _("Style:"));
-    GtkWidget *image_prop_table = gtk_table_new (2, 2, TRUE);
-
+    GtkWidget *style_label = gtk_label_new (_("Style:"));
+    GtkWidget *image_prop_table = gtk_table_new (2, 2, FALSE);
 
     manager->priv = g_new0(RsttoXfceWallpaperManagerPriv, 1);
     manager->priv->channel = xfconf_channel_new ("xfce4-desktop");
@@ -343,12 +342,13 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
             _("_OK"),
             GTK_RESPONSE_OK,
             NULL);
-    vbox = gtk_dialog_get_content_area ( GTK_DIALOG (manager->priv->dialog));
+    vbox = gtk_dialog_get_content_area (GTK_DIALOG (manager->priv->dialog));
 
     manager->priv->monitor_chooser = rstto_monitor_chooser_new ();
     manager->priv->style_combo = gtk_combo_box_text_new ();
 
-    gtk_table_set_row_spacings (GTK_TABLE(image_prop_table), 4);
+    gtk_table_set_row_spacings (GTK_TABLE (image_prop_table), 6);
+    gtk_table_set_col_spacings (GTK_TABLE (image_prop_table), 6);
 
     for (i = 0; i < n_monitors; ++i)
     {
