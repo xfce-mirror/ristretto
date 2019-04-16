@@ -325,6 +325,8 @@ rstto_image_list_init(RsttoImageList *image_list)
     image_list->priv->filter = gtk_file_filter_new ();
     g_object_ref_sink (image_list->priv->filter);
     gtk_file_filter_add_pixbuf_formats (image_list->priv->filter);
+    /* see https://bugs.launchpad.net/ubuntu/+source/ristretto/+bug/1778695 */
+    gtk_file_filter_add_mime_type (image_list->priv->filter, "image/x-canon-cr2");
 
     image_list->priv->cb_rstto_image_list_compare_func = (GCompareFunc)cb_rstto_image_list_image_name_compare_func;
 

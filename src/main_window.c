@@ -834,6 +834,8 @@ rstto_main_window_init (RsttoMainWindow *window)
     window->priv->filter = gtk_file_filter_new ();
     g_object_ref_sink (window->priv->filter);
     gtk_file_filter_add_pixbuf_formats (window->priv->filter);
+    /* see https://bugs.launchpad.net/ubuntu/+source/ristretto/+bug/1778695 */
+    gtk_file_filter_add_mime_type (window->priv->filter, "image/x-canon-cr2");
 
     /* D-Bus stuff */
 
@@ -3147,6 +3149,8 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     }
 
     gtk_file_filter_add_pixbuf_formats (filter);
+    /* see https://bugs.launchpad.net/ubuntu/+source/ristretto/+bug/1778695 */
+    gtk_file_filter_add_mime_type (filter, "image/x-canon-cr2");
     gtk_file_filter_set_name (filter, _("Images"));
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
