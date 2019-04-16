@@ -335,10 +335,13 @@ rstto_image_viewer_init ( GObject *object )
             BACKGROUND_ICON_SIZE,
             0,
             NULL);
-    gdk_pixbuf_saturate_and_pixelate (
-            viewer->priv->bg_icon,
-            viewer->priv->bg_icon,
-            0, FALSE);
+    if (viewer->priv->bg_icon != NULL)
+    {
+        gdk_pixbuf_saturate_and_pixelate (
+                viewer->priv->bg_icon,
+                viewer->priv->bg_icon,
+                0, FALSE);
+    }
 
     g_signal_connect (
             G_OBJECT(viewer->priv->settings),
@@ -2207,7 +2210,6 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
 
     if (viewer->priv->transaction == transaction)
     {
-        
         if (NULL == transaction->error)
         {
             gtk_widget_set_tooltip_text (GTK_WIDGET (viewer), NULL);
