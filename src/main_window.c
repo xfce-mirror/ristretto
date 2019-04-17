@@ -1545,39 +1545,46 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
                 {
                     /* Extend the status-message with exif-info */
                     /********************************************/
-                    exif_entry = rstto_file_get_exif (
-                            cur_file,
-                            EXIF_TAG_FNUMBER);
+                    exif_entry = rstto_file_get_exif (cur_file, EXIF_TAG_FNUMBER);
                     if (exif_entry)
                     {
-                        exif_entry_get_value (exif_entry, exif_data, 20);
-
+                        exif_entry_get_value (exif_entry, exif_data, sizeof (exif_data));
                         tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
-
                         g_free (status);
                         status = tmp_status;
-
-                        /*exif_entry_free (exif_entry);*/
                     }
-                    exif_entry = rstto_file_get_exif (
-                            cur_file,
-                            EXIF_TAG_EXPOSURE_TIME);
+
+                    exif_entry = rstto_file_get_exif (cur_file, EXIF_TAG_EXPOSURE_TIME);
                     if (exif_entry)
                     {
-                        exif_entry_get_value (exif_entry, exif_data, 20);
-
+                        exif_entry_get_value (exif_entry, exif_data, sizeof (exif_data));
                         tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
-
                         g_free (status);
                         status = tmp_status;
+                    }
 
-                        /*exif_entry_free (exif_entry);*/
+                    exif_entry = rstto_file_get_exif (cur_file, EXIF_TAG_FOCAL_LENGTH);
+                    if (exif_entry)
+                    {
+                        exif_entry_get_value (exif_entry, exif_data, sizeof (exif_data));
+                        tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
+                        g_free (status);
+                        status = tmp_status;
+                    }
+
+                    exif_entry = rstto_file_get_exif (cur_file, EXIF_TAG_ISO_SPEED_RATINGS);
+                    if (exif_entry)
+                    {
+                        exif_entry_get_value (exif_entry, exif_data, sizeof (exif_data));
+                        tmp_status = g_strdup_printf ("%s\tISO %s", status, exif_data);
+                        g_free (status);
+                        status = tmp_status;
                     }
                 }
 
-                if(rstto_image_viewer_get_width(viewer) != 0 && rstto_image_viewer_get_height(viewer) != 0)
+                if (rstto_image_viewer_get_width (viewer) != 0 && rstto_image_viewer_get_height (viewer) != 0)
                 {
-                    gchar *size_string = g_format_size(rstto_file_get_size(cur_file));
+                    gchar *size_string = g_format_size (rstto_file_get_size (cur_file));
                     tmp_status = g_strdup_printf ("%s\t%d x %d\t%s\t%.1f%%", status,
                                                 rstto_image_viewer_get_width(viewer),
                                                 rstto_image_viewer_get_height(viewer),
