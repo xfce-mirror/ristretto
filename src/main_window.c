@@ -185,6 +185,8 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
 static gboolean
 cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
 static void
+cb_rstto_main_window_show_fs_toolbar_timeout_destroy (gpointer user_data);
+static void
 cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window);
 static void
 rstto_main_window_update_statusbar (RsttoMainWindow *window);
@@ -2379,7 +2381,10 @@ cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, 
                 }
                 if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
                 {
-                    window->priv->show_fs_toolbar_timeout_id = g_timeout_add (500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+                    window->priv->show_fs_toolbar_timeout_id =
+                            g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
+                                                (GSourceFunc) cb_rstto_main_window_show_fs_toolbar_timeout, window,
+                                                cb_rstto_main_window_show_fs_toolbar_timeout_destroy);
                 }
             }
 
@@ -2540,7 +2545,10 @@ cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget,
                 g_source_remove (window->priv->show_fs_toolbar_timeout_id);
                 window->priv->show_fs_toolbar_timeout_id = 0;
             }
-            window->priv->show_fs_toolbar_timeout_id = g_timeout_add (500, (GSourceFunc)cb_rstto_main_window_show_fs_toolbar_timeout, window);
+            window->priv->show_fs_toolbar_timeout_id =
+                    g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
+                                        (GSourceFunc) cb_rstto_main_window_show_fs_toolbar_timeout, window,
+                                        cb_rstto_main_window_show_fs_toolbar_timeout_destroy);
         }
     }
 
@@ -2552,6 +2560,12 @@ cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window)
 {
     gtk_widget_hide (window->priv->toolbar);
     return FALSE;
+}
+
+static void
+cb_rstto_main_window_show_fs_toolbar_timeout_destroy (gpointer user_data)
+{
+    RSTTO_MAIN_WINDOW (user_data)->priv->show_fs_toolbar_timeout_id = 0;
 }
 
 /**
