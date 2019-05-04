@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-04-16 18:32+0200\n"
-"PO-Revision-Date: 2019-04-30 14:32+0000\n"
+"PO-Revision-Date: 2019-05-04 16:32+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -899,7 +899,7 @@ msgstr "Ristretto billedfremviser"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
-msgstr "Se nemt dine billeder"
+msgstr "Nem måde til at se dine billeder"
 
 #: ../ristretto.appdata.xml.in.h:2
 msgid ""
