@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-04-16 18:32+0200\n"
-"PO-Revision-Date: 2019-05-10 10:07+0000\n"
+"PO-Revision-Date: 2019-05-10 12:12+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -282,7 +282,7 @@ msgstr "Forrige billede"
 #. Icon-name
 #: ../src/main_window.c:561
 msgid "F_irst"
-msgstr "Førs_t"
+msgstr "Førs_te"
 
 #. Label-text
 #. Keyboard shortcut
@@ -337,11 +337,11 @@ msgstr "_Størrelse"
 
 #: ../src/main_window.c:605
 msgid "Thumbnail Bar _Position"
-msgstr "Miniaturelinje_position"
+msgstr "_Placering af miniaturelinje"
 
 #: ../src/main_window.c:611
 msgid "Thumb_nail Size"
-msgstr "Miniature_størrelse"
+msgstr "S_tørrelse på miniature"
 
 #. Icon-name
 #: ../src/main_window.c:618
@@ -712,11 +712,11 @@ msgstr "Kvalitet"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Med dette tilvalg er aktiveret, vil maksimal billedkvalitet blive begrænset til skærmstørrelsen."
+msgstr "Når denne valgmulighed er aktiveret, begrænses den maksimale billedkvalitet til skærmstørrelsen."
 
 #: ../src/preferences_dialog.c:319
 msgid "Limit rendering quality"
-msgstr "Maksimal optegningskvalitet"
+msgstr "Maksimal gengivelseskvalitet"
 
 #: ../src/preferences_dialog.c:331
 msgid "Fullscreen"
@@ -773,7 +773,7 @@ msgstr "Rullehjul"
 
 #: ../src/preferences_dialog.c:405
 msgid "Invert zoom direction"
-msgstr "Spejlvend zoomretning"
+msgstr "Omvendt zoomretning"
 
 #: ../src/preferences_dialog.c:419
 msgid "Behaviour"
@@ -789,7 +789,7 @@ msgstr "Maksimer vindue ved opstart når et billede åbnes"
 
 #: ../src/preferences_dialog.c:432
 msgid "Wrap around images"
-msgstr "Svøb omkring billeder"
+msgstr "Start forfra når sidste billede er nået"
 
 #: ../src/preferences_dialog.c:451
 msgid "Desktop"
