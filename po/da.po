@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-04-16 18:32+0200\n"
-"PO-Revision-Date: 2019-05-04 16:32+0000\n"
+"PO-Revision-Date: 2019-05-09 23:40+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -765,7 +765,7 @@ msgstr "Den tid de enkelte billeder bliver vist under et diasshow\n(i sekunder)"
 
 #: ../src/preferences_dialog.c:398
 msgid "Control"
-msgstr "Kontrol"
+msgstr "Styring"
 
 #: ../src/preferences_dialog.c:402
 msgid "Scroll wheel"
