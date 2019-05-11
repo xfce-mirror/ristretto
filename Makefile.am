@@ -11,7 +11,7 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 # .appdata
 #
 @INTLTOOL_XML_RULE@
-appdatadir = $(datadir)/appdata
+appdatadir = $(datadir)/metainfo
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
 appdata_in_files = ristretto.appdata.xml.in
 
