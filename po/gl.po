@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daniel Muñiz Fontoira <dani@damufo.com>, 2018
+# Daniel Muñiz Fontoira <dani@damufo.com>, 2018-2019
 # Leandro Regueiro <leandro DOT regueiro AT gmail DOT com>, 2008-2010
 # Leandro Regueiro <leandro.regueiro@gmail.com>, 2013
 # Xosé, 2017
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-04-16 18:32+0200\n"
-"PO-Revision-Date: 2019-05-20 14:12+0000\n"
+"PO-Revision-Date: 2019-05-20 17:55+0000\n"
 "Last-Translator: Daniel Muñiz Fontoira <dani@damufo.com>\n"
 "Language-Team: Galician (http://www.transifex.com/xfce/xfce-apps/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Iniciar unha presentación"
 
 #: ../src/main.c:78
 msgid "Show settings dialog"
-msgstr "Mostrar o diálogo de configuración"
+msgstr "Amosar o diálogo de configuración"
 
 #: ../src/main.c:108
 #, c-format
@@ -85,7 +85,7 @@ msgstr "_Propiedades..."
 #. Keyboard shortcut
 #: ../src/main_window.c:389
 msgid "Show file properties"
-msgstr "Mostrar as propiedades do ficheiro"
+msgstr "Amosar as propiedades do ficheiro"
 
 #. Icon-name
 #: ../src/main_window.c:393 ../src/main_window.c:412
@@ -316,7 +316,7 @@ msgstr "_Contido"
 #. Keyboard shortcut
 #: ../src/main_window.c:582
 msgid "Display ristretto user manual"
-msgstr "Mostrar o manual de usuario de Ristretto"
+msgstr "Amosar o manual de usuario de Ristretto"
 
 #. Icon-name
 #: ../src/main_window.c:586
@@ -327,7 +327,7 @@ msgstr "_Acerca de"
 #. Keyboard shortcut
 #: ../src/main_window.c:588
 msgid "Display information about ristretto"
-msgstr "Mostrar información acerca de Ristretto"
+msgstr "Amosar información acerca de Ristretto"
 
 #: ../src/main_window.c:593
 msgid "_Position"
@@ -363,7 +363,7 @@ msgstr "Mos_trar a barra de miniaturas"
 #. Icon-name
 #: ../src/main_window.c:652
 msgid "Show Status _Bar"
-msgstr "Mostrar a _barra de estado"
+msgstr "Amosar a _barra de estado"
 
 #. Icon-name
 #: ../src/main_window.c:664
@@ -508,7 +508,7 @@ msgstr "Desenvolvedor:"
 
 #: ../src/main_window.c:2706 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto é un visor de imaxes para o ambiente de escritorio Xfce."
+msgstr "Ristretto é un visor de imaxes para o contorno de escritorio Xfce."
 
 #: ../src/main_window.c:2714
 msgid "translator-credits"
@@ -631,7 +631,7 @@ msgstr "Índice do elemento activo"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
-msgstr "Mostrar o texto"
+msgstr "Amosar o texto"
 
 #: ../src/icon_bar.c:416 ../src/icon_bar.c:417
 msgid "Active item fill color"
@@ -731,11 +731,11 @@ msgstr "Miniaturas"
 #: ../src/preferences_dialog.c:339
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Pódese ocultar automaticamente a barra de\nminiaturas cando o visor de imaxes está a\npantalla completa."
+msgstr "Pode agochar automaticamente a barra de miniaturas cando a xanela está a pantalla completa."
 
 #: ../src/preferences_dialog.c:342
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Ocultar a barra de miniaturas cando se estea a pantalla completa"
+msgstr "Agochar a barra de miniaturas cando se estea a pantalla completa"
 
 #: ../src/preferences_dialog.c:350
 msgid "Clock"
@@ -745,11 +745,11 @@ msgstr "Reloxo"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Pódese ocultar automaticamente a barra de\nminiaturas cando o visor de imaxes está a\npantalla completa."
+msgstr "Amosar un reloxo analóxico coa a hora actual cando a xanela esta a pantalla completa"
 
 #: ../src/preferences_dialog.c:356
 msgid "Show Fullscreen Clock"
-msgstr "Mostrar reloxo a pantalla completa"
+msgstr "Amosar reloxo a pantalla completa"
 
 #: ../src/preferences_dialog.c:373
 msgid "Slideshow"
@@ -763,7 +763,7 @@ msgstr "Tempo de espera"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr "O período de tempo que se mostra cada imaxe durante unha\npresentación (en segundos)"
+msgstr "O período de tempo que se amosa cada imaxe durante unha\npresentación (en segundos)"
 
 #: ../src/preferences_dialog.c:398
 msgid "Control"
@@ -771,7 +771,7 @@ msgstr "Control"
 
 #: ../src/preferences_dialog.c:402
 msgid "Scroll wheel"
-msgstr "Roda do rato"
+msgstr "Roda de desprazamento"
 
 #: ../src/preferences_dialog.c:405
 msgid "Invert zoom direction"
@@ -857,7 +857,7 @@ msgstr "Non se pode contactar con thumbnailer-service,\ne debido a esta razón n
 
 #: ../src/thumbnailer.c:449
 msgid "Do _not show this message again"
-msgstr "_Non volver mostrar esta mensaxe"
+msgstr "_Non volver amosar esta mensaxe"
 
 #: ../src/xfce_wallpaper_manager.c:317 ../src/gnome_wallpaper_manager.c:223
 msgid "Style:"
@@ -909,20 +909,20 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "O Visor de Imaxes Ristretto é un aplicativo que se pode empregar para ver imaxes, facer unha presentación de imaxes, abrir imaxes con outros aplicativos, como un editor de imaxes, ou configurar unha imaxe como fondo de pantalla."
+msgstr "O Visor de Imaxes Ristretto é un aplicativo que se pode empregar para ver imaxes, reproducir unha presentación de imaxes, abrir imaxes con outros aplicativos, como un editor de imaxes, ou configurar unha imaxe como fondo de pantalla."
 
 #: ../ristretto.appdata.xml.in.h:3
 msgid ""
 "This version comes with the improvements such as thumbnail usage as appicon "
 "and update to the first image in the image-list when receiving a ready-"
 "signal, required to show the thumbnail once it's generated."
-msgstr "Esta versión vén con melloras como o uso de miniaturas como icona de aplicativo e actualización á primeira imaxe da lista de imaxes ao recibir o sinal de preparado, requirido para mostrar a miniatura logo de ser xerada."
+msgstr "Esta versión vén con melloras como o uso de miniaturas como icona de aplicativo e actualización á primeira imaxe da lista de imaxes ao recibir o sinal de preparado, requirido para amosar a miniatura logo de ser xerada."
 
 #: ../ristretto.appdata.xml.in.h:4
 msgid ""
 "This release contains lots of translation-updates, and a crash when "
 "configuring the 'limit-quality' property."
-msgstr "Este lanzamento contén moitas actualizacións de tradución e a corrección dun fallo durante a configuración da propiedade «límite de calidade»\"."
+msgstr "Esta versión contén moitas actualizacións de tradución e a corrección dun fallo durante a configuración da propiedade «límite de calidade»\"."
 
 #: ../ristretto.appdata.xml.in.h:5
 msgid ""
@@ -936,4 +936,4 @@ msgid ""
 "statusbar to indicate when it is busy and progressive loading of directories"
 " to prevent lockup of the UI. This version is designed to work with version "
 "4.10 of Xfce."
-msgstr "Esta versión inclúe varias modificacións como a documentación en liña en docs.xfce.org, a opción de limitar a calidade de máxima de imaxe ás dimensións da pantalla para mellorar o uso e o rendemento da memoria. Agora Ristretto, amosa as imaxes en calidade máxima con esta opción desactivada, só unha barra de ferramentas no canto de dúas, un botón de inicio rápido na barra de ferramentas para executar un editor, a opción de escoller un editor predeterminado por tipo de mime, un reloxo opcional que se mostra cando se fixa a pantalla completa. Ristretto agora amosa un «Cargando...» na barra de estado para indicar cando está ocupado e a carga progresiva de directorios para evitar o bloqueo da interface de usuario. Esta versión está deseñada para funcionar coa versión 4.10 de Xfce."
+msgstr "Esta versión inclúe varios cámbios como a documentación en liña en docs.xfce.org, a opción de limitar a calidade de máxima de imaxe ás dimensións da pantalla para mellorar o uso e o rendemento da memoria. Agora Ristretto, amosa as imaxes en calidade máxima con esta opción desactivada, só unha barra de ferramentas no canto de dúas, un botón de inicio rápido na barra de ferramentas para executar un editor, a opción de escoller un editor predeterminado por tipo de mime, un reloxo opcional que se amosa cando se fixa a pantalla completa. Ristretto agora amosa un «Cargando...» na barra de estado para indicar cando está ocupado e a carga progresiva de directorios para evitar o bloqueo da interface de usuario. Esta versión está deseñada para funcionar coa versión 4.10 de Xfce."
