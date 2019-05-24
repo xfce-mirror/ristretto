@@ -8,13 +8,14 @@
 # Gökmen Görgen <gkmngrgn@gmail.com>, 2008
 # Necdet Yücel <necdetyucel@gmail.com>, 2015-2017
 # Onur Küçük <onur@pardus.org.tr>, 2008
+# Serdar Sağlam <teknomobil@msn.com>, 2019
 # Volkan Gezer <volkangezer@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-04-16 18:32+0200\n"
-"PO-Revision-Date: 2019-05-23 15:48+0000\n"
+"PO-Revision-Date: 2019-05-24 01:33+0000\n"
 "Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/xfce/xfce-apps/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +60,7 @@ msgstr "_Dosya"
 #. Icon-name
 #: ../src/main_window.c:375
 msgid "_Open..."
-msgstr "_Aç"
+msgstr "_Aç..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -70,7 +71,7 @@ msgstr "Bir resim aç"
 #. Icon-name
 #: ../src/main_window.c:381
 msgid "_Save copy..."
-msgstr "Kopya _kaydet"
+msgstr "Kopya _kaydet..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -81,7 +82,7 @@ msgstr "Resmin bir kopyasını kaydet"
 #. Icon-name
 #: ../src/main_window.c:387
 msgid "_Properties..."
-msgstr "_Özellikler"
+msgstr "_Özellikler..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -92,7 +93,7 @@ msgstr "Dosya özelliklerini göster"
 #. Icon-name
 #: ../src/main_window.c:393 ../src/main_window.c:412
 msgid "_Edit"
-msgstr "Dü_zenle"
+msgstr "_Düzenle"
 
 #. Label-text
 #. Keyboard shortcut
@@ -125,7 +126,7 @@ msgstr "Ristretto'dan Çık"
 
 #: ../src/main_window.c:418
 msgid "_Open with"
-msgstr "Birlikte _aç..."
+msgstr "Birlikte _aç"
 
 #: ../src/main_window.c:424
 msgid "_Sorting"
@@ -145,12 +146,12 @@ msgstr "Bu resmi diskten sil"
 #. Icon-name
 #: ../src/main_window.c:436
 msgid "_Clear private data..."
-msgstr "Kişisel verileri _temizle"
+msgstr "Kişisel verileri _temizle..."
 
 #. Icon-name
 #: ../src/main_window.c:442
 msgid "_Preferences..."
-msgstr "_Yeğlenenler"
+msgstr "_Tercihler..."
 
 #: ../src/main_window.c:449
 msgid "_View"
@@ -165,7 +166,7 @@ msgstr "_Tam ekran"
 #. Keyboard shortcut
 #: ../src/main_window.c:457
 msgid "Switch to fullscreen"
-msgstr "Tam ekrana ayarla."
+msgstr "Tam ekrana ayarla"
 
 #. Icon-name
 #: ../src/main_window.c:461
@@ -181,7 +182,7 @@ msgstr "_Tam ekrandan ayrıl"
 #. Icon-name
 #: ../src/main_window.c:467
 msgid "Set as _Wallpaper..."
-msgstr "Duvar Kağıdı olarak _ayarla"
+msgstr "Duvar kağıdı olarak _ayarla..."
 
 #: ../src/main_window.c:474
 msgid "_Zoom"
@@ -196,7 +197,7 @@ msgstr "_Yakınlaş"
 #. Keyboard shortcut
 #: ../src/main_window.c:482
 msgid "Zoom in"
-msgstr "_Yakınlaş"
+msgstr "Yakınlaş"
 
 #. Icon-name
 #: ../src/main_window.c:486
@@ -207,23 +208,23 @@ msgstr "_Uzaklaş"
 #. Keyboard shortcut
 #: ../src/main_window.c:488
 msgid "Zoom out"
-msgstr "_Uzaklaş"
+msgstr "Uzaklaş"
 
 #. Icon-name
 #: ../src/main_window.c:492
 msgid "Zoom _Fit"
-msgstr "_Pencereye Sığdır"
+msgstr "Pencereye _sığdır"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:494
 msgid "Zoom to fit window"
-msgstr "Pencereye uydur."
+msgstr "Pencereye uydur"
 
 #. Icon-name
 #: ../src/main_window.c:498
 msgid "_Normal Size"
-msgstr "_Normal Boyut"
+msgstr "_Normal boyut"
 
 #. Label-text
 #. Keyboard shortcut
@@ -233,17 +234,17 @@ msgstr "%100'e yaklaştır."
 
 #: ../src/main_window.c:505
 msgid "_Rotation"
-msgstr "Döndü_r"
+msgstr "_Döndür"
 
 #. Icon-name
 #: ../src/main_window.c:511
 msgid "Rotate _Right"
-msgstr "Sa_ğa Döndür"
+msgstr "Sa_ğa döndür"
 
 #. Icon-name
 #: ../src/main_window.c:517
 msgid "Rotate _Left"
-msgstr "So_la Döndür"
+msgstr "So_la döndür"
 
 #: ../src/main_window.c:524
 msgid "_Flip"
@@ -251,11 +252,11 @@ msgstr "_Çevir"
 
 #: ../src/main_window.c:530
 msgid "Flip _Horizontally"
-msgstr "_Yatay Çevir"
+msgstr "_Yatay çevir"
 
 #: ../src/main_window.c:536
 msgid "Flip _Vertically"
-msgstr "_Dikey Çevir"
+msgstr "_Dikey çevir"
 
 #: ../src/main_window.c:543
 msgid "_Go"
@@ -438,7 +439,7 @@ msgstr "Slayt gösterisini başlat"
 
 #: ../src/main_window.c:908
 msgid "_Pause"
-msgstr "_Dur"
+msgstr "_Duraklat"
 
 #: ../src/main_window.c:908
 msgid "Pause slideshow"
@@ -451,15 +452,15 @@ msgstr "_Son kullanılanlar"
 
 #: ../src/main_window.c:911
 msgid "Recently used"
-msgstr "_Son kullanılanlar"
+msgstr "Son kullanılanlar"
 
 #: ../src/main_window.c:1015 ../src/main_window.c:1595
 msgid "Press open to select an image"
-msgstr "Bir resim seçmek için aça basın"
+msgstr "Bir resim seçmek için aç tuşuna bas"
 
 #: ../src/main_window.c:1451 ../src/main_window.c:1455
 msgid "Open With Other _Application..."
-msgstr "Başka bir uygulama ile aç..."
+msgstr "Başka Bir Uygulama İle Aç..."
 
 #: ../src/main_window.c:1476 ../src/main_window.c:1482
 msgid "Empty"
@@ -467,11 +468,11 @@ msgstr "Boş"
 
 #: ../src/main_window.c:1605
 msgid "Loading..."
-msgstr "Yükleniyor"
+msgstr "Yükleniyor..."
 
 #: ../src/main_window.c:2208
 msgid "Choose 'set wallpaper' method"
-msgstr "'Duvar kağıdı ayarla' yöntemini seçin"
+msgstr "'Duvar kağıdı ayarla' yöntemini seç"
 
 #: ../src/main_window.c:2211 ../src/main_window.c:4007
 #: ../src/xfce_wallpaper_manager.c:342 ../src/gnome_wallpaper_manager.c:241
@@ -514,11 +515,11 @@ msgstr "Ristretto, Xfce masaüstü ortamı için bir resim göstericidir."
 
 #: ../src/main_window.c:2714
 msgid "translator-credits"
-msgstr "Onur Küçük <onur@pardus.org.tr>\nGökmen Görgen <gkmngrgn@gmail.com> \nAyhan YALÇINSOY <ayhanyalcinsoy@gmail.com>"
+msgstr "Onur Küçük <onur@pardus.org.tr>\nGökmen Görgen <gkmngrgn@gmail.com> \nAyhan YALÇINSOY <ayhanyalcinsoy@gmail.com>\nSerdar Sağlam <teknomobil@yandex.com>"
 
 #: ../src/main_window.c:3133
 msgid "Open image"
-msgstr "Dosya aç"
+msgstr "Resim aç"
 
 #: ../src/main_window.c:3137
 msgid "_Open"
@@ -589,11 +590,11 @@ msgstr "%s'i ve diğer %s biçimli dosyaları şununla aç:"
 
 #: ../src/main_window.c:4026
 msgid "Use as _default for this kind of file"
-msgstr "Bu tip dosyalar için öntanımlı yap."
+msgstr "Bu tip dosyalar için _varsayılan ayarla"
 
 #: ../src/main_window.c:4116
 msgid "Recommended Applications"
-msgstr "Tavsiye Edilen Uygulamalar"
+msgstr "Önerilen Uygulamalar"
 
 #: ../src/main_window.c:4196
 msgid "Other Applications"
@@ -645,7 +646,7 @@ msgstr "Etkin öge kenar rengi"
 
 #: ../src/icon_bar.c:430 ../src/icon_bar.c:431
 msgid "Active item text color"
-msgstr "Etkin öge metin reng"
+msgstr "Etkin öge metin rengi"
 
 #: ../src/icon_bar.c:437 ../src/icon_bar.c:438
 msgid "Cursor item fill color"
@@ -863,7 +864,7 @@ msgstr "Bu iletiyi tekrar gösterme"
 
 #: ../src/xfce_wallpaper_manager.c:317 ../src/gnome_wallpaper_manager.c:223
 msgid "Style:"
-msgstr "Stil:"
+msgstr "Biçim:"
 
 #: ../src/xfce_wallpaper_manager.c:328
 msgid "Apply to all workspaces"
@@ -871,7 +872,7 @@ msgstr "Tüm çalışma alanlarına uygula"
 
 #: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
 msgid "Set as wallpaper"
-msgstr "Duvar kağıdı olarak belirle"
+msgstr "Duvar kağıdı olarak ayarla"
 
 #: ../src/xfce_wallpaper_manager.c:403 ../src/gnome_wallpaper_manager.c:301
 msgid "Auto"
