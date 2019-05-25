@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-04-16 18:32+0200\n"
-"PO-Revision-Date: 2019-05-17 11:44+0000\n"
+"PO-Revision-Date: 2019-05-25 00:51+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -585,7 +585,7 @@ msgstr "Åbn %s og andre filer af typen %s med:"
 
 #: ../src/main_window.c:4026
 msgid "Use as _default for this kind of file"
-msgstr "Brug som _standard til denne type af filer"
+msgstr "Brug som _standard til denne type fil"
 
 #: ../src/main_window.c:4116
 msgid "Recommended Applications"
