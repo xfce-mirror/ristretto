@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-04-16 18:32+0200\n"
-"PO-Revision-Date: 2019-05-25 00:51+0000\n"
+"PO-Revision-Date: 2019-05-25 21:04+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -314,7 +314,7 @@ msgstr "_Indhold"
 #. Keyboard shortcut
 #: ../src/main_window.c:582
 msgid "Display ristretto user manual"
-msgstr "Vis Ristretto's brugermanual"
+msgstr "Vis brugermanualen til Ristretto"
 
 #. Icon-name
 #: ../src/main_window.c:586
