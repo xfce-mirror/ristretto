@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-04-16 18:32+0200\n"
-"PO-Revision-Date: 2019-06-02 23:27+0000\n"
+"PO-Revision-Date: 2019-06-05 14:32+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -729,7 +729,7 @@ msgstr "Miniaturer"
 #: ../src/preferences_dialog.c:339
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Miniaturelinjen kan skjules automatisk når billedviseren er i fuldskærmtilstand."
+msgstr "Miniaturelinjen kan skjules automatisk når vinduet er i fuldskærm."
 
 #: ../src/preferences_dialog.c:342
 msgid "Hide thumbnail bar when fullscreen"
@@ -743,7 +743,7 @@ msgstr "Ur"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Miniaturelinjen kan skjules automatisk når billedviseren er i fuldskærmtilstand"
+msgstr "Vis et analogt ur med klokkeslættet når vinduet er i fuldskærm"
 
 #: ../src/preferences_dialog.c:356
 msgid "Show Fullscreen Clock"
