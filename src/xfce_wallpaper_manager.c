@@ -77,7 +77,7 @@ configure_monitor_chooser_pixbuf (
     RsttoXfceWallpaperManager *manager );
 
 static gchar *
-get_human_monitor_name (gchar *prop_name);
+get_human_monitor_name (const gchar *prop_name);
 static gchar *
 retrieve_monitor_name (gint monitor_id);
 
@@ -125,7 +125,7 @@ enum
 };
 
 static gchar *
-get_human_monitor_name (gchar *prop_name)
+get_human_monitor_name (const gchar *prop_name)
 {
     GRegex *regex;
     GMatchInfo *info;
@@ -148,10 +148,10 @@ static gchar *
 retrieve_monitor_name (gint monitor_id)
 {
     GDBusProxy *proxy;
-    GError *err;
+    GError *err = NULL;
     GVariant *variant;
     GVariantIter *iter;
-    gchar *key, *monitor_name, *result;
+    gchar *key, *monitor_name = NULL, *result;
 
     proxy = g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                            G_DBUS_PROXY_FLAGS_NONE,
@@ -162,7 +162,7 @@ retrieve_monitor_name (gint monitor_id)
                                            NULL, &err);
     if (proxy == NULL)
     {
-        g_warning ("Could not access to the D-Bus interface: %s",
+        g_warning ("Could not get access to the D-Bus interface: %s",
                    err->message);
         g_error_free (err);
     }
@@ -176,7 +176,7 @@ retrieve_monitor_name (gint monitor_id)
                                           -1, NULL, &err);
         if (variant == NULL)
         {
-            g_warning ("Can't invoke the method: %s", err->message);
+            g_warning ("Method failed: %s", err->message);
             g_error_free (err);
         }
         else
@@ -197,7 +197,7 @@ retrieve_monitor_name (gint monitor_id)
 
     if (monitor_name)
     {
-        result = g_strdup_printf ("%s", monitor_name);
+        result = g_strdup (monitor_name);
         g_free (monitor_name);
     }
     else
