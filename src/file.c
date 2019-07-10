@@ -213,6 +213,11 @@ rstto_file_dispose (GObject *object)
             g_free (r_file->priv->collate_key);
             r_file->priv->collate_key = NULL;
         }
+        if (r_file->priv->exif_data)
+        {
+            exif_data_free (r_file->priv->exif_data);
+            r_file->priv->exif_data = NULL;
+        }
 
         for (i = 0; i < THUMBNAIL_SIZE_COUNT; ++i)
         {
@@ -512,8 +517,6 @@ rstto_file_get_orientation ( RsttoFile *r_file )
             r_file->priv->orientation = exif_get_short (
                     exif_entry->data,
                     exif_data_get_byte_order (exif_entry->parent->parent));
-
-            exif_entry_free (exif_entry);
         }
 
         /* If the orientation-tag is not set, default to NONE */
