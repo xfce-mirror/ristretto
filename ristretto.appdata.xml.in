@@ -19,19 +19,19 @@
 
   <screenshots>
     <screenshot type="default">
-      <image>http://goodies.xfce.org/_media/projects/applications/ristretto-screenshot.png</image>
+      <image>https://goodies.xfce.org/_media/projects/applications/ristretto-screenshot.png</image>
  <!-- <image>http://docs.xfce.org/_media/apps/ristretto/view-images.png</image> -->
     </screenshot>
     <screenshot>
       <caption>Ristretto - Set as Wallpaper</caption>
-      <image>http://goodies.xfce.org/_media/projects/applications/ristretto-screenshot-2.png</image>
+      <image>https://goodies.xfce.org/_media/projects/applications/ristretto-screenshot-2.png</image>
  <!-- <image>http://docs.xfce.org/_media/apps/ristretto/set-wallpaper.png</image> -->
     </screenshot>
   </screenshots>
 
-  <url type="homepage">http://docs.xfce.org/apps/ristretto/start</url>
+  <url type="homepage">https://docs.xfce.org/apps/ristretto/start</url>
   <url type="bugtracker">https://bugzilla.xfce.org/describecomponents.cgi?product=Ristretto</url>
-  <url type="help">http://docs.xfce.org/apps/ristretto/start</url>
+  <url type="help">https://docs.xfce.org/apps/ristretto/start</url>
 
   <updatecontact>xfce4-dev@xfce.org</updatecontact>
 
@@ -40,44 +40,5 @@
   <provides>
     <binary>ristretto</binary>
   </provides>
-
-  <releases>
-    <release version="0.6.3" timestamp="1344206922">
-      <description>
-        <_p>This version comes with the improvements such as thumbnail usage as appicon
-           and update to the first image in the image-list when receiving a ready-signal,
-           required to show the thumbnail once it's generated.
-        </_p>
-      </description>
-    </release>
-
-    <release version="0.6.2" timestamp="1343602164">
-      <description>
-        <_p>This release contains lots of translation-updates,
-           and a crash when configuring the 'limit-quality' property.
-           <!-- https://mail.xfce.org/pipermail/xfce-announce/2012-July/000209.html
-           I guess there must be written:
-           and *resolves* a crash when configuring the 'limit-quality' property.
-           -->
-        </_p>
-      </description>
-    </release>
-
-    <release version="0.6.0" timestamp="1335662454">
-      <description>
-        <_p>This version comes with several changes such as online documentation on
-           docs.xfce.org, the option to limit the maximum image-quality to
-           the screen dimensions to improve memory-usage and performance - now ristretto
-           renders at full quality with this option disabled, only one toolbar - instead 
-           of two, a quick-launch button on the toolbar to execute an editor, the option
-           to pick a default-editor per mime-type, an optional clock that shows up when
-           ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the 
-           statusbar to indicate when it is busy and progressive loading of directories to
-           prevent lockup of the UI.
-           This version is designed to work with version 4.10 of Xfce.
-        </_p>
-      </description>
-    </release>
-  </releases>
 
 </component>
