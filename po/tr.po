@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2019-04-16 18:32+0200\n"
-"PO-Revision-Date: 2019-05-24 01:33+0000\n"
+"POT-Creation-Date: 2019-07-13 00:31+0200\n"
+"PO-Revision-Date: 2019-07-13 09:39+0000\n"
 "Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/xfce/xfce-apps/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -53,517 +53,517 @@ msgstr "%s: %s\nKomut satırı parametrelerini görmek için %s\n --help komutun
 msgid "Image Viewer"
 msgstr "Resim Gösterici"
 
-#: ../src/main_window.c:369
+#: ../src/main_window.c:371
 msgid "_File"
 msgstr "_Dosya"
 
 #. Icon-name
-#: ../src/main_window.c:375
+#: ../src/main_window.c:377
 msgid "_Open..."
 msgstr "_Aç..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:377
+#: ../src/main_window.c:379
 msgid "Open an image"
 msgstr "Bir resim aç"
 
 #. Icon-name
-#: ../src/main_window.c:381
+#: ../src/main_window.c:383
 msgid "_Save copy..."
 msgstr "Kopya _kaydet..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:383
+#: ../src/main_window.c:385
 msgid "Save a copy of the image"
 msgstr "Resmin bir kopyasını kaydet"
 
 #. Icon-name
-#: ../src/main_window.c:387
+#: ../src/main_window.c:389
 msgid "_Properties..."
 msgstr "_Özellikler..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:389
+#: ../src/main_window.c:391
 msgid "Show file properties"
 msgstr "Dosya özelliklerini göster"
 
 #. Icon-name
-#: ../src/main_window.c:393 ../src/main_window.c:412
+#: ../src/main_window.c:395 ../src/main_window.c:414
 msgid "_Edit"
 msgstr "_Düzenle"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:395
+#: ../src/main_window.c:397
 msgid "Edit this image"
 msgstr "Bu resmi düzenle"
 
 #. Icon-name
-#: ../src/main_window.c:399 ../src/preferences_dialog.c:541
+#: ../src/main_window.c:401 ../src/preferences_dialog.c:541
 #: ../src/properties_dialog.c:325
 msgid "_Close"
 msgstr "_Kapat"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:401
+#: ../src/main_window.c:403
 msgid "Close this image"
 msgstr "Bu resmi kapat"
 
 #. Icon-name
-#: ../src/main_window.c:405
+#: ../src/main_window.c:407
 msgid "_Quit"
 msgstr "_Çık"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:407
+#: ../src/main_window.c:409
 msgid "Quit Ristretto"
 msgstr "Ristretto'dan Çık"
 
-#: ../src/main_window.c:418
+#: ../src/main_window.c:420
 msgid "_Open with"
 msgstr "Birlikte _aç"
 
-#: ../src/main_window.c:424
-msgid "_Sorting"
-msgstr "_Sıralama"
+#: ../src/main_window.c:426
+msgid "_Sort by"
+msgstr "_Sırala"
 
 #. Icon-name
-#: ../src/main_window.c:430
+#: ../src/main_window.c:432
 msgid "_Delete"
 msgstr "_Sil"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:432
+#: ../src/main_window.c:434
 msgid "Delete this image from disk"
 msgstr "Bu resmi diskten sil"
 
 #. Icon-name
-#: ../src/main_window.c:436
+#: ../src/main_window.c:438
 msgid "_Clear private data..."
 msgstr "Kişisel verileri _temizle..."
 
 #. Icon-name
-#: ../src/main_window.c:442
+#: ../src/main_window.c:444
 msgid "_Preferences..."
 msgstr "_Tercihler..."
 
-#: ../src/main_window.c:449
+#: ../src/main_window.c:451
 msgid "_View"
 msgstr "_Görünüm"
 
 #. Icon-name
-#: ../src/main_window.c:455
+#: ../src/main_window.c:457
 msgid "_Fullscreen"
 msgstr "_Tam ekran"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:457
+#: ../src/main_window.c:459
 msgid "Switch to fullscreen"
 msgstr "Tam ekrana ayarla"
 
 #. Icon-name
-#: ../src/main_window.c:461
+#: ../src/main_window.c:463
 msgid "_Leave Fullscreen"
 msgstr "_Tam ekranı kapat"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:463
+#: ../src/main_window.c:465
 msgid "Leave Fullscreen"
 msgstr "_Tam ekrandan ayrıl"
 
 #. Icon-name
-#: ../src/main_window.c:467
+#: ../src/main_window.c:469
 msgid "Set as _Wallpaper..."
 msgstr "Duvar kağıdı olarak _ayarla..."
 
-#: ../src/main_window.c:474
+#: ../src/main_window.c:476
 msgid "_Zoom"
 msgstr "_Yakınlaştır"
 
 #. Icon-name
-#: ../src/main_window.c:480
+#: ../src/main_window.c:482
 msgid "Zoom _In"
 msgstr "_Yakınlaş"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:482
+#: ../src/main_window.c:484
 msgid "Zoom in"
 msgstr "Yakınlaş"
 
 #. Icon-name
-#: ../src/main_window.c:486
+#: ../src/main_window.c:488
 msgid "Zoom _Out"
 msgstr "_Uzaklaş"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:488
+#: ../src/main_window.c:490
 msgid "Zoom out"
 msgstr "Uzaklaş"
 
 #. Icon-name
-#: ../src/main_window.c:492
+#: ../src/main_window.c:494
 msgid "Zoom _Fit"
 msgstr "Pencereye _sığdır"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:494
+#: ../src/main_window.c:496
 msgid "Zoom to fit window"
 msgstr "Pencereye uydur"
 
 #. Icon-name
-#: ../src/main_window.c:498
+#: ../src/main_window.c:500
 msgid "_Normal Size"
 msgstr "_Normal boyut"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:500
+#: ../src/main_window.c:502
 msgid "Zoom to 100%"
 msgstr "%100'e yaklaştır."
 
-#: ../src/main_window.c:505
+#: ../src/main_window.c:507
 msgid "_Rotation"
 msgstr "_Döndür"
 
 #. Icon-name
-#: ../src/main_window.c:511
+#: ../src/main_window.c:513
 msgid "Rotate _Right"
 msgstr "Sa_ğa döndür"
 
 #. Icon-name
-#: ../src/main_window.c:517
+#: ../src/main_window.c:519
 msgid "Rotate _Left"
 msgstr "So_la döndür"
 
-#: ../src/main_window.c:524
+#: ../src/main_window.c:526
 msgid "_Flip"
 msgstr "_Çevir"
 
-#: ../src/main_window.c:530
+#: ../src/main_window.c:532
 msgid "Flip _Horizontally"
 msgstr "_Yatay çevir"
 
-#: ../src/main_window.c:536
+#: ../src/main_window.c:538
 msgid "Flip _Vertically"
 msgstr "_Dikey çevir"
 
-#: ../src/main_window.c:543
+#: ../src/main_window.c:545
 msgid "_Go"
 msgstr "Gi_t"
 
 #. Icon-name
-#: ../src/main_window.c:549
+#: ../src/main_window.c:551
 msgid "_Forward"
 msgstr "_İleri"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:551
+#: ../src/main_window.c:553
 msgid "Next image"
 msgstr "Sonraki resim"
 
 #. Icon-name
-#: ../src/main_window.c:555
+#: ../src/main_window.c:557
 msgid "_Back"
 msgstr "_Geri"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:557
+#: ../src/main_window.c:559
 msgid "Previous image"
 msgstr "Önceki resim"
 
 #. Icon-name
-#: ../src/main_window.c:561
+#: ../src/main_window.c:563
 msgid "F_irst"
 msgstr "_İlk"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:563
+#: ../src/main_window.c:565
 msgid "First image"
 msgstr "İlk resim"
 
 #. Icon-name
-#: ../src/main_window.c:567
+#: ../src/main_window.c:569
 msgid "_Last"
 msgstr "_Son"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:569
+#: ../src/main_window.c:571
 msgid "Last image"
 msgstr "Son resim"
 
-#: ../src/main_window.c:574
+#: ../src/main_window.c:576
 msgid "_Help"
 msgstr "_Yardım"
 
 #. Icon-name
-#: ../src/main_window.c:580
+#: ../src/main_window.c:582
 msgid "_Contents"
 msgstr "_İçindekiler"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:582
+#: ../src/main_window.c:584
 msgid "Display ristretto user manual"
 msgstr "Ristretto kullanıcı klavuzunu görüntüle"
 
 #. Icon-name
-#: ../src/main_window.c:586
+#: ../src/main_window.c:588
 msgid "_About"
 msgstr "_Hakkında"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:588
+#: ../src/main_window.c:590
 msgid "Display information about ristretto"
 msgstr "Ristretto hakkında bilgi görüntüle"
 
-#: ../src/main_window.c:593
+#: ../src/main_window.c:595
 msgid "_Position"
 msgstr "_Konum"
 
-#: ../src/main_window.c:599
+#: ../src/main_window.c:601
 msgid "_Size"
 msgstr "_Boyut"
 
-#: ../src/main_window.c:605
+#: ../src/main_window.c:607
 msgid "Thumbnail Bar _Position"
 msgstr "Küçük Resim Çubuğu _Konumu"
 
-#: ../src/main_window.c:611
+#: ../src/main_window.c:613
 msgid "Thumb_nail Size"
 msgstr "Küçük Resim _Boyutu"
 
 #. Icon-name
-#: ../src/main_window.c:618
+#: ../src/main_window.c:620
 msgid "Leave _Fullscreen"
 msgstr "Tam Ekranı _Kapat"
 
 #. Icon-name
-#: ../src/main_window.c:636
+#: ../src/main_window.c:638
 msgid "_Show Toolbar"
 msgstr "_Araç Çubuğunu Göster"
 
 #. Icon-name
-#: ../src/main_window.c:644
+#: ../src/main_window.c:646
 msgid "Show _Thumbnail Bar"
 msgstr "_Küçük resim çubuğunu göster"
 
 #. Icon-name
-#: ../src/main_window.c:652
+#: ../src/main_window.c:654
 msgid "Show Status _Bar"
 msgstr "_Durum Çubuğunu Göster"
 
 #. Icon-name
-#: ../src/main_window.c:664
-msgid "sort by filename"
-msgstr "dosya adına göre sırala"
+#: ../src/main_window.c:666
+msgid "file name"
+msgstr "dosya adı"
 
 #. Icon-name
-#: ../src/main_window.c:670
-msgid "sort by filetype"
-msgstr "dosya türüne göre sırala"
+#: ../src/main_window.c:672
+msgid "file type"
+msgstr "dosya türü"
 
 #. Icon-name
-#: ../src/main_window.c:676
-msgid "sort by date"
-msgstr "tarihe göre sırala"
+#: ../src/main_window.c:678
+msgid "date"
+msgstr "tarih"
 
 #. Icon-name
-#: ../src/main_window.c:687
+#: ../src/main_window.c:689
 msgid "Left"
 msgstr "Sol"
 
-#: ../src/main_window.c:693
+#: ../src/main_window.c:695
 msgid "Right"
 msgstr "Sağ"
 
-#: ../src/main_window.c:699
+#: ../src/main_window.c:701
 msgid "Top"
 msgstr "Üst"
 
-#: ../src/main_window.c:705
+#: ../src/main_window.c:707
 msgid "Bottom"
 msgstr "Alt"
 
-#: ../src/main_window.c:716
+#: ../src/main_window.c:718
 msgid "Very Small"
 msgstr "Çok küçük"
 
-#: ../src/main_window.c:722
+#: ../src/main_window.c:724
 msgid "Smaller"
 msgstr "Daha küçük"
 
-#: ../src/main_window.c:728
+#: ../src/main_window.c:730
 msgid "Small"
 msgstr "Küçük"
 
-#: ../src/main_window.c:734
+#: ../src/main_window.c:736
 msgid "Normal"
 msgstr "_Normal"
 
-#: ../src/main_window.c:740
+#: ../src/main_window.c:742
 msgid "Large"
 msgstr "Büyük"
 
-#: ../src/main_window.c:746
+#: ../src/main_window.c:748
 msgid "Larger"
 msgstr "Daha büyük"
 
-#: ../src/main_window.c:752
+#: ../src/main_window.c:754
 msgid "Very Large"
 msgstr "Çok büyük"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:907
+#: ../src/main_window.c:909
 msgid "_Play"
 msgstr "_Oynat"
 
-#: ../src/main_window.c:907
+#: ../src/main_window.c:909
 msgid "Play slideshow"
 msgstr "Slayt gösterisini başlat"
 
-#: ../src/main_window.c:908
+#: ../src/main_window.c:910
 msgid "_Pause"
 msgstr "_Duraklat"
 
-#: ../src/main_window.c:908
+#: ../src/main_window.c:910
 msgid "Pause slideshow"
 msgstr "Slayt gösterisini durdur"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:911
+#: ../src/main_window.c:913
 msgid "_Recently used"
 msgstr "_Son kullanılanlar"
 
-#: ../src/main_window.c:911
+#: ../src/main_window.c:913
 msgid "Recently used"
 msgstr "Son kullanılanlar"
 
-#: ../src/main_window.c:1015 ../src/main_window.c:1595
+#: ../src/main_window.c:1017 ../src/main_window.c:1604
 msgid "Press open to select an image"
 msgstr "Bir resim seçmek için aç tuşuna bas"
 
-#: ../src/main_window.c:1451 ../src/main_window.c:1455
+#: ../src/main_window.c:1453 ../src/main_window.c:1457
 msgid "Open With Other _Application..."
 msgstr "Başka Bir Uygulama İle Aç..."
 
-#: ../src/main_window.c:1476 ../src/main_window.c:1482
+#: ../src/main_window.c:1478 ../src/main_window.c:1484
 msgid "Empty"
 msgstr "Boş"
 
-#: ../src/main_window.c:1605
+#: ../src/main_window.c:1614
 msgid "Loading..."
 msgstr "Yükleniyor..."
 
-#: ../src/main_window.c:2208
+#: ../src/main_window.c:2221
 msgid "Choose 'set wallpaper' method"
 msgstr "'Duvar kağıdı ayarla' yöntemini seç"
 
-#: ../src/main_window.c:2211 ../src/main_window.c:4007
-#: ../src/xfce_wallpaper_manager.c:342 ../src/gnome_wallpaper_manager.c:241
+#: ../src/main_window.c:2224 ../src/main_window.c:4032
+#: ../src/xfce_wallpaper_manager.c:434 ../src/gnome_wallpaper_manager.c:241
 msgid "_OK"
 msgstr "_Tamam"
 
-#: ../src/main_window.c:2213 ../src/main_window.c:3136
-#: ../src/main_window.c:3370 ../src/main_window.c:4005
-#: ../src/privacy_dialog.c:180 ../src/xfce_wallpaper_manager.c:338
+#: ../src/main_window.c:2226 ../src/main_window.c:3161
+#: ../src/main_window.c:3395 ../src/main_window.c:4030
+#: ../src/privacy_dialog.c:180 ../src/xfce_wallpaper_manager.c:430
 #: ../src/gnome_wallpaper_manager.c:237
 msgid "_Cancel"
 msgstr "_İptal"
 
-#: ../src/main_window.c:2223 ../src/preferences_dialog.c:462
+#: ../src/main_window.c:2236 ../src/preferences_dialog.c:462
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Masaüstünüzü yöneten geçerli sistemi yapılandırın.\nBu ayar <i>Ristretto</i>nun masaüstü duvar kağıdınızı\nyapılandırması için kullanılacağı yöntemini tanımlar."
 
-#: ../src/main_window.c:2248 ../src/preferences_dialog.c:486
+#: ../src/main_window.c:2261 ../src/preferences_dialog.c:486
 msgid "None"
 msgstr "Hiçbiri"
 
-#: ../src/main_window.c:2252 ../src/preferences_dialog.c:490
+#: ../src/main_window.c:2265 ../src/preferences_dialog.c:490
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2256 ../src/preferences_dialog.c:494
+#: ../src/main_window.c:2269 ../src/preferences_dialog.c:494
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2697
+#: ../src/main_window.c:2722
 msgid "Developer:"
 msgstr "Geliştirici:"
 
-#: ../src/main_window.c:2706 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2731 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto, Xfce masaüstü ortamı için bir resim göstericidir."
 
-#: ../src/main_window.c:2714
+#: ../src/main_window.c:2739
 msgid "translator-credits"
 msgstr "Onur Küçük <onur@pardus.org.tr>\nGökmen Görgen <gkmngrgn@gmail.com> \nAyhan YALÇINSOY <ayhanyalcinsoy@gmail.com>\nSerdar Sağlam <teknomobil@yandex.com>"
 
-#: ../src/main_window.c:3133
+#: ../src/main_window.c:3158
 msgid "Open image"
 msgstr "Resim aç"
 
-#: ../src/main_window.c:3137
+#: ../src/main_window.c:3162
 msgid "_Open"
 msgstr "_Aç"
 
-#: ../src/main_window.c:3154
+#: ../src/main_window.c:3179
 msgid "Images"
 msgstr "Resimler"
 
-#: ../src/main_window.c:3159
+#: ../src/main_window.c:3184
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3186 ../src/main_window.c:3328
+#: ../src/main_window.c:3211 ../src/main_window.c:3353
 msgid "Could not open file"
 msgstr "Dosya açılamadı"
 
-#: ../src/main_window.c:3367
+#: ../src/main_window.c:3392
 msgid "Save copy"
 msgstr "Kopyayı kaydet"
 
-#: ../src/main_window.c:3371
+#: ../src/main_window.c:3396
 msgid "_Save"
 msgstr "_Kaydet"
 
-#: ../src/main_window.c:3400
+#: ../src/main_window.c:3425
 msgid "Could not save file"
 msgstr "Dosya kaydedilemedi"
 
-#: ../src/main_window.c:3570
+#: ../src/main_window.c:3595
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "'%s' resmini çöpe göndermek istediğinizden emin misiniz?"
 
-#: ../src/main_window.c:3574
+#: ../src/main_window.c:3599
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Diskinizden '%s' resmini silmek istediğinizden emin misiniz?"
 
-#: ../src/main_window.c:3585
+#: ../src/main_window.c:3610
 msgid "_Do not ask again for this session"
 msgstr "_Bu oturum için tekrar sorma"
 
-#: ../src/main_window.c:3662
+#: ../src/main_window.c:3687
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -571,7 +571,7 @@ msgid ""
 "%s"
 msgstr "'%s' resmini diskten silerken bir hata oluştu.\n\n%s"
 
-#: ../src/main_window.c:3666
+#: ../src/main_window.c:3691
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -579,24 +579,24 @@ msgid ""
 "%s"
 msgstr "'%s' resmi çöp kutusuna gönerilirken bir hata oluştu.\n\n%s"
 
-#: ../src/main_window.c:4002
+#: ../src/main_window.c:4027
 msgid "Edit with"
 msgstr "Birlikte düzenle"
 
-#: ../src/main_window.c:4020
+#: ../src/main_window.c:4045
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "%s'i ve diğer %s biçimli dosyaları şununla aç:"
 
-#: ../src/main_window.c:4026
+#: ../src/main_window.c:4051
 msgid "Use as _default for this kind of file"
 msgstr "Bu tip dosyalar için _varsayılan ayarla"
 
-#: ../src/main_window.c:4116
+#: ../src/main_window.c:4141
 msgid "Recommended Applications"
 msgstr "Önerilen Uygulamalar"
 
-#: ../src/main_window.c:4196
+#: ../src/main_window.c:4221
 msgid "Other Applications"
 msgstr "Diğer Uygulamalar"
 
@@ -688,7 +688,7 @@ msgstr "Bugün"
 msgid "Everything"
 msgstr "Herşey"
 
-#: ../src/privacy_dialog.c:181 ../src/xfce_wallpaper_manager.c:340
+#: ../src/privacy_dialog.c:181 ../src/xfce_wallpaper_manager.c:432
 #: ../src/gnome_wallpaper_manager.c:239
 msgid "_Apply"
 msgstr "_Uygula"
@@ -862,39 +862,39 @@ msgstr "Küçük resim hizmeti bulunamıyor,\nbu yüzden, küçük resimler olu�
 msgid "Do _not show this message again"
 msgstr "Bu iletiyi tekrar gösterme"
 
-#: ../src/xfce_wallpaper_manager.c:317 ../src/gnome_wallpaper_manager.c:223
+#: ../src/xfce_wallpaper_manager.c:409 ../src/gnome_wallpaper_manager.c:223
 msgid "Style:"
 msgstr "Biçim:"
 
-#: ../src/xfce_wallpaper_manager.c:328
+#: ../src/xfce_wallpaper_manager.c:420
 msgid "Apply to all workspaces"
 msgstr "Tüm çalışma alanlarına uygula"
 
-#: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
+#: ../src/xfce_wallpaper_manager.c:427 ../src/gnome_wallpaper_manager.c:234
 msgid "Set as wallpaper"
 msgstr "Duvar kağıdı olarak ayarla"
 
-#: ../src/xfce_wallpaper_manager.c:403 ../src/gnome_wallpaper_manager.c:301
+#: ../src/xfce_wallpaper_manager.c:495 ../src/gnome_wallpaper_manager.c:301
 msgid "Auto"
 msgstr "Otomatik"
 
-#: ../src/xfce_wallpaper_manager.c:406
+#: ../src/xfce_wallpaper_manager.c:498
 msgid "Centered"
 msgstr "Merkezle"
 
-#: ../src/xfce_wallpaper_manager.c:409
+#: ../src/xfce_wallpaper_manager.c:501
 msgid "Tiled"
 msgstr "Bölünmüş"
 
-#: ../src/xfce_wallpaper_manager.c:412
+#: ../src/xfce_wallpaper_manager.c:504
 msgid "Stretched"
 msgstr "Uzatıldı"
 
-#: ../src/xfce_wallpaper_manager.c:415
+#: ../src/xfce_wallpaper_manager.c:507
 msgid "Scaled"
 msgstr "Ölçeklendi"
 
-#: ../src/xfce_wallpaper_manager.c:418
+#: ../src/xfce_wallpaper_manager.c:510
 msgid "Zoomed"
 msgstr "Yakınlaştı"
 
@@ -913,30 +913,3 @@ msgid ""
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
 msgstr "Ristretto Resim Gösterici, resimleri görüntülemek, resimler arasında gezinmek, resimlerle sunum  yapmak, resimleri resim düzenleyici gibi farklı uygulamalarla açmak ya da resimi masaüstü arkaplanı olarak ayarlamak için kullanılabilecek bir uygulamadır."
-
-#: ../ristretto.appdata.xml.in.h:3
-msgid ""
-"This version comes with the improvements such as thumbnail usage as appicon "
-"and update to the first image in the image-list when receiving a ready-"
-"signal, required to show the thumbnail once it's generated."
-msgstr "Bu sürüm uygulama simgesi olarak küçük resim kullanımı gibi geliştirmelerle birlikte gelmektedir."
-
-#: ../ristretto.appdata.xml.in.h:4
-msgid ""
-"This release contains lots of translation-updates, and a crash when "
-"configuring the 'limit-quality' property."
-msgstr "Bu sürüm bir çok çeviri güncellemesi içerdiği gibi 'limit-quality' özelliğini yapılandırırken bir çökme de içerir."
-
-#: ../ristretto.appdata.xml.in.h:5
-msgid ""
-"This version comes with several changes such as online documentation on "
-"docs.xfce.org, the option to limit the maximum image-quality to the screen "
-"dimensions to improve memory-usage and performance - now ristretto renders "
-"at full quality with this option disabled, only one toolbar - instead of "
-"two, a quick-launch button on the toolbar to execute an editor, the option "
-"to pick a default-editor per mime-type, an optional clock that shows up when"
-" ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the "
-"statusbar to indicate when it is busy and progressive loading of directories"
-" to prevent lockup of the UI. This version is designed to work with version "
-"4.10 of Xfce."
-msgstr "Bu sürümde docs.xfce.org sayfasında çevrimiçi belge görüntüleme, bellek kullanımı ve başarımı arttırmak için resim kalitesi eşiğini ekran boyutlarıyla sınırlandırma seçeneği  - ristretto, bu sınırlandırma seçeneği etkin değilken resmi özgün çözünürlüğünde görüntüler - iki araç çubuğu yerine tek araç çubuğu, dosya türüne (mime-type) göre öntanımlı düzenleyici belirleme seçeneği, ristretto tam ekran görünümündeyken tercihe bağlı görüntülenebilecek saat gibi birçok yeni özellik vardır. Ristretto artık işlem yaparken meşgul olduğunu belirtmek için durum çubuğunda 'Yükleniyor...' iletisi göstermekte ve arayüz kullanımını engellememek için dizinleri aşamalı olarak yüklemektedir. Bu sürüm Xfce'nin 4.10 sürümüyle birlikte kullanolmak üzere tasarlanmıştır."
