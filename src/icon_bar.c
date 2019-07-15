@@ -1010,12 +1010,12 @@ rstto_icon_bar_scroll (
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
         adjustment = icon_bar->priv->vadjustment;
-        step_size = icon_bar->priv->item_height / 2;
+        step_size = icon_bar->priv->item_height / 2.0;
     }
     else
     {
         adjustment = icon_bar->priv->hadjustment;
-        step_size = icon_bar->priv->item_width / 2;
+        step_size = icon_bar->priv->item_width / 2.0;
     }
 
     val = gtk_adjustment_get_value (adjustment);
