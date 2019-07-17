@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2019-04-16 18:32+0200\n"
-"PO-Revision-Date: 2019-06-17 18:42+0000\n"
+"POT-Creation-Date: 2019-07-13 00:31+0200\n"
+"PO-Revision-Date: 2019-07-17 00:42+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -48,517 +48,517 @@ msgstr "%s: %s\n\nPrøv %s --help for at se en fuld liste af tilgængelige komma
 msgid "Image Viewer"
 msgstr "Billedfremviser"
 
-#: ../src/main_window.c:369
+#: ../src/main_window.c:371
 msgid "_File"
 msgstr "_Fil"
 
 #. Icon-name
-#: ../src/main_window.c:375
+#: ../src/main_window.c:377
 msgid "_Open..."
 msgstr "_Åbn ..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:377
+#: ../src/main_window.c:379
 msgid "Open an image"
 msgstr "Åbn et billede"
 
 #. Icon-name
-#: ../src/main_window.c:381
+#: ../src/main_window.c:383
 msgid "_Save copy..."
 msgstr "_Gem kopi ..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:383
+#: ../src/main_window.c:385
 msgid "Save a copy of the image"
 msgstr "Gem en kopi af billedet"
 
 #. Icon-name
-#: ../src/main_window.c:387
+#: ../src/main_window.c:389
 msgid "_Properties..."
 msgstr "_Egenskaber ..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:389
+#: ../src/main_window.c:391
 msgid "Show file properties"
 msgstr "Vil filegenskaber"
 
 #. Icon-name
-#: ../src/main_window.c:393 ../src/main_window.c:412
+#: ../src/main_window.c:395 ../src/main_window.c:414
 msgid "_Edit"
 msgstr "_Rediger"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:395
+#: ../src/main_window.c:397
 msgid "Edit this image"
 msgstr "Rediger billedet"
 
 #. Icon-name
-#: ../src/main_window.c:399 ../src/preferences_dialog.c:541
+#: ../src/main_window.c:401 ../src/preferences_dialog.c:541
 #: ../src/properties_dialog.c:325
 msgid "_Close"
 msgstr "_Luk"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:401
+#: ../src/main_window.c:403
 msgid "Close this image"
 msgstr "Luk dette billede"
 
 #. Icon-name
-#: ../src/main_window.c:405
+#: ../src/main_window.c:407
 msgid "_Quit"
 msgstr "_Afslut"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:407
+#: ../src/main_window.c:409
 msgid "Quit Ristretto"
 msgstr "Afslut Ristretto"
 
-#: ../src/main_window.c:418
+#: ../src/main_window.c:420
 msgid "_Open with"
 msgstr "_Åbn med"
 
-#: ../src/main_window.c:424
-msgid "_Sorting"
-msgstr "_Sortér"
+#: ../src/main_window.c:426
+msgid "_Sort by"
+msgstr "_Sortér efter"
 
 #. Icon-name
-#: ../src/main_window.c:430
+#: ../src/main_window.c:432
 msgid "_Delete"
 msgstr "_Slet"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:432
+#: ../src/main_window.c:434
 msgid "Delete this image from disk"
 msgstr "Slet dette billede fra disken"
 
 #. Icon-name
-#: ../src/main_window.c:436
+#: ../src/main_window.c:438
 msgid "_Clear private data..."
 msgstr "_Ryd private data ..."
 
 #. Icon-name
-#: ../src/main_window.c:442
+#: ../src/main_window.c:444
 msgid "_Preferences..."
 msgstr "_Præferencer ..."
 
-#: ../src/main_window.c:449
+#: ../src/main_window.c:451
 msgid "_View"
 msgstr "_Vis"
 
 #. Icon-name
-#: ../src/main_window.c:455
+#: ../src/main_window.c:457
 msgid "_Fullscreen"
 msgstr "_Fuldskærm"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:457
+#: ../src/main_window.c:459
 msgid "Switch to fullscreen"
 msgstr "Skift til fuldskærmstilstand"
 
 #. Icon-name
-#: ../src/main_window.c:461
+#: ../src/main_window.c:463
 msgid "_Leave Fullscreen"
 msgstr "_Forlad fuldskærm"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:463
+#: ../src/main_window.c:465
 msgid "Leave Fullscreen"
 msgstr "Forlad fuldskærm"
 
 #. Icon-name
-#: ../src/main_window.c:467
+#: ../src/main_window.c:469
 msgid "Set as _Wallpaper..."
 msgstr "_Brug som skrivebordstapet ..."
 
-#: ../src/main_window.c:474
+#: ../src/main_window.c:476
 msgid "_Zoom"
 msgstr "_Zoom"
 
 #. Icon-name
-#: ../src/main_window.c:480
+#: ../src/main_window.c:482
 msgid "Zoom _In"
 msgstr "Zoom _ind"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:482
+#: ../src/main_window.c:484
 msgid "Zoom in"
 msgstr "Zoom ind"
 
 #. Icon-name
-#: ../src/main_window.c:486
+#: ../src/main_window.c:488
 msgid "Zoom _Out"
 msgstr "Zoom _ud"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:488
+#: ../src/main_window.c:490
 msgid "Zoom out"
 msgstr "Zoom ud"
 
 #. Icon-name
-#: ../src/main_window.c:492
+#: ../src/main_window.c:494
 msgid "Zoom _Fit"
 msgstr "_Tilpas zoom"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:494
+#: ../src/main_window.c:496
 msgid "Zoom to fit window"
 msgstr "Tilpas zoom til skærm"
 
 #. Icon-name
-#: ../src/main_window.c:498
+#: ../src/main_window.c:500
 msgid "_Normal Size"
 msgstr "_Normal størrelse"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:500
+#: ../src/main_window.c:502
 msgid "Zoom to 100%"
 msgstr "Zoom til 100%"
 
-#: ../src/main_window.c:505
+#: ../src/main_window.c:507
 msgid "_Rotation"
 msgstr "_Rotering"
 
 #. Icon-name
-#: ../src/main_window.c:511
+#: ../src/main_window.c:513
 msgid "Rotate _Right"
 msgstr "Drej til høj_re"
 
 #. Icon-name
-#: ../src/main_window.c:517
+#: ../src/main_window.c:519
 msgid "Rotate _Left"
 msgstr "Drej til _venstre"
 
-#: ../src/main_window.c:524
+#: ../src/main_window.c:526
 msgid "_Flip"
 msgstr "_Vend"
 
-#: ../src/main_window.c:530
+#: ../src/main_window.c:532
 msgid "Flip _Horizontally"
 msgstr "Vend _vandret"
 
-#: ../src/main_window.c:536
+#: ../src/main_window.c:538
 msgid "Flip _Vertically"
 msgstr "Vend _lodret"
 
-#: ../src/main_window.c:543
+#: ../src/main_window.c:545
 msgid "_Go"
 msgstr "_Gå til"
 
 #. Icon-name
-#: ../src/main_window.c:549
+#: ../src/main_window.c:551
 msgid "_Forward"
 msgstr "_Fremad"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:551
+#: ../src/main_window.c:553
 msgid "Next image"
 msgstr "Næste billede"
 
 #. Icon-name
-#: ../src/main_window.c:555
+#: ../src/main_window.c:557
 msgid "_Back"
 msgstr "_Tilbage"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:557
+#: ../src/main_window.c:559
 msgid "Previous image"
 msgstr "Forrige billede"
 
 #. Icon-name
-#: ../src/main_window.c:561
+#: ../src/main_window.c:563
 msgid "F_irst"
 msgstr "Førs_te"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:563
+#: ../src/main_window.c:565
 msgid "First image"
 msgstr "Første billede"
 
 #. Icon-name
-#: ../src/main_window.c:567
+#: ../src/main_window.c:569
 msgid "_Last"
 msgstr "S_idste"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:569
+#: ../src/main_window.c:571
 msgid "Last image"
 msgstr "Sidste billede"
 
-#: ../src/main_window.c:574
+#: ../src/main_window.c:576
 msgid "_Help"
 msgstr "_Hjælp"
 
 #. Icon-name
-#: ../src/main_window.c:580
+#: ../src/main_window.c:582
 msgid "_Contents"
 msgstr "_Indhold"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:582
+#: ../src/main_window.c:584
 msgid "Display ristretto user manual"
 msgstr "Vis brugermanualen til Ristretto"
 
 #. Icon-name
-#: ../src/main_window.c:586
+#: ../src/main_window.c:588
 msgid "_About"
 msgstr "_Om"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:588
+#: ../src/main_window.c:590
 msgid "Display information about ristretto"
 msgstr "Vis informationer om Ristretto"
 
-#: ../src/main_window.c:593
+#: ../src/main_window.c:595
 msgid "_Position"
 msgstr "_Placering"
 
-#: ../src/main_window.c:599
+#: ../src/main_window.c:601
 msgid "_Size"
 msgstr "_Størrelse"
 
-#: ../src/main_window.c:605
+#: ../src/main_window.c:607
 msgid "Thumbnail Bar _Position"
 msgstr "_Placering af miniaturelinje"
 
-#: ../src/main_window.c:611
+#: ../src/main_window.c:613
 msgid "Thumb_nail Size"
 msgstr "S_tørrelse på miniature"
 
 #. Icon-name
-#: ../src/main_window.c:618
+#: ../src/main_window.c:620
 msgid "Leave _Fullscreen"
 msgstr "Forlad f_uldskærm"
 
 #. Icon-name
-#: ../src/main_window.c:636
+#: ../src/main_window.c:638
 msgid "_Show Toolbar"
 msgstr "Vis _værktøjslinje"
 
 #. Icon-name
-#: ../src/main_window.c:644
+#: ../src/main_window.c:646
 msgid "Show _Thumbnail Bar"
 msgstr "Vis _miniaturelinje"
 
 #. Icon-name
-#: ../src/main_window.c:652
+#: ../src/main_window.c:654
 msgid "Show Status _Bar"
 msgstr "Vis _statuslinje"
 
 #. Icon-name
-#: ../src/main_window.c:664
-msgid "sort by filename"
-msgstr "sortér efter filnavn"
+#: ../src/main_window.c:666
+msgid "file name"
+msgstr "filnavn"
 
 #. Icon-name
-#: ../src/main_window.c:670
-msgid "sort by filetype"
-msgstr "sortér efter filtype"
+#: ../src/main_window.c:672
+msgid "file type"
+msgstr "filtype"
 
 #. Icon-name
-#: ../src/main_window.c:676
-msgid "sort by date"
-msgstr "sortér efter dato"
+#: ../src/main_window.c:678
+msgid "date"
+msgstr "dato"
 
 #. Icon-name
-#: ../src/main_window.c:687
+#: ../src/main_window.c:689
 msgid "Left"
 msgstr "Venstre"
 
-#: ../src/main_window.c:693
+#: ../src/main_window.c:695
 msgid "Right"
 msgstr "Højre"
 
-#: ../src/main_window.c:699
+#: ../src/main_window.c:701
 msgid "Top"
 msgstr "Øverst"
 
-#: ../src/main_window.c:705
+#: ../src/main_window.c:707
 msgid "Bottom"
 msgstr "Nederst"
 
-#: ../src/main_window.c:716
+#: ../src/main_window.c:718
 msgid "Very Small"
 msgstr "Meget lille"
 
-#: ../src/main_window.c:722
+#: ../src/main_window.c:724
 msgid "Smaller"
 msgstr "Mindre"
 
-#: ../src/main_window.c:728
+#: ../src/main_window.c:730
 msgid "Small"
 msgstr "Lille"
 
-#: ../src/main_window.c:734
+#: ../src/main_window.c:736
 msgid "Normal"
 msgstr "Normal"
 
-#: ../src/main_window.c:740
+#: ../src/main_window.c:742
 msgid "Large"
 msgstr "Stor"
 
-#: ../src/main_window.c:746
+#: ../src/main_window.c:748
 msgid "Larger"
 msgstr "Større"
 
-#: ../src/main_window.c:752
+#: ../src/main_window.c:754
 msgid "Very Large"
 msgstr "Meget stor"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:907
+#: ../src/main_window.c:909
 msgid "_Play"
 msgstr "_Afspil"
 
-#: ../src/main_window.c:907
+#: ../src/main_window.c:909
 msgid "Play slideshow"
 msgstr "Afspil et diasshow"
 
-#: ../src/main_window.c:908
+#: ../src/main_window.c:910
 msgid "_Pause"
 msgstr "_Pause"
 
-#: ../src/main_window.c:908
+#: ../src/main_window.c:910
 msgid "Pause slideshow"
 msgstr "Pause diasshow"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:911
+#: ../src/main_window.c:913
 msgid "_Recently used"
 msgstr "_Senest brugte"
 
-#: ../src/main_window.c:911
+#: ../src/main_window.c:913
 msgid "Recently used"
 msgstr "Senest brugte"
 
-#: ../src/main_window.c:1015 ../src/main_window.c:1595
+#: ../src/main_window.c:1017 ../src/main_window.c:1604
 msgid "Press open to select an image"
 msgstr "Tryk åbn for at vælge et billede"
 
-#: ../src/main_window.c:1451 ../src/main_window.c:1455
+#: ../src/main_window.c:1453 ../src/main_window.c:1457
 msgid "Open With Other _Application..."
 msgstr "Åbn med et andet _program ..."
 
-#: ../src/main_window.c:1476 ../src/main_window.c:1482
+#: ../src/main_window.c:1478 ../src/main_window.c:1484
 msgid "Empty"
 msgstr "Tom"
 
-#: ../src/main_window.c:1605
+#: ../src/main_window.c:1614
 msgid "Loading..."
 msgstr "Indlæser ..."
 
-#: ../src/main_window.c:2208
+#: ../src/main_window.c:2221
 msgid "Choose 'set wallpaper' method"
 msgstr "Vælg \"sæt skrivebordstapet\"-metode"
 
-#: ../src/main_window.c:2211 ../src/main_window.c:4007
-#: ../src/xfce_wallpaper_manager.c:342 ../src/gnome_wallpaper_manager.c:241
+#: ../src/main_window.c:2224 ../src/main_window.c:4032
+#: ../src/xfce_wallpaper_manager.c:434 ../src/gnome_wallpaper_manager.c:241
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/main_window.c:2213 ../src/main_window.c:3136
-#: ../src/main_window.c:3370 ../src/main_window.c:4005
-#: ../src/privacy_dialog.c:180 ../src/xfce_wallpaper_manager.c:338
+#: ../src/main_window.c:2226 ../src/main_window.c:3161
+#: ../src/main_window.c:3395 ../src/main_window.c:4030
+#: ../src/privacy_dialog.c:180 ../src/xfce_wallpaper_manager.c:430
 #: ../src/gnome_wallpaper_manager.c:237
 msgid "_Cancel"
 msgstr "_Annuller"
 
-#: ../src/main_window.c:2223 ../src/preferences_dialog.c:462
+#: ../src/main_window.c:2236 ../src/preferences_dialog.c:462
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Indstil hvilket system der på nuværende tidspunkt håndterer dit skrivebord.\nDenne indstilling bestemmer den metode <i>Ristretto</i> vil bruge\ntil at indstille skrivebordstapetet."
 
-#: ../src/main_window.c:2248 ../src/preferences_dialog.c:486
+#: ../src/main_window.c:2261 ../src/preferences_dialog.c:486
 msgid "None"
 msgstr "Intet"
 
-#: ../src/main_window.c:2252 ../src/preferences_dialog.c:490
+#: ../src/main_window.c:2265 ../src/preferences_dialog.c:490
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2256 ../src/preferences_dialog.c:494
+#: ../src/main_window.c:2269 ../src/preferences_dialog.c:494
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2697
+#: ../src/main_window.c:2722
 msgid "Developer:"
 msgstr "Udvikler:"
 
-#: ../src/main_window.c:2706 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2731 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto er en billedfremviser til Xfce-skrivebordsmiljøet."
 
-#: ../src/main_window.c:2714
+#: ../src/main_window.c:2739
 msgid "translator-credits"
 msgstr "Per Kongstad\n\nDansk-gruppen\nWebsted http://dansk-gruppen.dk\nE-mail <dansk@dansk-gruppen.dk>"
 
-#: ../src/main_window.c:3133
+#: ../src/main_window.c:3158
 msgid "Open image"
 msgstr "Åbn billede"
 
-#: ../src/main_window.c:3137
+#: ../src/main_window.c:3162
 msgid "_Open"
 msgstr "_Åbn"
 
-#: ../src/main_window.c:3154
+#: ../src/main_window.c:3179
 msgid "Images"
 msgstr "Billeder"
 
-#: ../src/main_window.c:3159
+#: ../src/main_window.c:3184
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3186 ../src/main_window.c:3328
+#: ../src/main_window.c:3211 ../src/main_window.c:3353
 msgid "Could not open file"
 msgstr "Kunne ikke åbne fil"
 
-#: ../src/main_window.c:3367
+#: ../src/main_window.c:3392
 msgid "Save copy"
 msgstr "Gem kopi"
 
-#: ../src/main_window.c:3371
+#: ../src/main_window.c:3396
 msgid "_Save"
 msgstr "_Gem"
 
-#: ../src/main_window.c:3400
+#: ../src/main_window.c:3425
 msgid "Could not save file"
 msgstr "Kunne ikke gemme fil"
 
-#: ../src/main_window.c:3570
+#: ../src/main_window.c:3595
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Er du sikker på, at du vil sende billedet '%s' i papirkurven?"
 
-#: ../src/main_window.c:3574
+#: ../src/main_window.c:3599
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Er du sikker på, at du vil slette billedet '%s' fra disken?"
 
-#: ../src/main_window.c:3585
+#: ../src/main_window.c:3610
 msgid "_Do not ask again for this session"
 msgstr "_Spørg ikke igen i denne session"
 
-#: ../src/main_window.c:3662
+#: ../src/main_window.c:3687
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -566,7 +566,7 @@ msgid ""
 "%s"
 msgstr "Der opstod en fejl under sletning af billede '%s' fra disken.\n\n%s"
 
-#: ../src/main_window.c:3666
+#: ../src/main_window.c:3691
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -574,24 +574,24 @@ msgid ""
 "%s"
 msgstr "Der opstod en fejl under overførsel af billede '%s' til papirkurven.\n\n%s"
 
-#: ../src/main_window.c:4002
+#: ../src/main_window.c:4027
 msgid "Edit with"
 msgstr "Rediger med"
 
-#: ../src/main_window.c:4020
+#: ../src/main_window.c:4045
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Åbn %s og andre filer af typen %s med:"
 
-#: ../src/main_window.c:4026
+#: ../src/main_window.c:4051
 msgid "Use as _default for this kind of file"
 msgstr "Brug som _standard til denne type fil"
 
-#: ../src/main_window.c:4116
+#: ../src/main_window.c:4141
 msgid "Recommended Applications"
 msgstr "Anbefalede programmer"
 
-#: ../src/main_window.c:4196
+#: ../src/main_window.c:4221
 msgid "Other Applications"
 msgstr "Andre programmer"
 
@@ -683,7 +683,7 @@ msgstr "I dag"
 msgid "Everything"
 msgstr "Alt"
 
-#: ../src/privacy_dialog.c:181 ../src/xfce_wallpaper_manager.c:340
+#: ../src/privacy_dialog.c:181 ../src/xfce_wallpaper_manager.c:432
 #: ../src/gnome_wallpaper_manager.c:239
 msgid "_Apply"
 msgstr "_Anvend"
@@ -857,39 +857,39 @@ msgstr "Tjenesten til miniaturer kan ikke kontaktes,\nog derfor kan miniaturer i
 msgid "Do _not show this message again"
 msgstr "Undla_d at vise denne meddelelse igen"
 
-#: ../src/xfce_wallpaper_manager.c:317 ../src/gnome_wallpaper_manager.c:223
+#: ../src/xfce_wallpaper_manager.c:409 ../src/gnome_wallpaper_manager.c:223
 msgid "Style:"
 msgstr "Stil:"
 
-#: ../src/xfce_wallpaper_manager.c:328
+#: ../src/xfce_wallpaper_manager.c:420
 msgid "Apply to all workspaces"
 msgstr "Anvend på alle arbejdsområder"
 
-#: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
+#: ../src/xfce_wallpaper_manager.c:427 ../src/gnome_wallpaper_manager.c:234
 msgid "Set as wallpaper"
 msgstr "Brug som skrivebordstapet"
 
-#: ../src/xfce_wallpaper_manager.c:403 ../src/gnome_wallpaper_manager.c:301
+#: ../src/xfce_wallpaper_manager.c:495 ../src/gnome_wallpaper_manager.c:301
 msgid "Auto"
 msgstr "Automatisk"
 
-#: ../src/xfce_wallpaper_manager.c:406
+#: ../src/xfce_wallpaper_manager.c:498
 msgid "Centered"
 msgstr "Centreret"
 
-#: ../src/xfce_wallpaper_manager.c:409
+#: ../src/xfce_wallpaper_manager.c:501
 msgid "Tiled"
 msgstr "Fliselagt"
 
-#: ../src/xfce_wallpaper_manager.c:412
+#: ../src/xfce_wallpaper_manager.c:504
 msgid "Stretched"
 msgstr "Strukket"
 
-#: ../src/xfce_wallpaper_manager.c:415
+#: ../src/xfce_wallpaper_manager.c:507
 msgid "Scaled"
 msgstr "Skaleret"
 
-#: ../src/xfce_wallpaper_manager.c:418
+#: ../src/xfce_wallpaper_manager.c:510
 msgid "Zoomed"
 msgstr "Zoomet"
 
@@ -908,30 +908,3 @@ msgid ""
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
 msgstr "Ristretto Billedfremviseren er et program som kan bruges til at vise og gennemse billeder, køre et diasshow af billeder, åbne billeder med andre programmer såsom et billedredigeringsprogram eller konfigurere et billede som et skrivebordstapet."
-
-#: ../ristretto.appdata.xml.in.h:3
-msgid ""
-"This version comes with the improvements such as thumbnail usage as appicon "
-"and update to the first image in the image-list when receiving a ready-"
-"signal, required to show the thumbnail once it's generated."
-msgstr "Denne version kommer med forbedringer såsom anvendelse af miniature som programikon og opdatering til det første billede i billedlisten ved modtagelse af klar-signal, krævet til at vise miniature når den er genereret."
-
-#: ../ristretto.appdata.xml.in.h:4
-msgid ""
-"This release contains lots of translation-updates, and a crash when "
-"configuring the 'limit-quality' property."
-msgstr "Denne udgivelse indeholder massere af opdateringer til oversættelser og retter et nedbrud ved konfigurering af egenskaben 'limit-quality'."
-
-#: ../ristretto.appdata.xml.in.h:5
-msgid ""
-"This version comes with several changes such as online documentation on "
-"docs.xfce.org, the option to limit the maximum image-quality to the screen "
-"dimensions to improve memory-usage and performance - now ristretto renders "
-"at full quality with this option disabled, only one toolbar - instead of "
-"two, a quick-launch button on the toolbar to execute an editor, the option "
-"to pick a default-editor per mime-type, an optional clock that shows up when"
-" ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the "
-"statusbar to indicate when it is busy and progressive loading of directories"
-" to prevent lockup of the UI. This version is designed to work with version "
-"4.10 of Xfce."
-msgstr "Denne version kommer med adskillige ændringer såsom onlinedokumentation på docs.xfce.org, mulighed for at begrænse den maksimale billedkvalitet til skærmdimensionerne for at forbedre hukommelsesforbruget og ydelsen - nu gengiver ristretto i fuld kvalitet hvis denne valgmulighed er deaktiveret, kun én værktøjslinje - i stedet for to, en hurtig-start-knap på værktøjslinjen til at køre et redigeringsprogram, mulighed for at vælge et standardredigeringsprogram efter mime-type, et valgfrit ur der vises når ristretto er i fuldskærm, Ristretto viser nu en 'Indlæser..'-meddelelse på statuslinjen for at indikere når den er optages og løbende indlæser mapper for at forhindre fastfrysning af brugerfladen. Denne version er designet til at virke med version 4.10 af Xfce."
