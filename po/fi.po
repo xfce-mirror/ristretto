@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-07-13 00:31+0200\n"
-"PO-Revision-Date: 2019-07-16 21:51+0000\n"
+"PO-Revision-Date: 2019-07-17 08:14+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (http://www.transifex.com/xfce/xfce-apps/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +117,7 @@ msgstr "_Lopeta"
 #. Keyboard shortcut
 #: ../src/main_window.c:409
 msgid "Quit Ristretto"
-msgstr "Sulje Ristretto"
+msgstr "Lopeta Ristretto"
 
 #: ../src/main_window.c:420
 msgid "_Open with"
@@ -225,7 +225,7 @@ msgstr "_Täysi koko"
 #. Keyboard shortcut
 #: ../src/main_window.c:502
 msgid "Zoom to 100%"
-msgstr "Näytä 100% koossa"
+msgstr "Näytä 100 %:in koossa"
 
 #: ../src/main_window.c:507
 msgid "_Rotation"
@@ -556,7 +556,7 @@ msgstr "Haluatko varmasti poistaa kuvan \"%s\" levyltä?"
 
 #: ../src/main_window.c:3610
 msgid "_Do not ask again for this session"
-msgstr "_Älä kysy uudestaan tämän session aikana"
+msgstr "_Älä kysy uudestaan tämän istunnon aikana"
 
 #: ../src/main_window.c:3687
 #, c-format
@@ -777,7 +777,7 @@ msgstr "Käänteinen suurennus"
 
 #: ../src/preferences_dialog.c:419
 msgid "Behaviour"
-msgstr "Käytös"
+msgstr "Toiminta"
 
 #: ../src/preferences_dialog.c:424
 msgid "Startup"
@@ -851,7 +851,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "Pienoiskuvittajapalveluun ei saa yhteyttä,\nEikä pienoiskuvia voi tämän vuoksi luoda.\n\nAsenna <b>Tumbler</b> tai jokin toinen <i>pienoiskuvittaja</i>\nongelman ratkaisemiseksi."
+msgstr "Pienoiskuvittajapalveluun ei saa yhteyttä,\neikä pienoiskuvia voi tämän vuoksi luoda.\n\nAsenna <b>Tumbler</b> tai jokin toinen <i>pienoiskuvittaja</i>\nongelman ratkaisemiseksi."
 
 #: ../src/thumbnailer.c:449
 msgid "Do _not show this message again"
