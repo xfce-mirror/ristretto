@@ -708,7 +708,7 @@ rstto_image_list_set_directory (
             loader->file_enum = file_enumerator;
             loader->image_list = image_list;
 
-            image_list->priv->directory_loader = g_idle_add ( (GSourceFunc) cb_rstto_read_file, loader );
+            image_list->priv->directory_loader = gdk_threads_add_idle ( (GSourceFunc) cb_rstto_read_file, loader );
         }
     }
 

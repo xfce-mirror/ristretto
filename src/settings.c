@@ -121,9 +121,9 @@ struct _RsttoSettingsPriv
     guint     window_height;
     gchar    *last_file_path;
     guint     slideshow_timeout;
-    GdkColor *bgcolor;
+    GdkRGBA  *bgcolor;
     gboolean  bgcolor_override;
-    GdkColor *bgcolor_fullscreen;
+    GdkRGBA  *bgcolor_fullscreen;
     gboolean  wrap_images;
     gchar    *desktop_type;
     gboolean  use_thunar_properties;
@@ -174,8 +174,8 @@ rstto_settings_init (GObject *object)
     }
     
     settings->priv->slideshow_timeout = 5;
-    settings->priv->bgcolor = g_new0 (GdkColor, 1);
-    settings->priv->bgcolor_fullscreen = g_new0 (GdkColor, 1);
+    settings->priv->bgcolor = g_new0 (GdkRGBA, 1);
+    settings->priv->bgcolor_fullscreen = g_new0 (GdkRGBA, 1);
     settings->priv->navigationbar_position = g_strdup ("left");
     settings->priv->show_toolbar = TRUE;
     settings->priv->window_width = 600;
@@ -272,12 +272,12 @@ rstto_settings_init (GObject *object)
             settings,
             "bgcolor-override");
 
-    xfconf_g_property_bind_gdkcolor (
+    xfconf_g_property_bind_gdkrgba (
             settings->priv->channel,
             "/window/bgcolor",
             settings,
             "bgcolor");
-    xfconf_g_property_bind_gdkcolor (
+    xfconf_g_property_bind_gdkrgba (
             settings->priv->channel,
             "/window/bgcolor-fullscreen",
             settings,
@@ -499,7 +499,7 @@ rstto_settings_class_init (GObjectClass *object_class)
             "bgcolor",
             "",
             "",
-            GDK_TYPE_COLOR,
+            GDK_TYPE_RGBA,
             G_PARAM_READWRITE);
     g_object_class_install_property (
             object_class,
@@ -521,7 +521,7 @@ rstto_settings_class_init (GObjectClass *object_class)
             "bgcolor-fullscreen",
             "",
             "",
-            GDK_TYPE_COLOR,
+            GDK_TYPE_RGBA,
             G_PARAM_READWRITE);
     g_object_class_install_property (
             object_class,
@@ -715,7 +715,7 @@ rstto_settings_set_property    (GObject      *object,
                                 const GValue *value,
                                 GParamSpec   *pspec)
 {
-    GdkColor *color;
+    GdkRGBA *color;
     const gchar *str_val = NULL;
     RsttoSettings *settings = RSTTO_SETTINGS (object);
 
@@ -766,6 +766,7 @@ rstto_settings_set_property    (GObject      *object,
             settings->priv->bgcolor->red = color->red;
             settings->priv->bgcolor->green = color->green;
             settings->priv->bgcolor->blue = color->blue;
+            settings->priv->bgcolor->alpha = color->alpha;
             break;
         case PROP_BGCOLOR_OVERRIDE:
             settings->priv->bgcolor_override = g_value_get_boolean (value);
@@ -783,6 +784,7 @@ rstto_settings_set_property    (GObject      *object,
             settings->priv->bgcolor_fullscreen->red = color->red;
             settings->priv->bgcolor_fullscreen->green = color->green;
             settings->priv->bgcolor_fullscreen->blue = color->blue;
+            settings->priv->bgcolor_fullscreen->alpha = color->alpha;
             break;
         case PROP_WRAP_IMAGES:
             settings->priv->wrap_images = g_value_get_boolean (value);

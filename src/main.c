@@ -143,7 +143,7 @@ main(int argc, char **argv)
             rof.iter = 1;
             rof.window = window;
 
-            g_idle_add ((GSourceFunc )cb_rstto_open_files, &rof);
+            gdk_threads_add_idle ((GSourceFunc )cb_rstto_open_files, &rof);
 
             if (TRUE == rstto_settings_get_boolean_property (
                         settings,

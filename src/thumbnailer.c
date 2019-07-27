@@ -319,7 +319,7 @@ rstto_thumbnailer_queue_file (
                 file);
     }
 
-    thumbnailer->priv->request_timer_id = g_timeout_add_full (
+    thumbnailer->priv->request_timer_id = gdk_threads_add_timeout_full (
             G_PRIORITY_LOW,
             300,
             (GSourceFunc)rstto_thumbnailer_queue_request_timer,
@@ -365,7 +365,7 @@ rstto_thumbnailer_dequeue_file (
         g_object_unref (file);
     }
 
-    thumbnailer->priv->request_timer_id = g_timeout_add_full (
+    thumbnailer->priv->request_timer_id = gdk_threads_add_timeout_full (
             G_PRIORITY_LOW,
             300,
             (GSourceFunc)rstto_thumbnailer_queue_request_timer,
@@ -429,8 +429,6 @@ rstto_thumbnailer_queue_request_timer (
                 (error->code == G_DBUS_ERROR_SERVICE_UNKNOWN) &&
                 thumbnailer->priv->show_missing_thumbnailer_error == TRUE)
             {
-                GDK_THREADS_ENTER();
-
                 error_dialog = gtk_message_dialog_new_with_markup (
                         NULL,
                         0,
@@ -466,7 +464,6 @@ rstto_thumbnailer_queue_request_timer (
                          FALSE);
                 }
                 gtk_widget_destroy (error_dialog);
-                GDK_THREADS_LEAVE();
             }
         }
         /* TOOO: Nice cleanup */

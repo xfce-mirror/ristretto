@@ -146,11 +146,10 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
             dialog,
             NULL);
 
-    display_main_hbox = gtk_hbox_new(FALSE, 0);
+    display_main_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     display_main_lbl = gtk_label_new(_("Time range to clear:"));
 
-
-    dialog->priv->cleanup_vbox = gtk_vbox_new(FALSE, 0);
+    dialog->priv->cleanup_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     dialog->priv->cleanup_frame = xfce_gtk_frame_box_new_with_content(_("Cleanup"), dialog->priv->cleanup_vbox);
     dialog->priv->cleanup_timeframe_combo = gtk_combo_box_text_new();
     gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dialog->priv->cleanup_timeframe_combo), 0, _("Last Hour"));

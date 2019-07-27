@@ -248,14 +248,13 @@ rstto_xfce_wallpaper_manager_check_running (RsttoWallpaperManager *self)
 {
     gchar selection_name[100];
     Atom xfce_selection_atom;
-    GdkScreen *gdk_screen = gdk_screen_get_default();
-    gint xscreen = gdk_screen_get_number(gdk_screen);
-    Display *gdk_display = gdk_x11_get_default_xdisplay();
+    gint xscreen = 0;
+    Display *gdk_display = gdk_x11_get_default_xdisplay ();
 
     g_snprintf(selection_name, 100, XFDESKTOP_SELECTION_FMT, xscreen);
 
     xfce_selection_atom = XInternAtom (gdk_display, selection_name, False);
-    if((XGetSelectionOwner(gdk_display, xfce_selection_atom)))
+    if ((XGetSelectionOwner (gdk_display, xfce_selection_atom)))
     {
         return TRUE;
     }
@@ -277,13 +276,12 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoFile *file)
     gchar *image_style_prop;
 
     display = gdk_display_get_default ();
-    gdk_screen = gdk_display_get_screen (display,
-            manager->priv->screen);
+    gdk_screen = gdk_display_get_default_screen (display);
 
     workspace_nr = rstto_get_active_workspace_number (gdk_screen);
 
-    monitor_name = gdk_screen_get_monitor_plug_name (gdk_screen,
-            manager->priv->monitor);
+    monitor_name = gdk_monitor_get_model (
+            gdk_display_get_monitor (display, manager->priv->monitor));
 
     /* New properties since xfdesktop >= 4.11 */
     if (monitor_name)
@@ -319,7 +317,6 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoFile *file)
 
         g_free (monitor_name);
     }
-
 
     xfconf_channel_set_string (
             manager->priv->channel,
@@ -402,12 +399,12 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
 {
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (object);
     gint i;
-    GdkScreen *screen = gdk_screen_get_default ();
-    gint n_monitors = gdk_screen_get_n_monitors (screen);
+    GdkDisplay *display = gdk_display_get_default ();
+    gint n_monitors = gdk_display_get_n_monitors (display);
     GdkRectangle monitor_geometry;
     GtkWidget *vbox;
     GtkWidget *style_label = gtk_label_new (_("Style:"));
-    GtkWidget *image_prop_table = gtk_table_new (2, 2, FALSE);
+    GtkWidget *image_prop_grid = gtk_grid_new ();
 
     manager->priv = g_new0(RsttoXfceWallpaperManagerPriv, 1);
     manager->priv->channel = xfconf_channel_new ("xfce4-desktop");
@@ -439,14 +436,13 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
     manager->priv->monitor_chooser = rstto_monitor_chooser_new ();
     manager->priv->style_combo = gtk_combo_box_text_new ();
 
-    gtk_table_set_row_spacings (GTK_TABLE (image_prop_table), 6);
-    gtk_table_set_col_spacings (GTK_TABLE (image_prop_table), 6);
+    gtk_grid_set_row_spacing (GTK_GRID (image_prop_grid), 6);
+    gtk_grid_set_column_spacing (GTK_GRID (image_prop_grid), 6);
 
     for (i = 0; i < n_monitors; ++i)
     {
-        gdk_screen_get_monitor_geometry (
-                screen,
-                i,
+        gdk_monitor_get_geometry (
+                gdk_display_get_monitor (display, i),
                 &monitor_geometry);
         rstto_monitor_chooser_add (
                 RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser),
@@ -462,34 +458,27 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
             0);
     gtk_box_pack_start (
             GTK_BOX (vbox),
-            image_prop_table,
+            image_prop_grid,
             FALSE,
             FALSE,
             0);
 
-    gtk_table_attach (
-            GTK_TABLE (image_prop_table),
+    gtk_grid_attach (
+            GTK_GRID (image_prop_grid),
             style_label,
             0,
-            1,
             0,
             1,
-            0,
-            0,
-            0,
-            0);
-    gtk_table_attach (
-            GTK_TABLE (image_prop_table),
+            1);
+    gtk_grid_attach (
+            GTK_GRID (image_prop_grid),
             manager->priv->style_combo,
             1,
-            2,
             0,
             1,
-            GTK_EXPAND|GTK_FILL,
-            0,
-            0,
-            0);
+            1);
 
+    gtk_widget_set_hexpand (manager->priv->style_combo, TRUE);
     gtk_combo_box_text_append_text (
             GTK_COMBO_BOX_TEXT (manager->priv->style_combo),
             _("Auto"));
@@ -513,7 +502,8 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
             GTK_COMBO_BOX (manager->priv->style_combo),
             3);
 
-    manager->priv->screen = gdk_screen_get_number (screen);
+    // there's only one screen in GTK3
+    manager->priv->screen = 0;
 
     gtk_window_set_resizable (GTK_WINDOW (manager->priv->dialog), FALSE);
 
@@ -531,17 +521,13 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
     gtk_toggle_button_set_active (
             GTK_TOGGLE_BUTTON (manager->priv->check_button),
             manager->priv->workspace_mode);
-    gtk_table_attach (
-            GTK_TABLE (image_prop_table),
+    gtk_grid_attach (
+            GTK_GRID (image_prop_grid),
             manager->priv->check_button,
             0,
-            2,
             1,
             2,
-            GTK_EXPAND|GTK_FILL,
-            0,
-            0,
-            0);
+            1);
     g_signal_connect (manager->priv->check_button,
             "toggled",
             G_CALLBACK (cb_workspace_mode_changed),
@@ -680,12 +666,7 @@ rstto_get_active_workspace_number (GdkScreen *screen)
         XFree (prop_ret);
     }
 
-#if GTK_CHECK_VERSION (3, 0, 0)
     gdk_error_trap_pop_ignored ();
-#else
-    if (gdk_error_trap_pop () != 0)
-        return 0;
-#endif
 
     return ws_num;
 }

@@ -219,7 +219,7 @@ static void
 rstto_gnome_wallpaper_manager_init (GObject *object)
 {
     RsttoGnomeWallpaperManager *manager = RSTTO_GNOME_WALLPAPER_MANAGER (object);
-    GtkWidget *image_prop_table = gtk_table_new (3, 2, FALSE);
+    GtkWidget *image_prop_grid = gtk_grid_new ();
     GtkWidget *style_label = gtk_label_new( _("Style:"));
     GtkWidget *vbox;
 
@@ -247,8 +247,6 @@ rstto_gnome_wallpaper_manager_init (GObject *object)
     manager->priv->monitor_chooser = rstto_monitor_chooser_new ();
     manager->priv->style_combo = gtk_combo_box_text_new ();
 
-    gtk_table_set_row_spacing (GTK_TABLE(image_prop_table), 1, 4);
-
     for (i = 0; i < n_monitors; ++i)
     {
         gdk_screen_get_monitor_geometry (
@@ -268,34 +266,27 @@ rstto_gnome_wallpaper_manager_init (GObject *object)
             0);
     gtk_box_pack_start (
             GTK_BOX (vbox),
-            image_prop_table,
+            image_prop_grid,
             FALSE,
             FALSE,
             0);
 
-    gtk_table_attach (
-            GTK_TABLE (image_prop_table),
+    gtk_grid_attach (
+            GTK_GRID (image_prop_grid),
             style_label,
             0,
-            1,
             0,
             1,
-            0,
-            0,
-            0,
-            0);
-    gtk_table_attach (
-            GTK_TABLE (image_prop_table),
+            1);
+    gtk_grid_attach (
+            GTK_GRID (image_prop_grid),
             manager->priv->style_combo,
             1,
-            2,
             0,
             1,
-            GTK_EXPAND|GTK_FILL,
-            0,
-            0,
-            0);
+            1);
 
+    gtk_widget_set_hexpand (manager->priv->style_combo, TRUE);
     gtk_combo_box_text_append_text (
             GTK_COMBO_BOX_TEXT (manager->priv->style_combo),
             _("Auto"));

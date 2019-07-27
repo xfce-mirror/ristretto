@@ -62,11 +62,13 @@ rstto_monitor_chooser_finalize(GObject *object);
 static void
 rstto_monitor_chooser_realize(GtkWidget *widget);
 static void
-rstto_monitor_chooser_size_request(GtkWidget *, GtkRequisition *);
+rstto_monitor_chooser_get_preferred_width(GtkWidget *, gint *, gint *);
+static void
+rstto_monitor_chooser_get_preferred_height(GtkWidget *, gint *, gint *);
 static void
 rstto_monitor_chooser_size_allocate(GtkWidget *, GtkAllocation *);
 static gboolean 
-rstto_monitor_chooser_expose(GtkWidget *, GdkEventExpose *);
+rstto_monitor_chooser_draw(GtkWidget *, cairo_t *);
 static gboolean
 rstto_monitor_chooser_paint(GtkWidget *widget);
 
@@ -126,8 +128,6 @@ rstto_monitor_chooser_init(RsttoMonitorChooser *chooser)
     chooser->priv->selected = -1;
     chooser->priv->monitors = g_new0 (Monitor *, 1);
 
-    gtk_widget_set_double_buffered (GTK_WIDGET(chooser), TRUE);
-
     g_signal_connect(G_OBJECT(chooser), "button-press-event", G_CALLBACK(cb_rstto_button_press_event), NULL);
 
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(chooser), TRUE);
@@ -146,9 +146,10 @@ rstto_monitor_chooser_class_init(RsttoMonitorChooserClass *chooser_class)
 
     parent_class = g_type_class_peek_parent(chooser_class);
 
-    widget_class->expose_event = rstto_monitor_chooser_expose;
+    widget_class->draw = rstto_monitor_chooser_draw;
     widget_class->realize = rstto_monitor_chooser_realize;
-    widget_class->size_request = rstto_monitor_chooser_size_request;
+    widget_class->get_preferred_width = rstto_monitor_chooser_get_preferred_width;
+    widget_class->get_preferred_height = rstto_monitor_chooser_get_preferred_height;
     widget_class->size_allocate = rstto_monitor_chooser_size_allocate;
 
     object_class->finalize = rstto_monitor_chooser_finalize;
@@ -182,7 +183,6 @@ rstto_monitor_chooser_realize(GtkWidget *widget)
     gint attributes_mask;
     GtkAllocation allocation;
     GdkWindow *window;
-    GtkStyle *style;
 
     g_return_if_fail (widget != NULL);
     g_return_if_fail (RSTTO_IS_MONITOR_CHOOSER (widget));
@@ -199,25 +199,26 @@ rstto_monitor_chooser_realize(GtkWidget *widget)
     attributes.window_type = GDK_WINDOW_CHILD;
     attributes.event_mask = gtk_widget_get_events (widget) | GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK;
     attributes.visual = gtk_widget_get_visual (widget);
-    attributes.colormap = gtk_widget_get_colormap (widget);
+    // TODO: comment out for now
+    //attributes.colormap = gtk_widget_get_colormap (widget);
 
-    attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
+    // TODO: comment out for now
+    attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL /*| GDK_WA_COLORMAP*/;
     window = gdk_window_new (gtk_widget_get_parent_window (widget), &attributes, attributes_mask);
     gtk_widget_set_window (widget, window);
-
-    style = gtk_style_attach (gtk_widget_get_style (widget), window);
-    gtk_widget_set_style (widget, style);
     gdk_window_set_user_data (window, widget);
-
-    gtk_style_set_background (gtk_widget_get_style (widget), window, GTK_STATE_ACTIVE);
 }
 
+static void
+rstto_monitor_chooser_get_preferred_width(GtkWidget *widget, gint *minimal_width, gint *natural_width)
+{
+    *minimal_width = *natural_width = 400;
+}
 
 static void
-rstto_monitor_chooser_size_request(GtkWidget *widget, GtkRequisition *requisition)
+rstto_monitor_chooser_get_preferred_height(GtkWidget *widget, gint *minimal_height, gint *natural_height)
 {
-    requisition->height = 200;
-    requisition->width = 400;
+    *minimal_height = *natural_height = 200;
 }
 
 static void
@@ -235,7 +236,7 @@ rstto_monitor_chooser_size_allocate(GtkWidget *widget, GtkAllocation *allocation
 }
 
 static gboolean
-rstto_monitor_chooser_expose(GtkWidget *widget, GdkEventExpose *event)
+rstto_monitor_chooser_draw(GtkWidget *widget, cairo_t *cr)
 {
     rstto_monitor_chooser_paint (widget);
     return FALSE;
@@ -247,25 +248,16 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
     RsttoMonitorChooser *chooser = RSTTO_MONITOR_CHOOSER (widget);
     cairo_t *ctx = gdk_cairo_create (gtk_widget_get_window (widget));
     Monitor *monitor;
-    GtkAllocation allocation;
 
     gdouble width, height;
     gchar *label = NULL;
     gint row_width = 0;
     gint id = 0;
+    gdouble alloc_width = (gdouble)gtk_widget_get_allocated_width (widget);
+    gdouble alloc_height = (gdouble)gtk_widget_get_allocated_height (widget);
+    GtkStyleContext *context = gtk_widget_get_style_context (widget);
 
-    gtk_widget_get_allocation (widget, &allocation);
-
-    gdk_cairo_set_source_color (
-            ctx,
-            &(gtk_widget_get_style (widget)->bg[GTK_STATE_NORMAL]));
-    cairo_rectangle (
-            ctx,
-            0.0,
-            0.0,
-            (gdouble)allocation.width,
-            (gdouble)allocation.height);
-    cairo_fill (ctx);
+    gtk_render_background (context, ctx, 0, 0, alloc_width, alloc_height);
 
     if (chooser->priv->n_monitors > 1)
     {
@@ -278,12 +270,12 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
             {
                 if (monitor->width > monitor->height)
                 {
-                    width = allocation.width*0.4;
+                    width = alloc_width*0.4;
                     height = width;
                 } 
                 else
                 {
-                    height = allocation.width*0.4;
+                    height = alloc_width*0.4;
                     width = height;
                 }
                 label = g_strdup_printf("%d", id+1);
@@ -291,8 +283,8 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                 paint_monitor (
                         widget,
                         ctx,
-                        ((gdouble)allocation.width/4) - (width/2.0),
-                        ((gdouble)allocation.height - height)/2.0,
+                        (alloc_width/4) - (width/2.0),
+                        (alloc_height - height)/2.0,
                         width,
                         height,
                         label,
@@ -307,12 +299,12 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
 
                 if (monitor->width > monitor->height)
                 {
-                    width = allocation.width*(0.4/((gdouble)row_width+1));
+                    width = alloc_width*(0.4/((gdouble)row_width+1));
                     height = width;
                 } 
                 else
                 {
-                    height = allocation.width*(0.4/chooser->priv->n_monitors);
+                    height = alloc_width*(0.4/chooser->priv->n_monitors);
                     width = height;
                 }
             
@@ -324,11 +316,11 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                     paint_monitor (
                             widget,
                             ctx,
-                            ((gdouble)allocation.width/2)+
-                                (((gdouble)allocation.width/2)/
+                            (alloc_width/2)+
+                                ((alloc_width/2)/
                                 (row_width+1))*(id%(row_width)+1)-
                                 (width/2.0),
-                            ((gdouble)allocation.height/
+                            (alloc_height/
                                 (row_width+2)*(id/row_width+1))-
                                 (height/2.0),
                             width,
@@ -342,11 +334,11 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
                     paint_monitor (
                             widget,
                             ctx,
-                            ((gdouble)allocation.width/2)+
-                                (((gdouble)allocation.width/2)/
+                            (alloc_width/2)+
+                                ((alloc_width/2)/
                                 (row_width+1))*((id-1)%(row_width)+1)-
                                 (width/2.0),
-                            ((gdouble)allocation.height/
+                            (alloc_height/
                                 (row_width+2)*((id-1)/row_width+1))-
                                 (height/2.0),
                             width,
@@ -379,8 +371,8 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
             paint_monitor (
                     widget,
                     ctx,
-                    ((gdouble)allocation.width - width)/2.0,
-                    ((gdouble)allocation.height - height)/2.0,
+                    (alloc_width - width)/2.0,
+                    (alloc_height - height)/2.0,
                     width,
                     height,
                     "1",

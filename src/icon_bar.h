@@ -48,9 +48,11 @@ struct _RsttoIconBarClass
   GtkContainerClass __parent__;
 
   /* signals */
+#if 0
   void  (*set_scroll_adjustments)  (RsttoIconBar    *icon_bar,
                                     GtkAdjustment *hadjustment,
                                     GtkAdjustment *vadjustment);
+#endif
   void  (*selection_changed)       (RsttoIconBar *icon_bar);
 
   /*< private >*/
@@ -76,7 +78,7 @@ struct _RsttoIconBar
 
 GType           rstto_icon_bar_get_type           (void) G_GNUC_CONST;
 
-GtkWidget      *rstto_icon_bar_new                (void);
+GtkWidget      *rstto_icon_bar_new                (GtkWidget      *s_window);
 GtkWidget      *rstto_icon_bar_new_with_model     (GtkTreeModel   *model);
 
 GtkTreeModel   *rstto_icon_bar_get_model          (RsttoIconBar     *icon_bar);

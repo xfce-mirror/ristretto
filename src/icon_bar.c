@@ -59,6 +59,7 @@ enum
     PROP_MODEL,
     PROP_ACTIVE,
     PROP_SHOW_TEXT,
+    PROP_SCROLLED_WINDOW
 };
 
 enum
@@ -70,7 +71,7 @@ enum
 static GdkPixbuf *thumbnail_missing = NULL;
 
 static void
-rstto_icon_bar_destroy (GtkObject *object);
+rstto_icon_bar_destroy (GtkWidget *widget);
 
 static void
 rstto_icon_bar_finalize (GObject *object);
@@ -103,6 +104,16 @@ static void
 rstto_icon_bar_size_request (
         GtkWidget      *widget,
         GtkRequisition *requisition);
+static void
+rstto_icon_bar_get_preferred_width (
+        GtkWidget *widget,
+        gint *minimal_width,
+        gint *natural_width);
+static void
+rstto_icon_bar_get_preferred_height (
+        GtkWidget *widget,
+        gint *minimal_height,
+        gint *natural_height);
 
 static void
 rstto_icon_bar_size_allocate (
@@ -110,9 +121,9 @@ rstto_icon_bar_size_allocate (
         GtkAllocation *allocation);
 
 static gboolean
-rstto_icon_bar_expose (
-        GtkWidget      *widget,
-        GdkEventExpose *expose);
+rstto_icon_bar_draw (
+        GtkWidget *widget,
+        cairo_t   *cr);
 
 static gboolean
 rstto_icon_bar_leave (
@@ -168,7 +179,7 @@ static void
 rstto_icon_bar_paint_item (
         RsttoIconBar     *icon_bar,
         RsttoIconBarItem *item,
-        GdkRectangle     *area);
+        cairo_t          *cr);
 
 static void
 rstto_icon_bar_calculate_item_size (
@@ -253,6 +264,7 @@ struct _RsttoIconBarItem
 struct _RsttoIconBarPrivate
 {
     GdkWindow      *bin_window;
+    GtkWidget      *s_window;
 
     gint            width;
     gint            height;
@@ -291,46 +303,40 @@ struct _RsttoIconBarPrivate
 
 static guint icon_bar_signals[LAST_SIGNAL];
 
-#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_38
-G_DEFINE_TYPE (RsttoIconBar, rstto_icon_bar, GTK_TYPE_CONTAINER)
-#else
-G_DEFINE_TYPE_WITH_CODE (RsttoIconBar, rstto_icon_bar, GTK_TYPE_CONTAINER, G_ADD_PRIVATE (RsttoIconBar))
-#endif
+G_DEFINE_TYPE_WITH_CODE (
+        RsttoIconBar,
+        rstto_icon_bar,
+        GTK_TYPE_CONTAINER,
+        G_ADD_PRIVATE (RsttoIconBar))
 
 
 static void
 rstto_icon_bar_class_init (RsttoIconBarClass *klass)
 {
-    GtkObjectClass *gtkobject_class;
     GtkWidgetClass *gtkwidget_class;
     GObjectClass   *gobject_class;
-
-#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_38
-    g_type_class_add_private (klass, sizeof (RsttoIconBarPrivate));
-#endif
 
     gobject_class = G_OBJECT_CLASS (klass);
     gobject_class->finalize = rstto_icon_bar_finalize;
     gobject_class->get_property = rstto_icon_bar_get_property;
     gobject_class->set_property = rstto_icon_bar_set_property;
 
-    gtkobject_class = GTK_OBJECT_CLASS (klass);
-    gtkobject_class->destroy = rstto_icon_bar_destroy;
-
     gtkwidget_class = GTK_WIDGET_CLASS (klass);
     gtkwidget_class->style_set = rstto_icon_bar_style_set;
     gtkwidget_class->realize = rstto_icon_bar_realize;
     gtkwidget_class->unrealize = rstto_icon_bar_unrealize;
-    gtkwidget_class->size_request = rstto_icon_bar_size_request;
+    gtkwidget_class->get_preferred_width = rstto_icon_bar_get_preferred_width;
+    gtkwidget_class->get_preferred_height = rstto_icon_bar_get_preferred_height;
     gtkwidget_class->size_allocate = rstto_icon_bar_size_allocate;
-    gtkwidget_class->expose_event = rstto_icon_bar_expose;
+    gtkwidget_class->draw = rstto_icon_bar_draw;
     gtkwidget_class->leave_notify_event = rstto_icon_bar_leave;
     gtkwidget_class->motion_notify_event = rstto_icon_bar_motion;
-    gtkwidget_class->scroll_event = rstto_icon_bar_scroll;
+    //gtkwidget_class->scroll_event = rstto_icon_bar_scroll;
     gtkwidget_class->button_press_event = rstto_icon_bar_button_press;
     gtkwidget_class->button_release_event = rstto_icon_bar_button_release;
+    gtkwidget_class->destroy = rstto_icon_bar_destroy;
 
-    klass->set_scroll_adjustments = rstto_icon_bar_set_adjustments;
+    //klass->set_scroll_adjustments = rstto_icon_bar_set_adjustments;
 
     /**
      * RsttoIconBar:orientation:
@@ -411,66 +417,60 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
                 TRUE,
                 G_PARAM_READWRITE));
 
+    /**
+     * RsttoIconBar:s_window:
+     *
+     * The scrolled window icon bar is placed into.
+     **/
+    g_object_class_install_property (gobject_class,
+            PROP_SCROLLED_WINDOW,
+            g_param_spec_object ("scrolled-window",
+                _("Scrolled window"),
+                _("Scrolled window icon bar is placed into"),
+                GTK_TYPE_WIDGET,
+                G_PARAM_READWRITE));
+
     gtk_widget_class_install_style_property (gtkwidget_class,
             g_param_spec_boxed ("active-item-fill-color",
                 _("Active item fill color"),
                 _("Active item fill color"),
-                GDK_TYPE_COLOR,
+                GDK_TYPE_RGBA,
                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
             g_param_spec_boxed ("active-item-border-color",
                 _("Active item border color"),
                 _("Active item border color"),
-                GDK_TYPE_COLOR,
+                GDK_TYPE_RGBA,
                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
             g_param_spec_boxed ("active-item-text-color",
                 _("Active item text color"),
                 _("Active item text color"),
-                GDK_TYPE_COLOR,
+                GDK_TYPE_RGBA,
                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
             g_param_spec_boxed ("cursor-item-fill-color",
                 _("Cursor item fill color"),
                 _("Cursor item fill color"),
-                GDK_TYPE_COLOR,
+                GDK_TYPE_RGBA,
                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
             g_param_spec_boxed ("cursor-item-border-color",
                 _("Cursor item border color"),
                 _("Cursor item border color"),
-                GDK_TYPE_COLOR,
+                GDK_TYPE_RGBA,
                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
             g_param_spec_boxed ("cursor-item-text-color",
                 _("Cursor item text color"),
                 _("Cursor item text color"),
-                GDK_TYPE_COLOR,
+                GDK_TYPE_RGBA,
                 G_PARAM_READABLE));
-
-    /**
-     * RsttoIconBar::set-scroll-adjustments:
-     * @icon_bar    : The #RsttoIconBar.
-     * @hadjustment : The horizontal adjustment.
-     * @vadjustment : The vertical adjustment.
-     *
-     * Used internally to make the #RsttoIconBar scrollable.
-     **/
-    gtkwidget_class->set_scroll_adjustments_signal =
-        g_signal_new ("set-scroll-adjustments",
-                G_TYPE_FROM_CLASS (gobject_class),
-                G_SIGNAL_RUN_LAST,
-                G_STRUCT_OFFSET (RsttoIconBarClass, set_scroll_adjustments),
-                NULL, NULL,
-                _rstto_marshal_VOID__OBJECT_OBJECT,
-                G_TYPE_NONE, 2,
-                GTK_TYPE_ADJUSTMENT,
-                GTK_TYPE_ADJUSTMENT);
 
     /**
      * RsttoIconBar::selection-changed:
@@ -519,7 +519,7 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
 
     gtk_widget_set_can_focus (GTK_WIDGET (icon_bar), FALSE);
 
-    rstto_icon_bar_set_adjustments (icon_bar, NULL, NULL);
+    //rstto_icon_bar_set_adjustments (icon_bar, NULL, NULL);
 
     g_signal_connect (
             G_OBJECT(icon_bar->priv->settings),
@@ -531,13 +531,13 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
 
 
 static void
-rstto_icon_bar_destroy (GtkObject *object)
+rstto_icon_bar_destroy (GtkWidget *widget)
 {
-    RsttoIconBar *icon_bar = RSTTO_ICON_BAR (object);
+    RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
 
     rstto_icon_bar_set_model (icon_bar, NULL);
 
-    (*GTK_OBJECT_CLASS (rstto_icon_bar_parent_class)->destroy) (object);
+    (*GTK_WIDGET_CLASS (rstto_icon_bar_parent_class)->destroy) (widget);
 }
 
 
@@ -587,6 +587,10 @@ rstto_icon_bar_get_property (
             g_value_set_boolean (value, rstto_icon_bar_get_show_text (icon_bar));
             break;
 
+        case PROP_SCROLLED_WINDOW:
+            g_value_set_object (value, icon_bar->priv->s_window);
+            break;
+
         default:
             G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
             break;
@@ -603,6 +607,7 @@ rstto_icon_bar_set_property (
         GParamSpec   *pspec)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (object);
+    GtkWidget    *hscrollbar, *vscrollbar;
 
     switch (prop_id)
     {
@@ -626,6 +631,15 @@ rstto_icon_bar_set_property (
             rstto_icon_bar_set_show_text (icon_bar, g_value_get_boolean (value));
             break;
 
+        case PROP_SCROLLED_WINDOW:
+            icon_bar->priv->s_window = g_value_get_object (value);
+            hscrollbar = gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
+            vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
+            g_signal_connect_swapped (icon_bar->priv->s_window, "scroll-event", G_CALLBACK (rstto_icon_bar_scroll), icon_bar);
+            g_signal_connect_swapped (hscrollbar, "scroll-event", G_CALLBACK (rstto_icon_bar_scroll), icon_bar);
+            g_signal_connect_swapped (vscrollbar, "scroll-event", G_CALLBACK (rstto_icon_bar_scroll), icon_bar);
+            break;
+
         default:
             G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
             break;
@@ -639,14 +653,18 @@ rstto_icon_bar_style_set (
         GtkWidget *widget,
         GtkStyle  *previous_style)
 {
-    RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
+    RsttoIconBar    *icon_bar = RSTTO_ICON_BAR (widget);
+    GtkStyleContext *context;
+    GdkRGBA          bg;
 
     (*GTK_WIDGET_CLASS (rstto_icon_bar_parent_class)->style_set) (widget, previous_style);
 
     if (gtk_widget_get_realized (widget))
     {
-        gdk_window_set_background (icon_bar->priv->bin_window,
-                &(gtk_widget_get_style (widget)->base[gtk_widget_get_state (widget)]));
+        context = gtk_widget_get_style_context (gtk_widget_get_toplevel (widget));
+        gtk_style_context_get (context, gtk_widget_get_state_flags (widget),
+                GTK_STYLE_PROPERTY_BACKGROUND_COLOR, &bg, NULL);
+        gdk_window_set_background_rgba (icon_bar->priv->bin_window, &bg);
     }
 }
 
@@ -655,27 +673,29 @@ rstto_icon_bar_style_set (
 static void
 rstto_icon_bar_realize (GtkWidget *widget)
 {
-    GdkWindowAttr attributes;
-    RsttoIconBar   *icon_bar = RSTTO_ICON_BAR (widget);
-    gint          attributes_mask;
-    GtkAllocation allocation;
-    GdkWindow    *window;
-    GtkStyle     *style;
+    GdkWindowAttr    attributes;
+    RsttoIconBar    *icon_bar = RSTTO_ICON_BAR (widget);
+    gint             attributes_mask;
+    GtkAllocation    allocation;
+    GdkWindow       *window;
+    GtkStyleContext *context;
+    GdkRGBA         *bg;
 
     gtk_widget_set_realized (widget, TRUE);
 
     gtk_widget_get_allocation (widget, &allocation);
 
-    attributes.window_type = GDK_WINDOW_CHILD;
     attributes.x = allocation.x;
     attributes.y = allocation.y;
     attributes.width = allocation.width;
     attributes.height = allocation.height;
     attributes.wclass = GDK_INPUT_OUTPUT;
+    attributes.window_type = GDK_WINDOW_CHILD;
     attributes.visual = gtk_widget_get_visual (widget);
-    attributes.colormap = gtk_widget_get_colormap (widget);
-    attributes.event_mask = GDK_VISIBILITY_NOTIFY_MASK;
-    attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
+    attributes.event_mask = gtk_widget_get_events (widget)
+            | GDK_EXPOSURE_MASK
+            | GDK_VISIBILITY_NOTIFY_MASK;
+    attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
 
     window = gdk_window_new (gtk_widget_get_parent_window (widget),
             &attributes, attributes_mask);
@@ -695,15 +715,17 @@ rstto_icon_bar_realize (GtkWidget *widget)
             | GDK_KEY_PRESS_MASK
             | GDK_KEY_RELEASE_MASK)
             | gtk_widget_get_events (widget);
-    attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
+    attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
 
     icon_bar->priv->bin_window = gdk_window_new (window, &attributes, attributes_mask);
     gdk_window_set_user_data (icon_bar->priv->bin_window, widget);
 
-    style = gtk_style_attach (gtk_widget_get_style (widget), window);
-    gtk_widget_set_style (widget, style);
-    gdk_window_set_background (window, &(gtk_widget_get_style (widget)->base[gtk_widget_get_state (widget)]));
-    gdk_window_set_background (icon_bar->priv->bin_window, &(gtk_widget_get_style (widget)->base[gtk_widget_get_state (widget)]));
+    context = gtk_widget_get_style_context (gtk_widget_get_toplevel (widget));
+    gtk_style_context_get (context, gtk_widget_get_state_flags (widget),
+            GTK_STYLE_PROPERTY_BACKGROUND_COLOR, &bg, NULL);
+    gdk_window_set_background_rgba (window, bg);
+    gdk_window_set_background_rgba (icon_bar->priv->bin_window, bg);
+    gdk_rgba_free (bg);
     gdk_window_show (icon_bar->priv->bin_window);
 }
 
@@ -714,9 +736,12 @@ rstto_icon_bar_unrealize (GtkWidget *widget)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
 
-    gdk_window_set_user_data (icon_bar->priv->bin_window, NULL);
-    gdk_window_destroy (icon_bar->priv->bin_window);
-    icon_bar->priv->bin_window = NULL;
+    if (icon_bar->priv->bin_window)
+    {
+        gdk_window_set_user_data (icon_bar->priv->bin_window, NULL);
+        gdk_window_destroy (icon_bar->priv->bin_window);
+        icon_bar->priv->bin_window = NULL;
+    }
 
     /* GtkWidget::unrealize destroys children and widget->window */
     (*GTK_WIDGET_CLASS (rstto_icon_bar_parent_class)->unrealize) (widget);
@@ -769,6 +794,22 @@ rstto_icon_bar_size_request (
         icon_bar->priv->height = requisition->height = icon_bar->priv->item_height;
     }
 }
+static void
+rstto_icon_bar_get_preferred_width (GtkWidget *widget, gint *minimal_width, gint *natural_width)
+{
+    GtkRequisition requisition;
+
+    rstto_icon_bar_size_request (widget, &requisition);
+    *minimal_width = *natural_width = requisition.width;
+}
+static void
+rstto_icon_bar_get_preferred_height (GtkWidget *widget, gint *minimal_height, gint *natural_height)
+{
+    GtkRequisition requisition;
+
+    rstto_icon_bar_size_request (widget, &requisition);
+    *minimal_height = *natural_height = requisition.height;
+}
 
 
 
@@ -797,6 +838,8 @@ rstto_icon_bar_size_allocate (
                 MAX (icon_bar->priv->width, allocation->width),
                 MAX (icon_bar->priv->height, allocation->height));
     }
+    icon_bar->priv->hadjustment = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
+    icon_bar->priv->vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
 
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
@@ -809,18 +852,17 @@ rstto_icon_bar_size_allocate (
         value = value / gtk_adjustment_get_upper (icon_bar->priv->hadjustment) * MAX (allocation->width, icon_bar->priv->width);
     }
 
-    gtk_adjustment_set_page_size (icon_bar->priv->hadjustment, allocation->width);
+//    gtk_adjustment_set_page_size (icon_bar->priv->hadjustment, allocation->width);
     gtk_adjustment_set_page_increment (icon_bar->priv->hadjustment, allocation->width * 0.9);
     gtk_adjustment_set_step_increment (icon_bar->priv->hadjustment, allocation->width * 0.1);
-    gtk_adjustment_set_lower (icon_bar->priv->hadjustment, 0);
-    gtk_adjustment_set_upper (icon_bar->priv->hadjustment, MAX (allocation->width, icon_bar->priv->width));
+//    gtk_adjustment_set_lower (icon_bar->priv->hadjustment, 0);
+//    gtk_adjustment_set_upper (icon_bar->priv->hadjustment, MAX (allocation->width, icon_bar->priv->width));
 
-    gtk_adjustment_set_page_size (icon_bar->priv->vadjustment, allocation->height);
+//    gtk_adjustment_set_page_size (icon_bar->priv->vadjustment, allocation->height);
     gtk_adjustment_set_page_increment (icon_bar->priv->vadjustment, allocation->height * 0.9);
     gtk_adjustment_set_step_increment (icon_bar->priv->vadjustment, allocation->height * 0.1);
-    gtk_adjustment_set_lower (icon_bar->priv->vadjustment, 0);
-    gtk_adjustment_set_upper (icon_bar->priv->vadjustment, MAX (allocation->height, icon_bar->priv->height));
-
+//    gtk_adjustment_set_lower (icon_bar->priv->vadjustment, 0);
+//    gtk_adjustment_set_upper (icon_bar->priv->vadjustment, MAX (allocation->height, icon_bar->priv->height));
 
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
@@ -889,9 +931,9 @@ rstto_icon_bar_size_allocate (
 
 
 static gboolean
-rstto_icon_bar_expose (
-        GtkWidget      *widget,
-        GdkEventExpose *expose)
+rstto_icon_bar_draw (
+        GtkWidget *widget,
+        cairo_t   *cr)
 {
     RsttoIconBarItem *item;
     GdkRectangle    area;
@@ -899,9 +941,6 @@ rstto_icon_bar_expose (
     GList          *lp;
     RsttoFile      *file;
     GtkTreeIter     iter;
-
-    if (expose->window != icon_bar->priv->bin_window)
-        return FALSE;
 
     for (lp = icon_bar->priv->items; lp != NULL; lp = lp->next)
     {
@@ -921,11 +960,12 @@ rstto_icon_bar_expose (
         area.width = icon_bar->priv->item_width;
         area.height = icon_bar->priv->item_height;
 
-
-        if (gdk_region_rect_in (expose->region, &area) != GDK_OVERLAP_RECTANGLE_OUT)
+        // TODO: fix me
+        /*if (gdk_region_rect_in (expose->region, &area) != GDK_OVERLAP_RECTANGLE_OUT)
         {
-            rstto_icon_bar_paint_item (icon_bar, item, &expose->area);
-        }
+            rstto_icon_bar_paint_item (icon_bar, item, &expose->area);*/
+            rstto_icon_bar_paint_item (icon_bar, item, cr);
+        /*}
         else
         {
             iter = item->iter;
@@ -934,7 +974,7 @@ rstto_icon_bar_expose (
                     -1);
             rstto_thumbnailer_dequeue_file (icon_bar->priv->thumbnailer, file);
             g_object_unref (file);
-        }
+        }*/
     }
 
     return TRUE;
@@ -1001,7 +1041,7 @@ rstto_icon_bar_scroll (
         GtkWidget      *widget,
         GdkEventScroll *event)
 {
-    RsttoIconBar    *icon_bar   = RSTTO_ICON_BAR (widget);
+    RsttoIconBar  *icon_bar   = RSTTO_ICON_BAR (widget);
     GtkAdjustment *adjustment = NULL;
     gdouble        val        = 0;
     gdouble        step_size  = 0;
@@ -1009,12 +1049,12 @@ rstto_icon_bar_scroll (
 
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
-        adjustment = icon_bar->priv->vadjustment;
+        adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
         step_size = icon_bar->priv->item_height / 2.0;
     }
     else
     {
-        adjustment = icon_bar->priv->hadjustment;
+        adjustment = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
         step_size = icon_bar->priv->item_width / 2.0;
     }
 
@@ -1025,16 +1065,41 @@ rstto_icon_bar_scroll (
     {
         case GDK_SCROLL_UP:
         case GDK_SCROLL_LEFT:
-            val-=step_size;
-            if (val<0) val = 0.0;
+            val -= step_size;
+            if (val < 0) val = 0.0;
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
-            val+=step_size;
+            val += step_size;
             if (val > max_value) val = max_value;
             break;
+
+        default: /* GDK_SCROLL_SMOOTH */
+            if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
+            {
+                if (event->delta_y < 0) {
+                    val -= step_size;
+                    if (val < 0) val = 0.0;
+                } else if (event->delta_y > 0) {
+                    val += step_size;
+                    if (val > max_value) val = max_value;
+                }
+            }
+            else
+            {
+                if (event->delta_y < 0) {
+                    val -= step_size;
+                    if (val<0) val = 0.0;
+                } else if (event->delta_y > 0) {
+                    val += step_size;
+                    if (val > max_value) val = max_value;
+                }
+            }
+            break;
     }
+
     gtk_adjustment_set_value (adjustment, val);
+
     return TRUE;
 }
 
@@ -1085,6 +1150,7 @@ rstto_icon_bar_set_adjustments (
         GtkAdjustment *hadj,
         GtkAdjustment *vadj)
 {
+#if 0
     gboolean need_adjust = FALSE;
 
     if (hadj != NULL)
@@ -1137,6 +1203,7 @@ rstto_icon_bar_set_adjustments (
 
     if (need_adjust)
         cb_rstto_icon_bar_adjustment_value_changed (NULL, icon_bar);
+#endif
 }
 
 
@@ -1146,6 +1213,7 @@ cb_rstto_icon_bar_adjustment_value_changed (
         GtkAdjustment *adjustment,
         RsttoIconBar  *icon_bar)
 {
+#if 0
     if (gtk_widget_get_realized (GTK_WIDGET (icon_bar)))
     {
         /* Set auto_center to false, this should be the default behaviour
@@ -1163,6 +1231,7 @@ cb_rstto_icon_bar_adjustment_value_changed (
 
         gdk_window_process_updates (icon_bar->priv->bin_window, TRUE);
     }
+#endif
 }
 
 static void
@@ -1227,12 +1296,12 @@ static void
 rstto_icon_bar_paint_item (
         RsttoIconBar     *icon_bar,
         RsttoIconBarItem *item,
-        GdkRectangle     *area)
+        cairo_t          *cr)
 {
     const GdkPixbuf *pixbuf = NULL;
-    GdkColor        *border_color;
-    GdkColor        *fill_color;
-    cairo_t         *cr;
+    GdkRGBA         *border_color;
+    GdkRGBA         *fill_color;
+    GdkRGBA          tmp_color;
     gint             focus_width;
     gint             focus_pad;
     gint             x, y;
@@ -1296,25 +1365,24 @@ rstto_icon_bar_paint_item (
 
         if (fill_color == NULL)
         {
-            fill_color = gdk_color_copy (&(gtk_widget_get_style (GTK_WIDGET (icon_bar))->base[GTK_STATE_SELECTED]));
-            gdk_color_parse ("#c1d2ee", fill_color);
+            gdk_rgba_parse (&tmp_color, "#c1d2ee");
+            fill_color = gdk_rgba_copy (&tmp_color);
         }
 
         if (border_color == NULL)
         {
-            border_color = gdk_color_copy (&(gtk_widget_get_style (GTK_WIDGET (icon_bar))->base[GTK_STATE_SELECTED]));
-            gdk_color_parse ("#316ac5", border_color);
+            gdk_rgba_parse (&tmp_color, "#316ac5");
+            border_color = gdk_rgba_copy (&tmp_color);
         }
 
-        cr = gdk_cairo_create (icon_bar->priv->bin_window);
-        gdk_cairo_rectangle (cr, area);
-        cairo_clip (cr);
-        cairo_set_source_rgb (cr, fill_color->red/65535., fill_color->green/65535., fill_color->blue/65535.);
+        cairo_save (cr);
+        //cairo_clip (cr);
+        cairo_set_source_rgb (cr, fill_color->red, fill_color->green, fill_color->blue);
         cairo_rectangle (cr, x + focus_pad + focus_width, y + focus_pad + focus_width,
                          icon_bar->priv->item_width - 2 * (focus_width + focus_pad),
                          icon_bar->priv->item_height - 2 * (focus_width + focus_pad));
         cairo_fill (cr);
-        cairo_set_source_rgb (cr, border_color->red/65535., border_color->green/65535., border_color->blue/65535.);
+        cairo_set_source_rgb (cr, border_color->red, border_color->green, border_color->blue);
         cairo_set_line_width (cr, focus_width);
         cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
         cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
@@ -1322,10 +1390,10 @@ rstto_icon_bar_paint_item (
                          icon_bar->priv->item_width - (2 * focus_pad + focus_width),
                          icon_bar->priv->item_height - (2 * focus_pad + focus_width));
         cairo_stroke (cr);
-        cairo_destroy (cr);
+        cairo_restore (cr);
 
-        gdk_color_free (border_color);
-        gdk_color_free (fill_color);
+        gdk_rgba_free (border_color);
+        gdk_rgba_free (fill_color);
     }
     else if (icon_bar->priv->cursor_item == item)
     {
@@ -1336,25 +1404,24 @@ rstto_icon_bar_paint_item (
 
         if (fill_color == NULL)
         {
-            fill_color = gdk_color_copy (&(gtk_widget_get_style (GTK_WIDGET (icon_bar))->base[GTK_STATE_SELECTED]));
-            gdk_color_parse ("#e0e8f6", fill_color);
+            gdk_rgba_parse (&tmp_color, "#e0e8f6");
+            fill_color = gdk_rgba_copy (&tmp_color);
         }
 
         if (border_color == NULL)
         {
-            border_color = gdk_color_copy (&(gtk_widget_get_style (GTK_WIDGET (icon_bar))->base[GTK_STATE_SELECTED]));
-            gdk_color_parse ("#98b4e2", border_color);
+            gdk_rgba_parse (&tmp_color, "#98b4e2");
+            border_color = gdk_rgba_copy (&tmp_color);
         }
 
-        cr = gdk_cairo_create (icon_bar->priv->bin_window);
-        gdk_cairo_rectangle (cr, area);
-        cairo_clip (cr);
-        cairo_set_source_rgb (cr, fill_color->red/65535., fill_color->green/65535., fill_color->blue/65535.);
+        cairo_save (cr);
+        //cairo_clip (cr);
+        cairo_set_source_rgb (cr, fill_color->red, fill_color->green, fill_color->blue);
         cairo_rectangle (cr, x + focus_pad + focus_width, y + focus_pad + focus_width,
                          icon_bar->priv->item_width - 2 * (focus_width + focus_pad),
                          icon_bar->priv->item_height - 2 * (focus_width + focus_pad));
         cairo_fill (cr);
-        cairo_set_source_rgb (cr, border_color->red/65535., border_color->green/65535., border_color->blue/65535.);
+        cairo_set_source_rgb (cr, border_color->red, border_color->green, border_color->blue);
         cairo_set_line_width (cr, focus_width);
         cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
         cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
@@ -1362,19 +1429,18 @@ rstto_icon_bar_paint_item (
                          icon_bar->priv->item_width - (2 * focus_pad + focus_width),
                          icon_bar->priv->item_height - (2 * focus_pad + focus_width));
         cairo_stroke (cr);
-        cairo_destroy (cr);
+        cairo_restore (cr);
 
-        gdk_color_free (border_color);
-        gdk_color_free (fill_color);
+        gdk_rgba_free (border_color);
+        gdk_rgba_free (fill_color);
     }
-
 
     if (NULL != pixbuf)
     {
-        cr = gdk_cairo_create (icon_bar->priv->bin_window);
+        cairo_save (cr);
         gdk_cairo_set_source_pixbuf (cr, pixbuf, px, py);
         cairo_paint (cr);
-        cairo_destroy (cr);
+        cairo_restore (cr);
     }
 }
 
@@ -1628,15 +1694,20 @@ rstto_icon_bar_rows_reordered (
 
 /**
  * rstto_icon_bar_new:
+ * @s_window : A #GtkScrolledWindow.
  *
  * Creates a new #RsttoIconBar without model.
  *
  * Returns: a newly allocated #RsttoIconBar.
  **/
 GtkWidget *
-rstto_icon_bar_new (void)
+rstto_icon_bar_new (GtkWidget *s_window)
 {
-    return g_object_new (RSTTO_TYPE_ICON_BAR, NULL);
+    g_return_val_if_fail (GTK_IS_SCROLLED_WINDOW (s_window), NULL);
+
+    return g_object_new (RSTTO_TYPE_ICON_BAR,
+            "scrolled-window", s_window,
+            NULL);
 }
 
 
@@ -2065,6 +2136,7 @@ rstto_icon_bar_show_active (RsttoIconBar *icon_bar)
 
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
+        icon_bar->priv->vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
         page_size = gtk_adjustment_get_page_size (icon_bar->priv->vadjustment);
         value = icon_bar->priv->active_item->index * icon_bar->priv->item_height - ((page_size-icon_bar->priv->item_height)/2);
 
@@ -2079,6 +2151,7 @@ rstto_icon_bar_show_active (RsttoIconBar *icon_bar)
     }
     else
     {
+        icon_bar->priv->hadjustment = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
         page_size = gtk_adjustment_get_page_size (icon_bar->priv->hadjustment);
         value = icon_bar->priv->active_item->index * icon_bar->priv->item_width - ((page_size-icon_bar->priv->item_width)/2);
 
@@ -2099,6 +2172,7 @@ rstto_icon_bar_adjustment_changed (
         RsttoIconBar  *icon_bar,
         GtkAdjustment *adjustment)
 {
+#if 0
     if (TRUE == icon_bar->priv->auto_center)
     {
         gtk_adjustment_changed (adjustment);
@@ -2108,6 +2182,7 @@ rstto_icon_bar_adjustment_changed (
     {
         gtk_adjustment_changed (adjustment);
     }
+#endif
 }
 
 static void
@@ -2115,15 +2190,18 @@ rstto_icon_bar_adjustment_value_changed (
         RsttoIconBar  *icon_bar,
         GtkAdjustment *adjustment)
 {
+#if 0
     if (TRUE == icon_bar->priv->auto_center)
     {
-        gtk_adjustment_value_changed (adjustment);
+        //gtk_adjustment_value_changed (adjustment);
         icon_bar->priv->auto_center = TRUE;
     }
     else
     {
-        gtk_adjustment_value_changed (adjustment);
+        //gtk_adjustment_value_changed (adjustment);
     }
+    cb_rstto_icon_bar_adjustment_value_changed (adjustment, icon_bar);
+#endif
 }
 
 static void
