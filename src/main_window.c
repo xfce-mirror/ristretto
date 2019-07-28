@@ -922,8 +922,8 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
     /* Set default accelerators */
 
-    /* Create mergeid's for adding ui-components */
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    /* Create mergeid's for adding ui-components */
     window->priv->recent_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->play_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->pause_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
@@ -931,7 +931,6 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     window->priv->toolbar_pause_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->toolbar_fullscreen_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
     window->priv->toolbar_unfullscreen_merge_id = gtk_ui_manager_new_merge_id (window->priv->ui_manager);
-G_GNUC_END_IGNORE_DEPRECATIONS
 
     /* Create Play/Pause Slideshow actions */
     window->priv->play_action = gtk_action_new ("play", _("_Play"), _("Play slideshow"), "gtk-media-play");
@@ -940,6 +939,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     /* Create Recently used items Action */
     window->priv->recent_action = gtk_recent_action_new_for_manager ("document-open-recent", _("_Recently used"), _("Recently used"),
                                                                      0, GTK_RECENT_MANAGER (window->priv->recent_manager));
+G_GNUC_END_IGNORE_DEPRECATIONS
 
     gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (window->priv->recent_action), GTK_RECENT_SORT_MRU);
 
@@ -948,6 +948,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     gtk_recent_filter_add_application (recent_filter, "ristretto");
     gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (window->priv->recent_action), recent_filter);
 
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     /* Add the same accelerator path to play and pause, so the same kb-shortcut will be used for starting and stopping the slideshow */
     gtk_action_set_accel_path (window->priv->pause_action, "<Actions>/RsttoWindow/play");
     gtk_action_set_accel_path (window->priv->play_action, "<Actions>/RsttoWindow/play");
@@ -957,6 +958,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     gtk_action_group_add_action (window->priv->action_group, window->priv->play_action);
     gtk_action_group_add_action (window->priv->action_group, window->priv->pause_action);
     gtk_action_group_add_action (window->priv->action_group, window->priv->recent_action);
+G_GNUC_END_IGNORE_DEPRECATIONS
 
     /* Connect signal-handlers */
     g_signal_connect(G_OBJECT(window->priv->play_action), "activate", G_CALLBACK(cb_rstto_main_window_play), window);
@@ -965,7 +967,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     gtk_ui_manager_insert_action_group (window->priv->ui_manager, window->priv->action_group, 0);
-G_GNUC_END_IGNORE_DEPRECATIONS
 
     gtk_action_group_set_translation_domain (window->priv->action_group, GETTEXT_PACKAGE);
     gtk_action_group_add_actions (window->priv->action_group, action_entries,
@@ -982,7 +983,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
                                         G_N_ELEMENTS (radio_action_size_entries), thumbnail_size,
                                         G_CALLBACK (cb_rstto_main_window_thumbnail_size_changed), GTK_WIDGET (window));
 
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     gtk_ui_manager_add_ui_from_string (window->priv->ui_manager, main_window_ui, main_window_ui_length, NULL);
     window->priv->menubar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu");
     window->priv->toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar");
@@ -1822,8 +1822,10 @@ rstto_main_window_update_buttons (RsttoMainWindow *window)
             rstto_main_activate_file_menu_actions (window, FALSE);
             rstto_main_activate_go_menu_actions (window, FALSE);
 
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
             gtk_action_set_sensitive (window->priv->play_action, FALSE);
             gtk_action_set_sensitive (window->priv->pause_action, FALSE);
+G_GNUC_END_IGNORE_DEPRECATIONS
             gtk_widget_set_sensitive (window->priv->forward, FALSE);
             gtk_widget_set_sensitive (window->priv->back, FALSE);
 
@@ -1889,8 +1891,10 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             rstto_main_activate_file_menu_actions (window, TRUE);
             rstto_main_activate_go_menu_actions (window, FALSE);
 
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
             gtk_action_set_sensitive (window->priv->play_action, FALSE);
             gtk_action_set_sensitive (window->priv->pause_action, FALSE);
+G_GNUC_END_IGNORE_DEPRECATIONS
             gtk_widget_set_sensitive (window->priv->forward, FALSE);
             gtk_widget_set_sensitive (window->priv->back, FALSE);
 
@@ -1961,8 +1965,10 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             rstto_main_activate_file_menu_actions (window, TRUE);
             rstto_main_activate_go_menu_actions (window, TRUE);
 
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
             gtk_action_set_sensitive (window->priv->play_action, TRUE);
             gtk_action_set_sensitive (window->priv->pause_action, TRUE);
+G_GNUC_END_IGNORE_DEPRECATIONS
             gtk_widget_set_sensitive (window->priv->forward, rstto_image_list_iter_has_next (window->priv->iter) ? TRUE : FALSE);
             gtk_widget_set_sensitive (window->priv->back, rstto_image_list_iter_has_previous (window->priv->iter) ? TRUE : FALSE);
 
@@ -2172,7 +2178,10 @@ cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMai
 static void
 cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action, GtkRadioAction *current,  RsttoMainWindow *window)
 {
-    switch (gtk_radio_action_get_current_value (current))
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    gint value = gtk_radio_action_get_current_value (current);
+G_GNUC_END_IGNORE_DEPRECATIONS
+    switch (value)
     {
         case SORT_TYPE_NAME:
         default:
@@ -2206,7 +2215,9 @@ cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action, GtkRadioA
 static void
 cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action, GtkRadioAction *current,  RsttoMainWindow *window)
 {
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     rstto_main_window_set_navigationbar_position (window, gtk_radio_action_get_current_value (current));
+G_GNUC_END_IGNORE_DEPRECATIONS
 }
 
 static void
@@ -2215,7 +2226,9 @@ cb_rstto_main_window_thumbnail_size_changed (
         GtkRadioAction *current,
         RsttoMainWindow *window)
 {
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     rstto_main_window_set_thumbnail_size (window, gtk_radio_action_get_current_value (current));
+G_GNUC_END_IGNORE_DEPRECATIONS
 }
 
 static void
@@ -3913,16 +3926,18 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
 static void
 cb_rstto_main_window_toggle_show_toolbar (GtkWidget *widget, RsttoMainWindow *window)
 {
-    if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (widget)))
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    gboolean active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (widget));
+G_GNUC_END_IGNORE_DEPRECATIONS
+    if (active)
     {
         gtk_widget_show (window->priv->toolbar);
-        rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-toolbar", TRUE);
     }
     else
     {
         gtk_widget_hide (window->priv->toolbar);
-        rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-toolbar", FALSE);
     }
+    rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-toolbar", active);
 }
 
 /**
@@ -3935,17 +3950,19 @@ cb_rstto_main_window_toggle_show_toolbar (GtkWidget *widget, RsttoMainWindow *wi
 static void
 cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindow *window)
 {
-    if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (widget)))
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    gboolean active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (widget));
+G_GNUC_END_IGNORE_DEPRECATIONS
+    if (active)
     {
         if (rstto_image_list_get_n_images (window->priv->image_list) > 0)
             gtk_widget_show (window->priv->t_bar_s_window);
-        rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-thumbnailbar", TRUE);
     }
     else
     {
         gtk_widget_hide (window->priv->t_bar_s_window);
-        rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-thumbnailbar", FALSE);
     }
+    rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-thumbnailbar", active);
 }
 
 /**
@@ -3958,16 +3975,18 @@ cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget, RsttoMainWindo
 static void
 cb_rstto_main_window_toggle_show_statusbar (GtkWidget *widget, RsttoMainWindow *window)
 {
-    if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (widget)))
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    gboolean active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (widget));
+G_GNUC_END_IGNORE_DEPRECATIONS
+    if (active)
     {
         gtk_widget_show (window->priv->statusbar);
-        rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-statusbar", TRUE);
     }
     else
     {
         gtk_widget_hide (window->priv->statusbar);
-        rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-statusbar", FALSE);
     }
+    rstto_settings_set_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-statusbar", active);
 }
 
 RsttoImageListIter *
