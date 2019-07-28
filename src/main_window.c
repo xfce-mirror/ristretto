@@ -1443,7 +1443,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             rstto_icon_bar_show_active (RSTTO_ICON_BAR (window->priv->thumbnailbar));
             content_type  = rstto_file_get_content_type (cur_file);
 
-            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), cur_file, -1.0, 0);
+            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER (window->priv->image_viewer), cur_file, -1.0, 0);
 
             pixbuf = rstto_file_get_thumbnail (cur_file, THUMBNAIL_SIZE_SMALL);
             if (pixbuf != NULL)
@@ -1464,7 +1464,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             if (editor)
             {
                 app_info = g_desktop_app_info_new (editor);
-                if ( app_info != NULL )
+                if (app_info != NULL)
                 {
                     menu_item = rstto_app_menu_item_new (G_APP_INFO (app_info), rstto_file_get_file (cur_file));
                     gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
@@ -1508,11 +1508,11 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
             menu_item = gtk_menu_item_new_with_mnemonic (_("Open With Other _Application..."));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
-            g_signal_connect(G_OBJECT(menu_item), "activate", G_CALLBACK(cb_rstto_main_window_open_with_other_app), window);
+            g_signal_connect (G_OBJECT (menu_item), "activate", G_CALLBACK (cb_rstto_main_window_open_with_other_app), window);
 
             menu_item = gtk_menu_item_new_with_mnemonic (_("Open With Other _Application..."));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
-            g_signal_connect(G_OBJECT(menu_item), "activate", G_CALLBACK(cb_rstto_main_window_open_with_other_app), window);
+            g_signal_connect (G_OBJECT (menu_item), "activate", G_CALLBACK (cb_rstto_main_window_open_with_other_app), window);
 
             gtk_widget_show_all (open_with_menu);
             gtk_widget_show_all (open_with_window_menu);
@@ -1525,19 +1525,19 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             }
             else
             {
-                title = g_strdup_printf ("%s - %s", file_basename, RISTRETTO_APP_TITLE );
+                title = g_strdup_printf ("%s - %s", file_basename, RISTRETTO_APP_TITLE);
             }
 
         }
         else
         {
-            menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
+            menu_item = gtk_menu_item_new_with_label (_("Empty"));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
             gtk_widget_set_sensitive (menu_item, FALSE);
 
-            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), NULL, -1, 0);
+            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER (window->priv->image_viewer), NULL, -1, 0);
 
-            menu_item = gtk_image_menu_item_new_with_label (_("Empty"));
+            menu_item = gtk_menu_item_new_with_label (_("Empty"));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
             gtk_widget_set_sensitive (menu_item, FALSE);
 
