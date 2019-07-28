@@ -95,12 +95,7 @@ main(int argc, char **argv)
     textdomain (GETTEXT_PACKAGE);
     #endif
 
-    #if !GLIB_CHECK_VERSION (2, 32, 0)
-    g_thread_init(NULL);
-    #endif
-    gdk_threads_init();
-
-    if(!gtk_init_with_args(&argc, &argv, "", entries, PACKAGE, &cli_error))
+    if (!gtk_init_with_args (&argc, &argv, "", entries, PACKAGE, &cli_error))
     {
         if (cli_error != NULL)
         {
@@ -117,16 +112,16 @@ main(int argc, char **argv)
         }
     }
 
-    if(version)
+    if (version)
     {
-        g_print("%s\n", PACKAGE_STRING);
+        g_print ("%s\n", PACKAGE_STRING);
         return 0;
     }
 
-    xfconf_init(NULL);
+    xfconf_init (NULL);
 
-    gtk_window_set_default_icon_name("ristretto");
-    settings = rstto_settings_new();
+    gtk_window_set_default_icon_name ("ristretto");
+    settings = rstto_settings_new ();
 
     if (FALSE == show_settings)
     {
@@ -143,13 +138,13 @@ main(int argc, char **argv)
             rof.iter = 1;
             rof.window = window;
 
-            gdk_threads_add_idle ((GSourceFunc )cb_rstto_open_files, &rof);
+            gdk_threads_add_idle (G_SOURCE_FUNC (cb_rstto_open_files), &rof);
 
             if (TRUE == rstto_settings_get_boolean_property (
                         settings,
                         "maximize-on-startup"))
             {
-                gtk_window_maximize (GTK_WINDOW(window));
+                gtk_window_maximize (GTK_WINDOW (window));
             }
         }
 
@@ -159,19 +154,17 @@ main(int argc, char **argv)
            gtk_window_fullscreen (GTK_WINDOW (window));
         }
 
-        g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+        g_signal_connect (G_OBJECT(window), "destroy", G_CALLBACK (gtk_main_quit), NULL);
         gtk_widget_show_all (window);
 
-        GDK_THREADS_ENTER();
-        gtk_main();
-        GDK_THREADS_LEAVE();
+        gtk_main ();
 
         g_object_unref (image_list);
     }
     else
     {
         window = rstto_preferences_dialog_new (NULL);
-        while (gtk_dialog_run (GTK_DIALOG(window)) == GTK_RESPONSE_HELP)
+        while (gtk_dialog_run (GTK_DIALOG (window)) == GTK_RESPONSE_HELP)
         {
             xfce_dialog_show_help (
                     GTK_WINDOW (window),
