@@ -71,8 +71,7 @@ cb_style_combo_changed (
         RsttoGnomeWallpaperManager *manager);
 
 static void
-configure_monitor_chooser_pixbuf (
-    RsttoGnomeWallpaperManager *manager );
+configure_monitor_chooser_pixbuf (RsttoGnomeWallpaperManager *manager);
 
 static GObjectClass *parent_class = NULL;
 
@@ -81,7 +80,7 @@ static RsttoWallpaperManager *gnome_wallpaper_manager_object = NULL;
 struct _RsttoGnomeWallpaperManagerPriv
 {
     gint screen;
-    gint    monitor;
+    gint monitor;
     enum MonitorStyle style;
 
     RsttoFile *file;
@@ -114,7 +113,7 @@ rstto_gnome_wallpaper_manager_configure_dialog_run (
     }
 
     manager->priv->pixbuf = gdk_pixbuf_new_from_file_at_size (
-            rstto_file_get_path(file),
+            rstto_file_get_path (file),
             500,
             500,
             NULL);
@@ -220,11 +219,11 @@ rstto_gnome_wallpaper_manager_init (GObject *object)
 {
     RsttoGnomeWallpaperManager *manager = RSTTO_GNOME_WALLPAPER_MANAGER (object);
     GtkWidget *image_prop_grid = gtk_grid_new ();
-    GtkWidget *style_label = gtk_label_new( _("Style:"));
+    GtkWidget *style_label = gtk_label_new (_("Style:"));
     GtkWidget *vbox;
 
-    GdkScreen *screen = gdk_screen_get_default ();
-    gint n_monitors = gdk_screen_get_n_monitors (screen);
+    GdkDisplay *display = gdk_display_get_default ();
+    gint n_monitors = gdk_display_get_n_monitors (display);
     GdkRectangle monitor_geometry;
     gint i;
 
@@ -242,16 +241,15 @@ rstto_gnome_wallpaper_manager_init (GObject *object)
             GTK_RESPONSE_OK,
             NULL);
 
-    vbox = gtk_dialog_get_content_area ( GTK_DIALOG (manager->priv->dialog));
+    vbox = gtk_dialog_get_content_area (GTK_DIALOG (manager->priv->dialog));
 
     manager->priv->monitor_chooser = rstto_monitor_chooser_new ();
     manager->priv->style_combo = gtk_combo_box_text_new ();
 
     for (i = 0; i < n_monitors; ++i)
     {
-        gdk_screen_get_monitor_geometry (
-                screen,
-                i,
+        gdk_monitor_get_geometry (
+                gdk_display_get_monitor (display, i),
                 &monitor_geometry);
         rstto_monitor_chooser_add (
                 RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser),
@@ -295,7 +293,8 @@ rstto_gnome_wallpaper_manager_init (GObject *object)
             GTK_COMBO_BOX (manager->priv->style_combo),
             0);
 
-    manager->priv->screen = gdk_screen_get_number (screen);
+    // there's only one screen in GTK3
+    manager->priv->screen = 0;
 
     gtk_window_set_resizable (GTK_WINDOW (manager->priv->dialog), FALSE);
 
