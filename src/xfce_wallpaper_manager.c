@@ -627,7 +627,7 @@ rstto_get_active_workspace_number (GdkScreen *screen)
     gint       format_ret;
     gint       ws_num = 0;
 
-    gdk_error_trap_push ();
+    gdk_x11_display_error_trap_push (gdk_screen_get_display (screen));
 
     root = gdk_screen_get_root_window (screen);
 
@@ -640,18 +640,18 @@ rstto_get_active_workspace_number (GdkScreen *screen)
             False);
 
     if (XGetWindowProperty (GDK_WINDOW_XDISPLAY (root),
-            gdk_x11_get_default_root_xwindow(),
+            gdk_x11_get_default_root_xwindow (),
             _NET_CURRENT_DESKTOP, 0, 32, False, XA_CARDINAL,
             &type_ret, &format_ret, &nitems_ret, &bytes_after_ret,
             (gpointer) &prop_ret) != Success)
     {
         if (XGetWindowProperty (GDK_WINDOW_XDISPLAY (root),
-            gdk_x11_get_default_root_xwindow(),
-            _WIN_WORKSPACE, 0, 32, False, XA_CARDINAL,
-            &type_ret, &format_ret, &nitems_ret, &bytes_after_ret,
-            (gpointer) &prop_ret) != Success)
+                gdk_x11_get_default_root_xwindow (),
+                _WIN_WORKSPACE, 0, 32, False, XA_CARDINAL,
+                &type_ret, &format_ret, &nitems_ret, &bytes_after_ret,
+                (gpointer) &prop_ret) != Success)
         {
-          if (G_UNLIKELY (prop_ret != NULL))
+            if (G_UNLIKELY (prop_ret != NULL))
             {
                 XFree (prop_ret);
                 prop_ret = NULL;
@@ -662,11 +662,11 @@ rstto_get_active_workspace_number (GdkScreen *screen)
     if (G_LIKELY (prop_ret != NULL))
     {
         if (G_LIKELY (type_ret != None && format_ret != 0))
-                ws_num = *prop_ret;
+            ws_num = *prop_ret;
         XFree (prop_ret);
     }
 
-    gdk_error_trap_pop_ignored ();
+    gdk_x11_display_error_trap_pop_ignored (gdk_screen_get_display (screen));
 
     return ws_num;
 }
@@ -676,7 +676,6 @@ cb_style_combo_changed (
         GtkComboBox *style_combo,
         RsttoXfceWallpaperManager *manager)
 {
-
     manager->priv->style = gtk_combo_box_get_active (style_combo);
 
     manager->priv->monitor = rstto_monitor_chooser_get_selected (
