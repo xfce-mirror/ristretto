@@ -127,23 +127,25 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
     /* General tab */
     GtkWidget *general_label;
     GtkWidget *name_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
-    GtkWidget *name_label = gtk_label_new(NULL);
-    GtkWidget *mime_label = gtk_label_new(NULL);
+    GtkWidget *name_label = gtk_label_new (NULL);
+    GtkWidget *mime_label = gtk_label_new (NULL);
 
-    GtkWidget *modified_label = gtk_label_new(NULL);
-    GtkWidget *accessed_label = gtk_label_new(NULL);
+    GtkWidget *modified_label = gtk_label_new (NULL);
+    GtkWidget *accessed_label = gtk_label_new (NULL);
 
-    GtkWidget *size_label  = gtk_label_new(NULL);
+    GtkWidget *size_label = gtk_label_new (NULL);
+
+    GtkWidget *button = xfce_gtk_button_new_mixed ("window-close", _("_Close"));
 
     dialog->priv = g_new0 (RsttoPropertiesDialogPriv, 1);
 
     dialog->priv->settings = rstto_settings_new ();
     dialog->priv->image_thumbnail = gtk_image_new ();
-    dialog->priv->name_entry = gtk_entry_new();
-    dialog->priv->mime_content_label = gtk_label_new(NULL);
-    dialog->priv->modified_content_label = gtk_label_new(NULL);
-    dialog->priv->accessed_content_label = gtk_label_new(NULL);
-    dialog->priv->size_content_label = gtk_label_new(NULL);
+    dialog->priv->name_entry = gtk_entry_new ();
+    dialog->priv->mime_content_label = gtk_label_new (NULL);
+    dialog->priv->modified_content_label = gtk_label_new (NULL);
+    dialog->priv->accessed_content_label = gtk_label_new (NULL);
+    dialog->priv->size_content_label = gtk_label_new (NULL);
 
     gtk_label_set_xalign (GTK_LABEL (dialog->priv->mime_content_label), 0.0);
     gtk_label_set_yalign (GTK_LABEL (dialog->priv->mime_content_label), 0.5);
@@ -154,8 +156,7 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
     gtk_label_set_xalign (GTK_LABEL (dialog->priv->size_content_label), 0.0);
     gtk_label_set_yalign (GTK_LABEL (dialog->priv->size_content_label), 0.5);
 
-    vbox = gtk_dialog_get_content_area (
-            GTK_DIALOG (dialog));
+    vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
     dialog->priv->notebook = gtk_notebook_new ();
 
     grid = gtk_grid_new ();
@@ -215,9 +216,10 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
     gtk_widget_show_all (vbox);
 
     /* Window should not be resizable */
-    gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
+    gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
 
-    gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Close"), GTK_RESPONSE_OK);
+    gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
+    gtk_widget_show (button);
 }
 
 static void

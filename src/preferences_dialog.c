@@ -242,7 +242,7 @@ rstto_preferences_dialog_init ( RsttoPreferencesDialog *dialog )
     GtkWidget *behaviour_main_lbl;
     GtkWidget *behaviour_desktop_lbl;
     GtkWidget *notebook = gtk_notebook_new ();
-
+    GtkWidget *button = xfce_gtk_button_new_mixed ("window-close", _("_Close"));
 
     /* Code Section */
 
@@ -543,7 +543,8 @@ rstto_preferences_dialog_init ( RsttoPreferencesDialog *dialog )
     /* Window should not be resizable */
     gtk_window_set_resizable (GTK_WINDOW(dialog), FALSE);
 
-    gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Close"), GTK_RESPONSE_OK);
+    gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
+    gtk_widget_show (button);
 
 }
 
