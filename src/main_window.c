@@ -2241,6 +2241,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
     GtkWidget *content_area = NULL;
     GtkWidget *behaviour_desktop_lbl;
     GtkWidget *choose_desktop_combo_box;
+    GtkWidget *button;
 
     if (window->priv->iter)
     {
@@ -2256,20 +2257,22 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
          * used. -- Ask the user which method he wants ristretto to
          * apply to set the desktop wallpaper.
          */
-        dialog = gtk_dialog_new_with_buttons (
-                _("Choose 'set wallpaper' method"),
-                GTK_WINDOW(window),
-                GTK_DIALOG_DESTROY_WITH_PARENT,
-                _("_OK"),
-                GTK_RESPONSE_OK,
-                _("_Cancel"),
-                GTK_RESPONSE_CANCEL,
-                NULL);
+        dialog = gtk_dialog_new ();
+        gtk_window_set_title (GTK_WINDOW (dialog), _("Choose 'set wallpaper' method"));
+        gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
+        gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
+
+        button = xfce_gtk_button_new_mixed ("gtk-cancel", _("_Cancel"));
+        gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_CANCEL);
+        gtk_widget_show (button);
+        button = xfce_gtk_button_new_mixed ("gtk-ok", _("_OK"));
+        gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
+        gtk_widget_show (button);
 
         /* Populate the dialog */
-        content_area = gtk_dialog_get_content_area (GTK_DIALOG(dialog));
+        content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-        behaviour_desktop_lbl = gtk_label_new(NULL);
+        behaviour_desktop_lbl = gtk_label_new (NULL);
         gtk_label_set_markup (
                 GTK_LABEL (behaviour_desktop_lbl),
                 _("Configure which system is currently managing your desktop.\n"
@@ -2288,8 +2291,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
                 FALSE,
                 0);
 
-        choose_desktop_combo_box =
-                gtk_combo_box_text_new ();
+        choose_desktop_combo_box = gtk_combo_box_text_new ();
         gtk_box_pack_start (
                 GTK_BOX (content_area),
                 choose_desktop_combo_box,
@@ -2318,7 +2320,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
 
 
         /* Show the dialog */
-        response = gtk_dialog_run (GTK_DIALOG(dialog));
+        response = gtk_dialog_run (GTK_DIALOG (dialog));
 
         /* If the response was 'OK', the user has made a choice */
         if ( GTK_RESPONSE_OK == response )
@@ -4065,6 +4067,7 @@ rstto_main_window_launch_editor_chooser (
     GtkWidget *vbox;
     GtkWidget *image;
     GtkWidget *label;
+    GtkWidget *button;
     GtkWidget *check_button;
     GtkWidget *treeview;
     GtkWidget *scrolled_window;
@@ -4081,22 +4084,25 @@ rstto_main_window_launch_editor_chooser (
     const GdkPixbuf *pixbuf = NULL;
     GIcon *g_icon = NULL;
 
-    dialog = gtk_dialog_new_with_buttons (
-            _("Edit with"),
-            GTK_WINDOW (window),
-            GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
-            _("_Cancel"),
-            GTK_RESPONSE_CANCEL,
-            _("_OK"),
-            GTK_RESPONSE_OK,
-            NULL);
+    dialog = gtk_dialog_new ();
+    gtk_window_set_title (GTK_WINDOW (dialog), _("Edit with"));
+    gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
+    gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
+    gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+
+    button = xfce_gtk_button_new_mixed ("gtk-cancel", _("_Cancel"));
+    gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_CANCEL);
+    gtk_widget_show (button);
+    button = xfce_gtk_button_new_mixed ("gtk-ok", _("_OK"));
+    gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
+    gtk_widget_show (button);
 
     content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
     g_icon = g_content_type_get_icon (content_type);
-    image = gtk_image_new_from_gicon (g_icon,   GTK_ICON_SIZE_DIALOG);
+    image = gtk_image_new_from_gicon (g_icon, GTK_ICON_SIZE_DIALOG);
     g_object_unref (g_icon);
 
     label_text = g_strdup_printf (
@@ -4106,7 +4112,7 @@ rstto_main_window_launch_editor_chooser (
     label = gtk_label_new (label_text);
     g_free (label_text);
 
-    check_button = gtk_check_button_new_with_mnemonic(_("Use as _default for this kind of file"));
+    check_button = gtk_check_button_new_with_mnemonic (_("Use as _default for this kind of file"));
 
     scrolled_window = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_policy (

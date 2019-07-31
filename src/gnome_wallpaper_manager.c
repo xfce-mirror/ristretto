@@ -221,6 +221,7 @@ rstto_gnome_wallpaper_manager_init (GObject *object)
     GtkWidget *image_prop_grid = gtk_grid_new ();
     GtkWidget *style_label = gtk_label_new (_("Style:"));
     GtkWidget *vbox;
+    GtkWidget *button;
 
     GdkDisplay *display = gdk_display_get_default ();
     gint n_monitors = gdk_display_get_n_monitors (display);
@@ -229,17 +230,18 @@ rstto_gnome_wallpaper_manager_init (GObject *object)
 
     manager->priv = g_new0 (RsttoGnomeWallpaperManagerPriv, 1);
 
-    manager->priv->dialog = gtk_dialog_new_with_buttons (
-            _("Set as wallpaper"),
-            NULL,
-            0,
-            _("_Cancel"),
-            GTK_RESPONSE_CANCEL,
-            _("_Apply"),
-            GTK_RESPONSE_APPLY,
-            _("_OK"),
-            GTK_RESPONSE_OK,
-            NULL);
+    manager->priv->dialog = gtk_dialog_new ();
+    gtk_window_set_title (GTK_WINDOW (manager->priv->dialog), _("Set as wallpaper"));
+
+    button = xfce_gtk_button_new_mixed ("gtk-cancel", _("_Cancel"));
+    gtk_dialog_add_action_widget (GTK_DIALOG (manager->priv->dialog), button, GTK_RESPONSE_CANCEL);
+    gtk_widget_show (button);
+    button = xfce_gtk_button_new_mixed ("gtk-apply", _("_Apply"));
+    gtk_dialog_add_action_widget (GTK_DIALOG (manager->priv->dialog), button, GTK_RESPONSE_APPLY);
+    gtk_widget_show (button);
+    button = xfce_gtk_button_new_mixed ("gtk-ok", _("_OK"));
+    gtk_dialog_add_action_widget (GTK_DIALOG (manager->priv->dialog), button, GTK_RESPONSE_OK);
+    gtk_widget_show (button);
 
     vbox = gtk_dialog_get_content_area (GTK_DIALOG (manager->priv->dialog));
 
