@@ -210,7 +210,8 @@ retrieve_monitor_name (gint monitor_id)
 static gint 
 rstto_xfce_wallpaper_manager_configure_dialog_run (
         RsttoWallpaperManager *self,
-        RsttoFile *file)
+        RsttoFile *file,
+        GtkWindow *parent)
 {
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
     gint response = 0;
@@ -229,6 +230,7 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
 
     configure_monitor_chooser_pixbuf (manager);
 
+    gtk_window_set_transient_for (GTK_WINDOW (manager->priv->dialog), parent);
     response = gtk_dialog_run (GTK_DIALOG (manager->priv->dialog));
     gtk_widget_hide (manager->priv->dialog);
     if ((response == GTK_RESPONSE_OK) || (response == GTK_RESPONSE_APPLY))

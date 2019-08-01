@@ -2373,7 +2373,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
         response = GTK_RESPONSE_APPLY;
         while (GTK_RESPONSE_APPLY == response)
         {
-            response = rstto_wallpaper_manager_configure_dialog_run (window->priv->wallpaper_manager, file);
+            response = rstto_wallpaper_manager_configure_dialog_run (window->priv->wallpaper_manager, file, GTK_WINDOW (window));
             switch (response)
             {
                 case GTK_RESPONSE_OK:

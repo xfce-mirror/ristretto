@@ -32,9 +32,10 @@
 gint 
 rstto_wallpaper_manager_configure_dialog_run (
         RsttoWallpaperManager *self,
-        RsttoFile *file)
+        RsttoFile *file,
+        GtkWindow *parent)
 {
-    return RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->configure_dialog_run(self, file);
+    return RSTTO_WALLPAPER_MANAGER_GET_IFACE (self)->configure_dialog_run (self, file, parent);
 }
 
 gboolean 

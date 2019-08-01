@@ -101,7 +101,8 @@ enum
 static gint 
 rstto_gnome_wallpaper_manager_configure_dialog_run (
         RsttoWallpaperManager *self,
-        RsttoFile *file)
+        RsttoFile *file,
+        GtkWindow *parent)
 {
     RsttoGnomeWallpaperManager *manager = RSTTO_GNOME_WALLPAPER_MANAGER (self);
     gint response = GTK_RESPONSE_OK;
@@ -120,6 +121,7 @@ rstto_gnome_wallpaper_manager_configure_dialog_run (
 
     configure_monitor_chooser_pixbuf (manager);
 
+    gtk_window_set_transient_for (GTK_WINDOW (manager->priv->dialog), parent);
     response = gtk_dialog_run (GTK_DIALOG (manager->priv->dialog));
     gtk_widget_hide (manager->priv->dialog);
     if ((response == GTK_RESPONSE_OK) || (response == GTK_RESPONSE_APPLY))
