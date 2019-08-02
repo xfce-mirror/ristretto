@@ -43,7 +43,7 @@
 #endif
 
 #ifndef BACKGROUND_ICON_SIZE
-#define BACKGROUND_ICON_SIZE 256
+#define BACKGROUND_ICON_SIZE 128
 #endif
 
 #ifndef RSTTO_MAX_SCALE
