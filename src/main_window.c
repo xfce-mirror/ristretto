@@ -1021,7 +1021,7 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     window->priv->back = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/back");
     window->priv->forward = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/forward");
 G_GNUC_END_IGNORE_DEPRECATIONS
-    
+
     window->priv->image_viewer = rstto_image_viewer_new ();
     window->priv->p_viewer_s_window = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -2540,7 +2540,8 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
         width = gdk_window_get_width (gdk_window);
         height = gdk_window_get_height (gdk_window);
 
-        if ((event->x_root == 0) || (event->y_root == 0) || (((gint)event->x_root) == (width-1)) || (((gint)event->y_root) == (height-1)))
+        /* Give it 2 pixels to accomodate to the mouse pointer thickness */
+        if ((event->x < 2 || event->y < 2) || (event->x >= width-2 || event->y >= height-2))
         {
             if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
             {
