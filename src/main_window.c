@@ -1021,8 +1021,6 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     window->priv->back = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/back");
     window->priv->forward = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar/forward");
 G_GNUC_END_IGNORE_DEPRECATIONS
-    gtk_tool_item_set_is_important (GTK_TOOL_ITEM (window->priv->back), TRUE);
-    gtk_tool_item_set_is_important (GTK_TOOL_ITEM (window->priv->forward), TRUE);
     
     window->priv->image_viewer = rstto_image_viewer_new ();
     window->priv->p_viewer_s_window = gtk_scrolled_window_new (NULL, NULL);
