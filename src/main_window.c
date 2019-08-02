@@ -1048,17 +1048,17 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     window->priv->grid = gtk_grid_new ();
 
     window->priv->statusbar = gtk_statusbar_new ();
-    window->priv->statusbar_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR(window->priv->statusbar), "image-data");
+    window->priv->statusbar_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (window->priv->statusbar), "image-data");
     gtk_statusbar_push (GTK_STATUSBAR (window->priv->statusbar),
-                        gtk_statusbar_get_context_id (GTK_STATUSBAR(window->priv->statusbar), "fallback-data"),
+                        gtk_statusbar_get_context_id (GTK_STATUSBAR (window->priv->statusbar), "fallback-data"),
                         _("Press open to select an image"));
 
     gtk_container_add (GTK_CONTAINER (window), main_vbox);
-    gtk_box_pack_start (GTK_BOX(main_vbox), window->priv->menubar, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX(main_vbox), window->priv->toolbar, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX(main_vbox), window->priv->warning, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX(main_vbox), window->priv->grid, TRUE, TRUE, 0);
-    gtk_box_pack_start (GTK_BOX(main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (main_vbox), window->priv->menubar, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (main_vbox), window->priv->toolbar, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (main_vbox), window->priv->warning, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (main_vbox), window->priv->grid, TRUE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (main_vbox), window->priv->statusbar, FALSE, FALSE, 0);
 
     gtk_grid_attach (GTK_GRID (window->priv->grid), window->priv->t_bar_s_window, 1, 0, 1, 5);
     gtk_grid_attach (GTK_GRID (window->priv->grid), window->priv->p_viewer_s_window, 2, 2, 1, 1);
@@ -1070,6 +1070,16 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     gtk_widget_set_no_show_all (window->priv->t_bar_s_window, TRUE);
     gtk_widget_set_no_show_all (window->priv->statusbar, TRUE);
     gtk_widget_show_all (window->priv->thumbnailbar);
+
+    /* Make the statusbar smaller - by default, the margins are way too big */
+    gtk_widget_set_margin_top (window->priv->statusbar, 1);
+    gtk_widget_set_margin_bottom (window->priv->statusbar, 1);
+    gtk_widget_set_margin_start (window->priv->statusbar, 2);
+    gtk_widget_set_margin_end (window->priv->statusbar, 2);
+    gtk_widget_set_margin_top (gtk_statusbar_get_message_area (GTK_STATUSBAR (window->priv->statusbar)), 0);
+    gtk_widget_set_margin_bottom (gtk_statusbar_get_message_area (GTK_STATUSBAR (window->priv->statusbar)), 0);
+    gtk_widget_set_margin_start (gtk_statusbar_get_message_area (GTK_STATUSBAR (window->priv->statusbar)), 0);
+    gtk_widget_set_margin_end (gtk_statusbar_get_message_area (GTK_STATUSBAR (window->priv->statusbar)), 0);
 
     rstto_main_window_set_navigationbar_position (window, navigationbar_position);
 
