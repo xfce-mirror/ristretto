@@ -1742,7 +1742,8 @@ rstto_main_activate_view_menu_actions (RsttoMainWindow *window, gboolean activat
     const gchar *actions[] = {
         "/main-menu/view-menu/set-as-wallpaper",
         "/main-menu/view-menu/zoom-menu",
-        "/main-menu/view-menu/rotation-menu"
+        "/main-menu/view-menu/rotation-menu",
+        "/main-menu/view-menu/flip-menu"
     };
 
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
