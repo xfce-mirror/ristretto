@@ -91,11 +91,6 @@ rstto_icon_bar_set_property (
         GParamSpec   *pspec);
 
 static void
-rstto_icon_bar_style_set (
-        GtkWidget *widget,
-        GtkStyle  *previous_style);
-
-static void
 rstto_icon_bar_realize (GtkWidget *widget);
 static void
 rstto_icon_bar_unrealize (GtkWidget *widget);
@@ -322,7 +317,6 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
     gobject_class->set_property = rstto_icon_bar_set_property;
 
     gtkwidget_class = GTK_WIDGET_CLASS (klass);
-    gtkwidget_class->style_set = rstto_icon_bar_style_set;
     gtkwidget_class->realize = rstto_icon_bar_realize;
     gtkwidget_class->unrealize = rstto_icon_bar_unrealize;
     gtkwidget_class->get_preferred_width = rstto_icon_bar_get_preferred_width;
@@ -649,37 +643,13 @@ rstto_icon_bar_set_property (
 
 
 static void
-rstto_icon_bar_style_set (
-        GtkWidget *widget,
-        GtkStyle  *previous_style)
-{
-    RsttoIconBar    *icon_bar = RSTTO_ICON_BAR (widget);
-    GtkStyleContext *context;
-    GdkRGBA          bg;
-
-    (*GTK_WIDGET_CLASS (rstto_icon_bar_parent_class)->style_set) (widget, previous_style);
-
-    if (gtk_widget_get_realized (widget))
-    {
-        context = gtk_widget_get_style_context (gtk_widget_get_toplevel (widget));
-        gtk_style_context_get (context, gtk_widget_get_state_flags (widget),
-                GTK_STYLE_PROPERTY_BACKGROUND_COLOR, &bg, NULL);
-        gdk_window_set_background_rgba (icon_bar->priv->bin_window, &bg);
-    }
-}
-
-
-
-static void
 rstto_icon_bar_realize (GtkWidget *widget)
 {
-    GdkWindowAttr    attributes;
-    RsttoIconBar    *icon_bar = RSTTO_ICON_BAR (widget);
-    gint             attributes_mask;
-    GtkAllocation    allocation;
-    GdkWindow       *window;
-    GtkStyleContext *context;
-    GdkRGBA         *bg;
+    GdkWindowAttr  attributes;
+    RsttoIconBar  *icon_bar = RSTTO_ICON_BAR (widget);
+    gint           attributes_mask;
+    GtkAllocation  allocation;
+    GdkWindow     *window;
 
     gtk_widget_set_realized (widget, TRUE);
 
@@ -697,8 +667,7 @@ rstto_icon_bar_realize (GtkWidget *widget)
             | GDK_VISIBILITY_NOTIFY_MASK;
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
 
-    window = gdk_window_new (gtk_widget_get_parent_window (widget),
-            &attributes, attributes_mask);
+    window = gdk_window_new (gtk_widget_get_parent_window (widget), &attributes, attributes_mask);
     gtk_widget_set_window (widget, window);
     gdk_window_set_user_data (window, widget);
 
@@ -719,13 +688,6 @@ rstto_icon_bar_realize (GtkWidget *widget)
 
     icon_bar->priv->bin_window = gdk_window_new (window, &attributes, attributes_mask);
     gdk_window_set_user_data (icon_bar->priv->bin_window, widget);
-
-    context = gtk_widget_get_style_context (gtk_widget_get_toplevel (widget));
-    gtk_style_context_get (context, gtk_widget_get_state_flags (widget),
-            GTK_STYLE_PROPERTY_BACKGROUND_COLOR, &bg, NULL);
-    gdk_window_set_background_rgba (window, bg);
-    gdk_window_set_background_rgba (icon_bar->priv->bin_window, bg);
-    gdk_rgba_free (bg);
     gdk_window_show (icon_bar->priv->bin_window);
 }
 
@@ -936,11 +898,19 @@ rstto_icon_bar_draw (
         cairo_t   *cr)
 {
     RsttoIconBarItem *item;
-    GdkRectangle    area;
+    GdkRectangle      area;
     RsttoIconBar     *icon_bar = RSTTO_ICON_BAR (widget);
-    GList          *lp;
-    RsttoFile      *file;
-    GtkTreeIter     iter;
+    GList            *lp;
+    RsttoFile        *file;
+    GtkTreeIter       iter;
+    GdkRGBA           bg_color;
+
+    /* Paint the background color - white */
+    cairo_save (cr);
+    gdk_rgba_parse (&bg_color, "white");
+    gdk_cairo_set_source_rgba (cr, &bg_color);
+    cairo_paint (cr);
+    cairo_restore (cr);
 
     for (lp = icon_bar->priv->items; lp != NULL; lp = lp->next)
     {
