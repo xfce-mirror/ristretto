@@ -176,6 +176,7 @@ rstto_settings_init (GObject *object)
     settings->priv->slideshow_timeout = 5;
     settings->priv->bgcolor = g_new0 (GdkRGBA, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkRGBA, 1);
+    gdk_rgba_parse (settings->priv->bgcolor_fullscreen, "black"); // black by default
     settings->priv->navigationbar_position = g_strdup ("left");
     settings->priv->show_toolbar = TRUE;
     settings->priv->window_width = 600;
