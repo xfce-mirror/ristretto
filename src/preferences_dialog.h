@@ -50,7 +50,7 @@ typedef struct _RsttoPreferencesDialogPriv RsttoPreferencesDialogPriv;
 
 struct _RsttoPreferencesDialog
 {
-    XfceTitledDialog parent;
+    GtkDialog parent;
     RsttoPreferencesDialogPriv *priv;
 };
 
@@ -58,7 +58,7 @@ typedef struct _RsttoPreferencesDialogClass RsttoPreferencesDialogClass;
 
 struct _RsttoPreferencesDialogClass
 {
-    XfceTitledDialogClass  parent_class;
+    GtkDialogClass parent_class;
 };
 
 GType
