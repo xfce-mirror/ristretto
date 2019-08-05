@@ -20,7 +20,7 @@
 #ifndef __RISTRETTO_PRIVACY_DIALOG_H__
 #define __RISTRETTO_PRIVACY_DIALOG_H__
 
-#include <libxfce4ui/libxfce4ui.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -50,7 +50,7 @@ typedef struct _RsttoPrivacyDialogPriv RsttoPrivacyDialogPriv;
 
 struct _RsttoPrivacyDialog
 {
-    XfceTitledDialog parent;
+    GtkDialog parent;
     RsttoPrivacyDialogPriv *priv;
 };
 
@@ -58,7 +58,7 @@ typedef struct _RsttoPrivacyDialogClass RsttoPrivacyDialogClass;
 
 struct _RsttoPrivacyDialogClass
 {
-    XfceTitledDialogClass  parent_class;
+    GtkDialogClass parent_class;
 };
 
 GType

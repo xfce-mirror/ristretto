@@ -18,6 +18,7 @@
  */
 
 #include <config.h>
+#include <libxfce4ui/libxfce4ui.h>
 #include <libxfce4util/libxfce4util.h>
 
 #include "settings.h"
@@ -119,7 +120,7 @@ rstto_privacy_dialog_get_type (void)
             NULL
         };
 
-        rstto_privacy_dialog_type = g_type_register_static (XFCE_TYPE_TITLED_DIALOG, "RsttoPrivacyDialog", &rstto_privacy_dialog_info, 0);
+        rstto_privacy_dialog_type = g_type_register_static (GTK_TYPE_DIALOG, "RsttoPrivacyDialog", &rstto_privacy_dialog_info, 0);
 
         g_type_add_interface_static (rstto_privacy_dialog_type, GTK_TYPE_RECENT_CHOOSER, &recent_chooser_info);
     }
@@ -131,11 +132,12 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
 {
     GtkWidget *display_main_hbox;
     GtkWidget *display_main_lbl;
+    GtkWidget *button;
 
     dialog->priv = g_new0 (RsttoPrivacyDialogPriv, 1);
 
     dialog->priv->settings = rstto_settings_new ();
-    dialog->priv->time_now = time(0);
+    dialog->priv->time_now = time (0);
     dialog->priv->timeframe_filter = gtk_recent_filter_new ();
 
     /* Add recent-filter function to filter in access-time */    
@@ -146,20 +148,21 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
             dialog,
             NULL);
 
-    display_main_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-    display_main_lbl = gtk_label_new(_("Time range to clear:"));
+    display_main_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+    display_main_lbl = gtk_label_new (_("Time range to clear:"));
 
-    dialog->priv->cleanup_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    dialog->priv->cleanup_frame = xfce_gtk_frame_box_new_with_content(_("Cleanup"), dialog->priv->cleanup_vbox);
-    dialog->priv->cleanup_timeframe_combo = gtk_combo_box_text_new();
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dialog->priv->cleanup_timeframe_combo), 0, _("Last Hour"));
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dialog->priv->cleanup_timeframe_combo), 1, _("Last Two Hours"));
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dialog->priv->cleanup_timeframe_combo), 2, _("Last Four Hours"));
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dialog->priv->cleanup_timeframe_combo), 3, _("Today"));
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dialog->priv->cleanup_timeframe_combo), 4, _("Everything"));
+    dialog->priv->cleanup_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+    dialog->priv->cleanup_frame = xfce_gtk_frame_box_new_with_content (_("Cleanup"), dialog->priv->cleanup_vbox);
+    gtk_widget_set_margin_start (dialog->priv->cleanup_frame, 6);
+    dialog->priv->cleanup_timeframe_combo = gtk_combo_box_text_new ();
+    gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->cleanup_timeframe_combo), 0, _("Last Hour"));
+    gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->cleanup_timeframe_combo), 1, _("Last Two Hours"));
+    gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->cleanup_timeframe_combo), 2, _("Last Four Hours"));
+    gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->cleanup_timeframe_combo), 3, _("Today"));
+    gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->cleanup_timeframe_combo), 4, _("Everything"));
     g_signal_connect (G_OBJECT (dialog->priv->cleanup_timeframe_combo), 
-                      "changed", (GCallback)cb_rstto_privacy_dialog_combobox_timeframe_changed, dialog);
-    gtk_combo_box_set_active(GTK_COMBO_BOX(dialog->priv->cleanup_timeframe_combo), 0);
+                      "changed", G_CALLBACK (cb_rstto_privacy_dialog_combobox_timeframe_changed), dialog);
+    gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->cleanup_timeframe_combo), 0);
 
     gtk_box_pack_start (GTK_BOX (dialog->priv->cleanup_vbox), 
                         display_main_hbox, FALSE, FALSE, 0);
@@ -174,10 +177,14 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
     gtk_widget_show_all (dialog->priv->cleanup_frame);
 
     /* Window should not be resizable */
-    gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
+    gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
 
-    gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Cancel"), GTK_RESPONSE_CANCEL);
-    gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Apply"), GTK_RESPONSE_OK);
+    button = xfce_gtk_button_new_mixed ("gtk-cancel", _("_Cancel"));
+    gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_CANCEL);
+    gtk_widget_show (button);
+    button = xfce_gtk_button_new_mixed ("gtk-apply", _("_Apply"));
+    gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
+    gtk_widget_show (button);
 }
 
 static void

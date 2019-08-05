@@ -20,7 +20,7 @@
 #ifndef __RISTRETTO_PREFERENCES_DIALOG_H__
 #define __RISTRETTO_PREFERENCES_DIALOG_H__
 
-#include <libxfce4ui/libxfce4ui.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
