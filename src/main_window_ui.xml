@@ -11,6 +11,7 @@
             -->
             <separator/>
             <menuitem action="properties"/>
+            <separator/>
             <menuitem action="close"/>
             <menuitem action="quit"/>
         </menu>
@@ -27,6 +28,7 @@
             <menuitem action="delete"/>
             <separator/>
             <menuitem action="clear-private-data"/>
+            <separator/>
             <menuitem action="preferences"/>
         </menu>
         <menu action="view-menu">
@@ -65,6 +67,7 @@
             </menu>
             <separator/>
             <menuitem action="fullscreen"/>
+            <separator/>
             <menuitem action="set-as-wallpaper"/>
         </menu>
         <menu action="go-menu">
