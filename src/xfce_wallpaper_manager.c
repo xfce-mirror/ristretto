@@ -167,7 +167,7 @@ rstto_xfce_wallpaper_manager_check_running (RsttoWallpaperManager *self)
     gint xscreen = 0;
     Display *gdk_display = gdk_x11_get_default_xdisplay ();
 
-    g_snprintf(selection_name, 100, XFDESKTOP_SELECTION_FMT, xscreen);
+    g_snprintf (selection_name, 100, XFDESKTOP_SELECTION_FMT, xscreen);
 
     xfce_selection_atom = XInternAtom (gdk_display, selection_name, False);
     if ((XGetSelectionOwner (gdk_display, xfce_selection_atom)))
@@ -183,73 +183,56 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoFile *file)
     RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (self);
 
     const gchar *uri = rstto_file_get_path (file);
+    GdkDisplay *display = gdk_display_get_default ();
+    GdkScreen *gdk_screen = gdk_display_get_default_screen (display);
+    const gint workspace_nr = rstto_get_active_workspace_number (gdk_screen);
+    const gchar *monitor_name = gdk_monitor_get_model (gdk_display_get_monitor (display, manager->priv->monitor));
 
-    GdkDisplay *display;
-    GdkScreen *gdk_screen;
-    gint workspace_nr;
-    gchar *monitor_name;
     gchar *image_path_prop;
     gchar *image_style_prop;
-
-    display = gdk_display_get_default ();
-    gdk_screen = gdk_display_get_default_screen (display);
-
-    workspace_nr = rstto_get_active_workspace_number (gdk_screen);
-
-    monitor_name = gdk_monitor_get_model (
-            gdk_display_get_monitor (display, manager->priv->monitor));
+    gchar *monitor_prop;
+    GHashTable *props;
 
     /* New properties since xfdesktop >= 4.11 */
     if (monitor_name)
     {
-        image_path_prop = g_strdup_printf (
-                "/backdrop/screen%d/monitor%s/workspace%d/last-image",
-                manager->priv->screen,
-                monitor_name,
-                workspace_nr);
+        image_path_prop = g_strdup_printf ("/backdrop/screen%d/monitor%s/workspace%d/last-image",
+                                           manager->priv->screen, monitor_name, workspace_nr);
+        image_style_prop = g_strdup_printf ("/backdrop/screen%d/monitor%s/workspace%d/image-style",
+                                            manager->priv->screen, monitor_name, workspace_nr);
 
-        image_style_prop = g_strdup_printf (
-                "/backdrop/screen%d/monitor%s/workspace%d/image-style",
-                manager->priv->screen,
-                monitor_name,
-                workspace_nr);
+        xfconf_channel_set_string (manager->priv->channel, image_path_prop, uri);
+        xfconf_channel_set_int (manager->priv->channel, image_style_prop, manager->priv->style);
+
+        g_free (image_path_prop);
+        g_free (image_style_prop);
     }
-    else
+
+    /* Support for xfdesktop < 4.13 (gtk2) */
+    monitor_prop = g_strdup_printf ("/backdrop/screen%d/monitor%d",
+                                    manager->priv->screen, manager->priv->monitor);
+    if ((props = xfconf_channel_get_properties (manager->priv->channel, monitor_prop)) != NULL)
     {
-        /* gdk_screen_get_monitor_plug_name can return NULL */
-        image_path_prop = g_strdup_printf (
-                "/backdrop/screen%d/monitor%d/workspace%d/last-image",
-                manager->priv->screen,
-                manager->priv->monitor,
-                workspace_nr);
+        image_path_prop = g_strdup_printf ("/backdrop/screen%d/monitor%d/workspace%d/last-image",
+                                           manager->priv->screen, manager->priv->monitor, workspace_nr);
+        image_style_prop = g_strdup_printf ("/backdrop/screen%d/monitor%d/workspace%d/image-style",
+                                            manager->priv->screen, manager->priv->monitor, workspace_nr);
 
-        image_style_prop = g_strdup_printf (
-                "/backdrop/screen%d/monitor%d/workspace%d/image-style",
-                manager->priv->screen,
-                manager->priv->monitor,
-                workspace_nr);
+        xfconf_channel_set_string (manager->priv->channel, image_path_prop, uri);
+        xfconf_channel_set_int (manager->priv->channel, image_style_prop, manager->priv->style);
+
+        g_free (image_path_prop);
+        g_free (image_style_prop);
+        g_hash_table_unref (props);
     }
 
-    xfconf_channel_set_string (
-            manager->priv->channel,
-            image_path_prop,
-            uri);
     /* Don't force to add 'single-workspace-mode' property */
-    if (xfconf_channel_has_property (manager->priv->channel,
-            SINGLE_WORKSPACE_MODE))
+    if (xfconf_channel_has_property (manager->priv->channel, SINGLE_WORKSPACE_MODE))
     {
-        xfconf_channel_set_bool (
-                manager->priv->channel,
-                SINGLE_WORKSPACE_MODE,
-                manager->priv->workspace_mode);
+        xfconf_channel_set_bool (manager->priv->channel, SINGLE_WORKSPACE_MODE, manager->priv->workspace_mode);
     }
-    xfconf_channel_set_int (
-            manager->priv->channel,
-            image_style_prop,
-            manager->priv->style);
 
-    g_free (image_path_prop);
-    g_free (image_style_prop);
+    g_free (monitor_prop);
 
     return FALSE;
 }
