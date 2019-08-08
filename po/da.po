@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2019-07-13 00:31+0200\n"
-"PO-Revision-Date: 2019-07-17 00:42+0000\n"
+"POT-Creation-Date: 2019-07-27 18:31+0200\n"
+"PO-Revision-Date: 2019-08-06 21:57+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -48,517 +48,517 @@ msgstr "%s: %s\n\nPrøv %s --help for at se en fuld liste af tilgængelige komma
 msgid "Image Viewer"
 msgstr "Billedfremviser"
 
-#: ../src/main_window.c:371
+#: ../src/main_window.c:396
 msgid "_File"
 msgstr "_Fil"
 
 #. Icon-name
-#: ../src/main_window.c:377
+#: ../src/main_window.c:402
 msgid "_Open..."
 msgstr "_Åbn ..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:379
+#: ../src/main_window.c:404
 msgid "Open an image"
 msgstr "Åbn et billede"
 
 #. Icon-name
-#: ../src/main_window.c:383
+#: ../src/main_window.c:408
 msgid "_Save copy..."
 msgstr "_Gem kopi ..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:385
+#: ../src/main_window.c:410
 msgid "Save a copy of the image"
 msgstr "Gem en kopi af billedet"
 
 #. Icon-name
-#: ../src/main_window.c:389
+#: ../src/main_window.c:414
 msgid "_Properties..."
 msgstr "_Egenskaber ..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:391
+#: ../src/main_window.c:416
 msgid "Show file properties"
 msgstr "Vil filegenskaber"
 
 #. Icon-name
-#: ../src/main_window.c:395 ../src/main_window.c:414
+#: ../src/main_window.c:420 ../src/main_window.c:439
 msgid "_Edit"
 msgstr "_Rediger"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:397
+#: ../src/main_window.c:422
 msgid "Edit this image"
 msgstr "Rediger billedet"
 
 #. Icon-name
-#: ../src/main_window.c:401 ../src/preferences_dialog.c:541
-#: ../src/properties_dialog.c:325
+#: ../src/main_window.c:426 ../src/preferences_dialog.c:546
+#: ../src/properties_dialog.c:220
 msgid "_Close"
 msgstr "_Luk"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:403
+#: ../src/main_window.c:428
 msgid "Close this image"
 msgstr "Luk dette billede"
 
 #. Icon-name
-#: ../src/main_window.c:407
+#: ../src/main_window.c:432
 msgid "_Quit"
 msgstr "_Afslut"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:409
+#: ../src/main_window.c:434
 msgid "Quit Ristretto"
 msgstr "Afslut Ristretto"
 
-#: ../src/main_window.c:420
+#: ../src/main_window.c:445
 msgid "_Open with"
 msgstr "_Åbn med"
 
-#: ../src/main_window.c:426
+#: ../src/main_window.c:451
 msgid "_Sort by"
 msgstr "_Sortér efter"
 
 #. Icon-name
-#: ../src/main_window.c:432
+#: ../src/main_window.c:457
 msgid "_Delete"
 msgstr "_Slet"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:434
+#: ../src/main_window.c:459
 msgid "Delete this image from disk"
 msgstr "Slet dette billede fra disken"
 
 #. Icon-name
-#: ../src/main_window.c:438
+#: ../src/main_window.c:463
 msgid "_Clear private data..."
 msgstr "_Ryd private data ..."
 
 #. Icon-name
-#: ../src/main_window.c:444
+#: ../src/main_window.c:469
 msgid "_Preferences..."
 msgstr "_Præferencer ..."
 
-#: ../src/main_window.c:451
+#: ../src/main_window.c:476
 msgid "_View"
 msgstr "_Vis"
 
 #. Icon-name
-#: ../src/main_window.c:457
+#: ../src/main_window.c:482
 msgid "_Fullscreen"
 msgstr "_Fuldskærm"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:459
+#: ../src/main_window.c:484
 msgid "Switch to fullscreen"
 msgstr "Skift til fuldskærmstilstand"
 
 #. Icon-name
-#: ../src/main_window.c:463
+#: ../src/main_window.c:488
 msgid "_Leave Fullscreen"
 msgstr "_Forlad fuldskærm"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:465
+#: ../src/main_window.c:490
 msgid "Leave Fullscreen"
 msgstr "Forlad fuldskærm"
 
 #. Icon-name
-#: ../src/main_window.c:469
+#: ../src/main_window.c:494
 msgid "Set as _Wallpaper..."
 msgstr "_Brug som skrivebordstapet ..."
 
-#: ../src/main_window.c:476
+#: ../src/main_window.c:501
 msgid "_Zoom"
 msgstr "_Zoom"
 
 #. Icon-name
-#: ../src/main_window.c:482
+#: ../src/main_window.c:507
 msgid "Zoom _In"
 msgstr "Zoom _ind"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:484
+#: ../src/main_window.c:509
 msgid "Zoom in"
 msgstr "Zoom ind"
 
 #. Icon-name
-#: ../src/main_window.c:488
+#: ../src/main_window.c:513
 msgid "Zoom _Out"
 msgstr "Zoom _ud"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:490
+#: ../src/main_window.c:515
 msgid "Zoom out"
 msgstr "Zoom ud"
 
 #. Icon-name
-#: ../src/main_window.c:494
+#: ../src/main_window.c:519
 msgid "Zoom _Fit"
 msgstr "_Tilpas zoom"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:496
+#: ../src/main_window.c:521
 msgid "Zoom to fit window"
 msgstr "Tilpas zoom til skærm"
 
 #. Icon-name
-#: ../src/main_window.c:500
+#: ../src/main_window.c:525
 msgid "_Normal Size"
 msgstr "_Normal størrelse"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:502
+#: ../src/main_window.c:527
 msgid "Zoom to 100%"
 msgstr "Zoom til 100%"
 
-#: ../src/main_window.c:507
+#: ../src/main_window.c:532
 msgid "_Rotation"
 msgstr "_Rotering"
 
 #. Icon-name
-#: ../src/main_window.c:513
+#: ../src/main_window.c:538
 msgid "Rotate _Right"
 msgstr "Drej til høj_re"
 
 #. Icon-name
-#: ../src/main_window.c:519
+#: ../src/main_window.c:544
 msgid "Rotate _Left"
 msgstr "Drej til _venstre"
 
-#: ../src/main_window.c:526
+#: ../src/main_window.c:551
 msgid "_Flip"
 msgstr "_Vend"
 
-#: ../src/main_window.c:532
+#: ../src/main_window.c:557
 msgid "Flip _Horizontally"
 msgstr "Vend _vandret"
 
-#: ../src/main_window.c:538
+#: ../src/main_window.c:563
 msgid "Flip _Vertically"
 msgstr "Vend _lodret"
 
-#: ../src/main_window.c:545
+#: ../src/main_window.c:570
 msgid "_Go"
 msgstr "_Gå til"
 
 #. Icon-name
-#: ../src/main_window.c:551
+#: ../src/main_window.c:576
 msgid "_Forward"
 msgstr "_Fremad"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:553
+#: ../src/main_window.c:578
 msgid "Next image"
 msgstr "Næste billede"
 
 #. Icon-name
-#: ../src/main_window.c:557
+#: ../src/main_window.c:582
 msgid "_Back"
 msgstr "_Tilbage"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:559
+#: ../src/main_window.c:584
 msgid "Previous image"
 msgstr "Forrige billede"
 
 #. Icon-name
-#: ../src/main_window.c:563
+#: ../src/main_window.c:588
 msgid "F_irst"
 msgstr "Førs_te"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:565
+#: ../src/main_window.c:590
 msgid "First image"
 msgstr "Første billede"
 
 #. Icon-name
-#: ../src/main_window.c:569
+#: ../src/main_window.c:594
 msgid "_Last"
 msgstr "S_idste"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:571
+#: ../src/main_window.c:596
 msgid "Last image"
 msgstr "Sidste billede"
 
-#: ../src/main_window.c:576
+#: ../src/main_window.c:601
 msgid "_Help"
 msgstr "_Hjælp"
 
 #. Icon-name
-#: ../src/main_window.c:582
+#: ../src/main_window.c:607
 msgid "_Contents"
 msgstr "_Indhold"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:584
+#: ../src/main_window.c:609
 msgid "Display ristretto user manual"
 msgstr "Vis brugermanualen til Ristretto"
 
 #. Icon-name
-#: ../src/main_window.c:588
+#: ../src/main_window.c:613
 msgid "_About"
 msgstr "_Om"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:590
+#: ../src/main_window.c:615
 msgid "Display information about ristretto"
 msgstr "Vis informationer om Ristretto"
 
-#: ../src/main_window.c:595
+#: ../src/main_window.c:620
 msgid "_Position"
 msgstr "_Placering"
 
-#: ../src/main_window.c:601
+#: ../src/main_window.c:626
 msgid "_Size"
 msgstr "_Størrelse"
 
-#: ../src/main_window.c:607
+#: ../src/main_window.c:632
 msgid "Thumbnail Bar _Position"
 msgstr "_Placering af miniaturelinje"
 
-#: ../src/main_window.c:613
+#: ../src/main_window.c:638
 msgid "Thumb_nail Size"
 msgstr "S_tørrelse på miniature"
 
 #. Icon-name
-#: ../src/main_window.c:620
+#: ../src/main_window.c:645
 msgid "Leave _Fullscreen"
 msgstr "Forlad f_uldskærm"
 
 #. Icon-name
-#: ../src/main_window.c:638
+#: ../src/main_window.c:663
 msgid "_Show Toolbar"
 msgstr "Vis _værktøjslinje"
 
 #. Icon-name
-#: ../src/main_window.c:646
+#: ../src/main_window.c:671
 msgid "Show _Thumbnail Bar"
 msgstr "Vis _miniaturelinje"
 
 #. Icon-name
-#: ../src/main_window.c:654
+#: ../src/main_window.c:679
 msgid "Show Status _Bar"
 msgstr "Vis _statuslinje"
 
 #. Icon-name
-#: ../src/main_window.c:666
+#: ../src/main_window.c:691
 msgid "file name"
 msgstr "filnavn"
 
 #. Icon-name
-#: ../src/main_window.c:672
+#: ../src/main_window.c:697
 msgid "file type"
 msgstr "filtype"
 
 #. Icon-name
-#: ../src/main_window.c:678
+#: ../src/main_window.c:703
 msgid "date"
 msgstr "dato"
 
 #. Icon-name
-#: ../src/main_window.c:689
+#: ../src/main_window.c:714
 msgid "Left"
 msgstr "Venstre"
 
-#: ../src/main_window.c:695
+#: ../src/main_window.c:720
 msgid "Right"
 msgstr "Højre"
 
-#: ../src/main_window.c:701
+#: ../src/main_window.c:726
 msgid "Top"
 msgstr "Øverst"
 
-#: ../src/main_window.c:707
+#: ../src/main_window.c:732
 msgid "Bottom"
 msgstr "Nederst"
 
-#: ../src/main_window.c:718
+#: ../src/main_window.c:743
 msgid "Very Small"
 msgstr "Meget lille"
 
-#: ../src/main_window.c:724
+#: ../src/main_window.c:749
 msgid "Smaller"
 msgstr "Mindre"
 
-#: ../src/main_window.c:730
+#: ../src/main_window.c:755
 msgid "Small"
 msgstr "Lille"
 
-#: ../src/main_window.c:736
+#: ../src/main_window.c:761
 msgid "Normal"
 msgstr "Normal"
 
-#: ../src/main_window.c:742
+#: ../src/main_window.c:767
 msgid "Large"
 msgstr "Stor"
 
-#: ../src/main_window.c:748
+#: ../src/main_window.c:773
 msgid "Larger"
 msgstr "Større"
 
-#: ../src/main_window.c:754
+#: ../src/main_window.c:779
 msgid "Very Large"
 msgstr "Meget stor"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:909
+#: ../src/main_window.c:934
 msgid "_Play"
 msgstr "_Afspil"
 
-#: ../src/main_window.c:909
+#: ../src/main_window.c:934
 msgid "Play slideshow"
 msgstr "Afspil et diasshow"
 
-#: ../src/main_window.c:910
+#: ../src/main_window.c:935
 msgid "_Pause"
 msgstr "_Pause"
 
-#: ../src/main_window.c:910
+#: ../src/main_window.c:935
 msgid "Pause slideshow"
 msgstr "Pause diasshow"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:913
+#: ../src/main_window.c:938
 msgid "_Recently used"
 msgstr "_Senest brugte"
 
-#: ../src/main_window.c:913
+#: ../src/main_window.c:938
 msgid "Recently used"
 msgstr "Senest brugte"
 
-#: ../src/main_window.c:1017 ../src/main_window.c:1604
+#: ../src/main_window.c:1044 ../src/main_window.c:1633
 msgid "Press open to select an image"
 msgstr "Tryk åbn for at vælge et billede"
 
-#: ../src/main_window.c:1453 ../src/main_window.c:1457
+#: ../src/main_window.c:1482 ../src/main_window.c:1486
 msgid "Open With Other _Application..."
 msgstr "Åbn med et andet _program ..."
 
-#: ../src/main_window.c:1478 ../src/main_window.c:1484
+#: ../src/main_window.c:1507 ../src/main_window.c:1513
 msgid "Empty"
 msgstr "Tom"
 
-#: ../src/main_window.c:1614
+#: ../src/main_window.c:1643
 msgid "Loading..."
 msgstr "Indlæser ..."
 
-#: ../src/main_window.c:2221
+#: ../src/main_window.c:2198
 msgid "Choose 'set wallpaper' method"
 msgstr "Vælg \"sæt skrivebordstapet\"-metode"
 
-#: ../src/main_window.c:2224 ../src/main_window.c:4032
-#: ../src/xfce_wallpaper_manager.c:434 ../src/gnome_wallpaper_manager.c:241
+#: ../src/main_window.c:2201 ../src/main_window.c:4012
+#: ../src/xfce_wallpaper_manager.c:431 ../src/gnome_wallpaper_manager.c:241
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/main_window.c:2226 ../src/main_window.c:3161
-#: ../src/main_window.c:3395 ../src/main_window.c:4030
-#: ../src/privacy_dialog.c:180 ../src/xfce_wallpaper_manager.c:430
+#: ../src/main_window.c:2203 ../src/main_window.c:3141
+#: ../src/main_window.c:3375 ../src/main_window.c:4010
+#: ../src/privacy_dialog.c:179 ../src/xfce_wallpaper_manager.c:427
 #: ../src/gnome_wallpaper_manager.c:237
 msgid "_Cancel"
 msgstr "_Annuller"
 
-#: ../src/main_window.c:2236 ../src/preferences_dialog.c:462
+#: ../src/main_window.c:2213 ../src/preferences_dialog.c:465
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Indstil hvilket system der på nuværende tidspunkt håndterer dit skrivebord.\nDenne indstilling bestemmer den metode <i>Ristretto</i> vil bruge\ntil at indstille skrivebordstapetet."
 
-#: ../src/main_window.c:2261 ../src/preferences_dialog.c:486
+#: ../src/main_window.c:2240 ../src/preferences_dialog.c:491
 msgid "None"
 msgstr "Intet"
 
-#: ../src/main_window.c:2265 ../src/preferences_dialog.c:490
+#: ../src/main_window.c:2244 ../src/preferences_dialog.c:495
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2269 ../src/preferences_dialog.c:494
+#: ../src/main_window.c:2248 ../src/preferences_dialog.c:499
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2722
+#: ../src/main_window.c:2701
 msgid "Developer:"
 msgstr "Udvikler:"
 
-#: ../src/main_window.c:2731 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2710 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto er en billedfremviser til Xfce-skrivebordsmiljøet."
 
-#: ../src/main_window.c:2739
+#: ../src/main_window.c:2718
 msgid "translator-credits"
 msgstr "Per Kongstad\n\nDansk-gruppen\nWebsted http://dansk-gruppen.dk\nE-mail <dansk@dansk-gruppen.dk>"
 
-#: ../src/main_window.c:3158
+#: ../src/main_window.c:3138
 msgid "Open image"
 msgstr "Åbn billede"
 
-#: ../src/main_window.c:3162
+#: ../src/main_window.c:3142
 msgid "_Open"
 msgstr "_Åbn"
 
-#: ../src/main_window.c:3179
+#: ../src/main_window.c:3159
 msgid "Images"
 msgstr "Billeder"
 
-#: ../src/main_window.c:3184
+#: ../src/main_window.c:3164
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3211 ../src/main_window.c:3353
+#: ../src/main_window.c:3191 ../src/main_window.c:3333
 msgid "Could not open file"
 msgstr "Kunne ikke åbne fil"
 
-#: ../src/main_window.c:3392
+#: ../src/main_window.c:3372
 msgid "Save copy"
 msgstr "Gem kopi"
 
-#: ../src/main_window.c:3396
+#: ../src/main_window.c:3376
 msgid "_Save"
 msgstr "_Gem"
 
-#: ../src/main_window.c:3425
+#: ../src/main_window.c:3405
 msgid "Could not save file"
 msgstr "Kunne ikke gemme fil"
 
-#: ../src/main_window.c:3595
+#: ../src/main_window.c:3575
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Er du sikker på, at du vil sende billedet '%s' i papirkurven?"
 
-#: ../src/main_window.c:3599
+#: ../src/main_window.c:3579
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Er du sikker på, at du vil slette billedet '%s' fra disken?"
 
-#: ../src/main_window.c:3610
+#: ../src/main_window.c:3590
 msgid "_Do not ask again for this session"
 msgstr "_Spørg ikke igen i denne session"
 
-#: ../src/main_window.c:3687
+#: ../src/main_window.c:3667
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -566,7 +566,7 @@ msgid ""
 "%s"
 msgstr "Der opstod en fejl under sletning af billede '%s' fra disken.\n\n%s"
 
-#: ../src/main_window.c:3691
+#: ../src/main_window.c:3671
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -574,84 +574,92 @@ msgid ""
 "%s"
 msgstr "Der opstod en fejl under overførsel af billede '%s' til papirkurven.\n\n%s"
 
-#: ../src/main_window.c:4027
+#: ../src/main_window.c:4007
 msgid "Edit with"
 msgstr "Rediger med"
 
-#: ../src/main_window.c:4045
+#: ../src/main_window.c:4025
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Åbn %s og andre filer af typen %s med:"
 
-#: ../src/main_window.c:4051
+#: ../src/main_window.c:4031
 msgid "Use as _default for this kind of file"
 msgstr "Brug som _standard til denne type fil"
 
-#: ../src/main_window.c:4141
+#: ../src/main_window.c:4121
 msgid "Recommended Applications"
 msgstr "Anbefalede programmer"
 
-#: ../src/main_window.c:4221
+#: ../src/main_window.c:4201
 msgid "Other Applications"
 msgstr "Andre programmer"
 
-#: ../src/icon_bar.c:345
+#: ../src/icon_bar.c:351
 msgid "Orientation"
 msgstr "Orientering"
 
-#: ../src/icon_bar.c:346
+#: ../src/icon_bar.c:352
 msgid "The orientation of the iconbar"
 msgstr "Orienteringen af ikonlinjen"
 
-#: ../src/icon_bar.c:362
+#: ../src/icon_bar.c:368
 msgid "File column"
 msgstr "Filkolonne"
 
-#: ../src/icon_bar.c:363
+#: ../src/icon_bar.c:369
 msgid "Model column used to retrieve the file from"
 msgstr "Standardkolonne som bruges til at tage filen fra"
 
-#: ../src/icon_bar.c:375
+#: ../src/icon_bar.c:381
 msgid "Icon Bar Model"
 msgstr "Ikonlinjemodel"
 
-#: ../src/icon_bar.c:376
+#: ../src/icon_bar.c:382
 msgid "Model for the icon bar"
 msgstr "Model for ikonlinjen"
 
-#: ../src/icon_bar.c:392
+#: ../src/icon_bar.c:398
 msgid "Active"
 msgstr "Aktiv"
 
-#: ../src/icon_bar.c:393
+#: ../src/icon_bar.c:399
 msgid "Active item index"
 msgstr "Indeks for aktive element"
 
-#: ../src/icon_bar.c:409 ../src/icon_bar.c:410
+#: ../src/icon_bar.c:415 ../src/icon_bar.c:416
 msgid "Show Text"
 msgstr "Vis tekst"
 
-#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+#: ../src/icon_bar.c:428
+msgid "Scrolled window"
+msgstr "Rullet vindue"
+
+#: ../src/icon_bar.c:429
+msgid "Scrolled window icon bar is placed into"
+msgstr "Rullet vindue som ikonlinje placeres i"
+
+#: ../src/icon_bar.c:435 ../src/icon_bar.c:436
 msgid "Active item fill color"
 msgstr "Udfyldningsfarve for aktive element"
 
-#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+#: ../src/icon_bar.c:442 ../src/icon_bar.c:443
 msgid "Active item border color"
 msgstr "Kantfarve for aktive element"
 
-#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+#: ../src/icon_bar.c:449 ../src/icon_bar.c:450
 msgid "Active item text color"
 msgstr "Tekstfarve for aktive element"
 
-#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+#: ../src/icon_bar.c:456 ../src/icon_bar.c:457
 msgid "Cursor item fill color"
 msgstr "Udfyldningsfarve for markørelement"
 
-#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+#: ../src/icon_bar.c:463 ../src/icon_bar.c:464
 msgid "Cursor item border color"
 msgstr "Kantfarve for markørelement"
 
-#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+#: ../src/icon_bar.c:470 ../src/icon_bar.c:471
 msgid "Cursor item text color"
 msgstr "Tekstfarve for markørelement"
 
@@ -659,36 +667,36 @@ msgstr "Tekstfarve for markørelement"
 msgid "Time range to clear:"
 msgstr "Tidsinterval der skal ryddes:"
 
-#: ../src/privacy_dialog.c:154
+#: ../src/privacy_dialog.c:153
 msgid "Cleanup"
 msgstr "Oprydning"
 
-#: ../src/privacy_dialog.c:156
+#: ../src/privacy_dialog.c:155
 msgid "Last Hour"
 msgstr "Sidste time"
 
-#: ../src/privacy_dialog.c:157
+#: ../src/privacy_dialog.c:156
 msgid "Last Two Hours"
 msgstr "Sidste 2 timer"
 
-#: ../src/privacy_dialog.c:158
+#: ../src/privacy_dialog.c:157
 msgid "Last Four Hours"
 msgstr "Sidste 4 timer"
 
-#: ../src/privacy_dialog.c:159
+#: ../src/privacy_dialog.c:158
 msgid "Today"
 msgstr "I dag"
 
-#: ../src/privacy_dialog.c:160
+#: ../src/privacy_dialog.c:159
 msgid "Everything"
 msgstr "Alt"
 
-#: ../src/privacy_dialog.c:181 ../src/xfce_wallpaper_manager.c:432
+#: ../src/privacy_dialog.c:180 ../src/xfce_wallpaper_manager.c:429
 #: ../src/gnome_wallpaper_manager.c:239
 msgid "_Apply"
 msgstr "_Anvend"
 
-#: ../src/privacy_dialog.c:469
+#: ../src/privacy_dialog.c:468
 msgid "Clear private data"
 msgstr "Slet private data"
 
@@ -714,136 +722,136 @@ msgid ""
 "screen-size."
 msgstr "Når denne valgmulighed er aktiveret, begrænses den maksimale billedkvalitet til skærmstørrelsen."
 
-#: ../src/preferences_dialog.c:319
+#: ../src/preferences_dialog.c:320
 msgid "Limit rendering quality"
 msgstr "Begræns gengivelseskvalitet"
 
-#: ../src/preferences_dialog.c:331
+#: ../src/preferences_dialog.c:332
 msgid "Fullscreen"
 msgstr "Fuldskærm"
 
-#: ../src/preferences_dialog.c:336
+#: ../src/preferences_dialog.c:337
 msgid "Thumbnails"
 msgstr "Miniaturer"
 
-#: ../src/preferences_dialog.c:339
+#: ../src/preferences_dialog.c:340
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "Miniaturelinjen kan skjules automatisk når vinduet er i fuldskærm."
 
-#: ../src/preferences_dialog.c:342
+#: ../src/preferences_dialog.c:344
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Skjul miniaturelinje ved fuldskærmstilstand"
 
-#: ../src/preferences_dialog.c:350
+#: ../src/preferences_dialog.c:352
 msgid "Clock"
 msgstr "Ur"
 
-#: ../src/preferences_dialog.c:353
+#: ../src/preferences_dialog.c:355
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "Vis et analogt ur med klokkeslættet når vinduet er i fuldskærm"
 
-#: ../src/preferences_dialog.c:356
+#: ../src/preferences_dialog.c:359
 msgid "Show Fullscreen Clock"
 msgstr "Vis uret i fuldskærm"
 
-#: ../src/preferences_dialog.c:373
+#: ../src/preferences_dialog.c:376
 msgid "Slideshow"
 msgstr "Diasshow"
 
-#: ../src/preferences_dialog.c:377
+#: ../src/preferences_dialog.c:380
 msgid "Timeout"
 msgstr "Tidsudløb"
 
-#: ../src/preferences_dialog.c:380
+#: ../src/preferences_dialog.c:383
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr "Den tid de enkelte billeder bliver vist under et diasshow\n(i sekunder)"
 
-#: ../src/preferences_dialog.c:398
+#: ../src/preferences_dialog.c:401
 msgid "Control"
 msgstr "Styring"
 
-#: ../src/preferences_dialog.c:402
+#: ../src/preferences_dialog.c:405
 msgid "Scroll wheel"
 msgstr "Rullehjul"
 
-#: ../src/preferences_dialog.c:405
+#: ../src/preferences_dialog.c:408
 msgid "Invert zoom direction"
 msgstr "Omvendt zoomretning"
 
-#: ../src/preferences_dialog.c:419
+#: ../src/preferences_dialog.c:422
 msgid "Behaviour"
 msgstr "Opførsel"
 
-#: ../src/preferences_dialog.c:424
+#: ../src/preferences_dialog.c:427
 msgid "Startup"
 msgstr "Opstart"
 
-#: ../src/preferences_dialog.c:426
+#: ../src/preferences_dialog.c:429
 msgid "Maximize window on startup when opening an image"
 msgstr "Maksimer vindue ved opstart når et billede åbnes"
 
-#: ../src/preferences_dialog.c:432
+#: ../src/preferences_dialog.c:435
 msgid "Wrap around images"
 msgstr "Start forfra når sidste billede er nået"
 
-#: ../src/preferences_dialog.c:451
+#: ../src/preferences_dialog.c:454
 msgid "Desktop"
 msgstr "Skrivebord"
 
-#: ../src/preferences_dialog.c:576
+#: ../src/preferences_dialog.c:581
 msgid "Image Viewer Preferences"
 msgstr "Billedfremviser-præferencer"
 
-#: ../src/properties_dialog.c:178
+#: ../src/properties_dialog.c:172
 msgid "<b>Name:</b>"
 msgstr "<b>Navn:</b>"
 
-#: ../src/properties_dialog.c:179
+#: ../src/properties_dialog.c:173
 msgid "<b>Kind:</b>"
 msgstr "<b>Type:</b>"
 
-#: ../src/properties_dialog.c:180
+#: ../src/properties_dialog.c:174
 msgid "<b>Modified:</b>"
 msgstr "<b>Modificeret:</b>"
 
-#: ../src/properties_dialog.c:181
+#: ../src/properties_dialog.c:175
 msgid "<b>Accessed:</b>"
 msgstr "<b>Tilgået:</b>"
 
-#: ../src/properties_dialog.c:182
+#: ../src/properties_dialog.c:176
 msgid "<b>Size:</b>"
 msgstr "<b>Størrelse:</b>"
 
-#: ../src/properties_dialog.c:306
+#: ../src/properties_dialog.c:200
 msgid "General"
 msgstr "Generelt"
 
-#: ../src/properties_dialog.c:310
+#: ../src/properties_dialog.c:206
 msgid "Image"
 msgstr "Billede"
 
-#: ../src/properties_dialog.c:545
+#: ../src/properties_dialog.c:440
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Taget på dato:</b>"
 
-#: ../src/properties_dialog.c:557 ../src/properties_dialog.c:569
-#: ../src/properties_dialog.c:581
+#: ../src/properties_dialog.c:452 ../src/properties_dialog.c:464
+#: ../src/properties_dialog.c:476
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:647
+#: ../src/properties_dialog.c:536
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Egenskaber"
 
-#: ../src/thumbnailer.c:439
+#: ../src/thumbnailer.c:437
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -853,43 +861,43 @@ msgid ""
 "to resolve this issue."
 msgstr "Tjenesten til miniaturer kan ikke kontaktes,\nog derfor kan miniaturer ikke blive\noprettet.\n\nInstaller <b>Tumbler</b> eller en anden <i>miniature-dæmon</i>\nfor at løse dette."
 
-#: ../src/thumbnailer.c:449
+#: ../src/thumbnailer.c:447
 msgid "Do _not show this message again"
 msgstr "Undla_d at vise denne meddelelse igen"
 
-#: ../src/xfce_wallpaper_manager.c:409 ../src/gnome_wallpaper_manager.c:223
+#: ../src/xfce_wallpaper_manager.c:406 ../src/gnome_wallpaper_manager.c:223
 msgid "Style:"
 msgstr "Stil:"
 
-#: ../src/xfce_wallpaper_manager.c:420
+#: ../src/xfce_wallpaper_manager.c:417
 msgid "Apply to all workspaces"
 msgstr "Anvend på alle arbejdsområder"
 
-#: ../src/xfce_wallpaper_manager.c:427 ../src/gnome_wallpaper_manager.c:234
+#: ../src/xfce_wallpaper_manager.c:424 ../src/gnome_wallpaper_manager.c:234
 msgid "Set as wallpaper"
 msgstr "Brug som skrivebordstapet"
 
-#: ../src/xfce_wallpaper_manager.c:495 ../src/gnome_wallpaper_manager.c:301
+#: ../src/xfce_wallpaper_manager.c:484 ../src/gnome_wallpaper_manager.c:292
 msgid "Auto"
 msgstr "Automatisk"
 
-#: ../src/xfce_wallpaper_manager.c:498
+#: ../src/xfce_wallpaper_manager.c:487
 msgid "Centered"
 msgstr "Centreret"
 
-#: ../src/xfce_wallpaper_manager.c:501
+#: ../src/xfce_wallpaper_manager.c:490
 msgid "Tiled"
 msgstr "Fliselagt"
 
-#: ../src/xfce_wallpaper_manager.c:504
+#: ../src/xfce_wallpaper_manager.c:493
 msgid "Stretched"
 msgstr "Strukket"
 
-#: ../src/xfce_wallpaper_manager.c:507
+#: ../src/xfce_wallpaper_manager.c:496
 msgid "Scaled"
 msgstr "Skaleret"
 
-#: ../src/xfce_wallpaper_manager.c:510
+#: ../src/xfce_wallpaper_manager.c:499
 msgid "Zoomed"
 msgstr "Zoomet"
 
