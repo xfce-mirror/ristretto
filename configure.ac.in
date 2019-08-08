@@ -89,7 +89,12 @@ icons/scalable/Makefile
 ])
 
 echo "----------------------------------------"
-echo "$PACKAGE $VERSION"
+echo "Build Configuration for $PACKAGE $VERSION:"
+if test "$libmagic" = "false"; then
+echo "  libmagic support: no"
+else
+echo "  libmagic support: yes"
+fi
 echo ""
 echo "The binary will be installed in $prefix/bin"
 echo "----------------------------------------"
