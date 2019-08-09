@@ -1,3 +1,27 @@
+0.10.0
+=====
+- Fix file permissions for ristretto.png
+- Port to GTK3
+- Resolve or suppress deprecation warnings
+- Add icons to "Close", "Cancel", "Apply", "OK" buttons
+- Resolve "GtkDialog mapped without a transient parent" for set wallpaper
+  dialog
+- Fix the ristretto icon loading size (128, not 256)
+- Fix sensitivity of flip menu
+- Add more separators to the menus
+- Make Preferences dialog prettier
+- Make the privacy dialog prettier
+- Support for setting background image for both gtk2 and gtk3 versions of
+  xfdesktop (bug #14571)
+- configure: print build configuration
+
+* Translation updates:
+  Belarusian (be), Danish (da), German (de), Spanish (es), Basque (eu),
+  Finnish (fi), Hungarian (hu), Armenian (Armenia) (hy_AM), Italian (it),
+  Kazakh (kk), Lithuanian (lt), Norwegian Bokmål (nb), Polish (pl),
+  Portuguese (pt), Portuguese (Brazil) (pt_BR), Russian (ru), Turkish (tr),
+  Chinese (China) (zh_CN), Chinese (Taiwan) (zh_TW)
+
 0.8.5
 =====
 - Fix a few memory leaks
