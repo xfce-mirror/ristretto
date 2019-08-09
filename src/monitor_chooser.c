@@ -70,7 +70,7 @@ rstto_monitor_chooser_size_allocate(GtkWidget *, GtkAllocation *);
 static gboolean 
 rstto_monitor_chooser_draw(GtkWidget *, cairo_t *);
 static gboolean
-rstto_monitor_chooser_paint(GtkWidget *widget);
+rstto_monitor_chooser_paint(GtkWidget *widget, cairo_t *ctx);
 
 static void
 cb_rstto_button_press_event (GtkWidget *, GdkEventButton *event);
@@ -238,15 +238,16 @@ rstto_monitor_chooser_size_allocate(GtkWidget *widget, GtkAllocation *allocation
 static gboolean
 rstto_monitor_chooser_draw(GtkWidget *widget, cairo_t *cr)
 {
-    rstto_monitor_chooser_paint (widget);
+    cairo_save (cr);
+    rstto_monitor_chooser_paint (widget, cr);
+    cairo_restore (cr);
     return FALSE;
 }
 
 static gboolean
-rstto_monitor_chooser_paint(GtkWidget *widget)
+rstto_monitor_chooser_paint(GtkWidget *widget, cairo_t *ctx)
 {
     RsttoMonitorChooser *chooser = RSTTO_MONITOR_CHOOSER (widget);
-    cairo_t *ctx = gdk_cairo_create (gtk_widget_get_window (widget));
     Monitor *monitor;
 
     gdouble width, height;
@@ -382,8 +383,6 @@ rstto_monitor_chooser_paint(GtkWidget *widget)
         }
     }
 
-    cairo_destroy (ctx);
-
     return FALSE;
 }
 
@@ -469,15 +468,11 @@ paint_monitor ( GtkWidget *widget,
     cairo_close_path (cr);
 
     /* Fill the background-color */
-    gdk_cairo_set_source_color (
-            cr,
-            &(gtk_widget_get_style (widget)->base[GTK_STATE_NORMAL]));
+    cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0); // white
     cairo_fill_preserve (cr);
 
     /* Paint the outside border */
-    gdk_cairo_set_source_color (
-            cr,
-            &(gtk_widget_get_style (widget)->fg[GTK_STATE_NORMAL]));
+    cairo_set_source_rgba (cr, 0.231, 0.231, 0.231, 1.0); // dark gray-ish
     cairo_set_line_width (cr, line_width);
     cairo_stroke (cr);
 
@@ -516,13 +511,9 @@ paint_monitor ( GtkWidget *widget,
             monitor_x+(monitor_width-foot_height)/2.0,
             monitor_y+(monitor_height+monitor_border_width+foot_height*0.5));
     cairo_close_path (cr);
-    gdk_cairo_set_source_color (
-            cr,
-            &(gtk_widget_get_style (widget)->base[GTK_STATE_NORMAL]));
+    cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0); // white
     cairo_fill_preserve (cr);
-    gdk_cairo_set_source_color (
-            cr,
-            &(gtk_widget_get_style (widget)->fg[GTK_STATE_NORMAL]));
+    cairo_set_source_rgba (cr, 0.231, 0.231, 0.231, 1.0); // dark gray-ish
     cairo_set_line_width (cr, line_width);
     cairo_stroke (cr);
 
@@ -533,9 +524,7 @@ paint_monitor ( GtkWidget *widget,
     cairo_line_to (cr, monitor_x+monitor_width, monitor_y + monitor_height);
     cairo_line_to (cr, monitor_x, monitor_y + monitor_height);
     cairo_close_path (cr);
-    gdk_cairo_set_source_color (
-            cr,
-            &(gtk_widget_get_style (widget)->fg[GTK_STATE_NORMAL]));
+    cairo_set_source_rgba (cr, 0.231, 0.231, 0.231, 1.0); // dark gray-ish
     cairo_set_line_width (cr, line_width);
     cairo_stroke (cr);
 
@@ -706,7 +695,7 @@ rstto_monitor_chooser_set_image_surface (
     }
     if (gtk_widget_get_realized (GTK_WIDGET (chooser)))
     {
-        rstto_monitor_chooser_paint (GTK_WIDGET (chooser));
+        gtk_widget_queue_draw (GTK_WIDGET (chooser));
     }
 
     return retval;
@@ -769,7 +758,7 @@ cb_rstto_button_press_event (
 
                 g_signal_emit (G_OBJECT (chooser), rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED], 0, NULL);
 
-                rstto_monitor_chooser_paint (widget);
+                gtk_widget_queue_draw (widget);
             }
         }
 
