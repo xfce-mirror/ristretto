@@ -2533,16 +2533,10 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 static gboolean 
 cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotion *event, gpointer user_data)
 {
-    GdkWindow *gdk_window = gtk_widget_get_window (GTK_WIDGET (window));
-    gint width, height;
-
-    if (gdk_window_get_state (gdk_window) & GDK_WINDOW_STATE_FULLSCREEN)
+    if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN)
     {
-        width = gdk_window_get_width (gdk_window);
-        height = gdk_window_get_height (gdk_window);
-
-        /* Give it 2 pixels to accomodate to the mouse pointer thickness */
-        if ((event->x < 2 || event->y < 2) || (event->x >= width-2 || event->y >= height-2))
+        /* Show toolbar when the mouse pointer is moved to the top of the screen */
+        if (event->y < 1)
         {
             if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
             {
@@ -2561,9 +2555,7 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
 }
 
 static gboolean
-cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget,
-                                                GdkEventScroll *event,
-                                                gpointer user_data)
+cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget, GdkEventScroll *event, gpointer user_data)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
     gboolean ret = FALSE;
@@ -2573,10 +2565,9 @@ cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget,
      * - pan across current image with shift+scroll
      * - zoom on current image with ctrl+scroll
      */
-    if (!(event->state & (GDK_CONTROL_MASK)) &&
-        !(event->state & (GDK_SHIFT_MASK)))
+    if (!(event->state & (GDK_CONTROL_MASK)) && !(event->state & (GDK_SHIFT_MASK)))
     {
-        switch(event->direction)
+        switch (event->direction)
         {
             case GDK_SCROLL_UP:
             case GDK_SCROLL_LEFT:
@@ -2593,12 +2584,10 @@ cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget,
 }
 
 static gboolean
-cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget,
-                                                      GdkEventCrossing *event,
-                                                      gpointer user_data)
+cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget, GdkEventCrossing *event, gpointer user_data)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
-    if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET(window))) & GDK_WINDOW_STATE_FULLSCREEN)
+    if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN)
     {
         if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
         {
