@@ -41,6 +41,9 @@ ristretto_CFLAGS = \
 	-DSRCDIR=\"$(top_srcdir)\" \
 	-DLOCALEDIR=\"$(localedir)\"
 
+ristretto_LDFLAGS = \
+	$(LIBX11_LDFLAGS)
+
 ristretto_LDADD = \
 	$(GTK_LIBS) \
 	$(GLIB_LIBS) \
