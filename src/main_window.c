@@ -2771,34 +2771,35 @@ static void
 cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
 {
     const gchar *authors[] = {
-      _("Developer:"),
+      _("Developers:"),
         "Stephan Arts <stephan@xfce.org>",
+        "Igor Zakharov <f2404@yandex.ru>",
         NULL};
 
-    GtkWidget *about_dialog = gtk_about_dialog_new();
+    GtkWidget *about_dialog = gtk_about_dialog_new ();
 
-    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about_dialog), PACKAGE_VERSION);
+    gtk_about_dialog_set_version (GTK_ABOUT_DIALOG (about_dialog), PACKAGE_VERSION);
 
-    gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dialog),
+    gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG (about_dialog),
         _("Ristretto is an image viewer for the Xfce desktop environment."));
-    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(about_dialog),
+    gtk_about_dialog_set_website (GTK_ABOUT_DIALOG (about_dialog),
         "https://docs.xfce.org/apps/ristretto/start");
-    gtk_about_dialog_set_logo_icon_name(GTK_ABOUT_DIALOG(about_dialog),
+    gtk_about_dialog_set_logo_icon_name (GTK_ABOUT_DIALOG (about_dialog),
         "ristretto");
-    gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about_dialog),
+    gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG (about_dialog),
         authors);
-    gtk_about_dialog_set_translator_credits(GTK_ABOUT_DIALOG(about_dialog),
+    gtk_about_dialog_set_translator_credits (GTK_ABOUT_DIALOG (about_dialog),
         _("translator-credits"));
-    gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(about_dialog),
-        xfce_get_license_text(XFCE_LICENSE_TEXT_GPL));
-    gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about_dialog),
+    gtk_about_dialog_set_license (GTK_ABOUT_DIALOG (about_dialog),
+        xfce_get_license_text (XFCE_LICENSE_TEXT_GPL));
+    gtk_about_dialog_set_copyright (GTK_ABOUT_DIALOG (about_dialog),
         "Copyright \302\251 2006-2012 Stephan Arts\n"
         "Copyright \302\251 2013-2019 Xfce Developers");
 
-    gtk_window_set_transient_for(GTK_WINDOW(about_dialog), GTK_WINDOW(window));
-    gtk_dialog_run(GTK_DIALOG(about_dialog));
+    gtk_window_set_transient_for (GTK_WINDOW (about_dialog), GTK_WINDOW (window));
+    gtk_dialog_run (GTK_DIALOG (about_dialog));
 
-    gtk_widget_destroy(about_dialog);
+    gtk_widget_destroy (about_dialog);
 }
 
 /**
