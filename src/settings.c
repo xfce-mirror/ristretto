@@ -48,6 +48,10 @@ rstto_settings_get_property    (GObject    *object,
                                 GValue     *value,
                                 GParamSpec *pspec);
 
+static void
+rstto_xfconf_ensure_gdkrgba (XfconfChannel *channel,
+                             const gchar *property);
+
 static GObjectClass *parent_class = NULL;
 
 static RsttoSettings *settings_object;
@@ -273,11 +277,14 @@ rstto_settings_init (GObject *object)
             settings,
             "bgcolor-override");
 
+    rstto_xfconf_ensure_gdkrgba (settings->priv->channel, "/window/bgcolor");
     xfconf_g_property_bind_gdkrgba (
             settings->priv->channel,
             "/window/bgcolor",
             settings,
             "bgcolor");
+
+    rstto_xfconf_ensure_gdkrgba (settings->priv->channel, "/window/bgcolor-fullscreen");
     xfconf_g_property_bind_gdkrgba (
             settings->priv->channel,
             "/window/bgcolor-fullscreen",
@@ -684,6 +691,36 @@ rstto_settings_finalize (GObject *object)
         accelmap_path = NULL;
     }
     
+}
+
+/**
+ * rstto_xfconf_ensure_gdkrgba:
+ * This method makes sure that the property contains a GdkRGBA value rather than
+ * a GdkColor value, by converting the latter to the former if necessary.
+ */
+static void
+rstto_xfconf_ensure_gdkrgba (XfconfChannel *channel, const gchar *property)
+{
+    guint    rc, gc, bc, ac;
+    gboolean is_gdk_color = xfconf_channel_get_array (channel,
+                                                      property,
+                                                      G_TYPE_UINT, &rc,
+                                                      G_TYPE_UINT, &gc,
+                                                      G_TYPE_UINT, &bc,
+                                                      G_TYPE_UINT, &ac,
+                                                      G_TYPE_INVALID);
+
+    if (is_gdk_color)
+    {
+        GdkRGBA bg = { (gdouble) rc/65535, (gdouble) gc/65535, (gdouble) bc/65535, (gdouble) ac/65535 };
+        xfconf_channel_set_array (channel,
+                                  property,
+                                  G_TYPE_DOUBLE, &bg.red,
+                                  G_TYPE_DOUBLE, &bg.green,
+                                  G_TYPE_DOUBLE, &bg.blue,
+                                  G_TYPE_DOUBLE, &bg.alpha,
+                                  G_TYPE_INVALID);
+    }
 }
 
 
