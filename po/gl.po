@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-08-14 00:31+0200\n"
-"PO-Revision-Date: 2019-08-14 05:53+0000\n"
+"PO-Revision-Date: 2019-08-20 19:44+0000\n"
 "Last-Translator: Daniel Muñiz Fontoira <dani@damufo.com>\n"
 "Language-Team: Galician (http://www.transifex.com/xfce/xfce-apps/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -457,7 +457,7 @@ msgstr "Prema abrir para seleccionar unha imaxe"
 
 #: ../src/main_window.c:1517 ../src/main_window.c:1521
 msgid "Open With Other _Application..."
-msgstr "Abrir con outro _aplicativo..."
+msgstr "Abrir con outra _aplicación..."
 
 #: ../src/main_window.c:1542 ../src/main_window.c:1548
 msgid "Empty"
@@ -591,11 +591,11 @@ msgstr "Usar como pre_determinado para este tipo de ficheiro"
 
 #: ../src/main_window.c:4205
 msgid "Recommended Applications"
-msgstr "Aplicativos recomendados"
+msgstr "Aplicacións recomendadas"
 
 #: ../src/main_window.c:4285
 msgid "Other Applications"
-msgstr "Outros aplicativos"
+msgstr "Outras aplicacións"
 
 #: ../src/icon_bar.c:345
 msgid "Orientation"
@@ -917,4 +917,4 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "O Visor de Imaxes Ristretto é un aplicativo que se pode empregar para ver imaxes, reproducir unha presentación de imaxes, abrir imaxes con outros aplicativos, como un editor de imaxes, ou configurar unha imaxe como fondo de pantalla."
+msgstr "O Visor de Imaxes Ristretto é un aplicativo que se pode empregar para ver imaxes, reproducir unha presentación de imaxes, abrir imaxes con outras aplicacións, como un editor de imaxes, ou configurar unha imaxe como fondo de pantalla."
