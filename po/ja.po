@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, 2016-2017
+# Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, 2016-2017,2019
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2019-04-16 18:32+0200\n"
-"PO-Revision-Date: 2019-04-16 16:32+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"POT-Creation-Date: 2019-08-14 00:31+0200\n"
+"PO-Revision-Date: 2019-08-21 00:49+0000\n"
+"Last-Translator: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>\n"
 "Language-Team: Japanese (http://www.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +34,7 @@ msgstr "スライドショーを開始する"
 msgid "Show settings dialog"
 msgstr "設定ダイアログを表示する"
 
-#: ../src/main.c:108
+#: ../src/main.c:103
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -47,517 +47,517 @@ msgstr "%s: %s\n\n%s --help で使用可能なすべてのコマンドライン\
 msgid "Image Viewer"
 msgstr "画像ビューアー"
 
-#: ../src/main_window.c:369
+#: ../src/main_window.c:396
 msgid "_File"
 msgstr "ファイル(_F)"
 
 #. Icon-name
-#: ../src/main_window.c:375
+#: ../src/main_window.c:402
 msgid "_Open..."
 msgstr "開く(_O)..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:377
+#: ../src/main_window.c:404
 msgid "Open an image"
 msgstr "画像を開きます"
 
 #. Icon-name
-#: ../src/main_window.c:381
+#: ../src/main_window.c:408
 msgid "_Save copy..."
 msgstr "コピーを保存(_S)..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:383
+#: ../src/main_window.c:410
 msgid "Save a copy of the image"
 msgstr "画像のコピーを保存します"
 
 #. Icon-name
-#: ../src/main_window.c:387
+#: ../src/main_window.c:414
 msgid "_Properties..."
 msgstr "プロパティ(_P)..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:389
+#: ../src/main_window.c:416
 msgid "Show file properties"
 msgstr "ファイルのプロパティを表示します"
 
 #. Icon-name
-#: ../src/main_window.c:393 ../src/main_window.c:412
+#: ../src/main_window.c:420 ../src/main_window.c:439
 msgid "_Edit"
 msgstr "編集(_E)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:395
+#: ../src/main_window.c:422
 msgid "Edit this image"
 msgstr "この画像を編集します"
 
 #. Icon-name
-#: ../src/main_window.c:399 ../src/preferences_dialog.c:541
-#: ../src/properties_dialog.c:325
+#: ../src/main_window.c:426 ../src/preferences_dialog.c:246
+#: ../src/properties_dialog.c:138
 msgid "_Close"
 msgstr "閉じる(_C)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:401
+#: ../src/main_window.c:428
 msgid "Close this image"
 msgstr "画像を閉じます"
 
 #. Icon-name
-#: ../src/main_window.c:405
+#: ../src/main_window.c:432
 msgid "_Quit"
 msgstr "終了(_Q)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:407
+#: ../src/main_window.c:434
 msgid "Quit Ristretto"
 msgstr "Ristretto を終了します"
 
-#: ../src/main_window.c:418
+#: ../src/main_window.c:445
 msgid "_Open with"
 msgstr "アプリケーションで開く(_O)"
 
-#: ../src/main_window.c:424
-msgid "_Sorting"
-msgstr "並び替え(_S)"
+#: ../src/main_window.c:451
+msgid "_Sort by"
+msgstr ""
 
 #. Icon-name
-#: ../src/main_window.c:430
+#: ../src/main_window.c:457
 msgid "_Delete"
 msgstr "削除(_D)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:432
+#: ../src/main_window.c:459
 msgid "Delete this image from disk"
 msgstr "この画像をディスクから削除します"
 
 #. Icon-name
-#: ../src/main_window.c:436
+#: ../src/main_window.c:463
 msgid "_Clear private data..."
 msgstr "プライベートデータのクリア(_C)..."
 
 #. Icon-name
-#: ../src/main_window.c:442
+#: ../src/main_window.c:469
 msgid "_Preferences..."
 msgstr "設定(_P)..."
 
-#: ../src/main_window.c:449
+#: ../src/main_window.c:476
 msgid "_View"
 msgstr "表示(_V)"
 
 #. Icon-name
-#: ../src/main_window.c:455
+#: ../src/main_window.c:482
 msgid "_Fullscreen"
 msgstr "全画面化(_F)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:457
+#: ../src/main_window.c:484
 msgid "Switch to fullscreen"
 msgstr "フルスクリーンモードに切り替えます"
 
 #. Icon-name
-#: ../src/main_window.c:461
+#: ../src/main_window.c:488
 msgid "_Leave Fullscreen"
 msgstr "元に戻す(_L)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:463
+#: ../src/main_window.c:490
 msgid "Leave Fullscreen"
 msgstr "フルスクリーンモードを解除します"
 
 #. Icon-name
-#: ../src/main_window.c:467
+#: ../src/main_window.c:494
 msgid "Set as _Wallpaper..."
 msgstr "壁紙に設定(_W)..."
 
-#: ../src/main_window.c:474
+#: ../src/main_window.c:501
 msgid "_Zoom"
 msgstr "拡大/縮小(_Z)"
 
 #. Icon-name
-#: ../src/main_window.c:480
+#: ../src/main_window.c:507
 msgid "Zoom _In"
 msgstr "拡大(_I)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:482
+#: ../src/main_window.c:509
 msgid "Zoom in"
 msgstr "画像を拡大表示します"
 
 #. Icon-name
-#: ../src/main_window.c:486
+#: ../src/main_window.c:513
 msgid "Zoom _Out"
 msgstr "縮小(_O)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:488
+#: ../src/main_window.c:515
 msgid "Zoom out"
 msgstr "画像を縮小表示します"
 
 #. Icon-name
-#: ../src/main_window.c:492
+#: ../src/main_window.c:519
 msgid "Zoom _Fit"
 msgstr "ウィンドウに合わせる(_F)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:494
+#: ../src/main_window.c:521
 msgid "Zoom to fit window"
 msgstr "表示サイズをウィンドウの大きさに合わせます"
 
 #. Icon-name
-#: ../src/main_window.c:498
+#: ../src/main_window.c:525
 msgid "_Normal Size"
 msgstr "標準サイズ(_N)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:500
+#: ../src/main_window.c:527
 msgid "Zoom to 100%"
 msgstr "ズーム率 100% で表示します"
 
-#: ../src/main_window.c:505
+#: ../src/main_window.c:532
 msgid "_Rotation"
 msgstr "回転(_R)"
 
 #. Icon-name
-#: ../src/main_window.c:511
+#: ../src/main_window.c:538
 msgid "Rotate _Right"
 msgstr "右回転(_R)"
 
 #. Icon-name
-#: ../src/main_window.c:517
+#: ../src/main_window.c:544
 msgid "Rotate _Left"
 msgstr "左回転(_L)"
 
-#: ../src/main_window.c:524
+#: ../src/main_window.c:551
 msgid "_Flip"
 msgstr "反転(_F)"
 
-#: ../src/main_window.c:530
+#: ../src/main_window.c:557
 msgid "Flip _Horizontally"
 msgstr "水平方向に反転(_H)"
 
-#: ../src/main_window.c:536
+#: ../src/main_window.c:563
 msgid "Flip _Vertically"
 msgstr "垂直方向に反転(_V)"
 
-#: ../src/main_window.c:543
+#: ../src/main_window.c:570
 msgid "_Go"
 msgstr "移動(_G)"
 
 #. Icon-name
-#: ../src/main_window.c:549
+#: ../src/main_window.c:576
 msgid "_Forward"
 msgstr "進む(_F)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:551
+#: ../src/main_window.c:578
 msgid "Next image"
 msgstr "次の画像を開きます"
 
 #. Icon-name
-#: ../src/main_window.c:555
+#: ../src/main_window.c:582
 msgid "_Back"
 msgstr "戻る(_B)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:557
+#: ../src/main_window.c:584
 msgid "Previous image"
 msgstr "前の画像に戻ります"
 
 #. Icon-name
-#: ../src/main_window.c:561
+#: ../src/main_window.c:588
 msgid "F_irst"
 msgstr "先頭(_I)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:563
+#: ../src/main_window.c:590
 msgid "First image"
 msgstr "最初の画像に切り替えます"
 
 #. Icon-name
-#: ../src/main_window.c:567
+#: ../src/main_window.c:594
 msgid "_Last"
 msgstr "最後(_L)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:569
+#: ../src/main_window.c:596
 msgid "Last image"
 msgstr "最後の画像を開きます"
 
-#: ../src/main_window.c:574
+#: ../src/main_window.c:601
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
 #. Icon-name
-#: ../src/main_window.c:580
+#: ../src/main_window.c:607
 msgid "_Contents"
 msgstr "目次(_C)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:582
+#: ../src/main_window.c:609
 msgid "Display ristretto user manual"
 msgstr "Ristretto ユーザーマニュアルを表示します"
 
 #. Icon-name
-#: ../src/main_window.c:586
+#: ../src/main_window.c:613
 msgid "_About"
 msgstr "情報(_A)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:588
+#: ../src/main_window.c:615
 msgid "Display information about ristretto"
 msgstr "Ristretto についての情報を表示します"
 
-#: ../src/main_window.c:593
+#: ../src/main_window.c:620
 msgid "_Position"
 msgstr "位置(_P)"
 
-#: ../src/main_window.c:599
+#: ../src/main_window.c:626
 msgid "_Size"
 msgstr "大きさ(_S)"
 
-#: ../src/main_window.c:605
+#: ../src/main_window.c:632
 msgid "Thumbnail Bar _Position"
 msgstr "サムネイルバーの位置(_P)"
 
-#: ../src/main_window.c:611
+#: ../src/main_window.c:638
 msgid "Thumb_nail Size"
 msgstr "サムネイルの大きさ(_N)"
 
 #. Icon-name
-#: ../src/main_window.c:618
+#: ../src/main_window.c:645
 msgid "Leave _Fullscreen"
 msgstr "元に戻す(_F)"
 
 #. Icon-name
-#: ../src/main_window.c:636
+#: ../src/main_window.c:663
 msgid "_Show Toolbar"
 msgstr "ツールバー(_S)"
 
 #. Icon-name
-#: ../src/main_window.c:644
+#: ../src/main_window.c:671
 msgid "Show _Thumbnail Bar"
 msgstr "サムネイルバー(_T)"
 
 #. Icon-name
-#: ../src/main_window.c:652
+#: ../src/main_window.c:679
 msgid "Show Status _Bar"
 msgstr "ステータスバー(_B)"
 
 #. Icon-name
-#: ../src/main_window.c:664
-msgid "sort by filename"
-msgstr "ファイル名順"
+#: ../src/main_window.c:691
+msgid "file name"
+msgstr "ファイル名"
 
 #. Icon-name
-#: ../src/main_window.c:670
-msgid "sort by filetype"
-msgstr "ファイルタイプ順"
+#: ../src/main_window.c:697
+msgid "file type"
+msgstr "ファイルタイプ"
 
 #. Icon-name
-#: ../src/main_window.c:676
-msgid "sort by date"
-msgstr "日付順"
+#: ../src/main_window.c:703
+msgid "date"
+msgstr "日付"
 
 #. Icon-name
-#: ../src/main_window.c:687
+#: ../src/main_window.c:714
 msgid "Left"
 msgstr "左"
 
-#: ../src/main_window.c:693
+#: ../src/main_window.c:720
 msgid "Right"
 msgstr "右"
 
-#: ../src/main_window.c:699
+#: ../src/main_window.c:726
 msgid "Top"
 msgstr "上"
 
-#: ../src/main_window.c:705
+#: ../src/main_window.c:732
 msgid "Bottom"
 msgstr "下"
 
-#: ../src/main_window.c:716
+#: ../src/main_window.c:743
 msgid "Very Small"
 msgstr "とても小さい"
 
-#: ../src/main_window.c:722
+#: ../src/main_window.c:749
 msgid "Smaller"
 msgstr "小さい"
 
-#: ../src/main_window.c:728
+#: ../src/main_window.c:755
 msgid "Small"
 msgstr "少し小さい"
 
-#: ../src/main_window.c:734
+#: ../src/main_window.c:761
 msgid "Normal"
 msgstr "普通"
 
-#: ../src/main_window.c:740
+#: ../src/main_window.c:767
 msgid "Large"
 msgstr "少し大きい"
 
-#: ../src/main_window.c:746
+#: ../src/main_window.c:773
 msgid "Larger"
 msgstr "大きい"
 
-#: ../src/main_window.c:752
+#: ../src/main_window.c:779
 msgid "Very Large"
 msgstr "とても大きい"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:907
+#: ../src/main_window.c:936
 msgid "_Play"
 msgstr "再生(_P)"
 
-#: ../src/main_window.c:907
+#: ../src/main_window.c:936
 msgid "Play slideshow"
 msgstr "スライドショーを開始します"
 
-#: ../src/main_window.c:908
+#: ../src/main_window.c:937
 msgid "_Pause"
 msgstr "一時停止(_P)"
 
-#: ../src/main_window.c:908
+#: ../src/main_window.c:937
 msgid "Pause slideshow"
 msgstr "スライドショーを一時停止します"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:911
+#: ../src/main_window.c:940
 msgid "_Recently used"
 msgstr "最近開いたファイル(_R)"
 
-#: ../src/main_window.c:911
+#: ../src/main_window.c:940
 msgid "Recently used"
 msgstr "最近開いたファイル"
 
-#: ../src/main_window.c:1015 ../src/main_window.c:1595
+#: ../src/main_window.c:1052 ../src/main_window.c:1668
 msgid "Press open to select an image"
 msgstr "画像を選ぶには開くボタンを押してください。"
 
-#: ../src/main_window.c:1451 ../src/main_window.c:1455
+#: ../src/main_window.c:1517 ../src/main_window.c:1521
 msgid "Open With Other _Application..."
 msgstr "他のアプリケーションで開く(_A)..."
 
-#: ../src/main_window.c:1476 ../src/main_window.c:1482
+#: ../src/main_window.c:1542 ../src/main_window.c:1548
 msgid "Empty"
 msgstr "空"
 
-#: ../src/main_window.c:1605
+#: ../src/main_window.c:1678
 msgid "Loading..."
 msgstr "読み込んでいます..."
 
-#: ../src/main_window.c:2208
+#: ../src/main_window.c:2270
 msgid "Choose 'set wallpaper' method"
 msgstr "'壁紙に設定' 方式の選択"
 
-#: ../src/main_window.c:2211 ../src/main_window.c:4007
-#: ../src/xfce_wallpaper_manager.c:342 ../src/gnome_wallpaper_manager.c:241
-msgid "_OK"
-msgstr "OK(_O)"
-
-#: ../src/main_window.c:2213 ../src/main_window.c:3136
-#: ../src/main_window.c:3370 ../src/main_window.c:4005
-#: ../src/privacy_dialog.c:180 ../src/xfce_wallpaper_manager.c:338
-#: ../src/gnome_wallpaper_manager.c:237
+#: ../src/main_window.c:2274 ../src/main_window.c:3215
+#: ../src/main_window.c:3449 ../src/main_window.c:4093
+#: ../src/privacy_dialog.c:182 ../src/xfce_wallpaper_manager.c:322
+#: ../src/gnome_wallpaper_manager.c:238
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
-#: ../src/main_window.c:2223 ../src/preferences_dialog.c:462
+#: ../src/main_window.c:2277 ../src/main_window.c:4096
+#: ../src/xfce_wallpaper_manager.c:328 ../src/gnome_wallpaper_manager.c:244
+msgid "_OK"
+msgstr "OK(_O)"
+
+#: ../src/main_window.c:2287 ../src/preferences_dialog.c:441
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "デスクトップを管理しているシステムを指定してください。\n<i>Ristretto</i> はこの方式でデスクトップの壁紙を設定します。"
 
-#: ../src/main_window.c:2248 ../src/preferences_dialog.c:486
+#: ../src/main_window.c:2313 ../src/preferences_dialog.c:453
 msgid "None"
 msgstr "なし"
 
-#: ../src/main_window.c:2252 ../src/preferences_dialog.c:490
+#: ../src/main_window.c:2317 ../src/preferences_dialog.c:457
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2256 ../src/preferences_dialog.c:494
+#: ../src/main_window.c:2321 ../src/preferences_dialog.c:461
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2697
-msgid "Developer:"
-msgstr "開発者:"
+#: ../src/main_window.c:2774
+msgid "Developers:"
+msgstr "開発者: "
 
-#: ../src/main_window.c:2706 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2784 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto は Xfce デスクトップ環境向けの画像ビューアーです。"
 
-#: ../src/main_window.c:2714
+#: ../src/main_window.c:2792
 msgid "translator-credits"
 msgstr "Masato Hashimoto <hashimo@xfce.org>"
 
-#: ../src/main_window.c:3133
+#: ../src/main_window.c:3212
 msgid "Open image"
 msgstr "画像を開く"
 
-#: ../src/main_window.c:3137
+#: ../src/main_window.c:3216
 msgid "_Open"
 msgstr "開く(_O)"
 
-#: ../src/main_window.c:3154
+#: ../src/main_window.c:3233
 msgid "Images"
 msgstr "画像"
 
-#: ../src/main_window.c:3159
+#: ../src/main_window.c:3238
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3186 ../src/main_window.c:3328
+#: ../src/main_window.c:3265 ../src/main_window.c:3407
 msgid "Could not open file"
 msgstr "ファイルを開けませんでした"
 
-#: ../src/main_window.c:3367
+#: ../src/main_window.c:3446
 msgid "Save copy"
 msgstr "コピーを保存"
 
-#: ../src/main_window.c:3371
+#: ../src/main_window.c:3450
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: ../src/main_window.c:3400
+#: ../src/main_window.c:3479
 msgid "Could not save file"
 msgstr "ファイルを保存できませんでした"
 
-#: ../src/main_window.c:3570
+#: ../src/main_window.c:3649
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "画像 '%s' をゴミ箱に捨ててもよろしいですか?"
 
-#: ../src/main_window.c:3574
+#: ../src/main_window.c:3653
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "画像 '%s' をドライブから削除してもよろしいですか?"
 
-#: ../src/main_window.c:3585
+#: ../src/main_window.c:3664
 msgid "_Do not ask again for this session"
 msgstr "次回からこのセッションについて確認を行わない(_D)"
 
-#: ../src/main_window.c:3662
+#: ../src/main_window.c:3741
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -565,7 +565,7 @@ msgid ""
 "%s"
 msgstr "画像 '%s' を削除するときにエラーが発生しました。\n\n%s"
 
-#: ../src/main_window.c:3666
+#: ../src/main_window.c:3745
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -573,24 +573,24 @@ msgid ""
 "%s"
 msgstr "画像 '%s' をゴミ箱に捨てるときにエラーが発生しました。\n\n%s"
 
-#: ../src/main_window.c:4002
+#: ../src/main_window.c:4088
 msgid "Edit with"
 msgstr "アプリケーションで開く"
 
-#: ../src/main_window.c:4020
+#: ../src/main_window.c:4109
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "%s とタイプが %s の他のファイルを以下のアプリケーションで開きます:"
 
-#: ../src/main_window.c:4026
+#: ../src/main_window.c:4115
 msgid "Use as _default for this kind of file"
 msgstr "この種類のファイルのデフォルトアプリケーションにする(_D)"
 
-#: ../src/main_window.c:4116
+#: ../src/main_window.c:4205
 msgid "Recommended Applications"
 msgstr "推奨アプリケーション"
 
-#: ../src/main_window.c:4196
+#: ../src/main_window.c:4285
 msgid "Other Applications"
 msgstr "他のアプリケーション"
 
@@ -630,219 +630,227 @@ msgstr "アクティブなアイテムのインデックスです"
 msgid "Show Text"
 msgstr "テキストを表示"
 
-#: ../src/icon_bar.c:416 ../src/icon_bar.c:417
+#: ../src/icon_bar.c:422
+msgid "Scrolled window"
+msgstr ""
+
+#: ../src/icon_bar.c:423
+msgid "Scrolled window icon bar is placed into"
+msgstr ""
+
+#: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item fill color"
 msgstr "アクティブなアイテムの塗り色"
 
-#: ../src/icon_bar.c:423 ../src/icon_bar.c:424
+#: ../src/icon_bar.c:436 ../src/icon_bar.c:437
 msgid "Active item border color"
 msgstr "アクティブなアイテムの枠の色"
 
-#: ../src/icon_bar.c:430 ../src/icon_bar.c:431
+#: ../src/icon_bar.c:443 ../src/icon_bar.c:444
 msgid "Active item text color"
 msgstr "アクティブなアイテムのテキストの色"
 
-#: ../src/icon_bar.c:437 ../src/icon_bar.c:438
+#: ../src/icon_bar.c:450 ../src/icon_bar.c:451
 msgid "Cursor item fill color"
 msgstr "カーソルアイテムの塗り色"
 
-#: ../src/icon_bar.c:444 ../src/icon_bar.c:445
+#: ../src/icon_bar.c:457 ../src/icon_bar.c:458
 msgid "Cursor item border color"
 msgstr "カーソルアイテムの枠の色"
 
-#: ../src/icon_bar.c:451 ../src/icon_bar.c:452
+#: ../src/icon_bar.c:464 ../src/icon_bar.c:465
 msgid "Cursor item text color"
 msgstr "カーソルアイテムのテキストの色"
 
-#: ../src/privacy_dialog.c:150
+#: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
 msgstr "クリア基準:"
 
-#: ../src/privacy_dialog.c:154
+#: ../src/privacy_dialog.c:155
 msgid "Cleanup"
 msgstr "クリーンアップ"
 
-#: ../src/privacy_dialog.c:156
+#: ../src/privacy_dialog.c:158
 msgid "Last Hour"
 msgstr "1 時間以上過去"
 
-#: ../src/privacy_dialog.c:157
+#: ../src/privacy_dialog.c:159
 msgid "Last Two Hours"
 msgstr "2 時間以上過去"
 
-#: ../src/privacy_dialog.c:158
+#: ../src/privacy_dialog.c:160
 msgid "Last Four Hours"
 msgstr "4 時間以上過去"
 
-#: ../src/privacy_dialog.c:159
+#: ../src/privacy_dialog.c:161
 msgid "Today"
 msgstr "今日より過去"
 
-#: ../src/privacy_dialog.c:160
+#: ../src/privacy_dialog.c:162
 msgid "Everything"
 msgstr "すべて"
 
-#: ../src/privacy_dialog.c:181 ../src/xfce_wallpaper_manager.c:340
-#: ../src/gnome_wallpaper_manager.c:239
+#: ../src/privacy_dialog.c:185 ../src/xfce_wallpaper_manager.c:325
+#: ../src/gnome_wallpaper_manager.c:241
 msgid "_Apply"
 msgstr "適用(_A)"
 
-#: ../src/privacy_dialog.c:469
+#: ../src/privacy_dialog.c:475
 msgid "Clear private data"
 msgstr "プライベートデータのクリア"
 
-#: ../src/preferences_dialog.c:274
+#: ../src/preferences_dialog.c:276
 msgid "Display"
 msgstr "表示"
 
-#: ../src/preferences_dialog.c:281
+#: ../src/preferences_dialog.c:283
 msgid "Background color"
 msgstr "背景色"
 
-#: ../src/preferences_dialog.c:285
+#: ../src/preferences_dialog.c:287
 msgid "Override background color:"
 msgstr "背景色を変更する:"
 
-#: ../src/preferences_dialog.c:312
+#: ../src/preferences_dialog.c:314
 msgid "Quality"
 msgstr "画質"
 
-#: ../src/preferences_dialog.c:316
+#: ../src/preferences_dialog.c:318
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "最高画質を画面サイズまでに制限することができます。"
 
-#: ../src/preferences_dialog.c:319
+#: ../src/preferences_dialog.c:322
 msgid "Limit rendering quality"
 msgstr "描画品質を画面サイズまでに制限する"
 
-#: ../src/preferences_dialog.c:331
+#: ../src/preferences_dialog.c:334
 msgid "Fullscreen"
 msgstr "全画面"
 
-#: ../src/preferences_dialog.c:336
+#: ../src/preferences_dialog.c:338
 msgid "Thumbnails"
 msgstr "サムネイル"
 
-#: ../src/preferences_dialog.c:339
+#: ../src/preferences_dialog.c:341
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "ウィンドウが全画面化されたときにサムネイルバーを自動的に隠すことができます。"
 
-#: ../src/preferences_dialog.c:342
+#: ../src/preferences_dialog.c:345
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "全画面時にサムネイルを表示しない"
 
-#: ../src/preferences_dialog.c:350
+#: ../src/preferences_dialog.c:353
 msgid "Clock"
 msgstr "時計"
 
-#: ../src/preferences_dialog.c:353
+#: ../src/preferences_dialog.c:356
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "ウィンドウが全画面化されたときに現在の時刻を示すアナログ時計を表示させることができます。"
 
-#: ../src/preferences_dialog.c:356
+#: ../src/preferences_dialog.c:360
 msgid "Show Fullscreen Clock"
 msgstr "全画面時に時計を表示する"
 
-#: ../src/preferences_dialog.c:373
+#: ../src/preferences_dialog.c:374
 msgid "Slideshow"
 msgstr "スライドショー"
 
-#: ../src/preferences_dialog.c:377
+#: ../src/preferences_dialog.c:378
 msgid "Timeout"
 msgstr "タイムアウト"
 
-#: ../src/preferences_dialog.c:380
+#: ../src/preferences_dialog.c:381
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr "スライドショー中に各画像を表示する時間 (秒)"
 
-#: ../src/preferences_dialog.c:398
+#: ../src/preferences_dialog.c:395
 msgid "Control"
 msgstr "制御"
 
-#: ../src/preferences_dialog.c:402
+#: ../src/preferences_dialog.c:399
 msgid "Scroll wheel"
 msgstr "スクロールホイール"
 
-#: ../src/preferences_dialog.c:405
+#: ../src/preferences_dialog.c:402
 msgid "Invert zoom direction"
 msgstr "ズームの方向を反転する"
 
-#: ../src/preferences_dialog.c:419
+#: ../src/preferences_dialog.c:413
 msgid "Behaviour"
 msgstr "振る舞い"
 
-#: ../src/preferences_dialog.c:424
+#: ../src/preferences_dialog.c:417
 msgid "Startup"
 msgstr "起動"
 
-#: ../src/preferences_dialog.c:426
+#: ../src/preferences_dialog.c:419
 msgid "Maximize window on startup when opening an image"
 msgstr "画像を開いて起動するときにウィンドウを最大化する"
 
-#: ../src/preferences_dialog.c:432
+#: ../src/preferences_dialog.c:425
 msgid "Wrap around images"
 msgstr "最後の画像に来たら先頭に戻る"
 
-#: ../src/preferences_dialog.c:451
+#: ../src/preferences_dialog.c:436
 msgid "Desktop"
 msgstr "デスクトップ"
 
-#: ../src/preferences_dialog.c:576
+#: ../src/preferences_dialog.c:546
 msgid "Image Viewer Preferences"
 msgstr "画像ビューアー設定"
 
-#: ../src/properties_dialog.c:178
+#: ../src/properties_dialog.c:173
 msgid "<b>Name:</b>"
 msgstr "<b>名前:</b>"
 
-#: ../src/properties_dialog.c:179
+#: ../src/properties_dialog.c:174
 msgid "<b>Kind:</b>"
 msgstr "<b>種類:</b>"
 
-#: ../src/properties_dialog.c:180
+#: ../src/properties_dialog.c:175
 msgid "<b>Modified:</b>"
 msgstr "<b>変更日時:</b>"
 
-#: ../src/properties_dialog.c:181
+#: ../src/properties_dialog.c:176
 msgid "<b>Accessed:</b>"
 msgstr "<b>アクセス日時:</b>"
 
-#: ../src/properties_dialog.c:182
+#: ../src/properties_dialog.c:177
 msgid "<b>Size:</b>"
 msgstr "<b>サイズ:</b>"
 
-#: ../src/properties_dialog.c:306
+#: ../src/properties_dialog.c:201
 msgid "General"
 msgstr "一般"
 
-#: ../src/properties_dialog.c:310
+#: ../src/properties_dialog.c:207
 msgid "Image"
 msgstr "画像"
 
-#: ../src/properties_dialog.c:545
+#: ../src/properties_dialog.c:442
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>変更日時:</b>"
 
-#: ../src/properties_dialog.c:557 ../src/properties_dialog.c:569
-#: ../src/properties_dialog.c:581
+#: ../src/properties_dialog.c:454 ../src/properties_dialog.c:466
+#: ../src/properties_dialog.c:478
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:647
+#: ../src/properties_dialog.c:538
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - プロパティ"
 
-#: ../src/thumbnailer.c:439
+#: ../src/thumbnailer.c:437
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -852,43 +860,43 @@ msgid ""
 "to resolve this issue."
 msgstr "サムネイラーサービスが利用できないため、\nサムネイルは作成されませんでした。\n\nサムネイルを作成するためには <b>Tumbler</b> もしくはその他の\n<i>サムネイル生成アプリケーション</i>をインストールする必要が\nあります。"
 
-#: ../src/thumbnailer.c:449
+#: ../src/thumbnailer.c:447
 msgid "Do _not show this message again"
 msgstr "次回からこのメッセージを表示しない(_N)"
 
-#: ../src/xfce_wallpaper_manager.c:317 ../src/gnome_wallpaper_manager.c:223
+#: ../src/xfce_wallpaper_manager.c:302 ../src/gnome_wallpaper_manager.c:224
 msgid "Style:"
 msgstr "スタイル:"
 
-#: ../src/xfce_wallpaper_manager.c:328
+#: ../src/xfce_wallpaper_manager.c:313
 msgid "Apply to all workspaces"
 msgstr "すべてのワークスペースに適用"
 
-#: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
+#: ../src/xfce_wallpaper_manager.c:320 ../src/gnome_wallpaper_manager.c:236
 msgid "Set as wallpaper"
 msgstr "壁紙に設定"
 
-#: ../src/xfce_wallpaper_manager.c:403 ../src/gnome_wallpaper_manager.c:301
+#: ../src/xfce_wallpaper_manager.c:382 ../src/gnome_wallpaper_manager.c:294
 msgid "Auto"
 msgstr "自動"
 
-#: ../src/xfce_wallpaper_manager.c:406
+#: ../src/xfce_wallpaper_manager.c:385
 msgid "Centered"
 msgstr "中央揃え"
 
-#: ../src/xfce_wallpaper_manager.c:409
+#: ../src/xfce_wallpaper_manager.c:388
 msgid "Tiled"
 msgstr "タイル状"
 
-#: ../src/xfce_wallpaper_manager.c:412
+#: ../src/xfce_wallpaper_manager.c:391
 msgid "Stretched"
 msgstr "縦横比を維持せず全画面化"
 
-#: ../src/xfce_wallpaper_manager.c:415
+#: ../src/xfce_wallpaper_manager.c:394
 msgid "Scaled"
 msgstr "長辺を画面に合わせる"
 
-#: ../src/xfce_wallpaper_manager.c:418
+#: ../src/xfce_wallpaper_manager.c:397
 msgid "Zoomed"
 msgstr "短辺を画面に合わせる"
 
@@ -907,30 +915,3 @@ msgid ""
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
 msgstr "Ristretto は画像ビューアーアプリケーションです。画像の表示やスクロール、スライドショー、グラフィックエディターなど他のアプリケーションで画像を開く、あるいはデスクトップの壁紙の設定などが行えます。"
-
-#: ../ristretto.appdata.xml.in.h:3
-msgid ""
-"This version comes with the improvements such as thumbnail usage as appicon "
-"and update to the first image in the image-list when receiving a ready-"
-"signal, required to show the thumbnail once it's generated."
-msgstr "このバージョンでは、サムネイルにアプリケーションアイコンを使用し、Ready シグナルを受け取り、生成されたサムネイルの表示が要求されると、画像リストの最初の画像を更新するよう改善されました。"
-
-#: ../ristretto.appdata.xml.in.h:4
-msgid ""
-"This release contains lots of translation-updates, and a crash when "
-"configuring the 'limit-quality' property."
-msgstr "このリリースでは、多くの翻訳の更新と、「描画品質を画面サイズまでに制限する」オプションの設定時にクラッシュする問題の修正が行われました。"
-
-#: ../ristretto.appdata.xml.in.h:5
-msgid ""
-"This version comes with several changes such as online documentation on "
-"docs.xfce.org, the option to limit the maximum image-quality to the screen "
-"dimensions to improve memory-usage and performance - now ristretto renders "
-"at full quality with this option disabled, only one toolbar - instead of "
-"two, a quick-launch button on the toolbar to execute an editor, the option "
-"to pick a default-editor per mime-type, an optional clock that shows up when"
-" ristretto is fullscreen, Ristretto now shows a 'Loading..' message in the "
-"statusbar to indicate when it is busy and progressive loading of directories"
-" to prevent lockup of the UI. This version is designed to work with version "
-"4.10 of Xfce."
-msgstr "このバージョンではいくつかの変更が行われました。ドキュメントがオンライン化されました (http://docs.xfce.org)。メモリ使用量と性能を向上させるため、最大画質を画面サイズまでに制限するオプションが追加されました ― このオプションが無効になっている場合のみ完全画質で描画されます。ツールバーがひとつにまとめられました ― 「編集」ボタンから画像エディターを起動でき、MIME タイプごとにデフォルトエディターが選択できるようになりました。全画面化時に任意で時計を表示できるようになりました。UI がフリーズしたと見間違えないよう、ファイルの読み込み時にビジーだったときやディレクトリを読み込んでいるときにステータスバーに「読み込んでいます...」を表示するようになりました。このバージョンは Xfce 4.10 で動作することを前提に設計されています。"
