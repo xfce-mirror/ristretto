@@ -180,7 +180,7 @@ rstto_main_window_launch_editor_chooser (
 
 static gboolean
 cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event);
-static void
+static gboolean
 cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data);
 static gboolean
 cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
@@ -2400,23 +2400,19 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
     }
 }
 
-static void
-cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data)
+static gboolean
+cb_rstto_main_window_state_event (GtkWidget *widget, GdkEventWindowState *event, gpointer user_data)
 {
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW(widget);
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (widget);
 
-    if(event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
+    if (event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
     {
-        if(event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN)
+        if (event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN)
         {
-            if (rstto_settings_get_boolean_property (
-                window->priv->settings_manager,
-                "show-clock"))
-            {
-                rstto_image_viewer_set_show_clock (
-                        RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
-                        TRUE);
-            }
+            rstto_image_viewer_set_show_clock (
+                    RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
+                    rstto_settings_get_boolean_property (window->priv->settings_manager, "show-clock"));
+
             gtk_widget_hide (window->priv->menubar);
             if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
             {
@@ -2484,9 +2480,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
         }
         else
         {
-            rstto_image_viewer_set_show_clock (
-                    RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
-                    FALSE);
+            rstto_image_viewer_set_show_clock (RSTTO_IMAGE_VIEWER (window->priv->image_viewer), FALSE);
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
             gtk_ui_manager_add_ui (
                     window->priv->ui_manager,
@@ -2502,9 +2496,13 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 G_GNUC_END_IGNORE_DEPRECATIONS
 
             if (rstto_settings_get_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-toolbar"))
+            {
                 gtk_widget_show (window->priv->toolbar);
+            }
             else
-                gtk_widget_hide(window->priv->toolbar);
+            {
+                gtk_widget_hide (window->priv->toolbar);
+            }
 
             if (window->priv->show_fs_toolbar_timeout_id > 0)
             {
@@ -2525,9 +2523,12 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             
         }
     }
+
     if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
     {
     }
+
+    return FALSE;
 }
 
 static gboolean 
