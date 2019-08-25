@@ -11,6 +11,7 @@ src/stamp-marshal.h
 autom4te.cache
 INSTALL
 aclocal.m4
+compile
 config.guess
 config.h
 config.h.in
@@ -18,6 +19,7 @@ config.log
 config.status
 config.sub
 configure
+configure.ac
 configure.in
 depcomp
 docs/manual/C/ristretto.xml
@@ -33,6 +35,7 @@ po/POTFILES
 po/stamp-it
 po/*.gmo
 po/ristretto.pot
+ristretto.appdata.xml
 ristretto.desktop
 stamp-h1
 ChangeLog
