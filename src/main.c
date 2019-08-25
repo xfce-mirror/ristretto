@@ -95,7 +95,7 @@ main(int argc, char **argv)
     textdomain (GETTEXT_PACKAGE);
     #endif
 
-    if (!gtk_init_with_args (&argc, &argv, "", entries, PACKAGE, &cli_error))
+    if (!gtk_init_with_args (&argc, &argv, NULL, entries, PACKAGE, &cli_error))
     {
         if (cli_error != NULL)
         {
