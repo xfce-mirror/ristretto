@@ -2511,7 +2511,10 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             }
 
             gtk_widget_show (window->priv->menubar);
-            gtk_widget_show (window->priv->statusbar);
+            if (rstto_settings_get_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-statusbar"))
+            {
+                gtk_widget_show (window->priv->statusbar);
+            }
 
             if (rstto_settings_get_boolean_property (window->priv->settings_manager, "show-thumbnailbar"))
             {
