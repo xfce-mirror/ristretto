@@ -2414,6 +2414,9 @@ cb_rstto_main_window_state_event (GtkWidget *widget, GdkEventWindowState *event,
     {
         if (event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN)
         {
+            guint timeout = rstto_settings_get_uint_property (RSTTO_SETTINGS (window->priv->settings_manager),
+                                                              "hide-mouse-cursor-fullscreen-timeout");
+
             rstto_image_viewer_set_show_clock (
                     RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
                     rstto_settings_get_boolean_property (window->priv->settings_manager, "show-clock"));
@@ -2444,10 +2447,13 @@ cb_rstto_main_window_state_event (GtkWidget *widget, GdkEventWindowState *event,
                 }
             }
 
-            window->priv->show_fs_mouse_cursor_timeout_id =
-                    g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
-                                        (GSourceFunc) cb_rstto_main_window_show_fs_mouse_cursor_timeout, window,
-                                        cb_rstto_main_window_show_fs_mouse_cursor_timeout_destroy);
+            if (timeout > 0)
+            {
+                window->priv->show_fs_mouse_cursor_timeout_id =
+                        g_timeout_add_full (G_PRIORITY_DEFAULT, 1000 * timeout,
+                                            (GSourceFunc) cb_rstto_main_window_show_fs_mouse_cursor_timeout, window,
+                                            cb_rstto_main_window_show_fs_mouse_cursor_timeout_destroy);
+            }
 
             if (rstto_settings_get_boolean_property (window->priv->settings_manager, "hide-thumbnails-fullscreen"))
             {
@@ -2556,6 +2562,9 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
 {
     if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN)
     {
+        guint timeout = rstto_settings_get_uint_property (RSTTO_SETTINGS (window->priv->settings_manager),
+                                                          "hide-mouse-cursor-fullscreen-timeout");
+
         /* Show toolbar when the mouse pointer is moved to the top of the screen */
         if (event->y < 1)
         {
@@ -2571,7 +2580,7 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
             }
         }
 
-        /* Show the mouse cursor, but set a timer to hide it in 1 second if not moved again */
+        /* Show the mouse cursor, but set a timer to hide it if not moved again */
         if (window->priv->show_fs_mouse_cursor_timeout_id > 0)
         {
             REMOVE_SOURCE (window->priv->show_fs_mouse_cursor_timeout_id);
@@ -2581,10 +2590,13 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
             gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), NULL);
         }
 
-        window->priv->show_fs_mouse_cursor_timeout_id =
-                g_timeout_add_full (G_PRIORITY_DEFAULT, 1000,
-                                    (GSourceFunc) cb_rstto_main_window_show_fs_mouse_cursor_timeout, window,
-                                    cb_rstto_main_window_show_fs_mouse_cursor_timeout_destroy);
+        if (timeout > 0)
+        {
+            window->priv->show_fs_mouse_cursor_timeout_id =
+                    g_timeout_add_full (G_PRIORITY_DEFAULT, 1000 * timeout,
+                                        (GSourceFunc) cb_rstto_main_window_show_fs_mouse_cursor_timeout, window,
+                                        cb_rstto_main_window_show_fs_mouse_cursor_timeout_destroy);
+        }
     }
     return TRUE;
 }

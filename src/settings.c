@@ -66,6 +66,7 @@ enum
     PROP_SHOW_CLOCK,
     PROP_LIMIT_QUALITY,
     PROP_HIDE_THUMBNAILS_FULLSCREEN,
+    PROP_HIDE_MOUSE_CURSOR_FULLSCREEN_TIMEOUT,
     PROP_WINDOW_WIDTH,
     PROP_WINDOW_HEIGHT,
     PROP_BGCOLOR,
@@ -119,6 +120,7 @@ struct _RsttoSettingsPriv
     gboolean  show_clock;
     gboolean  limit_quality;
     gboolean  hide_thumbnails_fullscreen;
+    guint     hide_mouse_cursor_fullscreen_timeout;
     gchar    *navigationbar_position;
     gboolean  invert_zoom_direction;
     guint     window_width;
@@ -191,6 +193,7 @@ rstto_settings_init (GObject *object)
     settings->priv->use_thunar_properties = TRUE;
     settings->priv->maximize_on_startup = TRUE;
     settings->priv->hide_thumbnails_fullscreen = TRUE;
+    settings->priv->hide_mouse_cursor_fullscreen_timeout = 1;
     settings->priv->errors.missing_thumbnailer = TRUE;
     settings->priv->thumbnail_size = THUMBNAIL_SIZE_NORMAL;
 
@@ -262,6 +265,13 @@ rstto_settings_init (GObject *object)
             G_TYPE_BOOLEAN,
             settings,
             "hide-thumbnails-fullscreen");
+
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/window/mouse-cursor/hide-fullscreen-timeout",
+            G_TYPE_UINT,
+            settings,
+            "hide-mouse-cursor-fullscreen-timeout");
 
     xfconf_g_property_bind (
             settings->priv->channel,
@@ -455,6 +465,19 @@ rstto_settings_class_init (GObjectClass *object_class)
     g_object_class_install_property (
             object_class,
             PROP_HIDE_THUMBNAILS_FULLSCREEN,
+            pspec);
+
+    pspec = g_param_spec_uint (
+            "hide-mouse-cursor-fullscreen-timeout",
+            "",
+            "",
+            0,
+            3600,
+            1,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_HIDE_MOUSE_CURSOR_FULLSCREEN_TIMEOUT,
             pspec);
 
     pspec = g_param_spec_string (
@@ -777,6 +800,9 @@ rstto_settings_set_property    (GObject      *object,
         case PROP_HIDE_THUMBNAILS_FULLSCREEN:
             settings->priv->hide_thumbnails_fullscreen = g_value_get_boolean (value);
             break;
+        case PROP_HIDE_MOUSE_CURSOR_FULLSCREEN_TIMEOUT:
+            settings->priv->hide_mouse_cursor_fullscreen_timeout = g_value_get_uint (value);
+            break;
         case PROP_NAVBAR_POSITION:
             str_val = g_value_get_string (value);
 
@@ -880,6 +906,9 @@ rstto_settings_get_property    (GObject    *object,
             break;
         case PROP_HIDE_THUMBNAILS_FULLSCREEN:
             g_value_set_boolean (value, settings->priv->hide_thumbnails_fullscreen);
+            break;
+        case PROP_HIDE_MOUSE_CURSOR_FULLSCREEN_TIMEOUT:
+            g_value_set_uint (value, settings->priv->hide_mouse_cursor_fullscreen_timeout);
             break;
         case PROP_NAVBAR_POSITION:
             g_value_set_string (value, settings->priv->navigationbar_position);

@@ -65,6 +65,10 @@ cb_show_clock_check_button_toggled (
         GtkToggleButton *button, 
         gpointer user_data);
 static void
+cb_cursor_timeout_button_value_changed (
+        GtkSpinButton *spin_button,
+        gpointer user_data);
+static void
 cb_limit_quality_check_button_toggled (
         GtkToggleButton *button, 
         gpointer user_data);
@@ -123,6 +127,13 @@ struct _RsttoPreferencesDialogPriv
         GtkWidget *clock_frame;
         GtkWidget *clock_label;
         GtkWidget *clock_button;
+
+        GtkWidget *cursor_vbox;
+        GtkWidget *cursor_frame;
+        GtkWidget *cursor_label;
+        GtkWidget *cursor_hbox;
+        GtkWidget *cursor_timeout_label;
+        GtkWidget *cursor_timeout_button;
     } fullscreen_tab;
 
     struct
@@ -223,6 +234,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     gboolean   bool_bgcolor_override;
     guint      uint_slideshow_timeout;
     gboolean   bool_hide_thumbnails_fullscreen;
+    guint      uint_hide_mouse_cursor_fullscreen_timeout;
     gboolean   bool_wrap_images;
     gboolean   bool_maximize_on_startup;
     gboolean   bool_show_clock;
@@ -262,6 +274,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
             "bgcolor", &bgcolor,
             "slideshow-timeout", &uint_slideshow_timeout,
             "hide-thumbnails-fullscreen", &bool_hide_thumbnails_fullscreen,
+            "hide-mouse-cursor-fullscreen-timeout", &uint_hide_mouse_cursor_fullscreen_timeout,
             "maximize-on-startup", &bool_maximize_on_startup,
             "wrap-images", &bool_wrap_images,
             "desktop-type", &str_desktop_type,
@@ -362,10 +375,31 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.clock_vbox), dialog->priv->fullscreen_tab.clock_button);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->fullscreen_tab.clock_button), bool_show_clock);
 
-    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button), 
+    dialog->priv->fullscreen_tab.cursor_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+    dialog->priv->fullscreen_tab.cursor_frame = xfce_gtk_frame_box_new_with_content (_("Mouse cursor"), dialog->priv->fullscreen_tab.cursor_vbox);
+    gtk_box_pack_start (GTK_BOX (fullscreen_main_vbox), dialog->priv->fullscreen_tab.cursor_frame, FALSE, FALSE, 0);
+
+    dialog->priv->fullscreen_tab.cursor_label = gtk_label_new (_("The mouse cursor can be automatically hidden after a certain period of inactivity\nwhen the window is fullscreen."));
+    gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->fullscreen_tab.cursor_label), TRUE);
+    gtk_label_set_xalign (GTK_LABEL (dialog->priv->fullscreen_tab.cursor_label), 0.0);
+    gtk_label_set_yalign (GTK_LABEL (dialog->priv->fullscreen_tab.cursor_label), 0.5);
+    gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.cursor_vbox), dialog->priv->fullscreen_tab.cursor_label);
+
+    dialog->priv->fullscreen_tab.cursor_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+    dialog->priv->fullscreen_tab.cursor_timeout_label = gtk_label_new (_("Period of inactivity (seconds):"));
+    dialog->priv->fullscreen_tab.cursor_timeout_button = gtk_spin_button_new_with_range (0, 3600, 1);
+    gtk_spin_button_set_digits (GTK_SPIN_BUTTON (dialog->priv->fullscreen_tab.cursor_timeout_button), 0);
+    gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.cursor_hbox), dialog->priv->fullscreen_tab.cursor_timeout_label);
+    gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.cursor_hbox), dialog->priv->fullscreen_tab.cursor_timeout_button);
+    gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.cursor_vbox), dialog->priv->fullscreen_tab.cursor_hbox);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->fullscreen_tab.cursor_timeout_button), uint_hide_mouse_cursor_fullscreen_timeout);
+
+    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button),
                       "toggled", G_CALLBACK (cb_hide_thumbnails_fullscreen_check_button_toggled), dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.clock_button), 
+    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.clock_button),
                       "toggled", G_CALLBACK (cb_show_clock_check_button_toggled), dialog);
+    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.cursor_timeout_button),
+                      "value-changed", G_CALLBACK (cb_cursor_timeout_button_value_changed), dialog);
 
     /*
      * Slideshow tab
@@ -918,6 +952,35 @@ cb_show_clock_check_button_toggled (
             dialog->priv->settings,
             "show-clock",
             show_clock);
+}
+
+/**
+ * cb_cursor_timeout_button_value_changed:
+ * @button:    The spin-button the user changed value for.
+ * @user_data: The user-data provided when connecting the
+ *             callback-function, the preferences-dialog.
+ *
+ *
+ * This function is called when a user changes the inactivity
+ * timeout via the spin-button. This function then sets the right
+ * property in the ristretto settings container.
+ *
+ * When the property's value is greater than 0, it will serve as
+ * an inactivity timeout to hide the mouse cursor when in
+ * fullscreen mode.
+ */
+static void
+cb_cursor_timeout_button_value_changed (
+        GtkSpinButton *spin_button,
+        gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    gdouble value = gtk_spin_button_get_value (spin_button);
+
+    rstto_settings_set_uint_property (
+            dialog->priv->settings,
+            "hide-mouse-cursor-fullscreen-timeout",
+            value > 0 ? (guint) value : 0);
 }
 
 /**
