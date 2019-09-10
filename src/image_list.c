@@ -684,8 +684,7 @@ rstto_image_list_set_directory (
     /* Source code block */
     if (image_list->priv->directory_loader != 0)
     {
-        g_source_remove (image_list->priv->directory_loader);
-        image_list->priv->directory_loader = 0;
+        REMOVE_SOURCE (image_list->priv->directory_loader);
     }
 
     rstto_image_list_remove_all (image_list);
@@ -803,8 +802,7 @@ cb_rstto_read_file ( gpointer user_data )
         /* This is a hack, use a closure */
         if (loader->image_list->priv->directory_loader != 0)
         {
-            g_source_remove (loader->image_list->priv->directory_loader);
-            loader->image_list->priv->directory_loader = 0;
+            REMOVE_SOURCE (loader->image_list->priv->directory_loader);
         }
 
         iter = loader->image_list->priv->iterators;

@@ -295,7 +295,7 @@ rstto_thumbnailer_queue_file (
 
     if (thumbnailer->priv->request_timer_id)
     {
-        g_source_remove (thumbnailer->priv->request_timer_id);
+        REMOVE_SOURCE (thumbnailer->priv->request_timer_id);
         if (thumbnailer->priv->handle)
         {
             if(tumbler_thumbnailer1_call_dequeue_sync(
@@ -338,7 +338,8 @@ rstto_thumbnailer_dequeue_file (
     
     if (thumbnailer->priv->request_timer_id)
     {
-        g_source_remove (thumbnailer->priv->request_timer_id);
+        REMOVE_SOURCE (thumbnailer->priv->request_timer_id);
+
     }
 
     if (thumbnailer->priv->handle)

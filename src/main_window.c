@@ -79,6 +79,7 @@ struct _RsttoMainWindowPriv
     GDBusProxy            *filemanager_proxy;
 
     guint                  show_fs_toolbar_timeout_id;
+    guint                  show_fs_mouse_cursor_timeout_id;
     gint                   window_save_geometry_timer_id;
 
     gboolean               fs_toolbar_sticky;
@@ -186,6 +187,10 @@ static gboolean
 cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
 static void
 cb_rstto_main_window_show_fs_toolbar_timeout_destroy (gpointer user_data);
+static gboolean
+cb_rstto_main_window_show_fs_mouse_cursor_timeout (RsttoMainWindow *window);
+static void
+cb_rstto_main_window_show_fs_mouse_cursor_timeout_destroy (gpointer user_data);
 static void
 cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window);
 static void
@@ -2428,8 +2433,7 @@ cb_rstto_main_window_state_event (GtkWidget *widget, GdkEventWindowState *event,
             {
                 if (window->priv->show_fs_toolbar_timeout_id > 0)
                 {
-                    g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-                    window->priv->show_fs_toolbar_timeout_id = 0;
+                    REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
                 }
                 if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
                 {
@@ -2439,6 +2443,11 @@ cb_rstto_main_window_state_event (GtkWidget *widget, GdkEventWindowState *event,
                                                 cb_rstto_main_window_show_fs_toolbar_timeout_destroy);
                 }
             }
+
+            window->priv->show_fs_mouse_cursor_timeout_id =
+                    g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
+                                        (GSourceFunc) cb_rstto_main_window_show_fs_mouse_cursor_timeout, window,
+                                        cb_rstto_main_window_show_fs_mouse_cursor_timeout_destroy);
 
             if (rstto_settings_get_boolean_property (window->priv->settings_manager, "hide-thumbnails-fullscreen"))
             {
@@ -2506,8 +2515,16 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
             if (window->priv->show_fs_toolbar_timeout_id > 0)
             {
-                g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-                window->priv->show_fs_toolbar_timeout_id = 0;
+                REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
+            }
+
+            if (window->priv->show_fs_mouse_cursor_timeout_id > 0)
+            {
+                REMOVE_SOURCE (window->priv->show_fs_mouse_cursor_timeout_id);
+            }
+            else
+            {
+                gdk_window_set_cursor (gtk_widget_get_window (widget), NULL);
             }
 
             gtk_widget_show (window->priv->menubar);
@@ -2549,11 +2566,25 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
 
                 if (window->priv->show_fs_toolbar_timeout_id > 0)
                 {
-                    g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-                    window->priv->show_fs_toolbar_timeout_id = 0;
+                    REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
                 }
             }
         }
+
+        /* Show the mouse cursor, but set a timer to hide it in 1 second if not moved again */
+        if (window->priv->show_fs_mouse_cursor_timeout_id > 0)
+        {
+            REMOVE_SOURCE (window->priv->show_fs_mouse_cursor_timeout_id);
+        }
+        else
+        {
+            gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), NULL);
+        }
+
+        window->priv->show_fs_mouse_cursor_timeout_id =
+                g_timeout_add_full (G_PRIORITY_DEFAULT, 1000,
+                                    (GSourceFunc) cb_rstto_main_window_show_fs_mouse_cursor_timeout, window,
+                                    cb_rstto_main_window_show_fs_mouse_cursor_timeout_destroy);
     }
     return TRUE;
 }
@@ -2598,8 +2629,7 @@ cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget, GdkEven
             window->priv->fs_toolbar_sticky = FALSE;
             if (window->priv->show_fs_toolbar_timeout_id > 0)
             {
-                g_source_remove (window->priv->show_fs_toolbar_timeout_id);
-                window->priv->show_fs_toolbar_timeout_id = 0;
+                REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
             }
             window->priv->show_fs_toolbar_timeout_id =
                     g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
@@ -2622,6 +2652,20 @@ static void
 cb_rstto_main_window_show_fs_toolbar_timeout_destroy (gpointer user_data)
 {
     RSTTO_MAIN_WINDOW (user_data)->priv->show_fs_toolbar_timeout_id = 0;
+}
+
+static gboolean
+cb_rstto_main_window_show_fs_mouse_cursor_timeout (RsttoMainWindow *window)
+{
+    GdkCursor *cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (window)), "none");
+    gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), cursor);
+    return FALSE;
+}
+
+static void
+cb_rstto_main_window_show_fs_mouse_cursor_timeout_destroy (gpointer user_data)
+{
+    RSTTO_MAIN_WINDOW (user_data)->priv->show_fs_mouse_cursor_timeout_id = 0;
 }
 
 /**
@@ -2852,7 +2896,7 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
         /* drop any previous timer source */
         if (window->priv->window_save_geometry_timer_id > 0)
         {
-            g_source_remove (window->priv->window_save_geometry_timer_id);
+            REMOVE_SOURCE (window->priv->window_save_geometry_timer_id);
         }
 
         /* check if we should schedule another save timer */

@@ -79,6 +79,9 @@ typedef enum {
 #define THUMBNAIL_SIZE_LARGER_SIZE      128
 #define THUMBNAIL_SIZE_VERY_LARGE_SIZE  256
 
+/* Macro to remove and clear a source id */
+#define REMOVE_SOURCE(ID) ({g_source_remove (ID); ID = 0;})
+
 G_END_DECLS
 
 #endif /* __RSTTO_UTIL_H__ */

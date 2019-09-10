@@ -3026,8 +3026,7 @@ rstto_image_viewer_set_show_clock (RsttoImageViewer *viewer, gboolean value)
     {
         if (viewer->priv->refresh_timeout_id)
         {
-            g_source_remove (viewer->priv->refresh_timeout_id);
-            viewer->priv->refresh_timeout_id = 0;
+            REMOVE_SOURCE (viewer->priv->refresh_timeout_id);
         }
     }
 }
