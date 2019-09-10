@@ -79,7 +79,7 @@ struct _RsttoMainWindowPriv
     GDBusProxy            *filemanager_proxy;
 
     guint                  show_fs_toolbar_timeout_id;
-    guint                  show_fs_mouse_cursor_timeout_id;
+    guint                  hide_fs_mouse_cursor_timeout_id;
     gint                   window_save_geometry_timer_id;
 
     gboolean               fs_toolbar_sticky;
@@ -188,9 +188,9 @@ cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
 static void
 cb_rstto_main_window_show_fs_toolbar_timeout_destroy (gpointer user_data);
 static gboolean
-cb_rstto_main_window_show_fs_mouse_cursor_timeout (RsttoMainWindow *window);
+cb_rstto_main_window_hide_fs_mouse_cursor_timeout (RsttoMainWindow *window);
 static void
-cb_rstto_main_window_show_fs_mouse_cursor_timeout_destroy (gpointer user_data);
+cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy (gpointer user_data);
 static void
 cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window);
 static void
@@ -2449,10 +2449,10 @@ cb_rstto_main_window_state_event (GtkWidget *widget, GdkEventWindowState *event,
 
             if (timeout > 0)
             {
-                window->priv->show_fs_mouse_cursor_timeout_id =
+                window->priv->hide_fs_mouse_cursor_timeout_id =
                         g_timeout_add_full (G_PRIORITY_DEFAULT, 1000 * timeout,
-                                            (GSourceFunc) cb_rstto_main_window_show_fs_mouse_cursor_timeout, window,
-                                            cb_rstto_main_window_show_fs_mouse_cursor_timeout_destroy);
+                                            (GSourceFunc) cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
+                                            cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy);
             }
 
             if (rstto_settings_get_boolean_property (window->priv->settings_manager, "hide-thumbnails-fullscreen"))
@@ -2524,9 +2524,9 @@ G_GNUC_END_IGNORE_DEPRECATIONS
                 REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
             }
 
-            if (window->priv->show_fs_mouse_cursor_timeout_id > 0)
+            if (window->priv->hide_fs_mouse_cursor_timeout_id > 0)
             {
-                REMOVE_SOURCE (window->priv->show_fs_mouse_cursor_timeout_id);
+                REMOVE_SOURCE (window->priv->hide_fs_mouse_cursor_timeout_id);
             }
             else
             {
@@ -2581,9 +2581,9 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
         }
 
         /* Show the mouse cursor, but set a timer to hide it if not moved again */
-        if (window->priv->show_fs_mouse_cursor_timeout_id > 0)
+        if (window->priv->hide_fs_mouse_cursor_timeout_id > 0)
         {
-            REMOVE_SOURCE (window->priv->show_fs_mouse_cursor_timeout_id);
+            REMOVE_SOURCE (window->priv->hide_fs_mouse_cursor_timeout_id);
         }
         else
         {
@@ -2592,10 +2592,10 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
 
         if (timeout > 0)
         {
-            window->priv->show_fs_mouse_cursor_timeout_id =
+            window->priv->hide_fs_mouse_cursor_timeout_id =
                     g_timeout_add_full (G_PRIORITY_DEFAULT, 1000 * timeout,
-                                        (GSourceFunc) cb_rstto_main_window_show_fs_mouse_cursor_timeout, window,
-                                        cb_rstto_main_window_show_fs_mouse_cursor_timeout_destroy);
+                                        (GSourceFunc) cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
+                                        cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy);
         }
     }
     return TRUE;
@@ -2667,7 +2667,7 @@ cb_rstto_main_window_show_fs_toolbar_timeout_destroy (gpointer user_data)
 }
 
 static gboolean
-cb_rstto_main_window_show_fs_mouse_cursor_timeout (RsttoMainWindow *window)
+cb_rstto_main_window_hide_fs_mouse_cursor_timeout (RsttoMainWindow *window)
 {
     GdkCursor *cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (window)), "none");
     gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), cursor);
@@ -2675,9 +2675,9 @@ cb_rstto_main_window_show_fs_mouse_cursor_timeout (RsttoMainWindow *window)
 }
 
 static void
-cb_rstto_main_window_show_fs_mouse_cursor_timeout_destroy (gpointer user_data)
+cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy (gpointer user_data)
 {
-    RSTTO_MAIN_WINDOW (user_data)->priv->show_fs_mouse_cursor_timeout_id = 0;
+    RSTTO_MAIN_WINDOW (user_data)->priv->hide_fs_mouse_cursor_timeout_id = 0;
 }
 
 /**
