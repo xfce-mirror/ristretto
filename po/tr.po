@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2019-09-11 07:46+0000\n"
+"PO-Revision-Date: 2019-09-11 13:42+0000\n"
 "Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/xfce/xfce-apps/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -771,11 +771,11 @@ msgstr "Fare imleç"
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of inactivity\n"
 "when the window is fullscreen."
-msgstr ""
+msgstr "Fare imleci belirli bir süre kullanılmadığında otomatik olarak ekranda gizlenebilir\npencere tam ekran olduğunda."
 
 #: ../src/preferences_dialog.c:389
 msgid "Period of inactivity (seconds):"
-msgstr ""
+msgstr "Hareketsizlik süresi (saniye):"
 
 #: ../src/preferences_dialog.c:408
 msgid "Slideshow"
