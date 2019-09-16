@@ -146,17 +146,6 @@ rstto_icon_bar_button_release (
         GdkEventButton *event);
 
 static void
-rstto_icon_bar_set_adjustments (
-        RsttoIconBar  *icon_bar,
-        GtkAdjustment *hadj,
-        GtkAdjustment *vadj);
-
-static void
-cb_rstto_icon_bar_adjustment_value_changed (
-        GtkAdjustment *adjustment,
-        RsttoIconBar  *icon_bar);
-
-static void
 rstto_icon_bar_invalidate (RsttoIconBar *icon_bar);
 
 static RsttoIconBarItem *
@@ -901,8 +890,8 @@ rstto_icon_bar_draw (
     GdkRectangle      area;
     RsttoIconBar     *icon_bar = RSTTO_ICON_BAR (widget);
     GList            *lp;
-    RsttoFile        *file;
-    GtkTreeIter       iter;
+    /*RsttoFile        *file;
+    GtkTreeIter       iter;*/
     GdkRGBA           bg_color;
 
     /* Paint the background color - white */
@@ -1114,95 +1103,6 @@ rstto_icon_bar_button_release (
 }
 
 
-static void
-rstto_icon_bar_set_adjustments (
-        RsttoIconBar  *icon_bar,
-        GtkAdjustment *hadj,
-        GtkAdjustment *vadj)
-{
-#if 0
-    gboolean need_adjust = FALSE;
-
-    if (hadj != NULL)
-        g_return_if_fail (GTK_IS_ADJUSTMENT (hadj));
-    else
-        hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
-
-    if (vadj != NULL)
-        g_return_if_fail (GTK_IS_ADJUSTMENT (vadj));
-    else
-        vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
-
-    if (icon_bar->priv->hadjustment && (icon_bar->priv->hadjustment != hadj))
-    {
-        g_signal_handlers_disconnect_matched (icon_bar->priv->hadjustment, G_SIGNAL_MATCH_DATA,
-                0, 0, NULL, NULL, icon_bar);
-        g_object_unref (icon_bar->priv->hadjustment);
-    }
-
-    if (icon_bar->priv->vadjustment && (icon_bar->priv->vadjustment != vadj))
-    {
-        g_signal_handlers_disconnect_matched (icon_bar->priv->vadjustment, G_SIGNAL_MATCH_DATA,
-                0, 0, NULL, NULL, icon_bar);
-        g_object_unref (icon_bar->priv->vadjustment);
-    }
-
-    if (icon_bar->priv->hadjustment != hadj)
-    {
-        icon_bar->priv->hadjustment = hadj;
-        g_object_ref (icon_bar->priv->hadjustment);
-        // TODO: is this needed?
-        g_object_ref_sink (icon_bar->priv->hadjustment);
-
-        g_signal_connect (icon_bar->priv->hadjustment, "value_changed",
-                G_CALLBACK (cb_rstto_icon_bar_adjustment_value_changed), icon_bar);
-        need_adjust = TRUE;
-    }
-
-    if (icon_bar->priv->vadjustment != vadj)
-    {
-        icon_bar->priv->vadjustment = vadj;
-        g_object_ref (icon_bar->priv->vadjustment);
-        // TODO: is this needed?
-        g_object_ref_sink (icon_bar->priv->vadjustment);
-
-        g_signal_connect (icon_bar->priv->vadjustment, "value_changed",
-                G_CALLBACK (cb_rstto_icon_bar_adjustment_value_changed), icon_bar);
-        need_adjust = TRUE;
-    }
-
-    if (need_adjust)
-        cb_rstto_icon_bar_adjustment_value_changed (NULL, icon_bar);
-#endif
-}
-
-
-
-static void
-cb_rstto_icon_bar_adjustment_value_changed (
-        GtkAdjustment *adjustment,
-        RsttoIconBar  *icon_bar)
-{
-#if 0
-    if (gtk_widget_get_realized (GTK_WIDGET (icon_bar)))
-    {
-        /* Set auto_center to false, this should be the default behaviour
-         * in case a user changes the value of the adjustments.
-         *
-         * If the value is set internally, and auto-center was enabled
-         * the function calling gtk_adjustment_value_changed should set
-         * auto_center to TRUE afterwards.
-         */
-        icon_bar->priv->auto_center = FALSE;
-
-        gdk_window_move (icon_bar->priv->bin_window,
-                - gtk_adjustment_get_value (icon_bar->priv->hadjustment),
-                - gtk_adjustment_get_value (icon_bar->priv->vadjustment));
-
-        gdk_window_process_updates (icon_bar->priv->bin_window, TRUE);
-    }
-#endif
-}
 
 static void
 rstto_icon_bar_invalidate (RsttoIconBar *icon_bar)
