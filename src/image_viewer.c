@@ -75,8 +75,6 @@ struct _RsttoImageViewerPriv
 {
     RsttoFile                   *file;
     RsttoSettings               *settings;
-    GdkVisual                   *visual;
-    //GdkColormap                 *colormap;
 
     GtkIconTheme                *icon_theme;
     GdkPixbuf                   *missing_icon;
@@ -307,9 +305,6 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv->settings = rstto_settings_new ();
     viewer->priv->image_width = 0;
     viewer->priv->image_height = 0;
-    viewer->priv->visual = gdk_visual_get_system ();
-    // TODO: comment out for now
-    //viewer->priv->colormap = gdk_colormap_new (viewer->priv->visual, TRUE);
 
     viewer->priv->icon_theme = gtk_icon_theme_get_default ();
     viewer->priv->bg_icon = gtk_icon_theme_load_icon (
@@ -510,11 +505,8 @@ rstto_image_viewer_realize(GtkWidget *widget)
     attributes.window_type = GDK_WINDOW_CHILD;
     attributes.event_mask = gtk_widget_get_events (widget) | GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK;
     attributes.visual = gtk_widget_get_visual (widget);
-    // TODO: comment out for now
-    //attributes.colormap = gtk_widget_get_colormap (widget);
 
-    // TODO: comment out for now
-    attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL /*| GDK_WA_COLORMAP*/;
+    attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
     window = gdk_window_new (gtk_widget_get_parent_window(widget), &attributes, attributes_mask);
     gtk_widget_set_window (widget, window);
     gdk_window_set_user_data (window, widget);
@@ -2125,8 +2117,6 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader, RsttoImageViewerTran
 static void
 cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint height, RsttoImageViewerTransaction *transaction)
 {
-    gint s_width = gdk_screen_get_width (default_screen);
-    gint s_height = gdk_screen_get_height (default_screen);
     gboolean limit_quality = transaction->viewer->priv->limit_quality;
 
     /*
@@ -2141,6 +2131,16 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
 
     if (limit_quality == TRUE)
     {
+        GdkMonitor *monitor = gdk_display_get_monitor_at_window (
+                gdk_screen_get_display (default_screen),
+                gtk_widget_get_window (GTK_WIDGET (transaction->viewer)));
+        gint s_width, s_height;
+        GdkRectangle monitor_geometry;
+
+        gdk_monitor_get_geometry (monitor, &monitor_geometry);
+        s_width = monitor_geometry.width;
+        s_height = monitor_geometry.height;
+
         /*
          * Set the maximum size of the loaded image to the screen-size.
          * TODO: Add some 'smart-stuff' here
