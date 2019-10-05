@@ -52,7 +52,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 static void
 rstto_app_menu_item_init (RsttoAppMenuItem *menu_item)
 {
-    menu_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (menu_item, RSTTO_TYPE_APP_MENU_ITEM, RsttoAppMenuItemPrivate);
+    menu_item->priv = rstto_app_menu_item_get_instance_private (menu_item);
 }
 
 static void

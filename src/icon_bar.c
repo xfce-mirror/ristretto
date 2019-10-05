@@ -37,12 +37,6 @@
 #define MINIMUM_ICON_ITEM_WIDTH 32
 #define ICON_TEXT_PADDING 1
 
-#define RSTTO_ICON_BAR_GET_PRIVATE(obj) ( \
-            G_TYPE_INSTANCE_GET_PRIVATE ( \
-                    (obj), \
-                    RSTTO_TYPE_ICON_BAR, \
-                    RsttoIconBarPrivate))
-
 #define RSTTO_ICON_BAR_VALID_MODEL_AND_COLUMNS(obj) \
             ((obj)->priv->model != NULL && \
             (obj)->priv->file_column != -1)
@@ -477,7 +471,7 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
 static void
 rstto_icon_bar_init (RsttoIconBar *icon_bar)
 {
-    icon_bar->priv = RSTTO_ICON_BAR_GET_PRIVATE (icon_bar);
+    icon_bar->priv = rstto_icon_bar_get_instance_private (icon_bar);
 
     icon_bar->priv->orientation = GTK_ORIENTATION_VERTICAL;
     icon_bar->priv->pixbuf_column = -1;
