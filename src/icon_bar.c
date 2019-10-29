@@ -1101,7 +1101,10 @@ rstto_icon_bar_button_release (
 static void
 rstto_icon_bar_invalidate (RsttoIconBar *icon_bar)
 {
-    g_list_foreach (icon_bar->priv->items, (GFunc) rstto_icon_bar_item_invalidate, NULL);
+    GList *lp;
+
+    for (lp = icon_bar->priv->items; lp != NULL; lp = lp->next)
+        rstto_icon_bar_item_invalidate (lp->data);
 
     gtk_widget_queue_resize (GTK_WIDGET (icon_bar));
 }

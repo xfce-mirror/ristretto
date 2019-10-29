@@ -368,12 +368,14 @@ rstto_recent_chooser_get_items (
     GList *all_items = gtk_recent_manager_get_items (dialog->priv->recent_manager);
     GList *all_items_iter = all_items;
     GList *items = g_list_copy (all_items);
+    GList *lp;
     GSList *filters = dialog->priv->filters;
     GtkRecentInfo *info;
     GtkRecentFilterInfo filter_info;
     gsize n_applications;
 
-    g_list_foreach (items, (GFunc) gtk_recent_info_ref, NULL);
+    for (lp = items; lp != NULL; lp = lp->next)
+        gtk_recent_info_ref (lp->data);
 
     while (NULL != all_items_iter)
     {
