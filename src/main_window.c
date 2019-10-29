@@ -4470,15 +4470,16 @@ cb_rstto_main_window_clear_private_data (
 
     recent_filter = gtk_recent_filter_new();
     gtk_recent_filter_add_application (recent_filter, "ristretto");
-    gtk_recent_chooser_add_filter(GTK_RECENT_CHOOSER(dialog), recent_filter);
+    gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (dialog), recent_filter);
 
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
     {
-        uris = gtk_recent_chooser_get_uris (GTK_RECENT_CHOOSER(dialog), &n_uris);
+        uris = gtk_recent_chooser_get_uris (GTK_RECENT_CHOOSER (dialog), &n_uris);
         for (i = 0; i < n_uris; ++i)
         {
             gtk_recent_manager_remove_item (window->priv->recent_manager, uris[i], NULL);
         }
+        g_strfreev (uris);
     }
 
     gtk_widget_destroy (dialog);

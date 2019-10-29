@@ -373,7 +373,7 @@ rstto_recent_chooser_get_items (
     GtkRecentFilterInfo filter_info;
     gsize n_applications;
 
-    g_list_foreach (items, (GFunc)gtk_recent_info_ref, NULL);
+    g_list_foreach (items, (GFunc) gtk_recent_info_ref, NULL);
 
     while (NULL != all_items_iter)
     {
@@ -381,11 +381,12 @@ rstto_recent_chooser_get_items (
 
         filter_info.contains = GTK_RECENT_FILTER_URI | GTK_RECENT_FILTER_APPLICATION;
         filter_info.uri = gtk_recent_info_get_uri (info);
-        filter_info.applications = (const gchar **)gtk_recent_info_get_applications (info, &n_applications);
-    
-        if (FALSE == gtk_recent_filter_filter(dialog->priv->timeframe_filter, &filter_info))
+        filter_info.applications = (const gchar **) gtk_recent_info_get_applications (info, &n_applications);
+
+        if (!gtk_recent_filter_filter (dialog->priv->timeframe_filter, &filter_info))
         {
             items = g_list_remove (items, info);
+            gtk_recent_info_unref (info);
         }
         else
         {
@@ -393,17 +394,18 @@ rstto_recent_chooser_get_items (
 
             while (NULL != filters)
             {
-                if (FALSE == gtk_recent_filter_filter(filters->data, &filter_info))
+                if (!gtk_recent_filter_filter (filters->data, &filter_info))
                 {
                     items = g_list_remove (items, info);
+                    gtk_recent_info_unref (info);
                     break;
                 }
-                
+
                 filters = g_slist_next (filters);
             }
         }
 
-        g_strfreev ((gchar **)filter_info.applications);
+        g_strfreev ((gchar **) filter_info.applications);
         all_items_iter = g_list_next (all_items_iter);
     }
 
@@ -456,12 +458,11 @@ cb_rstto_recent_filter_filter_timeframe(
 {
     RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (user_data);
     GtkRecentInfo *info = gtk_recent_manager_lookup_item (dialog->priv->recent_manager, filter_info->uri, NULL);
- 
-    if ((dialog->priv->time_now - gtk_recent_info_get_visited (info)) < dialog->priv->time_offset)
-    {
-        return TRUE;
-    }
-    return FALSE;
+    const time_t visited = gtk_recent_info_get_visited (info);
+
+    gtk_recent_info_unref (info);
+
+    return (dialog->priv->time_now - visited) < dialog->priv->time_offset;
 }
 
 /********************/
