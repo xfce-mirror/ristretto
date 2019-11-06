@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2019-09-16 00:39+0000\n"
+"PO-Revision-Date: 2019-11-06 10:25+0000\n"
 "Last-Translator: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>\n"
 "Language-Team: Japanese (http://www.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -636,7 +636,7 @@ msgstr "スクロールウィンドウ"
 
 #: ../src/icon_bar.c:423
 msgid "Scrolled window icon bar is placed into"
-msgstr ""
+msgstr "スクロールされたウィンドウのアイコンバーが配置されます"
 
 #: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item fill color"
@@ -764,11 +764,11 @@ msgstr "マウスカーソル"
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of inactivity\n"
 "when the window is fullscreen."
-msgstr ""
+msgstr "ウィンドウが全画面表示の場合、マウスカーソルは一定時間非アクティブな状態が続くと、\n自動的に非表示になります。"
 
 #: ../src/preferences_dialog.c:389
 msgid "Period of inactivity (seconds):"
-msgstr ""
+msgstr "非アクティブ期間 (秒):"
 
 #: ../src/preferences_dialog.c:408
 msgid "Slideshow"
