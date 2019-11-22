@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2019-09-12 20:42+0000\n"
+"PO-Revision-Date: 2019-11-22 22:39+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/xfce/xfce-apps/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -511,7 +511,7 @@ msgstr "O Ristretto é um visualizador de imagens para o ambiente de trabalho Xf
 
 #: ../src/main_window.c:2852
 msgid "translator-credits"
-msgstr "Nuno Miguel <nunomgue@gmail.com>"
+msgstr "Hugo Carvalho <hugokarvalho@gmail.com>\nNuno Miguel <nunomgue@gmail.com>"
 
 #: ../src/main_window.c:3272
 msgid "Open image"
