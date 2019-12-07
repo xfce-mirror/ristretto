@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2019-11-19 12:35+0000\n"
+"PO-Revision-Date: 2019-12-07 20:01+0000\n"
 "Last-Translator: Arnold Marko <arnold.marko@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/xfce/xfce-apps/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -846,7 +846,7 @@ msgstr "Splošno"
 
 #: ../src/properties_dialog.c:207
 msgid "Image"
-msgstr ""
+msgstr "Posnetek"
 
 #: ../src/properties_dialog.c:442
 #, c-format
