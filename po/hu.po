@@ -5,7 +5,7 @@
 # Translators:
 # Balázs Meskó <meskobalazs@gmail.com>, 2018
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2009-2012
-# Gábor P., 2019
+# Gábor P., 2019-2020
 # gyeben <gyonkibendeguz@gmail.com>, 2016
 # Imre Benedek <nucleo at indamail dot hu>, 2012
 # SZERVÁC Attila <sas at 321 dot hu>, 2007-2009
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2019-10-16 12:07+0000\n"
+"PO-Revision-Date: 2020-02-11 16:15+0000\n"
 "Last-Translator: Gábor P.\n"
 "Language-Team: Hungarian (http://www.transifex.com/xfce/xfce-apps/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -637,7 +637,7 @@ msgstr "Szöveg megjelenítése"
 
 #: ../src/icon_bar.c:422
 msgid "Scrolled window"
-msgstr ""
+msgstr "Görgethető ablak"
 
 #: ../src/icon_bar.c:423
 msgid "Scrolled window icon bar is placed into"
