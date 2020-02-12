@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2020-02-12 15:57+0000\n"
+"PO-Revision-Date: 2020-02-12 23:11+0000\n"
 "Last-Translator: Arnold Marko <arnold.marko@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/xfce/xfce-apps/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -42,11 +42,11 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr ""
+msgstr "%s: %s\n\nPreizkusite %s --pomoč za ogled\nvseh možnosti ukazne vrstice.\n"
 
 #: ../src/main_window.c:53 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
-msgstr "Pregledovalnik Slik"
+msgstr "Pregledovalnik slik"
 
 #: ../src/main_window.c:401
 msgid "_File"
