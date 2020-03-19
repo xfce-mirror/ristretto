@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2020-03-18 14:19+0000\n"
+"PO-Revision-Date: 2020-03-19 11:02+0000\n"
 "Last-Translator: Ioannis LM\n"
 "Language-Team: Greek (http://www.transifex.com/xfce/xfce-apps/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -183,7 +183,7 @@ msgstr "Έξοδος από πλήρη οθόνη"
 #. Icon-name
 #: ../src/main_window.c:499
 msgid "Set as _Wallpaper..."
-msgstr "_Ορισμός ως επιφάνεια εργασίας..."
+msgstr "_Ορισμός ως φόντο της επιφάνειας εργασίας..."
 
 #: ../src/main_window.c:506
 msgid "_Zoom"
@@ -461,7 +461,7 @@ msgstr "Πατήστε άνοιγμα για να επιλέξετε μία ει
 
 #: ../src/main_window.c:1522 ../src/main_window.c:1526
 msgid "Open With Other _Application..."
-msgstr "Άνοιγμα Με Άλλη _Εφαρμογή..."
+msgstr "Άνοιγμα με άλλη _εφαρμογή..."
 
 #: ../src/main_window.c:1547 ../src/main_window.c:1553
 msgid "Empty"
@@ -492,7 +492,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Ρυθμίστε πιο σύστημα ελέγχει το περιβάλλον εργασίας σας.\nΑυτή η ρύθμιση καθορίζει την μέθοδο την οποία θα χρησιμοποίηση το <i>Ristretto</i>\nγια την ρύθμιση της ταπετσαρίας του περιβάλλοντος εργασίας."
+msgstr "Ρυθμίστε το σύστημα που ελέγχει το περιβάλλον εργασίας σας.\nΗ ρύθμιση αυτή καθορίζει την μέθοδο που θα χρησιμοποιήσει το <i>Ristretto</i>\nγια να ρυθμίσει το φόντο στην επιφάνεια εργασίας σας."
 
 #: ../src/main_window.c:2318 ../src/preferences_dialog.c:487
 msgid "None"
@@ -726,7 +726,7 @@ msgstr "Ποιότητα"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Με αυτή την επιλογή ενεργοποιημένη, η μέγιστη ποιότητα εικόνας περιορίζεται στο μέγεθος της οθόνης."
+msgstr "Με αυτή την επιλογή ενεργοποιημένη, η μέγιστη ποιότητα της εικόνας θα περιορίζεται από το μέγεθος της οθόνης."
 
 #: ../src/preferences_dialog.c:335
 msgid "Limit rendering quality"
@@ -734,7 +734,7 @@ msgstr "Περιορισμός ποιότητας ανάλυσης"
 
 #: ../src/preferences_dialog.c:347
 msgid "Fullscreen"
-msgstr "Πλήρης Οθόνη"
+msgstr "Πλήρης οθόνη"
 
 #: ../src/preferences_dialog.c:351
 msgid "Thumbnails"
@@ -743,7 +743,7 @@ msgstr "Μικρογραφίες"
 #: ../src/preferences_dialog.c:354
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Η μπάρα μικρογραφιών μπορεί να κρύβετε αυτόματα όταν το παράθυρο είναι σε πλήρη οθόνη"
+msgstr "Η μπάρα μικρογραφιών μπορεί αυτόματα να κρύβεται όταν το παράθυρο είναι σε πλήρη οθόνη"
 
 #: ../src/preferences_dialog.c:358
 msgid "Hide thumbnail bar when fullscreen"
@@ -757,11 +757,11 @@ msgstr "Ρολόι"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Προβολή ενός αναλογικού ρολογιού το οποίο προβάλει την τρέχουσα ώρα όταν το παράθυρο είναι σε πλήρη οθόνη"
+msgstr "Προβολή αναλογικού ρολογιού που δείχνει την τρέχουσα ώρα όταν το παράθυρο είναι σε πλήρη οθόνη"
 
 #: ../src/preferences_dialog.c:373
 msgid "Show Fullscreen Clock"
-msgstr "Προβολή Ρολογιού Πλήρους οθόνης"
+msgstr "Εμφάνιση ρολογιού σε πλήρη οθόνη"
 
 #: ../src/preferences_dialog.c:379
 msgid "Mouse cursor"
@@ -789,7 +789,7 @@ msgstr "Χρονικό όριο"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr "Η χρονική περίοδος εμφάνισης μία ανεξάρτητης εικόνας ανάμεσα στις διαφάνειες\n(σε δευτερόλεπτα)"
+msgstr "Η χρονική περίοδος εμφάνισης μιας εικόνας κατά τη προβολή διαφανειών\n(σε δευτερόλεπτα)"
 
 #: ../src/preferences_dialog.c:429
 msgid "Control"
@@ -797,11 +797,11 @@ msgstr "Έλεγχος"
 
 #: ../src/preferences_dialog.c:433
 msgid "Scroll wheel"
-msgstr "Ροδέλα κύλισης"
+msgstr "Τροχός ποντικιού"
 
 #: ../src/preferences_dialog.c:436
 msgid "Invert zoom direction"
-msgstr "Αντιστροφή διεύθυνσης μεγένθυσης"
+msgstr "Αντιστροφή μεγέθυνσης"
 
 #: ../src/preferences_dialog.c:447
 msgid "Behaviour"
@@ -813,7 +813,7 @@ msgstr "Εκκίνηση"
 
 #: ../src/preferences_dialog.c:453
 msgid "Maximize window on startup when opening an image"
-msgstr "Μεγιστοποίηση παραθύρου στη εκκίνηση όταν ανοίγει μια εικόνα"
+msgstr "Μεγιστοποίηση παραθύρου όταν ανοίγει μια εικόνα"
 
 #: ../src/preferences_dialog.c:459
 msgid "Wrap around images"
