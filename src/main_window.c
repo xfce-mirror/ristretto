@@ -301,6 +301,11 @@ cb_rstto_main_window_preferences (
         RsttoMainWindow *window);
 
 static void
+copy_image (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
+
+static void
 cb_rstto_main_window_clear_private_data (
         GtkWidget *widget,
         RsttoMainWindow *window);
@@ -445,6 +450,12 @@ static GtkActionEntry action_entries[] =
             NULL,
             NULL,
             NULL, },
+  { "copy-image",
+            NULL,
+            N_ ("_Copy image to clipboard"),
+            "<control>C",
+            NULL,
+            G_CALLBACK (copy_image), },
   { "open-with-menu",
             NULL,
             N_ ("_Open with"),
@@ -4454,6 +4465,20 @@ rstto_main_window_launch_editor_chooser (
     g_list_free_full (app_infos_recommended, (GDestroyNotify) g_object_unref);
     g_list_free_full (app_infos_all, (GDestroyNotify) g_object_unref);
     g_list_free (files);
+}
+
+
+static void
+copy_image (
+        GtkWidget *widget,
+        RsttoMainWindow *window)
+{
+    GdkPixbuf *pixbuf;
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER(window->priv->image_viewer);
+    pixbuf = rstto_image_viewer_get_pixbuf(viewer);
+    gtk_clipboard_set_image(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), pixbuf);
+    //gtk_clipboard_set_image(gtk_clipboard_get(GDK_SELECTION_PRIMARY), pixbuf);
+    g_object_unref (pixbuf);
 }
 
 static void
