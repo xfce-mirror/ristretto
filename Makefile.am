@@ -34,10 +34,6 @@ DISTCLEANFILES = \
 
 DISTCHECK_CONFIGURE_FLAGS=--enable-gen-doc
 
-AUTOMAKE_OPTIONS = \
-	1.8	\
-	dist-bzip2
-
 .PHONY: ChangeLog
 
 ChangeLog: Makefile

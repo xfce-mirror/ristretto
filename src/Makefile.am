@@ -60,7 +60,7 @@ ristretto_LDADD = \
 	$(LIBM) \
 	$(MAGIC_LIBS)
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	-I${top_srcdir}
 
 DISTCLEANFILES =
@@ -78,7 +78,7 @@ BUILT_SOURCES = \
 	main_window_ui.h
 
 main_window_ui.h: main_window_ui.xml
-	exo-csource --strip-comments --strip-content --static --name=main_window_ui $< > $@
+	xdt-csource --strip-comments --strip-content --static --name=main_window_ui $< > $@
 
 marshal.h: stamp-marshal.h
 	@true
