@@ -10,6 +10,7 @@
 # Casper casper, 2019
 # gabrieltandil <gabriel.tandil@gmail.com>, 2015
 # gabrieltandil <gabriel.tandil@gmail.com>, 2015-2016
+# Ignacio Poggi <ignaciop.3@gmail.com>, 2020
 # prflr88 <prflr88@gmail.com>, 2014-2015
 # prflr88 <prflr88@gmail.com>, 2019
 msgid ""
@@ -17,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2019-09-11 13:48+0000\n"
-"Last-Translator: Casper casper\n"
+"PO-Revision-Date: 2020-04-30 16:32+0000\n"
+"Last-Translator: Ignacio Poggi <ignaciop.3@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -554,12 +555,12 @@ msgstr "No se pudo guardar el archivo"
 #: ../src/main_window.c:3709
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "¿Está seguro de que quiere mover la imagen «%s» a la papelera?"
+msgstr "¿Está seguro que quiere mover la imagen «%s» a la papelera?"
 
 #: ../src/main_window.c:3713
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "¿Está seguro de que quiere eliminar la imagen «%s» del disco?"
+msgstr "¿Está seguro que quiere eliminar la imagen «%s» del disco?"
 
 #: ../src/main_window.c:3724
 msgid "_Do not ask again for this session"
@@ -717,7 +718,7 @@ msgstr "Color de fondo"
 
 #: ../src/preferences_dialog.c:300
 msgid "Override background color:"
-msgstr "Remplazar el color de fondo:"
+msgstr "Reemplazar el color de fondo:"
 
 #: ../src/preferences_dialog.c:327
 msgid "Quality"
