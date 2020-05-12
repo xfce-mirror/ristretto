@@ -16,6 +16,7 @@ appdata_DATA = $(appdata_in_files:.xml.in=.xml)
 appdata_in_files = ristretto.appdata.xml.in
 
 EXTRA_DIST = \
+	README.md \
 	autogen.sh \
 	intltool-extract.in \
 	intltool-merge.in \

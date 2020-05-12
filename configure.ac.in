@@ -30,7 +30,7 @@ AC_INIT([ristretto], [ristretto_version], [])
 AC_PREREQ([2.50])
 
 RISTRETTO_VERSION=ristretto_version
-AM_INIT_AUTOMAKE([1.8 no-dist-gzip dist-bzip2 tar-ustar])
+AM_INIT_AUTOMAKE([1.8 no-dist-gzip dist-bzip2 tar-ustar foreign])
 AM_CONFIG_HEADER([config.h])
 AM_MAINTAINER_MODE
 
