@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2020-05-11 06:43+0000\n"
+"PO-Revision-Date: 2020-05-19 21:36+0000\n"
 "Last-Translator: Priit Jõerüüt <transifex@joeruut.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/xfce/xfce-apps/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -458,7 +458,7 @@ msgstr "Vaata pildifaili mõne muu programmiga..."
 
 #: ../src/main_window.c:1547 ../src/main_window.c:1553
 msgid "Empty"
-msgstr ""
+msgstr "Puudub"
 
 #: ../src/main_window.c:1683
 msgid "Loading..."
@@ -701,7 +701,7 @@ msgstr "Kustuta isiklikud andmed"
 
 #: ../src/preferences_dialog.c:289
 msgid "Display"
-msgstr ""
+msgstr "Ekraan"
 
 #: ../src/preferences_dialog.c:296
 msgid "Background color"
