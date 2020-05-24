@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2020-05-19 23:25+0000\n"
+"PO-Revision-Date: 2020-05-24 17:39+0000\n"
 "Last-Translator: Priit Jõerüüt <transifex@joeruut.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/xfce/xfce-apps/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -750,7 +750,7 @@ msgstr "Kell"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Täisekraanivaates näita analoogkelle, mis kuvab praegust aega"
+msgstr "Täisekraanivaates näita analoogkella, mis kuvab praegust aega"
 
 #: ../src/preferences_dialog.c:373
 msgid "Show Fullscreen Clock"
@@ -782,7 +782,7 @@ msgstr "Kuvamise kestus"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr "Ajavahemik sekundites millal kuvatakse ühte pilti slaidiseansi ajal"
+msgstr "Ajavahemik sekundites, millal kuvatakse ühte pilti slaidiseansi ajal"
 
 #: ../src/preferences_dialog.c:429
 msgid "Control"
@@ -822,23 +822,23 @@ msgstr "Pildinäitaja eelistused"
 
 #: ../src/properties_dialog.c:173
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Nimi:</b>"
 
 #: ../src/properties_dialog.c:174
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Tüüp:</b>"
 
 #: ../src/properties_dialog.c:175
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Muudetud:</b>"
 
 #: ../src/properties_dialog.c:176
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Viimati kasutatud:</b>"
 
 #: ../src/properties_dialog.c:177
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Suurus:</b>"
 
 #: ../src/properties_dialog.c:201
 msgid "General"
@@ -851,7 +851,7 @@ msgstr "Pilt"
 #: ../src/properties_dialog.c:442
 #, c-format
 msgid "<b>Date taken:</b>"
-msgstr ""
+msgstr "<b>Pilt tehtud:</b>"
 
 #: ../src/properties_dialog.c:454 ../src/properties_dialog.c:466
 #: ../src/properties_dialog.c:478
