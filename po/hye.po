@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2020-05-30 15:02+0000\n"
+"PO-Revision-Date: 2020-06-01 10:50+0000\n"
 "Last-Translator: Samvel Harutyunyan <samvel@ehayq.am>\n"
 "Language-Team: Eastern Armenian (http://www.transifex.com/xfce/xfce-apps/language/hye/)\n"
 "MIME-Version: 1.0\n"
@@ -639,7 +639,7 @@ msgstr "Պտտված պատուհան"
 
 #: ../src/icon_bar.c:423
 msgid "Scrolled window icon bar is placed into"
-msgstr ""
+msgstr "Պտտված պատուհանի պատկերակի սանդղակը տեղադրվում է:"
 
 #: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item fill color"
