@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2020-06-01 10:50+0000\n"
+"PO-Revision-Date: 2020-06-04 09:19+0000\n"
 "Last-Translator: Samvel Harutyunyan <samvel@ehayq.am>\n"
 "Language-Team: Eastern Armenian (http://www.transifex.com/xfce/xfce-apps/language/hye/)\n"
 "MIME-Version: 1.0\n"
@@ -875,7 +875,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "Փոքրապատկերի համակարգը հասանելի չէ,\nայս պատճառով՝ փոքրապատկերները չեն ստեղծուի։\n\nՏեղակայէք <b>Tumbler</b> կամ այլ<i>(փոքրապատկերների աւժանդակ ծրագիր)</i>,\nխնդրի լուծման համար։"
+msgstr "Փոքրապատկերի համակարգը հասանելի չէ,\nայս պատճառով՝ փոքրապատկերները չեն ստեղծուի։\n\nՆերբեռնէք <b>Tumbler</b> կամ այլ<i>(փոքրապատկերների աւժանդակ ծրագիր)</i>,\nխնդրի լուծման համար։"
 
 #: ../src/thumbnailer.c:448
 msgid "Do _not show this message again"
@@ -895,7 +895,7 @@ msgstr "Դարձնել պաստառ"
 
 #: ../src/xfce_wallpaper_manager.c:382 ../src/gnome_wallpaper_manager.c:294
 msgid "Auto"
-msgstr "Ինքնա"
+msgstr "Ավտո"
 
 #: ../src/xfce_wallpaper_manager.c:385
 msgid "Centered"
