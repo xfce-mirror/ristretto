@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2020-05-24 17:39+0000\n"
+"PO-Revision-Date: 2020-06-04 14:20+0000\n"
 "Last-Translator: Priit Jõerüüt <transifex@joeruut.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/xfce/xfce-apps/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -596,11 +596,11 @@ msgstr "Muud rakendused"
 
 #: ../src/icon_bar.c:345
 msgid "Orientation"
-msgstr ""
+msgstr "Paigutus"
 
 #: ../src/icon_bar.c:346
 msgid "The orientation of the iconbar"
-msgstr ""
+msgstr "Ikooniriba paigutus"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
