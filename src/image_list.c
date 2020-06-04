@@ -763,7 +763,7 @@ cb_rstto_read_file ( gpointer user_data )
 
         /* Add file to the list */
         content_type  = g_file_info_get_content_type (file_info);
-        if (strncmp (content_type, "image/", 6) == 0)
+        if (content_type && (strncmp (content_type, "image/", 6) == 0))
         {
             filename = g_file_info_get_name (file_info);
             child_file = g_file_get_child (loader->dir, filename);
