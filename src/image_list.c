@@ -1638,7 +1638,6 @@ image_list_model_iter_next (
 
     image_list = RSTTO_IMAGE_LIST (tree_model);
 
-    file = iter->user_data;
     pos = GPOINTER_TO_INT(iter->user_data3);
     pos++;
 
