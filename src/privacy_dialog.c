@@ -369,7 +369,7 @@ rstto_recent_chooser_get_items (
     GList *all_items_iter = all_items;
     GList *items = g_list_copy (all_items);
     GList *lp;
-    GSList *filters = dialog->priv->filters;
+    GSList *filters;
     GtkRecentInfo *info;
     GtkRecentFilterInfo filter_info;
     gsize n_applications;
