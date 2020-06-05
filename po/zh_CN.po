@@ -7,14 +7,14 @@
 # Hunt Xu <mhuntxu@gmail.com>, 2008-2010,2016
 # Mingcong Bai <jeffbai@aosc.xyz>, 2016-2017
 # wuli <wurisky@gmail.com>, 2008
-# 玉堂白鹤 <yjwork@qq.com>, 2015-2016,2019
+# 玉堂白鹤 <yjwork@qq.com>, 2015-2016,2019-2020
 # Mingcong Bai <jeffbai@aosc.xyz>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2019-09-11 08:55+0000\n"
+"PO-Revision-Date: 2020-06-05 05:31+0000\n"
 "Last-Translator: 玉堂白鹤 <yjwork@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/xfce/xfce-apps/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -925,7 +925,7 @@ msgstr "Ristretto 图片查看器"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
-msgstr "轻松地看您的图片"
+msgstr "轻松查看您的图片"
 
 #: ../ristretto.appdata.xml.in.h:2
 msgid ""
