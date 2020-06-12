@@ -5,13 +5,14 @@
 # Translators:
 # Elishai Eliyahu <e1907@mm.st>, 2016-2017,2019-2020
 # GenghisKhan <genghiskhan@gmx.ca>, 2016
+# Omer, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2020-02-02 20:18+0000\n"
-"Last-Translator: Elishai Eliyahu <e1907@mm.st>\n"
+"PO-Revision-Date: 2020-06-12 10:45+0000\n"
+"Last-Translator: Omer\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +34,7 @@ msgstr "התחל מצגת"
 
 #: ../src/main.c:78
 msgid "Show settings dialog"
-msgstr "הצג דו שיח הגדרות"
+msgstr "הצג דו־שיח הגדרות"
 
 #: ../src/main.c:103
 #, c-format
@@ -42,7 +43,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s: %s\n\nTry %s --help to see a full list of\navailable command line options.\n"
+msgstr "%s: %s\n\nנסה את %s --help על מנת לראות רשימה מלאה של\nהפקודות הזמינות לשורת הפקודה.\n"
 
 #: ../src/main_window.c:53 ../ristretto.desktop.in.h:3
 msgid "Image Viewer"
@@ -637,7 +638,7 @@ msgstr "חלון גלול"
 
 #: ../src/icon_bar.c:423
 msgid "Scrolled window icon bar is placed into"
-msgstr "חלון גלול בו ממוקם סרגל איקונים"
+msgstr "חלון גלול בו ממוקם סרגל האיקוניים"
 
 #: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item fill color"
@@ -769,7 +770,7 @@ msgstr "סמן העכבר ניתן להסתרה אוטומטית לאחר זמן
 
 #: ../src/preferences_dialog.c:389
 msgid "Period of inactivity (seconds):"
-msgstr "משך זמן חוסר פעילות (שניות):"
+msgstr "משך זמן חוסר פעילות (בשניות):"
 
 #: ../src/preferences_dialog.c:408
 msgid "Slideshow"
@@ -873,7 +874,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "שירות תמונות מוקטנות אינו ניתן להשגה,\nמסיבה זו, התמונות המוקטנות לא ניתנות\nליצירה.\n\nהתקן <b>Tumbler</b> או <b>דמון הקטנת תמונות</b> אחר \nעל מנת לפתור את הבעיה הזו."
+msgstr "שירות התמונות הממוזערות אינו ניתן להשגה,\nמסיבה זו, התמונות הממוזערות לא ניתנות\nליצירה.\n\nהתקן את <b>Tumbler</b> או <b>שדון הקטנת תמונות</b> אחר \nעל מנת לפתור את הבעיה הזו."
 
 #: ../src/thumbnailer.c:448
 msgid "Do _not show this message again"
@@ -929,4 +930,4 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "מציג תמונות Ristretto הוא תוכנה הניתנת לשימוש לצפייה ודפדוף בתמונות, להרצת מצגת, לפתיחת תמונות עם תוכנות אחרות כמו עורך תמונות או להגדרת תמונה כרקע שולחן עבודה."
+msgstr "מציג התמונות Ristretto הוא תוכנה הניתנת לשימוש לצפייה וגלילה של תמונות, להרצת מצגת, לפתיחת תמונות עם תוכנות אחרות כמו עורך תמונות או להגדרת תמונה כרקע שולחן העבודה."
