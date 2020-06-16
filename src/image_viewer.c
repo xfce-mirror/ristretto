@@ -1901,6 +1901,13 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
             FALSE);
 }
 
+GdkPixbuf *
+rstto_image_viewer_get_pixbuf (
+        RsttoImageViewer *viewer)
+{
+    return viewer->priv->pixbuf;
+}
+
 gdouble
 rstto_image_viewer_get_scale (RsttoImageViewer *viewer)
 {
