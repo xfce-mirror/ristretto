@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2020-06-12 10:45+0000\n"
+"PO-Revision-Date: 2020-06-21 13:31+0000\n"
 "Last-Translator: Omer\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -638,7 +638,7 @@ msgstr "חלון גלול"
 
 #: ../src/icon_bar.c:423
 msgid "Scrolled window icon bar is placed into"
-msgstr "חלון גלול בו ממוקם סרגל האיקוניים"
+msgstr "חלון גלול שסרגל האייקונים ממוקם בו"
 
 #: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item fill color"
@@ -695,7 +695,7 @@ msgstr "הכל"
 #: ../src/privacy_dialog.c:185 ../src/xfce_wallpaper_manager.c:325
 #: ../src/gnome_wallpaper_manager.c:241
 msgid "_Apply"
-msgstr "_החל"
+msgstr "_יישם"
 
 #: ../src/privacy_dialog.c:475
 msgid "Clear private data"
