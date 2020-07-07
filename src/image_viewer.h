@@ -89,6 +89,10 @@ rstto_image_viewer_set_scale (
         RsttoImageViewer *viewer,
         gdouble scale);
 
+GdkPixbuf *
+rstto_image_viewer_get_pixbuf (
+        RsttoImageViewer *viewer);
+
 gdouble
 rstto_image_viewer_get_scale (
         RsttoImageViewer *viewer);

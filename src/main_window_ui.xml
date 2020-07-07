@@ -16,6 +16,8 @@
             <menuitem action="quit"/>
         </menu>
         <menu action="edit-menu">
+            <menuitem action="copy-image"/>
+            <separator/>
             <menu action="open-with-menu">
                 <placeholder name="open-with-apps" />
             </menu>
