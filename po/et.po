@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2020-06-05 23:17+0000\n"
+"PO-Revision-Date: 2020-07-06 08:17+0000\n"
 "Last-Translator: Priit Jõerüüt <transifex@joeruut.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/xfce/xfce-apps/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -628,7 +628,7 @@ msgstr ""
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
-msgstr ""
+msgstr "Näita teksti"
 
 #: ../src/icon_bar.c:422
 msgid "Scrolled window"
@@ -640,15 +640,15 @@ msgstr ""
 
 #: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item fill color"
-msgstr ""
+msgstr "Aktiivse elemendi sisu värv"
 
 #: ../src/icon_bar.c:436 ../src/icon_bar.c:437
 msgid "Active item border color"
-msgstr ""
+msgstr "Aktiivse elemendi äärejoone värv"
 
 #: ../src/icon_bar.c:443 ../src/icon_bar.c:444
 msgid "Active item text color"
-msgstr ""
+msgstr "Aktiivse elemendi teksti värv"
 
 #: ../src/icon_bar.c:450 ../src/icon_bar.c:451
 msgid "Cursor item fill color"
