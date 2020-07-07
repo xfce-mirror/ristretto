@@ -1905,6 +1905,7 @@ GdkPixbuf *
 rstto_image_viewer_get_pixbuf (
         RsttoImageViewer *viewer)
 {
+    g_object_ref(viewer->priv->pixbuf);
     return viewer->priv->pixbuf;
 }
 
