@@ -4518,6 +4518,18 @@ key_press_event (
                     }
                 }
                 break;
+            case GDK_KEY_minus:
+                cb_rstto_main_window_zoom_out( GTK_WIDGET(window), rstto_window );
+                break;
+            case GDK_KEY_plus:
+                cb_rstto_main_window_zoom_in( GTK_WIDGET(window), rstto_window );
+                break;
+            case GDK_KEY_equal:
+                cb_rstto_main_window_zoom_fit( GTK_WIDGET(window), rstto_window );
+                break;
+            case GDK_KEY_0:
+                cb_rstto_main_window_zoom_100( GTK_WIDGET(window), rstto_window );
+                break;
         }
     }
     return TRUE;
