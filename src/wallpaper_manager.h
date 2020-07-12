@@ -28,13 +28,7 @@ G_BEGIN_DECLS
 
 #define RSTTO_WALLPAPER_MANAGER_TYPE \
         rstto_wallpaper_manager_get_type ()
-#define RSTTO_WALLPAPER_MANAGER(obj)( \
-        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-                RSTTO_WALLPAPER_MANAGER_TYPE, \
-                RsttoWallpaperManager))
-#define RSTTO_IS_WALLPAPER_MANAGER(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_WALLPAPER_MANAGER_TYPE))
+
 #define RSTTO_WALLPAPER_MANAGER_GET_IFACE(inst)( \
         G_TYPE_INSTANCE_GET_INTERFACE ((inst), \
                 RSTTO_WALLPAPER_MANAGER_TYPE, \

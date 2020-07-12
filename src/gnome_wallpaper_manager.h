@@ -33,18 +33,10 @@ G_BEGIN_DECLS
                 RSTTO_TYPE_GNOME_WALLPAPER_MANAGER, \
                 RsttoGnomeWallpaperManager))
 
-#define RSTTO_IS_GNOME_WALLPAPER_MANAGER(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_GNOME_WALLPAPER_MANAGER))
-
 #define RSTTO_GNOME_WALLPAPER_MANAGER_CLASS(klass)( \
         G_TYPE_CHECK_CLASS_CAST ((klass), \
                 RSTTO_TYPE_GNOME_WALLPAPER_MANAGER, \
                 RsttoGnomeWallpaperManagerClass))
-
-#define RSTTO_IS_GNOME_WALLPAPER_MANAGER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_GNOME_WALLPAPER_MANAGER()))
 
 
 typedef struct _RsttoGnomeWallpaperManager RsttoGnomeWallpaperManager;

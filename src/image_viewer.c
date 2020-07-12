@@ -17,19 +17,13 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-#include <string.h>
 #include <gio/gio.h>
-#include <libxfce4ui/libxfce4ui.h>
-#include <libexif/exif-data.h>
-#include <cairo/cairo.h>
 
 #include <math.h>
 
 #include "util.h"
 #include "image_viewer.h"
 #include "settings.h"
-#include "marshal.h"
 
 /* Do not make this buffer too large,
  * this breaks some pixbufloaders.
@@ -2482,8 +2476,6 @@ rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
                         gtk_adjustment_set_value (adjustment,
                                 gtk_adjustment_get_lower (adjustment));
                     }
-                    if (val != gtk_adjustment_get_value (adjustment))
-                        gtk_adjustment_value_changed (adjustment);
                 }
 
                 if (viewer->priv->motion.y != viewer->priv->motion.current_y)
@@ -2503,8 +2495,6 @@ rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
                         gtk_adjustment_set_value (adjustment,
                                 gtk_adjustment_get_lower (adjustment));
                     }
-                    if (val != gtk_adjustment_get_value (adjustment))
-                        gtk_adjustment_value_changed (adjustment);
                 }
                 break;
             case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
@@ -2767,14 +2757,6 @@ rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
                  */
                 g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
                 g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
-
-                /*
-                 * Trigger the 'changed' signal, update the rest
-                 * of
-                 * the appliaction.
-                 */
-                gtk_adjustment_changed(viewer->hadjustment);
-                gtk_adjustment_changed(viewer->vadjustment);
 
                 g_signal_emit_by_name(viewer, "scale-changed");
             }

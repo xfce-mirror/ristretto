@@ -31,18 +31,10 @@ G_BEGIN_DECLS
                 RSTTO_TYPE_SETTINGS, \
                 RsttoSettings))
 
-#define RSTTO_IS_SETTINGS(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_SETTINGS))
-
 #define RSTTO_SETTINGS_CLASS(klass)( \
         G_TYPE_CHECK_CLASS_CAST ((klass), \
                 RSTTO_TYPE_SETTINGS, \
                 RsttoSettingsClass))
-
-#define RSTTO_IS_SETTINGS_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_SETTINGS()))
 
 
 typedef struct _RsttoSettings RsttoSettings;

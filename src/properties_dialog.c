@@ -17,14 +17,11 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-
 #include <libexif/exif-data.h>
 
 #include <libxfce4util/libxfce4util.h>
 
 #include "settings.h"
-#include "util.h"
 #include "file.h"
 #include "properties_dialog.h"
 
@@ -64,7 +61,7 @@ enum
     EXIF_PROP_MAKE,
     EXIF_PROP_APERATURE,
     EXIF_PROP_COUNT
-} RsttoExifProp;
+};
 
 enum
 {

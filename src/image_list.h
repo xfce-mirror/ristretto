@@ -37,15 +37,6 @@ G_BEGIN_DECLS
         G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
                 RSTTO_TYPE_IMAGE_LIST))
 
-#define RSTTO_IMAGE_LIST_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_CAST ((klass), \
-                RSTTO_TYPE_IMAGE_LIST, \
-                RsttoImageListClass))
-
-#define RSTTO_IS_IMAGE_LIST_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_IMAGE_LIST()))
-
 typedef struct _RsttoImageListPriv RsttoImageListPriv;
 typedef struct _RsttoImageList RsttoImageList;
 
@@ -68,19 +59,6 @@ struct _RsttoImageListClass
         G_TYPE_CHECK_INSTANCE_CAST ((obj), \
                 RSTTO_TYPE_IMAGE_LIST_ITER, \
                 RsttoImageListIter))
-
-#define RSTTO_IS_IMAGE_LIST_ITER(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_IMAGE_LIST_ITER))
-
-#define RSTTO_IMAGE_LIST_ITER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_CAST ((klass), \
-                RSTTO_TYPE_IMAGE_LIST_ITER, \
-                RsttoImageListIterClass))
-
-#define RSTTO_IS_IMAGE_LIST_ITER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_IMAGE_LIST_ITER()))
 
 typedef struct _RsttoImageListIter RsttoImageListIter;
 typedef struct _RsttoImageListIterPriv RsttoImageListIterPriv;

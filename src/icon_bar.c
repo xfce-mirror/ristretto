@@ -21,21 +21,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <config.h>
-
 #include <libxfce4util/libxfce4util.h>
-
-#include <libexif/exif-data.h>
 
 #include "util.h"
 #include "file.h"
 #include "thumbnailer.h"
 #include "settings.h"
-#include "marshal.h"
 #include "icon_bar.h"
-
-#define MINIMUM_ICON_ITEM_WIDTH 32
-#define ICON_TEXT_PADDING 1
 
 #define RSTTO_ICON_BAR_VALID_MODEL_AND_COLUMNS(obj) \
             ((obj)->priv->model != NULL && \

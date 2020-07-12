@@ -17,16 +17,8 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/mman.h>
-
 #include <glib.h>
 #include <gio/gio.h>
-#include <locale.h>
 
 #include <libxfce4util/libxfce4util.h>
 
