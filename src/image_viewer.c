@@ -17,19 +17,13 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-#include <string.h>
 #include <gio/gio.h>
-#include <libxfce4ui/libxfce4ui.h>
-#include <libexif/exif-data.h>
-#include <cairo/cairo.h>
 
 #include <math.h>
 
 #include "util.h"
 #include "image_viewer.h"
 #include "settings.h"
-#include "marshal.h"
 
 /* Do not make this buffer too large,
  * this breaks some pixbufloaders.

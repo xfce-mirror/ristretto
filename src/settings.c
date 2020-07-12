@@ -17,8 +17,6 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-
 #include <glib.h>
 #include <gdk/gdkkeysyms.h>
 #include <xfconf/xfconf.h>
