@@ -35,15 +35,6 @@ G_BEGIN_DECLS
         G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
                 RSTTO_TYPE_MONITOR_CHOOSER))
 
-#define RSTTO_MONITOR_CHOOSER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_CAST ((klass), \
-                RSTTO_TYPE_MONITOR_CHOOSER, \
-                RsttoMonitorChooserClass))
-
-#define RSTTO_IS_MONITOR_CHOOSER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_MONITOR_CHOOSER()))
-
 typedef struct _RsttoMonitorChooserPriv RsttoMonitorChooserPriv;
 
 typedef struct _RsttoMonitorChooser RsttoMonitorChooser;

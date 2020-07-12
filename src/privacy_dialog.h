@@ -31,18 +31,10 @@ G_BEGIN_DECLS
                 RSTTO_TYPE_PRIVACY_DIALOG, \
                 RsttoPrivacyDialog))
 
-#define RSTTO_IS_PRIVACY_DIALOG(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_PRIVACY_DIALOG))
-
 #define RSTTO_PRIVACY_DIALOG_CLASS(klass)( \
         G_TYPE_CHECK_CLASS_CAST ((klass), \
                 RSTTO_TYPE_PRIVACY_DIALOG, \
                 RsttoPrivacyDialogClass))
-
-#define RSTTO_IS_PRIVACY_DIALOG_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_PRIVACY_DIALOG()))
 
 typedef struct _RsttoPrivacyDialog RsttoPrivacyDialog;
 
