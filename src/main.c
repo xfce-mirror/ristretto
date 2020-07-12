@@ -25,14 +25,9 @@
 
 #include <xfconf/xfconf.h>
 #include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
-#include <string.h>
 
 #include <libxfce4ui/libxfce4ui.h>
-#include <libxfce4util/libxfce4util.h>
-#include <libexif/exif-data.h>
 
-#include "util.h"
 #include "file.h"
 #include "image_list.h"
 #include "settings.h"

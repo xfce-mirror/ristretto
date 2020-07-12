@@ -20,12 +20,7 @@
  *    Copyright (c) Benedict Meurer <benny@xfce.org>
  */
 
-#include <config.h>
-
-#include <stdlib.h>
 #include <string.h>
-
-#include <libexif/exif-data.h>
 
 #include "util.h"
 #include "image_list.h"

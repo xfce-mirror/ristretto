@@ -17,16 +17,9 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-#include <string.h>
-
 #include <glib.h>
 #include <glib-object.h>
-#include <gio/gio.h>
 
-#include <libexif/exif-data.h>
-
-#include "util.h"
 #include "wallpaper_manager.h"
 
 gint 

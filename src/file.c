@@ -17,11 +17,7 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-
 #include <gio/gio.h>
-
-#include <libxfce4util/libxfce4util.h>
 
 #if HAVE_MAGIC_H
 #include <magic.h>
