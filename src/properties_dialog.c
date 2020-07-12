@@ -61,7 +61,7 @@ enum
     EXIF_PROP_MAKE,
     EXIF_PROP_APERATURE,
     EXIF_PROP_COUNT
-} RsttoExifProp;
+};
 
 enum
 {
