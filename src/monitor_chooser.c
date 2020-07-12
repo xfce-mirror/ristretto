@@ -17,8 +17,6 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-#include <string.h>
 #include <math.h>
 
 #include "monitor_chooser.h"

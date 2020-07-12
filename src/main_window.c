@@ -19,7 +19,6 @@
 
 #include <config.h>
 #include <gdk/gdkkeysyms.h>
-#include <X11/Xlib.h>
 #include <string.h>
 
 #include <gio/gio.h>
@@ -27,8 +26,6 @@
 
 #include <libxfce4ui/libxfce4ui.h>
 #include <libexif/exif-data.h>
-
-#include <cairo/cairo.h>
 
 #include "settings.h"
 #include "mime_db.h"
