@@ -40,10 +40,6 @@ G_BEGIN_DECLS
                 RSTTO_TYPE_THUMBNAILER, \
                 RsttoThumbnailerClass))
 
-#define RSTTO_IS_THUMBNAILER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_THUMBNAILER()))
-
 
 typedef struct _RsttoThumbnailer RsttoThumbnailer;
 typedef struct _RsttoThumbnailerPriv RsttoThumbnailerPriv;

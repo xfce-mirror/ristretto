@@ -43,10 +43,6 @@ G_BEGIN_DECLS
                 RSTTO_TYPE_FILE, \
                 RsttoFileClass))
 
-#define RSTTO_IS_FILE_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_FILE()))
-
 
 typedef struct _RsttoFile RsttoFile;
 typedef struct _RsttoFilePriv RsttoFilePriv;
