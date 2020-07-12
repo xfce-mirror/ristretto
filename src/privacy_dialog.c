@@ -17,9 +17,7 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
 #include <libxfce4ui/libxfce4ui.h>
-#include <libxfce4util/libxfce4util.h>
 
 #include "settings.h"
 #include "privacy_dialog.h"

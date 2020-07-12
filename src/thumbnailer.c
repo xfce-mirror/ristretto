@@ -17,14 +17,10 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-
 #include <string.h>
 
 #include <glib.h>
 #include <gio/gio.h>
-
-#include <libexif/exif-data.h>
 
 #include <libxfce4util/libxfce4util.h>
 
@@ -32,7 +28,6 @@
 #include "file.h"
 #include "settings.h"
 #include "thumbnailer.h"
-#include "marshal.h"
 #include "tumbler.h"
 
 static void

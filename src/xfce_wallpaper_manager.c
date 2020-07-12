@@ -17,23 +17,12 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-
 #include <glib.h>
 #include <gdk/gdkx.h>
-#include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <xfconf/xfconf.h>
 #include <libxfce4ui/libxfce4ui.h>
-#include <libxfce4util/libxfce4util.h>
-#include <gio/gio.h>
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gdk-pixbuf/gdk-pixdata.h>
-
-#include <libexif/exif-data.h>
-
-#include "util.h"
 #include "file.h"
 #include "monitor_chooser.h"
 #include "xfce_wallpaper_manager.h"
