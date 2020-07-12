@@ -34,18 +34,10 @@ G_BEGIN_DECLS
                 RSTTO_TYPE_XFCE_WALLPAPER_MANAGER, \
                 RsttoXfceWallpaperManager))
 
-#define RSTTO_IS_XFCE_WALLPAPER_MANAGER(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_XFCE_WALLPAPER_MANAGER))
-
 #define RSTTO_XFCE_WALLPAPER_MANAGER_CLASS(klass)( \
         G_TYPE_CHECK_CLASS_CAST ((klass), \
                 RSTTO_TYPE_XFCE_WALLPAPER_MANAGER, \
                 RsttoXfceWallpaperManagerClass))
-
-#define RSTTO_IS_XFCE_WALLPAPER_MANAGER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_XFCE_WALLPAPER_MANAGER()))
 
 
 typedef struct _RsttoXfceWallpaperManager RsttoXfceWallpaperManager;

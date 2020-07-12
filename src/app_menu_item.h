@@ -26,10 +26,6 @@ G_BEGIN_DECLS
 
 #define RSTTO_TYPE_APP_MENU_ITEM            (rstto_app_menu_item_get_type())
 #define RSTTO_APP_MENU_ITEM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), RSTTO_TYPE_APP_MENU_ITEM, RsttoAppMenuItem))
-#define RSTTO_APP_MENU_ITEM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), RSTTO_TYPE_APP_MENU_ITEM, RsttoAppMenuItemClass))
-#define RSTTO_IS_APP_MENU_ITEM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), RSTTO_TYPE_APP_MENU_ITEM))
-#define RSTTO_IS_APP_MENU_ITEM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), RSTTO_TYPE_APP_MENU_ITEM ()))
-#define RSTTO_APP_MENU_ITEM_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), RSTTO_TYPE_APP_MENU_ITEM, RsttoAppMenuItemClass))
 
 typedef struct _RsttoAppMenuItemPrivate RsttoAppMenuItemPrivate;
 

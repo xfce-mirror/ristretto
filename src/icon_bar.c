@@ -29,9 +29,6 @@
 #include "settings.h"
 #include "icon_bar.h"
 
-#define MINIMUM_ICON_ITEM_WIDTH 32
-#define ICON_TEXT_PADDING 1
-
 #define RSTTO_ICON_BAR_VALID_MODEL_AND_COLUMNS(obj) \
             ((obj)->priv->model != NULL && \
             (obj)->priv->file_column != -1)
