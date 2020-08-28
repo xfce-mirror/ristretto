@@ -39,7 +39,7 @@
 #endif
 
 #ifndef BACKGROUND_ICON_NAME
-#define BACKGROUND_ICON_NAME "ristretto"
+#define BACKGROUND_ICON_NAME "org.xfce.ristretto"
 #endif
 
 #ifndef BACKGROUND_ICON_SIZE
