@@ -1,7 +1,7 @@
 
 # Inspired by Makefile.am from the Thunar file-manager
 
-iconsdir = $(datadir)/icons/hicolor/128x128/apps
+iconsdir = $(datadir)/icons/hicolor/32x32/apps
 icons_DATA = org.xfce.ristretto.png
 	
 
