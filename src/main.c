@@ -120,7 +120,7 @@ main(int argc, char **argv)
 
     xfconf_init (NULL);
 
-    gtk_window_set_default_icon_name ("ristretto");
+    gtk_window_set_default_icon_name ("org.xfce.ristretto");
     settings = rstto_settings_new ();
 
     if (FALSE == show_settings)
