@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2020-07-06 08:17+0000\n"
+"PO-Revision-Date: 2020-09-02 20:55+0000\n"
 "Last-Translator: Priit Jõerüüt <transifex@joeruut.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/xfce/xfce-apps/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -604,27 +604,27 @@ msgstr "Ikooniriba paigutus"
 
 #: ../src/icon_bar.c:362
 msgid "File column"
-msgstr ""
+msgstr "Failide veerg"
 
 #: ../src/icon_bar.c:363
 msgid "Model column used to retrieve the file from"
-msgstr ""
+msgstr "Mudeli veerg, kust faile laetakse"
 
 #: ../src/icon_bar.c:375
 msgid "Icon Bar Model"
-msgstr ""
+msgstr "Ikooniriba mudel"
 
 #: ../src/icon_bar.c:376
 msgid "Model for the icon bar"
-msgstr ""
+msgstr "Mudel ikooniriba jaoks"
 
 #: ../src/icon_bar.c:392
 msgid "Active"
-msgstr ""
+msgstr "Aktiivne"
 
 #: ../src/icon_bar.c:393
 msgid "Active item index"
-msgstr ""
+msgstr "Aktiivse elemendi indeks"
 
 #: ../src/icon_bar.c:409 ../src/icon_bar.c:410
 msgid "Show Text"
@@ -632,11 +632,11 @@ msgstr "Näita teksti"
 
 #: ../src/icon_bar.c:422
 msgid "Scrolled window"
-msgstr ""
+msgstr "Keritav aken"
 
 #: ../src/icon_bar.c:423
 msgid "Scrolled window icon bar is placed into"
-msgstr ""
+msgstr "Keritav aken, kuhu ikooniriba lisatakse"
 
 #: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item fill color"
@@ -652,15 +652,15 @@ msgstr "Aktiivse elemendi teksti värv"
 
 #: ../src/icon_bar.c:450 ../src/icon_bar.c:451
 msgid "Cursor item fill color"
-msgstr ""
+msgstr "Kursorielemendi sisu värv"
 
 #: ../src/icon_bar.c:457 ../src/icon_bar.c:458
 msgid "Cursor item border color"
-msgstr ""
+msgstr "Kursorielemendi äärejoone värv"
 
 #: ../src/icon_bar.c:464 ../src/icon_bar.c:465
 msgid "Cursor item text color"
-msgstr ""
+msgstr "Kursorielemendi teksti värv"
 
 #: ../src/privacy_dialog.c:152
 msgid "Time range to clear:"
@@ -810,7 +810,7 @@ msgstr "Pildi avamisel näita täismõõdus akent"
 
 #: ../src/preferences_dialog.c:459
 msgid "Wrap around images"
-msgstr ""
+msgstr "Mähi piltide ümber"
 
 #: ../src/preferences_dialog.c:470
 msgid "Desktop"
