@@ -12,25 +12,25 @@ applications like an image-editor or configure an image as the desktop wallpaper
 
 ### Homepage
 
-[ristretto documentation](https://docs.xfce.org/xfce/ristretto/start)
+[ristretto documentation](https://docs.xfce.org/apps/ristretto/start)
 
 ### Changelog
 
-See [NEWS](https://gitlab.xfce.org/xfce/ristretto/-/blob/master/NEWS) for details on changes and fixes made in the current release.
+See [NEWS](https://gitlab.xfce.org/apps/ristretto/-/blob/master/NEWS) for details on changes and fixes made in the current release.
 
 ### Source Code Repository
 
-[ristretto source code](https://gitlab.xfce.org/xfce/ristretto)
+[ristretto source code](https://gitlab.xfce.org/apps/ristretto)
 
 ### Download A Release Tarball
 
-[ristretto archive](https://archive.xfce.org/src/xfce/ristretto)
+[ristretto archive](https://archive.xfce.org/src/apps/ristretto)
     or
-[ristretto tags](https://gitlab.xfce.org/xfce/ristretto/-/tags)
+[ristretto tags](https://gitlab.xfce.org/apps/ristretto/-/tags)
 
 ### Installation
 
-From source: 
+From source code repository: 
 
     % cd ristretto
     % ./autogen.sh
@@ -47,5 +47,5 @@ From release tarball:
 
 ### Reporting Bugs
 
-Visit the [reporting bugs](https://docs.xfce.org/xfce/ristretto/bugs) page to view currently open bug reports and instructions on reporting new bugs or submitting bugfixes.
+Visit the [reporting bugs](https://docs.xfce.org/apps/ristretto/bugs) page to view currently open bug reports and instructions on reporting new bugs or submitting bugfixes.
 
