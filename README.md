@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://gitlab.xfce.org/xfce/ristretto/COPYING)
+[![License](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://gitlab.xfce.org/apps/ristretto/-/blob/master/COPYING)
 
 # ristretto
 
@@ -12,7 +12,7 @@ applications like an image-editor or configure an image as the desktop wallpaper
 
 ### Homepage
 
-[ristretto documentation](https://docs.xfce.org/apps/ristretto/start)
+[Ristretto documentation](https://docs.xfce.org/apps/ristretto/start)
 
 ### Changelog
 
@@ -20,13 +20,13 @@ See [NEWS](https://gitlab.xfce.org/apps/ristretto/-/blob/master/NEWS) for detail
 
 ### Source Code Repository
 
-[ristretto source code](https://gitlab.xfce.org/apps/ristretto)
+[Ristretto source code](https://gitlab.xfce.org/apps/ristretto)
 
-### Download A Release Tarball
+### Download a Release Tarball
 
-[ristretto archive](https://archive.xfce.org/src/apps/ristretto)
+[Ristretto archive](https://archive.xfce.org/src/apps/ristretto)
     or
-[ristretto tags](https://gitlab.xfce.org/apps/ristretto/-/tags)
+[Ristretto tags](https://gitlab.xfce.org/apps/ristretto/-/tags)
 
 ### Installation
 
