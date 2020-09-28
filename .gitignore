@@ -29,7 +29,7 @@ intltool-merge.in
 intltool-update.in
 missing
 mkinstalldirs
-po/.intltool-merge-cache
+po/.intltool-merge-cache*
 po/Makefile.in.in
 po/POTFILES
 po/stamp-it
