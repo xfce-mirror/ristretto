@@ -18,6 +18,7 @@
  */
 
 #include <gio/gio.h>
+#include <string.h>
 
 #if HAVE_MAGIC_H
 #include <magic.h>
