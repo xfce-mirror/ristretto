@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Elishai Eliyahu <e1907@mm.st>, 2016-2017,2019-2020
+# Elishai Eliyahu <elishai@mailfence.com>, 2016-2017,2019-2020
 # GenghisKhan <genghiskhan@gmx.ca>, 2016
-# Omer, 2020
+# Omer I.S., 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
 "PO-Revision-Date: 2020-06-21 13:31+0000\n"
-"Last-Translator: Omer\n"
+"Last-Translator: Omer I.S.\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
