@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Apóstolos Papaðimitríu <apostolos.papadimitriu@gmail.com>, 2016
-# Apóstolos Papaðimitríu <apostolos.papadimitriu@gmail.com>, 2017
+# Ápo. <apostolos.papadimitriu@gmail.com>, 2016
+# Ápo. <apostolos.papadimitriu@gmail.com>, 2017
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2012
 # ebal <ebalaskas@ebalaskas.gr>, 2008
 # Georgios Stefanakis <nonviotale@gmail.com>, 2012
