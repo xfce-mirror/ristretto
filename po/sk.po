@@ -4,7 +4,7 @@
 # 
 # Translators:
 # <>, 2008
-# Dušan Kazik <prescott66@gmail.com>, 2016-2017,2019
+# Dušan Kazik <prescott66@gmail.com>, 2016-2017,2019-2020
 # Robert Hartl <hartl.robert@gmail.com>, 2009
 # Slavko <linux@slavino.sk>, 2015
 # 7dcd6f74323fe8d9c477949ff8fcbb1c_c427b63 <3fcd202e3dfab15fda15b8e88e54d449_7173>, 2011-2012
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2019-09-13 19:25+0000\n"
+"PO-Revision-Date: 2020-11-27 06:56+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/xfce/xfce-apps/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Informácie o verzii"
 
 #: ../src/main.c:66
 msgid "Start in fullscreen mode"
-msgstr "Spustiť v celoobrazovkovom móde"
+msgstr "Spustiť v režime na celú obrazovku"
 
 #: ../src/main.c:70
 msgid "Start a slideshow"
@@ -36,7 +36,7 @@ msgstr "Spustiť prezentáciu "
 
 #: ../src/main.c:78
 msgid "Show settings dialog"
-msgstr "Zobraziť dialóg nastavenia"
+msgstr "Zobraziť dialógové okno s nastaveniami"
 
 #: ../src/main.c:103
 #, c-format
@@ -158,7 +158,7 @@ msgstr "_Zobraziť"
 #. Icon-name
 #: ../src/main_window.c:487
 msgid "_Fullscreen"
-msgstr "_Celá obrazovka"
+msgstr "_Na celú obrazovku"
 
 #. Label-text
 #. Keyboard shortcut
@@ -169,13 +169,13 @@ msgstr "Prepnúť na celú obrazovku"
 #. Icon-name
 #: ../src/main_window.c:493
 msgid "_Leave Fullscreen"
-msgstr "_Opustiť celú obrazovku"
+msgstr "_Opustiť režim na celú obrazovku"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:495
 msgid "Leave Fullscreen"
-msgstr "Opustiť celú obrazovku"
+msgstr "Opustiť režim na celú obrazovku"
 
 #. Icon-name
 #: ../src/main_window.c:499
@@ -184,40 +184,40 @@ msgstr "Nastaviť ako _tapetu..."
 
 #: ../src/main_window.c:506
 msgid "_Zoom"
-msgstr "_Lupa"
+msgstr "_Priblíženie"
 
 #. Icon-name
 #: ../src/main_window.c:512
 msgid "Zoom _In"
-msgstr "_Priblížiť"
+msgstr "_Zväčšiť"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:514
 msgid "Zoom in"
-msgstr "Priblížiť"
+msgstr "Zväčšiť"
 
 #. Icon-name
 #: ../src/main_window.c:518
 msgid "Zoom _Out"
-msgstr "_Vzdialiť"
+msgstr "Z_menšiť"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:520
 msgid "Zoom out"
-msgstr "Vzdialiť"
+msgstr "Zmenšiť"
 
 #. Icon-name
 #: ../src/main_window.c:524
 msgid "Zoom _Fit"
-msgstr "_Prispôsobiť"
+msgstr "_Prispôsobiť priblíženie"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:526
 msgid "Zoom to fit window"
-msgstr "Prispôsobiť oknu"
+msgstr "Prispôsobiť priblíženie oknu"
 
 #. Icon-name
 #: ../src/main_window.c:530
@@ -237,12 +237,12 @@ msgstr "_Otočenie"
 #. Icon-name
 #: ../src/main_window.c:543
 msgid "Rotate _Right"
-msgstr "Otočiť v_pravo"
+msgstr "Otočiť dop_rava"
 
 #. Icon-name
 #: ../src/main_window.c:549
 msgid "Rotate _Left"
-msgstr "Otočiť Vľa_vo"
+msgstr "Otočiť doľa_va"
 
 #: ../src/main_window.c:556
 msgid "_Flip"
@@ -369,17 +369,17 @@ msgstr "Zobraziť panel _stavov"
 #. Icon-name
 #: ../src/main_window.c:696
 msgid "file name"
-msgstr ""
+msgstr "názov súboru"
 
 #. Icon-name
 #: ../src/main_window.c:702
 msgid "file type"
-msgstr ""
+msgstr "typ súboru"
 
 #. Icon-name
 #: ../src/main_window.c:708
 msgid "date"
-msgstr ""
+msgstr "dátum"
 
 #. Icon-name
 #: ../src/main_window.c:719
@@ -636,7 +636,7 @@ msgstr "Zobraziť text"
 
 #: ../src/icon_bar.c:422
 msgid "Scrolled window"
-msgstr ""
+msgstr "Rolované okno"
 
 #: ../src/icon_bar.c:423
 msgid "Scrolled window icon bar is placed into"
@@ -723,7 +723,7 @@ msgstr "Kvalita"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Ak je táto možnosť povolené, maximálna kvalita bude limitovaná veľkosťou obrazovky."
+msgstr "Ak je táto možnosť povolená, maximálna kvalita bude limitovaná veľkosťou obrazovky."
 
 #: ../src/preferences_dialog.c:335
 msgid "Limit rendering quality"
@@ -731,7 +731,7 @@ msgstr "Limit kvality vykresľovania"
 
 #: ../src/preferences_dialog.c:347
 msgid "Fullscreen"
-msgstr "Celá obrazovka"
+msgstr "Na celú obrazovku"
 
 #: ../src/preferences_dialog.c:351
 msgid "Thumbnails"
@@ -762,17 +762,17 @@ msgstr "Zobraziť hodiny na celej obrazovke"
 
 #: ../src/preferences_dialog.c:379
 msgid "Mouse cursor"
-msgstr ""
+msgstr "Kurzor myši"
 
 #: ../src/preferences_dialog.c:382
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of inactivity\n"
 "when the window is fullscreen."
-msgstr ""
+msgstr "Kurzor myši môže byť automaticky skrytý po určenej dobe nečinnosti,\nkeď je okno v režime na celú obrazovku."
 
 #: ../src/preferences_dialog.c:389
 msgid "Period of inactivity (seconds):"
-msgstr ""
+msgstr "Doba nečinnosti (v sekundách):"
 
 #: ../src/preferences_dialog.c:408
 msgid "Slideshow"
@@ -780,13 +780,13 @@ msgstr "Premietanie snímkov"
 
 #: ../src/preferences_dialog.c:412
 msgid "Timeout"
-msgstr "Timeout"
+msgstr "Časový limit"
 
 #: ../src/preferences_dialog.c:415
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr "Časový interval počas ktorého je zobrazený jeden snímok pri premietaní\n(v sekundách)"
+msgstr "Doba, počas ktorej je zobrazený jeden snímok pri premietaní\n(v sekundách)"
 
 #: ../src/preferences_dialog.c:429
 msgid "Control"
@@ -798,7 +798,7 @@ msgstr "Koliesko myši"
 
 #: ../src/preferences_dialog.c:436
 msgid "Invert zoom direction"
-msgstr "Obrátiť smer priblíženia"
+msgstr "Obrátiť smer približovania"
 
 #: ../src/preferences_dialog.c:447
 msgid "Behaviour"
@@ -814,7 +814,7 @@ msgstr "Maximalizovať okno pri spustení počas otvárania obrázka"
 
 #: ../src/preferences_dialog.c:459
 msgid "Wrap around images"
-msgstr "Obrázky točiť dookola"
+msgstr "Obrázky prehliadať dookola"
 
 #: ../src/preferences_dialog.c:470
 msgid "Desktop"
