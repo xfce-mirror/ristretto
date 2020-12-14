@@ -80,7 +80,7 @@ RsttoImageListIter *
 rstto_main_window_get_iter (
         RsttoMainWindow *);
 
-gboolean
+void
 rstto_main_window_add_file_to_recent_files (GFile *);
 
 gboolean
