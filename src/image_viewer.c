@@ -226,7 +226,7 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *, gint , gint , RsttoImage
 static void
 cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction);
 static gboolean
-cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer);
+cb_rstto_image_viewer_update_pixbuf (gpointer user_data);
 static void
 cb_rstto_image_viewer_dnd (GtkWidget *widget, GdkDragContext *context, gint x, gint y, GtkSelectionData *data,
                            guint info, guint time_, RsttoImageViewer *viewer);
@@ -2097,7 +2097,7 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader, RsttoImageViewerTran
         if (timeout > 0)
         {
             viewer->priv->animation_timeout_id =
-                    gdk_threads_add_timeout (timeout, (GSourceFunc) cb_rstto_image_viewer_update_pixbuf, viewer);
+                    gdk_threads_add_timeout (timeout, cb_rstto_image_viewer_update_pixbuf, viewer);
         }
         else
         {
@@ -2219,8 +2219,9 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
 }
 
 static gboolean
-cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer)
+cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
 {
+    RsttoImageViewer *viewer = user_data;
     GtkWidget *widget = GTK_WIDGET (viewer);
     gint timeout = 0;
 
@@ -2247,7 +2248,7 @@ cb_rstto_image_viewer_update_pixbuf (RsttoImageViewer *viewer)
         if (timeout > 0)
         {
             viewer->priv->animation_timeout_id =
-                    gdk_threads_add_timeout(timeout, (GSourceFunc)cb_rstto_image_viewer_update_pixbuf, viewer);
+                    gdk_threads_add_timeout(timeout, cb_rstto_image_viewer_update_pixbuf, viewer);
         }
 
         gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
@@ -2982,8 +2983,9 @@ rstto_image_viewer_get_property (GObject *object, guint property_id, GValue *val
 }
 
 static gboolean
-cb_rstto_image_viewer_refresh (RsttoImageViewer *viewer)
+cb_rstto_image_viewer_refresh (gpointer user_data)
 {
+    RsttoImageViewer *viewer = user_data;
     GtkWidget *widget = GTK_WIDGET (viewer);
 
     gdk_window_invalidate_rect (
@@ -3001,8 +3003,7 @@ rstto_image_viewer_set_show_clock (RsttoImageViewer *viewer, gboolean value)
     if (viewer->priv->props.show_clock)
     {
         viewer->priv->refresh_timeout_id = gdk_threads_add_timeout (
-                15000,
-                (GSourceFunc)cb_rstto_image_viewer_refresh, viewer);
+                15000, cb_rstto_image_viewer_refresh, viewer);
     }
     else
     {

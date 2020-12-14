@@ -181,11 +181,11 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
 static gboolean
 cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data);
 static gboolean
-cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window);
+cb_rstto_main_window_show_fs_toolbar_timeout (gpointer user_data);
 static void
 cb_rstto_main_window_show_fs_toolbar_timeout_destroy (gpointer user_data);
 static gboolean
-cb_rstto_main_window_hide_fs_mouse_cursor_timeout (RsttoMainWindow *window);
+cb_rstto_main_window_hide_fs_mouse_cursor_timeout (gpointer user_data);
 static void
 cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy (gpointer user_data);
 static void
@@ -270,9 +270,6 @@ cb_rstto_main_window_play (
 static void
 cb_rstto_main_window_pause(
         GtkWidget *widget,
-        RsttoMainWindow *window);
-static gboolean
-cb_rstto_main_window_play_slideshow (
         RsttoMainWindow *window);
 
 static void
@@ -2439,7 +2436,7 @@ cb_rstto_main_window_state_event (GtkWidget *widget, GdkEventWindowState *event,
                 {
                     window->priv->show_fs_toolbar_timeout_id =
                             g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
-                                                (GSourceFunc) cb_rstto_main_window_show_fs_toolbar_timeout, window,
+                                                cb_rstto_main_window_show_fs_toolbar_timeout, window,
                                                 cb_rstto_main_window_show_fs_toolbar_timeout_destroy);
                 }
             }
@@ -2448,7 +2445,7 @@ cb_rstto_main_window_state_event (GtkWidget *widget, GdkEventWindowState *event,
             {
                 window->priv->hide_fs_mouse_cursor_timeout_id =
                         g_timeout_add_full (G_PRIORITY_DEFAULT, 1000 * timeout,
-                                            (GSourceFunc) cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
+                                            cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
                                             cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy);
             }
 
@@ -2591,7 +2588,7 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
         {
             window->priv->hide_fs_mouse_cursor_timeout_id =
                     g_timeout_add_full (G_PRIORITY_DEFAULT, 1000 * timeout,
-                                        (GSourceFunc) cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
+                                        cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
                                         cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy);
         }
     }
@@ -2642,7 +2639,7 @@ cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget, GdkEven
             }
             window->priv->show_fs_toolbar_timeout_id =
                     g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
-                                        (GSourceFunc) cb_rstto_main_window_show_fs_toolbar_timeout, window,
+                                        cb_rstto_main_window_show_fs_toolbar_timeout, window,
                                         cb_rstto_main_window_show_fs_toolbar_timeout_destroy);
         }
     }
@@ -2651,8 +2648,9 @@ cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget, GdkEven
 }
 
 static gboolean
-cb_rstto_main_window_show_fs_toolbar_timeout (RsttoMainWindow *window)
+cb_rstto_main_window_show_fs_toolbar_timeout (gpointer user_data)
 {
+    RsttoMainWindow *window = user_data;
     gtk_widget_hide (window->priv->toolbar);
     return FALSE;
 }
@@ -2664,8 +2662,9 @@ cb_rstto_main_window_show_fs_toolbar_timeout_destroy (gpointer user_data)
 }
 
 static gboolean
-cb_rstto_main_window_hide_fs_mouse_cursor_timeout (RsttoMainWindow *window)
+cb_rstto_main_window_hide_fs_mouse_cursor_timeout (gpointer user_data)
 {
+    RsttoMainWindow *window = user_data;
     GdkCursor *cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (window)), "none");
     gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), cursor);
     return FALSE;
@@ -2760,8 +2759,10 @@ G_GNUC_END_IGNORE_DEPRECATIONS
  *
  */
 static gboolean
-cb_rstto_main_window_play_slideshow (RsttoMainWindow *window)
+cb_rstto_main_window_play_slideshow (gpointer user_data)
 {
+    RsttoMainWindow *window = user_data;
+
     if (window->priv->playing)
     {
         /* Check if we could navigate forward, if not, wrapping is
@@ -3329,7 +3330,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                              * sourcefunc and will be unref-ed by it.
                              */
                             g_object_ref (file);
-                            gdk_threads_add_idle_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, file, NULL);
+                            gdk_threads_add_idle_full(G_PRIORITY_LOW, rstto_main_window_add_file_to_recent_files_cb, file, NULL);
                         }
                         g_object_unref (G_OBJECT (r_file));
                         r_file = NULL;
@@ -3372,7 +3373,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                      * sourcefunc and will be unref-ed by it.
                      */
                     g_object_ref (files->data);
-                    gdk_threads_add_idle_full(G_PRIORITY_LOW, (GSourceFunc) rstto_main_window_add_file_to_recent_files, files->data, NULL);
+                    gdk_threads_add_idle_full(G_PRIORITY_LOW, rstto_main_window_add_file_to_recent_files_cb, files->data, NULL);
 
                     /* Point the main iterator to the
                      * correct file
@@ -4055,9 +4056,10 @@ rstto_main_window_get_iter (
     return window->priv->iter;
 }
 
-gboolean
-rstto_main_window_add_file_to_recent_files (GFile *file)
+void
+rstto_main_window_add_file_to_recent_files (gpointer user_data)
 {
+    GFile *file = user_data;
     GFileInfo *file_info;
     GtkRecentData *recent_data;
     gchar* uri;
@@ -4065,13 +4067,13 @@ rstto_main_window_add_file_to_recent_files (GFile *file)
 
     if (file == NULL)
     {
-        return FALSE;
+        return;
     }
 
     uri = g_file_get_uri (file);
     if (uri == NULL)
     {
-        return FALSE;
+        return;
     }
 
     file_info = g_file_query_info (
@@ -4082,7 +4084,7 @@ rstto_main_window_add_file_to_recent_files (GFile *file)
             NULL);
     if (file_info == NULL)
     {
-        return FALSE;
+        return;
     }
 
     recent_data = g_slice_new (GtkRecentData);
@@ -4103,6 +4105,14 @@ rstto_main_window_add_file_to_recent_files (GFile *file)
     g_slice_free (GtkRecentData, recent_data);
 
     g_object_unref (file);
+}
+
+static gboolean
+rstto_main_window_add_file_to_recent_files_cb (gpointer user_data)
+{
+    GFile *file = user_data;
+
+    rstto_main_window_add_file_to_recent_files (files);
     return FALSE;
 }
 
@@ -4616,7 +4626,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     window->priv->playing = TRUE;
     window->priv->play_timeout_id = gdk_threads_add_timeout (
             g_value_get_uint (&timeout)*1000,
-            (GSourceFunc)cb_rstto_main_window_play_slideshow,
+            cb_rstto_main_window_play_slideshow,
             window);
     return TRUE;
 }
