@@ -66,7 +66,7 @@ cb_rstto_thumbnailer_thumbnail_ready (
         gpointer data);
 
 static gboolean
-rstto_thumbnailer_queue_request_timer (RsttoThumbnailer *thumbnailer);
+rstto_thumbnailer_queue_request_timer (gpointer user_data);
 
 static GObjectClass *parent_class = NULL;
 
@@ -317,7 +317,7 @@ rstto_thumbnailer_queue_file (
     thumbnailer->priv->request_timer_id = gdk_threads_add_timeout_full (
             G_PRIORITY_LOW,
             300,
-            (GSourceFunc)rstto_thumbnailer_queue_request_timer,
+            rstto_thumbnailer_queue_request_timer,
             thumbnailer,
             NULL);
 }
@@ -364,15 +364,15 @@ rstto_thumbnailer_dequeue_file (
     thumbnailer->priv->request_timer_id = gdk_threads_add_timeout_full (
             G_PRIORITY_LOW,
             300,
-            (GSourceFunc)rstto_thumbnailer_queue_request_timer,
+            rstto_thumbnailer_queue_request_timer,
             thumbnailer,
             NULL);
 }
 
 static gboolean
-rstto_thumbnailer_queue_request_timer (
-        RsttoThumbnailer *thumbnailer)
+rstto_thumbnailer_queue_request_timer (gpointer user_data)
 {
+    RsttoThumbnailer *thumbnailer = user_data;
     const gchar **uris;
     const gchar **mimetypes;
     GSList *iter;

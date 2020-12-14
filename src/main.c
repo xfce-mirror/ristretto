@@ -49,7 +49,7 @@ typedef struct {
 } RsttoOpenFiles;
 
 static gboolean
-cb_rstto_open_files (RsttoOpenFiles *rof);
+cb_rstto_open_files (gpointer user_data);
 
 static GOptionEntry entries[] =
 {
@@ -133,7 +133,7 @@ main(int argc, char **argv)
             rof.iter = 1;
             rof.window = window;
 
-            gdk_threads_add_idle ((GSourceFunc) cb_rstto_open_files, &rof);
+            gdk_threads_add_idle (cb_rstto_open_files, &rof);
 
             if (TRUE == rstto_settings_get_boolean_property (
                         settings,
@@ -178,8 +178,9 @@ main(int argc, char **argv)
 }
 
 static gboolean
-cb_rstto_open_files (RsttoOpenFiles *rof)
+cb_rstto_open_files (gpointer user_data)
 {
+    RsttoOpenFiles *rof = user_data;
     GFileType file_type;
     GFile *file, *p_file;
     GFileInfo *file_info;
