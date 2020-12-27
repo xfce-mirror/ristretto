@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2020-05-04 18:01+0000\n"
+"PO-Revision-Date: 2020-12-27 17:21+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/xfce/xfce-apps/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr "Informações da versão"
 
 #: ../src/main.c:66
 msgid "Start in fullscreen mode"
-msgstr "Iniciar no modo de ecrã completo"
+msgstr "Iniciar no modo de ecrã inteiro"
 
 #: ../src/main.c:70
 msgid "Start a slideshow"
@@ -57,7 +57,7 @@ msgstr "_Ficheiro"
 #. Icon-name
 #: ../src/main_window.c:407
 msgid "_Open..."
-msgstr "_Abrir"
+msgstr "_Abrir..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -68,7 +68,7 @@ msgstr "Abrir uma imagem"
 #. Icon-name
 #: ../src/main_window.c:413
 msgid "_Save copy..."
-msgstr "_Guardar cópia"
+msgstr "_Guardar cópia..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -79,7 +79,7 @@ msgstr "Guardar uma cópia da imagem"
 #. Icon-name
 #: ../src/main_window.c:419
 msgid "_Properties..."
-msgstr "_Propriedades"
+msgstr "_Propriedades..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -123,7 +123,7 @@ msgstr "Sair do Ristretto"
 
 #: ../src/main_window.c:450
 msgid "_Open with"
-msgstr "Abrir c_om..."
+msgstr "Abrir c_om"
 
 #: ../src/main_window.c:456
 msgid "_Sort by"
@@ -143,12 +143,12 @@ msgstr "Apagar esta imagem do disco"
 #. Icon-name
 #: ../src/main_window.c:468
 msgid "_Clear private data..."
-msgstr "_Limpar dados privados"
+msgstr "_Limpar dados privados..."
 
 #. Icon-name
 #: ../src/main_window.c:474
 msgid "_Preferences..."
-msgstr "_Preferências"
+msgstr "_Preferências..."
 
 #: ../src/main_window.c:481
 msgid "_View"
@@ -157,24 +157,24 @@ msgstr "_Ver"
 #. Icon-name
 #: ../src/main_window.c:487
 msgid "_Fullscreen"
-msgstr "_Ecrã completo"
+msgstr "_Ecrã inteiro"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:489
 msgid "Switch to fullscreen"
-msgstr "Trocar para ecrã completo"
+msgstr "Trocar para ecrã inteiro"
 
 #. Icon-name
 #: ../src/main_window.c:493
 msgid "_Leave Fullscreen"
-msgstr "Sair de ecrã comp_leto"
+msgstr "_Sair de ecrã inteiro"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:495
 msgid "Leave Fullscreen"
-msgstr "Sair de ecrã completo"
+msgstr "Sair de ecrã inteiro"
 
 #. Icon-name
 #: ../src/main_window.c:499
@@ -348,7 +348,7 @@ msgstr "Tama_nho das miniaturas"
 #. Icon-name
 #: ../src/main_window.c:650
 msgid "Leave _Fullscreen"
-msgstr "Sair de _ecrã completo"
+msgstr "Sair de _ecrã inteiro"
 
 #. Icon-name
 #: ../src/main_window.c:668
@@ -457,7 +457,7 @@ msgstr "Prima abrir para selecionar uma imagem"
 
 #: ../src/main_window.c:1522 ../src/main_window.c:1526
 msgid "Open With Other _Application..."
-msgstr "_Abrir com outra aplicação"
+msgstr "_Abrir com outra aplicação..."
 
 #: ../src/main_window.c:1547 ../src/main_window.c:1553
 msgid "Empty"
@@ -508,7 +508,7 @@ msgstr "Programadores:"
 
 #: ../src/main_window.c:2844 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "O Ristretto é um visualizador de imagens para o ambiente de trabalho Xfce"
+msgstr "O Ristretto é um visualizador de imagens para o ambiente de trabalho Xfce."
 
 #: ../src/main_window.c:2852
 msgid "translator-credits"
@@ -520,7 +520,7 @@ msgstr "Abrir imagem"
 
 #: ../src/main_window.c:3276
 msgid "_Open"
-msgstr "_Abrir..."
+msgstr "_Abrir"
 
 #: ../src/main_window.c:3293
 msgid "Images"
@@ -554,7 +554,7 @@ msgstr "Tem a certeza que pretende enviar a imagem '%s' para o lixo?"
 #: ../src/main_window.c:3713
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Tem a certeza que pretende apagar '%s' permanentemente?"
+msgstr "Tem a certeza que pretende eliminar '%s' permanentemente?"
 
 #: ../src/main_window.c:3724
 msgid "_Do not ask again for this session"
@@ -566,7 +566,7 @@ msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
 "\n"
 "%s"
-msgstr "Ocorreu um erro ao apagar a imagem '%s' permanentemente.\n\n%s"
+msgstr "Ocorreu um erro ao eliminar a imagem '%s' permanentemente.\n\n%s"
 
 #: ../src/main_window.c:3805
 #, c-format
@@ -587,7 +587,7 @@ msgstr "Abrir %s e outros ficheiros do tipo %s com:"
 
 #: ../src/main_window.c:4175
 msgid "Use as _default for this kind of file"
-msgstr "Utilizar como pre_definição para este tipo de ficheiros"
+msgstr "Utilizar como pre_definição para este tipo de ficheiro"
 
 #: ../src/main_window.c:4265
 msgid "Recommended Applications"
@@ -635,11 +635,11 @@ msgstr "Mostrar texto"
 
 #: ../src/icon_bar.c:422
 msgid "Scrolled window"
-msgstr "Janela rolada"
+msgstr "Janela deslizada"
 
 #: ../src/icon_bar.c:423
 msgid "Scrolled window icon bar is placed into"
-msgstr "Barra de ícones da janela rolada é colocada em"
+msgstr "Barra de ícones da janela deslizada é colocada em"
 
 #: ../src/icon_bar.c:429 ../src/icon_bar.c:430
 msgid "Active item fill color"
@@ -704,7 +704,7 @@ msgstr "Limpar dados privados"
 
 #: ../src/preferences_dialog.c:289
 msgid "Display"
-msgstr "Exibir"
+msgstr "Visualização"
 
 #: ../src/preferences_dialog.c:296
 msgid "Background color"
@@ -730,7 +730,7 @@ msgstr "Limitar qualidade da imagem"
 
 #: ../src/preferences_dialog.c:347
 msgid "Fullscreen"
-msgstr "Ecrã completo"
+msgstr "Ecrã inteiro"
 
 #: ../src/preferences_dialog.c:351
 msgid "Thumbnails"
@@ -739,11 +739,11 @@ msgstr "Miniaturas"
 #: ../src/preferences_dialog.c:354
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "A barra de miniaturas pode ser automaticamente ocultada\nse o visualizador estiver em ecrã completo."
+msgstr "A barra de miniaturas pode ser automaticamente ocultada se o visualizador estiver em ecrã inteiro."
 
 #: ../src/preferences_dialog.c:358
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Ocultar barra de miniaturas se em ecrã completo"
+msgstr "Ocultar barra de miniaturas se em ecrã inteiro"
 
 #: ../src/preferences_dialog.c:366
 msgid "Clock"
@@ -753,11 +753,11 @@ msgstr "Relógio"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "A barra de miniaturas pode ser automaticamente ocultada\nse o visualizador estiver em ecrã completo."
+msgstr "Mostrar um relógio analógico que mostra a hora atual quando a janela está em ecrã inteiro"
 
 #: ../src/preferences_dialog.c:373
 msgid "Show Fullscreen Clock"
-msgstr "Mostrar relógio em ecrã completo"
+msgstr "Mostrar relógio em ecrã inteiro"
 
 #: ../src/preferences_dialog.c:379
 msgid "Mouse cursor"
@@ -931,4 +931,4 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "O visualizador de imagens Ristretto é uma aplicação que pode ser usada para ver e deslocar entre imagens, executar uma apresentação de imagens, abrir imagens com outras aplicações como um editor de imagens ou configurar uma imagem como papel de parede."
+msgstr "O visualizador de imagens Ristretto é uma aplicação que pode ser utilizada para ver e deslocar entre imagens, executar uma apresentação de imagens, abrir imagens com outras aplicações como um editor de imagens ou configurar uma imagem como papel de parede."
