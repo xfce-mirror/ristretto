@@ -6,7 +6,7 @@
 # Allan Nordhøy <epost@anotheragency.no>, 2014-2015
 # Allan Nordhøy <epost@anotheragency.no>, 2016-2017
 # Harald H. <haarektrans@gmail.com>, 2014-2015
-# Kjell Cato Heskjestad <cato@heskjestad.xyz>, 2019
+# Kjell Cato Heskjestad <cato@heskjestad.xyz>, 2019-2020
 # Terje Uriansrud <terje@uriansrud.net>, 2009
 # Terje Uriansrud <ter@operamail.com>, 2007
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2019-10-12 07:14+0000\n"
+"PO-Revision-Date: 2020-12-28 12:22+0000\n"
 "Last-Translator: Kjell Cato Heskjestad <cato@heskjestad.xyz>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/xfce/xfce-apps/language/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,7 @@ msgstr "Slett dette bildet fra disk"
 #. Icon-name
 #: ../src/main_window.c:468
 msgid "_Clear private data..."
-msgstr "_Tøm privat data …"
+msgstr "_Tøm private data …"
 
 #. Icon-name
 #: ../src/main_window.c:474
@@ -835,7 +835,7 @@ msgstr "<b>Type:</b>"
 
 #: ../src/properties_dialog.c:175
 msgid "<b>Modified:</b>"
-msgstr "<b>Modifisert:</b>"
+msgstr "<b>Endret:</b>"
 
 #: ../src/properties_dialog.c:176
 msgid "<b>Accessed:</b>"
