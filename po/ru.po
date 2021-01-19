@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# AlexanderFilev, 2019
+# AlexanderFilev <avfill@outlook.com>, 2019
 # Denis Koryavov <dkoryavov@yandex.ru>, 2010
-# AlexanderFilev, 2015
+# AlexanderFilev <avfill@outlook.com>, 2015
 # Igor <f2404@yandex.ru>, 2016-2017,2019
 # Sergey Alyoshin <alyoshin.s@gmail.com>, 2013,2015-2016
 # Stefan Zerkalica <zerkalica@gmail.com>, 2008
