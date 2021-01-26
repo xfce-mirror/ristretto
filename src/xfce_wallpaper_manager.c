@@ -50,9 +50,13 @@ typedef struct {
 
 
 static void
-rstto_xfce_wallpaper_manager_init (GObject *);
+rstto_xfce_wallpaper_manager_init (
+        GTypeInstance *instance,
+        gpointer g_class);
 static void
-rstto_xfce_wallpaper_manager_class_init (GObjectClass *);
+rstto_xfce_wallpaper_manager_class_init (
+        gpointer g_class,
+        gpointer class_data);
 
 static void
 rstto_xfce_wallpaper_manager_dispose (GObject *object);
@@ -227,8 +231,12 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoFile *file)
 }
 
 static void
-rstto_xfce_wallpaper_manager_iface_init (RsttoWallpaperManagerIface *iface)
+rstto_xfce_wallpaper_manager_iface_init (
+        gpointer g_iface,
+        gpointer iface_data)
 {
+    RsttoWallpaperManagerIface *iface = g_iface;
+
     iface->configure_dialog_run = rstto_xfce_wallpaper_manager_configure_dialog_run;
     iface->check_running = rstto_xfce_wallpaper_manager_check_running;
     iface->set = rstto_xfce_wallpaper_manager_set;
@@ -244,20 +252,20 @@ rstto_xfce_wallpaper_manager_get_type (void)
         static const GTypeInfo rstto_xfce_wallpaper_manager_info = 
         {
             sizeof (RsttoXfceWallpaperManagerClass),
-            (GBaseInitFunc) NULL,
-            (GBaseFinalizeFunc) NULL,
-            (GClassInitFunc) rstto_xfce_wallpaper_manager_class_init,
-            (GClassFinalizeFunc) NULL,
+            NULL,
+            NULL,
+            rstto_xfce_wallpaper_manager_class_init,
+            NULL,
             NULL,
             sizeof (RsttoXfceWallpaperManager),
             0,
-            (GInstanceInitFunc) rstto_xfce_wallpaper_manager_init,
+            rstto_xfce_wallpaper_manager_init,
             NULL
         };
 
         static const GInterfaceInfo wallpaper_manager_iface_info = 
         {
-            (GInterfaceInitFunc) rstto_xfce_wallpaper_manager_iface_init,
+            rstto_xfce_wallpaper_manager_iface_init,
             NULL,
             NULL
         };
@@ -279,9 +287,11 @@ rstto_xfce_wallpaper_manager_get_type (void)
 
 
 static void
-rstto_xfce_wallpaper_manager_init (GObject *object)
+rstto_xfce_wallpaper_manager_init (
+        GTypeInstance *instance,
+        gpointer g_class)
 {
-    RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (object);
+    RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (instance);
     gint i;
     GdkDisplay *display = gdk_display_get_default ();
     gint n_monitors = gdk_display_get_n_monitors (display);
@@ -425,9 +435,12 @@ rstto_xfce_wallpaper_manager_init (GObject *object)
 
 
 static void
-rstto_xfce_wallpaper_manager_class_init (GObjectClass *object_class)
+rstto_xfce_wallpaper_manager_class_init (
+        gpointer g_class,
+        gpointer class_data)
 {
-    RsttoXfceWallpaperManagerClass *xfce_wallpaper_manager_class = RSTTO_XFCE_WALLPAPER_MANAGER_CLASS (object_class);
+    GObjectClass                   *object_class = g_class;
+    RsttoXfceWallpaperManagerClass *xfce_wallpaper_manager_class = g_class;
 
     parent_class = g_type_class_peek_parent (xfce_wallpaper_manager_class);
 
