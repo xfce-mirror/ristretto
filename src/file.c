@@ -20,7 +20,7 @@
 #include <gio/gio.h>
 #include <string.h>
 
-#if HAVE_MAGIC_H
+#ifdef HAVE_MAGIC_H
 #include <magic.h>
 #endif
 
@@ -48,9 +48,13 @@ static gint
 rstto_file_signals[RSTTO_FILE_SIGNAL_COUNT];
 
 static void
-rstto_file_init (GObject *);
+rstto_file_init (
+        GTypeInstance *instance,
+        gpointer       g_class);
 static void
-rstto_file_class_init (GObjectClass *);
+rstto_file_class_init (
+        gpointer g_class,
+        gpointer class_data);
 
 static void
 rstto_file_dispose (GObject *object);
@@ -89,14 +93,14 @@ rstto_file_get_type (void)
         static const GTypeInfo rstto_file_info = 
         {
             sizeof (RsttoFileClass),
-            (GBaseInitFunc) NULL,
-            (GBaseFinalizeFunc) NULL,
-            (GClassInitFunc) rstto_file_class_init,
-            (GClassFinalizeFunc) NULL,
+            NULL,
+            NULL,
+            rstto_file_class_init,
+            NULL,
             NULL,
             sizeof (RsttoFile),
             0,
-            (GInstanceInitFunc) rstto_file_init,
+            rstto_file_init,
             NULL
         };
 
@@ -129,20 +133,24 @@ struct _RsttoFilePriv
 
 
 static void
-rstto_file_init (GObject *object)
+rstto_file_init (
+        GTypeInstance *instance,
+        gpointer       g_class)
 {
-    RsttoFile *r_file = RSTTO_FILE (object);
+    RsttoFile *r_file = RSTTO_FILE (instance);
 
     r_file->priv = g_new0 (RsttoFilePriv, 1);
 }
 
 
 static void
-rstto_file_class_init (GObjectClass *object_class)
+rstto_file_class_init (
+        gpointer g_class,
+        gpointer class_data)
 {
-    RsttoFileClass *file_class = RSTTO_FILE_CLASS (object_class);
+    GObjectClass *object_class = g_class;
 
-    parent_class = g_type_class_peek_parent (file_class);
+    parent_class = g_type_class_peek_parent (g_class);
 
     object_class->dispose = rstto_file_dispose;
     object_class->finalize = rstto_file_finalize;
@@ -400,15 +408,15 @@ rstto_file_get_collate_key ( RsttoFile *r_file )
 const gchar *
 rstto_file_get_content_type ( RsttoFile *r_file )
 {
-    const gchar *file_path, *content_type = NULL;
+    const gchar *content_type = NULL;
 
     if ( NULL == r_file->priv->content_type )
     {
-#if HAVE_MAGIC_H
+#ifdef HAVE_MAGIC_H
         magic_t magic = magic_open (MAGIC_MIME_TYPE | MAGIC_SYMLINK);
         if ( NULL != magic )
         {
-            file_path = rstto_file_get_path (r_file);
+            const gchar *file_path = rstto_file_get_path (r_file);
             if ( NULL != file_path && magic_load (magic, NULL) == 0 )
             {
                 content_type = magic_file (magic, file_path);
