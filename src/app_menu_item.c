@@ -30,10 +30,6 @@ struct _RsttoAppMenuItemPrivate
 static GtkWidgetClass *parent_class = NULL;
 
 static void
-rstto_app_menu_item_init (RsttoAppMenuItem *);
-static void
-rstto_app_menu_item_class_init (RsttoAppMenuItemClass *);
-static void
 rstto_app_menu_item_finalize (GObject *object);
 
 static void
