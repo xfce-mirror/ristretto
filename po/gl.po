@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daniel Muñiz Fontoira <dani@damufo.com>, 2018-2019
+# Daniel Muñiz Fontoira <dani@damufo.com>, 2018-2019,2021
 # Leandro Regueiro <leandro DOT regueiro AT gmail DOT com>, 2008-2010
 # Leandro Regueiro <leandro.regueiro@gmail.com>, 2013
 # Xosé, 2017
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2019-09-11 04:07+0000\n"
+"PO-Revision-Date: 2021-02-02 05:21+0000\n"
 "Last-Translator: Daniel Muñiz Fontoira <dani@damufo.com>\n"
 "Language-Team: Galician (http://www.transifex.com/xfce/xfce-apps/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -188,13 +188,13 @@ msgstr "_Ampliación"
 #. Icon-name
 #: ../src/main_window.c:512
 msgid "Zoom _In"
-msgstr "_Aumentar"
+msgstr "A_mpliar"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:514
 msgid "Zoom in"
-msgstr "Aumentar"
+msgstr "Ampliar"
 
 #. Icon-name
 #: ../src/main_window.c:518
