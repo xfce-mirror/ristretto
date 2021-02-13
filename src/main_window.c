@@ -2594,8 +2594,11 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
                                         cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
                                         cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy);
         }
+
+        return TRUE;
     }
-    return TRUE;
+
+    return FALSE;
 }
 
 static gboolean
