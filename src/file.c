@@ -17,6 +17,7 @@
  *  02110-1301, USA.
  */
 
+#include <config.h>
 #include <gio/gio.h>
 #include <string.h>
 
@@ -400,11 +401,12 @@ rstto_file_get_collate_key ( RsttoFile *r_file )
 const gchar *
 rstto_file_get_content_type ( RsttoFile *r_file )
 {
-    const gchar *file_path, *content_type = NULL;
+    const gchar *content_type = NULL;
 
     if ( NULL == r_file->priv->content_type )
     {
 #if HAVE_MAGIC_H
+        const gchar *file_path;
         magic_t magic = magic_open (MAGIC_MIME_TYPE | MAGIC_SYMLINK);
         if ( NULL != magic )
         {
