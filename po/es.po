@@ -3,15 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Abel Martín <abel.martin.ruiz@gmail.com>, 2008
+# Abel Martin (amartinr) <abel.martin.ruiz@gmail.com>, 2008
 # Adolfo Jayme-Barrientos, 2013
 # Adolfo Jayme Barrientos, 2013
 # Adolfo Jayme-Barrientos, 2013
+# Casper casper, 2019
 # Casper casper, 2019
 # gabrieltandil <gabriel.tandil@gmail.com>, 2015
 # gabrieltandil <gabriel.tandil@gmail.com>, 2015-2016
 # Ignacio Poggi <ignaciop.3@gmail.com>, 2020
 # prflr88 <prflr88@gmail.com>, 2014-2015
+# prflr88 <prflr88@gmail.com>, 2019
 # prflr88 <prflr88@gmail.com>, 2019
 # Toni Estévez <toni.estevez@gmail.com>, 2021
 msgid ""
@@ -19,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2021-03-30 10:45+0000\n"
+"PO-Revision-Date: 2021-03-30 11:24+0000\n"
 "Last-Translator: Toni Estévez <toni.estevez@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +66,7 @@ msgstr "_Archivo"
 #. Icon-name
 #: ../src/main_window.c:407
 msgid "_Open..."
-msgstr "_Abrir…"
+msgstr "_Abrir..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -75,7 +77,7 @@ msgstr "Abrir una imagen"
 #. Icon-name
 #: ../src/main_window.c:413
 msgid "_Save copy..."
-msgstr "_Guardar una copia…"
+msgstr "_Guardar una copia..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -86,7 +88,7 @@ msgstr "Guardar una copia de la imagen"
 #. Icon-name
 #: ../src/main_window.c:419
 msgid "_Properties..."
-msgstr "_Propiedades…"
+msgstr "_Propiedades..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -150,12 +152,12 @@ msgstr "Eliminar esta imagen del disco"
 #. Icon-name
 #: ../src/main_window.c:468
 msgid "_Clear private data..."
-msgstr "_Borrar datos privados…"
+msgstr "_Borrar datos privados..."
 
 #. Icon-name
 #: ../src/main_window.c:474
 msgid "_Preferences..."
-msgstr "_Preferencias…"
+msgstr "_Preferencias..."
 
 #: ../src/main_window.c:481
 msgid "_View"
@@ -186,7 +188,7 @@ msgstr "Salir de la pantalla completa"
 #. Icon-name
 #: ../src/main_window.c:499
 msgid "Set as _Wallpaper..."
-msgstr "Configurar como _fondo del escritorio…"
+msgstr "Configurar como _fondo de pantalla..."
 
 #: ../src/main_window.c:506
 msgid "_Zoom"
@@ -280,7 +282,7 @@ msgstr "Imagen siguiente"
 #. Icon-name
 #: ../src/main_window.c:587
 msgid "_Back"
-msgstr "_Retroceder"
+msgstr "R_etroceder"
 
 #. Label-text
 #. Keyboard shortcut
@@ -452,7 +454,7 @@ msgstr "Pausar diapositivas"
 #. Create Recently used items Action
 #: ../src/main_window.c:945
 msgid "_Recently used"
-msgstr "Usadas _recientemente"
+msgstr "_Recientes"
 
 #: ../src/main_window.c:945
 msgid "Recently used"
@@ -464,7 +466,7 @@ msgstr "Pulse en Abrir para seleccionar una imagen"
 
 #: ../src/main_window.c:1522 ../src/main_window.c:1526
 msgid "Open With Other _Application..."
-msgstr "_Abrir con otra aplicación…"
+msgstr "_Abrir con otra aplicación..."
 
 #: ../src/main_window.c:1547 ../src/main_window.c:1553
 msgid "Empty"
@@ -472,11 +474,11 @@ msgstr "Vacío"
 
 #: ../src/main_window.c:1683
 msgid "Loading..."
-msgstr "Cargando…"
+msgstr "Cargando..."
 
 #: ../src/main_window.c:2275
 msgid "Choose 'set wallpaper' method"
-msgstr "Elija cómo configurar el fondo del escritorio"
+msgstr "Elija cómo configurar el fondo de pantalla"
 
 #: ../src/main_window.c:2279 ../src/main_window.c:3275
 #: ../src/main_window.c:3509 ../src/main_window.c:4153
@@ -495,7 +497,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Configure qué sistema está gestionando actualmente su escritorio.\nEste ajuste determina el método que usará <i>Ristretto</i> para\nconfigurar el fondo del escritorio."
+msgstr "Configure qué sistema está gestionando actualmente su escritorio.\nEste ajuste determina el método que usará <i>Ristretto</i> para configurar el fondo de pantalla."
 
 #: ../src/main_window.c:2318 ../src/preferences_dialog.c:487
 msgid "None"
@@ -590,7 +592,7 @@ msgstr "Abrir con"
 #: ../src/main_window.c:4169
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr "Abrir %s y otros archivos de tipo %s con:"
+msgstr "Abrir %s y otros archivos del tipo %s con:"
 
 #: ../src/main_window.c:4175
 msgid "Use as _default for this kind of file"
@@ -760,7 +762,7 @@ msgstr "Reloj"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Mostrar un reloj analógico con la hora actual en el modo a pantalla completa"
+msgstr "Mostrar un reloj analógico con la hora actual en el modo a pantalla completa."
 
 #: ../src/preferences_dialog.c:373
 msgid "Show Fullscreen Clock"
@@ -792,7 +794,7 @@ msgstr "Tiempo de espera"
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
-msgstr "El tiempo que se muestra cada imagen durante un pase de diapositivas (en segundos)"
+msgstr "El tiempo que se muestra cada imagen durante un pase de diapositivas (en segundos)."
 
 #: ../src/preferences_dialog.c:429
 msgid "Control"
@@ -820,7 +822,7 @@ msgstr "Maximizar la ventana al inicio al abrir una imagen"
 
 #: ../src/preferences_dialog.c:459
 msgid "Wrap around images"
-msgstr "Ajustar alrededor de las imágenes"
+msgstr "Desplazamiento en bucle por las imágenes"
 
 #: ../src/preferences_dialog.c:470
 msgid "Desktop"
@@ -840,11 +842,11 @@ msgstr "<b>Tipo:</b>"
 
 #: ../src/properties_dialog.c:175
 msgid "<b>Modified:</b>"
-msgstr "<b>Modificado el:</b>"
+msgstr "<b>Modificación</b>"
 
 #: ../src/properties_dialog.c:176
 msgid "<b>Accessed:</b>"
-msgstr "<b>Accedido el:</b>"
+msgstr "<b>Acceso:</b>"
 
 #: ../src/properties_dialog.c:177
 msgid "<b>Size:</b>"
@@ -882,7 +884,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "No se encontró el servicio de miniaturización.\nPor ello, no se pueden generar imágenes\nen miniatura.\n\nInstale <b>Tumbler</b> u otro <i>servicio de previsualizaciones</i>\npara resolver este problema."
+msgstr "No se puede acceder al servicio de miniaturas, por lo que no\nse pueden crear las miniaturas.\n\nInstale <b>Tumbler</b> u otro <i>servicio de creación de miniaturas</i>\npara resolver este problema."
 
 #: ../src/thumbnailer.c:448
 msgid "Do _not show this message again"
@@ -894,11 +896,11 @@ msgstr "Estilo:"
 
 #: ../src/xfce_wallpaper_manager.c:313
 msgid "Apply to all workspaces"
-msgstr "Usar en todas las áreas de trabajo"
+msgstr "Aplicar a todas las áreas de trabajo"
 
 #: ../src/xfce_wallpaper_manager.c:320 ../src/gnome_wallpaper_manager.c:236
 msgid "Set as wallpaper"
-msgstr "Establecer como fondo de escritorio"
+msgstr "Configurar como fondo de pantalla"
 
 #: ../src/xfce_wallpaper_manager.c:382 ../src/gnome_wallpaper_manager.c:294
 msgid "Auto"
@@ -930,7 +932,7 @@ msgstr "Visor de imágenes Ristretto"
 
 #: ../ristretto.desktop.in.h:2
 msgid "Look at your images easily"
-msgstr "Mire sus imágenes fácilmente"
+msgstr "Visualice sus imágenes fácilmente"
 
 #: ../ristretto.appdata.xml.in.h:2
 msgid ""
