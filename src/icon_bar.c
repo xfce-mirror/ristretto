@@ -873,7 +873,6 @@ rstto_icon_bar_draw (
         cairo_t   *cr)
 {
     RsttoIconBarItem *item;
-    GdkRectangle      area;
     RsttoIconBar     *icon_bar = RSTTO_ICON_BAR (widget);
     GList            *lp;
     /*RsttoFile        *file;
@@ -891,6 +890,8 @@ rstto_icon_bar_draw (
     {
         item = lp->data;
 
+        // TODO: fix me
+        /*GdkRectangle area;
         if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
         {
             area.x = 0;
@@ -905,8 +906,7 @@ rstto_icon_bar_draw (
         area.width = icon_bar->priv->item_width;
         area.height = icon_bar->priv->item_height;
 
-        // TODO: fix me
-        /*if (gdk_region_rect_in (expose->region, &area) != GDK_OVERLAP_RECTANGLE_OUT)
+        if (gdk_region_rect_in (expose->region, &area) != GDK_OVERLAP_RECTANGLE_OUT)
         {
             rstto_icon_bar_paint_item (icon_bar, item, &expose->area);*/
             rstto_icon_bar_paint_item (icon_bar, item, cr);
