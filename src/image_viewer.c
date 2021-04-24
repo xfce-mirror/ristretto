@@ -169,10 +169,6 @@ paint_background_icon (
 
 
 static void
-rstto_image_viewer_init (RsttoImageViewer *viewer);
-static void
-rstto_image_viewer_class_init(RsttoImageViewerClass *);
-static void
 rstto_image_viewer_dispose (GObject *object);
 
 static void
@@ -2294,6 +2290,9 @@ rstto_scroll_event (GtkWidget *widget, GdkEventScroll *event)
                 case GDK_SCROLL_RIGHT:
                     scale = (invert_zoom_direction) ? viewer->priv->scale * 1.1 : viewer->priv->scale / 1.1;
                     break;
+                case GDK_SCROLL_SMOOTH:
+                    /* TODO */
+                    break;
             }
 
             /*
@@ -2463,7 +2462,6 @@ rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
                 if (viewer->priv->motion.x != viewer->priv->motion.current_x)
                 {
                     adjustment = viewer->hadjustment;
-                    gint val = gtk_adjustment_get_value (adjustment);
                     gtk_adjustment_set_value (adjustment,
                             viewer->priv->motion.h_val + (viewer->priv->motion.x - viewer->priv->motion.current_x));
                     if ((gtk_adjustment_get_value (adjustment) + gtk_adjustment_get_page_size (adjustment)) >
@@ -2482,7 +2480,6 @@ rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
                 if (viewer->priv->motion.y != viewer->priv->motion.current_y)
                 {
                     adjustment = viewer->vadjustment;
-                    gint val = gtk_adjustment_get_value (adjustment);
                     gtk_adjustment_set_value (adjustment,
                             viewer->priv->motion.v_val + (viewer->priv->motion.y - viewer->priv->motion.current_y));
                     if ((gtk_adjustment_get_value (adjustment) + gtk_adjustment_get_page_size (adjustment)) >
