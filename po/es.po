@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2019-09-11 00:30+0200\n"
-"PO-Revision-Date: 2021-03-30 11:24+0000\n"
+"PO-Revision-Date: 2021-04-30 17:39+0000\n"
 "Last-Translator: Toni Estévez <toni.estevez@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -132,7 +132,7 @@ msgstr "Salir de Ristretto"
 
 #: ../src/main_window.c:450
 msgid "_Open with"
-msgstr "Abrir _con"
+msgstr "A_brir con"
 
 #: ../src/main_window.c:456
 msgid "_Sort by"
@@ -166,7 +166,7 @@ msgstr "_Ver"
 #. Icon-name
 #: ../src/main_window.c:487
 msgid "_Fullscreen"
-msgstr "Pantalla _completa"
+msgstr "_Pantalla completa"
 
 #. Label-text
 #. Keyboard shortcut
@@ -271,7 +271,7 @@ msgstr "_Ir"
 #. Icon-name
 #: ../src/main_window.c:581
 msgid "_Forward"
-msgstr "_Avanzar"
+msgstr "_Siguiente"
 
 #. Label-text
 #. Keyboard shortcut
@@ -282,7 +282,7 @@ msgstr "Imagen siguiente"
 #. Icon-name
 #: ../src/main_window.c:587
 msgid "_Back"
-msgstr "R_etroceder"
+msgstr "_Anterior"
 
 #. Label-text
 #. Keyboard shortcut
@@ -293,7 +293,7 @@ msgstr "Imagen anterior"
 #. Icon-name
 #: ../src/main_window.c:593
 msgid "F_irst"
-msgstr "Pr_imera"
+msgstr "_Primera"
 
 #. Label-text
 #. Keyboard shortcut
@@ -521,7 +521,7 @@ msgstr "Ristretto es un visor de imágenes para el entorno de escritorio Xfce."
 
 #: ../src/main_window.c:2852
 msgid "translator-credits"
-msgstr "Toni Estévez <toni.estevez@gmail.com>, 2021\nAdolfo Jayme Barrientos <fitoschido@ubuntu.com>, 2015\nAbel Martín <abel.martin.ruiz@gmail.com>, 2014\nElega <elega@elega.com.ar>, 2013\nGabriel <gabriel.tandil@gmail.com>, 2013"
+msgstr "Toni Estevez <toni.estevez@gmail.com>, 2021\nAdolfo Jayme Barrientos <fitoschido@ubuntu.com>, 2015\nAbel Martín <abel.martin.ruiz@gmail.com>, 2014\nElega <elega@elega.com.ar>, 2013\nGabriel <gabriel.tandil@gmail.com>, 2013"
 
 #: ../src/main_window.c:3272
 msgid "Open image"
