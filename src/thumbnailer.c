@@ -31,9 +31,13 @@
 #include "tumbler.h"
 
 static void
-rstto_thumbnailer_init (GObject *);
+rstto_thumbnailer_init (
+        GTypeInstance *instance,
+        gpointer       g_class);
 static void
-rstto_thumbnailer_class_init (GObjectClass *);
+rstto_thumbnailer_class_init (
+        gpointer g_class,
+        gpointer class_data);
 
 static void
 rstto_thumbnailer_dispose (GObject *object);
@@ -95,14 +99,14 @@ rstto_thumbnailer_get_type (void)
         static const GTypeInfo rstto_thumbnailer_info = 
         {
             sizeof (RsttoThumbnailerClass),
-            (GBaseInitFunc) NULL,
-            (GBaseFinalizeFunc) NULL,
-            (GClassInitFunc) rstto_thumbnailer_class_init,
-            (GClassFinalizeFunc) NULL,
+            NULL,
+            NULL,
+            rstto_thumbnailer_class_init,
+            NULL,
             NULL,
             sizeof (RsttoThumbnailer),
             0,
-            (GInstanceInitFunc) rstto_thumbnailer_init,
+            rstto_thumbnailer_init,
             NULL
         };
 
@@ -132,9 +136,11 @@ struct _RsttoThumbnailerPriv
 };
 
 static void
-rstto_thumbnailer_init (GObject *object)
+rstto_thumbnailer_init (
+        GTypeInstance *instance,
+        gpointer       g_class)
 {
-    RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (object);
+    RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (instance);
 
     thumbnailer->priv = g_new0 (RsttoThumbnailerPriv, 1);
     thumbnailer->priv->connection = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, NULL);
@@ -169,10 +175,12 @@ rstto_thumbnailer_init (GObject *object)
 
 
 static void
-rstto_thumbnailer_class_init (GObjectClass *object_class)
+rstto_thumbnailer_class_init (
+        gpointer g_class,
+        gpointer class_data)
 {
-    RsttoThumbnailerClass *thumbnailer_class = RSTTO_THUMBNAILER_CLASS (
-            object_class);
+    GObjectClass          *object_class = g_class;
+    RsttoThumbnailerClass *thumbnailer_class = g_class;
 
     parent_class = g_type_class_peek_parent (thumbnailer_class);
 
