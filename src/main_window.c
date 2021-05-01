@@ -4262,7 +4262,7 @@ rstto_main_window_launch_editor_chooser (
 
     pixbuf = gtk_icon_theme_load_icon (
             gtk_icon_theme_get_default (),
-            "preferences-desktop-default-applications",
+            "org.xfce.settings.default-applications",
             24,
             GTK_ICON_LOOKUP_FORCE_SIZE,
             NULL);
