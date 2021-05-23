@@ -298,6 +298,11 @@ cb_rstto_main_window_preferences (
         RsttoMainWindow *window);
 
 static void
+cb_rstto_main_window_copy_image (
+        GtkWidget *widget,
+        RsttoMainWindow *window);
+
+static void
 cb_rstto_main_window_clear_private_data (
         GtkWidget *widget,
         RsttoMainWindow *window);
@@ -442,6 +447,12 @@ static GtkActionEntry action_entries[] =
             NULL,
             NULL,
             NULL, },
+  { "copy-image",
+            "edit-copy",
+            N_ ("_Copy image to clipboard"),
+            "<control>C",
+            NULL,
+            G_CALLBACK (cb_rstto_main_window_copy_image), },
   { "open-with-menu",
             NULL,
             N_ ("_Open with"),
@@ -1703,6 +1714,7 @@ rstto_main_activate_file_menu_actions (RsttoMainWindow *window, gboolean activat
         //"/main-menu/file-menu/print",
         "/main-menu/file-menu/properties",
         "/main-menu/file-menu/close",
+	"/main-menu/edit-menu/copy-image",
         "/main-menu/edit-menu/delete"
     };
 
@@ -1769,6 +1781,7 @@ rstto_main_activate_popup_menu_actions (RsttoMainWindow *window, gboolean activa
     const gchar *actions[] = {
         "/image-viewer-menu/close",
         "/image-viewer-menu/open-with-menu",
+	"/image-viewer-menu/copy-image",
         "/image-viewer-menu/zoom-in",
         "/image-viewer-menu/zoom-out",
         "/image-viewer-menu/zoom-100",
@@ -4466,6 +4479,24 @@ rstto_main_window_launch_editor_chooser (
     g_list_free_full (app_infos_recommended, (GDestroyNotify) g_object_unref);
     g_list_free_full (app_infos_all, (GDestroyNotify) g_object_unref);
     g_list_free (files);
+}
+
+
+static void
+cb_rstto_main_window_copy_image (
+        GtkWidget *widget,
+        RsttoMainWindow *window)
+{
+    GdkPixbuf *pixbuf;
+    RsttoImageViewer *viewer;
+
+    viewer = RSTTO_IMAGE_VIEWER (window->priv->image_viewer);
+    pixbuf = rstto_image_viewer_get_pixbuf (viewer);
+
+    if (pixbuf)
+    {
+        gtk_clipboard_set_image (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD), pixbuf);
+    }
 }
 
 static void
