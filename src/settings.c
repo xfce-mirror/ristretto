@@ -26,9 +26,11 @@
 #include "settings.h"
 
 static void
-rstto_settings_init (GObject *);
+rstto_settings_init (GTypeInstance *instance,
+                     gpointer       g_class);
 static void
-rstto_settings_class_init (GObjectClass *);
+rstto_settings_class_init (gpointer g_class,
+                           gpointer class_data);
 
 static void
 rstto_settings_dispose (GObject *object);
@@ -92,14 +94,14 @@ rstto_settings_get_type (void)
         static const GTypeInfo rstto_settings_info = 
         {
             sizeof (RsttoSettingsClass),
-            (GBaseInitFunc) NULL,
-            (GBaseFinalizeFunc) NULL,
-            (GClassInitFunc) rstto_settings_class_init,
-            (GClassFinalizeFunc) NULL,
+            NULL,
+            NULL,
+            rstto_settings_class_init,
+            NULL,
             NULL,
             sizeof (RsttoSettings),
             0,
-            (GInstanceInitFunc) rstto_settings_init,
+            rstto_settings_init,
             NULL
         };
 
@@ -143,11 +145,12 @@ struct _RsttoSettingsPriv
 
 
 static void
-rstto_settings_init (GObject *object)
+rstto_settings_init (GTypeInstance *instance,
+                     gpointer       g_class)
 {
     gchar *accelmap_path = NULL;
 
-    RsttoSettings *settings = RSTTO_SETTINGS (object);
+    RsttoSettings *settings = RSTTO_SETTINGS (instance);
 
     settings->priv = g_new0 (RsttoSettingsPriv, 1);
     settings->priv->channel = xfconf_channel_new ("ristretto");
@@ -359,11 +362,13 @@ rstto_settings_init (GObject *object)
 
 
 static void
-rstto_settings_class_init (GObjectClass *object_class)
+rstto_settings_class_init (gpointer g_class,
+                           gpointer class_data)
 {
     GParamSpec *pspec;
 
-    RsttoSettingsClass *settings_class = RSTTO_SETTINGS_CLASS (object_class);
+    GObjectClass       *object_class = g_class;
+    RsttoSettingsClass *settings_class = g_class;
 
     parent_class = g_type_class_peek_parent (settings_class);
 
