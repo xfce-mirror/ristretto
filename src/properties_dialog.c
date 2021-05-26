@@ -28,9 +28,13 @@
 #define EXIF_DATA_BUFFER_SIZE 40
 
 static void
-rstto_properties_dialog_init (RsttoPropertiesDialog *);
+rstto_properties_dialog_init (
+        GTypeInstance *instance,
+        gpointer g_class);
 static void
-rstto_properties_dialog_class_init (GObjectClass *);
+rstto_properties_dialog_class_init (
+        gpointer g_class,
+        gpointer class_data);
 
 static void
 rstto_properties_dialog_dispose (GObject *object);
@@ -96,14 +100,14 @@ rstto_properties_dialog_get_type (void)
         static const GTypeInfo rstto_properties_dialog_info = 
         {
             sizeof (RsttoPropertiesDialogClass),
-            (GBaseInitFunc) NULL,
-            (GBaseFinalizeFunc) NULL,
-            (GClassInitFunc) rstto_properties_dialog_class_init,
-            (GClassFinalizeFunc) NULL,
+            NULL,
+            NULL,
+            rstto_properties_dialog_class_init,
+            NULL,
             NULL,
             sizeof (RsttoPropertiesDialog),
             0,
-            (GInstanceInitFunc) rstto_properties_dialog_init,
+            rstto_properties_dialog_init,
             NULL
         };
 
@@ -117,8 +121,12 @@ rstto_properties_dialog_get_type (void)
 }
 
 static void
-rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
+rstto_properties_dialog_init (
+        GTypeInstance *instance,
+        gpointer       g_class)
 {
+    RsttoPropertiesDialog *dialog = RSTTO_PROPERTIES_DIALOG (instance);
+
     GtkWidget *vbox;
     GtkWidget *grid;
     /* General tab */
@@ -220,9 +228,12 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
 }
 
 static void
-rstto_properties_dialog_class_init (GObjectClass *object_class)
+rstto_properties_dialog_class_init (
+        gpointer g_class,
+        gpointer class_data)
 {
-    GParamSpec *pspec;
+    GObjectClass *object_class = g_class;
+    GParamSpec   *pspec;
 
     parent_class = g_type_class_peek_parent (
             RSTTO_PROPERTIES_DIALOG_CLASS (object_class));
