@@ -28,14 +28,22 @@
 #include "settings.h"
 
 static void
-rstto_image_list_tree_model_init (GtkTreeModelIface *iface);
+rstto_image_list_tree_model_init (
+        gpointer g_iface,
+        gpointer iface_data);
 static void
-rstto_image_list_tree_sortable_init(GtkTreeSortableIface *iface);
+rstto_image_list_tree_sortable_init(
+        gpointer g_iface,
+        gpointer iface_data);
 
 static void 
-rstto_image_list_init(RsttoImageList *);
+rstto_image_list_init(
+        GTypeInstance *instance,
+        gpointer g_class);
 static void
-rstto_image_list_class_init(RsttoImageListClass *);
+rstto_image_list_class_init(
+        gpointer g_class,
+        gpointer class_data);
 static void
 rstto_image_list_dispose(GObject *object);
 
@@ -48,9 +56,13 @@ cb_file_monitor_changed (
         gpointer           user_data );
 
 static void 
-rstto_image_list_iter_init(RsttoImageListIter *);
+rstto_image_list_iter_init(
+        GTypeInstance *instance,
+        gpointer g_class);
 static void
-rstto_image_list_iter_class_init(RsttoImageListIterClass *);
+rstto_image_list_iter_class_init(
+        gpointer g_class,
+        gpointer class_data);
 static void
 rstto_image_list_iter_dispose(GObject *object);
 static RsttoImageListIter *
@@ -241,13 +253,13 @@ rstto_image_list_get_type (void)
 {
     static const GInterfaceInfo tree_model_info =
     {
-        (GInterfaceInitFunc) rstto_image_list_tree_model_init,
+        rstto_image_list_tree_model_init,
             NULL,
             NULL
     };
     static const GInterfaceInfo tree_sort_info =
     {
-        (GInterfaceInitFunc) rstto_image_list_tree_sortable_init,
+        rstto_image_list_tree_sortable_init,
             NULL,
             NULL
     };
@@ -258,14 +270,14 @@ rstto_image_list_get_type (void)
         static const GTypeInfo rstto_image_list_info = 
         {
             sizeof (RsttoImageListClass),
-            (GBaseInitFunc) NULL,
-            (GBaseFinalizeFunc) NULL,
-            (GClassInitFunc) rstto_image_list_class_init,
-            (GClassFinalizeFunc) NULL,
+            NULL,
+            NULL,
+            rstto_image_list_class_init,
+            NULL,
             NULL,
             sizeof (RsttoImageList),
             0,
-            (GInstanceInitFunc) rstto_image_list_init,
+            rstto_image_list_init,
             NULL
         };
 
@@ -281,8 +293,12 @@ rstto_image_list_get_type (void)
 }
 
 static void
-rstto_image_list_tree_model_init (GtkTreeModelIface *iface)
+rstto_image_list_tree_model_init (
+        gpointer g_iface,
+        gpointer iface_data)
 {
+    GtkTreeModelIface *iface = g_iface;
+
     iface->get_flags       = image_list_model_get_flags;
     iface->get_n_columns   = image_list_model_get_n_columns;
     iface->get_column_type = image_list_model_get_column_type;
@@ -298,20 +314,27 @@ rstto_image_list_tree_model_init (GtkTreeModelIface *iface)
 }
 
 static void
-rstto_image_list_tree_sortable_init(GtkTreeSortableIface *iface)
+rstto_image_list_tree_sortable_init(
+        gpointer g_iface,
+        gpointer iface_data)
 {
-#if 0 
+#if 0
+    GtkTreeSortableIface *iface = g_iface;
+
     iface->get_sort_column_id    = sq_archive_store_get_sort_column_id;
     iface->set_sort_column_id    = sq_archive_store_set_sort_column_id;
     iface->set_sort_func         = sq_archive_store_set_sort_func;            /*NOT SUPPORTED*/
     iface->set_default_sort_func = sq_archive_store_set_default_sort_func;    /*NOT SUPPORTED*/
     iface->has_default_sort_func = sq_archive_store_has_default_sort_func;
-#endif 
+#endif
 }
 
 static void
-rstto_image_list_init(RsttoImageList *image_list)
+rstto_image_list_init(
+        GTypeInstance *instance,
+        gpointer g_class)
 {
+    RsttoImageList *image_list = RSTTO_IMAGE_LIST (instance);
 
     image_list->priv = g_new0 (RsttoImageListPriv, 1);
     image_list->priv->stamp = g_random_int();
@@ -344,16 +367,18 @@ rstto_image_list_init(RsttoImageList *image_list)
 }
 
 static void
-rstto_image_list_class_init(RsttoImageListClass *nav_class)
+rstto_image_list_class_init(
+        gpointer g_class,
+        gpointer class_data)
 {
-    GObjectClass *object_class = G_OBJECT_CLASS(nav_class);
+    GObjectClass *object_class = g_class;
 
-    parent_class = g_type_class_peek_parent(nav_class);
+    parent_class = g_type_class_peek_parent(g_class);
 
     object_class->dispose = rstto_image_list_dispose;
 
     rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE] = g_signal_new("remove-image",
-            G_TYPE_FROM_CLASS(nav_class),
+            G_TYPE_FROM_CLASS(g_class),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
             NULL,
@@ -365,7 +390,7 @@ rstto_image_list_class_init(RsttoImageListClass *nav_class)
             NULL);
 
     rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL] = g_signal_new("remove-all",
-            G_TYPE_FROM_CLASS(nav_class),
+            G_TYPE_FROM_CLASS(g_class),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
             NULL,
@@ -942,14 +967,14 @@ rstto_image_list_iter_get_type (void)
         static const GTypeInfo rstto_image_list_iter_info = 
         {
             sizeof (RsttoImageListIterClass),
-            (GBaseInitFunc) NULL,
-            (GBaseFinalizeFunc) NULL,
-            (GClassInitFunc) rstto_image_list_iter_class_init,
-            (GClassFinalizeFunc) NULL,
+            NULL,
+            NULL,
+            rstto_image_list_iter_class_init,
+            NULL,
             NULL,
             sizeof (RsttoImageListIter),
             0,
-            (GInstanceInitFunc) rstto_image_list_iter_init,
+            rstto_image_list_iter_init,
             NULL
         };
 
@@ -959,22 +984,26 @@ rstto_image_list_iter_get_type (void)
 }
 
 static void
-rstto_image_list_iter_init (RsttoImageListIter *iter)
+rstto_image_list_iter_init (
+        GTypeInstance *instance,
+        gpointer g_class)
 {
-    iter->priv = g_new0 (RsttoImageListIterPriv, 1);
+    RSTTO_IMAGE_LIST_ITER (instance)->priv = g_new0 (RsttoImageListIterPriv, 1);
 }
 
 static void
-rstto_image_list_iter_class_init(RsttoImageListIterClass *iter_class)
+rstto_image_list_iter_class_init(
+        gpointer g_class,
+        gpointer class_data)
 {
-    GObjectClass *object_class = G_OBJECT_CLASS(iter_class);
+    GObjectClass *object_class = g_class;
 
-    iter_parent_class = g_type_class_peek_parent(iter_class);
+    iter_parent_class = g_type_class_peek_parent(g_class);
 
     object_class->dispose = rstto_image_list_iter_dispose;
 
     rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE] = g_signal_new("prepare-change",
-            G_TYPE_FROM_CLASS(iter_class),
+            G_TYPE_FROM_CLASS(g_class),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
             NULL,
@@ -985,7 +1014,7 @@ rstto_image_list_iter_class_init(RsttoImageListIterClass *iter_class)
             NULL);
 
     rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED] = g_signal_new("changed",
-            G_TYPE_FROM_CLASS(iter_class),
+            G_TYPE_FROM_CLASS(g_class),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
             NULL,
