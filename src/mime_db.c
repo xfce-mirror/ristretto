@@ -25,9 +25,13 @@
 #include "mime_db.h"
 
 static void
-rstto_mime_db_init (GObject *);
+rstto_mime_db_init (
+        GTypeInstance *instance,
+        gpointer       g_class);
 static void
-rstto_mime_db_class_init (GObjectClass *);
+rstto_mime_db_class_init (
+        gpointer g_class,
+        gpointer class_data);
 
 static void
 rstto_mime_db_dispose (GObject *object);
@@ -66,14 +70,14 @@ rstto_mime_db_get_type (void)
         static const GTypeInfo rstto_mime_db_info = 
         {
             sizeof (RsttoMimeDBClass),
-            (GBaseInitFunc) NULL,
-            (GBaseFinalizeFunc) NULL,
-            (GClassInitFunc) rstto_mime_db_class_init,
-            (GClassFinalizeFunc) NULL,
+            NULL,
+            NULL,
+            rstto_mime_db_class_init,
+            NULL,
             NULL,
             sizeof (RsttoMimeDB),
             0,
-            (GInstanceInitFunc) rstto_mime_db_init,
+            rstto_mime_db_init,
             NULL
         };
 
@@ -89,19 +93,23 @@ struct _RsttoMimeDBPriv
 };
 
 static void
-rstto_mime_db_init (GObject *object)
+rstto_mime_db_init (
+        GTypeInstance *instance,
+        gpointer       g_class)
 {
-    RsttoMimeDB *mime_db = RSTTO_MIME_DB (object);
+    RsttoMimeDB *mime_db = RSTTO_MIME_DB (instance);
 
     mime_db->priv = g_new0 (RsttoMimeDBPriv, 1);
 }
 
 static void
-rstto_mime_db_class_init (GObjectClass *object_class)
+rstto_mime_db_class_init (
+        gpointer g_class,
+        gpointer class_data)
 {
-    RsttoMimeDBClass *mime_db_class = RSTTO_MIME_DB_CLASS (object_class);
+    GObjectClass *object_class = g_class;
 
-    parent_class = g_type_class_peek_parent (mime_db_class);
+    parent_class = g_type_class_peek_parent (g_class);
 
     object_class->dispose = rstto_mime_db_dispose;
     object_class->finalize = rstto_mime_db_finalize;
