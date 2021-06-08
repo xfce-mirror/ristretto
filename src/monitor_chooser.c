@@ -49,10 +49,10 @@ struct _RsttoMonitorChooserPriv
 static GtkWidgetClass *parent_class = NULL;
 
 static void
-rstto_monitor_chooser_init(RsttoMonitorChooser *);
+rstto_monitor_chooser_init(GTypeInstance *instance, gpointer g_class);
 
 static void
-rstto_monitor_chooser_class_init(RsttoMonitorChooserClass *);
+rstto_monitor_chooser_class_init(gpointer g_class, gpointer class_data);
 
 static void
 rstto_monitor_chooser_finalize(GObject *object);
@@ -103,14 +103,14 @@ rstto_monitor_chooser_get_type (void)
         static const GTypeInfo rstto_monitor_chooser_info = 
         {
             sizeof (RsttoMonitorChooserClass),
-            (GBaseInitFunc) NULL,
-            (GBaseFinalizeFunc) NULL,
-            (GClassInitFunc) rstto_monitor_chooser_class_init,
-            (GClassFinalizeFunc) NULL,
+            NULL,
+            NULL,
+            rstto_monitor_chooser_class_init,
+            NULL,
             NULL,
             sizeof (RsttoMonitorChooser),
             0,
-            (GInstanceInitFunc) rstto_monitor_chooser_init,
+            rstto_monitor_chooser_init,
             NULL
         };
 
@@ -120,8 +120,10 @@ rstto_monitor_chooser_get_type (void)
 }
 
 static void
-rstto_monitor_chooser_init(RsttoMonitorChooser *chooser)
+rstto_monitor_chooser_init(GTypeInstance *instance, gpointer g_class)
 {
+    RsttoMonitorChooser *chooser = RSTTO_MONITOR_CHOOSER (instance);
+
     chooser->priv = g_new0(RsttoMonitorChooserPriv, 1);
     chooser->priv->selected = -1;
     chooser->priv->monitors = g_new0 (Monitor *, 1);
@@ -134,15 +136,12 @@ rstto_monitor_chooser_init(RsttoMonitorChooser *chooser)
 }
 
 static void
-rstto_monitor_chooser_class_init(RsttoMonitorChooserClass *chooser_class)
+rstto_monitor_chooser_class_init(gpointer g_class, gpointer class_data)
 {
-    GtkWidgetClass *widget_class;
-    GObjectClass *object_class;
+    GtkWidgetClass *widget_class = g_class;
+    GObjectClass *object_class = g_class;
 
-    widget_class = (GtkWidgetClass*)chooser_class;
-    object_class = (GObjectClass*)chooser_class;
-
-    parent_class = g_type_class_peek_parent(chooser_class);
+    parent_class = g_type_class_peek_parent(g_class);
 
     widget_class->draw = rstto_monitor_chooser_draw;
     widget_class->realize = rstto_monitor_chooser_realize;
@@ -153,7 +152,7 @@ rstto_monitor_chooser_class_init(RsttoMonitorChooserClass *chooser_class)
     object_class->finalize = rstto_monitor_chooser_finalize;
 
     rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED] = g_signal_new("changed",
-            G_TYPE_FROM_CLASS(chooser_class),
+            G_TYPE_FROM_CLASS(g_class),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
             NULL,
@@ -395,8 +394,6 @@ paint_monitor ( GtkWidget *widget,
                 Monitor *monitor,
                 gboolean active)
 {
-    g_return_if_fail (NULL != monitor);
-
     /* Do we want the border_padding to be a percentage of the width
      * parmeter?
      */
@@ -430,6 +427,8 @@ paint_monitor ( GtkWidget *widget,
     /*******************************************/
     PangoLayout *layout;
     PangoFontDescription *font_description;
+
+    g_return_if_fail (NULL != monitor);
 
     /*
      * Set path for monitor outline and background-color.

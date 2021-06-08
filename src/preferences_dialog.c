@@ -33,9 +33,13 @@
 
 
 static void
-rstto_preferences_dialog_init (RsttoPreferencesDialog *);
+rstto_preferences_dialog_init (
+        GTypeInstance *instance,
+        gpointer g_class);
 static void
-rstto_preferences_dialog_class_init(GObjectClass *);
+rstto_preferences_dialog_class_init(
+        gpointer g_class,
+        gpointer class_data);
 
 static void
 rstto_preferences_dialog_dispose (GObject *object);
@@ -166,14 +170,14 @@ rstto_preferences_dialog_get_type (void)
         static const GTypeInfo rstto_preferences_dialog_info = 
         {
             sizeof (RsttoPreferencesDialogClass),
-            (GBaseInitFunc) NULL,
-            (GBaseFinalizeFunc) NULL,
-            (GClassInitFunc) rstto_preferences_dialog_class_init,
-            (GClassFinalizeFunc) NULL,
+            NULL,
+            NULL,
+            rstto_preferences_dialog_class_init,
+            NULL,
             NULL,
             sizeof (RsttoPreferencesDialog),
             0,
-            (GInstanceInitFunc) rstto_preferences_dialog_init,
+            rstto_preferences_dialog_init,
             NULL
         };
 
@@ -188,8 +192,9 @@ rstto_preferences_dialog_get_type (void)
 
 /**
  * rstto_preferences_dialog_init:
- * @dialog: The PreferencesDialog, used for configuring ristretto
- *          properties.
+ * @instance: The PreferencesDialog, used for configuring ristretto
+ *            properties.
+ * @g_class:  unused.
  *
  *
  * This function initializes the preferences-dialog.
@@ -224,9 +229,13 @@ rstto_preferences_dialog_get_type (void)
  *      desktop_frame
  */
 static void
-rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
+rstto_preferences_dialog_init (
+        GTypeInstance *instance,
+        gpointer g_class)
 {
     /* Variable Section */
+
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (instance);
 
     gboolean   bool_invert_zoom_direction;
     gboolean   bool_bgcolor_override;
@@ -545,8 +554,12 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
 }
 
 static void
-rstto_preferences_dialog_class_init (GObjectClass *object_class)
+rstto_preferences_dialog_class_init (
+        gpointer g_class,
+        gpointer class_data)
 {
+    GObjectClass *object_class = g_class;
+
     parent_class = g_type_class_peek_parent (RSTTO_PREFERENCES_DIALOG_CLASS (object_class));
 
     object_class->dispose = rstto_preferences_dialog_dispose;

@@ -23,11 +23,14 @@
 #include "privacy_dialog.h"
 
 static void
-rstto_privacy_dialog_init (RsttoPrivacyDialog *);
+rstto_privacy_dialog_init (GTypeInstance *instance,
+                           gpointer       g_class);
 static void
-rstto_privacy_dialog_class_init (GObjectClass *);
+rstto_privacy_dialog_class_init (gpointer g_class,
+                                 gpointer class_data);
 static void
-rstto_recent_chooser_init (GtkRecentChooserIface *iface);
+rstto_recent_chooser_init (gpointer g_iface,
+                           gpointer iface_data);
 
 static void
 rstto_privacy_dialog_dispose (GObject *object);
@@ -100,20 +103,20 @@ rstto_privacy_dialog_get_type (void)
         static const GTypeInfo rstto_privacy_dialog_info = 
         {
             sizeof (RsttoPrivacyDialogClass),
-            (GBaseInitFunc) NULL,
-            (GBaseFinalizeFunc) NULL,
-            (GClassInitFunc) rstto_privacy_dialog_class_init,
-            (GClassFinalizeFunc) NULL,
+            NULL,
+            NULL,
+            rstto_privacy_dialog_class_init,
+            NULL,
             NULL,
             sizeof (RsttoPrivacyDialog),
             0,
-            (GInstanceInitFunc) rstto_privacy_dialog_init,
+            rstto_privacy_dialog_init,
             NULL
         };
 
         static const GInterfaceInfo recent_chooser_info =
         {
-            (GInterfaceInitFunc) rstto_recent_chooser_init,
+            rstto_recent_chooser_init,
             NULL,
             NULL
         };
@@ -126,8 +129,11 @@ rstto_privacy_dialog_get_type (void)
 }
 
 static void
-rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
+rstto_privacy_dialog_init (GTypeInstance *instance,
+                           gpointer       g_class)
 {
+    RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (instance);
+
     GtkWidget *display_main_hbox;
     GtkWidget *display_main_lbl;
     GtkWidget *button;
@@ -186,9 +192,11 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
 }
 
 static void
-rstto_privacy_dialog_class_init (GObjectClass *object_class)
+rstto_privacy_dialog_class_init (gpointer g_class,
+                                 gpointer class_data)
 {
-    GParamSpec *pspec;
+    GObjectClass *object_class = g_class;
+    GParamSpec   *pspec;
 
     parent_class = g_type_class_peek_parent (RSTTO_PRIVACY_DIALOG_CLASS (object_class));
 
@@ -284,8 +292,11 @@ rstto_privacy_dialog_class_init (GObjectClass *object_class)
 }
 
 static void
-rstto_recent_chooser_init (GtkRecentChooserIface *iface)
+rstto_recent_chooser_init (gpointer g_iface,
+                           gpointer iface_data)
 {
+    GtkRecentChooserIface *iface = g_iface;
+
     iface->add_filter = rstto_recent_chooser_add_filter;
     iface->get_items  = rstto_recent_chooser_get_items;
 }
