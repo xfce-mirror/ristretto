@@ -135,9 +135,9 @@ enum
 };
 
 static void
-rstto_main_window_init (RsttoMainWindow *);
+rstto_main_window_init (GTypeInstance *instance, gpointer g_class);
 static void
-rstto_main_window_class_init(RsttoMainWindowClass *);
+rstto_main_window_class_init(gpointer g_class, gpointer class_data);
 static void
 rstto_main_window_dispose(GObject *object);
 
@@ -806,14 +806,14 @@ rstto_main_window_get_type (void)
         static const GTypeInfo rstto_main_window_info = 
         {
             sizeof (RsttoMainWindowClass),
-            (GBaseInitFunc) NULL,
-            (GBaseFinalizeFunc) NULL,
-            (GClassInitFunc) rstto_main_window_class_init,
-            (GClassFinalizeFunc) NULL,
+            NULL,
+            NULL,
+            rstto_main_window_class_init,
+            NULL,
             NULL,
             sizeof (RsttoMainWindow),
             0,
-            (GInstanceInitFunc) rstto_main_window_init,
+            rstto_main_window_init,
             NULL
         };
 
@@ -827,8 +827,10 @@ rstto_main_window_get_type (void)
 }
 
 static void
-rstto_main_window_init (RsttoMainWindow *window)
+rstto_main_window_init (GTypeInstance *instance, gpointer g_class)
 {
+    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (instance);
+
     GtkAccelGroup   *accel_group;
     GtkWidget       *separator;
     GtkWidget       *main_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -1273,12 +1275,12 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 }
 
 static void
-rstto_main_window_class_init(RsttoMainWindowClass *window_class)
+rstto_main_window_class_init(gpointer g_class, gpointer class_data)
 {
-    GObjectClass *object_class = (GObjectClass*)window_class;
-    GtkWidgetClass *widget_class = (GtkWidgetClass *)window_class;
+    GObjectClass *object_class = g_class;
+    GtkWidgetClass *widget_class = g_class;
 
-    parent_class = g_type_class_peek_parent(window_class);
+    parent_class = g_type_class_peek_parent(g_class);
 
     object_class->dispose = rstto_main_window_dispose;
 
@@ -2637,6 +2639,9 @@ cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget, GdkEventScrol
             case GDK_SCROLL_RIGHT:
                 rstto_image_list_iter_next (window->priv->iter);
                 break;
+            case GDK_SCROLL_SMOOTH:
+                /* TODO */
+                break;
         }
         ret = TRUE; /* don't call other callbacks */
     }
@@ -3716,6 +3721,7 @@ rstto_confirm_deletion(
     const gchar *file_basename = rstto_file_get_display_name(file);
     GtkWidget *dialog;
     GtkWidget* dont_ask_checkbox = NULL;
+    gint response;
 
     if ( to_trash )
     {
@@ -3745,7 +3751,7 @@ rstto_confirm_deletion(
         gtk_widget_grab_focus(gtk_dialog_get_widget_for_response(GTK_DIALOG(dialog), GTK_RESPONSE_CANCEL));
     }
 
-    int response = gtk_dialog_run( GTK_DIALOG( dialog ) );
+    response = gtk_dialog_run( GTK_DIALOG( dialog ) );
     if ( to_trash && (response == GTK_RESPONSE_OK) )
     {
       dont_ask_trash = gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON(dont_ask_checkbox) );
@@ -3777,6 +3783,7 @@ cb_rstto_main_window_delete (
     gboolean success = FALSE;
     gchar *prompt = NULL;
     GError *error = NULL;
+    gint response;
 
     if (file == NULL)
     {
@@ -3793,7 +3800,7 @@ cb_rstto_main_window_delete (
         }
     }
 
-    int response = rstto_confirm_deletion( window, file, !delete_file );
+    response = rstto_confirm_deletion( window, file, !delete_file );
     if ( response == GTK_RESPONSE_OK )
     {
         g_object_ref (file);
