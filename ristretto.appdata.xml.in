@@ -19,18 +19,16 @@
 
   <screenshots>
     <screenshot type="default">
-      <image>https://goodies.xfce.org/_media/projects/applications/ristretto-screenshot.png</image>
- <!-- <image>http://docs.xfce.org/_media/apps/ristretto/view-images.png</image> -->
+      <image>https://docs.xfce.org/_media/apps/ristretto/view-images.png</image>
     </screenshot>
     <screenshot>
       <caption>Ristretto - Set as Wallpaper</caption>
-      <image>https://goodies.xfce.org/_media/projects/applications/ristretto-screenshot-2.png</image>
- <!-- <image>http://docs.xfce.org/_media/apps/ristretto/set-wallpaper.png</image> -->
+      <image>https://docs.xfce.org/_media/apps/ristretto/set-wallpaper.png</image>
     </screenshot>
   </screenshots>
 
   <url type="homepage">https://docs.xfce.org/apps/ristretto/start</url>
-  <url type="bugtracker">https://bugzilla.xfce.org/describecomponents.cgi?product=Ristretto</url>
+  <url type="bugtracker">https://gitlab.xfce.org/apps/ristretto/issues</url>
   <url type="help">https://docs.xfce.org/apps/ristretto/start</url>
 
   <updatecontact>xfce4-dev@xfce.org</updatecontact>

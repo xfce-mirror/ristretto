@@ -1,9 +1,9 @@
 dnl
-dnl Copyright (c) 2006-2012
+dnl Copyright (c) 2006-2021
 dnl         The Xfce development team. All rights reserved.
 dnl
 dnl Originally written for Xfce by Benedikt Meurer <benny@xfce.org>
-dnl Modified by Stephan Arts <stephan@xfce.org>
+dnl Modified by Stephan Arts <stephan@xfce.org> and Xfce development team.
 dnl
 
 dnl ***************************
@@ -21,7 +21,7 @@ dnl *** Debugging support for SVN snapshots ***
 dnl *******************************************
 m4_define([ristretto_debug_default], [ifelse(ristretto_version_tag(), [git], [full], [minimum])])
 
-AC_COPYRIGHT([Copyright (c) 2006-2012
+AC_COPYRIGHT([Copyright (c) 2006-2021
         The Xfce development team. All rights reserved.
 
 Written for Xfce by Stephan Arts <stephan@xfce.org>.])
