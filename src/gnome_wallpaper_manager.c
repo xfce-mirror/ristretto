@@ -348,6 +348,8 @@ rstto_gnome_wallpaper_manager_dispose (GObject *object)
         g_free (gnome_wallpaper_manager->priv);
         gnome_wallpaper_manager->priv = NULL;
     }
+
+    G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 /**
@@ -362,6 +364,8 @@ rstto_gnome_wallpaper_manager_finalize (GObject *object)
     {
         gnome_wallpaper_manager_object = NULL;
     }
+
+    G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 

@@ -441,6 +441,8 @@ rstto_image_list_dispose(GObject *object)
         g_free (image_list->priv);
         image_list->priv = NULL;
     }
+
+    G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 RsttoImageList *
@@ -1047,6 +1049,8 @@ rstto_image_list_iter_dispose (GObject *object)
         g_free (iter->priv);
         iter->priv = NULL;
     }
+
+    G_OBJECT_CLASS (iter_parent_class)->dispose (object);
 }
 
 static RsttoImageListIter *

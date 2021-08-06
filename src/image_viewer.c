@@ -169,7 +169,7 @@ paint_background_icon (
 
 
 static void
-rstto_image_viewer_dispose (GObject *object);
+rstto_image_viewer_finalize (GObject *object);
 
 static void
 rstto_image_viewer_get_preferred_width(GtkWidget *, gint *, gint *);
@@ -392,7 +392,7 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
 
     object_class->set_property = rstto_image_viewer_set_property;
     object_class->get_property = rstto_image_viewer_get_property;
-    object_class->dispose      = rstto_image_viewer_dispose;
+    object_class->finalize      = rstto_image_viewer_finalize;
 
     g_signal_new (
             "size-ready",
@@ -616,7 +616,7 @@ rstto_image_viewer_draw(GtkWidget *widget, cairo_t *ctx)
 }
 
 static void
-rstto_image_viewer_dispose (GObject *object)
+rstto_image_viewer_finalize (GObject *object)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER(object);
 
@@ -650,6 +650,8 @@ rstto_image_viewer_dispose (GObject *object)
         g_free (viewer->priv);
         viewer->priv = NULL;
     }
+
+    G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static gboolean  

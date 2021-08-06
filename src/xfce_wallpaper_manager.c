@@ -470,6 +470,8 @@ rstto_xfce_wallpaper_manager_dispose (GObject *object)
         g_free (xfce_wallpaper_manager->priv);
         xfce_wallpaper_manager->priv = NULL;
     }
+
+    G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 /**
@@ -484,6 +486,8 @@ rstto_xfce_wallpaper_manager_finalize (GObject *object)
     {
         xfce_wallpaper_manager_object = NULL;
     }
+
+    G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 

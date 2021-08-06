@@ -696,6 +696,8 @@ rstto_settings_dispose (GObject *object)
         g_free (settings->priv);
         settings->priv = NULL;
     }
+
+    G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 /**
@@ -716,7 +718,8 @@ rstto_settings_finalize (GObject *object)
         g_free (accelmap_path);
         accelmap_path = NULL;
     }
-    
+
+    G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 /**

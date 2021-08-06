@@ -35,8 +35,6 @@ rstto_mime_db_class_init (
 
 static void
 rstto_mime_db_dispose (GObject *object);
-static void
-rstto_mime_db_finalize (GObject *object);
 
 static void
 rstto_mime_db_set_property (
@@ -112,7 +110,6 @@ rstto_mime_db_class_init (
     parent_class = g_type_class_peek_parent (g_class);
 
     object_class->dispose = rstto_mime_db_dispose;
-    object_class->finalize = rstto_mime_db_finalize;
 
     object_class->set_property = rstto_mime_db_set_property;
     object_class->get_property = rstto_mime_db_get_property;
@@ -135,16 +132,8 @@ rstto_mime_db_dispose (GObject *object)
         g_free (mime_db->priv);
         mime_db->priv = NULL;
     }
-}
 
-/**
- * rstto_mime_db_finalize:
- * @object:
- *
- */
-static void
-rstto_mime_db_finalize (GObject *object)
-{
+    G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
