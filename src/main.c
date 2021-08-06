@@ -212,7 +212,10 @@ cb_rstto_open_files (gpointer user_data)
                         r_file = NULL;
                     }
 
+                    g_object_unref (file_info);
                 }
+
+                g_object_unref (file);
             }
             rof->iter++;
             return TRUE;
@@ -237,6 +240,8 @@ cb_rstto_open_files (gpointer user_data)
                 {
                     /* TODO: show error dialog */
                 }
+
+                g_object_unref (file_info);
             }
         }
 
@@ -264,6 +269,7 @@ cb_rstto_open_files (gpointer user_data)
             /* Point the iterator to the correct image */
             rstto_image_list_iter_find_file (iter, r_file);
 
+            g_object_unref (p_file);
             g_object_unref (r_file);
             r_file = NULL;
         }
@@ -279,6 +285,11 @@ cb_rstto_open_files (gpointer user_data)
         if (TRUE == start_slideshow)
         {
             rstto_main_window_play_slideshow (RSTTO_MAIN_WINDOW(rof->window));
+        }
+
+        if (file != NULL)
+        {
+            g_object_unref (file);
         }
 
     }

@@ -88,6 +88,8 @@ rstto_app_menu_item_finalize (GObject *object)
             menu_item->priv->file = NULL;
         }
     }
+
+    G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 /**

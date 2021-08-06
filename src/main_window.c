@@ -859,6 +859,7 @@ rstto_main_window_init (GTypeInstance *instance, gpointer g_class)
     if (db_path != NULL)
     {
         window->priv->db = rstto_mime_db_new (db_path, NULL);
+        g_free (db_path);
     }
 
     window->priv->iter = NULL;

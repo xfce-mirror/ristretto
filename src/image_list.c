@@ -837,6 +837,7 @@ cb_rstto_read_file ( gpointer user_data )
             g_free (loader->files);
         }
         g_object_unref (loader->file_enum);
+        g_object_unref (loader->dir);
         g_free (loader);
 
         return FALSE;
