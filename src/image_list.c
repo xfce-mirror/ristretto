@@ -654,7 +654,9 @@ rstto_image_list_remove_file (
                 0,
                 r_file,
                 NULL);
+
         g_object_unref (r_file);
+        gtk_tree_path_free (path_);
     }
 }
 
