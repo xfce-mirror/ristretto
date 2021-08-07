@@ -1643,7 +1643,7 @@ image_list_model_iter_n_children (
         GtkTreeModel *tree_model,
         GtkTreeIter *iter )
 {
-    return FALSE;
+    return rstto_image_list_get_n_images (RSTTO_IMAGE_LIST (tree_model));
 }
 
 static gboolean 

@@ -1523,19 +1523,27 @@ rstto_icon_bar_rows_reordered (
 
     length = gtk_tree_model_iter_n_children (model, NULL);
     inverted_order = g_newa (gint, length);
+    item_array = g_newa (RsttoIconBarItem *, length);
+
+    /* initialize arrays for security and so that static analysis tools like scan-build
+     * do not report warnings */
+    for (i = 0; i < length; ++i)
+    {
+        inverted_order[i] = 0;
+        item_array[i] = icon_bar->priv->items->data;
+    }
 
     /* invert the array */
     for (i = 0; i < length; ++i)
         inverted_order[new_order[i]] = i;
 
-    item_array = g_newa (RsttoIconBarItem *, length);
-    for (i = 0, lp = icon_bar->priv->items; lp != NULL; ++i, lp = lp->next)
+    for (i = 0, lp = icon_bar->priv->items; i < length && lp != NULL; ++i, lp = lp->next)
         item_array[inverted_order[i]] = lp->data;
 
     for (i = 0; i < length; ++i)
     {
         item_array[i]->index = i;
-        items = g_list_append (items, item_array[i]);
+        items = g_list_prepend (items, item_array[i]);
     }
 
     g_list_free (icon_bar->priv->items);
