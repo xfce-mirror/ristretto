@@ -40,6 +40,9 @@
 #define BACKGROUND_ICON_SIZE 128
 #endif
 
+#define MAX_OVER_VISIBLE 1.5
+#define MIN_VIEW_PERCENT 0.1
+
 enum
 {
     PROP_0,
@@ -579,7 +582,7 @@ rstto_image_viewer_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
          */
         if (TRUE == viewer->priv->auto_scale)
         {
-            set_scale (viewer, 0.0);
+            set_scale (viewer, RSTTO_SCALE_FIT_TO_VIEW);
         }
 
         gdk_window_invalidate_rect (
@@ -686,7 +689,6 @@ rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *viewer, GtkAdjustmen
 static gdouble
 scale_get_max(RsttoImageViewer *viewer)
 {
-    const gdouble MAX_OVER_VISIBLE = 1.5;
     GtkAllocation allocation;
     gdouble max_scale;
 
@@ -732,34 +734,31 @@ set_scale (RsttoImageViewer *viewer, gdouble scale )
             break;
     }
 
-    if (scale == -1)
+    if (scale == RSTTO_SCALE_IMAGE_LOADING)
     {
-        /* scale -1 is special case, set at image load */
         if ((h_scale > 1) && (v_scale > 1))
         {
             /* for small images fitting scale to 1:1 size, others fit-to-view */
-            scale = 1;
+            scale = RSTTO_SCALE_REAL_SIZE;
         }
         else
         {
             /* for large images exceeding window size, fit-to-view */
-            scale = 0;
+            scale = RSTTO_SCALE_FIT_TO_VIEW;
         }
     }
 
-    if (scale < 1)
+    if (scale < RSTTO_SCALE_REAL_SIZE)
     {
-        if (scale == 0) /* <=0 means fit view */
+        if (scale == RSTTO_SCALE_FIT_TO_VIEW)
         {
             auto_scale = TRUE;
             scale = MIN (h_scale, v_scale);
         }
-        else /* minimum scale is 10% of display area, unless image is smaller */
+        else /* minimum scale is a percent of display area, unless image is smaller */
         {
-            gint tenth_of_view = floor (MIN (allocation.width,
-                    allocation.height) * 0.1);
-            if (tenth_of_view > (MAX (viewer->priv->image_width,
-                    viewer->priv->image_height) * scale))
+            if ((scale * MAX (viewer->priv->image_width, viewer->priv->image_height))
+                < (MIN_VIEW_PERCENT * MIN (allocation.width, allocation.height)))
             {
                 scale = viewer->priv->scale;
             }
@@ -1799,7 +1798,7 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
     
     set_scale (viewer, scale);
 
-    if ((viewer->priv->scale == scale) || scale == 0)
+    if ((viewer->priv->scale == scale) || scale == RSTTO_SCALE_FIT_TO_VIEW)
     {
         g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
         g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
@@ -1864,7 +1863,7 @@ rstto_image_viewer_set_orientation (RsttoImageViewer *viewer, RsttoImageOrientat
 
     if (viewer->priv->auto_scale)
     {
-        set_scale (viewer, 0.0);
+        set_scale (viewer, RSTTO_SCALE_FIT_TO_VIEW);
     }
 
     rstto_file_set_orientation (viewer->priv->file, orientation);

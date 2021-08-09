@@ -55,6 +55,8 @@
 #define RSTTO_RECENT_FILES_APP_NAME "ristretto"
 #define RSTTO_RECENT_FILES_GROUP "Graphics"
 
+#define ZOOM_PERCENT 1.2
+
 enum
 {
     EDITOR_CHOOSER_MODEL_COLUMN_NAME = 0,
@@ -1466,7 +1468,8 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             rstto_icon_bar_show_active (RSTTO_ICON_BAR (window->priv->thumbnailbar));
             content_type  = rstto_file_get_content_type (cur_file);
 
-            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER (window->priv->image_viewer), cur_file, -1.0, 0);
+            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
+                                         cur_file, RSTTO_SCALE_IMAGE_LOADING, 0);
 
             pixbuf = rstto_file_get_thumbnail (cur_file, THUMBNAIL_SIZE_SMALL);
             if (pixbuf != NULL)
@@ -1558,7 +1561,8 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
             gtk_widget_set_sensitive (menu_item, FALSE);
 
-            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER (window->priv->image_viewer), NULL, -1, 0);
+            rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
+                                         NULL, RSTTO_SCALE_IMAGE_LOADING, 0);
 
             menu_item = gtk_menu_item_new_with_label (_("Empty"));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
@@ -2964,7 +2968,7 @@ cb_rstto_main_window_update_statusbar (GtkWidget *widget, RsttoMainWindow *windo
 static void
 cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), 0);
+    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), RSTTO_SCALE_FIT_TO_VIEW);
 }
 
 /**
@@ -2977,7 +2981,7 @@ cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), 1);
+    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), RSTTO_SCALE_REAL_SIZE);
 }
 
 /**
@@ -2991,7 +2995,7 @@ static void
 cb_rstto_main_window_zoom_in (GtkWidget *widget, RsttoMainWindow *window)
 {
     gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer));
-    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), scale*1.2);
+    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), scale * ZOOM_PERCENT);
 }
 
 /**
@@ -3005,7 +3009,7 @@ static void
 cb_rstto_main_window_zoom_out (GtkWidget *widget, RsttoMainWindow *window)
 {
     gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer));
-    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), scale/1.2);
+    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), scale / ZOOM_PERCENT);
 }
 
 /**********************/
