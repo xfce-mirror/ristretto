@@ -688,9 +688,13 @@ scale_get_max(RsttoImageViewer *viewer)
 {
     const gdouble MAX_OVER_VISIBLE = 1.5;
     GtkAllocation allocation;
+    gdouble max_scale;
+
     gtk_widget_get_allocation(GTK_WIDGET (viewer), &allocation);
-    gdouble max_scale = (MAX(allocation.width, allocation.height) * MAX_OVER_VISIBLE)
-        / MIN(viewer->priv->image_width, viewer->priv->image_height);
+    max_scale = MAX_OVER_VISIBLE
+                * MAX(allocation.width, allocation.height)
+                / MIN(viewer->priv->image_width, viewer->priv->image_height);
+
     return MAX(max_scale, 1.0);
 }
 
@@ -2210,7 +2214,6 @@ rstto_scroll_event (GtkWidget *widget, GdkEventScroll *event)
     gdouble tmp_x = 0.0;
     gdouble tmp_y = 0.0;
     gdouble scale = viewer->priv->scale;
-    GtkAllocation allocation;
 
     if (event->state & (GDK_CONTROL_MASK))
     {
