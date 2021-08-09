@@ -700,7 +700,7 @@ scale_get_max(RsttoImageViewer *viewer)
  * @param scale 0 means 'fit to view', 1 means 100%/1:1 scale
  */
 static void
-set_scale (RsttoImageViewer *viewer, gdouble scale)
+set_scale (RsttoImageViewer *viewer, gdouble scale )
 {
     gboolean auto_scale = FALSE;
     gdouble v_scale;
@@ -709,18 +709,24 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
     GtkAllocation allocation;
 
     gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
+
     switch (viewer->priv->orientation)
     {
+        case RSTTO_IMAGE_ORIENT_90:
+        case RSTTO_IMAGE_ORIENT_270:
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
+            v_scale = (gdouble)(allocation.width) / (gdouble)viewer->priv->image_height;
+            h_scale = (gdouble)(allocation.height) / (gdouble)viewer->priv->image_width;
+            break;
+        case RSTTO_IMAGE_ORIENT_NONE:
+        case RSTTO_IMAGE_ORIENT_180:
+        case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
+        case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
         default:
             v_scale = (gdouble)(allocation.width) / (gdouble)viewer->priv->image_width;
             h_scale = (gdouble)(allocation.height) / (gdouble)viewer->priv->image_height;
             break;
-        case RSTTO_IMAGE_ORIENT_90:
-        case RSTTO_IMAGE_ORIENT_270:
-        case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
-        case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
-            v_scale = (gdouble)(allocation.width) / (gdouble)viewer->priv->image_height;
-            h_scale = (gdouble)(allocation.height) / (gdouble)viewer->priv->image_width;
     }
 
     if (scale < 0)
@@ -776,7 +782,7 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
         viewer->priv->scale = scale;
     }
 }
-
+ 
 static void
 paint_background (GtkWidget *widget, cairo_t *ctx)
 {
@@ -1799,6 +1805,7 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
                 y_offset) / viewer->priv->scale;
     
     set_scale (viewer, scale);
+
     if ((viewer->priv->scale == scale) || scale <= 0)
     {
         g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
