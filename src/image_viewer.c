@@ -149,7 +149,7 @@ struct _RsttoImageViewerTransaction
     guchar           *buffer;
 };
 
-static void
+static gboolean
 set_scale (
         RsttoImageViewer *viewer,
         gdouble scale );
@@ -704,13 +704,15 @@ scale_get_max(RsttoImageViewer *viewer)
  * Set scale.
  * @viewer: the image viewer structure
  * @scale: 0 means 'fit to view', 1 means 100%/1:1 scale
+ *
+ * Return value: FALSE if @scale was out of bounds and no changes were applied,
+ *               TRUE otherwise (always TRUE id @scale == RSTTO_SCALE_FIT_TO_VIEW)
  */
-static void
+static gboolean
 set_scale (RsttoImageViewer *viewer, gdouble scale )
 {
     gboolean auto_scale = FALSE;
-    gdouble v_scale;
-    gdouble h_scale;
+    gdouble in_scale = scale, v_scale, h_scale;
     GtkAllocation allocation;
 
     gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
@@ -773,6 +775,8 @@ set_scale (RsttoImageViewer *viewer, gdouble scale )
         viewer->priv->scale = scale;
         g_signal_emit_by_name(viewer, "scale-changed");
     }
+
+    return scale == in_scale || in_scale == RSTTO_SCALE_FIT_TO_VIEW;
 }
  
 static void
@@ -1795,10 +1799,8 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
     tmp_y = (gtk_adjustment_get_value(viewer->vadjustment) + 
             (gtk_adjustment_get_page_size (viewer->vadjustment) / 2) - 
                 y_offset) / viewer->priv->scale;
-    
-    set_scale (viewer, scale);
 
-    if ((viewer->priv->scale == scale) || scale == RSTTO_SCALE_FIT_TO_VIEW)
+    if (set_scale (viewer, scale))
     {
         g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
         g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
@@ -2227,8 +2229,7 @@ rstto_scroll_event (GtkWidget *widget, GdkEventScroll *event)
                     break;
             }
 
-            set_scale (viewer, scale);
-            if (viewer->priv->scale == scale)
+            if (set_scale (viewer, scale))
             {
 
                 g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
