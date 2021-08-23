@@ -2228,32 +2228,30 @@ cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
 
     if (viewer->priv->iter)
     {
-        if (gdk_pixbuf_animation_iter_advance (viewer->priv->iter, NULL))
+        /* Cleanup old image */
+        if (viewer->priv->pixbuf)
         {
-            /* Cleanup old image */
-            if (viewer->priv->pixbuf)
-            {
-                g_object_unref (viewer->priv->pixbuf);
-                viewer->priv->pixbuf = NULL;
-            }
-
-            /* The pixbuf returned by the GdkPixbufAnimationIter might be reused, 
-             * lets make a copy for myself just in case. Since it's a copy, we
-             * own the only reference to it. There is no need to add another.
-             */
-            viewer->priv->pixbuf = gdk_pixbuf_copy (gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter));
+            g_object_unref (viewer->priv->pixbuf);
+            viewer->priv->pixbuf = NULL;
         }
 
-        timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
+        /* The pixbuf returned by the GdkPixbufAnimationIter might be reused,
+         * lets make a copy for myself just in case. Since it's a copy, we
+         * own the only reference to it. There is no need to add another.
+         */
+        viewer->priv->pixbuf = gdk_pixbuf_copy (gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter));
 
-        if (timeout > 0)
-            g_timeout_add (timeout, cb_rstto_image_viewer_update_pixbuf,
-                           rstto_util_source_autoremove (viewer));
+        if (gdk_pixbuf_animation_iter_advance (viewer->priv->iter, NULL))
+        {
+            timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
+            if (timeout > 0)
+                g_timeout_add (timeout, cb_rstto_image_viewer_update_pixbuf,
+                               rstto_util_source_autoremove (viewer));
+        }
 
         gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
-
-        return FALSE;
     }
+
     return FALSE;
 }
 
