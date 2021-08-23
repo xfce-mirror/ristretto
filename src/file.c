@@ -58,7 +58,7 @@ rstto_file_class_init (
         gpointer class_data);
 
 static void
-rstto_file_dispose (GObject *object);
+rstto_file_finalize (GObject *object);
 
 static void
 rstto_file_set_property (
@@ -151,7 +151,7 @@ rstto_file_class_init (
 
     parent_class = g_type_class_peek_parent (g_class);
 
-    object_class->dispose = rstto_file_dispose;
+    object_class->finalize = rstto_file_finalize;
 
     object_class->set_property = rstto_file_set_property;
     object_class->get_property = rstto_file_get_property;
@@ -169,12 +169,12 @@ rstto_file_class_init (
 }
 
 /**
- * rstto_file_dispose:
+ * rstto_file_finalize:
  * @object:
  *
  */
 static void
-rstto_file_dispose (GObject *object)
+rstto_file_finalize (GObject *object)
 {
     RsttoFile *r_file = RSTTO_FILE (object);
     gint i = 0;
@@ -237,7 +237,7 @@ rstto_file_dispose (GObject *object)
         open_files = g_list_remove_all (open_files, r_file);
     }
 
-    G_OBJECT_CLASS (parent_class)->dispose (object);
+    G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 /**

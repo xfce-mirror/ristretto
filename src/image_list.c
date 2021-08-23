@@ -45,7 +45,7 @@ rstto_image_list_class_init(
         gpointer g_class,
         gpointer class_data);
 static void
-rstto_image_list_dispose(GObject *object);
+rstto_image_list_finalize(GObject *object);
 
 static void
 cb_file_monitor_changed (
@@ -64,7 +64,7 @@ rstto_image_list_iter_class_init(
         gpointer g_class,
         gpointer class_data);
 static void
-rstto_image_list_iter_dispose(GObject *object);
+rstto_image_list_iter_finalize(GObject *object);
 static RsttoImageListIter *
 rstto_image_list_iter_new (
         RsttoImageList *nav,
@@ -375,7 +375,7 @@ rstto_image_list_class_init(
 
     parent_class = g_type_class_peek_parent(g_class);
 
-    object_class->dispose = rstto_image_list_dispose;
+    object_class->finalize = rstto_image_list_finalize;
 
     rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE] = g_signal_new("remove-image",
             G_TYPE_FROM_CLASS(g_class),
@@ -402,7 +402,7 @@ rstto_image_list_class_init(
 }
 
 static void
-rstto_image_list_dispose(GObject *object)
+rstto_image_list_finalize(GObject *object)
 {
     RsttoImageList *image_list = RSTTO_IMAGE_LIST(object);
 
@@ -442,7 +442,7 @@ rstto_image_list_dispose(GObject *object)
         image_list->priv = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->dispose (object);
+    G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 RsttoImageList *
@@ -1005,7 +1005,7 @@ rstto_image_list_iter_class_init(
 
     iter_parent_class = g_type_class_peek_parent(g_class);
 
-    object_class->dispose = rstto_image_list_iter_dispose;
+    object_class->finalize = rstto_image_list_iter_finalize;
 
     rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE] = g_signal_new("prepare-change",
             G_TYPE_FROM_CLASS(g_class),
@@ -1031,7 +1031,7 @@ rstto_image_list_iter_class_init(
 }
 
 static void
-rstto_image_list_iter_dispose (GObject *object)
+rstto_image_list_iter_finalize (GObject *object)
 {
     RsttoImageListIter *iter = RSTTO_IMAGE_LIST_ITER(object);
 
@@ -1052,7 +1052,7 @@ rstto_image_list_iter_dispose (GObject *object)
         iter->priv = NULL;
     }
 
-    G_OBJECT_CLASS (iter_parent_class)->dispose (object);
+    G_OBJECT_CLASS (iter_parent_class)->finalize (object);
 }
 
 static RsttoImageListIter *

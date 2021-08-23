@@ -33,8 +33,6 @@ rstto_settings_class_init (gpointer g_class,
                            gpointer class_data);
 
 static void
-rstto_settings_dispose (GObject *object);
-static void
 rstto_settings_finalize (GObject *object);
 
 static void
@@ -372,7 +370,6 @@ rstto_settings_class_init (gpointer g_class,
 
     parent_class = g_type_class_peek_parent (settings_class);
 
-    object_class->dispose = rstto_settings_dispose;
     object_class->finalize = rstto_settings_finalize;
 
     object_class->set_property = rstto_settings_set_property;
@@ -645,20 +642,20 @@ rstto_settings_class_init (gpointer g_class,
 }
 
 /**
- * rstto_settings_dispose:
+ * rstto_settings_finalize:
  * @object:
  *
  */
 static void
-rstto_settings_dispose (GObject *object)
+rstto_settings_finalize (GObject *object)
 {
     RsttoSettings *settings = RSTTO_SETTINGS (object);
+    gchar         *accelmap_path = NULL;
 
     if (settings->priv)
     {
         if (settings->priv->channel)
         {
-            xfconf_g_property_unbind_all (settings->priv->channel);
             g_object_unref (settings->priv->channel);
             settings->priv->channel = NULL;
         }
@@ -696,20 +693,6 @@ rstto_settings_dispose (GObject *object)
         g_free (settings->priv);
         settings->priv = NULL;
     }
-
-    G_OBJECT_CLASS (parent_class)->dispose (object);
-}
-
-/**
- * rstto_settings_finalize:
- * @object:
- *
- */
-static void
-rstto_settings_finalize (GObject *object)
-{
-    gchar *accelmap_path = NULL;
-    /*RsttoSettings *settings = RSTTO_SETTINGS (object);*/
 
     accelmap_path = xfce_resource_save_location (XFCE_RESOURCE_CONFIG, "ristretto/accels.scm", TRUE);
     if (accelmap_path)

@@ -520,7 +520,7 @@ rstto_icon_bar_finalize (GObject *object)
     g_object_unref (G_OBJECT (icon_bar->priv->settings));
     g_object_unref (G_OBJECT (icon_bar->priv->thumbnailer));
 
-    (*G_OBJECT_CLASS (rstto_icon_bar_parent_class)->finalize) (object);
+    G_OBJECT_CLASS (rstto_icon_bar_parent_class)->finalize (object);
 }
 
 

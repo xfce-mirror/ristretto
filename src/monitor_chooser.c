@@ -55,9 +55,6 @@ static void
 rstto_monitor_chooser_class_init(gpointer g_class, gpointer class_data);
 
 static void
-rstto_monitor_chooser_finalize(GObject *object);
-
-static void
 rstto_monitor_chooser_realize(GtkWidget *widget);
 static void
 rstto_monitor_chooser_get_preferred_width(GtkWidget *, gint *, gint *);
@@ -139,7 +136,6 @@ static void
 rstto_monitor_chooser_class_init(gpointer g_class, gpointer class_data)
 {
     GtkWidgetClass *widget_class = g_class;
-    GObjectClass *object_class = g_class;
 
     parent_class = g_type_class_peek_parent(g_class);
 
@@ -148,8 +144,6 @@ rstto_monitor_chooser_class_init(gpointer g_class, gpointer class_data)
     widget_class->get_preferred_width = rstto_monitor_chooser_get_preferred_width;
     widget_class->get_preferred_height = rstto_monitor_chooser_get_preferred_height;
     widget_class->size_allocate = rstto_monitor_chooser_size_allocate;
-
-    object_class->finalize = rstto_monitor_chooser_finalize;
 
     rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED] = g_signal_new("changed",
             G_TYPE_FROM_CLASS(g_class),
@@ -161,11 +155,6 @@ rstto_monitor_chooser_class_init(gpointer g_class, gpointer class_data)
             G_TYPE_NONE,
             0,
             NULL);
-}
-
-static void
-rstto_monitor_chooser_finalize(GObject *object)
-{
 }
 
 /**

@@ -33,7 +33,7 @@ rstto_recent_chooser_init (gpointer g_iface,
                            gpointer iface_data);
 
 static void
-rstto_privacy_dialog_dispose (GObject *object);
+rstto_privacy_dialog_finalize (GObject *object);
 
 static void
 rstto_privacy_dialog_set_property    (GObject      *object,
@@ -200,7 +200,7 @@ rstto_privacy_dialog_class_init (gpointer g_class,
 
     parent_class = g_type_class_peek_parent (RSTTO_PRIVACY_DIALOG_CLASS (object_class));
 
-    object_class->dispose = rstto_privacy_dialog_dispose;
+    object_class->finalize = rstto_privacy_dialog_finalize;
 
     object_class->set_property = rstto_privacy_dialog_set_property;
     object_class->get_property = rstto_privacy_dialog_get_property;
@@ -302,7 +302,7 @@ rstto_recent_chooser_init (gpointer g_iface,
 }
 
 static void
-rstto_privacy_dialog_dispose (GObject *object)
+rstto_privacy_dialog_finalize (GObject *object)
 {
     RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (object);
     if (dialog->priv)
@@ -323,7 +323,7 @@ rstto_privacy_dialog_dispose (GObject *object)
         dialog->priv = NULL;
     }
 
-    G_OBJECT_CLASS(parent_class)->dispose(object);
+    G_OBJECT_CLASS(parent_class)->finalize(object);
 }
 
 

@@ -53,8 +53,6 @@ rstto_gnome_wallpaper_manager_class_init (
         gpointer class_data);
 
 static void
-rstto_gnome_wallpaper_manager_dispose (GObject *object);
-static void
 rstto_gnome_wallpaper_manager_finalize (GObject *object);
 
 static void
@@ -329,27 +327,7 @@ rstto_gnome_wallpaper_manager_class_init (
 
     parent_class = g_type_class_peek_parent (gnome_wallpaper_manager_class);
 
-    object_class->dispose = rstto_gnome_wallpaper_manager_dispose;
     object_class->finalize = rstto_gnome_wallpaper_manager_finalize;
-}
-
-/**
- * rstto_gnome_wallpaper_manager_dispose:
- * @object:
- *
- */
-static void
-rstto_gnome_wallpaper_manager_dispose (GObject *object)
-{
-    RsttoGnomeWallpaperManager *gnome_wallpaper_manager = RSTTO_GNOME_WALLPAPER_MANAGER (object);
-
-    if (gnome_wallpaper_manager->priv)
-    {
-        g_free (gnome_wallpaper_manager->priv);
-        gnome_wallpaper_manager->priv = NULL;
-    }
-
-    G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 /**
@@ -360,6 +338,14 @@ rstto_gnome_wallpaper_manager_dispose (GObject *object)
 static void
 rstto_gnome_wallpaper_manager_finalize (GObject *object)
 {
+    RsttoGnomeWallpaperManager *gnome_wallpaper_manager = RSTTO_GNOME_WALLPAPER_MANAGER (object);
+
+    if (gnome_wallpaper_manager->priv)
+    {
+        g_free (gnome_wallpaper_manager->priv);
+        gnome_wallpaper_manager->priv = NULL;
+    }
+
     if (gnome_wallpaper_manager_object)
     {
         gnome_wallpaper_manager_object = NULL;

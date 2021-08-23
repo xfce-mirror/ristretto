@@ -40,7 +40,7 @@ rstto_thumbnailer_class_init (
         gpointer class_data);
 
 static void
-rstto_thumbnailer_dispose (GObject *object);
+rstto_thumbnailer_finalize (GObject *object);
 
 static void
 rstto_thumbnailer_set_property (
@@ -182,7 +182,7 @@ rstto_thumbnailer_class_init (
 
     parent_class = g_type_class_peek_parent (thumbnailer_class);
 
-    object_class->dispose = rstto_thumbnailer_dispose;
+    object_class->finalize = rstto_thumbnailer_finalize;
 
     object_class->set_property = rstto_thumbnailer_set_property;
     object_class->get_property = rstto_thumbnailer_get_property;
@@ -202,12 +202,12 @@ rstto_thumbnailer_class_init (
 }
 
 /**
- * rstto_thumbnailer_dispose:
+ * rstto_thumbnailer_finalize:
  * @object:
  *
  */
 static void
-rstto_thumbnailer_dispose (GObject *object)
+rstto_thumbnailer_finalize (GObject *object)
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (object);
 
@@ -221,7 +221,7 @@ rstto_thumbnailer_dispose (GObject *object)
         g_clear_pointer (&thumbnailer->priv, g_free);
     }
 
-    G_OBJECT_CLASS (parent_class)->dispose (object);
+    G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 

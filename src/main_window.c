@@ -139,7 +139,7 @@ rstto_main_window_init (GTypeInstance *instance, gpointer g_class);
 static void
 rstto_main_window_class_init(gpointer g_class, gpointer class_data);
 static void
-rstto_main_window_dispose(GObject *object);
+rstto_main_window_finalize(GObject *object);
 
 static void
 rstto_main_window_size_allocate (GtkWidget *, GtkAllocation *);
@@ -1283,7 +1283,7 @@ rstto_main_window_class_init(gpointer g_class, gpointer class_data)
 
     parent_class = g_type_class_peek_parent(g_class);
 
-    object_class->dispose = rstto_main_window_dispose;
+    object_class->finalize = rstto_main_window_finalize;
 
     widget_class->size_allocate = rstto_main_window_size_allocate;
     widget_class->key_press_event = key_press_event;
@@ -1296,7 +1296,7 @@ rstto_main_window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 }
 
 static void
-rstto_main_window_dispose(GObject *object)
+rstto_main_window_finalize(GObject *object)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW(object);
 
@@ -1362,7 +1362,7 @@ rstto_main_window_dispose(GObject *object)
         window->priv = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->dispose(object); 
+    G_OBJECT_CLASS (parent_class)->finalize(object);
 }
 
 /**

@@ -37,7 +37,7 @@ rstto_properties_dialog_class_init (
         gpointer class_data);
 
 static void
-rstto_properties_dialog_dispose (GObject *object);
+rstto_properties_dialog_finalize (GObject *object);
 
 static void
 rstto_properties_dialog_set_property (
@@ -238,7 +238,7 @@ rstto_properties_dialog_class_init (
     parent_class = g_type_class_peek_parent (
             RSTTO_PROPERTIES_DIALOG_CLASS (object_class));
 
-    object_class->dispose = rstto_properties_dialog_dispose;
+    object_class->finalize = rstto_properties_dialog_finalize;
 
     object_class->set_property = rstto_properties_dialog_set_property;
     object_class->get_property = rstto_properties_dialog_get_property;
@@ -254,7 +254,7 @@ rstto_properties_dialog_class_init (
 }
 
 static void
-rstto_properties_dialog_dispose (GObject *object)
+rstto_properties_dialog_finalize (GObject *object)
 {
     RsttoPropertiesDialog *dialog = RSTTO_PROPERTIES_DIALOG (object);
     if (dialog->priv)
@@ -269,7 +269,7 @@ rstto_properties_dialog_dispose (GObject *object)
         dialog->priv = NULL;
     }
 
-    G_OBJECT_CLASS(parent_class)->dispose(object);
+    G_OBJECT_CLASS(parent_class)->finalize(object);
 }
 
 

@@ -59,8 +59,6 @@ rstto_xfce_wallpaper_manager_class_init (
         gpointer class_data);
 
 static void
-rstto_xfce_wallpaper_manager_dispose (GObject *object);
-static void
 rstto_xfce_wallpaper_manager_finalize (GObject *object);
 
 static gint
@@ -444,17 +442,16 @@ rstto_xfce_wallpaper_manager_class_init (
 
     parent_class = g_type_class_peek_parent (xfce_wallpaper_manager_class);
 
-    object_class->dispose = rstto_xfce_wallpaper_manager_dispose;
     object_class->finalize = rstto_xfce_wallpaper_manager_finalize;
 }
 
 /**
- * rstto_xfce_wallpaper_manager_dispose:
+ * rstto_xfce_wallpaper_manager_finalize:
  * @object:
  *
  */
 static void
-rstto_xfce_wallpaper_manager_dispose (GObject *object)
+rstto_xfce_wallpaper_manager_finalize (GObject *object)
 {
     RsttoXfceWallpaperManager *xfce_wallpaper_manager = RSTTO_XFCE_WALLPAPER_MANAGER (object);
 
@@ -471,17 +468,6 @@ rstto_xfce_wallpaper_manager_dispose (GObject *object)
         xfce_wallpaper_manager->priv = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->dispose (object);
-}
-
-/**
- * rstto_xfce_wallpaper_manager_finalize:
- * @object:
- *
- */
-static void
-rstto_xfce_wallpaper_manager_finalize (GObject *object)
-{
     if (xfce_wallpaper_manager_object)
     {
         xfce_wallpaper_manager_object = NULL;
