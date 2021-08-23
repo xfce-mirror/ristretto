@@ -79,6 +79,16 @@ typedef enum {
 #define THUMBNAIL_SIZE_LARGER_SIZE      128
 #define THUMBNAIL_SIZE_VERY_LARGE_SIZE  256
 
+/* for personal testing */
+#define TIMER_START      GTimer *__FUNCTION__timer = g_timer_new ();
+#define TIMER_SPLIT      g_printerr ("%s: %.2f ms\n", G_STRLOC, \
+                                     g_timer_elapsed (__FUNCTION__timer, NULL) * 1000);
+#define TIMER_STOP       TIMER_SPLIT g_timer_destroy (__FUNCTION__timer);
+
+#define PRINT_LOCATION   g_printerr ("%s\n", G_STRLOC)
+#define RTRACE(fmt, var) G_STMT_START{ g_printerr ("%s:%s: ", G_STRLOC, #var); \
+                                       g_printerr (fmt, var); g_printerr ("\n"); }G_STMT_END
+
 /* Macro to remove and clear a source id */
 #define REMOVE_SOURCE(ID) ({g_source_remove (ID); ID = 0;})
 
