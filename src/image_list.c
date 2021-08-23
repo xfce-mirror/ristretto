@@ -828,11 +828,6 @@ cb_rstto_read_file ( gpointer user_data )
         }
 
         iter = loader->image_list->priv->iterators;
-        while (iter)
-        {
-            g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
-            iter = g_slist_next (iter);
-        }
 
         if (loader->n_files > 0)
         {
@@ -840,8 +835,15 @@ cb_rstto_read_file ( gpointer user_data )
         }
         g_object_unref (loader->file_enum);
         g_object_unref (loader->dir);
-        loader->image_list->priv->directory_loader = 0;
         g_free (loader);
+
+        /* remove the busy state before sending the signal */
+        loader->image_list->priv->directory_loader = 0;
+        while (iter)
+        {
+            g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
+            iter = g_slist_next (iter);
+        }
 
         return FALSE;
     }
