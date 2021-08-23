@@ -121,7 +121,6 @@ struct _RsttoMainWindowPriv
     GtkAction             *recent_action;
 
     gboolean               playing;
-    gint                   play_timeout_id;
 
     GtkFileFilter         *filter;
 
@@ -2798,10 +2797,7 @@ cb_rstto_main_window_play_slideshow (gpointer user_data)
             rstto_image_list_iter_set_position (window->priv->iter, 0);
         }
     }
-    else
-    {
-        window->priv->play_timeout_id  = 0;
-    }
+
     return window->priv->playing;
 }
 
@@ -3355,7 +3351,8 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                              * sourcefunc and will be unref-ed by it.
                              */
                             g_object_ref (file);
-                            gdk_threads_add_idle_full(G_PRIORITY_LOW, rstto_main_window_add_file_to_recent_files_cb, file, NULL);
+                            g_idle_add_full (G_PRIORITY_LOW, rstto_main_window_add_file_to_recent_files_cb,
+                                             rstto_util_source_autoremove (file), NULL);
                         }
                         g_object_unref (G_OBJECT (r_file));
                         r_file = NULL;
@@ -3398,7 +3395,8 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                      * sourcefunc and will be unref-ed by it.
                      */
                     g_object_ref (files->data);
-                    gdk_threads_add_idle_full(G_PRIORITY_LOW, rstto_main_window_add_file_to_recent_files_cb, files->data, NULL);
+                    g_idle_add_full (G_PRIORITY_LOW, rstto_main_window_add_file_to_recent_files_cb,
+                                     rstto_util_source_autoremove (files->data), NULL);
 
                     /* Point the main iterator to the
                      * correct file
@@ -4668,10 +4666,9 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             &timeout);
 
     window->priv->playing = TRUE;
-    window->priv->play_timeout_id = gdk_threads_add_timeout (
-            g_value_get_uint (&timeout)*1000,
-            cb_rstto_main_window_play_slideshow,
-            window);
+    g_timeout_add (g_value_get_uint (&timeout) * 1000,
+                   cb_rstto_main_window_play_slideshow,
+                   rstto_util_source_autoremove (window));
     return TRUE;
 }
 

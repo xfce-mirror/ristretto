@@ -133,7 +133,10 @@ main(int argc, char **argv)
             rof.iter = 1;
             rof.window = window;
 
-            gdk_threads_add_idle (cb_rstto_open_files, &rof);
+            /* add weak pointers to guard our handler */
+            g_object_add_weak_pointer (G_OBJECT (window), (gpointer *) &(rof.window));
+            g_object_add_weak_pointer (G_OBJECT (image_list), (gpointer *) &(rof.image_list));
+            g_idle_add (cb_rstto_open_files, &rof);
 
             if (TRUE == rstto_settings_get_boolean_property (
                         settings,
@@ -187,6 +190,9 @@ cb_rstto_open_files (gpointer user_data)
     RsttoFile *r_file = NULL;
     RsttoImageListIter *iter = NULL;
     const gchar *content_type;
+
+    if (rof->image_list == NULL || rof->window == NULL)
+        return FALSE;
 
     if (rof->argc > 2)
     {

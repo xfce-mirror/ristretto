@@ -106,10 +106,6 @@ struct _RsttoImageViewerPriv
     /*******************************************************/
     GdkPixbufAnimation     *animation;
     GdkPixbufAnimationIter *iter;
-    gint                    animation_timeout_id;
-
-    gint                    refresh_timeout_id;
-
     gdouble                 scale;
     gboolean                auto_scale;
 
@@ -2102,10 +2098,8 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader, RsttoImageViewerTran
         timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
 
         if (timeout > 0)
-        {
-            viewer->priv->animation_timeout_id =
-                    gdk_threads_add_timeout (timeout, cb_rstto_image_viewer_update_pixbuf, viewer);
-        }
+            g_timeout_add (timeout, cb_rstto_image_viewer_update_pixbuf,
+                           rstto_util_source_autoremove (viewer));
         else
         {
             /* This is a single-frame image, there is no need to copy the pixbuf since it won't change */
@@ -2253,10 +2247,8 @@ cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
         timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
 
         if (timeout > 0)
-        {
-            viewer->priv->animation_timeout_id =
-                    gdk_threads_add_timeout(timeout, cb_rstto_image_viewer_update_pixbuf, viewer);
-        }
+            g_timeout_add (timeout, cb_rstto_image_viewer_update_pixbuf,
+                           rstto_util_source_autoremove (viewer));
 
         gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
 
@@ -3007,19 +2999,15 @@ cb_rstto_image_viewer_refresh (gpointer user_data)
 void
 rstto_image_viewer_set_show_clock (RsttoImageViewer *viewer, gboolean value)
 {
+    static guint id = 0;
+
     viewer->priv->props.show_clock = value;
-    if (viewer->priv->props.show_clock)
-    {
-        viewer->priv->refresh_timeout_id = gdk_threads_add_timeout (
-                15000, cb_rstto_image_viewer_refresh, viewer);
-    }
-    else
-    {
-        if (viewer->priv->refresh_timeout_id)
-        {
-            REMOVE_SOURCE (viewer->priv->refresh_timeout_id);
-        }
-    }
+
+    if (value)
+        id = g_timeout_add (15000, cb_rstto_image_viewer_refresh,
+                            rstto_util_source_autoremove (viewer));
+    else if (id != 0)
+        REMOVE_SOURCE (id);
 }
 
 gboolean

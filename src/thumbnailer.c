@@ -130,7 +130,7 @@ struct _RsttoThumbnailerPriv
 
     gboolean             show_missing_thumbnailer_error;
 
-    gint                 request_timer_id;
+    guint                request_timer_id;
 };
 
 static void
@@ -285,7 +285,7 @@ rstto_thumbnailer_queue_file (
 
     g_return_if_fail ( RSTTO_IS_FILE (file) );
 
-    if (thumbnailer->priv->request_timer_id)
+    if (thumbnailer->priv->request_timer_id != 0)
     {
         REMOVE_SOURCE (thumbnailer->priv->request_timer_id);
         if (thumbnailer->priv->handle)
@@ -311,11 +311,11 @@ rstto_thumbnailer_queue_file (
                 file);
     }
 
-    thumbnailer->priv->request_timer_id = gdk_threads_add_timeout_full (
+    thumbnailer->priv->request_timer_id = g_timeout_add_full (
             G_PRIORITY_LOW,
             300,
             rstto_thumbnailer_queue_request_timer,
-            thumbnailer,
+            rstto_util_source_autoremove (thumbnailer),
             NULL);
 }
 
@@ -331,7 +331,6 @@ rstto_thumbnailer_dequeue_file (
     if (thumbnailer->priv->request_timer_id)
     {
         REMOVE_SOURCE (thumbnailer->priv->request_timer_id);
-
     }
 
     if (thumbnailer->priv->handle)
@@ -362,7 +361,7 @@ rstto_thumbnailer_dequeue_file (
             G_PRIORITY_LOW,
             300,
             rstto_thumbnailer_queue_request_timer,
-            thumbnailer,
+            rstto_util_source_autoremove (thumbnailer),
             NULL);
 }
 

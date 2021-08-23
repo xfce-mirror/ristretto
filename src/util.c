@@ -18,3 +18,30 @@
  */
 
 #include "util.h"
+
+
+
+static void
+rstto_util_source_remove_all (gpointer  data,
+                              GObject  *object)
+{
+    while (g_source_remove_by_user_data (object));
+}
+
+
+
+/* an often sufficient way to automate memory management of sources, without having
+ * to store a source id and use an ad hoc handler */
+gpointer
+rstto_util_source_autoremove (gpointer object)
+{
+    g_return_val_if_fail (G_IS_OBJECT (object), object);
+
+    if (! rstto_object_get_data (object, "source-autoremove"))
+    {
+        g_object_weak_ref (object, rstto_util_source_remove_all, NULL);
+        rstto_object_set_data (object, "source-autoremove", GINT_TO_POINTER (TRUE));
+    }
+
+    return object;
+}

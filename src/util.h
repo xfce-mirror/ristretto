@@ -21,6 +21,7 @@
 #define __RISTRETTO_UTIL_H__
 
 #include <glib.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
@@ -91,6 +92,16 @@ typedef enum {
 
 /* Macro to remove and clear a source id */
 #define REMOVE_SOURCE(ID) ({g_source_remove (ID); ID = 0;})
+
+/* convenient macros for setting object data */
+#define rstto_object_set_data(object, key, data) \
+    g_object_set_qdata (G_OBJECT (object), g_quark_from_static_string (key), data)
+#define rstto_object_set_data_full(object, key, data, destroy) \
+    g_object_set_qdata_full (G_OBJECT (object), g_quark_from_static_string (key), data, destroy)
+#define rstto_object_get_data(object, key) \
+    g_object_get_qdata (G_OBJECT (object), g_quark_try_string (key))
+
+gpointer rstto_util_source_autoremove (gpointer object);
 
 G_END_DECLS
 
