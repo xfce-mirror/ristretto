@@ -242,9 +242,6 @@ struct _RsttoFileLoader
     RsttoFile      **files;
 };
 
-static gboolean
-cb_rstto_read_file ( gpointer user_data );
-
 static gint rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_COUNT];
 static gint rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_COUNT];
 
@@ -699,47 +696,22 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
     g_signal_emit (G_OBJECT (image_list), rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL], 0, NULL);
 }
 
-gboolean
-rstto_image_list_set_directory (
-        RsttoImageList *image_list,
-        GFile *dir,
-        GError **error )
+static void
+cb_rstto_read_file_destroy (gpointer user_data)
 {
-    /* Declare variables */
-    GFileEnumerator *file_enumerator = NULL;
-    RsttoFileLoader *loader = NULL;
+    RsttoFileLoader *loader = user_data;
+    GSList          *iter;
 
-    /* Source code block */
-    if (image_list->priv->directory_loader != 0)
+    /* remove the busy state before sending the signal */
+    loader->image_list->priv->directory_loader = 0;
+    iter = loader->image_list->priv->iterators;
+    while (iter)
     {
-        REMOVE_SOURCE (image_list->priv->directory_loader);
+        g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
+        iter = g_slist_next (iter);
     }
 
-    rstto_image_list_remove_all (image_list);
-
-    rstto_image_list_monitor_dir ( 
-            image_list,
-            dir );
-
-    /* Allow all images to be removed by providing NULL to dir */
-    if ( NULL != dir )
-    {
-        file_enumerator = g_file_enumerate_children (dir, "standard::*", 0, NULL, NULL);
-
-        if (NULL != file_enumerator)
-        {
-            g_object_ref (dir);
-
-            loader = g_new0 (RsttoFileLoader, 1);
-            loader->dir = dir;
-            loader->file_enum = file_enumerator;
-            loader->image_list = image_list;
-
-            image_list->priv->directory_loader = g_idle_add (cb_rstto_read_file, loader);
-        }
-    }
-
-    return TRUE;
+    g_free (loader);
 }
 
 static gboolean
@@ -827,26 +799,61 @@ cb_rstto_read_file ( gpointer user_data )
             g_object_unref (loader->files[i]);
         }
 
-        iter = loader->image_list->priv->iterators;
-
         if (loader->n_files > 0)
         {
             g_free (loader->files);
         }
         g_object_unref (loader->file_enum);
         g_object_unref (loader->dir);
-        g_free (loader);
-
-        /* remove the busy state before sending the signal */
-        loader->image_list->priv->directory_loader = 0;
-        while (iter)
-        {
-            g_signal_emit (G_OBJECT (iter->data), rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED], 0, NULL);
-            iter = g_slist_next (iter);
-        }
 
         return FALSE;
     }
+
+    return TRUE;
+}
+
+gboolean
+rstto_image_list_set_directory (
+        RsttoImageList *image_list,
+        GFile *dir,
+        GError **error )
+{
+    /* Declare variables */
+    GFileEnumerator *file_enumerator = NULL;
+    RsttoFileLoader *loader = NULL;
+
+    /* Source code block */
+    if (image_list->priv->directory_loader != 0)
+    {
+        REMOVE_SOURCE (image_list->priv->directory_loader);
+    }
+
+    rstto_image_list_remove_all (image_list);
+
+    rstto_image_list_monitor_dir (
+            image_list,
+            dir );
+
+    /* Allow all images to be removed by providing NULL to dir */
+    if ( NULL != dir )
+    {
+        file_enumerator = g_file_enumerate_children (dir, "standard::*", 0, NULL, NULL);
+
+        if (NULL != file_enumerator)
+        {
+            g_object_ref (dir);
+
+            loader = g_new0 (RsttoFileLoader, 1);
+            loader->dir = dir;
+            loader->file_enum = file_enumerator;
+            loader->image_list = image_list;
+
+            image_list->priv->directory_loader =
+                g_idle_add_full (G_PRIORITY_DEFAULT_IDLE, cb_rstto_read_file,
+                                 loader, cb_rstto_read_file_destroy);
+        }
+    }
+
     return TRUE;
 }
 
