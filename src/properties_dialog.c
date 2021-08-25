@@ -28,15 +28,6 @@
 #define EXIF_DATA_BUFFER_SIZE 40
 
 static void
-rstto_properties_dialog_init (
-        GTypeInstance *instance,
-        gpointer g_class);
-static void
-rstto_properties_dialog_class_init (
-        gpointer g_class,
-        gpointer class_data);
-
-static void
 rstto_properties_dialog_finalize (GObject *object);
 
 static void
@@ -56,8 +47,6 @@ properties_dialog_set_file (
         RsttoPropertiesDialog *dialog,
         RsttoFile *file);
 
-static GtkWidgetClass *parent_class = NULL;
-
 enum
 {
     EXIF_PROP_DATE_TIME = 0,
@@ -73,7 +62,7 @@ enum
     PROP_FILE,
 };
 
-struct _RsttoPropertiesDialogPriv
+struct _RsttoPropertiesDialogPrivate
 {
     RsttoFile *file;
     RsttoSettings *settings;
@@ -90,43 +79,15 @@ struct _RsttoPropertiesDialogPriv
     GtkWidget *size_content_label;
 };
 
-GType
-rstto_properties_dialog_get_type (void)
-{
-    static GType rstto_properties_dialog_type = 0;
 
-    if (!rstto_properties_dialog_type)
-    {
-        static const GTypeInfo rstto_properties_dialog_info = 
-        {
-            sizeof (RsttoPropertiesDialogClass),
-            NULL,
-            NULL,
-            rstto_properties_dialog_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoPropertiesDialog),
-            0,
-            rstto_properties_dialog_init,
-            NULL
-        };
 
-        rstto_properties_dialog_type = g_type_register_static (
-                GTK_TYPE_DIALOG,
-                "RsttoPropertiesDialog",
-                &rstto_properties_dialog_info,
-                0);
-    }
-    return rstto_properties_dialog_type;
-}
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoPropertiesDialog, rstto_properties_dialog, GTK_TYPE_DIALOG)
+
+
 
 static void
-rstto_properties_dialog_init (
-        GTypeInstance *instance,
-        gpointer       g_class)
+rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
 {
-    RsttoPropertiesDialog *dialog = RSTTO_PROPERTIES_DIALOG (instance);
-
     GtkWidget *vbox;
     GtkWidget *grid;
     /* General tab */
@@ -142,7 +103,7 @@ rstto_properties_dialog_init (
 
     GtkWidget *button = xfce_gtk_button_new_mixed ("window-close", _("_Close"));
 
-    dialog->priv = g_new0 (RsttoPropertiesDialogPriv, 1);
+    dialog->priv = rstto_properties_dialog_get_instance_private (dialog);
 
     dialog->priv->settings = rstto_settings_new ();
     dialog->priv->image_thumbnail = gtk_image_new ();
@@ -228,15 +189,10 @@ rstto_properties_dialog_init (
 }
 
 static void
-rstto_properties_dialog_class_init (
-        gpointer g_class,
-        gpointer class_data)
+rstto_properties_dialog_class_init (RsttoPropertiesDialogClass *klass)
 {
-    GObjectClass *object_class = g_class;
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
     GParamSpec   *pspec;
-
-    parent_class = g_type_class_peek_parent (
-            RSTTO_PROPERTIES_DIALOG_CLASS (object_class));
 
     object_class->finalize = rstto_properties_dialog_finalize;
 
@@ -264,12 +220,9 @@ rstto_properties_dialog_finalize (GObject *object)
             g_object_unref (dialog->priv->settings);
             dialog->priv->settings = NULL;
         }
-
-        g_free (dialog->priv);
-        dialog->priv = NULL;
     }
 
-    G_OBJECT_CLASS(parent_class)->finalize(object);
+    G_OBJECT_CLASS(rstto_properties_dialog_parent_class)->finalize(object);
 }
 
 

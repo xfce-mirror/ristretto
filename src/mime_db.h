@@ -46,13 +46,13 @@ G_BEGIN_DECLS
 
 
 typedef struct _RsttoMimeDB RsttoMimeDB;
-typedef struct _RsttoMimeDBPriv RsttoMimeDBPriv;
+typedef struct _RsttoMimeDBPrivate RsttoMimeDBPrivate;
 
 struct _RsttoMimeDB
 {
     GObject parent;
 
-    RsttoMimeDBPriv *priv;
+    RsttoMimeDBPrivate *priv;
 };
 
 typedef struct _RsttoMimeDBClass RsttoMimeDBClass;

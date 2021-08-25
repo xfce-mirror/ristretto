@@ -38,12 +38,12 @@ G_BEGIN_DECLS
 #define RSTTO_WALLPAPER_MANAGER_GET_IFACE(inst)( \
         G_TYPE_INSTANCE_GET_INTERFACE ((inst), \
                 RSTTO_WALLPAPER_MANAGER_TYPE, \
-                RsttoWallpaperManagerIface))
+                RsttoWallpaperManagerInterface))
 
 typedef struct _RsttoWallpaperManager RsttoWallpaperManager; /* dummy object */
-typedef struct _RsttoWallpaperManagerIface RsttoWallpaperManagerIface;
+typedef struct _RsttoWallpaperManagerInterface RsttoWallpaperManagerInterface;
 
-struct _RsttoWallpaperManagerIface {
+struct _RsttoWallpaperManagerInterface {
     GTypeInterface parent;
 
     gint (*configure_dialog_run) (RsttoWallpaperManager *self, RsttoFile *file, GtkWindow *parent);

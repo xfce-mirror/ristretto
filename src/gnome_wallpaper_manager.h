@@ -48,13 +48,13 @@ G_BEGIN_DECLS
 
 
 typedef struct _RsttoGnomeWallpaperManager RsttoGnomeWallpaperManager;
-typedef struct _RsttoGnomeWallpaperManagerPriv RsttoGnomeWallpaperManagerPriv;
+typedef struct _RsttoGnomeWallpaperManagerPrivate RsttoGnomeWallpaperManagerPrivate;
 
 struct _RsttoGnomeWallpaperManager
 {
     GObject parent;
 
-    RsttoGnomeWallpaperManagerPriv *priv;
+    RsttoGnomeWallpaperManagerPrivate *priv;
 };
 
 typedef struct _RsttoGnomeWallpaperManagerClass RsttoGnomeWallpaperManagerClass;

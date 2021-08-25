@@ -55,12 +55,12 @@ typedef enum {
 
 typedef struct _RsttoPreferencesDialog RsttoPreferencesDialog;
 
-typedef struct _RsttoPreferencesDialogPriv RsttoPreferencesDialogPriv;
+typedef struct _RsttoPreferencesDialogPrivate RsttoPreferencesDialogPrivate;
 
 struct _RsttoPreferencesDialog
 {
     GtkDialog parent;
-    RsttoPreferencesDialogPriv *priv;
+    RsttoPreferencesDialogPrivate *priv;
 };
 
 typedef struct _RsttoPreferencesDialogClass RsttoPreferencesDialogClass;

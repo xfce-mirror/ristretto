@@ -33,15 +33,6 @@
 
 
 static void
-rstto_preferences_dialog_init (
-        GTypeInstance *instance,
-        gpointer g_class);
-static void
-rstto_preferences_dialog_class_init(
-        gpointer g_class,
-        gpointer class_data);
-
-static void
 rstto_preferences_dialog_finalize (GObject *object);
 
 
@@ -91,9 +82,7 @@ cb_slideshow_timeout_value_changed (
         GtkRange *range,
         gpointer user_data);
 
-static GtkWidgetClass *parent_class = NULL;
-
-struct _RsttoPreferencesDialogPriv
+struct _RsttoPreferencesDialogPrivate
 {
     RsttoSettings *settings;
 
@@ -160,35 +149,11 @@ struct _RsttoPreferencesDialogPriv
 
 };
 
-GType
-rstto_preferences_dialog_get_type (void)
-{
-    static GType rstto_preferences_dialog_type = 0;
 
-    if (!rstto_preferences_dialog_type)
-    {
-        static const GTypeInfo rstto_preferences_dialog_info = 
-        {
-            sizeof (RsttoPreferencesDialogClass),
-            NULL,
-            NULL,
-            rstto_preferences_dialog_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoPreferencesDialog),
-            0,
-            rstto_preferences_dialog_init,
-            NULL
-        };
 
-        rstto_preferences_dialog_type = g_type_register_static (
-                GTK_TYPE_DIALOG,
-                "RsttoPreferencesDialog",
-                &rstto_preferences_dialog_info,
-                0);
-    }
-    return rstto_preferences_dialog_type;
-}
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoPreferencesDialog, rstto_preferences_dialog, GTK_TYPE_DIALOG)
+
+
 
 /**
  * rstto_preferences_dialog_init:
@@ -229,13 +194,9 @@ rstto_preferences_dialog_get_type (void)
  *      desktop_frame
  */
 static void
-rstto_preferences_dialog_init (
-        GTypeInstance *instance,
-        gpointer g_class)
+rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
 {
     /* Variable Section */
-
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (instance);
 
     gboolean   bool_invert_zoom_direction;
     gboolean   bool_bgcolor_override;
@@ -267,7 +228,7 @@ rstto_preferences_dialog_init (
 
     /* Code Section */
 
-    dialog->priv = g_new0 (RsttoPreferencesDialogPriv, 1);
+    dialog->priv = rstto_preferences_dialog_get_instance_private (dialog);
 
     dialog->priv->settings = rstto_settings_new ();
 
@@ -554,13 +515,9 @@ rstto_preferences_dialog_init (
 }
 
 static void
-rstto_preferences_dialog_class_init (
-        gpointer g_class,
-        gpointer class_data)
+rstto_preferences_dialog_class_init (RsttoPreferencesDialogClass *klass)
 {
-    GObjectClass *object_class = g_class;
-
-    parent_class = g_type_class_peek_parent (RSTTO_PREFERENCES_DIALOG_CLASS (object_class));
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_preferences_dialog_finalize;
 }
@@ -576,12 +533,9 @@ rstto_preferences_dialog_finalize (GObject *object)
             g_object_unref (dialog->priv->settings);
             dialog->priv->settings = NULL;
         }
-
-        g_free (dialog->priv);
-        dialog->priv = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_preferences_dialog_parent_class)->finalize (object);
 }
 
 GtkWidget *

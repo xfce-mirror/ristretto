@@ -64,7 +64,7 @@ typedef enum
 
 typedef struct _RsttoImageViewerTransaction RsttoImageViewerTransaction;
 
-struct _RsttoImageViewerPriv
+struct _RsttoImageViewerPrivate
 {
     RsttoFile                   *file;
     RsttoSettings               *settings;
@@ -270,11 +270,14 @@ rstto_image_viewer_load_image (
 static void
 rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr);
 
-static GtkWidgetClass *parent_class = NULL;
-static GdkScreen      *default_screen = NULL;
+static GdkScreen *default_screen = NULL;
+
+
 
 G_DEFINE_TYPE_WITH_CODE (RsttoImageViewer, rstto_image_viewer, GTK_TYPE_WIDGET,
-             G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
+                         G_ADD_PRIVATE (RsttoImageViewer)
+                         G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
+
 
 
 static void
@@ -285,7 +288,7 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
         default_screen = gdk_screen_get_default();
     }
 
-    viewer->priv = g_new0(RsttoImageViewerPriv, 1);
+    viewer->priv = rstto_image_viewer_get_instance_private (viewer);
     viewer->priv->cb_value_changed = cb_rstto_image_viewer_value_changed;
     viewer->priv->settings = rstto_settings_new ();
     viewer->priv->image_width = 0;
@@ -368,8 +371,6 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
 
     widget_class = (GtkWidgetClass*)viewer_class;
     object_class = (GObjectClass*)viewer_class;
-
-    parent_class = g_type_class_peek_parent(viewer_class);
 
     viewer_class->set_scroll_adjustments = rstto_image_viewer_set_scroll_adjustments;
 
@@ -642,11 +643,9 @@ rstto_image_viewer_finalize (GObject *object)
             g_object_unref (viewer->priv->iter);
             viewer->priv->iter = NULL;
         }
-        g_free (viewer->priv);
-        viewer->priv = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_image_viewer_parent_class)->finalize (object);
 }
 
 static gboolean  

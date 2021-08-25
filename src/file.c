@@ -49,15 +49,6 @@ static gint
 rstto_file_signals[RSTTO_FILE_SIGNAL_COUNT];
 
 static void
-rstto_file_init (
-        GTypeInstance *instance,
-        gpointer       g_class);
-static void
-rstto_file_class_init (
-        gpointer g_class,
-        gpointer class_data);
-
-static void
 rstto_file_finalize (GObject *object);
 
 static void
@@ -73,8 +64,6 @@ rstto_file_get_property (
         GValue     *value,
         GParamSpec *pspec );
 
-static GObjectClass *parent_class = NULL;
-
 static GList *open_files = NULL;
 
 enum
@@ -82,37 +71,7 @@ enum
     PROP_0,
 };
 
-GType
-rstto_file_get_type (void)
-{
-    static GType rstto_file_type = 0;
-
-    if (!rstto_file_type)
-    {
-        static const GTypeInfo rstto_file_info = 
-        {
-            sizeof (RsttoFileClass),
-            NULL,
-            NULL,
-            rstto_file_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoFile),
-            0,
-            rstto_file_init,
-            NULL
-        };
-
-        rstto_file_type = g_type_register_static (
-                G_TYPE_OBJECT,
-                "RsttoFile",
-                &rstto_file_info,
-                0 );
-    }
-    return rstto_file_type;
-}
-
-struct _RsttoFilePriv
+struct _RsttoFilePrivate
 {
     GFile *file;
 
@@ -131,25 +90,22 @@ struct _RsttoFilePriv
 };
 
 
-static void
-rstto_file_init (
-        GTypeInstance *instance,
-        gpointer       g_class)
-{
-    RsttoFile *r_file = RSTTO_FILE (instance);
 
-    r_file->priv = g_new0 (RsttoFilePriv, 1);
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoFile, rstto_file, G_TYPE_OBJECT)
+
+
+
+static void
+rstto_file_init (RsttoFile *r_file)
+{
+    r_file->priv = rstto_file_get_instance_private (r_file);
 }
 
 
 static void
-rstto_file_class_init (
-        gpointer g_class,
-        gpointer class_data)
+rstto_file_class_init (RsttoFileClass *klass)
 {
-    GObjectClass *object_class = g_class;
-
-    parent_class = g_type_class_peek_parent (g_class);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_file_finalize;
 
@@ -231,13 +187,10 @@ rstto_file_finalize (GObject *object)
             }
         }
 
-        g_free (r_file->priv);
-        r_file->priv = NULL;
-
         open_files = g_list_remove_all (open_files, r_file);
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_file_parent_class)->finalize (object);
 }
 
 /**

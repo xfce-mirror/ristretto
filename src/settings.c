@@ -27,13 +27,6 @@
 #include "settings.h"
 
 static void
-rstto_settings_init (GTypeInstance *instance,
-                     gpointer       g_class);
-static void
-rstto_settings_class_init (gpointer g_class,
-                           gpointer class_data);
-
-static void
 rstto_settings_finalize (GObject *object);
 
 static void
@@ -50,8 +43,6 @@ rstto_settings_get_property    (GObject    *object,
 static void
 rstto_xfconf_ensure_gdkrgba (XfconfChannel *channel,
                              const gchar *property);
-
-static GObjectClass *parent_class = NULL;
 
 static RsttoSettings *settings_object;
 
@@ -83,33 +74,7 @@ enum
     PROP_THUMBNAIL_SIZE,
 };
 
-GType
-rstto_settings_get_type (void)
-{
-    static GType rstto_settings_type = 0;
-
-    if (!rstto_settings_type)
-    {
-        static const GTypeInfo rstto_settings_info = 
-        {
-            sizeof (RsttoSettingsClass),
-            NULL,
-            NULL,
-            rstto_settings_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoSettings),
-            0,
-            rstto_settings_init,
-            NULL
-        };
-
-        rstto_settings_type = g_type_register_static (G_TYPE_OBJECT, "RsttoSettings", &rstto_settings_info, 0);
-    }
-    return rstto_settings_type;
-}
-
-struct _RsttoSettingsPriv
+struct _RsttoSettingsPrivate
 {
     XfconfChannel *channel;
 
@@ -143,15 +108,17 @@ struct _RsttoSettingsPriv
 };
 
 
+
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoSettings, rstto_settings, G_TYPE_OBJECT)
+
+
+
 static void
-rstto_settings_init (GTypeInstance *instance,
-                     gpointer       g_class)
+rstto_settings_init (RsttoSettings *settings)
 {
     gchar *accelmap_path = NULL;
 
-    RsttoSettings *settings = RSTTO_SETTINGS (instance);
-
-    settings->priv = g_new0 (RsttoSettingsPriv, 1);
+    settings->priv = rstto_settings_get_instance_private (settings);
     settings->priv->channel = xfconf_channel_new ("ristretto");
 
     accelmap_path = xfce_resource_lookup (XFCE_RESOURCE_CONFIG, "ristretto/accels.scm");
@@ -361,18 +328,12 @@ rstto_settings_init (GTypeInstance *instance,
 
 
 static void
-rstto_settings_class_init (gpointer g_class,
-                           gpointer class_data)
+rstto_settings_class_init (RsttoSettingsClass *klass)
 {
     GParamSpec *pspec;
-
-    GObjectClass       *object_class = g_class;
-    RsttoSettingsClass *settings_class = g_class;
-
-    parent_class = g_type_class_peek_parent (settings_class);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_settings_finalize;
-
     object_class->set_property = rstto_settings_set_property;
     object_class->get_property = rstto_settings_get_property;
 
@@ -690,9 +651,6 @@ rstto_settings_finalize (GObject *object)
             g_free (settings->priv->bgcolor_fullscreen);
             settings->priv->bgcolor_fullscreen = NULL;
         }
-
-        g_free (settings->priv);
-        settings->priv = NULL;
     }
 
     accelmap_path = xfce_resource_save_location (XFCE_RESOURCE_CONFIG, "ristretto/accels.scm", TRUE);
@@ -703,7 +661,7 @@ rstto_settings_finalize (GObject *object)
         accelmap_path = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_settings_parent_class)->finalize (object);
 }
 
 /**

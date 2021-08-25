@@ -69,7 +69,7 @@ enum
 };
 
 
-struct _RsttoMainWindowPriv
+struct _RsttoMainWindowPrivate
 {
     RsttoImageList        *image_list;
 
@@ -135,10 +135,6 @@ enum
     PROP_IMAGE_LIST,
 };
 
-static void
-rstto_main_window_init (GTypeInstance *instance, gpointer g_class);
-static void
-rstto_main_window_class_init(gpointer g_class, gpointer class_data);
 static void
 rstto_main_window_finalize(GObject *object);
 
@@ -393,8 +389,6 @@ cb_rstto_desktop_type_changed (
         gpointer user_data);
 
 
-
-static GtkWidgetClass *parent_class = NULL;
 
 static GtkActionEntry action_entries[] =
 {
@@ -797,41 +791,14 @@ static const GtkRadioActionEntry radio_action_size_entries[] =
 };
 
 
-GType
-rstto_main_window_get_type (void)
-{
-    static GType rstto_main_window_type = 0;
 
-    if (!rstto_main_window_type)
-    {
-        static const GTypeInfo rstto_main_window_info = 
-        {
-            sizeof (RsttoMainWindowClass),
-            NULL,
-            NULL,
-            rstto_main_window_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoMainWindow),
-            0,
-            rstto_main_window_init,
-            NULL
-        };
-
-        rstto_main_window_type = g_type_register_static (GTK_TYPE_WINDOW, "RsttoMainWindow", &rstto_main_window_info, 0);
-
-    }
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoMainWindow, rstto_main_window, GTK_TYPE_WINDOW)
 
 
-
-    return rstto_main_window_type;
-}
 
 static void
-rstto_main_window_init (GTypeInstance *instance, gpointer g_class)
+rstto_main_window_init (RsttoMainWindow *window)
 {
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (instance);
-
     GtkAccelGroup   *accel_group;
     GtkWidget       *separator;
     GtkWidget       *main_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -854,7 +821,7 @@ rstto_main_window_init (GTypeInstance *instance, gpointer g_class)
 
     gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
 
-    window->priv = g_new0 (RsttoMainWindowPriv, 1);
+    window->priv = rstto_main_window_get_instance_private (window);
 
     db_path = xfce_resource_save_location (XFCE_RESOURCE_DATA, "ristretto/mime.db", TRUE);
     if (db_path != NULL)
@@ -1277,12 +1244,10 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 }
 
 static void
-rstto_main_window_class_init(gpointer g_class, gpointer class_data)
+rstto_main_window_class_init(RsttoMainWindowClass *klass)
 {
-    GObjectClass *object_class = g_class;
-    GtkWidgetClass *widget_class = g_class;
-
-    parent_class = g_type_class_peek_parent(g_class);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
+    GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
     object_class->finalize = rstto_main_window_finalize;
 
@@ -1293,7 +1258,7 @@ rstto_main_window_class_init(gpointer g_class, gpointer class_data)
 static void
 rstto_main_window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
-    GTK_WIDGET_CLASS (parent_class)->size_allocate(widget, allocation); 
+    GTK_WIDGET_CLASS (rstto_main_window_parent_class)->size_allocate(widget, allocation);
 }
 
 static void
@@ -1358,12 +1323,9 @@ rstto_main_window_finalize(GObject *object)
         }
 
         g_clear_object (&window->priv->filemanager_proxy);
-
-        g_free (window->priv);
-        window->priv = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize(object);
+    G_OBJECT_CLASS (rstto_main_window_parent_class)->finalize(object);
 }
 
 /**

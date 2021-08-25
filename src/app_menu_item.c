@@ -27,21 +27,19 @@ struct _RsttoAppMenuItemPrivate
     GFile *file;
 };
 
-static GtkWidgetClass *parent_class = NULL;
-
 static void
 rstto_app_menu_item_finalize (GObject *object);
 
 static void
 rstto_app_menu_item_activate (GtkMenuItem *object);
 
+
+
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-G_DEFINE_TYPE_WITH_CODE (
-        RsttoAppMenuItem,
-        rstto_app_menu_item,
-        GTK_TYPE_IMAGE_MENU_ITEM,
-        G_ADD_PRIVATE (RsttoAppMenuItem))
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoAppMenuItem, rstto_app_menu_item, GTK_TYPE_IMAGE_MENU_ITEM)
 G_GNUC_END_IGNORE_DEPRECATIONS
+
+
 
 static void
 rstto_app_menu_item_init (RsttoAppMenuItem *menu_item)
@@ -57,8 +55,6 @@ rstto_app_menu_item_class_init (RsttoAppMenuItemClass *app_menu_item_class)
 
     object_class = G_OBJECT_CLASS (app_menu_item_class);
     menu_item_class = GTK_MENU_ITEM_CLASS (app_menu_item_class);
-
-    parent_class = g_type_class_peek_parent (app_menu_item_class);
 
     object_class->finalize = rstto_app_menu_item_finalize;
     menu_item_class->activate = rstto_app_menu_item_activate;
@@ -89,7 +85,7 @@ rstto_app_menu_item_finalize (GObject *object)
         }
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_app_menu_item_parent_class)->finalize (object);
 }
 
 /**
@@ -106,7 +102,7 @@ rstto_app_menu_item_activate (GtkMenuItem *object)
 
     g_app_info_launch (app_menu_item->priv->app_info, files, NULL, NULL);
 
-    GTK_MENU_ITEM_CLASS (parent_class)->activate (GTK_MENU_ITEM (object));
+    GTK_MENU_ITEM_CLASS (rstto_app_menu_item_parent_class)->activate (GTK_MENU_ITEM (object));
 }
 
 /**

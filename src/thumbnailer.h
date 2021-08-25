@@ -46,13 +46,13 @@ G_BEGIN_DECLS
 
 
 typedef struct _RsttoThumbnailer RsttoThumbnailer;
-typedef struct _RsttoThumbnailerPriv RsttoThumbnailerPriv;
+typedef struct _RsttoThumbnailerPrivate RsttoThumbnailerPrivate;
 
 struct _RsttoThumbnailer
 {
     GObject parent;
 
-    RsttoThumbnailerPriv *priv;
+    RsttoThumbnailerPrivate *priv;
 };
 
 typedef struct _RsttoThumbnailerClass RsttoThumbnailerClass;

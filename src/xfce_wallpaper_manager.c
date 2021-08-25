@@ -50,13 +50,7 @@ typedef struct {
 
 
 static void
-rstto_xfce_wallpaper_manager_init (
-        GTypeInstance *instance,
-        gpointer g_class);
-static void
-rstto_xfce_wallpaper_manager_class_init (
-        gpointer g_class,
-        gpointer class_data);
+rstto_xfce_wallpaper_manager_iface_init (RsttoWallpaperManagerInterface *iface);
 
 static void
 rstto_xfce_wallpaper_manager_finalize (GObject *object);
@@ -81,11 +75,9 @@ cb_workspace_mode_changed (
         GtkCheckButton *check_button,
         RsttoXfceWallpaperManager *manager);
 
-static GObjectClass *parent_class = NULL;
-
 static RsttoWallpaperManager *xfce_wallpaper_manager_object;
 
-struct _RsttoXfceWallpaperManagerPriv
+struct _RsttoXfceWallpaperManagerPrivate
 {
     XfconfChannel *channel;
     gint    screen;
@@ -105,11 +97,19 @@ struct _RsttoXfceWallpaperManagerPriv
     GtkWidget *dialog;
 };
 
-
 enum
 {
     PROP_0,
 };
+
+
+
+G_DEFINE_TYPE_WITH_CODE (RsttoXfceWallpaperManager, rstto_xfce_wallpaper_manager, G_TYPE_OBJECT,
+                         G_ADD_PRIVATE (RsttoXfceWallpaperManager)
+                         G_IMPLEMENT_INTERFACE (RSTTO_WALLPAPER_MANAGER_TYPE,
+                                                rstto_xfce_wallpaper_manager_iface_init))
+
+
 
 static gint 
 rstto_xfce_wallpaper_manager_configure_dialog_run (
@@ -229,67 +229,16 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoFile *file)
 }
 
 static void
-rstto_xfce_wallpaper_manager_iface_init (
-        gpointer g_iface,
-        gpointer iface_data)
+rstto_xfce_wallpaper_manager_iface_init (RsttoWallpaperManagerInterface *iface)
 {
-    RsttoWallpaperManagerIface *iface = g_iface;
-
     iface->configure_dialog_run = rstto_xfce_wallpaper_manager_configure_dialog_run;
     iface->check_running = rstto_xfce_wallpaper_manager_check_running;
     iface->set = rstto_xfce_wallpaper_manager_set;
 }
 
-GType
-rstto_xfce_wallpaper_manager_get_type (void)
-{
-    static GType rstto_xfce_wallpaper_manager_type = 0;
-
-    if (!rstto_xfce_wallpaper_manager_type)
-    {
-        static const GTypeInfo rstto_xfce_wallpaper_manager_info = 
-        {
-            sizeof (RsttoXfceWallpaperManagerClass),
-            NULL,
-            NULL,
-            rstto_xfce_wallpaper_manager_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoXfceWallpaperManager),
-            0,
-            rstto_xfce_wallpaper_manager_init,
-            NULL
-        };
-
-        static const GInterfaceInfo wallpaper_manager_iface_info = 
-        {
-            rstto_xfce_wallpaper_manager_iface_init,
-            NULL,
-            NULL
-        };
-
-        rstto_xfce_wallpaper_manager_type = g_type_register_static (
-                G_TYPE_OBJECT,
-                "RsttoXfceWallpaperManager",
-                &rstto_xfce_wallpaper_manager_info,
-                0);
-
-        g_type_add_interface_static (
-                rstto_xfce_wallpaper_manager_type,
-                RSTTO_WALLPAPER_MANAGER_TYPE,
-                &wallpaper_manager_iface_info);
-
-    }
-    return rstto_xfce_wallpaper_manager_type;
-}
-
-
 static void
-rstto_xfce_wallpaper_manager_init (
-        GTypeInstance *instance,
-        gpointer g_class)
+rstto_xfce_wallpaper_manager_init (RsttoXfceWallpaperManager *manager)
 {
-    RsttoXfceWallpaperManager *manager = RSTTO_XFCE_WALLPAPER_MANAGER (instance);
     gint i;
     GdkDisplay *display = gdk_display_get_default ();
     gint n_monitors = gdk_display_get_n_monitors (display);
@@ -299,7 +248,7 @@ rstto_xfce_wallpaper_manager_init (
     GtkWidget *style_label = gtk_label_new (_("Style:"));
     GtkWidget *image_prop_grid = gtk_grid_new ();
 
-    manager->priv = g_new0(RsttoXfceWallpaperManagerPriv, 1);
+    manager->priv = rstto_xfce_wallpaper_manager_get_instance_private (manager);
     manager->priv->channel = xfconf_channel_new ("xfce4-desktop");
     manager->priv->color1 = g_new0 (RsttoColor, 1);
     manager->priv->color1->a = 0xffff;
@@ -433,14 +382,9 @@ rstto_xfce_wallpaper_manager_init (
 
 
 static void
-rstto_xfce_wallpaper_manager_class_init (
-        gpointer g_class,
-        gpointer class_data)
+rstto_xfce_wallpaper_manager_class_init (RsttoXfceWallpaperManagerClass *klass)
 {
-    GObjectClass                   *object_class = g_class;
-    RsttoXfceWallpaperManagerClass *xfce_wallpaper_manager_class = g_class;
-
-    parent_class = g_type_class_peek_parent (xfce_wallpaper_manager_class);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_xfce_wallpaper_manager_finalize;
 }
@@ -464,8 +408,6 @@ rstto_xfce_wallpaper_manager_finalize (GObject *object)
         }
         g_free (xfce_wallpaper_manager->priv->color1);
         g_free (xfce_wallpaper_manager->priv->color2);
-        g_free (xfce_wallpaper_manager->priv);
-        xfce_wallpaper_manager->priv = NULL;
     }
 
     if (xfce_wallpaper_manager_object)
@@ -473,7 +415,7 @@ rstto_xfce_wallpaper_manager_finalize (GObject *object)
         xfce_wallpaper_manager_object = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_xfce_wallpaper_manager_parent_class)->finalize (object);
 }
 
 

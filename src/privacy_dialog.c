@@ -23,14 +23,7 @@
 #include "privacy_dialog.h"
 
 static void
-rstto_privacy_dialog_init (GTypeInstance *instance,
-                           gpointer       g_class);
-static void
-rstto_privacy_dialog_class_init (gpointer g_class,
-                                 gpointer class_data);
-static void
-rstto_recent_chooser_init (gpointer g_iface,
-                           gpointer iface_data);
+rstto_recent_chooser_init (GtkRecentChooserIface *iface);
 
 static void
 rstto_privacy_dialog_finalize (GObject *object);
@@ -60,9 +53,6 @@ cb_rstto_recent_filter_filter_timeframe(
         const GtkRecentFilterInfo *filter_info,
         gpointer user_data);
 
-
-static GtkWidgetClass *parent_class = NULL;
-
 enum
 {
     PROP_0,
@@ -78,7 +68,7 @@ enum
     PROP_SHOW_PRIVATE,
 };
 
-struct _RsttoPrivacyDialogPriv
+struct _RsttoPrivacyDialogPrivate
 {
     RsttoSettings *settings;
 
@@ -93,52 +83,22 @@ struct _RsttoPrivacyDialogPriv
     time_t            time_offset;
 };
 
-GType
-rstto_privacy_dialog_get_type (void)
-{
-    static GType rstto_privacy_dialog_type = 0;
 
-    if (!rstto_privacy_dialog_type)
-    {
-        static const GTypeInfo rstto_privacy_dialog_info = 
-        {
-            sizeof (RsttoPrivacyDialogClass),
-            NULL,
-            NULL,
-            rstto_privacy_dialog_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoPrivacyDialog),
-            0,
-            rstto_privacy_dialog_init,
-            NULL
-        };
 
-        static const GInterfaceInfo recent_chooser_info =
-        {
-            rstto_recent_chooser_init,
-            NULL,
-            NULL
-        };
+G_DEFINE_TYPE_WITH_CODE (RsttoPrivacyDialog, rstto_privacy_dialog, GTK_TYPE_DIALOG,
+                         G_ADD_PRIVATE (RsttoPrivacyDialog)
+                         G_IMPLEMENT_INTERFACE (GTK_TYPE_RECENT_CHOOSER, rstto_recent_chooser_init))
 
-        rstto_privacy_dialog_type = g_type_register_static (GTK_TYPE_DIALOG, "RsttoPrivacyDialog", &rstto_privacy_dialog_info, 0);
 
-        g_type_add_interface_static (rstto_privacy_dialog_type, GTK_TYPE_RECENT_CHOOSER, &recent_chooser_info);
-    }
-    return rstto_privacy_dialog_type;
-}
 
 static void
-rstto_privacy_dialog_init (GTypeInstance *instance,
-                           gpointer       g_class)
+rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
 {
-    RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (instance);
-
     GtkWidget *display_main_hbox;
     GtkWidget *display_main_lbl;
     GtkWidget *button;
 
-    dialog->priv = g_new0 (RsttoPrivacyDialogPriv, 1);
+    dialog->priv = rstto_privacy_dialog_get_instance_private (dialog);
 
     dialog->priv->settings = rstto_settings_new ();
     dialog->priv->time_now = time (0);
@@ -192,13 +152,10 @@ rstto_privacy_dialog_init (GTypeInstance *instance,
 }
 
 static void
-rstto_privacy_dialog_class_init (gpointer g_class,
-                                 gpointer class_data)
+rstto_privacy_dialog_class_init (RsttoPrivacyDialogClass *klass)
 {
-    GObjectClass *object_class = g_class;
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
     GParamSpec   *pspec;
-
-    parent_class = g_type_class_peek_parent (RSTTO_PRIVACY_DIALOG_CLASS (object_class));
 
     object_class->finalize = rstto_privacy_dialog_finalize;
 
@@ -292,11 +249,8 @@ rstto_privacy_dialog_class_init (gpointer g_class,
 }
 
 static void
-rstto_recent_chooser_init (gpointer g_iface,
-                           gpointer iface_data)
+rstto_recent_chooser_init (GtkRecentChooserIface *iface)
 {
-    GtkRecentChooserIface *iface = g_iface;
-
     iface->add_filter = rstto_recent_chooser_add_filter;
     iface->get_items  = rstto_recent_chooser_get_items;
 }
@@ -318,12 +272,9 @@ rstto_privacy_dialog_finalize (GObject *object)
             g_slist_free (dialog->priv->filters);
             dialog->priv->filters = NULL;
         }
-
-        g_free (dialog->priv);
-        dialog->priv = NULL;
     }
 
-    G_OBJECT_CLASS(parent_class)->finalize(object);
+    G_OBJECT_CLASS(rstto_privacy_dialog_parent_class)->finalize(object);
 }
 
 

@@ -44,13 +44,7 @@ enum ColorStyle
 	
 
 static void
-rstto_gnome_wallpaper_manager_init (
-        GTypeInstance *instance,
-        gpointer g_class);
-static void
-rstto_gnome_wallpaper_manager_class_init (
-        gpointer g_class,
-        gpointer class_data);
+rstto_gnome_wallpaper_manager_iface_init (RsttoWallpaperManagerInterface *iface);
 
 static void
 rstto_gnome_wallpaper_manager_finalize (GObject *object);
@@ -67,11 +61,9 @@ cb_style_combo_changed (
 static void
 configure_monitor_chooser_pixbuf (RsttoGnomeWallpaperManager *manager);
 
-static GObjectClass *parent_class = NULL;
-
 static RsttoWallpaperManager *gnome_wallpaper_manager_object = NULL;
 
-struct _RsttoGnomeWallpaperManagerPriv
+struct _RsttoGnomeWallpaperManagerPrivate
 {
     gint screen;
     gint monitor;
@@ -91,6 +83,15 @@ enum
 {
     PROP_0,
 };
+
+
+
+G_DEFINE_TYPE_WITH_CODE (RsttoGnomeWallpaperManager, rstto_gnome_wallpaper_manager, G_TYPE_OBJECT,
+                         G_ADD_PRIVATE (RsttoGnomeWallpaperManager)
+                         G_IMPLEMENT_INTERFACE (RSTTO_WALLPAPER_MANAGER_TYPE,
+                                                rstto_gnome_wallpaper_manager_iface_init))
+
+
 
 static gint 
 rstto_gnome_wallpaper_manager_configure_dialog_run (
@@ -167,59 +168,16 @@ rstto_gnome_wallpaper_manager_set (
 }
 
 static void
-rstto_gnome_wallpaper_manager_iface_init (
-        gpointer g_iface,
-        gpointer iface_data)
+rstto_gnome_wallpaper_manager_iface_init (RsttoWallpaperManagerInterface *iface)
 {
-    RsttoWallpaperManagerIface *iface = g_iface;
-
     iface->configure_dialog_run = rstto_gnome_wallpaper_manager_configure_dialog_run;
     iface->check_running = rstto_gnome_wallpaper_manager_check_running;
     iface->set = rstto_gnome_wallpaper_manager_set;
 }
 
-GType
-rstto_gnome_wallpaper_manager_get_type (void)
-{
-    static GType rstto_gnome_wallpaper_manager_type = 0;
-
-    if (!rstto_gnome_wallpaper_manager_type)
-    {
-        static const GTypeInfo rstto_gnome_wallpaper_manager_info = 
-        {
-            sizeof (RsttoGnomeWallpaperManagerClass),
-            NULL,
-            NULL,
-            rstto_gnome_wallpaper_manager_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoGnomeWallpaperManager),
-            0,
-            rstto_gnome_wallpaper_manager_init,
-            NULL
-        };
-
-        static const GInterfaceInfo wallpaper_manager_iface_info = 
-        {
-            (GInterfaceInitFunc) rstto_gnome_wallpaper_manager_iface_init,
-            NULL,
-            NULL
-        };
-
-        rstto_gnome_wallpaper_manager_type = g_type_register_static (G_TYPE_OBJECT, "RsttoGnomeWallpaperManager", &rstto_gnome_wallpaper_manager_info, 0);
-        g_type_add_interface_static (rstto_gnome_wallpaper_manager_type, RSTTO_WALLPAPER_MANAGER_TYPE,  &wallpaper_manager_iface_info);
-
-    }
-    return rstto_gnome_wallpaper_manager_type;
-}
-
-
 static void
-rstto_gnome_wallpaper_manager_init (
-        GTypeInstance *instance,
-        gpointer g_class)
+rstto_gnome_wallpaper_manager_init (RsttoGnomeWallpaperManager *manager)
 {
-    RsttoGnomeWallpaperManager *manager = RSTTO_GNOME_WALLPAPER_MANAGER (instance);
     GtkWidget *image_prop_grid = gtk_grid_new ();
     GtkWidget *style_label = gtk_label_new (_("Style:"));
     GtkWidget *vbox;
@@ -230,7 +188,7 @@ rstto_gnome_wallpaper_manager_init (
     GdkRectangle monitor_geometry;
     gint i;
 
-    manager->priv = g_new0 (RsttoGnomeWallpaperManagerPriv, 1);
+    manager->priv = rstto_gnome_wallpaper_manager_get_instance_private (manager);
 
     manager->priv->dialog = gtk_dialog_new ();
     gtk_window_set_title (GTK_WINDOW (manager->priv->dialog), _("Set as wallpaper"));
@@ -318,14 +276,9 @@ rstto_gnome_wallpaper_manager_init (
 
 
 static void
-rstto_gnome_wallpaper_manager_class_init (
-        gpointer g_class,
-        gpointer class_data)
+rstto_gnome_wallpaper_manager_class_init (RsttoGnomeWallpaperManagerClass *klass)
 {
-    GObjectClass *object_class = g_class;
-    RsttoGnomeWallpaperManagerClass *gnome_wallpaper_manager_class = g_class;
-
-    parent_class = g_type_class_peek_parent (gnome_wallpaper_manager_class);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_gnome_wallpaper_manager_finalize;
 }
@@ -338,20 +291,12 @@ rstto_gnome_wallpaper_manager_class_init (
 static void
 rstto_gnome_wallpaper_manager_finalize (GObject *object)
 {
-    RsttoGnomeWallpaperManager *gnome_wallpaper_manager = RSTTO_GNOME_WALLPAPER_MANAGER (object);
-
-    if (gnome_wallpaper_manager->priv)
-    {
-        g_free (gnome_wallpaper_manager->priv);
-        gnome_wallpaper_manager->priv = NULL;
-    }
-
     if (gnome_wallpaper_manager_object)
     {
         gnome_wallpaper_manager_object = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_gnome_wallpaper_manager_parent_class)->finalize (object);
 }
 
 

@@ -55,14 +55,14 @@ enum
         G_TYPE_CHECK_CLASS_TYPE ((klass), \
                 RSTTO_TYPE_IMAGE_VIEWER()))
 
-typedef struct _RsttoImageViewerPriv RsttoImageViewerPriv;
+typedef struct _RsttoImageViewerPrivate RsttoImageViewerPrivate;
 
 typedef struct _RsttoImageViewer RsttoImageViewer;
 
 struct _RsttoImageViewer
 {
     GtkWidget             parent;
-    RsttoImageViewerPriv *priv;
+    RsttoImageViewerPrivate *priv;
 
     GtkAdjustment        *vadjustment;
     GtkAdjustment        *hadjustment;

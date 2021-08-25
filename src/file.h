@@ -82,13 +82,13 @@ typedef enum {
 
 
 typedef struct _RsttoFile RsttoFile;
-typedef struct _RsttoFilePriv RsttoFilePriv;
+typedef struct _RsttoFilePrivate RsttoFilePrivate;
 
 struct _RsttoFile
 {
     GObject parent;
 
-    RsttoFilePriv *priv;
+    RsttoFilePrivate *priv;
 };
 
 typedef struct _RsttoFileClass RsttoFileClass;

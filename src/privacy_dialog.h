@@ -46,12 +46,12 @@ G_BEGIN_DECLS
 
 typedef struct _RsttoPrivacyDialog RsttoPrivacyDialog;
 
-typedef struct _RsttoPrivacyDialogPriv RsttoPrivacyDialogPriv;
+typedef struct _RsttoPrivacyDialogPrivate RsttoPrivacyDialogPrivate;
 
 struct _RsttoPrivacyDialog
 {
     GtkDialog parent;
-    RsttoPrivacyDialogPriv *priv;
+    RsttoPrivacyDialogPrivate *priv;
 };
 
 typedef struct _RsttoPrivacyDialogClass RsttoPrivacyDialogClass;

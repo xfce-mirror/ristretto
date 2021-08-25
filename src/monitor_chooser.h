@@ -44,14 +44,14 @@ G_BEGIN_DECLS
         G_TYPE_CHECK_CLASS_TYPE ((klass), \
                 RSTTO_TYPE_MONITOR_CHOOSER()))
 
-typedef struct _RsttoMonitorChooserPriv RsttoMonitorChooserPriv;
+typedef struct _RsttoMonitorChooserPrivate RsttoMonitorChooserPrivate;
 
 typedef struct _RsttoMonitorChooser RsttoMonitorChooser;
 
 struct _RsttoMonitorChooser
 {
     GtkWidget parent;
-    RsttoMonitorChooserPriv *priv;
+    RsttoMonitorChooserPrivate *priv;
 };
 
 typedef struct _RsttoMonitorChooserClass RsttoMonitorChooserClass;

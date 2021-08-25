@@ -37,7 +37,7 @@ typedef struct {
     guint height;
 } MonitorPosition;
 
-struct _RsttoMonitorChooserPriv
+struct _RsttoMonitorChooserPrivate
 {
     Monitor **monitors;
     gint n_monitors;
@@ -45,14 +45,6 @@ struct _RsttoMonitorChooserPriv
 
     MonitorPosition monitor_positions[RSTTO_MAX_MONITORS];
 };
-
-static GtkWidgetClass *parent_class = NULL;
-
-static void
-rstto_monitor_chooser_init(GTypeInstance *instance, gpointer g_class);
-
-static void
-rstto_monitor_chooser_class_init(gpointer g_class, gpointer class_data);
 
 static void
 rstto_monitor_chooser_realize(GtkWidget *widget);
@@ -90,38 +82,16 @@ enum
 static gint
 rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_COUNT];
 
-GType
-rstto_monitor_chooser_get_type (void)
-{
-    static GType rstto_monitor_chooser_type = 0;
 
-    if (!rstto_monitor_chooser_type)
-    {
-        static const GTypeInfo rstto_monitor_chooser_info = 
-        {
-            sizeof (RsttoMonitorChooserClass),
-            NULL,
-            NULL,
-            rstto_monitor_chooser_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoMonitorChooser),
-            0,
-            rstto_monitor_chooser_init,
-            NULL
-        };
 
-        rstto_monitor_chooser_type = g_type_register_static (GTK_TYPE_WIDGET, "RsttoMonitorChooser", &rstto_monitor_chooser_info, 0);
-    }
-    return rstto_monitor_chooser_type;
-}
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoMonitorChooser, rstto_monitor_chooser, GTK_TYPE_WIDGET)
+
+
 
 static void
-rstto_monitor_chooser_init(GTypeInstance *instance, gpointer g_class)
+rstto_monitor_chooser_init(RsttoMonitorChooser *chooser)
 {
-    RsttoMonitorChooser *chooser = RSTTO_MONITOR_CHOOSER (instance);
-
-    chooser->priv = g_new0(RsttoMonitorChooserPriv, 1);
+    chooser->priv = rstto_monitor_chooser_get_instance_private (chooser);
     chooser->priv->selected = -1;
     chooser->priv->monitors = g_new0 (Monitor *, 1);
 
@@ -133,11 +103,9 @@ rstto_monitor_chooser_init(GTypeInstance *instance, gpointer g_class)
 }
 
 static void
-rstto_monitor_chooser_class_init(gpointer g_class, gpointer class_data)
+rstto_monitor_chooser_class_init(RsttoMonitorChooserClass *klass)
 {
-    GtkWidgetClass *widget_class = g_class;
-
-    parent_class = g_type_class_peek_parent(g_class);
+    GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
     widget_class->draw = rstto_monitor_chooser_draw;
     widget_class->realize = rstto_monitor_chooser_realize;
@@ -146,7 +114,7 @@ rstto_monitor_chooser_class_init(gpointer g_class, gpointer class_data)
     widget_class->size_allocate = rstto_monitor_chooser_size_allocate;
 
     rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED] = g_signal_new("changed",
-            G_TYPE_FROM_CLASS(g_class),
+            G_TYPE_FROM_CLASS(klass),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
             NULL,

@@ -46,14 +46,14 @@ G_BEGIN_DECLS
         G_TYPE_CHECK_CLASS_TYPE ((klass), \
                 RSTTO_TYPE_MAIN_WINDOW()))
 
-typedef struct _RsttoMainWindowPriv RsttoMainWindowPriv;
+typedef struct _RsttoMainWindowPrivate RsttoMainWindowPrivate;
 
 typedef struct _RsttoMainWindow RsttoMainWindow;
 
 struct _RsttoMainWindow
 {
     GtkWindow         parent;
-    RsttoMainWindowPriv *priv;
+    RsttoMainWindowPrivate *priv;
 };
 
 typedef struct _RsttoMainWindowClass RsttoMainWindowClass;

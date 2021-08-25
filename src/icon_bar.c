@@ -273,11 +273,10 @@ struct _RsttoIconBarPrivate
 
 static guint icon_bar_signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE_WITH_CODE (
-        RsttoIconBar,
-        rstto_icon_bar,
-        GTK_TYPE_CONTAINER,
-        G_ADD_PRIVATE (RsttoIconBar))
+
+
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoIconBar, rstto_icon_bar, GTK_TYPE_CONTAINER)
+
 
 
 static void

@@ -46,13 +46,13 @@ G_BEGIN_DECLS
         G_TYPE_CHECK_CLASS_TYPE ((klass), \
                 RSTTO_TYPE_IMAGE_LIST()))
 
-typedef struct _RsttoImageListPriv RsttoImageListPriv;
+typedef struct _RsttoImageListPrivate RsttoImageListPrivate;
 typedef struct _RsttoImageList RsttoImageList;
 
 struct _RsttoImageList
 {
     GObject                parent;
-    RsttoImageListPriv    *priv;
+    RsttoImageListPrivate *priv;
 };
 
 typedef struct _RsttoImageListClass RsttoImageListClass;
@@ -83,11 +83,11 @@ struct _RsttoImageListClass
                 RSTTO_TYPE_IMAGE_LIST_ITER()))
 
 typedef struct _RsttoImageListIter RsttoImageListIter;
-typedef struct _RsttoImageListIterPriv RsttoImageListIterPriv;
+typedef struct _RsttoImageListIterPrivate RsttoImageListIterPrivate;
 struct _RsttoImageListIter
 {
     GObject parent;
-    RsttoImageListIterPriv *priv;
+    RsttoImageListIterPrivate *priv;
 };
 
 typedef struct _RsttoImageListIterClass RsttoImageListIterClass;

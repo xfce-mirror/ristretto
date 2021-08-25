@@ -49,13 +49,13 @@ G_BEGIN_DECLS
 
 
 typedef struct _RsttoXfceWallpaperManager RsttoXfceWallpaperManager;
-typedef struct _RsttoXfceWallpaperManagerPriv RsttoXfceWallpaperManagerPriv;
+typedef struct _RsttoXfceWallpaperManagerPrivate RsttoXfceWallpaperManagerPrivate;
 
 struct _RsttoXfceWallpaperManager
 {
     GObject parent;
 
-    RsttoXfceWallpaperManagerPriv *priv;
+    RsttoXfceWallpaperManagerPrivate *priv;
 };
 
 typedef struct _RsttoXfceWallpaperManagerClass RsttoXfceWallpaperManagerClass;

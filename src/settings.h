@@ -55,13 +55,13 @@ typedef enum {
 
 
 typedef struct _RsttoSettings RsttoSettings;
-typedef struct _RsttoSettingsPriv RsttoSettingsPriv;
+typedef struct _RsttoSettingsPrivate RsttoSettingsPrivate;
 
 struct _RsttoSettings
 {
     GObject parent;
 
-    RsttoSettingsPriv *priv;
+    RsttoSettingsPrivate *priv;
 };
 
 typedef struct _RsttoSettingsClass RsttoSettingsClass;

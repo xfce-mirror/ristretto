@@ -31,15 +31,6 @@
 #include "tumbler.h"
 
 static void
-rstto_thumbnailer_init (
-        GTypeInstance *instance,
-        gpointer       g_class);
-static void
-rstto_thumbnailer_class_init (
-        gpointer g_class,
-        gpointer class_data);
-
-static void
 rstto_thumbnailer_finalize (GObject *object);
 
 static void
@@ -70,8 +61,6 @@ cb_rstto_thumbnailer_thumbnail_ready (
 static gboolean
 rstto_thumbnailer_queue_request_timer (gpointer user_data);
 
-static GObjectClass *parent_class = NULL;
-
 static RsttoThumbnailer *thumbnailer_object;
 
 enum
@@ -87,37 +76,7 @@ enum
     PROP_0,
 };
 
-GType
-rstto_thumbnailer_get_type (void)
-{
-    static GType rstto_thumbnailer_type = 0;
-
-    if (!rstto_thumbnailer_type)
-    {
-        static const GTypeInfo rstto_thumbnailer_info = 
-        {
-            sizeof (RsttoThumbnailerClass),
-            NULL,
-            NULL,
-            rstto_thumbnailer_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoThumbnailer),
-            0,
-            rstto_thumbnailer_init,
-            NULL
-        };
-
-        rstto_thumbnailer_type = g_type_register_static (
-                G_TYPE_OBJECT,
-                "RsttoThumbnailer",
-                &rstto_thumbnailer_info,
-                0);
-    }
-    return rstto_thumbnailer_type;
-}
-
-struct _RsttoThumbnailerPriv
+struct _RsttoThumbnailerPrivate
 {
     GDBusConnection     *connection;
     TumblerThumbnailer1 *proxy;
@@ -133,14 +92,16 @@ struct _RsttoThumbnailerPriv
     guint                request_timer_id;
 };
 
-static void
-rstto_thumbnailer_init (
-        GTypeInstance *instance,
-        gpointer       g_class)
-{
-    RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (instance);
 
-    thumbnailer->priv = g_new0 (RsttoThumbnailerPriv, 1);
+
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoThumbnailer, rstto_thumbnailer, G_TYPE_OBJECT)
+
+
+
+static void
+rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
+{
+    thumbnailer->priv = rstto_thumbnailer_get_instance_private (thumbnailer);
     thumbnailer->priv->connection = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, NULL);
     thumbnailer->priv->settings = rstto_settings_new();
 
@@ -173,23 +134,16 @@ rstto_thumbnailer_init (
 
 
 static void
-rstto_thumbnailer_class_init (
-        gpointer g_class,
-        gpointer class_data)
+rstto_thumbnailer_class_init (RsttoThumbnailerClass *klass)
 {
-    GObjectClass          *object_class = g_class;
-    RsttoThumbnailerClass *thumbnailer_class = g_class;
-
-    parent_class = g_type_class_peek_parent (thumbnailer_class);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_thumbnailer_finalize;
-
     object_class->set_property = rstto_thumbnailer_set_property;
     object_class->get_property = rstto_thumbnailer_get_property;
 
-
     rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY] = g_signal_new("ready",
-            G_TYPE_FROM_CLASS(thumbnailer_class),
+            G_TYPE_FROM_CLASS(klass),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
             NULL,
@@ -217,11 +171,9 @@ rstto_thumbnailer_finalize (GObject *object)
         g_clear_object (&thumbnailer->priv->proxy);
         g_clear_object (&thumbnailer->priv->connection);
         g_slist_free_full (thumbnailer->priv->queue, g_object_unref);
-
-        g_clear_pointer (&thumbnailer->priv, g_free);
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_thumbnailer_parent_class)->finalize (object);
 }
 
 
