@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -609,7 +609,7 @@ static const GtkToggleActionEntry toggle_action_entries[] =
 };
 
 /** Image sorting options*/
-static const GtkRadioActionEntry radio_action_sort_entries[] = 
+static const GtkRadioActionEntry radio_action_sort_entries[] =
 {
     {"sort-filename",
             NULL, /* Icon-name */
@@ -632,7 +632,7 @@ static const GtkRadioActionEntry radio_action_sort_entries[] =
 };
 
 /** Navigationbar+Thumbnailbar positioning options*/
-static const GtkRadioActionEntry radio_action_pos_entries[] = 
+static const GtkRadioActionEntry radio_action_pos_entries[] =
 {
     { "pos-left",
             NULL, /* Icon-name */
@@ -661,7 +661,7 @@ static const GtkRadioActionEntry radio_action_pos_entries[] =
 };
 
 /** Thumbnail-size options*/
-static const GtkRadioActionEntry radio_action_size_entries[] = 
+static const GtkRadioActionEntry radio_action_size_entries[] =
 {
     { "size-very-small",
             NULL,
@@ -1613,7 +1613,7 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
                                                   rstto_image_viewer_get_height(viewer),
                                                   size_string,
                                                   (100 * rstto_image_viewer_get_scale(viewer)));
- 
+
                     g_free (size_string);
                     g_free (status);
                     status = tmp_status;
@@ -1848,7 +1848,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
                     {
                         gtk_widget_show (window->priv->t_bar_s_window);
                     }
-                
                 }
             }
             if ( 0 != (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN ))
@@ -1922,7 +1921,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
                     {
                         gtk_widget_show (window->priv->t_bar_s_window);
                     }
-                
                 }
             }
             if ( 0 != (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN ))
@@ -2245,8 +2243,6 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
             DESKTOP_TYPE_XFCE);
 
         gtk_widget_show_all (content_area);
-        
-
 
         /* Show the dialog */
         response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -2286,7 +2282,6 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
 		    window->priv->settings_manager,
 		    "desktop-type",
 		    desktop_type);
-        
         }
 
         /* Clean-up the dialog */
@@ -2461,7 +2456,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
                     gtk_widget_show (window->priv->t_bar_s_window);
                 }
             }
-            
         }
     }
 
@@ -2472,7 +2466,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     return FALSE;
 }
 
-static gboolean 
+static gboolean
 cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotion *event, gpointer user_data)
 {
     if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN)
@@ -3590,8 +3584,8 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
  *
  * Close all images.
  *
- * Set the directory to NULL, the image-list-iter will emit an 
- * 'iter-changed' signal. The ui will be updated in response to 
+ * Set the directory to NULL, the image-list-iter will emit an
+ * 'iter-changed' signal. The ui will be updated in response to
  * that just like it is when an image is opened.
  */
 static void
@@ -3637,7 +3631,7 @@ cb_rstto_main_window_edit (
     }
 
     rstto_main_window_launch_editor_chooser (window);
-    
+
     g_list_free (files);
 }
 
@@ -4054,7 +4048,7 @@ rstto_main_window_add_file_to_recent_files (GFile *file)
 
     recent_data = g_slice_new (GtkRecentData);
     recent_data->display_name = NULL;
-    recent_data->description = NULL; 
+    recent_data->description = NULL;
     recent_data->mime_type = (gchar *) g_file_info_get_content_type (file_info);
     recent_data->app_name = RSTTO_RECENT_FILES_APP_NAME;
     recent_data->app_exec = g_strjoin(" ", g_get_prgname (), "%u", NULL);
@@ -4662,5 +4656,5 @@ cb_rstto_thumbnailer_ready(
             gtk_window_set_icon (GTK_WINDOW (window), NULL);
             gtk_window_set_icon_name (GTK_WINDOW (window), "org.xfce.ristretto");
         }
-    } 
+    }
 }

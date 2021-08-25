@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -730,7 +730,7 @@ set_scale (RsttoImageViewer *viewer, gdouble scale )
 
     return scale == in_scale || in_scale == RSTTO_SCALE_FIT_TO_VIEW;
 }
- 
+
 static void
 paint_background (GtkWidget *widget, cairo_t *ctx)
 {
@@ -1352,7 +1352,7 @@ paint_selection_box (GtkWidget *widget, cairo_t *ctx )
 
     /* A selection-box can be created moving the cursor from
      * left to right, aswell as from right to left.
-     * 
+     *
      * Calculate the box dimensions accordingly.
      */
     if (viewer->priv->motion.y < viewer->priv->motion.current_y)
@@ -1368,7 +1368,7 @@ paint_selection_box (GtkWidget *widget, cairo_t *ctx )
 
     /* A selection-box can be created moving the cursor from
      * top to bottom, aswell as from bottom to top.
-     * 
+     *
      * Calculate the box dimensions accordingly.
      */
     if (viewer->priv->motion.x < viewer->priv->motion.current_x)
@@ -1437,7 +1437,7 @@ static void
 rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-    
+
     if (gtk_widget_get_realized (widget))
     {
         correct_adjustments (viewer);
@@ -1450,10 +1450,10 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
                 (gdouble)gtk_widget_get_allocated_height (widget));
         cairo_clip (ctx);
         cairo_save (ctx);
-        
+
         /* Paint the background-color */
         /******************************/
-        paint_background (widget, ctx);        
+        paint_background (widget, ctx);
 
         cairo_restore (ctx);
 
@@ -1462,37 +1462,37 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
         if ( NULL == viewer->priv->file )
         {
             cairo_save (ctx);
-            
+
             /* Paint the background-image (ristretto icon) */
             /***********************************************/
-            paint_background_icon (widget, ctx);        
+            paint_background_icon (widget, ctx);
 
             cairo_restore (ctx);
 
             if (viewer->priv->props.show_clock)
             {
                 cairo_save (ctx);
-                paint_clock (widget, ctx);        
+                paint_clock (widget, ctx);
                 cairo_restore (ctx);
             }
         }
         else
         {
             cairo_save (ctx);
-            paint_image (widget, ctx);        
+            paint_image (widget, ctx);
             cairo_restore (ctx);
 
             if (viewer->priv->motion.state == RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM)
             {
                 cairo_save (ctx);
-                paint_selection_box (widget, ctx);        
+                paint_selection_box (widget, ctx);
                 cairo_restore (ctx);
             }
 
             if (viewer->priv->props.show_clock)
             {
                 cairo_save (ctx);
-                paint_clock (widget, ctx);        
+                paint_clock (widget, ctx);
                 cairo_restore (ctx);
             }
         }
@@ -1515,14 +1515,14 @@ rstto_image_viewer_new (void)
  * @file:
  *
  * Set the file that should be displayed in the image_viewer.
- * 
+ *
  * TODO:
  *  - cancellable...
  */
 void
 rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble scale, RsttoImageOrientation orientation)
 {
-    GtkWidget *widget = GTK_WIDGET (viewer); 
+    GtkWidget *widget = GTK_WIDGET (viewer);
 
     /*
      * Set the image-orientation
@@ -1555,7 +1555,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
                         g_cancellable_cancel (viewer->priv->transaction->cancellable);
                     }
                     viewer->priv->transaction = NULL;
-                } 
+                }
 
                 g_object_ref (file);
                 g_signal_connect (
@@ -1596,7 +1596,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
             viewer->priv->file = file;
             rstto_image_viewer_load_image (viewer, viewer->priv->file, scale);
         }
-    } 
+    }
     else
     {
         if (viewer->priv->iter)
@@ -1634,7 +1634,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
             /* Reset the image-size to 0.0 */
             viewer->priv->image_height = 0.0;
             viewer->priv->image_width = 0.0;
-            
+
             gdk_window_invalidate_rect (
                     gtk_widget_get_window (widget),
                     NULL,
@@ -2210,7 +2210,7 @@ rstto_scroll_event (GtkWidget *widget, GdkEventScroll *event)
     return FALSE;
 }
 
-static gboolean 
+static gboolean
 rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
@@ -2262,14 +2262,14 @@ rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
                 break;
             case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
                 /* TODO: Calculate the rectangle to invalidate.
-                 * 
+                 *
                  * It should be a rectangle covering both the original
                  * selection-box and the new one.
                  */
                 gdk_window_invalidate_rect (
                         gtk_widget_get_window (widget),
                         NULL,
-                        FALSE); 
+                        FALSE);
 
                 /* Only change the cursor when hovering over the image
                  */
@@ -2388,7 +2388,7 @@ rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
             max_scale = scale_get_max (viewer);
             /* A selection-box can be created moving the cursor from
              * left to right, aswell as from right to left.
-             * 
+             *
              * Calculate the box dimensions accordingly.
              */
             if (viewer->priv->motion.y < viewer->priv->motion.current_y)
@@ -2404,7 +2404,7 @@ rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
 
             /* A selection-box can be created moving the cursor from
              * top to bottom, aswell as from bottom to top.
-             * 
+             *
              * Calculate the box dimensions accordingly.
              */
             if (viewer->priv->motion.x < viewer->priv->motion.current_x)
@@ -2441,7 +2441,7 @@ rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
             {
                 box_height = (y_offset + image_height) - box_y - 1;
             }
-            
+
             if ( box_width > 0 && box_height > 0 )
             {
                 /* Set auto_scale to false, we are going manual */
@@ -2601,7 +2601,7 @@ cb_rstto_zoom_direction_changed (GObject *settings, GParamSpec *pspec, gpointer 
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
     viewer->priv->invert_zoom_direction = rstto_settings_get_boolean_property (RSTTO_SETTINGS (settings), "invert-zoom-direction");
 }
- 
+
 static gboolean
 rstto_popup_menu (GtkWidget *widget)
 {

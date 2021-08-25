@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -336,7 +336,7 @@ properties_dialog_set_file (
                 localtime (&mtime));
         gtk_label_set_text (
                 GTK_LABEL (dialog->priv->modified_content_label),
-                buf 
+                buf
                 );
         strftime (
                 buf,
@@ -345,7 +345,7 @@ properties_dialog_set_file (
                 localtime (&atime));
         gtk_label_set_text (
                 GTK_LABEL (dialog->priv->accessed_content_label),
-                buf 
+                buf
                 );
 
         g_snprintf (
@@ -355,7 +355,7 @@ properties_dialog_set_file (
                 size);
         gtk_label_set_text (
                 GTK_LABEL (dialog->priv->size_content_label),
-                buf 
+                buf
                 );
 
         gtk_label_set_text (
@@ -379,7 +379,7 @@ properties_dialog_set_file (
             {
                 gtk_container_remove (
                         GTK_CONTAINER (dialog->priv->image_table),
-                        child_iter->data); 
+                        child_iter->data);
                 child_iter = g_list_next (child_iter);
             }
             if (NULL != children)

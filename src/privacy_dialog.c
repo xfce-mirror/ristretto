@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -107,7 +107,7 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
     dialog->priv->time_now = time (0);
     dialog->priv->timeframe_filter = gtk_recent_filter_new ();
 
-    /* Add recent-filter function to filter in access-time */    
+    /* Add recent-filter function to filter in access-time */
     gtk_recent_filter_add_custom (
             dialog->priv->timeframe_filter,
             GTK_RECENT_FILTER_URI,
@@ -127,15 +127,15 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
     gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->cleanup_timeframe_combo), 2, _("Last Four Hours"));
     gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->cleanup_timeframe_combo), 3, _("Today"));
     gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->cleanup_timeframe_combo), 4, _("Everything"));
-    g_signal_connect (G_OBJECT (dialog->priv->cleanup_timeframe_combo), 
+    g_signal_connect (G_OBJECT (dialog->priv->cleanup_timeframe_combo),
                       "changed", G_CALLBACK (cb_rstto_privacy_dialog_combobox_timeframe_changed), dialog);
     gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->cleanup_timeframe_combo), 0);
 
-    gtk_box_pack_start (GTK_BOX (dialog->priv->cleanup_vbox), 
+    gtk_box_pack_start (GTK_BOX (dialog->priv->cleanup_vbox),
                         display_main_hbox, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (display_main_hbox), 
+    gtk_box_pack_start (GTK_BOX (display_main_hbox),
                         display_main_lbl, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (display_main_hbox), 
+    gtk_box_pack_start (GTK_BOX (display_main_hbox),
                         dialog->priv->cleanup_timeframe_combo, FALSE, FALSE, 0);
 
     gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
@@ -316,7 +316,7 @@ rstto_recent_chooser_add_filter (
     RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (chooser);
 
     /* Add the filter to the list of available filters */
-    dialog->priv->filters = 
+    dialog->priv->filters =
             g_slist_append (dialog->priv->filters, filter);
 }
 
@@ -404,7 +404,7 @@ cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *combobox, gpoin
             time_info = localtime (&(dialog->priv->time_now));
 
             dialog->priv->time_offset = (time_info->tm_hour * 3600) +
-                                        (time_info->tm_min * 60) + 
+                                        (time_info->tm_min * 60) +
                                         time_info->tm_sec;
             break;
         case 4:

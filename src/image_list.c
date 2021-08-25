@@ -5,18 +5,18 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *  02110-1301, USA.
  *
- *  Sorting-algorithm taken from the thunar filemanager. 
+ *  Sorting-algorithm taken from the thunar filemanager.
  *    Copyright (c) Benedict Meurer <benny@xfce.org>
  */
 
@@ -91,7 +91,7 @@ iter_next (RsttoImageListIter *iter,
 static gboolean
 iter_previous (RsttoImageListIter *iter,
                gboolean sticky);
-static void 
+static void
 iter_set_position (RsttoImageListIter *iter,
                    gint pos,
                    gboolean sticky);
@@ -114,7 +114,7 @@ image_list_model_get_iter (GtkTreeModel *tree_model,
 static GtkTreePath *
 image_list_model_get_path (GtkTreeModel *tree_model,
                            GtkTreeIter *iter);
-static void 
+static void
 image_list_model_get_value (GtkTreeModel *tree_model,
                             GtkTreeIter *iter,
                             gint column,
@@ -133,7 +133,7 @@ image_list_model_iter_parent (GtkTreeModel *tree_model,
 static gint
 image_list_model_iter_n_children (GtkTreeModel *tree_model,
                                   GtkTreeIter *iter);
-static gboolean 
+static gboolean
 image_list_model_iter_nth_child (GtkTreeModel *tree_model,
                                  GtkTreeIter *iter,
                                  GtkTreeIter *parent,
@@ -162,9 +162,9 @@ struct _RsttoImageListIterPrivate
 {
     RsttoImageList *image_list;
     RsttoFile      *r_file;
-    
+
     /* This is set if the iter-position is chosen by the user */
-    gboolean        sticky; 
+    gboolean        sticky;
 };
 
 struct _RsttoImageListPrivate
@@ -408,7 +408,7 @@ rstto_image_list_add_file (
                             G_CALLBACK (cb_file_monitor_changed),
                             image_list);
                     image_list->priv->image_monitors = g_list_prepend (
-                            image_list->priv->image_monitors, 
+                            image_list->priv->image_monitors,
                             monitor);
                 }
                 i = g_list_index (image_list->priv->images, r_file);
@@ -501,7 +501,6 @@ rstto_image_list_remove_file (
         {
             if (rstto_file_equal(rstto_image_list_iter_get_file (iter->data), r_file))
             {
-                
                 if (rstto_image_list_iter_get_position (iter->data) == n_images -1)
                 {
                     iter_previous (iter->data, FALSE);
@@ -510,7 +509,7 @@ rstto_image_list_remove_file (
                 {
                     iter_next (iter->data, FALSE);
                 }
-                /* If the image is still the same, 
+                /* If the image is still the same,
                  * it's a single item list,
                  * and we should force the image in this iter to NULL
                  */
@@ -820,7 +819,7 @@ cb_file_monitor_changed (
             {
                 image_list->priv->image_monitors = g_list_remove (
                         image_list->priv->image_monitors,
-                        monitor);   
+                        monitor);
                 g_object_unref (monitor);
                 monitor = NULL;
             }
@@ -841,7 +840,7 @@ cb_file_monitor_changed (
             {
                 image_list->priv->image_monitors = g_list_remove (
                         image_list->priv->image_monitors,
-                        monitor);   
+                        monitor);
                 g_object_unref (monitor);
                 monitor = g_file_monitor_file (
                         other_file,
@@ -854,7 +853,7 @@ cb_file_monitor_changed (
                         G_CALLBACK (cb_file_monitor_changed),
                         image_list);
                 image_list->priv->image_monitors = g_list_prepend (
-                        image_list->priv->image_monitors, 
+                        image_list->priv->image_monitors,
                         monitor);
             }
             break;
@@ -1010,7 +1009,7 @@ iter_set_position (
 
     if (pos >= 0)
     {
-        iter->priv->r_file = g_list_nth_data (iter->priv->image_list->priv->images, pos); 
+        iter->priv->r_file = g_list_nth_data (iter->priv->image_list->priv->images, pos);
     }
 
     g_signal_emit (
@@ -1055,7 +1054,7 @@ iter_next (
     position = g_list_next (position);
     if (position)
     {
-        iter->priv->r_file = position->data; 
+        iter->priv->r_file = position->data;
 
         /* We could move forward, set ret_val to TRUE */
         ret_val = TRUE;
@@ -1079,7 +1078,7 @@ iter_next (
 
         if (position)
         {
-            iter->priv->r_file = position->data; 
+            iter->priv->r_file = position->data;
         }
         else
         {
@@ -1155,7 +1154,7 @@ iter_previous (
     position = g_list_previous (position);
     if (position)
     {
-        iter->priv->r_file = position->data; 
+        iter->priv->r_file = position->data;
     }
     else
     {
@@ -1170,7 +1169,7 @@ iter_previous (
 
         if (position)
         {
-            iter->priv->r_file = position->data; 
+            iter->priv->r_file = position->data;
         }
         else
         {
@@ -1479,7 +1478,7 @@ image_list_model_iter_children (
     g_return_val_if_fail(parent == NULL, FALSE);
 
     image_list = RSTTO_IMAGE_LIST (tree_model);
-    
+
     file = g_list_nth_data (image_list->priv->images, 0);
 
     if (NULL == file)
@@ -1519,7 +1518,7 @@ image_list_model_iter_n_children (
     return rstto_image_list_get_n_images (RSTTO_IMAGE_LIST (tree_model));
 }
 
-static gboolean 
+static gboolean
 image_list_model_iter_nth_child (
         GtkTreeModel *tree_model,
         GtkTreeIter *iter,
@@ -1559,7 +1558,7 @@ image_list_model_iter_next (
     return TRUE;
 }
 
-static void 
+static void
 image_list_model_get_value (
         GtkTreeModel *tree_model,
         GtkTreeIter *iter,

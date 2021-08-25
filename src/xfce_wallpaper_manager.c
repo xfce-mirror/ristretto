@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -106,7 +106,7 @@ G_DEFINE_TYPE_WITH_CODE (RsttoXfceWallpaperManager, rstto_xfce_wallpaper_manager
 
 
 
-static gint 
+static gint
 rstto_xfce_wallpaper_manager_configure_dialog_run (
         RsttoWallpaperManager *self,
         RsttoFile *file,
@@ -514,10 +514,10 @@ cb_workspace_mode_changed (
         RsttoXfceWallpaperManager *manager)
 {
     gboolean active;
-    
+
     active = gtk_toggle_button_get_active (
             GTK_TOGGLE_BUTTON (button));
-    
+
     xfconf_channel_set_bool (manager->priv->channel,
             SINGLE_WORKSPACE_MODE,
             active);

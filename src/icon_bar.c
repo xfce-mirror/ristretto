@@ -1128,7 +1128,7 @@ rstto_icon_bar_paint_item (
     gtk_tree_model_get (icon_bar->priv->model, &iter,
             icon_bar->priv->file_column, &file,
             -1);
-    
+
     pixbuf = rstto_file_get_thumbnail (file, icon_bar->priv->thumbnail_size);
 
     g_object_unref (file);

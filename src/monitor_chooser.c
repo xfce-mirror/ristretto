@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -245,7 +245,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget, cairo_t *ctx)
                 {
                     width = alloc_width*0.4;
                     height = width;
-                } 
+                }
                 else
                 {
                     height = alloc_width*0.4;
@@ -274,13 +274,12 @@ rstto_monitor_chooser_paint(GtkWidget *widget, cairo_t *ctx)
                 {
                     width = alloc_width*(0.4/((gdouble)row_width+1));
                     height = width;
-                } 
+                }
                 else
                 {
                     height = alloc_width*(0.4/chooser->priv->n_monitors);
                     width = height;
                 }
-            
 
                 label = g_strdup_printf("%d", id+1);
                 cairo_save (ctx);
@@ -334,7 +333,7 @@ rstto_monitor_chooser_paint(GtkWidget *widget, cairo_t *ctx)
             {
                 width = 200;
                 height = 200;
-            } 
+            }
             else
             {
                 height = 200;
@@ -378,10 +377,10 @@ paint_monitor ( GtkWidget *widget,
 
     /* Assumption: monitor-width is always larger then monitor-height */
     /******************************************************************/
-    gdouble monitor_height = 
+    gdouble monitor_height =
             ( width - ( 2 * ( border_padding + monitor_border_width ) ) ) /
             monitor->width * monitor->height;
-    gdouble monitor_width = 
+    gdouble monitor_width =
             width - ( 2 * ( border_padding + monitor_border_width ) );
 
     gdouble monitor_x = x + border_padding + monitor_border_width;
@@ -448,7 +447,7 @@ paint_monitor ( GtkWidget *widget,
     cairo_set_line_width (cr, line_width);
     cairo_stroke (cr);
 
-    /* Draw a monitor foot */ 
+    /* Draw a monitor foot */
     cairo_new_sub_path (cr);
     cairo_move_to (
             cr,
@@ -554,7 +553,7 @@ paint_monitor ( GtkWidget *widget,
     pango_layout_set_text (layout, label, -1);
     pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
     pango_cairo_update_layout (cr, layout);
-    pango_layout_get_pixel_size (layout, &text_width, &text_height); 
+    pango_layout_get_pixel_size (layout, &text_width, &text_height);
 
     cairo_move_to (
             cr,
@@ -595,7 +594,7 @@ rstto_monitor_chooser_new ( void )
  * Add a monitor to the monitor-chooser.
  */
 gint
-rstto_monitor_chooser_add ( 
+rstto_monitor_chooser_add (
         RsttoMonitorChooser *chooser,
         gint width,
         gint height)
@@ -621,7 +620,7 @@ rstto_monitor_chooser_add (
         }
         g_free (chooser->priv->monitors);
     }
-    
+
     monitors[id] = monitor;
 
     chooser->priv->monitors = monitors;
@@ -690,7 +689,7 @@ cb_rstto_button_press_event (
     gint id = 0;
     gint width, height;
     GtkAllocation allocation;
-    
+
     if (chooser->priv->n_monitors > 1)
     {
         row_width = sqrt (chooser->priv->n_monitors);

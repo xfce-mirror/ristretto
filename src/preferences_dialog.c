@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -164,7 +164,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (RsttoPreferencesDialog, rstto_preferences_dialog, GT
  *
  *      background_color_frame
  *
- *      quality_frame 
+ *      quality_frame
  *
  *   configure_fullscreen_tab
  *
@@ -262,11 +262,11 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     dialog->priv->display_tab.bgcolor_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
     dialog->priv->display_tab.bgcolor_color_button = gtk_color_button_new ();
 
-    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_hbox), 
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_hbox),
                         dialog->priv->display_tab.bgcolor_override_check_button, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_hbox),
                         dialog->priv->display_tab.bgcolor_color_button, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_vbox), 
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_vbox),
                         dialog->priv->display_tab.bgcolor_hbox, FALSE, FALSE, 0);
 
     /* set current value */
@@ -298,7 +298,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.quality_vbox), dialog->priv->display_tab.quality_button);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.quality_button), bool_limit_quality);
 
-    g_signal_connect (G_OBJECT (dialog->priv->display_tab.quality_button), 
+    g_signal_connect (G_OBJECT (dialog->priv->display_tab.quality_button),
                       "toggled", G_CALLBACK (cb_limit_quality_check_button_toggled), dialog);
 
     /*
@@ -576,7 +576,7 @@ rstto_preferences_dialog_new (GtkWindow *parent)
  */
 static void
 cb_bgcolor_override_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
@@ -638,7 +638,6 @@ cb_bgcolor_color_set (
             G_OBJECT(dialog->priv->settings),
             "bgcolor",
             &bgcolor_val);
-    
 }
 
 /**
@@ -670,7 +669,7 @@ cb_bgcolor_color_set (
  */
 static void
 cb_invert_zoom_direction_check_button_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
@@ -699,7 +698,7 @@ cb_invert_zoom_direction_check_button_toggled (
  * property in the ristretto settings container.
  *
  * When this property is changed, the time between switching
- * images when running a slideshow is changed. 
+ * images when running a slideshow is changed.
  *
  *
  *   value = range_get_value ()
@@ -734,10 +733,10 @@ cb_slideshow_timeout_value_changed (
  *
  *
  * This function is called when a user toggles the
- * 'hide-thumbnails-fullscreen' check-button. This function then 
+ * 'hide-thumbnails-fullscreen' check-button. This function then
  * sets the right property in the ristretto settings container.
  *
- * When this property is set, the thumbnails are hidden when the 
+ * When this property is set, the thumbnails are hidden when the
  * window is in fullscreen mode.
  *
  *
@@ -755,7 +754,7 @@ cb_slideshow_timeout_value_changed (
  */
 static void
 cb_hide_thumbnails_fullscreen_check_button_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
@@ -783,7 +782,7 @@ cb_hide_thumbnails_fullscreen_check_button_toggled (
  * check-button. This function then sets the right property in the
  * ristretto settings container.
  *
- * When this property is set, the list of images can 'wrap', allowing 
+ * When this property is set, the list of images can 'wrap', allowing
  * the user to go to the first image when moving beyond the last image
  * and vice-versa.
  *
@@ -802,7 +801,7 @@ cb_hide_thumbnails_fullscreen_check_button_toggled (
  */
 static void
 cb_wrap_images_check_button_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
@@ -829,7 +828,7 @@ cb_wrap_images_check_button_toggled (
  * This function is called when a user toggles the 'maximize-on-startup'
  * check-button. This function then sets the right property in the
  * ristretto settings container.
- * 
+ *
  * When this property is set, the main-window is maximized directly when
  * an image is opened on startup.
  *
@@ -848,7 +847,7 @@ cb_wrap_images_check_button_toggled (
  */
 static void
 cb_maximize_on_startup_check_button_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
@@ -875,7 +874,7 @@ cb_maximize_on_startup_check_button_toggled (
  * This function is called when a user toggles the 'show-clock'
  * check-button. This function then sets the right property in the
  * ristretto settings container.
- * 
+ *
  * When this property is set, a clock is rendered on the image-viewer
  * widget when the window is in fullscreen mode.
  *
@@ -894,7 +893,7 @@ cb_maximize_on_startup_check_button_toggled (
  */
 static void
 cb_show_clock_check_button_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
@@ -968,7 +967,7 @@ cb_cursor_timeout_button_value_changed (
  */
 static void
 cb_limit_quality_check_button_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
