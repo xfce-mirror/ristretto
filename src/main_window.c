@@ -1658,7 +1658,7 @@ rstto_main_activate_file_menu_actions (RsttoMainWindow *window, gboolean activat
         //"/main-menu/file-menu/print",
         "/main-menu/file-menu/properties",
         "/main-menu/file-menu/close",
-	"/main-menu/edit-menu/copy-image",
+        "/main-menu/edit-menu/copy-image",
         "/main-menu/edit-menu/delete"
     };
 
@@ -1725,7 +1725,7 @@ rstto_main_activate_popup_menu_actions (RsttoMainWindow *window, gboolean activa
     const gchar *actions[] = {
         "/image-viewer-menu/close",
         "/image-viewer-menu/open-with-menu",
-	"/image-viewer-menu/copy-image",
+        "/image-viewer-menu/copy-image",
         "/image-viewer-menu/zoom-in",
         "/image-viewer-menu/zoom-out",
         "/image-viewer-menu/zoom-100",
@@ -2278,10 +2278,10 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *windo
                     window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new ();
                     break;
             }
-	    rstto_settings_set_string_property (
-		    window->priv->settings_manager,
-		    "desktop-type",
-		    desktop_type);
+        rstto_settings_set_string_property (
+            window->priv->settings_manager,
+            "desktop-type",
+            desktop_type);
         }
 
         /* Clean-up the dialog */
@@ -3358,7 +3358,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
 
     if (files)
     {
-		g_slist_free_full (files, (GDestroyNotify) g_object_unref);
+        g_slist_free_full (files, (GDestroyNotify) g_object_unref);
     }
 }
 
@@ -3526,7 +3526,7 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
          */
         if ( TRUE == use_thunar_properties )
         {
-			GVariant *unused = NULL;
+            GVariant *unused = NULL;
 
             /* Get the file-uri */
             uri = rstto_file_get_uri(file);
@@ -3747,7 +3747,7 @@ cb_rstto_main_window_delete (
             success = g_file_trash (rstto_file_get_file(file), NULL, &error);
         }
 
-	if ( success )
+        if ( success )
         {
             rstto_image_list_remove_file (window->priv->image_list, file);
         }
