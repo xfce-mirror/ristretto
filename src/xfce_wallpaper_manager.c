@@ -399,16 +399,13 @@ rstto_xfce_wallpaper_manager_finalize (GObject *object)
 {
     RsttoXfceWallpaperManager *xfce_wallpaper_manager = RSTTO_XFCE_WALLPAPER_MANAGER (object);
 
-    if (xfce_wallpaper_manager->priv)
+    if (xfce_wallpaper_manager->priv->channel)
     {
-        if (xfce_wallpaper_manager->priv->channel)
-        {
-            g_object_unref (xfce_wallpaper_manager->priv->channel);
-            xfce_wallpaper_manager->priv->channel = NULL;
-        }
-        g_free (xfce_wallpaper_manager->priv->color1);
-        g_free (xfce_wallpaper_manager->priv->color2);
+        g_object_unref (xfce_wallpaper_manager->priv->channel);
+        xfce_wallpaper_manager->priv->channel = NULL;
     }
+    g_free (xfce_wallpaper_manager->priv->color1);
+    g_free (xfce_wallpaper_manager->priv->color2);
 
     if (xfce_wallpaper_manager_object)
     {

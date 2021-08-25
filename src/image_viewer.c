@@ -616,33 +616,30 @@ rstto_image_viewer_finalize (GObject *object)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER(object);
 
-    if (viewer->priv)
+    if (viewer->priv->settings)
     {
-        if (viewer->priv->settings)
-        {
-            g_object_unref (viewer->priv->settings);
-            viewer->priv->settings = NULL;
-        }
-        if (viewer->priv->bg_icon)
-        {
-            g_object_unref (viewer->priv->bg_icon);
-            viewer->priv->bg_icon = NULL;
-        }
-        if (viewer->priv->missing_icon)
-        {
-            g_object_unref (viewer->priv->missing_icon);
-            viewer->priv->missing_icon = NULL;
-        }
-        if (viewer->priv->pixbuf)
-        {
-            g_object_unref (viewer->priv->pixbuf);
-            viewer->priv->pixbuf = NULL;
-        }
-        if (viewer->priv->iter)
-        {
-            g_object_unref (viewer->priv->iter);
-            viewer->priv->iter = NULL;
-        }
+        g_object_unref (viewer->priv->settings);
+        viewer->priv->settings = NULL;
+    }
+    if (viewer->priv->bg_icon)
+    {
+        g_object_unref (viewer->priv->bg_icon);
+        viewer->priv->bg_icon = NULL;
+    }
+    if (viewer->priv->missing_icon)
+    {
+        g_object_unref (viewer->priv->missing_icon);
+        viewer->priv->missing_icon = NULL;
+    }
+    if (viewer->priv->pixbuf)
+    {
+        g_object_unref (viewer->priv->pixbuf);
+        viewer->priv->pixbuf = NULL;
+    }
+    if (viewer->priv->iter)
+    {
+        g_object_unref (viewer->priv->iter);
+        viewer->priv->iter = NULL;
     }
 
     G_OBJECT_CLASS (rstto_image_viewer_parent_class)->finalize (object);

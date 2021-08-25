@@ -135,60 +135,57 @@ rstto_file_finalize (GObject *object)
     RsttoFile *r_file = RSTTO_FILE (object);
     gint i = 0;
 
-    if (r_file->priv)
+    if (r_file->priv->file)
     {
-        if (r_file->priv->file)
-        {
-            g_object_unref (r_file->priv->file);
-            r_file->priv->file = NULL;
-        }
-        if (r_file->priv->display_name)
-        {
-            g_free (r_file->priv->display_name);
-            r_file->priv->display_name = NULL;
-        }
-        if (r_file->priv->content_type)
-        {
-            g_free (r_file->priv->content_type);
-            r_file->priv->content_type = NULL;
-        }
-        if (r_file->priv->path)
-        {
-            g_free (r_file->priv->path);
-            r_file->priv->path = NULL;
-        }
-        if (r_file->priv->thumbnail_path)
-        {
-            g_free (r_file->priv->thumbnail_path);
-            r_file->priv->thumbnail_path = NULL;
-        }
-        if (r_file->priv->uri)
-        {
-            g_free (r_file->priv->uri);
-            r_file->priv->uri = NULL;
-        }
-        if (r_file->priv->collate_key)
-        {
-            g_free (r_file->priv->collate_key);
-            r_file->priv->collate_key = NULL;
-        }
-        if (r_file->priv->exif_data)
-        {
-            exif_data_free (r_file->priv->exif_data);
-            r_file->priv->exif_data = NULL;
-        }
-
-        for (i = 0; i < THUMBNAIL_SIZE_COUNT; ++i)
-        {
-            if (r_file->priv->thumbnails[i])
-            {
-                g_object_unref (r_file->priv->thumbnails[i]);
-                r_file->priv->thumbnails[i] = NULL;
-            }
-        }
-
-        open_files = g_list_remove_all (open_files, r_file);
+        g_object_unref (r_file->priv->file);
+        r_file->priv->file = NULL;
     }
+    if (r_file->priv->display_name)
+    {
+        g_free (r_file->priv->display_name);
+        r_file->priv->display_name = NULL;
+    }
+    if (r_file->priv->content_type)
+    {
+        g_free (r_file->priv->content_type);
+        r_file->priv->content_type = NULL;
+    }
+    if (r_file->priv->path)
+    {
+        g_free (r_file->priv->path);
+        r_file->priv->path = NULL;
+    }
+    if (r_file->priv->thumbnail_path)
+    {
+        g_free (r_file->priv->thumbnail_path);
+        r_file->priv->thumbnail_path = NULL;
+    }
+    if (r_file->priv->uri)
+    {
+        g_free (r_file->priv->uri);
+        r_file->priv->uri = NULL;
+    }
+    if (r_file->priv->collate_key)
+    {
+        g_free (r_file->priv->collate_key);
+        r_file->priv->collate_key = NULL;
+    }
+    if (r_file->priv->exif_data)
+    {
+        exif_data_free (r_file->priv->exif_data);
+        r_file->priv->exif_data = NULL;
+    }
+
+    for (i = 0; i < THUMBNAIL_SIZE_COUNT; ++i)
+    {
+        if (r_file->priv->thumbnails[i])
+        {
+            g_object_unref (r_file->priv->thumbnails[i]);
+            r_file->priv->thumbnails[i] = NULL;
+        }
+    }
+
+    open_files = g_list_remove_all (open_files, r_file);
 
     G_OBJECT_CLASS (rstto_file_parent_class)->finalize (object);
 }

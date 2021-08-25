@@ -71,18 +71,16 @@ static void
 rstto_app_menu_item_finalize (GObject *object)
 {
     RsttoAppMenuItem *menu_item = RSTTO_APP_MENU_ITEM (object);
-    if (menu_item->priv)
+
+    if (menu_item->priv->app_info)
     {
-        if (menu_item->priv->app_info)
-        {
-            g_object_unref (menu_item->priv->app_info);
-            menu_item->priv->app_info = NULL;
-        }
-        if (menu_item->priv->file)
-        {
-            g_object_unref (menu_item->priv->file);
-            menu_item->priv->file = NULL;
-        }
+        g_object_unref (menu_item->priv->app_info);
+        menu_item->priv->app_info = NULL;
+    }
+    if (menu_item->priv->file)
+    {
+        g_object_unref (menu_item->priv->file);
+        menu_item->priv->file = NULL;
     }
 
     G_OBJECT_CLASS (rstto_app_menu_item_parent_class)->finalize (object);

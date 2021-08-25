@@ -86,10 +86,7 @@ rstto_mime_db_finalize (GObject *object)
 {
     RsttoMimeDB *mime_db = RSTTO_MIME_DB (object);
 
-    if (mime_db->priv)
-    {
-        xfce_rc_close (mime_db->priv->rc);
-    }
+    xfce_rc_close (mime_db->priv->rc);
 
     G_OBJECT_CLASS (rstto_mime_db_parent_class)->finalize (object);
 }

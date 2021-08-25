@@ -614,43 +614,40 @@ rstto_settings_finalize (GObject *object)
     RsttoSettings *settings = RSTTO_SETTINGS (object);
     gchar         *accelmap_path = NULL;
 
-    if (settings->priv)
+    if (settings->priv->channel)
     {
-        if (settings->priv->channel)
-        {
-            g_object_unref (settings->priv->channel);
-            settings->priv->channel = NULL;
-        }
+        g_object_unref (settings->priv->channel);
+        settings->priv->channel = NULL;
+    }
 
-        if (settings->priv->last_file_path)
-        {
-            g_free (settings->priv->last_file_path);
-            settings->priv->last_file_path = NULL;
-        }
+    if (settings->priv->last_file_path)
+    {
+        g_free (settings->priv->last_file_path);
+        settings->priv->last_file_path = NULL;
+    }
 
-        if (settings->priv->navigationbar_position)
-        {
-            g_free (settings->priv->navigationbar_position);
-            settings->priv->navigationbar_position = NULL;
-        }
+    if (settings->priv->navigationbar_position)
+    {
+        g_free (settings->priv->navigationbar_position);
+        settings->priv->navigationbar_position = NULL;
+    }
 
-        if (settings->priv->desktop_type)
-        {
-            g_free (settings->priv->desktop_type);
-            settings->priv->desktop_type = NULL;
-        }
+    if (settings->priv->desktop_type)
+    {
+        g_free (settings->priv->desktop_type);
+        settings->priv->desktop_type = NULL;
+    }
 
-        if (settings->priv->bgcolor)
-        {
-            g_free (settings->priv->bgcolor);
-            settings->priv->bgcolor = NULL;
-        }
+    if (settings->priv->bgcolor)
+    {
+        g_free (settings->priv->bgcolor);
+        settings->priv->bgcolor = NULL;
+    }
 
-        if (settings->priv->bgcolor_fullscreen)
-        {
-            g_free (settings->priv->bgcolor_fullscreen);
-            settings->priv->bgcolor_fullscreen = NULL;
-        }
+    if (settings->priv->bgcolor_fullscreen)
+    {
+        g_free (settings->priv->bgcolor_fullscreen);
+        settings->priv->bgcolor_fullscreen = NULL;
     }
 
     accelmap_path = xfce_resource_save_location (XFCE_RESOURCE_CONFIG, "ristretto/accels.scm", TRUE);

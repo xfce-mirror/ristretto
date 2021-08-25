@@ -938,18 +938,15 @@ rstto_image_list_iter_finalize (GObject *object)
 {
     RsttoImageListIter *iter = RSTTO_IMAGE_LIST_ITER(object);
 
-    if (iter->priv)
+    if (iter->priv->r_file)
     {
-        if (iter->priv->r_file)
-        {
-            iter->priv->r_file = NULL;
-        }
+        iter->priv->r_file = NULL;
+    }
 
-        if (iter->priv->image_list)
-        {
-            iter->priv->image_list->priv->iterators = g_slist_remove (iter->priv->image_list->priv->iterators, iter);
-            iter->priv->image_list= NULL;
-        }
+    if (iter->priv->image_list)
+    {
+        iter->priv->image_list->priv->iterators = g_slist_remove (iter->priv->image_list->priv->iterators, iter);
+        iter->priv->image_list= NULL;
     }
 
     G_OBJECT_CLASS (rstto_image_list_iter_parent_class)->finalize (object);

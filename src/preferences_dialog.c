@@ -526,13 +526,11 @@ static void
 rstto_preferences_dialog_finalize (GObject *object)
 {
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (object);
-    if (dialog->priv)
+
+    if (dialog->priv->settings)
     {
-        if (dialog->priv->settings)
-        {
-            g_object_unref (dialog->priv->settings);
-            dialog->priv->settings = NULL;
-        }
+        g_object_unref (dialog->priv->settings);
+        dialog->priv->settings = NULL;
     }
 
     G_OBJECT_CLASS (rstto_preferences_dialog_parent_class)->finalize (object);

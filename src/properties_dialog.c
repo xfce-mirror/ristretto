@@ -213,13 +213,11 @@ static void
 rstto_properties_dialog_finalize (GObject *object)
 {
     RsttoPropertiesDialog *dialog = RSTTO_PROPERTIES_DIALOG (object);
-    if (dialog->priv)
+
+    if (dialog->priv->settings)
     {
-        if (dialog->priv->settings)
-        {
-            g_object_unref (dialog->priv->settings);
-            dialog->priv->settings = NULL;
-        }
+        g_object_unref (dialog->priv->settings);
+        dialog->priv->settings = NULL;
     }
 
     G_OBJECT_CLASS(rstto_properties_dialog_parent_class)->finalize(object);

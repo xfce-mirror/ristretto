@@ -1266,64 +1266,61 @@ rstto_main_window_finalize(GObject *object)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW(object);
 
-    if (window->priv)
+    if (window->priv->ui_manager)
     {
-        if (window->priv->ui_manager)
-        {
-            g_object_unref (window->priv->ui_manager);
-            window->priv->ui_manager = NULL;
-        } 
-
-        if (window->priv->settings_manager)
-        {
-            g_object_unref (window->priv->settings_manager);
-            window->priv->settings_manager = NULL;
-        }
-
-        if (window->priv->image_list)
-        {
-            g_object_unref (window->priv->image_list);
-            window->priv->image_list = NULL;
-        }
-
-        if (window->priv->iter)
-        {
-            g_object_unref (window->priv->iter);
-            window->priv->iter = NULL;
-        }
-
-        if (window->priv->filter)
-        {
-            g_object_unref (window->priv->filter);
-            window->priv->filter= NULL;
-        }
-
-        if (window->priv->db)
-        {
-            g_object_unref (window->priv->db);
-            window->priv->db = NULL;
-        }
-
-        if (window->priv->thumbnailer)
-        {
-            g_object_unref (window->priv->thumbnailer);
-            window->priv->thumbnailer = NULL;
-        }
-
-        if (window->priv->last_copy_folder_uri)
-        {
-            g_free (window->priv->last_copy_folder_uri);
-            window->priv->last_copy_folder_uri = NULL;
-        }
-
-        if (window->priv->action_group)
-        {
-            g_object_unref (window->priv->action_group);
-            window->priv->action_group = NULL;
-        }
-
-        g_clear_object (&window->priv->filemanager_proxy);
+        g_object_unref (window->priv->ui_manager);
+        window->priv->ui_manager = NULL;
     }
+
+    if (window->priv->settings_manager)
+    {
+        g_object_unref (window->priv->settings_manager);
+        window->priv->settings_manager = NULL;
+    }
+
+    if (window->priv->image_list)
+    {
+        g_object_unref (window->priv->image_list);
+        window->priv->image_list = NULL;
+    }
+
+    if (window->priv->iter)
+    {
+        g_object_unref (window->priv->iter);
+        window->priv->iter = NULL;
+    }
+
+    if (window->priv->filter)
+    {
+        g_object_unref (window->priv->filter);
+        window->priv->filter= NULL;
+    }
+
+    if (window->priv->db)
+    {
+        g_object_unref (window->priv->db);
+        window->priv->db = NULL;
+    }
+
+    if (window->priv->thumbnailer)
+    {
+        g_object_unref (window->priv->thumbnailer);
+        window->priv->thumbnailer = NULL;
+    }
+
+    if (window->priv->last_copy_folder_uri)
+    {
+        g_free (window->priv->last_copy_folder_uri);
+        window->priv->last_copy_folder_uri = NULL;
+    }
+
+    if (window->priv->action_group)
+    {
+        g_object_unref (window->priv->action_group);
+        window->priv->action_group = NULL;
+    }
+
+    g_clear_object (&window->priv->filemanager_proxy);
 
     G_OBJECT_CLASS (rstto_main_window_parent_class)->finalize(object);
 }
