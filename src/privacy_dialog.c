@@ -22,36 +22,7 @@
 #include "settings.h"
 #include "privacy_dialog.h"
 
-static void
-rstto_recent_chooser_init (GtkRecentChooserIface *iface);
 
-static void
-rstto_privacy_dialog_finalize (GObject *object);
-
-static void
-rstto_privacy_dialog_set_property    (GObject      *object,
-                                      guint         property_id,
-                                      const GValue *value,
-                                      GParamSpec   *pspec);
-static void
-rstto_privacy_dialog_get_property    (GObject    *object,
-                                      guint       property_id,
-                                      GValue     *value,
-                                      GParamSpec *pspec);
-static void
-rstto_recent_chooser_add_filter (
-        GtkRecentChooser  *chooser,
-        GtkRecentFilter   *filter);
-static GList *
-rstto_recent_chooser_get_items (
-        GtkRecentChooser  *chooser);
-
-static void
-cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *, gpointer user_data);
-gboolean
-cb_rstto_recent_filter_filter_timeframe(
-        const GtkRecentFilterInfo *filter_info,
-        gpointer user_data);
 
 enum
 {
@@ -67,6 +38,38 @@ enum
     PROP_SHOW_NOT_FOUND,
     PROP_SHOW_PRIVATE,
 };
+
+
+
+static void
+rstto_recent_chooser_init (GtkRecentChooserIface *iface);
+
+static void
+rstto_privacy_dialog_finalize (GObject *object);
+static void
+rstto_privacy_dialog_set_property (GObject *object,
+                                   guint property_id,
+                                   const GValue *value,
+                                   GParamSpec *pspec);
+static void
+rstto_privacy_dialog_get_property (GObject *object,
+                                   guint property_id,
+                                   GValue *value,
+                                   GParamSpec *pspec);
+
+static void
+rstto_recent_chooser_add_filter (GtkRecentChooser *chooser,
+                                 GtkRecentFilter *filter);
+static GList *
+rstto_recent_chooser_get_items (GtkRecentChooser *chooser);
+static void
+cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *combobox,
+                                                    gpointer user_data);
+gboolean
+cb_rstto_recent_filter_filter_timeframe (const GtkRecentFilterInfo *filter_info,
+                                         gpointer user_data);
+
+
 
 struct _RsttoPrivacyDialogPrivate
 {
@@ -158,7 +161,6 @@ rstto_privacy_dialog_class_init (RsttoPrivacyDialogClass *klass)
     GParamSpec   *pspec;
 
     object_class->finalize = rstto_privacy_dialog_finalize;
-
     object_class->set_property = rstto_privacy_dialog_set_property;
     object_class->get_property = rstto_privacy_dialog_get_property;
 

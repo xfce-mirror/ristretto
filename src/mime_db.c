@@ -24,28 +24,30 @@
 
 #include "mime_db.h"
 
-static void
-rstto_mime_db_finalize (GObject *object);
 
-static void
-rstto_mime_db_set_property (
-        GObject      *object,
-        guint         property_id,
-        const GValue *value,
-        GParamSpec   *pspec );
-
-static void
-rstto_mime_db_get_property (
-        GObject    *object,
-        guint       property_id,
-        GValue     *value,
-        GParamSpec *pspec);
 
 enum
 {
     PROP_0,
     PROP_FILE
 };
+
+
+
+static void
+rstto_mime_db_finalize (GObject *object);
+static void
+rstto_mime_db_set_property (GObject *object,
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec);
+static void
+rstto_mime_db_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec);
+
+
 
 struct _RsttoMimeDBPrivate
 {

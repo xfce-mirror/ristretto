@@ -18,9 +18,9 @@
  */
 
 #include <config.h>
-#include <gdk/gdkkeysyms.h>
 #include <string.h>
 
+#include <gdk/gdkkeysyms.h>
 #include <gio/gio.h>
 #include <gio/gdesktopappinfo.h>
 
@@ -37,14 +37,14 @@
 #include "main_window.h"
 #include "main_window_ui.h"
 #include "wallpaper_manager.h"
-
 #include "xfce_wallpaper_manager.h"
 #include "gnome_wallpaper_manager.h"
-
 #include "privacy_dialog.h"
 #include "properties_dialog.h"
 #include "preferences_dialog.h"
 #include "app_menu_item.h"
+
+
 
 #ifndef RISTRETTO_APP_TITLE
 #define RISTRETTO_APP_TITLE _("Image Viewer")
@@ -68,118 +68,50 @@ enum
     EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET
 };
 
-
-struct _RsttoMainWindowPrivate
-{
-    RsttoImageList        *image_list;
-
-    RsttoMimeDB           *db;
-
-    GDBusProxy            *filemanager_proxy;
-
-    guint                  show_fs_toolbar_timeout_id;
-    guint                  hide_fs_mouse_cursor_timeout_id;
-    gint                   window_save_geometry_timer_id;
-
-    gboolean               fs_toolbar_sticky;
-
-    RsttoImageListIter    *iter;
-
-    GtkActionGroup        *action_group;
-    GtkUIManager          *ui_manager;
-    GtkRecentManager      *recent_manager;
-    RsttoSettings         *settings_manager;
-    RsttoWallpaperManager *wallpaper_manager;
-    RsttoThumbnailer      *thumbnailer;
-
-    GtkWidget             *menubar;
-    GtkWidget             *toolbar;
-    GtkWidget             *warning;
-    GtkWidget             *warning_label;
-    GtkWidget             *image_viewer_menu;
-    GtkWidget             *position_menu;
-    GtkWidget             *image_viewer;
-    GtkWidget             *p_viewer_s_window;
-    GtkWidget             *grid;
-    GtkWidget             *t_bar_s_window;
-    GtkWidget             *thumbnailbar;
-    GtkWidget             *statusbar;
-    guint                  statusbar_context_id;
-
-    GtkWidget             *back;
-    GtkWidget             *forward;
-
-    guint                  t_open_merge_id;
-    guint                  recent_merge_id;
-    guint                  play_merge_id;
-    guint                  pause_merge_id;
-    guint                  toolbar_play_merge_id;
-    guint                  toolbar_pause_merge_id;
-    guint                  toolbar_fullscreen_merge_id;
-    guint                  toolbar_unfullscreen_merge_id;
-
-    GtkAction             *play_action;
-    GtkAction             *pause_action;
-    GtkAction             *recent_action;
-
-    gboolean               playing;
-
-    GtkFileFilter         *filter;
-
-    gchar                 *last_copy_folder_uri;
-};
-
 enum
 {
     PROP_0,
     PROP_IMAGE_LIST,
 };
 
+
+
 static void
-rstto_main_window_finalize(GObject *object);
+rstto_main_window_finalize (GObject *object);
+
 
 static void
-rstto_main_window_size_allocate (GtkWidget *, GtkAllocation *);
-
-
+rstto_main_window_size_allocate (GtkWidget *widget,
+                                 GtkAllocation *allocation);
 static gboolean
-key_press_event (
-        GtkWidget *widget,
-        GdkEventKey *event);
+key_press_event (GtkWidget *widget,
+                 GdkEventKey *event);
+
 
 static void
-cb_icon_bar_selection_changed (
-        RsttoIconBar *icon_bar,
-        gpointer user_data);
+cb_icon_bar_selection_changed (RsttoIconBar *icon_bar,
+                               gpointer user_data);
 static gint
-cb_compare_app_infos (
-        gconstpointer a,
-        gconstpointer b);
+cb_compare_app_infos (gconstpointer a,
+                      gconstpointer b);
 static void
-cb_rstto_thumbnailer_ready(
-        RsttoThumbnailer *thumbnailer,
-        RsttoFile *file,
-        gpointer user_data);
-
-static gboolean
-rstto_main_window_save_geometry_timer (gpointer user_data);
-static void
-rstto_main_window_save_geometry_timer_destroy (gpointer user_data);
-
+cb_rstto_thumbnailer_ready (RsttoThumbnailer *thumbnailer,
+                            RsttoFile *file,
+                            gpointer user_data);
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
-
 static gboolean
 rstto_main_window_add_file_to_recent_files_cb (gpointer user_data);
-
 static void
-rstto_main_window_launch_editor_chooser (
-        RsttoMainWindow *window);
+rstto_main_window_launch_editor_chooser (RsttoMainWindow *window);
 
 static gboolean
-cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event);
+cb_rstto_main_window_configure_event (GtkWidget *widget,
+                                      GdkEventConfigure *event);
 static gboolean
-cb_rstto_main_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data);
+cb_rstto_main_window_state_event (GtkWidget *widget,
+                                  GdkEventWindowState *event,
+                                  gpointer user_data);
 static gboolean
 cb_rstto_main_window_show_fs_toolbar_timeout (gpointer user_data);
 static void
@@ -189,204 +121,189 @@ cb_rstto_main_window_hide_fs_mouse_cursor_timeout (gpointer user_data);
 static void
 cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy (gpointer user_data);
 static void
-cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMainWindow *window);
+cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter,
+                                              RsttoMainWindow *window);
 static void
 rstto_main_window_update_statusbar (RsttoMainWindow *window);
 
 static void
-cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_zoom_100 (GtkWidget *widget,
+                               RsttoMainWindow *window);
 static void
-cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_zoom_fit (GtkWidget *widget,
+                               RsttoMainWindow *window);
 static void
-cb_rstto_main_window_zoom_in (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_zoom_in (GtkWidget *widget,
+                              RsttoMainWindow *window);
 static void
-cb_rstto_main_window_zoom_out (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_zoom_out (GtkWidget *widget,
+                               RsttoMainWindow *window);
 
 static void
-cb_rstto_main_window_rotate_cw (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_rotate_cw (GtkWidget *widget,
+                                RsttoMainWindow *window);
 static void
-cb_rstto_main_window_rotate_ccw (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_rotate_ccw (GtkWidget *widget,
+                                 RsttoMainWindow *window);
 
 static void
-cb_rstto_main_window_flip_hz (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_flip_hz (GtkWidget *widget,
+                              RsttoMainWindow *window);
 static void
-cb_rstto_main_window_flip_vt (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_flip_vt (GtkWidget *widget,
+                              RsttoMainWindow *window);
 
 static void
-cb_rstto_main_window_next_image (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_next_image (GtkWidget *widget,
+                                 RsttoMainWindow *window);
 static void
-cb_rstto_main_window_previous_image (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_previous_image (GtkWidget *widget,
+                                     RsttoMainWindow *window);
 static void
-cb_rstto_main_window_first_image (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_first_image (GtkWidget *widget,
+                                  RsttoMainWindow *window);
 static void
-cb_rstto_main_window_last_image (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_last_image (GtkWidget *widget,
+                                 RsttoMainWindow *window);
 
 static void
-cb_rstto_main_window_open_with_other_app (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_open_with_other_app (GtkWidget *widget,
+                                          RsttoMainWindow *window);
+static void
+cb_rstto_main_window_open_image (GtkWidget *widget,
+                                 RsttoMainWindow *window);
+static void
+cb_rstto_main_window_open_recent (GtkRecentChooser *chooser,
+                                  RsttoMainWindow *window);
+static void
+cb_rstto_main_window_properties (GtkWidget *widget,
+                                 RsttoMainWindow *window);
+static void
+cb_rstto_main_window_close (GtkWidget *widget,
+                            RsttoMainWindow *window);
+static void
+cb_rstto_main_window_edit (GtkWidget *widget,
+                           RsttoMainWindow *window);
+static void
+cb_rstto_main_window_save_copy (GtkWidget *widget,
+                                RsttoMainWindow *window);
+static void
+cb_rstto_main_window_delete (GtkWidget *widget,
+                             RsttoMainWindow *window);
+static void
+cb_rstto_main_window_refresh (GtkWidget *widget,
+                              RsttoMainWindow *window);
+static void
+cb_rstto_main_window_dnd_files (GtkWidget *widget,
+                                gchar **uris,
+                                RsttoMainWindow *window);
 
 static void
-cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget,
+                                       RsttoMainWindow *window);
 static void
-cb_rstto_main_window_open_recent(GtkRecentChooser *chooser, RsttoMainWindow *window);
+cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action,
+                                               GtkRadioAction *current,
+                                               RsttoMainWindow *window);
 static void
-cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window);
+cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action,
+                                                         GtkRadioAction *current,
+                                                         RsttoMainWindow *window);
 static void
-cb_rstto_main_window_close (GtkWidget *widget, RsttoMainWindow *window);
-static void
-cb_rstto_main_window_edit (GtkWidget *widget, RsttoMainWindow *window);
-static void
-cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window);
-static void
-cb_rstto_main_window_delete (GtkWidget *widget, RsttoMainWindow *window);
-static void
-cb_rstto_main_window_refresh (
-        GtkWidget *widget,
-        RsttoMainWindow *window );
-static void
-cb_rstto_main_window_dnd_files (GtkWidget *widget, gchar **uris, RsttoMainWindow *window);
-
-static void
-cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget, RsttoMainWindow *window);
-static void
-cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action, GtkRadioAction *current,  RsttoMainWindow *window);
-static void
-cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *, GtkRadioAction *,  RsttoMainWindow *window);
-
-static void
-cb_rstto_main_window_thumbnail_size_changed (
-        GtkRadioAction *action,
-        GtkRadioAction *current,
-        RsttoMainWindow *window);
-
-static gboolean
-cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
-static void
-cb_rstto_main_window_update_statusbar (GtkWidget *widget, RsttoMainWindow *window);
-
-static void
-cb_rstto_main_window_play (
-        GtkWidget *widget,
-        RsttoMainWindow *window);
-static void
-cb_rstto_main_window_pause(
-        GtkWidget *widget,
-        RsttoMainWindow *window);
-
-static void
-cb_rstto_main_window_toggle_show_toolbar (
-        GtkWidget *widget,
-        RsttoMainWindow *window);
-static void
-cb_rstto_main_window_toggle_show_thumbnailbar (
-        GtkWidget *widget,
-        RsttoMainWindow *window);
-static void
-cb_rstto_main_window_toggle_show_statusbar (
-        GtkWidget *widget,
-        RsttoMainWindow *window);
-
-static void
-cb_rstto_main_window_fullscreen (
-        GtkWidget *widget,
-        RsttoMainWindow *window);
-static void
-cb_rstto_main_window_preferences (
-        GtkWidget *widget,
-        RsttoMainWindow *window);
-
-static void
-cb_rstto_main_window_copy_image (
-        GtkWidget *widget,
-        RsttoMainWindow *window);
-
-static void
-cb_rstto_main_window_clear_private_data (
-        GtkWidget *widget,
-        RsttoMainWindow *window);
-
-static void
-cb_rstto_main_window_about (
-        GtkWidget *widget,
-        RsttoMainWindow *window);
-
-static void
-cb_rstto_main_window_contents (
-        GtkWidget *widget,
-        RsttoMainWindow *window);
-
-static void
-cb_rstto_main_window_quit (
-        GtkWidget *widget,
-        RsttoMainWindow *window);
-
-static gboolean 
-cb_rstto_main_window_motion_notify_event (
-        RsttoMainWindow *window,
-        GdkEventMotion *event,
-        gpointer user_data);
+cb_rstto_main_window_thumbnail_size_changed (GtkRadioAction *action,
+                                             GtkRadioAction *current,
+                                             RsttoMainWindow *window);
 
 static gboolean
-cb_rstto_main_window_image_viewer_enter_notify_event (
-        GtkWidget *widget,
-        GdkEventCrossing *event,
-        gpointer user_data);
+cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget,
+                                                           GdkEventButton *event,
+                                                           gpointer user_data);
+static void
+cb_rstto_main_window_update_statusbar (GtkWidget *widget,
+                                       RsttoMainWindow *window);
 
+static void
+cb_rstto_main_window_play (GtkWidget *widget,
+                           RsttoMainWindow *window);
+static void
+cb_rstto_main_window_pause (GtkWidget *widget,
+                            RsttoMainWindow *window);
+
+static void
+cb_rstto_main_window_toggle_show_toolbar (GtkWidget *widget,
+                                          RsttoMainWindow *window);
+static void
+cb_rstto_main_window_toggle_show_thumbnailbar (GtkWidget *widget,
+                                               RsttoMainWindow *window);
+static void
+cb_rstto_main_window_toggle_show_statusbar (GtkWidget *widget,
+                                            RsttoMainWindow *window);
+
+static void
+cb_rstto_main_window_fullscreen (GtkWidget *widget,
+                                 RsttoMainWindow *window);
+static void
+cb_rstto_main_window_preferences (GtkWidget *widget,
+                                  RsttoMainWindow *window);
+static void
+cb_rstto_main_window_copy_image (GtkWidget *widget,
+                                 RsttoMainWindow *window);
+static void
+cb_rstto_main_window_clear_private_data (GtkWidget *widget,
+                                         RsttoMainWindow *window);
+static void
+cb_rstto_main_window_about (GtkWidget *widget,
+                            RsttoMainWindow *window);
+static void
+cb_rstto_main_window_contents (GtkWidget *widget,
+                               RsttoMainWindow *window);
+static void
+cb_rstto_main_window_quit (GtkWidget *widget,
+                           RsttoMainWindow *window);
 static gboolean
-cb_rstto_main_window_image_viewer_scroll_event (
-        GtkWidget *widget,
-        GdkEventScroll *event,
-        gpointer user_data);
+cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
+                                          GdkEventMotion *event,
+                                          gpointer user_data);
+static gboolean
+cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget,
+                                                      GdkEventCrossing *event,
+                                                      gpointer user_data);
+static gboolean
+cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget,
+                                                GdkEventScroll *event,
+                                                gpointer user_data);
 
 static void
-rstto_main_activate_file_menu_actions (
-        RsttoMainWindow *window,
-        gboolean activate);
-
+rstto_main_activate_file_menu_actions (RsttoMainWindow *window,
+                                       gboolean activate);
 static void
-rstto_main_activate_go_menu_actions (
-        RsttoMainWindow *window,
-        gboolean activate);
-
+rstto_main_activate_go_menu_actions (RsttoMainWindow *window,
+                                     gboolean activate);
 static void
-rstto_main_activate_view_menu_actions (
-        RsttoMainWindow *window,
-        gboolean activate);
-
+rstto_main_activate_view_menu_actions (RsttoMainWindow *window,
+                                       gboolean activate);
 static void
-rstto_main_activate_popup_menu_actions (
-        RsttoMainWindow *window,
-        gboolean activate);
-
+rstto_main_activate_popup_menu_actions (RsttoMainWindow *window,
+                                        gboolean activate);
 static void
-rstto_main_activate_toolbar_actions (
-        RsttoMainWindow *window,
-        gboolean activate);
-
+rstto_main_activate_toolbar_actions (RsttoMainWindow *window,
+                                     gboolean activate);
 static void
-rstto_main_window_update_buttons (
-        RsttoMainWindow *window);
-
+rstto_main_window_update_buttons (RsttoMainWindow *window);
 static void
-rstto_main_window_set_navigationbar_position (
-        RsttoMainWindow *window,
-        guint orientation);
-
+rstto_main_window_set_navigationbar_position (RsttoMainWindow *window,
+                                              guint orientation);
 static void
-rstto_main_window_set_thumbnail_size (
-        RsttoMainWindow *window,
-        RsttoThumbnailSize size);
-
+rstto_main_window_set_thumbnail_size (RsttoMainWindow *window,
+                                      RsttoThumbnailSize size);
 static void
-cb_rstto_wrap_images_changed (
-        GObject *object,
-        GParamSpec *pspec,
-        gpointer user_data);
-
+cb_rstto_wrap_images_changed (GObject *object,
+                              GParamSpec *pspec,
+                              gpointer user_data);
 static void
-cb_rstto_desktop_type_changed (
-        GObject *object,
-        GParamSpec *pspec,
-        gpointer user_data);
+cb_rstto_desktop_type_changed (GObject *object,
+                               GParamSpec *pspec,
+                               gpointer user_data);
 
 
 
@@ -788,6 +705,68 @@ static const GtkRadioActionEntry radio_action_size_entries[] =
             NULL,
             NULL,
             6},
+};
+
+
+
+struct _RsttoMainWindowPrivate
+{
+    RsttoImageList        *image_list;
+
+    RsttoMimeDB           *db;
+
+    GDBusProxy            *filemanager_proxy;
+
+    guint                  show_fs_toolbar_timeout_id;
+    guint                  hide_fs_mouse_cursor_timeout_id;
+    gint                   window_save_geometry_timer_id;
+
+    gboolean               fs_toolbar_sticky;
+
+    RsttoImageListIter    *iter;
+
+    GtkActionGroup        *action_group;
+    GtkUIManager          *ui_manager;
+    GtkRecentManager      *recent_manager;
+    RsttoSettings         *settings_manager;
+    RsttoWallpaperManager *wallpaper_manager;
+    RsttoThumbnailer      *thumbnailer;
+
+    GtkWidget             *menubar;
+    GtkWidget             *toolbar;
+    GtkWidget             *warning;
+    GtkWidget             *warning_label;
+    GtkWidget             *image_viewer_menu;
+    GtkWidget             *position_menu;
+    GtkWidget             *image_viewer;
+    GtkWidget             *p_viewer_s_window;
+    GtkWidget             *grid;
+    GtkWidget             *t_bar_s_window;
+    GtkWidget             *thumbnailbar;
+    GtkWidget             *statusbar;
+    guint                  statusbar_context_id;
+
+    GtkWidget             *back;
+    GtkWidget             *forward;
+
+    guint                  t_open_merge_id;
+    guint                  recent_merge_id;
+    guint                  play_merge_id;
+    guint                  pause_merge_id;
+    guint                  toolbar_play_merge_id;
+    guint                  toolbar_pause_merge_id;
+    guint                  toolbar_fullscreen_merge_id;
+    guint                  toolbar_unfullscreen_merge_id;
+
+    GtkAction             *play_action;
+    GtkAction             *pause_action;
+    GtkAction             *recent_action;
+
+    gboolean               playing;
+
+    GtkFileFilter         *filter;
+
+    gchar                 *last_copy_folder_uri;
 };
 
 
@@ -2036,40 +2015,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     }
 }
 
-static gboolean
-rstto_main_window_save_geometry_timer (gpointer user_data)
-{
-    GtkWindow *window = GTK_WINDOW(user_data);
-    gint width = 0;
-    gint height = 0;
-    /* check if the window is still visible */
-    if (gtk_widget_get_visible (GTK_WIDGET (window)))
-    {
-        /* determine the current state of the window */
-        gint state = gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window)));
-
-        /* don't save geometry for maximized or fullscreen windows */
-        if ((state & (GDK_WINDOW_STATE_MAXIMIZED | GDK_WINDOW_STATE_FULLSCREEN)) == 0)
-        {
-            /* determine the current width/height of the window... */
-            gtk_window_get_size (GTK_WINDOW (window), &width, &height);
-
-            /* ...and remember them as default for new windows */
-            g_object_set (G_OBJECT (RSTTO_MAIN_WINDOW(window)->priv->settings_manager), 
-                          "window-width", width,
-                          "window-height", height,
-                          NULL);
-        }
-    }
-    return FALSE;
-}
-
-static void
-rstto_main_window_save_geometry_timer_destroy (gpointer user_data)
-{
-    RSTTO_MAIN_WINDOW (user_data)->priv->window_save_geometry_timer_id = 0;
-}
-
 static void
 rstto_main_window_set_thumbnail_size (
         RsttoMainWindow *window,
@@ -2868,6 +2813,40 @@ static void
 cb_rstto_main_window_quit (GtkWidget *widget, RsttoMainWindow *window)
 {
     gtk_widget_destroy (GTK_WIDGET (window));
+}
+
+static gboolean
+rstto_main_window_save_geometry_timer (gpointer user_data)
+{
+    GtkWindow *window = GTK_WINDOW(user_data);
+    gint width = 0;
+    gint height = 0;
+    /* check if the window is still visible */
+    if (gtk_widget_get_visible (GTK_WIDGET (window)))
+    {
+        /* determine the current state of the window */
+        gint state = gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window)));
+
+        /* don't save geometry for maximized or fullscreen windows */
+        if ((state & (GDK_WINDOW_STATE_MAXIMIZED | GDK_WINDOW_STATE_FULLSCREEN)) == 0)
+        {
+            /* determine the current width/height of the window... */
+            gtk_window_get_size (GTK_WINDOW (window), &width, &height);
+
+            /* ...and remember them as default for new windows */
+            g_object_set (G_OBJECT (RSTTO_MAIN_WINDOW(window)->priv->settings_manager),
+                          "window-width", width,
+                          "window-height", height,
+                          NULL);
+        }
+    }
+    return FALSE;
+}
+
+static void
+rstto_main_window_save_geometry_timer_destroy (gpointer user_data)
+{
+    RSTTO_MAIN_WINDOW (user_data)->priv->window_save_geometry_timer_id = 0;
 }
 
 static gboolean

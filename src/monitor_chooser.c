@@ -21,21 +21,75 @@
 
 #include "monitor_chooser.h"
 
+
+
 #define RSTTO_MAX_MONITORS 9
 
-typedef struct {
+enum
+{
+    RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED = 0,
+    RSTTO_MONITOR_CHOOSER_SIGNAL_COUNT
+};
+
+static gint rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_COUNT];
+
+typedef struct _Monitor Monitor;
+typedef struct _MonitorPosition MonitorPosition;
+
+
+
+static gboolean
+rstto_monitor_chooser_draw (GtkWidget *widget,
+                            cairo_t *cr);
+static void
+rstto_monitor_chooser_realize (GtkWidget *widget);
+static void
+rstto_monitor_chooser_get_preferred_width (GtkWidget *widget,
+                                           gint *minimal_width,
+                                           gint *natural_width);
+static void
+rstto_monitor_chooser_get_preferred_height (GtkWidget *widget,
+                                            gint *minimal_height,
+                                            gint *natural_height);
+static void
+rstto_monitor_chooser_size_allocate (GtkWidget *widget,
+                                     GtkAllocation *allocation);
+
+
+static gboolean
+rstto_monitor_chooser_paint (GtkWidget *widget,
+                             cairo_t *ctx);
+static void
+cb_rstto_button_press_event (GtkWidget *widget,
+                             GdkEventButton *event);
+static void
+paint_monitor (GtkWidget *widget,
+               cairo_t *cr,
+               gdouble x,
+               gdouble y,
+               gdouble width,
+               gdouble height,
+               gchar *label,
+               Monitor *monitor,
+               gboolean active);
+
+
+
+struct _Monitor
+{
     gint width;
     gint height;
 
     cairo_surface_t *image_surface;
-} Monitor;
+};
 
-typedef struct {
+struct _MonitorPosition
+{
     guint x;
     guint y;
     guint width;
     guint height;
-} MonitorPosition;
+};
 
 struct _RsttoMonitorChooserPrivate
 {
@@ -45,42 +99,6 @@ struct _RsttoMonitorChooserPrivate
 
     MonitorPosition monitor_positions[RSTTO_MAX_MONITORS];
 };
-
-static void
-rstto_monitor_chooser_realize(GtkWidget *widget);
-static void
-rstto_monitor_chooser_get_preferred_width(GtkWidget *, gint *, gint *);
-static void
-rstto_monitor_chooser_get_preferred_height(GtkWidget *, gint *, gint *);
-static void
-rstto_monitor_chooser_size_allocate(GtkWidget *, GtkAllocation *);
-static gboolean 
-rstto_monitor_chooser_draw(GtkWidget *, cairo_t *);
-static gboolean
-rstto_monitor_chooser_paint(GtkWidget *widget, cairo_t *ctx);
-
-static void
-cb_rstto_button_press_event (GtkWidget *, GdkEventButton *event);
-
-static void
-paint_monitor ( GtkWidget *widget,
-                cairo_t *cr,
-                gdouble x,
-                gdouble y,
-                gdouble width,
-                gdouble height,
-                gchar *label,
-                Monitor *monitor,
-                gboolean active);
-
-enum
-{
-    RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED = 0,
-    RSTTO_MONITOR_CHOOSER_SIGNAL_COUNT
-};
-
-static gint
-rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_COUNT];
 
 
 

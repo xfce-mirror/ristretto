@@ -19,6 +19,7 @@
 
 #include <glib.h>
 #include <gdk/gdkkeysyms.h>
+
 #include <xfconf/xfconf.h>
 #include <libxfce4util/libxfce4util.h>
 
@@ -26,25 +27,7 @@
 #include "file.h"
 #include "settings.h"
 
-static void
-rstto_settings_finalize (GObject *object);
 
-static void
-rstto_settings_set_property    (GObject      *object,
-                                guint         property_id,
-                                const GValue *value,
-                                GParamSpec   *pspec);
-static void
-rstto_settings_get_property    (GObject    *object,
-                                guint       property_id,
-                                GValue     *value,
-                                GParamSpec *pspec);
-
-static void
-rstto_xfconf_ensure_gdkrgba (XfconfChannel *channel,
-                             const gchar *property);
-
-static RsttoSettings *settings_object;
 
 enum
 {
@@ -73,6 +56,29 @@ enum
     PROP_SORT_TYPE,
     PROP_THUMBNAIL_SIZE,
 };
+
+static RsttoSettings *settings_object;
+
+
+
+static void
+rstto_settings_finalize (GObject *object);
+static void
+rstto_settings_set_property (GObject *object,
+                             guint property_id,
+                             const GValue *value,
+                             GParamSpec *pspec);
+static void
+rstto_settings_get_property (GObject *object,
+                             guint property_id,
+                             GValue *value,
+                             GParamSpec *pspec);
+
+static void
+rstto_xfconf_ensure_gdkrgba (XfconfChannel *channel,
+                             const gchar *property);
+
+
 
 struct _RsttoSettingsPrivate
 {

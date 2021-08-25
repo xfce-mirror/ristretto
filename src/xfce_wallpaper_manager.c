@@ -17,15 +17,22 @@
  *  02110-1301, USA.
  */
 
+#include <X11/Xatom.h>
+
 #include <glib.h>
 #include <gdk/gdkx.h>
-#include <X11/Xatom.h>
+
 #include <xfconf/xfconf.h>
 #include <libxfce4ui/libxfce4ui.h>
 
 #include "file.h"
 #include "monitor_chooser.h"
 #include "xfce_wallpaper_manager.h"
+
+
+
+#define XFDESKTOP_SELECTION_FMT "XFDESKTOP_SELECTION_%d"
+#define SINGLE_WORKSPACE_MODE "/backdrop/single-workspace-mode"
 
 enum MonitorStyle
 {
@@ -37,16 +44,8 @@ enum MonitorStyle
     MONITOR_STYLE_ZOOMED
 };
 
+static RsttoWallpaperManager *xfce_wallpaper_manager_object;
 
-#define XFDESKTOP_SELECTION_FMT "XFDESKTOP_SELECTION_%d"
-#define SINGLE_WORKSPACE_MODE "/backdrop/single-workspace-mode"
-
-typedef struct {
-    guint16 r;
-    guint16 g;
-    guint16 b;
-    guint16 a;
-} RsttoColor;
 
 
 static void
@@ -57,25 +56,26 @@ rstto_xfce_wallpaper_manager_finalize (GObject *object);
 
 static gint
 rstto_get_active_workspace_number (GdkScreen *screen);
+static void
+configure_monitor_chooser_pixbuf (RsttoXfceWallpaperManager *manager);
+static void
+cb_style_combo_changed (GtkComboBox *style_combo,
+                        RsttoXfceWallpaperManager *manager);
+static void
+cb_monitor_chooser_changed (RsttoMonitorChooser *monitor_chooser,
+                            RsttoXfceWallpaperManager *manager);
+static void
+cb_workspace_mode_changed (GtkCheckButton *check_button,
+                           RsttoXfceWallpaperManager *manager);
 
-static void
-configure_monitor_chooser_pixbuf (
-    RsttoXfceWallpaperManager *manager );
 
-static void
-cb_style_combo_changed (
-        GtkComboBox *style_combo,
-        RsttoXfceWallpaperManager *manager);
-static void
-cb_monitor_chooser_changed (
-        RsttoMonitorChooser *monitor_chooser,
-        RsttoXfceWallpaperManager *manager);
-static void
-cb_workspace_mode_changed (
-        GtkCheckButton *check_button,
-        RsttoXfceWallpaperManager *manager);
 
-static RsttoWallpaperManager *xfce_wallpaper_manager_object;
+typedef struct {
+    guint16 r;
+    guint16 g;
+    guint16 b;
+    guint16 a;
+} RsttoColor;
 
 struct _RsttoXfceWallpaperManagerPrivate
 {
@@ -95,11 +95,6 @@ struct _RsttoXfceWallpaperManagerPrivate
     GtkWidget *check_button;
 
     GtkWidget *dialog;
-};
-
-enum
-{
-    PROP_0,
 };
 
 

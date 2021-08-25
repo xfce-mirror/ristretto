@@ -17,13 +17,15 @@
  *  02110-1301, USA.
  */
 
-#include <gio/gio.h>
-
 #include <math.h>
+
+#include <gio/gio.h>
 
 #include "util.h"
 #include "image_viewer.h"
 #include "settings.h"
+
+
 
 /* Do not make this buffer too large,
  * this breaks some pixbufloaders.
@@ -62,7 +64,152 @@ typedef enum
     RSTTO_IMAGE_VIEWER_MOTION_STATE_MOVE
 } RsttoImageViewerMotionState;
 
+static GdkScreen *default_screen = NULL;
+
 typedef struct _RsttoImageViewerTransaction RsttoImageViewerTransaction;
+
+
+static void
+rstto_image_viewer_finalize (GObject *object);
+static void
+rstto_image_viewer_set_property (GObject *object,
+                                 guint property_id,
+                                 const GValue *value,
+                                 GParamSpec *pspec);
+static void
+rstto_image_viewer_get_property (GObject *object,
+                                 guint property_id,
+                                 GValue *value,
+                                 GParamSpec *pspec);
+
+
+static gboolean
+rstto_image_viewer_draw (GtkWidget *widget,
+                         cairo_t *ctx);
+static void
+rstto_image_viewer_realize (GtkWidget *widget);
+static void
+rstto_image_viewer_get_preferred_width (GtkWidget *widget,
+                                        gint *minimal_width,
+                                        gint *natural_width);
+static void
+rstto_image_viewer_get_preferred_height (GtkWidget *widget,
+                                         gint *minimal_height,
+                                         gint *natural_height);
+static void
+rstto_image_viewer_size_allocate (GtkWidget *widget,
+                                  GtkAllocation *allocation);
+static gboolean
+rstto_scroll_event (GtkWidget *widget,
+                    GdkEventScroll *event);
+static gboolean
+rstto_button_press_event (GtkWidget *widget,
+                          GdkEventButton *event);
+static gboolean
+rstto_button_release_event (GtkWidget *widget,
+                            GdkEventButton *event);
+static gboolean
+rstto_motion_notify_event (GtkWidget *widget,
+                           GdkEventMotion *event);
+static gboolean
+rstto_popup_menu (GtkWidget *widget);
+
+
+static gboolean
+set_scale (RsttoImageViewer *viewer,
+           gdouble scale);
+static void
+paint_background (GtkWidget *widget,
+                  cairo_t *ctx);
+static void
+paint_background_icon (GtkWidget *widget,
+                       cairo_t *ctx);
+static void
+rstto_image_viewer_paint (GtkWidget *widget,
+                          cairo_t *ctx);
+static void
+cb_rstto_image_viewer_file_changed (RsttoFile *r_file,
+                                    RsttoImageViewer *viewer);
+static void
+rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer,
+                                     RsttoImageViewerMotionState state);
+static gboolean
+rstto_image_viewer_set_scroll_adjustments (RsttoImageViewer *viewer,
+                                           GtkAdjustment *hadjustment,
+                                           GtkAdjustment *vadjustment);
+static void
+cb_rstto_image_viewer_value_changed (GtkAdjustment *adjustment,
+                                     RsttoImageViewer *viewer);
+static void
+cb_rstto_image_viewer_read_file_ready (GObject *source_object,
+                                       GAsyncResult *result,
+                                       gpointer user_data);
+static void
+cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object,
+                                               GAsyncResult *result,
+                                               gpointer user_data);
+static void
+cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader,
+                                   RsttoImageViewerTransaction *transaction);
+static void
+cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader,
+                                     gint width,
+                                     gint height,
+                                     RsttoImageViewerTransaction *transaction);
+static void
+cb_rstto_image_loader_closed (GdkPixbufLoader *loader,
+                              RsttoImageViewerTransaction *transaction);
+static gboolean
+cb_rstto_image_viewer_update_pixbuf (gpointer user_data);
+static void
+cb_rstto_image_viewer_dnd (GtkWidget *widget,
+                           GdkDragContext *context,
+                           gint x,
+                           gint y,
+                           GtkSelectionData *data,
+                           guint info,
+                           guint time_,
+                           RsttoImageViewer *viewer);
+static void
+cb_rstto_limit_quality_changed (GObject *settings,
+                                GParamSpec *pspec,
+                                gpointer user_data);
+static void
+cb_rstto_bgcolor_changed (GObject *settings,
+                          GParamSpec *pspec,
+                          gpointer user_data);
+static void
+cb_rstto_zoom_direction_changed (GObject *settings,
+                                 GParamSpec *pspec,
+                                 gpointer user_data);
+static void
+rstto_image_viewer_load_image (RsttoImageViewer *viewer,
+                               RsttoFile *file,
+                               gdouble scale);
+static void
+rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr);
+
+
+
+struct _RsttoImageViewerTransaction
+{
+    RsttoImageViewer *viewer;
+    RsttoFile        *file;
+    GCancellable     *cancellable;
+    GdkPixbufLoader  *loader;
+
+    GError           *error;
+
+    gint              image_width;
+    gint              image_height;
+    gdouble           image_scale;
+    gdouble           scale;
+    RsttoImageOrientation orientation;
+
+    /* File I/O data */
+    /*****************/
+    guchar           *buffer;
+};
 
 struct _RsttoImageViewerPrivate
 {
@@ -127,150 +274,6 @@ struct _RsttoImageViewerPrivate
     /*************/
     void (*cb_value_changed)(GtkAdjustment *, RsttoImageViewer *);
 };
-
-
-struct _RsttoImageViewerTransaction
-{
-    RsttoImageViewer *viewer;
-    RsttoFile        *file;
-    GCancellable     *cancellable;
-    GdkPixbufLoader  *loader;
-
-    GError           *error;
-
-    gint              image_width;
-    gint              image_height;
-    gdouble           image_scale;
-    gdouble           scale;
-    RsttoImageOrientation orientation;
-
-    /* File I/O data */
-    /*****************/
-    guchar           *buffer;
-};
-
-static gboolean
-set_scale (
-        RsttoImageViewer *viewer,
-        gdouble scale );
-static void
-paint_background (
-        GtkWidget *widget,
-        cairo_t *ctx );
-static void
-paint_background_icon (
-        GtkWidget *widget,
-        cairo_t *ctx );
-
-
-static void
-rstto_image_viewer_finalize (GObject *object);
-
-static void
-rstto_image_viewer_get_preferred_width(GtkWidget *, gint *, gint *);
-static void
-rstto_image_viewer_get_preferred_height(GtkWidget *, gint *, gint *);
-static void
-rstto_image_viewer_size_allocate(GtkWidget *, GtkAllocation *);
-static void
-rstto_image_viewer_realize(GtkWidget *);
-static gboolean 
-rstto_image_viewer_draw(GtkWidget *, cairo_t *);
-static void
-rstto_image_viewer_paint (GtkWidget *widget, cairo_t *);
-
-static void
-rstto_image_viewer_set_property (
-        GObject      *object,
-        guint         property_id,
-        const GValue *value,
-        GParamSpec   *pspec);
-static void
-rstto_image_viewer_get_property (
-        GObject    *object,
-        guint       property_id,
-        GValue     *value,
-        GParamSpec *pspec);
-
-static void
-cb_rstto_image_viewer_file_changed (
-        RsttoFile        *r_file,
-        RsttoImageViewer *viewer );
-
-static void
-rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerMotionState state);
-
-static gboolean
-rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *, GtkAdjustment *, GtkAdjustment *);
-
-static void
-cb_rstto_image_viewer_value_changed(GtkAdjustment *adjustment, RsttoImageViewer *viewer);
-
-static void
-cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *result, gpointer user_data);
-static void
-cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncResult *result, gpointer user_data);
-static void
-cb_rstto_image_loader_image_ready (GdkPixbufLoader *, RsttoImageViewerTransaction *);
-static void
-cb_rstto_image_loader_size_prepared (GdkPixbufLoader *, gint , gint , RsttoImageViewerTransaction *);
-static void
-cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction);
-static gboolean
-cb_rstto_image_viewer_update_pixbuf (gpointer user_data);
-static void
-cb_rstto_image_viewer_dnd (GtkWidget *widget, GdkDragContext *context, gint x, gint y, GtkSelectionData *data,
-                           guint info, guint time_, RsttoImageViewer *viewer);
-
-static gboolean
-rstto_scroll_event (
-        GtkWidget *widget,
-        GdkEventScroll *event);
-
-static gboolean 
-rstto_motion_notify_event (
-        GtkWidget *widget,
-        GdkEventMotion *event);
-
-static gboolean
-rstto_button_press_event (
-        GtkWidget *widget,
-        GdkEventButton *event);
-
-static gboolean
-rstto_button_release_event (
-        GtkWidget *widget,
-        GdkEventButton *event);
-
-static gboolean
-rstto_popup_menu (
-        GtkWidget *widget);
-
-static void
-cb_rstto_limit_quality_changed (
-        GObject *settings,
-        GParamSpec *pspec,
-        gpointer user_data);
-static void
-cb_rstto_bgcolor_changed (
-        GObject *settings,
-        GParamSpec *pspec,
-        gpointer user_data);
-static void
-cb_rstto_zoom_direction_changed (
-        GObject *settings,
-        GParamSpec *pspec,
-        gpointer user_data);
-
-static void
-rstto_image_viewer_load_image (
-        RsttoImageViewer *viewer,
-        RsttoFile *file,
-        gdouble scale);
-static void
-rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr);
-
-static GdkScreen *default_screen = NULL;
 
 
 
@@ -363,16 +366,14 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
  * Initialize imageviewer class
  */
 static void
-rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
+rstto_image_viewer_class_init(RsttoImageViewerClass *klass)
 {
-    GParamSpec *pspec;
-    GtkWidgetClass *widget_class;
-    GObjectClass *object_class;
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
+    GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-    widget_class = (GtkWidgetClass*)viewer_class;
-    object_class = (GObjectClass*)viewer_class;
-
-    viewer_class->set_scroll_adjustments = rstto_image_viewer_set_scroll_adjustments;
+    object_class->finalize = rstto_image_viewer_finalize;
+    object_class->set_property = rstto_image_viewer_set_property;
+    object_class->get_property = rstto_image_viewer_get_property;
 
     widget_class->draw = rstto_image_viewer_draw;
     widget_class->realize = rstto_image_viewer_realize;
@@ -380,15 +381,12 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
     widget_class->get_preferred_height = rstto_image_viewer_get_preferred_height;
     widget_class->size_allocate = rstto_image_viewer_size_allocate;
     widget_class->scroll_event = rstto_scroll_event;
-
     widget_class->button_press_event = rstto_button_press_event;
     widget_class->button_release_event = rstto_button_release_event;
     widget_class->motion_notify_event = rstto_motion_notify_event;
     widget_class->popup_menu = rstto_popup_menu;
 
-    object_class->set_property = rstto_image_viewer_set_property;
-    object_class->get_property = rstto_image_viewer_get_property;
-    object_class->finalize      = rstto_image_viewer_finalize;
+    klass->set_scroll_adjustments = rstto_image_viewer_set_scroll_adjustments;
 
     g_signal_new (
             "size-ready",
@@ -421,16 +419,15 @@ rstto_image_viewer_class_init(RsttoImageViewerClass *viewer_class)
             G_TYPE_NONE, 1,
             G_TYPE_POINTER);
 
-    pspec = g_param_spec_boolean (
-            "show-clock",
-            "",
-            "",
-            FALSE,
-            G_PARAM_READWRITE);
     g_object_class_install_property (
             G_OBJECT_CLASS(object_class),
             PROP_SHOW_CLOCK,
-            pspec);
+            g_param_spec_boolean (
+                    "show-clock",
+                    "",
+                    "",
+                    FALSE,
+                    G_PARAM_READWRITE));
 
     /* Scrollable interface properties */
     g_object_class_override_property (

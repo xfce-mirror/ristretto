@@ -27,143 +27,7 @@
 #include "thumbnailer.h"
 #include "settings.h"
 
-static void
-rstto_image_list_tree_model_init (GtkTreeModelIface *iface);
-static void
-rstto_image_list_tree_sortable_init(GtkTreeSortableIface *iface);
 
-static void
-rstto_image_list_finalize(GObject *object);
-
-static void
-cb_file_monitor_changed (
-        GFileMonitor      *monitor,
-        GFile             *file,
-        GFile             *other_file,
-        GFileMonitorEvent  event_type,
-        gpointer           user_data );
-
-static void
-rstto_image_list_iter_finalize(GObject *object);
-static RsttoImageListIter *
-rstto_image_list_iter_new (
-        RsttoImageList *nav,
-        RsttoFile *r_file);
-
-static void
-cb_rstto_wrap_images_changed (
-        GObject *settings,
-        GParamSpec *pspec,
-        gpointer user_data);
-
-static void
-cb_rstto_thumbnailer_ready(
-        RsttoThumbnailer *thumbnailer,
-        RsttoFile *file,
-        gpointer user_data);
-
-static void
-rstto_image_list_monitor_dir (
-        RsttoImageList *image_list,
-        GFile *dir );
-
-static void
-rstto_image_list_remove_all (
-        RsttoImageList *image_list);
-
-static gboolean
-iter_next (
-        RsttoImageListIter *iter,
-        gboolean sticky);
-
-static gboolean
-iter_previous (
-        RsttoImageListIter *iter,
-        gboolean sticky);
-
-static void 
-iter_set_position (
-        RsttoImageListIter *iter,
-        gint pos,
-        gboolean sticky);
-
-/***************************************/
-/*  Begin TreeModelIface Functions     */
-/***************************************/
-
-static GtkTreeModelFlags
-image_list_model_get_flags ( GtkTreeModel *tree_model );
-
-static gint
-image_list_model_get_n_columns ( GtkTreeModel *tree_model );
-
-static GType
-image_list_model_get_column_type (
-        GtkTreeModel *tree_model,
-        gint index_ );
-
-static gboolean
-image_list_model_get_iter (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter,
-        GtkTreePath *path );
-
-static GtkTreePath *
-image_list_model_get_path (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter );
-
-static void 
-image_list_model_get_value (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter,
-        gint column,
-        GValue *value );
-
-static gboolean
-image_list_model_iter_children (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter,
-        GtkTreeIter *parent );
-
-static gboolean
-image_list_model_iter_has_child (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter );
-
-static gboolean
-image_list_model_iter_parent (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter,
-        GtkTreeIter *child );
-
-static gint
-image_list_model_iter_n_children (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter );
-
-static gboolean 
-image_list_model_iter_nth_child (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter,
-        GtkTreeIter *parent,
-        gint n );
-
-static gboolean
-image_list_model_iter_next (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter );
-
-/***************************************/
-/*  End TreeModelIface Functions       */
-/***************************************/
-
-static gint
-cb_rstto_image_list_image_name_compare_func (RsttoFile *a, RsttoFile *b);
-static gint
-cb_rstto_image_list_image_type_compare_func (RsttoFile *a, RsttoFile *b);
-static gint
-cb_rstto_image_list_exif_date_compare_func (RsttoFile *a, RsttoFile *b);
 
 enum
 {
@@ -178,6 +42,121 @@ enum
     RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE,
     RSTTO_IMAGE_LIST_ITER_SIGNAL_COUNT
 };
+
+static gint rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_COUNT];
+static gint rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_COUNT];
+
+
+
+static void
+rstto_image_list_tree_model_init (GtkTreeModelIface *iface);
+static void
+rstto_image_list_tree_sortable_init (GtkTreeSortableIface *iface);
+
+
+static void
+rstto_image_list_finalize (GObject *object);
+
+static void
+cb_file_monitor_changed (GFileMonitor *monitor,
+                         GFile *file,
+                         GFile *other_file,
+                         GFileMonitorEvent event_type,
+                         gpointer user_data);
+
+
+static void
+rstto_image_list_iter_finalize (GObject *object);
+
+static RsttoImageListIter *
+rstto_image_list_iter_new (RsttoImageList *nav,
+                           RsttoFile *r_file);
+
+static void
+cb_rstto_wrap_images_changed (GObject *settings,
+                              GParamSpec *pspec,
+                              gpointer user_data);
+static void
+cb_rstto_thumbnailer_ready (RsttoThumbnailer *thumbnailer,
+                            RsttoFile *file,
+                            gpointer user_data);
+static void
+rstto_image_list_monitor_dir (RsttoImageList *image_list,
+                              GFile *dir);
+static void
+rstto_image_list_remove_all (RsttoImageList *image_list);
+static gboolean
+iter_next (RsttoImageListIter *iter,
+           gboolean sticky);
+static gboolean
+iter_previous (RsttoImageListIter *iter,
+               gboolean sticky);
+static void 
+iter_set_position (RsttoImageListIter *iter,
+                   gint pos,
+                   gboolean sticky);
+
+
+/***************************************/
+/*  Begin TreeModelIface Functions     */
+/***************************************/
+static GtkTreeModelFlags
+image_list_model_get_flags (GtkTreeModel *tree_model);
+static gint
+image_list_model_get_n_columns (GtkTreeModel *tree_model);
+static GType
+image_list_model_get_column_type (GtkTreeModel *tree_model,
+                                  gint index_);
+static gboolean
+image_list_model_get_iter (GtkTreeModel *tree_model,
+                           GtkTreeIter *iter,
+                           GtkTreePath *path);
+static GtkTreePath *
+image_list_model_get_path (GtkTreeModel *tree_model,
+                           GtkTreeIter *iter);
+static void 
+image_list_model_get_value (GtkTreeModel *tree_model,
+                            GtkTreeIter *iter,
+                            gint column,
+                            GValue *value);
+static gboolean
+image_list_model_iter_children (GtkTreeModel *tree_model,
+                                GtkTreeIter *iter,
+                                GtkTreeIter *parent);
+static gboolean
+image_list_model_iter_has_child (GtkTreeModel *tree_model,
+                                 GtkTreeIter *iter);
+static gboolean
+image_list_model_iter_parent (GtkTreeModel *tree_model,
+                              GtkTreeIter *iter,
+                              GtkTreeIter *child);
+static gint
+image_list_model_iter_n_children (GtkTreeModel *tree_model,
+                                  GtkTreeIter *iter);
+static gboolean 
+image_list_model_iter_nth_child (GtkTreeModel *tree_model,
+                                 GtkTreeIter *iter,
+                                 GtkTreeIter *parent,
+                                 gint n);
+static gboolean
+image_list_model_iter_next (GtkTreeModel *tree_model,
+                            GtkTreeIter *iter);
+/***************************************/
+/*  End TreeModelIface Functions       */
+/***************************************/
+
+
+static gint
+cb_rstto_image_list_image_name_compare_func (RsttoFile *a,
+                                             RsttoFile *b);
+static gint
+cb_rstto_image_list_image_type_compare_func (RsttoFile *a,
+                                             RsttoFile *b);
+static gint
+cb_rstto_image_list_exif_date_compare_func (RsttoFile *a,
+                                            RsttoFile *b);
+
+
 
 struct _RsttoImageListIterPrivate
 {
@@ -218,9 +197,6 @@ struct _RsttoFileLoader
     guint            n_files;
     RsttoFile      **files;
 };
-
-static gint rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_COUNT];
-static gint rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_COUNT];
 
 
 

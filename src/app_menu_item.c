@@ -21,17 +21,21 @@
 
 #include "app_menu_item.h"
 
-struct _RsttoAppMenuItemPrivate
-{
-    GAppInfo *app_info;
-    GFile *file;
-};
+
 
 static void
 rstto_app_menu_item_finalize (GObject *object);
 
 static void
 rstto_app_menu_item_activate (GtkMenuItem *object);
+
+
+
+struct _RsttoAppMenuItemPrivate
+{
+    GAppInfo *app_info;
+    GFile *file;
+};
 
 
 
@@ -48,15 +52,13 @@ rstto_app_menu_item_init (RsttoAppMenuItem *menu_item)
 }
 
 static void
-rstto_app_menu_item_class_init (RsttoAppMenuItemClass *app_menu_item_class)
+rstto_app_menu_item_class_init (RsttoAppMenuItemClass *klass)
 {
-    GtkMenuItemClass *menu_item_class;
-    GObjectClass *object_class;
-
-    object_class = G_OBJECT_CLASS (app_menu_item_class);
-    menu_item_class = GTK_MENU_ITEM_CLASS (app_menu_item_class);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
+    GtkMenuItemClass *menu_item_class = GTK_MENU_ITEM_CLASS (klass);
 
     object_class->finalize = rstto_app_menu_item_finalize;
+
     menu_item_class->activate = rstto_app_menu_item_activate;
 }
 

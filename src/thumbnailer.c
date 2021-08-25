@@ -30,38 +30,7 @@
 #include "thumbnailer.h"
 #include "tumbler.h"
 
-static void
-rstto_thumbnailer_finalize (GObject *object);
 
-static void
-rstto_thumbnailer_set_property (
-        GObject      *object,
-        guint         property_id,
-        const GValue *value,
-        GParamSpec   *pspec);
-static void
-rstto_thumbnailer_get_property (
-        GObject    *object,
-        guint       property_id,
-        GValue     *value,
-        GParamSpec *pspec);
-
-static void
-cb_rstto_thumbnailer_request_finished (
-        TumblerThumbnailer1 *proxy,
-        guint arg_handle,
-        gpointer data);
-static void
-cb_rstto_thumbnailer_thumbnail_ready (
-        TumblerThumbnailer1 *proxy,
-        guint handle,
-        const gchar *const *uri,
-        gpointer data);
-
-static gboolean
-rstto_thumbnailer_queue_request_timer (gpointer user_data);
-
-static RsttoThumbnailer *thumbnailer_object;
 
 enum
 {
@@ -71,10 +40,26 @@ enum
 
 static gint rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_COUNT];
 
-enum
-{
-    PROP_0,
-};
+static RsttoThumbnailer *thumbnailer_object;
+
+
+
+static void
+rstto_thumbnailer_finalize (GObject *object);
+
+static void
+cb_rstto_thumbnailer_request_finished (TumblerThumbnailer1 *proxy,
+                                       guint arg_handle,
+                                       gpointer data);
+static void
+cb_rstto_thumbnailer_thumbnail_ready (TumblerThumbnailer1 *proxy,
+                                      guint handle,
+                                      const gchar *const *uri,
+                                      gpointer data);
+static gboolean
+rstto_thumbnailer_queue_request_timer (gpointer user_data);
+
+
 
 struct _RsttoThumbnailerPrivate
 {
@@ -139,8 +124,6 @@ rstto_thumbnailer_class_init (RsttoThumbnailerClass *klass)
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_thumbnailer_finalize;
-    object_class->set_property = rstto_thumbnailer_set_property;
-    object_class->get_property = rstto_thumbnailer_get_property;
 
     rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY] = g_signal_new("ready",
             G_TYPE_FROM_CLASS(klass),
@@ -194,35 +177,6 @@ rstto_thumbnailer_new (void)
     }
 
     return thumbnailer_object;
-}
-
-
-static void
-rstto_thumbnailer_set_property (
-        GObject      *object,
-        guint         property_id,
-        const GValue *value,
-        GParamSpec   *pspec)
-{
-    switch (property_id)
-    {
-        default:
-            break;
-    }
-}
-
-static void
-rstto_thumbnailer_get_property (
-        GObject    *object,
-        guint       property_id,
-        GValue     *value,
-        GParamSpec *pspec)
-{
-    switch (property_id)
-    {
-        default:
-            break;
-    }
 }
 
 void

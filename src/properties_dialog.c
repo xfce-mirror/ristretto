@@ -25,27 +25,9 @@
 #include "file.h"
 #include "properties_dialog.h"
 
+
+
 #define EXIF_DATA_BUFFER_SIZE 40
-
-static void
-rstto_properties_dialog_finalize (GObject *object);
-
-static void
-rstto_properties_dialog_set_property (
-        GObject      *object,
-        guint         property_id,
-        const GValue *value,
-        GParamSpec   *pspec);
-static void
-rstto_properties_dialog_get_property (
-        GObject    *object,
-        guint       property_id,
-        GValue     *value,
-        GParamSpec *pspec);
-static void
-properties_dialog_set_file (
-        RsttoPropertiesDialog *dialog,
-        RsttoFile *file);
 
 enum
 {
@@ -61,6 +43,26 @@ enum
     PROP_0,
     PROP_FILE,
 };
+
+
+
+static void
+rstto_properties_dialog_finalize (GObject *object);
+static void
+rstto_properties_dialog_set_property (GObject *object,
+                                      guint property_id,
+                                      const GValue *value,
+                                      GParamSpec *pspec);
+static void
+rstto_properties_dialog_get_property (GObject *object,
+                                      guint property_id,
+                                      GValue *value,
+                                      GParamSpec *pspec);
+static void
+properties_dialog_set_file (RsttoPropertiesDialog *dialog,
+                            RsttoFile *file);
+
+
 
 struct _RsttoPropertiesDialogPrivate
 {
@@ -192,21 +194,18 @@ static void
 rstto_properties_dialog_class_init (RsttoPropertiesDialogClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
-    GParamSpec   *pspec;
 
     object_class->finalize = rstto_properties_dialog_finalize;
-
     object_class->set_property = rstto_properties_dialog_set_property;
     object_class->get_property = rstto_properties_dialog_get_property;
 
-    pspec = g_param_spec_object ("file",
-                                 "",
-                                 "",
-                                 RSTTO_TYPE_FILE,
-                                 G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_FILE,
-                                     pspec);
+                                     g_param_spec_object ("file",
+                                                          "",
+                                                          "",
+                                                          RSTTO_TYPE_FILE,
+                                                          G_PARAM_READWRITE));
 }
 
 static void

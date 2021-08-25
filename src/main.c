@@ -22,10 +22,9 @@
 
 #include <glib.h>
 #include <gio/gio.h>
-
-#include <xfconf/xfconf.h>
 #include <gtk/gtk.h>
 
+#include <xfconf/xfconf.h>
 #include <libxfce4ui/libxfce4ui.h>
 
 #include "file.h"
@@ -35,21 +34,18 @@
 #include "preferences_dialog.h"
 
 
+
 gboolean version = FALSE;
 gboolean start_fullscreen = FALSE;
 gboolean start_slideshow = FALSE;
 gboolean show_settings = FALSE;
 
-typedef struct {
-    RsttoImageList *image_list;
-    gint argc;
-    gchar **argv;
-    gint iter;
-    GtkWidget *window;
-} RsttoOpenFiles;
+
 
 static gboolean
 cb_rstto_open_files (gpointer user_data);
+
+
 
 static GOptionEntry entries[] =
 {
@@ -75,6 +71,18 @@ static GOptionEntry entries[] =
     },
     { NULL, ' ', 0, 0, NULL, NULL, NULL }
 };
+
+
+
+typedef struct {
+    RsttoImageList *image_list;
+    gint argc;
+    gchar **argv;
+    gint iter;
+    GtkWidget *window;
+} RsttoOpenFiles;
+
+
 
 int
 main(int argc, char **argv)

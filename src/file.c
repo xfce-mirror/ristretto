@@ -18,15 +18,18 @@
  */
 
 #include <config.h>
-#include <gio/gio.h>
 #include <string.h>
 
 #ifdef HAVE_MAGIC_H
 #include <magic.h>
 #endif
 
+#include <gio/gio.h>
+
 #include "file.h"
 #include "thumbnailer.h"
+
+
 
 static guint rstto_thumbnail_size[] =
 {
@@ -45,31 +48,16 @@ enum
     RSTTO_FILE_SIGNAL_COUNT
 };
 
-static gint
-rstto_file_signals[RSTTO_FILE_SIGNAL_COUNT];
+static gint rstto_file_signals[RSTTO_FILE_SIGNAL_COUNT];
+
+static GList *open_files = NULL;
+
+
 
 static void
 rstto_file_finalize (GObject *object);
 
-static void
-rstto_file_set_property (
-        GObject      *object,
-        guint         property_id,
-        const GValue *value,
-        GParamSpec   *pspec );
-static void
-rstto_file_get_property (
-        GObject    *object,
-        guint       property_id,
-        GValue     *value,
-        GParamSpec *pspec );
 
-static GList *open_files = NULL;
-
-enum
-{
-    PROP_0,
-};
 
 struct _RsttoFilePrivate
 {
@@ -108,9 +96,6 @@ rstto_file_class_init (RsttoFileClass *klass)
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_file_finalize;
-
-    object_class->set_property = rstto_file_set_property;
-    object_class->get_property = rstto_file_get_property;
 
     rstto_file_signals[RSTTO_FILE_SIGNAL_CHANGED] = g_signal_new("changed",
             G_TYPE_FROM_CLASS(object_class),
@@ -225,25 +210,6 @@ rstto_file_new ( GFile *file )
     open_files = g_list_append (open_files, r_file);
 
     return r_file;
-}
-
-
-static void
-rstto_file_set_property (
-        GObject *object,
-        guint property_id,
-        const GValue *value,
-        GParamSpec *pspec )
-{
-}
-
-static void
-rstto_file_get_property (
-        GObject *object,
-        guint property_id,
-        GValue *value,
-        GParamSpec *pspec )
-{
 }
 
 GFile *

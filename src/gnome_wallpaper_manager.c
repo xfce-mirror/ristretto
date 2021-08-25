@@ -18,12 +18,15 @@
  */
 
 #include <gdk/gdkx.h>
+
 #include <libxfce4util/libxfce4util.h>
 #include <libxfce4ui/libxfce4ui.h>
 
 #include "file.h"
 #include "monitor_chooser.h"
 #include "gnome_wallpaper_manager.h"
+
+
 
 enum MonitorStyle
 {
@@ -41,7 +44,10 @@ enum ColorStyle
     COLOR_STYLE_HORIZONTAL_GRADIENT,
     COLOR_STYLE_VERTICAL_GRADIENT
 };
-	
+
+static RsttoWallpaperManager *gnome_wallpaper_manager_object = NULL;
+
+
 
 static void
 rstto_gnome_wallpaper_manager_iface_init (RsttoWallpaperManagerInterface *iface);
@@ -50,18 +56,15 @@ static void
 rstto_gnome_wallpaper_manager_finalize (GObject *object);
 
 static void
-cb_monitor_chooser_changed (
-        RsttoMonitorChooser *monitor_chooser,
-        RsttoGnomeWallpaperManager *manager);
+cb_monitor_chooser_changed (RsttoMonitorChooser *monitor_chooser,
+                            RsttoGnomeWallpaperManager *manager);
 static void
-cb_style_combo_changed (
-        GtkComboBox *style_combo,
-        RsttoGnomeWallpaperManager *manager);
-
+cb_style_combo_changed (GtkComboBox *style_combo,
+                        RsttoGnomeWallpaperManager *manager);
 static void
 configure_monitor_chooser_pixbuf (RsttoGnomeWallpaperManager *manager);
 
-static RsttoWallpaperManager *gnome_wallpaper_manager_object = NULL;
+
 
 struct _RsttoGnomeWallpaperManagerPrivate
 {
@@ -76,12 +79,6 @@ struct _RsttoGnomeWallpaperManagerPrivate
     GtkWidget *style_combo;
 
     GtkWidget *dialog;
-};
-
-
-enum
-{
-    PROP_0,
 };
 
 

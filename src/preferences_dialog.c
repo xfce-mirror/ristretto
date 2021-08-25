@@ -23,6 +23,8 @@
 #include "settings.h"
 #include "preferences_dialog.h"
 
+
+
 #ifndef RSTTO_MIN_CACHE_SIZE
 #define RSTTO_MIN_CACHE_SIZE 16
 #endif
@@ -32,55 +34,46 @@
 #endif
 
 
+
 static void
 rstto_preferences_dialog_finalize (GObject *object);
 
 
 static void
-cb_bgcolor_override_toggled (
-        GtkToggleButton *,
-        gpointer user_data);
+cb_bgcolor_override_toggled (GtkToggleButton *button,
+                             gpointer user_data);
 static void
-cb_bgcolor_color_set (
-        GtkColorButton *,
-        gpointer user_data);
+cb_bgcolor_color_set (GtkColorButton *button,
+                      gpointer user_data);
 static void
-cb_invert_zoom_direction_check_button_toggled (
-        GtkToggleButton *,
-        gpointer user_data);
+cb_invert_zoom_direction_check_button_toggled (GtkToggleButton *button,
+                                               gpointer user_data);
+static void
+cb_hide_thumbnails_fullscreen_check_button_toggled (GtkToggleButton *button,
+                                                    gpointer user_data);
+static void
+cb_show_clock_check_button_toggled (GtkToggleButton *button,
+                                    gpointer user_data);
+static void
+cb_cursor_timeout_button_value_changed (GtkSpinButton *spin_button,
+                                        gpointer user_data);
+static void
+cb_limit_quality_check_button_toggled (GtkToggleButton *button,
+                                       gpointer user_data);
+static void
+cb_wrap_images_check_button_toggled (GtkToggleButton *button,
+                                     gpointer user_data);
+static void
+cb_maximize_on_startup_check_button_toggled (GtkToggleButton *button,
+                                             gpointer user_data);
+static void
+cb_choose_desktop_combo_box_changed (GtkComboBox *combo_box,
+                                     gpointer user_data);
+static void
+cb_slideshow_timeout_value_changed (GtkRange *range,
+                                    gpointer user_data);
 
-static void
-cb_hide_thumbnails_fullscreen_check_button_toggled (
-        GtkToggleButton *button, 
-        gpointer user_data);
-static void
-cb_show_clock_check_button_toggled (
-        GtkToggleButton *button, 
-        gpointer user_data);
-static void
-cb_cursor_timeout_button_value_changed (
-        GtkSpinButton *spin_button,
-        gpointer user_data);
-static void
-cb_limit_quality_check_button_toggled (
-        GtkToggleButton *button, 
-        gpointer user_data);
-static void
-cb_wrap_images_check_button_toggled (
-        GtkToggleButton *button, 
-        gpointer user_data);
-static void
-cb_maximize_on_startup_check_button_toggled (
-        GtkToggleButton *button, 
-        gpointer user_data);
-static void
-cb_choose_desktop_combo_box_changed (
-        GtkComboBox *combo_box,
-        gpointer user_data);
-static void
-cb_slideshow_timeout_value_changed (
-        GtkRange *range,
-        gpointer user_data);
+
 
 struct _RsttoPreferencesDialogPrivate
 {
