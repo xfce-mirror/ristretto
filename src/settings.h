@@ -24,6 +24,15 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+    SORT_TYPE_NAME = 0,
+    SORT_TYPE_TYPE,
+    SORT_TYPE_DATE,
+    SORT_TYPE_COUNT,
+} RsttoSortType;
+
+
+
 #define RSTTO_TYPE_SETTINGS rstto_settings_get_type()
 
 #define RSTTO_SETTINGS(obj)( \

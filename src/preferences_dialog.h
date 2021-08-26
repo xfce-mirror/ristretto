@@ -24,6 +24,15 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+    DESKTOP_TYPE_NONE = 0,
+    DESKTOP_TYPE_XFCE,
+    DESKTOP_TYPE_GNOME,
+    DESKTOP_TYPE_COUNT
+} RsttoDesktopType;
+
+
+
 #define RSTTO_TYPE_PREFERENCES_DIALOG rstto_preferences_dialog_get_type()
 
 #define RSTTO_PREFERENCES_DIALOG(obj)( \

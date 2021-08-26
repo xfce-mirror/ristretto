@@ -23,6 +23,7 @@
 #include <libxfce4util/libxfce4util.h>
 
 #include "util.h"
+#include "file.h"
 #include "settings.h"
 
 static void
