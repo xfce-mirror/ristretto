@@ -3215,13 +3215,9 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     GFile *file;
     GFile *p_file;
     GSList *files = NULL, *_files_iter;
-    GValue current_uri_val = { 0, };
     GtkFileFilter *filter;
     RsttoFile *r_file = NULL;
-    gchar *tmp;
-
-    g_value_init (&current_uri_val, G_TYPE_STRING);
-    g_object_get_property (G_OBJECT (window->priv->settings_manager), "current-uri", &current_uri_val);
+    gchar *str;
 
     filter = gtk_file_filter_new ();
 
@@ -3235,12 +3231,13 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
     gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
 
-    if (g_value_get_string (&current_uri_val))
+    g_object_get (window->priv->settings_manager, "current-uri", &str, NULL);
+    if (str != NULL)
     {
-        if (strlen (g_value_get_string (&current_uri_val)) > 0)
-        {
-            gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), g_value_get_string (&current_uri_val));
-        }
+        if (strlen (str) > 0)
+            gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), str);
+
+        g_free (str);
     }
 
     gtk_file_filter_add_pixbuf_formats (filter);
@@ -3348,10 +3345,9 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
             }
         }
 
-        tmp = gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog));
-        g_value_take_string (&current_uri_val, tmp);
-        g_object_set_property (G_OBJECT (window->priv->settings_manager), "current-uri", &current_uri_val);
-        g_value_unset (&current_uri_val);
+        str = gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog));
+        g_object_set (window->priv->settings_manager, "current-uri", str, NULL);
+        g_free (str);
     }
 
     gtk_widget_destroy (dialog);
@@ -4560,7 +4556,7 @@ cb_rstto_desktop_type_changed (
 gboolean
 rstto_main_window_play_slideshow (RsttoMainWindow *window)
 {
-    GValue timeout = { 0, };
+    guint timeout;
 
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     gtk_ui_manager_add_ui (window->priv->ui_manager,
@@ -4586,17 +4582,12 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
             window->priv->toolbar_play_merge_id);
 G_GNUC_END_IGNORE_DEPRECATIONS
 
-    g_value_init (&timeout, G_TYPE_UINT);
-
-    g_object_get_property (
-            G_OBJECT (window->priv->settings_manager),
-            "slideshow-timeout",
-            &timeout);
+    g_object_get (window->priv->settings_manager, "slideshow-timeout", &timeout, NULL);
 
     window->priv->playing = TRUE;
-    g_timeout_add (g_value_get_uint (&timeout) * 1000,
-                   cb_rstto_main_window_play_slideshow,
+    g_timeout_add (timeout * 1000, cb_rstto_main_window_play_slideshow,
                    rstto_util_source_autoremove (window));
+
     return TRUE;
 }
 

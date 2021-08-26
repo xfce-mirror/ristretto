@@ -2024,19 +2024,10 @@ cb_rstto_thumbnail_size_changed (
         GParamSpec *pspec,
         gpointer user_data)
 {
-    GValue val_thumbnail_size = { 0, };
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (user_data);
     gboolean auto_center = icon_bar->priv->auto_center;
 
-    g_value_init (&val_thumbnail_size, G_TYPE_UINT);
-
-    g_object_get_property (
-            settings,
-            "thumbnail-size",
-            &val_thumbnail_size);
-
-
-    icon_bar->priv->thumbnail_size = g_value_get_uint (&val_thumbnail_size);
+    g_object_get (settings, "thumbnail-size", &(icon_bar->priv->thumbnail_size), NULL);
 
     rstto_icon_bar_invalidate (icon_bar);
 

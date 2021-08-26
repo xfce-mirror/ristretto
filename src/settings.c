@@ -924,28 +924,25 @@ rstto_settings_get_property (GObject    *object,
 void
 rstto_settings_set_navbar_position (RsttoSettings *settings, guint pos)
 {
-    GValue val = { 0, };
-    g_value_init (&val, G_TYPE_STRING);
+    const gchar *str;
 
     switch (pos)
     {
         default:
-            g_value_set_string (&val, "left");
+            str = "left";
             break;
         case 1:
-            g_value_set_string (&val, "right");
+            str = "right";
             break;
         case 2:
-            g_value_set_string (&val, "top");
+            str = "top";
             break;
         case 3:
-            g_value_set_string (&val, "bottom");
+            str = "bottom";
             break;
     }
 
-    g_object_set_property (G_OBJECT (settings), "navigationbar-position", &val);
-
-    g_value_reset (&val);
+    g_object_set (settings, "navigationbar-position", str, NULL);
 }
 
 guint
@@ -971,14 +968,7 @@ rstto_settings_set_uint_property (RsttoSettings *settings,
                                   const gchar *property_name,
                                   guint value)
 {
-    GValue val = { 0, };
-    g_value_init (&val, G_TYPE_UINT);
-
-    g_value_set_uint (&val, value);
-
-    g_object_set_property (G_OBJECT (settings), property_name, &val);
-
-    g_value_reset (&val);
+    g_object_set (settings, property_name, value, NULL);
 }
 
 guint
@@ -986,44 +976,27 @@ rstto_settings_get_uint_property (RsttoSettings *settings,
                                   const gchar *property_name)
 {
     guint value;
-    GValue val = { 0, };
-    g_value_init (&val, G_TYPE_UINT);
 
-    g_object_get_property (G_OBJECT (settings), property_name, &val);
-    value = g_value_get_uint (&val);
-
-    g_value_reset (&val);
+    g_object_get (settings, property_name, &value, NULL);
 
     return value;
 }
 
 void
 rstto_settings_set_int_property (RsttoSettings *settings,
-                                  const gchar *property_name,
-                                  gint value)
+                                 const gchar *property_name,
+                                 gint value)
 {
-    GValue val = { 0, };
-    g_value_init (&val, G_TYPE_INT);
-
-    g_value_set_int (&val, value);
-
-    g_object_set_property (G_OBJECT (settings), property_name, &val);
-
-    g_value_reset (&val);
+    g_object_set (settings, property_name, value, NULL);
 }
 
 gint
 rstto_settings_get_int_property (RsttoSettings *settings,
-                                  const gchar *property_name)
+                                 const gchar *property_name)
 {
     gint value;
-    GValue val = { 0, };
-    g_value_init (&val, G_TYPE_INT);
 
-    g_object_get_property (G_OBJECT (settings), property_name, &val);
-    value = g_value_get_int (&val);
-
-    g_value_reset (&val);
+    g_object_get (settings, property_name, &value, NULL);
 
     return value;
 }
@@ -1033,28 +1006,16 @@ rstto_settings_set_string_property (RsttoSettings *settings,
                                     const gchar *property_name,
                                     const gchar *value)
 {
-    GValue val = { 0, };
-    g_value_init (&val, G_TYPE_STRING);
-
-    g_value_set_string (&val, value);
-
-    g_object_set_property (G_OBJECT (settings), property_name, &val);
-
-    g_value_reset (&val);
+    g_object_set (settings, property_name, value, NULL);
 }
 
 gchar *
 rstto_settings_get_string_property (RsttoSettings *settings,
-                                  const gchar *property_name)
+                                    const gchar *property_name)
 {
     gchar *value = NULL;
-    GValue val = { 0, };
-    g_value_init (&val, G_TYPE_STRING);
 
-    g_object_get_property (G_OBJECT (settings), property_name, &val);
-    value = g_value_dup_string (&val);
-
-    g_value_reset (&val);
+    g_object_get (settings, property_name, &value, NULL);
 
     return value;
 }
@@ -1064,14 +1025,7 @@ rstto_settings_set_boolean_property (RsttoSettings *settings,
                                      const gchar *property_name,
                                      gboolean value)
 {
-    GValue val = { 0, };
-    g_value_init (&val, G_TYPE_BOOLEAN);
-
-    g_value_set_boolean (&val, value);
-
-    g_object_set_property (G_OBJECT (settings), property_name, &val);
-
-    g_value_reset (&val);
+    g_object_set (settings, property_name, value, NULL);
 }
 
 gboolean
@@ -1079,13 +1033,8 @@ rstto_settings_get_boolean_property (RsttoSettings *settings,
                                      const gchar *property_name)
 {
     gboolean value;
-    GValue val = { 0, };
-    g_value_init (&val, G_TYPE_BOOLEAN);
 
-    g_object_get_property (G_OBJECT (settings), property_name, &val);
-    value = g_value_get_boolean (&val);
-
-    g_value_reset (&val);
+    g_object_get (settings, property_name, &value, NULL);
 
     return value;
 }

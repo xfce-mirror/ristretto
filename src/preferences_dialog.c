@@ -620,24 +620,13 @@ cb_bgcolor_color_set (
         GtkColorButton *button,
         gpointer user_data)
 {
-    /* Variable Section */
-
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-    GValue bgcolor_val = { 0, };
+    GdkRGBA *bgcolor;
 
+    g_object_get (button, "rgba", &bgcolor, NULL);
+    g_object_set (dialog->priv->settings, "bgcolor", bgcolor, NULL);
 
-    /* Code Section */
-
-    g_value_init (&bgcolor_val, GDK_TYPE_RGBA);
-
-    g_object_get_property (
-            G_OBJECT (button),
-            "rgba",
-            &bgcolor_val);
-    g_object_set_property (
-            G_OBJECT (dialog->priv->settings),
-            "bgcolor",
-            &bgcolor_val);
+    gdk_rgba_free (bgcolor);
 }
 
 /**

@@ -292,6 +292,8 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv = rstto_image_viewer_get_instance_private (viewer);
     viewer->priv->cb_value_changed = cb_rstto_image_viewer_value_changed;
     viewer->priv->settings = rstto_settings_new ();
+    viewer->priv->bg_color = NULL;
+    viewer->priv->bg_color_fs = NULL;
     viewer->priv->image_width = 0;
     viewer->priv->image_height = 0;
 
@@ -453,27 +455,16 @@ static void
 rstto_image_viewer_realize (GtkWidget *widget)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-    GValue val_bg_color = { 0, };
-    GValue val_bg_color_override = { 0, };
-    GValue val_bg_color_fs = { 0, };
-    GValue val_limit_quality = { 0, };
-    GValue val_invert_zoom = { 0, };
-
     GtkAllocation allocation;
     GdkWindowAttr attributes;
     GdkWindow *window;
     gint attributes_mask;
+    gboolean bg_color_override;
 
     g_return_if_fail (widget != NULL);
     g_return_if_fail (RSTTO_IS_IMAGE_VIEWER (widget));
 
     gtk_widget_set_realized (widget, TRUE);
-
-    g_value_init (&val_bg_color, GDK_TYPE_RGBA);
-    g_value_init (&val_bg_color_fs, GDK_TYPE_RGBA);
-    g_value_init (&val_bg_color_override, G_TYPE_BOOLEAN);
-    g_value_init (&val_limit_quality, G_TYPE_BOOLEAN);
-    g_value_init (&val_invert_zoom, G_TYPE_BOOLEAN);
 
     gtk_widget_get_allocation (widget, &allocation);
     attributes.x = allocation.x;
@@ -491,43 +482,18 @@ rstto_image_viewer_realize (GtkWidget *widget)
     gdk_window_set_user_data (window, widget);
     g_object_ref (window);
 
-    g_object_get_property (
-            G_OBJECT (viewer->priv->settings),
-            "bgcolor",
-            &val_bg_color);
-    g_object_get_property (
-            G_OBJECT (viewer->priv->settings),
-            "bgcolor-override",
-            &val_bg_color_override);
-    g_object_get_property (
-            G_OBJECT (viewer->priv->settings),
-            "bgcolor-fullscreen",
-            &val_bg_color_fs);
-    g_object_get_property (
-            G_OBJECT (viewer->priv->settings),
-            "limit-quality",
-            &val_limit_quality);
-    g_object_get_property (
-            G_OBJECT (viewer->priv->settings),
-            "invert-zoom-direction",
-            &val_invert_zoom);
+    g_object_get (viewer->priv->settings, "bgcolor-fullscreen",
+                  &(viewer->priv->bg_color_fs), NULL);
+    g_object_get (viewer->priv->settings, "limit-quality",
+                  &(viewer->priv->limit_quality), NULL);
+    g_object_get (viewer->priv->settings, "invert-zoom-direction",
+                  &(viewer->priv->invert_zoom_direction), NULL);
 
-    viewer->priv->limit_quality = g_value_get_boolean (&val_limit_quality);
-    viewer->priv->invert_zoom_direction = g_value_get_boolean (&val_invert_zoom);
-
-    if (g_value_get_boolean (&val_bg_color_override))
-    {
-        viewer->priv->bg_color = g_value_get_boxed (&val_bg_color);
-    }
+    g_object_get (viewer->priv->settings, "bgcolor-override", &bg_color_override, NULL);
+    if (bg_color_override)
+        g_object_get (viewer->priv->settings, "bgcolor", &(viewer->priv->bg_color), NULL);
     else
-    {
         viewer->priv->bg_color = NULL;
-    }
-
-    viewer->priv->bg_color_fs = g_value_get_boxed (&val_bg_color_fs);
-
-    g_value_unset (&val_bg_color);
-    g_value_unset (&val_bg_color_fs);
 }
 
 /**
@@ -613,6 +579,16 @@ rstto_image_viewer_finalize (GObject *object)
     {
         g_object_unref (viewer->priv->settings);
         viewer->priv->settings = NULL;
+    }
+    if (viewer->priv->bg_color)
+    {
+        gdk_rgba_free (viewer->priv->bg_color);
+        viewer->priv->bg_color = NULL;
+    }
+    if (viewer->priv->bg_color_fs)
+    {
+        gdk_rgba_free (viewer->priv->bg_color_fs);
+        viewer->priv->bg_color_fs = NULL;
     }
     if (viewer->priv->bg_icon)
     {
@@ -2534,25 +2510,10 @@ cb_rstto_limit_quality_changed (GObject *settings, GParamSpec *pspec, gpointer u
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
 
-    GValue val_limit_quality = { 0, };
-
-    g_value_init (&val_limit_quality, G_TYPE_BOOLEAN);
-
-    g_object_get_property (
-            G_OBJECT (viewer->priv->settings),
-            "limit-quality",
-            &val_limit_quality);
-
-    viewer->priv->limit_quality = g_value_get_boolean (
-            &val_limit_quality);
+    g_object_get (viewer->priv->settings, "limit-quality", &(viewer->priv->limit_quality), NULL);
 
     if (NULL != viewer->priv->file)
-    {
-        rstto_image_viewer_load_image (
-                viewer,
-                viewer->priv->file,
-                viewer->priv->scale);
-    }
+        rstto_image_viewer_load_image (viewer, viewer->priv->file, viewer->priv->scale);
 }
 
 static void
@@ -2560,42 +2521,20 @@ cb_rstto_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_da
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
     GtkWidget *widget = GTK_WIDGET (user_data);
+    gboolean bg_color_override;
 
-    GValue val_bg_color = { 0, };
-    GValue val_bg_color_override = { 0, };
-    GValue val_bg_color_fs = { 0, };
+    gdk_rgba_free (viewer->priv->bg_color_fs);
+    g_object_get (viewer->priv->settings, "bgcolor-fullscreen",
+                  &(viewer->priv->bg_color_fs), NULL);
 
-    g_value_init (&val_bg_color, GDK_TYPE_RGBA);
-    g_value_init (&val_bg_color_fs, GDK_TYPE_RGBA);
-    g_value_init (&val_bg_color_override, G_TYPE_BOOLEAN);
-
-    g_object_get_property (
-            G_OBJECT (viewer->priv->settings),
-            "bgcolor",
-            &val_bg_color);
-    g_object_get_property (
-            G_OBJECT (viewer->priv->settings),
-            "bgcolor-override",
-            &val_bg_color_override);
-    g_object_get_property (
-            G_OBJECT (viewer->priv->settings),
-            "bgcolor-fullscreen",
-            &val_bg_color_fs);
-
-    if (g_value_get_boolean (&val_bg_color_override))
-    {
-        viewer->priv->bg_color = g_value_get_boxed (&val_bg_color);
-    }
+    gdk_rgba_free (viewer->priv->bg_color);
+    g_object_get (viewer->priv->settings, "bgcolor-override", &bg_color_override, NULL);
+    if (bg_color_override)
+        g_object_get (viewer->priv->settings, "bgcolor", &(viewer->priv->bg_color), NULL);
     else
-    {
         viewer->priv->bg_color = NULL;
-    }
-    viewer->priv->bg_color_fs = g_value_get_boxed (&val_bg_color_fs);
 
-    gdk_window_invalidate_rect (
-            gtk_widget_get_window (widget),
-            NULL,
-            FALSE);
+    gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
 }
 
 static void

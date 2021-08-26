@@ -1347,18 +1347,9 @@ cb_rstto_wrap_images_changed (
         GParamSpec *pspec,
         gpointer user_data)
 {
-    GValue val_wrap_images = { 0, };
-
     RsttoImageList *image_list = RSTTO_IMAGE_LIST (user_data);
 
-    g_value_init (&val_wrap_images, G_TYPE_BOOLEAN);
-
-    g_object_get_property (
-            settings,
-            "wrap-images",
-            &val_wrap_images);
-
-    image_list->priv->wrap_images = g_value_get_boolean (&val_wrap_images);
+    g_object_get (settings, "wrap-images", &(image_list->priv->wrap_images), NULL);
 }
 
 /***************************************/
