@@ -402,8 +402,7 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
         g_signal_new ("selection-changed",
                 G_TYPE_FROM_CLASS (gobject_class),
                 G_SIGNAL_RUN_FIRST,
-                G_STRUCT_OFFSET (RsttoIconBarClass, selection_changed),
-                NULL, NULL,
+                0, NULL, NULL,
                 g_cclosure_marshal_VOID__VOID,
                 G_TYPE_NONE, 0);
 }

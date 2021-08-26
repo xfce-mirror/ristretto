@@ -24,27 +24,8 @@
 
 G_BEGIN_DECLS
 
-#define RSTTO_TYPE_PROPERTIES_DIALOG rstto_properties_dialog_get_type()
-
-#define RSTTO_PROPERTIES_DIALOG(obj)( \
-        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-                RSTTO_TYPE_PROPERTIES_DIALOG, \
-                RsttoPropertiesDialog))
-
-#define RSTTO_IS_PROPERTIES_DIALOG(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_PROPERTIES_DIALOG))
-
-#define RSTTO_PROPERTIES_DIALOG_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_CAST ((klass), \
-                RSTTO_TYPE_PROPERTIES_DIALOG, \
-                RsttoPropertiesDialogClass))
-
-#define RSTTO_IS_PROPERTIES_DIALOG_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_PROPERTIES_DIALOG()))
-
-typedef struct _RsttoPropertiesDialog RsttoPropertiesDialog;
+#define RSTTO_TYPE_PROPERTIES_DIALOG rstto_properties_dialog_get_type ()
+G_DECLARE_FINAL_TYPE (RsttoPropertiesDialog, rstto_properties_dialog, RSTTO, PROPERTIES_DIALOG, GtkDialog)
 
 typedef struct _RsttoPropertiesDialogPrivate RsttoPropertiesDialogPrivate;
 
@@ -54,21 +35,11 @@ struct _RsttoPropertiesDialog
     RsttoPropertiesDialogPrivate *priv;
 };
 
-typedef struct _RsttoPropertiesDialogClass RsttoPropertiesDialogClass;
 
-struct _RsttoPropertiesDialogClass
-{
-    GtkDialogClass  parent_class;
-};
-
-GType
-rstto_properties_dialog_get_type (void);
 
 GtkWidget *
-rstto_properties_dialog_new (
-        GtkWindow *parent,
-        RsttoFile *file
-        );
+rstto_properties_dialog_new (GtkWindow *parent,
+                             RsttoFile *file);
 
 G_END_DECLS
 

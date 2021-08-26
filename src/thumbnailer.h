@@ -24,58 +24,28 @@
 
 G_BEGIN_DECLS
 
-#define RSTTO_TYPE_THUMBNAILER rstto_thumbnailer_get_type()
+#define RSTTO_TYPE_THUMBNAILER rstto_thumbnailer_get_type ()
+G_DECLARE_FINAL_TYPE (RsttoThumbnailer, rstto_thumbnailer, RSTTO, THUMBNAILER, GObject)
 
-#define RSTTO_THUMBNAILER(obj)( \
-        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-                RSTTO_TYPE_THUMBNAILER, \
-                RsttoThumbnailer))
-
-#define RSTTO_IS_THUMBNAILER(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_THUMBNAILER))
-
-#define RSTTO_THUMBNAILER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_CAST ((klass), \
-                RSTTO_TYPE_THUMBNAILER, \
-                RsttoThumbnailerClass))
-
-#define RSTTO_IS_THUMBNAILER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_THUMBNAILER()))
-
-
-typedef struct _RsttoThumbnailer RsttoThumbnailer;
 typedef struct _RsttoThumbnailerPrivate RsttoThumbnailerPrivate;
 
 struct _RsttoThumbnailer
 {
     GObject parent;
-
     RsttoThumbnailerPrivate *priv;
 };
 
-typedef struct _RsttoThumbnailerClass RsttoThumbnailerClass;
 
-struct _RsttoThumbnailerClass
-{
-    GObjectClass parent_class;
-};
 
 RsttoThumbnailer *
 rstto_thumbnailer_new (void);
 
-GType
-rstto_thumbnailer_get_type (void);
-
 void
-rstto_thumbnailer_queue_file (
-        RsttoThumbnailer *thumbnailer,
-        RsttoFile *file);
+rstto_thumbnailer_queue_file (RsttoThumbnailer *thumbnailer,
+                              RsttoFile *file);
 void
-rstto_thumbnailer_dequeue_file (
-        RsttoThumbnailer *thumbnailer,
-        RsttoFile *file );
+rstto_thumbnailer_dequeue_file (RsttoThumbnailer *thumbnailer,
+                                RsttoFile *file);
 
 G_END_DECLS
 

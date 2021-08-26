@@ -51,7 +51,10 @@ G_BEGIN_DECLS
 #define rstto_object_get_data(object, key) \
     g_object_get_qdata (G_OBJECT (object), g_quark_try_string (key))
 
-gpointer rstto_util_source_autoremove (gpointer object);
+
+
+gpointer
+rstto_util_source_autoremove (gpointer object);
 
 G_END_DECLS
 

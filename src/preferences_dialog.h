@@ -24,7 +24,8 @@
 
 G_BEGIN_DECLS
 
-typedef enum {
+typedef enum
+{
     DESKTOP_TYPE_NONE = 0,
     DESKTOP_TYPE_XFCE,
     DESKTOP_TYPE_GNOME,
@@ -33,27 +34,8 @@ typedef enum {
 
 
 
-#define RSTTO_TYPE_PREFERENCES_DIALOG rstto_preferences_dialog_get_type()
-
-#define RSTTO_PREFERENCES_DIALOG(obj)( \
-        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-                RSTTO_TYPE_PREFERENCES_DIALOG, \
-                RsttoPreferencesDialog))
-
-#define RSTTO_IS_PREFERENCES_DIALOG(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_PREFERENCES_DIALOG))
-
-#define RSTTO_PREFERENCES_DIALOG_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_CAST ((klass), \
-                RSTTO_TYPE_PREFERENCES_DIALOG, \
-                RsttoPreferencesDialogClass))
-
-#define RSTTO_IS_PREFERENCES_DIALOG_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_PREFERENCES_DIALOG()))
-
-typedef struct _RsttoPreferencesDialog RsttoPreferencesDialog;
+#define RSTTO_TYPE_PREFERENCES_DIALOG rstto_preferences_dialog_get_type ()
+G_DECLARE_FINAL_TYPE (RsttoPreferencesDialog, rstto_preferences_dialog, RSTTO, PREFERENCES_DIALOG, GtkDialog)
 
 typedef struct _RsttoPreferencesDialogPrivate RsttoPreferencesDialogPrivate;
 
@@ -63,15 +45,7 @@ struct _RsttoPreferencesDialog
     RsttoPreferencesDialogPrivate *priv;
 };
 
-typedef struct _RsttoPreferencesDialogClass RsttoPreferencesDialogClass;
 
-struct _RsttoPreferencesDialogClass
-{
-    GtkDialogClass parent_class;
-};
-
-GType
-rstto_preferences_dialog_get_type (void);
 
 GtkWidget *
 rstto_preferences_dialog_new (GtkWindow *parent);

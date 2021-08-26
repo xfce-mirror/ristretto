@@ -46,7 +46,8 @@ typedef enum
 #define THUMBNAIL_SIZE_LARGER_SIZE      128
 #define THUMBNAIL_SIZE_VERY_LARGE_SIZE  256
 
-typedef enum {
+typedef enum
+{
     THUMBNAIL_SIZE_VERY_SMALL = 0,
     THUMBNAIL_SIZE_SMALLER,
     THUMBNAIL_SIZE_SMALL,
@@ -59,100 +60,73 @@ typedef enum {
 
 
 
+#define RSTTO_TYPE_FILE rstto_file_get_type ()
+G_DECLARE_FINAL_TYPE (RsttoFile, rstto_file, RSTTO, FILE, GObject)
 
-#define RSTTO_TYPE_FILE rstto_file_get_type()
-
-#define RSTTO_FILE(obj)( \
-        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-                RSTTO_TYPE_FILE, \
-                RsttoFile))
-
-#define RSTTO_IS_FILE(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_FILE))
-
-#define RSTTO_FILE_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_CAST ((klass), \
-                RSTTO_TYPE_FILE, \
-                RsttoFileClass))
-
-#define RSTTO_IS_FILE_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_FILE()))
-
-
-typedef struct _RsttoFile RsttoFile;
 typedef struct _RsttoFilePrivate RsttoFilePrivate;
 
 struct _RsttoFile
 {
     GObject parent;
-
     RsttoFilePrivate *priv;
 };
 
-typedef struct _RsttoFileClass RsttoFileClass;
 
-struct _RsttoFileClass
-{
-    GObjectClass parent_class;
-};
 
 RsttoFile *
-rstto_file_new ( GFile * );
-
-GType
-rstto_file_get_type ( void );
+rstto_file_new (GFile *file);
 
 GFile *
-rstto_file_get_file ( RsttoFile * );
+rstto_file_get_file (RsttoFile *r_file);
 
 gboolean
-rstto_file_equal ( RsttoFile *, RsttoFile * );
+rstto_file_equal (RsttoFile *r_file_a,
+                  RsttoFile *r_file_b);
 
 const gchar *
-rstto_file_get_display_name ( RsttoFile * );
+rstto_file_get_display_name (RsttoFile *r_file);
 
 const gchar *
-rstto_file_get_path ( RsttoFile * );
+rstto_file_get_path (RsttoFile *r_file);
 
 const gchar *
-rstto_file_get_uri ( RsttoFile * );
+rstto_file_get_uri (RsttoFile *r_file);
 
 const gchar *
-rstto_file_get_collate_key ( RsttoFile * );
+rstto_file_get_collate_key (RsttoFile *r_file);
 
 const gchar *
-rstto_file_get_content_type ( RsttoFile * );
+rstto_file_get_content_type (RsttoFile *r_file);
 
 const gchar *
-rstto_file_get_thumbnail_path ( RsttoFile *);
+rstto_file_get_thumbnail_path (RsttoFile *r_file);
 
 const GdkPixbuf *
-rstto_file_get_thumbnail ( RsttoFile *, RsttoThumbnailSize );
+rstto_file_get_thumbnail (RsttoFile *r_file,
+                          RsttoThumbnailSize size);
 
 guint64
-rstto_file_get_modified_time ( RsttoFile *);
+rstto_file_get_modified_time (RsttoFile *r_file);
 
 goffset
-rstto_file_get_size ( RsttoFile * );
+rstto_file_get_size (RsttoFile *r_file);
 
 ExifEntry *
-rstto_file_get_exif ( RsttoFile *, ExifTag );
+rstto_file_get_exif (RsttoFile *r_file,
+                     ExifTag id);
 
 RsttoImageOrientation
-rstto_file_get_orientation ( RsttoFile * );
+rstto_file_get_orientation (RsttoFile *r_file);
 
 void
-rstto_file_set_orientation (
-        RsttoFile * ,
-        RsttoImageOrientation );
+rstto_file_set_orientation (RsttoFile *r_file,
+                            RsttoImageOrientation orientation);
 
 gboolean
-rstto_file_has_exif ( RsttoFile * );
+rstto_file_has_exif (RsttoFile *r_file);
 
 void
-rstto_file_changed ( RsttoFile * );
+rstto_file_changed (RsttoFile *r_file);
 
 
 G_END_DECLS

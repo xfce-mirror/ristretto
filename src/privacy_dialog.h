@@ -24,27 +24,8 @@
 
 G_BEGIN_DECLS
 
-#define RSTTO_TYPE_PRIVACY_DIALOG rstto_privacy_dialog_get_type()
-
-#define RSTTO_PRIVACY_DIALOG(obj)( \
-        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-                RSTTO_TYPE_PRIVACY_DIALOG, \
-                RsttoPrivacyDialog))
-
-#define RSTTO_IS_PRIVACY_DIALOG(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_PRIVACY_DIALOG))
-
-#define RSTTO_PRIVACY_DIALOG_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_CAST ((klass), \
-                RSTTO_TYPE_PRIVACY_DIALOG, \
-                RsttoPrivacyDialogClass))
-
-#define RSTTO_IS_PRIVACY_DIALOG_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_PRIVACY_DIALOG()))
-
-typedef struct _RsttoPrivacyDialog RsttoPrivacyDialog;
+#define RSTTO_TYPE_PRIVACY_DIALOG rstto_privacy_dialog_get_type ()
+G_DECLARE_FINAL_TYPE (RsttoPrivacyDialog, rstto_privacy_dialog, RSTTO, PRIVACY_DIALOG, GtkDialog)
 
 typedef struct _RsttoPrivacyDialogPrivate RsttoPrivacyDialogPrivate;
 
@@ -54,21 +35,11 @@ struct _RsttoPrivacyDialog
     RsttoPrivacyDialogPrivate *priv;
 };
 
-typedef struct _RsttoPrivacyDialogClass RsttoPrivacyDialogClass;
 
-struct _RsttoPrivacyDialogClass
-{
-    GtkDialogClass parent_class;
-};
-
-GType
-rstto_privacy_dialog_get_type (void);
 
 GtkWidget *
-rstto_privacy_dialog_new (
-        GtkWindow *parent,
-        GtkRecentManager *recent_manager
-        );
+rstto_privacy_dialog_new (GtkWindow *parent,
+                          GtkRecentManager *recent_manager);
 
 G_END_DECLS
 

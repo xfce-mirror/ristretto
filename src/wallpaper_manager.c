@@ -24,7 +24,7 @@
 
 
 
-G_DEFINE_INTERFACE (RsttoWallpaperManager, rstto_wallpaper_manager, G_TYPE_INVALID)
+G_DEFINE_INTERFACE (RsttoWallpaperManager, rstto_wallpaper_manager, G_TYPE_OBJECT)
 
 
 

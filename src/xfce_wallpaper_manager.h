@@ -26,50 +26,21 @@
 
 G_BEGIN_DECLS
 
-#define RSTTO_TYPE_XFCE_WALLPAPER_MANAGER \
-        rstto_xfce_wallpaper_manager_get_type()
+#define RSTTO_TYPE_XFCE_WALLPAPER_MANAGER rstto_xfce_wallpaper_manager_get_type ()
+G_DECLARE_FINAL_TYPE (RsttoXfceWallpaperManager, rstto_xfce_wallpaper_manager, RSTTO, XFCE_WALLPAPER_MANAGER, GObject)
 
-#define RSTTO_XFCE_WALLPAPER_MANAGER(obj)( \
-        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-                RSTTO_TYPE_XFCE_WALLPAPER_MANAGER, \
-                RsttoXfceWallpaperManager))
-
-#define RSTTO_IS_XFCE_WALLPAPER_MANAGER(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_XFCE_WALLPAPER_MANAGER))
-
-#define RSTTO_XFCE_WALLPAPER_MANAGER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_CAST ((klass), \
-                RSTTO_TYPE_XFCE_WALLPAPER_MANAGER, \
-                RsttoXfceWallpaperManagerClass))
-
-#define RSTTO_IS_XFCE_WALLPAPER_MANAGER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_XFCE_WALLPAPER_MANAGER()))
-
-
-typedef struct _RsttoXfceWallpaperManager RsttoXfceWallpaperManager;
 typedef struct _RsttoXfceWallpaperManagerPrivate RsttoXfceWallpaperManagerPrivate;
 
 struct _RsttoXfceWallpaperManager
 {
     GObject parent;
-
     RsttoXfceWallpaperManagerPrivate *priv;
 };
 
-typedef struct _RsttoXfceWallpaperManagerClass RsttoXfceWallpaperManagerClass;
 
-struct _RsttoXfceWallpaperManagerClass
-{
-    GObjectClass parent_class;
-};
 
 RsttoWallpaperManager *
 rstto_xfce_wallpaper_manager_new (void);
-
-GType
-rstto_xfce_wallpaper_manager_get_type (void);
 
 G_END_DECLS
 

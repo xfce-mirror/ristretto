@@ -26,47 +26,36 @@
 
 G_BEGIN_DECLS
 
-#define RSTTO_WALLPAPER_MANAGER_TYPE \
-        rstto_wallpaper_manager_get_type ()
-#define RSTTO_WALLPAPER_MANAGER(obj)( \
-        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-                RSTTO_WALLPAPER_MANAGER_TYPE, \
-                RsttoWallpaperManager))
-#define RSTTO_IS_WALLPAPER_MANAGER(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_WALLPAPER_MANAGER_TYPE))
-#define RSTTO_WALLPAPER_MANAGER_GET_IFACE(inst)( \
-        G_TYPE_INSTANCE_GET_INTERFACE ((inst), \
-                RSTTO_WALLPAPER_MANAGER_TYPE, \
-                RsttoWallpaperManagerInterface))
+#define RSTTO_WALLPAPER_MANAGER_TYPE  rstto_wallpaper_manager_get_type ()
+G_DECLARE_INTERFACE (RsttoWallpaperManager, rstto_wallpaper_manager, RSTTO, WALLPAPER_MANAGER, GObject)
 
-typedef struct _RsttoWallpaperManager RsttoWallpaperManager; /* dummy object */
 typedef struct _RsttoWallpaperManagerInterface RsttoWallpaperManagerInterface;
 
-struct _RsttoWallpaperManagerInterface {
+struct _RsttoWallpaperManagerInterface
+{
     GTypeInterface parent;
 
-    gint (*configure_dialog_run) (RsttoWallpaperManager *self, RsttoFile *file, GtkWindow *parent);
-    gboolean (*set) (RsttoWallpaperManager *self, RsttoFile *file);
+    gint (*configure_dialog_run) (RsttoWallpaperManager *self,
+                                  RsttoFile *file,
+                                  GtkWindow *parent);
+    gboolean (*set) (RsttoWallpaperManager *self,
+                     RsttoFile *file);
     gboolean (*check_running) (RsttoWallpaperManager *self);
 };
 
-GType
-rstto_wallpaper_manager_get_type (void);
+
 
 gboolean
 rstto_wallpaper_manager_check_running (RsttoWallpaperManager *self);
 
 gint
-rstto_wallpaper_manager_configure_dialog_run (
-        RsttoWallpaperManager *self,
-        RsttoFile *file,
-        GtkWindow *parent);
+rstto_wallpaper_manager_configure_dialog_run (RsttoWallpaperManager *self,
+                                              RsttoFile *file,
+                                              GtkWindow *parent);
 
 gboolean
-rstto_wallpaper_manager_set (
-        RsttoWallpaperManager *self,
-        RsttoFile *file);
+rstto_wallpaper_manager_set (RsttoWallpaperManager *self,
+                             RsttoFile *file);
 
 G_END_DECLS
 

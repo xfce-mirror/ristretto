@@ -35,81 +35,41 @@ enum
 
 
 
-#define RSTTO_TYPE_IMAGE_VIEWER rstto_image_viewer_get_type()
-
-#define RSTTO_IMAGE_VIEWER(obj)( \
-        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-                RSTTO_TYPE_IMAGE_VIEWER, \
-                RsttoImageViewer))
-
-#define RSTTO_IS_IMAGE_VIEWER(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_IMAGE_VIEWER))
-
-#define RSTTO_IMAGE_VIEWER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_CAST ((klass), \
-                RSTTO_TYPE_IMAGE_VIEWER, \
-                RsttoImageViewerClass))
-
-#define RSTTO_IS_IMAGE_VIEWER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_IMAGE_VIEWER()))
+#define RSTTO_TYPE_IMAGE_VIEWER rstto_image_viewer_get_type ()
+G_DECLARE_FINAL_TYPE (RsttoImageViewer, rstto_image_viewer, RSTTO, IMAGE_VIEWER, GtkWidget)
 
 typedef struct _RsttoImageViewerPrivate RsttoImageViewerPrivate;
 
-typedef struct _RsttoImageViewer RsttoImageViewer;
-
 struct _RsttoImageViewer
 {
-    GtkWidget             parent;
+    GtkWidget parent;
     RsttoImageViewerPrivate *priv;
-
-    GtkAdjustment        *vadjustment;
-    GtkAdjustment        *hadjustment;
 };
 
-typedef struct _RsttoImageViewerClass RsttoImageViewerClass;
 
-struct _RsttoImageViewerClass
-{
-    GtkWidgetClass  parent_class;
-
-    gboolean (* set_scroll_adjustments) (
-            RsttoImageViewer *viewer,
-            GtkAdjustment     *hadjustment,
-            GtkAdjustment     *vadjustment);
-};
-
-GType
-rstto_image_viewer_get_type (void);
 
 GtkWidget *
 rstto_image_viewer_new (void);
 
 void
-rstto_image_viewer_set_file (
-        RsttoImageViewer *viewer,
-        RsttoFile *file,
-        gdouble scale,
-        RsttoImageOrientation orientation);
+rstto_image_viewer_set_file (RsttoImageViewer *viewer,
+                             RsttoFile *file,
+                             gdouble scale,
+                             RsttoImageOrientation orientation);
 
 void
-rstto_image_viewer_set_scale (
-        RsttoImageViewer *viewer,
-        gdouble scale);
+rstto_image_viewer_set_scale (RsttoImageViewer *viewer,
+                              gdouble scale);
 
 GdkPixbuf *
-rstto_image_viewer_get_pixbuf (
-        RsttoImageViewer *viewer);
+rstto_image_viewer_get_pixbuf (RsttoImageViewer *viewer);
 
 gdouble
-rstto_image_viewer_get_scale (
-        RsttoImageViewer *viewer);
+rstto_image_viewer_get_scale (RsttoImageViewer *viewer);
 
 void
-rstto_image_viewer_set_orientation (
-        RsttoImageViewer *viewer, 
-        RsttoImageOrientation orientation);
+rstto_image_viewer_set_orientation (RsttoImageViewer *viewer,
+                                    RsttoImageOrientation orientation);
 
 RsttoImageOrientation
 rstto_image_viewer_get_orientation (RsttoImageViewer *viewer);
@@ -121,22 +81,18 @@ gint
 rstto_image_viewer_get_height (RsttoImageViewer *viewer);
 
 void
-rstto_image_viewer_set_menu (
-    RsttoImageViewer *viewer,
-    GtkMenu *menu);
+rstto_image_viewer_set_menu (RsttoImageViewer *viewer,
+                             GtkMenu *menu);
 
 GError *
-rstto_image_viewer_get_error ( RsttoImageViewer *viewer );
+rstto_image_viewer_get_error (RsttoImageViewer *viewer);
 
 void
-rstto_image_viewer_set_show_clock (
-        RsttoImageViewer *viewer,
-        gboolean value);
+rstto_image_viewer_set_show_clock (RsttoImageViewer *viewer,
+                                   gboolean value);
 
 gboolean
-rstto_image_viewer_is_busy (
-        RsttoImageViewer *viewer );
-
+rstto_image_viewer_is_busy (RsttoImageViewer *viewer);
 
 G_END_DECLS
 
