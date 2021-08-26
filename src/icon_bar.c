@@ -760,7 +760,7 @@ rstto_icon_bar_size_allocate (
         if (icon_bar->priv->auto_center == TRUE)
         {
             if (icon_bar->priv->active_item)
-                value = icon_bar->priv->active_item->index * icon_bar->priv->item_height;// - ((page_size-icon_bar->priv->item_height)/2);
+                value = icon_bar->priv->active_item->index * icon_bar->priv->item_height;
 
             if (value > (gtk_adjustment_get_upper (icon_bar->priv->vadjustment) - page_size))
                 value = (gtk_adjustment_get_upper (icon_bar->priv->vadjustment) - page_size);
@@ -791,7 +791,7 @@ rstto_icon_bar_size_allocate (
         if (icon_bar->priv->auto_center == TRUE)
         {
             if (icon_bar->priv->active_item)
-                value = icon_bar->priv->active_item->index * icon_bar->priv->item_width - ((page_size-icon_bar->priv->item_width)/2);
+                value = icon_bar->priv->active_item->index * icon_bar->priv->item_width - ((page_size-icon_bar->priv->item_width) / 2);
 
             if (value > (gtk_adjustment_get_upper (icon_bar->priv->hadjustment) - page_size))
                 value = (gtk_adjustment_get_upper (icon_bar->priv->hadjustment) - page_size);
@@ -981,7 +981,7 @@ rstto_icon_bar_scroll (
             {
                 if (event->delta_y < 0) {
                     val -= step_size;
-                    if (val<0) val = 0.0;
+                    if (val < 0) val = 0.0;
                 } else if (event->delta_y > 0) {
                     val += step_size;
                     if (val > max_value) val = max_value;
@@ -1048,7 +1048,7 @@ rstto_icon_bar_invalidate (RsttoIconBar *icon_bar)
     gtk_widget_queue_resize (GTK_WIDGET (icon_bar));
 }
 
-static RsttoIconBarItem*
+static RsttoIconBarItem *
 rstto_icon_bar_get_item_at_pos (
         RsttoIconBar *icon_bar,
         gint          x,
@@ -1144,7 +1144,7 @@ rstto_icon_bar_paint_item (
         pixbuf_height = gdk_pixbuf_get_height (pixbuf);
     }
 
-    /* calculate pixbuf/layout location */
+    /* calculate pixbuf / layout location */
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
         x = 0;
@@ -1556,7 +1556,7 @@ rstto_icon_bar_new_with_model (GtkTreeModel *model)
  *
  * Returns: A #GtkTreeModel, or %NULL if none is currently being used.
  **/
-GtkTreeModel*
+GtkTreeModel *
 rstto_icon_bar_get_model (RsttoIconBar *icon_bar)
 {
     g_return_val_if_fail (RSTTO_IS_ICON_BAR (icon_bar), NULL);
@@ -1896,7 +1896,7 @@ rstto_icon_bar_set_item_width (
         gint item_width)
 {
     pango_layout_set_width (icon_bar->priv->layout,
-            item_width*PANGO_SCALE);
+            item_width * PANGO_SCALE);
     return;
 }
 
@@ -1952,7 +1952,7 @@ rstto_icon_bar_show_active (RsttoIconBar *icon_bar)
     {
         icon_bar->priv->vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
         page_size = gtk_adjustment_get_page_size (icon_bar->priv->vadjustment);
-        value = icon_bar->priv->active_item->index * icon_bar->priv->item_height - ((page_size-icon_bar->priv->item_height)/2);
+        value = icon_bar->priv->active_item->index * icon_bar->priv->item_height - ((page_size-icon_bar->priv->item_height) / 2);
 
         if (value > (gtk_adjustment_get_upper (icon_bar->priv->vadjustment)-page_size))
             value = (gtk_adjustment_get_upper (icon_bar->priv->vadjustment)-page_size);
@@ -1967,7 +1967,7 @@ rstto_icon_bar_show_active (RsttoIconBar *icon_bar)
     {
         icon_bar->priv->hadjustment = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
         page_size = gtk_adjustment_get_page_size (icon_bar->priv->hadjustment);
-        value = icon_bar->priv->active_item->index * icon_bar->priv->item_width - ((page_size-icon_bar->priv->item_width)/2);
+        value = icon_bar->priv->active_item->index * icon_bar->priv->item_width - ((page_size-icon_bar->priv->item_width) / 2);
 
         if (value > (gtk_adjustment_get_upper (icon_bar->priv->hadjustment)-page_size))
             value = (gtk_adjustment_get_upper (icon_bar->priv->hadjustment)-page_size);

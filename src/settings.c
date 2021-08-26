@@ -686,7 +686,7 @@ rstto_xfconf_ensure_gdkrgba (XfconfChannel *channel, const gchar *property)
 
     if (is_gdk_color)
     {
-        GdkRGBA bg = { (gdouble) rc/65535, (gdouble) gc/65535, (gdouble) bc/65535, (gdouble) ac/65535 };
+        GdkRGBA bg = { (gdouble) rc / 65535, (gdouble) gc / 65535, (gdouble) bc / 65535, (gdouble) ac / 65535 };
         xfconf_channel_set_array (channel,
                                   property,
                                   G_TYPE_DOUBLE, &bg.red,

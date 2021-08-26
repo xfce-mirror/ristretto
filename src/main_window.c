@@ -432,7 +432,7 @@ static GtkActionEntry action_entries[] =
             N_ ("Zoom _In"), /* Label-text */
             "<control>plus", /* Keyboard shortcut */
             N_ ("Zoom in"), /* Tooltip text */
-            G_CALLBACK (cb_rstto_main_window_zoom_in),},
+            G_CALLBACK (cb_rstto_main_window_zoom_in), },
     { "zoom-out",
             "zoom-out", /* Icon-name */
             N_ ("Zoom _Out"), /* Label-text */
@@ -631,7 +631,7 @@ static const GtkRadioActionEntry radio_action_sort_entries[] =
             SORT_TYPE_DATE},
 };
 
-/** Navigationbar+Thumbnailbar positioning options*/
+/** Navigationbar + Thumbnailbar positioning options*/
 static const GtkRadioActionEntry radio_action_pos_entries[] =
 {
     { "pos-left",
@@ -1404,7 +1404,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
         {
             rstto_icon_bar_set_active (RSTTO_ICON_BAR (window->priv->thumbnailbar), position);
             rstto_icon_bar_show_active (RSTTO_ICON_BAR (window->priv->thumbnailbar));
-            content_type  = rstto_file_get_content_type (cur_file);
+            content_type = rstto_file_get_content_type (cur_file);
 
             rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
                                          cur_file, RSTTO_SCALE_IMAGE_LOADING, 0);
@@ -1485,7 +1485,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
             if (count > 1)
             {
-                title = g_strdup_printf ("%s - %s [%d/%d]", file_basename, RISTRETTO_APP_TITLE,  position+1, count);
+                title = g_strdup_printf ("%s - %s [%d/%d]", file_basename, RISTRETTO_APP_TITLE, position + 1, count);
             }
             else
             {
@@ -2103,7 +2103,7 @@ cb_rstto_main_window_image_list_iter_changed (RsttoImageListIter *iter, RsttoMai
 }
 
 static void
-cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action, GtkRadioAction *current,  RsttoMainWindow *window)
+cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action, GtkRadioAction *current, RsttoMainWindow *window)
 {
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     gint value = gtk_radio_action_get_current_value (current);
@@ -2140,7 +2140,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 }
 
 static void
-cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action, GtkRadioAction *current,  RsttoMainWindow *window)
+cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action, GtkRadioAction *current, RsttoMainWindow *window)
 {
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     rstto_main_window_set_navigationbar_position (window, gtk_radio_action_get_current_value (current));
@@ -2521,8 +2521,8 @@ cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget, GdkEventScrol
 
     /*
      * - scroll through images with scroll
-     * - pan across current image with shift+scroll
-     * - zoom on current image with ctrl+scroll
+     * - pan across current image with shift + scroll
+     * - zoom on current image with ctrl + scroll
      */
     if (!(event->state & (GDK_CONTROL_MASK)) && !(event->state & (GDK_SHIFT_MASK)))
     {
@@ -2824,7 +2824,7 @@ rstto_main_window_save_geometry_timer (gpointer user_data)
         /* don't save geometry for maximized or fullscreen windows */
         if ((state & (GDK_WINDOW_STATE_MAXIMIZED | GDK_WINDOW_STATE_FULLSCREEN)) == 0)
         {
-            /* determine the current width/height of the window... */
+            /* determine the current width / height of the window... */
             gtk_window_get_size (GTK_WINDOW (window), &width, &height);
 
             /* ...and remember them as default for new windows */
@@ -3151,7 +3151,7 @@ static void
 cb_rstto_main_window_last_image (GtkWidget *widget, RsttoMainWindow *window)
 {
     guint n_images = rstto_image_list_get_n_images (window->priv->image_list);
-    rstto_image_list_iter_set_position (window->priv->iter, n_images-1);
+    rstto_image_list_iter_set_position (window->priv->iter, n_images - 1);
 }
 
 /**
@@ -3801,7 +3801,7 @@ rstto_main_window_is_valid_image (RsttoMainWindow *window,
 {
     GtkFileFilterInfo filter_info;
 
-    filter_info.contains =  GTK_FILE_FILTER_MIME_TYPE | GTK_FILE_FILTER_URI;
+    filter_info.contains = GTK_FILE_FILTER_MIME_TYPE | GTK_FILE_FILTER_URI;
     filter_info.uri = rstto_file_get_uri (file);
     filter_info.mime_type = rstto_file_get_content_type (file);
 
@@ -4022,7 +4022,7 @@ rstto_main_window_add_file_to_recent_files (GFile *file)
     GFileInfo *file_info;
     GtkRecentData *recent_data;
     gchar* uri;
-    static gchar *groups[2] = { RSTTO_RECENT_FILES_GROUP , NULL };
+    static gchar *groups[2] = { RSTTO_RECENT_FILES_GROUP, NULL };
 
     if (file == NULL)
     {

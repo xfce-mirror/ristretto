@@ -393,7 +393,7 @@ properties_dialog_set_file (
                 switch (i)
                 {
                     case EXIF_PROP_DATE_TIME:
-                        exif_entry  = rstto_file_get_exif ( file, EXIF_TAG_DATE_TIME );
+                        exif_entry = rstto_file_get_exif ( file, EXIF_TAG_DATE_TIME );
                         if (NULL != exif_entry)
                         {
                             exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
@@ -401,7 +401,7 @@ properties_dialog_set_file (
                         }
                         break;
                     case EXIF_PROP_MODEL:
-                        exif_entry  = rstto_file_get_exif ( file, EXIF_TAG_MODEL);
+                        exif_entry = rstto_file_get_exif ( file, EXIF_TAG_MODEL);
                         if (NULL != exif_entry)
                         {
                             exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
@@ -413,7 +413,7 @@ properties_dialog_set_file (
                         }
                         break;
                     case EXIF_PROP_MAKE:
-                        exif_entry  = rstto_file_get_exif ( file, EXIF_TAG_MAKE);
+                        exif_entry = rstto_file_get_exif ( file, EXIF_TAG_MAKE);
                         if (NULL != exif_entry)
                         {
                             exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
@@ -425,7 +425,7 @@ properties_dialog_set_file (
                         }
                         break;
                     case EXIF_PROP_APERATURE:
-                        exif_entry  = rstto_file_get_exif ( file, EXIF_TAG_APERTURE_VALUE);
+                        exif_entry = rstto_file_get_exif ( file, EXIF_TAG_APERTURE_VALUE);
                         if (NULL != exif_entry)
                         {
                             exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);

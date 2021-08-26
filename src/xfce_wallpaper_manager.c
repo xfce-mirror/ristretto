@@ -643,8 +643,8 @@ configure_monitor_chooser_pixbuf (
             gdk_cairo_set_source_pixbuf (
                     ctx,
                     tmp_pixbuf,
-                    dest_x/x_scale,
-                    dest_y/y_scale);
+                    dest_x / x_scale,
+                    dest_y / y_scale);
             cairo_paint (ctx);
             cairo_destroy (ctx);
 

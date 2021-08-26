@@ -440,7 +440,7 @@ rstto_file_get_orientation ( RsttoFile *r_file )
 
 void
 rstto_file_set_orientation (
-        RsttoFile *r_file ,
+        RsttoFile *r_file,
         RsttoImageOrientation orientation )
 {
     r_file->priv->orientation = orientation;

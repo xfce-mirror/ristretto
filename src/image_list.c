@@ -373,14 +373,14 @@ rstto_image_list_add_file (
     GtkTreeIter t_iter;
     GFileMonitor *monitor = NULL;
 
-    g_return_val_if_fail ( NULL != r_file , FALSE);
-    g_return_val_if_fail ( RSTTO_IS_FILE (r_file) , FALSE);
+    g_return_val_if_fail ( NULL != r_file, FALSE);
+    g_return_val_if_fail ( RSTTO_IS_FILE (r_file), FALSE);
 
     if (!image_iter)
     {
         if (r_file)
         {
-            filter_info.contains =  GTK_FILE_FILTER_MIME_TYPE | GTK_FILE_FILTER_URI;
+            filter_info.contains = GTK_FILE_FILTER_MIME_TYPE | GTK_FILE_FILTER_URI;
             filter_info.uri = rstto_file_get_uri (r_file);
             filter_info.mime_type = rstto_file_get_content_type (r_file);
 
@@ -533,7 +533,7 @@ rstto_image_list_remove_file (
         image_list->priv->images = g_list_remove (image_list->priv->images, r_file);
 
         path_ = gtk_tree_path_new();
-        gtk_tree_path_append_index(path_,index_);
+        gtk_tree_path_append_index(path_, index_);
 
         gtk_tree_model_row_deleted(GTK_TREE_MODEL(image_list), path_);
 
@@ -669,14 +669,14 @@ cb_rstto_read_file ( gpointer user_data )
         {
             filename = g_file_info_get_name (file_info);
             child_file = g_file_get_child (loader->dir, filename);
-            files = g_new0 ( RsttoFile *, loader->n_files+1);
+            files = g_new0 ( RsttoFile *, loader->n_files + 1);
             files[0] = rstto_file_new (child_file);
 
             g_object_unref (child_file);
 
             for (i = 0; i < loader->n_files; ++i)
             {
-                files[i+1] = loader->files[i];
+                files[i + 1] = loader->files[i];
             }
 
             if ( NULL != loader->files )
@@ -1244,7 +1244,7 @@ rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func
 {
     GSList *iter = NULL;
     image_list->priv->cb_rstto_image_list_compare_func = func;
-    image_list->priv->images = g_list_sort (image_list->priv->images,  func);
+    image_list->priv->images = g_list_sort (image_list->priv->images, func);
 
     for (iter = image_list->priv->iterators; iter != NULL; iter = g_slist_next (iter))
     {
@@ -1591,7 +1591,7 @@ cb_rstto_thumbnailer_ready(
     if (index_ >= 0)
     {
         path_ = gtk_tree_path_new();
-        gtk_tree_path_append_index(path_,index_);
+        gtk_tree_path_append_index(path_, index_);
         gtk_tree_model_get_iter (GTK_TREE_MODEL (image_list), &iter, path_);
 
         gtk_tree_model_row_changed (GTK_TREE_MODEL(image_list), path_, &iter);

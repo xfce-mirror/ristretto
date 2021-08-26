@@ -531,7 +531,7 @@ rstto_image_viewer_realize(GtkWidget *widget)
 }
 
 /**
- * rstto_image_viewer_get_preferred_width/height:
+ * rstto_image_viewer_get_preferred_width / height:
  *
  * Request a default size of 300 by 400 pixels
  */
@@ -793,8 +793,8 @@ paint_background_icon (GtkWidget *widget, cairo_t *ctx )
      */
     cairo_translate (
             ctx,
-            (gdouble)(allocation.width-BACKGROUND_ICON_SIZE/bg_scale)/2.0,
-            (gdouble)(allocation.height-BACKGROUND_ICON_SIZE/bg_scale)/2.0);
+            (gdouble)(allocation.width - BACKGROUND_ICON_SIZE / bg_scale) / 2.0,
+            (gdouble)(allocation.height - BACKGROUND_ICON_SIZE / bg_scale) / 2.0);
 
     /* Scale the context so the image
      * fills the same part of the cairo-context
@@ -948,7 +948,7 @@ paint_clock (GtkWidget *widget, cairo_t *ctx)
     struct tm *lt = localtime(&t);
     GtkAllocation allocation;
 
-    gdouble hour_angle = (gdouble)(M_PI*2)/12*((gdouble)(lt->tm_hour%12+6)+((M_PI*2)/720.0*(gdouble)lt->tm_min));
+    gdouble hour_angle = (gdouble)(M_PI * 2) / 12 * ((gdouble)(lt->tm_hour % 12 + 6) + ((M_PI * 2) / 720.0 * (gdouble)lt->tm_min));
     gtk_widget_get_allocation (widget, &allocation);
 
     width = (allocation.width < allocation.height)
@@ -969,14 +969,14 @@ paint_clock (GtkWidget *widget, cairo_t *ctx)
     cairo_save(ctx);
     cairo_translate (
         ctx,
-        width/2,
-        height/2);
+        width / 2,
+        height / 2);
     cairo_arc (
         ctx,
         00, 00,
-        width/2,
+        width / 2,
         0,
-        2*M_PI );
+        2 * M_PI );
     cairo_fill (ctx);
 
     cairo_set_source_rgba (ctx, 1.0, 1.0, 1.0, 0.8);
@@ -986,20 +986,20 @@ paint_clock (GtkWidget *widget, cairo_t *ctx)
     {
         cairo_rotate (
             ctx,
-            30*(M_PI/180));
+            30 * (M_PI / 180));
         cairo_arc (
             ctx,
-            00, -1*((width/2)-5),
-            width/20,
+            00, -1 * ((width / 2) - 5),
+            width / 20,
             0,
-            2*M_PI );
+            2 * M_PI );
         cairo_fill (ctx);
     }
     cairo_restore (ctx);
 
 /***/
     cairo_save (ctx);
-    cairo_set_line_width (ctx, width/15);
+    cairo_set_line_width (ctx, width / 15);
     cairo_set_line_cap (ctx, CAIRO_LINE_CAP_ROUND);
     cairo_rotate (
         ctx,
@@ -1008,21 +1008,21 @@ paint_clock (GtkWidget *widget, cairo_t *ctx)
     cairo_line_to (
         ctx,
         0,
-        height*0.2);
+        height * 0.2);
     cairo_stroke (
         ctx);
     cairo_restore (ctx);
 /***/
-    cairo_set_line_width (ctx, width/15);
+    cairo_set_line_width (ctx, width / 15);
     cairo_set_line_cap (ctx, CAIRO_LINE_CAP_ROUND);
     cairo_rotate (
         ctx,
-        (M_PI*2)/60*(lt->tm_min%60+30));
+        (M_PI * 2) / 60 * (lt->tm_min % 60 + 30));
     cairo_move_to (ctx, 0, 0);
     cairo_line_to (
         ctx,
         0,
-        height*0.3);
+        height * 0.3);
     cairo_stroke (
         ctx);
 
@@ -1110,33 +1110,35 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
             cairo_fill (ctx);
 
             cairo_set_source_rgba (ctx, 0.7, 0.7, 0.7, 1.0);
-            for (i = 0; i < viewer->priv->rendering.width/10; ++i)
+            for (i = 0; i < viewer->priv->rendering.width / 10; ++i)
             {
-                if(i%2){a=1;}
-                else{a=0;}
+                if(i % 2)
+                    a = 1;
+                else
+                    a = 0;
 
-                if ((i+1) <= (viewer->priv->rendering.width/10))
+                if ((i + 1) <= (viewer->priv->rendering.width / 10))
                 {
                     block_width = 10;
                 }
                 else
                 {
-                    block_width = ((gint)viewer->priv->rendering.width)%10;
+                    block_width = ((gint)viewer->priv->rendering.width) % 10;
                 }
-                for (; a < viewer->priv->rendering.height/10; a+=2)
+                for (; a < viewer->priv->rendering.height / 10; a += 2)
                 {
-                    if ((a+1) <= (viewer->priv->rendering.height/10))
+                    if ((a + 1) <= (viewer->priv->rendering.height / 10))
                     {
                         block_height = 10;
                     }
                     else
                     {
-                        block_height = ((gint)viewer->priv->rendering.height%10);
+                        block_height = ((gint)viewer->priv->rendering.height % 10);
                     }
                     cairo_rectangle (
                             ctx,
-                            x_offset + i*10,
-                            y_offset + a*10,
+                            x_offset + i * 10,
+                            y_offset + a * 10,
                             block_width,
                             block_height);
                     cairo_fill (ctx);
@@ -1183,7 +1185,7 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
                 cairo_transform(ctx, &transform_matrix);
                 break;
             case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
-                cairo_rotate ( ctx, M_PI*1.5);
+                cairo_rotate ( ctx, M_PI * 1.5);
                 cairo_translate (
                         ctx,
                         floor(gtk_adjustment_get_value (viewer->priv->vadjustment)),
@@ -1197,7 +1199,7 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
                 cairo_transform(ctx, &transform_matrix);
                 break;
             case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
-                cairo_rotate ( ctx, M_PI*0.5);
+                cairo_rotate ( ctx, M_PI * 0.5);
                 cairo_translate (
                         ctx,
                         floor(0.0 - gtk_adjustment_get_value (viewer->priv->vadjustment)),
@@ -1217,7 +1219,7 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
             case RSTTO_IMAGE_ORIENT_90:
                 cairo_rotate (
                         ctx,
-                        M_PI*0.5);
+                        M_PI * 0.5);
                 cairo_translate (
                         ctx,
                         floor(0.0 - gtk_adjustment_get_value (viewer->priv->vadjustment)),
@@ -1234,7 +1236,7 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
             case RSTTO_IMAGE_ORIENT_270:
                 cairo_rotate (
                         ctx,
-                        M_PI*1.5);
+                        M_PI * 1.5);
                 cairo_translate (
                         ctx,
                         floor(gtk_adjustment_get_value (viewer->priv->vadjustment)),
@@ -1284,8 +1286,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
 
         cairo_scale (
                 ctx,
-                (viewer->priv->scale/viewer->priv->image_scale),
-                (viewer->priv->scale/viewer->priv->image_scale));
+                (viewer->priv->scale / viewer->priv->image_scale),
+                (viewer->priv->scale / viewer->priv->image_scale));
 
         gdk_cairo_set_source_pixbuf (
                 ctx,
@@ -1310,8 +1312,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
              */
             cairo_translate (
                     ctx,
-                    (gdouble)(allocation.width-BACKGROUND_ICON_SIZE/bg_scale)/2.0,
-                    (gdouble)(allocation.height-BACKGROUND_ICON_SIZE/bg_scale)/2.0);
+                    (gdouble)(allocation.width - BACKGROUND_ICON_SIZE / bg_scale) / 2.0,
+                    (gdouble)(allocation.height - BACKGROUND_ICON_SIZE / bg_scale) / 2.0);
 
             /* Scale the context so the image
              * fills the same part of the cairo-context
@@ -1423,7 +1425,7 @@ paint_selection_box (GtkWidget *widget, cairo_t *ctx )
 
     cairo_rectangle (
         ctx,
-        box_x+0.5, box_y+0.5,
+        box_x + 0.5, box_y + 0.5,
         box_width, box_height);
 
     cairo_set_source_rgba (ctx, 0.9, 0.9, 0.9, 0.2);
@@ -2038,13 +2040,13 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
                 transaction->image_scale = (gdouble)s_width / (gdouble)width;
                 gdk_pixbuf_loader_set_size (loader,
                                             s_width,
-                                            (gint)((gdouble)height/(gdouble)width*(gdouble)s_width));
+                                            (gint)((gdouble)height / (gdouble)width * (gdouble)s_width));
             }
             else
             {
                 transaction->image_scale = (gdouble)s_height / (gdouble)height;
                 gdk_pixbuf_loader_set_size (loader,
-                                            (gint)((gdouble)width/(gdouble)height*(gdouble)s_height),
+                                            (gint)((gdouble)width / (gdouble)height * (gdouble)s_height),
                                             s_height);
             }
         }
@@ -2494,17 +2496,17 @@ rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
 
                 gtk_adjustment_set_upper (
                         viewer->priv->hadjustment,
-                        floor((gdouble)viewer->priv->image_width*viewer->priv->scale));
+                        floor((gdouble)viewer->priv->image_width * viewer->priv->scale));
                 gtk_adjustment_set_value (
                         viewer->priv->hadjustment,
-                        (tmp_x * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->priv->hadjustment)/2)));
+                        (tmp_x * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->priv->hadjustment) / 2)));
 
                 gtk_adjustment_set_upper (
                         viewer->priv->vadjustment,
-                        floor((gdouble)viewer->priv->image_height*viewer->priv->scale));
+                        floor((gdouble)viewer->priv->image_height * viewer->priv->scale));
                 gtk_adjustment_set_value (
                         viewer->priv->vadjustment,
-                        (tmp_y * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->priv->vadjustment)/2)));
+                        (tmp_y * scale - ((gdouble)gtk_adjustment_get_page_size(viewer->priv->vadjustment) / 2)));
 
                 /*
                  * Enable signals on the adjustments.
@@ -2626,7 +2628,7 @@ cb_rstto_image_viewer_dnd (GtkWidget *widget, GdkDragContext *context, gint x, g
     {
         gchar **uris;
 
-        uris = g_uri_list_extract_uris ((const gchar*) gtk_selection_data_get_data (data));
+        uris = g_uri_list_extract_uris ((const gchar *) gtk_selection_data_get_data (data));
 
         g_signal_emit_by_name (viewer, "files-dnd", uris);
 
