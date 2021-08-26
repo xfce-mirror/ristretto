@@ -126,7 +126,7 @@ main (int argc, char **argv)
     gtk_window_set_default_icon_name ("org.xfce.ristretto");
     settings = rstto_settings_new ();
 
-    if (FALSE == show_settings)
+    if (! show_settings)
     {
         image_list = rstto_image_list_new ();
         window = rstto_main_window_new (image_list, FALSE);
@@ -146,16 +146,14 @@ main (int argc, char **argv)
             g_object_add_weak_pointer (G_OBJECT (image_list), (gpointer *) &(rof.image_list));
             g_idle_add (cb_rstto_open_files, &rof);
 
-            if (TRUE == rstto_settings_get_boolean_property (
-                        settings,
-                        "maximize-on-startup"))
+            if (rstto_settings_get_boolean_property (settings, "maximize-on-startup"))
             {
                 gtk_window_maximize (GTK_WINDOW (window));
             }
         }
 
         /* Start fullscreen */
-        if (TRUE == start_fullscreen)
+        if (start_fullscreen)
         {
            gtk_window_fullscreen (GTK_WINDOW (window));
         }
@@ -218,7 +216,7 @@ cb_rstto_open_files (gpointer user_data)
                     if (strncmp (content_type, "image/", 6) == 0)
                     {
                         r_file = rstto_file_new (file);
-                        if (rstto_image_list_add_file (rof->image_list, r_file, NULL) == TRUE)
+                        if (rstto_image_list_add_file (rof->image_list, r_file, NULL))
                         {
                             rstto_main_window_add_file_to_recent_files (file);
                         }
@@ -296,7 +294,7 @@ cb_rstto_open_files (gpointer user_data)
             rstto_image_list_iter_set_position (iter, 0);
         }
 
-        if (TRUE == start_slideshow)
+        if (start_slideshow)
         {
             rstto_main_window_play_slideshow (RSTTO_MAIN_WINDOW (rof->window));
         }

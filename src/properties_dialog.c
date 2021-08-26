@@ -364,7 +364,7 @@ properties_dialog_set_file (
         g_free (description);
 
         /* Show or hide the image tab containing exif data */
-        if (TRUE == rstto_file_has_exif (file))
+        if (rstto_file_has_exif (file))
         {
             children = gtk_container_get_children (
                     GTK_CONTAINER (dialog->priv->image_table));

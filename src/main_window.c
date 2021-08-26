@@ -1358,7 +1358,7 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
     */
     rstto_main_window_update_buttons (window);
 
-    if (fullscreen == TRUE)
+    if (fullscreen)
     {
         gtk_window_fullscreen (GTK_WINDOW (window));
     }
@@ -1564,7 +1564,7 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
             else
             {
                 gtk_widget_hide (window->priv->warning);
-                if (TRUE == rstto_file_has_exif (cur_file))
+                if (rstto_file_has_exif (cur_file))
                 {
                     /* Extend the status-message with exif-info */
                     /********************************************/
@@ -1798,7 +1798,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             gtk_widget_set_sensitive (window->priv->back, FALSE);
 
             /* Stop the slideshow if no image is opened */
-            if (window->priv->playing == TRUE)
+            if (window->priv->playing)
             {
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
                 gtk_ui_manager_add_ui (
@@ -1866,7 +1866,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             gtk_widget_set_sensitive (window->priv->back, FALSE);
 
             /* Stop the slideshow if only one image is opened */
-            if (window->priv->playing == TRUE)
+            if (window->priv->playing)
             {
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
                 gtk_ui_manager_add_ui (
@@ -1944,7 +1944,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             break;
     }
 
-    if (window->priv->playing == TRUE)
+    if (window->priv->playing)
     {
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
         gtk_ui_manager_remove_ui (
@@ -2689,7 +2689,7 @@ cb_rstto_main_window_play_slideshow (gpointer user_data)
         /* Check if we could navigate forward, if not, wrapping is
          * disabled and we should force the iter to position 0
          */
-        if (rstto_image_list_iter_next (window->priv->iter) == FALSE)
+        if (! rstto_image_list_iter_next (window->priv->iter))
         {
             rstto_image_list_iter_set_position (window->priv->iter, 0);
         }
@@ -3272,7 +3272,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                     r_file = rstto_file_new (file);
                     if (NULL != r_file)
                     {
-                        if (rstto_image_list_add_file (window->priv->image_list, r_file, NULL) == FALSE)
+                        if (! rstto_image_list_add_file (window->priv->image_list, r_file, NULL))
                         {
                             err_dialog = gtk_message_dialog_new (GTK_WINDOW (window),
                                                             GTK_DIALOG_MODAL,
@@ -3481,14 +3481,7 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
     {
         file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
         s_file = rstto_file_get_file (rstto_image_list_iter_get_file (window->priv->iter));
-        if (FALSE == g_file_copy (
-                s_file,
-                file,
-                G_FILE_COPY_OVERWRITE,
-                NULL,
-                NULL,
-                NULL,
-                NULL))
+        if (! g_file_copy (s_file, file, G_FILE_COPY_OVERWRITE, NULL, NULL, NULL, NULL))
         {
             err_dialog = gtk_message_dialog_new (GTK_WINDOW (window),
                                             GTK_DIALOG_MODAL,
@@ -3526,7 +3519,7 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
         /* Check if we should first ask Thunar
          * to show the file properties dialog.
          */
-        if (TRUE == use_thunar_properties)
+        if (use_thunar_properties)
         {
             GVariant *unused = NULL;
 
@@ -3832,9 +3825,9 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
     {
         file = rstto_file_new (g_file_new_for_uri (uris[n]));
 
-        if (TRUE == rstto_main_window_is_valid_image (window, file))
+        if (rstto_main_window_is_valid_image (window, file))
         {
-            if (TRUE == first)
+            if (first)
             {
                 first = FALSE;
 
@@ -3899,9 +3892,7 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                     g_object_unref (f_info);
                     g_free (path);
 
-                    if (TRUE == rstto_main_window_is_valid_image (
-                                                                window,
-                                                                child))
+                    if (rstto_main_window_is_valid_image (window, child))
                     {
                         /* Found a valid image, use the directory
                          * and select the first image in the dir */
@@ -4480,7 +4471,7 @@ key_press_event (
     GtkWindow *window = GTK_WINDOW (widget);
     RsttoMainWindow *rstto_window = RSTTO_MAIN_WINDOW (widget);
 
-    if (FALSE == gtk_window_activate_key (window, event))
+    if (! gtk_window_activate_key (window, event))
     {
         switch (event->keyval)
         {
@@ -4493,7 +4484,7 @@ key_press_event (
                 rstto_image_list_iter_next (rstto_window->priv->iter);
                 break;
             case GDK_KEY_Escape:
-                if (rstto_window->priv->playing == TRUE)
+                if (rstto_window->priv->playing)
                 {
                     cb_rstto_main_window_pause (GTK_WIDGET (window), rstto_window);
                 }

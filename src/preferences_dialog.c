@@ -560,7 +560,7 @@ rstto_preferences_dialog_new (GtkWindow *parent)
  *
  *   active = toggle_button_get_active ()
  *
- *   if (active == TRUE) then
+ *   if (active) then
  *
  *       set_property ("bgcolor-override", TRUE);
  *
@@ -657,7 +657,7 @@ cb_bgcolor_color_set (
  *
  *   active = toggle_button_get_active ()
  *
- *   if (active == TRUE) then
+ *   if (active) then
  *
  *       set_property ("invert-zoom-direction", TRUE);
  *
@@ -742,7 +742,7 @@ cb_slideshow_timeout_value_changed (
  *
  *   active = toggle_button_get_active ()
  *
- *   if (active == TRUE) then
+ *   if (active) then
  *
  *       set_property ("hide-thumbnails-fullscreen", TRUE);
  *
@@ -789,7 +789,7 @@ cb_hide_thumbnails_fullscreen_check_button_toggled (
  *
  *   active = toggle_button_get_active ()
  *
- *   if (active == TRUE) then
+ *   if (active) then
  *
  *       set_property ("wrap-images", TRUE);
  *
@@ -835,7 +835,7 @@ cb_wrap_images_check_button_toggled (
  *
  *   active = toggle_button_get_active ()
  *
- *   if (active == TRUE) then
+ *   if (active) then
  *
  *       set_property ("maximize-on-startup", TRUE);
  *
@@ -881,7 +881,7 @@ cb_maximize_on_startup_check_button_toggled (
  *
  *   active = toggle_button_get_active ()
  *
- *   if (active == TRUE) then
+ *   if (active) then
  *
  *       set_property ("show-clock", TRUE);
  *
@@ -955,7 +955,7 @@ cb_cursor_timeout_button_value_changed (
  *
  *   active = toggle_button_get_active ()
  *
- *   if (active == TRUE) then
+ *   if (active) then
  *
  *       set_property ("limit-quality", TRUE);
  *

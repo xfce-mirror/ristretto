@@ -515,7 +515,7 @@ rstto_image_viewer_realize (GtkWidget *widget)
     viewer->priv->limit_quality = g_value_get_boolean (&val_limit_quality);
     viewer->priv->invert_zoom_direction = g_value_get_boolean (&val_invert_zoom);
 
-    if (TRUE == g_value_get_boolean (&val_bg_color_override))
+    if (g_value_get_boolean (&val_bg_color_override))
     {
         viewer->priv->bg_color = g_value_get_boxed (&val_bg_color);
     }
@@ -574,7 +574,7 @@ rstto_image_viewer_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
         /* Check if auto_scale == TRUE, if so, calculate the new
          * scale based on the new widget-size.
          */
-        if (TRUE == viewer->priv->auto_scale)
+        if (viewer->priv->auto_scale)
         {
             set_scale (viewer, RSTTO_SCALE_FIT_TO_VIEW);
         }
@@ -1098,7 +1098,7 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
         y_offset = floor (viewer->priv->rendering.y_offset);
 
 /* BEGIN PAINT CHECKERED BACKGROUND */
-        if (TRUE == gdk_pixbuf_get_has_alpha (viewer->priv->pixbuf))
+        if (gdk_pixbuf_get_has_alpha (viewer->priv->pixbuf))
         {
             cairo_set_source_rgba (ctx, 0.8, 0.8, 0.8, 1.0);
             cairo_rectangle (
@@ -1552,7 +1552,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
                  */
                 if (viewer->priv->transaction)
                 {
-                    if (FALSE == g_cancellable_is_cancelled (viewer->priv->transaction->cancellable))
+                    if (! g_cancellable_is_cancelled (viewer->priv->transaction->cancellable))
                     {
                         g_cancellable_cancel (viewer->priv->transaction->cancellable);
                     }
@@ -1618,7 +1618,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
         }
         if (viewer->priv->transaction)
         {
-            if (FALSE == g_cancellable_is_cancelled (viewer->priv->transaction->cancellable))
+            if (! g_cancellable_is_cancelled (viewer->priv->transaction->cancellable))
             {
                 g_cancellable_cancel (viewer->priv->transaction->cancellable);
             }
@@ -1924,7 +1924,8 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
 
     if (read_bytes > 0)
     {
-        if (gdk_pixbuf_loader_write (transaction->loader, (const guchar *) transaction->buffer, read_bytes, &transaction->error) == FALSE)
+        if (! gdk_pixbuf_loader_write (transaction->loader, (const guchar *) transaction->buffer,
+                                       read_bytes, &transaction->error))
         {
             /* Clean up the input-stream */
             g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
@@ -2012,7 +2013,7 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
     transaction->image_width = width;
     transaction->image_height = height;
 
-    if (limit_quality == TRUE)
+    if (limit_quality)
     {
         GdkMonitor *monitor = gdk_display_get_monitor_at_window (
                 gdk_screen_get_display (default_screen),
@@ -2581,7 +2582,7 @@ cb_rstto_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_da
             "bgcolor-fullscreen",
             &val_bg_color_fs);
 
-    if (TRUE == g_value_get_boolean (&val_bg_color_override))
+    if (g_value_get_boolean (&val_bg_color_override))
     {
         viewer->priv->bg_color = g_value_get_boxed (&val_bg_color);
     }

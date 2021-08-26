@@ -192,11 +192,9 @@ rstto_thumbnailer_queue_file (
         REMOVE_SOURCE (thumbnailer->priv->request_timer_id);
         if (thumbnailer->priv->handle)
         {
-            if (tumbler_thumbnailer1_call_dequeue_sync (
-                thumbnailer->priv->proxy,
-                thumbnailer->priv->handle,
-                NULL,
-                NULL) == FALSE)
+            if (! tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
+                                                          thumbnailer->priv->handle,
+                                                          NULL, NULL))
             {
                 /* If this fails it usually means there's a thumbnail already
                  * being processed, no big deal */
@@ -237,11 +235,9 @@ rstto_thumbnailer_dequeue_file (
 
     if (thumbnailer->priv->handle)
     {
-        if (tumbler_thumbnailer1_call_dequeue_sync (
-                thumbnailer->priv->proxy,
-                thumbnailer->priv->handle,
-                NULL,
-                NULL) == FALSE)
+        if (! tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
+                                                      thumbnailer->priv->handle,
+                                                      NULL, NULL))
         {
             /* If this fails it usually means there's a thumbnail already
              * being processed, no big deal */
@@ -305,23 +301,19 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
         i++;
     }
 
-    if (tumbler_thumbnailer1_call_queue_sync (
-        thumbnailer->priv->proxy,
-        (const gchar * const*) uris,
-        (const gchar * const*) mimetypes,
-        "normal",
-        "default",
-        0,
-        &thumbnailer->priv->handle,
-        NULL,
-        &error) == FALSE)
+    if (! tumbler_thumbnailer1_call_queue_sync (thumbnailer->priv->proxy,
+                                                (const gchar * const*) uris,
+                                                (const gchar * const*) mimetypes,
+                                                "normal", "default", 0,
+                                                &thumbnailer->priv->handle,
+                                                NULL, &error))
     {
         if (NULL != error)
         {
             g_warning ("DBUS-call failed:%s", error->message);
-            if ((error->domain == G_DBUS_ERROR) &&
-                (error->code == G_DBUS_ERROR_SERVICE_UNKNOWN) &&
-                thumbnailer->priv->show_missing_thumbnailer_error == TRUE)
+            if (error->domain == G_DBUS_ERROR
+                && error->code == G_DBUS_ERROR_SERVICE_UNKNOWN
+                && thumbnailer->priv->show_missing_thumbnailer_error)
             {
                 error_dialog = gtk_message_dialog_new_with_markup (
                         NULL,
@@ -348,8 +340,7 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
                 gtk_dialog_run (GTK_DIALOG (error_dialog));
 
                 thumbnailer->priv->show_missing_thumbnailer_error = FALSE;
-                if (TRUE == gtk_toggle_button_get_active (
-                        GTK_TOGGLE_BUTTON (do_not_show_checkbox)))
+                if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (do_not_show_checkbox)))
                 {
                     rstto_settings_set_boolean_property (
                         thumbnailer->priv->settings,

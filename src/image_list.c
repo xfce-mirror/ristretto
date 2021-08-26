@@ -384,7 +384,7 @@ rstto_image_list_add_file (
             filter_info.uri = rstto_file_get_uri (r_file);
             filter_info.mime_type = rstto_file_get_content_type (r_file);
 
-            if (TRUE == gtk_file_filter_filter (image_list->priv->filter, &filter_info))
+            if (gtk_file_filter_filter (image_list->priv->filter, &filter_info))
             {
                 g_object_ref (G_OBJECT (r_file));
 
@@ -429,7 +429,7 @@ rstto_image_list_add_file (
                 /** TODO: update all iterators */
                 while (iter)
                 {
-                    if (FALSE == RSTTO_IMAGE_LIST_ITER (iter->data)->priv->sticky)
+                    if (! RSTTO_IMAGE_LIST_ITER (iter->data)->priv->sticky)
                     {
                         rstto_image_list_iter_find_file (iter->data, r_file);
                     }
@@ -1062,7 +1062,7 @@ iter_next (
     else
     {
 
-        if (TRUE == image_list->priv->wrap_images)
+        if (image_list->priv->wrap_images)
         {
             position = g_list_first (iter->priv->image_list->priv->images);
 
@@ -1158,7 +1158,7 @@ iter_previous (
     }
     else
     {
-        if (TRUE == image_list->priv->wrap_images)
+        if (image_list->priv->wrap_images)
         {
             position = g_list_last (iter->priv->image_list->priv->images);
         }

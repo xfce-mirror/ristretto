@@ -757,7 +757,7 @@ rstto_icon_bar_size_allocate (
         page_size = gtk_adjustment_get_page_size (icon_bar->priv->vadjustment);
 
         /* If auto-center is true, center the selected item */
-        if (icon_bar->priv->auto_center == TRUE)
+        if (icon_bar->priv->auto_center)
         {
             if (icon_bar->priv->active_item)
                 value = icon_bar->priv->active_item->index * icon_bar->priv->item_height;
@@ -788,7 +788,7 @@ rstto_icon_bar_size_allocate (
         page_size = gtk_adjustment_get_page_size (icon_bar->priv->hadjustment);
 
         /* If auto-center is true, center the selected item */
-        if (icon_bar->priv->auto_center == TRUE)
+        if (icon_bar->priv->auto_center)
         {
             if (icon_bar->priv->active_item)
                 value = icon_bar->priv->active_item->index * icon_bar->priv->item_width - ((page_size-icon_bar->priv->item_width) / 2);
@@ -1987,7 +1987,7 @@ rstto_icon_bar_adjustment_changed (
         GtkAdjustment *adjustment)
 {
 #if 0
-    if (TRUE == icon_bar->priv->auto_center)
+    if (icon_bar->priv->auto_center)
     {
         gtk_adjustment_changed (adjustment);
         icon_bar->priv->auto_center = TRUE;
@@ -2005,7 +2005,7 @@ rstto_icon_bar_adjustment_value_changed (
         GtkAdjustment *adjustment)
 {
 #if 0
-    if (TRUE == icon_bar->priv->auto_center)
+    if (icon_bar->priv->auto_center)
     {
         //gtk_adjustment_value_changed (adjustment);
         icon_bar->priv->auto_center = TRUE;

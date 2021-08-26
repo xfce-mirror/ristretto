@@ -531,7 +531,7 @@ paint_monitor (GtkWidget *widget,
         cairo_scale (cr, 1 / hscale, 1 / vscale);
     }
 
-    if (FALSE == active)
+    if (! active)
     {
         cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.6);
         cairo_fill_preserve (cr);
