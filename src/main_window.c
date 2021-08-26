@@ -310,268 +310,268 @@ cb_rstto_desktop_type_changed (GObject *object,
 static GtkActionEntry action_entries[] =
 {
 /* File Menu */
-  { "file-menu",
+    { "file-menu",
             NULL,
             N_ ("_File"),
             NULL,
             NULL,
             NULL, },
-  { "open",
+    { "open",
             "document-open", /* Icon-name */
             N_ ("_Open..."), /* Label-text */
             "<control>O", /* Keyboard shortcut */
             N_ ("Open an image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_open_image), },
-  { "save-copy",
+    { "save-copy",
             "document-save-as", /* Icon-name */
             N_ ("_Save copy..."), /* Label-text */
             "<control>s", /* Keyboard shortcut */
             N_ ("Save a copy of the image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_save_copy), },
-  { "properties",
+    { "properties",
             "document-properties", /* Icon-name */
             N_ ("_Properties..."), /* Label-text */
             NULL, /* Keyboard shortcut */
             N_ ("Show file properties"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_properties), },
-  { "edit",
+    { "edit",
             "gtk-edit", /* Icon-name */
             N_ ("_Edit"), /* Label-text */
             NULL, /* Keyboard shortcut */
             N_ ("Edit this image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_edit), },
-  { "close",
+    { "close",
             "window-close", /* Icon-name */
             N_ ("_Close"), /* Label-text */
             "<control>W", /* Keyboard shortcut */
             N_ ("Close this image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_close), },
-  { "quit",
+    { "quit",
             "application-exit", /* Icon-name */
             N_ ("_Quit"), /* Label-text */
             "<control>Q", /* Keyboard shortcut */
             N_ ("Quit Ristretto"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_quit), },
 /* Edit Menu */
-  { "edit-menu",
+    { "edit-menu",
             NULL,
             N_ ("_Edit"),
             NULL,
             NULL,
             NULL, },
-  { "copy-image",
+    { "copy-image",
             "edit-copy",
             N_ ("_Copy image to clipboard"),
             "<control>C",
             NULL,
             G_CALLBACK (cb_rstto_main_window_copy_image), },
-  { "open-with-menu",
+    { "open-with-menu",
             NULL,
             N_ ("_Open with"),
             NULL,
             NULL,
             NULL, },
-  { "sorting-menu",
+    { "sorting-menu",
             NULL,
             N_ ("_Sort by"),
             NULL,
             NULL,
             NULL, },
-  { "delete",
+    { "delete",
             "edit-delete", /* Icon-name */
             N_ ("_Delete"), /* Label-text */
             "Delete", /* Keyboard shortcut */
             N_ ("Delete this image from disk"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_delete), },
-  { "clear-private-data",
+    { "clear-private-data",
             "edit-clear", /* Icon-name */
             N_ ("_Clear private data..."), /* Label-text */
             "<control><shift>Delete", /* Keyboard shortcut */
             NULL, /* Tooltip text */
             G_CALLBACK(cb_rstto_main_window_clear_private_data), },
-  { "preferences",
+    { "preferences",
             "preferences-system", /* Icon-name */
             N_ ("_Preferences..."), /* Label-text */
             NULL, /* Keyboard shortcut */
             NULL, /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_preferences), },
 /* View Menu */
-  { "view-menu",
+    { "view-menu",
             NULL,
             N_ ("_View"),
             NULL,
             NULL,
             NULL, },
-  { "fullscreen",
+    { "fullscreen",
             "view-fullscreen", /* Icon-name */
             N_ ("_Fullscreen"), /* Label-text */
             "F11", /* Keyboard shortcut */
             N_ ("Switch to fullscreen"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_fullscreen), },
-  { "unfullscreen",
+    { "unfullscreen",
             "view-restore", /* Icon-name */
             N_ ("_Leave Fullscreen"), /* Label-text */
             NULL, /* Keyboard shortcut */
             N_ ("Leave Fullscreen"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_fullscreen), },
-  { "set-as-wallpaper",
+    { "set-as-wallpaper",
             "preferences-desktop-wallpaper", /* Icon-name */
             N_ ("Set as _Wallpaper..."), /* Label-text */
             NULL, /* Keyboard shortcut */
             NULL, /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_set_as_wallpaper), },
 /* Zoom submenu */
-  { "zoom-menu",
+    { "zoom-menu",
             NULL,
             N_ ("_Zoom"),
             NULL,
             NULL,
             NULL, },
-  { "zoom-in",
+    { "zoom-in",
             "zoom-in", /* Icon-name */
             N_ ("Zoom _In"), /* Label-text */
             "<control>plus", /* Keyboard shortcut */
             N_ ("Zoom in"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_zoom_in),},
-  { "zoom-out",
+    { "zoom-out",
             "zoom-out", /* Icon-name */
             N_ ("Zoom _Out"), /* Label-text */
             "<control>minus", /* Keyboard shortcut */
             N_ ("Zoom out"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_zoom_out), },
-  { "zoom-fit",
+    { "zoom-fit",
             "zoom-fit-best", /* Icon-name */
             N_ ("Zoom _Fit"), /* Label-text */
             "<control>equal", /* Keyboard shortcut */
             N_ ("Zoom to fit window"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_zoom_fit), },
-  { "zoom-100",
+    { "zoom-100",
             "zoom-original", /* Icon-name */
             N_ ("_Normal Size"), /* Label-text */
             "<control>0", /* Keyboard shortcut */
             N_ ("Zoom to 100%"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_zoom_100), },
 /* Rotation submenu */
-  { "rotation-menu",
+    { "rotation-menu",
             NULL,
             N_ ("_Rotation"),
             NULL,
             NULL,
             NULL, },
-  { "rotate-cw",
+    { "rotate-cw",
             "object-rotate-right", /* Icon-name */
             N_ ("Rotate _Right"), /* Label-text */
             "<control>bracketright", /* Keyboard shortcut */
             NULL, /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_rotate_cw), },
-  { "rotate-ccw",
+    { "rotate-ccw",
             "object-rotate-left", /* Icon-name */
             N_ ("Rotate _Left"), /* Label-text */
             "<control>bracketleft", /* Keyboard shortcut */
             NULL, /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_rotate_ccw), },
 /* Flip submenu */
-  { "flip-menu",
+    { "flip-menu",
             NULL,
             N_ ("_Flip"),
             NULL,
             NULL,
             NULL, },
-  { "flip-horizontally",
+    { "flip-horizontally",
             "object-flip-horizontal",
             N_ ("Flip _Horizontally"), /* Label-text */
             "<control>braceright", /* Keyboard shortcut */
             NULL, /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_flip_hz), },
-  { "flip-vertically",
+    { "flip-vertically",
             "object-flip-vertical",
             N_ ("Flip _Vertically"), /* Label-text */
             "<control>braceleft", /* Keyboard shortcut */
             NULL, /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_flip_vt), },
 /* Go Menu */
-  { "go-menu",
+    { "go-menu",
             NULL,
             N_ ("_Go"),
             NULL,
             NULL,
             NULL, },
-  { "forward",
+    { "forward",
             "go-next", /* Icon-name */
             N_ ("_Forward"), /* Label-text */
             "space", /* Keyboard shortcut */
             N_("Next image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_next_image), },
-  { "back",
+    { "back",
             "go-previous", /* Icon-name */
             N_ ("_Back"), /* Label-text */
             "BackSpace", /* Keyboard shortcut */
             N_("Previous image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_previous_image), },
-  { "first",
+    { "first",
             "go-first", /* Icon-name */
             N_ ("F_irst"), /* Label-text */
             "Home", /* Keyboard shortcut */
             N_("First image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_first_image), },
-  { "last",
+    { "last",
             "go-last", /* Icon-name */
             N_ ("_Last"), /* Label-text */
             "End", /* Keyboard shortcut */
             N_("Last image"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_last_image), },
 /* Help Menu */
-  { "help-menu",
+    { "help-menu",
             NULL,
             N_ ("_Help"),
             NULL,
             NULL,
             NULL, },
-  { "contents",
+    { "contents",
             "help-browser", /* Icon-name */
             N_ ("_Contents"), /* Label-text */
             "F1", /* Keyboard shortcut */
             N_ ("Display ristretto user manual"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_contents), },
-  { "about",
+    { "about",
             "help-about",  /* Icon-name */
             N_ ("_About"), /* Label-text */
             NULL, /* Keyboard shortcut */
             N_ ("Display information about ristretto"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_about), },
 /* Position Menu */
-  { "position-menu",
+    { "position-menu",
             NULL,
             N_ ("_Position"),
             NULL,
             NULL,
             NULL, },
-  { "size-menu",
+    { "size-menu",
             NULL,
             N_ ("_Size"),
             NULL,
             NULL,
             NULL, },
-  { "thumbnailbar-position-menu",
+    { "thumbnailbar-position-menu",
             NULL,
             N_ ("Thumbnail Bar _Position"),
             NULL,
             NULL,
             NULL, },
-  { "thumbnailbar-size-menu",
+    { "thumbnailbar-size-menu",
             NULL,
             N_ ("Thumb_nail Size"),
             NULL,
             NULL,
             NULL, },
 /* Misc */
-  { "leave-fullscreen",
+    { "leave-fullscreen",
             "view-restore", /* Icon-name */
             N_ ("Leave _Fullscreen"), /* Label-text */
             NULL, /* Keyboard shortcut */
             NULL, /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_fullscreen), },
-  { "tb-menu",
+    { "tb-menu",
             NULL,
             NULL,
             NULL,
@@ -4628,7 +4628,7 @@ cb_compare_app_infos (
         gconstpointer a,
         gconstpointer b)
 {
-  return g_app_info_equal (G_APP_INFO (a), G_APP_INFO (b)) ? 0 : 1;
+    return g_app_info_equal (G_APP_INFO (a), G_APP_INFO (b)) ? 0 : 1;
 }
 
 static void
