@@ -722,10 +722,10 @@ rstto_settings_new (void)
 
 
 static void
-rstto_settings_set_property    (GObject      *object,
-                                guint         property_id,
-                                const GValue *value,
-                                GParamSpec   *pspec)
+rstto_settings_set_property (GObject      *object,
+                             guint         property_id,
+                             const GValue *value,
+                             GParamSpec   *pspec)
 {
     GdkRGBA *color;
     const gchar *str_val = NULL;
@@ -819,7 +819,7 @@ rstto_settings_set_property    (GObject      *object,
             settings->priv->errors.missing_thumbnailer = g_value_get_boolean (value);
             break;
         case PROP_SORT_TYPE:
-            settings->priv->sort_type = g_value_get_uint ( value );
+            settings->priv->sort_type = g_value_get_uint (value);
             break;
         case PROP_THUMBNAIL_SIZE:
             settings->priv->thumbnail_size = g_value_get_uint (value);
@@ -831,10 +831,10 @@ rstto_settings_set_property    (GObject      *object,
 }
 
 static void
-rstto_settings_get_property    (GObject    *object,
-                                guint       property_id,
-                                GValue     *value,
-                                GParamSpec *pspec)
+rstto_settings_get_property (GObject    *object,
+                             guint       property_id,
+                             GValue     *value,
+                             GParamSpec *pspec)
 {
     RsttoSettings *settings = RSTTO_SETTINGS (object);
 
@@ -924,7 +924,7 @@ rstto_settings_get_property    (GObject    *object,
 void
 rstto_settings_set_navbar_position (RsttoSettings *settings, guint pos)
 {
-    GValue val = {0, };
+    GValue val = { 0, };
     g_value_init (&val, G_TYPE_STRING);
 
     switch (pos)
@@ -943,7 +943,7 @@ rstto_settings_set_navbar_position (RsttoSettings *settings, guint pos)
             break;
     }
 
-    g_object_set_property (G_OBJECT(settings), "navigationbar-position", &val);
+    g_object_set_property (G_OBJECT (settings), "navigationbar-position", &val);
 
     g_value_reset (&val);
 }
@@ -971,12 +971,12 @@ rstto_settings_set_uint_property (RsttoSettings *settings,
                                   const gchar *property_name,
                                   guint value)
 {
-    GValue val = {0, };
+    GValue val = { 0, };
     g_value_init (&val, G_TYPE_UINT);
 
     g_value_set_uint (&val, value);
 
-    g_object_set_property (G_OBJECT(settings), property_name, &val);
+    g_object_set_property (G_OBJECT (settings), property_name, &val);
 
     g_value_reset (&val);
 }
@@ -986,10 +986,10 @@ rstto_settings_get_uint_property (RsttoSettings *settings,
                                   const gchar *property_name)
 {
     guint value;
-    GValue val = {0, };
+    GValue val = { 0, };
     g_value_init (&val, G_TYPE_UINT);
 
-    g_object_get_property (G_OBJECT(settings), property_name, &val);
+    g_object_get_property (G_OBJECT (settings), property_name, &val);
     value = g_value_get_uint (&val);
 
     g_value_reset (&val);
@@ -1002,12 +1002,12 @@ rstto_settings_set_int_property (RsttoSettings *settings,
                                   const gchar *property_name,
                                   gint value)
 {
-    GValue val = {0, };
+    GValue val = { 0, };
     g_value_init (&val, G_TYPE_INT);
 
     g_value_set_int (&val, value);
 
-    g_object_set_property (G_OBJECT(settings), property_name, &val);
+    g_object_set_property (G_OBJECT (settings), property_name, &val);
 
     g_value_reset (&val);
 }
@@ -1017,10 +1017,10 @@ rstto_settings_get_int_property (RsttoSettings *settings,
                                   const gchar *property_name)
 {
     gint value;
-    GValue val = {0, };
+    GValue val = { 0, };
     g_value_init (&val, G_TYPE_INT);
 
-    g_object_get_property (G_OBJECT(settings), property_name, &val);
+    g_object_get_property (G_OBJECT (settings), property_name, &val);
     value = g_value_get_int (&val);
 
     g_value_reset (&val);
@@ -1033,12 +1033,12 @@ rstto_settings_set_string_property (RsttoSettings *settings,
                                     const gchar *property_name,
                                     const gchar *value)
 {
-    GValue val = {0, };
+    GValue val = { 0, };
     g_value_init (&val, G_TYPE_STRING);
 
     g_value_set_string (&val, value);
 
-    g_object_set_property (G_OBJECT(settings), property_name, &val);
+    g_object_set_property (G_OBJECT (settings), property_name, &val);
 
     g_value_reset (&val);
 }
@@ -1048,10 +1048,10 @@ rstto_settings_get_string_property (RsttoSettings *settings,
                                   const gchar *property_name)
 {
     gchar *value = NULL;
-    GValue val = {0, };
+    GValue val = { 0, };
     g_value_init (&val, G_TYPE_STRING);
 
-    g_object_get_property (G_OBJECT(settings), property_name, &val);
+    g_object_get_property (G_OBJECT (settings), property_name, &val);
     value = g_value_dup_string (&val);
 
     g_value_reset (&val);
@@ -1064,12 +1064,12 @@ rstto_settings_set_boolean_property (RsttoSettings *settings,
                                      const gchar *property_name,
                                      gboolean value)
 {
-    GValue val = {0, };
+    GValue val = { 0, };
     g_value_init (&val, G_TYPE_BOOLEAN);
 
     g_value_set_boolean (&val, value);
 
-    g_object_set_property (G_OBJECT(settings), property_name, &val);
+    g_object_set_property (G_OBJECT (settings), property_name, &val);
 
     g_value_reset (&val);
 }
@@ -1079,10 +1079,10 @@ rstto_settings_get_boolean_property (RsttoSettings *settings,
                                      const gchar *property_name)
 {
     gboolean value;
-    GValue val = {0, };
+    GValue val = { 0, };
     g_value_init (&val, G_TYPE_BOOLEAN);
 
-    g_object_get_property (G_OBJECT(settings), property_name, &val);
+    g_object_get_property (G_OBJECT (settings), property_name, &val);
     value = g_value_get_boolean (&val);
 
     g_value_reset (&val);

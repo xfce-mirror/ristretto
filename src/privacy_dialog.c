@@ -111,7 +111,7 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
     gtk_recent_filter_add_custom (
             dialog->priv->timeframe_filter,
             GTK_RECENT_FILTER_URI,
-            (GtkRecentFilterFunc)cb_rstto_recent_filter_filter_timeframe,
+            (GtkRecentFilterFunc) cb_rstto_recent_filter_filter_timeframe,
             dialog,
             NULL);
 
@@ -274,15 +274,15 @@ rstto_privacy_dialog_finalize (GObject *object)
         dialog->priv->filters = NULL;
     }
 
-    G_OBJECT_CLASS(rstto_privacy_dialog_parent_class)->finalize(object);
+    G_OBJECT_CLASS (rstto_privacy_dialog_parent_class)->finalize (object);
 }
 
 
 static void
-rstto_privacy_dialog_set_property    (GObject      *object,
-                                      guint         property_id,
-                                      const GValue *value,
-                                      GParamSpec   *pspec)
+rstto_privacy_dialog_set_property (GObject      *object,
+                                   guint         property_id,
+                                   const GValue *value,
+                                   GParamSpec   *pspec)
 {
     RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (object);
 
@@ -296,10 +296,10 @@ rstto_privacy_dialog_set_property    (GObject      *object,
 }
 
 static void
-rstto_privacy_dialog_get_property    (GObject    *object,
-                                      guint       property_id,
-                                      GValue     *value,
-                                      GParamSpec *pspec)
+rstto_privacy_dialog_get_property (GObject    *object,
+                                   guint       property_id,
+                                   GValue     *value,
+                                   GParamSpec *pspec)
 {
 }
 
@@ -414,7 +414,7 @@ cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *combobox, gpoin
 }
 
 gboolean
-cb_rstto_recent_filter_filter_timeframe(
+cb_rstto_recent_filter_filter_timeframe (
         const GtkRecentFilterInfo *filter_info,
         gpointer user_data)
 {

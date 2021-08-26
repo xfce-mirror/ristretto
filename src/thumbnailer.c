@@ -87,8 +87,8 @@ static void
 rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
 {
     thumbnailer->priv = rstto_thumbnailer_get_instance_private (thumbnailer);
-    thumbnailer->priv->connection = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, NULL);
-    thumbnailer->priv->settings = rstto_settings_new();
+    thumbnailer->priv->connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, NULL);
+    thumbnailer->priv->settings = rstto_settings_new ();
 
     thumbnailer->priv->show_missing_thumbnailer_error =
             rstto_settings_get_boolean_property (
@@ -105,13 +105,13 @@ rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
                 NULL,
                 NULL);
 
-        g_signal_connect(thumbnailer->priv->proxy,
+        g_signal_connect (thumbnailer->priv->proxy,
                          "finished",
                          G_CALLBACK (cb_rstto_thumbnailer_request_finished),
                          thumbnailer);
-        g_signal_connect(thumbnailer->priv->proxy,
+        g_signal_connect (thumbnailer->priv->proxy,
                          "ready",
-                         G_CALLBACK(cb_rstto_thumbnailer_thumbnail_ready),
+                         G_CALLBACK (cb_rstto_thumbnailer_thumbnail_ready),
                          thumbnailer);
     }
 }
@@ -124,8 +124,8 @@ rstto_thumbnailer_class_init (RsttoThumbnailerClass *klass)
 
     object_class->finalize = rstto_thumbnailer_finalize;
 
-    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY] = g_signal_new("ready",
-            G_TYPE_FROM_CLASS(klass),
+    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY] = g_signal_new ("ready",
+            G_TYPE_FROM_CLASS (klass),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
             NULL,
@@ -181,18 +181,18 @@ rstto_thumbnailer_new (void)
 void
 rstto_thumbnailer_queue_file (
         RsttoThumbnailer *thumbnailer,
-        RsttoFile *file )
+        RsttoFile *file)
 {
-    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+    g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
 
-    g_return_if_fail ( RSTTO_IS_FILE (file) );
+    g_return_if_fail (RSTTO_IS_FILE (file));
 
     if (thumbnailer->priv->request_timer_id != 0)
     {
         REMOVE_SOURCE (thumbnailer->priv->request_timer_id);
         if (thumbnailer->priv->handle)
         {
-            if(tumbler_thumbnailer1_call_dequeue_sync(
+            if (tumbler_thumbnailer1_call_dequeue_sync (
                 thumbnailer->priv->proxy,
                 thumbnailer->priv->handle,
                 NULL,
@@ -226,9 +226,9 @@ rstto_thumbnailer_dequeue_file (
         RsttoThumbnailer *thumbnailer,
         RsttoFile *file)
 {
-    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+    g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
 
-    g_return_if_fail ( RSTTO_IS_FILE (file) );
+    g_return_if_fail (RSTTO_IS_FILE (file));
 
     if (thumbnailer->priv->request_timer_id)
     {
@@ -237,7 +237,7 @@ rstto_thumbnailer_dequeue_file (
 
     if (thumbnailer->priv->handle)
     {
-        if(tumbler_thumbnailer1_call_dequeue_sync(
+        if (tumbler_thumbnailer1_call_dequeue_sync (
                 thumbnailer->priv->proxy,
                 thumbnailer->priv->handle,
                 NULL,
@@ -280,14 +280,14 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     GtkWidget *error_dialog = NULL;
     GtkWidget *vbox, *do_not_show_checkbox;
 
-    g_return_val_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer), FALSE);
+    g_return_val_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer), FALSE);
 
     thumbnailer->priv->in_process_queue = thumbnailer->priv->queue;
     thumbnailer->priv->queue = NULL;
 
     uris = g_new0 (
             const gchar *,
-            g_slist_length(thumbnailer->priv->in_process_queue) + 1);
+            g_slist_length (thumbnailer->priv->in_process_queue) + 1);
     mimetypes = g_new0 (
             const gchar *,
             g_slist_length (thumbnailer->priv->in_process_queue) + 1);
@@ -297,18 +297,18 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     {
         if (iter->data)
         {
-            file = RSTTO_FILE(iter->data);
+            file = RSTTO_FILE (iter->data);
             uris[i] = rstto_file_get_uri (file);
             mimetypes[i] = rstto_file_get_content_type (file);
         }
-        iter = g_slist_next(iter);
+        iter = g_slist_next (iter);
         i++;
     }
 
-    if(tumbler_thumbnailer1_call_queue_sync(
+    if (tumbler_thumbnailer1_call_queue_sync (
         thumbnailer->priv->proxy,
-        (const gchar * const*)uris,
-        (const gchar * const*)mimetypes,
+        (const gchar * const*) uris,
+        (const gchar * const*) mimetypes,
         "normal",
         "default",
         0,
@@ -318,7 +318,7 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     {
         if (NULL != error)
         {
-            g_warning("DBUS-call failed:%s", error->message);
+            g_warning ("DBUS-call failed:%s", error->message);
             if ((error->domain == G_DBUS_ERROR) &&
                 (error->code == G_DBUS_ERROR_SERVICE_UNKNOWN) &&
                 thumbnailer->priv->show_missing_thumbnailer_error == TRUE)
@@ -332,8 +332,7 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
                         "for this reason, the thumbnails can not be\n"
                         "created.\n\n"
                         "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
-                        "to resolve this issue.")
-                        );
+                        "to resolve this issue."));
                 vbox = gtk_dialog_get_content_area (
                         GTK_DIALOG (error_dialog));
 
@@ -346,7 +345,7 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
                         FALSE,
                         0);
                 gtk_widget_show (do_not_show_checkbox);
-                gtk_dialog_run (GTK_DIALOG(error_dialog));
+                gtk_dialog_run (GTK_DIALOG (error_dialog));
 
                 thumbnailer->priv->show_missing_thumbnailer_error = FALSE;
                 if (TRUE == gtk_toggle_button_get_active (
@@ -378,7 +377,7 @@ cb_rstto_thumbnailer_request_finished (
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
 
-    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+    g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
 
     if (thumbnailer->priv->in_process_queue)
     {
@@ -400,7 +399,7 @@ cb_rstto_thumbnailer_thumbnail_ready (
     gint x = 0;
     const gchar *f_uri;
 
-    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+    g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
 
     while (iter)
     {
@@ -429,7 +428,7 @@ cb_rstto_thumbnailer_thumbnail_ready (
         }
         else
         {
-            iter = g_slist_next(iter);
+            iter = g_slist_next (iter);
         }
     }
 }

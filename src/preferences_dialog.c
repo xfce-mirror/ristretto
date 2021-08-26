@@ -327,7 +327,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     dialog->priv->fullscreen_tab.clock_frame = xfce_gtk_frame_box_new_with_content (_("Clock"), dialog->priv->fullscreen_tab.clock_vbox);
     gtk_box_pack_start (GTK_BOX (fullscreen_main_vbox), dialog->priv->fullscreen_tab.clock_frame, FALSE, FALSE, 0);
 
-    dialog->priv->fullscreen_tab.clock_label = gtk_label_new ( _("Show an analog clock that displays the current time when the window is fullscreen"));
+    dialog->priv->fullscreen_tab.clock_label = gtk_label_new (_("Show an analog clock that displays the current time when the window is fullscreen"));
     gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), TRUE);
     gtk_label_set_xalign (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), 0.0);
     gtk_label_set_yalign (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), 0.5);
@@ -560,17 +560,17 @@ rstto_preferences_dialog_new (GtkWindow *parent)
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active == TRUE) then
  *
- *       set_property ( "bgcolor-override", TRUE );
+ *       set_property ("bgcolor-override", TRUE);
  *
- *       set_sensitive ( bgcolor_color_button, TRUE );
+ *       set_sensitive (bgcolor_color_button, TRUE);
  *
  *   else
  *
- *       set_property ( "bgcolor-override", FALSE );
+ *       set_property ("bgcolor-override", FALSE);
  *
- *       set_sensitive ( bgcolor_color_button, FALSE );
+ *       set_sensitive (bgcolor_color_button, FALSE);
  *
  *   endif
  */
@@ -582,19 +582,19 @@ cb_bgcolor_override_toggled (
     /* Variable Section */
 
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-    gboolean bgcolor_override = gtk_toggle_button_get_active ( button );
+    gboolean bgcolor_override = gtk_toggle_button_get_active (button);
 
 
     /* Code Section */
 
     gtk_widget_set_sensitive (
             dialog->priv->display_tab.bgcolor_color_button,
-            bgcolor_override );
+            bgcolor_override);
 
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "bgcolor-override",
-            bgcolor_override );
+            bgcolor_override);
 }
 
 /**
@@ -613,7 +613,7 @@ cb_bgcolor_override_toggled (
  *
  *   color = button_get_color ()
  *
- *   set_property ( "bg-color", color );
+ *   set_property ("bg-color", color);
  */
 static void
 cb_bgcolor_color_set (
@@ -623,7 +623,7 @@ cb_bgcolor_color_set (
     /* Variable Section */
 
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-    GValue bgcolor_val = {0, };
+    GValue bgcolor_val = { 0, };
 
 
     /* Code Section */
@@ -631,11 +631,11 @@ cb_bgcolor_color_set (
     g_value_init (&bgcolor_val, GDK_TYPE_RGBA);
 
     g_object_get_property (
-            G_OBJECT(button),
+            G_OBJECT (button),
             "rgba",
             &bgcolor_val);
     g_object_set_property (
-            G_OBJECT(dialog->priv->settings),
+            G_OBJECT (dialog->priv->settings),
             "bgcolor",
             &bgcolor_val);
 }
@@ -657,13 +657,13 @@ cb_bgcolor_color_set (
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active == TRUE) then
  *
- *       set_property ( "invert-zoom-direction", TRUE );
+ *       set_property ("invert-zoom-direction", TRUE);
  *
  *   else
  *
- *       set_property ( "invert-zoom-direction", FALSE );
+ *       set_property ("invert-zoom-direction", FALSE);
  *
  *   endif
  */
@@ -675,7 +675,7 @@ cb_invert_zoom_direction_check_button_toggled (
     /* Variable Section */
 
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-    gboolean invert_zoom = gtk_toggle_button_get_active ( button );
+    gboolean invert_zoom = gtk_toggle_button_get_active (button);
 
 
     /* Code Section */
@@ -683,7 +683,7 @@ cb_invert_zoom_direction_check_button_toggled (
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "invert-zoom-direction",
-            invert_zoom );
+            invert_zoom);
 }
 
 /**
@@ -703,7 +703,7 @@ cb_invert_zoom_direction_check_button_toggled (
  *
  *   value = range_get_value ()
  *
- *   set_property ( "slideshow-timeout", value );
+ *   set_property ("slideshow-timeout", value);
  */
 static void
 cb_slideshow_timeout_value_changed (
@@ -712,8 +712,8 @@ cb_slideshow_timeout_value_changed (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
-    guint slideshow_timeout = (guint)gtk_range_get_value ( range );
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    guint slideshow_timeout = (guint) gtk_range_get_value (range);
 
 
     /* Code Section */
@@ -721,7 +721,7 @@ cb_slideshow_timeout_value_changed (
     rstto_settings_set_uint_property (
             dialog->priv->settings,
             "slideshow-timeout",
-            slideshow_timeout );
+            slideshow_timeout);
 
 }
 
@@ -742,13 +742,13 @@ cb_slideshow_timeout_value_changed (
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active == TRUE) then
  *
- *       set_property ( "hide-thumbnails-fullscreen", TRUE );
+ *       set_property ("hide-thumbnails-fullscreen", TRUE);
  *
  *   else
  *
- *       set_property ( "hide-thumbnails-fullscreen", FALSE );
+ *       set_property ("hide-thumbnails-fullscreen", FALSE);
  *
  *   endif
  */
@@ -759,8 +759,8 @@ cb_hide_thumbnails_fullscreen_check_button_toggled (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
-    gboolean hide_thumbnails = gtk_toggle_button_get_active ( button );
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    gboolean hide_thumbnails = gtk_toggle_button_get_active (button);
 
 
     /* Code Section */
@@ -768,7 +768,7 @@ cb_hide_thumbnails_fullscreen_check_button_toggled (
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "hide-thumbnails-fullscreen",
-            hide_thumbnails );
+            hide_thumbnails);
 }
 
 /**
@@ -789,13 +789,13 @@ cb_hide_thumbnails_fullscreen_check_button_toggled (
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active == TRUE) then
  *
- *       set_property ( "wrap-images", TRUE );
+ *       set_property ("wrap-images", TRUE);
  *
  *   else
  *
- *       set_property ( "wrap-images", FALSE );
+ *       set_property ("wrap-images", FALSE);
  *
  *   endif
  */
@@ -806,8 +806,8 @@ cb_wrap_images_check_button_toggled (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
-    gboolean wrap_images = gtk_toggle_button_get_active ( button );
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    gboolean wrap_images = gtk_toggle_button_get_active (button);
 
 
     /* Code Section */
@@ -815,7 +815,7 @@ cb_wrap_images_check_button_toggled (
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "wrap-images",
-            wrap_images );
+            wrap_images);
 }
 
 /**
@@ -835,13 +835,13 @@ cb_wrap_images_check_button_toggled (
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active == TRUE) then
  *
- *       set_property ( "maximize-on-startup", TRUE );
+ *       set_property ("maximize-on-startup", TRUE);
  *
  *   else
  *
- *       set_property ( "maximize-on-startup", FALSE );
+ *       set_property ("maximize-on-startup", FALSE);
  *
  *   endif
  */
@@ -852,8 +852,8 @@ cb_maximize_on_startup_check_button_toggled (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
-    gboolean maximize_on_startup = gtk_toggle_button_get_active ( button );
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    gboolean maximize_on_startup = gtk_toggle_button_get_active (button);
 
 
     /* Code Section */
@@ -861,7 +861,7 @@ cb_maximize_on_startup_check_button_toggled (
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "maximize-on-startup",
-            maximize_on_startup );
+            maximize_on_startup);
 }
 
 /**
@@ -881,13 +881,13 @@ cb_maximize_on_startup_check_button_toggled (
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active == TRUE) then
  *
- *       set_property ( "show-clock", TRUE );
+ *       set_property ("show-clock", TRUE);
  *
  *   else
  *
- *       set_property ( "show-clock", FALSE );
+ *       set_property ("show-clock", FALSE);
  *
  *   endif
  */
@@ -898,8 +898,8 @@ cb_show_clock_check_button_toggled (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
-    gboolean show_clock = gtk_toggle_button_get_active ( button );
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    gboolean show_clock = gtk_toggle_button_get_active (button);
 
     /* Code Section */
 
@@ -955,13 +955,13 @@ cb_cursor_timeout_button_value_changed (
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active == TRUE) then
  *
- *       set_property ( "limit-quality", TRUE );
+ *       set_property ("limit-quality", TRUE);
  *
  *   else
  *
- *       set_property ( "limit-quality", FALSE );
+ *       set_property ("limit-quality", FALSE);
  *
  *   endif
  */
@@ -972,8 +972,8 @@ cb_limit_quality_check_button_toggled (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
-    gboolean limit_quality = gtk_toggle_button_get_active ( button );
+    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    gboolean limit_quality = gtk_toggle_button_get_active (button);
 
 
     /* Code Section */
@@ -981,7 +981,7 @@ cb_limit_quality_check_button_toggled (
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "limit-quality",
-            limit_quality );
+            limit_quality);
 }
 
 /**
@@ -1002,17 +1002,17 @@ cb_limit_quality_check_button_toggled (
  *
  *   active = combo_box_get_active ()
  *
- *   if ( active == DESKTOP_TYPE_NONE ) then
+ *   if (active == DESKTOP_TYPE_NONE) then
  *
- *       set_property ( "desktop-type", "none" );
+ *       set_property ("desktop-type", "none");
  *
- *   else if ( active == DESKTOP_TYPE_XFCE ) then
+ *   else if (active == DESKTOP_TYPE_XFCE) then
  *
- *       set_property ( "desktop-type", "xfce" );
+ *       set_property ("desktop-type", "xfce");
  *
- *   else if ( active == DESKTOP_TYPE_GNOME ) then
+ *   else if (active == DESKTOP_TYPE_GNOME) then
  *
- *       set_property ( "desktop-type", "gnome" );
+ *       set_property ("desktop-type", "gnome");
  *
  *   endif
  */

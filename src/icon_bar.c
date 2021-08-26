@@ -420,7 +420,7 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
     icon_bar->priv->show_text = TRUE;
     icon_bar->priv->auto_center = TRUE;
     icon_bar->priv->settings = rstto_settings_new ();
-    icon_bar->priv->thumbnailer = rstto_thumbnailer_new();
+    icon_bar->priv->thumbnailer = rstto_thumbnailer_new ();
 
     icon_bar->priv->thumbnail_size = rstto_settings_get_uint_property (
             icon_bar->priv->settings,
@@ -438,7 +438,7 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
     gtk_widget_set_can_focus (GTK_WIDGET (icon_bar), FALSE);
 
     g_signal_connect (
-            G_OBJECT(icon_bar->priv->settings),
+            G_OBJECT (icon_bar->priv->settings),
             "notify::thumbnail-size",
             G_CALLBACK (cb_rstto_thumbnail_size_changed),
             icon_bar);
@@ -1716,7 +1716,7 @@ rstto_icon_bar_set_file_column (
  * @icon_bar  : An #RsttoIconBar.
  *
  * Retrieves the current orientation of the toolbar. See
- * rstto_icon_bar_set_orientation().
+ * rstto_icon_bar_set_orientation ().
  *
  * Returns: The orientation of @icon_bar.
  **/
@@ -2058,7 +2058,7 @@ rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar)
     {
         case THUMBNAIL_SIZE_VERY_SMALL:
             thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default(),
+                    gtk_icon_theme_get_default (),
                     "image-missing",
                     THUMBNAIL_SIZE_VERY_SMALL_SIZE,
                     0,
@@ -2066,7 +2066,7 @@ rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar)
             break;
         case THUMBNAIL_SIZE_SMALLER:
             thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default(),
+                    gtk_icon_theme_get_default (),
                     "image-missing",
                     THUMBNAIL_SIZE_SMALLER_SIZE,
                     0,
@@ -2074,7 +2074,7 @@ rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar)
             break;
         case THUMBNAIL_SIZE_SMALL:
             thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default(),
+                    gtk_icon_theme_get_default (),
                     "image-missing",
                     THUMBNAIL_SIZE_SMALL_SIZE,
                     0,
@@ -2082,7 +2082,7 @@ rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar)
             break;
         case THUMBNAIL_SIZE_NORMAL:
             thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default(),
+                    gtk_icon_theme_get_default (),
                     "image-missing",
                     THUMBNAIL_SIZE_NORMAL_SIZE,
                     0,
@@ -2090,7 +2090,7 @@ rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar)
             break;
         case THUMBNAIL_SIZE_LARGE:
             thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default(),
+                    gtk_icon_theme_get_default (),
                     "image-missing",
                     THUMBNAIL_SIZE_LARGE_SIZE,
                     0,
@@ -2098,7 +2098,7 @@ rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar)
             break;
         case THUMBNAIL_SIZE_LARGER:
             thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default(),
+                    gtk_icon_theme_get_default (),
                     "image-missing",
                     THUMBNAIL_SIZE_LARGER_SIZE,
                     0,
@@ -2106,7 +2106,7 @@ rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar)
             break;
         case THUMBNAIL_SIZE_VERY_LARGE:
             thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default(),
+                    gtk_icon_theme_get_default (),
                     "image-missing",
                     THUMBNAIL_SIZE_VERY_LARGE_SIZE,
                     0,

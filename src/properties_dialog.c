@@ -179,7 +179,7 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
             dialog->priv->image_table,
             dialog->priv->image_label);
 
-    gtk_box_pack_start (GTK_BOX(vbox), dialog->priv->notebook, TRUE, TRUE, 3);
+    gtk_box_pack_start (GTK_BOX (vbox), dialog->priv->notebook, TRUE, TRUE, 3);
 
     gtk_widget_show_all (vbox);
 
@@ -219,7 +219,7 @@ rstto_properties_dialog_finalize (GObject *object)
         dialog->priv->settings = NULL;
     }
 
-    G_OBJECT_CLASS(rstto_properties_dialog_parent_class)->finalize(object);
+    G_OBJECT_CLASS (rstto_properties_dialog_parent_class)->finalize (object);
 }
 
 
@@ -295,13 +295,13 @@ properties_dialog_set_file (
         g_free (file_uri_checksum);
 
         /* build and check if the thumbnail is in the new location */
-        thumbnail_path = g_build_path ("/", g_get_user_cache_dir(), "thumbnails", "normal", filename, NULL);
+        thumbnail_path = g_build_path ("/", g_get_user_cache_dir (), "thumbnails", "normal", filename, NULL);
         if (!g_file_test (thumbnail_path, G_FILE_TEST_EXISTS))
         {
             /* Fallback to old version */
             g_free (thumbnail_path);
 
-            thumbnail_path = g_build_path ("/", g_get_home_dir(), ".thumbnails", "normal", filename, NULL);
+            thumbnail_path = g_build_path ("/", g_get_home_dir (), ".thumbnails", "normal", filename, NULL);
             if (!g_file_test (thumbnail_path, G_FILE_TEST_EXISTS))
             {
                 /* Thumbnail doesn't exist in either spot */
@@ -314,7 +314,7 @@ properties_dialog_set_file (
         pixbuf = gdk_pixbuf_new_from_file_at_scale (thumbnail_path, 96, 96, TRUE, NULL);
         if (NULL != pixbuf)
         {
-            gtk_image_set_from_pixbuf (GTK_IMAGE(dialog->priv->image_thumbnail), pixbuf);
+            gtk_image_set_from_pixbuf (GTK_IMAGE (dialog->priv->image_thumbnail), pixbuf);
             g_object_unref (pixbuf);
         }
 
@@ -324,10 +324,10 @@ properties_dialog_set_file (
                 "standard::content-type,standard::size,time::modified,time::access",
                 0,
                 NULL,
-                NULL );
+                NULL);
         description = g_content_type_get_description (g_file_info_get_content_type (file_info));
-        mtime = (time_t)g_file_info_get_attribute_uint64 ( file_info, "time::modified" );
-        atime = (time_t)g_file_info_get_attribute_uint64 ( file_info, "time::access" );
+        mtime = (time_t) g_file_info_get_attribute_uint64 (file_info, "time::modified");
+        atime = (time_t) g_file_info_get_attribute_uint64 (file_info, "time::access");
         size = g_file_info_get_attribute_uint64 (file_info, "standard::size");
         strftime (
                 buf,
@@ -336,8 +336,7 @@ properties_dialog_set_file (
                 localtime (&mtime));
         gtk_label_set_text (
                 GTK_LABEL (dialog->priv->modified_content_label),
-                buf
-                );
+                buf);
         strftime (
                 buf,
                 20,
@@ -345,8 +344,7 @@ properties_dialog_set_file (
                 localtime (&atime));
         gtk_label_set_text (
                 GTK_LABEL (dialog->priv->accessed_content_label),
-                buf
-                );
+                buf);
 
         g_snprintf (
                 buf,
@@ -355,21 +353,18 @@ properties_dialog_set_file (
                 size);
         gtk_label_set_text (
                 GTK_LABEL (dialog->priv->size_content_label),
-                buf
-                );
+                buf);
 
         gtk_label_set_text (
                 GTK_LABEL (dialog->priv->mime_content_label),
-                description
-                );
+                description);
         gtk_entry_set_text (
                 GTK_ENTRY (dialog->priv->name_entry),
-                rstto_file_get_display_name (file)
-                );
+                rstto_file_get_display_name (file));
         g_free (description);
 
         /* Show or hide the image tab containing exif data */
-        if ( TRUE == rstto_file_has_exif (file) )
+        if (TRUE == rstto_file_has_exif (file))
         {
             children = gtk_container_get_children (
                     GTK_CONTAINER (dialog->priv->image_table));
@@ -393,15 +388,15 @@ properties_dialog_set_file (
                 switch (i)
                 {
                     case EXIF_PROP_DATE_TIME:
-                        exif_entry = rstto_file_get_exif ( file, EXIF_TAG_DATE_TIME );
+                        exif_entry = rstto_file_get_exif (file, EXIF_TAG_DATE_TIME);
                         if (NULL != exif_entry)
                         {
                             exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
-                            label_string = g_strdup_printf(_("<b>Date taken:</b>"));
+                            label_string = g_strdup_printf (_("<b>Date taken:</b>"));
                         }
                         break;
                     case EXIF_PROP_MODEL:
-                        exif_entry = rstto_file_get_exif ( file, EXIF_TAG_MODEL);
+                        exif_entry = rstto_file_get_exif (file, EXIF_TAG_MODEL);
                         if (NULL != exif_entry)
                         {
                             exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
@@ -409,11 +404,11 @@ properties_dialog_set_file (
                             exif_title = exif_tag_get_title_in_ifd (
                                     EXIF_TAG_MODEL,
                                     exif_ifd);
-                            label_string = g_strdup_printf(_("<b>%s</b>"), exif_title);
+                            label_string = g_strdup_printf (_("<b>%s</b>"), exif_title);
                         }
                         break;
                     case EXIF_PROP_MAKE:
-                        exif_entry = rstto_file_get_exif ( file, EXIF_TAG_MAKE);
+                        exif_entry = rstto_file_get_exif (file, EXIF_TAG_MAKE);
                         if (NULL != exif_entry)
                         {
                             exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
@@ -421,11 +416,11 @@ properties_dialog_set_file (
                             exif_title = exif_tag_get_title_in_ifd (
                                     EXIF_TAG_MAKE,
                                     exif_ifd);
-                            label_string = g_strdup_printf(_("<b>%s</b>"), exif_title);
+                            label_string = g_strdup_printf (_("<b>%s</b>"), exif_title);
                         }
                         break;
                     case EXIF_PROP_APERATURE:
-                        exif_entry = rstto_file_get_exif ( file, EXIF_TAG_APERTURE_VALUE);
+                        exif_entry = rstto_file_get_exif (file, EXIF_TAG_APERTURE_VALUE);
                         if (NULL != exif_entry)
                         {
                             exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
@@ -433,7 +428,7 @@ properties_dialog_set_file (
                             exif_title = exif_tag_get_title_in_ifd (
                                     EXIF_TAG_APERTURE_VALUE,
                                     exif_ifd);
-                            label_string = g_strdup_printf(_("<b>%s</b>"), exif_title);
+                            label_string = g_strdup_printf (_("<b>%s</b>"), exif_title);
                         }
                         break;
                     default:
@@ -452,8 +447,7 @@ properties_dialog_set_file (
                         0.5);
                 gtk_label_set_text (
                         GTK_LABEL (exif_content_label),
-                        exif_data
-                        );
+                        exif_data);
 
                 gtk_grid_attach (
                         GTK_GRID (dialog->priv->image_table),

@@ -121,7 +121,7 @@ rstto_gnome_wallpaper_manager_configure_dialog_run (
         manager->priv->style = gtk_combo_box_get_active (
                 GTK_COMBO_BOX (manager->priv->style_combo));
         manager->priv->monitor = rstto_monitor_chooser_get_selected (
-                RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser));
+                RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser));
     }
 
     return response;
@@ -258,12 +258,12 @@ rstto_gnome_wallpaper_manager_init (RsttoGnomeWallpaperManager *manager)
     gtk_window_set_resizable (GTK_WINDOW (manager->priv->dialog), FALSE);
 
     g_signal_connect (
-            G_OBJECT(manager->priv->monitor_chooser),
+            G_OBJECT (manager->priv->monitor_chooser),
             "changed",
             G_CALLBACK (cb_monitor_chooser_changed),
             manager);
     g_signal_connect (
-            G_OBJECT(manager->priv->style_combo),
+            G_OBJECT (manager->priv->style_combo),
             "changed",
             G_CALLBACK (cb_style_combo_changed),
             manager);
@@ -338,7 +338,7 @@ cb_monitor_chooser_changed (
 
 static void
 configure_monitor_chooser_pixbuf (
-    RsttoGnomeWallpaperManager *manager )
+    RsttoGnomeWallpaperManager *manager)
 {
     cairo_surface_t *image_surface = NULL;
     cairo_t *ctx;
@@ -361,7 +361,7 @@ configure_monitor_chooser_pixbuf (
     if (manager->priv->pixbuf)
     {
         tmp_pixbuf = gdk_pixbuf_copy (manager->priv->pixbuf);
-        if ( NULL != tmp_pixbuf )
+        if (NULL != tmp_pixbuf)
         {
 
             rstto_monitor_chooser_get_dimensions (
@@ -377,32 +377,31 @@ configure_monitor_chooser_pixbuf (
                     CAIRO_FORMAT_ARGB32,
                     surface_width,
                     surface_height);
-            ctx = cairo_create ( image_surface );
+            ctx = cairo_create (image_surface);
 
-            //gdk_cairo_set_source_color ( ctx, bg_color );
             cairo_set_source_rgb (ctx, 0, 0, 0);
             cairo_paint (ctx);
 
-            x_scale = (gdouble)surface_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
-            y_scale = (gdouble)surface_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
+            x_scale = (gdouble) surface_width / (gdouble) gdk_pixbuf_get_width (tmp_pixbuf);
+            y_scale = (gdouble) surface_height / (gdouble) gdk_pixbuf_get_height (tmp_pixbuf);
 
             switch (manager->priv->style)
             {
                 case MONITOR_STYLE_ZOOMED:
                     if (x_scale > y_scale)
                     {
-                        dest_width = (gint)((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) * x_scale);
-                        dest_height = (gint)((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) * x_scale);
-                        dest_x = (gint)((gdouble)(surface_width - dest_width) / 2);
-                        dest_y = (gint)((gdouble)(surface_height - dest_height) / 2);
+                        dest_width = (gint) ((gdouble) gdk_pixbuf_get_width (tmp_pixbuf) * x_scale);
+                        dest_height = (gint) ((gdouble) gdk_pixbuf_get_height (tmp_pixbuf) * x_scale);
+                        dest_x = (gint) ((gdouble) (surface_width - dest_width) / 2);
+                        dest_y = (gint) ((gdouble) (surface_height - dest_height) / 2);
                         y_scale = x_scale;
                     }
                     else
                     {
-                        dest_width = (gint)((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) * y_scale);
-                        dest_height = (gint)((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) * y_scale);
-                        dest_x = (gint)((gdouble)(surface_width - dest_width) / 2);
-                        dest_y = (gint)((gdouble)(surface_height - dest_height) / 2);
+                        dest_width = (gint) ((gdouble) gdk_pixbuf_get_width (tmp_pixbuf) * y_scale);
+                        dest_height = (gint) ((gdouble) gdk_pixbuf_get_height (tmp_pixbuf) * y_scale);
+                        dest_x = (gint) ((gdouble) (surface_width - dest_width) / 2);
+                        dest_y = (gint) ((gdouble) (surface_height - dest_height) / 2);
                         x_scale = y_scale;
                     }
                     break;
@@ -414,18 +413,18 @@ configure_monitor_chooser_pixbuf (
                 case MONITOR_STYLE_SCALED:
                     if (x_scale < y_scale)
                     {
-                        dest_width = (gint)((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) * x_scale);
-                        dest_height = (gint)((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) * x_scale);
-                        dest_x = (gint)((gdouble)(surface_width - dest_width) / 2);
-                        dest_y = (gint)((gdouble)(surface_height - dest_height) / 2);
+                        dest_width = (gint) ((gdouble) gdk_pixbuf_get_width (tmp_pixbuf) * x_scale);
+                        dest_height = (gint) ((gdouble) gdk_pixbuf_get_height (tmp_pixbuf) * x_scale);
+                        dest_x = (gint) ((gdouble) (surface_width - dest_width) / 2);
+                        dest_y = (gint) ((gdouble) (surface_height - dest_height) / 2);
                         y_scale = x_scale;
                     }
                     else
                     {
-                        dest_width = (gint)((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) * y_scale);
-                        dest_height = (gint)((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) * y_scale);
-                        dest_x = (gint)((gdouble)(surface_width - dest_width) / 2);
-                        dest_y = (gint)((gdouble)(surface_height - dest_height) / 2);
+                        dest_width = (gint) ((gdouble) gdk_pixbuf_get_width (tmp_pixbuf) * y_scale);
+                        dest_height = (gint) ((gdouble) gdk_pixbuf_get_height (tmp_pixbuf) * y_scale);
+                        dest_x = (gint) ((gdouble) (surface_width - dest_width) / 2);
+                        dest_y = (gint) ((gdouble) (surface_height - dest_height) / 2);
                         x_scale = y_scale;
                     }
                     break;
