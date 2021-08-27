@@ -102,7 +102,7 @@ rstto_app_menu_item_activate (GtkMenuItem *object)
 
     g_app_info_launch (app_menu_item->priv->app_info, files, NULL, NULL);
 
-    GTK_MENU_ITEM_CLASS (rstto_app_menu_item_parent_class)->activate (GTK_MENU_ITEM (object));
+    GTK_MENU_ITEM_CLASS (rstto_app_menu_item_parent_class)->activate (object);
 }
 
 /**

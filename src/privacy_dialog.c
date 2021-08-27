@@ -111,7 +111,7 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
     gtk_recent_filter_add_custom (
             dialog->priv->timeframe_filter,
             GTK_RECENT_FILTER_URI,
-            (GtkRecentFilterFunc) cb_rstto_recent_filter_filter_timeframe,
+            cb_rstto_recent_filter_filter_timeframe,
             dialog,
             NULL);
 
@@ -385,7 +385,7 @@ rstto_recent_chooser_get_items (
 static void
 cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *combobox, gpointer user_data)
 {
-    RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (user_data);
+    RsttoPrivacyDialog *dialog = user_data;
     struct tm *time_info;
 
     switch (gtk_combo_box_get_active (combobox))
@@ -418,7 +418,7 @@ cb_rstto_recent_filter_filter_timeframe (
         const GtkRecentFilterInfo *filter_info,
         gpointer user_data)
 {
-    RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (user_data);
+    RsttoPrivacyDialog *dialog = user_data;
     GtkRecentInfo *info = gtk_recent_manager_lookup_item (dialog->priv->recent_manager, filter_info->uri, NULL);
     const time_t visited = gtk_recent_info_get_visited (info);
 

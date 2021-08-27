@@ -581,7 +581,7 @@ cb_bgcolor_override_toggled (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
     gboolean bgcolor_override = gtk_toggle_button_get_active (button);
 
 
@@ -620,7 +620,7 @@ cb_bgcolor_color_set (
         GtkColorButton *button,
         gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
     GdkRGBA *bgcolor;
 
     g_object_get (button, "rgba", &bgcolor, NULL);
@@ -663,7 +663,7 @@ cb_invert_zoom_direction_check_button_toggled (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
     gboolean invert_zoom = gtk_toggle_button_get_active (button);
 
 
@@ -701,7 +701,7 @@ cb_slideshow_timeout_value_changed (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
     guint slideshow_timeout = (guint) gtk_range_get_value (range);
 
 
@@ -748,7 +748,7 @@ cb_hide_thumbnails_fullscreen_check_button_toggled (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
     gboolean hide_thumbnails = gtk_toggle_button_get_active (button);
 
 
@@ -795,7 +795,7 @@ cb_wrap_images_check_button_toggled (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
     gboolean wrap_images = gtk_toggle_button_get_active (button);
 
 
@@ -841,7 +841,7 @@ cb_maximize_on_startup_check_button_toggled (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
     gboolean maximize_on_startup = gtk_toggle_button_get_active (button);
 
 
@@ -887,7 +887,7 @@ cb_show_clock_check_button_toggled (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
     gboolean show_clock = gtk_toggle_button_get_active (button);
 
     /* Code Section */
@@ -918,7 +918,7 @@ cb_cursor_timeout_button_value_changed (
         GtkSpinButton *spin_button,
         gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
     gdouble value = gtk_spin_button_get_value (spin_button);
 
     rstto_settings_set_uint_property (
@@ -961,7 +961,7 @@ cb_limit_quality_check_button_toggled (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
     gboolean limit_quality = gtk_toggle_button_get_active (button);
 
 
@@ -1012,7 +1012,7 @@ cb_choose_desktop_combo_box_changed (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
 
 
     /* Code Section */

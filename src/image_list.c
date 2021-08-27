@@ -329,13 +329,13 @@ rstto_image_list_finalize (GObject *object)
 
         if (image_list->priv->image_monitors)
         {
-            g_list_free_full (image_list->priv->image_monitors, (GDestroyNotify) g_object_unref);
+            g_list_free_full (image_list->priv->image_monitors, g_object_unref);
             image_list->priv->image_monitors = NULL;
         }
 
         if (image_list->priv->images)
         {
-            g_list_free_full (image_list->priv->images, (GDestroyNotify) g_object_unref);
+            g_list_free_full (image_list->priv->images, g_object_unref);
             image_list->priv->images = NULL;
         }
     }
@@ -569,10 +569,10 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
         image_iter = g_list_next (image_iter);
     }
 
-    g_list_free_full (image_list->priv->image_monitors, (GDestroyNotify) g_object_unref);
+    g_list_free_full (image_list->priv->image_monitors, g_object_unref);
     image_list->priv->image_monitors = NULL;
 
-    g_list_free_full (image_list->priv->images, (GDestroyNotify) g_object_unref);
+    g_list_free_full (image_list->priv->images, g_object_unref);
     image_list->priv->images = NULL;
 
     iter = image_list->priv->iterators;
@@ -782,7 +782,7 @@ rstto_image_list_monitor_dir (
 
     if (image_list->priv->image_monitors)
     {
-        g_list_free_full (image_list->priv->image_monitors, (GDestroyNotify) g_object_unref);
+        g_list_free_full (image_list->priv->image_monitors, g_object_unref);
         image_list->priv->image_monitors = NULL;
     }
 
@@ -797,7 +797,7 @@ cb_file_monitor_changed (
         GFileMonitorEvent  event_type,
         gpointer           user_data)
 {
-    RsttoImageList *image_list = RSTTO_IMAGE_LIST (user_data);
+    RsttoImageList *image_list = user_data;
     RsttoFile *r_file = rstto_file_new (file);
 
     switch (event_type)
@@ -1315,7 +1315,7 @@ cb_rstto_wrap_images_changed (
         GParamSpec *pspec,
         gpointer user_data)
 {
-    RsttoImageList *image_list = RSTTO_IMAGE_LIST (user_data);
+    RsttoImageList *image_list = user_data;
 
     g_object_get (settings, "wrap-images", &(image_list->priv->wrap_images), NULL);
 }
@@ -1327,7 +1327,7 @@ cb_rstto_wrap_images_changed (
 static GtkTreeModelFlags
 image_list_model_get_flags (GtkTreeModel *tree_model)
 {
-    g_return_val_if_fail (RSTTO_IS_IMAGE_LIST (tree_model), (GtkTreeModelFlags) 0);
+    g_return_val_if_fail (RSTTO_IS_IMAGE_LIST (tree_model), 0);
 
     return (GTK_TREE_MODEL_LIST_ONLY | GTK_TREE_MODEL_ITERS_PERSIST);
 }
@@ -1524,7 +1524,7 @@ image_list_model_get_value (
         gint column,
         GValue *value)
 {
-    RsttoFile *file = RSTTO_FILE (iter->user_data);
+    RsttoFile *file = iter->user_data;
 
     switch (column)
     {
@@ -1541,7 +1541,7 @@ cb_rstto_thumbnailer_ready (
         RsttoFile *file,
         gpointer user_data)
 {
-    RsttoImageList *image_list = RSTTO_IMAGE_LIST (user_data);
+    RsttoImageList *image_list = user_data;
     GtkTreePath *path_ = NULL;
     GtkTreeIter iter;
     gint index_;

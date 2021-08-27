@@ -243,7 +243,7 @@ rstto_thumbnailer_dequeue_file (
              * being processed, no big deal */
         }
         thumbnailer->priv->handle = 0;
-        g_slist_free_full (thumbnailer->priv->in_process_queue, (GDestroyNotify) g_object_unref);
+        g_slist_free_full (thumbnailer->priv->in_process_queue, g_object_unref);
         thumbnailer->priv->in_process_queue = NULL;
     }
 
@@ -293,7 +293,7 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     {
         if (iter->data)
         {
-            file = RSTTO_FILE (iter->data);
+            file = iter->data;
             uris[i] = rstto_file_get_uri (file);
             mimetypes[i] = rstto_file_get_content_type (file);
         }
@@ -366,13 +366,13 @@ cb_rstto_thumbnailer_request_finished (
         guint arg_handle,
         gpointer data)
 {
-    RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
+    RsttoThumbnailer *thumbnailer = data;
 
     g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
 
     if (thumbnailer->priv->in_process_queue)
     {
-        g_slist_free_full (thumbnailer->priv->in_process_queue, (GDestroyNotify) g_object_unref);
+        g_slist_free_full (thumbnailer->priv->in_process_queue, g_object_unref);
         thumbnailer->priv->in_process_queue = NULL;
     }
 }
@@ -384,7 +384,7 @@ cb_rstto_thumbnailer_thumbnail_ready (
         const gchar *const *uri,
         gpointer data)
 {
-    RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
+    RsttoThumbnailer *thumbnailer = data;
     RsttoFile *file;
     GSList *iter = thumbnailer->priv->in_process_queue;
     gint x = 0;
@@ -399,7 +399,7 @@ cb_rstto_thumbnailer_thumbnail_ready (
             break;
         }
 
-        file = RSTTO_FILE (iter->data);
+        file = iter->data;
         f_uri = rstto_file_get_uri (file);
         if (strcmp (uri[x], f_uri) == 0)
         {

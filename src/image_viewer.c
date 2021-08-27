@@ -1645,7 +1645,7 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
     g_file_read_async (rstto_file_get_file (transaction->file),
                        0,
                        transaction->cancellable,
-                       (GAsyncReadyCallback) cb_rstto_image_viewer_read_file_ready,
+                       cb_rstto_image_viewer_read_file_ready,
                        transaction);
 }
 
@@ -1867,7 +1867,7 @@ cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *res
                                RSTTO_IMAGE_VIEWER_BUFFER_SIZE,
                                G_PRIORITY_DEFAULT,
                                transaction->cancellable,
-                               (GAsyncReadyCallback) cb_rstto_image_viewer_read_input_stream_ready,
+                               cb_rstto_image_viewer_read_input_stream_ready,
                                transaction);
 }
 
@@ -1899,7 +1899,7 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
                                        RSTTO_IMAGE_VIEWER_BUFFER_SIZE,
                                        G_PRIORITY_DEFAULT,
                                        transaction->cancellable,
-                                       (GAsyncReadyCallback) cb_rstto_image_viewer_read_input_stream_ready,
+                                       cb_rstto_image_viewer_read_input_stream_ready,
                                        transaction);
         }
     }
@@ -2493,7 +2493,7 @@ rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
 static void
 cb_rstto_limit_quality_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
 {
-    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
+    RsttoImageViewer *viewer = user_data;
 
     g_object_get (viewer->priv->settings, "limit-quality", &(viewer->priv->limit_quality), NULL);
 
@@ -2504,8 +2504,8 @@ cb_rstto_limit_quality_changed (GObject *settings, GParamSpec *pspec, gpointer u
 static void
 cb_rstto_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
 {
-    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
-    GtkWidget *widget = GTK_WIDGET (user_data);
+    RsttoImageViewer *viewer = user_data;
+    GtkWidget *widget = user_data;
     gboolean bg_color_override;
 
     gdk_rgba_free (viewer->priv->bg_color_fs);
@@ -2525,7 +2525,7 @@ cb_rstto_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_da
 static void
 cb_rstto_zoom_direction_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
 {
-    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (user_data);
+    RsttoImageViewer *viewer = user_data;
     viewer->priv->invert_zoom_direction = rstto_settings_get_boolean_property (RSTTO_SETTINGS (settings), "invert-zoom-direction");
 }
 

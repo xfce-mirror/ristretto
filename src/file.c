@@ -192,7 +192,7 @@ rstto_file_new (GFile *file)
         /* Check if the file is already opened, if so
          * return that one.
          */
-        r_file = RSTTO_FILE (iter->data);
+        r_file = iter->data;
         if (g_file_equal (r_file->priv->file, file))
         {
             g_object_ref (iter->data);

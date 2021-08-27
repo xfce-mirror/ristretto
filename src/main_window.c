@@ -786,13 +786,13 @@ rstto_main_window_init (RsttoMainWindow *window)
     gchar           *desktop_type = NULL;
     GtkWidget       *info_bar_content_area;
 
-    GClosure        *toggle_fullscreen_closure = g_cclosure_new ((GCallback) cb_rstto_main_window_fullscreen, window, NULL);
-    GClosure        *leave_fullscreen_closure = g_cclosure_new_swap ((GCallback) gtk_window_unfullscreen, window, NULL);
-    GClosure        *next_image_closure = g_cclosure_new ((GCallback) cb_rstto_main_window_next_image, window, NULL);
-    GClosure        *previous_image_closure = g_cclosure_new ((GCallback) cb_rstto_main_window_previous_image, window, NULL);
-    GClosure        *quit_closure = g_cclosure_new ((GCallback) cb_rstto_main_window_quit, window, NULL);
-    GClosure        *delete_closure = g_cclosure_new ((GCallback) cb_rstto_main_window_delete, window, NULL);
-    GClosure        *refresh_closure = g_cclosure_new ((GCallback) cb_rstto_main_window_refresh, window, NULL);
+    GClosure        *toggle_fullscreen_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_fullscreen), window, NULL);
+    GClosure        *leave_fullscreen_closure = g_cclosure_new_swap (G_CALLBACK (gtk_window_unfullscreen), window, NULL);
+    GClosure        *next_image_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_next_image), window, NULL);
+    GClosure        *previous_image_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_previous_image), window, NULL);
+    GClosure        *quit_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_quit), window, NULL);
+    GClosure        *delete_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_delete), window, NULL);
+    GClosure        *refresh_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_refresh), window, NULL);
 
     guint navigationbar_position = 3;
     guint thumbnail_size = 3;
@@ -936,18 +936,18 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 
     gtk_action_group_set_translation_domain (window->priv->action_group, GETTEXT_PACKAGE);
     gtk_action_group_add_actions (window->priv->action_group, action_entries,
-                                  G_N_ELEMENTS (action_entries), GTK_WIDGET (window));
+                                  G_N_ELEMENTS (action_entries), window);
     gtk_action_group_add_toggle_actions (window->priv->action_group, toggle_action_entries,
-                                         G_N_ELEMENTS (toggle_action_entries), GTK_WIDGET (window));
+                                         G_N_ELEMENTS (toggle_action_entries), window);
     gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_sort_entries,
                                         G_N_ELEMENTS (radio_action_sort_entries), 0,
-                                        G_CALLBACK (cb_rstto_main_window_sorting_function_changed), GTK_WIDGET (window));
+                                        G_CALLBACK (cb_rstto_main_window_sorting_function_changed), window);
     gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_pos_entries,
                                         G_N_ELEMENTS (radio_action_pos_entries), navigationbar_position,
-                                        G_CALLBACK (cb_rstto_main_window_navigationtoolbar_position_changed), GTK_WIDGET (window));
+                                        G_CALLBACK (cb_rstto_main_window_navigationtoolbar_position_changed), window);
     gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_size_entries,
                                         G_N_ELEMENTS (radio_action_size_entries), thumbnail_size,
-                                        G_CALLBACK (cb_rstto_main_window_thumbnail_size_changed), GTK_WIDGET (window));
+                                        G_CALLBACK (cb_rstto_main_window_thumbnail_size_changed), window);
 
     gtk_ui_manager_add_ui_from_string (window->priv->ui_manager, main_window_ui, main_window_ui_length, NULL);
     window->priv->menubar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu");
@@ -1464,7 +1464,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
                 menu_item = gtk_separator_menu_item_new ();
                 gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
 
-                g_list_free_full (app_list, (GDestroyNotify) g_object_unref);
+                g_list_free_full (app_list, g_object_unref);
             }
             else
             {
@@ -2088,7 +2088,7 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
 static gboolean
 cb_rstto_main_window_navigationtoolbar_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 {
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    RsttoMainWindow *window = user_data;
 
     if (event->button == 3 && event->type == GDK_BUTTON_PRESS)
     {
@@ -2518,7 +2518,7 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
 static gboolean
 cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget, GdkEventScroll *event, gpointer user_data)
 {
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    RsttoMainWindow *window = user_data;
     gboolean ret = FALSE;
 
     /*
@@ -2550,7 +2550,7 @@ cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget, GdkEventScrol
 static gboolean
 cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget, GdkEventCrossing *event, gpointer user_data)
 {
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    RsttoMainWindow *window = user_data;
     if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN)
     {
         if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
@@ -2816,7 +2816,7 @@ cb_rstto_main_window_quit (GtkWidget *widget, RsttoMainWindow *window)
 static gboolean
 rstto_main_window_save_geometry_timer (gpointer user_data)
 {
-    GtkWindow *window = GTK_WINDOW (user_data);
+    GtkWindow *window = user_data;
     gint width = 0;
     gint height = 0;
     /* check if the window is still visible */
@@ -3358,7 +3358,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
 
     if (files)
     {
-        g_slist_free_full (files, (GDestroyNotify) g_object_unref);
+        g_slist_free_full (files, g_object_unref);
     }
 }
 
@@ -4408,8 +4408,8 @@ rstto_main_window_launch_editor_chooser (
 
     gtk_widget_destroy (dialog);
 
-    g_list_free_full (app_infos_recommended, (GDestroyNotify) g_object_unref);
-    g_list_free_full (app_infos_all, (GDestroyNotify) g_object_unref);
+    g_list_free_full (app_infos_recommended, g_object_unref);
+    g_list_free_full (app_infos_all, g_object_unref);
     g_list_free (files);
 }
 
@@ -4504,8 +4504,7 @@ cb_rstto_wrap_images_changed (
         GParamSpec *pspec,
         gpointer user_data)
 {
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
-    rstto_main_window_update_buttons (window);
+    rstto_main_window_update_buttons (user_data);
 }
 
 static void
@@ -4514,7 +4513,7 @@ cb_rstto_desktop_type_changed (
         GParamSpec *pspec,
         gpointer user_data)
 {
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    RsttoMainWindow *window = user_data;
     gchar *desktop_type = NULL;
 
     if (window->priv->wallpaper_manager)
@@ -4598,7 +4597,7 @@ cb_icon_bar_selection_changed (
         RsttoIconBar *icon_bar,
         gpointer user_data)
 {
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    RsttoMainWindow *window = user_data;
 
     gint position = rstto_image_list_iter_get_position (window->priv->iter);
     gint selection = rstto_icon_bar_get_active (RSTTO_ICON_BAR (window->priv->thumbnailbar));
@@ -4623,7 +4622,7 @@ cb_rstto_thumbnailer_ready (
         RsttoFile *file,
         gpointer user_data)
 {
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (user_data);
+    RsttoMainWindow *window = user_data;
     RsttoFile *cur_file = rstto_image_list_iter_get_file (window->priv->iter);
     const GdkPixbuf *pixbuf = NULL;
     GdkPixbuf *tmp;
