@@ -61,6 +61,10 @@ rstto_main_window_add_file_to_recent_files (GFile *file);
 gboolean
 rstto_main_window_play_slideshow (RsttoMainWindow *window);
 
+void
+rstto_main_window_fullscreen (GtkWidget *widget,
+                              RsttoMainWindow *window);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_MAIN_WINDOW_H__ */

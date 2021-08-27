@@ -24,6 +24,7 @@
 #include "util.h"
 #include "image_viewer.h"
 #include "settings.h"
+#include "main_window.h"
 
 
 
@@ -2266,7 +2267,7 @@ rstto_button_press_event (GtkWidget *widget, GdkEventButton *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
 
-    if (event->button == 1)
+    if (event->button == 1 && event->type == GDK_BUTTON_PRESS)
     {
         viewer->priv->motion.x = event->x;
         viewer->priv->motion.y = event->y;
@@ -2315,7 +2316,25 @@ rstto_button_press_event (GtkWidget *widget, GdkEventButton *event)
         }
         return TRUE;
     }
-    if (event->button == 3)
+    else if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
+    {
+        /* toggle fullscreen mode only when double-clicking on the image */
+        if (viewer->priv->file != NULL
+            && event->x >= viewer->priv->rendering.x_offset
+            && event->x <= (viewer->priv->rendering.x_offset + viewer->priv->rendering.width)
+            && event->y >= viewer->priv->rendering.y_offset
+            && event->y <= (viewer->priv->rendering.y_offset + viewer->priv->rendering.height))
+        {
+            GtkWidget *window;
+
+            window = gtk_widget_get_ancestor (widget, RSTTO_TYPE_MAIN_WINDOW);
+            if (window != NULL)
+                rstto_main_window_fullscreen (widget, RSTTO_MAIN_WINDOW (window));
+        }
+
+        return TRUE;
+    }
+    else if (event->button == 3)
     {
         if (viewer->priv->menu)
         {

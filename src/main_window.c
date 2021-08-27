@@ -240,9 +240,6 @@ cb_rstto_main_window_toggle_show_statusbar (GtkWidget *widget,
                                             RsttoMainWindow *window);
 
 static void
-cb_rstto_main_window_fullscreen (GtkWidget *widget,
-                                 RsttoMainWindow *window);
-static void
 cb_rstto_main_window_preferences (GtkWidget *widget,
                                   RsttoMainWindow *window);
 static void
@@ -407,13 +404,13 @@ static GtkActionEntry action_entries[] =
             N_ ("_Fullscreen"), /* Label-text */
             "F11", /* Keyboard shortcut */
             N_ ("Switch to fullscreen"), /* Tooltip text */
-            G_CALLBACK (cb_rstto_main_window_fullscreen), },
+            G_CALLBACK (rstto_main_window_fullscreen), },
     { "unfullscreen",
             "view-restore", /* Icon-name */
             N_ ("_Leave Fullscreen"), /* Label-text */
             NULL, /* Keyboard shortcut */
             N_ ("Leave Fullscreen"), /* Tooltip text */
-            G_CALLBACK (cb_rstto_main_window_fullscreen), },
+            G_CALLBACK (rstto_main_window_fullscreen), },
     { "set-as-wallpaper",
             "preferences-desktop-wallpaper", /* Icon-name */
             N_ ("Set as _Wallpaper..."), /* Label-text */
@@ -570,7 +567,7 @@ static GtkActionEntry action_entries[] =
             N_ ("Leave _Fullscreen"), /* Label-text */
             NULL, /* Keyboard shortcut */
             NULL, /* Tooltip text */
-            G_CALLBACK (cb_rstto_main_window_fullscreen), },
+            G_CALLBACK (rstto_main_window_fullscreen), },
     { "tb-menu",
             NULL,
             NULL,
@@ -786,7 +783,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gchar           *desktop_type = NULL;
     GtkWidget       *info_bar_content_area;
 
-    GClosure        *toggle_fullscreen_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_fullscreen), window, NULL);
+    GClosure        *toggle_fullscreen_closure = g_cclosure_new (G_CALLBACK (rstto_main_window_fullscreen), window, NULL);
     GClosure        *leave_fullscreen_closure = g_cclosure_new_swap (G_CALLBACK (gtk_window_unfullscreen), window, NULL);
     GClosure        *next_image_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_next_image), window, NULL);
     GClosure        *previous_image_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_previous_image), window, NULL);
@@ -2701,15 +2698,15 @@ cb_rstto_main_window_play_slideshow (gpointer user_data)
 }
 
 /**
- * cb_rstto_main_window_fullscreen:
+ * rstto_main_window_fullscreen:
  * @widget:
  * @window:
  *
  * Toggle the fullscreen mode of this window.
  *
  */
-static void
-cb_rstto_main_window_fullscreen (GtkWidget *widget, RsttoMainWindow *window)
+void
+rstto_main_window_fullscreen (GtkWidget *widget, RsttoMainWindow *window)
 {
     if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN)
     {
