@@ -148,7 +148,7 @@ rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar);
 static RsttoIconBarItem *
 rstto_icon_bar_item_new (void);
 static void
-rstto_icon_bar_item_free (RsttoIconBarItem *item);
+rstto_icon_bar_item_free (gpointer item);
 static void
 rstto_icon_bar_item_invalidate (RsttoIconBarItem *item);
 static void
@@ -1312,7 +1312,7 @@ rstto_icon_bar_item_new (void)
 
 
 static void
-rstto_icon_bar_item_free (RsttoIconBarItem *item)
+rstto_icon_bar_item_free (gpointer item)
 {
     g_slice_free (RsttoIconBarItem, item);
 }
@@ -1613,7 +1613,7 @@ rstto_icon_bar_set_model (
 
         g_object_unref (icon_bar->priv->model);
 
-        g_list_free_full (icon_bar->priv->items, (GDestroyNotify) rstto_icon_bar_item_free);
+        g_list_free_full (icon_bar->priv->items, rstto_icon_bar_item_free);
         icon_bar->priv->active_item = NULL;
         icon_bar->priv->cursor_item = NULL;
         icon_bar->priv->items = NULL;

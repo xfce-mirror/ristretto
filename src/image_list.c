@@ -147,14 +147,14 @@ image_list_model_iter_next (GtkTreeModel *tree_model,
 
 
 static gint
-cb_rstto_image_list_image_name_compare_func (RsttoFile *a,
-                                             RsttoFile *b);
+cb_rstto_image_list_image_name_compare_func (gconstpointer a,
+                                             gconstpointer b);
 static gint
-cb_rstto_image_list_image_type_compare_func (RsttoFile *a,
-                                             RsttoFile *b);
+cb_rstto_image_list_image_type_compare_func (gconstpointer a,
+                                             gconstpointer b);
 static gint
-cb_rstto_image_list_exif_date_compare_func (RsttoFile *a,
-                                            RsttoFile *b);
+cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
+                                            gconstpointer b);
 
 
 
@@ -254,7 +254,7 @@ rstto_image_list_init (RsttoImageList *image_list)
     /* see https://bugs.launchpad.net/ubuntu/+source/ristretto/+bug/1778695 */
     gtk_file_filter_add_mime_type (image_list->priv->filter, "image/x-canon-cr2");
 
-    image_list->priv->cb_rstto_image_list_compare_func = (GCompareFunc) cb_rstto_image_list_image_name_compare_func;
+    image_list->priv->cb_rstto_image_list_compare_func = cb_rstto_image_list_image_name_compare_func;
 
     image_list->priv->wrap_images = rstto_settings_get_boolean_property (
             image_list->priv->settings,
@@ -1206,7 +1206,7 @@ rstto_image_list_iter_clone (RsttoImageListIter *iter)
 GCompareFunc
 rstto_image_list_get_compare_func (RsttoImageList *image_list)
 {
-    return (GCompareFunc) image_list->priv->cb_rstto_image_list_compare_func;
+    return image_list->priv->cb_rstto_image_list_compare_func;
 }
 
 void
@@ -1231,19 +1231,19 @@ rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func
 void
 rstto_image_list_set_sort_by_name (RsttoImageList *image_list)
 {
-    rstto_image_list_set_compare_func (image_list, (GCompareFunc) cb_rstto_image_list_image_name_compare_func);
+    rstto_image_list_set_compare_func (image_list, cb_rstto_image_list_image_name_compare_func);
 }
 
 void
 rstto_image_list_set_sort_by_type (RsttoImageList *image_list)
 {
-    rstto_image_list_set_compare_func (image_list, (GCompareFunc) cb_rstto_image_list_image_type_compare_func);
+    rstto_image_list_set_compare_func (image_list, cb_rstto_image_list_image_type_compare_func);
 }
 
 void
 rstto_image_list_set_sort_by_date (RsttoImageList *image_list)
 {
-    rstto_image_list_set_compare_func (image_list, (GCompareFunc) cb_rstto_image_list_exif_date_compare_func);
+    rstto_image_list_set_compare_func (image_list, cb_rstto_image_list_exif_date_compare_func);
 }
 
 /**
@@ -1255,10 +1255,11 @@ rstto_image_list_set_sort_by_date (RsttoImageList *image_list)
  * Return value: (see strcmp)
  */
 static gint
-cb_rstto_image_list_image_name_compare_func (RsttoFile *a, RsttoFile *b)
+cb_rstto_image_list_image_name_compare_func (gconstpointer a,
+                                             gconstpointer b)
 {
-    const gchar *a_collate_key = rstto_file_get_collate_key (a);
-    const gchar *b_collate_key = rstto_file_get_collate_key (b);
+    const gchar *a_collate_key = rstto_file_get_collate_key ((RsttoFile *) a);
+    const gchar *b_collate_key = rstto_file_get_collate_key ((RsttoFile *) b);
 
     return g_strcmp0 (a_collate_key, b_collate_key);
 }
@@ -1272,10 +1273,11 @@ cb_rstto_image_list_image_name_compare_func (RsttoFile *a, RsttoFile *b)
  * Return value: (see strcmp)
  */
 static gint
-cb_rstto_image_list_image_type_compare_func (RsttoFile *a, RsttoFile *b)
+cb_rstto_image_list_image_type_compare_func (gconstpointer a,
+                                             gconstpointer b)
 {
-    const gchar *a_content_type = rstto_file_get_content_type (a);
-    const gchar *b_content_type = rstto_file_get_content_type (b);
+    const gchar *a_content_type = rstto_file_get_content_type ((RsttoFile *) a);
+    const gchar *b_content_type = rstto_file_get_content_type ((RsttoFile *) b);
 
     return g_strcmp0 (a_content_type, b_content_type);
 }
@@ -1290,10 +1292,11 @@ cb_rstto_image_list_image_type_compare_func (RsttoFile *a, RsttoFile *b)
  * Return value: (see strcmp)
  */
 static gint
-cb_rstto_image_list_exif_date_compare_func (RsttoFile *a, RsttoFile *b)
+cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
+                                            gconstpointer b)
 {
-    guint64 a_t = rstto_file_get_modified_time (a);
-    guint64 b_t = rstto_file_get_modified_time (b);
+    guint64 a_t = rstto_file_get_modified_time ((RsttoFile *) a);
+    guint64 b_t = rstto_file_get_modified_time ((RsttoFile *) b);
 
     if (a_t < b_t)
     {
