@@ -687,17 +687,17 @@ rstto_image_viewer_set_scroll_adjustments(RsttoImageViewer *viewer, GtkAdjustmen
 }
 
 static gdouble
-scale_get_max(RsttoImageViewer *viewer)
+scale_get_max (RsttoImageViewer *viewer)
 {
     GtkAllocation allocation;
     gdouble max_scale;
 
-    gtk_widget_get_allocation(GTK_WIDGET (viewer), &allocation);
+    gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
     max_scale = MAX_OVER_VISIBLE
-                * MAX(allocation.width, allocation.height)
-                / MIN(viewer->priv->image_width, viewer->priv->image_height);
+                * MAX (allocation.width, allocation.height)
+                / MIN (viewer->priv->image_width, viewer->priv->image_height);
 
-    return MAX(max_scale, 1.0);
+    return MAX (max_scale, 1.0);
 }
 
 /**
@@ -738,7 +738,7 @@ set_scale (RsttoImageViewer *viewer, gdouble scale )
 
     if (scale == RSTTO_SCALE_IMAGE_LOADING)
     {
-        if ((h_scale > 1) && (v_scale > 1))
+        if (h_scale > 1 && v_scale > 1)
         {
             /* for small images fitting scale to 1:1 size, others fit-to-view */
             scale = RSTTO_SCALE_REAL_SIZE;
@@ -767,13 +767,13 @@ set_scale (RsttoImageViewer *viewer, gdouble scale )
         }
     }
     else
-        scale = MIN (scale_get_max(viewer), scale);
+        scale = MIN (scale_get_max (viewer), scale);
 
     viewer->priv->auto_scale = auto_scale;
     if (viewer->priv->scale != scale)
     {
         viewer->priv->scale = scale;
-        g_signal_emit_by_name(viewer, "scale-changed");
+        g_signal_emit_by_name (viewer, "scale-changed");
     }
 
     return scale == in_scale || in_scale == RSTTO_SCALE_FIT_TO_VIEW;
@@ -1802,8 +1802,8 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
 
     if (set_scale (viewer, scale))
     {
-        g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
-        g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
+        g_object_freeze_notify (G_OBJECT (viewer->hadjustment));
+        g_object_freeze_notify (G_OBJECT (viewer->vadjustment));
 
         /* The value here can possibly be set to a wrong value,
          * the _paint function calls 'correct adjustments' to
@@ -1812,22 +1812,17 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
          */
         gtk_adjustment_set_value (
                 viewer->vadjustment,
-                ( tmp_y * viewer->priv->scale -
-                 ( gtk_adjustment_get_page_size (
-                         viewer->vadjustment) / 2 )));
+                (tmp_y * viewer->priv->scale -
+                 gtk_adjustment_get_page_size (viewer->vadjustment) / 2));
         gtk_adjustment_set_value (
                 viewer->hadjustment,
-                ( tmp_x * viewer->priv->scale -
-                 ( gtk_adjustment_get_page_size (
-                         viewer->hadjustment) / 2 )));
+                (tmp_x * viewer->priv->scale -
+                 gtk_adjustment_get_page_size (viewer->hadjustment) / 2));
 
-        g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
-        g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
+        g_object_thaw_notify (G_OBJECT (viewer->vadjustment));
+        g_object_thaw_notify (G_OBJECT (viewer->hadjustment));
 
-        gdk_window_invalidate_rect (
-                gtk_widget_get_window (widget),
-                NULL,
-                FALSE);
+        gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
     }
 }
 
@@ -2231,20 +2226,19 @@ rstto_scroll_event (GtkWidget *widget, GdkEventScroll *event)
 
             if (set_scale (viewer, scale))
             {
-
-                g_object_freeze_notify(G_OBJECT(viewer->hadjustment));
-                g_object_freeze_notify(G_OBJECT(viewer->vadjustment));
+                g_object_freeze_notify (G_OBJECT (viewer->hadjustment));
+                g_object_freeze_notify (G_OBJECT (viewer->vadjustment));
 
                 gtk_adjustment_set_upper (
                         viewer->hadjustment,
-                        floor((gdouble)viewer->priv->image_width*viewer->priv->scale));
+                        floor ((gdouble) viewer->priv->image_width * viewer->priv->scale));
                 gtk_adjustment_set_value (
                         viewer->hadjustment,
                         (tmp_x * scale - event->x));
 
                 gtk_adjustment_set_upper (
                         viewer->vadjustment,
-                        floor((gdouble)viewer->priv->image_height*viewer->priv->scale));
+                        floor ((gdouble) viewer->priv->image_height * viewer->priv->scale));
                 gtk_adjustment_set_value (
                         viewer->vadjustment,
                         (tmp_y * scale - event->y));
@@ -2252,15 +2246,11 @@ rstto_scroll_event (GtkWidget *widget, GdkEventScroll *event)
                 /*
                  * Enable signals on the adjustments.
                  */
-                g_object_thaw_notify(G_OBJECT(viewer->vadjustment));
-                g_object_thaw_notify(G_OBJECT(viewer->hadjustment));
-
+                g_object_thaw_notify (G_OBJECT (viewer->vadjustment));
+                g_object_thaw_notify (G_OBJECT (viewer->hadjustment));
 
                 /* Invalidate the entire window */
-                gdk_window_invalidate_rect (
-                        gtk_widget_get_window (widget),
-                        NULL,
-                        FALSE); 
+                gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
             }
         }
         return TRUE;

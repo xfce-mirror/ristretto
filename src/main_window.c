@@ -2968,7 +2968,8 @@ cb_rstto_main_window_update_statusbar (GtkWidget *widget, RsttoMainWindow *windo
 static void
 cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), RSTTO_SCALE_FIT_TO_VIEW);
+    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
+                                  RSTTO_SCALE_FIT_TO_VIEW);
 }
 
 /**
@@ -2981,7 +2982,8 @@ cb_rstto_main_window_zoom_fit (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_zoom_100 (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), RSTTO_SCALE_REAL_SIZE);
+    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
+                                  RSTTO_SCALE_REAL_SIZE);
 }
 
 /**
@@ -2995,7 +2997,8 @@ static void
 cb_rstto_main_window_zoom_in (GtkWidget *widget, RsttoMainWindow *window)
 {
     gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer));
-    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), scale * ZOOM_PERCENT);
+    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
+                                  scale * ZOOM_PERCENT);
 }
 
 /**
@@ -3009,7 +3012,8 @@ static void
 cb_rstto_main_window_zoom_out (GtkWidget *widget, RsttoMainWindow *window)
 {
     gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer));
-    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER(window->priv->image_viewer), scale / ZOOM_PERCENT);
+    rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
+                                  scale / ZOOM_PERCENT);
 }
 
 /**********************/
