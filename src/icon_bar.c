@@ -437,11 +437,8 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
 
     gtk_widget_set_can_focus (GTK_WIDGET (icon_bar), FALSE);
 
-    g_signal_connect (
-            G_OBJECT (icon_bar->priv->settings),
-            "notify::thumbnail-size",
-            G_CALLBACK (cb_rstto_thumbnail_size_changed),
-            icon_bar);
+    g_signal_connect (icon_bar->priv->settings, "notify::thumbnail-size",
+                      G_CALLBACK (cb_rstto_thumbnail_size_changed), icon_bar);
 }
 
 
@@ -463,9 +460,9 @@ rstto_icon_bar_finalize (GObject *object)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (object);
 
-    g_object_unref (G_OBJECT (icon_bar->priv->layout));
-    g_object_unref (G_OBJECT (icon_bar->priv->settings));
-    g_object_unref (G_OBJECT (icon_bar->priv->thumbnailer));
+    g_object_unref (icon_bar->priv->layout);
+    g_object_unref (icon_bar->priv->settings);
+    g_object_unref (icon_bar->priv->thumbnailer);
 
     G_OBJECT_CLASS (rstto_icon_bar_parent_class)->finalize (object);
 }
@@ -1614,7 +1611,7 @@ rstto_icon_bar_set_model (
                 rstto_icon_bar_rows_reordered,
                 icon_bar);
 
-        g_object_unref (G_OBJECT (icon_bar->priv->model));
+        g_object_unref (icon_bar->priv->model);
 
         g_list_free_full (icon_bar->priv->items, (GDestroyNotify) rstto_icon_bar_item_free);
         icon_bar->priv->active_item = NULL;
@@ -1626,15 +1623,15 @@ rstto_icon_bar_set_model (
 
     if (model != NULL)
     {
-        g_object_ref (G_OBJECT (model));
+        g_object_ref (model);
 
-        g_signal_connect (G_OBJECT (model), "row-changed",
+        g_signal_connect (model, "row-changed",
                 G_CALLBACK (rstto_icon_bar_row_changed), icon_bar);
-        g_signal_connect (G_OBJECT (model), "row-inserted",
+        g_signal_connect (model, "row-inserted",
                 G_CALLBACK (rstto_icon_bar_row_inserted), icon_bar);
-        g_signal_connect (G_OBJECT (model), "row-deleted",
+        g_signal_connect (model, "row-deleted",
                 G_CALLBACK (rstto_icon_bar_row_deleted), icon_bar);
-        g_signal_connect (G_OBJECT (model), "rows-reordered",
+        g_signal_connect (model, "rows-reordered",
                 G_CALLBACK (rstto_icon_bar_rows_reordered), icon_bar);
 
         rstto_icon_bar_build_items (icon_bar);
@@ -1808,7 +1805,7 @@ rstto_icon_bar_set_active (
     else
         icon_bar->priv->active_item = NULL;
 
-    g_signal_emit (G_OBJECT (icon_bar), icon_bar_signals[SELECTION_CHANGED], 0);
+    g_signal_emit (icon_bar, icon_bar_signals[SELECTION_CHANGED], 0);
     g_object_notify (G_OBJECT (icon_bar), "active");
     gtk_widget_queue_draw (GTK_WIDGET (icon_bar));
 }

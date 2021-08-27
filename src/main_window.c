@@ -924,9 +924,12 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 G_GNUC_END_IGNORE_DEPRECATIONS
 
     /* Connect signal-handlers */
-    g_signal_connect (G_OBJECT (window->priv->play_action), "activate", G_CALLBACK (cb_rstto_main_window_play), window);
-    g_signal_connect (G_OBJECT (window->priv->pause_action), "activate", G_CALLBACK (cb_rstto_main_window_pause), window);
-    g_signal_connect (G_OBJECT (window->priv->recent_action), "item-activated", G_CALLBACK (cb_rstto_main_window_open_recent), window);
+    g_signal_connect (window->priv->play_action, "activate",
+                      G_CALLBACK (cb_rstto_main_window_play), window);
+    g_signal_connect (window->priv->pause_action, "activate",
+                      G_CALLBACK (cb_rstto_main_window_pause), window);
+    g_signal_connect (window->priv->recent_action, "item-activated",
+                      G_CALLBACK (cb_rstto_main_window_open_recent), window);
 
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     gtk_ui_manager_insert_action_group (window->priv->ui_manager, window->priv->action_group, 0);
@@ -1003,7 +1006,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     rstto_icon_bar_set_file_column (RSTTO_ICON_BAR (window->priv->thumbnailbar), 0);
     rstto_icon_bar_set_item_width (RSTTO_ICON_BAR (window->priv->thumbnailbar), 96);
 
-    g_signal_connect (G_OBJECT (window->priv->thumbnailbar), "selection-changed",
+    g_signal_connect (window->priv->thumbnailbar, "selection-changed",
                       G_CALLBACK (cb_icon_bar_selection_changed), window);
 
     window->priv->grid = gtk_grid_new ();
@@ -1191,35 +1194,35 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             break;
     }
 
-    g_signal_connect (G_OBJECT (window), "motion-notify-event",
+    g_signal_connect (window, "motion-notify-event",
                       G_CALLBACK (cb_rstto_main_window_motion_notify_event), window);
-    g_signal_connect (G_OBJECT (window->priv->image_viewer), "enter-notify-event",
+    g_signal_connect (window->priv->image_viewer, "enter-notify-event",
                       G_CALLBACK (cb_rstto_main_window_image_viewer_enter_notify_event), window);
-    g_signal_connect (G_OBJECT (window->priv->image_viewer), "scroll-event",
+    g_signal_connect (window->priv->image_viewer, "scroll-event",
                       G_CALLBACK (cb_rstto_main_window_image_viewer_scroll_event), window);
 
-    g_signal_connect (G_OBJECT (window), "configure-event",
+    g_signal_connect (window, "configure-event",
                       G_CALLBACK (cb_rstto_main_window_configure_event), NULL);
-    g_signal_connect (G_OBJECT (window), "window-state-event",
+    g_signal_connect (window, "window-state-event",
                       G_CALLBACK (cb_rstto_main_window_state_event), NULL);
-    g_signal_connect (G_OBJECT (window->priv->thumbnailbar), "button-press-event",
+    g_signal_connect (window->priv->thumbnailbar, "button-press-event",
                       G_CALLBACK (cb_rstto_main_window_navigationtoolbar_button_press_event), window);
-    g_signal_connect (G_OBJECT (window->priv->image_viewer), "size-ready",
+    g_signal_connect (window->priv->image_viewer, "size-ready",
                       G_CALLBACK (cb_rstto_main_window_update_statusbar), window);
-    g_signal_connect (G_OBJECT (window->priv->image_viewer), "scale-changed",
+    g_signal_connect (window->priv->image_viewer, "scale-changed",
                       G_CALLBACK (cb_rstto_main_window_update_statusbar), window);
-    g_signal_connect (G_OBJECT (window->priv->image_viewer), "status-changed",
+    g_signal_connect (window->priv->image_viewer, "status-changed",
                       G_CALLBACK (cb_rstto_main_window_update_statusbar), window);
-    g_signal_connect (G_OBJECT (window->priv->image_viewer), "files-dnd",
+    g_signal_connect (window->priv->image_viewer, "files-dnd",
                       G_CALLBACK (cb_rstto_main_window_dnd_files), window);
 
-    g_signal_connect (G_OBJECT (window->priv->settings_manager), "notify::wrap-images",
-            G_CALLBACK (cb_rstto_wrap_images_changed), window);
-    g_signal_connect (G_OBJECT (window->priv->settings_manager), "notify::desktop-type",
-            G_CALLBACK (cb_rstto_desktop_type_changed), window);
+    g_signal_connect (window->priv->settings_manager, "notify::wrap-images",
+                      G_CALLBACK (cb_rstto_wrap_images_changed), window);
+    g_signal_connect (window->priv->settings_manager, "notify::desktop-type",
+                      G_CALLBACK (cb_rstto_desktop_type_changed), window);
 
-    g_signal_connect (G_OBJECT (window->priv->thumbnailer), "ready",
-            G_CALLBACK (cb_rstto_thumbnailer_ready), window);
+    g_signal_connect (window->priv->thumbnailer, "ready",
+                      G_CALLBACK (cb_rstto_thumbnailer_ready), window);
 }
 
 static void
@@ -1339,11 +1342,8 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
     }
 
     window->priv->iter = rstto_image_list_get_iter (window->priv->image_list);
-    g_signal_connect (
-            G_OBJECT (window->priv->iter),
-            "changed",
-            G_CALLBACK (cb_rstto_main_window_image_list_iter_changed),
-            window);
+    g_signal_connect (window->priv->iter, "changed",
+                      G_CALLBACK (cb_rstto_main_window_image_list_iter_changed), window);
 
     rstto_icon_bar_set_model (
             RSTTO_ICON_BAR (window->priv->thumbnailbar),
@@ -1472,11 +1472,13 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
             menu_item = gtk_menu_item_new_with_mnemonic (_("Open With Other _Application..."));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
-            g_signal_connect (G_OBJECT (menu_item), "activate", G_CALLBACK (cb_rstto_main_window_open_with_other_app), window);
+            g_signal_connect (menu_item, "activate",
+                              G_CALLBACK (cb_rstto_main_window_open_with_other_app), window);
 
             menu_item = gtk_menu_item_new_with_mnemonic (_("Open With Other _Application..."));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
-            g_signal_connect (G_OBJECT (menu_item), "activate", G_CALLBACK (cb_rstto_main_window_open_with_other_app), window);
+            g_signal_connect (menu_item, "activate",
+                              G_CALLBACK (cb_rstto_main_window_open_with_other_app), window);
 
             gtk_widget_show_all (open_with_menu);
             gtk_widget_show_all (open_with_window_menu);
@@ -2830,7 +2832,7 @@ rstto_main_window_save_geometry_timer (gpointer user_data)
             gtk_window_get_size (GTK_WINDOW (window), &width, &height);
 
             /* ...and remember them as default for new windows */
-            g_object_set (G_OBJECT (RSTTO_MAIN_WINDOW (window)->priv->settings_manager),
+            g_object_set (RSTTO_MAIN_WINDOW (window)->priv->settings_manager,
                           "window-width", width,
                           "window-height", height,
                           NULL);
@@ -3288,7 +3290,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                             g_idle_add_full (G_PRIORITY_LOW, rstto_main_window_add_file_to_recent_files_cb,
                                              rstto_util_source_autoremove (file), NULL);
                         }
-                        g_object_unref (G_OBJECT (r_file));
+                        g_object_unref (r_file);
                         r_file = NULL;
                     }
                 }
@@ -3408,7 +3410,7 @@ cb_rstto_main_window_open_recent (GtkRecentChooser *chooser, RsttoMainWindow *wi
                     r_file);
 
             /* Cleanup the reference */
-            g_object_unref (G_OBJECT (r_file));
+            g_object_unref (r_file);
             r_file = NULL;
         }
     }
@@ -4096,7 +4098,7 @@ rstto_main_window_launch_editor_chooser (
     gchar *icon;
     const gchar *id;
     const gchar *name;
-    const GdkPixbuf *pixbuf = NULL;
+    GdkPixbuf *pixbuf = NULL;
     GIcon *g_icon = NULL;
 
     dialog = gtk_dialog_new ();
@@ -4229,7 +4231,7 @@ rstto_main_window_launch_editor_chooser (
             -1);
     if (NULL != pixbuf)
     {
-        g_object_unref (G_OBJECT (pixbuf));
+        g_object_unref (pixbuf);
         pixbuf = NULL;
     }
 
@@ -4255,7 +4257,7 @@ rstto_main_window_launch_editor_chooser (
                         NULL);
 
                 g_free (icon);
-                g_object_unref (G_OBJECT (g_icon));
+                g_object_unref (g_icon);
             }
 
             name = g_app_info_get_display_name (app_infos_iter->data),
@@ -4276,7 +4278,7 @@ rstto_main_window_launch_editor_chooser (
                     -1);
             if (NULL != pixbuf)
             {
-                g_object_unref (G_OBJECT (pixbuf));
+                g_object_unref (pixbuf);
                 pixbuf = NULL;
             }
         }
@@ -4309,7 +4311,7 @@ rstto_main_window_launch_editor_chooser (
             -1);
     if (NULL != pixbuf)
     {
-        g_object_unref (G_OBJECT (pixbuf));
+        g_object_unref (pixbuf);
         pixbuf = NULL;
     }
 
@@ -4334,7 +4336,7 @@ rstto_main_window_launch_editor_chooser (
                             24,
                             GTK_ICON_LOOKUP_FORCE_SIZE,
                             NULL);
-                    g_object_unref (G_OBJECT (g_icon));
+                    g_object_unref (g_icon);
                     g_free (icon);
                 }
                 else
@@ -4362,7 +4364,7 @@ rstto_main_window_launch_editor_chooser (
                         -1);
                 if (NULL != pixbuf)
                 {
-                    g_object_unref (G_OBJECT (pixbuf));
+                    g_object_unref (pixbuf);
                     pixbuf = NULL;
                 }
             }

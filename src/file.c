@@ -195,8 +195,8 @@ rstto_file_new (GFile *file)
         r_file = RSTTO_FILE (iter->data);
         if (g_file_equal (r_file->priv->file, file))
         {
-            g_object_ref (G_OBJECT (iter->data));
-            return (RsttoFile *) iter->data;
+            g_object_ref (iter->data);
+            return iter->data;
         }
         iter = g_list_next (iter);
     }
@@ -539,9 +539,5 @@ rstto_file_get_thumbnail (
 void
 rstto_file_changed (RsttoFile *r_file)
 {
-    g_signal_emit (
-            G_OBJECT (r_file),
-            rstto_file_signals[RSTTO_FILE_SIGNAL_CHANGED],
-            0,
-            NULL);
+    g_signal_emit (r_file, rstto_file_signals[RSTTO_FILE_SIGNAL_CHANGED], 0, NULL);
 }

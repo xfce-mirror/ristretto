@@ -229,7 +229,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
      * Get all properties from the ristretto settings container
      */
     g_object_get (
-            G_OBJECT (dialog->priv->settings),
+            dialog->priv->settings,
             "invert-zoom-direction", &bool_invert_zoom_direction,
             "bgcolor-override", &bool_bgcolor_override,
             "bgcolor", &bgcolor,
@@ -279,10 +279,10 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
                               bool_bgcolor_override);
 
     /* connect signals */
-    g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_override_check_button),
-                      "toggled", G_CALLBACK (cb_bgcolor_override_toggled), dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_color_button),
-                      "color-set", G_CALLBACK (cb_bgcolor_color_set), dialog);
+    g_signal_connect (dialog->priv->display_tab.bgcolor_override_check_button, "toggled",
+                      G_CALLBACK (cb_bgcolor_override_toggled), dialog);
+    g_signal_connect (dialog->priv->display_tab.bgcolor_color_button, "color-set",
+                      G_CALLBACK (cb_bgcolor_color_set), dialog);
 
     dialog->priv->display_tab.quality_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     dialog->priv->display_tab.quality_frame = xfce_gtk_frame_box_new_with_content (_("Quality"), dialog->priv->display_tab.quality_vbox);
@@ -298,8 +298,8 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.quality_vbox), dialog->priv->display_tab.quality_button);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.quality_button), bool_limit_quality);
 
-    g_signal_connect (G_OBJECT (dialog->priv->display_tab.quality_button),
-                      "toggled", G_CALLBACK (cb_limit_quality_check_button_toggled), dialog);
+    g_signal_connect (dialog->priv->display_tab.quality_button, "toggled",
+                      G_CALLBACK (cb_limit_quality_check_button_toggled), dialog);
 
     /*
      * Fullscreen tab
@@ -355,12 +355,12 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.cursor_vbox), dialog->priv->fullscreen_tab.cursor_hbox);
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->fullscreen_tab.cursor_timeout_button), uint_hide_mouse_cursor_fullscreen_timeout);
 
-    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button),
-                      "toggled", G_CALLBACK (cb_hide_thumbnails_fullscreen_check_button_toggled), dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.clock_button),
-                      "toggled", G_CALLBACK (cb_show_clock_check_button_toggled), dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.cursor_timeout_button),
-                      "value-changed", G_CALLBACK (cb_cursor_timeout_button_value_changed), dialog);
+    g_signal_connect (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button, "toggled",
+                      G_CALLBACK (cb_hide_thumbnails_fullscreen_check_button_toggled), dialog);
+    g_signal_connect (dialog->priv->fullscreen_tab.clock_button, "toggled",
+                      G_CALLBACK (cb_show_clock_check_button_toggled), dialog);
+    g_signal_connect (dialog->priv->fullscreen_tab.cursor_timeout_button, "value-changed",
+                      G_CALLBACK (cb_cursor_timeout_button_value_changed), dialog);
 
     /*
      * Slideshow tab
@@ -383,8 +383,8 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
 
     gtk_range_set_value (GTK_RANGE (timeout_hscale), (gdouble) uint_slideshow_timeout);
 
-    g_signal_connect (G_OBJECT (timeout_hscale),
-                      "value-changed", G_CALLBACK (cb_slideshow_timeout_value_changed), dialog);
+    g_signal_connect (timeout_hscale, "value-changed",
+                      G_CALLBACK (cb_slideshow_timeout_value_changed), dialog);
 
     control_main_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     control_main_lbl = gtk_label_new (_("Control"));
@@ -398,8 +398,8 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     gtk_container_add (GTK_CONTAINER (dialog->priv->control_tab.scroll_vbox), dialog->priv->control_tab.zoom_invert_check_button);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.zoom_invert_check_button), bool_invert_zoom_direction);
 
-    g_signal_connect (G_OBJECT (dialog->priv->control_tab.zoom_invert_check_button),
-                      "toggled", G_CALLBACK (cb_invert_zoom_direction_check_button_toggled), dialog);
+    g_signal_connect (dialog->priv->control_tab.zoom_invert_check_button, "toggled",
+                      G_CALLBACK (cb_invert_zoom_direction_check_button_toggled), dialog);
 
     /*
      * Behaviour tab
@@ -422,10 +422,10 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.wrap_images_check_button),
                                   bool_wrap_images);
 
-    g_signal_connect (G_OBJECT (dialog->priv->behaviour_tab.wrap_images_check_button),
-                      "toggled", G_CALLBACK (cb_wrap_images_check_button_toggled), dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->behaviour_tab.maximize_window_on_startup_check_button),
-                      "toggled", G_CALLBACK (cb_maximize_on_startup_check_button_toggled), dialog);
+    g_signal_connect (dialog->priv->behaviour_tab.wrap_images_check_button, "toggled",
+                      G_CALLBACK (cb_wrap_images_check_button_toggled), dialog);
+    g_signal_connect (dialog->priv->behaviour_tab.maximize_window_on_startup_check_button, "toggled",
+                      G_CALLBACK (cb_maximize_on_startup_check_button_toggled), dialog);
 
     dialog->priv->behaviour_tab.desktop_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 4);
     dialog->priv->behaviour_tab.desktop_frame = xfce_gtk_frame_box_new_with_content (_("Desktop"), dialog->priv->behaviour_tab.desktop_vbox);
@@ -484,8 +484,8 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
             DESKTOP_TYPE_XFCE);
     }
 
-    g_signal_connect (G_OBJECT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
-                      "changed", G_CALLBACK (cb_choose_desktop_combo_box_changed), dialog);
+    g_signal_connect (dialog->priv->behaviour_tab.choose_desktop_combo_box, "changed",
+                      G_CALLBACK (cb_choose_desktop_combo_box_changed), dialog);
 
     /* Increase left and top margins for the tabs' contents */
     n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));

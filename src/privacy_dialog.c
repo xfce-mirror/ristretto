@@ -127,8 +127,8 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
     gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->cleanup_timeframe_combo), 2, _("Last Four Hours"));
     gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->cleanup_timeframe_combo), 3, _("Today"));
     gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->cleanup_timeframe_combo), 4, _("Everything"));
-    g_signal_connect (G_OBJECT (dialog->priv->cleanup_timeframe_combo),
-                      "changed", G_CALLBACK (cb_rstto_privacy_dialog_combobox_timeframe_changed), dialog);
+    g_signal_connect (dialog->priv->cleanup_timeframe_combo, "changed",
+                      G_CALLBACK (cb_rstto_privacy_dialog_combobox_timeframe_changed), dialog);
     gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->cleanup_timeframe_combo), 0);
 
     gtk_box_pack_start (GTK_BOX (dialog->priv->cleanup_vbox),

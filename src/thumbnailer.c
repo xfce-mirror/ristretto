@@ -403,12 +403,9 @@ cb_rstto_thumbnailer_thumbnail_ready (
         f_uri = rstto_file_get_uri (file);
         if (strcmp (uri[x], f_uri) == 0)
         {
-            g_signal_emit (
-                    G_OBJECT (thumbnailer),
-                    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY],
-                    0,
-                    file,
-                    NULL);
+            g_signal_emit (thumbnailer,
+                           rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY],
+                           0, file, NULL);
             thumbnailer->priv->in_process_queue = g_slist_remove (
                     thumbnailer->priv->in_process_queue,
                     file);

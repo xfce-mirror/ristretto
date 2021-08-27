@@ -318,33 +318,18 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
                 0, FALSE);
     }
 
-    g_signal_connect (
-            G_OBJECT (viewer->priv->settings),
-            "notify::bgcolor",
-            G_CALLBACK (cb_rstto_bgcolor_changed),
-            viewer);
+    g_signal_connect (viewer->priv->settings, "notify::bgcolor",
+                      G_CALLBACK (cb_rstto_bgcolor_changed), viewer);
 
-    g_signal_connect (
-            G_OBJECT (viewer->priv->settings),
-            "notify::bgcolor-override",
-            G_CALLBACK (cb_rstto_bgcolor_changed),
-            viewer);
-    g_signal_connect (
-            G_OBJECT (viewer->priv->settings),
-            "notify::limit-quality",
-            G_CALLBACK (cb_rstto_limit_quality_changed),
-            viewer);
+    g_signal_connect (viewer->priv->settings, "notify::bgcolor-override",
+                      G_CALLBACK (cb_rstto_bgcolor_changed), viewer);
+    g_signal_connect (viewer->priv->settings, "notify::limit-quality",
+                      G_CALLBACK (cb_rstto_limit_quality_changed), viewer);
 
-    g_signal_connect (
-            G_OBJECT (viewer->priv->settings),
-            "notify::invert-zoom-direction",
-            G_CALLBACK (cb_rstto_zoom_direction_changed),
-            viewer);
-    g_signal_connect (
-            G_OBJECT (viewer),
-            "drag-data-received",
-            G_CALLBACK (cb_rstto_image_viewer_dnd),
-            viewer);
+    g_signal_connect (viewer->priv->settings, "notify::invert-zoom-direction",
+                      G_CALLBACK (cb_rstto_zoom_direction_changed), viewer);
+    g_signal_connect (viewer, "drag-data-received",
+                      G_CALLBACK (cb_rstto_image_viewer_dnd), viewer);
 
     gtk_widget_set_events (GTK_WIDGET (viewer),
                            GDK_BUTTON_PRESS_MASK |
@@ -2614,7 +2599,8 @@ rstto_image_viewer_set_property (GObject *object, guint property_id, const GValu
                 gtk_adjustment_set_lower (viewer->priv->hadjustment, 0);
                 gtk_adjustment_set_upper (viewer->priv->hadjustment, 0);
 
-                g_signal_connect (G_OBJECT (viewer->priv->hadjustment), "value-changed", (GCallback) viewer->priv->cb_value_changed, viewer);
+                g_signal_connect (viewer->priv->hadjustment, "value-changed",
+                                  G_CALLBACK (viewer->priv->cb_value_changed), viewer);
                 g_object_ref (viewer->priv->hadjustment);
             }
             break;
@@ -2631,7 +2617,8 @@ rstto_image_viewer_set_property (GObject *object, guint property_id, const GValu
                 gtk_adjustment_set_lower (viewer->priv->vadjustment, 0);
                 gtk_adjustment_set_upper (viewer->priv->vadjustment, 0);
 
-                g_signal_connect (G_OBJECT (viewer->priv->vadjustment), "value-changed", (GCallback) viewer->priv->cb_value_changed, viewer);
+                g_signal_connect (viewer->priv->vadjustment, "value-changed",
+                                  G_CALLBACK (viewer->priv->cb_value_changed), viewer);
                 g_object_ref (viewer->priv->vadjustment);
             }
             break;

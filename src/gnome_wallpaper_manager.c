@@ -257,16 +257,10 @@ rstto_gnome_wallpaper_manager_init (RsttoGnomeWallpaperManager *manager)
 
     gtk_window_set_resizable (GTK_WINDOW (manager->priv->dialog), FALSE);
 
-    g_signal_connect (
-            G_OBJECT (manager->priv->monitor_chooser),
-            "changed",
-            G_CALLBACK (cb_monitor_chooser_changed),
-            manager);
-    g_signal_connect (
-            G_OBJECT (manager->priv->style_combo),
-            "changed",
-            G_CALLBACK (cb_style_combo_changed),
-            manager);
+    g_signal_connect (manager->priv->monitor_chooser, "changed",
+                      G_CALLBACK (cb_monitor_chooser_changed), manager);
+    g_signal_connect (manager->priv->style_combo, "changed",
+                      G_CALLBACK (cb_style_combo_changed), manager);
 
     gtk_widget_show_all (vbox);
 }

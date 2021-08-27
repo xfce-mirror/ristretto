@@ -113,7 +113,8 @@ rstto_monitor_chooser_init (RsttoMonitorChooser *chooser)
     chooser->priv->selected = -1;
     chooser->priv->monitors = g_new0 (Monitor *, 1);
 
-    g_signal_connect (G_OBJECT (chooser), "button-press-event", G_CALLBACK (cb_rstto_button_press_event), NULL);
+    g_signal_connect (chooser, "button-press-event",
+                      G_CALLBACK (cb_rstto_button_press_event), NULL);
 
     gtk_widget_set_redraw_on_allocate (GTK_WIDGET (chooser), TRUE);
     gtk_widget_set_events (GTK_WIDGET (chooser),
@@ -727,7 +728,9 @@ cb_rstto_button_press_event (
                     }
                 }
 
-                g_signal_emit (G_OBJECT (chooser), rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED], 0, NULL);
+                g_signal_emit (chooser,
+                               rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED],
+                               0, NULL);
 
                 gtk_widget_queue_draw (widget);
             }
