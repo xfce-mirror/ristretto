@@ -26,6 +26,15 @@
 
 G_BEGIN_DECLS
 
+enum
+{
+  RSTTO_SCALE_IMAGE_LOADING = -1,
+  RSTTO_SCALE_FIT_TO_VIEW,
+  RSTTO_SCALE_REAL_SIZE
+};
+
+
+
 #define RSTTO_TYPE_IMAGE_VIEWER rstto_image_viewer_get_type()
 
 #define RSTTO_IMAGE_VIEWER(obj)( \
