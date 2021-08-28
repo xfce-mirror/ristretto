@@ -3305,7 +3305,6 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                 if (g_file_query_exists (files->data, NULL))
                 {
                     r_file = rstto_file_new (files->data);
-
                     p_file = g_file_get_parent (files->data);
 
                     /* This call adds the contents of the
@@ -3340,6 +3339,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
 
                     /* Cleanup the reference */
                     g_object_unref (r_file);
+                    g_object_unref (p_file);
                 }
             }
         }

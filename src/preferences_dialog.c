@@ -272,6 +272,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     /* set current value */
     gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (dialog->priv->display_tab.bgcolor_color_button),
                                 bgcolor);
+    gdk_rgba_free (bgcolor);
 
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.bgcolor_override_check_button),
                                   bool_bgcolor_override);
