@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -19,40 +19,15 @@
 
 #include <glib.h>
 #include <gdk/gdkkeysyms.h>
+
 #include <xfconf/xfconf.h>
 #include <libxfce4util/libxfce4util.h>
 
 #include "util.h"
+#include "file.h"
 #include "settings.h"
 
-static void
-rstto_settings_init (GTypeInstance *instance,
-                     gpointer       g_class);
-static void
-rstto_settings_class_init (gpointer g_class,
-                           gpointer class_data);
 
-static void
-rstto_settings_finalize (GObject *object);
-
-static void
-rstto_settings_set_property    (GObject      *object,
-                                guint         property_id,
-                                const GValue *value,
-                                GParamSpec   *pspec);
-static void
-rstto_settings_get_property    (GObject    *object,
-                                guint       property_id,
-                                GValue     *value,
-                                GParamSpec *pspec);
-
-static void
-rstto_xfconf_ensure_gdkrgba (XfconfChannel *channel,
-                             const gchar *property);
-
-static GObjectClass *parent_class = NULL;
-
-static RsttoSettings *settings_object;
 
 enum
 {
@@ -82,33 +57,30 @@ enum
     PROP_THUMBNAIL_SIZE,
 };
 
-GType
-rstto_settings_get_type (void)
-{
-    static GType rstto_settings_type = 0;
+static RsttoSettings *settings_object;
 
-    if (!rstto_settings_type)
-    {
-        static const GTypeInfo rstto_settings_info = 
-        {
-            sizeof (RsttoSettingsClass),
-            NULL,
-            NULL,
-            rstto_settings_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoSettings),
-            0,
-            rstto_settings_init,
-            NULL
-        };
 
-        rstto_settings_type = g_type_register_static (G_TYPE_OBJECT, "RsttoSettings", &rstto_settings_info, 0);
-    }
-    return rstto_settings_type;
-}
 
-struct _RsttoSettingsPriv
+static void
+rstto_settings_finalize (GObject *object);
+static void
+rstto_settings_set_property (GObject *object,
+                             guint property_id,
+                             const GValue *value,
+                             GParamSpec *pspec);
+static void
+rstto_settings_get_property (GObject *object,
+                             guint property_id,
+                             GValue *value,
+                             GParamSpec *pspec);
+
+static void
+rstto_xfconf_ensure_gdkrgba (XfconfChannel *channel,
+                             const gchar *property);
+
+
+
+struct _RsttoSettingsPrivate
 {
     XfconfChannel *channel;
 
@@ -142,15 +114,17 @@ struct _RsttoSettingsPriv
 };
 
 
+
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoSettings, rstto_settings, G_TYPE_OBJECT)
+
+
+
 static void
-rstto_settings_init (GTypeInstance *instance,
-                     gpointer       g_class)
+rstto_settings_init (RsttoSettings *settings)
 {
     gchar *accelmap_path = NULL;
 
-    RsttoSettings *settings = RSTTO_SETTINGS (instance);
-
-    settings->priv = g_new0 (RsttoSettingsPriv, 1);
+    settings->priv = rstto_settings_get_instance_private (settings);
     settings->priv->channel = xfconf_channel_new ("ristretto");
 
     accelmap_path = xfce_resource_lookup (XFCE_RESOURCE_CONFIG, "ristretto/accels.scm");
@@ -177,7 +151,7 @@ rstto_settings_init (GTypeInstance *instance,
 
         gtk_accel_map_change_entry ("<Actions>/RsttoWindow/play", GDK_KEY_F5, 0, FALSE);
     }
-    
+
     settings->priv->slideshow_timeout = 5;
     settings->priv->bgcolor = g_new0 (GdkRGBA, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkRGBA, 1);
@@ -360,18 +334,12 @@ rstto_settings_init (GTypeInstance *instance,
 
 
 static void
-rstto_settings_class_init (gpointer g_class,
-                           gpointer class_data)
+rstto_settings_class_init (RsttoSettingsClass *klass)
 {
     GParamSpec *pspec;
-
-    GObjectClass       *object_class = g_class;
-    RsttoSettingsClass *settings_class = g_class;
-
-    parent_class = g_type_class_peek_parent (settings_class);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_settings_finalize;
-
     object_class->set_property = rstto_settings_set_property;
     object_class->get_property = rstto_settings_get_property;
 
@@ -652,46 +620,40 @@ rstto_settings_finalize (GObject *object)
     RsttoSettings *settings = RSTTO_SETTINGS (object);
     gchar         *accelmap_path = NULL;
 
-    if (settings->priv)
+    if (settings->priv->channel)
     {
-        if (settings->priv->channel)
-        {
-            g_object_unref (settings->priv->channel);
-            settings->priv->channel = NULL;
-        }
+        g_object_unref (settings->priv->channel);
+        settings->priv->channel = NULL;
+    }
 
-        if (settings->priv->last_file_path)
-        {
-            g_free (settings->priv->last_file_path);
-            settings->priv->last_file_path = NULL;
-        }
+    if (settings->priv->last_file_path)
+    {
+        g_free (settings->priv->last_file_path);
+        settings->priv->last_file_path = NULL;
+    }
 
-        if (settings->priv->navigationbar_position)
-        {
-            g_free (settings->priv->navigationbar_position);
-            settings->priv->navigationbar_position = NULL;
-        }
+    if (settings->priv->navigationbar_position)
+    {
+        g_free (settings->priv->navigationbar_position);
+        settings->priv->navigationbar_position = NULL;
+    }
 
-        if (settings->priv->desktop_type)
-        {
-            g_free (settings->priv->desktop_type);
-            settings->priv->desktop_type = NULL;
-        }
+    if (settings->priv->desktop_type)
+    {
+        g_free (settings->priv->desktop_type);
+        settings->priv->desktop_type = NULL;
+    }
 
-        if (settings->priv->bgcolor)
-        {
-            g_free (settings->priv->bgcolor);
-            settings->priv->bgcolor = NULL;
-        }
+    if (settings->priv->bgcolor)
+    {
+        g_free (settings->priv->bgcolor);
+        settings->priv->bgcolor = NULL;
+    }
 
-        if (settings->priv->bgcolor_fullscreen)
-        {
-            g_free (settings->priv->bgcolor_fullscreen);
-            settings->priv->bgcolor_fullscreen = NULL;
-        }
-
-        g_free (settings->priv);
-        settings->priv = NULL;
+    if (settings->priv->bgcolor_fullscreen)
+    {
+        g_free (settings->priv->bgcolor_fullscreen);
+        settings->priv->bgcolor_fullscreen = NULL;
     }
 
     accelmap_path = xfce_resource_save_location (XFCE_RESOURCE_CONFIG, "ristretto/accels.scm", TRUE);
@@ -702,7 +664,7 @@ rstto_settings_finalize (GObject *object)
         accelmap_path = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_settings_parent_class)->finalize (object);
 }
 
 /**
@@ -724,7 +686,7 @@ rstto_xfconf_ensure_gdkrgba (XfconfChannel *channel, const gchar *property)
 
     if (is_gdk_color)
     {
-        GdkRGBA bg = { (gdouble) rc/65535, (gdouble) gc/65535, (gdouble) bc/65535, (gdouble) ac/65535 };
+        GdkRGBA bg = { (gdouble) rc / 65535, (gdouble) gc / 65535, (gdouble) bc / 65535, (gdouble) ac / 65535 };
         xfconf_channel_set_array (channel,
                                   property,
                                   G_TYPE_DOUBLE, &bg.red,
@@ -760,10 +722,10 @@ rstto_settings_new (void)
 
 
 static void
-rstto_settings_set_property    (GObject      *object,
-                                guint         property_id,
-                                const GValue *value,
-                                GParamSpec   *pspec)
+rstto_settings_set_property (GObject      *object,
+                             guint         property_id,
+                             const GValue *value,
+                             GParamSpec   *pspec)
 {
     GdkRGBA *color;
     const gchar *str_val = NULL;
@@ -857,7 +819,7 @@ rstto_settings_set_property    (GObject      *object,
             settings->priv->errors.missing_thumbnailer = g_value_get_boolean (value);
             break;
         case PROP_SORT_TYPE:
-            settings->priv->sort_type = g_value_get_uint ( value );
+            settings->priv->sort_type = g_value_get_uint (value);
             break;
         case PROP_THUMBNAIL_SIZE:
             settings->priv->thumbnail_size = g_value_get_uint (value);
@@ -869,10 +831,10 @@ rstto_settings_set_property    (GObject      *object,
 }
 
 static void
-rstto_settings_get_property    (GObject    *object,
-                                guint       property_id,
-                                GValue     *value,
-                                GParamSpec *pspec)
+rstto_settings_get_property (GObject    *object,
+                             guint       property_id,
+                             GValue     *value,
+                             GParamSpec *pspec)
 {
     RsttoSettings *settings = RSTTO_SETTINGS (object);
 
@@ -962,28 +924,25 @@ rstto_settings_get_property    (GObject    *object,
 void
 rstto_settings_set_navbar_position (RsttoSettings *settings, guint pos)
 {
-    GValue val = {0, };
-    g_value_init (&val, G_TYPE_STRING);
- 
+    const gchar *str;
+
     switch (pos)
     {
         default:
-            g_value_set_string (&val, "left");
+            str = "left";
             break;
         case 1:
-            g_value_set_string (&val, "right");
+            str = "right";
             break;
         case 2:
-            g_value_set_string (&val, "top");
+            str = "top";
             break;
         case 3:
-            g_value_set_string (&val, "bottom");
+            str = "bottom";
             break;
     }
 
-    g_object_set_property (G_OBJECT(settings), "navigationbar-position", &val);
-
-    g_value_reset (&val);
+    g_object_set (settings, "navigationbar-position", str, NULL);
 }
 
 guint
@@ -1009,14 +968,7 @@ rstto_settings_set_uint_property (RsttoSettings *settings,
                                   const gchar *property_name,
                                   guint value)
 {
-    GValue val = {0, };
-    g_value_init (&val, G_TYPE_UINT);
-
-    g_value_set_uint (&val, value);
-
-    g_object_set_property (G_OBJECT(settings), property_name, &val);
-
-    g_value_reset (&val);
+    g_object_set (settings, property_name, value, NULL);
 }
 
 guint
@@ -1024,44 +976,27 @@ rstto_settings_get_uint_property (RsttoSettings *settings,
                                   const gchar *property_name)
 {
     guint value;
-    GValue val = {0, };
-    g_value_init (&val, G_TYPE_UINT);
 
-    g_object_get_property (G_OBJECT(settings), property_name, &val);
-    value = g_value_get_uint (&val);
-
-    g_value_reset (&val);
+    g_object_get (settings, property_name, &value, NULL);
 
     return value;
 }
 
 void
 rstto_settings_set_int_property (RsttoSettings *settings,
-                                  const gchar *property_name,
-                                  gint value)
+                                 const gchar *property_name,
+                                 gint value)
 {
-    GValue val = {0, };
-    g_value_init (&val, G_TYPE_INT);
-
-    g_value_set_int (&val, value);
-
-    g_object_set_property (G_OBJECT(settings), property_name, &val);
-
-    g_value_reset (&val);
+    g_object_set (settings, property_name, value, NULL);
 }
 
 gint
 rstto_settings_get_int_property (RsttoSettings *settings,
-                                  const gchar *property_name)
+                                 const gchar *property_name)
 {
     gint value;
-    GValue val = {0, };
-    g_value_init (&val, G_TYPE_INT);
 
-    g_object_get_property (G_OBJECT(settings), property_name, &val);
-    value = g_value_get_int (&val);
-
-    g_value_reset (&val);
+    g_object_get (settings, property_name, &value, NULL);
 
     return value;
 }
@@ -1071,28 +1006,16 @@ rstto_settings_set_string_property (RsttoSettings *settings,
                                     const gchar *property_name,
                                     const gchar *value)
 {
-    GValue val = {0, };
-    g_value_init (&val, G_TYPE_STRING);
-
-    g_value_set_string (&val, value);
-
-    g_object_set_property (G_OBJECT(settings), property_name, &val);
-
-    g_value_reset (&val);
+    g_object_set (settings, property_name, value, NULL);
 }
 
 gchar *
 rstto_settings_get_string_property (RsttoSettings *settings,
-                                  const gchar *property_name)
+                                    const gchar *property_name)
 {
     gchar *value = NULL;
-    GValue val = {0, };
-    g_value_init (&val, G_TYPE_STRING);
 
-    g_object_get_property (G_OBJECT(settings), property_name, &val);
-    value = g_value_dup_string (&val);
-
-    g_value_reset (&val);
+    g_object_get (settings, property_name, &value, NULL);
 
     return value;
 }
@@ -1102,14 +1025,7 @@ rstto_settings_set_boolean_property (RsttoSettings *settings,
                                      const gchar *property_name,
                                      gboolean value)
 {
-    GValue val = {0, };
-    g_value_init (&val, G_TYPE_BOOLEAN);
-
-    g_value_set_boolean (&val, value);
-
-    g_object_set_property (G_OBJECT(settings), property_name, &val);
-
-    g_value_reset (&val);
+    g_object_set (settings, property_name, value, NULL);
 }
 
 gboolean
@@ -1117,13 +1033,8 @@ rstto_settings_get_boolean_property (RsttoSettings *settings,
                                      const gchar *property_name)
 {
     gboolean value;
-    GValue val = {0, };
-    g_value_init (&val, G_TYPE_BOOLEAN);
 
-    g_object_get_property (G_OBJECT(settings), property_name, &val);
-    value = g_value_get_boolean (&val);
-
-    g_value_reset (&val);
+    g_object_get (settings, property_name, &value, NULL);
 
     return value;
 }

@@ -35,7 +35,7 @@
 - Update credits
 - Add support for old gtk2-style bg color settings
 - Add missing LDFLAGS (fixes build on *bsd)
-- In fullscreen mode, show toolbar when the mouse pointer is moved to 
+- In fullscreen mode, show toolbar when the mouse pointer is moved to
 the top
 - Return to git versioning
 - Translation Updates:
@@ -268,7 +268,7 @@ Stable release of Ristretto
 - Replace the thumbnailbar with a port of exo-icon-bar
 - Remove exo dependency
 - Support http://docs.xfce.org/ for documentation
- 
+
 0.3.0
 =====
 - Re-introduce autorotation based on the exif-orientation tag, a
@@ -283,7 +283,7 @@ Stable release of Ristretto
 - Add help->contents menuitem, launching documentation
 - Add a user-manual
 - Solve problem with size-calculation in size_prepared callback
-- Set default height to 440px, Show all buttons on a vertically aligned 
+- Set default height to 440px, Show all buttons on a vertically aligned
   navigationbar
 - Show thumbnailbar by default
 - Show toolbar when closing images in fullscreen-mode
@@ -300,7 +300,7 @@ Stable release of Ristretto
 =====
 - Fix bug #6866 (Improve the sorting algorythm for filenames)
 - Fix bug #8025 (Add Stock-icon to set-wallpaper menu-item)
-- Fix bug #7867 (Fix a problem where the image-viewer is updated too 
+- Fix bug #7867 (Fix a problem where the image-viewer is updated too
   often, sometimes indefinately until the widget-size is changed again.)
 - Improve open-file and close-file behaviour
 - Hide thumbnailbar when no images are opened
@@ -358,7 +358,7 @@ Stable release of Ristretto
   image when closing.
 - Open the first image from a folder when opening a folder from the
   recently-used-items list.
-- Re-implement the file-properties dialog. Open thunar's properties 
+- Re-implement the file-properties dialog. Open thunar's properties
   dialog when thunar is available. Add a 'fallback' dialog for when
   thunar is not available
 - Update the Gtk+ dependency to version 2.20 and the Glib dependency
@@ -375,7 +375,7 @@ Stable release of Ristretto
 - Save and restore image zoom-state when navigating
 - Implement 'Ready' signal-handler for thumbnailer-spec
 - Fix build with --no-add-needed
-- Set 'preload-images' checkbox to the right state when the 
+- Set 'preload-images' checkbox to the right state when the
   preferences-window is created
 - Correctly cleanup the references to xfconf
 - Fix bug #7336 (segfault when closing last image)
@@ -454,5 +454,5 @@ Stable release of Ristretto
   modifying the view
 - Add tooltip support (atm with gtk+-2.12 only)
 - Improve caching behaviour (NOTE: when updating from an earlier version, check
-  the preferences dialog for the cache-size. It might point to 1MB which does 
+  the preferences dialog for the cache-size. It might point to 1MB which does
   not seem very usefull)

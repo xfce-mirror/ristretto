@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -24,31 +24,7 @@
 
 #include "mime_db.h"
 
-static void
-rstto_mime_db_init (
-        GTypeInstance *instance,
-        gpointer       g_class);
-static void
-rstto_mime_db_class_init (
-        gpointer g_class,
-        gpointer class_data);
 
-static void
-rstto_mime_db_finalize (GObject *object);
-
-static void
-rstto_mime_db_set_property (
-        GObject      *object,
-        guint         property_id,
-        const GValue *value,
-        GParamSpec   *pspec );
-
-static void
-rstto_mime_db_get_property (
-        GObject    *object,
-        guint       property_id,
-        GValue     *value,
-        GParamSpec *pspec);
 
 enum
 {
@@ -56,64 +32,50 @@ enum
     PROP_FILE
 };
 
-static GObjectClass *parent_class = NULL;
 
-GType
-rstto_mime_db_get_type (void)
-{
-    static GType rstto_mime_db_type = 0;
 
-    if (!rstto_mime_db_type)
-    {
-        static const GTypeInfo rstto_mime_db_info = 
-        {
-            sizeof (RsttoMimeDBClass),
-            NULL,
-            NULL,
-            rstto_mime_db_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoMimeDB),
-            0,
-            rstto_mime_db_init,
-            NULL
-        };
+static void
+rstto_mime_db_finalize (GObject *object);
+static void
+rstto_mime_db_set_property (GObject *object,
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec);
+static void
+rstto_mime_db_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec);
 
-        rstto_mime_db_type = g_type_register_static (G_TYPE_OBJECT, "RsttoMimeDB", &rstto_mime_db_info, 0);
-    }
-    return rstto_mime_db_type;
-}
 
-struct _RsttoMimeDBPriv
+
+struct _RsttoMimeDBPrivate
 {
     GFile   *file;
     XfceRc  *rc;
 };
 
-static void
-rstto_mime_db_init (
-        GTypeInstance *instance,
-        gpointer       g_class)
-{
-    RsttoMimeDB *mime_db = RSTTO_MIME_DB (instance);
 
-    mime_db->priv = g_new0 (RsttoMimeDBPriv, 1);
+
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoMimeDB, rstto_mime_db, G_TYPE_OBJECT)
+
+
+
+static void
+rstto_mime_db_init (RsttoMimeDB *mime_db)
+{
+    mime_db->priv = rstto_mime_db_get_instance_private (mime_db);
 }
 
 static void
-rstto_mime_db_class_init (
-        gpointer g_class,
-        gpointer class_data)
+rstto_mime_db_class_init (RsttoMimeDBClass *klass)
 {
-    GObjectClass *object_class = g_class;
-
-    parent_class = g_type_class_peek_parent (g_class);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_mime_db_finalize;
 
     object_class->set_property = rstto_mime_db_set_property;
     object_class->get_property = rstto_mime_db_get_property;
-
 }
 
 /**
@@ -126,14 +88,9 @@ rstto_mime_db_finalize (GObject *object)
 {
     RsttoMimeDB *mime_db = RSTTO_MIME_DB (object);
 
-    if (mime_db->priv)
-    {
-        xfce_rc_close (mime_db->priv->rc);
-        g_free (mime_db->priv);
-        mime_db->priv = NULL;
-    }
+    xfce_rc_close (mime_db->priv->rc);
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_mime_db_parent_class)->finalize (object);
 }
 
 static void
@@ -141,7 +98,7 @@ rstto_mime_db_set_property (
         GObject      *object,
         guint         property_id,
         const GValue *value,
-        GParamSpec   *pspec )
+        GParamSpec   *pspec)
 {
     switch (property_id)
     {
@@ -173,7 +130,6 @@ rstto_mime_db_get_property (
 RsttoMimeDB *
 rstto_mime_db_new (const gchar *path, GError **error)
 {
-    
     RsttoMimeDB   *mime_db = NULL;
     XfceRc        *rc = NULL;
 

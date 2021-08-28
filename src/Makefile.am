@@ -1,27 +1,27 @@
 bin_PROGRAMS = ristretto
 
 ristretto_SOURCES = \
+	app_menu_item.c app_menu_item.h \
+	file.c file.h \
+	gnome_wallpaper_manager.c gnome_wallpaper_manager.h \
+	icon_bar.c icon_bar.h \
 	image_list.c image_list.h \
 	image_viewer.c image_viewer.h \
-	settings.c settings.h \
-	preferences_dialog.h preferences_dialog.c \
-	properties_dialog.h properties_dialog.c \
-	main_window_ui.h \
+	main.c \
 	main_window.c main_window.h \
-	wallpaper_manager.c wallpaper_manager.h \
+	main_window_ui.h \
+	marshal.c marshal.h \
+	mime_db.c mime_db.h \
 	monitor_chooser.c monitor_chooser.h \
-	xfce_wallpaper_manager.c xfce_wallpaper_manager.h \
-	gnome_wallpaper_manager.c gnome_wallpaper_manager.h \
-	app_menu_item.c app_menu_item.h \
+	preferences_dialog.h preferences_dialog.c \
+	privacy_dialog.h privacy_dialog.c \
+	properties_dialog.h properties_dialog.c \
+	settings.c settings.h \
 	thumbnailer.c thumbnailer.h \
 	tumbler.c tumbler.h \
-	marshal.c marshal.h \
-	file.c file.h \
-	privacy_dialog.h privacy_dialog.c \
 	util.c util.h \
-	mime_db.c mime_db.h \
-	icon_bar.c icon_bar.h \
-	main.c
+	wallpaper_manager.c wallpaper_manager.h \
+	xfce_wallpaper_manager.c xfce_wallpaper_manager.h
 
 ristretto_CFLAGS = \
 	$(GTK_CFLAGS) \

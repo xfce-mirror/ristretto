@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -18,12 +18,15 @@
  */
 
 #include <gdk/gdkx.h>
+
 #include <libxfce4util/libxfce4util.h>
 #include <libxfce4ui/libxfce4ui.h>
 
 #include "file.h"
 #include "monitor_chooser.h"
 #include "gnome_wallpaper_manager.h"
+
+
 
 enum MonitorStyle
 {
@@ -41,37 +44,29 @@ enum ColorStyle
     COLOR_STYLE_HORIZONTAL_GRADIENT,
     COLOR_STYLE_VERTICAL_GRADIENT
 };
-	
+
+static RsttoWallpaperManager *gnome_wallpaper_manager_object = NULL;
+
+
 
 static void
-rstto_gnome_wallpaper_manager_init (
-        GTypeInstance *instance,
-        gpointer g_class);
-static void
-rstto_gnome_wallpaper_manager_class_init (
-        gpointer g_class,
-        gpointer class_data);
+rstto_gnome_wallpaper_manager_iface_init (RsttoWallpaperManagerInterface *iface);
 
 static void
 rstto_gnome_wallpaper_manager_finalize (GObject *object);
 
 static void
-cb_monitor_chooser_changed (
-        RsttoMonitorChooser *monitor_chooser,
-        RsttoGnomeWallpaperManager *manager);
+cb_monitor_chooser_changed (RsttoMonitorChooser *monitor_chooser,
+                            RsttoGnomeWallpaperManager *manager);
 static void
-cb_style_combo_changed (
-        GtkComboBox *style_combo,
-        RsttoGnomeWallpaperManager *manager);
-
+cb_style_combo_changed (GtkComboBox *style_combo,
+                        RsttoGnomeWallpaperManager *manager);
 static void
 configure_monitor_chooser_pixbuf (RsttoGnomeWallpaperManager *manager);
 
-static GObjectClass *parent_class = NULL;
 
-static RsttoWallpaperManager *gnome_wallpaper_manager_object = NULL;
 
-struct _RsttoGnomeWallpaperManagerPriv
+struct _RsttoGnomeWallpaperManagerPrivate
 {
     gint screen;
     gint monitor;
@@ -79,7 +74,7 @@ struct _RsttoGnomeWallpaperManagerPriv
 
     RsttoFile *file;
     GdkPixbuf *pixbuf;
-	
+
     GtkWidget *monitor_chooser;
     GtkWidget *style_combo;
 
@@ -87,12 +82,15 @@ struct _RsttoGnomeWallpaperManagerPriv
 };
 
 
-enum
-{
-    PROP_0,
-};
 
-static gint 
+G_DEFINE_TYPE_WITH_CODE (RsttoGnomeWallpaperManager, rstto_gnome_wallpaper_manager, G_TYPE_OBJECT,
+                         G_ADD_PRIVATE (RsttoGnomeWallpaperManager)
+                         G_IMPLEMENT_INTERFACE (RSTTO_WALLPAPER_MANAGER_TYPE,
+                                                rstto_gnome_wallpaper_manager_iface_init))
+
+
+
+static gint
 rstto_gnome_wallpaper_manager_configure_dialog_run (
         RsttoWallpaperManager *self,
         RsttoFile *file,
@@ -123,7 +121,7 @@ rstto_gnome_wallpaper_manager_configure_dialog_run (
         manager->priv->style = gtk_combo_box_get_active (
                 GTK_COMBO_BOX (manager->priv->style_combo));
         manager->priv->monitor = rstto_monitor_chooser_get_selected (
-                RSTTO_MONITOR_CHOOSER(manager->priv->monitor_chooser));
+                RSTTO_MONITOR_CHOOSER (manager->priv->monitor_chooser));
     }
 
     return response;
@@ -167,59 +165,16 @@ rstto_gnome_wallpaper_manager_set (
 }
 
 static void
-rstto_gnome_wallpaper_manager_iface_init (
-        gpointer g_iface,
-        gpointer iface_data)
+rstto_gnome_wallpaper_manager_iface_init (RsttoWallpaperManagerInterface *iface)
 {
-    RsttoWallpaperManagerIface *iface = g_iface;
-
     iface->configure_dialog_run = rstto_gnome_wallpaper_manager_configure_dialog_run;
     iface->check_running = rstto_gnome_wallpaper_manager_check_running;
     iface->set = rstto_gnome_wallpaper_manager_set;
 }
 
-GType
-rstto_gnome_wallpaper_manager_get_type (void)
-{
-    static GType rstto_gnome_wallpaper_manager_type = 0;
-
-    if (!rstto_gnome_wallpaper_manager_type)
-    {
-        static const GTypeInfo rstto_gnome_wallpaper_manager_info = 
-        {
-            sizeof (RsttoGnomeWallpaperManagerClass),
-            NULL,
-            NULL,
-            rstto_gnome_wallpaper_manager_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoGnomeWallpaperManager),
-            0,
-            rstto_gnome_wallpaper_manager_init,
-            NULL
-        };
-
-        static const GInterfaceInfo wallpaper_manager_iface_info = 
-        {
-            (GInterfaceInitFunc) rstto_gnome_wallpaper_manager_iface_init,
-            NULL,
-            NULL
-        };
-
-        rstto_gnome_wallpaper_manager_type = g_type_register_static (G_TYPE_OBJECT, "RsttoGnomeWallpaperManager", &rstto_gnome_wallpaper_manager_info, 0);
-        g_type_add_interface_static (rstto_gnome_wallpaper_manager_type, RSTTO_WALLPAPER_MANAGER_TYPE,  &wallpaper_manager_iface_info);
-
-    }
-    return rstto_gnome_wallpaper_manager_type;
-}
-
-
 static void
-rstto_gnome_wallpaper_manager_init (
-        GTypeInstance *instance,
-        gpointer g_class)
+rstto_gnome_wallpaper_manager_init (RsttoGnomeWallpaperManager *manager)
 {
-    RsttoGnomeWallpaperManager *manager = RSTTO_GNOME_WALLPAPER_MANAGER (instance);
     GtkWidget *image_prop_grid = gtk_grid_new ();
     GtkWidget *style_label = gtk_label_new (_("Style:"));
     GtkWidget *vbox;
@@ -230,7 +185,7 @@ rstto_gnome_wallpaper_manager_init (
     GdkRectangle monitor_geometry;
     gint i;
 
-    manager->priv = g_new0 (RsttoGnomeWallpaperManagerPriv, 1);
+    manager->priv = rstto_gnome_wallpaper_manager_get_instance_private (manager);
 
     manager->priv->dialog = gtk_dialog_new ();
     gtk_window_set_title (GTK_WINDOW (manager->priv->dialog), _("Set as wallpaper"));
@@ -302,30 +257,19 @@ rstto_gnome_wallpaper_manager_init (
 
     gtk_window_set_resizable (GTK_WINDOW (manager->priv->dialog), FALSE);
 
-    g_signal_connect (
-            G_OBJECT(manager->priv->monitor_chooser),
-            "changed",
-            G_CALLBACK (cb_monitor_chooser_changed),
-            manager);
-    g_signal_connect (
-            G_OBJECT(manager->priv->style_combo),
-            "changed",
-            G_CALLBACK (cb_style_combo_changed),
-            manager);
+    g_signal_connect (manager->priv->monitor_chooser, "changed",
+                      G_CALLBACK (cb_monitor_chooser_changed), manager);
+    g_signal_connect (manager->priv->style_combo, "changed",
+                      G_CALLBACK (cb_style_combo_changed), manager);
 
     gtk_widget_show_all (vbox);
 }
 
 
 static void
-rstto_gnome_wallpaper_manager_class_init (
-        gpointer g_class,
-        gpointer class_data)
+rstto_gnome_wallpaper_manager_class_init (RsttoGnomeWallpaperManagerClass *klass)
 {
-    GObjectClass *object_class = g_class;
-    RsttoGnomeWallpaperManagerClass *gnome_wallpaper_manager_class = g_class;
-
-    parent_class = g_type_class_peek_parent (gnome_wallpaper_manager_class);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_gnome_wallpaper_manager_finalize;
 }
@@ -338,20 +282,12 @@ rstto_gnome_wallpaper_manager_class_init (
 static void
 rstto_gnome_wallpaper_manager_finalize (GObject *object)
 {
-    RsttoGnomeWallpaperManager *gnome_wallpaper_manager = RSTTO_GNOME_WALLPAPER_MANAGER (object);
-
-    if (gnome_wallpaper_manager->priv)
-    {
-        g_free (gnome_wallpaper_manager->priv);
-        gnome_wallpaper_manager->priv = NULL;
-    }
-
     if (gnome_wallpaper_manager_object)
     {
         gnome_wallpaper_manager_object = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_gnome_wallpaper_manager_parent_class)->finalize (object);
 }
 
 
@@ -396,7 +332,7 @@ cb_monitor_chooser_changed (
 
 static void
 configure_monitor_chooser_pixbuf (
-    RsttoGnomeWallpaperManager *manager )
+    RsttoGnomeWallpaperManager *manager)
 {
     cairo_surface_t *image_surface = NULL;
     cairo_t *ctx;
@@ -419,7 +355,7 @@ configure_monitor_chooser_pixbuf (
     if (manager->priv->pixbuf)
     {
         tmp_pixbuf = gdk_pixbuf_copy (manager->priv->pixbuf);
-        if ( NULL != tmp_pixbuf )
+        if (NULL != tmp_pixbuf)
         {
 
             rstto_monitor_chooser_get_dimensions (
@@ -435,32 +371,31 @@ configure_monitor_chooser_pixbuf (
                     CAIRO_FORMAT_ARGB32,
                     surface_width,
                     surface_height);
-            ctx = cairo_create ( image_surface );
+            ctx = cairo_create (image_surface);
 
-            //gdk_cairo_set_source_color ( ctx, bg_color );
             cairo_set_source_rgb (ctx, 0, 0, 0);
             cairo_paint (ctx);
 
-            x_scale = (gdouble)surface_width / (gdouble)gdk_pixbuf_get_width (tmp_pixbuf);
-            y_scale = (gdouble)surface_height / (gdouble)gdk_pixbuf_get_height (tmp_pixbuf);
+            x_scale = (gdouble) surface_width / (gdouble) gdk_pixbuf_get_width (tmp_pixbuf);
+            y_scale = (gdouble) surface_height / (gdouble) gdk_pixbuf_get_height (tmp_pixbuf);
 
             switch (manager->priv->style)
             {
                 case MONITOR_STYLE_ZOOMED:
                     if (x_scale > y_scale)
                     {
-                        dest_width = (gint)((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) * x_scale);
-                        dest_height = (gint)((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) * x_scale);
-                        dest_x = (gint)((gdouble)(surface_width - dest_width) / 2);
-                        dest_y = (gint)((gdouble)(surface_height - dest_height) / 2);
+                        dest_width = (gint) ((gdouble) gdk_pixbuf_get_width (tmp_pixbuf) * x_scale);
+                        dest_height = (gint) ((gdouble) gdk_pixbuf_get_height (tmp_pixbuf) * x_scale);
+                        dest_x = (gint) ((gdouble) (surface_width - dest_width) / 2);
+                        dest_y = (gint) ((gdouble) (surface_height - dest_height) / 2);
                         y_scale = x_scale;
                     }
                     else
                     {
-                        dest_width = (gint)((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) * y_scale);
-                        dest_height = (gint)((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) * y_scale);
-                        dest_x = (gint)((gdouble)(surface_width - dest_width) / 2);
-                        dest_y = (gint)((gdouble)(surface_height - dest_height) / 2);
+                        dest_width = (gint) ((gdouble) gdk_pixbuf_get_width (tmp_pixbuf) * y_scale);
+                        dest_height = (gint) ((gdouble) gdk_pixbuf_get_height (tmp_pixbuf) * y_scale);
+                        dest_x = (gint) ((gdouble) (surface_width - dest_width) / 2);
+                        dest_y = (gint) ((gdouble) (surface_height - dest_height) / 2);
                         x_scale = y_scale;
                     }
                     break;
@@ -472,18 +407,18 @@ configure_monitor_chooser_pixbuf (
                 case MONITOR_STYLE_SCALED:
                     if (x_scale < y_scale)
                     {
-                        dest_width = (gint)((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) * x_scale);
-                        dest_height = (gint)((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) * x_scale);
-                        dest_x = (gint)((gdouble)(surface_width - dest_width) / 2);
-                        dest_y = (gint)((gdouble)(surface_height - dest_height) / 2);
+                        dest_width = (gint) ((gdouble) gdk_pixbuf_get_width (tmp_pixbuf) * x_scale);
+                        dest_height = (gint) ((gdouble) gdk_pixbuf_get_height (tmp_pixbuf) * x_scale);
+                        dest_x = (gint) ((gdouble) (surface_width - dest_width) / 2);
+                        dest_y = (gint) ((gdouble) (surface_height - dest_height) / 2);
                         y_scale = x_scale;
                     }
                     else
                     {
-                        dest_width = (gint)((gdouble)gdk_pixbuf_get_width (tmp_pixbuf) * y_scale);
-                        dest_height = (gint)((gdouble)gdk_pixbuf_get_height (tmp_pixbuf) * y_scale);
-                        dest_x = (gint)((gdouble)(surface_width - dest_width) / 2);
-                        dest_y = (gint)((gdouble)(surface_height - dest_height) / 2);
+                        dest_width = (gint) ((gdouble) gdk_pixbuf_get_width (tmp_pixbuf) * y_scale);
+                        dest_height = (gint) ((gdouble) gdk_pixbuf_get_height (tmp_pixbuf) * y_scale);
+                        dest_x = (gint) ((gdouble) (surface_width - dest_width) / 2);
+                        dest_y = (gint) ((gdouble) (surface_height - dest_height) / 2);
                         x_scale = y_scale;
                     }
                     break;
@@ -499,8 +434,8 @@ configure_monitor_chooser_pixbuf (
             gdk_cairo_set_source_pixbuf (
                     ctx,
                     tmp_pixbuf,
-                    dest_x/x_scale,
-                    dest_y/y_scale);
+                    dest_x / x_scale,
+                    dest_y / y_scale);
             cairo_paint (ctx);
             cairo_destroy (ctx);
 

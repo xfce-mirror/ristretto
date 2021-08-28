@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -26,46 +26,20 @@
 
 G_BEGIN_DECLS
 
-#define RSTTO_TYPE_GNOME_WALLPAPER_MANAGER rstto_gnome_wallpaper_manager_get_type()
+#define RSTTO_TYPE_GNOME_WALLPAPER_MANAGER rstto_gnome_wallpaper_manager_get_type ()
+G_DECLARE_FINAL_TYPE (RsttoGnomeWallpaperManager, rstto_gnome_wallpaper_manager, RSTTO, GNOME_WALLPAPER_MANAGER, GObject)
 
-#define RSTTO_GNOME_WALLPAPER_MANAGER(obj)( \
-        G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-                RSTTO_TYPE_GNOME_WALLPAPER_MANAGER, \
-                RsttoGnomeWallpaperManager))
-
-#define RSTTO_IS_GNOME_WALLPAPER_MANAGER(obj)( \
-        G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                RSTTO_TYPE_GNOME_WALLPAPER_MANAGER))
-
-#define RSTTO_GNOME_WALLPAPER_MANAGER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_CAST ((klass), \
-                RSTTO_TYPE_GNOME_WALLPAPER_MANAGER, \
-                RsttoGnomeWallpaperManagerClass))
-
-#define RSTTO_IS_GNOME_WALLPAPER_MANAGER_CLASS(klass)( \
-        G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                RSTTO_TYPE_GNOME_WALLPAPER_MANAGER()))
-
-
-typedef struct _RsttoGnomeWallpaperManager RsttoGnomeWallpaperManager;
-typedef struct _RsttoGnomeWallpaperManagerPriv RsttoGnomeWallpaperManagerPriv;
+typedef struct _RsttoGnomeWallpaperManagerPrivate RsttoGnomeWallpaperManagerPrivate;
 
 struct _RsttoGnomeWallpaperManager
 {
     GObject parent;
-
-    RsttoGnomeWallpaperManagerPriv *priv;
+    RsttoGnomeWallpaperManagerPrivate *priv;
 };
 
-typedef struct _RsttoGnomeWallpaperManagerClass RsttoGnomeWallpaperManagerClass;
 
-struct _RsttoGnomeWallpaperManagerClass
-{
-    GObjectClass parent_class;
-};
 
 RsttoWallpaperManager *rstto_gnome_wallpaper_manager_new (void);
-GType          rstto_gnome_wallpaper_manager_get_type (void);
 
 G_END_DECLS
 

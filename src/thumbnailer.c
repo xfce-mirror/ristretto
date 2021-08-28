@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -30,49 +30,7 @@
 #include "thumbnailer.h"
 #include "tumbler.h"
 
-static void
-rstto_thumbnailer_init (
-        GTypeInstance *instance,
-        gpointer       g_class);
-static void
-rstto_thumbnailer_class_init (
-        gpointer g_class,
-        gpointer class_data);
 
-static void
-rstto_thumbnailer_finalize (GObject *object);
-
-static void
-rstto_thumbnailer_set_property (
-        GObject      *object,
-        guint         property_id,
-        const GValue *value,
-        GParamSpec   *pspec);
-static void
-rstto_thumbnailer_get_property (
-        GObject    *object,
-        guint       property_id,
-        GValue     *value,
-        GParamSpec *pspec);
-
-static void
-cb_rstto_thumbnailer_request_finished (
-        TumblerThumbnailer1 *proxy,
-        guint arg_handle,
-        gpointer data);
-static void
-cb_rstto_thumbnailer_thumbnail_ready (
-        TumblerThumbnailer1 *proxy,
-        guint handle,
-        const gchar *const *uri,
-        gpointer data);
-
-static gboolean
-rstto_thumbnailer_queue_request_timer (gpointer user_data);
-
-static GObjectClass *parent_class = NULL;
-
-static RsttoThumbnailer *thumbnailer_object;
 
 enum
 {
@@ -82,42 +40,28 @@ enum
 
 static gint rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_COUNT];
 
-enum
-{
-    PROP_0,
-};
+static RsttoThumbnailer *thumbnailer_object;
 
-GType
-rstto_thumbnailer_get_type (void)
-{
-    static GType rstto_thumbnailer_type = 0;
 
-    if (!rstto_thumbnailer_type)
-    {
-        static const GTypeInfo rstto_thumbnailer_info = 
-        {
-            sizeof (RsttoThumbnailerClass),
-            NULL,
-            NULL,
-            rstto_thumbnailer_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoThumbnailer),
-            0,
-            rstto_thumbnailer_init,
-            NULL
-        };
 
-        rstto_thumbnailer_type = g_type_register_static (
-                G_TYPE_OBJECT,
-                "RsttoThumbnailer",
-                &rstto_thumbnailer_info,
-                0);
-    }
-    return rstto_thumbnailer_type;
-}
+static void
+rstto_thumbnailer_finalize (GObject *object);
 
-struct _RsttoThumbnailerPriv
+static void
+cb_rstto_thumbnailer_request_finished (TumblerThumbnailer1 *proxy,
+                                       guint arg_handle,
+                                       gpointer data);
+static void
+cb_rstto_thumbnailer_thumbnail_ready (TumblerThumbnailer1 *proxy,
+                                      guint handle,
+                                      const gchar *const *uri,
+                                      gpointer data);
+static gboolean
+rstto_thumbnailer_queue_request_timer (gpointer user_data);
+
+
+
+struct _RsttoThumbnailerPrivate
 {
     GDBusConnection     *connection;
     TumblerThumbnailer1 *proxy;
@@ -133,16 +77,18 @@ struct _RsttoThumbnailerPriv
     guint                request_timer_id;
 };
 
-static void
-rstto_thumbnailer_init (
-        GTypeInstance *instance,
-        gpointer       g_class)
-{
-    RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (instance);
 
-    thumbnailer->priv = g_new0 (RsttoThumbnailerPriv, 1);
-    thumbnailer->priv->connection = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, NULL);
-    thumbnailer->priv->settings = rstto_settings_new();
+
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoThumbnailer, rstto_thumbnailer, G_TYPE_OBJECT)
+
+
+
+static void
+rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
+{
+    thumbnailer->priv = rstto_thumbnailer_get_instance_private (thumbnailer);
+    thumbnailer->priv->connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, NULL);
+    thumbnailer->priv->settings = rstto_settings_new ();
 
     thumbnailer->priv->show_missing_thumbnailer_error =
             rstto_settings_get_boolean_property (
@@ -151,7 +97,6 @@ rstto_thumbnailer_init (
 
     if (thumbnailer->priv->connection)
     {
-    
         thumbnailer->priv->proxy = tumbler_thumbnailer1_proxy_new_sync (
                 thumbnailer->priv->connection,
                 G_DBUS_PROXY_FLAGS_NONE,
@@ -160,36 +105,27 @@ rstto_thumbnailer_init (
                 NULL,
                 NULL);
 
-        g_signal_connect(thumbnailer->priv->proxy,
+        g_signal_connect (thumbnailer->priv->proxy,
                          "finished",
                          G_CALLBACK (cb_rstto_thumbnailer_request_finished),
                          thumbnailer);
-        g_signal_connect(thumbnailer->priv->proxy,
+        g_signal_connect (thumbnailer->priv->proxy,
                          "ready",
-                         G_CALLBACK(cb_rstto_thumbnailer_thumbnail_ready),
+                         G_CALLBACK (cb_rstto_thumbnailer_thumbnail_ready),
                          thumbnailer);
     }
 }
 
 
 static void
-rstto_thumbnailer_class_init (
-        gpointer g_class,
-        gpointer class_data)
+rstto_thumbnailer_class_init (RsttoThumbnailerClass *klass)
 {
-    GObjectClass          *object_class = g_class;
-    RsttoThumbnailerClass *thumbnailer_class = g_class;
-
-    parent_class = g_type_class_peek_parent (thumbnailer_class);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_thumbnailer_finalize;
 
-    object_class->set_property = rstto_thumbnailer_set_property;
-    object_class->get_property = rstto_thumbnailer_get_property;
-
-
-    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY] = g_signal_new("ready",
-            G_TYPE_FROM_CLASS(thumbnailer_class),
+    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY] = g_signal_new ("ready",
+            G_TYPE_FROM_CLASS (klass),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
             NULL,
@@ -211,17 +147,12 @@ rstto_thumbnailer_finalize (GObject *object)
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (object);
 
-    if (thumbnailer->priv)
-    {
-        g_clear_object (&thumbnailer->priv->settings);
-        g_clear_object (&thumbnailer->priv->proxy);
-        g_clear_object (&thumbnailer->priv->connection);
-        g_slist_free_full (thumbnailer->priv->queue, g_object_unref);
+    g_clear_object (&thumbnailer->priv->settings);
+    g_clear_object (&thumbnailer->priv->proxy);
+    g_clear_object (&thumbnailer->priv->connection);
+    g_slist_free_full (thumbnailer->priv->queue, g_object_unref);
 
-        g_clear_pointer (&thumbnailer->priv, g_free);
-    }
-
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_thumbnailer_parent_class)->finalize (object);
 }
 
 
@@ -247,54 +178,23 @@ rstto_thumbnailer_new (void)
     return thumbnailer_object;
 }
 
-
-static void
-rstto_thumbnailer_set_property (
-        GObject      *object,
-        guint         property_id,
-        const GValue *value,
-        GParamSpec   *pspec)
-{
-    switch (property_id)
-    {
-        default:
-            break;
-    }
-}
-
-static void
-rstto_thumbnailer_get_property (
-        GObject    *object,
-        guint       property_id,
-        GValue     *value,
-        GParamSpec *pspec)
-{
-    switch (property_id)
-    {
-        default:
-            break;
-    }
-}
-
 void
 rstto_thumbnailer_queue_file (
         RsttoThumbnailer *thumbnailer,
-        RsttoFile *file )
+        RsttoFile *file)
 {
-    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+    g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
 
-    g_return_if_fail ( RSTTO_IS_FILE (file) );
+    g_return_if_fail (RSTTO_IS_FILE (file));
 
     if (thumbnailer->priv->request_timer_id != 0)
     {
         REMOVE_SOURCE (thumbnailer->priv->request_timer_id);
         if (thumbnailer->priv->handle)
         {
-            if(tumbler_thumbnailer1_call_dequeue_sync(
-                thumbnailer->priv->proxy,
-                thumbnailer->priv->handle,
-                NULL,
-                NULL) == FALSE)
+            if (! tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
+                                                          thumbnailer->priv->handle,
+                                                          NULL, NULL))
             {
                 /* If this fails it usually means there's a thumbnail already
                  * being processed, no big deal */
@@ -324,10 +224,10 @@ rstto_thumbnailer_dequeue_file (
         RsttoThumbnailer *thumbnailer,
         RsttoFile *file)
 {
-    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+    g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
 
-    g_return_if_fail ( RSTTO_IS_FILE (file) );
-    
+    g_return_if_fail (RSTTO_IS_FILE (file));
+
     if (thumbnailer->priv->request_timer_id)
     {
         REMOVE_SOURCE (thumbnailer->priv->request_timer_id);
@@ -335,17 +235,15 @@ rstto_thumbnailer_dequeue_file (
 
     if (thumbnailer->priv->handle)
     {
-        if(tumbler_thumbnailer1_call_dequeue_sync(
-                thumbnailer->priv->proxy,
-                thumbnailer->priv->handle,
-                NULL,
-                NULL) == FALSE)
+        if (! tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
+                                                      thumbnailer->priv->handle,
+                                                      NULL, NULL))
         {
             /* If this fails it usually means there's a thumbnail already
              * being processed, no big deal */
         }
         thumbnailer->priv->handle = 0;
-        g_slist_free_full (thumbnailer->priv->in_process_queue, (GDestroyNotify) g_object_unref);
+        g_slist_free_full (thumbnailer->priv->in_process_queue, g_object_unref);
         thumbnailer->priv->in_process_queue = NULL;
     }
 
@@ -378,14 +276,14 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     GtkWidget *error_dialog = NULL;
     GtkWidget *vbox, *do_not_show_checkbox;
 
-    g_return_val_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer), FALSE);
+    g_return_val_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer), FALSE);
 
     thumbnailer->priv->in_process_queue = thumbnailer->priv->queue;
     thumbnailer->priv->queue = NULL;
 
     uris = g_new0 (
             const gchar *,
-            g_slist_length(thumbnailer->priv->in_process_queue) + 1);
+            g_slist_length (thumbnailer->priv->in_process_queue) + 1);
     mimetypes = g_new0 (
             const gchar *,
             g_slist_length (thumbnailer->priv->in_process_queue) + 1);
@@ -395,31 +293,27 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     {
         if (iter->data)
         {
-            file = RSTTO_FILE(iter->data);
+            file = iter->data;
             uris[i] = rstto_file_get_uri (file);
             mimetypes[i] = rstto_file_get_content_type (file);
         }
-        iter = g_slist_next(iter);
+        iter = g_slist_next (iter);
         i++;
     }
 
-    if(tumbler_thumbnailer1_call_queue_sync(
-        thumbnailer->priv->proxy,
-        (const gchar * const*)uris,
-        (const gchar * const*)mimetypes,
-        "normal",
-        "default",
-        0,
-        &thumbnailer->priv->handle,
-        NULL,
-        &error) == FALSE)
+    if (! tumbler_thumbnailer1_call_queue_sync (thumbnailer->priv->proxy,
+                                                (const gchar * const*) uris,
+                                                (const gchar * const*) mimetypes,
+                                                "normal", "default", 0,
+                                                &thumbnailer->priv->handle,
+                                                NULL, &error))
     {
         if (NULL != error)
         {
-            g_warning("DBUS-call failed:%s", error->message);
-            if ((error->domain == G_DBUS_ERROR) &&
-                (error->code == G_DBUS_ERROR_SERVICE_UNKNOWN) &&
-                thumbnailer->priv->show_missing_thumbnailer_error == TRUE)
+            g_warning ("DBUS-call failed:%s", error->message);
+            if (error->domain == G_DBUS_ERROR
+                && error->code == G_DBUS_ERROR_SERVICE_UNKNOWN
+                && thumbnailer->priv->show_missing_thumbnailer_error)
             {
                 error_dialog = gtk_message_dialog_new_with_markup (
                         NULL,
@@ -430,8 +324,7 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
                         "for this reason, the thumbnails can not be\n"
                         "created.\n\n"
                         "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
-                        "to resolve this issue.")
-                        );
+                        "to resolve this issue."));
                 vbox = gtk_dialog_get_content_area (
                         GTK_DIALOG (error_dialog));
 
@@ -444,11 +337,10 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
                         FALSE,
                         0);
                 gtk_widget_show (do_not_show_checkbox);
-                gtk_dialog_run (GTK_DIALOG(error_dialog));
+                gtk_dialog_run (GTK_DIALOG (error_dialog));
 
                 thumbnailer->priv->show_missing_thumbnailer_error = FALSE;
-                if (TRUE == gtk_toggle_button_get_active (
-                        GTK_TOGGLE_BUTTON (do_not_show_checkbox)))
+                if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (do_not_show_checkbox)))
                 {
                     rstto_settings_set_boolean_property (
                         thumbnailer->priv->settings,
@@ -460,7 +352,7 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
         }
         /* TOOO: Nice cleanup */
     }
-    
+
     g_free (uris);
     g_free (mimetypes);
 
@@ -474,13 +366,13 @@ cb_rstto_thumbnailer_request_finished (
         guint arg_handle,
         gpointer data)
 {
-    RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
+    RsttoThumbnailer *thumbnailer = data;
 
-    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+    g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
 
     if (thumbnailer->priv->in_process_queue)
     {
-        g_slist_free_full (thumbnailer->priv->in_process_queue, (GDestroyNotify) g_object_unref);
+        g_slist_free_full (thumbnailer->priv->in_process_queue, g_object_unref);
         thumbnailer->priv->in_process_queue = NULL;
     }
 }
@@ -492,13 +384,13 @@ cb_rstto_thumbnailer_thumbnail_ready (
         const gchar *const *uri,
         gpointer data)
 {
-    RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (data);
+    RsttoThumbnailer *thumbnailer = data;
     RsttoFile *file;
     GSList *iter = thumbnailer->priv->in_process_queue;
     gint x = 0;
     const gchar *f_uri;
 
-    g_return_if_fail ( RSTTO_IS_THUMBNAILER (thumbnailer) );
+    g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
 
     while (iter)
     {
@@ -507,16 +399,13 @@ cb_rstto_thumbnailer_thumbnail_ready (
             break;
         }
 
-        file = RSTTO_FILE (iter->data);
+        file = iter->data;
         f_uri = rstto_file_get_uri (file);
         if (strcmp (uri[x], f_uri) == 0)
         {
-            g_signal_emit (
-                    G_OBJECT (thumbnailer),
-                    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY],
-                    0,
-                    file,
-                    NULL);
+            g_signal_emit (thumbnailer,
+                           rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY],
+                           0, file, NULL);
             thumbnailer->priv->in_process_queue = g_slist_remove (
                     thumbnailer->priv->in_process_queue,
                     file);
@@ -527,7 +416,7 @@ cb_rstto_thumbnailer_thumbnail_ready (
         }
         else
         {
-            iter = g_slist_next(iter);
+            iter = g_slist_next (iter);
         }
-    } 
+    }
 }

@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -23,6 +23,8 @@
 #include "settings.h"
 #include "preferences_dialog.h"
 
+
+
 #ifndef RSTTO_MIN_CACHE_SIZE
 #define RSTTO_MIN_CACHE_SIZE 16
 #endif
@@ -32,68 +34,48 @@
 #endif
 
 
-static void
-rstto_preferences_dialog_init (
-        GTypeInstance *instance,
-        gpointer g_class);
-static void
-rstto_preferences_dialog_class_init(
-        gpointer g_class,
-        gpointer class_data);
 
 static void
 rstto_preferences_dialog_finalize (GObject *object);
 
 
 static void
-cb_bgcolor_override_toggled (
-        GtkToggleButton *,
-        gpointer user_data);
+cb_bgcolor_override_toggled (GtkToggleButton *button,
+                             gpointer user_data);
 static void
-cb_bgcolor_color_set (
-        GtkColorButton *,
-        gpointer user_data);
+cb_bgcolor_color_set (GtkColorButton *button,
+                      gpointer user_data);
 static void
-cb_invert_zoom_direction_check_button_toggled (
-        GtkToggleButton *,
-        gpointer user_data);
+cb_invert_zoom_direction_check_button_toggled (GtkToggleButton *button,
+                                               gpointer user_data);
+static void
+cb_hide_thumbnails_fullscreen_check_button_toggled (GtkToggleButton *button,
+                                                    gpointer user_data);
+static void
+cb_show_clock_check_button_toggled (GtkToggleButton *button,
+                                    gpointer user_data);
+static void
+cb_cursor_timeout_button_value_changed (GtkSpinButton *spin_button,
+                                        gpointer user_data);
+static void
+cb_limit_quality_check_button_toggled (GtkToggleButton *button,
+                                       gpointer user_data);
+static void
+cb_wrap_images_check_button_toggled (GtkToggleButton *button,
+                                     gpointer user_data);
+static void
+cb_maximize_on_startup_check_button_toggled (GtkToggleButton *button,
+                                             gpointer user_data);
+static void
+cb_choose_desktop_combo_box_changed (GtkComboBox *combo_box,
+                                     gpointer user_data);
+static void
+cb_slideshow_timeout_value_changed (GtkRange *range,
+                                    gpointer user_data);
 
-static void
-cb_hide_thumbnails_fullscreen_check_button_toggled (
-        GtkToggleButton *button, 
-        gpointer user_data);
-static void
-cb_show_clock_check_button_toggled (
-        GtkToggleButton *button, 
-        gpointer user_data);
-static void
-cb_cursor_timeout_button_value_changed (
-        GtkSpinButton *spin_button,
-        gpointer user_data);
-static void
-cb_limit_quality_check_button_toggled (
-        GtkToggleButton *button, 
-        gpointer user_data);
-static void
-cb_wrap_images_check_button_toggled (
-        GtkToggleButton *button, 
-        gpointer user_data);
-static void
-cb_maximize_on_startup_check_button_toggled (
-        GtkToggleButton *button, 
-        gpointer user_data);
-static void
-cb_choose_desktop_combo_box_changed (
-        GtkComboBox *combo_box,
-        gpointer user_data);
-static void
-cb_slideshow_timeout_value_changed (
-        GtkRange *range,
-        gpointer user_data);
 
-static GtkWidgetClass *parent_class = NULL;
 
-struct _RsttoPreferencesDialogPriv
+struct _RsttoPreferencesDialogPrivate
 {
     RsttoSettings *settings;
 
@@ -160,35 +142,11 @@ struct _RsttoPreferencesDialogPriv
 
 };
 
-GType
-rstto_preferences_dialog_get_type (void)
-{
-    static GType rstto_preferences_dialog_type = 0;
 
-    if (!rstto_preferences_dialog_type)
-    {
-        static const GTypeInfo rstto_preferences_dialog_info = 
-        {
-            sizeof (RsttoPreferencesDialogClass),
-            NULL,
-            NULL,
-            rstto_preferences_dialog_class_init,
-            NULL,
-            NULL,
-            sizeof (RsttoPreferencesDialog),
-            0,
-            rstto_preferences_dialog_init,
-            NULL
-        };
 
-        rstto_preferences_dialog_type = g_type_register_static (
-                GTK_TYPE_DIALOG,
-                "RsttoPreferencesDialog",
-                &rstto_preferences_dialog_info,
-                0);
-    }
-    return rstto_preferences_dialog_type;
-}
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoPreferencesDialog, rstto_preferences_dialog, GTK_TYPE_DIALOG)
+
+
 
 /**
  * rstto_preferences_dialog_init:
@@ -206,7 +164,7 @@ rstto_preferences_dialog_get_type (void)
  *
  *      background_color_frame
  *
- *      quality_frame 
+ *      quality_frame
  *
  *   configure_fullscreen_tab
  *
@@ -229,13 +187,9 @@ rstto_preferences_dialog_get_type (void)
  *      desktop_frame
  */
 static void
-rstto_preferences_dialog_init (
-        GTypeInstance *instance,
-        gpointer g_class)
+rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
 {
     /* Variable Section */
-
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (instance);
 
     gboolean   bool_invert_zoom_direction;
     gboolean   bool_bgcolor_override;
@@ -267,7 +221,7 @@ rstto_preferences_dialog_init (
 
     /* Code Section */
 
-    dialog->priv = g_new0 (RsttoPreferencesDialogPriv, 1);
+    dialog->priv = rstto_preferences_dialog_get_instance_private (dialog);
 
     dialog->priv->settings = rstto_settings_new ();
 
@@ -275,7 +229,7 @@ rstto_preferences_dialog_init (
      * Get all properties from the ristretto settings container
      */
     g_object_get (
-            G_OBJECT (dialog->priv->settings),
+            dialog->priv->settings,
             "invert-zoom-direction", &bool_invert_zoom_direction,
             "bgcolor-override", &bool_bgcolor_override,
             "bgcolor", &bgcolor,
@@ -308,11 +262,11 @@ rstto_preferences_dialog_init (
     dialog->priv->display_tab.bgcolor_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
     dialog->priv->display_tab.bgcolor_color_button = gtk_color_button_new ();
 
-    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_hbox), 
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_hbox),
                         dialog->priv->display_tab.bgcolor_override_check_button, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_hbox),
                         dialog->priv->display_tab.bgcolor_color_button, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_vbox), 
+    gtk_box_pack_start (GTK_BOX (dialog->priv->display_tab.bgcolor_vbox),
                         dialog->priv->display_tab.bgcolor_hbox, FALSE, FALSE, 0);
 
     /* set current value */
@@ -325,10 +279,10 @@ rstto_preferences_dialog_init (
                               bool_bgcolor_override);
 
     /* connect signals */
-    g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_override_check_button),
-                      "toggled", G_CALLBACK (cb_bgcolor_override_toggled), dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->display_tab.bgcolor_color_button),
-                      "color-set", G_CALLBACK (cb_bgcolor_color_set), dialog);
+    g_signal_connect (dialog->priv->display_tab.bgcolor_override_check_button, "toggled",
+                      G_CALLBACK (cb_bgcolor_override_toggled), dialog);
+    g_signal_connect (dialog->priv->display_tab.bgcolor_color_button, "color-set",
+                      G_CALLBACK (cb_bgcolor_color_set), dialog);
 
     dialog->priv->display_tab.quality_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     dialog->priv->display_tab.quality_frame = xfce_gtk_frame_box_new_with_content (_("Quality"), dialog->priv->display_tab.quality_vbox);
@@ -344,8 +298,8 @@ rstto_preferences_dialog_init (
     gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.quality_vbox), dialog->priv->display_tab.quality_button);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.quality_button), bool_limit_quality);
 
-    g_signal_connect (G_OBJECT (dialog->priv->display_tab.quality_button), 
-                      "toggled", G_CALLBACK (cb_limit_quality_check_button_toggled), dialog);
+    g_signal_connect (dialog->priv->display_tab.quality_button, "toggled",
+                      G_CALLBACK (cb_limit_quality_check_button_toggled), dialog);
 
     /*
      * Fullscreen tab
@@ -373,7 +327,7 @@ rstto_preferences_dialog_init (
     dialog->priv->fullscreen_tab.clock_frame = xfce_gtk_frame_box_new_with_content (_("Clock"), dialog->priv->fullscreen_tab.clock_vbox);
     gtk_box_pack_start (GTK_BOX (fullscreen_main_vbox), dialog->priv->fullscreen_tab.clock_frame, FALSE, FALSE, 0);
 
-    dialog->priv->fullscreen_tab.clock_label = gtk_label_new ( _("Show an analog clock that displays the current time when the window is fullscreen"));
+    dialog->priv->fullscreen_tab.clock_label = gtk_label_new (_("Show an analog clock that displays the current time when the window is fullscreen"));
     gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), TRUE);
     gtk_label_set_xalign (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), 0.0);
     gtk_label_set_yalign (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), 0.5);
@@ -401,12 +355,12 @@ rstto_preferences_dialog_init (
     gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.cursor_vbox), dialog->priv->fullscreen_tab.cursor_hbox);
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->fullscreen_tab.cursor_timeout_button), uint_hide_mouse_cursor_fullscreen_timeout);
 
-    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button),
-                      "toggled", G_CALLBACK (cb_hide_thumbnails_fullscreen_check_button_toggled), dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.clock_button),
-                      "toggled", G_CALLBACK (cb_show_clock_check_button_toggled), dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->fullscreen_tab.cursor_timeout_button),
-                      "value-changed", G_CALLBACK (cb_cursor_timeout_button_value_changed), dialog);
+    g_signal_connect (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button, "toggled",
+                      G_CALLBACK (cb_hide_thumbnails_fullscreen_check_button_toggled), dialog);
+    g_signal_connect (dialog->priv->fullscreen_tab.clock_button, "toggled",
+                      G_CALLBACK (cb_show_clock_check_button_toggled), dialog);
+    g_signal_connect (dialog->priv->fullscreen_tab.cursor_timeout_button, "value-changed",
+                      G_CALLBACK (cb_cursor_timeout_button_value_changed), dialog);
 
     /*
      * Slideshow tab
@@ -429,8 +383,8 @@ rstto_preferences_dialog_init (
 
     gtk_range_set_value (GTK_RANGE (timeout_hscale), (gdouble) uint_slideshow_timeout);
 
-    g_signal_connect (G_OBJECT (timeout_hscale),
-                      "value-changed", G_CALLBACK (cb_slideshow_timeout_value_changed), dialog);
+    g_signal_connect (timeout_hscale, "value-changed",
+                      G_CALLBACK (cb_slideshow_timeout_value_changed), dialog);
 
     control_main_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     control_main_lbl = gtk_label_new (_("Control"));
@@ -444,8 +398,8 @@ rstto_preferences_dialog_init (
     gtk_container_add (GTK_CONTAINER (dialog->priv->control_tab.scroll_vbox), dialog->priv->control_tab.zoom_invert_check_button);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->control_tab.zoom_invert_check_button), bool_invert_zoom_direction);
 
-    g_signal_connect (G_OBJECT (dialog->priv->control_tab.zoom_invert_check_button),
-                      "toggled", G_CALLBACK (cb_invert_zoom_direction_check_button_toggled), dialog);
+    g_signal_connect (dialog->priv->control_tab.zoom_invert_check_button, "toggled",
+                      G_CALLBACK (cb_invert_zoom_direction_check_button_toggled), dialog);
 
     /*
      * Behaviour tab
@@ -468,10 +422,10 @@ rstto_preferences_dialog_init (
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.wrap_images_check_button),
                                   bool_wrap_images);
 
-    g_signal_connect (G_OBJECT (dialog->priv->behaviour_tab.wrap_images_check_button),
-                      "toggled", G_CALLBACK (cb_wrap_images_check_button_toggled), dialog);
-    g_signal_connect (G_OBJECT (dialog->priv->behaviour_tab.maximize_window_on_startup_check_button),
-                      "toggled", G_CALLBACK (cb_maximize_on_startup_check_button_toggled), dialog);
+    g_signal_connect (dialog->priv->behaviour_tab.wrap_images_check_button, "toggled",
+                      G_CALLBACK (cb_wrap_images_check_button_toggled), dialog);
+    g_signal_connect (dialog->priv->behaviour_tab.maximize_window_on_startup_check_button, "toggled",
+                      G_CALLBACK (cb_maximize_on_startup_check_button_toggled), dialog);
 
     dialog->priv->behaviour_tab.desktop_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 4);
     dialog->priv->behaviour_tab.desktop_frame = xfce_gtk_frame_box_new_with_content (_("Desktop"), dialog->priv->behaviour_tab.desktop_vbox);
@@ -530,8 +484,8 @@ rstto_preferences_dialog_init (
             DESKTOP_TYPE_XFCE);
     }
 
-    g_signal_connect (G_OBJECT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
-                      "changed", G_CALLBACK (cb_choose_desktop_combo_box_changed), dialog);
+    g_signal_connect (dialog->priv->behaviour_tab.choose_desktop_combo_box, "changed",
+                      G_CALLBACK (cb_choose_desktop_combo_box_changed), dialog);
 
     /* Increase left and top margins for the tabs' contents */
     n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
@@ -554,13 +508,9 @@ rstto_preferences_dialog_init (
 }
 
 static void
-rstto_preferences_dialog_class_init (
-        gpointer g_class,
-        gpointer class_data)
+rstto_preferences_dialog_class_init (RsttoPreferencesDialogClass *klass)
 {
-    GObjectClass *object_class = g_class;
-
-    parent_class = g_type_class_peek_parent (RSTTO_PREFERENCES_DIALOG_CLASS (object_class));
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_preferences_dialog_finalize;
 }
@@ -569,19 +519,14 @@ static void
 rstto_preferences_dialog_finalize (GObject *object)
 {
     RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (object);
-    if (dialog->priv)
-    {
-        if (dialog->priv->settings)
-        {
-            g_object_unref (dialog->priv->settings);
-            dialog->priv->settings = NULL;
-        }
 
-        g_free (dialog->priv);
-        dialog->priv = NULL;
+    if (dialog->priv->settings)
+    {
+        g_object_unref (dialog->priv->settings);
+        dialog->priv->settings = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_preferences_dialog_parent_class)->finalize (object);
 }
 
 GtkWidget *
@@ -615,41 +560,41 @@ rstto_preferences_dialog_new (GtkWindow *parent)
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active) then
  *
- *       set_property ( "bgcolor-override", TRUE );
+ *       set_property ("bgcolor-override", TRUE);
  *
- *       set_sensitive ( bgcolor_color_button, TRUE );
+ *       set_sensitive (bgcolor_color_button, TRUE);
  *
  *   else
  *
- *       set_property ( "bgcolor-override", FALSE );
+ *       set_property ("bgcolor-override", FALSE);
  *
- *       set_sensitive ( bgcolor_color_button, FALSE );
+ *       set_sensitive (bgcolor_color_button, FALSE);
  *
  *   endif
  */
 static void
 cb_bgcolor_override_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-    gboolean bgcolor_override = gtk_toggle_button_get_active ( button );
+    RsttoPreferencesDialog *dialog = user_data;
+    gboolean bgcolor_override = gtk_toggle_button_get_active (button);
 
 
     /* Code Section */
 
     gtk_widget_set_sensitive (
             dialog->priv->display_tab.bgcolor_color_button,
-            bgcolor_override );
+            bgcolor_override);
 
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "bgcolor-override",
-            bgcolor_override );
+            bgcolor_override);
 }
 
 /**
@@ -668,32 +613,20 @@ cb_bgcolor_override_toggled (
  *
  *   color = button_get_color ()
  *
- *   set_property ( "bg-color", color );
+ *   set_property ("bg-color", color);
  */
 static void
 cb_bgcolor_color_set (
         GtkColorButton *button,
         gpointer user_data)
 {
-    /* Variable Section */
+    RsttoPreferencesDialog *dialog = user_data;
+    GdkRGBA *bgcolor;
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-    GValue bgcolor_val = {0, };
+    g_object_get (button, "rgba", &bgcolor, NULL);
+    g_object_set (dialog->priv->settings, "bgcolor", bgcolor, NULL);
 
-
-    /* Code Section */
-
-    g_value_init (&bgcolor_val, GDK_TYPE_RGBA);
-
-    g_object_get_property (
-            G_OBJECT(button),
-            "rgba",
-            &bgcolor_val);
-    g_object_set_property (
-            G_OBJECT(dialog->priv->settings),
-            "bgcolor",
-            &bgcolor_val);
-    
+    gdk_rgba_free (bgcolor);
 }
 
 /**
@@ -713,25 +646,25 @@ cb_bgcolor_color_set (
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active) then
  *
- *       set_property ( "invert-zoom-direction", TRUE );
+ *       set_property ("invert-zoom-direction", TRUE);
  *
  *   else
  *
- *       set_property ( "invert-zoom-direction", FALSE );
+ *       set_property ("invert-zoom-direction", FALSE);
  *
  *   endif
  */
 static void
 cb_invert_zoom_direction_check_button_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
-    gboolean invert_zoom = gtk_toggle_button_get_active ( button );
+    RsttoPreferencesDialog *dialog = user_data;
+    gboolean invert_zoom = gtk_toggle_button_get_active (button);
 
 
     /* Code Section */
@@ -739,7 +672,7 @@ cb_invert_zoom_direction_check_button_toggled (
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "invert-zoom-direction",
-            invert_zoom );
+            invert_zoom);
 }
 
 /**
@@ -754,12 +687,12 @@ cb_invert_zoom_direction_check_button_toggled (
  * property in the ristretto settings container.
  *
  * When this property is changed, the time between switching
- * images when running a slideshow is changed. 
+ * images when running a slideshow is changed.
  *
  *
  *   value = range_get_value ()
  *
- *   set_property ( "slideshow-timeout", value );
+ *   set_property ("slideshow-timeout", value);
  */
 static void
 cb_slideshow_timeout_value_changed (
@@ -768,8 +701,8 @@ cb_slideshow_timeout_value_changed (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
-    guint slideshow_timeout = (guint)gtk_range_get_value ( range );
+    RsttoPreferencesDialog *dialog = user_data;
+    guint slideshow_timeout = (guint) gtk_range_get_value (range);
 
 
     /* Code Section */
@@ -777,7 +710,7 @@ cb_slideshow_timeout_value_changed (
     rstto_settings_set_uint_property (
             dialog->priv->settings,
             "slideshow-timeout",
-            slideshow_timeout );
+            slideshow_timeout);
 
 }
 
@@ -789,34 +722,34 @@ cb_slideshow_timeout_value_changed (
  *
  *
  * This function is called when a user toggles the
- * 'hide-thumbnails-fullscreen' check-button. This function then 
+ * 'hide-thumbnails-fullscreen' check-button. This function then
  * sets the right property in the ristretto settings container.
  *
- * When this property is set, the thumbnails are hidden when the 
+ * When this property is set, the thumbnails are hidden when the
  * window is in fullscreen mode.
  *
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active) then
  *
- *       set_property ( "hide-thumbnails-fullscreen", TRUE );
+ *       set_property ("hide-thumbnails-fullscreen", TRUE);
  *
  *   else
  *
- *       set_property ( "hide-thumbnails-fullscreen", FALSE );
+ *       set_property ("hide-thumbnails-fullscreen", FALSE);
  *
  *   endif
  */
 static void
 cb_hide_thumbnails_fullscreen_check_button_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
-    gboolean hide_thumbnails = gtk_toggle_button_get_active ( button );
+    RsttoPreferencesDialog *dialog = user_data;
+    gboolean hide_thumbnails = gtk_toggle_button_get_active (button);
 
 
     /* Code Section */
@@ -824,7 +757,7 @@ cb_hide_thumbnails_fullscreen_check_button_toggled (
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "hide-thumbnails-fullscreen",
-            hide_thumbnails );
+            hide_thumbnails);
 }
 
 /**
@@ -838,32 +771,32 @@ cb_hide_thumbnails_fullscreen_check_button_toggled (
  * check-button. This function then sets the right property in the
  * ristretto settings container.
  *
- * When this property is set, the list of images can 'wrap', allowing 
+ * When this property is set, the list of images can 'wrap', allowing
  * the user to go to the first image when moving beyond the last image
  * and vice-versa.
  *
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active) then
  *
- *       set_property ( "wrap-images", TRUE );
+ *       set_property ("wrap-images", TRUE);
  *
  *   else
  *
- *       set_property ( "wrap-images", FALSE );
+ *       set_property ("wrap-images", FALSE);
  *
  *   endif
  */
 static void
 cb_wrap_images_check_button_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
-    gboolean wrap_images = gtk_toggle_button_get_active ( button );
+    RsttoPreferencesDialog *dialog = user_data;
+    gboolean wrap_images = gtk_toggle_button_get_active (button);
 
 
     /* Code Section */
@@ -871,7 +804,7 @@ cb_wrap_images_check_button_toggled (
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "wrap-images",
-            wrap_images );
+            wrap_images);
 }
 
 /**
@@ -884,32 +817,32 @@ cb_wrap_images_check_button_toggled (
  * This function is called when a user toggles the 'maximize-on-startup'
  * check-button. This function then sets the right property in the
  * ristretto settings container.
- * 
+ *
  * When this property is set, the main-window is maximized directly when
  * an image is opened on startup.
  *
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active) then
  *
- *       set_property ( "maximize-on-startup", TRUE );
+ *       set_property ("maximize-on-startup", TRUE);
  *
  *   else
  *
- *       set_property ( "maximize-on-startup", FALSE );
+ *       set_property ("maximize-on-startup", FALSE);
  *
  *   endif
  */
 static void
 cb_maximize_on_startup_check_button_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
-    gboolean maximize_on_startup = gtk_toggle_button_get_active ( button );
+    RsttoPreferencesDialog *dialog = user_data;
+    gboolean maximize_on_startup = gtk_toggle_button_get_active (button);
 
 
     /* Code Section */
@@ -917,7 +850,7 @@ cb_maximize_on_startup_check_button_toggled (
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "maximize-on-startup",
-            maximize_on_startup );
+            maximize_on_startup);
 }
 
 /**
@@ -930,32 +863,32 @@ cb_maximize_on_startup_check_button_toggled (
  * This function is called when a user toggles the 'show-clock'
  * check-button. This function then sets the right property in the
  * ristretto settings container.
- * 
+ *
  * When this property is set, a clock is rendered on the image-viewer
  * widget when the window is in fullscreen mode.
  *
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active) then
  *
- *       set_property ( "show-clock", TRUE );
+ *       set_property ("show-clock", TRUE);
  *
  *   else
  *
- *       set_property ( "show-clock", FALSE );
+ *       set_property ("show-clock", FALSE);
  *
  *   endif
  */
 static void
 cb_show_clock_check_button_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
-    gboolean show_clock = gtk_toggle_button_get_active ( button );
+    RsttoPreferencesDialog *dialog = user_data;
+    gboolean show_clock = gtk_toggle_button_get_active (button);
 
     /* Code Section */
 
@@ -985,7 +918,7 @@ cb_cursor_timeout_button_value_changed (
         GtkSpinButton *spin_button,
         gpointer user_data)
 {
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
     gdouble value = gtk_spin_button_get_value (spin_button);
 
     rstto_settings_set_uint_property (
@@ -1011,25 +944,25 @@ cb_cursor_timeout_button_value_changed (
  *
  *   active = toggle_button_get_active ()
  *
- *   if ( active == TRUE ) then
+ *   if (active) then
  *
- *       set_property ( "limit-quality", TRUE );
+ *       set_property ("limit-quality", TRUE);
  *
  *   else
  *
- *       set_property ( "limit-quality", FALSE );
+ *       set_property ("limit-quality", FALSE);
  *
  *   endif
  */
 static void
 cb_limit_quality_check_button_toggled (
-        GtkToggleButton *button, 
+        GtkToggleButton *button,
         gpointer user_data)
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG ( user_data );
-    gboolean limit_quality = gtk_toggle_button_get_active ( button );
+    RsttoPreferencesDialog *dialog = user_data;
+    gboolean limit_quality = gtk_toggle_button_get_active (button);
 
 
     /* Code Section */
@@ -1037,7 +970,7 @@ cb_limit_quality_check_button_toggled (
     rstto_settings_set_boolean_property (
             dialog->priv->settings,
             "limit-quality",
-            limit_quality );
+            limit_quality);
 }
 
 /**
@@ -1058,17 +991,17 @@ cb_limit_quality_check_button_toggled (
  *
  *   active = combo_box_get_active ()
  *
- *   if ( active == DESKTOP_TYPE_NONE ) then
+ *   if (active == DESKTOP_TYPE_NONE) then
  *
- *       set_property ( "desktop-type", "none" );
+ *       set_property ("desktop-type", "none");
  *
- *   else if ( active == DESKTOP_TYPE_XFCE ) then
+ *   else if (active == DESKTOP_TYPE_XFCE) then
  *
- *       set_property ( "desktop-type", "xfce" );
+ *       set_property ("desktop-type", "xfce");
  *
- *   else if ( active == DESKTOP_TYPE_GNOME ) then
+ *   else if (active == DESKTOP_TYPE_GNOME) then
  *
- *       set_property ( "desktop-type", "gnome" );
+ *       set_property ("desktop-type", "gnome");
  *
  *   endif
  */
@@ -1079,7 +1012,7 @@ cb_choose_desktop_combo_box_changed (
 {
     /* Variable Section */
 
-    RsttoPreferencesDialog *dialog = RSTTO_PREFERENCES_DIALOG (user_data);
+    RsttoPreferencesDialog *dialog = user_data;
 
 
     /* Code Section */

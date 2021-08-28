@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -21,13 +21,7 @@
 
 #include "app_menu_item.h"
 
-struct _RsttoAppMenuItemPrivate
-{
-    GAppInfo *app_info;
-    GFile *file;
-};
 
-static GtkWidgetClass *parent_class = NULL;
 
 static void
 rstto_app_menu_item_finalize (GObject *object);
@@ -35,13 +29,21 @@ rstto_app_menu_item_finalize (GObject *object);
 static void
 rstto_app_menu_item_activate (GtkMenuItem *object);
 
+
+
+struct _RsttoAppMenuItemPrivate
+{
+    GAppInfo *app_info;
+    GFile *file;
+};
+
+
+
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-G_DEFINE_TYPE_WITH_CODE (
-        RsttoAppMenuItem,
-        rstto_app_menu_item,
-        GTK_TYPE_IMAGE_MENU_ITEM,
-        G_ADD_PRIVATE (RsttoAppMenuItem))
+G_DEFINE_TYPE_WITH_PRIVATE (RsttoAppMenuItem, rstto_app_menu_item, GTK_TYPE_IMAGE_MENU_ITEM)
 G_GNUC_END_IGNORE_DEPRECATIONS
+
+
 
 static void
 rstto_app_menu_item_init (RsttoAppMenuItem *menu_item)
@@ -50,17 +52,13 @@ rstto_app_menu_item_init (RsttoAppMenuItem *menu_item)
 }
 
 static void
-rstto_app_menu_item_class_init (RsttoAppMenuItemClass *app_menu_item_class)
+rstto_app_menu_item_class_init (RsttoAppMenuItemClass *klass)
 {
-    GtkMenuItemClass *menu_item_class;
-    GObjectClass *object_class;
-
-    object_class = G_OBJECT_CLASS (app_menu_item_class);
-    menu_item_class = GTK_MENU_ITEM_CLASS (app_menu_item_class);
-
-    parent_class = g_type_class_peek_parent (app_menu_item_class);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
+    GtkMenuItemClass *menu_item_class = GTK_MENU_ITEM_CLASS (klass);
 
     object_class->finalize = rstto_app_menu_item_finalize;
+
     menu_item_class->activate = rstto_app_menu_item_activate;
 }
 
@@ -75,21 +73,19 @@ static void
 rstto_app_menu_item_finalize (GObject *object)
 {
     RsttoAppMenuItem *menu_item = RSTTO_APP_MENU_ITEM (object);
-    if (menu_item->priv)
+
+    if (menu_item->priv->app_info)
     {
-        if (menu_item->priv->app_info)
-        {
-            g_object_unref (menu_item->priv->app_info);
-            menu_item->priv->app_info = NULL;
-        }
-        if (menu_item->priv->file)
-        {
-            g_object_unref (menu_item->priv->file);
-            menu_item->priv->file = NULL;
-        }
+        g_object_unref (menu_item->priv->app_info);
+        menu_item->priv->app_info = NULL;
+    }
+    if (menu_item->priv->file)
+    {
+        g_object_unref (menu_item->priv->file);
+        menu_item->priv->file = NULL;
     }
 
-    G_OBJECT_CLASS (parent_class)->finalize (object);
+    G_OBJECT_CLASS (rstto_app_menu_item_parent_class)->finalize (object);
 }
 
 /**
@@ -106,17 +102,17 @@ rstto_app_menu_item_activate (GtkMenuItem *object)
 
     g_app_info_launch (app_menu_item->priv->app_info, files, NULL, NULL);
 
-    GTK_MENU_ITEM_CLASS (parent_class)->activate (GTK_MENU_ITEM (object));
+    GTK_MENU_ITEM_CLASS (rstto_app_menu_item_parent_class)->activate (object);
 }
 
 /**
  * rstto_app_menu_item_new:
  * @app_info: Application info
  * @file: File
- * 
+ *
  * Creates new RsttoAppMenuItem
  *
- * Returns: RsttoAppMenuItem that launches application @app_info with @file 
+ * Returns: RsttoAppMenuItem that launches application @app_info with @file
  */
 GtkWidget *
 rstto_app_menu_item_new (GAppInfo *app_info, GFile *file)

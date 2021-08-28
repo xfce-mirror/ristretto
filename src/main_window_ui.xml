@@ -108,7 +108,7 @@
         <menuitem action="open"/>
         <menuitem action="properties"/>
         <menuitem action="close"/>
-	<menuitem action="copy-image"/>
+    <menuitem action="copy-image"/>
         <separator/>
         <menu action="open-with-menu">
             <placeholder name="open-with-apps" />

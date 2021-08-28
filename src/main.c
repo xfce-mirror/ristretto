@@ -5,12 +5,12 @@
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; either version 2
  *  of the License, or (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -22,10 +22,9 @@
 
 #include <glib.h>
 #include <gio/gio.h>
-
-#include <xfconf/xfconf.h>
 #include <gtk/gtk.h>
 
+#include <xfconf/xfconf.h>
 #include <libxfce4ui/libxfce4ui.h>
 
 #include "file.h"
@@ -35,21 +34,18 @@
 #include "preferences_dialog.h"
 
 
+
 gboolean version = FALSE;
 gboolean start_fullscreen = FALSE;
 gboolean start_slideshow = FALSE;
 gboolean show_settings = FALSE;
 
-typedef struct {
-    RsttoImageList *image_list;
-    gint argc;
-    gchar **argv;
-    gint iter;
-    GtkWidget *window;
-} RsttoOpenFiles;
+
 
 static gboolean
 cb_rstto_open_files (gpointer user_data);
+
+
 
 static GOptionEntry entries[] =
 {
@@ -76,8 +72,20 @@ static GOptionEntry entries[] =
     { NULL, ' ', 0, 0, NULL, NULL, NULL }
 };
 
+
+
+typedef struct {
+    RsttoImageList *image_list;
+    gint argc;
+    gchar **argv;
+    gint iter;
+    GtkWidget *window;
+} RsttoOpenFiles;
+
+
+
 int
-main(int argc, char **argv)
+main (int argc, char **argv)
 {
     GError *cli_error = NULL;
     RsttoSettings *settings;
@@ -118,7 +126,7 @@ main(int argc, char **argv)
     gtk_window_set_default_icon_name ("org.xfce.ristretto");
     settings = rstto_settings_new ();
 
-    if (FALSE == show_settings)
+    if (! show_settings)
     {
         image_list = rstto_image_list_new ();
         window = rstto_main_window_new (image_list, FALSE);
@@ -138,21 +146,19 @@ main(int argc, char **argv)
             g_object_add_weak_pointer (G_OBJECT (image_list), (gpointer *) &(rof.image_list));
             g_idle_add (cb_rstto_open_files, &rof);
 
-            if (TRUE == rstto_settings_get_boolean_property (
-                        settings,
-                        "maximize-on-startup"))
+            if (rstto_settings_get_boolean_property (settings, "maximize-on-startup"))
             {
                 gtk_window_maximize (GTK_WINDOW (window));
             }
         }
 
         /* Start fullscreen */
-        if (TRUE == start_fullscreen)
+        if (start_fullscreen)
         {
            gtk_window_fullscreen (GTK_WINDOW (window));
         }
 
-        g_signal_connect (G_OBJECT(window), "destroy", G_CALLBACK (gtk_main_quit), NULL);
+        g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
         gtk_widget_show_all (window);
 
         gtk_main ();
@@ -175,7 +181,7 @@ main(int argc, char **argv)
 
     g_object_unref (settings);
 
-    xfconf_shutdown();
+    xfconf_shutdown ();
 
     return 0;
 }
@@ -210,7 +216,7 @@ cb_rstto_open_files (gpointer user_data)
                     if (strncmp (content_type, "image/", 6) == 0)
                     {
                         r_file = rstto_file_new (file);
-                        if (rstto_image_list_add_file (rof->image_list, r_file, NULL) == TRUE)
+                        if (rstto_image_list_add_file (rof->image_list, r_file, NULL))
                         {
                             rstto_main_window_add_file_to_recent_files (file);
                         }
@@ -288,9 +294,9 @@ cb_rstto_open_files (gpointer user_data)
             rstto_image_list_iter_set_position (iter, 0);
         }
 
-        if (TRUE == start_slideshow)
+        if (start_slideshow)
         {
-            rstto_main_window_play_slideshow (RSTTO_MAIN_WINDOW(rof->window));
+            rstto_main_window_play_slideshow (RSTTO_MAIN_WINDOW (rof->window));
         }
 
         if (file != NULL)
