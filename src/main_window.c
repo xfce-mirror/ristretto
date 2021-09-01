@@ -2485,9 +2485,10 @@ G_GNUC_END_IGNORE_DEPRECATIONS
         }
     }
 
-    if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
-    {
-    }
+    /* to prevent costly redrawing of the image viewer (drawback: the other child widgets are
+     * not redrawn either, so they are not grayed out when the main window loses focus) */
+    if (event->changed_mask & GDK_WINDOW_STATE_FOCUSED)
+        return TRUE;
 
     return FALSE;
 }
