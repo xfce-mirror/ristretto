@@ -2076,17 +2076,27 @@ static gboolean
 cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
 {
     RsttoImageViewer *viewer = user_data;
-    GtkWidget *widget = GTK_WIDGET (viewer);
+    GdkRectangle rect;
     gint timeout = 0;
 
     if (viewer->priv->iter)
     {
-        /* Cleanup old image */
         if (viewer->priv->pixbuf)
         {
+            /* Cleanup old image */
             g_object_unref (viewer->priv->pixbuf);
             viewer->priv->pixbuf = NULL;
+
+            /* redraw only the image */
+            rect.x = viewer->priv->rendering.x_offset;
+            rect.y = viewer->priv->rendering.y_offset;
+            rect.width = viewer->priv->rendering.width;
+            rect.height = viewer->priv->rendering.height;
+
+            gdk_window_invalidate_rect (gtk_widget_get_window (user_data), &rect, FALSE);
         }
+        else
+            gdk_window_invalidate_rect (gtk_widget_get_window (user_data), NULL, FALSE);
 
         /* The pixbuf returned by the GdkPixbufAnimationIter might be reused,
          * lets make a copy for myself just in case. Since it's a copy, we
@@ -2101,8 +2111,6 @@ cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
                 g_timeout_add (timeout, cb_rstto_image_viewer_update_pixbuf,
                                rstto_util_source_autoremove (viewer));
         }
-
-        gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
     }
 
     return FALSE;
