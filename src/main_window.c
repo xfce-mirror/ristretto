@@ -1764,6 +1764,27 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     }
 }
 
+static void
+rstto_main_window_toolbar_remove_shadow (GtkWidget *widget,
+                                         gpointer data)
+{
+    GtkStyleContext *context;
+    GtkCssProvider *provider;
+
+    if (GTK_IS_BUTTON (widget))
+    {
+        provider = gtk_css_provider_new ();
+        context = gtk_widget_get_style_context (widget);
+        gtk_css_provider_load_from_data (provider, "button { box-shadow: none; }", -1, NULL);
+        gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider),
+                                        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+        g_object_unref (provider);
+    }
+    else if (GTK_IS_CONTAINER (widget))
+        gtk_container_foreach (GTK_CONTAINER (widget),
+                               rstto_main_window_toolbar_remove_shadow, NULL);
+}
+
 /**
  * rstto_main_window_update_buttons:
  * @window:
@@ -2010,6 +2031,12 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
         }
 G_GNUC_END_IGNORE_DEPRECATIONS
     }
+
+    /* remove the shadow of the toolbar buttons so that it does not drool on
+     * the image viewer, triggering its redraw (gtk_container_forall() is used
+     * to reach also the overflow menu arrow) */
+    gtk_container_forall (GTK_CONTAINER (window->priv->toolbar),
+                          rstto_main_window_toolbar_remove_shadow, NULL);
 }
 
 static void
