@@ -71,6 +71,10 @@ static GdkScreen *default_screen = NULL;
 typedef struct _RsttoImageViewerTransaction RsttoImageViewerTransaction;
 
 
+
+#define RSTTO_GET_CLOCK_WIDTH(w, h) (40 + MIN (w, h) * 0.07)
+#define RSTTO_GET_CLOCK_OFFSET(w)   (w * 0.15);
+
 static void
 rstto_image_viewer_finalize (GObject *object);
 static void
@@ -914,12 +918,9 @@ paint_clock (GtkWidget *widget, cairo_t *ctx)
     gdouble hour_angle = (gdouble) (M_PI * 2) / 12 * ((gdouble) (lt->tm_hour % 12 + 6) + ((M_PI * 2) / 720.0 * (gdouble) lt->tm_min));
     gtk_widget_get_allocation (widget, &allocation);
 
-    width = (allocation.width < allocation.height)
-            ? 40 + ((gdouble) allocation.width * 0.07)
-            : 40 + ((gdouble) allocation.height * 0.07);
-
+    width = RSTTO_GET_CLOCK_WIDTH (allocation.width, allocation.height);
     height = width;
-    offset = height * 0.15;
+    offset = RSTTO_GET_CLOCK_OFFSET (width);
 
     cairo_save (ctx);
 
@@ -2694,13 +2695,18 @@ rstto_image_viewer_get_property (GObject *object, guint property_id, GValue *val
 static gboolean
 cb_rstto_image_viewer_refresh (gpointer user_data)
 {
-    RsttoImageViewer *viewer = user_data;
-    GtkWidget *widget = GTK_WIDGET (viewer);
+    GtkAllocation alloc;
+    gdouble width, offset;
 
-    gdk_window_invalidate_rect (
-            gtk_widget_get_window (widget),
-            NULL,
-            FALSE);
+    /* redraw only the clock square */
+    gtk_widget_get_allocation (user_data, &alloc);
+    width = RSTTO_GET_CLOCK_WIDTH (alloc.width, alloc.height);
+    offset = RSTTO_GET_CLOCK_OFFSET (width);
+    alloc.x = alloc.width - width - offset;
+    alloc.y = alloc.height - width - offset;
+    alloc.width = alloc.height = ceil (width);
+
+    gdk_window_invalidate_rect (gtk_widget_get_window (user_data), &alloc, FALSE);
 
     return TRUE;
 }
