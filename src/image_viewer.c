@@ -2539,7 +2539,10 @@ static void
 cb_rstto_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
 {
     RsttoImageViewer *viewer = user_data;
-    GtkWidget *widget = user_data;
+    cairo_region_t *region;
+    cairo_status_t status;
+    GtkAllocation alloc;
+    const gchar *message = "Undetermined error";
     gboolean bg_color_override;
 
     gdk_rgba_free (viewer->priv->bg_color_fs);
@@ -2553,7 +2556,25 @@ cb_rstto_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_da
     else
         viewer->priv->bg_color = NULL;
 
-    gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
+    /* do not redraw the image */
+    gtk_widget_get_allocation (user_data, &alloc);
+    region = cairo_region_create_rectangle (&alloc);
+    alloc.x = viewer->priv->rendering.x_offset;
+    alloc.y = viewer->priv->rendering.y_offset;
+    alloc.width = viewer->priv->rendering.width;
+    alloc.height = viewer->priv->rendering.height;
+
+    status = cairo_region_subtract_rectangle (region, &alloc);
+    if (status != CAIRO_STATUS_SUCCESS)
+    {
+        if (status == CAIRO_STATUS_NO_MEMORY)
+            message = "Not enough memory";
+
+        g_warning ("Failed to optimize image drawing: %s", message);
+    }
+
+    gdk_window_invalidate_region (gtk_widget_get_window (user_data), region, FALSE);
+    cairo_region_destroy (region);
 }
 
 static void
