@@ -45,6 +45,7 @@
 
 #define MAX_OVER_VISIBLE 1.5
 #define MIN_VIEW_PERCENT 0.1
+#define RSTTO_LINE_WIDTH 1.0
 
 enum
 {
@@ -1393,7 +1394,7 @@ paint_selection_box (GtkWidget *widget, cairo_t *ctx)
     cairo_set_source_rgba (ctx, 0.9, 0.9, 0.9, 0.2);
     cairo_fill_preserve (ctx);
     cairo_set_source_rgba (ctx, 0.2, 0.2, 0.2, 1.0);
-    cairo_set_line_width (ctx, 1.0);
+    cairo_set_line_width (ctx, RSTTO_LINE_WIDTH);
     cairo_stroke (ctx);
 }
 
@@ -2180,9 +2181,13 @@ rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     GtkAdjustment *adjustment;
+    GdkRectangle previous_box, current_box, union_box;
+    gdouble previous_x, previous_y;
 
     if (event->state & GDK_BUTTON1_MASK)
     {
+        previous_x = viewer->priv->motion.current_x;
+        previous_y = viewer->priv->motion.current_y;
         viewer->priv->motion.current_x = event->x;
         viewer->priv->motion.current_y = event->y;
 
@@ -2226,15 +2231,23 @@ rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
                 }
                 break;
             case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
-                /* TODO: Calculate the rectangle to invalidate.
-                 *
-                 * It should be a rectangle covering both the original
-                 * selection-box and the new one.
-                 */
-                gdk_window_invalidate_rect (
-                        gtk_widget_get_window (widget),
-                        NULL,
-                        FALSE);
+                /* redraw only the union of the previous and current selection boxes */
+                previous_box.x = MIN (viewer->priv->motion.x, previous_x);
+                previous_box.y = MIN (viewer->priv->motion.y, previous_y);
+                previous_box.width = ceil (MAX (viewer->priv->motion.x, previous_x))
+                                     - previous_box.x + 2 * RSTTO_LINE_WIDTH;
+                previous_box.height = ceil (MAX (viewer->priv->motion.y, previous_y))
+                                      - previous_box.y + 2 * RSTTO_LINE_WIDTH;
+
+                current_box.x = MIN (viewer->priv->motion.x, event->x);
+                current_box.y = MIN (viewer->priv->motion.y, event->y);
+                current_box.width = ceil (MAX (viewer->priv->motion.x, event->x))
+                                    - current_box.x + 2 * RSTTO_LINE_WIDTH;
+                current_box.height = ceil (MAX (viewer->priv->motion.y, event->y))
+                                     - current_box.y + 2 * RSTTO_LINE_WIDTH;
+
+                gdk_rectangle_union (&previous_box, &current_box, &union_box);
+                gdk_window_invalidate_rect (gtk_widget_get_window (widget), &union_box, FALSE);
 
                 /* Only change the cursor when hovering over the image
                  */
@@ -2497,15 +2510,16 @@ rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
 
                 g_signal_emit_by_name (viewer, "scale-changed");
             }
+
+            gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
             break;
+
         default:
             break;
     }
+
     rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_NORMAL);
-    gdk_window_invalidate_rect (
-            gtk_widget_get_window (widget),
-            NULL,
-            FALSE);
+
     return FALSE;
 }
 
