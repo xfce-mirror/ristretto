@@ -236,10 +236,10 @@ struct _RsttoImageViewerPrivate
     RsttoImageOrientation        orientation;
     struct
     {
-        gdouble x_offset;
-        gdouble y_offset;
-        gdouble width;
-        gdouble height;
+        gint x_offset;
+        gint y_offset;
+        gint width;
+        gint height;
     } rendering;
 
     struct
@@ -1000,17 +1000,16 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gint i = 0;
     gint a = 0;
-    gdouble x_offset;
-    gdouble y_offset;
     gint block_width = 10;
     gint block_height = 10;
     gdouble bg_scale = 1.0;
+    gdouble x_scale, y_scale;
     GtkAllocation allocation;
     cairo_matrix_t transform_matrix;
 
     gtk_widget_get_allocation (widget, &allocation);
 
-    if (viewer->priv->pixbuf)
+    if (viewer->priv->pixbuf && viewer->priv->image_width > 1 && viewer->priv->image_height > 1)
     {
         switch (viewer->priv->orientation)
         {
@@ -1018,34 +1017,39 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
             case RSTTO_IMAGE_ORIENT_270:
             case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
             case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
-                viewer->priv->rendering.x_offset = ((gdouble) allocation.width - (
-                            (gdouble) viewer->priv->image_height *
-                                viewer->priv->scale)) / 2.0;
-                viewer->priv->rendering.y_offset = ((gdouble) allocation.height - (
-                            (gdouble) viewer->priv->image_width *
-                                viewer->priv->scale)) / 2.0;
-                viewer->priv->rendering.width =
-                        (gdouble) viewer->priv->image_height * viewer->priv->scale;
-                viewer->priv->rendering.height =
-                        (gdouble) viewer->priv->image_width * viewer->priv->scale;
+                viewer->priv->rendering.x_offset =
+                    (allocation.width - viewer->priv->image_height * viewer->priv->scale) / 2.0;
+                viewer->priv->rendering.y_offset =
+                    (allocation.height - viewer->priv->image_width * viewer->priv->scale) / 2.0;
+                viewer->priv->rendering.width = viewer->priv->image_height * viewer->priv->scale;
+                viewer->priv->rendering.height = viewer->priv->image_width * viewer->priv->scale;
+
+                /* adjusted scales for painting, so that the painted image is strictly
+                 * included in the rendering rectangle, and the drawing area restriction
+                 * in gdk_window_invalidate_*() is really taken into account (typical
+                 * example where it is necessary: when redrawing the background in
+                 * cb_rstto_bgcolor_changed()) */
+                x_scale = (1 - DBL_EPSILON) * viewer->priv->rendering.width
+                                            / viewer->priv->image_height;
+                y_scale = (1 - DBL_EPSILON) * viewer->priv->rendering.height
+                                            / viewer->priv->image_width;
                 break;
             case RSTTO_IMAGE_ORIENT_NONE:
             case RSTTO_IMAGE_ORIENT_180:
             case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
             case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
             default:
-                viewer->priv->rendering.x_offset = ((gdouble) allocation.width - (
-                            (gdouble) viewer->priv->image_width *
-                                viewer->priv->scale)) / 2.0;
-                viewer->priv->rendering.y_offset = ((gdouble) allocation.height - (
-                            (gdouble) viewer->priv->image_height *
-                                viewer->priv->scale)) / 2.0;
-                viewer->priv->rendering.width =
-                        (gdouble) viewer->priv->image_width * viewer->priv->scale;
-                viewer->priv->rendering.height =
-                        (gdouble) viewer->priv->image_height * viewer->priv->scale;
+                viewer->priv->rendering.x_offset =
+                    (allocation.width - viewer->priv->image_width * viewer->priv->scale) / 2.0;
+                viewer->priv->rendering.y_offset =
+                    (allocation.height - viewer->priv->image_height * viewer->priv->scale) / 2.0;
+                viewer->priv->rendering.width = viewer->priv->image_width * viewer->priv->scale;
+                viewer->priv->rendering.height = viewer->priv->image_height * viewer->priv->scale;
+                x_scale = (1 - DBL_EPSILON) * viewer->priv->rendering.width
+                                            / viewer->priv->image_width;
+                y_scale = (1 - DBL_EPSILON) * viewer->priv->rendering.height
+                                            / viewer->priv->image_height;
                 break;
-
         }
 
         if (viewer->priv->rendering.x_offset < 0)
@@ -1058,8 +1062,6 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
         }
 
         cairo_save (ctx);
-        x_offset = floor (viewer->priv->rendering.x_offset);
-        y_offset = floor (viewer->priv->rendering.y_offset);
 
 /* BEGIN PAINT CHECKERED BACKGROUND */
         if (gdk_pixbuf_get_has_alpha (viewer->priv->pixbuf))
@@ -1067,42 +1069,42 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
             cairo_set_source_rgba (ctx, 0.8, 0.8, 0.8, 1.0);
             cairo_rectangle (
                     ctx,
-                    x_offset,
-                    y_offset,
+                    viewer->priv->rendering.x_offset,
+                    viewer->priv->rendering.y_offset,
                     viewer->priv->rendering.width,
                     viewer->priv->rendering.height);
             cairo_fill (ctx);
 
             cairo_set_source_rgba (ctx, 0.7, 0.7, 0.7, 1.0);
-            for (i = 0; i < viewer->priv->rendering.width / 10; ++i)
+            for (i = 0; i < viewer->priv->rendering.width / 10.0; ++i)
             {
                 if (i % 2)
                     a = 1;
                 else
                     a = 0;
 
-                if ((i + 1) <= (viewer->priv->rendering.width / 10))
+                if (i + 1 <= viewer->priv->rendering.width / 10.0)
                 {
                     block_width = 10;
                 }
                 else
                 {
-                    block_width = ((gint) viewer->priv->rendering.width) % 10;
+                    block_width = viewer->priv->rendering.width % 10;
                 }
-                for (; a < viewer->priv->rendering.height / 10; a += 2)
+                for (; a < viewer->priv->rendering.height / 10.0; a += 2)
                 {
-                    if ((a + 1) <= (viewer->priv->rendering.height / 10))
+                    if (a + 1 <= viewer->priv->rendering.height / 10.0)
                     {
                         block_height = 10;
                     }
                     else
                     {
-                        block_height = ((gint) viewer->priv->rendering.height % 10);
+                        block_height = viewer->priv->rendering.height % 10;
                     }
                     cairo_rectangle (
                             ctx,
-                            x_offset + i * 10,
-                            y_offset + a * 10,
+                            viewer->priv->rendering.x_offset + i * 10,
+                            viewer->priv->rendering.y_offset + a * 10,
                             block_width,
                             block_height);
                     cairo_fill (ctx);
@@ -1125,8 +1127,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
                         0.0);
                 cairo_translate (
                         ctx,
-                        x_offset,
-                        y_offset);
+                        viewer->priv->rendering.x_offset,
+                        viewer->priv->rendering.y_offset);
                 cairo_matrix_init_identity (&transform_matrix);
                 transform_matrix.xx = -1.0;
                 cairo_transform (ctx, &transform_matrix);
@@ -1142,8 +1144,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
                         viewer->priv->image_height * viewer->priv->scale);
                 cairo_translate (
                         ctx,
-                        x_offset,
-                        y_offset);
+                        viewer->priv->rendering.x_offset,
+                        viewer->priv->rendering.y_offset);
                 cairo_matrix_init_identity (&transform_matrix);
                 transform_matrix.yy = -1.0;
                 cairo_transform (ctx, &transform_matrix);
@@ -1156,8 +1158,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
                         floor (0.0 - gtk_adjustment_get_value (viewer->priv->hadjustment)));
                 cairo_translate (
                         ctx,
-                        -1.0 * y_offset,
-                        x_offset);
+                        -1.0 * viewer->priv->rendering.y_offset,
+                        viewer->priv->rendering.x_offset);
                 cairo_matrix_init_identity (&transform_matrix);
                 transform_matrix.xx = -1.0;
                 cairo_transform (ctx, &transform_matrix);
@@ -1174,8 +1176,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
                         -1.0 * viewer->priv->image_height * viewer->priv->scale);
                 cairo_translate (
                         ctx,
-                        y_offset,
-                        -1.0 * x_offset);
+                        viewer->priv->rendering.y_offset,
+                        -1.0 * viewer->priv->rendering.x_offset);
                 cairo_matrix_init_identity (&transform_matrix);
                 transform_matrix.xx = -1.0;
                 cairo_transform (ctx, &transform_matrix);
@@ -1194,8 +1196,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
                         -1.0 * viewer->priv->image_height * viewer->priv->scale);
                 cairo_translate (
                         ctx,
-                        y_offset,
-                        -1.0 * x_offset);
+                        viewer->priv->rendering.y_offset,
+                        -1.0 * viewer->priv->rendering.x_offset);
                 break;
             case RSTTO_IMAGE_ORIENT_270:
                 cairo_rotate (
@@ -1212,8 +1214,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
 
                 cairo_translate (
                         ctx,
-                        -1.0 * y_offset,
-                        x_offset);
+                        -1.0 * viewer->priv->rendering.y_offset,
+                        viewer->priv->rendering.x_offset);
                 break;
             case RSTTO_IMAGE_ORIENT_180:
                 cairo_rotate (
@@ -1230,8 +1232,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
 
                 cairo_translate (
                         ctx,
-                        -1.0 * x_offset,
-                        -1.0 * y_offset);
+                        -1.0 * viewer->priv->rendering.x_offset,
+                        -1.0 * viewer->priv->rendering.y_offset);
                 break;
             case RSTTO_IMAGE_ORIENT_NONE:
             default:
@@ -1242,16 +1244,15 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
 
                 cairo_translate (
                         ctx,
-                        x_offset,
-                        y_offset);
+                        viewer->priv->rendering.x_offset,
+                        viewer->priv->rendering.y_offset);
                 break;
-
         }
 
         cairo_scale (
                 ctx,
-                (viewer->priv->scale / viewer->priv->image_scale),
-                (viewer->priv->scale / viewer->priv->image_scale));
+                x_scale / viewer->priv->image_scale,
+                y_scale / viewer->priv->image_scale);
 
         gdk_cairo_set_source_pixbuf (
                 ctx,
@@ -1300,7 +1301,6 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
             }
         }
     }
-
 }
 
 static void
