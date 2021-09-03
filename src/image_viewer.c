@@ -1389,7 +1389,7 @@ paint_selection_box (GtkWidget *widget, cairo_t *ctx)
 
     cairo_rectangle (
         ctx,
-        box_x + 0.5, box_y + 0.5,
+        box_x + RSTTO_LINE_WIDTH / 2.0, box_y + RSTTO_LINE_WIDTH / 2.0,
         box_width, box_height);
 
     cairo_set_source_rgba (ctx, 0.9, 0.9, 0.9, 0.2);
@@ -2451,9 +2451,9 @@ rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
                  * Calculate the center of the selection-box.
                  */
                 tmp_y = (gtk_adjustment_get_value (viewer->priv->vadjustment) + (gdouble) box_y +
-                        ((gdouble) box_height/ 2) - viewer->priv->rendering.y_offset) / viewer->priv->scale;
+                        ((gdouble) box_height / 2) - viewer->priv->rendering.y_offset) / viewer->priv->scale;
                 tmp_x = (gtk_adjustment_get_value (viewer->priv->hadjustment) + (gdouble) box_x +
-                        ((gdouble) box_width/ 2) - viewer->priv->rendering.x_offset) / viewer->priv->scale;
+                        ((gdouble) box_width / 2) - viewer->priv->rendering.x_offset) / viewer->priv->scale;
 
                 /*
                  * Calculate the new scale
