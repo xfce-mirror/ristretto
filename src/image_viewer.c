@@ -791,6 +791,7 @@ correct_adjustments (RsttoImageViewer *viewer)
     gdouble image_width = (gdouble) viewer->priv->image_width;
     gdouble image_height = (gdouble) viewer->priv->image_height;
     gdouble scale = viewer->priv->scale;
+    gdouble max_value;
     GtkAllocation allocation;
 
     /* Check if the image-size makes sense,
@@ -827,10 +828,10 @@ correct_adjustments (RsttoImageViewer *viewer)
         default:
             gtk_adjustment_set_upper (
                     viewer->priv->hadjustment,
-                    floor (image_width * scale));
+                    MAX (floor (image_width * scale), allocation.width));
             gtk_adjustment_set_upper (
                     viewer->priv->vadjustment,
-                    floor (image_height * scale));
+                    MAX (floor (image_height * scale), allocation.height));
 
             gtk_adjustment_set_page_size (
                     viewer->priv->hadjustment,
@@ -838,26 +839,6 @@ correct_adjustments (RsttoImageViewer *viewer)
             gtk_adjustment_set_page_size (
                     viewer->priv->vadjustment,
                     (gdouble) allocation.height);
-
-            if ((gtk_adjustment_get_value (viewer->priv->hadjustment) +
-                 gtk_adjustment_get_page_size (viewer->priv->hadjustment)) >
-                 gtk_adjustment_get_upper (viewer->priv->hadjustment))
-            {
-                gtk_adjustment_set_value (
-                        viewer->priv->hadjustment,
-                        floor ((image_width * scale) -
-                            (gdouble) allocation.width));
-            }
-
-            if ((gtk_adjustment_get_value (viewer->priv->vadjustment) +
-                 gtk_adjustment_get_page_size (viewer->priv->vadjustment)) >
-                 gtk_adjustment_get_upper (viewer->priv->vadjustment))
-            {
-                gtk_adjustment_set_value (
-                        viewer->priv->vadjustment,
-                        floor ((image_height * scale) -
-                            (gdouble) allocation.height));
-            }
             break;
         case RSTTO_IMAGE_ORIENT_90:
         case RSTTO_IMAGE_ORIENT_270:
@@ -865,10 +846,10 @@ correct_adjustments (RsttoImageViewer *viewer)
         case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
             gtk_adjustment_set_upper (
                     viewer->priv->hadjustment,
-                    floor (image_height * scale));
+                    MAX (floor (image_height * scale), allocation.width));
             gtk_adjustment_set_upper (
                     viewer->priv->vadjustment,
-                    floor (image_width * scale));
+                    MAX (floor (image_width * scale), allocation.height));
 
             gtk_adjustment_set_page_size (
                     viewer->priv->hadjustment,
@@ -876,28 +857,18 @@ correct_adjustments (RsttoImageViewer *viewer)
             gtk_adjustment_set_page_size (
                     viewer->priv->vadjustment,
                     (gdouble) allocation.height);
-
-            if ((gtk_adjustment_get_value (viewer->priv->hadjustment) +
-                 gtk_adjustment_get_page_size (viewer->priv->hadjustment)) >
-                 gtk_adjustment_get_upper (viewer->priv->hadjustment))
-            {
-                gtk_adjustment_set_value (
-                        viewer->priv->hadjustment,
-                        (image_height * scale) -
-                            (gdouble) allocation.width);
-            }
-
-            if ((gtk_adjustment_get_value (viewer->priv->vadjustment) +
-                 gtk_adjustment_get_page_size (viewer->priv->vadjustment)) >
-                 gtk_adjustment_get_upper (viewer->priv->vadjustment))
-            {
-                gtk_adjustment_set_value (
-                        viewer->priv->vadjustment,
-                        (image_width * scale) -
-                            (gdouble) allocation.height);
-            }
             break;
     }
+
+    max_value = gtk_adjustment_get_upper (viewer->priv->hadjustment)
+                - gtk_adjustment_get_page_size (viewer->priv->hadjustment);
+    if (gtk_adjustment_get_value (viewer->priv->hadjustment) > max_value)
+        gtk_adjustment_set_value (viewer->priv->hadjustment, max_value);
+
+    max_value = gtk_adjustment_get_upper (viewer->priv->vadjustment)
+                - gtk_adjustment_get_page_size (viewer->priv->vadjustment);
+    if (gtk_adjustment_get_value (viewer->priv->vadjustment) > max_value)
+        gtk_adjustment_set_value (viewer->priv->vadjustment, max_value);
 
     g_object_thaw_notify (G_OBJECT (viewer->priv->hadjustment));
     g_object_thaw_notify (G_OBJECT (viewer->priv->vadjustment));
