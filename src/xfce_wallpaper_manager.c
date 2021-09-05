@@ -539,21 +539,10 @@ configure_monitor_chooser_pixbuf (
 {
     cairo_surface_t *image_surface = NULL;
     cairo_t *ctx;
-    //GdkColor bg_color;
-
-    GdkPixbuf *tmp_pixbuf = NULL;
-
-    gint monitor_width = 0;
-    gint monitor_height = 0;
-
-    gint surface_width = 0;
-    gint surface_height = 0;
-    gint dest_x = 0;
-    gint dest_y = 0;
-    gint dest_width = 0;
-    gint dest_height = 0;
-    gdouble x_scale = 0.0;
-    gdouble y_scale = 0.0;
+    GdkPixbuf *tmp_pixbuf;
+    gdouble x_scale, y_scale;
+    gint monitor_width, monitor_height, surface_width, surface_height,
+         dest_x, dest_y, dest_width, dest_height;
 
     if (manager->priv->pixbuf)
     {
@@ -578,53 +567,55 @@ configure_monitor_chooser_pixbuf (
             cairo_set_source_rgb (ctx, 0, 0, 0);
             cairo_paint (ctx);
 
-            x_scale = (gdouble) surface_width / (gdouble) gdk_pixbuf_get_width (tmp_pixbuf);
-            y_scale = (gdouble) surface_height / (gdouble) gdk_pixbuf_get_height (tmp_pixbuf);
+            x_scale = (gdouble) surface_width / gdk_pixbuf_get_width (tmp_pixbuf);
+            y_scale = (gdouble) surface_height / gdk_pixbuf_get_height (tmp_pixbuf);
 
             switch (manager->priv->style)
             {
                 case MONITOR_STYLE_ZOOMED:
                     if (x_scale > y_scale)
                     {
-                        dest_width = (gint) ((gdouble) gdk_pixbuf_get_width (tmp_pixbuf) * x_scale);
-                        dest_height = (gint) ((gdouble) gdk_pixbuf_get_height (tmp_pixbuf) * x_scale);
-                        dest_x = (gint) ((gdouble) (surface_width - dest_width) / 2);
-                        dest_y = (gint) ((gdouble) (surface_height - dest_height) / 2);
+                        dest_width = gdk_pixbuf_get_width (tmp_pixbuf) * x_scale;
+                        dest_height = gdk_pixbuf_get_height (tmp_pixbuf) * x_scale;
+                        dest_x = (surface_width - dest_width) / 2.0;
+                        dest_y = (surface_height - dest_height) / 2.0;
                         y_scale = x_scale;
                     }
                     else
                     {
-                        dest_width = (gint) ((gdouble) gdk_pixbuf_get_width (tmp_pixbuf) * y_scale);
-                        dest_height = (gint) ((gdouble) gdk_pixbuf_get_height (tmp_pixbuf) * y_scale);
-                        dest_x = (gint) ((gdouble) (surface_width - dest_width) / 2);
-                        dest_y = (gint) ((gdouble) (surface_height - dest_height) / 2);
+                        dest_width = gdk_pixbuf_get_width (tmp_pixbuf) * y_scale;
+                        dest_height = gdk_pixbuf_get_height (tmp_pixbuf) * y_scale;
+                        dest_x = (surface_width - dest_width) / 2.0;
+                        dest_y = (surface_height - dest_height) / 2.0;
                         x_scale = y_scale;
                     }
                     break;
                 case MONITOR_STYLE_STRETCHED:
-                    dest_x = 0.0;
-                    dest_y = 0.0;
+                    dest_x = 0;
+                    dest_y = 0;
                     break;
                 case MONITOR_STYLE_AUTOMATIC:
                 case MONITOR_STYLE_SCALED:
                     if (x_scale < y_scale)
                     {
-                        dest_width = (gint) ((gdouble) gdk_pixbuf_get_width (tmp_pixbuf) * x_scale);
-                        dest_height = (gint) ((gdouble) gdk_pixbuf_get_height (tmp_pixbuf) * x_scale);
-                        dest_x = (gint) ((gdouble) (surface_width - dest_width) / 2);
-                        dest_y = (gint) ((gdouble) (surface_height - dest_height) / 2);
+                        dest_width = gdk_pixbuf_get_width (tmp_pixbuf) * x_scale;
+                        dest_height = gdk_pixbuf_get_height (tmp_pixbuf) * x_scale;
+                        dest_x = (surface_width - dest_width) / 2.0;
+                        dest_y = (surface_height - dest_height) / 2.0;
                         y_scale = x_scale;
                     }
                     else
                     {
-                        dest_width = (gint) ((gdouble) gdk_pixbuf_get_width (tmp_pixbuf) * y_scale);
-                        dest_height = (gint) ((gdouble) gdk_pixbuf_get_height (tmp_pixbuf) * y_scale);
-                        dest_x = (gint) ((gdouble) (surface_width - dest_width) / 2);
-                        dest_y = (gint) ((gdouble) (surface_height - dest_height) / 2);
+                        dest_width = gdk_pixbuf_get_width (tmp_pixbuf) * y_scale;
+                        dest_height = gdk_pixbuf_get_height (tmp_pixbuf) * y_scale;
+                        dest_x = (surface_width - dest_width) / 2.0;
+                        dest_y = (surface_height - dest_height) / 2.0;
                         x_scale = y_scale;
                     }
                     break;
                 default:
+                    dest_x = 0;
+                    dest_y = 0;
                     gdk_pixbuf_saturate_and_pixelate (
                         tmp_pixbuf,
                         tmp_pixbuf,
@@ -640,7 +631,6 @@ configure_monitor_chooser_pixbuf (
                     dest_y / y_scale);
             cairo_paint (ctx);
             cairo_destroy (ctx);
-
 
             g_object_unref (tmp_pixbuf);
         }
