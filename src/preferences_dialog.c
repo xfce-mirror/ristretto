@@ -382,7 +382,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     gtk_box_pack_start (GTK_BOX (dialog->priv->slideshow_tab.timeout_vbox), timeout_lbl, TRUE, TRUE, 0);
     gtk_box_pack_start (GTK_BOX (dialog->priv->slideshow_tab.timeout_vbox), timeout_hscale, FALSE, TRUE, 0);
 
-    gtk_range_set_value (GTK_RANGE (timeout_hscale), (gdouble) uint_slideshow_timeout);
+    gtk_range_set_value (GTK_RANGE (timeout_hscale), uint_slideshow_timeout);
 
     g_signal_connect (timeout_hscale, "value-changed",
                       G_CALLBACK (cb_slideshow_timeout_value_changed), dialog);
@@ -703,7 +703,7 @@ cb_slideshow_timeout_value_changed (
     /* Variable Section */
 
     RsttoPreferencesDialog *dialog = user_data;
-    guint slideshow_timeout = (guint) gtk_range_get_value (range);
+    guint slideshow_timeout = gtk_range_get_value (range);
 
 
     /* Code Section */
@@ -925,7 +925,7 @@ cb_cursor_timeout_button_value_changed (
     rstto_settings_set_uint_property (
             dialog->priv->settings,
             "hide-mouse-cursor-fullscreen-timeout",
-            value > 0 ? (guint) value : 0);
+            value > 0 ? value : 0);
 }
 
 /**

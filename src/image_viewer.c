@@ -1800,7 +1800,7 @@ static void
 cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
     GFile *file = G_FILE (source_object);
-    RsttoImageViewerTransaction *transaction = (RsttoImageViewerTransaction *) user_data;
+    RsttoImageViewerTransaction *transaction = user_data;
 
     GFileInputStream *file_input_stream = g_file_read_finish (file, result, NULL);
 
@@ -1821,7 +1821,7 @@ cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *res
 static void
 cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-    RsttoImageViewerTransaction *transaction = (RsttoImageViewerTransaction *) user_data;
+    RsttoImageViewerTransaction *transaction = user_data;
     gssize read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, &transaction->error);
 
     if (read_bytes == -1)
@@ -1832,7 +1832,7 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
 
     if (read_bytes > 0)
     {
-        if (! gdk_pixbuf_loader_write (transaction->loader, (const guchar *) transaction->buffer,
+        if (! gdk_pixbuf_loader_write (transaction->loader, transaction->buffer,
                                        read_bytes, &transaction->error))
         {
             /* Clean up the input-stream */

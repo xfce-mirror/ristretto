@@ -247,7 +247,7 @@ rstto_file_get_display_name (RsttoFile *r_file)
         }
     }
 
-    return (const gchar *) r_file->priv->display_name;
+    return r_file->priv->display_name;
 }
 
 const gchar *
@@ -260,7 +260,7 @@ rstto_file_get_path (RsttoFile *r_file)
     {
         r_file->priv->path = g_file_get_path (r_file->priv->file);
     }
-    return (const gchar *) r_file->priv->path;
+    return r_file->priv->path;
 }
 
 const gchar *
@@ -270,7 +270,7 @@ rstto_file_get_uri (RsttoFile *r_file)
     {
         r_file->priv->uri = g_file_get_uri (r_file->priv->file);
     }
-    return (const gchar *) r_file->priv->uri;
+    return r_file->priv->uri;
 }
 
 const gchar *
@@ -303,7 +303,7 @@ rstto_file_get_collate_key (RsttoFile *r_file)
             g_free (basename);
         }
     }
-    return (const gchar *) r_file->priv->collate_key;
+    return r_file->priv->collate_key;
 }
 
 const gchar *
@@ -360,7 +360,7 @@ rstto_file_get_content_type (RsttoFile *r_file)
         }
     }
 
-    return (const gchar *) r_file->priv->content_type;
+    return r_file->priv->content_type;
 }
 
 guint64

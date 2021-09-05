@@ -510,7 +510,7 @@ rstto_image_list_remove_file (
                 {
 
                     image_list->priv->images = g_list_remove (image_list->priv->images, r_file);
-                    ((RsttoImageListIter *) (iter->data))->priv->r_file = NULL;
+                    RSTTO_IMAGE_LIST_ITER (iter->data)->priv->r_file = NULL;
                     g_signal_emit (iter->data,
                             rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED],
                             0, NULL);
