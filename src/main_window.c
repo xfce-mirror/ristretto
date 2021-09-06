@@ -1559,6 +1559,7 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
                         window->priv->warning_label,
                         error->message);
                 gtk_widget_show (window->priv->warning);
+                g_error_free (error);
             }
             else
             {
