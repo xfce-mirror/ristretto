@@ -1530,122 +1530,115 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 static void
 rstto_main_window_update_statusbar (RsttoMainWindow *window)
 {
-    const gchar *file_basename = NULL;
-    gchar *status = NULL;
-    gchar *tmp_status = NULL;
-    RsttoFile *cur_file = NULL;
+    ExifEntry *exif_entry;
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (window->priv->image_viewer);
-    ExifEntry *exif_entry = NULL;
-    gchar exif_data[20];
+    RsttoFile *cur_file;
     GError *error = NULL;
+    gchar *status, *tmp_status;
+    gchar exif_data[20];
+    gint width, height;
+    gboolean is_valid;
 
-    if (window->priv->image_list)
+    if (window->priv->image_list == NULL)
+        return;
+
+    cur_file = rstto_image_list_iter_get_file (window->priv->iter);
+    if (cur_file == NULL)
     {
-        cur_file = rstto_image_list_iter_get_file (window->priv->iter);
-        if (NULL != cur_file)
+        status = g_strdup (_("Press open to select an image"));
+    }
+    else if (rstto_image_viewer_is_busy (viewer) ||
+             rstto_image_list_is_busy (window->priv->image_list))
+    {
+        status = g_strdup (_("Loading..."));
+    }
+    else
+    {
+        status = g_strdup (rstto_file_get_display_name (cur_file));
+
+        if (rstto_file_has_exif (cur_file))
         {
-            file_basename = rstto_file_get_display_name (cur_file);
-
-            status = g_strdup (file_basename);
-
-            error = rstto_image_viewer_get_error (RSTTO_IMAGE_VIEWER (window->priv->image_viewer));
-            if (NULL != error)
+            /* Extend the status-message with exif-info */
+            /********************************************/
+            exif_entry = rstto_file_get_exif (cur_file, EXIF_TAG_FNUMBER);
+            if (exif_entry)
             {
-                tmp_status = g_strdup_printf ("%s\t- %s", status, error->message);
+                exif_entry_get_value (exif_entry, exif_data, sizeof (exif_data));
+                tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
                 g_free (status);
                 status = tmp_status;
+            }
+
+            exif_entry = rstto_file_get_exif (cur_file, EXIF_TAG_EXPOSURE_TIME);
+            if (exif_entry)
+            {
+                exif_entry_get_value (exif_entry, exif_data, sizeof (exif_data));
+                tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
+                g_free (status);
+                status = tmp_status;
+            }
+
+            exif_entry = rstto_file_get_exif (cur_file, EXIF_TAG_FOCAL_LENGTH);
+            if (exif_entry)
+            {
+                exif_entry_get_value (exif_entry, exif_data, sizeof (exif_data));
+                tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
+                g_free (status);
+                status = tmp_status;
+            }
+
+            exif_entry = rstto_file_get_exif (cur_file, EXIF_TAG_ISO_SPEED_RATINGS);
+            if (exif_entry)
+            {
+                exif_entry_get_value (exif_entry, exif_data, sizeof (exif_data));
+                tmp_status = g_strdup_printf ("%s\tISO %s", status, exif_data);
+                g_free (status);
+                status = tmp_status;
+            }
+        }
+
+        width = rstto_image_viewer_get_width (viewer);
+        height = rstto_image_viewer_get_height (viewer);
+        is_valid = (width > 1 && height > 1);
+        if (is_valid)
+        {
+            gchar *size_string = g_format_size (rstto_file_get_size (cur_file));
+            tmp_status = g_strdup_printf ("%s\t%d x %d\t%s\t%.1f%%",
+                                          status, width, height, size_string,
+                                          100 * rstto_image_viewer_get_scale (viewer));
+            g_free (size_string);
+            g_free (status);
+            status = tmp_status;
+        }
+
+        error = rstto_image_viewer_get_error (viewer);
+        if (error != NULL)
+        {
+            if (! is_valid)
+            {
                 gtk_label_set_text (GTK_LABEL (window->priv->warning_label), error->message);
                 gtk_widget_set_tooltip_text (
                         window->priv->warning_label,
                         error->message);
                 gtk_widget_show (window->priv->warning);
-                g_error_free (error);
             }
             else
-            {
                 gtk_widget_hide (window->priv->warning);
-                if (rstto_file_has_exif (cur_file))
-                {
-                    /* Extend the status-message with exif-info */
-                    /********************************************/
-                    exif_entry = rstto_file_get_exif (cur_file, EXIF_TAG_FNUMBER);
-                    if (exif_entry)
-                    {
-                        exif_entry_get_value (exif_entry, exif_data, sizeof (exif_data));
-                        tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
-                        g_free (status);
-                        status = tmp_status;
-                    }
 
-                    exif_entry = rstto_file_get_exif (cur_file, EXIF_TAG_EXPOSURE_TIME);
-                    if (exif_entry)
-                    {
-                        exif_entry_get_value (exif_entry, exif_data, sizeof (exif_data));
-                        tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
-                        g_free (status);
-                        status = tmp_status;
-                    }
-
-                    exif_entry = rstto_file_get_exif (cur_file, EXIF_TAG_FOCAL_LENGTH);
-                    if (exif_entry)
-                    {
-                        exif_entry_get_value (exif_entry, exif_data, sizeof (exif_data));
-                        tmp_status = g_strdup_printf ("%s\t%s", status, exif_data);
-                        g_free (status);
-                        status = tmp_status;
-                    }
-
-                    exif_entry = rstto_file_get_exif (cur_file, EXIF_TAG_ISO_SPEED_RATINGS);
-                    if (exif_entry)
-                    {
-                        exif_entry_get_value (exif_entry, exif_data, sizeof (exif_data));
-                        tmp_status = g_strdup_printf ("%s\tISO %s", status, exif_data);
-                        g_free (status);
-                        status = tmp_status;
-                    }
-                }
-
-                if (rstto_image_viewer_get_width (viewer) != 0 && rstto_image_viewer_get_height (viewer) != 0)
-                {
-                    gchar *size_string = g_format_size (rstto_file_get_size (cur_file));
-                    tmp_status = g_strdup_printf ("%s\t%d x %d\t%s\t%.1f%%", status,
-                                                  rstto_image_viewer_get_width (viewer),
-                                                  rstto_image_viewer_get_height (viewer),
-                                                  size_string,
-                                                  (100 * rstto_image_viewer_get_scale (viewer)));
-
-                    g_free (size_string);
-                    g_free (status);
-                    status = tmp_status;
-                }
-            }
+            tmp_status = g_strdup_printf ("%s  -  %s", status, error->message);
+            g_free (status);
+            status = tmp_status;
+            g_error_free (error);
         }
         else
-        {
-            status = g_strdup (_("Press open to select an image"));
-        }
-
-        if (rstto_image_viewer_is_busy (viewer) ||
-            rstto_image_list_is_busy (window->priv->image_list))
-        {
-            if (status)
-            {
-                g_free (status);
-            }
-            status = g_strdup (_("Loading..."));
-        }
-
-        gtk_statusbar_pop (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id);
-
-        if (status)
-        {
-            gtk_statusbar_push (GTK_STATUSBAR (window->priv->statusbar), window->priv->statusbar_context_id, status);
-            g_free (status);
-            status = NULL;
-        }
-
+            gtk_widget_hide (window->priv->warning);
     }
 
+    gtk_statusbar_pop (GTK_STATUSBAR (window->priv->statusbar),
+                       window->priv->statusbar_context_id);
+    gtk_statusbar_push (GTK_STATUSBAR (window->priv->statusbar),
+                        window->priv->statusbar_context_id, status);
+    g_free (status);
 }
 
 static void

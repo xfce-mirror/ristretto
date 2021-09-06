@@ -1977,7 +1977,9 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
 
     if (viewer->priv->transaction == transaction)
     {
-        if (NULL == transaction->error)
+        if (transaction->error == NULL
+            || g_error_matches (transaction->error, GDK_PIXBUF_ERROR,
+                                GDK_PIXBUF_ERROR_CORRUPT_IMAGE))
         {
             gtk_widget_set_tooltip_text (widget, NULL);
             viewer->priv->image_scale = transaction->image_scale;
