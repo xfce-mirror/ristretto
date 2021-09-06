@@ -1850,7 +1850,8 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
                                        transaction);
         }
     }
-    else {
+    else
+    {
         /* Loading complete, transaction should not be free-ed */
         gdk_pixbuf_loader_close (transaction->loader, &transaction->error);
 

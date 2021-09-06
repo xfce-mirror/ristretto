@@ -3576,7 +3576,9 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
 
                 /* Cleanup the file-properties dialog */
                 gtk_widget_destroy (dialog);
-            } else {
+            }
+            else
+            {
                 g_variant_unref (unused);
             }
         }
@@ -3695,7 +3697,8 @@ rstto_confirm_deletion (
             "%s",
             prompt);
 
-    if (to_trash) {
+    if (to_trash)
+    {
         dont_ask_checkbox = gtk_check_button_new_with_mnemonic (_("_Do not ask again for this session"));
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dont_ask_checkbox), FALSE);
         gtk_box_pack_end (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), dont_ask_checkbox, TRUE, TRUE, 0);
@@ -4511,7 +4514,8 @@ key_press_event (
                 {
                     cb_rstto_main_window_pause (GTK_WIDGET (window), rstto_window);
                 }
-                else {
+                else
+                {
                     if (! (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN))
                     {
                         gtk_widget_destroy (GTK_WIDGET (window));

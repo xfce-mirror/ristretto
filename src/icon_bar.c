@@ -955,34 +955,24 @@ rstto_icon_bar_scroll (
         case GDK_SCROLL_UP:
         case GDK_SCROLL_LEFT:
             val -= step_size;
-            if (val < 0) val = 0.0;
+            val = MAX (val, 0);
             break;
         case GDK_SCROLL_DOWN:
         case GDK_SCROLL_RIGHT:
             val += step_size;
-            if (val > max_value) val = max_value;
+            val = MIN (val, max_value);
             break;
 
         default: /* GDK_SCROLL_SMOOTH */
-            if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
+            if (event->delta_y < 0)
             {
-                if (event->delta_y < 0) {
-                    val -= step_size;
-                    if (val < 0) val = 0.0;
-                } else if (event->delta_y > 0) {
-                    val += step_size;
-                    if (val > max_value) val = max_value;
-                }
+                val -= step_size;
+                val = MAX (val, 0);
             }
-            else
+            else if (event->delta_y > 0)
             {
-                if (event->delta_y < 0) {
-                    val -= step_size;
-                    if (val < 0) val = 0.0;
-                } else if (event->delta_y > 0) {
-                    val += step_size;
-                    if (val > max_value) val = max_value;
-                }
+                val += step_size;
+                val = MIN (val, max_value);
             }
             break;
     }
