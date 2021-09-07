@@ -439,6 +439,11 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
 
     g_signal_connect (icon_bar->priv->settings, "notify::thumbnail-size",
                       G_CALLBACK (cb_rstto_thumbnail_size_changed), icon_bar);
+
+    g_signal_connect_swapped (icon_bar->priv->settings, "notify::bgcolor",
+                              G_CALLBACK (gtk_widget_queue_draw), icon_bar);
+    g_signal_connect_swapped (icon_bar->priv->settings, "notify::bgcolor-override",
+                              G_CALLBACK (gtk_widget_queue_draw), icon_bar);
 }
 
 
@@ -821,14 +826,30 @@ rstto_icon_bar_draw (
     GList            *lp;
     /*RsttoFile        *file;
     GtkTreeIter       iter;*/
-    GdkRGBA           bg_color;
+    GdkWindow *window;
+    GdkRGBA *bgcolor = NULL;
+    gboolean bgcolor_override = FALSE;
 
-    /* Paint the background color - white */
-    cairo_save (cr);
-    gdk_rgba_parse (&bg_color, "white");
-    gdk_cairo_set_source_rgba (cr, &bg_color);
-    cairo_paint (cr);
-    cairo_restore (cr);
+    /* see if we have a non-default background color */
+    window = gdk_window_get_toplevel (gtk_widget_get_window (widget));
+    if (gdk_window_get_state (window) & GDK_WINDOW_STATE_FULLSCREEN)
+        g_object_get (icon_bar->priv->settings, "bgcolor-fullscreen", &bgcolor, NULL);
+    else
+    {
+        g_object_get (icon_bar->priv->settings, "bgcolor-override", &bgcolor_override, NULL);
+        if (bgcolor_override)
+            g_object_get (icon_bar->priv->settings, "bgcolor", &bgcolor, NULL);
+    }
+
+    /* override default background if needed */
+    if (bgcolor != NULL)
+    {
+        cairo_save (cr);
+        gdk_cairo_set_source_rgba (cr, bgcolor);
+        cairo_paint (cr);
+        cairo_restore (cr);
+        gdk_rgba_free (bgcolor);
+    }
 
     for (lp = icon_bar->priv->items; lp != NULL; lp = lp->next)
     {
