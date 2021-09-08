@@ -255,7 +255,7 @@ rstto_thumbnailer_dequeue_file (
         g_object_unref (file);
     }
 
-    thumbnailer->priv->request_timer_id = gdk_threads_add_timeout_full (
+    thumbnailer->priv->request_timer_id = g_timeout_add_full (
             G_PRIORITY_LOW,
             300,
             rstto_thumbnailer_queue_request_timer,
