@@ -800,6 +800,8 @@ cb_file_monitor_changed (
     RsttoImageList *image_list = user_data;
     RsttoFile *r_file = rstto_file_new (file);
 
+    static RsttoFile *s_r_file = NULL;
+
     switch (event_type)
     {
         case G_FILE_MONITOR_EVENT_DELETED:
@@ -814,33 +816,19 @@ cb_file_monitor_changed (
             }
             break;
         case G_FILE_MONITOR_EVENT_CREATED:
-            rstto_image_list_add_file (image_list, r_file, NULL);
+            /* should never happen here but just in case, to prevent any memory leak */
+            if (s_r_file != NULL)
+                g_object_unref (s_r_file);
+
+            /* wait for DONE_HINT to add the image, so that we can get its mime type */
+            s_r_file = g_object_ref (r_file);
             break;
-        case G_FILE_MONITOR_EVENT_MOVED:
-            rstto_image_list_remove_file (image_list, r_file);
-
-            /* Remove our reference, reusing pointer */
-            g_object_unref (r_file);
-
-            r_file = rstto_file_new (other_file);
-            rstto_image_list_add_file (image_list, r_file, NULL);
-
-            if (image_list->priv->dir_monitor == NULL)
+        case G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
+            if (s_r_file != NULL)
             {
-                image_list->priv->image_monitors = g_list_remove (
-                        image_list->priv->image_monitors,
-                        monitor);
-                g_object_unref (monitor);
-                monitor = g_file_monitor_file (
-                        other_file,
-                        G_FILE_MONITOR_NONE,
-                        NULL,
-                        NULL);
-                g_signal_connect (monitor, "changed",
-                                  G_CALLBACK (cb_file_monitor_changed), image_list);
-                image_list->priv->image_monitors = g_list_prepend (
-                        image_list->priv->image_monitors,
-                        monitor);
+                rstto_image_list_add_file (image_list, s_r_file, NULL);
+                g_object_unref (s_r_file);
+                s_r_file = NULL;
             }
             break;
         case G_FILE_MONITOR_EVENT_CHANGED:
