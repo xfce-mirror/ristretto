@@ -45,3 +45,48 @@ rstto_util_source_autoremove (gpointer object)
 
     return object;
 }
+
+
+
+/*
+ * Workaround to avoid using Cairo Xlib backend which has some memory issues:
+ * https://gitlab.freedesktop.org/cairo/cairo/-/issues/500
+ * https://gitlab.freedesktop.org/cairo/cairo/-/issues/510
+ */
+void
+rstto_util_set_source_pixbuf (cairo_t *ctx,
+                              const GdkPixbuf *pixbuf,
+                              gint width,
+                              gint height,
+                              gdouble pixbuf_x,
+                              gdouble pixbuf_y)
+{
+    cairo_t *cr;
+    cairo_surface_t *surface;
+    cairo_format_t format;
+
+    /* for non-Xlib backends, this is just a wrapper */
+    if (cairo_surface_get_type (cairo_get_target (ctx)) != CAIRO_SURFACE_TYPE_XLIB)
+    {
+        gdk_cairo_set_source_pixbuf (ctx, pixbuf, pixbuf_x, pixbuf_y);
+        return;
+    }
+
+    /* copied from gdk_cairo_set_source_pixbuf() */
+    if (gdk_pixbuf_get_n_channels (pixbuf) == 3)
+        format = CAIRO_FORMAT_RGB24;
+    else
+        format = CAIRO_FORMAT_ARGB32;
+
+    /* create a generic image surface on which to apply gdk_cairo_set_source_pixbuf() */
+    surface = cairo_image_surface_create (format, width, height);
+    cr = cairo_create (surface);
+
+    /* apply it and put the resulting source in the original context */
+    gdk_cairo_set_source_pixbuf (cr, pixbuf, pixbuf_x, pixbuf_y);
+    cairo_set_source (ctx, cairo_get_source (cr));
+
+    /* cleanup */
+    cairo_surface_destroy (surface);
+    cairo_destroy (cr);
+}

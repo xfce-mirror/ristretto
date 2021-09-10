@@ -775,11 +775,8 @@ paint_background_icon (GtkWidget *widget, cairo_t *ctx)
     /****************************************/
     if (viewer->priv->bg_icon != NULL)
     {
-        gdk_cairo_set_source_pixbuf (
-                ctx,
-                viewer->priv->bg_icon,
-                0.0,
-                0.0);
+        rstto_util_set_source_pixbuf (ctx, viewer->priv->bg_icon,
+                                      allocation.width, allocation.height, 0, 0);
         cairo_paint_with_alpha (ctx, 0.1);
     }
 }
@@ -1214,11 +1211,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
                 x_scale / viewer->priv->image_scale,
                 y_scale / viewer->priv->image_scale);
 
-        gdk_cairo_set_source_pixbuf (
-                ctx,
-                viewer->priv->pixbuf,
-                0.0,
-                0.0);
+        rstto_util_set_source_pixbuf (ctx, viewer->priv->pixbuf,
+                                      allocation.width, allocation.height, 0, 0);
         cairo_paint (ctx);
     }
     else
@@ -1252,11 +1246,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
             /****************************************/
             if (viewer->priv->missing_icon != NULL)
             {
-                gdk_cairo_set_source_pixbuf (
-                        ctx,
-                        viewer->priv->missing_icon,
-                        0.0,
-                        0.0);
+                rstto_util_set_source_pixbuf (ctx, viewer->priv->missing_icon,
+                                              allocation.width, allocation.height, 0, 0);
                 cairo_paint_with_alpha (ctx, 1.0);
             }
         }

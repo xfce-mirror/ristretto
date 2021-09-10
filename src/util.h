@@ -25,8 +25,7 @@
 #ifndef __RISTRETTO_UTIL_H__
 #define __RISTRETTO_UTIL_H__
 
-#include <glib.h>
-#include <glib-object.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -55,6 +54,14 @@ G_BEGIN_DECLS
 
 gpointer
 rstto_util_source_autoremove (gpointer object);
+
+void
+rstto_util_set_source_pixbuf (cairo_t *ctx,
+                              const GdkPixbuf *pixbuf,
+                              gint width,
+                              gint height,
+                              gdouble pixbuf_x,
+                              gdouble pixbuf_y);
 
 G_END_DECLS
 
