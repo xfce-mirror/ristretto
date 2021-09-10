@@ -1102,6 +1102,7 @@ rstto_icon_bar_paint_item (
     gint             pixbuf_height = 0, pixbuf_width = 0;
     RsttoFile       *file;
     GtkTreeIter      iter;
+    GtkAllocation    alloc;
 
     if (!RSTTO_ICON_BAR_VALID_MODEL_AND_COLUMNS (icon_bar))
         return;
@@ -1230,8 +1231,9 @@ rstto_icon_bar_paint_item (
 
     if (NULL != pixbuf)
     {
+        gtk_widget_get_allocation (GTK_WIDGET (icon_bar), &alloc);
         cairo_save (cr);
-        gdk_cairo_set_source_pixbuf (cr, pixbuf, px, py);
+        rstto_util_set_source_pixbuf (cr, pixbuf, alloc.width, alloc.height, px, py);
         cairo_paint (cr);
         cairo_restore (cr);
     }
