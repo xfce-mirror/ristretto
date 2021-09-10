@@ -993,9 +993,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     rstto_image_viewer_set_menu (RSTTO_IMAGE_VIEWER (window->priv->image_viewer), GTK_MENU (window->priv->image_viewer_menu));
 
     window->priv->t_bar_s_window = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_POLICY_ALWAYS, GTK_POLICY_NEVER);
-    gtk_scrolled_window_set_overlay_scrolling (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), FALSE);
-
     window->priv->thumbnailbar = rstto_icon_bar_new (window->priv->t_bar_s_window);
     gtk_container_add (GTK_CONTAINER (window->priv->t_bar_s_window), window->priv->thumbnailbar);
 
@@ -2057,7 +2054,7 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
             gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->t_bar_s_window)), window->priv->t_bar_s_window);
             gtk_grid_attach (GTK_GRID (window->priv->grid), window->priv->t_bar_s_window, 1, 0, 1, 5);
 
-            gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+            gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
             gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_CORNER_BOTTOM_RIGHT);
             rstto_icon_bar_set_orientation (RSTTO_ICON_BAR (window->priv->thumbnailbar), GTK_ORIENTATION_VERTICAL);
             break;
@@ -2067,7 +2064,7 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
             gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->t_bar_s_window)), window->priv->t_bar_s_window);
             gtk_grid_attach (GTK_GRID (window->priv->grid), window->priv->t_bar_s_window, 3, 0, 1, 5);
 
-            gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+            gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
             gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_CORNER_BOTTOM_LEFT);
             rstto_icon_bar_set_orientation (RSTTO_ICON_BAR (window->priv->thumbnailbar), GTK_ORIENTATION_VERTICAL);
             break;
@@ -2077,7 +2074,7 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
             gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->t_bar_s_window)), window->priv->t_bar_s_window);
             gtk_grid_attach (GTK_GRID (window->priv->grid), window->priv->t_bar_s_window, 0, 1, 5, 1);
 
-            gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_POLICY_ALWAYS, GTK_POLICY_NEVER);
+            gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
             gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_CORNER_BOTTOM_RIGHT);
             rstto_icon_bar_set_orientation (RSTTO_ICON_BAR (window->priv->thumbnailbar), GTK_ORIENTATION_HORIZONTAL);
             break;
@@ -2087,7 +2084,7 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window, guint ori
             gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->priv->t_bar_s_window)), window->priv->t_bar_s_window);
             gtk_grid_attach (GTK_GRID (window->priv->grid), window->priv->t_bar_s_window, 0, 3, 5, 1);
 
-            gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_POLICY_ALWAYS, GTK_POLICY_NEVER);
+            gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
             gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (window->priv->t_bar_s_window), GTK_CORNER_TOP_RIGHT);
             rstto_icon_bar_set_orientation (RSTTO_ICON_BAR (window->priv->thumbnailbar), GTK_ORIENTATION_HORIZONTAL);
             break;
