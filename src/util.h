@@ -55,7 +55,7 @@ G_BEGIN_DECLS
 gpointer
 rstto_util_source_autoremove (gpointer object);
 
-void
+cairo_pattern_t *
 rstto_util_set_source_pixbuf (cairo_t *ctx,
                               const GdkPixbuf *pixbuf,
                               gdouble pixbuf_x,

@@ -4450,6 +4450,7 @@ cb_rstto_main_window_copy_image (
     if (pixbuf)
     {
         gtk_clipboard_set_image (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD), pixbuf);
+        g_object_unref (pixbuf);
     }
 }
 
