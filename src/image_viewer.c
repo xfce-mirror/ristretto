@@ -252,8 +252,8 @@ struct _RsttoImageViewerPrivate
 
     /* Animation data for animated images (like .gif/.mng) */
     /*******************************************************/
-    GdkPixbufAnimation     *animation;
     GdkPixbufAnimationIter *iter;
+    guint                   animation_id;
     gdouble                 scale;
     gboolean                auto_scale;
     GtkAdjustment          *vadjustment;
@@ -300,6 +300,7 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv->settings = rstto_settings_new ();
     viewer->priv->bg_color = NULL;
     viewer->priv->bg_color_fs = NULL;
+    viewer->priv->animation_id = 0;
     viewer->priv->image_width = 0;
     viewer->priv->image_height = 0;
 
@@ -1510,15 +1511,12 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
     }
     else
     {
+        if (viewer->priv->animation_id != 0)
+            REMOVE_SOURCE (viewer->priv->animation_id);
         if (viewer->priv->iter)
         {
             g_object_unref (viewer->priv->iter);
             viewer->priv->iter = NULL;
-        }
-        if (viewer->priv->animation)
-        {
-            g_object_unref (viewer->priv->animation);
-            viewer->priv->animation = NULL;
         }
         if (viewer->priv->pixbuf)
         {
@@ -1853,11 +1851,14 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
 static void
 cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
 {
-    gint timeout = 0;
     RsttoImageViewer *viewer = transaction->viewer;
+    gint timeout = 0;
 
     if (viewer->priv->transaction == transaction)
     {
+        if (viewer->priv->animation_id != 0)
+            REMOVE_SOURCE (viewer->priv->animation_id);
+
         if (viewer->priv->iter)
         {
             g_object_unref (viewer->priv->iter);
@@ -1870,28 +1871,19 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader, RsttoImageViewerTran
             viewer->priv->pixbuf = NULL;
         }
 
-        if (viewer->priv->animation)
-        {
-            g_object_unref (viewer->priv->animation);
-            viewer->priv->animation = NULL;
-        }
+        viewer->priv->iter =
+            gdk_pixbuf_animation_get_iter (gdk_pixbuf_loader_get_animation (loader), NULL);
 
-        viewer->priv->animation = gdk_pixbuf_loader_get_animation (loader);
-        viewer->priv->iter = gdk_pixbuf_animation_get_iter (viewer->priv->animation, NULL);
+        /* This is a single-frame image, there is no need to copy the pixbuf since it won't change */
+        viewer->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
+        g_object_ref (viewer->priv->pixbuf);
 
-        g_object_ref (viewer->priv->animation);
-
+        /* schedule next frame diplay if needed */
         timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
-
         if (timeout > 0)
-            g_timeout_add (timeout, cb_rstto_image_viewer_update_pixbuf,
-                           rstto_util_source_autoremove (viewer));
-        else
-        {
-            /* This is a single-frame image, there is no need to copy the pixbuf since it won't change */
-            viewer->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
-            g_object_ref (viewer->priv->pixbuf);
-        }
+            viewer->priv->animation_id = g_timeout_add (timeout,
+                                                        cb_rstto_image_viewer_update_pixbuf,
+                                                        rstto_util_source_autoremove (viewer));
     }
 }
 
@@ -2010,39 +2002,34 @@ cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
     GdkRectangle rect;
     gint timeout = 0;
 
-    if (viewer->priv->iter)
+    if (gdk_pixbuf_animation_iter_advance (viewer->priv->iter, NULL))
     {
-        if (viewer->priv->pixbuf)
-        {
-            /* Cleanup old image */
-            g_object_unref (viewer->priv->pixbuf);
-            viewer->priv->pixbuf = NULL;
-
-            /* redraw only the image */
-            rect.x = viewer->priv->rendering.x_offset;
-            rect.y = viewer->priv->rendering.y_offset;
-            rect.width = viewer->priv->rendering.width;
-            rect.height = viewer->priv->rendering.height;
-
-            gdk_window_invalidate_rect (gtk_widget_get_window (user_data), &rect, FALSE);
-        }
-        else
-            gdk_window_invalidate_rect (gtk_widget_get_window (user_data), NULL, FALSE);
-
         /* The pixbuf returned by the GdkPixbufAnimationIter might be reused,
          * lets make a copy for myself just in case. Since it's a copy, we
          * own the only reference to it. There is no need to add another.
          */
-        viewer->priv->pixbuf = gdk_pixbuf_copy (gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter));
+        g_object_unref (viewer->priv->pixbuf);
+        viewer->priv->pixbuf =
+            gdk_pixbuf_copy (gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter));
 
-        if (gdk_pixbuf_animation_iter_advance (viewer->priv->iter, NULL))
-        {
-            timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
-            if (timeout > 0)
-                g_timeout_add (timeout, cb_rstto_image_viewer_update_pixbuf,
-                               rstto_util_source_autoremove (viewer));
-        }
+        /* redraw only the image */
+        rect.x = viewer->priv->rendering.x_offset;
+        rect.y = viewer->priv->rendering.y_offset;
+        rect.width = viewer->priv->rendering.width;
+        rect.height = viewer->priv->rendering.height;
+        gdk_window_invalidate_rect (gtk_widget_get_window (user_data), &rect, FALSE);
+
+        /* schedule next frame display */
+        timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
+        if (timeout > 0)
+            viewer->priv->animation_id = g_timeout_add (timeout,
+                                                        cb_rstto_image_viewer_update_pixbuf,
+                                                        rstto_util_source_autoremove (viewer));
     }
+
+    /* reset the timeout id only if the animation stops */
+    if (timeout <= 0)
+        viewer->priv->animation_id = 0;
 
     return FALSE;
 }
