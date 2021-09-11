@@ -232,8 +232,15 @@ struct _RsttoImageViewerPrivate
     guint                        vscroll_policy : 1;
 
     RsttoImageViewerTransaction *transaction;
-    GdkPixbuf                   *pixbuf;
     RsttoImageOrientation        orientation;
+    struct
+    {
+        cairo_pattern_t *pattern;
+        gboolean has_alpha;
+        gint width;
+        gint height;
+    } pixbuf;
+
     struct
     {
         gint x_offset;
@@ -300,6 +307,7 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv->settings = rstto_settings_new ();
     viewer->priv->bg_color = NULL;
     viewer->priv->bg_color_fs = NULL;
+    viewer->priv->pixbuf.pattern = NULL;
     viewer->priv->animation_id = 0;
     viewer->priv->image_width = 0;
     viewer->priv->image_height = 0;
@@ -592,10 +600,10 @@ rstto_image_viewer_finalize (GObject *object)
         g_object_unref (viewer->priv->missing_icon);
         viewer->priv->missing_icon = NULL;
     }
-    if (viewer->priv->pixbuf)
+    if (viewer->priv->pixbuf.pattern)
     {
-        g_object_unref (viewer->priv->pixbuf);
-        viewer->priv->pixbuf = NULL;
+        cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
+        viewer->priv->pixbuf.pattern = NULL;
     }
     if (viewer->priv->iter)
     {
@@ -966,7 +974,7 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
 
     gtk_widget_get_allocation (widget, &allocation);
 
-    if (viewer->priv->pixbuf && viewer->priv->image_width > 1 && viewer->priv->image_height > 1)
+    if (viewer->priv->pixbuf.pattern && viewer->priv->image_width > 1 && viewer->priv->image_height > 1)
     {
         switch (viewer->priv->orientation)
         {
@@ -1021,7 +1029,7 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
         cairo_save (ctx);
 
 /* BEGIN PAINT CHECKERED BACKGROUND */
-        if (gdk_pixbuf_get_has_alpha (viewer->priv->pixbuf))
+        if (viewer->priv->pixbuf.has_alpha)
         {
             cairo_set_source_rgba (ctx, 0.8, 0.8, 0.8, 1.0);
             cairo_rectangle (
@@ -1211,7 +1219,7 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
                 x_scale / viewer->priv->image_scale,
                 y_scale / viewer->priv->image_scale);
 
-        rstto_util_set_source_pixbuf (ctx, viewer->priv->pixbuf, 0, 0);
+        cairo_set_source (ctx, viewer->priv->pixbuf.pattern);
         cairo_paint (ctx);
     }
     else
@@ -1518,10 +1526,10 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
             g_object_unref (viewer->priv->iter);
             viewer->priv->iter = NULL;
         }
-        if (viewer->priv->pixbuf)
+        if (viewer->priv->pixbuf.pattern)
         {
-            g_object_unref (viewer->priv->pixbuf);
-            viewer->priv->pixbuf = NULL;
+            cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
+            viewer->priv->pixbuf.pattern = NULL;
         }
         if (viewer->priv->transaction)
         {
@@ -1677,7 +1685,13 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
 GdkPixbuf *
 rstto_image_viewer_get_pixbuf (RsttoImageViewer *viewer)
 {
-    return viewer->priv->pixbuf;
+    cairo_surface_t *surface;
+
+    cairo_pattern_get_surface (viewer->priv->pixbuf.pattern, &surface);
+
+    return gdk_pixbuf_get_from_surface (surface, 0, 0,
+                                        viewer->priv->pixbuf.width,
+                                        viewer->priv->pixbuf.height);
 }
 
 gdouble
@@ -1852,6 +1866,7 @@ static void
 cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
 {
     RsttoImageViewer *viewer = transaction->viewer;
+    GdkPixbuf *pixbuf;
     gint timeout = 0;
 
     if (viewer->priv->transaction == transaction)
@@ -1865,18 +1880,21 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader, RsttoImageViewerTran
             viewer->priv->iter = NULL;
         }
 
-        if (viewer->priv->pixbuf)
+        if (viewer->priv->pixbuf.pattern)
         {
-            g_object_unref (viewer->priv->pixbuf);
-            viewer->priv->pixbuf = NULL;
+            cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
+            viewer->priv->pixbuf.pattern = NULL;
         }
 
         viewer->priv->iter =
             gdk_pixbuf_animation_get_iter (gdk_pixbuf_loader_get_animation (loader), NULL);
 
-        /* This is a single-frame image, there is no need to copy the pixbuf since it won't change */
-        viewer->priv->pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
-        g_object_ref (viewer->priv->pixbuf);
+        /* set pixbuf data */
+        pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
+        viewer->priv->pixbuf.pattern = rstto_util_set_source_pixbuf (NULL, pixbuf, 0, 0);
+        viewer->priv->pixbuf.has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
+        viewer->priv->pixbuf.width = gdk_pixbuf_get_width (pixbuf);
+        viewer->priv->pixbuf.height = gdk_pixbuf_get_height (pixbuf);
 
         /* schedule next frame diplay if needed */
         timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
@@ -1884,6 +1902,12 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader, RsttoImageViewerTran
             viewer->priv->animation_id = g_timeout_add (timeout,
                                                         cb_rstto_image_viewer_update_pixbuf,
                                                         rstto_util_source_autoremove (viewer));
+        else
+        {
+            /* this is a single-frame image, we only need to keep the pixbuf as a pattern */
+            g_object_unref (viewer->priv->iter);
+            viewer->priv->iter = NULL;
+        }
     }
 }
 
@@ -1975,10 +1999,10 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
             viewer->priv->image_scale = 1.0;
             viewer->priv->image_width = 1.0;
             viewer->priv->image_height = 1.0;
-            if (viewer->priv->pixbuf)
+            if (viewer->priv->pixbuf.pattern)
             {
-                g_object_unref (viewer->priv->pixbuf);
-                viewer->priv->pixbuf = NULL;
+                cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
+                viewer->priv->pixbuf.pattern = NULL;
             }
 
             gtk_widget_set_tooltip_text (widget, transaction->error->message);
@@ -1999,18 +2023,20 @@ static gboolean
 cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
 {
     RsttoImageViewer *viewer = user_data;
+    GdkPixbuf *pixbuf;
     GdkRectangle rect;
     gint timeout = 0;
 
     if (gdk_pixbuf_animation_iter_advance (viewer->priv->iter, NULL))
     {
-        /* The pixbuf returned by the GdkPixbufAnimationIter might be reused,
-         * lets make a copy for myself just in case. Since it's a copy, we
-         * own the only reference to it. There is no need to add another.
-         */
-        g_object_unref (viewer->priv->pixbuf);
-        viewer->priv->pixbuf =
-            gdk_pixbuf_copy (gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter));
+        /* update pixbuf data (a copy of the pixbuf is kept as a pattern, so we can access
+         * it safely regardless of the iter state) */
+        cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
+        pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
+        viewer->priv->pixbuf.pattern = rstto_util_set_source_pixbuf (NULL, pixbuf, 0, 0);
+        viewer->priv->pixbuf.has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
+        viewer->priv->pixbuf.width = gdk_pixbuf_get_width (pixbuf);
+        viewer->priv->pixbuf.height = gdk_pixbuf_get_height (pixbuf);
 
         /* redraw only the image */
         rect.x = viewer->priv->rendering.x_offset;
@@ -2027,9 +2053,15 @@ cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
                                                         rstto_util_source_autoremove (viewer));
     }
 
-    /* reset the timeout id only if the animation stops */
     if (timeout <= 0)
+    {
+        /* if the animation stops, we only need to keep the pixbuf as a pattern */
+        g_object_unref (viewer->priv->iter);
+        viewer->priv->iter = NULL;
+
+        /* reset the timeout id only in this case */
         viewer->priv->animation_id = 0;
+    }
 
     return FALSE;
 }
