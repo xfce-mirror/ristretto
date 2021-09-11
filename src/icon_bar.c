@@ -1231,7 +1231,7 @@ rstto_icon_bar_paint_item (
     if (NULL != pixbuf)
     {
         cairo_save (cr);
-        gdk_cairo_set_source_pixbuf (cr, pixbuf, px, py);
+        rstto_util_set_source_pixbuf (cr, pixbuf, px, py);
         cairo_paint (cr);
         cairo_restore (cr);
     }
