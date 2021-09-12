@@ -53,7 +53,7 @@ rstto_util_source_autoremove (gpointer object)
  * https://gitlab.freedesktop.org/cairo/cairo/-/issues/500
  * https://gitlab.freedesktop.org/cairo/cairo/-/issues/510
  */
-void
+cairo_pattern_t *
 rstto_util_set_source_pixbuf (cairo_t *ctx,
                               const GdkPixbuf *pixbuf,
                               gdouble pixbuf_x,
@@ -61,13 +61,14 @@ rstto_util_set_source_pixbuf (cairo_t *ctx,
 {
     cairo_t *cr;
     cairo_surface_t *surface;
+    cairo_pattern_t *pattern;
     cairo_format_t format;
 
     /* for non-Xlib backends, this is just a wrapper */
-    if (cairo_surface_get_type (cairo_get_target (ctx)) != CAIRO_SURFACE_TYPE_XLIB)
+    if (ctx != NULL && cairo_surface_get_type (cairo_get_target (ctx)) != CAIRO_SURFACE_TYPE_XLIB)
     {
         gdk_cairo_set_source_pixbuf (ctx, pixbuf, pixbuf_x, pixbuf_y);
-        return;
+        return NULL;
     }
 
     /* copied from gdk_cairo_set_source_pixbuf() */
@@ -81,12 +82,20 @@ rstto_util_set_source_pixbuf (cairo_t *ctx,
                                           gdk_pixbuf_get_width (pixbuf),
                                           gdk_pixbuf_get_height (pixbuf));
     cr = cairo_create (surface);
-
-    /* apply it and put the resulting source in the original context */
-    gdk_cairo_set_source_pixbuf (cr, pixbuf, pixbuf_x, pixbuf_y);
-    cairo_set_source (ctx, cairo_get_source (cr));
-
-    /* cleanup */
     cairo_surface_destroy (surface);
+
+    /* apply it and get the resulting source */
+    gdk_cairo_set_source_pixbuf (cr, pixbuf, pixbuf_x, pixbuf_y);
+    pattern = cairo_pattern_reference (cairo_get_source (cr));
     cairo_destroy (cr);
+
+    /* put the source in the original context, if any  */
+    if (ctx != NULL)
+    {
+        cairo_set_source (ctx, pattern);
+        cairo_pattern_destroy (pattern);
+        pattern = NULL;
+    }
+
+    return pattern;
 }
