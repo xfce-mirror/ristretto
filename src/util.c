@@ -99,3 +99,36 @@ rstto_util_set_source_pixbuf (cairo_t *ctx,
 
     return pattern;
 }
+
+
+
+void
+rstto_util_paint_background_color (GtkWidget *widget,
+                                   RsttoSettings *settings,
+                                   cairo_t *ctx)
+{
+    GdkWindow *window;
+    GdkRGBA *bgcolor = NULL;
+    gboolean bgcolor_override = FALSE;
+
+    /* see if we have a non-default background color */
+    window = gdk_window_get_toplevel (gtk_widget_get_window (widget));
+    if (gdk_window_get_state (window) & GDK_WINDOW_STATE_FULLSCREEN)
+        g_object_get (settings, "bgcolor-fullscreen", &bgcolor, NULL);
+    else
+    {
+        g_object_get (settings, "bgcolor-override", &bgcolor_override, NULL);
+        if (bgcolor_override)
+            g_object_get (settings, "bgcolor", &bgcolor, NULL);
+    }
+
+    /* override default background color if needed */
+    if (bgcolor != NULL)
+    {
+        cairo_save (ctx);
+        gdk_cairo_set_source_rgba (ctx, bgcolor);
+        cairo_paint (ctx);
+        cairo_restore (ctx);
+        gdk_rgba_free (bgcolor);
+    }
+}

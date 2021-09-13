@@ -826,30 +826,8 @@ rstto_icon_bar_draw (
     GList            *lp;
     /*RsttoFile        *file;
     GtkTreeIter       iter;*/
-    GdkWindow *window;
-    GdkRGBA *bgcolor = NULL;
-    gboolean bgcolor_override = FALSE;
 
-    /* see if we have a non-default background color */
-    window = gdk_window_get_toplevel (gtk_widget_get_window (widget));
-    if (gdk_window_get_state (window) & GDK_WINDOW_STATE_FULLSCREEN)
-        g_object_get (icon_bar->priv->settings, "bgcolor-fullscreen", &bgcolor, NULL);
-    else
-    {
-        g_object_get (icon_bar->priv->settings, "bgcolor-override", &bgcolor_override, NULL);
-        if (bgcolor_override)
-            g_object_get (icon_bar->priv->settings, "bgcolor", &bgcolor, NULL);
-    }
-
-    /* override default background if needed */
-    if (bgcolor != NULL)
-    {
-        cairo_save (cr);
-        gdk_cairo_set_source_rgba (cr, bgcolor);
-        cairo_paint (cr);
-        cairo_restore (cr);
-        gdk_rgba_free (bgcolor);
-    }
+    rstto_util_paint_background_color (widget, icon_bar->priv->settings, cr);
 
     for (lp = icon_bar->priv->items; lp != NULL; lp = lp->next)
     {

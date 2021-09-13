@@ -26,6 +26,7 @@
 #define __RISTRETTO_UTIL_H__
 
 #include <gtk/gtk.h>
+#include "settings.h"
 
 G_BEGIN_DECLS
 
@@ -60,6 +61,11 @@ rstto_util_set_source_pixbuf (cairo_t *ctx,
                               const GdkPixbuf *pixbuf,
                               gdouble pixbuf_x,
                               gdouble pixbuf_y);
+
+void
+rstto_util_paint_background_color (GtkWidget *widget,
+                                   RsttoSettings *settings,
+                                   cairo_t *ctx);
 
 G_END_DECLS
 

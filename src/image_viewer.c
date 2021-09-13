@@ -135,9 +135,6 @@ compute_selection_box_dimensions (RsttoImageViewer *viewer,
                                   gdouble *box_width,
                                   gdouble *box_height);
 static void
-paint_background (GtkWidget *widget,
-                  cairo_t *ctx);
-static void
 paint_background_icon (GtkWidget *widget,
                        cairo_t *ctx);
 static void
@@ -229,8 +226,6 @@ struct _RsttoImageViewerPrivate
     GtkIconTheme                *icon_theme;
     GdkPixbuf                   *missing_icon;
     GdkPixbuf                   *bg_icon;
-    GdkRGBA                     *bg_color;
-    GdkRGBA                     *bg_color_fs;
 
     gboolean                     limit_quality;
 
@@ -308,8 +303,6 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
 
     viewer->priv = rstto_image_viewer_get_instance_private (viewer);
     viewer->priv->settings = rstto_settings_new ();
-    viewer->priv->bg_color = NULL;
-    viewer->priv->bg_color_fs = NULL;
     viewer->priv->pixbuf.pattern = NULL;
     viewer->priv->animation_id = 0;
     viewer->priv->image_width = 0;
@@ -462,7 +455,6 @@ rstto_image_viewer_realize (GtkWidget *widget)
     GdkWindowAttr attributes;
     GdkWindow *window;
     gint attributes_mask;
-    gboolean bg_color_override;
 
     g_return_if_fail (widget != NULL);
     g_return_if_fail (RSTTO_IS_IMAGE_VIEWER (widget));
@@ -485,18 +477,10 @@ rstto_image_viewer_realize (GtkWidget *widget)
     gdk_window_set_user_data (window, widget);
     g_object_ref (window);
 
-    g_object_get (viewer->priv->settings, "bgcolor-fullscreen",
-                  &(viewer->priv->bg_color_fs), NULL);
     g_object_get (viewer->priv->settings, "limit-quality",
                   &(viewer->priv->limit_quality), NULL);
     g_object_get (viewer->priv->settings, "invert-zoom-direction",
                   &(viewer->priv->invert_zoom_direction), NULL);
-
-    g_object_get (viewer->priv->settings, "bgcolor-override", &bg_color_override, NULL);
-    if (bg_color_override)
-        g_object_get (viewer->priv->settings, "bgcolor", &(viewer->priv->bg_color), NULL);
-    else
-        viewer->priv->bg_color = NULL;
 }
 
 /**
@@ -571,16 +555,6 @@ rstto_image_viewer_finalize (GObject *object)
     {
         g_object_unref (viewer->priv->settings);
         viewer->priv->settings = NULL;
-    }
-    if (viewer->priv->bg_color)
-    {
-        gdk_rgba_free (viewer->priv->bg_color);
-        viewer->priv->bg_color = NULL;
-    }
-    if (viewer->priv->bg_color_fs)
-    {
-        gdk_rgba_free (viewer->priv->bg_color_fs);
-        viewer->priv->bg_color_fs = NULL;
     }
     if (viewer->priv->bg_icon)
     {
@@ -800,43 +774,6 @@ compute_selection_box_dimensions (RsttoImageViewer *viewer,
     }
 
     return *box_width > 0 && *box_height > 0;
-}
-
-static void
-paint_background (GtkWidget *widget, cairo_t *ctx)
-{
-    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-    GdkRGBA *bg_color = NULL;
-    GdkWindow *window = gtk_widget_get_window (widget);
-    GtkAllocation allocation;
-    GtkStyleContext *context = gtk_widget_get_style_context (widget);
-
-    /* Determine if we draw the 'default' background-color,
-     * or the fullscreen-background-color.
-     */
-    if (GDK_WINDOW_STATE_FULLSCREEN & gdk_window_get_state (
-                gdk_window_get_toplevel (window)))
-    {
-        bg_color = viewer->priv->bg_color_fs;
-    }
-
-    if (NULL == bg_color)
-    {
-        bg_color = viewer->priv->bg_color;
-    }
-
-    /* Paint the background-color */
-    /******************************/
-    if (NULL != bg_color)
-    {
-        gdk_cairo_set_source_rgba (ctx, bg_color);
-        cairo_paint (ctx);
-    }
-    else
-    {
-        gtk_widget_get_allocation (widget, &allocation);
-        gtk_render_background (context, ctx, 0, 0, allocation.width, allocation.height);
-    }
 }
 
 static void
@@ -1175,13 +1112,8 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
                 gtk_widget_get_allocated_width (widget),
                 gtk_widget_get_allocated_height (widget));
         cairo_clip (ctx);
-        cairo_save (ctx);
 
-        /* Paint the background-color */
-        /******************************/
-        paint_background (widget, ctx);
-
-        cairo_restore (ctx);
+        rstto_util_paint_background_color (widget, viewer->priv->settings, ctx);
 
         /* Check if a file should be rendered */
         /**************************************/
@@ -2101,18 +2033,6 @@ cb_rstto_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_da
     cairo_status_t status;
     GtkAllocation alloc;
     const gchar *message = "Undetermined error";
-    gboolean bg_color_override;
-
-    gdk_rgba_free (viewer->priv->bg_color_fs);
-    g_object_get (viewer->priv->settings, "bgcolor-fullscreen",
-                  &(viewer->priv->bg_color_fs), NULL);
-
-    gdk_rgba_free (viewer->priv->bg_color);
-    g_object_get (viewer->priv->settings, "bgcolor-override", &bg_color_override, NULL);
-    if (bg_color_override)
-        g_object_get (viewer->priv->settings, "bgcolor", &(viewer->priv->bg_color), NULL);
-    else
-        viewer->priv->bg_color = NULL;
 
     /* do not redraw the image */
     gtk_widget_get_allocation (user_data, &alloc);
