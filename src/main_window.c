@@ -987,6 +987,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
     window->priv->image_viewer = rstto_image_viewer_new ();
     window->priv->p_viewer_s_window = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_overlay_scrolling (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window), FALSE);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add (GTK_CONTAINER (window->priv->p_viewer_s_window), window->priv->image_viewer);
 
@@ -2344,6 +2345,8 @@ cb_rstto_main_window_state_event (GtkWidget *widget, GdkEventWindowState *event,
             guint timeout = rstto_settings_get_uint_property (RSTTO_SETTINGS (window->priv->settings_manager),
                                                               "hide-mouse-cursor-fullscreen-timeout");
 
+            gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window),
+                                            GTK_POLICY_NEVER, GTK_POLICY_NEVER);
             rstto_image_viewer_set_show_clock (
                     RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
                     rstto_settings_get_boolean_property (window->priv->settings_manager, "show-clock"));
@@ -2422,6 +2425,8 @@ G_GNUC_END_IGNORE_DEPRECATIONS
         }
         else
         {
+            gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window->priv->p_viewer_s_window),
+                                            GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
             rstto_image_viewer_set_show_clock (RSTTO_IMAGE_VIEWER (window->priv->image_viewer), FALSE);
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
             gtk_ui_manager_add_ui (
