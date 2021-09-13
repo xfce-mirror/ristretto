@@ -140,9 +140,6 @@ static void
 rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer,
                                      RsttoImageViewerMotionState state);
 static void
-cb_rstto_image_viewer_value_changed (GtkAdjustment *adjustment,
-                                     RsttoImageViewer *viewer);
-static void
 cb_rstto_image_viewer_read_file_ready (GObject *source_object,
                                        GAsyncResult *result,
                                        gpointer user_data);
@@ -280,10 +277,6 @@ struct _RsttoImageViewerPrivate
         gint v_val;
         RsttoImageViewerMotionState state;
     } motion;
-
-    /* CALLBACKS */
-    /*************/
-    void (*cb_value_changed) (GtkAdjustment *, RsttoImageViewer *);
 };
 
 
@@ -303,7 +296,6 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     }
 
     viewer->priv = rstto_image_viewer_get_instance_private (viewer);
-    viewer->priv->cb_value_changed = cb_rstto_image_viewer_value_changed;
     viewer->priv->settings = rstto_settings_new ();
     viewer->priv->bg_color = NULL;
     viewer->priv->bg_color_fs = NULL;
@@ -1796,14 +1788,6 @@ rstto_image_viewer_set_menu (RsttoImageViewer *viewer, GtkMenu *menu)
 /************************/
 /** CALLBACK FUNCTIONS **/
 /************************/
-
-static void
-cb_rstto_image_viewer_value_changed (GtkAdjustment *adjustment, RsttoImageViewer *viewer)
-{
-    GtkWidget *widget = GTK_WIDGET (viewer);
-    gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
-}
-
 static void
 cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
@@ -2142,7 +2126,6 @@ static gboolean
 rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-    GtkAdjustment *adjustment;
     GdkRectangle previous_box, current_box, union_box;
     gdouble previous_x, previous_y;
 
@@ -2156,40 +2139,16 @@ rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
         switch (viewer->priv->motion.state)
         {
             case RSTTO_IMAGE_VIEWER_MOTION_STATE_MOVE:
-                if (viewer->priv->motion.x != viewer->priv->motion.current_x)
+                if (viewer->priv->motion.x != viewer->priv->motion.current_x
+                    || viewer->priv->motion.y != viewer->priv->motion.current_y)
                 {
-                    adjustment = viewer->priv->hadjustment;
-                    gtk_adjustment_set_value (adjustment,
-                            viewer->priv->motion.h_val + (viewer->priv->motion.x - viewer->priv->motion.current_x));
-                    if ((gtk_adjustment_get_value (adjustment) + gtk_adjustment_get_page_size (adjustment)) >
-                            gtk_adjustment_get_upper (adjustment))
-                    {
-                        gtk_adjustment_set_value (adjustment,
-                                gtk_adjustment_get_upper (adjustment) - gtk_adjustment_get_page_size (adjustment));
-                    }
-                    if (gtk_adjustment_get_value (adjustment) < gtk_adjustment_get_lower (adjustment))
-                    {
-                        gtk_adjustment_set_value (adjustment,
-                                gtk_adjustment_get_lower (adjustment));
-                    }
-                }
-
-                if (viewer->priv->motion.y != viewer->priv->motion.current_y)
-                {
-                    adjustment = viewer->priv->vadjustment;
-                    gtk_adjustment_set_value (adjustment,
-                            viewer->priv->motion.v_val + (viewer->priv->motion.y - viewer->priv->motion.current_y));
-                    if ((gtk_adjustment_get_value (adjustment) + gtk_adjustment_get_page_size (adjustment)) >
-                            gtk_adjustment_get_upper (adjustment))
-                    {
-                        gtk_adjustment_set_value (adjustment,
-                                gtk_adjustment_get_upper (adjustment) - gtk_adjustment_get_page_size (adjustment));
-                    }
-                    if (gtk_adjustment_get_value (adjustment) < gtk_adjustment_get_lower (adjustment))
-                    {
-                        gtk_adjustment_set_value (adjustment,
-                                gtk_adjustment_get_lower (adjustment));
-                    }
+                    gtk_adjustment_set_value (viewer->priv->hadjustment,
+                                              viewer->priv->motion.h_val + viewer->priv->motion.x
+                                                - viewer->priv->motion.current_x);
+                    gtk_adjustment_set_value (viewer->priv->vadjustment,
+                                              viewer->priv->motion.v_val + viewer->priv->motion.y
+                                                - viewer->priv->motion.current_y);
+                    gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
                 }
                 break;
             case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
@@ -2597,39 +2556,19 @@ rstto_image_viewer_set_property (GObject *object, guint property_id, const GValu
             break;
         case PROP_HADJUSTMENT:
             if (viewer->priv->hadjustment)
-            {
-                g_signal_handlers_disconnect_by_func (viewer->priv->hadjustment, viewer->priv->cb_value_changed, viewer);
                 g_object_unref (viewer->priv->hadjustment);
-            }
+
             viewer->priv->hadjustment = g_value_get_object (value);
-
             if (viewer->priv->hadjustment)
-            {
-                gtk_adjustment_set_lower (viewer->priv->hadjustment, 0);
-                gtk_adjustment_set_upper (viewer->priv->hadjustment, 0);
-
-                g_signal_connect (viewer->priv->hadjustment, "value-changed",
-                                  G_CALLBACK (viewer->priv->cb_value_changed), viewer);
                 g_object_ref (viewer->priv->hadjustment);
-            }
             break;
         case PROP_VADJUSTMENT:
             if (viewer->priv->vadjustment)
-            {
-                g_signal_handlers_disconnect_by_func (viewer->priv->vadjustment, viewer->priv->cb_value_changed, viewer);
                 g_object_unref (viewer->priv->vadjustment);
-            }
+
             viewer->priv->vadjustment = g_value_get_object (value);
-
             if (viewer->priv->vadjustment)
-            {
-                gtk_adjustment_set_lower (viewer->priv->vadjustment, 0);
-                gtk_adjustment_set_upper (viewer->priv->vadjustment, 0);
-
-                g_signal_connect (viewer->priv->vadjustment, "value-changed",
-                                  G_CALLBACK (viewer->priv->cb_value_changed), viewer);
                 g_object_ref (viewer->priv->vadjustment);
-            }
             break;
         case PROP_HSCROLL_POLICY:
             viewer->priv->hscroll_policy = g_value_get_enum (value);
