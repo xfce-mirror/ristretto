@@ -1668,6 +1668,14 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
          * solve this issue. Hence, we do not need to call it
          * here.
          */
+        gtk_adjustment_set_upper (
+                viewer->priv->hadjustment,
+                floor (viewer->priv->image_width * viewer->priv->scale));
+
+        gtk_adjustment_set_upper (
+                viewer->priv->vadjustment,
+                floor (viewer->priv->image_height * viewer->priv->scale));
+
         gtk_adjustment_set_value (
                 viewer->priv->hadjustment,
                 tmp_x * viewer->priv->scale - h_page_size / 2);
