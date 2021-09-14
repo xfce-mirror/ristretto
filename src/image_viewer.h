@@ -33,6 +33,8 @@ enum
   RSTTO_SCALE_REAL_SIZE
 };
 
+#define RSTTO_SCALE_FACTOR 1.1
+
 
 
 #define RSTTO_TYPE_IMAGE_VIEWER rstto_image_viewer_get_type ()

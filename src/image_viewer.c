@@ -1731,11 +1731,13 @@ rstto_scroll_event (GtkWidget *widget, GdkEventScroll *event)
             {
                 case GDK_SCROLL_UP:
                 case GDK_SCROLL_LEFT:
-                    scale = (invert_zoom_direction) ? viewer->priv->scale / 1.1 : viewer->priv->scale * 1.1;
+                    scale = invert_zoom_direction ? viewer->priv->scale / RSTTO_SCALE_FACTOR
+                                                  : viewer->priv->scale * RSTTO_SCALE_FACTOR;
                     break;
                 case GDK_SCROLL_DOWN:
                 case GDK_SCROLL_RIGHT:
-                    scale = (invert_zoom_direction) ? viewer->priv->scale * 1.1 : viewer->priv->scale / 1.1;
+                    scale = invert_zoom_direction ? viewer->priv->scale * RSTTO_SCALE_FACTOR
+                                                  : viewer->priv->scale / RSTTO_SCALE_FACTOR;
                     break;
                 case GDK_SCROLL_SMOOTH:
                     /* TODO */

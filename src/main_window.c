@@ -55,8 +55,6 @@
 #define RSTTO_RECENT_FILES_APP_NAME "ristretto"
 #define RSTTO_RECENT_FILES_GROUP "Graphics"
 
-#define ZOOM_PERCENT 1.2
-
 enum
 {
     EDITOR_CHOOSER_MODEL_COLUMN_NAME = 0,
@@ -2948,7 +2946,7 @@ cb_rstto_main_window_zoom_in (GtkWidget *widget, RsttoMainWindow *window)
 {
     gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER (window->priv->image_viewer));
     rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
-                                  scale * ZOOM_PERCENT);
+                                  scale * RSTTO_SCALE_FACTOR);
 }
 
 /**
@@ -2963,7 +2961,7 @@ cb_rstto_main_window_zoom_out (GtkWidget *widget, RsttoMainWindow *window)
 {
     gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER (window->priv->image_viewer));
     rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
-                                  scale / ZOOM_PERCENT);
+                                  scale / RSTTO_SCALE_FACTOR);
 }
 
 /**********************/
