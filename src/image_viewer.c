@@ -128,6 +128,12 @@ static void
 set_adjustments (RsttoImageViewer *viewer,
                  gdouble h_value,
                  gdouble v_value);
+static gboolean
+compute_selection_box_dimensions (RsttoImageViewer *viewer,
+                                  gdouble *box_x,
+                                  gdouble *box_y,
+                                  gdouble *box_width,
+                                  gdouble *box_height);
 static void
 paint_background (GtkWidget *widget,
                   cairo_t *ctx);
@@ -137,6 +143,7 @@ paint_background_icon (GtkWidget *widget,
 static void
 rstto_image_viewer_paint (GtkWidget *widget,
                           cairo_t *ctx);
+
 static void
 cb_rstto_image_viewer_file_changed (RsttoFile *r_file,
                                     RsttoImageViewer *viewer);
@@ -750,6 +757,51 @@ set_adjustments (RsttoImageViewer *viewer,
                               0, 0, alloc.height);
 }
 
+static gboolean
+compute_selection_box_dimensions (RsttoImageViewer *viewer,
+                                  gdouble *box_x,
+                                  gdouble *box_y,
+                                  gdouble *box_width,
+                                  gdouble *box_height)
+{
+    gdouble x_offset = viewer->priv->rendering.x_offset;
+    gdouble y_offset = viewer->priv->rendering.y_offset;
+    gdouble image_width = viewer->priv->rendering.width;
+    gdouble image_height = viewer->priv->rendering.height;
+
+    /* a selection box can be created moving the cursor from left to right, aswell
+     * as from right to left: calculate the box dimensions accordingly */
+    *box_x = MIN (viewer->priv->motion.x, viewer->priv->motion.current_x);
+    *box_width = MAX (viewer->priv->motion.x, viewer->priv->motion.current_x) - *box_x;
+
+    /* same thing vertically */
+    *box_y = MIN (viewer->priv->motion.y, viewer->priv->motion.current_y);
+    *box_height = MAX (viewer->priv->motion.y, viewer->priv->motion.current_y) - *box_y;
+
+    /* constrain the selection box to the left and top sides of the image */
+    if (*box_x < x_offset)
+    {
+        *box_width -= x_offset - *box_x;
+        *box_x = x_offset;
+    }
+    if (*box_y < y_offset)
+    {
+        *box_height -= y_offset - *box_y;
+        *box_y = y_offset;
+    }
+
+    if (x_offset + image_width < *box_x + *box_width)
+    {
+        *box_width = x_offset + image_width - *box_x - 1;
+    }
+    if (y_offset + image_height < *box_y + *box_height)
+    {
+        *box_height = y_offset + image_height - *box_y - 1;
+    }
+
+    return *box_width > 0 && *box_height > 0;
+}
+
 static void
 paint_background (GtkWidget *widget, cairo_t *ctx)
 {
@@ -1091,82 +1143,11 @@ static void
 paint_selection_box (GtkWidget *widget, cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-    gdouble box_y, box_x, box_width, box_height;
-    gdouble x_offset = viewer->priv->rendering.x_offset;
-    gdouble y_offset = viewer->priv->rendering.y_offset;
-    gdouble image_width = viewer->priv->rendering.width;
-    gdouble image_height = viewer->priv->rendering.height;
+    gdouble box_x, box_y, box_width, box_height;
 
-    /* A selection-box can be created moving the cursor from
-     * left to right, aswell as from right to left.
-     *
-     * Calculate the box dimensions accordingly.
-     */
-    if (viewer->priv->motion.y < viewer->priv->motion.current_y)
-    {
-        box_y = viewer->priv->motion.y;
-        box_height = viewer->priv->motion.current_y - box_y;
-    }
-    else
-    {
-        box_y = viewer->priv->motion.current_y;
-        box_height = viewer->priv->motion.y - box_y;
-    }
-
-    /* A selection-box can be created moving the cursor from
-     * top to bottom, aswell as from bottom to top.
-     *
-     * Calculate the box dimensions accordingly.
-     */
-    if (viewer->priv->motion.x < viewer->priv->motion.current_x)
-    {
-        box_x = viewer->priv->motion.x;
-        box_width = viewer->priv->motion.current_x - box_x;
-    }
-    else
-    {
-        box_x = viewer->priv->motion.current_x;
-        box_width = viewer->priv->motion.x - box_x;
-    }
-
-    /*
-     * Constrain the selection-box to the left
-     * and top sides of the image.
-     */
-    if (box_x < x_offset)
-    {
-        box_width -= x_offset - box_x;
-        box_x = x_offset;
-    }
-    if (box_y < y_offset)
-    {
-        box_height -= y_offset - box_y;
-        box_y = y_offset;
-    }
-
-    if (x_offset + image_width < box_x + box_width)
-    {
-        box_width = (x_offset + image_width) - box_x - 1;
-    }
-    if (y_offset + image_height < box_y + box_height)
-    {
-        box_height = (y_offset + image_height) - box_y - 1;
-    }
-
-    /* Make sure the box dimensions are not negative,
-     * This results in rendering-artifacts.
-     */
-    if (box_width < 0.0)
-    {
-        /* Return, do not draw the box.  */
+    /* make sure the box dimensions are not negative, this results in rendering-artifacts */
+    if (! compute_selection_box_dimensions (viewer, &box_x, &box_y, &box_width, &box_height))
         return;
-    }
-    /* Same as above, for the vertical dimensions this time */
-    if (box_height < 0.0)
-    {
-        /* Return, do not draw the box.  */
-        return;
-    }
 
     cairo_rectangle (
         ctx,
@@ -2049,110 +2030,38 @@ static gboolean
 rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-    gdouble box_y, box_x, box_width, box_height, tmp_x, tmp_y, max_scale,
+    gdouble box_x, box_y, box_width, box_height, tmp_x, tmp_y, scale, max_scale,
             h_page_size, v_page_size;
-    gdouble x_offset = viewer->priv->rendering.x_offset;
-    gdouble y_offset = viewer->priv->rendering.y_offset;
-    gdouble image_width = viewer->priv->rendering.width;
-    gdouble image_height = viewer->priv->rendering.height;
-    gdouble scale = viewer->priv->scale;
 
     gdk_window_set_cursor (gtk_widget_get_window (widget), NULL);
 
     switch (viewer->priv->motion.state)
     {
         case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
-            max_scale = scale_get_max (viewer);
-            /* A selection-box can be created moving the cursor from
-             * left to right, aswell as from right to left.
-             *
-             * Calculate the box dimensions accordingly.
-             */
-            if (viewer->priv->motion.y < viewer->priv->motion.current_y)
+            if (compute_selection_box_dimensions (viewer, &box_x, &box_y, &box_width, &box_height))
             {
-                box_y = viewer->priv->motion.y;
-                box_height = viewer->priv->motion.current_y - box_y;
-            }
-            else
-            {
-                box_y = viewer->priv->motion.current_y;
-                box_height = viewer->priv->motion.y - box_y;
-            }
-
-            /* A selection-box can be created moving the cursor from
-             * top to bottom, aswell as from bottom to top.
-             *
-             * Calculate the box dimensions accordingly.
-             */
-            if (viewer->priv->motion.x < viewer->priv->motion.current_x)
-            {
-                box_x = viewer->priv->motion.x;
-                box_width = viewer->priv->motion.current_x - box_x;
-            }
-            else
-            {
-                box_x = viewer->priv->motion.current_x;
-                box_width = viewer->priv->motion.x - box_x;
-            }
-
-            /*
-             * Constrain the selection-box to the left
-             * and top sides of the image.
-             */
-            if (box_x < x_offset)
-            {
-                box_width -= x_offset - box_x;
-                box_x = x_offset;
-            }
-            if (box_y < y_offset)
-            {
-                box_height -= y_offset - box_y;
-                box_y = y_offset;
-            }
-
-            if (x_offset + image_width < box_x + box_width)
-            {
-                box_width = (x_offset + image_width) - box_x - 1;
-            }
-            if (y_offset + image_height < box_y + box_height)
-            {
-                box_height = (y_offset + image_height) - box_y - 1;
-            }
-
-            if (box_width > 0 && box_height > 0)
-            {
-                /* Set auto_scale to false, we are going manual */
-                viewer->priv->auto_scale = FALSE;
-
-                if (scale == max_scale)
+                max_scale = scale_get_max (viewer);
+                if (viewer->priv->scale == max_scale)
                     break;
 
-                /*
-                 * Calculate the center of the selection-box.
-                 */
-                tmp_y = (gtk_adjustment_get_value (viewer->priv->vadjustment)
-                         + box_y + box_height / 2 - y_offset) / viewer->priv->scale;
-                tmp_x = (gtk_adjustment_get_value (viewer->priv->hadjustment)
-                         + box_x + box_width / 2 - x_offset) / viewer->priv->scale;
+                /* set auto_scale to false, we are going manual */
+                viewer->priv->auto_scale = FALSE;
 
-                /*
-                 * Calculate the new scale
-                 */
+                /* calculate the center of the selection-box */
+                tmp_x = (gtk_adjustment_get_value (viewer->priv->hadjustment)
+                         + box_x + box_width / 2 - viewer->priv->rendering.x_offset)
+                         / viewer->priv->scale;
+                tmp_y = (gtk_adjustment_get_value (viewer->priv->vadjustment)
+                         + box_y + box_height / 2 - viewer->priv->rendering.y_offset)
+                         / viewer->priv->scale;
+
+                /* calculate the new scale */
                 h_page_size = gtk_adjustment_get_page_size (viewer->priv->hadjustment);
                 v_page_size = gtk_adjustment_get_page_size (viewer->priv->vadjustment);
-                if (h_page_size / box_width < v_page_size / box_height)
-                {
-                    scale = viewer->priv->scale * h_page_size / box_width;
-                }
-                else
-                {
-                    scale = viewer->priv->scale * v_page_size / box_height;
-                }
+                scale = viewer->priv->scale * MIN (h_page_size / box_width,
+                                                   v_page_size / box_height);
 
-                /*
-                 * Prevent the widget from zooming in beyond the
-                 * MAX_SCALE.
-                 */
+                /* prevent the widget from zooming in beyond the max scale */
                 scale = MIN (scale, max_scale);
                 viewer->priv->scale = scale;
                 g_signal_emit_by_name (viewer, "scale-changed");
