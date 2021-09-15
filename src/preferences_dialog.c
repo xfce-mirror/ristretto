@@ -476,6 +476,8 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
                 GTK_COMBO_BOX (dialog->priv->behaviour_tab.choose_desktop_combo_box),
                 DESKTOP_TYPE_NONE);
         }
+
+        g_free (str_desktop_type);
     }
     else
     {
