@@ -135,7 +135,9 @@ compute_selection_box_dimensions (RsttoImageViewer *viewer,
                                   gdouble *box_width,
                                   gdouble *box_height);
 static void
-paint_background_icon (GtkWidget *widget,
+paint_background_icon (RsttoImageViewer *viewer,
+                       GdkPixbuf *pixbuf,
+                       gdouble alpha,
                        cairo_t *ctx);
 static void
 rstto_image_viewer_paint (GtkWidget *widget,
@@ -777,47 +779,35 @@ compute_selection_box_dimensions (RsttoImageViewer *viewer,
 }
 
 static void
-paint_background_icon (GtkWidget *widget, cairo_t *ctx)
+paint_background_icon (RsttoImageViewer *viewer,
+                       GdkPixbuf *pixbuf,
+                       gdouble alpha,
+                       cairo_t *ctx)
 {
-    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-    gdouble bg_scale = 1.0;
-    GtkAllocation allocation;
+    GtkAllocation alloc;
+    gdouble bg_scale;
 
-    gtk_widget_get_allocation (widget, &allocation);
+    gtk_widget_get_allocation (GTK_WIDGET (viewer), &alloc);
 
-    /* If there is no image shown, render the ristretto
-     * logo on the background.
-     */
+    /* calculate the icon-size */
+    bg_scale = (alloc.width < alloc.height)
+               ? 1.2 * BACKGROUND_ICON_SIZE / alloc.width
+               : 1.2 * BACKGROUND_ICON_SIZE / alloc.height;
 
-    /* Calculate the icon-size */
-    /***************************/
-    bg_scale = (allocation.width < allocation.height)
-               ? 1.2 * BACKGROUND_ICON_SIZE / allocation.width
-               : 1.2 * BACKGROUND_ICON_SIZE / allocation.height;
+    /* move the cairo context in position so the background-image is painted in
+     * the center of the widget */
+    cairo_translate (ctx,
+                     (alloc.width - BACKGROUND_ICON_SIZE / bg_scale) / 2.0,
+                     (alloc.height - BACKGROUND_ICON_SIZE / bg_scale) / 2.0);
 
-    /* Move the cairo context in position so the
-     * background-image is painted in the center
-     * of the widget.
-     */
-    cairo_translate (
-            ctx,
-            (allocation.width - BACKGROUND_ICON_SIZE / bg_scale) / 2.0,
-            (allocation.height - BACKGROUND_ICON_SIZE / bg_scale) / 2.0);
+    /* scale the context so the image fills the same part of the cairo-context */
+    cairo_scale (ctx, 1.0 / bg_scale, 1.0 / bg_scale);
 
-    /* Scale the context so the image
-     * fills the same part of the cairo-context
-     */
-    cairo_scale (
-            ctx,
-            1.0 / bg_scale,
-            1.0 / bg_scale);
-
-    /* Draw the pixbuf on the cairo-context */
-    /****************************************/
-    if (viewer->priv->bg_icon != NULL)
+    /* draw the pixbuf on the cairo-context */
+    if (pixbuf != NULL)
     {
-        rstto_util_set_source_pixbuf (ctx, viewer->priv->bg_icon, 0, 0);
-        cairo_paint_with_alpha (ctx, 0.1);
+        rstto_util_set_source_pixbuf (ctx, pixbuf, 0, 0);
+        cairo_paint_with_alpha (ctx, alpha);
     }
 }
 
@@ -914,166 +904,129 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     cairo_matrix_t transform_matrix;
-    GtkAllocation allocation;
-    gdouble bg_scale, x_scale, y_scale;
+    gdouble x_scale, y_scale;
     gint i, a, block_width, block_height, h_adjust, v_adjust;
     gint x_offset = viewer->priv->rendering.x_offset;
     gint y_offset = viewer->priv->rendering.y_offset;
     gint width = viewer->priv->rendering.width;
     gint height = viewer->priv->rendering.height;
 
-    /* image and rendering are set */
-    if (viewer->priv->image_width > 0 && width > 0)
+    cairo_save (ctx);
+
+    /* paint checkered background */
+    if (viewer->priv->pixbuf.has_alpha)
     {
-        cairo_save (ctx);
+        cairo_set_source_rgba (ctx, 0.8, 0.8, 0.8, 1.0);
+        cairo_rectangle (ctx, x_offset, y_offset, width, height);
+        cairo_fill (ctx);
 
-        /* paint checkered background */
-        if (viewer->priv->pixbuf.has_alpha)
+        cairo_set_source_rgba (ctx, 0.7, 0.7, 0.7, 1.0);
+        for (i = 0; i < width / 10.0; ++i)
         {
-            cairo_set_source_rgba (ctx, 0.8, 0.8, 0.8, 1.0);
-            cairo_rectangle (ctx, x_offset, y_offset, width, height);
-            cairo_fill (ctx);
+            a = (i % 2) ? 1 : 0;
+            block_width = (i + 1 <= width / 10.0) ? 10 : width % 10;
 
-            cairo_set_source_rgba (ctx, 0.7, 0.7, 0.7, 1.0);
-            for (i = 0; i < width / 10.0; ++i)
+            for (; a < height / 10.0; a += 2)
             {
-                a = (i % 2) ? 1 : 0;
-                block_width = (i + 1 <= width / 10.0) ? 10 : width % 10;
-
-                for (; a < height / 10.0; a += 2)
-                {
-                    block_height = (a + 1 <= height / 10.0) ? 10 : height % 10;
-                    cairo_rectangle (ctx, x_offset + i * 10, y_offset + a * 10,
-                                     block_width, block_height);
-                    cairo_fill (ctx);
-                }
+                block_height = (a + 1 <= height / 10.0) ? 10 : height % 10;
+                cairo_rectangle (ctx, x_offset + i * 10, y_offset + a * 10,
+                                 block_width, block_height);
+                cairo_fill (ctx);
             }
         }
-
-        cairo_restore (ctx);
-
-        h_adjust = gtk_adjustment_get_value (viewer->priv->hadjustment);
-        v_adjust = gtk_adjustment_get_value (viewer->priv->vadjustment);
-        switch (viewer->priv->orientation)
-        {
-            case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
-                cairo_translate (ctx, - h_adjust, - v_adjust);
-                cairo_translate (ctx, width, 0);
-                cairo_translate (ctx, x_offset, y_offset);
-                cairo_matrix_init_identity (&transform_matrix);
-                transform_matrix.xx = -1.0;
-                cairo_transform (ctx, &transform_matrix);
-                break;
-            case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
-                cairo_translate (ctx, - h_adjust, - v_adjust);
-                cairo_translate (ctx, 0, height);
-                cairo_translate (ctx, x_offset, y_offset);
-                cairo_matrix_init_identity (&transform_matrix);
-                transform_matrix.yy = -1.0;
-                cairo_transform (ctx, &transform_matrix);
-                break;
-            case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
-                cairo_rotate (ctx, M_PI * 1.5);
-                cairo_translate (ctx, v_adjust, - h_adjust);
-                cairo_translate (ctx, - y_offset, x_offset);
-                cairo_matrix_init_identity (&transform_matrix);
-                transform_matrix.xx = -1.0;
-                cairo_transform (ctx, &transform_matrix);
-                break;
-            case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
-                cairo_rotate (ctx, M_PI * 0.5);
-                cairo_translate (ctx, - v_adjust, h_adjust);
-                cairo_translate (ctx, height, - width);
-                cairo_translate (ctx, y_offset, - x_offset);
-                cairo_matrix_init_identity (&transform_matrix);
-                transform_matrix.xx = -1.0;
-                cairo_transform (ctx, &transform_matrix);
-                break;
-            case RSTTO_IMAGE_ORIENT_90:
-                cairo_rotate (ctx, M_PI * 0.5);
-                cairo_translate (ctx, - v_adjust, h_adjust);
-                cairo_translate (ctx, 0, - width);
-                cairo_translate (ctx, y_offset, - x_offset);
-                break;
-            case RSTTO_IMAGE_ORIENT_270:
-                cairo_rotate (ctx, M_PI * 1.5);
-                cairo_translate (ctx, v_adjust, - h_adjust);
-                cairo_translate (ctx, - height, 0);
-                cairo_translate (ctx, - y_offset, x_offset);
-                break;
-            case RSTTO_IMAGE_ORIENT_180:
-                cairo_rotate (ctx, M_PI);
-                cairo_translate (ctx, h_adjust, v_adjust);
-                cairo_translate (ctx, - width, - height);
-                cairo_translate (ctx, - x_offset, - y_offset);
-                break;
-            case RSTTO_IMAGE_ORIENT_NONE:
-            default:
-                cairo_translate (ctx, - h_adjust, - v_adjust);
-                cairo_translate (ctx, x_offset, y_offset);
-                break;
-        }
-
-        switch (viewer->priv->orientation)
-        {
-            case RSTTO_IMAGE_ORIENT_90:
-            case RSTTO_IMAGE_ORIENT_270:
-            case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
-            case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
-                /* adjusted scales for painting, so that the painted image is strictly
-                 * included in the rendering rectangle, and the drawing area restriction
-                 * in gdk_window_invalidate_*() is really taken into account (typical
-                 * example where it is necessary: when redrawing the background in
-                 * cb_rstto_bgcolor_changed()) */
-                x_scale = (1 - DBL_EPSILON) * width / viewer->priv->image_height;
-                y_scale = (1 - DBL_EPSILON) * height / viewer->priv->image_width;
-                break;
-            case RSTTO_IMAGE_ORIENT_NONE:
-            case RSTTO_IMAGE_ORIENT_180:
-            case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
-            case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
-            default:
-                x_scale = (1 - DBL_EPSILON) * width / viewer->priv->image_width;
-                y_scale = (1 - DBL_EPSILON) * height / viewer->priv->image_height;
-                break;
-        }
-
-        cairo_scale (ctx, x_scale / viewer->priv->image_scale, y_scale / viewer->priv->image_scale);
-        cairo_set_source (ctx, viewer->priv->pixbuf.pattern);
-        cairo_paint (ctx);
     }
-    else if (viewer->priv->error)
+
+    cairo_restore (ctx);
+
+    h_adjust = gtk_adjustment_get_value (viewer->priv->hadjustment);
+    v_adjust = gtk_adjustment_get_value (viewer->priv->vadjustment);
+    switch (viewer->priv->orientation)
     {
-        gtk_widget_get_allocation (widget, &allocation);
-
-        /* Calculate the icon-size */
-        /***************************/
-        bg_scale = (allocation.width < allocation.height)
-                   ? 1.2 * BACKGROUND_ICON_SIZE / allocation.width
-                   : 1.2 * BACKGROUND_ICON_SIZE / allocation.height;
-
-        /* Move the cairo context in position so the
-         * background-image is painted in the center
-         * of the widget.
-         */
-        cairo_translate (
-                ctx,
-                (allocation.width - BACKGROUND_ICON_SIZE / bg_scale) / 2.0,
-                (allocation.height - BACKGROUND_ICON_SIZE / bg_scale) / 2.0);
-
-        /* Scale the context so the image
-         * fills the same part of the cairo-context
-         */
-        cairo_scale (ctx, 1.0 / bg_scale, 1.0 / bg_scale);
-
-        /* Draw the pixbuf on the cairo-context */
-        /****************************************/
-        if (viewer->priv->missing_icon != NULL)
-        {
-            rstto_util_set_source_pixbuf (ctx, viewer->priv->missing_icon, 0, 0);
-            cairo_paint_with_alpha (ctx, 1.0);
-        }
+        case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
+            cairo_translate (ctx, - h_adjust, - v_adjust);
+            cairo_translate (ctx, width, 0);
+            cairo_translate (ctx, x_offset, y_offset);
+            cairo_matrix_init_identity (&transform_matrix);
+            transform_matrix.xx = -1.0;
+            cairo_transform (ctx, &transform_matrix);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
+            cairo_translate (ctx, - h_adjust, - v_adjust);
+            cairo_translate (ctx, 0, height);
+            cairo_translate (ctx, x_offset, y_offset);
+            cairo_matrix_init_identity (&transform_matrix);
+            transform_matrix.yy = -1.0;
+            cairo_transform (ctx, &transform_matrix);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
+            cairo_rotate (ctx, M_PI * 1.5);
+            cairo_translate (ctx, v_adjust, - h_adjust);
+            cairo_translate (ctx, - y_offset, x_offset);
+            cairo_matrix_init_identity (&transform_matrix);
+            transform_matrix.xx = -1.0;
+            cairo_transform (ctx, &transform_matrix);
+            break;
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
+            cairo_rotate (ctx, M_PI * 0.5);
+            cairo_translate (ctx, - v_adjust, h_adjust);
+            cairo_translate (ctx, height, - width);
+            cairo_translate (ctx, y_offset, - x_offset);
+            cairo_matrix_init_identity (&transform_matrix);
+            transform_matrix.xx = -1.0;
+            cairo_transform (ctx, &transform_matrix);
+            break;
+        case RSTTO_IMAGE_ORIENT_90:
+            cairo_rotate (ctx, M_PI * 0.5);
+            cairo_translate (ctx, - v_adjust, h_adjust);
+            cairo_translate (ctx, 0, - width);
+            cairo_translate (ctx, y_offset, - x_offset);
+            break;
+        case RSTTO_IMAGE_ORIENT_270:
+            cairo_rotate (ctx, M_PI * 1.5);
+            cairo_translate (ctx, v_adjust, - h_adjust);
+            cairo_translate (ctx, - height, 0);
+            cairo_translate (ctx, - y_offset, x_offset);
+            break;
+        case RSTTO_IMAGE_ORIENT_180:
+            cairo_rotate (ctx, M_PI);
+            cairo_translate (ctx, h_adjust, v_adjust);
+            cairo_translate (ctx, - width, - height);
+            cairo_translate (ctx, - x_offset, - y_offset);
+            break;
+        case RSTTO_IMAGE_ORIENT_NONE:
+        default:
+            cairo_translate (ctx, - h_adjust, - v_adjust);
+            cairo_translate (ctx, x_offset, y_offset);
+            break;
     }
+
+    switch (viewer->priv->orientation)
+    {
+        case RSTTO_IMAGE_ORIENT_90:
+        case RSTTO_IMAGE_ORIENT_270:
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
+            /* adjusted scales for painting, so that the painted image is strictly
+             * included in the rendering rectangle, and the drawing area restriction
+             * in gdk_window_invalidate_*() is really taken into account (typical
+             * example where it is necessary: when redrawing the background in
+             * cb_rstto_bgcolor_changed()) */
+            x_scale = (1 - DBL_EPSILON) * width / viewer->priv->image_height;
+            y_scale = (1 - DBL_EPSILON) * height / viewer->priv->image_width;
+            break;
+        case RSTTO_IMAGE_ORIENT_NONE:
+        case RSTTO_IMAGE_ORIENT_180:
+        case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
+        case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
+        default:
+            x_scale = (1 - DBL_EPSILON) * width / viewer->priv->image_width;
+            y_scale = (1 - DBL_EPSILON) * height / viewer->priv->image_height;
+            break;
+    }
+
+    cairo_scale (ctx, x_scale / viewer->priv->image_scale, y_scale / viewer->priv->image_scale);
+    cairo_set_source (ctx, viewer->priv->pixbuf.pattern);
+    cairo_paint (ctx);
 }
 
 static void
@@ -1123,7 +1076,7 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
 
             /* Paint the background-image (ristretto icon) */
             /***********************************************/
-            paint_background_icon (widget, ctx);
+            paint_background_icon (viewer, viewer->priv->bg_icon, 0.1, ctx);
 
             cairo_restore (ctx);
 
@@ -1137,7 +1090,13 @@ rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
         else
         {
             cairo_save (ctx);
-            paint_image (widget, ctx);
+
+            /* image and rendering are set */
+            if (viewer->priv->image_width > 0 && viewer->priv->rendering.width > 0)
+                paint_image (widget, ctx);
+            else if (viewer->priv->error != NULL)
+                paint_background_icon (viewer, viewer->priv->missing_icon, 1.0, ctx);
+
             cairo_restore (ctx);
 
             if (viewer->priv->motion.state == RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM)
