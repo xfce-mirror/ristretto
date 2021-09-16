@@ -618,7 +618,7 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
             break;
     }
 
-    if (scale == RSTTO_SCALE_IMAGE_LOADING)
+    if (scale == RSTTO_SCALE_NONE)
     {
         if (h_scale > 1 && v_scale > 1)
         {
@@ -660,6 +660,7 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
     if (viewer->priv->scale != scale)
     {
         viewer->priv->scale = scale;
+        rstto_file_set_scale (viewer->priv->file, scale);
         g_signal_emit_by_name (viewer, "scale-changed");
 
         return TRUE;
