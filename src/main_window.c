@@ -1400,7 +1400,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             content_type = rstto_file_get_content_type (cur_file);
 
             rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
-                                         cur_file, RSTTO_SCALE_IMAGE_LOADING, 0);
+                                         cur_file, rstto_file_get_scale (cur_file), 0);
 
             pixbuf = rstto_file_get_thumbnail (cur_file, THUMBNAIL_SIZE_SMALL);
             if (pixbuf != NULL)
@@ -1495,7 +1495,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             gtk_widget_set_sensitive (menu_item, FALSE);
 
             rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
-                                         NULL, RSTTO_SCALE_IMAGE_LOADING, 0);
+                                         NULL, RSTTO_SCALE_NONE, 0);
 
             menu_item = gtk_menu_item_new_with_label (_("Empty"));
             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_window_menu), menu_item);
