@@ -582,34 +582,20 @@ rstto_image_viewer_finalize (GObject *object)
     G_OBJECT_CLASS (rstto_image_viewer_parent_class)->finalize (object);
 }
 
-static gdouble
-scale_get_max (RsttoImageViewer *viewer)
-{
-    GtkAllocation allocation;
-    gdouble max_scale;
-
-    gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
-    max_scale = MAX_OVER_VISIBLE
-                * MAX (allocation.width, allocation.height)
-                / MIN (viewer->priv->image_width, viewer->priv->image_height);
-
-    return MAX (max_scale, 1.0);
-}
-
 /**
  * Set scale.
  * @viewer: the image viewer structure
  * @scale: 0 means 'fit to view', 1 means 100%/1:1 scale
  *
- * Return value: FALSE if @scale was out of bounds and no changes were applied,
- *               TRUE otherwise (always TRUE id @scale == RSTTO_SCALE_FIT_TO_VIEW)
+ * Return value: FALSE if there is no scale change (already at min, max or
+                 fit-to-view), TRUE otherwise
  */
 static gboolean
 set_scale (RsttoImageViewer *viewer, gdouble scale)
 {
-    gboolean auto_scale = FALSE;
-    gdouble in_scale = scale, v_scale, h_scale;
     GtkAllocation allocation;
+    gdouble h_scale, v_scale, max_scale;
+    gboolean auto_scale = FALSE;
 
     gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
 
@@ -617,18 +603,18 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
     {
         case RSTTO_IMAGE_ORIENT_90:
         case RSTTO_IMAGE_ORIENT_270:
-        case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
         case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
-            v_scale = (gdouble) allocation.width / viewer->priv->image_height;
-            h_scale = (gdouble) allocation.height / viewer->priv->image_width;
+        case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
+            h_scale = (gdouble) allocation.width / viewer->priv->image_height;
+            v_scale = (gdouble) allocation.height / viewer->priv->image_width;
             break;
         case RSTTO_IMAGE_ORIENT_NONE:
         case RSTTO_IMAGE_ORIENT_180:
         case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
         case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
         default:
-            v_scale = (gdouble) allocation.width / viewer->priv->image_width;
-            h_scale = (gdouble) allocation.height / viewer->priv->image_height;
+            h_scale = (gdouble) allocation.width / viewer->priv->image_width;
+            v_scale = (gdouble) allocation.height / viewer->priv->image_height;
             break;
     }
 
@@ -646,33 +632,40 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
         }
     }
 
-    if (scale < RSTTO_SCALE_REAL_SIZE)
+    if (scale == RSTTO_SCALE_FIT_TO_VIEW)
     {
-        if (scale == RSTTO_SCALE_FIT_TO_VIEW)
+        auto_scale = TRUE;
+        scale = MIN (h_scale, v_scale);
+    }
+    else if (scale < RSTTO_SCALE_REAL_SIZE)
+    {
+        /* minimum scale is a percent of display area, unless image is smaller */
+        if (scale * MAX (viewer->priv->image_width, viewer->priv->image_height)
+            < MIN_VIEW_PERCENT * MIN (allocation.width, allocation.height))
         {
-            auto_scale = TRUE;
-            scale = MIN (h_scale, v_scale);
-        }
-        else /* minimum scale is a percent of display area, unless image is smaller */
-        {
-            if ((scale * MAX (viewer->priv->image_width, viewer->priv->image_height))
-                < (MIN_VIEW_PERCENT * MIN (allocation.width, allocation.height)))
-            {
-                scale = viewer->priv->scale;
-            }
+            scale = viewer->priv->scale;
         }
     }
     else
-        scale = MIN (scale_get_max (viewer), scale);
+    {
+        /* maximum scale depends on the sizes of the display area and the image */
+        max_scale = MAX (1.0,
+                         MAX_OVER_VISIBLE
+                         * MAX (allocation.width, allocation.height)
+                         / MIN (viewer->priv->image_width, viewer->priv->image_height));
+        scale = MIN (scale, max_scale);
+    }
 
     viewer->priv->auto_scale = auto_scale;
     if (viewer->priv->scale != scale)
     {
         viewer->priv->scale = scale;
         g_signal_emit_by_name (viewer, "scale-changed");
+
+        return TRUE;
     }
 
-    return scale == in_scale || in_scale == RSTTO_SCALE_FIT_TO_VIEW;
+    return FALSE;
 }
 
 static void
@@ -1921,7 +1914,7 @@ static gboolean
 rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-    gdouble box_x, box_y, box_width, box_height, tmp_x, tmp_y, scale, max_scale,
+    gdouble box_x, box_y, box_width, box_height, tmp_x, tmp_y, scale,
             h_page_size, v_page_size;
 
     gdk_window_set_cursor (gtk_widget_get_window (widget), NULL);
@@ -1931,13 +1924,6 @@ rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
         case RSTTO_IMAGE_VIEWER_MOTION_STATE_BOX_ZOOM:
             if (compute_selection_box_dimensions (viewer, &box_x, &box_y, &box_width, &box_height))
             {
-                max_scale = scale_get_max (viewer);
-                if (viewer->priv->scale == max_scale)
-                    break;
-
-                /* set auto_scale to false, we are going manual */
-                viewer->priv->auto_scale = FALSE;
-
                 /* calculate the center of the selection-box */
                 tmp_x = (gtk_adjustment_get_value (viewer->priv->hadjustment)
                          + box_x + box_width / 2 - viewer->priv->rendering.x_offset)
@@ -1952,15 +1938,13 @@ rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
                 scale = viewer->priv->scale * MIN (h_page_size / box_width,
                                                    v_page_size / box_height);
 
-                /* prevent the widget from zooming in beyond the max scale */
-                scale = MIN (scale, max_scale);
-                viewer->priv->scale = scale;
-                g_signal_emit_by_name (viewer, "scale-changed");
-
-                set_adjustments (viewer,
-                                 tmp_x * scale - h_page_size / 2,
-                                 tmp_y * scale - v_page_size / 2);
-                gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
+                if (set_scale (viewer, scale))
+                {
+                    set_adjustments (viewer,
+                                     tmp_x * scale - h_page_size / 2,
+                                     tmp_y * scale - v_page_size / 2);
+                    gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
+                }
             }
             break;
 
