@@ -1535,7 +1535,6 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
     gchar *status, *tmp_status;
     gchar exif_data[20];
     gint width, height;
-    gboolean is_valid;
 
     if (window->priv->image_list == NULL)
         return;
@@ -1597,8 +1596,7 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
 
         width = rstto_image_viewer_get_width (viewer);
         height = rstto_image_viewer_get_height (viewer);
-        is_valid = (width > 1 && height > 1);
-        if (is_valid)
+        if (width > 0)
         {
             gchar *size_string = g_format_size (rstto_file_get_size (cur_file));
             tmp_status = g_strdup_printf ("%s\t%d x %d\t%s\t%.1f%%",
@@ -1612,7 +1610,7 @@ rstto_main_window_update_statusbar (RsttoMainWindow *window)
         error = rstto_image_viewer_get_error (viewer);
         if (error != NULL)
         {
-            if (! is_valid)
+            if (width == 0)
             {
                 gtk_label_set_text (GTK_LABEL (window->priv->warning_label), error->message);
                 gtk_widget_set_tooltip_text (
