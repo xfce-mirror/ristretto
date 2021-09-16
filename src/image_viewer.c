@@ -306,6 +306,7 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv->settings = rstto_settings_new ();
     viewer->priv->pixbuf.pattern = NULL;
     viewer->priv->animation_id = 0;
+    viewer->priv->scale = RSTTO_SCALE_NONE;
     viewer->priv->image_width = 0;
     viewer->priv->image_height = 0;
 
@@ -596,6 +597,10 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
     gdouble h_scale, v_scale, max_scale;
     gboolean auto_scale = FALSE;
 
+    /* no usable image, no scale change (avoids in particular priv->file == NULL below) */
+    if (viewer->priv->image_width == 0)
+        return FALSE;
+
     gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
 
     switch (viewer->priv->orientation)
@@ -617,7 +622,7 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
             break;
     }
 
-    if (scale == RSTTO_SCALE_IMAGE_LOADING)
+    if (scale == RSTTO_SCALE_NONE)
     {
         if (h_scale > 1 && v_scale > 1)
         {
@@ -659,6 +664,7 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
     if (viewer->priv->scale != scale)
     {
         viewer->priv->scale = scale;
+        rstto_file_set_scale (viewer->priv->file, scale);
         g_signal_emit_by_name (viewer, "scale-changed");
 
         return TRUE;
