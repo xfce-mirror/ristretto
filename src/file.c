@@ -87,6 +87,7 @@ static void
 rstto_file_init (RsttoFile *r_file)
 {
     r_file->priv = rstto_file_get_instance_private (r_file);
+    r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
 }
 
 
