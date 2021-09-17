@@ -196,7 +196,7 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer,
                                RsttoFile *file,
                                gdouble scale);
 static void
-rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr);
+rstto_image_viewer_transaction_free (gpointer data);
 
 
 
@@ -206,6 +206,7 @@ struct _RsttoImageViewerTransaction
     RsttoFile        *file;
     GCancellable     *cancellable;
     GdkPixbufLoader  *loader;
+    guint             loader_closed_id;
 
     GError           *error;
 
@@ -1278,6 +1279,7 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
     transaction->file = file;
     transaction->viewer = viewer;
     transaction->scale = scale;
+    transaction->loader_closed_id = 0;
 
     g_signal_connect (transaction->loader, "size-prepared", G_CALLBACK (cb_rstto_image_loader_size_prepared), transaction);
     g_signal_connect (transaction->loader, "closed", G_CALLBACK (cb_rstto_image_loader_closed), transaction);
@@ -1292,8 +1294,10 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
 }
 
 static void
-rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr)
+rstto_image_viewer_transaction_free (gpointer data)
 {
+    RsttoImageViewerTransaction *tr = data;
+
     /*
      * Check if this transaction is current,
      * if so, remove the reference from the viewer.
@@ -1302,6 +1306,8 @@ rstto_image_viewer_transaction_free (RsttoImageViewerTransaction *tr)
     {
         tr->viewer->priv->transaction = NULL;
     }
+    if (tr->loader_closed_id != 0)
+        REMOVE_SOURCE (tr->loader_closed_id);
     if (tr->error)
     {
         g_error_free (tr->error);
@@ -1612,9 +1618,10 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
     transaction->orientation = rstto_file_get_orientation (transaction->file);
 }
 
-static void
-cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
+static gboolean
+cb_rstto_image_loader_closed_idle (gpointer data)
 {
+    RsttoImageViewerTransaction *transaction = data;
     RsttoImageViewer *viewer = transaction->viewer;
     GtkWidget *widget = GTK_WIDGET (viewer);
 
@@ -1631,7 +1638,7 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
             viewer->priv->orientation = transaction->orientation;
             set_scale (viewer, transaction->scale);
 
-            cb_rstto_image_loader_image_ready (loader, transaction);
+            cb_rstto_image_loader_image_ready (transaction->loader, transaction);
         }
         else
         {
@@ -1658,7 +1665,23 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
     }
 
     g_signal_emit_by_name (transaction->viewer, "size-ready");
-    rstto_image_viewer_transaction_free (transaction);
+
+    transaction->loader_closed_id = 0;
+
+    return FALSE;
+}
+
+static void
+cb_rstto_image_loader_closed (GdkPixbufLoader *loader,
+                              RsttoImageViewerTransaction *transaction)
+{
+    /* this signal handler may run before the view has reached its final size, resulting
+     * in incorrect scaling: the thumbnail bar is already shown at this time, but the size
+     * request to adjust the view may not have taken place yet */
+    transaction->loader_closed_id = g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
+                                                     cb_rstto_image_loader_closed_idle,
+                                                     transaction,
+                                                     rstto_image_viewer_transaction_free);
 }
 
 static gboolean
