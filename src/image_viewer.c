@@ -214,7 +214,6 @@ struct _RsttoImageViewerTransaction
     gint              image_height;
     gdouble           image_scale;
     gdouble           scale;
-    RsttoImageOrientation orientation;
 
     /* File I/O data */
     /*****************/
@@ -1375,11 +1374,10 @@ void
 rstto_image_viewer_set_orientation (RsttoImageViewer *viewer, RsttoImageOrientation orientation)
 {
     viewer->priv->orientation = orientation;
+    rstto_file_set_orientation (viewer->priv->file, orientation);
 
     if (viewer->priv->auto_scale)
         set_scale (viewer, RSTTO_SCALE_FIT_TO_VIEW);
-
-    rstto_file_set_orientation (viewer->priv->file, orientation);
 
     set_adjustments (viewer,
                      gtk_adjustment_get_value (viewer->priv->hadjustment),
@@ -1614,8 +1612,6 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
             transaction->image_scale = 1.0;
         }
     }
-
-    transaction->orientation = rstto_file_get_orientation (transaction->file);
 }
 
 static gboolean
@@ -1635,7 +1631,6 @@ cb_rstto_image_loader_closed_idle (gpointer data)
             viewer->priv->image_scale = transaction->image_scale;
             viewer->priv->image_width = transaction->image_width;
             viewer->priv->image_height = transaction->image_height;
-            viewer->priv->orientation = transaction->orientation;
             set_scale (viewer, transaction->scale);
 
             cb_rstto_image_loader_image_ready (transaction->loader, transaction);
