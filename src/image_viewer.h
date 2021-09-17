@@ -50,6 +50,7 @@ void
 rstto_image_viewer_set_file (RsttoImageViewer *viewer,
                              RsttoFile *file,
                              gdouble scale,
+                             RsttoScale auto_scale,
                              RsttoImageOrientation orientation);
 
 void

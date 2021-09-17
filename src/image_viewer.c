@@ -667,6 +667,7 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
     }
 
     viewer->priv->auto_scale = auto_scale;
+    rstto_file_set_auto_scale (viewer->priv->file, auto_scale);
     if (viewer->priv->scale != scale)
     {
         viewer->priv->scale = scale;
@@ -1141,7 +1142,11 @@ rstto_image_viewer_new (void)
  *  - cancellable...
  */
 void
-rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble scale, RsttoImageOrientation orientation)
+rstto_image_viewer_set_file (RsttoImageViewer *viewer,
+                             RsttoFile *file,
+                             gdouble scale,
+                             RsttoScale auto_scale,
+                             RsttoImageOrientation orientation)
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
 
@@ -1200,10 +1205,8 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
                 viewer->priv->image_width = 0;
                 viewer->priv->image_height = 0;
 
-                rstto_image_viewer_load_image (
-                        viewer,
-                        viewer->priv->file,
-                        scale);
+                rstto_image_viewer_load_image (viewer, viewer->priv->file,
+                                               auto_scale != RSTTO_SCALE_NONE ? auto_scale : scale);
             }
         }
         else
@@ -1215,7 +1218,8 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
                     viewer);
             g_object_ref (file);
             viewer->priv->file = file;
-            rstto_image_viewer_load_image (viewer, viewer->priv->file, scale);
+            rstto_image_viewer_load_image (viewer, viewer->priv->file,
+                                           auto_scale != RSTTO_SCALE_NONE ? auto_scale : scale);
         }
     }
     else
