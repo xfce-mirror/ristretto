@@ -38,12 +38,13 @@ typedef enum
     RSTTO_IMAGE_ORIENT_NOT_DETERMINED,
 } RsttoImageOrientation;
 
-enum
+typedef enum
 {
-    RSTTO_SCALE_NONE = -1,
+    RSTTO_SCALE_NONE = -2,
+    RSTTO_SCALE_LIMIT_TO_VIEW,
     RSTTO_SCALE_FIT_TO_VIEW,
     RSTTO_SCALE_REAL_SIZE
-};
+} RsttoScale;
 
 #define THUMBNAIL_SIZE_VERY_SMALL_SIZE   24
 #define THUMBNAIL_SIZE_SMALLER_SIZE      32
