@@ -55,6 +55,7 @@ enum
     PROP_ERROR_MISSING_THUMBNAILER,
     PROP_SORT_TYPE,
     PROP_THUMBNAIL_SIZE,
+    PROP_DEFAULT_ZOOM,
 };
 
 static RsttoSettings *settings_object;
@@ -105,6 +106,7 @@ struct _RsttoSettingsPrivate
     gboolean  use_thunar_properties;
     gboolean  maximize_on_startup;
     RsttoThumbnailSize thumbnail_size;
+    RsttoScale default_zoom;
 
     RsttoSortType sort_type;
 
@@ -169,6 +171,7 @@ rstto_settings_init (RsttoSettings *settings)
     settings->priv->hide_mouse_cursor_fullscreen_timeout = 1;
     settings->priv->errors.missing_thumbnailer = TRUE;
     settings->priv->thumbnail_size = THUMBNAIL_SIZE_NORMAL;
+    settings->priv->default_zoom = RSTTO_SCALE_NONE;
 
     xfconf_g_property_bind (
             settings->priv->channel,
@@ -330,6 +333,12 @@ rstto_settings_init (RsttoSettings *settings)
             settings,
             "desktop-type");
 
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/image/default-zoom",
+            G_TYPE_INT,
+            settings,
+            "default-zoom");
 }
 
 
@@ -607,6 +616,19 @@ rstto_settings_class_init (RsttoSettingsClass *klass)
             object_class,
             PROP_THUMBNAIL_SIZE,
             pspec);
+
+    pspec = g_param_spec_int (
+            "default-zoom",
+            "",
+            "",
+            RSTTO_SCALE_NONE,
+            RSTTO_SCALE_REAL_SIZE,
+            RSTTO_SCALE_NONE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_DEFAULT_ZOOM,
+            pspec);
 }
 
 /**
@@ -824,6 +846,9 @@ rstto_settings_set_property (GObject      *object,
         case PROP_THUMBNAIL_SIZE:
             settings->priv->thumbnail_size = g_value_get_uint (value);
             break;
+        case PROP_DEFAULT_ZOOM:
+            settings->priv->default_zoom = g_value_get_int (value);
+            break;
         default:
             break;
     }
@@ -914,6 +939,9 @@ rstto_settings_get_property (GObject    *object,
             g_value_set_uint (
                     value,
                     settings->priv->thumbnail_size);
+            break;
+        case PROP_DEFAULT_ZOOM:
+            g_value_set_int (value, settings->priv->default_zoom);
             break;
         default:
             break;

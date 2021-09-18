@@ -136,6 +136,10 @@ cb_rstto_main_window_zoom_in (GtkWidget *widget,
 static void
 cb_rstto_main_window_zoom_out (GtkWidget *widget,
                                RsttoMainWindow *window);
+static void
+cb_rstto_main_window_default_zoom (GtkRadioAction *action,
+                                   GtkRadioAction *current,
+                                   RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_rotate_cw (GtkWidget *widget,
@@ -446,6 +450,13 @@ static GtkActionEntry action_entries[] =
             "<control>0", /* Keyboard shortcut */
             N_ ("Zoom to 100%"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_zoom_100), },
+/* Default zoom submenu */
+    { "default-zoom-menu",
+            NULL,
+            N_ ("_Default Zoom"),
+            NULL,
+            NULL,
+            NULL, },
 /* Rotation submenu */
     { "rotation-menu",
             NULL,
@@ -702,6 +713,29 @@ static const GtkRadioActionEntry radio_action_size_entries[] =
             6 },
 };
 
+/** Default zoom */
+static const GtkRadioActionEntry radio_action_default_zoom[] =
+{
+    { "default-zoom-smart",
+            NULL, /* Icon-name */
+            N_ ("_Smart Zoom"), /* Label-text */
+            "<alt>asterisk", /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            RSTTO_SCALE_NONE },
+    { "default-zoom-fit",
+            NULL, /* Icon-name */
+            N_ ("Zoom _Fit"), /* Label-text */
+            "<alt>equal", /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            RSTTO_SCALE_FIT_TO_VIEW },
+    { "default-zoom-100",
+            NULL, /* Icon-name */
+            N_ ("_Normal Size"), /* Label-text */
+            "<alt>0", /* Keyboard shortcut */
+            NULL, /* Tooltip text */
+            RSTTO_SCALE_REAL_SIZE },
+};
+
 
 
 struct _RsttoMainWindowPrivate
@@ -791,6 +825,7 @@ rstto_main_window_init (RsttoMainWindow *window)
 
     guint navigationbar_position = 3;
     guint thumbnail_size = 3;
+    RsttoScale default_zoom = RSTTO_SCALE_NONE;
     gchar *db_path = NULL;
 
     gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
@@ -864,6 +899,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
     navigationbar_position = rstto_settings_get_navbar_position (window->priv->settings_manager);
     thumbnail_size = rstto_settings_get_uint_property (window->priv->settings_manager, "thumbnail-size");
+    default_zoom = rstto_settings_get_int_property (window->priv->settings_manager, "default-zoom");
 
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     accel_group = gtk_ui_manager_get_accel_group (window->priv->ui_manager);
@@ -943,6 +979,9 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_size_entries,
                                         G_N_ELEMENTS (radio_action_size_entries), thumbnail_size,
                                         G_CALLBACK (cb_rstto_main_window_thumbnail_size_changed), window);
+    gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_default_zoom,
+                                        G_N_ELEMENTS (radio_action_default_zoom), default_zoom,
+                                        G_CALLBACK (cb_rstto_main_window_default_zoom), window);
 
     gtk_ui_manager_add_ui_from_string (window->priv->ui_manager, main_window_ui, main_window_ui_length, NULL);
     window->priv->menubar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu");
@@ -2965,6 +3004,42 @@ cb_rstto_main_window_zoom_out (GtkWidget *widget, RsttoMainWindow *window)
     gdouble scale = rstto_image_viewer_get_scale (RSTTO_IMAGE_VIEWER (window->priv->image_viewer));
     rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
                                   scale / RSTTO_SCALE_FACTOR);
+}
+
+static void
+cb_rstto_main_window_default_zoom (GtkRadioAction *action,
+                                   GtkRadioAction *current,
+                                   RsttoMainWindow *window)
+{
+    RsttoImageListIter *iter;
+    RsttoFile *file, *first_file;
+
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    rstto_settings_set_int_property (RSTTO_SETTINGS (window->priv->settings_manager),
+                                     "default-zoom",
+                                     gtk_radio_action_get_current_value (current));
+G_GNUC_END_IGNORE_DEPRECATIONS
+
+    if (rstto_image_list_get_n_images (window->priv->image_list) > 0)
+    {
+        /* reset stored scale for all images */
+        iter = rstto_image_list_get_iter (window->priv->image_list);
+        rstto_image_list_iter_set_position (iter, 0);
+        file = first_file = rstto_image_list_iter_get_file (iter);
+        do
+        {
+            rstto_file_set_scale (file, RSTTO_SCALE_NONE);
+            rstto_file_set_auto_scale (file, RSTTO_SCALE_NONE);
+        }
+        while (rstto_image_list_iter_next (iter)
+               && (file = rstto_image_list_iter_get_file (iter)) != first_file);
+
+        g_object_unref (iter);
+
+        /* reset current image scale */
+        rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
+                                      RSTTO_SCALE_NONE);
+    }
 }
 
 /**********************/

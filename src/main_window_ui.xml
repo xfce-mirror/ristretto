@@ -58,6 +58,12 @@
                 <menuitem action="zoom-out"/>
                 <menuitem action="zoom-fit"/>
                 <menuitem action="zoom-100"/>
+                <separator/>
+                <menu action="default-zoom-menu">
+                    <menuitem action="default-zoom-smart"/>
+                    <menuitem action="default-zoom-fit"/>
+                    <menuitem action="default-zoom-100"/>
+                </menu>
             </menu>
             <menu action="rotation-menu">
                 <menuitem action="rotate-cw"/>
