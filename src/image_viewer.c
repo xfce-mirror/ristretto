@@ -213,7 +213,6 @@ struct _RsttoImageViewerTransaction
     gint              image_height;
     gdouble           image_scale;
     gdouble           scale;
-    RsttoImageOrientation orientation;
 
     /* File I/O data */
     /*****************/
@@ -267,7 +266,7 @@ struct _RsttoImageViewerPrivate
     GdkPixbufAnimationIter *iter;
     guint                   animation_id;
     gdouble                 scale;
-    gboolean                auto_scale;
+    RsttoScale              auto_scale;
     GtkAdjustment          *vadjustment;
     GtkAdjustment          *hadjustment;
 
@@ -307,6 +306,8 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv->settings = rstto_settings_new ();
     viewer->priv->pixbuf.pattern = NULL;
     viewer->priv->animation_id = 0;
+    viewer->priv->scale = RSTTO_SCALE_NONE;
+    viewer->priv->auto_scale = RSTTO_SCALE_NONE;
     viewer->priv->image_width = 0;
     viewer->priv->image_height = 0;
 
@@ -521,8 +522,8 @@ rstto_image_viewer_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
         gdk_window_move_resize (gtk_widget_get_window (widget), allocation->x, allocation->y,
                                 allocation->width, allocation->height);
 
-        if (viewer->priv->auto_scale)
-            set_scale (viewer, RSTTO_SCALE_FIT_TO_VIEW);
+        if (viewer->priv->auto_scale != RSTTO_SCALE_NONE)
+            set_scale (viewer, viewer->priv->auto_scale);
 
         set_adjustments (viewer,
                          gtk_adjustment_get_value (viewer->priv->hadjustment),
@@ -595,7 +596,11 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
 {
     GtkAllocation allocation;
     gdouble h_scale, v_scale, max_scale;
-    gboolean auto_scale = FALSE;
+    gboolean auto_scale = RSTTO_SCALE_NONE;
+
+    /* no usable image, no scale change (avoids in particular priv->file == NULL below) */
+    if (viewer->priv->image_width == 0)
+        return FALSE;
 
     gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
 
@@ -618,23 +623,28 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
             break;
     }
 
-    if (scale == RSTTO_SCALE_IMAGE_LOADING)
+    if (scale == RSTTO_SCALE_NONE)
     {
         if (h_scale > 1 && v_scale > 1)
         {
-            /* for small images fitting scale to 1:1 size, others fit-to-view */
+            /* for small images fitting scale to 1:1 size */
             scale = RSTTO_SCALE_REAL_SIZE;
         }
         else
         {
-            /* for large images exceeding window size, fit-to-view */
-            scale = RSTTO_SCALE_FIT_TO_VIEW;
+            /* for large images exceeding window size, limit-to-view */
+            scale = RSTTO_SCALE_LIMIT_TO_VIEW;
         }
     }
 
-    if (scale == RSTTO_SCALE_FIT_TO_VIEW)
+    if (scale == RSTTO_SCALE_LIMIT_TO_VIEW)
     {
-        auto_scale = TRUE;
+        auto_scale = RSTTO_SCALE_LIMIT_TO_VIEW;
+        scale = MIN (RSTTO_SCALE_REAL_SIZE, MIN (h_scale, v_scale));
+    }
+    else if (scale == RSTTO_SCALE_FIT_TO_VIEW)
+    {
+        auto_scale = RSTTO_SCALE_FIT_TO_VIEW;
         scale = MIN (h_scale, v_scale);
     }
     else if (scale < RSTTO_SCALE_REAL_SIZE)
@@ -657,9 +667,11 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
     }
 
     viewer->priv->auto_scale = auto_scale;
+    rstto_file_set_auto_scale (viewer->priv->file, auto_scale);
     if (viewer->priv->scale != scale)
     {
         viewer->priv->scale = scale;
+        rstto_file_set_scale (viewer->priv->file, scale);
         g_signal_emit_by_name (viewer, "scale-changed");
 
         return TRUE;
@@ -1130,7 +1142,11 @@ rstto_image_viewer_new (void)
  *  - cancellable...
  */
 void
-rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble scale, RsttoImageOrientation orientation)
+rstto_image_viewer_set_file (RsttoImageViewer *viewer,
+                             RsttoFile *file,
+                             gdouble scale,
+                             RsttoScale auto_scale,
+                             RsttoImageOrientation orientation)
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
 
@@ -1189,10 +1205,8 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
                 viewer->priv->image_width = 0;
                 viewer->priv->image_height = 0;
 
-                rstto_image_viewer_load_image (
-                        viewer,
-                        viewer->priv->file,
-                        scale);
+                rstto_image_viewer_load_image (viewer, viewer->priv->file,
+                                               auto_scale != RSTTO_SCALE_NONE ? auto_scale : scale);
             }
         }
         else
@@ -1204,7 +1218,8 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
                     viewer);
             g_object_ref (file);
             viewer->priv->file = file;
-            rstto_image_viewer_load_image (viewer, viewer->priv->file, scale);
+            rstto_image_viewer_load_image (viewer, viewer->priv->file,
+                                           auto_scale != RSTTO_SCALE_NONE ? auto_scale : scale);
         }
     }
     else
@@ -1369,11 +1384,10 @@ void
 rstto_image_viewer_set_orientation (RsttoImageViewer *viewer, RsttoImageOrientation orientation)
 {
     viewer->priv->orientation = orientation;
-
-    if (viewer->priv->auto_scale)
-        set_scale (viewer, RSTTO_SCALE_FIT_TO_VIEW);
-
     rstto_file_set_orientation (viewer->priv->file, orientation);
+
+    if (viewer->priv->auto_scale != RSTTO_SCALE_NONE)
+        set_scale (viewer, viewer->priv->auto_scale);
 
     set_adjustments (viewer,
                      gtk_adjustment_get_value (viewer->priv->hadjustment),
@@ -1608,8 +1622,6 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
             transaction->image_scale = 1.0;
         }
     }
-
-    transaction->orientation = rstto_file_get_orientation (transaction->file);
 }
 
 static void
@@ -1628,7 +1640,6 @@ cb_rstto_image_loader_closed (GdkPixbufLoader *loader, RsttoImageViewerTransacti
             viewer->priv->image_scale = transaction->image_scale;
             viewer->priv->image_width = transaction->image_width;
             viewer->priv->image_height = transaction->image_height;
-            viewer->priv->orientation = transaction->orientation;
             set_scale (viewer, transaction->scale);
 
             cb_rstto_image_loader_image_ready (loader, transaction);

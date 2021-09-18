@@ -75,6 +75,8 @@ struct _RsttoFilePrivate
 
     ExifData *exif_data;
     RsttoImageOrientation orientation;
+    gdouble scale;
+    RsttoScale auto_scale;
 };
 
 
@@ -87,6 +89,9 @@ static void
 rstto_file_init (RsttoFile *r_file)
 {
     r_file->priv = rstto_file_get_instance_private (r_file);
+    r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
+    r_file->priv->scale = RSTTO_SCALE_NONE;
+    r_file->priv->auto_scale = RSTTO_SCALE_NONE;
 }
 
 
@@ -442,6 +447,32 @@ rstto_file_set_orientation (
         RsttoImageOrientation orientation)
 {
     r_file->priv->orientation = orientation;
+}
+
+gdouble
+rstto_file_get_scale (RsttoFile *r_file)
+{
+    return r_file->priv->scale;
+}
+
+void
+rstto_file_set_scale (RsttoFile *r_file,
+                      gdouble scale)
+{
+    r_file->priv->scale = scale;
+}
+
+RsttoScale
+rstto_file_get_auto_scale (RsttoFile *r_file)
+{
+    return r_file->priv->auto_scale;
+}
+
+void
+rstto_file_set_auto_scale (RsttoFile *r_file,
+                           RsttoScale auto_scale)
+{
+    r_file->priv->auto_scale = auto_scale;
 }
 
 gboolean
