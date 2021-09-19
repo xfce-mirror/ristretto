@@ -595,6 +595,7 @@ rstto_image_viewer_finalize (GObject *object)
 static gboolean
 set_scale (RsttoImageViewer *viewer, gdouble scale)
 {
+    RsttoScale default_zoom;
     GtkAllocation allocation;
     gdouble h_scale, v_scale, max_scale;
     gboolean auto_scale = RSTTO_SCALE_NONE;
@@ -626,7 +627,12 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
 
     if (scale == RSTTO_SCALE_NONE)
     {
-        if (h_scale > 1 && v_scale > 1)
+        default_zoom = rstto_settings_get_int_property (viewer->priv->settings, "default-zoom");
+        if (default_zoom != RSTTO_SCALE_NONE)
+        {
+            scale = default_zoom;
+        }
+        else if (h_scale > 1 && v_scale > 1)
         {
             /* for small images fitting scale to 1:1 size */
             scale = RSTTO_SCALE_REAL_SIZE;
