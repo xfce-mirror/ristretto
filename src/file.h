@@ -38,6 +38,14 @@ typedef enum
     RSTTO_IMAGE_ORIENT_NOT_DETERMINED,
 } RsttoImageOrientation;
 
+typedef enum
+{
+    RSTTO_SCALE_NONE = -2,
+    RSTTO_SCALE_LIMIT_TO_VIEW,
+    RSTTO_SCALE_FIT_TO_VIEW,
+    RSTTO_SCALE_REAL_SIZE
+} RsttoScale;
+
 #define THUMBNAIL_SIZE_VERY_SMALL_SIZE   24
 #define THUMBNAIL_SIZE_SMALLER_SIZE      32
 #define THUMBNAIL_SIZE_SMALL_SIZE        48
@@ -121,6 +129,20 @@ rstto_file_get_orientation (RsttoFile *r_file);
 void
 rstto_file_set_orientation (RsttoFile *r_file,
                             RsttoImageOrientation orientation);
+
+gdouble
+rstto_file_get_scale (RsttoFile *r_file);
+
+void
+rstto_file_set_scale (RsttoFile *r_file,
+                      gdouble scale);
+
+RsttoScale
+rstto_file_get_auto_scale (RsttoFile *r_file);
+
+void
+rstto_file_set_auto_scale (RsttoFile *r_file,
+                           RsttoScale auto_scale);
 
 gboolean
 rstto_file_has_exif (RsttoFile *r_file);

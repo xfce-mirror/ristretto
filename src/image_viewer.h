@@ -26,13 +26,6 @@
 
 G_BEGIN_DECLS
 
-enum
-{
-  RSTTO_SCALE_IMAGE_LOADING = -1,
-  RSTTO_SCALE_FIT_TO_VIEW,
-  RSTTO_SCALE_REAL_SIZE
-};
-
 #define RSTTO_SCALE_FACTOR 1.1
 
 
@@ -57,6 +50,7 @@ void
 rstto_image_viewer_set_file (RsttoImageViewer *viewer,
                              RsttoFile *file,
                              gdouble scale,
+                             RsttoScale auto_scale,
                              RsttoImageOrientation orientation);
 
 void
