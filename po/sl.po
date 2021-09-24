@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2021-05-24 12:47+0200\n"
-"PO-Revision-Date: 2021-05-24 11:07+0000\n"
-"Last-Translator: Arnold Marko <arnold.marko@gmail.com>\n"
+"POT-Creation-Date: 2021-09-24 00:48+0200\n"
+"PO-Revision-Date: 2021-09-23 22:48+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/xfce/xfce-apps/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,23 +19,23 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: ../src/main.c:57
+#: ../src/main.c:53
 msgid "Version information"
 msgstr "Informacije o različici"
 
-#: ../src/main.c:61
+#: ../src/main.c:57
 msgid "Start in fullscreen mode"
 msgstr "Zaženi v celozaslonskem načinu"
 
-#: ../src/main.c:65
+#: ../src/main.c:61
 msgid "Start a slideshow"
 msgstr "Zaženi projekcijo"
 
-#: ../src/main.c:73
+#: ../src/main.c:69
 msgid "Show settings dialog"
 msgstr "Prikaži nastavitveni dialog"
 
-#: ../src/main.c:98
+#: ../src/main.c:106
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -48,521 +48,530 @@ msgstr "%s: %s\n\nPreizkusite %s --pomoč za ogled\nvseh možnosti ukazne vrstic
 msgid "Image Viewer"
 msgstr "Pregledovalnik slik"
 
-#: ../src/main_window.c:403
+#: ../src/main_window.c:314
 msgid "_File"
 msgstr "_Datoteka"
 
 #. Icon-name
-#: ../src/main_window.c:409
+#: ../src/main_window.c:320
 msgid "_Open..."
 msgstr "_Odpri..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:411
+#: ../src/main_window.c:322
 msgid "Open an image"
 msgstr "Odpri sliko"
 
 #. Icon-name
-#: ../src/main_window.c:415
+#: ../src/main_window.c:326
 msgid "_Save copy..."
 msgstr "_Shrani kopijo..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:417
+#: ../src/main_window.c:328
 msgid "Save a copy of the image"
 msgstr "Shrani kopijo slike"
 
 #. Icon-name
-#: ../src/main_window.c:421
+#: ../src/main_window.c:332
 msgid "_Properties..."
 msgstr "_Lastnosti..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:423
+#: ../src/main_window.c:334
 msgid "Show file properties"
 msgstr "Prikaži nastavitve datoteke"
 
 #. Icon-name
-#: ../src/main_window.c:427 ../src/main_window.c:446
+#: ../src/main_window.c:338 ../src/main_window.c:357
 msgid "_Edit"
 msgstr "_Uredi"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:429
+#: ../src/main_window.c:340
 msgid "Edit this image"
 msgstr "Uredi to sliko"
 
 #. Icon-name
-#: ../src/main_window.c:433 ../src/preferences_dialog.c:256
-#: ../src/properties_dialog.c:135
+#: ../src/main_window.c:344 ../src/preferences_dialog.c:219
+#: ../src/properties_dialog.c:106
 msgid "_Close"
 msgstr "_Zapri"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:435
+#: ../src/main_window.c:346
 msgid "Close this image"
 msgstr "Zapri sliko"
 
 #. Icon-name
-#: ../src/main_window.c:439
+#: ../src/main_window.c:350
 msgid "_Quit"
 msgstr "_Izhod"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:441
+#: ../src/main_window.c:352
 msgid "Quit Ristretto"
 msgstr "Izhod iz Ristretta"
 
-#: ../src/main_window.c:452
+#: ../src/main_window.c:363
 msgid "_Copy image to clipboard"
 msgstr "_Kopiraj sliko na odložišče"
 
-#: ../src/main_window.c:458
+#: ../src/main_window.c:369
 msgid "_Open with"
 msgstr "_Odpri z"
 
-#: ../src/main_window.c:464
+#: ../src/main_window.c:375
 msgid "_Sort by"
 msgstr "_Sortiraj po"
 
 #. Icon-name
-#: ../src/main_window.c:470
+#: ../src/main_window.c:381
 msgid "_Delete"
 msgstr "_Izbriši"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:472
+#: ../src/main_window.c:383
 msgid "Delete this image from disk"
 msgstr "Izbriši sliko z diska"
 
 #. Icon-name
-#: ../src/main_window.c:476
+#: ../src/main_window.c:387
 msgid "_Clear private data..."
 msgstr "Pobriši zasebne podatke"
 
 #. Icon-name
-#: ../src/main_window.c:482
+#: ../src/main_window.c:393
 msgid "_Preferences..."
 msgstr "Nastavitve..."
 
-#: ../src/main_window.c:489
+#: ../src/main_window.c:400
 msgid "_View"
 msgstr "_Pogled"
 
 #. Icon-name
-#: ../src/main_window.c:495
+#: ../src/main_window.c:406
 msgid "_Fullscreen"
 msgstr "_Celozaslonski način"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:497
+#: ../src/main_window.c:408
 msgid "Switch to fullscreen"
 msgstr "Preklopi na celozaslonski način"
 
 #. Icon-name
-#: ../src/main_window.c:501
+#: ../src/main_window.c:412
 msgid "_Leave Fullscreen"
 msgstr "_Zapusti Celozaslonski način"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:503
+#: ../src/main_window.c:414
 msgid "Leave Fullscreen"
 msgstr "Zapusti celozaslonski način"
 
 #. Icon-name
-#: ../src/main_window.c:507
+#: ../src/main_window.c:418
 msgid "Set as _Wallpaper..."
 msgstr "Določi kot ozadje..."
 
-#: ../src/main_window.c:514
+#: ../src/main_window.c:425
 msgid "_Zoom"
 msgstr "Približevanje"
 
 #. Icon-name
-#: ../src/main_window.c:520
+#: ../src/main_window.c:431
 msgid "Zoom _In"
 msgstr "_Povečaj"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:522
+#: ../src/main_window.c:433
 msgid "Zoom in"
 msgstr "Povečaj"
 
 #. Icon-name
-#: ../src/main_window.c:526
+#: ../src/main_window.c:437
 msgid "Zoom _Out"
 msgstr "_Pomanjšaj"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:528
+#: ../src/main_window.c:439
 msgid "Zoom out"
 msgstr "Zmanjšaj"
 
 #. Icon-name
-#: ../src/main_window.c:532
+#: ../src/main_window.c:443 ../src/main_window.c:727
 msgid "Zoom _Fit"
 msgstr "_Prilagoditev povečave"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:534
+#: ../src/main_window.c:445
 msgid "Zoom to fit window"
 msgstr "Prilagodi velikost oknu"
 
 #. Icon-name
-#: ../src/main_window.c:538
+#: ../src/main_window.c:449 ../src/main_window.c:733
 msgid "_Normal Size"
 msgstr "_Originalna velikost"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:540
+#: ../src/main_window.c:451
 msgid "Zoom to 100%"
 msgstr "Spremeni velikost na 100%"
 
-#: ../src/main_window.c:545
+#: ../src/main_window.c:456
+msgid "_Default Zoom"
+msgstr ""
+
+#: ../src/main_window.c:463
 msgid "_Rotation"
 msgstr "Ob_račanje"
 
 #. Icon-name
-#: ../src/main_window.c:551
+#: ../src/main_window.c:469
 msgid "Rotate _Right"
 msgstr "Zavrti _Desno"
 
 #. Icon-name
-#: ../src/main_window.c:557
+#: ../src/main_window.c:475
 msgid "Rotate _Left"
 msgstr "Zavrti _Levo"
 
-#: ../src/main_window.c:564
+#: ../src/main_window.c:482
 msgid "_Flip"
 msgstr "_Zrcali"
 
-#: ../src/main_window.c:570
+#: ../src/main_window.c:488
 msgid "Flip _Horizontally"
 msgstr "Zrcali vodo_ravno"
 
-#: ../src/main_window.c:576
+#: ../src/main_window.c:494
 msgid "Flip _Vertically"
 msgstr "Zrcali na_vpično"
 
-#: ../src/main_window.c:583
+#: ../src/main_window.c:501
 msgid "_Go"
 msgstr "Poj_di"
 
 #. Icon-name
-#: ../src/main_window.c:589
+#: ../src/main_window.c:507
 msgid "_Forward"
 msgstr "_Naprej"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:591
+#: ../src/main_window.c:509
 msgid "Next image"
 msgstr "Naslednja slika"
 
 #. Icon-name
-#: ../src/main_window.c:595
+#: ../src/main_window.c:513
 msgid "_Back"
 msgstr "_Nazaj"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:597
+#: ../src/main_window.c:515
 msgid "Previous image"
 msgstr "Prejšnja slika"
 
 #. Icon-name
-#: ../src/main_window.c:601
+#: ../src/main_window.c:519
 msgid "F_irst"
 msgstr "Prva"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:603
+#: ../src/main_window.c:521
 msgid "First image"
 msgstr "Prva slika"
 
 #. Icon-name
-#: ../src/main_window.c:607
+#: ../src/main_window.c:525
 msgid "_Last"
 msgstr "Zadnja"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:609
+#: ../src/main_window.c:527
 msgid "Last image"
 msgstr "Zadnja slika"
 
-#: ../src/main_window.c:614
+#: ../src/main_window.c:532
 msgid "_Help"
 msgstr "Po_moč"
 
 #. Icon-name
-#: ../src/main_window.c:620
+#: ../src/main_window.c:538
 msgid "_Contents"
 msgstr "_Vsebina"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:622
+#: ../src/main_window.c:540
 msgid "Display ristretto user manual"
 msgstr "Odpri ristretto uporabniški priročnik"
 
 #. Icon-name
-#: ../src/main_window.c:626
+#: ../src/main_window.c:544
 msgid "_About"
 msgstr "_O programu"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:628
+#: ../src/main_window.c:546
 msgid "Display information about ristretto"
 msgstr "Pokaži informacije o programu ristretto"
 
-#: ../src/main_window.c:633
+#: ../src/main_window.c:551
 msgid "_Position"
 msgstr "_Položaj"
 
-#: ../src/main_window.c:639
+#: ../src/main_window.c:557
 msgid "_Size"
 msgstr "_Velikost"
 
-#: ../src/main_window.c:645
+#: ../src/main_window.c:563
 msgid "Thumbnail Bar _Position"
 msgstr "_Položaj vrstice s sličicami"
 
-#: ../src/main_window.c:651
+#: ../src/main_window.c:569
 msgid "Thumb_nail Size"
 msgstr "Velikost sličic"
 
 #. Icon-name
-#: ../src/main_window.c:658
+#: ../src/main_window.c:576
 msgid "Leave _Fullscreen"
 msgstr "Zapusti _Celozaslonski način"
 
 #. Icon-name
-#: ../src/main_window.c:676
+#: ../src/main_window.c:594
 msgid "_Show Toolbar"
 msgstr "Prikaži orodno vr_stico"
 
 #. Icon-name
-#: ../src/main_window.c:684
+#: ../src/main_window.c:602
 msgid "Show _Thumbnail Bar"
 msgstr "Prikaži vrs_tico s sličicami"
 
 #. Icon-name
-#: ../src/main_window.c:692
+#: ../src/main_window.c:610
 msgid "Show Status _Bar"
 msgstr "Prikaži statusno vrstico"
 
 #. Icon-name
-#: ../src/main_window.c:704
+#: ../src/main_window.c:622
 msgid "file name"
 msgstr "ime datoteke"
 
 #. Icon-name
-#: ../src/main_window.c:710
+#: ../src/main_window.c:628
 msgid "file type"
 msgstr "vrsta datoteke"
 
 #. Icon-name
-#: ../src/main_window.c:716
+#: ../src/main_window.c:634
 msgid "date"
 msgstr "datum"
 
 #. Icon-name
-#: ../src/main_window.c:727
+#: ../src/main_window.c:645
 msgid "Left"
 msgstr "Leva"
 
-#: ../src/main_window.c:733
+#: ../src/main_window.c:651
 msgid "Right"
 msgstr "Desna"
 
-#: ../src/main_window.c:739
+#: ../src/main_window.c:657
 msgid "Top"
 msgstr "Vrh"
 
-#: ../src/main_window.c:745
+#: ../src/main_window.c:663
 msgid "Bottom"
 msgstr "Dno"
 
-#: ../src/main_window.c:756
+#: ../src/main_window.c:674
 msgid "Very Small"
 msgstr "Zelo majhno"
 
-#: ../src/main_window.c:762
+#: ../src/main_window.c:680
 msgid "Smaller"
 msgstr "Manjše"
 
-#: ../src/main_window.c:768
+#: ../src/main_window.c:686
 msgid "Small"
 msgstr "Majhno"
 
-#: ../src/main_window.c:774
+#: ../src/main_window.c:692
 msgid "Normal"
 msgstr "Normalno"
 
-#: ../src/main_window.c:780
+#: ../src/main_window.c:698
 msgid "Large"
 msgstr "Veliko"
 
-#: ../src/main_window.c:786
+#: ../src/main_window.c:704
 msgid "Larger"
 msgstr "Večje"
 
-#: ../src/main_window.c:792
+#: ../src/main_window.c:710
 msgid "Very Large"
 msgstr "Zelo veliko"
 
+#. Icon-name
+#: ../src/main_window.c:721
+msgid "_Smart Zoom"
+msgstr ""
+
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:949
+#: ../src/main_window.c:930
 msgid "_Play"
 msgstr "_Predvajaj"
 
-#: ../src/main_window.c:949
+#: ../src/main_window.c:930
 msgid "Play slideshow"
 msgstr "Predvajaj diaprojekcijo"
 
-#: ../src/main_window.c:950
+#: ../src/main_window.c:931
 msgid "_Pause"
 msgstr "_Ustavi"
 
-#: ../src/main_window.c:950
+#: ../src/main_window.c:931
 msgid "Pause slideshow"
 msgstr "Ustavi diaprojekcijo"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:953
+#: ../src/main_window.c:934
 msgid "_Recently used"
 msgstr "_Nedavno uporabljene"
 
-#: ../src/main_window.c:953
+#: ../src/main_window.c:934
 msgid "Recently used"
 msgstr "Nedavno uporabljene"
 
-#: ../src/main_window.c:1065 ../src/main_window.c:1681
+#: ../src/main_window.c:1050 ../src/main_window.c:1585
 msgid "Press open to select an image"
 msgstr "Za izbiro slike kliknite na odpri"
 
-#: ../src/main_window.c:1530 ../src/main_window.c:1534
+#: ../src/main_window.c:1507 ../src/main_window.c:1512
 msgid "Open With Other _Application..."
 msgstr "Odpri z drugim progr_amom"
 
-#: ../src/main_window.c:1555 ../src/main_window.c:1561
+#: ../src/main_window.c:1534 ../src/main_window.c:1542
 msgid "Empty"
 msgstr "Prazno"
 
-#: ../src/main_window.c:1691
+#: ../src/main_window.c:1590
 msgid "Loading..."
 msgstr "Nalagam..."
 
-#: ../src/main_window.c:2285
+#: ../src/main_window.c:2244
 msgid "Choose 'set wallpaper' method"
 msgstr "Izberi metodo nastavitve ozadja"
 
-#: ../src/main_window.c:2289 ../src/main_window.c:3292
-#: ../src/main_window.c:3526 ../src/main_window.c:4178
-#: ../src/privacy_dialog.c:180 ../src/xfce_wallpaper_manager.c:311
-#: ../src/gnome_wallpaper_manager.c:230
+#: ../src/main_window.c:2248 ../src/main_window.c:3324
+#: ../src/main_window.c:3560 ../src/main_window.c:4208
+#: ../src/privacy_dialog.c:149 ../src/xfce_wallpaper_manager.c:263
+#: ../src/gnome_wallpaper_manager.c:193
 msgid "_Cancel"
 msgstr "_Prekliči"
 
-#: ../src/main_window.c:2292 ../src/main_window.c:4181
-#: ../src/xfce_wallpaper_manager.c:317 ../src/gnome_wallpaper_manager.c:236
+#: ../src/main_window.c:2251 ../src/main_window.c:4211
+#: ../src/xfce_wallpaper_manager.c:269 ../src/gnome_wallpaper_manager.c:199
 msgid "_OK"
 msgstr "_V redu"
 
-#: ../src/main_window.c:2302 ../src/preferences_dialog.c:473
+#: ../src/main_window.c:2261 ../src/preferences_dialog.c:437
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Nastavi sistem, ki trenutno upravlja z vašim namizjem. \nTa nastavitev določi metodo, ki jo bo <i>Ristretto</i> uporabil\nza nastavitev ozadja namizja."
 
-#: ../src/main_window.c:2328 ../src/preferences_dialog.c:485
+#: ../src/main_window.c:2287 ../src/preferences_dialog.c:449
 msgid "None"
 msgstr "Noben"
 
-#: ../src/main_window.c:2332 ../src/preferences_dialog.c:489
+#: ../src/main_window.c:2291 ../src/preferences_dialog.c:453
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2336 ../src/preferences_dialog.c:493
+#: ../src/main_window.c:2295 ../src/preferences_dialog.c:457
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2851
+#: ../src/main_window.c:2812
 msgid "Developers:"
 msgstr "Razvijalci:"
 
-#: ../src/main_window.c:2861 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2823 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto je pregledovalnik slik za Xfce namizno okolje."
 
-#: ../src/main_window.c:2869
+#: ../src/main_window.c:2831
 msgid "translator-credits"
 msgstr "zasluge prevajalcevPrevedel:\nGašper <gasper@gmx.com> & Nenad <nenadlatinovic@lavabit.com>"
 
-#: ../src/main_window.c:3289
+#: ../src/main_window.c:3321
 msgid "Open image"
 msgstr "Odpri sliko"
 
-#: ../src/main_window.c:3293
+#: ../src/main_window.c:3325
 msgid "_Open"
 msgstr "_Odpri"
 
-#: ../src/main_window.c:3310
+#: ../src/main_window.c:3343
 msgid "Images"
 msgstr "Slike"
 
-#: ../src/main_window.c:3315
+#: ../src/main_window.c:3348
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3342 ../src/main_window.c:3484
+#: ../src/main_window.c:3375 ../src/main_window.c:3518
 msgid "Could not open file"
 msgstr "Ne morem odpreti slike"
 
-#: ../src/main_window.c:3523
+#: ../src/main_window.c:3557
 msgid "Save copy"
 msgstr "Shrani kopijo"
 
-#: ../src/main_window.c:3527
+#: ../src/main_window.c:3561
 msgid "_Save"
 msgstr "_Shrani"
 
-#: ../src/main_window.c:3556
+#: ../src/main_window.c:3583
 msgid "Could not save file"
 msgstr "Datoteke ni bilo mogoče shraniti"
 
-#: ../src/main_window.c:3726
+#: ../src/main_window.c:3756
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Ste prepričani, da želite prestaviti sliko '%s' v smeti?"
 
-#: ../src/main_window.c:3730
+#: ../src/main_window.c:3760
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Ali ste prepričani, da želite izbrisati sliko '%s' z diska?"
 
-#: ../src/main_window.c:3741
+#: ../src/main_window.c:3772
 msgid "_Do not ask again for this session"
 msgstr "Tega več ne sprašuj v tej seansi"
 
-#: ../src/main_window.c:3818
+#: ../src/main_window.c:3850
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -570,7 +579,7 @@ msgid ""
 "%s"
 msgstr "Pri brisanju slike '%s' z diska se je zgodila napaka.\n\n%s"
 
-#: ../src/main_window.c:3822
+#: ../src/main_window.c:3854
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -578,298 +587,298 @@ msgid ""
 "%s"
 msgstr "Pri pošiljanju slike '%s' z diska se je zgodila napaka.\n\n%s"
 
-#: ../src/main_window.c:4173
+#: ../src/main_window.c:4203
 msgid "Edit with"
 msgstr "Uredi z"
 
-#: ../src/main_window.c:4194
+#: ../src/main_window.c:4224
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Odpri %s in druge datoteke vrste %s z:"
 
-#: ../src/main_window.c:4200
+#: ../src/main_window.c:4230
 msgid "Use as _default for this kind of file"
 msgstr "Uporabi kot privzeto za te vrste _datotek"
 
-#: ../src/main_window.c:4290
+#: ../src/main_window.c:4320
 msgid "Recommended Applications"
 msgstr "Priporočeni programi"
 
-#: ../src/main_window.c:4370
+#: ../src/main_window.c:4400
 msgid "Other Applications"
 msgstr "Drugi programi"
 
-#: ../src/icon_bar.c:320
+#: ../src/icon_bar.c:270
 msgid "Orientation"
 msgstr "Orientacija"
 
-#: ../src/icon_bar.c:321
+#: ../src/icon_bar.c:271
 msgid "The orientation of the iconbar"
 msgstr "Orientacija vrstice z ikonami"
 
-#: ../src/icon_bar.c:337
+#: ../src/icon_bar.c:287
 msgid "File column"
 msgstr "Stolpec z datotekami"
 
-#: ../src/icon_bar.c:338
+#: ../src/icon_bar.c:288
 msgid "Model column used to retrieve the file from"
 msgstr "Model stolpca, ki se uproablja za pridobivanje datoteke"
 
-#: ../src/icon_bar.c:350
+#: ../src/icon_bar.c:300
 msgid "Icon Bar Model"
 msgstr "Model vrstice z ikonami"
 
-#: ../src/icon_bar.c:351
+#: ../src/icon_bar.c:301
 msgid "Model for the icon bar"
 msgstr "Model za vrstico z ikonami"
 
-#: ../src/icon_bar.c:367
+#: ../src/icon_bar.c:317
 msgid "Active"
 msgstr "Aktiven"
 
-#: ../src/icon_bar.c:368
+#: ../src/icon_bar.c:318
 msgid "Active item index"
 msgstr "Indeks aktivnega predmeta"
 
-#: ../src/icon_bar.c:384 ../src/icon_bar.c:385
+#: ../src/icon_bar.c:334 ../src/icon_bar.c:335
 msgid "Show Text"
 msgstr "Prikaži besedilo"
 
-#: ../src/icon_bar.c:397
+#: ../src/icon_bar.c:347
 msgid "Scrolled window"
 msgstr "Pomaknjeno okno"
 
-#: ../src/icon_bar.c:398
+#: ../src/icon_bar.c:348
 msgid "Scrolled window icon bar is placed into"
 msgstr "Pomaknjeno okno v katerega je vstavljena vrstica z ikonami"
 
-#: ../src/icon_bar.c:404 ../src/icon_bar.c:405
+#: ../src/icon_bar.c:354 ../src/icon_bar.c:355
 msgid "Active item fill color"
 msgstr "Barva polnila aktivnega predmeta"
 
-#: ../src/icon_bar.c:411 ../src/icon_bar.c:412
+#: ../src/icon_bar.c:361 ../src/icon_bar.c:362
 msgid "Active item border color"
 msgstr "Barva roba aktivnega predmeta"
 
-#: ../src/icon_bar.c:418 ../src/icon_bar.c:419
+#: ../src/icon_bar.c:368 ../src/icon_bar.c:369
 msgid "Active item text color"
 msgstr "Barva teksta aktivnega predmeta"
 
-#: ../src/icon_bar.c:425 ../src/icon_bar.c:426
+#: ../src/icon_bar.c:375 ../src/icon_bar.c:376
 msgid "Cursor item fill color"
 msgstr "Barva polnila kurzorja"
 
-#: ../src/icon_bar.c:432 ../src/icon_bar.c:433
+#: ../src/icon_bar.c:382 ../src/icon_bar.c:383
 msgid "Cursor item border color"
 msgstr "Barva roba kurzorja"
 
-#: ../src/icon_bar.c:439 ../src/icon_bar.c:440
+#: ../src/icon_bar.c:389 ../src/icon_bar.c:390
 msgid "Cursor item text color"
 msgstr "Barva teksta kurzorja"
 
-#: ../src/privacy_dialog.c:150
+#: ../src/privacy_dialog.c:119
 msgid "Time range to clear:"
 msgstr "Časovno obdobje za izbris:"
 
-#: ../src/privacy_dialog.c:153
+#: ../src/privacy_dialog.c:122
 msgid "Cleanup"
 msgstr "Čiščenje"
 
-#: ../src/privacy_dialog.c:156
+#: ../src/privacy_dialog.c:125
 msgid "Last Hour"
 msgstr "Zadnja ura"
 
-#: ../src/privacy_dialog.c:157
+#: ../src/privacy_dialog.c:126
 msgid "Last Two Hours"
 msgstr "Zadnji dve uri"
 
-#: ../src/privacy_dialog.c:158
+#: ../src/privacy_dialog.c:127
 msgid "Last Four Hours"
 msgstr "Zadnje štiri ure"
 
-#: ../src/privacy_dialog.c:159
+#: ../src/privacy_dialog.c:128
 msgid "Today"
 msgstr "Danes"
 
-#: ../src/privacy_dialog.c:160
+#: ../src/privacy_dialog.c:129
 msgid "Everything"
 msgstr "Vse"
 
-#: ../src/privacy_dialog.c:183 ../src/xfce_wallpaper_manager.c:314
-#: ../src/gnome_wallpaper_manager.c:233
+#: ../src/privacy_dialog.c:152 ../src/xfce_wallpaper_manager.c:266
+#: ../src/gnome_wallpaper_manager.c:196
 msgid "_Apply"
 msgstr "Upor_abi"
 
-#: ../src/privacy_dialog.c:476
+#: ../src/privacy_dialog.c:438
 msgid "Clear private data"
 msgstr "Počisti zasebne podatke"
 
-#: ../src/preferences_dialog.c:287
+#: ../src/preferences_dialog.c:250
 msgid "Display"
 msgstr "Prikaz"
 
-#: ../src/preferences_dialog.c:294
+#: ../src/preferences_dialog.c:257
 msgid "Background color"
 msgstr "Barva ozadja"
 
-#: ../src/preferences_dialog.c:298
+#: ../src/preferences_dialog.c:261
 msgid "Override background color:"
 msgstr "Zamenjaj barvo ozadja:"
 
-#: ../src/preferences_dialog.c:325
+#: ../src/preferences_dialog.c:289
 msgid "Quality"
 msgstr "Kakovost"
 
-#: ../src/preferences_dialog.c:329
+#: ../src/preferences_dialog.c:293
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "Če je ta možnost vklopljena, bo največja kakovost like omejena na velikost zaslona."
 
-#: ../src/preferences_dialog.c:333
+#: ../src/preferences_dialog.c:297
 msgid "Limit rendering quality"
 msgstr "Omeji kakovost izrisovanja"
 
-#: ../src/preferences_dialog.c:345
+#: ../src/preferences_dialog.c:309
 msgid "Fullscreen"
 msgstr "Cel zaslon"
 
-#: ../src/preferences_dialog.c:349
+#: ../src/preferences_dialog.c:313
 msgid "Thumbnails"
 msgstr "Sličice"
 
-#: ../src/preferences_dialog.c:352
+#: ../src/preferences_dialog.c:316
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "Vrstico s sličicami je mogoče samodejno skriti, kadar je izbran celozaslonski način."
 
-#: ../src/preferences_dialog.c:356
+#: ../src/preferences_dialog.c:320
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Skrij sličice v celozaslonskem načinu"
 
-#: ../src/preferences_dialog.c:364
+#: ../src/preferences_dialog.c:328
 msgid "Clock"
 msgstr "Ura"
 
-#: ../src/preferences_dialog.c:367
+#: ../src/preferences_dialog.c:331
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "Prikaži analogno uro, ki prikazuje čas, kadar je izbran celozaslonski način"
 
-#: ../src/preferences_dialog.c:371
+#: ../src/preferences_dialog.c:335
 msgid "Show Fullscreen Clock"
 msgstr "Prikaži uro v celozaslonskem načinu"
 
-#: ../src/preferences_dialog.c:377
+#: ../src/preferences_dialog.c:341
 msgid "Mouse cursor"
 msgstr "Kazalec miške"
 
-#: ../src/preferences_dialog.c:380
+#: ../src/preferences_dialog.c:344
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of inactivity\n"
 "when the window is fullscreen."
 msgstr "Miškin kazalec se lahko po določenem času sam skrije,\nkadar je okno v celozaslonskem načinu."
 
-#: ../src/preferences_dialog.c:387
+#: ../src/preferences_dialog.c:351
 msgid "Period of inactivity (seconds):"
 msgstr "Čas neaktivnosti (v sekundah):"
 
-#: ../src/preferences_dialog.c:406
+#: ../src/preferences_dialog.c:370
 msgid "Slideshow"
 msgstr "Diaprojekcija"
 
-#: ../src/preferences_dialog.c:410
+#: ../src/preferences_dialog.c:374
 msgid "Timeout"
 msgstr "Časovna omejitev"
 
-#: ../src/preferences_dialog.c:413
+#: ../src/preferences_dialog.c:377
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr "Časovno obdobje v kateri je prikazana posamezna slika med projekcijo (v skundah)"
 
-#: ../src/preferences_dialog.c:427
+#: ../src/preferences_dialog.c:391
 msgid "Control"
 msgstr "Nadzor"
 
-#: ../src/preferences_dialog.c:431
+#: ../src/preferences_dialog.c:395
 msgid "Scroll wheel"
 msgstr "Drsni kolešček"
 
-#: ../src/preferences_dialog.c:434
+#: ../src/preferences_dialog.c:398
 msgid "Invert zoom direction"
 msgstr "Zamenjaj smer povečave"
 
-#: ../src/preferences_dialog.c:445
+#: ../src/preferences_dialog.c:409
 msgid "Behaviour"
 msgstr "Obnašanje"
 
-#: ../src/preferences_dialog.c:449
+#: ../src/preferences_dialog.c:413
 msgid "Startup"
 msgstr "Zagon"
 
-#: ../src/preferences_dialog.c:451
+#: ../src/preferences_dialog.c:415
 msgid "Maximize window on startup when opening an image"
 msgstr "Povečaj okno ob zagonu, ko se slika odpre."
 
-#: ../src/preferences_dialog.c:457
+#: ../src/preferences_dialog.c:421
 msgid "Wrap around images"
 msgstr "Ovij okoli slik"
 
-#: ../src/preferences_dialog.c:468
+#: ../src/preferences_dialog.c:432
 msgid "Desktop"
 msgstr "Namizje"
 
-#: ../src/preferences_dialog.c:578
+#: ../src/preferences_dialog.c:539
 msgid "Image Viewer Preferences"
 msgstr "Nastavitve pregledovalnika slik"
 
-#: ../src/properties_dialog.c:170
+#: ../src/properties_dialog.c:141
 msgid "<b>Name:</b>"
 msgstr "<b>Ime:</b>"
 
-#: ../src/properties_dialog.c:171
+#: ../src/properties_dialog.c:142
 msgid "<b>Kind:</b>"
 msgstr "<b>Vrsta:</b>"
 
-#: ../src/properties_dialog.c:172
+#: ../src/properties_dialog.c:143
 msgid "<b>Modified:</b>"
 msgstr "<b>Spremenjeno:</b>"
 
-#: ../src/properties_dialog.c:173
+#: ../src/properties_dialog.c:144
 msgid "<b>Accessed:</b>"
 msgstr "<b>Naložena:</b>"
 
-#: ../src/properties_dialog.c:174
+#: ../src/properties_dialog.c:145
 msgid "<b>Size:</b>"
 msgstr "<b>Velikost:</b>"
 
-#: ../src/properties_dialog.c:198
+#: ../src/properties_dialog.c:169
 msgid "General"
 msgstr "Splošno"
 
-#: ../src/properties_dialog.c:204
+#: ../src/properties_dialog.c:175
 msgid "Image"
 msgstr "Posnetek"
 
-#: ../src/properties_dialog.c:439
+#: ../src/properties_dialog.c:395
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Datum posnetka:</b>"
 
-#: ../src/properties_dialog.c:451 ../src/properties_dialog.c:463
-#: ../src/properties_dialog.c:475
+#: ../src/properties_dialog.c:407 ../src/properties_dialog.c:419
+#: ../src/properties_dialog.c:431
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:535
+#: ../src/properties_dialog.c:490
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Nastavitve"
 
-#: ../src/thumbnailer.c:433
+#: ../src/thumbnailer.c:323
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -879,43 +888,43 @@ msgid ""
 "to resolve this issue."
 msgstr "Storitev za prikaz sličic ni dosegljiva,\nzato sličic ni mogoče ustvariti.\n\nNamestite <b>Tumbler</b> ali drug <i>pritajeni program za sličice</i>,\nda bi odpravili to težavo."
 
-#: ../src/thumbnailer.c:443
+#: ../src/thumbnailer.c:332
 msgid "Do _not show this message again"
 msgstr "Ne prikaži več tega spo_ročila"
 
-#: ../src/xfce_wallpaper_manager.c:291 ../src/gnome_wallpaper_manager.c:216
+#: ../src/xfce_wallpaper_manager.c:243 ../src/gnome_wallpaper_manager.c:179
 msgid "Style:"
 msgstr "Slog:"
 
-#: ../src/xfce_wallpaper_manager.c:302
+#: ../src/xfce_wallpaper_manager.c:254
 msgid "Apply to all workspaces"
 msgstr "Uporabi na vseh delovnih površinah"
 
-#: ../src/xfce_wallpaper_manager.c:309 ../src/gnome_wallpaper_manager.c:228
+#: ../src/xfce_wallpaper_manager.c:261 ../src/gnome_wallpaper_manager.c:191
 msgid "Set as wallpaper"
 msgstr "Nastavi kot ozadje"
 
-#: ../src/xfce_wallpaper_manager.c:371 ../src/gnome_wallpaper_manager.c:286
+#: ../src/xfce_wallpaper_manager.c:323 ../src/gnome_wallpaper_manager.c:249
 msgid "Auto"
 msgstr "Samodejno"
 
-#: ../src/xfce_wallpaper_manager.c:374
+#: ../src/xfce_wallpaper_manager.c:326
 msgid "Centered"
 msgstr "Centrirano"
 
-#: ../src/xfce_wallpaper_manager.c:377
+#: ../src/xfce_wallpaper_manager.c:329
 msgid "Tiled"
 msgstr "Poploščano"
 
-#: ../src/xfce_wallpaper_manager.c:380
+#: ../src/xfce_wallpaper_manager.c:332
 msgid "Stretched"
 msgstr "Raztegnjeno"
 
-#: ../src/xfce_wallpaper_manager.c:383
+#: ../src/xfce_wallpaper_manager.c:335
 msgid "Scaled"
 msgstr "Pomanjšano"
 
-#: ../src/xfce_wallpaper_manager.c:386
+#: ../src/xfce_wallpaper_manager.c:338
 msgid "Zoomed"
 msgstr "Povečano"
 
