@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2021-05-24 12:47+0200\n"
-"PO-Revision-Date: 2021-06-28 15:44+0000\n"
-"Last-Translator: beriain\n"
+"POT-Creation-Date: 2021-09-24 00:48+0200\n"
+"PO-Revision-Date: 2021-09-23 22:48+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Basque (http://www.transifex.com/xfce/xfce-apps/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,23 +20,23 @@ msgstr ""
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/main.c:57
+#: ../src/main.c:53
 msgid "Version information"
 msgstr "Bertsio argibideak"
 
-#: ../src/main.c:61
+#: ../src/main.c:57
 msgid "Start in fullscreen mode"
 msgstr "Abiarazi pantaila-osoko moduan"
 
-#: ../src/main.c:65
+#: ../src/main.c:61
 msgid "Start a slideshow"
 msgstr "Abiarazi aurkezpena"
 
-#: ../src/main.c:73
+#: ../src/main.c:69
 msgid "Show settings dialog"
 msgstr "Ikusi ezarpen leihoa"
 
-#: ../src/main.c:98
+#: ../src/main.c:106
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -49,521 +49,530 @@ msgstr "%s: %s\nErabili %s --help komando-lerroko komando erabilgarriak ikusteko
 msgid "Image Viewer"
 msgstr "Irudi ikustatzailea"
 
-#: ../src/main_window.c:403
+#: ../src/main_window.c:314
 msgid "_File"
 msgstr "_Fitxategia"
 
 #. Icon-name
-#: ../src/main_window.c:409
+#: ../src/main_window.c:320
 msgid "_Open..."
 msgstr "_Ireki..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:411
+#: ../src/main_window.c:322
 msgid "Open an image"
 msgstr "Ireki irudia"
 
 #. Icon-name
-#: ../src/main_window.c:415
+#: ../src/main_window.c:326
 msgid "_Save copy..."
 msgstr "_Gorde kopia..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:417
+#: ../src/main_window.c:328
 msgid "Save a copy of the image"
 msgstr "Gorde irudiaren kopia bat"
 
 #. Icon-name
-#: ../src/main_window.c:421
+#: ../src/main_window.c:332
 msgid "_Properties..."
 msgstr "_Propietateak..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:423
+#: ../src/main_window.c:334
 msgid "Show file properties"
 msgstr "Ikusi propietateak"
 
 #. Icon-name
-#: ../src/main_window.c:427 ../src/main_window.c:446
+#: ../src/main_window.c:338 ../src/main_window.c:357
 msgid "_Edit"
 msgstr "_Editatu"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:429
+#: ../src/main_window.c:340
 msgid "Edit this image"
 msgstr "Editatu irudi hau"
 
 #. Icon-name
-#: ../src/main_window.c:433 ../src/preferences_dialog.c:256
-#: ../src/properties_dialog.c:135
+#: ../src/main_window.c:344 ../src/preferences_dialog.c:219
+#: ../src/properties_dialog.c:106
 msgid "_Close"
 msgstr "It_xi"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:435
+#: ../src/main_window.c:346
 msgid "Close this image"
 msgstr "Itxi irudi hau"
 
 #. Icon-name
-#: ../src/main_window.c:439
+#: ../src/main_window.c:350
 msgid "_Quit"
 msgstr "_Irten"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:441
+#: ../src/main_window.c:352
 msgid "Quit Ristretto"
 msgstr "Ristretto-tik irten"
 
-#: ../src/main_window.c:452
+#: ../src/main_window.c:363
 msgid "_Copy image to clipboard"
 msgstr "_Kopiatu irudia arbelean"
 
-#: ../src/main_window.c:458
+#: ../src/main_window.c:369
 msgid "_Open with"
 msgstr "Ireki _honekin"
 
-#: ../src/main_window.c:464
+#: ../src/main_window.c:375
 msgid "_Sort by"
 msgstr "_Sailkatu honen arabera"
 
 #. Icon-name
-#: ../src/main_window.c:470
+#: ../src/main_window.c:381
 msgid "_Delete"
 msgstr "_Ezabatu"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:472
+#: ../src/main_window.c:383
 msgid "Delete this image from disk"
 msgstr "Ezabatu irudi hau diskotik"
 
 #. Icon-name
-#: ../src/main_window.c:476
+#: ../src/main_window.c:387
 msgid "_Clear private data..."
 msgstr "_Garbitu datu pribatuak..."
 
 #. Icon-name
-#: ../src/main_window.c:482
+#: ../src/main_window.c:393
 msgid "_Preferences..."
 msgstr "_Hobespenak..."
 
-#: ../src/main_window.c:489
+#: ../src/main_window.c:400
 msgid "_View"
 msgstr "_Ikusi"
 
 #. Icon-name
-#: ../src/main_window.c:495
+#: ../src/main_window.c:406
 msgid "_Fullscreen"
 msgstr "_Pantaila-osoa"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:497
+#: ../src/main_window.c:408
 msgid "Switch to fullscreen"
 msgstr "Aldatu pantaila-osora"
 
 #. Icon-name
-#: ../src/main_window.c:501
+#: ../src/main_window.c:412
 msgid "_Leave Fullscreen"
 msgstr "_Utzi pantaila-osoa"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:503
+#: ../src/main_window.c:414
 msgid "Leave Fullscreen"
 msgstr "Utzi pantaila-osoa"
 
 #. Icon-name
-#: ../src/main_window.c:507
+#: ../src/main_window.c:418
 msgid "Set as _Wallpaper..."
 msgstr "E_zarri mahaigain-irudi gisa..."
 
-#: ../src/main_window.c:514
+#: ../src/main_window.c:425
 msgid "_Zoom"
 msgstr "_Zooma"
 
 #. Icon-name
-#: ../src/main_window.c:520
+#: ../src/main_window.c:431
 msgid "Zoom _In"
 msgstr "Zooma _gerturatu"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:522
+#: ../src/main_window.c:433
 msgid "Zoom in"
 msgstr "Zooma gerturatu"
 
 #. Icon-name
-#: ../src/main_window.c:526
+#: ../src/main_window.c:437
 msgid "Zoom _Out"
 msgstr "Zooma _urrutiratu"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:528
+#: ../src/main_window.c:439
 msgid "Zoom out"
 msgstr "Zooma urrutiratu"
 
 #. Icon-name
-#: ../src/main_window.c:532
+#: ../src/main_window.c:443 ../src/main_window.c:727
 msgid "Zoom _Fit"
 msgstr "Zooma _egokitu"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:534
+#: ../src/main_window.c:445
 msgid "Zoom to fit window"
 msgstr "Zooma egin leihora doitzeko"
 
 #. Icon-name
-#: ../src/main_window.c:538
+#: ../src/main_window.c:449 ../src/main_window.c:733
 msgid "_Normal Size"
 msgstr "Tamaina normala"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:540
+#: ../src/main_window.c:451
 msgid "Zoom to 100%"
 msgstr "Zomm %100-ean"
 
-#: ../src/main_window.c:545
+#: ../src/main_window.c:456
+msgid "_Default Zoom"
+msgstr ""
+
+#: ../src/main_window.c:463
 msgid "_Rotation"
 msgstr "Bi_ratu"
 
 #. Icon-name
-#: ../src/main_window.c:551
+#: ../src/main_window.c:469
 msgid "Rotate _Right"
 msgstr "Biratu eskuine_ra"
 
 #. Icon-name
-#: ../src/main_window.c:557
+#: ../src/main_window.c:475
 msgid "Rotate _Left"
 msgstr "Biratu ez_kerrera"
 
-#: ../src/main_window.c:564
+#: ../src/main_window.c:482
 msgid "_Flip"
 msgstr "_Biratu"
 
-#: ../src/main_window.c:570
+#: ../src/main_window.c:488
 msgid "Flip _Horizontally"
 msgstr "Biratu _horizontalean"
 
-#: ../src/main_window.c:576
+#: ../src/main_window.c:494
 msgid "Flip _Vertically"
 msgstr "Biratu _bertikalean"
 
-#: ../src/main_window.c:583
+#: ../src/main_window.c:501
 msgid "_Go"
 msgstr "_Joan"
 
 #. Icon-name
-#: ../src/main_window.c:589
+#: ../src/main_window.c:507
 msgid "_Forward"
 msgstr "_Birbidali"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:591
+#: ../src/main_window.c:509
 msgid "Next image"
 msgstr "Hurrengo irudia"
 
 #. Icon-name
-#: ../src/main_window.c:595
+#: ../src/main_window.c:513
 msgid "_Back"
 msgstr "_Atzera"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:597
+#: ../src/main_window.c:515
 msgid "Previous image"
 msgstr "Aurreko irudia"
 
 #. Icon-name
-#: ../src/main_window.c:601
+#: ../src/main_window.c:519
 msgid "F_irst"
 msgstr "_Lehenengoa"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:603
+#: ../src/main_window.c:521
 msgid "First image"
 msgstr "Lehen irudia"
 
 #. Icon-name
-#: ../src/main_window.c:607
+#: ../src/main_window.c:525
 msgid "_Last"
 msgstr "A_zkena"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:609
+#: ../src/main_window.c:527
 msgid "Last image"
 msgstr "Azken irudia"
 
-#: ../src/main_window.c:614
+#: ../src/main_window.c:532
 msgid "_Help"
 msgstr "_Laguntza"
 
 #. Icon-name
-#: ../src/main_window.c:620
+#: ../src/main_window.c:538
 msgid "_Contents"
 msgstr "_Edukiak"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:622
+#: ../src/main_window.c:540
 msgid "Display ristretto user manual"
 msgstr "Bistarazi ristretto erabiltzaile manuala"
 
 #. Icon-name
-#: ../src/main_window.c:626
+#: ../src/main_window.c:544
 msgid "_About"
 msgstr "_Honi buruz"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:628
+#: ../src/main_window.c:546
 msgid "Display information about ristretto"
 msgstr "Bistarazi ristretto buruzko argibideak"
 
-#: ../src/main_window.c:633
+#: ../src/main_window.c:551
 msgid "_Position"
 msgstr "_Kokalekua"
 
-#: ../src/main_window.c:639
+#: ../src/main_window.c:557
 msgid "_Size"
 msgstr "_Tamaina"
 
-#: ../src/main_window.c:645
+#: ../src/main_window.c:563
 msgid "Thumbnail Bar _Position"
 msgstr "Argazkitxo-barra _kokalekua"
 
-#: ../src/main_window.c:651
+#: ../src/main_window.c:569
 msgid "Thumb_nail Size"
 msgstr "Argazkitxo _tamaina"
 
 #. Icon-name
-#: ../src/main_window.c:658
+#: ../src/main_window.c:576
 msgid "Leave _Fullscreen"
 msgstr "Utzi _pantaila-osoa"
 
 #. Icon-name
-#: ../src/main_window.c:676
+#: ../src/main_window.c:594
 msgid "_Show Toolbar"
 msgstr "Ikusi _tresna-barra"
 
 #. Icon-name
-#: ../src/main_window.c:684
+#: ../src/main_window.c:602
 msgid "Show _Thumbnail Bar"
 msgstr "Ikusi _argazkitxo tresna-barra"
 
 #. Icon-name
-#: ../src/main_window.c:692
+#: ../src/main_window.c:610
 msgid "Show Status _Bar"
 msgstr "Ikusi _egoera-barra"
 
 #. Icon-name
-#: ../src/main_window.c:704
+#: ../src/main_window.c:622
 msgid "file name"
 msgstr "fitxategi izena"
 
 #. Icon-name
-#: ../src/main_window.c:710
+#: ../src/main_window.c:628
 msgid "file type"
 msgstr "fitxategi mota"
 
 #. Icon-name
-#: ../src/main_window.c:716
+#: ../src/main_window.c:634
 msgid "date"
 msgstr "data"
 
 #. Icon-name
-#: ../src/main_window.c:727
+#: ../src/main_window.c:645
 msgid "Left"
 msgstr "Ezkerrean"
 
-#: ../src/main_window.c:733
+#: ../src/main_window.c:651
 msgid "Right"
 msgstr "Eskuinean"
 
-#: ../src/main_window.c:739
+#: ../src/main_window.c:657
 msgid "Top"
 msgstr "Goian"
 
-#: ../src/main_window.c:745
+#: ../src/main_window.c:663
 msgid "Bottom"
 msgstr "Behean"
 
-#: ../src/main_window.c:756
+#: ../src/main_window.c:674
 msgid "Very Small"
 msgstr "Oso txikia"
 
-#: ../src/main_window.c:762
+#: ../src/main_window.c:680
 msgid "Smaller"
 msgstr "Txikiagoa"
 
-#: ../src/main_window.c:768
+#: ../src/main_window.c:686
 msgid "Small"
 msgstr "Txikia"
 
-#: ../src/main_window.c:774
+#: ../src/main_window.c:692
 msgid "Normal"
 msgstr "Arrunta"
 
-#: ../src/main_window.c:780
+#: ../src/main_window.c:698
 msgid "Large"
 msgstr "Handia"
 
-#: ../src/main_window.c:786
+#: ../src/main_window.c:704
 msgid "Larger"
 msgstr "Handiagoa"
 
-#: ../src/main_window.c:792
+#: ../src/main_window.c:710
 msgid "Very Large"
 msgstr "Oso handia"
 
+#. Icon-name
+#: ../src/main_window.c:721
+msgid "_Smart Zoom"
+msgstr ""
+
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:949
+#: ../src/main_window.c:930
 msgid "_Play"
 msgstr "Erre_produzitu"
 
-#: ../src/main_window.c:949
+#: ../src/main_window.c:930
 msgid "Play slideshow"
 msgstr "Abiarazi aurkezpena"
 
-#: ../src/main_window.c:950
+#: ../src/main_window.c:931
 msgid "_Pause"
 msgstr "_Pausatu"
 
-#: ../src/main_window.c:950
+#: ../src/main_window.c:931
 msgid "Pause slideshow"
 msgstr "Pausatu aurkezpena"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:953
+#: ../src/main_window.c:934
 msgid "_Recently used"
 msgstr "Az_kenak"
 
-#: ../src/main_window.c:953
+#: ../src/main_window.c:934
 msgid "Recently used"
 msgstr "Azkenaldian erabilia"
 
-#: ../src/main_window.c:1065 ../src/main_window.c:1681
+#: ../src/main_window.c:1050 ../src/main_window.c:1585
 msgid "Press open to select an image"
 msgstr "Bat sakatu irudi bat hautatzeko"
 
-#: ../src/main_window.c:1530 ../src/main_window.c:1534
+#: ../src/main_window.c:1507 ../src/main_window.c:1512
 msgid "Open With Other _Application..."
 msgstr "Ireki beste _aplikazio batez..."
 
-#: ../src/main_window.c:1555 ../src/main_window.c:1561
+#: ../src/main_window.c:1534 ../src/main_window.c:1542
 msgid "Empty"
 msgstr "Hutsik"
 
-#: ../src/main_window.c:1691
+#: ../src/main_window.c:1590
 msgid "Loading..."
 msgstr "Kargatzen..."
 
-#: ../src/main_window.c:2285
+#: ../src/main_window.c:2244
 msgid "Choose 'set wallpaper' method"
 msgstr "Hautattu 'ezarri mahagaina' metodoa"
 
-#: ../src/main_window.c:2289 ../src/main_window.c:3292
-#: ../src/main_window.c:3526 ../src/main_window.c:4178
-#: ../src/privacy_dialog.c:180 ../src/xfce_wallpaper_manager.c:311
-#: ../src/gnome_wallpaper_manager.c:230
+#: ../src/main_window.c:2248 ../src/main_window.c:3324
+#: ../src/main_window.c:3560 ../src/main_window.c:4208
+#: ../src/privacy_dialog.c:149 ../src/xfce_wallpaper_manager.c:263
+#: ../src/gnome_wallpaper_manager.c:193
 msgid "_Cancel"
 msgstr "Ut_zi"
 
-#: ../src/main_window.c:2292 ../src/main_window.c:4181
-#: ../src/xfce_wallpaper_manager.c:317 ../src/gnome_wallpaper_manager.c:236
+#: ../src/main_window.c:2251 ../src/main_window.c:4211
+#: ../src/xfce_wallpaper_manager.c:269 ../src/gnome_wallpaper_manager.c:199
 msgid "_OK"
 msgstr "Ad_os"
 
-#: ../src/main_window.c:2302 ../src/preferences_dialog.c:473
+#: ../src/main_window.c:2261 ../src/preferences_dialog.c:437
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Konfiguratu zure mahaigaina kudeatzen duen sistema zein den.\n Ezarpen honek <i>Ristrettok<i> mahagain irudia\n konfiguratzeko zein metodo erabiliko duen ezartzen du."
 
-#: ../src/main_window.c:2328 ../src/preferences_dialog.c:485
+#: ../src/main_window.c:2287 ../src/preferences_dialog.c:449
 msgid "None"
 msgstr "Batez"
 
-#: ../src/main_window.c:2332 ../src/preferences_dialog.c:489
+#: ../src/main_window.c:2291 ../src/preferences_dialog.c:453
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2336 ../src/preferences_dialog.c:493
+#: ../src/main_window.c:2295 ../src/preferences_dialog.c:457
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2851
+#: ../src/main_window.c:2812
 msgid "Developers:"
 msgstr "Garatzaileak:"
 
-#: ../src/main_window.c:2861 ../ristretto.appdata.xml.in.h:1
+#: ../src/main_window.c:2823 ../ristretto.appdata.xml.in.h:1
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto Xfce idazmahai inguruneko irudi-ikustatzaile bat da."
 
-#: ../src/main_window.c:2869
+#: ../src/main_window.c:2831
 msgid "translator-credits"
 msgstr "Piarres Beobide <pi@beobide.net>"
 
-#: ../src/main_window.c:3289
+#: ../src/main_window.c:3321
 msgid "Open image"
 msgstr "Ireki irudia"
 
-#: ../src/main_window.c:3293
+#: ../src/main_window.c:3325
 msgid "_Open"
 msgstr "_Ireki"
 
-#: ../src/main_window.c:3310
+#: ../src/main_window.c:3343
 msgid "Images"
 msgstr "Irudiak"
 
-#: ../src/main_window.c:3315
+#: ../src/main_window.c:3348
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3342 ../src/main_window.c:3484
+#: ../src/main_window.c:3375 ../src/main_window.c:3518
 msgid "Could not open file"
 msgstr "Ezin da fitxategia ireki"
 
-#: ../src/main_window.c:3523
+#: ../src/main_window.c:3557
 msgid "Save copy"
 msgstr "Gorde kopia"
 
-#: ../src/main_window.c:3527
+#: ../src/main_window.c:3561
 msgid "_Save"
 msgstr "_Gorde"
 
-#: ../src/main_window.c:3556
+#: ../src/main_window.c:3583
 msgid "Could not save file"
 msgstr "Ezin da fitxategia gorde"
 
-#: ../src/main_window.c:3726
+#: ../src/main_window.c:3756
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Ziur zaude '%s' irudia zakarrontzira bidali nahi duzula?"
 
-#: ../src/main_window.c:3730
+#: ../src/main_window.c:3760
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Ziur zaude '%s' irudia diskotik ezabatu nahi duzula?"
 
-#: ../src/main_window.c:3741
+#: ../src/main_window.c:3772
 msgid "_Do not ask again for this session"
 msgstr "E_z eskatu berriz saio honetan"
 
-#: ../src/main_window.c:3818
+#: ../src/main_window.c:3850
 #, c-format
 msgid ""
 "An error occurred when deleting image '%s' from disk.\n"
@@ -571,7 +580,7 @@ msgid ""
 "%s"
 msgstr "Errore bat gertatu da '%s' irudia diskotik ezabatzerakoan.\n\n%s"
 
-#: ../src/main_window.c:3822
+#: ../src/main_window.c:3854
 #, c-format
 msgid ""
 "An error occurred when sending image '%s' to trash.\n"
@@ -579,298 +588,298 @@ msgid ""
 "%s"
 msgstr "Errore bat gertatu da '%s' irudia diskotik zaborrera botatzean.\n\n%s"
 
-#: ../src/main_window.c:4173
+#: ../src/main_window.c:4203
 msgid "Edit with"
 msgstr "Editatu honekin"
 
-#: ../src/main_window.c:4194
+#: ../src/main_window.c:4224
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Ireki %s eta %s motako fitxategi guztiak honekin:"
 
-#: ../src/main_window.c:4200
+#: ../src/main_window.c:4230
 msgid "Use as _default for this kind of file"
 msgstr "Erabili lehenes_pen gisa mota honetako fitxategientzat"
 
-#: ../src/main_window.c:4290
+#: ../src/main_window.c:4320
 msgid "Recommended Applications"
 msgstr "Gomendatutako aplikazioak"
 
-#: ../src/main_window.c:4370
+#: ../src/main_window.c:4400
 msgid "Other Applications"
 msgstr "Beste aplikazioak"
 
-#: ../src/icon_bar.c:320
+#: ../src/icon_bar.c:270
 msgid "Orientation"
 msgstr "Norantza"
 
-#: ../src/icon_bar.c:321
+#: ../src/icon_bar.c:271
 msgid "The orientation of the iconbar"
 msgstr "Ikono-barraren norantza"
 
-#: ../src/icon_bar.c:337
+#: ../src/icon_bar.c:287
 msgid "File column"
 msgstr "Fitxategi zutabea"
 
-#: ../src/icon_bar.c:338
+#: ../src/icon_bar.c:288
 msgid "Model column used to retrieve the file from"
 msgstr "Fitxategia bertatik eskuratzeko erabilitako zutabe modeloa"
 
-#: ../src/icon_bar.c:350
+#: ../src/icon_bar.c:300
 msgid "Icon Bar Model"
 msgstr "Ikono barra modeloa"
 
-#: ../src/icon_bar.c:351
+#: ../src/icon_bar.c:301
 msgid "Model for the icon bar"
 msgstr "Ikono barraren modeloa"
 
-#: ../src/icon_bar.c:367
+#: ../src/icon_bar.c:317
 msgid "Active"
 msgstr "Aktibo"
 
-#: ../src/icon_bar.c:368
+#: ../src/icon_bar.c:318
 msgid "Active item index"
 msgstr "Elementu aktibo indizea"
 
-#: ../src/icon_bar.c:384 ../src/icon_bar.c:385
+#: ../src/icon_bar.c:334 ../src/icon_bar.c:335
 msgid "Show Text"
 msgstr "Ikusi testua"
 
-#: ../src/icon_bar.c:397
+#: ../src/icon_bar.c:347
 msgid "Scrolled window"
 msgstr "Mugitutako leihoa"
 
-#: ../src/icon_bar.c:398
+#: ../src/icon_bar.c:348
 msgid "Scrolled window icon bar is placed into"
 msgstr "Mugitutako leihoaren ikono barra hemen kokatzen da"
 
-#: ../src/icon_bar.c:404 ../src/icon_bar.c:405
+#: ../src/icon_bar.c:354 ../src/icon_bar.c:355
 msgid "Active item fill color"
 msgstr "Elementu aktibo barne kolorea"
 
-#: ../src/icon_bar.c:411 ../src/icon_bar.c:412
+#: ../src/icon_bar.c:361 ../src/icon_bar.c:362
 msgid "Active item border color"
 msgstr "Elementu aktibo ertz kolorea"
 
-#: ../src/icon_bar.c:418 ../src/icon_bar.c:419
+#: ../src/icon_bar.c:368 ../src/icon_bar.c:369
 msgid "Active item text color"
 msgstr "Elementu aktibo testu kolorea"
 
-#: ../src/icon_bar.c:425 ../src/icon_bar.c:426
+#: ../src/icon_bar.c:375 ../src/icon_bar.c:376
 msgid "Cursor item fill color"
 msgstr "Kurtsore elementu barne kolorea"
 
-#: ../src/icon_bar.c:432 ../src/icon_bar.c:433
+#: ../src/icon_bar.c:382 ../src/icon_bar.c:383
 msgid "Cursor item border color"
 msgstr "Kurtsore elementu ertz kolorea"
 
-#: ../src/icon_bar.c:439 ../src/icon_bar.c:440
+#: ../src/icon_bar.c:389 ../src/icon_bar.c:390
 msgid "Cursor item text color"
 msgstr "Kurtsore elementu testu kolorea"
 
-#: ../src/privacy_dialog.c:150
+#: ../src/privacy_dialog.c:119
 msgid "Time range to clear:"
 msgstr "Garbitzeko denbora-eremua:"
 
-#: ../src/privacy_dialog.c:153
+#: ../src/privacy_dialog.c:122
 msgid "Cleanup"
 msgstr "Garbitu"
 
-#: ../src/privacy_dialog.c:156
+#: ../src/privacy_dialog.c:125
 msgid "Last Hour"
 msgstr "Azken ordua"
 
-#: ../src/privacy_dialog.c:157
+#: ../src/privacy_dialog.c:126
 msgid "Last Two Hours"
 msgstr "Azken bi orduak"
 
-#: ../src/privacy_dialog.c:158
+#: ../src/privacy_dialog.c:127
 msgid "Last Four Hours"
 msgstr "Azken lau orduak"
 
-#: ../src/privacy_dialog.c:159
+#: ../src/privacy_dialog.c:128
 msgid "Today"
 msgstr "Gaur"
 
-#: ../src/privacy_dialog.c:160
+#: ../src/privacy_dialog.c:129
 msgid "Everything"
 msgstr "Dena"
 
-#: ../src/privacy_dialog.c:183 ../src/xfce_wallpaper_manager.c:314
-#: ../src/gnome_wallpaper_manager.c:233
+#: ../src/privacy_dialog.c:152 ../src/xfce_wallpaper_manager.c:266
+#: ../src/gnome_wallpaper_manager.c:196
 msgid "_Apply"
 msgstr "Ez_arri"
 
-#: ../src/privacy_dialog.c:476
+#: ../src/privacy_dialog.c:438
 msgid "Clear private data"
 msgstr "Garbitu datu pribatuak"
 
-#: ../src/preferences_dialog.c:287
+#: ../src/preferences_dialog.c:250
 msgid "Display"
 msgstr "Bistaratu"
 
-#: ../src/preferences_dialog.c:294
+#: ../src/preferences_dialog.c:257
 msgid "Background color"
 msgstr "Atzeko planoaren kolorea"
 
-#: ../src/preferences_dialog.c:298
+#: ../src/preferences_dialog.c:261
 msgid "Override background color:"
 msgstr "Gainidatzi atzeko planoa kolorea:"
 
-#: ../src/preferences_dialog.c:325
+#: ../src/preferences_dialog.c:289
 msgid "Quality"
 msgstr "Kalitatea"
 
-#: ../src/preferences_dialog.c:329
+#: ../src/preferences_dialog.c:293
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "Aukera hau gaiturik dagoela irudiaren kalitate-muga pantaila-tamainak ezartzen du."
 
-#: ../src/preferences_dialog.c:333
+#: ../src/preferences_dialog.c:297
 msgid "Limit rendering quality"
 msgstr "Mugatu errenderizazio kalitatea"
 
-#: ../src/preferences_dialog.c:345
+#: ../src/preferences_dialog.c:309
 msgid "Fullscreen"
 msgstr "_Pantaila-osoa"
 
-#: ../src/preferences_dialog.c:349
+#: ../src/preferences_dialog.c:313
 msgid "Thumbnails"
 msgstr "Argazkitxoak"
 
-#: ../src/preferences_dialog.c:352
+#: ../src/preferences_dialog.c:316
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "Argazkitxo-barra automatikoki ezkutatu daiteke irudi-ikustatzailea pantaila-osoa moduan dagoenean."
 
-#: ../src/preferences_dialog.c:356
+#: ../src/preferences_dialog.c:320
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "E_zkutatu argazkitxo-barra pantaila-osoan"
 
-#: ../src/preferences_dialog.c:364
+#: ../src/preferences_dialog.c:328
 msgid "Clock"
 msgstr "Ordularia"
 
-#: ../src/preferences_dialog.c:367
+#: ../src/preferences_dialog.c:331
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "Argazkitxo-barra automatikoki ezkutatu daiteke irudi-ikustatzailea pantaila-osoa moduan dagoenean."
 
-#: ../src/preferences_dialog.c:371
+#: ../src/preferences_dialog.c:335
 msgid "Show Fullscreen Clock"
 msgstr "Ikusi Pantaila-osoko erlojua"
 
-#: ../src/preferences_dialog.c:377
+#: ../src/preferences_dialog.c:341
 msgid "Mouse cursor"
 msgstr "Saguaren kurtsorea"
 
-#: ../src/preferences_dialog.c:380
+#: ../src/preferences_dialog.c:344
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of inactivity\n"
 "when the window is fullscreen."
 msgstr "Saguaren kurtsorea automatikoki ezkutatu daiteke ekintzrik gabeko tarte baten ostean\nleihoa pantaila osoan dagoenean."
 
-#: ../src/preferences_dialog.c:387
+#: ../src/preferences_dialog.c:351
 msgid "Period of inactivity (seconds):"
 msgstr "Ekintzarik gabeko tartea (segunduetan):"
 
-#: ../src/preferences_dialog.c:406
+#: ../src/preferences_dialog.c:370
 msgid "Slideshow"
 msgstr "Aurkezpena"
 
-#: ../src/preferences_dialog.c:410
+#: ../src/preferences_dialog.c:374
 msgid "Timeout"
 msgstr "Denboraz-kanpo"
 
-#: ../src/preferences_dialog.c:413
+#: ../src/preferences_dialog.c:377
 msgid ""
 "The time period an individual image is displayed during a slideshow\n"
 "(in seconds)"
 msgstr "Aurkezpenean irudi bakoitza ikusten den denbora tartea\n(segundutan)"
 
-#: ../src/preferences_dialog.c:427
+#: ../src/preferences_dialog.c:391
 msgid "Control"
 msgstr "Kontrola"
 
-#: ../src/preferences_dialog.c:431
+#: ../src/preferences_dialog.c:395
 msgid "Scroll wheel"
 msgstr "Sagu-gurpila"
 
-#: ../src/preferences_dialog.c:434
+#: ../src/preferences_dialog.c:398
 msgid "Invert zoom direction"
 msgstr "Aldatu zoom norantza"
 
-#: ../src/preferences_dialog.c:445
+#: ../src/preferences_dialog.c:409
 msgid "Behaviour"
 msgstr "Portaera"
 
-#: ../src/preferences_dialog.c:449
+#: ../src/preferences_dialog.c:413
 msgid "Startup"
 msgstr "Hasiera"
 
-#: ../src/preferences_dialog.c:451
+#: ../src/preferences_dialog.c:415
 msgid "Maximize window on startup when opening an image"
 msgstr "Leiho-tamaina argazkira doitu abiaraztean"
 
-#: ../src/preferences_dialog.c:457
+#: ../src/preferences_dialog.c:421
 msgid "Wrap around images"
 msgstr "Bildu inguruko irudiak"
 
-#: ../src/preferences_dialog.c:468
+#: ../src/preferences_dialog.c:432
 msgid "Desktop"
 msgstr "Mahaigaina"
 
-#: ../src/preferences_dialog.c:578
+#: ../src/preferences_dialog.c:539
 msgid "Image Viewer Preferences"
 msgstr "Irudi ikustatzaile hobespenak"
 
-#: ../src/properties_dialog.c:170
+#: ../src/properties_dialog.c:141
 msgid "<b>Name:</b>"
 msgstr "<b>Izena:</b>"
 
-#: ../src/properties_dialog.c:171
+#: ../src/properties_dialog.c:142
 msgid "<b>Kind:</b>"
 msgstr "<b>Mota:</b>"
 
-#: ../src/properties_dialog.c:172
+#: ../src/properties_dialog.c:143
 msgid "<b>Modified:</b>"
 msgstr "<b>Eraldaketa:</b>"
 
-#: ../src/properties_dialog.c:173
+#: ../src/properties_dialog.c:144
 msgid "<b>Accessed:</b>"
 msgstr "<b>Atzipena:</b>"
 
-#: ../src/properties_dialog.c:174
+#: ../src/properties_dialog.c:145
 msgid "<b>Size:</b>"
 msgstr "<b>Tamaina:</b>"
 
-#: ../src/properties_dialog.c:198
+#: ../src/properties_dialog.c:169
 msgid "General"
 msgstr "Orokorra"
 
-#: ../src/properties_dialog.c:204
+#: ../src/properties_dialog.c:175
 msgid "Image"
 msgstr "Irudia"
 
-#: ../src/properties_dialog.c:439
+#: ../src/properties_dialog.c:395
 #, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>sortze data:</b>"
 
-#: ../src/properties_dialog.c:451 ../src/properties_dialog.c:463
-#: ../src/properties_dialog.c:475
+#: ../src/properties_dialog.c:407 ../src/properties_dialog.c:419
+#: ../src/properties_dialog.c:431
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:535
+#: ../src/properties_dialog.c:490
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Propietateak"
 
-#: ../src/thumbnailer.c:433
+#: ../src/thumbnailer.c:323
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -880,43 +889,43 @@ msgid ""
 "to resolve this issue."
 msgstr "Argazkitxo-zerbitzua ezin da eskuratu,\nhau dela eta ezin da argazkitxorik \nsortu.\n\n<b>Tumbler</b> edo beste <i>argazkitxo-sortze deabru</i> bat intalatu arazo hau konpontzeko."
 
-#: ../src/thumbnailer.c:443
+#: ../src/thumbnailer.c:332
 msgid "Do _not show this message again"
 msgstr "Ez eraku_tzi mezu hau berriz"
 
-#: ../src/xfce_wallpaper_manager.c:291 ../src/gnome_wallpaper_manager.c:216
+#: ../src/xfce_wallpaper_manager.c:243 ../src/gnome_wallpaper_manager.c:179
 msgid "Style:"
 msgstr "Estiloa"
 
-#: ../src/xfce_wallpaper_manager.c:302
+#: ../src/xfce_wallpaper_manager.c:254
 msgid "Apply to all workspaces"
 msgstr "Ezarri lan-eremu guztietan"
 
-#: ../src/xfce_wallpaper_manager.c:309 ../src/gnome_wallpaper_manager.c:228
+#: ../src/xfce_wallpaper_manager.c:261 ../src/gnome_wallpaper_manager.c:191
 msgid "Set as wallpaper"
 msgstr "E_zarri idazmahai-irudi gisa"
 
-#: ../src/xfce_wallpaper_manager.c:371 ../src/gnome_wallpaper_manager.c:286
+#: ../src/xfce_wallpaper_manager.c:323 ../src/gnome_wallpaper_manager.c:249
 msgid "Auto"
 msgstr "Automatikoa"
 
-#: ../src/xfce_wallpaper_manager.c:374
+#: ../src/xfce_wallpaper_manager.c:326
 msgid "Centered"
 msgstr "Erdiratua"
 
-#: ../src/xfce_wallpaper_manager.c:377
+#: ../src/xfce_wallpaper_manager.c:329
 msgid "Tiled"
 msgstr "Mosaikoa"
 
-#: ../src/xfce_wallpaper_manager.c:380
+#: ../src/xfce_wallpaper_manager.c:332
 msgid "Stretched"
 msgstr "Txikitua"
 
-#: ../src/xfce_wallpaper_manager.c:383
+#: ../src/xfce_wallpaper_manager.c:335
 msgid "Scaled"
 msgstr "Eskalatua"
 
-#: ../src/xfce_wallpaper_manager.c:386
+#: ../src/xfce_wallpaper_manager.c:338
 msgid "Zoomed"
 msgstr "Gerturatua"
 
