@@ -125,6 +125,8 @@ static gboolean
 set_scale (RsttoImageViewer *viewer,
            gdouble scale);
 static void
+set_device_scale (RsttoImageViewer *viewer);
+static void
 set_adjustments (RsttoImageViewer *viewer,
                  gdouble h_value,
                  gdouble v_value);
@@ -267,11 +269,14 @@ struct _RsttoImageViewerPrivate
     GdkPixbufAnimationIter *iter;
     guint                   animation_id;
     gdouble                 scale;
+    gint                    device_scale;
     RsttoScale              auto_scale;
     GtkAdjustment          *vadjustment;
     GtkAdjustment          *hadjustment;
 
     gdouble                 image_scale;
+    gint                    original_image_width;
+    gint                    original_image_height;
     gint                    image_width;
     gint                    image_height;
 
@@ -308,9 +313,10 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv->pixbuf.pattern = NULL;
     viewer->priv->animation_id = 0;
     viewer->priv->scale = RSTTO_SCALE_NONE;
+    viewer->priv->device_scale = 1;
     viewer->priv->auto_scale = RSTTO_SCALE_NONE;
-    viewer->priv->image_width = 0;
-    viewer->priv->image_height = 0;
+    viewer->priv->image_width = viewer->priv->original_image_width = 0;
+    viewer->priv->image_height = viewer->priv->original_image_height = 0;
 
     viewer->priv->icon_theme = gtk_icon_theme_get_default ();
     viewer->priv->bg_icon = gtk_icon_theme_load_icon (
@@ -518,10 +524,14 @@ rstto_image_viewer_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
 
     gtk_widget_set_allocation (widget, allocation);
+
     if (gtk_widget_get_realized (widget))
     {
         gdk_window_move_resize (gtk_widget_get_window (widget), allocation->x, allocation->y,
                                 allocation->width, allocation->height);
+
+        /* a device scale change resizes the window, so we should catch them all here */
+        set_device_scale (viewer);
 
         if (viewer->priv->auto_scale != RSTTO_SCALE_NONE)
             set_scale (viewer, viewer->priv->auto_scale);
@@ -685,6 +695,25 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
     }
 
     return FALSE;
+}
+
+static void
+set_device_scale (RsttoImageViewer *viewer)
+{
+    cairo_surface_t *surface;
+    gint scale;
+
+    scale = gdk_window_get_scale_factor (gtk_widget_get_window (GTK_WIDGET (viewer)));
+    if (viewer->priv->image_width > 0 && scale != viewer->priv->device_scale)
+    {
+        viewer->priv->device_scale = scale;
+
+        /* do not scale the image with the rest of the window */
+        viewer->priv->image_width = viewer->priv->original_image_width / scale;
+        viewer->priv->image_height = viewer->priv->original_image_height / scale;
+        cairo_pattern_get_surface (viewer->priv->pixbuf.pattern, &surface);
+        cairo_surface_set_device_scale (surface, scale, scale);
+    }
 }
 
 static void
@@ -916,12 +945,15 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     cairo_matrix_t transform_matrix;
-    gdouble x_scale, y_scale;
-    gint i, a, block_width, block_height, h_adjust, v_adjust;
+    gdouble x_scale, y_scale, block_width, block_height;
+    gint i, j, h_adjust, v_adjust;
     gint x_offset = viewer->priv->rendering.x_offset;
     gint y_offset = viewer->priv->rendering.y_offset;
     gint width = viewer->priv->rendering.width;
     gint height = viewer->priv->rendering.height;
+    gdouble nx_squares = viewer->priv->device_scale * width / 10.0;
+    gdouble ny_squares = viewer->priv->device_scale * height / 10.0;
+    gdouble square_size = 10.0 / viewer->priv->device_scale;
 
     cairo_save (ctx);
 
@@ -933,15 +965,15 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
         cairo_fill (ctx);
 
         cairo_set_source_rgba (ctx, 0.7, 0.7, 0.7, 1.0);
-        for (i = 0; i < width / 10.0; ++i)
+        for (i = 0; i < nx_squares; ++i)
         {
-            a = (i % 2) ? 1 : 0;
-            block_width = (i + 1 <= width / 10.0) ? 10 : width % 10;
-
-            for (; a < height / 10.0; a += 2)
+            block_width = (i <= nx_squares - 1) ? square_size
+                                                : width - floor (nx_squares) * square_size;
+            for (j = (i % 2) ? 1 : 0; j < ny_squares; j += 2)
             {
-                block_height = (a + 1 <= height / 10.0) ? 10 : height % 10;
-                cairo_rectangle (ctx, x_offset + i * 10, y_offset + a * 10,
+                block_height = (j <= ny_squares - 1) ? square_size
+                                                     : height - floor (ny_squares) * square_size;
+                cairo_rectangle (ctx, x_offset + i * square_size, y_offset + j * square_size,
                                  block_width, block_height);
                 cairo_fill (ctx);
             }
@@ -1209,8 +1241,8 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
                     viewer->priv->error = NULL;
                 }
                 viewer->priv->image_scale = 1.0;
-                viewer->priv->image_width = 0;
-                viewer->priv->image_height = 0;
+                viewer->priv->image_width = viewer->priv->original_image_width = 0;
+                viewer->priv->image_height = viewer->priv->original_image_height = 0;
 
                 rstto_image_viewer_load_image (viewer, viewer->priv->file,
                                                auto_scale != RSTTO_SCALE_NONE ? auto_scale : scale);
@@ -1260,9 +1292,9 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
             g_object_unref (viewer->priv->file);
             viewer->priv->file = NULL;
 
-            /* Reset the image-size to 0.0 */
-            viewer->priv->image_height = 0.0;
-            viewer->priv->image_width = 0.0;
+            /* Reset the image-size to 0 */
+            viewer->priv->image_width = viewer->priv->original_image_width = 0;
+            viewer->priv->image_height = viewer->priv->original_image_height = 0;
 
             set_adjustments (viewer, 0, 0);
             gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
@@ -1422,7 +1454,7 @@ rstto_image_viewer_get_width (RsttoImageViewer *viewer)
 {
     if (viewer)
     {
-        return viewer->priv->image_width;
+        return viewer->priv->original_image_width;
     }
     return 0;
 }
@@ -1431,7 +1463,7 @@ rstto_image_viewer_get_height (RsttoImageViewer *viewer)
 {
     if (viewer)
     {
-        return viewer->priv->image_height;
+        return viewer->priv->original_image_height;
     }
     return 0;
 }
@@ -1650,18 +1682,20 @@ cb_rstto_image_loader_closed_idle (gpointer data)
                                 GDK_PIXBUF_ERROR_CORRUPT_IMAGE))
         {
             gtk_widget_set_tooltip_text (widget, NULL);
-            viewer->priv->image_scale = transaction->image_scale;
-            viewer->priv->image_width = transaction->image_width;
-            viewer->priv->image_height = transaction->image_height;
-            set_scale (viewer, transaction->scale);
-
             cb_rstto_image_loader_image_ready (transaction->loader, transaction);
+            viewer->priv->image_scale = transaction->image_scale;
+            viewer->priv->image_width = viewer->priv->original_image_width
+                                      = transaction->image_width;
+            viewer->priv->image_height = viewer->priv->original_image_height
+                                       = transaction->image_height;
+            set_device_scale (viewer);
+            set_scale (viewer, transaction->scale);
         }
         else
         {
             viewer->priv->image_scale = 1.0;
-            viewer->priv->image_width = 0;
-            viewer->priv->image_height = 0;
+            viewer->priv->image_width = viewer->priv->original_image_width = 0;
+            viewer->priv->image_height = viewer->priv->original_image_height = 0;
             if (viewer->priv->pixbuf.pattern)
             {
                 cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
