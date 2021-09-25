@@ -7,7 +7,7 @@
 # Charles Monzat <c.monzat@laposte.net>, 2018
 # David D, 2019
 # jc1 <jc1.quebecos@gmail.com>, 2013
-# jc1 <jc1.quebecos@gmail.com>, 2013
+# jc1 <jc1.quebecos@gmail.com>, 2013,2021
 # Mike Massonnet <mmassonnet@xfce.org>, 2007-2008
 # Patrick Douart <patrick.2@laposte.net>, 2009-2010
 # Remi Andruccioli <remi.andruccioli@gmail.com>, 2015
@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2021-09-24 00:48+0200\n"
-"PO-Revision-Date: 2021-09-23 22:48+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2021-09-25 21:57+0000\n"
+"Last-Translator: jc1 <jc1.quebecos@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/xfce/xfce-apps/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -244,7 +244,7 @@ msgstr "Taille réelle"
 
 #: ../src/main_window.c:456
 msgid "_Default Zoom"
-msgstr ""
+msgstr "Zoom par _défaut"
 
 #: ../src/main_window.c:463
 msgid "_Rotation"
@@ -445,7 +445,7 @@ msgstr "Très grande"
 #. Icon-name
 #: ../src/main_window.c:721
 msgid "_Smart Zoom"
-msgstr ""
+msgstr "Zoom intelligent"
 
 #. Create Play/Pause Slideshow actions
 #: ../src/main_window.c:930
