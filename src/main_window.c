@@ -3912,12 +3912,13 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                                 RsttoMainWindow *window)
 {
     RsttoFile *file;
-    guint n;
+    guint n, n_uris;
     gboolean first = TRUE;
 
     g_return_if_fail (RSTTO_IS_MAIN_WINDOW (window));
 
-    for (n = 0; n < g_strv_length (uris); n++)
+    n_uris = g_strv_length (uris);
+    for (n = 0; n < n_uris; n++)
     {
         file = rstto_file_new (g_file_new_for_uri (uris[n]));
 
@@ -3928,23 +3929,20 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                 first = FALSE;
 
                 /* On the first valid image, we reset the thumbnailbar. */
-                rstto_image_list_set_directory (
-                                            window->priv->image_list,
-                                            NULL,
-                                            NULL);
+                rstto_image_list_set_directory (window->priv->image_list, NULL, NULL);
 
                 /* User dropped a single image, load all images in the
-                 * directory and select the image.
-                 */
-                if (n + 1 == g_strv_length (uris))
+                 * directory and select the image. */
+                if (n_uris == 1)
                 {
                     GFile *p_file;
+
                     p_file = g_file_get_parent (rstto_file_get_file (file));
-                    rstto_image_list_set_directory (window->priv->image_list,
-                                                    p_file,
-                                                    NULL);
-                    rstto_image_list_iter_find_file (window->priv->iter,
-                                                     file);
+                    rstto_image_list_set_directory (window->priv->image_list, p_file, NULL);
+                    g_object_unref (p_file);
+
+                    rstto_image_list_add_file (window->priv->image_list, file, NULL);
+                    rstto_image_list_iter_find_file (window->priv->iter, file);
 
                     return;
                 }
