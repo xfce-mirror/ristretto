@@ -184,16 +184,8 @@ rstto_icon_bar_rows_reordered (GtkTreeModel *model,
 struct _RsttoIconBarItem
 {
     GtkTreeIter iter;
-    gint        index;
-
-    gint        width;
-    gint        height;
-
-    gint        pixbuf_width;
-    gint        pixbuf_height;
-
-    gint        layout_width;
-    gint        layout_height;
+    gint index;
+    gint size;
 };
 
 struct _RsttoIconBarPrivate
@@ -203,8 +195,6 @@ struct _RsttoIconBarPrivate
 
     gint            width;
     gint            height;
-
-    gint            pixbuf_column;
     gint            file_column;
 
     RsttoIconBarItem *active_item;
@@ -212,8 +202,7 @@ struct _RsttoIconBarPrivate
     RsttoIconBarItem *cursor_item;
 
     GList          *items;
-    gint            item_width;
-    gint            item_height;
+    gint            item_size;
     gint            device_scale;
 
     GtkAdjustment  *hadjustment;
@@ -224,7 +213,7 @@ struct _RsttoIconBarPrivate
 
     RsttoThumbnailSize thumbnail_size;
 
-    gboolean        auto_center; /* automatically center the active item */
+    gboolean        auto_center;
 
     GtkOrientation  orientation;
 
@@ -436,7 +425,6 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
     icon_bar->priv = rstto_icon_bar_get_instance_private (icon_bar);
 
     icon_bar->priv->orientation = GTK_ORIENTATION_VERTICAL;
-    icon_bar->priv->pixbuf_column = -1;
     icon_bar->priv->file_column = -1;
     icon_bar->priv->show_text = TRUE;
     icon_bar->priv->auto_center = TRUE;
@@ -682,14 +670,12 @@ rstto_icon_bar_size_request (
         GtkRequisition *requisition)
 {
     RsttoIconBarItem *item;
-    RsttoIconBar     *icon_bar = RSTTO_ICON_BAR (widget);
-    GList          *lp;
-    gint            n = 0;
-    gint            max_width = 0;
-    gint            max_height = 0;
+    RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
+    GList *lp;
+    gint n, max_size = 0;
 
-    if (!RSTTO_ICON_BAR_VALID_MODEL_AND_COLUMNS (icon_bar)
-            || icon_bar->priv->items == NULL)
+    if (! RSTTO_ICON_BAR_VALID_MODEL_AND_COLUMNS (icon_bar)
+        || icon_bar->priv->items == NULL)
     {
         icon_bar->priv->width = requisition->width = 0;
         icon_bar->priv->height = requisition->height = 0;
@@ -697,28 +683,24 @@ rstto_icon_bar_size_request (
     }
 
     /* calculate max item size */
-    for (lp = icon_bar->priv->items; lp != NULL; ++n, lp = lp->next)
+    for (n = 0, lp = icon_bar->priv->items; lp != NULL; ++n, lp = lp->next)
     {
         item = lp->data;
         rstto_icon_bar_calculate_item_size (icon_bar, item);
-        if (item->width > max_width)
-            max_width = item->width;
-        if (item->height > max_height)
-            max_height = item->height;
+        max_size = MAX (max_size, item->size);
     }
 
-    icon_bar->priv->item_width = max_width;
-    icon_bar->priv->item_height = max_height;
+    icon_bar->priv->item_size = max_size;
 
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
-        icon_bar->priv->width = requisition->width = icon_bar->priv->item_width;
-        icon_bar->priv->height = requisition->height = icon_bar->priv->item_height * n;
+        icon_bar->priv->width = requisition->width = icon_bar->priv->item_size;
+        icon_bar->priv->height = requisition->height = n * icon_bar->priv->item_size;
     }
     else
     {
-        icon_bar->priv->width = requisition->width = icon_bar->priv->item_width * n;
-        icon_bar->priv->height = requisition->height = icon_bar->priv->item_height;
+        icon_bar->priv->width = requisition->width = n * icon_bar->priv->item_size;
+        icon_bar->priv->height = requisition->height = icon_bar->priv->item_size;
     }
 }
 static void
@@ -794,7 +776,7 @@ rstto_icon_bar_size_allocate (
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
         icon_bar->priv->width = allocation->width;
-        icon_bar->priv->item_width = icon_bar->priv->width;
+        icon_bar->priv->item_size = icon_bar->priv->width;
         gtk_adjustment_set_value (icon_bar->priv->hadjustment, 0);
 
         page_size = gtk_adjustment_get_page_size (icon_bar->priv->vadjustment);
@@ -803,8 +785,8 @@ rstto_icon_bar_size_allocate (
         if (icon_bar->priv->auto_center)
         {
             if (icon_bar->priv->active_item)
-                value = icon_bar->priv->active_item->index * icon_bar->priv->item_height
-                        - (page_size - icon_bar->priv->item_height) / 2;
+                value = icon_bar->priv->active_item->index * icon_bar->priv->item_size
+                        - (page_size - icon_bar->priv->item_size) / 2;
 
             if (value > (gtk_adjustment_get_upper (icon_bar->priv->vadjustment) - page_size))
                 value = (gtk_adjustment_get_upper (icon_bar->priv->vadjustment) - page_size);
@@ -826,7 +808,7 @@ rstto_icon_bar_size_allocate (
     else
     {
         icon_bar->priv->height = allocation->height;
-        icon_bar->priv->item_height = icon_bar->priv->height;
+        icon_bar->priv->item_size = icon_bar->priv->height;
         gtk_adjustment_set_value (icon_bar->priv->vadjustment, 0);
 
         page_size = gtk_adjustment_get_page_size (icon_bar->priv->hadjustment);
@@ -835,7 +817,7 @@ rstto_icon_bar_size_allocate (
         if (icon_bar->priv->auto_center)
         {
             if (icon_bar->priv->active_item)
-                value = icon_bar->priv->active_item->index * icon_bar->priv->item_width - ((page_size-icon_bar->priv->item_width) / 2);
+                value = icon_bar->priv->active_item->index * icon_bar->priv->item_size - ((page_size-icon_bar->priv->item_size) / 2);
 
             if (value > (gtk_adjustment_get_upper (icon_bar->priv->hadjustment) - page_size))
                 value = (gtk_adjustment_get_upper (icon_bar->priv->hadjustment) - page_size);
@@ -978,16 +960,11 @@ rstto_icon_bar_scroll (
     gdouble        max_value  = 0;
 
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
-    {
         adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
-        step_size = icon_bar->priv->item_height / 2.0;
-    }
     else
-    {
         adjustment = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
-        step_size = icon_bar->priv->item_width / 2.0;
-    }
 
+    step_size = icon_bar->priv->item_size / 2.0;
     val = gtk_adjustment_get_value (adjustment);
     max_value = gtk_adjustment_get_upper (adjustment) - gtk_adjustment_get_page_size (adjustment);
 
@@ -1084,13 +1061,13 @@ rstto_icon_bar_get_item_at_pos (
 {
     GList *lp;
 
-    if (G_UNLIKELY (icon_bar->priv->item_height == 0))
+    if (G_UNLIKELY (icon_bar->priv->item_size == 0))
         return NULL;
 
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
-        lp = g_list_nth (icon_bar->priv->items, y / icon_bar->priv->item_height);
+        lp = g_list_nth (icon_bar->priv->items, y / icon_bar->priv->item_size);
     else
-        lp = g_list_nth (icon_bar->priv->items, x / icon_bar->priv->item_width);
+        lp = g_list_nth (icon_bar->priv->items, x / icon_bar->priv->item_size);
 
     return (lp != NULL) ? lp->data : NULL;
 }
@@ -1109,16 +1086,15 @@ rstto_icon_bar_queue_draw_item (
         if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
         {
             area.x = 0;
-            area.y = icon_bar->priv->item_height * item->index;
+            area.y = icon_bar->priv->item_size * item->index;
         }
         else
         {
-            area.x = icon_bar->priv->item_width * item->index;
+            area.x = icon_bar->priv->item_size * item->index;
             area.y = 0;
         }
 
-        area.width = icon_bar->priv->item_width;
-        area.height = icon_bar->priv->item_height;
+        area.height = area.width = icon_bar->priv->item_size;
 
         gdk_window_invalidate_rect (icon_bar->priv->bin_window, &area, TRUE);
     }
@@ -1137,7 +1113,7 @@ rstto_icon_bar_paint_item (
     const GdkPixbuf *pixbuf = NULL;
     GdkRGBA         *border_color, *fill_color;
     GdkRGBA          tmp_color;
-    gdouble          px, py, focus_width, focus_pad;
+    gdouble          px, py, focus_width, focus_pad, offset, size;
     gint             x, y, ifocus_width, ifocus_pad;
     gint             pixbuf_width = 0, pixbuf_height = 0;
 
@@ -1175,95 +1151,79 @@ rstto_icon_bar_paint_item (
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
         x = 0;
-        y = icon_bar->priv->item_height * item->index;
+        y = icon_bar->priv->item_size * item->index;
 
-        px = (icon_bar->priv->item_width - pixbuf_width) / 2.0;
-        py = (icon_bar->priv->item_height - pixbuf_height) / 2.0
-             + icon_bar->priv->item_height * item->index;
+        px = (icon_bar->priv->item_size - pixbuf_width) / 2.0;
+        py = y + (icon_bar->priv->item_size - pixbuf_height) / 2.0;
     }
     else
     {
-        x = icon_bar->priv->item_width * item->index;
+        x = icon_bar->priv->item_size * item->index;
         y = 0;
 
-        px = (icon_bar->priv->item_width - pixbuf_width) / 2.0
-             + icon_bar->priv->item_width * item->index;
-        py = (icon_bar->priv->item_height - pixbuf_height) / 2.0;
+        px = x + (icon_bar->priv->item_size - pixbuf_width) / 2.0;
+        py = (icon_bar->priv->item_size - pixbuf_height) / 2.0;
     }
 
-    if (icon_bar->priv->active_item == item)
+    if (icon_bar->priv->active_item == item || icon_bar->priv->cursor_item == item)
     {
-        gtk_widget_style_get (GTK_WIDGET (icon_bar),
-                "active-item-fill-color", &fill_color,
-                "active-item-border-color", &border_color,
-                NULL);
-
-        if (fill_color == NULL)
+        if (icon_bar->priv->active_item == item)
         {
-            gdk_rgba_parse (&tmp_color, "#c1d2ee");
-            fill_color = gdk_rgba_copy (&tmp_color);
+            gtk_widget_style_get (GTK_WIDGET (icon_bar),
+                    "active-item-fill-color", &fill_color,
+                    "active-item-border-color", &border_color,
+                    NULL);
+
+            if (fill_color == NULL)
+            {
+                gdk_rgba_parse (&tmp_color, "#c1d2ee");
+                fill_color = gdk_rgba_copy (&tmp_color);
+            }
+
+            if (border_color == NULL)
+            {
+                gdk_rgba_parse (&tmp_color, "#316ac5");
+                border_color = gdk_rgba_copy (&tmp_color);
+            }
         }
-
-        if (border_color == NULL)
+        else
         {
-            gdk_rgba_parse (&tmp_color, "#316ac5");
-            border_color = gdk_rgba_copy (&tmp_color);
+            gtk_widget_style_get (GTK_WIDGET (icon_bar),
+                    "cursor-item-fill-color", &fill_color,
+                    "cursor-item-border-color", &border_color,
+                    NULL);
+
+            if (fill_color == NULL)
+            {
+                gdk_rgba_parse (&tmp_color, "#e0e8f6");
+                fill_color = gdk_rgba_copy (&tmp_color);
+            }
+
+            if (border_color == NULL)
+            {
+                gdk_rgba_parse (&tmp_color, "#98b4e2");
+                border_color = gdk_rgba_copy (&tmp_color);
+            }
         }
 
         cairo_save (cr);
-        //cairo_clip (cr);
+
         cairo_set_source_rgb (cr, fill_color->red, fill_color->green, fill_color->blue);
-        cairo_rectangle (cr, x + focus_pad + focus_width, y + focus_pad + focus_width,
-                         icon_bar->priv->item_width - 2 * (focus_width + focus_pad),
-                         icon_bar->priv->item_height - 2 * (focus_width + focus_pad));
+        offset = focus_pad + focus_width;
+        size = icon_bar->priv->item_size - 2 * offset;
+        cairo_rectangle (cr, x + offset, y + offset, size, size);
         cairo_fill (cr);
+
         cairo_set_source_rgb (cr, border_color->red, border_color->green, border_color->blue);
         cairo_set_line_width (cr, focus_width);
         cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
         cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-        cairo_rectangle (cr, x + focus_pad + focus_width / 2, y + focus_pad + focus_width / 2,
-                         icon_bar->priv->item_width - (2 * focus_pad + focus_width),
-                         icon_bar->priv->item_height - (2 * focus_pad + focus_width));
+
+        offset = focus_pad + focus_width / 2;
+        size = icon_bar->priv->item_size - 2 * offset;
+        cairo_rectangle (cr, x + offset, y + offset, size, size);
         cairo_stroke (cr);
-        cairo_restore (cr);
 
-        gdk_rgba_free (border_color);
-        gdk_rgba_free (fill_color);
-    }
-    else if (icon_bar->priv->cursor_item == item)
-    {
-        gtk_widget_style_get (GTK_WIDGET (icon_bar),
-                "cursor-item-fill-color", &fill_color,
-                "cursor-item-border-color", &border_color,
-                NULL);
-
-        if (fill_color == NULL)
-        {
-            gdk_rgba_parse (&tmp_color, "#e0e8f6");
-            fill_color = gdk_rgba_copy (&tmp_color);
-        }
-
-        if (border_color == NULL)
-        {
-            gdk_rgba_parse (&tmp_color, "#98b4e2");
-            border_color = gdk_rgba_copy (&tmp_color);
-        }
-
-        cairo_save (cr);
-        //cairo_clip (cr);
-        cairo_set_source_rgb (cr, fill_color->red, fill_color->green, fill_color->blue);
-        cairo_rectangle (cr, x + focus_pad + focus_width, y + focus_pad + focus_width,
-                         icon_bar->priv->item_width - 2 * (focus_width + focus_pad),
-                         icon_bar->priv->item_height - 2 * (focus_width + focus_pad));
-        cairo_fill (cr);
-        cairo_set_source_rgb (cr, border_color->red, border_color->green, border_color->blue);
-        cairo_set_line_width (cr, focus_width);
-        cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
-        cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-        cairo_rectangle (cr, x + focus_pad + focus_width / 2, y + focus_pad + focus_width / 2,
-                         icon_bar->priv->item_width - (2 * focus_pad + focus_width),
-                         icon_bar->priv->item_height - (2 * focus_pad + focus_width));
-        cairo_stroke (cr);
         cairo_restore (cr);
 
         gdk_rgba_free (border_color);
@@ -1293,7 +1253,7 @@ rstto_icon_bar_calculate_item_size (
 {
     gint focus_width, focus_pad, size;
 
-    if (G_LIKELY (item->width != -1))
+    if (G_LIKELY (item->size != -1))
         return;
 
     gtk_widget_style_get (GTK_WIDGET (icon_bar),
@@ -1330,8 +1290,8 @@ rstto_icon_bar_calculate_item_size (
     }
 
     /* there is a focus padding both inside and outside the item */
-    item->height = item->width = (size + 2 * (focus_width + 2 * focus_pad))
-                                 / (gdouble) icon_bar->priv->device_scale;
+    item->size = (size + 2 * (focus_width + 2 * focus_pad))
+                 / (gdouble) icon_bar->priv->device_scale;
 }
 
 static RsttoIconBarItem *
@@ -1340,8 +1300,7 @@ rstto_icon_bar_item_new (void)
     RsttoIconBarItem *item;
 
     item = g_slice_new0 (RsttoIconBarItem);
-    item->width = -1;
-    item->height = -1;
+    item->size = -1;
 
     return item;
 }
@@ -1359,8 +1318,7 @@ rstto_icon_bar_item_free (gpointer item)
 static void
 rstto_icon_bar_item_invalidate (RsttoIconBarItem *item)
 {
-    item->width = -1;
-    item->height = -1;
+    item->size = -1;
 }
 
 
@@ -1986,7 +1944,7 @@ rstto_icon_bar_show_active (RsttoIconBar *icon_bar)
     {
         icon_bar->priv->vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
         page_size = gtk_adjustment_get_page_size (icon_bar->priv->vadjustment);
-        value = icon_bar->priv->active_item->index * icon_bar->priv->item_height - ((page_size-icon_bar->priv->item_height) / 2);
+        value = icon_bar->priv->active_item->index * icon_bar->priv->item_size - ((page_size-icon_bar->priv->item_size) / 2);
 
         if (value > (gtk_adjustment_get_upper (icon_bar->priv->vadjustment)-page_size))
             value = (gtk_adjustment_get_upper (icon_bar->priv->vadjustment)-page_size);
@@ -2001,7 +1959,7 @@ rstto_icon_bar_show_active (RsttoIconBar *icon_bar)
     {
         icon_bar->priv->hadjustment = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
         page_size = gtk_adjustment_get_page_size (icon_bar->priv->hadjustment);
-        value = icon_bar->priv->active_item->index * icon_bar->priv->item_width - ((page_size-icon_bar->priv->item_width) / 2);
+        value = icon_bar->priv->active_item->index * icon_bar->priv->item_size - ((page_size-icon_bar->priv->item_size) / 2);
 
         if (value > (gtk_adjustment_get_upper (icon_bar->priv->hadjustment)-page_size))
             value = (gtk_adjustment_get_upper (icon_bar->priv->hadjustment)-page_size);
