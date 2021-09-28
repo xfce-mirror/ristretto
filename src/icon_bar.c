@@ -28,6 +28,7 @@
 #include "thumbnailer.h"
 #include "settings.h"
 #include "icon_bar.h"
+#include "main_window.h"
 
 
 
@@ -108,6 +109,10 @@ static void
 rstto_icon_bar_destroy (GtkWidget *widget);
 
 
+static void
+rstto_icon_bar_set_device_scale (GObject *window,
+                                 GParamSpec *pspec,
+                                 gpointer data);
 static void
 rstto_icon_bar_size_request (GtkWidget *widget,
                              GtkRequisition *requisition);
@@ -209,6 +214,7 @@ struct _RsttoIconBarPrivate
     GList          *items;
     gint            item_width;
     gint            item_height;
+    gint            device_scale;
 
     GtkAdjustment  *hadjustment;
     GtkAdjustment  *vadjustment;
@@ -410,6 +416,21 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
 
 
 static void
+rstto_icon_bar_post_init (RsttoIconBar *icon_bar)
+{
+    GtkWidget *window;
+
+    /* disconnect this handler: we are supposed to pass here only once */
+    g_signal_handlers_disconnect_by_func (icon_bar, rstto_icon_bar_post_init, NULL);
+
+    window = gtk_widget_get_ancestor (GTK_WIDGET (icon_bar), RSTTO_TYPE_MAIN_WINDOW);
+    g_signal_connect (window, "notify::device-scale",
+                      G_CALLBACK (rstto_icon_bar_set_device_scale), icon_bar);
+}
+
+
+
+static void
 rstto_icon_bar_init (RsttoIconBar *icon_bar)
 {
     icon_bar->priv = rstto_icon_bar_get_instance_private (icon_bar);
@@ -439,11 +460,13 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
 
     g_signal_connect (icon_bar->priv->settings, "notify::thumbnail-size",
                       G_CALLBACK (cb_rstto_thumbnail_size_changed), icon_bar);
-
     g_signal_connect_swapped (icon_bar->priv->settings, "notify::bgcolor",
                               G_CALLBACK (gtk_widget_queue_draw), icon_bar);
     g_signal_connect_swapped (icon_bar->priv->settings, "notify::bgcolor-override",
                               G_CALLBACK (gtk_widget_queue_draw), icon_bar);
+
+    /* we will finish the initialization when the bar is anchored */
+    g_signal_connect (icon_bar, "hierarchy-changed", G_CALLBACK (rstto_icon_bar_post_init), NULL);
 }
 
 
@@ -562,6 +585,24 @@ rstto_icon_bar_set_property (
             G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
             break;
     }
+}
+
+
+
+static void
+rstto_icon_bar_set_device_scale (GObject *window,
+                                 GParamSpec *pspec,
+                                 gpointer data)
+{
+    RsttoIconBar *icon_bar = data;
+    GtkRequisition requisition;
+
+    g_object_get (window, "device-scale", &icon_bar->priv->device_scale, NULL);
+
+    /* do not scale the thumbnails with the rest of the window */
+    rstto_icon_bar_size_request (GTK_WIDGET (icon_bar), &requisition);
+
+    rstto_icon_bar_invalidate (icon_bar);
 }
 
 
@@ -1090,25 +1131,24 @@ rstto_icon_bar_paint_item (
         RsttoIconBarItem *item,
         cairo_t          *cr)
 {
-    const GdkPixbuf *pixbuf = NULL;
-    GdkRGBA         *border_color;
-    GdkRGBA         *fill_color;
-    GdkRGBA          tmp_color;
-    gint             focus_width;
-    gint             focus_pad;
-    gint             x, y;
-    gint             px, py;
-    gint             pixbuf_height = 0, pixbuf_width = 0;
     RsttoFile       *file;
     GtkTreeIter      iter;
+    const GdkPixbuf *pixbuf = NULL;
+    GdkRGBA         *border_color, *fill_color;
+    GdkRGBA          tmp_color;
+    gdouble          px, py, focus_width, focus_pad;
+    gint             x, y, ifocus_width, ifocus_pad;
+    gint             pixbuf_width = 0, pixbuf_height = 0;
 
     if (!RSTTO_ICON_BAR_VALID_MODEL_AND_COLUMNS (icon_bar))
         return;
 
     gtk_widget_style_get (GTK_WIDGET (icon_bar),
-            "focus-line-width", &focus_width,
-            "focus-padding", &focus_pad,
+            "focus-line-width", &ifocus_width,
+            "focus-padding", &ifocus_pad,
             NULL);
+    focus_width = (gdouble) ifocus_width / icon_bar->priv->device_scale;
+    focus_pad = (gdouble) ifocus_pad / icon_bar->priv->device_scale;
 
     iter = item->iter;
     gtk_tree_model_get (icon_bar->priv->model, &iter,
@@ -1126,8 +1166,8 @@ rstto_icon_bar_paint_item (
 
     if (pixbuf)
     {
-        pixbuf_width = gdk_pixbuf_get_width (pixbuf);
-        pixbuf_height = gdk_pixbuf_get_height (pixbuf);
+        pixbuf_width = gdk_pixbuf_get_width (pixbuf) / icon_bar->priv->device_scale;
+        pixbuf_height = gdk_pixbuf_get_height (pixbuf) / icon_bar->priv->device_scale;
     }
 
     /* calculate pixbuf / layout location */
@@ -1136,16 +1176,18 @@ rstto_icon_bar_paint_item (
         x = 0;
         y = icon_bar->priv->item_height * item->index;
 
-        px = (icon_bar->priv->item_width - pixbuf_width) / 2;
-        py = (icon_bar->priv->item_height - pixbuf_height) / 2 + icon_bar->priv->item_height * item->index;
+        px = (icon_bar->priv->item_width - pixbuf_width) / 2.0;
+        py = (icon_bar->priv->item_height - pixbuf_height) / 2.0
+             + icon_bar->priv->item_height * item->index;
     }
     else
     {
         x = icon_bar->priv->item_width * item->index;
         y = 0;
 
-        px = (icon_bar->priv->item_width - pixbuf_width) / 2 + icon_bar->priv->item_width * item->index;
-        py = (icon_bar->priv->item_height - pixbuf_height) / 2;
+        px = (icon_bar->priv->item_width - pixbuf_width) / 2.0
+             + icon_bar->priv->item_width * item->index;
+        py = (icon_bar->priv->item_height - pixbuf_height) / 2.0;
     }
 
     if (icon_bar->priv->active_item == item)
@@ -1229,8 +1271,13 @@ rstto_icon_bar_paint_item (
 
     if (NULL != pixbuf)
     {
+        cairo_surface_t *surface;
+
         cairo_save (cr);
         rstto_util_set_source_pixbuf (cr, pixbuf, px, py);
+        cairo_pattern_get_surface (cairo_get_source (cr), &surface);
+        cairo_surface_set_device_scale (surface, icon_bar->priv->device_scale,
+                                        icon_bar->priv->device_scale);
         cairo_paint (cr);
         cairo_restore (cr);
     }
@@ -1243,9 +1290,7 @@ rstto_icon_bar_calculate_item_size (
         RsttoIconBar     *icon_bar,
         RsttoIconBarItem *item)
 {
-    gint       focus_width;
-    gint       focus_pad;
-    gint       int_pad;
+    gint focus_width, focus_pad, size;
 
     if (G_LIKELY (item->width != -1))
         return;
@@ -1254,36 +1299,38 @@ rstto_icon_bar_calculate_item_size (
             "focus-line-width", &focus_width,
             "focus-padding", &focus_pad,
             NULL);
-    int_pad = focus_pad;
 
     switch (icon_bar->priv->thumbnail_size)
     {
         case THUMBNAIL_SIZE_VERY_SMALL:
-            item->width = (2 * (int_pad + focus_width + focus_pad)) + THUMBNAIL_SIZE_VERY_SMALL_SIZE;
+            size = THUMBNAIL_SIZE_VERY_SMALL_SIZE;
             break;
         case THUMBNAIL_SIZE_SMALLER:
-            item->width = (2 * (int_pad + focus_width + focus_pad)) + THUMBNAIL_SIZE_SMALLER_SIZE;
+            size = THUMBNAIL_SIZE_SMALLER_SIZE;
             break;
         case THUMBNAIL_SIZE_SMALL:
-            item->width = (2 * (int_pad + focus_width + focus_pad)) + THUMBNAIL_SIZE_SMALL_SIZE;
+            size = THUMBNAIL_SIZE_SMALL_SIZE;
             break;
         case THUMBNAIL_SIZE_NORMAL:
-            item->width = (2 * (int_pad + focus_width + focus_pad)) + THUMBNAIL_SIZE_NORMAL_SIZE;
+            size = THUMBNAIL_SIZE_NORMAL_SIZE;
             break;
         case THUMBNAIL_SIZE_LARGE:
-            item->width = (2 * (int_pad + focus_width + focus_pad)) + THUMBNAIL_SIZE_LARGE_SIZE;
+            size = THUMBNAIL_SIZE_LARGE_SIZE;
             break;
         case THUMBNAIL_SIZE_LARGER:
-            item->width = (2 * (int_pad + focus_width + focus_pad)) + THUMBNAIL_SIZE_LARGER_SIZE;
+            size = THUMBNAIL_SIZE_LARGER_SIZE;
             break;
         case THUMBNAIL_SIZE_VERY_LARGE:
-            item->width = (2 * (int_pad + focus_width + focus_pad)) + THUMBNAIL_SIZE_VERY_LARGE_SIZE;
+            size = THUMBNAIL_SIZE_VERY_LARGE_SIZE;
             break;
         default:
+            size = THUMBNAIL_SIZE_NORMAL_SIZE;
             break;
     }
 
-    item->height = item->width;
+    /* there is a focus padding both inside and outside the item */
+    item->height = item->width = (size + 2 * (focus_width + 2 * focus_pad))
+                                 / (gdouble) icon_bar->priv->device_scale;
 }
 
 static RsttoIconBarItem *
