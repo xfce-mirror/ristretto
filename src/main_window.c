@@ -3505,6 +3505,7 @@ cb_rstto_main_window_open_recent (GtkRecentChooser *chooser, RsttoMainWindow *wi
                     r_file);
 
             /* Cleanup the reference */
+            g_object_unref (p_file);
             g_object_unref (r_file);
             r_file = NULL;
         }
@@ -3990,13 +3991,10 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                     {
                         /* Found a valid image, use the directory
                          * and select the first image in the dir */
-                        rstto_image_list_set_directory (
-                                            window->priv->image_list,
-                                            rstto_file_get_file (file),
-                                            NULL);
-                        rstto_image_list_iter_find_file (
-                                                    window->priv->iter,
-                                                    child);
+                        rstto_image_list_set_directory (window->priv->image_list,
+                                                        rstto_file_get_file (file), NULL);
+                        rstto_image_list_add_file (window->priv->image_list, child, NULL);
+                        rstto_image_list_iter_find_file (window->priv->iter, child);
 
                         break;
                     }
