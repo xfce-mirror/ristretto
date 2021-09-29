@@ -745,53 +745,34 @@ rstto_icon_bar_size_allocate (GtkWidget *widget,
 
 
 static gboolean
-rstto_icon_bar_draw (
-        GtkWidget *widget,
-        cairo_t   *cr)
+rstto_icon_bar_draw (GtkWidget *widget,
+                     cairo_t *cr)
 {
-    RsttoIconBarItem *item;
-    RsttoIconBar     *icon_bar = RSTTO_ICON_BAR (widget);
-    GList            *lp;
-    /*RsttoFile        *file;
-    GtkTreeIter       iter;*/
+    RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
+    GdkRectangle rect;
+    GList *lp;
+    gint offset, n_items, n;
 
     rstto_util_paint_background_color (widget, icon_bar->priv->settings, cr);
 
-    for (lp = icon_bar->priv->items; lp != NULL; lp = lp->next)
+    gdk_cairo_get_clip_rectangle (cr, &rect);
+    if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
-        item = lp->data;
-
-        // TODO: fix me
-        /*GdkRectangle area;
-        if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
-        {
-            area.x = 0;
-            area.y = item->index * icon_bar->priv->item_height;
-        }
-        else
-        {
-            area.x = item->index * icon_bar->priv->item_width;
-            area.y = 0;
-        }
-
-        area.width = icon_bar->priv->item_width;
-        area.height = icon_bar->priv->item_height;
-
-        if (gdk_region_rect_in (expose->region, &area) != GDK_OVERLAP_RECTANGLE_OUT)
-        {
-            rstto_icon_bar_paint_item (icon_bar, item, &expose->area);*/
-            rstto_icon_bar_paint_item (icon_bar, item, cr);
-        /*}
-        else
-        {
-            iter = item->iter;
-            gtk_tree_model_get (icon_bar->priv->model, &iter,
-                    icon_bar->priv->file_column, &file,
-                    -1);
-            rstto_thumbnailer_dequeue_file (icon_bar->priv->thumbnailer, file);
-            g_object_unref (file);
-        }*/
+        offset = rect.y / icon_bar->priv->item_size;
+        n_items = rect.height / icon_bar->priv->item_size + 2;
     }
+    else
+    {
+        offset = rect.x / icon_bar->priv->item_size;
+        n_items = rect.width / icon_bar->priv->item_size + 2;
+    }
+
+    /* skip items before the drawing area */
+    for (lp = icon_bar->priv->items, n = 0; lp != NULL && n < offset; lp = lp->next, n++);
+
+    /* only draw items in the drawing area, skip those who are after */
+    for (n = 0; lp != NULL && n < n_items; lp = lp->next, n++)
+        rstto_icon_bar_paint_item (icon_bar, lp->data, cr);
 
     return TRUE;
 }
