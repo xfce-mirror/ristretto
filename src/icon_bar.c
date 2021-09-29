@@ -137,12 +137,6 @@ static void
 rstto_icon_bar_calculate_item_size (RsttoIconBar *icon_bar,
                                     RsttoIconBarItem *item);
 static void
-rstto_icon_bar_adjustment_changed (RsttoIconBar *icon_bar,
-                                   GtkAdjustment *adjustment);
-static void
-rstto_icon_bar_adjustment_value_changed (RsttoIconBar *icon_bar,
-                                         GtkAdjustment *adjustment);
-static void
 cb_rstto_thumbnail_size_changed (GObject *settings,
                                  GParamSpec *pspec,
                                  gpointer user_data);
@@ -212,8 +206,6 @@ struct _RsttoIconBarPrivate
     RsttoThumbnailer *thumbnailer;
 
     RsttoThumbnailSize thumbnail_size;
-
-    gboolean        auto_center;
 
     GtkOrientation  orientation;
 
@@ -427,7 +419,6 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
     icon_bar->priv->orientation = GTK_ORIENTATION_VERTICAL;
     icon_bar->priv->file_column = -1;
     icon_bar->priv->show_text = TRUE;
-    icon_bar->priv->auto_center = TRUE;
     icon_bar->priv->settings = rstto_settings_new ();
     icon_bar->priv->thumbnailer = rstto_thumbnailer_new ();
 
@@ -536,7 +527,7 @@ rstto_icon_bar_set_property (
         GParamSpec   *pspec)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (object);
-    GtkWidget    *hscrollbar, *vscrollbar;
+    GtkScrolledWindow *swindow;
 
     switch (prop_id)
     {
@@ -562,11 +553,15 @@ rstto_icon_bar_set_property (
 
         case PROP_SCROLLED_WINDOW:
             icon_bar->priv->s_window = g_value_get_object (value);
-            hscrollbar = gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
-            vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
-            g_signal_connect_swapped (icon_bar->priv->s_window, "scroll-event", G_CALLBACK (rstto_icon_bar_scroll), icon_bar);
-            g_signal_connect_swapped (hscrollbar, "scroll-event", G_CALLBACK (rstto_icon_bar_scroll), icon_bar);
-            g_signal_connect_swapped (vscrollbar, "scroll-event", G_CALLBACK (rstto_icon_bar_scroll), icon_bar);
+            swindow = GTK_SCROLLED_WINDOW (icon_bar->priv->s_window);
+            icon_bar->priv->hadjustment = gtk_scrolled_window_get_hadjustment (swindow);
+            icon_bar->priv->vadjustment = gtk_scrolled_window_get_vadjustment (swindow);
+            g_signal_connect_swapped (swindow, "scroll-event",
+                                      G_CALLBACK (rstto_icon_bar_scroll), icon_bar);
+            g_signal_connect_swapped (icon_bar->priv->hadjustment, "value-changed",
+                                      G_CALLBACK (gtk_widget_queue_draw), icon_bar);
+            g_signal_connect_swapped (icon_bar->priv->vadjustment, "value-changed",
+                                      G_CALLBACK (gtk_widget_queue_draw), icon_bar);
             break;
 
         default:
@@ -723,14 +718,13 @@ rstto_icon_bar_get_preferred_height (GtkWidget *widget, gint *minimal_height, gi
 
 
 static void
-rstto_icon_bar_size_allocate (
-        GtkWidget     *widget,
-        GtkAllocation *allocation)
+rstto_icon_bar_size_allocate (GtkWidget *widget,
+                              GtkAllocation *allocation)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
-    gdouble value = 0.0;
-    gdouble page_size = 0.0;
+    GtkAllocation prev_alloc;
 
+    gtk_widget_get_allocation (widget, &prev_alloc);
     gtk_widget_set_allocation (widget, allocation);
 
     if (!icon_bar->priv->active_item)
@@ -738,104 +732,14 @@ rstto_icon_bar_size_allocate (
 
     if (gtk_widget_get_realized (widget))
     {
-        gdk_window_move_resize (gtk_widget_get_window (widget),
-                allocation->x,
-                allocation->y,
-                allocation->width,
-                allocation->height);
-        gdk_window_resize (icon_bar->priv->bin_window,
-                MAX (icon_bar->priv->width, allocation->width),
-                MAX (icon_bar->priv->height, allocation->height));
-    }
-    icon_bar->priv->hadjustment = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
-    icon_bar->priv->vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
-
-    if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
-    {
-        value = gtk_adjustment_get_value (icon_bar->priv->vadjustment);
-        value = value / gtk_adjustment_get_upper (icon_bar->priv->vadjustment) * MAX (allocation->height, icon_bar->priv->height);
-    }
-    else
-    {
-        value = gtk_adjustment_get_value (icon_bar->priv->hadjustment);
-        value = value / gtk_adjustment_get_upper (icon_bar->priv->hadjustment) * MAX (allocation->width, icon_bar->priv->width);
+        gdk_window_move_resize (gtk_widget_get_window (widget), allocation->x, allocation->y,
+                                allocation->width, allocation->height);
+        gdk_window_resize (icon_bar->priv->bin_window, allocation->width, allocation->height);
     }
 
-//    gtk_adjustment_set_page_size (icon_bar->priv->hadjustment, allocation->width);
-    gtk_adjustment_set_page_increment (icon_bar->priv->hadjustment, allocation->width * 0.9);
-    gtk_adjustment_set_step_increment (icon_bar->priv->hadjustment, allocation->width * 0.1);
-//    gtk_adjustment_set_lower (icon_bar->priv->hadjustment, 0);
-//    gtk_adjustment_set_upper (icon_bar->priv->hadjustment, MAX (allocation->width, icon_bar->priv->width));
-
-//    gtk_adjustment_set_page_size (icon_bar->priv->vadjustment, allocation->height);
-    gtk_adjustment_set_page_increment (icon_bar->priv->vadjustment, allocation->height * 0.9);
-    gtk_adjustment_set_step_increment (icon_bar->priv->vadjustment, allocation->height * 0.1);
-//    gtk_adjustment_set_lower (icon_bar->priv->vadjustment, 0);
-//    gtk_adjustment_set_upper (icon_bar->priv->vadjustment, MAX (allocation->height, icon_bar->priv->height));
-
-    if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
-    {
-        icon_bar->priv->width = allocation->width;
-        icon_bar->priv->item_size = icon_bar->priv->width;
-        gtk_adjustment_set_value (icon_bar->priv->hadjustment, 0);
-
-        page_size = gtk_adjustment_get_page_size (icon_bar->priv->vadjustment);
-
-        /* If auto-center is true, center the selected item */
-        if (icon_bar->priv->auto_center)
-        {
-            if (icon_bar->priv->active_item)
-                value = icon_bar->priv->active_item->index * icon_bar->priv->item_size
-                        - (page_size - icon_bar->priv->item_size) / 2;
-
-            if (value > (gtk_adjustment_get_upper (icon_bar->priv->vadjustment) - page_size))
-                value = (gtk_adjustment_get_upper (icon_bar->priv->vadjustment) - page_size);
-
-            gtk_adjustment_set_value (icon_bar->priv->vadjustment, value);
-            rstto_icon_bar_adjustment_changed (icon_bar, icon_bar->priv->vadjustment);
-            rstto_icon_bar_adjustment_changed (icon_bar, icon_bar->priv->hadjustment);
-        }
-        else
-        {
-            if (value > (gtk_adjustment_get_upper (icon_bar->priv->vadjustment) - page_size))
-                value = gtk_adjustment_get_upper (icon_bar->priv->vadjustment) - page_size;
-
-            gtk_adjustment_set_value (icon_bar->priv->vadjustment, value);
-            rstto_icon_bar_adjustment_changed (icon_bar, icon_bar->priv->vadjustment);
-            rstto_icon_bar_adjustment_changed (icon_bar, icon_bar->priv->hadjustment);
-        }
-    }
-    else
-    {
-        icon_bar->priv->height = allocation->height;
-        icon_bar->priv->item_size = icon_bar->priv->height;
-        gtk_adjustment_set_value (icon_bar->priv->vadjustment, 0);
-
-        page_size = gtk_adjustment_get_page_size (icon_bar->priv->hadjustment);
-
-        /* If auto-center is true, center the selected item */
-        if (icon_bar->priv->auto_center)
-        {
-            if (icon_bar->priv->active_item)
-                value = icon_bar->priv->active_item->index * icon_bar->priv->item_size - ((page_size-icon_bar->priv->item_size) / 2);
-
-            if (value > (gtk_adjustment_get_upper (icon_bar->priv->hadjustment) - page_size))
-                value = (gtk_adjustment_get_upper (icon_bar->priv->hadjustment) - page_size);
-
-            gtk_adjustment_set_value (icon_bar->priv->hadjustment, value);
-            rstto_icon_bar_adjustment_changed (icon_bar, icon_bar->priv->vadjustment);
-            rstto_icon_bar_adjustment_changed (icon_bar, icon_bar->priv->hadjustment);
-        }
-        else
-        {
-            if (value > (gtk_adjustment_get_upper (icon_bar->priv->hadjustment) - page_size))
-                value = gtk_adjustment_get_upper (icon_bar->priv->hadjustment) - page_size;
-
-            gtk_adjustment_set_value (icon_bar->priv->hadjustment, value);
-            rstto_icon_bar_adjustment_changed (icon_bar, icon_bar->priv->vadjustment);
-            rstto_icon_bar_adjustment_changed (icon_bar, icon_bar->priv->hadjustment);
-        }
-    }
+    /* center on the active item when there is a real size change */
+    if (prev_alloc.width != allocation->width || prev_alloc.height != allocation->height)
+        rstto_icon_bar_show_active (icon_bar);
 }
 
 
@@ -960,9 +864,9 @@ rstto_icon_bar_scroll (
     gdouble        max_value  = 0;
 
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
-        adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
+        adjustment = icon_bar->priv->vadjustment;
     else
-        adjustment = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
+        adjustment = icon_bar->priv->hadjustment;
 
     step_size = icon_bar->priv->item_size / 2.0;
     val = gtk_adjustment_get_value (adjustment);
@@ -1487,11 +1391,6 @@ rstto_icon_bar_rows_reordered (
 
     g_list_free (icon_bar->priv->items);
     icon_bar->priv->items = g_list_reverse (items);
-    if (icon_bar->priv->auto_center)
-    {
-        rstto_icon_bar_show_active (icon_bar);
-        icon_bar->priv->auto_center = TRUE;
-    }
 
     gtk_widget_queue_draw (GTK_WIDGET (icon_bar));
 }
@@ -1744,9 +1643,6 @@ rstto_icon_bar_set_orientation (
         icon_bar->priv->orientation = orientation;
         gtk_widget_queue_resize (GTK_WIDGET (icon_bar));
 
-        /* If the orientation changes, focus the active item */
-        rstto_icon_bar_show_active (icon_bar);
-
         g_object_notify (G_OBJECT (icon_bar), "orientation");
     }
 }
@@ -1925,89 +1821,25 @@ rstto_icon_bar_get_show_text (RsttoIconBar  *icon_bar)
 /**
  * rstto_icon_bar_show_active:
  * @icon_bar  : An #RsttoIconBar.
- *
- * Returns: TRUE on success
  **/
-gboolean
+void
 rstto_icon_bar_show_active (RsttoIconBar *icon_bar)
 {
-    gint page_size = 0;
-    gint value = 0;
+    GtkAdjustment *adjustment;
 
-    g_return_val_if_fail (RSTTO_IS_ICON_BAR (icon_bar), FALSE);
-    if (NULL == icon_bar->priv->active_item)
-        return FALSE;
+    g_return_if_fail (RSTTO_IS_ICON_BAR (icon_bar));
 
-    icon_bar->priv->auto_center = TRUE;
+    if (icon_bar->priv->active_item == NULL)
+        return;
 
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
-    {
-        icon_bar->priv->vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
-        page_size = gtk_adjustment_get_page_size (icon_bar->priv->vadjustment);
-        value = icon_bar->priv->active_item->index * icon_bar->priv->item_size - ((page_size-icon_bar->priv->item_size) / 2);
-
-        if (value > (gtk_adjustment_get_upper (icon_bar->priv->vadjustment)-page_size))
-            value = (gtk_adjustment_get_upper (icon_bar->priv->vadjustment)-page_size);
-
-        gtk_adjustment_set_value (icon_bar->priv->vadjustment, value);
-        rstto_icon_bar_adjustment_value_changed (
-                icon_bar,
-                icon_bar->priv->vadjustment);
-        return TRUE;
-    }
+        adjustment = icon_bar->priv->vadjustment;
     else
-    {
-        icon_bar->priv->hadjustment = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (icon_bar->priv->s_window));
-        page_size = gtk_adjustment_get_page_size (icon_bar->priv->hadjustment);
-        value = icon_bar->priv->active_item->index * icon_bar->priv->item_size - ((page_size-icon_bar->priv->item_size) / 2);
+        adjustment = icon_bar->priv->hadjustment;
 
-        if (value > (gtk_adjustment_get_upper (icon_bar->priv->hadjustment)-page_size))
-            value = (gtk_adjustment_get_upper (icon_bar->priv->hadjustment)-page_size);
-
-        gtk_adjustment_set_value (icon_bar->priv->hadjustment, value);
-        rstto_icon_bar_adjustment_value_changed (
-                icon_bar,
-                icon_bar->priv->hadjustment);
-        return TRUE;
-    }
-    return FALSE;
-}
-
-static void
-rstto_icon_bar_adjustment_changed (
-        RsttoIconBar  *icon_bar,
-        GtkAdjustment *adjustment)
-{
-#if 0
-    if (icon_bar->priv->auto_center)
-    {
-        gtk_adjustment_changed (adjustment);
-        icon_bar->priv->auto_center = TRUE;
-    }
-    else
-    {
-        gtk_adjustment_changed (adjustment);
-    }
-#endif
-}
-
-static void
-rstto_icon_bar_adjustment_value_changed (
-        RsttoIconBar  *icon_bar,
-        GtkAdjustment *adjustment)
-{
-#if 0
-    if (icon_bar->priv->auto_center)
-    {
-        //gtk_adjustment_value_changed (adjustment);
-        icon_bar->priv->auto_center = TRUE;
-    }
-    else
-    {
-        //gtk_adjustment_value_changed (adjustment);
-    }
-    cb_rstto_icon_bar_adjustment_value_changed (adjustment, icon_bar);
-#endif
+    gtk_adjustment_set_value (adjustment, (icon_bar->priv->active_item->index + 0.5)
+                                          * icon_bar->priv->item_size
+                                          - gtk_adjustment_get_page_size (adjustment) / 2);
 }
 
 static void
@@ -2017,14 +1849,11 @@ cb_rstto_thumbnail_size_changed (
         gpointer user_data)
 {
     RsttoIconBar *icon_bar = user_data;
-    gboolean auto_center = icon_bar->priv->auto_center;
 
-    g_object_get (settings, "thumbnail-size", &(icon_bar->priv->thumbnail_size), NULL);
+    g_object_get (settings, "thumbnail-size", &icon_bar->priv->thumbnail_size, NULL);
 
     rstto_icon_bar_invalidate (icon_bar);
-
     rstto_icon_bar_update_missing_icon (icon_bar);
-    icon_bar->priv->auto_center = auto_center;
 }
 
 
