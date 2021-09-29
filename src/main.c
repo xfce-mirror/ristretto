@@ -226,8 +226,6 @@ cb_rstto_open_files (gpointer user_data)
 
                     g_object_unref (file_info);
                 }
-
-                g_object_unref (file);
             }
             rof->iter++;
             return TRUE;
