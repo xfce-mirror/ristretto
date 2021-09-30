@@ -26,8 +26,10 @@
 #include "image_list.h"
 #include "thumbnailer.h"
 #include "settings.h"
+#include "main_window.h"
 
 
+#define FILE_BLOCK_SIZE 100
 
 enum
 {
@@ -85,6 +87,8 @@ rstto_image_list_monitor_dir (RsttoImageList *image_list,
                               GFile *dir);
 static void
 rstto_image_list_remove_all (RsttoImageList *image_list);
+static gboolean
+rstto_image_list_set_directory_idle (gpointer data);
 static gboolean
 iter_next (RsttoImageListIter *iter,
            gboolean sticky);
@@ -171,7 +175,7 @@ struct _RsttoImageListPrivate
 {
     gint           stamp;
     GFileMonitor  *dir_monitor;
-    guint          directory_loader;
+    gboolean       is_busy;
     RsttoSettings *settings;
     RsttoThumbnailer *thumbnailer;
 
@@ -183,18 +187,6 @@ struct _RsttoImageListPrivate
     GCompareFunc  cb_rstto_image_list_compare_func;
 
     gboolean      wrap_images;
-};
-
-typedef struct _RsttoFileLoader RsttoFileLoader;
-
-struct _RsttoFileLoader
-{
-    GFile           *dir;
-    RsttoImageList  *image_list;
-    GFileEnumerator *file_enum;
-
-    guint            n_files;
-    RsttoFile      **files;
 };
 
 
@@ -244,7 +236,7 @@ rstto_image_list_init (RsttoImageList *image_list)
 {
     image_list->priv = rstto_image_list_get_instance_private (image_list);
     image_list->priv->stamp = g_random_int ();
-    image_list->priv->directory_loader = 0;
+    image_list->priv->is_busy = FALSE;
     image_list->priv->settings = rstto_settings_new ();
     image_list->priv->thumbnailer = rstto_thumbnailer_new ();
 
@@ -300,9 +292,6 @@ rstto_image_list_finalize (GObject *object)
 
     if (NULL != image_list->priv)
     {
-        if (image_list->priv->directory_loader != 0)
-            REMOVE_SOURCE (image_list->priv->directory_loader);
-
         if (image_list->priv->settings)
         {
             g_object_unref (image_list->priv->settings);
@@ -570,166 +559,125 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
 }
 
 static void
-cb_rstto_read_file_destroy (gpointer user_data)
+rstto_image_list_set_directory_finish (GObject *source_object,
+                                       GAsyncResult *res,
+                                       gpointer user_data)
 {
-    RsttoFileLoader *loader = user_data;
-    GSList          *iter;
+    RsttoImageList *image_list = user_data;
+    RsttoFile *r_file;
+    GFileEnumerator *file_enum = G_FILE_ENUMERATOR (source_object);
+    GSList *iter;
+    GList *info_list, *li;
+    GFile *file, *loaded_file;
+    GError *error = NULL;
+    const gchar *content_type;
 
-    /* remove the busy state before sending the signal */
-    loader->image_list->priv->directory_loader = 0;
-    iter = loader->image_list->priv->iterators;
-    while (iter)
+    if (rstto_main_window_get_app_exited ())
     {
-        g_signal_emit (iter->data,
-                       rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED],
-                       0, NULL);
-        iter = g_slist_next (iter);
+        g_object_unref (file_enum);
+        return;
     }
 
-    g_free (loader);
+    info_list = g_file_enumerator_next_files_finish (file_enum, res, &error);
+    if (info_list == NULL)
+    {
+        /* we're done, inform the others */
+        image_list->priv->is_busy = FALSE;
+        for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
+            g_signal_emit (iter->data,
+                           rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED],
+                           0, NULL);
+
+        if (error != NULL)
+        {
+            /* TODO: show error dialog */
+            g_error_free (error);
+        }
+
+        g_object_unref (file_enum);
+
+        return;
+    }
+
+    loaded_file = rstto_file_get_file (rstto_object_get_data (file_enum, "loaded-file"));
+    for (li = info_list; li != NULL; li = li->next)
+    {
+        content_type  = g_file_info_get_content_type (li->data);
+        if (content_type != NULL && g_str_has_prefix (content_type, "image/"))
+        {
+            file = g_file_enumerator_get_child (file_enum, li->data);
+            if (loaded_file != NULL && g_file_equal (file, loaded_file))
+            {
+                loaded_file = NULL;
+                rstto_object_set_data (file_enum, "loaded-file", NULL);
+                continue;
+            }
+
+            r_file = rstto_file_new (file);
+            rstto_image_list_add_file (image_list, r_file, NULL);
+
+            g_object_unref (file);
+            g_object_unref (r_file);
+        }
+    }
+
+    /* schedule next file block, if any */
+    if (g_list_length (info_list) == FILE_BLOCK_SIZE)
+        g_idle_add (rstto_image_list_set_directory_idle, file_enum);
+    else
+    {
+        /* we're done, inform the others */
+        image_list->priv->is_busy = FALSE;
+        for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
+            g_signal_emit (iter->data,
+                           rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED],
+                           0, NULL);
+
+        g_object_unref (file_enum);
+    }
+
+    g_list_free_full (info_list, g_object_unref);
 }
 
 static gboolean
-cb_rstto_read_file (gpointer user_data)
+rstto_image_list_set_directory_idle (gpointer data)
 {
-    RsttoFileLoader *loader = user_data;
-    GFileInfo       *file_info;
-    const gchar     *content_type;
-    const gchar     *filename;
-    RsttoFile      **files;
-    GFile           *child_file;
-    guint            i;
-    GSList          *iter;
+    g_file_enumerator_next_files_async (data, FILE_BLOCK_SIZE, G_PRIORITY_DEFAULT,
+                                        NULL, rstto_image_list_set_directory_finish,
+                                        rstto_object_get_data (data, "image-list"));
 
-    /* Check the inputs */
-    g_return_val_if_fail (NULL != loader, FALSE);
-    g_return_val_if_fail (NULL != loader->file_enum, FALSE);
-
-    file_info = g_file_enumerator_next_file (
-            loader->file_enum,
-            NULL,
-            NULL);
-    if (NULL != file_info)
-    {
-        /* Allow for 'progressive' loading */
-        if (loader->n_files == 100)
-        {
-            for (i = 0; i < loader->n_files; ++i)
-            {
-                rstto_image_list_add_file (
-                        loader->image_list,
-                        loader->files[i],
-                        NULL);
-
-                g_object_unref (loader->files[i]);
-            }
-
-            iter = loader->image_list->priv->iterators;
-            while (iter)
-            {
-                g_signal_emit (iter->data,
-                               rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED],
-                               0, NULL);
-                iter = g_slist_next (iter);
-            }
-
-            g_free (loader->files);
-            loader->files = NULL;
-            loader->n_files = 0;
-        }
-
-        /* Add file to the list */
-        content_type  = g_file_info_get_content_type (file_info);
-        if (content_type && (strncmp (content_type, "image/", 6) == 0))
-        {
-            filename = g_file_info_get_name (file_info);
-            child_file = g_file_get_child (loader->dir, filename);
-            files = g_new0 (RsttoFile *, loader->n_files + 1);
-            files[0] = rstto_file_new (child_file);
-
-            g_object_unref (child_file);
-
-            for (i = 0; i < loader->n_files; ++i)
-            {
-                files[i + 1] = loader->files[i];
-            }
-
-            if (NULL != loader->files)
-            {
-                g_free (loader->files);
-            }
-            loader->files = files;
-            loader->n_files++;
-        }
-
-        g_object_unref (file_info);
-    }
-    else
-    {
-        for (i = 0; i < loader->n_files; ++i)
-        {
-            rstto_image_list_add_file (
-                    loader->image_list,
-                    loader->files[i],
-                    NULL);
-
-            g_object_unref (loader->files[i]);
-        }
-
-        if (loader->n_files > 0)
-        {
-            g_free (loader->files);
-        }
-        g_object_unref (loader->file_enum);
-        g_object_unref (loader->dir);
-
-        return FALSE;
-    }
-
-    return TRUE;
+    return FALSE;
 }
 
 gboolean
-rstto_image_list_set_directory (
-        RsttoImageList *image_list,
-        GFile *dir,
-        GError **error)
+rstto_image_list_set_directory (RsttoImageList *image_list,
+                                GFile *dir,
+                                RsttoFile *file,
+                                GError **error)
 {
-    /* Declare variables */
-    GFileEnumerator *file_enumerator = NULL;
-    RsttoFileLoader *loader = NULL;
-
-    /* Source code block */
-    if (image_list->priv->directory_loader != 0)
-    {
-        REMOVE_SOURCE (image_list->priv->directory_loader);
-    }
+    GFileEnumerator *file_enum;
 
     rstto_image_list_remove_all (image_list);
+    rstto_image_list_monitor_dir (image_list, dir);
 
-    rstto_image_list_monitor_dir (
-            image_list,
-            dir);
+    /* allow all images to be removed by providing NULL to dir */
+    if (dir == NULL)
+        return TRUE;
 
-    /* Allow all images to be removed by providing NULL to dir */
-    if (NULL != dir)
-    {
-        file_enumerator = g_file_enumerate_children (dir, "standard::*", 0, NULL, NULL);
+    if (file != NULL && ! rstto_image_list_add_file (image_list, file, error))
+        return FALSE;
 
-        if (NULL != file_enumerator)
-        {
-            g_object_ref (dir);
+    /* this is transfer full but this ref will be released in
+     * rstto_image_list_set_directory_finish() when everything is done */
+    file_enum = g_file_enumerate_children (dir, "standard::content-type",
+                                           G_FILE_QUERY_INFO_NONE, NULL, error);
+    if (file_enum == NULL)
+        return FALSE;
 
-            loader = g_new0 (RsttoFileLoader, 1);
-            loader->dir = dir;
-            loader->file_enum = file_enumerator;
-            loader->image_list = image_list;
-
-            image_list->priv->directory_loader =
-                g_idle_add_full (G_PRIORITY_DEFAULT_IDLE, cb_rstto_read_file,
-                                 loader, cb_rstto_read_file_destroy);
-        }
-    }
+    image_list->priv->is_busy = TRUE;
+    rstto_object_set_data (file_enum, "loaded-file", file);
+    rstto_object_set_data (file_enum, "image-list", image_list);
+    g_idle_add (rstto_image_list_set_directory_idle, rstto_util_source_autoremove (file_enum));
 
     return TRUE;
 }
@@ -781,9 +729,21 @@ cb_file_monitor_changed (
         gpointer           user_data)
 {
     RsttoImageList *image_list = user_data;
-    RsttoFile *r_file = rstto_file_new (file);
+    RsttoFile *r_file;
+    GList *list;
 
     static RsttoFile *s_r_file = NULL;
+
+    /* see if the file is already open */
+    for (list = image_list->priv->images; list != NULL; list = list->next)
+        if (g_file_equal (file, list->data))
+        {
+            r_file = g_object_ref (list->data);
+            break;
+        }
+
+    if (list == NULL)
+        r_file = rstto_file_new (file);
 
     switch (event_type)
     {
@@ -1533,8 +1493,7 @@ cb_rstto_thumbnailer_ready (
 }
 
 gboolean
-rstto_image_list_is_busy (
-        RsttoImageList *list)
+rstto_image_list_is_busy (RsttoImageList *list)
 {
-    return list->priv->directory_loader != 0;
+    return list->priv->is_busy;
 }
