@@ -51,8 +51,6 @@ enum
 
 static gint rstto_file_signals[RSTTO_FILE_SIGNAL_COUNT];
 
-static GList *open_files = NULL;
-
 
 
 static void
@@ -176,8 +174,6 @@ rstto_file_finalize (GObject *object)
         }
     }
 
-    open_files = g_list_remove_all (open_files, r_file);
-
     G_OBJECT_CLASS (rstto_file_parent_class)->finalize (object);
 }
 
@@ -190,28 +186,11 @@ rstto_file_finalize (GObject *object)
 RsttoFile *
 rstto_file_new (GFile *file)
 {
-    RsttoFile *r_file = NULL;
-    GList *iter = open_files;
-
-    while (NULL != iter)
-    {
-        /* Check if the file is already opened, if so
-         * return that one.
-         */
-        r_file = iter->data;
-        if (g_file_equal (r_file->priv->file, file))
-        {
-            g_object_ref (iter->data);
-            return iter->data;
-        }
-        iter = g_list_next (iter);
-    }
+    RsttoFile *r_file;
 
     r_file = g_object_new (RSTTO_TYPE_FILE, NULL);
     r_file->priv->file = file;
     g_object_ref (file);
-
-    open_files = g_list_append (open_files, r_file);
 
     return r_file;
 }
