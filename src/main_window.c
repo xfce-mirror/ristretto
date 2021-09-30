@@ -3526,18 +3526,8 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                     /* This call adds the contents of the
                      * directory asynchronously.
                      */
-                    rstto_image_list_set_directory (
-                            window->priv->image_list,
-                            p_file,
-                            NULL);
-
-                    /* Make sure the file we are looking
-                     * for is already in the list.
-                     */
-                    rstto_image_list_add_file (
-                            window->priv->image_list,
-                            r_file,
-                            NULL);
+                    rstto_image_list_set_directory (window->priv->image_list,
+                                                    p_file, r_file, NULL);
 
                     /* Add a reference to the file, it is owned by the
                      * sourcefunc and will be unref-ed by it.
@@ -3602,18 +3592,7 @@ cb_rstto_main_window_open_recent (GtkRecentChooser *chooser, RsttoMainWindow *wi
             /* This call adds the contents of the
              * directory asynchronously.
              */
-            rstto_image_list_set_directory (
-                    window->priv->image_list,
-                    p_file,
-                    NULL);
-
-            /* Make sure the file we are looking
-             * for is already in the list.
-             */
-            rstto_image_list_add_file (
-                    window->priv->image_list,
-                    r_file,
-                    NULL);
+            rstto_image_list_set_directory (window->priv->image_list, p_file, r_file, NULL);
 
             /* Point the main iterator to the
              * correct file
@@ -3802,10 +3781,7 @@ cb_rstto_main_window_close (
         GtkWidget *widget,
         RsttoMainWindow *window)
 {
-    rstto_image_list_set_directory (
-            window->priv->image_list,
-            NULL,
-            NULL);
+    rstto_image_list_set_directory (window->priv->image_list, NULL, NULL, NULL);
     gtk_widget_hide (window->priv->warning);
 }
 
@@ -4035,7 +4011,7 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                 first = FALSE;
 
                 /* On the first valid image, we reset the thumbnailbar. */
-                rstto_image_list_set_directory (window->priv->image_list, NULL, NULL);
+                rstto_image_list_set_directory (window->priv->image_list, NULL, NULL, NULL);
 
                 /* User dropped a single image, load all images in the
                  * directory and select the image. */
@@ -4044,10 +4020,9 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                     GFile *p_file;
 
                     p_file = g_file_get_parent (rstto_file_get_file (file));
-                    rstto_image_list_set_directory (window->priv->image_list, p_file, NULL);
+                    rstto_image_list_set_directory (window->priv->image_list, p_file, file, NULL);
                     g_object_unref (p_file);
 
-                    rstto_image_list_add_file (window->priv->image_list, file, NULL);
                     rstto_image_list_iter_find_file (window->priv->iter, file);
 
                     return;
@@ -4086,10 +4061,12 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                     gchar *path = g_strdup_printf ("%s/%s",
                                                    rstto_file_get_path (file),
                                                    g_file_info_get_name (f_info));
+                    GFile *gfile = g_file_new_for_path (path);
 
-                    child = rstto_file_new (g_file_new_for_path (path));
+                    child = rstto_file_new (gfile);
 
                     g_object_unref (f_info);
+                    g_object_unref (gfile);
                     g_free (path);
 
                     if (rstto_file_is_valid (child))
@@ -4097,8 +4074,7 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                         /* Found a valid image, use the directory
                          * and select the first image in the dir */
                         rstto_image_list_set_directory (window->priv->image_list,
-                                                        rstto_file_get_file (file), NULL);
-                        rstto_image_list_add_file (window->priv->image_list, child, NULL);
+                                                        rstto_file_get_file (file), child, NULL);
                         rstto_image_list_iter_find_file (window->priv->iter, child);
 
                         break;

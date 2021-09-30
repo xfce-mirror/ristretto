@@ -1245,7 +1245,13 @@ rstto_icon_bar_row_changed (
     gint             idx;
 
     idx = gtk_tree_path_get_indices (path)[0];
-    item = g_list_nth (icon_bar->priv->items, idx)->data;
+    item = g_list_nth_data (icon_bar->priv->items, idx);
+
+    /* the image list is loaded by file blocks, whereas the icon bar is filled at the
+     * end of this process, we can therefore receive wrong information during this time */
+    if (item == NULL)
+        return;
+
     rstto_icon_bar_item_invalidate (item);
     gtk_widget_queue_resize (GTK_WIDGET (icon_bar));
 }
@@ -1299,8 +1305,13 @@ rstto_icon_bar_row_deleted (
 
     idx = gtk_tree_path_get_indices (path)[0];
     lp = g_list_nth (icon_bar->priv->items, idx);
-    item = lp->data;
 
+    /* the image list is loaded by file blocks, whereas the icon bar is filled at the
+     * end of this process, we can therefore receive wrong information during this time */
+    if (lp == NULL)
+        return;
+
+    item = lp->data;
     if (item == icon_bar->priv->active_item)
     {
         icon_bar->priv->active_item = NULL;
