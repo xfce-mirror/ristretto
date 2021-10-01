@@ -28,6 +28,7 @@
 
 #include "file.h"
 #include "thumbnailer.h"
+#include "main_window.h"
 
 
 
@@ -213,6 +214,20 @@ rstto_file_new (GFile *file)
     open_files = g_list_append (open_files, r_file);
 
     return r_file;
+}
+
+gboolean
+rstto_file_is_valid (RsttoFile *r_file)
+{
+    GtkFileFilter *filter;
+    GtkFileFilterInfo filter_info;
+
+    filter = rstto_main_window_get_app_file_filter ();
+    filter_info.contains = GTK_FILE_FILTER_MIME_TYPE | GTK_FILE_FILTER_URI;
+    filter_info.uri = rstto_file_get_uri (r_file);
+    filter_info.mime_type = rstto_file_get_content_type (r_file);
+
+    return gtk_file_filter_filter (filter, &filter_info);
 }
 
 GFile *
