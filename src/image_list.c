@@ -174,7 +174,6 @@ struct _RsttoImageListPrivate
     guint          directory_loader;
     RsttoSettings *settings;
     RsttoThumbnailer *thumbnailer;
-    GtkFileFilter *filter;
 
     GList        *image_monitors;
     GList        *images;
@@ -248,11 +247,6 @@ rstto_image_list_init (RsttoImageList *image_list)
     image_list->priv->directory_loader = 0;
     image_list->priv->settings = rstto_settings_new ();
     image_list->priv->thumbnailer = rstto_thumbnailer_new ();
-    image_list->priv->filter = gtk_file_filter_new ();
-    g_object_ref_sink (image_list->priv->filter);
-    gtk_file_filter_add_pixbuf_formats (image_list->priv->filter);
-    /* see https://bugs.launchpad.net/ubuntu/+source/ristretto/+bug/1778695 */
-    gtk_file_filter_add_mime_type (image_list->priv->filter, "image/x-canon-cr2");
 
     image_list->priv->cb_rstto_image_list_compare_func = cb_rstto_image_list_image_name_compare_func;
 
@@ -321,12 +315,6 @@ rstto_image_list_finalize (GObject *object)
             image_list->priv->thumbnailer = NULL;
         }
 
-        if (image_list->priv->filter)
-        {
-            g_object_unref (image_list->priv->filter);
-            image_list->priv->filter= NULL;
-        }
-
         if (image_list->priv->image_monitors)
         {
             g_list_free_full (image_list->priv->image_monitors, g_object_unref);
@@ -359,7 +347,6 @@ rstto_image_list_add_file (
         RsttoFile *r_file,
         GError **error)
 {
-    GtkFileFilterInfo filter_info;
     GList *image_iter = g_list_find (image_list->priv->images, r_file);
     GSList *iter = image_list->priv->iterators;
     gint i = 0;
@@ -374,11 +361,7 @@ rstto_image_list_add_file (
     {
         if (r_file)
         {
-            filter_info.contains = GTK_FILE_FILTER_MIME_TYPE | GTK_FILE_FILTER_URI;
-            filter_info.uri = rstto_file_get_uri (r_file);
-            filter_info.mime_type = rstto_file_get_content_type (r_file);
-
-            if (gtk_file_filter_filter (image_list->priv->filter, &filter_info))
+            if (rstto_file_is_valid (r_file))
             {
                 g_object_ref (r_file);
 
@@ -895,7 +878,7 @@ rstto_image_list_iter_finalize (GObject *object)
     if (iter->priv->image_list)
     {
         iter->priv->image_list->priv->iterators = g_slist_remove (iter->priv->image_list->priv->iterators, iter);
-        iter->priv->image_list= NULL;
+        iter->priv->image_list = NULL;
     }
 
     G_OBJECT_CLASS (rstto_image_list_iter_parent_class)->finalize (object);
