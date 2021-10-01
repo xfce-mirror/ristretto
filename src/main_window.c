@@ -72,6 +72,8 @@ enum
     PROP_DEVICE_SCALE,
 };
 
+static GtkFileFilter *app_file_filter;
+
 
 
 static void
@@ -803,8 +805,6 @@ struct _RsttoMainWindowPrivate
 
     gboolean               playing;
 
-    GtkFileFilter         *filter;
-
     gchar                 *last_copy_folder_uri;
 };
 
@@ -860,15 +860,14 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
     window->priv->last_copy_folder_uri = NULL;
 
-    /* Setup the image filter list for drag and drop */
-    window->priv->filter = gtk_file_filter_new ();
-    g_object_ref_sink (window->priv->filter);
-    gtk_file_filter_add_pixbuf_formats (window->priv->filter);
+    /* setup the image filter list for the application */
+    app_file_filter = g_object_ref_sink (gtk_file_filter_new ());
+    gtk_file_filter_add_pixbuf_formats (app_file_filter);
+    gtk_file_filter_set_name (app_file_filter, _("Images"));
     /* see https://bugs.launchpad.net/ubuntu/+source/ristretto/+bug/1778695 */
-    gtk_file_filter_add_mime_type (window->priv->filter, "image/x-canon-cr2");
+    gtk_file_filter_add_mime_type (app_file_filter, "image/x-canon-cr2");
 
     /* D-Bus stuff */
-
     window->priv->filemanager_proxy =
             g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                            G_DBUS_PROXY_FLAGS_NONE,
@@ -1354,12 +1353,6 @@ rstto_main_window_finalize (GObject *object)
         window->priv->iter = NULL;
     }
 
-    if (window->priv->filter)
-    {
-        g_object_unref (window->priv->filter);
-        window->priv->filter= NULL;
-    }
-
     if (window->priv->db)
     {
         g_object_unref (window->priv->db);
@@ -1385,6 +1378,12 @@ rstto_main_window_finalize (GObject *object)
     }
 
     g_clear_object (&window->priv->filemanager_proxy);
+
+    if (app_file_filter)
+    {
+        g_object_unref (app_file_filter);
+        app_file_filter = NULL;
+    }
 
     G_OBJECT_CLASS (rstto_main_window_parent_class)->finalize (object);
 }
@@ -1438,6 +1437,18 @@ key_press_event (
     return TRUE;
 }
 
+
+gboolean
+rstto_main_window_get_app_exited (void)
+{
+    return app_window == NULL;
+}
+
+GtkFileFilter *
+rstto_main_window_get_app_file_filter (void)
+{
+    return app_file_filter;
+}
 
 /**
  * rstto_main_window_new:
@@ -3423,8 +3434,6 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     RsttoFile *r_file = NULL;
     gchar *str;
 
-    filter = gtk_file_filter_new ();
-
     dialog = gtk_file_chooser_dialog_new (_("Open image"),
                                          GTK_WINDOW (window),
                                          GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -3444,10 +3453,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
         g_free (str);
     }
 
-    gtk_file_filter_add_pixbuf_formats (filter);
-    /* see https://bugs.launchpad.net/ubuntu/+source/ristretto/+bug/1778695 */
-    gtk_file_filter_add_mime_type (filter, "image/x-canon-cr2");
-    gtk_file_filter_set_name (filter, _("Images"));
+    filter = gtk_file_filter_new_from_gvariant (gtk_file_filter_to_gvariant (app_file_filter));
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
     filter = gtk_file_filter_new ();
@@ -3994,19 +4000,6 @@ cb_rstto_main_window_refresh (
     rstto_file_changed (r_file);
 }
 
-static gboolean
-rstto_main_window_is_valid_image (RsttoMainWindow *window,
-                                  RsttoFile *file)
-{
-    GtkFileFilterInfo filter_info;
-
-    filter_info.contains = GTK_FILE_FILTER_MIME_TYPE | GTK_FILE_FILTER_URI;
-    filter_info.uri = rstto_file_get_uri (file);
-    filter_info.mime_type = rstto_file_get_content_type (file);
-
-    return gtk_file_filter_filter (window->priv->filter, &filter_info);
-}
-
 /**
  * cb_rstto_main_window_dnd_files:
  * @widget:
@@ -4030,7 +4023,7 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
     {
         file = rstto_file_new (g_file_new_for_uri (uris[n]));
 
-        if (rstto_main_window_is_valid_image (window, file))
+        if (rstto_file_is_valid (file))
         {
             if (first)
             {
@@ -4094,7 +4087,7 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                     g_object_unref (f_info);
                     g_free (path);
 
-                    if (rstto_main_window_is_valid_image (window, child))
+                    if (rstto_file_is_valid (child))
                     {
                         /* Found a valid image, use the directory
                          * and select the first image in the dir */
