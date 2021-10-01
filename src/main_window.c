@@ -2305,10 +2305,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             }
             break;
     }
-
-    /* update the thumbnail bar to reflect the new sorting order */
-    rstto_icon_bar_set_model (RSTTO_ICON_BAR (window->priv->thumbnailbar), NULL);
-    rstto_icon_bar_set_model (RSTTO_ICON_BAR (window->priv->thumbnailbar), GTK_TREE_MODEL (window->priv->image_list));
 }
 
 static void
