@@ -1442,27 +1442,31 @@ image_list_model_iter_next (
         GtkTreeModel *tree_model,
         GtkTreeIter *iter)
 {
-    RsttoImageList *image_list;
-    RsttoFile *file = NULL;
-    gint pos = 0;
+    RsttoImageList *image_list = RSTTO_IMAGE_LIST (tree_model);
+    gint pos;
+
+    /* use static variables for O(1) access to next iter */
+    static gint s_pos = 0;
+    static GList *s_list = NULL;
 
     g_return_val_if_fail (RSTTO_IS_IMAGE_LIST (tree_model), FALSE);
 
-    image_list = RSTTO_IMAGE_LIST (tree_model);
-
     pos = GPOINTER_TO_INT (iter->user_data3);
-    pos++;
+    if (pos == 0)
+        s_list = image_list->priv->images;
+    /* unlikely, and in any case should happen only once at initialization */
+    else if (pos != s_pos)
+        s_list = g_list_nth (image_list->priv->images, pos);
 
-    file = g_list_nth_data (image_list->priv->images, pos);
-
-    if (NULL == file)
-    {
+    if (s_list == NULL || s_list->next == NULL)
         return FALSE;
-    }
+
+    s_list = s_list->next;
+    s_pos = pos + 1;
 
     iter->stamp = image_list->priv->stamp;
-    iter->user_data = file;
-    iter->user_data3 = GINT_TO_POINTER (pos);
+    iter->user_data = s_list->data;
+    iter->user_data3 = GINT_TO_POINTER (s_pos);
 
     return TRUE;
 }
