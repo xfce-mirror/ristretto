@@ -61,6 +61,10 @@ rstto_image_list_add_file (RsttoImageList *image_list,
                            RsttoFile *file,
                            GError **error);
 
+void
+rstto_image_list_remove_file (RsttoImageList *image_list,
+                              RsttoFile *file);
+
 gboolean
 rstto_image_list_set_directory (RsttoImageList *image_list,
                                 GFile *dir,
@@ -112,10 +116,6 @@ rstto_image_list_iter_get_position (RsttoImageListIter *iter);
 void
 rstto_image_list_iter_set_position (RsttoImageListIter *iter,
                                     gint pos);
-
-void
-rstto_image_list_remove_file (RsttoImageList *image_list,
-                              RsttoFile *file);
 
 gboolean
 rstto_image_list_iter_find_file (RsttoImageListIter *iter,
