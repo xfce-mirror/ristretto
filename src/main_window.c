@@ -1493,17 +1493,10 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
     g_signal_connect (window->priv->iter, "changed",
                       G_CALLBACK (cb_rstto_main_window_image_list_iter_changed), window);
 
-    rstto_icon_bar_set_model (
-            RSTTO_ICON_BAR (window->priv->thumbnailbar),
-            GTK_TREE_MODEL (window->priv->image_list));
-    /*
-    rstto_thumbnail_bar_set_image_list (
-            RSTTO_THUMBNAIL_BAR (window->priv->thumbnailbar),
-            window->priv->image_list);
-    rstto_thumbnail_bar_set_iter (
-            RSTTO_THUMBNAIL_BAR (window->priv->thumbnailbar),
-            window->priv->iter);
-    */
+    rstto_icon_bar_set_model (RSTTO_ICON_BAR (window->priv->thumbnailbar),
+                              GTK_TREE_MODEL (window->priv->image_list));
+    rstto_thumbnailer_set_image_list (window->priv->thumbnailer, window->priv->image_list);
+
     rstto_main_window_update_buttons (window);
 
     if (fullscreen)
@@ -2305,10 +2298,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             }
             break;
     }
-
-    /* update the thumbnail bar to reflect the new sorting order */
-    rstto_icon_bar_set_model (RSTTO_ICON_BAR (window->priv->thumbnailbar), NULL);
-    rstto_icon_bar_set_model (RSTTO_ICON_BAR (window->priv->thumbnailbar), GTK_TREE_MODEL (window->priv->image_list));
 }
 
 static void

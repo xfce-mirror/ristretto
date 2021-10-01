@@ -29,12 +29,13 @@
 #include "main_window.h"
 
 
-#define FILE_BLOCK_SIZE 100
+#define FILE_BLOCK_SIZE 10000
 
 enum
 {
     RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE = 0,
     RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL,
+    RSTTO_IMAGE_LIST_SIGNAL_SORTED,
     RSTTO_IMAGE_LIST_SIGNAL_COUNT
 };
 
@@ -276,6 +277,17 @@ rstto_image_list_class_init (RsttoImageListClass *klass)
     rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL] = g_signal_new ("remove-all",
             G_TYPE_FROM_CLASS (klass),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+            0,
+            NULL,
+            NULL,
+            g_cclosure_marshal_VOID__VOID,
+            G_TYPE_NONE,
+            0,
+            NULL);
+
+    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_SORTED] = g_signal_new ("sorted",
+            G_TYPE_FROM_CLASS (klass),
+            G_SIGNAL_RUN_LAST,
             0,
             NULL,
             NULL,
@@ -564,9 +576,7 @@ rstto_image_list_set_directory_finish (GObject *source_object,
                                        gpointer user_data)
 {
     RsttoImageList *image_list = user_data;
-    RsttoFile *r_file;
     GFileEnumerator *file_enum = G_FILE_ENUMERATOR (source_object);
-    GSList *iter;
     GList *info_list, *li;
     GFile *file, *loaded_file;
     GError *error = NULL;
@@ -583,10 +593,8 @@ rstto_image_list_set_directory_finish (GObject *source_object,
     {
         /* we're done, inform the others */
         image_list->priv->is_busy = FALSE;
-        for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
-            g_signal_emit (iter->data,
-                           rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED],
-                           0, NULL);
+        rstto_image_list_set_compare_func (image_list,
+                                           image_list->priv->cb_rstto_image_list_compare_func);
 
         if (error != NULL)
         {
@@ -613,11 +621,10 @@ rstto_image_list_set_directory_finish (GObject *source_object,
                 continue;
             }
 
-            r_file = rstto_file_new (file);
-            rstto_image_list_add_file (image_list, r_file, NULL);
-
+            /* no filtering here, it will be done when requesting thumbnails */
+            image_list->priv->images = g_list_prepend (image_list->priv->images,
+                                                       rstto_file_new (file));
             g_object_unref (file);
-            g_object_unref (r_file);
         }
     }
 
@@ -628,10 +635,8 @@ rstto_image_list_set_directory_finish (GObject *source_object,
     {
         /* we're done, inform the others */
         image_list->priv->is_busy = FALSE;
-        for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
-            g_signal_emit (iter->data,
-                           rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED],
-                           0, NULL);
+        rstto_image_list_set_compare_func (image_list,
+                                           image_list->priv->cb_rstto_image_list_compare_func);
 
         g_object_unref (file_enum);
     }
@@ -1143,16 +1148,23 @@ rstto_image_list_get_compare_func (RsttoImageList *image_list)
 void
 rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func)
 {
-    GSList *iter = NULL;
+    RsttoFile *files[g_slist_length (image_list->priv->iterators)];
+    GSList *iter;
+    gint n;
+
     image_list->priv->cb_rstto_image_list_compare_func = func;
+
+    /* store iter files before sorting */
+    for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
+        files[n] = rstto_image_list_iter_get_file (iter->data);
+
     image_list->priv->images = g_list_sort (image_list->priv->images, func);
 
-    for (iter = image_list->priv->iterators; iter != NULL; iter = g_slist_next (iter))
-    {
-        g_signal_emit (iter->data,
-                       rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED],
-                       0, NULL);
-    }
+    /* reposition iters on their file */
+    for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
+        rstto_image_list_iter_find_file (iter->data, files[n]);
+
+    g_signal_emit (image_list, rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_SORTED], 0, NULL);
 }
 
 /***********************/
