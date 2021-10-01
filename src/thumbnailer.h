@@ -22,6 +22,8 @@
 
 #include <gtk/gtk.h>
 
+#include "image_list.h"
+
 G_BEGIN_DECLS
 
 #define RSTTO_TYPE_THUMBNAILER rstto_thumbnailer_get_type ()
@@ -46,6 +48,12 @@ rstto_thumbnailer_queue_file (RsttoThumbnailer *thumbnailer,
 void
 rstto_thumbnailer_dequeue_file (RsttoThumbnailer *thumbnailer,
                                 RsttoFile *file);
+void
+rstto_thumbnailer_set_image_list (RsttoThumbnailer *thumbnailer,
+                                  RsttoImageList   *image_list);
+void
+rstto_thumbnailer_set_n_visible_items (RsttoThumbnailer *thumbnailer,
+                                       gint n_items);
 
 G_END_DECLS
 
