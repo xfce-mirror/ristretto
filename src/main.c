@@ -266,15 +266,7 @@ cb_rstto_open_files (gpointer user_data)
             p_file = g_file_get_parent (file);
 
             /* Open the directory */
-            rstto_image_list_set_directory (rof->image_list, p_file, NULL);
-
-            /* This call adds the contents of the
-             * directory asynchronously.
-             */
-            rstto_image_list_add_file (
-                    rof->image_list,
-                    r_file,
-                    NULL);
+            rstto_image_list_set_directory (rof->image_list, p_file, r_file, NULL);
 
             /* Point the iterator to the correct image */
             rstto_image_list_iter_find_file (iter, r_file);
@@ -286,7 +278,7 @@ cb_rstto_open_files (gpointer user_data)
         else
         {
             /* Open the directory */
-            rstto_image_list_set_directory (rof->image_list, file, NULL);
+            rstto_image_list_set_directory (rof->image_list, file, NULL, NULL);
 
             /* Point the iterator to the correct image */
             rstto_image_list_iter_set_position (iter, 0);
