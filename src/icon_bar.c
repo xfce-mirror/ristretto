@@ -803,7 +803,8 @@ rstto_icon_bar_size_allocate (
         if (icon_bar->priv->auto_center)
         {
             if (icon_bar->priv->active_item)
-                value = icon_bar->priv->active_item->index * icon_bar->priv->item_height;
+                value = icon_bar->priv->active_item->index * icon_bar->priv->item_height
+                        - (page_size - icon_bar->priv->item_height) / 2;
 
             if (value > (gtk_adjustment_get_upper (icon_bar->priv->vadjustment) - page_size))
                 value = (gtk_adjustment_get_upper (icon_bar->priv->vadjustment) - page_size);
