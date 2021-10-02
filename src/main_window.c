@@ -72,6 +72,7 @@ enum
     PROP_DEVICE_SCALE,
 };
 
+static RsttoMainWindow *app_window;
 static GtkFileFilter *app_file_filter;
 
 
@@ -837,6 +838,10 @@ rstto_main_window_init (RsttoMainWindow *window)
     guint thumbnail_size = 3;
     RsttoScale default_zoom = RSTTO_SCALE_NONE;
     gchar *db_path = NULL;
+
+    /* an auto-reset pointer so that asynchronous jobs know the state of the application */
+    app_window = window;
+    g_signal_connect (window, "destroy", G_CALLBACK (gtk_widget_destroyed), &app_window);
 
     gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
 
