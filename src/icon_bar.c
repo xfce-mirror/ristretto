@@ -175,6 +175,9 @@ rstto_icon_bar_rows_reordered (GtkTreeModel *model,
 static void
 rstto_icon_bar_list_sorted (RsttoImageList *list,
                             RsttoIconBar *icon_bar);
+static void
+rstto_icon_bar_list_remove_all (RsttoImageList *list,
+                                RsttoIconBar *icon_bar);
 
 
 
@@ -1407,6 +1410,17 @@ rstto_icon_bar_list_sorted (RsttoImageList *list,
 
 
 
+static void
+rstto_icon_bar_list_remove_all (RsttoImageList *list,
+                                RsttoIconBar *icon_bar)
+{
+    /* reload empty list */
+    rstto_icon_bar_set_model (icon_bar, NULL);
+    rstto_icon_bar_set_model (icon_bar, GTK_TREE_MODEL (list));
+}
+
+
+
 /**
  * rstto_icon_bar_new:
  * @s_window : A #GtkScrolledWindow.
@@ -1516,6 +1530,9 @@ rstto_icon_bar_set_model (
         g_signal_handlers_disconnect_by_func (icon_bar->priv->model,
                 rstto_icon_bar_list_sorted,
                 icon_bar);
+        g_signal_handlers_disconnect_by_func (icon_bar->priv->model,
+                rstto_icon_bar_list_remove_all,
+                icon_bar);
 
         g_object_unref (icon_bar->priv->model);
 
@@ -1541,6 +1558,8 @@ rstto_icon_bar_set_model (
                 G_CALLBACK (rstto_icon_bar_rows_reordered), icon_bar);
         g_signal_connect (model, "sorted",
                 G_CALLBACK (rstto_icon_bar_list_sorted), icon_bar);
+        g_signal_connect (model, "remove-all",
+                G_CALLBACK (rstto_icon_bar_list_remove_all), icon_bar);
 
         rstto_icon_bar_build_items (icon_bar);
     }
