@@ -28,6 +28,7 @@
 
 #include "file.h"
 #include "thumbnailer.h"
+#include "main_window.h"
 
 
 
@@ -49,8 +50,6 @@ enum
 };
 
 static gint rstto_file_signals[RSTTO_FILE_SIGNAL_COUNT];
-
-static GList *open_files = NULL;
 
 
 
@@ -175,8 +174,6 @@ rstto_file_finalize (GObject *object)
         }
     }
 
-    open_files = g_list_remove_all (open_files, r_file);
-
     G_OBJECT_CLASS (rstto_file_parent_class)->finalize (object);
 }
 
@@ -189,30 +186,27 @@ rstto_file_finalize (GObject *object)
 RsttoFile *
 rstto_file_new (GFile *file)
 {
-    RsttoFile *r_file = NULL;
-    GList *iter = open_files;
-
-    while (NULL != iter)
-    {
-        /* Check if the file is already opened, if so
-         * return that one.
-         */
-        r_file = iter->data;
-        if (g_file_equal (r_file->priv->file, file))
-        {
-            g_object_ref (iter->data);
-            return iter->data;
-        }
-        iter = g_list_next (iter);
-    }
+    RsttoFile *r_file;
 
     r_file = g_object_new (RSTTO_TYPE_FILE, NULL);
     r_file->priv->file = file;
     g_object_ref (file);
 
-    open_files = g_list_append (open_files, r_file);
-
     return r_file;
+}
+
+gboolean
+rstto_file_is_valid (RsttoFile *r_file)
+{
+    GtkFileFilter *filter;
+    GtkFileFilterInfo filter_info;
+
+    filter = rstto_main_window_get_app_file_filter ();
+    filter_info.contains = GTK_FILE_FILTER_MIME_TYPE | GTK_FILE_FILTER_URI;
+    filter_info.uri = rstto_file_get_uri (r_file);
+    filter_info.mime_type = rstto_file_get_content_type (r_file);
+
+    return gtk_file_filter_filter (filter, &filter_info);
 }
 
 GFile *
