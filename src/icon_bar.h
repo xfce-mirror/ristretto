@@ -88,7 +88,7 @@ void
 rstto_icon_bar_set_show_text (RsttoIconBar *icon_bar,
                               gboolean show_text);
 
-gboolean
+void
 rstto_icon_bar_show_active (RsttoIconBar *icon_bar);
 
 G_END_DECLS
