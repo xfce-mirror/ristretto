@@ -536,22 +536,7 @@ rstto_image_list_remove_file (
 static void
 rstto_image_list_remove_all (RsttoImageList *image_list)
 {
-    GSList *iter = NULL;
-    GList *image_iter = image_list->priv->images;
-    GtkTreePath *path_ = NULL;
-    gint i = g_list_length (image_iter);
-
-    while (image_iter)
-    {
-        i--;
-        path_ = gtk_tree_path_new ();
-        gtk_tree_path_append_index (path_, i);
-
-        gtk_tree_model_row_deleted (GTK_TREE_MODEL (image_list), path_);
-        gtk_tree_path_free (path_);
-
-        image_iter = g_list_next (image_iter);
-    }
+    GSList *iter;
 
     g_list_free_full (image_list->priv->image_monitors, g_object_unref);
     image_list->priv->image_monitors = NULL;
@@ -559,12 +544,9 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
     g_list_free_full (image_list->priv->images, g_object_unref);
     image_list->priv->images = NULL;
 
-    iter = image_list->priv->iterators;
-    while (iter)
-    {
+    for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
         iter_set_position (iter->data, -1, FALSE);
-        iter = g_slist_next (iter);
-    }
+
     g_signal_emit (image_list,
                    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL],
                    0, NULL);
