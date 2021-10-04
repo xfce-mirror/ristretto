@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014 Stephan Arts <stephan@xfce.org> -->
 <component type="desktop">
-  <id>ristretto.desktop</id>
+  <id>org.xfce.ristretto</id>
   <metadata_license>CC-BY-3.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>Ristretto</name>
@@ -35,6 +35,7 @@
 
   <project_group>XFCE</project_group>
 
+  <launchable type="desktop-id">org.xfce.ristretto.desktop</launchable>
   <provides>
     <binary>ristretto</binary>
   </provides>

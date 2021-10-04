@@ -3,7 +3,7 @@
 SUBDIRS = src po icons
 
 desktopdir = $(datadir)/applications
-desktop_in_files = ristretto.desktop.in
+desktop_in_files = org.xfce.ristretto.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
@@ -13,7 +13,7 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_XML_RULE@
 appdatadir = $(datadir)/metainfo
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
-appdata_in_files = ristretto.appdata.xml.in
+appdata_in_files = org.xfce.ristretto.appdata.xml.in
 
 EXTRA_DIST = \
 	README.md \

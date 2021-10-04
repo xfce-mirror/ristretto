@@ -50,8 +50,6 @@
 #define RISTRETTO_APP_TITLE _("Image Viewer")
 #endif
 
-#define RISTRETTO_DESKTOP_ID "ristretto.desktop"
-
 #define RSTTO_RECENT_FILES_APP_NAME "ristretto"
 #define RSTTO_RECENT_FILES_GROUP "Graphics"
 
@@ -1562,7 +1560,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             else
             {
                 gtk_window_set_icon (GTK_WINDOW (window), NULL);
-                gtk_window_set_icon_name (GTK_WINDOW (window), "org.xfce.ristretto");
+                gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);
             }
 
             app_list = g_app_info_get_all_for_type (content_type);
@@ -1590,7 +1588,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
                 for (iter = app_list; iter; iter = g_list_next (iter))
                 {
                     id = g_app_info_get_id (iter->data);
-                    if (strcmp (id, RISTRETTO_DESKTOP_ID))
+                    if (strcmp (id, RISTRETTO_APP_ID))
                     {
                         if ((!editor) || (editor && strcmp (id, editor)))
                         {
@@ -1658,7 +1656,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             title = g_strdup (RISTRETTO_APP_TITLE);
 
             gtk_window_set_icon (GTK_WINDOW (window), NULL);
-            gtk_window_set_icon_name (GTK_WINDOW (window), "org.xfce.ristretto");
+            gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);
         }
 
         rstto_main_window_update_buttons (window);
@@ -2929,7 +2927,7 @@ cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
     gtk_about_dialog_set_website (GTK_ABOUT_DIALOG (about_dialog),
         "https://docs.xfce.org/apps/ristretto/start");
     gtk_about_dialog_set_logo_icon_name (GTK_ABOUT_DIALOG (about_dialog),
-        "org.xfce.ristretto");
+        RISTRETTO_APP_ID);
     gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG (about_dialog),
         authors);
     gtk_about_dialog_set_translator_credits (GTK_ABOUT_DIALOG (about_dialog),
@@ -4405,7 +4403,7 @@ rstto_main_window_launch_editor_chooser (
         id = g_app_info_get_id (app_infos_iter->data);
 
         /* Do not add ristretto to the list */
-        if (strcmp (id, RISTRETTO_DESKTOP_ID))
+        if (strcmp (id, RISTRETTO_APP_ID))
         {
 
             g_icon = g_app_info_get_icon (app_infos_iter->data);
@@ -4488,7 +4486,7 @@ rstto_main_window_launch_editor_chooser (
         {
             id = g_app_info_get_id (app_infos_iter->data);
             /* Do not add ristretto to the list */
-            if (strcmp (id, RISTRETTO_DESKTOP_ID))
+            if (strcmp (id, RISTRETTO_APP_ID))
             {
                 g_icon = g_app_info_get_icon (app_infos_iter->data);
                 if (g_icon != NULL)
@@ -4766,7 +4764,7 @@ cb_rstto_thumbnailer_ready (
         else
         {
             gtk_window_set_icon (GTK_WINDOW (window), NULL);
-            gtk_window_set_icon_name (GTK_WINDOW (window), "org.xfce.ristretto");
+            gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);
         }
     }
 }
