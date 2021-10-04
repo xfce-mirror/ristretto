@@ -93,11 +93,10 @@ main (int argc, char **argv)
     RsttoImageList *image_list;
     GtkWidget *window;
 
-    #ifdef ENABLE_NLS
+    setlocale (LC_ALL, "");
     bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
     textdomain (GETTEXT_PACKAGE);
-    #endif
 
     if (!gtk_init_with_args (&argc, &argv, NULL, entries, PACKAGE, &cli_error))
     {
