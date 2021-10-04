@@ -2,11 +2,12 @@
 
 # ristretto
 
-Ristretto Image Viewer is an application that can be used to view, and
-scroll through images.
+Ristretto is an image viewer for the [Xfce](https://www.xfce.org/) desktop environment.
 
-It can be used to run a slideshow of images, open images with other
-applications like an image-editor or configure an image as the desktop wallpaper.
+The Ristretto Image Viewer is an application that can be used to view
+and scroll through images, run a slideshow of images, open images with
+other applications like an image-editor or configure an image as the
+desktop wallpaper.
 
 ----
 
