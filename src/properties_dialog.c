@@ -263,11 +263,7 @@ properties_dialog_set_file (
     gchar   buf[20];
     guint64 size;
 
-    const gchar *file_uri;
-    gchar *file_uri_checksum;
-    gchar *filename;
-    gchar *thumbnail_path;
-    GdkPixbuf *pixbuf;
+    const GdkPixbuf *pixbuf;
 
     ExifEntry   *exif_entry = NULL;
     ExifIfd      exif_ifd;
@@ -289,34 +285,10 @@ properties_dialog_set_file (
 
     if (dialog->priv->file)
     {
-        file_uri = rstto_file_get_uri (file);
-        file_uri_checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, file_uri, strlen (file_uri));
-        filename = g_strconcat (file_uri_checksum, ".png", NULL);
-        g_free (file_uri_checksum);
-
-        /* build and check if the thumbnail is in the new location */
-        thumbnail_path = g_build_path ("/", g_get_user_cache_dir (), "thumbnails", "normal", filename, NULL);
-        if (!g_file_test (thumbnail_path, G_FILE_TEST_EXISTS))
-        {
-            /* Fallback to old version */
-            g_free (thumbnail_path);
-
-            thumbnail_path = g_build_path ("/", g_get_home_dir (), ".thumbnails", "normal", filename, NULL);
-            if (!g_file_test (thumbnail_path, G_FILE_TEST_EXISTS))
-            {
-                /* Thumbnail doesn't exist in either spot */
-                g_free (thumbnail_path);
-                thumbnail_path = NULL;
-            }
-        }
-        g_free (filename);
-
-        pixbuf = gdk_pixbuf_new_from_file_at_scale (thumbnail_path, 96, 96, TRUE, NULL);
+        pixbuf = rstto_file_get_thumbnail (file, THUMBNAIL_SIZE_LARGE);
         if (NULL != pixbuf)
-        {
-            gtk_image_set_from_pixbuf (GTK_IMAGE (dialog->priv->image_thumbnail), pixbuf);
-            g_object_unref (pixbuf);
-        }
+            gtk_image_set_from_pixbuf (GTK_IMAGE (dialog->priv->image_thumbnail),
+                                       (GdkPixbuf *) pixbuf);
 
         g_file = rstto_file_get_file (file);
         file_info = g_file_query_info (
