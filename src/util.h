@@ -30,6 +30,8 @@
 
 G_BEGIN_DECLS
 
+#define RISTRETTO_APP_ID "org.xfce.ristretto"
+
 /* for personal testing */
 #define TIMER_START      GTimer *__FUNCTION__timer = g_timer_new ();
 #define TIMER_SPLIT      g_printerr ("%s: %.2f ms\n", G_STRLOC, \
