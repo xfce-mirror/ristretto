@@ -35,7 +35,7 @@ po/POTFILES
 po/stamp-it
 po/*.gmo
 po/ristretto.pot
-ristretto.appdata.xml
-ristretto.desktop
+org.xfce.ristretto.appdata.xml
+org.xfce.ristretto.desktop
 stamp-h1
 ChangeLog

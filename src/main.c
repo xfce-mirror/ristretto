@@ -32,6 +32,7 @@
 #include "settings.h"
 #include "main_window.h"
 #include "preferences_dialog.h"
+#include "util.h"
 
 
 
@@ -123,7 +124,7 @@ main (int argc, char **argv)
 
     xfconf_init (NULL);
 
-    gtk_window_set_default_icon_name ("org.xfce.ristretto");
+    gtk_window_set_default_icon_name (RISTRETTO_APP_ID);
     settings = rstto_settings_new ();
 
     if (! show_settings)
