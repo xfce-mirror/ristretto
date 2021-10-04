@@ -72,6 +72,9 @@ enum
     PROP_DEVICE_SCALE,
 };
 
+static RsttoMainWindow *app_window;
+static GtkFileFilter *app_file_filter;
+
 
 
 static void
@@ -803,8 +806,6 @@ struct _RsttoMainWindowPrivate
 
     gboolean               playing;
 
-    GtkFileFilter         *filter;
-
     gchar                 *last_copy_folder_uri;
 };
 
@@ -838,6 +839,10 @@ rstto_main_window_init (RsttoMainWindow *window)
     RsttoScale default_zoom = RSTTO_SCALE_NONE;
     gchar *db_path = NULL;
 
+    /* an auto-reset pointer so that asynchronous jobs know the state of the application */
+    app_window = window;
+    g_signal_connect (window, "destroy", G_CALLBACK (gtk_widget_destroyed), &app_window);
+
     gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
 
     window->priv = rstto_main_window_get_instance_private (window);
@@ -860,15 +865,14 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
     window->priv->last_copy_folder_uri = NULL;
 
-    /* Setup the image filter list for drag and drop */
-    window->priv->filter = gtk_file_filter_new ();
-    g_object_ref_sink (window->priv->filter);
-    gtk_file_filter_add_pixbuf_formats (window->priv->filter);
+    /* setup the image filter list for the application */
+    app_file_filter = g_object_ref_sink (gtk_file_filter_new ());
+    gtk_file_filter_add_pixbuf_formats (app_file_filter);
+    gtk_file_filter_set_name (app_file_filter, _("Images"));
     /* see https://bugs.launchpad.net/ubuntu/+source/ristretto/+bug/1778695 */
-    gtk_file_filter_add_mime_type (window->priv->filter, "image/x-canon-cr2");
+    gtk_file_filter_add_mime_type (app_file_filter, "image/x-canon-cr2");
 
     /* D-Bus stuff */
-
     window->priv->filemanager_proxy =
             g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                            G_DBUS_PROXY_FLAGS_NONE,
@@ -1354,12 +1358,6 @@ rstto_main_window_finalize (GObject *object)
         window->priv->iter = NULL;
     }
 
-    if (window->priv->filter)
-    {
-        g_object_unref (window->priv->filter);
-        window->priv->filter= NULL;
-    }
-
     if (window->priv->db)
     {
         g_object_unref (window->priv->db);
@@ -1385,6 +1383,12 @@ rstto_main_window_finalize (GObject *object)
     }
 
     g_clear_object (&window->priv->filemanager_proxy);
+
+    if (app_file_filter)
+    {
+        g_object_unref (app_file_filter);
+        app_file_filter = NULL;
+    }
 
     G_OBJECT_CLASS (rstto_main_window_parent_class)->finalize (object);
 }
@@ -1439,6 +1443,18 @@ key_press_event (
 }
 
 
+gboolean
+rstto_main_window_get_app_exited (void)
+{
+    return app_window == NULL;
+}
+
+GtkFileFilter *
+rstto_main_window_get_app_file_filter (void)
+{
+    return app_file_filter;
+}
+
 /**
  * rstto_main_window_new:
  * @image_list:
@@ -1477,17 +1493,10 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
     g_signal_connect (window->priv->iter, "changed",
                       G_CALLBACK (cb_rstto_main_window_image_list_iter_changed), window);
 
-    rstto_icon_bar_set_model (
-            RSTTO_ICON_BAR (window->priv->thumbnailbar),
-            GTK_TREE_MODEL (window->priv->image_list));
-    /*
-    rstto_thumbnail_bar_set_image_list (
-            RSTTO_THUMBNAIL_BAR (window->priv->thumbnailbar),
-            window->priv->image_list);
-    rstto_thumbnail_bar_set_iter (
-            RSTTO_THUMBNAIL_BAR (window->priv->thumbnailbar),
-            window->priv->iter);
-    */
+    rstto_icon_bar_set_model (RSTTO_ICON_BAR (window->priv->thumbnailbar),
+                              GTK_TREE_MODEL (window->priv->image_list));
+    rstto_thumbnailer_set_image_list (window->priv->thumbnailer, window->priv->image_list);
+
     rstto_main_window_update_buttons (window);
 
     if (fullscreen)
@@ -2289,10 +2298,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             }
             break;
     }
-
-    /* update the thumbnail bar to reflect the new sorting order */
-    rstto_icon_bar_set_model (RSTTO_ICON_BAR (window->priv->thumbnailbar), NULL);
-    rstto_icon_bar_set_model (RSTTO_ICON_BAR (window->priv->thumbnailbar), GTK_TREE_MODEL (window->priv->image_list));
 }
 
 static void
@@ -3423,8 +3428,6 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     RsttoFile *r_file = NULL;
     gchar *str;
 
-    filter = gtk_file_filter_new ();
-
     dialog = gtk_file_chooser_dialog_new (_("Open image"),
                                          GTK_WINDOW (window),
                                          GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -3444,10 +3447,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
         g_free (str);
     }
 
-    gtk_file_filter_add_pixbuf_formats (filter);
-    /* see https://bugs.launchpad.net/ubuntu/+source/ristretto/+bug/1778695 */
-    gtk_file_filter_add_mime_type (filter, "image/x-canon-cr2");
-    gtk_file_filter_set_name (filter, _("Images"));
+    filter = gtk_file_filter_new_from_gvariant (gtk_file_filter_to_gvariant (app_file_filter));
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
     filter = gtk_file_filter_new ();
@@ -3515,18 +3515,8 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
                     /* This call adds the contents of the
                      * directory asynchronously.
                      */
-                    rstto_image_list_set_directory (
-                            window->priv->image_list,
-                            p_file,
-                            NULL);
-
-                    /* Make sure the file we are looking
-                     * for is already in the list.
-                     */
-                    rstto_image_list_add_file (
-                            window->priv->image_list,
-                            r_file,
-                            NULL);
+                    rstto_image_list_set_directory (window->priv->image_list,
+                                                    p_file, r_file, NULL);
 
                     /* Add a reference to the file, it is owned by the
                      * sourcefunc and will be unref-ed by it.
@@ -3591,18 +3581,7 @@ cb_rstto_main_window_open_recent (GtkRecentChooser *chooser, RsttoMainWindow *wi
             /* This call adds the contents of the
              * directory asynchronously.
              */
-            rstto_image_list_set_directory (
-                    window->priv->image_list,
-                    p_file,
-                    NULL);
-
-            /* Make sure the file we are looking
-             * for is already in the list.
-             */
-            rstto_image_list_add_file (
-                    window->priv->image_list,
-                    r_file,
-                    NULL);
+            rstto_image_list_set_directory (window->priv->image_list, p_file, r_file, NULL);
 
             /* Point the main iterator to the
              * correct file
@@ -3791,10 +3770,7 @@ cb_rstto_main_window_close (
         GtkWidget *widget,
         RsttoMainWindow *window)
 {
-    rstto_image_list_set_directory (
-            window->priv->image_list,
-            NULL,
-            NULL);
+    rstto_image_list_set_directory (window->priv->image_list, NULL, NULL, NULL);
     gtk_widget_hide (window->priv->warning);
 }
 
@@ -3994,19 +3970,6 @@ cb_rstto_main_window_refresh (
     rstto_file_changed (r_file);
 }
 
-static gboolean
-rstto_main_window_is_valid_image (RsttoMainWindow *window,
-                                  RsttoFile *file)
-{
-    GtkFileFilterInfo filter_info;
-
-    filter_info.contains = GTK_FILE_FILTER_MIME_TYPE | GTK_FILE_FILTER_URI;
-    filter_info.uri = rstto_file_get_uri (file);
-    filter_info.mime_type = rstto_file_get_content_type (file);
-
-    return gtk_file_filter_filter (window->priv->filter, &filter_info);
-}
-
 /**
  * cb_rstto_main_window_dnd_files:
  * @widget:
@@ -4030,14 +3993,14 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
     {
         file = rstto_file_new (g_file_new_for_uri (uris[n]));
 
-        if (rstto_main_window_is_valid_image (window, file))
+        if (rstto_file_is_valid (file))
         {
             if (first)
             {
                 first = FALSE;
 
                 /* On the first valid image, we reset the thumbnailbar. */
-                rstto_image_list_set_directory (window->priv->image_list, NULL, NULL);
+                rstto_image_list_set_directory (window->priv->image_list, NULL, NULL, NULL);
 
                 /* User dropped a single image, load all images in the
                  * directory and select the image. */
@@ -4046,10 +4009,9 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                     GFile *p_file;
 
                     p_file = g_file_get_parent (rstto_file_get_file (file));
-                    rstto_image_list_set_directory (window->priv->image_list, p_file, NULL);
+                    rstto_image_list_set_directory (window->priv->image_list, p_file, file, NULL);
                     g_object_unref (p_file);
 
-                    rstto_image_list_add_file (window->priv->image_list, file, NULL);
                     rstto_image_list_iter_find_file (window->priv->iter, file);
 
                     return;
@@ -4088,19 +4050,20 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                     gchar *path = g_strdup_printf ("%s/%s",
                                                    rstto_file_get_path (file),
                                                    g_file_info_get_name (f_info));
+                    GFile *gfile = g_file_new_for_path (path);
 
-                    child = rstto_file_new (g_file_new_for_path (path));
+                    child = rstto_file_new (gfile);
 
                     g_object_unref (f_info);
+                    g_object_unref (gfile);
                     g_free (path);
 
-                    if (rstto_main_window_is_valid_image (window, child))
+                    if (rstto_file_is_valid (child))
                     {
                         /* Found a valid image, use the directory
                          * and select the first image in the dir */
                         rstto_image_list_set_directory (window->priv->image_list,
-                                                        rstto_file_get_file (file), NULL);
-                        rstto_image_list_add_file (window->priv->image_list, child, NULL);
+                                                        rstto_file_get_file (file), child, NULL);
                         rstto_image_list_iter_find_file (window->priv->iter, child);
 
                         break;

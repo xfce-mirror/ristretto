@@ -48,6 +48,12 @@ struct _RsttoMainWindow
 
 
 
+gboolean
+rstto_main_window_get_app_exited (void);
+
+GtkFileFilter *
+rstto_main_window_get_app_file_filter (void);
+
 GtkWidget *
 rstto_main_window_new (RsttoImageList *image_list,
                        gboolean fullscreen);
