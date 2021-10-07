@@ -3419,7 +3419,8 @@ cb_rstto_main_window_open_with_other_app (GtkWidget *widget, RsttoMainWindow *wi
 static void
 cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
 {
-    GtkWidget *dialog, *err_dialog;
+    GtkFileChooserNative *dialog;
+    GtkWidget *err_dialog;
     gint response;
     GFile *file;
     GFile *p_file;
@@ -3428,12 +3429,9 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     RsttoFile *r_file = NULL;
     gchar *str;
 
-    dialog = gtk_file_chooser_dialog_new (_("Open image"),
-                                         GTK_WINDOW (window),
-                                         GTK_FILE_CHOOSER_ACTION_OPEN,
-                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                         _("_Open"), GTK_RESPONSE_OK,
-                                         NULL);
+    dialog = gtk_file_chooser_native_new (_("Open image"), GTK_WINDOW (window),
+                                          GTK_FILE_CHOOSER_ACTION_OPEN,
+                                          _("_Open"), _("_Cancel"));
 
     gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
     gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
@@ -3457,9 +3455,9 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
 
 
-    response = gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_hide (dialog);
-    if (response == GTK_RESPONSE_OK)
+    response = gtk_native_dialog_run (GTK_NATIVE_DIALOG (dialog));
+    gtk_native_dialog_hide (GTK_NATIVE_DIALOG (dialog));
+    if (response == GTK_RESPONSE_ACCEPT)
     {
         files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
         _files_iter = files;
@@ -3544,7 +3542,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
         g_free (str);
     }
 
-    gtk_widget_destroy (dialog);
+    gtk_native_dialog_destroy (GTK_NATIVE_DIALOG (dialog));
 
     rstto_main_window_update_buttons (window);
 
