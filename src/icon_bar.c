@@ -172,6 +172,12 @@ rstto_icon_bar_rows_reordered (GtkTreeModel *model,
                                GtkTreeIter *iter,
                                gint *new_order,
                                RsttoIconBar *icon_bar);
+static void
+rstto_icon_bar_list_sorted (RsttoImageList *list,
+                            RsttoIconBar *icon_bar);
+static void
+rstto_icon_bar_list_remove_all (RsttoImageList *list,
+                                RsttoIconBar *icon_bar);
 
 
 
@@ -745,53 +751,37 @@ rstto_icon_bar_size_allocate (GtkWidget *widget,
 
 
 static gboolean
-rstto_icon_bar_draw (
-        GtkWidget *widget,
-        cairo_t   *cr)
+rstto_icon_bar_draw (GtkWidget *widget,
+                     cairo_t *cr)
 {
-    RsttoIconBarItem *item;
-    RsttoIconBar     *icon_bar = RSTTO_ICON_BAR (widget);
-    GList            *lp;
-    /*RsttoFile        *file;
-    GtkTreeIter       iter;*/
+    RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
+    GdkRectangle rect;
+    GList *lp;
+    gint offset, n_items, n;
 
     rstto_util_paint_background_color (widget, icon_bar->priv->settings, cr);
 
-    for (lp = icon_bar->priv->items; lp != NULL; lp = lp->next)
+    gdk_cairo_get_clip_rectangle (cr, &rect);
+    if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
-        item = lp->data;
-
-        // TODO: fix me
-        /*GdkRectangle area;
-        if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
-        {
-            area.x = 0;
-            area.y = item->index * icon_bar->priv->item_height;
-        }
-        else
-        {
-            area.x = item->index * icon_bar->priv->item_width;
-            area.y = 0;
-        }
-
-        area.width = icon_bar->priv->item_width;
-        area.height = icon_bar->priv->item_height;
-
-        if (gdk_region_rect_in (expose->region, &area) != GDK_OVERLAP_RECTANGLE_OUT)
-        {
-            rstto_icon_bar_paint_item (icon_bar, item, &expose->area);*/
-            rstto_icon_bar_paint_item (icon_bar, item, cr);
-        /*}
-        else
-        {
-            iter = item->iter;
-            gtk_tree_model_get (icon_bar->priv->model, &iter,
-                    icon_bar->priv->file_column, &file,
-                    -1);
-            rstto_thumbnailer_dequeue_file (icon_bar->priv->thumbnailer, file);
-            g_object_unref (file);
-        }*/
+        offset = rect.y / icon_bar->priv->item_size;
+        n_items = rect.height / icon_bar->priv->item_size + 2;
     }
+    else
+    {
+        offset = rect.x / icon_bar->priv->item_size;
+        n_items = rect.width / icon_bar->priv->item_size + 2;
+    }
+
+    /* restrict thumbnailer queue size */
+    rstto_thumbnailer_set_n_visible_items (icon_bar->priv->thumbnailer, n_items);
+
+    /* skip items before the drawing area */
+    for (lp = icon_bar->priv->items, n = 0; lp != NULL && n < offset; lp = lp->next, n++);
+
+    /* only draw items in the drawing area, skip those who are after */
+    for (n = 0; lp != NULL && n < n_items; lp = lp->next, n++)
+        rstto_icon_bar_paint_item (icon_bar, lp->data, cr);
 
     return TRUE;
 }
@@ -1264,7 +1254,13 @@ rstto_icon_bar_row_changed (
     gint             idx;
 
     idx = gtk_tree_path_get_indices (path)[0];
-    item = g_list_nth (icon_bar->priv->items, idx)->data;
+    item = g_list_nth_data (icon_bar->priv->items, idx);
+
+    /* the image list is loaded by file blocks, whereas the icon bar is filled at the
+     * end of this process, we can therefore receive wrong information during this time */
+    if (item == NULL)
+        return;
+
     rstto_icon_bar_item_invalidate (item);
     gtk_widget_queue_resize (GTK_WIDGET (icon_bar));
 }
@@ -1318,8 +1314,13 @@ rstto_icon_bar_row_deleted (
 
     idx = gtk_tree_path_get_indices (path)[0];
     lp = g_list_nth (icon_bar->priv->items, idx);
-    item = lp->data;
 
+    /* the image list is loaded by file blocks, whereas the icon bar is filled at the
+     * end of this process, we can therefore receive wrong information during this time */
+    if (lp == NULL)
+        return;
+
+    item = lp->data;
     if (item == icon_bar->priv->active_item)
     {
         icon_bar->priv->active_item = NULL;
@@ -1393,6 +1394,40 @@ rstto_icon_bar_rows_reordered (
     icon_bar->priv->items = g_list_reverse (items);
 
     gtk_widget_queue_draw (GTK_WIDGET (icon_bar));
+}
+
+
+
+static void
+rstto_icon_bar_list_sorted (RsttoImageList *list,
+                            RsttoIconBar *icon_bar)
+{
+    RsttoImageListIter *iter;
+    GtkWidget *window;
+    gint idx;
+
+    /* get the current image index */
+    window = gtk_widget_get_ancestor (GTK_WIDGET (icon_bar), RSTTO_TYPE_MAIN_WINDOW);
+    iter = rstto_main_window_get_iter (RSTTO_MAIN_WINDOW (window));
+    idx = rstto_image_list_iter_get_position (iter);
+
+    /* reload the list to reflect the new sorting order */
+    rstto_icon_bar_set_model (icon_bar, NULL);
+    rstto_icon_bar_set_model (icon_bar, GTK_TREE_MODEL (list));
+
+    /* re-select the current image */
+    rstto_icon_bar_set_active (icon_bar, idx);
+}
+
+
+
+static void
+rstto_icon_bar_list_remove_all (RsttoImageList *list,
+                                RsttoIconBar *icon_bar)
+{
+    /* reload empty list */
+    rstto_icon_bar_set_model (icon_bar, NULL);
+    rstto_icon_bar_set_model (icon_bar, GTK_TREE_MODEL (list));
 }
 
 
@@ -1471,7 +1506,6 @@ rstto_icon_bar_set_model (
         GtkTreeModel *model)
 {
     GType file_column_type;
-    gint  active = -1;
 
     g_return_if_fail (RSTTO_IS_ICON_BAR (icon_bar));
     g_return_if_fail (GTK_IS_TREE_MODEL (model) || model == NULL);
@@ -1504,6 +1538,12 @@ rstto_icon_bar_set_model (
         g_signal_handlers_disconnect_by_func (icon_bar->priv->model,
                 rstto_icon_bar_rows_reordered,
                 icon_bar);
+        g_signal_handlers_disconnect_by_func (icon_bar->priv->model,
+                rstto_icon_bar_list_sorted,
+                icon_bar);
+        g_signal_handlers_disconnect_by_func (icon_bar->priv->model,
+                rstto_icon_bar_list_remove_all,
+                icon_bar);
 
         g_object_unref (icon_bar->priv->model);
 
@@ -1527,18 +1567,17 @@ rstto_icon_bar_set_model (
                 G_CALLBACK (rstto_icon_bar_row_deleted), icon_bar);
         g_signal_connect (model, "rows-reordered",
                 G_CALLBACK (rstto_icon_bar_rows_reordered), icon_bar);
+        g_signal_connect (model, "sorted",
+                G_CALLBACK (rstto_icon_bar_list_sorted), icon_bar);
+        g_signal_connect (model, "remove-all",
+                G_CALLBACK (rstto_icon_bar_list_remove_all), icon_bar);
 
         rstto_icon_bar_build_items (icon_bar);
-
-        if (icon_bar->priv->items != NULL)
-            active = ((RsttoIconBarItem *) icon_bar->priv->items->data)->index;
     }
 
     rstto_icon_bar_invalidate (icon_bar);
 
     g_object_notify (G_OBJECT (icon_bar), "model");
-
-    rstto_icon_bar_set_active (icon_bar, active);
 }
 
 
@@ -1684,15 +1723,17 @@ rstto_icon_bar_set_active (
         RsttoIconBar *icon_bar,
         gint          idx)
 {
-    g_return_if_fail (RSTTO_IS_ICON_BAR (icon_bar));
-    g_return_if_fail (idx == -1 || g_list_nth (icon_bar->priv->items, idx) != NULL);
+    GList *item;
 
-    if ((icon_bar->priv->active_item == NULL && idx == -1)
-            || (icon_bar->priv->active_item != NULL && idx == icon_bar->priv->active_item->index))
+    g_return_if_fail (RSTTO_IS_ICON_BAR (icon_bar));
+
+    if ((idx >= 0 && (item = g_list_nth (icon_bar->priv->items, idx)) == NULL)
+        || (icon_bar->priv->active_item == NULL && idx == -1)
+        || (icon_bar->priv->active_item != NULL && idx == icon_bar->priv->active_item->index))
         return;
 
-    if (G_UNLIKELY (idx >= 0))
-        icon_bar->priv->active_item = g_list_nth (icon_bar->priv->items, idx)->data;
+    if (G_LIKELY (idx >= 0))
+        icon_bar->priv->active_item = item->data;
     else
         icon_bar->priv->active_item = NULL;
 

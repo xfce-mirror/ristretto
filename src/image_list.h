@@ -68,6 +68,7 @@ rstto_image_list_remove_file (RsttoImageList *image_list,
 gboolean
 rstto_image_list_set_directory (RsttoImageList *image_list,
                                 GFile *dir,
+                                RsttoFile *file,
                                 GError **error);
 
 gboolean
