@@ -17,9 +17,8 @@ finish-args:
   # FIXME: necessary for the property dialog, but not sufficient:
   # GDBus.Error:org.gtk.GDBus.UnmappedGError.Quark._g_2dfile_2derror_2dquark.Code24: Failed to open display ":99.0"
   - --talk-name=org.xfce.FileManager
-  # we cannot own the embedded Xfconf service as is, because it could be confused with the
-  # one in an Xfce session, or the one embedded in the flatpak of another Xfce application
-  - --talk-name=org.xfce.Xfconf
+  # a uniquely renamed Xfconf service, for our sole use, in the sandbox
+  - --own-name=org.xfce.ristretto.Xfconf
 
 cleanup:
   - '*.la'
@@ -43,6 +42,18 @@ modules:
           project-id: 1385
           url-template: https://launchpad.net/intltool/trunk/$version/+download/intltool-$version.tar.gz
 
+  - name: xfce4-dev-tools
+    cleanup:
+      - '*'
+    sources:
+      - type: archive
+        url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.17/xfce4-dev-tools-4.17.0.tar.bz2
+        sha256: d334c1f10e140e666b86c6c3bd8dcd62f1a877f537bcacc974478b6e92c493c7
+        x-checker-data:
+          type: anitya
+          project-id: 15888
+          url-template: https://archive.xfce.org/src/xfce/xfce4-dev-tools/$major.$minor/xfce4-dev-tools-$version.tar.bz2
+
   # mandatory dependencies
   - name: libxfce4util
     cleanup:
@@ -63,15 +74,18 @@ modules:
       - /bin
       - /share/bash-completion
     config-opts:
+      - --enable-maintainer-mode
       - --disable-debug
     sources:
-      - type: archive
-        url: https://archive.xfce.org/src/xfce/xfconf/4.16/xfconf-4.16.0.tar.bz2
-        sha256: 652a119007c67d9ba6c0bc7a740c923d33f32d03dc76dfc7ba682584e72a5425
+      - type: git
+        url: https://gitlab.xfce.org/xfce/xfconf.git
+        tag: xfconf-4.16.0
         x-checker-data:
           type: anitya
           project-id: 14854
-          url-template: https://archive.xfce.org/src/xfce/xfconf/$major.$minor/xfconf-$version.tar.bz2
+          url-template: https://gitlab.xfce.org/xfce/xfconf/-/tags/xfconf-$version
+      - type: patch
+        path: Rename-org.xfce.Xfconf-to-org.xfce.ristretto.Xfconf.patch
 
   - name: libxfce4ui
     cleanup:
@@ -91,14 +105,6 @@ modules:
           url-template: https://archive.xfce.org/src/xfce/libxfce4ui/$major.$minor/libxfce4ui-$version.tar.bz2
 
   - name: ristretto
-    modules:
-      - name: xfce4-dev-tools
-        cleanup:
-          - '*'
-        sources:
-          - type: archive
-            url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.17/xfce4-dev-tools-4.17.0.tar.bz2
-            sha256: d334c1f10e140e666b86c6c3bd8dcd62f1a877f537bcacc974478b6e92c493c7
     config-opts:
       - --enable-maintainer-mode
     sources:
