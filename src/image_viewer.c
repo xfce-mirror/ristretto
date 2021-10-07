@@ -1514,15 +1514,16 @@ rstto_image_viewer_set_menu (RsttoImageViewer *viewer, GtkMenu *menu)
 static void
 cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-    GFile *file = G_FILE (source_object);
     RsttoImageViewerTransaction *transaction = user_data;
+    GFile *file = G_FILE (source_object);
+    GFileInputStream *file_input_stream;
 
-    GFileInputStream *file_input_stream = g_file_read_finish (file, result, NULL);
-
-    if (file_input_stream == NULL)
-    {
+    if (rstto_main_window_get_app_exited ())
         return;
-    }
+
+    file_input_stream = g_file_read_finish (file, result, NULL);
+    if (file_input_stream == NULL)
+        return;
 
     g_input_stream_read_async (G_INPUT_STREAM (file_input_stream),
                                transaction->buffer,
@@ -1537,8 +1538,12 @@ static void
 cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
     RsttoImageViewerTransaction *transaction = user_data;
-    gssize read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, &transaction->error);
+    gssize read_bytes;
 
+    if (rstto_main_window_get_app_exited ())
+        return;
+
+    read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, &transaction->error);
     if (read_bytes == -1)
     {
         gdk_pixbuf_loader_close (transaction->loader, NULL);

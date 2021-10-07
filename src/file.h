@@ -84,6 +84,9 @@ struct _RsttoFile
 RsttoFile *
 rstto_file_new (GFile *file);
 
+gboolean
+rstto_file_is_valid (RsttoFile *r_file);
+
 GFile *
 rstto_file_get_file (RsttoFile *r_file);
 
