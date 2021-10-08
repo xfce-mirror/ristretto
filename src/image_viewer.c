@@ -35,10 +35,6 @@
 #define RSTTO_IMAGE_VIEWER_BUFFER_SIZE 4096
 #endif
 
-#ifndef BACKGROUND_ICON_NAME
-#define BACKGROUND_ICON_NAME "org.xfce.ristretto"
-#endif
-
 #ifndef BACKGROUND_ICON_SIZE
 #define BACKGROUND_ICON_SIZE 128
 #endif
@@ -334,7 +330,7 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv->icon_theme = gtk_icon_theme_get_default ();
     viewer->priv->bg_icon = gtk_icon_theme_load_icon (
             viewer->priv->icon_theme,
-            BACKGROUND_ICON_NAME,
+            RISTRETTO_APP_ID,
             BACKGROUND_ICON_SIZE,
             0,
             NULL);
