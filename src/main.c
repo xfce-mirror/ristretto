@@ -19,6 +19,7 @@
 
 #include <config.h>
 #include <string.h>
+#include <locale.h>
 
 #include <glib.h>
 #include <gio/gio.h>
@@ -32,6 +33,7 @@
 #include "settings.h"
 #include "main_window.h"
 #include "preferences_dialog.h"
+#include "util.h"
 
 
 
@@ -92,11 +94,10 @@ main (int argc, char **argv)
     RsttoImageList *image_list;
     GtkWidget *window;
 
-    #ifdef ENABLE_NLS
+    setlocale (LC_ALL, "");
     bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
     textdomain (GETTEXT_PACKAGE);
-    #endif
 
     if (!gtk_init_with_args (&argc, &argv, NULL, entries, PACKAGE, &cli_error))
     {
@@ -123,7 +124,7 @@ main (int argc, char **argv)
 
     xfconf_init (NULL);
 
-    gtk_window_set_default_icon_name ("org.xfce.ristretto");
+    gtk_window_set_default_icon_name (RISTRETTO_APP_ID);
     settings = rstto_settings_new ();
 
     if (! show_settings)
