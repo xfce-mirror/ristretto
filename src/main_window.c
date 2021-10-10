@@ -50,7 +50,7 @@
 #define RISTRETTO_APP_TITLE _("Image Viewer")
 #endif
 
-#define RISTRETTO_DESKTOP_ID "ristretto.desktop"
+#define RISTRETTO_DESKTOP_ID RISTRETTO_APP_ID ".desktop"
 
 #define RSTTO_RECENT_FILES_APP_NAME "ristretto"
 #define RSTTO_RECENT_FILES_GROUP "Graphics"
@@ -1562,7 +1562,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             else
             {
                 gtk_window_set_icon (GTK_WINDOW (window), NULL);
-                gtk_window_set_icon_name (GTK_WINDOW (window), "org.xfce.ristretto");
+                gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);
             }
 
             app_list = g_app_info_get_all_for_type (content_type);
@@ -1658,7 +1658,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             title = g_strdup (RISTRETTO_APP_TITLE);
 
             gtk_window_set_icon (GTK_WINDOW (window), NULL);
-            gtk_window_set_icon_name (GTK_WINDOW (window), "org.xfce.ristretto");
+            gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);
         }
 
         rstto_main_window_update_buttons (window);
@@ -2929,7 +2929,7 @@ cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
     gtk_about_dialog_set_website (GTK_ABOUT_DIALOG (about_dialog),
         "https://docs.xfce.org/apps/ristretto/start");
     gtk_about_dialog_set_logo_icon_name (GTK_ABOUT_DIALOG (about_dialog),
-        "org.xfce.ristretto");
+        RISTRETTO_APP_ID);
     gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG (about_dialog),
         authors);
     gtk_about_dialog_set_translator_credits (GTK_ABOUT_DIALOG (about_dialog),
@@ -3419,7 +3419,8 @@ cb_rstto_main_window_open_with_other_app (GtkWidget *widget, RsttoMainWindow *wi
 static void
 cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
 {
-    GtkWidget *dialog, *err_dialog;
+    GtkFileChooserNative *dialog;
+    GtkWidget *err_dialog;
     gint response;
     GFile *file;
     GFile *p_file;
@@ -3428,12 +3429,9 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     RsttoFile *r_file = NULL;
     gchar *str;
 
-    dialog = gtk_file_chooser_dialog_new (_("Open image"),
-                                         GTK_WINDOW (window),
-                                         GTK_FILE_CHOOSER_ACTION_OPEN,
-                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                         _("_Open"), GTK_RESPONSE_OK,
-                                         NULL);
+    dialog = gtk_file_chooser_native_new (_("Open image"), GTK_WINDOW (window),
+                                          GTK_FILE_CHOOSER_ACTION_OPEN,
+                                          _("_Open"), _("_Cancel"));
 
     gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
     gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
@@ -3457,9 +3455,9 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
 
 
-    response = gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_hide (dialog);
-    if (response == GTK_RESPONSE_OK)
+    response = gtk_native_dialog_run (GTK_NATIVE_DIALOG (dialog));
+    gtk_native_dialog_hide (GTK_NATIVE_DIALOG (dialog));
+    if (response == GTK_RESPONSE_ACCEPT)
     {
         files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
         _files_iter = files;
@@ -3544,7 +3542,7 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
         g_free (str);
     }
 
-    gtk_widget_destroy (dialog);
+    gtk_native_dialog_destroy (GTK_NATIVE_DIALOG (dialog));
 
     rstto_main_window_update_buttons (window);
 
@@ -4766,7 +4764,7 @@ cb_rstto_thumbnailer_ready (
         else
         {
             gtk_window_set_icon (GTK_WINDOW (window), NULL);
-            gtk_window_set_icon_name (GTK_WINDOW (window), "org.xfce.ristretto");
+            gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);
         }
     }
 }

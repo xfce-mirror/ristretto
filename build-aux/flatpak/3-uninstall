@@ -1,0 +1,10 @@
+#!/bin/sh
+
+script_dir=$(dirname "$0")
+runtime=$(sed -En '/runtime:/{s/runtime:| //g; p; q}' "$script_dir/org.xfce.ristretto.yml")
+sdk=$(sed -En '/sdk:/{s/sdk:| //g; p; q}' "$script_dir/org.xfce.ristretto.yml")
+version=$(sed -En '/runtime-version:/{s/[^0-9.]//g; p; q}' "$script_dir/org.xfce.ristretto.yml")
+
+flatpak uninstall --user --delete-data org.xfce.ristretto \
+  && flatpak uninstall --user "$runtime//$version/" "$sdk//$version/" \
+  && flatpak uninstall --user --unused

@@ -537,7 +537,7 @@ rstto_preferences_dialog_new (GtkWindow *parent)
 {
     GtkWidget *dialog = g_object_new (RSTTO_TYPE_PREFERENCES_DIALOG,
                                       "title", _("Image Viewer Preferences"),
-                                      "icon-name", "org.xfce.ristretto",
+                                      "icon-name", RISTRETTO_APP_ID,
                                       "transient-for", parent,
                                       NULL);
 
