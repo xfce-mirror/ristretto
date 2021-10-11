@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2021-10-11 00:48+0200\n"
-"PO-Revision-Date: 2021-10-10 22:48+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2021-10-11 19:22+0000\n"
+"Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -938,11 +938,11 @@ msgstr "Paprastai peržiūrėkite savo paveikslus"
 
 #: ../org.xfce.ristretto.appdata.xml.in.h:1
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: ../org.xfce.ristretto.appdata.xml.in.h:2
 msgid "Fast and lightweight image viewer"
-msgstr ""
+msgstr "Greita ir supaprastinta paveikslų žiūryklė"
 
 #: ../org.xfce.ristretto.appdata.xml.in.h:4
 msgid ""
