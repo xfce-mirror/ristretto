@@ -1,3 +1,72 @@
+0.12.0
+======
+- Dependency Changes:
+  - libxfce4ui >= 4.16.0
+  - libxfce4util >= 4.16.0
+
+- New Features:
+  - Allow to choose the default scale (!29)
+  - Keep the scale in memory for each loaded image (#7, #17, !28)
+  - Toggle fullscreen mode by double clicking on the image
+
+- Performance Improvement:
+  - Optimize directory loading (#20, #22, #32, #37, !31)
+  - Optimize image viewer redraw: Disable overlay scrolling (#64)
+  - Optimize image viewer redraw: Reuse source surface (#64, !26)
+  - Avoid using Cairo Xlib backend to create surfaces (#60, #61, #62, !25)
+  - Optimize image viewer redraw: Animation (#64)
+  - Optimize image viewer redraw: Background color (#64)
+  - Optimize image viewer redraw: Clock (#64)
+  - Optimize image viewer redraw: Selection box (#64)
+  - Don't redraw the main window when it loses focus (#64)
+  - Remove the shadow of the toolbar buttons (#51, #64)
+
+- Appearance Changes:
+  - Hide thumbnail scrollbar when unused (!24)
+  - Use the same background for the image and the thumbnails (#36, !23)
+  - Drop preferences-desktop-default-applications icon
+
+- Code Refactoring:
+  - Flatpak build (!32)
+  - Refactoring: Use only one file filter for the app
+  - Refactoring: Icon bar adjustments
+  - Cleanup: `icon_bar.c`
+  - Cleanup: Pass orientation directly from file to viewer
+  - Code refactoring: Image viewer adjustments, scale and drawing (!27)
+  - Use integers for the image rendering rectangle
+  - Code cleanup: Build sanitation, obsolete code removal, spacing, normalization (!22)
+  - Transfer contents from dispose() to finalize()
+  - Add debugging macros
+
+- Bug Fixes:
+  - Protect asynchronous jobs from an application exit
+  - Fix position of the active item in the icon bar when vertical (#34)
+  - Take into account the device scale (#47, !30)
+  - Properly load images via drag and drop (#67)
+  - Delay GdkPixbufLoader "closed" signal handler
+  - Use the same scale factor to zoom via action and scrolling
+  - Fix a lack of centering when zooming via the menu action
+  - Fix some memory leak (several commits of this kind)
+  - Fix file creation monitoring
+  - Try to display the image on `GDK_PIXBUF_ERROR_CORRUPT_IMAGE` (#39)
+  - Always set adjustment upper bounds greater than page sizes (#35)
+  - Scaling/zoom corrections (#30, !8)
+  - Fix animated GIF display
+  - Automate and sanitize memory management of sources (#65)
+  - Fix `rstto_icon_bar_rows_reordered()` (#48)
+  - Chain up to parent in dispose() and finalize()
+
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Occitan (post
+  1500), Polish, Portuguese, Portuguese (Brazil), Romanian, Russian,
+  Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish,
+  Ukrainian, Uyghur
+
 0.11.0
 ======
 - Update copyright years and appdata infos
