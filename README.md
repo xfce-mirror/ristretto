@@ -46,6 +46,10 @@ From release tarball:
     % make
     % make install
 
+From [Flathub](https://flathub.org/apps/details/org.xfce.ristretto):
+
+    % flatpak install flathub org.xfce.ristretto
+
 ### Reporting Bugs
 
 Visit the [reporting bugs](https://docs.xfce.org/apps/ristretto/bugs) page to view currently open bug reports and instructions on reporting new bugs or submitting bugfixes.
