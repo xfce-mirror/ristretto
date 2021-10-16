@@ -639,14 +639,38 @@ rstto_image_list_set_directory_idle (gpointer data)
     return FALSE;
 }
 
+static void
+rstto_image_list_set_directory_enumerate_finish (GObject *dir,
+                                                 GAsyncResult *res,
+                                                 gpointer user_data)
+{
+    RsttoImageList *image_list = user_data;
+    GFileEnumerator *file_enum;
+    GError *error = NULL;
+
+    /* this is transfer full but this ref will be released in
+     * rstto_image_list_set_directory_finish() when everything is done */
+    file_enum = g_file_enumerate_children_finish (G_FILE (dir), res, &error);
+    if (file_enum == NULL)
+    {
+        /* TODO: show error dialog */
+        image_list->priv->is_busy = FALSE;
+        g_error_free (error);
+
+        return;
+    }
+
+    rstto_object_set_data (file_enum, "loaded-file", rstto_object_get_data (dir, "loaded-file"));
+    rstto_object_set_data (file_enum, "image-list", image_list);
+    g_idle_add (rstto_image_list_set_directory_idle, rstto_util_source_autoremove (file_enum));
+}
+
 gboolean
 rstto_image_list_set_directory (RsttoImageList *image_list,
                                 GFile *dir,
                                 RsttoFile *file,
                                 GError **error)
 {
-    GFileEnumerator *file_enum;
-
     rstto_image_list_remove_all (image_list);
     rstto_image_list_monitor_dir (image_list, dir);
 
@@ -657,17 +681,17 @@ rstto_image_list_set_directory (RsttoImageList *image_list,
     if (file != NULL && ! rstto_image_list_add_file (image_list, file, error))
         return FALSE;
 
-    /* this is transfer full but this ref will be released in
-     * rstto_image_list_set_directory_finish() when everything is done */
-    file_enum = g_file_enumerate_children (dir, "standard::content-type",
-                                           G_FILE_QUERY_INFO_NONE, NULL, error);
-    if (file_enum == NULL)
-        return FALSE;
-
+    /*
+     * Using async methods both to get the dir enum and the file info is needed in general,
+     * as well as specifying "standard::name" in order to be able to use
+     * g_file_enumerator_get_child() afterwards.
+     * See https://gitlab.gnome.org/GNOME/glib/-/issues/2507
+     */
     image_list->priv->is_busy = TRUE;
-    rstto_object_set_data (file_enum, "loaded-file", file);
-    rstto_object_set_data (file_enum, "image-list", image_list);
-    g_idle_add (rstto_image_list_set_directory_idle, rstto_util_source_autoremove (file_enum));
+    rstto_object_set_data (dir, "loaded-file", file);
+    g_file_enumerate_children_async (dir, "standard::name,standard::content-type",
+                                     G_FILE_QUERY_INFO_NONE, G_PRIORITY_DEFAULT, NULL,
+                                     rstto_image_list_set_directory_enumerate_finish, image_list);
 
     return TRUE;
 }
