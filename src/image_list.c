@@ -549,18 +549,97 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
                    0, NULL);
 }
 
+static gboolean
+rstto_image_list_set_directory_finish_idle (gpointer data)
+{
+    RsttoImageList *image_list;
+    RsttoFile *r_file;
+    GFileEnumerator *file_enum = data;
+    GList *info_list, *li;
+    GFile *file, *loaded_file = NULL;
+    const gchar *content_type;
+
+    image_list = rstto_object_get_data (file_enum, "image-list");
+    info_list = rstto_object_get_data (file_enum, "info-list");
+    r_file = rstto_object_get_data (file_enum, "loaded-file");
+
+    if (r_file != NULL)
+        loaded_file = rstto_file_get_file (r_file);
+
+    for (li = info_list; li != NULL; li = li->next)
+    {
+        content_type  = g_file_info_get_content_type (li->data);
+        if (content_type != NULL && g_str_has_prefix (content_type, "image/"))
+        {
+            /* skip already loaded file, if any */
+            file = g_file_enumerator_get_child (file_enum, li->data);
+            if (loaded_file != NULL && g_file_equal (file, loaded_file))
+            {
+                loaded_file = NULL;
+                rstto_object_set_data (file_enum, "loaded-file", NULL);
+                g_object_unref (file);
+
+                continue;
+            }
+
+            /* load the first valid file, if needed */
+            r_file = rstto_file_new (file);
+            g_object_unref (file);
+            if (loaded_file == NULL && image_list->priv->images == NULL)
+            {
+                if (! rstto_image_list_add_file (image_list, r_file, NULL))
+                {
+                    g_object_unref (r_file);
+                    continue;
+                }
+                else
+                {
+                    /* give the viewer a chance to display the image first */
+                    rstto_object_set_data (file_enum, "loaded-file", r_file);
+                    g_idle_add (rstto_image_list_set_directory_finish_idle, file_enum);
+                    g_object_unref (r_file);
+
+                    return FALSE;
+                }
+            }
+
+            /* no additional filtering here, it will be done when requesting thumbnails */
+            image_list->priv->images = g_list_prepend (image_list->priv->images, r_file);
+        }
+    }
+
+    /* schedule next file block, if any */
+    if (g_list_length (info_list) == FILE_BLOCK_SIZE)
+        g_idle_add (rstto_image_list_set_directory_idle, file_enum);
+    else
+    {
+        /* we're done, inform the others */
+        image_list->priv->is_busy = FALSE;
+        if (image_list->priv->images != NULL)
+            rstto_image_list_set_compare_func (image_list,
+                                               image_list->priv->cb_rstto_image_list_compare_func);
+        else
+        {
+            /* TODO: show error dialog */
+        }
+
+        g_object_unref (file_enum);
+    }
+
+    g_list_free_full (info_list, g_object_unref);
+
+    return FALSE;
+}
+
 static void
 rstto_image_list_set_directory_finish (GObject *source_object,
                                        GAsyncResult *res,
                                        gpointer user_data)
 {
     RsttoImageList *image_list = user_data;
-    RsttoFile *r_file;
     GFileEnumerator *file_enum = G_FILE_ENUMERATOR (source_object);
-    GList *info_list, *li;
-    GFile *file, *loaded_file = NULL;
+    GList *info_list;
     GError *error = NULL;
-    const gchar *content_type;
 
     if (rstto_main_window_get_app_exited ())
     {
@@ -573,60 +652,30 @@ rstto_image_list_set_directory_finish (GObject *source_object,
     {
         /* we're done, inform the others */
         image_list->priv->is_busy = FALSE;
-        rstto_image_list_set_compare_func (image_list,
-                                           image_list->priv->cb_rstto_image_list_compare_func);
-
-        if (error != NULL)
+        if (image_list->priv->images != NULL)
+        {
+            rstto_image_list_set_compare_func (image_list,
+                                               image_list->priv->cb_rstto_image_list_compare_func);
+            if (error != NULL)
+            {
+                /* TODO: show error dialog */
+            }
+        }
+        else
         {
             /* TODO: show error dialog */
-            g_error_free (error);
         }
 
         g_object_unref (file_enum);
+        if (error != NULL)
+            g_error_free (error);
 
         return;
     }
 
-    r_file = rstto_object_get_data (file_enum, "loaded-file");
-    if (r_file != NULL)
-        loaded_file = rstto_file_get_file (r_file);
-
-    for (li = info_list; li != NULL; li = li->next)
-    {
-        content_type  = g_file_info_get_content_type (li->data);
-        if (content_type != NULL && g_str_has_prefix (content_type, "image/"))
-        {
-            file = g_file_enumerator_get_child (file_enum, li->data);
-            if (loaded_file != NULL && g_file_equal (file, loaded_file))
-            {
-                loaded_file = NULL;
-                rstto_object_set_data (file_enum, "loaded-file", NULL);
-                g_object_unref (file);
-
-                continue;
-            }
-
-            /* no filtering here, it will be done when requesting thumbnails */
-            image_list->priv->images = g_list_prepend (image_list->priv->images,
-                                                       rstto_file_new (file));
-            g_object_unref (file);
-        }
-    }
-
-    /* schedule next file block, if any */
-    if (g_list_length (info_list) == FILE_BLOCK_SIZE)
-        g_idle_add (rstto_image_list_set_directory_idle, file_enum);
-    else
-    {
-        /* we're done, inform the others */
-        image_list->priv->is_busy = FALSE;
-        rstto_image_list_set_compare_func (image_list,
-                                           image_list->priv->cb_rstto_image_list_compare_func);
-
-        g_object_unref (file_enum);
-    }
-
-    g_list_free_full (info_list, g_object_unref);
+    /* try to prioritize image display over directory loading */
+    rstto_object_set_data (file_enum, "info-list", info_list);
+    g_idle_add (rstto_image_list_set_directory_finish_idle, file_enum);
 }
 
 static gboolean
