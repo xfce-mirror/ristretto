@@ -20,12 +20,9 @@
  *    Copyright (c) Benedict Meurer <benny@xfce.org>
  */
 
-#include <string.h>
-
 #include "util.h"
 #include "image_list.h"
 #include "thumbnailer.h"
-#include "settings.h"
 #include "main_window.h"
 
 

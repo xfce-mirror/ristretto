@@ -17,18 +17,11 @@
  *  02110-1301, USA.
  */
 
-#include <string.h>
-
-#include <glib.h>
-#include <gio/gio.h>
-
-#include <libxfce4util/libxfce4util.h>
-
 #include "util.h"
-#include "file.h"
-#include "settings.h"
 #include "thumbnailer.h"
 #include "tumbler.h"
+
+#include <glib/gi18n.h>
 
 
 

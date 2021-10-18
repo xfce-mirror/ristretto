@@ -17,14 +17,11 @@
  *  02110-1301, USA.
  */
 
-#include <gdk/gdkx.h>
-
-#include <libxfce4util/libxfce4util.h>
-#include <libxfce4ui/libxfce4ui.h>
-
-#include "file.h"
+#include "util.h"
 #include "monitor_chooser.h"
 #include "gnome_wallpaper_manager.h"
+
+#include <libxfce4ui/libxfce4ui.h>
 
 
 

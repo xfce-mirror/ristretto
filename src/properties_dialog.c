@@ -17,11 +17,7 @@
  *  02110-1301, USA.
  */
 
-#include <libexif/exif-data.h>
-
-#include <libxfce4util/libxfce4util.h>
-
-#include "settings.h"
+#include "util.h"
 #include "file.h"
 #include "properties_dialog.h"
 

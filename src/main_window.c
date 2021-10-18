@@ -17,32 +17,21 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-#include <string.h>
-
-#include <gdk/gdkkeysyms.h>
-#include <gio/gio.h>
-#include <gio/gdesktopappinfo.h>
-
-#include <libxfce4ui/libxfce4ui.h>
-#include <libexif/exif-data.h>
-
-#include "settings.h"
-#include "mime_db.h"
 #include "util.h"
-#include "file.h"
+#include "mime_db.h"
 #include "icon_bar.h"
 #include "thumbnailer.h"
 #include "image_viewer.h"
 #include "main_window.h"
 #include "main_window_ui.h"
-#include "wallpaper_manager.h"
 #include "xfce_wallpaper_manager.h"
 #include "gnome_wallpaper_manager.h"
 #include "privacy_dialog.h"
 #include "properties_dialog.h"
 #include "preferences_dialog.h"
 #include "app_menu_item.h"
+
+#include <gio/gdesktopappinfo.h>
 
 
 

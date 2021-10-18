@@ -17,15 +17,12 @@
  *  02110-1301, USA.
  */
 
-#include <glib.h>
-#include <gdk/gdkkeysyms.h>
-
-#include <xfconf/xfconf.h>
-#include <libxfce4util/libxfce4util.h>
-
 #include "util.h"
 #include "file.h"
 #include "settings.h"
+
+#include <xfconf/xfconf.h>
+#include <libxfce4util/libxfce4util.h>
 
 
 
