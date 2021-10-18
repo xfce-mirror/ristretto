@@ -17,23 +17,14 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-#include <string.h>
-#include <locale.h>
+#include "util.h"
+#include "main_window.h"
+#include "preferences_dialog.h"
 
-#include <glib.h>
-#include <gio/gio.h>
-#include <gtk/gtk.h>
+#include <locale.h>
 
 #include <xfconf/xfconf.h>
 #include <libxfce4ui/libxfce4ui.h>
-
-#include "file.h"
-#include "image_list.h"
-#include "settings.h"
-#include "main_window.h"
-#include "preferences_dialog.h"
-#include "util.h"
 
 
 

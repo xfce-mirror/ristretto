@@ -17,9 +17,7 @@
  *  02110-1301, USA.
  */
 
-#include <glib.h>
-#include <glib-object.h>
-
+#include "util.h"
 #include "wallpaper_manager.h"
 
 

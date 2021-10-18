@@ -17,18 +17,14 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-#include <string.h>
+#include "util.h"
+#include "file.h"
+#include "thumbnailer.h"
+#include "main_window.h"
 
 #ifdef HAVE_MAGIC_H
 #include <magic.h>
 #endif
-
-#include <gio/gio.h>
-
-#include "file.h"
-#include "thumbnailer.h"
-#include "main_window.h"
 
 
 
