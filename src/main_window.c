@@ -100,6 +100,9 @@ cb_rstto_thumbnailer_ready (RsttoThumbnailer *thumbnailer,
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
 static gboolean
+rstto_main_window_recent_filter (const GtkRecentFilterInfo *filter_info,
+                                 gpointer user_data);
+static gboolean
 rstto_main_window_add_file_to_recent_files_cb (gpointer user_data);
 static void
 rstto_main_window_launch_editor_chooser (RsttoMainWindow *window);
@@ -940,9 +943,18 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
     gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (window->priv->recent_action), GTK_RECENT_SORT_MRU);
 
-    /* Add a filter to the recent-chooser */
+    /*
+     * Add a filter to the recent-chooser.
+     * Specifying GTK_RECENT_FILTER_DISPLAY_NAME is needed because of a bug fixed in
+     * GTK 3.24.31: see https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/4080
+     */
     recent_filter = gtk_recent_filter_new ();
-    gtk_recent_filter_add_application (recent_filter, "ristretto");
+    gtk_recent_filter_add_custom (recent_filter, GTK_RECENT_FILTER_URI
+#if ! GTK_CHECK_VERSION (3, 24, 31)
+                                    | GTK_RECENT_FILTER_DISPLAY_NAME
+#endif
+                                    | GTK_RECENT_FILTER_APPLICATION,
+                                  rstto_main_window_recent_filter, window, NULL);
     gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (window->priv->recent_action), recent_filter);
 
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
@@ -4159,6 +4171,33 @@ rstto_main_window_get_iter (
     return window->priv->iter;
 }
 
+static gboolean
+rstto_main_window_recent_filter (const GtkRecentFilterInfo *filter_info,
+                                 gpointer user_data)
+{
+    RsttoMainWindow *window = user_data;
+    gchar *path;
+    gboolean exists = TRUE;
+
+    if (! g_strv_contains (filter_info->applications, RSTTO_RECENT_FILES_APP_NAME))
+        return FALSE;
+
+    /* we don't go through a GFile here because it's too expensive: this would
+     * slow down Ristretto at startup */
+    path = g_filename_from_uri (filter_info->uri, NULL, NULL);
+    if (path != NULL)
+    {
+        exists = g_file_test (path, G_FILE_TEST_EXISTS);
+        g_free (path);
+    }
+
+    /* silently remove the file from the recent list */
+    if (! exists)
+        gtk_recent_manager_remove_item (window->priv->recent_manager, filter_info->uri, NULL);
+
+    return exists;
+}
+
 void
 rstto_main_window_add_file_to_recent_files (GFile *file)
 {
@@ -4597,7 +4636,7 @@ cb_rstto_main_window_clear_private_data (
     GtkWidget *dialog = rstto_privacy_dialog_new (GTK_WINDOW (window), window->priv->recent_manager);
 
     recent_filter = gtk_recent_filter_new ();
-    gtk_recent_filter_add_application (recent_filter, "ristretto");
+    gtk_recent_filter_add_application (recent_filter, RSTTO_RECENT_FILES_APP_NAME);
     gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (dialog), recent_filter);
 
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
