@@ -35,14 +35,8 @@
 
 
 
-#ifndef RISTRETTO_APP_TITLE
 #define RISTRETTO_APP_TITLE _("Image Viewer")
-#endif
-
 #define RISTRETTO_DESKTOP_ID RISTRETTO_APP_ID ".desktop"
-
-#define RSTTO_RECENT_FILES_APP_NAME "ristretto"
-#define RSTTO_RECENT_FILES_GROUP "Graphics"
 
 enum
 {
@@ -102,8 +96,6 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
 static gboolean
 rstto_main_window_recent_filter (const GtkRecentFilterInfo *filter_info,
                                  gpointer user_data);
-static gboolean
-rstto_main_window_add_file_to_recent_files_cb (gpointer user_data);
 static void
 rstto_main_window_launch_editor_chooser (RsttoMainWindow *window);
 
@@ -3422,14 +3414,11 @@ static void
 cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
 {
     GtkFileChooserNative *dialog;
-    GtkWidget *err_dialog;
-    gint response;
-    GFile *file;
-    GFile *p_file;
-    GSList *files = NULL, *_files_iter;
     GtkFileFilter *filter;
-    RsttoFile *r_file = NULL;
+    GVariant *variant;
+    GSList *files;
     gchar *str;
+    gint response;
 
     dialog = gtk_file_chooser_native_new (_("Open image"), GTK_WINDOW (window),
                                           GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -3439,105 +3428,28 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
 
     g_object_get (window->priv->settings_manager, "current-uri", &str, NULL);
-    if (str != NULL)
-    {
-        if (strlen (str) > 0)
-            gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), str);
+    if (str != NULL && *str != '\0')
+        gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), str);
 
-        g_free (str);
-    }
+    g_free (str);
 
-    filter = gtk_file_filter_new_from_gvariant (gtk_file_filter_to_gvariant (app_file_filter));
+    variant = gtk_file_filter_to_gvariant (app_file_filter);
+    filter = gtk_file_filter_new_from_gvariant (variant);
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
+    g_variant_unref (variant);
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_add_mime_type (filter, "image/jpeg");
     gtk_file_filter_set_name (filter, _(".jp(e)g"));
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
-    gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
-
 
     response = gtk_native_dialog_run (GTK_NATIVE_DIALOG (dialog));
     gtk_native_dialog_hide (GTK_NATIVE_DIALOG (dialog));
     if (response == GTK_RESPONSE_ACCEPT)
     {
         files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
-        _files_iter = files;
-        if (g_slist_length (files) > 1)
-        {
-            while (_files_iter)
-            {
-                file = _files_iter->data;
-                if (g_file_query_exists (file, NULL))
-                {
-                    r_file = rstto_file_new (file);
-                    if (NULL != r_file)
-                    {
-                        if (! rstto_image_list_add_file (window->priv->image_list, r_file, NULL))
-                        {
-                            err_dialog = gtk_message_dialog_new (GTK_WINDOW (window),
-                                                            GTK_DIALOG_MODAL,
-                                                            GTK_MESSAGE_ERROR,
-                                                            GTK_BUTTONS_OK,
-                                                            _("Could not open file"));
-                            gtk_dialog_run (GTK_DIALOG (err_dialog));
-                            gtk_widget_destroy (err_dialog);
-                        }
-                        else
-                        {
-                            /* Add a reference to the file, it is owned by the
-                             * sourcefunc and will be unref-ed by it.
-                             */
-                            g_object_ref (file);
-                            g_idle_add_full (G_PRIORITY_LOW, rstto_main_window_add_file_to_recent_files_cb,
-                                             rstto_util_source_autoremove (file), NULL);
-                        }
-                        g_object_unref (r_file);
-                        r_file = NULL;
-                    }
-                }
-
-                _files_iter = g_slist_next (_files_iter);
-            }
-            rstto_image_list_iter_set_position (
-                window->priv->iter,
-                0);
-        }
-        else
-        {
-            if (g_slist_length (files) == 1)
-            {
-                if (g_file_query_exists (files->data, NULL))
-                {
-                    r_file = rstto_file_new (files->data);
-                    p_file = g_file_get_parent (files->data);
-
-                    /* This call adds the contents of the
-                     * directory asynchronously.
-                     */
-                    rstto_image_list_set_directory (window->priv->image_list,
-                                                    p_file, r_file, NULL);
-
-                    /* Add a reference to the file, it is owned by the
-                     * sourcefunc and will be unref-ed by it.
-                     */
-                    g_object_ref (files->data);
-                    g_idle_add_full (G_PRIORITY_LOW, rstto_main_window_add_file_to_recent_files_cb,
-                                     rstto_util_source_autoremove (files->data), NULL);
-
-                    /* Point the main iterator to the
-                     * correct file
-                     */
-                    rstto_image_list_iter_find_file (
-                            window->priv->iter,
-                            r_file);
-
-                    /* Cleanup the reference */
-                    g_object_unref (r_file);
-                    g_object_unref (p_file);
-                }
-            }
-        }
+        rstto_main_window_open (window, files);
+        g_slist_free_full (files, g_object_unref);
 
         str = gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (dialog));
         g_object_set (window->priv->settings_manager, "current-uri", str, NULL);
@@ -3545,13 +3457,6 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     }
 
     gtk_native_dialog_destroy (GTK_NATIVE_DIALOG (dialog));
-
-    rstto_main_window_update_buttons (window);
-
-    if (files)
-    {
-        g_slist_free_full (files, g_object_unref);
-    }
 }
 
 /**
@@ -3563,62 +3468,18 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_open_recent (GtkRecentChooser *chooser, RsttoMainWindow *window)
 {
-    GtkWidget *err_dialog;
-    gchar *uri = gtk_recent_chooser_get_current_uri (chooser);
-    GError *error = NULL;
-    GFile *file = g_file_new_for_uri (uri);
-    GFile *p_file;
-    RsttoFile *r_file = NULL;
+    GSList *files = NULL;
+    GFile *file;
+    gchar *uri;
 
-    if ((error == NULL) &&
-        (g_file_query_exists (file, NULL)))
-    {
-        r_file = rstto_file_new (file);
-        if (NULL != r_file)
-        {
-            p_file = g_file_get_parent (file);
+    uri = gtk_recent_chooser_get_current_uri (chooser);
+    file = g_file_new_for_uri (uri);
+    files = g_slist_prepend (files, file);
 
-            /* This call adds the contents of the
-             * directory asynchronously.
-             */
-            rstto_image_list_set_directory (window->priv->image_list, p_file, r_file, NULL);
+    rstto_main_window_open (window, files);
 
-            /* Point the main iterator to the
-             * correct file
-             */
-            rstto_image_list_iter_find_file (
-                    window->priv->iter,
-                    r_file);
-
-            /* Cleanup the reference */
-            g_object_unref (p_file);
-            g_object_unref (r_file);
-            r_file = NULL;
-        }
-    }
-    else
-    {
-        err_dialog = gtk_message_dialog_new (GTK_WINDOW (window),
-                                        GTK_DIALOG_MODAL,
-                                        GTK_MESSAGE_ERROR,
-                                        GTK_BUTTONS_OK,
-                                        _("Could not open file"));
-        gtk_dialog_run (GTK_DIALOG (err_dialog));
-        gtk_widget_destroy (err_dialog);
-
-        /* Something is wrong with the file (perhaps it was removed?),
-         * remove the item from the recently-used list.
-         */
-        gtk_recent_manager_remove_item (
-                window->priv->recent_manager,
-                uri,
-                NULL);
-    }
-
-    rstto_main_window_update_buttons (window);
-
-    g_object_unref (file);
     g_free (uri);
+    g_slist_free_full (files, g_object_unref);
 }
 
 /**
@@ -3982,105 +3843,22 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                                 gchar **uris,
                                 RsttoMainWindow *window)
 {
-    RsttoFile *file;
+    GSList *files = NULL;
+    GFile *file;
     guint n, n_uris;
-    gboolean first = TRUE;
 
     g_return_if_fail (RSTTO_IS_MAIN_WINDOW (window));
 
     n_uris = g_strv_length (uris);
     for (n = 0; n < n_uris; n++)
     {
-        file = rstto_file_new (g_file_new_for_uri (uris[n]));
-
-        if (rstto_file_is_valid (file))
-        {
-            if (first)
-            {
-                first = FALSE;
-
-                /* On the first valid image, we reset the thumbnailbar. */
-                rstto_image_list_set_directory (window->priv->image_list, NULL, NULL, NULL);
-
-                /* User dropped a single image, load all images in the
-                 * directory and select the image. */
-                if (n_uris == 1)
-                {
-                    GFile *p_file;
-
-                    p_file = g_file_get_parent (rstto_file_get_file (file));
-                    rstto_image_list_set_directory (window->priv->image_list, p_file, file, NULL);
-                    g_object_unref (p_file);
-
-                    rstto_image_list_iter_find_file (window->priv->iter, file);
-
-                    return;
-                }
-            }
-
-            /* User dropped a selection of images, load only them. */
-            rstto_image_list_add_file (window->priv->image_list, file, NULL);
-            rstto_image_list_iter_find_file (window->priv->iter,
-                                              file);
-        }
-        else if (g_file_query_file_type (rstto_file_get_file (file),
-                                           G_FILE_QUERY_INFO_NONE,
-                                           NULL) == G_FILE_TYPE_DIRECTORY)
-        {
-            GFileEnumerator *enumerator;
-
-            /* User dropped in a directory, get the files in it */
-            enumerator = g_file_enumerate_children (
-                            rstto_file_get_file (file),
-                            "standard::name,access::can-read",
-                            G_FILE_QUERY_INFO_NONE,
-                            NULL,
-                            NULL);
-
-            if (enumerator)
-            {
-                GFileInfo *f_info;
-                RsttoFile *child;
-
-                /* Check all the files for a valid image */
-                for (f_info = g_file_enumerator_next_file (enumerator, NULL, NULL);
-                     f_info != NULL;
-                     f_info = g_file_enumerator_next_file (enumerator, NULL, NULL))
-                {
-                    gchar *path = g_strdup_printf ("%s/%s",
-                                                   rstto_file_get_path (file),
-                                                   g_file_info_get_name (f_info));
-                    GFile *gfile = g_file_new_for_path (path);
-
-                    child = rstto_file_new (gfile);
-
-                    g_object_unref (f_info);
-                    g_object_unref (gfile);
-                    g_free (path);
-
-                    if (rstto_file_is_valid (child))
-                    {
-                        /* Found a valid image, use the directory
-                         * and select the first image in the dir */
-                        rstto_image_list_set_directory (window->priv->image_list,
-                                                        rstto_file_get_file (file), child, NULL);
-                        rstto_image_list_iter_find_file (window->priv->iter, child);
-
-                        break;
-                    }
-                    /* Not a valid image file */
-                    g_object_unref (child);
-                }
-                g_file_enumerator_close (enumerator, NULL, NULL);
-                g_object_unref (enumerator);
-            }
-        }
-        else
-        {
-            /* Not an image file or directory */
-            g_object_unref (file);
-        }
+        file = g_file_new_for_uri (uris[n]);
+        files = g_slist_prepend (files, file);
     }
+
+    files = g_slist_reverse (files);
+    rstto_main_window_open (window, files);
+    g_slist_free_full (files, g_object_unref);
 }
 
 /**********************/
@@ -4179,7 +3957,7 @@ rstto_main_window_recent_filter (const GtkRecentFilterInfo *filter_info,
     gchar *path;
     gboolean exists = TRUE;
 
-    if (! g_strv_contains (filter_info->applications, RSTTO_RECENT_FILES_APP_NAME))
+    if (! g_strv_contains (filter_info->applications, PACKAGE_NAME))
         return FALSE;
 
     /* we don't go through a GFile here because it's too expensive: this would
@@ -4198,63 +3976,118 @@ rstto_main_window_recent_filter (const GtkRecentFilterInfo *filter_info,
     return exists;
 }
 
-void
-rstto_main_window_add_file_to_recent_files (GFile *file)
+static void
+rstto_main_window_add_file_to_recent_files (const gchar *uri,
+                                            const gchar *content_type)
 {
-    GFileInfo *file_info;
-    GtkRecentData *recent_data;
-    gchar* uri;
-    static gchar *groups[2] = { RSTTO_RECENT_FILES_GROUP, NULL };
+    GtkRecentData recent_data;
+    static gchar *groups[2] = { "Graphics", NULL };
 
-    if (file == NULL)
-    {
+    if (uri == NULL || content_type == NULL)
         return;
-    }
 
-    uri = g_file_get_uri (file);
-    if (uri == NULL)
-    {
-        return;
-    }
+    recent_data.display_name = NULL;
+    recent_data.description = NULL;
+    recent_data.mime_type = (gchar *) content_type;
+    recent_data.app_name = PACKAGE_NAME;
+    recent_data.app_exec = PACKAGE " %u";
+    recent_data.groups = groups;
+    recent_data.is_private = FALSE;
 
-    file_info = g_file_query_info (
-            file,
-            G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
-            0,
-            NULL,
-            NULL);
-    if (file_info == NULL)
-    {
-        return;
-    }
-
-    recent_data = g_slice_new (GtkRecentData);
-    recent_data->display_name = NULL;
-    recent_data->description = NULL;
-    recent_data->mime_type = (gchar *) g_file_info_get_content_type (file_info);
-    recent_data->app_name = RSTTO_RECENT_FILES_APP_NAME;
-    recent_data->app_exec = g_strjoin (" ", g_get_prgname (), "%u", NULL);
-    recent_data->groups = groups;
-    recent_data->is_private = FALSE;
-
-    gtk_recent_manager_add_full (gtk_recent_manager_get_default (), uri, recent_data);
-
-    g_free (recent_data->app_exec);
-    g_free (uri);
-    g_object_unref (file_info);
-
-    g_slice_free (GtkRecentData, recent_data);
-
-    g_object_unref (file);
+    gtk_recent_manager_add_full (gtk_recent_manager_get_default (), uri, &recent_data);
 }
 
-static gboolean
-rstto_main_window_add_file_to_recent_files_cb (gpointer user_data)
+void
+rstto_main_window_open (RsttoMainWindow *window,
+                        GSList *files)
 {
-    GFile *file = user_data;
+    RsttoFile *r_file;
+    GtkWidget *dialog;
+    GError *error = NULL, *tmp_error = NULL;
+    GSList *file;
+    GFileInfo *info;
+    GFile *dir;
+    guint n, deleted = 0, invalid = 0;
 
-    rstto_main_window_add_file_to_recent_files (file);
-    return FALSE;
+    /* in case of several files, open only those, adding them to the list one by one: this
+     * is expensive and supposed to be done only for a limited number of files */
+    if (g_slist_length (files) > 1)
+    {
+        for (file = files, n = 0; file != NULL; file = file->next, n++)
+        {
+            /* we will show only one dialog for all deleted files later */
+            if (! g_file_query_exists (file->data, NULL))
+            {
+                deleted |= 1 << n;
+                continue;
+            }
+
+            r_file = rstto_file_new (file->data);
+            if (! rstto_image_list_add_file (window->priv->image_list, r_file, &tmp_error))
+            {
+                if (error == NULL)
+                    error = g_error_copy (tmp_error);
+
+                invalid |= 1 << n;
+                g_object_unref (r_file);
+                g_clear_error (&tmp_error);
+
+                continue;
+            }
+            else
+            {
+                rstto_main_window_add_file_to_recent_files (rstto_file_get_uri (r_file),
+                                                            rstto_file_get_content_type (r_file));
+                g_object_unref (r_file);
+            }
+        }
+    }
+    /* in case of a single file, replace the list with the contents of the parent directory,
+     * or the directory itself if the file is a directory */
+    else if (! g_file_query_exists (files->data, NULL))
+        deleted = 1;
+    else if ((info = g_file_query_info (files->data, "standard::type,standard::content-type",
+                                        G_FILE_QUERY_INFO_NONE, NULL, &error)) == NULL)
+        invalid = 1;
+    else
+    {
+        /* add the directory contents asynchronously */
+        if (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)
+        {
+            rstto_image_list_set_directory (window->priv->image_list, files->data, NULL, NULL);
+            uri = g_file_get_uri (files->data);
+            rstto_main_window_add_file_to_recent_files (uri, g_file_info_get_content_type (info));
+            g_free (uri);
+        }
+        else
+        {
+            dir = g_file_get_parent (files->data);
+            r_file = rstto_file_new (files->data);
+            if (rstto_image_list_set_directory (window->priv->image_list, dir, r_file, &error))
+                rstto_main_window_add_file_to_recent_files (rstto_file_get_uri (r_file),
+                                                            rstto_file_get_content_type (r_file));
+            else
+                invalid = 1;
+
+            g_object_unref (dir);
+            g_object_unref (r_file);
+        }
+
+        g_object_unref (info);
+    }
+
+    if (deleted > 0 || invalid > 0)
+    {
+        /* TODO: set error and add text warnings */
+        dialog = gtk_message_dialog_new (GTK_WINDOW (window), GTK_DIALOG_MODAL,
+                                         GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+                                         _("Some files could not be opened: "
+                                           "see the text logs for details"));
+        gtk_dialog_run (GTK_DIALOG (dialog));
+        gtk_widget_destroy (dialog);
+        if (error != NULL)
+            g_error_free (error);
+    }
 }
 
 static void
@@ -4636,7 +4469,7 @@ cb_rstto_main_window_clear_private_data (
     GtkWidget *dialog = rstto_privacy_dialog_new (GTK_WINDOW (window), window->priv->recent_manager);
 
     recent_filter = gtk_recent_filter_new ();
-    gtk_recent_filter_add_application (recent_filter, RSTTO_RECENT_FILES_APP_NAME);
+    gtk_recent_filter_add_application (recent_filter, PACKAGE_NAME);
     gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (dialog), recent_filter);
 
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
