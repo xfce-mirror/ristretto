@@ -969,6 +969,7 @@ iter_set_position (
                    rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE],
                    0, NULL);
 
+    iter->priv->sticky = sticky;
     if (iter->priv->r_file)
     {
         iter->priv->r_file = NULL;
