@@ -3457,6 +3457,11 @@ cb_rstto_main_window_open_image (GtkWidget *widget, RsttoMainWindow *window)
     gtk_file_filter_set_name (filter, _(".jp(e)g"));
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_add_pattern (filter, "*");
+    gtk_file_filter_set_name (filter, _("All Files"));
+    gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
+
     response = gtk_native_dialog_run (GTK_NATIVE_DIALOG (dialog));
     gtk_native_dialog_hide (GTK_NATIVE_DIALOG (dialog));
     if (response == GTK_RESPONSE_ACCEPT)
