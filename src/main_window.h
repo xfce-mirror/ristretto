@@ -48,6 +48,9 @@ struct _RsttoMainWindow
 
 
 
+RsttoMainWindow *
+rstto_main_window_get_app_window (void);
+
 gboolean
 rstto_main_window_get_app_exited (void);
 

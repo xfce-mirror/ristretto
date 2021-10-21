@@ -35,14 +35,16 @@
 
 
 
-#ifndef RISTRETTO_APP_TITLE
 #define RISTRETTO_APP_TITLE _("Image Viewer")
-#endif
-
 #define RISTRETTO_DESKTOP_ID RISTRETTO_APP_ID ".desktop"
 
 #define RSTTO_RECENT_FILES_APP_NAME "ristretto"
 #define RSTTO_RECENT_FILES_GROUP "Graphics"
+
+#define ERROR_SAVE_FAILED _("Could not save file")
+#define ERROR_OPEN_FAILED _("Some files could not be opened:\nSee the text logs for details")
+#define ERROR_DELETE_FAILED_DISK _("An error occurred when deleting image '%s' from disk")
+#define ERROR_DELETE_FAILED_TRASH _("An error occurred when sending image '%s' to trash")
 
 enum
 {
@@ -1441,6 +1443,12 @@ key_press_event (
     return TRUE;
 }
 
+
+RsttoMainWindow *
+rstto_main_window_get_app_window (void)
+{
+    return app_window;
+}
 
 gboolean
 rstto_main_window_get_app_exited (void)
@@ -3495,7 +3503,7 @@ cb_rstto_main_window_open_recent (GtkRecentChooser *chooser, RsttoMainWindow *wi
 static void
 cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
 {
-    GtkWidget *dialog, *err_dialog;
+    GtkWidget *dialog;
     gint response;
     GFile *file, *s_file;
     RsttoFile *r_file;
@@ -3526,15 +3534,7 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
         file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
         s_file = rstto_file_get_file (rstto_image_list_iter_get_file (window->priv->iter));
         if (! g_file_copy (s_file, file, G_FILE_COPY_OVERWRITE, NULL, NULL, NULL, NULL))
-        {
-            err_dialog = gtk_message_dialog_new (GTK_WINDOW (window),
-                                            GTK_DIALOG_MODAL,
-                                            GTK_MESSAGE_ERROR,
-                                            GTK_BUTTONS_OK,
-                                            _("Could not save file"));
-            gtk_dialog_run (GTK_DIALOG (err_dialog));
-            gtk_widget_destroy (err_dialog);
-        }
+            rstto_util_dialog_error (ERROR_SAVE_FAILED, NULL);
 
         g_free (window->priv->last_copy_folder_uri);
         window->priv->last_copy_folder_uri = gtk_file_chooser_get_current_folder_uri (
@@ -3709,7 +3709,7 @@ rstto_confirm_deletion (
     }
     dialog = gtk_message_dialog_new (
             GTK_WINDOW (window),
-            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
             GTK_MESSAGE_WARNING,
             GTK_BUTTONS_OK_CANCEL,
             "%s",
@@ -3750,7 +3750,6 @@ cb_rstto_main_window_delete (
 {
     RsttoFile *file = rstto_image_list_iter_get_file (window->priv->iter);
     const gchar *file_basename;
-    GtkWidget *dialog;
     GdkModifierType state;
     gboolean delete_file = FALSE;
     gboolean success = FALSE;
@@ -3795,21 +3794,13 @@ cb_rstto_main_window_delete (
             file_basename = rstto_file_get_display_name (file);
             if (delete_file)
             {
-                prompt = g_strdup_printf (_("An error occurred when deleting image '%s' from disk.\n\n%s"), file_basename, error->message);
+                prompt = g_strdup_printf (ERROR_DELETE_FAILED_DISK, file_basename);
             }
             else
             {
-                prompt = g_strdup_printf (_("An error occurred when sending image '%s' to trash.\n\n%s"), file_basename, error->message);
+                prompt = g_strdup_printf (ERROR_DELETE_FAILED_TRASH, file_basename);
             }
-            dialog = gtk_message_dialog_new (
-                    GTK_WINDOW (window),
-                    GTK_DIALOG_DESTROY_WITH_PARENT,
-                    GTK_MESSAGE_ERROR,
-                    GTK_BUTTONS_OK,
-                    "%s",
-                    prompt);
-            gtk_dialog_run (GTK_DIALOG (dialog));
-            gtk_widget_destroy (dialog);
+            rstto_util_dialog_error (prompt, error);
             g_free (prompt);
         }
         g_object_unref (file);
@@ -4024,11 +4015,11 @@ rstto_main_window_open (RsttoMainWindow *window,
                         GSList *files)
 {
     RsttoFile *r_file;
-    GtkWidget *dialog;
     GError *error = NULL, *tmp_error = NULL;
     GSList *file;
     GFileInfo *info;
     GFile *dir;
+    gchar *uri;
     guint n, deleted = 0, invalid = 0;
 
     /* in case of several files, open only those, adding them to the list one by one: this
@@ -4096,13 +4087,23 @@ rstto_main_window_open (RsttoMainWindow *window,
 
     if (deleted > 0 || invalid > 0)
     {
-        /* TODO: set error and add text warnings */
-        dialog = gtk_message_dialog_new (GTK_WINDOW (window), GTK_DIALOG_MODAL,
-                                         GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-                                         _("Some files could not be opened."
-                                           "\nSee the text logs for details."));
-        gtk_dialog_run (GTK_DIALOG (dialog));
-        gtk_widget_destroy (dialog);
+        for (n = 0; (1U << n) <= deleted; n++)
+            if (deleted & (1 << n))
+            {
+                uri = g_file_get_uri (g_slist_nth_data (files, n));
+                g_message ("Could not open file '%s': File does not exist", uri);
+                g_free (uri);
+            }
+
+        for (n = 0; (1U << n) <= invalid; n++)
+            if (invalid & (1 << n))
+            {
+                uri = g_file_get_uri (g_slist_nth_data (files, n));
+                g_message ("Could not open file '%s': %s", uri, error->message);
+                g_free (uri);
+            }
+
+        rstto_util_dialog_error (ERROR_OPEN_FAILED, NULL);
         if (error != NULL)
             g_error_free (error);
     }
