@@ -18,6 +18,7 @@
  */
 
 #include "util.h"
+#include "main_window.h"
 
 
 
@@ -131,4 +132,34 @@ rstto_util_paint_background_color (GtkWidget *widget,
         cairo_restore (ctx);
         gdk_rgba_free (bgcolor);
     }
+}
+
+
+
+void
+rstto_util_dialog_error (const gchar *message,
+                         GError *error)
+{
+    GtkWidget *dialog;
+    GtkWindow *window;
+
+    window = GTK_WINDOW (rstto_main_window_get_app_window ());
+    if (message != NULL && error != NULL)
+        dialog = gtk_message_dialog_new (window, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                         GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+                                         "%s: %s", message, error->message);
+    else if (message != NULL)
+        dialog = gtk_message_dialog_new (window, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                         GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", message);
+    else if (error != NULL)
+        dialog = gtk_message_dialog_new (window, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                         GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", error->message);
+    else
+    {
+        g_warn_if_reached ();
+        return;
+    }
+
+    gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy (dialog);
 }
