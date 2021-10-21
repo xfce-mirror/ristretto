@@ -17,23 +17,14 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-#include <string.h>
-#include <locale.h>
+#include "util.h"
+#include "main_window.h"
+#include "preferences_dialog.h"
 
-#include <glib.h>
-#include <gio/gio.h>
-#include <gtk/gtk.h>
+#include <locale.h>
 
 #include <xfconf/xfconf.h>
 #include <libxfce4ui/libxfce4ui.h>
-
-#include "file.h"
-#include "image_list.h"
-#include "settings.h"
-#include "main_window.h"
-#include "preferences_dialog.h"
-#include "util.h"
 
 
 
@@ -77,11 +68,9 @@ static GOptionEntry entries[] =
 
 
 typedef struct {
-    RsttoImageList *image_list;
     gint argc;
     gchar **argv;
-    gint iter;
-    GtkWidget *window;
+    RsttoMainWindow *window;
 } RsttoOpenFiles;
 
 
@@ -136,15 +125,12 @@ main (int argc, char **argv)
         {
             RsttoOpenFiles rof;
 
-            rof.image_list = image_list;
             rof.argc = argc;
             rof.argv = argv;
-            rof.iter = 1;
-            rof.window = window;
+            rof.window = RSTTO_MAIN_WINDOW (window);
 
-            /* add weak pointers to guard our handler */
+            /* add a weak pointer to guard our handler */
             g_object_add_weak_pointer (G_OBJECT (window), (gpointer *) &(rof.window));
-            g_object_add_weak_pointer (G_OBJECT (image_list), (gpointer *) &(rof.image_list));
             g_idle_add (cb_rstto_open_files, &rof);
 
             if (rstto_settings_get_boolean_property (settings, "maximize-on-startup"))
@@ -191,110 +177,25 @@ static gboolean
 cb_rstto_open_files (gpointer user_data)
 {
     RsttoOpenFiles *rof = user_data;
-    GFileType file_type;
-    GFile *file, *p_file;
-    GFileInfo *file_info;
-    RsttoFile *r_file = NULL;
-    RsttoImageListIter *iter = NULL;
-    const gchar *content_type;
+    GSList *files = NULL;
+    GFile *file;
+    gint n;
 
-    if (rof->image_list == NULL || rof->window == NULL)
+    if (rof->window == NULL)
         return FALSE;
 
-    if (rof->argc > 2)
+    for (n = 1; n < rof->argc; n++)
     {
-        if (rof->iter < rof->argc)
-        {
-            file = g_file_new_for_commandline_arg (rof->argv[rof->iter]);
-            if (file)
-            {
-                file_info = g_file_query_info (file, "standard::content-type", 0, NULL, NULL);
-
-                if (file_info)
-                {
-                    content_type = g_file_info_get_attribute_string (file_info, "standard::content-type");
-
-                    if (strncmp (content_type, "image/", 6) == 0)
-                    {
-                        r_file = rstto_file_new (file);
-                        if (rstto_image_list_add_file (rof->image_list, r_file, NULL))
-                        {
-                            rstto_main_window_add_file_to_recent_files (file);
-                        }
-                        g_object_unref (r_file);
-                        r_file = NULL;
-                    }
-
-                    g_object_unref (file_info);
-                }
-            }
-            rof->iter++;
-            return TRUE;
-        }
+        file = g_file_new_for_commandline_arg (rof->argv[n]);
+        files = g_slist_prepend (files, file);
     }
-    else
-    {
-        file = g_file_new_for_commandline_arg (rof->argv[rof->iter]);
-        if (file)
-        {
-            file_info = g_file_query_info (file, "standard::content-type,standard::type", 0, NULL, NULL);
-            if (file_info)
-            {
-                file_type = g_file_info_get_file_type (file_info);
-                content_type = g_file_info_get_attribute_string (file_info, "standard::content-type");
 
-                if (strncmp (content_type, "image/", 6) == 0)
-                {
-                    r_file = rstto_file_new (file);
-                }
-                else
-                {
-                    /* TODO: show error dialog */
-                }
+    files = g_slist_reverse (files);
+    rstto_main_window_open (rof->window, files);
+    g_slist_free_full (files, g_object_unref);
 
-                g_object_unref (file_info);
-            }
-        }
+    if (start_slideshow)
+        rstto_main_window_play_slideshow (rof->window);
 
-        /* Get the iterator used by the main-window, it should be
-         * set to point to the right file later.
-         */
-        iter = rstto_main_window_get_iter (RSTTO_MAIN_WINDOW (rof->window));
-
-        if (r_file != NULL && file_type != G_FILE_TYPE_DIRECTORY)
-        {
-            /* Get the file's parent directory */
-            p_file = g_file_get_parent (file);
-
-            /* Open the directory */
-            rstto_image_list_set_directory (rof->image_list, p_file, r_file, NULL);
-
-            /* Point the iterator to the correct image */
-            rstto_image_list_iter_find_file (iter, r_file);
-
-            g_object_unref (p_file);
-            g_object_unref (r_file);
-            r_file = NULL;
-        }
-        else
-        {
-            /* Open the directory */
-            rstto_image_list_set_directory (rof->image_list, file, NULL, NULL);
-
-            /* Point the iterator to the correct image */
-            rstto_image_list_iter_set_position (iter, 0);
-        }
-
-        if (start_slideshow)
-        {
-            rstto_main_window_play_slideshow (RSTTO_MAIN_WINDOW (rof->window));
-        }
-
-        if (file != NULL)
-        {
-            g_object_unref (file);
-        }
-
-    }
     return FALSE;
 }

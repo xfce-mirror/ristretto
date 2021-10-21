@@ -17,18 +17,12 @@
  *  02110-1301, USA.
  */
 
-#include <string.h>
-
-#include <glib.h>
-#include <gio/gio.h>
-
-#include <libxfce4util/libxfce4util.h>
-
 #include "util.h"
-#include "file.h"
-#include "settings.h"
 #include "thumbnailer.h"
 #include "tumbler.h"
+#include "main_window.h"
+
+#include <glib/gi18n.h>
 
 
 
@@ -313,14 +307,14 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     {
         if (NULL != error)
         {
-            g_warning ("DBUS-call failed:%s", error->message);
+            g_warning ("DBUS-call failed: %s", error->message);
             if (error->domain == G_DBUS_ERROR
                 && error->code == G_DBUS_ERROR_SERVICE_UNKNOWN
                 && thumbnailer->priv->show_missing_thumbnailer_error)
             {
                 error_dialog = gtk_message_dialog_new_with_markup (
-                        NULL,
-                        0,
+                        GTK_WINDOW (rstto_main_window_get_app_window ()),
+                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_WARNING,
                         GTK_BUTTONS_OK,
                         _("The thumbnailer-service can not be reached,\n"

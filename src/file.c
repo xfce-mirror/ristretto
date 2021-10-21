@@ -17,18 +17,14 @@
  *  02110-1301, USA.
  */
 
-#include <config.h>
-#include <string.h>
+#include "util.h"
+#include "file.h"
+#include "thumbnailer.h"
+#include "main_window.h"
 
 #ifdef HAVE_MAGIC_H
 #include <magic.h>
 #endif
-
-#include <gio/gio.h>
-
-#include "file.h"
-#include "thumbnailer.h"
-#include "main_window.h"
 
 
 
@@ -202,8 +198,7 @@ rstto_file_is_valid (RsttoFile *r_file)
     GtkFileFilterInfo filter_info;
 
     filter = rstto_main_window_get_app_file_filter ();
-    filter_info.contains = GTK_FILE_FILTER_MIME_TYPE | GTK_FILE_FILTER_URI;
-    filter_info.uri = rstto_file_get_uri (r_file);
+    filter_info.contains = GTK_FILE_FILTER_MIME_TYPE;
     filter_info.mime_type = rstto_file_get_content_type (r_file);
 
     return gtk_file_filter_filter (filter, &filter_info);

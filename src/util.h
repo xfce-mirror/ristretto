@@ -18,14 +18,23 @@
  */
 
 /*
- * This file also serves as a private.h, so it can or should be included at the
+ * This file also serves as a private.h, so it should be included at the
  * top of every source file, but never in any other header.
  */
 
 #ifndef __RISTRETTO_UTIL_H__
 #define __RISTRETTO_UTIL_H__
 
+/* our config header */
+#include <config.h>
+
+/* standard headers */
+#include <string.h>
+
+/* external non standard headers */
 #include <gtk/gtk.h>
+
+/* internal headers */
 #include "settings.h"
 
 G_BEGIN_DECLS
@@ -68,6 +77,10 @@ void
 rstto_util_paint_background_color (GtkWidget *widget,
                                    RsttoSettings *settings,
                                    cairo_t *ctx);
+
+void
+rstto_util_dialog_error (const gchar *message,
+                         GError *error);
 
 G_END_DECLS
 

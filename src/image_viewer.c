@@ -17,14 +17,11 @@
  *  02110-1301, USA.
  */
 
-#include <math.h>
-
-#include <gio/gio.h>
-
 #include "util.h"
 #include "image_viewer.h"
-#include "settings.h"
 #include "main_window.h"
+
+#include <math.h>
 
 
 

@@ -17,17 +17,15 @@
  *  02110-1301, USA.
  */
 
-#include <X11/Xatom.h>
+#include "util.h"
+#include "monitor_chooser.h"
+#include "xfce_wallpaper_manager.h"
 
-#include <glib.h>
 #include <gdk/gdkx.h>
+#include <X11/Xatom.h>
 
 #include <xfconf/xfconf.h>
 #include <libxfce4ui/libxfce4ui.h>
-
-#include "file.h"
-#include "monitor_chooser.h"
-#include "xfce_wallpaper_manager.h"
 
 
 
