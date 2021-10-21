@@ -528,10 +528,14 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
 {
     RsttoImageList *image_list;
     RsttoFile *r_file;
+    GtkFileFilter *filter;
+    GtkFileFilterInfo filter_info;
     GFileEnumerator *file_enum = data;
     GList *info_list, *li;
     GFile *file, *loaded_file = NULL;
-    const gchar *content_type;
+
+    filter = rstto_main_window_get_app_file_filter ();
+    filter_info.contains = GTK_FILE_FILTER_MIME_TYPE;
 
     image_list = rstto_object_get_data (file_enum, "image-list");
     info_list = rstto_object_get_data (file_enum, "info-list");
@@ -542,8 +546,8 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
 
     for (li = info_list; li != NULL; li = li->next)
     {
-        content_type  = g_file_info_get_content_type (li->data);
-        if (content_type != NULL && g_str_has_prefix (content_type, "image/"))
+        filter_info.mime_type = g_file_info_get_content_type (li->data);
+        if (filter_info.mime_type != NULL && gtk_file_filter_filter (filter, &filter_info))
         {
             /* skip already loaded file, if any */
             file = g_file_enumerator_get_child (file_enum, li->data);
