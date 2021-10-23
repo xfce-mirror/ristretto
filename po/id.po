@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2008
+# Faisal Rachmadin <frachmadin@gmail.com>, 2021
 # Triyan W. Nugroho <triyan.wn@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2021-10-11 00:48+0200\n"
-"PO-Revision-Date: 2021-10-10 22:48+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2021-10-23 20:38+0000\n"
+"Last-Translator: Faisal Rachmadin <frachmadin@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/xfce/xfce-apps/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -938,11 +939,11 @@ msgstr "Lihat foto anda dengan mudah"
 
 #: ../org.xfce.ristretto.appdata.xml.in.h:1
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: ../org.xfce.ristretto.appdata.xml.in.h:2
 msgid "Fast and lightweight image viewer"
-msgstr ""
+msgstr "Penilik gambar yang cepat dan ringan"
 
 #: ../org.xfce.ristretto.appdata.xml.in.h:4
 msgid ""
