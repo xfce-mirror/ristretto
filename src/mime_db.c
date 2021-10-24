@@ -17,12 +17,10 @@
  *  02110-1301, USA.
  */
 
-#include <glib.h>
-#include <gio/gio.h>
+#include "util.h"
+#include "mime_db.h"
 
 #include <libxfce4util/libxfce4util.h>
-
-#include "mime_db.h"
 
 
 

@@ -17,8 +17,7 @@
  *  02110-1301, USA.
  */
 
-#include <gio/gio.h>
-
+#include "util.h"
 #include "app_menu_item.h"
 
 

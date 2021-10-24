@@ -21,14 +21,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <libxfce4util/libxfce4util.h>
-
 #include "util.h"
 #include "file.h"
 #include "thumbnailer.h"
-#include "settings.h"
 #include "icon_bar.h"
 #include "main_window.h"
+
+#include <glib/gi18n.h>
 
 
 
