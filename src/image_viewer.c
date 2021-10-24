@@ -218,6 +218,8 @@ struct _RsttoImageViewerTransaction
     /* File I/O data */
     /*****************/
     guchar           *buffer;
+    gsize             size;
+    gssize            read_bytes;
 };
 
 struct _RsttoImageViewerPrivate
@@ -1322,6 +1324,8 @@ static void
 rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdouble scale)
 {
     RsttoImageViewerTransaction *transaction = g_new0 (RsttoImageViewerTransaction, 1);
+    GFileInfo *info;
+    gsize size;
 
     /*
      * This will first need to return to the 'main' loop before it cleans up after itself.
@@ -1341,8 +1345,21 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
         transaction->loader = gdk_pixbuf_loader_new ();
     }
 
+    info = g_file_query_info (rstto_file_get_file (file), "standard::size",
+                              G_FILE_QUERY_INFO_NONE, NULL, NULL);
+    if (info == NULL)
+        size = LOADER_BUFFER_SIZE;
+    else
+    {
+        /* g_file_info_get_size() may return zero for some non empty remote files,
+         * so we need a lower bound */
+        size = MAX (LOADER_BUFFER_SIZE, MIN (g_file_info_get_size (info), G_MAXSSIZE));
+        g_object_unref (info);
+    }
+
     transaction->cancellable = g_cancellable_new ();
-    transaction->buffer = g_new0 (guchar, LOADER_BUFFER_SIZE);
+    transaction->buffer = g_new0 (guchar, size);
+    transaction->size = size;
     transaction->file = file;
     transaction->viewer = viewer;
     transaction->scale = scale;
@@ -1526,7 +1543,7 @@ cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *res
 
     g_input_stream_read_async (G_INPUT_STREAM (file_input_stream),
                                transaction->buffer,
-                               LOADER_BUFFER_SIZE,
+                               transaction->size,
                                G_PRIORITY_DEFAULT,
                                transaction->cancellable,
                                cb_rstto_image_viewer_read_input_stream_ready,
@@ -1534,47 +1551,56 @@ cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *res
 }
 
 static void
-cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
+loader_write_async (GTask *task,
+                    gpointer source_object,
+                    gpointer task_data,
+                    GCancellable *cancellable)
+{
+    RsttoImageViewerTransaction *transaction = task_data;
+    gssize offset;
+
+    for (offset = 0; offset < transaction->read_bytes; offset += LOADER_BUFFER_SIZE)
+        if (! gdk_pixbuf_loader_write (transaction->loader, transaction->buffer + offset,
+                                       MIN (LOADER_BUFFER_SIZE, transaction->read_bytes - offset),
+                                       &transaction->error)
+            || g_cancellable_is_cancelled (transaction->cancellable))
+        {
+            gdk_pixbuf_loader_close (transaction->loader, NULL);
+            g_object_unref (source_object);
+
+            return;
+        }
+
+    g_input_stream_read_async (source_object, transaction->buffer, transaction->size,
+                               G_PRIORITY_DEFAULT, transaction->cancellable,
+                               cb_rstto_image_viewer_read_input_stream_ready, transaction);
+}
+
+static void
+cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object,
+                                               GAsyncResult *result,
+                                               gpointer user_data)
 {
     RsttoImageViewerTransaction *transaction = user_data;
-    gssize read_bytes;
+    GTask *task;
 
     if (rstto_main_window_get_app_exited ())
         return;
 
-    read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object),
-                                             result, &transaction->error);
-    if (read_bytes == -1)
+    transaction->read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object),
+                                                          result, &transaction->error);
+    if (transaction->read_bytes <= 0)
     {
-        gdk_pixbuf_loader_close (transaction->loader, NULL);
+        gdk_pixbuf_loader_close (transaction->loader,
+                                 transaction->read_bytes == 0 ? &transaction->error : NULL);
         g_object_unref (source_object);
-
-        return;
-    }
-
-    if (read_bytes > 0)
-    {
-        if (! gdk_pixbuf_loader_write (transaction->loader, transaction->buffer,
-                                       read_bytes, &transaction->error))
-        {
-            gdk_pixbuf_loader_close (transaction->loader, NULL);
-            g_object_unref (source_object);
-        }
-        else
-        {
-            g_input_stream_read_async (G_INPUT_STREAM (source_object),
-                                       transaction->buffer,
-                                       LOADER_BUFFER_SIZE,
-                                       G_PRIORITY_DEFAULT,
-                                       transaction->cancellable,
-                                       cb_rstto_image_viewer_read_input_stream_ready,
-                                       transaction);
-        }
     }
     else
     {
-        gdk_pixbuf_loader_close (transaction->loader, &transaction->error);
-        g_object_unref (source_object);
+        task = g_task_new (source_object, transaction->cancellable, NULL, NULL);
+        g_task_set_task_data (task, transaction, NULL);
+        g_task_run_in_thread (task, loader_write_async);
+        g_object_unref (task);
     }
 }
 
