@@ -28,16 +28,19 @@
 
 
 
-/* Do not make this buffer too large,
- * this breaks some pixbufloaders.
+/*
+ * A buffer size of 1 MiB makes it possible to load a lot of current images in only
+ * a few iterations, which can significantly improve performance for some formats
+ * like GIF, without being too big, which on the contrary would degrade performance.
+ * On the other hand, it ensures that a cancelled load will end fairly quickly at
+ * the end of the current iteration, instead of continuing almost indefinitely as
+ * can be the case for some images, again in GIF format.
+ * See https://gitlab.xfce.org/apps/ristretto/-/issues/16 for an example of such an
+ * image.
  */
-#ifndef RSTTO_IMAGE_VIEWER_BUFFER_SIZE
-#define RSTTO_IMAGE_VIEWER_BUFFER_SIZE 4096
-#endif
+#define LOADER_BUFFER_SIZE 1048576
 
-#ifndef BACKGROUND_ICON_SIZE
 #define BACKGROUND_ICON_SIZE 128
-#endif
 
 #define MAX_OVER_VISIBLE 1.5
 #define MIN_VIEW_PERCENT 0.1
@@ -1342,7 +1345,7 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
     }
 
     transaction->cancellable = g_cancellable_new ();
-    transaction->buffer = g_new0 (guchar, RSTTO_IMAGE_VIEWER_BUFFER_SIZE);
+    transaction->buffer = g_new0 (guchar, LOADER_BUFFER_SIZE);
     transaction->file = file;
     transaction->viewer = viewer;
     transaction->scale = scale;
@@ -1523,7 +1526,7 @@ cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *res
 
     g_input_stream_read_async (G_INPUT_STREAM (file_input_stream),
                                transaction->buffer,
-                               RSTTO_IMAGE_VIEWER_BUFFER_SIZE,
+                               LOADER_BUFFER_SIZE,
                                G_PRIORITY_DEFAULT,
                                transaction->cancellable,
                                cb_rstto_image_viewer_read_input_stream_ready,
@@ -1559,7 +1562,7 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
         {
             g_input_stream_read_async (G_INPUT_STREAM (source_object),
                                        transaction->buffer,
-                                       RSTTO_IMAGE_VIEWER_BUFFER_SIZE,
+                                       LOADER_BUFFER_SIZE,
                                        G_PRIORITY_DEFAULT,
                                        transaction->cancellable,
                                        cb_rstto_image_viewer_read_input_stream_ready,
