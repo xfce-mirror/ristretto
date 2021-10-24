@@ -1697,9 +1697,11 @@ cb_rstto_image_loader_closed_idle (gpointer data)
 
     if (viewer->priv->transaction == transaction)
     {
-        if (transaction->error == NULL
-            || g_error_matches (transaction->error, GDK_PIXBUF_ERROR,
-                                GDK_PIXBUF_ERROR_CORRUPT_IMAGE))
+        if (transaction->error == NULL || (
+                g_error_matches (transaction->error, GDK_PIXBUF_ERROR,
+                                 GDK_PIXBUF_ERROR_CORRUPT_IMAGE)
+                && gdk_pixbuf_loader_get_pixbuf (transaction->loader) != NULL
+            ))
         {
             gtk_widget_set_tooltip_text (widget, NULL);
             cb_rstto_image_loader_image_ready (transaction->loader, transaction);
