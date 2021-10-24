@@ -1354,7 +1354,7 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
     viewer->priv->transaction = transaction;
 
     g_file_read_async (rstto_file_get_file (transaction->file),
-                       0,
+                       G_PRIORITY_DEFAULT,
                        transaction->cancellable,
                        cb_rstto_image_viewer_read_file_ready,
                        transaction);
@@ -1517,9 +1517,12 @@ cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *res
     if (rstto_main_window_get_app_exited ())
         return;
 
-    file_input_stream = g_file_read_finish (file, result, NULL);
+    file_input_stream = g_file_read_finish (file, result, &transaction->error);
     if (file_input_stream == NULL)
+    {
+        gdk_pixbuf_loader_close (transaction->loader, NULL);
         return;
+    }
 
     g_input_stream_read_async (G_INPUT_STREAM (file_input_stream),
                                transaction->buffer,
@@ -1539,10 +1542,13 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
     if (rstto_main_window_get_app_exited ())
         return;
 
-    read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, &transaction->error);
+    read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object),
+                                             result, &transaction->error);
     if (read_bytes == -1)
     {
         gdk_pixbuf_loader_close (transaction->loader, NULL);
+        g_object_unref (source_object);
+
         return;
     }
 
@@ -1551,8 +1557,7 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
         if (! gdk_pixbuf_loader_write (transaction->loader, transaction->buffer,
                                        read_bytes, &transaction->error))
         {
-            /* Clean up the input-stream */
-            g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
+            gdk_pixbuf_loader_close (transaction->loader, NULL);
             g_object_unref (source_object);
         }
         else
@@ -1568,11 +1573,7 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncRes
     }
     else
     {
-        /* Loading complete, transaction should not be free-ed */
         gdk_pixbuf_loader_close (transaction->loader, &transaction->error);
-
-        /* Clean up the input-stream */
-        g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
         g_object_unref (source_object);
     }
 }
