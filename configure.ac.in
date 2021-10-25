@@ -49,9 +49,9 @@ IT_PROG_INTLTOOL([0.35], [no-xml])
 dnl Check for i18n support
 XDT_I18N([@LINGUAS@])
 
-AC_DEFINE(GLIB_VERSION_MAX_ALLOWED, GLIB_VERSION_2_42, Warn when using post 2_42 APIs)
-AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, GLIB_VERSION_2_42, Don't warn about post 2_42 deprecations)
-XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.42.0])
+AC_DEFINE(GLIB_VERSION_MAX_ALLOWED, GLIB_VERSION_2_44, Warn when using post 2_44 APIs)
+AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, GLIB_VERSION_2_44, Don't warn about post 2_44 deprecations)
+XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.44.0])
 XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [3.22.0])
 
 XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-2], [4.16.0])
