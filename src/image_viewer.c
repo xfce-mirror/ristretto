@@ -25,16 +25,19 @@
 
 
 
-/* Do not make this buffer too large,
- * this breaks some pixbufloaders.
+/*
+ * A buffer size of 1 MiB makes it possible to load a lot of current images in only
+ * a few iterations, which can significantly improve performance for some formats
+ * like GIF, without being too big, which on the contrary would degrade performance.
+ * On the other hand, it ensures that a cancelled load will end fairly quickly at
+ * the end of the current iteration, instead of continuing almost indefinitely as
+ * can be the case for some images, again in GIF format.
+ * See https://gitlab.xfce.org/apps/ristretto/-/issues/16 for an example of such an
+ * image.
  */
-#ifndef RSTTO_IMAGE_VIEWER_BUFFER_SIZE
-#define RSTTO_IMAGE_VIEWER_BUFFER_SIZE 4096
-#endif
+#define LOADER_BUFFER_SIZE 1048576
 
-#ifndef BACKGROUND_ICON_SIZE
 #define BACKGROUND_ICON_SIZE 128
-#endif
 
 #define MAX_OVER_VISIBLE 1.5
 #define MIN_VIEW_PERCENT 0.1
@@ -215,6 +218,8 @@ struct _RsttoImageViewerTransaction
     /* File I/O data */
     /*****************/
     guchar           *buffer;
+    gsize             size;
+    gssize            read_bytes;
 };
 
 struct _RsttoImageViewerPrivate
@@ -1319,6 +1324,8 @@ static void
 rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdouble scale)
 {
     RsttoImageViewerTransaction *transaction = g_new0 (RsttoImageViewerTransaction, 1);
+    GFileInfo *info;
+    gsize size;
 
     /*
      * This will first need to return to the 'main' loop before it cleans up after itself.
@@ -1338,8 +1345,21 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
         transaction->loader = gdk_pixbuf_loader_new ();
     }
 
+    info = g_file_query_info (rstto_file_get_file (file), "standard::size",
+                              G_FILE_QUERY_INFO_NONE, NULL, NULL);
+    if (info == NULL)
+        size = LOADER_BUFFER_SIZE;
+    else
+    {
+        /* g_file_info_get_size() may return zero for some non empty remote files,
+         * so we need a lower bound */
+        size = MAX (LOADER_BUFFER_SIZE, MIN (g_file_info_get_size (info), G_MAXSSIZE));
+        g_object_unref (info);
+    }
+
     transaction->cancellable = g_cancellable_new ();
-    transaction->buffer = g_new0 (guchar, RSTTO_IMAGE_VIEWER_BUFFER_SIZE);
+    transaction->buffer = g_new0 (guchar, size);
+    transaction->size = size;
     transaction->file = file;
     transaction->viewer = viewer;
     transaction->scale = scale;
@@ -1351,7 +1371,7 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
     viewer->priv->transaction = transaction;
 
     g_file_read_async (rstto_file_get_file (transaction->file),
-                       0,
+                       G_PRIORITY_DEFAULT,
                        transaction->cancellable,
                        cb_rstto_image_viewer_read_file_ready,
                        transaction);
@@ -1514,13 +1534,16 @@ cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *res
     if (rstto_main_window_get_app_exited ())
         return;
 
-    file_input_stream = g_file_read_finish (file, result, NULL);
+    file_input_stream = g_file_read_finish (file, result, &transaction->error);
     if (file_input_stream == NULL)
+    {
+        gdk_pixbuf_loader_close (transaction->loader, NULL);
         return;
+    }
 
     g_input_stream_read_async (G_INPUT_STREAM (file_input_stream),
                                transaction->buffer,
-                               RSTTO_IMAGE_VIEWER_BUFFER_SIZE,
+                               transaction->size,
                                G_PRIORITY_DEFAULT,
                                transaction->cancellable,
                                cb_rstto_image_viewer_read_input_stream_ready,
@@ -1528,49 +1551,56 @@ cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *res
 }
 
 static void
-cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
+loader_write_async (GTask *task,
+                    gpointer source_object,
+                    gpointer task_data,
+                    GCancellable *cancellable)
+{
+    RsttoImageViewerTransaction *transaction = task_data;
+    gssize offset;
+
+    for (offset = 0; offset < transaction->read_bytes; offset += LOADER_BUFFER_SIZE)
+        if (! gdk_pixbuf_loader_write (transaction->loader, transaction->buffer + offset,
+                                       MIN (LOADER_BUFFER_SIZE, transaction->read_bytes - offset),
+                                       &transaction->error)
+            || g_cancellable_is_cancelled (transaction->cancellable))
+        {
+            gdk_pixbuf_loader_close (transaction->loader, NULL);
+            g_object_unref (source_object);
+
+            return;
+        }
+
+    g_input_stream_read_async (source_object, transaction->buffer, transaction->size,
+                               G_PRIORITY_DEFAULT, transaction->cancellable,
+                               cb_rstto_image_viewer_read_input_stream_ready, transaction);
+}
+
+static void
+cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object,
+                                               GAsyncResult *result,
+                                               gpointer user_data)
 {
     RsttoImageViewerTransaction *transaction = user_data;
-    gssize read_bytes;
+    GTask *task;
 
     if (rstto_main_window_get_app_exited ())
         return;
 
-    read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object), result, &transaction->error);
-    if (read_bytes == -1)
+    transaction->read_bytes = g_input_stream_read_finish (G_INPUT_STREAM (source_object),
+                                                          result, &transaction->error);
+    if (transaction->read_bytes <= 0)
     {
-        gdk_pixbuf_loader_close (transaction->loader, NULL);
-        return;
-    }
-
-    if (read_bytes > 0)
-    {
-        if (! gdk_pixbuf_loader_write (transaction->loader, transaction->buffer,
-                                       read_bytes, &transaction->error))
-        {
-            /* Clean up the input-stream */
-            g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
-            g_object_unref (source_object);
-        }
-        else
-        {
-            g_input_stream_read_async (G_INPUT_STREAM (source_object),
-                                       transaction->buffer,
-                                       RSTTO_IMAGE_VIEWER_BUFFER_SIZE,
-                                       G_PRIORITY_DEFAULT,
-                                       transaction->cancellable,
-                                       cb_rstto_image_viewer_read_input_stream_ready,
-                                       transaction);
-        }
+        gdk_pixbuf_loader_close (transaction->loader,
+                                 transaction->read_bytes == 0 ? &transaction->error : NULL);
+        g_object_unref (source_object);
     }
     else
     {
-        /* Loading complete, transaction should not be free-ed */
-        gdk_pixbuf_loader_close (transaction->loader, &transaction->error);
-
-        /* Clean up the input-stream */
-        g_input_stream_close (G_INPUT_STREAM (source_object), NULL, NULL);
-        g_object_unref (source_object);
+        task = g_task_new (source_object, transaction->cancellable, NULL, NULL);
+        g_task_set_task_data (task, transaction, NULL);
+        g_task_run_in_thread (task, loader_write_async);
+        g_object_unref (task);
     }
 }
 
@@ -1693,9 +1723,11 @@ cb_rstto_image_loader_closed_idle (gpointer data)
 
     if (viewer->priv->transaction == transaction)
     {
-        if (transaction->error == NULL
-            || g_error_matches (transaction->error, GDK_PIXBUF_ERROR,
-                                GDK_PIXBUF_ERROR_CORRUPT_IMAGE))
+        if (transaction->error == NULL || (
+                g_error_matches (transaction->error, GDK_PIXBUF_ERROR,
+                                 GDK_PIXBUF_ERROR_CORRUPT_IMAGE)
+                && gdk_pixbuf_loader_get_pixbuf (transaction->loader) != NULL
+            ))
         {
             gtk_widget_set_tooltip_text (widget, NULL);
             cb_rstto_image_loader_image_ready (transaction->loader, transaction);
