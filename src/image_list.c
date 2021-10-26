@@ -25,8 +25,14 @@
 #include "thumbnailer.h"
 #include "main_window.h"
 
+#include <glib/gi18n.h>
+
 
 #define FILE_BLOCK_SIZE 10000
+#define ERROR_LOAD_DIR_NO_VALID_FILE _("No supported image type found in the directory")
+#define ERROR_LOAD_DIR_PARTIAL _("Directory only partially loaded")
+#define ERROR_LOAD_DIR_FAILED _("Could not load directory")
+#define ERROR_INVALID_FILE _("Unsupported mime type")
 
 enum
 {
@@ -179,7 +185,6 @@ struct _RsttoImageListPrivate
 
     GList        *image_monitors;
     GList        *images;
-    gint          n_images;
 
     GSList       *iterators;
     GCompareFunc  cb_rstto_image_list_compare_func;
@@ -340,83 +345,52 @@ rstto_image_list_new (void)
 }
 
 gboolean
-rstto_image_list_add_file (
-        RsttoImageList *image_list,
-        RsttoFile *r_file,
-        GError **error)
+rstto_image_list_add_file (RsttoImageList *image_list,
+                           RsttoFile *r_file,
+                           GError **error)
 {
-    GList *image_iter = g_list_find (image_list->priv->images, r_file);
-    GSList *iter = image_list->priv->iterators;
-    gint i = 0;
-    GtkTreePath *path = NULL;
+    GtkTreePath *path;
     GtkTreeIter t_iter;
-    GFileMonitor *monitor = NULL;
+    GFileMonitor *monitor;
+    GSList *iter;
+    gint idx = 0;
 
-    g_return_val_if_fail (NULL != r_file, FALSE);
     g_return_val_if_fail (RSTTO_IS_FILE (r_file), FALSE);
 
-    if (!image_iter)
+    /* file already added */
+    if (g_list_find (image_list->priv->images, r_file))
+        return TRUE;
+
+    /* unsupported mime type */
+    if (! rstto_file_is_valid (r_file))
     {
-        if (r_file)
-        {
-            if (rstto_file_is_valid (r_file))
-            {
-                g_object_ref (r_file);
-
-                image_list->priv->images = g_list_insert_sorted (
-                        image_list->priv->images,
-                        r_file,
-                        rstto_image_list_get_compare_func (image_list));
-
-                image_list->priv->n_images++;
-
-                if (image_list->priv->dir_monitor == NULL)
-                {
-                    monitor = g_file_monitor_file (
-                            rstto_file_get_file (r_file),
-                            G_FILE_MONITOR_NONE,
-                            NULL,
-                            NULL);
-                    g_signal_connect (monitor, "changed",
-                                      G_CALLBACK (cb_file_monitor_changed), image_list);
-                    image_list->priv->image_monitors = g_list_prepend (
-                            image_list->priv->image_monitors,
-                            monitor);
-                }
-                i = g_list_index (image_list->priv->images, r_file);
-
-                path = gtk_tree_path_new ();
-                gtk_tree_path_append_index (path, i);
-                t_iter.stamp = image_list->priv->stamp;
-                t_iter.user_data = r_file;
-                t_iter.user_data3 = GINT_TO_POINTER (i);
-
-                gtk_tree_model_row_inserted (
-                        GTK_TREE_MODEL (image_list),
-                        path,
-                        &t_iter);
-
-                gtk_tree_path_free (path);
-
-                /** TODO: update all iterators */
-                while (iter)
-                {
-                    if (! RSTTO_IMAGE_LIST_ITER (iter->data)->priv->sticky)
-                    {
-                        rstto_image_list_iter_find_file (iter->data, r_file);
-                    }
-                    iter = g_slist_next (iter);
-                }
-
-                return TRUE;
-            }
-            else
-            {
-                return FALSE;
-            }
-        }
+        g_set_error (error, G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT, ERROR_INVALID_FILE);
         return FALSE;
     }
+
+    image_list->priv->images = g_list_insert_sorted (image_list->priv->images, g_object_ref (r_file),
+                                                     image_list->priv->cb_rstto_image_list_compare_func);
+
+    if (image_list->priv->dir_monitor == NULL)
+    {
+        monitor = g_file_monitor_file (rstto_file_get_file (r_file), G_FILE_MONITOR_NONE, NULL, NULL);
+        g_signal_connect (monitor, "changed", G_CALLBACK (cb_file_monitor_changed), image_list);
+        image_list->priv->image_monitors = g_list_prepend (image_list->priv->image_monitors, monitor);
+    }
+
+    path = gtk_tree_path_new ();
+    idx = g_list_index (image_list->priv->images, r_file);
+    gtk_tree_path_append_index (path, idx);
+    t_iter.stamp = image_list->priv->stamp;
+    t_iter.user_data = r_file;
+    t_iter.user_data3 = GINT_TO_POINTER (idx);
+
+    gtk_tree_model_row_inserted (GTK_TREE_MODEL (image_list), path, &t_iter);
+    gtk_tree_path_free (path);
+
+    for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
+        if (! RSTTO_IMAGE_LIST_ITER (iter->data)->priv->sticky)
+            rstto_image_list_iter_find_file (iter->data, r_file);
 
     return TRUE;
 }
@@ -473,7 +447,7 @@ rstto_image_list_remove_file (
         {
             if (rstto_file_equal (rstto_image_list_iter_get_file (iter->data), r_file))
             {
-                if (rstto_image_list_iter_get_position (iter->data) == n_images -1)
+                if (rstto_image_list_iter_get_position (iter->data) == n_images - 1)
                 {
                     iter_previous (iter->data, FALSE);
                 }
@@ -554,10 +528,14 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
 {
     RsttoImageList *image_list;
     RsttoFile *r_file;
+    GtkFileFilter *filter;
+    GtkFileFilterInfo filter_info;
     GFileEnumerator *file_enum = data;
     GList *info_list, *li;
     GFile *file, *loaded_file = NULL;
-    const gchar *content_type;
+
+    filter = rstto_main_window_get_app_file_filter ();
+    filter_info.contains = GTK_FILE_FILTER_MIME_TYPE;
 
     image_list = rstto_object_get_data (file_enum, "image-list");
     info_list = rstto_object_get_data (file_enum, "info-list");
@@ -568,8 +546,8 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
 
     for (li = info_list; li != NULL; li = li->next)
     {
-        content_type  = g_file_info_get_content_type (li->data);
-        if (content_type != NULL && g_str_has_prefix (content_type, "image/"))
+        filter_info.mime_type = g_file_info_get_content_type (li->data);
+        if (filter_info.mime_type != NULL && gtk_file_filter_filter (filter, &filter_info))
         {
             /* skip already loaded file, if any */
             file = g_file_enumerator_get_child (file_enum, li->data);
@@ -619,9 +597,7 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
             rstto_image_list_set_compare_func (image_list,
                                                image_list->priv->cb_rstto_image_list_compare_func);
         else
-        {
-            /* TODO: show error dialog */
-        }
+            rstto_util_dialog_error (ERROR_LOAD_DIR_NO_VALID_FILE, NULL);
 
         g_object_unref (file_enum);
     }
@@ -657,14 +633,10 @@ rstto_image_list_set_directory_finish (GObject *source_object,
             rstto_image_list_set_compare_func (image_list,
                                                image_list->priv->cb_rstto_image_list_compare_func);
             if (error != NULL)
-            {
-                /* TODO: show error dialog */
-            }
+                rstto_util_dialog_error (ERROR_LOAD_DIR_PARTIAL, error);
         }
         else
-        {
-            /* TODO: show error dialog */
-        }
+            rstto_util_dialog_error (ERROR_LOAD_DIR_NO_VALID_FILE, error);
 
         g_object_unref (file_enum);
         if (error != NULL)
@@ -702,8 +674,8 @@ rstto_image_list_set_directory_enumerate_finish (GObject *dir,
     file_enum = g_file_enumerate_children_finish (G_FILE (dir), res, &error);
     if (file_enum == NULL)
     {
-        /* TODO: show error dialog */
         image_list->priv->is_busy = FALSE;
+        rstto_util_dialog_error (ERROR_LOAD_DIR_FAILED, error);
         g_error_free (error);
 
         return;
@@ -976,6 +948,7 @@ iter_set_position (
                    rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE],
                    0, NULL);
 
+    iter->priv->sticky = sticky;
     if (iter->priv->r_file)
     {
         iter->priv->r_file = NULL;
@@ -1084,7 +1057,7 @@ rstto_image_list_iter_has_next (RsttoImageListIter *iter)
     else
     {
         if (rstto_image_list_iter_get_position (iter) ==
-            (rstto_image_list_get_n_images (image_list) -1))
+            (rstto_image_list_get_n_images (image_list) - 1))
         {
             return FALSE;
         }
