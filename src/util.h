@@ -78,6 +78,10 @@ rstto_util_paint_background_color (GtkWidget *widget,
                                    RsttoSettings *settings,
                                    cairo_t *ctx);
 
+void
+rstto_util_dialog_error (const gchar *message,
+                         GError *error);
+
 G_END_DECLS
 
 #endif /* __RSTTO_UTIL_H__ */
