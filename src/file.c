@@ -84,7 +84,7 @@ static void
 rstto_file_init (RsttoFile *r_file)
 {
     r_file->priv = rstto_file_get_instance_private (r_file);
-    r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
+    r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NOT_DETERMINED;
     r_file->priv->scale = RSTTO_SCALE_NONE;
     r_file->priv->auto_scale = RSTTO_SCALE_NONE;
 }
@@ -408,7 +408,7 @@ RsttoImageOrientation
 rstto_file_get_orientation (RsttoFile *r_file)
 {
     ExifEntry *exif_entry = NULL;
-    if (r_file->priv->orientation == 0)
+    if (r_file->priv->orientation == RSTTO_IMAGE_ORIENT_NOT_DETERMINED)
     {
         /* Try to get the default orientation from the EXIF tag */
         exif_entry = rstto_file_get_exif (r_file, EXIF_TAG_ORIENTATION);
@@ -420,7 +420,7 @@ rstto_file_get_orientation (RsttoFile *r_file)
         }
 
         /* If the orientation-tag is not set, default to NONE */
-        if (r_file->priv->orientation == 0)
+        if (r_file->priv->orientation == RSTTO_IMAGE_ORIENT_NOT_DETERMINED)
         {
             /* Default orientation */
             r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
