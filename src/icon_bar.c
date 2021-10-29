@@ -140,6 +140,9 @@ cb_rstto_thumbnail_size_changed (GObject *settings,
                                  GParamSpec *pspec,
                                  gpointer user_data);
 static void
+cb_rstto_icon_bar_adjustment_changed (GtkAdjustment *adjustment,
+                                      RsttoIconBar *icon_bar);
+static void
 rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar);
 
 
@@ -567,6 +570,10 @@ rstto_icon_bar_set_property (
                                       G_CALLBACK (gtk_widget_queue_draw), icon_bar);
             g_signal_connect_swapped (icon_bar->priv->vadjustment, "value-changed",
                                       G_CALLBACK (gtk_widget_queue_draw), icon_bar);
+            g_signal_connect (icon_bar->priv->hadjustment, "changed",
+                              G_CALLBACK (cb_rstto_icon_bar_adjustment_changed), icon_bar);
+            g_signal_connect (icon_bar->priv->vadjustment, "changed",
+                              G_CALLBACK (cb_rstto_icon_bar_adjustment_changed), icon_bar);
             break;
 
         default:
@@ -727,9 +734,7 @@ rstto_icon_bar_size_allocate (GtkWidget *widget,
                               GtkAllocation *allocation)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
-    GtkAllocation prev_alloc;
 
-    gtk_widget_get_allocation (widget, &prev_alloc);
     gtk_widget_set_allocation (widget, allocation);
 
     if (!icon_bar->priv->active_item)
@@ -741,10 +746,6 @@ rstto_icon_bar_size_allocate (GtkWidget *widget,
                                 allocation->width, allocation->height);
         gdk_window_resize (icon_bar->priv->bin_window, allocation->width, allocation->height);
     }
-
-    /* center on the active item when there is a real size change */
-    if (prev_alloc.width != allocation->width || prev_alloc.height != allocation->height)
-        rstto_icon_bar_show_active (icon_bar);
 }
 
 
@@ -1896,6 +1897,33 @@ cb_rstto_thumbnail_size_changed (
     rstto_icon_bar_update_missing_icon (icon_bar);
 }
 
+static void
+cb_rstto_icon_bar_adjustment_changed (GtkAdjustment *adjustment,
+                                      RsttoIconBar *icon_bar)
+{
+    gdouble page_size, upper;
+
+    static gdouble s_page_size = 0, s_upper = 0;
+
+    if ((icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL
+         && adjustment != icon_bar->priv->vadjustment)
+        || (icon_bar->priv->orientation == GTK_ORIENTATION_HORIZONTAL
+            && adjustment != icon_bar->priv->hadjustment))
+        return;
+
+    page_size = gtk_adjustment_get_page_size (adjustment);
+    upper = gtk_adjustment_get_upper (adjustment);
+
+    /* center on the active item when there is a real size change: with the allocation mode
+     * applied in get_preferred_width/height(), 'page_size' corresponds to the visible part
+     * of the icon bar, while 'upper' corresponds to its allocated size */
+    if (s_page_size != page_size || s_upper != upper)
+    {
+        s_page_size = page_size;
+        s_upper = upper;
+        rstto_icon_bar_show_active (icon_bar);
+    }
+}
 
 static void
 rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar)
