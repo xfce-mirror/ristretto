@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2021-10-28 00:48+0200\n"
-"PO-Revision-Date: 2021-10-27 22:49+0000\n"
-"Last-Translator: Georg Eckert <eckert.georg@gmx.de>\n"
+"PO-Revision-Date: 2021-10-28 22:54+0000\n"
+"Last-Translator: Andreas Eitel <github-aneitel@online.de>\n"
 "Language-Team: German (http://www.transifex.com/xfce/xfce-apps/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,17 +56,17 @@ msgstr "Datei konnte nicht gespeichert werden"
 
 #: ../src/main_window.c:42
 msgid "Some files could not be opened: see the text logs for details"
-msgstr ""
+msgstr "Einige Dateien konnten nicht geöffnet werden: siehe die Textprotokolle für Details"
 
 #: ../src/main_window.c:43
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
-msgstr ""
+msgstr "Beim Löschen des Bildes '%s' vom Datenträger ist ein Fehler aufgetreten."
 
 #: ../src/main_window.c:44
 #, c-format
 msgid "An error occurred when sending image '%s' to trash"
-msgstr ""
+msgstr "Beim Verschieben des Bildes '%s' in den Papierkorb ist ein Fehler aufgetreten."
 
 #: ../src/main_window.c:315
 msgid "_File"
@@ -880,19 +880,19 @@ msgstr "%s - Eigenschaften"
 
 #: ../src/image_list.c:32
 msgid "No supported image type found in the directory"
-msgstr ""
+msgstr "Kein unterstützter Bildtyp im Verzeichnis gefunden"
 
 #: ../src/image_list.c:33
 msgid "Directory only partially loaded"
-msgstr ""
+msgstr "Verzeichnis nur teilweise geladen"
 
 #: ../src/image_list.c:34
 msgid "Could not load directory"
-msgstr ""
+msgstr "Verzeichnis konnte nicht geladen werden"
 
 #: ../src/image_list.c:35
 msgid "Unsupported mime type"
-msgstr ""
+msgstr "Nicht unterstützter Mime-Typ"
 
 #: ../src/thumbnailer.c:320
 msgid ""
