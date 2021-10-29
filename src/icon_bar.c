@@ -93,6 +93,9 @@ static gboolean
 rstto_icon_bar_draw (GtkWidget *widget,
                      cairo_t *cr);
 static gboolean
+rstto_icon_bar_enter (GtkWidget *widget,
+                      GdkEventCrossing *event);
+static gboolean
 rstto_icon_bar_leave (GtkWidget *widget,
                       GdkEventCrossing *event);
 static gboolean
@@ -246,6 +249,7 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
     gtkwidget_class->get_preferred_height = rstto_icon_bar_get_preferred_height;
     gtkwidget_class->size_allocate = rstto_icon_bar_size_allocate;
     gtkwidget_class->draw = rstto_icon_bar_draw;
+    gtkwidget_class->enter_notify_event = rstto_icon_bar_enter;
     gtkwidget_class->leave_notify_event = rstto_icon_bar_leave;
     gtkwidget_class->motion_notify_event = rstto_icon_bar_motion;
     gtkwidget_class->button_press_event = rstto_icon_bar_button_press;
@@ -637,6 +641,7 @@ rstto_icon_bar_realize (GtkWidget *widget)
     attributes.height = MAX (icon_bar->priv->height, allocation.height);
     attributes.event_mask = (GDK_SCROLL_MASK
             | GDK_EXPOSURE_MASK
+            | GDK_ENTER_NOTIFY_MASK
             | GDK_LEAVE_NOTIFY_MASK
             | GDK_POINTER_MOTION_MASK
             | GDK_BUTTON_PRESS_MASK
@@ -788,18 +793,29 @@ rstto_icon_bar_draw (GtkWidget *widget,
 
 
 
+static void
+rstto_icon_bar_update_cursor_item (RsttoIconBar *icon_bar,
+                                   RsttoIconBarItem *item)
+{
+    if (icon_bar->priv->cursor_item != NULL)
+        rstto_icon_bar_queue_draw_item (icon_bar, icon_bar->priv->cursor_item);
+
+    icon_bar->priv->cursor_item = item;
+    if (icon_bar->priv->cursor_item != NULL)
+        rstto_icon_bar_queue_draw_item (icon_bar, icon_bar->priv->cursor_item);
+}
+
+
+
 static gboolean
-rstto_icon_bar_leave (
-        GtkWidget        *widget,
-        GdkEventCrossing *event)
+rstto_icon_bar_enter (GtkWidget *widget,
+                      GdkEventCrossing *event)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
+    RsttoIconBarItem *item;
 
-    if (icon_bar->priv->cursor_item != NULL)
-    {
-        rstto_icon_bar_queue_draw_item (icon_bar, icon_bar->priv->cursor_item);
-        icon_bar->priv->cursor_item = NULL;
-    }
+    item = rstto_icon_bar_get_item_at_pos (icon_bar, event->x, event->y);
+    rstto_icon_bar_update_cursor_item (icon_bar, item);
 
     return FALSE;
 }
@@ -807,51 +823,37 @@ rstto_icon_bar_leave (
 
 
 static gboolean
-rstto_icon_bar_motion (
-        GtkWidget      *widget,
-        GdkEventMotion *event)
+rstto_icon_bar_leave (GtkWidget *widget,
+                      GdkEventCrossing *event)
 {
+    rstto_icon_bar_update_cursor_item (RSTTO_ICON_BAR (widget), NULL);
+
+    return FALSE;
+}
+
+
+
+static gboolean
+rstto_icon_bar_motion (GtkWidget *widget,
+                       GdkEventMotion *event)
+{
+    RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
     RsttoIconBarItem *item;
-    RsttoIconBar     *icon_bar = RSTTO_ICON_BAR (widget);
-    GtkTreeIter       iter;
-    RsttoFile        *file;
 
     item = rstto_icon_bar_get_item_at_pos (icon_bar, event->x, event->y);
-    if (item != NULL && icon_bar->priv->cursor_item != item)
-    {
-        if (icon_bar->priv->cursor_item != NULL)
-            rstto_icon_bar_queue_draw_item (icon_bar, icon_bar->priv->cursor_item);
-        icon_bar->priv->cursor_item = item;
-        rstto_icon_bar_queue_draw_item (icon_bar, item);
-
-        iter = item->iter;
-        gtk_tree_model_get (icon_bar->priv->model, &iter,
-                icon_bar->priv->file_column, &file,
-                -1);
-        g_object_unref (file);
-
-        gtk_widget_trigger_tooltip_query (widget);
-    }
-    else if (icon_bar->priv->cursor_item != NULL
-            && icon_bar->priv->cursor_item != item)
-    {
-        rstto_icon_bar_queue_draw_item (icon_bar, icon_bar->priv->cursor_item);
-        icon_bar->priv->cursor_item = NULL;
-    }
+    rstto_icon_bar_update_cursor_item (icon_bar, item);
 
     return TRUE;
 }
 
 static gboolean
-rstto_icon_bar_scroll (
-        GtkWidget      *widget,
-        GdkEventScroll *event)
+rstto_icon_bar_scroll (GtkWidget *widget,
+                       GdkEventScroll *event)
 {
-    RsttoIconBar  *icon_bar   = RSTTO_ICON_BAR (widget);
-    GtkAdjustment *adjustment = NULL;
-    gdouble        val        = 0;
-    gdouble        step_size  = 0;
-    gdouble        max_value  = 0;
+    RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
+    RsttoIconBarItem *item;
+    GtkAdjustment *adjustment;
+    gdouble val, old_val, step_size, max_value;
 
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
         adjustment = icon_bar->priv->vadjustment;
@@ -859,7 +861,7 @@ rstto_icon_bar_scroll (
         adjustment = icon_bar->priv->hadjustment;
 
     step_size = icon_bar->priv->item_size / 2.0;
-    val = gtk_adjustment_get_value (adjustment);
+    val = old_val = gtk_adjustment_get_value (adjustment);
     max_value = gtk_adjustment_get_upper (adjustment) - gtk_adjustment_get_page_size (adjustment);
 
     switch (event->direction)
@@ -890,6 +892,12 @@ rstto_icon_bar_scroll (
     }
 
     gtk_adjustment_set_value (adjustment, val);
+    if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
+        item = rstto_icon_bar_get_item_at_pos (icon_bar, event->x, event->y + (val - old_val));
+    else
+        item = rstto_icon_bar_get_item_at_pos (icon_bar, event->x + (val - old_val), event->y);
+
+    rstto_icon_bar_update_cursor_item (icon_bar, item);
 
     return TRUE;
 }
