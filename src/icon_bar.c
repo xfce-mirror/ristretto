@@ -843,7 +843,7 @@ rstto_icon_bar_motion (GtkWidget *widget,
     item = rstto_icon_bar_get_item_at_pos (icon_bar, event->x, event->y);
     rstto_icon_bar_update_cursor_item (icon_bar, item);
 
-    return TRUE;
+    return FALSE;
 }
 
 static gboolean

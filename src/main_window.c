@@ -2645,17 +2645,15 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
                                                           "hide-mouse-cursor-fullscreen-timeout");
 
         /* Show toolbar when the mouse pointer is moved to the top of the screen */
-        if (event->y < 1)
+        if (event->y < 1 && event->window == gtk_widget_get_window (window->priv->image_viewer)
+            && rstto_image_list_get_n_images (window->priv->image_list) != 0)
         {
-            if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
-            {
-                gtk_widget_show (window->priv->toolbar);
-                window->priv->fs_toolbar_sticky = TRUE;
+            gtk_widget_show (window->priv->toolbar);
+            window->priv->fs_toolbar_sticky = TRUE;
 
-                if (window->priv->show_fs_toolbar_timeout_id > 0)
-                {
-                    REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
-                }
+            if (window->priv->show_fs_toolbar_timeout_id > 0)
+            {
+                REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
             }
         }
 
