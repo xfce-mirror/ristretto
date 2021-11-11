@@ -858,8 +858,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     app_file_filter = g_object_ref_sink (gtk_file_filter_new ());
     gtk_file_filter_add_pixbuf_formats (app_file_filter);
     gtk_file_filter_set_name (app_file_filter, _("Images"));
-    /* see https://bugs.launchpad.net/ubuntu/+source/ristretto/+bug/1778695 */
-    gtk_file_filter_add_mime_type (app_file_filter, "image/x-canon-cr2");
 
     /* D-Bus stuff */
     window->priv->filemanager_proxy =

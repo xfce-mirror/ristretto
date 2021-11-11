@@ -239,6 +239,7 @@ struct _RsttoImageViewerPrivate
 
     RsttoImageViewerTransaction *transaction;
     RsttoImageOrientation        orientation;
+    gchar                      **excluded_mime_types;
     struct
     {
         cairo_pattern_t *pattern;
@@ -314,6 +315,9 @@ rstto_image_viewer_post_init (RsttoImageViewer *viewer)
 static void
 rstto_image_viewer_init (RsttoImageViewer *viewer)
 {
+    GSList *list, *li;
+    gchar **strv;
+
     if (default_screen == NULL)
     {
         default_screen = gdk_screen_get_default ();
@@ -375,6 +379,32 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     gtk_drag_dest_set (GTK_WIDGET (viewer), GTK_DEST_DEFAULT_ALL, NULL, 0,
                       GDK_ACTION_COPY | GDK_ACTION_LINK | GDK_ACTION_MOVE | GDK_ACTION_PRIVATE);
     gtk_drag_dest_add_uri_targets (GTK_WIDGET (viewer));
+
+    /*
+     * Mime types for which we will use the default pixbuf loader, instead of the
+     * mime-type-specific one, typically because it is broken. This is different from using
+     * gdk_pixbuf_format_set_disabled(), which would totally disable the corresponding library,
+     * whereas some of its features could still be used here.
+     * This should apply to as few mime types as possible, but all RAW types should be excluded
+     * for now, see https://gitlab.freedesktop.org/libopenraw/libopenraw/-/issues/7
+    */
+    viewer->priv->excluded_mime_types = NULL;
+    list = gdk_pixbuf_get_formats ();
+    for (li = list; li != NULL; li = li->next)
+    {
+        /* not sure we can count on the stability of the format name or description, so better
+         * to look for a mime type that we know must be present */
+        strv = gdk_pixbuf_format_get_mime_types (li->data);
+        if (g_strv_contains ((const gchar *const *) strv, "image/x-canon-cr2"))
+        {
+            viewer->priv->excluded_mime_types = strv;
+            break;
+        }
+        else
+            g_strfreev (strv);
+    }
+
+    g_slist_free (list);
 }
 
 /**
@@ -598,6 +628,11 @@ rstto_image_viewer_finalize (GObject *object)
     {
         g_object_unref (viewer->priv->iter);
         viewer->priv->iter = NULL;
+    }
+    if (viewer->priv->excluded_mime_types)
+    {
+        g_strfreev (viewer->priv->excluded_mime_types);
+        viewer->priv->excluded_mime_types = NULL;
     }
 
     G_OBJECT_CLASS (rstto_image_viewer_parent_class)->finalize (object);
@@ -1323,6 +1358,7 @@ static void
 rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdouble scale)
 {
     RsttoImageViewerTransaction *transaction = g_new0 (RsttoImageViewerTransaction, 1);
+    const gchar *mime_type;
 
     /*
      * This will first need to return to the 'main' loop before it cleans up after itself.
@@ -1334,13 +1370,14 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
         viewer->priv->transaction = NULL;
     }
 
-    transaction->loader = gdk_pixbuf_loader_new_with_mime_type (rstto_file_get_content_type (file), NULL);
+    mime_type = rstto_file_get_content_type (file);
+    if (viewer->priv->excluded_mime_types == NULL
+        || ! g_strv_contains ((const gchar *const *) viewer->priv->excluded_mime_types, mime_type))
+        transaction->loader = gdk_pixbuf_loader_new_with_mime_type (mime_type, NULL);
 
-    /* HACK HACK HACK */
+    /* fallback in case of an excluded mime type, or any error */
     if (transaction->loader == NULL)
-    {
         transaction->loader = gdk_pixbuf_loader_new ();
-    }
 
     transaction->cancellable = g_cancellable_new ();
     transaction->buffer = g_new0 (guchar, LOADER_BUFFER_SIZE);
