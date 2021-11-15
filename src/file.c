@@ -317,14 +317,25 @@ rstto_file_get_content_type (RsttoFile *r_file)
                 content_type = magic_file (magic, file_path);
                 if (NULL != content_type)
                 {
-                    /* image types that aren't supported by gdk_pixbuf_loader_new_with_mime_type () */
+                    /* mime types that require post-processing */
                     if (g_strcmp0 (content_type, "image/x-ms-bmp") == 0)
                     {
-                        content_type = "image/bmp"; // bug #13489
+                        /* translation for the pixbuf loader: see
+                         * https://bugzilla.xfce.org/show_bug.cgi?id=13489 */
+                        content_type = "image/bmp";
                     }
                     else if (g_strcmp0 (content_type, "image/x-portable-greymap") == 0)
                     {
-                        content_type = "image/x-portable-graymap"; // bug #14709
+                        /* translation for the pixbuf loader: see
+                         * https://bugzilla.xfce.org/show_bug.cgi?id=14709 */
+                        content_type = "image/x-portable-graymap";
+                    }
+                    else if (g_strcmp0 (content_type, "application/gzip") == 0)
+                    {
+                        /* see if it is a compressed SVG file */
+                        magic_setflags (magic, magic_getflags (magic) | MAGIC_COMPRESS);
+                        if (g_strcmp0 (magic_file (magic, file_path), "image/svg+xml") == 0)
+                            content_type = "image/svg+xml";
                     }
 
                     r_file->priv->content_type = g_strdup (content_type);
