@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2021-10-28 00:48+0200\n"
-"PO-Revision-Date: 2021-10-31 08:55+0000\n"
+"PO-Revision-Date: 2021-11-18 07:24+0000\n"
 "Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/xfce/xfce-apps/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgstr "Vissa filer kunde inte öppnas: se textloggarna för detaljer"
 #: ../src/main_window.c:43
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
-msgstr ""
+msgstr "Ett fel uppstod när bild skulle raderas '%s' från disk"
 
 #: ../src/main_window.c:44
 #, c-format
@@ -893,7 +893,7 @@ msgstr "Kunde inte ladda katalog"
 
 #: ../src/image_list.c:35
 msgid "Unsupported mime type"
-msgstr ""
+msgstr "Mime-typ stöds inte"
 
 #: ../src/thumbnailer.c:320
 msgid ""
