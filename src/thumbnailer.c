@@ -42,14 +42,12 @@ static void
 rstto_thumbnailer_finalize (GObject *object);
 
 static void
-cb_rstto_thumbnailer_request_finished (TumblerThumbnailer1 *proxy,
-                                       guint arg_handle,
-                                       gpointer data);
-static void
 cb_rstto_thumbnailer_thumbnail_ready (TumblerThumbnailer1 *proxy,
                                       guint handle,
                                       const gchar *const *uri,
                                       gpointer data);
+static void
+rstto_thumbnailer_queue_reset_in_process (RsttoThumbnailer *thumbnailer);
 static gboolean
 rstto_thumbnailer_queue_request_timer (gpointer user_data);
 
@@ -85,6 +83,8 @@ rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
     thumbnailer->priv = rstto_thumbnailer_get_instance_private (thumbnailer);
     thumbnailer->priv->connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, NULL);
     thumbnailer->priv->settings = rstto_settings_new ();
+    thumbnailer->priv->queue = NULL;
+    thumbnailer->priv->in_process_queue = NULL;
 
     thumbnailer->priv->show_missing_thumbnailer_error =
             rstto_settings_get_boolean_property (
@@ -101,10 +101,6 @@ rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
                 NULL,
                 NULL);
 
-        g_signal_connect (thumbnailer->priv->proxy,
-                         "finished",
-                         G_CALLBACK (cb_rstto_thumbnailer_request_finished),
-                         thumbnailer);
         g_signal_connect (thumbnailer->priv->proxy,
                          "ready",
                          G_CALLBACK (cb_rstto_thumbnailer_thumbnail_ready),
@@ -143,10 +139,12 @@ rstto_thumbnailer_finalize (GObject *object)
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (object);
 
+    g_slist_free_full (thumbnailer->priv->queue, g_object_unref);
+    rstto_thumbnailer_queue_reset_in_process (thumbnailer);
+
     g_clear_object (&thumbnailer->priv->settings);
     g_clear_object (&thumbnailer->priv->proxy);
     g_clear_object (&thumbnailer->priv->connection);
-    g_slist_free_full (thumbnailer->priv->queue, g_object_unref);
 
     G_OBJECT_CLASS (rstto_thumbnailer_parent_class)->finalize (object);
 }
@@ -183,30 +181,12 @@ rstto_thumbnailer_queue_file (
     g_return_if_fail (RSTTO_IS_FILE (file));
 
     if (thumbnailer->priv->request_timer_id != 0)
-    {
         REMOVE_SOURCE (thumbnailer->priv->request_timer_id);
-        if (thumbnailer->priv->handle)
-        {
-            if (! tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
-                                                          thumbnailer->priv->handle,
-                                                          NULL, NULL))
-            {
-                /* If this fails it usually means there's a thumbnail already
-                 * being processed, no big deal */
-            }
-            thumbnailer->priv->handle = 0;
-        }
-    }
 
-    g_object_ref (file);
-    thumbnailer->priv->queue = g_slist_prepend (thumbnailer->priv->queue, file);
-
-    thumbnailer->priv->request_timer_id = g_timeout_add_full (
-            G_PRIORITY_LOW,
-            300,
-            rstto_thumbnailer_queue_request_timer,
-            rstto_util_source_autoremove (thumbnailer),
-            NULL);
+    thumbnailer->priv->queue = g_slist_prepend (thumbnailer->priv->queue, g_object_ref (file));
+    thumbnailer->priv->request_timer_id =
+        g_timeout_add_full (G_PRIORITY_LOW, 300, rstto_thumbnailer_queue_request_timer,
+                            rstto_util_source_autoremove (thumbnailer), NULL);
 }
 
 void
@@ -263,6 +243,14 @@ rstto_thumbnailer_set_n_visible_items (RsttoThumbnailer *thumbnailer,
     thumbnailer->priv->n_visible_items = n_items;
 }
 
+static void
+rstto_thumbnailer_queue_reset_in_process (RsttoThumbnailer *thumbnailer)
+{
+    tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
+                                            thumbnailer->priv->handle, NULL, NULL);
+    g_slist_free_full (thumbnailer->priv->in_process_queue, g_object_unref);
+}
+
 static gboolean
 rstto_thumbnailer_queue_request_timer (gpointer user_data)
 {
@@ -275,6 +263,7 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
 
     g_return_val_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer), FALSE);
 
+    rstto_thumbnailer_queue_reset_in_process (thumbnailer);
     thumbnailer->priv->in_process_queue = thumbnailer->priv->queue;
     thumbnailer->priv->queue = NULL;
 
@@ -355,23 +344,6 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
 
     thumbnailer->priv->request_timer_id = 0;
     return FALSE;
-}
-
-static void
-cb_rstto_thumbnailer_request_finished (
-        TumblerThumbnailer1 *proxy,
-        guint arg_handle,
-        gpointer data)
-{
-    RsttoThumbnailer *thumbnailer = data;
-
-    g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
-
-    if (thumbnailer->priv->in_process_queue)
-    {
-        g_slist_free_full (thumbnailer->priv->in_process_queue, g_object_unref);
-        thumbnailer->priv->in_process_queue = NULL;
-    }
 }
 
 static void
