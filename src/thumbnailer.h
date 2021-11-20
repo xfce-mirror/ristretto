@@ -46,9 +46,6 @@ void
 rstto_thumbnailer_queue_file (RsttoThumbnailer *thumbnailer,
                               RsttoFile *file);
 void
-rstto_thumbnailer_dequeue_file (RsttoThumbnailer *thumbnailer,
-                                RsttoFile *file);
-void
 rstto_thumbnailer_set_image_list (RsttoThumbnailer *thumbnailer,
                                   RsttoImageList   *image_list);
 void
