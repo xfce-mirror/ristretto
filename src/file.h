@@ -109,6 +109,10 @@ rstto_file_get_collate_key (RsttoFile *r_file);
 const gchar *
 rstto_file_get_content_type (RsttoFile *r_file);
 
+void
+rstto_file_set_content_type (RsttoFile *r_file,
+                             const gchar *type);
+
 const gchar *
 rstto_file_get_thumbnail_path (RsttoFile *r_file);
 

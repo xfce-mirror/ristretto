@@ -60,6 +60,7 @@ struct _RsttoFilePrivate
 
     gchar *display_name;
     gchar *content_type;
+    gboolean final_content_type;
 
     gchar *uri;
     gchar *path;
@@ -84,6 +85,7 @@ static void
 rstto_file_init (RsttoFile *r_file)
 {
     r_file->priv = rstto_file_get_instance_private (r_file);
+    r_file->priv->final_content_type = FALSE;
     r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NOT_DETERMINED;
     r_file->priv->scale = RSTTO_SCALE_NONE;
     r_file->priv->auto_scale = RSTTO_SCALE_NONE;
@@ -196,10 +198,75 @@ rstto_file_is_valid (RsttoFile *r_file)
 {
     GtkFileFilter *filter;
     GtkFileFilterInfo filter_info;
+    const gchar *content_type = NULL;
+
+    if (! r_file->priv->final_content_type)
+    {
+#ifdef HAVE_MAGIC_H
+        magic_t magic = magic_open (MAGIC_MIME_TYPE | MAGIC_SYMLINK);
+        if (NULL != magic)
+        {
+            const gchar *file_path = rstto_file_get_path (r_file);
+            if (NULL != file_path && magic_load (magic, NULL) == 0)
+            {
+                content_type = magic_file (magic, file_path);
+                if (NULL != content_type)
+                {
+                    /* mime types that require post-processing */
+                    if (g_strcmp0 (content_type, "image/x-ms-bmp") == 0)
+                    {
+                        /* translation for the pixbuf loader: see
+                         * https://bugzilla.xfce.org/show_bug.cgi?id=13489 */
+                        content_type = "image/bmp";
+                    }
+                    else if (g_strcmp0 (content_type, "image/x-portable-greymap") == 0)
+                    {
+                        /* translation for the pixbuf loader: see
+                         * https://bugzilla.xfce.org/show_bug.cgi?id=14709 */
+                        content_type = "image/x-portable-graymap";
+                    }
+                    else if (g_strcmp0 (content_type, "application/gzip") == 0)
+                    {
+                        /* see if it is a compressed SVG file */
+                        magic_setflags (magic, magic_getflags (magic) | MAGIC_COMPRESS);
+                        if (g_strcmp0 (magic_file (magic, file_path), "image/svg+xml") == 0)
+                            content_type = "image/svg+xml";
+                    }
+
+                    g_free (r_file->priv->content_type);
+                    r_file->priv->content_type = g_strdup (content_type);
+                }
+            }
+            magic_close (magic);
+        }
+#endif
+
+        if (NULL == content_type)
+        {
+            GFileInfo *file_info = g_file_query_info (
+                    r_file->priv->file,
+                    "standard::content-type",
+                    0,
+                    NULL,
+                    NULL);
+            if (NULL != file_info)
+            {
+                content_type = g_file_info_get_content_type (file_info);
+                if (NULL != content_type)
+                {
+                    g_free (r_file->priv->content_type);
+                    r_file->priv->content_type = g_strdup (content_type);
+                }
+                g_object_unref (file_info);
+            }
+        }
+
+        r_file->priv->final_content_type = TRUE;
+    }
 
     filter = rstto_main_window_get_app_file_filter ();
     filter_info.contains = GTK_FILE_FILTER_MIME_TYPE;
-    filter_info.mime_type = rstto_file_get_content_type (r_file);
+    filter_info.mime_type = r_file->priv->content_type;
 
     return gtk_file_filter_filter (filter, &filter_info);
 }
@@ -303,69 +370,15 @@ rstto_file_get_collate_key (RsttoFile *r_file)
 const gchar *
 rstto_file_get_content_type (RsttoFile *r_file)
 {
-    const gchar *content_type = NULL;
-
-    if (NULL == r_file->priv->content_type)
-    {
-#ifdef HAVE_MAGIC_H
-        magic_t magic = magic_open (MAGIC_MIME_TYPE | MAGIC_SYMLINK);
-        if (NULL != magic)
-        {
-            const gchar *file_path = rstto_file_get_path (r_file);
-            if (NULL != file_path && magic_load (magic, NULL) == 0)
-            {
-                content_type = magic_file (magic, file_path);
-                if (NULL != content_type)
-                {
-                    /* mime types that require post-processing */
-                    if (g_strcmp0 (content_type, "image/x-ms-bmp") == 0)
-                    {
-                        /* translation for the pixbuf loader: see
-                         * https://bugzilla.xfce.org/show_bug.cgi?id=13489 */
-                        content_type = "image/bmp";
-                    }
-                    else if (g_strcmp0 (content_type, "image/x-portable-greymap") == 0)
-                    {
-                        /* translation for the pixbuf loader: see
-                         * https://bugzilla.xfce.org/show_bug.cgi?id=14709 */
-                        content_type = "image/x-portable-graymap";
-                    }
-                    else if (g_strcmp0 (content_type, "application/gzip") == 0)
-                    {
-                        /* see if it is a compressed SVG file */
-                        magic_setflags (magic, magic_getflags (magic) | MAGIC_COMPRESS);
-                        if (g_strcmp0 (magic_file (magic, file_path), "image/svg+xml") == 0)
-                            content_type = "image/svg+xml";
-                    }
-
-                    r_file->priv->content_type = g_strdup (content_type);
-                }
-            }
-            magic_close (magic);
-        }
-#endif
-
-        if (NULL == content_type)
-        {
-            GFileInfo *file_info = g_file_query_info (
-                    r_file->priv->file,
-                    "standard::content-type",
-                    0,
-                    NULL,
-                    NULL);
-            if (NULL != file_info)
-            {
-                content_type = g_file_info_get_content_type (file_info);
-                if (NULL != content_type)
-                {
-                    r_file->priv->content_type = g_strdup (content_type);
-                }
-                g_object_unref (file_info);
-            }
-        }
-    }
-
     return r_file->priv->content_type;
+}
+
+void
+rstto_file_set_content_type (RsttoFile *r_file,
+                             const gchar *type)
+{
+    g_free (r_file->priv->content_type);
+    r_file->priv->content_type = g_strdup (type);
 }
 
 guint64

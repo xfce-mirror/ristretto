@@ -581,7 +581,9 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
                 }
             }
 
-            /* no additional filtering here, it will be done gradually when validating files */
+            /* no additional filtering here, it will be done gradually when validating files,
+             * and the mime type will be refined at this time as well */
+            rstto_file_set_content_type (r_file, filter_info.mime_type);
             image_list->priv->images = g_list_prepend (image_list->priv->images, r_file);
         }
     }
