@@ -1818,6 +1818,8 @@ cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
         viewer->priv->pixbuf.has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
         viewer->priv->pixbuf.width = gdk_pixbuf_get_width (pixbuf);
         viewer->priv->pixbuf.height = gdk_pixbuf_get_height (pixbuf);
+        set_device_scale (G_OBJECT (gtk_widget_get_ancestor (user_data, RSTTO_TYPE_MAIN_WINDOW)),
+                          NULL, viewer);
 
         /* redraw only the image */
         rect.x = viewer->priv->rendering.x_offset;
