@@ -581,7 +581,7 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
                 }
             }
 
-            /* no additional filtering here, it will be done when requesting thumbnails */
+            /* no additional filtering here, it will be done gradually when validating files */
             image_list->priv->images = g_list_prepend (image_list->priv->images, r_file);
         }
     }
@@ -1094,12 +1094,14 @@ iter_previous (
     if (position)
     {
         iter->priv->r_file = position->data;
+        ret_val = TRUE;
     }
     else
     {
         if (image_list->priv->wrap_images)
         {
             position = g_list_last (iter->priv->image_list->priv->images);
+            ret_val = TRUE;
         }
         else
         {
@@ -1159,15 +1161,7 @@ rstto_image_list_iter_has_previous (RsttoImageListIter *iter)
 RsttoImageListIter *
 rstto_image_list_iter_clone (RsttoImageListIter *iter)
 {
-    RsttoImageListIter *new_iter = rstto_image_list_iter_new (
-            iter->priv->image_list,
-            iter->priv->r_file);
-
-    rstto_image_list_iter_set_position (
-            new_iter,
-            rstto_image_list_iter_get_position (iter));
-
-    return new_iter;
+    return rstto_image_list_iter_new (iter->priv->image_list, iter->priv->r_file);
 }
 
 GCompareFunc

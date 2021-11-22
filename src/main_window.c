@@ -56,6 +56,14 @@ enum
 
 enum
 {
+    FIRST,
+    LAST,
+    PREVIOUS,
+    NEXT
+};
+
+enum
+{
     PROP_0,
     PROP_DEVICE_SCALE,
 };
@@ -156,6 +164,9 @@ static void
 cb_rstto_main_window_flip_vt (GtkWidget *widget,
                               RsttoMainWindow *window);
 
+static gboolean
+rstto_main_window_select_valid_image (RsttoMainWindow *window,
+                                      gint position);
 static void
 cb_rstto_main_window_next_image (GtkWidget *widget,
                                  RsttoMainWindow *window);
@@ -1414,11 +1425,11 @@ key_press_event (
         {
             case GDK_KEY_Up:
             case GDK_KEY_Left:
-                rstto_image_list_iter_previous (rstto_window->priv->iter);
+                rstto_main_window_select_valid_image (rstto_window, PREVIOUS);
                 break;
             case GDK_KEY_Right:
             case GDK_KEY_Down:
-                rstto_image_list_iter_next (rstto_window->priv->iter);
+                rstto_main_window_select_valid_image (rstto_window, NEXT);
                 break;
             case GDK_KEY_Escape:
                 if (rstto_window->priv->playing)
@@ -2696,11 +2707,11 @@ cb_rstto_main_window_image_viewer_scroll_event (GtkWidget *widget, GdkEventScrol
         {
             case GDK_SCROLL_UP:
             case GDK_SCROLL_LEFT:
-                rstto_image_list_iter_previous (window->priv->iter);
+                rstto_main_window_select_valid_image (window, PREVIOUS);
                 break;
             case GDK_SCROLL_DOWN:
             case GDK_SCROLL_RIGHT:
-                rstto_image_list_iter_next (window->priv->iter);
+                rstto_main_window_select_valid_image (window, NEXT);
                 break;
             case GDK_SCROLL_SMOOTH:
                 /* TODO */
@@ -2855,9 +2866,9 @@ cb_rstto_main_window_play_slideshow (gpointer user_data)
         /* Check if we could navigate forward, if not, wrapping is
          * disabled and we should force the iter to position 0
          */
-        if (! rstto_image_list_iter_next (window->priv->iter))
+        if (! rstto_main_window_select_valid_image (window, NEXT))
         {
-            rstto_image_list_iter_set_position (window->priv->iter, 0);
+            rstto_main_window_select_valid_image (window, FIRST);
         }
     }
 
@@ -3336,6 +3347,68 @@ cb_rstto_main_window_flip_vt (GtkWidget *widget, RsttoMainWindow *window)
 /* NAVIGATION CALLBACKS */
 /************************/
 
+static gboolean
+rstto_main_window_select_valid_image (RsttoMainWindow *window,
+                                      gint position)
+{
+    gboolean (*move_iter) (RsttoImageListIter *);
+    RsttoImageListIter *iter;
+    RsttoFile *file, *ref_file;
+    gboolean moved = FALSE;
+
+    iter = rstto_image_list_iter_clone (window->priv->iter);
+    ref_file = rstto_image_list_iter_get_file (iter);
+    switch (position)
+    {
+        case FIRST:
+            rstto_image_list_iter_set_position (iter, 0);
+            move_iter = rstto_image_list_iter_next;
+            break;
+        case LAST:
+            rstto_image_list_iter_set_position (iter,
+                rstto_image_list_get_n_images (window->priv->image_list) - 1);
+            move_iter = rstto_image_list_iter_previous;
+            break;
+        case PREVIOUS:
+            rstto_image_list_iter_previous (iter);
+            move_iter = rstto_image_list_iter_previous;
+            break;
+        case NEXT:
+            rstto_image_list_iter_next (iter);
+            move_iter = rstto_image_list_iter_next;
+            break;
+        default:
+            g_warn_if_reached ();
+            return FALSE;
+    }
+
+    while ((file = rstto_image_list_iter_get_file (iter)) != ref_file)
+    {
+        /* directories are loaded without this costly filtering, so it is done
+         * here only when required */
+        if (! rstto_file_is_valid (file))
+        {
+            moved = move_iter (iter);
+            rstto_image_list_remove_file (window->priv->image_list, file);
+            if (! moved)
+                break;
+        }
+        else
+        {
+            moved = TRUE;
+            break;
+        }
+    }
+
+    if (moved)
+        rstto_image_list_iter_set_position (window->priv->iter,
+                                            rstto_image_list_iter_get_position (iter));
+
+    g_object_unref (iter);
+
+    return moved;
+}
+
 /**
  * cb_rstto_main_window_first_image:
  * @widget:
@@ -3347,7 +3420,7 @@ cb_rstto_main_window_flip_vt (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_first_image (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_image_list_iter_set_position (window->priv->iter, 0);
+    rstto_main_window_select_valid_image (window, FIRST);
 }
 
 
@@ -3362,8 +3435,7 @@ cb_rstto_main_window_first_image (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_last_image (GtkWidget *widget, RsttoMainWindow *window)
 {
-    guint n_images = rstto_image_list_get_n_images (window->priv->image_list);
-    rstto_image_list_iter_set_position (window->priv->iter, n_images - 1);
+    rstto_main_window_select_valid_image (window, LAST);
 }
 
 /**
@@ -3377,7 +3449,7 @@ cb_rstto_main_window_last_image (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_next_image (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_image_list_iter_next (window->priv->iter);
+    rstto_main_window_select_valid_image (window, NEXT);
 }
 
 /**
@@ -3391,7 +3463,7 @@ cb_rstto_main_window_next_image (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_previous_image (GtkWidget *widget, RsttoMainWindow *window)
 {
-    rstto_image_list_iter_previous (window->priv->iter);
+    rstto_main_window_select_valid_image (window, PREVIOUS);
 }
 
 /**
