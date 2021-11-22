@@ -211,6 +211,8 @@ static void
 cb_rstto_main_window_dnd_files (GtkWidget *widget,
                                 gchar **uris,
                                 RsttoMainWindow *window);
+static void
+cb_rstto_main_window_update_title (RsttoMainWindow *window);
 
 static void
 cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget,
@@ -1483,8 +1485,11 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 
     window = g_object_new (RSTTO_TYPE_MAIN_WINDOW, NULL);
 
-    window->priv->image_list = image_list;
-    g_object_ref (image_list);
+    window->priv->image_list = g_object_ref (image_list);
+    g_signal_connect_swapped (image_list, "row-deleted",
+                              G_CALLBACK (cb_rstto_main_window_update_title), window);
+    g_signal_connect_swapped (image_list, "row-inserted",
+                              G_CALLBACK (cb_rstto_main_window_update_title), window);
 
     switch (rstto_settings_get_uint_property (window->priv->settings_manager, "sort-type"))
     {
@@ -1528,11 +1533,7 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
 {
-    const gchar     *file_basename = NULL;
-    gchar           *title = NULL;
     RsttoFile       *cur_file = NULL;
-    gint             position, count;
-    RsttoImageList  *image_list = window->priv->image_list;
     GList           *app_list, *iter;
     const gchar     *content_type;
     const gchar     *editor;
@@ -1551,12 +1552,13 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
     if (window->priv->image_list)
     {
-        position = rstto_image_list_iter_get_position (window->priv->iter);
-        count = rstto_image_list_get_n_images (image_list);
+        cb_rstto_main_window_update_title (window);
+
         cur_file = rstto_image_list_iter_get_file (window->priv->iter);
         if (NULL != cur_file)
         {
-            rstto_icon_bar_set_active (RSTTO_ICON_BAR (window->priv->thumbnailbar), position);
+            rstto_icon_bar_set_active (RSTTO_ICON_BAR (window->priv->thumbnailbar),
+                                       rstto_image_list_iter_get_position (window->priv->iter));
             rstto_icon_bar_show_active (RSTTO_ICON_BAR (window->priv->thumbnailbar));
             content_type = rstto_file_get_content_type (cur_file);
 
@@ -1638,18 +1640,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
             gtk_widget_show_all (open_with_menu);
             gtk_widget_show_all (open_with_window_menu);
-
-            file_basename = rstto_file_get_display_name (cur_file);
-
-            if (count > 1)
-            {
-                title = g_strdup_printf ("%s - %s [%d/%d]", file_basename, RISTRETTO_APP_TITLE, position + 1, count);
-            }
-            else
-            {
-                title = g_strdup_printf ("%s - %s", file_basename, RISTRETTO_APP_TITLE);
-            }
-
         }
         else
         {
@@ -1668,17 +1658,12 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             gtk_widget_show_all (open_with_menu);
             gtk_widget_show_all (open_with_window_menu);
 
-            title = g_strdup (RISTRETTO_APP_TITLE);
-
             gtk_window_set_icon (GTK_WINDOW (window), NULL);
             gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);
         }
 
         rstto_main_window_update_buttons (window);
         rstto_main_window_update_statusbar (window);
-        gtk_window_set_title (GTK_WINDOW (window), title);
-        g_free (title);
-
     }
 }
 
@@ -3927,6 +3912,34 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
     files = g_slist_reverse (files);
     rstto_main_window_open (window, files);
     g_slist_free_full (files, g_object_unref);
+}
+
+static void
+cb_rstto_main_window_update_title (RsttoMainWindow *window)
+{
+    RsttoFile *file;
+    gchar *title;
+    const gchar *basename;
+    gint n_images, position;
+
+    file = rstto_image_list_iter_get_file (window->priv->iter);
+    if (file == NULL)
+    {
+        gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
+        return;
+    }
+
+    n_images = rstto_image_list_get_n_images (window->priv->image_list);
+    basename = rstto_file_get_display_name (file);
+    position = rstto_image_list_iter_get_position (window->priv->iter);
+    if (n_images > 1)
+        title = g_strdup_printf ("%s - %s [%d/%d]", basename, RISTRETTO_APP_TITLE,
+                                 position + 1, n_images);
+    else
+        title = g_strdup_printf ("%s - %s", basename, RISTRETTO_APP_TITLE);
+
+    gtk_window_set_title (GTK_WINDOW (window), title);
+    g_free (title);
 }
 
 /**********************/

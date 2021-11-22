@@ -36,7 +36,6 @@
 
 enum
 {
-    RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE = 0,
     RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL,
     RSTTO_IMAGE_LIST_SIGNAL_SORTED,
     RSTTO_IMAGE_LIST_SIGNAL_COUNT
@@ -264,18 +263,6 @@ rstto_image_list_class_init (RsttoImageListClass *klass)
 
     object_class->finalize = rstto_image_list_finalize;
 
-    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE] = g_signal_new ("remove-image",
-            G_TYPE_FROM_CLASS (klass),
-            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-            0,
-            NULL,
-            NULL,
-            g_cclosure_marshal_VOID__OBJECT,
-            G_TYPE_NONE,
-            1,
-            G_TYPE_OBJECT,
-            NULL);
-
     rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL] = g_signal_new ("remove-all",
             G_TYPE_FROM_CLASS (klass),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
@@ -494,10 +481,6 @@ rstto_image_list_remove_file (
             }
             iter = g_slist_next (iter);
         }
-
-        g_signal_emit (image_list,
-                       rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_IMAGE],
-                       0, r_file, NULL);
 
         g_object_unref (r_file);
         gtk_tree_path_free (path_);
