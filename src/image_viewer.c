@@ -634,6 +634,11 @@ rstto_image_viewer_finalize (GObject *object)
         g_strfreev (viewer->priv->excluded_mime_types);
         viewer->priv->excluded_mime_types = NULL;
     }
+    if (viewer->priv->file)
+    {
+        g_object_unref (viewer->priv->file);
+        viewer->priv->file = NULL;
+    }
 
     G_OBJECT_CLASS (rstto_image_viewer_parent_class)->finalize (object);
 }
