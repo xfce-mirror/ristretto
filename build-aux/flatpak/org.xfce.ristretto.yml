@@ -80,10 +80,11 @@ modules:
       - type: git
         url: https://gitlab.xfce.org/xfce/xfconf.git
         tag: xfconf-4.16.0
+        commit: f05f028b840b465a41deef0fae6f50a885222e62
         x-checker-data:
           type: anitya
           project-id: 14854
-          url-template: https://gitlab.xfce.org/xfce/xfconf/-/tags/xfconf-$version
+          tag-template: xfconf-$version
       - type: patch
         path: Rename-org.xfce.Xfconf-to-org.xfce.ristretto.Xfconf.patch
 
