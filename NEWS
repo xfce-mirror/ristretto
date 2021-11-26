@@ -1,4 +1,51 @@
-0.12.0
+0.12.1 (2021-11-26)
+======
+- Dependency Changes:
+  - GLib >= 2.44.0
+
+- Performance Improvement:
+  - Optimize sorting by content type
+  - Load images asynchronously (#16, #29, #32, !34)
+  - Increase image loading buffer size (!34)
+
+- Appearance Changes:
+  - Allow to display all files in the open dialog (!33)
+
+- Code Refactoring:
+  - Rework the file opening procedure (!33)
+
+- Bug Fixes:
+  - Fix a memory leak when closing the window directly
+  - Refactoring: Clarify thumbnailer queue management
+  - Thumbnailer: Do not empty an unprocessed file list
+  - Update window title on image deletion or insertion
+  - Perform content-based filtering wherever necessary
+  - Set device scale for animated images
+  - Properly recognize SVG compressed image files
+  - Use the generic pixbuf loader for RAW image files
+  - Fix pointer behavior in fullscreen mode
+  - Icon bar: Properly highlight item under the cursor
+  - Icon bar: Center on the active item for any size change
+  - Fix regression: Exif orientation is not respected (#69)
+  - Do not try to load images whose pixbuf is not available (!34)
+  - Fix memory management of image loading objects (!34)
+  - Use URIs instead of filenames in the `.desktop` file (#49)
+  - Directory loading: Allow to load a directory via the cli
+  - Flatpak: Access remote locations with GVfs
+  - Directory loading: Fix improper use of GFileEnumerator APIs (#68)
+
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Occitan (post
+  1500), Polish, Portuguese, Portuguese (Brazil), Romanian, Russian,
+  Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish,
+  Ukrainian, Uyghur
+
+0.12.0 (2021-10-11)
 ======
 - Dependency Changes:
   - libxfce4ui >= 4.16.0
@@ -67,7 +114,7 @@
   Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish,
   Ukrainian, Uyghur
 
-0.11.0
+0.11.0 (2021-06-11)
 ======
 - Update copyright years and appdata infos
 - Enable `HAVE_MAGIC_H`-delimited code
@@ -118,7 +165,7 @@ the top
   Serbian, Slovak, Slovenian, Spanish, Swedish, Telugu, Thai, Turkish,
   Ukrainian, Uyghur
 
-0.10.0
+0.10.0 (2019-08-09)
 =====
 - Fix file permissions for ristretto.png
 - Port to GTK3
@@ -142,7 +189,7 @@ the top
   Portuguese (pt), Portuguese (Brazil) (pt_BR), Russian (ru), Turkish (tr),
   Chinese (China) (zh_CN), Chinese (Taiwan) (zh_TW)
 
-0.8.5
+0.8.5 (2019-07-17)
 =====
 - Fix a few memory leaks
 - Fix "Sort type unsupported" when sorting by file type
@@ -172,7 +219,7 @@ the top
 * New translations:
   Armenian (Armenia) (hy_AM), Interlingue (ie)
 
-0.8.4
+0.8.4 (2019-04-08)
 =====
 - Add missing field initializers
 - Instead of thumbnails, the same icons with a crossed red circle (bug #13419)
@@ -195,7 +242,7 @@ the top
   (th), Turkish (tr), Uighur (ug), Ukrainian (uk), Chinese (China) (zh_CN),
   Chinese (Taiwan) (zh_TW)
 
-0.8.3
+0.8.3 (2018-06-28)
 =====
 - Fix GLib-GObject-CRITICAL in directory monitoring code
 - Fix loading image from an URL
@@ -216,7 +263,7 @@ the top
   Swedish (sv), Thai (th), Turkish (tr), Uighur (ug), Ukrainian (uk), Chinese
   (China) (zh_CN), Chinese (Taiwan) (zh_TW)
 
-0.8.2
+0.8.2 (2017-02-01)
 =====
 - Implement sorting by file type (Bug #12749)
 - Detect image type by its mime type instead of file extension
@@ -232,7 +279,7 @@ the top
   (pt_BR), Russian (ru), Slovak (sk), Swedish (sv), Ukrainian (uk), Chinese
   (China) (zh_CN), Chinese (Taiwan) (zh_TW).
 
-0.8.1
+0.8.1 (2016-10-06)
 =====
 - Prepare for gtk3 migration: Do not include individual headers;
   Replace GDK_<keyname> with GDK_KEY_<keyname>;
@@ -270,7 +317,7 @@ the top
   Swedish (sv), Thai (th), Turkish (tr), Ukrainian (uk),
   Chinese (China) (zh_CN), Chinese (Taiwan) (zh_TW).
 
-0.8.0
+0.8.0 (2015-02-28)
 =====
 Stable release of Ristretto
 
@@ -302,7 +349,7 @@ Stable release of Ristretto
   Thai (th), Turkish (tr), Ukrainian (uk),
   Chinese (China) (zh_CN), Chinese (Taiwan) (zh_TW).
 
-0.6.0
+0.6.0 (2012-04-29)
 =====
 - Fix bug #8723 (Remove duplicate accelerators)
 - Reset adjustment-limits when closing the image (hide scrollbars)
@@ -313,7 +360,7 @@ Stable release of Ristretto
 - Add a new accelerator to force a reload (ctrl-r) - (requires the removal
   of ~/.config/ristretto/accels.scm)
 
-0.5.2
+0.5.2 (2012-04-16)
 =====
 - Remove the 'debug' monitor from the wallpaper chooser.
 - Add option to show a clock in fullscreen mode.
@@ -321,14 +368,14 @@ Stable release of Ristretto
 - Load directory-contents asynchronously. - Prevent lockup of the
   screen.
 
-0.5.1
+0.5.1 (2012-04-10)
 =====
 - Add 'other' applications to the editor-chooser applications-list.
 - Show mime-type icon instead of 'broken-image' icon in the
   editor-chooser.
 - Add missing tooltips to the toolbar.
 
-0.5.0
+0.5.0 (2012-04-02)
 =====
 - Use only one toolbar
 - Remove the 'close' button from the toolbar, and replace it
@@ -338,7 +385,7 @@ Stable release of Ristretto
 - Remove exo dependency
 - Support http://docs.xfce.org/ for documentation
 
-0.3.0
+0.3.0 (2011-11-05)
 =====
 - Re-introduce autorotation based on the exif-orientation tag, a
   regression since 0.0.93
@@ -365,7 +412,7 @@ Stable release of Ristretto
   JPEG pixbufloader.
 - Rotate thumbnails.
 
-0.2.0
+0.2.0 (2011-10-17)
 =====
 - Fix bug #6866 (Improve the sorting algorythm for filenames)
 - Fix bug #8025 (Add Stock-icon to set-wallpaper menu-item)
@@ -381,13 +428,13 @@ Stable release of Ristretto
 - Fix error with open-dialog because current-uri is not set correctly.
 - Reduce timeout before toolbar is hidden from 3000 to 500ms
 
-0.1.1
+0.1.1 (2011-10-07)
 =====
 - Fix linking problems against libm
 - Improve linking against X11
 - Set return statements in various functions returning random values
 
-0.1.0
+0.1.0 (2011-10-06)
 =====
 - Fix bug #3640 (During GIF animation shows a little arrow icon)
 - Fix bug #5977 (Add key-bindings for using the arrow buttons)
@@ -433,11 +480,11 @@ Stable release of Ristretto
 - Update the Gtk+ dependency to version 2.20 and the Glib dependency
   to version 2.24
 
-0.0.93
+0.0.93 (2011-02-28)
 ======
 - Fix version number
 
-0.0.92
+0.0.92 (2011-02-28)
 ======
 - Remove dependency on libxfcegui4
 - Restore size of thumbnail-bar
@@ -449,7 +496,7 @@ Stable release of Ristretto
 - Correctly cleanup the references to xfconf
 - Fix bug #7336 (segfault when closing last image)
 
-0.0.91
+0.0.91 (2010-07-12)
 ======
 - Remove dependency on thunar
 - Port to GIO instead of thunarvfs
@@ -462,13 +509,13 @@ Stable release of Ristretto
 - Restyle the toolbars to make room for more usefull options
 - Save position and size of thumbnail-bar
 
-0.0.22
+0.0.22 (2009-05-15)
 ======
 
 - Fix memleak (I should've unref-ed the animation-iter)
 - Improve cache size calculation
 
-0.0.21
+0.0.21 (2008-11-27)
 ======
 
 - Fix segfault when exif-data is missing (Bug #4599)
@@ -481,26 +528,26 @@ Stable release of Ristretto
 - Improved preloading
 - Fixed segfault caused by a reference-count bug.
 
-0.0.20
+0.0.20 (2008-05-24)
 ======
 
 - Put limits on the thumbnail-bar when scrolling
 - Add CLI options for fullscreen and slideshow
 - Make .desktop file adhere to standards
 
-0.0.19
+0.0.19 (2008-05-10)
 ======
 
 - Improve behaviour when opening a single image from the cli.
 - Add support for setting the wallpaper with xfdesktop 4.5
 - Improve behaviour of thumbnail-bar scroll feature
 
-0.0.18
+0.0.18 (2008-03-23)
 ======
 
 - Improve performance when opening folders
 
-0.0.17
+0.0.17 (2008-02-17)
 ======
 
 - Scrolling the vertical oriented thumbnail-bar no longer makes the thumbnails
@@ -510,7 +557,7 @@ Stable release of Ristretto
 - Fix desktop-file syntax (was missing a semicolon)
 - Thumbnails behave a little better now.
 
-0.0.16
+0.0.16 (2008-01-27)
 ======
 
 - Replaced the old thumbnail_viewer with a thumbnail_bar + thumbnail widgets
