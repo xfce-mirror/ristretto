@@ -66,6 +66,14 @@ typedef enum
     THUMBNAIL_SIZE_COUNT,
 } RsttoThumbnailSize;
 
+typedef enum
+{
+    RSTTO_THUMBNAIL_STATE_UNPROCESSED,
+    RSTTO_THUMBNAIL_STATE_IN_PROCESS,
+    RSTTO_THUMBNAIL_STATE_PROCESSED,
+    RSTTO_THUMBNAIL_STATE_ERROR
+} RsttoThumbnailState;
+
 
 
 #define RSTTO_TYPE_FILE rstto_file_get_type ()
@@ -112,6 +120,10 @@ rstto_file_get_content_type (RsttoFile *r_file);
 void
 rstto_file_set_content_type (RsttoFile *r_file,
                              const gchar *type);
+
+void
+rstto_file_set_thumbnail_state (RsttoFile *r_file,
+                                RsttoThumbnailState state);
 
 const gchar *
 rstto_file_get_thumbnail_path (RsttoFile *r_file);

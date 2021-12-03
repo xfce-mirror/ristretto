@@ -1281,8 +1281,7 @@ rstto_icon_bar_row_changed (
     if (item == NULL)
         return;
 
-    rstto_icon_bar_item_invalidate (item);
-    gtk_widget_queue_resize (GTK_WIDGET (icon_bar));
+    rstto_icon_bar_queue_draw_item (icon_bar, item);
 }
 
 

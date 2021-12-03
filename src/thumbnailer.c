@@ -47,7 +47,12 @@ cb_rstto_thumbnailer_thumbnail_ready (TumblerThumbnailer1 *proxy,
                                       const gchar *const *uri,
                                       gpointer data);
 static void
-rstto_thumbnailer_queue_reset_in_process (RsttoThumbnailer *thumbnailer);
+cb_rstto_thumbnailer_thumbnail_error (TumblerThumbnailer1 *proxy,
+                                      guint handle,
+                                      const gchar *const *uri,
+                                      gint error_code,
+                                      const gchar *error_message,
+                                      gpointer data);
 static gboolean
 rstto_thumbnailer_queue_request_timer (gpointer user_data);
 
@@ -95,10 +100,10 @@ rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
                 NULL,
                 NULL);
 
-        g_signal_connect (thumbnailer->priv->proxy,
-                         "ready",
-                         G_CALLBACK (cb_rstto_thumbnailer_thumbnail_ready),
-                         thumbnailer);
+        g_signal_connect (thumbnailer->priv->proxy, "ready",
+                          G_CALLBACK (cb_rstto_thumbnailer_thumbnail_ready), thumbnailer);
+        g_signal_connect (thumbnailer->priv->proxy, "error",
+                          G_CALLBACK (cb_rstto_thumbnailer_thumbnail_error), thumbnailer);
     }
 }
 
@@ -133,8 +138,10 @@ rstto_thumbnailer_finalize (GObject *object)
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (object);
 
+    tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
+                                            thumbnailer->priv->handle, NULL, NULL);
     g_slist_free_full (thumbnailer->priv->queue, g_object_unref);
-    rstto_thumbnailer_queue_reset_in_process (thumbnailer);
+    g_slist_free_full (thumbnailer->priv->in_process_queue, g_object_unref);
 
     g_clear_object (&thumbnailer->priv->settings);
     g_clear_object (&thumbnailer->priv->proxy);
@@ -171,24 +178,30 @@ rstto_thumbnailer_queue_file (
         RsttoThumbnailer *thumbnailer,
         RsttoFile *file)
 {
+    GSList *last_visible;
+    gint n_items;
+
     g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
     g_return_if_fail (RSTTO_IS_FILE (file));
 
     if (thumbnailer->priv->request_timer_id != 0)
         REMOVE_SOURCE (thumbnailer->priv->request_timer_id);
 
+    /* relative to the size of the icon bar, which is what matters, this is a O(1) cost
+     * operation, so we can keep the use of a GList for convenience */
+    n_items = rstto_icon_bar_get_n_visible_items (rstto_main_window_get_app_icon_bar ());
+    last_visible = g_slist_nth (thumbnailer->priv->queue, n_items - 1);
+    if (last_visible != NULL)
+    {
+        rstto_file_set_thumbnail_state (last_visible->data, RSTTO_THUMBNAIL_STATE_UNPROCESSED);
+        g_object_unref (last_visible->data);
+        thumbnailer->priv->queue = g_slist_delete_link (thumbnailer->priv->queue, last_visible);
+    }
+
     thumbnailer->priv->queue = g_slist_prepend (thumbnailer->priv->queue, g_object_ref (file));
     thumbnailer->priv->request_timer_id =
         g_timeout_add_full (G_PRIORITY_LOW, 300, rstto_thumbnailer_queue_request_timer,
                             rstto_util_source_autoremove (thumbnailer), NULL);
-}
-
-static void
-rstto_thumbnailer_queue_reset_in_process (RsttoThumbnailer *thumbnailer)
-{
-    tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
-                                            thumbnailer->priv->handle, NULL, NULL);
-    g_slist_free_full (thumbnailer->priv->in_process_queue, g_object_unref);
 }
 
 static gboolean
@@ -197,37 +210,65 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     RsttoThumbnailer *thumbnailer = user_data;
     RsttoImageList *image_list;
     GtkWidget *error_dialog, *vbox, *do_not_show_checkbox;
-    GSList *iter;
+    GSList *iter, *temp = NULL;
     GError *error = NULL;
     const gchar **uris, **mimetypes;
     gint n_items, i;
 
     g_return_val_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer), FALSE);
 
-    rstto_thumbnailer_queue_reset_in_process (thumbnailer);
-    thumbnailer->priv->in_process_queue = thumbnailer->priv->queue;
-    thumbnailer->priv->queue = NULL;
-
     image_list = rstto_main_window_get_app_image_list ();
     n_items = rstto_icon_bar_get_n_visible_items (rstto_main_window_get_app_icon_bar ());
     uris = g_new0 (const gchar *, n_items + 1);
     mimetypes = g_new0 (const gchar *, n_items + 1);
 
+    /* dequeue files in process: they will eventually be re-queued after those
+     * of the current request */
+    tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
+                                            thumbnailer->priv->handle, NULL, NULL);
 
-    for (iter = thumbnailer->priv->queue, i = 0; iter != NULL && i < n_items; iter = iter->next)
+    /* handle current request, whose size doesn't exceed the number of visible items */
+    for (iter = thumbnailer->priv->queue, i = 0; iter != NULL; iter = iter->next)
     {
         /* directories are loaded without this costly filtering, so it is done
          * here only when required */
         if (! rstto_file_is_valid (iter->data))
         {
             rstto_image_list_remove_file (image_list, iter->data);
+            g_object_unref (iter->data);
+
             continue;
         }
 
         uris[i] = rstto_file_get_uri (iter->data);
         mimetypes[i] = rstto_file_get_content_type (iter->data);
+        temp = g_slist_prepend (temp, iter->data);
         i++;
     }
+
+    g_slist_free (thumbnailer->priv->queue);
+    thumbnailer->priv->queue = NULL;
+
+    /* handle previously queued files, up to the number of visible items */
+    for (iter = thumbnailer->priv->in_process_queue; iter != NULL && i < n_items; iter = iter->next)
+    {
+        uris[i] = rstto_file_get_uri (iter->data);
+        mimetypes[i] = rstto_file_get_content_type (iter->data);
+        temp = g_slist_prepend (temp, iter->data);
+        i++;
+    }
+
+    /* clean up the rest of the list and reset the status of unqueued files */
+    for (; iter != NULL; iter = iter->next)
+    {
+        rstto_file_set_thumbnail_state (iter->data, RSTTO_THUMBNAIL_STATE_UNPROCESSED);
+        g_object_unref (iter->data);
+    }
+
+    g_slist_free (thumbnailer->priv->in_process_queue);
+
+    /* update the list of queued files */
+    thumbnailer->priv->in_process_queue = g_slist_reverse (temp);
 
     if (! tumbler_thumbnailer1_call_queue_sync (thumbnailer->priv->proxy,
                                                 (const gchar * const*) uris,
@@ -289,11 +330,10 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
 }
 
 static void
-cb_rstto_thumbnailer_thumbnail_ready (
-        TumblerThumbnailer1 *proxy,
-        guint handle,
-        const gchar *const *uri,
-        gpointer data)
+cb_rstto_thumbnailer_thumbnail_ready (TumblerThumbnailer1 *proxy,
+                                      guint handle,
+                                      const gchar *const *uris,
+                                      gpointer data)
 {
     RsttoThumbnailer *thumbnailer = data;
     GSList *iter = thumbnailer->priv->in_process_queue;
@@ -301,13 +341,56 @@ cb_rstto_thumbnailer_thumbnail_ready (
 
     g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
 
-    while (iter != NULL && uri[n] != NULL)
+    while (iter != NULL && uris[n] != NULL)
     {
-        if (g_strcmp0 (uri[n], rstto_file_get_uri (iter->data)) == 0)
+        if (g_strcmp0 (uris[n], rstto_file_get_uri (iter->data)) == 0)
         {
+            rstto_file_set_thumbnail_state (iter->data, RSTTO_THUMBNAIL_STATE_PROCESSED);
             g_signal_emit (thumbnailer,
                            rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY],
                            0, iter->data, NULL);
+
+            g_object_unref (iter->data);
+            thumbnailer->priv->in_process_queue =
+                g_slist_remove (thumbnailer->priv->in_process_queue, iter->data);
+
+            iter = thumbnailer->priv->in_process_queue;
+            n++;
+        }
+        else
+            iter = iter->next;
+    }
+}
+
+static void
+cb_rstto_thumbnailer_thumbnail_error (TumblerThumbnailer1 *proxy,
+                                      guint handle,
+                                      const gchar *const *uris,
+                                      gint error_code,
+                                      const gchar *error_message,
+                                      gpointer data)
+{
+    RsttoThumbnailer *thumbnailer = data;
+    GSList *iter = thumbnailer->priv->in_process_queue;
+    gint n = 0;
+
+    g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
+
+    while (iter != NULL && uris[n] != NULL)
+    {
+        if (g_strcmp0 (uris[n], rstto_file_get_uri (iter->data)) == 0)
+        {
+            /* it was probably cancelled when we unqueued files above, and since it is in the
+             * queue here, we wanted it to be processed: back to square one, state unchanged */
+            if (error_code == G_IO_ERROR_CANCELLED)
+                rstto_thumbnailer_queue_file (thumbnailer, iter->data);
+            else
+                rstto_file_set_thumbnail_state (iter->data, RSTTO_THUMBNAIL_STATE_ERROR);
+
+            g_object_unref (iter->data);
+            thumbnailer->priv->in_process_queue =
+                g_slist_remove (thumbnailer->priv->in_process_queue, iter->data);
+
             iter = thumbnailer->priv->in_process_queue;
             n++;
         }
