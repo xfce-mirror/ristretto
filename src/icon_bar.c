@@ -208,6 +208,7 @@ struct _RsttoIconBarPrivate
 
     GList          *items;
     gint            item_size;
+    gint            n_visible_items;
     gint            device_scale;
 
     GtkAdjustment  *hadjustment;
@@ -427,6 +428,10 @@ static void
 rstto_icon_bar_init (RsttoIconBar *icon_bar)
 {
     icon_bar->priv = rstto_icon_bar_get_instance_private (icon_bar);
+
+    /* if the icon bar is hidden, this applies to the window icon, or other atomic
+     * thumbnail request */
+    icon_bar->priv->n_visible_items = 1;
 
     icon_bar->priv->orientation = GTK_ORIENTATION_VERTICAL;
     icon_bar->priv->file_column = -1;
@@ -760,26 +765,33 @@ rstto_icon_bar_draw (GtkWidget *widget,
                      cairo_t *cr)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
+    GtkAdjustment *adjustment;
     GdkRectangle rect;
     GList *lp;
-    gint offset, n_items, n;
+    gint first_visible, last_visible, offset, n_items, n;
 
     rstto_util_paint_background_color (widget, icon_bar->priv->settings, cr);
 
     gdk_cairo_get_clip_rectangle (cr, &rect);
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
+        adjustment = icon_bar->priv->vadjustment;
         offset = rect.y / icon_bar->priv->item_size;
         n_items = rect.height / icon_bar->priv->item_size + 2;
     }
     else
     {
+        adjustment = icon_bar->priv->hadjustment;
         offset = rect.x / icon_bar->priv->item_size;
         n_items = rect.width / icon_bar->priv->item_size + 2;
     }
 
-    /* restrict thumbnailer queue size */
-    rstto_thumbnailer_set_n_visible_items (icon_bar->priv->thumbnailer, n_items);
+    /* the right limits for the visible area are given by the adjustemts, and this is
+     * what we use to set the thumbnailer queue size */
+    first_visible = gtk_adjustment_get_value (adjustment) / icon_bar->priv->item_size;
+    last_visible = first_visible + icon_bar->priv->n_visible_items - 1;
+    offset = MIN (MAX (offset, first_visible), last_visible);
+    n_items = MIN (n_items, last_visible - offset + 1);
 
     /* skip items before the drawing area */
     for (lp = icon_bar->priv->items, n = 0; lp != NULL && n < offset; lp = lp->next, n++);
@@ -1837,6 +1849,12 @@ rstto_icon_bar_set_item_width (
     return;
 }
 
+gint
+rstto_icon_bar_get_n_visible_items (RsttoIconBar *icon_bar)
+{
+    return icon_bar->priv->n_visible_items;
+}
+
 /**
  * rstto_icon_bar_set_show_text:
  * @icon_bar  : An #RsttoIconBar.
@@ -1929,6 +1947,7 @@ cb_rstto_icon_bar_adjustment_changed (GtkAdjustment *adjustment,
     {
         s_page_size = page_size;
         s_upper = upper;
+        icon_bar->priv->n_visible_items = 2 + page_size / icon_bar->priv->item_size;
         rstto_icon_bar_show_active (icon_bar);
     }
 }

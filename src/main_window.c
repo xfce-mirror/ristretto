@@ -69,6 +69,8 @@ enum
 };
 
 static RsttoMainWindow *app_window;
+static RsttoImageList *app_image_list;
+static RsttoIconBar *app_icon_bar;
 static GtkFileFilter *app_file_filter;
 
 
@@ -1055,6 +1057,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
     window->priv->t_bar_s_window = gtk_scrolled_window_new (NULL, NULL);
     window->priv->thumbnailbar = rstto_icon_bar_new (window->priv->t_bar_s_window);
+    app_icon_bar = RSTTO_ICON_BAR (window->priv->thumbnailbar);
     gtk_container_add (GTK_CONTAINER (window->priv->t_bar_s_window), window->priv->thumbnailbar);
 
     rstto_icon_bar_set_show_text (RSTTO_ICON_BAR (window->priv->thumbnailbar), FALSE);
@@ -1464,6 +1467,18 @@ rstto_main_window_get_app_exited (void)
     return app_window == NULL;
 }
 
+RsttoImageList *
+rstto_main_window_get_app_image_list (void)
+{
+    return app_image_list;
+}
+
+RsttoIconBar *
+rstto_main_window_get_app_icon_bar (void)
+{
+    return app_icon_bar;
+}
+
 GtkFileFilter *
 rstto_main_window_get_app_file_filter (void)
 {
@@ -1485,7 +1500,7 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 
     window = g_object_new (RSTTO_TYPE_MAIN_WINDOW, NULL);
 
-    window->priv->image_list = g_object_ref (image_list);
+    app_image_list = window->priv->image_list = g_object_ref (image_list);
     g_signal_connect_swapped (image_list, "row-deleted",
                               G_CALLBACK (cb_rstto_main_window_update_title), window);
     g_signal_connect_swapped (image_list, "row-inserted",
@@ -1513,7 +1528,6 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 
     rstto_icon_bar_set_model (RSTTO_ICON_BAR (window->priv->thumbnailbar),
                               GTK_TREE_MODEL (window->priv->image_list));
-    rstto_thumbnailer_set_image_list (window->priv->thumbnailer, window->priv->image_list);
 
     rstto_main_window_update_buttons (window);
 

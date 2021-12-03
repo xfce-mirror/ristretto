@@ -23,6 +23,7 @@
 #include <gtk/gtk.h>
 
 #include "image_list.h"
+#include "icon_bar.h"
 
 G_BEGIN_DECLS
 
@@ -53,6 +54,12 @@ rstto_main_window_get_app_window (void);
 
 gboolean
 rstto_main_window_get_app_exited (void);
+
+RsttoImageList *
+rstto_main_window_get_app_image_list (void);
+
+RsttoIconBar *
+rstto_main_window_get_app_icon_bar (void);
 
 GtkFileFilter *
 rstto_main_window_get_app_file_filter (void);

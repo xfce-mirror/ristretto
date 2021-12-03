@@ -58,11 +58,9 @@ struct _RsttoThumbnailerPrivate
     GDBusConnection     *connection;
     TumblerThumbnailer1 *proxy;
     RsttoSettings       *settings;
-    RsttoImageList      *image_list;
 
     GSList              *queue, *in_process_queue;
     guint                handle, request_timer_id;
-    gint                 n_visible_items;
 
     gboolean             show_missing_thumbnailer_error;
 };
@@ -185,21 +183,6 @@ rstto_thumbnailer_queue_file (
                             rstto_util_source_autoremove (thumbnailer), NULL);
 }
 
-void
-rstto_thumbnailer_set_image_list (RsttoThumbnailer *thumbnailer,
-                                  RsttoImageList   *image_list)
-{
-    /* we don't take a ref here, this would uselessly put us into a ref counting cycle */
-    thumbnailer->priv->image_list = image_list;
-}
-
-void
-rstto_thumbnailer_set_n_visible_items (RsttoThumbnailer *thumbnailer,
-                                       gint n_items)
-{
-    thumbnailer->priv->n_visible_items = n_items;
-}
-
 static void
 rstto_thumbnailer_queue_reset_in_process (RsttoThumbnailer *thumbnailer)
 {
@@ -212,11 +195,12 @@ static gboolean
 rstto_thumbnailer_queue_request_timer (gpointer user_data)
 {
     RsttoThumbnailer *thumbnailer = user_data;
+    RsttoImageList *image_list;
     GtkWidget *error_dialog, *vbox, *do_not_show_checkbox;
     GSList *iter;
     GError *error = NULL;
     const gchar **uris, **mimetypes;
-    gint i;
+    gint n_items, i;
 
     g_return_val_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer), FALSE);
 
@@ -224,18 +208,19 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     thumbnailer->priv->in_process_queue = thumbnailer->priv->queue;
     thumbnailer->priv->queue = NULL;
 
-    uris = g_new0 (const gchar *, thumbnailer->priv->n_visible_items + 1);
-    mimetypes = g_new0 (const gchar *, thumbnailer->priv->n_visible_items + 1);
+    image_list = rstto_main_window_get_app_image_list ();
+    n_items = rstto_icon_bar_get_n_visible_items (rstto_main_window_get_app_icon_bar ());
+    uris = g_new0 (const gchar *, n_items + 1);
+    mimetypes = g_new0 (const gchar *, n_items + 1);
 
-    for (iter = thumbnailer->priv->in_process_queue, i = 0;
-         iter != NULL && i < thumbnailer->priv->n_visible_items;
-         iter = iter->next)
+
+    for (iter = thumbnailer->priv->queue, i = 0; iter != NULL && i < n_items; iter = iter->next)
     {
         /* directories are loaded without this costly filtering, so it is done
          * here only when required */
         if (! rstto_file_is_valid (iter->data))
         {
-            rstto_image_list_remove_file (thumbnailer->priv->image_list, iter->data);
+            rstto_image_list_remove_file (image_list, iter->data);
             continue;
         }
 

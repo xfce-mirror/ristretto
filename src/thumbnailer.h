@@ -45,12 +45,6 @@ rstto_thumbnailer_new (void);
 void
 rstto_thumbnailer_queue_file (RsttoThumbnailer *thumbnailer,
                               RsttoFile *file);
-void
-rstto_thumbnailer_set_image_list (RsttoThumbnailer *thumbnailer,
-                                  RsttoImageList   *image_list);
-void
-rstto_thumbnailer_set_n_visible_items (RsttoThumbnailer *thumbnailer,
-                                       gint n_items);
 
 G_END_DECLS
 

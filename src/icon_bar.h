@@ -82,6 +82,9 @@ void
 rstto_icon_bar_set_item_width (RsttoIconBar *icon_bar,
                                gint item_width);
 
+gint
+rstto_icon_bar_get_n_visible_items (RsttoIconBar *icon_bar);
+
 gboolean
 rstto_icon_bar_get_show_text (RsttoIconBar *icon_bar);
 void
