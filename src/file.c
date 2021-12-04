@@ -637,5 +637,31 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
 void
 rstto_file_changed (RsttoFile *r_file)
 {
-    g_signal_emit (r_file, rstto_file_signals[RSTTO_FILE_SIGNAL_CHANGED], 0, NULL);
+    if (r_file->priv->content_type != NULL)
+    {
+        g_free (r_file->priv->content_type);
+        r_file->priv->content_type = NULL;
+    }
+
+    if (r_file->priv->exif_data != NULL)
+    {
+        exif_data_free (r_file->priv->exif_data);
+        r_file->priv->exif_data = NULL;
+    }
+
+    r_file->priv->final_content_type = FALSE;
+    r_file->priv->thumbnail_state = RSTTO_THUMBNAIL_STATE_UNPROCESSED;
+    r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NOT_DETERMINED;
+    r_file->priv->scale = RSTTO_SCALE_NONE;
+
+    if (rstto_file_is_valid (r_file))
+    {
+        /* this will send a request to the thumbnailer, which will trigger the necessary
+         * updates with its "ready" signal */
+        rstto_file_get_thumbnail (r_file, THUMBNAIL_SIZE_SMALL);
+
+        g_signal_emit (r_file, rstto_file_signals[RSTTO_FILE_SIGNAL_CHANGED], 0, NULL);
+    }
+    else
+        rstto_image_list_remove_file (rstto_main_window_get_app_image_list (), r_file);
 }

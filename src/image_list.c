@@ -787,15 +787,29 @@ cb_file_monitor_changed (
             s_r_file = g_object_ref (r_file);
             break;
         case G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
+            /* a file was created */
             if (s_r_file != NULL)
             {
                 rstto_image_list_add_file (image_list, s_r_file, NULL);
                 g_object_unref (s_r_file);
                 s_r_file = NULL;
             }
+            /* a file has changed */
+            else
+            {
+                rstto_file_changed (r_file);
+                if (image_list->priv->cb_rstto_image_list_compare_func ==
+                        cb_rstto_image_list_image_type_compare_func
+                    || image_list->priv->cb_rstto_image_list_compare_func ==
+                        cb_rstto_image_list_exif_date_compare_func)
+                {
+                    rstto_image_list_set_compare_func (image_list,
+                        image_list->priv->cb_rstto_image_list_compare_func);
+                }
+            }
             break;
         case G_FILE_MONITOR_EVENT_CHANGED:
-            rstto_file_changed (r_file);
+            /* wait for DONE_HINT to update the image, so that we can get its mime type */
             break;
         default:
             break;

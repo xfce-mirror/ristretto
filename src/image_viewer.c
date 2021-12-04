@@ -2303,10 +2303,6 @@ rstto_image_viewer_is_busy (RsttoImageViewer *viewer)
 static void
 cb_rstto_image_viewer_file_changed (RsttoFile *r_file, RsttoImageViewer *viewer)
 {
-    rstto_image_viewer_load_image (
-            viewer,
-            r_file,
-            viewer->priv->scale);
-
+    rstto_image_viewer_load_image (viewer, r_file, viewer->priv->auto_scale);
     g_signal_emit_by_name (viewer, "status-changed");
 }
