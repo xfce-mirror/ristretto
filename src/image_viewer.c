@@ -757,11 +757,11 @@ set_device_scale (GObject *window,
     RsttoImageViewer *viewer = data;
     gint scale;
 
+    g_object_get (window, "device-scale", &scale, NULL);
+    viewer->priv->device_scale = scale;
+
     if (viewer->priv->image_width > 0)
     {
-        g_object_get (window, "device-scale", &scale, NULL);
-        viewer->priv->device_scale = scale;
-
         /* do not scale the image with the rest of the window */
         viewer->priv->image_width = viewer->priv->original_image_width / scale;
         viewer->priv->image_height = viewer->priv->original_image_height / scale;
@@ -1401,8 +1401,8 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
         monitor = gdk_display_get_monitor_at_window (gdk_display_get_default (),
                                                      gtk_widget_get_window (GTK_WIDGET (viewer)));
         gdk_monitor_get_geometry (monitor, &rect);
-        transaction->monitor_width = rect.width;
-        transaction->monitor_height = rect.height;
+        transaction->monitor_width = rect.width * viewer->priv->device_scale;
+        transaction->monitor_height = rect.height * viewer->priv->device_scale;
     }
 
     g_signal_connect (transaction->loader, "size-prepared", G_CALLBACK (cb_rstto_image_loader_size_prepared), transaction);
