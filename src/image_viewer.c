@@ -62,8 +62,6 @@ typedef enum
     RSTTO_IMAGE_VIEWER_MOTION_STATE_MOVE
 } RsttoImageViewerMotionState;
 
-static GdkScreen *default_screen = NULL;
-
 typedef struct _RsttoImageViewerTransaction RsttoImageViewerTransaction;
 
 
@@ -215,6 +213,15 @@ struct _RsttoImageViewerTransaction
     gdouble           image_scale;
     gdouble           scale;
 
+    /*
+     * GDK uses windowing system specific APIs to retrieve this, and X11 requires
+     * special processing to be used in multi-threaded context. So this must be
+     * retrieved before we start asynchronous image loading, so that we don't have
+     * to distinguish between windowing systems, or use X11-specific APIs in our code.
+     */
+    gint              monitor_width;
+    gint              monitor_height;
+
     /* File I/O data */
     /*****************/
     guchar           *buffer;
@@ -317,11 +324,6 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
 {
     GSList *list, *li;
     gchar **strv;
-
-    if (default_screen == NULL)
-    {
-        default_screen = gdk_screen_get_default ();
-    }
 
     viewer->priv = rstto_image_viewer_get_instance_private (viewer);
     viewer->priv->settings = rstto_settings_new ();
@@ -1391,6 +1393,18 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
     transaction->scale = scale;
     transaction->loader_closed_id = 0;
 
+    if (viewer->priv->limit_quality)
+    {
+        GdkMonitor *monitor;
+        GdkRectangle rect;
+
+        monitor = gdk_display_get_monitor_at_window (gdk_display_get_default (),
+                                                     gtk_widget_get_window (GTK_WIDGET (viewer)));
+        gdk_monitor_get_geometry (monitor, &rect);
+        transaction->monitor_width = rect.width;
+        transaction->monitor_height = rect.height;
+    }
+
     g_signal_connect (transaction->loader, "size-prepared", G_CALLBACK (cb_rstto_image_loader_size_prepared), transaction);
     g_signal_connect (transaction->loader, "closed", G_CALLBACK (cb_rstto_image_loader_closed), transaction);
 
@@ -1678,8 +1692,6 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader, RsttoImageViewerTran
 static void
 cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint height, RsttoImageViewerTransaction *transaction)
 {
-    gboolean limit_quality = transaction->viewer->priv->limit_quality;
-
     /*
      * By default, the image-size won't be limited to screen-size (since it's smaller)
      * or, because we don't want to reduce it.
@@ -1690,28 +1702,19 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
     transaction->image_width = width;
     transaction->image_height = height;
 
-    if (limit_quality)
+    if (transaction->viewer->priv->limit_quality)
     {
-        GdkMonitor *monitor = gdk_display_get_monitor_at_window (
-                gdk_screen_get_display (default_screen),
-                gtk_widget_get_window (GTK_WIDGET (transaction->viewer)));
-        gdouble s_width, s_height;
-        GdkRectangle monitor_geometry;
-
-        gdk_monitor_get_geometry (monitor, &monitor_geometry);
-        s_width = monitor_geometry.width;
-        s_height = monitor_geometry.height;
-
         /*
          * Set the maximum size of the loaded image to the screen-size.
          * TODO: Add some 'smart-stuff' here
          */
-        if (s_width < width || s_height < height)
+        if (transaction->monitor_width < width || transaction->monitor_height < height)
         {
+            gdouble s_width = transaction->monitor_width, s_height = transaction->monitor_height;
+
             /*
              * The image is loaded at the screen_size, calculate how this fits best.
              *  scale = MIN (width / screen_width, height / screen_height)
-             *
              */
             if (width / s_width < height / s_height)
             {
@@ -1723,14 +1726,6 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
                 transaction->image_scale = s_height / height;
                 gdk_pixbuf_loader_set_size (loader, s_height * width / height, s_height);
             }
-        }
-        else
-        {
-            /*
-             * Image-size won't be limited to screen-size (since it's smaller)
-             * Set the image_scale to 1.0 (100%)
-             */
-            transaction->image_scale = 1.0;
         }
     }
 }
