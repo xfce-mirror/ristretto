@@ -57,6 +57,9 @@ gint
 rstto_image_list_get_n_images (RsttoImageList *image_list);
 
 gboolean
+rstto_image_list_is_empty (RsttoImageList *image_list);
+
+gboolean
 rstto_image_list_add_file (RsttoImageList *image_list,
                            RsttoFile *file,
                            GError **error);

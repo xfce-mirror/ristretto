@@ -66,16 +66,19 @@ static gboolean
 rstto_image_list_set_directory_idle (gpointer data);
 static void
 rstto_image_list_set_compare_func (RsttoImageList *image_list,
-                                   GCompareFunc func);
+                                   GCompareDataFunc func);
 static gint
 cb_rstto_image_list_image_name_compare_func (gconstpointer a,
-                                             gconstpointer b);
+                                             gconstpointer b,
+                                             gpointer user_data);
 static gint
 cb_rstto_image_list_image_type_compare_func (gconstpointer a,
-                                             gconstpointer b);
+                                             gconstpointer b,
+                                             gpointer user_data);
 static gint
 cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
-                                            gconstpointer b);
+                                            gconstpointer b,
+                                            gpointer user_data);
 
 static void
 cb_file_monitor_changed (GFileMonitor *monitor,
@@ -175,9 +178,9 @@ struct _RsttoImageListPrivate
     GFileMonitor *dir_monitor;
     GList *image_monitors;
 
-    GList *images;
+    GQueue *images;
     GSList *iterators;
-    GCompareFunc cb_rstto_image_list_compare_func;
+    GCompareDataFunc cb_rstto_image_list_compare_func;
 
     gboolean wrap_images;
     gboolean is_busy;
@@ -221,6 +224,7 @@ rstto_image_list_init (RsttoImageList *image_list)
     image_list->priv->is_busy = FALSE;
     image_list->priv->settings = rstto_settings_new ();
     image_list->priv->thumbnailer = rstto_thumbnailer_new ();
+    image_list->priv->images = g_queue_new ();
 
     image_list->priv->cb_rstto_image_list_compare_func = cb_rstto_image_list_image_name_compare_func;
 
@@ -293,7 +297,7 @@ rstto_image_list_finalize (GObject *object)
 
         if (image_list->priv->images)
         {
-            g_list_free_full (image_list->priv->images, g_object_unref);
+            g_queue_free_full (image_list->priv->images, g_object_unref);
             image_list->priv->images = NULL;
         }
     }
@@ -325,7 +329,7 @@ rstto_image_list_add_file (RsttoImageList *image_list,
     g_return_val_if_fail (RSTTO_IS_FILE (r_file), FALSE);
 
     /* file already added */
-    if (g_list_find (image_list->priv->images, r_file))
+    if (g_queue_find (image_list->priv->images, r_file))
         return TRUE;
 
     /* unsupported mime type */
@@ -335,8 +339,8 @@ rstto_image_list_add_file (RsttoImageList *image_list,
         return FALSE;
     }
 
-    image_list->priv->images = g_list_insert_sorted (image_list->priv->images, g_object_ref (r_file),
-                                                     image_list->priv->cb_rstto_image_list_compare_func);
+    g_queue_insert_sorted (image_list->priv->images, g_object_ref (r_file),
+                           image_list->priv->cb_rstto_image_list_compare_func, NULL);
 
     if (image_list->priv->dir_monitor == NULL)
     {
@@ -346,7 +350,7 @@ rstto_image_list_add_file (RsttoImageList *image_list,
     }
 
     path = gtk_tree_path_new ();
-    idx = g_list_index (image_list->priv->images, r_file);
+    idx = g_queue_index (image_list->priv->images, r_file);
     gtk_tree_path_append_index (path, idx);
     t_iter.stamp = image_list->priv->stamp;
     t_iter.user_data = r_file;
@@ -365,7 +369,13 @@ rstto_image_list_add_file (RsttoImageList *image_list,
 gint
 rstto_image_list_get_n_images (RsttoImageList *image_list)
 {
-    return g_list_length (image_list->priv->images);
+    return image_list->priv->images->length;
+}
+
+gboolean
+rstto_image_list_is_empty (RsttoImageList *image_list)
+{
+    return g_queue_is_empty (image_list->priv->images);
 }
 
 /**
@@ -382,9 +392,9 @@ rstto_image_list_get_iter (RsttoImageList *image_list)
     RsttoFile *r_file = NULL;
     RsttoImageListIter *iter = NULL;
 
-    if (image_list->priv->images)
+    if (! g_queue_is_empty (image_list->priv->images))
     {
-        r_file = image_list->priv->images->data;
+        r_file = image_list->priv->images->head->data;
     }
 
     iter = rstto_image_list_iter_new (image_list, r_file);
@@ -404,7 +414,7 @@ rstto_image_list_remove_file (RsttoImageList *image_list,
     GtkTreePath *path_;
     gint index_;
 
-    index_ = g_list_index (image_list->priv->images, r_file);
+    index_ = g_queue_index (image_list->priv->images, r_file);
     if (index_ == -1)
         return;
 
@@ -414,7 +424,7 @@ rstto_image_list_remove_file (RsttoImageList *image_list,
         if (r_iter->priv->r_file != r_file)
             continue;
 
-        if (r_iter->priv->r_file == g_list_last (image_list->priv->images)->data)
+        if (r_iter->priv->r_file == image_list->priv->images->tail->data)
             iter_previous (r_iter, r_iter->priv->sticky);
         else
             iter_next (r_iter, r_iter->priv->sticky);
@@ -430,7 +440,7 @@ rstto_image_list_remove_file (RsttoImageList *image_list,
         }
     }
 
-    image_list->priv->images = g_list_remove (image_list->priv->images, r_file);
+    g_queue_remove (image_list->priv->images, r_file);
     g_object_unref (r_file);
 
     path_ = gtk_tree_path_new ();
@@ -447,8 +457,8 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
     g_list_free_full (image_list->priv->image_monitors, g_object_unref);
     image_list->priv->image_monitors = NULL;
 
-    g_list_free_full (image_list->priv->images, g_object_unref);
-    image_list->priv->images = NULL;
+    g_queue_free_full (image_list->priv->images, g_object_unref);
+    image_list->priv->images = g_queue_new ();
 
     for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
         iter_set_position (iter->data, -1, FALSE);
@@ -498,7 +508,7 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
             /* load the first valid file, if needed */
             r_file = rstto_file_new (file);
             g_object_unref (file);
-            if (loaded_file == NULL && image_list->priv->images == NULL)
+            if (loaded_file == NULL && g_queue_is_empty (image_list->priv->images))
             {
                 if (! rstto_image_list_add_file (image_list, r_file, NULL))
                 {
@@ -519,7 +529,7 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
             /* no additional filtering here, it will be done gradually when validating files,
              * and the mime type will be refined at this time as well */
             rstto_file_set_content_type (r_file, filter_info.mime_type);
-            image_list->priv->images = g_list_prepend (image_list->priv->images, r_file);
+            g_queue_push_head (image_list->priv->images, r_file);
         }
     }
 
@@ -530,7 +540,7 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
     {
         /* we're done, inform the others */
         image_list->priv->is_busy = FALSE;
-        if (image_list->priv->images != NULL)
+        if (! g_queue_is_empty (image_list->priv->images))
             rstto_image_list_set_compare_func (image_list,
                                                image_list->priv->cb_rstto_image_list_compare_func);
         else
@@ -565,7 +575,7 @@ rstto_image_list_set_directory_finish (GObject *source_object,
     {
         /* we're done, inform the others */
         image_list->priv->is_busy = FALSE;
-        if (image_list->priv->images != NULL)
+        if (! g_queue_is_empty (image_list->priv->images))
         {
             rstto_image_list_set_compare_func (image_list,
                                                image_list->priv->cb_rstto_image_list_compare_func);
@@ -707,7 +717,7 @@ cb_file_monitor_changed (
     static RsttoFile *s_r_file = NULL;
 
     /* see if the file is already open */
-    for (list = image_list->priv->images; list != NULL; list = list->next)
+    for (list = image_list->priv->images->head; list != NULL; list = list->next)
         if (g_file_equal (file, rstto_file_get_file (list->data)))
         {
             r_file = g_object_ref (list->data);
@@ -849,7 +859,7 @@ rstto_image_list_iter_find_file (
         RsttoImageListIter *iter,
         RsttoFile *r_file)
 {
-    gint pos = g_list_index (iter->priv->image_list->priv->images, r_file);
+    gint pos = g_queue_index (iter->priv->image_list->priv->images, r_file);
 
     if (pos > -1)
     {
@@ -880,7 +890,7 @@ rstto_image_list_iter_get_position (RsttoImageListIter *iter)
     {
         return -1;
     }
-    return g_list_index (iter->priv->image_list->priv->images, iter->priv->r_file);
+    return g_queue_index (iter->priv->image_list->priv->images, iter->priv->r_file);
 }
 
 RsttoFile *
@@ -907,7 +917,7 @@ iter_set_position (
 
     if (pos >= 0)
     {
-        iter->priv->r_file = g_list_nth_data (iter->priv->image_list->priv->images, pos);
+        iter->priv->r_file = g_queue_peek_nth (iter->priv->image_list->priv->images, pos);
     }
 
     g_signal_emit (iter,
@@ -939,7 +949,7 @@ iter_next (
 
     if (r_file)
     {
-        position = g_list_find (iter->priv->image_list->priv->images, r_file);
+        position = g_queue_find (image_list->priv->images, r_file);
         iter->priv->r_file = NULL;
     }
 
@@ -958,7 +968,7 @@ iter_next (
 
         if (image_list->priv->wrap_images)
         {
-            position = g_list_first (iter->priv->image_list->priv->images);
+            position = image_list->priv->images->head;
 
             /* We could move forward, wrapped back to the start of the
              * list, set ret_val to TRUE
@@ -967,7 +977,7 @@ iter_next (
         }
         else
         {
-            position = g_list_last (iter->priv->image_list->priv->images);
+            position = image_list->priv->images->tail;
         }
 
         if (position)
@@ -1007,8 +1017,7 @@ rstto_image_list_iter_has_next (RsttoImageListIter *iter)
     }
     else
     {
-        if (rstto_image_list_iter_get_position (iter) ==
-            (rstto_image_list_get_n_images (image_list) - 1))
+        if (iter->priv->r_file == image_list->priv->images->tail->data)
         {
             return FALSE;
         }
@@ -1035,7 +1044,7 @@ iter_previous (
 
     if (iter->priv->r_file)
     {
-        position = g_list_find (iter->priv->image_list->priv->images, iter->priv->r_file);
+        position = g_queue_find (image_list->priv->images, iter->priv->r_file);
         iter->priv->r_file = NULL;
     }
 
@@ -1051,12 +1060,12 @@ iter_previous (
     {
         if (image_list->priv->wrap_images)
         {
-            position = g_list_last (iter->priv->image_list->priv->images);
+            position = image_list->priv->images->tail;
             ret_val = TRUE;
         }
         else
         {
-            position = g_list_first (iter->priv->image_list->priv->images);
+            position = image_list->priv->images->head;
         }
 
         if (position)
@@ -1116,7 +1125,7 @@ rstto_image_list_iter_clone (RsttoImageListIter *iter)
 }
 
 static void
-rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func)
+rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareDataFunc func)
 {
     RsttoFile *files[g_slist_length (image_list->priv->iterators)];
     GSList *iter;
@@ -1126,9 +1135,9 @@ rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func
 
     /* store iter files before sorting */
     for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
-        files[n] = rstto_image_list_iter_get_file (iter->data);
+        files[n] = RSTTO_IMAGE_LIST_ITER (iter->data)->priv->r_file;
 
-    image_list->priv->images = g_list_sort (image_list->priv->images, func);
+    g_queue_sort (image_list->priv->images, func, NULL);
 
     /* reposition iters on their file */
     for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
@@ -1169,7 +1178,8 @@ rstto_image_list_set_sort_by_date (RsttoImageList *image_list)
  */
 static gint
 cb_rstto_image_list_image_name_compare_func (gconstpointer a,
-                                             gconstpointer b)
+                                             gconstpointer b,
+                                             gpointer user_data)
 {
     const gchar *a_collate_key = rstto_file_get_collate_key ((RsttoFile *) a);
     const gchar *b_collate_key = rstto_file_get_collate_key ((RsttoFile *) b);
@@ -1187,7 +1197,8 @@ cb_rstto_image_list_image_name_compare_func (gconstpointer a,
  */
 static gint
 cb_rstto_image_list_image_type_compare_func (gconstpointer a,
-                                             gconstpointer b)
+                                             gconstpointer b,
+                                             gpointer user_data)
 {
     const gchar *a_content_type = rstto_file_get_content_type ((RsttoFile *) a);
     const gchar *b_content_type = rstto_file_get_content_type ((RsttoFile *) b);
@@ -1206,7 +1217,8 @@ cb_rstto_image_list_image_type_compare_func (gconstpointer a,
  */
 static gint
 cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
-                                            gconstpointer b)
+                                            gconstpointer b,
+                                            gpointer user_data)
 {
     guint64 a_t = rstto_file_get_modified_time ((RsttoFile *) a);
     guint64 b_t = rstto_file_get_modified_time ((RsttoFile *) b);
@@ -1299,7 +1311,7 @@ image_list_model_get_iter (
 
     if (index_ >= 0)
     {
-        file = g_list_nth_data (image_list->priv->images, index_);
+        file = g_queue_peek_nth (image_list->priv->images, index_);
     }
 
     if (NULL == file)
@@ -1351,7 +1363,7 @@ image_list_model_iter_children (
 
     image_list = RSTTO_IMAGE_LIST (tree_model);
 
-    file = g_list_nth_data (image_list->priv->images, 0);
+    file = image_list->priv->images->head->data;
 
     if (NULL == file)
     {
@@ -1416,10 +1428,10 @@ image_list_model_iter_next (
 
     pos = GPOINTER_TO_INT (iter->user_data3);
     if (pos == 0)
-        s_list = image_list->priv->images;
+        s_list = image_list->priv->images->head;
     /* unlikely, and in any case should happen only once at initialization */
     else if (pos != s_pos)
-        s_list = g_list_nth (image_list->priv->images, pos);
+        s_list = g_queue_peek_nth_link (image_list->priv->images, pos);
 
     if (s_list == NULL || s_list->next == NULL)
         return FALSE;
@@ -1466,7 +1478,7 @@ cb_rstto_thumbnailer_ready (
     GtkTreeIter iter;
     gint index_;
 
-    index_ = g_list_index (image_list->priv->images, file);
+    index_ = g_queue_index (image_list->priv->images, file);
     if (index_ >= 0)
     {
         path_ = gtk_tree_path_new ();

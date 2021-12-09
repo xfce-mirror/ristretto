@@ -2489,7 +2489,7 @@ cb_rstto_main_window_state_event (GtkWidget *widget, GdkEventWindowState *event,
                     rstto_settings_get_boolean_property (window->priv->settings_manager, "show-clock"));
 
             gtk_widget_hide (window->priv->menubar);
-            if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
+            if (! rstto_image_list_is_empty (window->priv->image_list))
             {
                 gtk_widget_hide (window->priv->toolbar);
             }
@@ -2505,7 +2505,7 @@ cb_rstto_main_window_state_event (GtkWidget *widget, GdkEventWindowState *event,
                 {
                     REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
                 }
-                if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
+                if (! rstto_image_list_is_empty (window->priv->image_list))
                 {
                     window->priv->show_fs_toolbar_timeout_id =
                             g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
@@ -2527,7 +2527,7 @@ cb_rstto_main_window_state_event (GtkWidget *widget, GdkEventWindowState *event,
                 gtk_widget_hide (window->priv->t_bar_s_window);
             }
 
-            if (rstto_image_list_get_n_images (window->priv->image_list) == 0)
+            if (rstto_image_list_is_empty (window->priv->image_list))
             {
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
                 gtk_ui_manager_add_ui (
@@ -2610,7 +2610,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
             if (rstto_settings_get_boolean_property (window->priv->settings_manager, "show-thumbnailbar"))
             {
-                if (rstto_image_list_get_n_images (window->priv->image_list) > 0)
+                if (! rstto_image_list_is_empty (window->priv->image_list))
                 {
                     gtk_widget_show (window->priv->t_bar_s_window);
                 }
@@ -2636,7 +2636,7 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window, GdkEventMotio
 
         /* Show toolbar when the mouse pointer is moved to the top of the screen */
         if (event->y < 1 && event->window == gtk_widget_get_window (window->priv->image_viewer)
-            && rstto_image_list_get_n_images (window->priv->image_list) != 0)
+            && ! rstto_image_list_is_empty (window->priv->image_list))
         {
             gtk_widget_show (window->priv->toolbar);
             window->priv->fs_toolbar_sticky = TRUE;
@@ -2709,7 +2709,7 @@ cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget, GdkEven
     RsttoMainWindow *window = user_data;
     if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN)
     {
-        if (rstto_image_list_get_n_images (window->priv->image_list) != 0)
+        if (! rstto_image_list_is_empty (window->priv->image_list))
         {
             window->priv->fs_toolbar_sticky = FALSE;
             if (window->priv->show_fs_toolbar_timeout_id > 0)
@@ -3816,7 +3816,7 @@ cb_rstto_main_window_delete (
         return;
     }
 
-    g_return_if_fail (rstto_image_list_get_n_images (window->priv->image_list) > 0);
+    g_return_if_fail (! rstto_image_list_is_empty (window->priv->image_list));
 
     if (gtk_get_current_event_state (&state))
     {
@@ -4003,7 +4003,7 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 G_GNUC_END_IGNORE_DEPRECATIONS
     if (active)
     {
-        if (rstto_image_list_get_n_images (window->priv->image_list) > 0)
+        if (! rstto_image_list_is_empty (window->priv->image_list))
             gtk_widget_show (window->priv->t_bar_s_window);
     }
     else
