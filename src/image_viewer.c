@@ -1264,7 +1264,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
             /*
              * If the old, and new file are equal, do nothing.
              */
-            if (!rstto_file_equal (viewer->priv->file, file))
+            if (viewer->priv->file != file)
             {
                 /*
                  * This will first need to return to the 'main' loop before it cleans up after itself.
@@ -1778,9 +1778,9 @@ cb_rstto_image_loader_closed_idle (gpointer data)
                          gtk_adjustment_get_value (viewer->priv->hadjustment),
                          gtk_adjustment_get_value (viewer->priv->vadjustment));
         gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
-    }
 
-    g_signal_emit_by_name (transaction->viewer, "size-ready");
+        g_signal_emit_by_name (transaction->viewer, "size-ready");
+    }
 
     transaction->loader_closed_id = 0;
 

@@ -103,10 +103,6 @@ static gint
 cb_compare_app_infos (gconstpointer a,
                       gconstpointer b);
 static void
-cb_rstto_thumbnailer_ready (RsttoThumbnailer *thumbnailer,
-                            RsttoFile *file,
-                            gpointer user_data);
-static void
 rstto_main_window_image_list_iter_changed (RsttoMainWindow *window);
 static gboolean
 rstto_main_window_recent_filter (const GtkRecentFilterInfo *filter_info,
@@ -214,7 +210,10 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
                                 gchar **uris,
                                 RsttoMainWindow *window);
 static void
-cb_rstto_main_window_update_title (RsttoMainWindow *window);
+cb_rstto_main_window_set_title (RsttoMainWindow *window);
+static void
+cb_rstto_main_window_set_icon (RsttoMainWindow *window,
+                               RsttoFile *file);
 
 static void
 cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget,
@@ -1278,8 +1277,8 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     g_signal_connect (window->priv->settings_manager, "notify::desktop-type",
                       G_CALLBACK (cb_rstto_desktop_type_changed), window);
 
-    g_signal_connect (window->priv->thumbnailer, "ready",
-                      G_CALLBACK (cb_rstto_thumbnailer_ready), window);
+    g_signal_connect_swapped (window->priv->thumbnailer, "ready",
+                              G_CALLBACK (cb_rstto_main_window_set_icon), window);
 }
 
 static void
@@ -1501,9 +1500,9 @@ rstto_main_window_new (RsttoImageList *image_list, gboolean fullscreen)
 
     app_image_list = window->priv->image_list = g_object_ref (image_list);
     g_signal_connect_swapped (image_list, "row-deleted",
-                              G_CALLBACK (cb_rstto_main_window_update_title), window);
+                              G_CALLBACK (cb_rstto_main_window_set_title), window);
     g_signal_connect_swapped (image_list, "row-inserted",
-                              G_CALLBACK (cb_rstto_main_window_update_title), window);
+                              G_CALLBACK (cb_rstto_main_window_set_title), window);
 
     switch (rstto_settings_get_uint_property (window->priv->settings_manager, "sort-type"))
     {
@@ -1553,8 +1552,6 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
     const gchar     *id;
     GtkWidget       *menu_item = NULL;
     GDesktopAppInfo *app_info = NULL;
-    const GdkPixbuf *pixbuf = NULL;
-    GdkPixbuf       *tmp;
 
     GtkWidget *open_with_menu = gtk_menu_new ();
     GtkWidget *open_with_window_menu = gtk_menu_new ();
@@ -1565,9 +1562,10 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
     if (window->priv->image_list)
     {
-        cb_rstto_main_window_update_title (window);
+        cb_rstto_main_window_set_title (window);
 
         cur_file = rstto_image_list_iter_get_file (window->priv->iter);
+        cb_rstto_main_window_set_icon (window, cur_file);
         if (NULL != cur_file)
         {
             rstto_icon_bar_set_active (RSTTO_ICON_BAR (window->priv->thumbnailbar),
@@ -1580,18 +1578,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
                                          rstto_file_get_auto_scale (cur_file),
                                          rstto_file_get_orientation (cur_file));
 
-            pixbuf = rstto_file_get_thumbnail (cur_file, THUMBNAIL_SIZE_SMALL);
-            if (pixbuf != NULL)
-            {
-                tmp = gdk_pixbuf_copy (pixbuf);
-                gtk_window_set_icon (GTK_WINDOW (window), tmp);
-                g_object_unref (tmp);
-            }
-            else
-            {
-                gtk_window_set_icon (GTK_WINDOW (window), NULL);
-                gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);
-            }
 
             app_list = g_app_info_get_all_for_type (content_type);
             editor = rstto_mime_db_lookup (window->priv->db, content_type);
@@ -1670,9 +1656,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
             gtk_widget_show_all (open_with_menu);
             gtk_widget_show_all (open_with_window_menu);
-
-            gtk_window_set_icon (GTK_WINDOW (window), NULL);
-            gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);
         }
 
         rstto_main_window_update_buttons (window);
@@ -3928,7 +3911,7 @@ cb_rstto_main_window_dnd_files (GtkWidget *widget,
 }
 
 static void
-cb_rstto_main_window_update_title (RsttoMainWindow *window)
+cb_rstto_main_window_set_title (RsttoMainWindow *window)
 {
     RsttoFile *file;
     gchar *title;
@@ -3953,6 +3936,24 @@ cb_rstto_main_window_update_title (RsttoMainWindow *window)
 
     gtk_window_set_title (GTK_WINDOW (window), title);
     g_free (title);
+}
+
+static void
+cb_rstto_main_window_set_icon (RsttoMainWindow *window,
+                               RsttoFile *file)
+{
+    const GdkPixbuf *pixbuf;
+
+    if (file != rstto_image_list_iter_get_file (window->priv->iter))
+        return;
+
+    if (file == NULL || (pixbuf = rstto_file_get_thumbnail (file, THUMBNAIL_SIZE_SMALL)) == NULL)
+    {
+        gtk_window_set_icon (GTK_WINDOW (window), NULL);
+        gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);
+    }
+    else
+        gtk_window_set_icon (GTK_WINDOW (window), (GdkPixbuf *) pixbuf);
 }
 
 /**********************/
@@ -4704,32 +4705,4 @@ cb_compare_app_infos (
         gconstpointer b)
 {
     return g_app_info_equal (G_APP_INFO (a), G_APP_INFO (b)) ? 0 : 1;
-}
-
-static void
-cb_rstto_thumbnailer_ready (
-        RsttoThumbnailer *thumbnailer,
-        RsttoFile *file,
-        gpointer user_data)
-{
-    RsttoMainWindow *window = user_data;
-    RsttoFile *cur_file = rstto_image_list_iter_get_file (window->priv->iter);
-    const GdkPixbuf *pixbuf = NULL;
-    GdkPixbuf *tmp;
-
-    if (file == cur_file)
-    {
-        pixbuf = rstto_file_get_thumbnail (file, THUMBNAIL_SIZE_SMALL);
-        if (pixbuf != NULL)
-        {
-            tmp = gdk_pixbuf_copy (pixbuf);
-            gtk_window_set_icon (GTK_WINDOW (window), tmp);
-            g_object_unref (tmp);
-        }
-        else
-        {
-            gtk_window_set_icon (GTK_WINDOW (window), NULL);
-            gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);
-        }
-    }
 }

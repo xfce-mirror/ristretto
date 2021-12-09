@@ -396,75 +396,47 @@ rstto_image_list_get_iter (RsttoImageList *image_list)
 
 
 void
-rstto_image_list_remove_file (
-        RsttoImageList *image_list,
-        RsttoFile *r_file)
+rstto_image_list_remove_file (RsttoImageList *image_list,
+                              RsttoFile *r_file)
 {
-    GSList *iter = NULL;
-    RsttoFile *r_file_a = NULL;
-    GtkTreePath *path_ = NULL;
-    gint index_ = g_list_index (image_list->priv->images, r_file);
-    gint n_images = rstto_image_list_get_n_images (image_list);
+    RsttoImageListIter *r_iter;
+    GSList *iter;
+    GtkTreePath *path_;
+    gint index_;
 
-    if (index_ != -1)
+    index_ = g_list_index (image_list->priv->images, r_file);
+    if (index_ == -1)
+        return;
+
+    for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
     {
+        r_iter = iter->data;
+        if (r_iter->priv->r_file != r_file)
+            continue;
 
-        iter = image_list->priv->iterators;
-        while (iter)
+        if (r_iter->priv->r_file == g_list_last (image_list->priv->images)->data)
+            iter_previous (r_iter, r_iter->priv->sticky);
+        else
+            iter_next (r_iter, r_iter->priv->sticky);
+
+        /* if the image is still the same, it's a single item list,
+         * and we should force the image in this iter to NULL */
+        if (r_iter->priv->r_file == r_file)
         {
-            if (rstto_file_equal (rstto_image_list_iter_get_file (iter->data), r_file))
-            {
-                if (rstto_image_list_iter_get_position (iter->data) == n_images - 1)
-                {
-                    iter_previous (iter->data, FALSE);
-                }
-                else
-                {
-                    iter_next (iter->data, FALSE);
-                }
-                /* If the image is still the same,
-                 * it's a single item list,
-                 * and we should force the image in this iter to NULL
-                 */
-                if (rstto_file_equal (
-                        rstto_image_list_iter_get_file (iter->data),
-                        r_file))
-                {
-
-                    image_list->priv->images = g_list_remove (image_list->priv->images, r_file);
-                    RSTTO_IMAGE_LIST_ITER (iter->data)->priv->r_file = NULL;
-                    g_signal_emit (iter->data,
-                            rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED],
-                            0, NULL);
-                }
-            }
-            iter = g_slist_next (iter);
+            r_iter->priv->r_file = NULL;
+            g_signal_emit (r_iter,
+                           rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED],
+                           0, NULL);
         }
-
-        image_list->priv->images = g_list_remove (image_list->priv->images, r_file);
-
-        path_ = gtk_tree_path_new ();
-        gtk_tree_path_append_index (path_, index_);
-
-        gtk_tree_model_row_deleted (GTK_TREE_MODEL (image_list), path_);
-
-        iter = image_list->priv->iterators;
-        while (iter)
-        {
-            r_file_a = rstto_image_list_iter_get_file (iter->data);
-            if (NULL != r_file_a)
-            {
-                if (rstto_file_equal (r_file_a, r_file))
-                {
-                    iter_next (iter->data, FALSE);
-                }
-            }
-            iter = g_slist_next (iter);
-        }
-
-        g_object_unref (r_file);
-        gtk_tree_path_free (path_);
     }
+
+    image_list->priv->images = g_list_remove (image_list->priv->images, r_file);
+    g_object_unref (r_file);
+
+    path_ = gtk_tree_path_new ();
+    gtk_tree_path_append_index (path_, index_);
+    gtk_tree_model_row_deleted (GTK_TREE_MODEL (image_list), path_);
+    gtk_tree_path_free (path_);
 }
 
 static void

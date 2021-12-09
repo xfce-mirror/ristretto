@@ -98,10 +98,6 @@ rstto_file_is_valid (RsttoFile *r_file);
 GFile *
 rstto_file_get_file (RsttoFile *r_file);
 
-gboolean
-rstto_file_equal (RsttoFile *r_file_a,
-                  RsttoFile *r_file_b);
-
 const gchar *
 rstto_file_get_display_name (RsttoFile *r_file);
 
