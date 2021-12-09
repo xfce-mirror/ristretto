@@ -35,7 +35,6 @@ enum
 {
     PROP_0,
     PROP_ORIENTATION,
-    PROP_FILE_COLUMN,
     PROP_MODEL,
     PROP_ACTIVE,
     PROP_SHOW_TEXT,
@@ -55,10 +54,6 @@ static GdkPixbuf *thumbnail_missing = NULL;
 typedef struct _RsttoIconBarItem RsttoIconBarItem;
 
 
-
-#define RSTTO_ICON_BAR_VALID_MODEL_AND_COLUMNS(obj) \
-            ((obj)->priv->model != NULL && \
-            (obj)->priv->file_column != -1)
 
 static void
 rstto_icon_bar_finalize (GObject *object);
@@ -200,7 +195,6 @@ struct _RsttoIconBarPrivate
 
     gint            width;
     gint            height;
-    gint            file_column;
 
     RsttoIconBarItem *active_item;
     RsttoIconBarItem *single_click_item;
@@ -271,22 +265,6 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
                 _("The orientation of the iconbar"),
                 GTK_TYPE_ORIENTATION,
                 GTK_ORIENTATION_VERTICAL,
-                G_PARAM_READWRITE));
-
-    /**
-     * RsttoIconBar:file-column:
-     *
-     * The ::file-column property contains the number of the model column
-     * containing the files which are displayed. The text column must be
-     * of type #RSTTO_TYPE_FILE. If this property is set to -1, no
-     * details are displayed.
-     **/
-    g_object_class_install_property (gobject_class,
-            PROP_FILE_COLUMN,
-            g_param_spec_int ("file-column",
-                _("File column"),
-                _("Model column used to retrieve the file from"),
-                -1, G_MAXINT, -1,
                 G_PARAM_READWRITE));
 
     /**
@@ -434,7 +412,6 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
     icon_bar->priv->n_visible_items = 1;
 
     icon_bar->priv->orientation = GTK_ORIENTATION_VERTICAL;
-    icon_bar->priv->file_column = -1;
     icon_bar->priv->show_text = TRUE;
     icon_bar->priv->settings = rstto_settings_new ();
     icon_bar->priv->thumbnailer = rstto_thumbnailer_new ();
@@ -508,10 +485,6 @@ rstto_icon_bar_get_property (
             g_value_set_enum (value, icon_bar->priv->orientation);
             break;
 
-        case PROP_FILE_COLUMN:
-            g_value_set_int (value, icon_bar->priv->file_column);
-            break;
-
         case PROP_MODEL:
             g_value_set_object (value, icon_bar->priv->model);
             break;
@@ -550,10 +523,6 @@ rstto_icon_bar_set_property (
     {
         case PROP_ORIENTATION:
             rstto_icon_bar_set_orientation (icon_bar, g_value_get_enum (value));
-            break;
-
-        case PROP_FILE_COLUMN:
-            rstto_icon_bar_set_file_column (icon_bar, g_value_get_int (value));
             break;
 
         case PROP_MODEL:
@@ -691,8 +660,7 @@ rstto_icon_bar_size_request (
     GList *lp;
     gint n, max_size = 0;
 
-    if (! RSTTO_ICON_BAR_VALID_MODEL_AND_COLUMNS (icon_bar)
-        || icon_bar->priv->items == NULL)
+    if (icon_bar->priv->model == NULL || icon_bar->priv->items == NULL)
     {
         icon_bar->priv->width = requisition->width = 0;
         icon_bar->priv->height = requisition->height = 0;
@@ -1023,7 +991,6 @@ rstto_icon_bar_paint_item (
         cairo_t          *cr)
 {
     RsttoFile       *file;
-    GtkTreeIter      iter;
     const GdkPixbuf *pixbuf = NULL;
     GdkRGBA         *border_color, *fill_color;
     GdkRGBA          tmp_color;
@@ -1031,7 +998,7 @@ rstto_icon_bar_paint_item (
     gint             x, y, ifocus_width, ifocus_pad;
     gint             pixbuf_width = 0, pixbuf_height = 0;
 
-    if (!RSTTO_ICON_BAR_VALID_MODEL_AND_COLUMNS (icon_bar))
+    if (icon_bar->priv->model == NULL)
         return;
 
     gtk_widget_style_get (GTK_WIDGET (icon_bar),
@@ -1041,14 +1008,8 @@ rstto_icon_bar_paint_item (
     focus_width = (gdouble) ifocus_width / icon_bar->priv->device_scale;
     focus_pad = (gdouble) ifocus_pad / icon_bar->priv->device_scale;
 
-    iter = item->iter;
-    gtk_tree_model_get (icon_bar->priv->model, &iter,
-            icon_bar->priv->file_column, &file,
-            -1);
-
+    gtk_tree_model_get (icon_bar->priv->model, &item->iter, 0, &file, -1);
     pixbuf = rstto_file_get_thumbnail (file, icon_bar->priv->thumbnail_size);
-
-    g_object_unref (file);
 
     if (NULL == pixbuf)
     {
@@ -1524,24 +1485,11 @@ rstto_icon_bar_set_model (
         RsttoIconBar *icon_bar,
         GtkTreeModel *model)
 {
-    GType file_column_type;
-
     g_return_if_fail (RSTTO_IS_ICON_BAR (icon_bar));
     g_return_if_fail (GTK_IS_TREE_MODEL (model) || model == NULL);
 
     if (G_UNLIKELY (model == icon_bar->priv->model))
         return;
-
-    if (model != NULL)
-    {
-        g_return_if_fail (gtk_tree_model_get_flags (model) & GTK_TREE_MODEL_LIST_ONLY);
-
-        if (icon_bar->priv->file_column != -1)
-        {
-            file_column_type = gtk_tree_model_get_column_type (model, icon_bar->priv->file_column);
-            g_return_if_fail (file_column_type == RSTTO_TYPE_FILE);
-        }
-    }
 
     if (icon_bar->priv->model)
     {
@@ -1598,66 +1546,6 @@ rstto_icon_bar_set_model (
 
     g_object_notify (G_OBJECT (icon_bar), "model");
 }
-
-
-/**
- * rstto_icon_bar_get_file_column:
- * @icon_bar  : An #RsttoIconBar.
- *
- * Returns the column with file for @icon_bar.
- *
- * Returns: the file column, or -1 if it's unset.
- **/
-gint
-rstto_icon_bar_get_file_column (RsttoIconBar *icon_bar)
-{
-    g_return_val_if_fail (RSTTO_IS_ICON_BAR (icon_bar), -1);
-    return icon_bar->priv->file_column;
-}
-
-
-
-/**
- * rstto_icon_bar_set_file_column:
- * @icon_bar  : An #RsttoIconBar.
- * @column    : A column in the currently used model or -1 to
- *              use no text in @icon_bar.
- *
- * Sets the column with text for @icon_bar to be @column. The
- * text column must be of type #G_TYPE_STRING.
- **/
-void
-rstto_icon_bar_set_file_column (
-        RsttoIconBar *icon_bar,
-        gint          column)
-{
-    GType file_column_type;
-
-    g_return_if_fail (RSTTO_IS_ICON_BAR (icon_bar));
-
-    if (column == icon_bar->priv->file_column)
-        return;
-
-    if (column == -1)
-    {
-        icon_bar->priv->file_column = -1;
-    }
-    else
-    {
-        if (icon_bar->priv->model != NULL)
-        {
-            file_column_type = gtk_tree_model_get_column_type (icon_bar->priv->model, column);
-            g_return_if_fail (file_column_type == RSTTO_TYPE_FILE);
-        }
-
-        icon_bar->priv->file_column = column;
-    }
-
-    rstto_icon_bar_invalidate (icon_bar);
-
-    g_object_notify (G_OBJECT (icon_bar), "file-column");
-}
-
 
 
 /**

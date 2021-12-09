@@ -51,12 +51,6 @@ void
 rstto_icon_bar_set_model (RsttoIconBar *icon_bar,
                           GtkTreeModel *model);
 
-gint
-rstto_icon_bar_get_file_column (RsttoIconBar *icon_bar);
-void
-rstto_icon_bar_set_file_column (RsttoIconBar *icon_bar,
-                                gint column);
-
 GtkOrientation
 rstto_icon_bar_get_orientation (RsttoIconBar *icon_bar);
 void

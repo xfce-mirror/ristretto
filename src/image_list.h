@@ -74,12 +74,6 @@ rstto_image_list_set_directory (RsttoImageList *image_list,
 gboolean
 rstto_image_list_is_busy (RsttoImageList *list);
 
-GCompareFunc
-rstto_image_list_get_compare_func (RsttoImageList *image_list);
-void
-rstto_image_list_set_compare_func (RsttoImageList *image_list,
-                                   GCompareFunc func);
-
 /** Built-in Sorting Functions */
 void
 rstto_image_list_set_sort_by_name (RsttoImageList *image_list);

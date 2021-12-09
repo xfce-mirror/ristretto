@@ -53,14 +53,29 @@ static gint rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_COUNT];
 
 
 
-static void
-rstto_image_list_tree_model_init (GtkTreeModelIface *iface);
-static void
-rstto_image_list_tree_sortable_init (GtkTreeSortableIface *iface);
-
-
+/* RsttoImageList */
 static void
 rstto_image_list_finalize (GObject *object);
+
+static void
+rstto_image_list_monitor_dir (RsttoImageList *image_list,
+                              GFile *dir);
+static void
+rstto_image_list_remove_all (RsttoImageList *image_list);
+static gboolean
+rstto_image_list_set_directory_idle (gpointer data);
+static void
+rstto_image_list_set_compare_func (RsttoImageList *image_list,
+                                   GCompareFunc func);
+static gint
+cb_rstto_image_list_image_name_compare_func (gconstpointer a,
+                                             gconstpointer b);
+static gint
+cb_rstto_image_list_image_type_compare_func (gconstpointer a,
+                                             gconstpointer b);
+static gint
+cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
+                                            gconstpointer b);
 
 static void
 cb_file_monitor_changed (GFileMonitor *monitor,
@@ -68,15 +83,6 @@ cb_file_monitor_changed (GFileMonitor *monitor,
                          GFile *other_file,
                          GFileMonitorEvent event_type,
                          gpointer user_data);
-
-
-static void
-rstto_image_list_iter_finalize (GObject *object);
-
-static RsttoImageListIter *
-rstto_image_list_iter_new (RsttoImageList *nav,
-                           RsttoFile *r_file);
-
 static void
 cb_rstto_wrap_images_changed (GObject *settings,
                               GParamSpec *pspec,
@@ -85,13 +91,15 @@ static void
 cb_rstto_thumbnailer_ready (RsttoThumbnailer *thumbnailer,
                             RsttoFile *file,
                             gpointer user_data);
+
+/* RsttoImageListIter */
 static void
-rstto_image_list_monitor_dir (RsttoImageList *image_list,
-                              GFile *dir);
-static void
-rstto_image_list_remove_all (RsttoImageList *image_list);
-static gboolean
-rstto_image_list_set_directory_idle (gpointer data);
+rstto_image_list_iter_finalize (GObject *object);
+
+static RsttoImageListIter *
+rstto_image_list_iter_new (RsttoImageList *nav,
+                           RsttoFile *r_file);
+
 static gboolean
 iter_next (RsttoImageListIter *iter,
            gboolean sticky);
@@ -104,9 +112,10 @@ iter_set_position (RsttoImageListIter *iter,
                    gboolean sticky);
 
 
-/***************************************/
-/*  Begin TreeModelIface Functions     */
-/***************************************/
+/* TreeModelIface */
+static void
+rstto_image_list_tree_model_init (GtkTreeModelIface *iface);
+
 static GtkTreeModelFlags
 image_list_model_get_flags (GtkTreeModel *tree_model);
 static gint
@@ -148,47 +157,32 @@ image_list_model_iter_nth_child (GtkTreeModel *tree_model,
 static gboolean
 image_list_model_iter_next (GtkTreeModel *tree_model,
                             GtkTreeIter *iter);
-/***************************************/
-/*  End TreeModelIface Functions       */
-/***************************************/
-
-
-static gint
-cb_rstto_image_list_image_name_compare_func (gconstpointer a,
-                                             gconstpointer b);
-static gint
-cb_rstto_image_list_image_type_compare_func (gconstpointer a,
-                                             gconstpointer b);
-static gint
-cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
-                                            gconstpointer b);
 
 
 
 struct _RsttoImageListIterPrivate
 {
     RsttoImageList *image_list;
-    RsttoFile      *r_file;
-
-    /* This is set if the iter-position is chosen by the user */
-    gboolean        sticky;
+    RsttoFile *r_file;
+    gboolean sticky;
 };
 
 struct _RsttoImageListPrivate
 {
-    gint           stamp;
-    GFileMonitor  *dir_monitor;
-    gboolean       is_busy;
     RsttoSettings *settings;
     RsttoThumbnailer *thumbnailer;
 
-    GList        *image_monitors;
-    GList        *images;
+    GFileMonitor *dir_monitor;
+    GList *image_monitors;
 
-    GSList       *iterators;
-    GCompareFunc  cb_rstto_image_list_compare_func;
+    GList *images;
+    GSList *iterators;
+    GCompareFunc cb_rstto_image_list_compare_func;
 
-    gboolean      wrap_images;
+    gboolean wrap_images;
+    gboolean is_busy;
+
+    gint stamp;
 };
 
 
@@ -196,9 +190,7 @@ struct _RsttoImageListPrivate
 G_DEFINE_TYPE_WITH_CODE (RsttoImageList, rstto_image_list, G_TYPE_OBJECT,
                          G_ADD_PRIVATE (RsttoImageList)
                          G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL,
-                                                rstto_image_list_tree_model_init)
-                         G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_SORTABLE,
-                                                rstto_image_list_tree_sortable_init))
+                                                rstto_image_list_tree_model_init))
 
 G_DEFINE_TYPE_WITH_PRIVATE (RsttoImageListIter, rstto_image_list_iter, G_TYPE_OBJECT)
 
@@ -219,18 +211,6 @@ rstto_image_list_tree_model_init (GtkTreeModelIface *iface)
     iface->iter_nth_child  = image_list_model_iter_nth_child;
     iface->iter_parent     = image_list_model_iter_parent;
     iface->iter_next       = image_list_model_iter_next;
-}
-
-static void
-rstto_image_list_tree_sortable_init (GtkTreeSortableIface *iface)
-{
-#if 0
-    iface->get_sort_column_id    = sq_archive_store_get_sort_column_id;
-    iface->set_sort_column_id    = sq_archive_store_set_sort_column_id;
-    iface->set_sort_func         = sq_archive_store_set_sort_func;            /*NOT SUPPORTED*/
-    iface->set_default_sort_func = sq_archive_store_set_default_sort_func;    /*NOT SUPPORTED*/
-    iface->has_default_sort_func = sq_archive_store_has_default_sort_func;
-#endif
 }
 
 static void
@@ -1163,13 +1143,7 @@ rstto_image_list_iter_clone (RsttoImageListIter *iter)
     return rstto_image_list_iter_new (iter->priv->image_list, iter->priv->r_file);
 }
 
-GCompareFunc
-rstto_image_list_get_compare_func (RsttoImageList *image_list)
-{
-    return image_list->priv->cb_rstto_image_list_compare_func;
-}
-
-void
+static void
 rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareFunc func)
 {
     RsttoFile *files[g_slist_length (image_list->priv->iterators)];
@@ -1307,7 +1281,7 @@ image_list_model_get_n_columns (GtkTreeModel *tree_model)
 {
     g_return_val_if_fail (RSTTO_IS_IMAGE_LIST (tree_model), 0);
 
-    return 2;
+    return 1;
 }
 
 static GType
@@ -1319,14 +1293,11 @@ image_list_model_get_column_type (
 
     switch (index_)
     {
-        case 0: /* file */
+        case 0:
             return RSTTO_TYPE_FILE;
-        case 1:
-            return GDK_TYPE_PIXBUF;
-            break;
         default:
+            g_warn_if_reached ();
             return G_TYPE_INVALID;
-            break;
     }
 }
 
@@ -1504,8 +1475,11 @@ image_list_model_get_value (
     {
         case 0:
             g_value_init (value, RSTTO_TYPE_FILE);
-            g_value_set_object (value, file);
+            g_value_take_object (value, file);
             break;
+        default:
+            g_warn_if_reached ();
+            return;
     }
 }
 

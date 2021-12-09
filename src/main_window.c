@@ -1061,7 +1061,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     gtk_container_add (GTK_CONTAINER (window->priv->t_bar_s_window), window->priv->thumbnailbar);
 
     rstto_icon_bar_set_show_text (RSTTO_ICON_BAR (window->priv->thumbnailbar), FALSE);
-    rstto_icon_bar_set_file_column (RSTTO_ICON_BAR (window->priv->thumbnailbar), 0);
     rstto_icon_bar_set_item_width (RSTTO_ICON_BAR (window->priv->thumbnailbar), 96);
 
     g_signal_connect (window->priv->thumbnailbar, "selection-changed",
