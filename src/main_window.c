@@ -3116,8 +3116,9 @@ cb_rstto_main_window_default_zoom (GtkRadioAction *action,
                                    GtkRadioAction *current,
                                    RsttoMainWindow *window)
 {
-    RsttoImageListIter *iter;
-    RsttoFile *file, *first_file;
+    GtkTreeModel *model = GTK_TREE_MODEL (window->priv->image_list);
+    GtkTreeIter iter;
+    RsttoFile *file;
 
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     rstto_settings_set_int_property (RSTTO_SETTINGS (window->priv->settings_manager),
@@ -3125,21 +3126,16 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
                                      gtk_radio_action_get_current_value (current));
 G_GNUC_END_IGNORE_DEPRECATIONS
 
-    if (rstto_image_list_get_n_images (window->priv->image_list) > 0)
+    if (gtk_tree_model_get_iter_first (model, &iter))
     {
         /* reset stored scale for all images */
-        iter = rstto_image_list_get_iter (window->priv->image_list);
-        rstto_image_list_iter_set_position (iter, 0);
-        file = first_file = rstto_image_list_iter_get_file (iter);
         do
         {
+            gtk_tree_model_get (model, &iter, 0, &file, -1);
             rstto_file_set_scale (file, RSTTO_SCALE_NONE);
             rstto_file_set_auto_scale (file, RSTTO_SCALE_NONE);
         }
-        while (rstto_image_list_iter_next (iter)
-               && (file = rstto_image_list_iter_get_file (iter)) != first_file);
-
-        g_object_unref (iter);
+        while (gtk_tree_model_iter_next (model, &iter));
 
         /* reset current image scale */
         rstto_image_viewer_set_scale (RSTTO_IMAGE_VIEWER (window->priv->image_viewer),
