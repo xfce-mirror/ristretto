@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2021-10-28 00:48+0200\n"
-"PO-Revision-Date: 2021-10-29 03:58+0000\n"
-"Last-Translator: 玉堂白鹤 <yjwork@qq.com>\n"
+"POT-Creation-Date: 2021-12-10 12:50+0100\n"
+"PO-Revision-Date: 2021-12-10 11:50+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/xfce/xfce-apps/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,611 +70,603 @@ msgstr "从磁盘上删除图片 ‘%s’ 时出错"
 msgid "An error occurred when sending image '%s' to trash"
 msgstr "将图片'%s' 发送到回收站时发生错误 "
 
-#: ../src/main_window.c:315
+#: ../src/main_window.c:329
 msgid "_File"
 msgstr "文件(_F)"
 
 #. Icon-name
-#: ../src/main_window.c:321
+#: ../src/main_window.c:335
 msgid "_Open..."
 msgstr "打开(_O)..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:323
+#: ../src/main_window.c:337
 msgid "Open an image"
 msgstr "打开图片"
 
 #. Icon-name
-#: ../src/main_window.c:327
+#: ../src/main_window.c:341
 msgid "_Save copy..."
 msgstr "保存副本(_S)..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:329
+#: ../src/main_window.c:343
 msgid "Save a copy of the image"
 msgstr "保存此图片的一份副本"
 
 #. Icon-name
-#: ../src/main_window.c:333
+#: ../src/main_window.c:347
 msgid "_Properties..."
 msgstr "属性(_P)..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:335
+#: ../src/main_window.c:349
 msgid "Show file properties"
 msgstr "显示文件属性"
 
 #. Icon-name
-#: ../src/main_window.c:339 ../src/main_window.c:358
+#: ../src/main_window.c:353 ../src/main_window.c:372
 msgid "_Edit"
 msgstr "编辑(_E)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:341
+#: ../src/main_window.c:355
 msgid "Edit this image"
 msgstr "编辑此图片"
 
 #. Icon-name
-#: ../src/main_window.c:345 ../src/preferences_dialog.c:218
+#: ../src/main_window.c:359 ../src/preferences_dialog.c:218
 #: ../src/properties_dialog.c:102
 msgid "_Close"
 msgstr "关闭(_C)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:347
+#: ../src/main_window.c:361
 msgid "Close this image"
 msgstr "关闭此图片"
 
 #. Icon-name
-#: ../src/main_window.c:351
+#: ../src/main_window.c:365
 msgid "_Quit"
 msgstr "退出(_Q)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:353
+#: ../src/main_window.c:367
 msgid "Quit Ristretto"
 msgstr "退出 Ristretto"
 
-#: ../src/main_window.c:364
+#: ../src/main_window.c:378
 msgid "_Copy image to clipboard"
 msgstr "复制图像至剪贴板(_C)"
 
-#: ../src/main_window.c:370
+#: ../src/main_window.c:384
 msgid "_Open with"
 msgstr "打开方式(_O)"
 
-#: ../src/main_window.c:376
+#: ../src/main_window.c:390
 msgid "_Sort by"
 msgstr "排序方式(_S)"
 
 #. Icon-name
-#: ../src/main_window.c:382
+#: ../src/main_window.c:396
 msgid "_Delete"
 msgstr "删除(_D)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:384
+#: ../src/main_window.c:398
 msgid "Delete this image from disk"
 msgstr "从磁盘中删除此图片"
 
 #. Icon-name
-#: ../src/main_window.c:388
+#: ../src/main_window.c:402
 msgid "_Clear private data..."
 msgstr "清除隐私数据(_C)..."
 
 #. Icon-name
-#: ../src/main_window.c:394
+#: ../src/main_window.c:408
 msgid "_Preferences..."
 msgstr "首选项(_P)..."
 
-#: ../src/main_window.c:401
+#: ../src/main_window.c:415
 msgid "_View"
 msgstr "视图(_V)"
 
 #. Icon-name
-#: ../src/main_window.c:407
+#: ../src/main_window.c:421
 msgid "_Fullscreen"
 msgstr "全屏(_F)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:409
+#: ../src/main_window.c:423
 msgid "Switch to fullscreen"
 msgstr "切换至全屏"
 
 #. Icon-name
-#: ../src/main_window.c:413
+#: ../src/main_window.c:427
 msgid "_Leave Fullscreen"
 msgstr "离开全屏(_L)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:415
+#: ../src/main_window.c:429
 msgid "Leave Fullscreen"
 msgstr "离开全屏"
 
 #. Icon-name
-#: ../src/main_window.c:419
+#: ../src/main_window.c:433
 msgid "Set as _Wallpaper..."
 msgstr "设为壁纸(_W)..."
 
-#: ../src/main_window.c:426
+#: ../src/main_window.c:440
 msgid "_Zoom"
 msgstr "缩放(_Z)"
 
 #. Icon-name
-#: ../src/main_window.c:432
+#: ../src/main_window.c:446
 msgid "Zoom _In"
 msgstr "放大(_I)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:434
+#: ../src/main_window.c:448
 msgid "Zoom in"
 msgstr "放大"
 
 #. Icon-name
-#: ../src/main_window.c:438
+#: ../src/main_window.c:452
 msgid "Zoom _Out"
 msgstr "缩小(_O)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:440
+#: ../src/main_window.c:454
 msgid "Zoom out"
 msgstr "缩小"
 
 #. Icon-name
-#: ../src/main_window.c:444 ../src/main_window.c:728
+#: ../src/main_window.c:458 ../src/main_window.c:742
 msgid "Zoom _Fit"
 msgstr "合适大小(_F)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:446
+#: ../src/main_window.c:460
 msgid "Zoom to fit window"
 msgstr "缩放至合适大小"
 
 #. Icon-name
-#: ../src/main_window.c:450 ../src/main_window.c:734
+#: ../src/main_window.c:464 ../src/main_window.c:748
 msgid "_Normal Size"
 msgstr "正常大小(_N)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:452
+#: ../src/main_window.c:466
 msgid "Zoom to 100%"
 msgstr "缩放至 100%"
 
-#: ../src/main_window.c:457
+#: ../src/main_window.c:471
 msgid "_Default Zoom"
 msgstr "默认缩放(_Ｄ)"
 
-#: ../src/main_window.c:464
+#: ../src/main_window.c:478
 msgid "_Rotation"
 msgstr "旋转(_R)"
 
 #. Icon-name
-#: ../src/main_window.c:470
+#: ../src/main_window.c:484
 msgid "Rotate _Right"
 msgstr "顺时针旋转(_R)"
 
 #. Icon-name
-#: ../src/main_window.c:476
+#: ../src/main_window.c:490
 msgid "Rotate _Left"
 msgstr "逆时针旋转(_L)"
 
-#: ../src/main_window.c:483
+#: ../src/main_window.c:497
 msgid "_Flip"
 msgstr "翻转(_F)"
 
-#: ../src/main_window.c:489
+#: ../src/main_window.c:503
 msgid "Flip _Horizontally"
 msgstr "水平翻转(_H)"
 
-#: ../src/main_window.c:495
+#: ../src/main_window.c:509
 msgid "Flip _Vertically"
 msgstr "垂直翻转(_V)"
 
-#: ../src/main_window.c:502
+#: ../src/main_window.c:516
 msgid "_Go"
 msgstr "转到(_G)"
 
 #. Icon-name
-#: ../src/main_window.c:508
+#: ../src/main_window.c:522
 msgid "_Forward"
 msgstr "前进(_F)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:510
+#: ../src/main_window.c:524
 msgid "Next image"
 msgstr "下一个图片"
 
 #. Icon-name
-#: ../src/main_window.c:514
+#: ../src/main_window.c:528
 msgid "_Back"
 msgstr "后退(_B)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:516
+#: ../src/main_window.c:530
 msgid "Previous image"
 msgstr "上一个图片"
 
 #. Icon-name
-#: ../src/main_window.c:520
+#: ../src/main_window.c:534
 msgid "F_irst"
 msgstr "第一个(_I)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:522
+#: ../src/main_window.c:536
 msgid "First image"
 msgstr "第一个图片"
 
 #. Icon-name
-#: ../src/main_window.c:526
+#: ../src/main_window.c:540
 msgid "_Last"
 msgstr "最后一个(_L)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:528
+#: ../src/main_window.c:542
 msgid "Last image"
 msgstr "最后一个图片"
 
-#: ../src/main_window.c:533
+#: ../src/main_window.c:547
 msgid "_Help"
 msgstr "帮助(_H)"
 
 #. Icon-name
-#: ../src/main_window.c:539
+#: ../src/main_window.c:553
 msgid "_Contents"
 msgstr "内容(_C)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:541
+#: ../src/main_window.c:555
 msgid "Display ristretto user manual"
 msgstr "显示 ristretto 用户手册"
 
 #. Icon-name
-#: ../src/main_window.c:545
+#: ../src/main_window.c:559
 msgid "_About"
 msgstr "关于(_A)"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:547
+#: ../src/main_window.c:561
 msgid "Display information about ristretto"
 msgstr "显示 ristretto 的相关信息"
 
-#: ../src/main_window.c:552
+#: ../src/main_window.c:566
 msgid "_Position"
 msgstr "位置(_P)"
 
-#: ../src/main_window.c:558
+#: ../src/main_window.c:572
 msgid "_Size"
 msgstr "大小(_S)"
 
-#: ../src/main_window.c:564
+#: ../src/main_window.c:578
 msgid "Thumbnail Bar _Position"
 msgstr "缩略图栏位置(_P)"
 
-#: ../src/main_window.c:570
+#: ../src/main_window.c:584
 msgid "Thumb_nail Size"
 msgstr "缩略图大小(_N)"
 
 #. Icon-name
-#: ../src/main_window.c:577
+#: ../src/main_window.c:591
 msgid "Leave _Fullscreen"
 msgstr "离开全屏(_F)"
 
 #. Icon-name
-#: ../src/main_window.c:595
+#: ../src/main_window.c:609
 msgid "_Show Toolbar"
 msgstr "显示工具栏(_S)"
 
 #. Icon-name
-#: ../src/main_window.c:603
+#: ../src/main_window.c:617
 msgid "Show _Thumbnail Bar"
 msgstr "显示缩略图栏(_T)"
 
 #. Icon-name
-#: ../src/main_window.c:611
+#: ../src/main_window.c:625
 msgid "Show Status _Bar"
 msgstr "显示状态栏(_B)"
 
 #. Icon-name
-#: ../src/main_window.c:623
+#: ../src/main_window.c:637
 msgid "file name"
 msgstr "文件名"
 
 #. Icon-name
-#: ../src/main_window.c:629
+#: ../src/main_window.c:643
 msgid "file type"
 msgstr "文件类型"
 
 #. Icon-name
-#: ../src/main_window.c:635
+#: ../src/main_window.c:649
 msgid "date"
 msgstr "日期"
 
 #. Icon-name
-#: ../src/main_window.c:646
+#: ../src/main_window.c:660
 msgid "Left"
 msgstr "左边"
 
-#: ../src/main_window.c:652
+#: ../src/main_window.c:666
 msgid "Right"
 msgstr "右边"
 
-#: ../src/main_window.c:658
+#: ../src/main_window.c:672
 msgid "Top"
 msgstr "顶部"
 
-#: ../src/main_window.c:664
+#: ../src/main_window.c:678
 msgid "Bottom"
 msgstr "底部"
 
-#: ../src/main_window.c:675
+#: ../src/main_window.c:689
 msgid "Very Small"
 msgstr "非常小"
 
-#: ../src/main_window.c:681
+#: ../src/main_window.c:695
 msgid "Smaller"
 msgstr "较小"
 
-#: ../src/main_window.c:687
+#: ../src/main_window.c:701
 msgid "Small"
 msgstr "小"
 
-#: ../src/main_window.c:693
+#: ../src/main_window.c:707
 msgid "Normal"
 msgstr "正常"
 
-#: ../src/main_window.c:699
+#: ../src/main_window.c:713
 msgid "Large"
 msgstr "大"
 
-#: ../src/main_window.c:705
+#: ../src/main_window.c:719
 msgid "Larger"
 msgstr "较大"
 
-#: ../src/main_window.c:711
+#: ../src/main_window.c:725
 msgid "Very Large"
 msgstr "非常大"
 
 #. Icon-name
-#: ../src/main_window.c:722
+#: ../src/main_window.c:736
 msgid "_Smart Zoom"
 msgstr "智能缩放(_S)"
 
-#: ../src/main_window.c:860
+#: ../src/main_window.c:874
 msgid "Images"
 msgstr "图片"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:933
+#: ../src/main_window.c:945
 msgid "_Play"
 msgstr "播放(_P)"
 
-#: ../src/main_window.c:933
+#: ../src/main_window.c:945
 msgid "Play slideshow"
 msgstr "播放幻灯片"
 
-#: ../src/main_window.c:934
+#: ../src/main_window.c:946
 msgid "_Pause"
 msgstr "暂停(_P)"
 
-#: ../src/main_window.c:934
+#: ../src/main_window.c:946
 msgid "Pause slideshow"
 msgstr "暂停幻灯片"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:937
+#: ../src/main_window.c:949
 msgid "_Recently used"
 msgstr "最近使用(_R)"
 
-#: ../src/main_window.c:937
+#: ../src/main_window.c:949
 msgid "Recently used"
 msgstr "最近使用"
 
-#: ../src/main_window.c:1062 ../src/main_window.c:1698
+#: ../src/main_window.c:1074 ../src/main_window.c:1688
 msgid "Press open to select an image"
 msgstr "按打开选择图片"
 
-#: ../src/main_window.c:1620 ../src/main_window.c:1625
+#: ../src/main_window.c:1630 ../src/main_window.c:1635
 msgid "Open With Other _Application..."
 msgstr "用其它应用程序打开(_A)..."
 
-#: ../src/main_window.c:1647 ../src/main_window.c:1655
+#: ../src/main_window.c:1645 ../src/main_window.c:1653
 msgid "Empty"
 msgstr "空"
 
-#: ../src/main_window.c:1703
+#: ../src/main_window.c:1693
 msgid "Loading..."
 msgstr "正在载入..."
 
-#: ../src/main_window.c:2353
+#: ../src/main_window.c:2343
 msgid "Choose 'set wallpaper' method"
 msgstr "选择 ‘设置壁纸’ 的方式"
 
-#: ../src/main_window.c:2357 ../src/main_window.c:3436
-#: ../src/main_window.c:3524 ../src/main_window.c:4143
+#: ../src/main_window.c:2347 ../src/main_window.c:3481
+#: ../src/main_window.c:3569 ../src/main_window.c:4234
 #: ../src/privacy_dialog.c:149 ../src/xfce_wallpaper_manager.c:261
 #: ../src/gnome_wallpaper_manager.c:190
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: ../src/main_window.c:2360 ../src/main_window.c:4146
+#: ../src/main_window.c:2350 ../src/main_window.c:4237
 #: ../src/xfce_wallpaper_manager.c:267 ../src/gnome_wallpaper_manager.c:196
 msgid "_OK"
 msgstr "确定(_O)"
 
-#: ../src/main_window.c:2370 ../src/preferences_dialog.c:436
+#: ../src/main_window.c:2360 ../src/preferences_dialog.c:436
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "配置当前用何种系统管理您的桌面。\n此设置决定用于 <i>Ristretto</i>\n配置桌面壁纸的方式。"
 
-#: ../src/main_window.c:2396 ../src/preferences_dialog.c:448
+#: ../src/main_window.c:2386 ../src/preferences_dialog.c:448
 msgid "None"
 msgstr "无"
 
-#: ../src/main_window.c:2400 ../src/preferences_dialog.c:452
+#: ../src/main_window.c:2390 ../src/preferences_dialog.c:452
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2404 ../src/preferences_dialog.c:456
+#: ../src/main_window.c:2394 ../src/preferences_dialog.c:456
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2921
+#: ../src/main_window.c:2909
 msgid "Developers:"
 msgstr "开发者："
 
-#: ../src/main_window.c:2933 ../org.xfce.ristretto.appdata.xml.in.h:3
+#: ../src/main_window.c:2921 ../org.xfce.ristretto.appdata.xml.in.h:3
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto 是 Xfce 桌面环境下的图片查看器。"
 
-#: ../src/main_window.c:2941
+#: ../src/main_window.c:2929
 msgid "translator-credits"
 msgstr "WuLi <wurisky@gmail.com>, 2008.\nHunt Xu <mhuntxu@gmail.com>, 2008, 2009, 2010.\nChipong Luo <chipong.luo@yahoo.com>, 2011, 2012."
 
-#: ../src/main_window.c:3434
+#: ../src/main_window.c:3479
 msgid "Open image"
 msgstr "打开图片"
 
-#: ../src/main_window.c:3436
+#: ../src/main_window.c:3481
 msgid "_Open"
 msgstr "打开(_O)"
 
-#: ../src/main_window.c:3454
+#: ../src/main_window.c:3499
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3459
+#: ../src/main_window.c:3504
 msgid "All Files"
 msgstr "所有文件"
 
-#: ../src/main_window.c:3521
+#: ../src/main_window.c:3566
 msgid "Save copy"
 msgstr "保存副本"
 
-#: ../src/main_window.c:3525
+#: ../src/main_window.c:3570
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: ../src/main_window.c:3709
+#: ../src/main_window.c:3754
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "您确定要将图片 ‘%s’ 发送至回收站吗？"
 
-#: ../src/main_window.c:3713
+#: ../src/main_window.c:3758
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "您确定要从磁盘上删除图片 ‘%s’ 吗？"
 
-#: ../src/main_window.c:3725
+#: ../src/main_window.c:3770
 msgid "_Do not ask again for this session"
 msgstr "本会话中不再询问(_D)"
 
-#: ../src/main_window.c:4138
+#: ../src/main_window.c:4229
 msgid "Edit with"
 msgstr "编辑方式"
 
-#: ../src/main_window.c:4159
+#: ../src/main_window.c:4250
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "用此打开 %s 和其它 %s 类型的文件："
 
-#: ../src/main_window.c:4165
+#: ../src/main_window.c:4256
 msgid "Use as _default for this kind of file"
 msgstr "用作此种类文件的默认(_D)"
 
-#: ../src/main_window.c:4255
+#: ../src/main_window.c:4346
 msgid "Recommended Applications"
 msgstr "推荐的应用程序"
 
-#: ../src/main_window.c:4335
+#: ../src/main_window.c:4426
 msgid "Other Applications"
 msgstr "其它应用程序"
 
-#: ../src/icon_bar.c:262
+#: ../src/icon_bar.c:264
 msgid "Orientation"
 msgstr "方向"
 
-#: ../src/icon_bar.c:263
+#: ../src/icon_bar.c:265
 msgid "The orientation of the iconbar"
 msgstr "图标栏方向"
 
-#: ../src/icon_bar.c:279
-msgid "File column"
-msgstr "文件栏"
-
-#: ../src/icon_bar.c:280
-msgid "Model column used to retrieve the file from"
-msgstr "用来获取文件的模式栏"
-
-#: ../src/icon_bar.c:292
+#: ../src/icon_bar.c:278
 msgid "Icon Bar Model"
 msgstr "图标栏模式"
 
-#: ../src/icon_bar.c:293
+#: ../src/icon_bar.c:279
 msgid "Model for the icon bar"
 msgstr "图标栏模式"
 
-#: ../src/icon_bar.c:309
+#: ../src/icon_bar.c:295
 msgid "Active"
 msgstr "当前的"
 
-#: ../src/icon_bar.c:310
+#: ../src/icon_bar.c:296
 msgid "Active item index"
 msgstr "当前项目索引"
 
-#: ../src/icon_bar.c:326 ../src/icon_bar.c:327
+#: ../src/icon_bar.c:312 ../src/icon_bar.c:313
 msgid "Show Text"
 msgstr "显示文字"
 
-#: ../src/icon_bar.c:339
+#: ../src/icon_bar.c:325
 msgid "Scrolled window"
 msgstr "滚动窗口"
 
-#: ../src/icon_bar.c:340
+#: ../src/icon_bar.c:326
 msgid "Scrolled window icon bar is placed into"
 msgstr "滚动的窗口图标栏被放入"
 
-#: ../src/icon_bar.c:346 ../src/icon_bar.c:347
+#: ../src/icon_bar.c:332 ../src/icon_bar.c:333
 msgid "Active item fill color"
 msgstr "当前项目填充色"
 
-#: ../src/icon_bar.c:353 ../src/icon_bar.c:354
+#: ../src/icon_bar.c:339 ../src/icon_bar.c:340
 msgid "Active item border color"
 msgstr "当前项目边框色"
 
-#: ../src/icon_bar.c:360 ../src/icon_bar.c:361
+#: ../src/icon_bar.c:346 ../src/icon_bar.c:347
 msgid "Active item text color"
 msgstr "当前项目文字色"
 
-#: ../src/icon_bar.c:367 ../src/icon_bar.c:368
+#: ../src/icon_bar.c:353 ../src/icon_bar.c:354
 msgid "Cursor item fill color"
 msgstr "光标项目填充色"
 
-#: ../src/icon_bar.c:374 ../src/icon_bar.c:375
+#: ../src/icon_bar.c:360 ../src/icon_bar.c:361
 msgid "Cursor item border color"
 msgstr "光标项目边框色"
 
-#: ../src/icon_bar.c:381 ../src/icon_bar.c:382
+#: ../src/icon_bar.c:367 ../src/icon_bar.c:368
 msgid "Cursor item text color"
 msgstr "光标项目文字色"
 
@@ -896,7 +888,7 @@ msgstr "无法加载目录"
 msgid "Unsupported mime type"
 msgstr "不支持的 MIME 类型 "
 
-#: ../src/thumbnailer.c:320
+#: ../src/thumbnailer.c:292
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -906,7 +898,7 @@ msgid ""
 "to resolve this issue."
 msgstr "未能与 thumbnailer-service 联系，\n因此，未能创建缩略图。\n\n安装 <b>Tumbler</b> 或另一个\n<i>thumbnailing daemon</i>\n解决此问题。"
 
-#: ../src/thumbnailer.c:329
+#: ../src/thumbnailer.c:301
 msgid "Do _not show this message again"
 msgstr "不再显示此信息(_N)"
 
