@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2021-10-28 00:48+0200\n"
-"PO-Revision-Date: 2021-10-27 22:49+0000\n"
-"Last-Translator: Nick Schermer <nick@xfce.org>\n"
+"POT-Creation-Date: 2021-12-10 12:50+0100\n"
+"PO-Revision-Date: 2021-12-10 11:50+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Romanian (http://www.transifex.com/xfce/xfce-apps/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,611 +67,603 @@ msgstr ""
 msgid "An error occurred when sending image '%s' to trash"
 msgstr ""
 
-#: ../src/main_window.c:315
+#: ../src/main_window.c:329
 msgid "_File"
 msgstr "_Fișier"
 
 #. Icon-name
-#: ../src/main_window.c:321
+#: ../src/main_window.c:335
 msgid "_Open..."
 msgstr "_Deschide..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:323
+#: ../src/main_window.c:337
 msgid "Open an image"
 msgstr "Deschide o imagine"
 
 #. Icon-name
-#: ../src/main_window.c:327
+#: ../src/main_window.c:341
 msgid "_Save copy..."
 msgstr "_Salvează o copie..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:329
+#: ../src/main_window.c:343
 msgid "Save a copy of the image"
 msgstr "Salvează o copie a mesajului"
 
 #. Icon-name
-#: ../src/main_window.c:333
+#: ../src/main_window.c:347
 msgid "_Properties..."
 msgstr "_Proprietăți..."
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:335
+#: ../src/main_window.c:349
 msgid "Show file properties"
 msgstr "Arată proprietățile fișierului"
 
 #. Icon-name
-#: ../src/main_window.c:339 ../src/main_window.c:358
+#: ../src/main_window.c:353 ../src/main_window.c:372
 msgid "_Edit"
 msgstr "_Editare"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:341
+#: ../src/main_window.c:355
 msgid "Edit this image"
 msgstr "Editați imaginea"
 
 #. Icon-name
-#: ../src/main_window.c:345 ../src/preferences_dialog.c:218
+#: ../src/main_window.c:359 ../src/preferences_dialog.c:218
 #: ../src/properties_dialog.c:102
 msgid "_Close"
 msgstr "În_chide"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:347
+#: ../src/main_window.c:361
 msgid "Close this image"
 msgstr "Închide această imagine"
 
 #. Icon-name
-#: ../src/main_window.c:351
+#: ../src/main_window.c:365
 msgid "_Quit"
 msgstr "_Ieșire"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:353
+#: ../src/main_window.c:367
 msgid "Quit Ristretto"
 msgstr "Închidere Ristretto"
 
-#: ../src/main_window.c:364
+#: ../src/main_window.c:378
 msgid "_Copy image to clipboard"
 msgstr ""
 
-#: ../src/main_window.c:370
+#: ../src/main_window.c:384
 msgid "_Open with"
 msgstr "Deschide c_u"
 
-#: ../src/main_window.c:376
+#: ../src/main_window.c:390
 msgid "_Sort by"
 msgstr ""
 
 #. Icon-name
-#: ../src/main_window.c:382
+#: ../src/main_window.c:396
 msgid "_Delete"
 msgstr "Șt_erge"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:384
+#: ../src/main_window.c:398
 msgid "Delete this image from disk"
 msgstr "Șterge această imagine de pe disc"
 
 #. Icon-name
-#: ../src/main_window.c:388
+#: ../src/main_window.c:402
 msgid "_Clear private data..."
 msgstr "Șterge _datele private..."
 
 #. Icon-name
-#: ../src/main_window.c:394
+#: ../src/main_window.c:408
 msgid "_Preferences..."
 msgstr "_Preferințe..."
 
-#: ../src/main_window.c:401
+#: ../src/main_window.c:415
 msgid "_View"
 msgstr "_Vizualizare"
 
 #. Icon-name
-#: ../src/main_window.c:407
+#: ../src/main_window.c:421
 msgid "_Fullscreen"
 msgstr "_Pe tot ecranul"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:409
+#: ../src/main_window.c:423
 msgid "Switch to fullscreen"
 msgstr "Comută pe tot ecranul"
 
 #. Icon-name
-#: ../src/main_window.c:413
+#: ../src/main_window.c:427
 msgid "_Leave Fullscreen"
 msgstr "_Ecran normal"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:415
+#: ../src/main_window.c:429
 msgid "Leave Fullscreen"
 msgstr "Mărime normală"
 
 #. Icon-name
-#: ../src/main_window.c:419
+#: ../src/main_window.c:433
 msgid "Set as _Wallpaper..."
 msgstr "_Utilizează ca fundal..."
 
-#: ../src/main_window.c:426
+#: ../src/main_window.c:440
 msgid "_Zoom"
 msgstr "_Zoom"
 
 #. Icon-name
-#: ../src/main_window.c:432
+#: ../src/main_window.c:446
 msgid "Zoom _In"
 msgstr "Ap_ropie"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:434
+#: ../src/main_window.c:448
 msgid "Zoom in"
 msgstr "Apropie"
 
 #. Icon-name
-#: ../src/main_window.c:438
+#: ../src/main_window.c:452
 msgid "Zoom _Out"
 msgstr "Depăr_tează"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:440
+#: ../src/main_window.c:454
 msgid "Zoom out"
 msgstr "Depărtează"
 
 #. Icon-name
-#: ../src/main_window.c:444 ../src/main_window.c:728
+#: ../src/main_window.c:458 ../src/main_window.c:742
 msgid "Zoom _Fit"
 msgstr "_Potrivește"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:446
+#: ../src/main_window.c:460
 msgid "Zoom to fit window"
 msgstr "Potrivire la fereastră"
 
 #. Icon-name
-#: ../src/main_window.c:450 ../src/main_window.c:734
+#: ../src/main_window.c:464 ../src/main_window.c:748
 msgid "_Normal Size"
 msgstr "Mărime _originală"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:452
+#: ../src/main_window.c:466
 msgid "Zoom to 100%"
 msgstr "Mărime originală"
 
-#: ../src/main_window.c:457
+#: ../src/main_window.c:471
 msgid "_Default Zoom"
 msgstr ""
 
-#: ../src/main_window.c:464
+#: ../src/main_window.c:478
 msgid "_Rotation"
 msgstr "_Rotire"
 
 #. Icon-name
-#: ../src/main_window.c:470
+#: ../src/main_window.c:484
 msgid "Rotate _Right"
 msgstr "Rotește la _dreapta"
 
 #. Icon-name
-#: ../src/main_window.c:476
+#: ../src/main_window.c:490
 msgid "Rotate _Left"
 msgstr "Rotește la _stânga"
 
-#: ../src/main_window.c:483
+#: ../src/main_window.c:497
 msgid "_Flip"
 msgstr ""
 
-#: ../src/main_window.c:489
+#: ../src/main_window.c:503
 msgid "Flip _Horizontally"
 msgstr ""
 
-#: ../src/main_window.c:495
+#: ../src/main_window.c:509
 msgid "Flip _Vertically"
 msgstr ""
 
-#: ../src/main_window.c:502
+#: ../src/main_window.c:516
 msgid "_Go"
 msgstr "_Navigare"
 
 #. Icon-name
-#: ../src/main_window.c:508
+#: ../src/main_window.c:522
 msgid "_Forward"
 msgstr "Înaint_e"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:510
+#: ../src/main_window.c:524
 msgid "Next image"
 msgstr "Imaginea următoare"
 
 #. Icon-name
-#: ../src/main_window.c:514
+#: ../src/main_window.c:528
 msgid "_Back"
 msgstr "Înap_oi"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:516
+#: ../src/main_window.c:530
 msgid "Previous image"
 msgstr "Imaginea anterioară"
 
 #. Icon-name
-#: ../src/main_window.c:520
+#: ../src/main_window.c:534
 msgid "F_irst"
 msgstr "_Prima"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:522
+#: ../src/main_window.c:536
 msgid "First image"
 msgstr "Prima imagine"
 
 #. Icon-name
-#: ../src/main_window.c:526
+#: ../src/main_window.c:540
 msgid "_Last"
 msgstr "_Ultima"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:528
+#: ../src/main_window.c:542
 msgid "Last image"
 msgstr "Ultima imagine"
 
-#: ../src/main_window.c:533
+#: ../src/main_window.c:547
 msgid "_Help"
 msgstr "_Ajutor"
 
 #. Icon-name
-#: ../src/main_window.c:539
+#: ../src/main_window.c:553
 msgid "_Contents"
 msgstr "_Conținut"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:541
+#: ../src/main_window.c:555
 msgid "Display ristretto user manual"
 msgstr "Deschide manualul utilizatorului"
 
 #. Icon-name
-#: ../src/main_window.c:545
+#: ../src/main_window.c:559
 msgid "_About"
 msgstr "_Despre"
 
 #. Label-text
 #. Keyboard shortcut
-#: ../src/main_window.c:547
+#: ../src/main_window.c:561
 msgid "Display information about ristretto"
 msgstr "Arată detalii despre Ristretto"
 
-#: ../src/main_window.c:552
+#: ../src/main_window.c:566
 msgid "_Position"
 msgstr "_Poziție"
 
-#: ../src/main_window.c:558
+#: ../src/main_window.c:572
 msgid "_Size"
 msgstr "Mă_rime"
 
-#: ../src/main_window.c:564
+#: ../src/main_window.c:578
 msgid "Thumbnail Bar _Position"
 msgstr "_Poziția barei cu miniaturi"
 
-#: ../src/main_window.c:570
+#: ../src/main_window.c:584
 msgid "Thumb_nail Size"
 msgstr "_Dimensiuni miniaturi"
 
 #. Icon-name
-#: ../src/main_window.c:577
+#: ../src/main_window.c:591
 msgid "Leave _Fullscreen"
 msgstr "_Ecran normal"
 
 #. Icon-name
-#: ../src/main_window.c:595
+#: ../src/main_window.c:609
 msgid "_Show Toolbar"
 msgstr "Arată bara cu _unelte"
 
 #. Icon-name
-#: ../src/main_window.c:603
+#: ../src/main_window.c:617
 msgid "Show _Thumbnail Bar"
 msgstr "Arată bara cu _miniaturi"
 
 #. Icon-name
-#: ../src/main_window.c:611
+#: ../src/main_window.c:625
 msgid "Show Status _Bar"
 msgstr "Arată bara de _stare"
 
 #. Icon-name
-#: ../src/main_window.c:623
+#: ../src/main_window.c:637
 msgid "file name"
 msgstr ""
 
 #. Icon-name
-#: ../src/main_window.c:629
+#: ../src/main_window.c:643
 msgid "file type"
 msgstr ""
 
 #. Icon-name
-#: ../src/main_window.c:635
+#: ../src/main_window.c:649
 msgid "date"
 msgstr ""
 
 #. Icon-name
-#: ../src/main_window.c:646
+#: ../src/main_window.c:660
 msgid "Left"
 msgstr "Stânga"
 
-#: ../src/main_window.c:652
+#: ../src/main_window.c:666
 msgid "Right"
 msgstr "Dreapta"
 
-#: ../src/main_window.c:658
+#: ../src/main_window.c:672
 msgid "Top"
 msgstr "Sus"
 
-#: ../src/main_window.c:664
+#: ../src/main_window.c:678
 msgid "Bottom"
 msgstr "Jos"
 
-#: ../src/main_window.c:675
+#: ../src/main_window.c:689
 msgid "Very Small"
 msgstr "Foarte mici"
 
-#: ../src/main_window.c:681
+#: ../src/main_window.c:695
 msgid "Smaller"
 msgstr "Mai mici"
 
-#: ../src/main_window.c:687
+#: ../src/main_window.c:701
 msgid "Small"
 msgstr "Mici"
 
-#: ../src/main_window.c:693
+#: ../src/main_window.c:707
 msgid "Normal"
 msgstr "Normale"
 
-#: ../src/main_window.c:699
+#: ../src/main_window.c:713
 msgid "Large"
 msgstr "Mari"
 
-#: ../src/main_window.c:705
+#: ../src/main_window.c:719
 msgid "Larger"
 msgstr "Mai mari"
 
-#: ../src/main_window.c:711
+#: ../src/main_window.c:725
 msgid "Very Large"
 msgstr "Foarte mari"
 
 #. Icon-name
-#: ../src/main_window.c:722
+#: ../src/main_window.c:736
 msgid "_Smart Zoom"
 msgstr ""
 
-#: ../src/main_window.c:860
+#: ../src/main_window.c:874
 msgid "Images"
 msgstr "Imagini"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:933
+#: ../src/main_window.c:945
 msgid "_Play"
 msgstr "_Redare"
 
-#: ../src/main_window.c:933
+#: ../src/main_window.c:945
 msgid "Play slideshow"
 msgstr "Pornește o prezentare"
 
-#: ../src/main_window.c:934
+#: ../src/main_window.c:946
 msgid "_Pause"
 msgstr "_Pauză"
 
-#: ../src/main_window.c:934
+#: ../src/main_window.c:946
 msgid "Pause slideshow"
 msgstr "Pune pauză prezentării"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:937
+#: ../src/main_window.c:949
 msgid "_Recently used"
 msgstr "_Recent utilizate"
 
-#: ../src/main_window.c:937
+#: ../src/main_window.c:949
 msgid "Recently used"
 msgstr "Recent utilizate"
 
-#: ../src/main_window.c:1062 ../src/main_window.c:1698
+#: ../src/main_window.c:1074 ../src/main_window.c:1688
 msgid "Press open to select an image"
 msgstr "Deschideți pentru a selecta o imagine"
 
-#: ../src/main_window.c:1620 ../src/main_window.c:1625
+#: ../src/main_window.c:1630 ../src/main_window.c:1635
 msgid "Open With Other _Application..."
 msgstr "Deschide cu _un alt program..."
 
-#: ../src/main_window.c:1647 ../src/main_window.c:1655
+#: ../src/main_window.c:1645 ../src/main_window.c:1653
 msgid "Empty"
 msgstr "Gol"
 
-#: ../src/main_window.c:1703
+#: ../src/main_window.c:1693
 msgid "Loading..."
 msgstr "Se încarcă..."
 
-#: ../src/main_window.c:2353
+#: ../src/main_window.c:2343
 msgid "Choose 'set wallpaper' method"
 msgstr "Mod de salvare a imaginii de fundal"
 
-#: ../src/main_window.c:2357 ../src/main_window.c:3436
-#: ../src/main_window.c:3524 ../src/main_window.c:4143
+#: ../src/main_window.c:2347 ../src/main_window.c:3481
+#: ../src/main_window.c:3569 ../src/main_window.c:4234
 #: ../src/privacy_dialog.c:149 ../src/xfce_wallpaper_manager.c:261
 #: ../src/gnome_wallpaper_manager.c:190
 msgid "_Cancel"
 msgstr "_Renunță"
 
-#: ../src/main_window.c:2360 ../src/main_window.c:4146
+#: ../src/main_window.c:2350 ../src/main_window.c:4237
 #: ../src/xfce_wallpaper_manager.c:267 ../src/gnome_wallpaper_manager.c:196
 msgid "_OK"
 msgstr ""
 
-#: ../src/main_window.c:2370 ../src/preferences_dialog.c:436
+#: ../src/main_window.c:2360 ../src/preferences_dialog.c:436
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Precizați ce mediu desktop folosiți.\n Această opțiune determină metoda folosită de <i>Ristretto</i>\npentru salvarea imaginii de fundal."
 
-#: ../src/main_window.c:2396 ../src/preferences_dialog.c:448
+#: ../src/main_window.c:2386 ../src/preferences_dialog.c:448
 msgid "None"
 msgstr "Niciunul"
 
-#: ../src/main_window.c:2400 ../src/preferences_dialog.c:452
+#: ../src/main_window.c:2390 ../src/preferences_dialog.c:452
 msgid "Xfce"
 msgstr "Xfce"
 
-#: ../src/main_window.c:2404 ../src/preferences_dialog.c:456
+#: ../src/main_window.c:2394 ../src/preferences_dialog.c:456
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main_window.c:2921
+#: ../src/main_window.c:2909
 msgid "Developers:"
 msgstr ""
 
-#: ../src/main_window.c:2933 ../org.xfce.ristretto.appdata.xml.in.h:3
+#: ../src/main_window.c:2921 ../org.xfce.ristretto.appdata.xml.in.h:3
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto este un vizualizator de imagini pentru mediul desktop Xfce."
 
-#: ../src/main_window.c:2941
+#: ../src/main_window.c:2929
 msgid "translator-credits"
 msgstr "Ionuț Ovejanu <ovejanu@yahoo.com>\nMișu Moldovan <dumol@xfce.org>"
 
-#: ../src/main_window.c:3434
+#: ../src/main_window.c:3479
 msgid "Open image"
 msgstr "Deschide imaginea"
 
-#: ../src/main_window.c:3436
+#: ../src/main_window.c:3481
 msgid "_Open"
 msgstr "_Deschide"
 
-#: ../src/main_window.c:3454
+#: ../src/main_window.c:3499
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:3459
+#: ../src/main_window.c:3504
 msgid "All Files"
 msgstr "Toate fișierele"
 
-#: ../src/main_window.c:3521
+#: ../src/main_window.c:3566
 msgid "Save copy"
 msgstr "Salvează o copie"
 
-#: ../src/main_window.c:3525
+#: ../src/main_window.c:3570
 msgid "_Save"
 msgstr "_Salvează"
 
-#: ../src/main_window.c:3709
+#: ../src/main_window.c:3754
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Sigur doriți să trimiteți imaginea „%s” în coșul de gunoi?"
 
-#: ../src/main_window.c:3713
+#: ../src/main_window.c:3758
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Sigur doriți să ștergeți imaginea „%s” de pe disc?"
 
-#: ../src/main_window.c:3725
+#: ../src/main_window.c:3770
 msgid "_Do not ask again for this session"
 msgstr "_Nu întreba din nou pentru această sesiune"
 
-#: ../src/main_window.c:4138
+#: ../src/main_window.c:4229
 msgid "Edit with"
 msgstr "Editare cu"
 
-#: ../src/main_window.c:4159
+#: ../src/main_window.c:4250
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Deschide %s și alte fișiere de tipul %s cu:"
 
-#: ../src/main_window.c:4165
+#: ../src/main_window.c:4256
 msgid "Use as _default for this kind of file"
 msgstr "Asocia_ză implicit pentru acest tip de fișier"
 
-#: ../src/main_window.c:4255
+#: ../src/main_window.c:4346
 msgid "Recommended Applications"
 msgstr "Programe recomandate"
 
-#: ../src/main_window.c:4335
+#: ../src/main_window.c:4426
 msgid "Other Applications"
 msgstr "Alte programe"
 
-#: ../src/icon_bar.c:262
+#: ../src/icon_bar.c:264
 msgid "Orientation"
 msgstr "Orientare"
 
-#: ../src/icon_bar.c:263
+#: ../src/icon_bar.c:265
 msgid "The orientation of the iconbar"
 msgstr "Orientarea barei cu iconițe"
 
-#: ../src/icon_bar.c:279
-msgid "File column"
-msgstr "Coloană de fișiere"
-
-#: ../src/icon_bar.c:280
-msgid "Model column used to retrieve the file from"
-msgstr "Model de coloană pentru alegerea fișierului"
-
-#: ../src/icon_bar.c:292
+#: ../src/icon_bar.c:278
 msgid "Icon Bar Model"
 msgstr "Model de bară cu iconițe"
 
-#: ../src/icon_bar.c:293
+#: ../src/icon_bar.c:279
 msgid "Model for the icon bar"
 msgstr "Model pentru bara cu iconițe"
 
-#: ../src/icon_bar.c:309
+#: ../src/icon_bar.c:295
 msgid "Active"
 msgstr "Activ"
 
-#: ../src/icon_bar.c:310
+#: ../src/icon_bar.c:296
 msgid "Active item index"
 msgstr "Index al elementelor active"
 
-#: ../src/icon_bar.c:326 ../src/icon_bar.c:327
+#: ../src/icon_bar.c:312 ../src/icon_bar.c:313
 msgid "Show Text"
 msgstr "Arată textul"
 
-#: ../src/icon_bar.c:339
+#: ../src/icon_bar.c:325
 msgid "Scrolled window"
 msgstr ""
 
-#: ../src/icon_bar.c:340
+#: ../src/icon_bar.c:326
 msgid "Scrolled window icon bar is placed into"
 msgstr ""
 
-#: ../src/icon_bar.c:346 ../src/icon_bar.c:347
+#: ../src/icon_bar.c:332 ../src/icon_bar.c:333
 msgid "Active item fill color"
 msgstr "Culoare de umplere pentru elementul activ"
 
-#: ../src/icon_bar.c:353 ../src/icon_bar.c:354
+#: ../src/icon_bar.c:339 ../src/icon_bar.c:340
 msgid "Active item border color"
 msgstr "Culoare pentru chenarul elementului activ"
 
-#: ../src/icon_bar.c:360 ../src/icon_bar.c:361
+#: ../src/icon_bar.c:346 ../src/icon_bar.c:347
 msgid "Active item text color"
 msgstr "Culoare pentru textul elementului activ"
 
-#: ../src/icon_bar.c:367 ../src/icon_bar.c:368
+#: ../src/icon_bar.c:353 ../src/icon_bar.c:354
 msgid "Cursor item fill color"
 msgstr "Culoare de umplere a elementului de tip cursor"
 
-#: ../src/icon_bar.c:374 ../src/icon_bar.c:375
+#: ../src/icon_bar.c:360 ../src/icon_bar.c:361
 msgid "Cursor item border color"
 msgstr "Culoarea pentru chenarul elementului de tip cursor"
 
-#: ../src/icon_bar.c:381 ../src/icon_bar.c:382
+#: ../src/icon_bar.c:367 ../src/icon_bar.c:368
 msgid "Cursor item text color"
 msgstr "Culoare pentru textul elementului de tip cursor"
 
@@ -893,7 +885,7 @@ msgstr ""
 msgid "Unsupported mime type"
 msgstr ""
 
-#: ../src/thumbnailer.c:320
+#: ../src/thumbnailer.c:292
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -903,7 +895,7 @@ msgid ""
 "to resolve this issue."
 msgstr "Serviciul de creare de miniaturi nu a\nputut fi contactat, prin urmare\n nu se vor crea miniaturi.\n\nInstalați <b>Tumbler</b> ori un alt serviciu de creare\nde miniaturi pentru a rezolva această problemă."
 
-#: ../src/thumbnailer.c:329
+#: ../src/thumbnailer.c:301
 msgid "Do _not show this message again"
 msgstr "_Nu mai arăta acest mesaj"
 
