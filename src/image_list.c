@@ -1024,7 +1024,7 @@ iter_previous (
         else
         {
             iter->priv->link = image_list->priv->images->tail;
-            iter->priv->index = image_list->priv->images->length;
+            iter->priv->index = image_list->priv->images->length - 1;
         }
 
         iter->priv->r_file = iter->priv->link->data;
