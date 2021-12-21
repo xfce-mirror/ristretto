@@ -4,9 +4,11 @@
 # 
 # Translators:
 # Alexander Filёv, 2019
+# Alexander Filёv, 2015,2019
 # Denis Koryavov <dkoryavov@yandex.ru>, 2010
 # Alexander Filёv, 2015
 # Igor <f2404@yandex.ru>, 2016-2017,2019
+# Olesya Gerasimenko <translation-team@basealt.ru>, 2021
 # Sergey Alyoshin <alyoshin.s@gmail.com>, 2013,2015-2016
 # Stefan Zerkalica <zerkalica@gmail.com>, 2008
 msgid ""
@@ -14,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2021-12-10 12:50+0100\n"
-"PO-Revision-Date: 2021-12-10 11:50+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2021-12-21 12:54+0000\n"
+"Last-Translator: Olesya Gerasimenko <gammaray@basealt.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/xfce/xfce-apps/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,17 +60,17 @@ msgstr "Не удалось сохранить файл"
 
 #: ../src/main_window.c:42
 msgid "Some files could not be opened: see the text logs for details"
-msgstr ""
+msgstr "Не удалось открыть некоторые файлы (подробности доступны в текстовом журнале)"
 
 #: ../src/main_window.c:43
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
-msgstr ""
+msgstr "При удалении изображения «%s» с диска произошла ошибка"
 
 #: ../src/main_window.c:44
 #, c-format
 msgid "An error occurred when sending image '%s' to trash"
-msgstr ""
+msgstr "При отправке изображения «%s» в корзину произошла ошибка"
 
 #: ../src/main_window.c:329
 msgid "_File"
@@ -143,7 +145,7 @@ msgstr "Выйти из программы"
 
 #: ../src/main_window.c:378
 msgid "_Copy image to clipboard"
-msgstr ""
+msgstr "_Копировать изображение в буфер обмена"
 
 #: ../src/main_window.c:384
 msgid "_Open with"
@@ -255,7 +257,7 @@ msgstr "Исходный размер"
 
 #: ../src/main_window.c:471
 msgid "_Default Zoom"
-msgstr ""
+msgstr "Масштаб _по умолчанию"
 
 #: ../src/main_window.c:478
 msgid "_Rotation"
@@ -456,7 +458,7 @@ msgstr "Очень большие"
 #. Icon-name
 #: ../src/main_window.c:736
 msgid "_Smart Zoom"
-msgstr ""
+msgstr "_Интеллектуальный масштаб"
 
 #: ../src/main_window.c:874
 msgid "Images"
@@ -874,19 +876,19 @@ msgstr "Свойства: %s"
 
 #: ../src/image_list.c:32
 msgid "No supported image type found in the directory"
-msgstr ""
+msgstr "В каталоге не найдено изображений поддерживаемого типа"
 
 #: ../src/image_list.c:33
 msgid "Directory only partially loaded"
-msgstr ""
+msgstr "Каталог загружен только частично"
 
 #: ../src/image_list.c:34
 msgid "Could not load directory"
-msgstr ""
+msgstr "Не удалось загрузить каталог"
 
 #: ../src/image_list.c:35
 msgid "Unsupported mime type"
-msgstr ""
+msgstr "Неподдерживаемый тип MIME"
 
 #: ../src/thumbnailer.c:292
 msgid ""
@@ -948,11 +950,11 @@ msgstr "Просмотр фотографий — это просто"
 
 #: ../org.xfce.ristretto.appdata.xml.in.h:1
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: ../org.xfce.ristretto.appdata.xml.in.h:2
 msgid "Fast and lightweight image viewer"
-msgstr ""
+msgstr "Быстрая и легковесная программа просмотра изображений"
 
 #: ../org.xfce.ristretto.appdata.xml.in.h:4
 msgid ""
