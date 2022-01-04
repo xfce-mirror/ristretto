@@ -167,7 +167,7 @@ rstto_settings_init (RsttoSettings *settings)
     settings->priv->hide_thumbnails_fullscreen = TRUE;
     settings->priv->hide_mouse_cursor_fullscreen_timeout = 1;
     settings->priv->errors.missing_thumbnailer = TRUE;
-    settings->priv->thumbnail_size = THUMBNAIL_SIZE_NORMAL;
+    settings->priv->thumbnail_size = RSTTO_THUMBNAIL_SIZE_NORMAL;
     settings->priv->default_zoom = RSTTO_SCALE_NONE;
 
     xfconf_g_property_bind (
@@ -606,7 +606,7 @@ rstto_settings_class_init (RsttoSettingsClass *klass)
             "",
             "",
             0,
-            THUMBNAIL_SIZE_COUNT,
+            RSTTO_THUMBNAIL_SIZE_COUNT,
             0,
             G_PARAM_READWRITE);
     g_object_class_install_property (

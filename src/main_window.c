@@ -1060,7 +1060,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     gtk_container_add (GTK_CONTAINER (window->priv->t_bar_s_window), window->priv->thumbnailbar);
 
     rstto_icon_bar_set_show_text (RSTTO_ICON_BAR (window->priv->thumbnailbar), FALSE);
-    rstto_icon_bar_set_item_width (RSTTO_ICON_BAR (window->priv->thumbnailbar), 96);
 
     g_signal_connect (window->priv->thumbnailbar, "selection-changed",
                       G_CALLBACK (cb_icon_bar_selection_changed), window);
@@ -3943,7 +3942,7 @@ cb_rstto_main_window_set_icon (RsttoMainWindow *window,
     if (file != rstto_image_list_iter_get_file (window->priv->iter))
         return;
 
-    if (file == NULL || (pixbuf = rstto_file_get_thumbnail (file, THUMBNAIL_SIZE_SMALL)) == NULL)
+    if (file == NULL || (pixbuf = rstto_file_get_thumbnail (file, RSTTO_THUMBNAIL_SIZE_SMALL)) == NULL)
     {
         gtk_window_set_icon (GTK_WINDOW (window), NULL);
         gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);

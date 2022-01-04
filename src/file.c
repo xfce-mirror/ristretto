@@ -28,17 +28,6 @@
 
 
 
-static guint rstto_thumbnail_size[] =
-{
-    THUMBNAIL_SIZE_VERY_SMALL_SIZE,
-    THUMBNAIL_SIZE_SMALLER_SIZE,
-    THUMBNAIL_SIZE_SMALL_SIZE,
-    THUMBNAIL_SIZE_NORMAL_SIZE,
-    THUMBNAIL_SIZE_LARGE_SIZE,
-    THUMBNAIL_SIZE_LARGER_SIZE,
-    THUMBNAIL_SIZE_VERY_LARGE_SIZE
-};
-
 enum
 {
     PIXBUF_STATE_NONE,
@@ -75,8 +64,8 @@ struct _RsttoFilePrivate
 
     RsttoThumbnailState thumbnail_state;
     gchar *thumbnail_path;
-    GdkPixbuf *pixbufs[THUMBNAIL_SIZE_COUNT];
-    gint pixbufs_state[THUMBNAIL_SIZE_COUNT];
+    GdkPixbuf *pixbufs[RSTTO_THUMBNAIL_SIZE_COUNT];
+    gint pixbufs_state[RSTTO_THUMBNAIL_SIZE_COUNT];
 
     ExifData *exif_data;
     RsttoImageOrientation orientation;
@@ -173,7 +162,7 @@ rstto_file_finalize (GObject *object)
         r_file->priv->exif_data = NULL;
     }
 
-    for (i = 0; i < THUMBNAIL_SIZE_COUNT; ++i)
+    for (i = 0; i < RSTTO_THUMBNAIL_SIZE_COUNT; ++i)
     {
         if (r_file->priv->pixbufs[i])
         {
@@ -513,7 +502,7 @@ rstto_file_set_thumbnail_state (RsttoFile *r_file,
     r_file->priv->thumbnail_state = state;
 }
 
-const gchar *
+static const gchar *
 rstto_file_get_thumbnail_path (RsttoFile *r_file)
 {
     const gchar *uri;
@@ -566,6 +555,7 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
     RsttoThumbnailer *thumbnailer;
     GError *error = NULL;
     const gchar *thumbnail_path;
+    guint n_pixels;
 
     switch (r_file->priv->thumbnail_state)
     {
@@ -591,7 +581,7 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
             g_object_unref (thumbnailer);
 
             r_file->priv->thumbnail_state = RSTTO_THUMBNAIL_STATE_IN_PROCESS;
-            for (gint i = 0; i < THUMBNAIL_SIZE_COUNT; i++)
+            for (gint i = 0; i < RSTTO_THUMBNAIL_SIZE_COUNT; i++)
                 r_file->priv->pixbufs_state[i] = PIXBUF_STATE_NONE;
 
             r_file->priv->pixbufs_state[size] = PIXBUF_STATE_PREVIOUS;
@@ -615,9 +605,9 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
         return NULL;
     }
 
+    n_pixels = rstto_util_get_thumbnail_n_pixels (size);
     r_file->priv->pixbufs[size] =
-        gdk_pixbuf_new_from_file_at_scale (thumbnail_path, rstto_thumbnail_size[size],
-                                           rstto_thumbnail_size[size], TRUE, &error);
+        gdk_pixbuf_new_from_file_at_scale (thumbnail_path, n_pixels, n_pixels, TRUE, &error);
     if (error != NULL)
     {
         g_warning ("Thumbnail pixbuf generation failed for '%s': %s",
@@ -652,7 +642,7 @@ rstto_file_changed (RsttoFile *r_file)
     {
         /* this will send a request to the thumbnailer, which will trigger the necessary
          * updates with its "ready" signal */
-        rstto_file_get_thumbnail (r_file, THUMBNAIL_SIZE_SMALL);
+        rstto_file_get_thumbnail (r_file, RSTTO_THUMBNAIL_SIZE_SMALL);
 
         g_signal_emit (r_file, rstto_file_signals[RSTTO_FILE_SIGNAL_CHANGED], 0, NULL);
     }

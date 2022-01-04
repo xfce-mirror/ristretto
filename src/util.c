@@ -22,6 +22,10 @@
 
 
 
+static guint rstto_thumbnail_n_pixels[] = { 32, 48, 64, 96, 128, 192, 256 };
+
+
+
 static void
 rstto_util_source_remove_all (gpointer  data,
                               GObject  *object)
@@ -162,4 +166,12 @@ rstto_util_dialog_error (const gchar *message,
 
     gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_destroy (dialog);
+}
+
+
+
+guint
+rstto_util_get_thumbnail_n_pixels (RsttoThumbnailSize size)
+{
+    return rstto_thumbnail_n_pixels[size];
 }

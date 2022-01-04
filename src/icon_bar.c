@@ -49,8 +49,6 @@ enum
 
 static guint icon_bar_signals[LAST_SIGNAL];
 
-static GdkPixbuf *thumbnail_missing = NULL;
-
 typedef struct _RsttoIconBarItem RsttoIconBarItem;
 
 
@@ -116,8 +114,6 @@ rstto_icon_bar_size_request (GtkWidget *widget,
 static gboolean
 rstto_icon_bar_scroll (GtkWidget *widget,
                        GdkEventScroll *event);
-static void
-rstto_icon_bar_invalidate (RsttoIconBar *icon_bar);
 
 static RsttoIconBarItem *
 rstto_icon_bar_get_item_at_pos (RsttoIconBar *icon_bar,
@@ -130,9 +126,6 @@ static void
 rstto_icon_bar_paint_item (RsttoIconBar *icon_bar,
                            RsttoIconBarItem *item,
                            cairo_t *cr);
-static void
-rstto_icon_bar_calculate_item_size (RsttoIconBar *icon_bar,
-                                    RsttoIconBarItem *item);
 static void
 cb_rstto_thumbnail_size_changed (GObject *settings,
                                  GParamSpec *pspec,
@@ -148,8 +141,6 @@ static RsttoIconBarItem *
 rstto_icon_bar_item_new (void);
 static void
 rstto_icon_bar_item_free (gpointer item);
-static void
-rstto_icon_bar_item_invalidate (RsttoIconBarItem *item);
 static void
 rstto_icon_bar_build_items (RsttoIconBar *icon_bar);
 static void
@@ -185,7 +176,6 @@ struct _RsttoIconBarItem
 {
     GtkTreeIter iter;
     gint index;
-    gint size;
 };
 
 struct _RsttoIconBarPrivate
@@ -212,12 +202,11 @@ struct _RsttoIconBarPrivate
     RsttoThumbnailer *thumbnailer;
 
     RsttoThumbnailSize thumbnail_size;
+    GdkPixbuf *thumbnail_missing;
 
     GtkOrientation  orientation;
 
     GtkTreeModel   *model;
-
-    PangoLayout    *layout;
 
     gboolean        show_text;
 };
@@ -422,13 +411,6 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
 
     rstto_icon_bar_update_missing_icon (icon_bar);
 
-    icon_bar->priv->layout = gtk_widget_create_pango_layout (GTK_WIDGET (icon_bar), NULL);
-    pango_layout_set_width (icon_bar->priv->layout, -1);
-    pango_layout_set_wrap (icon_bar->priv->layout,
-            PANGO_WRAP_WORD_CHAR);
-    pango_layout_set_ellipsize (icon_bar->priv->layout,
-            PANGO_ELLIPSIZE_END);
-
     gtk_widget_set_can_focus (GTK_WIDGET (icon_bar), FALSE);
 
     g_signal_connect (icon_bar->priv->settings, "notify::thumbnail-size",
@@ -461,9 +443,10 @@ rstto_icon_bar_finalize (GObject *object)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (object);
 
-    g_object_unref (icon_bar->priv->layout);
     g_object_unref (icon_bar->priv->settings);
     g_object_unref (icon_bar->priv->thumbnailer);
+    if (icon_bar->priv->thumbnail_missing != NULL)
+        g_object_unref (icon_bar->priv->thumbnail_missing);
 
     G_OBJECT_CLASS (rstto_icon_bar_parent_class)->finalize (object);
 }
@@ -568,14 +551,15 @@ rstto_icon_bar_set_device_scale (GObject *window,
                                  gpointer data)
 {
     RsttoIconBar *icon_bar = data;
+    GtkWidget *widget = data;
     GtkRequisition requisition;
 
     g_object_get (window, "device-scale", &icon_bar->priv->device_scale, NULL);
 
     /* do not scale the thumbnails with the rest of the window */
-    rstto_icon_bar_size_request (GTK_WIDGET (icon_bar), &requisition);
+    rstto_icon_bar_size_request (widget, &requisition);
 
-    rstto_icon_bar_invalidate (icon_bar);
+    gtk_widget_queue_resize (widget);
 }
 
 
@@ -655,36 +639,35 @@ rstto_icon_bar_size_request (
         GtkWidget      *widget,
         GtkRequisition *requisition)
 {
-    RsttoIconBarItem *item;
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
-    GList *lp;
-    gint n, max_size = 0;
+    gint focus_width, focus_pad, n_items;
 
     if (icon_bar->priv->model == NULL || icon_bar->priv->items == NULL)
     {
         icon_bar->priv->width = requisition->width = 0;
         icon_bar->priv->height = requisition->height = 0;
+        icon_bar->priv->item_size = 0;
+
         return;
     }
 
-    /* calculate max item size */
-    for (n = 0, lp = icon_bar->priv->items; lp != NULL; ++n, lp = lp->next)
-    {
-        item = lp->data;
-        rstto_icon_bar_calculate_item_size (icon_bar, item);
-        max_size = MAX (max_size, item->size);
-    }
+    gtk_widget_style_get (widget, "focus-line-width", &focus_width,
+                          "focus-padding", &focus_pad, NULL);
 
-    icon_bar->priv->item_size = max_size;
+    /* calculate item size: there is a focus padding both inside and outside the item */
+    icon_bar->priv->item_size = (rstto_util_get_thumbnail_n_pixels (icon_bar->priv->thumbnail_size)
+                                    + 2 * (focus_width + 2 * focus_pad))
+                                / (gdouble) icon_bar->priv->device_scale;
 
+    n_items = rstto_image_list_get_n_images (RSTTO_IMAGE_LIST (icon_bar->priv->model));
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
     {
         icon_bar->priv->width = requisition->width = icon_bar->priv->item_size;
-        icon_bar->priv->height = requisition->height = n * icon_bar->priv->item_size;
+        icon_bar->priv->height = requisition->height = n_items * icon_bar->priv->item_size;
     }
     else
     {
-        icon_bar->priv->width = requisition->width = n * icon_bar->priv->item_size;
+        icon_bar->priv->width = requisition->width = n_items * icon_bar->priv->item_size;
         icon_bar->priv->height = requisition->height = icon_bar->priv->item_size;
     }
 }
@@ -924,17 +907,6 @@ rstto_icon_bar_button_release (
 
 
 
-static void
-rstto_icon_bar_invalidate (RsttoIconBar *icon_bar)
-{
-    GList *lp;
-
-    for (lp = icon_bar->priv->items; lp != NULL; lp = lp->next)
-        rstto_icon_bar_item_invalidate (lp->data);
-
-    gtk_widget_queue_resize (GTK_WIDGET (icon_bar));
-}
-
 static RsttoIconBarItem *
 rstto_icon_bar_get_item_at_pos (
         RsttoIconBar *icon_bar,
@@ -1012,9 +984,7 @@ rstto_icon_bar_paint_item (
     pixbuf = rstto_file_get_thumbnail (file, icon_bar->priv->thumbnail_size);
 
     if (NULL == pixbuf)
-    {
-        pixbuf = thumbnail_missing;
-    }
+        pixbuf = icon_bar->priv->thumbnail_missing;
 
     if (pixbuf)
     {
@@ -1121,63 +1091,10 @@ rstto_icon_bar_paint_item (
 
 
 
-static void
-rstto_icon_bar_calculate_item_size (
-        RsttoIconBar     *icon_bar,
-        RsttoIconBarItem *item)
-{
-    gint focus_width, focus_pad, size;
-
-    if (G_LIKELY (item->size != -1))
-        return;
-
-    gtk_widget_style_get (GTK_WIDGET (icon_bar),
-            "focus-line-width", &focus_width,
-            "focus-padding", &focus_pad,
-            NULL);
-
-    switch (icon_bar->priv->thumbnail_size)
-    {
-        case THUMBNAIL_SIZE_VERY_SMALL:
-            size = THUMBNAIL_SIZE_VERY_SMALL_SIZE;
-            break;
-        case THUMBNAIL_SIZE_SMALLER:
-            size = THUMBNAIL_SIZE_SMALLER_SIZE;
-            break;
-        case THUMBNAIL_SIZE_SMALL:
-            size = THUMBNAIL_SIZE_SMALL_SIZE;
-            break;
-        case THUMBNAIL_SIZE_NORMAL:
-            size = THUMBNAIL_SIZE_NORMAL_SIZE;
-            break;
-        case THUMBNAIL_SIZE_LARGE:
-            size = THUMBNAIL_SIZE_LARGE_SIZE;
-            break;
-        case THUMBNAIL_SIZE_LARGER:
-            size = THUMBNAIL_SIZE_LARGER_SIZE;
-            break;
-        case THUMBNAIL_SIZE_VERY_LARGE:
-            size = THUMBNAIL_SIZE_VERY_LARGE_SIZE;
-            break;
-        default:
-            size = THUMBNAIL_SIZE_NORMAL_SIZE;
-            break;
-    }
-
-    /* there is a focus padding both inside and outside the item */
-    item->size = (size + 2 * (focus_width + 2 * focus_pad))
-                 / (gdouble) icon_bar->priv->device_scale;
-}
-
 static RsttoIconBarItem *
 rstto_icon_bar_item_new (void)
 {
-    RsttoIconBarItem *item;
-
-    item = g_slice_new0 (RsttoIconBarItem);
-    item->size = -1;
-
-    return item;
+    return g_slice_new0 (RsttoIconBarItem);
 }
 
 
@@ -1186,14 +1103,6 @@ static void
 rstto_icon_bar_item_free (gpointer item)
 {
     g_slice_free (RsttoIconBarItem, item);
-}
-
-
-
-static void
-rstto_icon_bar_item_invalidate (RsttoIconBarItem *item)
-{
-    item->size = -1;
 }
 
 
@@ -1254,20 +1163,16 @@ rstto_icon_bar_row_inserted (
         GtkTreeIter  *iter,
         RsttoIconBar *icon_bar)
 {
-    RsttoIconBarItem  *item;
-    GList           *lp;
-    gint             idx;
+    RsttoIconBarItem *item;
+    GList *lp;
 
-    idx = gtk_tree_path_get_indices (path)[0];
     item = rstto_icon_bar_item_new ();
+    item->iter = *iter;
+    item->index = gtk_tree_path_get_indices (path)[0];
 
-    if ((gtk_tree_model_get_flags (icon_bar->priv->model) & GTK_TREE_MODEL_ITERS_PERSIST) != 0)
-        item->iter = *iter;
-    item->index = idx;
+    icon_bar->priv->items = g_list_insert (icon_bar->priv->items, item, item->index);
 
-    icon_bar->priv->items = g_list_insert (icon_bar->priv->items, item, idx);
-
-    for (lp = g_list_nth (icon_bar->priv->items, idx + 1); lp != NULL; lp = lp->next)
+    for (lp = g_list_nth (icon_bar->priv->items, item->index + 1); lp != NULL; lp = lp->next)
     {
         item = lp->data;
         item->index++;
@@ -1542,7 +1447,7 @@ rstto_icon_bar_set_model (
         rstto_icon_bar_build_items (icon_bar);
     }
 
-    rstto_icon_bar_invalidate (icon_bar);
+    gtk_widget_queue_resize (GTK_WIDGET (icon_bar));
 
     g_object_notify (G_OBJECT (icon_bar), "model");
 }
@@ -1666,7 +1571,6 @@ rstto_icon_bar_get_active_iter (
         GtkTreeIter   *iter)
 {
     RsttoIconBarItem *item;
-    GtkTreePath    *path;
 
     g_return_val_if_fail (RSTTO_IS_ICON_BAR (icon_bar), FALSE);
     g_return_val_if_fail (iter != NULL, FALSE);
@@ -1675,16 +1579,7 @@ rstto_icon_bar_get_active_iter (
     if (item == NULL)
         return FALSE;
 
-    if ((gtk_tree_model_get_flags (icon_bar->priv->model) & GTK_TREE_MODEL_ITERS_PERSIST) == 0)
-    {
-        path = gtk_tree_path_new_from_indices (item->index, -1);
-        gtk_tree_model_get_iter (icon_bar->priv->model, iter, path);
-        gtk_tree_path_free (path);
-    }
-    else
-    {
-        *iter = item->iter;
-    }
+    *iter = item->iter;
 
     return TRUE;
 }
@@ -1718,22 +1613,6 @@ rstto_icon_bar_set_active_iter (
         rstto_icon_bar_set_active (icon_bar, gtk_tree_path_get_indices (path)[0]);
         gtk_tree_path_free (path);
     }
-}
-
-gint
-rstto_icon_bar_get_item_width (RsttoIconBar *icon_bar)
-{
-    return -1;
-}
-
-void
-rstto_icon_bar_set_item_width (
-        RsttoIconBar *icon_bar,
-        gint item_width)
-{
-    pango_layout_set_width (icon_bar->priv->layout,
-            item_width * PANGO_SCALE);
-    return;
 }
 
 gint
@@ -1806,8 +1685,8 @@ cb_rstto_thumbnail_size_changed (
 
     g_object_get (settings, "thumbnail-size", &icon_bar->priv->thumbnail_size, NULL);
 
-    rstto_icon_bar_invalidate (icon_bar);
     rstto_icon_bar_update_missing_icon (icon_bar);
+    gtk_widget_queue_resize (GTK_WIDGET (icon_bar));
 }
 
 static void
@@ -1843,71 +1722,11 @@ static void
 rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar)
 {
 
-    if (NULL != thumbnail_missing)
-    {
-        g_object_unref (thumbnail_missing);
-    }
+    if (icon_bar->priv->thumbnail_missing != NULL)
+        g_object_unref (icon_bar->priv->thumbnail_missing);
 
-    switch (icon_bar->priv->thumbnail_size)
-    {
-        case THUMBNAIL_SIZE_VERY_SMALL:
-            thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default (),
-                    "image-missing",
-                    THUMBNAIL_SIZE_VERY_SMALL_SIZE,
-                    0,
-                    NULL);
-            break;
-        case THUMBNAIL_SIZE_SMALLER:
-            thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default (),
-                    "image-missing",
-                    THUMBNAIL_SIZE_SMALLER_SIZE,
-                    0,
-                    NULL);
-            break;
-        case THUMBNAIL_SIZE_SMALL:
-            thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default (),
-                    "image-missing",
-                    THUMBNAIL_SIZE_SMALL_SIZE,
-                    0,
-                    NULL);
-            break;
-        case THUMBNAIL_SIZE_NORMAL:
-            thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default (),
-                    "image-missing",
-                    THUMBNAIL_SIZE_NORMAL_SIZE,
-                    0,
-                    NULL);
-            break;
-        case THUMBNAIL_SIZE_LARGE:
-            thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default (),
-                    "image-missing",
-                    THUMBNAIL_SIZE_LARGE_SIZE,
-                    0,
-                    NULL);
-            break;
-        case THUMBNAIL_SIZE_LARGER:
-            thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default (),
-                    "image-missing",
-                    THUMBNAIL_SIZE_LARGER_SIZE,
-                    0,
-                    NULL);
-            break;
-        case THUMBNAIL_SIZE_VERY_LARGE:
-            thumbnail_missing = gtk_icon_theme_load_icon (
-                    gtk_icon_theme_get_default (),
-                    "image-missing",
-                    THUMBNAIL_SIZE_VERY_LARGE_SIZE,
-                    0,
-                    NULL);
-            break;
-        default:
-            break;
-    }
-
+    icon_bar->priv->thumbnail_missing =
+        gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "image-missing",
+                                  rstto_util_get_thumbnail_n_pixels (icon_bar->priv->thumbnail_size),
+                                  0, NULL);
 }

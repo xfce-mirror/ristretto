@@ -281,7 +281,7 @@ properties_dialog_set_file (
 
     if (dialog->priv->file)
     {
-        pixbuf = rstto_file_get_thumbnail (file, THUMBNAIL_SIZE_LARGE);
+        pixbuf = rstto_file_get_thumbnail (file, RSTTO_THUMBNAIL_SIZE_LARGE);
         if (NULL != pixbuf)
             gtk_image_set_from_pixbuf (GTK_IMAGE (dialog->priv->image_thumbnail),
                                        (GdkPixbuf *) pixbuf);

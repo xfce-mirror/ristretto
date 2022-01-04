@@ -46,24 +46,17 @@ typedef enum
     RSTTO_SCALE_REAL_SIZE
 } RsttoScale;
 
-#define THUMBNAIL_SIZE_VERY_SMALL_SIZE   32
-#define THUMBNAIL_SIZE_SMALLER_SIZE      48
-#define THUMBNAIL_SIZE_SMALL_SIZE        64
-#define THUMBNAIL_SIZE_NORMAL_SIZE       96
-#define THUMBNAIL_SIZE_LARGE_SIZE       128
-#define THUMBNAIL_SIZE_LARGER_SIZE      192
-#define THUMBNAIL_SIZE_VERY_LARGE_SIZE  256
 
 typedef enum
 {
-    THUMBNAIL_SIZE_VERY_SMALL = 0,
-    THUMBNAIL_SIZE_SMALLER,
-    THUMBNAIL_SIZE_SMALL,
-    THUMBNAIL_SIZE_NORMAL,
-    THUMBNAIL_SIZE_LARGE,
-    THUMBNAIL_SIZE_LARGER,
-    THUMBNAIL_SIZE_VERY_LARGE,
-    THUMBNAIL_SIZE_COUNT,
+    RSTTO_THUMBNAIL_SIZE_VERY_SMALL,
+    RSTTO_THUMBNAIL_SIZE_SMALLER,
+    RSTTO_THUMBNAIL_SIZE_SMALL,
+    RSTTO_THUMBNAIL_SIZE_NORMAL,
+    RSTTO_THUMBNAIL_SIZE_LARGE,
+    RSTTO_THUMBNAIL_SIZE_LARGER,
+    RSTTO_THUMBNAIL_SIZE_VERY_LARGE,
+    RSTTO_THUMBNAIL_SIZE_COUNT,
 } RsttoThumbnailSize;
 
 typedef enum
@@ -120,9 +113,6 @@ rstto_file_set_content_type (RsttoFile *r_file,
 void
 rstto_file_set_thumbnail_state (RsttoFile *r_file,
                                 RsttoThumbnailState state);
-
-const gchar *
-rstto_file_get_thumbnail_path (RsttoFile *r_file);
 
 const GdkPixbuf *
 rstto_file_get_thumbnail (RsttoFile *r_file,

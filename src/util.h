@@ -46,6 +46,7 @@
 
 /* internal headers */
 #include "settings.h"
+#include "file.h"
 
 G_BEGIN_DECLS
 
@@ -91,6 +92,9 @@ rstto_util_paint_background_color (GtkWidget *widget,
 void
 rstto_util_dialog_error (const gchar *message,
                          GError *error);
+
+guint
+rstto_util_get_thumbnail_n_pixels (RsttoThumbnailSize size);
 
 G_END_DECLS
 
