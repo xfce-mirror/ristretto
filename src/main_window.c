@@ -3938,11 +3938,13 @@ cb_rstto_main_window_set_icon (RsttoMainWindow *window,
                                RsttoFile *file)
 {
     const GdkPixbuf *pixbuf;
+    RsttoThumbnailSize size;
 
     if (file != rstto_image_list_iter_get_file (window->priv->iter))
         return;
 
-    if (file == NULL || (pixbuf = rstto_file_get_thumbnail (file, RSTTO_THUMBNAIL_SIZE_SMALL)) == NULL)
+    size = rstto_util_get_thumbnail_size (RSTTO_THUMBNAIL_FLAVOR_NORMAL);
+    if (file == NULL || (pixbuf = rstto_file_get_thumbnail (file, size)) == NULL)
     {
         gtk_window_set_icon (GTK_WINDOW (window), NULL);
         gtk_window_set_icon_name (GTK_WINDOW (window), RISTRETTO_APP_ID);

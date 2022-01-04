@@ -53,6 +53,10 @@ cb_rstto_thumbnailer_thumbnail_error (TumblerThumbnailer1 *proxy,
                                       gint error_code,
                                       const gchar *error_message,
                                       gpointer data);
+static void
+cb_rstto_thumbnailer_request_finished (TumblerThumbnailer1 *proxy,
+                                       guint handle,
+                                       gpointer data);
 static gboolean
 rstto_thumbnailer_queue_request_timer (gpointer user_data);
 
@@ -64,8 +68,10 @@ struct _RsttoThumbnailerPrivate
     TumblerThumbnailer1 *proxy;
     RsttoSettings       *settings;
 
-    GSList              *queue, *in_process_queue;
-    guint                handle, request_timer_id;
+    GSList              *queues[RSTTO_THUMBNAIL_FLAVOR_COUNT],
+                        *in_process_queues[RSTTO_THUMBNAIL_FLAVOR_COUNT],
+                        *handles[RSTTO_THUMBNAIL_FLAVOR_COUNT];
+    guint                request_timer_ids[RSTTO_THUMBNAIL_FLAVOR_COUNT];
 
     gboolean             show_missing_thumbnailer_error;
 };
@@ -82,8 +88,13 @@ rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
     thumbnailer->priv = rstto_thumbnailer_get_instance_private (thumbnailer);
     thumbnailer->priv->connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, NULL);
     thumbnailer->priv->settings = rstto_settings_new ();
-    thumbnailer->priv->queue = NULL;
-    thumbnailer->priv->in_process_queue = NULL;
+    for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
+    {
+        thumbnailer->priv->queues[n] = NULL;
+        thumbnailer->priv->in_process_queues[n] = NULL;
+        thumbnailer->priv->handles[n] = NULL;
+        thumbnailer->priv->request_timer_ids[n] = 0;
+    }
 
     thumbnailer->priv->show_missing_thumbnailer_error =
             rstto_settings_get_boolean_property (
@@ -104,6 +115,8 @@ rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
                           G_CALLBACK (cb_rstto_thumbnailer_thumbnail_ready), thumbnailer);
         g_signal_connect (thumbnailer->priv->proxy, "error",
                           G_CALLBACK (cb_rstto_thumbnailer_thumbnail_error), thumbnailer);
+        g_signal_connect (thumbnailer->priv->proxy, "finished",
+                          G_CALLBACK (cb_rstto_thumbnailer_request_finished), thumbnailer);
     }
 }
 
@@ -138,10 +151,16 @@ rstto_thumbnailer_finalize (GObject *object)
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (object);
 
-    tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
-                                            thumbnailer->priv->handle, NULL, NULL);
-    g_slist_free_full (thumbnailer->priv->queue, g_object_unref);
-    g_slist_free_full (thumbnailer->priv->in_process_queue, g_object_unref);
+    for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
+    {
+        for (GSList *l = thumbnailer->priv->handles[n]; l != NULL; l = l->next)
+            tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
+                                                    GPOINTER_TO_UINT (l->data), NULL, NULL);
+
+        g_slist_free (thumbnailer->priv->handles[n]);
+        g_slist_free_full (thumbnailer->priv->queues[n], g_object_unref);
+        g_slist_free_full (thumbnailer->priv->in_process_queues[n], g_object_unref);
+    }
 
     g_clear_object (&thumbnailer->priv->settings);
     g_clear_object (&thumbnailer->priv->proxy);
@@ -174,9 +193,9 @@ rstto_thumbnailer_new (void)
 }
 
 void
-rstto_thumbnailer_queue_file (
-        RsttoThumbnailer *thumbnailer,
-        RsttoFile *file)
+rstto_thumbnailer_queue_file (RsttoThumbnailer *thumbnailer,
+                              RsttoThumbnailFlavor flavor,
+                              RsttoFile *file)
 {
     GSList *last_visible;
     gint n_items;
@@ -184,24 +203,41 @@ rstto_thumbnailer_queue_file (
     g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
     g_return_if_fail (RSTTO_IS_FILE (file));
 
-    if (thumbnailer->priv->request_timer_id != 0)
-        REMOVE_SOURCE (thumbnailer->priv->request_timer_id);
+    if (thumbnailer->priv->request_timer_ids[flavor] != 0)
+        REMOVE_SOURCE (thumbnailer->priv->request_timer_ids[flavor]);
 
     /* relative to the size of the icon bar, which is what matters, this is a O(1) cost
      * operation, so we can keep the use of a GList for convenience */
     n_items = rstto_icon_bar_get_n_visible_items (rstto_main_window_get_app_icon_bar ());
-    last_visible = g_slist_nth (thumbnailer->priv->queue, n_items - 1);
+    last_visible = g_slist_nth (thumbnailer->priv->queues[flavor], n_items - 1);
     if (last_visible != NULL)
     {
-        rstto_file_set_thumbnail_state (last_visible->data, RSTTO_THUMBNAIL_STATE_UNPROCESSED);
+        rstto_file_set_thumbnail_state (last_visible->data, flavor,
+                                        RSTTO_THUMBNAIL_STATE_UNPROCESSED);
         g_object_unref (last_visible->data);
-        thumbnailer->priv->queue = g_slist_delete_link (thumbnailer->priv->queue, last_visible);
+        thumbnailer->priv->queues[flavor] =
+            g_slist_delete_link (thumbnailer->priv->queues[flavor], last_visible);
     }
 
-    thumbnailer->priv->queue = g_slist_prepend (thumbnailer->priv->queue, g_object_ref (file));
-    thumbnailer->priv->request_timer_id =
+    thumbnailer->priv->queues[flavor] =
+        g_slist_prepend (thumbnailer->priv->queues[flavor], g_object_ref (file));
+    thumbnailer->priv->request_timer_ids[flavor] =
         g_timeout_add_full (G_PRIORITY_LOW, 300, rstto_thumbnailer_queue_request_timer,
                             rstto_util_source_autoremove (thumbnailer), NULL);
+}
+
+static RsttoThumbnailFlavor
+rstto_thumbnailer_get_timer_flavor (RsttoThumbnailer *thumbnailer)
+{
+    guint source_id;
+
+    source_id = g_source_get_id (g_main_current_source ());
+    for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
+        if (thumbnailer->priv->request_timer_ids[n] == source_id)
+            return n;
+
+    g_warn_if_reached ();
+    return RSTTO_THUMBNAIL_FLAVOR_NORMAL;
 }
 
 static gboolean
@@ -209,14 +245,17 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
 {
     RsttoThumbnailer *thumbnailer = user_data;
     RsttoImageList *image_list;
+    RsttoThumbnailFlavor flavor;
     GtkWidget *error_dialog, *vbox, *do_not_show_checkbox;
     GSList *iter, *temp = NULL;
     GError *error = NULL;
     const gchar **uris, **mimetypes;
     gint n_items, i;
+    guint handle;
 
     g_return_val_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer), FALSE);
 
+    flavor = rstto_thumbnailer_get_timer_flavor (thumbnailer);
     image_list = rstto_main_window_get_app_image_list ();
     n_items = rstto_icon_bar_get_n_visible_items (rstto_main_window_get_app_icon_bar ());
     uris = g_new0 (const gchar *, n_items + 1);
@@ -224,11 +263,13 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
 
     /* dequeue files in process: they will eventually be re-queued after those
      * of the current request */
-    tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
-                                            thumbnailer->priv->handle, NULL, NULL);
+    iter = thumbnailer->priv->handles[flavor];
+    if (iter != NULL)
+        tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
+                                                GPOINTER_TO_UINT (iter->data), NULL, NULL);
 
     /* handle current request, whose size doesn't exceed the number of visible items */
-    for (iter = thumbnailer->priv->queue, i = 0; iter != NULL; iter = iter->next)
+    for (iter = thumbnailer->priv->queues[flavor], i = 0; iter != NULL; iter = iter->next)
     {
         /* directories are loaded without this costly filtering, so it is done
          * here only when required */
@@ -246,11 +287,13 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
         i++;
     }
 
-    g_slist_free (thumbnailer->priv->queue);
-    thumbnailer->priv->queue = NULL;
+    g_slist_free (thumbnailer->priv->queues[flavor]);
+    thumbnailer->priv->queues[flavor] = NULL;
 
     /* handle previously queued files, up to the number of visible items */
-    for (iter = thumbnailer->priv->in_process_queue; iter != NULL && i < n_items; iter = iter->next)
+    for (iter = thumbnailer->priv->in_process_queues[flavor];
+         iter != NULL && i < n_items;
+         iter = iter->next)
     {
         uris[i] = rstto_file_get_uri (iter->data);
         mimetypes[i] = rstto_file_get_content_type (iter->data);
@@ -261,21 +304,20 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     /* clean up the rest of the list and reset the status of unqueued files */
     for (; iter != NULL; iter = iter->next)
     {
-        rstto_file_set_thumbnail_state (iter->data, RSTTO_THUMBNAIL_STATE_UNPROCESSED);
+        rstto_file_set_thumbnail_state (iter->data, flavor, RSTTO_THUMBNAIL_STATE_UNPROCESSED);
         g_object_unref (iter->data);
     }
 
-    g_slist_free (thumbnailer->priv->in_process_queue);
+    g_slist_free (thumbnailer->priv->in_process_queues[flavor]);
 
     /* update the list of queued files */
-    thumbnailer->priv->in_process_queue = g_slist_reverse (temp);
+    thumbnailer->priv->in_process_queues[flavor] = g_slist_reverse (temp);
 
     if (! tumbler_thumbnailer1_call_queue_sync (thumbnailer->priv->proxy,
                                                 (const gchar * const*) uris,
                                                 (const gchar * const*) mimetypes,
-                                                "normal", "default", 0,
-                                                &thumbnailer->priv->handle,
-                                                NULL, &error))
+                                                rstto_util_get_thumbnail_flavor_name (flavor),
+                                                "default", 0, &handle, NULL, &error))
     {
         if (NULL != error)
         {
@@ -321,12 +363,27 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
         }
         /* TOOO: Nice cleanup */
     }
+    else
+        thumbnailer->priv->handles[flavor] =
+            g_slist_prepend (thumbnailer->priv->handles[flavor], GUINT_TO_POINTER (handle));
 
     g_free (uris);
     g_free (mimetypes);
 
-    thumbnailer->priv->request_timer_id = 0;
+    thumbnailer->priv->request_timer_ids[flavor] = 0;
     return FALSE;
+}
+
+static RsttoThumbnailFlavor
+rstto_thumbnailer_get_handle_flavor (RsttoThumbnailer *thumbnailer,
+                                     guint handle)
+{
+    for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
+        if (g_slist_find (thumbnailer->priv->handles[n], GUINT_TO_POINTER (handle)))
+            return n;
+
+    g_warn_if_reached ();
+    return RSTTO_THUMBNAIL_FLAVOR_NORMAL;
 }
 
 static void
@@ -336,25 +393,28 @@ cb_rstto_thumbnailer_thumbnail_ready (TumblerThumbnailer1 *proxy,
                                       gpointer data)
 {
     RsttoThumbnailer *thumbnailer = data;
-    GSList *iter = thumbnailer->priv->in_process_queue;
+    RsttoThumbnailFlavor flavor;
+    GSList *iter;
     gint n = 0;
 
     g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
 
+    flavor = rstto_thumbnailer_get_handle_flavor (thumbnailer, handle);
+    iter = thumbnailer->priv->in_process_queues[flavor];
     while (iter != NULL && uris[n] != NULL)
     {
         if (g_strcmp0 (uris[n], rstto_file_get_uri (iter->data)) == 0)
         {
-            rstto_file_set_thumbnail_state (iter->data, RSTTO_THUMBNAIL_STATE_PROCESSED);
+            rstto_file_set_thumbnail_state (iter->data, flavor, RSTTO_THUMBNAIL_STATE_PROCESSED);
             g_signal_emit (thumbnailer,
                            rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY],
                            0, iter->data, NULL);
 
             g_object_unref (iter->data);
-            thumbnailer->priv->in_process_queue =
-                g_slist_remove (thumbnailer->priv->in_process_queue, iter->data);
+            thumbnailer->priv->in_process_queues[flavor] =
+                g_slist_remove (thumbnailer->priv->in_process_queues[flavor], iter->data);
 
-            iter = thumbnailer->priv->in_process_queue;
+            iter = thumbnailer->priv->in_process_queues[flavor];
             n++;
         }
         else
@@ -371,11 +431,14 @@ cb_rstto_thumbnailer_thumbnail_error (TumblerThumbnailer1 *proxy,
                                       gpointer data)
 {
     RsttoThumbnailer *thumbnailer = data;
-    GSList *iter = thumbnailer->priv->in_process_queue;
+    RsttoThumbnailFlavor flavor;
+    GSList *iter;
     gint n = 0;
 
     g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
 
+    flavor = rstto_thumbnailer_get_handle_flavor (thumbnailer, handle);
+    iter = thumbnailer->priv->in_process_queues[flavor];
     while (iter != NULL && uris[n] != NULL)
     {
         if (g_strcmp0 (uris[n], rstto_file_get_uri (iter->data)) == 0)
@@ -383,18 +446,36 @@ cb_rstto_thumbnailer_thumbnail_error (TumblerThumbnailer1 *proxy,
             /* it was probably cancelled when we unqueued files above, and since it is in the
              * queue here, we wanted it to be processed: back to square one, state unchanged */
             if (error_code == G_IO_ERROR_CANCELLED)
-                rstto_thumbnailer_queue_file (thumbnailer, iter->data);
+                rstto_thumbnailer_queue_file (thumbnailer, flavor, iter->data);
             else
-                rstto_file_set_thumbnail_state (iter->data, RSTTO_THUMBNAIL_STATE_ERROR);
+                rstto_file_set_thumbnail_state (iter->data, flavor, RSTTO_THUMBNAIL_STATE_ERROR);
 
             g_object_unref (iter->data);
-            thumbnailer->priv->in_process_queue =
-                g_slist_remove (thumbnailer->priv->in_process_queue, iter->data);
+            thumbnailer->priv->in_process_queues[flavor] =
+                g_slist_remove (thumbnailer->priv->in_process_queues[flavor], iter->data);
 
-            iter = thumbnailer->priv->in_process_queue;
+            iter = thumbnailer->priv->in_process_queues[flavor];
             n++;
         }
         else
             iter = iter->next;
     }
+}
+
+static void
+cb_rstto_thumbnailer_request_finished (TumblerThumbnailer1 *proxy,
+                                       guint handle,
+                                       gpointer data)
+{
+    RsttoThumbnailer *thumbnailer = data;
+
+    for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
+        if (g_slist_find (thumbnailer->priv->handles[n], GUINT_TO_POINTER (handle)))
+        {
+            thumbnailer->priv->handles[n] = g_slist_remove (thumbnailer->priv->handles[n],
+                                                            GUINT_TO_POINTER (handle));
+            return;
+        }
+
+    g_warn_if_reached ();
 }

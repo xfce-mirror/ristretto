@@ -22,6 +22,19 @@
 
 
 
+#define RSTTO_THUMBNAIL_FLAVOR_NORMAL_N_PIXELS 128
+#define RSTTO_THUMBNAIL_FLAVOR_LARGE_N_PIXELS 256
+#define RSTTO_THUMBNAIL_FLAVOR_X_LARGE_N_PIXELS 512
+#define RSTTO_THUMBNAIL_FLAVOR_XX_LARGE_N_PIXELS 1024
+
+static const gchar *rstto_thumbnail_flavor_names[] = { "normal", "large", "x-large", "xx-large" };
+static guint rstto_thumbnail_flavor_n_pixels[] =
+{
+    RSTTO_THUMBNAIL_FLAVOR_NORMAL_N_PIXELS,
+    RSTTO_THUMBNAIL_FLAVOR_LARGE_N_PIXELS,
+    RSTTO_THUMBNAIL_FLAVOR_X_LARGE_N_PIXELS,
+    RSTTO_THUMBNAIL_FLAVOR_XX_LARGE_N_PIXELS
+};
 static guint rstto_thumbnail_n_pixels[] = { 32, 48, 64, 96, 128, 192, 256 };
 
 
@@ -166,6 +179,43 @@ rstto_util_dialog_error (const gchar *message,
 
     gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_destroy (dialog);
+}
+
+
+
+RsttoThumbnailFlavor
+rstto_util_get_thumbnail_flavor (RsttoThumbnailSize size)
+{
+    if (rstto_thumbnail_n_pixels[size] <= RSTTO_THUMBNAIL_FLAVOR_NORMAL_N_PIXELS)
+        return RSTTO_THUMBNAIL_FLAVOR_NORMAL;
+    else if (rstto_thumbnail_n_pixels[size] <= RSTTO_THUMBNAIL_FLAVOR_LARGE_N_PIXELS)
+        return RSTTO_THUMBNAIL_FLAVOR_LARGE;
+    else if (rstto_thumbnail_n_pixels[size] <= RSTTO_THUMBNAIL_FLAVOR_X_LARGE_N_PIXELS)
+        return RSTTO_THUMBNAIL_FLAVOR_X_LARGE;
+    else
+        return RSTTO_THUMBNAIL_FLAVOR_XX_LARGE;
+}
+
+
+
+RsttoThumbnailSize
+rstto_util_get_thumbnail_size (RsttoThumbnailFlavor flavor)
+{
+    for (gint n = 0; n < RSTTO_THUMBNAIL_SIZE_COUNT; n++)
+        if (rstto_thumbnail_n_pixels[n] == rstto_thumbnail_flavor_n_pixels[flavor])
+            return n;
+
+    /* flavor sizes should be part of the proposed sizes, as native sizes (i.e. not scaled) */
+    g_warn_if_reached ();
+    return RSTTO_THUMBNAIL_SIZE_NORMAL;
+}
+
+
+
+const gchar *
+rstto_util_get_thumbnail_flavor_name (RsttoThumbnailFlavor flavor)
+{
+    return rstto_thumbnail_flavor_names[flavor];
 }
 
 

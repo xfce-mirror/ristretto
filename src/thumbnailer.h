@@ -44,6 +44,7 @@ rstto_thumbnailer_new (void);
 
 void
 rstto_thumbnailer_queue_file (RsttoThumbnailer *thumbnailer,
+                              RsttoThumbnailFlavor flavor,
                               RsttoFile *file);
 
 G_END_DECLS

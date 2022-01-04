@@ -62,10 +62,10 @@ struct _RsttoFilePrivate
     gchar *path;
     gchar *collate_key;
 
-    RsttoThumbnailState thumbnail_state;
-    gchar *thumbnail_path;
+    RsttoThumbnailState thumbnail_states[RSTTO_THUMBNAIL_FLAVOR_COUNT];
+    gchar *thumbnail_paths[RSTTO_THUMBNAIL_FLAVOR_COUNT];
     GdkPixbuf *pixbufs[RSTTO_THUMBNAIL_SIZE_COUNT];
-    gint pixbufs_state[RSTTO_THUMBNAIL_SIZE_COUNT];
+    gint pixbuf_states[RSTTO_THUMBNAIL_FLAVOR_COUNT][RSTTO_THUMBNAIL_SIZE_COUNT];
 
     ExifData *exif_data;
     RsttoImageOrientation orientation;
@@ -84,10 +84,11 @@ rstto_file_init (RsttoFile *r_file)
 {
     r_file->priv = rstto_file_get_instance_private (r_file);
     r_file->priv->final_content_type = FALSE;
-    r_file->priv->thumbnail_state = RSTTO_THUMBNAIL_STATE_UNPROCESSED;
     r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NOT_DETERMINED;
     r_file->priv->scale = RSTTO_SCALE_NONE;
     r_file->priv->auto_scale = RSTTO_SCALE_NONE;
+    for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
+        r_file->priv->thumbnail_states[n] = RSTTO_THUMBNAIL_STATE_UNPROCESSED;
 }
 
 
@@ -141,11 +142,6 @@ rstto_file_finalize (GObject *object)
         g_free (r_file->priv->path);
         r_file->priv->path = NULL;
     }
-    if (r_file->priv->thumbnail_path)
-    {
-        g_free (r_file->priv->thumbnail_path);
-        r_file->priv->thumbnail_path = NULL;
-    }
     if (r_file->priv->uri)
     {
         g_free (r_file->priv->uri);
@@ -160,6 +156,15 @@ rstto_file_finalize (GObject *object)
     {
         exif_data_free (r_file->priv->exif_data);
         r_file->priv->exif_data = NULL;
+    }
+
+    for (i = 0; i < RSTTO_THUMBNAIL_FLAVOR_COUNT; ++i)
+    {
+        if (r_file->priv->thumbnail_paths[i])
+        {
+            g_free (r_file->priv->thumbnail_paths[i]);
+            r_file->priv->thumbnail_paths[i] = NULL;
+        }
     }
 
     for (i = 0; i < RSTTO_THUMBNAIL_SIZE_COUNT; ++i)
@@ -497,19 +502,24 @@ rstto_file_has_exif (RsttoFile *r_file)
 
 void
 rstto_file_set_thumbnail_state (RsttoFile *r_file,
+                                RsttoThumbnailFlavor flavor,
                                 RsttoThumbnailState state)
 {
-    r_file->priv->thumbnail_state = state;
+    r_file->priv->thumbnail_states[flavor] = state;
 }
 
 static const gchar *
-rstto_file_get_thumbnail_path (RsttoFile *r_file)
+rstto_file_get_thumbnail_path (RsttoFile *r_file,
+                               RsttoThumbnailFlavor flavor)
 {
-    const gchar *uri;
-    gchar *checksum, *filename, *cache_dir;
+    const gchar *uri, *flavor_name;
+    gchar *path, *checksum, *filename, *cache_dir;
 
-    if (NULL == r_file->priv->thumbnail_path)
+    static gboolean warned = FALSE;
+
+    if (r_file->priv->thumbnail_paths[flavor] == NULL)
     {
+        flavor_name = rstto_util_get_thumbnail_flavor_name (flavor);
         uri = rstto_file_get_uri (r_file);
         checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, strlen (uri));
         filename = g_strconcat (checksum, ".png", NULL);
@@ -524,28 +534,45 @@ rstto_file_get_thumbnail_path (RsttoFile *r_file)
         else
             cache_dir = g_strdup (g_get_user_cache_dir ());
 
-        r_file->priv->thumbnail_path = g_build_path ("/", cache_dir, "thumbnails", "normal", filename, NULL);
+        path = g_build_path ("/", cache_dir, "thumbnails", flavor_name, filename, NULL);
 
-        if (!g_file_test (r_file->priv->thumbnail_path, G_FILE_TEST_EXISTS))
+        if (! g_file_test (path, G_FILE_TEST_EXISTS))
         {
             /* Fallback to old version */
-            g_free (r_file->priv->thumbnail_path);
+            g_free (path);
 
-            r_file->priv->thumbnail_path = g_build_path ("/", g_get_home_dir (), ".thumbnails", "normal", filename, NULL);
-            if (!g_file_test (r_file->priv->thumbnail_path, G_FILE_TEST_EXISTS))
+            path = g_build_path ("/", g_get_home_dir (), ".thumbnails",
+                                 flavor_name, filename, NULL);
+            if (! g_file_test (path, G_FILE_TEST_EXISTS))
             {
                 /* Thumbnail doesn't exist in either spot */
-                g_free (r_file->priv->thumbnail_path);
-                r_file->priv->thumbnail_path = NULL;
+                g_free (path);
+                path = NULL;
+
+                /* fallback on low quality thumbnail if possible */
+                if (flavor > RSTTO_THUMBNAIL_FLAVOR_LARGE)
+                {
+                    path = g_strdup (rstto_file_get_thumbnail_path (
+                                        r_file, RSTTO_THUMBNAIL_FLAVOR_LARGE));
+                    if (! warned && path != NULL)
+                    {
+                        warned = TRUE;
+                        g_message ("High quality thumbnail flavors don't seem supported: "
+                                   "thumbnail sizes greater than 256x256 pixels will lead "
+                                   "to upscaling and therefore probably blurriness");
+                    }
+                }
             }
         }
 
         g_free (checksum);
         g_free (filename);
         g_free (cache_dir);
+
+        r_file->priv->thumbnail_paths[flavor] = path;
     }
 
-    return r_file->priv->thumbnail_path;
+    return r_file->priv->thumbnail_paths[flavor];
 }
 
 const GdkPixbuf *
@@ -553,38 +580,40 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
                           RsttoThumbnailSize size)
 {
     RsttoThumbnailer *thumbnailer;
+    RsttoThumbnailFlavor flavor;
     GError *error = NULL;
     const gchar *thumbnail_path;
     guint n_pixels;
 
-    switch (r_file->priv->thumbnail_state)
+    flavor = rstto_util_get_thumbnail_flavor (size);
+    switch (r_file->priv->thumbnail_states[flavor])
     {
         case RSTTO_THUMBNAIL_STATE_PROCESSED:
-            if (r_file->priv->pixbufs_state[size] == PIXBUF_STATE_UPDATED)
+            if (r_file->priv->pixbuf_states[flavor][size] == PIXBUF_STATE_UPDATED)
                 return r_file->priv->pixbufs[size];
             else
-                r_file->priv->pixbufs_state[size] = PIXBUF_STATE_UPDATED;
+                r_file->priv->pixbuf_states[flavor][size] = PIXBUF_STATE_UPDATED;
 
             break;
 
         case RSTTO_THUMBNAIL_STATE_IN_PROCESS:
-            if (r_file->priv->pixbufs_state[size] == PIXBUF_STATE_PREVIOUS)
+            if (r_file->priv->pixbuf_states[flavor][size] == PIXBUF_STATE_PREVIOUS)
                 return r_file->priv->pixbufs[size];
             else
-                r_file->priv->pixbufs_state[size] = PIXBUF_STATE_PREVIOUS;
+                r_file->priv->pixbuf_states[flavor][size] = PIXBUF_STATE_PREVIOUS;
 
             break;
 
         case RSTTO_THUMBNAIL_STATE_UNPROCESSED:
             thumbnailer = rstto_thumbnailer_new ();
-            rstto_thumbnailer_queue_file (thumbnailer, r_file);
+            rstto_thumbnailer_queue_file (thumbnailer, flavor, r_file);
             g_object_unref (thumbnailer);
 
-            r_file->priv->thumbnail_state = RSTTO_THUMBNAIL_STATE_IN_PROCESS;
+            r_file->priv->thumbnail_states[flavor] = RSTTO_THUMBNAIL_STATE_IN_PROCESS;
             for (gint i = 0; i < RSTTO_THUMBNAIL_SIZE_COUNT; i++)
-                r_file->priv->pixbufs_state[i] = PIXBUF_STATE_NONE;
+                r_file->priv->pixbuf_states[flavor][i] = PIXBUF_STATE_NONE;
 
-            r_file->priv->pixbufs_state[size] = PIXBUF_STATE_PREVIOUS;
+            r_file->priv->pixbuf_states[flavor][size] = PIXBUF_STATE_PREVIOUS;
             break;
 
         case RSTTO_THUMBNAIL_STATE_ERROR:
@@ -596,10 +625,10 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
             return NULL;
     }
 
-    thumbnail_path = rstto_file_get_thumbnail_path (r_file);
+    thumbnail_path = rstto_file_get_thumbnail_path (r_file, flavor);
     if (thumbnail_path == NULL)
     {
-        if (r_file->priv->thumbnail_state == RSTTO_THUMBNAIL_STATE_PROCESSED)
+        if (r_file->priv->thumbnail_states[flavor] == RSTTO_THUMBNAIL_STATE_PROCESSED)
             g_warn_if_reached ();
 
         return NULL;
@@ -634,15 +663,17 @@ rstto_file_changed (RsttoFile *r_file)
     }
 
     r_file->priv->final_content_type = FALSE;
-    r_file->priv->thumbnail_state = RSTTO_THUMBNAIL_STATE_UNPROCESSED;
     r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NOT_DETERMINED;
     r_file->priv->scale = RSTTO_SCALE_NONE;
+    for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
+        r_file->priv->thumbnail_states[n] = RSTTO_THUMBNAIL_STATE_UNPROCESSED;
 
     if (rstto_file_is_valid (r_file))
     {
         /* this will send a request to the thumbnailer, which will trigger the necessary
          * updates with its "ready" signal */
-        rstto_file_get_thumbnail (r_file, RSTTO_THUMBNAIL_SIZE_SMALL);
+        rstto_file_get_thumbnail (r_file,
+                                  rstto_util_get_thumbnail_size (RSTTO_THUMBNAIL_FLAVOR_NORMAL));
 
         g_signal_emit (r_file, rstto_file_signals[RSTTO_FILE_SIGNAL_CHANGED], 0, NULL);
     }

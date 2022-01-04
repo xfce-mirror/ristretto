@@ -46,6 +46,14 @@ typedef enum
     RSTTO_SCALE_REAL_SIZE
 } RsttoScale;
 
+typedef enum
+{
+    RSTTO_THUMBNAIL_FLAVOR_NORMAL,
+    RSTTO_THUMBNAIL_FLAVOR_LARGE,
+    RSTTO_THUMBNAIL_FLAVOR_X_LARGE,
+    RSTTO_THUMBNAIL_FLAVOR_XX_LARGE,
+    RSTTO_THUMBNAIL_FLAVOR_COUNT
+} RsttoThumbnailFlavor;
 
 typedef enum
 {
@@ -112,6 +120,7 @@ rstto_file_set_content_type (RsttoFile *r_file,
 
 void
 rstto_file_set_thumbnail_state (RsttoFile *r_file,
+                                RsttoThumbnailFlavor flavor,
                                 RsttoThumbnailState state);
 
 const GdkPixbuf *
