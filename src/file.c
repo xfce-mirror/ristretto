@@ -515,8 +515,6 @@ rstto_file_get_thumbnail_path (RsttoFile *r_file,
     const gchar *uri, *flavor_name;
     gchar *path, *checksum, *filename, *cache_dir;
 
-    static gboolean warned = FALSE;
-
     if (r_file->priv->thumbnail_paths[flavor] == NULL)
     {
         flavor_name = rstto_util_get_thumbnail_flavor_name (flavor);
@@ -548,20 +546,6 @@ rstto_file_get_thumbnail_path (RsttoFile *r_file,
                 /* Thumbnail doesn't exist in either spot */
                 g_free (path);
                 path = NULL;
-
-                /* fallback on low quality thumbnail if possible */
-                if (flavor > RSTTO_THUMBNAIL_FLAVOR_LARGE)
-                {
-                    path = g_strdup (rstto_file_get_thumbnail_path (
-                                        r_file, RSTTO_THUMBNAIL_FLAVOR_LARGE));
-                    if (! warned && path != NULL)
-                    {
-                        warned = TRUE;
-                        g_message ("High quality thumbnail flavors don't seem supported: "
-                                   "thumbnail sizes greater than 256x256 pixels will lead "
-                                   "to upscaling and therefore probably blurriness");
-                    }
-                }
             }
         }
 
