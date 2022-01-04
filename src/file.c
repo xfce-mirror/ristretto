@@ -26,6 +26,7 @@
 #include <magic.h>
 #endif
 
+#include <libxfce4util/libxfce4util.h>
 
 
 enum
@@ -533,19 +534,25 @@ rstto_file_get_thumbnail_path (RsttoFile *r_file,
             cache_dir = g_strdup (g_get_user_cache_dir ());
 
         path = g_build_path ("/", cache_dir, "thumbnails", flavor_name, filename, NULL);
-
         if (! g_file_test (path, G_FILE_TEST_EXISTS))
         {
-            /* Fallback to old version */
+            /* fallback to old version */
             g_free (path);
-
             path = g_build_path ("/", g_get_home_dir (), ".thumbnails",
                                  flavor_name, filename, NULL);
             if (! g_file_test (path, G_FILE_TEST_EXISTS))
             {
-                /* Thumbnail doesn't exist in either spot */
+#if LIBXFCE4UTIL_CHECK_VERSION (4, 17, 1)
+                /* fallback to shared repository */
                 g_free (path);
-                path = NULL;
+                path = xfce_create_shared_thumbnail_path (uri, flavor_name);
+                if (path == NULL || ! g_file_test (path, G_FILE_TEST_EXISTS))
+#endif
+                {
+                    /* thumbnail doesn't exist in either spot */
+                    g_free (path);
+                    path = NULL;
+                }
             }
         }
 
