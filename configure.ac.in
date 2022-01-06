@@ -43,6 +43,7 @@ AM_CONDITIONAL([HAVE_CYGWIN], [test "`uname | grep \"CYGWIN\"`" != ""])
 
 dnl check for standard header files
 AC_PROG_CC
+AC_PROG_SED
 IT_PROG_INTLTOOL([0.35], [no-xml])
 
 
@@ -69,6 +70,20 @@ AC_SUBST(MAGIC_LIBS)
 
 LT_LIB_M
 AC_SUBST(LIBM)
+
+dnl *********************************************************************
+dnl *** Alternative Tumbler service name prefix for Flatpak packaging ***
+dnl *********************************************************************
+AC_ARG_VAR([TUMBLER_SERVICE_NAME_PREFIX],
+           [Alternative prefix to org.freedesktop.thumbnails for Tumbler services])
+test -n "$TUMBLER_SERVICE_NAME_PREFIX" || TUMBLER_SERVICE_NAME_PREFIX='org.freedesktop.thumbnails'
+
+AC_SUBST([TUMBLER_SERVICE_PATH_PREFIX],
+         [$(printf '%s' $TUMBLER_SERVICE_NAME_PREFIX | $SED -E 's%(^|\.)%/%g')])
+AC_DEFINE_UNQUOTED(TUMBLER_SERVICE_NAME_PREFIX, "$TUMBLER_SERVICE_NAME_PREFIX",
+                   Name prefix for Tumbler services)
+AC_DEFINE_UNQUOTED(TUMBLER_SERVICE_PATH_PREFIX, "$TUMBLER_SERVICE_PATH_PREFIX",
+                   Path prefix for Tumbler services)
 
 dnl check for debugging support
 XDT_FEATURE_DEBUG

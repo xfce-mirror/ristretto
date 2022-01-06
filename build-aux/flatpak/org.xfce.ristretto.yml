@@ -11,9 +11,9 @@ finish-args:
   # the open dialog is native, but we still need this to open files via the command line
   # and drag and drop, and to delete files
   - --filesystem=host
-  # permissions above include read access to the thumbnails in $HOST_XDG_CACHE_HOME, so
-  # no additional permission is required here
-  - --talk-name=org.freedesktop.thumbnails.Thumbnailer1
+  # FIXME: necessary for Tumbler to send signals, probably related to
+  # https://github.com/flatpak/xdg-dbus-proxy/issues/25
+  - --socket=session-bus
   # FIXME: necessary for the property dialog, but not sufficient (there is a fallback):
   # GDBus.Error:org.gtk.GDBus.UnmappedGError.Quark._g_2dfile_2derror_2dquark.Code24: Failed to open display ":99.0"
   - --talk-name=org.xfce.FileManager
@@ -66,8 +66,8 @@ modules:
       - --disable-debug
     sources:
       - type: archive
-        url: https://archive.xfce.org/src/xfce/libxfce4util/4.16/libxfce4util-4.16.0.tar.bz2
-        sha256: 60598d745d1fc81ff5ad3cecc3a8d1b85990dd22023e7743f55abd87d8b55b83
+        url: https://archive.xfce.org/src/xfce/libxfce4util/4.17/libxfce4util-4.17.1.tar.bz2
+        sha256: 1942151f3c1f3732bc53dd9fd3b936f62067796dc47a33c60a0ad05d933d90f2
         x-checker-data:
           type: anitya
           project-id: 232001
@@ -250,9 +250,48 @@ modules:
         > /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
       - gdk-pixbuf-query-loaders >> /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
 
+  # Tumbler as a private service, just as Xfconf above: stricly speaking it is not a
+  # mandatory dependency, but in the Flatpak context it almost becomes one, and it
+  # allows the application to be more self-contained
+  - name: tumbler
+    cleanup:
+      - /lib/systemd
+      - /share/icons
+    post-install:
+      - sed -i '/^SystemdService=/d' /app/share/dbus-1/services/org.xfce.Tumbler.*.service
+      - mv /app/share/dbus-1/services/org.xfce.Tumbler.Cache1.service
+           /app/share/dbus-1/services/org.xfce.ristretto.Cache1.service
+      - mv /app/share/dbus-1/services/org.xfce.Tumbler.Manager1.service
+           /app/share/dbus-1/services/org.xfce.ristretto.Manager1.service
+      - mv /app/share/dbus-1/services/org.xfce.Tumbler.Thumbnailer1.service
+           /app/share/dbus-1/services/org.xfce.ristretto.Thumbnailer1.service
+    config-opts:
+      - --enable-maintainer-mode
+      - --disable-debug
+      - --disable-cover-thumbnailer
+      - --disable-font-thumbnailer
+      - --disable-ffmpeg-thumbnailer
+      - --disable-gstreamer-thumbnailer
+      - --disable-odf-thumbnailer
+      - --disable-poppler-thumbnailer
+      - --disable-gepub-thumbnailer
+      - TUMBLER_SERVICE_NAME_PREFIX=org.xfce.ristretto
+    sources:
+      - type: git
+        url: https://gitlab.xfce.org/xfce/tumbler.git
+        tag: tumbler-4.17.0
+        commit: 8efa52bd31f96351d1cce2c7cddbb6302679c96a
+        x-checker-data:
+          type: anitya
+          project-id: 5014
+          tag-template: tumbler-$version
+      - type: patch
+        path: Allow-to-choose-an-alternative-service-name-prefix.patch
+
   - name: ristretto
     config-opts:
       - --enable-maintainer-mode
+      - TUMBLER_SERVICE_NAME_PREFIX=org.xfce.ristretto
     sources:
       - type: git
         url: https://gitlab.xfce.org/apps/ristretto.git

@@ -64,17 +64,16 @@ AM_CPPFLAGS = \
 	-I${top_srcdir}
 
 DISTCLEANFILES =
+ristretto_built_sources =
+BUILT_SOURCES =
 
 if MAINTAINER_MODE
 
-ristretto_built_sources = \
+ristretto_built_sources += \
     marshal.h \
-    marshal.c \
-    tumbler.c \
-    tumbler.h
+    marshal.c
 
-BUILT_SOURCES = \
-    $(ristretto_built_sources) \
+BUILT_SOURCES += \
 	main_window_ui.h
 
 main_window_ui.h: main_window_ui.xml
@@ -108,18 +107,32 @@ marshal.c: marshal.list Makefile
 		&& rm -f xgen-tmc \
 	)
 
-tumbler.c tumbler.h : $(srcdir)/tumbler-service-dbus.xml Makefile.am
-	gdbus-codegen \
-		--c-namespace=Tumbler \
-		--interface-prefix=org.freedesktop.thumbnails. \
-		--generate-c-code=tumbler \
-		$(srcdir)/tumbler-service-dbus.xml
-
 DISTCLEANFILES += \
-    stamp-marshal.h
+	stamp-marshal.h
 
 endif
 
+ristretto_built_sources += \
+    tumbler.c \
+    tumbler.h
+
+BUILT_SOURCES += \
+    $(ristretto_built_sources)
+
+tumbler-service-dbus.xml: tumbler-service-dbus.xml.in
+	$(SED) -e "s,\@TUMBLER_SERVICE_NAME_PREFIX\@,$(TUMBLER_SERVICE_NAME_PREFIX),g" \
+	       -e "s,\@TUMBLER_SERVICE_PATH_PREFIX\@,$(TUMBLER_SERVICE_PATH_PREFIX),g" < $< > $@
+
+tumbler.c tumbler.h : tumbler-service-dbus.xml Makefile.am
+	gdbus-codegen \
+		--c-namespace=Tumbler \
+		--interface-prefix=@TUMBLER_SERVICE_NAME_PREFIX@. \
+		--generate-c-code=tumbler \
+		tumbler-service-dbus.xml
+
+DISTCLEANFILES += \
+	tumbler-service-dbus.xml
+
 EXTRA_DIST = \
 	main_window_ui.xml \
-	tumbler-service-dbus.xml
+	tumbler-service-dbus.xml.in
