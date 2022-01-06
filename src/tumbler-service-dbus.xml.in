@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<node name="/org/freedesktop/thumbnails/Thumbnailer1">
-  <interface name="org.freedesktop.thumbnails.Thumbnailer1">
+<node name="@TUMBLER_SERVICE_PATH_PREFIX@/Thumbnailer1">
+  <interface name="@TUMBLER_SERVICE_NAME_PREFIX@.Thumbnailer1">
     <method name="Queue">
       <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
       <arg type="as" name="uris" direction="in" />

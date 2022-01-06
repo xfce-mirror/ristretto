@@ -514,7 +514,7 @@ rstto_file_get_thumbnail_path (RsttoFile *r_file,
                                RsttoThumbnailFlavor flavor)
 {
     const gchar *uri, *flavor_name;
-    gchar *path, *checksum, *filename, *cache_dir;
+    gchar *path, *checksum, *filename;
 
     if (r_file->priv->thumbnail_paths[flavor] == NULL)
     {
@@ -524,16 +524,8 @@ rstto_file_get_thumbnail_path (RsttoFile *r_file,
         filename = g_strconcat (checksum, ".png", NULL);
 
         /* build and check if the thumbnail is in the new location */
-        if (g_file_test ("/.flatpak-info", G_FILE_TEST_EXISTS))
-        {
-            cache_dir = g_strdup (g_getenv ("HOST_XDG_CACHE_HOME"));
-            if (cache_dir == NULL)
-                cache_dir =  g_build_path ("/", g_get_home_dir (), ".cache", NULL);
-        }
-        else
-            cache_dir = g_strdup (g_get_user_cache_dir ());
-
-        path = g_build_path ("/", cache_dir, "thumbnails", flavor_name, filename, NULL);
+        path = g_build_path ("/", g_get_user_cache_dir (), "thumbnails",
+                             flavor_name, filename, NULL);
         if (! g_file_test (path, G_FILE_TEST_EXISTS))
         {
             /* fallback to old version */
@@ -558,7 +550,6 @@ rstto_file_get_thumbnail_path (RsttoFile *r_file,
 
         g_free (checksum);
         g_free (filename);
-        g_free (cache_dir);
 
         r_file->priv->thumbnail_paths[flavor] = path;
     }
