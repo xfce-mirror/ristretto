@@ -19,9 +19,13 @@ finish-args:
   - --talk-name=org.xfce.FileManager
   # access remote locations with GVfs
   - --filesystem=xdg-run/gvfs
+  # see below, at the end of the pixbuf loader list
+  - --env=GDK_PIXBUF_MODULE_FILE=/app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
 
 cleanup:
+  - '*.a'
   - '*.la'
+  - /lib/cmake
   - /lib/girepository-1.0
   - /lib/pkgconfig
   - /include
@@ -104,6 +108,147 @@ modules:
           type: anitya
           project-id: 232000
           url-template: https://archive.xfce.org/src/xfce/libxfce4ui/$major.$minor/libxfce4ui-$version.tar.bz2
+
+  # optional dependencies for gdk-pixbuf
+  - name: libheif
+    buildsystem: cmake-ninja
+    sources:
+      - type: archive
+        url: https://github.com/strukturag/libheif/releases/download/v1.12.0/libheif-1.12.0.tar.gz
+        sha256: e1ac2abb354fdc8ccdca71363ebad7503ad731c84022cf460837f0839e171718
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/strukturag/libheif/releases/latest
+          version-query: .tag_name | sub("^v"; "")
+          url-query: .assets | map(select(.name=="libheif-\($version).tar.gz")) | first | .browser_download_url
+      - type: shell
+        commands:
+          - sed -i 's|DESTINATION ${GDKPIXBUF2_MODULE_DIR}|DESTINATION /app/lib/gdk-pixbuf-2.0/2.10.0/loaders|'
+            gdk-pixbuf/CMakeLists.txt
+    modules:
+      - name: libde265
+        cleanup:
+          - /bin
+        config-opts:
+          - --disable-encoder
+          - --disable-sherlock265
+          - --disable-dec265
+        sources:
+          - type: archive
+            url: https://github.com/strukturag/libde265/releases/download/v1.0.8/libde265-1.0.8.tar.gz
+            sha256: 24c791dd334fa521762320ff54f0febfd3c09fc978880a8c5fbc40a88f21d905
+            x-checker-data:
+              type: json
+              url: https://api.github.com/repos/strukturag/libde265/releases/latest
+              version-query: .tag_name | sub("^v"; "")
+              url-query: .assets | map(select(.name=="libde265-\($version).tar.gz")) | first | .browser_download_url
+
+  - name: libwmf
+    cleanup:
+      - /bin
+    config-opts:
+      - CFLAGS=-I/app/include/freetype2
+    sources:
+      - type: git
+        url: https://github.com/caolanm/libwmf.git
+        tag: v0.2.12
+        commit: 5b7af9cf44c688770f174533dbe14c8953ec39cd
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/caolanm/libwmf/releases/latest
+          tag-query: .tag_name
+          version-query: $tag | sub("^v"; "")
+          timestamp-query: .published_at
+      # see https://github.com/flathub/org.gimp.GIMP/blob/master/org.gimp.GIMP.json
+      - type: patch
+        path: libwmf-autoheader.patch
+    modules:
+      - name: freetype
+        buildsystem: meson
+        sources:
+          - type: archive
+            url: https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.xz
+            sha256: 3333ae7cfda88429c97a7ae63b7d01ab398076c3b67182e960e5684050f2c5c8
+            x-checker-data:
+              type: anitya
+              project-id: 854
+              url-template: https://download-mirror.savannah.gnu.org/releases/freetype/freetype-$version.tar.xz
+
+  - name: webp-pixbuf-loader
+    buildsystem: meson
+    config-opts:
+      - -Dgdk_pixbuf_moduledir=/app/lib/gdk-pixbuf-2.0/2.10.0/loaders/
+    sources:
+      - type: git
+        url: https://github.com/aruiz/webp-pixbuf-loader.git
+        tag: 0.0.3
+        commit: ffddc060497ee11d6cc573dae01a528b357b91ec
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/aruiz/webp-pixbuf-loader/releases/latest
+          tag-query: .tag_name
+          version-query: $tag
+          timestamp-query: .published_at
+
+  - name: libavif
+    buildsystem: cmake
+    config-opts:
+      - -DAVIF_BUILD_GDK_PIXBUF=ON
+    sources:
+      - type: git
+        url: https://github.com/AOMediaCodec/libavif.git
+        tag: v0.9.3
+        commit: ac76fe0d16a255bccefff5bdfddd865742176d85
+        x-checker-data:
+          type: anitya
+          project-id: 178015
+          stable-only: true
+          tag-template: v$version
+      - type: shell
+        commands:
+          - sed -i 's|DESTINATION ${GDK_PIXBUF_MODULEDIR}|DESTINATION /app/lib/gdk-pixbuf-2.0/2.10.0/loaders|'
+            contrib/gdk-pixbuf/CMakeLists.txt
+
+  # FIXME: Build fails: this requires Rust, which in turn wants to access the network to
+  #        update itself. This could perhaps be solved with the links provided in
+  #        https://github.com/flathub/org.freedesktop.Sdk.Extension.rust-stable/issues/41,
+  #        but it's a lot of complications for a questionable gain.
+  # - name: libopenraw
+  #   sources:
+  #     - type: git
+  #       url: https://github.com/hfiguiere/libopenraw.git
+  #       tag: libopenraw-0.3.0
+  #       commit: a512576c73882f8fe67568dc21376dc9b14fc3e6
+  #       x-checker-data:
+  #         type: json
+  #         url: https://api.github.com/repos/hfiguiere/libopenraw/releases/latest
+  #         tag-query: .tag_name
+  #         version-query: $tag | sub("^libopenraw-"; "")
+  #         timestamp-query: .published_at
+  #   modules:
+  #     - name: boost
+  #       buildsystem: simple
+  #       build-commands:
+  #         - ./bootstrap.sh --prefix=/app --with-libraries=system --with-libraries=test
+  #         - ./b2 install variant=release link=shared runtime-link=shared cxxflags="$CXXFLAGS"
+  #           linkflags="$LDFLAGS" -j $FLATPAK_BUILDER_N_JOBS
+  #       sources:
+  #         - type: archive
+  #           url: https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.gz
+  #           sha256: 94ced8b72956591c4775ae2207a9763d3600b30d9d7446562c552f0a14a63be7
+  #           x-checker-data:
+  #             type: anitya
+  #             project-id: 6845
+  #             url-template: https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_$major_$minor_$micro.tar.gz
+
+  # for the above libraries to be taken into account by gdk-pixbuf, stolen from
+  # https://github.com/flathub/org.gnome.eog/blob/master/org.gnome.eog.yml
+  - name: update-pixbuf-loaders
+    buildsystem: simple
+    build-commands:
+      - GDK_PIXBUF_MODULEDIR=/app/lib/gdk-pixbuf-2.0/2.10.0/loaders/ gdk-pixbuf-query-loaders
+        > /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+      - gdk-pixbuf-query-loaders >> /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
 
   - name: ristretto
     config-opts:
