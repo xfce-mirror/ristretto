@@ -1,4 +1,4 @@
-From 954f9e313c3690518c92e26cf144110f60f66ddf Mon Sep 17 00:00:00 2001
+From 4e1619470fdb1e364ad1469e760ba7907d67d936 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Ga=C3=ABl=20Bonithon?= <gael@xfce.org>
 Date: Sun, 9 Jan 2022 10:59:43 +0100
 Subject: [PATCH] Allow to choose an alternative service name prefix
@@ -10,21 +10,21 @@ prefix must be specified via the environment variable
 ---
  .gitignore                                    |  3 ++
  Makefile.am                                   |  2 +-
- configure.ac                                  | 19 +++++++++-
- tumblerd/Makefile.am                          | 36 ++++++++++++-------
- tumblerd/main.c                               |  6 ++--
+ configure.ac                                  | 24 +++++++++-
+ tumblerd/Makefile.am                          | 46 +++++++++++++------
+ tumblerd/main.c                               |  6 +--
  tumblerd/org.xfce.Tumbler.Cache1.service.in   |  2 +-
  tumblerd/org.xfce.Tumbler.Manager1.service.in |  2 +-
  .../org.xfce.Tumbler.Thumbnailer1.service.in  |  2 +-
- ....xml => tumbler-cache-service-dbus.xml.in} |  8 ++---
- tumblerd/tumbler-cache-service.c              |  6 ++--
- ...r-dbus.xml => tumbler-manager-dbus.xml.in} |  7 ++--
+ ....xml => tumbler-cache-service-dbus.xml.in} |  8 ++--
+ tumblerd/tumbler-cache-service.c              |  6 +--
+ ...r-dbus.xml => tumbler-manager-dbus.xml.in} |  7 +--
  tumblerd/tumbler-manager.c                    |  2 +-
- ...e-dbus.xml => tumbler-service-dbus.xml.in} |  8 ++---
- tumblerd/tumbler-service.c                    |  6 ++--
+ ...e-dbus.xml => tumbler-service-dbus.xml.in} |  8 ++--
+ tumblerd/tumbler-service.c                    |  6 +--
  tumblerd/tumbler-specialized-thumbnailer.c    |  2 +-
  tumblerd/tumblerd.service.in                  |  2 +-
- 16 files changed, 69 insertions(+), 44 deletions(-)
+ 16 files changed, 82 insertions(+), 46 deletions(-)
  rename tumblerd/{tumbler-cache-service-dbus.xml => tumbler-cache-service-dbus.xml.in} (77%)
  rename tumblerd/{tumbler-manager-dbus.xml => tumbler-manager-dbus.xml.in} (70%)
  rename tumblerd/{tumbler-service-dbus.xml => tumbler-service-dbus.xml.in} (87%)
@@ -57,7 +57,7 @@ index ea0fb27..867d581 100644
  .PHONY: ChangeLog
  
 diff --git a/configure.ac b/configure.ac
-index 370506d..ddf1e9a 100644
+index 370506d..5917ba8 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -96,6 +96,9 @@ AC_PROG_CC()
@@ -79,7 +79,7 @@ index 370506d..ddf1e9a 100644
  XDT_I18N([$linguas])
  
  dnl *************************
-@@ -151,6 +154,20 @@ PKG_CHECK_MODULES([GMODULE], [gmodule-2.0 >= 2.56.0])
+@@ -151,6 +154,25 @@ PKG_CHECK_MODULES([GMODULE], [gmodule-2.0 >= 2.56.0])
  PKG_CHECK_MODULES([GTHREAD], [gthread-2.0 >= 2.56.0])
  XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [4.17.1])
  
@@ -88,7 +88,12 @@ index 370506d..ddf1e9a 100644
 +dnl ******************************************************************
 +AC_ARG_VAR([TUMBLER_SERVICE_NAME_PREFIX],
 +           [Alternative prefix to org.freedesktop.thumbnails for Tumbler services])
-+test -n "$TUMBLER_SERVICE_NAME_PREFIX" || TUMBLER_SERVICE_NAME_PREFIX='org.freedesktop.thumbnails'
++if test -z "$TUMBLER_SERVICE_NAME_PREFIX"; then
++  TUMBLER_SERVICE_NAME_PREFIX='org.freedesktop.thumbnails'
++  AC_SUBST([TUMBLER_SERVICE_FILENAME_PREFIX], [org.xfce.Tumbler])
++else
++  AC_SUBST([TUMBLER_SERVICE_FILENAME_PREFIX], [$TUMBLER_SERVICE_NAME_PREFIX])
++fi
 +
 +AC_SUBST([TUMBLER_SERVICE_PATH_PREFIX],
 +         [$(printf '%s' $TUMBLER_SERVICE_NAME_PREFIX | $SED -E 's%(^|\.)%/%g')])
@@ -101,13 +106,24 @@ index 370506d..ddf1e9a 100644
  dnl *** Check for plugins ***
  dnl *************************
 diff --git a/tumblerd/Makefile.am b/tumblerd/Makefile.am
-index 1c3e76e..5eb0dbc 100644
+index 1c3e76e..4836bf6 100644
 --- a/tumblerd/Makefile.am
 +++ b/tumblerd/Makefile.am
-@@ -99,9 +99,22 @@ systemd_user_in_files = tumblerd.service.in
+@@ -92,16 +92,35 @@ service_in_files = 							\
+ 	org.xfce.Tumbler.Manager1.service.in				\
+ 	org.xfce.Tumbler.Thumbnailer1.service.in
+ 
+-service_DATA = $(service_in_files:.service.in=.service)
++service_DATA = $(service_in_files:org.xfce.Tumbler.%.service.in=@TUMBLER_SERVICE_FILENAME_PREFIX@.%.service)
+ 
+ systemd_userdir = $(prefix)/lib/systemd/user
+ systemd_user_in_files = tumblerd.service.in
  
  systemd_user_DATA = $(systemd_user_in_files:.service.in=.service)
  
+-%.service: %.service.in
+-	sed -e "s,\@libdir\@,$(libdir),g"				\
+-	    -e "s,\@TUMBLER_VERSION_API\@,$(TUMBLER_VERSION_API),g" < $< > $@
 +dbus_xml_in_files = \
 +	tumbler-cache-service-dbus.xml.in \
 +	tumbler-manager-dbus.xml.in \
@@ -115,9 +131,13 @@ index 1c3e76e..5eb0dbc 100644
 +
 +dbus_xml_files = $(dbus_xml_in_files:.xml.in=.xml)
 +
- %.service: %.service.in
--	sed -e "s,\@libdir\@,$(libdir),g"				\
--	    -e "s,\@TUMBLER_VERSION_API\@,$(TUMBLER_VERSION_API),g" < $< > $@
++@TUMBLER_SERVICE_FILENAME_PREFIX@.%.service: org.xfce.Tumbler.%.service.in
++	$(SED) -e "s,\@libdir\@,$(libdir),g" \
++	       -e "s,\@TUMBLER_VERSION_API\@,$(TUMBLER_VERSION_API),g" \
++	       -e "s,\@TUMBLER_SERVICE_NAME_PREFIX\@,$(TUMBLER_SERVICE_NAME_PREFIX),g" \
++	       -e "s,\@TUMBLER_SERVICE_PATH_PREFIX\@,$(TUMBLER_SERVICE_PATH_PREFIX),g" < $< > $@
++
++tumblerd.service: tumblerd.service.in
 +	$(SED) -e "s,\@libdir\@,$(libdir),g" \
 +	       -e "s,\@TUMBLER_VERSION_API\@,$(TUMBLER_VERSION_API),g" \
 +	       -e "s,\@TUMBLER_SERVICE_NAME_PREFIX\@,$(TUMBLER_SERVICE_NAME_PREFIX),g" \
@@ -129,7 +149,7 @@ index 1c3e76e..5eb0dbc 100644
  
  confdir = $(sysconfdir)/xdg/tumbler
  conf_DATA = \
-@@ -115,12 +128,11 @@ EXTRA_DIST =								\
+@@ -115,12 +134,11 @@ EXTRA_DIST =								\
  	$(systemd_user_in_files)					\
  	$(service_in_files)						\
  	tumbler.rc							\
@@ -145,7 +165,7 @@ index 1c3e76e..5eb0dbc 100644
  
  BUILT_SOURCES =								\
  	$(tumblerd_built_sources)
-@@ -128,23 +140,23 @@ BUILT_SOURCES =								\
+@@ -128,23 +146,23 @@ BUILT_SOURCES =								\
  tumbler-manager-gdbus.h:
  tumbler-manager-gdbus.c: tumbler-manager-dbus.xml Makefile
  	$(AM_V_GEN) $(GDBUS_CODEGEN) \
