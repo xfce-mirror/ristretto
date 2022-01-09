@@ -106,8 +106,8 @@ rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
         thumbnailer->priv->proxy = tumbler_thumbnailer1_proxy_new_sync (
                 thumbnailer->priv->connection,
                 G_DBUS_PROXY_FLAGS_NONE,
-                "org.freedesktop.thumbnails.Thumbnailer1",
-                "/org/freedesktop/thumbnails/Thumbnailer1",
+                TUMBLER_SERVICE_NAME_PREFIX ".Thumbnailer1",
+                TUMBLER_SERVICE_PATH_PREFIX "/Thumbnailer1",
                 NULL,
                 NULL);
 
