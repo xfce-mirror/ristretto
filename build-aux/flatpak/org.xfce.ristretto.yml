@@ -91,7 +91,9 @@ modules:
           project-id: 14854
           tag-template: xfconf-$version
       - type: patch
-        path: Xfconf-Allow-to-choose-an-alternative-service-name-prefix.patch
+        path: patches/Xfconf-Allow-to-choose-an-alternative-service-name-prefix.patch
+      - type: patch
+        path: patches/Add-a-lifecycle-manager-to-xfconfd.patch
 
   - name: libxfce4ui
     cleanup:
@@ -162,7 +164,7 @@ modules:
           timestamp-query: .published_at
       # see https://github.com/flathub/org.gimp.GIMP/blob/master/org.gimp.GIMP.json
       - type: patch
-        path: libwmf-autoheader.patch
+        path: patches/libwmf-autoheader.patch
     modules:
       - name: freetype
         buildsystem: meson
@@ -281,7 +283,7 @@ modules:
           project-id: 5014
           tag-template: tumbler-$version
       - type: patch
-        path: Tumbler-Allow-to-choose-an-alternative-service-name-prefix.patch
+        path: patches/Tumbler-Allow-to-choose-an-alternative-service-name-prefix.patch
 
   - name: ristretto
     config-opts:
