@@ -1,3 +1,42 @@
+0.12.2 (2022-01-14)
+======
+- New Features:
+  - Thumbnailer: Add support for shared thumbnail repositories (#82)
+  - Thumbnailer: Add thumbnail flavor support (#81)
+
+- Performance Improvement:
+  - Optimization: Use TreeModel IFace to walk the image list
+  - Optimization: Add index and list link to RsttoImageListIter
+  - Optimization: Switch to GQueue in RsttoImageList
+
+- Code Refactoring:
+  - Flatpak: Add lifecycle manager patch to Xfconf dependency
+  - Flatpak: Add Tumbler dependency as a private service (!35)
+  - Flatpak: Add pixbuf loaders
+  - Refactoring: Cleanup and simplifications around thumbnail size
+  - Redistribute thumbnail sizes uniformly
+  - Disable debug checks in release mode
+  - Cleanup: Miscellaneous
+  - Cleanup: Remove unused APIs in RsttoImageList
+
+- Bug Fixes:
+  - Fix and complete file change monitoring
+  - Thumbnailer: Rework queue management
+  - Thumbnailer: Properly set the number of visible items
+  - Take the device scale into account to limit rendering quality
+  - Avoid multi-threading issue with X11 (#76)
+
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Occitan (post
+  1500), Polish, Portuguese, Portuguese (Brazil), Romanian, Russian,
+  Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish,
+  Ukrainian, Uyghur
+
 0.12.1 (2021-11-26)
 ======
 - Dependency Changes:
