@@ -616,6 +616,9 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
         return NULL;
     }
 
+    if (r_file->priv->pixbufs[size] != NULL)
+        g_object_unref (r_file->priv->pixbufs[size]);
+
     n_pixels = rstto_util_get_thumbnail_n_pixels (size);
     r_file->priv->pixbufs[size] =
         gdk_pixbuf_new_from_file_at_scale (thumbnail_path, n_pixels, n_pixels, TRUE, &error);

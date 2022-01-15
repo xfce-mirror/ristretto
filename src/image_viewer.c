@@ -641,6 +641,11 @@ rstto_image_viewer_finalize (GObject *object)
         g_object_unref (viewer->priv->file);
         viewer->priv->file = NULL;
     }
+    if (viewer->priv->error)
+    {
+        g_error_free (viewer->priv->error);
+        viewer->priv->error = NULL;
+    }
 
     G_OBJECT_CLASS (rstto_image_viewer_parent_class)->finalize (object);
 }
