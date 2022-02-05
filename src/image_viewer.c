@@ -43,6 +43,8 @@
 #define MIN_VIEW_PERCENT 0.1
 #define RSTTO_LINE_WIDTH 1.0
 
+#define ERROR_UNDETERMINED "Undetermined error"
+
 enum
 {
     PROP_0,
@@ -1740,14 +1742,23 @@ cb_rstto_image_loader_closed_idle (gpointer data)
 {
     RsttoImageViewerTransaction *transaction = data;
     RsttoImageViewer *viewer = transaction->viewer;
+    GdkPixbuf *pixbuf;
     GtkWidget *widget = GTK_WIDGET (viewer);
 
     if (viewer->priv->transaction == transaction)
     {
+        pixbuf = gdk_pixbuf_loader_get_pixbuf (transaction->loader);
+
+        /* cover any case where no pixbuf is available and no error is set:
+         * see e.g. https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/204 */
+        if (transaction->error == NULL && pixbuf == NULL)
+            g_set_error (&transaction->error, GDK_PIXBUF_ERROR,
+                         GDK_PIXBUF_ERROR_FAILED, ERROR_UNDETERMINED);
+
         if (transaction->error == NULL || (
                 g_error_matches (transaction->error, GDK_PIXBUF_ERROR,
                                  GDK_PIXBUF_ERROR_CORRUPT_IMAGE)
-                && gdk_pixbuf_loader_get_pixbuf (transaction->loader) != NULL
+                && pixbuf != NULL
             ))
         {
             gtk_widget_set_tooltip_text (widget, NULL);
@@ -2123,7 +2134,7 @@ cb_rstto_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_da
     cairo_region_t *region;
     cairo_status_t status;
     GtkAllocation alloc;
-    const gchar *message = "Undetermined error";
+    const gchar *message = ERROR_UNDETERMINED;
 
     /* do not redraw the image */
     gtk_widget_get_allocation (user_data, &alloc);
