@@ -1,0 +1,25 @@
+From 893786413bfa086e63e090e8b40e038b8fcbc3b5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABl=20Bonithon?= <gael@xfce.org>
+Date: Sat, 13 Nov 2021 17:42:54 +0100
+Subject: [PATCH 1/2] build: Honor installation prefix also for the pixbuf
+ loader
+
+---
+ configure.ac | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/configure.ac b/configure.ac
+index 49ff7f4..b9bff92 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -150,6 +150,7 @@ if test x$enable_gnome = xyes ; then
+       PKG_CHECK_MODULES(LIBGDKPIXBUF, gdk-pixbuf-2.0 >= $LIBGDKPIXBUF_REQUIRED,
+                      [AC_DEFINE(HAVE_LIBGDKPIXBUF, 1, [Define to 1 to enable libgdkpixbuf support])
+ 		      GDK_PIXBUF_DIR=`$PKG_CONFIG --variable=gdk_pixbuf_moduledir gdk-pixbuf-2.0`
++		      GDK_PIXBUF_DIR=$libdir${GDK_PIXBUF_DIR#$($PKG_CONFIG --variable=libdir gdk-pixbuf-2.0)}
+ 			dnl This is because the variable is only defined on recent gdk-pixbuf. 
+ 			dnl Revert to the old method otherwise. (https://bugs.freedesktop.org/show_bug.cgi?id=30013)
+ 			if test -z "$GDK_PIXBUF_DIR" ; then
+-- 
+2.35.1
+

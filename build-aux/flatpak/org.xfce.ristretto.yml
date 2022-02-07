@@ -113,6 +113,47 @@ modules:
           url-template: https://archive.xfce.org/src/xfce/libxfce4ui/$major.$minor/libxfce4ui-$version.tar.bz2
 
   # optional dependencies for gdk-pixbuf
+  - name: libopenraw
+    config-opts:
+      - --disable-cr3
+    sources:
+      - type: git
+        url: https://github.com/hfiguiere/libopenraw.git
+        tag: libopenraw-0.3.0
+        commit: a512576c73882f8fe67568dc21376dc9b14fc3e6
+        x-checker-data:
+          type: anitya
+          project-id: 7980
+          stable-only: true
+          tag-template: libopenraw-$version
+      - type: patch
+        path: patches/Update-libopenraw-gnome-0.3.pc.in.patch
+      - type: patch
+        path: patches/Issue-6-Fix-build-on-gcc-11.patch
+      # See https://gitlab.freedesktop.org/libopenraw/libopenraw/-/issues/9
+      # Necessary in this context, to make the pixbuf loader install in /app/lib
+      - type: patch
+        path: patches/build-Honor-installation-prefix-also-for-the-pixbuf-.patch
+      # CR3 support requires Rust, which is a pain to build in a Flatpak context. Also, it
+      # does not affect the pixbuf loader, which is what we care about for Ristretto.
+      - type: patch
+        path: patches/Make-CR3-support-optional.patch
+    modules:
+      - name: boost
+        buildsystem: simple
+        build-commands:
+          - ./bootstrap.sh --prefix=/app --with-libraries=system --with-libraries=test
+          - ./b2 install variant=release link=shared runtime-link=shared cxxflags="$CXXFLAGS"
+            linkflags="$LDFLAGS" -j $FLATPAK_BUILDER_N_JOBS
+        sources:
+          - type: archive
+            url: https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.gz
+            sha256: 94ced8b72956591c4775ae2207a9763d3600b30d9d7446562c552f0a14a63be7
+            x-checker-data:
+              type: anitya
+              project-id: 6845
+              url-template: https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${version0}_${version1}_$version2.tar.gz
+
   - name: libheif
     buildsystem: cmake-ninja
     sources:
@@ -211,38 +252,6 @@ modules:
         commands:
           - sed -i 's|DESTINATION ${GDK_PIXBUF_MODULEDIR}|DESTINATION /app/lib/gdk-pixbuf-2.0/2.10.0/loaders|'
             contrib/gdk-pixbuf/CMakeLists.txt
-
-  # FIXME: Build fails: this requires Rust, which in turn wants to access the network to
-  #        update itself. This could perhaps be solved with the links provided in
-  #        https://github.com/flathub/org.freedesktop.Sdk.Extension.rust-stable/issues/41,
-  #        but it's a lot of complications for a questionable gain.
-  # - name: libopenraw
-  #   sources:
-  #     - type: git
-  #       url: https://github.com/hfiguiere/libopenraw.git
-  #       tag: libopenraw-0.3.0
-  #       commit: a512576c73882f8fe67568dc21376dc9b14fc3e6
-  #       x-checker-data:
-  #         type: json
-  #         url: https://api.github.com/repos/hfiguiere/libopenraw/releases/latest
-  #         tag-query: .tag_name
-  #         version-query: $tag | sub("^libopenraw-"; "")
-  #         timestamp-query: .published_at
-  #   modules:
-  #     - name: boost
-  #       buildsystem: simple
-  #       build-commands:
-  #         - ./bootstrap.sh --prefix=/app --with-libraries=system --with-libraries=test
-  #         - ./b2 install variant=release link=shared runtime-link=shared cxxflags="$CXXFLAGS"
-  #           linkflags="$LDFLAGS" -j $FLATPAK_BUILDER_N_JOBS
-  #       sources:
-  #         - type: archive
-  #           url: https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.gz
-  #           sha256: 94ced8b72956591c4775ae2207a9763d3600b30d9d7446562c552f0a14a63be7
-  #           x-checker-data:
-  #             type: anitya
-  #             project-id: 6845
-  #             url-template: https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_$major_$minor_$micro.tar.gz
 
   # for the above libraries to be taken into account by gdk-pixbuf, stolen from
   # https://github.com/flathub/org.gnome.eog/blob/master/org.gnome.eog.yml
