@@ -83,10 +83,7 @@ main (int argc, char **argv)
     RsttoImageList *image_list;
     GtkWidget *window;
 
-    setlocale (LC_ALL, "");
-    bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-    textdomain (GETTEXT_PACKAGE);
+    xfce_textdomain (GETTEXT_PACKAGE, LOCALEDIR, "UTF-8");
 
     if (!gtk_init_with_args (&argc, &argv, NULL, entries, PACKAGE, &cli_error))
     {
