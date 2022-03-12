@@ -89,7 +89,7 @@ main (int argc, char **argv)
     {
         if (cli_error != NULL)
         {
-            g_print (
+            g_printerr (
                     _("%s: %s\n\n"
                       "Try %s --help to see a full list of\n"
                       "available command line options.\n"),
