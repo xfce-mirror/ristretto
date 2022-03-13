@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Per Kongstad <p_kongstad@op.pl>, 2008-2009
-# scootergrisen, 2016-2021
+# scootergrisen, 2016-2022
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2021-12-10 12:50+0100\n"
-"PO-Revision-Date: 2021-12-10 11:50+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2022-03-13 23:50+0000\n"
+"Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,17 +54,17 @@ msgstr "Kunne ikke gemme fil"
 
 #: ../src/main_window.c:42
 msgid "Some files could not be opened: see the text logs for details"
-msgstr ""
+msgstr "Nogle filer kunne ikke åbnes: se tekstloggene for detaljer"
 
 #: ../src/main_window.c:43
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
-msgstr ""
+msgstr "Der opstod en fejl under sletning af billedet '%s' fra disken"
 
 #: ../src/main_window.c:44
 #, c-format
 msgid "An error occurred when sending image '%s' to trash"
-msgstr ""
+msgstr "Der opstod en fejl under sending af billedet '%s' til papirkurven"
 
 #: ../src/main_window.c:329
 msgid "_File"
@@ -870,7 +870,7 @@ msgstr "%s - Egenskaber"
 
 #: ../src/image_list.c:32
 msgid "No supported image type found in the directory"
-msgstr ""
+msgstr "Ingen understøttede billedtype fundet i mappen"
 
 #: ../src/image_list.c:33
 msgid "Directory only partially loaded"
