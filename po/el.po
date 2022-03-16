@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ápo. <apostolos.papadimitriu@gmail.com>, 2022
 # Ápo. <apostolos.papadimitriu@gmail.com>, 2016
 # Ápo. <apostolos.papadimitriu@gmail.com>, 2017
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2012
@@ -16,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2021-12-10 12:50+0100\n"
-"PO-Revision-Date: 2021-12-10 11:50+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2013-07-03 18:30+0000\n"
+"Last-Translator: Ápo. <apostolos.papadimitriu@gmail.com>, 2022\n"
 "Language-Team: Greek (http://www.transifex.com/xfce/xfce-apps/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,17 +61,17 @@ msgstr "Αδυναμία αποθήκευσης αρχείου"
 
 #: ../src/main_window.c:42
 msgid "Some files could not be opened: see the text logs for details"
-msgstr ""
+msgstr "Αδυναμία ανοίγματος ορισμένων αρχείων: δείτε τις καταγραφές για λεπτομέρειες"
 
 #: ../src/main_window.c:43
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
-msgstr ""
+msgstr "Σφάλμα κατά την διαγραφή της εικόνας '%s' από το δίσκο"
 
 #: ../src/main_window.c:44
 #, c-format
 msgid "An error occurred when sending image '%s' to trash"
-msgstr ""
+msgstr "Σφάλμα κατά την αποστολή της εικόνας '%s' στα απορρίματα"
 
 #: ../src/main_window.c:329
 msgid "_File"
@@ -145,7 +146,7 @@ msgstr "Έξοδος από το ristretto"
 
 #: ../src/main_window.c:378
 msgid "_Copy image to clipboard"
-msgstr ""
+msgstr "_Αντιγραφή εικόνας στο πρόχειρο"
 
 #: ../src/main_window.c:384
 msgid "_Open with"
@@ -257,7 +258,7 @@ msgstr "Μεγένθυση στο 100%"
 
 #: ../src/main_window.c:471
 msgid "_Default Zoom"
-msgstr ""
+msgstr "_Προεπιλεγμένη μεγέθυνση"
 
 #: ../src/main_window.c:478
 msgid "_Rotation"
@@ -458,7 +459,7 @@ msgstr "Πολύ μεγάλο"
 #. Icon-name
 #: ../src/main_window.c:736
 msgid "_Smart Zoom"
-msgstr ""
+msgstr "_Έξυπνη Μεγέθυνση"
 
 #: ../src/main_window.c:874
 msgid "Images"
@@ -876,19 +877,19 @@ msgstr "%s - Ιδιότητες"
 
 #: ../src/image_list.c:32
 msgid "No supported image type found in the directory"
-msgstr ""
+msgstr "Δεν βρέθηκε υποστηριζόμενος τύπος αρχείου εικόνας στον κατάλογο"
 
 #: ../src/image_list.c:33
 msgid "Directory only partially loaded"
-msgstr ""
+msgstr "Μερική φόρτωση καταλόγου"
 
 #: ../src/image_list.c:34
 msgid "Could not load directory"
-msgstr ""
+msgstr "Αδυναμία φόρτωσης καταλόγου"
 
 #: ../src/image_list.c:35
 msgid "Unsupported mime type"
-msgstr ""
+msgstr "Μη υποστηριζόμενος τύπος mime"
 
 #: ../src/thumbnailer.c:292
 msgid ""
@@ -950,11 +951,11 @@ msgstr "Δείτε τις εικόνες σας εύκολα"
 
 #: ../org.xfce.ristretto.appdata.xml.in.h:1
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: ../org.xfce.ristretto.appdata.xml.in.h:2
 msgid "Fast and lightweight image viewer"
-msgstr ""
+msgstr "Γρήγορο και ελαφρύ πρόγραμμα αναπαραγωγής εικόνων"
 
 #: ../org.xfce.ristretto.appdata.xml.in.h:4
 msgid ""
