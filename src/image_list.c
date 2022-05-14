@@ -322,6 +322,7 @@ rstto_image_list_add_file (RsttoImageList *image_list,
                            RsttoFile *r_file,
                            GError **error)
 {
+    RsttoImageListIter *r_iter;
     GtkTreePath *path;
     GtkTreeIter t_iter;
     GFileMonitor *monitor;
@@ -362,8 +363,13 @@ rstto_image_list_add_file (RsttoImageList *image_list,
     gtk_tree_path_free (path);
 
     for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
-        if (! RSTTO_IMAGE_LIST_ITER (iter->data)->priv->sticky)
+    {
+        r_iter = iter->data;
+        if (! r_iter->priv->sticky)
             rstto_image_list_iter_find_file (iter->data, r_file);
+        else
+            rstto_image_list_iter_find_file (r_iter, r_iter->priv->r_file);
+    }
 
     return TRUE;
 }
@@ -451,6 +457,12 @@ rstto_image_list_remove_file (RsttoImageList *image_list,
     gtk_tree_path_append_index (path_, index_);
     gtk_tree_model_row_deleted (GTK_TREE_MODEL (image_list), path_);
     gtk_tree_path_free (path_);
+
+    for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
+    {
+        r_iter = iter->data;
+        rstto_image_list_iter_find_file (r_iter, r_iter->priv->r_file);
+    }
 }
 
 static void
