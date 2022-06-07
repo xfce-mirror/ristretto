@@ -436,22 +436,18 @@ rstto_image_list_remove_file (RsttoImageList *image_list,
             iter_previous (r_iter, r_iter->priv->sticky);
         else
             iter_next (r_iter, r_iter->priv->sticky);
-
-        /* if the image is still the same, it's a single item list,
-         * and we should force the image in this iter to NULL */
-        if (r_iter->priv->r_file == r_file)
-        {
-            r_iter->priv->r_file = NULL;
-            r_iter->priv->link = NULL;
-            r_iter->priv->index = -1;
-            g_signal_emit (r_iter,
-                           rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED],
-                           0, NULL);
-        }
     }
 
-    g_queue_remove (image_list->priv->images, r_file);
-    g_object_unref (r_file);
+    if (image_list->priv->images->length == 1)
+    {
+        rstto_image_list_remove_all (image_list);
+        return;
+    }
+    else
+    {
+        g_queue_remove (image_list->priv->images, r_file);
+        g_object_unref (r_file);
+    }
 
     path_ = gtk_tree_path_new ();
     gtk_tree_path_append_index (path_, index_);
@@ -972,18 +968,19 @@ iter_next (
     {
         if (iter->priv->link->next != NULL)
         {
+            ret_val = TRUE;
             iter->priv->link = iter->priv->link->next;
             iter->priv->index++;
         }
         else
         {
+            ret_val = image_list->priv->images->length > 1;
             iter->priv->link = image_list->priv->images->head;
             iter->priv->index = 0;
         }
 
         iter->priv->r_file = iter->priv->link->data;
         iter->priv->sticky = sticky;
-        ret_val = TRUE;
     }
 
     if (ret_val == TRUE)
@@ -1030,18 +1027,19 @@ iter_previous (
     {
         if (iter->priv->link->prev != NULL)
         {
+            ret_val = TRUE;
             iter->priv->link = iter->priv->link->prev;
             iter->priv->index--;
         }
         else
         {
+            ret_val = image_list->priv->images->length > 1;
             iter->priv->link = image_list->priv->images->tail;
             iter->priv->index = image_list->priv->images->length - 1;
         }
 
         iter->priv->r_file = iter->priv->link->data;
         iter->priv->sticky = sticky;
-        ret_val = TRUE;
     }
 
     if (ret_val == TRUE)
