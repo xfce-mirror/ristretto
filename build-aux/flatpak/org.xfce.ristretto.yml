@@ -11,8 +11,9 @@ finish-args:
   # the open dialog is native, but we still need this to open files via the command line
   # and drag and drop, and to delete files
   - --filesystem=host
-  # FIXME: necessary for Tumbler to send signals, probably related to
-  # https://github.com/flatpak/xdg-dbus-proxy/issues/25
+  # FIXME: necessary for Tumbler to emit signals, see
+  # https://github.com/flathub/flathub/issues/2770
+  # https://github.com/flathub/org.xfce.ristretto/pull/7
   - --socket=session-bus
   # FIXME: necessary for the property dialog, but not sufficient (there is a fallback):
   # GDBus.Error:org.gtk.GDBus.UnmappedGError.Quark._g_2dfile_2derror_2dquark.Code24: Failed to open display ":99.0"
@@ -51,11 +52,12 @@ modules:
       - '*'
     sources:
       - type: archive
-        url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.17/xfce4-dev-tools-4.17.0.tar.bz2
-        sha256: d334c1f10e140e666b86c6c3bd8dcd62f1a877f537bcacc974478b6e92c493c7
+        url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.16/xfce4-dev-tools-4.16.0.tar.bz2
+        sha256: f50b3070e66f3ebdf331744dd1ec5e1af5de333965d491e15ce05545e8eb4f04
         x-checker-data:
           type: anitya
           project-id: 15888
+          stable-only: true
           url-template: https://archive.xfce.org/src/xfce/xfce4-dev-tools/$major.$minor/xfce4-dev-tools-$version.tar.bz2
 
   # mandatory dependencies
@@ -66,11 +68,13 @@ modules:
       - --disable-debug
     sources:
       - type: archive
-        url: https://archive.xfce.org/src/xfce/libxfce4util/4.17/libxfce4util-4.17.1.tar.bz2
-        sha256: 1942151f3c1f3732bc53dd9fd3b936f62067796dc47a33c60a0ad05d933d90f2
+        url: https://archive.xfce.org/src/xfce/libxfce4util/4.17/libxfce4util-4.17.2.tar.bz2
+        sha256: cf5f4095ffa8ebe3d819ac779768cb75c567a85d5a508a4c4713258c1bd0fab7
         x-checker-data:
           type: anitya
           project-id: 232001
+          # to be reactivated when Tumbler goes to 4.18
+          #stable-only: true
           url-template: https://archive.xfce.org/src/xfce/libxfce4util/$major.$minor/libxfce4util-$version.tar.bz2
 
   - name: xfconf
@@ -89,6 +93,7 @@ modules:
         x-checker-data:
           type: anitya
           project-id: 14854
+          stable-only: true
           tag-template: xfconf-$version
       - type: patch
         path: patches/Xfconf-Allow-to-choose-an-alternative-service-name-prefix.patch
@@ -110,6 +115,7 @@ modules:
         x-checker-data:
           type: anitya
           project-id: 232000
+          stable-only: true
           url-template: https://archive.xfce.org/src/xfce/libxfce4ui/$major.$minor/libxfce4ui-$version.tar.bz2
 
   # optional dependencies for gdk-pixbuf
@@ -119,17 +125,13 @@ modules:
     sources:
       - type: git
         url: https://github.com/hfiguiere/libopenraw.git
-        tag: libopenraw-0.3.0
-        commit: a512576c73882f8fe67568dc21376dc9b14fc3e6
+        tag: libopenraw-0.3.1
+        commit: ebe6e5b21f4df6906eb552e1c524597da276bde4
         x-checker-data:
           type: anitya
           project-id: 7980
           stable-only: true
           tag-template: libopenraw-$version
-      - type: patch
-        path: patches/Update-libopenraw-gnome-0.3.pc.in.patch
-      - type: patch
-        path: patches/Issue-6-Fix-build-on-gcc-11.patch
       # See https://gitlab.freedesktop.org/libopenraw/libopenraw/-/issues/9
       # Necessary in this context, to make the pixbuf loader install in /app/lib
       - type: patch
@@ -147,11 +149,12 @@ modules:
             linkflags="$LDFLAGS" -j $FLATPAK_BUILDER_N_JOBS
         sources:
           - type: archive
-            url: https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.gz
-            sha256: 94ced8b72956591c4775ae2207a9763d3600b30d9d7446562c552f0a14a63be7
+            url: https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.gz
+            sha256: 273f1be93238a068aba4f9735a4a2b003019af067b9c183ed227780b8f36062c
             x-checker-data:
               type: anitya
               project-id: 6845
+              stable-only: true
               url-template: https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${version0}_${version1}_$version2.tar.gz
 
   - name: libheif
@@ -164,7 +167,8 @@ modules:
           type: json
           url: https://api.github.com/repos/strukturag/libheif/releases/latest
           version-query: .tag_name | sub("^v"; "")
-          url-query: .assets | map(select(.name=="libheif-\($version).tar.gz")) | first | .browser_download_url
+          url-query: .assets | map(select(.name=="libheif-\($version).tar.gz")) |
+            first | .browser_download_url
       - type: shell
         commands:
           - sed -i 's|DESTINATION ${GDKPIXBUF2_MODULE_DIR}|DESTINATION /app/lib/gdk-pixbuf-2.0/2.10.0/loaders|'
@@ -185,7 +189,8 @@ modules:
               type: json
               url: https://api.github.com/repos/strukturag/libde265/releases/latest
               version-query: .tag_name | sub("^v"; "")
-              url-query: .assets | map(select(.name=="libde265-\($version).tar.gz")) | first | .browser_download_url
+              url-query: .assets | map(select(.name=="libde265-\($version).tar.gz"))
+                | first | .browser_download_url
 
   - name: libwmf
     cleanup:
@@ -211,11 +216,12 @@ modules:
         buildsystem: meson
         sources:
           - type: archive
-            url: https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.xz
-            sha256: 3333ae7cfda88429c97a7ae63b7d01ab398076c3b67182e960e5684050f2c5c8
+            url: https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.xz
+            sha256: 4766f20157cc4cf0cd292f80bf917f92d1c439b243ac3018debf6b9140c41a7f
             x-checker-data:
               type: anitya
               project-id: 854
+              stable-only: true
               url-template: https://download-mirror.savannah.gnu.org/releases/freetype/freetype-$version.tar.xz
 
   - name: webp-pixbuf-loader
@@ -225,8 +231,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/aruiz/webp-pixbuf-loader.git
-        tag: 0.0.3
-        commit: ffddc060497ee11d6cc573dae01a528b357b91ec
+        tag: 0.0.5
+        commit: acc6c51027ded81e7b8533d73e75bb9246a9e138
         x-checker-data:
           type: json
           url: https://api.github.com/repos/aruiz/webp-pixbuf-loader/releases/latest
@@ -241,8 +247,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/AOMediaCodec/libavif.git
-        tag: v0.9.3
-        commit: ac76fe0d16a255bccefff5bdfddd865742176d85
+        tag: v0.10.1
+        commit: f938f6b7dd412ffcbdab1808a265b6375dc7b037
         x-checker-data:
           type: anitya
           project-id: 178015
@@ -272,7 +278,6 @@ modules:
     post-install:
       - sed -i '/^SystemdService=/d' /app/share/dbus-1/services/org.xfce.ristretto.*.service
     config-opts:
-      - --enable-maintainer-mode
       - --disable-debug
       - --disable-cover-thumbnailer
       - --disable-font-thumbnailer
@@ -283,16 +288,15 @@ modules:
       - --disable-gepub-thumbnailer
       - TUMBLER_SERVICE_NAME_PREFIX=org.xfce.ristretto
     sources:
-      - type: git
-        url: https://gitlab.xfce.org/xfce/tumbler.git
-        tag: tumbler-4.17.0
-        commit: 8efa52bd31f96351d1cce2c7cddbb6302679c96a
+      - type: archive
+        url: https://archive.xfce.org/src/xfce/tumbler/4.17/tumbler-4.17.1.tar.bz2
+        sha256: aa02a4b240ca50c1a58eaebfa8e29ef496e42ce503e85c2eb80890b921d5cf97
         x-checker-data:
           type: anitya
           project-id: 5014
-          tag-template: tumbler-$version
-      - type: patch
-        path: patches/Tumbler-Allow-to-choose-an-alternative-service-name-prefix.patch
+          # to be reactivated when Tumbler goes to 4.18
+          #stable-only: true
+          url-template: https://archive.xfce.org/src/xfce/tumbler/$major.$minor/tumbler-$version.tar.bz2
 
   - name: ristretto
     config-opts:
