@@ -366,7 +366,10 @@ rstto_image_list_add_file (RsttoImageList *image_list,
     {
         r_iter = iter->data;
         if (! r_iter->priv->sticky)
+        {
             rstto_image_list_iter_find_file (iter->data, r_file);
+            r_iter->priv->sticky = TRUE;
+        }
         else
             rstto_image_list_iter_find_file (r_iter, r_iter->priv->r_file);
     }
@@ -433,9 +436,9 @@ rstto_image_list_remove_file (RsttoImageList *image_list,
             continue;
 
         if (r_iter->priv->link == image_list->priv->images->tail)
-            iter_previous (r_iter, r_iter->priv->sticky);
+            iter_previous (r_iter, FALSE);
         else
-            iter_next (r_iter, r_iter->priv->sticky);
+            iter_next (r_iter, FALSE);
     }
 
     if (image_list->priv->images->length == 1)
@@ -889,7 +892,6 @@ rstto_image_list_iter_find_file (
     iter->priv->r_file = r_file;
     iter->priv->index = index;
     iter->priv->link = g_queue_peek_nth_link (image_list->priv->images, iter->priv->index);
-    iter->priv->sticky = TRUE;
 
     g_signal_emit (iter,
                    rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED],
