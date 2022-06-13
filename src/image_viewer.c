@@ -608,6 +608,8 @@ rstto_image_viewer_finalize (GObject *object)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (object);
 
+    if (viewer->priv->transaction && viewer->priv->transaction->loader_closed_id != 0)
+        REMOVE_SOURCE (viewer->priv->transaction->loader_closed_id);
     if (viewer->priv->settings)
     {
         g_object_unref (viewer->priv->settings);
@@ -1398,7 +1400,6 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
     transaction->file = file;
     transaction->viewer = viewer;
     transaction->scale = scale;
-    transaction->loader_closed_id = 0;
 
     if (viewer->priv->limit_quality)
     {
@@ -1437,8 +1438,6 @@ rstto_image_viewer_transaction_free (gpointer data)
     {
         tr->viewer->priv->transaction = NULL;
     }
-    if (tr->loader_closed_id != 0)
-        REMOVE_SOURCE (tr->loader_closed_id);
     if (tr->error)
     {
         g_error_free (tr->error);
