@@ -347,9 +347,15 @@ rstto_image_list_add_file (RsttoImageList *image_list,
 
     if (image_list->priv->dir_monitor == NULL)
     {
-        monitor = g_file_monitor_file (rstto_file_get_file (r_file), G_FILE_MONITOR_NONE, NULL, NULL);
-        g_signal_connect (monitor, "changed", G_CALLBACK (cb_file_monitor_changed), image_list);
-        image_list->priv->image_monitors = g_list_prepend (image_list->priv->image_monitors, monitor);
+        monitor = g_file_monitor_file (rstto_file_get_file (r_file),
+                                       G_FILE_MONITOR_WATCH_MOVES, NULL, NULL);
+        if (monitor != NULL)
+        {
+            g_signal_connect (monitor, "changed",
+                              G_CALLBACK (cb_file_monitor_changed), image_list);
+            image_list->priv->image_monitors =
+                g_list_prepend (image_list->priv->image_monitors, monitor);
+        }
     }
 
     path = gtk_tree_path_new ();
@@ -745,6 +751,7 @@ cb_file_monitor_changed (
     switch (event_type)
     {
         case G_FILE_MONITOR_EVENT_DELETED:
+        case G_FILE_MONITOR_EVENT_MOVED_OUT:
             rstto_image_list_remove_file (image_list, r_file);
             if (image_list->priv->dir_monitor == NULL)
             {
@@ -787,6 +794,13 @@ cb_file_monitor_changed (
             break;
         case G_FILE_MONITOR_EVENT_CHANGED:
             /* wait for DONE_HINT to update the image, so that we can get its mime type */
+            break;
+        case G_FILE_MONITOR_EVENT_RENAMED:
+            cb_file_monitor_changed (monitor, file, other_file,
+                                     G_FILE_MONITOR_EVENT_DELETED, user_data);
+            g_object_unref (r_file);
+            r_file = rstto_file_new (other_file);
+            rstto_image_list_add_file (image_list, r_file, NULL);
             break;
         default:
             break;
