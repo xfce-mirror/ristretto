@@ -249,7 +249,7 @@ msgstr "Pencereye uydur"
 #. Icon-name
 #: ../src/main_window.c:464 ../src/main_window.c:748
 msgid "_Normal Size"
-msgstr "_Normal boyut"
+msgstr "_Olağan boyut"
 
 #. Label-text
 #. Keyboard shortcut
@@ -443,7 +443,7 @@ msgstr "Küçük"
 
 #: ../src/main_window.c:707
 msgid "Normal"
-msgstr "_Normal"
+msgstr "_Olağan"
 
 #: ../src/main_window.c:713
 msgid "Large"
