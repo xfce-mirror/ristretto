@@ -239,7 +239,8 @@ rstto_image_list_init (RsttoImageList *image_list)
 
     g_signal_connect (image_list->priv->thumbnailer, "ready",
                       G_CALLBACK (cb_rstto_thumbnailer_ready), image_list);
-
+    g_signal_connect (image_list->priv->thumbnailer, "error",
+                      G_CALLBACK (cb_rstto_thumbnailer_ready), image_list);
 }
 
 static void

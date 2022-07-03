@@ -567,7 +567,12 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
     const gchar *thumbnail_path;
     guint n_pixels;
 
+    /* get the flavor, trying to fall back on lower qualities if necessary */
     flavor = rstto_util_get_thumbnail_flavor (size);
+    while (r_file->priv->thumbnail_states[flavor] == RSTTO_THUMBNAIL_STATE_ERROR
+           && flavor > RSTTO_THUMBNAIL_FLAVOR_NORMAL)
+        flavor--;
+
     switch (r_file->priv->thumbnail_states[flavor])
     {
         case RSTTO_THUMBNAIL_STATE_PROCESSED:

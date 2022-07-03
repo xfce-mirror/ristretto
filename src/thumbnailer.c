@@ -29,6 +29,7 @@
 enum
 {
     RSTTO_THUMBNAILER_SIGNAL_READY = 0,
+    RSTTO_THUMBNAILER_SIGNAL_ERROR,
     RSTTO_THUMBNAILER_SIGNAL_COUNT
 };
 
@@ -129,6 +130,17 @@ rstto_thumbnailer_class_init (RsttoThumbnailerClass *klass)
     object_class->finalize = rstto_thumbnailer_finalize;
 
     rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY] = g_signal_new ("ready",
+            G_TYPE_FROM_CLASS (klass),
+            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+            0,
+            NULL,
+            NULL,
+            g_cclosure_marshal_VOID__OBJECT,
+            G_TYPE_NONE,
+            1,
+            G_TYPE_OBJECT,
+            NULL);
+    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_ERROR] = g_signal_new ("error",
             G_TYPE_FROM_CLASS (klass),
             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
             0,
@@ -448,7 +460,12 @@ cb_rstto_thumbnailer_thumbnail_error (TumblerThumbnailer1 *proxy,
             if (error_code == G_IO_ERROR_CANCELLED)
                 rstto_thumbnailer_queue_file (thumbnailer, flavor, iter->data);
             else
+            {
                 rstto_file_set_thumbnail_state (iter->data, flavor, RSTTO_THUMBNAIL_STATE_ERROR);
+                g_signal_emit (thumbnailer,
+                               rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_ERROR],
+                               0, iter->data, NULL);
+            }
 
             g_object_unref (iter->data);
             thumbnailer->priv->in_process_queues[flavor] =
