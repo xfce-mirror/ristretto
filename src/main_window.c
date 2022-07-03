@@ -4094,22 +4094,21 @@ rstto_main_window_open (RsttoMainWindow *window,
 {
     RsttoFile *r_file;
     GError *error = NULL, *tmp_error = NULL;
-    GSList *file;
+    GSList *file, *deleted = NULL, *invalid = NULL;
     GFileInfo *info;
     GFile *dir;
     gchar *uri;
-    guint n, deleted = 0, invalid = 0;
 
     /* in case of several files, open only those, adding them to the list one by one: this
      * is expensive and supposed to be done only for a limited number of files */
     if (g_slist_length (files) > 1)
     {
-        for (file = files, n = 0; file != NULL; file = file->next, n++)
+        for (file = files; file != NULL; file = file->next)
         {
             /* we will show only one dialog for all deleted files later */
             if (! g_file_query_exists (file->data, NULL))
             {
-                deleted |= 1 << n;
+                deleted = g_slist_prepend (deleted, file->data);
                 continue;
             }
 
@@ -4119,7 +4118,7 @@ rstto_main_window_open (RsttoMainWindow *window,
                 if (error == NULL)
                     error = g_error_copy (tmp_error);
 
-                invalid |= 1 << n;
+                invalid = g_slist_prepend (invalid, file->data);
                 g_object_unref (r_file);
                 g_clear_error (&tmp_error);
 
@@ -4136,10 +4135,10 @@ rstto_main_window_open (RsttoMainWindow *window,
     /* in case of a single file, replace the list with the contents of the parent directory,
      * or the directory itself if the file is a directory */
     else if (! g_file_query_exists (files->data, NULL))
-        deleted = 1;
+        deleted = g_slist_prepend (deleted, files->data);
     else if ((info = g_file_query_info (files->data, "standard::type,standard::content-type",
                                         G_FILE_QUERY_INFO_NONE, NULL, &error)) == NULL)
-        invalid = 1;
+        invalid = g_slist_prepend (invalid, files->data);
     else
     {
         /* add the directory contents asynchronously */
@@ -4158,7 +4157,7 @@ rstto_main_window_open (RsttoMainWindow *window,
                 rstto_main_window_add_file_to_recent_files (rstto_file_get_uri (r_file),
                                                             rstto_file_get_content_type (r_file));
             else
-                invalid = 1;
+                invalid = g_slist_prepend (invalid, files->data);
 
             g_object_unref (dir);
             g_object_unref (r_file);
@@ -4167,25 +4166,26 @@ rstto_main_window_open (RsttoMainWindow *window,
         g_object_unref (info);
     }
 
-    if (deleted > 0 || invalid > 0)
+    if (deleted != NULL || invalid != NULL)
     {
-        for (n = 0; (1U << n) <= deleted; n++)
-            if (deleted & (1 << n))
-            {
-                uri = g_file_get_uri (g_slist_nth_data (files, n));
-                g_message ("Could not open file '%s': File does not exist", uri);
-                g_free (uri);
-            }
+        for (file = deleted; file != NULL; file = file->next)
+        {
+            uri = g_file_get_uri (file->data);
+            g_message ("Could not open file '%s': File does not exist", uri);
+            g_free (uri);
+        }
 
-        for (n = 0; (1U << n) <= invalid; n++)
-            if (invalid & (1 << n))
-            {
-                uri = g_file_get_uri (g_slist_nth_data (files, n));
-                g_message ("Could not open file '%s': %s", uri, error->message);
-                g_free (uri);
-            }
+        for (file = invalid; file != NULL; file = file->next)
+        {
+            uri = g_file_get_uri (file->data);
+            g_message ("Could not open file '%s': %s", uri, error->message);
+            g_free (uri);
+        }
 
         rstto_util_dialog_error (ERROR_OPEN_FAILED, NULL);
+
+        g_slist_free (deleted);
+        g_slist_free (invalid);
         if (error != NULL)
             g_error_free (error);
     }
