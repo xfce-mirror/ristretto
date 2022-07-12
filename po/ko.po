@@ -42,7 +42,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s: %s\n\n사용할 수 있는 명령줄 옵션의 전체 목록을\n보려면 %s --help를 입력합니다.\n"
+msgstr "%s: %s\n\n사용할 수 있는 명령행 옵션의 전체 목록을\n보려면 %s --help를 입력합니다.\n"
 
 #: ../src/main_window.c:38 ../org.xfce.ristretto.desktop.in.h:3
 msgid "Image Viewer"
