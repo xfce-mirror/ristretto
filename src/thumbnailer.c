@@ -60,6 +60,8 @@ cb_rstto_thumbnailer_request_finished (TumblerThumbnailer1 *proxy,
                                        gpointer data);
 static gboolean
 rstto_thumbnailer_queue_request_timer (gpointer user_data);
+static void
+rstto_thumbnailer_queue_request_timer_destroy (gpointer user_data);
 
 
 
@@ -69,7 +71,8 @@ struct _RsttoThumbnailerPrivate
     TumblerThumbnailer1 *proxy;
     RsttoSettings       *settings;
 
-    GSList              *queues[RSTTO_THUMBNAIL_FLAVOR_COUNT],
+    GSList              *remove_queue,
+                        *queues[RSTTO_THUMBNAIL_FLAVOR_COUNT],
                         *in_process_queues[RSTTO_THUMBNAIL_FLAVOR_COUNT],
                         *handles[RSTTO_THUMBNAIL_FLAVOR_COUNT];
     guint                request_timer_ids[RSTTO_THUMBNAIL_FLAVOR_COUNT];
@@ -89,6 +92,7 @@ rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
     thumbnailer->priv = rstto_thumbnailer_get_instance_private (thumbnailer);
     thumbnailer->priv->connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, NULL);
     thumbnailer->priv->settings = rstto_settings_new ();
+    thumbnailer->priv->remove_queue = NULL;
     for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
     {
         thumbnailer->priv->queues[n] = NULL;
@@ -163,6 +167,7 @@ rstto_thumbnailer_finalize (GObject *object)
 {
     RsttoThumbnailer *thumbnailer = RSTTO_THUMBNAILER (object);
 
+    g_slist_free_full (thumbnailer->priv->remove_queue, g_object_unref);
     for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
     {
         for (GSList *l = thumbnailer->priv->handles[n]; l != NULL; l = l->next)
@@ -235,7 +240,8 @@ rstto_thumbnailer_queue_file (RsttoThumbnailer *thumbnailer,
         g_slist_prepend (thumbnailer->priv->queues[flavor], g_object_ref (file));
     thumbnailer->priv->request_timer_ids[flavor] =
         g_timeout_add_full (G_PRIORITY_LOW, 300, rstto_thumbnailer_queue_request_timer,
-                            rstto_util_source_autoremove (thumbnailer), NULL);
+                            rstto_util_source_autoremove (thumbnailer),
+                            rstto_thumbnailer_queue_request_timer_destroy);
 }
 
 static RsttoThumbnailFlavor
@@ -256,7 +262,6 @@ static gboolean
 rstto_thumbnailer_queue_request_timer (gpointer user_data)
 {
     RsttoThumbnailer *thumbnailer = user_data;
-    RsttoImageList *image_list;
     RsttoThumbnailFlavor flavor;
     GtkWidget *error_dialog, *vbox, *do_not_show_checkbox;
     GSList *iter, *temp = NULL;
@@ -268,7 +273,6 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     g_return_val_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer), FALSE);
 
     flavor = rstto_thumbnailer_get_timer_flavor (thumbnailer);
-    image_list = rstto_main_window_get_app_image_list ();
     n_items = rstto_icon_bar_get_n_visible_items (rstto_main_window_get_app_icon_bar ());
     uris = g_new0 (const gchar *, n_items + 1);
     mimetypes = g_new0 (const gchar *, n_items + 1);
@@ -287,9 +291,8 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
          * here only when required */
         if (! rstto_file_is_valid (iter->data))
         {
-            rstto_image_list_remove_file (image_list, iter->data);
-            g_object_unref (iter->data);
-
+            thumbnailer->priv->remove_queue =
+                g_slist_prepend (thumbnailer->priv->remove_queue, iter->data);
             continue;
         }
 
@@ -384,6 +387,23 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
 
     thumbnailer->priv->request_timer_ids[flavor] = 0;
     return FALSE;
+}
+
+static void
+rstto_thumbnailer_queue_request_timer_destroy (gpointer user_data)
+{
+    RsttoThumbnailer *thumbnailer = user_data;
+    RsttoImageList *image_list;
+
+    image_list = rstto_main_window_get_app_image_list ();
+    for (GSList *iter = thumbnailer->priv->remove_queue; iter != NULL; iter = iter->next)
+    {
+        rstto_image_list_remove_file (image_list, iter->data);
+        g_object_unref (iter->data);
+    }
+
+    g_slist_free (thumbnailer->priv->remove_queue);
+    thumbnailer->priv->remove_queue = NULL;
 }
 
 static RsttoThumbnailFlavor
