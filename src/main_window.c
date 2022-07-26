@@ -3368,6 +3368,8 @@ rstto_main_window_select_valid_image (RsttoMainWindow *window,
             rstto_image_list_remove_file (window->priv->image_list, file);
             if (! moved)
                 break;
+            else
+                rstto_image_list_iter_find_file (iter, rstto_image_list_iter_get_file (iter));
         }
         else
         {
