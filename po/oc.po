@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Cédric Valmary <cvalmary@yahoo.fr>, 2013
+# Quentin PAGÈS, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2021-12-10 12:50+0100\n"
-"PO-Revision-Date: 2021-12-10 11:50+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2013-07-03 18:30+0000\n"
+"Last-Translator: Quentin PAGÈS, 2022\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/xfce/xfce-apps/language/oc/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -696,7 +697,7 @@ msgstr "Tot"
 #: ../src/privacy_dialog.c:152 ../src/xfce_wallpaper_manager.c:264
 #: ../src/gnome_wallpaper_manager.c:193
 msgid "_Apply"
-msgstr ""
+msgstr "_Aplicar"
 
 #: ../src/privacy_dialog.c:438
 msgid "Clear private data"
