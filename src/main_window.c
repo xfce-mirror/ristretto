@@ -62,12 +62,6 @@ enum
     NEXT
 };
 
-enum
-{
-    PROP_0,
-    PROP_DEVICE_SCALE,
-};
-
 static RsttoMainWindow *app_window;
 static RsttoImageList *app_image_list;
 static RsttoIconBar *app_icon_bar;
@@ -76,21 +70,9 @@ static GtkFileFilter *app_file_filter;
 
 
 static void
-rstto_main_window_get_property (GObject *object,
-                                guint prop_id,
-                                GValue *value,
-                                GParamSpec *pspec);
-static void
-rstto_main_window_set_property (GObject *object,
-                                guint prop_id,
-                                const GValue *value,
-                                GParamSpec *pspec);
-static void
 rstto_main_window_finalize (GObject *object);
 
 
-static void
-rstto_main_window_realize (GtkWidget *widget);
 static gboolean
 key_press_event (GtkWidget *widget,
                  GdkEventKey *event);
@@ -764,7 +746,6 @@ struct _RsttoMainWindowPrivate
     guint                  show_fs_toolbar_timeout_id;
     guint                  hide_fs_mouse_cursor_timeout_id;
     guint                  window_save_geometry_timer_id;
-    gint                   device_scale;
 
     gboolean               fs_toolbar_sticky;
 
@@ -1286,56 +1267,9 @@ rstto_main_window_class_init (RsttoMainWindowClass *klass)
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
     GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-    object_class->get_property = rstto_main_window_get_property;
-    object_class->set_property = rstto_main_window_set_property;
     object_class->finalize = rstto_main_window_finalize;
 
-    widget_class->realize = rstto_main_window_realize;
     widget_class->key_press_event = key_press_event;
-
-    g_object_class_install_property (object_class, PROP_DEVICE_SCALE,
-        g_param_spec_int ("device-scale", "DeviceScale", "The current device scale",
-                          0, G_MAXINT, 1, G_PARAM_READWRITE));
-}
-
-static void
-rstto_main_window_get_property (GObject *object,
-                                guint prop_id,
-                                GValue *value,
-                                GParamSpec *pspec)
-{
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (object);
-
-    switch (prop_id)
-    {
-        case PROP_DEVICE_SCALE:
-            g_value_set_int (value, window->priv->device_scale);
-            break;
-
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-            break;
-    }
-}
-
-static void
-rstto_main_window_set_property (GObject *object,
-                                guint prop_id,
-                                const GValue *value,
-                                GParamSpec *pspec)
-{
-    RsttoMainWindow *window = RSTTO_MAIN_WINDOW (object);
-
-    switch (prop_id)
-    {
-        case PROP_DEVICE_SCALE:
-            window->priv->device_scale = g_value_get_int (value);
-            break;
-
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-            break;
-    }
 }
 
 static void
@@ -1400,17 +1334,6 @@ rstto_main_window_finalize (GObject *object)
     }
 
     G_OBJECT_CLASS (rstto_main_window_parent_class)->finalize (object);
-}
-
-
-static void
-rstto_main_window_realize (GtkWidget *widget)
-{
-    GTK_WIDGET_CLASS (rstto_main_window_parent_class)->realize (widget);
-
-    /* initialize device scale */
-    g_object_set (widget, "device-scale",
-                  gdk_window_get_scale_factor (gtk_widget_get_window (widget)), NULL);
 }
 
 static gboolean
@@ -3008,13 +2931,6 @@ cb_rstto_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *even
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (widget);
     GtkAllocation allocation;
-    gint scale;
-
-    /* a configure event is sent to the toplevel window when the device scale changes,
-     * so we catch this information here and inform other widgets */
-    scale = gdk_window_get_scale_factor (gtk_widget_get_window (widget));
-    if (scale != window->priv->device_scale)
-        g_object_set (widget, "device-scale", scale, NULL);
 
     gtk_widget_get_allocation (widget, &allocation);
 

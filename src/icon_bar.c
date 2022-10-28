@@ -105,9 +105,7 @@ rstto_icon_bar_destroy (GtkWidget *widget);
 
 
 static void
-rstto_icon_bar_set_device_scale (GObject *window,
-                                 GParamSpec *pspec,
-                                 gpointer data);
+rstto_icon_bar_set_scale_factor (RsttoIconBar *icon_bar);
 static void
 rstto_icon_bar_size_request (GtkWidget *widget,
                              GtkRequisition *requisition);
@@ -193,7 +191,6 @@ struct _RsttoIconBarPrivate
     GList          *items;
     gint            item_size;
     gint            n_visible_items;
-    gint            device_scale;
 
     GtkAdjustment  *hadjustment;
     GtkAdjustment  *vadjustment;
@@ -377,21 +374,6 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
 
 
 static void
-rstto_icon_bar_post_init (RsttoIconBar *icon_bar)
-{
-    GtkWidget *window;
-
-    /* disconnect this handler: we are supposed to pass here only once */
-    g_signal_handlers_disconnect_by_func (icon_bar, rstto_icon_bar_post_init, NULL);
-
-    window = gtk_widget_get_ancestor (GTK_WIDGET (icon_bar), RSTTO_TYPE_MAIN_WINDOW);
-    g_signal_connect (window, "notify::device-scale",
-                      G_CALLBACK (rstto_icon_bar_set_device_scale), icon_bar);
-}
-
-
-
-static void
 rstto_icon_bar_init (RsttoIconBar *icon_bar)
 {
     icon_bar->priv = rstto_icon_bar_get_instance_private (icon_bar);
@@ -419,9 +401,8 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
                               G_CALLBACK (gtk_widget_queue_draw), icon_bar);
     g_signal_connect_swapped (icon_bar->priv->settings, "notify::bgcolor-override",
                               G_CALLBACK (gtk_widget_queue_draw), icon_bar);
-
-    /* we will finish the initialization when the bar is anchored */
-    g_signal_connect (icon_bar, "hierarchy-changed", G_CALLBACK (rstto_icon_bar_post_init), NULL);
+    g_signal_connect (icon_bar, "notify::scale-factor",
+                      G_CALLBACK (rstto_icon_bar_set_scale_factor), NULL);
 }
 
 
@@ -546,15 +527,10 @@ rstto_icon_bar_set_property (
 
 
 static void
-rstto_icon_bar_set_device_scale (GObject *window,
-                                 GParamSpec *pspec,
-                                 gpointer data)
+rstto_icon_bar_set_scale_factor (RsttoIconBar *icon_bar)
 {
-    RsttoIconBar *icon_bar = data;
-    GtkWidget *widget = data;
+    GtkWidget *widget = GTK_WIDGET (icon_bar);
     GtkRequisition requisition;
-
-    g_object_get (window, "device-scale", &icon_bar->priv->device_scale, NULL);
 
     /* do not scale the thumbnails with the rest of the window */
     rstto_icon_bar_size_request (widget, &requisition);
@@ -657,7 +633,7 @@ rstto_icon_bar_size_request (
     /* calculate item size: there is a focus padding both inside and outside the item */
     icon_bar->priv->item_size = (rstto_util_get_thumbnail_n_pixels (icon_bar->priv->thumbnail_size)
                                     + 2 * (focus_width + 2 * focus_pad))
-                                / (gdouble) icon_bar->priv->device_scale;
+                                / (gdouble) gtk_widget_get_scale_factor (widget);
 
     n_items = rstto_image_list_get_n_images (RSTTO_IMAGE_LIST (icon_bar->priv->model));
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
@@ -967,7 +943,7 @@ rstto_icon_bar_paint_item (
     GdkRGBA         *border_color, *fill_color;
     GdkRGBA          tmp_color;
     gdouble          px, py, focus_width, focus_pad, offset, size;
-    gint             x, y, ifocus_width, ifocus_pad;
+    gint             x, y, ifocus_width, ifocus_pad, scale_factor;
     gint             pixbuf_width = 0, pixbuf_height = 0;
 
     if (icon_bar->priv->model == NULL)
@@ -977,8 +953,9 @@ rstto_icon_bar_paint_item (
             "focus-line-width", &ifocus_width,
             "focus-padding", &ifocus_pad,
             NULL);
-    focus_width = (gdouble) ifocus_width / icon_bar->priv->device_scale;
-    focus_pad = (gdouble) ifocus_pad / icon_bar->priv->device_scale;
+    scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (icon_bar));
+    focus_width = (gdouble) ifocus_width / scale_factor;
+    focus_pad = (gdouble) ifocus_pad / scale_factor;
 
     gtk_tree_model_get (icon_bar->priv->model, &item->iter, 0, &file, -1);
     pixbuf = rstto_file_get_thumbnail (file, icon_bar->priv->thumbnail_size);
@@ -988,8 +965,8 @@ rstto_icon_bar_paint_item (
 
     if (pixbuf)
     {
-        pixbuf_width = gdk_pixbuf_get_width (pixbuf) / icon_bar->priv->device_scale;
-        pixbuf_height = gdk_pixbuf_get_height (pixbuf) / icon_bar->priv->device_scale;
+        pixbuf_width = gdk_pixbuf_get_width (pixbuf) / scale_factor;
+        pixbuf_height = gdk_pixbuf_get_height (pixbuf) / scale_factor;
     }
 
     /* calculate pixbuf / layout location */
@@ -1082,8 +1059,7 @@ rstto_icon_bar_paint_item (
         cairo_save (cr);
         rstto_util_set_source_pixbuf (cr, pixbuf, px, py);
         cairo_pattern_get_surface (cairo_get_source (cr), &surface);
-        cairo_surface_set_device_scale (surface, icon_bar->priv->device_scale,
-                                        icon_bar->priv->device_scale);
+        cairo_surface_set_device_scale (surface, scale_factor, scale_factor);
         cairo_paint (cr);
         cairo_restore (cr);
     }

@@ -121,7 +121,7 @@ static gboolean
 set_scale (RsttoImageViewer *viewer,
            gdouble scale);
 static void
-set_device_scale (GObject *window,
+set_scale_factor (RsttoImageViewer *viewer,
                   GParamSpec *pspec,
                   gpointer data);
 static void
@@ -278,7 +278,6 @@ struct _RsttoImageViewerPrivate
     GdkPixbufAnimationIter *iter;
     guint                   animation_id;
     gdouble                 scale;
-    gint                    device_scale;
     RsttoScale              auto_scale;
     GtkAdjustment          *vadjustment;
     GtkAdjustment          *hadjustment;
@@ -308,18 +307,6 @@ G_DEFINE_TYPE_WITH_CODE (RsttoImageViewer, rstto_image_viewer, GTK_TYPE_WIDGET,
                          G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
 
 
-
-static void
-rstto_image_viewer_post_init (RsttoImageViewer *viewer)
-{
-    GtkWidget *window;
-
-    /* disconnect this handler: we are supposed to pass here only once */
-    g_signal_handlers_disconnect_by_func (viewer, rstto_image_viewer_post_init, NULL);
-
-    window = gtk_widget_get_ancestor (GTK_WIDGET (viewer), RSTTO_TYPE_MAIN_WINDOW);
-    g_signal_connect (window, "notify::device-scale", G_CALLBACK (set_device_scale), viewer);
-}
 
 static void
 rstto_image_viewer_init (RsttoImageViewer *viewer)
@@ -367,10 +354,7 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
                       G_CALLBACK (cb_rstto_zoom_direction_changed), viewer);
     g_signal_connect (viewer, "drag-data-received",
                       G_CALLBACK (cb_rstto_image_viewer_dnd), viewer);
-
-    /* we will finish the initialization when the view is anchored */
-    g_signal_connect (viewer, "hierarchy-changed",
-                      G_CALLBACK (rstto_image_viewer_post_init), NULL);
+    g_signal_connect (viewer, "notify::scale-factor", G_CALLBACK (set_scale_factor), NULL);
 
     gtk_widget_set_events (GTK_WIDGET (viewer),
                            GDK_BUTTON_PRESS_MASK |
@@ -758,24 +742,21 @@ set_scale (RsttoImageViewer *viewer, gdouble scale)
 }
 
 static void
-set_device_scale (GObject *window,
+set_scale_factor (RsttoImageViewer *viewer,
                   GParamSpec *pspec,
                   gpointer data)
 {
     cairo_surface_t *surface;
-    RsttoImageViewer *viewer = data;
-    gint scale;
-
-    g_object_get (window, "device-scale", &scale, NULL);
-    viewer->priv->device_scale = scale;
+    gint scale_factor;
 
     if (viewer->priv->image_width > 0)
     {
         /* do not scale the image with the rest of the window */
-        viewer->priv->image_width = viewer->priv->original_image_width / scale;
-        viewer->priv->image_height = viewer->priv->original_image_height / scale;
+        scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
+        viewer->priv->image_width = viewer->priv->original_image_width / scale_factor;
+        viewer->priv->image_height = viewer->priv->original_image_height / scale_factor;
         cairo_pattern_get_surface (viewer->priv->pixbuf.pattern, &surface);
-        cairo_surface_set_device_scale (surface, scale, scale);
+        cairo_surface_set_device_scale (surface, scale_factor, scale_factor);
 
         if (pspec != NULL)
             gtk_widget_queue_resize (GTK_WIDGET (viewer));
@@ -1017,9 +998,10 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
     gint y_offset = viewer->priv->rendering.y_offset;
     gint width = viewer->priv->rendering.width;
     gint height = viewer->priv->rendering.height;
-    gdouble nx_squares = viewer->priv->device_scale * width / 10.0;
-    gdouble ny_squares = viewer->priv->device_scale * height / 10.0;
-    gdouble square_size = 10.0 / viewer->priv->device_scale;
+    gint scale_factor = gtk_widget_get_scale_factor (widget);
+    gdouble nx_squares = scale_factor * width / 10.0;
+    gdouble ny_squares = scale_factor * height / 10.0;
+    gdouble square_size = 10.0 / scale_factor;
 
     cairo_save (ctx);
 
@@ -1405,12 +1387,14 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
     {
         GdkMonitor *monitor;
         GdkRectangle rect;
+        gint scale_factor;
 
         monitor = gdk_display_get_monitor_at_window (gdk_display_get_default (),
                                                      gtk_widget_get_window (GTK_WIDGET (viewer)));
         gdk_monitor_get_geometry (monitor, &rect);
-        transaction->monitor_width = rect.width * viewer->priv->device_scale;
-        transaction->monitor_height = rect.height * viewer->priv->device_scale;
+        scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
+        transaction->monitor_width = rect.width * scale_factor;
+        transaction->monitor_height = rect.height * scale_factor;
     }
 
     g_signal_connect (transaction->loader, "size-prepared", G_CALLBACK (cb_rstto_image_loader_size_prepared), transaction);
@@ -1767,8 +1751,7 @@ cb_rstto_image_loader_closed_idle (gpointer data)
                                       = transaction->image_width;
             viewer->priv->image_height = viewer->priv->original_image_height
                                        = transaction->image_height;
-            set_device_scale (G_OBJECT (gtk_widget_get_ancestor (widget, RSTTO_TYPE_MAIN_WINDOW)),
-                              NULL, viewer);
+            set_scale_factor (viewer, NULL, NULL);
             set_scale (viewer, transaction->scale);
         }
         else
@@ -1833,8 +1816,7 @@ cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
         viewer->priv->pixbuf.has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
         viewer->priv->pixbuf.width = gdk_pixbuf_get_width (pixbuf);
         viewer->priv->pixbuf.height = gdk_pixbuf_get_height (pixbuf);
-        set_device_scale (G_OBJECT (gtk_widget_get_ancestor (user_data, RSTTO_TYPE_MAIN_WINDOW)),
-                          NULL, viewer);
+        set_scale_factor (viewer, NULL, NULL);
 
         /* redraw only the image */
         rect.x = viewer->priv->rendering.x_offset;
