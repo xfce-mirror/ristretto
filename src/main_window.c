@@ -859,9 +859,9 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                            G_DBUS_PROXY_FLAGS_NONE,
                                            NULL,
-                                           "org.xfce.FileManager",
-                                           "/org/xfce/FileManager",
-                                           "org.xfce.FileManager",
+                                           "org.freedesktop.FileManager1",
+                                           "/org/freedesktop/FileManager1",
+                                           "org.freedesktop.FileManager1",
                                            NULL,
                                            NULL);
 
