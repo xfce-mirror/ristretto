@@ -859,9 +859,9 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                            G_DBUS_PROXY_FLAGS_NONE,
                                            NULL,
-                                           "org.xfce.FileManager",
-                                           "/org/xfce/FileManager",
-                                           "org.xfce.FileManager",
+                                           "org.freedesktop.FileManager1",
+                                           "/org/freedesktop/FileManager1",
+                                           "org.freedesktop.FileManager1",
                                            NULL,
                                            NULL);
 
@@ -3515,11 +3515,9 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
 static void
 cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
 {
-    /* The display object is owned by gdk, do not unref it */
-    GdkDisplay *display = gdk_display_get_default ();
     GError *error = NULL;
     RsttoFile *file = rstto_image_list_iter_get_file (window->priv->iter);
-    const gchar *uri = NULL;
+    const gchar *uri[] = { NULL, NULL };
     GtkWidget *dialog = NULL;
     gboolean use_thunar_properties = rstto_settings_get_boolean_property (
             window->priv->settings_manager,
@@ -3535,17 +3533,16 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
             GVariant *unused = NULL;
 
             /* Get the file-uri */
-            uri = rstto_file_get_uri (file);
+            uri[0] = rstto_file_get_uri (file);
 
-            /* Call the DisplayFileProperties dbus
+            /* Call the ShowItemProperties D-Bus
              * interface. If it fails, fall back to the
              * internal properties-dialog.
              */
             unused = g_dbus_proxy_call_sync (window->priv->filemanager_proxy,
-                                             "DisplayFileProperties",
-                                              g_variant_new ("(sss)",
+                                             "ShowItemProperties",
+                                              g_variant_new ("(^ass)",
                                                              uri,
-                                                             gdk_display_get_name (display),
                                                              ""),
                                              G_DBUS_CALL_FLAGS_NONE,
                                              -1,
