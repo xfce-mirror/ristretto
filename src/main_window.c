@@ -170,6 +170,10 @@ static void
 cb_rstto_main_window_open_recent (GtkRecentChooser *chooser,
                                   RsttoMainWindow *window);
 static void
+cb_fm_dbus_proxy_ready (GObject *source_object,
+                        GAsyncResult *res,
+                        gpointer user_data);
+static void
 cb_rstto_main_window_properties (GtkWidget *widget,
                                  RsttoMainWindow *window);
 static void
@@ -741,7 +745,7 @@ struct _RsttoMainWindowPrivate
 
     RsttoMimeDB           *db;
 
-    GDBusProxy            *filemanager_proxy;
+    GDBusProxy            *fm_dbus_proxy;
 
     guint                  show_fs_toolbar_timeout_id;
     guint                  hide_fs_mouse_cursor_timeout_id;
@@ -855,15 +859,15 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     gtk_file_filter_set_name (app_file_filter, _("Images"));
 
     /* D-Bus stuff */
-    window->priv->filemanager_proxy =
-            g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                           G_DBUS_PROXY_FLAGS_NONE,
-                                           NULL,
-                                           "org.freedesktop.FileManager1",
-                                           "/org/freedesktop/FileManager1",
-                                           "org.freedesktop.FileManager1",
-                                           NULL,
-                                           NULL);
+    g_dbus_proxy_new_for_bus (G_BUS_TYPE_SESSION,
+                              G_DBUS_PROXY_FLAGS_NONE,
+                              NULL,
+                              "org.freedesktop.FileManager1",
+                              "/org/freedesktop/FileManager1",
+                              "org.freedesktop.FileManager1",
+                              NULL,
+                              cb_fm_dbus_proxy_ready,
+                              window);
 
     desktop_type = rstto_settings_get_string_property (window->priv->settings_manager, "desktop-type");
     if (desktop_type)
@@ -1325,7 +1329,7 @@ rstto_main_window_finalize (GObject *object)
         window->priv->action_group = NULL;
     }
 
-    g_clear_object (&window->priv->filemanager_proxy);
+    g_object_unref (window->priv->fm_dbus_proxy);
 
     if (app_file_filter)
     {
@@ -3513,6 +3517,16 @@ cb_rstto_main_window_save_copy (GtkWidget *widget, RsttoMainWindow *window)
 }
 
 static void
+cb_fm_dbus_proxy_ready (GObject *source_object,
+                        GAsyncResult *res,
+                        gpointer user_data)
+{
+    RsttoMainWindow *window = user_data;
+
+    window->priv->fm_dbus_proxy = g_dbus_proxy_new_for_bus_finish (res, NULL);
+}
+
+static void
 cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
 {
     /* The display object is owned by gdk, do not unref it */
@@ -3530,7 +3544,7 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
         /* Check if we should first ask Thunar
          * to show the file properties dialog.
          */
-        if (use_thunar_properties)
+        if (use_thunar_properties && window->priv->fm_dbus_proxy != NULL)
         {
             GVariant *unused = NULL;
 
@@ -3541,7 +3555,7 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
              * interface. If it fails, fall back to the
              * internal properties-dialog.
              */
-            unused = g_dbus_proxy_call_sync (window->priv->filemanager_proxy,
+            unused = g_dbus_proxy_call_sync (window->priv->fm_dbus_proxy,
                                              "DisplayFileProperties",
                                               g_variant_new ("(sss)",
                                                              uri,
