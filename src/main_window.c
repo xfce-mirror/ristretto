@@ -854,14 +854,16 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     gtk_file_filter_add_pixbuf_formats (app_file_filter);
     gtk_file_filter_set_name (app_file_filter, _("Images"));
 
-    /* D-Bus stuff */
+    /* create a D-Bus proxy to a file manager but do not care about
+     * properties and signals, so that the call is non-blocking */
     window->priv->filemanager_proxy =
             g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                           G_DBUS_PROXY_FLAGS_NONE,
+                                           G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
+                                           G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
                                            NULL,
-                                           "org.xfce.FileManager",
-                                           "/org/xfce/FileManager",
-                                           "org.xfce.FileManager",
+                                           "org.freedesktop.FileManager1",
+                                           "/org/freedesktop/FileManager1",
+                                           "org.freedesktop.FileManager1",
                                            NULL,
                                            NULL);
 
@@ -3530,7 +3532,7 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
         /* Check if we should first ask Thunar
          * to show the file properties dialog.
          */
-        if (use_thunar_properties)
+        if (use_thunar_properties && window->priv->filemanager_proxy != NULL)
         {
             GVariant *unused = NULL;
 
