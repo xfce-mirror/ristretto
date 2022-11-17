@@ -89,8 +89,10 @@ G_DEFINE_TYPE_WITH_PRIVATE (RsttoThumbnailer, rstto_thumbnailer, G_TYPE_OBJECT)
 static void
 rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
 {
+    GError *error = NULL;
+
     thumbnailer->priv = rstto_thumbnailer_get_instance_private (thumbnailer);
-    thumbnailer->priv->connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, NULL);
+    thumbnailer->priv->connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &error);
     thumbnailer->priv->settings = rstto_settings_new ();
     thumbnailer->priv->remove_queue = NULL;
     for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
@@ -114,7 +116,7 @@ rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
                 TUMBLER_SERVICE_NAME_PREFIX ".Thumbnailer1",
                 TUMBLER_SERVICE_PATH_PREFIX "/Thumbnailer1",
                 NULL,
-                NULL);
+                &error);
 
         if (thumbnailer->priv->proxy != NULL)
         {
@@ -125,6 +127,12 @@ rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
             g_signal_connect (thumbnailer->priv->proxy, "finished",
                               G_CALLBACK (cb_rstto_thumbnailer_request_finished), thumbnailer);
         }
+    }
+
+    if (error != NULL)
+    {
+        g_warning ("Unable to create a D-Bus proxy for the thumbnailing service: %s", error->message);
+        g_error_free (error);
     }
 }
 
