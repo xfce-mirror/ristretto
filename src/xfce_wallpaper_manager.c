@@ -185,8 +185,11 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoFile *file)
         image_style_prop = g_strdup_printf ("/backdrop/screen%d/monitor%s/workspace%d/image-style",
                                             manager->priv->screen, monitor_name, workspace_nr);
 
-        xfconf_channel_set_string (manager->priv->channel, image_path_prop, uri);
-        xfconf_channel_set_int (manager->priv->channel, image_style_prop, manager->priv->style);
+        if (manager->priv->channel != NULL)
+        {
+            xfconf_channel_set_string (manager->priv->channel, image_path_prop, uri);
+            xfconf_channel_set_int (manager->priv->channel, image_style_prop, manager->priv->style);
+        }
 
         g_free (image_path_prop);
         g_free (image_style_prop);
@@ -195,7 +198,8 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoFile *file)
     /* Support for xfdesktop < 4.13 (gtk2) */
     monitor_prop = g_strdup_printf ("/backdrop/screen%d/monitor%d",
                                     manager->priv->screen, manager->priv->monitor);
-    if ((props = xfconf_channel_get_properties (manager->priv->channel, monitor_prop)) != NULL)
+    if (manager->priv->channel != NULL
+        && (props = xfconf_channel_get_properties (manager->priv->channel, monitor_prop)) != NULL)
     {
         image_path_prop = g_strdup_printf ("/backdrop/screen%d/monitor%d/workspace%d/last-image",
                                            manager->priv->screen, manager->priv->monitor, workspace_nr);
@@ -211,7 +215,8 @@ rstto_xfce_wallpaper_manager_set (RsttoWallpaperManager *self, RsttoFile *file)
     }
 
     /* Don't force to add 'single-workspace-mode' property */
-    if (xfconf_channel_has_property (manager->priv->channel, SINGLE_WORKSPACE_MODE))
+    if (manager->priv->channel != NULL
+        && xfconf_channel_has_property (manager->priv->channel, SINGLE_WORKSPACE_MODE))
     {
         xfconf_channel_set_bool (manager->priv->channel, SINGLE_WORKSPACE_MODE, manager->priv->workspace_mode);
     }
@@ -242,7 +247,8 @@ rstto_xfce_wallpaper_manager_init (RsttoXfceWallpaperManager *manager)
     GtkWidget *image_prop_grid = gtk_grid_new ();
 
     manager->priv = rstto_xfce_wallpaper_manager_get_instance_private (manager);
-    manager->priv->channel = xfconf_channel_new ("xfce4-desktop");
+    if (! rstto_settings_get_xfconf_disabled ())
+        manager->priv->channel = xfconf_channel_new ("xfce4-desktop");
     manager->priv->color1 = g_new0 (RsttoColor, 1);
     manager->priv->color1->a = 0xffff;
     manager->priv->color2 = g_new0 (RsttoColor, 1);
@@ -250,10 +256,11 @@ rstto_xfce_wallpaper_manager_init (RsttoXfceWallpaperManager *manager)
     manager->priv->style = 3; /* stretched is now default value */
     manager->priv->check_button = gtk_check_button_new_with_label (
             _("Apply to all workspaces"));
-    manager->priv->workspace_mode = xfconf_channel_get_bool (
-            manager->priv->channel,
-            SINGLE_WORKSPACE_MODE,
-            TRUE);
+    if (manager->priv->channel != NULL)
+        manager->priv->workspace_mode = xfconf_channel_get_bool (
+                manager->priv->channel,
+                SINGLE_WORKSPACE_MODE,
+                TRUE);
 
     manager->priv->dialog = gtk_dialog_new ();
     gtk_window_set_title (GTK_WINDOW (manager->priv->dialog), _("Set as wallpaper"));
@@ -510,9 +517,10 @@ cb_workspace_mode_changed (
     active = gtk_toggle_button_get_active (
             GTK_TOGGLE_BUTTON (button));
 
-    xfconf_channel_set_bool (manager->priv->channel,
-            SINGLE_WORKSPACE_MODE,
-            active);
+    if (manager->priv->channel != NULL)
+        xfconf_channel_set_bool (manager->priv->channel,
+                SINGLE_WORKSPACE_MODE,
+                active);
 }
 
 static void

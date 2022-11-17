@@ -56,6 +56,7 @@ enum
 };
 
 static RsttoSettings *settings_object;
+static gboolean xfconf_disabled = TRUE;
 
 
 
@@ -124,7 +125,8 @@ rstto_settings_init (RsttoSettings *settings)
     gchar *accelmap_path = NULL;
 
     settings->priv = rstto_settings_get_instance_private (settings);
-    settings->priv->channel = xfconf_channel_new ("ristretto");
+    if (! xfconf_disabled)
+        settings->priv->channel = xfconf_channel_new ("ristretto");
 
     accelmap_path = xfce_resource_lookup (XFCE_RESOURCE_CONFIG, "ristretto/accels.scm");
     if (accelmap_path)
@@ -169,6 +171,9 @@ rstto_settings_init (RsttoSettings *settings)
     settings->priv->errors.missing_thumbnailer = TRUE;
     settings->priv->thumbnail_size = RSTTO_THUMBNAIL_SIZE_NORMAL;
     settings->priv->default_zoom = RSTTO_SCALE_NONE;
+
+    if (xfconf_disabled)
+        return;
 
     xfconf_g_property_bind (
             settings->priv->channel,
@@ -717,6 +722,18 @@ rstto_xfconf_ensure_gdkrgba (XfconfChannel *channel, const gchar *property)
 }
 
 
+
+gboolean
+rstto_settings_get_xfconf_disabled (void)
+{
+    return xfconf_disabled;
+}
+
+void
+rstto_settings_set_xfconf_disabled (gboolean disabled)
+{
+    xfconf_disabled = disabled;
+}
 
 /**
  * rstto_settings_new:

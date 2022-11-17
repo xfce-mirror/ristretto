@@ -78,26 +78,27 @@ typedef struct {
 int
 main (int argc, char **argv)
 {
-    GError *cli_error = NULL;
+    GError *error = NULL;
     RsttoSettings *settings;
     RsttoImageList *image_list;
     GtkWidget *window;
+    gboolean xfconf_disabled;
 
     xfce_textdomain (GETTEXT_PACKAGE, LOCALEDIR, "UTF-8");
 
-    if (!gtk_init_with_args (&argc, &argv, NULL, entries, PACKAGE, &cli_error))
+    if (!gtk_init_with_args (&argc, &argv, NULL, entries, PACKAGE, &error))
     {
-        if (cli_error != NULL)
+        if (error != NULL)
         {
             g_printerr (
                     _("%s: %s\n\n"
                       "Try %s --help to see a full list of\n"
                       "available command line options.\n"),
                     PACKAGE,
-                    cli_error->message,
+                    error->message,
                     PACKAGE_NAME);
 
-            g_error_free (cli_error);
+            g_error_free (error);
             return 1;
         }
     }
@@ -108,7 +109,13 @@ main (int argc, char **argv)
         return 0;
     }
 
-    xfconf_init (NULL);
+    xfconf_disabled = ! xfconf_init (&error);
+    rstto_settings_set_xfconf_disabled (xfconf_disabled);
+    if (xfconf_disabled)
+    {
+        g_warning ("Failed to initialize Xfconf: %s", error->message);
+        g_error_free (error);
+    }
 
     gtk_window_set_default_icon_name (RISTRETTO_APP_ID);
     settings = rstto_settings_new ();
@@ -165,7 +172,8 @@ main (int argc, char **argv)
 
     g_object_unref (settings);
 
-    xfconf_shutdown ();
+    if (! xfconf_disabled)
+        xfconf_shutdown ();
 
     return 0;
 }
