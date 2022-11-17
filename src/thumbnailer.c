@@ -116,12 +116,15 @@ rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
                 NULL,
                 NULL);
 
-        g_signal_connect (thumbnailer->priv->proxy, "ready",
-                          G_CALLBACK (cb_rstto_thumbnailer_thumbnail_ready), thumbnailer);
-        g_signal_connect (thumbnailer->priv->proxy, "error",
-                          G_CALLBACK (cb_rstto_thumbnailer_thumbnail_error), thumbnailer);
-        g_signal_connect (thumbnailer->priv->proxy, "finished",
-                          G_CALLBACK (cb_rstto_thumbnailer_request_finished), thumbnailer);
+        if (thumbnailer->priv->proxy != NULL)
+        {
+            g_signal_connect (thumbnailer->priv->proxy, "ready",
+                              G_CALLBACK (cb_rstto_thumbnailer_thumbnail_ready), thumbnailer);
+            g_signal_connect (thumbnailer->priv->proxy, "error",
+                              G_CALLBACK (cb_rstto_thumbnailer_thumbnail_error), thumbnailer);
+            g_signal_connect (thumbnailer->priv->proxy, "finished",
+                              G_CALLBACK (cb_rstto_thumbnailer_request_finished), thumbnailer);
+        }
     }
 }
 
@@ -170,9 +173,10 @@ rstto_thumbnailer_finalize (GObject *object)
     g_slist_free_full (thumbnailer->priv->remove_queue, g_object_unref);
     for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
     {
-        for (GSList *l = thumbnailer->priv->handles[n]; l != NULL; l = l->next)
-            tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
-                                                    GPOINTER_TO_UINT (l->data), NULL, NULL);
+        if (thumbnailer->priv->proxy != NULL)
+            for (GSList *l = thumbnailer->priv->handles[n]; l != NULL; l = l->next)
+                tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
+                                                        GPOINTER_TO_UINT (l->data), NULL, NULL);
 
         g_slist_free (thumbnailer->priv->handles[n]);
         g_slist_free_full (thumbnailer->priv->queues[n], g_object_unref);
@@ -280,7 +284,7 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     /* dequeue files in process: they will eventually be re-queued after those
      * of the current request */
     iter = thumbnailer->priv->handles[flavor];
-    if (iter != NULL)
+    if (iter != NULL && thumbnailer->priv->proxy != NULL)
         tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
                                                 GPOINTER_TO_UINT (iter->data), NULL, NULL);
 
@@ -328,11 +332,12 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     /* update the list of queued files */
     thumbnailer->priv->in_process_queues[flavor] = g_slist_reverse (temp);
 
-    if (! tumbler_thumbnailer1_call_queue_sync (thumbnailer->priv->proxy,
-                                                (const gchar * const*) uris,
-                                                (const gchar * const*) mimetypes,
-                                                rstto_util_get_thumbnail_flavor_name (flavor),
-                                                "default", 0, &handle, NULL, &error))
+    if (thumbnailer->priv->proxy == NULL
+        || ! tumbler_thumbnailer1_call_queue_sync (thumbnailer->priv->proxy,
+                                                   (const gchar * const*) uris,
+                                                   (const gchar * const*) mimetypes,
+                                                   rstto_util_get_thumbnail_flavor_name (flavor),
+                                                   "default", 0, &handle, NULL, &error))
     {
         if (NULL != error)
         {
