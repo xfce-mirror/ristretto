@@ -3527,7 +3527,7 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
 
     if (NULL != file)
     {
-        /* Check if we should first ask Thunar
+        /* Check if we should first ask the file manager
          * to show the file properties dialog.
          */
         if (use_thunar_properties && window->priv->filemanager_proxy != NULL)
