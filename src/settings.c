@@ -307,6 +307,7 @@ rstto_settings_init (RsttoSettings *settings)
             settings,
             "limit-quality");
 
+    /* not Thunar-specific but let's keep the old name for backwards-compatibility */
     xfconf_g_property_bind (
             settings->priv->channel,
             "/window/use-thunar-properties",
