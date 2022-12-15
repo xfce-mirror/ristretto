@@ -15,9 +15,7 @@ finish-args:
   # https://github.com/flathub/flathub/issues/2770
   # https://github.com/flathub/org.xfce.ristretto/pull/7
   - --socket=session-bus
-  # FIXME: necessary for the property dialog, but not sufficient (there is a fallback):
-  # GDBus.Error:org.gtk.GDBus.UnmappedGError.Quark._g_2dfile_2derror_2dquark.Code24: Failed to open display ":99.0"
-  - --talk-name=org.xfce.FileManager
+  - --talk-name=org.freedesktop.FileManager1
   # access remote locations with GVfs
   - --filesystem=xdg-run/gvfs
   # see below, at the end of the pixbuf loader list
