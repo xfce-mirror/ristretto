@@ -35,7 +35,7 @@ static guint rstto_thumbnail_flavor_n_pixels[] =
     RSTTO_THUMBNAIL_FLAVOR_X_LARGE_N_PIXELS,
     RSTTO_THUMBNAIL_FLAVOR_XX_LARGE_N_PIXELS
 };
-static guint rstto_thumbnail_n_pixels[] = { 32, 48, 64, 96, 128, 192, 256 };
+static guint rstto_thumbnail_n_pixels[] = { 64, 96, 128, 192, 256, 384, 512 };
 
 
 
