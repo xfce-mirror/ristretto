@@ -1,3 +1,29 @@
+0.12.4 (2022-12-16)
+======
+- Dependency Changes:
+  - GLib >= 2.56.0
+
+- Appearance Changes:
+  - thumbnailer: Increase thumbnail sizes (#81)
+
+- Code Refactoring:
+  - build: Let xdt-depends.m4 macros set GLib macros
+  - flatpak: Update D-Bus permissions after changing file manager method
+  - flatpak: Updates from Flathub
+  - Remove duplicated RsttoMainWindow:device-scale property
+
+- Bug Fixes:
+  - use-thunar-properties: Add & improve comments (!37)
+  - thumbnailer: Add a warning if D-Bus proxy creation failed
+  - Allow Xfconf initialization to fail (#19)
+  - thumbnailer: Add missing sanity checks
+  - Use a better-known bus name and object path for D-Bus proxy (#95, !36)
+  - Properly update iterator when browsing a list containing invalid files (#94)
+  - thumbnailer: Remove invalid files after processing thumbnail queue (#94)
+
+- Translation Updates:
+  Kazakh, Korean, Occitan (post 1500), Polish, Portuguese
+
 0.12.3 (2022-07-09)
 ======
 - Bug Fixes:
