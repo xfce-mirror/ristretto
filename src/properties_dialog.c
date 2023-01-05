@@ -20,6 +20,7 @@
 #include "util.h"
 #include "file.h"
 #include "properties_dialog.h"
+#include "thumbnailer.h"
 
 
 
@@ -248,6 +249,31 @@ rstto_properties_dialog_get_property (
 {
 }
 
+static gboolean
+properties_dialog_set_icon (
+        RsttoThumbnailer *thumbnailer,
+        RsttoFile *file,
+        RsttoPropertiesDialog *dialog)
+{
+    const GdkPixbuf *pixbuf;
+
+    if (file != dialog->priv->file)
+        return FALSE;
+
+    pixbuf = rstto_file_get_thumbnail (file, RSTTO_THUMBNAIL_SIZE_VERY_LARGE);
+    if (pixbuf != NULL)
+    {
+        gint scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (dialog));
+        cairo_surface_t *surface = gdk_cairo_surface_create_from_pixbuf (pixbuf, scale_factor, NULL);
+        gtk_image_set_from_surface (GTK_IMAGE (dialog->priv->image_thumbnail), surface);
+        cairo_surface_destroy (surface);
+
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
 static void
 properties_dialog_set_file (
         RsttoPropertiesDialog *dialog,
@@ -258,8 +284,6 @@ properties_dialog_set_file (
     time_t  atime;
     gchar   buf[20];
     guint64 size;
-
-    const GdkPixbuf *pixbuf;
 
     ExifEntry   *exif_entry = NULL;
     ExifIfd      exif_ifd;
@@ -281,13 +305,12 @@ properties_dialog_set_file (
 
     if (dialog->priv->file)
     {
-        pixbuf = rstto_file_get_thumbnail (file, RSTTO_THUMBNAIL_SIZE_VERY_LARGE);
-        if (NULL != pixbuf)
+        if (! properties_dialog_set_icon (NULL, file, dialog))
         {
-            gint scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (dialog));
-            cairo_surface_t *surface = gdk_cairo_surface_create_from_pixbuf (pixbuf, scale_factor, NULL);
-            gtk_image_set_from_surface (GTK_IMAGE (dialog->priv->image_thumbnail), surface);
-            cairo_surface_destroy (surface);
+            RsttoThumbnailer *thumbnailer = rstto_thumbnailer_new ();
+            g_signal_connect_object (thumbnailer, "ready",
+                                     G_CALLBACK (properties_dialog_set_icon), dialog, 0);
+            g_object_unref (thumbnailer);
         }
 
         g_file = rstto_file_get_file (file);
