@@ -4346,10 +4346,8 @@ rstto_main_window_launch_editor_chooser (
     }
 
     gtk_tree_view_expand_all (GTK_TREE_VIEW (treeview));
-
-
+    gtk_widget_set_vexpand (GTK_WIDGET (treeview), TRUE);
     gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-
     gtk_container_add (GTK_CONTAINER (scrolled_window), treeview);
 
     gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
