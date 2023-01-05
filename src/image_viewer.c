@@ -313,6 +313,7 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
 {
     GSList *list, *li;
     gchar **strv;
+    gint scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
 
     viewer->priv = rstto_image_viewer_get_instance_private (viewer);
     viewer->priv->settings = rstto_settings_new ();
@@ -324,17 +325,19 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv->image_height = viewer->priv->original_image_height = 0;
 
     viewer->priv->icon_theme = gtk_icon_theme_get_default ();
-    viewer->priv->bg_icon = gtk_icon_theme_load_icon (
+    viewer->priv->bg_icon = gtk_icon_theme_load_icon_for_scale (
             viewer->priv->icon_theme,
             RISTRETTO_APP_ID,
             BACKGROUND_ICON_SIZE,
-            0,
+            scale_factor,
+            GTK_ICON_LOOKUP_FORCE_SIZE,
             NULL);
-    viewer->priv->missing_icon = gtk_icon_theme_load_icon (
+    viewer->priv->missing_icon = gtk_icon_theme_load_icon_for_scale (
             viewer->priv->icon_theme,
             "image-missing",
             BACKGROUND_ICON_SIZE,
-            0,
+            scale_factor,
+            GTK_ICON_LOOKUP_FORCE_SIZE,
             NULL);
     if (viewer->priv->bg_icon != NULL)
     {

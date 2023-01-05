@@ -46,7 +46,7 @@
 enum
 {
     EDITOR_CHOOSER_MODEL_COLUMN_NAME = 0,
-    EDITOR_CHOOSER_MODEL_COLUMN_PIXBUF,
+    EDITOR_CHOOSER_MODEL_COLUMN_GICON,
     EDITOR_CHOOSER_MODEL_COLUMN_APPLICATION,
     EDITOR_CHOOSER_MODEL_COLUMN_STYLE,
     EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET,
@@ -4134,12 +4134,9 @@ rstto_main_window_launch_editor_chooser (
     GtkTreeSelection *selection;
     GtkTreeViewColumn *column;
     gchar *label_text = NULL;
-
-    gchar *icon;
     const gchar *id;
     const gchar *name;
-    GdkPixbuf *pixbuf = NULL;
-    GIcon *g_icon = NULL;
+    GIcon *icon;
 
     dialog = gtk_dialog_new ();
     gtk_window_set_title (GTK_WINDOW (dialog), _("Edit with"));
@@ -4158,9 +4155,9 @@ rstto_main_window_launch_editor_chooser (
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
-    g_icon = g_content_type_get_icon (content_type);
-    image = gtk_image_new_from_gicon (g_icon, GTK_ICON_SIZE_DIALOG);
-    g_object_unref (g_icon);
+    icon = g_content_type_get_icon (content_type);
+    image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
+    g_object_unref (icon);
 
     label_text = g_strdup_printf (
             _("Open %s and other files of type %s with:"),
@@ -4189,7 +4186,7 @@ rstto_main_window_launch_editor_chooser (
     tree_store = gtk_tree_store_new (
             7,
             G_TYPE_STRING,
-            GDK_TYPE_PIXBUF,
+            G_TYPE_ICON,
             G_TYPE_APP_INFO,
             PANGO_TYPE_STYLE,
             G_TYPE_BOOLEAN,
@@ -4216,8 +4213,8 @@ rstto_main_window_launch_editor_chooser (
     gtk_tree_view_column_set_attributes (
             column,
             renderer,
-            "pixbuf",
-            EDITOR_CHOOSER_MODEL_COLUMN_PIXBUF,
+            "gicon",
+            EDITOR_CHOOSER_MODEL_COLUMN_GICON,
             NULL);
 
     renderer = gtk_cell_renderer_text_new ();
@@ -4245,19 +4242,13 @@ rstto_main_window_launch_editor_chooser (
     app_infos_recommended = g_app_info_get_all_for_type (content_type);
     app_infos_iter = app_infos_recommended;
 
-    pixbuf = gtk_icon_theme_load_icon (
-            gtk_icon_theme_get_default (),
-            "org.xfce.settings.default-applications",
-            24,
-            GTK_ICON_LOOKUP_FORCE_SIZE,
-            NULL);
-
+    icon = g_themed_icon_new ("org.xfce.settings.default-applications");
     gtk_tree_store_append (tree_store, &parent_iter, NULL);
     gtk_tree_store_set (
             tree_store,
             &parent_iter,
-            EDITOR_CHOOSER_MODEL_COLUMN_PIXBUF,
-            pixbuf,
+            EDITOR_CHOOSER_MODEL_COLUMN_GICON,
+            icon,
             EDITOR_CHOOSER_MODEL_COLUMN_NAME,
             _("Recommended Applications"),
             EDITOR_CHOOSER_MODEL_COLUMN_APPLICATION,
@@ -4269,12 +4260,8 @@ rstto_main_window_launch_editor_chooser (
             EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET,
             FALSE,
             -1);
-    if (NULL != pixbuf)
-    {
-        g_object_unref (pixbuf);
-        pixbuf = NULL;
-    }
-
+    if (NULL != icon)
+        g_object_unref (icon);
 
     while (app_infos_iter)
     {
@@ -4283,32 +4270,14 @@ rstto_main_window_launch_editor_chooser (
         /* Do not add ristretto to the list */
         if (strcmp (id, RISTRETTO_DESKTOP_ID))
         {
-
-            g_icon = g_app_info_get_icon (app_infos_iter->data);
-            if (g_icon != NULL)
-            {
-                icon = g_icon_to_string (g_icon);
-
-                pixbuf = gtk_icon_theme_load_icon (
-                        gtk_icon_theme_get_default (),
-                        icon,
-                        24,
-                        GTK_ICON_LOOKUP_FORCE_SIZE,
-                        NULL);
-
-                g_free (icon);
-                g_object_unref (g_icon);
-            }
-
+            icon = g_app_info_get_icon (app_infos_iter->data);
             name = g_app_info_get_display_name (app_infos_iter->data),
-
             gtk_tree_store_append (tree_store, &iter, &parent_iter);
-
             gtk_tree_store_set (
                     tree_store,
                     &iter,
-                    EDITOR_CHOOSER_MODEL_COLUMN_PIXBUF,
-                    pixbuf,
+                    EDITOR_CHOOSER_MODEL_COLUMN_GICON,
+                    icon,
                     EDITOR_CHOOSER_MODEL_COLUMN_NAME,
                     name,
                     EDITOR_CHOOSER_MODEL_COLUMN_APPLICATION,
@@ -4316,28 +4285,19 @@ rstto_main_window_launch_editor_chooser (
                     EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET, FALSE,
                     EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET, FALSE,
                     -1);
-            if (NULL != pixbuf)
-            {
-                g_object_unref (pixbuf);
-                pixbuf = NULL;
-            }
+            if (NULL != icon)
+                g_object_unref (icon);
         }
         app_infos_iter = g_list_next (app_infos_iter);
     }
 
-    pixbuf = gtk_icon_theme_load_icon (
-            gtk_icon_theme_get_default (),
-            "gnome-applications",
-            24,
-            GTK_ICON_LOOKUP_FORCE_SIZE,
-            NULL);
-
+    icon = g_themed_icon_new ("application-x-executable");
     gtk_tree_store_append (tree_store, &parent_iter, NULL);
     gtk_tree_store_set (
             tree_store,
             &parent_iter,
-            EDITOR_CHOOSER_MODEL_COLUMN_PIXBUF,
-            pixbuf,
+            EDITOR_CHOOSER_MODEL_COLUMN_GICON,
+            icon,
             EDITOR_CHOOSER_MODEL_COLUMN_NAME,
             _("Other Applications"),
             EDITOR_CHOOSER_MODEL_COLUMN_APPLICATION,
@@ -4349,11 +4309,8 @@ rstto_main_window_launch_editor_chooser (
             EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET,
             FALSE,
             -1);
-    if (NULL != pixbuf)
-    {
-        g_object_unref (pixbuf);
-        pixbuf = NULL;
-    }
+    if (NULL != icon)
+        g_object_unref (icon);
 
     app_infos_iter = app_infos_all;
     while (app_infos_iter)
@@ -4366,35 +4323,14 @@ rstto_main_window_launch_editor_chooser (
             /* Do not add ristretto to the list */
             if (strcmp (id, RISTRETTO_DESKTOP_ID))
             {
-                g_icon = g_app_info_get_icon (app_infos_iter->data);
-                if (g_icon != NULL)
-                {
-                    icon = g_icon_to_string (g_icon);
-                    pixbuf = gtk_icon_theme_load_icon (
-                            gtk_icon_theme_get_default (),
-                            icon,
-                            24,
-                            GTK_ICON_LOOKUP_FORCE_SIZE,
-                            NULL);
-                    g_object_unref (g_icon);
-                    g_free (icon);
-                }
-                else
-                {
-                    icon = NULL;
-                    pixbuf = NULL;
-                }
-
-
+                icon = g_app_info_get_icon (app_infos_iter->data);
                 name = g_app_info_get_display_name (app_infos_iter->data),
-
                 gtk_tree_store_append (tree_store, &iter, &parent_iter);
-
                 gtk_tree_store_set (
                         tree_store,
                         &iter,
-                        EDITOR_CHOOSER_MODEL_COLUMN_PIXBUF,
-                        pixbuf,
+                        EDITOR_CHOOSER_MODEL_COLUMN_GICON,
+                        icon,
                         EDITOR_CHOOSER_MODEL_COLUMN_NAME,
                         name,
                         EDITOR_CHOOSER_MODEL_COLUMN_APPLICATION,
@@ -4402,11 +4338,8 @@ rstto_main_window_launch_editor_chooser (
                         EDITOR_CHOOSER_MODEL_COLUMN_WEIGHT_SET, FALSE,
                         EDITOR_CHOOSER_MODEL_COLUMN_STYLE_SET, FALSE,
                         -1);
-                if (NULL != pixbuf)
-                {
-                    g_object_unref (pixbuf);
-                    pixbuf = NULL;
-                }
+                if (NULL != icon)
+                    g_object_unref (icon);
             }
         }
         app_infos_iter = g_list_next (app_infos_iter);
