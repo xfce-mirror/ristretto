@@ -28,14 +28,8 @@
 #define RSTTO_THUMBNAIL_FLAVOR_XX_LARGE_N_PIXELS 1024
 
 static const gchar *rstto_thumbnail_flavor_names[] = { "normal", "large", "x-large", "xx-large" };
-static guint rstto_thumbnail_flavor_n_pixels[] =
-{
-    RSTTO_THUMBNAIL_FLAVOR_NORMAL_N_PIXELS,
-    RSTTO_THUMBNAIL_FLAVOR_LARGE_N_PIXELS,
-    RSTTO_THUMBNAIL_FLAVOR_X_LARGE_N_PIXELS,
-    RSTTO_THUMBNAIL_FLAVOR_XX_LARGE_N_PIXELS
-};
-static guint rstto_thumbnail_n_pixels[] = { 32, 48, 64, 96, 128, 192, 256 };
+static const guint rstto_thumbnail_n_pixels_unscaled[] = { 32, 48, 64, 96, 128, 192, 256 };
+static guint rstto_thumbnail_n_pixels[RSTTO_THUMBNAIL_SIZE_COUNT];
 
 
 
@@ -183,6 +177,15 @@ rstto_util_dialog_error (const gchar *message,
 
 
 
+void
+rstto_util_set_scale_factor (gint scale_factor)
+{
+    for (gint n = 0; n < RSTTO_THUMBNAIL_SIZE_COUNT; n++)
+        rstto_thumbnail_n_pixels[n] = rstto_thumbnail_n_pixels_unscaled[n] * scale_factor;
+}
+
+
+
 RsttoThumbnailFlavor
 rstto_util_get_thumbnail_flavor (RsttoThumbnailSize size)
 {
@@ -194,20 +197,6 @@ rstto_util_get_thumbnail_flavor (RsttoThumbnailSize size)
         return RSTTO_THUMBNAIL_FLAVOR_X_LARGE;
     else
         return RSTTO_THUMBNAIL_FLAVOR_XX_LARGE;
-}
-
-
-
-RsttoThumbnailSize
-rstto_util_get_thumbnail_size (RsttoThumbnailFlavor flavor)
-{
-    for (gint n = 0; n < RSTTO_THUMBNAIL_SIZE_COUNT; n++)
-        if (rstto_thumbnail_n_pixels[n] == rstto_thumbnail_flavor_n_pixels[flavor])
-            return n;
-
-    /* flavor sizes should be part of the proposed sizes, as native sizes (i.e. not scaled) */
-    g_warn_if_reached ();
-    return RSTTO_THUMBNAIL_SIZE_NORMAL;
 }
 
 

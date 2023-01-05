@@ -281,11 +281,14 @@ properties_dialog_set_file (
 
     if (dialog->priv->file)
     {
-        size = rstto_util_get_thumbnail_size (RSTTO_THUMBNAIL_FLAVOR_LARGE);
-        pixbuf = rstto_file_get_thumbnail (file, size);
+        pixbuf = rstto_file_get_thumbnail (file, RSTTO_THUMBNAIL_SIZE_VERY_LARGE);
         if (NULL != pixbuf)
-            gtk_image_set_from_pixbuf (GTK_IMAGE (dialog->priv->image_thumbnail),
-                                       (GdkPixbuf *) pixbuf);
+        {
+            gint scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (dialog));
+            cairo_surface_t *surface = gdk_cairo_surface_create_from_pixbuf (pixbuf, scale_factor, NULL);
+            gtk_image_set_from_surface (GTK_IMAGE (dialog->priv->image_thumbnail), surface);
+            cairo_surface_destroy (surface);
+        }
 
         g_file = rstto_file_get_file (file);
         file_info = g_file_query_info (

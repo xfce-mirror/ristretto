@@ -93,11 +93,11 @@ void
 rstto_util_dialog_error (const gchar *message,
                          GError *error);
 
+void
+rstto_util_set_scale_factor (gint scale_factor);
+
 RsttoThumbnailFlavor
 rstto_util_get_thumbnail_flavor (RsttoThumbnailSize size);
-
-RsttoThumbnailSize
-rstto_util_get_thumbnail_size (RsttoThumbnailFlavor flavor);
 
 const gchar *
 rstto_util_get_thumbnail_flavor_name (RsttoThumbnailFlavor flavor);

@@ -391,8 +391,6 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
             icon_bar->priv->settings,
             "thumbnail-size");
 
-    rstto_icon_bar_update_missing_icon (icon_bar);
-
     gtk_widget_set_can_focus (GTK_WIDGET (icon_bar), FALSE);
 
     g_signal_connect (icon_bar->priv->settings, "notify::thumbnail-size",
@@ -401,6 +399,7 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
                               G_CALLBACK (gtk_widget_queue_draw), icon_bar);
     g_signal_connect_swapped (icon_bar->priv->settings, "notify::bgcolor-override",
                               G_CALLBACK (gtk_widget_queue_draw), icon_bar);
+    rstto_icon_bar_set_scale_factor (icon_bar);
     g_signal_connect (icon_bar, "notify::scale-factor",
                       G_CALLBACK (rstto_icon_bar_set_scale_factor), NULL);
 }
@@ -531,8 +530,22 @@ rstto_icon_bar_set_scale_factor (RsttoIconBar *icon_bar)
 {
     GtkWidget *widget = GTK_WIDGET (icon_bar);
     GtkRequisition requisition;
+    RsttoIconBarItem *item;
+    RsttoFile *file;
+    RsttoThumbnailFlavor flavor;
 
-    /* do not scale the thumbnails with the rest of the window */
+    /* reset thumbnail states */
+    for (GList *lp = icon_bar->priv->items; lp != NULL; lp = lp->next)
+    {
+        item = lp->data;
+        gtk_tree_model_get (icon_bar->priv->model, &item->iter, 0, &file, -1);
+        for (flavor = RSTTO_THUMBNAIL_FLAVOR_NORMAL; flavor < RSTTO_THUMBNAIL_FLAVOR_COUNT; flavor++)
+            rstto_file_set_thumbnail_state (file, flavor, RSTTO_THUMBNAIL_STATE_UNPROCESSED);
+    }
+
+    /* scale the thumbnails with the rest of the window */
+    rstto_util_set_scale_factor (gtk_widget_get_scale_factor (widget));
+    rstto_icon_bar_update_missing_icon (icon_bar);
     rstto_icon_bar_size_request (widget, &requisition);
 
     gtk_widget_queue_resize (widget);
@@ -631,9 +644,9 @@ rstto_icon_bar_size_request (
                           "focus-padding", &focus_pad, NULL);
 
     /* calculate item size: there is a focus padding both inside and outside the item */
-    icon_bar->priv->item_size = (rstto_util_get_thumbnail_n_pixels (icon_bar->priv->thumbnail_size)
-                                    + 2 * (focus_width + 2 * focus_pad))
-                                / (gdouble) gtk_widget_get_scale_factor (widget);
+    icon_bar->priv->item_size = 2 * (focus_width + 2 * focus_pad)
+                                + rstto_util_get_thumbnail_n_pixels (icon_bar->priv->thumbnail_size)
+                                  / gtk_widget_get_scale_factor (widget);
 
     n_items = rstto_image_list_get_n_images (RSTTO_IMAGE_LIST (icon_bar->priv->model));
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
@@ -942,20 +955,18 @@ rstto_icon_bar_paint_item (
     const GdkPixbuf *pixbuf = NULL;
     GdkRGBA         *border_color, *fill_color;
     GdkRGBA          tmp_color;
-    gdouble          px, py, focus_width, focus_pad, offset, size;
-    gint             x, y, ifocus_width, ifocus_pad, scale_factor;
+    gdouble          px, py, offset, size;
+    gint             x, y, focus_width, focus_pad, scale_factor;
     gint             pixbuf_width = 0, pixbuf_height = 0;
 
     if (icon_bar->priv->model == NULL)
         return;
 
     gtk_widget_style_get (GTK_WIDGET (icon_bar),
-            "focus-line-width", &ifocus_width,
-            "focus-padding", &ifocus_pad,
+            "focus-line-width", &focus_width,
+            "focus-padding", &focus_pad,
             NULL);
     scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (icon_bar));
-    focus_width = (gdouble) ifocus_width / scale_factor;
-    focus_pad = (gdouble) ifocus_pad / scale_factor;
 
     gtk_tree_model_get (icon_bar->priv->model, &item->iter, 0, &file, -1);
     pixbuf = rstto_file_get_thumbnail (file, icon_bar->priv->thumbnail_size);
@@ -1041,7 +1052,7 @@ rstto_icon_bar_paint_item (
         cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
         cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
 
-        offset = focus_pad + focus_width / 2;
+        offset = focus_pad + focus_width / 2.0;
         size = icon_bar->priv->item_size - 2 * offset;
         cairo_rectangle (cr, x + offset, y + offset, size, size);
         cairo_stroke (cr);
@@ -1697,12 +1708,13 @@ cb_rstto_icon_bar_adjustment_changed (GtkAdjustment *adjustment,
 static void
 rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar)
 {
+    gint scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (icon_bar));
 
     if (icon_bar->priv->thumbnail_missing != NULL)
         g_object_unref (icon_bar->priv->thumbnail_missing);
 
     icon_bar->priv->thumbnail_missing =
-        gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "image-missing",
-                                  rstto_util_get_thumbnail_n_pixels (icon_bar->priv->thumbnail_size),
-                                  0, NULL);
+        gtk_icon_theme_load_icon_for_scale (gtk_icon_theme_get_default (), "image-missing",
+                                            rstto_util_get_thumbnail_n_pixels (icon_bar->priv->thumbnail_size) / scale_factor,
+                                            scale_factor, GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
 }

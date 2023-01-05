@@ -662,8 +662,7 @@ rstto_file_changed (RsttoFile *r_file)
     {
         /* this will send a request to the thumbnailer, which will trigger the necessary
          * updates with its "ready" signal */
-        rstto_file_get_thumbnail (r_file,
-                                  rstto_util_get_thumbnail_size (RSTTO_THUMBNAIL_FLAVOR_NORMAL));
+        rstto_file_get_thumbnail (r_file, RSTTO_THUMBNAIL_SIZE_LARGE);
 
         g_signal_emit (r_file, rstto_file_signals[RSTTO_FILE_SIGNAL_CHANGED], 0, NULL);
     }
