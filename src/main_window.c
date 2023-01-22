@@ -4208,6 +4208,7 @@ rstto_main_window_launch_editor_chooser (
             TRUE,
             NULL);
     renderer = gtk_cell_renderer_pixbuf_new ();
+    g_object_set (renderer, "stock-size", GTK_ICON_SIZE_LARGE_TOOLBAR, NULL);
 
     gtk_tree_view_column_pack_start (column, renderer, FALSE);
     gtk_tree_view_column_set_attributes (
