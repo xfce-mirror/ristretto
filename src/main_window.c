@@ -30,6 +30,7 @@
 #include "properties_dialog.h"
 #include "preferences_dialog.h"
 #include "app_menu_item.h"
+#include "print.h"
 
 #include <gio/gdesktopappinfo.h>
 
@@ -172,6 +173,9 @@ cb_rstto_main_window_open_recent (GtkRecentChooser *chooser,
 static void
 cb_rstto_main_window_properties (GtkWidget *widget,
                                  RsttoMainWindow *window);
+static void
+cb_rstto_main_window_print (GtkWidget *widget,
+                            RsttoMainWindow *window);
 static void
 cb_rstto_main_window_close (GtkWidget *widget,
                             RsttoMainWindow *window);
@@ -330,6 +334,12 @@ static GtkActionEntry action_entries[] =
             NULL, /* Keyboard shortcut */
             N_ ("Show file properties"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_properties), },
+    { "print",
+            "document-print", /* Icon-name */
+            N_ ("_Print..."), /* Label-text */
+            "<control>P", /* Keyboard shortcut */
+            N_ ("Print the current image"), /* Tooltip text */
+            G_CALLBACK (cb_rstto_main_window_print), },
     { "edit",
             "gtk-edit", /* Icon-name */
             N_ ("_Edit"), /* Label-text */
@@ -3582,6 +3592,24 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
             gtk_widget_destroy (dialog);
         }
     }
+}
+
+static void
+cb_rstto_main_window_print (GtkWidget *widget, RsttoMainWindow *window)
+{
+    RsttoPrint *print;
+    GError *error = NULL;
+
+    g_return_if_fail (RSTTO_IS_MAIN_WINDOW (window));
+
+    print = rstto_print_new (RSTTO_IMAGE_VIEWER (window->priv->image_viewer));
+    if (! rstto_print_image_interactive (print, GTK_WINDOW (window), &error))
+    {
+        rstto_util_dialog_error (_("Failed to print the image"), error);
+        g_error_free (error);
+    }
+
+    g_object_unref (print);
 }
 
 /**

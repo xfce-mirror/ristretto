@@ -14,6 +14,7 @@ ristretto_SOURCES = \
 	mime_db.c mime_db.h \
 	monitor_chooser.c monitor_chooser.h \
 	preferences_dialog.h preferences_dialog.c \
+	print.c print.h \
 	privacy_dialog.h privacy_dialog.c \
 	properties_dialog.h properties_dialog.c \
 	settings.c settings.h \

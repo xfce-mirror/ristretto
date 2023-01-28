@@ -11,6 +11,7 @@
             -->
             <separator/>
             <menuitem action="properties"/>
+            <menuitem action="print"/>
             <separator/>
             <menuitem action="close"/>
             <menuitem action="quit"/>
@@ -113,6 +114,7 @@
     <popup name="image-viewer-menu">
         <menuitem action="open"/>
         <menuitem action="properties"/>
+        <menuitem action="print"/>
         <menuitem action="close"/>
     <menuitem action="copy-image"/>
         <separator/>
