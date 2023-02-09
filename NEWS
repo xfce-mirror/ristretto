@@ -1,3 +1,26 @@
+0.13.0 (2023-02-09)
+======
+- New Features:
+  - Add print support (#1)
+
+- Bug Fixes:
+  - editor-chooser: Expand tree view vertically
+  - properties-dialog: Update thumbnail on "ready" signal
+  - Fix remaining blurry icons when UI scale > 1
+  - thumbnailer: Properly support window scaling (#81)
+  - Revert "thumbnailer: Increase thumbnail sizes"
+
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Occitan (post
+  1500), Polish, Portuguese, Portuguese (Brazil), Romanian, Russian,
+  Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish,
+  Ukrainian, Uyghur
+
 0.12.4 (2022-12-16)
 ======
 - Dependency Changes:
