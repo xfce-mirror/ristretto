@@ -897,7 +897,12 @@ paint_background_icon (RsttoImageViewer *viewer,
     /* draw the pixbuf on the cairo-context */
     if (pixbuf != NULL)
     {
+        cairo_surface_t *surface;
+        gint scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
+
         rstto_util_set_source_pixbuf (ctx, pixbuf, 0, 0);
+        cairo_pattern_get_surface (cairo_get_source (ctx), &surface);
+        cairo_surface_set_device_scale (surface, scale_factor, scale_factor);
         cairo_paint_with_alpha (ctx, alpha);
     }
 }
