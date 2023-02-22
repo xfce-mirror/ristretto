@@ -15,14 +15,14 @@
 # Pablo Lezaeta Reyes <prflr88@gmail.com>, 2014-2015
 # Pablo Lezaeta Reyes <prflr88@gmail.com>, 2019
 # Pablo Lezaeta Reyes <prflr88@gmail.com>, 2019
-# Toni Estévez <toni.estevez@gmail.com>, 2021
+# Toni Estévez <toni.estevez@gmail.com>, 2021,2023
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2023-01-30 00:49+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Toni Estévez <toni.estevez@gmail.com>, 2021\n"
+"Last-Translator: Toni Estévez <toni.estevez@gmail.com>, 2021,2023\n"
 "Language-Team: Spanish (http://www.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,7 +123,7 @@ msgstr "_Imprimir..."
 #. Keyboard shortcut
 #: ../src/main_window.c:341
 msgid "Print the current image"
-msgstr ""
+msgstr "Imprimir la imagen actual"
 
 #. Icon-name
 #: ../src/main_window.c:345 ../src/main_window.c:364
@@ -595,7 +595,7 @@ msgstr "_Guardar"
 
 #: ../src/main_window.c:3608
 msgid "Failed to print the image"
-msgstr ""
+msgstr "Error al imprimir la imagen"
 
 #: ../src/main_window.c:3698
 #, c-format
