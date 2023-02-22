@@ -112,7 +112,7 @@ msgstr "_Штампај..."
 #. Keyboard shortcut
 #: ../src/main_window.c:341
 msgid "Print the current image"
-msgstr ""
+msgstr "Штампај тренутну слику"
 
 #. Icon-name
 #: ../src/main_window.c:345 ../src/main_window.c:364
@@ -584,7 +584,7 @@ msgstr "_Сачувај"
 
 #: ../src/main_window.c:3608
 msgid "Failed to print the image"
-msgstr ""
+msgstr "Нисам успео да одштампам слику"
 
 #: ../src/main_window.c:3698
 #, c-format
@@ -907,7 +907,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "Услуга умањења приказа сличица није доступна,\nзбог тога умањене сличице не могу бити\nнаправљене.\n\nУградите <b>Тамблер</b> (tumbler) или неки други <i>умањивач сличица</i>\nда решите овај проблем."
+msgstr "Услуга умањења приказа сличица није доступна,\nзбог тога умањене сличице не могу бити\nнаправљене.\n\nУградите <b>Сличичара</b> (tumbler) или неки други <i>умањивач сличица</i>\nда решите овај проблем."
 
 #: ../src/thumbnailer.c:371
 msgid "Do _not show this message again"
