@@ -5,12 +5,13 @@
 # Translators:
 # Ali Polatel <ali.polatel@ozguryazilim.com.tr>, 2015
 # Ayhan YALÇINSOY <ayhanyalcinsoy@gmail.com>, 2012
-# Demiray Muhterem <mdemiray@msn.com>, 2019,2021
+# Demiray Muhterem <mdemiray@msn.com>, 2019,2021,2023
 # Emin Tufan Çetin <etcetin@gmail.com>, 2020-2022
 # Emin Tufan Çetin <etcetin@gmail.com>, 2020
 # Gökmen Görgen <gkmngrgn@gmail.com>, 2008
 # Necdet Yücel <necdetyucel@gmail.com>, 2015-2017
 # Onur Küçük <onur@pardus.org.tr>, 2008
+# Sabri Ünal <libreajans@gmail.com>, 2023
 # Serdar Sağlam <teknomobil@msn.com>, 2019
 # Volkan Gezer <volkangezer@gmail.com>, 2013
 msgid ""
@@ -19,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
 "POT-Creation-Date: 2023-01-30 00:49+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>, 2020-2022\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>, 2023\n"
 "Language-Team: Turkish (http://www.transifex.com/xfce/xfce-apps/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,7 +121,7 @@ msgstr "_Yazdır..."
 #. Keyboard shortcut
 #: ../src/main_window.c:341
 msgid "Print the current image"
-msgstr ""
+msgstr "Geçerli görüntüyü yazdır"
 
 #. Icon-name
 #: ../src/main_window.c:345 ../src/main_window.c:364
@@ -182,7 +183,7 @@ msgstr "Bu resmi diskten sil"
 #. Icon-name
 #: ../src/main_window.c:394
 msgid "_Clear private data..."
-msgstr "Kişisel verileri _temizle..."
+msgstr "Özel verileri _temizle..."
 
 #. Icon-name
 #: ../src/main_window.c:400
@@ -196,7 +197,7 @@ msgstr "_Görünüm"
 #. Icon-name
 #: ../src/main_window.c:413
 msgid "_Fullscreen"
-msgstr "_Tam ekran"
+msgstr "_Tam Ekran"
 
 #. Label-text
 #. Keyboard shortcut
@@ -207,60 +208,60 @@ msgstr "Tam ekrana ayarla"
 #. Icon-name
 #: ../src/main_window.c:419
 msgid "_Leave Fullscreen"
-msgstr "_Tam ekranı kapat"
+msgstr "_Tam Ekranı Kapat"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:421
 msgid "Leave Fullscreen"
-msgstr "_Tam ekrandan ayrıl"
+msgstr "Tam Ekranı Kapat"
 
 #. Icon-name
 #: ../src/main_window.c:425
 msgid "Set as _Wallpaper..."
-msgstr "Duvar kağıdı olarak _ayarla..."
+msgstr "Duvar Kağıdı Olarak _Ayarla..."
 
 #: ../src/main_window.c:432
 msgid "_Zoom"
-msgstr "_Yakınlaştır"
+msgstr "_Yakınlaştırma"
 
 #. Icon-name
 #: ../src/main_window.c:438
 msgid "Zoom _In"
-msgstr "_Yakınlaş"
+msgstr "_Yakınlaştır"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:440
 msgid "Zoom in"
-msgstr "Yakınlaş"
+msgstr "Yakınlaştır"
 
 #. Icon-name
 #: ../src/main_window.c:444
 msgid "Zoom _Out"
-msgstr "_Uzaklaş"
+msgstr "_Uzaklaştır"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:446
 msgid "Zoom out"
-msgstr "Uzaklaş"
+msgstr "Uzaklaştır"
 
 #. Icon-name
 #: ../src/main_window.c:450 ../src/main_window.c:734
 msgid "Zoom _Fit"
-msgstr "Pencereye _sığdır"
+msgstr "Pencereye _Sığdır"
 
 #. Label-text
 #. Keyboard shortcut
 #: ../src/main_window.c:452
 msgid "Zoom to fit window"
-msgstr "Pencereye uydur"
+msgstr "Pencereye sığacak şekilde yakınlaştır"
 
 #. Icon-name
 #: ../src/main_window.c:456 ../src/main_window.c:740
 msgid "_Normal Size"
-msgstr "_Olağan boyut"
+msgstr "_Olağan Boyut"
 
 #. Label-text
 #. Keyboard shortcut
@@ -279,12 +280,12 @@ msgstr "_Döndür"
 #. Icon-name
 #: ../src/main_window.c:476
 msgid "Rotate _Right"
-msgstr "Sa_ğa döndür"
+msgstr "Sa_ğa Döndür"
 
 #. Icon-name
 #: ../src/main_window.c:482
 msgid "Rotate _Left"
-msgstr "So_la döndür"
+msgstr "So_la Döndür"
 
 #: ../src/main_window.c:489
 msgid "_Flip"
@@ -292,11 +293,11 @@ msgstr "_Çevir"
 
 #: ../src/main_window.c:495
 msgid "Flip _Horizontally"
-msgstr "_Yatay çevir"
+msgstr "_Yatay Çevir"
 
 #: ../src/main_window.c:501
 msgid "Flip _Vertically"
-msgstr "_Dikey çevir"
+msgstr "_Dikey Çevir"
 
 #: ../src/main_window.c:508
 msgid "_Go"
@@ -401,7 +402,7 @@ msgstr "_Araç Çubuğunu Göster"
 #. Icon-name
 #: ../src/main_window.c:609
 msgid "Show _Thumbnail Bar"
-msgstr "_Küçük resim çubuğunu göster"
+msgstr "_Küçük Resim Çubuğunu Göster"
 
 #. Icon-name
 #: ../src/main_window.c:617
@@ -442,11 +443,11 @@ msgstr "Alt"
 
 #: ../src/main_window.c:681
 msgid "Very Small"
-msgstr "Çok küçük"
+msgstr "Çok Küçük"
 
 #: ../src/main_window.c:687
 msgid "Smaller"
-msgstr "Daha küçük"
+msgstr "Daha Küçük"
 
 #: ../src/main_window.c:693
 msgid "Small"
@@ -454,7 +455,7 @@ msgstr "Küçük"
 
 #: ../src/main_window.c:699
 msgid "Normal"
-msgstr "_Olağan"
+msgstr "Olağan"
 
 #: ../src/main_window.c:705
 msgid "Large"
@@ -462,11 +463,11 @@ msgstr "Büyük"
 
 #: ../src/main_window.c:711
 msgid "Larger"
-msgstr "Daha büyük"
+msgstr "Daha Büyük"
 
 #: ../src/main_window.c:717
 msgid "Very Large"
-msgstr "Çok büyük"
+msgstr "Çok Büyük"
 
 #. Icon-name
 #: ../src/main_window.c:728
@@ -492,7 +493,7 @@ msgstr "_Duraklat"
 
 #: ../src/main_window.c:939
 msgid "Pause slideshow"
-msgstr "Slayt gösterisini durdur"
+msgstr "Slayt gösterisini duraklat"
 
 #. Create Recently used items Action
 #: ../src/main_window.c:942
@@ -509,7 +510,7 @@ msgstr "Resim seçmek için aça tıkla"
 
 #: ../src/main_window.c:1564 ../src/main_window.c:1569
 msgid "Open With Other _Application..."
-msgstr "Başka Uygulamayla Aç..."
+msgstr "Başka _Uygulamayla Aç..."
 
 #: ../src/main_window.c:1579 ../src/main_window.c:1587
 msgid "Empty"
@@ -584,7 +585,7 @@ msgstr "Tüm Dosyalar"
 
 #: ../src/main_window.c:3495
 msgid "Save copy"
-msgstr "Kopyayı kaydet"
+msgstr "Kopya kaydet"
 
 #: ../src/main_window.c:3499
 msgid "_Save"
@@ -592,7 +593,7 @@ msgstr "_Kaydet"
 
 #: ../src/main_window.c:3608
 msgid "Failed to print the image"
-msgstr ""
+msgstr "Resim yazdırılamadı"
 
 #: ../src/main_window.c:3698
 #, c-format
@@ -724,7 +725,7 @@ msgstr "_Uygula"
 
 #: ../src/privacy_dialog.c:438
 msgid "Clear private data"
-msgstr "Özel veriyi temizle"
+msgstr "Özel verileri temizle"
 
 #: ../src/preferences_dialog.c:249
 msgid "Display"
@@ -799,7 +800,7 @@ msgstr "Hareketsizlik süresi (saniye):"
 
 #: ../src/preferences_dialog.c:369
 msgid "Slideshow"
-msgstr "Sırayla Göster"
+msgstr "Slayt gösterisi"
 
 #: ../src/preferences_dialog.c:373
 msgid "Timeout"
@@ -919,7 +920,7 @@ msgstr "Küçük resim hizmeti bulunamıyor,\nbu yüzden, küçük resimler olu�
 
 #: ../src/thumbnailer.c:371
 msgid "Do _not show this message again"
-msgstr "Bu iletiyi yeniden gösterme"
+msgstr "Bu iletiyi yeniden _gösterme"
 
 #: ../src/xfce_wallpaper_manager.c:246 ../src/gnome_wallpaper_manager.c:176
 msgid "Style:"
