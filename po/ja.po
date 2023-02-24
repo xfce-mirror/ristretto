@@ -949,7 +949,7 @@ msgstr "短辺を画面に合わせる"
 
 #: org.xfce.ristretto.desktop.in:8
 msgid "org.xfce.ristretto"
-msgstr ""
+msgstr "org.xfce.ristretto"
 
 #: org.xfce.ristretto.appdata.xml.in:13
 msgid ""
