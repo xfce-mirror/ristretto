@@ -58,17 +58,17 @@ msgstr "Неможливо зберегти файл"
 
 #: src/main_window.c:43
 msgid "Some files could not be opened: see the text logs for details"
-msgstr ""
+msgstr "Деякі файли не вдалося відкрити: див. текстові логи з деталями"
 
 #: src/main_window.c:44
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
-msgstr ""
+msgstr "Сталася помилка під час видалення зображення '%s' з диска"
 
 #: src/main_window.c:45
 #, c-format
 msgid "An error occurred when sending image '%s' to trash"
-msgstr ""
+msgstr "Сталася помилка при відправленні зображення '%s' до смітника."
 
 #: src/main_window.c:315
 msgid "_File"
@@ -116,7 +116,7 @@ msgstr "На_друкувати..."
 #. Keyboard shortcut
 #: src/main_window.c:341
 msgid "Print the current image"
-msgstr ""
+msgstr "Друк поточного зображення"
 
 #. Icon-name
 #: src/main_window.c:345 src/main_window.c:364
@@ -266,7 +266,7 @@ msgstr "Збільшити до 100%"
 
 #: src/main_window.c:463
 msgid "_Default Zoom"
-msgstr ""
+msgstr "Масштаб за _замовчуванням"
 
 #: src/main_window.c:470
 msgid "_Rotation"
@@ -467,7 +467,7 @@ msgstr "Дуже великий"
 #. Icon-name
 #: src/main_window.c:728
 msgid "_Smart Zoom"
-msgstr ""
+msgstr "_Інтелектуальний масштаб"
 
 #: src/main_window.c:865
 msgid "Images"
@@ -587,7 +587,7 @@ msgstr "_Зберегти"
 
 #: src/main_window.c:3608
 msgid "Failed to print the image"
-msgstr ""
+msgstr "Не вдалось надрукувати зображення"
 
 #: src/main_window.c:3698
 #, c-format
@@ -654,11 +654,11 @@ msgstr "Показати текст"
 
 #: src/icon_bar.c:311
 msgid "Scrolled window"
-msgstr ""
+msgstr "Вікно з прокруткою"
 
 #: src/icon_bar.c:312
 msgid "Scrolled window icon bar is placed into"
-msgstr ""
+msgstr "Вікно зі смугою прокручування, в якому розміщена панель значків"
 
 #: src/icon_bar.c:318 src/icon_bar.c:319
 msgid "Active item fill color"
@@ -887,11 +887,11 @@ msgstr "%s - Властивості"
 
 #: src/image_list.c:32
 msgid "No supported image type found in the directory"
-msgstr ""
+msgstr "У каталозі не знайдено підтримуваних типів зображень"
 
 #: src/image_list.c:33
 msgid "Directory only partially loaded"
-msgstr ""
+msgstr "Каталог завантажено лише частково"
 
 #: src/image_list.c:34
 msgid "Could not load directory"
@@ -899,7 +899,7 @@ msgstr "Не вдалося завантижити каталог"
 
 #: src/image_list.c:35
 msgid "Unsupported mime type"
-msgstr ""
+msgstr "Непідтримуваний тип MIME"
 
 #: src/thumbnailer.c:362
 msgid ""
@@ -953,7 +953,7 @@ msgstr "Розтягнути"
 
 #: org.xfce.ristretto.desktop.in:8
 msgid "org.xfce.ristretto"
-msgstr ""
+msgstr "org.xfce.ristretto"
 
 #: org.xfce.ristretto.appdata.xml.in:13
 msgid ""
