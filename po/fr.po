@@ -124,7 +124,7 @@ msgstr "_Imprimer…"
 #. Keyboard shortcut
 #: src/main_window.c:341
 msgid "Print the current image"
-msgstr "Imprimer l'image actuelle"
+msgstr "Imprimer l’image actuelle"
 
 #. Icon-name
 #: src/main_window.c:345 src/main_window.c:364
@@ -595,7 +595,7 @@ msgstr "_Enregistrer"
 
 #: src/main_window.c:3608
 msgid "Failed to print the image"
-msgstr "Impossible d'imprimer l'image"
+msgstr "Impossible d’imprimer l’image"
 
 #: src/main_window.c:3698
 #, c-format
