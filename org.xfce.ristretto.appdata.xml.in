@@ -4,17 +4,17 @@
   <id>org.xfce.ristretto</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
-  <_name>Ristretto</_name>
-  <_summary>Fast and lightweight image viewer</_summary>
+  <name>Ristretto</name>
+  <summary>Fast and lightweight image viewer</summary>
 
   <description>
-    <_p>Ristretto is an image viewer for the Xfce desktop environment.
-    </_p>
-    <_p>The Ristretto Image Viewer is an application that can be used to view
+    <p>Ristretto is an image viewer for the Xfce desktop environment.
+    </p>
+    <p>The Ristretto Image Viewer is an application that can be used to view
        and scroll through images, run a slideshow of images, open images with
        other applications like an image-editor or configure an image as the
        desktop wallpaper.
-    </_p>
+    </p>
   </description>
 
   <screenshots>
