@@ -1,40 +1,31 @@
-## Process this file with automake to produce Makefile.in
-
-SUBDIRS = src po icons
+SUBDIRS = \
+	src \
+	po \
+	icons
 
 desktopdir = $(datadir)/applications
 desktop_in_files = org.xfce.ristretto.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
-@INTLTOOL_DESKTOP_RULE@
 
-#
-# .appdata
-#
-@INTLTOOL_XML_RULE@
+%.desktop: %.desktop.in
+	$(AM_V_GEN) $(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
+
 appdatadir = $(datadir)/metainfo
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
 appdata_in_files = org.xfce.ristretto.appdata.xml.in
 
+%.xml: %.xml.in
+	$(AM_V_GEN) $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
+
 EXTRA_DIST = \
-	README.md \
-	autogen.sh \
-	intltool-extract.in \
-	intltool-merge.in \
-	intltool-update.in \
 	$(desktop_in_files) \
-	$(pixmaps_DATA) \
-	$(wrapper_DATA) \
 	$(appdata_in_files)
 
 DISTCLEANFILES = \
-	intltool-extract \
-	intltool-merge \
-	intltool-update \
-	po/.intltool-merge-cache.lock \
 	$(desktop_DATA) \
 	$(appdata_DATA)
 
-DISTCHECK_CONFIGURE_FLAGS=--enable-gen-doc
+DISTCHECK_CONFIGURE_FLAGS = --enable-gen-doc
 
 .PHONY: ChangeLog
 

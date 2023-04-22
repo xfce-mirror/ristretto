@@ -9,27 +9,28 @@ dnl
 dnl ***************************
 dnl *** Version information ***
 dnl ***************************
-m4_define([ristretto_version_major], [0])
-m4_define([ristretto_version_minor], [13])
-m4_define([ristretto_version_micro], [0])
-m4_define([ristretto_version_build], [r@REVISION@])
-m4_define([ristretto_version_tag], [git]) # Leave empty for releases
-m4_define([ristretto_version], [ristretto_version_major().ristretto_version_minor().ristretto_version_micro()ifelse(ristretto_version_tag(), [], [], [ristretto_version_tag()-ristretto_version_build()])])
+XDT_VERSION_INIT([0.13.0], [git])
 
-dnl *******************************************
-dnl *** Debugging support for SVN snapshots ***
-dnl *******************************************
-m4_define([ristretto_debug_default], [ifelse(ristretto_version_tag(), [git], [full], [minimum])])
+dnl minimum required versions
+m4_define([glib_min_version], [2.56.0])
+m4_define([gtk_min_version], [3.22.0])
+m4_define([libxfce4ui_min_version], [4.16.0])
+m4_define([libxfce4util_min_version], [4.16.0])
+m4_define([xfconf_min_version], [4.12.1])
+m4_define([libexif_min_version], [0.6.0])
+m4_define([cairo_min_version], [1.10.0])
+m4_define([libx11_min_version], [1.6.7])
 
 AC_COPYRIGHT([Copyright (c) 2006-2023
         The Xfce development team. All rights reserved.
 
 Written for Xfce by Stephan Arts <stephan@xfce.org>.])
 
-AC_INIT([ristretto], [ristretto_version], [])
-AC_PREREQ([2.50])
+AC_INIT([ristretto], [xdt_version], [https://gitlab.xfce.org/apps/ristretto])
+AC_PREREQ([2.69])
+AC_CONFIG_MACRO_DIRS([m4])
+AC_REVISION([xdt_version_build])
 
-RISTRETTO_VERSION=ristretto_version
 AM_INIT_AUTOMAKE([1.8 no-dist-gzip dist-bzip2 tar-ustar foreign])
 AC_CONFIG_HEADERS([config.h])
 AM_MAINTAINER_MODE
@@ -44,23 +45,26 @@ AM_CONDITIONAL([HAVE_CYGWIN], [test "`uname | grep \"CYGWIN\"`" != ""])
 dnl check for standard header files
 AC_PROG_CC
 AC_PROG_SED
-IT_PROG_INTLTOOL([0.35], [no-xml])
 
 
 dnl Check for i18n support
-XDT_I18N([@LINGUAS@])
+GETTEXT_PACKAGE="$PACKAGE"
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Name of default gettext domain])
+AC_SUBST([GETTEXT_PACKAGE])
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.19.8])
 
-XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.56.0])
-XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [3.22.0])
+XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [glib_min_version])
+XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [gtk_min_version])
 
-XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-2], [4.16.0])
-XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [4.16.0])
-XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [4.12.1])
+XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-2], [libxfce4ui_min_version])
+XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [libxfce4util_min_version])
+XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [xfconf_min_version])
 
-XDT_CHECK_PACKAGE([LIBEXIF], [libexif], [0.6.0])
-XDT_CHECK_PACKAGE([CAIRO], [cairo], [1.10.0])
+XDT_CHECK_PACKAGE([LIBEXIF], [libexif], [libexif_min_version])
+XDT_CHECK_PACKAGE([CAIRO], [cairo], [cairo_min_version])
 
-XDT_CHECK_LIBX11()
+XDT_CHECK_OPTIONAL_PACKAGE([LIBX11], [x11], [libx11_min_version], [libx11], [Libx11 support])
 
 AC_CHECK_HEADERS([magic.h],, [libmagic=false])
 AC_CHECK_LIB(magic, [magic_open], [MAGIC_LIBS="-lmagic"],[libmagic=false])
@@ -84,7 +88,7 @@ AC_DEFINE_UNQUOTED(TUMBLER_SERVICE_PATH_PREFIX, "$TUMBLER_SERVICE_PATH_PREFIX",
                    Path prefix for Tumbler services)
 
 dnl check for debugging support
-XDT_FEATURE_DEBUG
+XDT_FEATURE_DEBUG([xdt_debug_default])
 
 AC_CONFIG_FILES([
 Makefile

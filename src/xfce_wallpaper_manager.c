@@ -21,8 +21,10 @@
 #include "monitor_chooser.h"
 #include "xfce_wallpaper_manager.h"
 
+#ifdef HAVE_LIBX11
 #include <gdk/gdkx.h>
 #include <X11/Xatom.h>
+#endif
 
 #include <xfconf/xfconf.h>
 #include <libxfce4ui/libxfce4ui.h>
@@ -146,18 +148,24 @@ rstto_xfce_wallpaper_manager_configure_dialog_run (
 static gboolean
 rstto_xfce_wallpaper_manager_check_running (RsttoWallpaperManager *self)
 {
-    gchar selection_name[100];
-    Atom xfce_selection_atom;
-    gint xscreen = 0;
-    Display *gdk_display = gdk_x11_get_default_xdisplay ();
-
-    g_snprintf (selection_name, 100, XFDESKTOP_SELECTION_FMT, xscreen);
-
-    xfce_selection_atom = XInternAtom (gdk_display, selection_name, False);
-    if ((XGetSelectionOwner (gdk_display, xfce_selection_atom)))
+#ifdef HAVE_LIBX11
+    if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
     {
-        return TRUE;
+        gchar selection_name[100];
+        Atom xfce_selection_atom;
+        gint xscreen = 0;
+        Display *gdk_display = gdk_x11_get_default_xdisplay ();
+
+        g_snprintf (selection_name, 100, XFDESKTOP_SELECTION_FMT, xscreen);
+
+        xfce_selection_atom = XInternAtom (gdk_display, selection_name, False);
+        if ((XGetSelectionOwner (gdk_display, xfce_selection_atom)))
+        {
+            return TRUE;
+        }
     }
+#endif
+
     return FALSE;
 }
 
@@ -440,56 +448,62 @@ rstto_xfce_wallpaper_manager_new (void)
 static gint
 rstto_get_active_workspace_number (GdkScreen *screen)
 {
-    GdkWindow *root;
-    gulong     bytes_after_ret = 0;
-    gulong     nitems_ret = 0;
-    guint     *prop_ret = NULL;
-    Atom       _NET_CURRENT_DESKTOP;
-    Atom       _WIN_WORKSPACE;
-    Atom       type_ret = None;
-    gint       format_ret;
-    gint       ws_num = 0;
+    gint ws_num = 0;
 
-    gdk_x11_display_error_trap_push (gdk_screen_get_display (screen));
-
-    root = gdk_screen_get_root_window (screen);
-
-    /* determine the X atom values */
-    _NET_CURRENT_DESKTOP = XInternAtom (GDK_WINDOW_XDISPLAY (root),
-            "_NET_CURRENT_DESKTOP",
-            False);
-    _WIN_WORKSPACE = XInternAtom (GDK_WINDOW_XDISPLAY (root),
-            "_WIN_WORKSPACE",
-            False);
-
-    if (XGetWindowProperty (GDK_WINDOW_XDISPLAY (root),
-            gdk_x11_get_default_root_xwindow (),
-            _NET_CURRENT_DESKTOP, 0, 32, False, XA_CARDINAL,
-            &type_ret, &format_ret, &nitems_ret, &bytes_after_ret,
-            (gpointer) &prop_ret) != Success)
+#ifdef HAVE_LIBX11
+    if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
     {
+        GdkWindow *root;
+        gulong     bytes_after_ret = 0;
+        gulong     nitems_ret = 0;
+        guint     *prop_ret = NULL;
+        Atom       _NET_CURRENT_DESKTOP;
+        Atom       _WIN_WORKSPACE;
+        Atom       type_ret = None;
+        gint       format_ret;
+
+        gdk_x11_display_error_trap_push (gdk_screen_get_display (screen));
+
+        root = gdk_screen_get_root_window (screen);
+
+        /* determine the X atom values */
+        _NET_CURRENT_DESKTOP = XInternAtom (GDK_WINDOW_XDISPLAY (root),
+                "_NET_CURRENT_DESKTOP",
+                False);
+        _WIN_WORKSPACE = XInternAtom (GDK_WINDOW_XDISPLAY (root),
+                "_WIN_WORKSPACE",
+                False);
+
         if (XGetWindowProperty (GDK_WINDOW_XDISPLAY (root),
                 gdk_x11_get_default_root_xwindow (),
-                _WIN_WORKSPACE, 0, 32, False, XA_CARDINAL,
+                _NET_CURRENT_DESKTOP, 0, 32, False, XA_CARDINAL,
                 &type_ret, &format_ret, &nitems_ret, &bytes_after_ret,
                 (gpointer) &prop_ret) != Success)
         {
-            if (G_UNLIKELY (prop_ret != NULL))
+            if (XGetWindowProperty (GDK_WINDOW_XDISPLAY (root),
+                    gdk_x11_get_default_root_xwindow (),
+                    _WIN_WORKSPACE, 0, 32, False, XA_CARDINAL,
+                    &type_ret, &format_ret, &nitems_ret, &bytes_after_ret,
+                    (gpointer) &prop_ret) != Success)
             {
-                XFree (prop_ret);
-                prop_ret = NULL;
+                if (G_UNLIKELY (prop_ret != NULL))
+                {
+                    XFree (prop_ret);
+                    prop_ret = NULL;
+                }
             }
         }
-    }
 
-    if (G_LIKELY (prop_ret != NULL))
-    {
-        if (G_LIKELY (type_ret != None && format_ret != 0))
-            ws_num = *prop_ret;
-        XFree (prop_ret);
-    }
+        if (G_LIKELY (prop_ret != NULL))
+        {
+            if (G_LIKELY (type_ret != None && format_ret != 0))
+                ws_num = *prop_ret;
+            XFree (prop_ret);
+        }
 
-    gdk_x11_display_error_trap_pop_ignored (gdk_screen_get_display (screen));
+        gdk_x11_display_error_trap_pop_ignored (gdk_screen_get_display (screen));
+    }
+#endif
 
     return ws_num;
 }

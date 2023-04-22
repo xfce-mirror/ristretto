@@ -1,8 +1,8 @@
 [Desktop Entry]
 Version=1.0
-_Name=Ristretto Image Viewer
-_Comment=Look at your images easily
-_GenericName=Image Viewer
+Name=Ristretto Image Viewer
+Comment=Look at your images easily
+GenericName=Image Viewer
 Exec=ristretto %U
 Icon=org.xfce.ristretto
 Terminal=false
