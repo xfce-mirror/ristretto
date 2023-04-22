@@ -54,7 +54,7 @@ XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [4.12.1])
 XDT_CHECK_PACKAGE([LIBEXIF], [libexif], [0.6.0])
 XDT_CHECK_PACKAGE([CAIRO], [cairo], [1.10.0])
 
-XDT_CHECK_LIBX11()
+XDT_CHECK_OPTIONAL_PACKAGE([LIBX11], [x11], [1.6.7], [libx11], [Libx11 support])
 
 AC_CHECK_HEADERS([magic.h],, [libmagic=false])
 AC_CHECK_LIB(magic, [magic_open], [MAGIC_LIBS="-lmagic"],[libmagic=false])
