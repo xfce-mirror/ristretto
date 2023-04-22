@@ -9,28 +9,18 @@ dnl
 dnl ***************************
 dnl *** Version information ***
 dnl ***************************
-m4_define([ristretto_version_major], [0])
-m4_define([ristretto_version_minor], [13])
-m4_define([ristretto_version_micro], [0])
-m4_define([ristretto_version_build], [r@REVISION@])
-m4_define([ristretto_version_tag], [git]) # Leave empty for releases
-m4_define([ristretto_version], [ristretto_version_major().ristretto_version_minor().ristretto_version_micro()ifelse(ristretto_version_tag(), [], [], [ristretto_version_tag()-ristretto_version_build()])])
-
-dnl *******************************************
-dnl *** Debugging support for SVN snapshots ***
-dnl *******************************************
-m4_define([ristretto_debug_default], [ifelse(ristretto_version_tag(), [git], [full], [minimum])])
+XDT_VERSION_INIT([0.13.0], [git])
 
 AC_COPYRIGHT([Copyright (c) 2006-2023
         The Xfce development team. All rights reserved.
 
 Written for Xfce by Stephan Arts <stephan@xfce.org>.])
 
-AC_INIT([ristretto], [ristretto_version], [])
-AC_PREREQ([2.50])
+AC_INIT([ristretto], [xdt_version], [https://gitlab.xfce.org/apps/ristretto])
+AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIRS([m4])
+AC_REVISION([xdt_version_build])
 
-RISTRETTO_VERSION=ristretto_version
 AM_INIT_AUTOMAKE([1.8 no-dist-gzip dist-bzip2 tar-ustar foreign])
 AC_CONFIG_HEADERS([config.h])
 AM_MAINTAINER_MODE
@@ -88,7 +78,7 @@ AC_DEFINE_UNQUOTED(TUMBLER_SERVICE_PATH_PREFIX, "$TUMBLER_SERVICE_PATH_PREFIX",
                    Path prefix for Tumbler services)
 
 dnl check for debugging support
-XDT_FEATURE_DEBUG
+XDT_FEATURE_DEBUG([xdt_debug_default])
 
 AC_CONFIG_FILES([
 Makefile
