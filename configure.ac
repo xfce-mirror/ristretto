@@ -11,6 +11,16 @@ dnl *** Version information ***
 dnl ***************************
 XDT_VERSION_INIT([0.13.0], [git])
 
+dnl minimum required versions
+m4_define([glib_min_version], [2.56.0])
+m4_define([gtk_min_version], [3.22.0])
+m4_define([libxfce4ui_min_version], [4.16.0])
+m4_define([libxfce4util_min_version], [4.16.0])
+m4_define([xfconf_min_version], [4.12.1])
+m4_define([libexif_min_version], [0.6.0])
+m4_define([cairo_min_version], [1.10.0])
+m4_define([libx11_min_version], [1.6.7])
+
 AC_COPYRIGHT([Copyright (c) 2006-2023
         The Xfce development team. All rights reserved.
 
@@ -44,17 +54,17 @@ AC_SUBST([GETTEXT_PACKAGE])
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.19.8])
 
-XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.56.0])
-XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [3.22.0])
+XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [glib_min_version])
+XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [gtk_min_version])
 
-XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-2], [4.16.0])
-XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [4.16.0])
-XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [4.12.1])
+XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-2], [libxfce4ui_min_version])
+XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [libxfce4util_min_version])
+XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [xfconf_min_version])
 
-XDT_CHECK_PACKAGE([LIBEXIF], [libexif], [0.6.0])
-XDT_CHECK_PACKAGE([CAIRO], [cairo], [1.10.0])
+XDT_CHECK_PACKAGE([LIBEXIF], [libexif], [libexif_min_version])
+XDT_CHECK_PACKAGE([CAIRO], [cairo], [cairo_min_version])
 
-XDT_CHECK_OPTIONAL_PACKAGE([LIBX11], [x11], [1.6.7], [libx11], [Libx11 support])
+XDT_CHECK_OPTIONAL_PACKAGE([LIBX11], [x11], [libx11_min_version], [libx11], [Libx11 support])
 
 AC_CHECK_HEADERS([magic.h],, [libmagic=false])
 AC_CHECK_LIB(magic, [magic_open], [MAGIC_LIBS="-lmagic"],[libmagic=false])
