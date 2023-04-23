@@ -11,10 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-02-22 14:42+0100\n"
+"POT-Creation-Date: 2023-04-23 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Samvel Harutyunyan <samvel@ehayq.am>, 2020\n"
-"Language-Team: Eastern Armenian (http://www.transifex.com/xfce/xfce-apps/language/hye/)\n"
+"Language-Team: Eastern Armenian (http://app.transifex.com/xfce/xfce-apps/language/hye/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,7 +46,7 @@ msgid ""
 "available command line options.\n"
 msgstr "%s: %s\n%s --help հրամանատողերի ընտրանքների ամբողջական ցանկը տեսնելու համար։\n"
 
-#: src/main_window.c:39
+#: src/main_window.c:39 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
 msgstr "Պատկերի դիտակ"
 
@@ -519,12 +519,12 @@ msgstr "Ընտրել «ընտրել պաստառ» եղանակը"
 
 #: src/main_window.c:2281 src/main_window.c:3410 src/main_window.c:3498
 #: src/main_window.c:4175 src/privacy_dialog.c:149
-#: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:190
+#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:190
 msgid "_Cancel"
 msgstr "_Չեղարկել"
 
 #: src/main_window.c:2284 src/main_window.c:4178
-#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:196
+#: src/xfce_wallpaper_manager.c:282 src/gnome_wallpaper_manager.c:196
 msgid "_OK"
 msgstr "_Լաւ"
 
@@ -710,7 +710,7 @@ msgstr "Այսաւր"
 msgid "Everything"
 msgstr "Ամբողջը"
 
-#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:271
+#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:279
 #: src/gnome_wallpaper_manager.c:193
 msgid "_Apply"
 msgstr "_Հաստատել"
@@ -913,44 +913,60 @@ msgstr "Փոքրապատկերի համակարգը հասանելի չէ,\nայ
 msgid "Do _not show this message again"
 msgstr "Այլեւս _չցուցադրել այս հաղորդագրութիւնը"
 
-#: src/xfce_wallpaper_manager.c:246 src/gnome_wallpaper_manager.c:176
+#: src/xfce_wallpaper_manager.c:254 src/gnome_wallpaper_manager.c:176
 msgid "Style:"
 msgstr "Ոճ․"
 
-#: src/xfce_wallpaper_manager.c:258
+#: src/xfce_wallpaper_manager.c:266
 msgid "Apply to all workspaces"
 msgstr "Բոլոր աշխատատարածքների համար"
 
-#: src/xfce_wallpaper_manager.c:266 src/gnome_wallpaper_manager.c:188
+#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:188
 msgid "Set as wallpaper"
 msgstr "Դարձնել պաստառ"
 
-#: src/xfce_wallpaper_manager.c:328 src/gnome_wallpaper_manager.c:246
+#: src/xfce_wallpaper_manager.c:336 src/gnome_wallpaper_manager.c:246
 msgid "Auto"
 msgstr "Ավտո"
 
-#: src/xfce_wallpaper_manager.c:331
+#: src/xfce_wallpaper_manager.c:339
 msgid "Centered"
 msgstr "Կենտրոնացուած"
 
-#: src/xfce_wallpaper_manager.c:334
+#: src/xfce_wallpaper_manager.c:342
 msgid "Tiled"
 msgstr "Սեղմուած"
 
-#: src/xfce_wallpaper_manager.c:337
+#: src/xfce_wallpaper_manager.c:345
 msgid "Stretched"
 msgstr "Ձգուած"
 
-#: src/xfce_wallpaper_manager.c:340
+#: src/xfce_wallpaper_manager.c:348
 msgid "Scaled"
 msgstr "Ընդլայնուած"
 
-#: src/xfce_wallpaper_manager.c:343
+#: src/xfce_wallpaper_manager.c:351
 msgid "Zoomed"
 msgstr "Խոշորացուած"
 
+#: org.xfce.ristretto.desktop.in:4
+msgid "Ristretto Image Viewer"
+msgstr "Ristretto պատկերի դիտակ"
+
+#: org.xfce.ristretto.desktop.in:5
+msgid "Look at your images easily"
+msgstr "Դիտել նկարները հեշտաւրէն"
+
 #: org.xfce.ristretto.desktop.in:8
 msgid "org.xfce.ristretto"
+msgstr ""
+
+#: org.xfce.ristretto.appdata.xml.in:7
+msgid "Ristretto"
+msgstr ""
+
+#: org.xfce.ristretto.appdata.xml.in:8
+msgid "Fast and lightweight image viewer"
 msgstr ""
 
 #: org.xfce.ristretto.appdata.xml.in:13
