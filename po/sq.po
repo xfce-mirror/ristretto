@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-02-22 14:42+0100\n"
+"POT-Creation-Date: 2023-04-23 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>, 2020-2021,2023\n"
-"Language-Team: Albanian (http://www.transifex.com/xfce/xfce-apps/language/sq/)\n"
+"Language-Team: Albanian (http://app.transifex.com/xfce/xfce-apps/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -43,7 +43,7 @@ msgid ""
 "available command line options.\n"
 msgstr "%s: %s\nProvoni %s --help për të parë një listë të plotë\ntë mundësive të gatshme për rresht urdhrash.\n"
 
-#: src/main_window.c:39
+#: src/main_window.c:39 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
 msgstr "Parës Figurash"
 
@@ -516,12 +516,12 @@ msgstr "Zgjidhni metodën “vëre si sfond”"
 
 #: src/main_window.c:2281 src/main_window.c:3410 src/main_window.c:3498
 #: src/main_window.c:4175 src/privacy_dialog.c:149
-#: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:190
+#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:190
 msgid "_Cancel"
 msgstr "_Anuloje"
 
 #: src/main_window.c:2284 src/main_window.c:4178
-#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:196
+#: src/xfce_wallpaper_manager.c:282 src/gnome_wallpaper_manager.c:196
 msgid "_OK"
 msgstr "_OK"
 
@@ -707,7 +707,7 @@ msgstr "Sot"
 msgid "Everything"
 msgstr "Gjithçka"
 
-#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:271
+#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:279
 #: src/gnome_wallpaper_manager.c:193
 msgid "_Apply"
 msgstr "_Aplikoje"
@@ -910,45 +910,61 @@ msgstr "S’kapet dot shërbimi i miniaturave,\npër këtë arsye, miniatura s�
 msgid "Do _not show this message again"
 msgstr "Mos e shfaq _sërish këtë mesazh"
 
-#: src/xfce_wallpaper_manager.c:246 src/gnome_wallpaper_manager.c:176
+#: src/xfce_wallpaper_manager.c:254 src/gnome_wallpaper_manager.c:176
 msgid "Style:"
 msgstr "Stil:"
 
-#: src/xfce_wallpaper_manager.c:258
+#: src/xfce_wallpaper_manager.c:266
 msgid "Apply to all workspaces"
 msgstr "Aplikoje mbi krejt hapësirat e punës"
 
-#: src/xfce_wallpaper_manager.c:266 src/gnome_wallpaper_manager.c:188
+#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:188
 msgid "Set as wallpaper"
 msgstr "Vëre si sfond"
 
-#: src/xfce_wallpaper_manager.c:328 src/gnome_wallpaper_manager.c:246
+#: src/xfce_wallpaper_manager.c:336 src/gnome_wallpaper_manager.c:246
 msgid "Auto"
 msgstr "Auto"
 
-#: src/xfce_wallpaper_manager.c:331
+#: src/xfce_wallpaper_manager.c:339
 msgid "Centered"
 msgstr "Në qendër"
 
-#: src/xfce_wallpaper_manager.c:334
+#: src/xfce_wallpaper_manager.c:342
 msgid "Tiled"
 msgstr "Tjegullzuar"
 
-#: src/xfce_wallpaper_manager.c:337
+#: src/xfce_wallpaper_manager.c:345
 msgid "Stretched"
 msgstr "Tërhequr"
 
-#: src/xfce_wallpaper_manager.c:340
+#: src/xfce_wallpaper_manager.c:348
 msgid "Scaled"
 msgstr "Ripërmasuar"
 
-#: src/xfce_wallpaper_manager.c:343
+#: src/xfce_wallpaper_manager.c:351
 msgid "Zoomed"
 msgstr "Zoom-uar"
+
+#: org.xfce.ristretto.desktop.in:4
+msgid "Ristretto Image Viewer"
+msgstr "Parësi i Figurave Ristretto"
+
+#: org.xfce.ristretto.desktop.in:5
+msgid "Look at your images easily"
+msgstr "Shini lehtësisht figurat tuaja"
 
 #: org.xfce.ristretto.desktop.in:8
 msgid "org.xfce.ristretto"
 msgstr "org.xfce.ristretto"
+
+#: org.xfce.ristretto.appdata.xml.in:7
+msgid "Ristretto"
+msgstr "Ristretto"
+
+#: org.xfce.ristretto.appdata.xml.in:8
+msgid "Fast and lightweight image viewer"
+msgstr "Parës figurash i shpejtë dhe i peshës së lehtë"
 
 #: org.xfce.ristretto.appdata.xml.in:13
 msgid ""
