@@ -11,10 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-02-22 14:42+0100\n"
+"POT-Creation-Date: 2023-04-23 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Marius Ghita, 2022\n"
-"Language-Team: Romanian (http://www.transifex.com/xfce/xfce-apps/language/ro/)\n"
+"Language-Team: Romanian (http://app.transifex.com/xfce/xfce-apps/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,7 +46,7 @@ msgid ""
 "available command line options.\n"
 msgstr "%s: %s\nÎncercați %s --help pentru a vedea lista completă cu opțiunile disponibile în linie de comandă.\n"
 
-#: src/main_window.c:39
+#: src/main_window.c:39 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
 msgstr "Vizualizare de imagini"
 
@@ -519,12 +519,12 @@ msgstr "Mod de salvare a imaginii de fundal"
 
 #: src/main_window.c:2281 src/main_window.c:3410 src/main_window.c:3498
 #: src/main_window.c:4175 src/privacy_dialog.c:149
-#: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:190
+#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:190
 msgid "_Cancel"
 msgstr "_Renunță"
 
 #: src/main_window.c:2284 src/main_window.c:4178
-#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:196
+#: src/xfce_wallpaper_manager.c:282 src/gnome_wallpaper_manager.c:196
 msgid "_OK"
 msgstr "_OK"
 
@@ -710,7 +710,7 @@ msgstr "Zilei de azi"
 msgid "Everything"
 msgstr "Dintotdeauna"
 
-#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:271
+#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:279
 #: src/gnome_wallpaper_manager.c:193
 msgid "_Apply"
 msgstr "_Aplică"
@@ -913,44 +913,60 @@ msgstr "Serviciul de creare de miniaturi nu a\nputut fi contactat, prin urmare\n
 msgid "Do _not show this message again"
 msgstr "_Nu mai arăta acest mesaj"
 
-#: src/xfce_wallpaper_manager.c:246 src/gnome_wallpaper_manager.c:176
+#: src/xfce_wallpaper_manager.c:254 src/gnome_wallpaper_manager.c:176
 msgid "Style:"
 msgstr "Stil:"
 
-#: src/xfce_wallpaper_manager.c:258
+#: src/xfce_wallpaper_manager.c:266
 msgid "Apply to all workspaces"
 msgstr ""
 
-#: src/xfce_wallpaper_manager.c:266 src/gnome_wallpaper_manager.c:188
+#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:188
 msgid "Set as wallpaper"
 msgstr "Utilizează ca fundal"
 
-#: src/xfce_wallpaper_manager.c:328 src/gnome_wallpaper_manager.c:246
+#: src/xfce_wallpaper_manager.c:336 src/gnome_wallpaper_manager.c:246
 msgid "Auto"
 msgstr "Automat"
 
-#: src/xfce_wallpaper_manager.c:331
+#: src/xfce_wallpaper_manager.c:339
 msgid "Centered"
 msgstr "Centrată"
 
-#: src/xfce_wallpaper_manager.c:334
+#: src/xfce_wallpaper_manager.c:342
 msgid "Tiled"
 msgstr "Mozaicată"
 
-#: src/xfce_wallpaper_manager.c:337
+#: src/xfce_wallpaper_manager.c:345
 msgid "Stretched"
 msgstr "Întinsă"
 
-#: src/xfce_wallpaper_manager.c:340
+#: src/xfce_wallpaper_manager.c:348
 msgid "Scaled"
 msgstr "Redimensionată"
 
-#: src/xfce_wallpaper_manager.c:343
+#: src/xfce_wallpaper_manager.c:351
 msgid "Zoomed"
 msgstr "Mărită"
 
+#: org.xfce.ristretto.desktop.in:4
+msgid "Ristretto Image Viewer"
+msgstr "Vizualizare de imagini Ristretto"
+
+#: org.xfce.ristretto.desktop.in:5
+msgid "Look at your images easily"
+msgstr "Pentru un acces rapid la imagini"
+
 #: org.xfce.ristretto.desktop.in:8
 msgid "org.xfce.ristretto"
+msgstr ""
+
+#: org.xfce.ristretto.appdata.xml.in:7
+msgid "Ristretto"
+msgstr "Ristretto"
+
+#: org.xfce.ristretto.appdata.xml.in:8
+msgid "Fast and lightweight image viewer"
 msgstr ""
 
 #: org.xfce.ristretto.appdata.xml.in:13
