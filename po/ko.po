@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-02-22 14:42+0100\n"
+"POT-Creation-Date: 2023-04-23 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>, 2012-2013,2015-2016,2019,2022\n"
-"Language-Team: Korean (http://www.transifex.com/xfce/xfce-apps/language/ko/)\n"
+"Language-Team: Korean (http://app.transifex.com/xfce/xfce-apps/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -44,7 +44,7 @@ msgid ""
 "available command line options.\n"
 msgstr "%s: %s\n\n사용할 수 있는 명령행 옵션의 전체 목록을\n보려면 %s --help를 입력합니다.\n"
 
-#: src/main_window.c:39
+#: src/main_window.c:39 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
 msgstr "그림 보기"
 
@@ -517,12 +517,12 @@ msgstr "'배경 화면 설정' 방식 선택"
 
 #: src/main_window.c:2281 src/main_window.c:3410 src/main_window.c:3498
 #: src/main_window.c:4175 src/privacy_dialog.c:149
-#: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:190
+#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:190
 msgid "_Cancel"
 msgstr "취소(_C)"
 
 #: src/main_window.c:2284 src/main_window.c:4178
-#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:196
+#: src/xfce_wallpaper_manager.c:282 src/gnome_wallpaper_manager.c:196
 msgid "_OK"
 msgstr "확인(_O)"
 
@@ -708,7 +708,7 @@ msgstr "오늘"
 msgid "Everything"
 msgstr "전부"
 
-#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:271
+#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:279
 #: src/gnome_wallpaper_manager.c:193
 msgid "_Apply"
 msgstr "적용(_A)"
@@ -911,45 +911,61 @@ msgstr "섬네일러 서비스에 접근할 수 없습니다.\n때문에 섬네�
 msgid "Do _not show this message again"
 msgstr "이 메시지를 다시 표시하지 않습니다(_N)"
 
-#: src/xfce_wallpaper_manager.c:246 src/gnome_wallpaper_manager.c:176
+#: src/xfce_wallpaper_manager.c:254 src/gnome_wallpaper_manager.c:176
 msgid "Style:"
 msgstr "방식:"
 
-#: src/xfce_wallpaper_manager.c:258
+#: src/xfce_wallpaper_manager.c:266
 msgid "Apply to all workspaces"
 msgstr "모든 작업 공간에 적용"
 
-#: src/xfce_wallpaper_manager.c:266 src/gnome_wallpaper_manager.c:188
+#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:188
 msgid "Set as wallpaper"
 msgstr "바탕 화면으로 설정"
 
-#: src/xfce_wallpaper_manager.c:328 src/gnome_wallpaper_manager.c:246
+#: src/xfce_wallpaper_manager.c:336 src/gnome_wallpaper_manager.c:246
 msgid "Auto"
 msgstr "자동"
 
-#: src/xfce_wallpaper_manager.c:331
+#: src/xfce_wallpaper_manager.c:339
 msgid "Centered"
 msgstr "가운데"
 
-#: src/xfce_wallpaper_manager.c:334
+#: src/xfce_wallpaper_manager.c:342
 msgid "Tiled"
 msgstr "바둑판"
 
-#: src/xfce_wallpaper_manager.c:337
+#: src/xfce_wallpaper_manager.c:345
 msgid "Stretched"
 msgstr "늘임"
 
-#: src/xfce_wallpaper_manager.c:340
+#: src/xfce_wallpaper_manager.c:348
 msgid "Scaled"
 msgstr "크기조절함"
 
-#: src/xfce_wallpaper_manager.c:343
+#: src/xfce_wallpaper_manager.c:351
 msgid "Zoomed"
 msgstr "확대"
+
+#: org.xfce.ristretto.desktop.in:4
+msgid "Ristretto Image Viewer"
+msgstr "리스트레또 그림 보기"
+
+#: org.xfce.ristretto.desktop.in:5
+msgid "Look at your images easily"
+msgstr "그림을 쉽게 봅니다"
 
 #: org.xfce.ristretto.desktop.in:8
 msgid "org.xfce.ristretto"
 msgstr ""
+
+#: org.xfce.ristretto.appdata.xml.in:7
+msgid "Ristretto"
+msgstr "리스트레또"
+
+#: org.xfce.ristretto.appdata.xml.in:8
+msgid "Fast and lightweight image viewer"
+msgstr "빠르고 가벼운 그림 보기 프로그램"
 
 #: org.xfce.ristretto.appdata.xml.in:13
 msgid ""
