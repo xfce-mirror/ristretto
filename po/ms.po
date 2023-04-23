@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-02-22 14:42+0100\n"
+"POT-Creation-Date: 2023-04-23 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>, 2014-2017,2019,2022\n"
-"Language-Team: Malay (http://www.transifex.com/xfce/xfce-apps/language/ms/)\n"
+"Language-Team: Malay (http://app.transifex.com/xfce/xfce-apps/language/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -44,7 +44,7 @@ msgid ""
 "available command line options.\n"
 msgstr "%s: %s\n\nCuba %s --help untuk lihat senarai \npenuh pilihan baris perintah yang \ntersedia.\n"
 
-#: src/main_window.c:39
+#: src/main_window.c:39 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
 msgstr "Pelihat Imej"
 
@@ -517,12 +517,12 @@ msgstr "Pilih kaedah 'tetapkan kertas dinding'"
 
 #: src/main_window.c:2281 src/main_window.c:3410 src/main_window.c:3498
 #: src/main_window.c:4175 src/privacy_dialog.c:149
-#: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:190
+#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:190
 msgid "_Cancel"
 msgstr "_Batal"
 
 #: src/main_window.c:2284 src/main_window.c:4178
-#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:196
+#: src/xfce_wallpaper_manager.c:282 src/gnome_wallpaper_manager.c:196
 msgid "_OK"
 msgstr "_OK"
 
@@ -708,7 +708,7 @@ msgstr "Hari Ini"
 msgid "Everything"
 msgstr "Segalanya"
 
-#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:271
+#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:279
 #: src/gnome_wallpaper_manager.c:193
 msgid "_Apply"
 msgstr "_Laksana"
@@ -911,45 +911,61 @@ msgstr "Thumbnailer-service tidak boleh dicapai,\natas sebab ini, lakaran kenit 
 msgid "Do _not show this message again"
 msgstr "Janga_n tunjuk mesej ini lagi"
 
-#: src/xfce_wallpaper_manager.c:246 src/gnome_wallpaper_manager.c:176
+#: src/xfce_wallpaper_manager.c:254 src/gnome_wallpaper_manager.c:176
 msgid "Style:"
 msgstr "Gaya:"
 
-#: src/xfce_wallpaper_manager.c:258
+#: src/xfce_wallpaper_manager.c:266
 msgid "Apply to all workspaces"
 msgstr "Laksana ke semua ruang kerja"
 
-#: src/xfce_wallpaper_manager.c:266 src/gnome_wallpaper_manager.c:188
+#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:188
 msgid "Set as wallpaper"
 msgstr "Tetapkan sebagai kertas dinding"
 
-#: src/xfce_wallpaper_manager.c:328 src/gnome_wallpaper_manager.c:246
+#: src/xfce_wallpaper_manager.c:336 src/gnome_wallpaper_manager.c:246
 msgid "Auto"
 msgstr "Auto"
 
-#: src/xfce_wallpaper_manager.c:331
+#: src/xfce_wallpaper_manager.c:339
 msgid "Centered"
 msgstr "Ditengah"
 
-#: src/xfce_wallpaper_manager.c:334
+#: src/xfce_wallpaper_manager.c:342
 msgid "Tiled"
 msgstr "Berjubin"
 
-#: src/xfce_wallpaper_manager.c:337
+#: src/xfce_wallpaper_manager.c:345
 msgid "Stretched"
 msgstr "Diregang"
 
-#: src/xfce_wallpaper_manager.c:340
+#: src/xfce_wallpaper_manager.c:348
 msgid "Scaled"
 msgstr "Diskala"
 
-#: src/xfce_wallpaper_manager.c:343
+#: src/xfce_wallpaper_manager.c:351
 msgid "Zoomed"
 msgstr "Dizum"
+
+#: org.xfce.ristretto.desktop.in:4
+msgid "Ristretto Image Viewer"
+msgstr "Pelihat Imej Ristretto"
+
+#: org.xfce.ristretto.desktop.in:5
+msgid "Look at your images easily"
+msgstr "Lihat imej anda dengan mudah"
 
 #: org.xfce.ristretto.desktop.in:8
 msgid "org.xfce.ristretto"
 msgstr ""
+
+#: org.xfce.ristretto.appdata.xml.in:7
+msgid "Ristretto"
+msgstr "Ristretto"
+
+#: org.xfce.ristretto.appdata.xml.in:8
+msgid "Fast and lightweight image viewer"
+msgstr "Pelihat imej yang ringan dan pantas"
 
 #: org.xfce.ristretto.appdata.xml.in:13
 msgid ""
