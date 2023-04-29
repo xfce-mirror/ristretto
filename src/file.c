@@ -215,10 +215,12 @@ rstto_file_is_valid (RsttoFile *r_file)
             if (NULL != file_path && magic_load (magic, NULL) == 0)
             {
                 content_type = magic_file (magic, file_path);
-                /* magic_file returns "application/octet-stream", not NULL */
-                if (g_strcmp0 (content_type, "application/octet-stream") == 0) {
+
+                /* if mime type is not recognized, magic_file() returns
+                 * "application/octet-stream", not NULL */
+                if (g_strcmp0 (content_type, "application/octet-stream") == 0)
                     content_type = NULL;
-                }
+
                 if (NULL != content_type)
                 {
                     /* mime types that require post-processing */
