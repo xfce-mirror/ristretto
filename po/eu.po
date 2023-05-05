@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 00:47+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: beriain, 2021,2023\n"
 "Language-Team: Basque (http://app.transifex.com/xfce/xfce-apps/language/eu/)\n"
@@ -956,10 +956,6 @@ msgstr "Ristretto argazki ikustatzailea"
 msgid "Look at your images easily"
 msgstr "Ikusi zure irudiak erraz"
 
-#: org.xfce.ristretto.desktop.in:8
-msgid "org.xfce.ristretto"
-msgstr "org.xfce.ristretto"
-
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
 msgstr "Ristretto"
@@ -975,3 +971,7 @@ msgid ""
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
 msgstr "Ristretto argazki ikustatzailea irudiak ikusi eta haien artean mugitu, diaporama bat ikusi, irudiak editatzeko gai den beste aplikazioekin ireki edo argazki bat mahaigain-irudi gisa ezartzeko erabili daitekeen aplikazio bat da."
+
+#: org.xfce.ristretto.appdata.xml.in:34
+msgid "Xfce Developers"
+msgstr ""
