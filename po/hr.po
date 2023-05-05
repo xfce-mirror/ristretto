@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 00:47+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Ivica  Kolić <ikoli@yahoo.com>, 2013-2014,2016,2023\n"
 "Language-Team: Croatian (http://app.transifex.com/xfce/xfce-apps/language/hr/)\n"
@@ -959,10 +959,6 @@ msgstr "Ristretto preglednik fotografija"
 msgid "Look at your images easily"
 msgstr "Pogledajte lako svoje fotografije "
 
-#: org.xfce.ristretto.desktop.in:8
-msgid "org.xfce.ristretto"
-msgstr "org.xfce.ristretto"
-
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
 msgstr ""
@@ -978,3 +974,7 @@ msgid ""
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
 msgstr "Ristretto preglednik slika je aplikacija koja se može koristiti za otvaranje i pregledavanje slika. Slike se mogu pregledavati kao prezentacija, otvariti u uređivaču slika ili postaviti kao pozadina radne površine."
+
+#: org.xfce.ristretto.appdata.xml.in:34
+msgid "Xfce Developers"
+msgstr ""
