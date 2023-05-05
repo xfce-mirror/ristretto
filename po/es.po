@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 00:47+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Toni Estévez <toni.estevez@gmail.com>, 2021,2023\n"
 "Language-Team: Spanish (http://app.transifex.com/xfce/xfce-apps/language/es/)\n"
@@ -966,10 +966,6 @@ msgstr "Visor de imágenes Ristretto"
 msgid "Look at your images easily"
 msgstr "Visualice sus imágenes fácilmente"
 
-#: org.xfce.ristretto.desktop.in:8
-msgid "org.xfce.ristretto"
-msgstr "org.xfce.ristretto"
-
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
 msgstr "Ristretto"
@@ -985,3 +981,7 @@ msgid ""
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
 msgstr "El visor de imágenes de Ristretto es una aplicación que puede usarse para ver imágenes y desplazarse entre las imágenes, ejecutar un pase de diapositivas, abrir las imágenes con otras aplicaciones como un editor o configurar una imagen como fondo del escritorio."
+
+#: org.xfce.ristretto.appdata.xml.in:34
+msgid "Xfce Developers"
+msgstr ""
