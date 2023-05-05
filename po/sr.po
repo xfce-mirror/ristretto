@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 00:47+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Саша Петровић <salepetronije@gmail.com>, 2012,2015,2017,2019\n"
 "Language-Team: Serbian (http://app.transifex.com/xfce/xfce-apps/language/sr/)\n"
@@ -955,10 +955,6 @@ msgstr "Прегледник слика Ристрето"
 msgid "Look at your images easily"
 msgstr "Прегледајте лако своје слике"
 
-#: org.xfce.ristretto.desktop.in:8
-msgid "org.xfce.ristretto"
-msgstr "org.xfce.ristretto"
-
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
 msgstr "Ристрето"
@@ -974,3 +970,7 @@ msgid ""
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
 msgstr "Прегледник слика Ристрето је програм који може да се користи за преглед и клизање кроз слике, покретање покретног приказа слика, отварање слика осталим програмима, као уредник слика или за подешавање слике да буде позадина радне површи."
+
+#: org.xfce.ristretto.appdata.xml.in:34
+msgid "Xfce Developers"
+msgstr ""
