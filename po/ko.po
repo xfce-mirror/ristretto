@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 00:47+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>, 2012-2013,2015-2016,2019,2022-2023\n"
 "Language-Team: Korean (http://app.transifex.com/xfce/xfce-apps/language/ko/)\n"
@@ -955,10 +955,6 @@ msgstr "리스트레또 그림 보기"
 msgid "Look at your images easily"
 msgstr "그림을 쉽게 봅니다"
 
-#: org.xfce.ristretto.desktop.in:8
-msgid "org.xfce.ristretto"
-msgstr "org.xfce.ristretto"
-
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
 msgstr "리스트레또"
@@ -974,3 +970,7 @@ msgid ""
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
 msgstr "리스트레또 그림 보기 프로그램에서는 이미지를 스크롤 방식으로도 볼 수 있으며 슬라이드 쇼 방식으로 보여줄 수 있고 다른 이미지 편집기에서 이미지를 열어보거나 데스크톱 바탕 화면 이미지로 설정할 수 있습니다."
+
+#: org.xfce.ristretto.appdata.xml.in:34
+msgid "Xfce Developers"
+msgstr ""
