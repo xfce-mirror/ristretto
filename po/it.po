@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 00:47+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Dmytro Tokayev, 2021,2023\n"
 "Language-Team: Italian (http://app.transifex.com/xfce/xfce-apps/language/it/)\n"
@@ -960,10 +960,6 @@ msgstr "Visualizzatore di immagini Ristretto"
 msgid "Look at your images easily"
 msgstr "Guardare le proprie foto con semplicità"
 
-#: org.xfce.ristretto.desktop.in:8
-msgid "org.xfce.ristretto"
-msgstr "org.xfce.ristretto"
-
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
 msgstr "Ristretto"
@@ -979,3 +975,7 @@ msgid ""
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
 msgstr "Il visualizzatore di immagini Ristretto è un'applicazione che può essere utilizzata per visualizzare e scorrere tra le immagini, eseguire una presentazione, aprire le immagini con altre applicazioni (quali editor di immagini) o per impostare un'immagine come sfondo della scrivania."
+
+#: org.xfce.ristretto.appdata.xml.in:34
+msgid "Xfce Developers"
+msgstr ""
