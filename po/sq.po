@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 00:47+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>, 2020-2021,2023\n"
 "Language-Team: Albanian (http://app.transifex.com/xfce/xfce-apps/language/sq/)\n"
@@ -954,10 +954,6 @@ msgstr "Parësi i Figurave Ristretto"
 msgid "Look at your images easily"
 msgstr "Shini lehtësisht figurat tuaja"
 
-#: org.xfce.ristretto.desktop.in:8
-msgid "org.xfce.ristretto"
-msgstr "org.xfce.ristretto"
-
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
 msgstr "Ristretto"
@@ -973,3 +969,7 @@ msgid ""
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
 msgstr "Parësi i Figurave Ristretto është një aplikacion që mund të përdoret për të parë dhe lëvizur nëpër figura, për të shfaqur figura si diapozitiva, për të hapur figura me aplikacione të tjerë, fjala vjen, me një përpunues figurash ose për ta formësuar një figurë si sfond desktopi."
+
+#: org.xfce.ristretto.appdata.xml.in:34
+msgid "Xfce Developers"
+msgstr ""
