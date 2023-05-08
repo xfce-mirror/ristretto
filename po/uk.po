@@ -977,4 +977,4 @@ msgstr "Переглядач малюнків Ristretto - це програма,
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Розробники Xfce"
