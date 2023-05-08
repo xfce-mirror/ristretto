@@ -975,4 +975,4 @@ msgstr "С програмата за преглед на изображения 
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Разработчиците на Xfce"
