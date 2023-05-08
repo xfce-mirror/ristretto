@@ -975,4 +975,4 @@ msgstr "O visualizador de imagens Ristretto é uma aplicação que pode ser util
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Programadores do Xfce"
