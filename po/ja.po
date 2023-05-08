@@ -973,4 +973,4 @@ msgstr "Ristretto は画像ビューアーアプリケーションです。画�
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Xfce 開発者"
