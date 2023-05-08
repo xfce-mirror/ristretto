@@ -982,4 +982,4 @@ msgstr "Ristretto Resim Gösterici; resimleri görüntülemek, resimler arasınd
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Xfce Geliştiricileri"
