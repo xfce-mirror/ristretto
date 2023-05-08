@@ -979,4 +979,4 @@ msgstr "Przeglądarka obrazów Ristretto to program, który może być używany 
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Twórcy Xfce"
