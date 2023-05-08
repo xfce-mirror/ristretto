@@ -973,4 +973,4 @@ msgstr "Прегледник слика Ристрето је програм к�
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Програмери ИксФЦЕ-а"
