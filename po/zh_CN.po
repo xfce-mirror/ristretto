@@ -977,4 +977,4 @@ msgstr "Ristretto 图片查看器是一个应用程序,它可以用来查看和�
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Xfce 开发人员"
