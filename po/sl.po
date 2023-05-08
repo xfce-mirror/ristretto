@@ -973,4 +973,4 @@ msgstr "Ristretto pregledovalnik slik je program za pregledovanje in prikazovanj
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Xfce razvijalci"
