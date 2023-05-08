@@ -975,4 +975,4 @@ msgstr "Mit dem Ristretto-Bildbetrachter können Bilder angezeigt, durchgeblätt
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Xfce Entwickler"
