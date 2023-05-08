@@ -976,4 +976,4 @@ msgstr "Ristretto 影像檢視器是用來檢視及捲動瀏覽影像、播放�
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Xfce 開發者"
