@@ -973,4 +973,4 @@ msgstr "리스트레또 그림 보기 프로그램에서는 이미지를 스크�
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "xfce 개발 팀"
