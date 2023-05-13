@@ -975,4 +975,4 @@ msgstr "מציג התמונות Ristretto הוא תוכנה הניתנת לשי�
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "מפתחי Xfce "
