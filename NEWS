@@ -1,3 +1,25 @@
+0.13.1 (2023-05-13)
+======
+- I18n: Update po/LINGUAS list
+- I18n: Update po/LINGUAS list
+- Force g_file_query_info if magic_file returns 
+"application/octet-stream"
+- build: Use m4_defined min versions and cleanup
+- Replace XDT_CHECK_LIBX11 and guard x11 code paths
+- build: Use XDT_VERSION_INIT and get rid of configure.ac.in
+- build: Switch from intltool to gettext
+- viewer: Paint background icon at window scale
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Occitan (post
+  1500), Polish, Portuguese, Portuguese (Brazil), Romanian, Russian,
+  Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish,
+  Ukrainian, Uyghur
+
 0.13.0 (2023-02-09)
 ======
 - New Features:
