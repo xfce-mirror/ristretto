@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the xfce-apps.ristretto package.
 # 
 # Translators:
-# Andre Miranda <andre42m@gmail.com>, 2019
-# Andre Miranda <andre42m@gmail.com>, 2016-2017
-# Andre Miranda <andre42m@gmail.com>, 2015
+# Andre Miranda <andre@andreldm.com>, 2019
+# Andre Miranda <andre@andreldm.com>, 2016-2017
+# Andre Miranda <andre@andreldm.com>, 2015
 # C. E., 2022
 # Frederico Schardong <frede_sch@gmail.com>, 2011
 # Lucas Wilm <lucaswilm@gmail.com>, 2021
@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 00:47+0200\n"
+"POT-Creation-Date: 2023-05-30 00:51+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: C. E., 2022\n"
 "Language-Team: Portuguese (Brazil) (http://app.transifex.com/xfce/xfce-apps/language/pt_BR/)\n"
@@ -961,10 +961,6 @@ msgstr "Visualizador de imagens Ristretto"
 msgid "Look at your images easily"
 msgstr "Veja suas imagens facilmente"
 
-#: org.xfce.ristretto.desktop.in:8
-msgid "org.xfce.ristretto"
-msgstr ""
-
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
 msgstr "Ristretto"
@@ -980,3 +976,7 @@ msgid ""
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
 msgstr "O Visualizador de Imagens Ristretto é um aplicativo que pode ser usado para visualizar ou navegar por uma coleção de imagens, exibir uma apresentação de slides de imagens, abrir imagens com outros aplicativos como um editor de imagens or definir uma imagem como papel de parede da área de trabalho."
+
+#: org.xfce.ristretto.appdata.xml.in:34
+msgid "Xfce Developers"
+msgstr ""
