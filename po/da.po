@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Per Kongstad <p_kongstad@op.pl>, 2008-2009
-# scootergrisen, 2016-2022
+# scootergrisen, 2016-2023
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 00:47+0200\n"
+"POT-Creation-Date: 2023-05-30 00:51+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: scootergrisen, 2016-2022\n"
+"Last-Translator: scootergrisen, 2016-2023\n"
 "Language-Team: Danish (http://app.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -112,7 +112,7 @@ msgstr "_Udskriv ..."
 #. Keyboard shortcut
 #: src/main_window.c:341
 msgid "Print the current image"
-msgstr ""
+msgstr "Udskriv det nuværende billede"
 
 #. Icon-name
 #: src/main_window.c:345 src/main_window.c:364
@@ -583,7 +583,7 @@ msgstr "_Gem"
 
 #: src/main_window.c:3608
 msgid "Failed to print the image"
-msgstr ""
+msgstr "Kunne ikke udskrive billedet"
 
 #: src/main_window.c:3698
 #, c-format
@@ -955,10 +955,6 @@ msgstr "Ristretto Billedfremviser"
 msgid "Look at your images easily"
 msgstr "Nem måde til at se dine billeder"
 
-#: org.xfce.ristretto.desktop.in:8
-msgid "org.xfce.ristretto"
-msgstr ""
-
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
 msgstr "Ristretto"
@@ -974,3 +970,7 @@ msgid ""
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
 msgstr "Ristretto Billedfremviseren er et program som kan bruges til at vise og gennemse billeder, køre et diasshow af billeder, åbne billeder med andre programmer såsom et billedredigeringsprogram eller konfigurere et billede som et skrivebordstapet."
+
+#: org.xfce.ristretto.appdata.xml.in:34
+msgid "Xfce Developers"
+msgstr ""
