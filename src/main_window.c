@@ -810,6 +810,15 @@ G_DEFINE_TYPE_WITH_PRIVATE (RsttoMainWindow, rstto_main_window, GTK_TYPE_WINDOW)
 
 
 static void
+filemanager_proxy_finish (GObject *source_object,
+                          GAsyncResult *res,
+                          gpointer data)
+{
+    RsttoMainWindow *window = data;
+    window->priv->filemanager_proxy = g_dbus_proxy_new_finish (res, NULL);
+}
+
+static void
 rstto_main_window_init (RsttoMainWindow *window)
 {
     GtkAccelGroup   *accel_group;
@@ -864,18 +873,18 @@ G_GNUC_END_IGNORE_DEPRECATIONS
     gtk_file_filter_add_pixbuf_formats (app_file_filter);
     gtk_file_filter_set_name (app_file_filter, _("Images"));
 
-    /* create a D-Bus proxy to a file manager but do not care about
-     * properties and signals, so that the call is non-blocking */
-    window->priv->filemanager_proxy =
-            g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                           G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
-                                           G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
-                                           NULL,
-                                           "org.freedesktop.FileManager1",
-                                           "/org/freedesktop/FileManager1",
-                                           "org.freedesktop.FileManager1",
-                                           NULL,
-                                           NULL);
+    /* create a D-Bus proxy to a file manager but do not care about properties and signals,
+     * so we have a reasonnable chance the call won't block in the background */
+    g_dbus_proxy_new_for_bus (G_BUS_TYPE_SESSION,
+                              G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
+                              G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+                              NULL,
+                              "org.freedesktop.FileManager1",
+                              "/org/freedesktop/FileManager1",
+                              "org.freedesktop.FileManager1",
+                              NULL,
+                              filemanager_proxy_finish,
+                              window);
 
     desktop_type = rstto_settings_get_string_property (window->priv->settings_manager, "desktop-type");
     if (desktop_type)
