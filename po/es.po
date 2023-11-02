@@ -11,7 +11,7 @@
 # Casper, 2019
 # gabrieltandil <gabriel.tandil@gmail.com>, 2015
 # gabrieltandil <gabriel.tandil@gmail.com>, 2015-2016
-# Ignacio Poggi <ignaciop.3@gmail.com>, 2020
+# Ignacio Poggi <ignaciop.3@gmail.com>, 2020,2023
 # Pablo Lezaeta Reyes <prflr88@gmail.com>, 2014-2015
 # Pablo Lezaeta Reyes <prflr88@gmail.com>, 2019
 # Pablo Lezaeta Reyes <prflr88@gmail.com>, 2019
@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-05 10:52+0200\n"
+"POT-Creation-Date: 2023-05-30 00:51+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Toni Estévez <toni.estevez@gmail.com>, 2021,2023\n"
+"Last-Translator: Ignacio Poggi <ignaciop.3@gmail.com>, 2020,2023\n"
 "Language-Team: Spanish (http://app.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -984,4 +984,4 @@ msgstr "El visor de imágenes de Ristretto es una aplicación que puede usarse p
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Desarrolladores de Xfce"
