@@ -596,7 +596,7 @@ rstto_image_viewer_finalize (GObject *object)
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (object);
 
     if (viewer->priv->transaction && viewer->priv->transaction->loader_closed_id != 0)
-        REMOVE_SOURCE (viewer->priv->transaction->loader_closed_id);
+        g_source_remove (viewer->priv->transaction->loader_closed_id);
     if (viewer->priv->settings)
     {
         g_object_unref (viewer->priv->settings);
