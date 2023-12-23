@@ -4098,7 +4098,8 @@ rstto_main_window_open (RsttoMainWindow *window,
         {
             rstto_image_list_set_directory (window->priv->image_list, files->data, NULL, NULL);
             uri = g_file_get_uri (files->data);
-            rstto_main_window_add_file_to_recent_files (uri, g_file_info_get_content_type (info));
+            rstto_main_window_add_file_to_recent_files (uri,
+                g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE));
             g_free (uri);
         }
         else

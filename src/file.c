@@ -262,7 +262,7 @@ rstto_file_is_valid (RsttoFile *r_file)
                     NULL);
             if (NULL != file_info)
             {
-                content_type = g_file_info_get_content_type (file_info);
+                content_type = g_file_info_get_attribute_string (file_info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
                 if (NULL != content_type)
                 {
                     g_free (r_file->priv->content_type);

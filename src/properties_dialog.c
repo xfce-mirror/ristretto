@@ -320,7 +320,8 @@ properties_dialog_set_file (
                 0,
                 NULL,
                 NULL);
-        description = g_content_type_get_description (g_file_info_get_content_type (file_info));
+        description = g_content_type_get_description (
+            g_file_info_get_attribute_string (file_info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE));
         mtime = g_file_info_get_attribute_uint64 (file_info, "time::modified");
         atime = g_file_info_get_attribute_uint64 (file_info, "time::access");
         size = g_file_info_get_attribute_uint64 (file_info, "standard::size");

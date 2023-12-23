@@ -513,7 +513,7 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
 
     for (li = info_list; li != NULL; li = li->next)
     {
-        filter_info.mime_type = g_file_info_get_content_type (li->data);
+        filter_info.mime_type = g_file_info_get_attribute_string (li->data, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
         if (filter_info.mime_type != NULL && gtk_file_filter_filter (filter, &filter_info))
         {
             /* skip already loaded file, if any */
