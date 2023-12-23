@@ -1467,6 +1467,9 @@ rstto_image_viewer_get_pixbuf (RsttoImageViewer *viewer)
 {
     cairo_surface_t *surface;
 
+    if (viewer->priv->pixbuf.pattern == NULL)
+        return NULL;
+
     cairo_pattern_get_surface (viewer->priv->pixbuf.pattern, &surface);
 
     return gdk_pixbuf_get_from_surface (surface, 0, 0,
