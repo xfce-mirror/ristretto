@@ -330,7 +330,7 @@ static GtkActionEntry action_entries[] =
             G_CALLBACK (cb_rstto_main_window_save_copy), },
     { "properties",
             "document-properties", /* Icon-name */
-            N_ ("_Properties..."), /* Label-text */
+            N_ ("Proper_ties..."), /* Label-text */
             NULL, /* Keyboard shortcut */
             N_ ("Show file properties"), /* Tooltip text */
             G_CALLBACK (cb_rstto_main_window_properties), },
