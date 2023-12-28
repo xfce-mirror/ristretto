@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-30 00:51+0200\n"
+"POT-Creation-Date: 2023-12-28 00:48+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>, 2023\n"
 "Language-Team: Turkish (http://app.transifex.com/xfce/xfce-apps/language/tr/)\n"
@@ -103,8 +103,8 @@ msgstr "Resmin kopyasını kaydet"
 
 #. Icon-name
 #: src/main_window.c:333
-msgid "_Properties..."
-msgstr "_Özellikler..."
+msgid "Proper_ties..."
+msgstr ""
 
 #. Label-text
 #. Keyboard shortcut
@@ -474,158 +474,158 @@ msgstr "Çok Büyük"
 msgid "_Smart Zoom"
 msgstr "_Akıllı Yakınlaştırma"
 
-#: src/main_window.c:865
+#: src/main_window.c:874
 msgid "Images"
 msgstr "Resimler"
 
 #. Create Play/Pause Slideshow actions
-#: src/main_window.c:938
+#: src/main_window.c:947
 msgid "_Play"
 msgstr "_Oynat"
 
-#: src/main_window.c:938
+#: src/main_window.c:947
 msgid "Play slideshow"
 msgstr "Slayt gösterisini başlat"
 
-#: src/main_window.c:939
+#: src/main_window.c:948
 msgid "_Pause"
 msgstr "_Duraklat"
 
-#: src/main_window.c:939
+#: src/main_window.c:948
 msgid "Pause slideshow"
 msgstr "Slayt gösterisini duraklat"
 
 #. Create Recently used items Action
-#: src/main_window.c:942
+#: src/main_window.c:951
 msgid "_Recently used"
 msgstr "_Son kullanılanlar"
 
-#: src/main_window.c:942
+#: src/main_window.c:951
 msgid "Recently used"
 msgstr "Son kullanılanlar"
 
-#: src/main_window.c:1066 src/main_window.c:1622
+#: src/main_window.c:1075 src/main_window.c:1631
 msgid "Press open to select an image"
 msgstr "Resim seçmek için aça tıkla"
 
-#: src/main_window.c:1564 src/main_window.c:1569
+#: src/main_window.c:1573 src/main_window.c:1578
 msgid "Open With Other _Application..."
 msgstr "Başka _Uygulamayla Aç..."
 
-#: src/main_window.c:1579 src/main_window.c:1587
+#: src/main_window.c:1588 src/main_window.c:1596
 msgid "Empty"
 msgstr "Boş"
 
-#: src/main_window.c:1627
+#: src/main_window.c:1636
 msgid "Loading..."
 msgstr "Yükleniyor..."
 
-#: src/main_window.c:2277
+#: src/main_window.c:2286
 msgid "Choose 'set wallpaper' method"
 msgstr "'Duvar kağıdı ayarla' yöntemini seç"
 
-#: src/main_window.c:2281 src/main_window.c:3410 src/main_window.c:3498
-#: src/main_window.c:4175 src/privacy_dialog.c:149
+#: src/main_window.c:2290 src/main_window.c:3419 src/main_window.c:3507
+#: src/main_window.c:4185 src/privacy_dialog.c:149
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:190
 msgid "_Cancel"
 msgstr "İ_ptal"
 
-#: src/main_window.c:2284 src/main_window.c:4178
+#: src/main_window.c:2293 src/main_window.c:4188
 #: src/xfce_wallpaper_manager.c:282 src/gnome_wallpaper_manager.c:196
 msgid "_OK"
 msgstr "_Tamam"
 
-#: src/main_window.c:2294 src/preferences_dialog.c:436
+#: src/main_window.c:2303 src/preferences_dialog.c:436
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Masaüstünüzü yöneten geçerli sistemi yapılandır.\nBu ayar, <i>Ristretto</i>'nun masaüstü duvar kağıdınızı\nyapılandırmasında kullanılacağı yöntemini tanımlar."
 
-#: src/main_window.c:2320 src/preferences_dialog.c:448
+#: src/main_window.c:2329 src/preferences_dialog.c:448
 msgid "None"
 msgstr "Hiçbiri"
 
-#: src/main_window.c:2324 src/preferences_dialog.c:452
+#: src/main_window.c:2333 src/preferences_dialog.c:452
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2328 src/preferences_dialog.c:456
+#: src/main_window.c:2337 src/preferences_dialog.c:456
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:2843
+#: src/main_window.c:2852
 msgid "Developers:"
 msgstr "Geliştiriciler:"
 
-#: src/main_window.c:2855 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:2864 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto, Xfce masaüstü ortamı için resim göstericidir."
 
-#: src/main_window.c:2863
+#: src/main_window.c:2872
 msgid "translator-credits"
 msgstr "Onur Küçük <onur@pardus.org.tr>\nGökmen Görgen <gkmngrgn@gmail.com> \nAyhan YALÇINSOY <ayhanyalcinsoy@gmail.com>\nSerdar Sağlam <teknomobil@yandex.com>"
 
-#: src/main_window.c:3408
+#: src/main_window.c:3417
 msgid "Open image"
 msgstr "Resim aç"
 
-#: src/main_window.c:3410
+#: src/main_window.c:3419
 msgid "_Open"
 msgstr "_Aç"
 
-#: src/main_window.c:3428
+#: src/main_window.c:3437
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3433
+#: src/main_window.c:3442
 msgid "All Files"
 msgstr "Tüm Dosyalar"
 
-#: src/main_window.c:3495
+#: src/main_window.c:3504
 msgid "Save copy"
 msgstr "Kopya kaydet"
 
-#: src/main_window.c:3499
+#: src/main_window.c:3508
 msgid "_Save"
 msgstr "_Kaydet"
 
-#: src/main_window.c:3608
+#: src/main_window.c:3617
 msgid "Failed to print the image"
 msgstr "Resim yazdırılamadı"
 
-#: src/main_window.c:3698
+#: src/main_window.c:3707
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "'%s' resmini çöpe göndermek istediğinizden emin misiniz?"
 
-#: src/main_window.c:3702
+#: src/main_window.c:3711
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Diskinizden '%s' resmini silmek istediğinizden emin misiniz?"
 
-#: src/main_window.c:3714
+#: src/main_window.c:3723
 msgid "_Do not ask again for this session"
 msgstr "_Bu oturum için tekrar sorma"
 
-#: src/main_window.c:4170
+#: src/main_window.c:4180
 msgid "Edit with"
 msgstr "Birlikte düzenle"
 
-#: src/main_window.c:4191
+#: src/main_window.c:4201
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "%s'i ve diğer %s biçimli dosyaları şununla aç:"
 
-#: src/main_window.c:4197
+#: src/main_window.c:4207
 msgid "Use as _default for this kind of file"
 msgstr "Bu türde dosyalar için _öntanımlı olarak kullan"
 
-#: src/main_window.c:4282
+#: src/main_window.c:4292
 msgid "Recommended Applications"
 msgstr "Önerilen Uygulamalar"
 
-#: src/main_window.c:4331
+#: src/main_window.c:4341
 msgid "Other Applications"
 msgstr "Diğer Uygulamalar"
 
@@ -875,17 +875,17 @@ msgstr "Genel"
 msgid "Image"
 msgstr "Resim"
 
-#: src/properties_dialog.c:390
+#: src/properties_dialog.c:391
 msgid "<b>Date taken:</b>"
 msgstr "<b>Alınma tarihi:</b>"
 
-#: src/properties_dialog.c:402 src/properties_dialog.c:414
-#: src/properties_dialog.c:426
+#: src/properties_dialog.c:403 src/properties_dialog.c:415
+#: src/properties_dialog.c:427
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: src/properties_dialog.c:485
+#: src/properties_dialog.c:486
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Özellikler"
