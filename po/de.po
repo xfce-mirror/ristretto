@@ -97,7 +97,7 @@ msgstr "Eine Kopie des Bildes speichern"
 #. Icon-name
 #: src/main_window.c:333
 msgid "Proper_ties..."
-msgstr ""
+msgstr "Eigenschaf_ten..."
 
 #. Label-text
 #. Keyboard shortcut
