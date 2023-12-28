@@ -95,7 +95,7 @@ msgstr "Sla een kopie van de afbeelding op"
 #. Icon-name
 #: src/main_window.c:333
 msgid "Proper_ties..."
-msgstr ""
+msgstr "Eigenschappen..."
 
 #. Label-text
 #. Keyboard shortcut
