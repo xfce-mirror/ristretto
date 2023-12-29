@@ -96,7 +96,7 @@ msgstr "Įrašyti paveikslo kopiją"
 #. Icon-name
 #: src/main_window.c:333
 msgid "Proper_ties..."
-msgstr ""
+msgstr "Savy_bės..."
 
 #. Label-text
 #. Keyboard shortcut
