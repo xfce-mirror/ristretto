@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, 2016-2017,2019,2021,2023
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021,2023
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2023-12-28 00:48+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, 2016-2017,2019,2021,2023\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021,2023\n"
 "Language-Team: Japanese (http://app.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,7 +95,7 @@ msgstr "画像のコピーを保存します"
 #. Icon-name
 #: src/main_window.c:333
 msgid "Proper_ties..."
-msgstr ""
+msgstr "プロパティ(_T)..."
 
 #. Label-text
 #. Keyboard shortcut
