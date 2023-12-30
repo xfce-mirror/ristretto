@@ -97,7 +97,7 @@ msgstr "Запазване на копие на изображението"
 #. Icon-name
 #: src/main_window.c:333
 msgid "Proper_ties..."
-msgstr ""
+msgstr "Свойства..."
 
 #. Label-text
 #. Keyboard shortcut
