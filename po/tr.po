@@ -104,7 +104,7 @@ msgstr "Resmin kopyasını kaydet"
 #. Icon-name
 #: src/main_window.c:333
 msgid "Proper_ties..."
-msgstr ""
+msgstr "Ö_zellikler..."
 
 #. Label-text
 #. Keyboard shortcut
