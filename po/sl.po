@@ -95,7 +95,7 @@ msgstr "Shrani kopijo slike"
 #. Icon-name
 #: src/main_window.c:333
 msgid "Proper_ties..."
-msgstr ""
+msgstr "Las_tnosti..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -597,7 +597,7 @@ msgstr "Ali ste prepričani, da želite izbrisati sliko '%s' z diska?"
 
 #: src/main_window.c:3723
 msgid "_Do not ask again for this session"
-msgstr "Tega več ne sprašuj v tej seansi"
+msgstr "_Tega več ne sprašuj med izvajanjem te seje"
 
 #: src/main_window.c:4180
 msgid "Edit with"
