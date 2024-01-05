@@ -25,7 +25,7 @@ msgstr "Подаци о издању"
 
 #: src/main.c:50
 msgid "Start in fullscreen mode"
-msgstr "Покрени преко целог екрана"
+msgstr "Покрени преко целог заслона"
 
 #: src/main.c:54
 msgid "Start a slideshow"
@@ -95,7 +95,7 @@ msgstr "Сачувај умножак слике"
 #. Icon-name
 #: src/main_window.c:333
 msgid "Proper_ties..."
-msgstr ""
+msgstr "Свој_ства..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -194,18 +194,18 @@ msgstr "_Преко целог екана"
 #. Keyboard shortcut
 #: src/main_window.c:415
 msgid "Switch to fullscreen"
-msgstr "Пребаци на цео екран"
+msgstr "Пребаци на цео заслон"
 
 #. Icon-name
 #: src/main_window.c:419
 msgid "_Leave Fullscreen"
-msgstr "_Напусти цео екран"
+msgstr "_Напусти цео заслон"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:421
 msgid "Leave Fullscreen"
-msgstr "Напусти цео екран"
+msgstr "Напусти цео заслон"
 
 #. Icon-name
 #: src/main_window.c:425
@@ -383,7 +383,7 @@ msgstr "Величина умањене _сличице"
 #. Icon-name
 #: src/main_window.c:583
 msgid "Leave _Fullscreen"
-msgstr "Напусти _цео екран"
+msgstr "Напусти _цео заслон"
 
 #. Icon-name
 #: src/main_window.c:601
@@ -737,7 +737,7 @@ msgstr "Каквоћа"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Са овом укљученом могућношћу, највиши квалитет слика ће бити ограничен на величину екрана."
+msgstr "Са овом укљученом могућношћу, највиши квалитет слика ће бити ограничен на величину заслона."
 
 #: src/preferences_dialog.c:296
 msgid "Limit rendering quality"
@@ -754,11 +754,11 @@ msgstr "Умањене сличице"
 #: src/preferences_dialog.c:315
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Трака умањених сличица се може сама скривати кад је прозор преко целог екрана."
+msgstr "Трака умањених сличица се може сама скривати кад је прозор преко целог заслона."
 
 #: src/preferences_dialog.c:319
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Сакриј траку умањених сличица при приказу преко целог екрана"
+msgstr "Сакриј траку умањених сличица при приказу преко целог заслона"
 
 #: src/preferences_dialog.c:327
 msgid "Clock"
@@ -768,11 +768,11 @@ msgstr "Часовник"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Прикажи аналогни часовник који приказује тренутно време кад је прозор у приказу преко целог екрана"
+msgstr "Прикажи аналогни часовник који приказује тренутно време кад је прозор у приказу преко целог заслона"
 
 #: src/preferences_dialog.c:334
 msgid "Show Fullscreen Clock"
-msgstr "Прикажи часовник преко целог екрана"
+msgstr "Прикажи часовник преко целог заслона"
 
 #: src/preferences_dialog.c:340
 msgid "Mouse cursor"
