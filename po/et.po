@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the xfce-apps.ristretto package.
 # 
 # Translators:
-# Priit Jõerüüt <transifex@joeruut.com>, 2020-2021,2023
+# Priit Jõerüüt <transifex@joeruut.com>, 2020-2021,2023-2024
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2023-12-28 00:48+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Priit Jõerüüt <transifex@joeruut.com>, 2020-2021,2023\n"
+"Last-Translator: Priit Jõerüüt <transifex@joeruut.com>, 2020-2021,2023-2024\n"
 "Language-Team: Estonian (http://app.transifex.com/xfce/xfce-apps/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -94,7 +94,7 @@ msgstr "Salvesta pildifailist koopia"
 #. Icon-name
 #: src/main_window.c:333
 msgid "Proper_ties..."
-msgstr ""
+msgstr "_Omadused..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -554,7 +554,7 @@ msgstr "Ristretto on pildinäitaja Xfce töölauakeskkonna jaoks."
 
 #: src/main_window.c:2872
 msgid "translator-credits"
-msgstr "Kristjan Siimson <epost@ksiimson.se> &amp; tolge.pingviin.org\nPriit Jõerüüt 2020-2023"
+msgstr "Kristjan Siimson <epost@ksiimson.se> &amp; tolge.pingviin.org\nPriit Jõerüüt 2020-2024"
 
 #: src/main_window.c:3417
 msgid "Open image"
