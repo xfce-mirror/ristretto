@@ -5,7 +5,7 @@
 # Translators:
 # AlexanderFilev, 2019
 # Alexander Filёv, 2015,2019
-# Andrei Stepanov, 2023
+# Andrei Stepanov, 2023-2024
 # Denis Koryavov <dkoryavov@yandex.ru>, 2010
 # AlexanderFilev, 2015
 # Igor <f2404@yandex.ru>, 2016-2017,2019
@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2023-12-28 00:48+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Andrei Stepanov, 2023\n"
+"Last-Translator: Andrei Stepanov, 2023-2024\n"
 "Language-Team: Russian (http://app.transifex.com/xfce/xfce-apps/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -103,7 +103,7 @@ msgstr "Сохранить копию изображения"
 #. Icon-name
 #: src/main_window.c:333
 msgid "Proper_ties..."
-msgstr ""
+msgstr "Свойств_а…"
 
 #. Label-text
 #. Keyboard shortcut
