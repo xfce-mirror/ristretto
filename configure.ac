@@ -1,5 +1,5 @@
 dnl
-dnl Copyright (c) 2006-2023
+dnl Copyright (c) 2006-2024
 dnl         The Xfce development team. All rights reserved.
 dnl
 dnl Originally written for Xfce by Benedikt Meurer <benny@xfce.org>
@@ -21,7 +21,7 @@ m4_define([libexif_min_version], [0.6.0])
 m4_define([cairo_min_version], [1.10.0])
 m4_define([libx11_min_version], [1.6.7])
 
-AC_COPYRIGHT([Copyright (c) 2006-2023
+AC_COPYRIGHT([Copyright (c) 2006-2024
         The Xfce development team. All rights reserved.
 
 Written for Xfce by Stephan Arts <stephan@xfce.org>.])
