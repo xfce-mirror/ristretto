@@ -3572,6 +3572,7 @@ cb_rstto_main_window_properties (GtkWidget *widget, RsttoMainWindow *window)
             if (error != NULL)
             {
                 g_warning ("DBUS CALL FAILED: '%s'", error->message);
+                g_error_free (error);
 
                 /* Create the internal file-properties dialog */
                 dialog = rstto_properties_dialog_new (
