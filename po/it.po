@@ -168,7 +168,7 @@ msgstr "_Ordina per"
 #. Icon-name
 #: src/main_window.c:388
 msgid "_Delete"
-msgstr "_Cancella"
+msgstr "_Elimina"
 
 #. Label-text
 #. Keyboard shortcut
@@ -560,7 +560,7 @@ msgstr "Ristretto è un visualizzatore di immagini per l'ambiente grafico Xfce."
 
 #: src/main_window.c:2872
 msgid "translator-credits"
-msgstr "Vincenzo Reale, <smart2128@baslug.org> 2020\nEmanuele Petriglia <inbox@emanuelepetriglia.com> 2018-2019\nCristian Marchi <cri.penta@gmail.com> 2009-2013\nFabio Vergnani <monghitri@aruba.it> 2007"
+msgstr "Vincenzo Reale, <smart2128vr@gmail.com> 2020\nEmanuele Petriglia <inbox@emanuelepetriglia.com> 2018-2019\nCristian Marchi <cri.penta@gmail.com> 2009-2013\nFabio Vergnani <monghitri@aruba.it> 2007"
 
 #: src/main_window.c:3417
 msgid "Open image"
