@@ -2688,7 +2688,11 @@ cb_rstto_main_window_hide_fs_mouse_cursor_timeout (gpointer user_data)
 {
     RsttoMainWindow *window = user_data;
     GdkCursor *cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (window)), "none");
-    gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), cursor);
+    if (cursor != NULL)
+    {
+        gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), cursor);
+        g_object_unref (cursor);
+    }
     return FALSE;
 }
 

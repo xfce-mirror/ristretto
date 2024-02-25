@@ -1958,9 +1958,12 @@ rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
                     (event->y < (viewer->priv->rendering.y_offset + viewer->priv->rendering.height)) &&
                     (event->x < (viewer->priv->rendering.x_offset + viewer->priv->rendering.width)))
                 {
-                    GdkCursor *cursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_UL_ANGLE);
-                    gdk_window_set_cursor (gtk_widget_get_window (widget), cursor);
-                    g_object_unref (cursor);
+                    GdkCursor *cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "nw-resize");
+                    if (cursor != NULL)
+                    {
+                        gdk_window_set_cursor (gtk_widget_get_window (widget), cursor);
+                        g_object_unref (cursor);
+                    }
                 }
                 else
                 {
@@ -2000,9 +2003,12 @@ rstto_button_press_event (GtkWidget *widget, GdkEventButton *event)
                     (event->y < (viewer->priv->rendering.y_offset + viewer->priv->rendering.height)) &&
                     (event->x < (viewer->priv->rendering.x_offset + viewer->priv->rendering.width)))
                 {
-                    GdkCursor *cursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_FLEUR);
-                    gdk_window_set_cursor (gtk_widget_get_window (widget), cursor);
-                    g_object_unref (cursor);
+                    GdkCursor *cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "move");
+                    if (cursor != NULL)
+                    {
+                        gdk_window_set_cursor (gtk_widget_get_window (widget), cursor);
+                        g_object_unref (cursor);
+                    }
                     rstto_image_viewer_set_motion_state (viewer, RSTTO_IMAGE_VIEWER_MOTION_STATE_MOVE);
                 }
             }
@@ -2016,9 +2022,12 @@ rstto_button_press_event (GtkWidget *widget, GdkEventButton *event)
                     (event->y < (viewer->priv->rendering.y_offset + viewer->priv->rendering.height)) &&
                     (event->x < (viewer->priv->rendering.x_offset + viewer->priv->rendering.width)))
                 {
-                    GdkCursor *cursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_UL_ANGLE);
-                    gdk_window_set_cursor (gtk_widget_get_window (widget), cursor);
-                    g_object_unref (cursor);
+                    GdkCursor *cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "nw-resize");
+                    if (cursor != NULL)
+                    {
+                        gdk_window_set_cursor (gtk_widget_get_window (widget), cursor);
+                        g_object_unref (cursor);
+                    }
                 }
 
                 /* Set the zoom-state even if not hovering over the
