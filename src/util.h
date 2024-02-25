@@ -25,16 +25,6 @@
 #ifndef __RISTRETTO_UTIL_H__
 #define __RISTRETTO_UTIL_H__
 
-/* disable debug checks in release mode (before including GLib/GTK headers) */
-#ifdef NDEBUG
-#ifndef G_DISABLE_CHECKS
-#define G_DISABLE_CHECKS
-#endif
-#ifndef G_DISABLE_ASSERT
-#define G_DISABLE_ASSERT
-#endif
-#endif
-
 /* our config header */
 #include <config.h>
 
