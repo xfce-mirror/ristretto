@@ -27,8 +27,6 @@ ristretto_SOURCES = \
 ristretto_CFLAGS = \
 	$(GTK_CFLAGS) \
 	$(GLIB_CFLAGS) \
-	$(GTHREAD_CFLAGS) \
-	$(GIO_CFLAGS) \
 	$(GIO_UNIX_CFLAGS) \
 	$(LIBEXIF_CFLAGS) \
 	$(XFCONF_CFLAGS) \
@@ -48,8 +46,6 @@ ristretto_LDFLAGS = \
 ristretto_LDADD = \
 	$(GTK_LIBS) \
 	$(GLIB_LIBS) \
-	$(GTHREAD_LIBS) \
-	$(GIO_LIBS) \
 	$(GIO_UNIX_LIBS) \
 	$(LIBEXIF_LIBS) \
 	$(XFCONF_LIBS) \
