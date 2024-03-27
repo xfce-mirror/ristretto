@@ -35,6 +35,7 @@ enum
     PROP_SHOW_STATUSBAR,
     PROP_SHOW_CLOCK,
     PROP_LIMIT_QUALITY,
+    PROP_ENABLE_SMOOTHING,
     PROP_HIDE_THUMBNAILS_FULLSCREEN,
     PROP_HIDE_MOUSE_CURSOR_FULLSCREEN_TIMEOUT,
     PROP_WINDOW_WIDTH,
@@ -88,6 +89,7 @@ struct _RsttoSettingsPrivate
     gboolean  show_statusbar;
     gboolean  show_clock;
     gboolean  limit_quality;
+    gboolean  enable_smoothing;
     gboolean  hide_thumbnails_fullscreen;
     guint     hide_mouse_cursor_fullscreen_timeout;
     gchar    *navigationbar_position;
@@ -157,6 +159,7 @@ rstto_settings_init (RsttoSettings *settings)
     settings->priv->bgcolor = g_new0 (GdkRGBA, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkRGBA, 1);
     gdk_rgba_parse (settings->priv->bgcolor_fullscreen, "black"); // black by default
+    settings->priv->enable_smoothing = TRUE;
     settings->priv->navigationbar_position = g_strdup ("left");
     settings->priv->show_toolbar = TRUE;
     settings->priv->window_width = 600;
@@ -307,6 +310,13 @@ rstto_settings_init (RsttoSettings *settings)
             settings,
             "limit-quality");
 
+    xfconf_g_property_bind (
+            settings->priv->channel,
+            "/image/enable-smoothing",
+            G_TYPE_BOOLEAN,
+            settings,
+            "enable-smoothing");
+
     /* not Thunar-specific but let's keep the old name for backwards-compatibility */
     xfconf_g_property_bind (
             settings->priv->channel,
@@ -434,6 +444,17 @@ rstto_settings_class_init (RsttoSettingsClass *klass)
     g_object_class_install_property (
             object_class,
             PROP_LIMIT_QUALITY,
+            pspec);
+
+    pspec = g_param_spec_boolean (
+            "enable-smoothing",
+            "",
+            "",
+            TRUE,
+            G_PARAM_READWRITE);
+    g_object_class_install_property (
+            object_class,
+            PROP_ENABLE_SMOOTHING,
             pspec);
 
     pspec = g_param_spec_boolean (
@@ -785,6 +806,9 @@ rstto_settings_set_property (GObject      *object,
         case PROP_LIMIT_QUALITY:
             settings->priv->limit_quality = g_value_get_boolean (value);
             break;
+        case PROP_ENABLE_SMOOTHING:
+            settings->priv->enable_smoothing = g_value_get_boolean (value);
+            break;
         case PROP_HIDE_THUMBNAILS_FULLSCREEN:
             settings->priv->hide_thumbnails_fullscreen = g_value_get_boolean (value);
             break;
@@ -894,6 +918,9 @@ rstto_settings_get_property (GObject    *object,
             break;
         case PROP_LIMIT_QUALITY:
             g_value_set_boolean (value, settings->priv->limit_quality);
+            break;
+        case PROP_ENABLE_SMOOTHING:
+            g_value_set_boolean (value, settings->priv->enable_smoothing);
             break;
         case PROP_HIDE_THUMBNAILS_FULLSCREEN:
             g_value_set_boolean (value, settings->priv->hide_thumbnails_fullscreen);
