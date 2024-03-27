@@ -123,6 +123,10 @@ rstto_file_set_thumbnail_state (RsttoFile *r_file,
                                 RsttoThumbnailFlavor flavor,
                                 RsttoThumbnailState state);
 
+void
+rstto_file_set_is_thumbnail (RsttoFile *r_file,
+                             gboolean is_thumbnail);
+
 const GdkPixbuf *
 rstto_file_get_thumbnail (RsttoFile *r_file,
                           RsttoThumbnailSize size);

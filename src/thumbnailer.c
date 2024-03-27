@@ -33,6 +33,19 @@ enum
     RSTTO_THUMBNAILER_SIGNAL_COUNT
 };
 
+enum
+{
+    TUMBLER_ERROR_UNSUPPORTED,
+    TUMBLER_ERROR_CONNECTION_ERROR,
+    TUMBLER_ERROR_INVALID_FORMAT,
+    TUMBLER_ERROR_IS_THUMBNAIL,
+    TUMBLER_ERROR_SAVE_FAILED,
+    TUMBLER_ERROR_UNSUPPORTED_FLAVOR,
+    TUMBLER_ERROR_NO_CONTENT,
+    TUMBLER_ERROR_SHUTTING_DOWN,
+    TUMBLER_ERROR_OTHER_ERROR_DOMAIN,
+};
+
 static gint rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_COUNT];
 
 static RsttoThumbnailer *thumbnailer_object;
@@ -489,9 +502,19 @@ cb_rstto_thumbnailer_thumbnail_error (TumblerThumbnailer1 *proxy,
         if (g_strcmp0 (uris[n], rstto_file_get_uri (iter->data)) == 0)
         {
             /* it was probably cancelled when we unqueued files above, and since it is in the
-             * queue here, we wanted it to be processed: back to square one, state unchanged */
+             * queue here, we wanted it to be processed: back to square one, state unchanged
+             * NOTE: tumbler no longer emits an error signal in this case since 4.17.0: see
+             * tumbler@49ffba98d7cf9626a1470bc49a53596300fe3550 */
             if (error_code == G_IO_ERROR_CANCELLED)
                 rstto_thumbnailer_queue_file (thumbnailer, flavor, iter->data);
+            else if (error_code == TUMBLER_ERROR_IS_THUMBNAIL)
+            {
+                rstto_file_set_is_thumbnail (iter->data, TRUE);
+                rstto_file_set_thumbnail_state (iter->data, flavor, RSTTO_THUMBNAIL_STATE_PROCESSED);
+                g_signal_emit (thumbnailer,
+                               rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY],
+                               0, iter->data, NULL);
+            }
             else
             {
                 rstto_file_set_thumbnail_state (iter->data, flavor, RSTTO_THUMBNAIL_STATE_ERROR);

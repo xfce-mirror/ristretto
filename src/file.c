@@ -67,6 +67,7 @@ struct _RsttoFilePrivate
     gchar *thumbnail_paths[RSTTO_THUMBNAIL_FLAVOR_COUNT];
     GdkPixbuf *pixbufs[RSTTO_THUMBNAIL_SIZE_COUNT];
     gint pixbuf_states[RSTTO_THUMBNAIL_FLAVOR_COUNT][RSTTO_THUMBNAIL_SIZE_COUNT];
+    gboolean is_thumbnail;
 
     ExifData *exif_data;
     RsttoImageOrientation orientation;
@@ -519,12 +520,22 @@ rstto_file_set_thumbnail_state (RsttoFile *r_file,
     r_file->priv->thumbnail_states[flavor] = state;
 }
 
+void
+rstto_file_set_is_thumbnail (RsttoFile *r_file,
+                             gboolean is_thumbnail)
+{
+    r_file->priv->is_thumbnail = is_thumbnail;
+}
+
 static const gchar *
 rstto_file_get_thumbnail_path (RsttoFile *r_file,
                                RsttoThumbnailFlavor flavor)
 {
     const gchar *uri, *flavor_name;
     gchar *path, *checksum, *filename;
+
+    if (r_file->priv->is_thumbnail)
+        return rstto_file_get_path (r_file);
 
     if (r_file->priv->thumbnail_paths[flavor] == NULL)
     {
