@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-12-28 00:48+0100\n"
+"POT-Creation-Date: 2024-03-28 12:51+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Theppitak Karoonboonyanan <theppitak@gmail.com>, 2013,2015,2017,2019,2021\n"
 "Language-Team: Thai (http://app.transifex.com/xfce/xfce-apps/language/th/)\n"
@@ -126,7 +126,7 @@ msgid "Edit this image"
 msgstr "แก้ไขรูปภาพนี้"
 
 #. Icon-name
-#: src/main_window.c:351 src/preferences_dialog.c:218
+#: src/main_window.c:351 src/preferences_dialog.c:212
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "ปิ_ด"
@@ -515,108 +515,108 @@ msgstr "กำลังโหลด..."
 msgid "Choose 'set wallpaper' method"
 msgstr "เลือกวิธีกำหนดภาพพื้นหลัง"
 
-#: src/main_window.c:2290 src/main_window.c:3419 src/main_window.c:3507
-#: src/main_window.c:4185 src/privacy_dialog.c:149
+#: src/main_window.c:2290 src/main_window.c:3423 src/main_window.c:3511
+#: src/main_window.c:4190 src/privacy_dialog.c:149
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:190
 msgid "_Cancel"
 msgstr "_ยกเลิก"
 
-#: src/main_window.c:2293 src/main_window.c:4188
+#: src/main_window.c:2293 src/main_window.c:4193
 #: src/xfce_wallpaper_manager.c:282 src/gnome_wallpaper_manager.c:196
 msgid "_OK"
 msgstr "_ตกลง"
 
-#: src/main_window.c:2303 src/preferences_dialog.c:436
+#: src/main_window.c:2303
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "ตั้งค่าว่าระบบใดที่กำลังจัดการพื้นโต๊ะของคุณอยู่\nค่านี้จะกำหนดวิธีการที่ <i>Ristretto</i> จะใช้\nในการตั้งค่าภาพพื้นหลังของพื้นโต๊ะ"
 
-#: src/main_window.c:2329 src/preferences_dialog.c:448
+#: src/main_window.c:2329 src/preferences_dialog.c:450
 msgid "None"
 msgstr "ไม่มี"
 
-#: src/main_window.c:2333 src/preferences_dialog.c:452
+#: src/main_window.c:2333 src/preferences_dialog.c:454
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2337 src/preferences_dialog.c:456
+#: src/main_window.c:2337 src/preferences_dialog.c:458
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:2852
+#: src/main_window.c:2856
 msgid "Developers:"
 msgstr "ผู้พัฒนา:"
 
-#: src/main_window.c:2864 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:2868 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto คือโปรแกรมแสดงรูปภาพสำหรับเดสก์ท็อป Xfce"
 
-#: src/main_window.c:2872
+#: src/main_window.c:2876
 msgid "translator-credits"
 msgstr "Theppitak Karoonboonyanan <theppitak@gmail.com>"
 
-#: src/main_window.c:3417
+#: src/main_window.c:3421
 msgid "Open image"
 msgstr "เปิดรูปภาพ"
 
-#: src/main_window.c:3419
+#: src/main_window.c:3423
 msgid "_Open"
 msgstr "_เปิด"
 
-#: src/main_window.c:3437
+#: src/main_window.c:3441
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3442
+#: src/main_window.c:3446
 msgid "All Files"
 msgstr "ทุกแฟ้ม"
 
-#: src/main_window.c:3504
+#: src/main_window.c:3508
 msgid "Save copy"
 msgstr "บันทึกสำเนา"
 
-#: src/main_window.c:3508
+#: src/main_window.c:3512
 msgid "_Save"
 msgstr "_บันทึก"
 
-#: src/main_window.c:3617
+#: src/main_window.c:3622
 msgid "Failed to print the image"
 msgstr ""
 
-#: src/main_window.c:3707
+#: src/main_window.c:3712
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการย้ายรูปภาพ '%s' ไปลงถังขยะ?"
 
-#: src/main_window.c:3711
+#: src/main_window.c:3716
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบรูปภาพ '%s' ออกจากดิสก์?"
 
-#: src/main_window.c:3723
+#: src/main_window.c:3728
 msgid "_Do not ask again for this session"
 msgstr "ไ_ม่ต้องถามอีกในวาระนี้"
 
-#: src/main_window.c:4180
+#: src/main_window.c:4185
 msgid "Edit with"
 msgstr "แก้ไขโดยใช้"
 
-#: src/main_window.c:4201
+#: src/main_window.c:4206
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "เปิด %s และแฟ้มชนิด %s อื่นๆ โดยใช้:"
 
-#: src/main_window.c:4207
+#: src/main_window.c:4212
 msgid "Use as _default for this kind of file"
 msgstr "ใช้เป็นค่า_ปริยายสำหรับแฟ้มชนิดนี้"
 
-#: src/main_window.c:4292
+#: src/main_window.c:4297
 msgid "Recommended Applications"
 msgstr "โปรแกรมที่แนะนำ"
 
-#: src/main_window.c:4341
+#: src/main_window.c:4346
 msgid "Other Applications"
 msgstr "โปรแกรมอื่นๆ"
 
@@ -717,90 +717,90 @@ msgstr "เ_ริ่มใช้"
 msgid "Clear private data"
 msgstr "ล้างข้อมูลส่วนตัว"
 
-#: src/preferences_dialog.c:249
+#: src/preferences_dialog.c:243
 msgid "Display"
 msgstr "การแสดงผล"
 
-#: src/preferences_dialog.c:256
+#: src/preferences_dialog.c:250
 msgid "Background color"
 msgstr "สีพื้นหลัง"
 
-#: src/preferences_dialog.c:260
+#: src/preferences_dialog.c:254
 msgid "Override background color:"
 msgstr "ทับค่าสีพื้นหลัง:"
 
-#: src/preferences_dialog.c:288
+#: src/preferences_dialog.c:282
 msgid "Quality"
 msgstr "คุณภาพ"
 
-#: src/preferences_dialog.c:292
+#: src/preferences_dialog.c:286
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "เมื่อเลือกตัวเลือกนี้ คุณภาพสูงสุดของการแสดงรูปภาพจะจำกัดตามขนาดหน้าจอ"
 
-#: src/preferences_dialog.c:296
+#: src/preferences_dialog.c:291
 msgid "Limit rendering quality"
 msgstr "จำกัดคุณภาพการแสดงรูปภาพ"
 
-#: src/preferences_dialog.c:308
+#: src/preferences_dialog.c:303
 msgid "Fullscreen"
 msgstr "เต็มจอ"
 
-#: src/preferences_dialog.c:312
+#: src/preferences_dialog.c:307
 msgid "Thumbnails"
 msgstr "ภาพย่อ"
 
-#: src/preferences_dialog.c:315
+#: src/preferences_dialog.c:310
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "แถบภาพย่อสามารถซ่อนโดยอัตโนมัติได้ เมื่อหน้าต่างแสดงแบบเต็มจอ"
 
-#: src/preferences_dialog.c:319
+#: src/preferences_dialog.c:315
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "ซ่อนแถบภาพย่อเมื่อแสดงเต็มจอ"
 
-#: src/preferences_dialog.c:327
+#: src/preferences_dialog.c:323
 msgid "Clock"
 msgstr "นาฬิกา"
 
-#: src/preferences_dialog.c:330
+#: src/preferences_dialog.c:326
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "แสดงนาฬิกาเข็มบอกเวลาปัจจุบันเมื่อหน้าต่างแสดงแบบเต็มจอ"
 
-#: src/preferences_dialog.c:334
+#: src/preferences_dialog.c:331
 msgid "Show Fullscreen Clock"
 msgstr "แสดงนาฬิกาเมื่อแสดงเต็มจอ"
 
-#: src/preferences_dialog.c:340
+#: src/preferences_dialog.c:337
 msgid "Mouse cursor"
 msgstr "ตัวชี้เมาส์"
 
-#: src/preferences_dialog.c:343
+#: src/preferences_dialog.c:340
 msgid ""
-"The mouse cursor can be automatically hidden after a certain period of inactivity\n"
-"when the window is fullscreen."
-msgstr "ตัวชี้เมาส์สามารถซ่อนโดยอัตโนมัติได้หลังจากไม่มีความเคลื่อนไหวชั่วระยะเวลาหนึ่ง\nเมื่อหน้าต่างอยู่ในโหมดเต็มจอ"
+"The mouse cursor can be automatically hidden after a certain period of "
+"inactivity when the window is fullscreen."
+msgstr ""
 
-#: src/preferences_dialog.c:350
+#: src/preferences_dialog.c:348
 msgid "Period of inactivity (seconds):"
 msgstr "ระยะเวลาที่ไม่มีความเคลื่อนไหว (วินาที):"
 
-#: src/preferences_dialog.c:369
+#: src/preferences_dialog.c:367
 msgid "Slideshow"
 msgstr "การแสดงสไลด์"
 
-#: src/preferences_dialog.c:373
+#: src/preferences_dialog.c:371
 msgid "Timeout"
 msgstr "กำหนดเวลา"
 
-#: src/preferences_dialog.c:376
+#: src/preferences_dialog.c:374
 msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr "ระยะเวลาที่จะแสดงรูปภาพแต่ละภาพขณะแสดงสไลด์\n(เป็นวินาที)"
+"The time period an individual image is displayed during a slideshow (in "
+"seconds)"
+msgstr ""
 
 #: src/preferences_dialog.c:390
 msgid "Control"
@@ -834,7 +834,14 @@ msgstr "วนรายชื่อรูปภาพ"
 msgid "Desktop"
 msgstr "พื้นโต๊ะ"
 
-#: src/preferences_dialog.c:538
+#: src/preferences_dialog.c:436
+msgid ""
+"Configure which system is currently managing your desktop. This setting "
+"determines the method <i>Ristretto</i> will use to configure the desktop "
+"wallpaper."
+msgstr ""
+
+#: src/preferences_dialog.c:540
 msgid "Image Viewer Preferences"
 msgstr "ปรับแต่งโปรแกรมแสดงรูป"
 
@@ -897,7 +904,7 @@ msgstr ""
 msgid "Unsupported mime type"
 msgstr ""
 
-#: src/thumbnailer.c:362
+#: src/thumbnailer.c:375
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -907,7 +914,7 @@ msgid ""
 "to resolve this issue."
 msgstr "ไม่สามารถเข้าถึงบริการภาพย่อได้\nด้วยเหตุนี้ จึงไม่สามารถสร้างภาพย่อได้\n\nกรุณาติดตั้ง <b>Tumbler</b> หรือ <i>ดีมอนสร้างภาพย่อ</i> อื่นๆ\nเพื่อแก้ปัญหานี้"
 
-#: src/thumbnailer.c:371
+#: src/thumbnailer.c:384
 msgid "Do _not show this message again"
 msgstr "ไ_ม่ต้องแสดงข้อความนี้อีก"
 
