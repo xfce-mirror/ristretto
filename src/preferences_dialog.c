@@ -22,15 +22,9 @@
 
 #include <libxfce4ui/libxfce4ui.h>
 
-
-
-#ifndef RSTTO_MIN_CACHE_SIZE
-#define RSTTO_MIN_CACHE_SIZE 16
-#endif
-
-#ifndef RSTTO_DEFAULT_CACHE_SIZE
-#define RSTTO_DEFAULT_CACHE_SIZE 256
-#endif
+#define MAX_WIDTH_CHARS 80
+#define XALIGN 0.0
+#define YALIGN 0.5
 
 
 
@@ -291,8 +285,9 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     dialog->priv->display_tab.quality_label = gtk_label_new (
             _("With this option enabled, the maximum image-quality will be limited to the screen-size."));
     gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->display_tab.quality_label), TRUE);
-    gtk_label_set_xalign (GTK_LABEL (dialog->priv->display_tab.quality_label), 0.0);
-    gtk_label_set_yalign (GTK_LABEL (dialog->priv->display_tab.quality_label), 0.5);
+    gtk_label_set_max_width_chars (GTK_LABEL (dialog->priv->display_tab.quality_label), MAX_WIDTH_CHARS);
+    gtk_label_set_xalign (GTK_LABEL (dialog->priv->display_tab.quality_label), XALIGN);
+    gtk_label_set_yalign (GTK_LABEL (dialog->priv->display_tab.quality_label), YALIGN);
     dialog->priv->display_tab.quality_button = gtk_check_button_new_with_label (_("Limit rendering quality"));
     gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.quality_vbox), dialog->priv->display_tab.quality_label);
     gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.quality_vbox), dialog->priv->display_tab.quality_button);
@@ -314,8 +309,9 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
 
     dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_lbl = gtk_label_new (_("The thumbnail bar can be automatically hidden when the window is fullscreen."));
     gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_lbl), TRUE);
-    gtk_label_set_xalign (GTK_LABEL (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_lbl), 0.0);
-    gtk_label_set_yalign (GTK_LABEL (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_lbl), 0.5);
+    gtk_label_set_max_width_chars (GTK_LABEL (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_lbl), MAX_WIDTH_CHARS);
+    gtk_label_set_xalign (GTK_LABEL (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_lbl), XALIGN);
+    gtk_label_set_yalign (GTK_LABEL (dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_lbl), YALIGN);
     dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button = gtk_check_button_new_with_label (_("Hide thumbnail bar when fullscreen"));
     gtk_box_pack_start (GTK_BOX (dialog->priv->fullscreen_tab.thumbnail_vbox), dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_lbl, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (dialog->priv->fullscreen_tab.thumbnail_vbox), dialog->priv->fullscreen_tab.hide_thumbnails_fullscreen_check_button, FALSE, FALSE, 0);
@@ -329,8 +325,9 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
 
     dialog->priv->fullscreen_tab.clock_label = gtk_label_new (_("Show an analog clock that displays the current time when the window is fullscreen"));
     gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), TRUE);
-    gtk_label_set_xalign (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), 0.0);
-    gtk_label_set_yalign (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), 0.5);
+    gtk_label_set_max_width_chars (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), MAX_WIDTH_CHARS);
+    gtk_label_set_xalign (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), XALIGN);
+    gtk_label_set_yalign (GTK_LABEL (dialog->priv->fullscreen_tab.clock_label), YALIGN);
     dialog->priv->fullscreen_tab.clock_button = gtk_check_button_new_with_label (_("Show Fullscreen Clock"));
     gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.clock_vbox), dialog->priv->fullscreen_tab.clock_label);
     gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.clock_vbox), dialog->priv->fullscreen_tab.clock_button);
@@ -340,10 +337,11 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     dialog->priv->fullscreen_tab.cursor_frame = xfce_gtk_frame_box_new_with_content (_("Mouse cursor"), dialog->priv->fullscreen_tab.cursor_vbox);
     gtk_box_pack_start (GTK_BOX (fullscreen_main_vbox), dialog->priv->fullscreen_tab.cursor_frame, FALSE, FALSE, 0);
 
-    dialog->priv->fullscreen_tab.cursor_label = gtk_label_new (_("The mouse cursor can be automatically hidden after a certain period of inactivity\nwhen the window is fullscreen."));
+    dialog->priv->fullscreen_tab.cursor_label = gtk_label_new (_("The mouse cursor can be automatically hidden after a certain period of inactivity when the window is fullscreen."));
     gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->fullscreen_tab.cursor_label), TRUE);
-    gtk_label_set_xalign (GTK_LABEL (dialog->priv->fullscreen_tab.cursor_label), 0.0);
-    gtk_label_set_yalign (GTK_LABEL (dialog->priv->fullscreen_tab.cursor_label), 0.5);
+    gtk_label_set_max_width_chars (GTK_LABEL (dialog->priv->fullscreen_tab.cursor_label), MAX_WIDTH_CHARS);
+    gtk_label_set_xalign (GTK_LABEL (dialog->priv->fullscreen_tab.cursor_label), XALIGN);
+    gtk_label_set_yalign (GTK_LABEL (dialog->priv->fullscreen_tab.cursor_label), YALIGN);
     gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.cursor_vbox), dialog->priv->fullscreen_tab.cursor_label);
 
     dialog->priv->fullscreen_tab.cursor_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
@@ -373,10 +371,12 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     dialog->priv->slideshow_tab.timeout_frame = xfce_gtk_frame_box_new_with_content (_("Timeout"), dialog->priv->slideshow_tab.timeout_vbox);
     gtk_box_pack_start (GTK_BOX (slideshow_main_vbox), dialog->priv->slideshow_tab.timeout_frame, FALSE, FALSE, 0);
 
-    timeout_lbl = gtk_label_new (_("The time period an individual image is displayed during a slideshow\n(in seconds)"));
+    timeout_lbl = gtk_label_new (_("The time period an individual image is displayed during a slideshow (in seconds)"));
     timeout_hscale = gtk_scale_new_with_range (GTK_ORIENTATION_HORIZONTAL, 1, 60, 1);
-    gtk_label_set_xalign (GTK_LABEL (timeout_lbl), 0.0);
-    gtk_label_set_yalign (GTK_LABEL (timeout_lbl), 0.5);
+    gtk_label_set_line_wrap (GTK_LABEL (timeout_lbl), TRUE);
+    gtk_label_set_max_width_chars (GTK_LABEL (timeout_lbl), MAX_WIDTH_CHARS);
+    gtk_label_set_xalign (GTK_LABEL (timeout_lbl), XALIGN);
+    gtk_label_set_yalign (GTK_LABEL (timeout_lbl), YALIGN);
 
     gtk_box_pack_start (GTK_BOX (dialog->priv->slideshow_tab.timeout_vbox), timeout_lbl, TRUE, TRUE, 0);
     gtk_box_pack_start (GTK_BOX (dialog->priv->slideshow_tab.timeout_vbox), timeout_hscale, FALSE, TRUE, 0);
@@ -433,11 +433,13 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     behaviour_desktop_lbl = gtk_label_new (NULL);
     gtk_label_set_markup (
             GTK_LABEL (behaviour_desktop_lbl),
-            _("Configure which system is currently managing your desktop.\n"
-              "This setting determines the method <i>Ristretto</i> will use\n"
+            _("Configure which system is currently managing your desktop. "
+              "This setting determines the method <i>Ristretto</i> will use "
               "to configure the desktop wallpaper."));
-    gtk_label_set_xalign (GTK_LABEL (behaviour_desktop_lbl), 0.0);
-    gtk_label_set_yalign (GTK_LABEL (behaviour_desktop_lbl), 0.5);
+    gtk_label_set_line_wrap (GTK_LABEL (behaviour_desktop_lbl), TRUE);
+    gtk_label_set_max_width_chars (GTK_LABEL (behaviour_desktop_lbl), MAX_WIDTH_CHARS);
+    gtk_label_set_xalign (GTK_LABEL (behaviour_desktop_lbl), XALIGN);
+    gtk_label_set_yalign (GTK_LABEL (behaviour_desktop_lbl), YALIGN);
     gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.desktop_vbox), behaviour_desktop_lbl, FALSE, FALSE, 0);
     dialog->priv->behaviour_tab.choose_desktop_combo_box = gtk_combo_box_text_new ();
     gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.desktop_vbox), dialog->priv->behaviour_tab.choose_desktop_combo_box,
