@@ -513,7 +513,7 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
 
     for (li = info_list; li != NULL; li = li->next)
     {
-        filter_info.mime_type = g_file_info_get_attribute_string (li->data, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
+        filter_info.mime_type = g_file_info_get_attribute_string (li->data, G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE);
         if (filter_info.mime_type != NULL && gtk_file_filter_filter (filter, &filter_info))
         {
             /* skip already loaded file, if any */
@@ -679,7 +679,7 @@ rstto_image_list_set_directory (RsttoImageList *image_list,
      */
     image_list->priv->is_busy = TRUE;
     rstto_object_set_data (dir, "loaded-file", file);
-    g_file_enumerate_children_async (dir, "standard::name,standard::content-type",
+    g_file_enumerate_children_async (dir, "standard::name,standard::fast-content-type",
                                      G_FILE_QUERY_INFO_NONE, G_PRIORITY_DEFAULT, NULL,
                                      rstto_image_list_set_directory_enumerate_finish, image_list);
 
