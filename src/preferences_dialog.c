@@ -312,7 +312,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
 
     dialog->priv->display_tab.enable_smoothing_label = gtk_label_new (
             _("Smooth the image using bilinear interpolation, thus prioritizing rendering quality\n"
-              "over performance."));
+            _("Smooth the image using bilinear interpolation, thus prioritizing rendering quality over performance."));
     gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), TRUE);
     gtk_label_set_xalign(GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), 0.0);
     gtk_label_set_yalign (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), 0.5);
