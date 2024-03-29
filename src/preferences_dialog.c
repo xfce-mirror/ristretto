@@ -88,9 +88,6 @@ struct _RsttoPreferencesDialogPrivate
 
         GtkWidget *quality_label;
         GtkWidget *quality_button;
-
-        GtkWidget *smoothing_frame;
-        GtkWidget *smoothing_vbox;
         GtkWidget *enable_smoothing_label;
         GtkWidget *enable_smoothing_check_button;
     } display_tab;
@@ -306,18 +303,15 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     g_signal_connect (dialog->priv->display_tab.quality_button, "toggled",
                       G_CALLBACK (cb_limit_quality_check_button_toggled), dialog);
 
-    dialog->priv->display_tab.smoothing_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-    dialog->priv->display_tab.smoothing_frame = xfce_gtk_frame_box_new_with_content (_("Smoothing"), dialog->priv->display_tab.smoothing_vbox);
-    gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.smoothing_frame, FALSE, FALSE, 0);
-
     dialog->priv->display_tab.enable_smoothing_label = gtk_label_new (
             _("Smooth the image using bilinear interpolation, thus prioritizing rendering quality over performance."));
     gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), TRUE);
-    gtk_label_set_xalign(GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), 0.0);
-    gtk_label_set_yalign (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), 0.5);
+    gtk_label_set_max_width_chars (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), MAX_WIDTH_CHARS);
+    gtk_label_set_xalign (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), XALIGN);
+    gtk_label_set_yalign (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), YALIGN);
     dialog->priv->display_tab.enable_smoothing_check_button = gtk_check_button_new_with_label (_("Enable smoothing"));
-    gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.smoothing_vbox), dialog->priv->display_tab.enable_smoothing_label);
-    gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.smoothing_vbox), dialog->priv->display_tab.enable_smoothing_check_button);
+    gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.quality_vbox), dialog->priv->display_tab.enable_smoothing_label);
+    gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.quality_vbox), dialog->priv->display_tab.enable_smoothing_check_button);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.enable_smoothing_check_button), bool_enable_smoothing);
 
     g_signal_connect (dialog->priv->display_tab.enable_smoothing_check_button, "toggled",
