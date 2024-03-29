@@ -184,6 +184,10 @@ cb_rstto_limit_quality_changed (GObject *settings,
                                 GParamSpec *pspec,
                                 gpointer user_data);
 static void
+cb_rstto_smoothing_changed (GObject *settings,
+                            GParamSpec *pspec,
+                            gpointer user_data);
+static void
 cb_rstto_bgcolor_changed (GObject *settings,
                           GParamSpec *pspec,
                           gpointer user_data);
@@ -240,6 +244,7 @@ struct _RsttoImageViewerPrivate
     GdkPixbuf                   *bg_icon;
 
     gboolean                     limit_quality;
+    gboolean                     enable_smoothing;
 
     GError                      *error;
 
@@ -353,6 +358,8 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
                       G_CALLBACK (cb_rstto_bgcolor_changed), viewer);
     g_signal_connect (viewer->priv->settings, "notify::limit-quality",
                       G_CALLBACK (cb_rstto_limit_quality_changed), viewer);
+    g_signal_connect (viewer->priv->settings, "notify::enable-smoothing",
+                      G_CALLBACK (cb_rstto_smoothing_changed), viewer);
     g_signal_connect (viewer->priv->settings, "notify::invert-zoom-direction",
                       G_CALLBACK (cb_rstto_zoom_direction_changed), viewer);
     g_signal_connect (viewer, "drag-data-received",
@@ -522,6 +529,8 @@ rstto_image_viewer_realize (GtkWidget *widget)
 
     g_object_get (viewer->priv->settings, "limit-quality",
                   &(viewer->priv->limit_quality), NULL);
+    g_object_get (viewer->priv->settings, "enable-smoothing",
+                  &(viewer->priv->enable_smoothing), NULL);
     g_object_get (viewer->priv->settings, "invert-zoom-direction",
                   &(viewer->priv->invert_zoom_direction), NULL);
 }
@@ -1124,6 +1133,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
             break;
     }
 
+    cairo_pattern_set_filter (viewer->priv->pixbuf.pattern,
+        viewer->priv->enable_smoothing ? CAIRO_FILTER_BILINEAR : CAIRO_FILTER_NEAREST);
     cairo_scale (ctx, x_scale / viewer->priv->image_scale, y_scale / viewer->priv->image_scale);
     cairo_set_source (ctx, viewer->priv->pixbuf.pattern);
     cairo_paint (ctx);
@@ -2126,6 +2137,16 @@ cb_rstto_limit_quality_changed (GObject *settings, GParamSpec *pspec, gpointer u
 
     if (NULL != viewer->priv->file)
         rstto_image_viewer_load_image (viewer, viewer->priv->file, viewer->priv->scale);
+}
+
+static void
+cb_rstto_smoothing_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
+{
+    RsttoImageViewer *viewer = user_data;
+
+    g_object_get (viewer->priv->settings, "enable-smoothing", &(viewer->priv->enable_smoothing), NULL);
+
+    gtk_widget_queue_draw (GTK_WIDGET (viewer));
 }
 
 static void

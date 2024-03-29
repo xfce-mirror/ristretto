@@ -54,6 +54,9 @@ static void
 cb_limit_quality_check_button_toggled (GtkToggleButton *button,
                                        gpointer user_data);
 static void
+cb_enable_smoothing_check_button_toggled (GtkToggleButton *button,
+                                          gpointer user_data);
+static void
 cb_wrap_images_check_button_toggled (GtkToggleButton *button,
                                      gpointer user_data);
 static void
@@ -85,6 +88,8 @@ struct _RsttoPreferencesDialogPrivate
 
         GtkWidget *quality_label;
         GtkWidget *quality_button;
+        GtkWidget *enable_smoothing_label;
+        GtkWidget *enable_smoothing_check_button;
     } display_tab;
 
     struct
@@ -193,6 +198,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     gboolean   bool_maximize_on_startup;
     gboolean   bool_show_clock;
     gboolean   bool_limit_quality;
+    gboolean   bool_enable_smoothing;
     gchar     *str_desktop_type = NULL;
 
     GdkRGBA   *bgcolor;
@@ -234,6 +240,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
             "desktop-type", &str_desktop_type,
             "show-clock", &bool_show_clock,
             "limit-quality", &bool_limit_quality,
+            "enable-smoothing", &bool_enable_smoothing,
             NULL);
 
     /*
@@ -295,6 +302,20 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
 
     g_signal_connect (dialog->priv->display_tab.quality_button, "toggled",
                       G_CALLBACK (cb_limit_quality_check_button_toggled), dialog);
+
+    dialog->priv->display_tab.enable_smoothing_label = gtk_label_new (
+            _("Smooth the image using bilinear interpolation, thus prioritizing rendering quality over performance."));
+    gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), TRUE);
+    gtk_label_set_max_width_chars (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), MAX_WIDTH_CHARS);
+    gtk_label_set_xalign (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), XALIGN);
+    gtk_label_set_yalign (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), YALIGN);
+    dialog->priv->display_tab.enable_smoothing_check_button = gtk_check_button_new_with_label (_("Enable smoothing"));
+    gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.quality_vbox), dialog->priv->display_tab.enable_smoothing_label);
+    gtk_container_add (GTK_CONTAINER (dialog->priv->display_tab.quality_vbox), dialog->priv->display_tab.enable_smoothing_check_button);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->display_tab.enable_smoothing_check_button), bool_enable_smoothing);
+
+    g_signal_connect (dialog->priv->display_tab.enable_smoothing_check_button, "toggled",
+                      G_CALLBACK (cb_enable_smoothing_check_button_toggled), dialog);
 
     /*
      * Fullscreen tab
@@ -975,6 +996,47 @@ cb_limit_quality_check_button_toggled (
             dialog->priv->settings,
             "limit-quality",
             limit_quality);
+}
+
+/**
+ * cb_enable_smoothing_check_button_toggled:
+ * @button:    The check-button the user clicked.
+ * @user_data: The user-data provided when connecting the
+ *             callback-function, the preferences-dialog.
+ *
+ *
+ * This function is called when a user toggles the 'enable-smoothing'
+ * check-button. This function then sets the right property in the
+ * ristretto settings container.
+ *
+ * When this property is set, the image is smoothed using bilinear
+ * interpolation, thus prioritizing rendering quality over performance.
+ *
+ *
+ *   active = toggle_button_get_active ()
+ *
+ *   if (active) then
+ *
+ *       set_property ("enable-smoothing", TRUE);
+ *
+ *   else
+ *
+ *       set_property ("enable-smoothing", FALSE);
+ *
+ *   endif
+ */
+static void
+cb_enable_smoothing_check_button_toggled (
+        GtkToggleButton *button,
+        gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = user_data;
+    gboolean enable_smoothing = gtk_toggle_button_get_active (button);
+
+    rstto_settings_set_boolean_property (
+            dialog->priv->settings,
+            "enable-smoothing",
+            enable_smoothing);
 }
 
 /**
