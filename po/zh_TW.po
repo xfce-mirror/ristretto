@@ -7,14 +7,14 @@
 # Cheng-Chia Tseng <pswo10680@gmail.com>, 2011
 # 黃柏諺 <s8321414@gmail.com>, 2015-2017
 # Walter Cheuk <wwycheuk@gmail.com>, 2014,2019
-# 黃柏諺 <s8321414@gmail.com>, 2019,2021,2023
+# 黃柏諺 <s8321414@gmail.com>, 2019,2021,2023-2024
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2024-03-28 12:51+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: 黃柏諺 <s8321414@gmail.com>, 2019,2021,2023\n"
+"Last-Translator: 黃柏諺 <s8321414@gmail.com>, 2019,2021,2023-2024\n"
 "Language-Team: Chinese (Taiwan) (http://app.transifex.com/xfce/xfce-apps/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -785,7 +785,7 @@ msgstr "滑鼠游標"
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr ""
+msgstr "在全螢幕模式，當滑鼠在一段時間不活動之後，游標會自動隱藏。"
 
 #: src/preferences_dialog.c:348
 msgid "Period of inactivity (seconds):"
@@ -803,7 +803,7 @@ msgstr "超出時限"
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr ""
+msgstr "投影片秀中各個影像顯示的時間（秒）"
 
 #: src/preferences_dialog.c:390
 msgid "Control"
@@ -842,7 +842,7 @@ msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "設定目前管理您桌面的系統為何。這個設定值決定 <i>Ristretto</i> 用來設定桌布的方法。"
 
 #: src/preferences_dialog.c:540
 msgid "Image Viewer Preferences"
