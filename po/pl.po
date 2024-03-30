@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-03-28 12:51+0100\n"
+"POT-Creation-Date: 2024-03-30 00:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Marek Adamski, 2021-2024\n"
 "Language-Team: Polish (http://app.transifex.com/xfce/xfce-apps/language/pl/)\n"
@@ -132,7 +132,7 @@ msgid "Edit this image"
 msgstr "Otwiera plik obrazu do edycji"
 
 #. Icon-name
-#: src/main_window.c:351 src/preferences_dialog.c:212
+#: src/main_window.c:351 src/preferences_dialog.c:218
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "Za_mknij"
@@ -539,15 +539,15 @@ msgid ""
 "to configure the desktop wallpaper."
 msgstr "Wskazuje bieżące środowisko graficzne.\nTo ustawienie ustala metodę, którą program\nbędzie używał do konfigurowania tła pulpitu."
 
-#: src/main_window.c:2329 src/preferences_dialog.c:450
+#: src/main_window.c:2329 src/preferences_dialog.c:471
 msgid "None"
 msgstr "Żadne"
 
-#: src/main_window.c:2333 src/preferences_dialog.c:454
+#: src/main_window.c:2333 src/preferences_dialog.c:475
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2337 src/preferences_dialog.c:458
+#: src/main_window.c:2337 src/preferences_dialog.c:479
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -723,131 +723,141 @@ msgstr "Z_astosuj"
 msgid "Clear private data"
 msgstr "Czyszczenie prywatnych danych"
 
-#: src/preferences_dialog.c:243
+#: src/preferences_dialog.c:250
 msgid "Display"
 msgstr "Wyświetlanie"
 
-#: src/preferences_dialog.c:250
+#: src/preferences_dialog.c:257
 msgid "Background color"
 msgstr "Kolor tła"
 
-#: src/preferences_dialog.c:254
+#: src/preferences_dialog.c:261
 msgid "Override background color:"
 msgstr "Własny:"
 
-#: src/preferences_dialog.c:282
+#: src/preferences_dialog.c:289
 msgid "Quality"
 msgstr "Jakość"
 
-#: src/preferences_dialog.c:286
+#: src/preferences_dialog.c:293
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "Ogranicza maksymalną jakość obrazu do rozmiaru ekranu"
 
-#: src/preferences_dialog.c:291
+#: src/preferences_dialog.c:298
 msgid "Limit rendering quality"
 msgstr "Ograniczenie jakości renderowania"
 
-#: src/preferences_dialog.c:303
+#: src/preferences_dialog.c:307
+msgid ""
+"Smooth the image using bilinear interpolation, thus prioritizing rendering "
+"quality over performance."
+msgstr "Wygładzanie obrazu za pomocą interpolacji dwuliniowej, które stawia jakość renderowania nad wydajnością."
+
+#: src/preferences_dialog.c:312
+msgid "Enable smoothing"
+msgstr "Włączenie wygładzania"
+
+#: src/preferences_dialog.c:324
 msgid "Fullscreen"
 msgstr "Pełny ekran"
 
-#: src/preferences_dialog.c:307
+#: src/preferences_dialog.c:328
 msgid "Thumbnails"
 msgstr "Miniatury"
 
-#: src/preferences_dialog.c:310
+#: src/preferences_dialog.c:331
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "Pasek miniatur może być automatycznie ukrywany\npodczas działania w trybie pełnoekranowym."
 
-#: src/preferences_dialog.c:315
+#: src/preferences_dialog.c:336
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Ukrywanie paska miniatur w trybie pełnego ekranu"
 
-#: src/preferences_dialog.c:323
+#: src/preferences_dialog.c:344
 msgid "Clock"
 msgstr "Zegar"
 
-#: src/preferences_dialog.c:326
+#: src/preferences_dialog.c:347
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "Wyświetla w trybie pełnego ekranu zegar analogowy wskazujący bieżący czas"
 
-#: src/preferences_dialog.c:331
+#: src/preferences_dialog.c:352
 msgid "Show Fullscreen Clock"
 msgstr "Wyświetlanie zegara w trybie pełnego ekranu"
 
-#: src/preferences_dialog.c:337
+#: src/preferences_dialog.c:358
 msgid "Mouse cursor"
 msgstr "Kursor myszy"
 
-#: src/preferences_dialog.c:340
+#: src/preferences_dialog.c:361
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
 msgstr "Kursor myszy może zostać automatycznie ukryty po określonym czasie bezczynności, gdy okno jest w trybie pełnoekranowym."
 
-#: src/preferences_dialog.c:348
+#: src/preferences_dialog.c:369
 msgid "Period of inactivity (seconds):"
 msgstr "Okres bezczynności (sekundy):"
 
-#: src/preferences_dialog.c:367
+#: src/preferences_dialog.c:388
 msgid "Slideshow"
 msgstr "Pokaz slajdów"
 
-#: src/preferences_dialog.c:371
+#: src/preferences_dialog.c:392
 msgid "Timeout"
 msgstr "Czas"
 
-#: src/preferences_dialog.c:374
+#: src/preferences_dialog.c:395
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
 msgstr "Czas wyświetlania pojedynczego obrazu podczas pokazu slajdów (w sekundach)"
 
-#: src/preferences_dialog.c:390
+#: src/preferences_dialog.c:411
 msgid "Control"
 msgstr "Sterowanie"
 
-#: src/preferences_dialog.c:394
+#: src/preferences_dialog.c:415
 msgid "Scroll wheel"
 msgstr "Kółko myszy"
 
-#: src/preferences_dialog.c:397
+#: src/preferences_dialog.c:418
 msgid "Invert zoom direction"
 msgstr "Odwrócenie kierunku powiększania obrazu"
 
-#: src/preferences_dialog.c:408
+#: src/preferences_dialog.c:429
 msgid "Behaviour"
 msgstr "Zachowanie"
 
-#: src/preferences_dialog.c:412
+#: src/preferences_dialog.c:433
 msgid "Startup"
 msgstr "Uruchamianie"
 
-#: src/preferences_dialog.c:414
+#: src/preferences_dialog.c:435
 msgid "Maximize window on startup when opening an image"
 msgstr "Maksymalizowanie okna podczas uruchamiania programu"
 
-#: src/preferences_dialog.c:420
+#: src/preferences_dialog.c:441
 msgid "Wrap around images"
 msgstr "Przechodzenie pomiędzy początkiem i końcem katalogu"
 
-#: src/preferences_dialog.c:431
+#: src/preferences_dialog.c:452
 msgid "Desktop"
 msgstr "Środowisko graficzne"
 
-#: src/preferences_dialog.c:436
+#: src/preferences_dialog.c:457
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
 msgstr "Skonfiguruj, który system aktualnie zarządza pulpitem. To ustawienie określa metodę, którą <i>Ristretto</i> użyje do skonfigurowania tapety pulpitu."
 
-#: src/preferences_dialog.c:540
+#: src/preferences_dialog.c:561
 msgid "Image Viewer Preferences"
 msgstr "Preferencje"
 
