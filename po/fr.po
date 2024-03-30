@@ -16,15 +16,15 @@
 # Towinet, 2017
 # Urien Desterres <urien.desterres@gmail.com>, 2014
 # Urien Desterres <urien.desterres@gmail.com>, 2014-2015,2017
-# Wallon Wallon, 2023
+# Wallon Wallon, 2023-2024
 # Yannick Le Guen <leguen.yannick@gmail.com>, 2015-2016,2019,2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-03-28 12:51+0100\n"
+"POT-Creation-Date: 2024-03-30 00:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Wallon Wallon, 2023\n"
+"Last-Translator: Wallon Wallon, 2023-2024\n"
 "Language-Team: French (http://app.transifex.com/xfce/xfce-apps/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,7 +67,7 @@ msgstr "Impossible d’enregistrer le fichier"
 
 #: src/main_window.c:43
 msgid "Some files could not be opened: see the text logs for details"
-msgstr "Certains fichiers n’ont pas pu être ouverts : consultez les journaux texte pour plus de détails"
+msgstr "Certains fichiers n’ont pas pu être ouverts : consultez les journaux texte pour plus de détails."
 
 #: src/main_window.c:44
 #, c-format
@@ -139,7 +139,7 @@ msgid "Edit this image"
 msgstr "Modifier cette image"
 
 #. Icon-name
-#: src/main_window.c:351 src/preferences_dialog.c:212
+#: src/main_window.c:351 src/preferences_dialog.c:218
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "_Fermer"
@@ -546,15 +546,15 @@ msgid ""
 "to configure the desktop wallpaper."
 msgstr "Indiquez quel système gère actuellement votre bureau.\nCe réglage permettra à <i>Ristretto</i> de déterminer la\nméthode adéquate pour en modifier le fond d’écran."
 
-#: src/main_window.c:2329 src/preferences_dialog.c:450
+#: src/main_window.c:2329 src/preferences_dialog.c:471
 msgid "None"
 msgstr "Aucun"
 
-#: src/main_window.c:2333 src/preferences_dialog.c:454
+#: src/main_window.c:2333 src/preferences_dialog.c:475
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2337 src/preferences_dialog.c:458
+#: src/main_window.c:2337 src/preferences_dialog.c:479
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -730,131 +730,141 @@ msgstr "_Appliquer"
 msgid "Clear private data"
 msgstr "Effacer les données personnelles"
 
-#: src/preferences_dialog.c:243
+#: src/preferences_dialog.c:250
 msgid "Display"
 msgstr "Affichage"
 
-#: src/preferences_dialog.c:250
+#: src/preferences_dialog.c:257
 msgid "Background color"
 msgstr "Couleur d’arrière-plan"
 
-#: src/preferences_dialog.c:254
+#: src/preferences_dialog.c:261
 msgid "Override background color:"
 msgstr "Remplacer la couleur d’arrière-plan par :"
 
-#: src/preferences_dialog.c:282
+#: src/preferences_dialog.c:289
 msgid "Quality"
 msgstr "Qualité"
 
-#: src/preferences_dialog.c:286
+#: src/preferences_dialog.c:293
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "Avec cette option activée, la qualité maximale de l’image sera limitée à la taille de l’écran."
 
-#: src/preferences_dialog.c:291
+#: src/preferences_dialog.c:298
 msgid "Limit rendering quality"
 msgstr "Limiter la qualité du rendu"
 
-#: src/preferences_dialog.c:303
+#: src/preferences_dialog.c:307
+msgid ""
+"Smooth the image using bilinear interpolation, thus prioritizing rendering "
+"quality over performance."
+msgstr "Lissez l’image grâce à l’interpolation bilinéaire, privilégiant ainsi la qualité du rendu par rapport à la performance."
+
+#: src/preferences_dialog.c:312
+msgid "Enable smoothing"
+msgstr "Activer le lissage"
+
+#: src/preferences_dialog.c:324
 msgid "Fullscreen"
 msgstr "Plein écran"
 
-#: src/preferences_dialog.c:307
+#: src/preferences_dialog.c:328
 msgid "Thumbnails"
 msgstr "Miniatures"
 
-#: src/preferences_dialog.c:310
+#: src/preferences_dialog.c:331
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "La barre des miniatures peut être automatiquement masquée en mode plein écran."
 
-#: src/preferences_dialog.c:315
+#: src/preferences_dialog.c:336
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Masquer la barre des miniatures en mode plein écran"
 
-#: src/preferences_dialog.c:323
+#: src/preferences_dialog.c:344
 msgid "Clock"
 msgstr "Horloge"
 
-#: src/preferences_dialog.c:326
+#: src/preferences_dialog.c:347
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "Afficher une horloge analogique indiquant l’heure actuelle lorsque la fenêtre est en plein écran."
 
-#: src/preferences_dialog.c:331
+#: src/preferences_dialog.c:352
 msgid "Show Fullscreen Clock"
 msgstr "Afficher l’horloge lors du mode plein écran"
 
-#: src/preferences_dialog.c:337
+#: src/preferences_dialog.c:358
 msgid "Mouse cursor"
 msgstr "Curseur de la souris"
 
-#: src/preferences_dialog.c:340
+#: src/preferences_dialog.c:361
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr ""
+msgstr "Le curseur de la souris peut être automatiquement masqué après une certaine période d’inactivité lorsque la fenêtre est en plein écran."
 
-#: src/preferences_dialog.c:348
+#: src/preferences_dialog.c:369
 msgid "Period of inactivity (seconds):"
 msgstr "Période d’inactivité (secondes) :"
 
-#: src/preferences_dialog.c:367
+#: src/preferences_dialog.c:388
 msgid "Slideshow"
 msgstr "Diaporama"
 
-#: src/preferences_dialog.c:371
+#: src/preferences_dialog.c:392
 msgid "Timeout"
 msgstr "Durée"
 
-#: src/preferences_dialog.c:374
+#: src/preferences_dialog.c:395
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr ""
+msgstr "Durée d’affichage d’une image individuelle au cours d’un diaporama (en secondes)"
 
-#: src/preferences_dialog.c:390
+#: src/preferences_dialog.c:411
 msgid "Control"
 msgstr "Contrôles"
 
-#: src/preferences_dialog.c:394
+#: src/preferences_dialog.c:415
 msgid "Scroll wheel"
 msgstr "Molette de la souris"
 
-#: src/preferences_dialog.c:397
+#: src/preferences_dialog.c:418
 msgid "Invert zoom direction"
 msgstr "Inverser le sens du zoom"
 
-#: src/preferences_dialog.c:408
+#: src/preferences_dialog.c:429
 msgid "Behaviour"
 msgstr "Comportement"
 
-#: src/preferences_dialog.c:412
+#: src/preferences_dialog.c:433
 msgid "Startup"
 msgstr "Démarrage"
 
-#: src/preferences_dialog.c:414
+#: src/preferences_dialog.c:435
 msgid "Maximize window on startup when opening an image"
 msgstr "Agrandir la fenêtre à l’ouverture d’une image"
 
-#: src/preferences_dialog.c:420
+#: src/preferences_dialog.c:441
 msgid "Wrap around images"
 msgstr "Défilement en boucle des images"
 
-#: src/preferences_dialog.c:431
+#: src/preferences_dialog.c:452
 msgid "Desktop"
 msgstr "Bureau"
 
-#: src/preferences_dialog.c:436
+#: src/preferences_dialog.c:457
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Configurer quel système gère actuellement votre bureau. Ce paramètre détermine la méthode que <i>Ristretto</i> utilisera pour configurer le fond d’écran du bureau."
 
-#: src/preferences_dialog.c:540
+#: src/preferences_dialog.c:561
 msgid "Image Viewer Preferences"
 msgstr "Préférences du visionneur d’images"
 
