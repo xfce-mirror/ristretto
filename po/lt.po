@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-03-28 12:51+0100\n"
+"POT-Creation-Date: 2024-03-30 00:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Moo, 2023-2024\n"
 "Language-Team: Lithuanian (http://app.transifex.com/xfce/xfce-apps/language/lt/)\n"
@@ -127,7 +127,7 @@ msgid "Edit this image"
 msgstr "Redaguoti šį paveikslą"
 
 #. Icon-name
-#: src/main_window.c:351 src/preferences_dialog.c:212
+#: src/main_window.c:351 src/preferences_dialog.c:218
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "_Užverti"
@@ -534,15 +534,15 @@ msgid ""
 "to configure the desktop wallpaper."
 msgstr "Konfigūruoti kuri sistema tvarko jūsų darbalaukį.\nŠis nustatymas nustato būdą, kurį <i>Ristretto</i> naudos\ndarbalaukio fono konfigūravimui."
 
-#: src/main_window.c:2329 src/preferences_dialog.c:450
+#: src/main_window.c:2329 src/preferences_dialog.c:471
 msgid "None"
 msgstr "Nėra"
 
-#: src/main_window.c:2333 src/preferences_dialog.c:454
+#: src/main_window.c:2333 src/preferences_dialog.c:475
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2337 src/preferences_dialog.c:458
+#: src/main_window.c:2337 src/preferences_dialog.c:479
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -718,131 +718,141 @@ msgstr "_Taikyti"
 msgid "Clear private data"
 msgstr "Išvalyti privačiuosius duomenis"
 
-#: src/preferences_dialog.c:243
+#: src/preferences_dialog.c:250
 msgid "Display"
 msgstr "Ekranas"
 
-#: src/preferences_dialog.c:250
+#: src/preferences_dialog.c:257
 msgid "Background color"
 msgstr "Fono spalva"
 
-#: src/preferences_dialog.c:254
+#: src/preferences_dialog.c:261
 msgid "Override background color:"
 msgstr "Nustelbti fono spalvą:"
 
-#: src/preferences_dialog.c:282
+#: src/preferences_dialog.c:289
 msgid "Quality"
 msgstr "Kokybė"
 
-#: src/preferences_dialog.c:286
+#: src/preferences_dialog.c:293
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "Įjungus šį parametrą, didžiausia paveikslo kokybė bus ribojama iki ekrano dydžio."
 
-#: src/preferences_dialog.c:291
+#: src/preferences_dialog.c:298
 msgid "Limit rendering quality"
 msgstr "Riboti atvaizdavimo kokybę"
 
-#: src/preferences_dialog.c:303
+#: src/preferences_dialog.c:307
+msgid ""
+"Smooth the image using bilinear interpolation, thus prioritizing rendering "
+"quality over performance."
+msgstr "Glodinti paveikslus naudojant dvitiesę interpoliaciją, tokiu būdu teikiant pirmenybę atvaizdavimo kokybei, o ne našumui."
+
+#: src/preferences_dialog.c:312
+msgid "Enable smoothing"
+msgstr "Įjungti glodinimą"
+
+#: src/preferences_dialog.c:324
 msgid "Fullscreen"
 msgstr "Visas ekranas"
 
-#: src/preferences_dialog.c:307
+#: src/preferences_dialog.c:328
 msgid "Thumbnails"
 msgstr "Miniatiūros"
 
-#: src/preferences_dialog.c:310
+#: src/preferences_dialog.c:331
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "Kai langas visame ekrane, miniatiūrų juosta \ngali būti automatiškai paslėpta."
 
-#: src/preferences_dialog.c:315
+#: src/preferences_dialog.c:336
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Slėpti miniatiūrų juostą, viso ekrano veiksenoje"
 
-#: src/preferences_dialog.c:323
+#: src/preferences_dialog.c:344
 msgid "Clock"
 msgstr "Laikrodis"
 
-#: src/preferences_dialog.c:326
+#: src/preferences_dialog.c:347
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "Kai langas visame ekrane, rodyti analoginį laikrodį,\nkuris rodo dabartinį laiką."
 
-#: src/preferences_dialog.c:331
+#: src/preferences_dialog.c:352
 msgid "Show Fullscreen Clock"
 msgstr "Rodyti laikrodį visame ekrane"
 
-#: src/preferences_dialog.c:337
+#: src/preferences_dialog.c:358
 msgid "Mouse cursor"
 msgstr "Pelės žymeklis"
 
-#: src/preferences_dialog.c:340
+#: src/preferences_dialog.c:361
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
 msgstr "Kai langas yra visame ekrane, pelės žymeklis po tam tikro laiko tarpo gali būti automatiškai paslepiamas."
 
-#: src/preferences_dialog.c:348
+#: src/preferences_dialog.c:369
 msgid "Period of inactivity (seconds):"
 msgstr "Neveiklumo laikas (sekundėmis):"
 
-#: src/preferences_dialog.c:367
+#: src/preferences_dialog.c:388
 msgid "Slideshow"
 msgstr "Skaidrių rodymas"
 
-#: src/preferences_dialog.c:371
+#: src/preferences_dialog.c:392
 msgid "Timeout"
 msgstr "Laiko limitas"
 
-#: src/preferences_dialog.c:374
+#: src/preferences_dialog.c:395
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
 msgstr "Laiko intervalas kurį, skaidrių rodyme bus rodomas kiekvienas paveikslas (sekundėmis)"
 
-#: src/preferences_dialog.c:390
+#: src/preferences_dialog.c:411
 msgid "Control"
 msgstr "Valdymas"
 
-#: src/preferences_dialog.c:394
+#: src/preferences_dialog.c:415
 msgid "Scroll wheel"
 msgstr "Slinkties ratukas"
 
-#: src/preferences_dialog.c:397
+#: src/preferences_dialog.c:418
 msgid "Invert zoom direction"
 msgstr "Invertuoti mastelio kryptį"
 
-#: src/preferences_dialog.c:408
+#: src/preferences_dialog.c:429
 msgid "Behaviour"
 msgstr "Elgsena"
 
-#: src/preferences_dialog.c:412
+#: src/preferences_dialog.c:433
 msgid "Startup"
 msgstr "Paleidimas"
 
-#: src/preferences_dialog.c:414
+#: src/preferences_dialog.c:435
 msgid "Maximize window on startup when opening an image"
 msgstr "Paleidus programą, kuomet atveriamas paveikslas, išskleisti langą"
 
-#: src/preferences_dialog.c:420
+#: src/preferences_dialog.c:441
 msgid "Wrap around images"
 msgstr "Paveikslų dydį pritaikyti prie lango dydžio"
 
-#: src/preferences_dialog.c:431
+#: src/preferences_dialog.c:452
 msgid "Desktop"
 msgstr "Darbalaukis"
 
-#: src/preferences_dialog.c:436
+#: src/preferences_dialog.c:457
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
 msgstr "Konfigūruoti, kuri sistema tvarko jūsų darbalaukį. Šis nustatymas nustato būdą, kurį <i>Ristretto</i> naudos darbalaukio fono konfigūravimui."
 
-#: src/preferences_dialog.c:540
+#: src/preferences_dialog.c:561
 msgid "Image Viewer Preferences"
 msgstr "Paveikslų žiūryklės nuostatos"
 
