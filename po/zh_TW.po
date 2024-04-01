@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-03-28 12:51+0100\n"
+"POT-Creation-Date: 2024-03-30 00:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>, 2019,2021,2023-2024\n"
 "Language-Team: Chinese (Taiwan) (http://app.transifex.com/xfce/xfce-apps/language/zh_TW/)\n"
@@ -129,7 +129,7 @@ msgid "Edit this image"
 msgstr "編輯此影像"
 
 #. Icon-name
-#: src/main_window.c:351 src/preferences_dialog.c:212
+#: src/main_window.c:351 src/preferences_dialog.c:218
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "關閉(_C)"
@@ -536,15 +536,15 @@ msgid ""
 "to configure the desktop wallpaper."
 msgstr "設定目前管理您桌面的系統為何。\n這個設定值決定 <i>Ristretto</i> 用來\n設定桌布的方法。"
 
-#: src/main_window.c:2329 src/preferences_dialog.c:450
+#: src/main_window.c:2329 src/preferences_dialog.c:471
 msgid "None"
 msgstr "無"
 
-#: src/main_window.c:2333 src/preferences_dialog.c:454
+#: src/main_window.c:2333 src/preferences_dialog.c:475
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2337 src/preferences_dialog.c:458
+#: src/main_window.c:2337 src/preferences_dialog.c:479
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -720,131 +720,141 @@ msgstr "套用(_A)"
 msgid "Clear private data"
 msgstr "清除隱私資料"
 
-#: src/preferences_dialog.c:243
+#: src/preferences_dialog.c:250
 msgid "Display"
 msgstr "顯示"
 
-#: src/preferences_dialog.c:250
+#: src/preferences_dialog.c:257
 msgid "Background color"
 msgstr "背景色彩"
 
-#: src/preferences_dialog.c:254
+#: src/preferences_dialog.c:261
 msgid "Override background color:"
 msgstr "凌駕背景色彩："
 
-#: src/preferences_dialog.c:282
+#: src/preferences_dialog.c:289
 msgid "Quality"
 msgstr "品質"
 
-#: src/preferences_dialog.c:286
+#: src/preferences_dialog.c:293
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "若啟用此選項，最大的影像品質會限制成螢幕大小。"
 
-#: src/preferences_dialog.c:291
+#: src/preferences_dialog.c:298
 msgid "Limit rendering quality"
 msgstr "限制繪製品質"
 
-#: src/preferences_dialog.c:303
+#: src/preferences_dialog.c:307
+msgid ""
+"Smooth the image using bilinear interpolation, thus prioritizing rendering "
+"quality over performance."
+msgstr "使用雙線性內插來平滑化影像，從而優先考慮繪製品質而非效能。"
+
+#: src/preferences_dialog.c:312
+msgid "Enable smoothing"
+msgstr "啟用平滑化"
+
+#: src/preferences_dialog.c:324
 msgid "Fullscreen"
 msgstr "全螢幕"
 
-#: src/preferences_dialog.c:307
+#: src/preferences_dialog.c:328
 msgid "Thumbnails"
 msgstr "縮圖"
 
-#: src/preferences_dialog.c:310
+#: src/preferences_dialog.c:331
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "當視窗全螢幕時縮圖列可以自動隱藏。"
 
-#: src/preferences_dialog.c:315
+#: src/preferences_dialog.c:336
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "全螢幕時隱藏縮圖列"
 
-#: src/preferences_dialog.c:323
+#: src/preferences_dialog.c:344
 msgid "Clock"
 msgstr "時鐘"
 
-#: src/preferences_dialog.c:326
+#: src/preferences_dialog.c:347
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "當視窗全螢幕時顯示目前時間的類比式時鐘。"
 
-#: src/preferences_dialog.c:331
+#: src/preferences_dialog.c:352
 msgid "Show Fullscreen Clock"
 msgstr "顯示全螢幕時鐘"
 
-#: src/preferences_dialog.c:337
+#: src/preferences_dialog.c:358
 msgid "Mouse cursor"
 msgstr "滑鼠游標"
 
-#: src/preferences_dialog.c:340
+#: src/preferences_dialog.c:361
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
 msgstr "在全螢幕模式，當滑鼠在一段時間不活動之後，游標會自動隱藏。"
 
-#: src/preferences_dialog.c:348
+#: src/preferences_dialog.c:369
 msgid "Period of inactivity (seconds):"
 msgstr "不活動時間 (秒)："
 
-#: src/preferences_dialog.c:367
+#: src/preferences_dialog.c:388
 msgid "Slideshow"
 msgstr "投影片秀"
 
-#: src/preferences_dialog.c:371
+#: src/preferences_dialog.c:392
 msgid "Timeout"
 msgstr "超出時限"
 
-#: src/preferences_dialog.c:374
+#: src/preferences_dialog.c:395
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
 msgstr "投影片秀中各個影像顯示的時間（秒）"
 
-#: src/preferences_dialog.c:390
+#: src/preferences_dialog.c:411
 msgid "Control"
 msgstr "控制"
 
-#: src/preferences_dialog.c:394
+#: src/preferences_dialog.c:415
 msgid "Scroll wheel"
 msgstr "滑鼠滾輪"
 
-#: src/preferences_dialog.c:397
+#: src/preferences_dialog.c:418
 msgid "Invert zoom direction"
 msgstr "反轉遠近方向"
 
-#: src/preferences_dialog.c:408
+#: src/preferences_dialog.c:429
 msgid "Behaviour"
 msgstr "行為"
 
-#: src/preferences_dialog.c:412
+#: src/preferences_dialog.c:433
 msgid "Startup"
 msgstr "初始啟動"
 
-#: src/preferences_dialog.c:414
+#: src/preferences_dialog.c:435
 msgid "Maximize window on startup when opening an image"
 msgstr "開啟影像時，初始啟動便將視窗最大化"
 
-#: src/preferences_dialog.c:420
+#: src/preferences_dialog.c:441
 msgid "Wrap around images"
 msgstr "包圍影像"
 
-#: src/preferences_dialog.c:431
+#: src/preferences_dialog.c:452
 msgid "Desktop"
 msgstr "桌面"
 
-#: src/preferences_dialog.c:436
+#: src/preferences_dialog.c:457
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
 msgstr "設定目前管理您桌面的系統為何。這個設定值決定 <i>Ristretto</i> 用來設定桌布的方法。"
 
-#: src/preferences_dialog.c:540
+#: src/preferences_dialog.c:561
 msgid "Image Viewer Preferences"
 msgstr "影像檢視器偏好設定"
 
