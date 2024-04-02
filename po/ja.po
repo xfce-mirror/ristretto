@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, 2016-2017,2019,2021,2023-2024
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021,2023
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021,2023-2024
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2024-03-30 00:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, 2016-2017,2019,2021,2023-2024\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021,2023-2024\n"
 "Language-Team: Japanese (http://app.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -792,7 +792,7 @@ msgstr "マウスカーソル"
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr ""
+msgstr "ウィンドウが全画面表示の場合、一定時間操作がないと、マウスカーソルを自動的に非表示にできます。"
 
 #: src/preferences_dialog.c:369
 msgid "Period of inactivity (seconds):"
@@ -810,7 +810,7 @@ msgstr "タイムアウト"
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr ""
+msgstr "スライドショー時の個々の画像の表示時間（秒）"
 
 #: src/preferences_dialog.c:411
 msgid "Control"
@@ -849,7 +849,7 @@ msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "現在デスクトップを管理しているシステムを設定します。この設定は、<i>Ristretto</i> がデスクトップの壁紙を設定するための方法を決定します。"
 
 #: src/preferences_dialog.c:561
 msgid "Image Viewer Preferences"
