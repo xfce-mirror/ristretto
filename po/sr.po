@@ -810,7 +810,7 @@ msgstr "Време истека"
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr ""
+msgstr "Време приказа појединачне слике приликом покретних слика (у секундама)"
 
 #: src/preferences_dialog.c:411
 msgid "Control"
@@ -849,7 +849,7 @@ msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Подесите који склоп тренутно управља радном површином.Ова поставка одређује који начин ће <i>Ристрето</i> користити за поставку позадине радне површи."
 
 #: src/preferences_dialog.c:561
 msgid "Image Viewer Preferences"
