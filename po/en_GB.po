@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-03-28 12:51+0100\n"
+"POT-Creation-Date: 2024-03-30 00:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>, 2023-2024\n"
 "Language-Team: English (United Kingdom) (http://app.transifex.com/xfce/xfce-apps/language/en_GB/)\n"
@@ -126,7 +126,7 @@ msgid "Edit this image"
 msgstr "Edit this image"
 
 #. Icon-name
-#: src/main_window.c:351 src/preferences_dialog.c:212
+#: src/main_window.c:351 src/preferences_dialog.c:218
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "_Close"
@@ -533,15 +533,15 @@ msgid ""
 "to configure the desktop wallpaper."
 msgstr "Configure which system is currently managing your desktop.\nThis setting determines the method <i>Ristretto</i> will use\nto configure the desktop wallpaper."
 
-#: src/main_window.c:2329 src/preferences_dialog.c:450
+#: src/main_window.c:2329 src/preferences_dialog.c:471
 msgid "None"
 msgstr "None"
 
-#: src/main_window.c:2333 src/preferences_dialog.c:454
+#: src/main_window.c:2333 src/preferences_dialog.c:475
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2337 src/preferences_dialog.c:458
+#: src/main_window.c:2337 src/preferences_dialog.c:479
 msgid "GNOME"
 msgstr "GNOME"
 
@@ -717,131 +717,141 @@ msgstr "_Apply"
 msgid "Clear private data"
 msgstr "Clear private data"
 
-#: src/preferences_dialog.c:243
+#: src/preferences_dialog.c:250
 msgid "Display"
 msgstr "Display"
 
-#: src/preferences_dialog.c:250
+#: src/preferences_dialog.c:257
 msgid "Background color"
 msgstr "Background colour"
 
-#: src/preferences_dialog.c:254
+#: src/preferences_dialog.c:261
 msgid "Override background color:"
 msgstr "Override background colour:"
 
-#: src/preferences_dialog.c:282
+#: src/preferences_dialog.c:289
 msgid "Quality"
 msgstr "Quality"
 
-#: src/preferences_dialog.c:286
+#: src/preferences_dialog.c:293
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "With this option enabled, the maximum image-quality will be limited to the screen-size."
 
-#: src/preferences_dialog.c:291
+#: src/preferences_dialog.c:298
 msgid "Limit rendering quality"
 msgstr "Limit rendering quality"
 
-#: src/preferences_dialog.c:303
+#: src/preferences_dialog.c:307
+msgid ""
+"Smooth the image using bilinear interpolation, thus prioritizing rendering "
+"quality over performance."
+msgstr "Smooth the image using bilinear interpolation, thus prioritising rendering quality over performance."
+
+#: src/preferences_dialog.c:312
+msgid "Enable smoothing"
+msgstr "Enable smoothing"
+
+#: src/preferences_dialog.c:324
 msgid "Fullscreen"
 msgstr "Fullscreen"
 
-#: src/preferences_dialog.c:307
+#: src/preferences_dialog.c:328
 msgid "Thumbnails"
 msgstr "Thumbnails"
 
-#: src/preferences_dialog.c:310
+#: src/preferences_dialog.c:331
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "The thumbnailbar can be automatically hidden \nwhen the image-viewer is fullscreen."
 
-#: src/preferences_dialog.c:315
+#: src/preferences_dialog.c:336
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Hide thumbnail bar when fullscreen"
 
-#: src/preferences_dialog.c:323
+#: src/preferences_dialog.c:344
 msgid "Clock"
 msgstr "Clock"
 
-#: src/preferences_dialog.c:326
+#: src/preferences_dialog.c:347
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "The thumbnailbar can be automatically hidden \nwhen the image-viewer is fullscreen."
 
-#: src/preferences_dialog.c:331
+#: src/preferences_dialog.c:352
 msgid "Show Fullscreen Clock"
 msgstr "Show Fullscreen Clock"
 
-#: src/preferences_dialog.c:337
+#: src/preferences_dialog.c:358
 msgid "Mouse cursor"
 msgstr "Mouse cursor"
 
-#: src/preferences_dialog.c:340
+#: src/preferences_dialog.c:361
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr ""
+msgstr "The mouse cursor can be automatically hidden after a certain period of inactivity when the window is fullscreen."
 
-#: src/preferences_dialog.c:348
+#: src/preferences_dialog.c:369
 msgid "Period of inactivity (seconds):"
 msgstr "Period of inactivity (seconds):"
 
-#: src/preferences_dialog.c:367
+#: src/preferences_dialog.c:388
 msgid "Slideshow"
 msgstr "Slideshow"
 
-#: src/preferences_dialog.c:371
+#: src/preferences_dialog.c:392
 msgid "Timeout"
 msgstr "Timeout"
 
-#: src/preferences_dialog.c:374
+#: src/preferences_dialog.c:395
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr ""
+msgstr "The time period an individual image is displayed during a slideshow (in seconds)"
 
-#: src/preferences_dialog.c:390
+#: src/preferences_dialog.c:411
 msgid "Control"
 msgstr "Control"
 
-#: src/preferences_dialog.c:394
+#: src/preferences_dialog.c:415
 msgid "Scroll wheel"
 msgstr "Scroll wheel"
 
-#: src/preferences_dialog.c:397
+#: src/preferences_dialog.c:418
 msgid "Invert zoom direction"
 msgstr "Invert zoom direction"
 
-#: src/preferences_dialog.c:408
+#: src/preferences_dialog.c:429
 msgid "Behaviour"
 msgstr "Behaviour"
 
-#: src/preferences_dialog.c:412
+#: src/preferences_dialog.c:433
 msgid "Startup"
 msgstr "Startup"
 
-#: src/preferences_dialog.c:414
+#: src/preferences_dialog.c:435
 msgid "Maximize window on startup when opening an image"
 msgstr "Maximise window on startup when opening an image"
 
-#: src/preferences_dialog.c:420
+#: src/preferences_dialog.c:441
 msgid "Wrap around images"
 msgstr "Wrap around images"
 
-#: src/preferences_dialog.c:431
+#: src/preferences_dialog.c:452
 msgid "Desktop"
 msgstr "Desktop"
 
-#: src/preferences_dialog.c:436
+#: src/preferences_dialog.c:457
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Configure which system is currently managing your desktop. This setting determines the method <i>Ristretto</i> will use to configure the desktop wallpaper."
 
-#: src/preferences_dialog.c:540
+#: src/preferences_dialog.c:561
 msgid "Image Viewer Preferences"
 msgstr "Image Viewer Preferences"
 
