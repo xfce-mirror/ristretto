@@ -19,8 +19,8 @@
 
 #include "util.h"
 #include "thumbnailer.h"
-#include "tumbler.h"
 #include "main_window.h"
+#include "tumbler.h"
 
 #include <glib/gi18n.h>
 
@@ -80,17 +80,17 @@ rstto_thumbnailer_queue_request_timer_destroy (gpointer user_data);
 
 struct _RsttoThumbnailerPrivate
 {
-    GDBusConnection     *connection;
+    GDBusConnection *connection;
     TumblerThumbnailer1 *proxy;
-    RsttoSettings       *settings;
+    RsttoSettings *settings;
 
-    GSList              *remove_queue,
-                        *queues[RSTTO_THUMBNAIL_FLAVOR_COUNT],
-                        *in_process_queues[RSTTO_THUMBNAIL_FLAVOR_COUNT],
-                        *handles[RSTTO_THUMBNAIL_FLAVOR_COUNT];
-    guint                request_timer_ids[RSTTO_THUMBNAIL_FLAVOR_COUNT];
+    GSList *remove_queue,
+        *queues[RSTTO_THUMBNAIL_FLAVOR_COUNT],
+        *in_process_queues[RSTTO_THUMBNAIL_FLAVOR_COUNT],
+        *handles[RSTTO_THUMBNAIL_FLAVOR_COUNT];
+    guint request_timer_ids[RSTTO_THUMBNAIL_FLAVOR_COUNT];
 
-    gboolean             show_missing_thumbnailer_error;
+    gboolean show_missing_thumbnailer_error;
 };
 
 
@@ -116,20 +116,19 @@ rstto_thumbnailer_init (RsttoThumbnailer *thumbnailer)
         thumbnailer->priv->request_timer_ids[n] = 0;
     }
 
-    thumbnailer->priv->show_missing_thumbnailer_error =
-            rstto_settings_get_boolean_property (
-                    thumbnailer->priv->settings,
-                    "show-error-missing-thumbnailer");
+    thumbnailer->priv->show_missing_thumbnailer_error = rstto_settings_get_boolean_property (
+        thumbnailer->priv->settings,
+        "show-error-missing-thumbnailer");
 
     if (thumbnailer->priv->connection)
     {
         thumbnailer->priv->proxy = tumbler_thumbnailer1_proxy_new_sync (
-                thumbnailer->priv->connection,
-                G_DBUS_PROXY_FLAGS_NONE,
-                TUMBLER_SERVICE_NAME_PREFIX ".Thumbnailer1",
-                TUMBLER_SERVICE_PATH_PREFIX "/Thumbnailer1",
-                NULL,
-                &error);
+            thumbnailer->priv->connection,
+            G_DBUS_PROXY_FLAGS_NONE,
+            TUMBLER_SERVICE_NAME_PREFIX ".Thumbnailer1",
+            TUMBLER_SERVICE_PATH_PREFIX "/Thumbnailer1",
+            NULL,
+            &error);
 
         if (thumbnailer->priv->proxy != NULL)
         {
@@ -157,28 +156,20 @@ rstto_thumbnailer_class_init (RsttoThumbnailerClass *klass)
 
     object_class->finalize = rstto_thumbnailer_finalize;
 
-    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY] = g_signal_new ("ready",
-            G_TYPE_FROM_CLASS (klass),
-            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-            0,
-            NULL,
-            NULL,
-            g_cclosure_marshal_VOID__OBJECT,
-            G_TYPE_NONE,
-            1,
-            G_TYPE_OBJECT,
-            NULL);
-    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_ERROR] = g_signal_new ("error",
-            G_TYPE_FROM_CLASS (klass),
-            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-            0,
-            NULL,
-            NULL,
-            g_cclosure_marshal_VOID__OBJECT,
-            G_TYPE_NONE,
-            1,
-            G_TYPE_OBJECT,
-            NULL);
+    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY]
+        = g_signal_new ("ready",
+                        G_TYPE_FROM_CLASS (klass),
+                        G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                        0, NULL, NULL,
+                        g_cclosure_marshal_VOID__OBJECT,
+                        G_TYPE_NONE, 1, G_TYPE_OBJECT);
+    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_ERROR]
+        = g_signal_new ("error",
+                        G_TYPE_FROM_CLASS (klass),
+                        G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                        0, NULL, NULL,
+                        g_cclosure_marshal_VOID__OBJECT,
+                        G_TYPE_NONE, 1, G_TYPE_OBJECT);
 }
 
 /**
@@ -257,16 +248,16 @@ rstto_thumbnailer_queue_file (RsttoThumbnailer *thumbnailer,
         rstto_file_set_thumbnail_state (last_visible->data, flavor,
                                         RSTTO_THUMBNAIL_STATE_UNPROCESSED);
         g_object_unref (last_visible->data);
-        thumbnailer->priv->queues[flavor] =
-            g_slist_delete_link (thumbnailer->priv->queues[flavor], last_visible);
+        thumbnailer->priv->queues[flavor]
+            = g_slist_delete_link (thumbnailer->priv->queues[flavor], last_visible);
     }
 
-    thumbnailer->priv->queues[flavor] =
-        g_slist_prepend (thumbnailer->priv->queues[flavor], g_object_ref (file));
-    thumbnailer->priv->request_timer_ids[flavor] =
-        g_timeout_add_full (G_PRIORITY_LOW, 300, rstto_thumbnailer_queue_request_timer,
-                            rstto_util_source_autoremove (thumbnailer),
-                            rstto_thumbnailer_queue_request_timer_destroy);
+    thumbnailer->priv->queues[flavor]
+        = g_slist_prepend (thumbnailer->priv->queues[flavor], g_object_ref (file));
+    thumbnailer->priv->request_timer_ids[flavor]
+        = g_timeout_add_full (G_PRIORITY_LOW, 300, rstto_thumbnailer_queue_request_timer,
+                              rstto_util_source_autoremove (thumbnailer),
+                              rstto_thumbnailer_queue_request_timer_destroy);
 }
 
 static RsttoThumbnailFlavor
@@ -314,10 +305,10 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     {
         /* directories are loaded without this costly filtering, so it is done
          * here only when required */
-        if (! rstto_file_is_valid (iter->data))
+        if (!rstto_file_is_valid (iter->data))
         {
-            thumbnailer->priv->remove_queue =
-                g_slist_prepend (thumbnailer->priv->remove_queue, iter->data);
+            thumbnailer->priv->remove_queue
+                = g_slist_prepend (thumbnailer->priv->remove_queue, iter->data);
             continue;
         }
 
@@ -354,11 +345,11 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
     thumbnailer->priv->in_process_queues[flavor] = g_slist_reverse (temp);
 
     if (thumbnailer->priv->proxy == NULL
-        || ! tumbler_thumbnailer1_call_queue_sync (thumbnailer->priv->proxy,
-                                                   (const gchar * const*) uris,
-                                                   (const gchar * const*) mimetypes,
-                                                   rstto_util_get_thumbnail_flavor_name (flavor),
-                                                   "default", 0, &handle, NULL, &error))
+        || !tumbler_thumbnailer1_call_queue_sync (thumbnailer->priv->proxy,
+                                                  (const gchar *const *) uris,
+                                                  (const gchar *const *) mimetypes,
+                                                  rstto_util_get_thumbnail_flavor_name (flavor),
+                                                  "default", 0, &handle, NULL, &error))
     {
         if (NULL != error)
         {
@@ -368,36 +359,29 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
                 && thumbnailer->priv->show_missing_thumbnailer_error)
             {
                 error_dialog = gtk_message_dialog_new_with_markup (
-                        GTK_WINDOW (rstto_main_window_get_app_window ()),
-                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                        GTK_MESSAGE_WARNING,
-                        GTK_BUTTONS_OK,
-                        _("The thumbnailer-service can not be reached,\n"
-                        "for this reason, the thumbnails can not be\n"
-                        "created.\n\n"
-                        "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
-                        "to resolve this issue."));
-                vbox = gtk_dialog_get_content_area (
-                        GTK_DIALOG (error_dialog));
+                    GTK_WINDOW (rstto_main_window_get_app_window ()),
+                    GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                    GTK_MESSAGE_WARNING,
+                    GTK_BUTTONS_OK,
+                    _("The thumbnailer-service can not be reached,\n"
+                      "for this reason, the thumbnails can not be\n"
+                      "created.\n\n"
+                      "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
+                      "to resolve this issue."));
+                vbox = gtk_dialog_get_content_area (GTK_DIALOG (error_dialog));
 
                 do_not_show_checkbox = gtk_check_button_new_with_mnemonic (
-                        _("Do _not show this message again"));
-                gtk_box_pack_end (
-                        GTK_BOX (vbox),
-                        do_not_show_checkbox,
-                        TRUE,
-                        FALSE,
-                        0);
+                    _("Do _not show this message again"));
+                gtk_box_pack_end (GTK_BOX (vbox), do_not_show_checkbox, TRUE, FALSE, 0);
                 gtk_widget_show (do_not_show_checkbox);
                 gtk_dialog_run (GTK_DIALOG (error_dialog));
 
                 thumbnailer->priv->show_missing_thumbnailer_error = FALSE;
                 if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (do_not_show_checkbox)))
                 {
-                    rstto_settings_set_boolean_property (
-                        thumbnailer->priv->settings,
-                        "show-error-missing-thumbnailer",
-                         FALSE);
+                    rstto_settings_set_boolean_property (thumbnailer->priv->settings,
+                                                         "show-error-missing-thumbnailer",
+                                                         FALSE);
                 }
                 gtk_widget_destroy (error_dialog);
             }
@@ -405,8 +389,8 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
         /* TOOO: Nice cleanup */
     }
     else
-        thumbnailer->priv->handles[flavor] =
-            g_slist_prepend (thumbnailer->priv->handles[flavor], GUINT_TO_POINTER (handle));
+        thumbnailer->priv->handles[flavor]
+            = g_slist_prepend (thumbnailer->priv->handles[flavor], GUINT_TO_POINTER (handle));
 
     g_free (uris);
     g_free (mimetypes);
@@ -469,8 +453,8 @@ cb_rstto_thumbnailer_thumbnail_ready (TumblerThumbnailer1 *proxy,
                            0, iter->data, NULL);
 
             g_object_unref (iter->data);
-            thumbnailer->priv->in_process_queues[flavor] =
-                g_slist_remove (thumbnailer->priv->in_process_queues[flavor], iter->data);
+            thumbnailer->priv->in_process_queues[flavor]
+                = g_slist_remove (thumbnailer->priv->in_process_queues[flavor], iter->data);
 
             iter = thumbnailer->priv->in_process_queues[flavor];
             n++;
@@ -524,8 +508,8 @@ cb_rstto_thumbnailer_thumbnail_error (TumblerThumbnailer1 *proxy,
             }
 
             g_object_unref (iter->data);
-            thumbnailer->priv->in_process_queues[flavor] =
-                g_slist_remove (thumbnailer->priv->in_process_queues[flavor], iter->data);
+            thumbnailer->priv->in_process_queues[flavor]
+                = g_slist_remove (thumbnailer->priv->in_process_queues[flavor], iter->data);
 
             iter = thumbnailer->priv->in_process_queues[flavor];
             n++;
