@@ -80,10 +80,10 @@ struct _RsttoPrivacyDialogPrivate
     GtkWidget *cleanup_timeframe_combo;
 
     GtkRecentManager *recent_manager;
-    GSList           *filters;
-    GtkRecentFilter  *timeframe_filter;
-    time_t            time_now;
-    time_t            time_offset;
+    GSList *filters;
+    GtkRecentFilter *timeframe_filter;
+    time_t time_now;
+    time_t time_offset;
 };
 
 
@@ -108,12 +108,8 @@ rstto_privacy_dialog_init (RsttoPrivacyDialog *dialog)
     dialog->priv->timeframe_filter = gtk_recent_filter_new ();
 
     /* Add recent-filter function to filter in access-time */
-    gtk_recent_filter_add_custom (
-            dialog->priv->timeframe_filter,
-            GTK_RECENT_FILTER_URI,
-            cb_rstto_recent_filter_filter_timeframe,
-            dialog,
-            NULL);
+    gtk_recent_filter_add_custom (dialog->priv->timeframe_filter, GTK_RECENT_FILTER_URI,
+                                  cb_rstto_recent_filter_filter_timeframe, dialog, NULL);
 
     display_main_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
     display_main_lbl = gtk_label_new (_("Time range to clear:"));
@@ -158,41 +154,35 @@ static void
 rstto_privacy_dialog_class_init (RsttoPrivacyDialogClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
-    GParamSpec   *pspec;
+    GParamSpec *pspec;
 
     object_class->finalize = rstto_privacy_dialog_finalize;
     object_class->set_property = rstto_privacy_dialog_set_property;
     object_class->get_property = rstto_privacy_dialog_get_property;
 
     pspec = g_param_spec_object ("filter",
-                                 "",
-                                 "",
+                                 "", "",
                                  GTK_TYPE_RECENT_FILTER,
                                  G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_FILTER,
                                      pspec);
     pspec = g_param_spec_object ("recent-manager",
-                                 "",
-                                 "",
+                                 "", "",
                                  GTK_TYPE_RECENT_MANAGER,
                                  G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_RECENT_MANAGER,
                                      pspec);
-    pspec = g_param_spec_int    ("limit",
-                                 "",
-                                 "",
-                                 -1,
-                                 100,
-                                 -1,
-                                 G_PARAM_READWRITE);
+    pspec = g_param_spec_int ("limit",
+                              "", "",
+                              -1, 100, -1,
+                              G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_LIMIT,
                                      pspec);
     pspec = g_param_spec_boolean ("local-only",
-                                  "",
-                                  "",
+                                  "", "",
                                   FALSE,
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
@@ -200,51 +190,45 @@ rstto_privacy_dialog_class_init (RsttoPrivacyDialogClass *klass)
                                      pspec);
 
     pspec = g_param_spec_boolean ("select-multiple",
-                                  "",
-                                  "",
+                                  "", "",
                                   FALSE,
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_SELECT_MULTIPLE,
                                      pspec);
     pspec = g_param_spec_boolean ("show-tips",
-                                  "",
-                                  "",
+                                  "", "",
                                   FALSE,
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_SHOW_TIPS,
                                      pspec);
     pspec = g_param_spec_boolean ("show-icons",
-                                  "",
-                                  "",
+                                  "", "",
                                   FALSE,
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_SHOW_ICONS,
                                      pspec);
     pspec = g_param_spec_boolean ("show-not-found",
-                                  "",
-                                  "",
+                                  "", "",
                                   FALSE,
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_SHOW_NOT_FOUND,
                                      pspec);
     pspec = g_param_spec_boolean ("show-private",
-                                  "",
-                                  "",
+                                  "", "",
                                   FALSE,
                                   G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_SHOW_PRIVATE,
                                      pspec);
-    pspec = g_param_spec_enum   ("sort-type",
-                                 "",
-                                 "",
-                                 GTK_TYPE_RECENT_SORT_TYPE,
-                                 GTK_RECENT_SORT_NONE,
-                                 G_PARAM_READWRITE);
+    pspec = g_param_spec_enum ("sort-type",
+                               "", "",
+                               GTK_TYPE_RECENT_SORT_TYPE,
+                               GTK_RECENT_SORT_NONE,
+                               G_PARAM_READWRITE);
     g_object_class_install_property (object_class,
                                      PROP_SORT_TYPE,
                                      pspec);
@@ -254,7 +238,7 @@ static void
 rstto_recent_chooser_init (GtkRecentChooserIface *iface)
 {
     iface->add_filter = rstto_recent_chooser_add_filter;
-    iface->get_items  = rstto_recent_chooser_get_items;
+    iface->get_items = rstto_recent_chooser_get_items;
 }
 
 static void
@@ -279,26 +263,25 @@ rstto_privacy_dialog_finalize (GObject *object)
 
 
 static void
-rstto_privacy_dialog_set_property (GObject      *object,
-                                   guint         property_id,
+rstto_privacy_dialog_set_property (GObject *object,
+                                   guint property_id,
                                    const GValue *value,
-                                   GParamSpec   *pspec)
+                                   GParamSpec *pspec)
 {
     RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (object);
 
     switch (property_id)
     {
         case PROP_RECENT_MANAGER:
-            dialog->priv->recent_manager =  g_value_get_object (value);
+            dialog->priv->recent_manager = g_value_get_object (value);
             break;
     }
-
 }
 
 static void
-rstto_privacy_dialog_get_property (GObject    *object,
-                                   guint       property_id,
-                                   GValue     *value,
+rstto_privacy_dialog_get_property (GObject *object,
+                                   guint property_id,
+                                   GValue *value,
                                    GParamSpec *pspec)
 {
 }
@@ -309,20 +292,17 @@ rstto_privacy_dialog_get_property (GObject    *object,
 /******************************************/
 
 static void
-rstto_recent_chooser_add_filter (
-        GtkRecentChooser  *chooser,
-        GtkRecentFilter   *filter)
+rstto_recent_chooser_add_filter (GtkRecentChooser *chooser,
+                                 GtkRecentFilter *filter)
 {
     RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (chooser);
 
     /* Add the filter to the list of available filters */
-    dialog->priv->filters =
-            g_slist_append (dialog->priv->filters, filter);
+    dialog->priv->filters = g_slist_append (dialog->priv->filters, filter);
 }
 
 static GList *
-rstto_recent_chooser_get_items (
-        GtkRecentChooser  *chooser)
+rstto_recent_chooser_get_items (GtkRecentChooser *chooser)
 {
     RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (chooser);
     GList *all_items = gtk_recent_manager_get_items (dialog->priv->recent_manager);
@@ -378,12 +358,12 @@ rstto_recent_chooser_get_items (
 
 
 
-
 /***************/
 /*  CALLBACKS  */
 /***************/
 static void
-cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *combobox, gpointer user_data)
+cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *combobox,
+                                                    gpointer user_data)
 {
     RsttoPrivacyDialog *dialog = user_data;
     struct tm *time_info;
@@ -403,9 +383,9 @@ cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *combobox, gpoin
             /* Convert to localtime */
             time_info = localtime (&(dialog->priv->time_now));
 
-            dialog->priv->time_offset = (time_info->tm_hour * 3600) +
-                                        (time_info->tm_min * 60) +
-                                        time_info->tm_sec;
+            dialog->priv->time_offset = (time_info->tm_hour * 3600)
+                                        + (time_info->tm_min * 60)
+                                        + time_info->tm_sec;
             break;
         case 4:
             dialog->priv->time_offset = dialog->priv->time_now;
@@ -414,9 +394,8 @@ cb_rstto_privacy_dialog_combobox_timeframe_changed (GtkComboBox *combobox, gpoin
 }
 
 gboolean
-cb_rstto_recent_filter_filter_timeframe (
-        const GtkRecentFilterInfo *filter_info,
-        gpointer user_data)
+cb_rstto_recent_filter_filter_timeframe (const GtkRecentFilterInfo *filter_info,
+                                         gpointer user_data)
 {
     RsttoPrivacyDialog *dialog = user_data;
     GtkRecentInfo *info = gtk_recent_manager_lookup_item (dialog->priv->recent_manager, filter_info->uri, NULL);
@@ -432,7 +411,8 @@ cb_rstto_recent_filter_filter_timeframe (
 /********************/
 
 GtkWidget *
-rstto_privacy_dialog_new (GtkWindow *parent, GtkRecentManager *recent_manager)
+rstto_privacy_dialog_new (GtkWindow *parent,
+                          GtkRecentManager *recent_manager)
 {
     GtkWidget *dialog = g_object_new (RSTTO_TYPE_PRIVACY_DIALOG,
                                       "title", _("Clear private data"),

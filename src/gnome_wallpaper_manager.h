@@ -39,7 +39,8 @@ struct _RsttoGnomeWallpaperManager
 
 
 
-RsttoWallpaperManager *rstto_gnome_wallpaper_manager_new (void);
+RsttoWallpaperManager *
+rstto_gnome_wallpaper_manager_new (void);
 
 G_END_DECLS
 

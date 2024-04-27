@@ -85,4 +85,3 @@ rstto_icon_bar_show_active (RsttoIconBar *icon_bar);
 G_END_DECLS
 
 #endif /* !__RSTTO_ICON_BAR_H__ */
-

@@ -18,8 +18,8 @@
  */
 
 #include "util.h"
-#include "file.h"
 #include "properties_dialog.h"
+#include "file.h"
 #include "thumbnailer.h"
 
 
@@ -127,14 +127,8 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
     grid = gtk_grid_new ();
     gtk_grid_set_column_spacing (GTK_GRID (grid), 4);
     gtk_grid_set_row_spacing (GTK_GRID (grid), 4);
-    gtk_box_pack_start (
-            GTK_BOX (name_hbox),
-            dialog->priv->image_thumbnail,
-            FALSE, TRUE, 3);
-    gtk_box_pack_end (
-            GTK_BOX (name_hbox),
-            name_label,
-            TRUE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (name_hbox), dialog->priv->image_thumbnail, FALSE, TRUE, 3);
+    gtk_box_pack_end (GTK_BOX (name_hbox), name_label, TRUE, TRUE, 0);
     gtk_label_set_markup (GTK_LABEL (name_label), _("<b>Name:</b>"));
     gtk_label_set_markup (GTK_LABEL (mime_label), _("<b>Kind:</b>"));
     gtk_label_set_markup (GTK_LABEL (modified_label), _("<b>Modified:</b>"));
@@ -152,16 +146,16 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
     gtk_label_set_xalign (GTK_LABEL (size_label), 1.0);
     gtk_label_set_yalign (GTK_LABEL (size_label), 0.5);
 
-    gtk_grid_attach (GTK_GRID (grid), name_hbox,                            0, 0, 1, 1);
-    gtk_grid_attach (GTK_GRID (grid), dialog->priv->name_entry,             1, 0, 1, 1);
-    gtk_grid_attach (GTK_GRID (grid), mime_label,                           0, 1, 1, 1);
-    gtk_grid_attach (GTK_GRID (grid), dialog->priv->mime_content_label,     1, 1, 1, 1);
-    gtk_grid_attach (GTK_GRID (grid), modified_label,                       0, 2, 1, 1);
+    gtk_grid_attach (GTK_GRID (grid), name_hbox, 0, 0, 1, 1);
+    gtk_grid_attach (GTK_GRID (grid), dialog->priv->name_entry, 1, 0, 1, 1);
+    gtk_grid_attach (GTK_GRID (grid), mime_label, 0, 1, 1, 1);
+    gtk_grid_attach (GTK_GRID (grid), dialog->priv->mime_content_label, 1, 1, 1, 1);
+    gtk_grid_attach (GTK_GRID (grid), modified_label, 0, 2, 1, 1);
     gtk_grid_attach (GTK_GRID (grid), dialog->priv->modified_content_label, 1, 2, 1, 1);
-    gtk_grid_attach (GTK_GRID (grid), accessed_label,                       0, 3, 1, 1);
+    gtk_grid_attach (GTK_GRID (grid), accessed_label, 0, 3, 1, 1);
     gtk_grid_attach (GTK_GRID (grid), dialog->priv->accessed_content_label, 1, 3, 1, 1);
-    gtk_grid_attach (GTK_GRID (grid), size_label,                           0, 4, 1, 1);
-    gtk_grid_attach (GTK_GRID (grid), dialog->priv->size_content_label,     1, 4, 1, 1);
+    gtk_grid_attach (GTK_GRID (grid), size_label, 0, 4, 1, 1);
+    gtk_grid_attach (GTK_GRID (grid), dialog->priv->size_content_label, 1, 4, 1, 1);
 
     general_label = gtk_label_new (_("General"));
     gtk_notebook_append_page (GTK_NOTEBOOK (dialog->priv->notebook), grid, general_label);
@@ -171,10 +165,9 @@ rstto_properties_dialog_init (RsttoPropertiesDialog *dialog)
     gtk_grid_set_row_spacing (GTK_GRID (dialog->priv->image_table), 4);
     dialog->priv->image_label = gtk_label_new (_("Image"));
 
-    gtk_notebook_append_page (
-            GTK_NOTEBOOK (dialog->priv->notebook),
-            dialog->priv->image_table,
-            dialog->priv->image_label);
+    gtk_notebook_append_page (GTK_NOTEBOOK (dialog->priv->notebook),
+                              dialog->priv->image_table,
+                              dialog->priv->image_label);
 
     gtk_box_pack_start (GTK_BOX (vbox), dialog->priv->notebook, TRUE, TRUE, 3);
 
@@ -199,8 +192,7 @@ rstto_properties_dialog_class_init (RsttoPropertiesDialogClass *klass)
     g_object_class_install_property (object_class,
                                      PROP_FILE,
                                      g_param_spec_object ("file",
-                                                          "",
-                                                          "",
+                                                          "", "",
                                                           RSTTO_TYPE_FILE,
                                                           G_PARAM_READWRITE));
 }
@@ -221,11 +213,10 @@ rstto_properties_dialog_finalize (GObject *object)
 
 
 static void
-rstto_properties_dialog_set_property (
-        GObject      *object,
-        guint         property_id,
-        const GValue *value,
-        GParamSpec   *pspec)
+rstto_properties_dialog_set_property (GObject *object,
+                                      guint property_id,
+                                      const GValue *value,
+                                      GParamSpec *pspec)
 {
     RsttoPropertiesDialog *dialog = RSTTO_PROPERTIES_DIALOG (object);
 
@@ -237,23 +228,20 @@ rstto_properties_dialog_set_property (
         default:
             break;
     }
-
 }
 
 static void
-rstto_properties_dialog_get_property (
-        GObject    *object,
-        guint       property_id,
-        GValue     *value,
-        GParamSpec *pspec)
+rstto_properties_dialog_get_property (GObject *object,
+                                      guint property_id,
+                                      GValue *value,
+                                      GParamSpec *pspec)
 {
 }
 
 static gboolean
-properties_dialog_set_icon (
-        RsttoThumbnailer *thumbnailer,
-        RsttoFile *file,
-        RsttoPropertiesDialog *dialog)
+properties_dialog_set_icon (RsttoThumbnailer *thumbnailer,
+                            RsttoFile *file,
+                            RsttoPropertiesDialog *dialog)
 {
     const GdkPixbuf *pixbuf;
 
@@ -275,37 +263,36 @@ properties_dialog_set_icon (
 }
 
 static void
-properties_dialog_set_file (
-        RsttoPropertiesDialog *dialog,
-        RsttoFile *file)
+properties_dialog_set_file (RsttoPropertiesDialog *dialog,
+                            RsttoFile *file)
 {
-    gchar  *description;
-    time_t  mtime;
-    time_t  atime;
-    gchar   buf[20];
+    gchar *description;
+    time_t mtime;
+    time_t atime;
+    gchar buf[20];
     guint64 size;
 
-    ExifEntry   *exif_entry = NULL;
-    ExifIfd      exif_ifd;
+    ExifEntry *exif_entry = NULL;
+    ExifIfd exif_ifd;
     const gchar *exif_title = NULL;
-    gchar        exif_data[EXIF_DATA_BUFFER_SIZE];
+    gchar exif_data[EXIF_DATA_BUFFER_SIZE];
 
-    gchar       *label_string;
-    GtkWidget   *exif_label;
-    GtkWidget   *exif_content_label;
+    gchar *label_string;
+    GtkWidget *exif_label;
+    GtkWidget *exif_content_label;
     gint i;
 
     GList *children = NULL;
     GList *child_iter = NULL;
 
-    GFile  *g_file;
+    GFile *g_file;
     GFileInfo *file_info = NULL;
 
     dialog->priv->file = file;
 
     if (dialog->priv->file)
     {
-        if (! properties_dialog_set_icon (NULL, file, dialog))
+        if (!properties_dialog_set_icon (NULL, file, dialog))
         {
             RsttoThumbnailer *thumbnailer = rstto_thumbnailer_new ();
             g_signal_connect_object (thumbnailer, "ready",
@@ -315,62 +302,35 @@ properties_dialog_set_file (
 
         g_file = rstto_file_get_file (file);
         file_info = g_file_query_info (
-                g_file,
-                "standard::content-type,standard::size,time::modified,time::access",
-                0,
-                NULL,
-                NULL);
+            g_file,
+            "standard::content-type,standard::size,time::modified,time::access",
+            0, NULL, NULL);
         description = g_content_type_get_description (
             g_file_info_get_attribute_string (file_info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE));
         mtime = g_file_info_get_attribute_uint64 (file_info, "time::modified");
         atime = g_file_info_get_attribute_uint64 (file_info, "time::access");
         size = g_file_info_get_attribute_uint64 (file_info, "standard::size");
-        strftime (
-                buf,
-                20,
-                "%Y/%m/%d",
-                localtime (&mtime));
-        gtk_label_set_text (
-                GTK_LABEL (dialog->priv->modified_content_label),
-                buf);
-        strftime (
-                buf,
-                20,
-                "%Y/%m/%d",
-                localtime (&atime));
-        gtk_label_set_text (
-                GTK_LABEL (dialog->priv->accessed_content_label),
-                buf);
+        strftime (buf, 20, "%Y/%m/%d", localtime (&mtime));
+        gtk_label_set_text (GTK_LABEL (dialog->priv->modified_content_label), buf);
+        strftime (buf, 20, "%Y/%m/%d", localtime (&atime));
+        gtk_label_set_text (GTK_LABEL (dialog->priv->accessed_content_label), buf);
 
-        g_snprintf (
-                buf,
-                20,
-                "%"G_GUINT64_FORMAT" bytes",
-                size);
-        gtk_label_set_text (
-                GTK_LABEL (dialog->priv->size_content_label),
-                buf);
+        g_snprintf (buf, 20, "%" G_GUINT64_FORMAT " bytes", size);
+        gtk_label_set_text (GTK_LABEL (dialog->priv->size_content_label), buf);
 
-        gtk_label_set_text (
-                GTK_LABEL (dialog->priv->mime_content_label),
-                description);
-        gtk_entry_set_text (
-                GTK_ENTRY (dialog->priv->name_entry),
-                rstto_file_get_display_name (file));
+        gtk_label_set_text (GTK_LABEL (dialog->priv->mime_content_label), description);
+        gtk_entry_set_text (GTK_ENTRY (dialog->priv->name_entry), rstto_file_get_display_name (file));
         g_free (description);
 
         /* Show or hide the image tab containing exif data */
         if (rstto_file_has_exif (file))
         {
-            children = gtk_container_get_children (
-                    GTK_CONTAINER (dialog->priv->image_table));
+            children = gtk_container_get_children (GTK_CONTAINER (dialog->priv->image_table));
             child_iter = children;
 
             while (NULL != child_iter)
             {
-                gtk_container_remove (
-                        GTK_CONTAINER (dialog->priv->image_table),
-                        child_iter->data);
+                gtk_container_remove (GTK_CONTAINER (dialog->priv->image_table), child_iter->data);
                 child_iter = g_list_next (child_iter);
             }
             if (NULL != children)
@@ -397,9 +357,7 @@ properties_dialog_set_file (
                         {
                             exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
                             exif_ifd = exif_entry_get_ifd (exif_entry);
-                            exif_title = exif_tag_get_title_in_ifd (
-                                    EXIF_TAG_MODEL,
-                                    exif_ifd);
+                            exif_title = exif_tag_get_title_in_ifd (EXIF_TAG_MODEL, exif_ifd);
                             label_string = g_strdup_printf (_("<b>%s</b>"), exif_title);
                         }
                         break;
@@ -409,9 +367,7 @@ properties_dialog_set_file (
                         {
                             exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
                             exif_ifd = exif_entry_get_ifd (exif_entry);
-                            exif_title = exif_tag_get_title_in_ifd (
-                                    EXIF_TAG_MAKE,
-                                    exif_ifd);
+                            exif_title = exif_tag_get_title_in_ifd (EXIF_TAG_MAKE, exif_ifd);
                             label_string = g_strdup_printf (_("<b>%s</b>"), exif_title);
                         }
                         break;
@@ -421,9 +377,7 @@ properties_dialog_set_file (
                         {
                             exif_entry_get_value (exif_entry, exif_data, EXIF_DATA_BUFFER_SIZE);
                             exif_ifd = exif_entry_get_ifd (exif_entry);
-                            exif_title = exif_tag_get_title_in_ifd (
-                                    EXIF_TAG_APERTURE_VALUE,
-                                    exif_ifd);
+                            exif_title = exif_tag_get_title_in_ifd (EXIF_TAG_APERTURE_VALUE, exif_ifd);
                             label_string = g_strdup_printf (_("<b>%s</b>"), exif_title);
                         }
                         break;
@@ -432,38 +386,18 @@ properties_dialog_set_file (
                 }
                 exif_label = gtk_label_new (NULL);
                 exif_content_label = gtk_label_new (NULL);
-                gtk_label_set_markup (
-                        GTK_LABEL (exif_label),
-                        label_string);
-                gtk_label_set_xalign (
-                        GTK_LABEL (exif_label),
-                        1.0);
-                gtk_label_set_yalign (
-                        GTK_LABEL (exif_label),
-                        0.5);
-                gtk_label_set_text (
-                        GTK_LABEL (exif_content_label),
-                        exif_data);
+                gtk_label_set_markup (GTK_LABEL (exif_label), label_string);
+                gtk_label_set_xalign (GTK_LABEL (exif_label), 1.0);
+                gtk_label_set_yalign (GTK_LABEL (exif_label), 0.5);
+                gtk_label_set_text (GTK_LABEL (exif_content_label), exif_data);
 
-                gtk_grid_attach (
-                        GTK_GRID (dialog->priv->image_table),
-                        exif_label,
-                        0,
-                        i,
-                        1,
-                        1);
-                gtk_grid_attach (
-                        GTK_GRID (dialog->priv->image_table),
-                        exif_content_label,
-                        1,
-                        i,
-                        1,
-                        1);
+                gtk_grid_attach (GTK_GRID (dialog->priv->image_table), exif_label, 0, i, 1, 1);
+                gtk_grid_attach (GTK_GRID (dialog->priv->image_table), exif_content_label, 1, i, 1, 1);
                 if (NULL != label_string)
                 {
                     g_free (label_string);
                 }
-           }
+            }
 
             gtk_widget_show_all (dialog->priv->image_table);
         }
@@ -479,9 +413,8 @@ properties_dialog_set_file (
 /********************/
 
 GtkWidget *
-rstto_properties_dialog_new (
-        GtkWindow *parent,
-        RsttoFile *file)
+rstto_properties_dialog_new (GtkWindow *parent,
+                             RsttoFile *file)
 {
     gchar *title = g_strdup_printf (_("%s - Properties"), rstto_file_get_display_name (file));
     GtkWidget *dialog = g_object_new (RSTTO_TYPE_PROPERTIES_DIALOG,
@@ -495,4 +428,3 @@ rstto_properties_dialog_new (
 
     return dialog;
 }
-

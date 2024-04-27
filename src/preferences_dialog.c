@@ -137,7 +137,6 @@ struct _RsttoPreferencesDialogPrivate
         GtkWidget *open_entire_folder_check_button;
         GtkWidget *wrap_images_check_button;
     } behaviour_tab;
-
 };
 
 
@@ -189,19 +188,19 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
 {
     /* Variable Section */
 
-    gboolean   bool_invert_zoom_direction;
-    gboolean   bool_bgcolor_override;
-    guint      uint_slideshow_timeout;
-    gboolean   bool_hide_thumbnails_fullscreen;
-    guint      uint_hide_mouse_cursor_fullscreen_timeout;
-    gboolean   bool_wrap_images;
-    gboolean   bool_maximize_on_startup;
-    gboolean   bool_show_clock;
-    gboolean   bool_limit_quality;
-    gboolean   bool_enable_smoothing;
-    gchar     *str_desktop_type = NULL;
+    gboolean bool_invert_zoom_direction;
+    gboolean bool_bgcolor_override;
+    guint uint_slideshow_timeout;
+    gboolean bool_hide_thumbnails_fullscreen;
+    guint uint_hide_mouse_cursor_fullscreen_timeout;
+    gboolean bool_wrap_images;
+    gboolean bool_maximize_on_startup;
+    gboolean bool_show_clock;
+    gboolean bool_limit_quality;
+    gboolean bool_enable_smoothing;
+    gchar *str_desktop_type = NULL;
 
-    GdkRGBA   *bgcolor;
+    GdkRGBA *bgcolor;
     GtkWidget *timeout_lbl, *timeout_hscale;
     GtkWidget *display_main_vbox;
     GtkWidget *display_main_lbl;
@@ -216,7 +215,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     GtkWidget *behaviour_desktop_lbl;
     GtkWidget *notebook = gtk_notebook_new ();
     GtkWidget *button = xfce_gtk_button_new_mixed ("window-close", _("_Close"));
-    gint       n_pages, i;
+    gint n_pages, i;
 
     /* Code Section */
 
@@ -227,21 +226,20 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     /*
      * Get all properties from the ristretto settings container
      */
-    g_object_get (
-            dialog->priv->settings,
-            "invert-zoom-direction", &bool_invert_zoom_direction,
-            "bgcolor-override", &bool_bgcolor_override,
-            "bgcolor", &bgcolor,
-            "slideshow-timeout", &uint_slideshow_timeout,
-            "hide-thumbnails-fullscreen", &bool_hide_thumbnails_fullscreen,
-            "hide-mouse-cursor-fullscreen-timeout", &uint_hide_mouse_cursor_fullscreen_timeout,
-            "maximize-on-startup", &bool_maximize_on_startup,
-            "wrap-images", &bool_wrap_images,
-            "desktop-type", &str_desktop_type,
-            "show-clock", &bool_show_clock,
-            "limit-quality", &bool_limit_quality,
-            "enable-smoothing", &bool_enable_smoothing,
-            NULL);
+    g_object_get (dialog->priv->settings,
+                  "invert-zoom-direction", &bool_invert_zoom_direction,
+                  "bgcolor-override", &bool_bgcolor_override,
+                  "bgcolor", &bgcolor,
+                  "slideshow-timeout", &uint_slideshow_timeout,
+                  "hide-thumbnails-fullscreen", &bool_hide_thumbnails_fullscreen,
+                  "hide-mouse-cursor-fullscreen-timeout", &uint_hide_mouse_cursor_fullscreen_timeout,
+                  "maximize-on-startup", &bool_maximize_on_startup,
+                  "wrap-images", &bool_wrap_images,
+                  "desktop-type", &str_desktop_type,
+                  "show-clock", &bool_show_clock,
+                  "limit-quality", &bool_limit_quality,
+                  "enable-smoothing", &bool_enable_smoothing,
+                  NULL);
 
     /*
      * Configure the display tab
@@ -290,7 +288,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     gtk_box_pack_start (GTK_BOX (display_main_vbox), dialog->priv->display_tab.quality_frame, FALSE, FALSE, 0);
 
     dialog->priv->display_tab.quality_label = gtk_label_new (
-            _("With this option enabled, the maximum image-quality will be limited to the screen-size."));
+        _("With this option enabled, the maximum image-quality will be limited to the screen-size."));
     gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->display_tab.quality_label), TRUE);
     gtk_label_set_max_width_chars (GTK_LABEL (dialog->priv->display_tab.quality_label), MAX_WIDTH_CHARS);
     gtk_label_set_xalign (GTK_LABEL (dialog->priv->display_tab.quality_label), XALIGN);
@@ -304,7 +302,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
                       G_CALLBACK (cb_limit_quality_check_button_toggled), dialog);
 
     dialog->priv->display_tab.enable_smoothing_label = gtk_label_new (
-            _("Smooth the image using bilinear interpolation, thus prioritizing rendering quality over performance."));
+        _("Smooth the image using bilinear interpolation, thus prioritizing rendering quality over performance."));
     gtk_label_set_line_wrap (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), TRUE);
     gtk_label_set_max_width_chars (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), MAX_WIDTH_CHARS);
     gtk_label_set_xalign (GTK_LABEL (dialog->priv->display_tab.enable_smoothing_label), XALIGN);
@@ -435,8 +433,8 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     dialog->priv->behaviour_tab.maximize_window_on_startup_check_button = gtk_check_button_new_with_label (_("Maximize window on startup when opening an image"));
     gtk_container_add (GTK_CONTAINER (dialog->priv->behaviour_tab.startup_vbox), dialog->priv->behaviour_tab.maximize_window_on_startup_check_button);
     gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.maximize_window_on_startup_check_button),
-            bool_maximize_on_startup);
+        GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.maximize_window_on_startup_check_button),
+        bool_maximize_on_startup);
 
     dialog->priv->behaviour_tab.wrap_images_check_button = gtk_check_button_new_with_label (_("Wrap around images"));
     gtk_container_add (GTK_CONTAINER (dialog->priv->behaviour_tab.startup_vbox), dialog->priv->behaviour_tab.wrap_images_check_button);
@@ -452,11 +450,10 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     dialog->priv->behaviour_tab.desktop_frame = xfce_gtk_frame_box_new_with_content (_("Desktop"), dialog->priv->behaviour_tab.desktop_vbox);
     gtk_box_pack_start (GTK_BOX (behaviour_main_vbox), dialog->priv->behaviour_tab.desktop_frame, FALSE, FALSE, 0);
     behaviour_desktop_lbl = gtk_label_new (NULL);
-    gtk_label_set_markup (
-            GTK_LABEL (behaviour_desktop_lbl),
-            _("Configure which system is currently managing your desktop. "
-              "This setting determines the method <i>Ristretto</i> will use "
-              "to configure the desktop wallpaper."));
+    gtk_label_set_markup (GTK_LABEL (behaviour_desktop_lbl),
+                          _("Configure which system is currently managing your desktop. "
+                            "This setting determines the method <i>Ristretto</i> will use "
+                            "to configure the desktop wallpaper."));
     gtk_label_set_line_wrap (GTK_LABEL (behaviour_desktop_lbl), TRUE);
     gtk_label_set_max_width_chars (GTK_LABEL (behaviour_desktop_lbl), MAX_WIDTH_CHARS);
     gtk_label_set_xalign (GTK_LABEL (behaviour_desktop_lbl), XALIGN);
@@ -465,18 +462,12 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     dialog->priv->behaviour_tab.choose_desktop_combo_box = gtk_combo_box_text_new ();
     gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.desktop_vbox), dialog->priv->behaviour_tab.choose_desktop_combo_box,
                         FALSE, FALSE, 0);
-    gtk_combo_box_text_insert_text (
-            GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
-            DESKTOP_TYPE_NONE,
-            _("None"));
-    gtk_combo_box_text_insert_text (
-            GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
-            DESKTOP_TYPE_XFCE,
-            _("Xfce"));
-    gtk_combo_box_text_insert_text (
-            GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
-            DESKTOP_TYPE_GNOME,
-            _("GNOME"));
+    gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+                                    DESKTOP_TYPE_NONE, _("None"));
+    gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+                                    DESKTOP_TYPE_XFCE, _("Xfce"));
+    gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (dialog->priv->behaviour_tab.choose_desktop_combo_box),
+                                    DESKTOP_TYPE_GNOME, _("GNOME"));
 
     if (str_desktop_type != NULL)
     {
@@ -529,7 +520,6 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
 
     gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
     gtk_widget_show (button);
-
 }
 
 static void
@@ -600,9 +590,8 @@ rstto_preferences_dialog_new (GtkWindow *parent)
  *   endif
  */
 static void
-cb_bgcolor_override_toggled (
-        GtkToggleButton *button,
-        gpointer user_data)
+cb_bgcolor_override_toggled (GtkToggleButton *button,
+                             gpointer user_data)
 {
     /* Variable Section */
 
@@ -612,14 +601,9 @@ cb_bgcolor_override_toggled (
 
     /* Code Section */
 
-    gtk_widget_set_sensitive (
-            dialog->priv->display_tab.bgcolor_color_button,
-            bgcolor_override);
+    gtk_widget_set_sensitive (dialog->priv->display_tab.bgcolor_color_button, bgcolor_override);
 
-    rstto_settings_set_boolean_property (
-            dialog->priv->settings,
-            "bgcolor-override",
-            bgcolor_override);
+    rstto_settings_set_boolean_property (dialog->priv->settings, "bgcolor-override", bgcolor_override);
 }
 
 /**
@@ -641,9 +625,8 @@ cb_bgcolor_override_toggled (
  *   set_property ("bg-color", color);
  */
 static void
-cb_bgcolor_color_set (
-        GtkColorButton *button,
-        gpointer user_data)
+cb_bgcolor_color_set (GtkColorButton *button,
+                      gpointer user_data)
 {
     RsttoPreferencesDialog *dialog = user_data;
     GdkRGBA *bgcolor;
@@ -682,9 +665,8 @@ cb_bgcolor_color_set (
  *   endif
  */
 static void
-cb_invert_zoom_direction_check_button_toggled (
-        GtkToggleButton *button,
-        gpointer user_data)
+cb_invert_zoom_direction_check_button_toggled (GtkToggleButton *button,
+                                               gpointer user_data)
 {
     /* Variable Section */
 
@@ -694,10 +676,7 @@ cb_invert_zoom_direction_check_button_toggled (
 
     /* Code Section */
 
-    rstto_settings_set_boolean_property (
-            dialog->priv->settings,
-            "invert-zoom-direction",
-            invert_zoom);
+    rstto_settings_set_boolean_property (dialog->priv->settings, "invert-zoom-direction", invert_zoom);
 }
 
 /**
@@ -720,9 +699,8 @@ cb_invert_zoom_direction_check_button_toggled (
  *   set_property ("slideshow-timeout", value);
  */
 static void
-cb_slideshow_timeout_value_changed (
-        GtkRange *range,
-        gpointer user_data)
+cb_slideshow_timeout_value_changed (GtkRange *range,
+                                    gpointer user_data)
 {
     /* Variable Section */
 
@@ -732,11 +710,7 @@ cb_slideshow_timeout_value_changed (
 
     /* Code Section */
 
-    rstto_settings_set_uint_property (
-            dialog->priv->settings,
-            "slideshow-timeout",
-            slideshow_timeout);
-
+    rstto_settings_set_uint_property (dialog->priv->settings, "slideshow-timeout", slideshow_timeout);
 }
 
 /**
@@ -767,9 +741,8 @@ cb_slideshow_timeout_value_changed (
  *   endif
  */
 static void
-cb_hide_thumbnails_fullscreen_check_button_toggled (
-        GtkToggleButton *button,
-        gpointer user_data)
+cb_hide_thumbnails_fullscreen_check_button_toggled (GtkToggleButton *button,
+                                                    gpointer user_data)
 {
     /* Variable Section */
 
@@ -779,10 +752,7 @@ cb_hide_thumbnails_fullscreen_check_button_toggled (
 
     /* Code Section */
 
-    rstto_settings_set_boolean_property (
-            dialog->priv->settings,
-            "hide-thumbnails-fullscreen",
-            hide_thumbnails);
+    rstto_settings_set_boolean_property (dialog->priv->settings, "hide-thumbnails-fullscreen", hide_thumbnails);
 }
 
 /**
@@ -814,9 +784,8 @@ cb_hide_thumbnails_fullscreen_check_button_toggled (
  *   endif
  */
 static void
-cb_wrap_images_check_button_toggled (
-        GtkToggleButton *button,
-        gpointer user_data)
+cb_wrap_images_check_button_toggled (GtkToggleButton *button,
+                                     gpointer user_data)
 {
     /* Variable Section */
 
@@ -826,10 +795,7 @@ cb_wrap_images_check_button_toggled (
 
     /* Code Section */
 
-    rstto_settings_set_boolean_property (
-            dialog->priv->settings,
-            "wrap-images",
-            wrap_images);
+    rstto_settings_set_boolean_property (dialog->priv->settings, "wrap-images", wrap_images);
 }
 
 /**
@@ -860,9 +826,8 @@ cb_wrap_images_check_button_toggled (
  *   endif
  */
 static void
-cb_maximize_on_startup_check_button_toggled (
-        GtkToggleButton *button,
-        gpointer user_data)
+cb_maximize_on_startup_check_button_toggled (GtkToggleButton *button,
+                                             gpointer user_data)
 {
     /* Variable Section */
 
@@ -872,10 +837,7 @@ cb_maximize_on_startup_check_button_toggled (
 
     /* Code Section */
 
-    rstto_settings_set_boolean_property (
-            dialog->priv->settings,
-            "maximize-on-startup",
-            maximize_on_startup);
+    rstto_settings_set_boolean_property (dialog->priv->settings, "maximize-on-startup", maximize_on_startup);
 }
 
 /**
@@ -906,9 +868,8 @@ cb_maximize_on_startup_check_button_toggled (
  *   endif
  */
 static void
-cb_show_clock_check_button_toggled (
-        GtkToggleButton *button,
-        gpointer user_data)
+cb_show_clock_check_button_toggled (GtkToggleButton *button,
+                                    gpointer user_data)
 {
     /* Variable Section */
 
@@ -917,10 +878,7 @@ cb_show_clock_check_button_toggled (
 
     /* Code Section */
 
-    rstto_settings_set_boolean_property (
-            dialog->priv->settings,
-            "show-clock",
-            show_clock);
+    rstto_settings_set_boolean_property (dialog->priv->settings, "show-clock", show_clock);
 }
 
 /**
@@ -939,17 +897,15 @@ cb_show_clock_check_button_toggled (
  * fullscreen mode.
  */
 static void
-cb_cursor_timeout_button_value_changed (
-        GtkSpinButton *spin_button,
-        gpointer user_data)
+cb_cursor_timeout_button_value_changed (GtkSpinButton *spin_button,
+                                        gpointer user_data)
 {
     RsttoPreferencesDialog *dialog = user_data;
     gdouble value = gtk_spin_button_get_value (spin_button);
 
-    rstto_settings_set_uint_property (
-            dialog->priv->settings,
-            "hide-mouse-cursor-fullscreen-timeout",
-            value > 0 ? value : 0);
+    rstto_settings_set_uint_property (dialog->priv->settings,
+                                      "hide-mouse-cursor-fullscreen-timeout",
+                                      value > 0 ? value : 0);
 }
 
 /**
@@ -980,9 +936,8 @@ cb_cursor_timeout_button_value_changed (
  *   endif
  */
 static void
-cb_limit_quality_check_button_toggled (
-        GtkToggleButton *button,
-        gpointer user_data)
+cb_limit_quality_check_button_toggled (GtkToggleButton *button,
+                                       gpointer user_data)
 {
     /* Variable Section */
 
@@ -992,10 +947,7 @@ cb_limit_quality_check_button_toggled (
 
     /* Code Section */
 
-    rstto_settings_set_boolean_property (
-            dialog->priv->settings,
-            "limit-quality",
-            limit_quality);
+    rstto_settings_set_boolean_property (dialog->priv->settings, "limit-quality", limit_quality);
 }
 
 /**
@@ -1026,17 +978,13 @@ cb_limit_quality_check_button_toggled (
  *   endif
  */
 static void
-cb_enable_smoothing_check_button_toggled (
-        GtkToggleButton *button,
-        gpointer user_data)
+cb_enable_smoothing_check_button_toggled (GtkToggleButton *button,
+                                          gpointer user_data)
 {
     RsttoPreferencesDialog *dialog = user_data;
     gboolean enable_smoothing = gtk_toggle_button_get_active (button);
 
-    rstto_settings_set_boolean_property (
-            dialog->priv->settings,
-            "enable-smoothing",
-            enable_smoothing);
+    rstto_settings_set_boolean_property (dialog->priv->settings, "enable-smoothing", enable_smoothing);
 }
 
 /**
@@ -1072,9 +1020,8 @@ cb_enable_smoothing_check_button_toggled (
  *   endif
  */
 static void
-cb_choose_desktop_combo_box_changed (
-        GtkComboBox *combo_box,
-        gpointer user_data)
+cb_choose_desktop_combo_box_changed (GtkComboBox *combo_box,
+                                     gpointer user_data)
 {
     /* Variable Section */
 
@@ -1086,22 +1033,13 @@ cb_choose_desktop_combo_box_changed (
     switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combo_box)))
     {
         case DESKTOP_TYPE_NONE:
-            rstto_settings_set_string_property (
-                    dialog->priv->settings,
-                    "desktop-type",
-                    "none");
+            rstto_settings_set_string_property (dialog->priv->settings, "desktop-type", "none");
             break;
         case DESKTOP_TYPE_XFCE:
-            rstto_settings_set_string_property (
-                    dialog->priv->settings,
-                    "desktop-type",
-                    "xfce");
+            rstto_settings_set_string_property (dialog->priv->settings, "desktop-type", "xfce");
             break;
         case DESKTOP_TYPE_GNOME:
-            rstto_settings_set_string_property (
-                    dialog->priv->settings,
-                    "desktop-type",
-                    "gnome");
+            rstto_settings_set_string_property (dialog->priv->settings, "desktop-type", "gnome");
             break;
     }
 }

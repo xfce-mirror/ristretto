@@ -35,25 +35,37 @@
 #include <gtk/gtk.h>
 
 /* internal headers */
-#include "settings.h"
 #include "file.h"
+#include "settings.h"
 
 G_BEGIN_DECLS
 
 #define RISTRETTO_APP_ID "org.xfce.ristretto"
 
 /* for personal testing */
-#define TIMER_START      GTimer *__FUNCTION__timer = g_timer_new ();
-#define TIMER_SPLIT      g_printerr ("%s: %.2f ms\n", G_STRLOC, \
-                                     g_timer_elapsed (__FUNCTION__timer, NULL) * 1000);
-#define TIMER_STOP       TIMER_SPLIT g_timer_destroy (__FUNCTION__timer);
+#define TIMER_START GTimer *__FUNCTION__timer = g_timer_new ();
+#define TIMER_SPLIT g_printerr ("%s: %.2f ms\n", G_STRLOC, \
+                                g_timer_elapsed (__FUNCTION__timer, NULL) * 1000);
+#define TIMER_STOP TIMER_SPLIT g_timer_destroy (__FUNCTION__timer);
 
-#define PRINT_LOCATION   g_printerr ("%s\n", G_STRLOC)
-#define RTRACE(fmt, var) G_STMT_START{ g_printerr ("%s:%s: ", G_STRLOC, #var); \
-                                       g_printerr (fmt, var); g_printerr ("\n"); }G_STMT_END
+#define PRINT_LOCATION g_printerr ("%s\n", G_STRLOC)
+#define RTRACE(fmt, var) \
+    G_STMT_START \
+    { \
+        g_printerr ("%s:%s: ", G_STRLOC, #var); \
+        g_printerr (fmt, var); \
+        g_printerr ("\n"); \
+    } \
+    G_STMT_END
 
 /* Macro to remove and clear a source id */
-#define REMOVE_SOURCE(ID) G_STMT_START{ g_source_remove (ID); ID = 0; }G_STMT_END
+#define REMOVE_SOURCE(ID) \
+    G_STMT_START \
+    { \
+        g_source_remove (ID); \
+        ID = 0; \
+    } \
+    G_STMT_END
 
 /* convenient macros for setting object data */
 #define rstto_object_set_data(object, key, data) \

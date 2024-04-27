@@ -19,8 +19,8 @@
 
 #include "util.h"
 #include "file.h"
-#include "thumbnailer.h"
 #include "main_window.h"
+#include "thumbnailer.h"
 
 #ifdef HAVE_MAGIC_H
 #include <magic.h>
@@ -102,15 +102,11 @@ rstto_file_class_init (RsttoFileClass *klass)
     object_class->finalize = rstto_file_finalize;
 
     rstto_file_signals[RSTTO_FILE_SIGNAL_CHANGED] = g_signal_new ("changed",
-            G_TYPE_FROM_CLASS (object_class),
-            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-            0,
-            NULL,
-            NULL,
-            g_cclosure_marshal_VOID__VOID,
-            G_TYPE_NONE,
-            0,
-            NULL);
+                                                                  G_TYPE_FROM_CLASS (object_class),
+                                                                  G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                                                                  0, NULL, NULL,
+                                                                  g_cclosure_marshal_VOID__VOID,
+                                                                  G_TYPE_NONE, 0);
 }
 
 /**
@@ -206,7 +202,7 @@ rstto_file_is_valid (RsttoFile *r_file)
     GtkFileFilterInfo filter_info;
     const gchar *content_type = NULL;
 
-    if (! r_file->priv->final_content_type)
+    if (!r_file->priv->final_content_type)
     {
 #ifdef HAVE_MAGIC_H
         magic_t magic = magic_open (MAGIC_MIME_TYPE | MAGIC_SYMLINK);
@@ -255,12 +251,9 @@ rstto_file_is_valid (RsttoFile *r_file)
 
         if (NULL == content_type)
         {
-            GFileInfo *file_info = g_file_query_info (
-                    r_file->priv->file,
-                    "standard::content-type",
-                    0,
-                    NULL,
-                    NULL);
+            GFileInfo *file_info = g_file_query_info (r_file->priv->file,
+                                                      "standard::content-type",
+                                                      0, NULL, NULL);
             if (NULL != file_info)
             {
                 content_type = g_file_info_get_attribute_string (file_info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
@@ -297,12 +290,9 @@ rstto_file_get_display_name (RsttoFile *r_file)
 
     if (NULL == r_file->priv->display_name)
     {
-        file_info = g_file_query_info (
-                r_file->priv->file,
-                G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME,
-                0,
-                NULL,
-                NULL);
+        file_info = g_file_query_info (r_file->priv->file,
+                                       G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME,
+                                       0, NULL, NULL);
         if (NULL != file_info)
         {
             display_name = g_file_info_get_display_name (file_info);
@@ -423,15 +413,12 @@ rstto_file_get_exif (RsttoFile *r_file, ExifTag id)
     /* If there is no exif-data object, try to create it */
     if (NULL == r_file->priv->exif_data)
     {
-        r_file->priv->exif_data = exif_data_new_from_file (
-                rstto_file_get_path (r_file));
+        r_file->priv->exif_data = exif_data_new_from_file (rstto_file_get_path (r_file));
     }
 
     if (NULL != r_file->priv->exif_data)
     {
-        return exif_data_get_entry (
-                r_file->priv->exif_data,
-                id);
+        return exif_data_get_entry (r_file->priv->exif_data, id);
     }
 
     /* If there is no exif-data, return NULL */
@@ -449,8 +436,8 @@ rstto_file_get_orientation (RsttoFile *r_file)
         if (NULL != exif_entry)
         {
             r_file->priv->orientation = exif_get_short (
-                    exif_entry->data,
-                    exif_data_get_byte_order (exif_entry->parent->parent));
+                exif_entry->data,
+                exif_data_get_byte_order (exif_entry->parent->parent));
         }
 
         /* If the orientation-tag is not set, default to NONE */
@@ -459,15 +446,13 @@ rstto_file_get_orientation (RsttoFile *r_file)
             /* Default orientation */
             r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NONE;
         }
-
     }
     return r_file->priv->orientation;
 }
 
 void
-rstto_file_set_orientation (
-        RsttoFile *r_file,
-        RsttoImageOrientation orientation)
+rstto_file_set_orientation (RsttoFile *r_file,
+                            RsttoImageOrientation orientation)
 {
     r_file->priv->orientation = orientation;
 }
@@ -547,19 +532,19 @@ rstto_file_get_thumbnail_path (RsttoFile *r_file,
         /* build and check if the thumbnail is in the new location */
         path = g_build_path ("/", g_get_user_cache_dir (), "thumbnails",
                              flavor_name, filename, NULL);
-        if (! g_file_test (path, G_FILE_TEST_EXISTS))
+        if (!g_file_test (path, G_FILE_TEST_EXISTS))
         {
             /* fallback to old version */
             g_free (path);
             path = g_build_path ("/", g_get_home_dir (), ".thumbnails",
                                  flavor_name, filename, NULL);
-            if (! g_file_test (path, G_FILE_TEST_EXISTS))
+            if (!g_file_test (path, G_FILE_TEST_EXISTS))
             {
-#if LIBXFCE4UTIL_CHECK_VERSION (4, 17, 1)
+#if LIBXFCE4UTIL_CHECK_VERSION(4, 17, 1)
                 /* fallback to shared repository */
                 g_free (path);
                 path = xfce_create_shared_thumbnail_path (uri, flavor_name);
-                if (path == NULL || ! g_file_test (path, G_FILE_TEST_EXISTS))
+                if (path == NULL || !g_file_test (path, G_FILE_TEST_EXISTS))
 #endif
                 {
                     /* thumbnail doesn't exist in either spot */
@@ -646,8 +631,8 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
         g_object_unref (r_file->priv->pixbufs[size]);
 
     n_pixels = rstto_util_get_thumbnail_n_pixels (size);
-    r_file->priv->pixbufs[size] =
-        gdk_pixbuf_new_from_file_at_scale (thumbnail_path, n_pixels, n_pixels, TRUE, &error);
+    r_file->priv->pixbufs[size]
+        = gdk_pixbuf_new_from_file_at_scale (thumbnail_path, n_pixels, n_pixels, TRUE, &error);
     if (error != NULL)
     {
         g_warning ("Thumbnail pixbuf generation failed for '%s': %s",

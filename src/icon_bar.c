@@ -22,10 +22,10 @@
  */
 
 #include "util.h"
-#include "file.h"
-#include "thumbnailer.h"
 #include "icon_bar.h"
+#include "file.h"
 #include "main_window.h"
+#include "thumbnailer.h"
 
 #include <glib/gi18n.h>
 
@@ -178,34 +178,34 @@ struct _RsttoIconBarItem
 
 struct _RsttoIconBarPrivate
 {
-    GdkWindow      *bin_window;
-    GtkWidget      *s_window;
+    GdkWindow *bin_window;
+    GtkWidget *s_window;
 
-    gint            width;
-    gint            height;
+    gint width;
+    gint height;
 
     RsttoIconBarItem *active_item;
     RsttoIconBarItem *single_click_item;
     RsttoIconBarItem *cursor_item;
 
-    GList          *items;
-    gint            item_size;
-    gint            n_visible_items;
+    GList *items;
+    gint item_size;
+    gint n_visible_items;
 
-    GtkAdjustment  *hadjustment;
-    GtkAdjustment  *vadjustment;
+    GtkAdjustment *hadjustment;
+    GtkAdjustment *vadjustment;
 
-    RsttoSettings  *settings;
+    RsttoSettings *settings;
     RsttoThumbnailer *thumbnailer;
 
     RsttoThumbnailSize thumbnail_size;
     GdkPixbuf *thumbnail_missing;
 
-    GtkOrientation  orientation;
+    GtkOrientation orientation;
 
-    GtkTreeModel   *model;
+    GtkTreeModel *model;
 
-    gboolean        show_text;
+    gboolean show_text;
 };
 
 
@@ -245,13 +245,13 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
      * Default value: %GTK_ORIENTATION_VERTICAL
      **/
     g_object_class_install_property (gobject_class,
-            PROP_ORIENTATION,
-            g_param_spec_enum ("orientation",
-                "Orientation",
-                "The orientation of the iconbar",
-                GTK_TYPE_ORIENTATION,
-                GTK_ORIENTATION_VERTICAL,
-                G_PARAM_READWRITE));
+                                     PROP_ORIENTATION,
+                                     g_param_spec_enum ("orientation",
+                                                        "Orientation",
+                                                        "The orientation of the iconbar",
+                                                        GTK_TYPE_ORIENTATION,
+                                                        GTK_ORIENTATION_VERTICAL,
+                                                        G_PARAM_READWRITE));
 
     /**
      * RsttoIconBar:model:
@@ -259,12 +259,12 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
      * The model for the icon bar.
      **/
     g_object_class_install_property (gobject_class,
-            PROP_MODEL,
-            g_param_spec_object ("model",
-                "Icon Bar Model",
-                "Model for the icon bar",
-                GTK_TYPE_TREE_MODEL,
-                G_PARAM_READWRITE));
+                                     PROP_MODEL,
+                                     g_param_spec_object ("model",
+                                                          "Icon Bar Model",
+                                                          "Model for the icon bar",
+                                                          GTK_TYPE_TREE_MODEL,
+                                                          G_PARAM_READWRITE));
 
     /**
      * RsttoIconBar:active:
@@ -276,12 +276,12 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
      * Default value: -1
      **/
     g_object_class_install_property (gobject_class,
-            PROP_ACTIVE,
-            g_param_spec_int ("active",
-                "Active",
-                "Active item index",
-                -1, G_MAXINT, -1,
-                G_PARAM_READWRITE));
+                                     PROP_ACTIVE,
+                                     g_param_spec_int ("active",
+                                                       "Active",
+                                                       "Active item index",
+                                                       -1, G_MAXINT, -1,
+                                                       G_PARAM_READWRITE));
 
     /**
      * RsttoIconBar:show-text:
@@ -293,12 +293,12 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
      * Default value: TRUE
      **/
     g_object_class_install_property (gobject_class,
-            PROP_SHOW_TEXT,
-            g_param_spec_boolean ("show-text",
-                "Show Text",
-                "Show Text",
-                TRUE,
-                G_PARAM_READWRITE));
+                                     PROP_SHOW_TEXT,
+                                     g_param_spec_boolean ("show-text",
+                                                           "Show Text",
+                                                           "Show Text",
+                                                           TRUE,
+                                                           G_PARAM_READWRITE));
 
     /**
      * RsttoIconBar:s_window:
@@ -306,54 +306,54 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
      * The scrolled window icon bar is placed into.
      **/
     g_object_class_install_property (gobject_class,
-            PROP_SCROLLED_WINDOW,
-            g_param_spec_object ("scrolled-window",
-                "Scrolled window",
-                "Scrolled window icon bar is placed into",
-                GTK_TYPE_WIDGET,
-                G_PARAM_READWRITE));
+                                     PROP_SCROLLED_WINDOW,
+                                     g_param_spec_object ("scrolled-window",
+                                                          "Scrolled window",
+                                                          "Scrolled window icon bar is placed into",
+                                                          GTK_TYPE_WIDGET,
+                                                          G_PARAM_READWRITE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
-            g_param_spec_boxed ("active-item-fill-color",
-                "Active item fill color",
-                "Active item fill color",
-                GDK_TYPE_RGBA,
-                G_PARAM_READABLE));
+                                             g_param_spec_boxed ("active-item-fill-color",
+                                                                 "Active item fill color",
+                                                                 "Active item fill color",
+                                                                 GDK_TYPE_RGBA,
+                                                                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
-            g_param_spec_boxed ("active-item-border-color",
-                "Active item border color",
-                "Active item border color",
-                GDK_TYPE_RGBA,
-                G_PARAM_READABLE));
+                                             g_param_spec_boxed ("active-item-border-color",
+                                                                 "Active item border color",
+                                                                 "Active item border color",
+                                                                 GDK_TYPE_RGBA,
+                                                                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
-            g_param_spec_boxed ("active-item-text-color",
-                "Active item text color",
-                "Active item text color",
-                GDK_TYPE_RGBA,
-                G_PARAM_READABLE));
+                                             g_param_spec_boxed ("active-item-text-color",
+                                                                 "Active item text color",
+                                                                 "Active item text color",
+                                                                 GDK_TYPE_RGBA,
+                                                                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
-            g_param_spec_boxed ("cursor-item-fill-color",
-                "Cursor item fill color",
-                "Cursor item fill color",
-                GDK_TYPE_RGBA,
-                G_PARAM_READABLE));
+                                             g_param_spec_boxed ("cursor-item-fill-color",
+                                                                 "Cursor item fill color",
+                                                                 "Cursor item fill color",
+                                                                 GDK_TYPE_RGBA,
+                                                                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
-            g_param_spec_boxed ("cursor-item-border-color",
-                "Cursor item border color",
-                "Cursor item border color",
-                GDK_TYPE_RGBA,
-                G_PARAM_READABLE));
+                                             g_param_spec_boxed ("cursor-item-border-color",
+                                                                 "Cursor item border color",
+                                                                 "Cursor item border color",
+                                                                 GDK_TYPE_RGBA,
+                                                                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
-            g_param_spec_boxed ("cursor-item-text-color",
-                "Cursor item text color",
-                "Cursor item text color",
-                GDK_TYPE_RGBA,
-                G_PARAM_READABLE));
+                                             g_param_spec_boxed ("cursor-item-text-color",
+                                                                 "Cursor item text color",
+                                                                 "Cursor item text color",
+                                                                 GDK_TYPE_RGBA,
+                                                                 G_PARAM_READABLE));
 
     /**
      * RsttoIconBar::selection-changed:
@@ -362,13 +362,12 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
      * This signal is emitted whenever the currently selected icon
      * changes.
      **/
-    icon_bar_signals[SELECTION_CHANGED] =
-        g_signal_new ("selection-changed",
-                G_TYPE_FROM_CLASS (gobject_class),
-                G_SIGNAL_RUN_FIRST,
-                0, NULL, NULL,
-                g_cclosure_marshal_VOID__VOID,
-                G_TYPE_NONE, 0);
+    icon_bar_signals[SELECTION_CHANGED] = g_signal_new ("selection-changed",
+                                                        G_TYPE_FROM_CLASS (gobject_class),
+                                                        G_SIGNAL_RUN_FIRST,
+                                                        0, NULL, NULL,
+                                                        g_cclosure_marshal_VOID__VOID,
+                                                        G_TYPE_NONE, 0);
 }
 
 
@@ -387,9 +386,8 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
     icon_bar->priv->settings = rstto_settings_new ();
     icon_bar->priv->thumbnailer = rstto_thumbnailer_new ();
 
-    icon_bar->priv->thumbnail_size = rstto_settings_get_uint_property (
-            icon_bar->priv->settings,
-            "thumbnail-size");
+    icon_bar->priv->thumbnail_size
+        = rstto_settings_get_uint_property (icon_bar->priv->settings, "thumbnail-size");
 
     gtk_widget_set_can_focus (GTK_WIDGET (icon_bar), FALSE);
 
@@ -434,11 +432,10 @@ rstto_icon_bar_finalize (GObject *object)
 
 
 static void
-rstto_icon_bar_get_property (
-        GObject    *object,
-        guint       prop_id,
-        GValue     *value,
-        GParamSpec *pspec)
+rstto_icon_bar_get_property (GObject *object,
+                             guint prop_id,
+                             GValue *value,
+                             GParamSpec *pspec)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (object);
 
@@ -473,11 +470,10 @@ rstto_icon_bar_get_property (
 
 
 static void
-rstto_icon_bar_set_property (
-        GObject      *object,
-        guint         prop_id,
-        const GValue *value,
-        GParamSpec   *pspec)
+rstto_icon_bar_set_property (GObject *object,
+                             guint prop_id,
+                             const GValue *value,
+                             GParamSpec *pspec)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (object);
     GtkScrolledWindow *swindow;
@@ -556,11 +552,11 @@ rstto_icon_bar_set_scale_factor (RsttoIconBar *icon_bar)
 static void
 rstto_icon_bar_realize (GtkWidget *widget)
 {
-    GdkWindowAttr  attributes;
-    RsttoIconBar  *icon_bar = RSTTO_ICON_BAR (widget);
-    gint           attributes_mask;
-    GtkAllocation  allocation;
-    GdkWindow     *window;
+    GdkWindowAttr attributes;
+    RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
+    gint attributes_mask;
+    GtkAllocation allocation;
+    GdkWindow *window;
 
     gtk_widget_set_realized (widget, TRUE);
 
@@ -574,8 +570,8 @@ rstto_icon_bar_realize (GtkWidget *widget)
     attributes.window_type = GDK_WINDOW_CHILD;
     attributes.visual = gtk_widget_get_visual (widget);
     attributes.event_mask = gtk_widget_get_events (widget)
-            | GDK_EXPOSURE_MASK
-            | GDK_VISIBILITY_NOTIFY_MASK;
+                            | GDK_EXPOSURE_MASK
+                            | GDK_VISIBILITY_NOTIFY_MASK;
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
 
     window = gdk_window_new (gtk_widget_get_parent_window (widget), &attributes, attributes_mask);
@@ -586,16 +582,16 @@ rstto_icon_bar_realize (GtkWidget *widget)
     attributes.y = 0;
     attributes.width = MAX (icon_bar->priv->width, allocation.width);
     attributes.height = MAX (icon_bar->priv->height, allocation.height);
-    attributes.event_mask = (GDK_SCROLL_MASK
-            | GDK_EXPOSURE_MASK
-            | GDK_ENTER_NOTIFY_MASK
-            | GDK_LEAVE_NOTIFY_MASK
-            | GDK_POINTER_MOTION_MASK
-            | GDK_BUTTON_PRESS_MASK
-            | GDK_BUTTON_RELEASE_MASK
-            | GDK_KEY_PRESS_MASK
-            | GDK_KEY_RELEASE_MASK)
-            | gtk_widget_get_events (widget);
+    attributes.event_mask = gtk_widget_get_events (widget)
+                            | GDK_SCROLL_MASK
+                            | GDK_EXPOSURE_MASK
+                            | GDK_ENTER_NOTIFY_MASK
+                            | GDK_LEAVE_NOTIFY_MASK
+                            | GDK_POINTER_MOTION_MASK
+                            | GDK_BUTTON_PRESS_MASK
+                            | GDK_BUTTON_RELEASE_MASK
+                            | GDK_KEY_PRESS_MASK
+                            | GDK_KEY_RELEASE_MASK;
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
 
     icon_bar->priv->bin_window = gdk_window_new (window, &attributes, attributes_mask);
@@ -624,9 +620,8 @@ rstto_icon_bar_unrealize (GtkWidget *widget)
 
 
 static void
-rstto_icon_bar_size_request (
-        GtkWidget      *widget,
-        GtkRequisition *requisition)
+rstto_icon_bar_size_request (GtkWidget *widget,
+                             GtkRequisition *requisition)
 {
     RsttoIconBar *icon_bar = RSTTO_ICON_BAR (widget);
     gint focus_width, focus_pad, n_items;
@@ -646,7 +641,7 @@ rstto_icon_bar_size_request (
     /* calculate item size: there is a focus padding both inside and outside the item */
     icon_bar->priv->item_size = 2 * (focus_width + 2 * focus_pad)
                                 + rstto_util_get_thumbnail_n_pixels (icon_bar->priv->thumbnail_size)
-                                  / gtk_widget_get_scale_factor (widget);
+                                      / gtk_widget_get_scale_factor (widget);
 
     n_items = rstto_image_list_get_n_images (RSTTO_IMAGE_LIST (icon_bar->priv->model));
     if (icon_bar->priv->orientation == GTK_ORIENTATION_VERTICAL)
@@ -661,7 +656,9 @@ rstto_icon_bar_size_request (
     }
 }
 static void
-rstto_icon_bar_get_preferred_width (GtkWidget *widget, gint *minimal_width, gint *natural_width)
+rstto_icon_bar_get_preferred_width (GtkWidget *widget,
+                                    gint *minimal_width,
+                                    gint *natural_width)
 {
     GtkRequisition requisition;
 
@@ -669,7 +666,9 @@ rstto_icon_bar_get_preferred_width (GtkWidget *widget, gint *minimal_width, gint
     *minimal_width = *natural_width = requisition.width;
 }
 static void
-rstto_icon_bar_get_preferred_height (GtkWidget *widget, gint *minimal_height, gint *natural_height)
+rstto_icon_bar_get_preferred_height (GtkWidget *widget,
+                                     gint *minimal_height,
+                                     gint *natural_height)
 {
     GtkRequisition requisition;
 
@@ -734,7 +733,8 @@ rstto_icon_bar_draw (GtkWidget *widget,
     n_items = MIN (n_items, last_visible - offset + 1);
 
     /* skip items before the drawing area */
-    for (lp = icon_bar->priv->items, n = 0; lp != NULL && n < offset; lp = lp->next, n++);
+    for (lp = icon_bar->priv->items, n = 0; lp != NULL && n < offset; lp = lp->next, n++)
+        ;
 
     /* only draw items in the drawing area, skip those who are after */
     for (n = 0; lp != NULL && n < n_items; lp = lp->next, n++)
@@ -855,9 +855,8 @@ rstto_icon_bar_scroll (GtkWidget *widget,
 }
 
 static gboolean
-rstto_icon_bar_button_press (
-        GtkWidget      *widget,
-        GdkEventButton *event)
+rstto_icon_bar_button_press (GtkWidget *widget,
+                             GdkEventButton *event)
 {
     RsttoIconBar *icon_bar;
     RsttoIconBarItem *item;
@@ -876,9 +875,8 @@ rstto_icon_bar_button_press (
 }
 
 static gboolean
-rstto_icon_bar_button_release (
-        GtkWidget      *widget,
-        GdkEventButton *event)
+rstto_icon_bar_button_release (GtkWidget *widget,
+                               GdkEventButton *event)
 {
     RsttoIconBar *icon_bar;
     RsttoIconBarItem *item;
@@ -897,10 +895,9 @@ rstto_icon_bar_button_release (
 
 
 static RsttoIconBarItem *
-rstto_icon_bar_get_item_at_pos (
-        RsttoIconBar *icon_bar,
-        gint          x,
-        gint          y)
+rstto_icon_bar_get_item_at_pos (RsttoIconBar *icon_bar,
+                                gint x,
+                                gint y)
 {
     GList *lp;
 
@@ -918,9 +915,8 @@ rstto_icon_bar_get_item_at_pos (
 
 
 static void
-rstto_icon_bar_queue_draw_item (
-        RsttoIconBar     *icon_bar,
-        RsttoIconBarItem *item)
+rstto_icon_bar_queue_draw_item (RsttoIconBar *icon_bar,
+                                RsttoIconBarItem *item)
 {
     GdkRectangle area;
 
@@ -946,26 +942,25 @@ rstto_icon_bar_queue_draw_item (
 
 
 static void
-rstto_icon_bar_paint_item (
-        RsttoIconBar     *icon_bar,
-        RsttoIconBarItem *item,
-        cairo_t          *cr)
+rstto_icon_bar_paint_item (RsttoIconBar *icon_bar,
+                           RsttoIconBarItem *item,
+                           cairo_t *cr)
 {
-    RsttoFile       *file;
+    RsttoFile *file;
     const GdkPixbuf *pixbuf = NULL;
-    GdkRGBA         *border_color, *fill_color;
-    GdkRGBA          tmp_color;
-    gdouble          px, py, offset, size;
-    gint             x, y, focus_width, focus_pad, scale_factor;
-    gint             pixbuf_width = 0, pixbuf_height = 0;
+    GdkRGBA *border_color, *fill_color;
+    GdkRGBA tmp_color;
+    gdouble px, py, offset, size;
+    gint x, y, focus_width, focus_pad, scale_factor;
+    gint pixbuf_width = 0, pixbuf_height = 0;
 
     if (icon_bar->priv->model == NULL)
         return;
 
     gtk_widget_style_get (GTK_WIDGET (icon_bar),
-            "focus-line-width", &focus_width,
-            "focus-padding", &focus_pad,
-            NULL);
+                          "focus-line-width", &focus_width,
+                          "focus-padding", &focus_pad,
+                          NULL);
     scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (icon_bar));
 
     gtk_tree_model_get (icon_bar->priv->model, &item->iter, 0, &file, -1);
@@ -1003,9 +998,9 @@ rstto_icon_bar_paint_item (
         if (icon_bar->priv->active_item == item)
         {
             gtk_widget_style_get (GTK_WIDGET (icon_bar),
-                    "active-item-fill-color", &fill_color,
-                    "active-item-border-color", &border_color,
-                    NULL);
+                                  "active-item-fill-color", &fill_color,
+                                  "active-item-border-color", &border_color,
+                                  NULL);
 
             if (fill_color == NULL)
             {
@@ -1022,9 +1017,9 @@ rstto_icon_bar_paint_item (
         else
         {
             gtk_widget_style_get (GTK_WIDGET (icon_bar),
-                    "cursor-item-fill-color", &fill_color,
-                    "cursor-item-border-color", &border_color,
-                    NULL);
+                                  "cursor-item-fill-color", &fill_color,
+                                  "cursor-item-border-color", &border_color,
+                                  NULL);
 
             if (fill_color == NULL)
             {
@@ -1098,9 +1093,9 @@ static void
 rstto_icon_bar_build_items (RsttoIconBar *icon_bar)
 {
     RsttoIconBarItem *item;
-    GtkTreeIter     iter;
-    GList          *items = NULL;
-    gint            i = 0;
+    GtkTreeIter iter;
+    GList *items = NULL;
+    gint i = 0;
 
     if (!gtk_tree_model_get_iter_first (icon_bar->priv->model, &iter))
         return;
@@ -1112,8 +1107,7 @@ rstto_icon_bar_build_items (RsttoIconBar *icon_bar)
         item->index = i++;
 
         items = g_list_prepend (items, item);
-    }
-    while (gtk_tree_model_iter_next (icon_bar->priv->model, &iter));
+    } while (gtk_tree_model_iter_next (icon_bar->priv->model, &iter));
 
     icon_bar->priv->items = g_list_reverse (items);
 }
@@ -1121,14 +1115,13 @@ rstto_icon_bar_build_items (RsttoIconBar *icon_bar)
 
 
 static void
-rstto_icon_bar_row_changed (
-        GtkTreeModel *model,
-        GtkTreePath  *path,
-        GtkTreeIter  *iter,
-        RsttoIconBar *icon_bar)
+rstto_icon_bar_row_changed (GtkTreeModel *model,
+                            GtkTreePath *path,
+                            GtkTreeIter *iter,
+                            RsttoIconBar *icon_bar)
 {
-    RsttoIconBarItem  *item;
-    gint             idx;
+    RsttoIconBarItem *item;
+    gint idx;
 
     idx = gtk_tree_path_get_indices (path)[0];
     item = g_list_nth_data (icon_bar->priv->items, idx);
@@ -1144,11 +1137,10 @@ rstto_icon_bar_row_changed (
 
 
 static void
-rstto_icon_bar_row_inserted (
-        GtkTreeModel *model,
-        GtkTreePath  *path,
-        GtkTreeIter  *iter,
-        RsttoIconBar *icon_bar)
+rstto_icon_bar_row_inserted (GtkTreeModel *model,
+                             GtkTreePath *path,
+                             GtkTreeIter *iter,
+                             RsttoIconBar *icon_bar)
 {
     RsttoIconBarItem *item;
     GList *lp;
@@ -1171,16 +1163,15 @@ rstto_icon_bar_row_inserted (
 
 
 static void
-rstto_icon_bar_row_deleted (
-        GtkTreeModel *model,
-        GtkTreePath  *path,
-        RsttoIconBar *icon_bar)
+rstto_icon_bar_row_deleted (GtkTreeModel *model,
+                            GtkTreePath *path,
+                            RsttoIconBar *icon_bar)
 {
     RsttoIconBarItem *item;
-    gboolean        active = FALSE;
-    GList          *lnext;
-    GList          *lp;
-    gint            idx;
+    gboolean active = FALSE;
+    GList *lnext;
+    GList *lp;
+    gint idx;
 
     g_return_if_fail (RSTTO_IS_ICON_BAR (icon_bar));
 
@@ -1223,19 +1214,18 @@ rstto_icon_bar_row_deleted (
 
 
 static void
-rstto_icon_bar_rows_reordered (
-        GtkTreeModel *model,
-        GtkTreePath  *path,
-        GtkTreeIter  *iter,
-        gint         *new_order,
-        RsttoIconBar *icon_bar)
+rstto_icon_bar_rows_reordered (GtkTreeModel *model,
+                               GtkTreePath *path,
+                               GtkTreeIter *iter,
+                               gint *new_order,
+                               RsttoIconBar *icon_bar)
 {
     RsttoIconBarItem **item_array;
-    GList           *items = NULL;
-    GList           *lp;
-    gint            *inverted_order;
-    gint             length;
-    gint             i;
+    GList *items = NULL;
+    GList *lp;
+    gint *inverted_order;
+    gint length;
+    gint i;
 
     length = gtk_tree_model_iter_n_children (model, NULL);
     inverted_order = g_newa (gint, length);
@@ -1318,8 +1308,8 @@ rstto_icon_bar_new (GtkWidget *s_window)
     g_return_val_if_fail (GTK_IS_SCROLLED_WINDOW (s_window), NULL);
 
     return g_object_new (RSTTO_TYPE_ICON_BAR,
-            "scrolled-window", s_window,
-            NULL);
+                         "scrolled-window", s_window,
+                         NULL);
 }
 
 
@@ -1339,8 +1329,8 @@ rstto_icon_bar_new_with_model (GtkTreeModel *model)
     g_return_val_if_fail (GTK_IS_TREE_MODEL (model), NULL);
 
     return g_object_new (RSTTO_TYPE_ICON_BAR,
-            "model", model,
-            NULL);
+                         "model", model,
+                         NULL);
 }
 
 
@@ -1373,9 +1363,8 @@ rstto_icon_bar_get_model (RsttoIconBar *icon_bar)
  * then it will unset the old model.
  **/
 void
-rstto_icon_bar_set_model (
-        RsttoIconBar *icon_bar,
-        GtkTreeModel *model)
+rstto_icon_bar_set_model (RsttoIconBar *icon_bar,
+                          GtkTreeModel *model)
 {
     g_return_if_fail (RSTTO_IS_ICON_BAR (icon_bar));
     g_return_if_fail (GTK_IS_TREE_MODEL (model) || model == NULL);
@@ -1386,23 +1375,23 @@ rstto_icon_bar_set_model (
     if (icon_bar->priv->model)
     {
         g_signal_handlers_disconnect_by_func (icon_bar->priv->model,
-                rstto_icon_bar_row_changed,
-                icon_bar);
+                                              rstto_icon_bar_row_changed,
+                                              icon_bar);
         g_signal_handlers_disconnect_by_func (icon_bar->priv->model,
-                rstto_icon_bar_row_inserted,
-                icon_bar);
+                                              rstto_icon_bar_row_inserted,
+                                              icon_bar);
         g_signal_handlers_disconnect_by_func (icon_bar->priv->model,
-                rstto_icon_bar_row_deleted,
-                icon_bar);
+                                              rstto_icon_bar_row_deleted,
+                                              icon_bar);
         g_signal_handlers_disconnect_by_func (icon_bar->priv->model,
-                rstto_icon_bar_rows_reordered,
-                icon_bar);
+                                              rstto_icon_bar_rows_reordered,
+                                              icon_bar);
         g_signal_handlers_disconnect_by_func (icon_bar->priv->model,
-                rstto_icon_bar_list_sorted,
-                icon_bar);
+                                              rstto_icon_bar_list_sorted,
+                                              icon_bar);
         g_signal_handlers_disconnect_by_func (icon_bar->priv->model,
-                rstto_icon_bar_list_remove_all,
-                icon_bar);
+                                              rstto_icon_bar_list_remove_all,
+                                              icon_bar);
 
         g_object_unref (icon_bar->priv->model);
 
@@ -1419,17 +1408,17 @@ rstto_icon_bar_set_model (
         g_object_ref (model);
 
         g_signal_connect (model, "row-changed",
-                G_CALLBACK (rstto_icon_bar_row_changed), icon_bar);
+                          G_CALLBACK (rstto_icon_bar_row_changed), icon_bar);
         g_signal_connect (model, "row-inserted",
-                G_CALLBACK (rstto_icon_bar_row_inserted), icon_bar);
+                          G_CALLBACK (rstto_icon_bar_row_inserted), icon_bar);
         g_signal_connect (model, "row-deleted",
-                G_CALLBACK (rstto_icon_bar_row_deleted), icon_bar);
+                          G_CALLBACK (rstto_icon_bar_row_deleted), icon_bar);
         g_signal_connect (model, "rows-reordered",
-                G_CALLBACK (rstto_icon_bar_rows_reordered), icon_bar);
+                          G_CALLBACK (rstto_icon_bar_rows_reordered), icon_bar);
         g_signal_connect (model, "sorted",
-                G_CALLBACK (rstto_icon_bar_list_sorted), icon_bar);
+                          G_CALLBACK (rstto_icon_bar_list_sorted), icon_bar);
         g_signal_connect (model, "remove-all",
-                G_CALLBACK (rstto_icon_bar_list_remove_all), icon_bar);
+                          G_CALLBACK (rstto_icon_bar_list_remove_all), icon_bar);
 
         rstto_icon_bar_build_items (icon_bar);
     }
@@ -1467,9 +1456,8 @@ rstto_icon_bar_get_orientation (RsttoIconBar *icon_bar)
  * or vertically.
  **/
 void
-rstto_icon_bar_set_orientation (
-        RsttoIconBar    *icon_bar,
-        GtkOrientation   orientation)
+rstto_icon_bar_set_orientation (RsttoIconBar *icon_bar,
+                                GtkOrientation orientation)
 {
     g_return_if_fail (RSTTO_IS_ICON_BAR (icon_bar));
 
@@ -1502,9 +1490,7 @@ rstto_icon_bar_get_active (RsttoIconBar *icon_bar)
 {
     g_return_val_if_fail (RSTTO_IS_ICON_BAR (icon_bar), -1);
 
-    return (icon_bar->priv->active_item != NULL)
-        ? icon_bar->priv->active_item->index
-        : -1;
+    return (icon_bar->priv->active_item != NULL) ? icon_bar->priv->active_item->index : -1;
 }
 
 
@@ -1518,9 +1504,8 @@ rstto_icon_bar_get_active (RsttoIconBar *icon_bar)
  * Sets the active item of @icon_bar to be the item at @idx.
  **/
 void
-rstto_icon_bar_set_active (
-        RsttoIconBar *icon_bar,
-        gint          idx)
+rstto_icon_bar_set_active (RsttoIconBar *icon_bar,
+                           gint idx)
 {
     GList *item;
 
@@ -1553,9 +1538,8 @@ rstto_icon_bar_set_active (
  * Returns: %TRUE if @iter was set.
  **/
 gboolean
-rstto_icon_bar_get_active_iter (
-        RsttoIconBar  *icon_bar,
-        GtkTreeIter   *iter)
+rstto_icon_bar_get_active_iter (RsttoIconBar *icon_bar,
+                                GtkTreeIter *iter)
 {
     RsttoIconBarItem *item;
 
@@ -1584,9 +1568,8 @@ rstto_icon_bar_get_active_iter (
  * This can only be called if @icon_bar is associated with #GtkTreeModel.
  **/
 void
-rstto_icon_bar_set_active_iter (
-        RsttoIconBar *icon_bar,
-        GtkTreeIter  *iter)
+rstto_icon_bar_set_active_iter (RsttoIconBar *icon_bar,
+                                GtkTreeIter *iter)
 {
     GtkTreePath *path;
 
@@ -1617,9 +1600,8 @@ rstto_icon_bar_get_n_visible_items (RsttoIconBar *icon_bar)
  * Toggles the visibility of the text-label
  **/
 void
-rstto_icon_bar_set_show_text (
-        RsttoIconBar *icon_bar,
-        gboolean show_text)
+rstto_icon_bar_set_show_text (RsttoIconBar *icon_bar,
+                              gboolean show_text)
 {
     g_return_if_fail (RSTTO_IS_ICON_BAR (icon_bar));
     icon_bar->priv->show_text = show_text;
@@ -1632,7 +1614,7 @@ rstto_icon_bar_set_show_text (
  * Returns: TRUE if text is visible.
  **/
 gboolean
-rstto_icon_bar_get_show_text (RsttoIconBar  *icon_bar)
+rstto_icon_bar_get_show_text (RsttoIconBar *icon_bar)
 {
     g_return_val_if_fail (RSTTO_IS_ICON_BAR (icon_bar), FALSE);
     return icon_bar->priv->show_text;
@@ -1657,16 +1639,15 @@ rstto_icon_bar_show_active (RsttoIconBar *icon_bar)
     else
         adjustment = icon_bar->priv->hadjustment;
 
-    gtk_adjustment_set_value (adjustment, (icon_bar->priv->active_item->index + 0.5)
-                                          * icon_bar->priv->item_size
-                                          - gtk_adjustment_get_page_size (adjustment) / 2);
+    gtk_adjustment_set_value (adjustment,
+                              (icon_bar->priv->active_item->index + 0.5) * icon_bar->priv->item_size
+                                  - gtk_adjustment_get_page_size (adjustment) / 2);
 }
 
 static void
-cb_rstto_thumbnail_size_changed (
-        GObject *settings,
-        GParamSpec *pspec,
-        gpointer user_data)
+cb_rstto_thumbnail_size_changed (GObject *settings,
+                                 GParamSpec *pspec,
+                                 gpointer user_data)
 {
     RsttoIconBar *icon_bar = user_data;
 
@@ -1713,8 +1694,9 @@ rstto_icon_bar_update_missing_icon (RsttoIconBar *icon_bar)
     if (icon_bar->priv->thumbnail_missing != NULL)
         g_object_unref (icon_bar->priv->thumbnail_missing);
 
-    icon_bar->priv->thumbnail_missing =
-        gtk_icon_theme_load_icon_for_scale (gtk_icon_theme_get_default (), "image-missing",
-                                            rstto_util_get_thumbnail_n_pixels (icon_bar->priv->thumbnail_size) / scale_factor,
-                                            scale_factor, GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
+    icon_bar->priv->thumbnail_missing = gtk_icon_theme_load_icon_for_scale (
+        gtk_icon_theme_get_default (),
+        "image-missing",
+        rstto_util_get_thumbnail_n_pixels (icon_bar->priv->thumbnail_size) / scale_factor,
+        scale_factor, GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
 }
