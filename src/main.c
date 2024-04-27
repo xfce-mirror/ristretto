@@ -21,10 +21,9 @@
 #include "main_window.h"
 #include "preferences_dialog.h"
 
-#include <locale.h>
-
-#include <xfconf/xfconf.h>
 #include <libxfce4ui/libxfce4ui.h>
+#include <locale.h>
+#include <xfconf/xfconf.h>
 
 
 
@@ -40,34 +39,26 @@ cb_rstto_open_files (gpointer user_data);
 
 
 
-static GOptionEntry entries[] =
-{
-    {    "version", 'V', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &version,
-        N_("Version information"),
-        NULL
-    },
-    {    "fullscreen", 'f', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &start_fullscreen,
-        N_("Start in fullscreen mode"),
-        NULL
-    },
-    {    "slideshow", 's', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &start_slideshow,
-        N_("Start a slideshow"),
-        NULL
-    },
-    { "settings",
-            'S',
-            G_OPTION_FLAG_IN_MAIN,
-            G_OPTION_ARG_NONE,
-            &show_settings,
-            N_("Show settings dialog"),
-        NULL
-    },
+static GOptionEntry entries[] = {
+    { "version", 'V', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &version,
+      N_ ("Version information"),
+      NULL },
+    { "fullscreen", 'f', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &start_fullscreen,
+      N_ ("Start in fullscreen mode"),
+      NULL },
+    { "slideshow", 's', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &start_slideshow,
+      N_ ("Start a slideshow"),
+      NULL },
+    { "settings", 'S', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE, &show_settings,
+      N_ ("Show settings dialog"),
+      NULL },
     { NULL, ' ', 0, 0, NULL, NULL, NULL }
 };
 
 
 
-typedef struct {
+typedef struct
+{
     gint argc;
     gchar **argv;
     RsttoMainWindow *window;
@@ -76,7 +67,8 @@ typedef struct {
 
 
 int
-main (int argc, char **argv)
+main (int argc,
+      char **argv)
 {
     GError *error = NULL;
     RsttoSettings *settings;
@@ -90,13 +82,10 @@ main (int argc, char **argv)
     {
         if (error != NULL)
         {
-            g_printerr (
-                    _("%s: %s\n\n"
-                      "Try %s --help to see a full list of\n"
-                      "available command line options.\n"),
-                    PACKAGE,
-                    error->message,
-                    PACKAGE_NAME);
+            g_printerr (_("%s: %s\n\n"
+                          "Try %s --help to see a full list of\n"
+                          "available command line options.\n"),
+                        PACKAGE, error->message, PACKAGE_NAME);
 
             g_error_free (error);
             return 1;
@@ -109,7 +98,7 @@ main (int argc, char **argv)
         return 0;
     }
 
-    xfconf_disabled = ! xfconf_init (&error);
+    xfconf_disabled = !xfconf_init (&error);
     rstto_settings_set_xfconf_disabled (xfconf_disabled);
     if (xfconf_disabled)
     {
@@ -120,7 +109,7 @@ main (int argc, char **argv)
     gtk_window_set_default_icon_name (RISTRETTO_APP_ID);
     settings = rstto_settings_new ();
 
-    if (! show_settings)
+    if (!show_settings)
     {
         image_list = rstto_image_list_new ();
         window = rstto_main_window_new (image_list, FALSE);
@@ -146,7 +135,7 @@ main (int argc, char **argv)
         /* Start fullscreen */
         if (start_fullscreen)
         {
-           gtk_window_fullscreen (GTK_WINDOW (window));
+            gtk_window_fullscreen (GTK_WINDOW (window));
         }
 
         g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
@@ -161,18 +150,14 @@ main (int argc, char **argv)
         window = rstto_preferences_dialog_new (NULL);
         while (gtk_dialog_run (GTK_DIALOG (window)) == GTK_RESPONSE_HELP)
         {
-            xfce_dialog_show_help (
-                    GTK_WINDOW (window),
-                    "ristretto",
-                    "preferences",
-                    NULL);
+            xfce_dialog_show_help (GTK_WINDOW (window), "ristretto", "preferences", NULL);
         }
         gtk_widget_destroy (window);
     }
 
     g_object_unref (settings);
 
-    if (! xfconf_disabled)
+    if (!xfconf_disabled)
         xfconf_shutdown ();
 
     return 0;

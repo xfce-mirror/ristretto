@@ -26,7 +26,7 @@
 
 G_BEGIN_DECLS
 
-#define RSTTO_WALLPAPER_MANAGER_TYPE  rstto_wallpaper_manager_get_type ()
+#define RSTTO_WALLPAPER_MANAGER_TYPE rstto_wallpaper_manager_get_type ()
 G_DECLARE_INTERFACE (RsttoWallpaperManager, rstto_wallpaper_manager, RSTTO, WALLPAPER_MANAGER, GObject)
 
 typedef struct _RsttoWallpaperManagerInterface RsttoWallpaperManagerInterface;

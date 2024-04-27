@@ -34,10 +34,11 @@ static guint rstto_thumbnail_n_pixels[RSTTO_THUMBNAIL_SIZE_COUNT];
 
 
 static void
-rstto_util_source_remove_all (gpointer  data,
-                              GObject  *object)
+rstto_util_source_remove_all (gpointer data,
+                              GObject *object)
 {
-    while (g_source_remove_by_user_data (object));
+    while (g_source_remove_by_user_data (object))
+        ;
 }
 
 
@@ -49,7 +50,7 @@ rstto_util_source_autoremove (gpointer object)
 {
     g_return_val_if_fail (G_IS_OBJECT (object), object);
 
-    if (! rstto_object_get_data (object, "source-autoremove"))
+    if (!rstto_object_get_data (object, "source-autoremove"))
     {
         g_object_weak_ref (object, rstto_util_source_remove_all, NULL);
         rstto_object_set_data (object, "source-autoremove", GINT_TO_POINTER (TRUE));

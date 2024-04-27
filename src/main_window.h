@@ -22,8 +22,8 @@
 
 #include <gtk/gtk.h>
 
-#include "image_list.h"
 #include "icon_bar.h"
+#include "image_list.h"
 
 G_BEGIN_DECLS
 
@@ -85,4 +85,3 @@ rstto_main_window_fullscreen (GtkWidget *widget,
 G_END_DECLS
 
 #endif /* __RISTRETTO_MAIN_WINDOW_H__ */
-
