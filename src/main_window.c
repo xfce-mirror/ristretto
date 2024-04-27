@@ -2853,7 +2853,6 @@ cb_rstto_main_window_about (GtkWidget *widget, RsttoMainWindow *window)
 {
     const gchar *authors[] =
     {
-      _("Developers:"),
         "Stephan Arts <stephan@xfce.org>",
         "Igor Zakharov <f2404@yandex.ru>",
         "Gaël Bonithon <gael@xfce.org>",

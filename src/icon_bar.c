@@ -247,8 +247,8 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
     g_object_class_install_property (gobject_class,
             PROP_ORIENTATION,
             g_param_spec_enum ("orientation",
-                _("Orientation"),
-                _("The orientation of the iconbar"),
+                "Orientation",
+                "The orientation of the iconbar",
                 GTK_TYPE_ORIENTATION,
                 GTK_ORIENTATION_VERTICAL,
                 G_PARAM_READWRITE));
@@ -261,8 +261,8 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
     g_object_class_install_property (gobject_class,
             PROP_MODEL,
             g_param_spec_object ("model",
-                _("Icon Bar Model"),
-                _("Model for the icon bar"),
+                "Icon Bar Model",
+                "Model for the icon bar",
                 GTK_TYPE_TREE_MODEL,
                 G_PARAM_READWRITE));
 
@@ -278,8 +278,8 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
     g_object_class_install_property (gobject_class,
             PROP_ACTIVE,
             g_param_spec_int ("active",
-                _("Active"),
-                _("Active item index"),
+                "Active",
+                "Active item index",
                 -1, G_MAXINT, -1,
                 G_PARAM_READWRITE));
 
@@ -295,8 +295,8 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
     g_object_class_install_property (gobject_class,
             PROP_SHOW_TEXT,
             g_param_spec_boolean ("show-text",
-                _("Show Text"),
-                _("Show Text"),
+                "Show Text",
+                "Show Text",
                 TRUE,
                 G_PARAM_READWRITE));
 
@@ -308,50 +308,50 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
     g_object_class_install_property (gobject_class,
             PROP_SCROLLED_WINDOW,
             g_param_spec_object ("scrolled-window",
-                _("Scrolled window"),
-                _("Scrolled window icon bar is placed into"),
+                "Scrolled window",
+                "Scrolled window icon bar is placed into",
                 GTK_TYPE_WIDGET,
                 G_PARAM_READWRITE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
             g_param_spec_boxed ("active-item-fill-color",
-                _("Active item fill color"),
-                _("Active item fill color"),
+                "Active item fill color",
+                "Active item fill color",
                 GDK_TYPE_RGBA,
                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
             g_param_spec_boxed ("active-item-border-color",
-                _("Active item border color"),
-                _("Active item border color"),
+                "Active item border color",
+                "Active item border color",
                 GDK_TYPE_RGBA,
                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
             g_param_spec_boxed ("active-item-text-color",
-                _("Active item text color"),
-                _("Active item text color"),
+                "Active item text color",
+                "Active item text color",
                 GDK_TYPE_RGBA,
                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
             g_param_spec_boxed ("cursor-item-fill-color",
-                _("Cursor item fill color"),
-                _("Cursor item fill color"),
+                "Cursor item fill color",
+                "Cursor item fill color",
                 GDK_TYPE_RGBA,
                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
             g_param_spec_boxed ("cursor-item-border-color",
-                _("Cursor item border color"),
-                _("Cursor item border color"),
+                "Cursor item border color",
+                "Cursor item border color",
                 GDK_TYPE_RGBA,
                 G_PARAM_READABLE));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
             g_param_spec_boxed ("cursor-item-text-color",
-                _("Cursor item text color"),
-                _("Cursor item text color"),
+                "Cursor item text color",
+                "Cursor item text color",
                 GDK_TYPE_RGBA,
                 G_PARAM_READABLE));
 
