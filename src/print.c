@@ -85,7 +85,7 @@ rstto_print_draw_page (GtkPrintOperation *operation,
     cr = gtk_print_context_get_cairo_context (context);
     cairo_translate (cr, x0, y0);
 
-    p_width =  gtk_page_setup_get_page_width (page_setup, GTK_UNIT_POINTS);
+    p_width = gtk_page_setup_get_page_width (page_setup, GTK_UNIT_POINTS);
     p_height = gtk_page_setup_get_page_height (page_setup, GTK_UNIT_POINTS);
     width = rstto_image_viewer_get_width (print->viewer);
     height = rstto_image_viewer_get_height (print->viewer);
@@ -137,13 +137,13 @@ rstto_print_settings_save (GtkPrintOperation *operation)
     gtk_print_settings_set_paper_size (settings, gtk_page_setup_get_paper_size (page_setup));
 
     gtk_print_settings_set_double (settings, "top-margin",
-      gtk_page_setup_get_top_margin (page_setup, GTK_UNIT_MM));
+                                   gtk_page_setup_get_top_margin (page_setup, GTK_UNIT_MM));
     gtk_print_settings_set_double (settings, "bottom-margin",
-      gtk_page_setup_get_bottom_margin (page_setup, GTK_UNIT_MM));
+                                   gtk_page_setup_get_bottom_margin (page_setup, GTK_UNIT_MM));
     gtk_print_settings_set_double (settings, "right-margin",
-      gtk_page_setup_get_right_margin (page_setup, GTK_UNIT_MM));
+                                   gtk_page_setup_get_right_margin (page_setup, GTK_UNIT_MM));
     gtk_print_settings_set_double (settings, "left-margin",
-      gtk_page_setup_get_left_margin (page_setup, GTK_UNIT_MM));
+                                   gtk_page_setup_get_left_margin (page_setup, GTK_UNIT_MM));
 
     xfce_rc_set_group (rc, "Print Settings");
     gtk_print_settings_foreach (settings, rstto_print_settings_save_foreach, rc);

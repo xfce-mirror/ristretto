@@ -47,11 +47,14 @@ struct _RsttoSettings
 
 
 
-gboolean rstto_settings_get_xfconf_disabled (void);
+gboolean
+rstto_settings_get_xfconf_disabled (void);
 
-void rstto_settings_set_xfconf_disabled (gboolean disabled);
+void
+rstto_settings_set_xfconf_disabled (gboolean disabled);
 
-RsttoSettings *rstto_settings_new (void);
+RsttoSettings *
+rstto_settings_new (void);
 
 void
 rstto_settings_set_navbar_position (RsttoSettings *settings,

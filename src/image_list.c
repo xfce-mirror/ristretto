@@ -22,8 +22,8 @@
 
 #include "util.h"
 #include "image_list.h"
-#include "thumbnailer.h"
 #include "main_window.h"
+#include "thumbnailer.h"
 
 #include <glib/gi18n.h>
 
@@ -204,18 +204,18 @@ G_DEFINE_TYPE_WITH_PRIVATE (RsttoImageListIter, rstto_image_list_iter, G_TYPE_OB
 static void
 rstto_image_list_tree_model_init (GtkTreeModelIface *iface)
 {
-    iface->get_flags       = image_list_model_get_flags;
-    iface->get_n_columns   = image_list_model_get_n_columns;
+    iface->get_flags = image_list_model_get_flags;
+    iface->get_n_columns = image_list_model_get_n_columns;
     iface->get_column_type = image_list_model_get_column_type;
-    iface->get_iter        = image_list_model_get_iter;
-    iface->get_path        = image_list_model_get_path;
-    iface->get_value       = image_list_model_get_value;
-    iface->iter_children   = image_list_model_iter_children;
-    iface->iter_has_child  = image_list_model_iter_has_child;
+    iface->get_iter = image_list_model_get_iter;
+    iface->get_path = image_list_model_get_path;
+    iface->get_value = image_list_model_get_value;
+    iface->iter_children = image_list_model_iter_children;
+    iface->iter_has_child = image_list_model_iter_has_child;
     iface->iter_n_children = image_list_model_iter_n_children;
-    iface->iter_nth_child  = image_list_model_iter_nth_child;
-    iface->iter_parent     = image_list_model_iter_parent;
-    iface->iter_next       = image_list_model_iter_next;
+    iface->iter_nth_child = image_list_model_iter_nth_child;
+    iface->iter_parent = image_list_model_iter_parent;
+    iface->iter_next = image_list_model_iter_next;
 }
 
 static void
@@ -230,9 +230,8 @@ rstto_image_list_init (RsttoImageList *image_list)
 
     image_list->priv->cb_rstto_image_list_compare_func = cb_rstto_image_list_image_name_compare_func;
 
-    image_list->priv->wrap_images = rstto_settings_get_boolean_property (
-            image_list->priv->settings,
-            "wrap-images");
+    image_list->priv->wrap_images
+        = rstto_settings_get_boolean_property (image_list->priv->settings, "wrap-images");
 
     g_signal_connect (image_list->priv->settings, "notify::wrap-images",
                       G_CALLBACK (cb_rstto_wrap_images_changed), image_list);
@@ -250,27 +249,21 @@ rstto_image_list_class_init (RsttoImageListClass *klass)
 
     object_class->finalize = rstto_image_list_finalize;
 
-    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL] = g_signal_new ("remove-all",
-            G_TYPE_FROM_CLASS (klass),
-            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-            0,
-            NULL,
-            NULL,
-            g_cclosure_marshal_VOID__VOID,
-            G_TYPE_NONE,
-            0,
-            NULL);
+    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL]
+        = g_signal_new ("remove-all",
+                        G_TYPE_FROM_CLASS (klass),
+                        G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                        0, NULL, NULL,
+                        g_cclosure_marshal_VOID__VOID,
+                        G_TYPE_NONE, 0);
 
-    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_SORTED] = g_signal_new ("sorted",
-            G_TYPE_FROM_CLASS (klass),
-            G_SIGNAL_RUN_LAST,
-            0,
-            NULL,
-            NULL,
-            g_cclosure_marshal_VOID__VOID,
-            G_TYPE_NONE,
-            0,
-            NULL);
+    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_SORTED]
+        = g_signal_new ("sorted",
+                        G_TYPE_FROM_CLASS (klass),
+                        G_SIGNAL_RUN_LAST,
+                        0, NULL, NULL,
+                        g_cclosure_marshal_VOID__VOID,
+                        G_TYPE_NONE, 0);
 }
 
 static void
@@ -337,7 +330,7 @@ rstto_image_list_add_file (RsttoImageList *image_list,
         return TRUE;
 
     /* unsupported mime type */
-    if (! rstto_file_is_valid (r_file))
+    if (!rstto_file_is_valid (r_file))
     {
         g_set_error (error, G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT, ERROR_INVALID_FILE);
         return FALSE;
@@ -354,8 +347,8 @@ rstto_image_list_add_file (RsttoImageList *image_list,
         {
             g_signal_connect (monitor, "changed",
                               G_CALLBACK (cb_file_monitor_changed), image_list);
-            image_list->priv->image_monitors =
-                g_list_prepend (image_list->priv->image_monitors, monitor);
+            image_list->priv->image_monitors
+                = g_list_prepend (image_list->priv->image_monitors, monitor);
         }
     }
 
@@ -372,7 +365,7 @@ rstto_image_list_add_file (RsttoImageList *image_list,
     for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
     {
         r_iter = iter->data;
-        if (! r_iter->priv->sticky)
+        if (!r_iter->priv->sticky)
         {
             rstto_image_list_iter_find_file (iter->data, r_file);
             r_iter->priv->sticky = TRUE;
@@ -410,7 +403,7 @@ rstto_image_list_get_iter (RsttoImageList *image_list)
     RsttoFile *r_file = NULL;
     RsttoImageListIter *iter = NULL;
 
-    if (! g_queue_is_empty (image_list->priv->images))
+    if (!g_queue_is_empty (image_list->priv->images))
     {
         r_file = image_list->priv->images->head->data;
     }
@@ -532,7 +525,7 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
             g_object_unref (file);
             if (loaded_file == NULL && g_queue_is_empty (image_list->priv->images))
             {
-                if (! rstto_image_list_add_file (image_list, r_file, NULL))
+                if (!rstto_image_list_add_file (image_list, r_file, NULL))
                 {
                     g_object_unref (r_file);
                     continue;
@@ -562,7 +555,7 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
     {
         /* we're done, inform the others */
         image_list->priv->is_busy = FALSE;
-        if (! g_queue_is_empty (image_list->priv->images))
+        if (!g_queue_is_empty (image_list->priv->images))
             rstto_image_list_set_compare_func (image_list,
                                                image_list->priv->cb_rstto_image_list_compare_func);
         else
@@ -597,7 +590,7 @@ rstto_image_list_set_directory_finish (GObject *source_object,
     {
         /* we're done, inform the others */
         image_list->priv->is_busy = FALSE;
-        if (! g_queue_is_empty (image_list->priv->images))
+        if (!g_queue_is_empty (image_list->priv->images))
         {
             rstto_image_list_set_compare_func (image_list,
                                                image_list->priv->cb_rstto_image_list_compare_func);
@@ -668,7 +661,7 @@ rstto_image_list_set_directory (RsttoImageList *image_list,
     if (dir == NULL)
         return TRUE;
 
-    if (file != NULL && ! rstto_image_list_add_file (image_list, file, error))
+    if (file != NULL && !rstto_image_list_add_file (image_list, file, error))
         return FALSE;
 
     /*
@@ -687,9 +680,8 @@ rstto_image_list_set_directory (RsttoImageList *image_list,
 }
 
 static void
-rstto_image_list_monitor_dir (
-        RsttoImageList *image_list,
-        GFile *dir)
+rstto_image_list_monitor_dir (RsttoImageList *image_list,
+                              GFile *dir)
 {
     GFileMonitor *monitor = NULL;
 
@@ -702,12 +694,7 @@ rstto_image_list_monitor_dir (
     /* Allow a monitor to be removed by providing NULL to dir */
     if (NULL != dir)
     {
-        monitor = g_file_monitor_directory (
-                dir,
-                G_FILE_MONITOR_NONE,
-                NULL,
-                NULL);
-
+        monitor = g_file_monitor_directory (dir, G_FILE_MONITOR_NONE, NULL, NULL);
         if (monitor != NULL)
         {
             g_signal_connect (monitor, "changed",
@@ -725,12 +712,11 @@ rstto_image_list_monitor_dir (
 }
 
 static void
-cb_file_monitor_changed (
-        GFileMonitor      *monitor,
-        GFile             *file,
-        GFile             *other_file,
-        GFileMonitorEvent  event_type,
-        gpointer           user_data)
+cb_file_monitor_changed (GFileMonitor *monitor,
+                         GFile *file,
+                         GFile *other_file,
+                         GFileMonitorEvent event_type,
+                         gpointer user_data)
 {
     RsttoImageList *image_list = user_data;
     RsttoFile *r_file;
@@ -756,9 +742,7 @@ cb_file_monitor_changed (
             rstto_image_list_remove_file (image_list, r_file);
             if (image_list->priv->dir_monitor == NULL)
             {
-                image_list->priv->image_monitors = g_list_remove (
-                        image_list->priv->image_monitors,
-                        monitor);
+                image_list->priv->image_monitors = g_list_remove (image_list->priv->image_monitors, monitor);
                 g_object_unref (monitor);
                 monitor = NULL;
             }
@@ -783,13 +767,10 @@ cb_file_monitor_changed (
             else
             {
                 rstto_file_changed (r_file);
-                if (image_list->priv->cb_rstto_image_list_compare_func ==
-                        cb_rstto_image_list_image_type_compare_func
-                    || image_list->priv->cb_rstto_image_list_compare_func ==
-                        cb_rstto_image_list_exif_date_compare_func)
+                if (image_list->priv->cb_rstto_image_list_compare_func == cb_rstto_image_list_image_type_compare_func
+                    || image_list->priv->cb_rstto_image_list_compare_func == cb_rstto_image_list_exif_date_compare_func)
                 {
-                    rstto_image_list_set_compare_func (image_list,
-                        image_list->priv->cb_rstto_image_list_compare_func);
+                    rstto_image_list_set_compare_func (image_list, image_list->priv->cb_rstto_image_list_compare_func);
                 }
             }
             break;
@@ -828,27 +809,21 @@ rstto_image_list_iter_class_init (RsttoImageListIterClass *klass)
 
     object_class->finalize = rstto_image_list_iter_finalize;
 
-    rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE] = g_signal_new ("prepare-change",
-            G_TYPE_FROM_CLASS (klass),
-            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-            0,
-            NULL,
-            NULL,
-            g_cclosure_marshal_VOID__VOID,
-            G_TYPE_NONE,
-            0,
-            NULL);
+    rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE]
+        = g_signal_new ("prepare-change",
+                        G_TYPE_FROM_CLASS (klass),
+                        G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                        0, NULL, NULL,
+                        g_cclosure_marshal_VOID__VOID,
+                        G_TYPE_NONE, 0);
 
-    rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED] = g_signal_new ("changed",
-            G_TYPE_FROM_CLASS (klass),
-            G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-            0,
-            NULL,
-            NULL,
-            g_cclosure_marshal_VOID__VOID,
-            G_TYPE_NONE,
-            0,
-            NULL);
+    rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED]
+        = g_signal_new ("changed",
+                        G_TYPE_FROM_CLASS (klass),
+                        G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                        0, NULL, NULL,
+                        g_cclosure_marshal_VOID__VOID,
+                        G_TYPE_NONE, 0);
 }
 
 static void
@@ -873,9 +848,8 @@ rstto_image_list_iter_finalize (GObject *object)
 }
 
 static RsttoImageListIter *
-rstto_image_list_iter_new (
-        RsttoImageList *nav,
-        RsttoFile *r_file)
+rstto_image_list_iter_new (RsttoImageList *nav,
+                           RsttoFile *r_file)
 {
     RsttoImageListIter *iter;
 
@@ -889,9 +863,8 @@ rstto_image_list_iter_new (
 }
 
 gboolean
-rstto_image_list_iter_find_file (
-        RsttoImageListIter *iter,
-        RsttoFile *r_file)
+rstto_image_list_iter_find_file (RsttoImageListIter *iter,
+                                 RsttoFile *r_file)
 {
     RsttoImageList *image_list = iter->priv->image_list;
     gint index;
@@ -928,10 +901,9 @@ rstto_image_list_iter_get_file (RsttoImageListIter *iter)
 }
 
 static void
-iter_set_position (
-        RsttoImageListIter *iter,
-        gint pos,
-        gboolean sticky)
+iter_set_position (RsttoImageListIter *iter,
+                   gint pos,
+                   gboolean sticky)
 {
     if (iter->priv->index == pos)
         return;
@@ -959,17 +931,15 @@ iter_set_position (
 }
 
 void
-rstto_image_list_iter_set_position (
-        RsttoImageListIter *iter,
-        gint pos)
+rstto_image_list_iter_set_position (RsttoImageListIter *iter,
+                                    gint pos)
 {
     iter_set_position (iter, pos, TRUE);
 }
 
 static gboolean
-iter_next (
-        RsttoImageListIter *iter,
-        gboolean sticky)
+iter_next (RsttoImageListIter *iter,
+           gboolean sticky)
 {
     RsttoImageList *image_list = iter->priv->image_list;
     gboolean ret_val = FALSE;
@@ -1019,16 +989,13 @@ rstto_image_list_iter_has_next (RsttoImageListIter *iter)
 {
     RsttoImageList *image_list = iter->priv->image_list;
 
-    return iter->priv->link != NULL && (
-                image_list->priv->wrap_images
-                || iter->priv->link != image_list->priv->images->tail
-            );
+    return iter->priv->link != NULL
+           && (image_list->priv->wrap_images || iter->priv->link != image_list->priv->images->tail);
 }
 
 static gboolean
-iter_previous (
-        RsttoImageListIter *iter,
-        gboolean sticky)
+iter_previous (RsttoImageListIter *iter,
+               gboolean sticky)
 {
     RsttoImageList *image_list = iter->priv->image_list;
     gboolean ret_val = FALSE;
@@ -1078,10 +1045,8 @@ rstto_image_list_iter_has_previous (RsttoImageListIter *iter)
 {
     RsttoImageList *image_list = iter->priv->image_list;
 
-    return iter->priv->link != NULL && (
-                image_list->priv->wrap_images
-                || iter->priv->link != image_list->priv->images->head
-            );
+    return iter->priv->link != NULL
+           && (image_list->priv->wrap_images || iter->priv->link != image_list->priv->images->head);
 }
 
 
@@ -1099,7 +1064,8 @@ rstto_image_list_iter_clone (RsttoImageListIter *iter)
 }
 
 static void
-rstto_image_list_set_compare_func (RsttoImageList *image_list, GCompareDataFunc func)
+rstto_image_list_set_compare_func (RsttoImageList *image_list,
+                                   GCompareDataFunc func)
 {
     RsttoFile *files[g_slist_length (image_list->priv->iterators)];
     GSList *iter;
@@ -1205,17 +1171,15 @@ cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
 }
 
 gboolean
-rstto_image_list_iter_get_sticky (
-        RsttoImageListIter *iter)
+rstto_image_list_iter_get_sticky (RsttoImageListIter *iter)
 {
     return iter->priv->sticky;
 }
 
 static void
-cb_rstto_wrap_images_changed (
-        GObject *settings,
-        GParamSpec *pspec,
-        gpointer user_data)
+cb_rstto_wrap_images_changed (GObject *settings,
+                              GParamSpec *pspec,
+                              gpointer user_data)
 {
     RsttoImageList *image_list = user_data;
 
@@ -1243,9 +1207,8 @@ image_list_model_get_n_columns (GtkTreeModel *tree_model)
 }
 
 static GType
-image_list_model_get_column_type (
-        GtkTreeModel *tree_model,
-        gint index_)
+image_list_model_get_column_type (GtkTreeModel *tree_model,
+                                  gint index_)
 {
     g_return_val_if_fail (RSTTO_IS_IMAGE_LIST (tree_model), G_TYPE_INVALID);
 
@@ -1260,10 +1223,9 @@ image_list_model_get_column_type (
 }
 
 static gboolean
-image_list_model_get_iter (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter,
-        GtkTreePath *path)
+image_list_model_get_iter (GtkTreeModel *tree_model,
+                           GtkTreeIter *iter,
+                           GtkTreePath *path)
 {
     gint *indices;
     gint depth;
@@ -1304,9 +1266,8 @@ image_list_model_get_iter (
 }
 
 static GtkTreePath *
-image_list_model_get_path (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter)
+image_list_model_get_path (GtkTreeModel *tree_model,
+                           GtkTreeIter *iter)
 {
     GtkTreePath *path = NULL;
     gint pos;
@@ -1322,10 +1283,9 @@ image_list_model_get_path (
 }
 
 static gboolean
-image_list_model_iter_children (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter,
-        GtkTreeIter *parent)
+image_list_model_iter_children (GtkTreeModel *tree_model,
+                                GtkTreeIter *iter,
+                                GtkTreeIter *parent)
 {
     RsttoFile *file = NULL;
     RsttoImageList *image_list;
@@ -1352,44 +1312,39 @@ image_list_model_iter_children (
 }
 
 static gboolean
-image_list_model_iter_has_child (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter)
+image_list_model_iter_has_child (GtkTreeModel *tree_model,
+                                 GtkTreeIter *iter)
 {
     return FALSE;
 }
 
 static gboolean
-image_list_model_iter_parent (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter,
-        GtkTreeIter *child)
+image_list_model_iter_parent (GtkTreeModel *tree_model,
+                              GtkTreeIter *iter,
+                              GtkTreeIter *child)
 {
     return FALSE;
 }
 
 static gint
-image_list_model_iter_n_children (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter)
+image_list_model_iter_n_children (GtkTreeModel *tree_model,
+                                  GtkTreeIter *iter)
 {
     return rstto_image_list_get_n_images (RSTTO_IMAGE_LIST (tree_model));
 }
 
 static gboolean
-image_list_model_iter_nth_child (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter,
-        GtkTreeIter *parent,
-        gint n)
+image_list_model_iter_nth_child (GtkTreeModel *tree_model,
+                                 GtkTreeIter *iter,
+                                 GtkTreeIter *parent,
+                                 gint n)
 {
     return FALSE;
 }
 
 static gboolean
-image_list_model_iter_next (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter)
+image_list_model_iter_next (GtkTreeModel *tree_model,
+                            GtkTreeIter *iter)
 {
     RsttoImageList *image_list = RSTTO_IMAGE_LIST (tree_model);
     gint pos;
@@ -1421,11 +1376,10 @@ image_list_model_iter_next (
 }
 
 static void
-image_list_model_get_value (
-        GtkTreeModel *tree_model,
-        GtkTreeIter *iter,
-        gint column,
-        GValue *value)
+image_list_model_get_value (GtkTreeModel *tree_model,
+                            GtkTreeIter *iter,
+                            gint column,
+                            GValue *value)
 {
     RsttoFile *file = iter->user_data;
 
@@ -1442,10 +1396,9 @@ image_list_model_get_value (
 }
 
 static void
-cb_rstto_thumbnailer_ready (
-        RsttoThumbnailer *thumbnailer,
-        RsttoFile *file,
-        gpointer user_data)
+cb_rstto_thumbnailer_ready (RsttoThumbnailer *thumbnailer,
+                            RsttoFile *file,
+                            gpointer user_data)
 {
     RsttoImageList *image_list = user_data;
     GtkTreePath *path_ = NULL;

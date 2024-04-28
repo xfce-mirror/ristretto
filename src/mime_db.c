@@ -49,8 +49,8 @@ rstto_mime_db_get_property (GObject *object,
 
 struct _RsttoMimeDBPrivate
 {
-    GFile   *file;
-    XfceRc  *rc;
+    GFile *file;
+    XfceRc *rc;
 };
 
 
@@ -92,11 +92,10 @@ rstto_mime_db_finalize (GObject *object)
 }
 
 static void
-rstto_mime_db_set_property (
-        GObject      *object,
-        guint         property_id,
-        const GValue *value,
-        GParamSpec   *pspec)
+rstto_mime_db_set_property (GObject *object,
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
 {
     switch (property_id)
     {
@@ -108,13 +107,11 @@ rstto_mime_db_set_property (
 }
 
 static void
-rstto_mime_db_get_property (
-        GObject    *object,
-        guint       property_id,
-        GValue     *value,
-        GParamSpec *pspec)
+rstto_mime_db_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
 {
-
     switch (property_id)
     {
         case PROP_FILE:
@@ -122,14 +119,14 @@ rstto_mime_db_get_property (
         default:
             break;
     }
-
 }
 
 RsttoMimeDB *
-rstto_mime_db_new (const gchar *path, GError **error)
+rstto_mime_db_new (const gchar *path,
+                   GError **error)
 {
-    RsttoMimeDB   *mime_db = NULL;
-    XfceRc        *rc = NULL;
+    RsttoMimeDB *mime_db = NULL;
+    XfceRc *rc = NULL;
 
     rc = xfce_rc_simple_open (path, FALSE);
 
@@ -146,21 +143,18 @@ rstto_mime_db_new (const gchar *path, GError **error)
 
 
 const gchar *
-rstto_mime_db_lookup (
-        RsttoMimeDB *mime_db,
-        const gchar *key)
+rstto_mime_db_lookup (RsttoMimeDB *mime_db,
+                      const gchar *key)
 {
     return xfce_rc_read_entry (mime_db->priv->rc, key, NULL);
 }
 
 
 void
-rstto_mime_db_store (
-        RsttoMimeDB *mime_db,
-        const gchar *key,
-        const gchar *value)
+rstto_mime_db_store (RsttoMimeDB *mime_db,
+                     const gchar *key,
+                     const gchar *value)
 {
     xfce_rc_write_entry (mime_db->priv->rc, key, value);
     xfce_rc_flush (mime_db->priv->rc);
 }
-
