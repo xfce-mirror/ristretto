@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-03-30 00:50+0100\n"
+"POT-Creation-Date: 2024-04-29 00:49+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Andrei Stepanov, 2023-2024\n"
 "Language-Team: Russian (http://app.transifex.com/xfce/xfce-apps/language/ru/)\n"
@@ -27,23 +27,23 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: src/main.c:46
+#: src/main.c:44
 msgid "Version information"
 msgstr "Информация о версии"
 
-#: src/main.c:50
+#: src/main.c:47
 msgid "Start in fullscreen mode"
 msgstr "Запустить в полноэкранном режиме"
 
-#: src/main.c:54
+#: src/main.c:50
 msgid "Start a slideshow"
 msgstr "Начать слайд-шоу"
 
-#: src/main.c:62
+#: src/main.c:53
 msgid "Show settings dialog"
 msgstr "Показать диалог настроек"
 
-#: src/main.c:94
+#: src/main.c:85
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -74,322 +74,322 @@ msgstr "При удалении изображения «%s» с диска пр
 msgid "An error occurred when sending image '%s' to trash"
 msgstr "При отправке изображения «%s» в корзину произошла ошибка"
 
-#: src/main_window.c:315
+#: src/main_window.c:314
 msgid "_File"
 msgstr "_Файл"
 
 #. Icon-name
-#: src/main_window.c:321
+#: src/main_window.c:320
 msgid "_Open..."
 msgstr "_Открыть..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:323
+#: src/main_window.c:322
 msgid "Open an image"
 msgstr "Открыть изображение"
 
 #. Icon-name
-#: src/main_window.c:327
+#: src/main_window.c:326
 msgid "_Save copy..."
 msgstr "_Сохранить копию..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:329
+#: src/main_window.c:328
 msgid "Save a copy of the image"
 msgstr "Сохранить копию изображения"
 
 #. Icon-name
-#: src/main_window.c:333
+#: src/main_window.c:332
 msgid "Proper_ties..."
 msgstr "Свойств_а…"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:335
+#: src/main_window.c:334
 msgid "Show file properties"
 msgstr "Показать свойства файла"
 
 #. Icon-name
-#: src/main_window.c:339
+#: src/main_window.c:338
 msgid "_Print..."
 msgstr "_Печать..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:341
+#: src/main_window.c:340
 msgid "Print the current image"
 msgstr "Распечатать текущее изображение"
 
 #. Icon-name
-#: src/main_window.c:345 src/main_window.c:364
+#: src/main_window.c:344 src/main_window.c:363
 msgid "_Edit"
 msgstr "_Правка"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:347
+#: src/main_window.c:346
 msgid "Edit this image"
 msgstr "Редактировать изображение"
 
 #. Icon-name
-#: src/main_window.c:351 src/preferences_dialog.c:218
+#: src/main_window.c:350 src/preferences_dialog.c:217
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "_Закрыть"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:353
+#: src/main_window.c:352
 msgid "Close this image"
 msgstr "Закрыть изображение"
 
 #. Icon-name
-#: src/main_window.c:357
+#: src/main_window.c:356
 msgid "_Quit"
 msgstr "_Выйти"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:359
+#: src/main_window.c:358
 msgid "Quit Ristretto"
 msgstr "Выйти из программы"
 
-#: src/main_window.c:370
+#: src/main_window.c:369
 msgid "_Copy image to clipboard"
 msgstr "_Копировать изображение в буфер обмена"
 
-#: src/main_window.c:376
+#: src/main_window.c:375
 msgid "_Open with"
 msgstr "_Открыть в"
 
-#: src/main_window.c:382
+#: src/main_window.c:381
 msgid "_Sort by"
 msgstr "_Сортировать по"
 
 #. Icon-name
-#: src/main_window.c:388
+#: src/main_window.c:387
 msgid "_Delete"
 msgstr "_Удалить"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:390
+#: src/main_window.c:389
 msgid "Delete this image from disk"
 msgstr "Удалить изображение с диска"
 
 #. Icon-name
-#: src/main_window.c:394
+#: src/main_window.c:393
 msgid "_Clear private data..."
 msgstr "О_чистить личные данные..."
 
 #. Icon-name
-#: src/main_window.c:400
+#: src/main_window.c:399
 msgid "_Preferences..."
 msgstr "_Настройки..."
 
-#: src/main_window.c:407
+#: src/main_window.c:406
 msgid "_View"
 msgstr "Прос_мотр"
 
 #. Icon-name
-#: src/main_window.c:413
+#: src/main_window.c:412
 msgid "_Fullscreen"
 msgstr "_Полноэкранный режим"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:415
+#: src/main_window.c:414
 msgid "Switch to fullscreen"
 msgstr "Во весь экран"
 
 #. Icon-name
-#: src/main_window.c:419
+#: src/main_window.c:418
 msgid "_Leave Fullscreen"
 msgstr "_Выйти из полноэкранного режима"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:421
+#: src/main_window.c:420
 msgid "Leave Fullscreen"
 msgstr "Выйти из полноэкранного режима"
 
 #. Icon-name
-#: src/main_window.c:425
+#: src/main_window.c:424
 msgid "Set as _Wallpaper..."
 msgstr "Сделать о_боями рабочего стола..."
 
-#: src/main_window.c:432
+#: src/main_window.c:431
 msgid "_Zoom"
 msgstr "_Масштаб"
 
 #. Icon-name
-#: src/main_window.c:438
+#: src/main_window.c:437
 msgid "Zoom _In"
 msgstr "_Приблизить"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:440
+#: src/main_window.c:439
 msgid "Zoom in"
 msgstr "Приблизить"
 
 #. Icon-name
-#: src/main_window.c:444
+#: src/main_window.c:443
 msgid "Zoom _Out"
 msgstr "О_тдалить"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:446
+#: src/main_window.c:445
 msgid "Zoom out"
 msgstr "Отдалить"
 
 #. Icon-name
-#: src/main_window.c:450 src/main_window.c:734
+#: src/main_window.c:449 src/main_window.c:730
 msgid "Zoom _Fit"
 msgstr "Вписать в _окно"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:452
+#: src/main_window.c:451
 msgid "Zoom to fit window"
 msgstr "Уместить в окне"
 
 #. Icon-name
-#: src/main_window.c:456 src/main_window.c:740
+#: src/main_window.c:455 src/main_window.c:736
 msgid "_Normal Size"
 msgstr "_Нормальный размер"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:458
+#: src/main_window.c:457
 msgid "Zoom to 100%"
 msgstr "Исходный размер"
 
-#: src/main_window.c:463
+#: src/main_window.c:462
 msgid "_Default Zoom"
 msgstr "Масштаб _по умолчанию"
 
-#: src/main_window.c:470
+#: src/main_window.c:469
 msgid "_Rotation"
 msgstr "_Повернуть"
 
 #. Icon-name
-#: src/main_window.c:476
+#: src/main_window.c:475
 msgid "Rotate _Right"
 msgstr "Повернуть в_право"
 
 #. Icon-name
-#: src/main_window.c:482
+#: src/main_window.c:481
 msgid "Rotate _Left"
 msgstr "Повернуть в_лево"
 
-#: src/main_window.c:489
+#: src/main_window.c:488
 msgid "_Flip"
 msgstr "_Отразить"
 
-#: src/main_window.c:495
+#: src/main_window.c:494
 msgid "Flip _Horizontally"
 msgstr "Отразить _горизонтально"
 
-#: src/main_window.c:501
+#: src/main_window.c:500
 msgid "Flip _Vertically"
 msgstr "Отразить _вертикально"
 
-#: src/main_window.c:508
+#: src/main_window.c:507
 msgid "_Go"
 msgstr "Пере_ход"
 
 #. Icon-name
-#: src/main_window.c:514
+#: src/main_window.c:513
 msgid "_Forward"
 msgstr "_Вперёд"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:516
+#: src/main_window.c:515
 msgid "Next image"
 msgstr "Следующее"
 
 #. Icon-name
-#: src/main_window.c:520
+#: src/main_window.c:519
 msgid "_Back"
 msgstr "_Назад"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:522
+#: src/main_window.c:521
 msgid "Previous image"
 msgstr "Предыдущее"
 
 #. Icon-name
-#: src/main_window.c:526
+#: src/main_window.c:525
 msgid "F_irst"
 msgstr "П_ервое"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:528
+#: src/main_window.c:527
 msgid "First image"
 msgstr "Первое изображение"
 
 #. Icon-name
-#: src/main_window.c:532
+#: src/main_window.c:531
 msgid "_Last"
 msgstr "_Последнее"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:534
+#: src/main_window.c:533
 msgid "Last image"
 msgstr "Последнее изображение"
 
-#: src/main_window.c:539
+#: src/main_window.c:538
 msgid "_Help"
 msgstr "_Справка"
 
 #. Icon-name
-#: src/main_window.c:545
+#: src/main_window.c:544
 msgid "_Contents"
 msgstr "_Содержание"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:547
+#: src/main_window.c:546
 msgid "Display ristretto user manual"
 msgstr "Показать руководство пользователя ristretto"
 
 #. Icon-name
-#: src/main_window.c:551
+#: src/main_window.c:550
 msgid "_About"
 msgstr "_О программе"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:553
+#: src/main_window.c:552
 msgid "Display information about ristretto"
 msgstr "Показать информацию о программе"
 
-#: src/main_window.c:558
+#: src/main_window.c:557
 msgid "_Position"
 msgstr "_Позиция"
 
-#: src/main_window.c:564
+#: src/main_window.c:563
 msgid "_Size"
 msgstr "Раз_мер"
 
-#: src/main_window.c:570
+#: src/main_window.c:569
 msgid "Thumbnail Bar _Position"
 msgstr "По_ложение панели эскизов"
 
-#: src/main_window.c:576
+#: src/main_window.c:575
 msgid "Thumb_nail Size"
 msgstr "Раз_мер эскизов"
 
 #. Icon-name
-#: src/main_window.c:583
+#: src/main_window.c:582
 msgid "Leave _Fullscreen"
 msgstr "Выйти из полно_экранного режима"
 
@@ -409,499 +409,435 @@ msgid "Show Status _Bar"
 msgstr "Показать строку состо_яния"
 
 #. Icon-name
-#: src/main_window.c:629
+#: src/main_window.c:628
 msgid "file name"
 msgstr "имени файла"
 
 #. Icon-name
-#: src/main_window.c:635
+#: src/main_window.c:634
 msgid "file type"
 msgstr "типу файла"
 
 #. Icon-name
-#: src/main_window.c:641
+#: src/main_window.c:640
 msgid "date"
 msgstr "дате"
 
 #. Icon-name
-#: src/main_window.c:652
+#: src/main_window.c:650
 msgid "Left"
 msgstr "Слева"
 
-#: src/main_window.c:658
+#: src/main_window.c:656
 msgid "Right"
 msgstr "Справа"
 
-#: src/main_window.c:664
+#: src/main_window.c:662
 msgid "Top"
 msgstr "Вверху"
 
-#: src/main_window.c:670
+#: src/main_window.c:668
 msgid "Bottom"
 msgstr "Внизу"
 
-#: src/main_window.c:681
+#: src/main_window.c:678
 msgid "Very Small"
 msgstr "Очень маленькие"
 
-#: src/main_window.c:687
+#: src/main_window.c:684
 msgid "Smaller"
 msgstr "Маленькие"
 
-#: src/main_window.c:693
+#: src/main_window.c:690
 msgid "Small"
 msgstr "Мелкие"
 
-#: src/main_window.c:699
+#: src/main_window.c:696
 msgid "Normal"
 msgstr "Обычные"
 
-#: src/main_window.c:705
+#: src/main_window.c:702
 msgid "Large"
 msgstr "Крупные"
 
-#: src/main_window.c:711
+#: src/main_window.c:708
 msgid "Larger"
 msgstr "Большие"
 
-#: src/main_window.c:717
+#: src/main_window.c:714
 msgid "Very Large"
 msgstr "Очень большие"
 
 #. Icon-name
-#: src/main_window.c:728
+#: src/main_window.c:724
 msgid "_Smart Zoom"
 msgstr "_Интеллектуальный масштаб"
 
-#: src/main_window.c:874
+#: src/main_window.c:870
 msgid "Images"
 msgstr "Изображения"
 
 #. Create Play/Pause Slideshow actions
-#: src/main_window.c:947
+#: src/main_window.c:942
 msgid "_Play"
 msgstr "Н_ачать слайд-шоу"
 
-#: src/main_window.c:947
+#: src/main_window.c:942
 msgid "Play slideshow"
 msgstr "Начать слайд-шоу"
 
-#: src/main_window.c:948
+#: src/main_window.c:943
 msgid "_Pause"
 msgstr "_Пауза"
 
-#: src/main_window.c:948
+#: src/main_window.c:943
 msgid "Pause slideshow"
 msgstr "Остановить слайд-шоу"
 
 #. Create Recently used items Action
-#: src/main_window.c:951
+#: src/main_window.c:946
 msgid "_Recently used"
 msgstr "_Недавние"
 
-#: src/main_window.c:951
+#: src/main_window.c:946
 msgid "Recently used"
 msgstr "Недавно просмотренные"
 
-#: src/main_window.c:1075 src/main_window.c:1631
+#: src/main_window.c:1071 src/main_window.c:1618
 msgid "Press open to select an image"
 msgstr "Нажмите Открыть для выбора изображения"
 
-#: src/main_window.c:1573 src/main_window.c:1578
+#: src/main_window.c:1560 src/main_window.c:1565
 msgid "Open With Other _Application..."
 msgstr "Открыть с помо_щью..."
 
-#: src/main_window.c:1588 src/main_window.c:1596
+#: src/main_window.c:1575 src/main_window.c:1583
 msgid "Empty"
 msgstr "Пусто"
 
-#: src/main_window.c:1636
+#: src/main_window.c:1622
 msgid "Loading..."
 msgstr "Загрузка..."
 
-#: src/main_window.c:2286
+#: src/main_window.c:2267
 msgid "Choose 'set wallpaper' method"
 msgstr "Выберите способ установки обоев"
 
-#: src/main_window.c:2290 src/main_window.c:3423 src/main_window.c:3511
-#: src/main_window.c:4190 src/privacy_dialog.c:149
-#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:190
+#: src/main_window.c:2271 src/main_window.c:3382 src/main_window.c:3470
+#: src/main_window.c:4135 src/privacy_dialog.c:145
+#: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
 msgstr "О_тмена"
 
-#: src/main_window.c:2293 src/main_window.c:4193
-#: src/xfce_wallpaper_manager.c:282 src/gnome_wallpaper_manager.c:196
+#: src/main_window.c:2274 src/main_window.c:4138
+#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
 msgid "_OK"
 msgstr "_Ок"
 
-#: src/main_window.c:2303
+#: src/main_window.c:2284
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Выберите ваше текущее рабочее окружение.\nЭта настройка указывает способ, которым <i>Ristretto</i>\nбудет устанавливать обои рабочего стола."
 
-#: src/main_window.c:2329 src/preferences_dialog.c:471
+#: src/main_window.c:2293 src/preferences_dialog.c:466
 msgid "None"
 msgstr "Нет"
 
-#: src/main_window.c:2333 src/preferences_dialog.c:475
+#: src/main_window.c:2294 src/preferences_dialog.c:468
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2337 src/preferences_dialog.c:479
+#: src/main_window.c:2295 src/preferences_dialog.c:470
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:2856
-msgid "Developers:"
-msgstr "Разработчики:"
-
-#: src/main_window.c:2868 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:2817 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto — быстрая и легковесная программа просмотра изображений для рабочего окружения Xfce."
 
-#: src/main_window.c:2876
+#: src/main_window.c:2822
 msgid "translator-credits"
 msgstr "Urmas <davian818@gmail.com>, 2011"
 
-#: src/main_window.c:3421
+#: src/main_window.c:3381
 msgid "Open image"
 msgstr "Открыть изображение"
 
-#: src/main_window.c:3423
+#: src/main_window.c:3382
 msgid "_Open"
 msgstr "_Открыть"
 
-#: src/main_window.c:3441
+#: src/main_window.c:3400
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3446
+#: src/main_window.c:3405
 msgid "All Files"
 msgstr "Все файлы"
 
-#: src/main_window.c:3508
+#: src/main_window.c:3469
 msgid "Save copy"
 msgstr "Сохранить копию"
 
-#: src/main_window.c:3512
+#: src/main_window.c:3471
 msgid "_Save"
 msgstr "_Сохранить"
 
-#: src/main_window.c:3622
+#: src/main_window.c:3575
 msgid "Failed to print the image"
 msgstr "Не удалось напечатать изображение"
 
-#: src/main_window.c:3712
+#: src/main_window.c:3662
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Отправить изображение «%s» в корзину?"
 
-#: src/main_window.c:3716
+#: src/main_window.c:3666
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Удалить изображение «%s» с диска?"
 
-#: src/main_window.c:3728
+#: src/main_window.c:3673
 msgid "_Do not ask again for this session"
 msgstr "_Больше не спрашивать до перезапуска"
 
-#: src/main_window.c:4185
+#: src/main_window.c:4130
 msgid "Edit with"
 msgstr "Редактировать с помощью"
 
-#: src/main_window.c:4206
+#: src/main_window.c:4150
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Открывать %s и другие файлы типа %s с помощью:"
 
-#: src/main_window.c:4212
+#: src/main_window.c:4156
 msgid "Use as _default for this kind of file"
 msgstr "Использовать по _умолчанию для файлов данного типа"
 
-#: src/main_window.c:4297
+#: src/main_window.c:4201
 msgid "Recommended Applications"
 msgstr "Рекомендованные приложения"
 
-#: src/main_window.c:4346
+#: src/main_window.c:4237
 msgid "Other Applications"
 msgstr "Другие приложения"
 
-#: src/icon_bar.c:250
-msgid "Orientation"
-msgstr "Ориентация"
-
-#: src/icon_bar.c:251
-msgid "The orientation of the iconbar"
-msgstr "Ориентация панели иконок"
-
-#: src/icon_bar.c:264
-msgid "Icon Bar Model"
-msgstr "Тип панели иконок"
-
-#: src/icon_bar.c:265
-msgid "Model for the icon bar"
-msgstr "Модель для панели иконок"
-
-#: src/icon_bar.c:281
-msgid "Active"
-msgstr "Активно"
-
-#: src/icon_bar.c:282
-msgid "Active item index"
-msgstr "Индекс активного элемента"
-
-#: src/icon_bar.c:298 src/icon_bar.c:299
-msgid "Show Text"
-msgstr "Показать текст"
-
-#: src/icon_bar.c:311
-msgid "Scrolled window"
-msgstr "Окно с полосой прокрутки"
-
-#: src/icon_bar.c:312
-msgid "Scrolled window icon bar is placed into"
-msgstr "Окно с полосой прокрутки, в которое помещена панель эскизов"
-
-#: src/icon_bar.c:318 src/icon_bar.c:319
-msgid "Active item fill color"
-msgstr "Цвет заполнения активного элемента"
-
-#: src/icon_bar.c:325 src/icon_bar.c:326
-msgid "Active item border color"
-msgstr "Цвет границ активного элемента"
-
-#: src/icon_bar.c:332 src/icon_bar.c:333
-msgid "Active item text color"
-msgstr "Цвет текста активного элемента"
-
-#: src/icon_bar.c:339 src/icon_bar.c:340
-msgid "Cursor item fill color"
-msgstr "Цвет заполнения курсора активного элемента"
-
-#: src/icon_bar.c:346 src/icon_bar.c:347
-msgid "Cursor item border color"
-msgstr "Цвет границ курсора активного элемента"
-
-#: src/icon_bar.c:353 src/icon_bar.c:354
-msgid "Cursor item text color"
-msgstr "Цвет курсора активного элемента"
-
-#: src/privacy_dialog.c:119
+#: src/privacy_dialog.c:115
 msgid "Time range to clear:"
 msgstr "Период для очистки:"
 
-#: src/privacy_dialog.c:122
+#: src/privacy_dialog.c:118
 msgid "Cleanup"
 msgstr "Очистка"
 
-#: src/privacy_dialog.c:125
+#: src/privacy_dialog.c:121
 msgid "Last Hour"
 msgstr "Последний час"
 
-#: src/privacy_dialog.c:126
+#: src/privacy_dialog.c:122
 msgid "Last Two Hours"
 msgstr "Последние два часа"
 
-#: src/privacy_dialog.c:127
+#: src/privacy_dialog.c:123
 msgid "Last Four Hours"
 msgstr "Последние четыре часа"
 
-#: src/privacy_dialog.c:128
+#: src/privacy_dialog.c:124
 msgid "Today"
 msgstr "Сегодня"
 
-#: src/privacy_dialog.c:129
+#: src/privacy_dialog.c:125
 msgid "Everything"
 msgstr "Всё время"
 
-#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:279
-#: src/gnome_wallpaper_manager.c:193
+#: src/privacy_dialog.c:148 src/xfce_wallpaper_manager.c:273
+#: src/gnome_wallpaper_manager.c:181
 msgid "_Apply"
 msgstr "_Применить"
 
-#: src/privacy_dialog.c:438
+#: src/privacy_dialog.c:418
 msgid "Clear private data"
 msgstr "Очистка личных данных"
 
-#: src/preferences_dialog.c:250
+#: src/preferences_dialog.c:248
 msgid "Display"
 msgstr "Отображение"
 
-#: src/preferences_dialog.c:257
+#: src/preferences_dialog.c:255
 msgid "Background color"
 msgstr "Цвет фона"
 
-#: src/preferences_dialog.c:261
+#: src/preferences_dialog.c:259
 msgid "Override background color:"
 msgstr "Установить цвет фона:"
 
-#: src/preferences_dialog.c:289
+#: src/preferences_dialog.c:287
 msgid "Quality"
 msgstr "Качество"
 
-#: src/preferences_dialog.c:293
+#: src/preferences_dialog.c:291
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "С этой опцией, максимальное качество изображения будет ограничено размером экрана."
 
-#: src/preferences_dialog.c:298
+#: src/preferences_dialog.c:296
 msgid "Limit rendering quality"
 msgstr "Ограничить качество отображения"
 
-#: src/preferences_dialog.c:307
+#: src/preferences_dialog.c:305
 msgid ""
 "Smooth the image using bilinear interpolation, thus prioritizing rendering "
 "quality over performance."
 msgstr "Сгладить изображение с помощью билинейной интерполяции, отдавая предпочтение качеству рендеринга, а не производительности."
 
-#: src/preferences_dialog.c:312
+#: src/preferences_dialog.c:310
 msgid "Enable smoothing"
 msgstr "Включить сглаживание"
 
-#: src/preferences_dialog.c:324
+#: src/preferences_dialog.c:322
 msgid "Fullscreen"
 msgstr "Полноэкранный режим"
 
-#: src/preferences_dialog.c:328
+#: src/preferences_dialog.c:326
 msgid "Thumbnails"
 msgstr "Эскизы"
 
-#: src/preferences_dialog.c:331
+#: src/preferences_dialog.c:329
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "Панель эскизов может быть скрыта при переходе в полноэкранный режим."
 
-#: src/preferences_dialog.c:336
+#: src/preferences_dialog.c:334
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Скрывать панель эскизов в полноэкранном режиме"
 
-#: src/preferences_dialog.c:344
+#: src/preferences_dialog.c:342
 msgid "Clock"
 msgstr "Часы"
 
-#: src/preferences_dialog.c:347
+#: src/preferences_dialog.c:345
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "Показывать часы, отображающие текущее время, при просмотре в полноэкранном режиме."
 
-#: src/preferences_dialog.c:352
+#: src/preferences_dialog.c:350
 msgid "Show Fullscreen Clock"
 msgstr "Отображать часы в полноэкранном режиме"
 
-#: src/preferences_dialog.c:358
+#: src/preferences_dialog.c:356
 msgid "Mouse cursor"
 msgstr "Курсор мыши"
 
-#: src/preferences_dialog.c:361
+#: src/preferences_dialog.c:359
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
 msgstr "Курсор мыши может автоматически скрываться после определённого периода бездействия в полноэкранном режиме."
 
-#: src/preferences_dialog.c:369
+#: src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
 msgstr "Период бездействия (секунды):"
 
-#: src/preferences_dialog.c:388
+#: src/preferences_dialog.c:386
 msgid "Slideshow"
 msgstr "Слайд-шоу"
 
-#: src/preferences_dialog.c:392
+#: src/preferences_dialog.c:390
 msgid "Timeout"
 msgstr "Задержка"
 
-#: src/preferences_dialog.c:395
+#: src/preferences_dialog.c:393
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
 msgstr "Время показа изображений в режиме слайд-шоу (в секундах)"
 
-#: src/preferences_dialog.c:411
+#: src/preferences_dialog.c:409
 msgid "Control"
 msgstr "Управление"
 
-#: src/preferences_dialog.c:415
+#: src/preferences_dialog.c:413
 msgid "Scroll wheel"
 msgstr "Колёсико мыши"
 
-#: src/preferences_dialog.c:418
+#: src/preferences_dialog.c:416
 msgid "Invert zoom direction"
 msgstr "Изменить направление масштабирования"
 
-#: src/preferences_dialog.c:429
+#: src/preferences_dialog.c:427
 msgid "Behaviour"
 msgstr "Поведение"
 
-#: src/preferences_dialog.c:433
+#: src/preferences_dialog.c:431
 msgid "Startup"
 msgstr "Запуск"
 
-#: src/preferences_dialog.c:435
+#: src/preferences_dialog.c:433
 msgid "Maximize window on startup when opening an image"
 msgstr "При открытии изображения развёртывать окно во весь экран"
 
-#: src/preferences_dialog.c:441
+#: src/preferences_dialog.c:439
 msgid "Wrap around images"
 msgstr "Циклический просмотр изображений"
 
-#: src/preferences_dialog.c:452
+#: src/preferences_dialog.c:450
 msgid "Desktop"
 msgstr "Рабочий стол"
 
-#: src/preferences_dialog.c:457
+#: src/preferences_dialog.c:454
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
 msgstr "Выберите ваше текущее рабочее окружение. Эта настройка указывает способ, которым <i>Ristretto</i> будет устанавливать обои рабочего стола."
 
-#: src/preferences_dialog.c:561
+#: src/preferences_dialog.c:551
 msgid "Image Viewer Preferences"
 msgstr "Настройки программы"
 
-#: src/properties_dialog.c:138
+#: src/properties_dialog.c:132
 msgid "<b>Name:</b>"
 msgstr "<b>Имя:</b>"
 
-#: src/properties_dialog.c:139
+#: src/properties_dialog.c:133
 msgid "<b>Kind:</b>"
 msgstr "<b>Тип:</b>"
 
-#: src/properties_dialog.c:140
+#: src/properties_dialog.c:134
 msgid "<b>Modified:</b>"
 msgstr "<b>Изменён:</b>"
 
-#: src/properties_dialog.c:141
+#: src/properties_dialog.c:135
 msgid "<b>Accessed:</b>"
 msgstr "<b>Доступ:</b>"
 
-#: src/properties_dialog.c:142
+#: src/properties_dialog.c:136
 msgid "<b>Size:</b>"
 msgstr "<b>Размер:</b>"
 
-#: src/properties_dialog.c:166
+#: src/properties_dialog.c:160
 msgid "General"
 msgstr "Общие"
 
-#: src/properties_dialog.c:172
+#: src/properties_dialog.c:166
 msgid "Image"
 msgstr "Изображение"
 
-#: src/properties_dialog.c:391
+#: src/properties_dialog.c:351
 msgid "<b>Date taken:</b>"
 msgstr "<b>Дата съёмки:</b>"
 
-#: src/properties_dialog.c:403 src/properties_dialog.c:415
-#: src/properties_dialog.c:427
+#: src/properties_dialog.c:361 src/properties_dialog.c:371
+#: src/properties_dialog.c:381
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: src/properties_dialog.c:486
+#: src/properties_dialog.c:419
 #, c-format
 msgid "%s - Properties"
 msgstr "Свойства: %s"
@@ -922,7 +858,7 @@ msgstr "Не удалось загрузить каталог"
 msgid "Unsupported mime type"
 msgstr "Неподдерживаемый тип MIME"
 
-#: src/thumbnailer.c:375
+#: src/thumbnailer.c:366
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -932,43 +868,44 @@ msgid ""
 "to resolve this issue."
 msgstr "Не удалось установить соединение со службой создания эскизов.\nЭскизы для изображений создаваться не будут.\n\nУстановите <b>Tumbler</b> или иную <i>службу эскизов (миниатюр)</i>,\nчтобы это исправить."
 
-#: src/thumbnailer.c:384
+#: src/thumbnailer.c:374
 msgid "Do _not show this message again"
 msgstr "Больше _не показывать это сообщение"
 
-#: src/xfce_wallpaper_manager.c:254 src/gnome_wallpaper_manager.c:176
+#: src/xfce_wallpaper_manager.c:251 src/gnome_wallpaper_manager.c:164
 msgid "Style:"
 msgstr "Стиль:"
 
-#: src/xfce_wallpaper_manager.c:266
+#. stretched is now default value
+#: src/xfce_wallpaper_manager.c:262
 msgid "Apply to all workspaces"
 msgstr "Применить для всех рабочих мест"
 
-#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:188
+#: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:176
 msgid "Set as wallpaper"
 msgstr "Установить как обои"
 
-#: src/xfce_wallpaper_manager.c:336 src/gnome_wallpaper_manager.c:246
+#: src/xfce_wallpaper_manager.c:302 src/gnome_wallpaper_manager.c:206
 msgid "Auto"
 msgstr "Автоматически"
 
-#: src/xfce_wallpaper_manager.c:339
+#: src/xfce_wallpaper_manager.c:303
 msgid "Centered"
 msgstr "Центровать"
 
-#: src/xfce_wallpaper_manager.c:342
+#: src/xfce_wallpaper_manager.c:304
 msgid "Tiled"
 msgstr "Сжать"
 
-#: src/xfce_wallpaper_manager.c:345
+#: src/xfce_wallpaper_manager.c:305
 msgid "Stretched"
 msgstr "Замостить"
 
-#: src/xfce_wallpaper_manager.c:348
+#: src/xfce_wallpaper_manager.c:306
 msgid "Scaled"
 msgstr "Растянуть"
 
-#: src/xfce_wallpaper_manager.c:351
+#: src/xfce_wallpaper_manager.c:307
 msgid "Zoomed"
 msgstr "Приближено"
 
