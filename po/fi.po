@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-03-28 12:51+0100\n"
+"POT-Creation-Date: 2024-04-29 00:49+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Ammuu5, 2020\n"
 "Language-Team: Finnish (http://app.transifex.com/xfce/xfce-apps/language/fi/)\n"
@@ -20,23 +20,23 @@ msgstr ""
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/main.c:46
+#: src/main.c:44
 msgid "Version information"
 msgstr "Versiotiedot"
 
-#: src/main.c:50
+#: src/main.c:47
 msgid "Start in fullscreen mode"
 msgstr "Käynnistä koko näytön tilassa"
 
-#: src/main.c:54
+#: src/main.c:50
 msgid "Start a slideshow"
 msgstr "Aloita diaesitys"
 
-#: src/main.c:62
+#: src/main.c:53
 msgid "Show settings dialog"
 msgstr "Näytä asetusikkuna"
 
-#: src/main.c:94
+#: src/main.c:85
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -67,322 +67,322 @@ msgstr ""
 msgid "An error occurred when sending image '%s' to trash"
 msgstr ""
 
-#: src/main_window.c:315
+#: src/main_window.c:314
 msgid "_File"
 msgstr "_Tiedosto"
 
 #. Icon-name
-#: src/main_window.c:321
+#: src/main_window.c:320
 msgid "_Open..."
 msgstr "_Avaa..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:323
+#: src/main_window.c:322
 msgid "Open an image"
 msgstr "Avaa kuva"
 
 #. Icon-name
-#: src/main_window.c:327
+#: src/main_window.c:326
 msgid "_Save copy..."
 msgstr "Tallenna k_opio..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:329
+#: src/main_window.c:328
 msgid "Save a copy of the image"
 msgstr "Tallenna kopio kuvasta"
 
 #. Icon-name
-#: src/main_window.c:333
+#: src/main_window.c:332
 msgid "Proper_ties..."
 msgstr ""
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:335
+#: src/main_window.c:334
 msgid "Show file properties"
 msgstr "Näytä tiedoston ominaisuudet"
 
 #. Icon-name
-#: src/main_window.c:339
+#: src/main_window.c:338
 msgid "_Print..."
 msgstr "_Tulosta..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:341
+#: src/main_window.c:340
 msgid "Print the current image"
 msgstr ""
 
 #. Icon-name
-#: src/main_window.c:345 src/main_window.c:364
+#: src/main_window.c:344 src/main_window.c:363
 msgid "_Edit"
 msgstr "_Muokkaa"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:347
+#: src/main_window.c:346
 msgid "Edit this image"
 msgstr "Muokkaa kuvaa"
 
 #. Icon-name
-#: src/main_window.c:351 src/preferences_dialog.c:212
+#: src/main_window.c:350 src/preferences_dialog.c:217
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "_Sulje"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:353
+#: src/main_window.c:352
 msgid "Close this image"
 msgstr "Sulje kuva"
 
 #. Icon-name
-#: src/main_window.c:357
+#: src/main_window.c:356
 msgid "_Quit"
 msgstr "_Lopeta"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:359
+#: src/main_window.c:358
 msgid "Quit Ristretto"
 msgstr "Lopeta Ristretto"
 
-#: src/main_window.c:370
+#: src/main_window.c:369
 msgid "_Copy image to clipboard"
 msgstr ""
 
-#: src/main_window.c:376
+#: src/main_window.c:375
 msgid "_Open with"
 msgstr "Avaa _sovelluksessa"
 
-#: src/main_window.c:382
+#: src/main_window.c:381
 msgid "_Sort by"
 msgstr "_Järjestysperuste"
 
 #. Icon-name
-#: src/main_window.c:388
+#: src/main_window.c:387
 msgid "_Delete"
 msgstr "_Poista"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:390
+#: src/main_window.c:389
 msgid "Delete this image from disk"
 msgstr "Poista kuva levyltä"
 
 #. Icon-name
-#: src/main_window.c:394
+#: src/main_window.c:393
 msgid "_Clear private data..."
 msgstr "_Poista yksityisiä tietoja..."
 
 #. Icon-name
-#: src/main_window.c:400
+#: src/main_window.c:399
 msgid "_Preferences..."
 msgstr "_Asetukset..."
 
-#: src/main_window.c:407
+#: src/main_window.c:406
 msgid "_View"
 msgstr "_Näytä"
 
 #. Icon-name
-#: src/main_window.c:413
+#: src/main_window.c:412
 msgid "_Fullscreen"
 msgstr "Koko näytt_ö"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:415
+#: src/main_window.c:414
 msgid "Switch to fullscreen"
 msgstr "Siirry koko näytön tilaan"
 
 #. Icon-name
-#: src/main_window.c:419
+#: src/main_window.c:418
 msgid "_Leave Fullscreen"
 msgstr "P_oistu koko näytön tilasta"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:421
+#: src/main_window.c:420
 msgid "Leave Fullscreen"
 msgstr "Poistu koko näytön tilasta"
 
 #. Icon-name
-#: src/main_window.c:425
+#: src/main_window.c:424
 msgid "Set as _Wallpaper..."
 msgstr "_Aseta taustakuvaksi..."
 
-#: src/main_window.c:432
+#: src/main_window.c:431
 msgid "_Zoom"
 msgstr "S_uurenna"
 
 #. Icon-name
-#: src/main_window.c:438
+#: src/main_window.c:437
 msgid "Zoom _In"
 msgstr "_Suurenna"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:440
+#: src/main_window.c:439
 msgid "Zoom in"
 msgstr "Suurenna"
 
 #. Icon-name
-#: src/main_window.c:444
+#: src/main_window.c:443
 msgid "Zoom _Out"
 msgstr "_Pienennä"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:446
+#: src/main_window.c:445
 msgid "Zoom out"
 msgstr "Pienennä"
 
 #. Icon-name
-#: src/main_window.c:450 src/main_window.c:734
+#: src/main_window.c:449 src/main_window.c:730
 msgid "Zoom _Fit"
 msgstr "So_vita"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:452
+#: src/main_window.c:451
 msgid "Zoom to fit window"
 msgstr "Sovita ikkunaan"
 
 #. Icon-name
-#: src/main_window.c:456 src/main_window.c:740
+#: src/main_window.c:455 src/main_window.c:736
 msgid "_Normal Size"
 msgstr "_Täysi koko"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:458
+#: src/main_window.c:457
 msgid "Zoom to 100%"
 msgstr "Näytä 100 %:in koossa"
 
-#: src/main_window.c:463
+#: src/main_window.c:462
 msgid "_Default Zoom"
 msgstr ""
 
-#: src/main_window.c:470
+#: src/main_window.c:469
 msgid "_Rotation"
 msgstr "_Käännä"
 
 #. Icon-name
-#: src/main_window.c:476
+#: src/main_window.c:475
 msgid "Rotate _Right"
 msgstr "Käännä _oikeaan"
 
 #. Icon-name
-#: src/main_window.c:482
+#: src/main_window.c:481
 msgid "Rotate _Left"
 msgstr "Käännä _vasempaan"
 
-#: src/main_window.c:489
+#: src/main_window.c:488
 msgid "_Flip"
 msgstr "_Käännä"
 
-#: src/main_window.c:495
+#: src/main_window.c:494
 msgid "Flip _Horizontally"
 msgstr "Käännä _vaakasuunnassa"
 
-#: src/main_window.c:501
+#: src/main_window.c:500
 msgid "Flip _Vertically"
 msgstr "Käännä _pystysuunnassa"
 
-#: src/main_window.c:508
+#: src/main_window.c:507
 msgid "_Go"
 msgstr "_Siirry"
 
 #. Icon-name
-#: src/main_window.c:514
+#: src/main_window.c:513
 msgid "_Forward"
 msgstr "Seu_raava"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:516
+#: src/main_window.c:515
 msgid "Next image"
 msgstr "Seuraava kuva"
 
 #. Icon-name
-#: src/main_window.c:520
+#: src/main_window.c:519
 msgid "_Back"
 msgstr "_Edellinen"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:522
+#: src/main_window.c:521
 msgid "Previous image"
 msgstr "Edellinen kuva"
 
 #. Icon-name
-#: src/main_window.c:526
+#: src/main_window.c:525
 msgid "F_irst"
 msgstr "E_nsimmäinen"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:528
+#: src/main_window.c:527
 msgid "First image"
 msgstr "Ensimmäinen kuva"
 
 #. Icon-name
-#: src/main_window.c:532
+#: src/main_window.c:531
 msgid "_Last"
 msgstr "_Viimeinen"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:534
+#: src/main_window.c:533
 msgid "Last image"
 msgstr "Viimeinen kuva"
 
-#: src/main_window.c:539
+#: src/main_window.c:538
 msgid "_Help"
 msgstr "_Ohje"
 
 #. Icon-name
-#: src/main_window.c:545
+#: src/main_window.c:544
 msgid "_Contents"
 msgstr "_Sisältö"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:547
+#: src/main_window.c:546
 msgid "Display ristretto user manual"
 msgstr "Näytä Ristretton käyttöopas"
 
 #. Icon-name
-#: src/main_window.c:551
+#: src/main_window.c:550
 msgid "_About"
 msgstr "_Tietoja"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:553
+#: src/main_window.c:552
 msgid "Display information about ristretto"
 msgstr "Näytä tietoja Ristrettosta"
 
-#: src/main_window.c:558
+#: src/main_window.c:557
 msgid "_Position"
 msgstr "_Sijainti"
 
-#: src/main_window.c:564
+#: src/main_window.c:563
 msgid "_Size"
 msgstr "_Koko"
 
-#: src/main_window.c:570
+#: src/main_window.c:569
 msgid "Thumbnail Bar _Position"
 msgstr "Pienoiskuvapalkin sij_ainti"
 
-#: src/main_window.c:576
+#: src/main_window.c:575
 msgid "Thumb_nail Size"
 msgstr "Pienoiskuvan k_oko"
 
 #. Icon-name
-#: src/main_window.c:583
+#: src/main_window.c:582
 msgid "Leave _Fullscreen"
 msgstr "Poistu koko n_äytön tilasta"
 
@@ -402,489 +402,435 @@ msgid "Show Status _Bar"
 msgstr "Näytä _tilapalkki"
 
 #. Icon-name
-#: src/main_window.c:629
+#: src/main_window.c:628
 msgid "file name"
 msgstr "tiedostonimi"
 
 #. Icon-name
-#: src/main_window.c:635
+#: src/main_window.c:634
 msgid "file type"
 msgstr "tiedostotyyppi"
 
 #. Icon-name
-#: src/main_window.c:641
+#: src/main_window.c:640
 msgid "date"
 msgstr "päiväys"
 
 #. Icon-name
-#: src/main_window.c:652
+#: src/main_window.c:650
 msgid "Left"
 msgstr "Vasemmalla"
 
-#: src/main_window.c:658
+#: src/main_window.c:656
 msgid "Right"
 msgstr "Oikealla"
 
-#: src/main_window.c:664
+#: src/main_window.c:662
 msgid "Top"
 msgstr "Ylhäällä"
 
-#: src/main_window.c:670
+#: src/main_window.c:668
 msgid "Bottom"
 msgstr "Alhaalla"
 
-#: src/main_window.c:681
+#: src/main_window.c:678
 msgid "Very Small"
 msgstr "Hyvin pieni"
 
-#: src/main_window.c:687
+#: src/main_window.c:684
 msgid "Smaller"
 msgstr "Pienempi"
 
-#: src/main_window.c:693
+#: src/main_window.c:690
 msgid "Small"
 msgstr "Pieni"
 
-#: src/main_window.c:699
+#: src/main_window.c:696
 msgid "Normal"
 msgstr "Normaalikoko"
 
-#: src/main_window.c:705
+#: src/main_window.c:702
 msgid "Large"
 msgstr "Suuri"
 
-#: src/main_window.c:711
+#: src/main_window.c:708
 msgid "Larger"
 msgstr "Suurempi"
 
-#: src/main_window.c:717
+#: src/main_window.c:714
 msgid "Very Large"
 msgstr "Hyvin suuri"
 
 #. Icon-name
-#: src/main_window.c:728
+#: src/main_window.c:724
 msgid "_Smart Zoom"
 msgstr ""
 
-#: src/main_window.c:874
+#: src/main_window.c:870
 msgid "Images"
 msgstr "Kuvat"
 
 #. Create Play/Pause Slideshow actions
-#: src/main_window.c:947
+#: src/main_window.c:942
 msgid "_Play"
 msgstr "_Toista"
 
-#: src/main_window.c:947
+#: src/main_window.c:942
 msgid "Play slideshow"
 msgstr "Aloita diaesitys"
 
-#: src/main_window.c:948
+#: src/main_window.c:943
 msgid "_Pause"
 msgstr "_Keskeytä"
 
-#: src/main_window.c:948
+#: src/main_window.c:943
 msgid "Pause slideshow"
 msgstr "Pysäytä diaesitys"
 
 #. Create Recently used items Action
-#: src/main_window.c:951
+#: src/main_window.c:946
 msgid "_Recently used"
 msgstr "_Viimeaikaiset"
 
-#: src/main_window.c:951
+#: src/main_window.c:946
 msgid "Recently used"
 msgstr "Viimeksi avatut"
 
-#: src/main_window.c:1075 src/main_window.c:1631
+#: src/main_window.c:1071 src/main_window.c:1618
 msgid "Press open to select an image"
 msgstr "Avaa kuva työkalupalkin painikkeella"
 
-#: src/main_window.c:1573 src/main_window.c:1578
+#: src/main_window.c:1560 src/main_window.c:1565
 msgid "Open With Other _Application..."
 msgstr "Avaa muussa so_velluksessa..."
 
-#: src/main_window.c:1588 src/main_window.c:1596
+#: src/main_window.c:1575 src/main_window.c:1583
 msgid "Empty"
 msgstr "Tyhjä"
 
-#: src/main_window.c:1636
+#: src/main_window.c:1622
 msgid "Loading..."
 msgstr "Ladataan..."
 
-#: src/main_window.c:2286
+#: src/main_window.c:2267
 msgid "Choose 'set wallpaper' method"
 msgstr "Valitse taustakuvan asetustapa"
 
-#: src/main_window.c:2290 src/main_window.c:3423 src/main_window.c:3511
-#: src/main_window.c:4190 src/privacy_dialog.c:149
-#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:190
+#: src/main_window.c:2271 src/main_window.c:3382 src/main_window.c:3470
+#: src/main_window.c:4135 src/privacy_dialog.c:145
+#: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
 msgstr "_Peru"
 
-#: src/main_window.c:2293 src/main_window.c:4193
-#: src/xfce_wallpaper_manager.c:282 src/gnome_wallpaper_manager.c:196
+#: src/main_window.c:2274 src/main_window.c:4138
+#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
 msgid "_OK"
 msgstr "_OK"
 
-#: src/main_window.c:2303
+#: src/main_window.c:2284
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Valitse, mikä järjestelmä ylläpitää työpöytääsi.\nTämä asetus määrittää, millä tavoin <i>Ristretto</i> asettaa\ntyöpöytäsi taustakuvan."
 
-#: src/main_window.c:2329 src/preferences_dialog.c:450
+#: src/main_window.c:2293 src/preferences_dialog.c:466
 msgid "None"
 msgstr "Ei mikään"
 
-#: src/main_window.c:2333 src/preferences_dialog.c:454
+#: src/main_window.c:2294 src/preferences_dialog.c:468
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2337 src/preferences_dialog.c:458
+#: src/main_window.c:2295 src/preferences_dialog.c:470
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:2856
-msgid "Developers:"
-msgstr "Kehittäjät:"
-
-#: src/main_window.c:2868 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:2817 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto on kuvakatselin Xfce-työpöytäympäristöön."
 
-#: src/main_window.c:2876
+#: src/main_window.c:2822
 msgid "translator-credits"
 msgstr "Jari Rahkonen <jari.rahkonen@pp1.inet.fi>"
 
-#: src/main_window.c:3421
+#: src/main_window.c:3381
 msgid "Open image"
 msgstr "Avaa kuva"
 
-#: src/main_window.c:3423
+#: src/main_window.c:3382
 msgid "_Open"
 msgstr "_Avaa"
 
-#: src/main_window.c:3441
+#: src/main_window.c:3400
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3446
+#: src/main_window.c:3405
 msgid "All Files"
 msgstr "Kaikki tiedostot"
 
-#: src/main_window.c:3508
+#: src/main_window.c:3469
 msgid "Save copy"
 msgstr "Tallenna kopio"
 
-#: src/main_window.c:3512
+#: src/main_window.c:3471
 msgid "_Save"
 msgstr "_Tallenna"
 
-#: src/main_window.c:3622
+#: src/main_window.c:3575
 msgid "Failed to print the image"
 msgstr ""
 
-#: src/main_window.c:3712
+#: src/main_window.c:3662
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Haluatko varmasti siirtää kuvan \"%s\" roskakoriin?"
 
-#: src/main_window.c:3716
+#: src/main_window.c:3666
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Haluatko varmasti poistaa kuvan \"%s\" levyltä?"
 
-#: src/main_window.c:3728
+#: src/main_window.c:3673
 msgid "_Do not ask again for this session"
 msgstr "_Älä kysy uudestaan tämän istunnon aikana"
 
-#: src/main_window.c:4185
+#: src/main_window.c:4130
 msgid "Edit with"
 msgstr "Muokkaa sovelluksessa"
 
-#: src/main_window.c:4206
+#: src/main_window.c:4150
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Avaa %s ja muut tyypin %s tiedostot sovelluksessa:"
 
-#: src/main_window.c:4212
+#: src/main_window.c:4156
 msgid "Use as _default for this kind of file"
 msgstr "Käytä _oletuksena tälle tiedostotyypille"
 
-#: src/main_window.c:4297
+#: src/main_window.c:4201
 msgid "Recommended Applications"
 msgstr "Suositellut sovellukset"
 
-#: src/main_window.c:4346
+#: src/main_window.c:4237
 msgid "Other Applications"
 msgstr "Muut sovellukset"
 
-#: src/icon_bar.c:250
-msgid "Orientation"
-msgstr "Suunta"
-
-#: src/icon_bar.c:251
-msgid "The orientation of the iconbar"
-msgstr "Kuvakepalkin suunta"
-
-#: src/icon_bar.c:264
-msgid "Icon Bar Model"
-msgstr "Kuvakepalkin malli"
-
-#: src/icon_bar.c:265
-msgid "Model for the icon bar"
-msgstr "Kuvakepalkin käyttämä malli"
-
-#: src/icon_bar.c:281
-msgid "Active"
-msgstr "Aktiivinen"
-
-#: src/icon_bar.c:282
-msgid "Active item index"
-msgstr "Aktiivisen kohteen indeksi"
-
-#: src/icon_bar.c:298 src/icon_bar.c:299
-msgid "Show Text"
-msgstr "Näytä teksti"
-
-#: src/icon_bar.c:311
-msgid "Scrolled window"
-msgstr "Vieritetty ikkuna"
-
-#: src/icon_bar.c:312
-msgid "Scrolled window icon bar is placed into"
-msgstr ""
-
-#: src/icon_bar.c:318 src/icon_bar.c:319
-msgid "Active item fill color"
-msgstr "Aktiivisen kohteen täyttöväri"
-
-#: src/icon_bar.c:325 src/icon_bar.c:326
-msgid "Active item border color"
-msgstr "Aktiivisen kohteen reunan väri"
-
-#: src/icon_bar.c:332 src/icon_bar.c:333
-msgid "Active item text color"
-msgstr "Aktiivisen kohteen tekstin väri"
-
-#: src/icon_bar.c:339 src/icon_bar.c:340
-msgid "Cursor item fill color"
-msgstr "Osoitettavan kohteen täyttöväri"
-
-#: src/icon_bar.c:346 src/icon_bar.c:347
-msgid "Cursor item border color"
-msgstr "Osoitettavan kohteen reunan väri"
-
-#: src/icon_bar.c:353 src/icon_bar.c:354
-msgid "Cursor item text color"
-msgstr "Osoitettavan kohteen tekstin väri"
-
-#: src/privacy_dialog.c:119
+#: src/privacy_dialog.c:115
 msgid "Time range to clear:"
 msgstr "Tyhjennettävä aikaväli:"
 
-#: src/privacy_dialog.c:122
+#: src/privacy_dialog.c:118
 msgid "Cleanup"
 msgstr "Siivoa"
 
-#: src/privacy_dialog.c:125
+#: src/privacy_dialog.c:121
 msgid "Last Hour"
 msgstr "Tunti"
 
-#: src/privacy_dialog.c:126
+#: src/privacy_dialog.c:122
 msgid "Last Two Hours"
 msgstr "Kaksi tuntia"
 
-#: src/privacy_dialog.c:127
+#: src/privacy_dialog.c:123
 msgid "Last Four Hours"
 msgstr "Neljä tuntia"
 
-#: src/privacy_dialog.c:128
+#: src/privacy_dialog.c:124
 msgid "Today"
 msgstr "Tämä päivä"
 
-#: src/privacy_dialog.c:129
+#: src/privacy_dialog.c:125
 msgid "Everything"
 msgstr "Kaikki"
 
-#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:279
-#: src/gnome_wallpaper_manager.c:193
+#: src/privacy_dialog.c:148 src/xfce_wallpaper_manager.c:273
+#: src/gnome_wallpaper_manager.c:181
 msgid "_Apply"
 msgstr "T_oteuta"
 
-#: src/privacy_dialog.c:438
+#: src/privacy_dialog.c:418
 msgid "Clear private data"
 msgstr "Poista yksityisiä tietoja"
 
-#: src/preferences_dialog.c:243
+#: src/preferences_dialog.c:248
 msgid "Display"
 msgstr "Näyttö"
 
-#: src/preferences_dialog.c:250
+#: src/preferences_dialog.c:255
 msgid "Background color"
 msgstr "Taustaväri"
 
-#: src/preferences_dialog.c:254
+#: src/preferences_dialog.c:259
 msgid "Override background color:"
 msgstr "Korvaa taustaväri:"
 
-#: src/preferences_dialog.c:282
+#: src/preferences_dialog.c:287
 msgid "Quality"
 msgstr "Laatu"
 
-#: src/preferences_dialog.c:286
+#: src/preferences_dialog.c:291
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "Tämän valinnan ollessa käytössä kuvan enimmäislaatu rajataan näytön kokoon."
 
-#: src/preferences_dialog.c:291
+#: src/preferences_dialog.c:296
 msgid "Limit rendering quality"
 msgstr "Rajoita laatua"
 
-#: src/preferences_dialog.c:303
+#: src/preferences_dialog.c:305
+msgid ""
+"Smooth the image using bilinear interpolation, thus prioritizing rendering "
+"quality over performance."
+msgstr ""
+
+#: src/preferences_dialog.c:310
+msgid "Enable smoothing"
+msgstr ""
+
+#: src/preferences_dialog.c:322
 msgid "Fullscreen"
 msgstr "Koko näyttö"
 
-#: src/preferences_dialog.c:307
+#: src/preferences_dialog.c:326
 msgid "Thumbnails"
 msgstr "Pienoiskuvat"
 
-#: src/preferences_dialog.c:310
+#: src/preferences_dialog.c:329
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "Pienoiskuvapalkin voi piilottaa automaattisesti koko näytön tilassa."
 
-#: src/preferences_dialog.c:315
+#: src/preferences_dialog.c:334
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Piilota pienoiskuvat koko näytön tilassa"
 
-#: src/preferences_dialog.c:323
+#: src/preferences_dialog.c:342
 msgid "Clock"
 msgstr "Kello"
 
-#: src/preferences_dialog.c:326
+#: src/preferences_dialog.c:345
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "Näytä koko näytön tilassa analoginen kello, joka näyttää kuluvan ajan"
 
-#: src/preferences_dialog.c:331
+#: src/preferences_dialog.c:350
 msgid "Show Fullscreen Clock"
 msgstr "Näytä kello koko näytön tilassa"
 
-#: src/preferences_dialog.c:337
+#: src/preferences_dialog.c:356
 msgid "Mouse cursor"
 msgstr "Hiiren osoitin"
 
-#: src/preferences_dialog.c:340
+#: src/preferences_dialog.c:359
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
 msgstr ""
 
-#: src/preferences_dialog.c:348
+#: src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
 msgstr ""
 
-#: src/preferences_dialog.c:367
+#: src/preferences_dialog.c:386
 msgid "Slideshow"
 msgstr "Diaesitys"
 
-#: src/preferences_dialog.c:371
+#: src/preferences_dialog.c:390
 msgid "Timeout"
 msgstr "Esitysaika"
 
-#: src/preferences_dialog.c:374
+#: src/preferences_dialog.c:393
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
 msgstr ""
 
-#: src/preferences_dialog.c:390
+#: src/preferences_dialog.c:409
 msgid "Control"
 msgstr "Ohjaus"
 
-#: src/preferences_dialog.c:394
+#: src/preferences_dialog.c:413
 msgid "Scroll wheel"
 msgstr "Vierityspainike"
 
-#: src/preferences_dialog.c:397
+#: src/preferences_dialog.c:416
 msgid "Invert zoom direction"
 msgstr "Käänteinen suurennus"
 
-#: src/preferences_dialog.c:408
+#: src/preferences_dialog.c:427
 msgid "Behaviour"
 msgstr "Toiminta"
 
-#: src/preferences_dialog.c:412
+#: src/preferences_dialog.c:431
 msgid "Startup"
 msgstr "Käynnistys"
 
-#: src/preferences_dialog.c:414
+#: src/preferences_dialog.c:433
 msgid "Maximize window on startup when opening an image"
 msgstr "Sovita ikkuna kuvaan käynnistäessä"
 
-#: src/preferences_dialog.c:420
+#: src/preferences_dialog.c:439
 msgid "Wrap around images"
 msgstr "Kierrätä kuvia"
 
-#: src/preferences_dialog.c:431
+#: src/preferences_dialog.c:450
 msgid "Desktop"
 msgstr "Työpöytä"
 
-#: src/preferences_dialog.c:436
+#: src/preferences_dialog.c:454
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
 msgstr ""
 
-#: src/preferences_dialog.c:540
+#: src/preferences_dialog.c:551
 msgid "Image Viewer Preferences"
 msgstr "Kuvakatselimen asetukset"
 
-#: src/properties_dialog.c:138
+#: src/properties_dialog.c:132
 msgid "<b>Name:</b>"
 msgstr "<b>Nimi:</b>"
 
-#: src/properties_dialog.c:139
+#: src/properties_dialog.c:133
 msgid "<b>Kind:</b>"
 msgstr "<b>Tyyppi:</b>"
 
-#: src/properties_dialog.c:140
+#: src/properties_dialog.c:134
 msgid "<b>Modified:</b>"
 msgstr "<b>Muokattu:</b>"
 
-#: src/properties_dialog.c:141
+#: src/properties_dialog.c:135
 msgid "<b>Accessed:</b>"
 msgstr "<b>Käytetty:</b>"
 
-#: src/properties_dialog.c:142
+#: src/properties_dialog.c:136
 msgid "<b>Size:</b>"
 msgstr "<b>Koko:</b>"
 
-#: src/properties_dialog.c:166
+#: src/properties_dialog.c:160
 msgid "General"
 msgstr "Yleiset"
 
-#: src/properties_dialog.c:172
+#: src/properties_dialog.c:166
 msgid "Image"
 msgstr "Kuva"
 
-#: src/properties_dialog.c:391
+#: src/properties_dialog.c:351
 msgid "<b>Date taken:</b>"
 msgstr "<b>Otettu:</n>"
 
-#: src/properties_dialog.c:403 src/properties_dialog.c:415
-#: src/properties_dialog.c:427
+#: src/properties_dialog.c:361 src/properties_dialog.c:371
+#: src/properties_dialog.c:381
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: src/properties_dialog.c:486
+#: src/properties_dialog.c:419
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Ominaisuudet"
@@ -905,7 +851,7 @@ msgstr ""
 msgid "Unsupported mime type"
 msgstr ""
 
-#: src/thumbnailer.c:375
+#: src/thumbnailer.c:366
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -915,43 +861,44 @@ msgid ""
 "to resolve this issue."
 msgstr "Pienoiskuvittajapalveluun ei saa yhteyttä,\neikä pienoiskuvia voi tämän vuoksi luoda.\n\nAsenna <b>Tumbler</b> tai jokin toinen <i>pienoiskuvittaja</i>\nongelman ratkaisemiseksi."
 
-#: src/thumbnailer.c:384
+#: src/thumbnailer.c:374
 msgid "Do _not show this message again"
 msgstr "_Älä näytä tätä viestiä uudelleen"
 
-#: src/xfce_wallpaper_manager.c:254 src/gnome_wallpaper_manager.c:176
+#: src/xfce_wallpaper_manager.c:251 src/gnome_wallpaper_manager.c:164
 msgid "Style:"
 msgstr "Tyyli:"
 
-#: src/xfce_wallpaper_manager.c:266
+#. stretched is now default value
+#: src/xfce_wallpaper_manager.c:262
 msgid "Apply to all workspaces"
 msgstr "Käytä kaikilla työtiloilla"
 
-#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:188
+#: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:176
 msgid "Set as wallpaper"
 msgstr "Aseta taustakuvaksi"
 
-#: src/xfce_wallpaper_manager.c:336 src/gnome_wallpaper_manager.c:246
+#: src/xfce_wallpaper_manager.c:302 src/gnome_wallpaper_manager.c:206
 msgid "Auto"
 msgstr "Automaattinen"
 
-#: src/xfce_wallpaper_manager.c:339
+#: src/xfce_wallpaper_manager.c:303
 msgid "Centered"
 msgstr "Keskitetty"
 
-#: src/xfce_wallpaper_manager.c:342
+#: src/xfce_wallpaper_manager.c:304
 msgid "Tiled"
 msgstr "Rinnakkain"
 
-#: src/xfce_wallpaper_manager.c:345
+#: src/xfce_wallpaper_manager.c:305
 msgid "Stretched"
 msgstr "Venytetty"
 
-#: src/xfce_wallpaper_manager.c:348
+#: src/xfce_wallpaper_manager.c:306
 msgid "Scaled"
 msgstr "Skaalattu"
 
-#: src/xfce_wallpaper_manager.c:351
+#: src/xfce_wallpaper_manager.c:307
 msgid "Zoomed"
 msgstr "Suurennettu"
 
