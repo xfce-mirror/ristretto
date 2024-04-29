@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-03-28 12:51+0100\n"
+"POT-Creation-Date: 2024-04-29 00:49+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>, 2014-2017,2019,2022\n"
 "Language-Team: Malay (http://app.transifex.com/xfce/xfce-apps/language/ms/)\n"
@@ -19,23 +19,23 @@ msgstr ""
 "Language: ms\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/main.c:46
+#: src/main.c:44
 msgid "Version information"
 msgstr "Maklumat versi"
 
-#: src/main.c:50
+#: src/main.c:47
 msgid "Start in fullscreen mode"
 msgstr "Mula dalam mod skrin penuh"
 
-#: src/main.c:54
+#: src/main.c:50
 msgid "Start a slideshow"
 msgstr "Mulakan paparan slaid"
 
-#: src/main.c:62
+#: src/main.c:53
 msgid "Show settings dialog"
 msgstr "Tunjuk dialog tetapan"
 
-#: src/main.c:94
+#: src/main.c:85
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -66,322 +66,322 @@ msgstr "Satu ralat berlaku ketika memadam imej '%s' daripada cakera"
 msgid "An error occurred when sending image '%s' to trash"
 msgstr "Satu ralat berlaku ketika menghantar imej '%s' ke dalam tong sampah"
 
-#: src/main_window.c:315
+#: src/main_window.c:314
 msgid "_File"
 msgstr "_Fail"
 
 #. Icon-name
-#: src/main_window.c:321
+#: src/main_window.c:320
 msgid "_Open..."
 msgstr "_Buka..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:323
+#: src/main_window.c:322
 msgid "Open an image"
 msgstr "Buka satu imej"
 
 #. Icon-name
-#: src/main_window.c:327
+#: src/main_window.c:326
 msgid "_Save copy..."
 msgstr "_Simpan salinan..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:329
+#: src/main_window.c:328
 msgid "Save a copy of the image"
 msgstr "Simpan satu salinan imej"
 
 #. Icon-name
-#: src/main_window.c:333
+#: src/main_window.c:332
 msgid "Proper_ties..."
 msgstr ""
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:335
+#: src/main_window.c:334
 msgid "Show file properties"
 msgstr "Tunjuk sifat fail"
 
 #. Icon-name
-#: src/main_window.c:339
+#: src/main_window.c:338
 msgid "_Print..."
 msgstr "_Cetak..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:341
+#: src/main_window.c:340
 msgid "Print the current image"
 msgstr ""
 
 #. Icon-name
-#: src/main_window.c:345 src/main_window.c:364
+#: src/main_window.c:344 src/main_window.c:363
 msgid "_Edit"
 msgstr "_Sunting"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:347
+#: src/main_window.c:346
 msgid "Edit this image"
 msgstr "Sunting imej ini"
 
 #. Icon-name
-#: src/main_window.c:351 src/preferences_dialog.c:212
+#: src/main_window.c:350 src/preferences_dialog.c:217
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "Tutu_p"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:353
+#: src/main_window.c:352
 msgid "Close this image"
 msgstr "Tutup imej ini"
 
 #. Icon-name
-#: src/main_window.c:357
+#: src/main_window.c:356
 msgid "_Quit"
 msgstr "K_eluar"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:359
+#: src/main_window.c:358
 msgid "Quit Ristretto"
 msgstr "Keluar dari Ristretto"
 
-#: src/main_window.c:370
+#: src/main_window.c:369
 msgid "_Copy image to clipboard"
 msgstr "Sa_lin imej ke papan keratan"
 
-#: src/main_window.c:376
+#: src/main_window.c:375
 msgid "_Open with"
 msgstr "_Buka dengan"
 
-#: src/main_window.c:382
+#: src/main_window.c:381
 msgid "_Sort by"
 msgstr "_Isih mengikut"
 
 #. Icon-name
-#: src/main_window.c:388
+#: src/main_window.c:387
 msgid "_Delete"
 msgstr "Pa_dam"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:390
+#: src/main_window.c:389
 msgid "Delete this image from disk"
 msgstr "Padam imej ini dari cakera"
 
 #. Icon-name
-#: src/main_window.c:394
+#: src/main_window.c:393
 msgid "_Clear private data..."
 msgstr "K_osongkan data persendirian..."
 
 #. Icon-name
-#: src/main_window.c:400
+#: src/main_window.c:399
 msgid "_Preferences..."
 msgstr "K_eutamaan..."
 
-#: src/main_window.c:407
+#: src/main_window.c:406
 msgid "_View"
 msgstr "_Lihat"
 
 #. Icon-name
-#: src/main_window.c:413
+#: src/main_window.c:412
 msgid "_Fullscreen"
 msgstr "Skrin _Penuh"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:415
+#: src/main_window.c:414
 msgid "Switch to fullscreen"
 msgstr "Tukar ke skrin penuh"
 
 #. Icon-name
-#: src/main_window.c:419
+#: src/main_window.c:418
 msgid "_Leave Fullscreen"
 msgstr "T_inggalkan Skrin Penuh"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:421
+#: src/main_window.c:420
 msgid "Leave Fullscreen"
 msgstr "Tinggalkan Skrin Penuh"
 
 #. Icon-name
-#: src/main_window.c:425
+#: src/main_window.c:424
 msgid "Set as _Wallpaper..."
 msgstr "Tetapkan sebagai Kertas _Dinding..."
 
-#: src/main_window.c:432
+#: src/main_window.c:431
 msgid "_Zoom"
 msgstr "_Zum"
 
 #. Icon-name
-#: src/main_window.c:438
+#: src/main_window.c:437
 msgid "Zoom _In"
 msgstr "Zum _Masuk"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:440
+#: src/main_window.c:439
 msgid "Zoom in"
 msgstr "Zum masuk"
 
 #. Icon-name
-#: src/main_window.c:444
+#: src/main_window.c:443
 msgid "Zoom _Out"
 msgstr "Zum _Keluar"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:446
+#: src/main_window.c:445
 msgid "Zoom out"
 msgstr "Zum keluar"
 
 #. Icon-name
-#: src/main_window.c:450 src/main_window.c:734
+#: src/main_window.c:449 src/main_window.c:730
 msgid "Zoom _Fit"
 msgstr "Zum M_uat"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:452
+#: src/main_window.c:451
 msgid "Zoom to fit window"
 msgstr "Zum untuk muatkan tetingkap"
 
 #. Icon-name
-#: src/main_window.c:456 src/main_window.c:740
+#: src/main_window.c:455 src/main_window.c:736
 msgid "_Normal Size"
 msgstr "Saiz _Biasa"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:458
+#: src/main_window.c:457
 msgid "Zoom to 100%"
 msgstr "Zum ke 100%"
 
-#: src/main_window.c:463
+#: src/main_window.c:462
 msgid "_Default Zoom"
 msgstr "Zum _Lalai"
 
-#: src/main_window.c:470
+#: src/main_window.c:469
 msgid "_Rotation"
 msgstr "P_utaran"
 
 #. Icon-name
-#: src/main_window.c:476
+#: src/main_window.c:475
 msgid "Rotate _Right"
 msgstr "Putar K_anan"
 
 #. Icon-name
-#: src/main_window.c:482
+#: src/main_window.c:481
 msgid "Rotate _Left"
 msgstr "Putar K_iri"
 
-#: src/main_window.c:489
+#: src/main_window.c:488
 msgid "_Flip"
 msgstr "_Kalih"
 
-#: src/main_window.c:495
+#: src/main_window.c:494
 msgid "Flip _Horizontally"
 msgstr "Kalih Men_gufuk"
 
-#: src/main_window.c:501
+#: src/main_window.c:500
 msgid "Flip _Vertically"
 msgstr "Kalih Men_egak"
 
-#: src/main_window.c:508
+#: src/main_window.c:507
 msgid "_Go"
 msgstr "Per_gi"
 
 #. Icon-name
-#: src/main_window.c:514
+#: src/main_window.c:513
 msgid "_Forward"
 msgstr "Ma_ju"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:516
+#: src/main_window.c:515
 msgid "Next image"
 msgstr "Imej berikutnya"
 
 #. Icon-name
-#: src/main_window.c:520
+#: src/main_window.c:519
 msgid "_Back"
 msgstr "_Undur"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:522
+#: src/main_window.c:521
 msgid "Previous image"
 msgstr "Imej terdahulu"
 
 #. Icon-name
-#: src/main_window.c:526
+#: src/main_window.c:525
 msgid "F_irst"
 msgstr "Pe_rtama"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:528
+#: src/main_window.c:527
 msgid "First image"
 msgstr "Imej pertama"
 
 #. Icon-name
-#: src/main_window.c:532
+#: src/main_window.c:531
 msgid "_Last"
 msgstr "T_erakhir"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:534
+#: src/main_window.c:533
 msgid "Last image"
 msgstr "Imej terakhir"
 
-#: src/main_window.c:539
+#: src/main_window.c:538
 msgid "_Help"
 msgstr "_Bantuan"
 
 #. Icon-name
-#: src/main_window.c:545
+#: src/main_window.c:544
 msgid "_Contents"
 msgstr "Ka_ndungan"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:547
+#: src/main_window.c:546
 msgid "Display ristretto user manual"
 msgstr "Papar panduan pengguna ristretto"
 
 #. Icon-name
-#: src/main_window.c:551
+#: src/main_window.c:550
 msgid "_About"
 msgstr "Per_ihal"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:553
+#: src/main_window.c:552
 msgid "Display information about ristretto"
 msgstr "Papar maklumat mengenai ristretto"
 
-#: src/main_window.c:558
+#: src/main_window.c:557
 msgid "_Position"
 msgstr "Ked_udukan"
 
-#: src/main_window.c:564
+#: src/main_window.c:563
 msgid "_Size"
 msgstr "_Saiz"
 
-#: src/main_window.c:570
+#: src/main_window.c:569
 msgid "Thumbnail Bar _Position"
 msgstr "Ke_dudukan Palang Lakaran Kenit"
 
-#: src/main_window.c:576
+#: src/main_window.c:575
 msgid "Thumb_nail Size"
 msgstr "Saiz _Lakaran Kenit"
 
 #. Icon-name
-#: src/main_window.c:583
+#: src/main_window.c:582
 msgid "Leave _Fullscreen"
 msgstr "Tinggalkan Skrin _Penuh"
 
@@ -401,489 +401,435 @@ msgid "Show Status _Bar"
 msgstr "Tunjuk _Palang Status"
 
 #. Icon-name
-#: src/main_window.c:629
+#: src/main_window.c:628
 msgid "file name"
 msgstr "nama fail"
 
 #. Icon-name
-#: src/main_window.c:635
+#: src/main_window.c:634
 msgid "file type"
 msgstr "jenis fail"
 
 #. Icon-name
-#: src/main_window.c:641
+#: src/main_window.c:640
 msgid "date"
 msgstr "tarikh"
 
 #. Icon-name
-#: src/main_window.c:652
+#: src/main_window.c:650
 msgid "Left"
 msgstr "Kiri"
 
-#: src/main_window.c:658
+#: src/main_window.c:656
 msgid "Right"
 msgstr "Kanan"
 
-#: src/main_window.c:664
+#: src/main_window.c:662
 msgid "Top"
 msgstr "Atas"
 
-#: src/main_window.c:670
+#: src/main_window.c:668
 msgid "Bottom"
 msgstr "Bawah"
 
-#: src/main_window.c:681
+#: src/main_window.c:678
 msgid "Very Small"
 msgstr "Sangat Kecil"
 
-#: src/main_window.c:687
+#: src/main_window.c:684
 msgid "Smaller"
 msgstr "Lebih Kecil"
 
-#: src/main_window.c:693
+#: src/main_window.c:690
 msgid "Small"
 msgstr "Kecil"
 
-#: src/main_window.c:699
+#: src/main_window.c:696
 msgid "Normal"
 msgstr "Biasa"
 
-#: src/main_window.c:705
+#: src/main_window.c:702
 msgid "Large"
 msgstr "Besar"
 
-#: src/main_window.c:711
+#: src/main_window.c:708
 msgid "Larger"
 msgstr "Lebih Besar"
 
-#: src/main_window.c:717
+#: src/main_window.c:714
 msgid "Very Large"
 msgstr "Sangat Besar"
 
 #. Icon-name
-#: src/main_window.c:728
+#: src/main_window.c:724
 msgid "_Smart Zoom"
 msgstr "Zum _Pintar"
 
-#: src/main_window.c:874
+#: src/main_window.c:870
 msgid "Images"
 msgstr "Imej"
 
 #. Create Play/Pause Slideshow actions
-#: src/main_window.c:947
+#: src/main_window.c:942
 msgid "_Play"
 msgstr "_Main"
 
-#: src/main_window.c:947
+#: src/main_window.c:942
 msgid "Play slideshow"
 msgstr "Main paparan slaid"
 
-#: src/main_window.c:948
+#: src/main_window.c:943
 msgid "_Pause"
 msgstr "_Jeda"
 
-#: src/main_window.c:948
+#: src/main_window.c:943
 msgid "Pause slideshow"
 msgstr "Jeda paparan slaid"
 
 #. Create Recently used items Action
-#: src/main_window.c:951
+#: src/main_window.c:946
 msgid "_Recently used"
 msgstr "Diguna _baru-baru ini"
 
-#: src/main_window.c:951
+#: src/main_window.c:946
 msgid "Recently used"
 msgstr "Diguna baru-baru ini"
 
-#: src/main_window.c:1075 src/main_window.c:1631
+#: src/main_window.c:1071 src/main_window.c:1618
 msgid "Press open to select an image"
 msgstr "Tekan buka untuk pilih imej"
 
-#: src/main_window.c:1573 src/main_window.c:1578
+#: src/main_window.c:1560 src/main_window.c:1565
 msgid "Open With Other _Application..."
 msgstr "Buka Dengan _Aplikasi Lain..."
 
-#: src/main_window.c:1588 src/main_window.c:1596
+#: src/main_window.c:1575 src/main_window.c:1583
 msgid "Empty"
 msgstr "Kosong"
 
-#: src/main_window.c:1636
+#: src/main_window.c:1622
 msgid "Loading..."
 msgstr "Memuatkan..."
 
-#: src/main_window.c:2286
+#: src/main_window.c:2267
 msgid "Choose 'set wallpaper' method"
 msgstr "Pilih kaedah 'tetapkan kertas dinding'"
 
-#: src/main_window.c:2290 src/main_window.c:3423 src/main_window.c:3511
-#: src/main_window.c:4190 src/privacy_dialog.c:149
-#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:190
+#: src/main_window.c:2271 src/main_window.c:3382 src/main_window.c:3470
+#: src/main_window.c:4135 src/privacy_dialog.c:145
+#: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: src/main_window.c:2293 src/main_window.c:4193
-#: src/xfce_wallpaper_manager.c:282 src/gnome_wallpaper_manager.c:196
+#: src/main_window.c:2274 src/main_window.c:4138
+#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
 msgid "_OK"
 msgstr "_OK"
 
-#: src/main_window.c:2303
+#: src/main_window.c:2284
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Kofigur sistem manakah kini mengurus dekstop anda.\nTetapan ini menentukan kaedah <i>Ristretto</i> akan diguna\nuntuk mengkonfigur kertas dinding desktop."
 
-#: src/main_window.c:2329 src/preferences_dialog.c:450
+#: src/main_window.c:2293 src/preferences_dialog.c:466
 msgid "None"
 msgstr "Tiada"
 
-#: src/main_window.c:2333 src/preferences_dialog.c:454
+#: src/main_window.c:2294 src/preferences_dialog.c:468
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2337 src/preferences_dialog.c:458
+#: src/main_window.c:2295 src/preferences_dialog.c:470
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:2856
-msgid "Developers:"
-msgstr "Pembangun:"
-
-#: src/main_window.c:2868 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:2817 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Mousepad merupakan pelihat imej untuk persekitaran desktop Xfce."
 
-#: src/main_window.c:2876
+#: src/main_window.c:2822
 msgid "translator-credits"
 msgstr "Abuyop <abuyop@gmail.com>"
 
-#: src/main_window.c:3421
+#: src/main_window.c:3381
 msgid "Open image"
 msgstr "Buka imej"
 
-#: src/main_window.c:3423
+#: src/main_window.c:3382
 msgid "_Open"
 msgstr "B_uka"
 
-#: src/main_window.c:3441
+#: src/main_window.c:3400
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3446
+#: src/main_window.c:3405
 msgid "All Files"
 msgstr "Semua Fail"
 
-#: src/main_window.c:3508
+#: src/main_window.c:3469
 msgid "Save copy"
 msgstr "Simpan salinan"
 
-#: src/main_window.c:3512
+#: src/main_window.c:3471
 msgid "_Save"
 msgstr "_Simpan"
 
-#: src/main_window.c:3622
+#: src/main_window.c:3575
 msgid "Failed to print the image"
 msgstr ""
 
-#: src/main_window.c:3712
+#: src/main_window.c:3662
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Anda pasti ingin menghantar imej '%s' ke tong sampah?"
 
-#: src/main_window.c:3716
+#: src/main_window.c:3666
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Anda pasti mahu memadam imej '%s' dari cakera?"
 
-#: src/main_window.c:3728
+#: src/main_window.c:3673
 msgid "_Do not ask again for this session"
 msgstr "_Jangan tanya lagi untuk sesi ini"
 
-#: src/main_window.c:4185
+#: src/main_window.c:4130
 msgid "Edit with"
 msgstr "Sunting dengan"
 
-#: src/main_window.c:4206
+#: src/main_window.c:4150
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Buka %s dan lain-lain fail jenis %s dengan:"
 
-#: src/main_window.c:4212
+#: src/main_window.c:4156
 msgid "Use as _default for this kind of file"
 msgstr "Guna sebagai _lalai untuk jenis fail ini"
 
-#: src/main_window.c:4297
+#: src/main_window.c:4201
 msgid "Recommended Applications"
 msgstr "Aplikasi Disaran"
 
-#: src/main_window.c:4346
+#: src/main_window.c:4237
 msgid "Other Applications"
 msgstr "Aplikasi Lain"
 
-#: src/icon_bar.c:250
-msgid "Orientation"
-msgstr "Orientasi"
-
-#: src/icon_bar.c:251
-msgid "The orientation of the iconbar"
-msgstr "Orientasi palang ikon"
-
-#: src/icon_bar.c:264
-msgid "Icon Bar Model"
-msgstr "Model Palang Ikon"
-
-#: src/icon_bar.c:265
-msgid "Model for the icon bar"
-msgstr "Model untuk palan ikon"
-
-#: src/icon_bar.c:281
-msgid "Active"
-msgstr "Aktif"
-
-#: src/icon_bar.c:282
-msgid "Active item index"
-msgstr "Indeks item aktif"
-
-#: src/icon_bar.c:298 src/icon_bar.c:299
-msgid "Show Text"
-msgstr "Tunjuk Teks"
-
-#: src/icon_bar.c:311
-msgid "Scrolled window"
-msgstr "Tetingkap tertatal"
-
-#: src/icon_bar.c:312
-msgid "Scrolled window icon bar is placed into"
-msgstr "Palang ikon tetingkap tertatal diletak ke dalam"
-
-#: src/icon_bar.c:318 src/icon_bar.c:319
-msgid "Active item fill color"
-msgstr "Warna isian item aktif"
-
-#: src/icon_bar.c:325 src/icon_bar.c:326
-msgid "Active item border color"
-msgstr "Warna sempadan item aktif"
-
-#: src/icon_bar.c:332 src/icon_bar.c:333
-msgid "Active item text color"
-msgstr "Warna teks item aktif"
-
-#: src/icon_bar.c:339 src/icon_bar.c:340
-msgid "Cursor item fill color"
-msgstr "Warna isian item kursor"
-
-#: src/icon_bar.c:346 src/icon_bar.c:347
-msgid "Cursor item border color"
-msgstr "Warna sempadan item kursor"
-
-#: src/icon_bar.c:353 src/icon_bar.c:354
-msgid "Cursor item text color"
-msgstr "Warna teks item kursor"
-
-#: src/privacy_dialog.c:119
+#: src/privacy_dialog.c:115
 msgid "Time range to clear:"
 msgstr "Julat masa untuk dikosongkan:"
 
-#: src/privacy_dialog.c:122
+#: src/privacy_dialog.c:118
 msgid "Cleanup"
 msgstr "Bersih"
 
-#: src/privacy_dialog.c:125
+#: src/privacy_dialog.c:121
 msgid "Last Hour"
 msgstr "Jam Terakhir"
 
-#: src/privacy_dialog.c:126
+#: src/privacy_dialog.c:122
 msgid "Last Two Hours"
 msgstr "Dua Jam Terakhir"
 
-#: src/privacy_dialog.c:127
+#: src/privacy_dialog.c:123
 msgid "Last Four Hours"
 msgstr "Empat Jam Terakhir"
 
-#: src/privacy_dialog.c:128
+#: src/privacy_dialog.c:124
 msgid "Today"
 msgstr "Hari Ini"
 
-#: src/privacy_dialog.c:129
+#: src/privacy_dialog.c:125
 msgid "Everything"
 msgstr "Segalanya"
 
-#: src/privacy_dialog.c:152 src/xfce_wallpaper_manager.c:279
-#: src/gnome_wallpaper_manager.c:193
+#: src/privacy_dialog.c:148 src/xfce_wallpaper_manager.c:273
+#: src/gnome_wallpaper_manager.c:181
 msgid "_Apply"
 msgstr "_Laksana"
 
-#: src/privacy_dialog.c:438
+#: src/privacy_dialog.c:418
 msgid "Clear private data"
 msgstr "Kosongkan data persendirian"
 
-#: src/preferences_dialog.c:243
+#: src/preferences_dialog.c:248
 msgid "Display"
 msgstr "Paparan"
 
-#: src/preferences_dialog.c:250
+#: src/preferences_dialog.c:255
 msgid "Background color"
 msgstr "Warna latar belakang"
 
-#: src/preferences_dialog.c:254
+#: src/preferences_dialog.c:259
 msgid "Override background color:"
 msgstr "Batalkan warna latar belakang:"
 
-#: src/preferences_dialog.c:282
+#: src/preferences_dialog.c:287
 msgid "Quality"
 msgstr "Kualiti"
 
-#: src/preferences_dialog.c:286
+#: src/preferences_dialog.c:291
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "Dengan pilihan ini dibenarkan, kualiti-imej maksimum akan dihadkan ke saiz-skrin."
 
-#: src/preferences_dialog.c:291
+#: src/preferences_dialog.c:296
 msgid "Limit rendering quality"
 msgstr "Hadkan kualiti penerapan"
 
-#: src/preferences_dialog.c:303
+#: src/preferences_dialog.c:305
+msgid ""
+"Smooth the image using bilinear interpolation, thus prioritizing rendering "
+"quality over performance."
+msgstr ""
+
+#: src/preferences_dialog.c:310
+msgid "Enable smoothing"
+msgstr ""
+
+#: src/preferences_dialog.c:322
 msgid "Fullscreen"
 msgstr "Skrin Penuh"
 
-#: src/preferences_dialog.c:307
+#: src/preferences_dialog.c:326
 msgid "Thumbnails"
 msgstr "Lakaran Kenit"
 
-#: src/preferences_dialog.c:310
+#: src/preferences_dialog.c:329
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "Palang lakaran kenit boleh disembunyikan secara automatik bila tetingkap berskrin penuh."
 
-#: src/preferences_dialog.c:315
+#: src/preferences_dialog.c:334
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Sembunyi palang lakaran kenit bila berskrin penuh"
 
-#: src/preferences_dialog.c:323
+#: src/preferences_dialog.c:342
 msgid "Clock"
 msgstr "Jam"
 
-#: src/preferences_dialog.c:326
+#: src/preferences_dialog.c:345
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "Tunjuk jam analog yang memaparkan masa semasa bila tetingkap berskrin penuh"
 
-#: src/preferences_dialog.c:331
+#: src/preferences_dialog.c:350
 msgid "Show Fullscreen Clock"
 msgstr "Tunjuk Jam Berskrin Penuh"
 
-#: src/preferences_dialog.c:337
+#: src/preferences_dialog.c:356
 msgid "Mouse cursor"
 msgstr "Kursor tetikus"
 
-#: src/preferences_dialog.c:340
+#: src/preferences_dialog.c:359
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
 msgstr ""
 
-#: src/preferences_dialog.c:348
+#: src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
 msgstr "Tempoh ketidakaktifan (saat):"
 
-#: src/preferences_dialog.c:367
+#: src/preferences_dialog.c:386
 msgid "Slideshow"
 msgstr "Paparan Slaid"
 
-#: src/preferences_dialog.c:371
+#: src/preferences_dialog.c:390
 msgid "Timeout"
 msgstr "Had Masa Tamat"
 
-#: src/preferences_dialog.c:374
+#: src/preferences_dialog.c:393
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
 msgstr ""
 
-#: src/preferences_dialog.c:390
+#: src/preferences_dialog.c:409
 msgid "Control"
 msgstr "Kawalan"
 
-#: src/preferences_dialog.c:394
+#: src/preferences_dialog.c:413
 msgid "Scroll wheel"
 msgstr "Roda Tatal"
 
-#: src/preferences_dialog.c:397
+#: src/preferences_dialog.c:416
 msgid "Invert zoom direction"
 msgstr "Songsangkan arah zum"
 
-#: src/preferences_dialog.c:408
+#: src/preferences_dialog.c:427
 msgid "Behaviour"
 msgstr "Kelakuan"
 
-#: src/preferences_dialog.c:412
+#: src/preferences_dialog.c:431
 msgid "Startup"
 msgstr "Permulaan"
 
-#: src/preferences_dialog.c:414
+#: src/preferences_dialog.c:433
 msgid "Maximize window on startup when opening an image"
 msgstr "Maksimumkan tetingkap pada permulaan bila membuka imej"
 
-#: src/preferences_dialog.c:420
+#: src/preferences_dialog.c:439
 msgid "Wrap around images"
 msgstr "Lilit disekeliling imej"
 
-#: src/preferences_dialog.c:431
+#: src/preferences_dialog.c:450
 msgid "Desktop"
 msgstr "Dekstop"
 
-#: src/preferences_dialog.c:436
+#: src/preferences_dialog.c:454
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
 msgstr ""
 
-#: src/preferences_dialog.c:540
+#: src/preferences_dialog.c:551
 msgid "Image Viewer Preferences"
 msgstr "Keutamaan Pelihat Imej"
 
-#: src/properties_dialog.c:138
+#: src/properties_dialog.c:132
 msgid "<b>Name:</b>"
 msgstr "<b>Nama:</b>"
 
-#: src/properties_dialog.c:139
+#: src/properties_dialog.c:133
 msgid "<b>Kind:</b>"
 msgstr "<b>Jenis:</b>"
 
-#: src/properties_dialog.c:140
+#: src/properties_dialog.c:134
 msgid "<b>Modified:</b>"
 msgstr "<b>Diubahsuai:</b>"
 
-#: src/properties_dialog.c:141
+#: src/properties_dialog.c:135
 msgid "<b>Accessed:</b>"
 msgstr "<b>Dicapai:</b>"
 
-#: src/properties_dialog.c:142
+#: src/properties_dialog.c:136
 msgid "<b>Size:</b>"
 msgstr "<b>Saiz:</b>"
 
-#: src/properties_dialog.c:166
+#: src/properties_dialog.c:160
 msgid "General"
 msgstr "Am"
 
-#: src/properties_dialog.c:172
+#: src/properties_dialog.c:166
 msgid "Image"
 msgstr "Imej"
 
-#: src/properties_dialog.c:391
+#: src/properties_dialog.c:351
 msgid "<b>Date taken:</b>"
 msgstr "<b>Tarikh diambil:</b>"
 
-#: src/properties_dialog.c:403 src/properties_dialog.c:415
-#: src/properties_dialog.c:427
+#: src/properties_dialog.c:361 src/properties_dialog.c:371
+#: src/properties_dialog.c:381
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: src/properties_dialog.c:486
+#: src/properties_dialog.c:419
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Sifat"
@@ -904,7 +850,7 @@ msgstr "Tidak dapat memuatkan direktori"
 msgid "Unsupported mime type"
 msgstr "Jenis mime tidak disokong"
 
-#: src/thumbnailer.c:375
+#: src/thumbnailer.c:366
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -914,43 +860,44 @@ msgid ""
 "to resolve this issue."
 msgstr "Thumbnailer-service tidak boleh dicapai,\natas sebab ini, lakaran kenit tidak dapat\ndicipta.\n\nPasang <b>Tumbler</b> atau lain-lain <i>thumbnailing daemon</i>\nuntuk selesaikan masalah ini."
 
-#: src/thumbnailer.c:384
+#: src/thumbnailer.c:374
 msgid "Do _not show this message again"
 msgstr "Janga_n tunjuk mesej ini lagi"
 
-#: src/xfce_wallpaper_manager.c:254 src/gnome_wallpaper_manager.c:176
+#: src/xfce_wallpaper_manager.c:251 src/gnome_wallpaper_manager.c:164
 msgid "Style:"
 msgstr "Gaya:"
 
-#: src/xfce_wallpaper_manager.c:266
+#. stretched is now default value
+#: src/xfce_wallpaper_manager.c:262
 msgid "Apply to all workspaces"
 msgstr "Laksana ke semua ruang kerja"
 
-#: src/xfce_wallpaper_manager.c:274 src/gnome_wallpaper_manager.c:188
+#: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:176
 msgid "Set as wallpaper"
 msgstr "Tetapkan sebagai kertas dinding"
 
-#: src/xfce_wallpaper_manager.c:336 src/gnome_wallpaper_manager.c:246
+#: src/xfce_wallpaper_manager.c:302 src/gnome_wallpaper_manager.c:206
 msgid "Auto"
 msgstr "Auto"
 
-#: src/xfce_wallpaper_manager.c:339
+#: src/xfce_wallpaper_manager.c:303
 msgid "Centered"
 msgstr "Ditengah"
 
-#: src/xfce_wallpaper_manager.c:342
+#: src/xfce_wallpaper_manager.c:304
 msgid "Tiled"
 msgstr "Berjubin"
 
-#: src/xfce_wallpaper_manager.c:345
+#: src/xfce_wallpaper_manager.c:305
 msgid "Stretched"
 msgstr "Diregang"
 
-#: src/xfce_wallpaper_manager.c:348
+#: src/xfce_wallpaper_manager.c:306
 msgid "Scaled"
 msgstr "Diskala"
 
-#: src/xfce_wallpaper_manager.c:351
+#: src/xfce_wallpaper_manager.c:307
 msgid "Zoomed"
 msgstr "Dizum"
 
