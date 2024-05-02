@@ -23,6 +23,7 @@ IncludeCategories:
     SortPriority: 0
     CaseSensitive: false
 IndentCaseLabels: true
+InsertNewlineAtEOF: true
 KeepEmptyLinesAtTheStartOfBlocks: false
 MaxEmptyLinesToKeep: 3
 PointerAlignment: Right
