@@ -216,7 +216,7 @@ struct _RsttoImageViewerTransaction
 
     gint image_width;
     gint image_height;
-    gdouble image_scale;
+    gdouble quality_scale;
     gdouble scale;
 
     /*
@@ -287,7 +287,7 @@ struct _RsttoImageViewerPrivate
     GtkAdjustment *vadjustment;
     GtkAdjustment *hadjustment;
 
-    gdouble image_scale;
+    gdouble quality_scale;
     gint original_image_width;
     gint original_image_height;
     gint image_width;
@@ -1107,7 +1107,7 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
     cairo_pattern_set_filter (viewer->priv->pixbuf.pattern,
                               viewer->priv->enable_smoothing ? CAIRO_FILTER_BILINEAR
                                                              : CAIRO_FILTER_NEAREST);
-    cairo_scale (ctx, x_scale / viewer->priv->image_scale, y_scale / viewer->priv->image_scale);
+    cairo_scale (ctx, x_scale / viewer->priv->quality_scale, y_scale / viewer->priv->quality_scale);
     cairo_set_source (ctx, viewer->priv->pixbuf.pattern);
     cairo_paint (ctx);
 }
@@ -1270,7 +1270,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
                     g_error_free (viewer->priv->error);
                     viewer->priv->error = NULL;
                 }
-                viewer->priv->image_scale = 1.0;
+                viewer->priv->quality_scale = 1.0;
                 viewer->priv->image_width = viewer->priv->original_image_width = 0;
                 viewer->priv->image_height = viewer->priv->original_image_height = 0;
 
@@ -1658,40 +1658,24 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader, RsttoImageViewerTran
 static void
 cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint height, RsttoImageViewerTransaction *transaction)
 {
-    /*
-     * By default, the image-size won't be limited to screen-size (since it's smaller)
-     * or, because we don't want to reduce it.
-     * Set the image_scale to 1.0 (100%)
-     */
-    transaction->image_scale = 1.0;
-
+    gboolean limit_quality = transaction->viewer->priv->limit_quality;
+    transaction->quality_scale = 1.0;
     transaction->image_width = width;
     transaction->image_height = height;
 
-    if (transaction->viewer->priv->limit_quality)
+    if (limit_quality && (transaction->monitor_width < width || transaction->monitor_height < height))
     {
-        /*
-         * Set the maximum size of the loaded image to the screen-size.
-         * TODO: Add some 'smart-stuff' here
-         */
-        if (transaction->monitor_width < width || transaction->monitor_height < height)
+        if (height < width)
         {
-            gdouble s_width = transaction->monitor_width, s_height = transaction->monitor_height;
-
-            /*
-             * The image is loaded at the screen_size, calculate how this fits best.
-             *  scale = MIN (width / screen_width, height / screen_height)
-             */
-            if (width / s_width < height / s_height)
-            {
-                transaction->image_scale = s_width / width;
-                gdk_pixbuf_loader_set_size (loader, s_width, s_width * height / width);
-            }
-            else
-            {
-                transaction->image_scale = s_height / height;
-                gdk_pixbuf_loader_set_size (loader, s_height * width / height, s_height);
-            }
+            gint size = MIN (width, transaction->monitor_width);
+            transaction->quality_scale = (gdouble) size / (gdouble) width;
+            gdk_pixbuf_loader_set_size (loader, size, transaction->quality_scale * height);
+        }
+        else
+        {
+            gint size = MIN (height, transaction->monitor_height);
+            transaction->quality_scale = (gdouble) size / (gdouble) height;
+            gdk_pixbuf_loader_set_size (loader, transaction->quality_scale * width, size);
         }
     }
 }
@@ -1720,7 +1704,7 @@ cb_rstto_image_loader_closed_idle (gpointer data)
         {
             gtk_widget_set_tooltip_text (widget, NULL);
             cb_rstto_image_loader_image_ready (transaction->loader, transaction);
-            viewer->priv->image_scale = transaction->image_scale;
+            viewer->priv->quality_scale = transaction->quality_scale;
             viewer->priv->image_width = viewer->priv->original_image_width = transaction->image_width;
             viewer->priv->image_height = viewer->priv->original_image_height = transaction->image_height;
             set_scale_factor (viewer, NULL, NULL);
@@ -1728,7 +1712,7 @@ cb_rstto_image_loader_closed_idle (gpointer data)
         }
         else
         {
-            viewer->priv->image_scale = 1.0;
+            viewer->priv->quality_scale = 1.0;
             viewer->priv->image_width = viewer->priv->original_image_width = 0;
             viewer->priv->image_height = viewer->priv->original_image_height = 0;
             if (viewer->priv->pixbuf.pattern)
