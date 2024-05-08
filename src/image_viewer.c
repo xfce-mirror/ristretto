@@ -37,6 +37,9 @@
  */
 #define LOADER_BUFFER_SIZE 1048576
 
+/* from cairo-image-surface.c */
+#define MAX_IMAGE_SIZE 32767
+
 #define BACKGROUND_ICON_SIZE 128
 
 #define MAX_OVER_VISIBLE 1.5
@@ -1663,17 +1666,18 @@ cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint h
     transaction->image_width = width;
     transaction->image_height = height;
 
-    if (limit_quality && (transaction->monitor_width < width || transaction->monitor_height < height))
+    if ((limit_quality && (transaction->monitor_width < width || transaction->monitor_height < height))
+        || width >= MAX_IMAGE_SIZE || height >= MAX_IMAGE_SIZE)
     {
         if (height < width)
         {
-            gint size = MIN (width, transaction->monitor_width);
+            gint size = MIN (width, limit_quality ? transaction->monitor_width : MAX_IMAGE_SIZE - 1);
             transaction->quality_scale = (gdouble) size / (gdouble) width;
             gdk_pixbuf_loader_set_size (loader, size, transaction->quality_scale * height);
         }
         else
         {
-            gint size = MIN (height, transaction->monitor_height);
+            gint size = MIN (height, limit_quality ? transaction->monitor_height : MAX_IMAGE_SIZE - 1);
             transaction->quality_scale = (gdouble) size / (gdouble) height;
             gdk_pixbuf_loader_set_size (loader, transaction->quality_scale * width, size);
         }
