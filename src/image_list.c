@@ -230,8 +230,8 @@ rstto_image_list_init (RsttoImageList *image_list)
 
     image_list->priv->cb_rstto_image_list_compare_func = cb_rstto_image_list_image_name_compare_func;
 
-    image_list->priv->wrap_images
-        = rstto_settings_get_boolean_property (image_list->priv->settings, "wrap-images");
+    image_list->priv->wrap_images =
+        rstto_settings_get_boolean_property (image_list->priv->settings, "wrap-images");
 
     g_signal_connect (image_list->priv->settings, "notify::wrap-images",
                       G_CALLBACK (cb_rstto_wrap_images_changed), image_list);
@@ -249,21 +249,21 @@ rstto_image_list_class_init (RsttoImageListClass *klass)
 
     object_class->finalize = rstto_image_list_finalize;
 
-    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL]
-        = g_signal_new ("remove-all",
-                        G_TYPE_FROM_CLASS (klass),
-                        G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-                        0, NULL, NULL,
-                        g_cclosure_marshal_VOID__VOID,
-                        G_TYPE_NONE, 0);
+    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL] =
+        g_signal_new ("remove-all",
+                      G_TYPE_FROM_CLASS (klass),
+                      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                      0, NULL, NULL,
+                      g_cclosure_marshal_VOID__VOID,
+                      G_TYPE_NONE, 0);
 
-    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_SORTED]
-        = g_signal_new ("sorted",
-                        G_TYPE_FROM_CLASS (klass),
-                        G_SIGNAL_RUN_LAST,
-                        0, NULL, NULL,
-                        g_cclosure_marshal_VOID__VOID,
-                        G_TYPE_NONE, 0);
+    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_SORTED] =
+        g_signal_new ("sorted",
+                      G_TYPE_FROM_CLASS (klass),
+                      G_SIGNAL_RUN_LAST,
+                      0, NULL, NULL,
+                      g_cclosure_marshal_VOID__VOID,
+                      G_TYPE_NONE, 0);
 }
 
 static void
@@ -347,8 +347,8 @@ rstto_image_list_add_file (RsttoImageList *image_list,
         {
             g_signal_connect (monitor, "changed",
                               G_CALLBACK (cb_file_monitor_changed), image_list);
-            image_list->priv->image_monitors
-                = g_list_prepend (image_list->priv->image_monitors, monitor);
+            image_list->priv->image_monitors =
+                g_list_prepend (image_list->priv->image_monitors, monitor);
         }
     }
 
@@ -809,21 +809,21 @@ rstto_image_list_iter_class_init (RsttoImageListIterClass *klass)
 
     object_class->finalize = rstto_image_list_iter_finalize;
 
-    rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE]
-        = g_signal_new ("prepare-change",
-                        G_TYPE_FROM_CLASS (klass),
-                        G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-                        0, NULL, NULL,
-                        g_cclosure_marshal_VOID__VOID,
-                        G_TYPE_NONE, 0);
+    rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_PREPARE_CHANGE] =
+        g_signal_new ("prepare-change",
+                      G_TYPE_FROM_CLASS (klass),
+                      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                      0, NULL, NULL,
+                      g_cclosure_marshal_VOID__VOID,
+                      G_TYPE_NONE, 0);
 
-    rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED]
-        = g_signal_new ("changed",
-                        G_TYPE_FROM_CLASS (klass),
-                        G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-                        0, NULL, NULL,
-                        g_cclosure_marshal_VOID__VOID,
-                        G_TYPE_NONE, 0);
+    rstto_image_list_iter_signals[RSTTO_IMAGE_LIST_ITER_SIGNAL_CHANGED] =
+        g_signal_new ("changed",
+                      G_TYPE_FROM_CLASS (klass),
+                      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                      0, NULL, NULL,
+                      g_cclosure_marshal_VOID__VOID,
+                      G_TYPE_NONE, 0);
 }
 
 static void

@@ -261,8 +261,8 @@ rstto_xfce_wallpaper_manager_init (RsttoXfceWallpaperManager *manager)
     manager->priv->style = 3; /* stretched is now default value */
     manager->priv->check_button = gtk_check_button_new_with_label ( _("Apply to all workspaces"));
     if (manager->priv->channel != NULL)
-        manager->priv->workspace_mode
-            = xfconf_channel_get_bool (manager->priv->channel, SINGLE_WORKSPACE_MODE, TRUE);
+        manager->priv->workspace_mode =
+            xfconf_channel_get_bool (manager->priv->channel, SINGLE_WORKSPACE_MODE, TRUE);
 
     manager->priv->dialog = gtk_dialog_new ();
     gtk_window_set_title (GTK_WINDOW (manager->priv->dialog), _("Set as wallpaper"));

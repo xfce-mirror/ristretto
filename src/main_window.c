@@ -2404,19 +2404,19 @@ cb_rstto_main_window_state_event (GtkWidget *widget,
                 }
                 if (!rstto_image_list_is_empty (window->priv->image_list))
                 {
-                    window->priv->show_fs_toolbar_timeout_id
-                        = g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
-                                              cb_rstto_main_window_show_fs_toolbar_timeout, window,
-                                              cb_rstto_main_window_show_fs_toolbar_timeout_destroy);
+                    window->priv->show_fs_toolbar_timeout_id =
+                        g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
+                                            cb_rstto_main_window_show_fs_toolbar_timeout, window,
+                                            cb_rstto_main_window_show_fs_toolbar_timeout_destroy);
                 }
             }
 
             if (timeout > 0)
             {
-                window->priv->hide_fs_mouse_cursor_timeout_id
-                    = g_timeout_add_full (G_PRIORITY_DEFAULT, 1000 * timeout,
-                                          cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
-                                          cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy);
+                window->priv->hide_fs_mouse_cursor_timeout_id =
+                    g_timeout_add_full (G_PRIORITY_DEFAULT, 1000 * timeout,
+                                        cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
+                                        cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy);
             }
 
             if (rstto_settings_get_boolean_property (window->priv->settings_manager, "hide-thumbnails-fullscreen"))
@@ -2552,10 +2552,10 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
 
         if (timeout > 0)
         {
-            window->priv->hide_fs_mouse_cursor_timeout_id
-                = g_timeout_add_full (G_PRIORITY_DEFAULT, 1000 * timeout,
-                                      cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
-                                      cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy);
+            window->priv->hide_fs_mouse_cursor_timeout_id =
+                g_timeout_add_full (G_PRIORITY_DEFAULT, 1000 * timeout,
+                                    cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
+                                    cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy);
         }
 
         return TRUE;
@@ -2613,10 +2613,10 @@ cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget,
             {
                 REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
             }
-            window->priv->show_fs_toolbar_timeout_id
-                = g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
-                                      cb_rstto_main_window_show_fs_toolbar_timeout, window,
-                                      cb_rstto_main_window_show_fs_toolbar_timeout_destroy);
+            window->priv->show_fs_toolbar_timeout_id =
+                g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
+                                    cb_rstto_main_window_show_fs_toolbar_timeout, window,
+                                    cb_rstto_main_window_show_fs_toolbar_timeout_destroy);
         }
     }
 
@@ -2919,10 +2919,10 @@ cb_rstto_main_window_configure_event (GtkWidget *widget,
         if (gtk_widget_get_visible (GTK_WIDGET (window)))
         {
             /* save the geometry one second after the last configure event */
-            window->priv->window_save_geometry_timer_id
-                = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT, 1,
-                                              rstto_main_window_save_geometry_timer, widget,
-                                              rstto_main_window_save_geometry_timer_destroy);
+            window->priv->window_save_geometry_timer_id =
+                g_timeout_add_seconds_full (G_PRIORITY_DEFAULT, 1,
+                                            rstto_main_window_save_geometry_timer, widget,
+                                            rstto_main_window_save_geometry_timer_destroy);
         }
     }
 

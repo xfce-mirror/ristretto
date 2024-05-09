@@ -386,8 +386,8 @@ rstto_icon_bar_init (RsttoIconBar *icon_bar)
     icon_bar->priv->settings = rstto_settings_new ();
     icon_bar->priv->thumbnailer = rstto_thumbnailer_new ();
 
-    icon_bar->priv->thumbnail_size
-        = rstto_settings_get_uint_property (icon_bar->priv->settings, "thumbnail-size");
+    icon_bar->priv->thumbnail_size =
+        rstto_settings_get_uint_property (icon_bar->priv->settings, "thumbnail-size");
 
     gtk_widget_set_can_focus (GTK_WIDGET (icon_bar), FALSE);
 

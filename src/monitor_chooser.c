@@ -133,13 +133,13 @@ rstto_monitor_chooser_class_init (RsttoMonitorChooserClass *klass)
     widget_class->get_preferred_height = rstto_monitor_chooser_get_preferred_height;
     widget_class->size_allocate = rstto_monitor_chooser_size_allocate;
 
-    rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED]
-        = g_signal_new ("changed",
-                        G_TYPE_FROM_CLASS (klass),
-                        G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-                        0, NULL, NULL,
-                        g_cclosure_marshal_VOID__VOID,
-                        G_TYPE_NONE, 0);
+    rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED] =
+        g_signal_new ("changed",
+                      G_TYPE_FROM_CLASS (klass),
+                      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                      0, NULL, NULL,
+                      g_cclosure_marshal_VOID__VOID,
+                      G_TYPE_NONE, 0);
 }
 
 /**
