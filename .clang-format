@@ -8,6 +8,7 @@ AlignOperands: Align
 AllowAllParametersOfDeclarationOnNextLine: false
 AlwaysBreakAfterReturnType: All
 BinPackParameters: false
+BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Allman
 IncludeCategories:
   - Regex: 'util\.h'

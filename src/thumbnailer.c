@@ -156,20 +156,20 @@ rstto_thumbnailer_class_init (RsttoThumbnailerClass *klass)
 
     object_class->finalize = rstto_thumbnailer_finalize;
 
-    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY]
-        = g_signal_new ("ready",
-                        G_TYPE_FROM_CLASS (klass),
-                        G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-                        0, NULL, NULL,
-                        g_cclosure_marshal_VOID__OBJECT,
-                        G_TYPE_NONE, 1, G_TYPE_OBJECT);
-    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_ERROR]
-        = g_signal_new ("error",
-                        G_TYPE_FROM_CLASS (klass),
-                        G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-                        0, NULL, NULL,
-                        g_cclosure_marshal_VOID__OBJECT,
-                        G_TYPE_NONE, 1, G_TYPE_OBJECT);
+    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_READY] =
+        g_signal_new ("ready",
+                      G_TYPE_FROM_CLASS (klass),
+                      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                      0, NULL, NULL,
+                      g_cclosure_marshal_VOID__OBJECT,
+                      G_TYPE_NONE, 1, G_TYPE_OBJECT);
+    rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_ERROR] =
+        g_signal_new ("error",
+                      G_TYPE_FROM_CLASS (klass),
+                      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                      0, NULL, NULL,
+                      g_cclosure_marshal_VOID__OBJECT,
+                      G_TYPE_NONE, 1, G_TYPE_OBJECT);
 }
 
 /**
@@ -248,16 +248,16 @@ rstto_thumbnailer_queue_file (RsttoThumbnailer *thumbnailer,
         rstto_file_set_thumbnail_state (last_visible->data, flavor,
                                         RSTTO_THUMBNAIL_STATE_UNPROCESSED);
         g_object_unref (last_visible->data);
-        thumbnailer->priv->queues[flavor]
-            = g_slist_delete_link (thumbnailer->priv->queues[flavor], last_visible);
+        thumbnailer->priv->queues[flavor] =
+            g_slist_delete_link (thumbnailer->priv->queues[flavor], last_visible);
     }
 
-    thumbnailer->priv->queues[flavor]
-        = g_slist_prepend (thumbnailer->priv->queues[flavor], g_object_ref (file));
-    thumbnailer->priv->request_timer_ids[flavor]
-        = g_timeout_add_full (G_PRIORITY_LOW, 300, rstto_thumbnailer_queue_request_timer,
-                              rstto_util_source_autoremove (thumbnailer),
-                              rstto_thumbnailer_queue_request_timer_destroy);
+    thumbnailer->priv->queues[flavor] =
+        g_slist_prepend (thumbnailer->priv->queues[flavor], g_object_ref (file));
+    thumbnailer->priv->request_timer_ids[flavor] =
+        g_timeout_add_full (G_PRIORITY_LOW, 300, rstto_thumbnailer_queue_request_timer,
+                            rstto_util_source_autoremove (thumbnailer),
+                            rstto_thumbnailer_queue_request_timer_destroy);
 }
 
 static RsttoThumbnailFlavor
@@ -307,8 +307,8 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
          * here only when required */
         if (!rstto_file_is_valid (iter->data))
         {
-            thumbnailer->priv->remove_queue
-                = g_slist_prepend (thumbnailer->priv->remove_queue, iter->data);
+            thumbnailer->priv->remove_queue =
+                g_slist_prepend (thumbnailer->priv->remove_queue, iter->data);
             continue;
         }
 
@@ -389,8 +389,8 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
         /* TOOO: Nice cleanup */
     }
     else
-        thumbnailer->priv->handles[flavor]
-            = g_slist_prepend (thumbnailer->priv->handles[flavor], GUINT_TO_POINTER (handle));
+        thumbnailer->priv->handles[flavor] =
+            g_slist_prepend (thumbnailer->priv->handles[flavor], GUINT_TO_POINTER (handle));
 
     g_free (uris);
     g_free (mimetypes);
@@ -453,8 +453,8 @@ cb_rstto_thumbnailer_thumbnail_ready (TumblerThumbnailer1 *proxy,
                            0, iter->data, NULL);
 
             g_object_unref (iter->data);
-            thumbnailer->priv->in_process_queues[flavor]
-                = g_slist_remove (thumbnailer->priv->in_process_queues[flavor], iter->data);
+            thumbnailer->priv->in_process_queues[flavor] =
+                g_slist_remove (thumbnailer->priv->in_process_queues[flavor], iter->data);
 
             iter = thumbnailer->priv->in_process_queues[flavor];
             n++;
@@ -508,8 +508,8 @@ cb_rstto_thumbnailer_thumbnail_error (TumblerThumbnailer1 *proxy,
             }
 
             g_object_unref (iter->data);
-            thumbnailer->priv->in_process_queues[flavor]
-                = g_slist_remove (thumbnailer->priv->in_process_queues[flavor], iter->data);
+            thumbnailer->priv->in_process_queues[flavor] =
+                g_slist_remove (thumbnailer->priv->in_process_queues[flavor], iter->data);
 
             iter = thumbnailer->priv->in_process_queues[flavor];
             n++;
