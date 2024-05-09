@@ -516,14 +516,18 @@ rstto_image_viewer_realize (GtkWidget *widget)
  * Request a default size of 300 by 400 pixels
  */
 static void
-rstto_image_viewer_get_preferred_width (GtkWidget *widget, gint *minimal_width, gint *natural_width)
+rstto_image_viewer_get_preferred_width (GtkWidget *widget,
+                                        gint *minimal_width,
+                                        gint *natural_width)
 {
     *minimal_width = 100;
     *natural_width = 400;
 }
 
 static void
-rstto_image_viewer_get_preferred_height (GtkWidget *widget, gint *minimal_height, gint *natural_height)
+rstto_image_viewer_get_preferred_height (GtkWidget *widget,
+                                         gint *minimal_height,
+                                         gint *natural_height)
 {
     *minimal_height = 100;
     *natural_height = 300;
@@ -536,7 +540,8 @@ rstto_image_viewer_get_preferred_height (GtkWidget *widget, gint *minimal_height
  *
  */
 static void
-rstto_image_viewer_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
+rstto_image_viewer_size_allocate (GtkWidget *widget,
+                                  GtkAllocation *allocation)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
 
@@ -563,7 +568,8 @@ rstto_image_viewer_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
  *
  */
 static gboolean
-rstto_image_viewer_draw (GtkWidget *widget, cairo_t *ctx)
+rstto_image_viewer_draw (GtkWidget *widget,
+                         cairo_t *ctx)
 {
     cairo_save (ctx);
 
@@ -634,7 +640,8 @@ rstto_image_viewer_finalize (GObject *object)
                  fit-to-view), TRUE otherwise
  */
 static gboolean
-set_scale (RsttoImageViewer *viewer, gdouble scale)
+set_scale (RsttoImageViewer *viewer,
+           gdouble scale)
 {
     RsttoScale default_zoom;
     GtkAllocation allocation;
@@ -891,7 +898,8 @@ paint_background_icon (RsttoImageViewer *viewer,
 }
 
 static void
-paint_clock (GtkWidget *widget, cairo_t *ctx)
+paint_clock (GtkWidget *widget,
+             cairo_t *ctx)
 {
     GtkAllocation allocation;
     gdouble width, height, offset;
@@ -979,7 +987,8 @@ paint_clock (GtkWidget *widget, cairo_t *ctx)
 }
 
 static void
-paint_image (GtkWidget *widget, cairo_t *ctx)
+paint_image (GtkWidget *widget,
+             cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     cairo_matrix_t transform_matrix;
@@ -1116,7 +1125,8 @@ paint_image (GtkWidget *widget, cairo_t *ctx)
 }
 
 static void
-paint_selection_box (GtkWidget *widget, cairo_t *ctx)
+paint_selection_box (GtkWidget *widget,
+                     cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gdouble box_x, box_y, box_width, box_height;
@@ -1138,7 +1148,8 @@ paint_selection_box (GtkWidget *widget, cairo_t *ctx)
 }
 
 static void
-rstto_image_viewer_paint (GtkWidget *widget, cairo_t *ctx)
+rstto_image_viewer_paint (GtkWidget *widget,
+                          cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
 
@@ -1332,7 +1343,9 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
 }
 
 static void
-rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdouble scale)
+rstto_image_viewer_load_image (RsttoImageViewer *viewer,
+                               RsttoFile *file,
+                               gdouble scale)
 {
     RsttoImageViewerTransaction *transaction = g_new0 (RsttoImageViewerTransaction, 1);
     const gchar *mime_type;
@@ -1412,7 +1425,8 @@ rstto_image_viewer_transaction_free (gpointer data)
 }
 
 void
-rstto_image_viewer_set_scale (RsttoImageViewer *viewer, gdouble scale)
+rstto_image_viewer_set_scale (RsttoImageViewer *viewer,
+                              gdouble scale)
 {
     gdouble tmp_x, tmp_y, h_page_size, v_page_size;
 
@@ -1457,7 +1471,8 @@ rstto_image_viewer_get_scale (RsttoImageViewer *viewer)
 }
 
 static void
-rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerMotionState state)
+rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer,
+                                     RsttoImageViewerMotionState state)
 {
     viewer->priv->motion.state = state;
 }
@@ -1470,7 +1485,8 @@ rstto_image_viewer_set_motion_state (RsttoImageViewer *viewer, RsttoImageViewerM
  * Set orientation for the image shown here.
  */
 void
-rstto_image_viewer_set_orientation (RsttoImageViewer *viewer, RsttoImageOrientation orientation)
+rstto_image_viewer_set_orientation (RsttoImageViewer *viewer,
+                                    RsttoImageOrientation orientation)
 {
     viewer->priv->orientation = orientation;
     rstto_file_set_orientation (viewer->priv->file, orientation);
@@ -1514,7 +1530,8 @@ rstto_image_viewer_get_height (RsttoImageViewer *viewer)
 }
 
 void
-rstto_image_viewer_set_menu (RsttoImageViewer *viewer, GtkMenu *menu)
+rstto_image_viewer_set_menu (RsttoImageViewer *viewer,
+                             GtkMenu *menu)
 {
     if (viewer->priv->menu)
     {
@@ -1535,7 +1552,9 @@ rstto_image_viewer_set_menu (RsttoImageViewer *viewer, GtkMenu *menu)
 /** CALLBACK FUNCTIONS **/
 /************************/
 static void
-cb_rstto_image_viewer_read_file_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
+cb_rstto_image_viewer_read_file_ready (GObject *source_object,
+                                       GAsyncResult *result,
+                                       gpointer user_data)
 {
     RsttoImageViewerTransaction *transaction = user_data;
     GFile *file = G_FILE (source_object);
@@ -1611,7 +1630,8 @@ cb_rstto_image_viewer_read_input_stream_ready (GObject *source_object,
 
 
 static void
-cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader, RsttoImageViewerTransaction *transaction)
+cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader,
+                                   RsttoImageViewerTransaction *transaction)
 {
     RsttoImageViewer *viewer = transaction->viewer;
     GdkPixbuf *pixbuf;
@@ -1659,7 +1679,10 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader, RsttoImageViewerTran
 }
 
 static void
-cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint height, RsttoImageViewerTransaction *transaction)
+cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader,
+                                     gint width,
+                                     gint height,
+                                     RsttoImageViewerTransaction *transaction)
 {
     gboolean limit_quality = transaction->viewer->priv->limit_quality;
     gboolean max_size_reached = width >= MAX_IMAGE_SIZE || height >= MAX_IMAGE_SIZE;
@@ -1811,7 +1834,8 @@ cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
 }
 
 static gboolean
-rstto_scroll_event (GtkWidget *widget, GdkEventScroll *event)
+rstto_scroll_event (GtkWidget *widget,
+                    GdkEventScroll *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gboolean invert_zoom_direction = viewer->priv->invert_zoom_direction;
@@ -1858,7 +1882,8 @@ rstto_scroll_event (GtkWidget *widget, GdkEventScroll *event)
 }
 
 static gboolean
-rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
+rstto_motion_notify_event (GtkWidget *widget,
+                           GdkEventMotion *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     GdkRectangle previous_box, current_box, union_box;
@@ -1934,7 +1959,8 @@ rstto_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
 }
 
 static gboolean
-rstto_button_press_event (GtkWidget *widget, GdkEventButton *event)
+rstto_button_press_event (GtkWidget *widget,
+                          GdkEventButton *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
 
@@ -2024,7 +2050,8 @@ rstto_button_press_event (GtkWidget *widget, GdkEventButton *event)
 }
 
 static gboolean
-rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
+rstto_button_release_event (GtkWidget *widget,
+                            GdkEventButton *event)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     gdouble box_x, box_y, box_width, box_height, tmp_x, tmp_y, scale, h_page_size, v_page_size;
@@ -2069,7 +2096,9 @@ rstto_button_release_event (GtkWidget *widget, GdkEventButton *event)
 }
 
 static void
-cb_rstto_limit_quality_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
+cb_rstto_limit_quality_changed (GObject *settings,
+                                GParamSpec *pspec,
+                                gpointer user_data)
 {
     RsttoImageViewer *viewer = user_data;
 
@@ -2080,7 +2109,9 @@ cb_rstto_limit_quality_changed (GObject *settings, GParamSpec *pspec, gpointer u
 }
 
 static void
-cb_rstto_smoothing_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
+cb_rstto_smoothing_changed (GObject *settings,
+                            GParamSpec *pspec,
+                            gpointer user_data)
 {
     RsttoImageViewer *viewer = user_data;
 
@@ -2090,7 +2121,9 @@ cb_rstto_smoothing_changed (GObject *settings, GParamSpec *pspec, gpointer user_
 }
 
 static void
-cb_rstto_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
+cb_rstto_bgcolor_changed (GObject *settings,
+                          GParamSpec *pspec,
+                          gpointer user_data)
 {
     RsttoImageViewer *viewer = user_data;
     cairo_region_t *region;
@@ -2120,7 +2153,9 @@ cb_rstto_bgcolor_changed (GObject *settings, GParamSpec *pspec, gpointer user_da
 }
 
 static void
-cb_rstto_zoom_direction_changed (GObject *settings, GParamSpec *pspec, gpointer user_data)
+cb_rstto_zoom_direction_changed (GObject *settings,
+                                 GParamSpec *pspec,
+                                 gpointer user_data)
 {
     RsttoImageViewer *viewer = user_data;
     viewer->priv->invert_zoom_direction = rstto_settings_get_boolean_property (RSTTO_SETTINGS (settings), "invert-zoom-direction");
@@ -2180,7 +2215,10 @@ rstto_image_viewer_get_error (RsttoImageViewer *viewer)
 }
 
 static void
-rstto_image_viewer_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
+rstto_image_viewer_set_property (GObject *object,
+                                 guint property_id,
+                                 const GValue *value,
+                                 GParamSpec *pspec)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (object);
 
@@ -2217,7 +2255,10 @@ rstto_image_viewer_set_property (GObject *object, guint property_id, const GValu
 }
 
 static void
-rstto_image_viewer_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
+rstto_image_viewer_get_property (GObject *object,
+                                 guint property_id,
+                                 GValue *value,
+                                 GParamSpec *pspec)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (object);
 
@@ -2261,7 +2302,8 @@ cb_rstto_image_viewer_refresh (gpointer user_data)
 }
 
 void
-rstto_image_viewer_set_show_clock (RsttoImageViewer *viewer, gboolean value)
+rstto_image_viewer_set_show_clock (RsttoImageViewer *viewer,
+                                   gboolean value)
 {
     static guint id = 0;
 
@@ -2285,7 +2327,8 @@ rstto_image_viewer_is_busy (RsttoImageViewer *viewer)
 }
 
 static void
-cb_rstto_image_viewer_file_changed (RsttoFile *r_file, RsttoImageViewer *viewer)
+cb_rstto_image_viewer_file_changed (RsttoFile *r_file,
+                                    RsttoImageViewer *viewer)
 {
     rstto_image_viewer_load_image (viewer, r_file, viewer->priv->auto_scale);
     g_signal_emit_by_name (viewer, "status-changed");

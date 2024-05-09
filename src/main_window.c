@@ -2761,7 +2761,8 @@ cb_rstto_main_window_play_slideshow (gpointer user_data)
  *
  */
 void
-rstto_main_window_fullscreen (GtkWidget *widget, RsttoMainWindow *window)
+rstto_main_window_fullscreen (GtkWidget *widget,
+                              RsttoMainWindow *window)
 {
     if (gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window))) & GDK_WINDOW_STATE_FULLSCREEN)
     {

@@ -114,7 +114,8 @@ rstto_app_menu_item_activate (GtkMenuItem *object)
  * Returns: RsttoAppMenuItem that launches application @app_info with @file
  */
 GtkWidget *
-rstto_app_menu_item_new (GAppInfo *app_info, GFile *file)
+rstto_app_menu_item_new (GAppInfo *app_info,
+                         GFile *file)
 {
     RsttoAppMenuItem *menu_item;
     GtkWidget *image = NULL;

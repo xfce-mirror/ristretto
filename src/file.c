@@ -408,7 +408,8 @@ rstto_file_get_size (RsttoFile *r_file)
 }
 
 ExifEntry *
-rstto_file_get_exif (RsttoFile *r_file, ExifTag id)
+rstto_file_get_exif (RsttoFile *r_file,
+                     ExifTag id)
 {
     /* If there is no exif-data object, try to create it */
     if (NULL == r_file->priv->exif_data)
