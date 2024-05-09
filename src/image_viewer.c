@@ -1662,12 +1662,16 @@ static void
 cb_rstto_image_loader_size_prepared (GdkPixbufLoader *loader, gint width, gint height, RsttoImageViewerTransaction *transaction)
 {
     gboolean limit_quality = transaction->viewer->priv->limit_quality;
+    gboolean max_size_reached = width >= MAX_IMAGE_SIZE || height >= MAX_IMAGE_SIZE;
     transaction->quality_scale = 1.0;
     transaction->image_width = width;
     transaction->image_height = height;
 
+    if (!limit_quality && max_size_reached)
+        g_warning ("Image size exceeds maximum supported %d, loading in reduced quality", MAX_IMAGE_SIZE);
+
     if ((limit_quality && (transaction->monitor_width < width || transaction->monitor_height < height))
-        || width >= MAX_IMAGE_SIZE || height >= MAX_IMAGE_SIZE)
+        || max_size_reached)
     {
         if (height < width)
         {
