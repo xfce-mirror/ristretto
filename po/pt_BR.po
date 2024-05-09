@@ -690,11 +690,11 @@ msgstr "Limitar qualidade de renderização"
 msgid ""
 "Smooth the image using bilinear interpolation, thus prioritizing rendering "
 "quality over performance."
-msgstr ""
+msgstr "Suaviza a imagem utilizando interpolação bilinear, priorizando assim a qualidade da renderização em detrimento do desempenho."
 
 #: src/preferences_dialog.c:310
 msgid "Enable smoothing"
-msgstr ""
+msgstr "Ativar suavização"
 
 #: src/preferences_dialog.c:322
 msgid "Fullscreen"
@@ -735,7 +735,7 @@ msgstr "Cursos do mouse"
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr ""
+msgstr "O cursor do mouse pode ser ocultado automaticamente após um determinado período de inatividade quando a janela estiver em tela cheia."
 
 #: src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
@@ -753,7 +753,7 @@ msgstr "Tempo de espera"
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr ""
+msgstr "O período de tempo em que uma imagem individual é exibida durante uma apresentação de slides (em segundos)"
 
 #: src/preferences_dialog.c:409
 msgid "Control"
@@ -792,7 +792,7 @@ msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Esta configuração determina o método que <i>Ristretto</i> irá usar para configurar o papel de parede da área de trabalho."
 
 #: src/preferences_dialog.c:551
 msgid "Image Viewer Preferences"
