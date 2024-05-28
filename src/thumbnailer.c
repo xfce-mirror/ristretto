@@ -18,8 +18,8 @@
  */
 
 #include "util.h"
-#include "thumbnailer.h"
 #include "main_window.h"
+#include "thumbnailer.h"
 #include "tumbler.h"
 
 #include <glib/gi18n.h>

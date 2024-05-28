@@ -20,9 +20,9 @@
 #ifndef __RSTTO_PRINT_H__
 #define __RSTTO_PRINT_H__
 
-#include <gtk/gtk.h>
-
 #include "image_viewer.h"
+
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

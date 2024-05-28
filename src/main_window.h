@@ -20,10 +20,10 @@
 #ifndef __RISTRETTO_MAIN_WINDOW_H__
 #define __RISTRETTO_MAIN_WINDOW_H__
 
-#include <gtk/gtk.h>
-
 #include "icon_bar.h"
 #include "image_list.h"
+
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

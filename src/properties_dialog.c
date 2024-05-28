@@ -18,8 +18,8 @@
  */
 
 #include "util.h"
-#include "properties_dialog.h"
 #include "file.h"
+#include "properties_dialog.h"
 #include "thumbnailer.h"
 
 

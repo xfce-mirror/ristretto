@@ -18,11 +18,11 @@
  */
 
 #include "util.h"
-#include "main_window.h"
 #include "app_menu_item.h"
 #include "gnome_wallpaper_manager.h"
 #include "icon_bar.h"
 #include "image_viewer.h"
+#include "main_window.h"
 #include "main_window_ui.h"
 #include "mime_db.h"
 #include "preferences_dialog.h"

@@ -18,8 +18,8 @@
  */
 
 #include "util.h"
-#include "settings.h"
 #include "file.h"
+#include "settings.h"
 
 #include <libxfce4util/libxfce4util.h>
 #include <xfconf/xfconf.h>

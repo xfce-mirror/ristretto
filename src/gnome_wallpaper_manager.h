@@ -20,9 +20,9 @@
 #ifndef __RISTRETTO_GNOME_WALLPAPER_MANAGER_H__
 #define __RISTRETTO_GNOME_WALLPAPER_MANAGER_H__
 
-#include <gtk/gtk.h>
-
 #include "wallpaper_manager.h"
+
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
