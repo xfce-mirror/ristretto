@@ -22,8 +22,8 @@
  */
 
 #include "util.h"
-#include "icon_bar.h"
 #include "file.h"
+#include "icon_bar.h"
 #include "main_window.h"
 #include "thumbnailer.h"
 

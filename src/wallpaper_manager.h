@@ -20,9 +20,9 @@
 #ifndef __RISTRETTO_WALLPAPER_MANAGER_IFACE__
 #define __RISTRETTO_WALLPAPER_MANAGER_IFACE__
 
-#include <gtk/gtk.h>
-
 #include "file.h"
+
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

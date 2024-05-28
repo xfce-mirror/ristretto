@@ -18,8 +18,8 @@
  */
 
 #include "util.h"
-#include "xfce_wallpaper_manager.h"
 #include "monitor_chooser.h"
+#include "xfce_wallpaper_manager.h"
 
 #ifdef HAVE_LIBX11
 #include <X11/Xatom.h>

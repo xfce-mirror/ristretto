@@ -20,9 +20,9 @@
 #ifndef __RISTRETTO_IMAGE_LIST_H__
 #define __RISTRETTO_IMAGE_LIST_H__
 
-#include <gtk/gtk.h>
-
 #include "file.h"
+
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
