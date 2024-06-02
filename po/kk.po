@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the xfce-apps.ristretto package.
 # 
 # Translators:
-# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015-2017,2019-2022
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015-2017,2019-2022,2024
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2024-04-29 00:49+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015-2017,2019-2022\n"
+"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015-2017,2019-2022,2024\n"
 "Language-Team: Kazakh (http://app.transifex.com/xfce/xfce-apps/language/kk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -94,7 +94,7 @@ msgstr "Сурет көшірмесін сақтау"
 #. Icon-name
 #: src/main_window.c:332
 msgid "Proper_ties..."
-msgstr ""
+msgstr "Қасие_ттері..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -111,7 +111,7 @@ msgstr "Бас_паға шығару..."
 #. Keyboard shortcut
 #: src/main_window.c:340
 msgid "Print the current image"
-msgstr ""
+msgstr "Ағымдағы суретті баспаға шығару"
 
 #. Icon-name
 #: src/main_window.c:344 src/main_window.c:363
@@ -578,7 +578,7 @@ msgstr "_Сақтау"
 
 #: src/main_window.c:3575
 msgid "Failed to print the image"
-msgstr ""
+msgstr "Суретті баспаға шығару сәтсіз аяқталды"
 
 #: src/main_window.c:3662
 #, c-format
@@ -926,4 +926,4 @@ msgstr "Ristretto суреттерді көрсету қолданбасы су�
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Xfce әзірлеушілері"
