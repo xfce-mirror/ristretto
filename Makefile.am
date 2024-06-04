@@ -25,7 +25,7 @@ DISTCLEANFILES = \
 	$(desktop_DATA) \
 	$(appdata_DATA)
 
-DISTCHECK_CONFIGURE_FLAGS = --enable-gen-doc
+AM_DISTCHECK_CONFIGURE_FLAGS = --enable-gen-doc
 
 .PHONY: ChangeLog
 
