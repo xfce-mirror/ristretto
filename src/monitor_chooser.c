@@ -373,8 +373,6 @@ paint_monitor (GtkWidget *widget,
     PangoLayout *layout;
     PangoFontDescription *font_description;
 
-    g_return_if_fail (NULL != monitor);
-
     /*
      * Set path for monitor outline and background-color.
      */
