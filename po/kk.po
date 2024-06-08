@@ -682,11 +682,11 @@ msgstr "Көрсету сапасын шектеу"
 msgid ""
 "Smooth the image using bilinear interpolation, thus prioritizing rendering "
 "quality over performance."
-msgstr ""
+msgstr "Суретті қоссызықтық интерполяцияны пайдаланып тегістеу, осылайша өнімділікке қарағанда көрсету сапасына басымдық беріледі."
 
 #: src/preferences_dialog.c:310
 msgid "Enable smoothing"
-msgstr ""
+msgstr "Тегістеуді іске қосу"
 
 #: src/preferences_dialog.c:322
 msgid "Fullscreen"
@@ -727,7 +727,7 @@ msgstr "Тышқан курсоры"
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr ""
+msgstr "Терезе толық экранға ашық болса, тышқан курсорын көрсетілген белсенді емес уақыт шамасынан кейін автожасыруға болады."
 
 #: src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
@@ -745,7 +745,7 @@ msgstr "Күту"
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr ""
+msgstr "Слайдшоу кезінде бір суретке кететін көрсету уақыты (секунд)"
 
 #: src/preferences_dialog.c:409
 msgid "Control"
@@ -784,7 +784,7 @@ msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Жұмыс үстеліңізді қазір қандай жүйе басқаратынын көрсетіңіз. Бұл баптау <i>Ristretto</i> түсқағазды орнатуға қолданатын тәсілді анықтайды."
 
 #: src/preferences_dialog.c:551
 msgid "Image Viewer Preferences"
