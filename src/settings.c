@@ -116,6 +116,13 @@ struct _RsttoSettingsPrivate
     } errors;
 };
 
+typedef struct _RsttoAccel
+{
+    const gchar *path;
+    guint key;
+    GdkModifierType mods;
+} RsttoAccel;
+
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (RsttoSettings, rstto_settings, G_TYPE_OBJECT)
@@ -126,10 +133,23 @@ static void
 rstto_settings_init (RsttoSettings *settings)
 {
     gchar *accelmap_path = NULL;
+    RsttoAccel accels[] = {
+        { "<Window>/fullscreen", GDK_KEY_F, 0 },
+        { "<Window>/unfullscreen", GDK_KEY_Escape, 0 },
+        { "<Window>/next-image", GDK_KEY_Page_Down, 0 },
+        { "<Window>/previous-image", GDK_KEY_Page_Up, 0 },
+        { "<Window>/quit", GDK_KEY_q, 0 },
+        { "<Window>/delete", GDK_KEY_Delete, GDK_SHIFT_MASK },
+        { "<Window>/refresh", GDK_KEY_r, GDK_CONTROL_MASK },
+        { "<Actions>/RsttoWindow/play", GDK_KEY_F5, 0 },
+    };
 
     settings->priv = rstto_settings_get_instance_private (settings);
     if (!xfconf_disabled)
         settings->priv->channel = xfconf_channel_new ("ristretto");
+
+    for (guint n = 0; n < G_N_ELEMENTS (accels); n++)
+        gtk_accel_map_add_entry (accels[n].path, accels[n].key, accels[n].mods);
 
     accelmap_path = xfce_resource_lookup (XFCE_RESOURCE_CONFIG, "ristretto/accels.scm");
     if (accelmap_path)
@@ -137,23 +157,6 @@ rstto_settings_init (RsttoSettings *settings)
         gtk_accel_map_load (accelmap_path);
         g_free (accelmap_path);
         accelmap_path = NULL;
-    }
-    else
-    {
-        /* If the accels.scm file is missing, we are probably
-         * dealing with a first-boot. Add default accelerators.
-         */
-        gtk_accel_map_change_entry ("<Window>/fullscreen", GDK_KEY_F, 0, FALSE);
-        gtk_accel_map_change_entry ("<Window>/unfullscreen", GDK_KEY_Escape, 0, FALSE);
-        gtk_accel_map_change_entry ("<Window>/next-image", GDK_KEY_Page_Down, 0, FALSE);
-        gtk_accel_map_change_entry ("<Window>/previous-image", GDK_KEY_Page_Up, 0, FALSE);
-        gtk_accel_map_change_entry ("<Window>/quit", GDK_KEY_q, 0, FALSE);
-
-        gtk_accel_map_change_entry ("<Window>/delete", GDK_KEY_Delete, GDK_SHIFT_MASK, FALSE);
-
-        gtk_accel_map_change_entry ("<Window>/refresh", GDK_KEY_r, GDK_CONTROL_MASK, FALSE);
-
-        gtk_accel_map_change_entry ("<Actions>/RsttoWindow/play", GDK_KEY_F5, 0, FALSE);
     }
 
     settings->priv->slideshow_timeout = 5;
