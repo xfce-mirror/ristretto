@@ -111,13 +111,13 @@ main (int argc,
 
     if (!show_settings)
     {
+        RsttoOpenFiles rof;
+
         image_list = rstto_image_list_new ();
         window = rstto_main_window_new (image_list, FALSE);
 
         if (argc > 1)
         {
-            RsttoOpenFiles rof;
-
             rof.argc = argc;
             rof.argv = argv;
             rof.window = RSTTO_MAIN_WINDOW (window);
