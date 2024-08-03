@@ -300,8 +300,10 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
         tumbler_thumbnailer1_call_dequeue_sync (thumbnailer->priv->proxy,
                                                 GPOINTER_TO_UINT (iter->data), NULL, NULL);
 
-    /* handle current request, whose size doesn't exceed the number of visible items */
-    for (iter = thumbnailer->priv->queues[flavor], i = 0; iter != NULL; iter = iter->next)
+    /* handle current request, up to the number of visible items */
+    for (iter = thumbnailer->priv->queues[flavor], i = 0;
+         iter != NULL && i < n_items;
+         iter = iter->next)
     {
         /* directories are loaded without this costly filtering, so it is done
          * here only when required */
