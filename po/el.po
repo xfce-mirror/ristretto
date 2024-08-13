@@ -10,7 +10,7 @@
 # ebal <ebalaskas@ebalaskas.gr>, 2008
 # Georgios Stefanakis <nonviotale@gmail.com>, 2012
 # Georgios Zarkadas <georgios.zarkadas@gmail.com>, 2018
-# Ioannis LM, 2020,2023
+# Ioannis LM, 2020,2023-2024
 # Γιώργος Στεφανάκης <nonviotale@gmail.com>, 2013
 msgid ""
 msgstr ""
@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2024-04-29 00:49+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Ioannis LM, 2020,2023\n"
+"Last-Translator: Ioannis LM, 2020,2023-2024\n"
 "Language-Team: Greek (http://app.transifex.com/xfce/xfce-apps/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -102,7 +102,7 @@ msgstr "Αποθήκευση ενός αντίγραφου της εικόνας
 #. Icon-name
 #: src/main_window.c:332
 msgid "Proper_ties..."
-msgstr ""
+msgstr "Ιδιότ_ητες"
 
 #. Label-text
 #. Keyboard shortcut
@@ -690,11 +690,11 @@ msgstr "Περιορισμός ποιότητας ανάλυσης"
 msgid ""
 "Smooth the image using bilinear interpolation, thus prioritizing rendering "
 "quality over performance."
-msgstr ""
+msgstr "Ομαλοποίηση της εικόνας με διγραμμική παρεμβολή, δίνοντας προτεραιότητα στην ποιότητα έναντι της απόδοσης."
 
 #: src/preferences_dialog.c:310
 msgid "Enable smoothing"
-msgstr ""
+msgstr "Ενεργοποίηση εξομάλυνσης"
 
 #: src/preferences_dialog.c:322
 msgid "Fullscreen"
@@ -735,7 +735,7 @@ msgstr "Δείκτης ποντικιού"
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr ""
+msgstr "Ο δρομέας του ποντικιού μπορεί να αποκρύπτεται αυτόματα μετά από ορισμένο χρονικό διάστημα αδράνειας, όταν το παράθυρο είναι σε πλήρη οθόνη."
 
 #: src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
@@ -753,7 +753,7 @@ msgstr "Χρονικό όριο"
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr ""
+msgstr "Η χρονική διάρκεια εμφάνισης μιας εικόνας κατά τη διάρκεια προβολής διαφανειών (σε δευτερόλεπτα)"
 
 #: src/preferences_dialog.c:409
 msgid "Control"
@@ -792,7 +792,7 @@ msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Ρύθμιση του συστήματος διαχείρισης του περιβάλλοντος εργασίας σας. Αυτή η ρύθμιση καθορίζει το τρόπο που θα χρησιμοποιήσει το <i>Ristretto</i> για να ρυθμίσει την εικόνα φόντου στην επιφάνεια εργασίας σας."
 
 #: src/preferences_dialog.c:551
 msgid "Image Viewer Preferences"
