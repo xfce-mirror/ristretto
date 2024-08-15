@@ -102,7 +102,7 @@ msgstr "Αποθήκευση ενός αντίγραφου της εικόνας
 #. Icon-name
 #: src/main_window.c:332
 msgid "Proper_ties..."
-msgstr "Ιδιότ_ητες"
+msgstr "Ιδιότ_ητες..."
 
 #. Label-text
 #. Keyboard shortcut
