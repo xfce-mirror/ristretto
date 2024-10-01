@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the xfce-apps.ristretto package.
 # 
 # Translators:
-# hoek <hoek@tuta.io>, 2015
+# d703b7c9f8279b67f8ff243fa8f12e4a_ead0287 <01cbd6dcada4ad6beac99d868e1751df_141855>, 2015
 # Iro <irek.gierlach@gmail.com>, 2011
 # marcin mikołajczak <me@mkljczk.pl>, 2017
 # marcin mikołajczak <me@mkljczk.pl>, 2016
@@ -65,12 +65,12 @@ msgstr "Nie udało się otworzyć niektórych plików: szczegóły w logach teks
 #: src/main_window.c:44
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
-msgstr "Wystąpił błąd podczas usuwania obrazu '%s' z dysku"
+msgstr "Wystąpił błąd podczas usuwania obrazu „%s” z dysku"
 
 #: src/main_window.c:45
 #, c-format
 msgid "An error occurred when sending image '%s' to trash"
-msgstr "Wystąpił błąd podczas wysyłania obrazu '%s' do kosza"
+msgstr "Wystąpił błąd podczas wysyłania obrazu „%s” do kosza"
 
 #: src/main_window.c:314
 msgid "_File"
@@ -720,7 +720,7 @@ msgstr "Zegar"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Wyświetla w trybie pełnego ekranu zegar analogowy wskazujący bieżący czas"
+msgstr "Wyświetla w trybie pełnego ekranu zegar analogowy wskazujący bieżącą godzinę"
 
 #: src/preferences_dialog.c:350
 msgid "Show Fullscreen Clock"
