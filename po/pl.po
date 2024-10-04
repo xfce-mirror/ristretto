@@ -112,7 +112,7 @@ msgstr "Wyświetla właściwości pliku"
 #. Icon-name
 #: src/main_window.c:338
 msgid "_Print..."
-msgstr "_Wydrukuj..."
+msgstr "_Drukuj..."
 
 #. Label-text
 #. Keyboard shortcut
@@ -216,11 +216,11 @@ msgstr "Wyłącza tryb pełnego ekranu"
 #. Icon-name
 #: src/main_window.c:424
 msgid "Set as _Wallpaper..."
-msgstr "_Ustal jako tło pulpitu..."
+msgstr "_Ustaw jako tło pulpitu..."
 
 #: src/main_window.c:431
 msgid "_Zoom"
-msgstr "_Skalowanie"
+msgstr "Powięk_szenie"
 
 #. Icon-name
 #: src/main_window.c:437
@@ -394,7 +394,7 @@ msgstr "Opuść p_ełny ekran"
 #. Icon-name
 #: src/main_window.c:601
 msgid "_Show Toolbar"
-msgstr "Pasek _narzędziowy"
+msgstr "Pasek _narzędzi"
 
 #. Icon-name
 #: src/main_window.c:609
@@ -608,7 +608,7 @@ msgstr "Wybór programu"
 #: src/main_window.c:4150
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr "Otwieranie pliku „%s” i innych plików typu „%s”, przy użyciu:"
+msgstr "Otwieranie pliku „%s” i innych plików typu „%s” za pomocą:"
 
 #: src/main_window.c:4156
 msgid "Use as _default for this kind of file"
@@ -838,7 +838,7 @@ msgstr "<b>%s</b>"
 #: src/properties_dialog.c:419
 #, c-format
 msgid "%s - Properties"
-msgstr "%s - Właściwości"
+msgstr "%s – Właściwości"
 
 #: src/image_list.c:32
 msgid "No supported image type found in the directory"
@@ -864,7 +864,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "Usługa podglądu miniatur jest niedostępna.\nZ tego powodu, nie można utworzyć miniatur.\n\nW celu rozwiązania problemu, proszę zainstalować\nprogram <b>Tumbler</b> lub innego <i>demona\npodglądu miniatur</i>."
+msgstr "Usługa podglądu miniatur jest niedostępna.\nZ tego powodu nie można utworzyć miniatur.\n\nW celu rozwiązania problemu zainstaluj\nprogram <b>Tumbler</b> lub innego\n<i>demona podglądu miniatur</i>."
 
 #: src/thumbnailer.c:374
 msgid "Do _not show this message again"
