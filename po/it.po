@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-04-29 00:49+0200\n"
+"POT-Creation-Date: 2024-10-16 00:57+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Emanuele Petriglia <transifex@emanuelepetriglia.com>, 2019,2021,2023-2024\n"
 "Language-Team: Italian (http://app.transifex.com/xfce/xfce-apps/language/it/)\n"
@@ -520,13 +520,13 @@ msgstr "Caricamento…"
 msgid "Choose 'set wallpaper' method"
 msgstr "Seleziona il metodo 'imposta sfondo'"
 
-#: src/main_window.c:2271 src/main_window.c:3382 src/main_window.c:3470
-#: src/main_window.c:4135 src/privacy_dialog.c:145
+#: src/main_window.c:2271 src/main_window.c:3383 src/main_window.c:3471
+#: src/main_window.c:4136 src/privacy_dialog.c:145
 #: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
 msgstr "A_nnulla"
 
-#: src/main_window.c:2274 src/main_window.c:4138
+#: src/main_window.c:2274 src/main_window.c:4139
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
 msgid "_OK"
 msgstr "_Ok"
@@ -550,74 +550,74 @@ msgstr "Xfce"
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:2817 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:2818 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto è un visualizzatore di immagini per l'ambiente grafico Xfce."
 
-#: src/main_window.c:2822
+#: src/main_window.c:2823
 msgid "translator-credits"
 msgstr "Vincenzo Reale, <smart2128vr@gmail.com> 2020\nEmanuele Petriglia <inbox@emanuelepetriglia.com> 2018-2019\nCristian Marchi <cri.penta@gmail.com> 2009-2013\nFabio Vergnani <monghitri@aruba.it> 2007"
 
-#: src/main_window.c:3381
+#: src/main_window.c:3382
 msgid "Open image"
 msgstr "Apri immagine"
 
-#: src/main_window.c:3382
+#: src/main_window.c:3383
 msgid "_Open"
 msgstr "_Apri"
 
-#: src/main_window.c:3400
+#: src/main_window.c:3401
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3405
+#: src/main_window.c:3406
 msgid "All Files"
 msgstr "Tutti i file"
 
-#: src/main_window.c:3469
+#: src/main_window.c:3470
 msgid "Save copy"
 msgstr "Salva una copia"
 
-#: src/main_window.c:3471
+#: src/main_window.c:3472
 msgid "_Save"
 msgstr "_Salva"
 
-#: src/main_window.c:3575
+#: src/main_window.c:3576
 msgid "Failed to print the image"
 msgstr "Impossibile stampare l'immagine"
 
-#: src/main_window.c:3662
+#: src/main_window.c:3663
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Spostare l'immagine '%s' nel cestino?"
 
-#: src/main_window.c:3666
+#: src/main_window.c:3667
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Eliminare davvero l'immagine '%s' dal disco?"
 
-#: src/main_window.c:3673
+#: src/main_window.c:3674
 msgid "_Do not ask again for this session"
 msgstr "_Non chiederlo di nuovo in questa sessione"
 
-#: src/main_window.c:4130
+#: src/main_window.c:4131
 msgid "Edit with"
 msgstr "Modifica con"
 
-#: src/main_window.c:4150
+#: src/main_window.c:4151
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Apri %s e gli altri file del tipo %s con:"
 
-#: src/main_window.c:4156
+#: src/main_window.c:4157
 msgid "Use as _default for this kind of file"
 msgstr "Usa come _predefinita per questo tipo di file"
 
-#: src/main_window.c:4201
+#: src/main_window.c:4202
 msgid "Recommended Applications"
 msgstr "Applicazioni consigliate"
 
-#: src/main_window.c:4237
+#: src/main_window.c:4238
 msgid "Other Applications"
 msgstr "Altre applicazioni"
 
@@ -855,7 +855,7 @@ msgstr "Impossibile caricare la cartella"
 msgid "Unsupported mime type"
 msgstr "Tipo mime non supportato"
 
-#: src/thumbnailer.c:366
+#: src/thumbnailer.c:368
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -865,7 +865,7 @@ msgid ""
 "to resolve this issue."
 msgstr "Il servizio di creazione delle miniature non può essere raggiunto, per questo motivo le miniature non possono \nessere create.\n\nInstallare <b>Tumbler</b> o un altro <i>demone di creazione delle miniature</i>\nper risolvere il problema."
 
-#: src/thumbnailer.c:374
+#: src/thumbnailer.c:376
 msgid "Do _not show this message again"
 msgstr "_Non mostrare questo messaggio di nuovo"
 
@@ -913,6 +913,10 @@ msgstr "Visualizzatore di immagini Ristretto"
 #: org.xfce.ristretto.desktop.in:5
 msgid "Look at your images easily"
 msgstr "Guardare le proprie foto con semplicità"
+
+#: org.xfce.ristretto.desktop.in:13
+msgid "image;photo;picture;viewer;graphics;"
+msgstr "image;photo;picture;viewer;graphics;"
 
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
