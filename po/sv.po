@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-04-29 00:49+0200\n"
+"POT-Creation-Date: 2024-10-16 00:57+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Luna Jernberg <droidbittin@gmail.com>, 2024\n"
 "Language-Team: Swedish (http://app.transifex.com/xfce/xfce-apps/language/sv/)\n"
@@ -519,13 +519,13 @@ msgstr "Läser in..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Välj 'ställ in som skrivbordsbakgrunds'-metoden"
 
-#: src/main_window.c:2271 src/main_window.c:3382 src/main_window.c:3470
-#: src/main_window.c:4135 src/privacy_dialog.c:145
+#: src/main_window.c:2271 src/main_window.c:3383 src/main_window.c:3471
+#: src/main_window.c:4136 src/privacy_dialog.c:145
 #: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
 msgstr "_Avbryt"
 
-#: src/main_window.c:2274 src/main_window.c:4138
+#: src/main_window.c:2274 src/main_window.c:4139
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
 msgid "_OK"
 msgstr "_OK"
@@ -549,74 +549,74 @@ msgstr "Xfce"
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:2817 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:2818 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto är en bildvisare för skrivbordsmiljön Xfce"
 
-#: src/main_window.c:2822
+#: src/main_window.c:2823
 msgid "translator-credits"
 msgstr "Daniel Nylander <po@danielnylander.se>\nPåvel Nicklasson <pavel@frimix.se>\n\nSkicka synpunkter på översättningen till\n<tp-sv@listor.tp-sv.se>"
 
-#: src/main_window.c:3381
+#: src/main_window.c:3382
 msgid "Open image"
 msgstr "Öppna bild"
 
-#: src/main_window.c:3382
+#: src/main_window.c:3383
 msgid "_Open"
 msgstr "_Öppna"
 
-#: src/main_window.c:3400
+#: src/main_window.c:3401
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3405
+#: src/main_window.c:3406
 msgid "All Files"
 msgstr "Alla filer"
 
-#: src/main_window.c:3469
+#: src/main_window.c:3470
 msgid "Save copy"
 msgstr "Spara en kopia"
 
-#: src/main_window.c:3471
+#: src/main_window.c:3472
 msgid "_Save"
 msgstr "_Spara"
 
-#: src/main_window.c:3575
+#: src/main_window.c:3576
 msgid "Failed to print the image"
 msgstr "Misslyckades med att skriva ut bilden"
 
-#: src/main_window.c:3662
+#: src/main_window.c:3663
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Är du säker på att du vill skicka bild '%s' till papperskorgen?"
 
-#: src/main_window.c:3666
+#: src/main_window.c:3667
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Är du säker på att du vill ta bort bilden \"%s\" från disken?"
 
-#: src/main_window.c:3673
+#: src/main_window.c:3674
 msgid "_Do not ask again for this session"
 msgstr "Fråga inte igen un_der denna session"
 
-#: src/main_window.c:4130
+#: src/main_window.c:4131
 msgid "Edit with"
 msgstr "Redigera med"
 
-#: src/main_window.c:4150
+#: src/main_window.c:4151
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Öppna %s och andra filer av typen %s med:"
 
-#: src/main_window.c:4156
+#: src/main_window.c:4157
 msgid "Use as _default for this kind of file"
 msgstr "Använd som _standard för denna typ av fil"
 
-#: src/main_window.c:4201
+#: src/main_window.c:4202
 msgid "Recommended Applications"
 msgstr "Rekommenderade program"
 
-#: src/main_window.c:4237
+#: src/main_window.c:4238
 msgid "Other Applications"
 msgstr "Andra program"
 
@@ -854,7 +854,7 @@ msgstr "Kunde inte ladda katalog"
 msgid "Unsupported mime type"
 msgstr "Mime-typ stöds inte"
 
-#: src/thumbnailer.c:366
+#: src/thumbnailer.c:368
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -864,7 +864,7 @@ msgid ""
 "to resolve this issue."
 msgstr "Miniatyrbildtjänsten kan inte nås.\nPå grund av detta, kan inte miniatyrer\nskapas.\n\nInstallera <b>Tumbler</b> eller en annan <i>miniatyrbildsdaemon</i>\nför att lösa detta problem."
 
-#: src/thumbnailer.c:374
+#: src/thumbnailer.c:376
 msgid "Do _not show this message again"
 msgstr "Visa i_nte detta meddelande igen"
 
@@ -912,6 +912,10 @@ msgstr "Ristretto bildvisare"
 #: org.xfce.ristretto.desktop.in:5
 msgid "Look at your images easily"
 msgstr "Titta på dina bilder enkelt"
+
+#: org.xfce.ristretto.desktop.in:13
+msgid "image;photo;picture;viewer;graphics;"
+msgstr "bild;foto;bild;visare;grafik;"
 
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
