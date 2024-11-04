@@ -795,7 +795,7 @@ msgstr "Skonfiguruj, który system aktualnie zarządza pulpitem. To ustawienie o
 
 #: src/preferences_dialog.c:551
 msgid "Image Viewer Preferences"
-msgstr "Preferencje"
+msgstr "Preferencje przeglądarki obrazów"
 
 #: src/properties_dialog.c:132
 msgid "<b>Name:</b>"
