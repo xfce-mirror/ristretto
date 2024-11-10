@@ -171,7 +171,7 @@ msgstr "_Odstranit"
 #. Keyboard shortcut
 #: src/main_window.c:389
 msgid "Delete this image from disk"
-msgstr "Odstraní tento obrázek z disku"
+msgstr "Odstranit tento obrázek z disku"
 
 #. Icon-name
 #: src/main_window.c:393
@@ -268,7 +268,7 @@ msgstr "_Výchozí přiblížení"
 
 #: src/main_window.c:469
 msgid "_Rotation"
-msgstr "_Rotace"
+msgstr "_Otočení"
 
 #. Icon-name
 #: src/main_window.c:475
@@ -282,15 +282,15 @@ msgstr "Otočit do_leva"
 
 #: src/main_window.c:488
 msgid "_Flip"
-msgstr "_Otočit"
+msgstr "_Převrácení"
 
 #: src/main_window.c:494
 msgid "Flip _Horizontally"
-msgstr "Otočit _vodorovně"
+msgstr "Převrátit _vodorovně"
 
 #: src/main_window.c:500
 msgid "Flip _Vertically"
-msgstr "Otočit _svisle"
+msgstr "Převrátit _svisle"
 
 #: src/main_window.c:507
 msgid "_Go"
@@ -321,7 +321,7 @@ msgstr "Předchozí obrázek"
 #. Icon-name
 #: src/main_window.c:525
 msgid "F_irst"
-msgstr "_První"
+msgstr "P_rvní"
 
 #. Label-text
 #. Keyboard shortcut
@@ -332,7 +332,7 @@ msgstr "První obrázek"
 #. Icon-name
 #: src/main_window.c:531
 msgid "_Last"
-msgstr "_Poslední"
+msgstr "Po_slední"
 
 #. Label-text
 #. Keyboard shortcut
@@ -368,7 +368,7 @@ msgstr "Zobrazit informace o aplikaci Ristretto"
 
 #: src/main_window.c:557
 msgid "_Position"
-msgstr "_Pozice"
+msgstr "_Umístění"
 
 #: src/main_window.c:563
 msgid "_Size"
@@ -400,22 +400,22 @@ msgstr "Zobrazit panel Ná_hledy"
 #. Icon-name
 #: src/main_window.c:617
 msgid "Show Status _Bar"
-msgstr "Zobrazi_t stavový řádek"
+msgstr "Zobrazit _stavový řádek"
 
 #. Icon-name
 #: src/main_window.c:628
 msgid "file name"
-msgstr "název souboru"
+msgstr "názvu souboru"
 
 #. Icon-name
 #: src/main_window.c:634
 msgid "file type"
-msgstr "typ souboru"
+msgstr "typu souboru"
 
 #. Icon-name
 #: src/main_window.c:640
 msgid "date"
-msgstr "datum"
+msgstr "data"
 
 #. Icon-name
 #: src/main_window.c:650
@@ -533,7 +533,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Konfiguruje, který systém aktuálně spravuje pracovní plochu.\nToto nastavení určuje metodu, kterou aplikace <i>Ristretto</i>\npoužije k nastavení tapety pracovní plochy."
+msgstr "Nastavte, který systém aktuálně spravuje pracovní plochu.\nToto nastavení určí metodu, kterou aplikace <i>Ristretto</i>\npoužije k nastavení tapety pracovní plochy."
 
 #: src/main_window.c:2293 src/preferences_dialog.c:466
 msgid "None"
