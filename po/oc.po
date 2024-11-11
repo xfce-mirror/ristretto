@@ -54,17 +54,17 @@ msgstr "Impossible de salvar lo fichièr"
 
 #: src/main_window.c:43
 msgid "Some files could not be opened: see the text logs for details"
-msgstr ""
+msgstr "D’unes fichièrs se podián dobrir : vejatz los jornals pels detalhs"
 
 #: src/main_window.c:44
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
-msgstr ""
+msgstr "Una error s'es producha al moment de la supression d'imatge « %s » del disc"
 
 #: src/main_window.c:45
 #, c-format
 msgid "An error occurred when sending image '%s' to trash"
-msgstr ""
+msgstr "Una error s'es producha al moment d’enviar l’imatge « %s » a l'escobilhièr"
 
 #: src/main_window.c:314
 msgid "_File"
@@ -683,11 +683,11 @@ msgstr "Limitar la qualitat del rendut"
 msgid ""
 "Smooth the image using bilinear interpolation, thus prioritizing rendering "
 "quality over performance."
-msgstr ""
+msgstr "Aplanar l'imatge en utilizant l'interpolacion bilineara, priorizant atal la qualitat del rendut sus la performança."
 
 #: src/preferences_dialog.c:310
 msgid "Enable smoothing"
-msgstr ""
+msgstr "Activar l’aplanament"
 
 #: src/preferences_dialog.c:322
 msgid "Fullscreen"
@@ -728,7 +728,7 @@ msgstr "Cursor de mirga"
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr ""
+msgstr "Lo cursor de la mirga pòt èsser amagat automaticament après un cèrt periòde d'inactivitat quand la fenèstra es en plen ecran."
 
 #: src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
@@ -746,7 +746,7 @@ msgstr "Durada"
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr ""
+msgstr "La durada d’afichatge d’un imatge individual pendent lo diaporama (en segondas)"
 
 #: src/preferences_dialog.c:409
 msgid "Control"
@@ -785,7 +785,7 @@ msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Indicar quin sistèma gerís vòstre burèu actualment. Aqueste reglatge permetrà a <i>Ristretto</i> de determinar lo metòde adeqüat per cambiar lo fons d'ecran ."
 
 #: src/preferences_dialog.c:551
 msgid "Image Viewer Preferences"
@@ -836,11 +836,11 @@ msgstr "%s - Proprietats"
 
 #: src/image_list.c:32
 msgid "No supported image type found in the directory"
-msgstr ""
+msgstr "Cap de tipe d’imatge pres en carga pas trobat dins lo repertòri"
 
 #: src/image_list.c:33
 msgid "Directory only partially loaded"
-msgstr ""
+msgstr "Repertòri cargat sonque parcialament"
 
 #: src/image_list.c:34
 msgid "Could not load directory"
@@ -927,7 +927,7 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Lo visualizaire d'imatges Ristretto es una aplicacion que se pòt utilizar per veire e desplaçar d'imatges, lançar una presentacion d'imatges, obrir d'imatges amb d'autras aplicacions coma un editor d'imatges o definir un imatge coma fons d'ecran."
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
