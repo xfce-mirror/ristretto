@@ -693,7 +693,7 @@ msgstr "Hazırlama kalitesini sınırla"
 msgid ""
 "Smooth the image using bilinear interpolation, thus prioritizing rendering "
 "quality over performance."
-msgstr ""
+msgstr "Çift ​​doğrusal interpolasyon kullanarak resmi yumuşat, böylece performanstan ziyade işleme kalitesine öncelik verin."
 
 #: src/preferences_dialog.c:310
 msgid "Enable smoothing"
@@ -738,7 +738,7 @@ msgstr "Fare imleci"
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr ""
+msgstr "Pencere tam ekran olduğunda, fare imleci belirli süre kullanılmadığında kendiliğinden ekranda gizlenebilir."
 
 #: src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
@@ -795,7 +795,7 @@ msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Masaüstünüzü yöneten geçerli sistemi yapılandır. Bu ayar, <i>Ristretto</i>'nun masaüstü duvar kağıdınızı yapılandırmasında kullanılacağı yöntemini tanımlar."
 
 #: src/preferences_dialog.c:551
 msgid "Image Viewer Preferences"
@@ -921,7 +921,7 @@ msgstr "Fotoğraflarına kolayca bak"
 
 #: org.xfce.ristretto.desktop.in:13
 msgid "image;photo;picture;viewer;graphics;"
-msgstr ""
+msgstr "image;photo;picture;viewer;graphics;"
 
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
