@@ -503,7 +503,7 @@ msgstr "Wyświetla ostatnio otwarte pliki"
 
 #: src/main_window.c:1071 src/main_window.c:1618
 msgid "Press open to select an image"
-msgstr "Aby otworzyć obraz, należy użyć polecenia Otwórz."
+msgstr "Aby otworzyć obraz, należy użyć polecenia „Otwórz”"
 
 #: src/main_window.c:1560 src/main_window.c:1565
 msgid "Open With Other _Application..."
@@ -648,7 +648,7 @@ msgstr "Dzisiaj"
 
 #: src/privacy_dialog.c:125
 msgid "Everything"
-msgstr "Wszystkie"
+msgstr "Wszystko"
 
 #: src/privacy_dialog.c:148 src/xfce_wallpaper_manager.c:273
 #: src/gnome_wallpaper_manager.c:181
@@ -679,7 +679,7 @@ msgstr "Jakość"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Ogranicza maksymalną jakość obrazu do rozmiaru ekranu"
+msgstr "Ogranicza maksymalną jakość obrazu do rozmiaru ekranu."
 
 #: src/preferences_dialog.c:296
 msgid "Limit rendering quality"
@@ -720,7 +720,7 @@ msgstr "Zegar"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Wyświetla w trybie pełnego ekranu zegar analogowy wskazujący bieżącą godzinę"
+msgstr "Wyświetla w trybie pełnego ekranu zegar analogowy wskazujący bieżącą godzinę."
 
 #: src/preferences_dialog.c:350
 msgid "Show Fullscreen Clock"
@@ -752,7 +752,7 @@ msgstr "Czas"
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr "Czas wyświetlania pojedynczego obrazu podczas pokazu slajdów (w sekundach)"
+msgstr "Czas wyświetlania pojedynczego obrazu podczas pokazu slajdów (w sekundach)."
 
 #: src/preferences_dialog.c:409
 msgid "Control"
