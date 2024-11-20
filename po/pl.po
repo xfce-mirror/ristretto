@@ -48,7 +48,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s: %s\nProszę wprowadzić „%s --help”, aby wypisać pełną listę opcji wiersza poleceń.\n"
+msgstr "%s: %s\n\nProszę wprowadzić „%s --help”, aby\nwypisać pełną listę opcji wiersza poleceń.\n"
 
 #: src/main_window.c:39 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
@@ -60,7 +60,7 @@ msgstr "Nie można zapisać pliku"
 
 #: src/main_window.c:43
 msgid "Some files could not be opened: see the text logs for details"
-msgstr "Nie udało się otworzyć niektórych plików: szczegóły w logach tekstowych"
+msgstr "Nie udało się otworzyć niektórych plików: szczegóły w dziennikach tekstowych"
 
 #: src/main_window.c:44
 #, c-format
