@@ -9,16 +9,16 @@
 # C. E., 2022
 # Frederico Schardong <frede_sch@gmail.com>, 2011
 # Lucas Wilm <lucaswilm@gmail.com>, 2021
-# Michael Martins <michaelfm21@gmail.com>, 2019,2024
+# Michael Martins, 2019,2024
 # The Cat, 2023-2024
 # Wellington Almeida <wsalmeida6@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-04-29 00:49+0200\n"
+"POT-Creation-Date: 2024-10-16 00:57+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Michael Martins <michaelfm21@gmail.com>, 2019,2024\n"
+"Last-Translator: Michael Martins, 2019,2024\n"
 "Language-Team: Portuguese (Brazil) (http://app.transifex.com/xfce/xfce-apps/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -522,13 +522,13 @@ msgstr "Carregando..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Escolha o método de \"definição do papel de parede\""
 
-#: src/main_window.c:2271 src/main_window.c:3382 src/main_window.c:3470
-#: src/main_window.c:4135 src/privacy_dialog.c:145
+#: src/main_window.c:2271 src/main_window.c:3383 src/main_window.c:3471
+#: src/main_window.c:4136 src/privacy_dialog.c:145
 #: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: src/main_window.c:2274 src/main_window.c:4138
+#: src/main_window.c:2274 src/main_window.c:4139
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
 msgid "_OK"
 msgstr "_OK"
@@ -552,74 +552,74 @@ msgstr "Xfce"
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:2817 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:2818 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "O Ristretto é um visualizador de imagens rápido e leve para o ambiente de trabalho Xfce."
 
-#: src/main_window.c:2822
+#: src/main_window.c:2823
 msgid "translator-credits"
 msgstr "Og Maciel <ogmaciel@gnome.org>,\nFábio Nogueira <deb-user-ba@ubuntu.com>,\nFrederico Schardong <frede_sch@gmail.com>,\nAndré Miranda <andreldm1989@gmail.com>"
 
-#: src/main_window.c:3381
+#: src/main_window.c:3382
 msgid "Open image"
 msgstr "Abrir imagem"
 
-#: src/main_window.c:3382
+#: src/main_window.c:3383
 msgid "_Open"
 msgstr "Abrir"
 
-#: src/main_window.c:3400
+#: src/main_window.c:3401
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3405
+#: src/main_window.c:3406
 msgid "All Files"
 msgstr "Todos os arquivos"
 
-#: src/main_window.c:3469
+#: src/main_window.c:3470
 msgid "Save copy"
 msgstr "Salvar uma cópia"
 
-#: src/main_window.c:3471
+#: src/main_window.c:3472
 msgid "_Save"
 msgstr "_Salvar"
 
-#: src/main_window.c:3575
+#: src/main_window.c:3576
 msgid "Failed to print the image"
 msgstr "Falha ao imprimir a imagem"
 
-#: src/main_window.c:3662
+#: src/main_window.c:3663
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Você tem certeza que quer enviar a imagem \"%s\" para a lixeira?"
 
-#: src/main_window.c:3666
+#: src/main_window.c:3667
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Você tem certeza que quer excluir a imagem \"%s\" do disco?"
 
-#: src/main_window.c:3673
+#: src/main_window.c:3674
 msgid "_Do not ask again for this session"
 msgstr "Não perguntar novamente para esta sessão"
 
-#: src/main_window.c:4130
+#: src/main_window.c:4131
 msgid "Edit with"
 msgstr "Editar com"
 
-#: src/main_window.c:4150
+#: src/main_window.c:4151
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Abrir %s e ooutros arquivos do tipo %s com:"
 
-#: src/main_window.c:4156
+#: src/main_window.c:4157
 msgid "Use as _default for this kind of file"
 msgstr "Usar como _padrão para este tipo de arquivo"
 
-#: src/main_window.c:4201
+#: src/main_window.c:4202
 msgid "Recommended Applications"
 msgstr "Aplicativos Recomendados"
 
-#: src/main_window.c:4237
+#: src/main_window.c:4238
 msgid "Other Applications"
 msgstr "Outros Aplicativos"
 
@@ -857,7 +857,7 @@ msgstr "Não foi possível carregar o diretório"
 msgid "Unsupported mime type"
 msgstr "Tipo MIME não suportado"
 
-#: src/thumbnailer.c:366
+#: src/thumbnailer.c:368
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -867,7 +867,7 @@ msgid ""
 "to resolve this issue."
 msgstr "O thumbnailer-service não pôde ser encontrado,\npor isso, as miniaturas não poderão ser\ncriadas.\n\nInstale o <i>Tumbler</i> ou outro <i>daemon de criação de miniaturas</i>\npara resolver esse problema."
 
-#: src/thumbnailer.c:374
+#: src/thumbnailer.c:376
 msgid "Do _not show this message again"
 msgstr "Não mostrar esta me_nsagem novamente"
 
@@ -915,6 +915,10 @@ msgstr "Visualizador de imagens Ristretto"
 #: org.xfce.ristretto.desktop.in:5
 msgid "Look at your images easily"
 msgstr "Veja suas imagens facilmente"
+
+#: org.xfce.ristretto.desktop.in:13
+msgid "image;photo;picture;viewer;graphics;"
+msgstr "imagem;foto;visualizador de imagens;gráficos;"
 
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
