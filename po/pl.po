@@ -65,7 +65,7 @@ msgstr "Nie udało się otworzyć niektórych plików: szczegóły w dziennikac
 #: src/main_window.c:44
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
-msgstr "Wystąpił błąd podczas usuwania obrazu „%s” z dysku"
+msgstr "Wystąpił błąd podczas usuwania obrazu „%s” z dysku"
 
 #: src/main_window.c:45
 #, c-format
@@ -569,7 +569,7 @@ msgstr "_Otwórz"
 
 #: src/main_window.c:3401
 msgid ".jp(e)g"
-msgstr "Obrazy w formacie JPEG"
+msgstr "Obrazy w formacie JPEG"
 
 #: src/main_window.c:3406
 msgid "All Files"
@@ -599,7 +599,7 @@ msgstr "Usunąć plik „%s”?"
 
 #: src/main_window.c:3674
 msgid "_Do not ask again for this session"
-msgstr "Nie pytaj pono_wnie o tą sesję"
+msgstr "Nie pytaj pono_wnie o tę sesję"
 
 #: src/main_window.c:4131
 msgid "Edit with"
@@ -706,11 +706,11 @@ msgstr "Miniatury"
 #: src/preferences_dialog.c:329
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Pasek miniatur może być automatycznie ukrywany\npodczas działania w trybie pełnoekranowym."
+msgstr "Pasek miniatur może być automatycznie ukrywany, gdy okno jest w trybie pełnoekranowym."
 
 #: src/preferences_dialog.c:334
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Ukrywanie paska miniatur w trybie pełnego ekranu"
+msgstr "Ukrywanie paska miniatur w trybie pełnoekranowym"
 
 #: src/preferences_dialog.c:342
 msgid "Clock"
@@ -720,11 +720,11 @@ msgstr "Zegar"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Wyświetla w trybie pełnego ekranu zegar analogowy wskazujący bieżącą godzinę."
+msgstr "Wyświetla zegar analogowy z bieżącą godziną, gdy okno jest w trybie pełnoekranowym."
 
 #: src/preferences_dialog.c:350
 msgid "Show Fullscreen Clock"
-msgstr "Wyświetlanie zegara w trybie pełnego ekranu"
+msgstr "Wyświetlanie zegara w trybie pełnoekranowym"
 
 #: src/preferences_dialog.c:356
 msgid "Mouse cursor"
@@ -734,7 +734,7 @@ msgstr "Kursor myszy"
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr "Kursor myszy może zostać automatycznie ukryty po określonym czasie bezczynności, gdy okno jest w trybie pełnoekranowym."
+msgstr "Kursor myszy może być automatycznie ukrywany po określonej bezczynności, gdy okno jest w trybie pełnoekranowym."
 
 #: src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
@@ -780,7 +780,7 @@ msgstr "Maksymalizowanie okna podczas uruchamiania programu"
 
 #: src/preferences_dialog.c:439
 msgid "Wrap around images"
-msgstr "Przechodzenie pomiędzy początkiem i końcem katalogu"
+msgstr "Przechodzenie pomiędzy początkiem i końcem katalogu"
 
 #: src/preferences_dialog.c:450
 msgid "Desktop"
@@ -842,7 +842,7 @@ msgstr "%s – Właściwości"
 
 #: src/image_list.c:32
 msgid "No supported image type found in the directory"
-msgstr "Nie znaleziono obsługiwanego typu obrazu w katalogu"
+msgstr "Nie znaleziono obsługiwanego typu obrazu w katalogu"
 
 #: src/image_list.c:33
 msgid "Directory only partially loaded"
@@ -868,7 +868,7 @@ msgstr "Usługa podglądu miniatur jest niedostępna.\nZ tego powodu nie można 
 
 #: src/thumbnailer.c:376
 msgid "Do _not show this message again"
-msgstr "_Pomijanie wyświetlania tego komunikatu ponownie"
+msgstr "_Pomijanie ponownego wyświetlania tego komunikatu"
 
 #: src/xfce_wallpaper_manager.c:251 src/gnome_wallpaper_manager.c:164
 msgid "Style:"
@@ -913,7 +913,7 @@ msgstr "Przeglądarka obrazów Ristretto"
 
 #: org.xfce.ristretto.desktop.in:5
 msgid "Look at your images easily"
-msgstr "Umożliwia wygodne przeglądanie zdjęć i obrazów"
+msgstr "Umożliwia wygodne przeglądanie zdjęć i obrazów"
 
 #: org.xfce.ristretto.desktop.in:13
 msgid "image;photo;picture;viewer;graphics;"
@@ -925,7 +925,7 @@ msgstr "Ristretto"
 
 #: org.xfce.ristretto.appdata.xml.in:8
 msgid "Fast and lightweight image viewer"
-msgstr "Szybka i lekka przeglądarka obrazów"
+msgstr "Szybka i lekka przeglądarka obrazów"
 
 #: org.xfce.ristretto.appdata.xml.in:13
 msgid ""
@@ -933,7 +933,7 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "Przeglądarka obrazów Ristretto to program, który może być używany do przeglądania i przewijania kolekcji obrazów, uruchamiania prezentacji slajdów z obrazów, otwierania obrazów przy użyciu innego programu, takiego jak edytor grafiki, oraz do konfigurowania obrazu jako tapety pulpitu."
+msgstr "Przeglądarka obrazów Ristretto to program, który może być używany do przeglądania i przewijania kolekcji obrazów, uruchamiania prezentacji slajdów z obrazów, otwierania obrazów przy użyciu innego programu, takiego jak edytor grafiki, oraz do konfigurowania obrazu jako tapety pulpitu."
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
