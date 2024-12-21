@@ -5,15 +5,18 @@
 # Translators:
 # Ionut Ovejanu <ovejanu@yahoo.com>, 2010
 # Marius Ghita, 2022
+# Marius Ghita, 2022
 # Mișu Moldovan <dumol@xfce.org>, 2010
+# Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2024
+# vyper <xvirusxx@gmail.com>, 2015-2016
 # vyper <xvirusxx@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-04-29 00:49+0200\n"
+"POT-Creation-Date: 2024-10-16 00:57+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Marius Ghita, 2022\n"
+"Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2024\n"
 "Language-Team: Romanian (http://app.transifex.com/xfce/xfce-apps/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +30,7 @@ msgstr "Detalii despre versiune"
 
 #: src/main.c:47
 msgid "Start in fullscreen mode"
-msgstr "Pornește pe tot ecranul"
+msgstr "Pornește în modul ecran complet"
 
 #: src/main.c:50
 msgid "Start a slideshow"
@@ -35,7 +38,7 @@ msgstr "Pornește o prezentare"
 
 #: src/main.c:53
 msgid "Show settings dialog"
-msgstr "Arată fereastra cu opțiuni"
+msgstr "Afișează fereastra cu opțiuni"
 
 #: src/main.c:85
 #, c-format
@@ -44,11 +47,11 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s: %s\nÎncercați %s --help pentru a vedea lista completă cu opțiunile disponibile în linie de comandă.\n"
+msgstr "%s: %s\n\nÎncercați «%s --help» pentru a vedea lista completă\na opțiuni disponibile din linia de comandă.\n"
 
 #: src/main_window.c:39 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
-msgstr "Vizualizare de imagini"
+msgstr "Vizor de imagini"
 
 #: src/main_window.c:42
 msgid "Could not save file"
@@ -56,17 +59,17 @@ msgstr "Nu s-a putut salva fișierul"
 
 #: src/main_window.c:43
 msgid "Some files could not be opened: see the text logs for details"
-msgstr ""
+msgstr "Unele fișiere nu au putut fi deschise: consultați jurnalele text pentru detalii"
 
 #: src/main_window.c:44
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
-msgstr ""
+msgstr "A apărut o eroare la ștergerea imaginii „%s” de pe disc"
 
 #: src/main_window.c:45
 #, c-format
 msgid "An error occurred when sending image '%s' to trash"
-msgstr ""
+msgstr "A apărut o eroare la trimiterea imaginii „%s” către coșul de gunoi"
 
 #: src/main_window.c:314
 msgid "_File"
@@ -92,29 +95,29 @@ msgstr "_Salvează o copie..."
 #. Keyboard shortcut
 #: src/main_window.c:328
 msgid "Save a copy of the image"
-msgstr "Salvează o copie a mesajului"
+msgstr "Salvează o copie a imaginii"
 
 #. Icon-name
 #: src/main_window.c:332
 msgid "Proper_ties..."
-msgstr ""
+msgstr "Proprie_tăți..."
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:334
 msgid "Show file properties"
-msgstr "Arată proprietățile fișierului"
+msgstr "Afișează proprietățile fișierului"
 
 #. Icon-name
 #: src/main_window.c:338
 msgid "_Print..."
-msgstr "_Tipărire..."
+msgstr "Im_primare..."
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:340
 msgid "Print the current image"
-msgstr ""
+msgstr "Imprimă imaginea curentă"
 
 #. Icon-name
 #: src/main_window.c:344 src/main_window.c:363
@@ -125,7 +128,7 @@ msgstr "_Editare"
 #. Keyboard shortcut
 #: src/main_window.c:346
 msgid "Edit this image"
-msgstr "Editați imaginea"
+msgstr "Editează imaginea"
 
 #. Icon-name
 #: src/main_window.c:350 src/preferences_dialog.c:217
@@ -148,11 +151,11 @@ msgstr "_Ieșire"
 #. Keyboard shortcut
 #: src/main_window.c:358
 msgid "Quit Ristretto"
-msgstr "Închidere Ristretto"
+msgstr "Ieșire din Ristretto"
 
 #: src/main_window.c:369
 msgid "_Copy image to clipboard"
-msgstr ""
+msgstr "_Copiază imaginea în clipboard"
 
 #: src/main_window.c:375
 msgid "_Open with"
@@ -190,24 +193,24 @@ msgstr "_Vizualizare"
 #. Icon-name
 #: src/main_window.c:412
 msgid "_Fullscreen"
-msgstr "_Pe tot ecranul"
+msgstr "_Ecran complet"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:414
 msgid "Switch to fullscreen"
-msgstr "Comută pe tot ecranul"
+msgstr "Trece în modul de ecran complet"
 
 #. Icon-name
 #: src/main_window.c:418
 msgid "_Leave Fullscreen"
-msgstr "_Ecran normal"
+msgstr "Iese din modul de ecran complet"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:420
 msgid "Leave Fullscreen"
-msgstr "Mărime normală"
+msgstr "Iese din modul de ecran complet"
 
 #. Icon-name
 #: src/main_window.c:424
@@ -216,29 +219,29 @@ msgstr "_Utilizează ca fundal..."
 
 #: src/main_window.c:431
 msgid "_Zoom"
-msgstr "_Zoom"
+msgstr "_Mărire/micșorare"
 
 #. Icon-name
 #: src/main_window.c:437
 msgid "Zoom _In"
-msgstr "Ap_ropie"
+msgstr "Măr_ire"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:439
 msgid "Zoom in"
-msgstr "Apropie"
+msgstr "Mărire"
 
 #. Icon-name
 #: src/main_window.c:443
 msgid "Zoom _Out"
-msgstr "Depăr_tează"
+msgstr "Micș_orare"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:445
 msgid "Zoom out"
-msgstr "Depărtează"
+msgstr "Micșorare"
 
 #. Icon-name
 #: src/main_window.c:449 src/main_window.c:730
@@ -249,22 +252,22 @@ msgstr "_Potrivește"
 #. Keyboard shortcut
 #: src/main_window.c:451
 msgid "Zoom to fit window"
-msgstr "Potrivire la fereastră"
+msgstr "Mărește pentru a se potrivi ferestrei"
 
 #. Icon-name
 #: src/main_window.c:455 src/main_window.c:736
 msgid "_Normal Size"
-msgstr "Mărime _originală"
+msgstr "Dimensiune _normală"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:457
 msgid "Zoom to 100%"
-msgstr "Mărime originală"
+msgstr "Dimensiunea reală"
 
 #: src/main_window.c:462
 msgid "_Default Zoom"
-msgstr "Zoom _Implicit"
+msgstr "_Amplificarea implicită a imaginii"
 
 #: src/main_window.c:469
 msgid "_Rotation"
@@ -353,7 +356,7 @@ msgstr "_Conținut"
 #. Keyboard shortcut
 #: src/main_window.c:546
 msgid "Display ristretto user manual"
-msgstr "Deschide manualul utilizatorului"
+msgstr "Afișează manualul utilizatorului Ristretto"
 
 #. Icon-name
 #: src/main_window.c:550
@@ -364,7 +367,7 @@ msgstr "_Despre"
 #. Keyboard shortcut
 #: src/main_window.c:552
 msgid "Display information about ristretto"
-msgstr "Arată detalii despre Ristretto"
+msgstr "Afișează informații despre Ristretto"
 
 #: src/main_window.c:557
 msgid "_Position"
@@ -372,7 +375,7 @@ msgstr "_Poziție"
 
 #: src/main_window.c:563
 msgid "_Size"
-msgstr "Mă_rime"
+msgstr "Dimen_siune"
 
 #: src/main_window.c:569
 msgid "Thumbnail Bar _Position"
@@ -380,7 +383,7 @@ msgstr "_Poziția barei cu miniaturi"
 
 #: src/main_window.c:575
 msgid "Thumb_nail Size"
-msgstr "_Dimensiuni miniaturi"
+msgstr "Dimensiune mi_niaturi"
 
 #. Icon-name
 #: src/main_window.c:582
@@ -390,17 +393,17 @@ msgstr "_Ecran normal"
 #. Icon-name
 #: src/main_window.c:601
 msgid "_Show Toolbar"
-msgstr "Arată bara cu _unelte"
+msgstr "Afișează bara de unel_te"
 
 #. Icon-name
 #: src/main_window.c:609
 msgid "Show _Thumbnail Bar"
-msgstr "Arată bara cu _miniaturi"
+msgstr "Afișeaz bara cu _miniaturi"
 
 #. Icon-name
 #: src/main_window.c:617
 msgid "Show Status _Bar"
-msgstr "Arată bara de _stare"
+msgstr "Afișează bara de _stare"
 
 #. Icon-name
 #: src/main_window.c:628
@@ -415,7 +418,7 @@ msgstr "tip fișier"
 #. Icon-name
 #: src/main_window.c:640
 msgid "date"
-msgstr "data"
+msgstr "dată"
 
 #. Icon-name
 #: src/main_window.c:650
@@ -436,36 +439,36 @@ msgstr "Jos"
 
 #: src/main_window.c:678
 msgid "Very Small"
-msgstr "Foarte mici"
+msgstr "Foarte mică"
 
 #: src/main_window.c:684
 msgid "Smaller"
-msgstr "Mai mici"
+msgstr "Mai mică"
 
 #: src/main_window.c:690
 msgid "Small"
-msgstr "Mici"
+msgstr "Mică"
 
 #: src/main_window.c:696
 msgid "Normal"
-msgstr "Normale"
+msgstr "Normală"
 
 #: src/main_window.c:702
 msgid "Large"
-msgstr "Mari"
+msgstr "Mare"
 
 #: src/main_window.c:708
 msgid "Larger"
-msgstr "Mai mari"
+msgstr "Mai mare"
 
 #: src/main_window.c:714
 msgid "Very Large"
-msgstr "Foarte mari"
+msgstr "Foarte mare"
 
 #. Icon-name
 #: src/main_window.c:724
 msgid "_Smart Zoom"
-msgstr "Zoom în mod _Smart"
+msgstr "Mărire _inteligentă"
 
 #: src/main_window.c:870
 msgid "Images"
@@ -503,7 +506,7 @@ msgstr "Deschideți pentru a selecta o imagine"
 
 #: src/main_window.c:1560 src/main_window.c:1565
 msgid "Open With Other _Application..."
-msgstr "Deschide cu _un alt program..."
+msgstr "Deschide cu o altă _aplicație..."
 
 #: src/main_window.c:1575 src/main_window.c:1583
 msgid "Empty"
@@ -517,23 +520,23 @@ msgstr "Se încarcă..."
 msgid "Choose 'set wallpaper' method"
 msgstr "Mod de salvare a imaginii de fundal"
 
-#: src/main_window.c:2271 src/main_window.c:3382 src/main_window.c:3470
-#: src/main_window.c:4135 src/privacy_dialog.c:145
+#: src/main_window.c:2271 src/main_window.c:3383 src/main_window.c:3471
+#: src/main_window.c:4136 src/privacy_dialog.c:145
 #: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
 msgstr "_Renunță"
 
-#: src/main_window.c:2274 src/main_window.c:4138
+#: src/main_window.c:2274 src/main_window.c:4139
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
 msgid "_OK"
-msgstr "_OK"
+msgstr "_Ok"
 
 #: src/main_window.c:2284
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Precizați ce mediu desktop folosiți.\n Această opțiune determină metoda folosită de <i>Ristretto</i>\npentru salvarea imaginii de fundal."
+msgstr " Precizați ce mediu grafic de birou folosiți.\n Această opțiune determină metoda folosită de <i>Ristretto</i>\npentru salvarea imaginii de fundal."
 
 #: src/main_window.c:2293 src/preferences_dialog.c:466
 msgid "None"
@@ -547,80 +550,80 @@ msgstr "Xfce"
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:2817 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:2818 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Ristretto este un vizualizator de imagini pentru mediul desktop Xfce."
+msgstr "Ristretto este un vizor de imagini pentru mediul grafic de birou Xfce."
 
-#: src/main_window.c:2822
+#: src/main_window.c:2823
 msgid "translator-credits"
-msgstr "Ionuț Ovejanu <ovejanu@yahoo.com>\nMișu Moldovan <dumol@xfce.org>"
+msgstr "Ionuț Ovejanu <ovejanu@yahoo.com> <ovejanu@yahoo.com>, 2010\nMișu Moldovan <dumol@xfce.org> <dumol@xfce.org>, 2010.\nRemus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2024."
 
-#: src/main_window.c:3381
+#: src/main_window.c:3382
 msgid "Open image"
 msgstr "Deschide imaginea"
 
-#: src/main_window.c:3382
+#: src/main_window.c:3383
 msgid "_Open"
 msgstr "_Deschide"
 
-#: src/main_window.c:3400
+#: src/main_window.c:3401
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3405
+#: src/main_window.c:3406
 msgid "All Files"
 msgstr "Toate fișierele"
 
-#: src/main_window.c:3469
+#: src/main_window.c:3470
 msgid "Save copy"
 msgstr "Salvează o copie"
 
-#: src/main_window.c:3471
+#: src/main_window.c:3472
 msgid "_Save"
 msgstr "_Salvează"
 
-#: src/main_window.c:3575
+#: src/main_window.c:3576
 msgid "Failed to print the image"
-msgstr ""
+msgstr "Imprimarea imaginii a eșuat"
 
-#: src/main_window.c:3662
+#: src/main_window.c:3663
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Sigur doriți să trimiteți imaginea „%s” în coșul de gunoi?"
 
-#: src/main_window.c:3666
+#: src/main_window.c:3667
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Sigur doriți să ștergeți imaginea „%s” de pe disc?"
 
-#: src/main_window.c:3673
+#: src/main_window.c:3674
 msgid "_Do not ask again for this session"
 msgstr "_Nu întreba din nou pentru această sesiune"
 
-#: src/main_window.c:4130
+#: src/main_window.c:4131
 msgid "Edit with"
 msgstr "Editare cu"
 
-#: src/main_window.c:4150
+#: src/main_window.c:4151
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Deschide %s și alte fișiere de tipul %s cu:"
 
-#: src/main_window.c:4156
+#: src/main_window.c:4157
 msgid "Use as _default for this kind of file"
-msgstr "Asocia_ză implicit pentru acest tip de fișier"
+msgstr "Utilizează ca _implicit pentru acest tip de fișier"
 
-#: src/main_window.c:4201
+#: src/main_window.c:4202
 msgid "Recommended Applications"
-msgstr "Programe recomandate"
+msgstr "Aplicații recomandate"
 
-#: src/main_window.c:4237
+#: src/main_window.c:4238
 msgid "Other Applications"
-msgstr "Alte programe"
+msgstr "Alte aplicații"
 
 #: src/privacy_dialog.c:115
 msgid "Time range to clear:"
-msgstr "Șterge datele: "
+msgstr "Intervalul de timp pentru ștergere:"
 
 #: src/privacy_dialog.c:118
 msgid "Cleanup"
@@ -679,21 +682,21 @@ msgstr "La activarea acestei opțiuni, calitatea maximă a imaginii va fi limita
 
 #: src/preferences_dialog.c:296
 msgid "Limit rendering quality"
-msgstr "Limitează calitatea randării"
+msgstr "Limitează calitatea redării"
 
 #: src/preferences_dialog.c:305
 msgid ""
 "Smooth the image using bilinear interpolation, thus prioritizing rendering "
 "quality over performance."
-msgstr ""
+msgstr "Netezirea imaginii folosind interpolarea bilineară, prioritizând astfel calitatea redării în detrimentul performanței."
 
 #: src/preferences_dialog.c:310
 msgid "Enable smoothing"
-msgstr ""
+msgstr "Activează netezirea"
 
 #: src/preferences_dialog.c:322
 msgid "Fullscreen"
-msgstr "Pe tot ecranul"
+msgstr "Ecran complet"
 
 #: src/preferences_dialog.c:326
 msgid "Thumbnails"
@@ -702,11 +705,11 @@ msgstr "Miniaturi"
 #: src/preferences_dialog.c:329
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "Bara miniaturilor poate fi ascunsă automat \ncând Ristretto este pe tot ecranul."
+msgstr "Bara de miniaturi poate fi ascunsă automat atunci când fereastra este pe ecran complet."
 
 #: src/preferences_dialog.c:334
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Ascunde bara miniaturilor la afișarea pe tot ecranul"
+msgstr "Ascunde bara de miniaturi în modul de ecran complet"
 
 #: src/preferences_dialog.c:342
 msgid "Clock"
@@ -716,25 +719,25 @@ msgstr "Ceas"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Bara miniaturilor poate fi ascunsă automat \ncând Ristretto este pe tot ecranul."
+msgstr "Afișează un ceas analogic care afișează ora curentă atunci când fereastra este în modul de ecran complet"
 
 #: src/preferences_dialog.c:350
 msgid "Show Fullscreen Clock"
-msgstr "Arată ora când fereastra e pe tot ecranul"
+msgstr "Afișează ora când fereastra este în modul de ecran complet"
 
 #: src/preferences_dialog.c:356
 msgid "Mouse cursor"
-msgstr "Cursor mouse"
+msgstr "Cursor maus"
 
 #: src/preferences_dialog.c:359
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr ""
+msgstr "Cursorul mausului poate fi ascuns automat după o anumită perioadă de inactivitate atunci când fereastra este în modul de ecran complet."
 
 #: src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
-msgstr "Perioadă inactivă (secunde):"
+msgstr "Perioada de inactivitate (secunde):"
 
 #: src/preferences_dialog.c:386
 msgid "Slideshow"
@@ -742,13 +745,13 @@ msgstr "Prezentare"
 
 #: src/preferences_dialog.c:390
 msgid "Timeout"
-msgstr "Timeout"
+msgstr "Timpul de așteptare"
 
 #: src/preferences_dialog.c:393
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr ""
+msgstr "Perioada de timp în care o imagine individuală este afișată în timpul unei prezentări (în secunde)"
 
 #: src/preferences_dialog.c:409
 msgid "Control"
@@ -760,7 +763,7 @@ msgstr "Rotița de derulare"
 
 #: src/preferences_dialog.c:416
 msgid "Invert zoom direction"
-msgstr "Schimbă direcția zoomului"
+msgstr "Inversează direcția de mărire a imaginii"
 
 #: src/preferences_dialog.c:427
 msgid "Behaviour"
@@ -772,7 +775,7 @@ msgstr "Pornire"
 
 #: src/preferences_dialog.c:433
 msgid "Maximize window on startup when opening an image"
-msgstr "Maximizează la pornire fereastra când se deschide o image"
+msgstr "Maximizează la pornire fereastra când se deschide o imagine"
 
 #: src/preferences_dialog.c:439
 msgid "Wrap around images"
@@ -780,14 +783,14 @@ msgstr "Reia de la început imaginile"
 
 #: src/preferences_dialog.c:450
 msgid "Desktop"
-msgstr "Alt desktop"
+msgstr "Birou"
 
 #: src/preferences_dialog.c:454
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Specificați sistemul care gestionează în prezent mediul de birou. Această opțiune determină metoda pe care <i>Ristretto</i> o va utiliza pentru a configura imaginea de fundal a biroului."
 
 #: src/preferences_dialog.c:551
 msgid "Image Viewer Preferences"
@@ -803,11 +806,11 @@ msgstr "<b>Tip:</b>"
 
 #: src/properties_dialog.c:134
 msgid "<b>Modified:</b>"
-msgstr "<b>Modificat:</b>"
+msgstr "<b>Modificată:</b>"
 
 #: src/properties_dialog.c:135
 msgid "<b>Accessed:</b>"
-msgstr "<b>Accesat:</b>"
+msgstr "<b>Accesată:</b>"
 
 #: src/properties_dialog.c:136
 msgid "<b>Size:</b>"
@@ -838,7 +841,7 @@ msgstr "%s - Proprietăți"
 
 #: src/image_list.c:32
 msgid "No supported image type found in the directory"
-msgstr ""
+msgstr "Nu s-a găsit niciun tip de imagine acceptat în director"
 
 #: src/image_list.c:33
 msgid "Directory only partially loaded"
@@ -846,13 +849,13 @@ msgstr "Dosar încărcat doar parțial"
 
 #: src/image_list.c:34
 msgid "Could not load directory"
-msgstr ""
+msgstr "Nu s-a putut încărca directorul"
 
 #: src/image_list.c:35
 msgid "Unsupported mime type"
-msgstr ""
+msgstr "Tip mime neacceptat"
 
-#: src/thumbnailer.c:366
+#: src/thumbnailer.c:368
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -860,9 +863,9 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "Serviciul de creare de miniaturi nu a\nputut fi contactat, prin urmare\n nu se vor crea miniaturi.\n\nInstalați <b>Tumbler</b> ori un alt serviciu de creare\nde miniaturi pentru a rezolva această problemă."
+msgstr "Serviciul de creare de miniaturi nu a putut fi contactat,\n prin urmare nu se vor crea miniaturi.\n\nInstalați <b>Tumbler</b> ori un alt serviciu de creare\nde miniaturi pentru a rezolva această problemă."
 
-#: src/thumbnailer.c:374
+#: src/thumbnailer.c:376
 msgid "Do _not show this message again"
 msgstr "_Nu mai arăta acest mesaj"
 
@@ -873,7 +876,7 @@ msgstr "Stil:"
 #. stretched is now default value
 #: src/xfce_wallpaper_manager.c:262
 msgid "Apply to all workspaces"
-msgstr ""
+msgstr "Aplică la toate spațiile de lucru"
 
 #: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:176
 msgid "Set as wallpaper"
@@ -885,31 +888,35 @@ msgstr "Automat"
 
 #: src/xfce_wallpaper_manager.c:303
 msgid "Centered"
-msgstr "Centrată"
+msgstr "Centrat"
 
 #: src/xfce_wallpaper_manager.c:304
 msgid "Tiled"
-msgstr "Mozaicată"
+msgstr "Mozaic"
 
 #: src/xfce_wallpaper_manager.c:305
 msgid "Stretched"
-msgstr "Întinsă"
+msgstr "Întins"
 
 #: src/xfce_wallpaper_manager.c:306
 msgid "Scaled"
-msgstr "Redimensionată"
+msgstr "Scalat"
 
 #: src/xfce_wallpaper_manager.c:307
 msgid "Zoomed"
-msgstr "Mărită"
+msgstr "Amplificat"
 
 #: org.xfce.ristretto.desktop.in:4
 msgid "Ristretto Image Viewer"
-msgstr "Vizualizare de imagini Ristretto"
+msgstr "Vizor de imagini Ristretto"
 
 #: org.xfce.ristretto.desktop.in:5
 msgid "Look at your images easily"
 msgstr "Pentru un acces rapid la imagini"
+
+#: org.xfce.ristretto.desktop.in:13
+msgid "image;photo;picture;viewer;graphics;"
+msgstr "imagine; fotografie; pictură; vizor; grafică;"
 
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
@@ -917,7 +924,7 @@ msgstr "Ristretto"
 
 #: org.xfce.ristretto.appdata.xml.in:8
 msgid "Fast and lightweight image viewer"
-msgstr ""
+msgstr "Vizor de imagini rapid și ușor"
 
 #: org.xfce.ristretto.appdata.xml.in:13
 msgid ""
@@ -925,8 +932,8 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Vizorul de imagini Ristretto este o aplicație care poate fi utilizată pentru a vizualiza și derula imagini, pentru a rula o prezentare de imagini, pentru a deschide imagini cu alte aplicații, cum ar fi un editor de imagini sau pentru a configura o imagine ca fundal de birou."
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Dezvoltatorii Xfce"
