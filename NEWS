@@ -1,3 +1,47 @@
+0.13.3 (2024-12-25)
+======
+- Added missing Keywords entry to .desktop file
+- thumbnailer: Properly limit request size
+- Avoid stack use-after-scope
+- settings: Add accels before loading accels.scm
+- scan-build: Add false positive file
+- gcc-analyzer: Fix -Wanalyzer-deref-before-check
+- build: Use AM_DISTCHECK_CONFIGURE_FLAGS
+- Apply .clang-format file
+- clang-format: Use IncludeBlocks::Regroup
+- clang-format: Break after assignment operator
+- clang-format: Break remaining parameters in function definition
+- viewer: Warn when max size is reached
+- viewer: Limit image size to what cairo can support
+- viewer: Fix limited-quality load size
+- clang-format: Insert a newline at end of file if missing
+- Apply .clang-format file
+- clang-format: Add file
+- Remove unnecessary or unwanted translations
+- Remove unused project file
+- Add a toggle to enable/disable smoothing
+- prefs-dialog: Wrap labels using GtkLabel API
+- image-list: Use standard::fast-content-type instead of content-type
+- Manage thumbs of thumbs correctly
+- configure.ac: Explicitly depend on gio-2.0
+- Makefile.am: Drop references of GTHREAD_CFLAGS
+- configure.ac: Explicitly depend on gio-unix-2.0
+- Add image/webp as supported mime type in .desktop file
+- file: Add missing sanity checks
+- Do not define G_DISABLE_CHECKS in release mode
+- Fix use of gdk_cursor_new*()
+- Fix memory leak
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Occitan (post
+  1500), Polish, Portuguese, Portuguese (Brazil), Romanian, Russian,
+  Serbian, Slovak, Slovenian, Spanish, Swedish, Telugu, Thai, Turkish,
+  Ukrainian, Uyghur
+
 0.13.2 (2024-02-05)
 ======
 - Update copyright year
