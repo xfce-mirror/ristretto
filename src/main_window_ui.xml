@@ -18,6 +18,7 @@
         </menu>
         <menu action="edit-menu">
             <menuitem action="copy-image"/>
+            <menuitem action="show-containing-folder"/>
             <separator/>
             <menu action="open-with-menu">
                 <placeholder name="open-with-apps" />
@@ -116,7 +117,8 @@
         <menuitem action="properties"/>
         <menuitem action="print"/>
         <menuitem action="close"/>
-    <menuitem action="copy-image"/>
+        <menuitem action="copy-image"/>
+        <menuitem action="show-containing-folder"/>
         <separator/>
         <menu action="open-with-menu">
             <placeholder name="open-with-apps" />
