@@ -32,7 +32,9 @@
 #include "thumbnailer.h"
 #include "xfce_wallpaper_manager.h"
 
+#include <exo/exo.h>
 #include <gio/gdesktopappinfo.h>
+#include <libxfce4ui/libxfce4ui.h>
 
 
 
@@ -248,6 +250,11 @@ cb_rstto_main_window_preferences (GtkWidget *widget,
 static void
 cb_rstto_main_window_copy_image (GtkWidget *widget,
                                  RsttoMainWindow *window);
+
+static void
+cb_rstto_main_window_show_containing_folder (GtkWidget *widget,
+                                             RsttoMainWindow *window);
+
 static void
 cb_rstto_main_window_clear_private_data (GtkWidget *widget,
                                          RsttoMainWindow *window);
@@ -370,6 +377,12 @@ static GtkActionEntry action_entries[] = {
       "<control>C",
       NULL,
       G_CALLBACK (cb_rstto_main_window_copy_image) },
+    { "show-containing-folder",
+      NULL,
+      N_ ("_Show Containing Folder"),
+      NULL,
+      NULL,
+      G_CALLBACK (cb_rstto_main_window_show_containing_folder) },
     { "open-with-menu",
       NULL,
       N_ ("_Open with"),
@@ -1719,6 +1732,7 @@ rstto_main_activate_file_menu_actions (RsttoMainWindow *window,
         "/main-menu/file-menu/properties",
         "/main-menu/file-menu/close",
         "/main-menu/edit-menu/copy-image",
+        "/main-menu/edit-menu/show-containing-folder",
         "/main-menu/edit-menu/delete"
     };
 
@@ -1789,6 +1803,7 @@ rstto_main_activate_popup_menu_actions (RsttoMainWindow *window,
         "/image-viewer-menu/close",
         "/image-viewer-menu/open-with-menu",
         "/image-viewer-menu/copy-image",
+        "/image-viewer-menu/show-containing-folder",
         "/image-viewer-menu/zoom-in",
         "/image-viewer-menu/zoom-out",
         "/image-viewer-menu/zoom-100",
@@ -4325,6 +4340,32 @@ cb_rstto_main_window_copy_image (GtkWidget *widget,
         gtk_clipboard_set_image (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD), pixbuf);
         g_object_unref (pixbuf);
     }
+}
+
+static void
+cb_rstto_main_window_show_containing_folder (GtkWidget *widget,
+                                             RsttoMainWindow *window)
+{
+    RsttoFile *r_file;
+    GFile *file, *parent_file;
+    gchar *uri = NULL;
+    GError *error = NULL;
+
+    r_file = rstto_image_list_iter_get_file (window->priv->iter);
+    file = rstto_file_get_file (r_file);
+
+    parent_file = g_file_get_parent (file);
+    if (G_LIKELY (parent_file))
+        uri = g_file_get_uri (parent_file);
+    g_object_unref (parent_file);
+
+    if (!exo_execute_preferred_application ("FileManager", uri, NULL, NULL, &error))
+    {
+        xfce_dialog_show_error (GTK_WINDOW (window), error, _("Failed to show containing folder \"%s\"."), uri);
+        g_error_free (error);
+    }
+
+    g_free (uri);
 }
 
 static void
