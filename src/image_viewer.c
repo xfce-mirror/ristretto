@@ -555,9 +555,7 @@ rstto_image_viewer_size_allocate (GtkWidget *widget,
         if (viewer->priv->auto_scale != RSTTO_SCALE_NONE)
             set_scale (viewer, viewer->priv->auto_scale);
 
-        set_adjustments (viewer,
-                         gtk_adjustment_get_value (viewer->priv->hadjustment),
-                         gtk_adjustment_get_value (viewer->priv->vadjustment));
+        set_adjustments (viewer, -1, -1);
     }
 }
 
@@ -806,13 +804,24 @@ set_adjustments (RsttoImageViewer *viewer,
     viewer->priv->rendering.x_offset = MAX (0, (alloc.width - width) / 2.0);
     viewer->priv->rendering.y_offset = MAX (0, (alloc.height - height) / 2.0);
 
-    /* set adjustemts */
-    gtk_adjustment_configure (viewer->priv->hadjustment, h_value, 0,
-                              MAX (viewer->priv->rendering.width, alloc.width),
-                              0, 0, alloc.width);
-    gtk_adjustment_configure (viewer->priv->vadjustment, v_value, 0,
-                              MAX (viewer->priv->rendering.height, alloc.height),
-                              0, 0, alloc.height);
+    /* set adjustemts: don't use gtk_adjustment_configure() here, it prevents
+     * GtkAdjustment from setting its value internally in some situations
+     * (https://gitlab.xfce.org/apps/ristretto/-/issues/124) */
+    g_object_freeze_notify (G_OBJECT (viewer->priv->hadjustment));
+    g_object_freeze_notify (G_OBJECT (viewer->priv->vadjustment));
+
+    gtk_adjustment_set_upper (viewer->priv->hadjustment, MAX (viewer->priv->rendering.width, alloc.width));
+    gtk_adjustment_set_page_size (viewer->priv->hadjustment, alloc.width);
+    if (h_value != -1)
+        gtk_adjustment_set_value (viewer->priv->hadjustment, h_value);
+
+    gtk_adjustment_set_upper (viewer->priv->vadjustment, MAX (viewer->priv->rendering.height, alloc.height));
+    gtk_adjustment_set_page_size (viewer->priv->vadjustment, alloc.height);
+    if (v_value != -1)
+        gtk_adjustment_set_value (viewer->priv->vadjustment, v_value);
+
+    g_object_thaw_notify (G_OBJECT (viewer->priv->hadjustment));
+    g_object_thaw_notify (G_OBJECT (viewer->priv->vadjustment));
 }
 
 static gboolean
@@ -1494,9 +1503,7 @@ rstto_image_viewer_set_orientation (RsttoImageViewer *viewer,
     if (viewer->priv->auto_scale != RSTTO_SCALE_NONE)
         set_scale (viewer, viewer->priv->auto_scale);
 
-    set_adjustments (viewer,
-                     gtk_adjustment_get_value (viewer->priv->hadjustment),
-                     gtk_adjustment_get_value (viewer->priv->vadjustment));
+    set_adjustments (viewer, -1, -1);
     gdk_window_invalidate_rect (gtk_widget_get_window (GTK_WIDGET (viewer)), NULL, FALSE);
 }
 
@@ -1759,9 +1766,7 @@ cb_rstto_image_loader_closed_idle (gpointer data)
         transaction->error = NULL;
         viewer->priv->transaction = NULL;
 
-        set_adjustments (viewer,
-                         gtk_adjustment_get_value (viewer->priv->hadjustment),
-                         gtk_adjustment_get_value (viewer->priv->vadjustment));
+        set_adjustments (viewer, -1, -1);
         gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
 
         g_signal_emit_by_name (transaction->viewer, "size-ready");
