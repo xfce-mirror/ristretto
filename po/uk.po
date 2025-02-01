@@ -5,7 +5,7 @@
 # Translators:
 # Dmitry Nikitin <luckas_fb@mail.ru>, 2008
 # dsafsadf <heneral@gmail.com>, 2016
-# Gordon Freeman, 2023-2024
+# Gordon Freeman, 2023-2025
 # Olexandr Nesterenko <nolexndr@gmail.com>, 2020
 # Taras Panchenko <top39@ukr.net>, 2021
 # Yarema aka Knedlyk <yupadmin@gmail.com>, 2015-2017
@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-10-16 00:57+0200\n"
+"POT-Creation-Date: 2025-01-20 12:49+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Gordon Freeman, 2023-2024\n"
+"Last-Translator: Gordon Freeman, 2023-2025\n"
 "Language-Team: Ukrainian (http://app.transifex.com/xfce/xfce-apps/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,577 +48,586 @@ msgid ""
 "available command line options.\n"
 msgstr "%s: %s\nСпробуйте %s --help для перегляду повного списку параметрів командної стрічки.\n"
 
-#: src/main_window.c:39 org.xfce.ristretto.desktop.in:6
+#: src/main_window.c:41 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
 msgstr "Переглядач зображень"
 
-#: src/main_window.c:42
+#: src/main_window.c:44
 msgid "Could not save file"
 msgstr "Неможливо зберегти файл"
 
-#: src/main_window.c:43
+#: src/main_window.c:45
 msgid "Some files could not be opened: see the text logs for details"
 msgstr "Деякі файли не вдалося відкрити: див. текстові логи з деталями"
 
-#: src/main_window.c:44
+#: src/main_window.c:46
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
 msgstr "Сталася помилка під час видалення зображення '%s' з диска"
 
-#: src/main_window.c:45
+#: src/main_window.c:47
 #, c-format
 msgid "An error occurred when sending image '%s' to trash"
 msgstr "Сталася помилка при відправленні зображення '%s' до смітника."
 
-#: src/main_window.c:314
+#: src/main_window.c:321
 msgid "_File"
 msgstr "_Файл"
 
 #. Icon-name
-#: src/main_window.c:320
+#: src/main_window.c:327
 msgid "_Open..."
 msgstr "_Відкрити..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:322
+#: src/main_window.c:329
 msgid "Open an image"
 msgstr "Відкрити зображення"
 
 #. Icon-name
-#: src/main_window.c:326
+#: src/main_window.c:333
 msgid "_Save copy..."
 msgstr "Зберегти коп_ію..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:328
+#: src/main_window.c:335
 msgid "Save a copy of the image"
 msgstr "Зберегти копію малюнка"
 
 #. Icon-name
-#: src/main_window.c:332
+#: src/main_window.c:339
 msgid "Proper_ties..."
 msgstr "Влас_тивості..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:334
+#: src/main_window.c:341
 msgid "Show file properties"
 msgstr "Показати властивості файлу"
 
 #. Icon-name
-#: src/main_window.c:338
+#: src/main_window.c:345
 msgid "_Print..."
 msgstr "На_друкувати..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:340
+#: src/main_window.c:347
 msgid "Print the current image"
 msgstr "Друк поточного зображення"
 
 #. Icon-name
-#: src/main_window.c:344 src/main_window.c:363
+#: src/main_window.c:351 src/main_window.c:370
 msgid "_Edit"
 msgstr "_Редагувати"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:346
+#: src/main_window.c:353
 msgid "Edit this image"
 msgstr "Редагувати малюнок"
 
 #. Icon-name
-#: src/main_window.c:350 src/preferences_dialog.c:217
+#: src/main_window.c:357 src/preferences_dialog.c:217
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "_Закрити"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:352
+#: src/main_window.c:359
 msgid "Close this image"
 msgstr "Закрити малюнок"
 
 #. Icon-name
-#: src/main_window.c:356
+#: src/main_window.c:363
 msgid "_Quit"
 msgstr "Ви_йти"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:358
+#: src/main_window.c:365
 msgid "Quit Ristretto"
 msgstr "Вийти з Ristretto"
 
-#: src/main_window.c:369
+#: src/main_window.c:376
 msgid "_Copy image to clipboard"
 msgstr "_Копіювати зображення до буферу обміну"
 
-#: src/main_window.c:375
+#: src/main_window.c:382
+msgid "_Show containing folder"
+msgstr "_Показати теку, що містить"
+
+#: src/main_window.c:388
 msgid "_Open with"
 msgstr "_Відкрити з"
 
-#: src/main_window.c:381
+#: src/main_window.c:394
 msgid "_Sort by"
 msgstr "_Сортувати за"
 
 #. Icon-name
-#: src/main_window.c:387
+#: src/main_window.c:400
 msgid "_Delete"
 msgstr "_Видалити"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:389
+#: src/main_window.c:402
 msgid "Delete this image from disk"
 msgstr "Вилучити малюнок з диску"
 
 #. Icon-name
-#: src/main_window.c:393
+#: src/main_window.c:406
 msgid "_Clear private data..."
 msgstr "_Очистити приватні дані..."
 
 #. Icon-name
-#: src/main_window.c:399
+#: src/main_window.c:412
 msgid "_Preferences..."
 msgstr "_Налаштування..."
 
-#: src/main_window.c:406
+#: src/main_window.c:419
 msgid "_View"
 msgstr "_Перегляд"
 
 #. Icon-name
-#: src/main_window.c:412
+#: src/main_window.c:425
 msgid "_Fullscreen"
 msgstr "Повний екр_ан"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:414
+#: src/main_window.c:427
 msgid "Switch to fullscreen"
 msgstr "Включити повноекранний режим"
 
 #. Icon-name
-#: src/main_window.c:418
+#: src/main_window.c:431
 msgid "_Leave Fullscreen"
 msgstr "Покинути повний ек_ран"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:420
+#: src/main_window.c:433
 msgid "Leave Fullscreen"
 msgstr "Покинути повноекранний режим"
 
 #. Icon-name
-#: src/main_window.c:424
+#: src/main_window.c:437
 msgid "Set as _Wallpaper..."
 msgstr "Встановити як шпа_лери..."
 
-#: src/main_window.c:431
+#: src/main_window.c:444
 msgid "_Zoom"
 msgstr "_Масштаб"
 
 #. Icon-name
-#: src/main_window.c:437
+#: src/main_window.c:450
 msgid "Zoom _In"
 msgstr "Збіль_шити"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:439
+#: src/main_window.c:452
 msgid "Zoom in"
 msgstr "Збільшити"
 
 #. Icon-name
-#: src/main_window.c:443
+#: src/main_window.c:456
 msgid "Zoom _Out"
 msgstr "З_меншити"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:445
+#: src/main_window.c:458
 msgid "Zoom out"
 msgstr "Зменшити"
 
 #. Icon-name
-#: src/main_window.c:449 src/main_window.c:730
+#: src/main_window.c:462 src/main_window.c:743
 msgid "Zoom _Fit"
 msgstr "Вмістити у вікн_о"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:451
+#: src/main_window.c:464
 msgid "Zoom to fit window"
 msgstr "Припасувати до розмірів вікна"
 
 #. Icon-name
-#: src/main_window.c:455 src/main_window.c:736
+#: src/main_window.c:468 src/main_window.c:749
 msgid "_Normal Size"
 msgstr "_Нормальний розмір"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:457
+#: src/main_window.c:470
 msgid "Zoom to 100%"
 msgstr "Збільшити до 100%"
 
-#: src/main_window.c:462
+#: src/main_window.c:475
 msgid "_Default Zoom"
 msgstr "Масштаб за _замовчуванням"
 
-#: src/main_window.c:469
+#: src/main_window.c:482
 msgid "_Rotation"
 msgstr "_Обертання"
 
 #. Icon-name
-#: src/main_window.c:475
+#: src/main_window.c:488
 msgid "Rotate _Right"
 msgstr "Повернути в_право"
 
 #. Icon-name
-#: src/main_window.c:481
+#: src/main_window.c:494
 msgid "Rotate _Left"
 msgstr "Повернути в_ліво"
 
-#: src/main_window.c:488
+#: src/main_window.c:501
 msgid "_Flip"
 msgstr "_Відбити"
 
-#: src/main_window.c:494
+#: src/main_window.c:507
 msgid "Flip _Horizontally"
 msgstr "Відбити _горизонтально"
 
-#: src/main_window.c:500
+#: src/main_window.c:513
 msgid "Flip _Vertically"
 msgstr "Відбити _вертикально"
 
-#: src/main_window.c:507
+#: src/main_window.c:520
 msgid "_Go"
 msgstr "П_ерейти"
 
 #. Icon-name
-#: src/main_window.c:513
+#: src/main_window.c:526
 msgid "_Forward"
 msgstr "_Вперед"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:515
+#: src/main_window.c:528
 msgid "Next image"
 msgstr "Наступний малюнок"
 
 #. Icon-name
-#: src/main_window.c:519
+#: src/main_window.c:532
 msgid "_Back"
 msgstr "_Назад"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:521
+#: src/main_window.c:534
 msgid "Previous image"
 msgstr "Попередній малюнок"
 
 #. Icon-name
-#: src/main_window.c:525
+#: src/main_window.c:538
 msgid "F_irst"
 msgstr "_Перший"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:527
+#: src/main_window.c:540
 msgid "First image"
 msgstr "Перший малюнок"
 
 #. Icon-name
-#: src/main_window.c:531
+#: src/main_window.c:544
 msgid "_Last"
 msgstr "_Останній"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:533
+#: src/main_window.c:546
 msgid "Last image"
 msgstr "Останній малюнок"
 
-#: src/main_window.c:538
+#: src/main_window.c:551
 msgid "_Help"
 msgstr "Дов_ідка"
 
 #. Icon-name
-#: src/main_window.c:544
+#: src/main_window.c:557
 msgid "_Contents"
 msgstr "_Вміст"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:546
+#: src/main_window.c:559
 msgid "Display ristretto user manual"
 msgstr "Показати посібник користувача ristretto"
 
 #. Icon-name
-#: src/main_window.c:550
+#: src/main_window.c:563
 msgid "_About"
 msgstr "_Про"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:552
+#: src/main_window.c:565
 msgid "Display information about ristretto"
 msgstr "Показати інформацію про ristretto"
 
-#: src/main_window.c:557
+#: src/main_window.c:570
 msgid "_Position"
 msgstr "По_зиція"
 
-#: src/main_window.c:563
+#: src/main_window.c:576
 msgid "_Size"
 msgstr "_Розмір"
 
-#: src/main_window.c:569
+#: src/main_window.c:582
 msgid "Thumbnail Bar _Position"
 msgstr "Позиція _панелі мініатюр"
 
-#: src/main_window.c:575
+#: src/main_window.c:588
 msgid "Thumb_nail Size"
 msgstr "Розмір _мініатюр"
 
 #. Icon-name
-#: src/main_window.c:582
+#: src/main_window.c:595
 msgid "Leave _Fullscreen"
 msgstr "Залишити повноекр_анний режим"
 
 #. Icon-name
-#: src/main_window.c:601
+#: src/main_window.c:614
 msgid "_Show Toolbar"
 msgstr "Показати п_анель"
 
 #. Icon-name
-#: src/main_window.c:609
+#: src/main_window.c:622
 msgid "Show _Thumbnail Bar"
 msgstr "Показати пан_ель мініатюр"
 
 #. Icon-name
-#: src/main_window.c:617
+#: src/main_window.c:630
 msgid "Show Status _Bar"
 msgstr "Показати пан_ель статусу"
 
 #. Icon-name
-#: src/main_window.c:628
+#: src/main_window.c:641
 msgid "file name"
 msgstr "назвою файлу"
 
 #. Icon-name
-#: src/main_window.c:634
+#: src/main_window.c:647
 msgid "file type"
 msgstr "типом файлу"
 
 #. Icon-name
-#: src/main_window.c:640
+#: src/main_window.c:653
 msgid "date"
 msgstr "датою"
 
 #. Icon-name
-#: src/main_window.c:650
+#: src/main_window.c:663
 msgid "Left"
 msgstr "Зліва"
 
-#: src/main_window.c:656
+#: src/main_window.c:669
 msgid "Right"
 msgstr "Справа"
 
-#: src/main_window.c:662
+#: src/main_window.c:675
 msgid "Top"
 msgstr "Згори"
 
-#: src/main_window.c:668
+#: src/main_window.c:681
 msgid "Bottom"
 msgstr "Внизу"
 
-#: src/main_window.c:678
+#: src/main_window.c:691
 msgid "Very Small"
 msgstr "Дуже малий"
 
-#: src/main_window.c:684
+#: src/main_window.c:697
 msgid "Smaller"
 msgstr "Менший"
 
-#: src/main_window.c:690
+#: src/main_window.c:703
 msgid "Small"
 msgstr "Малий"
 
-#: src/main_window.c:696
+#: src/main_window.c:709
 msgid "Normal"
 msgstr "Нормальний"
 
-#: src/main_window.c:702
+#: src/main_window.c:715
 msgid "Large"
 msgstr "Великий"
 
-#: src/main_window.c:708
+#: src/main_window.c:721
 msgid "Larger"
 msgstr "Більший"
 
-#: src/main_window.c:714
+#: src/main_window.c:727
 msgid "Very Large"
 msgstr "Дуже великий"
 
 #. Icon-name
-#: src/main_window.c:724
+#: src/main_window.c:737
 msgid "_Smart Zoom"
 msgstr "_Інтелектуальний масштаб"
 
-#: src/main_window.c:870
+#: src/main_window.c:883
 msgid "Images"
 msgstr "Малюнки"
 
 #. Create Play/Pause Slideshow actions
-#: src/main_window.c:942
+#: src/main_window.c:955
 msgid "_Play"
 msgstr "_Програвати"
 
-#: src/main_window.c:942
+#: src/main_window.c:955
 msgid "Play slideshow"
 msgstr "Програти слайд-шоу"
 
-#: src/main_window.c:943
+#: src/main_window.c:956
 msgid "_Pause"
 msgstr "_Пауза"
 
-#: src/main_window.c:943
+#: src/main_window.c:956
 msgid "Pause slideshow"
 msgstr "Призупинити слайд-шоу"
 
 #. Create Recently used items Action
-#: src/main_window.c:946
+#: src/main_window.c:959
 msgid "_Recently used"
 msgstr "_Нещодавно використані"
 
-#: src/main_window.c:946
+#: src/main_window.c:959
 msgid "Recently used"
 msgstr "Нещодавно використані"
 
-#: src/main_window.c:1071 src/main_window.c:1618
+#: src/main_window.c:1084 src/main_window.c:1631
 msgid "Press open to select an image"
 msgstr "Натисніть відкрити для вибору малюнка"
 
-#: src/main_window.c:1560 src/main_window.c:1565
+#: src/main_window.c:1573 src/main_window.c:1578
 msgid "Open With Other _Application..."
 msgstr "Відкрити з іншою _програмою..."
 
-#: src/main_window.c:1575 src/main_window.c:1583
+#: src/main_window.c:1588 src/main_window.c:1596
 msgid "Empty"
 msgstr "Пустий"
 
-#: src/main_window.c:1622
+#: src/main_window.c:1635
 msgid "Loading..."
 msgstr "Завантаження..."
 
-#: src/main_window.c:2267
+#: src/main_window.c:2282
 msgid "Choose 'set wallpaper' method"
 msgstr "Виберіть метод для 'встановити шпалери'"
 
-#: src/main_window.c:2271 src/main_window.c:3383 src/main_window.c:3471
-#: src/main_window.c:4136 src/privacy_dialog.c:145
+#: src/main_window.c:2286 src/main_window.c:3398 src/main_window.c:3486
+#: src/main_window.c:4151 src/privacy_dialog.c:145
 #: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: src/main_window.c:2274 src/main_window.c:4139
+#: src/main_window.c:2289 src/main_window.c:4154
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
 msgid "_OK"
 msgstr "_Гаразд"
 
-#: src/main_window.c:2284
+#: src/main_window.c:2299
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Налаштуйте систему, яка зараз керує Вашим робочим столом.\nЦі налаштування визначають метод, який використає <i>Ristretto</i>\nдля конфігурації шпалер робочого столу."
 
-#: src/main_window.c:2293 src/preferences_dialog.c:466
+#: src/main_window.c:2308 src/preferences_dialog.c:466
 msgid "None"
 msgstr "Нічого"
 
-#: src/main_window.c:2294 src/preferences_dialog.c:468
+#: src/main_window.c:2309 src/preferences_dialog.c:468
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2295 src/preferences_dialog.c:470
+#: src/main_window.c:2310 src/preferences_dialog.c:470
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:2818 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:2833 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto - переглядач зображень для робочого середовища Xfce."
 
-#: src/main_window.c:2823
+#: src/main_window.c:2838
 msgid "translator-credits"
 msgstr "Dmitry Nikitin <luckas_fb@mail.ru>/nYarema aka Knedlyk <yupadmin@gmail.com>"
 
-#: src/main_window.c:3382
+#: src/main_window.c:3397
 msgid "Open image"
 msgstr "Відкрити зображення"
 
-#: src/main_window.c:3383
+#: src/main_window.c:3398
 msgid "_Open"
 msgstr "_Відкрити"
 
-#: src/main_window.c:3401
+#: src/main_window.c:3416
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3406
+#: src/main_window.c:3421
 msgid "All Files"
 msgstr "Всі файли"
 
-#: src/main_window.c:3470
+#: src/main_window.c:3485
 msgid "Save copy"
 msgstr "Зберегти копію"
 
-#: src/main_window.c:3472
+#: src/main_window.c:3487
 msgid "_Save"
 msgstr "_Зберегти"
 
-#: src/main_window.c:3576
+#: src/main_window.c:3591
 msgid "Failed to print the image"
 msgstr "Не вдалось надрукувати зображення"
 
-#: src/main_window.c:3663
+#: src/main_window.c:3678
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Ви впевнені, що бажаєте викинути малюнок '%s' у смітник?"
 
-#: src/main_window.c:3667
+#: src/main_window.c:3682
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Ви впевнені, що бажаєте видалити малюнок '%s' з диску?"
 
-#: src/main_window.c:3674
+#: src/main_window.c:3689
 msgid "_Do not ask again for this session"
 msgstr "_Не запитувати знову про цю сесію"
 
-#: src/main_window.c:4131
+#: src/main_window.c:4146
 msgid "Edit with"
 msgstr "Редагувати з"
 
-#: src/main_window.c:4151
+#: src/main_window.c:4166
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Відкрити %s та інші файли з типом %s з:"
 
-#: src/main_window.c:4157
+#: src/main_window.c:4172
 msgid "Use as _default for this kind of file"
 msgstr "Використати як _типове для цього типу файлів"
 
-#: src/main_window.c:4202
+#: src/main_window.c:4217
 msgid "Recommended Applications"
 msgstr "Пропоновані програми"
 
-#: src/main_window.c:4238
+#: src/main_window.c:4253
 msgid "Other Applications"
 msgstr "Інші програми"
+
+#: src/main_window.c:4366
+#, c-format
+msgid "Failed to show containing folder \"%s\"."
+msgstr "Не вдалося показати теку, що містить \"%s\"."
 
 #: src/privacy_dialog.c:115
 msgid "Time range to clear:"
