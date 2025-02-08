@@ -5,12 +5,15 @@
 # Translators:
 # Andre Miranda <andre@andreldm.com>, 2019
 # Andre Miranda <andre@andreldm.com>, 2016-2017
+# Andre Miranda <andre@andreldm.com>, 2015,2019
 # Andre Miranda <andre@andreldm.com>, 2015
 # C. E., 2022
+# C. E., 2022
+# diegojsilva_hub, 2025
 # diegojsilva_hub, 2025
 # Frederico Schardong <frede_sch@gmail.com>, 2011
 # Lucas Wilm <lucaswilm@gmail.com>, 2021
-# Michael Martins, 2019,2024
+# Michael Martins, 2019,2024-2025
 # The Cat, 2023-2024
 # Wellington Almeida <wsalmeida6@gmail.com>, 2021
 msgid ""
@@ -19,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-01-20 12:49+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: diegojsilva_hub, 2025\n"
+"Last-Translator: Wellington Almeida <wsalmeida6@gmail.com>, 2021\n"
 "Language-Team: Portuguese (Brazil) (http://app.transifex.com/xfce/xfce-apps/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,7 +57,7 @@ msgstr "%s: %s\nTente %s --help para ver uma lista completa das opções de linh
 
 #: src/main_window.c:41 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
-msgstr "Visualizador de Imagens"
+msgstr "Visualizador de imagens"
 
 #: src/main_window.c:44
 msgid "Could not save file"
@@ -131,7 +134,7 @@ msgstr "_Editar"
 #. Keyboard shortcut
 #: src/main_window.c:353
 msgid "Edit this image"
-msgstr "Editar esta imagem"
+msgstr "Edita esta imagem"
 
 #. Icon-name
 #: src/main_window.c:357 src/preferences_dialog.c:217
@@ -162,7 +165,7 @@ msgstr "_Copiar imagem para a área de transferência"
 
 #: src/main_window.c:382
 msgid "_Show containing folder"
-msgstr "_Mostrar pasta"
+msgstr "_Mostrar pasta que contém"
 
 #: src/main_window.c:388
 msgid "_Open with"
@@ -195,7 +198,7 @@ msgstr "_Preferências..."
 
 #: src/main_window.c:419
 msgid "_View"
-msgstr "_Ver"
+msgstr "_Visualizar"
 
 #. Icon-name
 #: src/main_window.c:425
@@ -296,11 +299,11 @@ msgstr "Inverter"
 
 #: src/main_window.c:507
 msgid "Flip _Horizontally"
-msgstr "Inverter _Horizontalmente"
+msgstr "Inverter _horizontalmente"
 
 #: src/main_window.c:513
 msgid "Flip _Vertically"
-msgstr "Inverter _Verticalmente"
+msgstr "Inverter _verticalmente"
 
 #: src/main_window.c:520
 msgid "_Go"
@@ -395,7 +398,7 @@ msgstr "Tamanho das _miniaturas"
 #. Icon-name
 #: src/main_window.c:595
 msgid "Leave _Fullscreen"
-msgstr "Sair do modo de _tela Cheia"
+msgstr "Sair do modo de _tela cheia"
 
 #. Icon-name
 #: src/main_window.c:614
@@ -415,17 +418,17 @@ msgstr "Mostrar barra de _status"
 #. Icon-name
 #: src/main_window.c:641
 msgid "file name"
-msgstr "Nome do arquivo"
+msgstr "nome do arquivo"
 
 #. Icon-name
 #: src/main_window.c:647
 msgid "file type"
-msgstr "Tipo do arquivo"
+msgstr "tipo do arquivo"
 
 #. Icon-name
 #: src/main_window.c:653
 msgid "date"
-msgstr "Data"
+msgstr "data"
 
 #. Icon-name
 #: src/main_window.c:663
@@ -475,7 +478,7 @@ msgstr "Muito grande"
 #. Icon-name
 #: src/main_window.c:737
 msgid "_Smart Zoom"
-msgstr "_Smart Zoom"
+msgstr "Ampliação _inteligente"
 
 #: src/main_window.c:883
 msgid "Images"
@@ -513,7 +516,7 @@ msgstr "Pressione abrir para selecionar uma imagem"
 
 #: src/main_window.c:1573 src/main_window.c:1578
 msgid "Open With Other _Application..."
-msgstr "Abrir com outro _aplicativo"
+msgstr "Abrir com outro _aplicativo..."
 
 #: src/main_window.c:1588 src/main_window.c:1596
 msgid "Empty"
@@ -525,7 +528,7 @@ msgstr "Carregando..."
 
 #: src/main_window.c:2282
 msgid "Choose 'set wallpaper' method"
-msgstr "Escolha o método de \"definição do papel de parede\""
+msgstr "Escolha o método \"definir papel de parede\""
 
 #: src/main_window.c:2286 src/main_window.c:3398 src/main_window.c:3486
 #: src/main_window.c:4151 src/privacy_dialog.c:145
@@ -543,7 +546,7 @@ msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr "Configura qual sistema está atualmente gerenciando sua área de trabalho.\nEsta configuração determina o método que o <i>Ristretto</i> usará\npara definir o papel de parede."
+msgstr "Configura qual sistema está atualmente gerenciando seu desktop.\nEsta configuração determina o método que o <i>Ristretto</i> usará\npara definir o papel de parede."
 
 #: src/main_window.c:2308 src/preferences_dialog.c:466
 msgid "None"
@@ -559,11 +562,11 @@ msgstr "GNOME"
 
 #: src/main_window.c:2833 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "O Ristretto é um visualizador de imagens rápido e leve para o ambiente de trabalho Xfce."
+msgstr "O Ristretto é um visualizador de imagens rápido e leve para o ambiente de desktop Xfce."
 
 #: src/main_window.c:2838
 msgid "translator-credits"
-msgstr "Og Maciel <ogmaciel@gnome.org>,\nFábio Nogueira <deb-user-ba@ubuntu.com>,\nFrederico Schardong <frede_sch@gmail.com>,\nAndré Miranda <andreldm1989@gmail.com>"
+msgstr "Og Maciel <ogmaciel@gnome.org>,\nFábio Nogueira <deb-user-ba@ubuntu.com>,\nFrederico Schardong <frede_sch@gmail.com>,\nAndré Miranda <andreldm1989@gmail.com>\nMichael Martins <michaelfm21@gmail.com>"
 
 #: src/main_window.c:3397
 msgid "Open image"
@@ -596,12 +599,12 @@ msgstr "Falha ao imprimir a imagem"
 #: src/main_window.c:3678
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Você tem certeza que quer enviar a imagem \"%s\" para a lixeira?"
+msgstr "Tem certeza que deseja enviar a imagem \"%s\" para a lixeira?"
 
 #: src/main_window.c:3682
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Você tem certeza que quer excluir a imagem \"%s\" do disco?"
+msgstr "Tem certeza que deseja excluir a imagem \"%s\" do disco?"
 
 #: src/main_window.c:3689
 msgid "_Do not ask again for this session"
@@ -614,7 +617,7 @@ msgstr "Editar com"
 #: src/main_window.c:4166
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr "Abrir %s e ooutros arquivos do tipo %s com:"
+msgstr "Abrir %s e outros arquivos do tipo %s com:"
 
 #: src/main_window.c:4172
 msgid "Use as _default for this kind of file"
@@ -622,16 +625,16 @@ msgstr "Usar como _padrão para este tipo de arquivo"
 
 #: src/main_window.c:4217
 msgid "Recommended Applications"
-msgstr "Aplicativos Recomendados"
+msgstr "Aplicativos recomendados"
 
 #: src/main_window.c:4253
 msgid "Other Applications"
-msgstr "Outros Aplicativos"
+msgstr "Outros aplicativos"
 
 #: src/main_window.c:4366
 #, c-format
 msgid "Failed to show containing folder \"%s\"."
-msgstr "Falha ao mostrar pasta \"%s\"."
+msgstr "Falha ao mostrar pasta que contém \"%s\"."
 
 #: src/privacy_dialog.c:115
 msgid "Time range to clear:"
@@ -672,7 +675,7 @@ msgstr "Limpar dados privados"
 
 #: src/preferences_dialog.c:248
 msgid "Display"
-msgstr "Visão"
+msgstr "Exibição"
 
 #: src/preferences_dialog.c:255
 msgid "Background color"
@@ -690,7 +693,7 @@ msgstr "Qualidade"
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
-msgstr "Com esta opção habilitada, a qualidade máxima da imagem será limitada ao tamanho da tela"
+msgstr "Com esta opção habilitada, a qualidade máxima da imagem será limitada ao tamanho da tela."
 
 #: src/preferences_dialog.c:296
 msgid "Limit rendering quality"
@@ -704,7 +707,7 @@ msgstr "Suaviza a imagem utilizando interpolação bilinear, priorizando assim a
 
 #: src/preferences_dialog.c:310
 msgid "Enable smoothing"
-msgstr "Ativar suavização"
+msgstr "Habilitar suavização"
 
 #: src/preferences_dialog.c:322
 msgid "Fullscreen"
@@ -717,7 +720,7 @@ msgstr "Miniaturas"
 #: src/preferences_dialog.c:329
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "A barra de miniaturas pode ser automaticamente escondida \nquando o visualizador de imagens estiver em modo de tela cheia."
+msgstr "A barra de miniaturas pode ser automaticamente escondida quando o visualizador de imagens estiver em modo de tela cheia."
 
 #: src/preferences_dialog.c:334
 msgid "Hide thumbnail bar when fullscreen"
@@ -731,7 +734,7 @@ msgstr "Relógio"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "A barra de miniaturas pode ser automaticamente escondida \nquando o visualizador de imagens estiver em modo de tela cheia."
+msgstr "Mostrar um relógio analógico que exibe a hora atual quando a janela está em tela cheia"
 
 #: src/preferences_dialog.c:350
 msgid "Show Fullscreen Clock"
@@ -739,7 +742,7 @@ msgstr "Mostrar relógio em tela cheia"
 
 #: src/preferences_dialog.c:356
 msgid "Mouse cursor"
-msgstr "Cursos do mouse"
+msgstr "Cursor do mouse"
 
 #: src/preferences_dialog.c:359
 msgid ""
@@ -795,18 +798,18 @@ msgstr "Envolver imagens"
 
 #: src/preferences_dialog.c:450
 msgid "Desktop"
-msgstr "Área de Trabalho"
+msgstr "Área de trabalho"
 
 #: src/preferences_dialog.c:454
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr "Esta configuração determina o método que <i>Ristretto</i> irá usar para configurar o papel de parede da área de trabalho."
+msgstr "Esta configuração determina o método que o <i>Ristretto</i> usará para configurar o papel de parede da área de trabalho."
 
 #: src/preferences_dialog.c:551
 msgid "Image Viewer Preferences"
-msgstr "Preferências do Visualizador de Imagens"
+msgstr "Preferências do visualizador de imagens"
 
 #: src/properties_dialog.c:132
 msgid "<b>Name:</b>"
@@ -912,7 +915,7 @@ msgstr "Esticado"
 
 #: src/xfce_wallpaper_manager.c:306
 msgid "Scaled"
-msgstr "Escalar"
+msgstr "Dimensionado"
 
 #: src/xfce_wallpaper_manager.c:307
 msgid "Zoomed"
@@ -944,7 +947,7 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "O Visualizador de Imagens Ristretto é um aplicativo que pode ser usado para visualizar ou navegar por uma coleção de imagens, exibir uma apresentação de slides de imagens, abrir imagens com outros aplicativos como um editor de imagens or definir uma imagem como papel de parede da área de trabalho."
+msgstr "O visualizador de imagens Ristretto é um aplicativo que pode ser usado para visualizar ou navegar por uma coleção de imagens, exibir uma apresentação de slides de imagens, abrir imagens com outros aplicativos como um editor de imagens ou definir uma imagem como papel de parede da área de trabalho."
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
