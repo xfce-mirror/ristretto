@@ -1,9 +1,10 @@
 app-id: org.xfce.ristretto
 runtime: org.freedesktop.Platform
-runtime-version: '22.08'
+runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
 command: ristretto
-
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
 finish-args:
   - --share=ipc
   - --socket=fallback-x11
@@ -33,17 +34,13 @@ cleanup:
 
 modules:
   # build-time dependencies
-  - name: intltool
+  - name: xfce4-dev-tools
     cleanup:
       - '*'
     sources:
       - type: archive
-        url: https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
-        sha256: 67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd
-        x-checker-data:
-          type: anitya
-          project-id: 1385
-          url-template: https://launchpad.net/intltool/trunk/$version/+download/intltool-$version.tar.gz
+        url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.20/xfce4-dev-tools-4.20.0.tar.bz2
+        sha256: 1fba39a08a0ecc771eaa3a3b6e4272a4f0b9e7c67d0f66e780cd6090cd4466aa
 
   # mandatory dependencies
   - name: libxfce4util
@@ -53,8 +50,8 @@ modules:
       - --disable-debug
     sources:
       - type: archive
-        url: https://archive.xfce.org/src/xfce/libxfce4util/4.18/libxfce4util-4.18.0.tar.bz2
-        sha256: 1157ca717fd3dd1da7724a6432a4fb24af9cd922f738e971fd1fd36dfaeac3c9
+        url: https://archive.xfce.org/src/xfce/libxfce4util/4.20/libxfce4util-4.20.0.tar.bz2
+        sha256: 21493f9c9995a282823db93839f6b9f06ae31edb094191ba9acf04d932a2b592
         x-checker-data:
           type: anitya
           project-id: 232001
@@ -69,8 +66,8 @@ modules:
       - XFCONF_SERVICE_NAME_PREFIX=org.xfce.ristretto
     sources:
       - type: archive
-        url: https://archive.xfce.org/src/xfce/xfconf/4.18/xfconf-4.18.0.tar.bz2
-        sha256: 2e8c50160bf800a807aea094fc9dad81f9f361f42db56607508ed5b4855d2906
+        url: https://archive.xfce.org/src/xfce/xfconf/4.20/xfconf-4.20.0.tar.bz2
+        sha256: 8bc43c60f1716b13cf35fc899e2a36ea9c6cdc3478a8f051220eef0f53567efd
         x-checker-data:
           type: anitya
           project-id: 14854
@@ -86,36 +83,52 @@ modules:
       - --disable-debug
     sources:
       - type: archive
-        url: https://archive.xfce.org/src/xfce/libxfce4ui/4.18/libxfce4ui-4.18.0.tar.bz2
-        sha256: 532247c4387c17bb9ef94a73147039b8d013c3131c95cdbd2fa85fbcc848d06b
+        url: https://archive.xfce.org/src/xfce/libxfce4ui/4.20/libxfce4ui-4.20.0.tar.bz2
+        sha256: 75e8996984f20375aadecd5c16f5147c211ed0bd26d7861ab0257561eb76eaee
         x-checker-data:
           type: anitya
           project-id: 232000
           url-template: https://archive.xfce.org/src/xfce/libxfce4ui/$major.$minor/libxfce4ui-$version.tar.bz2
 
+  - name: exo
+    cleanup:
+      - /bin
+      - /share/man
+      - /share/pixmaps
+    config-opts:
+      - --disable-debug
+    sources:
+      - type: archive
+        url: https://archive.xfce.org/src/xfce/exo/4.20/exo-4.20.0.tar.bz2
+        sha256: 4277f799245f1efde01cd917fd538ba6b12cf91c9f8a73fe2035fd5456ec078d
+        x-checker-data:
+          type: anitya
+          project-id: 231995
+          url-template: https://archive.xfce.org/src/xfce/exo/$major.$minor/exo-$version.tar.bz2
+
   # optional dependencies for gdk-pixbuf
   - name: libopenraw
-    config-opts:
-      - --disable-cr3
+    build-options:
+      append-path: /usr/lib/sdk/rust-stable/bin
     sources:
-      - type: git
-        url: https://github.com/freedesktop/libopenraw.git
-        tag: libopenraw-0.3.2
-        commit: 75c279918c4238333892c20599445143472deb7d
+      - type: archive
+        url: https://libopenraw.freedesktop.org/download/libopenraw-0.3.7.tar.xz
+        sha256: 0ece41951b2cd91e43f6a8a5c6a894bbc8b5923b4e49a82ebb6d8ce62bded68c
         x-checker-data:
           type: anitya
           project-id: 7980
-          tag-template: libopenraw-$version
+          url-template: https://libopenraw.freedesktop.org/download/libopenraw-$version.tar.xz
       # See https://gitlab.freedesktop.org/libopenraw/libopenraw/-/issues/9
       # Necessary in this context, to make the pixbuf loader install in /app/lib
       - type: patch
         path: patches/build-Honor-installation-prefix-also-for-the-pixbuf-.patch
-      # CR3 support requires Rust, which is a pain to build in a Flatpak context. Also, it
-      # does not affect the pixbuf loader, which is what we care about for Ristretto.
-      - type: patch
-        path: patches/Make-CR3-support-optional.patch
+      - type: shell
+        commands:
+          - autoreconf -vfi
     modules:
       - name: boost
+        cleanup:
+          - '*'
         buildsystem: simple
         build-commands:
           - ./bootstrap.sh --prefix=/app --with-libraries=system --with-libraries=test
@@ -123,8 +136,8 @@ modules:
             linkflags="$LDFLAGS" -j $FLATPAK_BUILDER_N_JOBS
         sources:
           - type: archive
-            url: https://boostorg.jfrog.io/artifactory/main/release/1.81.0/source/boost_1_81_0.tar.gz
-            sha256: 205666dea9f6a7cfed87c7a6dfbeb52a2c1b9de55712c9c1a87735d7181452b6
+            url: https://boostorg.jfrog.io/artifactory/main/release/1.87.0/source/boost_1_87_0.tar.gz
+            sha256: f55c340aa49763b1925ccf02b2e83f35fdcf634c9d5164a2acb87540173c741d
             x-checker-data:
               type: anitya
               project-id: 6845
@@ -132,10 +145,14 @@ modules:
 
   - name: libheif
     buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_COMPILE_WARNING_AS_ERROR=OFF
+      - -DWITH_OpenH264_DECODER=OFF
+      - -DENABLE_PLUGIN_LOADING=OFF
     sources:
       - type: archive
-        url: https://github.com/strukturag/libheif/releases/download/v1.14.0/libheif-1.14.0.tar.gz
-        sha256: 9a2b969d827e162fa9eba582ebd0c9f6891f16e426ef608d089b1f24962295b5
+        url: https://github.com/strukturag/libheif/releases/download/v1.19.5/libheif-1.19.5.tar.gz
+        sha256: d3cf0a76076115a070f9bc87cf5259b333a1f05806500045338798486d0afbaf
         x-checker-data:
           type: json
           url: https://api.github.com/repos/strukturag/libheif/releases/latest
@@ -156,8 +173,8 @@ modules:
           - --disable-dec265
         sources:
           - type: archive
-            url: https://github.com/strukturag/libde265/releases/download/v1.0.9/libde265-1.0.9.tar.gz
-            sha256: 29bc6b64bf658d81a4446a3f98e0e4636fd4fd3d971b072d440cef987d5439de
+            url: https://github.com/strukturag/libde265/releases/download/v1.0.15/libde265-1.0.15.tar.gz
+            sha256: 00251986c29d34d3af7117ed05874950c875dd9292d016be29d3b3762666511d
             x-checker-data:
               type: json
               url: https://api.github.com/repos/strukturag/libde265/releases/latest
@@ -173,24 +190,24 @@ modules:
     sources:
       - type: git
         url: https://github.com/caolanm/libwmf.git
-        tag: v0.2.12
-        commit: 5b7af9cf44c688770f174533dbe14c8953ec39cd
+        tag: v0.2.13
+        commit: 9e4737f2293c0d127bda92e5b01896df10571424
         x-checker-data:
           type: json
           url: https://api.github.com/repos/caolanm/libwmf/releases/latest
           tag-query: .tag_name
           version-query: $tag | sub("^v"; "")
           timestamp-query: .published_at
-      # see https://github.com/flathub/org.gimp.GIMP/blob/master/org.gimp.GIMP.json
-      - type: patch
-        path: patches/libwmf-autoheader.patch
+      - type: shell
+        commands:
+          - autoreconf -vfi
     modules:
       - name: freetype
         buildsystem: meson
         sources:
           - type: archive
-            url: https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.xz
-            sha256: 4766f20157cc4cf0cd292f80bf917f92d1c439b243ac3018debf6b9140c41a7f
+            url: https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.3.tar.xz
+            sha256: 0550350666d427c74daeb85d5ac7bb353acba5f76956395995311a9c6f063289
             x-checker-data:
               type: anitya
               project-id: 854
@@ -203,8 +220,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/aruiz/webp-pixbuf-loader.git
-        tag: 0.0.7
-        commit: f91f79c05ff90b41774eda613dc10a2a0d996bc8
+        tag: 0.2.7
+        commit: 52232e4ba282b2fed68e8fcb4b5d45ed0eaa4ed3
         x-checker-data:
           type: json
           url: https://api.github.com/repos/aruiz/webp-pixbuf-loader/releases/latest
@@ -216,11 +233,12 @@ modules:
     buildsystem: cmake
     config-opts:
       - -DAVIF_BUILD_GDK_PIXBUF=ON
+      - -DAVIF_LIBYUV=OFF
     sources:
       - type: git
         url: https://github.com/AOMediaCodec/libavif.git
-        tag: v0.11.1
-        commit: 6ab53189045e7a6fe0bd93d14977b2a4f8efa5e9
+        tag: v1.1.1
+        commit: bb24db03cd99befe09c87b602e36f24d75a980d1
         x-checker-data:
           type: anitya
           project-id: 178015
@@ -260,25 +278,19 @@ modules:
       - TUMBLER_SERVICE_NAME_PREFIX=org.xfce.ristretto
     sources:
       - type: archive
-        url: https://archive.xfce.org/src/xfce/tumbler/4.18/tumbler-4.18.0.tar.bz2
-        sha256: 4087f3af4ef31271d3f315421a2f1fe67e4fda7ad60bbab1f073627914dfcf00
+        url: https://archive.xfce.org/src/xfce/tumbler/4.20/tumbler-4.20.0.tar.bz2
+        sha256: 74b1647d55926547e98bfac70838ff63c5a84299a5e10c81c38d1fab90e25880
         x-checker-data:
           type: anitya
           project-id: 5014
           url-template: https://archive.xfce.org/src/xfce/tumbler/$major.$minor/tumbler-$version.tar.bz2
 
   - name: ristretto
-    modules:
-      - name: xfce4-dev-tools
-        cleanup:
-          - '*'
-        sources:
-          - type: archive
-            url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.18/xfce4-dev-tools-4.18.0.tar.bz2
-            sha256: eedb4fc955f0e3459c46864ff98579295db2b900743e0ff69cad5970ba76be37
+    buildsystem: meson
     config-opts:
-      - --enable-maintainer-mode
-      - TUMBLER_SERVICE_NAME_PREFIX=org.xfce.ristretto
+      - --buildtype=minsize
+      - --auto-features=enabled
+      - -Dservice-name-prefix=org.xfce.ristretto
     sources:
       - type: git
         url: https://gitlab.xfce.org/apps/ristretto.git
