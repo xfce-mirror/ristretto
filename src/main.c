@@ -94,7 +94,7 @@ main (int argc,
 
     if (version)
     {
-        g_print ("%s\n", PACKAGE_STRING);
+        g_print ("%s %s\n", PACKAGE_NAME, VERSION_FULL);
         return 0;
     }
 

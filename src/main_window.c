@@ -2827,7 +2827,7 @@ cb_rstto_main_window_about (GtkWidget *widget,
 
     GtkWidget *about_dialog = gtk_about_dialog_new ();
 
-    gtk_about_dialog_set_version (GTK_ABOUT_DIALOG (about_dialog), PACKAGE_VERSION);
+    gtk_about_dialog_set_version (GTK_ABOUT_DIALOG (about_dialog), VERSION_FULL);
 
     gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG (about_dialog),
                                    _("Ristretto is an image viewer for the Xfce desktop environment."));
