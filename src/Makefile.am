@@ -135,4 +135,6 @@ DISTCLEANFILES += \
 
 EXTRA_DIST = \
 	main_window_ui.xml \
-	tumbler-service-dbus.xml.in
+	tumbler-service-dbus.xml.in \
+	meson.build \
+	$(NULL)

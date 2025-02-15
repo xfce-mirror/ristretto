@@ -1,0 +1,13 @@
+option(
+  'libx11',
+  type: 'feature',
+  value: 'auto',
+  description: 'Libx11 support',
+)
+
+option(
+  'service-name-prefix',
+  type: 'string',
+  value: '',
+  description: 'Alternative prefix to org.freedesktop.thumbnails for Tumbler services',
+)

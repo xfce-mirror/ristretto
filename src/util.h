@@ -26,7 +26,12 @@
 #define __RISTRETTO_UTIL_H__
 
 /* our config header */
-#include <config.h>
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+#ifdef HAVE_XFCE_REVISION_H
+#include "xfce-revision.h"
+#endif
 
 /* standard headers */
 #include <string.h>

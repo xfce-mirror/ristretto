@@ -19,7 +19,11 @@ appdata_in_files = org.xfce.ristretto.appdata.xml.in
 
 EXTRA_DIST = \
 	$(desktop_in_files) \
-	$(appdata_in_files)
+	$(appdata_in_files) \
+	meson_options.txt \
+	meson.build \
+	xfce-revision.h.in \
+	$(NULL)
 
 DISTCLEANFILES = \
 	$(desktop_DATA) \
