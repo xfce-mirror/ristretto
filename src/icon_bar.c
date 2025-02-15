@@ -1507,7 +1507,7 @@ void
 rstto_icon_bar_set_active (RsttoIconBar *icon_bar,
                            gint idx)
 {
-    GList *item;
+    GList *item = NULL;
 
     g_return_if_fail (RSTTO_IS_ICON_BAR (icon_bar));
 
