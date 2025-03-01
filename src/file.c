@@ -73,6 +73,7 @@ struct _RsttoFilePrivate
     RsttoImageOrientation orientation;
     gdouble scale;
     RsttoScale auto_scale;
+    gdouble h_adjust, v_adjust;
 };
 
 
@@ -482,6 +483,32 @@ rstto_file_set_auto_scale (RsttoFile *r_file,
                            RsttoScale auto_scale)
 {
     r_file->priv->auto_scale = auto_scale;
+}
+
+gdouble
+rstto_file_get_h_adjustment (RsttoFile *r_file)
+{
+    return r_file->priv->h_adjust;
+}
+
+gdouble
+rstto_file_get_v_adjustment (RsttoFile *r_file)
+{
+    return r_file->priv->v_adjust;
+}
+
+void
+rstto_file_set_h_adjustment (RsttoFile *r_file,
+                             gdouble h_adjust)
+{
+    r_file->priv->h_adjust = h_adjust;
+}
+
+void
+rstto_file_set_v_adjustment (RsttoFile *r_file,
+                             gdouble v_adjust)
+{
+    r_file->priv->v_adjust = v_adjust;
 }
 
 gboolean

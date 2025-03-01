@@ -813,12 +813,18 @@ set_adjustments (RsttoImageViewer *viewer,
     gtk_adjustment_set_upper (viewer->priv->hadjustment, MAX (viewer->priv->rendering.width, alloc.width));
     gtk_adjustment_set_page_size (viewer->priv->hadjustment, alloc.width);
     if (h_value != -1)
+    {
         gtk_adjustment_set_value (viewer->priv->hadjustment, h_value);
+        rstto_file_set_h_adjustment (viewer->priv->file, h_value);
+    }
 
     gtk_adjustment_set_upper (viewer->priv->vadjustment, MAX (viewer->priv->rendering.height, alloc.height));
     gtk_adjustment_set_page_size (viewer->priv->vadjustment, alloc.height);
     if (v_value != -1)
+    {
         gtk_adjustment_set_value (viewer->priv->vadjustment, v_value);
+        rstto_file_set_v_adjustment (viewer->priv->file, v_value);
+    }
 
     g_object_thaw_notify (G_OBJECT (viewer->priv->hadjustment));
     g_object_thaw_notify (G_OBJECT (viewer->priv->vadjustment));
@@ -1745,6 +1751,9 @@ cb_rstto_image_loader_closed_idle (gpointer data)
             viewer->priv->image_height = viewer->priv->original_image_height = transaction->image_height;
             set_scale_factor (viewer, NULL, NULL);
             set_scale (viewer, transaction->scale);
+            set_adjustments (viewer,
+                             rstto_file_get_h_adjustment (viewer->priv->file),
+                             rstto_file_get_v_adjustment (viewer->priv->file));
         }
         else
         {
@@ -1764,7 +1773,6 @@ cb_rstto_image_loader_closed_idle (gpointer data)
         transaction->error = NULL;
         viewer->priv->transaction = NULL;
 
-        set_adjustments (viewer, -1, -1);
         gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
 
         g_signal_emit_by_name (transaction->viewer, "size-ready");

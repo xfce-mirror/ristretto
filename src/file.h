@@ -162,6 +162,20 @@ void
 rstto_file_set_auto_scale (RsttoFile *r_file,
                            RsttoScale auto_scale);
 
+gdouble
+rstto_file_get_h_adjustment (RsttoFile *r_file);
+
+gdouble
+rstto_file_get_v_adjustment (RsttoFile *r_file);
+
+void
+rstto_file_set_h_adjustment (RsttoFile *r_file,
+                             gdouble h_adjust);
+
+void
+rstto_file_set_v_adjustment (RsttoFile *r_file,
+                             gdouble v_adjust);
+
 gboolean
 rstto_file_has_exif (RsttoFile *r_file);
 
