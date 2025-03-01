@@ -1248,6 +1248,12 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
 
+    /* reset viewer geometry data */
+    viewer->priv->quality_scale = 1.0;
+    viewer->priv->image_width = viewer->priv->original_image_width = 0;
+    viewer->priv->image_height = viewer->priv->original_image_height = 0;
+    set_adjustments (viewer, 0, 0);
+
     /*
      * Set the image-orientation
      */
@@ -1293,9 +1299,6 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
                     g_error_free (viewer->priv->error);
                     viewer->priv->error = NULL;
                 }
-                viewer->priv->quality_scale = 1.0;
-                viewer->priv->image_width = viewer->priv->original_image_width = 0;
-                viewer->priv->image_height = viewer->priv->original_image_height = 0;
 
                 rstto_image_viewer_load_image (viewer, viewer->priv->file,
                                                auto_scale != RSTTO_SCALE_NONE ? auto_scale : scale);
@@ -1339,11 +1342,6 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
             g_object_unref (viewer->priv->file);
             viewer->priv->file = NULL;
 
-            /* Reset the image-size to 0 */
-            viewer->priv->image_width = viewer->priv->original_image_width = 0;
-            viewer->priv->image_height = viewer->priv->original_image_height = 0;
-
-            set_adjustments (viewer, 0, 0);
             gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
 
             gtk_widget_set_tooltip_text (widget, NULL);
