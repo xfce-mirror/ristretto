@@ -367,6 +367,7 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     dialog->priv->fullscreen_tab.cursor_timeout_label = gtk_label_new (_("Period of inactivity (seconds):"));
     dialog->priv->fullscreen_tab.cursor_timeout_button = gtk_spin_button_new_with_range (0, 3600, 1);
     gtk_spin_button_set_digits (GTK_SPIN_BUTTON (dialog->priv->fullscreen_tab.cursor_timeout_button), 0);
+    gtk_spin_button_set_wrap (GTK_SPIN_BUTTON (dialog->priv->fullscreen_tab.cursor_timeout_button), TRUE);
     gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.cursor_hbox), dialog->priv->fullscreen_tab.cursor_timeout_label);
     gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.cursor_hbox), dialog->priv->fullscreen_tab.cursor_timeout_button);
     gtk_container_add (GTK_CONTAINER (dialog->priv->fullscreen_tab.cursor_vbox), dialog->priv->fullscreen_tab.cursor_hbox);

@@ -2433,6 +2433,10 @@ cb_rstto_main_window_state_event (GtkWidget *widget,
                                         cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
                                         cb_rstto_main_window_hide_fs_mouse_cursor_timeout_destroy);
             }
+            else
+            {
+                cb_rstto_main_window_hide_fs_mouse_cursor_timeout (window);
+            }
 
             if (rstto_settings_get_boolean_property (window->priv->settings_manager, "hide-thumbnails-fullscreen"))
             {
@@ -2560,13 +2564,9 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
         {
             REMOVE_SOURCE (window->priv->hide_fs_mouse_cursor_timeout_id);
         }
-        else
-        {
-            gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), NULL);
-        }
-
         if (timeout > 0)
         {
+            gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), NULL);
             window->priv->hide_fs_mouse_cursor_timeout_id =
                 g_timeout_add_full (G_PRIORITY_DEFAULT, 1000 * timeout,
                                     cb_rstto_main_window_hide_fs_mouse_cursor_timeout, window,
