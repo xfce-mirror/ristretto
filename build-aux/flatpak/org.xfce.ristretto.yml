@@ -79,32 +79,25 @@ modules:
       - /etc
       - /share/icons
       - /share/applications
+    buildsystem: meson
     config-opts:
-      - --disable-debug
+      - --auto-features=enabled
+      - --buildtype=minsize
+      - -Dvala=disabled
+      - -Dstartup-notification=disabled
+      - -Dlibgtop=disabled
+      - -Dglade=disabled
     sources:
       - type: archive
-        url: https://archive.xfce.org/src/xfce/libxfce4ui/4.20/libxfce4ui-4.20.0.tar.bz2
-        sha256: 75e8996984f20375aadecd5c16f5147c211ed0bd26d7861ab0257561eb76eaee
+        url: https://archive.xfce.org/src/xfce/libxfce4ui/4.21/libxfce4ui-4.21.0.tar.xz
+        sha256: dd75ff86b6ac814cf71c66004494394eeab962f5360e8e88fa724fa972b9da7b
+      - type: patch
+        path: patches/0001-meson-build-Define-missing-dependencies-when-libgtop.patch
         x-checker-data:
           type: anitya
           project-id: 232000
-          url-template: https://archive.xfce.org/src/xfce/libxfce4ui/$major.$minor/libxfce4ui-$version.tar.bz2
-
-  - name: exo
-    cleanup:
-      - /bin
-      - /share/man
-      - /share/pixmaps
-    config-opts:
-      - --disable-debug
-    sources:
-      - type: archive
-        url: https://archive.xfce.org/src/xfce/exo/4.20/exo-4.20.0.tar.bz2
-        sha256: 4277f799245f1efde01cd917fd538ba6b12cf91c9f8a73fe2035fd5456ec078d
-        x-checker-data:
-          type: anitya
-          project-id: 231995
-          url-template: https://archive.xfce.org/src/xfce/exo/$major.$minor/exo-$version.tar.bz2
+          stable-only: false
+          url-template: https://archive.xfce.org/src/xfce/libxfce4ui/$major.$minor/libxfce4ui-$version.tar.xz
 
   # optional dependencies for gdk-pixbuf
   - name: libopenraw

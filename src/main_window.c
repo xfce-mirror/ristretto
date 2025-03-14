@@ -32,9 +32,12 @@
 #include "thumbnailer.h"
 #include "xfce_wallpaper_manager.h"
 
-#include <exo/exo.h>
 #include <gio/gdesktopappinfo.h>
 #include <libxfce4ui/libxfce4ui.h>
+
+#if !LIBXFCE4UI_CHECK_VERSION(4, 21, 0)
+#include <exo/exo.h>
+#endif
 
 
 
@@ -4361,7 +4364,11 @@ cb_rstto_main_window_show_containing_folder (GtkWidget *widget,
         g_object_unref (parent_file);
     }
 
+#if LIBXFCE4UI_CHECK_VERSION(4, 21, 0)
+    if (!xfce_execute_preferred_application ("FileManager", uri, NULL, NULL, &error))
+#else
     if (!exo_execute_preferred_application ("FileManager", uri, NULL, NULL, &error))
+#endif
     {
         xfce_dialog_show_error (GTK_WINDOW (window), error, _("Failed to show containing folder \"%s\"."), uri);
         g_error_free (error);

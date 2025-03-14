@@ -20,10 +20,7 @@ dependency_versions = {
   'gtk': '>= 3.22.0',
   'cairo': '>= 1.10.0',
   'libexif': '>= 0.6.0',
-  'exo': '>= 4.16.0',
-  'libxfce4ui': '>= 4.16.0',
-  'libxfce4util': '>= 4.16.0',
-  'xfconf': '>= 4.12.1',
+  'xfce4': '>= 4.16.0',
 
   'libx11': '>= 1.6.7',
 }
@@ -34,10 +31,14 @@ gio_unix = dependency('gio-unix-2.0', version: dependency_versions['glib'])
 gtk = dependency('gtk+-3.0', version: dependency_versions['gtk'])
 cairo = dependency('cairo', version: dependency_versions['cairo'])
 libexif = dependency('libexif', version: dependency_versions['libexif'])
-exo = dependency('exo-2', version: dependency_versions['exo'])
-libxfce4ui = dependency('libxfce4ui-2', version: dependency_versions['libxfce4ui'])
-libxfce4util = dependency('libxfce4util-1.0', version: dependency_versions['libxfce4util'])
-xfconf = dependency('libxfconf-0', version: dependency_versions['xfconf'])
+libxfce4ui = dependency('libxfce4ui-2', version: dependency_versions['xfce4'])
+if libxfce4ui.version().version_compare('< 4.21.0')
+  exo = dependency('exo-2', version: dependency_versions['xfce4'])
+else
+  exo = dependency('', required: false)
+endif
+libxfce4util = dependency('libxfce4util-1.0', version: dependency_versions['xfce4'])
+xfconf = dependency('libxfconf-0', version: dependency_versions['xfce4'])
 
 xdt_csource = find_program('xdt-csource', required: true)
 
