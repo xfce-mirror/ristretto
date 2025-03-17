@@ -7,7 +7,7 @@ src/.deps
 src/ristretto
 src/marshal.[ch]
 src/tumbler.[ch]
-src/main_window_ui.h
+src/ristretto-resources.c
 src/stamp-marshal.h
 src/tumbler-service-dbus.xml
 autom4te.cache
