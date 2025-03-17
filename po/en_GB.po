@@ -723,7 +723,7 @@ msgstr "Clock"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "The thumbnailbar can be automatically hidden \nwhen the image-viewer is fullscreen."
+msgstr "Show an analog clock that displays the current\ntime when the window is fullscreen."
 
 #: src/preferences_dialog.c:350
 msgid "Show Fullscreen Clock"
