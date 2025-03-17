@@ -10,6 +10,7 @@ dnl ***************************
 dnl *** Version information ***
 dnl ***************************
 XDT_VERSION_INIT([0.13.3], [git])
+m4_define([copyright_year], [2025])
 
 dnl minimum required versions
 m4_define([glib_min_version], [2.56.0])
@@ -19,7 +20,7 @@ m4_define([libexif_min_version], [0.6.0])
 m4_define([cairo_min_version], [1.10.0])
 m4_define([libx11_min_version], [1.6.7])
 
-AC_COPYRIGHT([Copyright (c) 2006-2024
+AC_COPYRIGHT([Copyright (c) 2006-copyright_year()
         The Xfce development team. All rights reserved.
 
 Written for Xfce by Stephan Arts <stephan@xfce.org>.])
@@ -29,6 +30,9 @@ AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIRS([m4])
 AC_REVISION([xdt_version_build])
 AC_DEFINE([VERSION_FULL], [PACKAGE_VERSION], [Alias for VERSION and PACKAGE_VERSION for meson compatibility])
+COPYRIGHT_YEAR=copyright_year()
+AC_DEFINE_UNQUOTED([COPYRIGHT_YEAR], ["$COPYRIGHT_YEAR"], [Copyright year])
+AC_SUBST([COPYRIGHT_YEAR])
 
 AM_INIT_AUTOMAKE([1.8 no-dist-gzip dist-bzip2 tar-ustar foreign])
 AC_CONFIG_HEADERS([config.h])

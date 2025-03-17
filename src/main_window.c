@@ -2843,7 +2843,7 @@ cb_rstto_main_window_about (GtkWidget *widget,
                                   xfce_get_license_text (XFCE_LICENSE_TEXT_GPL));
     gtk_about_dialog_set_copyright (GTK_ABOUT_DIALOG (about_dialog),
                                     "Copyright \302\251 2006-2012 Stephan Arts\n"
-                                    "Copyright \302\251 2013-2024 Xfce Developers");
+                                    "Copyright \302\251 2013-" COPYRIGHT_YEAR " The Xfce development team");
 
     gtk_window_set_transient_for (GTK_WINDOW (about_dialog), GTK_WINDOW (window));
     gtk_dialog_run (GTK_DIALOG (about_dialog));
