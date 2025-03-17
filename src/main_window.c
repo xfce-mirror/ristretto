@@ -23,7 +23,6 @@
 #include "icon_bar.h"
 #include "image_viewer.h"
 #include "main_window.h"
-#include "main_window_ui.h"
 #include "mime_db.h"
 #include "preferences_dialog.h"
 #include "print.h"
@@ -1021,7 +1020,7 @@ rstto_main_window_init (RsttoMainWindow *window)
                                         G_N_ELEMENTS (radio_action_default_zoom), default_zoom,
                                         G_CALLBACK (cb_rstto_main_window_default_zoom), window);
 
-    gtk_ui_manager_add_ui_from_string (window->priv->ui_manager, main_window_ui, main_window_ui_length, NULL);
+    gtk_ui_manager_add_ui_from_resource (window->priv->ui_manager, "/org/xfce/ristretto/main_window_ui.xml", NULL);
     window->priv->menubar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu");
     window->priv->toolbar = gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-toolbar");
     window->priv->image_viewer_menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/image-viewer-menu");

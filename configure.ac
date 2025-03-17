@@ -70,6 +70,8 @@ XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [xfce4_min_version])
 XDT_CHECK_PACKAGE([LIBEXIF], [libexif], [libexif_min_version])
 XDT_CHECK_PACKAGE([CAIRO], [cairo], [cairo_min_version])
 
+XDT_CHECK_PACKAGE_BINARY([GLIB_COMPILE_RESOURCES], [gio-2.0], [glib_compile_resources], [glib-compile-resources])
+
 XDT_CHECK_OPTIONAL_PACKAGE([LIBX11], [x11], [libx11_min_version], [libx11], [Libx11 support])
 
 AC_CHECK_HEADERS([magic.h],, [libmagic=false])

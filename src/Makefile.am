@@ -9,7 +9,6 @@ ristretto_SOURCES = \
 	image_viewer.c image_viewer.h \
 	main.c \
 	main_window.c main_window.h \
-	main_window_ui.h \
 	marshal.c marshal.h \
 	mime_db.c mime_db.h \
 	monitor_chooser.c monitor_chooser.h \
@@ -17,6 +16,7 @@ ristretto_SOURCES = \
 	print.c print.h \
 	privacy_dialog.h privacy_dialog.c \
 	properties_dialog.h properties_dialog.c \
+	ristretto-resources.c \
 	settings.c settings.h \
 	thumbnailer.c thumbnailer.h \
 	tumbler.c tumbler.h \
@@ -62,61 +62,49 @@ ristretto_LDADD = \
 AM_CPPFLAGS = \
 	-I${top_srcdir}
 
-DISTCLEANFILES =
-ristretto_built_sources =
-BUILT_SOURCES =
+ristretto_built_sources = \
+	marshal.h \
+	marshal.c \
+	ristretto-resources.c \
+	tumbler.c \
+	tumbler.h \
+	$(NULL)
 
-if MAINTAINER_MODE
+ristretto_resources_deps = $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir $(srcdir) $(srcdir)/ristretto.gresource.xml)
 
-ristretto_built_sources += \
-    marshal.h \
-    marshal.c
-
-BUILT_SOURCES += \
-	main_window_ui.h
-
-main_window_ui.h: main_window_ui.xml
-	xdt-csource --strip-comments --strip-content --static --name=main_window_ui $< > $@
+ristretto-resources.c: $(srcdir)/ristretto.gresource.xml $(ristretto_resources_deps) Makefile
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir) --generate-source $<
 
 marshal.h: stamp-marshal.h
 	@true
 
-stamp-marshal.h: marshal.list Makefile
+stamp-marshal.h: $(srcdir)/marshal.list Makefile
 	$(AM_V_GEN) ( \
-		cd $(srcdir) \
+		cd $(builddir) \
 		&& echo "#ifndef __RSTTO_MARSHAL_H__" > xgen-tmh \
 		&& echo "#define __RSTTO_MARSHAL_H__" >> xgen-tmh \
 		&& ( glib-genmarshal \
 			--prefix=_rstto_marshal \
-			--header marshal.list ) >> xgen-tmh \
+			--header $(srcdir)/marshal.list ) >> xgen-tmh \
 		&& echo "#endif /* !__RSTTO_MARSHAL_H__ */" >> xgen-tmh \
 		&& ( cmp -s xgen-tmh marshal.h || cp xgen-tmh marshal.h ) \
 		&& rm -f xgen-tmh \
 		&& echo timestamp > $(@F) \
 	)
 
-marshal.c: marshal.list Makefile
+marshal.c: $(srcdir)/marshal.list Makefile
 	$(AM_V_GEN) ( \
-		cd $(srcdir) \
+		cd $(builddir) \
 		&& echo "#include \"marshal.h\"" > xgen-tmc \
 		&& ( glib-genmarshal \
 			--prefix=_rstto_marshal \
-			--body marshal.list ) >> xgen-tmc \
+			--body $(srcdir)/marshal.list ) >> xgen-tmc \
 		&& cp xgen-tmc marshal.c \
 		&& rm -f xgen-tmc \
 	)
 
-DISTCLEANFILES += \
-	stamp-marshal.h
-
-endif
-
-ristretto_built_sources += \
-    tumbler.c \
-    tumbler.h
-
-BUILT_SOURCES += \
-    $(ristretto_built_sources)
+BUILT_SOURCES = \
+	$(ristretto_built_sources)
 
 tumbler-service-dbus.xml: tumbler-service-dbus.xml.in
 	$(SED) -e "s,\@TUMBLER_SERVICE_NAME_PREFIX\@,$(TUMBLER_SERVICE_NAME_PREFIX),g" \
@@ -129,12 +117,15 @@ tumbler.c tumbler.h : tumbler-service-dbus.xml Makefile.am
 		--generate-c-code=tumbler \
 		tumbler-service-dbus.xml
 
-DISTCLEANFILES += \
+DISTCLEANFILES = \
 	$(ristretto_built_sources) \
+	stamp-marshal.h \
 	tumbler-service-dbus.xml
 
 EXTRA_DIST = \
+	marshal.list \
 	main_window_ui.xml \
 	tumbler-service-dbus.xml.in \
 	meson.build \
+	ristretto.gresource.xml \
 	$(NULL)
