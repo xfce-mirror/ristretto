@@ -64,11 +64,9 @@ ristretto_sources += gnome.genmarshal(
   install_header: false,
 )
 
-ristretto_sources += custom_target(
-  'main_window_ui.h',
-  input: 'main_window_ui.xml',
-  output: 'main_window_ui.h',
-  command: [xdt_csource, '--static', '--strip-comments', '--strip-content', '--name=main_window_ui', '--output=@OUTPUT@', '@INPUT@'],
+ristretto_sources += gnome.compile_resources(
+  'ristretto-resources',
+  'ristretto.gresource.xml',
 )
 
 executable(
