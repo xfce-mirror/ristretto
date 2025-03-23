@@ -110,7 +110,7 @@ tumbler-service-dbus.xml: tumbler-service-dbus.xml.in
 	$(SED) -e "s,\@TUMBLER_SERVICE_NAME_PREFIX\@,$(TUMBLER_SERVICE_NAME_PREFIX),g" \
 	       -e "s,\@TUMBLER_SERVICE_PATH_PREFIX\@,$(TUMBLER_SERVICE_PATH_PREFIX),g" < $< > $@
 
-tumbler.c tumbler.h : tumbler-service-dbus.xml Makefile.am
+tumbler.c tumbler.h : tumbler-service-dbus.xml Makefile
 	gdbus-codegen \
 		--c-namespace=Tumbler \
 		--interface-prefix=@TUMBLER_SERVICE_NAME_PREFIX@. \
