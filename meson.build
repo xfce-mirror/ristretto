@@ -41,8 +41,6 @@ endif
 libxfce4util = dependency('libxfce4util-1.0', version: dependency_versions['xfce4'])
 xfconf = dependency('libxfconf-0', version: dependency_versions['xfce4'])
 
-xdt_csource = find_program('xdt-csource', required: true)
-
 feature_cflags = []
 
 libx11 = dependency('x11', version: dependency_versions['libx11'], required: get_option('libx11'))
