@@ -1,7 +1,7 @@
 project(
   'ristretto',
   'c',
-version : '0.13.4',
+version : '0.13.4-dev',
   license : 'GPL-2.0-or-later',
   meson_version : '>= 0.54.0',
   default_options : ['c_std=gnu11', 'buildtype=debugoptimized', 'warning_level=2']
