@@ -34,17 +34,17 @@ See [NEWS](https://gitlab.xfce.org/apps/ristretto/-/blob/master/NEWS) for detail
 From source code repository:
 
     % cd ristretto
-    % ./autogen.sh
-    % make
-    % make install
+    % meson setup build
+    % meson compile -C build
+    % meson install -C build
 
 From release tarball:
 
-    % tar xf ristretto-<version>.tar.bz2
+    % tar xf ristretto-<version>.tar.xz
     % cd ristretto-<version>
-    % ./configure
-    % make
-    % make install
+    % meson setup build
+    % meson compile -C build
+    % meson install -C build
 
 From [Flathub](https://flathub.org/apps/details/org.xfce.ristretto):
 
