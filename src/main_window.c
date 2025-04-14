@@ -4233,7 +4233,7 @@ rstto_main_window_launch_editor_chooser (RsttoMainWindow *window)
         if (strcmp (id, RISTRETTO_DESKTOP_ID))
         {
             icon = g_app_info_get_icon (app_infos_iter->data);
-            name = g_app_info_get_display_name (app_infos_iter->data),
+            name = g_app_info_get_display_name (app_infos_iter->data);
             gtk_tree_store_append (tree_store, &iter, &parent_iter);
             gtk_tree_store_set (tree_store, &iter,
                                 EDITOR_CHOOSER_MODEL_COLUMN_GICON, icon,
@@ -4271,7 +4271,7 @@ rstto_main_window_launch_editor_chooser (RsttoMainWindow *window)
             if (strcmp (id, RISTRETTO_DESKTOP_ID))
             {
                 icon = g_app_info_get_icon (app_infos_iter->data);
-                name = g_app_info_get_display_name (app_infos_iter->data),
+                name = g_app_info_get_display_name (app_infos_iter->data);
                 gtk_tree_store_append (tree_store, &iter, &parent_iter);
                 gtk_tree_store_set (tree_store, &iter,
                                     EDITOR_CHOOSER_MODEL_COLUMN_GICON, icon,
