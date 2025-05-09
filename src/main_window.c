@@ -2445,34 +2445,17 @@ cb_rstto_main_window_state_event (GtkWidget *widget,
                 gtk_widget_hide (window->priv->t_bar_s_window);
             }
 
-            if (rstto_image_list_is_empty (window->priv->image_list))
-            {
-                G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-                gtk_ui_manager_add_ui (
-                    window->priv->ui_manager,
-                    window->priv->toolbar_unfullscreen_merge_id,
-                    "/main-toolbar/placeholder-fullscreen",
-                    "unfullscreen",
-                    "unfullscreen",
-                    GTK_UI_MANAGER_TOOLITEM,
-                    FALSE);
-                gtk_ui_manager_remove_ui (window->priv->ui_manager, window->priv->toolbar_fullscreen_merge_id);
-                G_GNUC_END_IGNORE_DEPRECATIONS
-            }
-            else
-            {
-                G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-                gtk_ui_manager_add_ui (
-                    window->priv->ui_manager,
-                    window->priv->toolbar_unfullscreen_merge_id,
-                    "/main-toolbar/placeholder-fullscreen",
-                    "unfullscreen",
-                    "unfullscreen",
-                    GTK_UI_MANAGER_TOOLITEM,
-                    FALSE);
-                gtk_ui_manager_remove_ui (window->priv->ui_manager, window->priv->toolbar_fullscreen_merge_id);
-                G_GNUC_END_IGNORE_DEPRECATIONS
-            }
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_ui_manager_add_ui (
+                window->priv->ui_manager,
+                window->priv->toolbar_unfullscreen_merge_id,
+                "/main-toolbar/placeholder-fullscreen",
+                "unfullscreen",
+                "unfullscreen",
+                GTK_UI_MANAGER_TOOLITEM,
+                FALSE);
+            gtk_ui_manager_remove_ui (window->priv->ui_manager, window->priv->toolbar_fullscreen_merge_id);
+            G_GNUC_END_IGNORE_DEPRECATIONS
         }
         else
         {
