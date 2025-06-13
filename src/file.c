@@ -639,7 +639,6 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
 
         case RSTTO_THUMBNAIL_STATE_ERROR:
             return r_file->priv->pixbufs[size];
-            break;
 
         default:
             g_warn_if_reached ();
