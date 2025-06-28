@@ -2775,7 +2775,7 @@ cb_rstto_main_window_play_slideshow (gpointer user_data)
             rstto_main_window_select_valid_image (window, FIRST);
         }
         /* In shuffle mode, reshuffle when starting over, irrespective of wrapping */
-        if (   rstto_settings_get_uint_property (window->priv->settings_manager, "sort-type") == SORT_TYPE_RANDOM
+        if (rstto_settings_get_uint_property (window->priv->settings_manager, "sort-type") == SORT_TYPE_RANDOM
             && rstto_image_list_iter_get_position (window->priv->iter) < position)
         {
             rstto_image_list_set_sort_by_random (window->priv->image_list);
