@@ -656,6 +656,12 @@ static const GtkRadioActionEntry radio_action_sort_entries[] = {
       NULL, /* Keyboard shortcut */
       NULL, /* Tooltip text */
       SORT_TYPE_DATE },
+    { "sort-random",
+      NULL, /* Icon-name */
+      N_ ("random"), /* Label-text */
+      NULL, /* Keyboard shortcut */
+      NULL, /* Tooltip text */
+      SORT_TYPE_RANDOM },
 };
 
 /** Navigationbar + Thumbnailbar positioning options*/
@@ -1248,6 +1254,15 @@ rstto_main_window_init (RsttoMainWindow *window)
                 TRUE);
             G_GNUC_END_IGNORE_DEPRECATIONS
             break;
+        case SORT_TYPE_RANDOM:
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/edit-menu/sorting-menu/sort-random")),
+                TRUE);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            break;
         default:
             g_warning ("Sort type unsupported");
             break;
@@ -1459,6 +1474,9 @@ rstto_main_window_new (RsttoImageList *image_list,
             break;
         case SORT_TYPE_DATE:
             rstto_image_list_set_sort_by_date (window->priv->image_list);
+            break;
+        case SORT_TYPE_RANDOM:
+            rstto_image_list_set_sort_by_random (window->priv->image_list);
             break;
         default:
             g_warning ("Sort type unsupported");
@@ -2230,6 +2248,13 @@ cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action,
                 rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_DATE);
             }
             break;
+        case SORT_TYPE_RANDOM:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_by_random (window->priv->image_list);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_RANDOM);
+            }
+            break;
     }
 }
 
@@ -2740,11 +2765,20 @@ cb_rstto_main_window_play_slideshow (gpointer user_data)
 
     if (window->priv->playing)
     {
+        /* Store the old position */
+        gint position = rstto_image_list_iter_get_position (window->priv->iter);
         /* Check if we could navigate forward, if not, wrapping is
          * disabled and we should force the iter to position 0
          */
         if (!rstto_main_window_select_valid_image (window, NEXT))
         {
+            rstto_main_window_select_valid_image (window, FIRST);
+        }
+        /* In shuffle mode, reshuffle when starting over, irrespective of wrapping */
+        if (   rstto_settings_get_uint_property (window->priv->settings_manager, "sort-type") == SORT_TYPE_RANDOM
+            && rstto_image_list_iter_get_position (window->priv->iter) < position)
+        {
+            rstto_image_list_set_sort_by_random (window->priv->image_list);
             rstto_main_window_select_valid_image (window, FIRST);
         }
     }
