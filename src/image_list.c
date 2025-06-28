@@ -342,7 +342,7 @@ rstto_image_list_add_file (RsttoImageList *image_list,
     }
 
     g_queue_insert_sorted (image_list->priv->images, g_object_ref (r_file),
-                           image_list->priv->cb_rstto_image_list_compare_func, (gpointer)image_list);
+                           image_list->priv->cb_rstto_image_list_compare_func, (gpointer) image_list);
 
     if (image_list->priv->dir_monitor == NULL)
     {
@@ -1082,7 +1082,7 @@ rstto_image_list_set_compare_func (RsttoImageList *image_list,
     for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
         files[n] = RSTTO_IMAGE_LIST_ITER (iter->data)->priv->r_file;
 
-    g_queue_sort (image_list->priv->images, func, (gpointer)image_list);
+    g_queue_sort (image_list->priv->images, func, (gpointer) image_list);
 
     /* reposition iters on their file */
     for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
@@ -1116,7 +1116,7 @@ rstto_image_list_set_sort_by_date (RsttoImageList *image_list)
 void
 rstto_image_list_set_sort_by_random (RsttoImageList *image_list)
 {
-    image_list->priv->seed = g_random_int();
+    image_list->priv->seed = g_random_int ();
     rstto_image_list_set_compare_func (image_list, cb_rstto_image_list_random_compare_func);
 }
 
@@ -1189,18 +1189,18 @@ cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
 static guint64
 scramble (guint64 u)
 {
-    guint64 v = u * G_GUINT64_CONSTANT(3935559000370003845)
-                  + G_GUINT64_CONSTANT(2691343689449507681);
+    guint64 v = u * G_GUINT64_CONSTANT (3935559000370003845)
+                + G_GUINT64_CONSTANT (2691343689449507681);
 
     v ^= v >> 21;
     v ^= v << 37;
-    v ^= v >>  4;
+    v ^= v >> 4;
 
-    v *= G_GUINT64_CONSTANT(4768777513237032717);
+    v *= G_GUINT64_CONSTANT (4768777513237032717);
 
     v ^= v << 20;
     v ^= v >> 41;
-    v ^= v <<  5;
+    v ^= v << 5;
 
     return v;
 }
@@ -1218,12 +1218,12 @@ cb_rstto_image_list_random_compare_func (gconstpointer a,
                                          gconstpointer b,
                                          gpointer user_data)
 {
-    RsttoImageList *image_list = (RsttoImageList *)user_data;
+    RsttoImageList *image_list = (RsttoImageList *) user_data;
 
-    guint64 a_hash = scramble ((guint64)a ^ image_list->priv->seed);
-    guint64 b_hash = scramble ((guint64)b ^ image_list->priv->seed);
+    guint64 a_hash = scramble ((guint64) a ^ image_list->priv->seed);
+    guint64 b_hash = scramble ((guint64) b ^ image_list->priv->seed);
 
-    return a_hash < b_hash ? -1 : a_hash == b_hash ? 0 : 1;
+    return a_hash < b_hash ? -1 : (a_hash == b_hash ? 0 : 1);
 }
 
 gboolean
