@@ -1187,7 +1187,7 @@ cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
  * See Numerical Recipes 3d ed., section 7.1.4
  */
 static guint64
-scramble (guint64 u)
+rstto_image_list_scramble_u64 (guint64 u)
 {
     guint64 v = u * G_GUINT64_CONSTANT (3935559000370003845)
                 + G_GUINT64_CONSTANT (2691343689449507681);
@@ -1220,8 +1220,8 @@ cb_rstto_image_list_random_compare_func (gconstpointer a,
 {
     RsttoImageList *image_list = (RsttoImageList *) user_data;
 
-    guint64 a_hash = scramble ((guint64) a ^ image_list->priv->seed);
-    guint64 b_hash = scramble ((guint64) b ^ image_list->priv->seed);
+    guint64 a_hash = rstto_image_list_scramble_u64 ((guint64) a ^ image_list->priv->seed);
+    guint64 b_hash = rstto_image_list_scramble_u64 ((guint64) b ^ image_list->priv->seed);
 
     return a_hash < b_hash ? -1 : (a_hash == b_hash ? 0 : 1);
 }
