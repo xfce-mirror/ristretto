@@ -79,6 +79,10 @@ static gint
 cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
                                             gconstpointer b,
                                             gpointer user_data);
+static gint
+cb_rstto_image_list_random_compare_func (gconstpointer a,
+                                         gconstpointer b,
+                                         gpointer user_data);
 
 static void
 cb_file_monitor_changed (GFileMonitor *monitor,
@@ -188,6 +192,7 @@ struct _RsttoImageListPrivate
     gboolean is_busy;
 
     gint stamp;
+    guint32 seed;
 };
 
 
@@ -337,7 +342,7 @@ rstto_image_list_add_file (RsttoImageList *image_list,
     }
 
     g_queue_insert_sorted (image_list->priv->images, g_object_ref (r_file),
-                           image_list->priv->cb_rstto_image_list_compare_func, NULL);
+                           image_list->priv->cb_rstto_image_list_compare_func, (gpointer) image_list);
 
     if (image_list->priv->dir_monitor == NULL)
     {
@@ -1077,7 +1082,7 @@ rstto_image_list_set_compare_func (RsttoImageList *image_list,
     for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
         files[n] = RSTTO_IMAGE_LIST_ITER (iter->data)->priv->r_file;
 
-    g_queue_sort (image_list->priv->images, func, NULL);
+    g_queue_sort (image_list->priv->images, func, (gpointer) image_list);
 
     /* reposition iters on their file */
     for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
@@ -1106,6 +1111,13 @@ void
 rstto_image_list_set_sort_by_date (RsttoImageList *image_list)
 {
     rstto_image_list_set_compare_func (image_list, cb_rstto_image_list_exif_date_compare_func);
+}
+
+void
+rstto_image_list_set_sort_by_random (RsttoImageList *image_list)
+{
+    image_list->priv->seed = g_random_int ();
+    rstto_image_list_set_compare_func (image_list, cb_rstto_image_list_random_compare_func);
 }
 
 /**
@@ -1168,6 +1180,50 @@ cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
         return -1;
     }
     return 1;
+}
+
+/**
+ * This is a fixed but pseudorandom permutation of the uint64 range
+ * See Numerical Recipes 3d ed., section 7.1.4
+ */
+static guint64
+rstto_image_list_scramble_u64 (guint64 u)
+{
+    guint64 v = u * G_GUINT64_CONSTANT (3935559000370003845)
+                + G_GUINT64_CONSTANT (2691343689449507681);
+
+    v ^= v >> 21;
+    v ^= v << 37;
+    v ^= v >> 4;
+
+    v *= G_GUINT64_CONSTANT (4768777513237032717);
+
+    v ^= v << 20;
+    v ^= v >> 41;
+    v ^= v << 5;
+
+    return v;
+}
+
+/**
+ * cb_rstto_image_list_random_compare_func:
+ * @a:
+ * @b:
+ *
+ *
+ * Return value: (see strcmp)
+ */
+static gint
+cb_rstto_image_list_random_compare_func (gconstpointer a,
+                                         gconstpointer b,
+                                         gpointer user_data)
+{
+    RsttoImageList *image_list = (RsttoImageList *) user_data;
+
+    guint64 a_hash = rstto_image_list_scramble_u64 ((guint64) a ^ image_list->priv->seed);
+    guint64 b_hash = rstto_image_list_scramble_u64 ((guint64) b ^ image_list->priv->seed);
+
+    return a_hash < b_hash ? -1 : (a_hash == b_hash ? 0 : 1);
 }
 
 gboolean
