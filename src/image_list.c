@@ -342,7 +342,7 @@ rstto_image_list_add_file (RsttoImageList *image_list,
     }
 
     g_queue_insert_sorted (image_list->priv->images, g_object_ref (r_file),
-                           image_list->priv->cb_rstto_image_list_compare_func, (gpointer) image_list);
+                           image_list->priv->cb_rstto_image_list_compare_func, image_list);
 
     if (image_list->priv->dir_monitor == NULL)
     {
@@ -1082,7 +1082,7 @@ rstto_image_list_set_compare_func (RsttoImageList *image_list,
     for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
         files[n] = RSTTO_IMAGE_LIST_ITER (iter->data)->priv->r_file;
 
-    g_queue_sort (image_list->priv->images, func, (gpointer) image_list);
+    g_queue_sort (image_list->priv->images, func, image_list);
 
     /* reposition iters on their file */
     for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
