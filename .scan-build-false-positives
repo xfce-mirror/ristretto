@@ -1,2 +1,5 @@
 # gdbus-codegen generated code
 tumbler.c:[0-9]+:[0-9]+: warning: Value stored to 'skeleton' during its initialization is never read \[deadcode.DeadStores\]
+
+# it is initialized just above
+image_list.c:[0-9]+:[0-9]+: warning: 2nd function call argument is an uninitialized value \[core.CallAndMessage\]
