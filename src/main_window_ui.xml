@@ -28,6 +28,7 @@
                 <menuitem action="sort-filename"/>
                 <menuitem action="sort-filetype"/>
                 <menuitem action="sort-date"/>
+                <menuitem action="sort-random"/>
             </menu>
             <menuitem action="delete"/>
             <separator/>
