@@ -2765,8 +2765,6 @@ cb_rstto_main_window_play_slideshow (gpointer user_data)
 
     if (window->priv->playing)
     {
-        /* Store the old position */
-        gint position = rstto_image_list_iter_get_position (window->priv->iter);
         /* Check if we could navigate forward, if not, wrapping is
          * disabled and we should force the iter to position 0
          */
