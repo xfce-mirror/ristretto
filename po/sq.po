@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Xfce
-# This file is distributed under the same license as the xfce-apps.ristretto package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # Besnik Bleta <besnik@programeshqip.org>, 2020-2021,2023-2025
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
-"Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2025-01-20 12:49+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-17 12:49+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>, 2020-2021,2023-2025\n"
 "Language-Team: Albanian (http://app.transifex.com/xfce/xfce-apps/language/sq/)\n"
@@ -18,23 +18,23 @@ msgstr ""
 "Language: sq\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/main.c:44
+#: ../src/main.c:44
 msgid "Version information"
 msgstr "Hollësi versioni"
 
-#: src/main.c:47
+#: ../src/main.c:47
 msgid "Start in fullscreen mode"
 msgstr "Fillo nën mënyrën sa tërë ekrani"
 
-#: src/main.c:50
+#: ../src/main.c:50
 msgid "Start a slideshow"
 msgstr "Fillo nën mënyrën diapozitiva"
 
-#: src/main.c:53
+#: ../src/main.c:53
 msgid "Show settings dialog"
 msgstr "Shfaq dialog rregullimesh"
 
-#: src/main.c:85
+#: ../src/main.c:85
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -43,822 +43,829 @@ msgid ""
 "available command line options.\n"
 msgstr "%s: %s\nProvoni %s --help për të parë një listë të plotë\ntë mundësive të gatshme për rresht urdhrash.\n"
 
-#: src/main_window.c:41 org.xfce.ristretto.desktop.in:6
+#: ../src/main_window.c:43
 msgid "Image Viewer"
 msgstr "Parës Figurash"
 
-#: src/main_window.c:44
+#: ../src/main_window.c:46
 msgid "Could not save file"
 msgstr "S’u ruajt dot kartela"
 
-#: src/main_window.c:45
+#: ../src/main_window.c:47
 msgid "Some files could not be opened: see the text logs for details"
 msgstr "Disa kartela s’u hapën dot: për hollësi, shihni regjistrat tekst"
 
-#: src/main_window.c:46
+#: ../src/main_window.c:48
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
 msgstr "Ndodhi një gabim teksa fshihej figura '%s' prej disku"
 
-#: src/main_window.c:47
+#: ../src/main_window.c:49
 #, c-format
 msgid "An error occurred when sending image '%s' to trash"
 msgstr "Ndodhi një gabim teksa shpihej te hedhurinat figura '%s'"
 
-#: src/main_window.c:321
+#: ../src/main_window.c:323
 msgid "_File"
 msgstr "_Kartelë"
 
 #. Icon-name
-#: src/main_window.c:327
+#: ../src/main_window.c:329
 msgid "_Open..."
 msgstr "_Hapni…"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:329
+#: ../src/main_window.c:331
 msgid "Open an image"
 msgstr "Hapni një figurë"
 
 #. Icon-name
-#: src/main_window.c:333
+#: ../src/main_window.c:335
 msgid "_Save copy..."
 msgstr "_Ruani një kopje…"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:335
+#: ../src/main_window.c:337
 msgid "Save a copy of the image"
 msgstr "Ruani një kopje të figurës"
 
 #. Icon-name
-#: src/main_window.c:339
+#: ../src/main_window.c:341
 msgid "Proper_ties..."
 msgstr "_Veti…"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:341
+#: ../src/main_window.c:343
 msgid "Show file properties"
 msgstr "Shfaq veti kartele"
 
 #. Icon-name
-#: src/main_window.c:345
+#: ../src/main_window.c:347
 msgid "_Print..."
 msgstr "_Shtypni…"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:347
+#: ../src/main_window.c:349
 msgid "Print the current image"
 msgstr "Shtyp figurën e tanishme"
 
 #. Icon-name
-#: src/main_window.c:351 src/main_window.c:370
+#: ../src/main_window.c:353 ../src/main_window.c:372
 msgid "_Edit"
 msgstr "_Përpuno"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:353
+#: ../src/main_window.c:355
 msgid "Edit this image"
 msgstr "Përpunoni këtë figurë"
 
 #. Icon-name
-#: src/main_window.c:357 src/preferences_dialog.c:217
-#: src/properties_dialog.c:103
+#: ../src/main_window.c:359 ../src/preferences_dialog.c:217
+#: ../src/properties_dialog.c:103
 msgid "_Close"
 msgstr "_Mbylle"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:359
+#: ../src/main_window.c:361
 msgid "Close this image"
 msgstr "Mbylle këtë figurë"
 
 #. Icon-name
-#: src/main_window.c:363
+#: ../src/main_window.c:365
 msgid "_Quit"
 msgstr "_Dil"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:365
+#: ../src/main_window.c:367
 msgid "Quit Ristretto"
 msgstr "Mbylle Ristretto-n"
 
-#: src/main_window.c:376
+#: ../src/main_window.c:378
 msgid "_Copy image to clipboard"
 msgstr "_Kopjoni figurën në të papastër"
 
-#: src/main_window.c:382
+#: ../src/main_window.c:384
 msgid "_Show containing folder"
 msgstr "_Shfaq dosjen që e përmban"
 
-#: src/main_window.c:388
+#: ../src/main_window.c:390
 msgid "_Open with"
 msgstr "_Hape me"
 
-#: src/main_window.c:394
+#: ../src/main_window.c:396
 msgid "_Sort by"
 msgstr "_Renditi sipas"
 
 #. Icon-name
-#: src/main_window.c:400
+#: ../src/main_window.c:402
 msgid "_Delete"
 msgstr "_Fshije"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:402
+#: ../src/main_window.c:404
 msgid "Delete this image from disk"
 msgstr "Fshije këtë figurë prej disku"
 
 #. Icon-name
-#: src/main_window.c:406
+#: ../src/main_window.c:408
 msgid "_Clear private data..."
 msgstr "_Spastroni të dhëna private…"
 
 #. Icon-name
-#: src/main_window.c:412
+#: ../src/main_window.c:414
 msgid "_Preferences..."
 msgstr "_Parapëlqime…"
 
-#: src/main_window.c:419
+#: ../src/main_window.c:421
 msgid "_View"
 msgstr "_Parje"
 
 #. Icon-name
-#: src/main_window.c:425
+#: ../src/main_window.c:427
 msgid "_Fullscreen"
 msgstr "_Sa Krejt Ekrani"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:427
+#: ../src/main_window.c:429
 msgid "Switch to fullscreen"
 msgstr "Kalo nën sa krejt ekrani"
 
 #. Icon-name
-#: src/main_window.c:431
+#: ../src/main_window.c:433
 msgid "_Leave Fullscreen"
 msgstr "_Dil nga Sa Tërë Ekrani"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:433
+#: ../src/main_window.c:435
 msgid "Leave Fullscreen"
 msgstr "Dil nga Sa Tërë Ekrani"
 
 #. Icon-name
-#: src/main_window.c:437
+#: ../src/main_window.c:439
 msgid "Set as _Wallpaper..."
 msgstr "Vëreni si Sfond…"
 
-#: src/main_window.c:444
+#: ../src/main_window.c:446
 msgid "_Zoom"
 msgstr "_Zoom"
 
 #. Icon-name
-#: src/main_window.c:450
+#: ../src/main_window.c:452
 msgid "Zoom _In"
 msgstr "Z_madhoje"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:452
+#: ../src/main_window.c:454
 msgid "Zoom in"
 msgstr "Zmadhoje"
 
 #. Icon-name
-#: src/main_window.c:456
+#: ../src/main_window.c:458
 msgid "Zoom _Out"
 msgstr "Z_vogëloje"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:458
+#: ../src/main_window.c:460
 msgid "Zoom out"
 msgstr "Zvogëloje"
 
 #. Icon-name
-#: src/main_window.c:462 src/main_window.c:743
+#: ../src/main_window.c:464 ../src/main_window.c:751
 msgid "Zoom _Fit"
 msgstr "Sa Ta Nxërë"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:464
+#: ../src/main_window.c:466
 msgid "Zoom to fit window"
 msgstr "Sa ta nxërë dritarja"
 
 #. Icon-name
-#: src/main_window.c:468 src/main_window.c:749
+#: ../src/main_window.c:470 ../src/main_window.c:757
 msgid "_Normal Size"
 msgstr "Madhësi _Normale"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:470
+#: ../src/main_window.c:472
 msgid "Zoom to 100%"
 msgstr "Zoom në 100%"
 
-#: src/main_window.c:475
+#: ../src/main_window.c:477
 msgid "_Default Zoom"
 msgstr "Zoom _Parazgjedhje"
 
-#: src/main_window.c:482
+#: ../src/main_window.c:484
 msgid "_Rotation"
 msgstr "_Rrotullim"
 
 #. Icon-name
-#: src/main_window.c:488
+#: ../src/main_window.c:490
 msgid "Rotate _Right"
 msgstr "Rrotulloje _Djathtas"
 
 #. Icon-name
-#: src/main_window.c:494
+#: ../src/main_window.c:496
 msgid "Rotate _Left"
 msgstr "Rrotulloje _Majtas"
 
-#: src/main_window.c:501
+#: ../src/main_window.c:503
 msgid "_Flip"
 msgstr "_Ktheje në anë tjetër"
 
-#: src/main_window.c:507
+#: ../src/main_window.c:509
 msgid "Flip _Horizontally"
 msgstr "Ktheje _Horizontalisht në anë tjetër"
 
-#: src/main_window.c:513
+#: ../src/main_window.c:515
 msgid "Flip _Vertically"
 msgstr "Ktheje _Vertikalisht në anë tjetër"
 
-#: src/main_window.c:520
+#: ../src/main_window.c:522
 msgid "_Go"
 msgstr "_Shko"
 
 #. Icon-name
-#: src/main_window.c:526
+#: ../src/main_window.c:528
 msgid "_Forward"
 msgstr "_Përpara"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:528
+#: ../src/main_window.c:530
 msgid "Next image"
 msgstr "Figura pasuese"
 
 #. Icon-name
-#: src/main_window.c:532
+#: ../src/main_window.c:534
 msgid "_Back"
 msgstr "_Mbrapsht"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:534
+#: ../src/main_window.c:536
 msgid "Previous image"
 msgstr "Figura e mëparshme"
 
 #. Icon-name
-#: src/main_window.c:538
+#: ../src/main_window.c:540
 msgid "F_irst"
 msgstr "E p_ara"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:540
+#: ../src/main_window.c:542
 msgid "First image"
 msgstr "Figura e parë"
 
 #. Icon-name
-#: src/main_window.c:544
+#: ../src/main_window.c:546
 msgid "_Last"
 msgstr "E f_undit"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:546
+#: ../src/main_window.c:548
 msgid "Last image"
 msgstr "Figura e fundit"
 
-#: src/main_window.c:551
+#: ../src/main_window.c:553
 msgid "_Help"
 msgstr "_Ndihmë"
 
 #. Icon-name
-#: src/main_window.c:557
+#: ../src/main_window.c:559
 msgid "_Contents"
 msgstr "_Lëndë"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:559
+#: ../src/main_window.c:561
 msgid "Display ristretto user manual"
 msgstr "Shfaq doracak përdoruesi për Ristretto-n"
 
 #. Icon-name
-#: src/main_window.c:563
+#: ../src/main_window.c:565
 msgid "_About"
 msgstr "_Rreth"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:565
+#: ../src/main_window.c:567
 msgid "Display information about ristretto"
 msgstr "Shfaq të dhëna rreth Rstretto-s"
 
-#: src/main_window.c:570
+#: ../src/main_window.c:572
 msgid "_Position"
 msgstr "_Pozicion"
 
-#: src/main_window.c:576
+#: ../src/main_window.c:578
 msgid "_Size"
 msgstr "_Përmasa"
 
-#: src/main_window.c:582
+#: ../src/main_window.c:584
 msgid "Thumbnail Bar _Position"
 msgstr "_Pozicion Shtylle Miniaturash"
 
-#: src/main_window.c:588
+#: ../src/main_window.c:590
 msgid "Thumb_nail Size"
 msgstr "Madhësi Mi_niaturash"
 
 #. Icon-name
-#: src/main_window.c:595
+#: ../src/main_window.c:597
 msgid "Leave _Fullscreen"
 msgstr "Dil nga _Sa tërë ekrani"
 
 #. Icon-name
-#: src/main_window.c:614
+#: ../src/main_window.c:616
 msgid "_Show Toolbar"
 msgstr "_Shfaq Panelin"
 
 #. Icon-name
-#: src/main_window.c:622
+#: ../src/main_window.c:624
 msgid "Show _Thumbnail Bar"
 msgstr "Shfaq Shtyllë _Miniaturash"
 
 #. Icon-name
-#: src/main_window.c:630
+#: ../src/main_window.c:632
 msgid "Show Status _Bar"
 msgstr "Shfaq _Shtyllë Gjendjeje"
 
 #. Icon-name
-#: src/main_window.c:641
+#: ../src/main_window.c:643
 msgid "file name"
 msgstr "emër kartele"
 
 #. Icon-name
-#: src/main_window.c:647
+#: ../src/main_window.c:649
 msgid "file type"
 msgstr "lloj kartele"
 
 #. Icon-name
-#: src/main_window.c:653
+#: ../src/main_window.c:655
 msgid "date"
 msgstr "datë"
 
 #. Icon-name
-#: src/main_window.c:663
+#: ../src/main_window.c:661
+msgid "random"
+msgstr ""
+
+#. Icon-name
+#: ../src/main_window.c:671
 msgid "Left"
 msgstr "Majtas"
 
-#: src/main_window.c:669
+#: ../src/main_window.c:677
 msgid "Right"
 msgstr "Djathtas"
 
-#: src/main_window.c:675
+#: ../src/main_window.c:683
 msgid "Top"
 msgstr "Sipër"
 
-#: src/main_window.c:681
+#: ../src/main_window.c:689
 msgid "Bottom"
 msgstr "Poshtë"
 
-#: src/main_window.c:691
+#: ../src/main_window.c:699
 msgid "Very Small"
 msgstr "Shumë e Vogël"
 
-#: src/main_window.c:697
+#: ../src/main_window.c:705
 msgid "Smaller"
 msgstr "Më e vogël"
 
-#: src/main_window.c:703
+#: ../src/main_window.c:711
 msgid "Small"
 msgstr "E vogël"
 
-#: src/main_window.c:709
+#: ../src/main_window.c:717
 msgid "Normal"
 msgstr "Normale"
 
-#: src/main_window.c:715
+#: ../src/main_window.c:723
 msgid "Large"
 msgstr "E madhe"
 
-#: src/main_window.c:721
+#: ../src/main_window.c:729
 msgid "Larger"
 msgstr "Më e madhe"
 
-#: src/main_window.c:727
+#: ../src/main_window.c:735
 msgid "Very Large"
 msgstr "Shumë e Madhe"
 
 #. Icon-name
-#: src/main_window.c:737
+#: ../src/main_window.c:745
 msgid "_Smart Zoom"
 msgstr "Zoom i _Mençur"
 
-#: src/main_window.c:883
+#: ../src/main_window.c:891
 msgid "Images"
 msgstr "Figura"
 
 #. Create Play/Pause Slideshow actions
-#: src/main_window.c:955
+#: ../src/main_window.c:963
 msgid "_Play"
 msgstr "_Luaje"
 
-#: src/main_window.c:955
+#: ../src/main_window.c:963
 msgid "Play slideshow"
 msgstr "Shfaq diapozitiva"
 
-#: src/main_window.c:956
+#: ../src/main_window.c:964
 msgid "_Pause"
 msgstr "_Pushoje"
 
-#: src/main_window.c:956
+#: ../src/main_window.c:964
 msgid "Pause slideshow"
 msgstr "Ndali diapozitivat"
 
 #. Create Recently used items Action
-#: src/main_window.c:959
+#: ../src/main_window.c:967
 msgid "_Recently used"
 msgstr "Përdorur së _fundi"
 
-#: src/main_window.c:959
+#: ../src/main_window.c:967
 msgid "Recently used"
 msgstr "Përdorur së fundi"
 
-#: src/main_window.c:1084 src/main_window.c:1631
+#: ../src/main_window.c:1092 ../src/main_window.c:1651
 msgid "Press open to select an image"
 msgstr "Shtypni “Hape” që të përzgjidhni një figurë"
 
-#: src/main_window.c:1573 src/main_window.c:1578
+#: ../src/main_window.c:1593 ../src/main_window.c:1598
 msgid "Open With Other _Application..."
 msgstr "Hapeni Me Tjetër _Aplikacion…"
 
-#: src/main_window.c:1588 src/main_window.c:1596
+#: ../src/main_window.c:1608 ../src/main_window.c:1616
 msgid "Empty"
 msgstr "E zbrazët"
 
-#: src/main_window.c:1635
+#: ../src/main_window.c:1655
 msgid "Loading..."
 msgstr "Po ngarkohet…"
 
-#: src/main_window.c:2282
+#: ../src/main_window.c:2309
 msgid "Choose 'set wallpaper' method"
 msgstr "Zgjidhni metodën “vëre si sfond”"
 
-#: src/main_window.c:2286 src/main_window.c:3398 src/main_window.c:3486
-#: src/main_window.c:4151 src/privacy_dialog.c:145
-#: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
+#: ../src/main_window.c:2313 ../src/main_window.c:3416
+#: ../src/main_window.c:3504 ../src/main_window.c:4169
+#: ../src/privacy_dialog.c:145 ../src/xfce_wallpaper_manager.c:270
+#: ../src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
 msgstr "_Anuloje"
 
-#: src/main_window.c:2289 src/main_window.c:4154
-#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
+#: ../src/main_window.c:2316 ../src/main_window.c:4172
+#: ../src/xfce_wallpaper_manager.c:276 ../src/gnome_wallpaper_manager.c:184
 msgid "_OK"
 msgstr "_OK"
 
-#: src/main_window.c:2299
+#: ../src/main_window.c:2326
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Formësoni cili sistem administron aktualisht desktopin tuaj.\nKy rregullim përcakton metodën që <i>Ristretto</i>\ndo të përdorë për të formësuar sfondin e desktopit."
 
-#: src/main_window.c:2308 src/preferences_dialog.c:466
+#: ../src/main_window.c:2335 ../src/preferences_dialog.c:467
 msgid "None"
 msgstr "Asnjë"
 
-#: src/main_window.c:2309 src/preferences_dialog.c:468
+#: ../src/main_window.c:2336 ../src/preferences_dialog.c:469
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2310 src/preferences_dialog.c:470
+#: ../src/main_window.c:2337 ../src/preferences_dialog.c:471
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:2833 org.xfce.ristretto.appdata.xml.in:11
+#: ../src/main_window.c:2851
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto është një parës figurash për mjedisin Xfce desktop."
 
-#: src/main_window.c:2838
+#: ../src/main_window.c:2856
 msgid "translator-credits"
 msgstr "Besnik Bleta"
 
-#: src/main_window.c:3397
+#: ../src/main_window.c:3415
 msgid "Open image"
 msgstr "Hap figurë"
 
-#: src/main_window.c:3398
+#: ../src/main_window.c:3416
 msgid "_Open"
 msgstr "_Hape"
 
-#: src/main_window.c:3416
+#: ../src/main_window.c:3434
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3421
+#: ../src/main_window.c:3439
 msgid "All Files"
 msgstr "Tërë Kartelat"
 
-#: src/main_window.c:3485
+#: ../src/main_window.c:3503
 msgid "Save copy"
 msgstr "Ruaj kopje"
 
-#: src/main_window.c:3487
+#: ../src/main_window.c:3505
 msgid "_Save"
 msgstr "_Ruaje"
 
-#: src/main_window.c:3591
+#: ../src/main_window.c:3609
 msgid "Failed to print the image"
 msgstr "S’u arrit të shtypej figura"
 
-#: src/main_window.c:3678
+#: ../src/main_window.c:3696
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Jeni i sigurt se doni të shpihet figura '%s' te hedhurinat?"
 
-#: src/main_window.c:3682
+#: ../src/main_window.c:3700
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Jeni i sigurt se doni të fshihet figura '%s' nga disku?"
 
-#: src/main_window.c:3689
+#: ../src/main_window.c:3707
 msgid "_Do not ask again for this session"
 msgstr "_Mos pyet më për këtë sesion"
 
-#: src/main_window.c:4146
+#: ../src/main_window.c:4164
 msgid "Edit with"
 msgstr "Përpunojeni me"
 
-#: src/main_window.c:4166
+#: ../src/main_window.c:4184
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Hape %s dhe të tjera kartela të llojit %s me:"
 
-#: src/main_window.c:4172
+#: ../src/main_window.c:4190
 msgid "Use as _default for this kind of file"
 msgstr "Përdore si _parazgjedhje për këtë lloj kartelash"
 
-#: src/main_window.c:4217
+#: ../src/main_window.c:4235
 msgid "Recommended Applications"
 msgstr "Aplikacione të Këshilluara"
 
-#: src/main_window.c:4253
+#: ../src/main_window.c:4271
 msgid "Other Applications"
 msgstr "Aplikacione të Tjera"
 
-#: src/main_window.c:4366
+#: ../src/main_window.c:4388
 #, c-format
 msgid "Failed to show containing folder \"%s\"."
 msgstr "S’u arrit të shfaqet dosja “%s”."
 
-#: src/privacy_dialog.c:115
+#: ../src/privacy_dialog.c:115
 msgid "Time range to clear:"
 msgstr "Interval kohor për t’u spastruar:"
 
-#: src/privacy_dialog.c:118
+#: ../src/privacy_dialog.c:118
 msgid "Cleanup"
 msgstr "Pastrim"
 
-#: src/privacy_dialog.c:121
+#: ../src/privacy_dialog.c:121
 msgid "Last Hour"
 msgstr "Orën e Fundit"
 
-#: src/privacy_dialog.c:122
+#: ../src/privacy_dialog.c:122
 msgid "Last Two Hours"
 msgstr "Dy Orët e Fundit"
 
-#: src/privacy_dialog.c:123
+#: ../src/privacy_dialog.c:123
 msgid "Last Four Hours"
 msgstr "Katër Orët e Fundit"
 
-#: src/privacy_dialog.c:124
+#: ../src/privacy_dialog.c:124
 msgid "Today"
 msgstr "Sot"
 
-#: src/privacy_dialog.c:125
+#: ../src/privacy_dialog.c:125
 msgid "Everything"
 msgstr "Gjithçka"
 
-#: src/privacy_dialog.c:148 src/xfce_wallpaper_manager.c:273
-#: src/gnome_wallpaper_manager.c:181
+#: ../src/privacy_dialog.c:148 ../src/xfce_wallpaper_manager.c:273
+#: ../src/gnome_wallpaper_manager.c:181
 msgid "_Apply"
 msgstr "_Aplikoje"
 
-#: src/privacy_dialog.c:418
+#: ../src/privacy_dialog.c:418
 msgid "Clear private data"
 msgstr "Spastroji të dhëna private"
 
-#: src/preferences_dialog.c:248
+#: ../src/preferences_dialog.c:248
 msgid "Display"
 msgstr "Ekran"
 
-#: src/preferences_dialog.c:255
+#: ../src/preferences_dialog.c:255
 msgid "Background color"
 msgstr "Ngjyrë sfondi"
 
-#: src/preferences_dialog.c:259
+#: ../src/preferences_dialog.c:259
 msgid "Override background color:"
 msgstr "Anashkalo ngjyrë sfondi:"
 
-#: src/preferences_dialog.c:287
+#: ../src/preferences_dialog.c:287
 msgid "Quality"
 msgstr "Cilësi"
 
-#: src/preferences_dialog.c:291
+#: ../src/preferences_dialog.c:291
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "Me këtë mundësi të aktivizuar, cilësia maksimum e figurës do të kufizohet sa madhësia e ekranit."
 
-#: src/preferences_dialog.c:296
+#: ../src/preferences_dialog.c:296
 msgid "Limit rendering quality"
 msgstr "Kufizo cilësi vizatimi"
 
-#: src/preferences_dialog.c:305
+#: ../src/preferences_dialog.c:305
 msgid ""
 "Smooth the image using bilinear interpolation, thus prioritizing rendering "
 "quality over performance."
 msgstr ""
 
-#: src/preferences_dialog.c:310
+#: ../src/preferences_dialog.c:310
 msgid "Enable smoothing"
 msgstr ""
 
-#: src/preferences_dialog.c:322
+#: ../src/preferences_dialog.c:322
 msgid "Fullscreen"
 msgstr "Sa krejt ekrani"
 
-#: src/preferences_dialog.c:326
+#: ../src/preferences_dialog.c:326
 msgid "Thumbnails"
 msgstr "Miniatura"
 
-#: src/preferences_dialog.c:329
+#: ../src/preferences_dialog.c:329
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "Shtylla e miniaturave mund të fshihet automatikisht, kur dritarja është sa krejt ekrani."
 
-#: src/preferences_dialog.c:334
+#: ../src/preferences_dialog.c:334
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Nën gjendje sa krejt ekrani, fshih shtyllë miniaturash"
 
-#: src/preferences_dialog.c:342
+#: ../src/preferences_dialog.c:342
 msgid "Clock"
 msgstr "Orë"
 
-#: src/preferences_dialog.c:345
+#: ../src/preferences_dialog.c:345
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "Shfaqni një orë analoge që shfaq kohën e tanishme kur dritarja është sa krejt ekrani"
 
-#: src/preferences_dialog.c:350
+#: ../src/preferences_dialog.c:350
 msgid "Show Fullscreen Clock"
 msgstr "Shfaq Orë Sa Krejt Ekrani"
 
-#: src/preferences_dialog.c:356
+#: ../src/preferences_dialog.c:356
 msgid "Mouse cursor"
 msgstr "Kursor miu"
 
-#: src/preferences_dialog.c:359
+#: ../src/preferences_dialog.c:359
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
 msgstr "Kursori i miut mund të fshihet automatikisht pas një periudhe mosveprimtarie,\nkur dritarja është sa krejt ekrani."
 
-#: src/preferences_dialog.c:367
+#: ../src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
 msgstr "Periudhë mosveprimtarie (seconda):"
 
-#: src/preferences_dialog.c:386
+#: ../src/preferences_dialog.c:387
 msgid "Slideshow"
 msgstr "Si Diapozitiva"
 
-#: src/preferences_dialog.c:390
+#: ../src/preferences_dialog.c:391
 msgid "Timeout"
 msgstr "Mbarim kohe"
 
-#: src/preferences_dialog.c:393
+#: ../src/preferences_dialog.c:394
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
 msgstr "Periudha e kohës që një figurë individuale shfaqet gjatë një shfaqjeje diapozitivash (në sekonda)"
 
-#: src/preferences_dialog.c:409
+#: ../src/preferences_dialog.c:410
 msgid "Control"
 msgstr "Kontrol"
 
-#: src/preferences_dialog.c:413
+#: ../src/preferences_dialog.c:414
 msgid "Scroll wheel"
 msgstr "Rrotëz rrëshqitjeje"
 
-#: src/preferences_dialog.c:416
+#: ../src/preferences_dialog.c:417
 msgid "Invert zoom direction"
 msgstr "Kthe së prapthi kah zoom-i"
 
-#: src/preferences_dialog.c:427
+#: ../src/preferences_dialog.c:428
 msgid "Behaviour"
 msgstr "Sjellje"
 
-#: src/preferences_dialog.c:431
+#: ../src/preferences_dialog.c:432
 msgid "Startup"
 msgstr "Nisje"
 
-#: src/preferences_dialog.c:433
+#: ../src/preferences_dialog.c:434
 msgid "Maximize window on startup when opening an image"
 msgstr "Kur hapet një figurë, maksimizoje dritaren që në nisje"
 
-#: src/preferences_dialog.c:439
+#: ../src/preferences_dialog.c:440
 msgid "Wrap around images"
 msgstr "Mbështilli figurat"
 
-#: src/preferences_dialog.c:450
+#: ../src/preferences_dialog.c:451
 msgid "Desktop"
 msgstr "Desktop"
 
-#: src/preferences_dialog.c:454
+#: ../src/preferences_dialog.c:455
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
 msgstr "Formësoni cili sistem administron aktualisht desktopin tuaj. Ky rregullim përcakton metodën që <i>Ristretto</i> do të përdorë për të formësuar sfondin e desktopit."
 
-#: src/preferences_dialog.c:551
+#: ../src/preferences_dialog.c:552
 msgid "Image Viewer Preferences"
 msgstr "Parapëlqime Parësi Figurash"
 
-#: src/properties_dialog.c:132
+#: ../src/properties_dialog.c:132
 msgid "<b>Name:</b>"
 msgstr "<b>Emër:</b>"
 
-#: src/properties_dialog.c:133
+#: ../src/properties_dialog.c:133
 msgid "<b>Kind:</b>"
 msgstr "<b>Lloj:</b>"
 
-#: src/properties_dialog.c:134
+#: ../src/properties_dialog.c:134
 msgid "<b>Modified:</b>"
 msgstr "<b>Ndryshuar më:</b>"
 
-#: src/properties_dialog.c:135
+#: ../src/properties_dialog.c:135
 msgid "<b>Accessed:</b>"
 msgstr "<b>Përdorur më:</b>"
 
-#: src/properties_dialog.c:136
+#: ../src/properties_dialog.c:136
 msgid "<b>Size:</b>"
 msgstr "<b>Madhësi:</b>"
 
-#: src/properties_dialog.c:160
+#: ../src/properties_dialog.c:160
 msgid "General"
 msgstr "Të përgjithshme"
 
-#: src/properties_dialog.c:166
+#: ../src/properties_dialog.c:166
 msgid "Image"
 msgstr "Figurë"
 
-#: src/properties_dialog.c:351
+#: ../src/properties_dialog.c:351
+#, c-format
 msgid "<b>Date taken:</b>"
 msgstr "<b>Datë bërje:</b>"
 
-#: src/properties_dialog.c:361 src/properties_dialog.c:371
-#: src/properties_dialog.c:381
+#: ../src/properties_dialog.c:361 ../src/properties_dialog.c:371
+#: ../src/properties_dialog.c:381
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: src/properties_dialog.c:419
+#: ../src/properties_dialog.c:419
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Veti"
 
-#: src/image_list.c:32
+#: ../src/image_list.c:32
 msgid "No supported image type found in the directory"
 msgstr "Te drejtoria s’u gjet lloj figurash i mbuluar"
 
-#: src/image_list.c:33
+#: ../src/image_list.c:33
 msgid "Directory only partially loaded"
 msgstr "Drejtori e ngarkuar vetëm pjesërisht"
 
-#: src/image_list.c:34
+#: ../src/image_list.c:34
 msgid "Could not load directory"
 msgstr "S’u ngarkua dot drejtori"
 
-#: src/image_list.c:35
+#: ../src/image_list.c:35
 msgid "Unsupported mime type"
 msgstr "Lloj MIME i pambuluar"
 
-#: src/thumbnailer.c:368
+#: ../src/thumbnailer.c:368
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -868,75 +875,43 @@ msgid ""
 "to resolve this issue."
 msgstr "S’kapet dot shërbimi i miniaturave,\npër këtë arsye, miniatura s’krijohet\ndot.\n\nQë ta zgjidhni këtë problem, instaloni <b>Tumbler</b> ose një\ntjetër <i>demon miniaturash</i>."
 
-#: src/thumbnailer.c:376
+#: ../src/thumbnailer.c:376
 msgid "Do _not show this message again"
 msgstr "Mos e shfaq _sërish këtë mesazh"
 
-#: src/xfce_wallpaper_manager.c:251 src/gnome_wallpaper_manager.c:164
+#: ../src/xfce_wallpaper_manager.c:251 ../src/gnome_wallpaper_manager.c:164
 msgid "Style:"
 msgstr "Stil:"
 
 #. stretched is now default value
-#: src/xfce_wallpaper_manager.c:262
+#: ../src/xfce_wallpaper_manager.c:262
 msgid "Apply to all workspaces"
 msgstr "Aplikoje mbi krejt hapësirat e punës"
 
-#: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:176
+#: ../src/xfce_wallpaper_manager.c:268 ../src/gnome_wallpaper_manager.c:176
 msgid "Set as wallpaper"
 msgstr "Vëre si sfond"
 
-#: src/xfce_wallpaper_manager.c:302 src/gnome_wallpaper_manager.c:206
+#: ../src/xfce_wallpaper_manager.c:302 ../src/gnome_wallpaper_manager.c:206
 msgid "Auto"
 msgstr "Auto"
 
-#: src/xfce_wallpaper_manager.c:303
+#: ../src/xfce_wallpaper_manager.c:303
 msgid "Centered"
 msgstr "Në qendër"
 
-#: src/xfce_wallpaper_manager.c:304
+#: ../src/xfce_wallpaper_manager.c:304
 msgid "Tiled"
 msgstr "Tjegullzuar"
 
-#: src/xfce_wallpaper_manager.c:305
+#: ../src/xfce_wallpaper_manager.c:305
 msgid "Stretched"
 msgstr "Tërhequr"
 
-#: src/xfce_wallpaper_manager.c:306
+#: ../src/xfce_wallpaper_manager.c:306
 msgid "Scaled"
 msgstr "Ripërmasuar"
 
-#: src/xfce_wallpaper_manager.c:307
+#: ../src/xfce_wallpaper_manager.c:307
 msgid "Zoomed"
 msgstr "Zoom-uar"
-
-#: org.xfce.ristretto.desktop.in:4
-msgid "Ristretto Image Viewer"
-msgstr "Parësi i Figurave Ristretto"
-
-#: org.xfce.ristretto.desktop.in:5
-msgid "Look at your images easily"
-msgstr "Shini lehtësisht figurat tuaja"
-
-#: org.xfce.ristretto.desktop.in:13
-msgid "image;photo;picture;viewer;graphics;"
-msgstr "figurë;fotografi;parës;grafike;"
-
-#: org.xfce.ristretto.appdata.xml.in:7
-msgid "Ristretto"
-msgstr "Ristretto"
-
-#: org.xfce.ristretto.appdata.xml.in:8
-msgid "Fast and lightweight image viewer"
-msgstr "Parës figurash i shpejtë dhe i peshës së lehtë"
-
-#: org.xfce.ristretto.appdata.xml.in:13
-msgid ""
-"The Ristretto Image Viewer is an application that can be used to view and "
-"scroll through images, run a slideshow of images, open images with other "
-"applications like an image-editor or configure an image as the desktop "
-"wallpaper."
-msgstr "Parësi i Figurave Ristretto është një aplikacion që mund të përdoret për të parë dhe lëvizur nëpër figura, për të shfaqur figura si diapozitiva, për të hapur figura me aplikacione të tjerë, fjala vjen, me një përpunues figurash ose për ta formësuar një figurë si sfond desktopi."
-
-#: org.xfce.ristretto.appdata.xml.in:34
-msgid "Xfce Developers"
-msgstr "Zhvilluesit e Xfce-së"
