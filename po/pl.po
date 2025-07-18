@@ -366,7 +366,7 @@ msgstr "Otwiera podręcznik użytkownika programu"
 #. Icon-name
 #: src/main_window.c:565
 msgid "_About"
-msgstr "_O programie"
+msgstr "_O programie"
 
 #. Label-text
 #. Keyboard shortcut
