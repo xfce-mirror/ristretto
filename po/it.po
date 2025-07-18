@@ -428,7 +428,7 @@ msgstr "data"
 #. Icon-name
 #: src/main_window.c:661
 msgid "random"
-msgstr ""
+msgstr "casuale"
 
 #. Icon-name
 #: src/main_window.c:671
