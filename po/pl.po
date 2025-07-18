@@ -27,7 +27,7 @@ msgstr ""
 
 #: ../src/main.c:44
 msgid "Version information"
-msgstr "Wypisuje informacje o wersji"
+msgstr "Wyświetla informacje o wersji"
 
 #: ../src/main.c:47
 msgid "Start in fullscreen mode"
