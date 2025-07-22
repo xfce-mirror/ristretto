@@ -6,14 +6,14 @@
 # Cédric Valmary <cvalmary@yahoo.fr>, 2013
 # Cédric Valmary <cvalmary@yahoo.fr>, 2013
 # Quentin PAGÈS, 2022,2024
-# Quentin PAGÈS, 2022,2024
+# Quentin PAGÈS, 2022,2024-2025
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-07-18 11:03+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Quentin PAGÈS, 2022,2024\n"
+"Last-Translator: Quentin PAGÈS, 2022,2024-2025\n"
 "Language-Team: Occitan (post 1500) (http://app.transifex.com/xfce/xfce-apps/language/oc/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -943,7 +943,7 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "Lo visualizaire d'imatges Ristretto es una aplicacion que se pòt utilizar per veire e desplaçar d'imatges, lançar una presentacion d'imatges, obrir d'imatges amb d'autras aplicacions coma un editor d'imatges o definir un imatge coma fons d'ecran."
+msgstr "Lo visionador d'imatges Ristretto es una aplicacion que se pòt utilizar per veire e desplaçar d'imatges, lançar una presentacion d'imatges, obrir d'imatges amb d'autras aplicacions coma un editor d'imatges o definir un imatge coma fons d'ecran."
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
