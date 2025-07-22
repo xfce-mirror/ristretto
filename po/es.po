@@ -434,7 +434,7 @@ msgstr "Fecha"
 #. Icon-name
 #: src/main_window.c:661
 msgid "random"
-msgstr ""
+msgstr "aleatorio"
 
 #. Icon-name
 #: src/main_window.c:671
