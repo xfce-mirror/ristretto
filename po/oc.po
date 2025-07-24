@@ -935,7 +935,7 @@ msgstr "Ristretto"
 
 #: org.xfce.ristretto.appdata.xml.in:8
 msgid "Fast and lightweight image viewer"
-msgstr "Visionador d’imatge rapid e leugièr"
+msgstr "Visionador d’imatges rapid e leugièr"
 
 #: org.xfce.ristretto.appdata.xml.in:13
 msgid ""
