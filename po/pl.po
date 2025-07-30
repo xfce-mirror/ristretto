@@ -562,7 +562,7 @@ msgstr "GNOME"
 
 #: src/main_window.c:2851 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Przeglądarka obrazów dla środowiska Xfce"
+msgstr "Przeglądarka obrazów dla Xfce."
 
 #: src/main_window.c:2856
 msgid "translator-credits"
