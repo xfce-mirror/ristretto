@@ -422,7 +422,7 @@ msgstr "date"
 #. Icon-name
 #: src/main_window.c:661
 msgid "random"
-msgstr ""
+msgstr "random"
 
 #. Icon-name
 #: src/main_window.c:671
