@@ -50,6 +50,12 @@ From [Flathub](https://flathub.org/apps/details/org.xfce.ristretto):
 
     % flatpak install flathub org.xfce.ristretto
 
+### Uninstallation
+
+From source code repository or tarball:
+
+    % ninja uninstall -C build
+
 ### Reporting Bugs
 
 Visit the [reporting bugs](https://docs.xfce.org/apps/ristretto/bugs) page to view currently open bug reports and instructions on reporting new bugs or submitting bugfixes.
