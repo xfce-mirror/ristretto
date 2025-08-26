@@ -429,7 +429,7 @@ msgstr "ημερομηνία"
 #. Icon-name
 #: src/main_window.c:661
 msgid "random"
-msgstr ""
+msgstr "τυχαίο"
 
 #. Icon-name
 #: src/main_window.c:671
@@ -749,7 +749,7 @@ msgstr "Δείκτης ποντικιού"
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr "Ο δρομέας του ποντικιού μπορεί να αποκρύπτεται αυτόματα μετά από ορισμένο χρονικό διάστημα αδράνειας, όταν το παράθυρο είναι σε πλήρη οθόνη."
+msgstr "Ο δείκτης του ποντικιού μπορεί να αποκρύπτεται αυτόματα μετά από ορισμένο χρονικό διάστημα αδράνειας, όταν το παράθυρο είναι σε πλήρη οθόνη."
 
 #: src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
