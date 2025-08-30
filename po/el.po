@@ -563,7 +563,7 @@ msgstr "GNOME"
 
 #: src/main_window.c:2851 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "Το ristretto είναι ένας διαχειριστής προβολής εικόνων για το γραφικό περιβάλλον xfce."
+msgstr "Το ristretto είναι εφαρμογή προβολής εικόνων για το γραφικό περιβάλλον xfce."
 
 #: src/main_window.c:2856
 msgid "translator-credits"
@@ -940,7 +940,7 @@ msgstr "Ristretto"
 
 #: org.xfce.ristretto.appdata.xml.in:8
 msgid "Fast and lightweight image viewer"
-msgstr "Γρήγορο και ελαφρύ πρόγραμμα προβολής εικόνων"
+msgstr "Γρήγορη και ελαφρά εφαρμογή προβολής εικόνων"
 
 #: org.xfce.ristretto.appdata.xml.in:13
 msgid ""
