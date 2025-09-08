@@ -953,7 +953,7 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr "O visualizador de imagens Ristretto é um aplicativo que pode ser usado para visualizar ou navegar por uma coleção de imagens, exibir uma apresentação de slides de imagens, abrir imagens com outros aplicativos como um editor de imagens ou definir uma imagem como papel de parede da área de trabalho."
+msgstr "O visualizador de imagens Ristretto é um aplicativo que pode ser usado para ver ou navegar por uma coleção de imagens, mostrar uma apresentação de slides de imagens, abrir imagens com outros aplicativos como um editor de imagens ou definir uma imagem como papel de parede da área de trabalho."
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
