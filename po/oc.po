@@ -27,7 +27,7 @@ msgstr "Informacion sus la version"
 
 #: src/main.c:47
 msgid "Start in fullscreen mode"
-msgstr "Aviar en mòde ecran complet "
+msgstr "Aviar en mòde ecran complèt"
 
 #: src/main.c:50
 msgid "Start a slideshow"
@@ -44,7 +44,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s : %s\n\n%s --help per veire una lista completa\nde las opcions en linha de comanda.\n"
+msgstr "%s : %s\n\n%s --help per veire una lista complèta\nde las opcions en linha de comanda.\n"
 
 #: src/main_window.c:43 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
@@ -200,18 +200,18 @@ msgstr "Ecran com_plet"
 #. Keyboard shortcut
 #: src/main_window.c:429
 msgid "Switch to fullscreen"
-msgstr "Bascuolar en ecran complet "
+msgstr "Bascular en ecran complèt "
 
 #. Icon-name
 #: src/main_window.c:433
 msgid "_Leave Fullscreen"
-msgstr "_Quitar l'ecran complet "
+msgstr "_Quitar l'ecran complèt"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:435
 msgid "Leave Fullscreen"
-msgstr "Quitar l'ecran complet "
+msgstr "Quitar l'ecran complèt"
 
 #. Icon-name
 #: src/main_window.c:439
@@ -389,7 +389,7 @@ msgstr "_Talha de las miniaturas"
 #. Icon-name
 #: src/main_window.c:597
 msgid "Leave _Fullscreen"
-msgstr "Quitar l'_ecran complet "
+msgstr "Quitar l'_ecran complèt"
 
 #. Icon-name
 #: src/main_window.c:616
@@ -707,7 +707,7 @@ msgstr "Activar l’aplanament"
 
 #: src/preferences_dialog.c:322
 msgid "Fullscreen"
-msgstr "Ecran complet"
+msgstr "Ecran complèt"
 
 #: src/preferences_dialog.c:326
 msgid "Thumbnails"
@@ -716,11 +716,11 @@ msgstr "Miniaturas"
 #: src/preferences_dialog.c:329
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
-msgstr "La barra de las miniaturas pòt èsser amagada automaticament en mòde ecran complet ."
+msgstr "La barra de las miniaturas pòt èsser amagada automaticament en mòde ecran complèt."
 
 #: src/preferences_dialog.c:334
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Amagar la barra de las miniaturas en mòde ecran complet "
+msgstr "Amagar la barra de las miniaturas en mòde ecran complèt"
 
 #: src/preferences_dialog.c:342
 msgid "Clock"
@@ -730,11 +730,11 @@ msgstr "Relòtge"
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
-msgstr "Afichar un relòtge analogic qu'afiche l'ora correnta quand la fenèstra es en ecran complet "
+msgstr "Afichar un relòtge analogic qu'afiche l'ora correnta quand la fenèstra es en ecran complèt"
 
 #: src/preferences_dialog.c:350
 msgid "Show Fullscreen Clock"
-msgstr "Afichar lo relòtge en ecran complet "
+msgstr "Afichar lo relòtge en ecran complèt"
 
 #: src/preferences_dialog.c:356
 msgid "Mouse cursor"
