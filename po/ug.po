@@ -526,7 +526,7 @@ msgstr "‹تام قەغىزى قىلىپ بەلگىلەش› ئۇسۇلىنى �
 #: src/main_window.c:4169 src/privacy_dialog.c:145
 #: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
-msgstr ""
+msgstr "ۋاز كەچ(_C)"
 
 #: src/main_window.c:2316 src/main_window.c:4172
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
