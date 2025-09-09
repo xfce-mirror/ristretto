@@ -531,7 +531,7 @@ msgstr "ۋاز كەچ(_C)"
 #: src/main_window.c:2316 src/main_window.c:4172
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
 msgid "_OK"
-msgstr ""
+msgstr "جەزملە(_O)"
 
 #: src/main_window.c:2326
 msgid ""
