@@ -44,7 +44,7 @@ msgstr "%s: %s\n\nبۇيرۇق قۇرىدا ئىشلەتكىلى بولىدىغ�
 
 #: src/main_window.c:43 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
-msgstr "سۈرەت كۆرگۈ"
+msgstr "سۈرەت كۆرگۈچ"
 
 #: src/main_window.c:46
 msgid "Could not save file"
@@ -52,17 +52,17 @@ msgstr "ھۆججەتنى ساقلىغىلى بولمىدى"
 
 #: src/main_window.c:47
 msgid "Some files could not be opened: see the text logs for details"
-msgstr ""
+msgstr "بەزى ھۆججەتنى ئاچالمىدى: تەپسىلاتىنى تېكىست خاتىرە ھۆججىتىدىن كۆرۈڭ"
 
 #: src/main_window.c:48
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
-msgstr ""
+msgstr "دىسكىدىن «%s» سۈرەتنى ئۆچۈرۈۋاتقاندا خاتالىق كۆرۈلدى"
 
 #: src/main_window.c:49
 #, c-format
 msgid "An error occurred when sending image '%s' to trash"
-msgstr ""
+msgstr "سۈرەت «%s» نى ئەخلەتخانىغا تاشلاۋاتقاندا خاتالىق كۆرۈلدى"
 
 #: src/main_window.c:323
 msgid "_File"
@@ -93,7 +93,7 @@ msgstr "رەسىمنىڭ كۆچۈرمىسىنى ساقلايدۇ"
 #. Icon-name
 #: src/main_window.c:341
 msgid "Proper_ties..."
-msgstr ""
+msgstr "خاسلىق(_T)…"
 
 #. Label-text
 #. Keyboard shortcut
@@ -104,13 +104,13 @@ msgstr "ھۆججەتنىڭ خاسلىقىنى كۆرسىتىدۇ"
 #. Icon-name
 #: src/main_window.c:347
 msgid "_Print..."
-msgstr "بېسىپ چىقار(_P)…"
+msgstr "باس(_P)…"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:349
 msgid "Print the current image"
-msgstr ""
+msgstr "نۆۋەتتىكى سۈرەتنى باسىدۇ"
 
 #. Icon-name
 #: src/main_window.c:353 src/main_window.c:372
@@ -127,7 +127,7 @@ msgstr "بۇ سۈرەتنى تەھرىرلەيدۇ"
 #: src/main_window.c:359 src/preferences_dialog.c:217
 #: src/properties_dialog.c:103
 msgid "_Close"
-msgstr "تاقا(_C)"
+msgstr "ياپ(_C)"
 
 #. Label-text
 #. Keyboard shortcut
@@ -138,29 +138,29 @@ msgstr "سۈرەتنى تاقايدۇ"
 #. Icon-name
 #: src/main_window.c:365
 msgid "_Quit"
-msgstr "ئاخىرلاشتۇر(_Q)"
+msgstr "چېكىن(_Q)"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:367
 msgid "Quit Ristretto"
-msgstr "رىسترېتتو(ristretto) نى ئاخىرلاشتۇرىدۇ"
+msgstr "Ristretto دىن چېكىن"
 
 #: src/main_window.c:378
 msgid "_Copy image to clipboard"
-msgstr ""
+msgstr "سۈرەتنى چاپلاش تاختىسىغا كۆچۈر(_C)"
 
 #: src/main_window.c:384
 msgid "_Show containing folder"
-msgstr ""
+msgstr "ئىچىدىكى قىسقۇچنى كۆرسەت(_S)"
 
 #: src/main_window.c:390
 msgid "_Open with"
-msgstr "بۇنىڭ بىلەن ئاچ(_O)"
+msgstr "ئاچقۇز(_O)"
 
 #: src/main_window.c:396
 msgid "_Sort by"
-msgstr ""
+msgstr "تەرتىپلەش تەرتىپى(_S)"
 
 #. Icon-name
 #: src/main_window.c:402
@@ -181,7 +181,7 @@ msgstr "شەخسىي سانلىق-مەلۇماتلارنى تازىلا(_C)..."
 #. Icon-name
 #: src/main_window.c:414
 msgid "_Preferences..."
-msgstr "تەڭشەكلەر(_P)..."
+msgstr "تەڭشەك(_P)..."
 
 #: src/main_window.c:421
 msgid "_View"
@@ -216,7 +216,7 @@ msgstr "تام قەغىزى قىلىپ بەلگىلە(_W)…"
 
 #: src/main_window.c:446
 msgid "_Zoom"
-msgstr "چوڭايتىش-كىچىكلىتىش(_Z)"
+msgstr "چوڭايت-كىچىكلەت(_Z)"
 
 #. Icon-name
 #: src/main_window.c:452
@@ -264,7 +264,7 @@ msgstr "ئەسلىدىكى چوڭلۇق(100%)"
 
 #: src/main_window.c:477
 msgid "_Default Zoom"
-msgstr ""
+msgstr "كۆڭۈلدىكى چوڭايت تارايت(_Ｄ)"
 
 #: src/main_window.c:484
 msgid "_Rotation"
@@ -282,15 +282,15 @@ msgstr "سولغا چۆرگىلەت(_L)"
 
 #: src/main_window.c:503
 msgid "_Flip"
-msgstr ""
+msgstr "ئۆرۈ(_F)"
 
 #: src/main_window.c:509
 msgid "Flip _Horizontally"
-msgstr ""
+msgstr "توغرىسىغا ئۆرۈ(_H)"
 
 #: src/main_window.c:515
 msgid "Flip _Vertically"
-msgstr ""
+msgstr "بويىغا ئۆرۈ(_V)"
 
 #: src/main_window.c:522
 msgid "_Go"
@@ -310,7 +310,7 @@ msgstr "كېيىنكى سۈرەتنى كۆرسىتىدۇ"
 #. Icon-name
 #: src/main_window.c:534
 msgid "_Back"
-msgstr "كەينىگە(_B)"
+msgstr "قايت(_B)"
 
 #. Label-text
 #. Keyboard shortcut
@@ -353,7 +353,7 @@ msgstr "مەزمۇن(_C)"
 #. Keyboard shortcut
 #: src/main_window.c:561
 msgid "Display ristretto user manual"
-msgstr "رىسترېتتو(ristretto) نىڭ قوللانمىسىنى كۆرسىتىدۇ"
+msgstr "‫Ristretto نىڭ قوللانمىسىنى كۆرسىتىدۇ"
 
 #. Icon-name
 #: src/main_window.c:565
@@ -364,7 +364,7 @@ msgstr "ھەققىدە(_A)"
 #. Keyboard shortcut
 #: src/main_window.c:567
 msgid "Display information about ristretto"
-msgstr "رىسترېتتو(ristretto) ھەققىدىكى ئۇچۇرنى كۆرسىتىدۇ"
+msgstr "Ristretto ھەققىدىكى ئۇچۇرنى كۆرسىتىدۇ"
 
 #: src/main_window.c:572
 msgid "_Position"
@@ -372,7 +372,7 @@ msgstr "ئورۇن(_P)"
 
 #: src/main_window.c:578
 msgid "_Size"
-msgstr "چوڭلۇقى"
+msgstr "چوڭلۇقى(_S)"
 
 #: src/main_window.c:584
 msgid "Thumbnail Bar _Position"
@@ -405,22 +405,22 @@ msgstr "ھالەت بالدىقىنى كۆرسەت(_B)"
 #. Icon-name
 #: src/main_window.c:643
 msgid "file name"
-msgstr ""
+msgstr "ھۆججەت ئاتى"
 
 #. Icon-name
 #: src/main_window.c:649
 msgid "file type"
-msgstr ""
+msgstr "ھۆججەت تۈرى"
 
 #. Icon-name
 #: src/main_window.c:655
 msgid "date"
-msgstr ""
+msgstr "چېسلا"
 
 #. Icon-name
 #: src/main_window.c:661
 msgid "random"
-msgstr ""
+msgstr "ئىختىيارىي"
 
 #. Icon-name
 #: src/main_window.c:671
@@ -470,11 +470,11 @@ msgstr "ئىنتايىن چوڭ"
 #. Icon-name
 #: src/main_window.c:745
 msgid "_Smart Zoom"
-msgstr ""
+msgstr "ئىدراكلىق چوڭايت تارايت(_S)"
 
 #: src/main_window.c:891
 msgid "Images"
-msgstr "سۈرەتلەر"
+msgstr "سۈرەت"
 
 #. Create Play/Pause Slideshow actions
 #: src/main_window.c:963
@@ -504,19 +504,19 @@ msgstr "يېقىندا ئىشلىتىلگەنلىرى"
 
 #: src/main_window.c:1092 src/main_window.c:1651
 msgid "Press open to select an image"
-msgstr "تاللانغان سۈرەتنى ئېچىش ئۈچۈن چېكىڭ"
+msgstr "تاللانغان سۈرەتنى ئېچىش ئۈچۈن چېكىلىدۇ"
 
 #: src/main_window.c:1593 src/main_window.c:1598
 msgid "Open With Other _Application..."
-msgstr "باش پروگراممىدا ئاچ(_A)..."
+msgstr "باشقا پىروگراممىدا ئاچ(_A)…"
 
 #: src/main_window.c:1608 src/main_window.c:1616
 msgid "Empty"
-msgstr "قۇرۇق"
+msgstr "بوش"
 
 #: src/main_window.c:1655
 msgid "Loading..."
-msgstr "ئوقۇۋاتىدۇ..."
+msgstr "يۈكلەۋاتىدۇ…"
 
 #: src/main_window.c:2309
 msgid "Choose 'set wallpaper' method"
@@ -550,19 +550,19 @@ msgstr "Xfce"
 
 #: src/main_window.c:2337 src/preferences_dialog.c:471
 msgid "GNOME"
-msgstr "گىنوم(GNOME)"
+msgstr "GNOME"
 
 #: src/main_window.c:2851 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr "رىسترېتتو(Ristretto) بولسا Xfce ئۈستەلئۈستى مۇھىتىدىكى سۈرەت كۆرگۈدۇر."
+msgstr "Ristretto بولسا Xfce ئۈستەلئۈستى مۇھىتىدىكى سۈرەت كۆرگۈچ."
 
 #: src/main_window.c:2856
 msgid "translator-credits"
-msgstr "غەيرەت ت.كەنجى <gheyret@gmail.com>"
+msgstr "غەيرەت ت.كەنجى <gheyret@gmail.com>\nئابدۇقادىر ئابلىز <sahranbay@gmail.com>"
 
 #: src/main_window.c:3415
 msgid "Open image"
-msgstr "سۈرەت ئېچىش"
+msgstr "سۈرەت ئاچ"
 
 #: src/main_window.c:3416
 msgid "_Open"
@@ -574,7 +574,7 @@ msgstr ".jp(e)g"
 
 #: src/main_window.c:3439
 msgid "All Files"
-msgstr "ھەممە ھۆججەتلەر"
+msgstr "ھەممە ھۆججەت"
 
 #: src/main_window.c:3503
 msgid "Save copy"
@@ -582,11 +582,11 @@ msgstr "كۆچۈرمىسىنى ساقلا"
 
 #: src/main_window.c:3505
 msgid "_Save"
-msgstr ""
+msgstr "ساقلا(_S)"
 
 #: src/main_window.c:3609
 msgid "Failed to print the image"
-msgstr ""
+msgstr "سۈرەتنى باسالمىدى"
 
 #: src/main_window.c:3696
 #, c-format
@@ -600,33 +600,33 @@ msgstr "دىسكىدىكى ‹%s› دېگەن سۈرەتنى ئۆچۈرەمسى
 
 #: src/main_window.c:3707
 msgid "_Do not ask again for this session"
-msgstr ""
+msgstr "بۇ ئەڭگىمەدە قايتا سورىما(_D)"
 
 #: src/main_window.c:4164
 msgid "Edit with"
-msgstr "باشقا پروگراممىدا تەھرىرلە"
+msgstr "باشقا پىروگراممىدا تەھرىرلە"
 
 #: src/main_window.c:4184
 #, c-format
 msgid "Open %s and other files of type %s with:"
-msgstr "%s ۋە تىپى %s بولغان ھۆججەتلەرنى كۆرسىتىلگەن پروگراممىدا ئاچ:"
+msgstr "%s ۋە تىپى %s بولغان ھۆججەتلەرنى كۆرسىتىلگەن پىروگراممىدا ئاچ:"
 
 #: src/main_window.c:4190
 msgid "Use as _default for this kind of file"
-msgstr "مۇشۇ تىپتىكى ھۆججەتكە نىسبەتەن كۆڭۈلدىكى بولسۇن(_D)"
+msgstr "مۇشۇ تىپتىكى ھۆججەتنىڭ كۆڭۈلدىكى تەڭشىكى(_D)"
 
 #: src/main_window.c:4235
 msgid "Recommended Applications"
-msgstr "تەۋسىيىلىك پروگراممىلار"
+msgstr "تەۋسىيەلىك پىروگرامما"
 
 #: src/main_window.c:4271
 msgid "Other Applications"
-msgstr "باشقا پروگراممىلار"
+msgstr "باشقا پىروگرامما"
 
 #: src/main_window.c:4388
 #, c-format
 msgid "Failed to show containing folder \"%s\"."
-msgstr ""
+msgstr "ئىچىدىكى قىسقۇچ «%s» نى كۆرسىتەلمىدى."
 
 #: src/privacy_dialog.c:115
 msgid "Time range to clear:"
@@ -634,7 +634,7 @@ msgstr "تازىلايدىغان ۋاقىت دائىرىسى:"
 
 #: src/privacy_dialog.c:118
 msgid "Cleanup"
-msgstr "تازىلاش"
+msgstr "تازىلا"
 
 #: src/privacy_dialog.c:121
 msgid "Last Hour"
@@ -659,7 +659,7 @@ msgstr "ھەممىسى"
 #: src/privacy_dialog.c:148 src/xfce_wallpaper_manager.c:273
 #: src/gnome_wallpaper_manager.c:181
 msgid "_Apply"
-msgstr ""
+msgstr "قوللان(_A)"
 
 #: src/privacy_dialog.c:418
 msgid "Clear private data"
@@ -667,7 +667,7 @@ msgstr "شەخسىي سانلىق-مەلۇماتلارنى تازىلا"
 
 #: src/preferences_dialog.c:248
 msgid "Display"
-msgstr "كۆرسىتىش"
+msgstr "كۆرسەتكۈچ"
 
 #: src/preferences_dialog.c:255
 msgid "Background color"
@@ -695,11 +695,11 @@ msgstr "سىزىش سۈپىتىگە چەك قويسۇن"
 msgid ""
 "Smooth the image using bilinear interpolation, thus prioritizing rendering "
 "quality over performance."
-msgstr ""
+msgstr "قوش سىزىقلىق قىممەت قىستۇرۇش ئۇسۇلىدا سۈرەتنى سىلىقلايدۇ، شۇنىڭ بىلەن رەڭلەش سۈپىتىنى ئۈنۈمنىڭ ئۈستىگە قويىدۇ."
 
 #: src/preferences_dialog.c:310
 msgid "Enable smoothing"
-msgstr ""
+msgstr "سىلىقلاشنى قوزغات"
 
 #: src/preferences_dialog.c:322
 msgid "Fullscreen"
@@ -734,17 +734,17 @@ msgstr "سائەتنى تولۇق ئېكراندا كۆرسىتىش"
 
 #: src/preferences_dialog.c:356
 msgid "Mouse cursor"
-msgstr ""
+msgstr "چاشقىنەك نۇر بەلگىسى"
 
 #: src/preferences_dialog.c:359
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr ""
+msgstr "ئېكران تولۇق ئېكران ھالىتىدە تۇرغاندا، چاشقىنەك نۇر بەلگىسى ئازراق ۋاقىت ھەرىكەتلەنمىگەندىن كېيىن ئۆزلۈكىدىن يوشۇرۇلىدۇ."
 
 #: src/preferences_dialog.c:367
 msgid "Period of inactivity (seconds):"
-msgstr ""
+msgstr "ھەرىكەتلەنمىگەن ۋاقىت (سېكۇنت):"
 
 #: src/preferences_dialog.c:387
 msgid "Slideshow"
@@ -758,11 +758,11 @@ msgstr "مۆھلىتى"
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr ""
+msgstr "تام تەسۋىر كۆرسەتكەندە يەككە سۈرەتنى كۆرسىتىشنىڭ داۋاملىشىش ۋاقتى (سېكۇنت)"
 
 #: src/preferences_dialog.c:410
 msgid "Control"
-msgstr "كونترول"
+msgstr "تىزگىن"
 
 #: src/preferences_dialog.c:414
 msgid "Scroll wheel"
@@ -770,7 +770,7 @@ msgstr "سىيرىش غالتىكى"
 
 #: src/preferences_dialog.c:417
 msgid "Invert zoom direction"
-msgstr "چوڭايتىش يۆنىلىشىنى ئالماشتۇرۇش"
+msgstr "چوڭايتىش يۆنىلىشىنى ئالماشتۇر"
 
 #: src/preferences_dialog.c:428
 msgid "Behaviour"
@@ -782,11 +782,11 @@ msgstr "قوزغات"
 
 #: src/preferences_dialog.c:434
 msgid "Maximize window on startup when opening an image"
-msgstr "ھۆججەتنى ئېچىپ باشلانغاندا كۆزنەكنى ئەڭ چوڭ قىلسۇن"
+msgstr "سۈرەتنى ئېچىپ باشلانغاندا كۆزنەكنى ئەڭ چوڭ قىلىدۇ"
 
 #: src/preferences_dialog.c:440
 msgid "Wrap around images"
-msgstr "ئەڭ ئاخىرقى سۈرەتتىن كېيىن بېشىغا قايتىش"
+msgstr "سۈرەت ئەتراپىنى ئورا"
 
 #: src/preferences_dialog.c:451
 msgid "Desktop"
@@ -797,7 +797,7 @@ msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "نۆۋەتتە ئۈستەلئۈستىنى باشقۇرۇۋاتقان سىستېمىنى سەپلەيدۇ.\nبۇنىڭغا قاراپ <i>Ristretto</i> ئۈستەلئۈستى تام قەغىزىنى بەلگىلەش\nئۇسۇلىنى بەلگىلەيدۇ."
 
 #: src/preferences_dialog.c:552
 msgid "Image Viewer Preferences"
@@ -844,23 +844,23 @@ msgstr "<b>%s</b>"
 #: src/properties_dialog.c:419
 #, c-format
 msgid "%s - Properties"
-msgstr "%s - خاسلىقلىرى"
+msgstr "%s - خاسلىقى"
 
 #: src/image_list.c:32
 msgid "No supported image type found in the directory"
-msgstr ""
+msgstr "مۇندەرىجىدىن قوللايدىغان سۈرەت تۈرىنى تاپالمىدى"
 
 #: src/image_list.c:33
 msgid "Directory only partially loaded"
-msgstr ""
+msgstr "مۇندەرىجە قىسمەن يۈكلەندى"
 
 #: src/image_list.c:34
 msgid "Could not load directory"
-msgstr ""
+msgstr "مۇندەرىجىنى يۈكلىيەلمەيدۇ"
 
 #: src/image_list.c:35
 msgid "Unsupported mime type"
-msgstr ""
+msgstr "قوللىمايدىغان MIME تۈرى"
 
 #: src/thumbnailer.c:368
 msgid ""
@@ -870,7 +870,7 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr "كىچىك سۈرەت مۇلازىمىتى بىلەن ئالاقە قىلالمىدى، \nشۇڭا كىچىك سۈرەتلەر\nياسالمايدۇ\n\nبۇ مەسىلىنى ھەل قىلىش ئۈچۈن <b>Tumbler</b> ياكى <i>thumbnailing مۇئەككىلى</i> نى \nئورنىتىڭ."
+msgstr "كىچىك سۈرەت مۇلازىمىتى بىلەن ئالاقە قىلالمىدى، \nشۇڭا كىچىك سۈرەتلەر\nياسالمايدۇ\n\nبۇ مەسىلىنى ھەل قىلىش ئۈچۈن <b>Tumbler</b> ياكى <i>thumbnailing نازارەتچسى</i> نى \nئورنىتىڭ."
 
 #: src/thumbnailer.c:376
 msgid "Do _not show this message again"
@@ -883,11 +883,11 @@ msgstr "ئۇسلۇب:"
 #. stretched is now default value
 #: src/xfce_wallpaper_manager.c:262
 msgid "Apply to all workspaces"
-msgstr ""
+msgstr "بارلىق خىزمەت بوشلۇقىغا قوللان"
 
 #: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:176
 msgid "Set as wallpaper"
-msgstr "تام قەغىزى قىلىپ بەلگىلە"
+msgstr "تام قەغەزگە تەڭشە"
 
 #: src/xfce_wallpaper_manager.c:302 src/gnome_wallpaper_manager.c:206
 msgid "Auto"
@@ -899,7 +899,7 @@ msgstr "ئوتتۇرىدا"
 
 #: src/xfce_wallpaper_manager.c:304
 msgid "Tiled"
-msgstr "كاھىشتەك"
+msgstr "يېيىلغان"
 
 #: src/xfce_wallpaper_manager.c:305
 msgid "Stretched"
@@ -923,15 +923,15 @@ msgstr "سۈرەتلەرنى ئوڭاي كۆرەلەيسىز"
 
 #: org.xfce.ristretto.desktop.in:13
 msgid "image;photo;picture;viewer;graphics;"
-msgstr ""
+msgstr "سۈرەت؛رەسىم؛كۆرگۈچ؛گىرافىك؛"
 
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: org.xfce.ristretto.appdata.xml.in:8
 msgid "Fast and lightweight image viewer"
-msgstr ""
+msgstr "تېز ۋە يېنىك سۈرەت كۆرگۈچ"
 
 #: org.xfce.ristretto.appdata.xml.in:13
 msgid ""
@@ -939,8 +939,8 @@ msgid ""
 "scroll through images, run a slideshow of images, open images with other "
 "applications like an image-editor or configure an image as the desktop "
 "wallpaper."
-msgstr ""
+msgstr "Ristretto سۈرەت كۈرگۈچ پىروگراممىسى بولۇپ، سۈرەتنى كۆرۈش ۋە سىيرىپ كۆرۈشكە ئىشلەتكىلى بولىدۇ،  سۈرەتنى تام تەسۋىر سۈپىتىدە كۆرسىتىش، سۈرەت تەھرىرلىگۈچكە ئوخشاش باشقا پىروگراممىدا سۈرەت ئېچىش ياكى سۈرەتنى ئۈستەلئۈستى تام قەغىزىگە تەڭشەشكە ئىشلەتكىلى بولىدۇ."
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "Xfce ئىجادكارلار"
