@@ -738,7 +738,6 @@ set_scale_factor (RsttoImageViewer *viewer,
                   GParamSpec *pspec,
                   gpointer data)
 {
-    cairo_surface_t *surface;
     gint scale_factor;
 
     if (viewer->priv->image_width > 0)
@@ -1466,8 +1465,6 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer,
 GdkPixbuf *
 rstto_image_viewer_get_pixbuf (RsttoImageViewer *viewer)
 {
-    cairo_surface_t *surface;
-
     if (viewer->priv->pixbuf.pattern == NULL)
         return NULL;
 
