@@ -19,12 +19,6 @@
 
 #include "big_pattern.h"
 
-/* To ensure proper filtering, you need to reserve the image paddings that will be overlapped */
-#define TILE_PAD (8)
-
-/* Value taken from texture limit on old RPi */
-#define MAX_TILE_SIZE (2048 - TILE_PAD * 2)
-
 /* Same as ceil(a / b) */
 #define DIV_CEIL(a, b) ((a) / (b) + !!((a) % (b)))
 
@@ -34,6 +28,14 @@ struct _RsttoBigPatternPrivate
 {
     guint width;
     guint height;
+
+    guint tile_size;
+
+    /*
+     * To ensure proper filtering, you need to reserve
+     * the image paddings that will be overlapped
+     */
+    guint pad;
 
     guint n_patterns;
     guint n_rows;
@@ -51,7 +53,7 @@ get_tile_area (RsttoBigPattern *self,
 
 static void
 cut_tiles (RsttoBigPattern *self,
-           const GdkPixbuf *pixbuf);
+           GdkPixbuf *pixbuf);
 
 G_DEFINE_TYPE_WITH_PRIVATE (RsttoBigPattern, rstto_big_pattern, G_TYPE_OBJECT)
 
@@ -67,6 +69,10 @@ rstto_big_pattern_class_init (RsttoBigPatternClass *klass)
 static void
 rstto_big_pattern_init (RsttoBigPattern *self)
 {
+    RsttoBigPatternPrivate *priv = rstto_big_pattern_get_instance_private (self);
+
+    /* Value taken from texture limit on old RPi */
+    priv->tile_size = 2048;
 }
 
 static void
@@ -90,41 +96,52 @@ get_tile_area (RsttoBigPattern *self,
                GdkRectangle *area)
 {
     RsttoBigPatternPrivate *priv = rstto_big_pattern_get_instance_private (self);
-    gint row = index / priv->n_cols;
-    gint col = index % priv->n_cols;
+    guint row = index / priv->n_cols;
+    guint col = index % priv->n_cols;
+    guint tile_size_nopad = priv->tile_size - priv->pad;
 
-    area->x = MAX (0, col * MAX_TILE_SIZE - TILE_PAD);
-    area->y = MAX (0, row * MAX_TILE_SIZE - TILE_PAD);
+    area->x = MAX (0, (glong) (col * tile_size_nopad) - priv->pad);
+    area->y = MAX (0, (glong) (row * tile_size_nopad) - priv->pad);
 
-    area->width = MIN (MAX_TILE_SIZE + TILE_PAD * 2, priv->width - area->x);
-    area->height = MIN (MAX_TILE_SIZE + TILE_PAD * 2, priv->height - area->y);
+    area->width = MIN (tile_size_nopad + priv->pad * 2, priv->width - area->x);
+    area->height = MIN (tile_size_nopad + priv->pad * 2, priv->height - area->y);
 }
 
 static void
 cut_tiles (RsttoBigPattern *self,
-           const GdkPixbuf *pixbuf)
+           GdkPixbuf *pixbuf)
 {
     RsttoBigPatternPrivate *priv = rstto_big_pattern_get_instance_private (self);
     GdkRectangle area;
     GdkPixbuf *tile_pixbuf;
     cairo_surface_t *tile_surface;
     cairo_pattern_t *tile_pattern;
+    gboolean has_alpha;
     guint i;
+
+    has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
 
     for (i = 0; i < priv->n_patterns; ++i)
     {
         get_tile_area (self, i, &area);
 
-        tile_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (pixbuf),
-                                      TRUE,
-                                      gdk_pixbuf_get_bits_per_sample (pixbuf),
-                                      area.width, area.height);
+        if (has_alpha)
+        {
+            tile_pixbuf = gdk_pixbuf_new_subpixbuf (pixbuf, area.x, area.y, area.width, area.height);
+        }
+        else
+        {
+            tile_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (pixbuf),
+                                          TRUE,
+                                          gdk_pixbuf_get_bits_per_sample (pixbuf),
+                                          area.width, area.height);
 
-        gdk_pixbuf_copy_area (pixbuf,
-                              area.x, area.y,
-                              area.width, area.height,
-                              tile_pixbuf,
-                              0, 0);
+            gdk_pixbuf_copy_area (pixbuf,
+                                  area.x, area.y,
+                                  area.width, area.height,
+                                  tile_pixbuf,
+                                  0, 0);
+        }
 
         tile_surface = gdk_cairo_surface_create_from_pixbuf (tile_pixbuf, 0, NULL);
         tile_pattern = cairo_pattern_create_for_surface (tile_surface);
@@ -145,8 +162,10 @@ rstto_big_pattern_new_from_pixbuf (GdkPixbuf *pixbuf)
     priv->width = gdk_pixbuf_get_width (pixbuf);
     priv->height = gdk_pixbuf_get_height (pixbuf);
 
-    priv->n_rows = DIV_CEIL (priv->height, MAX_TILE_SIZE);
-    priv->n_cols = DIV_CEIL (priv->width, MAX_TILE_SIZE);
+    priv->pad = MAX (priv->width, priv->height) / (priv->tile_size / 2);
+
+    priv->n_rows = DIV_CEIL (priv->height, priv->tile_size);
+    priv->n_cols = DIV_CEIL (priv->width, priv->tile_size);
 
     priv->n_patterns = priv->n_rows * priv->n_cols;
     priv->patterns = g_new0 (cairo_pattern_t *, priv->n_patterns);
