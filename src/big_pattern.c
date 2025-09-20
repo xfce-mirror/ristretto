@@ -80,6 +80,8 @@ rstto_big_pattern_finalize (GObject *object)
     {
         cairo_pattern_destroy (priv->patterns[i]);
     }
+
+    g_free (priv->patterns);
 }
 
 static void
