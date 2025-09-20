@@ -17,8 +17,8 @@
  *  02110-1301, USA.
  */
 
-#include "big_pattern.h"
 #include "util.h"
+#include "big_pattern.h"
 #include "image_viewer.h"
 #include "main_window.h"
 
