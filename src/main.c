@@ -23,9 +23,9 @@
 
 #include <libxfce4ui/libxfce4ui.h>
 #include <locale.h>
-#include <xfconf/xfconf.h>
-#include <unistd.h>
 #include <sys/ioctl.h>
+#include <unistd.h>
+#include <xfconf/xfconf.h>
 
 
 
