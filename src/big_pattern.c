@@ -163,6 +163,7 @@ rstto_big_pattern_new_from_pixbuf (GdkPixbuf *pixbuf)
     priv->height = gdk_pixbuf_get_height (pixbuf);
 
     priv->pad = MAX (priv->width, priv->height) / (priv->tile_size / 2);
+    priv->pad = MAX (8, priv->pad);
 
     priv->n_rows = DIV_CEIL (priv->height, priv->tile_size);
     priv->n_cols = DIV_CEIL (priv->width, priv->tile_size);
