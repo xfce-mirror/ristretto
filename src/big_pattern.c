@@ -29,11 +29,19 @@ struct _RsttoBigPatternPrivate
     guint width;
     guint height;
 
+    /*
+     * All tiles are this size, or smaller if they are
+     * on the edge of the image
+     */
     guint tile_size;
 
     /*
      * To ensure proper filtering, you need to reserve
      * the image paddings that will be overlapped
+     *
+     * Additionally, cairo blurs the edges of the image
+     * with anti-aliasing enabled, so additional
+     * padding is needed to avoid gaps
      */
     guint pad;
 
@@ -162,7 +170,7 @@ rstto_big_pattern_new_from_pixbuf (GdkPixbuf *pixbuf)
     priv->width = gdk_pixbuf_get_width (pixbuf);
     priv->height = gdk_pixbuf_get_height (pixbuf);
 
-    priv->pad = MAX (priv->width, priv->height) / (priv->tile_size / 2);
+    priv->pad = MAX (priv->width, priv->height) / 1024;
     priv->pad = MAX (8, priv->pad);
 
     priv->n_rows = DIV_CEIL (priv->height, priv->tile_size);
