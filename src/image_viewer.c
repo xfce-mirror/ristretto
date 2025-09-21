@@ -18,6 +18,7 @@
  */
 
 #include "util.h"
+#include "big_pattern.h"
 #include "image_viewer.h"
 #include "main_window.h"
 
@@ -259,7 +260,7 @@ struct _RsttoImageViewerPrivate
     gchar **excluded_mime_types;
     struct
     {
-        cairo_pattern_t *pattern;
+        RsttoBigPattern *pattern;
         gboolean has_alpha;
         gint width;
         gint height;
@@ -602,8 +603,7 @@ rstto_image_viewer_finalize (GObject *object)
     }
     if (viewer->priv->pixbuf.pattern)
     {
-        cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
-        viewer->priv->pixbuf.pattern = NULL;
+        g_clear_object (&viewer->priv->pixbuf.pattern);
     }
     if (viewer->priv->iter)
     {
@@ -738,7 +738,6 @@ set_scale_factor (RsttoImageViewer *viewer,
                   GParamSpec *pspec,
                   gpointer data)
 {
-    cairo_surface_t *surface;
     gint scale_factor;
 
     if (viewer->priv->image_width > 0)
@@ -747,8 +746,7 @@ set_scale_factor (RsttoImageViewer *viewer,
         scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
         viewer->priv->image_width = viewer->priv->original_image_width / scale_factor;
         viewer->priv->image_height = viewer->priv->original_image_height / scale_factor;
-        cairo_pattern_get_surface (viewer->priv->pixbuf.pattern, &surface);
-        cairo_surface_set_device_scale (surface, scale_factor, scale_factor);
+        rstto_big_pattern_set_device_scale (viewer->priv->pixbuf.pattern, scale_factor, scale_factor);
 
         if (pspec != NULL)
             gtk_widget_queue_resize (GTK_WIDGET (viewer));
@@ -1131,12 +1129,12 @@ paint_image (GtkWidget *widget,
             break;
     }
 
-    cairo_pattern_set_filter (viewer->priv->pixbuf.pattern,
-                              viewer->priv->enable_smoothing ? CAIRO_FILTER_BILINEAR
-                                                             : CAIRO_FILTER_NEAREST);
-    cairo_scale (ctx, x_scale / viewer->priv->quality_scale, y_scale / viewer->priv->quality_scale);
-    cairo_set_source (ctx, viewer->priv->pixbuf.pattern);
-    cairo_paint (ctx);
+    rstto_big_pattern_cairo_paint (viewer->priv->pixbuf.pattern,
+                                   ctx,
+                                   x_scale / viewer->priv->quality_scale,
+                                   y_scale / viewer->priv->quality_scale,
+                                   viewer->priv->enable_smoothing ? CAIRO_FILTER_BILINEAR
+                                                                  : CAIRO_FILTER_NEAREST);
 }
 
 static void
@@ -1328,8 +1326,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
         }
         if (viewer->priv->pixbuf.pattern)
         {
-            cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
-            viewer->priv->pixbuf.pattern = NULL;
+            g_clear_object (&viewer->priv->pixbuf.pattern);
         }
         if (viewer->priv->transaction)
         {
@@ -1468,16 +1465,10 @@ rstto_image_viewer_set_scale (RsttoImageViewer *viewer,
 GdkPixbuf *
 rstto_image_viewer_get_pixbuf (RsttoImageViewer *viewer)
 {
-    cairo_surface_t *surface;
-
     if (viewer->priv->pixbuf.pattern == NULL)
         return NULL;
 
-    cairo_pattern_get_surface (viewer->priv->pixbuf.pattern, &surface);
-
-    return gdk_pixbuf_get_from_surface (surface, 0, 0,
-                                        viewer->priv->pixbuf.width,
-                                        viewer->priv->pixbuf.height);
+    return rstto_big_pattern_get_pixbuf (viewer->priv->pixbuf.pattern);
 }
 
 gdouble
@@ -1664,15 +1655,14 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader,
 
         if (viewer->priv->pixbuf.pattern)
         {
-            cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
-            viewer->priv->pixbuf.pattern = NULL;
+            g_clear_object (&viewer->priv->pixbuf.pattern);
         }
 
         viewer->priv->iter = gdk_pixbuf_animation_get_iter (gdk_pixbuf_loader_get_animation (loader), NULL);
 
         /* set pixbuf data */
         pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
-        viewer->priv->pixbuf.pattern = rstto_util_set_source_pixbuf (NULL, pixbuf, 0, 0);
+        viewer->priv->pixbuf.pattern = rstto_big_pattern_new_from_pixbuf (pixbuf);
         viewer->priv->pixbuf.has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
         viewer->priv->pixbuf.width = gdk_pixbuf_get_width (pixbuf);
         viewer->priv->pixbuf.height = gdk_pixbuf_get_height (pixbuf);
@@ -1765,8 +1755,7 @@ cb_rstto_image_loader_closed_idle (gpointer data)
             viewer->priv->image_height = viewer->priv->original_image_height = 0;
             if (viewer->priv->pixbuf.pattern)
             {
-                cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
-                viewer->priv->pixbuf.pattern = NULL;
+                g_clear_object (&viewer->priv->pixbuf.pattern);
             }
 
             gtk_widget_set_tooltip_text (widget, transaction->error->message);
@@ -1811,9 +1800,9 @@ cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
     {
         /* update pixbuf data (a copy of the pixbuf is kept as a pattern, so we can access
          * it safely regardless of the iter state) */
-        cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
+        g_clear_object (&viewer->priv->pixbuf.pattern);
         pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
-        viewer->priv->pixbuf.pattern = rstto_util_set_source_pixbuf (NULL, pixbuf, 0, 0);
+        viewer->priv->pixbuf.pattern = rstto_big_pattern_new_from_pixbuf (pixbuf);
         viewer->priv->pixbuf.has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
         viewer->priv->pixbuf.width = gdk_pixbuf_get_width (pixbuf);
         viewer->priv->pixbuf.height = gdk_pixbuf_get_height (pixbuf);
