@@ -182,6 +182,12 @@ rstto_file_has_exif (RsttoFile *r_file);
 void
 rstto_file_changed (RsttoFile *r_file);
 
+gboolean
+rstto_file_is_ephemeral (RsttoFile *r_file);
+
+void
+rstto_file_materialize (RsttoFile *r_file,
+                        GError **error);
 
 G_END_DECLS
 
