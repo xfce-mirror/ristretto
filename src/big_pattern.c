@@ -45,6 +45,13 @@ struct _RsttoBigPatternPrivate
      */
     guint pad;
 
+    /*
+     * Tiles are cut into individual cairo_pattern_t
+     * objects. Having a single cairo_pattern_t is
+     * impossible, because it would act as one large
+     * image, thereby nullifying the entire purpose of
+     * RsttoBigPattern
+     */
     guint n_patterns;
     guint n_rows;
     guint n_cols;
@@ -108,6 +115,7 @@ get_tile_area (RsttoBigPattern *self,
     guint col = index % priv->n_cols;
     guint tile_size_nopad = priv->tile_size - priv->pad;
 
+    /* Cutting tiles with the left and top edges overlapping the previous tile */
     area->x = MAX (0, (glong) (col * tile_size_nopad) - priv->pad);
     area->y = MAX (0, (glong) (row * tile_size_nopad) - priv->pad);
 
@@ -133,6 +141,7 @@ cut_tiles (RsttoBigPattern *self,
     {
         get_tile_area (self, i, &area);
 
+        /* Need an alpha channel to blend intersecting edges */
         if (has_alpha)
         {
             tile_pixbuf = gdk_pixbuf_new_subpixbuf (pixbuf, area.x, area.y, area.width, area.height);
@@ -170,7 +179,9 @@ rstto_big_pattern_new_from_pixbuf (GdkPixbuf *pixbuf)
     priv->width = gdk_pixbuf_get_width (pixbuf);
     priv->height = gdk_pixbuf_get_height (pixbuf);
 
+    /* 1024 is a good value that was derived experimentally */
     priv->pad = MAX (priv->width, priv->height) / 1024;
+    /* 8 is the minimum value for correct edge blending */
     priv->pad = MAX (8, priv->pad);
 
     priv->n_rows = DIV_CEIL (priv->height, priv->tile_size);
@@ -213,6 +224,7 @@ rstto_big_pattern_get_pixbuf (RsttoBigPattern *self)
                                           priv->height);
 
     cr = cairo_create (surface);
+    /* If there is no transformation, CAIRO_FILTER_NEAREST is best */
     rstto_big_pattern_cairo_paint (self, cr, 1.0, 1.0, CAIRO_FILTER_NEAREST);
     cairo_destroy (cr);
 
