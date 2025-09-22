@@ -20,8 +20,8 @@
 #ifndef __RISTRETTO_FILE_MANAGER_INTEGRATION_FACTORY_H__
 #define __RISTRETTO_FILE_MANAGER_INTEGRATION_FACTORY_H__
 
-#include "settings.h"
 #include "file_manager_integration.h"
+#include "settings.h"
 
 RsttoFileManagerIntegration *
 rstto_file_manager_integration_factory_create (RsttoDesktopEnvironment desktop_env);

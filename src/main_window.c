@@ -19,6 +19,8 @@
 
 #include "util.h"
 #include "app_menu_item.h"
+#include "file_manager_integration.h"
+#include "file_manager_integration_factory.h"
 #include "gnome_wallpaper_manager.h"
 #include "icon_bar.h"
 #include "image_viewer.h"
@@ -30,8 +32,6 @@
 #include "properties_dialog.h"
 #include "thumbnailer.h"
 #include "xfce_wallpaper_manager.h"
-#include "file_manager_integration.h"
-#include "file_manager_integration_factory.h"
 
 #include <gio/gdesktopappinfo.h>
 #include <libxfce4ui/libxfce4ui.h>
