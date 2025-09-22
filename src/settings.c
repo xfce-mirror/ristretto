@@ -55,6 +55,7 @@ enum
     PROP_SORT_ORDER,
     PROP_THUMBNAIL_SIZE,
     PROP_DEFAULT_ZOOM,
+    PROP_FILE_MANAGER_SORT_SYNC,
 };
 
 static RsttoSettings *settings_object;
@@ -108,6 +109,7 @@ struct _RsttoSettingsPrivate
     gboolean maximize_on_startup;
     RsttoThumbnailSize thumbnail_size;
     RsttoScale default_zoom;
+    gboolean file_manager_sort_sync;
 
     RsttoSortType sort_type;
     RsttoSortOrder sort_order;
@@ -213,6 +215,7 @@ rstto_settings_init (RsttoSettings *settings)
     xfconf_g_property_bind (settings->priv->channel, "/errors/missing-thumbnailer", G_TYPE_BOOLEAN, settings, "show-error-missing-thumbnailer");
     xfconf_g_property_bind (settings->priv->channel, "/desktop/type", G_TYPE_STRING, settings, "desktop-type");
     xfconf_g_property_bind (settings->priv->channel, "/image/default-zoom", G_TYPE_INT, settings, "default-zoom");
+    xfconf_g_property_bind (settings->priv->channel, "/window/file-manager-sort-sync", G_TYPE_BOOLEAN, settings, "file-manager-sort-sync");
 }
 
 
@@ -381,6 +384,12 @@ rstto_settings_class_init (RsttoSettingsClass *klass)
                               RSTTO_SCALE_NONE, RSTTO_SCALE_REAL_SIZE, RSTTO_SCALE_NONE,
                               G_PARAM_READWRITE);
     g_object_class_install_property (object_class, PROP_DEFAULT_ZOOM, pspec);
+
+    pspec = g_param_spec_boolean ("file-manager-sort-sync",
+                                  "", "",
+                                  FALSE,
+                                  G_PARAM_READWRITE);
+    g_object_class_install_property (object_class, PROP_FILE_MANAGER_SORT_SYNC, pspec);
 }
 
 /**
@@ -618,6 +627,9 @@ rstto_settings_set_property (GObject *object,
         case PROP_DEFAULT_ZOOM:
             settings->priv->default_zoom = g_value_get_int (value);
             break;
+        case PROP_FILE_MANAGER_SORT_SYNC:
+            settings->priv->file_manager_sort_sync = g_value_get_boolean (value);
+            break;
         default:
             break;
     }
@@ -710,6 +722,9 @@ rstto_settings_get_property (GObject *object,
             break;
         case PROP_DEFAULT_ZOOM:
             g_value_set_int (value, settings->priv->default_zoom);
+            break;
+        case PROP_FILE_MANAGER_SORT_SYNC:
+            g_value_set_boolean (value, settings->priv->file_manager_sort_sync);
             break;
         default:
             break;
@@ -834,4 +849,38 @@ rstto_settings_get_boolean_property (RsttoSettings *settings,
     g_object_get (settings, property_name, &value, NULL);
 
     return value;
+}
+
+/* RsttoDesktopEnvironment */
+
+const gchar *
+rstto_desktop_environment_get_name (RsttoDesktopEnvironment desktop_env)
+{
+    switch (desktop_env)
+    {
+        case DESKTOP_ENVIRONMENT_XFCE:
+            return "xfce";
+
+        case DESKTOP_ENVIRONMENT_GNOME:
+            return "gnome";
+
+        case DESKTOP_ENVIRONMENT_NONE:
+        default:
+            return "none";
+    }
+}
+
+RsttoDesktopEnvironment
+rstto_desktop_environment_from_name (const gchar *name)
+{
+    if (NULL == name)
+        return DESKTOP_ENVIRONMENT_NONE;
+
+    if (0 == g_strcmp0 (name, "xfce"))
+        return DESKTOP_ENVIRONMENT_XFCE;
+
+    if (0 == g_strcmp0 (name, "gnome"))
+        return DESKTOP_ENVIRONMENT_GNOME;
+
+    return DESKTOP_ENVIRONMENT_NONE;
 }

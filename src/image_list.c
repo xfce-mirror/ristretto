@@ -1194,8 +1194,19 @@ cb_rstto_image_list_image_type_compare_func (gconstpointer a,
 {
     const gchar *a_content_type = rstto_file_get_content_type ((RsttoFile *) a);
     const gchar *b_content_type = rstto_file_get_content_type ((RsttoFile *) b);
+    gchar *a_desc = g_content_type_get_description (a_content_type);
+    gchar *b_desc = g_content_type_get_description (b_content_type);
+    guint rc = g_strcmp0 (a_desc, b_desc);
 
-    return g_strcmp0 (a_content_type, b_content_type);
+    if (0 == rc)
+    {
+        rc = cb_rstto_image_list_image_name_compare_func (a, b, user_data);
+    }
+
+    g_free (a_desc);
+    g_free (b_desc);
+
+    return rc;
 }
 
 /**
