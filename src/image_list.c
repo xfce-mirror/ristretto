@@ -64,6 +64,10 @@ static void
 rstto_image_list_remove_all (RsttoImageList *image_list);
 static gboolean
 rstto_image_list_set_directory_idle (gpointer data);
+static gint
+rstto_image_list_compare_func_decorator (gconstpointer a,
+                                         gconstpointer b,
+                                         gpointer data);
 static void
 rstto_image_list_set_compare_func (RsttoImageList *image_list,
                                    GCompareDataFunc func);
@@ -83,6 +87,10 @@ static gint
 cb_rstto_image_list_random_compare_func (gconstpointer a,
                                          gconstpointer b,
                                          gpointer user_data);
+static gint
+cb_rstto_image_list_image_size_compare_func (gconstpointer a,
+                                             gconstpointer b,
+                                             gpointer user_data);
 
 static void
 cb_file_monitor_changed (GFileMonitor *monitor,
@@ -187,6 +195,7 @@ struct _RsttoImageListPrivate
     GQueue *images;
     GSList *iterators;
     GCompareDataFunc cb_rstto_image_list_compare_func;
+    RsttoSortOrder sort_order;
 
     gboolean wrap_images;
     gboolean is_busy;
@@ -1068,6 +1077,21 @@ rstto_image_list_iter_clone (RsttoImageListIter *iter)
     return new_iter;
 }
 
+static gint
+rstto_image_list_compare_func_decorator (gconstpointer a,
+                                         gconstpointer b,
+                                         gpointer data)
+{
+    RsttoImageList *image_list = (RsttoImageList *) data;
+    gint r;
+
+    r = image_list->priv->cb_rstto_image_list_compare_func (a, b, image_list);
+    if (SORT_ORDER_DESC == image_list->priv->sort_order)
+        r *= -1;
+
+    return r;
+}
+
 static void
 rstto_image_list_set_compare_func (RsttoImageList *image_list,
                                    GCompareDataFunc func)
@@ -1082,7 +1106,7 @@ rstto_image_list_set_compare_func (RsttoImageList *image_list,
     for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
         files[n] = RSTTO_IMAGE_LIST_ITER (iter->data)->priv->r_file;
 
-    g_queue_sort (image_list->priv->images, func, image_list);
+    g_queue_sort (image_list->priv->images, rstto_image_list_compare_func_decorator, image_list);
 
     /* reposition iters on their file */
     for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
@@ -1118,6 +1142,22 @@ rstto_image_list_set_sort_by_random (RsttoImageList *image_list)
 {
     image_list->priv->seed = g_random_int ();
     rstto_image_list_set_compare_func (image_list, cb_rstto_image_list_random_compare_func);
+}
+
+void
+rstto_image_list_set_sort_by_size (RsttoImageList *image_list)
+{
+    rstto_image_list_set_compare_func (image_list, cb_rstto_image_list_image_size_compare_func);
+}
+
+void
+rstto_image_list_set_sort_order (RsttoImageList *image_list,
+                                 RsttoSortOrder order)
+{
+    image_list->priv->sort_order = order;
+
+    if (NULL != image_list->priv->cb_rstto_image_list_compare_func)
+        rstto_image_list_set_compare_func (image_list, image_list->priv->cb_rstto_image_list_compare_func);
 }
 
 /**
@@ -1180,6 +1220,17 @@ cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
         return -1;
     }
     return 1;
+}
+
+static gint
+cb_rstto_image_list_image_size_compare_func (gconstpointer a,
+                                             gconstpointer b,
+                                             gpointer user_data)
+{
+    const goffset asize = rstto_file_get_size ((RsttoFile *) a);
+    const goffset bsize = rstto_file_get_size ((RsttoFile *) b);
+
+    return (asize > bsize) - (asize < bsize);
 }
 
 /**

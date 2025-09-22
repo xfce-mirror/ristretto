@@ -30,9 +30,16 @@ typedef enum
     SORT_TYPE_TYPE,
     SORT_TYPE_DATE,
     SORT_TYPE_RANDOM,
+    SORT_TYPE_SIZE,
     SORT_TYPE_COUNT,
 } RsttoSortType;
 
+typedef enum
+{
+    SORT_ORDER_ASC = 0,
+    SORT_ORDER_DESC,
+    SORT_ORDER_COUNT,
+} RsttoSortOrder;
 
 
 #define RSTTO_TYPE_SETTINGS rstto_settings_get_type ()
