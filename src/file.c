@@ -793,8 +793,6 @@ rstto_file_materialize (RsttoFile *r_file,
     GFileInputStream *in;
     gchar *path;
 
-    g_return_if_fail (rstto_file_is_ephemeral (r_file));
-
     if (!rstto_file_needs_materialization (r_file))
         return;
 
