@@ -140,11 +140,19 @@ static void
 rstto_file_finalize (GObject *object)
 {
     RsttoFile *r_file = RSTTO_FILE (object);
+    gchar *path;
     gint i = 0;
 
     if (r_file->priv->is_materialized)
     {
-        g_file_delete (r_file->priv->file, NULL, NULL);
+        /* It's not nice to delete user files by mistake, so it's worth double-checking
+         * that the file was actually created through the materialization function */
+        path = g_file_get_path (r_file->priv->file);
+        if (g_str_has_prefix (path, g_get_tmp_dir ()))
+            g_file_delete (r_file->priv->file, NULL, NULL);
+        else
+            g_warn_if_reached ();
+        g_free (path);
     }
     if (r_file->priv->file)
     {
