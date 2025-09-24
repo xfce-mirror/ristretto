@@ -227,15 +227,18 @@ rstto_util_sendfile (GOutputStream *out,
     gsize buff_size;
     gssize n_out;
     gssize n_in;
+    GError *tmp_error = NULL;
 
     buff_size = 1 * 1024 * 1024;
     buff = g_malloc (buff_size);
 
     while (TRUE)
     {
-        n_in = g_input_stream_read (in, buff, buff_size, NULL, error);
-        if (NULL != *error)
+        n_in = g_input_stream_read (in, buff, buff_size, NULL, &tmp_error);
+        if (NULL != tmp_error)
         {
+            if (NULL != error)
+                *error = g_error_copy (tmp_error);
             break;
         }
         if (n_in == 0)
@@ -244,8 +247,10 @@ rstto_util_sendfile (GOutputStream *out,
         }
 
         n_out = g_output_stream_write (out, buff, n_in, NULL, error);
-        if (NULL != *error)
+        if (NULL != tmp_error)
         {
+            if (NULL != error)
+                *error = g_error_copy (tmp_error);
             break;
         }
         if (n_in != n_out)
@@ -255,4 +260,5 @@ rstto_util_sendfile (GOutputStream *out,
     }
 
     g_free (buff);
+    g_clear_error (&tmp_error);
 }
