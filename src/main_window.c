@@ -213,6 +213,10 @@ cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action,
                                                GtkRadioAction *current,
                                                RsttoMainWindow *window);
 static void
+cb_rstto_main_window_sorting_order_changed (GtkRadioAction *action,
+                                            GtkRadioAction *current,
+                                            RsttoMainWindow *window);
+static void
 cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action,
                                                          GtkRadioAction *current,
                                                          RsttoMainWindow *window);
@@ -394,6 +398,12 @@ static GtkActionEntry action_entries[] = {
     { "sorting-menu",
       NULL,
       N_ ("_Sort by"),
+      NULL,
+      NULL,
+      NULL },
+    { "sorting-order-menu",
+      NULL,
+      N_ ("Sort order"),
       NULL,
       NULL,
       NULL },
@@ -668,6 +678,21 @@ static const GtkRadioActionEntry radio_action_sort_entries[] = {
       NULL, /* Keyboard shortcut */
       NULL, /* Tooltip text */
       SORT_TYPE_SIZE },
+};
+
+static const GtkRadioActionEntry radio_action_sort_order_entries[] = {
+    { "sort-order-asc",
+      NULL, /* Icon-name */
+      N_ ("ascending"), /* Label-text */
+      NULL, /* Keyboard shortcut */
+      NULL, /* Tooltip text */
+      SORT_ORDER_ASC },
+    { "sort-order-desc",
+      NULL, /* Icon-name */
+      N_ ("descending"), /* Label-text */
+      NULL, /* Keyboard shortcut */
+      NULL, /* Tooltip text */
+      SORT_ORDER_DESC },
 };
 
 /** Navigationbar + Thumbnailbar positioning options*/
@@ -1022,6 +1047,9 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_sort_entries,
                                         G_N_ELEMENTS (radio_action_sort_entries), 0,
                                         G_CALLBACK (cb_rstto_main_window_sorting_function_changed), window);
+    gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_sort_order_entries,
+                                        G_N_ELEMENTS (radio_action_sort_order_entries), 0,
+                                        G_CALLBACK (cb_rstto_main_window_sorting_order_changed), window);
     gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_pos_entries,
                                         G_N_ELEMENTS (radio_action_pos_entries), navigationbar_position,
                                         G_CALLBACK (cb_rstto_main_window_navigationtoolbar_position_changed), window);
@@ -1283,6 +1311,31 @@ rstto_main_window_init (RsttoMainWindow *window)
             break;
     }
 
+    switch (rstto_settings_get_uint_property (window->priv->settings_manager, "sort-order"))
+    {
+        case SORT_ORDER_ASC:
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/edit-menu/sorting-order-menu/sort-order-asc")),
+                TRUE);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            break;
+        case SORT_ORDER_DESC:
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/edit-menu/sorting-order-menu/sort-order-desc")),
+                TRUE);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            break;
+        default:
+            g_warning ("Sort order unsupported");
+            break;
+    }
+
     g_signal_connect (window, "motion-notify-event",
                       G_CALLBACK (cb_rstto_main_window_motion_notify_event), window);
     g_signal_connect (window->priv->image_viewer, "enter-notify-event",
@@ -1498,6 +1551,19 @@ rstto_main_window_new (RsttoImageList *image_list,
             break;
         default:
             g_warning ("Sort type unsupported");
+            break;
+    }
+
+    switch (rstto_settings_get_uint_property (window->priv->settings_manager, "sort-order"))
+    {
+        case SORT_ORDER_ASC:
+            rstto_image_list_set_sort_order (window->priv->image_list, SORT_ORDER_ASC);
+            break;
+        case SORT_ORDER_DESC:
+            rstto_image_list_set_sort_order (window->priv->image_list, SORT_ORDER_DESC);
+            break;
+        default:
+            g_warning ("Sort order unsupported");
             break;
     }
 
@@ -2278,6 +2344,34 @@ cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action,
             {
                 rstto_image_list_set_sort_by_size (window->priv->image_list);
                 rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_SIZE);
+            }
+            break;
+    }
+}
+
+static void
+cb_rstto_main_window_sorting_order_changed (GtkRadioAction *action,
+                                            GtkRadioAction *current,
+                                            RsttoMainWindow *window)
+{
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    gint value = gtk_radio_action_get_current_value (current);
+    G_GNUC_END_IGNORE_DEPRECATIONS
+    switch (value)
+    {
+        case SORT_ORDER_ASC:
+        default:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_order (window->priv->image_list, SORT_ORDER_ASC);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-order", SORT_ORDER_ASC);
+            }
+            break;
+        case SORT_ORDER_DESC:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_order (window->priv->image_list, SORT_ORDER_DESC);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-order", SORT_ORDER_DESC);
             }
             break;
     }

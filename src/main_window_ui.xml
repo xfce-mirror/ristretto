@@ -31,6 +31,10 @@
                 <menuitem action="sort-random"/>
                 <menuitem action="sort-size"/>
             </menu>
+            <menu action="sorting-order-menu">
+                <menuitem action="sort-order-asc"/>
+                <menuitem action="sort-order-desc"/>
+            </menu>
             <menuitem action="delete"/>
             <separator/>
             <menuitem action="clear-private-data"/>
