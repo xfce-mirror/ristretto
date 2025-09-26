@@ -17,21 +17,21 @@
  *  02110-1301, USA.
  */
 
-#include "file_manager_integration_factory.h"
-#include "file_manager_integration_thunar.h"
+#ifndef __RISTRETTO_FILE_MANAGER_INTEGRATION_THUNAR_H__
+#define __RISTRETTO_FILE_MANAGER_INTEGRATION_THUNAR_H__
+
+#include "file_manager_integration.h"
+
+G_BEGIN_DECLS
+
+#define RSTTO_TYPE_FILE_MANAGER_INTEGRATION_THUNAR (rstto_file_manager_integration_thunar_get_type ())
+G_DECLARE_FINAL_TYPE (RsttoFileManagerIntegrationThunar, rstto_file_manager_integration_thunar, RSTTO, FILE_MANAGER_INTEGRATION_THUNAR, GObject)
+
+typedef struct _RsttoFileManagerIntegrationThunar RsttoFileManagerIntegrationThunar;
 
 RsttoFileManagerIntegration *
-rstto_file_manager_integration_factory_create (RsttoDesktopEnvironment desktop_env)
-{
-    switch (desktop_env)
-    {
-        default:
-        case DESKTOP_ENVIRONMENT_NONE:
-            return NULL;
+rstto_file_manager_integration_thunar_new (void);
 
-        case DESKTOP_ENVIRONMENT_XFCE:
-            return rstto_file_manager_integration_thunar_new ();
-    }
+G_END_DECLS
 
-    g_assert_not_reached ();
-}
+#endif /* __RISTRETTO_FILE_MANAGER_INTEGRATION_THUNAR_H__ */
