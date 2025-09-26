@@ -258,6 +258,12 @@ rstto_privacy_dialog_finalize (GObject *object)
         dialog->priv->filters = NULL;
     }
 
+    if (dialog->priv->timeframe_filter)
+    {
+        g_object_unref (dialog->priv->timeframe_filter);
+        dialog->priv->timeframe_filter = NULL;
+    }
+
     G_OBJECT_CLASS (rstto_privacy_dialog_parent_class)->finalize (object);
 }
 

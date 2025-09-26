@@ -814,6 +814,7 @@ struct _RsttoMainWindowPrivate
     GtkAction *play_action;
     GtkAction *pause_action;
     GtkAction *recent_action;
+    GtkRecentFilter *recent_filter;
 
     gboolean playing;
 
@@ -841,7 +842,6 @@ rstto_main_window_init (RsttoMainWindow *window)
     GtkAccelGroup *accel_group;
     GtkWidget *separator;
     GtkWidget *main_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-    GtkRecentFilter *recent_filter;
     guint window_width, window_height;
     gchar *desktop_type = NULL;
     GtkWidget *info_bar_content_area;
@@ -975,15 +975,15 @@ rstto_main_window_init (RsttoMainWindow *window)
      * Specifying GTK_RECENT_FILTER_DISPLAY_NAME is needed because of a bug fixed in
      * GTK 3.24.31: see https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/4080
      */
-    recent_filter = gtk_recent_filter_new ();
-    gtk_recent_filter_add_custom (recent_filter,
+    window->priv->recent_filter = gtk_recent_filter_new ();
+    gtk_recent_filter_add_custom (window->priv->recent_filter,
                                   GTK_RECENT_FILTER_URI
 #if !GTK_CHECK_VERSION(3, 24, 31)
                                       | GTK_RECENT_FILTER_DISPLAY_NAME
 #endif
                                       | GTK_RECENT_FILTER_APPLICATION,
                                   rstto_main_window_recent_filter, window, NULL);
-    gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (window->priv->recent_action), recent_filter);
+    gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (window->priv->recent_action), window->priv->recent_filter);
 
     G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     /* Add the same accelerator path to play and pause, so the same kb-shortcut will be used for starting and stopping the slideshow */
@@ -1361,6 +1361,12 @@ rstto_main_window_finalize (GObject *object)
     {
         g_object_unref (window->priv->action_group);
         window->priv->action_group = NULL;
+    }
+
+    if (window->priv->recent_filter)
+    {
+        g_object_unref (window->priv->recent_filter);
+        window->priv->recent_filter = NULL;
     }
 
     g_clear_object (&window->priv->filemanager_proxy);
@@ -4417,6 +4423,7 @@ cb_rstto_main_window_clear_private_data (GtkWidget *widget,
         g_strfreev (uris);
     }
 
+    g_object_unref (recent_filter);
     gtk_widget_destroy (dialog);
 }
 
