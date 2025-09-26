@@ -5,6 +5,8 @@ ristretto_sources = [
   'file.h',
   'file_manager_integration.h',
   'file_manager_integration.c',
+  'file_manager_integration_thunar.h',
+  'file_manager_integration_thunar.c',
   'file_manager_integration_factory.h',
   'file_manager_integration_factory.c',
   'gnome_wallpaper_manager.c',
