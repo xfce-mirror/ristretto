@@ -662,6 +662,12 @@ static const GtkRadioActionEntry radio_action_sort_entries[] = {
       NULL, /* Keyboard shortcut */
       NULL, /* Tooltip text */
       SORT_TYPE_RANDOM },
+    { "sort-size",
+      NULL, /* Icon-name */
+      N_ ("file size"), /* Label-text */
+      NULL, /* Keyboard shortcut */
+      NULL, /* Tooltip text */
+      SORT_TYPE_SIZE },
 };
 
 /** Navigationbar + Thumbnailbar positioning options*/
@@ -1263,6 +1269,15 @@ rstto_main_window_init (RsttoMainWindow *window)
                 TRUE);
             G_GNUC_END_IGNORE_DEPRECATIONS
             break;
+        case SORT_TYPE_SIZE:
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/edit-menu/sorting-menu/sort-size")),
+                TRUE);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            break;
         default:
             g_warning ("Sort type unsupported");
             break;
@@ -1477,6 +1492,9 @@ rstto_main_window_new (RsttoImageList *image_list,
             break;
         case SORT_TYPE_RANDOM:
             rstto_image_list_set_sort_by_random (window->priv->image_list);
+            break;
+        case SORT_TYPE_SIZE:
+            rstto_image_list_set_sort_by_size (window->priv->image_list);
             break;
         default:
             g_warning ("Sort type unsupported");
@@ -2253,6 +2271,13 @@ cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action,
             {
                 rstto_image_list_set_sort_by_random (window->priv->image_list);
                 rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_RANDOM);
+            }
+            break;
+        case SORT_TYPE_SIZE:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_by_size (window->priv->image_list);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_SIZE);
             }
             break;
     }
