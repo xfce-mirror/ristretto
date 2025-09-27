@@ -215,3 +215,43 @@ rstto_util_get_thumbnail_n_pixels (RsttoThumbnailSize size)
 {
     return rstto_thumbnail_n_pixels[size];
 }
+
+
+
+void
+rstto_util_sendfile (GOutputStream *out,
+                     GInputStream *in,
+                     GError **error)
+{
+    gchar *buff;
+    gsize buff_size;
+    gssize n_out;
+    gssize n_in;
+    GError *tmp_error = NULL;
+
+    buff_size = 1 * 1024 * 1024;
+    buff = g_malloc (buff_size);
+
+    while (TRUE)
+    {
+        n_in = g_input_stream_read (in, buff, buff_size, NULL, &tmp_error);
+        if (tmp_error != NULL)
+            break;
+    
+        if (n_in == 0)
+            break;
+
+        n_out = g_output_stream_write (out, buff, n_in, NULL, error);
+        if (tmp_error != NULL)
+            break;
+        
+        if (n_in != n_out)
+            break;
+    }
+
+    if (tmp_error != NULL && error != NULL) 
+        *error = g_error_copy (tmp_error);
+
+    g_clear_error (&tmp_error);
+    g_free (buff);
+}
