@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-07-18 11:03+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Quentin PAGÈS, 2022,2024-2025\n"
+"Last-Translator: Quentin PAGÈS, 2022,2024\n"
 "Language-Team: Occitan (post 1500) (http://app.transifex.com/xfce/xfce-apps/language/oc/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -194,13 +194,13 @@ msgstr "_Afichar"
 #. Icon-name
 #: src/main_window.c:427
 msgid "_Fullscreen"
-msgstr "Ecran com_plet"
+msgstr "Ecran com_plèt"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:429
 msgid "Switch to fullscreen"
-msgstr "Bascular en ecran complèt "
+msgstr "Bascular en ecran complèt"
 
 #. Icon-name
 #: src/main_window.c:433
@@ -303,7 +303,7 @@ msgstr "A_nar a"
 #. Icon-name
 #: src/main_window.c:528
 msgid "_Forward"
-msgstr "_Seguenta"
+msgstr "_Seguent"
 
 #. Label-text
 #. Keyboard shortcut
@@ -562,7 +562,7 @@ msgstr "Ristretto es un visionador d’imatges per l’environament de burèu Xf
 
 #: src/main_window.c:2856
 msgid "translator-credits"
-msgstr "Cédric Valmary (Tot en òc) <cvalmary@yahoo.fr>"
+msgstr "Cédric Valmary (totenoc.eu)\nQuentin PAGÈS"
 
 #: src/main_window.c:3415
 msgid "Open image"
@@ -595,12 +595,12 @@ msgstr "Fracàs de l’impression de l’imatge"
 #: src/main_window.c:3696
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
-msgstr "Sètz segur que volètz metre l'imatge « %s » dins l'escobilhièr ?"
+msgstr "Volètz vertadièrament metre l'imatge « %s » dins l'escobilhièr ?"
 
 #: src/main_window.c:3700
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Sètz segur que volètz suprimir l'imatge « %s » del disc ?"
+msgstr "Volètz vertaidèrament suprimir l'imatge « %s » del disc ?"
 
 #: src/main_window.c:3707
 msgid "_Do not ask again for this session"
@@ -634,7 +634,7 @@ msgstr "Impossible d’afichar lo dorsièr que conten « %s »."
 
 #: src/privacy_dialog.c:115
 msgid "Time range to clear:"
-msgstr "Periòde de temps a escafar : "
+msgstr "Periòde de temps a escafar :"
 
 #: src/privacy_dialog.c:118
 msgid "Cleanup"
@@ -891,7 +891,7 @@ msgstr "Aplicar a totes los espacis de trabalh"
 
 #: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:176
 msgid "Set as wallpaper"
-msgstr "Utilizar coma fons d'ecran "
+msgstr "Utilizar coma fons d'ecran"
 
 #: src/xfce_wallpaper_manager.c:302 src/gnome_wallpaper_manager.c:206
 msgid "Auto"
