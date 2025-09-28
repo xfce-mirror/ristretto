@@ -191,6 +191,7 @@ struct _RsttoImageListPrivate
 
     GFileMonitor *dir_monitor;
     GList *image_monitors;
+    GFile *directory;
 
     GQueue *images;
     GSList *iterators;
@@ -310,6 +311,8 @@ rstto_image_list_finalize (GObject *object)
             g_queue_free_full (image_list->priv->images, g_object_unref);
             image_list->priv->images = NULL;
         }
+
+        g_clear_object (&image_list->priv->directory);
     }
 
     G_OBJECT_CLASS (rstto_image_list_parent_class)->finalize (object);
@@ -491,6 +494,8 @@ rstto_image_list_remove_all (RsttoImageList *image_list)
 
     for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
         iter_set_position (iter->data, -1, FALSE);
+
+    g_clear_object (&image_list->priv->directory);
 
     g_signal_emit (image_list,
                    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL],
@@ -686,11 +691,21 @@ rstto_image_list_set_directory (RsttoImageList *image_list,
      */
     image_list->priv->is_busy = TRUE;
     rstto_object_set_data (dir, "loaded-file", file);
+
+    g_clear_object (&image_list->priv->directory);
+    image_list->priv->directory = g_object_ref (dir);
+
     g_file_enumerate_children_async (dir, "standard::name,standard::fast-content-type",
                                      G_FILE_QUERY_INFO_NONE, G_PRIORITY_DEFAULT, NULL,
                                      rstto_image_list_set_directory_enumerate_finish, image_list);
 
     return TRUE;
+}
+
+GFile *
+rstto_image_list_get_directory (RsttoImageList *image_list)
+{
+    return image_list->priv->directory;
 }
 
 static void
