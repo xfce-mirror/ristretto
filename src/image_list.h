@@ -74,6 +74,9 @@ rstto_image_list_set_directory (RsttoImageList *image_list,
                                 RsttoFile *file,
                                 GError **error);
 
+GFile *
+rstto_image_list_get_directory (RsttoImageList *image_list);
+
 gboolean
 rstto_image_list_is_busy (RsttoImageList *list);
 
