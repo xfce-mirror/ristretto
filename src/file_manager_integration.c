@@ -63,6 +63,9 @@ rstto_file_manager_integration_is_supported_for (RsttoDesktopEnvironment desktop
 {
     switch (desktop_env)
     {
+        case DESKTOP_ENVIRONMENT_XFCE:
+            return TRUE;
+
         default:
             return FALSE;
     }
@@ -71,5 +74,12 @@ rstto_file_manager_integration_is_supported_for (RsttoDesktopEnvironment desktop
 RsttoFileManagerIntegration *
 rstto_file_manager_integration_factory_create (RsttoDesktopEnvironment desktop_env)
 {
-    return NULL;
+    switch (desktop_env)
+    {
+        case DESKTOP_ENVIRONMENT_XFCE:
+            return rstto_file_manager_integration_thunar_new ();
+
+        default:
+            return NULL;
+    }
 }
