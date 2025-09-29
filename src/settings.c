@@ -52,6 +52,7 @@ enum
     PROP_MAXIMIZE_ON_STARTUP,
     PROP_ERROR_MISSING_THUMBNAILER,
     PROP_SORT_TYPE,
+    PROP_SORT_ORDER,
     PROP_THUMBNAIL_SIZE,
     PROP_DEFAULT_ZOOM,
 };
@@ -109,6 +110,7 @@ struct _RsttoSettingsPrivate
     RsttoScale default_zoom;
 
     RsttoSortType sort_type;
+    RsttoSortOrder sort_order;
 
     struct
     {
@@ -187,6 +189,7 @@ rstto_settings_init (RsttoSettings *settings)
     xfconf_g_property_bind (settings->priv->channel, "/file/current-uri", G_TYPE_STRING, settings, "current-uri");
     xfconf_g_property_bind (settings->priv->channel, "/window/toolbar/show", G_TYPE_BOOLEAN, settings, "show-toolbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/navigationbar/sort-type", G_TYPE_UINT, settings, "sort-type");
+    xfconf_g_property_bind (settings->priv->channel, "/window/navigationbar/sort-order", G_TYPE_UINT, settings, "sort-order");
     xfconf_g_property_bind (settings->priv->channel, "/window/navigationbar/position", G_TYPE_STRING, settings, "navigationbar-position");
     xfconf_g_property_bind (settings->priv->channel, "/window/thumbnails/show", G_TYPE_BOOLEAN, settings, "show-thumbnailbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/statusbar/show", G_TYPE_BOOLEAN, settings, "show-statusbar");
@@ -360,6 +363,12 @@ rstto_settings_class_init (RsttoSettingsClass *klass)
                                0, SORT_TYPE_COUNT, 0,
                                G_PARAM_READWRITE);
     g_object_class_install_property (object_class, PROP_SORT_TYPE, pspec);
+
+    pspec = g_param_spec_uint ("sort-order",
+                               "", "",
+                               0, SORT_ORDER_COUNT, 0,
+                               G_PARAM_READWRITE);
+    g_object_class_install_property (object_class, PROP_SORT_ORDER, pspec);
 
     pspec = g_param_spec_uint ("thumbnail-size",
                                "", "",
@@ -600,6 +609,9 @@ rstto_settings_set_property (GObject *object,
         case PROP_SORT_TYPE:
             settings->priv->sort_type = g_value_get_uint (value);
             break;
+        case PROP_SORT_ORDER:
+            settings->priv->sort_order = g_value_get_uint (value);
+            break;
         case PROP_THUMBNAIL_SIZE:
             settings->priv->thumbnail_size = g_value_get_uint (value);
             break;
@@ -689,6 +701,9 @@ rstto_settings_get_property (GObject *object,
             break;
         case PROP_SORT_TYPE:
             g_value_set_uint (value, settings->priv->sort_type);
+            break;
+        case PROP_SORT_ORDER:
+            g_value_set_uint (value, settings->priv->sort_order);
             break;
         case PROP_THUMBNAIL_SIZE:
             g_value_set_uint (value, settings->priv->thumbnail_size);
