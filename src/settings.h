@@ -30,9 +30,24 @@ typedef enum
     SORT_TYPE_TYPE,
     SORT_TYPE_DATE,
     SORT_TYPE_RANDOM,
+    SORT_TYPE_SIZE,
     SORT_TYPE_COUNT,
 } RsttoSortType;
 
+typedef enum
+{
+    SORT_ORDER_ASC = 0,
+    SORT_ORDER_DESC,
+    SORT_ORDER_COUNT,
+} RsttoSortOrder;
+
+typedef enum
+{
+    DESKTOP_ENVIRONMENT_NONE,
+    DESKTOP_ENVIRONMENT_XFCE,
+    DESKTOP_ENVIRONMENT_GNOME,
+    DESKTOP_ENVIRONMENT_COUNT
+} RsttoDesktopEnvironment;
 
 
 #define RSTTO_TYPE_SETTINGS rstto_settings_get_type ()
@@ -91,6 +106,14 @@ rstto_settings_set_boolean_property (RsttoSettings *settings,
 gboolean
 rstto_settings_get_boolean_property (RsttoSettings *settings,
                                      const gchar *property_name);
+
+/* RsttoDesktopEnvironment */
+
+const gchar *
+rstto_desktop_environment_get_name (RsttoDesktopEnvironment desktop_env);
+
+RsttoDesktopEnvironment
+rstto_desktop_environment_from_name (const gchar *name);
 
 G_END_DECLS
 

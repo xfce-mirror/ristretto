@@ -74,6 +74,9 @@ rstto_image_list_set_directory (RsttoImageList *image_list,
                                 RsttoFile *file,
                                 GError **error);
 
+GFile *
+rstto_image_list_get_directory (RsttoImageList *image_list);
+
 gboolean
 rstto_image_list_is_busy (RsttoImageList *list);
 
@@ -89,6 +92,13 @@ rstto_image_list_set_sort_by_date (RsttoImageList *image_list);
 
 void
 rstto_image_list_set_sort_by_random (RsttoImageList *image_list);
+
+void
+rstto_image_list_set_sort_by_size (RsttoImageList *image_list);
+
+void
+rstto_image_list_set_sort_order (RsttoImageList *image_list,
+                                 RsttoSortOrder order);
 
 RsttoImageListIter *
 rstto_image_list_get_iter (RsttoImageList *image_list);

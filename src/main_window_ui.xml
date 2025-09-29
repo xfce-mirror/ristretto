@@ -27,8 +27,13 @@
             <menu action="sorting-menu">
                 <menuitem action="sort-filename"/>
                 <menuitem action="sort-filetype"/>
+                <menuitem action="sort-size"/>
                 <menuitem action="sort-date"/>
                 <menuitem action="sort-random"/>
+            </menu>
+            <menu action="sorting-order-menu">
+                <menuitem action="sort-order-asc"/>
+                <menuitem action="sort-order-desc"/>
             </menu>
             <menuitem action="delete"/>
             <separator/>
