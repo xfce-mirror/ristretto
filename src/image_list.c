@@ -83,6 +83,10 @@ static gint
 cb_rstto_image_list_random_compare_func (gconstpointer a,
                                          gconstpointer b,
                                          gpointer user_data);
+static gint
+cb_rstto_image_list_image_size_compare_func (gconstpointer a,
+                                             gconstpointer b,
+                                             gpointer user_data);
 
 static void
 cb_file_monitor_changed (GFileMonitor *monitor,
@@ -1120,6 +1124,12 @@ rstto_image_list_set_sort_by_random (RsttoImageList *image_list)
     rstto_image_list_set_compare_func (image_list, cb_rstto_image_list_random_compare_func);
 }
 
+void
+rstto_image_list_set_sort_by_size (RsttoImageList *image_list)
+{
+    rstto_image_list_set_compare_func (image_list, cb_rstto_image_list_image_size_compare_func);
+}
+
 /**
  * cb_rstto_image_list_image_name_compare_func:
  * @a:
@@ -1180,6 +1190,17 @@ cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
         return -1;
     }
     return 1;
+}
+
+static gint
+cb_rstto_image_list_image_size_compare_func (gconstpointer a,
+                                             gconstpointer b,
+                                             gpointer user_data)
+{
+    const goffset asize = rstto_file_get_size ((RsttoFile *) a);
+    const goffset bsize = rstto_file_get_size ((RsttoFile *) b);
+
+    return (asize > bsize) - (asize < bsize);
 }
 
 /**
