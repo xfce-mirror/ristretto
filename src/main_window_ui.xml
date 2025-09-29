@@ -27,6 +27,7 @@
             <menu action="sorting-menu">
                 <menuitem action="sort-filename"/>
                 <menuitem action="sort-filetype"/>
+                <menuitem action="sort-size"/>
                 <menuitem action="sort-date"/>
                 <menuitem action="sort-random"/>
             </menu>
