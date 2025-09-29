@@ -19,6 +19,7 @@
 
 #include "util.h"
 #include "app_menu_item.h"
+#include "file_manager_integration.h"
 #include "gnome_wallpaper_manager.h"
 #include "icon_bar.h"
 #include "image_viewer.h"
@@ -307,8 +308,18 @@ static void
 rstto_main_window_set_navigationbar_position (RsttoMainWindow *window,
                                               guint orientation);
 static void
+rstto_main_window_set_sorting_function (RsttoMainWindow *window,
+                                        RsttoSortType type);
+static void
+rstto_main_window_set_sorting_order (RsttoMainWindow *window,
+                                     RsttoSortOrder order);
+static void
 rstto_main_window_set_thumbnail_size (RsttoMainWindow *window,
                                       RsttoThumbnailSize size);
+static void
+rstto_main_window_apply_file_manager_integration_settings (RsttoMainWindow *window);
+static void
+cb_rstto_file_manager_integration_settings_changed (RsttoMainWindow *window);
 static void
 cb_rstto_wrap_images_changed (GObject *object,
                               GParamSpec *pspec,
@@ -317,8 +328,11 @@ static void
 cb_rstto_desktop_type_changed (GObject *object,
                                GParamSpec *pspec,
                                gpointer user_data);
+static void
+rstto_main_window_set_file_manager_integration (RsttoMainWindow *window);
 
-
+static void
+rstto_main_window_update_ui_sort_menu (RsttoMainWindow *window);
 
 static GtkActionEntry action_entries[] = {
     /* File Menu */
@@ -849,6 +863,8 @@ struct _RsttoMainWindowPrivate
     gboolean playing;
 
     gchar *last_copy_folder_uri;
+
+    RsttoFileManagerIntegration *fm_integration;
 };
 
 
@@ -1256,85 +1272,10 @@ rstto_main_window_init (RsttoMainWindow *window)
         gtk_widget_hide (window->priv->statusbar);
     }
 
-    /**
-     * Set sort-type
-     */
-    switch (rstto_settings_get_uint_property (window->priv->settings_manager, "sort-type"))
-    {
-        case SORT_TYPE_NAME:
-            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-            gtk_check_menu_item_set_active (
-                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/main-menu/edit-menu/sorting-menu/sort-filename")),
-                TRUE);
-            G_GNUC_END_IGNORE_DEPRECATIONS
-            break;
-        case SORT_TYPE_TYPE:
-            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-            gtk_check_menu_item_set_active (
-                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/main-menu/edit-menu/sorting-menu/sort-filetype")),
-                TRUE);
-            G_GNUC_END_IGNORE_DEPRECATIONS
-            break;
-        case SORT_TYPE_DATE:
-            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-            gtk_check_menu_item_set_active (
-                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/main-menu/edit-menu/sorting-menu/sort-date")),
-                TRUE);
-            G_GNUC_END_IGNORE_DEPRECATIONS
-            break;
-        case SORT_TYPE_RANDOM:
-            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-            gtk_check_menu_item_set_active (
-                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/main-menu/edit-menu/sorting-menu/sort-random")),
-                TRUE);
-            G_GNUC_END_IGNORE_DEPRECATIONS
-            break;
-        case SORT_TYPE_SIZE:
-            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-            gtk_check_menu_item_set_active (
-                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/main-menu/edit-menu/sorting-menu/sort-size")),
-                TRUE);
-            G_GNUC_END_IGNORE_DEPRECATIONS
-            break;
-        default:
-            g_warning ("Sort type unsupported");
-            break;
-    }
+    rstto_main_window_update_ui_sort_menu (window);
 
-    switch (rstto_settings_get_uint_property (window->priv->settings_manager, "sort-order"))
-    {
-        case SORT_ORDER_ASC:
-            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-            gtk_check_menu_item_set_active (
-                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/main-menu/edit-menu/sorting-order-menu/sort-order-asc")),
-                TRUE);
-            G_GNUC_END_IGNORE_DEPRECATIONS
-            break;
-        case SORT_ORDER_DESC:
-            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-            gtk_check_menu_item_set_active (
-                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
-                    window->priv->ui_manager,
-                    "/main-menu/edit-menu/sorting-order-menu/sort-order-desc")),
-                TRUE);
-            G_GNUC_END_IGNORE_DEPRECATIONS
-            break;
-        default:
-            g_warning ("Sort order unsupported");
-            break;
-    }
+    rstto_main_window_set_file_manager_integration (window);
+    rstto_main_window_apply_file_manager_integration_settings (window);
 
     g_signal_connect (window, "motion-notify-event",
                       G_CALLBACK (cb_rstto_main_window_motion_notify_event), window);
@@ -1362,6 +1303,12 @@ rstto_main_window_init (RsttoMainWindow *window)
                       G_CALLBACK (cb_rstto_wrap_images_changed), window);
     g_signal_connect (window->priv->settings_manager, "notify::desktop-type",
                       G_CALLBACK (cb_rstto_desktop_type_changed), window);
+
+    g_signal_connect_swapped (window->priv->settings_manager, "notify::desktop-type",
+                              G_CALLBACK (rstto_main_window_set_file_manager_integration), window);
+
+    g_signal_connect_swapped (window->priv->settings_manager, "notify::file-manager-sort-sync",
+                              G_CALLBACK (rstto_main_window_set_file_manager_integration), window);
 
     g_signal_connect_swapped (window->priv->thumbnailer, "ready",
                               G_CALLBACK (cb_rstto_main_window_set_icon), window);
@@ -2219,6 +2166,32 @@ rstto_main_window_set_thumbnail_size (RsttoMainWindow *window,
 }
 
 static void
+rstto_main_window_apply_file_manager_integration_settings (RsttoMainWindow *window)
+{
+    RsttoFileManagerIntegration *fm_integration = window->priv->fm_integration;
+    if (fm_integration != NULL && window->priv->image_list != NULL)
+    {
+        GFile *directory = rstto_image_list_get_directory (window->priv->image_list);
+        if (directory == NULL)
+            return;
+
+        rstto_file_manager_integration_set_directory (fm_integration, directory);
+
+        gint sort_type, sort_order;
+        g_object_get (fm_integration, "sort-type", &sort_type,
+                      "sort-order", &sort_order,
+                      NULL);
+
+        if (sort_type != -1 && sort_order != -1)
+        {
+            rstto_main_window_set_sorting_function (window, sort_type);
+            rstto_main_window_set_sorting_order (window, sort_order);
+            rstto_main_window_update_ui_sort_menu (window);
+        }
+    }
+}
+
+static void
 rstto_main_window_set_navigationbar_position (RsttoMainWindow *window,
                                               guint orientation)
 {
@@ -2271,6 +2244,184 @@ rstto_main_window_set_navigationbar_position (RsttoMainWindow *window,
     }
 }
 
+static void
+rstto_main_window_set_sorting_function (RsttoMainWindow *window,
+                                        RsttoSortType type)
+{
+    switch (type)
+    {
+        case SORT_TYPE_NAME:
+        default:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_by_name (window->priv->image_list);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", type);
+            }
+            break;
+        case SORT_TYPE_TYPE:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_by_type (window->priv->image_list);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", type);
+            }
+            break;
+        case SORT_TYPE_DATE:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_by_date (window->priv->image_list);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", type);
+            }
+            break;
+        case SORT_TYPE_RANDOM:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_by_random (window->priv->image_list);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", type);
+            }
+            break;
+        case SORT_TYPE_SIZE:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_by_size (window->priv->image_list);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", type);
+            }
+            break;
+    }
+}
+
+static void
+rstto_main_window_set_sorting_order (RsttoMainWindow *window,
+                                     RsttoSortOrder order)
+{
+    switch (order)
+    {
+        case SORT_ORDER_ASC:
+        default:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_order (window->priv->image_list, order);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-order", order);
+            }
+            break;
+        case SORT_ORDER_DESC:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_order (window->priv->image_list, order);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-order", order);
+            }
+            break;
+    }
+}
+
+static void
+rstto_main_window_set_file_manager_integration (RsttoMainWindow *window)
+{
+    RsttoFileManagerIntegration *new_integration = NULL;
+
+    if (rstto_settings_get_boolean_property (window->priv->settings_manager, "file-manager-sort-sync"))
+    {
+        gchar *desktop_type = rstto_settings_get_string_property (window->priv->settings_manager, "desktop-type");
+        RsttoDesktopEnvironment desktop_env = rstto_desktop_environment_from_name (desktop_type);
+        new_integration = rstto_file_manager_integration_factory_create (desktop_env);
+        g_free (desktop_type);
+    }
+
+    g_clear_object (&window->priv->fm_integration);
+    window->priv->fm_integration = new_integration;
+
+    if (new_integration != NULL)
+    {
+        g_signal_connect_swapped (new_integration, "notify::sort-type",
+                                  G_CALLBACK (cb_rstto_file_manager_integration_settings_changed), window);
+
+        g_signal_connect_swapped (new_integration, "notify::sort-order",
+                                  G_CALLBACK (cb_rstto_file_manager_integration_settings_changed), window);
+    }
+
+    rstto_main_window_apply_file_manager_integration_settings (window);
+}
+
+static void
+rstto_main_window_update_ui_sort_menu (RsttoMainWindow *window)
+{
+    switch (rstto_settings_get_uint_property (window->priv->settings_manager, "sort-type"))
+    {
+        case SORT_TYPE_NAME:
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/edit-menu/sorting-menu/sort-filename")),
+                TRUE);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            break;
+        case SORT_TYPE_TYPE:
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/edit-menu/sorting-menu/sort-filetype")),
+                TRUE);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            break;
+        case SORT_TYPE_DATE:
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/edit-menu/sorting-menu/sort-date")),
+                TRUE);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            break;
+        case SORT_TYPE_RANDOM:
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/edit-menu/sorting-menu/sort-random")),
+                TRUE);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            break;
+        case SORT_TYPE_SIZE:
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/edit-menu/sorting-menu/sort-size")),
+                TRUE);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            break;
+        default:
+            g_warning ("Sort type unsupported");
+            break;
+    }
+
+    switch (rstto_settings_get_uint_property (window->priv->settings_manager, "sort-order"))
+    {
+        case SORT_ORDER_ASC:
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/edit-menu/sorting-order-menu/sort-order-asc")),
+                TRUE);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            break;
+        case SORT_ORDER_DESC:
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/edit-menu/sorting-order-menu/sort-order-desc")),
+                TRUE);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            break;
+        default:
+            g_warning ("Sort order unsupported");
+            break;
+    }
+}
+
 
 /************************/
 /**                    **/
@@ -2308,45 +2459,8 @@ cb_rstto_main_window_sorting_function_changed (GtkRadioAction *action,
     G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     gint value = gtk_radio_action_get_current_value (current);
     G_GNUC_END_IGNORE_DEPRECATIONS
-    switch (value)
-    {
-        case SORT_TYPE_NAME:
-        default:
-            if (window->priv->image_list != NULL)
-            {
-                rstto_image_list_set_sort_by_name (window->priv->image_list);
-                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_NAME);
-            }
-            break;
-        case SORT_TYPE_TYPE:
-            if (window->priv->image_list != NULL)
-            {
-                rstto_image_list_set_sort_by_type (window->priv->image_list);
-                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_TYPE);
-            }
-            break;
-        case SORT_TYPE_DATE:
-            if (window->priv->image_list != NULL)
-            {
-                rstto_image_list_set_sort_by_date (window->priv->image_list);
-                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_DATE);
-            }
-            break;
-        case SORT_TYPE_RANDOM:
-            if (window->priv->image_list != NULL)
-            {
-                rstto_image_list_set_sort_by_random (window->priv->image_list);
-                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_RANDOM);
-            }
-            break;
-        case SORT_TYPE_SIZE:
-            if (window->priv->image_list != NULL)
-            {
-                rstto_image_list_set_sort_by_size (window->priv->image_list);
-                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", SORT_TYPE_SIZE);
-            }
-            break;
-    }
+
+    rstto_main_window_set_sorting_function (window, value);
 }
 
 static void
@@ -2357,24 +2471,8 @@ cb_rstto_main_window_sorting_order_changed (GtkRadioAction *action,
     G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     gint value = gtk_radio_action_get_current_value (current);
     G_GNUC_END_IGNORE_DEPRECATIONS
-    switch (value)
-    {
-        case SORT_ORDER_ASC:
-        default:
-            if (window->priv->image_list != NULL)
-            {
-                rstto_image_list_set_sort_order (window->priv->image_list, SORT_ORDER_ASC);
-                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-order", SORT_ORDER_ASC);
-            }
-            break;
-        case SORT_ORDER_DESC:
-            if (window->priv->image_list != NULL)
-            {
-                rstto_image_list_set_sort_order (window->priv->image_list, SORT_ORDER_DESC);
-                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-order", SORT_ORDER_DESC);
-            }
-            break;
-    }
+
+    rstto_main_window_set_sorting_order (window, value);
 }
 
 static void
@@ -4143,6 +4241,21 @@ rstto_main_window_add_file_to_recent_files (const gchar *uri,
     gtk_recent_manager_add_full (gtk_recent_manager_get_default (), uri, &recent_data);
 }
 
+static gboolean
+rstto_main_window_set_image_list_directory (RsttoMainWindow *window,
+                                            GFile *dir,
+                                            RsttoFile *r_file,
+                                            GError **error)
+{
+    if (rstto_image_list_set_directory (window->priv->image_list, dir, r_file, error))
+    {
+        rstto_main_window_apply_file_manager_integration_settings (window);
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
 void
 rstto_main_window_open (RsttoMainWindow *window,
                         GSList *files)
@@ -4200,7 +4313,7 @@ rstto_main_window_open (RsttoMainWindow *window,
         /* add the directory contents asynchronously */
         if (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)
         {
-            rstto_image_list_set_directory (window->priv->image_list, files->data, NULL, NULL);
+            rstto_main_window_set_image_list_directory (window, files->data, NULL, NULL);
             uri = g_file_get_uri (files->data);
             rstto_main_window_add_file_to_recent_files (
                 uri, g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE));
@@ -4210,7 +4323,7 @@ rstto_main_window_open (RsttoMainWindow *window,
         {
             dir = g_file_get_parent (files->data);
             r_file = rstto_file_new (files->data);
-            if (rstto_image_list_set_directory (window->priv->image_list, dir, r_file, &error))
+            if (rstto_main_window_set_image_list_directory (window, dir, r_file, &error))
                 rstto_main_window_add_file_to_recent_files (rstto_file_get_uri (r_file),
                                                             rstto_file_get_content_type (r_file));
             else
@@ -4648,4 +4761,11 @@ cb_compare_app_infos (gconstpointer a,
                       gconstpointer b)
 {
     return g_app_info_equal (G_APP_INFO (a), G_APP_INFO (b)) ? 0 : 1;
+}
+
+static void
+cb_rstto_file_manager_integration_settings_changed (RsttoMainWindow *window)
+{
+    if (!rstto_settings_get_boolean_property (window->priv->settings_manager, "file-manager-sort-sync-once"))
+        rstto_main_window_apply_file_manager_integration_settings (window);
 }
