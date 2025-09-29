@@ -61,5 +61,12 @@ rstto_file_manager_integration_set_directory (RsttoFileManagerIntegration *self,
 RsttoFileManagerIntegration *
 rstto_file_manager_integration_factory_create (RsttoDesktopEnvironment desktop_env)
 {
-    return NULL;
+    switch (desktop_env)
+    {
+        case DESKTOP_ENVIRONMENT_XFCE:
+            return rstto_file_manager_integration_thunar_new ();
+
+        default:
+            return NULL;
+    }
 }
