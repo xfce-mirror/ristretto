@@ -3,6 +3,8 @@ ristretto_sources = [
   'app_menu_item.h',
   'file.c',
   'file.h',
+  'file_manager_integration.h',
+  'file_manager_integration.c',
   'gnome_wallpaper_manager.c',
   'gnome_wallpaper_manager.h',
   'icon_bar.c',
