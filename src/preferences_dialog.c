@@ -68,8 +68,12 @@ cb_choose_desktop_combo_box_changed (GtkComboBox *combo_box,
 static void
 cb_slideshow_timeout_value_changed (GtkRange *range,
                                     gpointer user_data);
-
-
+static void
+cb_check_file_manager_sort_sync_toggled (GtkToggleButton *button,
+                                         gpointer user_data);
+static void
+cb_check_file_manager_sort_sync_once_toggled (GtkToggleButton *button,
+                                              gpointer user_data);
 
 struct _RsttoPreferencesDialogPrivate
 {
@@ -130,6 +134,8 @@ struct _RsttoPreferencesDialogPrivate
         GtkWidget *desktop_frame;
         GtkWidget *desktop_vbox;
         GtkWidget *choose_desktop_combo_box;
+        GtkWidget *check_file_manager_sort_sync;
+        GtkWidget *check_file_manager_sort_sync_once;
 
         GtkWidget *startup_frame;
         GtkWidget *startup_vbox;
@@ -198,6 +204,8 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     gboolean bool_show_clock;
     gboolean bool_limit_quality;
     gboolean bool_enable_smoothing;
+    gboolean bool_file_manager_sort_sync;
+    gboolean bool_file_manager_sort_sync_once;
     gchar *str_desktop_type = NULL;
 
     GdkRGBA *bgcolor;
@@ -239,6 +247,8 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
                   "show-clock", &bool_show_clock,
                   "limit-quality", &bool_limit_quality,
                   "enable-smoothing", &bool_enable_smoothing,
+                  "file-manager-sort-sync", &bool_file_manager_sort_sync,
+                  "file-manager-sort-sync-once", &bool_file_manager_sort_sync_once,
                   NULL);
 
     /*
@@ -504,6 +514,26 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     g_signal_connect (dialog->priv->behaviour_tab.choose_desktop_combo_box, "changed",
                       G_CALLBACK (cb_choose_desktop_combo_box_changed), dialog);
 
+    /* File manager sync checkbox */
+    dialog->priv->behaviour_tab.check_file_manager_sort_sync = gtk_check_button_new_with_label (_("Synchronize sorting with file manager"));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.check_file_manager_sort_sync),
+                                  bool_file_manager_sort_sync);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.desktop_vbox),
+                        dialog->priv->behaviour_tab.check_file_manager_sort_sync,
+                        FALSE, FALSE, 0);
+    g_signal_connect (dialog->priv->behaviour_tab.check_file_manager_sort_sync, "toggled",
+                      G_CALLBACK (cb_check_file_manager_sort_sync_toggled), dialog);
+
+    /* File manager sync once checkbox */
+    dialog->priv->behaviour_tab.check_file_manager_sort_sync_once = gtk_check_button_new_with_label (_("Synchronize with the file manager only once when opening a directory"));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.check_file_manager_sort_sync_once),
+                                  bool_file_manager_sort_sync_once);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.desktop_vbox),
+                        dialog->priv->behaviour_tab.check_file_manager_sort_sync_once,
+                        FALSE, FALSE, 0);
+    g_signal_connect (dialog->priv->behaviour_tab.check_file_manager_sort_sync_once, "toggled",
+                      G_CALLBACK (cb_check_file_manager_sort_sync_once_toggled), dialog);
+
     /* Increase left and top margins for the tabs' contents */
     n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
     for (i = 0; i < n_pages; ++i)
@@ -712,6 +742,28 @@ cb_slideshow_timeout_value_changed (GtkRange *range,
     /* Code Section */
 
     rstto_settings_set_uint_property (dialog->priv->settings, "slideshow-timeout", slideshow_timeout);
+}
+
+static void
+cb_check_file_manager_sort_sync_toggled (GtkToggleButton *button,
+                                         gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = user_data;
+
+    rstto_settings_set_boolean_property (dialog->priv->settings,
+                                         "file-manager-sort-sync",
+                                         gtk_toggle_button_get_active (button));
+}
+
+static void
+cb_check_file_manager_sort_sync_once_toggled (GtkToggleButton *button,
+                                              gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = user_data;
+
+    rstto_settings_set_boolean_property (dialog->priv->settings,
+                                         "file-manager-sort-sync-once",
+                                         gtk_toggle_button_get_active (button));
 }
 
 /**
