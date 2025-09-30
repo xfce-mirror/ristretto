@@ -125,6 +125,8 @@ rstto_file_manager_integration_thunar_finalize (GObject *object)
 
     if (self->channel != NULL)
         g_signal_handlers_disconnect_by_data (self->channel, self);
+
+    G_OBJECT_CLASS (rstto_file_manager_integration_thunar_parent_class)->finalize (object);
 }
 
 static void
