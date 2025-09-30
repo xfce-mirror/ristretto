@@ -1123,4 +1123,5 @@ cb_update_file_manager_buttons (RsttoPreferencesDialog *dialog)
         gtk_widget_hide (dialog->priv->behaviour_tab.check_file_manager_sort_sync);
         gtk_widget_hide (dialog->priv->behaviour_tab.check_file_manager_sort_sync_once);
     }
+    g_free (desktop_type);
 }
