@@ -313,8 +313,8 @@ static void
 cb_rstto_desktop_type_changed (GObject *object,
                                GParamSpec *pspec,
                                gpointer user_data);
-
-
+static gboolean
+rstto_main_window_current_file_is_ephemeral (RsttoMainWindow *window);
 
 static GtkActionEntry action_entries[] = {
     /* File Menu */
@@ -1751,7 +1751,9 @@ rstto_main_activate_file_menu_actions (RsttoMainWindow *window,
         //"/main-menu/file-menu/print",
         "/main-menu/file-menu/properties",
         "/main-menu/file-menu/close",
-        "/main-menu/edit-menu/copy-image",
+        "/main-menu/edit-menu/copy-image"
+    };
+    const gchar *actions_for_regular_file[] = {
         "/main-menu/edit-menu/show-containing-folder",
         "/main-menu/edit-menu/delete"
     };
@@ -1762,6 +1764,17 @@ rstto_main_activate_file_menu_actions (RsttoMainWindow *window,
         widget = gtk_ui_manager_get_widget (window->priv->ui_manager, actions[i]);
         G_GNUC_END_IGNORE_DEPRECATIONS
         gtk_widget_set_sensitive (widget, activate);
+    }
+
+    if (!activate || !rstto_main_window_current_file_is_ephemeral (window))
+    {
+        for (i = 0; i < G_N_ELEMENTS (actions_for_regular_file); ++i)
+        {
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            widget = gtk_ui_manager_get_widget (window->priv->ui_manager, actions_for_regular_file[i]);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            gtk_widget_set_sensitive (widget, activate);
+        }
     }
 }
 
@@ -1823,11 +1836,13 @@ rstto_main_activate_popup_menu_actions (RsttoMainWindow *window,
         "/image-viewer-menu/close",
         "/image-viewer-menu/open-with-menu",
         "/image-viewer-menu/copy-image",
-        "/image-viewer-menu/show-containing-folder",
         "/image-viewer-menu/zoom-in",
         "/image-viewer-menu/zoom-out",
         "/image-viewer-menu/zoom-100",
         "/image-viewer-menu/zoom-fit"
+    };
+    const gchar *actions_for_regular_file[] = {
+        "/image-viewer-menu/show-containing-folder",
     };
 
     for (i = 0; i < G_N_ELEMENTS (actions); ++i)
@@ -1836,6 +1851,17 @@ rstto_main_activate_popup_menu_actions (RsttoMainWindow *window,
         widget = gtk_ui_manager_get_widget (window->priv->ui_manager, actions[i]);
         G_GNUC_END_IGNORE_DEPRECATIONS
         gtk_widget_set_sensitive (widget, activate);
+    }
+
+    if (!activate || !rstto_main_window_current_file_is_ephemeral (window))
+    {
+        for (i = 0; i < G_N_ELEMENTS (actions_for_regular_file); ++i)
+        {
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            widget = gtk_ui_manager_get_widget (window->priv->ui_manager, actions_for_regular_file[i]);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            gtk_widget_set_sensitive (widget, activate);
+        }
     }
 }
 
@@ -1848,11 +1874,13 @@ rstto_main_activate_toolbar_actions (RsttoMainWindow *window,
     const gchar *actions[] = {
         "/main-toolbar/save-copy",
         "/main-toolbar/edit",
-        "/main-toolbar/delete",
         "/main-toolbar/zoom-in",
         "/main-toolbar/zoom-out",
         "/main-toolbar/zoom-fit",
         "/main-toolbar/zoom-100"
+    };
+    const gchar *actions_for_regular_file[] = {
+        "/main-toolbar/delete"
     };
 
     for (i = 0; i < G_N_ELEMENTS (actions); ++i)
@@ -1861,6 +1889,17 @@ rstto_main_activate_toolbar_actions (RsttoMainWindow *window,
         widget = gtk_ui_manager_get_widget (window->priv->ui_manager, actions[i]);
         G_GNUC_END_IGNORE_DEPRECATIONS
         gtk_widget_set_sensitive (widget, activate);
+    }
+
+    if (!activate || !rstto_main_window_current_file_is_ephemeral (window))
+    {
+        for (i = 0; i < G_N_ELEMENTS (actions_for_regular_file); ++i)
+        {
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            widget = gtk_ui_manager_get_widget (window->priv->ui_manager, actions_for_regular_file[i]);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            gtk_widget_set_sensitive (widget, activate);
+        }
     }
 }
 
@@ -4062,8 +4101,11 @@ rstto_main_window_open (RsttoMainWindow *window,
             }
             else
             {
-                rstto_main_window_add_file_to_recent_files (rstto_file_get_uri (r_file),
-                                                            rstto_file_get_content_type (r_file));
+                if (!rstto_file_is_ephemeral (r_file))
+                {
+                    rstto_main_window_add_file_to_recent_files (rstto_file_get_uri (r_file),
+                                                                rstto_file_get_content_type (r_file));
+                }
                 g_object_unref (r_file);
             }
         }
@@ -4092,10 +4134,17 @@ rstto_main_window_open (RsttoMainWindow *window,
             dir = g_file_get_parent (files->data);
             r_file = rstto_file_new (files->data);
             if (rstto_image_list_set_directory (window->priv->image_list, dir, r_file, &error))
-                rstto_main_window_add_file_to_recent_files (rstto_file_get_uri (r_file),
-                                                            rstto_file_get_content_type (r_file));
+            {
+                if (!rstto_file_is_ephemeral (r_file))
+                {
+                    rstto_main_window_add_file_to_recent_files (rstto_file_get_uri (r_file),
+                                                                rstto_file_get_content_type (r_file));
+                }
+            }
             else
+            {
                 invalid = g_slist_prepend (invalid, files->data);
+            }
 
             g_object_unref (dir);
             g_object_unref (r_file);
@@ -4473,6 +4522,18 @@ cb_rstto_desktop_type_changed (GObject *object,
     rstto_main_window_update_buttons (window);
 }
 
+static gboolean
+rstto_main_window_current_file_is_ephemeral (RsttoMainWindow *window)
+{
+    if (window->priv->image_list != NULL && window->priv->iter != NULL)
+    {
+        RsttoFile *cur_file = rstto_image_list_iter_get_file (window->priv->iter);
+        if (cur_file != NULL)
+            return rstto_file_is_ephemeral (cur_file);
+    }
+
+    return FALSE;
+}
 
 gboolean
 rstto_main_window_play_slideshow (RsttoMainWindow *window)
