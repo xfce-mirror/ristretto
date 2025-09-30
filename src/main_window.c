@@ -1384,6 +1384,12 @@ rstto_main_window_finalize (GObject *object)
         window->priv->recent_filter = NULL;
     }
 
+    if (window->priv->fm_integration)
+    {
+        g_object_unref (window->priv->fm_integration);
+        window->priv->fm_integration = NULL;
+    }
+
     g_clear_object (&window->priv->filemanager_proxy);
 
     if (app_file_filter)
