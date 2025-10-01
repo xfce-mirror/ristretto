@@ -166,7 +166,7 @@ msgstr "_Rangschikken op"
 
 #: src/main_window.c:420
 msgid "Sort order"
-msgstr ""
+msgstr "Rangschikvolgorde"
 
 #. Icon-name
 #: src/main_window.c:426
@@ -431,17 +431,17 @@ msgstr "willekeurig"
 #. Icon-name
 #: src/main_window.c:691
 msgid "file size"
-msgstr ""
+msgstr "bestandgrootte"
 
 #. Icon-name
 #: src/main_window.c:700
 msgid "ascending"
-msgstr ""
+msgstr "oplopend"
 
 #. Icon-name
 #: src/main_window.c:706
 msgid "descending"
-msgstr ""
+msgstr "aflopend"
 
 #. Icon-name
 #: src/main_window.c:716
@@ -823,12 +823,12 @@ msgstr "Stel in welk systeem thans uw werkomgeving beheert. Deze instelling bepa
 #. File manager sync checkbox
 #: src/preferences_dialog.c:522
 msgid "Synchronize sorting with file manager"
-msgstr ""
+msgstr "Rangschikking synchroniseren met bestandbeheerder"
 
 #. File manager sync once checkbox
 #: src/preferences_dialog.c:532
 msgid "Synchronize only once when opening a directory"
-msgstr ""
+msgstr "Alleen synchroniseren bij openen van een map"
 
 #: src/preferences_dialog.c:594
 msgid "Image Viewer Preferences"
