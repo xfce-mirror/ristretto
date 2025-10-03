@@ -659,7 +659,14 @@ rstto_image_list_set_directory_enumerate_finish (GObject *dir,
     if (file_enum == NULL)
     {
         image_list->priv->is_busy = FALSE;
-        rstto_util_dialog_error (ERROR_LOAD_DIR_FAILED, error);
+
+        /* Not all file systems support directory listing,
+         * the error is useless outside the native file system */
+        if (g_file_is_native (G_FILE (dir)))
+        {
+            rstto_util_dialog_error (ERROR_LOAD_DIR_FAILED, error);
+        }
+
         g_error_free (error);
 
         return;
