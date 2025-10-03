@@ -342,6 +342,9 @@ rstto_image_list_add_file (RsttoImageList *image_list,
 
     g_return_val_if_fail (RSTTO_IS_FILE (r_file), FALSE);
 
+    if (!rstto_file_materialize (r_file, error))
+        return FALSE;
+
     /* file already added */
     if (g_queue_find (image_list->priv->images, r_file))
         return TRUE;
