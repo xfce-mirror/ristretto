@@ -62,6 +62,8 @@ rstto_file_get_g_file_display_name (GFile *file);
 static gboolean
 rstto_file_needs_materialization (RsttoFile *r_file);
 
+static gboolean
+rstto_file_is_stdin (RsttoFile *r_file);
 
 struct _RsttoFilePrivate
 {
@@ -236,7 +238,19 @@ rstto_file_needs_materialization (RsttoFile *r_file)
 {
     /* Materialization is only needed for some ephemeral files that have not yet been materialized */
     return rstto_file_is_ephemeral (r_file)
-           && !r_file->priv->is_materialized;
+           && !r_file->priv->is_materialized
+           && rstto_file_is_stdin (r_file);
+}
+
+
+static gboolean
+rstto_file_is_stdin (RsttoFile *r_file)
+{
+    gchar *uri = g_file_get_uri (r_file->priv->file);
+    gboolean is_stdin = g_strcmp0 (uri, "file:///dev/stdin") == 0;
+    g_free (uri);
+
+    return is_stdin;
 }
 
 
@@ -757,7 +771,8 @@ rstto_file_is_ephemeral (RsttoFile *r_file)
 {
     if (r_file->priv->ephemeral == EPHEMERAL_UNKNOWN)
     {
-        r_file->priv->ephemeral = EPHEMERAL_FALSE;
+        if (rstto_file_is_stdin (r_file))
+            r_file->priv->ephemeral = EPHEMERAL_TRUE;
     }
 
     return r_file->priv->ephemeral == EPHEMERAL_TRUE;
