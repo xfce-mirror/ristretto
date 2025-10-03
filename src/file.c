@@ -42,6 +42,13 @@ enum
     RSTTO_FILE_SIGNAL_COUNT
 };
 
+typedef enum
+{
+    EPHEMERAL_FALSE,
+    EPHEMERAL_TRUE,
+    EPHEMERAL_UNKNOWN
+} EphemeralFlagState;
+
 static gint rstto_file_signals[RSTTO_FILE_SIGNAL_COUNT];
 
 
@@ -49,6 +56,11 @@ static gint rstto_file_signals[RSTTO_FILE_SIGNAL_COUNT];
 static void
 rstto_file_finalize (GObject *object);
 
+static gchar *
+rstto_file_get_g_file_display_name (GFile *file);
+
+static gboolean
+rstto_file_needs_materialization (RsttoFile *r_file);
 
 
 struct _RsttoFilePrivate
@@ -74,6 +86,15 @@ struct _RsttoFilePrivate
     gdouble scale;
     RsttoScale auto_scale;
     gdouble h_adjust, v_adjust;
+
+    /* Ephemeral files such as /dev/stdin should not be used directly; instead,
+     * their contents are copied to /tmp/, but some methods, such as getting
+     * the name, still refer back to the original file */
+    EphemeralFlagState ephemeral;
+
+    /* Materialization is the process of creating a copy file in /tmp/ for
+     * ephemeral files */
+    gboolean is_materialized;
 };
 
 
@@ -92,6 +113,7 @@ rstto_file_init (RsttoFile *r_file)
     r_file->priv->auto_scale = RSTTO_SCALE_NONE;
     for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
         r_file->priv->thumbnail_states[n] = RSTTO_THUMBNAIL_STATE_UNPROCESSED;
+    r_file->priv->ephemeral = EPHEMERAL_UNKNOWN;
 }
 
 
@@ -121,6 +143,17 @@ rstto_file_finalize (GObject *object)
     RsttoFile *r_file = RSTTO_FILE (object);
     gint i = 0;
 
+    if (r_file->priv->is_materialized)
+    {
+        /* It's not nice to delete user files by mistake, so it's worth double-checking
+         * that the file was actually created through the materialization function */
+        gchar *path = g_file_get_path (r_file->priv->file);
+        if (path != NULL && g_str_has_prefix (path, g_get_tmp_dir ()))
+            g_file_delete (r_file->priv->file, NULL, NULL);
+        else
+            g_warn_if_reached ();
+        g_free (path);
+    }
     if (r_file->priv->file)
     {
         g_object_unref (r_file->priv->file);
@@ -177,6 +210,35 @@ rstto_file_finalize (GObject *object)
 
     G_OBJECT_CLASS (rstto_file_parent_class)->finalize (object);
 }
+
+
+static gchar *
+rstto_file_get_g_file_display_name (GFile *file)
+{
+    gchar *display_name = NULL;
+
+    GFileInfo *file_info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME, 0, NULL, NULL);
+    if (file_info != NULL)
+    {
+        const gchar *info_display_name = g_file_info_get_display_name (file_info);
+        if (info_display_name != NULL)
+            display_name = g_strdup (info_display_name);
+
+        g_object_unref (file_info);
+    }
+
+    return display_name;
+}
+
+
+static gboolean
+rstto_file_needs_materialization (RsttoFile *r_file)
+{
+    /* Materialization is only needed for some ephemeral files that have not yet been materialized */
+    return rstto_file_is_ephemeral (r_file)
+           && !r_file->priv->is_materialized;
+}
+
 
 /**
  * rstto_file_new:
@@ -286,23 +348,9 @@ rstto_file_get_file (RsttoFile *r_file)
 const gchar *
 rstto_file_get_display_name (RsttoFile *r_file)
 {
-    GFileInfo *file_info = NULL;
-    const gchar *display_name;
-
     if (NULL == r_file->priv->display_name)
     {
-        file_info = g_file_query_info (r_file->priv->file,
-                                       G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME,
-                                       0, NULL, NULL);
-        if (NULL != file_info)
-        {
-            display_name = g_file_info_get_display_name (file_info);
-            if (NULL != display_name)
-            {
-                r_file->priv->display_name = g_strdup (display_name);
-            }
-            g_object_unref (file_info);
-        }
+        r_file->priv->display_name = rstto_file_get_g_file_display_name (r_file->priv->file);
     }
 
     return r_file->priv->display_name;
@@ -701,4 +749,64 @@ rstto_file_changed (RsttoFile *r_file)
     }
     else
         rstto_image_list_remove_file (rstto_main_window_get_app_image_list (), r_file);
+}
+
+
+gboolean
+rstto_file_is_ephemeral (RsttoFile *r_file)
+{
+    if (r_file->priv->ephemeral == EPHEMERAL_UNKNOWN)
+    {
+        r_file->priv->ephemeral = EPHEMERAL_FALSE;
+    }
+
+    return r_file->priv->ephemeral == EPHEMERAL_TRUE;
+}
+
+
+gboolean
+rstto_file_materialize (RsttoFile *r_file,
+                        GError **error)
+{
+    gboolean status = FALSE;
+
+    if (rstto_file_needs_materialization (r_file))
+    {
+        GFileIOStream *io;
+        GFile *tmp_file = g_file_new_tmp ("ristretto-XXXXXX", &io, error);
+        if (tmp_file != NULL)
+        {
+            GFileInputStream *in = g_file_read (r_file->priv->file, NULL, error);
+            if (in != NULL)
+            {
+                if (rstto_util_sendfile (g_io_stream_get_output_stream (G_IO_STREAM (io)), G_INPUT_STREAM (in), error))
+                {
+                    r_file->priv->is_materialized = TRUE;
+
+                    /* Instead of the new file name from /tmp, the old source file name is displayed */
+                    r_file->priv->display_name = rstto_file_get_g_file_display_name (r_file->priv->file);
+
+                    g_clear_object (&r_file->priv->file);
+                    r_file->priv->file = g_object_ref (tmp_file);
+                    status = TRUE;
+                }
+            }
+
+            /* If copying fails, try deleting the temporary file */
+            if (!status)
+                g_file_delete (tmp_file, NULL, NULL);
+
+            g_object_unref (in);
+        }
+
+        g_object_unref (io);
+        g_object_unref (tmp_file);
+    }
+    else
+    {
+        /* Successful completion, file does not need to be materialized */
+        status = TRUE;
+    }
+
+    return status;
 }
