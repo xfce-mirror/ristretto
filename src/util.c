@@ -215,3 +215,44 @@ rstto_util_get_thumbnail_n_pixels (RsttoThumbnailSize size)
 {
     return rstto_thumbnail_n_pixels[size];
 }
+
+
+
+gboolean
+rstto_util_sendfile (GOutputStream *out,
+                     GInputStream *in,
+                     GError **error)
+{
+    gsize buff_size = 1 * 1024 * 1024;
+    gchar *buff = g_malloc (buff_size);
+    gboolean status = FALSE;
+
+    while (TRUE)
+    {
+        gssize n_in = g_input_stream_read (in, buff, buff_size, NULL, error);
+        if (n_in == -1)
+        {
+            break;
+        }
+        else if (n_in == 0)
+        {
+            status = TRUE;
+            break;
+        }
+
+        gssize n_out = g_output_stream_write (out, buff, n_in, NULL, error);
+        if (n_out == -1)
+        {
+            break;
+        }
+        else if (n_out != n_in)
+        {
+            g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, _("Failed to write all data completely"));
+            break;
+        }
+    }
+
+    g_free (buff);
+
+    return status;
+}
