@@ -771,7 +771,9 @@ rstto_file_is_ephemeral (RsttoFile *r_file)
 {
     if (r_file->priv->ephemeral == EPHEMERAL_UNKNOWN)
     {
-        if (rstto_file_is_stdin (r_file))
+        if (rstto_file_is_stdin (r_file)
+            || g_file_has_uri_scheme (r_file->priv->file, "http")
+            || g_file_has_uri_scheme (r_file->priv->file, "https"))
             r_file->priv->ephemeral = EPHEMERAL_TRUE;
     }
 
