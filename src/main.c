@@ -23,6 +23,8 @@
 
 #include <libxfce4ui/libxfce4ui.h>
 #include <locale.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 #include <xfconf/xfconf.h>
 
 
@@ -37,6 +39,8 @@ gboolean show_settings = FALSE;
 static gboolean
 cb_rstto_open_files (gpointer user_data);
 
+static gboolean
+rstto_stdin_has_data (void);
 
 
 static GOptionEntry entries[] = {
@@ -116,20 +120,17 @@ main (int argc,
         image_list = rstto_image_list_new ();
         window = rstto_main_window_new (image_list, FALSE);
 
-        if (argc > 1)
+        rof.argc = argc;
+        rof.argv = argv;
+        rof.window = RSTTO_MAIN_WINDOW (window);
+
+        /* add a weak pointer to guard our handler */
+        g_object_add_weak_pointer (G_OBJECT (window), (gpointer *) &(rof.window));
+        g_idle_add (cb_rstto_open_files, &rof);
+
+        if (rstto_settings_get_boolean_property (settings, "maximize-on-startup"))
         {
-            rof.argc = argc;
-            rof.argv = argv;
-            rof.window = RSTTO_MAIN_WINDOW (window);
-
-            /* add a weak pointer to guard our handler */
-            g_object_add_weak_pointer (G_OBJECT (window), (gpointer *) &(rof.window));
-            g_idle_add (cb_rstto_open_files, &rof);
-
-            if (rstto_settings_get_boolean_property (settings, "maximize-on-startup"))
-            {
-                gtk_window_maximize (GTK_WINDOW (window));
-            }
+            gtk_window_maximize (GTK_WINDOW (window));
         }
 
         /* Start fullscreen */
@@ -180,12 +181,36 @@ cb_rstto_open_files (gpointer user_data)
         files = g_slist_prepend (files, file);
     }
 
-    files = g_slist_reverse (files);
-    rstto_main_window_open (rof->window, files);
-    g_slist_free_full (files, g_object_unref);
+    if (rstto_stdin_has_data ())
+    {
+        file = g_file_new_for_commandline_arg ("/dev/stdin");
+        files = g_slist_prepend (files, file);
+    }
 
-    if (start_slideshow)
-        rstto_main_window_play_slideshow (rof->window);
+    if (files != NULL)
+    {
+        files = g_slist_reverse (files);
+        rstto_main_window_open (rof->window, files);
+        g_slist_free_full (files, g_object_unref);
+
+        if (start_slideshow)
+            rstto_main_window_play_slideshow (rof->window);
+    }
+
+    return FALSE;
+}
+
+static gboolean
+rstto_stdin_has_data (void)
+{
+    /* stdin should not be connected to the terminal */
+    if (isatty (STDIN_FILENO))
+        return FALSE;
+
+    /* The number of bytes must be greater than zero */
+    gint n;
+    if (ioctl (STDIN_FILENO, FIONREAD, &n) == 0 && n > 0)
+        return TRUE;
 
     return FALSE;
 }
