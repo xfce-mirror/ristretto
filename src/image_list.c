@@ -342,6 +342,9 @@ rstto_image_list_add_file (RsttoImageList *image_list,
 
     g_return_val_if_fail (RSTTO_IS_FILE (r_file), FALSE);
 
+    if (!rstto_file_materialize (r_file, error))
+        return FALSE;
+
     /* file already added */
     if (g_queue_find (image_list->priv->images, r_file))
         return TRUE;
@@ -656,7 +659,14 @@ rstto_image_list_set_directory_enumerate_finish (GObject *dir,
     if (file_enum == NULL)
     {
         image_list->priv->is_busy = FALSE;
-        rstto_util_dialog_error (ERROR_LOAD_DIR_FAILED, error);
+
+        /* Not all file systems support directory listing,
+         * the error is useless outside the native file system */
+        if (g_file_is_native (G_FILE (dir)))
+        {
+            rstto_util_dialog_error (ERROR_LOAD_DIR_FAILED, error);
+        }
+
         g_error_free (error);
 
         return;

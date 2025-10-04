@@ -109,6 +109,12 @@ rstto_util_get_thumbnail_flavor_name (RsttoThumbnailFlavor flavor);
 guint
 rstto_util_get_thumbnail_n_pixels (RsttoThumbnailSize size);
 
+/* Forwards read bytes from in to out */
+gboolean
+rstto_util_sendfile (GOutputStream *out,
+                     GInputStream *in,
+                     GError **error);
+
 G_END_DECLS
 
 #endif /* __RSTTO_UTIL_H__ */
