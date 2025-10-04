@@ -61,12 +61,12 @@ msgstr "D’unes fichièrs se podián dobrir : vejatz los jornals pels detalhs"
 #: src/main_window.c:49
 #, c-format
 msgid "An error occurred when deleting image '%s' from disk"
-msgstr "Una error s'es producha al moment de la supression d'imatge « %s » del disc"
+msgstr "Una error s'es produita al moment de la supression d'imatge « %s » del disc"
 
 #: src/main_window.c:50
 #, c-format
 msgid "An error occurred when sending image '%s' to trash"
-msgstr "Una error s'es producha al moment d’enviar l’imatge « %s » a l'escobilhièr"
+msgstr "Una error s'es produita al moment d’enviar l’imatge « %s » a l'escobilhièr"
 
 #: src/main_window.c:341
 msgid "_File"
@@ -932,19 +932,19 @@ msgstr "Centrat"
 
 #: src/xfce_wallpaper_manager.c:304
 msgid "Tiled"
-msgstr "Mosaïca"
+msgstr "Mosaïc"
 
 #: src/xfce_wallpaper_manager.c:305
 msgid "Stretched"
-msgstr "Espandida"
+msgstr "Estirat"
 
 #: src/xfce_wallpaper_manager.c:306
 msgid "Scaled"
-msgstr "Mesa a l'escala"
+msgstr "A l'escala"
 
 #: src/xfce_wallpaper_manager.c:307
 msgid "Zoomed"
-msgstr "Zoomada"
+msgstr "Agrandit"
 
 #: org.xfce.ristretto.desktop.in:4
 msgid "Ristretto Image Viewer"
