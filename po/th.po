@@ -5,13 +5,14 @@
 # Translators:
 # Theppitak Karoonboonyanan <thep@linux.thai.net>, 2013
 # Theppitak Karoonboonyanan <theppitak@gmail.com>, 2013,2015,2017,2019,2021
+# Warut Bunprasert <warut.b@disroot.org>, 2025
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2025-07-18 11:03+0200\n"
+"POT-Creation-Date: 2025-09-30 12:55+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Theppitak Karoonboonyanan <theppitak@gmail.com>, 2013,2015,2017,2019,2021\n"
+"Last-Translator: Warut Bunprasert <warut.b@disroot.org>, 2025\n"
 "Language-Team: Thai (http://app.transifex.com/xfce/xfce-apps/language/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,591 +45,610 @@ msgid ""
 "available command line options.\n"
 msgstr "%s: %s\n\nสั่ง %s --help เพื่อดูตัวเลือกทั้งหมด\nของบรรทัดคำสั่ง\n"
 
-#: src/main_window.c:43 org.xfce.ristretto.desktop.in:6
+#: src/main_window.c:44 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
 msgstr "โปรแกรมแสดงรูป"
 
-#: src/main_window.c:46
+#: src/main_window.c:47
 msgid "Could not save file"
 msgstr "ไม่สามารถบันทึกแฟ้มได้"
 
-#: src/main_window.c:47
-msgid "Some files could not be opened: see the text logs for details"
-msgstr ""
-
 #: src/main_window.c:48
-#, c-format
-msgid "An error occurred when deleting image '%s' from disk"
-msgstr ""
+msgid "Some files could not be opened: see the text logs for details"
+msgstr "ไม่สามารถเปิดบางแฟ้มได้: ดูรายละเอียดที่ปูมข้อความ"
 
 #: src/main_window.c:49
 #, c-format
-msgid "An error occurred when sending image '%s' to trash"
-msgstr ""
+msgid "An error occurred when deleting image '%s' from disk"
+msgstr "เกิดข้อผิดพลาดขณะลบรูปภาพ '%s' ออกจากดิสก์"
 
-#: src/main_window.c:323
+#: src/main_window.c:50
+#, c-format
+msgid "An error occurred when sending image '%s' to trash"
+msgstr "เกิดข้อผิดพลาดขณะส่งรูปภาพ '%s' ไปลงถังขยะ"
+
+#: src/main_window.c:341
 msgid "_File"
 msgstr "แ_ฟ้ม"
 
 #. Icon-name
-#: src/main_window.c:329
+#: src/main_window.c:347
 msgid "_Open..."
 msgstr "_เปิด..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:331
+#: src/main_window.c:349
 msgid "Open an image"
 msgstr "เปิดรูปภาพ"
 
 #. Icon-name
-#: src/main_window.c:335
+#: src/main_window.c:353
 msgid "_Save copy..."
 msgstr "_บันทึกสำเนา..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:337
+#: src/main_window.c:355
 msgid "Save a copy of the image"
 msgstr "บันทึกสำเนาของรูปภาพ"
 
 #. Icon-name
-#: src/main_window.c:341
+#: src/main_window.c:359
 msgid "Proper_ties..."
-msgstr ""
+msgstr "คุณสมบัติ"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:343
+#: src/main_window.c:361
 msgid "Show file properties"
 msgstr "แสดงคุณสมบัติของแฟ้ม"
 
 #. Icon-name
-#: src/main_window.c:347
+#: src/main_window.c:365
 msgid "_Print..."
 msgstr "_พิมพ์..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:349
+#: src/main_window.c:367
 msgid "Print the current image"
-msgstr ""
+msgstr "พิมพ์รูปปัจจุบัน"
 
 #. Icon-name
-#: src/main_window.c:353 src/main_window.c:372
+#: src/main_window.c:371 src/main_window.c:390
 msgid "_Edit"
 msgstr "แ_ก้ไข"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:355
+#: src/main_window.c:373
 msgid "Edit this image"
 msgstr "แก้ไขรูปภาพนี้"
 
 #. Icon-name
-#: src/main_window.c:359 src/preferences_dialog.c:217
+#: src/main_window.c:377 src/preferences_dialog.c:229
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "ปิ_ด"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:361
+#: src/main_window.c:379
 msgid "Close this image"
 msgstr "ปิดรูปภาพนี้"
 
 #. Icon-name
-#: src/main_window.c:365
+#: src/main_window.c:383
 msgid "_Quit"
 msgstr "_ออก"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:367
+#: src/main_window.c:385
 msgid "Quit Ristretto"
 msgstr "ออกจาก Ristretto"
 
-#: src/main_window.c:378
+#: src/main_window.c:396
 msgid "_Copy image to clipboard"
 msgstr "_คัดลอกรูปภาพไปยังคลิปบอร์ด"
 
-#: src/main_window.c:384
+#: src/main_window.c:402
 msgid "_Show containing folder"
-msgstr ""
+msgstr "แ_สดงโฟลเดอร์ที่บรรจุ"
 
-#: src/main_window.c:390
+#: src/main_window.c:408
 msgid "_Open with"
 msgstr "_เปิดด้วย"
 
-#: src/main_window.c:396
+#: src/main_window.c:414
 msgid "_Sort by"
 msgstr "เ_รียงตาม"
 
+#: src/main_window.c:420
+msgid "Sort order"
+msgstr "จัดเรียง"
+
 #. Icon-name
-#: src/main_window.c:402
+#: src/main_window.c:426
 msgid "_Delete"
 msgstr "_ลบ"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:404
+#: src/main_window.c:428
 msgid "Delete this image from disk"
 msgstr "ลบรูปภาพนี้ออกจากดิสก์"
 
 #. Icon-name
-#: src/main_window.c:408
+#: src/main_window.c:432
 msgid "_Clear private data..."
 msgstr "ล้า_งข้อมูลส่วนตัว..."
 
 #. Icon-name
-#: src/main_window.c:414
+#: src/main_window.c:438
 msgid "_Preferences..."
 msgstr "_ปรับแต่ง..."
 
-#: src/main_window.c:421
+#: src/main_window.c:445
 msgid "_View"
 msgstr "มุ_มมอง"
 
 #. Icon-name
-#: src/main_window.c:427
+#: src/main_window.c:451
 msgid "_Fullscreen"
 msgstr "เ_ต็มจอ"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:429
+#: src/main_window.c:453
 msgid "Switch to fullscreen"
 msgstr "สลับไปแสดงเต็มจอ"
 
 #. Icon-name
-#: src/main_window.c:433
+#: src/main_window.c:457
 msgid "_Leave Fullscreen"
 msgstr "เ_ลิกแสดงเต็มจอ"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:435
+#: src/main_window.c:459
 msgid "Leave Fullscreen"
 msgstr "เลิกแสดงเต็มจอ"
 
 #. Icon-name
-#: src/main_window.c:439
+#: src/main_window.c:463
 msgid "Set as _Wallpaper..."
 msgstr "กำหนดเป็นภาพ_พื้นหลัง..."
 
-#: src/main_window.c:446
+#: src/main_window.c:470
 msgid "_Zoom"
 msgstr "ซู_ม"
 
 #. Icon-name
-#: src/main_window.c:452
+#: src/main_window.c:476
 msgid "Zoom _In"
 msgstr "ซูมเ_ข้า"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:454
+#: src/main_window.c:478
 msgid "Zoom in"
 msgstr "ซูมเข้า"
 
 #. Icon-name
-#: src/main_window.c:458
+#: src/main_window.c:482
 msgid "Zoom _Out"
 msgstr "ซูม_ออก"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:460
+#: src/main_window.c:484
 msgid "Zoom out"
 msgstr "ซูมออก"
 
 #. Icon-name
-#: src/main_window.c:464 src/main_window.c:751
+#: src/main_window.c:488 src/main_window.c:796
 msgid "Zoom _Fit"
 msgstr "ซูม_พอดี"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:466
+#: src/main_window.c:490
 msgid "Zoom to fit window"
 msgstr "ซูมให้พอดีหน้าต่าง"
 
 #. Icon-name
-#: src/main_window.c:470 src/main_window.c:757
+#: src/main_window.c:494 src/main_window.c:802
 msgid "_Normal Size"
 msgstr "ขนาด_ปกติ"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:472
+#: src/main_window.c:496
 msgid "Zoom to 100%"
 msgstr "ซูมที่ 100%"
 
-#: src/main_window.c:477
+#: src/main_window.c:501
 msgid "_Default Zoom"
-msgstr ""
+msgstr "_การซูมปริยาย"
 
-#: src/main_window.c:484
+#: src/main_window.c:508
 msgid "_Rotation"
 msgstr "การหมุ_น"
 
 #. Icon-name
-#: src/main_window.c:490
+#: src/main_window.c:514
 msgid "Rotate _Right"
 msgstr "หมุน_ขวา"
 
 #. Icon-name
-#: src/main_window.c:496
+#: src/main_window.c:520
 msgid "Rotate _Left"
 msgstr "หมุนซ้า_ย"
 
-#: src/main_window.c:503
+#: src/main_window.c:527
 msgid "_Flip"
 msgstr "_พลิก"
 
-#: src/main_window.c:509
+#: src/main_window.c:533
 msgid "Flip _Horizontally"
 msgstr "พลิกแนว_นอน"
 
-#: src/main_window.c:515
+#: src/main_window.c:539
 msgid "Flip _Vertically"
 msgstr "พลิกแนว_ตั้ง"
 
-#: src/main_window.c:522
+#: src/main_window.c:546
 msgid "_Go"
 msgstr "ไ_ป"
 
 #. Icon-name
-#: src/main_window.c:528
+#: src/main_window.c:552
 msgid "_Forward"
 msgstr "เดินห_น้า"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:530
+#: src/main_window.c:554
 msgid "Next image"
 msgstr "รูปภาพถัดไป"
 
 #. Icon-name
-#: src/main_window.c:534
+#: src/main_window.c:558
 msgid "_Back"
 msgstr "_ถอยหลัง"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:536
+#: src/main_window.c:560
 msgid "Previous image"
 msgstr "รูปภาพก่อนหน้า"
 
 #. Icon-name
-#: src/main_window.c:540
+#: src/main_window.c:564
 msgid "F_irst"
 msgstr "รูปแ_รก"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:542
+#: src/main_window.c:566
 msgid "First image"
 msgstr "รูปแรก"
 
 #. Icon-name
-#: src/main_window.c:546
+#: src/main_window.c:570
 msgid "_Last"
 msgstr "รูปสุดท้า_ย"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:548
+#: src/main_window.c:572
 msgid "Last image"
 msgstr "รูปสุดท้าย"
 
-#: src/main_window.c:553
+#: src/main_window.c:577
 msgid "_Help"
 msgstr "_วิธีใช้"
 
 #. Icon-name
-#: src/main_window.c:559
+#: src/main_window.c:583
 msgid "_Contents"
 msgstr "เนื้อ_หา"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:561
+#: src/main_window.c:585
 msgid "Display ristretto user manual"
 msgstr "แสดงคู่มือวิธีใช้ ristretto"
 
 #. Icon-name
-#: src/main_window.c:565
+#: src/main_window.c:589
 msgid "_About"
 msgstr "เ_กี่ยวกับ"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:567
+#: src/main_window.c:591
 msgid "Display information about ristretto"
 msgstr "แสดงข้อมูลเกี่ยวกับ ristretto"
 
-#: src/main_window.c:572
+#: src/main_window.c:596
 msgid "_Position"
 msgstr "_ตำแหน่ง"
 
-#: src/main_window.c:578
+#: src/main_window.c:602
 msgid "_Size"
 msgstr "_ขนาด"
 
-#: src/main_window.c:584
+#: src/main_window.c:608
 msgid "Thumbnail Bar _Position"
 msgstr "_ตำแหน่งแถบภาพย่อ"
 
-#: src/main_window.c:590
+#: src/main_window.c:614
 msgid "Thumb_nail Size"
 msgstr "_ขนาดภาพย่อ"
 
 #. Icon-name
-#: src/main_window.c:597
+#: src/main_window.c:621
 msgid "Leave _Fullscreen"
 msgstr "เลิกแสดงเต็มจอ"
 
 #. Icon-name
-#: src/main_window.c:616
+#: src/main_window.c:640
 msgid "_Show Toolbar"
 msgstr "แ_สดงแถบเครื่องมือ"
 
 #. Icon-name
-#: src/main_window.c:624
+#: src/main_window.c:648
 msgid "Show _Thumbnail Bar"
 msgstr "แสดงแถบภาพ_ย่อ"
 
 #. Icon-name
-#: src/main_window.c:632
+#: src/main_window.c:656
 msgid "Show Status _Bar"
 msgstr "แสดงแถบ_สถานะ"
 
 #. Icon-name
-#: src/main_window.c:643
+#: src/main_window.c:667
 msgid "file name"
 msgstr "ชื่อแฟ้ม"
 
 #. Icon-name
-#: src/main_window.c:649
+#: src/main_window.c:673
 msgid "file type"
 msgstr "ชนิดแฟ้ม"
 
 #. Icon-name
-#: src/main_window.c:655
+#: src/main_window.c:679
 msgid "date"
 msgstr "เวลา"
 
 #. Icon-name
-#: src/main_window.c:661
+#: src/main_window.c:685
 msgid "random"
-msgstr ""
+msgstr "สุ่ม"
 
 #. Icon-name
-#: src/main_window.c:671
+#: src/main_window.c:691
+msgid "file size"
+msgstr "ขนาดแฟ้ม"
+
+#. Icon-name
+#: src/main_window.c:700
+msgid "ascending"
+msgstr "น้อยไปหามาก"
+
+#. Icon-name
+#: src/main_window.c:706
+msgid "descending"
+msgstr "มากไปหาน้อย"
+
+#. Icon-name
+#: src/main_window.c:716
 msgid "Left"
 msgstr "ซ้าย"
 
-#: src/main_window.c:677
+#: src/main_window.c:722
 msgid "Right"
 msgstr "ขวา"
 
-#: src/main_window.c:683
+#: src/main_window.c:728
 msgid "Top"
 msgstr "บน"
 
-#: src/main_window.c:689
+#: src/main_window.c:734
 msgid "Bottom"
 msgstr "ล่าง"
 
-#: src/main_window.c:699
+#: src/main_window.c:744
 msgid "Very Small"
 msgstr "เล็กมากๆ"
 
-#: src/main_window.c:705
+#: src/main_window.c:750
 msgid "Smaller"
 msgstr "เล็กมาก"
 
-#: src/main_window.c:711
+#: src/main_window.c:756
 msgid "Small"
 msgstr "เล็ก"
 
-#: src/main_window.c:717
+#: src/main_window.c:762
 msgid "Normal"
 msgstr "ปกติ"
 
-#: src/main_window.c:723
+#: src/main_window.c:768
 msgid "Large"
 msgstr "ใหญ่"
 
-#: src/main_window.c:729
+#: src/main_window.c:774
 msgid "Larger"
 msgstr "ใหญ่มาก"
 
-#: src/main_window.c:735
+#: src/main_window.c:780
 msgid "Very Large"
 msgstr "ใหญ่มากๆ"
 
 #. Icon-name
-#: src/main_window.c:745
+#: src/main_window.c:790
 msgid "_Smart Zoom"
-msgstr ""
+msgstr "การซูมแบบ_อัจฉริยะ"
 
-#: src/main_window.c:891
+#: src/main_window.c:938
 msgid "Images"
 msgstr "รูปภาพ"
 
 #. Create Play/Pause Slideshow actions
-#: src/main_window.c:963
+#: src/main_window.c:1010
 msgid "_Play"
 msgstr "เ_ล่น"
 
-#: src/main_window.c:963
+#: src/main_window.c:1010
 msgid "Play slideshow"
 msgstr "เล่นสไลด์"
 
-#: src/main_window.c:964
+#: src/main_window.c:1011
 msgid "_Pause"
 msgstr "_พัก"
 
-#: src/main_window.c:964
+#: src/main_window.c:1011
 msgid "Pause slideshow"
 msgstr "พักการแสดงสไลด์"
 
 #. Create Recently used items Action
-#: src/main_window.c:967
+#: src/main_window.c:1014
 msgid "_Recently used"
 msgstr "ที่ใช้_ล่าสุด"
 
-#: src/main_window.c:967
+#: src/main_window.c:1014
 msgid "Recently used"
 msgstr "ที่ใช้ล่าสุด"
 
-#: src/main_window.c:1092 src/main_window.c:1651
+#: src/main_window.c:1142 src/main_window.c:1688
 msgid "Press open to select an image"
 msgstr "กดปุ่มเปิดเพื่อเลือกรูปภาพ"
 
-#: src/main_window.c:1593 src/main_window.c:1598
+#: src/main_window.c:1630 src/main_window.c:1635
 msgid "Open With Other _Application..."
 msgstr "เปิดด้วยโ_ปรแกรมอื่น..."
 
-#: src/main_window.c:1608 src/main_window.c:1616
+#: src/main_window.c:1645 src/main_window.c:1653
 msgid "Empty"
 msgstr "ว่างเปล่า"
 
-#: src/main_window.c:1655
+#: src/main_window.c:1692
 msgid "Loading..."
 msgstr "กำลังโหลด..."
 
-#: src/main_window.c:2309
+#: src/main_window.c:2532
 msgid "Choose 'set wallpaper' method"
 msgstr "เลือกวิธีกำหนดภาพพื้นหลัง"
 
-#: src/main_window.c:2313 src/main_window.c:3416 src/main_window.c:3504
-#: src/main_window.c:4169 src/privacy_dialog.c:145
+#: src/main_window.c:2536 src/main_window.c:3639 src/main_window.c:3727
+#: src/main_window.c:4407 src/privacy_dialog.c:145
 #: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
 msgstr "_ยกเลิก"
 
-#: src/main_window.c:2316 src/main_window.c:4172
+#: src/main_window.c:2539 src/main_window.c:4410
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
 msgid "_OK"
 msgstr "_ตกลง"
 
-#: src/main_window.c:2326
+#: src/main_window.c:2549
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "ตั้งค่าว่าระบบใดที่กำลังจัดการพื้นโต๊ะของคุณอยู่\nค่านี้จะกำหนดวิธีการที่ <i>Ristretto</i> จะใช้\nในการตั้งค่าภาพพื้นหลังของพื้นโต๊ะ"
 
-#: src/main_window.c:2335 src/preferences_dialog.c:467
+#: src/main_window.c:2558 src/preferences_dialog.c:481
 msgid "None"
 msgstr "ไม่มี"
 
-#: src/main_window.c:2336 src/preferences_dialog.c:469
+#: src/main_window.c:2559 src/preferences_dialog.c:483
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2337 src/preferences_dialog.c:471
+#: src/main_window.c:2560 src/preferences_dialog.c:485
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:2851 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:3074 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Ristretto คือโปรแกรมแสดงรูปภาพสำหรับเดสก์ท็อป Xfce"
 
-#: src/main_window.c:2856
+#: src/main_window.c:3079
 msgid "translator-credits"
 msgstr "Theppitak Karoonboonyanan <theppitak@gmail.com>"
 
-#: src/main_window.c:3415
+#: src/main_window.c:3638
 msgid "Open image"
 msgstr "เปิดรูปภาพ"
 
-#: src/main_window.c:3416
+#: src/main_window.c:3639
 msgid "_Open"
 msgstr "_เปิด"
 
-#: src/main_window.c:3434
+#: src/main_window.c:3657
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3439
+#: src/main_window.c:3662
 msgid "All Files"
 msgstr "ทุกแฟ้ม"
 
-#: src/main_window.c:3503
+#: src/main_window.c:3726
 msgid "Save copy"
 msgstr "บันทึกสำเนา"
 
-#: src/main_window.c:3505
+#: src/main_window.c:3728
 msgid "_Save"
 msgstr "_บันทึก"
 
-#: src/main_window.c:3609
+#: src/main_window.c:3832
 msgid "Failed to print the image"
-msgstr ""
+msgstr "พิมพ์รูปไม่สำเร็จ"
 
-#: src/main_window.c:3696
+#: src/main_window.c:3919
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการย้ายรูปภาพ '%s' ไปลงถังขยะ?"
 
-#: src/main_window.c:3700
+#: src/main_window.c:3923
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบรูปภาพ '%s' ออกจากดิสก์?"
 
-#: src/main_window.c:3707
+#: src/main_window.c:3930
 msgid "_Do not ask again for this session"
 msgstr "ไ_ม่ต้องถามอีกในวาระนี้"
 
-#: src/main_window.c:4164
+#: src/main_window.c:4402
 msgid "Edit with"
 msgstr "แก้ไขโดยใช้"
 
-#: src/main_window.c:4184
+#: src/main_window.c:4422
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "เปิด %s และแฟ้มชนิด %s อื่นๆ โดยใช้:"
 
-#: src/main_window.c:4190
+#: src/main_window.c:4428
 msgid "Use as _default for this kind of file"
 msgstr "ใช้เป็นค่า_ปริยายสำหรับแฟ้มชนิดนี้"
 
-#: src/main_window.c:4235
+#: src/main_window.c:4473
 msgid "Recommended Applications"
 msgstr "โปรแกรมที่แนะนำ"
 
-#: src/main_window.c:4271
+#: src/main_window.c:4509
 msgid "Other Applications"
 msgstr "โปรแกรมอื่นๆ"
 
-#: src/main_window.c:4388
+#: src/main_window.c:4626
 #, c-format
 msgid "Failed to show containing folder \"%s\"."
-msgstr ""
+msgstr "ไม่สามารถแสดงโฟลเดอร์ที่บรรจุ \"%s\""
 
 #: src/privacy_dialog.c:115
 msgid "Time range to clear:"
@@ -663,145 +683,155 @@ msgstr "ทุกสิ่งทุกอย่าง"
 msgid "_Apply"
 msgstr "เ_ริ่มใช้"
 
-#: src/privacy_dialog.c:418
+#: src/privacy_dialog.c:424
 msgid "Clear private data"
 msgstr "ล้างข้อมูลส่วนตัว"
 
-#: src/preferences_dialog.c:248
+#: src/preferences_dialog.c:262
 msgid "Display"
 msgstr "การแสดงผล"
 
-#: src/preferences_dialog.c:255
+#: src/preferences_dialog.c:269
 msgid "Background color"
 msgstr "สีพื้นหลัง"
 
-#: src/preferences_dialog.c:259
+#: src/preferences_dialog.c:273
 msgid "Override background color:"
 msgstr "ทับค่าสีพื้นหลัง:"
 
-#: src/preferences_dialog.c:287
+#: src/preferences_dialog.c:301
 msgid "Quality"
 msgstr "คุณภาพ"
 
-#: src/preferences_dialog.c:291
+#: src/preferences_dialog.c:305
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "เมื่อเลือกตัวเลือกนี้ คุณภาพสูงสุดของการแสดงรูปภาพจะจำกัดตามขนาดหน้าจอ"
 
-#: src/preferences_dialog.c:296
+#: src/preferences_dialog.c:310
 msgid "Limit rendering quality"
 msgstr "จำกัดคุณภาพการแสดงรูปภาพ"
 
-#: src/preferences_dialog.c:305
+#: src/preferences_dialog.c:319
 msgid ""
 "Smooth the image using bilinear interpolation, thus prioritizing rendering "
 "quality over performance."
-msgstr ""
+msgstr "ทำให้ภาพราบรื่นโดยใช้การแก้ไขเชิงเส้นคู่ ดังนั้นคุณภาพการแสดงผลจึงมีสำคัญมากกว่าประสิทธิภาพของการทำงาน"
 
-#: src/preferences_dialog.c:310
+#: src/preferences_dialog.c:324
 msgid "Enable smoothing"
-msgstr ""
+msgstr "เปิดใช้งานการปรับภาพราบรื่น"
 
-#: src/preferences_dialog.c:322
+#: src/preferences_dialog.c:336
 msgid "Fullscreen"
 msgstr "เต็มจอ"
 
-#: src/preferences_dialog.c:326
+#: src/preferences_dialog.c:340
 msgid "Thumbnails"
 msgstr "ภาพย่อ"
 
-#: src/preferences_dialog.c:329
+#: src/preferences_dialog.c:343
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "แถบภาพย่อสามารถซ่อนโดยอัตโนมัติได้ เมื่อหน้าต่างแสดงแบบเต็มจอ"
 
-#: src/preferences_dialog.c:334
+#: src/preferences_dialog.c:348
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "ซ่อนแถบภาพย่อเมื่อแสดงเต็มจอ"
 
-#: src/preferences_dialog.c:342
+#: src/preferences_dialog.c:356
 msgid "Clock"
 msgstr "นาฬิกา"
 
-#: src/preferences_dialog.c:345
+#: src/preferences_dialog.c:359
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "แสดงนาฬิกาเข็มบอกเวลาปัจจุบันเมื่อหน้าต่างแสดงแบบเต็มจอ"
 
-#: src/preferences_dialog.c:350
+#: src/preferences_dialog.c:364
 msgid "Show Fullscreen Clock"
 msgstr "แสดงนาฬิกาเมื่อแสดงเต็มจอ"
 
-#: src/preferences_dialog.c:356
+#: src/preferences_dialog.c:370
 msgid "Mouse cursor"
 msgstr "ตัวชี้เมาส์"
 
-#: src/preferences_dialog.c:359
+#: src/preferences_dialog.c:373
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr ""
+msgstr "ตัวชี้เมาส์สามารถซ่อนโดยอัตโนมัติได้หลังจากไม่มีความเคลื่อนไหวชั่วระยะเวลาหนึ่ง เมื่อหน้าต่างอยู่ในโหมดเต็มจอ"
 
-#: src/preferences_dialog.c:367
+#: src/preferences_dialog.c:381
 msgid "Period of inactivity (seconds):"
 msgstr "ระยะเวลาที่ไม่มีความเคลื่อนไหว (วินาที):"
 
-#: src/preferences_dialog.c:387
+#: src/preferences_dialog.c:401
 msgid "Slideshow"
 msgstr "การแสดงสไลด์"
 
-#: src/preferences_dialog.c:391
+#: src/preferences_dialog.c:405
 msgid "Timeout"
 msgstr "กำหนดเวลา"
 
-#: src/preferences_dialog.c:394
+#: src/preferences_dialog.c:408
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
-msgstr ""
+msgstr "ระยะเวลาที่จะแสดงรูปภาพแต่ละภาพขณะแสดงสไลด์ (เป็นวินาที)"
 
-#: src/preferences_dialog.c:410
+#: src/preferences_dialog.c:424
 msgid "Control"
 msgstr "การควบคุม"
 
-#: src/preferences_dialog.c:414
+#: src/preferences_dialog.c:428
 msgid "Scroll wheel"
 msgstr "ลูกกลิ้งเมาส์"
 
-#: src/preferences_dialog.c:417
+#: src/preferences_dialog.c:431
 msgid "Invert zoom direction"
 msgstr "กลับทิศทางการซูม"
 
-#: src/preferences_dialog.c:428
+#: src/preferences_dialog.c:442
 msgid "Behaviour"
 msgstr "พฤติกรรม"
 
-#: src/preferences_dialog.c:432
+#: src/preferences_dialog.c:446
 msgid "Startup"
 msgstr "การเริ่มเปิด"
 
-#: src/preferences_dialog.c:434
+#: src/preferences_dialog.c:448
 msgid "Maximize window on startup when opening an image"
 msgstr "ขยายแผ่หน้าต่างขณะเริ่มโปรแกรมเมื่อเปิดรูปภาพ"
 
-#: src/preferences_dialog.c:440
+#: src/preferences_dialog.c:454
 msgid "Wrap around images"
 msgstr "วนรายชื่อรูปภาพ"
 
-#: src/preferences_dialog.c:451
+#: src/preferences_dialog.c:465
 msgid "Desktop"
 msgstr "พื้นโต๊ะ"
 
-#: src/preferences_dialog.c:455
+#: src/preferences_dialog.c:469
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
 "wallpaper."
-msgstr ""
+msgstr "ตั้งค่าว่าระบบใดที่กำลังจัดการพื้นโต๊ะของคุณอยู่ ค่านี้จะกำหนดวิธีการที่ <i>Ristretto</i> จะใช้ในการตั้งค่าภาพพื้นหลังของพื้นโต๊ะ"
 
-#: src/preferences_dialog.c:552
+#. File manager sync checkbox
+#: src/preferences_dialog.c:522
+msgid "Synchronize sorting with file manager"
+msgstr "จัดเรียงด้วยการปรับให้ตรงกันด้วยโปรแกรมจัดการแฟ้ม"
+
+#. File manager sync once checkbox
+#: src/preferences_dialog.c:532
+msgid "Synchronize only once when opening a directory"
+msgstr "ปรับให้ตรงกันเมื่อเปิดไดเรกทอรีเท่านั้น"
+
+#: src/preferences_dialog.c:594
 msgid "Image Viewer Preferences"
 msgstr "ปรับแต่งโปรแกรมแสดงรูป"
 
@@ -850,19 +880,19 @@ msgstr "%s - คุณสมบัติ"
 
 #: src/image_list.c:32
 msgid "No supported image type found in the directory"
-msgstr ""
+msgstr "ไม่รองรับชนิดของรูปภาพที่พบในไดเรกทอรี"
 
 #: src/image_list.c:33
 msgid "Directory only partially loaded"
-msgstr ""
+msgstr "ไดเรกทอรีโหลดมาเพียงบางส่วนเท่านั้น"
 
 #: src/image_list.c:34
 msgid "Could not load directory"
-msgstr ""
+msgstr "ไม่สามารถโหลดไดเรกทอรี่ได้"
 
 #: src/image_list.c:35
 msgid "Unsupported mime type"
-msgstr ""
+msgstr "ไม่รองรับรูปแบบของ MIME"
 
 #: src/thumbnailer.c:368
 msgid ""
@@ -925,15 +955,15 @@ msgstr "ดูรูปภาพของคุณอย่างง่ายด
 
 #: org.xfce.ristretto.desktop.in:13
 msgid "image;photo;picture;viewer;graphics;"
-msgstr ""
+msgstr "รูปภาพ;รูปถ่าย;ภาพ;โปรแกรมดูรูปภาพr;กราฟฟิก;"
 
 #: org.xfce.ristretto.appdata.xml.in:7
 msgid "Ristretto"
-msgstr ""
+msgstr "Ristretto"
 
 #: org.xfce.ristretto.appdata.xml.in:8
 msgid "Fast and lightweight image viewer"
-msgstr ""
+msgstr "โปรแกรมแสดงรูปที่รวดเร็วและน้ำหนักเบา"
 
 #: org.xfce.ristretto.appdata.xml.in:13
 msgid ""
@@ -945,4 +975,4 @@ msgstr "โปรแกรมดูรูปภาพ Ristretto เป็นโ�
 
 #: org.xfce.ristretto.appdata.xml.in:34
 msgid "Xfce Developers"
-msgstr ""
+msgstr "ทีมผู้พัฒนา Xfce"
