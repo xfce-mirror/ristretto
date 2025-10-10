@@ -42,7 +42,7 @@ msgid ""
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr "%s: %s\n\nПокушајте „%s --help“ да видите списак\nдоступних могућности линије наредби.\n"
+msgstr "%s: %s\n\nПокушајте „%s --help“ ради прегледа списка\nдоступних могућности линије наредби.\n"
 
 #: src/main_window.c:44 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
@@ -166,7 +166,7 @@ msgstr "_Распореди по"
 
 #: src/main_window.c:420
 msgid "Sort order"
-msgstr ""
+msgstr "Распоред"
 
 #. Icon-name
 #: src/main_window.c:426
