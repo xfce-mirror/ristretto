@@ -797,7 +797,7 @@ msgstr "Inversar la direccion del zoom"
 
 #: src/preferences_dialog.c:442
 msgid "Behaviour"
-msgstr "Comportament"
+msgstr "Compòrtament"
 
 #: src/preferences_dialog.c:446
 msgid "Startup"
