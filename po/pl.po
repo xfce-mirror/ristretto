@@ -365,7 +365,7 @@ msgstr "_Spis treści"
 #. Keyboard shortcut
 #: src/main_window.c:585
 msgid "Display ristretto user manual"
-msgstr "Otwiera podręcznik użytkownika programu"
+msgstr "Wyświetla podręcznik programu"
 
 #. Icon-name
 #: src/main_window.c:589
@@ -376,7 +376,7 @@ msgstr "_O programie"
 #. Keyboard shortcut
 #: src/main_window.c:591
 msgid "Display information about ristretto"
-msgstr "Wyświetla informacje o programie"
+msgstr "Wyświetla informacje o programie"
 
 #: src/main_window.c:596
 msgid "_Position"
