@@ -358,7 +358,7 @@ msgstr "_Sisukord"
 #. Keyboard shortcut
 #: src/main_window.c:585
 msgid "Display ristretto user manual"
-msgstr "Näita Ristretto inglisekeelset kasutusjuhendit"
+msgstr "Näita Ristretto ingliskeelset kasutusjuhendit"
 
 #. Icon-name
 #: src/main_window.c:589
