@@ -178,7 +178,7 @@ msgstr "_Ordenar por"
 
 #: src/main_window.c:420
 msgid "Sort order"
-msgstr ""
+msgstr "Ordem de classificação"
 
 #. Icon-name
 #: src/main_window.c:426
@@ -443,17 +443,17 @@ msgstr "aleatório"
 #. Icon-name
 #: src/main_window.c:691
 msgid "file size"
-msgstr ""
+msgstr "tamanho do arquivo"
 
 #. Icon-name
 #: src/main_window.c:700
 msgid "ascending"
-msgstr ""
+msgstr "crescente"
 
 #. Icon-name
 #: src/main_window.c:706
 msgid "descending"
-msgstr ""
+msgstr "decrescente"
 
 #. Icon-name
 #: src/main_window.c:716
@@ -835,12 +835,12 @@ msgstr "Esta configuração determina o método que o <i>Ristretto</i> usará pa
 #. File manager sync checkbox
 #: src/preferences_dialog.c:522
 msgid "Synchronize sorting with file manager"
-msgstr ""
+msgstr "Sincronizar classificação com gerenciador de arquivos"
 
 #. File manager sync once checkbox
 #: src/preferences_dialog.c:532
 msgid "Synchronize only once when opening a directory"
-msgstr ""
+msgstr "Sincronizar apenas uma vez ao abrir um diretório"
 
 #: src/preferences_dialog.c:594
 msgid "Image Viewer Preferences"
