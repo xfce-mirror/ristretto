@@ -110,6 +110,7 @@ main (int argc,
         g_error_free (error);
     }
 
+    g_set_prgname (RISTRETTO_APP_ID);
     gtk_window_set_default_icon_name (RISTRETTO_APP_ID);
     settings = rstto_settings_new ();
 
