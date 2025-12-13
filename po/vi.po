@@ -1,592 +1,899 @@
-# Copyright (C) 2009 Ristretto
-# This file is distributed under the same license as the Ristretto package.
-# Nguyễn Quốc Vinh <kureikain@gmail.com>, 2009.
-#
-# 2, fuzzy
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Xfce
+# This file is distributed under the same license as the xfce-apps.ristretto package.
+# 
+# Translators:
+# Loc Huynh <https://github.com/hthienloc>, 2025
+# Nguyễn Quốc Vinh <kureikain@gmail.com>, 2009
 msgid ""
 msgstr ""
-"Project-Id-Version: Ristretto\n"
-"Report-Msgid-Bugs-To: xfce-i18n@xfce.org\n"
-"POT-Creation-Date: 2012-02-20 19:45+0100\n"
-"PO-Revision-Date: 2009-9-9 16:MI+ZONE\n"
-"Last-Translator: Nguyễn Quốc Vinh <kureikain@gmail.com>\n"
-"Language-Team: Vietnamese <kureikain@gmail.com>\n"
-"Language: vi\n"
+"Project-Id-Version: Xfce Apps\n"
+"Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
+"POT-Creation-Date: 2025-09-30 12:55+0200\n"
+"PO-Revision-Date: 2013-07-03 18:30+0000\n"
+"Last-Translator: Loc Huynh <https://github.com/hthienloc>, 2025\n"
+"Language-Team: Vietnamese (http://app.transifex.com/xfce/xfce-apps/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../src/main.c:61
+#: src/main.c:44
 msgid "Version information"
 msgstr "Thông tin phiên bản"
 
-#: ../src/main.c:65
+#: src/main.c:47
 msgid "Start in fullscreen mode"
-msgstr "Bắt đầu chế độ đầy màn hình"
+msgstr "Bắt đầu chế độ toàn màn hình"
 
-#: ../src/main.c:69
+#: src/main.c:50
 msgid "Start a slideshow"
 msgstr "Bắt đầu trình diễn ảnh"
 
-#: ../src/main.c:77
+#: src/main.c:53
 msgid "Show settings dialog"
-msgstr ""
+msgstr "Hiện hộp thoại thiết lập"
 
-#: ../src/main.c:105
-#, fuzzy, c-format
+#: src/main.c:85
+#, c-format
 msgid ""
 "%s: %s\n"
 "\n"
 "Try %s --help to see a full list of\n"
 "available command line options.\n"
-msgstr ""
-"%s: %s\n"
-"Dùng %s --help để xem toàn bộ tham số dòng lệnh.\n"
+msgstr "%s: %s\n\nThử %s --help để xem danh sách đầy đủ\ncác tùy chọn dòng lệnh có sẵn.\n"
 
-#: ../src/main_window.c:53 ../ristretto.desktop.in.h:1
+#: src/main_window.c:44 org.xfce.ristretto.desktop.in:6
 msgid "Image Viewer"
 msgstr "Trình xem ảnh"
 
-#. File Menu
-#: ../src/main_window.c:332
+#: src/main_window.c:47
+msgid "Could not save file"
+msgstr "Không thể lưu tập tin"
+
+#: src/main_window.c:48
+msgid "Some files could not be opened: see the text logs for details"
+msgstr "Một số tập tin không thể mở: xem nhật ký văn bản để biết chi tiết"
+
+#: src/main_window.c:49
+#, c-format
+msgid "An error occurred when deleting image '%s' from disk"
+msgstr "Đã xảy ra lỗi khi xóa ảnh '%s' khỏi đĩa"
+
+#: src/main_window.c:50
+#, c-format
+msgid "An error occurred when sending image '%s' to trash"
+msgstr "Đã xảy ra lỗi khi chuyển ảnh '%s' vào thùng rác"
+
+#: src/main_window.c:341
 msgid "_File"
 msgstr "_Tập tin"
 
-#: ../src/main_window.c:333
-msgid "_Open"
-msgstr "_Mở"
+#. Icon-name
+#: src/main_window.c:347
+msgid "_Open..."
+msgstr "_Mở..."
 
-#: ../src/main_window.c:333
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:349
 msgid "Open an image"
 msgstr "Mở ảnh"
 
-#: ../src/main_window.c:334
-msgid "_Save copy"
-msgstr "_Nhân bản ảnh này"
+#. Icon-name
+#: src/main_window.c:353
+msgid "_Save copy..."
+msgstr "_Lưu bản sao..."
 
-#: ../src/main_window.c:334
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:355
 msgid "Save a copy of the image"
-msgstr "Lưu một phiên bản của ảnh này"
+msgstr "Lưu một bản sao của ảnh"
 
-#: ../src/main_window.c:335
-msgid "_Properties"
-msgstr ""
+#. Icon-name
+#: src/main_window.c:359
+msgid "Proper_ties..."
+msgstr "T_huộc tính..."
 
-#: ../src/main_window.c:335
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:361
 msgid "Show file properties"
-msgstr ""
+msgstr "Hiện thuộc tính tập tin"
 
-#: ../src/main_window.c:336
-msgid "_Close"
-msgstr "Đóng lại"
+#. Icon-name
+#: src/main_window.c:365
+msgid "_Print..."
+msgstr "_In..."
 
-#: ../src/main_window.c:336
-msgid "Close this image"
-msgstr "Đóng ảnh này lại"
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:367
+msgid "Print the current image"
+msgstr "In ảnh hiện tại"
 
-#: ../src/main_window.c:337
-msgid "_Quit"
-msgstr "Th_oát"
-
-#: ../src/main_window.c:337
-msgid "Quit Ristretto"
-msgstr "Thoát Ristretto"
-
-#. Edit Menu
-#: ../src/main_window.c:339
+#. Icon-name
+#: src/main_window.c:371 src/main_window.c:390
 msgid "_Edit"
 msgstr "_Sửa"
 
-#: ../src/main_window.c:340
-msgid "_Open with..."
-msgstr "Mở _với chương trình khác"
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:373
+msgid "Edit this image"
+msgstr "Sửa ảnh này"
 
-#: ../src/main_window.c:341
-msgid "_Sorting"
-msgstr "_Sắp xếp"
+#. Icon-name
+#: src/main_window.c:377 src/preferences_dialog.c:229
+#: src/properties_dialog.c:103
+msgid "_Close"
+msgstr "Đó_ng"
 
-#: ../src/main_window.c:342
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:379
+msgid "Close this image"
+msgstr "Đóng ảnh này"
+
+#. Icon-name
+#: src/main_window.c:383
+msgid "_Quit"
+msgstr "_Thoát"
+
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:385
+msgid "Quit Ristretto"
+msgstr "Thoát Ristretto"
+
+#: src/main_window.c:396
+msgid "_Copy image to clipboard"
+msgstr "_Sao chép ảnh vào bộ nhớ đệm"
+
+#: src/main_window.c:402
+msgid "_Show containing folder"
+msgstr "_Hiện thư mục chứa"
+
+#: src/main_window.c:408
+msgid "_Open with"
+msgstr "_Mở bằng"
+
+#: src/main_window.c:414
+msgid "_Sort by"
+msgstr "_Sắp xếp theo"
+
+#: src/main_window.c:420
+msgid "Sort order"
+msgstr "Thứ tự sắp xếp"
+
+#. Icon-name
+#: src/main_window.c:426
 msgid "_Delete"
 msgstr "_Xóa"
 
-#: ../src/main_window.c:342
-#, fuzzy
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:428
 msgid "Delete this image from disk"
-msgstr "Đóng ảnh này lại"
+msgstr "Xóa ảnh này khỏi đĩa"
 
-#: ../src/main_window.c:343
-msgid "_Clear private data"
-msgstr ""
+#. Icon-name
+#: src/main_window.c:432
+msgid "_Clear private data..."
+msgstr "_Xóa dữ liệu riêng tư..."
 
-#: ../src/main_window.c:344
-msgid "_Preferences"
-msgstr "Thiết lập"
+#. Icon-name
+#: src/main_window.c:438
+msgid "_Preferences..."
+msgstr "_Tùy chọn..."
 
-#. View Menu
-#: ../src/main_window.c:346
+#: src/main_window.c:445
 msgid "_View"
 msgstr "_Xem"
 
-#: ../src/main_window.c:347
+#. Icon-name
+#: src/main_window.c:451
 msgid "_Fullscreen"
-msgstr "Đầy màn _hình"
+msgstr "_Toàn màn hình"
 
-#: ../src/main_window.c:348
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:453
+msgid "Switch to fullscreen"
+msgstr "Chuyển sang chế độ toàn màn hình"
+
+#. Icon-name
+#: src/main_window.c:457
 msgid "_Leave Fullscreen"
-msgstr "_Thoát chế độ đầy màn hình"
+msgstr "_Thoát toàn màn hình"
 
-#: ../src/main_window.c:349
-msgid "_Set as Wallpaper"
-msgstr "Dùng _làm ảnh nền "
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:459
+msgid "Leave Fullscreen"
+msgstr "Thoát toàn màn hình"
 
-#. Zoom submenu
-#: ../src/main_window.c:351
-#, fuzzy
+#. Icon-name
+#: src/main_window.c:463
+msgid "Set as _Wallpaper..."
+msgstr "Đặt làm _hình nền..."
+
+#: src/main_window.c:470
 msgid "_Zoom"
-msgstr "_Phóng to / Thu nhỏ"
+msgstr "_Phóng đại"
 
-#: ../src/main_window.c:352
+#. Icon-name
+#: src/main_window.c:476
 msgid "Zoom _In"
-msgstr "_Phóng to"
+msgstr "Phóng _to"
 
-#: ../src/main_window.c:353
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:478
+msgid "Zoom in"
+msgstr "Phóng to"
+
+#. Icon-name
+#: src/main_window.c:482
 msgid "Zoom _Out"
-msgstr "_Thu nhỏ"
+msgstr "Thu _nhỏ"
 
-#: ../src/main_window.c:354
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:484
+msgid "Zoom out"
+msgstr "Thu nhỏ"
+
+#. Icon-name
+#: src/main_window.c:488 src/main_window.c:796
 msgid "Zoom _Fit"
-msgstr "_Khít màn hình"
+msgstr "Vừa _khung hình"
 
-#: ../src/main_window.c:355
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:490
+msgid "Zoom to fit window"
+msgstr "Phóng đại vừa với cửa sổ"
+
+#. Icon-name
+#: src/main_window.c:494 src/main_window.c:802
 msgid "_Normal Size"
 msgstr "_Kích thước bình thường"
 
-#. Rotation submenu
-#: ../src/main_window.c:357
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:496
+msgid "Zoom to 100%"
+msgstr "Phóng đại 100%"
+
+#: src/main_window.c:501
+msgid "_Default Zoom"
+msgstr "Phóng đại _mặc định"
+
+#: src/main_window.c:508
 msgid "_Rotation"
 msgstr "_Quay ảnh"
 
-#: ../src/main_window.c:358
+#. Icon-name
+#: src/main_window.c:514
 msgid "Rotate _Right"
 msgstr "Quay _phải"
 
-#: ../src/main_window.c:359
+#. Icon-name
+#: src/main_window.c:520
 msgid "Rotate _Left"
 msgstr "Quay _trái"
 
-#. Go Menu
-#: ../src/main_window.c:361
-msgid "_Go"
-msgstr "_Đi"
+#: src/main_window.c:527
+msgid "_Flip"
+msgstr "_Lật"
 
-#: ../src/main_window.c:362
+#: src/main_window.c:533
+msgid "Flip _Horizontally"
+msgstr "Lật _ngang"
+
+#: src/main_window.c:539
+msgid "Flip _Vertically"
+msgstr "Lật _dọc"
+
+#: src/main_window.c:546
+msgid "_Go"
+msgstr "_Đi đến"
+
+#. Icon-name
+#: src/main_window.c:552
 msgid "_Forward"
 msgstr "_Tiếp"
 
-#: ../src/main_window.c:363
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:554
+msgid "Next image"
+msgstr "Ảnh kế tiếp"
+
+#. Icon-name
+#: src/main_window.c:558
 msgid "_Back"
 msgstr "_Trước"
 
-#: ../src/main_window.c:364
-msgid "_First"
-msgstr "_Đầu"
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:560
+msgid "Previous image"
+msgstr "Ảnh trước đó"
 
-#: ../src/main_window.c:365
+#. Icon-name
+#: src/main_window.c:564
+msgid "F_irst"
+msgstr "Đầ_u tiên"
+
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:566
+msgid "First image"
+msgstr "Ảnh đầu tiên"
+
+#. Icon-name
+#: src/main_window.c:570
 msgid "_Last"
 msgstr "_Cuối cùng"
 
-#. Help Menu
-#: ../src/main_window.c:367
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:572
+msgid "Last image"
+msgstr "Ảnh cuối cùng"
+
+#: src/main_window.c:577
 msgid "_Help"
 msgstr "_Trợ giúp"
 
-#: ../src/main_window.c:369
+#. Icon-name
+#: src/main_window.c:583
 msgid "_Contents"
-msgstr "Nội _dung"
+msgstr "_Nội dung"
 
-#: ../src/main_window.c:371
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:585
 msgid "Display ristretto user manual"
 msgstr "Xem sổ tay sử dụng ristretto"
 
-#: ../src/main_window.c:374
+#. Icon-name
+#: src/main_window.c:589
 msgid "_About"
-msgstr "Thông t_in"
+msgstr "_Thông tin"
 
-#: ../src/main_window.c:376
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:591
 msgid "Display information about ristretto"
 msgstr "Thông tin về ristretto"
 
-#. Position Menu
-#: ../src/main_window.c:379
+#: src/main_window.c:596
 msgid "_Position"
 msgstr "_Vị trí"
 
-#: ../src/main_window.c:380
+#: src/main_window.c:602
 msgid "_Size"
-msgstr ""
+msgstr "_Kích thước"
 
-#: ../src/main_window.c:381
-#, fuzzy
+#: src/main_window.c:608
 msgid "Thumbnail Bar _Position"
-msgstr "Ảnh thu nhỏ"
+msgstr "_Vị trí thanh hình thu nhỏ"
 
-#: ../src/main_window.c:382
-#, fuzzy
-msgid "Thumbnail _Size"
-msgstr "Chế độ xem ảnh nhỏ "
+#: src/main_window.c:614
+msgid "Thumb_nail Size"
+msgstr "Kích thước hình thu _nhỏ"
 
-#. Misc
-#: ../src/main_window.c:384
+#. Icon-name
+#: src/main_window.c:621
 msgid "Leave _Fullscreen"
-msgstr "Thoát chế độ đầy _màn hình"
+msgstr "Thoát chế độ _toàn màn hình"
 
-#. Toggle visibility of the main file toolbar
-#: ../src/main_window.c:392
-msgid "Show _File Toolbar"
-msgstr "Hiển thị thanh cô_ng cụ"
+#. Icon-name
+#: src/main_window.c:640
+msgid "_Show Toolbar"
+msgstr "_Hiện thanh công cụ"
 
-#. Toggle visibility of the main navigation toolbar
-#: ../src/main_window.c:394
-msgid "Show _Navigation Toolbar"
-msgstr "Hiển thị thanh điều _hướng"
-
-#. Toggle visibility of the thumbnailbar
-#: ../src/main_window.c:396
-#, fuzzy
+#. Icon-name
+#: src/main_window.c:648
 msgid "Show _Thumbnail Bar"
-msgstr "Hiển thị ảnh nhỏ"
+msgstr "Hiện thanh hình thu _nhỏ"
 
-#. Toggle visibility of the statusbar
-#: ../src/main_window.c:398
-#, fuzzy
-msgid "Show _Status Bar"
-msgstr "Hiển thị ảnh nhỏ"
+#. Icon-name
+#: src/main_window.c:656
+msgid "Show Status _Bar"
+msgstr "Hiện thanh _trạng thái"
 
-#. Sort by Filename
-#: ../src/main_window.c:405
-msgid "sort by filename"
-msgstr "sắp xếp theo tên ảnh"
+#. Icon-name
+#: src/main_window.c:667
+msgid "file name"
+msgstr "tên tập tin"
 
-#. Sort by Date
-#: ../src/main_window.c:407
-msgid "sort by date"
-msgstr "sắp xếp theo ngày"
+#. Icon-name
+#: src/main_window.c:673
+msgid "file type"
+msgstr "kiểu tập tin"
 
-#: ../src/main_window.c:413
+#. Icon-name
+#: src/main_window.c:679
+msgid "date"
+msgstr "ngày"
+
+#. Icon-name
+#: src/main_window.c:685
+msgid "random"
+msgstr "ngẫu nhiên"
+
+#. Icon-name
+#: src/main_window.c:691
+msgid "file size"
+msgstr "kích thước tập tin"
+
+#. Icon-name
+#: src/main_window.c:700
+msgid "ascending"
+msgstr "tăng dần"
+
+#. Icon-name
+#: src/main_window.c:706
+msgid "descending"
+msgstr "giảm dần"
+
+#. Icon-name
+#: src/main_window.c:716
 msgid "Left"
 msgstr "Trái"
 
-#: ../src/main_window.c:414
+#: src/main_window.c:722
 msgid "Right"
 msgstr "Phải"
 
-#: ../src/main_window.c:415
+#: src/main_window.c:728
 msgid "Top"
 msgstr "Trên"
 
-#: ../src/main_window.c:416
+#: src/main_window.c:734
 msgid "Bottom"
 msgstr "Dưới"
 
-#: ../src/main_window.c:422
+#: src/main_window.c:744
 msgid "Very Small"
-msgstr ""
+msgstr "Rất nhỏ"
 
-#: ../src/main_window.c:423
+#: src/main_window.c:750
 msgid "Smaller"
-msgstr ""
+msgstr "Nhỏ hơn"
 
-#: ../src/main_window.c:424
+#: src/main_window.c:756
 msgid "Small"
-msgstr ""
+msgstr "Nhỏ"
 
-#: ../src/main_window.c:425
-#, fuzzy
+#: src/main_window.c:762
 msgid "Normal"
-msgstr "_Kích thước bình thường"
+msgstr "Bình thường"
 
-#: ../src/main_window.c:426
+#: src/main_window.c:768
 msgid "Large"
-msgstr ""
+msgstr "Lớn"
 
-#: ../src/main_window.c:427
+#: src/main_window.c:774
 msgid "Larger"
-msgstr ""
+msgstr "Lớn hơn"
 
-#: ../src/main_window.c:428
+#: src/main_window.c:780
 msgid "Very Large"
-msgstr ""
+msgstr "Rất lớn"
+
+#. Icon-name
+#: src/main_window.c:790
+msgid "_Smart Zoom"
+msgstr "Phóng đại _thông minh"
+
+#: src/main_window.c:938
+msgid "Images"
+msgstr "Ảnh"
 
 #. Create Play/Pause Slideshow actions
-#: ../src/main_window.c:572
+#: src/main_window.c:1010
 msgid "_Play"
 msgstr "_Chạy"
 
-#: ../src/main_window.c:572
+#: src/main_window.c:1010
 msgid "Play slideshow"
-msgstr "Chạy show trình diễn"
+msgstr "Chạy trình diễn ảnh"
 
-#: ../src/main_window.c:573
+#: src/main_window.c:1011
 msgid "_Pause"
 msgstr "Tạm _dừng"
 
-#: ../src/main_window.c:573
+#: src/main_window.c:1011
 msgid "Pause slideshow"
-msgstr "Tạm dừng trình diễn"
+msgstr "Tạm dừng trình diễn ảnh"
 
 #. Create Recently used items Action
-#: ../src/main_window.c:576
+#: src/main_window.c:1014
 msgid "_Recently used"
-msgstr "Tập tin mở gần đây"
+msgstr "_Mở gần đây"
 
-#: ../src/main_window.c:576
+#: src/main_window.c:1014
 msgid "Recently used"
 msgstr "Mở gần đây"
 
-#: ../src/main_window.c:672 ../src/main_window.c:1170
+#: src/main_window.c:1142 src/main_window.c:1688
 msgid "Press open to select an image"
-msgstr "Nhấn nút mở để chọn ảnh"
+msgstr "Nhấn mở để chọn ảnh"
 
-#: ../src/main_window.c:1074 ../src/main_window.c:1080
+#: src/main_window.c:1630 src/main_window.c:1635
+msgid "Open With Other _Application..."
+msgstr "Mở bằng Ứng dụng _khác…"
+
+#: src/main_window.c:1645 src/main_window.c:1653
 msgid "Empty"
 msgstr "Trống"
 
-#: ../src/main_window.c:2109
-msgid "Choose 'set wallpaper' method"
-msgstr ""
+#: src/main_window.c:1692
+msgid "Loading..."
+msgstr "Đang tải…"
 
-#: ../src/main_window.c:2124 ../src/preferences_dialog.c:349
+#: src/main_window.c:2532
+msgid "Choose 'set wallpaper' method"
+msgstr "Chọn phương thức đặt hình nền"
+
+#: src/main_window.c:2536 src/main_window.c:3639 src/main_window.c:3727
+#: src/main_window.c:4407 src/privacy_dialog.c:145
+#: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
+msgid "_Cancel"
+msgstr "_Hủy bỏ"
+
+#: src/main_window.c:2539 src/main_window.c:4410
+#: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
+msgid "_OK"
+msgstr "_OK"
+
+#: src/main_window.c:2549
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
-msgstr ""
+msgstr "Cấu hình hệ thống hiện đang quản lý màn hình của bạn.\nThiết lập này quyết định phương thức <i>Ristretto</i> sẽ dùng\nđể cài đặt hình nền màn hình."
 
-#: ../src/main_window.c:2149 ../src/preferences_dialog.c:373
+#: src/main_window.c:2558 src/preferences_dialog.c:481
 msgid "None"
-msgstr ""
+msgstr "Không"
 
-#: ../src/main_window.c:2153 ../src/preferences_dialog.c:377
+#: src/main_window.c:2559 src/preferences_dialog.c:483
 msgid "Xfce"
-msgstr ""
+msgstr "Xfce"
 
-#: ../src/main_window.c:2157 ../src/preferences_dialog.c:381
+#: src/main_window.c:2560 src/preferences_dialog.c:485
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
-#: ../src/main_window.c:2613
-msgid "Developer:"
-msgstr "Người phát triển"
-
-#: ../src/main_window.c:2622
-#, fuzzy
+#: src/main_window.c:3074 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
-msgstr ""
-"Ristretto là một chương trình xem ảnh nhỏ gọn cho môi trường màn hình Xfce"
+msgstr "Ristretto là ứng dụng xem ảnh dành cho môi trường desktop Xfce."
 
-#: ../src/main_window.c:2630
+#: src/main_window.c:3079
 msgid "translator-credits"
-msgstr "Công trạng người dịch"
+msgstr "Vietnam Linux L10n <https://github.com/linux-l10n-vi>\nLoc Huynh <https://github.com/hthienloc>"
 
-#: ../src/main_window.c:2920
+#: src/main_window.c:3638
 msgid "Open image"
 msgstr "Mở ảnh"
 
-#: ../src/main_window.c:2939
-msgid "Images"
-msgstr "Ảnh"
+#: src/main_window.c:3639
+msgid "_Open"
+msgstr "_Mở"
 
-#: ../src/main_window.c:2944
+#: src/main_window.c:3657
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: ../src/main_window.c:2971 ../src/main_window.c:3073
-msgid "Could not open file"
-msgstr "Không mở tập tin được"
+#: src/main_window.c:3662
+msgid "All Files"
+msgstr "Tất cả Tập tin"
 
-#: ../src/main_window.c:3106
+#: src/main_window.c:3726
 msgid "Save copy"
-msgstr "Lưu một bản khác"
+msgstr "Lưu bản sao"
 
-#: ../src/main_window.c:3132
-#, fuzzy
-msgid "Could not save file"
-msgstr "Không mở tập tin được"
+#: src/main_window.c:3728
+msgid "_Save"
+msgstr "_Lưu"
 
-#: ../src/main_window.c:3249
+#: src/main_window.c:3832
+msgid "Failed to print the image"
+msgstr "Không in được ảnh"
+
+#: src/main_window.c:3919
+#, c-format
+msgid "Are you sure you want to send image '%s' to trash?"
+msgstr "Bạn có chắc muốn bỏ ảnh '%s' vào thùng rác không?"
+
+#: src/main_window.c:3923
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
-msgstr "Chắc chắn muốn xóa ảnh '%s\" khỏi đĩa?"
+msgstr "Bạn có chắc muốn xóa ảnh '%s' khỏi đĩa không?"
 
-#: ../src/privacy_dialog.c:151
+#: src/main_window.c:3930
+msgid "_Do not ask again for this session"
+msgstr "_Không hỏi lại trong phiên này"
+
+#: src/main_window.c:4402
+msgid "Edit with"
+msgstr "Chỉnh sửa bằng"
+
+#: src/main_window.c:4422
+#, c-format
+msgid "Open %s and other files of type %s with:"
+msgstr "Mở %s và các tập tin cùng loại %s bằng:"
+
+#: src/main_window.c:4428
+msgid "Use as _default for this kind of file"
+msgstr "Dùng làm _mặc định cho loại tập tin này"
+
+#: src/main_window.c:4473
+msgid "Recommended Applications"
+msgstr "Ứng dụng được đề xuất"
+
+#: src/main_window.c:4509
+msgid "Other Applications"
+msgstr "Ứng dụng khác"
+
+#: src/main_window.c:4626
+#, c-format
+msgid "Failed to show containing folder \"%s\"."
+msgstr "Không hiển thị được thư mục chứa \"%s\"."
+
+#: src/privacy_dialog.c:115
 msgid "Time range to clear:"
-msgstr ""
+msgstr "Khoảng thời gian cần xóa:"
 
-#: ../src/privacy_dialog.c:155
+#: src/privacy_dialog.c:118
 msgid "Cleanup"
-msgstr ""
+msgstr "Dọn dẹp"
 
-#: ../src/privacy_dialog.c:157
+#: src/privacy_dialog.c:121
 msgid "Last Hour"
-msgstr ""
+msgstr "Giờ vừa qua"
 
-#: ../src/privacy_dialog.c:158
+#: src/privacy_dialog.c:122
 msgid "Last Two Hours"
-msgstr ""
+msgstr "Hai giờ vừa qua"
 
-#: ../src/privacy_dialog.c:159
+#: src/privacy_dialog.c:123
 msgid "Last Four Hours"
-msgstr ""
+msgstr "Bốn giờ vừa qua"
 
-#: ../src/privacy_dialog.c:160
+#: src/privacy_dialog.c:124
 msgid "Today"
-msgstr ""
+msgstr "Hôm nay"
 
-#: ../src/privacy_dialog.c:161
+#: src/privacy_dialog.c:125
 msgid "Everything"
-msgstr ""
+msgstr "Tất cả"
 
-#: ../src/privacy_dialog.c:459
+#: src/privacy_dialog.c:148 src/xfce_wallpaper_manager.c:273
+#: src/gnome_wallpaper_manager.c:181
+msgid "_Apply"
+msgstr "_Áp dụng"
+
+#: src/privacy_dialog.c:424
 msgid "Clear private data"
-msgstr ""
+msgstr "Xóa dữ liệu riêng tư"
 
-#: ../src/preferences_dialog.c:196
+#: src/preferences_dialog.c:262
 msgid "Display"
 msgstr "Hiển thị"
 
-#: ../src/preferences_dialog.c:202
+#: src/preferences_dialog.c:269
 msgid "Background color"
 msgstr "Màu nền"
 
-#: ../src/preferences_dialog.c:204
-msgid "Toolbars"
-msgstr ""
-
-#: ../src/preferences_dialog.c:209
+#: src/preferences_dialog.c:273
 msgid "Override background color:"
-msgstr "_Ghi đè màu nền"
+msgstr "Ghi đè màu nền:"
 
-#: ../src/preferences_dialog.c:220
-msgid "Merge toolbars"
-msgstr ""
+#: src/preferences_dialog.c:301
+msgid "Quality"
+msgstr "Chất lượng"
 
-#: ../src/preferences_dialog.c:225
+#: src/preferences_dialog.c:305
+msgid ""
+"With this option enabled, the maximum image-quality will be limited to the "
+"screen-size."
+msgstr "Khi bật tùy chọn này, chất lượng ảnh tối đa sẽ bị giới hạn theo kích thước màn hình."
+
+#: src/preferences_dialog.c:310
+msgid "Limit rendering quality"
+msgstr "Giới hạn chất lượng kết xuất"
+
+#: src/preferences_dialog.c:319
+msgid ""
+"Smooth the image using bilinear interpolation, thus prioritizing rendering "
+"quality over performance."
+msgstr "Làm mịn ảnh bằng nội suy song tuyến, ưu tiên chất lượng kết xuất hơn hiệu suất."
+
+#: src/preferences_dialog.c:324
+msgid "Enable smoothing"
+msgstr "Bật làm mịn"
+
+#: src/preferences_dialog.c:336
+msgid "Fullscreen"
+msgstr "Toàn màn hình"
+
+#: src/preferences_dialog.c:340
 msgid "Thumbnails"
 msgstr "Ảnh thu nhỏ"
 
-#: ../src/preferences_dialog.c:228
-#, fuzzy
+#: src/preferences_dialog.c:343
 msgid ""
-"The thumbnail bar can be automatically hidden \n"
-"when the window is fullscreen."
-msgstr "Ảnh thu nhỏ có thể tự động ẩn đi khi kích hoạt chế độ đầy màn _hình"
+"The thumbnail bar can be automatically hidden when the window is fullscreen."
+msgstr "Thanh ảnh thu nhỏ có thể tự động ẩn khi cửa sổ ở chế độ toàn màn hình."
 
-#: ../src/preferences_dialog.c:230
-#, fuzzy
+#: src/preferences_dialog.c:348
 msgid "Hide thumbnail bar when fullscreen"
-msgstr "Ẩn _ảnh thu nhỏ khi hiển thị đầy màn hình"
+msgstr "Ẩn thanh ảnh thu nhỏ khi toàn màn hình"
 
-#: ../src/preferences_dialog.c:266
-msgid "Slideshow"
-msgstr "Trình diễn"
+#: src/preferences_dialog.c:356
+msgid "Clock"
+msgstr "Đồng hồ"
 
-#: ../src/preferences_dialog.c:270
-msgid "Timeout"
-msgstr "Hết giờ"
-
-#: ../src/preferences_dialog.c:273
+#: src/preferences_dialog.c:359
 msgid ""
-"The time period an individual image is displayed during a slideshow\n"
-"(in seconds)"
-msgstr ""
-"Khoảng thời gian một ảnh riêng lẽ được hiển thị trong quá trình trình diễn\n"
-"(tính bằng giây)"
+"Show an analog clock that displays the current time when the window is "
+"fullscreen"
+msgstr "Hiển thị đồng hồ analog hiện thời gian hiện tại khi cửa sổ ở chế độ toàn màn hình"
 
-#: ../src/preferences_dialog.c:289
+#: src/preferences_dialog.c:364
+msgid "Show Fullscreen Clock"
+msgstr "Hiển thị đồng hồ toàn màn hình"
+
+#: src/preferences_dialog.c:370
+msgid "Mouse cursor"
+msgstr "Con trỏ chuột"
+
+#: src/preferences_dialog.c:373
+msgid ""
+"The mouse cursor can be automatically hidden after a certain period of "
+"inactivity when the window is fullscreen."
+msgstr "Con trỏ chuột có thể tự động ẩn sau một khoảng thời gian không hoạt động khi cửa sổ ở chế độ toàn màn hình."
+
+#: src/preferences_dialog.c:381
+msgid "Period of inactivity (seconds):"
+msgstr "Thời gian không hoạt động (giây):"
+
+#: src/preferences_dialog.c:401
+msgid "Slideshow"
+msgstr "Trình chiếu"
+
+#: src/preferences_dialog.c:405
+msgid "Timeout"
+msgstr "Thời gian chờ"
+
+#: src/preferences_dialog.c:408
+msgid ""
+"The time period an individual image is displayed during a slideshow (in "
+"seconds)"
+msgstr "Thời gian hiển thị mỗi ảnh riêng lẻ trong trình chiếu (tính bằng giây)"
+
+#: src/preferences_dialog.c:424
 msgid "Control"
 msgstr "Điều khiển"
 
-#: ../src/preferences_dialog.c:293
-#, fuzzy
+#: src/preferences_dialog.c:428
 msgid "Scroll wheel"
-msgstr "Cuộn chuột"
+msgstr "Bánh xe cuộn"
 
-#: ../src/preferences_dialog.c:296
+#: src/preferences_dialog.c:431
 msgid "Invert zoom direction"
-msgstr ""
+msgstr "Đảo ngược hướng phóng to/thu nhỏ"
 
-#: ../src/preferences_dialog.c:306
+#: src/preferences_dialog.c:442
 msgid "Behaviour"
 msgstr "Hành vi"
 
-#: ../src/preferences_dialog.c:311
+#: src/preferences_dialog.c:446
 msgid "Startup"
 msgstr "Khởi động"
 
-#: ../src/preferences_dialog.c:313
-#, fuzzy
+#: src/preferences_dialog.c:448
 msgid "Maximize window on startup when opening an image"
-msgstr "Đổi kích thước cửa sổ bằng ảnh khi khởi động"
+msgstr "Phóng to cửa sổ khi khởi động nếu mở ảnh"
 
-#: ../src/preferences_dialog.c:319
+#: src/preferences_dialog.c:454
 msgid "Wrap around images"
-msgstr "Bao bọc xung quanh ảnh"
+msgstr "Cuộn vòng qua các ảnh"
 
-#: ../src/preferences_dialog.c:338
+#: src/preferences_dialog.c:465
 msgid "Desktop"
-msgstr ""
+msgstr "Màn hình nền"
 
-#: ../src/preferences_dialog.c:460
-#, fuzzy
+#: src/preferences_dialog.c:469
+msgid ""
+"Configure which system is currently managing your desktop. This setting "
+"determines the method <i>Ristretto</i> will use to configure the desktop "
+"wallpaper."
+msgstr "Cấu hình hệ thống hiện đang quản lý màn hình của bạn. Thiết lập này quyết định phương thức <i>Ristretto</i> sẽ dùng để cài đặt hình nền màn hình."
+
+#. File manager sync checkbox
+#: src/preferences_dialog.c:522
+msgid "Synchronize sorting with file manager"
+msgstr "Đồng bộ sắp xếp với trình quản lý tập tin"
+
+#. File manager sync once checkbox
+#: src/preferences_dialog.c:532
+msgid "Synchronize only once when opening a directory"
+msgstr "Chỉ đồng bộ một lần khi mở thư mục"
+
+#: src/preferences_dialog.c:594
 msgid "Image Viewer Preferences"
-msgstr "Trình xem ảnh"
+msgstr "Tùy chọn Trình xem ảnh"
 
-#: ../src/properties_dialog.c:180
+#: src/properties_dialog.c:132
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Tên:</b>"
 
-#: ../src/properties_dialog.c:181
+#: src/properties_dialog.c:133
 msgid "<b>Kind:</b>"
-msgstr ""
+msgstr "<b>Loại:</b>"
 
-#: ../src/properties_dialog.c:182
+#: src/properties_dialog.c:134
 msgid "<b>Modified:</b>"
-msgstr ""
+msgstr "<b>Chỉnh sửa:</b>"
 
-#: ../src/properties_dialog.c:183
+#: src/properties_dialog.c:135
 msgid "<b>Accessed:</b>"
-msgstr ""
+msgstr "<b>Truy cập:</b>"
 
-#: ../src/properties_dialog.c:184
+#: src/properties_dialog.c:136
 msgid "<b>Size:</b>"
-msgstr ""
+msgstr "<b>Kích thước:</b>"
 
-#: ../src/properties_dialog.c:308
+#: src/properties_dialog.c:160
 msgid "General"
-msgstr ""
+msgstr "Chung"
 
-#: ../src/properties_dialog.c:312
-#, fuzzy
+#: src/properties_dialog.c:166
 msgid "Image"
 msgstr "Ảnh"
 
-#: ../src/properties_dialog.c:525
-#, c-format
+#: src/properties_dialog.c:351
 msgid "<b>Date taken:</b>"
-msgstr ""
+msgstr "<b>Ngày chụp:</b>"
 
-#: ../src/properties_dialog.c:537 ../src/properties_dialog.c:549
-#: ../src/properties_dialog.c:561
+#: src/properties_dialog.c:361 src/properties_dialog.c:371
+#: src/properties_dialog.c:381
 #, c-format
 msgid "<b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>"
 
-#: ../src/properties_dialog.c:623
+#: src/properties_dialog.c:419
 #, c-format
 msgid "%s - Properties"
-msgstr ""
+msgstr "%s - Thuộc tính"
 
-#: ../src/thumbnailer.c:430
+#: src/image_list.c:32
+msgid "No supported image type found in the directory"
+msgstr "Không tìm thấy loại ảnh được hỗ trợ trong thư mục"
+
+#: src/image_list.c:33
+msgid "Directory only partially loaded"
+msgstr "Thư mục chỉ tải được một phần"
+
+#: src/image_list.c:34
+msgid "Could not load directory"
+msgstr "Không tải được thư mục"
+
+#: src/image_list.c:35
+msgid "Unsupported mime type"
+msgstr "Kiểu MIME không được hỗ trợ"
+
+#: src/thumbnailer.c:368
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -594,181 +901,77 @@ msgid ""
 "\n"
 "Install <b>Tumbler</b> or another <i>thumbnailing daemon</i>\n"
 "to resolve this issue."
-msgstr ""
+msgstr "Không kết nối được dịch vụ tạo ảnh thu nhỏ,\ndo đó không thể tạo được ảnh thu nhỏ.\n\nHãy cài <b>Tumbler</b> hoặc một <i>thumbnailing daemon</i> khác\nđể khắc phục vấn đề này."
 
-#: ../src/thumbnailer.c:440
+#: src/thumbnailer.c:376
 msgid "Do _not show this message again"
-msgstr ""
+msgstr "_Không hiển thị lại thông báo này"
 
-#: ../src/xfce_wallpaper_manager.c:335 ../src/gnome_wallpaper_manager.c:234
+#: src/xfce_wallpaper_manager.c:251 src/gnome_wallpaper_manager.c:164
 msgid "Style:"
 msgstr "Kiểu:"
 
-#: ../src/xfce_wallpaper_manager.c:336
-msgid "Brightness:"
-msgstr "Độ sáng:"
+#. stretched is now default value
+#: src/xfce_wallpaper_manager.c:262
+msgid "Apply to all workspaces"
+msgstr "Áp dụng cho tất cả không gian làm việc"
 
-#: ../src/xfce_wallpaper_manager.c:337
-msgid "Saturation:"
-msgstr "Độ sẩm:"
-
-#: ../src/xfce_wallpaper_manager.c:354 ../src/gnome_wallpaper_manager.c:245
+#: src/xfce_wallpaper_manager.c:268 src/gnome_wallpaper_manager.c:176
 msgid "Set as wallpaper"
-msgstr "Thiết lập màn hình nền"
+msgstr "Đặt làm hình nền"
 
-#: ../src/xfce_wallpaper_manager.c:512 ../src/gnome_wallpaper_manager.c:312
+#: src/xfce_wallpaper_manager.c:302 src/gnome_wallpaper_manager.c:206
 msgid "Auto"
-msgstr "_Tự động"
+msgstr "Tự động"
 
-#: ../src/xfce_wallpaper_manager.c:515
+#: src/xfce_wallpaper_manager.c:303
 msgid "Centered"
 msgstr "Giữa"
 
-#: ../src/xfce_wallpaper_manager.c:518
+#: src/xfce_wallpaper_manager.c:304
 msgid "Tiled"
-msgstr "_Xếp lớp"
+msgstr "Lát gạch"
 
-#: ../src/xfce_wallpaper_manager.c:521
+#: src/xfce_wallpaper_manager.c:305
 msgid "Stretched"
-msgstr "Kéo _giãn"
+msgstr "Kéo giãn"
 
-#: ../src/xfce_wallpaper_manager.c:524
+#: src/xfce_wallpaper_manager.c:306
 msgid "Scaled"
-msgstr "Xếp liên tục"
+msgstr "Co giãn"
 
-#: ../src/xfce_wallpaper_manager.c:527
+#: src/xfce_wallpaper_manager.c:307
 msgid "Zoomed"
 msgstr "Phóng to"
 
-#: ../ristretto.desktop.in.h:2
-#, fuzzy
-msgid "Look at your images easily"
-msgstr "Xem ảnh của bạn dễ dàng"
-
-#: ../ristretto.desktop.in.h:3
-#, fuzzy
+#: org.xfce.ristretto.desktop.in:4
 msgid "Ristretto Image Viewer"
 msgstr "Trình xem ảnh Ristretto"
 
-#~ msgid "Spacing"
-#~ msgstr "Khoảng cách"
+#: org.xfce.ristretto.desktop.in:5
+msgid "Look at your images easily"
+msgstr "Xem ảnh của bạn một cách dễ dàng"
 
-#~ msgid "The amount of space between the thumbnails"
-#~ msgstr "Khoảng cách giữa các ảnh thu nhỏ"
+#: org.xfce.ristretto.desktop.in:13
+msgid "image;photo;picture;viewer;graphics;"
+msgstr "image;photo;picture;viewer;graphics;ảnh;hình ảnh;ảnh chụp;trình xem;đồ họa;"
 
-#~ msgid "border width"
-#~ msgstr "cỡ đường viền"
+#: org.xfce.ristretto.appdata.xml.in:7
+msgid "Ristretto"
+msgstr "Ristretto"
 
-#, fuzzy
-#~ msgid "the border width of the thumbnail bar"
-#~ msgstr "Cỡ đường viền của ảnh thu nhỏ"
+#: org.xfce.ristretto.appdata.xml.in:8
+msgid "Fast and lightweight image viewer"
+msgstr "Trình xem ảnh nhanh và nhẹ"
 
-#~ msgid "Scaling"
-#~ msgstr "Kéo dãn"
+#: org.xfce.ristretto.appdata.xml.in:13
+msgid ""
+"The Ristretto Image Viewer is an application that can be used to view and "
+"scroll through images, run a slideshow of images, open images with other "
+"applications like an image-editor or configure an image as the desktop "
+"wallpaper."
+msgstr "Trình xem ảnh Ristretto là ứng dụng dùng để xem và duyệt qua các ảnh, chạy trình chiếu ảnh, mở ảnh bằng ứng dụng khác như trình chỉnh sửa ảnh hoặc đặt ảnh làm hình nền màn hình."
 
-#~ msgid "Don't scale over 100% when maximizing the window."
-#~ msgstr "Đừng giãn anh quá 100% khi cực đại hoá cửa sổiờ"
-
-#~ msgid "Preferences"
-#~ msgstr "Thiết lập"
-
-#, fuzzy
-#~ msgid "Image viewer"
-#~ msgstr "Trình xem ảnh"
-
-#~ msgid "Open _Folder"
-#~ msgstr "Mở _thư mục"
-
-#~ msgid "Open a folder"
-#~ msgstr "Mở thư mục"
-
-#~ msgid "_Close All"
-#~ msgstr "Đóng tất _cả"
-
-#~ msgid "Close all images"
-#~ msgstr "Đóng tất _cả"
-
-#~ msgid "Open folder"
-#~ msgstr "Mở thư mục"
-
-#~ msgid "Open entire folder on startup"
-#~ msgstr "Mở toàn bộ thư mục khi khởi động"
-
-#~ msgid "Monitor:"
-#~ msgstr "Màn hình:"
-
-#, fuzzy
-#~ msgid "Two"
-#~ msgstr "Trên"
-
-#~ msgid "Show preview when loading image"
-#~ msgstr "Xem trước trong khi nạp ảnh"
-
-#~ msgid "No action"
-#~ msgstr "Không thực hiện"
-
-#~ msgid "Zoom in and out"
-#~ msgstr "Phóng to và thu nhỏ"
-
-#~ msgid "Switch images"
-#~ msgstr "Chuyển ảnh"
-
-#~ msgid "Memory"
-#~ msgstr "Bộ nhớ"
-
-#~ msgid "Image cache"
-#~ msgstr "Bộ đệm ảnh"
-
-#~ msgid "Cache size"
-#~ msgstr "Cỡ bộ đệm"
-
-#~ msgid "MB"
-#~ msgstr "MB"
-
-#~ msgid "Enable cache"
-#~ msgstr "Bộ đệm ảnh"
-
-#~ msgid "Enable preloading"
-#~ msgstr "Vận hành nạp trước"
-
-#~ msgid "filmstrip width"
-#~ msgstr "độ rộng dải ảnh"
-
-#~ msgid "the width of the thumbnail-bar film-strip"
-#~ msgstr "độ rộng của dải ảnh thu nhỏ"
-
-#~ msgid "_Print"
-#~ msgstr "_In"
-
-#~ msgid "Print the image"
-#~ msgstr "In ảnh"
-
-#~ msgid "Opening file(s)..."
-#~ msgstr "Mở tập tin"
-
-#~ msgid "No applications available"
-#~ msgstr "Không có ứng dụng khả dụng"
-
-#~ msgid "Show _Horizontally"
-#~ msgstr "Hiển thị ngang"
-
-#~ msgid "Show _Vertically"
-#~ msgstr "Hiển thị dọc"
-
-#~ msgid "H_ide"
-#~ msgstr "Ẩn"
-
-#~ msgid ""
-#~ "One or more images have been modified, do you want to save the changes?"
-#~ msgstr "Một vài ảnh đã bị thay đổi, bạn có muốn lưu lại không?"
-
-#~ msgid "_Preload images (GUI more responsive but more CPU-intensive)"
-#~ msgstr ""
-#~ "_Nạp trước anh(Giao diện đồ hoạ sẽ chạy mượt mà hơn nhưng cần nhiều tài "
-#~ "nguyên CPU)"
-
-#~ msgid "Hide the thumbnails bar during slideshow"
-#~ msgstr "Ẩn các ảnh thu nhỏ khi trình chiếu"
-
-#~ msgid "Xfce Image viewer"
-#~ msgstr "Trình xem ảnh cho Xfce"
+#: org.xfce.ristretto.appdata.xml.in:34
+msgid "Xfce Developers"
+msgstr "Nhà phát triển Xfce"
