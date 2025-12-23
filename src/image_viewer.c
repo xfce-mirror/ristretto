@@ -1132,7 +1132,7 @@ paint_image (GtkWidget *widget,
     }
 
     cairo_pattern_set_filter (viewer->priv->pixbuf.pattern,
-                              viewer->priv->enable_smoothing ? CAIRO_FILTER_BILINEAR
+                              viewer->priv->enable_smoothing ? CAIRO_FILTER_GOOD
                                                              : CAIRO_FILTER_NEAREST);
     cairo_scale (ctx, x_scale / viewer->priv->quality_scale, y_scale / viewer->priv->quality_scale);
     cairo_set_source (ctx, viewer->priv->pixbuf.pattern);
