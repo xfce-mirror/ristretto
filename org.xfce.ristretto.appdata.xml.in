@@ -28,6 +28,7 @@
   <url type="help">https://docs.xfce.org/apps/ristretto/start</url>
   <url type="donation">https://opencollective.com/xfce/donate</url>
   <url type="translate">https://docs.xfce.org/contribute/translate/start</url>
+  <url type="vcs-browser">https://gitlab.xfce.org/apps/ristretto</url>
 
   <project_group>XFCE</project_group>
   <update_contact>xfce4-dev@xfce.org</update_contact>
