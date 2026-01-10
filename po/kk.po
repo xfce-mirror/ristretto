@@ -646,7 +646,7 @@ msgstr "Басқа қолданбалар"
 #: src/main_window.c:4626
 #, c-format
 msgid "Failed to show containing folder \"%s\"."
-msgstr ""
+msgstr "\"%s\" орналасқан бумасын көрсету сәтсіз аяталды."
 
 #: src/privacy_dialog.c:115
 msgid "Time range to clear:"
@@ -822,12 +822,12 @@ msgstr "Жұмыс үстеліңізді қазір қандай жүйе ба�
 #. File manager sync checkbox
 #: src/preferences_dialog.c:522
 msgid "Synchronize sorting with file manager"
-msgstr ""
+msgstr "Сұрыптау баптауын файлдар басқарушысымен синхрондау"
 
 #. File manager sync once checkbox
 #: src/preferences_dialog.c:532
 msgid "Synchronize only once when opening a directory"
-msgstr ""
+msgstr "Буманы ашқан кезде ғана бір рет синхрондау"
 
 #: src/preferences_dialog.c:594
 msgid "Image Viewer Preferences"
