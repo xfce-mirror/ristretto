@@ -65,6 +65,13 @@ rstto_print_init (RsttoPrint *print)
 
 
 
+/*
+ * The default behavior here is to fit the image into the selected format, with uniform margins
+ * of reasonable size by default. The user can then adjust the zoom in the dialog and possibly
+ * the margins in the configuration file to obtain various results, including a cropped image
+ * with negative margins. The ratio between left/right and top/bottom margins is preserved when
+ * scaling.
+ */
 static void
 rstto_print_draw_page (GtkPrintOperation *operation,
                        GtkPrintContext *context,
@@ -72,27 +79,48 @@ rstto_print_draw_page (GtkPrintOperation *operation,
 {
     RsttoPrint *print = RSTTO_PRINT (operation);
     cairo_t *cr;
-    gdouble x0, y0;
-    gdouble scale;
-    gdouble p_width, p_height;
-    gint width, height;
-    GtkPageSetup *page_setup;
+    gdouble left_margin, right_margin, top_margin, bottom_margin;
+    gdouble left_ratio, top_ratio;
+    gdouble draw_scale, print_scale;
+    gdouble print_width, print_height, page_width, page_height;
+    gint image_width, image_height;
+    GtkPageSetup *page_setup = gtk_print_context_get_page_setup (context);
+    GtkPrintSettings *settings = gtk_print_operation_get_print_settings (operation);
     GdkPixbuf *pixbuf;
 
-    page_setup = gtk_print_context_get_page_setup (context);
-    x0 = gtk_page_setup_get_left_margin (page_setup, GTK_UNIT_POINTS);
-    y0 = gtk_page_setup_get_top_margin (page_setup, GTK_UNIT_POINTS);
-    cr = gtk_print_context_get_cairo_context (context);
-    cairo_translate (cr, x0, y0);
+    print_scale = gtk_print_settings_get_scale (settings) / 100;
+    left_margin = gtk_page_setup_get_left_margin (page_setup, GTK_UNIT_POINTS) / print_scale;
+    right_margin = gtk_page_setup_get_right_margin (page_setup, GTK_UNIT_POINTS) / print_scale;
+    top_margin = gtk_page_setup_get_top_margin (page_setup, GTK_UNIT_POINTS) / print_scale;
+    bottom_margin = gtk_page_setup_get_bottom_margin (page_setup, GTK_UNIT_POINTS) / print_scale;
+    left_ratio = (left_margin == 0 && right_margin == 0) ? 0.5 : ABS (left_margin) / (ABS (left_margin) + ABS (right_margin));
+    top_ratio = (top_margin == 0 && bottom_margin == 0) ? 0.5 : ABS (top_margin) / (ABS (top_margin) + ABS (bottom_margin));
 
-    p_width = gtk_page_setup_get_page_width (page_setup, GTK_UNIT_POINTS);
-    p_height = gtk_page_setup_get_page_height (page_setup, GTK_UNIT_POINTS);
-    width = rstto_image_viewer_get_width (print->viewer);
-    height = rstto_image_viewer_get_height (print->viewer);
-    scale = rstto_image_viewer_get_scale (print->viewer);
-    cairo_rectangle (cr, 0, 0, MIN (width * scale, p_width), MIN (height * scale, p_height));
+    page_width = gtk_page_setup_get_paper_width (page_setup, GTK_UNIT_POINTS);
+    page_height = gtk_page_setup_get_paper_height (page_setup, GTK_UNIT_POINTS);
+    print_width = page_width - print_scale * (left_margin + right_margin);
+    print_height = page_height - print_scale * (top_margin + bottom_margin);
+
+    left_margin += (print_width - print_width * print_scale) * left_ratio / print_scale;
+    top_margin += (print_height - print_height * print_scale) * top_ratio / print_scale;
+    image_width = rstto_image_viewer_get_width (print->viewer);
+    image_height = rstto_image_viewer_get_height (print->viewer);
+    if (print_width / image_width <= print_height / image_height)
+    {
+        draw_scale = print_width / image_width;
+        top_margin += (print_height - image_height * draw_scale) * top_ratio;
+    }
+    else
+    {
+        draw_scale = print_height / image_height;
+        left_margin += (print_width - image_width * draw_scale) * left_ratio;
+    }
+
+    cr = gtk_print_context_get_cairo_context (context);
+    cairo_translate (cr, left_margin, top_margin);
+    cairo_rectangle (cr, 0, 0, print_width, print_height);
     cairo_clip (cr);
-    cairo_scale (cr, scale, scale);
+    cairo_scale (cr, draw_scale, draw_scale);
 
     pixbuf = rstto_image_viewer_get_pixbuf (print->viewer);
     if (pixbuf != NULL)
@@ -188,6 +216,8 @@ rstto_print_settings_load (GtkPrintOperation *operation)
     gchar **keys;
     const gchar *value;
     gdouble margin;
+    const gdouble defaut_margin = 6.35;
+    const gchar *defaut_margin_srt = "6.35";
 
     rc = xfce_rc_config_open (XFCE_RESOURCE_CONFIG, "ristretto/print-settings", TRUE);
     if (G_UNLIKELY (rc == NULL))
@@ -204,16 +234,24 @@ rstto_print_settings_load (GtkPrintOperation *operation)
             if (G_LIKELY (value != NULL))
                 gtk_print_settings_set (settings, *key, value);
         }
+        if (!g_strv_contains ((const gchar *const *) keys, "left-margin"))
+            gtk_print_settings_set (settings, "left-margin", defaut_margin_srt);
+        if (!g_strv_contains ((const gchar *const *) keys, "right-margin"))
+            gtk_print_settings_set (settings, "right-margin", defaut_margin_srt);
+        if (!g_strv_contains ((const gchar *const *) keys, "top-margin"))
+            gtk_print_settings_set (settings, "top-margin", defaut_margin_srt);
+        if (!g_strv_contains ((const gchar *const *) keys, "bottom-margin"))
+            gtk_print_settings_set (settings, "bottom-margin", defaut_margin_srt);
 
         g_strfreev (keys);
     }
 
     xfce_rc_close (rc);
 
+    page_setup = gtk_page_setup_new ();
+
     if (G_LIKELY (settings != NULL))
     {
-        page_setup = gtk_page_setup_new ();
-
         gtk_page_setup_set_orientation (page_setup, gtk_print_settings_get_orientation (settings));
 
         paper_size = gtk_print_settings_get_paper_size (settings);
@@ -229,12 +267,19 @@ rstto_print_settings_load (GtkPrintOperation *operation)
         margin = gtk_print_settings_get_double (settings, "left-margin");
         gtk_page_setup_set_left_margin (page_setup, margin, GTK_UNIT_MM);
 
-        gtk_print_operation_set_default_page_setup (operation, page_setup);
         gtk_print_operation_set_print_settings (operation, settings);
-
-        g_object_unref (page_setup);
         g_object_unref (settings);
     }
+    else
+    {
+        gtk_page_setup_set_left_margin (page_setup, defaut_margin, GTK_UNIT_MM);
+        gtk_page_setup_set_right_margin (page_setup, defaut_margin, GTK_UNIT_MM);
+        gtk_page_setup_set_top_margin (page_setup, defaut_margin, GTK_UNIT_MM);
+        gtk_page_setup_set_bottom_margin (page_setup, defaut_margin, GTK_UNIT_MM);
+    }
+
+    gtk_print_operation_set_default_page_setup (operation, page_setup);
+    g_object_unref (page_setup);
 }
 
 
@@ -253,6 +298,7 @@ rstto_print_image_interactive (RsttoPrint *print,
     rstto_print_settings_load (GTK_PRINT_OPERATION (print));
     gtk_print_operation_set_n_pages (GTK_PRINT_OPERATION (print), 1);
     gtk_print_operation_set_allow_async (GTK_PRINT_OPERATION (print), TRUE);
+    gtk_print_operation_set_use_full_page (GTK_PRINT_OPERATION (print), TRUE);
 
     result = gtk_print_operation_run (GTK_PRINT_OPERATION (print),
                                       GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
