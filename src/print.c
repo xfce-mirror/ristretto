@@ -105,15 +105,24 @@ rstto_print_draw_page (GtkPrintOperation *operation,
     top_margin += (print_height - print_height * print_scale) * top_ratio / print_scale;
     image_width = rstto_image_viewer_get_width (print->viewer);
     image_height = rstto_image_viewer_get_height (print->viewer);
-    if (print_width / image_width <= print_height / image_height)
+    if (image_width > print_width || image_height > print_height)
     {
-        draw_scale = print_width / image_width;
-        top_margin += (print_height - image_height * draw_scale) * top_ratio;
+        if (print_width / image_width <= print_height / image_height)
+        {
+            draw_scale = print_width / image_width;
+            top_margin += (print_height - image_height * draw_scale) * top_ratio;
+        }
+        else
+        {
+            draw_scale = print_height / image_height;
+            left_margin += (print_width - image_width * draw_scale) * left_ratio;
+        }
     }
     else
     {
-        draw_scale = print_height / image_height;
-        left_margin += (print_width - image_width * draw_scale) * left_ratio;
+        draw_scale = 1;
+        left_margin += (print_width - image_width) * left_ratio;
+        top_margin += (print_height - image_height) * top_ratio;
     }
 
     cr = gtk_print_context_get_cairo_context (context);
