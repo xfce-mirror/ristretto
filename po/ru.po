@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the xfce-apps.ristretto package.
 # 
 # Translators:
+# AlexanderFilev, 2015,2019
 # AlexanderFilev, 2019
 # Alexander Filёv, 2015,2019
 # Andrei Stepanov, 2023-2025
@@ -10,9 +11,12 @@
 # AlexanderFilev, 2015
 # Igor <f2404@yandex.ru>, 2016-2017,2019
 # Igor Vornovskii, 2023
+# Igor Vornovskii, 2023
+# Olesya Gerasimenko <gammaray@basealt.ru>, 2026
 # Olesya Gerasimenko <translation-team@basealt.ru>, 2021
 # Sergey Alyoshin <alyoshin.s@gmail.com>, 2013,2015-2016
 # Stefan Zerkalica <zerkalica@gmail.com>, 2008
+# vladiruzz, 2025
 # vladiruzz, 2025
 msgid ""
 msgstr ""
@@ -20,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-09-30 12:55+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Andrei Stepanov, 2023-2025\n"
+"Last-Translator: Olesya Gerasimenko <gammaray@basealt.ru>, 2026\n"
 "Language-Team: Russian (http://app.transifex.com/xfce/xfce-apps/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -163,7 +167,7 @@ msgstr "_Копировать изображение в буфер обмена"
 
 #: src/main_window.c:402
 msgid "_Show containing folder"
-msgstr ""
+msgstr "_Показать содержащую объект папку"
 
 #: src/main_window.c:408
 msgid "_Open with"
@@ -656,7 +660,7 @@ msgstr "Другие приложения"
 #: src/main_window.c:4626
 #, c-format
 msgid "Failed to show containing folder \"%s\"."
-msgstr ""
+msgstr "Не удалось показать содержащую объект папку «%s»."
 
 #: src/privacy_dialog.c:115
 msgid "Time range to clear:"
@@ -832,12 +836,12 @@ msgstr "Выберите ваше текущее рабочее окружени
 #. File manager sync checkbox
 #: src/preferences_dialog.c:522
 msgid "Synchronize sorting with file manager"
-msgstr ""
+msgstr "Синхронизировать сортировку с файловым менеджером"
 
 #. File manager sync once checkbox
 #: src/preferences_dialog.c:532
 msgid "Synchronize only once when opening a directory"
-msgstr ""
+msgstr "Синхронизировать только один раз (при открытии каталога)"
 
 #: src/preferences_dialog.c:594
 msgid "Image Viewer Preferences"
