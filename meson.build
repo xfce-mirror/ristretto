@@ -23,6 +23,7 @@ dependency_versions = {
   'libexif': '>= 0.6.0',
   'xfce4': '>= 4.16.0',
 
+  'libxfce4windowing': '>= 4.20.0',
   'libx11': '>= 1.6.7',
 }
 
@@ -42,6 +43,12 @@ libxfce4util = dependency('libxfce4util-1.0', version: dependency_versions['xfce
 xfconf = dependency('libxfconf-0', version: dependency_versions['xfce4'])
 
 feature_cflags = []
+
+# TODO: make required when 'xfce4' reaches 4.20
+libxfce4windowing = dependency('libxfce4windowing-0', version: dependency_versions['libxfce4windowing'], required: false)
+if libxfce4windowing.found()
+  feature_cflags += '-DHAVE_LIBXFCE4WINDOWING=1'
+endif
 
 libx11 = dependency('x11', version: dependency_versions['libx11'], required: get_option('libx11'))
 if libx11.found()

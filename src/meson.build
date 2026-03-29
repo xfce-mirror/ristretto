@@ -96,6 +96,7 @@ executable(
     libxfce4ui,
     libxfce4util,
     xfconf,
+    libxfce4windowing,
     libx11,
     libmagic,
     libm,
