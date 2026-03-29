@@ -244,10 +244,6 @@ struct _RsttoImageViewerPrivate
     RsttoFile *file;
     RsttoSettings *settings;
 
-    GtkIconTheme *icon_theme;
-    GdkPixbuf *missing_icon;
-    GdkPixbuf *bg_icon;
-
     gboolean limit_quality;
     gboolean enable_smoothing;
 
@@ -338,7 +334,6 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
 {
     GSList *list, *li;
     gchar **strv;
-    gint scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
 
     viewer->priv = rstto_image_viewer_get_instance_private (viewer);
     viewer->priv->settings = rstto_settings_new ();
@@ -349,26 +344,6 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv->image_width = viewer->priv->original_image_width = 0;
     viewer->priv->image_height = viewer->priv->original_image_height = 0;
     viewer->priv->scale_factor = 1;
-
-    viewer->priv->icon_theme = gtk_icon_theme_get_default ();
-    viewer->priv->bg_icon = gtk_icon_theme_load_icon_for_scale (
-        viewer->priv->icon_theme,
-        RISTRETTO_APP_ID,
-        BACKGROUND_ICON_SIZE,
-        scale_factor,
-        GTK_ICON_LOOKUP_FORCE_SIZE,
-        NULL);
-    viewer->priv->missing_icon = gtk_icon_theme_load_icon_for_scale (
-        viewer->priv->icon_theme,
-        "image-missing",
-        BACKGROUND_ICON_SIZE,
-        scale_factor,
-        GTK_ICON_LOOKUP_FORCE_SIZE,
-        NULL);
-    if (viewer->priv->bg_icon != NULL)
-    {
-        gdk_pixbuf_saturate_and_pixelate (viewer->priv->bg_icon, viewer->priv->bg_icon, 0, FALSE);
-    }
 
     g_signal_connect (viewer->priv->settings, "notify::bgcolor",
                       G_CALLBACK (cb_rstto_bgcolor_changed), viewer);
@@ -617,16 +592,6 @@ rstto_image_viewer_finalize (GObject *object)
     {
         g_object_unref (viewer->priv->settings);
         viewer->priv->settings = NULL;
-    }
-    if (viewer->priv->bg_icon)
-    {
-        g_object_unref (viewer->priv->bg_icon);
-        viewer->priv->bg_icon = NULL;
-    }
-    if (viewer->priv->missing_icon)
-    {
-        g_object_unref (viewer->priv->missing_icon);
-        viewer->priv->missing_icon = NULL;
     }
     if (viewer->priv->pixbuf.pattern)
     {
@@ -1231,11 +1196,21 @@ rstto_image_viewer_paint (GtkWidget *widget,
         /**************************************/
         if (NULL == viewer->priv->file)
         {
+            GdkPixbuf *background_icon = gtk_icon_theme_load_icon_for_scale (
+                gtk_icon_theme_get_default (),
+                RISTRETTO_APP_ID,
+                BACKGROUND_ICON_SIZE,
+                gtk_widget_get_scale_factor (widget),
+                GTK_ICON_LOOKUP_FORCE_SIZE,
+                NULL);
+            if (background_icon != NULL)
+                gdk_pixbuf_saturate_and_pixelate (background_icon, background_icon, 0, FALSE);
+
             cairo_save (ctx);
 
             /* Paint the background-image (ristretto icon) */
             /***********************************************/
-            paint_background_icon (viewer, viewer->priv->bg_icon, 0.1, ctx);
+            paint_background_icon (viewer, background_icon, 0.1, ctx);
 
             cairo_restore (ctx);
 
@@ -1245,16 +1220,27 @@ rstto_image_viewer_paint (GtkWidget *widget,
                 paint_clock (widget, ctx);
                 cairo_restore (ctx);
             }
+
+            if (background_icon != NULL)
+                g_object_unref (background_icon);
         }
         else
         {
+            GdkPixbuf *missing_icon = gtk_icon_theme_load_icon_for_scale (
+                gtk_icon_theme_get_default (),
+                "image-missing",
+                BACKGROUND_ICON_SIZE,
+                gtk_widget_get_scale_factor (widget),
+                GTK_ICON_LOOKUP_FORCE_SIZE,
+                NULL);
+
             cairo_save (ctx);
 
             /* image and rendering are set */
             if (viewer->priv->image_width > 0 && viewer->priv->rendering.width > 0)
                 paint_image (widget, ctx);
             else if (viewer->priv->error != NULL)
-                paint_background_icon (viewer, viewer->priv->missing_icon, 1.0, ctx);
+                paint_background_icon (viewer, missing_icon, 1.0, ctx);
 
             cairo_restore (ctx);
 
@@ -1271,6 +1257,9 @@ rstto_image_viewer_paint (GtkWidget *widget,
                 paint_clock (widget, ctx);
                 cairo_restore (ctx);
             }
+
+            if (missing_icon != NULL)
+                g_object_unref (missing_icon);
         }
     }
 }
