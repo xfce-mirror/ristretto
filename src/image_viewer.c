@@ -21,6 +21,9 @@
 #include "image_viewer.h"
 #include "main_window.h"
 
+#ifdef HAVE_LIBXFCE4WINDOWING
+#include <libxfce4windowing/libxfce4windowing.h>
+#endif
 #include <math.h>
 
 
@@ -125,8 +128,7 @@ set_scale (RsttoImageViewer *viewer,
            gdouble scale);
 static void
 set_scale_factor (RsttoImageViewer *viewer,
-                  GParamSpec *pspec,
-                  gpointer data);
+                  gpointer unused);
 static void
 set_adjustments (RsttoImageViewer *viewer,
                  gdouble h_value,
@@ -242,10 +244,6 @@ struct _RsttoImageViewerPrivate
     RsttoFile *file;
     RsttoSettings *settings;
 
-    GtkIconTheme *icon_theme;
-    GdkPixbuf *missing_icon;
-    GdkPixbuf *bg_icon;
-
     gboolean limit_quality;
     gboolean enable_smoothing;
 
@@ -290,6 +288,10 @@ struct _RsttoImageViewerPrivate
     GtkAdjustment *vadjustment;
     GtkAdjustment *hadjustment;
 
+#ifdef HAVE_LIBXFCE4WINDOWING
+    XfwScreen *screen;
+#endif
+    gdouble scale_factor;
     gdouble quality_scale;
     gint original_image_width;
     gint original_image_height;
@@ -315,13 +317,23 @@ G_DEFINE_TYPE_WITH_CODE (RsttoImageViewer, rstto_image_viewer, GTK_TYPE_WIDGET,
                          G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
 
 
+#ifdef HAVE_LIBXFCE4WINDOWING
+static void
+window_opened (XfwScreen *screen,
+               XfwWindow *window,
+               RsttoImageViewer *viewer)
+{
+    if (g_strv_contains (xfw_window_get_class_ids (window), "org.xfce.ristretto"))
+        g_signal_connect_object (window, "notify::monitors",
+                                 G_CALLBACK (set_scale_factor), viewer, G_CONNECT_SWAPPED);
+}
+#endif
 
 static void
 rstto_image_viewer_init (RsttoImageViewer *viewer)
 {
     GSList *list, *li;
     gchar **strv;
-    gint scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
 
     viewer->priv = rstto_image_viewer_get_instance_private (viewer);
     viewer->priv->settings = rstto_settings_new ();
@@ -331,26 +343,7 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv->auto_scale = RSTTO_SCALE_NONE;
     viewer->priv->image_width = viewer->priv->original_image_width = 0;
     viewer->priv->image_height = viewer->priv->original_image_height = 0;
-
-    viewer->priv->icon_theme = gtk_icon_theme_get_default ();
-    viewer->priv->bg_icon = gtk_icon_theme_load_icon_for_scale (
-        viewer->priv->icon_theme,
-        RISTRETTO_APP_ID,
-        BACKGROUND_ICON_SIZE,
-        scale_factor,
-        GTK_ICON_LOOKUP_FORCE_SIZE,
-        NULL);
-    viewer->priv->missing_icon = gtk_icon_theme_load_icon_for_scale (
-        viewer->priv->icon_theme,
-        "image-missing",
-        BACKGROUND_ICON_SIZE,
-        scale_factor,
-        GTK_ICON_LOOKUP_FORCE_SIZE,
-        NULL);
-    if (viewer->priv->bg_icon != NULL)
-    {
-        gdk_pixbuf_saturate_and_pixelate (viewer->priv->bg_icon, viewer->priv->bg_icon, 0, FALSE);
-    }
+    viewer->priv->scale_factor = 1;
 
     g_signal_connect (viewer->priv->settings, "notify::bgcolor",
                       G_CALLBACK (cb_rstto_bgcolor_changed), viewer);
@@ -364,7 +357,17 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
                       G_CALLBACK (cb_rstto_zoom_direction_changed), viewer);
     g_signal_connect (viewer, "drag-data-received",
                       G_CALLBACK (cb_rstto_image_viewer_dnd), viewer);
+#ifdef HAVE_LIBXFCE4WINDOWING
+    viewer->priv->screen = xfw_screen_get_default ();
+    g_signal_connect_object (viewer->priv->screen, "monitors-changed",
+                             G_CALLBACK (set_scale_factor), viewer, G_CONNECT_SWAPPED);
+    g_signal_connect_object (viewer->priv->screen, "window-opened",
+                             G_CALLBACK (window_opened), viewer, 0);
+    for (GList *lp = xfw_screen_get_windows (viewer->priv->screen); lp != NULL; lp = lp->next)
+        window_opened (viewer->priv->screen, lp->data, viewer);
+#else
     g_signal_connect (viewer, "notify::scale-factor", G_CALLBACK (set_scale_factor), NULL);
+#endif
 
     gtk_widget_set_events (GTK_WIDGET (viewer),
                            GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON1_MOTION_MASK
@@ -590,16 +593,6 @@ rstto_image_viewer_finalize (GObject *object)
         g_object_unref (viewer->priv->settings);
         viewer->priv->settings = NULL;
     }
-    if (viewer->priv->bg_icon)
-    {
-        g_object_unref (viewer->priv->bg_icon);
-        viewer->priv->bg_icon = NULL;
-    }
-    if (viewer->priv->missing_icon)
-    {
-        g_object_unref (viewer->priv->missing_icon);
-        viewer->priv->missing_icon = NULL;
-    }
     if (viewer->priv->pixbuf.pattern)
     {
         cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
@@ -625,6 +618,13 @@ rstto_image_viewer_finalize (GObject *object)
         g_error_free (viewer->priv->error);
         viewer->priv->error = NULL;
     }
+#ifdef HAVE_LIBXFCE4WINDOWING
+    if (viewer->priv->screen)
+    {
+        g_object_unref (viewer->priv->screen);
+        viewer->priv->screen = NULL;
+    }
+#endif
 
     G_OBJECT_CLASS (rstto_image_viewer_parent_class)->finalize (object);
 }
@@ -735,22 +735,40 @@ set_scale (RsttoImageViewer *viewer,
 
 static void
 set_scale_factor (RsttoImageViewer *viewer,
-                  GParamSpec *pspec,
-                  gpointer data)
+                  gpointer unused)
 {
-    cairo_surface_t *surface;
-    gint scale_factor;
+    gdouble old_scale_factor = viewer->priv->scale_factor;
+#ifdef HAVE_LIBXFCE4WINDOWING
+    GdkDisplay *display = gdk_display_get_default ();
+    GdkWindow *window = gtk_widget_get_window (GTK_WIDGET (viewer));
+    GdkMonitor *monitor = gdk_display_get_monitor_at_window (display, window);
+    GList *monitors = xfw_screen_get_monitors (viewer->priv->screen);
+    viewer->priv->scale_factor = 1;
+    for (GList *lp = monitors; lp != NULL; lp = lp->next)
+    {
+        if (xfw_monitor_get_gdk_monitor (lp->data) == monitor)
+        {
+            viewer->priv->scale_factor = xfw_monitor_get_fractional_scale (lp->data);
+            break;
+        }
+    }
+#else
+    viewer->priv->scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
+#endif
+
+    if (viewer->priv->scale_factor == old_scale_factor)
+        return;
 
     if (viewer->priv->image_width > 0)
     {
         /* do not scale the image with the rest of the window */
-        scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
-        viewer->priv->image_width = viewer->priv->original_image_width / scale_factor;
-        viewer->priv->image_height = viewer->priv->original_image_height / scale_factor;
+        cairo_surface_t *surface;
+        viewer->priv->image_width = viewer->priv->original_image_width / viewer->priv->scale_factor;
+        viewer->priv->image_height = viewer->priv->original_image_height / viewer->priv->scale_factor;
         cairo_pattern_get_surface (viewer->priv->pixbuf.pattern, &surface);
-        cairo_surface_set_device_scale (surface, scale_factor, scale_factor);
+        cairo_surface_set_device_scale (surface, viewer->priv->scale_factor, viewer->priv->scale_factor);
 
-        if (pspec != NULL)
+        if (unused != NULL)
             gtk_widget_queue_resize (GTK_WIDGET (viewer));
     }
 }
@@ -903,11 +921,9 @@ paint_background_icon (RsttoImageViewer *viewer,
     if (pixbuf != NULL)
     {
         cairo_surface_t *surface;
-        gint scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
-
         rstto_util_set_source_pixbuf (ctx, pixbuf, 0, 0);
         cairo_pattern_get_surface (cairo_get_source (ctx), &surface);
-        cairo_surface_set_device_scale (surface, scale_factor, scale_factor);
+        cairo_surface_set_device_scale (surface, viewer->priv->scale_factor, viewer->priv->scale_factor);
         cairo_paint_with_alpha (ctx, alpha);
     }
 }
@@ -1013,10 +1029,9 @@ paint_image (GtkWidget *widget,
     gint y_offset = viewer->priv->rendering.y_offset;
     gint width = viewer->priv->rendering.width;
     gint height = viewer->priv->rendering.height;
-    gint scale_factor = gtk_widget_get_scale_factor (widget);
-    gdouble nx_squares = scale_factor * width / 10.0;
-    gdouble ny_squares = scale_factor * height / 10.0;
-    gdouble square_size = 10.0 / scale_factor;
+    gdouble nx_squares = viewer->priv->scale_factor * width / 10.0;
+    gdouble ny_squares = viewer->priv->scale_factor * height / 10.0;
+    gdouble square_size = 10.0 / viewer->priv->scale_factor;
 
     cairo_save (ctx);
 
@@ -1181,11 +1196,21 @@ rstto_image_viewer_paint (GtkWidget *widget,
         /**************************************/
         if (NULL == viewer->priv->file)
         {
+            GdkPixbuf *background_icon = gtk_icon_theme_load_icon_for_scale (
+                gtk_icon_theme_get_default (),
+                RISTRETTO_APP_ID,
+                BACKGROUND_ICON_SIZE,
+                gtk_widget_get_scale_factor (widget),
+                GTK_ICON_LOOKUP_FORCE_SIZE,
+                NULL);
+            if (background_icon != NULL)
+                gdk_pixbuf_saturate_and_pixelate (background_icon, background_icon, 0, FALSE);
+
             cairo_save (ctx);
 
             /* Paint the background-image (ristretto icon) */
             /***********************************************/
-            paint_background_icon (viewer, viewer->priv->bg_icon, 0.1, ctx);
+            paint_background_icon (viewer, background_icon, 0.1, ctx);
 
             cairo_restore (ctx);
 
@@ -1195,16 +1220,27 @@ rstto_image_viewer_paint (GtkWidget *widget,
                 paint_clock (widget, ctx);
                 cairo_restore (ctx);
             }
+
+            if (background_icon != NULL)
+                g_object_unref (background_icon);
         }
         else
         {
+            GdkPixbuf *missing_icon = gtk_icon_theme_load_icon_for_scale (
+                gtk_icon_theme_get_default (),
+                "image-missing",
+                BACKGROUND_ICON_SIZE,
+                gtk_widget_get_scale_factor (widget),
+                GTK_ICON_LOOKUP_FORCE_SIZE,
+                NULL);
+
             cairo_save (ctx);
 
             /* image and rendering are set */
             if (viewer->priv->image_width > 0 && viewer->priv->rendering.width > 0)
                 paint_image (widget, ctx);
             else if (viewer->priv->error != NULL)
-                paint_background_icon (viewer, viewer->priv->missing_icon, 1.0, ctx);
+                paint_background_icon (viewer, missing_icon, 1.0, ctx);
 
             cairo_restore (ctx);
 
@@ -1221,6 +1257,9 @@ rstto_image_viewer_paint (GtkWidget *widget,
                 paint_clock (widget, ctx);
                 cairo_restore (ctx);
             }
+
+            if (missing_icon != NULL)
+                g_object_unref (missing_icon);
         }
     }
 }
@@ -1395,14 +1434,12 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer,
     {
         GdkMonitor *monitor;
         GdkRectangle rect;
-        gint scale_factor;
 
         monitor = gdk_display_get_monitor_at_window (gdk_display_get_default (),
                                                      gtk_widget_get_window (GTK_WIDGET (viewer)));
         gdk_monitor_get_geometry (monitor, &rect);
-        scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
-        transaction->monitor_width = rect.width * scale_factor;
-        transaction->monitor_height = rect.height * scale_factor;
+        transaction->monitor_width = rect.width * viewer->priv->scale_factor;
+        transaction->monitor_height = rect.height * viewer->priv->scale_factor;
     }
 
     g_signal_connect (transaction->loader, "size-prepared", G_CALLBACK (cb_rstto_image_loader_size_prepared), transaction);
@@ -1752,7 +1789,7 @@ cb_rstto_image_loader_closed_idle (gpointer data)
             viewer->priv->quality_scale = transaction->quality_scale;
             viewer->priv->image_width = viewer->priv->original_image_width = transaction->image_width;
             viewer->priv->image_height = viewer->priv->original_image_height = transaction->image_height;
-            set_scale_factor (viewer, NULL, NULL);
+            set_scale_factor (viewer, NULL);
             set_scale (viewer, transaction->scale);
             set_adjustments (viewer,
                              rstto_file_get_h_adjustment (viewer->priv->file),
@@ -1817,7 +1854,7 @@ cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
         viewer->priv->pixbuf.has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
         viewer->priv->pixbuf.width = gdk_pixbuf_get_width (pixbuf);
         viewer->priv->pixbuf.height = gdk_pixbuf_get_height (pixbuf);
-        set_scale_factor (viewer, NULL, NULL);
+        set_scale_factor (viewer, NULL);
 
         /* redraw only the image */
         rect.x = viewer->priv->rendering.x_offset;
