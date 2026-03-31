@@ -90,6 +90,9 @@ rstto_image_viewer_set_show_clock (RsttoImageViewer *viewer,
 gboolean
 rstto_image_viewer_is_busy (RsttoImageViewer *viewer);
 
+void
+rstto_image_viewer_reset_adjustments (RsttoImageViewer *viewer);
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_IMAGE_VIEWER_H__ */

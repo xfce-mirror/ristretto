@@ -3227,6 +3227,9 @@ cb_rstto_main_window_configure_event (GtkWidget *widget,
                                             rstto_main_window_save_geometry_timer, widget,
                                             rstto_main_window_save_geometry_timer_destroy);
         }
+
+        /* prevent rendering issues in some situations */
+        rstto_image_viewer_reset_adjustments (RSTTO_IMAGE_VIEWER (window->priv->image_viewer));
     }
 
     /* let Gtk+ handle the configure event */

@@ -1341,7 +1341,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
                 viewer->priv->quality_scale = 1.0;
                 viewer->priv->image_width = viewer->priv->original_image_width = 0;
                 viewer->priv->image_height = viewer->priv->original_image_height = 0;
-                set_adjustments (viewer, 0, 0);
+                rstto_image_viewer_reset_adjustments (viewer);
 
                 rstto_image_viewer_load_image (viewer, viewer->priv->file,
                                                auto_scale != RSTTO_SCALE_NONE ? auto_scale : scale);
@@ -1389,7 +1389,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
             viewer->priv->image_width = viewer->priv->original_image_width = 0;
             viewer->priv->image_height = viewer->priv->original_image_height = 0;
 
-            set_adjustments (viewer, 0, 0);
+            rstto_image_viewer_reset_adjustments (viewer);
             gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
 
             gtk_widget_set_tooltip_text (widget, NULL);
@@ -2375,6 +2375,12 @@ rstto_image_viewer_is_busy (RsttoImageViewer *viewer)
         return TRUE;
     }
     return FALSE;
+}
+
+void
+rstto_image_viewer_reset_adjustments (RsttoImageViewer *viewer)
+{
+    set_adjustments (viewer, 0, 0);
 }
 
 static void
