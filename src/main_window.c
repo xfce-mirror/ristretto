@@ -899,7 +899,6 @@ rstto_main_window_init (RsttoMainWindow *window)
     GClosure *leave_fullscreen_closure = g_cclosure_new_swap (G_CALLBACK (gtk_window_unfullscreen), window, NULL);
     GClosure *next_image_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_next_image), window, NULL);
     GClosure *previous_image_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_previous_image), window, NULL);
-    GClosure *quit_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_quit), window, NULL);
     GClosure *delete_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_delete), window, NULL);
     GClosure *refresh_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_refresh), window, NULL);
 
@@ -992,7 +991,6 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_accel_group_connect_by_path (accel_group, "<Window>/unfullscreen", leave_fullscreen_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/next-image", next_image_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/previous-image", previous_image_closure);
-    gtk_accel_group_connect_by_path (accel_group, "<Window>/quit", quit_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/delete", delete_closure);
     gtk_accel_group_connect_by_path (accel_group, "<Window>/refresh", refresh_closure);
 

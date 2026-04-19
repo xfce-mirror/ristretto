@@ -144,7 +144,6 @@ rstto_settings_init (RsttoSettings *settings)
         { "<Window>/unfullscreen", GDK_KEY_Escape, 0 },
         { "<Window>/next-image", GDK_KEY_Page_Down, 0 },
         { "<Window>/previous-image", GDK_KEY_Page_Up, 0 },
-        { "<Window>/quit", GDK_KEY_q, 0 },
         { "<Window>/delete", GDK_KEY_Delete, GDK_SHIFT_MASK },
         { "<Window>/refresh", GDK_KEY_r, GDK_CONTROL_MASK },
         { "<Actions>/RsttoWindow/play", GDK_KEY_F5, 0 },
