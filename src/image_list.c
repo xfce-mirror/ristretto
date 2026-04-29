@@ -1259,7 +1259,12 @@ cb_rstto_image_list_exif_date_compare_func (gconstpointer a,
     {
         return -1;
     }
-    return 1;
+    else if (a_t > b_t)
+    {
+        return 1;
+    }
+
+    return cb_rstto_image_list_image_name_compare_func (a, b, user_data);
 }
 
 static gint
@@ -1270,7 +1275,16 @@ cb_rstto_image_list_image_size_compare_func (gconstpointer a,
     const goffset asize = rstto_file_get_size ((RsttoFile *) a);
     const goffset bsize = rstto_file_get_size ((RsttoFile *) b);
 
-    return (asize > bsize) - (asize < bsize);
+    if (asize < bsize)
+    {
+        return -1;
+    }
+    else if (asize > bsize)
+    {
+        return 1;
+    }
+
+    return cb_rstto_image_list_image_name_compare_func (a, b, user_data);
 }
 
 /**
