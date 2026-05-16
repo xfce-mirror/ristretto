@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the xfce-apps.ristretto package.
 # 
 # Translators:
-# Dejweed, 2025
+# Dejweed, 2025-2026
 # Arnold Marko <arnold.marko@gmail.com>, 2020-2021,2023-2024
 #  <gasper@gmx.com>, 2011
 msgid ""
@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-09-30 12:55+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Dejweed, 2025\n"
+"Last-Translator: Dejweed, 2025-2026\n"
 "Language-Team: Slovenian (http://app.transifex.com/xfce/xfce-apps/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -118,7 +118,7 @@ msgstr "Natisni trenutno sliko"
 #. Icon-name
 #: src/main_window.c:371 src/main_window.c:390
 msgid "_Edit"
-msgstr "_Uredi"
+msgstr "Ur_edi"
 
 #. Label-text
 #. Keyboard shortcut
@@ -167,7 +167,7 @@ msgstr "_Sortiraj po"
 
 #: src/main_window.c:420
 msgid "Sort order"
-msgstr ""
+msgstr "Vrstni red sortiranja"
 
 #. Icon-name
 #: src/main_window.c:426
@@ -250,7 +250,7 @@ msgstr "Odalji"
 #. Icon-name
 #: src/main_window.c:488 src/main_window.c:796
 msgid "Zoom _Fit"
-msgstr "_Prilagodi povečavo"
+msgstr "P_rilagodi povečavo"
 
 #. Label-text
 #. Keyboard shortcut
@@ -261,7 +261,7 @@ msgstr "Prilagodi povečavo velikosti okna"
 #. Icon-name
 #: src/main_window.c:494 src/main_window.c:802
 msgid "_Normal Size"
-msgstr "_Originalna velikost"
+msgstr "Ori_ginalna velikost"
 
 #. Label-text
 #. Keyboard shortcut
@@ -271,7 +271,7 @@ msgstr "Spremeni povečavo na 100%"
 
 #: src/main_window.c:501
 msgid "_Default Zoom"
-msgstr "_Privzeta povečava"
+msgstr "Pri_vzeta povečava"
 
 #: src/main_window.c:508
 msgid "_Rotation"
@@ -280,12 +280,12 @@ msgstr "Ob_račanje"
 #. Icon-name
 #: src/main_window.c:514
 msgid "Rotate _Right"
-msgstr "Zavrti _Desno"
+msgstr "Zavrti _desno"
 
 #. Icon-name
 #: src/main_window.c:520
 msgid "Rotate _Left"
-msgstr "Zavrti _Levo"
+msgstr "Zavrti _levo"
 
 #: src/main_window.c:527
 msgid "_Flip"
@@ -383,7 +383,7 @@ msgstr "_Velikost"
 
 #: src/main_window.c:608
 msgid "Thumbnail Bar _Position"
-msgstr "_Položaj vrstice s sličicami"
+msgstr "Položa_j vrstice s sličicami"
 
 #: src/main_window.c:614
 msgid "Thumb_nail Size"
@@ -427,31 +427,31 @@ msgstr "datum"
 #. Icon-name
 #: src/main_window.c:685
 msgid "random"
-msgstr ""
+msgstr "naključno"
 
 #. Icon-name
 #: src/main_window.c:691
 msgid "file size"
-msgstr ""
+msgstr "velikost"
 
 #. Icon-name
 #: src/main_window.c:700
 msgid "ascending"
-msgstr ""
+msgstr "naraščajoče"
 
 #. Icon-name
 #: src/main_window.c:706
 msgid "descending"
-msgstr ""
+msgstr "padajoče"
 
 #. Icon-name
 #: src/main_window.c:716
 msgid "Left"
-msgstr "Leva"
+msgstr "Levo"
 
 #: src/main_window.c:722
 msgid "Right"
-msgstr "Desna"
+msgstr "Desno"
 
 #: src/main_window.c:728
 msgid "Top"
@@ -804,7 +804,7 @@ msgstr "Zagon"
 
 #: src/preferences_dialog.c:448
 msgid "Maximize window on startup when opening an image"
-msgstr "Povečaj okno ob zagonu, ko se slika odpre."
+msgstr "Povečaj okno ob zagonu, ko se slika odpre"
 
 #: src/preferences_dialog.c:454
 msgid "Wrap around images"
@@ -824,12 +824,12 @@ msgstr "Določite sistem, ki trenutno upravlja namizje. Ta nastavitev določa me
 #. File manager sync checkbox
 #: src/preferences_dialog.c:522
 msgid "Synchronize sorting with file manager"
-msgstr ""
+msgstr "Sinhroniziraj sortiranje z upravljalnikom datotek"
 
 #. File manager sync once checkbox
 #: src/preferences_dialog.c:532
 msgid "Synchronize only once when opening a directory"
-msgstr ""
+msgstr "Sinhroniziraj samo enkrat, ko se mapa odpre"
 
 #: src/preferences_dialog.c:594
 msgid "Image Viewer Preferences"
