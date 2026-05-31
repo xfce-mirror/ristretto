@@ -968,8 +968,7 @@ rstto_main_window_init (RsttoMainWindow *window)
             window->priv->wallpaper_manager = NULL;
         }
 
-        g_free (desktop_type);
-        desktop_type = NULL;
+        g_clear_pointer (&desktop_type, g_free);
     }
     else
     {
@@ -1330,73 +1329,18 @@ rstto_main_window_finalize (GObject *object)
 {
     RsttoMainWindow *window = RSTTO_MAIN_WINDOW (object);
 
-    if (window->priv->ui_manager)
-    {
-        g_object_unref (window->priv->ui_manager);
-        window->priv->ui_manager = NULL;
-    }
-
-    if (window->priv->settings_manager)
-    {
-        g_object_unref (window->priv->settings_manager);
-        window->priv->settings_manager = NULL;
-    }
-
-    if (window->priv->image_list)
-    {
-        g_object_unref (window->priv->image_list);
-        window->priv->image_list = NULL;
-    }
-
-    if (window->priv->iter)
-    {
-        g_object_unref (window->priv->iter);
-        window->priv->iter = NULL;
-    }
-
-    if (window->priv->db)
-    {
-        g_object_unref (window->priv->db);
-        window->priv->db = NULL;
-    }
-
-    if (window->priv->thumbnailer)
-    {
-        g_object_unref (window->priv->thumbnailer);
-        window->priv->thumbnailer = NULL;
-    }
-
-    if (window->priv->last_copy_folder_uri)
-    {
-        g_free (window->priv->last_copy_folder_uri);
-        window->priv->last_copy_folder_uri = NULL;
-    }
-
-    if (window->priv->action_group)
-    {
-        g_object_unref (window->priv->action_group);
-        window->priv->action_group = NULL;
-    }
-
-    if (window->priv->recent_filter)
-    {
-        g_object_unref (window->priv->recent_filter);
-        window->priv->recent_filter = NULL;
-    }
-
-    if (window->priv->fm_integration)
-    {
-        g_object_unref (window->priv->fm_integration);
-        window->priv->fm_integration = NULL;
-    }
-
+    g_clear_object (&window->priv->ui_manager);
+    g_clear_object (&window->priv->settings_manager);
+    g_clear_object (&window->priv->image_list);
+    g_clear_object (&window->priv->iter);
+    g_clear_object (&window->priv->db);
+    g_clear_object (&window->priv->thumbnailer);
+    g_clear_pointer (&window->priv->last_copy_folder_uri, g_free);
+    g_clear_object (&window->priv->action_group);
+    g_clear_object (&window->priv->recent_filter);
+    g_clear_object (&window->priv->fm_integration);
     g_clear_object (&window->priv->filemanager_proxy);
-
-    if (app_file_filter)
-    {
-        g_object_unref (app_file_filter);
-        app_file_filter = NULL;
-    }
+    g_clear_object (&app_file_filter);
 
     G_OBJECT_CLASS (rstto_main_window_parent_class)->finalize (object);
 }
@@ -2618,11 +2562,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget,
             {
                 case DESKTOP_TYPE_NONE:
                     desktop_type = g_strdup ("none");
-                    if (NULL != window->priv->wallpaper_manager)
-                    {
-                        g_object_unref (window->priv->wallpaper_manager);
-                        window->priv->wallpaper_manager = NULL;
-                    }
+                    g_clear_object (&window->priv->wallpaper_manager);
                     break;
                 case DESKTOP_TYPE_XFCE:
                     desktop_type = g_strdup ("xfce");
@@ -2668,11 +2608,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget,
         }
     }
 
-    if (G_LIKELY (NULL != desktop_type))
-    {
-        g_free (desktop_type);
-        desktop_type = NULL;
-    }
+    g_clear_pointer (&desktop_type, g_free);
 }
 
 static gboolean
@@ -4733,11 +4669,7 @@ cb_rstto_desktop_type_changed (GObject *object,
     RsttoMainWindow *window = user_data;
     gchar *desktop_type = NULL;
 
-    if (window->priv->wallpaper_manager)
-    {
-        g_object_unref (window->priv->wallpaper_manager);
-        window->priv->wallpaper_manager = NULL;
-    }
+    g_clear_object (&window->priv->wallpaper_manager);
 
     desktop_type = rstto_settings_get_string_property (window->priv->settings_manager, "desktop-type");
 
@@ -4758,8 +4690,7 @@ cb_rstto_desktop_type_changed (GObject *object,
             window->priv->wallpaper_manager = NULL;
         }
 
-        g_free (desktop_type);
-        desktop_type = NULL;
+        g_clear_pointer (&desktop_type, g_free);
     }
     else
     {

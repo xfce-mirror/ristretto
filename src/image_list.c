@@ -288,23 +288,9 @@ rstto_image_list_finalize (GObject *object)
 
     if (NULL != image_list->priv)
     {
-        if (image_list->priv->settings)
-        {
-            g_object_unref (image_list->priv->settings);
-            image_list->priv->settings = NULL;
-        }
-
-        if (image_list->priv->thumbnailer)
-        {
-            g_object_unref (image_list->priv->thumbnailer);
-            image_list->priv->thumbnailer = NULL;
-        }
-
-        if (image_list->priv->image_monitors)
-        {
-            g_list_free_full (image_list->priv->image_monitors, g_object_unref);
-            image_list->priv->image_monitors = NULL;
-        }
+        g_clear_object (&image_list->priv->settings);
+        g_clear_object (&image_list->priv->thumbnailer);
+        g_clear_list (&image_list->priv->image_monitors, g_object_unref);
 
         if (image_list->priv->images)
         {
@@ -724,11 +710,7 @@ rstto_image_list_monitor_dir (RsttoImageList *image_list,
 {
     GFileMonitor *monitor = NULL;
 
-    if (NULL != image_list->priv->dir_monitor)
-    {
-        g_object_unref (image_list->priv->dir_monitor);
-        image_list->priv->dir_monitor = NULL;
-    }
+    g_clear_object (&image_list->priv->dir_monitor);
 
     /* Allow a monitor to be removed by providing NULL to dir */
     if (NULL != dir)
@@ -782,8 +764,7 @@ cb_file_monitor_changed (GFileMonitor *monitor,
             if (image_list->priv->dir_monitor == NULL)
             {
                 image_list->priv->image_monitors = g_list_remove (image_list->priv->image_monitors, monitor);
-                g_object_unref (monitor);
-                monitor = NULL;
+                g_clear_object (&monitor);
             }
             break;
         case G_FILE_MONITOR_EVENT_CREATED:
@@ -799,8 +780,7 @@ cb_file_monitor_changed (GFileMonitor *monitor,
             if (s_r_file != NULL)
             {
                 rstto_image_list_add_file (image_list, s_r_file, NULL);
-                g_object_unref (s_r_file);
-                s_r_file = NULL;
+                g_clear_object (&s_r_file);
             }
             /* a file has changed */
             else

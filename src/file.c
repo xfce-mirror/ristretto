@@ -156,48 +156,20 @@ rstto_file_finalize (GObject *object)
             g_warn_if_reached ();
         g_free (path);
     }
-    if (r_file->priv->file)
-    {
-        g_object_unref (r_file->priv->file);
-        r_file->priv->file = NULL;
-    }
-    if (r_file->priv->display_name)
-    {
-        g_free (r_file->priv->display_name);
-        r_file->priv->display_name = NULL;
-    }
-    if (r_file->priv->content_type)
-    {
-        g_free (r_file->priv->content_type);
-        r_file->priv->content_type = NULL;
-    }
-    if (r_file->priv->path)
-    {
-        g_free (r_file->priv->path);
-        r_file->priv->path = NULL;
-    }
-    if (r_file->priv->uri)
-    {
-        g_free (r_file->priv->uri);
-        r_file->priv->uri = NULL;
-    }
-    if (r_file->priv->collate_key)
-    {
-        g_free (r_file->priv->collate_key);
-        r_file->priv->collate_key = NULL;
-    }
-    if (r_file->priv->exif_data)
-    {
-        exif_data_free (r_file->priv->exif_data);
-        r_file->priv->exif_data = NULL;
-    }
+
+    g_clear_object (&r_file->priv->file);
+    g_clear_pointer (&r_file->priv->display_name, g_free);
+    g_clear_pointer (&r_file->priv->content_type, g_free);
+    g_clear_pointer (&r_file->priv->path, g_free);
+    g_clear_pointer (&r_file->priv->uri, g_free);
+    g_clear_pointer (&r_file->priv->collate_key, g_free);
+    g_clear_pointer (&r_file->priv->exif_data, exif_data_free);
 
     for (i = 0; i < RSTTO_THUMBNAIL_FLAVOR_COUNT; ++i)
     {
         if (r_file->priv->thumbnail_paths[i])
         {
-            g_free (r_file->priv->thumbnail_paths[i]);
-            r_file->priv->thumbnail_paths[i] = NULL;
+            g_clear_pointer (&r_file->priv->thumbnail_paths[i], g_free);
         }
     }
 
@@ -205,8 +177,7 @@ rstto_file_finalize (GObject *object)
     {
         if (r_file->priv->pixbufs[i])
         {
-            g_object_unref (r_file->priv->pixbufs[i]);
-            r_file->priv->pixbufs[i] = NULL;
+            g_clear_object (&r_file->priv->pixbufs[i]);
         }
     }
 
@@ -638,8 +609,7 @@ rstto_file_get_thumbnail_path (RsttoFile *r_file,
 #endif
                 {
                     /* thumbnail doesn't exist in either spot */
-                    g_free (path);
-                    path = NULL;
+                    g_clear_pointer (&path, g_free);
                 }
             }
         }
@@ -735,17 +705,8 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
 void
 rstto_file_changed (RsttoFile *r_file)
 {
-    if (r_file->priv->content_type != NULL)
-    {
-        g_free (r_file->priv->content_type);
-        r_file->priv->content_type = NULL;
-    }
-
-    if (r_file->priv->exif_data != NULL)
-    {
-        exif_data_free (r_file->priv->exif_data);
-        r_file->priv->exif_data = NULL;
-    }
+    g_clear_pointer (&r_file->priv->content_type, g_free);
+    g_clear_pointer (&r_file->priv->exif_data, exif_data_free);
 
     r_file->priv->final_content_type = FALSE;
     r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NOT_DETERMINED;

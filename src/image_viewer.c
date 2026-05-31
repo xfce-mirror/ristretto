@@ -588,42 +588,15 @@ rstto_image_viewer_finalize (GObject *object)
 
     if (viewer->priv->transaction && viewer->priv->transaction->loader_closed_id != 0)
         g_source_remove (viewer->priv->transaction->loader_closed_id);
-    if (viewer->priv->settings)
-    {
-        g_object_unref (viewer->priv->settings);
-        viewer->priv->settings = NULL;
-    }
-    if (viewer->priv->pixbuf.pattern)
-    {
-        cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
-        viewer->priv->pixbuf.pattern = NULL;
-    }
-    if (viewer->priv->iter)
-    {
-        g_object_unref (viewer->priv->iter);
-        viewer->priv->iter = NULL;
-    }
-    if (viewer->priv->excluded_mime_types)
-    {
-        g_strfreev (viewer->priv->excluded_mime_types);
-        viewer->priv->excluded_mime_types = NULL;
-    }
-    if (viewer->priv->file)
-    {
-        g_object_unref (viewer->priv->file);
-        viewer->priv->file = NULL;
-    }
-    if (viewer->priv->error)
-    {
-        g_error_free (viewer->priv->error);
-        viewer->priv->error = NULL;
-    }
+
+    g_clear_object (&viewer->priv->settings);
+    g_clear_pointer (&viewer->priv->pixbuf.pattern, cairo_pattern_destroy);
+    g_clear_pointer (&viewer->priv->excluded_mime_types, g_strfreev);
+    g_clear_object (&viewer->priv->iter);
+    g_clear_object (&viewer->priv->file);
+    g_clear_error (&viewer->priv->error);
 #ifdef HAVE_LIBXFCE4WINDOWING
-    if (viewer->priv->screen)
-    {
-        g_object_unref (viewer->priv->screen);
-        viewer->priv->screen = NULL;
-    }
+    g_clear_object (&viewer->priv->screen);
 #endif
 
     G_OBJECT_CLASS (rstto_image_viewer_parent_class)->finalize (object);
@@ -1333,11 +1306,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
                 g_object_unref (viewer->priv->file);
 
                 viewer->priv->file = file;
-                if (viewer->priv->error)
-                {
-                    g_error_free (viewer->priv->error);
-                    viewer->priv->error = NULL;
-                }
+                g_clear_error (&viewer->priv->error);
                 viewer->priv->quality_scale = 1.0;
                 viewer->priv->image_width = viewer->priv->original_image_width = 0;
                 viewer->priv->image_height = viewer->priv->original_image_height = 0;
@@ -1360,16 +1329,8 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
     {
         if (viewer->priv->animation_id != 0)
             REMOVE_SOURCE (viewer->priv->animation_id);
-        if (viewer->priv->iter)
-        {
-            g_object_unref (viewer->priv->iter);
-            viewer->priv->iter = NULL;
-        }
-        if (viewer->priv->pixbuf.pattern)
-        {
-            cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
-            viewer->priv->pixbuf.pattern = NULL;
-        }
+        g_clear_object (&viewer->priv->iter);
+        g_clear_pointer (&viewer->priv->pixbuf.pattern, cairo_pattern_destroy);
         if (viewer->priv->transaction)
         {
             if (!g_cancellable_is_cancelled (viewer->priv->transaction->cancellable))
@@ -1382,8 +1343,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
         {
             g_signal_handlers_disconnect_by_func (
                 viewer->priv->file, cb_rstto_image_viewer_file_changed, viewer);
-            g_object_unref (viewer->priv->file);
-            viewer->priv->file = NULL;
+            g_clear_object (&viewer->priv->file);
 
             /* Reset the image-size to 0 */
             viewer->priv->image_width = viewer->priv->original_image_width = 0;
@@ -1692,18 +1652,8 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader,
     {
         if (viewer->priv->animation_id != 0)
             REMOVE_SOURCE (viewer->priv->animation_id);
-
-        if (viewer->priv->iter)
-        {
-            g_object_unref (viewer->priv->iter);
-            viewer->priv->iter = NULL;
-        }
-
-        if (viewer->priv->pixbuf.pattern)
-        {
-            cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
-            viewer->priv->pixbuf.pattern = NULL;
-        }
+        g_clear_object (&viewer->priv->iter);
+        g_clear_pointer (&viewer->priv->pixbuf.pattern, cairo_pattern_destroy);
 
         viewer->priv->iter = gdk_pixbuf_animation_get_iter (gdk_pixbuf_loader_get_animation (loader), NULL);
 
@@ -1723,8 +1673,7 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader,
         else
         {
             /* this is a single-frame image, we only need to keep the pixbuf as a pattern */
-            g_object_unref (viewer->priv->iter);
-            viewer->priv->iter = NULL;
+            g_clear_object (&viewer->priv->iter);
         }
     }
 }
@@ -1800,12 +1749,7 @@ cb_rstto_image_loader_closed_idle (gpointer data)
             viewer->priv->quality_scale = 1.0;
             viewer->priv->image_width = viewer->priv->original_image_width = 0;
             viewer->priv->image_height = viewer->priv->original_image_height = 0;
-            if (viewer->priv->pixbuf.pattern)
-            {
-                cairo_pattern_destroy (viewer->priv->pixbuf.pattern);
-                viewer->priv->pixbuf.pattern = NULL;
-            }
-
+            g_clear_pointer (&viewer->priv->pixbuf.pattern, cairo_pattern_destroy);
             gtk_widget_set_tooltip_text (widget, transaction->error->message);
         }
 
@@ -1874,8 +1818,7 @@ cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
     if (timeout <= 0)
     {
         /* if the animation stops, we only need to keep the pixbuf as a pattern */
-        g_object_unref (viewer->priv->iter);
-        viewer->priv->iter = NULL;
+        g_clear_object (&viewer->priv->iter);
 
         /* reset the timeout id only in this case */
         viewer->priv->animation_id = 0;

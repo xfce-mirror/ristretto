@@ -246,23 +246,9 @@ rstto_privacy_dialog_finalize (GObject *object)
 {
     RsttoPrivacyDialog *dialog = RSTTO_PRIVACY_DIALOG (object);
 
-    if (dialog->priv->settings)
-    {
-        g_object_unref (dialog->priv->settings);
-        dialog->priv->settings = NULL;
-    }
-
-    if (dialog->priv->filters)
-    {
-        g_slist_free (dialog->priv->filters);
-        dialog->priv->filters = NULL;
-    }
-
-    if (dialog->priv->timeframe_filter)
-    {
-        g_object_unref (dialog->priv->timeframe_filter);
-        dialog->priv->timeframe_filter = NULL;
-    }
+    g_clear_object (&dialog->priv->settings);
+    g_clear_slist (&dialog->priv->filters, NULL);
+    g_clear_object (&dialog->priv->timeframe_filter);
 
     G_OBJECT_CLASS (rstto_privacy_dialog_parent_class)->finalize (object);
 }

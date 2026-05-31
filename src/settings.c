@@ -160,8 +160,7 @@ rstto_settings_init (RsttoSettings *settings)
     if (accelmap_path)
     {
         gtk_accel_map_load (accelmap_path);
-        g_free (accelmap_path);
-        accelmap_path = NULL;
+        g_clear_pointer (&accelmap_path, g_free);
     }
 
     settings->priv->slideshow_timeout = 5;
@@ -411,48 +410,18 @@ rstto_settings_finalize (GObject *object)
     RsttoSettings *settings = RSTTO_SETTINGS (object);
     gchar *accelmap_path = NULL;
 
-    if (settings->priv->channel)
-    {
-        g_object_unref (settings->priv->channel);
-        settings->priv->channel = NULL;
-    }
-
-    if (settings->priv->last_file_path)
-    {
-        g_free (settings->priv->last_file_path);
-        settings->priv->last_file_path = NULL;
-    }
-
-    if (settings->priv->navigationbar_position)
-    {
-        g_free (settings->priv->navigationbar_position);
-        settings->priv->navigationbar_position = NULL;
-    }
-
-    if (settings->priv->desktop_type)
-    {
-        g_free (settings->priv->desktop_type);
-        settings->priv->desktop_type = NULL;
-    }
-
-    if (settings->priv->bgcolor)
-    {
-        g_free (settings->priv->bgcolor);
-        settings->priv->bgcolor = NULL;
-    }
-
-    if (settings->priv->bgcolor_fullscreen)
-    {
-        g_free (settings->priv->bgcolor_fullscreen);
-        settings->priv->bgcolor_fullscreen = NULL;
-    }
+    g_clear_object (&settings->priv->channel);
+    g_clear_pointer (&settings->priv->last_file_path, g_free);
+    g_clear_pointer (&settings->priv->navigationbar_position, g_free);
+    g_clear_pointer (&settings->priv->desktop_type, g_free);
+    g_clear_pointer (&settings->priv->bgcolor, g_free);
+    g_clear_pointer (&settings->priv->bgcolor_fullscreen, g_free);
 
     accelmap_path = xfce_resource_save_location (XFCE_RESOURCE_CONFIG, "ristretto/accels.scm", TRUE);
-    if (accelmap_path)
+    if (accelmap_path != NULL)
     {
         gtk_accel_map_save (accelmap_path);
-        g_free (accelmap_path);
-        accelmap_path = NULL;
+        g_clear_pointer (&accelmap_path, g_free);
     }
 
     G_OBJECT_CLASS (rstto_settings_parent_class)->finalize (object);

@@ -320,8 +320,7 @@ rstto_thumbnailer_queue_request_timer (gpointer user_data)
         i++;
     }
 
-    g_slist_free (thumbnailer->priv->queues[flavor]);
-    thumbnailer->priv->queues[flavor] = NULL;
+    g_clear_slist (&thumbnailer->priv->queues[flavor], NULL);
 
     /* handle previously queued files, up to the number of visible items */
     for (iter = thumbnailer->priv->in_process_queues[flavor];
@@ -414,8 +413,7 @@ rstto_thumbnailer_queue_request_timer_destroy (gpointer user_data)
         g_object_unref (iter->data);
     }
 
-    g_slist_free (thumbnailer->priv->remove_queue);
-    thumbnailer->priv->remove_queue = NULL;
+    g_clear_slist (&thumbnailer->priv->remove_queue, NULL);
 }
 
 static RsttoThumbnailFlavor

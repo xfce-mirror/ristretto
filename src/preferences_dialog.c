@@ -580,8 +580,7 @@ rstto_preferences_dialog_finalize (GObject *object)
     if (dialog->priv->settings)
     {
         g_signal_handlers_disconnect_by_data (dialog->priv->settings, dialog);
-        g_object_unref (dialog->priv->settings);
-        dialog->priv->settings = NULL;
+        g_clear_object (&dialog->priv->settings);
     }
 
     G_OBJECT_CLASS (rstto_preferences_dialog_parent_class)->finalize (object);
