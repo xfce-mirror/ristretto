@@ -167,18 +167,12 @@ rstto_file_finalize (GObject *object)
 
     for (i = 0; i < RSTTO_THUMBNAIL_FLAVOR_COUNT; ++i)
     {
-        if (r_file->priv->thumbnail_paths[i])
-        {
-            g_clear_pointer (&r_file->priv->thumbnail_paths[i], g_free);
-        }
+        g_clear_pointer (&r_file->priv->thumbnail_paths[i], g_free);
     }
 
     for (i = 0; i < RSTTO_THUMBNAIL_SIZE_COUNT; ++i)
     {
-        if (r_file->priv->pixbufs[i])
-        {
-            g_clear_object (&r_file->priv->pixbufs[i]);
-        }
+        g_clear_object (&r_file->priv->pixbufs[i]);
     }
 
     G_OBJECT_CLASS (rstto_file_parent_class)->finalize (object);
