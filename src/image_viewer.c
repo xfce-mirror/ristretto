@@ -1327,8 +1327,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer,
     }
     else
     {
-        if (viewer->priv->animation_id != 0)
-            REMOVE_SOURCE (viewer->priv->animation_id);
+        g_clear_handle_id (&viewer->priv->animation_id, g_source_remove);
         g_clear_object (&viewer->priv->iter);
         g_clear_pointer (&viewer->priv->pixbuf.pattern, cairo_pattern_destroy);
         if (viewer->priv->transaction)
@@ -1650,8 +1649,7 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader,
 
     if (viewer->priv->transaction == transaction)
     {
-        if (viewer->priv->animation_id != 0)
-            REMOVE_SOURCE (viewer->priv->animation_id);
+        g_clear_handle_id (&viewer->priv->animation_id, g_source_remove);
         g_clear_object (&viewer->priv->iter);
         g_clear_pointer (&viewer->priv->pixbuf.pattern, cairo_pattern_destroy);
 
@@ -2306,8 +2304,8 @@ rstto_image_viewer_set_show_clock (RsttoImageViewer *viewer,
     if (value)
         id = g_timeout_add (15000, cb_rstto_image_viewer_refresh,
                             rstto_util_source_autoremove (viewer));
-    else if (id != 0)
-        REMOVE_SOURCE (id);
+    else
+        g_clear_handle_id (&id, g_source_remove);
 }
 
 gboolean

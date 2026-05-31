@@ -236,8 +236,7 @@ rstto_thumbnailer_queue_file (RsttoThumbnailer *thumbnailer,
     g_return_if_fail (RSTTO_IS_THUMBNAILER (thumbnailer));
     g_return_if_fail (RSTTO_IS_FILE (file));
 
-    if (thumbnailer->priv->request_timer_ids[flavor] != 0)
-        REMOVE_SOURCE (thumbnailer->priv->request_timer_ids[flavor]);
+    g_clear_handle_id (&thumbnailer->priv->request_timer_ids[flavor], g_source_remove);
 
     /* relative to the size of the icon bar, which is what matters, this is a O(1) cost
      * operation, so we can keep the use of a GList for convenience */

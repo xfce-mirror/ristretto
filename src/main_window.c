@@ -2644,10 +2644,7 @@ cb_rstto_main_window_state_event (GtkWidget *widget,
 
             if (window->priv->fs_toolbar_sticky)
             {
-                if (window->priv->show_fs_toolbar_timeout_id > 0)
-                {
-                    REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
-                }
+                g_clear_handle_id (&window->priv->show_fs_toolbar_timeout_id, g_source_remove);
                 if (!rstto_image_list_is_empty (window->priv->image_list))
                 {
                     window->priv->show_fs_toolbar_timeout_id =
@@ -2712,19 +2709,13 @@ cb_rstto_main_window_state_event (GtkWidget *widget,
                 gtk_widget_hide (window->priv->toolbar);
             }
 
-            if (window->priv->show_fs_toolbar_timeout_id > 0)
-            {
-                REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
-            }
+            g_clear_handle_id (&window->priv->show_fs_toolbar_timeout_id, g_source_remove);
 
-            if (window->priv->hide_fs_mouse_cursor_timeout_id > 0)
-            {
-                REMOVE_SOURCE (window->priv->hide_fs_mouse_cursor_timeout_id);
-            }
-            else
+            if (window->priv->hide_fs_mouse_cursor_timeout_id == 0)
             {
                 gdk_window_set_cursor (gtk_widget_get_window (widget), NULL);
             }
+            g_clear_handle_id (&window->priv->hide_fs_mouse_cursor_timeout_id, g_source_remove);
 
             gtk_widget_show (window->priv->menubar);
             if (rstto_settings_get_boolean_property (RSTTO_SETTINGS (window->priv->settings_manager), "show-statusbar"))
@@ -2767,17 +2758,11 @@ cb_rstto_main_window_motion_notify_event (RsttoMainWindow *window,
             gtk_widget_show (window->priv->toolbar);
             window->priv->fs_toolbar_sticky = TRUE;
 
-            if (window->priv->show_fs_toolbar_timeout_id > 0)
-            {
-                REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
-            }
+            g_clear_handle_id (&window->priv->show_fs_toolbar_timeout_id, g_source_remove);
         }
 
         /* Show the mouse cursor, but set a timer to hide it if not moved again */
-        if (window->priv->hide_fs_mouse_cursor_timeout_id > 0)
-        {
-            REMOVE_SOURCE (window->priv->hide_fs_mouse_cursor_timeout_id);
-        }
+        g_clear_handle_id (&window->priv->hide_fs_mouse_cursor_timeout_id, g_source_remove);
         if (timeout > 0)
         {
             gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), NULL);
@@ -2838,10 +2823,7 @@ cb_rstto_main_window_image_viewer_enter_notify_event (GtkWidget *widget,
         if (!rstto_image_list_is_empty (window->priv->image_list))
         {
             window->priv->fs_toolbar_sticky = FALSE;
-            if (window->priv->show_fs_toolbar_timeout_id > 0)
-            {
-                REMOVE_SOURCE (window->priv->show_fs_toolbar_timeout_id);
-            }
+            g_clear_handle_id (&window->priv->show_fs_toolbar_timeout_id, g_source_remove);
             window->priv->show_fs_toolbar_timeout_id =
                 g_timeout_add_full (G_PRIORITY_DEFAULT, 500,
                                     cb_rstto_main_window_show_fs_toolbar_timeout, window,
@@ -3147,10 +3129,7 @@ cb_rstto_main_window_configure_event (GtkWidget *widget,
     if (allocation.width != event->width || allocation.height != event->height)
     {
         /* drop any previous timer source */
-        if (window->priv->window_save_geometry_timer_id > 0)
-        {
-            REMOVE_SOURCE (window->priv->window_save_geometry_timer_id);
-        }
+        g_clear_handle_id (&window->priv->window_save_geometry_timer_id, g_source_remove);
 
         /* check if we should schedule another save timer */
         if (gtk_widget_get_visible (GTK_WIDGET (window)))

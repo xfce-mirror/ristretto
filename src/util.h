@@ -60,15 +60,6 @@ G_BEGIN_DECLS
     } \
     G_STMT_END
 
-/* Macro to remove and clear a source id */
-#define REMOVE_SOURCE(ID) \
-    G_STMT_START \
-    { \
-        g_source_remove (ID); \
-        ID = 0; \
-    } \
-    G_STMT_END
-
 /* convenient macros for setting object data */
 #define rstto_object_set_data(object, key, data) \
     g_object_set_qdata (G_OBJECT (object), g_quark_from_static_string (key), data)
