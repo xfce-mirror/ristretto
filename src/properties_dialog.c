@@ -304,7 +304,7 @@ properties_dialog_set_file (RsttoPropertiesDialog *dialog,
         file_info = g_file_query_info (
             g_file,
             "standard::content-type,standard::size,time::modified,time::access",
-            0, NULL, NULL);
+            G_FILE_QUERY_INFO_NONE, NULL, NULL);
         description = g_content_type_get_description (
             g_file_info_get_attribute_string (file_info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE));
         mtime = g_file_info_get_attribute_uint64 (file_info, "time::modified");

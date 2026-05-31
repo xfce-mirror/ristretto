@@ -219,7 +219,7 @@ rstto_file_get_g_file_display_name (GFile *file)
 {
     gchar *display_name = NULL;
 
-    GFileInfo *file_info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME, 0, NULL, NULL);
+    GFileInfo *file_info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME, G_FILE_QUERY_INFO_NONE, NULL, NULL);
     if (file_info != NULL)
     {
         const gchar *info_display_name = g_file_info_get_display_name (file_info);
@@ -330,7 +330,7 @@ rstto_file_is_valid (RsttoFile *r_file)
         {
             GFileInfo *file_info = g_file_query_info (r_file->priv->file,
                                                       "standard::content-type",
-                                                      0, NULL, NULL);
+                                                      G_FILE_QUERY_INFO_NONE, NULL, NULL);
             if (NULL != file_info)
             {
                 content_type = g_file_info_get_attribute_string (file_info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
@@ -444,7 +444,7 @@ guint64
 rstto_file_get_modified_time (RsttoFile *r_file)
 {
     guint64 time_ = 0;
-    GFileInfo *file_info = g_file_query_info (r_file->priv->file, "time::modified", 0, NULL, NULL);
+    GFileInfo *file_info = g_file_query_info (r_file->priv->file, "time::modified", G_FILE_QUERY_INFO_NONE, NULL, NULL);
 
     if (file_info != NULL)
     {
@@ -459,7 +459,7 @@ goffset
 rstto_file_get_size (RsttoFile *r_file)
 {
     goffset size = 0;
-    GFileInfo *file_info = g_file_query_info (r_file->priv->file, G_FILE_ATTRIBUTE_STANDARD_SIZE, 0, NULL, NULL);
+    GFileInfo *file_info = g_file_query_info (r_file->priv->file, G_FILE_ATTRIBUTE_STANDARD_SIZE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
 
     if (file_info != NULL)
     {
