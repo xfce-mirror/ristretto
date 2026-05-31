@@ -1751,8 +1751,7 @@ cb_rstto_image_loader_closed_idle (gpointer data)
             gtk_widget_set_tooltip_text (widget, transaction->error->message);
         }
 
-        viewer->priv->error = transaction->error;
-        transaction->error = NULL;
+        g_steal_pointer (&transaction->error);
         viewer->priv->transaction = NULL;
 
         gdk_window_invalidate_rect (gtk_widget_get_window (widget), NULL, FALSE);
