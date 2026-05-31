@@ -194,7 +194,7 @@ rstto_properties_dialog_class_init (RsttoPropertiesDialogClass *klass)
                                      g_param_spec_object ("file",
                                                           "", "",
                                                           RSTTO_TYPE_FILE,
-                                                          G_PARAM_READWRITE));
+                                                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 }
 
 static void

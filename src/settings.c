@@ -234,169 +234,169 @@ rstto_settings_class_init (RsttoSettingsClass *klass)
     pspec = g_param_spec_uint ("window-width",
                                "", "",
                                0, G_MAXUINT, 600,
-                               G_PARAM_READWRITE);
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_WINDOW_WIDTH, pspec);
 
     pspec = g_param_spec_uint ("window-height",
                                "", "",
                                0, G_MAXUINT, 400,
-                               G_PARAM_READWRITE);
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_WINDOW_HEIGHT, pspec);
 
     pspec = g_param_spec_boolean ("show-toolbar",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_SHOW_TOOLBAR, pspec);
 
     pspec = g_param_spec_boolean ("show-thumbnailbar",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_SHOW_THUMBNAILBAR, pspec);
 
     pspec = g_param_spec_boolean ("show-statusbar",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_SHOW_STATUSBAR, pspec);
 
     pspec = g_param_spec_boolean ("show-clock",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_SHOW_CLOCK, pspec);
 
     pspec = g_param_spec_boolean ("limit-quality",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_LIMIT_QUALITY, pspec);
 
     pspec = g_param_spec_boolean ("enable-smoothing",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_ENABLE_SMOOTHING, pspec);
 
     pspec = g_param_spec_boolean ("hide-thumbnails-fullscreen",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_HIDE_THUMBNAILS_FULLSCREEN, pspec);
 
     pspec = g_param_spec_uint ("hide-mouse-cursor-fullscreen-timeout",
                                "", "",
                                0, 3600, 1,
-                               G_PARAM_READWRITE);
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_HIDE_MOUSE_CURSOR_FULLSCREEN_TIMEOUT, pspec);
 
     pspec = g_param_spec_string ("navigationbar-position",
                                  "", "",
                                  "bottom",
-                                 G_PARAM_READWRITE);
+                                 G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_NAVBAR_POSITION, pspec);
 
     pspec = g_param_spec_boolean ("invert-zoom-direction",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_INVERT_ZOOM_DIRECTION, pspec);
 
     pspec = g_param_spec_string ("current-uri",
                                  "", "",
                                  "file://~/",
-                                 G_PARAM_READWRITE);
+                                 G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_CURRENT_URI, pspec);
 
     pspec = g_param_spec_uint ("slideshow-timeout",
                                "", "",
                                1, 300, 5,
-                               G_PARAM_READWRITE);
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_SLIDESHOW_TIMEOUT, pspec);
 
     pspec = g_param_spec_boxed ("bgcolor",
                                 "", "",
                                 GDK_TYPE_RGBA,
-                                G_PARAM_READWRITE);
+                                G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_BGCOLOR, pspec);
 
     pspec = g_param_spec_boolean ("bgcolor-override",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_BGCOLOR_OVERRIDE, pspec);
 
     pspec = g_param_spec_boxed ("bgcolor-fullscreen",
                                 "", "",
                                 GDK_TYPE_RGBA,
-                                G_PARAM_READWRITE);
+                                G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_BGCOLOR_FULLSCREEN, pspec);
 
     pspec = g_param_spec_boolean ("wrap-images",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_WRAP_IMAGES, pspec);
 
     pspec = g_param_spec_string ("desktop-type",
                                  "", "",
                                  NULL,
-                                 G_PARAM_READWRITE);
+                                 G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_DESKTOP_TYPE, pspec);
 
     pspec = g_param_spec_boolean ("use-thunar-properties",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_USE_THUNAR_PROPERTIES, pspec);
 
     pspec = g_param_spec_boolean ("maximize-on-startup",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_MAXIMIZE_ON_STARTUP, pspec);
 
     pspec = g_param_spec_boolean ("show-error-missing-thumbnailer",
                                   "", "",
                                   TRUE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_ERROR_MISSING_THUMBNAILER, pspec);
 
     pspec = g_param_spec_uint ("sort-type",
                                "", "",
                                0, SORT_TYPE_COUNT, 0,
-                               G_PARAM_READWRITE);
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_SORT_TYPE, pspec);
 
     pspec = g_param_spec_uint ("sort-order",
                                "", "",
                                0, SORT_ORDER_COUNT, 0,
-                               G_PARAM_READWRITE);
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_SORT_ORDER, pspec);
 
     pspec = g_param_spec_uint ("thumbnail-size",
                                "", "",
                                0, RSTTO_THUMBNAIL_SIZE_COUNT, 0,
-                               G_PARAM_READWRITE);
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_THUMBNAIL_SIZE, pspec);
 
     pspec = g_param_spec_int ("default-zoom",
                               "", "",
                               RSTTO_SCALE_NONE, RSTTO_SCALE_REAL_SIZE, RSTTO_SCALE_NONE,
-                              G_PARAM_READWRITE);
+                              G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_DEFAULT_ZOOM, pspec);
 
     pspec = g_param_spec_boolean ("file-manager-sort-sync",
                                   "", "",
                                   FALSE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_FILE_MANAGER_SORT_SYNC, pspec);
 
     pspec = g_param_spec_boolean ("file-manager-sort-sync-once",
                                   "", "",
                                   FALSE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_FILE_MANAGER_SORT_SYNC_ONCE, pspec);
 }
 

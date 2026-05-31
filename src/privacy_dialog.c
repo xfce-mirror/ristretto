@@ -163,28 +163,28 @@ rstto_privacy_dialog_class_init (RsttoPrivacyDialogClass *klass)
     pspec = g_param_spec_object ("filter",
                                  "", "",
                                  GTK_TYPE_RECENT_FILTER,
-                                 G_PARAM_READWRITE);
+                                 G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class,
                                      PROP_FILTER,
                                      pspec);
     pspec = g_param_spec_object ("recent-manager",
                                  "", "",
                                  GTK_TYPE_RECENT_MANAGER,
-                                 G_PARAM_READWRITE);
+                                 G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class,
                                      PROP_RECENT_MANAGER,
                                      pspec);
     pspec = g_param_spec_int ("limit",
                               "", "",
                               -1, 100, -1,
-                              G_PARAM_READWRITE);
+                              G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class,
                                      PROP_LIMIT,
                                      pspec);
     pspec = g_param_spec_boolean ("local-only",
                                   "", "",
                                   FALSE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class,
                                      PROP_LOCAL_ONLY,
                                      pspec);
@@ -192,35 +192,35 @@ rstto_privacy_dialog_class_init (RsttoPrivacyDialogClass *klass)
     pspec = g_param_spec_boolean ("select-multiple",
                                   "", "",
                                   FALSE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class,
                                      PROP_SELECT_MULTIPLE,
                                      pspec);
     pspec = g_param_spec_boolean ("show-tips",
                                   "", "",
                                   FALSE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class,
                                      PROP_SHOW_TIPS,
                                      pspec);
     pspec = g_param_spec_boolean ("show-icons",
                                   "", "",
                                   FALSE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class,
                                      PROP_SHOW_ICONS,
                                      pspec);
     pspec = g_param_spec_boolean ("show-not-found",
                                   "", "",
                                   FALSE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class,
                                      PROP_SHOW_NOT_FOUND,
                                      pspec);
     pspec = g_param_spec_boolean ("show-private",
                                   "", "",
                                   FALSE,
-                                  G_PARAM_READWRITE);
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class,
                                      PROP_SHOW_PRIVATE,
                                      pspec);
@@ -228,7 +228,7 @@ rstto_privacy_dialog_class_init (RsttoPrivacyDialogClass *klass)
                                "", "",
                                GTK_TYPE_RECENT_SORT_TYPE,
                                GTK_RECENT_SORT_NONE,
-                               G_PARAM_READWRITE);
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class,
                                      PROP_SORT_TYPE,
                                      pspec);

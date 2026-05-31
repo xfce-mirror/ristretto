@@ -461,7 +461,7 @@ rstto_image_viewer_class_init (RsttoImageViewerClass *klass)
                                      g_param_spec_boolean ("show-clock",
                                                            "", "",
                                                            FALSE,
-                                                           G_PARAM_READWRITE));
+                                                           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
     /* Scrollable interface properties */
     g_object_class_override_property (object_class, PROP_HADJUSTMENT, "hadjustment");

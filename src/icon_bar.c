@@ -251,7 +251,7 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
                                                         "The orientation of the iconbar",
                                                         GTK_TYPE_ORIENTATION,
                                                         GTK_ORIENTATION_VERTICAL,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
     /**
      * RsttoIconBar:model:
@@ -264,7 +264,7 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
                                                           "Icon Bar Model",
                                                           "Model for the icon bar",
                                                           GTK_TYPE_TREE_MODEL,
-                                                          G_PARAM_READWRITE));
+                                                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
     /**
      * RsttoIconBar:active:
@@ -281,7 +281,7 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
                                                        "Active",
                                                        "Active item index",
                                                        -1, G_MAXINT, -1,
-                                                       G_PARAM_READWRITE));
+                                                       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
     /**
      * RsttoIconBar:show-text:
@@ -298,7 +298,7 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
                                                            "Show Text",
                                                            "Show Text",
                                                            TRUE,
-                                                           G_PARAM_READWRITE));
+                                                           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
     /**
      * RsttoIconBar:s_window:
@@ -311,7 +311,7 @@ rstto_icon_bar_class_init (RsttoIconBarClass *klass)
                                                           "Scrolled window",
                                                           "Scrolled window icon bar is placed into",
                                                           GTK_TYPE_WIDGET,
-                                                          G_PARAM_READWRITE));
+                                                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
     gtk_widget_class_install_style_property (gtkwidget_class,
                                              g_param_spec_boxed ("active-item-fill-color",
