@@ -389,10 +389,7 @@ properties_dialog_set_file (RsttoPropertiesDialog *dialog,
 
                 gtk_grid_attach (GTK_GRID (dialog->priv->image_table), exif_label, 0, i, 1, 1);
                 gtk_grid_attach (GTK_GRID (dialog->priv->image_table), exif_content_label, 1, i, 1, 1);
-                if (NULL != label_string)
-                {
-                    g_free (label_string);
-                }
+                g_free (label_string);
             }
 
             gtk_widget_show_all (dialog->priv->image_table);
