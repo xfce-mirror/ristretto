@@ -30,7 +30,7 @@ enum
 {
     RSTTO_THUMBNAILER_SIGNAL_READY = 0,
     RSTTO_THUMBNAILER_SIGNAL_ERROR,
-    RSTTO_THUMBNAILER_SIGNAL_COUNT
+    RSTTO_THUMBNAILER_N_SIGNALS
 };
 
 enum
@@ -46,7 +46,7 @@ enum
     TUMBLER_ERROR_OTHER_ERROR_DOMAIN,
 };
 
-static gint rstto_thumbnailer_signals[RSTTO_THUMBNAILER_SIGNAL_COUNT];
+static gint rstto_thumbnailer_signals[RSTTO_THUMBNAILER_N_SIGNALS];
 
 static RsttoThumbnailer *thumbnailer_object;
 

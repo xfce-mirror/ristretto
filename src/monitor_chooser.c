@@ -29,10 +29,10 @@
 enum
 {
     RSTTO_MONITOR_CHOOSER_SIGNAL_CHANGED = 0,
-    RSTTO_MONITOR_CHOOSER_SIGNAL_COUNT
+    RSTTO_MONITOR_CHOOSER_N_SIGNALS
 };
 
-static gint rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_SIGNAL_COUNT];
+static gint rstto_monitor_chooser_signals[RSTTO_MONITOR_CHOOSER_N_SIGNALS];
 
 typedef struct _Monitor Monitor;
 typedef struct _MonitorPosition MonitorPosition;

@@ -39,7 +39,7 @@ enum
 enum
 {
     RSTTO_FILE_SIGNAL_CHANGED = 0,
-    RSTTO_FILE_SIGNAL_COUNT
+    RSTTO_FILE_N_SIGNALS
 };
 
 typedef enum
@@ -49,7 +49,7 @@ typedef enum
     EPHEMERAL_UNKNOWN
 } EphemeralFlagState;
 
-static gint rstto_file_signals[RSTTO_FILE_SIGNAL_COUNT];
+static gint rstto_file_signals[RSTTO_FILE_N_SIGNALS];
 
 
 
