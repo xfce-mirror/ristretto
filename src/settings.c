@@ -745,13 +745,13 @@ rstto_settings_get_navbar_position (RsttoSettings *settings)
     if (settings->priv->navigationbar_position == NULL)
         return 0;
 
-    if (!strcmp (settings->priv->navigationbar_position, "left"))
+    if (strcmp (settings->priv->navigationbar_position, "left") == 0)
         return 0;
-    if (!strcmp (settings->priv->navigationbar_position, "right"))
+    if (strcmp (settings->priv->navigationbar_position, "right") == 0)
         return 1;
-    if (!strcmp (settings->priv->navigationbar_position, "top"))
+    if (strcmp (settings->priv->navigationbar_position, "top") == 0)
         return 2;
-    if (!strcmp (settings->priv->navigationbar_position, "bottom"))
+    if (strcmp (settings->priv->navigationbar_position, "bottom") == 0)
         return 3;
 
     return 0;

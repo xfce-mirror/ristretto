@@ -1554,9 +1554,9 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
                 for (iter = app_list; iter; iter = g_list_next (iter))
                 {
                     id = g_app_info_get_id (iter->data);
-                    if (strcmp (id, RISTRETTO_DESKTOP_ID))
+                    if (strcmp (id, RISTRETTO_DESKTOP_ID) != 0)
                     {
-                        if ((!editor) || (editor && strcmp (id, editor)))
+                        if ((!editor) || (editor && strcmp (id, editor) != 0))
                         {
                             menu_item = rstto_app_menu_item_new (iter->data, rstto_file_get_file (cur_file));
                             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
@@ -4457,7 +4457,7 @@ rstto_main_window_launch_editor_chooser (RsttoMainWindow *window)
         id = g_app_info_get_id (app_infos_iter->data);
 
         /* Do not add ristretto to the list */
-        if (strcmp (id, RISTRETTO_DESKTOP_ID))
+        if (strcmp (id, RISTRETTO_DESKTOP_ID) != 0)
         {
             icon = g_app_info_get_icon (app_infos_iter->data);
             name = g_app_info_get_display_name (app_infos_iter->data);
@@ -4495,7 +4495,7 @@ rstto_main_window_launch_editor_chooser (RsttoMainWindow *window)
         {
             id = g_app_info_get_id (app_infos_iter->data);
             /* Do not add ristretto to the list */
-            if (strcmp (id, RISTRETTO_DESKTOP_ID))
+            if (strcmp (id, RISTRETTO_DESKTOP_ID) != 0)
             {
                 icon = g_app_info_get_icon (app_infos_iter->data);
                 name = g_app_info_get_display_name (app_infos_iter->data);
