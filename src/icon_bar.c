@@ -1395,10 +1395,9 @@ rstto_icon_bar_set_model (RsttoIconBar *icon_bar,
 
         g_object_unref (icon_bar->priv->model);
 
-        g_list_free_full (icon_bar->priv->items, rstto_icon_bar_item_free);
+        g_clear_list (&icon_bar->priv->items, rstto_icon_bar_item_free);
         icon_bar->priv->active_item = NULL;
         icon_bar->priv->cursor_item = NULL;
-        icon_bar->priv->items = NULL;
     }
 
     icon_bar->priv->model = model;
