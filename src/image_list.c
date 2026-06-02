@@ -473,15 +473,11 @@ rstto_image_list_remove_file (RsttoImageList *image_list,
 static void
 rstto_image_list_remove_all (RsttoImageList *image_list)
 {
-    GSList *iter;
-
-    g_list_free_full (image_list->priv->image_monitors, g_object_unref);
-    image_list->priv->image_monitors = NULL;
-
+    g_clear_list (&image_list->priv->image_monitors, g_object_unref);
     g_queue_free_full (image_list->priv->images, g_object_unref);
     image_list->priv->images = g_queue_new ();
 
-    for (iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
+    for (GSList *iter = image_list->priv->iterators; iter != NULL; iter = iter->next)
         iter_set_position (iter->data, -1, FALSE);
 
     g_clear_object (&image_list->priv->directory);
@@ -723,11 +719,7 @@ rstto_image_list_monitor_dir (RsttoImageList *image_list,
         }
     }
 
-    if (image_list->priv->image_monitors)
-    {
-        g_list_free_full (image_list->priv->image_monitors, g_object_unref);
-        image_list->priv->image_monitors = NULL;
-    }
+    g_clear_list (&image_list->priv->image_monitors, g_object_unref);
 
     image_list->priv->dir_monitor = monitor;
 }
