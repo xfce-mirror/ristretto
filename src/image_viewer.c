@@ -1645,7 +1645,7 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader,
 {
     RsttoImageViewer *viewer = transaction->viewer;
     GdkPixbuf *pixbuf;
-    gint timeout = 0;
+    gint timeout;
 
     if (viewer->priv->transaction == transaction)
     {
