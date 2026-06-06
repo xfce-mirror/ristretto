@@ -1220,16 +1220,12 @@ rstto_icon_bar_rows_reordered (GtkTreeModel *model,
                                gint *new_order,
                                RsttoIconBar *icon_bar)
 {
-    RsttoIconBarItem **item_array;
+    gint length = gtk_tree_model_iter_n_children (model, NULL);
+    RsttoIconBarItem *item_array[length];
+    gint inverted_order[length];
     GList *items = NULL;
     GList *lp;
-    gint *inverted_order;
-    gint length;
     gint i;
-
-    length = gtk_tree_model_iter_n_children (model, NULL);
-    inverted_order = g_newa (gint, length);
-    item_array = g_newa (RsttoIconBarItem *, length);
 
     /* initialize arrays for security and so that static analysis tools like scan-build
      * do not report warnings */
