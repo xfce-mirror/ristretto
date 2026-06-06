@@ -1,1 +1,2 @@
 memleak:src/main_window.c:1313
+invalidFunctionArg:src/image_list.c:927
