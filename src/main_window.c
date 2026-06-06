@@ -2493,7 +2493,6 @@ static void
 cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget,
                                        RsttoMainWindow *window)
 {
-    gint response = GTK_RESPONSE_APPLY;
     RsttoFile *file = NULL;
     gchar *desktop_type = NULL;
     GtkWidget *dialog = NULL;
@@ -2551,11 +2550,8 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget,
 
         gtk_widget_show_all (content_area);
 
-        /* Show the dialog */
-        response = gtk_dialog_run (GTK_DIALOG (dialog));
-
         /* If the response was 'OK', the user has made a choice */
-        if (GTK_RESPONSE_OK == response)
+        if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
         {
             switch (gtk_combo_box_get_active (GTK_COMBO_BOX (choose_desktop_combo_box)))
             {
@@ -2593,7 +2589,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget,
         /* Set the response to GTK_RESPONSE_APPLY,
          * so we at least do one run.
          */
-        response = GTK_RESPONSE_APPLY;
+        gint response = GTK_RESPONSE_APPLY;
         while (GTK_RESPONSE_APPLY == response)
         {
             response = rstto_wallpaper_manager_configure_dialog_run (window->priv->wallpaper_manager, file, GTK_WINDOW (window));
@@ -3923,7 +3919,6 @@ cb_rstto_main_window_delete (GtkWidget *widget,
     const gchar *file_basename;
     GdkModifierType state;
     gboolean delete_file = FALSE;
-    gboolean success = FALSE;
     gchar *prompt = NULL;
     GError *error = NULL;
     gint response;
@@ -3946,6 +3941,8 @@ cb_rstto_main_window_delete (GtkWidget *widget,
     response = rstto_confirm_deletion (window, file, !delete_file);
     if (response == GTK_RESPONSE_OK)
     {
+        gboolean success;
+
         g_object_ref (file);
         if (delete_file)
         {
@@ -4609,7 +4606,6 @@ cb_rstto_main_window_clear_private_data (GtkWidget *widget,
     GtkRecentFilter *recent_filter;
     gsize n_uris = 0;
     gchar **uris = NULL;
-    guint i = 0;
 
     GtkWidget *dialog = rstto_privacy_dialog_new (GTK_WINDOW (window), window->priv->recent_manager);
 
@@ -4620,7 +4616,7 @@ cb_rstto_main_window_clear_private_data (GtkWidget *widget,
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
     {
         uris = gtk_recent_chooser_get_uris (GTK_RECENT_CHOOSER (dialog), &n_uris);
-        for (i = 0; i < n_uris; ++i)
+        for (guint i = 0; i < n_uris; ++i)
         {
             gtk_recent_manager_remove_item (window->priv->recent_manager, uris[i], NULL);
         }
