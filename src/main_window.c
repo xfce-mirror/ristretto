@@ -1555,7 +1555,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
                     id = g_app_info_get_id (iter->data);
                     if (strcmp (id, RISTRETTO_DESKTOP_ID) != 0)
                     {
-                        if ((!editor) || (editor && strcmp (id, editor) != 0))
+                        if (g_strcmp0 (id, editor) != 0)
                         {
                             menu_item = rstto_app_menu_item_new (iter->data, rstto_file_get_file (cur_file));
                             gtk_menu_shell_append (GTK_MENU_SHELL (open_with_menu), menu_item);
