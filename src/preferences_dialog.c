@@ -144,7 +144,6 @@ struct _RsttoPreferencesDialogPrivate
         GtkWidget *startup_frame;
         GtkWidget *startup_vbox;
         GtkWidget *maximize_window_on_startup_check_button;
-        GtkWidget *open_entire_folder_check_button;
         GtkWidget *wrap_images_check_button;
     } behaviour_tab;
 };

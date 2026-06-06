@@ -97,8 +97,6 @@ struct _RsttoMonitorChooserPrivate
     Monitor **monitors;
     gint n_monitors;
     gint selected;
-
-    MonitorPosition monitor_positions[RSTTO_MAX_MONITORS];
 };
 
 

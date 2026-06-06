@@ -849,7 +849,6 @@ struct _RsttoMainWindowPrivate
     GtkWidget *back;
     GtkWidget *forward;
 
-    guint t_open_merge_id;
     guint recent_merge_id;
     guint play_merge_id;
     guint pause_merge_id;

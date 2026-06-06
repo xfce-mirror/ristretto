@@ -49,7 +49,6 @@ rstto_mime_db_get_property (GObject *object,
 
 struct _RsttoMimeDBPrivate
 {
-    GFile *file;
     XfceRc *rc;
 };
 
