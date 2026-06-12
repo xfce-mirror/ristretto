@@ -595,12 +595,10 @@ rstto_file_get_thumbnail_path (RsttoFile *r_file,
                                  flavor_name, filename, NULL);
             if (!g_file_test (path, G_FILE_TEST_EXISTS))
             {
-#if LIBXFCE4UTIL_CHECK_VERSION(4, 17, 1)
                 /* fallback to shared repository */
                 g_free (path);
                 path = xfce_create_shared_thumbnail_path (uri, flavor_name);
                 if (path == NULL || !g_file_test (path, G_FILE_TEST_EXISTS))
-#endif
                 {
                     /* thumbnail doesn't exist in either spot */
                     g_clear_pointer (&path, g_free);
