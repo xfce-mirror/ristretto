@@ -17,11 +17,11 @@ gnome = import('gnome')
 i18n = import('i18n')
 
 dependency_versions = {
-  'glib': '>= 2.64.0',
-  'gtk': '>= 3.22.0',
+  'glib': '>= 2.66.0',
+  'gtk': '>= 3.24.0',
   'cairo': '>= 1.10.0',
   'libexif': '>= 0.6.0',
-  'xfce4': '>= 4.16.0',
+  'xfce4': '>= 4.18.0',
 
   'libxfce4windowing': '>= 4.20.0',
   'libx11': '>= 1.6.7',

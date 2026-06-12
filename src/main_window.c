@@ -2580,8 +2580,7 @@ cb_rstto_main_window_set_as_wallpaper (GtkWidget *widget,
         }
 
         /* Clean-up the dialog */
-        gtk_widget_destroy (dialog);
-        dialog = NULL;
+        g_clear_pointer (&dialog, gtk_widget_destroy);
     }
 
     if (NULL != desktop_type && NULL != window->priv->wallpaper_manager)
