@@ -1860,6 +1860,8 @@ rstto_main_activate_toolbar_actions (RsttoMainWindow *window,
     const gchar *actions[] = {
         "/main-toolbar/save-copy",
         "/main-toolbar/edit",
+        "/main-toolbar/rotate-ccw",
+        "/main-toolbar/rotate-cw",
         "/main-toolbar/zoom-in",
         "/main-toolbar/zoom-out",
         "/main-toolbar/zoom-fit",

@@ -151,6 +151,8 @@
         <placeholder name="placeholder-slideshow" />
         <toolitem action="forward"/>
         <separator name="separator-2"/>
+        <toolitem action="rotate-ccw"/>
+        <toolitem action="rotate-cw"/>
         <toolitem action="zoom-in"/>
         <toolitem action="zoom-out"/>
         <toolitem action="zoom-100"/>
