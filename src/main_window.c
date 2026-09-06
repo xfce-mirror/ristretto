@@ -3829,8 +3829,18 @@ cb_rstto_main_window_edit (GtkWidget *widget,
     RsttoFile *r_file = rstto_image_list_iter_get_file (window->priv->iter);
     const gchar *content_type = rstto_file_get_content_type (r_file);
     const gchar *editor = rstto_mime_db_lookup (window->priv->db, content_type);
-    GList *files = g_list_prepend (NULL, rstto_file_get_file (r_file));
+    GList *files;
     GDesktopAppInfo *app_info = NULL;
+
+    if (rstto_util_is_running_in_flatpak ())
+    {
+        rstto_util_open_file_with_portal (rstto_file_get_file (r_file),
+                                          GTK_WINDOW (window),
+                                          RSTTO_PORTAL_OPEN_DEFAULT);
+        return;
+    }
+
+    files = g_list_prepend (NULL, rstto_file_get_file (r_file));
 
     if (editor != NULL)
     {
@@ -4342,8 +4352,18 @@ rstto_main_window_launch_editor_chooser (RsttoMainWindow *window)
 {
     RsttoFile *r_file = rstto_image_list_iter_get_file (window->priv->iter);
     const gchar *content_type = rstto_file_get_content_type (r_file);
-    GList *files = g_list_prepend (NULL, rstto_file_get_file (r_file));
+    GList *files;
     GList *app_infos_all = NULL;
+
+    if (rstto_util_is_running_in_flatpak ())
+    {
+        rstto_util_open_file_with_portal (rstto_file_get_file (r_file),
+                                          GTK_WINDOW (window),
+                                          RSTTO_PORTAL_OPEN_ASK);
+        return;
+    }
+
+    files = g_list_prepend (NULL, rstto_file_get_file (r_file));
     GList *app_infos_recommended = NULL;
     GList *app_infos_iter = NULL;
     GDesktopAppInfo *app_info = NULL;
