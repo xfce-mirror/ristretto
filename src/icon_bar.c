@@ -609,8 +609,7 @@ rstto_icon_bar_unrealize (GtkWidget *widget)
     if (icon_bar->priv->bin_window)
     {
         gdk_window_set_user_data (icon_bar->priv->bin_window, NULL);
-        gdk_window_destroy (icon_bar->priv->bin_window);
-        icon_bar->priv->bin_window = NULL;
+        g_clear_pointer (&icon_bar->priv->bin_window, gdk_window_destroy);
     }
 
     /* GtkWidget::unrealize destroys children and widget->window */

@@ -423,11 +423,7 @@ rstto_get_active_workspace_number (GdkScreen *screen)
                                     (gpointer) &prop_ret)
                 != Success)
             {
-                if (G_UNLIKELY (prop_ret != NULL))
-                {
-                    XFree (prop_ret);
-                    prop_ret = NULL;
-                }
+                g_clear_pointer (&prop_ret, XFree);
             }
         }
 
