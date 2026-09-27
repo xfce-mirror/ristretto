@@ -483,6 +483,10 @@ rstto_portal_proxy_ready (GObject *source,
         if (parent_win != NULL && gtk_widget_get_realized (GTK_WIDGET (parent_win)))
         {
             GdkWindow *gdk_win = gtk_widget_get_window (GTK_WIDGET (parent_win));
+            /* parent_window identifies the application window to the portal backend.
+            * Wayland uses an exported xdg-foreign handle; X11 uses the window XID,
+            * which allows the backend/WM to establish the appropriate transient
+            * relationship. The portal owns dialog placement. */
 #ifdef GDK_WINDOWING_WAYLAND
             if (GDK_IS_WAYLAND_WINDOW (gdk_win))
             {
