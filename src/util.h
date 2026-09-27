@@ -116,9 +116,9 @@ gboolean
 rstto_util_is_running_in_flatpak (void);
 
 void
-rstto_util_open_file_with_portal (GFile                *file,
-                                  GtkWindow            *parent,
-                                  RsttoPortalOpenMode   mode);
+rstto_util_open_file_with_portal (GFile *file,
+                                  GtkWindow *parent,
+                                  RsttoPortalOpenMode mode);
 
 G_END_DECLS
 
