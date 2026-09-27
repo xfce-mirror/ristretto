@@ -20,11 +20,10 @@
 #include "util.h"
 #include "main_window.h"
 
-#include <glib/gi18n.h>
-
 #include <fcntl.h>
-#include <unistd.h>
 #include <gio/gunixfdlist.h>
+#include <glib/gi18n.h>
+#include <unistd.h>
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
 #endif
@@ -327,7 +326,7 @@ rstto_portal_response_cb (GDBusConnection *connection,
 {
     RsttoPortalSub *sub = user_data;
     guint response = 0;
-    g_autoptr(GVariant) results = NULL;
+    g_autoptr (GVariant) results = NULL;
 
     g_variant_get (parameters, "(u@a{sv})", &response, &results);
     if (response != 0)
@@ -386,9 +385,9 @@ rstto_portal_open_file_done (GObject *source,
                              gpointer user_data)
 {
     GDBusProxy *proxy = G_DBUS_PROXY (source);
-    g_autoptr(GError) error = NULL;
-    g_autoptr(GVariant) ret = NULL;
-    g_autoptr(GUnixFDList) out_fd_list = NULL;
+    g_autoptr (GError) error = NULL;
+    g_autoptr (GVariant) ret = NULL;
+    g_autoptr (GUnixFDList) out_fd_list = NULL;
     g_autofree gchar *request_path = NULL;
     GDBusConnection *connection;
     RsttoPortalSub *sub;
@@ -424,9 +423,9 @@ rstto_portal_proxy_ready (GObject *source,
                           GAsyncResult *res,
                           gpointer user_data)
 {
-    g_autoptr(GDBusProxy) proxy = NULL;
-    g_autoptr(GError) error = NULL;
-    g_autoptr(GUnixFDList) fd_list = NULL;
+    g_autoptr (GDBusProxy) proxy = NULL;
+    g_autoptr (GError) error = NULL;
+    g_autoptr (GUnixFDList) fd_list = NULL;
     g_autofree gchar *path = NULL;
     g_autofree gchar *uri = NULL;
     gint fd = -1;
@@ -450,7 +449,7 @@ rstto_portal_proxy_ready (GObject *source,
     path = g_file_get_path (op->file);
     if (path == NULL)
     {
-        g_autoptr(GtkWindow) parent_win = g_weak_ref_get (&op->parent);
+        g_autoptr (GtkWindow) parent_win = g_weak_ref_get (&op->parent);
         uri = g_file_get_uri (op->file);
         gtk_show_uri_on_window (parent_win, uri, gtk_get_current_event_time (), NULL);
         rstto_portal_op_free (op);
@@ -480,7 +479,7 @@ rstto_portal_proxy_ready (GObject *source,
     op->fd_idx = fd_idx;
 
     {
-        g_autoptr(GtkWindow) parent_win = g_weak_ref_get (&op->parent);
+        g_autoptr (GtkWindow) parent_win = g_weak_ref_get (&op->parent);
         if (parent_win != NULL && gtk_widget_get_realized (GTK_WIDGET (parent_win)))
         {
             GdkWindow *gdk_win = gtk_widget_get_window (GTK_WIDGET (parent_win));
