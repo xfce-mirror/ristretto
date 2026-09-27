@@ -328,12 +328,6 @@ rstto_portal_response_cb (GDBusConnection *connection,
     guint response = 0;
     g_autoptr(GVariant) results = NULL;
 
-    (void) connection;
-    (void) sender_name;
-    (void) object_path;
-    (void) interface_name;
-    (void) signal_name;
-
     g_variant_get (parameters, "(u@a{sv})", &response, &results);
     if (response != 0)
         g_debug ("OpenURI portal dismissed (response=%u)", response);
@@ -375,8 +369,6 @@ rstto_portal_wayland_exported (GdkWindow *window,
     RsttoPortalOp *op = user_data;
     g_autofree gchar *parent_window = NULL;
 
-    (void) window;
-
     if (handle != NULL)
         parent_window = g_strdup_printf ("wayland:%s", handle);
     else
@@ -399,8 +391,6 @@ rstto_portal_open_file_done (GObject *source,
     g_autofree gchar *request_path = NULL;
     GDBusConnection *connection;
     RsttoPortalSub *sub;
-
-    (void) user_data;
 
     ret = g_dbus_proxy_call_with_unix_fd_list_finish (proxy, &out_fd_list, res, &error);
     if (ret == NULL)
@@ -441,8 +431,6 @@ rstto_portal_proxy_ready (GObject *source,
     gint fd = -1;
     gint fd_idx = -1;
     RsttoPortalOp *op = user_data;
-
-    (void) source;
 
     proxy = g_dbus_proxy_new_for_bus_finish (res, &error);
     if (proxy == NULL)
@@ -504,7 +492,6 @@ rstto_portal_proxy_ready (GObject *source,
                                                   NULL);
                 return;
             }
-            else
 #endif
 #ifdef GDK_WINDOWING_X11
             if (GDK_IS_X11_WINDOW (gdk_win))
@@ -515,9 +502,7 @@ rstto_portal_proxy_ready (GObject *source,
                 rstto_portal_op_free (op);
                 return;
             }
-            else
 #endif
-                (void) gdk_win;
         }
     }
 
