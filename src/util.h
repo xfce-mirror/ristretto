@@ -106,20 +106,6 @@ rstto_util_sendfile (GOutputStream *out,
                      GInputStream *in,
                      GError **error);
 
-typedef enum
-{
-    RSTTO_PORTAL_OPEN_DEFAULT = 0,
-    RSTTO_PORTAL_OPEN_ASK = 1
-} RsttoPortalOpenMode;
-
-gboolean
-rstto_util_is_running_in_flatpak (void);
-
-void
-rstto_util_open_file_with_portal (GFile *file,
-                                  GtkWindow *parent,
-                                  RsttoPortalOpenMode mode);
-
 G_END_DECLS
 
 #endif /* __RSTTO_UTIL_H__ */

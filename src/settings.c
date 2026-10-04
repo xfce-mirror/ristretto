@@ -536,7 +536,8 @@ rstto_settings_set_property (GObject *object,
             if (g_ascii_strcasecmp (str_val, "left") == 0 || g_ascii_strcasecmp (str_val, "right") == 0
                 || g_ascii_strcasecmp (str_val, "bottom") == 0 || g_ascii_strcasecmp (str_val, "top") == 0)
             {
-                g_free (settings->priv->navigationbar_position);
+                if (settings->priv->navigationbar_position)
+                    g_free (settings->priv->navigationbar_position);
                 settings->priv->navigationbar_position = g_strdup (str_val);
             }
             break;
@@ -560,7 +561,8 @@ rstto_settings_set_property (GObject *object,
             settings->priv->bgcolor_override = g_value_get_boolean (value);
             break;
         case PROP_CURRENT_URI:
-            g_free (settings->priv->last_file_path);
+            if (settings->priv->last_file_path)
+                g_free (settings->priv->last_file_path);
             settings->priv->last_file_path = g_value_dup_string (value);
             break;
         case PROP_SLIDESHOW_TIMEOUT:
@@ -577,7 +579,8 @@ rstto_settings_set_property (GObject *object,
             settings->priv->wrap_images = g_value_get_boolean (value);
             break;
         case PROP_DESKTOP_TYPE:
-            g_free (settings->priv->desktop_type);
+            if (settings->priv->desktop_type)
+                g_free (settings->priv->desktop_type);
             settings->priv->desktop_type = g_value_dup_string (value);
             break;
         case PROP_USE_THUNAR_PROPERTIES:

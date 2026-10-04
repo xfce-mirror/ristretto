@@ -952,17 +952,17 @@ rstto_main_window_init (RsttoMainWindow *window)
     desktop_type = rstto_settings_get_string_property (window->priv->settings_manager, "desktop-type");
     if (desktop_type)
     {
-        if (g_ascii_strcasecmp (desktop_type, "xfce") == 0)
+        if (!g_ascii_strcasecmp (desktop_type, "xfce"))
         {
             window->priv->wallpaper_manager = rstto_xfce_wallpaper_manager_new ();
         }
 
-        if (g_ascii_strcasecmp (desktop_type, "gnome") == 0)
+        if (!g_ascii_strcasecmp (desktop_type, "gnome"))
         {
             window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new ();
         }
 
-        if (g_ascii_strcasecmp (desktop_type, "none") == 0)
+        if (!g_ascii_strcasecmp (desktop_type, "none"))
         {
             window->priv->wallpaper_manager = NULL;
         }
@@ -3028,7 +3028,7 @@ cb_rstto_main_window_about (GtkWidget *widget,
     GtkWidget *about_dialog = gtk_about_dialog_new ();
 
     gtk_about_dialog_set_version (GTK_ABOUT_DIALOG (about_dialog), VERSION_FULL);
-    gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG (about_dialog), PACKAGE_NAME);
+
     gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG (about_dialog),
                                    _("Ristretto is an image viewer for the Xfce desktop environment."));
     gtk_about_dialog_set_website (GTK_ABOUT_DIALOG (about_dialog),
@@ -3829,18 +3829,8 @@ cb_rstto_main_window_edit (GtkWidget *widget,
     RsttoFile *r_file = rstto_image_list_iter_get_file (window->priv->iter);
     const gchar *content_type = rstto_file_get_content_type (r_file);
     const gchar *editor = rstto_mime_db_lookup (window->priv->db, content_type);
-    GList *files;
+    GList *files = g_list_prepend (NULL, rstto_file_get_file (r_file));
     GDesktopAppInfo *app_info = NULL;
-
-    if (rstto_util_is_running_in_flatpak ())
-    {
-        rstto_util_open_file_with_portal (rstto_file_get_file (r_file),
-                                          GTK_WINDOW (window),
-                                          RSTTO_PORTAL_OPEN_DEFAULT);
-        return;
-    }
-
-    files = g_list_prepend (NULL, rstto_file_get_file (r_file));
 
     if (editor != NULL)
     {
@@ -4352,18 +4342,8 @@ rstto_main_window_launch_editor_chooser (RsttoMainWindow *window)
 {
     RsttoFile *r_file = rstto_image_list_iter_get_file (window->priv->iter);
     const gchar *content_type = rstto_file_get_content_type (r_file);
-    GList *files;
+    GList *files = g_list_prepend (NULL, rstto_file_get_file (r_file));
     GList *app_infos_all = NULL;
-
-    if (rstto_util_is_running_in_flatpak ())
-    {
-        rstto_util_open_file_with_portal (rstto_file_get_file (r_file),
-                                          GTK_WINDOW (window),
-                                          RSTTO_PORTAL_OPEN_ASK);
-        return;
-    }
-
-    files = g_list_prepend (NULL, rstto_file_get_file (r_file));
     GList *app_infos_recommended = NULL;
     GList *app_infos_iter = NULL;
     GDesktopAppInfo *app_info = NULL;
@@ -4670,17 +4650,17 @@ cb_rstto_desktop_type_changed (GObject *object,
 
     if (desktop_type)
     {
-        if (g_ascii_strcasecmp (desktop_type, "xfce") == 0)
+        if (!g_ascii_strcasecmp (desktop_type, "xfce"))
         {
             window->priv->wallpaper_manager = rstto_xfce_wallpaper_manager_new ();
         }
 
-        if (g_ascii_strcasecmp (desktop_type, "gnome") == 0)
+        if (!g_ascii_strcasecmp (desktop_type, "gnome"))
         {
             window->priv->wallpaper_manager = rstto_gnome_wallpaper_manager_new ();
         }
 
-        if (g_ascii_strcasecmp (desktop_type, "none") == 0)
+        if (!g_ascii_strcasecmp (desktop_type, "none"))
         {
             window->priv->wallpaper_manager = NULL;
         }
