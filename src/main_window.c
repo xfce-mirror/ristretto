@@ -1734,7 +1734,7 @@ rstto_main_activate_file_menu_actions (RsttoMainWindow *window,
     guint i;
     const gchar *actions[] = {
         "/main-menu/file-menu/save-copy",
-        //"/main-menu/file-menu/print",
+        "/main-menu/file-menu/print",
         "/main-menu/file-menu/properties",
         "/main-menu/file-menu/close",
         "/main-menu/edit-menu/copy-image",
