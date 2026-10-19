@@ -1740,7 +1740,7 @@ rstto_main_activate_file_menu_actions (RsttoMainWindow *window,
         "/main-menu/edit-menu/copy-image",
     };
     const gchar *actions_for_regular_file[] = {
-        "/main-menu/edit-menu/show-containing-folder",
+        "/main-menu/file-menu/show-containing-folder",
         "/main-menu/file-menu/delete",
     };
 

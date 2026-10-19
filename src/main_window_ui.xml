@@ -6,6 +6,7 @@
             <separator/>
             <menuitem action="save-copy"/>
             <menuitem action="delete"/>
+            <menuitem action="show-containing-folder"/>
             <!--
             <separator/>
             <menuitem action="print"/>
@@ -22,7 +23,6 @@
         </menu>
         <menu action="edit-menu">
             <menuitem action="copy-image"/>
-            <menuitem action="show-containing-folder"/>
             <separator/>
             <menu action="sorting-menu">
                 <menuitem action="sort-filename"/>
