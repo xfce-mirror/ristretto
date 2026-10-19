@@ -13,6 +13,9 @@
             <separator/>
             <menuitem action="properties"/>
             <menuitem action="print"/>
+            <menu action="open-with-menu">
+                <placeholder name="open-with-apps" />
+            </menu>
             <separator/>
             <menuitem action="close"/>
             <menuitem action="quit"/>
@@ -20,10 +23,6 @@
         <menu action="edit-menu">
             <menuitem action="copy-image"/>
             <menuitem action="show-containing-folder"/>
-            <separator/>
-            <menu action="open-with-menu">
-                <placeholder name="open-with-apps" />
-            </menu>
             <separator/>
             <menu action="sorting-menu">
                 <menuitem action="sort-filename"/>
