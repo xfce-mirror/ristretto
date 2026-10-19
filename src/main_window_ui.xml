@@ -5,6 +5,7 @@
             <placeholder name="placeholder-open-recent"/>
             <separator/>
             <menuitem action="save-copy"/>
+            <menuitem action="delete"/>
             <!--
             <separator/>
             <menuitem action="print"/>
@@ -35,7 +36,6 @@
                 <menuitem action="sort-order-asc"/>
                 <menuitem action="sort-order-desc"/>
             </menu>
-            <menuitem action="delete"/>
             <separator/>
             <menuitem action="clear-private-data"/>
             <separator/>

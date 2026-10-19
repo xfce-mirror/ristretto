@@ -356,6 +356,12 @@ static GtkActionEntry action_entries[] = {
       "<control>s", /* Keyboard shortcut */
       N_ ("Save a copy of the image"), /* Tooltip text */
       G_CALLBACK (cb_rstto_main_window_save_copy) },
+    { "delete",
+      "user-trash", /* Icon-name */
+      N_ ("_Move to trash"), /* Label-text */
+      "Delete", /* Keyboard shortcut */
+      N_ ("Move this image to the trash"), /* Tooltip text */
+      G_CALLBACK (cb_rstto_main_window_delete) },
     { "properties",
       "document-properties", /* Icon-name */
       N_ ("Proper_ties..."), /* Label-text */
@@ -423,12 +429,6 @@ static GtkActionEntry action_entries[] = {
       NULL,
       NULL,
       NULL },
-    { "delete",
-      "edit-delete", /* Icon-name */
-      N_ ("_Delete"), /* Label-text */
-      "Delete", /* Keyboard shortcut */
-      N_ ("Delete this image from disk"), /* Tooltip text */
-      G_CALLBACK (cb_rstto_main_window_delete) },
     { "clear-private-data",
       "edit-clear", /* Icon-name */
       N_ ("_Clear private data..."), /* Label-text */
@@ -1741,7 +1741,7 @@ rstto_main_activate_file_menu_actions (RsttoMainWindow *window,
     };
     const gchar *actions_for_regular_file[] = {
         "/main-menu/edit-menu/show-containing-folder",
-        "/main-menu/edit-menu/delete",
+        "/main-menu/file-menu/delete",
     };
 
     for (i = 0; i < G_N_ELEMENTS (actions); ++i)
