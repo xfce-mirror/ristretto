@@ -356,6 +356,12 @@ static GtkActionEntry action_entries[] = {
       "<control>s", /* Keyboard shortcut */
       N_ ("Save a copy of the image"), /* Tooltip text */
       G_CALLBACK (cb_rstto_main_window_save_copy) },
+    { "delete",
+      "user-trash", /* Icon-name */
+      N_ ("_Move to trash"), /* Label-text */
+      "Delete", /* Keyboard shortcut */
+      N_ ("Move this image to the trash"), /* Tooltip text */
+      G_CALLBACK (cb_rstto_main_window_delete) },
     { "properties",
       "document-properties", /* Icon-name */
       N_ ("Proper_ties..."), /* Label-text */
@@ -369,10 +375,10 @@ static GtkActionEntry action_entries[] = {
       N_ ("Print the current image"), /* Tooltip text */
       G_CALLBACK (cb_rstto_main_window_print) },
     { "edit",
-      "gtk-edit", /* Icon-name */
-      N_ ("_Edit"), /* Label-text */
+      "image-x-generic", /* Icon-name */
+      N_ ("_Open with..."), /* Label-text */
       NULL, /* Keyboard shortcut */
-      N_ ("Edit this image"), /* Tooltip text */
+      N_ ("Open this image with another application"), /* Tooltip text */
       G_CALLBACK (cb_rstto_main_window_edit) },
     { "close",
       "window-close", /* Icon-name */
@@ -423,12 +429,6 @@ static GtkActionEntry action_entries[] = {
       NULL,
       NULL,
       NULL },
-    { "delete",
-      "edit-delete", /* Icon-name */
-      N_ ("_Delete"), /* Label-text */
-      "Delete", /* Keyboard shortcut */
-      N_ ("Delete this image from disk"), /* Tooltip text */
-      G_CALLBACK (cb_rstto_main_window_delete) },
     { "clear-private-data",
       "edit-clear", /* Icon-name */
       N_ ("_Clear private data..."), /* Label-text */
@@ -1506,7 +1506,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
     GtkWidget *open_with_window_menu = gtk_menu_new ();
     G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     gtk_menu_item_set_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (window->priv->ui_manager, "/image-viewer-menu/open-with-menu")), open_with_menu);
-    gtk_menu_item_set_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/edit-menu/open-with-menu")), open_with_window_menu);
+    gtk_menu_item_set_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (window->priv->ui_manager, "/main-menu/file-menu/open-with-menu")), open_with_window_menu);
     G_GNUC_END_IGNORE_DEPRECATIONS
 
     if (window->priv->image_list)
@@ -1734,14 +1734,14 @@ rstto_main_activate_file_menu_actions (RsttoMainWindow *window,
     guint i;
     const gchar *actions[] = {
         "/main-menu/file-menu/save-copy",
-        //"/main-menu/file-menu/print",
+        "/main-menu/file-menu/print",
         "/main-menu/file-menu/properties",
         "/main-menu/file-menu/close",
         "/main-menu/edit-menu/copy-image",
     };
     const gchar *actions_for_regular_file[] = {
-        "/main-menu/edit-menu/show-containing-folder",
-        "/main-menu/edit-menu/delete",
+        "/main-menu/file-menu/show-containing-folder",
+        "/main-menu/file-menu/delete",
     };
 
     for (i = 0; i < G_N_ELEMENTS (actions); ++i)
@@ -4389,7 +4389,7 @@ rstto_main_window_launch_editor_chooser (RsttoMainWindow *window)
     GIcon *icon;
 
     dialog = gtk_dialog_new ();
-    gtk_window_set_title (GTK_WINDOW (dialog), _("Edit with"));
+    gtk_window_set_title (GTK_WINDOW (dialog), _("Open with"));
     gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
     gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
     gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
