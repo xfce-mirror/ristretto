@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2025-09-30 12:55+0200\n"
+"POT-Creation-Date: 2026-10-20 01:00+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: Ioannis LM, 2020,2023-2026\n"
 "Language-Team: Greek (http://app.transifex.com/xfce/xfce-apps/language/el/)\n"
@@ -26,23 +26,23 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/main.c:44
+#: src/main.c:48
 msgid "Version information"
 msgstr "Πληροφορίες έκδοσης"
 
-#: src/main.c:47
+#: src/main.c:51
 msgid "Start in fullscreen mode"
 msgstr "Εκκίνηση σε πλήρη οθόνη"
 
-#: src/main.c:50
+#: src/main.c:54
 msgid "Start a slideshow"
 msgstr "Εκκίνηση προβολής διαφανειών"
 
-#: src/main.c:53
+#: src/main.c:57
 msgid "Show settings dialog"
 msgstr "Εμφάνιση ρυθμίσεων"
 
-#: src/main.c:85
+#: src/main.c:89
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -73,430 +73,434 @@ msgstr "Σφάλμα κατά την διαγραφή της εικόνας '%s'
 msgid "An error occurred when sending image '%s' to trash"
 msgstr "Σφάλμα κατά την αποστολή της εικόνας '%s' στα απορρίματα"
 
-#: src/main_window.c:341
+#: src/main_window.c:343
 msgid "_File"
 msgstr "_Αρχείο"
 
 #. Icon-name
-#: src/main_window.c:347
+#: src/main_window.c:349
 msgid "_Open..."
 msgstr "Άνοι_γμα..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:349
+#: src/main_window.c:351
 msgid "Open an image"
 msgstr "Άνοιγμα εικόνας"
 
 #. Icon-name
-#: src/main_window.c:353
+#: src/main_window.c:355
 msgid "_Save copy..."
 msgstr "Απο_θήκευση αντιγράφου..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:355
+#: src/main_window.c:357
 msgid "Save a copy of the image"
 msgstr "Αποθήκευση αντιγράφου της εικόνας"
 
 #. Icon-name
-#: src/main_window.c:359
+#: src/main_window.c:361
+msgid "_Move to trash"
+msgstr ""
+
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:363
+msgid "Move this image to the trash"
+msgstr ""
+
+#. Icon-name
+#: src/main_window.c:367
 msgid "Proper_ties..."
 msgstr "Ιδιότ_ητες..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:361
+#: src/main_window.c:369
 msgid "Show file properties"
 msgstr "Προβολή ιδιοτήτων του επιλεγμένου αρχείου"
 
 #. Icon-name
-#: src/main_window.c:365
+#: src/main_window.c:373
 msgid "_Print..."
 msgstr "Εκ_τύπωση..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:367
+#: src/main_window.c:375
 msgid "Print the current image"
 msgstr "Εκτύπωση της τρέχουσας εικόνας"
 
 #. Icon-name
-#: src/main_window.c:371 src/main_window.c:390
-msgid "_Edit"
-msgstr "_Επεξεργασία"
+#: src/main_window.c:379
+msgid "_Open with..."
+msgstr "Άνοι_γμα με..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:373
-msgid "Edit this image"
-msgstr "Επεξεργασία της εικόνας"
+#: src/main_window.c:381
+msgid "Open this image with another application"
+msgstr ""
 
 #. Icon-name
-#: src/main_window.c:377 src/preferences_dialog.c:229
+#: src/main_window.c:385 src/preferences_dialog.c:228
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "_Κλείσιμο"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:379
+#: src/main_window.c:387
 msgid "Close this image"
 msgstr "Κλείσιμο της εικόνας"
 
 #. Icon-name
-#: src/main_window.c:383
+#: src/main_window.c:391
 msgid "_Quit"
 msgstr "Έ_ξοδος"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:385
+#: src/main_window.c:393
 msgid "Quit Ristretto"
 msgstr "Έξοδος από το ristretto"
 
-#: src/main_window.c:396
+#: src/main_window.c:398
+msgid "_Edit"
+msgstr "_Επεξεργασία"
+
+#: src/main_window.c:404
 msgid "_Copy image to clipboard"
 msgstr "Α_ντιγραφή της εικόνας στο πρόχειρο"
 
-#: src/main_window.c:402
+#: src/main_window.c:410
 msgid "_Show containing folder"
 msgstr "_Εμφάνιση του φακέλου που περιέχεται"
 
-#: src/main_window.c:408
+#: src/main_window.c:416
 msgid "_Open with"
 msgstr "Άνοι_γμα με"
 
-#: src/main_window.c:414
+#: src/main_window.c:422
 msgid "_Sort by"
 msgstr "_Ταξινόμηση κατά"
 
-#: src/main_window.c:420
+#: src/main_window.c:428
 msgid "Sort order"
 msgstr "Σειρά ταξινόμησης"
 
 #. Icon-name
-#: src/main_window.c:426
-msgid "_Delete"
-msgstr "_Διαγραφή"
-
-#. Label-text
-#. Keyboard shortcut
-#: src/main_window.c:428
-msgid "Delete this image from disk"
-msgstr "Διαγραφή της εικόνας από τον δίσκο"
-
-#. Icon-name
-#: src/main_window.c:432
+#: src/main_window.c:434
 msgid "_Clear private data..."
 msgstr "Α_φαίρεση προσωπικών δεδομένων..."
 
 #. Icon-name
-#: src/main_window.c:438
+#: src/main_window.c:440
 msgid "_Preferences..."
 msgstr "_Προτιμήσεις..."
 
-#: src/main_window.c:445
+#: src/main_window.c:447
 msgid "_View"
 msgstr "_Εμφάνιση"
 
 #. Icon-name
-#: src/main_window.c:451
+#: src/main_window.c:453
 msgid "_Fullscreen"
 msgstr "Π_λήρης οθόνη"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:453
+#: src/main_window.c:455
 msgid "Switch to fullscreen"
 msgstr "Εναλλαγή σε πλήρη οθόνη"
 
 #. Icon-name
-#: src/main_window.c:457
+#: src/main_window.c:459
 msgid "_Leave Fullscreen"
 msgstr "Έξ_οδος από πλήρη οθόνη"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:459
+#: src/main_window.c:461
 msgid "Leave Fullscreen"
 msgstr "Έξοδος από πλήρη οθόνη"
 
 #. Icon-name
-#: src/main_window.c:463
+#: src/main_window.c:465
 msgid "Set as _Wallpaper..."
 msgstr "Ορισμός ως εικόνας _φόντου της επιφάνειας εργασίας..."
 
-#: src/main_window.c:470
+#: src/main_window.c:472
 msgid "_Zoom"
 msgstr "_Μεγέθυνση"
 
 #. Icon-name
-#: src/main_window.c:476
+#: src/main_window.c:478
 msgid "Zoom _In"
 msgstr "Μεγέ_θυνση"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:478
+#: src/main_window.c:480
 msgid "Zoom in"
 msgstr "Μεγέθυνση"
 
 #. Icon-name
-#: src/main_window.c:482
+#: src/main_window.c:484
 msgid "Zoom _Out"
 msgstr "Σμίκ_ρυνση"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:484
+#: src/main_window.c:486
 msgid "Zoom out"
 msgstr "Σμίκρυνση"
 
 #. Icon-name
-#: src/main_window.c:488 src/main_window.c:796
+#: src/main_window.c:490 src/main_window.c:798
 msgid "Zoom _Fit"
 msgstr "_Βέλτιστη μεγέθυνση"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:490
+#: src/main_window.c:492
 msgid "Zoom to fit window"
 msgstr "Εστίαση ώστε να χωράει στο παράθυρο"
 
 #. Icon-name
-#: src/main_window.c:494 src/main_window.c:802
+#: src/main_window.c:496 src/main_window.c:804
 msgid "_Normal Size"
 msgstr "Κανο_νικό μέγεθος"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:496
+#: src/main_window.c:498
 msgid "Zoom to 100%"
 msgstr "Μεγέθυνση στο 100%"
 
-#: src/main_window.c:501
+#: src/main_window.c:503
 msgid "_Default Zoom"
 msgstr "Προεπιλε_γμένη μεγέθυνση"
 
-#: src/main_window.c:508
+#: src/main_window.c:510
 msgid "_Rotation"
 msgstr "_Περιστροφή"
 
 #. Icon-name
-#: src/main_window.c:514
+#: src/main_window.c:516
 msgid "Rotate _Right"
 msgstr "Δ_εξιά περιστροφή"
 
 #. Icon-name
-#: src/main_window.c:520
+#: src/main_window.c:522
 msgid "Rotate _Left"
 msgstr "Αρ_ιστερή περιστροφή"
 
-#: src/main_window.c:527
+#: src/main_window.c:529
 msgid "_Flip"
 msgstr "_Αναστροφή"
 
-#: src/main_window.c:533
+#: src/main_window.c:535
 msgid "Flip _Horizontally"
 msgstr "Αναστροφή ορι_ζοντίως"
 
-#: src/main_window.c:539
+#: src/main_window.c:541
 msgid "Flip _Vertically"
 msgstr "Αναστροφή _καθέτως"
 
-#: src/main_window.c:546
+#: src/main_window.c:548
 msgid "_Go"
 msgstr "_Μετάβαση"
 
 #. Icon-name
-#: src/main_window.c:552
+#: src/main_window.c:554
 msgid "_Forward"
 msgstr "_Επόμενη"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:554
+#: src/main_window.c:556
 msgid "Next image"
 msgstr "Επόμενη εικόνα"
 
 #. Icon-name
-#: src/main_window.c:558
+#: src/main_window.c:560
 msgid "_Back"
 msgstr "_Προηγούμενη"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:560
+#: src/main_window.c:562
 msgid "Previous image"
 msgstr "Προηγούμενη εικόνα"
 
 #. Icon-name
-#: src/main_window.c:564
+#: src/main_window.c:566
 msgid "F_irst"
 msgstr "_Πρώτη"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:566
+#: src/main_window.c:568
 msgid "First image"
 msgstr "Πρώτη εικόνα"
 
 #. Icon-name
-#: src/main_window.c:570
+#: src/main_window.c:572
 msgid "_Last"
 msgstr "_Τελευταία"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:572
+#: src/main_window.c:574
 msgid "Last image"
 msgstr "Τελευταία εικόνα"
 
-#: src/main_window.c:577
+#: src/main_window.c:579
 msgid "_Help"
 msgstr "_Βοήθεια"
 
 #. Icon-name
-#: src/main_window.c:583
+#: src/main_window.c:585
 msgid "_Contents"
 msgstr "_Περιεχόμενα"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:585
+#: src/main_window.c:587
 msgid "Display ristretto user manual"
 msgstr "Εμφανίζει την τεκμηρίωση του ristretto"
 
 #. Icon-name
-#: src/main_window.c:589
+#: src/main_window.c:591
 msgid "_About"
 msgstr "Π_ερί"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:591
+#: src/main_window.c:593
 msgid "Display information about ristretto"
 msgstr "Εμφάνιση πληροφοριών σχετικά με το ristretto"
 
-#: src/main_window.c:596
+#: src/main_window.c:598
 msgid "_Position"
 msgstr "_Θέση"
 
-#: src/main_window.c:602
+#: src/main_window.c:604
 msgid "_Size"
 msgstr "_Μέγεθος"
 
-#: src/main_window.c:608
+#: src/main_window.c:610
 msgid "Thumbnail Bar _Position"
 msgstr "Θέ_ση μπάρας μικρογραφιών"
 
-#: src/main_window.c:614
+#: src/main_window.c:616
 msgid "Thumb_nail Size"
 msgstr "Μέ_γεθος μικρογραφιών"
 
 #. Icon-name
-#: src/main_window.c:621
+#: src/main_window.c:623
 msgid "Leave _Fullscreen"
 msgstr "Επαναφορά από π_λήρη οθόνη"
 
 #. Icon-name
-#: src/main_window.c:640
+#: src/main_window.c:642
 msgid "_Show Toolbar"
 msgstr "_Εμφάνιση εργαλειοθήκης"
 
 #. Icon-name
-#: src/main_window.c:648
+#: src/main_window.c:650
 msgid "Show _Thumbnail Bar"
 msgstr "Εμφάνιση μπάρας μικρογ_ραφιών"
 
 #. Icon-name
-#: src/main_window.c:656
+#: src/main_window.c:658
 msgid "Show Status _Bar"
 msgstr "Εμφάνιση γραμμής _κατάστασης"
 
 #. Icon-name
-#: src/main_window.c:667
+#: src/main_window.c:669
 msgid "file name"
 msgstr "όνομα αρχείου"
 
 #. Icon-name
-#: src/main_window.c:673
+#: src/main_window.c:675
 msgid "file type"
 msgstr "τύπο αρχείου"
 
 #. Icon-name
-#: src/main_window.c:679
+#: src/main_window.c:681
 msgid "date"
 msgstr "ημερομηνία"
 
 #. Icon-name
-#: src/main_window.c:685
+#: src/main_window.c:687
 msgid "random"
 msgstr "τυχαία"
 
 #. Icon-name
-#: src/main_window.c:691
+#: src/main_window.c:693
 msgid "file size"
 msgstr "μέγεθος αρχείου"
 
 #. Icon-name
-#: src/main_window.c:700
+#: src/main_window.c:702
 msgid "ascending"
 msgstr "αύξουσα"
 
 #. Icon-name
-#: src/main_window.c:706
+#: src/main_window.c:708
 msgid "descending"
 msgstr "φθίνουσα"
 
 #. Icon-name
-#: src/main_window.c:716
+#: src/main_window.c:718
 msgid "Left"
 msgstr "Αριστερά"
 
-#: src/main_window.c:722
+#: src/main_window.c:724
 msgid "Right"
 msgstr "Δεξιά"
 
-#: src/main_window.c:728
+#: src/main_window.c:730
 msgid "Top"
 msgstr "Επάνω"
 
-#: src/main_window.c:734
+#: src/main_window.c:736
 msgid "Bottom"
 msgstr "Κάτω"
 
-#: src/main_window.c:744
+#: src/main_window.c:746
 msgid "Very Small"
 msgstr "Πολύ μικρό"
 
-#: src/main_window.c:750
+#: src/main_window.c:752
 msgid "Smaller"
 msgstr "Μικρότερο"
 
-#: src/main_window.c:756
+#: src/main_window.c:758
 msgid "Small"
 msgstr "Μικρό"
 
-#: src/main_window.c:762
+#: src/main_window.c:764
 msgid "Normal"
 msgstr "Κανονικό"
 
-#: src/main_window.c:768
+#: src/main_window.c:770
 msgid "Large"
 msgstr "Μεγάλο"
 
-#: src/main_window.c:774
+#: src/main_window.c:776
 msgid "Larger"
 msgstr "Μεγαλύτερο"
 
-#: src/main_window.c:780
+#: src/main_window.c:782
 msgid "Very Large"
 msgstr "Πολύ μεγάλο"
 
 #. Icon-name
-#: src/main_window.c:790
+#: src/main_window.c:792
 msgid "_Smart Zoom"
 msgstr "Έ_ξυπνη μεγέθυνση"
 
@@ -505,153 +509,153 @@ msgid "Images"
 msgstr "Εικόνες"
 
 #. Create Play/Pause Slideshow actions
-#: src/main_window.c:1010
+#: src/main_window.c:1008
 msgid "_Play"
 msgstr "_Εκκίνηση"
 
-#: src/main_window.c:1010
+#: src/main_window.c:1008
 msgid "Play slideshow"
 msgstr "Εκκίνηση προβολής διαφανειών"
 
-#: src/main_window.c:1011
+#: src/main_window.c:1009
 msgid "_Pause"
 msgstr "_Παύση"
 
-#: src/main_window.c:1011
+#: src/main_window.c:1009
 msgid "Pause slideshow"
 msgstr "Παύση προβολής διαφανειών"
 
 #. Create Recently used items Action
-#: src/main_window.c:1014
+#: src/main_window.c:1012
 msgid "_Recently used"
 msgstr "_Πρόσφατα"
 
-#: src/main_window.c:1014
+#: src/main_window.c:1012
 msgid "Recently used"
 msgstr "Πρόσφατα"
 
-#: src/main_window.c:1142 src/main_window.c:1688
+#: src/main_window.c:1140 src/main_window.c:1637
 msgid "Press open to select an image"
 msgstr "Πατήστε άνοιγμα για να επιλέξετε εικόνα"
 
-#: src/main_window.c:1630 src/main_window.c:1635
+#: src/main_window.c:1579 src/main_window.c:1584
 msgid "Open With Other _Application..."
 msgstr "Άνοιγμα με άλλη _εφαρμογή..."
 
-#: src/main_window.c:1645 src/main_window.c:1653
+#: src/main_window.c:1594 src/main_window.c:1602
 msgid "Empty"
 msgstr "Κενό"
 
-#: src/main_window.c:1692
+#: src/main_window.c:1641
 msgid "Loading..."
 msgstr "Φόρτωση..."
 
-#: src/main_window.c:2532
+#: src/main_window.c:2521
 msgid "Choose 'set wallpaper' method"
 msgstr "Επιλέξτε τρόπο για τον 'ορισμό εικόνας φόντου'"
 
-#: src/main_window.c:2536 src/main_window.c:3639 src/main_window.c:3727
-#: src/main_window.c:4407 src/privacy_dialog.c:145
+#: src/main_window.c:2525 src/main_window.c:3598 src/main_window.c:3686
+#: src/main_window.c:4397 src/privacy_dialog.c:145
 #: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
 msgstr "Άκ_υρο"
 
-#: src/main_window.c:2539 src/main_window.c:4410
+#: src/main_window.c:2528 src/main_window.c:4400
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
 msgid "_OK"
 msgstr "_Εντάξει"
 
-#: src/main_window.c:2549
+#: src/main_window.c:2538
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr "Ρύθμιση του συστήματος που διαχειρίζεται την επιφάνεια εργασίας σας.\nΗ ρύθμιση αυτή καθορίζει τη μέθοδο που θα χρησιμοποιήσει το <i>Ristretto</i>\nγια να ρυθμίζει την εικόνα φόντου στην επιφάνεια εργασίας σας."
 
-#: src/main_window.c:2558 src/preferences_dialog.c:481
+#: src/main_window.c:2547 src/preferences_dialog.c:480
 msgid "None"
 msgstr "Κανένα"
 
-#: src/main_window.c:2559 src/preferences_dialog.c:483
+#: src/main_window.c:2548 src/preferences_dialog.c:482
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2560 src/preferences_dialog.c:485
+#: src/main_window.c:2549 src/preferences_dialog.c:484
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:3074 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:3033 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr "Το ristretto είναι εφαρμογή προβολής εικόνων για το γραφικό περιβάλλον xfce."
 
-#: src/main_window.c:3079
+#: src/main_window.c:3038
 msgid "translator-credits"
 msgstr "Evaggelos Balaskas <ebalaskas@ebalaskas.gr> 2008, 2009\nΙωάννης"
 
-#: src/main_window.c:3638
+#: src/main_window.c:3597
 msgid "Open image"
 msgstr "Άνοιγμα εικόνας"
 
-#: src/main_window.c:3639
+#: src/main_window.c:3598
 msgid "_Open"
 msgstr "Άνοι_γμα"
 
-#: src/main_window.c:3657
+#: src/main_window.c:3616
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3662
+#: src/main_window.c:3621
 msgid "All Files"
 msgstr "Όλα τα αρχεία"
 
-#: src/main_window.c:3726
+#: src/main_window.c:3685
 msgid "Save copy"
 msgstr "Αποθήκευση αντιγράφου"
 
-#: src/main_window.c:3728
+#: src/main_window.c:3687
 msgid "_Save"
 msgstr "Α_ποθήκευση"
 
-#: src/main_window.c:3832
+#: src/main_window.c:3791
 msgid "Failed to print the image"
 msgstr "Απέτυχε η εκτύπωση της εικόνας"
 
-#: src/main_window.c:3919
+#: src/main_window.c:3888
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "Θέλετε σίγουρα να διαγράψετε την εικόνα '%s';"
 
-#: src/main_window.c:3923
+#: src/main_window.c:3892
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Θέλετε σίγουρα να διαγράψετε την εικόνα '%s' από το δίσκο;"
 
-#: src/main_window.c:3930
+#: src/main_window.c:3899
 msgid "_Do not ask again for this session"
 msgstr "_Να μην επαναληφθεί η ερώτηση σε αυτήν τη συνεδρία"
 
-#: src/main_window.c:4402
-msgid "Edit with"
-msgstr "Επεξεργασία με"
+#: src/main_window.c:4392
+msgid "Open with"
+msgstr "Άνοιγμα με"
 
-#: src/main_window.c:4422
+#: src/main_window.c:4412
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr "Άνοιγμα του %s και άλλων αρχείων του τύπου %s με:"
 
-#: src/main_window.c:4428
+#: src/main_window.c:4418
 msgid "Use as _default for this kind of file"
 msgstr "Χρήση ως _προεπιλογή για αυτό τον τύπο αρχείων"
 
-#: src/main_window.c:4473
+#: src/main_window.c:4463
 msgid "Recommended Applications"
 msgstr "Συνιστώμενες εφαρμογές"
 
-#: src/main_window.c:4509
+#: src/main_window.c:4499
 msgid "Other Applications"
 msgstr "Άλλες εφαρμογές"
 
-#: src/main_window.c:4626
+#: src/main_window.c:4616
 #, c-format
 msgid "Failed to show containing folder \"%s\"."
 msgstr "Απέτυχε η εμφάνιση του φακέλου \"%s\"."
@@ -689,138 +693,138 @@ msgstr "Όλα"
 msgid "_Apply"
 msgstr "_Εφαρμογή"
 
-#: src/privacy_dialog.c:424
+#: src/privacy_dialog.c:410
 msgid "Clear private data"
 msgstr "Αφαίρεση προσωπικών δεδομένων"
 
-#: src/preferences_dialog.c:262
+#: src/preferences_dialog.c:261
 msgid "Display"
 msgstr "Προβολή"
 
-#: src/preferences_dialog.c:269
+#: src/preferences_dialog.c:268
 msgid "Background color"
 msgstr "Χρώμα φόντου"
 
-#: src/preferences_dialog.c:273
+#: src/preferences_dialog.c:272
 msgid "Override background color:"
 msgstr "Παράκαμψη χρώματος φόντου:"
 
-#: src/preferences_dialog.c:301
+#: src/preferences_dialog.c:300
 msgid "Quality"
 msgstr "Ποιότητα"
 
-#: src/preferences_dialog.c:305
+#: src/preferences_dialog.c:304
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr "Με ενεργοποιημένη αυτή την επιλογή, η μέγιστη ποιότητα της εικόνας θα περιορίζεται από το μέγεθος της οθόνης."
 
-#: src/preferences_dialog.c:310
+#: src/preferences_dialog.c:309
 msgid "Limit rendering quality"
 msgstr "Περιορισμός ποιότητας ανάλυσης"
 
-#: src/preferences_dialog.c:319
+#: src/preferences_dialog.c:318
 msgid ""
 "Smooth the image using bilinear interpolation, thus prioritizing rendering "
 "quality over performance."
 msgstr "Εξομάλυνση της εικόνας με διγραμμική παρεμβολή, δίνοντας προτεραιότητα στην ποιότητα έναντι της απόδοσης."
 
-#: src/preferences_dialog.c:324
+#: src/preferences_dialog.c:323
 msgid "Enable smoothing"
 msgstr "Ενεργοποίηση εξομάλυνσης"
 
-#: src/preferences_dialog.c:336
+#: src/preferences_dialog.c:335
 msgid "Fullscreen"
 msgstr "Πλήρης οθόνη"
 
-#: src/preferences_dialog.c:340
+#: src/preferences_dialog.c:339
 msgid "Thumbnails"
 msgstr "Μικρογραφίες"
 
-#: src/preferences_dialog.c:343
+#: src/preferences_dialog.c:342
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr "Η μπάρα μικρογραφιών μπορεί να κρύβεται αυτόματα όταν το παράθυρο είναι σε πλήρη οθόνη"
 
-#: src/preferences_dialog.c:348
+#: src/preferences_dialog.c:347
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "Απόκρυψη της μπάρας μικρογραφιών κατά την πλήρη οθόνη"
 
-#: src/preferences_dialog.c:356
+#: src/preferences_dialog.c:355
 msgid "Clock"
 msgstr "Ρολόι"
 
-#: src/preferences_dialog.c:359
+#: src/preferences_dialog.c:358
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr "Προβολή αναλογικού ρολογιού που δείχνει την τρέχουσα ώρα όταν το παράθυρο είναι σε πλήρη οθόνη"
 
-#: src/preferences_dialog.c:364
+#: src/preferences_dialog.c:363
 msgid "Show Fullscreen Clock"
 msgstr "Εμφάνιση ρολογιού σε πλήρη οθόνη"
 
-#: src/preferences_dialog.c:370
+#: src/preferences_dialog.c:369
 msgid "Mouse cursor"
 msgstr "Δείκτης ποντικιού"
 
-#: src/preferences_dialog.c:373
+#: src/preferences_dialog.c:372
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
 msgstr "Ο δείκτης του ποντικιού μπορεί να αποκρύπτεται αυτόματα μετά από ορισμένο χρονικό διάστημα αδράνειας, όταν το παράθυρο είναι σε πλήρη οθόνη."
 
-#: src/preferences_dialog.c:381
+#: src/preferences_dialog.c:380
 msgid "Period of inactivity (seconds):"
 msgstr "Περίοδος αδράνειας (δευτερόλεπτα):"
 
-#: src/preferences_dialog.c:401
+#: src/preferences_dialog.c:400
 msgid "Slideshow"
 msgstr "Διαφάνειες"
 
-#: src/preferences_dialog.c:405
+#: src/preferences_dialog.c:404
 msgid "Timeout"
 msgstr "Χρονικό όριο"
 
-#: src/preferences_dialog.c:408
+#: src/preferences_dialog.c:407
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
 msgstr "Η χρονική διάρκεια εμφάνισης μιας εικόνας κατά τη διάρκεια προβολής διαφανειών (σε δευτερόλεπτα)"
 
-#: src/preferences_dialog.c:424
+#: src/preferences_dialog.c:423
 msgid "Control"
 msgstr "Έλεγχος"
 
-#: src/preferences_dialog.c:428
+#: src/preferences_dialog.c:427
 msgid "Scroll wheel"
 msgstr "Τροχός ποντικιού"
 
-#: src/preferences_dialog.c:431
+#: src/preferences_dialog.c:430
 msgid "Invert zoom direction"
 msgstr "Αντιστροφή μεγέθυνσης"
 
-#: src/preferences_dialog.c:442
+#: src/preferences_dialog.c:441
 msgid "Behaviour"
 msgstr "Συμπεριφορά"
 
-#: src/preferences_dialog.c:446
+#: src/preferences_dialog.c:445
 msgid "Startup"
 msgstr "Εκκίνηση"
 
-#: src/preferences_dialog.c:448
+#: src/preferences_dialog.c:447
 msgid "Maximize window on startup when opening an image"
 msgstr "Μεγιστοποίηση παραθύρου όταν ανοίγει μια εικόνα"
 
-#: src/preferences_dialog.c:454
+#: src/preferences_dialog.c:453
 msgid "Wrap around images"
 msgstr "Αναδίπλωση γύρω από τις εικόνες"
 
-#: src/preferences_dialog.c:465
+#: src/preferences_dialog.c:464
 msgid "Desktop"
 msgstr "Επιφάνεια εργασίας"
 
-#: src/preferences_dialog.c:469
+#: src/preferences_dialog.c:468
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
@@ -828,16 +832,16 @@ msgid ""
 msgstr "Ρύθμιση του συστήματος που διαχειρίζεται την επιφάνεια εργασίας σας. Η ρύθμιση αυτή καθορίζει τη μέθοδο που θα χρησιμοποιήσει το <i>Ristretto</i> για να ρυθμίζει την εικόνα φόντου στην επιφάνεια εργασίας σας."
 
 #. File manager sync checkbox
-#: src/preferences_dialog.c:522
+#: src/preferences_dialog.c:521
 msgid "Synchronize sorting with file manager"
 msgstr "Συγχρονισμός ταξινόμησης με το διαχειριστή αρχείων"
 
 #. File manager sync once checkbox
-#: src/preferences_dialog.c:532
+#: src/preferences_dialog.c:531
 msgid "Synchronize only once when opening a directory"
 msgstr "Συγχρονισμός στο άνοιγμα του φακέλου μία φορά "
 
-#: src/preferences_dialog.c:594
+#: src/preferences_dialog.c:592
 msgid "Image Viewer Preferences"
 msgstr "Προτιμήσεις προβολής εικόνων"
 
@@ -869,17 +873,17 @@ msgstr "Γενικά"
 msgid "Image"
 msgstr "Εικόνα"
 
-#: src/properties_dialog.c:351
+#: src/properties_dialog.c:347
 msgid "<b>Date taken:</b>"
 msgstr "<b>Ημερομηνία λήψης:</b>"
 
-#: src/properties_dialog.c:361 src/properties_dialog.c:371
-#: src/properties_dialog.c:381
+#: src/properties_dialog.c:357 src/properties_dialog.c:367
+#: src/properties_dialog.c:377
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: src/properties_dialog.c:419
+#: src/properties_dialog.c:412
 #, c-format
 msgid "%s - Properties"
 msgstr "%s - Ιδιότητες"
@@ -900,7 +904,7 @@ msgstr "Αδυναμία φόρτωσης καταλόγου"
 msgid "Unsupported mime type"
 msgstr "Μη υποστηριζόμενος τύπος mime"
 
-#: src/thumbnailer.c:368
+#: src/thumbnailer.c:366
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -910,7 +914,7 @@ msgid ""
 "to resolve this issue."
 msgstr "Η υπηρεσία thumbnailer-service δεν είναι προσβάσιμη,\nκαι για αυτό δεν μπορούν να δημιουργηθούν\nμικρογραφίες.\n\nΕγκαταστήστε το <b>Tumbler</b> ή κάποια άλλη <i> υπηρεσία μικρογραφιών</i>\nγια να επιλύσετε αυτό το ζήτημα."
 
-#: src/thumbnailer.c:376
+#: src/thumbnailer.c:374
 msgid "Do _not show this message again"
 msgstr "_Να μην εμφανιστεί ξανά αυτό το μήνυμα"
 
@@ -979,6 +983,6 @@ msgid ""
 "wallpaper."
 msgstr " Η εφαρμογή προβολής εικόνων Ristretto μπορεί να χρησιμοποιηθεί για την προβολή και εναλλαγή εικόνων, τη παρουσίαση εικόνων, το άνοιγμα εικόνων όπως ένας επεξεργαστής εικόνων ή για τον ορισμό εικόνας ως φόντο στην επιφάνειας εργασίας."
 
-#: org.xfce.ristretto.appdata.xml.in:34
+#: org.xfce.ristretto.appdata.xml.in:35
 msgid "Xfce Developers"
 msgstr "Προγραμματιστές Xfce"
