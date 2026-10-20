@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2025-09-30 12:55+0200\n"
+"POT-Creation-Date: 2026-10-20 01:00+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Georgian (http://app.transifex.com/xfce/xfce-apps/language/ka/)\n"
@@ -17,23 +17,23 @@ msgstr ""
 "Language: ka\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: src/main.c:44
+#: src/main.c:48
 msgid "Version information"
 msgstr "ინფორმაცია ვერსიის შესახებ"
 
-#: src/main.c:47
+#: src/main.c:51
 msgid "Start in fullscreen mode"
 msgstr "მთელ ეკრანზე გაშვება"
 
-#: src/main.c:50
+#: src/main.c:54
 msgid "Start a slideshow"
 msgstr "სლაიდშოუს დაწყება"
 
-#: src/main.c:53
+#: src/main.c:57
 msgid "Show settings dialog"
 msgstr "მორგების დიალოგის ჩვენება"
 
-#: src/main.c:85
+#: src/main.c:89
 #, c-format
 msgid ""
 "%s: %s\n"
@@ -64,430 +64,434 @@ msgstr "შეცდომა გამოსახულების '%s' დ�
 msgid "An error occurred when sending image '%s' to trash"
 msgstr "შეცდომა გამოსახულების '%s' ნაგვის ყუთიდან წაშლისას"
 
-#: src/main_window.c:341
+#: src/main_window.c:343
 msgid "_File"
 msgstr "_ფაილი"
 
 #. Icon-name
-#: src/main_window.c:347
+#: src/main_window.c:349
 msgid "_Open..."
 msgstr "_გახსნა…"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:349
+#: src/main_window.c:351
 msgid "Open an image"
 msgstr "გამოსახულების გახსნა"
 
 #. Icon-name
-#: src/main_window.c:353
+#: src/main_window.c:355
 msgid "_Save copy..."
 msgstr "_ასლის შენახვა..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:355
+#: src/main_window.c:357
 msgid "Save a copy of the image"
 msgstr "გამოსახულების ასლის შენახვა"
 
 #. Icon-name
-#: src/main_window.c:359
+#: src/main_window.c:361
+msgid "_Move to trash"
+msgstr ""
+
+#. Label-text
+#. Keyboard shortcut
+#: src/main_window.c:363
+msgid "Move this image to the trash"
+msgstr ""
+
+#. Icon-name
+#: src/main_window.c:367
 msgid "Proper_ties..."
 msgstr "_თვისებები..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:361
+#: src/main_window.c:369
 msgid "Show file properties"
 msgstr "ფაილის თვისებების ჩვენება"
 
 #. Icon-name
-#: src/main_window.c:365
+#: src/main_window.c:373
 msgid "_Print..."
 msgstr "_დაბეჭდვა..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:367
+#: src/main_window.c:375
 msgid "Print the current image"
 msgstr "მიმდინარე ვერსიის დაბეჭდვა"
 
 #. Icon-name
-#: src/main_window.c:371 src/main_window.c:390
-msgid "_Edit"
-msgstr "_ჩასწორება"
+#: src/main_window.c:379
+msgid "_Open with..."
+msgstr "გახსნა პრ_ოგრამით..."
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:373
-msgid "Edit this image"
-msgstr "ამ სურათის ჩასწორება"
+#: src/main_window.c:381
+msgid "Open this image with another application"
+msgstr ""
 
 #. Icon-name
-#: src/main_window.c:377 src/preferences_dialog.c:229
+#: src/main_window.c:385 src/preferences_dialog.c:228
 #: src/properties_dialog.c:103
 msgid "_Close"
 msgstr "დახურვა"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:379
+#: src/main_window.c:387
 msgid "Close this image"
 msgstr "ამ გამოსახულების დახურვა"
 
 #. Icon-name
-#: src/main_window.c:383
+#: src/main_window.c:391
 msgid "_Quit"
 msgstr "გასვ_ლა"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:385
+#: src/main_window.c:393
 msgid "Quit Ristretto"
 msgstr "Ristretto-დან გასვლა"
 
-#: src/main_window.c:396
+#: src/main_window.c:398
+msgid "_Edit"
+msgstr "_ჩასწორება"
+
+#: src/main_window.c:404
 msgid "_Copy image to clipboard"
 msgstr "გამოსახულების ბუფერში _კოპირება"
 
-#: src/main_window.c:402
+#: src/main_window.c:410
 msgid "_Show containing folder"
 msgstr "შემცველი საქაღალდის გახ_სნა"
 
-#: src/main_window.c:408
+#: src/main_window.c:416
 msgid "_Open with"
 msgstr "გახსნა პრ_ოგრამით"
 
-#: src/main_window.c:414
+#: src/main_window.c:422
 msgid "_Sort by"
 msgstr "დალაგები_ს პირობა"
 
-#: src/main_window.c:420
+#: src/main_window.c:428
 msgid "Sort order"
 msgstr "დალაგების მიმდევრობა"
 
 #. Icon-name
-#: src/main_window.c:426
-msgid "_Delete"
-msgstr "_წაშლა"
-
-#. Label-text
-#. Keyboard shortcut
-#: src/main_window.c:428
-msgid "Delete this image from disk"
-msgstr "გამოსახულების წაშლა დისკიდან"
-
-#. Icon-name
-#: src/main_window.c:432
+#: src/main_window.c:434
 msgid "_Clear private data..."
 msgstr "პირადი მონა_ცემების გასუფთავება..."
 
 #. Icon-name
-#: src/main_window.c:438
+#: src/main_window.c:440
 msgid "_Preferences..."
 msgstr "_გამართვა..."
 
-#: src/main_window.c:445
+#: src/main_window.c:447
 msgid "_View"
 msgstr "_ხედი"
 
 #. Icon-name
-#: src/main_window.c:451
+#: src/main_window.c:453
 msgid "_Fullscreen"
 msgstr "სრული ეკრა_ნზე"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:453
+#: src/main_window.c:455
 msgid "Switch to fullscreen"
 msgstr "სრულ ეკრანზე გადართვა"
 
 #. Icon-name
-#: src/main_window.c:457
+#: src/main_window.c:459
 msgid "_Leave Fullscreen"
 msgstr "_სრული ეკრანიდან გამოსვლა"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:459
+#: src/main_window.c:461
 msgid "Leave Fullscreen"
 msgstr "სრული ეკრანიდან გასვლა"
 
 #. Icon-name
-#: src/main_window.c:463
+#: src/main_window.c:465
 msgid "Set as _Wallpaper..."
 msgstr "ფონის სურათად _დაყენება..."
 
-#: src/main_window.c:470
+#: src/main_window.c:472
 msgid "_Zoom"
 msgstr "_გადიდება"
 
 #. Icon-name
-#: src/main_window.c:476
+#: src/main_window.c:478
 msgid "Zoom _In"
 msgstr "_გადიდება"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:478
+#: src/main_window.c:480
 msgid "Zoom in"
 msgstr "გადიდება"
 
 #. Icon-name
-#: src/main_window.c:482
+#: src/main_window.c:484
 msgid "Zoom _Out"
 msgstr "და_პატარავება"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:484
+#: src/main_window.c:486
 msgid "Zoom out"
 msgstr "დაპატარავება"
 
 #. Icon-name
-#: src/main_window.c:488 src/main_window.c:796
+#: src/main_window.c:490 src/main_window.c:798
 msgid "Zoom _Fit"
 msgstr "გადიდება _ჩატევამდე"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:490
+#: src/main_window.c:492
 msgid "Zoom to fit window"
 msgstr "ფანჯარაში ჩატევამდე გადიდება"
 
 #. Icon-name
-#: src/main_window.c:494 src/main_window.c:802
+#: src/main_window.c:496 src/main_window.c:804
 msgid "_Normal Size"
 msgstr "_ნორმალური ზომა"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:496
+#: src/main_window.c:498
 msgid "Zoom to 100%"
 msgstr "100%-მდე გადიდება"
 
-#: src/main_window.c:501
+#: src/main_window.c:503
 msgid "_Default Zoom"
 msgstr "ნა_გულისხმევი მასშტაბი"
 
-#: src/main_window.c:508
+#: src/main_window.c:510
 msgid "_Rotation"
 msgstr "შემობ_რუნება"
 
 #. Icon-name
-#: src/main_window.c:514
+#: src/main_window.c:516
 msgid "Rotate _Right"
 msgstr "მარჯვნივ მოტრია_ლება"
 
 #. Icon-name
-#: src/main_window.c:520
+#: src/main_window.c:522
 msgid "Rotate _Left"
 msgstr "მარცხნივ მოტრია_ლება"
 
-#: src/main_window.c:527
+#: src/main_window.c:529
 msgid "_Flip"
 msgstr "_გადაბრუნება"
 
-#: src/main_window.c:533
+#: src/main_window.c:535
 msgid "Flip _Horizontally"
 msgstr "_გამოსახულების ჰორიზონტალურად გადაბრუნება"
 
-#: src/main_window.c:539
+#: src/main_window.c:541
 msgid "Flip _Vertically"
 msgstr "ვერტიკალურად გადა_ბრუნება"
 
-#: src/main_window.c:546
+#: src/main_window.c:548
 msgid "_Go"
 msgstr "_წინ"
 
 #. Icon-name
-#: src/main_window.c:552
+#: src/main_window.c:554
 msgid "_Forward"
 msgstr "_წინ"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:554
+#: src/main_window.c:556
 msgid "Next image"
 msgstr "შემდეგი გამოსახულება"
 
 #. Icon-name
-#: src/main_window.c:558
+#: src/main_window.c:560
 msgid "_Back"
 msgstr "_უკან"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:560
+#: src/main_window.c:562
 msgid "Previous image"
 msgstr "წინა გამოსახულება"
 
 #. Icon-name
-#: src/main_window.c:564
+#: src/main_window.c:566
 msgid "F_irst"
 msgstr "პ_ირველი"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:566
+#: src/main_window.c:568
 msgid "First image"
 msgstr "პირველი გამოსახულება"
 
 #. Icon-name
-#: src/main_window.c:570
+#: src/main_window.c:572
 msgid "_Last"
 msgstr "_ბოლო"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:572
+#: src/main_window.c:574
 msgid "Last image"
 msgstr "ბოლო გამოსახულება"
 
-#: src/main_window.c:577
+#: src/main_window.c:579
 msgid "_Help"
 msgstr "დახმარება"
 
 #. Icon-name
-#: src/main_window.c:583
+#: src/main_window.c:585
 msgid "_Contents"
 msgstr "შემ_ცველობა"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:585
+#: src/main_window.c:587
 msgid "Display ristretto user manual"
 msgstr "ristretto-ის მომხმარებლის სახელმძღვანელოს ჩვენება"
 
 #. Icon-name
-#: src/main_window.c:589
+#: src/main_window.c:591
 msgid "_About"
 msgstr "_შესახებ"
 
 #. Label-text
 #. Keyboard shortcut
-#: src/main_window.c:591
+#: src/main_window.c:593
 msgid "Display information about ristretto"
 msgstr "ინფორმაციის ჩვენება ristretto-ის შესახებ"
 
-#: src/main_window.c:596
+#: src/main_window.c:598
 msgid "_Position"
 msgstr "მდებარეობა"
 
-#: src/main_window.c:602
+#: src/main_window.c:604
 msgid "_Size"
 msgstr "_ზომა"
 
-#: src/main_window.c:608
+#: src/main_window.c:610
 msgid "Thumbnail Bar _Position"
 msgstr "მინიატურების ზოლის _პოზიცია"
 
-#: src/main_window.c:614
+#: src/main_window.c:616
 msgid "Thumb_nail Size"
 msgstr "მი_ნიატურის ზომა"
 
 #. Icon-name
-#: src/main_window.c:621
+#: src/main_window.c:623
 msgid "Leave _Fullscreen"
 msgstr "სრული ეკრანის დატოვება"
 
 #. Icon-name
-#: src/main_window.c:640
+#: src/main_window.c:642
 msgid "_Show Toolbar"
 msgstr "ხელსაწყოთა ზოლი_ს ჩვენება"
 
 #. Icon-name
-#: src/main_window.c:648
+#: src/main_window.c:650
 msgid "Show _Thumbnail Bar"
 msgstr "მინია_ტურების ზოლის ჩვენება"
 
 #. Icon-name
-#: src/main_window.c:656
+#: src/main_window.c:658
 msgid "Show Status _Bar"
 msgstr "სტატუსის ზოლის ჩვენე_ბა"
 
 #. Icon-name
-#: src/main_window.c:667
+#: src/main_window.c:669
 msgid "file name"
 msgstr "ფაილის სახელი"
 
 #. Icon-name
-#: src/main_window.c:673
+#: src/main_window.c:675
 msgid "file type"
 msgstr "ფაილის ტიპი"
 
 #. Icon-name
-#: src/main_window.c:679
+#: src/main_window.c:681
 msgid "date"
 msgstr "თარიღი"
 
 #. Icon-name
-#: src/main_window.c:685
+#: src/main_window.c:687
 msgid "random"
 msgstr "შემთხვევითი"
 
 #. Icon-name
-#: src/main_window.c:691
+#: src/main_window.c:693
 msgid "file size"
 msgstr "ფაილის ზომა"
 
 #. Icon-name
-#: src/main_window.c:700
+#: src/main_window.c:702
 msgid "ascending"
 msgstr "აღმავალი"
 
 #. Icon-name
-#: src/main_window.c:706
+#: src/main_window.c:708
 msgid "descending"
 msgstr "დაღმავალი"
 
 #. Icon-name
-#: src/main_window.c:716
+#: src/main_window.c:718
 msgid "Left"
 msgstr "მარცხენა"
 
-#: src/main_window.c:722
+#: src/main_window.c:724
 msgid "Right"
 msgstr "მარჯვენა"
 
-#: src/main_window.c:728
+#: src/main_window.c:730
 msgid "Top"
 msgstr "ზედა"
 
-#: src/main_window.c:734
+#: src/main_window.c:736
 msgid "Bottom"
 msgstr "ქვემო"
 
-#: src/main_window.c:744
+#: src/main_window.c:746
 msgid "Very Small"
 msgstr "ძალიან პატარა"
 
-#: src/main_window.c:750
+#: src/main_window.c:752
 msgid "Smaller"
 msgstr "უფრო პატარა"
 
-#: src/main_window.c:756
+#: src/main_window.c:758
 msgid "Small"
 msgstr "პატარა"
 
-#: src/main_window.c:762
+#: src/main_window.c:764
 msgid "Normal"
 msgstr "ნორმალური"
 
-#: src/main_window.c:768
+#: src/main_window.c:770
 msgid "Large"
 msgstr "დიდი"
 
-#: src/main_window.c:774
+#: src/main_window.c:776
 msgid "Larger"
 msgstr "უფრო დიდი"
 
-#: src/main_window.c:780
+#: src/main_window.c:782
 msgid "Very Large"
 msgstr "ძალიან დიდი"
 
 #. Icon-name
-#: src/main_window.c:790
+#: src/main_window.c:792
 msgid "_Smart Zoom"
 msgstr "ჭკვიანი გადიდება"
 
@@ -496,153 +500,153 @@ msgid "Images"
 msgstr "გამოსახულებები"
 
 #. Create Play/Pause Slideshow actions
-#: src/main_window.c:1010
+#: src/main_window.c:1008
 msgid "_Play"
 msgstr "_დაკვრა"
 
-#: src/main_window.c:1010
+#: src/main_window.c:1008
 msgid "Play slideshow"
 msgstr "სლაიდშოუს დაკვრა"
 
-#: src/main_window.c:1011
+#: src/main_window.c:1009
 msgid "_Pause"
 msgstr "_შეჩერება"
 
-#: src/main_window.c:1011
+#: src/main_window.c:1009
 msgid "Pause slideshow"
 msgstr "_სლაიდ შოუს შეჩერება"
 
 #. Create Recently used items Action
-#: src/main_window.c:1014
+#: src/main_window.c:1012
 msgid "_Recently used"
 msgstr "ბოლოს გამო_ყენებული"
 
-#: src/main_window.c:1014
+#: src/main_window.c:1012
 msgid "Recently used"
 msgstr "ახლახანს გამოყენებული"
 
-#: src/main_window.c:1142 src/main_window.c:1688
+#: src/main_window.c:1140 src/main_window.c:1637
 msgid "Press open to select an image"
 msgstr "გამოსახულების ასარჩევად დააჭირეთ ღილაკს 'გახსნა'"
 
-#: src/main_window.c:1630 src/main_window.c:1635
+#: src/main_window.c:1579 src/main_window.c:1584
 msgid "Open With Other _Application..."
 msgstr "სხვა პროგრამით გახსნა..."
 
-#: src/main_window.c:1645 src/main_window.c:1653
+#: src/main_window.c:1594 src/main_window.c:1602
 msgid "Empty"
 msgstr "ცარიელი"
 
-#: src/main_window.c:1692
+#: src/main_window.c:1641
 msgid "Loading..."
 msgstr "იტვირთება..."
 
-#: src/main_window.c:2532
+#: src/main_window.c:2521
 msgid "Choose 'set wallpaper' method"
 msgstr "აირჩიეთ 'ფონის სურათის დაყენების' მეთოდი"
 
-#: src/main_window.c:2536 src/main_window.c:3639 src/main_window.c:3727
-#: src/main_window.c:4407 src/privacy_dialog.c:145
+#: src/main_window.c:2525 src/main_window.c:3598 src/main_window.c:3686
+#: src/main_window.c:4397 src/privacy_dialog.c:145
 #: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
 msgstr "გაუქმება"
 
-#: src/main_window.c:2539 src/main_window.c:4410
+#: src/main_window.c:2528 src/main_window.c:4400
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
 msgid "_OK"
 msgstr "კარგი"
 
-#: src/main_window.c:2549
+#: src/main_window.c:2538
 msgid ""
 "Configure which system is currently managing your desktop.\n"
 "This setting determines the method <i>Ristretto</i> will use\n"
 "to configure the desktop wallpaper."
 msgstr ""
 
-#: src/main_window.c:2558 src/preferences_dialog.c:481
+#: src/main_window.c:2547 src/preferences_dialog.c:480
 msgid "None"
 msgstr "არცერთი"
 
-#: src/main_window.c:2559 src/preferences_dialog.c:483
+#: src/main_window.c:2548 src/preferences_dialog.c:482
 msgid "Xfce"
 msgstr "Xfce"
 
-#: src/main_window.c:2560 src/preferences_dialog.c:485
+#: src/main_window.c:2549 src/preferences_dialog.c:484
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main_window.c:3074 org.xfce.ristretto.appdata.xml.in:11
+#: src/main_window.c:3033 org.xfce.ristretto.appdata.xml.in:11
 msgid "Ristretto is an image viewer for the Xfce desktop environment."
 msgstr ""
 
-#: src/main_window.c:3079
+#: src/main_window.c:3038
 msgid "translator-credits"
 msgstr "ეკატერინე პაპავა"
 
-#: src/main_window.c:3638
+#: src/main_window.c:3597
 msgid "Open image"
 msgstr "გამოსახულების გახსნა"
 
-#: src/main_window.c:3639
+#: src/main_window.c:3598
 msgid "_Open"
 msgstr "_გახსნა"
 
-#: src/main_window.c:3657
+#: src/main_window.c:3616
 msgid ".jp(e)g"
 msgstr ".jp(e)g"
 
-#: src/main_window.c:3662
+#: src/main_window.c:3621
 msgid "All Files"
 msgstr "ყველა ფაილი"
 
-#: src/main_window.c:3726
+#: src/main_window.c:3685
 msgid "Save copy"
 msgstr "ასლის შენახვა"
 
-#: src/main_window.c:3728
+#: src/main_window.c:3687
 msgid "_Save"
 msgstr "_შენახვა"
 
-#: src/main_window.c:3832
+#: src/main_window.c:3791
 msgid "Failed to print the image"
 msgstr "გამოსახულების დაბეჭდვის შეცდომა"
 
-#: src/main_window.c:3919
+#: src/main_window.c:3888
 #, c-format
 msgid "Are you sure you want to send image '%s' to trash?"
 msgstr "მართლა გნებავთ გამოსახულების '%s' ნაგვის ყუთში გადატანა?"
 
-#: src/main_window.c:3923
+#: src/main_window.c:3892
 #, c-format
 msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "მართლა გნებავთ, წაშალოთ გამოსახულება '%s' დისკიდან?"
 
-#: src/main_window.c:3930
+#: src/main_window.c:3899
 msgid "_Do not ask again for this session"
 msgstr "აღარ მკითხო ამ სესიის მიმდინარეობის _დროს"
 
-#: src/main_window.c:4402
-msgid "Edit with"
-msgstr "ჩასწორება პროგრამით"
+#: src/main_window.c:4392
+msgid "Open with"
+msgstr "გამხსნელი პროგრამა"
 
-#: src/main_window.c:4422
+#: src/main_window.c:4412
 #, c-format
 msgid "Open %s and other files of type %s with:"
 msgstr ""
 
-#: src/main_window.c:4428
+#: src/main_window.c:4418
 msgid "Use as _default for this kind of file"
 msgstr "ნაგულისხმევა_დ დაყენება ამ ტიპის ფაილებისთვის"
 
-#: src/main_window.c:4473
+#: src/main_window.c:4463
 msgid "Recommended Applications"
 msgstr "რეკომენდირებული პროგრამები"
 
-#: src/main_window.c:4509
+#: src/main_window.c:4499
 msgid "Other Applications"
 msgstr "დამატებითი აპლიკაციები"
 
-#: src/main_window.c:4626
+#: src/main_window.c:4616
 #, c-format
 msgid "Failed to show containing folder \"%s\"."
 msgstr "შემცველი საქაღალდის '%s' ჩვენება შეუძლებელია."
@@ -680,138 +684,138 @@ msgstr "ყველაფერი"
 msgid "_Apply"
 msgstr "გ_ადატარება"
 
-#: src/privacy_dialog.c:424
+#: src/privacy_dialog.c:410
 msgid "Clear private data"
 msgstr "პირადი მონაცემების გასუფთავება"
 
-#: src/preferences_dialog.c:262
+#: src/preferences_dialog.c:261
 msgid "Display"
 msgstr "ჩვენება"
 
-#: src/preferences_dialog.c:269
+#: src/preferences_dialog.c:268
 msgid "Background color"
 msgstr "ფონის ფერი"
 
-#: src/preferences_dialog.c:273
+#: src/preferences_dialog.c:272
 msgid "Override background color:"
 msgstr "ფონის ფერის გადაფარვა:"
 
-#: src/preferences_dialog.c:301
+#: src/preferences_dialog.c:300
 msgid "Quality"
 msgstr "ხარისხი"
 
-#: src/preferences_dialog.c:305
+#: src/preferences_dialog.c:304
 msgid ""
 "With this option enabled, the maximum image-quality will be limited to the "
 "screen-size."
 msgstr ""
 
-#: src/preferences_dialog.c:310
+#: src/preferences_dialog.c:309
 msgid "Limit rendering quality"
 msgstr "რენდერის ხარისხის შეზღუდვა"
 
-#: src/preferences_dialog.c:319
+#: src/preferences_dialog.c:318
 msgid ""
 "Smooth the image using bilinear interpolation, thus prioritizing rendering "
 "quality over performance."
 msgstr ""
 
-#: src/preferences_dialog.c:324
+#: src/preferences_dialog.c:323
 msgid "Enable smoothing"
 msgstr "მოგლუვების ჩართვა"
 
-#: src/preferences_dialog.c:336
+#: src/preferences_dialog.c:335
 msgid "Fullscreen"
 msgstr "სრულ ეკრანზე"
 
-#: src/preferences_dialog.c:340
+#: src/preferences_dialog.c:339
 msgid "Thumbnails"
 msgstr "მინატურები"
 
-#: src/preferences_dialog.c:343
+#: src/preferences_dialog.c:342
 msgid ""
 "The thumbnail bar can be automatically hidden when the window is fullscreen."
 msgstr ""
 
-#: src/preferences_dialog.c:348
+#: src/preferences_dialog.c:347
 msgid "Hide thumbnail bar when fullscreen"
 msgstr "მინიატურების ზოლის დამალვა სრულ ეკრანზე"
 
-#: src/preferences_dialog.c:356
+#: src/preferences_dialog.c:355
 msgid "Clock"
 msgstr "საათი"
 
-#: src/preferences_dialog.c:359
+#: src/preferences_dialog.c:358
 msgid ""
 "Show an analog clock that displays the current time when the window is "
 "fullscreen"
 msgstr ""
 
-#: src/preferences_dialog.c:364
+#: src/preferences_dialog.c:363
 msgid "Show Fullscreen Clock"
 msgstr "სრულეკრანიანი საათის ჩვენება"
 
-#: src/preferences_dialog.c:370
+#: src/preferences_dialog.c:369
 msgid "Mouse cursor"
 msgstr "თაგუნას კურსორი"
 
-#: src/preferences_dialog.c:373
+#: src/preferences_dialog.c:372
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
 msgstr ""
 
-#: src/preferences_dialog.c:381
+#: src/preferences_dialog.c:380
 msgid "Period of inactivity (seconds):"
 msgstr "არააქტიურობის პერიოდი (წმ):"
 
-#: src/preferences_dialog.c:401
+#: src/preferences_dialog.c:400
 msgid "Slideshow"
 msgstr "სლაიდშოუ"
 
-#: src/preferences_dialog.c:405
+#: src/preferences_dialog.c:404
 msgid "Timeout"
 msgstr "მოლოდინის ვადა"
 
-#: src/preferences_dialog.c:408
+#: src/preferences_dialog.c:407
 msgid ""
 "The time period an individual image is displayed during a slideshow (in "
 "seconds)"
 msgstr ""
 
-#: src/preferences_dialog.c:424
+#: src/preferences_dialog.c:423
 msgid "Control"
 msgstr "Control"
 
-#: src/preferences_dialog.c:428
+#: src/preferences_dialog.c:427
 msgid "Scroll wheel"
 msgstr "თაგუნას ბორბალი"
 
-#: src/preferences_dialog.c:431
+#: src/preferences_dialog.c:430
 msgid "Invert zoom direction"
 msgstr "გადიდების მიმართულების ინვერსია"
 
-#: src/preferences_dialog.c:442
+#: src/preferences_dialog.c:441
 msgid "Behaviour"
 msgstr "ქცევა"
 
-#: src/preferences_dialog.c:446
+#: src/preferences_dialog.c:445
 msgid "Startup"
 msgstr "გაშვება"
 
-#: src/preferences_dialog.c:448
+#: src/preferences_dialog.c:447
 msgid "Maximize window on startup when opening an image"
 msgstr ""
 
-#: src/preferences_dialog.c:454
+#: src/preferences_dialog.c:453
 msgid "Wrap around images"
 msgstr "გამოსახულებების გადატანა"
 
-#: src/preferences_dialog.c:465
+#: src/preferences_dialog.c:464
 msgid "Desktop"
 msgstr "სამუშაო მაგიდა"
 
-#: src/preferences_dialog.c:469
+#: src/preferences_dialog.c:468
 msgid ""
 "Configure which system is currently managing your desktop. This setting "
 "determines the method <i>Ristretto</i> will use to configure the desktop "
@@ -819,16 +823,16 @@ msgid ""
 msgstr ""
 
 #. File manager sync checkbox
-#: src/preferences_dialog.c:522
+#: src/preferences_dialog.c:521
 msgid "Synchronize sorting with file manager"
 msgstr "დალაგების სინქრონიზაცია ფაილების მმართველტან"
 
 #. File manager sync once checkbox
-#: src/preferences_dialog.c:532
+#: src/preferences_dialog.c:531
 msgid "Synchronize only once when opening a directory"
 msgstr "სინქრონიზაცია, მხოლოდ, ერთხელ, საქაღალდის გახსნისას"
 
-#: src/preferences_dialog.c:594
+#: src/preferences_dialog.c:592
 msgid "Image Viewer Preferences"
 msgstr "პარამეტრები სურათების დამთვალიერებლისთვის"
 
@@ -860,17 +864,17 @@ msgstr "მთავარი"
 msgid "Image"
 msgstr "სურათი"
 
-#: src/properties_dialog.c:351
+#: src/properties_dialog.c:347
 msgid "<b>Date taken:</b>"
 msgstr "<b>გადაღების დრო:</b>"
 
-#: src/properties_dialog.c:361 src/properties_dialog.c:371
-#: src/properties_dialog.c:381
+#: src/properties_dialog.c:357 src/properties_dialog.c:367
+#: src/properties_dialog.c:377
 #, c-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: src/properties_dialog.c:419
+#: src/properties_dialog.c:412
 #, c-format
 msgid "%s - Properties"
 msgstr "%s-ის თვისებები"
@@ -891,7 +895,7 @@ msgstr "დირექტორიის ჩატვირთვა შეუ�
 msgid "Unsupported mime type"
 msgstr "უცნობი mime ტიპი"
 
-#: src/thumbnailer.c:368
+#: src/thumbnailer.c:366
 msgid ""
 "The thumbnailer-service can not be reached,\n"
 "for this reason, the thumbnails can not be\n"
@@ -901,7 +905,7 @@ msgid ""
 "to resolve this issue."
 msgstr ""
 
-#: src/thumbnailer.c:376
+#: src/thumbnailer.c:374
 msgid "Do _not show this message again"
 msgstr "ეს შეტყობინ_ება მეტჯერ აღარ მაჩვენო"
 
@@ -970,6 +974,6 @@ msgid ""
 "wallpaper."
 msgstr ""
 
-#: org.xfce.ristretto.appdata.xml.in:34
+#: org.xfce.ristretto.appdata.xml.in:35
 msgid "Xfce Developers"
 msgstr "Xfce-ის პროგრამისტები"
