@@ -6,14 +6,14 @@
 # Cédric Valmary <cvalmary@yahoo.fr>, 2013
 # Cédric Valmary <cvalmary@yahoo.fr>, 2013
 # Quentin PAGÈS, 2022,2024
-# Quentin PAGÈS, 2022,2024-2025
+# Quentin PAGÈS, 2022,2024-2026
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2026-10-20 01:00+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Quentin PAGÈS, 2022,2024\n"
+"Last-Translator: Quentin PAGÈS, 2022,2024-2026\n"
 "Language-Team: Occitan (post 1500) (http://app.transifex.com/xfce/xfce-apps/language/oc/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,13 +97,13 @@ msgstr "Enregistrar una còpia de l'imatge"
 #. Icon-name
 #: src/main_window.c:361
 msgid "_Move to trash"
-msgstr ""
+msgstr "_Desplaçar a l’escobilhièr"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:363
 msgid "Move this image to the trash"
-msgstr ""
+msgstr "Metre l’imatge dins l’escobilhièr"
 
 #. Icon-name
 #: src/main_window.c:367
@@ -136,7 +136,7 @@ msgstr "_Dobrir amb..."
 #. Keyboard shortcut
 #: src/main_window.c:381
 msgid "Open this image with another application"
-msgstr ""
+msgstr "Dobrir aqueste imatge amb una autra aplicacion"
 
 #. Icon-name
 #: src/main_window.c:385 src/preferences_dialog.c:228
