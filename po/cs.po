@@ -97,13 +97,13 @@ msgstr "Uložit kopii obrázku"
 #. Icon-name
 #: src/main_window.c:361
 msgid "_Move to trash"
-msgstr ""
+msgstr "_Přesunout do koše"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:363
 msgid "Move this image to the trash"
-msgstr ""
+msgstr "Přesunout tento obrázek do koše"
 
 #. Icon-name
 #: src/main_window.c:367
@@ -136,7 +136,7 @@ msgstr "_Otevřít pomocí..."
 #. Keyboard shortcut
 #: src/main_window.c:381
 msgid "Open this image with another application"
-msgstr ""
+msgstr "Otevřít tento obrázek v jiné aplikaci"
 
 #. Icon-name
 #: src/main_window.c:385 src/preferences_dialog.c:228
