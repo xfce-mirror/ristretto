@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the xfce-apps.ristretto package.
 # 
 # Translators:
-# Andreas Eitel <github-aneitel@online.de>, 2019,2021,2023-2025
+# Andreas Eitel <github-aneitel@online.de>, 2019,2021,2023-2026
 # Georg Eckert <eckert.georg@gmx.de>, 2013,2015
 # Tobias Bannert <tobannert@gmail.com>, 2014-2017
 # Vinzenz Vietzke <vv@muibox.de>, 2019
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2026-10-20 01:00+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Andreas Eitel <github-aneitel@online.de>, 2019,2021,2023-2025\n"
+"Last-Translator: Andreas Eitel <github-aneitel@online.de>, 2019,2021,2023-2026\n"
 "Language-Team: German (http://app.transifex.com/xfce/xfce-apps/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,13 +97,13 @@ msgstr "Eine Kopie des Bildes speichern"
 #. Icon-name
 #: src/main_window.c:361
 msgid "_Move to trash"
-msgstr ""
+msgstr "In den _Papierkorb verschieben"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:363
 msgid "Move this image to the trash"
-msgstr ""
+msgstr "Dieses Bild in den Papierkorb verschieben"
 
 #. Icon-name
 #: src/main_window.c:367
@@ -136,7 +136,7 @@ msgstr "_Öffnen mit..."
 #. Keyboard shortcut
 #: src/main_window.c:381
 msgid "Open this image with another application"
-msgstr ""
+msgstr "Dieses Bild mit einer anderen Anwendung öffnen"
 
 #. Icon-name
 #: src/main_window.c:385 src/preferences_dialog.c:228
