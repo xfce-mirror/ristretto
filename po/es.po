@@ -9,7 +9,7 @@
 # Adolfo Jayme Barrientos, 2013
 # Casper casper, 2019
 # Casper, 2019
-# Casper, 2024-2025
+# Casper, 2024-2026
 # gabrieltandil <gabriel.tandil@gmail.com>, 2015
 # gabrieltandil <gabriel.tandil@gmail.com>, 2015-2016
 # Ignacio Poggi <ignaciop.3@gmail.com>, 2020,2023-2025
@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2026-10-20 01:00+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Casper, 2024-2025\n"
+"Last-Translator: Casper, 2024-2026\n"
 "Language-Team: Spanish (http://app.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -107,13 +107,13 @@ msgstr "Guardar una copia de la imagen"
 #. Icon-name
 #: src/main_window.c:361
 msgid "_Move to trash"
-msgstr ""
+msgstr "_Mover a la papelera"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:363
 msgid "Move this image to the trash"
-msgstr ""
+msgstr "Mover esta imagen a la papelera"
 
 #. Icon-name
 #: src/main_window.c:367
@@ -146,7 +146,7 @@ msgstr "A_brir con..."
 #. Keyboard shortcut
 #: src/main_window.c:381
 msgid "Open this image with another application"
-msgstr ""
+msgstr "Abrir esta imagen con otra aplicación"
 
 #. Icon-name
 #: src/main_window.c:385 src/preferences_dialog.c:228
