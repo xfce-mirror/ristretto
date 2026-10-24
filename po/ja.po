@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, 2016-2017,2019,2021,2023-2024
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021,2023-2025
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021,2023-2026
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2026-10-20 01:00+0200\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021,2023-2025\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021,2023-2026\n"
 "Language-Team: Japanese (http://app.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,13 +95,13 @@ msgstr "画像のコピーを保存します"
 #. Icon-name
 #: src/main_window.c:361
 msgid "_Move to trash"
-msgstr ""
+msgstr "ゴミ箱に移動(_M)"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:363
 msgid "Move this image to the trash"
-msgstr ""
+msgstr "この画像をゴミ箱に移動する"
 
 #. Icon-name
 #: src/main_window.c:367
@@ -134,7 +134,7 @@ msgstr "アプリケーションで開く...(_O)"
 #. Keyboard shortcut
 #: src/main_window.c:381
 msgid "Open this image with another application"
-msgstr ""
+msgstr "この画像を別のアプリケーションで開く"
 
 #. Icon-name
 #: src/main_window.c:385 src/preferences_dialog.c:228
