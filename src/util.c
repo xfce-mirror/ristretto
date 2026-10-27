@@ -101,15 +101,29 @@ rstto_util_set_source_pixbuf (cairo_t *ctx,
     else
         format = CAIRO_FORMAT_ARGB32;
 
-    /* create a generic image surface on which to apply gdk_cairo_set_source_pixbuf() */
+    /* create a generic image surface on which to apply gdk_cairo_set_source_pixbuf().
+     * cairo rejects image surfaces with a side longer than 32767; an error surface
+     * must not be used as a source, later draws would crash on a NULL data pointer. */
     surface = cairo_image_surface_create (format,
                                           gdk_pixbuf_get_width (pixbuf),
                                           gdk_pixbuf_get_height (pixbuf));
+    if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS)
+    {
+        cairo_surface_destroy (surface);
+        return NULL;
+    }
+
     cr = cairo_create (surface);
     cairo_surface_destroy (surface);
 
     /* apply it and get the resulting source */
     gdk_cairo_set_source_pixbuf (cr, pixbuf, pixbuf_x, pixbuf_y);
+    if (cairo_status (cr) != CAIRO_STATUS_SUCCESS)
+    {
+        cairo_destroy (cr);
+        return NULL;
+    }
+
     pattern = cairo_pattern_reference (cairo_get_source (cr));
     cairo_destroy (cr);
 
