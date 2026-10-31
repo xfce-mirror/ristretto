@@ -781,11 +781,7 @@ cb_file_monitor_changed (GFileMonitor *monitor,
             else
             {
                 rstto_file_changed (r_file);
-                if (image_list->priv->cb_rstto_image_list_compare_func == cb_rstto_image_list_image_type_compare_func
-                    || image_list->priv->cb_rstto_image_list_compare_func == cb_rstto_image_list_exif_date_compare_func)
-                {
-                    rstto_image_list_set_compare_func (image_list, image_list->priv->cb_rstto_image_list_compare_func);
-                }
+                rstto_image_list_set_compare_func (image_list, image_list->priv->cb_rstto_image_list_compare_func);
             }
             break;
         case G_FILE_MONITOR_EVENT_CHANGED:
