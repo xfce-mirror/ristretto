@@ -30,6 +30,7 @@
                 <menuitem action="sort-size"/>
                 <menuitem action="sort-date"/>
                 <menuitem action="sort-random"/>
+                <menuitem action="sort-none"/>
             </menu>
             <menu action="sorting-order-menu">
                 <menuitem action="sort-order-asc"/>
