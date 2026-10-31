@@ -31,6 +31,7 @@ typedef enum
     SORT_TYPE_DATE,
     SORT_TYPE_RANDOM,
     SORT_TYPE_SIZE,
+    SORT_TYPE_NONE,
     SORT_TYPE_COUNT,
 } RsttoSortType;
 

@@ -342,8 +342,11 @@ rstto_image_list_add_file (RsttoImageList *image_list,
         return FALSE;
     }
 
-    g_queue_insert_sorted (image_list->priv->images, g_object_ref (r_file),
-                           image_list->priv->cb_rstto_image_list_compare_func, image_list);
+    if (image_list->priv->cb_rstto_image_list_compare_func == NULL)
+        g_queue_push_tail (image_list->priv->images, g_object_ref (r_file));
+    else
+        g_queue_insert_sorted (image_list->priv->images, g_object_ref (r_file),
+                               image_list->priv->cb_rstto_image_list_compare_func, image_list);
 
     if (image_list->priv->dir_monitor == NULL)
     {
@@ -548,7 +551,7 @@ rstto_image_list_set_directory_finish_idle (gpointer data)
             /* no additional filtering here, it will be done gradually when validating files,
              * and the mime type will be refined at this time as well */
             rstto_file_set_content_type (r_file, filter_info.mime_type);
-            g_queue_push_head (image_list->priv->images, r_file);
+            g_queue_push_tail (image_list->priv->images, r_file);
         }
     }
 
@@ -1094,25 +1097,28 @@ rstto_image_list_set_compare_func (RsttoImageList *image_list,
 {
     image_list->priv->cb_rstto_image_list_compare_func = func;
 
-    if (image_list->priv->iterators != NULL)
+    if (func != NULL)
     {
-        RsttoFile *files[g_slist_length (image_list->priv->iterators)];
-        GSList *iter;
-        gint n;
+        if (image_list->priv->iterators != NULL)
+        {
+            RsttoFile *files[g_slist_length (image_list->priv->iterators)];
+            GSList *iter;
+            gint n;
 
-        /* store iter files before sorting */
-        for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
-            files[n] = RSTTO_IMAGE_LIST_ITER (iter->data)->priv->r_file;
+            /* store iter files before sorting */
+            for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
+                files[n] = RSTTO_IMAGE_LIST_ITER (iter->data)->priv->r_file;
 
-        g_queue_sort (image_list->priv->images, rstto_image_list_compare_func_decorator, image_list);
+            g_queue_sort (image_list->priv->images, rstto_image_list_compare_func_decorator, image_list);
 
-        /* reposition iters on their file */
-        for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
-            rstto_image_list_iter_find_file (iter->data, files[n]);
-    }
-    else
-    {
-        g_queue_sort (image_list->priv->images, rstto_image_list_compare_func_decorator, image_list);
+            /* reposition iters on their file */
+            for (iter = image_list->priv->iterators, n = 0; iter != NULL; iter = iter->next, n++)
+                rstto_image_list_iter_find_file (iter->data, files[n]);
+        }
+        else
+        {
+            g_queue_sort (image_list->priv->images, rstto_image_list_compare_func_decorator, image_list);
+        }
     }
 
     g_signal_emit (image_list, rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_SORTED], 0, NULL);
@@ -1154,13 +1160,17 @@ rstto_image_list_set_sort_by_size (RsttoImageList *image_list)
 }
 
 void
+rstto_image_list_set_sort_by_none (RsttoImageList *image_list)
+{
+    rstto_image_list_set_compare_func (image_list, NULL);
+}
+
+void
 rstto_image_list_set_sort_order (RsttoImageList *image_list,
                                  RsttoSortOrder order)
 {
     image_list->priv->sort_order = order;
-
-    if (image_list->priv->cb_rstto_image_list_compare_func != NULL)
-        rstto_image_list_set_compare_func (image_list, image_list->priv->cb_rstto_image_list_compare_func);
+    rstto_image_list_set_compare_func (image_list, image_list->priv->cb_rstto_image_list_compare_func);
 }
 
 /**

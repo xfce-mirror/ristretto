@@ -694,6 +694,12 @@ static const GtkRadioActionEntry radio_action_sort_entries[] = {
       NULL, /* Keyboard shortcut */
       NULL, /* Tooltip text */
       SORT_TYPE_SIZE },
+    { "sort-none",
+      NULL, /* Icon-name */
+      N_ ("none"), /* Label-text */
+      NULL, /* Keyboard shortcut */
+      NULL, /* Tooltip text */
+      SORT_TYPE_NONE },
 };
 
 static const GtkRadioActionEntry radio_action_sort_order_entries[] = {
@@ -1450,6 +1456,9 @@ rstto_main_window_new (RsttoImageList *image_list,
             break;
         case SORT_TYPE_SIZE:
             rstto_image_list_set_sort_by_size (window->priv->image_list);
+            break;
+        case SORT_TYPE_NONE:
+            rstto_image_list_set_sort_by_none (window->priv->image_list);
             break;
         default:
             g_warning ("Sort type unsupported");
@@ -2282,6 +2291,13 @@ rstto_main_window_set_sorting_function (RsttoMainWindow *window,
                 rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", type);
             }
             break;
+        case SORT_TYPE_NONE:
+            if (window->priv->image_list != NULL)
+            {
+                rstto_image_list_set_sort_by_none (window->priv->image_list);
+                rstto_settings_set_uint_property (window->priv->settings_manager, "sort-type", type);
+            }
+            break;
     }
 }
 
@@ -2384,6 +2400,15 @@ rstto_main_window_update_ui_sort_menu (RsttoMainWindow *window)
                 GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
                     window->priv->ui_manager,
                     "/main-menu/edit-menu/sorting-menu/sort-size")),
+                TRUE);
+            G_GNUC_END_IGNORE_DEPRECATIONS
+            break;
+        case SORT_TYPE_NONE:
+            G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+            gtk_check_menu_item_set_active (
+                GTK_CHECK_MENU_ITEM (gtk_ui_manager_get_widget (
+                    window->priv->ui_manager,
+                    "/main-menu/edit-menu/sorting-menu/sort-none")),
                 TRUE);
             G_GNUC_END_IGNORE_DEPRECATIONS
             break;
