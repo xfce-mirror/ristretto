@@ -678,7 +678,7 @@ static const GtkRadioActionEntry radio_action_sort_entries[] = {
       SORT_TYPE_TYPE },
     { "sort-date",
       NULL, /* Icon-name */
-      N_ ("date"), /* Label-text */
+      N_ ("modification date"), /* Label-text */
       NULL, /* Keyboard shortcut */
       NULL, /* Tooltip text */
       SORT_TYPE_DATE },
