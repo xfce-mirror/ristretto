@@ -429,7 +429,7 @@ msgstr "文件类型"
 #. Icon-name
 #: src/main_window.c:681
 msgid "modification date"
-msgstr ""
+msgstr "修改日期"
 
 #. Icon-name
 #: src/main_window.c:687
