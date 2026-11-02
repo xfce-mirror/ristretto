@@ -50,6 +50,11 @@ From [Flathub](https://flathub.org/apps/details/org.xfce.ristretto):
 
     % flatpak install flathub org.xfce.ristretto
 
+### Image preloading
+
+See [image cache configuration and testing](docs/image-cache.md) for memory limits,
+Xfconf controls, freshness guarantees and accounting limitations.
+
 ### Uninstallation
 
 From source code repository or tarball:

@@ -1,0 +1,3 @@
+# Fontconfig keeps process-global font caches after GTK shutdown.
+# Keep leak checking enabled for all application and decoder allocations.
+leak:libfontconfig.so

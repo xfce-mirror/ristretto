@@ -189,3 +189,5 @@ i18n.merge_file(
 subdir('icons')
 subdir('po')
 subdir('src')
+
+subdir('tests')

@@ -180,6 +180,9 @@ gboolean
 rstto_file_has_exif (RsttoFile *r_file);
 
 void
+rstto_file_invalidate_metadata (RsttoFile *r_file);
+
+void
 rstto_file_changed (RsttoFile *r_file);
 
 gboolean

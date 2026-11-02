@@ -21,6 +21,7 @@
 #define __RISTRETTO_IMAGE_VIEWER_H__
 
 #include "file.h"
+#include "image_cache.h"
 
 #include <gtk/gtk.h>
 
@@ -45,6 +46,9 @@ struct _RsttoImageViewer
 
 GtkWidget *
 rstto_image_viewer_new (void);
+
+RsttoImageCache *
+rstto_image_viewer_get_cache (RsttoImageViewer *viewer);
 
 void
 rstto_image_viewer_set_file (RsttoImageViewer *viewer,

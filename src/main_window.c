@@ -818,6 +818,9 @@ static const GtkRadioActionEntry radio_action_default_zoom[] = {
 struct _RsttoMainWindowPrivate
 {
     RsttoImageList *image_list;
+    GFile *preload_file;
+    gint preload_position, preload_direction, preload_hint;
+    gboolean preload_initial;
 
     RsttoMimeDB *db;
 
@@ -877,6 +880,76 @@ struct _RsttoMainWindowPrivate
 
 
 
+static void
+preload_refresh (RsttoMainWindow *window)
+{
+    if (window->priv->iter == NULL || window->priv->image_viewer == NULL)
+        return;
+    gint position = rstto_image_list_iter_get_position (window->priv->iter);
+    guint count, capacity;
+    gboolean wrap;
+    g_object_get (window->priv->settings_manager, "preload-count", &count,
+                  "cache-max-images", &capacity, "wrap-images", &wrap, NULL);
+    GPtrArray *files = g_ptr_array_new ();
+    if (position >= 0)
+    {
+        GArray *positions = rstto_image_cache_neighbor_positions (
+            rstto_image_list_get_n_images (window->priv->image_list), position,
+            window->priv->preload_direction, window->priv->preload_initial, count, capacity, wrap);
+        for (guint n = 0; n < positions->len; n++)
+        {
+            RsttoFile *file = rstto_image_list_get_file_at_position (
+                window->priv->image_list, g_array_index (positions, guint, n));
+            if (file != NULL && !rstto_file_is_ephemeral (file))
+                g_ptr_array_add (files, rstto_file_get_file (file));
+        }
+        g_array_unref (positions);
+    }
+    rstto_image_cache_set_candidates (
+        rstto_image_viewer_get_cache (RSTTO_IMAGE_VIEWER (window->priv->image_viewer)), files);
+    g_ptr_array_unref (files);
+}
+
+static void
+preload_sorted (RsttoMainWindow *window)
+{
+    window->priv->preload_position = rstto_image_list_iter_get_position (window->priv->iter);
+    preload_refresh (window);
+}
+
+static void
+preload_reset (RsttoMainWindow *window)
+{
+    window->priv->preload_initial = TRUE;
+    window->priv->preload_position = -1;
+    window->priv->preload_direction = 1;
+    g_clear_object (&window->priv->preload_file);
+    rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER (window->priv->image_viewer), NULL,
+                                 RSTTO_SCALE_NONE, RSTTO_SCALE_NONE, RSTTO_IMAGE_ORIENT_NONE);
+    rstto_image_cache_clear (rstto_image_viewer_get_cache (RSTTO_IMAGE_VIEWER (window->priv->image_viewer)));
+}
+
+static void
+preload_invalidated (RsttoImageList *list, GFile *file, RsttoMainWindow *window)
+{
+    rstto_image_cache_invalidate (
+        rstto_image_viewer_get_cache (RSTTO_IMAGE_VIEWER (window->priv->image_viewer)), file);
+}
+
+static void
+preload_settings_changed (GObject *settings, GParamSpec *pspec, RsttoMainWindow *window)
+{
+    if (g_str_has_prefix (pspec->name, "cache-") || g_str_equal (pspec->name, "preload-count")
+        || g_str_equal (pspec->name, "wrap-images"))
+        preload_refresh (window);
+}
+
+static void
+preload_metadata_changed (RsttoImageCache *cache, GFile *file, RsttoMainWindow *window)
+{
+    rstto_image_list_invalidate_metadata (window->priv->image_list, file);
+}
+
 G_DEFINE_TYPE_WITH_PRIVATE (RsttoMainWindow, rstto_main_window, GTK_TYPE_WINDOW)
 
 
@@ -919,6 +992,9 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_window_set_title (GTK_WINDOW (window), RISTRETTO_APP_TITLE);
 
     window->priv = rstto_main_window_get_instance_private (window);
+    window->priv->preload_position = -1;
+    window->priv->preload_direction = 1;
+    window->priv->preload_initial = TRUE;
 
     db_path = xfce_resource_save_location (XFCE_RESOURCE_DATA, "ristretto/mime.db", TRUE);
     if (db_path != NULL)
@@ -1336,6 +1412,7 @@ rstto_main_window_finalize (GObject *object)
 
     g_clear_object (&window->priv->ui_manager);
     g_clear_object (&window->priv->settings_manager);
+    g_clear_object (&window->priv->preload_file);
     g_clear_object (&window->priv->image_list);
     g_clear_object (&window->priv->iter);
     g_clear_object (&window->priv->db);
@@ -1479,6 +1556,16 @@ rstto_main_window_new (RsttoImageList *image_list,
     }
 
     window->priv->iter = rstto_image_list_get_iter (window->priv->image_list);
+    g_signal_connect_object (image_list, "file-invalidated", G_CALLBACK (preload_invalidated), window, 0);
+    g_signal_connect_object (image_list, "sorted", G_CALLBACK (preload_sorted), window, G_CONNECT_SWAPPED);
+    g_signal_connect_object (image_list, "remove-all", G_CALLBACK (preload_reset), window, G_CONNECT_SWAPPED);
+    g_signal_connect_object (image_list, "row-inserted", G_CALLBACK (preload_refresh), window, G_CONNECT_SWAPPED);
+    g_signal_connect_object (image_list, "row-deleted", G_CALLBACK (preload_refresh), window, G_CONNECT_SWAPPED);
+    g_signal_connect_object (window->priv->image_viewer, "size-ready", G_CALLBACK (preload_refresh), window, G_CONNECT_SWAPPED);
+    g_signal_connect_object (rstto_image_viewer_get_cache (RSTTO_IMAGE_VIEWER (window->priv->image_viewer)),
+                             "identity-changed", G_CALLBACK (preload_metadata_changed), window, 0);
+    g_signal_connect_object (window->priv->settings_manager, "notify", G_CALLBACK (preload_settings_changed), window, 0);
+
     g_signal_connect (window->priv->iter, "changed",
                       G_CALLBACK (cb_rstto_main_window_image_list_iter_changed), window);
 
@@ -1523,6 +1610,22 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         cb_rstto_main_window_set_title (window);
 
         cur_file = rstto_image_list_iter_get_file (window->priv->iter);
+        gint preload_position = rstto_image_list_iter_get_position (window->priv->iter);
+        if (cur_file != NULL)
+        {
+            GFile *file = rstto_file_get_file (cur_file);
+            if (window->priv->preload_file != NULL && !g_file_equal (file, window->priv->preload_file))
+            {
+                window->priv->preload_initial = FALSE;
+                if (window->priv->preload_hint != 0)
+                    window->priv->preload_direction = window->priv->preload_hint;
+                else if (preload_position != window->priv->preload_position)
+                    window->priv->preload_direction = preload_position > window->priv->preload_position ? 1 : -1;
+            }
+            g_set_object (&window->priv->preload_file, file);
+            window->priv->preload_position = preload_position;
+        }
+
         cb_rstto_main_window_set_icon (window, cur_file);
         if (NULL != cur_file)
         {
@@ -1535,6 +1638,7 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
                                          cur_file, rstto_file_get_scale (cur_file),
                                          rstto_file_get_auto_scale (cur_file),
                                          rstto_file_get_orientation (cur_file));
+            preload_refresh (window);
 
 
             app_list = g_app_info_get_all_for_type (content_type);
@@ -3515,8 +3619,12 @@ rstto_main_window_select_valid_image (RsttoMainWindow *window,
     }
 
     if (moved)
-        rstto_image_list_iter_set_position (window->priv->iter,
-                                            rstto_image_list_iter_get_position (iter));
+    {
+        window->priv->preload_hint = position == NEXT ? 1 : position == PREVIOUS ? -1
+                                                                                 : 0;
+        rstto_image_list_iter_set_position (window->priv->iter, rstto_image_list_iter_get_position (iter));
+        window->priv->preload_hint = 0;
+    }
 
     g_object_unref (iter);
 

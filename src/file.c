@@ -695,7 +695,7 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
 }
 
 void
-rstto_file_changed (RsttoFile *r_file)
+rstto_file_invalidate_metadata (RsttoFile *r_file)
 {
     g_clear_pointer (&r_file->priv->content_type, g_free);
     g_clear_pointer (&r_file->priv->exif_data, exif_data_free);
@@ -703,6 +703,12 @@ rstto_file_changed (RsttoFile *r_file)
     r_file->priv->final_content_type = FALSE;
     r_file->priv->orientation = RSTTO_IMAGE_ORIENT_NOT_DETERMINED;
     r_file->priv->scale = RSTTO_SCALE_NONE;
+}
+
+void
+rstto_file_changed (RsttoFile *r_file)
+{
+    rstto_file_invalidate_metadata (r_file);
     for (gint n = 0; n < RSTTO_THUMBNAIL_FLAVOR_COUNT; n++)
         r_file->priv->thumbnail_states[n] = RSTTO_THUMBNAIL_STATE_UNPROCESSED;
 

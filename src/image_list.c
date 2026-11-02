@@ -38,6 +38,7 @@ enum
 {
     RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL,
     RSTTO_IMAGE_LIST_SIGNAL_SORTED,
+    RSTTO_IMAGE_LIST_SIGNAL_FILE_INVALIDATED,
     RSTTO_IMAGE_LIST_N_SIGNALS
 };
 
@@ -263,6 +264,10 @@ rstto_image_list_class_init (RsttoImageListClass *klass)
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = rstto_image_list_finalize;
+    rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_FILE_INVALIDATED] =
+        g_signal_new ("file-invalidated", G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST,
+                      0, NULL, NULL, NULL, G_TYPE_NONE, 1, G_TYPE_FILE);
+
 
     rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_REMOVE_ALL] =
         g_signal_new ("remove-all",
@@ -434,6 +439,8 @@ rstto_image_list_remove_file (RsttoImageList *image_list,
     GtkTreePath *path_;
     gint index_;
 
+    g_signal_emit (image_list, rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_FILE_INVALIDATED],
+                   0, rstto_file_get_file (r_file));
     index_ = g_queue_index (image_list->priv->images, r_file);
     if (index_ == -1)
         return;
@@ -750,6 +757,14 @@ cb_file_monitor_changed (GFileMonitor *monitor,
 
     if (list == NULL)
         r_file = rstto_file_new (file);
+
+    if (event_type != G_FILE_MONITOR_EVENT_CREATED)
+    {
+        rstto_file_invalidate_metadata (r_file);
+        g_signal_emit (image_list, rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_FILE_INVALIDATED], 0, file);
+        if (other_file != NULL)
+            g_signal_emit (image_list, rstto_image_list_signals[RSTTO_IMAGE_LIST_SIGNAL_FILE_INVALIDATED], 0, other_file);
+    }
 
     switch (event_type)
     {
@@ -1560,4 +1575,18 @@ gboolean
 rstto_image_list_is_busy (RsttoImageList *list)
 {
     return list->priv->is_busy;
+}
+
+RsttoFile *
+rstto_image_list_get_file_at_position (RsttoImageList *image_list, guint position)
+{
+    return g_queue_peek_nth (image_list->priv->images, position);
+}
+
+void
+rstto_image_list_invalidate_metadata (RsttoImageList *image_list, GFile *file)
+{
+    for (GList *lp = image_list->priv->images->head; lp != NULL; lp = lp->next)
+        if (g_file_equal (rstto_file_get_file (lp->data), file))
+            rstto_file_invalidate_metadata (lp->data);
 }

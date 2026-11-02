@@ -11,11 +11,12 @@ ristretto_sources = [
   'gnome_wallpaper_manager.h',
   'icon_bar.c',
   'icon_bar.h',
+  'image_cache.c',
+  'image_cache.h',
   'image_list.c',
   'image_list.h',
   'image_viewer.c',
   'image_viewer.h',
-  'main.c',
   'main_window.c',
   'main_window.h',
   'mime_db.c',
@@ -73,9 +74,26 @@ ristretto_sources += gnome.compile_resources(
   'ristretto.gresource.xml',
 )
 
+ristretto_dependencies = [
+  glib,
+  gio,
+  gio_unix,
+  gtk,
+  cairo,
+  libexif,
+  exo,
+  libxfce4ui,
+  libxfce4util,
+  xfconf,
+  libxfce4windowing,
+  libx11,
+  libmagic,
+  libm,
+]
+
 executable(
   'ristretto',
-  ristretto_sources,
+  ristretto_sources + ['main.c'],
   sources: xfce_revision_h,
   c_args: [
     '-DG_LOG_DOMAIN="@0@"'.format('ristretto'),
@@ -85,22 +103,20 @@ executable(
   include_directories: [
     include_directories('..'),
   ],
-  dependencies: [
-    glib,
-    gio,
-    gio_unix,
-    gtk,
-    cairo,
-    libexif,
-    exo,
-    libxfce4ui,
-    libxfce4util,
-    xfconf,
-    libxfce4windowing,
-    libx11,
-    libmagic,
-    libm,
-  ],
+  dependencies: ristretto_dependencies,
   install: true,
   install_dir: get_option('prefix') / get_option('bindir'),
 )
+
+viewer_test = executable(
+  'test-image-viewer',
+  ristretto_sources + ['../tests/test-image-viewer.c'],
+  sources: xfce_revision_h,
+  c_args: [
+    '-DTUMBLER_SERVICE_NAME_PREFIX="@0@"'.format(tumbler_service_name_prefix),
+    '-DTUMBLER_SERVICE_PATH_PREFIX="@0@"'.format(tumbler_service_path_prefix),
+  ],
+  include_directories: [include_directories('..')],
+  dependencies: ristretto_dependencies,
+)
+test('image-viewer', viewer_test, timeout: 60)
