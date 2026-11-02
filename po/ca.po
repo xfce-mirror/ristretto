@@ -428,7 +428,7 @@ msgstr "tipus de fitxer"
 #. Icon-name
 #: src/main_window.c:681
 msgid "modification date"
-msgstr ""
+msgstr "data de modificació"
 
 #. Icon-name
 #: src/main_window.c:687
