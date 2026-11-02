@@ -43,6 +43,11 @@
         </menu>
         <menu action="view-menu">
             <menuitem action="show-toolbar"/>
+            <menu action="toolbar-position-menu">
+                <menuitem action="t-pos-top"/>
+                <menuitem action="t-pos-bottom"/>
+            </menu>
+            <separator/>
             <menuitem action="show-statusbar"/>
             <menuitem action="show-thumbnailbar"/>
             <menu action="thumbnailbar-position-menu">

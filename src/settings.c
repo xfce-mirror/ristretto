@@ -57,6 +57,7 @@ enum
     PROP_DEFAULT_ZOOM,
     PROP_FILE_MANAGER_SORT_SYNC,
     PROP_FILE_MANAGER_SORT_SYNC_ONCE,
+    PROP_TOOLBAR_POSITION
 };
 
 static RsttoSettings *settings_object;
@@ -96,6 +97,7 @@ struct _RsttoSettingsPrivate
     gboolean hide_thumbnails_fullscreen;
     guint hide_mouse_cursor_fullscreen_timeout;
     gchar *navigationbar_position;
+    gchar *toolbar_position;
     gboolean invert_zoom_direction;
     guint window_width;
     guint window_height;
@@ -169,6 +171,7 @@ rstto_settings_init (RsttoSettings *settings)
     gdk_rgba_parse (settings->priv->bgcolor_fullscreen, "black"); // black by default
     settings->priv->enable_smoothing = TRUE;
     settings->priv->navigationbar_position = g_strdup ("left");
+    settings->priv->toolbar_position = g_strdup ("top");
     settings->priv->show_toolbar = TRUE;
     settings->priv->window_width = 600;
     settings->priv->window_height = 440;
@@ -193,6 +196,7 @@ rstto_settings_init (RsttoSettings *settings)
     xfconf_g_property_bind (settings->priv->channel, "/window/navigationbar/sort-type", G_TYPE_UINT, settings, "sort-type");
     xfconf_g_property_bind (settings->priv->channel, "/window/navigationbar/sort-order", G_TYPE_UINT, settings, "sort-order");
     xfconf_g_property_bind (settings->priv->channel, "/window/navigationbar/position", G_TYPE_STRING, settings, "navigationbar-position");
+    xfconf_g_property_bind (settings->priv->channel, "/window/toolbar/position", G_TYPE_STRING, settings, "toolbar-position");
     xfconf_g_property_bind (settings->priv->channel, "/window/thumbnails/show", G_TYPE_BOOLEAN, settings, "show-thumbnailbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/statusbar/show", G_TYPE_BOOLEAN, settings, "show-statusbar");
     xfconf_g_property_bind (settings->priv->channel, "/window/thumbnails/size", G_TYPE_UINT, settings, "thumbnail-size");
@@ -295,6 +299,12 @@ rstto_settings_class_init (RsttoSettingsClass *klass)
                                  "bottom",
                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_NAVBAR_POSITION, pspec);
+
+    pspec = g_param_spec_string ("toolbar-position",
+                                 "", "",
+                                 "top",
+                                 G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(object_class, PROP_TOOLBAR_POSITION, pspec);
 
     pspec = g_param_spec_boolean ("invert-zoom-direction",
                                   "", "",
@@ -413,6 +423,7 @@ rstto_settings_finalize (GObject *object)
     g_clear_object (&settings->priv->channel);
     g_clear_pointer (&settings->priv->last_file_path, g_free);
     g_clear_pointer (&settings->priv->navigationbar_position, g_free);
+    g_clear_pointer (&settings->priv->toolbar_position, g_free);
     g_clear_pointer (&settings->priv->desktop_type, g_free);
     g_clear_pointer (&settings->priv->bgcolor, g_free);
     g_clear_pointer (&settings->priv->bgcolor_fullscreen, g_free);
@@ -540,6 +551,15 @@ rstto_settings_set_property (GObject *object,
                 settings->priv->navigationbar_position = g_strdup (str_val);
             }
             break;
+        case PROP_TOOLBAR_POSITION:
+            str_val = g_value_get_string (value);
+
+            if (g_ascii_strcasecmp (str_val, "bottom") == 0 || g_ascii_strcasecmp (str_val, "top") == 0)
+            {
+                g_free (settings->priv->toolbar_position);
+                settings->priv->toolbar_position = g_strdup (str_val);
+            }
+            break;
         case PROP_INVERT_ZOOM_DIRECTION:
             settings->priv->invert_zoom_direction = g_value_get_boolean (value);
             break;
@@ -649,6 +669,9 @@ rstto_settings_get_property (GObject *object,
         case PROP_NAVBAR_POSITION:
             g_value_set_string (value, settings->priv->navigationbar_position);
             break;
+        case PROP_TOOLBAR_POSITION:
+            g_value_set_string (value, settings->priv->toolbar_position);
+            break;
         case PROP_INVERT_ZOOM_DIRECTION:
             g_value_set_boolean (value, settings->priv->invert_zoom_direction);
             break;
@@ -750,6 +773,39 @@ rstto_settings_get_navbar_position (RsttoSettings *settings)
         return 2;
     if (strcmp (settings->priv->navigationbar_position, "bottom") == 0)
         return 3;
+
+    return 0;
+}
+
+void
+rstto_settings_set_toolbar_position (RsttoSettings *settings,
+                                    guint pos)
+{
+    const gchar *str;
+
+    switch (pos)
+    {
+        default:
+            str = "top";
+            break;
+        case 1:
+            str = "bottom";
+            break;
+    }
+
+    g_object_set (settings, "toolbar-position", str, NULL);
+}
+
+guint
+rstto_settings_get_toolbar_position (RsttoSettings *settings)
+{
+    if (settings->priv->toolbar_position == NULL)
+        return 0;
+
+    if (strcmp (settings->priv->toolbar_position, "top") == 0)
+        return 0;
+    if (strcmp (settings->priv->toolbar_position, "bottom") == 0)
+        return 1;
 
     return 0;
 }
