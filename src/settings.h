@@ -80,6 +80,13 @@ guint
 rstto_settings_get_navbar_position (RsttoSettings *settings);
 
 void
+rstto_settings_set_toolbar_position (RsttoSettings *settings,
+                                    guint pos);
+
+guint
+rstto_settings_get_toolbar_position (RsttoSettings *settings);
+
+void
 rstto_settings_set_uint_property (RsttoSettings *settings,
                                   const gchar *property_name,
                                   guint value);
