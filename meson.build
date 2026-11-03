@@ -43,6 +43,11 @@ libxfce4util = dependency('libxfce4util-1.0', version: dependency_versions['xfce
 xfconf = dependency('libxfconf-0', version: dependency_versions['xfce4'])
 
 feature_cflags = []
+glycin = dependency('glycin-2', version: '>= 2.0.0', required: get_option('glycin-probe'))
+if glycin.found()
+  feature_cflags += '-DHAVE_GLYCIN=1'
+endif
+summary('Safe image probing (Glycin)', glycin.found())
 
 # TODO: make required when 'xfce4' reaches 4.20
 libxfce4windowing = dependency('libxfce4windowing-0', version: dependency_versions['libxfce4windowing'], required: false)
@@ -79,6 +84,11 @@ endif
 libm = cc.find_library('m', required: true)
 
 extra_cflags = []
+if get_option('profiling')
+  extra_cflags += ['-DRSTTO_ENABLE_PROFILING=1', '-g']
+  extra_cflags += cc.get_supported_arguments('-fno-omit-frame-pointer', '-fno-optimize-sibling-calls')
+endif
+summary('Profiling support', get_option('profiling'))
 extra_cflags_check = [
   '-Wmissing-declarations',
   '-Wmissing-noreturn',

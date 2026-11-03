@@ -19,6 +19,7 @@
 
 #include "util.h"
 #include "file.h"
+#include "image_cache.h"
 #include "settings.h"
 
 #include <libxfce4util/libxfce4util.h>
@@ -40,6 +41,7 @@ enum
     PROP_CACHE_MAX_MIB,
     PROP_CACHE_MAX_IMAGE_MIB,
     PROP_PRELOAD_COUNT,
+    PROP_PRELOAD_WORKERS,
 
     PROP_ENABLE_SMOOTHING,
     PROP_HIDE_THUMBNAILS_FULLSCREEN,
@@ -103,6 +105,7 @@ struct _RsttoSettingsPrivate
     guint cache_max_mib;
     guint cache_max_image_mib;
     guint preload_count;
+    guint preload_workers;
 
     gboolean enable_smoothing;
     gboolean hide_thumbnails_fullscreen;
@@ -181,6 +184,7 @@ rstto_settings_init (RsttoSettings *settings)
     settings->priv->cache_max_mib = 256;
     settings->priv->cache_max_image_mib = 128;
     settings->priv->preload_count = 2;
+    settings->priv->preload_workers = RSTTO_PRELOAD_WORKERS_DEFAULT;
 
     settings->priv->bgcolor = g_new0 (GdkRGBA, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkRGBA, 1);
@@ -231,6 +235,7 @@ rstto_settings_init (RsttoSettings *settings)
     xfconf_g_property_bind (settings->priv->channel, "/image/cache-max-mib", G_TYPE_UINT, settings, "cache-max-mib");
     xfconf_g_property_bind (settings->priv->channel, "/image/cache-max-image-mib", G_TYPE_UINT, settings, "cache-max-image-mib");
     xfconf_g_property_bind (settings->priv->channel, "/image/preload-count", G_TYPE_UINT, settings, "preload-count");
+    xfconf_g_property_bind (settings->priv->channel, "/image/preload-workers", G_TYPE_UINT, settings, "preload-workers");
 
     xfconf_g_property_bind (settings->priv->channel, "/image/enable-smoothing", G_TYPE_BOOLEAN, settings, "enable-smoothing");
     /* not Thunar-specific but let's keep the old name for backwards-compatibility */
@@ -309,6 +314,10 @@ rstto_settings_class_init (RsttoSettingsClass *klass)
     pspec = g_param_spec_uint ("preload-count", "", "", 0, G_MAXUINT, 2,
                                G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_PRELOAD_COUNT, pspec);
+
+    pspec = g_param_spec_uint ("preload-workers", "", "", 1, RSTTO_PRELOAD_WORKERS_MAX, RSTTO_PRELOAD_WORKERS_DEFAULT,
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (object_class, PROP_PRELOAD_WORKERS, pspec);
 
     pspec = g_param_spec_boolean ("limit-quality",
                                   "", "",
@@ -574,6 +583,9 @@ rstto_settings_set_property (GObject *object,
         case PROP_CACHE_MAX_IMAGE_MIB:
             settings->priv->cache_max_image_mib = g_value_get_uint (value);
             break;
+        case PROP_PRELOAD_WORKERS:
+            settings->priv->preload_workers = g_value_get_uint (value);
+            break;
         case PROP_PRELOAD_COUNT:
             settings->priv->preload_count = g_value_get_uint (value);
             break;
@@ -704,6 +716,9 @@ rstto_settings_get_property (GObject *object,
             break;
         case PROP_CACHE_MAX_IMAGE_MIB:
             g_value_set_uint (value, settings->priv->cache_max_image_mib);
+            break;
+        case PROP_PRELOAD_WORKERS:
+            g_value_set_uint (value, settings->priv->preload_workers);
             break;
         case PROP_PRELOAD_COUNT:
             g_value_set_uint (value, settings->priv->preload_count);

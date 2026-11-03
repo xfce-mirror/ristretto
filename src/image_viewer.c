@@ -17,6 +17,7 @@
  *  02110-1301, USA.
  */
 
+#include "profile.h"
 #include "util.h"
 #include "image_cache.h"
 #include "image_viewer.h"
@@ -177,12 +178,28 @@ static void
 cache_identity_changed (RsttoImageCache *cache, GFile *file, RsttoImageViewer *viewer);
 static void
 cache_viewer_destroy (GtkWidget *widget, gpointer unused);
+static void cache_prepare_render (RsttoImageCache *cache, GFile *file, RsttoImageData *image,
+                                  RsttoRenderKey *key, RsttoImageViewer *viewer);
+static gboolean current_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key);
+static void navigation_clear (RsttoImageViewer *viewer);
+static void presentation_arm (RsttoImageViewer *viewer);
+static void render_refresh (RsttoImageViewer *viewer);
+static void reload_options (RsttoImageViewer *viewer);
+static void viewer_unmapped (GtkWidget *widget, gpointer unused);
 static RsttoDecodeOptions
 decode_options (RsttoImageViewer *viewer);
 
 struct _RsttoImageViewerPrivate
 {
-    RsttoFile *file;
+    RsttoFile *file; /* committed display and file-action identity */
+    RsttoFile *active_file, *pending_file;
+    gdouble pending_scale;
+    GPtrArray *preload_files;
+    GdkFrameClock *presentation_clock;
+    gulong presentation_handler;
+    guint navigation_idle, render_idle;
+    gboolean awaiting_frame, frame_drawn, destroyed, render_attempt_valid;
+    RsttoRenderKey render_attempt;
     RsttoSettings *settings;
 
     gboolean limit_quality;
@@ -196,11 +213,15 @@ struct _RsttoImageViewerPrivate
     RsttoImageCache *cache;
     RsttoDecodeOptions decode_options;
     gdouble requested_scale;
+    gint64 profile_requested, profile_ready;
+    guint64 profile_request_id;
     RsttoImageOrientation orientation;
     gchar **excluded_mime_types;
     struct
     {
         cairo_pattern_t *pattern;
+        cairo_surface_t *rendered;
+        RsttoRenderKey render_key;
         gboolean has_alpha;
         gint width;
         gint height;
@@ -281,9 +302,12 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv = rstto_image_viewer_get_instance_private (viewer);
     viewer->priv->settings = rstto_settings_new ();
     viewer->priv->cache = rstto_image_cache_new ();
+    viewer->priv->preload_files = g_ptr_array_new_with_free_func (g_object_unref);
+    g_signal_connect_object (viewer->priv->cache, "prepare-render", G_CALLBACK (cache_prepare_render), viewer, 0);
     g_signal_connect_object (viewer->priv->cache, "ready", G_CALLBACK (cache_ready), viewer, 0);
     g_signal_connect_object (viewer->priv->cache, "identity-changed", G_CALLBACK (cache_identity_changed), viewer, 0);
     g_signal_connect (viewer, "destroy", G_CALLBACK (cache_viewer_destroy), NULL);
+    g_signal_connect (viewer, "unmap", G_CALLBACK (viewer_unmapped), NULL);
     g_signal_connect_object (viewer->priv->settings, "notify", G_CALLBACK (cache_settings_changed), viewer, 0);
     cache_settings_changed (G_OBJECT (viewer->priv->settings), NULL, viewer);
 
@@ -382,6 +406,10 @@ rstto_image_viewer_class_init (RsttoImageViewerClass *klass)
     widget_class->motion_notify_event = rstto_motion_notify_event;
     widget_class->popup_menu = rstto_popup_menu;
 
+    g_signal_new ("image-committed", G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, NULL, G_TYPE_NONE, 0);
+    g_signal_new ("frame-presented", G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, NULL, G_TYPE_NONE, 0);
     g_signal_new ("size-ready",
                   G_TYPE_FROM_CLASS (object_class),
                   G_SIGNAL_RUN_FIRST,
@@ -523,12 +551,28 @@ static gboolean
 rstto_image_viewer_draw (GtkWidget *widget,
                          cairo_t *ctx)
 {
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    gint64 start = rstto_profile_now ();
     cairo_save (ctx);
 
     rstto_image_viewer_paint (widget, ctx);
 
     cairo_restore (ctx);
+    rstto_profile_end (start, viewer, viewer->priv->profile_request_id, "draw",
+                       "width=%d height=%d scale=%.4f quality=%.4f smoothing=%d",
+                       viewer->priv->pixbuf.width, viewer->priv->pixbuf.height,
+                       viewer->priv->scale, viewer->priv->quality_scale, viewer->priv->enable_smoothing);
+    if (viewer->priv->profile_ready != 0)
+    {
+        rstto_profile_end (viewer->priv->profile_ready, viewer, viewer->priv->profile_request_id,
+                           "ready-to-draw", "%s", "");
+        rstto_profile_end (viewer->priv->profile_requested, viewer, viewer->priv->profile_request_id,
+                           "request-to-draw", "%s", "");
+        viewer->priv->profile_ready = 0;
+    }
 
+    if (viewer->priv->awaiting_frame)
+        viewer->priv->frame_drawn = TRUE;
     return TRUE;
 }
 
@@ -537,8 +581,11 @@ rstto_image_viewer_finalize (GObject *object)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (object);
 
+    navigation_clear (viewer);
     rstto_image_cache_stop (viewer->priv->cache);
     g_clear_object (&viewer->priv->cache);
+    g_clear_pointer (&viewer->priv->preload_files, g_ptr_array_unref);
+    g_clear_pointer (&viewer->priv->pixbuf.rendered, cairo_surface_destroy);
 
     g_clear_object (&viewer->priv->settings);
     g_clear_pointer (&viewer->priv->pixbuf.pattern, cairo_pattern_destroy);
@@ -688,7 +735,7 @@ set_scale_factor (RsttoImageViewer *viewer,
         if (options.limit_quality != viewer->priv->decode_options.limit_quality
             || options.width != viewer->priv->decode_options.width
             || options.height != viewer->priv->decode_options.height)
-            rstto_image_viewer_load_image (viewer, viewer->priv->file, viewer->priv->auto_scale);
+            reload_options (viewer);
     }
     if (viewer->priv->scale_factor == old_scale_factor)
         return;
@@ -696,11 +743,11 @@ set_scale_factor (RsttoImageViewer *viewer,
     if (viewer->priv->image_width > 0)
     {
         /* do not scale the image with the rest of the window */
-        cairo_surface_t *surface;
         viewer->priv->image_width = viewer->priv->original_image_width / viewer->priv->scale_factor;
         viewer->priv->image_height = viewer->priv->original_image_height / viewer->priv->scale_factor;
-        cairo_pattern_get_surface (viewer->priv->pixbuf.pattern, &surface);
-        cairo_surface_set_device_scale (surface, viewer->priv->scale_factor, viewer->priv->scale_factor);
+        cairo_surface_t *wrapper;
+        cairo_pattern_get_surface (viewer->priv->pixbuf.pattern, &wrapper);
+        cairo_surface_set_device_scale (wrapper, viewer->priv->scale_factor, viewer->priv->scale_factor);
 
         if (unused != NULL)
             gtk_widget_queue_resize (GTK_WIDGET (viewer));
@@ -956,9 +1003,8 @@ paint_image (GtkWidget *widget,
              cairo_t *ctx)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
-    cairo_matrix_t transform_matrix;
-    gdouble x_scale, y_scale, block_width, block_height;
-    gint i, j, h_adjust, v_adjust;
+    gdouble block_width, block_height;
+    gint i, j;
     gint x_offset = viewer->priv->rendering.x_offset;
     gint y_offset = viewer->priv->rendering.y_offset;
     gint width = viewer->priv->rendering.width;
@@ -994,98 +1040,26 @@ paint_image (GtkWidget *widget,
 
     cairo_restore (ctx);
 
-    h_adjust = gtk_adjustment_get_value (viewer->priv->hadjustment);
-    v_adjust = gtk_adjustment_get_value (viewer->priv->vadjustment);
-    switch (viewer->priv->orientation)
+    RsttoRenderKey key;
+    if (!current_render_key (viewer, &key))
+        return;
+    gboolean prepared = viewer->priv->pixbuf.rendered != NULL
+                        && rstto_image_render_key_equal (&key, &viewer->priv->pixbuf.render_key);
+    if (prepared)
+        cairo_set_source_surface (ctx, viewer->priv->pixbuf.rendered, 0, 0);
+    else
     {
-        case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
-            cairo_translate (ctx, -h_adjust, -v_adjust);
-            cairo_translate (ctx, width, 0);
-            cairo_translate (ctx, x_offset, y_offset);
-            cairo_matrix_init_identity (&transform_matrix);
-            transform_matrix.xx = -1.0;
-            cairo_transform (ctx, &transform_matrix);
-            break;
-        case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
-            cairo_translate (ctx, -h_adjust, -v_adjust);
-            cairo_translate (ctx, 0, height);
-            cairo_translate (ctx, x_offset, y_offset);
-            cairo_matrix_init_identity (&transform_matrix);
-            transform_matrix.yy = -1.0;
-            cairo_transform (ctx, &transform_matrix);
-            break;
-        case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
-            cairo_rotate (ctx, M_PI * 1.5);
-            cairo_translate (ctx, v_adjust, -h_adjust);
-            cairo_translate (ctx, -y_offset, x_offset);
-            cairo_matrix_init_identity (&transform_matrix);
-            transform_matrix.xx = -1.0;
-            cairo_transform (ctx, &transform_matrix);
-            break;
-        case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
-            cairo_rotate (ctx, M_PI * 0.5);
-            cairo_translate (ctx, -v_adjust, h_adjust);
-            cairo_translate (ctx, height, -width);
-            cairo_translate (ctx, y_offset, -x_offset);
-            cairo_matrix_init_identity (&transform_matrix);
-            transform_matrix.xx = -1.0;
-            cairo_transform (ctx, &transform_matrix);
-            break;
-        case RSTTO_IMAGE_ORIENT_90:
-            cairo_rotate (ctx, M_PI * 0.5);
-            cairo_translate (ctx, -v_adjust, h_adjust);
-            cairo_translate (ctx, 0, -width);
-            cairo_translate (ctx, y_offset, -x_offset);
-            break;
-        case RSTTO_IMAGE_ORIENT_270:
-            cairo_rotate (ctx, M_PI * 1.5);
-            cairo_translate (ctx, v_adjust, -h_adjust);
-            cairo_translate (ctx, -height, 0);
-            cairo_translate (ctx, -y_offset, x_offset);
-            break;
-        case RSTTO_IMAGE_ORIENT_180:
-            cairo_rotate (ctx, M_PI);
-            cairo_translate (ctx, h_adjust, v_adjust);
-            cairo_translate (ctx, -width, -height);
-            cairo_translate (ctx, -x_offset, -y_offset);
-            break;
-        case RSTTO_IMAGE_ORIENT_NONE:
-        default:
-            cairo_translate (ctx, -h_adjust, -v_adjust);
-            cairo_translate (ctx, x_offset, y_offset);
-            break;
+        /* GTK's context already carries the device transform. */
+        rstto_image_render_transform (ctx, &key);
+        cairo_pattern_set_filter (viewer->priv->pixbuf.pattern,
+                                  viewer->priv->enable_smoothing ? CAIRO_FILTER_GOOD : CAIRO_FILTER_NEAREST);
+        cairo_set_source (ctx, viewer->priv->pixbuf.pattern);
+        if ((key.x_scale * key.pixel_scale) / key.source_scale < 1 - 1e-9 || (key.y_scale * key.pixel_scale) / key.source_scale < 1 - 1e-9)
+            render_refresh (viewer);
     }
-
-    switch (viewer->priv->orientation)
-    {
-        case RSTTO_IMAGE_ORIENT_90:
-        case RSTTO_IMAGE_ORIENT_270:
-        case RSTTO_IMAGE_ORIENT_FLIP_TRANSPOSE:
-        case RSTTO_IMAGE_ORIENT_FLIP_TRANSVERSE:
-            /* adjusted scales for painting, so that the painted image is strictly
-             * included in the rendering rectangle, and the drawing area restriction
-             * in gdk_window_invalidate_*() is really taken into account (typical
-             * example where it is necessary: when redrawing the background in
-             * cb_rstto_bgcolor_changed()) */
-            x_scale = (1 - DBL_EPSILON) * width / viewer->priv->image_height;
-            y_scale = (1 - DBL_EPSILON) * height / viewer->priv->image_width;
-            break;
-        case RSTTO_IMAGE_ORIENT_NONE:
-        case RSTTO_IMAGE_ORIENT_180:
-        case RSTTO_IMAGE_ORIENT_FLIP_HORIZONTAL:
-        case RSTTO_IMAGE_ORIENT_FLIP_VERTICAL:
-        default:
-            x_scale = (1 - DBL_EPSILON) * width / viewer->priv->image_width;
-            y_scale = (1 - DBL_EPSILON) * height / viewer->priv->image_height;
-            break;
-    }
-
-    cairo_pattern_set_filter (viewer->priv->pixbuf.pattern,
-                              viewer->priv->enable_smoothing ? CAIRO_FILTER_GOOD
-                                                             : CAIRO_FILTER_NEAREST);
-    cairo_scale (ctx, x_scale / viewer->priv->quality_scale, y_scale / viewer->priv->quality_scale);
-    cairo_set_source (ctx, viewer->priv->pixbuf.pattern);
+    gint64 start = rstto_profile_now ();
     cairo_paint (ctx);
+    rstto_profile_end (start, viewer, viewer->priv->profile_request_id, "cairo-paint", "prepared=%d", prepared);
 }
 
 static void
@@ -1218,30 +1192,255 @@ rstto_image_viewer_new (void)
 void
 rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble scale, RsttoScale auto_scale, RsttoImageOrientation orientation)
 {
-    viewer->priv->orientation = orientation;
-    if (viewer->priv->file == file)
+    if (viewer->priv->destroyed)
         return;
-    if (viewer->priv->file != NULL)
-        g_signal_handlers_disconnect_by_func (viewer->priv->file, cb_rstto_image_viewer_file_changed, viewer);
-    g_set_object (&viewer->priv->file, file);
-    g_clear_error (&viewer->priv->error);
-    viewer->priv->quality_scale = 1.0;
-    viewer->priv->image_width = viewer->priv->original_image_width = 0;
-    viewer->priv->image_height = viewer->priv->original_image_height = 0;
-    rstto_image_viewer_reset_adjustments (viewer);
-    if (file != NULL)
+    if (file == NULL)
     {
-        g_signal_connect_object (file, "changed", G_CALLBACK (cb_rstto_image_viewer_file_changed), viewer, 0);
-        rstto_image_viewer_load_image (viewer, file, auto_scale != RSTTO_SCALE_NONE ? auto_scale : scale);
-    }
-    else
-    {
+        navigation_clear (viewer);
+        if (viewer->priv->file != NULL)
+            g_signal_handlers_disconnect_by_func (viewer->priv->file, cb_rstto_image_viewer_file_changed, viewer);
+        g_clear_object (&viewer->priv->file);
+        g_clear_error (&viewer->priv->error);
+        viewer->priv->image_width = viewer->priv->image_height = 0;
+        viewer->priv->original_image_width = viewer->priv->original_image_height = 0;
         g_clear_handle_id (&viewer->priv->animation_id, g_source_remove);
         g_clear_object (&viewer->priv->iter);
         g_clear_pointer (&viewer->priv->pixbuf.pattern, cairo_pattern_destroy);
+        g_clear_pointer (&viewer->priv->pixbuf.rendered, cairo_surface_destroy);
         rstto_image_cache_clear (viewer->priv->cache);
         gtk_widget_set_tooltip_text (GTK_WIDGET (viewer), NULL);
         gtk_widget_queue_draw (GTK_WIDGET (viewer));
+        g_signal_emit_by_name (viewer, "image-committed");
+        return;
+    }
+    gdouble requested = auto_scale != RSTTO_SCALE_NONE ? auto_scale : scale;
+    if (viewer->priv->active_file != NULL || viewer->priv->awaiting_frame || viewer->priv->navigation_idle != 0)
+    {
+        g_set_object (&viewer->priv->pending_file, file);
+        viewer->priv->pending_scale = requested;
+        rstto_profile_end (rstto_profile_now (), viewer, viewer->priv->profile_request_id, "navigation-coalesced", "%s", "");
+        return;
+    }
+    if (viewer->priv->file != file)
+        rstto_image_viewer_load_image (viewer, file, requested);
+}
+
+RsttoFile *
+rstto_image_viewer_get_file (RsttoImageViewer *viewer)
+{
+    return viewer->priv->file;
+}
+
+void
+rstto_image_viewer_set_preload_files (RsttoImageViewer *viewer, GPtrArray *files)
+{
+    g_ptr_array_set_size (viewer->priv->preload_files, 0);
+    GPtrArray *native = g_ptr_array_new ();
+    guint count;
+    g_object_get (viewer->priv->settings, "preload-count", &count, NULL);
+    RsttoFile *pending = count != 0 ? viewer->priv->pending_file : NULL;
+    if (pending != NULL)
+        g_ptr_array_add (viewer->priv->preload_files, g_object_ref (pending));
+    for (guint n = 0; n < files->len; n++)
+    {
+        RsttoFile *file = g_ptr_array_index (files, n);
+        g_ptr_array_add (viewer->priv->preload_files, g_object_ref (file));
+        g_ptr_array_add (native, rstto_file_get_file (file));
+    }
+    rstto_image_cache_set_schedule (viewer->priv->cache,
+        pending != NULL && !rstto_file_is_ephemeral (pending) ? rstto_file_get_file (pending) : NULL, native);
+    g_ptr_array_unref (native);
+}
+
+void
+rstto_image_viewer_reconcile_files (RsttoImageViewer *viewer, RsttoImageList *list)
+{
+    RsttoImageListIter *iter = rstto_image_list_get_iter (list);
+    if (viewer->priv->file != NULL && !rstto_image_list_iter_find_file (iter, viewer->priv->file))
+        rstto_image_viewer_set_file (viewer, NULL, RSTTO_SCALE_NONE, RSTTO_SCALE_NONE, RSTTO_IMAGE_ORIENT_NONE);
+    else
+    {
+        if (viewer->priv->pending_file != NULL && !rstto_image_list_iter_find_file (iter, viewer->priv->pending_file))
+            g_clear_object (&viewer->priv->pending_file);
+        if (viewer->priv->active_file != NULL && !rstto_image_list_iter_find_file (iter, viewer->priv->active_file))
+        {
+            g_clear_object (&viewer->priv->active_file);
+            rstto_image_cache_cancel_request (viewer->priv->cache);
+        }
+    }
+    g_object_unref (iter);
+}
+
+static void
+presentation_disconnect (RsttoImageViewer *viewer)
+{
+    if (viewer->priv->presentation_handler != 0)
+        g_signal_handler_disconnect (viewer->priv->presentation_clock, viewer->priv->presentation_handler);
+    viewer->priv->presentation_handler = 0;
+    g_clear_object (&viewer->priv->presentation_clock);
+}
+
+static void
+navigation_clear (RsttoImageViewer *viewer)
+{
+    presentation_disconnect (viewer);
+    g_clear_handle_id (&viewer->priv->navigation_idle, g_source_remove);
+    g_clear_handle_id (&viewer->priv->render_idle, g_source_remove);
+    g_clear_object (&viewer->priv->active_file);
+    g_clear_object (&viewer->priv->pending_file);
+    viewer->priv->awaiting_frame = viewer->priv->frame_drawn = FALSE;
+}
+
+static gboolean
+navigation_dispatch (gpointer data)
+{
+    RsttoImageViewer *viewer = data;
+    viewer->priv->navigation_idle = 0;
+    viewer->priv->awaiting_frame = FALSE;
+    if (viewer->priv->destroyed)
+        return G_SOURCE_REMOVE;
+    RsttoFile *file = g_steal_pointer (&viewer->priv->pending_file);
+    if (file != NULL)
+    {
+        if (file != viewer->priv->file)
+            rstto_image_viewer_load_image (viewer, file, viewer->priv->pending_scale);
+        g_object_unref (file);
+    }
+    return G_SOURCE_REMOVE;
+}
+
+static void
+frame_presented (GdkFrameClock *clock, RsttoImageViewer *viewer)
+{
+    if (!viewer->priv->frame_drawn && gtk_widget_get_mapped (GTK_WIDGET (viewer)))
+        return;
+    presentation_disconnect (viewer);
+    rstto_profile_end (rstto_profile_now (), viewer, viewer->priv->profile_request_id, "frame-presented", "%s", "");
+    g_signal_emit_by_name (viewer, "frame-presented");
+    if (!viewer->priv->destroyed && viewer->priv->navigation_idle == 0)
+        viewer->priv->navigation_idle = g_idle_add (navigation_dispatch, viewer);
+}
+
+static void
+presentation_arm (RsttoImageViewer *viewer)
+{
+    viewer->priv->awaiting_frame = TRUE;
+    viewer->priv->frame_drawn = FALSE;
+    if (gtk_widget_get_mapped (GTK_WIDGET (viewer)))
+    {
+        viewer->priv->presentation_clock = g_object_ref (gtk_widget_get_frame_clock (GTK_WIDGET (viewer)));
+        viewer->priv->presentation_handler = g_signal_connect_object (viewer->priv->presentation_clock,
+            "after-paint", G_CALLBACK (frame_presented), viewer, 0);
+    }
+    else
+        frame_presented (NULL, viewer);
+}
+
+static void
+viewer_unmapped (GtkWidget *widget, gpointer unused)
+{
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    if (viewer->priv->awaiting_frame)
+        frame_presented (NULL, viewer);
+}
+
+static RsttoRenderView
+render_view (RsttoImageViewer *viewer, RsttoFile *file)
+{
+    GtkWidget *widget = GTK_WIDGET (viewer);
+    RsttoScale auto_scale = rstto_file_get_auto_scale (file);
+    return (RsttoRenderView) {
+        .viewport_width = gtk_widget_get_allocated_width (widget),
+        .viewport_height = gtk_widget_get_allocated_height (widget),
+        .image_scale = viewer->priv->scale_factor,
+        .pixel_scale = gtk_widget_get_scale_factor (widget),
+        .orientation = rstto_file_get_orientation (file),
+        .scale = file == viewer->priv->active_file ? viewer->priv->requested_scale
+                   : auto_scale != RSTTO_SCALE_NONE ? auto_scale : rstto_file_get_scale (file),
+        .previous_scale = viewer->priv->scale,
+        .default_zoom = rstto_settings_get_int_property (viewer->priv->settings, "default-zoom"),
+        .h_adjust = rstto_file_get_h_adjustment (file), .v_adjust = rstto_file_get_v_adjustment (file),
+        .smoothing = viewer->priv->enable_smoothing
+    };
+}
+
+static void
+cache_prepare_render (RsttoImageCache *cache, GFile *file, RsttoImageData *image,
+                      RsttoRenderKey *key, RsttoImageViewer *viewer)
+{
+    RsttoFile *rfile = NULL;
+    if (viewer->priv->destroyed)
+        return;
+    if (viewer->priv->active_file != NULL && g_file_equal (rstto_file_get_file (viewer->priv->active_file), file))
+        rfile = viewer->priv->active_file;
+    else if (viewer->priv->file != NULL && g_file_equal (rstto_file_get_file (viewer->priv->file), file))
+        rfile = viewer->priv->file;
+    else
+        for (guint n = 0; n < viewer->priv->preload_files->len; n++)
+        {
+            RsttoFile *candidate = g_ptr_array_index (viewer->priv->preload_files, n);
+            if (g_file_equal (rstto_file_get_file (candidate), file))
+            {
+                rfile = candidate;
+                break;
+            }
+        }
+    if (rfile != NULL)
+    {
+        RsttoRenderView view = render_view (viewer, rfile);
+        RsttoRenderGeometry geometry;
+        if (rstto_image_render_geometry (&view, image->width, image->height, &geometry)
+            && rstto_image_render_key (&view, &geometry, image->width, image->decoded_width, key)
+            && (key->x_scale * key->pixel_scale) / key->source_scale >= 1 - 1e-9
+            && (key->y_scale * key->pixel_scale) / key->source_scale >= 1 - 1e-9)
+            *key = (RsttoRenderKey) { 0 }; /* native size/enlargement needs no derivative */
+    }
+}
+
+static gboolean
+current_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key)
+{
+    if (viewer->priv->file == NULL)
+        return FALSE;
+    RsttoRenderView view = render_view (viewer, viewer->priv->file);
+    view.orientation = viewer->priv->orientation;
+    RsttoRenderGeometry geometry = {
+        .image_width = viewer->priv->image_width, .image_height = viewer->priv->image_height,
+        .width = viewer->priv->rendering.width, .height = viewer->priv->rendering.height,
+        .x = viewer->priv->rendering.x_offset, .y = viewer->priv->rendering.y_offset,
+        .h_adjust = gtk_adjustment_get_value (viewer->priv->hadjustment),
+        .v_adjust = gtk_adjustment_get_value (viewer->priv->vadjustment)
+    };
+    return rstto_image_render_key (&view, &geometry, viewer->priv->original_image_width,
+                                   viewer->priv->pixbuf.width, key);
+}
+
+static gboolean
+refresh_render_idle (gpointer data)
+{
+    RsttoImageViewer *viewer = data;
+    viewer->priv->render_idle = 0;
+    if (!viewer->priv->destroyed && viewer->priv->file != NULL && viewer->priv->active_file == NULL
+        && !viewer->priv->awaiting_frame && viewer->priv->pending_file == NULL)
+        rstto_image_viewer_load_image (viewer, viewer->priv->file,
+            viewer->priv->auto_scale != RSTTO_SCALE_NONE ? viewer->priv->auto_scale : viewer->priv->scale);
+    return G_SOURCE_REMOVE;
+}
+
+static void
+render_refresh (RsttoImageViewer *viewer)
+{
+    RsttoRenderKey key;
+    if (!current_render_key (viewer, &key)
+        || (viewer->priv->render_attempt_valid && rstto_image_render_key_equal (&key, &viewer->priv->render_attempt)))
+        return;
+    if (viewer->priv->render_idle == 0 && viewer->priv->active_file == NULL
+        && !viewer->priv->awaiting_frame && viewer->priv->pending_file == NULL
+        && viewer->priv->iter == NULL)
+    {
+        viewer->priv->render_attempt = key;
+        viewer->priv->render_attempt_valid = TRUE;
+        viewer->priv->render_idle = g_idle_add (refresh_render_idle, viewer);
     }
 }
 
@@ -1266,11 +1465,37 @@ decode_options (RsttoImageViewer *viewer)
 static void
 rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdouble scale)
 {
+    if (viewer->priv->destroyed)
+        return;
+    presentation_disconnect (viewer);
+    g_clear_handle_id (&viewer->priv->navigation_idle, g_source_remove);
+    viewer->priv->awaiting_frame = FALSE;
+    g_set_object (&viewer->priv->active_file, file);
+    g_clear_handle_id (&viewer->priv->render_idle, g_source_remove);
+    viewer->priv->profile_requested = rstto_profile_now ();
+    viewer->priv->profile_ready = 0;
+    viewer->priv->profile_request_id++;
     viewer->priv->requested_scale = scale;
     viewer->priv->decode_options = decode_options (viewer);
     viewer->priv->decode_options.ephemeral = rstto_file_is_ephemeral (file);
     rstto_image_cache_request (viewer->priv->cache, rstto_file_get_file (file),
                                rstto_file_get_content_type (file), &viewer->priv->decode_options);
+}
+
+static void
+reload_options (RsttoImageViewer *viewer)
+{
+    RsttoFile *file = viewer->priv->pending_file != NULL ? viewer->priv->pending_file
+                     : viewer->priv->active_file != NULL ? viewer->priv->active_file : viewer->priv->file;
+    if (file == NULL || viewer->priv->destroyed)
+        return;
+    g_object_ref (file);
+    gdouble scale = viewer->priv->pending_file != NULL ? viewer->priv->pending_scale
+        : viewer->priv->active_file != NULL ? viewer->priv->requested_scale
+        : viewer->priv->auto_scale != RSTTO_SCALE_NONE ? viewer->priv->auto_scale : viewer->priv->scale;
+    g_clear_object (&viewer->priv->pending_file);
+    rstto_image_viewer_load_image (viewer, file, scale);
+    g_object_unref (file);
 }
 
 RsttoImageCache *
@@ -1283,6 +1508,9 @@ static void
 cache_viewer_destroy (GtkWidget *widget, gpointer unused)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    viewer->priv->destroyed = TRUE;
+    navigation_clear (viewer);
+    g_clear_pointer (&viewer->priv->pixbuf.rendered, cairo_surface_destroy);
     g_clear_handle_id (&viewer->priv->animation_id, g_source_remove);
     g_clear_object (&viewer->priv->iter);
     g_clear_pointer (&viewer->priv->pixbuf.pattern, cairo_pattern_destroy);
@@ -1293,6 +1521,14 @@ cache_viewer_destroy (GtkWidget *widget, gpointer unused)
 static void
 cache_settings_changed (GObject *settings, GParamSpec *pspec, RsttoImageViewer *viewer)
 {
+    if (pspec == NULL || g_str_equal (pspec->name, "preload-workers"))
+    {
+        guint workers;
+        g_object_get (settings, "preload-workers", &workers, NULL);
+        rstto_image_cache_set_preload_workers (viewer->priv->cache, workers);
+        if (pspec != NULL)
+            return; /* Scheduling only: keep the displayed image and decoders. */
+    }
     if (pspec != NULL && !g_str_has_prefix (pspec->name, "cache-"))
         return;
     RsttoCacheLimits limits;
@@ -1302,8 +1538,8 @@ cache_settings_changed (GObject *settings, GParamSpec *pspec, RsttoImageViewer *
     limits.max_bytes = (guint64) total * 1024 * 1024;
     limits.max_image_bytes = (guint64) single * 1024 * 1024;
     rstto_image_cache_set_limits (viewer->priv->cache, &limits);
-    if (pspec != NULL && viewer->priv->file != NULL)
-        rstto_image_viewer_load_image (viewer, viewer->priv->file, viewer->priv->auto_scale);
+    if (pspec != NULL)
+        reload_options (viewer);
 }
 
 static void
@@ -1442,6 +1678,28 @@ static void
 cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
+    gint64 start = rstto_profile_now ();
+    if (start != 0)
+    {
+        RsttoCacheStats stats;
+        rstto_image_cache_get_stats (cache, &stats);
+        rstto_profile_end (viewer->priv->profile_requested, viewer, viewer->priv->profile_request_id,
+                           "request-to-ready", "hits=%" G_GUINT64_FORMAT " decodes=%" G_GUINT64_FORMAT
+                           " entries=%u jobs=%u resident=%" G_GUINT64_FORMAT " reserved=%" G_GUINT64_FORMAT,
+                           stats.hits, stats.decodes, stats.entries, stats.jobs, stats.resident_bytes, stats.reserved_bytes);
+    }
+    if (viewer->priv->active_file == NULL || viewer->priv->destroyed)
+        return;
+    if (viewer->priv->file != NULL)
+        g_signal_handlers_disconnect_by_func (viewer->priv->file, cb_rstto_image_viewer_file_changed, viewer);
+    g_set_object (&viewer->priv->file, viewer->priv->active_file);
+    g_signal_connect_object (viewer->priv->file, "changed", G_CALLBACK (cb_rstto_image_viewer_file_changed), viewer, 0);
+    g_clear_pointer (&viewer->priv->pixbuf.rendered, cairo_surface_destroy);
+    if (image->rendered != NULL)
+    {
+        viewer->priv->pixbuf.rendered = cairo_surface_reference (image->rendered);
+        viewer->priv->pixbuf.render_key = image->render_key;
+    }
     g_clear_handle_id (&viewer->priv->animation_id, g_source_remove);
     g_clear_object (&viewer->priv->iter);
     g_clear_pointer (&viewer->priv->pixbuf.pattern, cairo_pattern_destroy);
@@ -1449,7 +1707,13 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
     viewer->priv->error = image->error != NULL ? g_error_copy (image->error) : NULL;
     if (image->surface != NULL)
     {
-        viewer->priv->pixbuf.pattern = cairo_pattern_create_for_surface (image->surface);
+        /* The cache pins the backing bytes until the next ready delivery.
+         * Only this viewer-owned wrapper carries mutable device-scale state. */
+        cairo_surface_t *wrapper = cairo_image_surface_create_for_data (
+            cairo_image_surface_get_data (image->surface), cairo_image_surface_get_format (image->surface),
+            image->decoded_width, image->decoded_height, cairo_image_surface_get_stride (image->surface));
+        viewer->priv->pixbuf.pattern = cairo_pattern_create_for_surface (wrapper);
+        cairo_surface_destroy (wrapper);
         viewer->priv->pixbuf.width = image->decoded_width;
         viewer->priv->pixbuf.height = image->decoded_height;
         viewer->priv->pixbuf.has_alpha = image->has_alpha;
@@ -1481,8 +1745,16 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
         viewer->priv->image_height = viewer->priv->original_image_height = 0;
         gtk_widget_set_tooltip_text (widget, image->error != NULL ? image->error->message : ERROR_UNDETERMINED);
     }
+    g_clear_object (&viewer->priv->active_file);
+    viewer->priv->render_attempt_valid = current_render_key (viewer, &viewer->priv->render_attempt);
+    viewer->priv->awaiting_frame = TRUE;
     gtk_widget_queue_draw (widget);
+    g_signal_emit_by_name (viewer, "image-committed");
     g_signal_emit_by_name (viewer, "size-ready");
+    if (!viewer->priv->destroyed && viewer->priv->awaiting_frame)
+        presentation_arm (viewer);
+    rstto_profile_end (start, viewer, viewer->priv->profile_request_id, "viewer-setup", "%s", "");
+    viewer->priv->profile_ready = start;
 }
 
 static gboolean
@@ -1803,8 +2075,7 @@ cb_rstto_limit_quality_changed (GObject *settings,
 
     g_object_get (viewer->priv->settings, "limit-quality", &(viewer->priv->limit_quality), NULL);
 
-    if (NULL != viewer->priv->file)
-        rstto_image_viewer_load_image (viewer, viewer->priv->file, viewer->priv->scale);
+    reload_options (viewer);
 }
 
 static void
@@ -2018,7 +2289,8 @@ rstto_image_viewer_set_show_clock (RsttoImageViewer *viewer,
 gboolean
 rstto_image_viewer_is_busy (RsttoImageViewer *viewer)
 {
-    return rstto_image_cache_is_busy (viewer->priv->cache);
+    return viewer->priv->active_file != NULL || viewer->priv->pending_file != NULL
+           || viewer->priv->awaiting_frame || rstto_image_cache_is_busy (viewer->priv->cache);
 }
 
 void
@@ -2032,6 +2304,12 @@ cb_rstto_image_viewer_file_changed (RsttoFile *r_file,
                                     RsttoImageViewer *viewer)
 {
     rstto_image_cache_invalidate (viewer->priv->cache, rstto_file_get_file (r_file));
-    rstto_image_viewer_load_image (viewer, r_file, viewer->priv->auto_scale);
+    if (viewer->priv->active_file == NULL || viewer->priv->active_file == r_file)
+    {
+        presentation_disconnect (viewer);
+        g_clear_handle_id (&viewer->priv->navigation_idle, g_source_remove);
+        viewer->priv->awaiting_frame = FALSE;
+        rstto_image_viewer_load_image (viewer, r_file, viewer->priv->auto_scale);
+    }
     g_signal_emit_by_name (viewer, "status-changed");
 }

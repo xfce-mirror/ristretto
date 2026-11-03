@@ -22,6 +22,7 @@
 
 #include "file.h"
 #include "image_cache.h"
+#include "image_list.h"
 
 #include <gtk/gtk.h>
 
@@ -46,6 +47,11 @@ struct _RsttoImageViewer
 
 GtkWidget *
 rstto_image_viewer_new (void);
+
+/* Internal navigation/display split. The returned file is borrowed. */
+RsttoFile *rstto_image_viewer_get_file (RsttoImageViewer *viewer);
+void rstto_image_viewer_reconcile_files (RsttoImageViewer *viewer, RsttoImageList *list);
+void rstto_image_viewer_set_preload_files (RsttoImageViewer *viewer, GPtrArray *files);
 
 RsttoImageCache *
 rstto_image_viewer_get_cache (RsttoImageViewer *viewer);

@@ -2,11 +2,15 @@
 #ifndef __RISTRETTO_IMAGE_CACHE_H__
 #define __RISTRETTO_IMAGE_CACHE_H__
 
+#include "image_render.h"
 #include <cairo.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gio.h>
 
 G_BEGIN_DECLS
+
+#define RSTTO_PRELOAD_WORKERS_DEFAULT 2
+#define RSTTO_PRELOAD_WORKERS_MAX 32
 
 #define RSTTO_TYPE_IMAGE_CACHE (rstto_image_cache_get_type ())
 G_DECLARE_FINAL_TYPE (RsttoImageCache, rstto_image_cache, RSTTO, IMAGE_CACHE, GObject)
@@ -31,6 +35,8 @@ typedef struct
     gint decoded_width, decoded_height;
     gdouble quality_scale;
     gboolean has_alpha;
+    cairo_surface_t *rendered;
+    RsttoRenderKey render_key;
 } RsttoImageData;
 
 typedef struct
@@ -44,6 +50,9 @@ typedef struct
 {
     guint entries, jobs;
     guint64 resident_bytes, reserved_bytes, decodes, hits;
+    guint64 renders, render_hits;
+    guint reserved_images, speculative_images;
+    guint active_tasks, peak_tasks;
 } RsttoCacheStats;
 
 RsttoImageCache *
@@ -51,15 +60,22 @@ rstto_image_cache_new (void);
 void
 rstto_image_cache_set_limits (RsttoImageCache *cache, const RsttoCacheLimits *limits);
 void
+rstto_image_cache_set_preload_workers (RsttoImageCache *cache, guint workers);
+void
 rstto_image_cache_set_excluded_mime_types (RsttoImageCache *cache, const gchar *const *types);
 void
 rstto_image_cache_request (RsttoImageCache *cache, GFile *file, const gchar *mime_type, const RsttoDecodeOptions *options);
 /* Candidates are in priority order, borrowed during this call. MIME detection
  * uses the same generic fallback as foreground loading. */
 void
+rstto_image_cache_set_schedule (RsttoImageCache *cache, GFile *pending, GPtrArray *files);
+
+void
 rstto_image_cache_set_candidates (RsttoImageCache *cache, GPtrArray *files);
 void
 rstto_image_cache_invalidate (RsttoImageCache *cache, GFile *file);
+void
+rstto_image_cache_cancel_request (RsttoImageCache *cache);
 void
 rstto_image_cache_clear (RsttoImageCache *cache);
 void

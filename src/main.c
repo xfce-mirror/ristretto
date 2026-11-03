@@ -18,6 +18,7 @@
  */
 
 #include "util.h"
+#include "profile.h"
 #include "main_window.h"
 #include "preferences_dialog.h"
 
@@ -99,9 +100,13 @@ main (int argc,
     if (version)
     {
         g_print ("%s %s\n", PACKAGE_NAME, VERSION_FULL);
+#ifdef RSTTO_ENABLE_PROFILING
+        g_print ("Profiling support enabled; set RISTRETTO_PROFILE=1 for timing traces.\n");
+#endif
         return 0;
     }
 
+    rstto_profile_end (rstto_profile_now (), NULL, 0, "startup", "pid=%ld", (long) getpid ());
     xfconf_disabled = !xfconf_init (&error);
     rstto_settings_set_xfconf_disabled (xfconf_disabled);
     if (xfconf_disabled)

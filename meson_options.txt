@@ -11,3 +11,17 @@ option(
   value: '',
   description: 'Alternative prefix to org.freedesktop.thumbnails for Tumbler services',
 )
+
+option(
+  'glycin-probe',
+  type: 'feature',
+  value: 'auto',
+  description: 'Safe Glycin metadata probing (required for image caching and preloading)',
+)
+
+option(
+  'profiling',
+  type: 'boolean',
+  value: false,
+  description: 'Frame pointers and optional RISTRETTO_PROFILE=1 timing traces',
+)
