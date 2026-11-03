@@ -188,6 +188,27 @@ convert_immutable (void)
 #endif
 }
 
+static void
+render_compatibility (void)
+{
+    RsttoRenderKey a = { .width = 640, .height = 480, .pixel_scale = 2, .source_scale = 1,
+        .orientation = 6, .render_width = 1024, .render_height = 768, .x = 0, .y = 0,
+        .h_adjust = 30, .v_adjust = 20, .x_scale = 2, .y_scale = 2, .smoothing = TRUE,
+        .backend = 1, .filter = 2, .context_generation = 3, .view_revision = 4 }, b = a;
+    b.view_revision++;
+    g_assert_cmpint (rstto_image_render_compatibility (&a, &b), ==, RSTTO_RENDER_EXACT);
+    b.h_adjust++; b.v_adjust--;
+    g_assert_false (rstto_image_render_key_equal (&a, &b));
+    g_assert_cmpint (rstto_image_render_compatibility (&a, &b), ==, RSTTO_RENDER_PAN_ONLY);
+#define CHECK_FIELD(field) do { b = a; b.h_adjust++; b.field++; \
+    g_assert_cmpint (rstto_image_render_compatibility (&a, &b), ==, RSTTO_RENDER_INCOMPATIBLE); } while (0)
+    CHECK_FIELD (width); CHECK_FIELD (height); CHECK_FIELD (pixel_scale); CHECK_FIELD (source_scale);
+    CHECK_FIELD (orientation); CHECK_FIELD (render_width); CHECK_FIELD (render_height);
+    CHECK_FIELD (x); CHECK_FIELD (y); CHECK_FIELD (x_scale); CHECK_FIELD (y_scale);
+    CHECK_FIELD (smoothing); CHECK_FIELD (backend); CHECK_FIELD (filter); CHECK_FIELD (context_generation);
+#undef CHECK_FIELD
+}
+
 int main (int argc, char **argv)
 {
     g_test_init (&argc, &argv, NULL);
@@ -195,5 +216,6 @@ int main (int argc, char **argv)
     g_test_add_func ("/render/bounds-and-cancellation", render_bounds);
     g_test_add_func ("/render/pixel-conversion", convert_pixels);
     g_test_add_func ("/render/immutable-pixbuf", convert_immutable);
+    g_test_add_func ("/render/completion-compatibility", render_compatibility);
     return g_test_run ();
 }

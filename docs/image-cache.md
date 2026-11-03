@@ -5,6 +5,9 @@ Cairo. Safe dimension probing additionally uses the optional libglycin-2
 dependency. Each viewer has its own cache. The GLib 2.66 and GTK 3.24 minimum
 versions are unchanged.
 
+The optional [OpenGL renderer](opengl-rendering.md) retains this CPU accounting
+and adds separately tracked GPU results. It is disabled unless explicitly selected.
+
 ## Configuration
 
 These properties are live-bound to the `ristretto` Xfconf channel. Defaults also
@@ -345,3 +348,30 @@ between enabled and disabled runs. Hashing is outside the timed navigation
 interval. `probe_mean_ms` includes prefix reading, metadata loading and identity
 revalidation. Measure helper RSS externally: the `getrusage()` child figure in
 the benchmark does not represent the peak of a still-running pooled decoder.
+
+### Input quiet period and atomic scheduling
+
+Selection promotion, pending selection and ranked neighbours commit together
+before the scheduler pumps new tasks. During input, the pending image and nearest
+two neighbours are eligible immediately. Two adjacent navigation events in the
+same direction no more than 300 ms apart enable the full available speculative
+capacity. Explicit next/previous wraparound counts as adjacent. Reversal, jumps,
+ordering/directory changes and view changes reset this burst state. Otherwise,
+farther neighbours wait for `SPECULATION_QUIET_US` (300 ms) without a meaningful selection, direction/order or
+view change. Identical refreshes, rank renumbering, promotion and completions do
+not restart that timer. The timer gates new admission, never useful admitted
+decoding/conversion/cleanup. Preparing work blocks only equal/lower priority
+probe admission, so a deferred far target cannot hold up a pending selection.
+A same-image view update defers new neighbour work until its compatible result
+is ready. Running decoders keep the existing safe-checkpoint/renewed-interest
+policy; obsolete queued tasks are removed before upload or decoding.
+
+Startup GPU warmup uses the same shared task ceiling and reserves 64 KiB of
+explicit host scratch per active worker warmup. Persistent shader caching adds
+a 10 MiB host reservation before I/O/allocation; when that cannot fit, warmup
+proceeds without persistence and without evicting protected history. It has no image slot and cannot
+evict images to make room. Cancelled warmups retain both permit and reservation
+until their fences and resources drain. GPU temporary textures and the retained
+1 KiB LUT per initialized worker are tracked outside the RAM budget. Current and
+previous source/derivative history protection and transactional admission remain
+unchanged.

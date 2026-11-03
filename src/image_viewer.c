@@ -64,6 +64,8 @@ typedef enum
 
 static void
 rstto_image_viewer_finalize (GObject *object);
+static void adjustment_changed (GtkAdjustment *adjustment, RsttoImageViewer *viewer);
+
 static void
 rstto_image_viewer_set_property (GObject *object,
                                  guint property_id,
@@ -186,6 +188,7 @@ static void presentation_arm (RsttoImageViewer *viewer);
 static void render_refresh (RsttoImageViewer *viewer);
 static void reload_options (RsttoImageViewer *viewer);
 static void viewer_unmapped (GtkWidget *widget, gpointer unused);
+static void viewer_unrealized (GtkWidget *widget, gpointer unused);
 static RsttoDecodeOptions
 decode_options (RsttoImageViewer *viewer);
 
@@ -199,6 +202,12 @@ struct _RsttoImageViewerPrivate
     gulong presentation_handler;
     guint navigation_idle, render_idle;
     gboolean awaiting_frame, frame_drawn, destroyed, render_attempt_valid;
+    gboolean render_dirty, desired_key_valid, gpu_fallback_pending;
+    guint64 view_revision;
+    RsttoRenderKey desired_key;
+#ifdef RSTTO_VIEWER_TEST
+    guint unprepared_paints;
+#endif
     RsttoRenderKey render_attempt;
     RsttoSettings *settings;
 
@@ -211,6 +220,7 @@ struct _RsttoImageViewerPrivate
     guint vscroll_policy : 1;
 
     RsttoImageCache *cache;
+    RsttoGpuRenderer *gpu;
     RsttoDecodeOptions decode_options;
     gdouble requested_scale;
     gint64 profile_requested, profile_ready;
@@ -221,6 +231,7 @@ struct _RsttoImageViewerPrivate
     {
         cairo_pattern_t *pattern;
         cairo_surface_t *rendered;
+        RsttoGpuImage *gpu_image;
         RsttoRenderKey render_key;
         gboolean has_alpha;
         gint width;
@@ -302,6 +313,7 @@ rstto_image_viewer_init (RsttoImageViewer *viewer)
     viewer->priv = rstto_image_viewer_get_instance_private (viewer);
     viewer->priv->settings = rstto_settings_new ();
     viewer->priv->cache = rstto_image_cache_new ();
+    g_signal_connect (viewer, "unrealize", G_CALLBACK (viewer_unrealized), NULL);
     viewer->priv->preload_files = g_ptr_array_new_with_free_func (g_object_unref);
     g_signal_connect_object (viewer->priv->cache, "prepare-render", G_CALLBACK (cache_prepare_render), viewer, 0);
     g_signal_connect_object (viewer->priv->cache, "ready", G_CALLBACK (cache_ready), viewer, 0);
@@ -455,6 +467,15 @@ rstto_image_viewer_class_init (RsttoImageViewerClass *klass)
  *
  */
 static void
+viewer_unrealized (GtkWidget *widget, gpointer unused)
+{
+    RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
+    g_clear_pointer (&viewer->priv->pixbuf.gpu_image, rstto_gpu_image_unref);
+    rstto_image_cache_set_gpu (viewer->priv->cache, NULL);
+    g_clear_object (&viewer->priv->gpu);
+}
+
+static void
 rstto_image_viewer_realize (GtkWidget *widget)
 {
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
@@ -483,6 +504,17 @@ rstto_image_viewer_realize (GtkWidget *widget)
     gtk_widget_set_window (widget, window);
     gdk_window_set_user_data (window, widget);
     g_object_ref (window);
+    if (rstto_gpu_requested ())
+    {
+        GError *error = NULL;
+        viewer->priv->gpu = rstto_gpu_renderer_new (window, rstto_gpu_worker_count (), &error);
+        if (error != NULL)
+        {
+            g_printerr ("Ristretto: %s; using CPU rendering\n", error->message);
+            g_clear_error (&error);
+        }
+        rstto_image_cache_set_gpu (viewer->priv->cache, viewer->priv->gpu);
+    }
 
     g_object_get (viewer->priv->settings, "limit-quality",
                   &(viewer->priv->limit_quality), NULL);
@@ -584,7 +616,9 @@ rstto_image_viewer_finalize (GObject *object)
     navigation_clear (viewer);
     rstto_image_cache_stop (viewer->priv->cache);
     g_clear_object (&viewer->priv->cache);
+    g_clear_object (&viewer->priv->gpu);
     g_clear_pointer (&viewer->priv->preload_files, g_ptr_array_unref);
+    g_clear_pointer (&viewer->priv->pixbuf.gpu_image, rstto_gpu_image_unref);
     g_clear_pointer (&viewer->priv->pixbuf.rendered, cairo_surface_destroy);
 
     g_clear_object (&viewer->priv->settings);
@@ -814,7 +848,7 @@ set_adjustments (RsttoImageViewer *viewer,
     if (h_value != -1)
     {
         gtk_adjustment_set_value (viewer->priv->hadjustment, h_value);
-        rstto_file_set_h_adjustment (viewer->priv->file, h_value);
+        rstto_file_set_h_adjustment (viewer->priv->file, gtk_adjustment_get_value (viewer->priv->hadjustment));
     }
 
     gtk_adjustment_set_upper (viewer->priv->vadjustment, MAX (viewer->priv->rendering.height, alloc.height));
@@ -822,7 +856,7 @@ set_adjustments (RsttoImageViewer *viewer,
     if (v_value != -1)
     {
         gtk_adjustment_set_value (viewer->priv->vadjustment, v_value);
-        rstto_file_set_v_adjustment (viewer->priv->file, v_value);
+        rstto_file_set_v_adjustment (viewer->priv->file, gtk_adjustment_get_value (viewer->priv->vadjustment));
     }
 
     g_object_thaw_notify (G_OBJECT (viewer->priv->hadjustment));
@@ -1043,8 +1077,48 @@ paint_image (GtkWidget *widget,
     RsttoRenderKey key;
     if (!current_render_key (viewer, &key))
         return;
+    if (viewer->priv->pixbuf.gpu_image != NULL
+        && rstto_image_render_key_equal (&key, &viewer->priv->pixbuf.render_key))
+    {
+        if (viewer->priv->render_dirty)
+        {
+            viewer->priv->render_dirty = FALSE;
+            g_clear_handle_id (&viewer->priv->render_idle, g_source_remove);
+            rstto_image_cache_view_changed (viewer->priv->cache, FALSE);
+        }
+        if (rstto_gpu_image_draw (viewer->priv->pixbuf.gpu_image, ctx, gtk_widget_get_window (widget),
+                                  gtk_widget_get_scale_factor (widget)))
+            return;
+    }
+    if (viewer->priv->pixbuf.gpu_image != NULL && viewer->priv->iter == NULL)
+    {
+        /* Keep the last completed texture visible while a zoom/viewport
+         * change is prepared. Do not synchronously repeat that scaling on
+         * the UI thread before the GPU request can even be submitted. */
+        render_refresh (viewer);
+        if (rstto_gpu_image_draw (viewer->priv->pixbuf.gpu_image, ctx, gtk_widget_get_window (widget),
+                                      gtk_widget_get_scale_factor (widget)))
+            return;
+        /* A failed context must go through admitted CPU preparation, too.
+         * Reopen this geometry once; repeated draws must not retry in a loop. */
+        if (!viewer->priv->gpu_fallback_pending)
+        {
+            viewer->priv->gpu_fallback_pending = TRUE;
+            viewer->priv->render_attempt_valid = FALSE;
+        }
+        render_refresh (viewer);
+        return;
+    }
     gboolean prepared = viewer->priv->pixbuf.rendered != NULL
                         && rstto_image_render_key_equal (&key, &viewer->priv->pixbuf.render_key);
+    if (!prepared && viewer->priv->gpu != NULL && viewer->priv->iter == NULL
+        && viewer->priv->pixbuf.rendered != NULL)
+    {
+        /* Oversized/failed GPU variants retain their completed CPU result
+         * while the next view is prepared asynchronously. */
+        render_refresh (viewer);
+        prepared = TRUE;
+    }
     if (prepared)
         cairo_set_source_surface (ctx, viewer->priv->pixbuf.rendered, 0, 0);
     else
@@ -1054,9 +1128,14 @@ paint_image (GtkWidget *widget,
         cairo_pattern_set_filter (viewer->priv->pixbuf.pattern,
                                   viewer->priv->enable_smoothing ? CAIRO_FILTER_GOOD : CAIRO_FILTER_NEAREST);
         cairo_set_source (ctx, viewer->priv->pixbuf.pattern);
-        if ((key.x_scale * key.pixel_scale) / key.source_scale < 1 - 1e-9 || (key.y_scale * key.pixel_scale) / key.source_scale < 1 - 1e-9)
+        if (viewer->priv->iter == NULL && (viewer->priv->gpu != NULL
+            || (key.x_scale * key.pixel_scale) / key.source_scale < 1 - 1e-9
+            || (key.y_scale * key.pixel_scale) / key.source_scale < 1 - 1e-9))
             render_refresh (viewer);
     }
+#ifdef RSTTO_VIEWER_TEST
+    if (!prepared) viewer->priv->unprepared_paints++;
+#endif
     gint64 start = rstto_profile_now ();
     cairo_paint (ctx);
     rstto_profile_end (start, viewer, viewer->priv->profile_request_id, "cairo-paint", "prepared=%d", prepared);
@@ -1206,6 +1285,7 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
         g_clear_handle_id (&viewer->priv->animation_id, g_source_remove);
         g_clear_object (&viewer->priv->iter);
         g_clear_pointer (&viewer->priv->pixbuf.pattern, cairo_pattern_destroy);
+        g_clear_pointer (&viewer->priv->pixbuf.gpu_image, rstto_gpu_image_unref);
         g_clear_pointer (&viewer->priv->pixbuf.rendered, cairo_surface_destroy);
         rstto_image_cache_clear (viewer->priv->cache);
         gtk_widget_set_tooltip_text (GTK_WIDGET (viewer), NULL);
@@ -1306,6 +1386,15 @@ navigation_dispatch (gpointer data)
             rstto_image_viewer_load_image (viewer, file, viewer->priv->pending_scale);
         g_object_unref (file);
     }
+    if (viewer->priv->render_dirty && viewer->priv->pending_file == NULL)
+    {
+        gtk_widget_queue_draw (GTK_WIDGET (viewer));
+        /* Keep asynchronous GPU/fallback views pending across presentation.
+         * Direct CPU drawing decides for itself whether a derivative is useful;
+         * forcing a native-size refresh there would defer normal preloading. */
+        if (viewer->priv->gpu != NULL)
+            render_refresh (viewer);
+    }
     return G_SOURCE_REMOVE;
 }
 
@@ -1355,7 +1444,7 @@ render_view (RsttoImageViewer *viewer, RsttoFile *file)
         .image_scale = viewer->priv->scale_factor,
         .pixel_scale = gtk_widget_get_scale_factor (widget),
         .orientation = rstto_file_get_orientation (file),
-        .scale = file == viewer->priv->active_file ? viewer->priv->requested_scale
+        .scale = file == viewer->priv->active_file && file != viewer->priv->file ? viewer->priv->requested_scale
                    : auto_scale != RSTTO_SCALE_NONE ? auto_scale : rstto_file_get_scale (file),
         .previous_scale = viewer->priv->scale,
         .default_zoom = rstto_settings_get_int_property (viewer->priv->settings, "default-zoom"),
@@ -1385,15 +1474,22 @@ cache_prepare_render (RsttoImageCache *cache, GFile *file, RsttoImageData *image
                 break;
             }
         }
+    /* Navigation takes precedence over another derivative of the old image.
+     * Its admitted work drains, then cache_ready dispatches the pending file. */
+    if (rfile == viewer->priv->file && rfile == viewer->priv->active_file
+        && viewer->priv->pending_file != NULL && viewer->priv->pending_file != rfile)
+        return;
     if (rfile != NULL)
     {
         RsttoRenderView view = render_view (viewer, rfile);
         RsttoRenderGeometry geometry;
         if (rstto_image_render_geometry (&view, image->width, image->height, &geometry)
             && rstto_image_render_key (&view, &geometry, image->width, image->decoded_width, key)
+            && viewer->priv->gpu == NULL
             && (key->x_scale * key->pixel_scale) / key->source_scale >= 1 - 1e-9
             && (key->y_scale * key->pixel_scale) / key->source_scale >= 1 - 1e-9)
             *key = (RsttoRenderKey) { 0 }; /* native size/enlargement needs no derivative */
+        key->view_revision = viewer->priv->view_revision;
     }
 }
 
@@ -1411,8 +1507,15 @@ current_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key)
         .h_adjust = gtk_adjustment_get_value (viewer->priv->hadjustment),
         .v_adjust = gtk_adjustment_get_value (viewer->priv->vadjustment)
     };
-    return rstto_image_render_key (&view, &geometry, viewer->priv->original_image_width,
-                                   viewer->priv->pixbuf.width, key);
+    gboolean valid = rstto_image_render_key (&view, &geometry, viewer->priv->original_image_width,
+                                              viewer->priv->pixbuf.width, key);
+    /* Compare geometry against the delivered representation, including a CPU
+     * fallback for a GPU-ineligible image. Backend choice belongs to the cache. */
+    key->backend = viewer->priv->pixbuf.render_key.backend;
+    key->filter = viewer->priv->pixbuf.render_key.filter;
+    key->context_generation = viewer->priv->pixbuf.render_key.context_generation;
+    key->view_revision = viewer->priv->view_revision;
+    return valid;
 }
 
 static gboolean
@@ -1431,8 +1534,19 @@ static void
 render_refresh (RsttoImageViewer *viewer)
 {
     RsttoRenderKey key;
-    if (!current_render_key (viewer, &key)
-        || (viewer->priv->render_attempt_valid && rstto_image_render_key_equal (&key, &viewer->priv->render_attempt)))
+    if (!current_render_key (viewer, &key))
+        return;
+    if (!viewer->priv->desired_key_valid || !rstto_image_render_key_equal (&key, &viewer->priv->desired_key))
+    {
+        viewer->priv->desired_key = key;
+        viewer->priv->desired_key_valid = TRUE;
+        viewer->priv->view_revision++;
+        rstto_image_cache_view_changed (viewer->priv->cache, TRUE);
+        rstto_profile_end (rstto_profile_now (), viewer, viewer->priv->view_revision, "view-request",
+            "scale=%.6f", viewer->priv->scale);
+    }
+    viewer->priv->render_dirty = TRUE;
+    if (viewer->priv->render_attempt_valid && rstto_image_render_key_equal (&key, &viewer->priv->render_attempt))
         return;
     if (viewer->priv->render_idle == 0 && viewer->priv->active_file == NULL
         && !viewer->priv->awaiting_frame && viewer->priv->pending_file == NULL
@@ -1510,6 +1624,7 @@ cache_viewer_destroy (GtkWidget *widget, gpointer unused)
     RsttoImageViewer *viewer = RSTTO_IMAGE_VIEWER (widget);
     viewer->priv->destroyed = TRUE;
     navigation_clear (viewer);
+    g_clear_pointer (&viewer->priv->pixbuf.gpu_image, rstto_gpu_image_unref);
     g_clear_pointer (&viewer->priv->pixbuf.rendered, cairo_surface_destroy);
     g_clear_handle_id (&viewer->priv->animation_id, g_source_remove);
     g_clear_object (&viewer->priv->iter);
@@ -1690,11 +1805,37 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
     }
     if (viewer->priv->active_file == NULL || viewer->priv->destroyed)
         return;
+    if (viewer->priv->active_file == viewer->priv->file && viewer->priv->pending_file != NULL
+        && viewer->priv->pending_file != viewer->priv->file)
+    {
+        g_clear_object (&viewer->priv->active_file);
+        if (viewer->priv->navigation_idle == 0)
+            viewer->priv->navigation_idle = g_idle_add (navigation_dispatch, viewer);
+        return;
+    }
+    /* A derivative completion must not restore the zoom captured before newer
+     * input. File view state is authoritative for the already displayed file. */
+    gdouble delivery_scale = viewer->priv->requested_scale;
+    gdouble delivery_h = rstto_file_get_h_adjustment (viewer->priv->active_file);
+    gdouble delivery_v = rstto_file_get_v_adjustment (viewer->priv->active_file);
+    if (viewer->priv->active_file == viewer->priv->file)
+    {
+        RsttoScale automatic = rstto_file_get_auto_scale (viewer->priv->file);
+        delivery_scale = automatic != RSTTO_SCALE_NONE ? automatic : rstto_file_get_scale (viewer->priv->file);
+    }
     if (viewer->priv->file != NULL)
         g_signal_handlers_disconnect_by_func (viewer->priv->file, cb_rstto_image_viewer_file_changed, viewer);
     g_set_object (&viewer->priv->file, viewer->priv->active_file);
     g_signal_connect_object (viewer->priv->file, "changed", G_CALLBACK (cb_rstto_image_viewer_file_changed), viewer, 0);
+    gboolean completed_view = (image->gpu_image != NULL && image->gpu_image != viewer->priv->pixbuf.gpu_image)
+        || (image->rendered != NULL && image->rendered != viewer->priv->pixbuf.rendered);
+    g_clear_pointer (&viewer->priv->pixbuf.gpu_image, rstto_gpu_image_unref);
     g_clear_pointer (&viewer->priv->pixbuf.rendered, cairo_surface_destroy);
+    if (image->gpu_image != NULL)
+    {
+        viewer->priv->pixbuf.gpu_image = rstto_gpu_image_ref (image->gpu_image);
+        viewer->priv->pixbuf.render_key = image->render_key;
+    }
     if (image->rendered != NULL)
     {
         viewer->priv->pixbuf.rendered = cairo_surface_reference (image->rendered);
@@ -1734,9 +1875,8 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
         if (gtk_widget_get_realized (widget))
             viewer->priv->scale_factor = 0;
         set_scale_factor (viewer, NULL);
-        set_scale (viewer, viewer->priv->requested_scale);
-        set_adjustments (viewer, rstto_file_get_h_adjustment (viewer->priv->file),
-                         rstto_file_get_v_adjustment (viewer->priv->file));
+        set_scale (viewer, delivery_scale);
+        set_adjustments (viewer, delivery_h, delivery_v);
     }
     else
     {
@@ -1746,7 +1886,19 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
         gtk_widget_set_tooltip_text (widget, image->error != NULL ? image->error->message : ERROR_UNDETERMINED);
     }
     g_clear_object (&viewer->priv->active_file);
-    viewer->priv->render_attempt_valid = current_render_key (viewer, &viewer->priv->render_attempt);
+    viewer->priv->gpu_fallback_pending = FALSE;
+    RsttoRenderKey desired = { 0 };
+    viewer->priv->render_attempt_valid = current_render_key (viewer, &desired);
+    viewer->priv->render_dirty = viewer->priv->render_attempt_valid
+        && !rstto_image_render_key_equal (&desired, &viewer->priv->pixbuf.render_key);
+    /* Completion must not claim newer, unrendered geometry was attempted.
+     * Keep failure/uncached attempts deduplicated, but let a complete pan
+     * snapshot schedule the coalesced latest view after presentation. */
+    viewer->priv->render_attempt = completed_view ? image->render_key : desired;
+    if (!viewer->priv->render_dirty)
+        rstto_image_cache_view_changed (viewer->priv->cache, FALSE);
+    rstto_profile_end (rstto_profile_now (), viewer, viewer->priv->view_revision, "view-committed",
+        "scale=%.6f compatible=%d", viewer->priv->scale, !viewer->priv->render_dirty);
     viewer->priv->awaiting_frame = TRUE;
     gtk_widget_queue_draw (widget);
     g_signal_emit_by_name (viewer, "image-committed");
@@ -2185,6 +2337,19 @@ rstto_image_viewer_get_error (RsttoImageViewer *viewer)
 }
 
 static void
+adjustment_changed (GtkAdjustment *adjustment, RsttoImageViewer *viewer)
+{
+    if (viewer->priv->file == NULL || viewer->priv->destroyed
+        || viewer->priv->hadjustment == NULL || viewer->priv->vadjustment == NULL)
+        return;
+    /* Scrollbar drags bypass set_adjustments(). Keep desired pan authoritative
+     * before an in-flight derivative verifies or delivers its snapshot. */
+    rstto_file_set_h_adjustment (viewer->priv->file, gtk_adjustment_get_value (viewer->priv->hadjustment));
+    rstto_file_set_v_adjustment (viewer->priv->file, gtk_adjustment_get_value (viewer->priv->vadjustment));
+    gtk_widget_queue_draw (GTK_WIDGET (viewer));
+}
+
+static void
 rstto_image_viewer_set_property (GObject *object,
                                  guint property_id,
                                  const GValue *value,
@@ -2199,19 +2364,31 @@ rstto_image_viewer_set_property (GObject *object,
             break;
         case PROP_HADJUSTMENT:
             if (viewer->priv->hadjustment)
+            {
+                g_signal_handlers_disconnect_by_func (viewer->priv->hadjustment, adjustment_changed, viewer);
                 g_object_unref (viewer->priv->hadjustment);
+            }
 
             viewer->priv->hadjustment = g_value_get_object (value);
             if (viewer->priv->hadjustment)
+            {
                 g_object_ref (viewer->priv->hadjustment);
+                g_signal_connect_object (viewer->priv->hadjustment, "value-changed", G_CALLBACK (adjustment_changed), viewer, 0);
+            }
             break;
         case PROP_VADJUSTMENT:
             if (viewer->priv->vadjustment)
+            {
+                g_signal_handlers_disconnect_by_func (viewer->priv->vadjustment, adjustment_changed, viewer);
                 g_object_unref (viewer->priv->vadjustment);
+            }
 
             viewer->priv->vadjustment = g_value_get_object (value);
             if (viewer->priv->vadjustment)
+            {
                 g_object_ref (viewer->priv->vadjustment);
+                g_signal_connect_object (viewer->priv->vadjustment, "value-changed", G_CALLBACK (adjustment_changed), viewer, 0);
+            }
             break;
         case PROP_HSCROLL_POLICY:
             viewer->priv->hscroll_policy = g_value_get_enum (value);
@@ -2290,7 +2467,8 @@ gboolean
 rstto_image_viewer_is_busy (RsttoImageViewer *viewer)
 {
     return viewer->priv->active_file != NULL || viewer->priv->pending_file != NULL
-           || viewer->priv->awaiting_frame || rstto_image_cache_is_busy (viewer->priv->cache);
+           || viewer->priv->awaiting_frame || viewer->priv->navigation_idle != 0
+           || viewer->priv->render_idle != 0 || rstto_image_cache_is_busy (viewer->priv->cache);
 }
 
 void
@@ -2313,3 +2491,26 @@ cb_rstto_image_viewer_file_changed (RsttoFile *r_file,
     }
     g_signal_emit_by_name (viewer, "status-changed");
 }
+
+#ifdef RSTTO_VIEWER_TEST
+gboolean
+rstto_image_viewer_test_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key)
+{
+    *key = viewer->priv->pixbuf.render_key;
+    return viewer->priv->pixbuf.gpu_image != NULL || viewer->priv->pixbuf.rendered != NULL;
+}
+
+void
+rstto_image_viewer_test_fail_gpu (RsttoImageViewer *viewer)
+{
+#ifdef HAVE_PLACEBO
+    rstto_gpu_test_disable (viewer->priv->gpu);
+#endif
+}
+
+guint
+rstto_image_viewer_test_unprepared_paints (RsttoImageViewer *viewer)
+{
+    return viewer->priv->unprepared_paints;
+}
+#endif

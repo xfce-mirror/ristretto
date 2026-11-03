@@ -25,3 +25,6 @@ option(
   value: false,
   description: 'Frame pointers and optional RISTRETTO_PROFILE=1 timing traces',
 )
+
+option('placebo', type: 'feature', value: 'auto',
+  description: 'Experimental libplacebo OpenGL image scaling (opt in with RISTRETTO_RENDERER=placebo)')

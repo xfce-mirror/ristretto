@@ -14,6 +14,8 @@
 #define PROBE_RESERVATION RSTTO_PROBE_RESERVATION
 #define READ_BUFFER_SIZE (1024 * 1024)
 #define MAX_IMAGE_SIZE 32767
+#define SPECULATION_QUIET_US (300 * 1000)
+#define DIRECTIONAL_BURST_STEPS 2
 #define PRESSURE_COOLDOWN (30 * G_USEC_PER_SEC)
 
 typedef struct
@@ -39,6 +41,8 @@ typedef struct _Entry
     guint64 bytes;
     GList *link;
     gboolean demanded;
+    gboolean gpu_rejected;
+    RsttoRenderKey gpu_rejected_key;
 } Entry;
 
 typedef enum
@@ -53,7 +57,8 @@ typedef enum
     WAIT_DECODE,
     WAIT_UNCACHED,
     RENDER,
-    RENDER_VERIFY
+    RENDER_VERIFY,
+    GPU_RENDER
 } JobPhase;
 
 typedef struct
@@ -75,7 +80,8 @@ typedef struct
     gboolean render_failed;
     gint64 render_start;
     RsttoRenderPixels render_source, render_output;
-    guint64 generation, reservation, required_bytes;
+    guint64 generation, serial, reservation, required_bytes;
+    guint64 deferral;
     gint64 profile_launch, profile_metadata;
 #ifdef RSTTO_CACHE_TEST
     gint64 probe_start;
@@ -86,6 +92,7 @@ typedef struct
     RsttoImageData image;
     Entry *render_entry;
     RsttoRenderKey render_key;
+    RsttoGpuRenderer *render_gpu;
 } DecodeJob;
 
 struct _RsttoImageCache
@@ -103,13 +110,26 @@ struct _RsttoImageCache
     RsttoDecodeOptions options;
     RsttoCacheLimits limits;
     guint64 generation, resident_bytes, decodes, hits, renders, render_hits;
+    guint64 next_job_serial, navigation_revision, request_revision;
+    gint64 last_navigation;
+    gint navigation_direction;
+    guint burst_steps;
 #ifdef RSTTO_CACHE_TEST
     guint64 probes, probe_time_us;
+    gint64 test_now;
 #endif
     guint resident_slots, preload_workers, active_tasks, peak_tasks;
+    guint warmups, update_depth;
+    guint64 warmup_bytes;
+    GCancellable *warm_cancel;
+    gint64 quiet_until;
+    guint quiet_source, urgent_rank;
+    gboolean view_pending;
+    gchar *pending_target;
     gboolean busy, stopped, pumping, speculation_allowed, foreground_pending, pressure_blocked;
     gint64 pressure_until;
     GMemoryMonitor *memory_monitor;
+    RsttoGpuRenderer *gpu;
 };
 
 G_DEFINE_TYPE (RsttoImageCache, rstto_image_cache, G_TYPE_OBJECT)
@@ -122,8 +142,65 @@ enum
     N_SIGNALS
 };
 static guint signals[N_SIGNALS];
+static void pump (RsttoImageCache *self);
+static gint64
+schedule_now (RsttoImageCache *self)
+{
+#ifdef RSTTO_CACHE_TEST
+    if (self->test_now != 0) return self->test_now;
+#endif
+    return g_get_monotonic_time ();
+}
+
+static gboolean
+quiet_expired (gpointer data)
+{
+    RsttoImageCache *self = data;
+    self->quiet_source = 0;
+    pump (self);
+    return G_SOURCE_REMOVE;
+}
+
 static void
-pump (RsttoImageCache *self);
+schedule_activity (RsttoImageCache *self)
+{
+    self->quiet_until = schedule_now (self) + SPECULATION_QUIET_US;
+    g_clear_handle_id (&self->quiet_source, g_source_remove);
+    if (!self->stopped)
+        self->quiet_source = g_timeout_add_full (G_PRIORITY_DEFAULT, SPECULATION_QUIET_US / 1000,
+            quiet_expired, g_object_ref (self), g_object_unref);
+}
+
+/* Deferral does not change usefulness or cancel a decoder already entered. */
+static gboolean
+speculation_due (RsttoImageCache *self, const gchar *uri)
+{
+    if (g_strcmp0 (self->pending_target, uri) == 0)
+        return TRUE;
+    guint rank = GPOINTER_TO_UINT (g_hash_table_lookup (self->targets, uri));
+    return !self->view_pending && rank != 0
+        && (rank <= self->urgent_rank || self->burst_steps >= DIRECTIONAL_BURST_STEPS
+            || schedule_now (self) >= self->quiet_until);
+}
+
+void
+rstto_image_cache_navigation (RsttoImageCache *self, RsttoNavigationChange change, gint direction)
+{
+    gint64 now = schedule_now (self);
+    direction = direction < 0 ? -1 : 1;
+    self->burst_steps = change == RSTTO_NAV_STEP
+        ? (self->navigation_direction == direction && self->last_navigation != 0
+           && now >= self->last_navigation && now - self->last_navigation <= SPECULATION_QUIET_US
+           ? MIN (DIRECTIONAL_BURST_STEPS, self->burst_steps + 1) : 1) : 0;
+    self->navigation_direction = change == RSTTO_NAV_STEP ? direction : 0;
+    self->last_navigation = now;
+    self->navigation_revision++;
+    schedule_activity (self);
+    rstto_profile_end (rstto_profile_now (), self, self->navigation_revision, "schedule-input",
+        "kind=%d direction=%d burst=%u quiet_until=%" G_GINT64_FORMAT,
+        change, direction, self->burst_steps, self->quiet_until);
+}
+
 static void
 launch (DecodeJob *job);
 static void
@@ -136,6 +213,7 @@ image_clear (RsttoImageData *image)
 {
     g_clear_pointer (&image->surface, cairo_surface_destroy);
     g_clear_pointer (&image->rendered, cairo_surface_destroy);
+    g_clear_pointer (&image->gpu_image, rstto_gpu_image_unref);
     g_clear_object (&image->animation);
     g_clear_error (&image->error);
 }
@@ -280,7 +358,7 @@ touch_entry (RsttoImageCache *self, Entry *entry)
 static guint64
 reserved_bytes (RsttoImageCache *self)
 {
-    guint64 bytes = 0;
+    guint64 bytes = self->warmup_bytes;
     for (GList *lp = self->jobs.head; lp != NULL; lp = lp->next)
         bytes += ((DecodeJob *) lp->data)->reservation;
     return bytes;
@@ -419,7 +497,7 @@ static gboolean
 plan_admission (RsttoImageCache *self, guint64 bytes, guint slots,
                 guint speculative, guint priority, DecodeJob *after_cleanup, gboolean apply)
 {
-    Admission usage = { self->resident_bytes, 0, self->resident_slots, speculative_slots (self) };
+    Admission usage = { self->resident_bytes, self->warmup_bytes, self->resident_slots, speculative_slots (self) };
     Entry *previous = previous_entry (self);
     guint removals = 0, derivatives = 0;
     for (GList *lp = self->jobs.head; lp != NULL; lp = lp->next)
@@ -651,7 +729,7 @@ worker (GTask *task, gpointer source, gpointer data, GCancellable *cancel)
     gssize count;
     gboolean closed = FALSE;
     gint64 start = rstto_profile_now ();
-    rstto_profile_end (job->profile_launch, job, 0, "worker-queue", "phase=%d", job->phase);
+    rstto_profile_end (job->profile_launch, job, job->serial, "worker-queue", "phase=%d", job->phase);
 
 #ifdef RSTTO_CACHE_TEST
     if (worker_hook != NULL)
@@ -767,7 +845,7 @@ worker (GTask *task, gpointer source, gpointer data, GCancellable *cancel)
 #endif
         gint64 conversion = rstto_profile_now ();
         job->image.surface = rstto_image_convert (pixbuf, job_useful, job);
-        rstto_profile_end (conversion, job, 0, "pixel-conversion", "width=%d height=%d alpha=%d complete=%d",
+        rstto_profile_end (conversion, job, job->serial, "pixel-conversion", "width=%d height=%d alpha=%d complete=%d",
                            job->image.decoded_width, job->image.decoded_height,
                            gdk_pixbuf_get_has_alpha (pixbuf), job->image.surface != NULL);
 #ifdef RSTTO_VIEWER_TEST
@@ -805,7 +883,7 @@ done:
         g_object_unref (loader);
     }
     g_free (buffer);
-    rstto_profile_end (start, job, 0, "worker", "phase=%d demand=%d cancelled=%d",
+    rstto_profile_end (start, job, job->serial, "worker", "phase=%d demand=%d cancelled=%d",
                        job->phase, g_atomic_int_get (&job->demand), g_cancellable_is_cancelled (cancel));
 #ifdef RSTTO_VIEWER_TEST
     rstto_test_worker_checkpoint (job->phase, g_atomic_int_get (&job->demand), cancel, FALSE);
@@ -825,6 +903,7 @@ job_free (DecodeJob *job)
     g_strfreev (job->probe_raw_types);
     g_clear_object (&job->cancel);
     g_clear_pointer (&job->render_entry, entry_unref);
+    g_clear_object (&job->render_gpu);
     image_clear (&job->image);
     g_free (job->uri);
     g_free (job->mime_type);
@@ -862,6 +941,12 @@ render_key_for (DecodeJob *job, Entry *entry, RsttoRenderKey *key)
     if (entry->image.surface == NULL || entry->image.animation != NULL || entry->key == NULL)
         return FALSE;
     g_signal_emit (job->owner, signals[PREPARE_RENDER], 0, job->file, &entry->image, key);
+    rstto_gpu_render_key (job->owner->gpu, entry->image.decoded_width, entry->image.decoded_height, key);
+    if (entry->gpu_rejected && rstto_image_render_key_equal (key, &entry->gpu_rejected_key))
+    {
+        key->backend = key->filter = 0;
+        key->context_generation = 0;
+    }
     guint64 bytes;
     return rstto_image_render_weight (key, &bytes);
 }
@@ -878,18 +963,42 @@ prepare_render (DecodeJob *job, Entry *entry)
     if (g_atomic_int_get (&job->interest) <= 0 || !enabled (self) || !render_key_for (job, entry, &key)
         || self->stopped || g_cancellable_is_cancelled (job->cancel))
         return FALSE;
-    if (entry->image.rendered != NULL && rstto_image_render_key_equal (&key, &entry->image.render_key))
+    if ((entry->image.rendered != NULL || entry->image.gpu_image != NULL)
+        && rstto_image_render_key_equal (&key, &entry->image.render_key))
     {
         self->render_hits++;
         rstto_profile_end (rstto_profile_now (), self, self->generation, "render-hit", "%s", "");
         return FALSE;
+    }
+    guint priority = is_current (self, job) ? 0 : target_priority (self, job->uri);
+    if (key.backend != 0)
+    {
+        /* The source is already charged. Conservatively reserve one source
+         * copy for host upload staging plus small shader/geometry buffers;
+         * GPU-only textures are intentionally outside the RAM budget. */
+        guint64 staging = (guint64) cairo_image_surface_get_stride (entry->image.surface)
+                                    * cairo_image_surface_get_height (entry->image.surface) + 65536;
+        if (make_room (self, staging, 0, 0, priority))
+        {
+            job->render_key = key;
+            job->reservation = staging;
+            job->phase = GPU_RENDER;
+            g_set_object (&job->render_gpu, self->gpu);
+            cairo_surface_flush (entry->image.surface);
+            rstto_image_render_pixels (entry->image.surface, &job->render_source);
+            self->renders++;
+            launch (job);
+            return TRUE;
+        }
+        entry->gpu_rejected = TRUE;
+        entry->gpu_rejected_key = key;
+        key.backend = key.filter = 0; key.context_generation = 0;
     }
     if (!rstto_image_render_weight (&key, &bytes) || bytes > G_MAXUINT64 / 3
         || entry->bytes - render_weight (entry) > self->limits.max_image_bytes
         || bytes > self->limits.max_image_bytes - (entry->bytes - render_weight (entry)))
         return FALSE;
     /* The pinned source is already charged and shares this image's slot. */
-    guint priority = is_current (self, job) ? 0 : target_priority (self, job->uri);
     if (!make_room (self, 3 * bytes, 0, 0, priority))
         return FALSE;
     job->cacheable = TRUE;
@@ -924,7 +1033,7 @@ cancel_job (DecodeJob *job, const gchar *reason)
 {
     if (!g_cancellable_is_cancelled (job->cancel))
     {
-        rstto_profile_end (rstto_profile_now (), job, job->generation, "work-cancelled",
+        rstto_profile_end (rstto_profile_now (), job, job->serial, "work-cancelled",
                            "phase=%d reason=%s", job->phase, reason);
         g_cancellable_cancel (job->cancel);
     }
@@ -974,11 +1083,12 @@ static void
 wait_or_uncached (DecodeJob *job)
 {
     RsttoImageCache *self = job->owner;
-    if (enabled (self) && job->identified && !job->options.ephemeral && self->jobs.length > 1)
+    if (enabled (self) && job->identified && !job->options.ephemeral && (self->jobs.length > 1 || self->warmups != 0))
     {
         /* A cancelled decoder still owns its reservation. Retry admission only
          * after cleanup instead of unnecessarily making this image uncached. */
         cancel_other_jobs (self, job);
+        g_cancellable_cancel (self->warm_cancel);
         job->running = FALSE;
         job->phase = WAIT_PROBE;
     }
@@ -995,7 +1105,7 @@ probe_metadata_done (GObject *source, GAsyncResult *result, gpointer data)
     gint width, height;
     if (rstto_image_probe_finish (result, &width, &height))
         target_size (job, width, height);
-    rstto_profile_end (job->profile_metadata, job, 0, "glycin-metadata", "width=%d height=%d", job->width, job->height);
+    rstto_profile_end (job->profile_metadata, job, job->serial, "glycin-metadata", "width=%d height=%d", job->width, job->height);
     /* Keep the reservation/slot through the metadata callback and the final
      * descriptor/path check. Cancellation never completes a live job early. */
     if (self->stopped || g_cancellable_is_cancelled (job->cancel) || !job_useful (job))
@@ -1029,7 +1139,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
     }
     if (g_atomic_int_get (&job->interest) < 0)
     {
-        rstto_profile_end (rstto_profile_now (), job, job->generation, "work-discarded", "phase=%d reason=obsolete", job->phase);
+        rstto_profile_end (rstto_profile_now (), job, job->serial, "work-discarded", "phase=%d reason=obsolete", job->phase);
         finish_job (job);
         return;
     }
@@ -1043,6 +1153,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
             if (entry->link != NULL)
                 remove_entry (self, entry);
             g_clear_pointer (&job->image.rendered, cairo_surface_destroy);
+            g_clear_pointer (&job->image.gpu_image, rstto_gpu_image_unref);
             job->reservation = 0;
             if (current)
             {
@@ -1056,24 +1167,53 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
         }
         else
         {
-            RsttoRenderKey latest;
-            gboolean compatible = render_key_for (job, entry, &latest)
-                                  && rstto_image_render_key_equal (&latest, &job->render_key);
+            RsttoRenderKey latest = { 0 };
+            RsttoRenderCompatibility compatibility = render_key_for (job, entry, &latest)
+                ? rstto_image_render_compatibility (&latest, &job->render_key) : RSTTO_RENDER_INCOMPATIBLE;
+            /* A verified full pan frame can advance the already displayed
+             * image while input continues. The pinned entry is the same source
+             * and identity; never relax background/cache-hit comparisons. */
+            gboolean pan_frame = compatibility == RSTTO_RENDER_PAN_ONLY
+                && current && self->displayed == entry
+                && job->render_key.view_revision >= entry->image.render_key.view_revision;
             if (self->stopped || g_cancellable_is_cancelled (job->cancel))
             {
                 finish_job (job);
                 return;
             }
-            if (!compatible)
+            if (compatibility != RSTTO_RENDER_EXACT && !pan_frame)
             {
+                rstto_profile_end (rstto_profile_now (), job, job->serial, "render-obsolete",
+                    "revision=%" G_GUINT64_FORMAT " latest=%" G_GUINT64_FORMAT,
+                    job->render_key.view_revision, latest.view_revision);
                 g_clear_pointer (&job->image.rendered, cairo_surface_destroy);
+                g_clear_pointer (&job->image.gpu_image, rstto_gpu_image_unref);
                 job->reservation = 0;
                 if (prepare_render (job, entry))
                     return;
             }
+            /* Identical pixels after a reversal satisfy the newest revision.
+             * A pan preview retains its actual submission snapshot instead. */
+            if (compatibility == RSTTO_RENDER_EXACT)
+                job->render_key.view_revision = latest.view_revision;
+            if (pan_frame)
+                rstto_profile_end (rstto_profile_now (), job, job->serial, "render-pan-frame",
+                    "revision=%" G_GUINT64_FORMAT " latest=%" G_GUINT64_FORMAT,
+                    job->render_key.view_revision, latest.view_revision);
             job->reservation = 0; /* Replace the completed reservation below without yielding. */
             cairo_surface_t *old = NULL;
+            RsttoGpuImage *old_gpu = NULL;
             guint64 old_bytes = 0;
+            if (job->image.gpu_image != NULL && enabled (self)
+                && entry->bytes - render_weight (entry) <= self->limits.max_image_bytes && fits (self, 0, 0))
+            {
+                old = g_steal_pointer (&entry->image.rendered);
+                old_bytes = old != NULL ? (guint64) cairo_image_surface_get_stride (old)
+                                            * cairo_image_surface_get_height (old) : 0;
+                old_gpu = entry->image.gpu_image;
+                entry->image.gpu_image = g_steal_pointer (&job->image.gpu_image);
+                entry->image.render_key = job->render_key;
+            }
             if (job->image.rendered != NULL)
             {
                 guint64 bytes = (guint64) cairo_image_surface_get_stride (job->image.rendered)
@@ -1084,6 +1224,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
                 {
                     old = entry->image.rendered;
                     old_bytes = render_weight (entry);
+                    old_gpu = g_steal_pointer (&entry->image.gpu_image);
                     entry->image.rendered = g_steal_pointer (&job->image.rendered);
                     entry->image.render_key = job->render_key;
                     entry->bytes += bytes;
@@ -1091,6 +1232,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
                 }
             }
             g_clear_pointer (&job->image.rendered, cairo_surface_destroy);
+            g_clear_pointer (&job->image.gpu_image, rstto_gpu_image_unref);
             if (is_current (self, job))
             {
                 self->speculation_allowed = entry->link != NULL;
@@ -1104,6 +1246,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
                 entry->bytes -= old_bytes;
                 self->resident_bytes -= old_bytes;
             }
+            g_clear_pointer (&old_gpu, rstto_gpu_image_unref);
         }
         finish_job (job);
         return;
@@ -1352,7 +1495,7 @@ task_done (GObject *source, GAsyncResult *result, gpointer data)
         }
         job->queued = FALSE;
         job->running = TRUE; /* protect through synchronous completion signals */
-        rstto_profile_end (job->render_start, job, job->generation, "render-prepare",
+        rstto_profile_end (job->render_start, job, job->serial, "render-prepare",
             "width=%d height=%d parallel=%u cancelled=%d demand=%d", job->render_key.width, job->render_key.height,
             job->render_peak, job->render_failed || g_cancellable_is_cancelled (job->cancel)
             || g_atomic_int_get (&job->interest) <= 0, g_atomic_int_get (&job->demand));
@@ -1376,9 +1519,23 @@ task_done (GObject *source, GAsyncResult *result, gpointer data)
     pump (self);
 }
 
+/* Only state transitions are logged, never repeated scheduler polls. */
+static void
+job_schedule_state (DecodeJob *job, guint reason)
+{
+    static const gchar *names[] = { "admitted", "foreground", "quiet", "budget-cleanup", "gpu-worker", "view", "task" };
+    guint priority = is_current (job->owner, job) ? 0 : target_priority (job->owner, job->uri);
+    guint64 state = 1 + reason + ((guint64) job->phase << 8) + ((guint64) priority << 16);
+    if (state == job->deferral) return;
+    job->deferral = state;
+    rstto_profile_end (rstto_profile_now (), job, job->serial, "schedule-job",
+        "phase=%d priority=%u state=%s burst=%u", job->phase, priority, names[reason], job->owner->burst_steps);
+}
+
 static void
 launch (DecodeJob *job)
 {
+    job_schedule_state (job, 0);
     job->profile_launch = rstto_profile_now ();
 #ifdef RSTTO_CACHE_TEST
     if (job->phase == PROBE)
@@ -1399,6 +1556,57 @@ launch (DecodeJob *job)
 }
 
 static void
+gpu_done (GObject *source, GAsyncResult *result, gpointer data)
+{
+    DecodeJob *job = data;
+    RsttoImageCache *self = job->owner;
+    job->image.gpu_image = rstto_gpu_render_finish (RSTTO_GPU_RENDERER (source), result, NULL);
+    rstto_profile_end (job->profile_launch, job, job->serial, "gpu-prepare",
+                       "success=%d demand=%d", job->image.gpu_image != NULL, g_atomic_int_get (&job->demand));
+    self->active_tasks--;
+    job->running = TRUE; /* protect through prepare-render signals */
+    if (self->stopped || !job_useful (job))
+        finish_job (job);
+    else
+    {
+        if (job->image.gpu_image == NULL)
+        {
+            job->render_entry->gpu_rejected = TRUE;
+            job->render_entry->gpu_rejected_key = job->render_key;
+            job->reservation = 0; /* GPU completion includes staging cleanup */
+            rstto_profile_end (rstto_profile_now (), job, job->serial, "gpu-fallback", "reason=render-failed");
+            if (prepare_render (job, job->render_entry))
+            {
+                g_object_unref (self);
+                return;
+            }
+        }
+        job->phase = RENDER_VERIFY;
+        launch (job);
+    }
+    pump (self);
+    g_object_unref (self);
+}
+
+static void
+warmup_done (GObject *source, GAsyncResult *result, gpointer data)
+{
+    RsttoImageCache *self = data;
+    rstto_gpu_warmup_finish (RSTTO_GPU_RENDERER (source), result, NULL);
+    self->active_tasks--;
+    self->warmups--;
+    self->warmup_bytes = 0;
+    if (!self->stopped && !self->pressure_blocked && enabled (self)
+        && g_cancellable_is_cancelled (self->warm_cancel) && fits (self, RSTTO_GPU_WARMUP_BYTES, 0))
+    {
+        g_clear_object (&self->warm_cancel);
+        self->warm_cancel = g_cancellable_new ();
+    }
+    pump (self);
+    g_object_unref (self);
+}
+
+static void
 dispatch_tasks (RsttoImageCache *self)
 {
     guint ceiling = 1 + MIN (self->preload_workers, preload_capacity (self->limits.max_images));
@@ -1411,7 +1619,12 @@ dispatch_tasks (RsttoImageCache *self)
             DecodeJob *job = lp->data;
             if (!job->queued || g_cancellable_is_cancelled (job->cancel) || g_atomic_int_get (&job->interest) <= 0)
                 continue;
+            if (job->phase == GPU_RENDER && !rstto_gpu_renderer_available (job->render_gpu))
+            { job_schedule_state (job, 4); continue; }
             gboolean current = is_current (self, job);
+            if (!current && job->phase == GPU_RENDER && self->view_pending
+                && g_strcmp0 (self->pending_target, job->uri) != 0)
+            { job_schedule_state (job, 5); continue; }
             if (job->phase == RENDER && (job->render_next >= (guint) job->render_key.height
                 || job->render_failed || (!current && job->render_tasks != 0)))
                 continue;
@@ -1424,6 +1637,18 @@ dispatch_tasks (RsttoImageCache *self)
         }
         if (best == NULL)
             break;
+        job_schedule_state (best, 0);
+        if (best->phase == GPU_RENDER)
+        {
+            best->queued = FALSE;
+            best->running = TRUE;
+            self->active_tasks++;
+            self->peak_tasks = MAX (self->peak_tasks, self->active_tasks);
+            g_object_ref (self); /* paired with gpu_done after all resource cleanup */
+            rstto_gpu_render_async (best->render_gpu, &best->render_source, &best->render_key,
+                                   best->cancel, job_useful, best, &best->demand, gpu_done, best);
+            continue;
+        }
         GTask *task = g_task_new (self, best->cancel, task_done, best);
         g_task_set_return_on_cancel (task, FALSE);
         g_task_set_priority (task, best_rank == 0 ? G_PRIORITY_DEFAULT : G_PRIORITY_LOW);
@@ -1454,6 +1679,22 @@ dispatch_tasks (RsttoImageCache *self)
         }
         g_object_unref (task);
     }
+    /* Warmup has no image slot, but owns a task permit and host reservation.
+     * Start the first context before others and leave room for decoding. */
+    if (!self->stopped && !self->pressure_blocked && self->warmups == 0
+        && !g_cancellable_is_cancelled (self->warm_cancel)
+        && self->active_tasks < ceiling && fits (self, RSTTO_GPU_WARMUP_BYTES, 0)
+        && rstto_gpu_renderer_needs_warmup (self->gpu)
+        && (!rstto_gpu_renderer_available (self->gpu) || self->active_tasks + 1 < ceiling))
+    {
+        gboolean persistent = rstto_gpu_shader_cache_enabled ()
+            && fits (self, RSTTO_GPU_WARMUP_BYTES + RSTTO_SHADER_HOST_BYTES, 0);
+        self->warmup_bytes = RSTTO_GPU_WARMUP_BYTES + (persistent ? RSTTO_SHADER_HOST_BYTES : 0);
+        self->warmups++;
+        self->active_tasks++;
+        self->peak_tasks = MAX (self->peak_tasks, self->active_tasks);
+        rstto_gpu_warmup_async (self->gpu, persistent, self->warm_cancel, warmup_done, g_object_ref (self));
+    }
 }
 
 static DecodeJob *
@@ -1461,6 +1702,7 @@ new_job (RsttoImageCache *self, GFile *file, gboolean demand)
 {
     DecodeJob *job = g_new0 (DecodeJob, 1);
     job->owner = self;
+    job->serial = ++self->next_job_serial;
     job->file = g_object_ref (file);
     job->uri = g_file_get_uri (file);
     job->options = self->options;
@@ -1510,14 +1752,16 @@ foreground_job (RsttoImageCache *self)
 }
 
 static gboolean
-preparing_preload (RsttoImageCache *self)
+preparing_preload (RsttoImageCache *self, guint priority)
 {
     for (GList *lp = self->jobs.head; lp != NULL; lp = lp->next)
     {
         DecodeJob *job = lp->data;
         if (!job->foreground_slot && !g_cancellable_is_cancelled (job->cancel)
+            && g_atomic_int_get (&job->interest) > 0 && target_priority (self, job->uri) <= priority
             && (job->phase == IDENTIFY || job->phase == PROBE || job->phase == PROBE_INFO
-                || job->phase == PROBE_VERIFY || job->phase == WAIT_PROBE || job->phase == WAIT_DECODE))
+                || job->phase == PROBE_VERIFY || ((job->phase == WAIT_PROBE || job->phase == WAIT_DECODE)
+                    && speculation_due (self, job->uri))))
             return TRUE;
     }
     return FALSE;
@@ -1532,7 +1776,7 @@ demand_admitted (RsttoImageCache *self)
     {
         DecodeJob *job = lp->data;
         if (is_current (self, job))
-            return job->phase == DECODE || job->phase == RENDER || job->phase == RENDER_VERIFY;
+            return job->phase == DECODE || job->phase == RENDER || job->phase == RENDER_VERIFY || job->phase == GPU_RENDER;
         if (job->foreground_slot)
             return FALSE; /* cancelled demand still draining */
     }
@@ -1548,7 +1792,7 @@ preload_worker_limit (RsttoImageCache *self)
 static void
 pump (RsttoImageCache *self)
 {
-    if (self->stopped || self->pumping)
+    if (self->stopped || self->pumping || self->update_depth != 0)
         return;
     self->pumping = TRUE;
     for (GList *lp = self->jobs.head, *next; lp != NULL; lp = next)
@@ -1565,8 +1809,8 @@ pump (RsttoImageCache *self)
         if (!job->running && job->phase == WAIT_PROBE && !is_current (self, job))
         {
             guint priority = target_priority (self, job->uri);
-            if (!demand_admitted (self))
-                continue;
+            if (!demand_admitted (self) || !speculation_due (self, job->uri))
+            { job_schedule_state (job, !demand_admitted (self) ? 1 : self->view_pending ? 5 : 2); continue; }
             if (make_room (self, PROBE_RESERVATION, 1, priority != 0, priority))
             {
                 job->reservation = PROBE_RESERVATION;
@@ -1576,6 +1820,7 @@ pump (RsttoImageCache *self)
             }
             else if (!admit_after_cleanup (job, PROBE_RESERVATION, 1, 1, priority))
                 finish_job (job);
+            else job_schedule_state (job, 3);
             continue;
         }
         if (!job->running && job->phase == WAIT_DECODE)
@@ -1583,7 +1828,7 @@ pump (RsttoImageCache *self)
             gboolean current = is_current (self, job);
             guint priority = current ? 0 : target_priority (self, job->uri);
             if (!current && !demand_admitted (self))
-                continue;
+            { job_schedule_state (job, 1); continue; }
             if (make_room (self, job->required_bytes, 0, 0, priority))
             {
                 job->cacheable = TRUE;
@@ -1596,7 +1841,7 @@ pump (RsttoImageCache *self)
             if (current)
                 wait_or_uncached (job);
             else if (admit_after_cleanup (job, job->required_bytes, 0, 0, priority))
-                continue; /* Retry only when a live job releases resources. */
+            { job_schedule_state (job, 3); continue; } /* Retry only after cleanup. */
             else
             {
                 finish_job (job); /* Cannot coexist with the retained targets. */
@@ -1629,11 +1874,24 @@ pump (RsttoImageCache *self)
     }
     if (demand_admitted (self) && self->speculation_allowed && !self->pressure_blocked
         && enabled (self) && g_get_monotonic_time () >= self->pressure_until
-        && speculative_jobs (self) < preload_worker_limit (self) && !preparing_preload (self))
+        && speculative_jobs (self) < preload_worker_limit (self))
     {
         /* Probe/admit candidates in priority order, then overlap their actual
          * decodes. A lower-priority probe cannot consume a higher target's budget. */
-        GFile *file = g_queue_pop_head (&self->pending);
+        GFile *file = NULL;
+        for (GList *lp = self->pending.head; lp != NULL; lp = lp->next)
+        {
+            gchar *uri = g_file_get_uri (lp->data);
+            gboolean due = speculation_due (self, uri)
+                && !preparing_preload (self, target_priority (self, uri));
+            g_free (uri);
+            if (due)
+            {
+                file = lp->data;
+                g_queue_delete_link (&self->pending, lp);
+                break;
+            }
+        }
         if (file != NULL)
         {
             launch (new_job (self, file, FALSE));
@@ -1650,6 +1908,7 @@ pressure (GMemoryMonitor *monitor, GMemoryMonitorWarningLevel level, gpointer da
     RsttoImageCache *self = data;
     self->pressure_until = g_get_monotonic_time () + PRESSURE_COOLDOWN;
     self->pressure_blocked = TRUE;
+    g_cancellable_cancel (self->warm_cancel);
     self->speculation_allowed = FALSE;
     for (GList *lp = self->jobs.head; lp != NULL; lp = lp->next)
         if (!is_current (self, lp->data))
@@ -1669,6 +1928,8 @@ rstto_image_cache_finalize (GObject *object)
     g_strfreev (self->excluded_mime_types);
     g_strfreev (self->probe_raw_types);
     g_clear_object (&self->memory_monitor);
+    g_clear_object (&self->gpu);
+    g_clear_object (&self->warm_cancel);
     G_OBJECT_CLASS (rstto_image_cache_parent_class)->finalize (object);
 }
 
@@ -1695,6 +1956,7 @@ rstto_image_cache_init (RsttoImageCache *self)
     g_queue_init (&self->jobs);
     g_queue_init (&self->pending);
     self->preload_workers = RSTTO_PRELOAD_WORKERS_DEFAULT;
+    self->warm_cancel = g_cancellable_new ();
     self->limits = (RsttoCacheLimits) { TRUE, 5, 256 * MIB, 128 * MIB };
     self->excluded_mime_types = g_new0 (gchar *, 1);
     self->probe_raw_types = rstto_image_probe_raw_mime_types ();
@@ -1709,6 +1971,29 @@ rstto_image_cache_new (void)
 }
 
 void
+rstto_image_cache_set_gpu (RsttoImageCache *self, RsttoGpuRenderer *gpu)
+{
+    if (self->gpu == gpu)
+        return;
+    if (self->gpu != NULL)
+    {
+        cancel_other_jobs (self, NULL);
+        evict_all (self);
+    }
+    g_cancellable_cancel (self->warm_cancel);
+    g_clear_object (&self->warm_cancel);
+    self->warm_cancel = g_cancellable_new ();
+    g_set_object (&self->gpu, gpu);
+    pump (self);
+}
+
+void
+rstto_image_cache_get_gpu_stats (RsttoImageCache *self, RsttoGpuStats *stats)
+{
+    rstto_gpu_renderer_get_stats (self->gpu, stats);
+}
+
+void
 rstto_image_cache_set_excluded_mime_types (RsttoImageCache *self, const gchar *const *types)
 {
     g_strfreev (self->excluded_mime_types);
@@ -1719,6 +2004,8 @@ void
 rstto_image_cache_set_preload_workers (RsttoImageCache *self, guint workers)
 {
     self->preload_workers = CLAMP (workers, 1, RSTTO_PRELOAD_WORKERS_MAX);
+    if (self->active_tasks > 1 + preload_worker_limit (self))
+        g_cancellable_cancel (self->warm_cancel);
     guint active = 0;
     for (GList *lp = self->jobs.head; lp != NULL; lp = lp->next)
     {
@@ -1755,7 +2042,18 @@ rstto_image_cache_set_preload_workers (RsttoImageCache *self, guint workers)
 void
 rstto_image_cache_set_limits (RsttoImageCache *self, const RsttoCacheLimits *limits)
 {
+    if (self->limits.enabled != limits->enabled || self->limits.max_images != limits->max_images
+        || self->limits.max_bytes != limits->max_bytes || self->limits.max_image_bytes != limits->max_image_bytes)
+        for (GList *lp = self->lru.head; lp != NULL; lp = lp->next)
+            ((Entry *) lp->data)->gpu_rejected = FALSE;
     self->limits = *limits;
+    if (!fits (self, 0, 0))
+        g_cancellable_cancel (self->warm_cancel);
+    else if (g_cancellable_is_cancelled (self->warm_cancel) && !self->pressure_blocked)
+    {
+        g_clear_object (&self->warm_cancel);
+        self->warm_cancel = g_cancellable_new ();
+    }
     GHashTableIter targets;
     gpointer value;
     g_hash_table_iter_init (&targets, self->targets);
@@ -1816,11 +2114,22 @@ rstto_image_cache_request (RsttoImageCache *self, GFile *file, const gchar *mime
 {
     if (self->stopped)
         return;
+    if ((self->selected == NULL || !g_file_equal (self->selected, file))
+        && self->request_revision == self->navigation_revision)
+        rstto_image_cache_navigation (self, RSTTO_NAV_JUMP, 1);
+    self->request_revision = self->navigation_revision;
     self->generation++;
     rstto_profile_end (rstto_profile_now (), self, self->generation, "cache-request", "%s", "");
     if ((self->selected == NULL || !g_file_equal (self->selected, file))
         && g_get_monotonic_time () >= self->pressure_until)
+    {
         self->pressure_blocked = FALSE;
+        if (g_cancellable_is_cancelled (self->warm_cancel))
+        {
+            g_clear_object (&self->warm_cancel);
+            self->warm_cancel = g_cancellable_new ();
+        }
+    }
     if (!options_equal (&self->options, options))
         evict_all (self);
     self->options = *options;
@@ -1829,9 +2138,17 @@ rstto_image_cache_request (RsttoImageCache *self, GFile *file, const gchar *mime
     self->mime_type = g_strdup (mime_type);
     self->busy = TRUE;
     self->foreground_pending = TRUE;
-    g_queue_clear_full (&self->pending, g_object_unref);
-    g_hash_table_remove_all (self->targets);
     gchar *uri = g_file_get_uri (file);
+    g_hash_table_remove (self->targets, uri);
+    for (GList *lp = self->pending.head, *next; lp != NULL; lp = next)
+    {
+        next = lp->next;
+        if (g_file_equal (lp->data, file))
+        {
+            g_object_unref (lp->data);
+            g_queue_delete_link (&self->pending, lp);
+        }
+    }
     DecodeJob lookup = { .uri = uri, .options = *options };
     DecodeJob *matching = g_hash_table_lookup (self->requests, &lookup);
     for (GList *lp = self->jobs.head; lp != NULL; lp = lp->next)
@@ -1857,10 +2174,31 @@ rstto_image_cache_request (RsttoImageCache *self, GFile *file, const gchar *mime
 }
 
 void
+rstto_image_cache_begin_update (RsttoImageCache *self)
+{
+    self->update_depth++;
+}
+
+void
+rstto_image_cache_end_update (RsttoImageCache *self)
+{
+    g_return_if_fail (self->update_depth != 0);
+    self->update_depth--;
+    pump (self);
+}
+
+void
 rstto_image_cache_set_schedule (RsttoImageCache *self, GFile *pending, GPtrArray *files)
 {
+    if (self->stopped) return;
+    GHashTable *old_targets = self->targets;
+    self->targets = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+    gchar *pending_uri = pending != NULL ? g_file_get_uri (pending) : NULL;
+    gboolean changed = g_strcmp0 (pending_uri, self->pending_target) != 0;
+    g_free (self->pending_target);
+    self->pending_target = pending_uri;
+    self->urgent_rank = 0;
     g_queue_clear_full (&self->pending, g_object_unref);
-    g_hash_table_remove_all (self->targets);
     guint capacity = preload_capacity (self->limits.max_images);
     for (guint n = 0; n < files->len + (pending != NULL) && self->targets != NULL
                       && g_hash_table_size (self->targets) < capacity;
@@ -1874,20 +2212,42 @@ rstto_image_cache_set_schedule (RsttoImageCache *self, GFile *pending, GPtrArray
             g_free (uri);
             continue;
         }
-        g_hash_table_insert (self->targets, uri, GUINT_TO_POINTER (g_hash_table_size (self->targets) + 1));
+        guint rank = g_hash_table_size (self->targets) + 1;
+        changed |= GPOINTER_TO_UINT (g_hash_table_lookup (old_targets, uri)) != rank;
+        g_hash_table_insert (self->targets, uri, GUINT_TO_POINTER (rank));
+        if (n < 2 + (pending != NULL)) self->urgent_rank = rank;
         DecodeJob lookup = { .uri = uri, .options = self->options };
         DecodeJob *running = g_hash_table_lookup (self->requests, &lookup);
         if (running == NULL || g_cancellable_is_cancelled (running->cancel))
             g_queue_push_tail (&self->pending, g_object_ref (file));
     }
+    changed |= g_hash_table_size (self->targets) != g_hash_table_size (old_targets);
+    g_hash_table_unref (old_targets);
+    if (changed)
+        rstto_profile_end (rstto_profile_now (), self, self->navigation_revision, "schedule-targets",
+            "targets=%u urgent=%u burst=%u", g_hash_table_size (self->targets), self->urgent_rank, self->burst_steps);
     for (GList *lp = self->jobs.head; lp != NULL; lp = lp->next)
     {
         DecodeJob *job = lp->data;
         gboolean useful = is_current (self, job) || g_hash_table_contains (self->targets, job->uri);
         /* CAS cannot revive work that has committed to stopping. */
         if (g_atomic_int_compare_and_exchange (&job->interest, useful ? 0 : 1, useful ? 1 : 0))
-            rstto_profile_end (rstto_profile_now (), job, job->generation, "work-interest",
+            rstto_profile_end (rstto_profile_now (), job, job->serial, "work-interest",
                                "phase=%d useful=%d", job->phase, useful);
+    }
+    pump (self);
+}
+
+void
+rstto_image_cache_view_changed (RsttoImageCache *self, gboolean pending)
+{
+    if (self->stopped) return;
+    self->view_pending = pending;
+    if (pending)
+    {
+        self->burst_steps = 0;
+        self->navigation_direction = 0;
+        schedule_activity (self);
     }
     pump (self);
 }
@@ -1942,6 +2302,12 @@ void
 rstto_image_cache_clear (RsttoImageCache *self)
 {
     self->generation++;
+    g_clear_handle_id (&self->quiet_source, g_source_remove);
+    g_clear_pointer (&self->pending_target, g_free);
+    self->view_pending = FALSE;
+    self->burst_steps = 0;
+    self->last_navigation = 0;
+    self->navigation_direction = 0;
     self->busy = self->foreground_pending = self->speculation_allowed = FALSE;
     cancel_other_jobs (self, NULL);
     g_queue_clear_full (&self->pending, g_object_unref);
@@ -1961,6 +2327,7 @@ void
 rstto_image_cache_stop (RsttoImageCache *self)
 {
     self->stopped = TRUE;
+    g_cancellable_cancel (self->warm_cancel);
     rstto_image_cache_clear (self);
     /* Waiting jobs have no GTask keeping the owner alive. */
     for (GList *lp = self->jobs.head, *next; lp != NULL; lp = next)
@@ -1978,7 +2345,8 @@ rstto_image_cache_stop (RsttoImageCache *self)
 gboolean
 rstto_image_cache_is_busy (RsttoImageCache *self)
 {
-    return self->busy;
+    return self->busy || self->warmups != 0
+        || (self->quiet_source != 0 && !self->view_pending && !g_queue_is_empty (&self->pending));
 }
 
 void

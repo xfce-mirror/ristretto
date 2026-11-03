@@ -49,6 +49,13 @@ if glycin.found()
 endif
 summary('Safe image probing (Glycin)', glycin.found())
 
+placebo = dependency('libplacebo', version: '>= 7.360.0', required: get_option('placebo'))
+epoxy = dependency('epoxy', required: get_option('placebo'))
+if placebo.found() and epoxy.found()
+  feature_cflags += '-DHAVE_PLACEBO=1'
+endif
+summary('Experimental OpenGL scaling (libplacebo)', placebo.found() and epoxy.found())
+
 # TODO: make required when 'xfce4' reaches 4.20
 libxfce4windowing = dependency('libxfce4windowing-0', version: dependency_versions['libxfce4windowing'], required: false)
 if libxfce4windowing.found()

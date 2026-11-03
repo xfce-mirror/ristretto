@@ -1,5 +1,8 @@
 # Profiling image navigation
 
+For the experimental GPU backend, stage meanings and the reproducible CPU/GPU
+comparison are documented in [opengl-rendering.md](opengl-rendering.md).
+
 Build an optimized binary with debug information, frame pointers (where the
 compiler supports them), and optional wall-clock timing spans:
 
@@ -122,3 +125,18 @@ benchmark and visits eight images with six cache slots, forcing every timed
 selection to decode and prepare a new image. The five-worker setting and byte
 limits remain identical. Compare per-image conversion plus render spans separately
 from sustained scrolling with five targets, where most preparation is speculative.
+
+The experimental GPU renderer also emits `gpu-program`, `gpu-warmup`,
+`gpu-warmup-upload`, `gpu-warmup-submit`, and `gpu-warmup-stage`. These are separate
+from image upload/dispatch counters. After startup warmup, zoom/viewport sweeps
+should report zero `gpu-submit new_programs`; geometry and EWA radius are uniforms.
+`view-request`, `view-committed` and `render-obsolete` expose revision/geometry
+coalescing. The rendering-fix benchmark adds `startup` and `zoom-stream-summary`
+records; see `docs/opengl-rendering.md` for isolated driver-cache comparisons.
+
+Adaptive scheduling adds transition-only `schedule-input`, `schedule-targets`
+and `schedule-job` records. Job records use monotonically increasing IDs within
+the cache, report phase/priority/deferral reason, and do not repeat per poll.
+`shader-cache-load` reports bounded payload hits/misses and `shader-cache-save`
+reports successful/skipped writes. These are distinct from `gpu-program`
+(dispatch signatures) and actual compiler/binary-loading calls in the test hooks.

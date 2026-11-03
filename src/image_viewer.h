@@ -103,6 +103,12 @@ rstto_image_viewer_is_busy (RsttoImageViewer *viewer);
 void
 rstto_image_viewer_reset_adjustments (RsttoImageViewer *viewer);
 
+#ifdef RSTTO_VIEWER_TEST
+guint rstto_image_viewer_test_unprepared_paints (RsttoImageViewer *viewer);
+void rstto_image_viewer_test_fail_gpu (RsttoImageViewer *viewer);
+gboolean rstto_image_viewer_test_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key);
+#endif
+
 G_END_DECLS
 
 #endif /* __RISTRETTO_IMAGE_VIEWER_H__ */

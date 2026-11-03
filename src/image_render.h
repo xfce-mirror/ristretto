@@ -13,7 +13,19 @@ typedef struct
     gint orientation, render_width, render_height, x, y, h_adjust, v_adjust;
     gdouble x_scale, y_scale;
     gboolean smoothing;
+    guint backend, filter;
+    guint64 context_generation;
+    guint64 view_revision; /* delivery freshness, not pixel-variant identity */
 } RsttoRenderKey;
+
+/* Completion policy only. Cache lookup continues to require exact pixels. */
+typedef enum
+{
+    RSTTO_RENDER_INCOMPATIBLE,
+    RSTTO_RENDER_EXACT,
+    RSTTO_RENDER_PAN_ONLY
+} RsttoRenderCompatibility;
+RsttoRenderCompatibility rstto_image_render_compatibility (const RsttoRenderKey *a, const RsttoRenderKey *b);
 
 typedef struct
 {

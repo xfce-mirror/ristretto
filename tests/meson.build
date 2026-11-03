@@ -1,7 +1,7 @@
 cache_test = executable(
   'test-image-cache',
-  ['test-image-cache.c', '../src/image_probe.c', '../src/image_render.c'],
-  dependencies: [glib, gio, gio_unix, gtk, cairo, glycin, libm],
+  ['test-image-cache.c', '../src/image_probe.c', '../src/image_render.c', '../src/image_gpu.c', '../src/image_shader_cache.c'],
+  dependencies: [glib, gio, gio_unix, gtk, cairo, glycin, placebo, epoxy, libm],
 )
 test('image-cache', cache_test, timeout: 60)
 
@@ -27,3 +27,24 @@ render_scalar_test = executable(
   dependencies: [glib, gio, gtk, cairo, libm],
 )
 test('image-render-scalar', render_scalar_test, timeout: 30)
+
+executable('benchmark-thumbnailer', 'benchmark-thumbnailer.c', dependencies: [glib, gio])
+
+if placebo.found() and epoxy.found()
+  gpu_test = executable('test-image-gpu',
+    ['test-image-gpu.c', '../src/image_gpu.c', '../src/image_shader_cache.c', '../src/image_render.c'],
+    c_args: ['-DRSTTO_GPU_TEST'],
+    dependencies: [glib, gio, gtk, cairo, placebo, epoxy, libm])
+  test('image-gpu', gpu_test, timeout: 90)
+  test('shader-process', find_program('python3'),
+    args: [files('test-shader-process.py'), gpu_test], timeout: 60)
+  gpu_cache_test = executable('test-image-cache-gpu',
+    ['test-image-cache.c', '../src/image_probe.c', '../src/image_gpu.c', '../src/image_shader_cache.c', '../src/image_render.c'],
+    c_args: ['-DRSTTO_GPU_TEST', '-DRSTTO_CACHE_GPU'],
+    dependencies: [glib, gio, gio_unix, gtk, cairo, glycin, placebo, epoxy, libm])
+  test('image-cache-gpu', gpu_cache_test, timeout: 90)
+endif
+
+shader_cache_test = executable('test-shader-cache',
+  ['test-shader-cache.c', '../src/image_shader_cache.c'], dependencies: [glib, gio])
+test('shader-cache', shader_cache_test, timeout: 30)

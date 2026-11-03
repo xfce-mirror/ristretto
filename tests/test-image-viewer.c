@@ -6,11 +6,13 @@
 #include "settings.h"
 
 #include <glib/gstdio.h>
+#include <math.h>
 
 void rstto_test_worker_checkpoint (gint phase, gboolean demand, GCancellable *cancel, gboolean entering);
 
 static RsttoImageViewer *viewer;
 static RsttoImageCache *cache;
+static void wait_frame (void);
 
 static void
 find_viewer (GtkWidget *widget, gpointer unused)
@@ -131,6 +133,27 @@ test_viewer (void)
     rstto_image_cache_get_stats (cache, &before);
     g_assert_cmpuint (before.entries, ==, 5);
     g_assert_cmpuint (before.decodes, ==, 5);
+#ifdef HAVE_PLACEBO
+    if (rstto_gpu_requested ())
+    {
+        RsttoGpuStats gpu_before, gpu_after;
+        rstto_image_cache_get_gpu_stats (cache, &gpu_before);
+        g_assert_cmpuint (gpu_before.completed, >, 0);
+        rstto_image_viewer_set_scale (viewer, 2.0);
+        wait_frame ();
+        wait_loaded ();
+        wait_frame ();
+        rstto_image_cache_get_gpu_stats (cache, &gpu_after);
+        g_assert_cmpuint (gpu_after.completed, >, gpu_before.completed);
+        rstto_image_cache_get_stats (cache, &after);
+        g_assert_cmpuint (after.decodes, ==, before.decodes);
+        rstto_image_viewer_set_scale (viewer, -1.0);
+        wait_frame ();
+        wait_loaded ();
+        wait_frame ();
+        rstto_image_cache_get_stats (cache, &before);
+    }
+#endif
     rstto_image_list_iter_next (iter);
     wait_loaded ();
     rstto_image_cache_get_stats (cache, &after);
@@ -368,6 +391,286 @@ scrolling_release (void)
 }
 
 static void
+zoom_latest_view (void)
+{
+#ifndef HAVE_PLACEBO
+    g_test_skip ("Built without GPU rendering");
+    return;
+#endif
+    if (!rstto_gpu_requested ()) { g_test_skip ("GPU zoom regression"); return; }
+    if (!g_test_subprocess ())
+    {
+        g_test_trap_subprocess (NULL, 30 * G_USEC_PER_SEC, 0);
+        g_test_trap_assert_passed ();
+        return;
+    }
+    RsttoSettings *settings = rstto_settings_new ();
+    g_object_set (settings, "preload-count", 0u, "show-error-missing-thumbnailer", FALSE, NULL);
+    GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_default_size (GTK_WINDOW (window), 640, 480);
+    GtkWidget *scroll = gtk_scrolled_window_new (NULL, NULL);
+    viewer = RSTTO_IMAGE_VIEWER (rstto_image_viewer_new ());
+    gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (viewer));
+    gtk_container_add (GTK_CONTAINER (window), scroll);
+    gtk_widget_show_all (window);
+    cache = g_object_ref (rstto_image_viewer_get_cache (viewer));
+    gchar *directory = g_dir_make_tmp ("ristretto-zoom-test-XXXXXX", NULL);
+    gchar *path = g_build_filename (directory, "fixture.png", NULL);
+    /* Keep the logical fixture size fixed so the scrollbar assertions also
+     * exercise overflowing content on a high-DPI display. */
+    gint monitor_scale = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
+    GdkPixbuf *pixels = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, 128 * monitor_scale, 96 * monitor_scale);
+    gdk_pixbuf_fill (pixels, 0x20a050ff);
+    g_assert_true (gdk_pixbuf_save (pixels, path, "png", NULL, NULL));
+    g_object_unref (pixels);
+    GFile *gf = g_file_new_for_path (path);
+    RsttoFile *file = rstto_file_new (gf);
+    rstto_image_viewer_set_file (viewer, file, 2.0, RSTTO_SCALE_NONE, RSTTO_IMAGE_ORIENT_NONE);
+    wait_loaded ();
+    RsttoCacheStats before, after;
+    rstto_image_cache_get_stats (cache, &before);
+    /* Delay verification after preparation. New input must survive completion
+     * of an older zoom, including repeated keys and a direction reversal. */
+    guint paints = rstto_image_viewer_test_unprepared_paints (viewer);
+    const double first[] = { 2.2, 2.0, 2.2, 2.42, 4.8, 6.2 };
+    const double latest[] = { 2.42, 1.8, 1.9, 2.662, 5.5, 4.5 };
+    for (guint i = 0; i < G_N_ELEMENTS (first); i++)
+    {
+        scrolling_hold (10);
+        rstto_image_viewer_set_scale (viewer, first[i]);
+        scrolling_await_worker ();
+        rstto_image_viewer_set_scale (viewer, latest[i]);
+        g_assert_cmpfloat (rstto_image_viewer_get_scale (viewer), ==, latest[i]);
+        scrolling_release ();
+        g_assert_cmpfloat (rstto_image_viewer_get_scale (viewer), ==, latest[i]);
+        g_assert_cmpfloat (rstto_file_get_scale (file), ==, latest[i]);
+    }
+    rstto_image_viewer_set_scale (viewer, 8.0);
+    wait_loaded ();
+    GtkAdjustment *h = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (viewer));
+    GtkAdjustment *v = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (viewer));
+    scrolling_hold (10);
+    gtk_adjustment_set_value (h, 40);
+    gtk_adjustment_set_value (v, 30);
+    gtk_widget_queue_draw (GTK_WIDGET (viewer));
+    scrolling_await_worker ();
+    gtk_adjustment_set_value (h, 100);
+    gtk_adjustment_set_value (v, 80);
+    scrolling_release ();
+    g_assert_cmpfloat (gtk_adjustment_get_value (h), ==, 100);
+    g_assert_cmpfloat (gtk_adjustment_get_value (v), ==, 80);
+    g_assert_cmpfloat (rstto_file_get_h_adjustment (file), ==, 100);
+    g_assert_cmpfloat (rstto_file_get_v_adjustment (file), ==, 80);
+    /* A genuine renderer failure must also prepare the fallback off-thread. */
+    rstto_image_viewer_test_fail_gpu (viewer);
+    scrolling_hold (10);
+    rstto_image_viewer_set_scale (viewer, 4.0);
+    scrolling_await_worker ();
+    rstto_image_viewer_set_scale (viewer, 3.8);
+    scrolling_release ();
+    g_assert_cmpfloat (rstto_image_viewer_get_scale (viewer), ==, 3.8);
+    g_assert_cmpuint (rstto_image_viewer_test_unprepared_paints (viewer), ==, paints);
+    rstto_image_cache_get_stats (cache, &after);
+    g_assert_cmpuint (after.decodes, ==, before.decodes);
+    gtk_widget_destroy (window);
+    viewer = NULL;
+    wait_loaded ();
+    g_object_unref (cache); cache = NULL;
+    g_object_unref (file); g_object_unref (gf); g_object_unref (settings);
+    g_remove (path); g_rmdir (directory); g_free (path); g_free (directory);
+}
+
+/* Drive the real handlers without injecting input into another desktop window. */
+static void
+drag_button (gboolean press, guint modifiers)
+{
+    GtkWidget *widget = GTK_WIDGET (viewer);
+    GdkEventButton event = { 0 };
+    event.type = press ? GDK_BUTTON_PRESS : GDK_BUTTON_RELEASE;
+    event.window = gtk_widget_get_window (widget);
+    event.button = 1; event.x = 320; event.y = 240; event.state = modifiers;
+    if (press) GTK_WIDGET_GET_CLASS (widget)->button_press_event (widget, &event);
+    else GTK_WIDGET_GET_CLASS (widget)->button_release_event (widget, &event);
+}
+
+static void
+drag_motion (double dx, double dy)
+{
+    GtkWidget *widget = GTK_WIDGET (viewer);
+    GdkEventMotion event = { 0 };
+    event.type = GDK_MOTION_NOTIFY;
+    event.window = gtk_widget_get_window (widget);
+    event.state = GDK_BUTTON1_MASK; event.x = 320 - dx; event.y = 240 - dy;
+    GTK_WIDGET_GET_CLASS (widget)->motion_notify_event (widget, &event);
+}
+
+typedef struct
+{
+    guint frames;
+    RsttoRenderKey first, last;
+    double desired_h, desired_v;
+    RsttoFile *expected_file;
+} DragFrames;
+
+static void
+drag_presented (RsttoImageViewer *widget, DragFrames *frames)
+{
+    RsttoRenderKey key;
+    g_assert_true (rstto_image_viewer_test_render_key (widget, &key));
+    if (frames->frames == 0) frames->first = key;
+    else g_assert_cmpuint (key.view_revision, >=, frames->last.view_revision);
+    frames->last = key;
+    frames->frames++;
+    RsttoFile *file = rstto_image_viewer_get_file (widget);
+    if (frames->expected_file != NULL) g_assert_true (file == frames->expected_file);
+    g_assert_cmpfloat (rstto_file_get_h_adjustment (file), ==, frames->desired_h);
+    g_assert_cmpfloat (rstto_file_get_v_adjustment (file), ==, frames->desired_v);
+    scrolling_check_limits ();
+}
+
+static void
+drag_continuous (gconstpointer data)
+{
+#ifndef HAVE_PLACEBO
+    g_test_skip ("Built without GPU rendering");
+    return;
+#endif
+    if (!rstto_gpu_requested ()) { g_test_skip ("Asynchronous GPU/fallback dragging"); return; }
+    if (!g_test_subprocess ())
+    {
+        g_test_trap_subprocess (NULL, 30 * G_USEC_PER_SEC, 0);
+        g_test_trap_assert_passed ();
+        return;
+    }
+    guint phase = GPOINTER_TO_UINT (data);
+    RsttoSettings *settings = rstto_settings_new ();
+    g_object_set (settings, "preload-count", 0u, "cache-max-images", 6u,
+        "cache-max-mib", 2048u, "cache-max-image-mib", 256u, "preload-workers", 5u,
+        "limit-quality", FALSE, "show-error-missing-thumbnailer", FALSE, NULL);
+    GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_default_size (GTK_WINDOW (window), 640, 480);
+    GtkWidget *scroll = gtk_scrolled_window_new (NULL, NULL);
+    viewer = RSTTO_IMAGE_VIEWER (rstto_image_viewer_new ());
+    gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (viewer));
+    gtk_container_add (GTK_CONTAINER (window), scroll);
+    gtk_widget_show_all (window);
+    cache = g_object_ref (rstto_image_viewer_get_cache (viewer));
+    gchar *directory = g_dir_make_tmp ("ristretto-drag-test-XXXXXX", NULL);
+    gchar *path = g_build_filename (directory, "alpha.png", NULL);
+    GdkPixbuf *pixels = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1024, 768);
+    gdk_pixbuf_fill (pixels, 0x20a05080);
+    g_assert_true (gdk_pixbuf_save (pixels, path, "png", NULL, NULL));
+    g_object_unref (pixels);
+    GFile *gf = g_file_new_for_path (path);
+    RsttoFile *file = rstto_file_new (gf);
+    rstto_image_viewer_set_file (viewer, file, 2.0, RSTTO_SCALE_NONE, RSTTO_IMAGE_ORIENT_NONE);
+    wait_loaded ();
+    if (phase == 0) rstto_image_viewer_test_fail_gpu (viewer);
+    GtkAdjustment *h = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (viewer));
+    GtkAdjustment *v = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (viewer));
+    guint paints = rstto_image_viewer_test_unprepared_paints (viewer);
+    RsttoCacheStats before, after;
+    rstto_image_cache_get_stats (cache, &before);
+    for (guint n = 0; n < 8; n++)
+    {
+        /* All EXIF orientations, transparency, reversal and diagonal movement.
+         * Even rounds stop with LMB held; odd rounds release before completion. */
+        rstto_image_viewer_set_orientation (viewer, n + 1);
+        gtk_adjustment_set_value (h, 100); gtk_adjustment_set_value (v, 100);
+        wait_frame (); wait_loaded (); wait_frame ();
+        drag_button (TRUE, 0);
+        scrolling_hold (phase != 0 ? phase : 10);
+        gint sign = n % 2 ? -1 : 1;
+        drag_motion (20 * sign, 10 * sign);
+        scrolling_await_worker ();
+        drag_motion (40 * sign, 20 * sign);
+        wait_frame (); /* Latest desired revision is observed while work is held. */
+        DragFrames frames = { .desired_h = 100 + 40 * sign, .desired_v = 100 + 20 * sign };
+        gulong handler = g_signal_connect (viewer, "frame-presented", G_CALLBACK (drag_presented), &frames);
+        if (n % 2) drag_button (FALSE, 0);
+        scrolling_release ();
+        /* No extra input or explicit repaint may be needed to settle. */
+        g_assert_cmpuint (frames.frames, >=, 2);
+        g_assert_cmpint (frames.first.h_adjust, ==, 100 + 20 * sign);
+        g_assert_cmpint (frames.first.v_adjust, ==, 100 + 10 * sign);
+        g_assert_cmpint (frames.last.h_adjust, ==, frames.desired_h);
+        g_assert_cmpint (frames.last.v_adjust, ==, frames.desired_v);
+        g_signal_handler_disconnect (viewer, handler);
+        if (!(n % 2)) drag_button (FALSE, 0);
+    }
+    /* A zoom, rotation or allocation change during the admitted pan is not
+     * a preview: it must be discarded before any presentation. */
+    for (guint change = 0; change < 3; change++)
+    {
+        rstto_image_viewer_set_orientation (viewer, 1);
+        rstto_image_viewer_set_scale (viewer, 2.0);
+        gtk_adjustment_set_value (h, 100); gtk_adjustment_set_value (v, 100);
+        wait_frame (); wait_loaded (); wait_frame ();
+        drag_button (TRUE, 0);
+        scrolling_hold (10);
+        drag_motion (20, 10);
+        scrolling_await_worker ();
+        RsttoRenderKey old;
+        g_assert_true (rstto_image_viewer_test_render_key (viewer, &old));
+        if (change == 0) rstto_image_viewer_set_scale (viewer, 0.9);
+        if (change == 1) rstto_image_viewer_set_orientation (viewer, 6);
+        if (change == 2) gtk_window_resize (GTK_WINDOW (window), 700, 500);
+        wait_frame ();
+        DragFrames frames = { .desired_h = gtk_adjustment_get_value (h), .desired_v = gtk_adjustment_get_value (v) };
+        gulong handler = g_signal_connect (viewer, "frame-presented", G_CALLBACK (drag_presented), &frames);
+        scrolling_release (); wait_frame (); wait_loaded (); wait_frame ();
+        g_assert_cmpuint (frames.frames, >=, 1);
+        if (change == 0) g_assert_cmpint (frames.first.render_width, !=, old.render_width);
+        if (change == 1) g_assert_cmpint (frames.first.orientation, ==, 6);
+        if (change == 2) g_assert_cmpint (frames.first.width, !=, old.width);
+        g_signal_handler_disconnect (viewer, handler);
+        drag_button (FALSE, 0);
+    }
+    /* Boundary clamping settles with no release or further input. */
+    drag_button (TRUE, 0);
+    drag_motion (-10000, -10000);
+    wait_frame (); wait_loaded (); wait_frame ();
+    RsttoRenderKey key;
+    g_assert_true (rstto_image_viewer_test_render_key (viewer, &key));
+    g_assert_cmpint (key.h_adjust, ==, 0); g_assert_cmpint (key.v_adjust, ==, 0);
+    drag_button (FALSE, 0);
+    g_assert_cmpuint (rstto_image_viewer_test_unprepared_paints (viewer), ==, paints);
+    rstto_image_cache_get_stats (cache, &after);
+    g_assert_cmpuint (after.decodes, ==, before.decodes);
+    rstto_image_viewer_set_scale (viewer, 2.0);
+    wait_frame (); wait_loaded (); wait_frame ();
+    scrolling_hold (10);
+    drag_button (TRUE, 0); drag_motion (20, 10);
+    scrolling_await_worker ();
+    gchar *other_path = g_build_filename (directory, "other.png", NULL);
+    GFile *other_gf = g_file_new_for_path (other_path);
+    g_assert_true (g_file_copy (gf, other_gf, 0, NULL, NULL, NULL, NULL));
+    RsttoFile *other = rstto_file_new (other_gf);
+    rstto_image_viewer_set_file (viewer, other, 1, RSTTO_SCALE_NONE, RSTTO_IMAGE_ORIENT_NONE);
+    DragFrames frames = { .expected_file = other };
+    gulong handler = g_signal_connect (viewer, "frame-presented", G_CALLBACK (drag_presented), &frames);
+    scrolling_release (); wait_frame (); wait_loaded (); wait_frame ();
+    g_assert_true (rstto_image_viewer_get_file (viewer) == other);
+    g_assert_cmpuint (frames.frames, >=, 1);
+    g_signal_handler_disconnect (viewer, handler);
+    drag_button (FALSE, 0);
+    /* Ensure the replacement is zoomed beyond the viewport at monitor scale 2
+     * as well, then destroy while verification owns its next pan result. */
+    rstto_image_viewer_set_scale (viewer, 2.0);
+    wait_frame (); wait_loaded (); wait_frame ();
+    scrolling_hold (10);
+    drag_button (TRUE, 0); drag_motion (20, 10);
+    scrolling_await_worker ();
+    gtk_widget_destroy (window); viewer = NULL; scrolling_release ();
+    rstto_image_cache_get_stats (cache, &after);
+    g_assert_cmpuint (after.resident_bytes + after.reserved_bytes, ==, 0);
+    g_object_unref (other); g_object_unref (other_gf); g_remove (other_path); g_free (other_path);
+    g_object_unref (cache); cache = NULL;
+    g_object_unref (file); g_object_unref (gf); g_object_unref (settings);
+    g_remove (path); g_rmdir (directory); g_free (path); g_free (directory);
+}
+
+static void
 navigation_boundaries (Scrolling *s, const gchar *directory)
 {
     s->running = FALSE;
@@ -536,7 +839,9 @@ cleanup:
 }
 
 
-static gboolean benchmark_scrolling;
+static gboolean benchmark_scrolling, benchmark_zoom, benchmark_zoom_stream, benchmark_drag;
+static gint64 benchmark_last_presented;
+static void benchmark_frame (RsttoImageViewer *widget, gpointer unused) { benchmark_last_presented = g_get_monotonic_time (); }
 typedef struct
 {
     RsttoImageListIter *iter;
@@ -544,6 +849,8 @@ typedef struct
     gint64 start, last_input, last_frame, final_frame, max_gap;
     guint64 peak_accounted;
     RsttoFile *last;
+    RsttoFile **files;
+    gint64 selected_at[16];
 } ScrollBenchmark;
 
 static void
@@ -555,6 +862,11 @@ benchmark_presented (RsttoImageViewer *widget, ScrollBenchmark *b)
         return;
     b->last = file;
     b->frames++;
+    for (guint i = 0; i < 16; i++)
+        if (file == b->files[i] && b->selected_at[i] != 0)
+            g_print ("selection-presented input=%u image=%u latency_ms=%.3f latest=%d\n",
+                     b->inputs, i, (now - b->selected_at[i]) / 1000.0,
+                     file == rstto_image_list_iter_get_file (b->iter));
     b->max_gap = MAX (b->max_gap, now - b->last_frame);
     b->last_frame = now;
     if (file == rstto_image_list_iter_get_file (b->iter))
@@ -576,15 +888,18 @@ benchmark_input (gpointer data)
     b->inputs++;
     b->latest = (b->inputs <= 24 ? b->inputs : 48 - b->inputs) % 16;
     b->last_input = g_get_monotonic_time ();
+    b->selected_at[b->latest] = b->last_input;
     rstto_image_list_iter_set_position (b->iter, b->latest);
     scrolling_check_limits ();
     return b->inputs < 48 ? G_SOURCE_CONTINUE : G_SOURCE_REMOVE;
 }
 
 static void
-benchmark_scroll_sequence (RsttoImageListIter *iter)
+benchmark_scroll_sequence (RsttoImageListIter *iter, RsttoImageList *list)
 {
-    ScrollBenchmark b = { .iter = iter, .last = rstto_image_viewer_get_file (viewer) };
+    RsttoFile *files[16];
+    for (guint n = 0; n < 16; n++) files[n] = rstto_image_list_get_file_at_position (list, n);
+    ScrollBenchmark b = { .iter = iter, .last = rstto_image_viewer_get_file (viewer), .files = files };
     b.start = b.last_frame = g_get_monotonic_time ();
     gulong handler = g_signal_connect (viewer, "frame-presented", G_CALLBACK (benchmark_presented), &b);
     g_timeout_add (250, benchmark_input, &b);
@@ -637,32 +952,186 @@ wait_frame (void)
     g_signal_handler_disconnect (clock, handler);
 }
 
+typedef struct
+{
+    guint inputs, frames;
+    double desired;
+    gint64 start, input_at, last_frame, max_gap;
+} ZoomBenchmark;
+
+static void
+benchmark_zoom_presented (RsttoImageViewer *widget, ZoomBenchmark *b)
+{
+    gint64 now = g_get_monotonic_time ();
+    b->frames++;
+    b->max_gap = MAX (b->max_gap, now - b->last_frame);
+    b->last_frame = now;
+    double actual = rstto_image_viewer_get_scale (widget);
+    g_print ("zoom-presented input=%u scale=%.6f desired=%.6f latency_ms=%.3f latest=%d\n",
+        b->inputs, actual, b->desired, (now - b->input_at) / 1000.0, fabs (actual - b->desired) < 1e-8);
+}
+
+static gboolean
+benchmark_zoom_input (gpointer data)
+{
+    ZoomBenchmark *b = data;
+    b->inputs++;
+    b->desired = .12 * pow (1.1, b->inputs <= 24 ? b->inputs : 48 - b->inputs);
+    b->input_at = g_get_monotonic_time ();
+    rstto_image_viewer_set_scale (viewer, b->desired);
+    scrolling_check_limits ();
+    return b->inputs < 48 ? G_SOURCE_CONTINUE : G_SOURCE_REMOVE;
+}
+
+static void
+benchmark_zoom_sequence (void)
+{
+    ZoomBenchmark b = { 0 };
+    b.start = b.input_at = b.last_frame = g_get_monotonic_time ();
+    gulong handler = g_signal_connect (viewer, "frame-presented", G_CALLBACK (benchmark_zoom_presented), &b);
+    g_timeout_add (166, benchmark_zoom_input, &b);
+    while (b.inputs < 48)
+    {
+        g_main_context_iteration (NULL, FALSE);
+        g_assert_cmpint (g_get_monotonic_time (), <, b.start + 45 * G_USEC_PER_SEC);
+        g_usleep (1000);
+    }
+    wait_frame ();
+    wait_loaded ();
+    wait_frame ();
+    g_print ("zoom-stream-summary inputs=%u frames=%u max_gap_ms=%.3f final_target_ms=%.3f actual=%.6f desired=%.6f\n",
+        b.inputs, b.frames, b.max_gap / 1000.0, (b.last_frame - b.input_at) / 1000.0,
+        rstto_image_viewer_get_scale (viewer), b.desired);
+    g_signal_handler_disconnect (viewer, handler);
+}
+
+typedef struct
+{
+    guint inputs, frames, held_frames;
+    gint64 start, last_frame, final_input;
+    gboolean held;
+} DragBenchmark;
+
+static void
+benchmark_drag_presented (RsttoImageViewer *widget, DragBenchmark *b)
+{
+    RsttoRenderKey key;
+    g_assert_true (rstto_image_viewer_test_render_key (widget, &key));
+    gint64 now = g_get_monotonic_time ();
+    b->frames++; b->held_frames += b->held;
+    g_print ("drag-presented input=%u held=%d gap_ms=%.3f h=%d v=%d revision=%" G_GUINT64_FORMAT "\n",
+        b->inputs, b->held, (now - b->last_frame) / 1000.0, key.h_adjust, key.v_adjust, key.view_revision);
+    b->last_frame = now;
+}
+
+static gboolean
+benchmark_drag_input (gpointer data)
+{
+    DragBenchmark *b = data;
+    gint64 now = g_get_monotonic_time ();
+    if (now < b->start + (b->inputs + 1) * G_USEC_PER_SEC / 60) return G_SOURCE_CONTINUE;
+    b->inputs++;
+    double dx = b->inputs == 480 ? 0 : 200 * sin (b->inputs * G_PI / 120);
+    double dy = b->inputs == 480 ? 0 : 120 * sin (b->inputs * G_PI / 80);
+    drag_motion (dx, dy);
+    scrolling_check_limits ();
+    b->final_input = now;
+    return b->inputs < 480 ? G_SOURCE_CONTINUE : G_SOURCE_REMOVE;
+}
+
+static void
+benchmark_drag_sequence (void)
+{
+    /* Reserve no internal scrollbar area, retaining normal adjustments/pan.
+     * This keeps the measured image viewport at exactly 5003 x 2664. */
+    GtkWidget *scroll = gtk_widget_get_ancestor (GTK_WIDGET (viewer), GTK_TYPE_SCROLLED_WINDOW);
+    g_assert_nonnull (scroll);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll), GTK_POLICY_EXTERNAL, GTK_POLICY_EXTERNAL);
+    rstto_image_viewer_set_scale (viewer, 2.0);
+    wait_frame (); wait_loaded (); wait_frame ();
+    GtkAdjustment *h = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (viewer));
+    GtkAdjustment *v = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (viewer));
+    gtk_adjustment_set_value (h, 400); gtk_adjustment_set_value (v, 300);
+    wait_frame (); wait_loaded (); wait_frame ();
+    RsttoCacheStats before, after;
+    rstto_image_cache_get_stats (cache, &before);
+    DragBenchmark b = { .held = TRUE };
+    b.start = b.last_frame = g_get_monotonic_time ();
+    gulong handler = g_signal_connect (viewer, "frame-presented", G_CALLBACK (benchmark_drag_presented), &b);
+    drag_button (TRUE, 0);
+    g_timeout_add (1, benchmark_drag_input, &b);
+    while (b.inputs < 480)
+    {
+        g_main_context_iteration (NULL, FALSE); g_usleep (500);
+        g_assert_cmpint (g_get_monotonic_time (), <, b.start + 20 * G_USEC_PER_SEC);
+    }
+    b.held = FALSE; /* Stop measuring the motion interval, but keep LMB down. */
+    RsttoRenderKey key;
+    gboolean settled = FALSE;
+    /* Observe natural settling without injecting a paint or another input. */
+    gint64 deadline = b.final_input + 5 * G_USEC_PER_SEC;
+    do
+    {
+        g_main_context_iteration (NULL, FALSE); g_usleep (500);
+        g_assert_true (rstto_image_viewer_test_render_key (viewer, &key));
+        settled = key.h_adjust == (gint) gtk_adjustment_get_value (h)
+            && key.v_adjust == (gint) gtk_adjustment_get_value (v) && !rstto_image_viewer_is_busy (viewer);
+    } while (!settled && g_get_monotonic_time () < deadline);
+    g_assert_cmpint (gtk_widget_get_allocated_width (GTK_WIDGET (viewer)), ==, 5003);
+    g_assert_cmpint (gtk_widget_get_allocated_height (GTK_WIDGET (viewer)), ==, 2664);
+    rstto_image_cache_get_stats (cache, &after);
+    g_print ("drag-summary inputs=%u frames=%u moving_frames=%u fps=%.3f final_ms=%.3f settled=%d decodes=%" G_GUINT64_FORMAT
+        " viewport=%dx%d\n", b.inputs, b.frames, b.held_frames,
+        b.held_frames * 1000000.0 / (b.final_input - b.start),
+        (b.last_frame - b.final_input) / 1000.0, settled, after.decodes - before.decodes,
+        gtk_widget_get_allocated_width (GTK_WIDGET (viewer)), gtk_widget_get_allocated_height (GTK_WIDGET (viewer)));
+    drag_button (FALSE, 0);
+    g_signal_handler_disconnect (viewer, handler);
+}
+
+static void
+benchmark_first_frame (RsttoImageViewer *widget, gint64 *first)
+{
+    if (*first == 0 && rstto_image_viewer_get_file (widget) != NULL)
+        *first = g_get_monotonic_time ();
+}
+
 static void
 benchmark_navigation (void)
 {
-    gchar *directory = g_dir_make_tmp ("ristretto-navigation-profile-XXXXXX", NULL);
+    gint64 startup = g_get_monotonic_time (), first_frame = 0;
+    const gchar *reused = g_getenv ("RSTTO_BENCH_FIXTURES");
+    gchar *directory = reused != NULL ? g_strdup (reused) : g_dir_make_tmp ("ristretto-navigation-profile-XXXXXX", NULL);
+    if (reused != NULL) g_mkdir_with_parents (directory, 0700);
     RsttoSettings *settings = rstto_settings_new ();
     g_object_set (settings, "maximize-on-startup", FALSE, "show-error-missing-thumbnailer", FALSE,
                   "window-width", g_getenv ("RSTTO_BENCH_LARGE") ? 5120u : (benchmark_scrolling ? 2800u : 1280u),
                   "window-height", g_getenv ("RSTTO_BENCH_LARGE") ? 2792u : (benchmark_scrolling ? 1900u : 900u),
                   "cache-enabled", TRUE, "cache-max-images", 6u, "cache-max-mib", 2048u,
-                  "cache-max-image-mib", 256u, "preload-count", benchmark_cold ? 0u : 5u, "preload-workers", 5u,
+                  "cache-max-image-mib", 256u, "preload-count", (benchmark_cold || benchmark_zoom) ? 0u : 5u, "preload-workers", 5u,
                   "limit-quality", FALSE, "wrap-images", TRUE,
                   "enable-smoothing", benchmark_smoothing, "file-manager-sort-sync", FALSE,
                   "file-manager-sort-sync-once", FALSE, NULL);
     RsttoImageList *list = rstto_image_list_new ();
     GtkWidget *window = rstto_main_window_new (list, FALSE);
     g_object_ref_sink (window);
+    /* Desktop input must not become part of the programmed input sequence. */
+    gtk_window_set_accept_focus (GTK_WINDOW (window), FALSE);
+    gtk_window_set_focus_on_map (GTK_WINDOW (window), FALSE);
+    gtk_widget_set_sensitive (window, FALSE);
     gtk_widget_show_all (window);
     gtk_container_foreach (GTK_CONTAINER (window), find_viewer, NULL);
     g_assert_nonnull (viewer);
     g_object_ref (viewer);
     cache = g_object_ref (rstto_image_viewer_get_cache (viewer));
+    gulong first_handler = g_signal_connect (viewer, "frame-presented", G_CALLBACK (benchmark_first_frame), &first_frame);
     RsttoFile *files[16];
     guint image_count = benchmark_scrolling ? 16 : 8;
     for (guint n = 0; n < image_count; n++)
     {
         gchar *path = g_strdup_printf ("%s/%u.jpg", directory, n);
+        if (!g_file_test (path, G_FILE_TEST_EXISTS))
+        {
         GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, 7728, 5152);
         for (gint y = 0; y < 5152; y++)
         {
@@ -676,6 +1145,7 @@ benchmark_navigation (void)
         }
         g_assert_true (gdk_pixbuf_save (pixbuf, path, "jpeg", NULL, "quality", "90", NULL));
         g_object_unref (pixbuf);
+        }
         GFile *file = g_file_new_for_path (path);
         files[n] = rstto_file_new (file);
         g_object_unref (file);
@@ -689,7 +1159,7 @@ benchmark_navigation (void)
                   "preload-workers", &workers, "wrap-images", &wrap, NULL);
     g_assert_cmpint (rstto_image_list_get_n_images (list), ==, image_count);
     g_assert_cmpuint (capacity, ==, 6);
-    g_assert_cmpuint (targets, ==, benchmark_cold ? 0 : 5);
+    g_assert_cmpuint (targets, ==, (benchmark_cold || benchmark_zoom) ? 0 : 5);
     g_assert_cmpuint (workers, ==, 5);
     g_assert_true (wrap);
     g_print ("benchmark images=%u slots=%u targets=%u workers=%u wrap=%d\n", image_count, capacity, targets, workers, wrap);
@@ -697,12 +1167,39 @@ benchmark_navigation (void)
     rstto_image_list_iter_set_position (iter, 0);
     wait_loaded ();
     wait_frame ();
+    g_assert_cmpint (rstto_image_list_iter_get_position (iter), ==, 0);
+    g_assert_true (rstto_image_viewer_get_file (viewer) == rstto_image_list_iter_get_file (iter));
     RsttoCacheStats before, after;
     rstto_image_cache_get_stats (cache, &before);
-    g_assert_cmpuint (before.entries, >=, benchmark_cold ? 1 : 2);
+    g_assert_cmpuint (before.entries, >=, (benchmark_cold || benchmark_zoom) ? 1 : 2);
+    g_print ("startup first_image_ms=%.3f ready_ms=%.3f\n", (first_frame - startup) / 1000.0,
+             (g_get_monotonic_time () - startup) / 1000.0);
+    g_signal_handler_disconnect (viewer, first_handler);
+    g_signal_connect (viewer, "frame-presented", G_CALLBACK (benchmark_frame), NULL);
+    if (benchmark_drag)
+        benchmark_drag_sequence ();
+    if (benchmark_zoom_stream)
+        benchmark_zoom_sequence ();
     if (benchmark_scrolling)
-        benchmark_scroll_sequence (iter);
-    for (guint n = 0; !benchmark_scrolling && n < 8; n++)
+        benchmark_scroll_sequence (iter, list);
+    if (benchmark_zoom && !benchmark_zoom_stream && !benchmark_drag)
+    {
+        const double zooms[] = { .1, .25, .5, 1, 1.5, 2, .517, .345, .5, 1, 2, .25 };
+        for (guint n = 0; n < G_N_ELEMENTS (zooms); n++)
+        {
+            gint64 start = g_get_monotonic_time ();
+            rstto_image_viewer_set_scale (viewer, zooms[n]);
+            /* Paint/layout schedules derivative refresh, including scrollbar
+             * geometry changes. Measure through the prepared result. */
+            wait_frame ();
+            wait_loaded ();
+            wait_frame ();
+            g_print ("zoom sample=%u scale=%.4f elapsed_ms=%.3f presented_ms=%.3f\n", n, zooms[n],
+                     (g_get_monotonic_time () - start) / 1000.0,
+                     (benchmark_last_presented - start) / 1000.0);
+        }
+    }
+    for (guint n = 0; !benchmark_scrolling && !benchmark_zoom && n < 8; n++)
     {
         gint64 start = g_get_monotonic_time ();
         rstto_image_list_iter_set_position (iter, (n + 1) % (benchmark_cold ? 8 : 2));
@@ -728,11 +1225,20 @@ benchmark_navigation (void)
         g_assert_cmpuint (after.entries, <=, 6);
         g_print ("navigation sample=%u smoothing=%d elapsed_ms=%.3f hits=%" G_GUINT64_FORMAT
                  " decodes=%" G_GUINT64_FORMAT " viewport=%dx%d\n", n, benchmark_smoothing,
-                 (g_get_monotonic_time () - start) / 1000.0, after.hits, after.decodes,
+                 (benchmark_last_presented > start ? benchmark_last_presented - start : g_get_monotonic_time () - start) / 1000.0,
+                 after.hits, after.decodes,
                  gtk_widget_get_allocated_width (GTK_WIDGET (viewer)), gtk_widget_get_allocated_height (GTK_WIDGET (viewer)));
         wait_loaded (); /* Background dwell is outside the navigation sample. */
         rstto_image_cache_get_stats (cache, &before);
     }
+#ifdef HAVE_PLACEBO
+    RsttoGpuStats gpu_stats;
+    rstto_image_cache_get_gpu_stats (cache, &gpu_stats);
+    g_print ("gpu-summary peak_bytes=%" G_GUINT64_FORMAT " retained=%" G_GUINT64_FORMAT
+             " uploads=%" G_GUINT64_FORMAT " submissions=%" G_GUINT64_FORMAT " discarded=%" G_GUINT64_FORMAT " peak_active=%u\n",
+             gpu_stats.peak_bytes, gpu_stats.retained, gpu_stats.uploads, gpu_stats.submissions,
+             gpu_stats.discarded, gpu_stats.peak_active);
+#endif
     gtk_widget_destroy (window);
     wait_loaded ();
     g_object_unref (window);
@@ -742,11 +1248,26 @@ benchmark_navigation (void)
     g_object_unref (settings);
     for (guint n = 0; n < image_count; n++)
     {
-        g_file_delete (rstto_file_get_file (files[n]), NULL, NULL);
+        if (reused == NULL) g_file_delete (rstto_file_get_file (files[n]), NULL, NULL);
         g_object_unref (files[n]);
     }
-    g_rmdir (directory);
+    if (reused == NULL) g_rmdir (directory);
     g_free (directory);
+}
+
+static void
+benchmark_scenario (gconstpointer mode)
+{
+    const gchar *name = mode;
+    benchmark_cold = g_str_equal (name, "cold");
+    benchmark_scrolling = g_str_equal (name, "scroll");
+    benchmark_zoom_stream = g_str_equal (name, "zoomstream");
+    benchmark_drag = g_str_equal (name, "drag");
+    benchmark_zoom = benchmark_zoom_stream || benchmark_drag || g_str_equal (name, "zoom");
+    benchmark_smoothing = TRUE;
+    g_print ("BENCH_PHASE name=%s\n", name);
+    fflush (stdout);
+    benchmark_navigation ();
 }
 
 int
@@ -755,13 +1276,16 @@ main (int argc, char **argv)
     gchar *config = g_dir_make_tmp ("ristretto-test-config-XXXXXX", NULL);
     g_setenv ("XDG_CONFIG_HOME", config, TRUE);
     g_setenv ("GSETTINGS_BACKEND", "memory", TRUE);
+    const gchar *scenario = argc == 2 && g_str_has_prefix (argv[1], "--benchmark-scenario=")
+        ? argv[1] + strlen ("--benchmark-scenario=") : NULL;
+    benchmark_zoom = argc == 2 && g_str_equal (argv[1], "--benchmark-zoom");
     benchmark_scrolling = argc == 2 && g_str_equal (argv[1], "--benchmark-scrolling");
-    gboolean benchmark = argc == 2 && (benchmark_scrolling || g_str_equal (argv[1], "--benchmark-navigation=good")
+    gboolean benchmark = argc == 2 && (scenario != NULL || benchmark_zoom || benchmark_scrolling || g_str_equal (argv[1], "--benchmark-navigation=good")
                                        || g_str_equal (argv[1], "--benchmark-navigation=nearest"));
     if (benchmark)
     {
         benchmark_cold = g_getenv ("RSTTO_BENCH_COLD") != NULL;
-        benchmark_smoothing = benchmark_scrolling || g_str_equal (argv[1], "--benchmark-navigation=good");
+        benchmark_smoothing = benchmark_zoom || benchmark_scrolling || g_str_equal (argv[1], "--benchmark-navigation=good");
         argc = 1;
         argv[1] = NULL;
     }
@@ -774,11 +1298,22 @@ main (int argc, char **argv)
         return 77;
     }
     rstto_settings_set_xfconf_disabled (TRUE);
-    if (benchmark)
+    if (scenario != NULL)
+    {
+        g_assert_true (g_str_equal (scenario, "cold") || g_str_equal (scenario, "warm")
+                      || g_str_equal (scenario, "scroll") || g_str_equal (scenario, "zoom")
+                      || g_str_equal (scenario, "zoomstream") || g_str_equal (scenario, "drag"));
+        g_test_add_data_func ("/comparison/scenario", scenario, benchmark_scenario);
+    }
+    else if (benchmark)
         g_test_add_func ("/viewer/profile-navigation", benchmark_navigation);
     else
     {
         g_test_add_func ("/viewer/navigation-and-lifetime", test_viewer);
+        g_test_add_func ("/viewer/zoom-latest-view", zoom_latest_view);
+        g_test_add_data_func ("/viewer/drag-render", GUINT_TO_POINTER (9), drag_continuous);
+        g_test_add_data_func ("/viewer/drag-verification", GUINT_TO_POINTER (10), drag_continuous);
+        g_test_add_data_func ("/viewer/drag-cpu-fallback", NULL, drag_continuous);
         g_test_add_data_func ("/viewer/sustained-decode", GUINT_TO_POINTER (4), sustained_scrolling);
         g_test_add_data_func ("/viewer/sustained-conversion", GUINT_TO_POINTER (11), sustained_scrolling);
         g_test_add_data_func ("/viewer/sustained-render", GUINT_TO_POINTER (9), sustained_scrolling);

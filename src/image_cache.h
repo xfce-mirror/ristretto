@@ -3,6 +3,7 @@
 #define __RISTRETTO_IMAGE_CACHE_H__
 
 #include "image_render.h"
+#include "image_gpu.h"
 #include <cairo.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gio.h>
@@ -36,6 +37,7 @@ typedef struct
     gdouble quality_scale;
     gboolean has_alpha;
     cairo_surface_t *rendered;
+    RsttoGpuImage *gpu_image;
     RsttoRenderKey render_key;
 } RsttoImageData;
 
@@ -57,6 +59,8 @@ typedef struct
 
 RsttoImageCache *
 rstto_image_cache_new (void);
+void rstto_image_cache_set_gpu (RsttoImageCache *cache, RsttoGpuRenderer *gpu);
+void rstto_image_cache_get_gpu_stats (RsttoImageCache *cache, RsttoGpuStats *stats);
 void
 rstto_image_cache_set_limits (RsttoImageCache *cache, const RsttoCacheLimits *limits);
 void
@@ -67,6 +71,12 @@ void
 rstto_image_cache_request (RsttoImageCache *cache, GFile *file, const gchar *mime_type, const RsttoDecodeOptions *options);
 /* Candidates are in priority order, borrowed during this call. MIME detection
  * uses the same generic fallback as foreground loading. */
+typedef enum { RSTTO_NAV_STEP, RSTTO_NAV_JUMP, RSTTO_NAV_ORDER } RsttoNavigationChange;
+void rstto_image_cache_navigation (RsttoImageCache *cache, RsttoNavigationChange change, gint direction);
+/* Internal main-thread transaction: selection and its ranked snapshot commit together. */
+void rstto_image_cache_begin_update (RsttoImageCache *cache);
+void rstto_image_cache_end_update (RsttoImageCache *cache);
+void rstto_image_cache_view_changed (RsttoImageCache *cache, gboolean pending);
 void
 rstto_image_cache_set_schedule (RsttoImageCache *cache, GFile *pending, GPtrArray *files);
 

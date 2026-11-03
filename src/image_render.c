@@ -120,11 +120,23 @@ rstto_image_render_transform (cairo_t *cr, const RsttoRenderKey *key)
 gboolean
 rstto_image_render_key_equal (const RsttoRenderKey *a, const RsttoRenderKey *b)
 {
-    return a->width == b->width && a->height == b->height && a->pixel_scale == b->pixel_scale
+    return a->backend == b->backend && a->filter == b->filter && a->context_generation == b->context_generation
+           && a->width == b->width && a->height == b->height && a->pixel_scale == b->pixel_scale
            && a->source_scale == b->source_scale && a->smoothing == b->smoothing
            && a->orientation == b->orientation && a->render_width == b->render_width && a->render_height == b->render_height
            && a->x == b->x && a->y == b->y && a->h_adjust == b->h_adjust && a->v_adjust == b->v_adjust
            && a->x_scale == b->x_scale && a->y_scale == b->y_scale;
+}
+
+RsttoRenderCompatibility
+rstto_image_render_compatibility (const RsttoRenderKey *a, const RsttoRenderKey *b)
+{
+    if (rstto_image_render_key_equal (a, b))
+        return RSTTO_RENDER_EXACT;
+    RsttoRenderKey pan = *a;
+    pan.h_adjust = b->h_adjust;
+    pan.v_adjust = b->v_adjust;
+    return rstto_image_render_key_equal (&pan, b) ? RSTTO_RENDER_PAN_ONLY : RSTTO_RENDER_INCOMPATIBLE;
 }
 
 gboolean

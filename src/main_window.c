@@ -915,10 +915,18 @@ preload_refresh (RsttoMainWindow *window)
 }
 
 static void
+preload_order_changed (RsttoMainWindow *window)
+{
+    rstto_image_cache_navigation (rstto_image_viewer_get_cache (RSTTO_IMAGE_VIEWER (window->priv->image_viewer)),
+                                  RSTTO_NAV_ORDER, 1);
+    preload_refresh (window);
+}
+
+static void
 preload_sorted (RsttoMainWindow *window)
 {
     window->priv->preload_position = rstto_image_list_iter_get_position (window->priv->iter);
-    preload_refresh (window);
+    preload_order_changed (window);
 }
 
 static void
@@ -943,8 +951,12 @@ preload_invalidated (RsttoImageList *list, GFile *file, RsttoMainWindow *window)
 static void
 navigation_row_deleted (RsttoMainWindow *window)
 {
+    RsttoImageCache *cache = rstto_image_viewer_get_cache (RSTTO_IMAGE_VIEWER (window->priv->image_viewer));
+    rstto_image_cache_begin_update (cache);
+    preload_order_changed (window);
     rstto_image_viewer_reconcile_files (RSTTO_IMAGE_VIEWER (window->priv->image_viewer), window->priv->image_list);
     rstto_main_window_image_list_iter_changed (window);
+    rstto_image_cache_end_update (cache);
 }
 
 static void
@@ -1572,7 +1584,7 @@ rstto_main_window_new (RsttoImageList *image_list,
     g_signal_connect_object (image_list, "file-invalidated", G_CALLBACK (preload_invalidated), window, 0);
     g_signal_connect_object (image_list, "sorted", G_CALLBACK (preload_sorted), window, G_CONNECT_SWAPPED);
     g_signal_connect_object (image_list, "remove-all", G_CALLBACK (preload_reset), window, G_CONNECT_SWAPPED);
-    g_signal_connect_object (image_list, "row-inserted", G_CALLBACK (preload_refresh), window, G_CONNECT_SWAPPED);
+    g_signal_connect_object (image_list, "row-inserted", G_CALLBACK (preload_order_changed), window, G_CONNECT_SWAPPED);
     g_signal_connect_object (image_list, "row-deleted", G_CALLBACK (navigation_row_deleted), window, G_CONNECT_SWAPPED);
     g_signal_connect_object (window->priv->image_viewer, "size-ready", G_CALLBACK (preload_refresh), window, G_CONNECT_SWAPPED);
     g_signal_connect_object (rstto_image_viewer_get_cache (RSTTO_IMAGE_VIEWER (window->priv->image_viewer)),
@@ -1609,6 +1621,12 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         return;
     cur_file = rstto_image_list_iter_get_file (window->priv->iter);
     gint preload_position = rstto_image_list_iter_get_position (window->priv->iter);
+    gboolean selection_changed = cur_file != NULL && (window->priv->preload_file == NULL
+        || !g_file_equal (rstto_file_get_file (cur_file), window->priv->preload_file));
+    gint distance = preload_position - window->priv->preload_position;
+    gint length = rstto_image_list_get_n_images (window->priv->image_list);
+    gboolean adjacent = window->priv->preload_position >= 0
+        && (ABS (distance) == 1 || (window->priv->preload_hint != 0 && ABS (distance) == length - 1));
     if (cur_file != NULL)
     {
         GFile *file = rstto_file_get_file (cur_file);
@@ -1627,11 +1645,16 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
     rstto_icon_bar_set_active (RSTTO_ICON_BAR (window->priv->thumbnailbar),
                                rstto_image_list_iter_get_position (window->priv->iter));
     rstto_icon_bar_show_active (RSTTO_ICON_BAR (window->priv->thumbnailbar));
+    RsttoImageCache *cache = rstto_image_viewer_get_cache (RSTTO_IMAGE_VIEWER (window->priv->image_viewer));
+    rstto_image_cache_begin_update (cache);
+    if (selection_changed)
+        rstto_image_cache_navigation (cache, adjacent ? RSTTO_NAV_STEP : RSTTO_NAV_JUMP, window->priv->preload_direction);
     rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER (window->priv->image_viewer), cur_file,
         cur_file != NULL ? rstto_file_get_scale (cur_file) : RSTTO_SCALE_NONE,
         cur_file != NULL ? rstto_file_get_auto_scale (cur_file) : RSTTO_SCALE_NONE,
         cur_file != NULL ? rstto_file_get_orientation (cur_file) : RSTTO_IMAGE_ORIENT_NONE);
     preload_refresh (window);
+    rstto_image_cache_end_update (cache);
     rstto_main_window_update_buttons (window);
     rstto_main_window_update_statusbar (window);
     rstto_profile_end (start, window, 0, "navigation-handler", "%s", "");
