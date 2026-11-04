@@ -427,7 +427,7 @@ msgstr "тип на файл"
 #. Icon-name
 #: src/main_window.c:681
 msgid "modification date"
-msgstr ""
+msgstr "дата на промяна"
 
 #. Icon-name
 #: src/main_window.c:687
