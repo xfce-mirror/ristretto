@@ -1597,6 +1597,218 @@ benchmark_scenario (gconstpointer mode)
 }
 
 
+typedef struct
+{
+    gboolean waiting, rejected;
+    guint source_destroyed, derivative_destroyed;
+    gboolean derivative;
+    guint64 source_bytes;
+    cairo_surface_t *source, *rendered; /* borrowed until the next delivery */
+} RejectedDelivery;
+
+
+/**
+ * delivery_surface_destroyed:
+ *
+ * Count actual surface destruction without adding a reference that could hide
+ * a missing display pin.
+ */
+static void
+delivery_surface_destroyed (gpointer data)
+{
+    (*(guint *) data)++;
+}
+
+
+/**
+ * delivery_observed:
+ *
+ * Observe borrowed surfaces and block the next image after the viewer declines
+ * a refreshed result. An observer never accepts delivery on the viewer's behalf.
+ */
+static gboolean
+delivery_observed (RsttoImageCache *unused_cache, RsttoImageData *image, RejectedDelivery *state)
+{
+    if (state->waiting)
+    {
+        state->waiting = FALSE;
+        state->rejected = TRUE;
+        scrolling_hold (4); /* The next foreground decode must not hide the gap. */
+    }
+    else if (!state->rejected)
+    {
+        g_assert_nonnull (image->surface);
+        state->source = image->surface;
+        state->rendered = image->rendered;
+        state->source_bytes = (guint64) cairo_image_surface_get_stride (image->surface)
+                              * cairo_image_surface_get_height (image->surface);
+    }
+    return FALSE;
+}
+
+
+/**
+ * rejected_delivery:
+ *
+ * Refresh A with B pending, then draw and print A while B is blocked. Exercise
+ * unchanged metadata, path replacement, CPU derivatives, destruction and forced
+ * limit reduction without retaining the old pixels in the test itself.
+ */
+static void
+rejected_delivery (gconstpointer data)
+{
+    if (!g_test_subprocess ())
+    {
+        g_test_trap_subprocess (NULL, 20 * G_USEC_PER_SEC, 0);
+        g_test_trap_assert_passed ();
+        return;
+    }
+    guint mode = GPOINTER_TO_UINT (data);
+    RsttoSettings *settings = rstto_settings_new ();
+    g_object_set (settings, "preload-count", 0u, "cache-max-images", 6u,
+                  "cache-max-mib", 2048u, "cache-max-image-mib", 256u,
+                  "preload-workers", 5u, "limit-quality", FALSE, NULL);
+    GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_default_size (GTK_WINDOW (window), 400, 300);
+    GtkWidget *scroll = gtk_scrolled_window_new (NULL, NULL);
+    viewer = RSTTO_IMAGE_VIEWER (rstto_image_viewer_new ());
+    gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (viewer));
+    gtk_container_add (GTK_CONTAINER (window), scroll);
+    gtk_widget_show_all (window);
+    cache = g_object_ref (rstto_image_viewer_get_cache (viewer));
+    if (mode == 2)
+        rstto_image_viewer_test_fail_gpu (viewer);
+    wait_frame ();
+    gchar *directory = g_dir_make_tmp ("ristretto-delivery-test-XXXXXX", NULL);
+    RsttoFile *files[2];
+    for (guint n = 0; n < G_N_ELEMENTS (files); n++)
+    {
+        gchar *path = g_strdup_printf ("%s/%u.png", directory, n);
+        GdkPixbuf *pixels = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, 1024, 768);
+        gdk_pixbuf_fill (pixels, 0x20a050ff + n * 0x10000000);
+        g_assert_true (gdk_pixbuf_save (pixels, path, "png", NULL, NULL));
+        GFile *file = g_file_new_for_path (path);
+        files[n] = rstto_file_new (file);
+        g_object_unref (file);
+        g_object_unref (pixels);
+        g_free (path);
+    }
+    RejectedDelivery state = { .derivative = mode == 2 };
+    g_signal_connect (cache, "ready", G_CALLBACK (delivery_observed), &state);
+    rstto_image_viewer_set_file (viewer, files[0], mode == 2 ? 0.5 : 1.0,
+                                 RSTTO_SCALE_NONE, RSTTO_IMAGE_ORIENT_NONE);
+    wait_loaded ();
+    wait_frame ();
+    wait_loaded ();
+    g_assert_cmpuint (state.source_bytes, >, 0);
+    /* Initial scrollbar allocation may already have replaced a derivative.
+     * Observe only the settled display that the upcoming delivery will skip. */
+    static cairo_user_data_key_t source_key, derivative_key;
+    g_assert_cmpint (cairo_surface_set_user_data (state.source, &source_key,
+                                                  &state.source_destroyed, delivery_surface_destroyed),
+                     ==, CAIRO_STATUS_SUCCESS);
+    if (state.derivative)
+    {
+        g_assert_nonnull (state.rendered);
+        g_assert_cmpint (cairo_surface_set_user_data (state.rendered, &derivative_key,
+                                                      &state.derivative_destroyed, delivery_surface_destroyed),
+                         ==, CAIRO_STATUS_SUCCESS);
+    }
+    guint64 decodes;
+    RsttoCacheStats stats;
+    rstto_image_cache_get_stats (cache, &stats);
+    decodes = stats.decodes;
+    scrolling_hold (mode == 2 ? 10 : 4);
+    if (mode == 2)
+        rstto_image_viewer_set_scale (viewer, 0.6);
+    else
+    {
+        if (mode == 1)
+        {
+            gchar *replacement = g_build_filename (directory, "replacement.png", NULL);
+            GdkPixbuf *pixels = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, 800, 600);
+            gdk_pixbuf_fill (pixels, 0x123456ff);
+            g_assert_true (gdk_pixbuf_save (pixels, replacement, "png", NULL, NULL));
+            g_assert_cmpint (g_rename (replacement, rstto_file_get_path (files[0])), ==, 0);
+            g_object_unref (pixels);
+            g_free (replacement);
+        }
+        /* Refresh and file-monitor updates reach this same invalidation signal. */
+        rstto_file_invalidate_metadata (files[0]);
+        g_signal_emit_by_name (files[0], "changed");
+    }
+    scrolling_await_worker ();
+    rstto_image_viewer_set_file (viewer, files[1], 1.0, RSTTO_SCALE_NONE, RSTTO_IMAGE_ORIENT_NONE);
+    state.waiting = TRUE;
+    g_mutex_lock (&scrolling_mutex);
+    scrolling_gate = FALSE;
+    g_cond_broadcast (&scrolling_cond);
+    g_mutex_unlock (&scrolling_mutex);
+    gint64 until = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+    while (!state.rejected)
+    {
+        g_main_context_iteration (NULL, FALSE);
+        g_usleep (1000);
+        g_assert_cmpint (g_get_monotonic_time (), <, until);
+    }
+    scrolling_await_worker ();
+    g_assert_cmpuint (state.source_destroyed, ==, 0);
+    g_assert_cmpuint (state.derivative_destroyed, ==, 0);
+    g_assert_true (rstto_image_viewer_get_file (viewer) == files[0]);
+    rstto_image_cache_get_stats (cache, &stats);
+    g_assert_cmpuint (stats.resident_bytes, >=, state.source_bytes);
+    if (mode == 2)
+        g_assert_cmpuint (stats.decodes, ==, decodes + 1); /* Only B's admitted decode. */
+    scrolling_check_limits ();
+    wait_frame ();
+    GdkPixbuf *print = rstto_image_viewer_get_pixbuf (viewer);
+    g_assert_nonnull (print);
+    g_assert_cmpint (gdk_pixbuf_get_width (print), ==, 1024);
+    const guchar *pixel = gdk_pixbuf_get_pixels (print);
+    g_assert_cmphex (pixel[0], ==, 0x20);
+    g_assert_cmphex (pixel[1], ==, 0xa0);
+    g_assert_cmphex (pixel[2], ==, 0x50);
+    g_object_unref (print);
+    if (mode == 4)
+    {
+        RsttoCacheLimits limits = { TRUE, 1, 0, 0 };
+        rstto_image_cache_set_limits (cache, &limits);
+        rstto_image_cache_get_stats (cache, &stats);
+        g_assert_cmpuint (state.source_destroyed, ==, 0);
+        g_assert_cmpuint (stats.resident_bytes, >=, state.source_bytes);
+    }
+    if (mode == 3)
+    {
+        gtk_widget_destroy (window);
+        viewer = NULL;
+    }
+    scrolling_release ();
+    if (mode != 3)
+    {
+        g_assert_true (rstto_image_viewer_get_file (viewer) == files[1]);
+        gtk_widget_destroy (window);
+        viewer = NULL;
+    }
+    wait_loaded ();
+    g_assert_cmpuint (state.source_destroyed, ==, 1);
+    if (mode == 2)
+        g_assert_cmpuint (state.derivative_destroyed, ==, 1);
+    rstto_image_cache_get_stats (cache, &stats);
+    g_assert_cmpuint (stats.resident_bytes + stats.reserved_bytes, ==, 0);
+    g_assert_cmpuint (stats.entries + stats.reserved_images, ==, 0);
+    g_object_unref (cache);
+    cache = NULL;
+    for (guint n = 0; n < G_N_ELEMENTS (files); n++)
+    {
+        g_file_delete (rstto_file_get_file (files[n]), NULL, NULL);
+        g_object_unref (files[n]);
+    }
+    g_rmdir (directory);
+    g_free (directory);
+    g_object_unref (settings);
+}
+
+
 /**
  * main:
  *
@@ -1642,6 +1854,13 @@ main (int argc, char **argv)
         g_test_add_func ("/viewer/profile-navigation", benchmark_navigation);
     else
     {
+        const gchar *delivery_cases[] = { "refresh", "replacement", "derivative", "destroy", "limit-reduction" };
+        for (guint n = 0; n < G_N_ELEMENTS (delivery_cases); n++)
+        {
+            gchar *name = g_strdup_printf ("/viewer/rejected-delivery/%s", delivery_cases[n]);
+            g_test_add_data_func (name, GUINT_TO_POINTER (n), rejected_delivery);
+            g_free (name);
+        }
         g_test_add_func ("/viewer/navigation-and-lifetime", test_viewer);
         g_test_add_func ("/viewer/zoom-latest-view", zoom_latest_view);
         g_test_add_data_func ("/viewer/drag-render", GUINT_TO_POINTER (9), drag_continuous);

@@ -132,4 +132,4 @@ viewer_test = executable(
   include_directories: [include_directories('..')],
   dependencies: ristretto_dependencies,
 )
-test('image-viewer', viewer_test, timeout: 60)
+test('image-viewer', viewer_test, timeout: 90)

@@ -20,6 +20,7 @@ typedef struct
     guint32 pixel;
     guint64 peak_accounted;
     gboolean enforce_limits;
+    gboolean reject_ready;
 } Fixture;
 
 static RsttoDecodeOptions full_size = { FALSE, 0, 0 };
@@ -72,7 +73,7 @@ check_limits (Fixture *fixture)
  *
  * Record a ready image and validate accounting at synchronous delivery time.
  */
-static void
+static gboolean
 received (RsttoImageCache *cache, RsttoImageData *image, Fixture *fixture)
 {
     fixture->ready++;
@@ -81,6 +82,32 @@ received (RsttoImageCache *cache, RsttoImageData *image, Fixture *fixture)
     fixture->errors += image->error != NULL;
     if (image->surface != NULL)
         fixture->pixel = *(guint32 *) cairo_image_surface_get_data (image->surface);
+    return !fixture->reject_ready;
+}
+
+
+/**
+ * surface_destroyed:
+ *
+ * Observe pixel storage destruction without retaining the surface under test.
+ */
+static void
+surface_destroyed (gpointer data)
+{
+    (*(guint *) data)++;
+}
+
+
+/**
+ * watch_surface:
+ *
+ * Attach a non-owning lifetime counter so tests cannot hide a missing pin.
+ */
+static void
+watch_surface (cairo_surface_t *surface, guint *destroyed)
+{
+    static cairo_user_data_key_t key;
+    g_assert_cmpint (cairo_surface_set_user_data (surface, &key, destroyed, surface_destroyed), ==, CAIRO_STATUS_SUCCESS);
 }
 
 
@@ -985,12 +1012,13 @@ test_neighbors (void)
  * Stop the cache inside its synchronous ready callback to exercise reentrant
  * lifetime handling.
  */
-static void
+static gboolean
 stop_on_ready (RsttoImageCache *cache, RsttoImageData *image, gpointer unused)
 {
     rstto_image_cache_stop (cache);
     /* The borrowed result must survive clearing its cache inside delivery. */
     g_assert_cmpint (cairo_image_surface_get_width (image->surface), ==, 128);
+    return FALSE;
 }
 
 
@@ -1007,6 +1035,150 @@ test_reentrant_stop (Fixture *fixture, gconstpointer unused)
     select_image (fixture, 0);
     g_assert_cmpuint (fixture->cache->resident_bytes, ==, 0);
     g_assert_cmpuint (fixture->cache->jobs.length, ==, 0);
+}
+
+
+/**
+ * clear_on_ready:
+ *
+ * Clear both display and lookup ownership during an accepted or rejected
+ * delivery; the borrowed proposal must survive until the signal returns.
+ */
+static gboolean
+clear_on_ready (RsttoImageCache *cache, RsttoImageData *image, gpointer unused)
+{
+    rstto_image_cache_clear (cache);
+    g_assert_cmpint (cairo_image_surface_get_width (image->surface), ==, 128);
+    return FALSE;
+}
+
+
+/**
+ * test_reentrant_clear:
+ *
+ * Never restore a display pin after a callback clears the cache, regardless
+ * of whether an earlier handler accepted the proposal.
+ */
+static void
+test_reentrant_clear (Fixture *fixture, gconstpointer data)
+{
+    select_image (fixture, 0);
+    guint destroyed = 0;
+    watch_surface (fixture->cache->displayed->image.surface, &destroyed);
+    fixture->reject_ready = GPOINTER_TO_UINT (data);
+    g_signal_connect (fixture->cache, "ready", G_CALLBACK (clear_on_ready), NULL);
+    select_image (fixture, 1);
+    g_assert_null (fixture->cache->displayed);
+    g_assert_cmpuint (destroyed, ==, 1);
+    g_assert_cmpuint (fixture->cache->resident_bytes + reserved_bytes (fixture->cache), ==, 0);
+}
+
+
+/**
+ * replace_on_ready:
+ *
+ * Accept another cached entry from inside delivery to exercise transaction
+ * ordering without recursively invoking this observer.
+ */
+static gboolean
+replace_on_ready (RsttoImageCache *cache, RsttoImageData *image, Entry *replacement)
+{
+    g_signal_handlers_block_by_func (cache, replace_on_ready, replacement);
+    g_assert_true (publish (cache, replacement, &replacement->image));
+    g_signal_handlers_unblock_by_func (cache, replace_on_ready, replacement);
+    return FALSE;
+}
+
+
+/**
+ * test_reentrant_delivery:
+ *
+ * A nested accepted display must win over the outer delivery and must not
+ * lose its pin when the outer transaction finishes.
+ */
+static void
+test_reentrant_delivery (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    select_image (fixture, 1);
+    Entry *replacement = fixture->cache->displayed;
+    g_signal_connect (fixture->cache, "ready", G_CALLBACK (replace_on_ready), replacement);
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+    drain (fixture);
+    g_assert_true (fixture->cache->displayed == replacement);
+    evict_all (fixture->cache);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    g_assert_cmphex (*(guint32 *) cairo_image_surface_get_data (replacement->image.surface), ==, 0xff112030);
+}
+
+
+/**
+ * test_rejected_refresh:
+ *
+ * Keep an invalidated display alive and charged when its replacement is
+ * declined, including forced limit reductions and an uncached next image.
+ */
+static void
+test_rejected_refresh (Fixture *fixture, gconstpointer unused)
+{
+    fixture->enforce_limits = TRUE;
+    select_image (fixture, 0);
+    Entry *displayed = fixture->cache->displayed;
+    guint destroyed = 0;
+    guint64 bytes = displayed->bytes;
+    watch_surface (displayed->image.surface, &destroyed);
+    rstto_image_cache_invalidate (fixture->cache, fixture->files[0]);
+    fixture->reject_ready = TRUE;
+    select_image (fixture, 0);
+    g_assert_cmpuint (destroyed, ==, 0);
+    g_assert_true (fixture->cache->displayed == displayed);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 2 * bytes);
+    evict_all (fixture->cache);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    g_assert_cmphex (*(guint32 *) cairo_image_surface_get_data (displayed->image.surface), ==, 0xff102030);
+
+    /* The displayed exception stays accounted even when caching is disabled. */
+    fixture->enforce_limits = FALSE;
+    RsttoCacheLimits limits = { TRUE, 1, 0, 0 };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    g_assert_cmpuint (destroyed, ==, 0);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
+    fixture->reject_ready = FALSE;
+    select_image (fixture, 1);
+    g_assert_cmpuint (destroyed, ==, 1);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+}
+
+
+/**
+ * test_rejected_uncached:
+ *
+ * Preserve an uncached display across a declined refresh, including builds
+ * without Glycin where all foreground images use this ownership path.
+ */
+static void
+test_rejected_uncached (Fixture *fixture, gconstpointer unused)
+{
+    RsttoCacheLimits limits = { FALSE, 6, 32 * MIB, 8 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    select_image (fixture, 0);
+    Entry *old = fixture->cache->displayed;
+    guint64 bytes = old->bytes;
+    guint destroyed = 0;
+    watch_surface (old->image.surface, &destroyed);
+    rstto_image_cache_invalidate (fixture->cache, fixture->files[0]);
+    fixture->reject_ready = TRUE;
+    select_image (fixture, 0);
+    g_assert_cmpuint (destroyed, ==, 0);
+    g_assert_true (fixture->cache->displayed == old);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    fixture->reject_ready = FALSE;
+    select_image (fixture, 1);
+    g_assert_cmpuint (destroyed, ==, 1);
+    g_assert_null (fixture->cache->displayed->key);
 }
 
 
@@ -2040,6 +2212,42 @@ install_render_spec (Fixture *fixture, RsttoRenderView *view)
 
 
 /**
+ * test_rejected_derivative:
+ *
+ * Declining a same-entry render must retain its displayed derivative and
+ * weight until a later accepted render replaces it.
+ */
+static void
+test_rejected_derivative (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    select_image (fixture, 0);
+    Entry *entry = fixture->cache->displayed;
+    cairo_surface_t *old = entry->image.rendered;
+    guint destroyed = 0;
+    guint64 bytes = entry->bytes, decodes = fixture->cache->decodes;
+    RsttoRenderKey key = entry->image.render_key;
+    watch_surface (old, &destroyed);
+    view.viewport_width = 32;
+    view.viewport_height = 24;
+    fixture->reject_ready = TRUE;
+    select_image (fixture, 0);
+    g_assert_cmpuint (destroyed, ==, 0);
+    g_assert_true (entry->image.rendered == old);
+    g_assert_true (rstto_image_render_key_equal (&key, &entry->image.render_key));
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    fixture->reject_ready = FALSE;
+    select_image (fixture, 0);
+    g_assert_cmpuint (destroyed, ==, 1);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    g_assert_cmpint (cairo_image_surface_get_width (entry->image.rendered), ==, 32);
+    g_assert_cmpuint (entry->bytes, ==, 128 * 96 * 4 + 32 * 24 * 4);
+}
+
+
+/**
  * test_render_reuse:
  *
  * Require warmed source and compatible CPU derivatives to reuse both decoding
@@ -2470,6 +2678,44 @@ gpu_teardown (Fixture *fixture)
 
 
 /**
+ * test_gpu_rejected_delivery:
+ *
+ * Reject a whole-image GPU derivative without replacing the displayed texture
+ * or leaking the proposal; a later accepted request still reuses its source.
+ */
+static void
+test_gpu_rejected_delivery (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    if (!gpu_setup (fixture, &view))
+        return;
+    select_image (fixture, 0);
+    Entry *entry = fixture->cache->displayed;
+    RsttoGpuImage *old = entry->image.gpu_image;
+    g_assert_nonnull (old);
+    guint64 bytes = entry->bytes, decodes = fixture->cache->decodes;
+    RsttoRenderKey key = entry->image.render_key;
+    view.viewport_width = 32;
+    view.viewport_height = 24;
+    fixture->reject_ready = TRUE;
+    select_image (fixture, 0);
+    g_assert_true (entry->image.gpu_image == old);
+    g_assert_true (rstto_image_render_key_equal (&key, &entry->image.render_key));
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    cairo_surface_t *pixels = rstto_gpu_test_download (old);
+    g_assert_nonnull (pixels);
+    g_assert_cmphex (*(guint32 *) cairo_image_surface_get_data (pixels), ==, 0xff102030);
+    cairo_surface_destroy (pixels);
+    fixture->reject_ready = FALSE;
+    select_image (fixture, 0);
+    g_assert_cmpint (entry->image.render_key.width, ==, 32);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    gpu_teardown (fixture);
+}
+
+
+/**
  * test_gpu_limits:
  *
  * Force texture-size rejection and verify CPU fallback with no GPU upload or
@@ -2870,6 +3116,7 @@ main (int argc, char **argv)
     if (!rstto_image_probe_available ())
         return 77;
     gpu_display = gtk_init_check (NULL, NULL);
+    g_test_add ("/gpu-cache/rejected-delivery", Fixture, NULL, setup, test_gpu_rejected_delivery, teardown);
     g_test_add ("/gpu-cache/source-freshness", Fixture, NULL, setup, test_gpu_source_freshness, teardown);
     g_test_add ("/gpu-cache/source-changed-during-reuse", Fixture, GUINT_TO_POINTER (2), setup, test_gpu_source_freshness, teardown);
     g_test_add ("/gpu-cache/source-symlink", Fixture, GUINT_TO_POINTER (1), setup, test_gpu_source_freshness, teardown);
@@ -2896,6 +3143,7 @@ main (int argc, char **argv)
 #endif
     g_test_add_func ("/cache/neighbors-and-overflow", test_neighbors);
 #define ADD(name, func) g_test_add (name, Fixture, NULL, setup, func, teardown)
+    ADD ("/cache/rejected-uncached", test_rejected_uncached);
     if (!rstto_image_probe_available ())
     {
         ADD ("/cache/probe-unavailable", test_probe_unavailable);
@@ -2911,6 +3159,8 @@ main (int argc, char **argv)
     ADD ("/cache/abandoned-promotion", test_abandoned_promotion);
     ADD ("/cache/render/history-bytes", test_render_history_bytes);
     ADD ("/cache/render/reuse", test_render_reuse);
+    ADD ("/cache/render/rejected-delivery", test_rejected_derivative);
+    ADD ("/cache/rejected-refresh", test_rejected_refresh);
     ADD ("/cache/render/transaction", test_render_transaction);
     ADD ("/cache/render/slots", test_render_slots);
     ADD ("/cache/render/promotion", test_render_promotion);
@@ -2939,6 +3189,9 @@ main (int argc, char **argv)
     ADD ("/cache/formats-and-pixels", test_formats_and_pixels);
     ADD ("/cache/animation", test_animation);
     ADD ("/cache/reentrant-stop", test_reentrant_stop);
+    ADD ("/cache/reentrant-delivery", test_reentrant_delivery);
+    g_test_add ("/cache/reentrant-clear-accepted", Fixture, NULL, setup, test_reentrant_clear, teardown);
+    g_test_add ("/cache/reentrant-clear-rejected", Fixture, GUINT_TO_POINTER (1), setup, test_reentrant_clear, teardown);
     ADD ("/cache/disabled-and-ephemeral", test_disabled_and_ephemeral);
     ADD ("/cache/foreground-limit-reduction", test_foreground_limit_reduction);
     ADD ("/cache/clear-during-load", test_clear_during_load);

@@ -111,6 +111,7 @@ struct RsttoImageCache
     RsttoDecodeOptions options;
     RsttoCacheLimits limits;
     guint64 generation, resident_bytes, decodes, hits, renders, render_hits;
+    guint64 display_revision;
     guint64 next_job_serial, navigation_revision, request_revision;
     gint64 last_navigation;
     gint navigation_direction;
@@ -1245,24 +1246,38 @@ is_current (RsttoImageCache *self, DecodeJob *job)
 /**
  * publish:
  *
- * Pin the new displayed entry and synchronously deliver its borrowed image
- * data while retaining the previous display through the callback.
+ * Offer borrowed pixels while retaining both entries. Only an accepted
+ * delivery transfers the display pin; clear/stop or a nested accepted delivery
+ * invalidates this transaction. A proposed derivative remains job-owned and
+ * reserved until the caller commits or releases it after delivery.
  */
-static void
-publish (RsttoImageCache *self, Entry *entry)
+static gboolean
+publish (RsttoImageCache *self, Entry *entry, RsttoImageData *image)
 {
-    Entry *old = self->displayed;
+    Entry *old = self->displayed != NULL ? entry_ref (self->displayed) : NULL;
+    guint64 revision = self->display_revision;
+    gboolean accepted = FALSE;
     entry_ref (entry); /* synchronous signal handlers may clear the cache */
-    self->displayed = entry_ref (entry);
-    touch_entry (self, entry);
-    rstto_gpu_source_select (self->gpu, entry->link != NULL ? entry->source_serial : 0);
     self->busy = FALSE;
     self->foreground_pending = FALSE;
-    /* Old display memory remains charged throughout synchronous delivery. */
-    g_signal_emit (self, signals[READY], 0, &entry->image);
-    if (old != NULL)
-        entry_unref (old);
+    g_signal_emit (self, signals[READY], 0, image, &accepted);
+    accepted &= !self->stopped && revision == self->display_revision;
+    if (accepted)
+    {
+        self->display_revision++;
+        g_clear_pointer (&self->displayed, entry_unref);
+        self->displayed = entry_ref (entry);
+        touch_entry (self, entry);
+    }
+    /* A rejected refresh must not select its source in place of the image
+     * that remains displayed. Do not undo a reentrant clear or replacement. */
+    if (!self->stopped && (accepted || revision == self->display_revision))
+        rstto_gpu_source_select (self->gpu, self->displayed != NULL && self->displayed->link != NULL
+                                                ? self->displayed->source_serial
+                                                : 0);
+    g_clear_pointer (&old, entry_unref);
     entry_unref (entry);
+    return accepted;
 }
 
 
@@ -1575,7 +1590,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
                                      "Image changed while it was being rendered; refresh to retry");
                 g_signal_emit (self, signals[IDENTITY_CHANGED], 0, job->file);
                 Entry *error = entry_from_job (self, job);
-                publish (self, error);
+                publish (self, error, &error->image);
                 entry_unref (error);
             }
         }
@@ -1615,54 +1630,63 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
                 rstto_profile_end (rstto_profile_now (), job, job->serial, "render-pan-frame",
                                    "revision=%" G_GUINT64_FORMAT " latest=%" G_GUINT64_FORMAT,
                                    job->render_key.view_revision, latest.view_revision);
-            job->reservation = 0; /* Replace the completed reservation below without yielding. */
-            cairo_surface_t *old = NULL;
-            RsttoGpuImage *old_gpu = NULL;
-            guint64 old_bytes = 0;
+            /* Cleanup has finished. Replace the full render reservation with
+             * the proposed output's actual weight without yielding. The old
+             * derivative stays in the entry until the viewer accepts delivery. */
+            job->reservation = 0;
+            RsttoImageData proposed = entry->image;
+            guint64 bytes = 0;
+            gboolean replace = FALSE;
             if (job->image.gpu_image != NULL && enabled (self)
                 && entry->bytes - render_weight (entry) <= self->limits.max_image_bytes && fits (self, 0, 0))
             {
-                old = g_steal_pointer (&entry->image.rendered);
-                old_bytes = old != NULL ? (guint64) cairo_image_surface_get_stride (old)
-                                              * cairo_image_surface_get_height (old)
-                                        : 0;
-                old_gpu = entry->image.gpu_image;
-                entry->image.gpu_image = g_steal_pointer (&job->image.gpu_image);
-                entry->image.render_key = job->render_key;
+                proposed.rendered = NULL;
+                proposed.gpu_image = job->image.gpu_image;
+                proposed.render_key = job->render_key;
+                replace = TRUE;
             }
             if (job->image.rendered != NULL)
             {
-                guint64 bytes = (guint64) cairo_image_surface_get_stride (job->image.rendered)
-                                * cairo_image_surface_get_height (job->image.rendered);
-                if (enabled (self) && bytes <= self->limits.max_image_bytes
-                    && entry->bytes - render_weight (entry) <= self->limits.max_image_bytes - bytes
-                    && fits (self, bytes, 0))
+                guint64 weight = (guint64) cairo_image_surface_get_stride (job->image.rendered)
+                                 * cairo_image_surface_get_height (job->image.rendered);
+                if (enabled (self) && weight <= self->limits.max_image_bytes
+                    && entry->bytes - render_weight (entry) <= self->limits.max_image_bytes - weight
+                    && fits (self, weight, 0))
                 {
-                    old = entry->image.rendered;
-                    old_bytes = render_weight (entry);
-                    old_gpu = g_steal_pointer (&entry->image.gpu_image);
-                    entry->image.rendered = g_steal_pointer (&job->image.rendered);
-                    entry->image.render_key = job->render_key;
-                    entry->bytes += bytes;
-                    self->resident_bytes += bytes;
+                    proposed.rendered = job->image.rendered;
+                    proposed.gpu_image = NULL;
+                    proposed.render_key = job->render_key;
+                    bytes = weight;
+                    replace = TRUE;
                 }
             }
-            g_clear_pointer (&job->image.rendered, cairo_surface_destroy);
-            g_clear_pointer (&job->image.gpu_image, rstto_gpu_image_unref);
+            if (proposed.rendered != job->image.rendered)
+                g_clear_pointer (&job->image.rendered, cairo_surface_destroy);
+            if (proposed.gpu_image != job->image.gpu_image)
+                g_clear_pointer (&job->image.gpu_image, rstto_gpu_image_unref);
+            job->reservation = bytes;
+            /* Background work may update a cached entry, but never replace a
+             * derivative still displayed without its consumer's acceptance. */
+            gboolean accepted = entry != self->displayed;
             if (is_current (self, job))
             {
                 self->speculation_allowed = entry->link != NULL;
-                publish (self, entry);
+                accepted = publish (self, entry, &proposed);
             }
-            /* The viewer has now released its old derivative. Keep it charged
-             * through synchronous delivery, even when replacing this same entry. */
-            if (old != NULL)
+            if (replace && accepted)
             {
-                cairo_surface_destroy (old);
-                entry->bytes -= old_bytes;
-                self->resident_bytes -= old_bytes;
+                guint64 old_bytes = render_weight (entry);
+                g_clear_pointer (&entry->image.rendered, cairo_surface_destroy);
+                g_clear_pointer (&entry->image.gpu_image, rstto_gpu_image_unref);
+                entry->image.rendered = g_steal_pointer (&job->image.rendered);
+                entry->image.gpu_image = g_steal_pointer (&job->image.gpu_image);
+                entry->image.render_key = proposed.render_key;
+                entry->bytes = entry->bytes - old_bytes + bytes;
+                self->resident_bytes = self->resident_bytes - old_bytes + bytes;
             }
-            g_clear_pointer (&old_gpu, rstto_gpu_image_unref);
+            g_clear_pointer (&job->image.rendered, cairo_surface_destroy);
+            g_clear_pointer (&job->image.gpu_image, rstto_gpu_image_unref);
+            job->reservation = 0;
         }
         finish_job (job);
         return;
@@ -1684,7 +1708,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
                     if (prepare_render (job, entry))
                         return;
                     if (is_current (self, job))
-                        publish (self, entry);
+                        publish (self, entry, &entry->image);
                 }
                 if (!current && prepare_render (job, entry))
                     return;
@@ -1857,7 +1881,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
         self->speculation_allowed = entry->link != NULL;
         if (!self->speculation_allowed)
             evict_all (self);
-        publish (self, entry);
+        publish (self, entry, &entry->image);
     }
     entry_unref (entry);
     finish_job (job);
@@ -2478,6 +2502,20 @@ rstto_image_cache_finalize (GObject *object)
 
 
 /**
+ * ready_accepted:
+ *
+ * Collect the consumer's acceptance without skipping later observer handlers.
+ * Observers return FALSE; a delivery without a consumer is not accepted.
+ */
+static gboolean
+ready_accepted (GSignalInvocationHint *hint, GValue *accumulator, const GValue *result, gpointer unused)
+{
+    g_value_set_boolean (accumulator, g_value_get_boolean (accumulator) || g_value_get_boolean (result));
+    return TRUE;
+}
+
+
+/**
  * rstto_image_cache_class_init:
  *
  * Register cache delivery and preparation signals and install object cleanup.
@@ -2487,7 +2525,7 @@ rstto_image_cache_class_init (RsttoImageCacheClass *klass)
 {
     G_OBJECT_CLASS (klass)->finalize = rstto_image_cache_finalize;
     signals[READY] = g_signal_new ("ready", G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST,
-                                   0, NULL, NULL, NULL, G_TYPE_NONE, 1, G_TYPE_POINTER);
+                                   0, ready_accepted, NULL, NULL, G_TYPE_BOOLEAN, 1, G_TYPE_POINTER);
     signals[PREPARE_RENDER] = g_signal_new ("prepare-render", G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST,
                                             0, NULL, NULL, NULL, G_TYPE_NONE, 3,
                                             G_TYPE_FILE, G_TYPE_POINTER, G_TYPE_POINTER);
@@ -2972,6 +3010,7 @@ rstto_image_cache_cancel_request (RsttoImageCache *self)
 void
 rstto_image_cache_clear (RsttoImageCache *self)
 {
+    self->display_revision++;
     rstto_gpu_source_select (self->gpu, 0);
     self->generation++;
     g_clear_handle_id (&self->quiet_source, g_source_remove);

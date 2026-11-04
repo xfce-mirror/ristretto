@@ -42,10 +42,13 @@ typedef struct
     gboolean ephemeral;
 } RsttoDecodeOptions;
 
-/* Borrowed for the duration of the synchronous "ready" signal. The consumer
- * must replace its old surface before returning, and reference these objects
- * if needed. The cache keeps the displayed image pinned until the next ready
- * signal, clear(), or stop(). */
+/* Borrowed for the duration of the synchronous boolean "ready" signal. The
+ * consumer returns TRUE only after replacing its old pixels; FALSE declines
+ * delivery. Observer handlers return FALSE. The cache pins accepted storage
+ * until an accepted replacement, clear(), or stop(), and keeps both old and
+ * proposed storage accounted throughout delivery. Consumers must release their
+ * wrappers before clearing/stopping the cache and reference objects as needed.
+ * A proposed derivative is committed only after acceptance. */
 typedef struct
 {
     cairo_surface_t *surface;

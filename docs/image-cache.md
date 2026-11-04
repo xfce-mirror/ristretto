@@ -178,6 +178,13 @@ Retained still-image surfaces are charged by actual Cairo stride times height.
 The viewer references the surface without making a full pixel copy. The previous
 displayed surface remains charged until the viewer replaces it.
 
+Cache delivery is an explicit acceptance transaction. The private `ready`
+handler returns true only after replacing the viewer's pixels; observers return
+false. A skipped refresh, including one superseded by pending navigation, leaves
+the previous display pinned and charged even if invalidation removed its lookup
+entry. Both entries remain alive during delivery, and a reentrant clear, stop or
+accepted replacement prevents an older delivery from restoring its display pin.
+
 Before speculative decoding, a cancellable metadata probe reads at most 1 MiB
 from the identity-verified open descriptor, in 4 KiB chunks. It supplies only
 that immutable prefix to `gly_loader_new_for_bytes()` and calls
@@ -352,6 +359,9 @@ fit the per-image admission limit. Rendering reserves three output-surface
 weights for output and estimated Cairo temporaries; pinned source storage remains
 charged separately. Cancelled render jobs keep reservations and their original
 worker slots until cleanup. Old displayed derivatives stay charged through delivery.
+A proposed derivative stays reserved until accepted or released. Rejected
+same-entry renders leave the old derivative and render key intact; accepted
+renders transfer the output's actual weight into the entry after delivery.
 
 For byte pressure, admission plans derivative removal before complete-entry eviction. Derivatives
 of eligible non-displayed, unpinned entries may be discarded. Speculation protects

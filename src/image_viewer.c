@@ -172,7 +172,7 @@ static void
 rstto_image_viewer_load_image (RsttoImageViewer *viewer,
                                RsttoFile *file,
                                gdouble scale);
-static void
+static gboolean
 cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *viewer);
 static void
 cache_settings_changed (GObject *settings, GParamSpec *pspec, RsttoImageViewer *viewer);
@@ -1939,8 +1939,10 @@ rstto_image_viewer_set_menu (RsttoImageViewer *viewer,
  *
  * Accept fresh exact or compatible pan-only results without rolling back
  * desired geometry, and sequence presentation before further navigation.
+ * Return TRUE only after replacing the old pixels so the cache can transfer
+ * its accounted display pin. Skipped deliveries leave that pin untouched.
  */
-static void
+static gboolean
 cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *viewer)
 {
     GtkWidget *widget = GTK_WIDGET (viewer);
@@ -1954,14 +1956,14 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
                            stats.hits, stats.decodes, stats.entries, stats.jobs, stats.resident_bytes, stats.reserved_bytes);
     }
     if (viewer->priv->active_file == NULL || viewer->priv->destroyed)
-        return;
+        return FALSE;
     if (viewer->priv->active_file == viewer->priv->file && viewer->priv->pending_file != NULL
         && viewer->priv->pending_file != viewer->priv->file)
     {
         g_clear_object (&viewer->priv->active_file);
         if (viewer->priv->navigation_idle == 0)
             viewer->priv->navigation_idle = g_idle_add (navigation_dispatch, viewer);
-        return;
+        return FALSE;
     }
     /* A derivative completion must not restore the zoom captured before newer
      * input. File view state is authoritative for the already displayed file. */
@@ -1998,7 +2000,7 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
     viewer->priv->error = image->error != NULL ? g_error_copy (image->error) : NULL;
     if (image->surface != NULL)
     {
-        /* The cache pins the backing bytes until the next ready delivery.
+        /* The cache pins these bytes until an accepted replacement or clear.
          * Only this viewer-owned wrapper carries mutable device-scale state. */
         cairo_surface_t *wrapper = cairo_image_surface_create_for_data (
             cairo_image_surface_get_data (image->surface), cairo_image_surface_get_format (image->surface),
@@ -2057,6 +2059,7 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
         presentation_arm (viewer);
     rstto_profile_end (start, viewer, viewer->priv->profile_request_id, "viewer-setup", "%s", "");
     viewer->priv->profile_ready = start;
+    return TRUE;
 }
 
 static gboolean
