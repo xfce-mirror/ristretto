@@ -304,6 +304,14 @@ navigation takes precedence over further renders of the old image. Existing
 RAM reservations, slot/task limits, GPU retirement and preload deferral apply
 until the latest view is ready.
 
+If GPU presentation fails or a texture exceeds the GPU limits, CPU preparation
+still requires normal admission. If that preparation is refused or fails, the
+viewer accepts the canonical source without the obsolete output and draws the
+latest view directly through full-quality Cairo. This last resort adds no
+retained output buffer, but may block GTK during an expensive redraw. Unchanged
+redraws do not keep retrying; later view/settings changes or Refresh can retry.
+See [CPU fallback accounting](image-cache.md) for ownership and memory details.
+
 `tests/benchmark-gpu.py --render-fix --drag ...` adds an eight-second held-LMB
 sequence at 60 Hz, including diagonal movement and reversals. It records complete
 presentations, frame gaps, revision ordering, decoding count and final settling

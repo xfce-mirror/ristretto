@@ -104,6 +104,8 @@ void
 rstto_image_viewer_reset_adjustments (RsttoImageViewer *viewer);
 
 #ifdef RSTTO_VIEWER_TEST
+gboolean
+rstto_image_viewer_test_painted_key (RsttoImageViewer *viewer, RsttoRenderKey *key);
 guint rstto_image_viewer_test_unprepared_paints (RsttoImageViewer *viewer);
 void rstto_image_viewer_test_fail_gpu (RsttoImageViewer *viewer);
 gboolean rstto_image_viewer_test_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key);

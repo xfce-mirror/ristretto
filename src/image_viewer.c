@@ -173,7 +173,7 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer,
                                RsttoFile *file,
                                gdouble scale);
 static gboolean
-cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *viewer);
+cache_ready (RsttoImageCache *cache, RsttoImageDelivery *delivery, RsttoImageViewer *viewer);
 static void
 cache_settings_changed (GObject *settings, GParamSpec *pspec, RsttoImageViewer *viewer);
 static void
@@ -203,10 +203,13 @@ struct _RsttoImageViewerPrivate
     guint navigation_idle, render_idle;
     gboolean awaiting_frame, frame_drawn, destroyed, render_attempt_valid;
     gboolean render_dirty, desired_key_valid, gpu_fallback_pending;
+    gboolean direct_cpu, direct_retry;
     guint64 view_revision;
     RsttoRenderKey desired_key;
 #ifdef RSTTO_VIEWER_TEST
     guint unprepared_paints;
+    RsttoRenderKey painted_key;
+    gboolean painted_direct;
 #endif
     RsttoRenderKey render_attempt;
     RsttoSettings *settings;
@@ -496,6 +499,8 @@ rstto_image_viewer_realize (GtkWidget *widget)
     g_return_if_fail (RSTTO_IS_IMAGE_VIEWER (widget));
 
     gtk_widget_set_realized (widget, TRUE);
+    viewer->priv->render_attempt_valid = FALSE;
+    viewer->priv->direct_retry = TRUE;
 
     gtk_widget_get_allocation (widget, &allocation);
     attributes.x = allocation.x;
@@ -1136,17 +1141,27 @@ paint_image (GtkWidget *widget,
         cairo_pattern_set_filter (viewer->priv->pixbuf.pattern,
                                   viewer->priv->enable_smoothing ? CAIRO_FILTER_GOOD : CAIRO_FILTER_NEAREST);
         cairo_set_source (ctx, viewer->priv->pixbuf.pattern);
-        if (viewer->priv->iter == NULL && (viewer->priv->gpu != NULL
-            || (key.x_scale * key.pixel_scale) / key.source_scale < 1 - 1e-9
-            || (key.y_scale * key.pixel_scale) / key.source_scale < 1 - 1e-9))
+        if (viewer->priv->iter == NULL && (!viewer->priv->direct_cpu || viewer->priv->direct_retry)
+            && (viewer->priv->gpu != NULL
+                || (key.x_scale * key.pixel_scale) / key.source_scale < 1 - 1e-9
+                || (key.y_scale * key.pixel_scale) / key.source_scale < 1 - 1e-9))
             render_refresh (viewer);
     }
 #ifdef RSTTO_VIEWER_TEST
     if (!prepared) viewer->priv->unprepared_paints++;
+    viewer->priv->painted_key = prepared ? viewer->priv->pixbuf.render_key : key;
+    viewer->priv->painted_direct = !prepared;
 #endif
     gint64 start = rstto_profile_now ();
     cairo_paint (ctx);
-    rstto_profile_end (start, viewer, viewer->priv->profile_request_id, "cairo-paint", "prepared=%d", prepared);
+    if (viewer->priv->direct_cpu && viewer->priv->render_dirty)
+    {
+        /* This frame used the authoritative desired geometry. Preparation may
+         * be refused, but the visible view is no longer waiting for it. */
+        viewer->priv->render_dirty = FALSE;
+        rstto_image_cache_view_changed (viewer->priv->cache, FALSE);
+    }
+    rstto_profile_end (start, viewer, viewer->priv->profile_request_id, "cairo-paint", "prepared=%d direct=%d", prepared, viewer->priv->direct_cpu);
 }
 
 static void
@@ -1633,6 +1648,8 @@ refresh_render_idle (gpointer data)
 static void
 render_refresh (RsttoImageViewer *viewer)
 {
+    if (viewer->priv->direct_cpu && !viewer->priv->direct_retry)
+        return;
     RsttoRenderKey key;
     if (!current_render_key (viewer, &key))
         return;
@@ -1943,8 +1960,9 @@ rstto_image_viewer_set_menu (RsttoImageViewer *viewer,
  * its accounted display pin. Skipped deliveries leave that pin untouched.
  */
 static gboolean
-cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *viewer)
+cache_ready (RsttoImageCache *cache, RsttoImageDelivery *delivery, RsttoImageViewer *viewer)
 {
+    RsttoImageData *image = &delivery->image;
     GtkWidget *widget = GTK_WIDGET (viewer);
     gint64 start = rstto_profile_now ();
     if (start != 0)
@@ -1979,6 +1997,11 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
         g_signal_handlers_disconnect_by_func (viewer->priv->file, cb_rstto_image_viewer_file_changed, viewer);
     g_set_object (&viewer->priv->file, viewer->priv->active_file);
     g_signal_connect_object (viewer->priv->file, "changed", G_CALLBACK (cb_rstto_image_viewer_file_changed), viewer, 0);
+    viewer->priv->direct_cpu = delivery->outcome == RSTTO_RENDER_DIRECT && image->surface != NULL
+                               && image->animation == NULL;
+    viewer->priv->direct_retry = delivery->retry_view;
+    if (viewer->priv->direct_cpu)
+        viewer->priv->pixbuf.render_key = (RsttoRenderKey) { 0 };
     gboolean completed_view = (image->gpu_image != NULL && image->gpu_image != viewer->priv->pixbuf.gpu_image)
                               || (image->rendered != NULL && image->rendered != viewer->priv->pixbuf.rendered);
     g_clear_pointer (&viewer->priv->pixbuf.gpu_image, rstto_gpu_image_unref);
@@ -2047,6 +2070,14 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
      * Keep failure/uncached attempts deduplicated, but let a complete pan
      * snapshot schedule the coalesced latest view after presentation. */
     viewer->priv->render_attempt = completed_view ? image->render_key : desired;
+    if (viewer->priv->direct_cpu && delivery->attempted_key.width > 0)
+    {
+        /* Direct drawing has no prepared variant. Deduplicate the attempted
+         * geometry, but permit a newer desired view to request preparation. */
+        viewer->priv->render_attempt = delivery->attempted_key;
+        viewer->priv->render_attempt.backend = viewer->priv->render_attempt.filter = 0;
+        viewer->priv->render_attempt.context_generation = 0;
+    }
     if (!viewer->priv->render_dirty)
         rstto_image_cache_view_changed (viewer->priv->cache, FALSE);
     rstto_profile_end (rstto_profile_now (), viewer, viewer->priv->view_revision, "view-committed",
@@ -2656,6 +2687,20 @@ cb_rstto_image_viewer_file_changed (RsttoFile *r_file,
 
 
 /**
+ * rstto_image_viewer_test_painted_key:
+ *
+ * Report the geometry actually used by the last CPU paint, independently of
+ * the desired zoom and cached derivative metadata.
+ */
+gboolean
+rstto_image_viewer_test_painted_key (RsttoImageViewer *viewer, RsttoRenderKey *key)
+{
+    *key = viewer->priv->painted_key;
+    return viewer->priv->painted_direct;
+}
+
+
+/**
  * rstto_image_viewer_test_render_key:
  *
  * Expose the delivered image's actual render snapshot for viewer regression
@@ -2679,7 +2724,8 @@ void
 rstto_image_viewer_test_fail_gpu (RsttoImageViewer *viewer)
 {
 #ifdef HAVE_PLACEBO
-    rstto_gpu_test_disable (viewer->priv->gpu);
+    if (viewer->priv->gpu != NULL)
+        rstto_gpu_test_disable (viewer->priv->gpu);
 #endif
 }
 

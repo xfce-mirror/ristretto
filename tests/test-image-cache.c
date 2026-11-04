@@ -21,6 +21,10 @@ typedef struct
     guint64 peak_accounted;
     gboolean enforce_limits;
     gboolean reject_ready;
+    RsttoRenderOutcome outcome;
+    RsttoRenderReason reason;
+    RsttoRenderKey attempted_key;
+    gboolean prepared, retry_view;
 } Fixture;
 
 static RsttoDecodeOptions full_size = { FALSE, 0, 0 };
@@ -74,9 +78,15 @@ check_limits (Fixture *fixture)
  * Record a ready image and validate accounting at synchronous delivery time.
  */
 static gboolean
-received (RsttoImageCache *cache, RsttoImageData *image, Fixture *fixture)
+received (RsttoImageCache *cache, RsttoImageDelivery *delivery, Fixture *fixture)
 {
+    RsttoImageData *image = &delivery->image;
     fixture->ready++;
+    fixture->outcome = delivery->outcome;
+    fixture->reason = delivery->reason;
+    fixture->attempted_key = delivery->attempted_key;
+    fixture->prepared = image->rendered != NULL || image->gpu_image != NULL;
+    fixture->retry_view = delivery->retry_view;
     check_limits (fixture);
     fixture->peak_accounted = MAX (fixture->peak_accounted, cache->resident_bytes + reserved_bytes (cache));
     fixture->errors += image->error != NULL;
@@ -1013,8 +1023,9 @@ test_neighbors (void)
  * lifetime handling.
  */
 static gboolean
-stop_on_ready (RsttoImageCache *cache, RsttoImageData *image, gpointer unused)
+stop_on_ready (RsttoImageCache *cache, RsttoImageDelivery *delivery, gpointer unused)
 {
+    RsttoImageData *image = &delivery->image;
     rstto_image_cache_stop (cache);
     /* The borrowed result must survive clearing its cache inside delivery. */
     g_assert_cmpint (cairo_image_surface_get_width (image->surface), ==, 128);
@@ -1045,8 +1056,9 @@ test_reentrant_stop (Fixture *fixture, gconstpointer unused)
  * delivery; the borrowed proposal must survive until the signal returns.
  */
 static gboolean
-clear_on_ready (RsttoImageCache *cache, RsttoImageData *image, gpointer unused)
+clear_on_ready (RsttoImageCache *cache, RsttoImageDelivery *delivery, gpointer unused)
 {
+    RsttoImageData *image = &delivery->image;
     rstto_image_cache_clear (cache);
     g_assert_cmpint (cairo_image_surface_get_width (image->surface), ==, 128);
     return FALSE;
@@ -1081,10 +1093,11 @@ test_reentrant_clear (Fixture *fixture, gconstpointer data)
  * ordering without recursively invoking this observer.
  */
 static gboolean
-replace_on_ready (RsttoImageCache *cache, RsttoImageData *image, Entry *replacement)
+replace_on_ready (RsttoImageCache *cache, RsttoImageDelivery *delivery, Entry *replacement)
 {
     g_signal_handlers_block_by_func (cache, replace_on_ready, replacement);
-    g_assert_true (publish (cache, replacement, &replacement->image));
+    RsttoImageDelivery nested = { .image = replacement->image, .outcome = RSTTO_RENDER_READY };
+    g_assert_true (publish (cache, replacement, &nested));
     g_signal_handlers_unblock_by_func (cache, replace_on_ready, replacement);
     return FALSE;
 }
@@ -2056,6 +2069,9 @@ test_probe_unavailable (Fixture *fixture, gconstpointer unused)
     drain (fixture);
     g_assert_cmpuint (fixture->cache->decodes, ==, 1);
     g_assert_false (fixture->cache->speculation_allowed);
+    g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_DIRECT);
+    g_assert_cmpint (fixture->reason, ==, RSTTO_RENDER_REASON_UNCACHED);
+    g_assert_false (fixture->retry_view);
     g_assert_null (fixture->cache->displayed->key);
     g_assert_cmphex (fixture->pixel, ==, 0xff102030);
 }
@@ -2244,6 +2260,151 @@ test_rejected_derivative (Fixture *fixture, gconstpointer unused)
     g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
     g_assert_cmpint (cairo_image_surface_get_width (entry->image.rendered), ==, 32);
     g_assert_cmpuint (entry->bytes, ==, 128 * 96 * 4 + 32 * 24 * 4);
+}
+
+
+/**
+ * test_render_direct:
+ *
+ * Refusal or failed CPU work must offer source-only drawing through the same
+ * acceptance transaction as successful preparation, then recover without decoding.
+ */
+static void
+test_render_direct (Fixture *fixture, gconstpointer data)
+{
+    guint mode = GPOINTER_TO_UINT (data);
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    select_image (fixture, 0);
+    Entry *entry = fixture->cache->displayed;
+    cairo_surface_t *old = entry->image.rendered;
+    guint destroyed = 0;
+    guint64 bytes = entry->bytes, decodes = fixture->cache->decodes;
+    watch_surface (old, &destroyed);
+    view.viewport_width = 256;
+    view.viewport_height = 192;
+    RsttoCacheLimits limits = fixture->cache->limits;
+    if (mode == 0)
+        limits.max_image_bytes = 64 * 1024;
+    if (mode == 1)
+        limits.max_bytes = bytes + 3 * 256 * 192 * 4 - 1;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    fixture->reject_ready = TRUE;
+    for (guint attempt = 0; attempt < 2; attempt++)
+    {
+        fixture->cache->test_render_failure = mode >= 2 ? mode - 1 : 0;
+        select_image (fixture, 0);
+        g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_DIRECT);
+        const RsttoRenderReason reasons[] = { RSTTO_RENDER_REASON_IMAGE_LIMIT,
+                                              RSTTO_RENDER_REASON_BUDGET, RSTTO_RENDER_REASON_ALLOCATION, RSTTO_RENDER_REASON_FAILED };
+        g_assert_cmpint (fixture->reason, ==, reasons[mode]);
+        g_assert_false (fixture->prepared);
+        g_assert_true (fixture->retry_view);
+        g_assert_cmpint (fixture->attempted_key.width, ==, 256);
+        g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+        g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+        if (attempt == 0)
+        {
+            g_assert_cmpuint (destroyed, ==, 0);
+            g_assert_true (entry->image.rendered == old);
+            g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
+            fixture->reject_ready = FALSE;
+        }
+    }
+    g_assert_cmpuint (destroyed, ==, 1);
+    g_assert_null (entry->image.rendered);
+    g_assert_null (entry->image.gpu_image);
+    g_assert_cmpint (entry->image.render_key.width, ==, 0);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 128 * 96 * 4);
+    limits.max_bytes = 32 * MIB;
+    limits.max_image_bytes = 8 * MIB;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    select_image (fixture, 0);
+    g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_READY);
+    g_assert_true (fixture->prepared);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+}
+
+
+/**
+ * test_direct_reduction:
+ *
+ * A lower per-image limit during verification refuses the completed output
+ * without releasing its reservation or the previous derivative prematurely.
+ */
+static void
+test_direct_reduction (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    select_image (fixture, 0);
+    Entry *entry = fixture->cache->displayed;
+    guint destroyed = 0;
+    watch_surface (entry->image.rendered, &destroyed);
+    view.viewport_width = 256;
+    view.viewport_height = 192;
+    start_barrier (fixture->files[0], RENDER_VERIFY);
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+    await_barrier ();
+    guint64 reservation = reserved_bytes (fixture->cache);
+    g_assert_cmpuint (reservation, >, 0);
+    RsttoCacheLimits limits = fixture->cache->limits;
+    limits.max_image_bytes = 64 * 1024;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    g_assert_cmpuint (destroyed, ==, 0);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reservation);
+    release_barrier (fixture);
+    g_assert_cmpuint (destroyed, ==, 1);
+    g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_DIRECT);
+    g_assert_cmpint (fixture->reason, ==, RSTTO_RENDER_REASON_IMAGE_LIMIT);
+    g_assert_false (fixture->prepared);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    g_assert_cmpuint (entry->bytes, ==, 128 * 96 * 4);
+}
+
+
+/**
+ * test_direct_draining:
+ *
+ * A cancelled decoder retains its reservation while foreground rendering
+ * refuses admission and offers the source; cleanup permits later recovery.
+ */
+static void
+test_direct_draining (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], DECODE);
+    candidates (fixture, 1, 1);
+    await_barrier ();
+    candidates (fixture, 0, 0);
+    guint64 reservation = reserved_bytes (fixture->cache);
+    g_assert_cmpuint (reservation, >, 0);
+    RsttoCacheLimits limits = fixture->cache->limits;
+    limits.max_bytes = fixture->cache->resident_bytes + reservation;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    view.viewport_width = 256;
+    view.viewport_height = 192;
+    guint ready = fixture->ready;
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+    gint64 deadline = g_get_monotonic_time () + 5 * G_USEC_PER_SEC;
+    while (fixture->ready == ready)
+    {
+        iterate ();
+        check_limits (fixture);
+        g_assert_cmpint (g_get_monotonic_time (), <, deadline);
+    }
+    g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_DIRECT);
+    g_assert_cmpint (fixture->reason, ==, RSTTO_RENDER_REASON_BUDGET);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reservation);
+    g_assert_null (fixture->cache->displayed->image.rendered);
+    release_barrier (fixture);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    view.viewport_width = 32;
+    view.viewport_height = 24;
+    select_image (fixture, 0);
+    g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_READY);
 }
 
 
@@ -2889,6 +3050,40 @@ test_gpu_failure (Fixture *fixture, gconstpointer unused)
 
 
 /**
+ * test_gpu_direct:
+ *
+ * Oversized textures and GPU failure must reach direct drawing when CPU
+ * preparation also exceeds the per-image limit, without an uncharged output.
+ */
+static void
+test_gpu_direct (Fixture *fixture, gconstpointer oversized)
+{
+    RsttoRenderView view;
+    if (!gpu_setup (fixture, &view))
+        return;
+    if (oversized != NULL)
+        rstto_gpu_test_limit (test_gpu, 127);
+    else
+        rstto_gpu_test_fail (test_gpu, 1);
+    fixture->cache->limits.max_image_bytes = 128 * 96 * 4;
+    select_image (fixture, 0);
+    g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_DIRECT);
+    g_assert_cmpint (fixture->reason, ==, RSTTO_RENDER_REASON_IMAGE_LIMIT);
+    g_assert_false (fixture->prepared);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 128 * 96 * 4);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    RsttoGpuStats stats;
+    rstto_gpu_renderer_get_stats (test_gpu, &stats);
+    if (oversized != NULL)
+    {
+        g_assert_cmpuint (stats.uploads, ==, 0);
+        g_assert_cmpuint (stats.submissions, ==, 0);
+    }
+    gpu_teardown (fixture);
+}
+
+
+/**
  * test_gpu_warmup:
  *
  * Check startup warmup reservations, cancellation and failure without creating
@@ -3121,6 +3316,8 @@ main (int argc, char **argv)
     g_test_add ("/gpu-cache/source-changed-during-reuse", Fixture, GUINT_TO_POINTER (2), setup, test_gpu_source_freshness, teardown);
     g_test_add ("/gpu-cache/source-symlink", Fixture, GUINT_TO_POINTER (1), setup, test_gpu_source_freshness, teardown);
     g_test_add ("/gpu-cache/source-reuse", Fixture, NULL, setup, test_gpu_source, teardown);
+    g_test_add ("/gpu-cache/direct-oversized", Fixture, GUINT_TO_POINTER (1), setup, test_gpu_direct, teardown);
+    g_test_add ("/gpu-cache/direct-failure", Fixture, NULL, setup, test_gpu_direct, teardown);
     g_test_add ("/gpu-cache/texture-limits", Fixture, NULL, setup, test_gpu_limits, teardown);
     g_test_add ("/gpu-cache/failure-fallback", Fixture, NULL, setup, test_gpu_failure, teardown);
     g_test_add ("/gpu-cache/failure-upload", Fixture, GUINT_TO_POINTER (2), setup, test_gpu_failure, teardown);
@@ -3161,6 +3358,15 @@ main (int argc, char **argv)
     ADD ("/cache/render/reuse", test_render_reuse);
     ADD ("/cache/render/rejected-delivery", test_rejected_derivative);
     ADD ("/cache/rejected-refresh", test_rejected_refresh);
+    const gchar *direct_cases[] = { "image-limit", "budget", "allocation", "render-failure" };
+    for (guint n = 0; n < G_N_ELEMENTS (direct_cases); n++)
+    {
+        gchar *name = g_strdup_printf ("/cache/direct/%s", direct_cases[n]);
+        g_test_add (name, Fixture, GUINT_TO_POINTER (n), setup, test_render_direct, teardown);
+        g_free (name);
+    }
+    ADD ("/cache/direct/draining", test_direct_draining);
+    ADD ("/cache/direct/live-reduction", test_direct_reduction);
     ADD ("/cache/render/transaction", test_render_transaction);
     ADD ("/cache/render/slots", test_render_slots);
     ADD ("/cache/render/promotion", test_render_promotion);

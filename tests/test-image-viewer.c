@@ -1627,8 +1627,9 @@ delivery_surface_destroyed (gpointer data)
  * a refreshed result. An observer never accepts delivery on the viewer's behalf.
  */
 static gboolean
-delivery_observed (RsttoImageCache *unused_cache, RsttoImageData *image, RejectedDelivery *state)
+delivery_observed (RsttoImageCache *unused_cache, RsttoImageDelivery *delivery, RejectedDelivery *state)
 {
+    RsttoImageData *image = &delivery->image;
     if (state->waiting)
     {
         state->waiting = FALSE;
@@ -1810,6 +1811,223 @@ rejected_delivery (gconstpointer data)
 
 
 /**
+ * check_direct_pixels:
+ *
+ * Capture the widget's actual CPU paint and compare opaque fixture samples
+ * against the full-quality reference at the asserted desired geometry.
+ */
+static void
+check_direct_pixels (gdouble scale)
+{
+    RsttoRenderKey key;
+    g_assert_true (rstto_image_viewer_test_painted_key (viewer, &key));
+    g_assert_cmpfloat (fabs (key.x_scale - scale), <, 1e-9);
+    g_assert_cmpfloat (fabs (key.y_scale - scale), <, 1e-9);
+    cairo_surface_t *paint = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, key.width, key.height);
+    cairo_surface_set_device_scale (paint, key.pixel_scale, key.pixel_scale);
+    cairo_t *cr = cairo_create (paint);
+    gtk_widget_draw (GTK_WIDGET (viewer), cr);
+    cairo_destroy (cr);
+    GdkPixbuf *pixels = rstto_image_viewer_get_pixbuf (viewer);
+    cairo_surface_t *source = rstto_image_convert (pixels, NULL, NULL);
+    cairo_surface_t *reference = rstto_image_render (source, &key, NULL);
+    g_assert_nonnull (reference);
+    cairo_surface_flush (paint);
+    cairo_surface_flush (reference);
+    guint samples = 0;
+    for (gint y = 3; y < key.height - 3; y += 7)
+    {
+        guint32 *actual = (guint32 *) (cairo_image_surface_get_data (paint) + y * cairo_image_surface_get_stride (paint));
+        guint32 *expected = (guint32 *) (cairo_image_surface_get_data (reference) + y * cairo_image_surface_get_stride (reference));
+        for (gint x = 3; x < key.width - 3; x += 7)
+        {
+            if ((expected[x] >> 24) != 255)
+                continue; /* The widget draws its own background around the image. */
+            for (guint shift = 0; shift < 24; shift += 8)
+                g_assert_cmpint (ABS ((gint) ((actual[x] >> shift) & 255) - (gint) ((expected[x] >> shift) & 255)), <=, 2);
+            samples++;
+        }
+    }
+    g_assert_cmpuint (samples, >, 100);
+    cairo_surface_destroy (reference);
+    cairo_surface_destroy (source);
+    cairo_surface_destroy (paint);
+    g_object_unref (pixels);
+}
+
+
+/**
+ * fallback_limits:
+ *
+ * Refuse a larger CPU derivative after GPU failure and require the actual
+ * painted view to follow zoom and viewport changes without repeated requests.
+ */
+static void
+fallback_limits (gconstpointer total_budget)
+{
+#ifndef HAVE_PLACEBO
+    g_test_skip ("GPU fallback regression");
+    return;
+#endif
+    if (g_strcmp0 (g_getenv ("RISTRETTO_RENDERER"), "placebo") != 0)
+    {
+        g_test_skip ("GPU fallback regression");
+        return;
+    }
+    if (!g_test_subprocess ())
+    {
+        g_test_trap_subprocess (NULL, 30 * G_USEC_PER_SEC, 0);
+        g_test_trap_assert_passed ();
+        return;
+    }
+    RsttoSettings *settings = rstto_settings_new ();
+    g_object_set (settings, "preload-count", 0u, "limit-quality", FALSE, NULL);
+    GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    GtkWidget *scroll = gtk_scrolled_window_new (NULL, NULL);
+    gtk_window_set_default_size (GTK_WINDOW (window), 400, 300);
+    viewer = RSTTO_IMAGE_VIEWER (rstto_image_viewer_new ());
+    gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (viewer));
+    gtk_container_add (GTK_CONTAINER (window), scroll);
+    gtk_widget_show_all (window);
+    cache = g_object_ref (rstto_image_viewer_get_cache (viewer));
+    wait_frame ();
+    gchar *directory = g_dir_make_tmp ("ristretto-fallback-test-XXXXXX", NULL);
+    gchar *path = g_build_filename (directory, "fixture.png", NULL);
+    GdkPixbuf *pixels = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, 128, 96);
+    gdk_pixbuf_fill (pixels, 0x20a050ff);
+    GdkPixbuf *corner = gdk_pixbuf_new_subpixbuf (pixels, 64, 0, 64, 48);
+    gdk_pixbuf_fill (corner, 0xe03010ff);
+    g_object_unref (corner);
+    g_assert_true (gdk_pixbuf_save (pixels, path, "png", NULL, NULL));
+    g_object_unref (pixels);
+    GFile *gf = g_file_new_for_path (path);
+    RsttoFile *file = rstto_file_new (gf);
+    rstto_image_viewer_set_file (viewer, file, 2.0, RSTTO_SCALE_NONE, RSTTO_IMAGE_ORIENT_NONE);
+    wait_loaded ();
+    wait_frame ();
+    RsttoRenderKey key;
+    g_assert_true (rstto_image_viewer_test_render_key (viewer, &key));
+    g_assert_cmpuint (key.backend, !=, 0);
+    guint64 initial_bytes = (guint64) key.width * key.height * 4 + 128 * 96 * 4;
+    guint limit = (initial_bytes * 3 / 2 + (1 << 20) - 1) / (1 << 20);
+    if (total_budget != NULL)
+        g_object_set (settings, "cache-max-mib", (guint) ((initial_bytes * 5 + (1 << 20) - 1) / (1 << 20)), NULL);
+    else
+        g_object_set (settings, "cache-max-image-mib", limit, NULL);
+    rstto_image_viewer_test_fail_gpu (viewer);
+    rstto_image_viewer_set_scale (viewer, 2.2);
+    wait_loaded ();
+    wait_frame ();
+    wait_loaded ();
+    g_assert_true (rstto_image_viewer_test_render_key (viewer, &key));
+    g_assert_cmpuint (key.backend, ==, 0);
+    RsttoCacheStats before, after;
+    rstto_image_cache_get_stats (cache, &before);
+    gtk_window_resize (GTK_WINDOW (window), 1200, 900);
+    rstto_image_viewer_set_scale (viewer, 3.0);
+    for (guint n = 0; n < 3; n++)
+    {
+        wait_frame ();
+        wait_loaded ();
+    }
+    g_assert_true (rstto_image_viewer_test_painted_key (viewer, &key));
+    g_assert_cmpfloat (fabs (key.x_scale - 3.0), <, 1e-9);
+    g_assert_cmpint (key.width, ==, gtk_widget_get_allocated_width (GTK_WIDGET (viewer)) * gtk_widget_get_scale_factor (GTK_WIDGET (viewer)));
+    rstto_image_cache_get_stats (cache, &after);
+    g_assert_cmpuint (after.decodes, ==, before.decodes);
+    check_direct_pixels (3.0);
+    /* Every new view gets one attempt, while unchanged redraws and background
+     * completion cannot turn a refused derivative into a retry loop. */
+    rstto_image_cache_get_stats (cache, &before);
+    for (guint n = 0; n < 5; n++)
+    {
+        wait_frame ();
+        wait_loaded ();
+    }
+    rstto_image_cache_get_stats (cache, &after);
+    g_assert_cmpuint (after.hits, ==, before.hits);
+    g_assert_cmpuint (after.renders, ==, before.renders);
+    const gdouble scales[] = { 4.0, 3.0, 16.0 };
+    for (guint n = 0; n < G_N_ELEMENTS (scales); n++)
+    {
+        rstto_image_viewer_set_scale (viewer, scales[n]);
+        wait_frame ();
+        wait_loaded ();
+        wait_frame ();
+        wait_loaded ();
+        check_direct_pixels (scales[n]);
+    }
+    GtkAdjustment *h = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (scroll));
+    GtkAdjustment *v = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scroll));
+    gtk_adjustment_set_value (h, 120);
+    gtk_adjustment_set_value (v, 80);
+    wait_frame ();
+    wait_loaded ();
+    wait_frame ();
+    check_direct_pixels (16.0);
+    g_assert_true (rstto_image_viewer_test_painted_key (viewer, &key));
+    g_assert_cmpint (key.h_adjust, ==, 120);
+    g_assert_cmpint (key.v_adjust, ==, 80);
+    rstto_image_cache_get_stats (cache, &after);
+    g_assert_cmpuint (after.decodes, ==, before.decodes);
+    drag_button (TRUE, 0);
+    drag_motion (35, 25);
+    wait_frame ();
+    wait_loaded ();
+    wait_frame ();
+    check_direct_pixels (16.0);
+    g_assert_true (rstto_image_viewer_test_painted_key (viewer, &key));
+    g_assert_cmpint (key.h_adjust, ==, 155);
+    g_assert_cmpint (key.v_adjust, ==, 105);
+    drag_button (FALSE, 0);
+    rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_90);
+    wait_frame ();
+    wait_loaded ();
+    wait_frame ();
+    check_direct_pixels (16.0);
+    rstto_image_viewer_set_orientation (viewer, RSTTO_IMAGE_ORIENT_NONE);
+    wait_frame ();
+    wait_loaded ();
+    /* Raised limits restore asynchronous preparation of the same source. */
+    g_object_set (settings, total_budget != NULL ? "cache-max-mib" : "cache-max-image-mib", 128u, NULL);
+    wait_loaded ();
+    wait_frame ();
+    wait_loaded ();
+    g_assert_true (rstto_image_viewer_test_render_key (viewer, &key));
+    g_assert_false (rstto_image_viewer_test_painted_key (viewer, &key));
+    rstto_image_cache_get_stats (cache, &after);
+    g_assert_cmpuint (after.decodes, ==, before.decodes);
+    /* With caching disabled, zoom and pan keep the uncached source instead of
+     * decoding again on each draw. */
+    g_object_set (settings, "cache-enabled", FALSE, NULL);
+    wait_loaded ();
+    wait_frame ();
+    rstto_image_cache_get_stats (cache, &before);
+    rstto_image_viewer_set_scale (viewer, 3.0);
+    wait_frame ();
+    wait_loaded ();
+    check_direct_pixels (3.0);
+    for (guint n = 0; n < 3; n++)
+        wait_frame ();
+    rstto_image_cache_get_stats (cache, &after);
+    g_assert_cmpuint (after.decodes, ==, before.decodes);
+    g_assert_cmpuint (after.hits, ==, before.hits);
+    gtk_widget_destroy (window);
+    viewer = NULL;
+    wait_loaded ();
+    g_object_unref (cache);
+    cache = NULL;
+    g_object_unref (file);
+    g_object_unref (gf);
+    g_object_unref (settings);
+    g_remove (path);
+    g_rmdir (directory);
+    g_free (path);
+    g_free (directory);
+}
+
+
+/**
  * main:
  *
  * Register viewer regressions and optional reproducible presentation benchmark
@@ -1863,6 +2081,8 @@ main (int argc, char **argv)
         }
         g_test_add_func ("/viewer/navigation-and-lifetime", test_viewer);
         g_test_add_func ("/viewer/zoom-latest-view", zoom_latest_view);
+        g_test_add_data_func ("/viewer/fallback-limits", NULL, fallback_limits);
+        g_test_add_data_func ("/viewer/fallback-budget", GUINT_TO_POINTER (1), fallback_limits);
         g_test_add_data_func ("/viewer/drag-render", GUINT_TO_POINTER (9), drag_continuous);
         g_test_add_data_func ("/viewer/drag-verification", GUINT_TO_POINTER (10), drag_continuous);
         g_test_add_data_func ("/viewer/drag-cpu-fallback", NULL, drag_continuous);

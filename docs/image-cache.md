@@ -369,8 +369,25 @@ both the source and derivative of current/previous viewing history, and higher-p
 targets. Foreground demand and forced limit reductions may reclaim previous history. Slot pressure alone does not discard derivatives:
 doing so cannot free an image slot. Failed admission changes neither derivatives nor
 entries. If preparation cannot fit, viewing falls back to the original full-quality
-Cairo path, which can be slower. Forced limit reductions and memory pressure keep
-the existing displayed-image exception and cancellation-drain accounting.
+Cairo path, which can be slower. Allocation or CPU rendering failure takes the
+same path. Delivery explicitly distinguishes a compatible prepared result from
+source-only direct drawing; an admission refusal cannot reuse an incompatible
+old derivative. The old source and output remain pinned and charged until the
+viewer accepts the source-only delivery. Rejection preserves the old display.
+
+Direct drawing uses the latest requested zoom, pan, orientation, viewport,
+monitor scale and smoothing. It allocates no additional full-size output surface
+and clears pending-view deferral after painting. Expensive redraws can briefly
+block GTK; Cairo/GTK private overhead is outside the accounted-storage guarantee.
+The last completed frame is held only while preparation is actually pending.
+
+Repeated redraws of an unchanged refused view do not retry preparation. A
+meaningful view change, relevant setting/backend change or explicit Refresh can
+make a new coalesced attempt; background completions do not. Uncached sources and
+disabled caching remain directly drawable through zoom and pan without repeated
+decoding. Successful later preparation restores prepared rendering. Forced limit
+reductions and memory pressure keep the existing displayed-image exception and
+cancellation-drain accounting.
 
 No shared cached surface has mutable viewer device-scale state: workers and the
 viewer create independent wrappers over pinned, immutable source bytes. All GTK

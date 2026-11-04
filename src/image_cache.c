@@ -85,6 +85,7 @@ typedef struct
     gint64 profile_launch, profile_metadata;
 #ifdef RSTTO_CACHE_TEST
     gint64 probe_start;
+    gboolean test_fail_stripe;
 #endif
     gboolean reserves_slot, foreground_slot;
     JobPhase phase;
@@ -92,6 +93,9 @@ typedef struct
     RsttoImageData image;
     Entry *render_entry;
     RsttoRenderKey render_key;
+    RsttoRenderKey attempted_key;
+    RsttoRenderOutcome preparation;
+    RsttoRenderReason render_reason;
     RsttoGpuRenderer *render_gpu;
     RsttoGpuRequest *gpu_request;
 } DecodeJob;
@@ -119,6 +123,7 @@ struct RsttoImageCache
 #ifdef RSTTO_CACHE_TEST
     guint64 probes, probe_time_us;
     gint64 test_now;
+    guint test_render_failure;
 #endif
     guint resident_slots, preload_workers, active_tasks, peak_tasks;
     guint warmups, update_depth;
@@ -1252,7 +1257,7 @@ is_current (RsttoImageCache *self, DecodeJob *job)
  * reserved until the caller commits or releases it after delivery.
  */
 static gboolean
-publish (RsttoImageCache *self, Entry *entry, RsttoImageData *image)
+publish (RsttoImageCache *self, Entry *entry, RsttoImageDelivery *delivery)
 {
     Entry *old = self->displayed != NULL ? entry_ref (self->displayed) : NULL;
     guint64 revision = self->display_revision;
@@ -1260,7 +1265,7 @@ publish (RsttoImageCache *self, Entry *entry, RsttoImageData *image)
     entry_ref (entry); /* synchronous signal handlers may clear the cache */
     self->busy = FALSE;
     self->foreground_pending = FALSE;
-    g_signal_emit (self, signals[READY], 0, image, &accepted);
+    g_signal_emit (self, signals[READY], 0, delivery, &accepted);
     accepted &= !self->stopped && revision == self->display_revision;
     if (accepted)
     {
@@ -1268,6 +1273,14 @@ publish (RsttoImageCache *self, Entry *entry, RsttoImageData *image)
         g_clear_pointer (&self->displayed, entry_unref);
         self->displayed = entry_ref (entry);
         touch_entry (self, entry);
+        if (delivery->outcome == RSTTO_RENDER_DIRECT)
+        {
+            /* Source-only acceptance releases obsolete outputs only after the
+             * viewer has dropped them. Rejected deliveries retain both. */
+            drop_render (entry);
+            g_clear_pointer (&entry->image.gpu_image, rstto_gpu_image_unref);
+            entry->image.render_key = (RsttoRenderKey) { 0 };
+        }
     }
     /* A rejected refresh must not select its source in place of the image
      * that remains displayed. Do not undo a reentrant clear or replacement. */
@@ -1278,6 +1291,49 @@ publish (RsttoImageCache *self, Entry *entry, RsttoImageData *image)
     g_clear_pointer (&old, entry_unref);
     entry_unref (entry);
     return accepted;
+}
+
+
+/**
+ * render_result:
+ *
+ * Record an explicit preparation outcome and log fallback transitions once
+ * per job, without conflating refusal with a compatible cache hit.
+ */
+static RsttoRenderOutcome
+render_result (DecodeJob *job, RsttoRenderOutcome outcome, RsttoRenderReason reason)
+{
+    static const gchar *reasons[] = { "none", "uncached", "native", "image-limit", "budget", "allocation", "render-failed" };
+    if (outcome == RSTTO_RENDER_DIRECT && (job->preparation != outcome || job->render_reason != reason))
+        rstto_profile_end (rstto_profile_now (), job, job->serial, "render-fallback",
+                           "reason=%s width=%d height=%d", reasons[reason], job->attempted_key.width, job->attempted_key.height);
+    job->preparation = outcome;
+    job->render_reason = reason;
+    return outcome;
+}
+
+
+/**
+ * publish_job:
+ *
+ * Deliver preparation metadata separately from cached variant identity.
+ * Direct fallback offers only the canonical source and never an old output.
+ */
+static gboolean
+publish_job (DecodeJob *job, Entry *entry, const RsttoImageData *image)
+{
+    if (job->preparation == RSTTO_RENDER_ABORTED)
+        return FALSE;
+    RsttoImageDelivery delivery = {
+        .image = *image, .outcome = job->preparation, .reason = job->render_reason, .attempted_key = job->attempted_key, .retry_view = enabled (job->owner) && entry->link != NULL && image->animation == NULL
+    };
+    if (delivery.outcome == RSTTO_RENDER_DIRECT)
+    {
+        delivery.image.rendered = NULL;
+        delivery.image.gpu_image = NULL;
+        delivery.image.render_key = (RsttoRenderKey) { 0 };
+    }
+    return publish (job->owner, entry, &delivery);
 }
 
 
@@ -1314,7 +1370,7 @@ render_key_for (DecodeJob *job, Entry *entry, RsttoRenderKey *key)
  * Reuse a compatible derivative or admit asynchronous GPU/CPU preparation
  * while preserving source and reservation ownership.
  */
-static gboolean
+static RsttoRenderOutcome
 prepare_render (DecodeJob *job, Entry *entry)
 {
     RsttoImageCache *self = job->owner;
@@ -1323,9 +1379,17 @@ prepare_render (DecodeJob *job, Entry *entry)
     /* The prepare signal may synchronously clear/stop this cache. */
     if (job->render_entry == NULL)
         job->render_entry = entry_ref (entry);
-    if (g_atomic_int_get (&job->interest) <= 0 || !enabled (self) || !render_key_for (job, entry, &key)
-        || self->stopped || g_cancellable_is_cancelled (job->cancel))
-        return FALSE;
+    job->attempted_key = (RsttoRenderKey) { 0 };
+    if (g_atomic_int_get (&job->interest) <= 0 || self->stopped || g_cancellable_is_cancelled (job->cancel))
+        return render_result (job, RSTTO_RENDER_ABORTED, RSTTO_RENDER_REASON_NONE);
+    if (!enabled (self) || entry->key == NULL || entry->link == NULL || entry->image.animation != NULL)
+        return render_result (job, RSTTO_RENDER_DIRECT, RSTTO_RENDER_REASON_UNCACHED);
+    gboolean valid = render_key_for (job, entry, &key);
+    job->attempted_key = key;
+    if (self->stopped || g_cancellable_is_cancelled (job->cancel))
+        return render_result (job, RSTTO_RENDER_ABORTED, RSTTO_RENDER_REASON_NONE);
+    if (!valid)
+        return render_result (job, RSTTO_RENDER_DIRECT, RSTTO_RENDER_REASON_NATIVE);
     if (is_current (self, job))
         rstto_gpu_source_select (self->gpu, entry->source_serial);
     if ((entry->image.rendered != NULL || entry->image.gpu_image != NULL)
@@ -1333,7 +1397,7 @@ prepare_render (DecodeJob *job, Entry *entry)
     {
         self->render_hits++;
         rstto_profile_end (rstto_profile_now (), self, self->generation, "render-hit", "%s", "");
-        return FALSE;
+        return render_result (job, RSTTO_RENDER_READY, RSTTO_RENDER_REASON_NONE);
     }
     guint priority = is_current (self, job) ? 0 : target_priority (self, job->uri);
     if (key.backend != 0)
@@ -1354,8 +1418,9 @@ prepare_render (DecodeJob *job, Entry *entry)
             cairo_surface_flush (entry->image.surface);
             rstto_image_render_pixels (entry->image.surface, &job->render_source);
             self->renders++;
+            render_result (job, RSTTO_RENDER_STARTED, RSTTO_RENDER_REASON_NONE);
             launch (job);
-            return TRUE;
+            return RSTTO_RENDER_STARTED;
         }
         g_clear_pointer (&job->gpu_request, rstto_gpu_request_free);
         /* Capacity pressure applies only to this request. Verification must
@@ -1363,23 +1428,25 @@ prepare_render (DecodeJob *job, Entry *entry)
         job->gpu_capacity_fallback = TRUE;
         key.backend = key.filter = 0;
         key.context_generation = 0;
+        job->attempted_key = key;
     }
     if (!rstto_image_render_weight (&key, &bytes) || bytes > G_MAXUINT64 / 3
         || entry->bytes - render_weight (entry) > self->limits.max_image_bytes
         || bytes > self->limits.max_image_bytes - (entry->bytes - render_weight (entry)))
-        return FALSE;
+        return render_result (job, RSTTO_RENDER_DIRECT, RSTTO_RENDER_REASON_IMAGE_LIMIT);
     /* The pinned source is already charged and shares this image's slot. */
     if (!make_room (self, 3 * bytes, 0, 0, priority))
-        return FALSE;
+        return render_result (job, RSTTO_RENDER_DIRECT, RSTTO_RENDER_REASON_BUDGET);
     job->cacheable = TRUE;
     job->render_key = key;
     job->reservation = 3 * bytes;
     job->phase = RENDER;
     cairo_surface_flush (entry->image.surface);
     self->renders++;
+    render_result (job, RSTTO_RENDER_STARTED, RSTTO_RENDER_REASON_NONE);
     launch (job);
     pump (self);
-    return TRUE;
+    return RSTTO_RENDER_STARTED;
 }
 
 
@@ -1590,7 +1657,8 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
                                      "Image changed while it was being rendered; refresh to retry");
                 g_signal_emit (self, signals[IDENTITY_CHANGED], 0, job->file);
                 Entry *error = entry_from_job (self, job);
-                publish (self, error, &error->image);
+                render_result (job, RSTTO_RENDER_DIRECT, RSTTO_RENDER_REASON_UNCACHED);
+                publish_job (job, error, &error->image);
                 entry_unref (error);
             }
         }
@@ -1598,13 +1666,15 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
         {
             RsttoRenderKey latest = { 0 };
             RsttoRenderCompatibility compatibility = render_key_for (job, entry, &latest)
-                                                         ? rstto_image_render_compatibility (&latest, &job->render_key)
+                                                         ? rstto_image_render_compatibility (&latest, job->preparation == RSTTO_RENDER_DIRECT
+                                                                                                          ? &job->attempted_key
+                                                                                                          : &job->render_key)
                                                          : RSTTO_RENDER_INCOMPATIBLE;
             /* A verified full pan frame can advance the already displayed
              * image while input continues. The pinned entry is the same source
              * and identity; never relax background/cache-hit comparisons. */
-            gboolean pan_frame = compatibility == RSTTO_RENDER_PAN_ONLY
-                                 && current && self->displayed == entry
+            gboolean pan_frame = job->preparation == RSTTO_RENDER_STARTED
+                                 && compatibility == RSTTO_RENDER_PAN_ONLY && current && self->displayed == entry
                                  && job->render_key.view_revision >= entry->image.render_key.view_revision;
             if (self->stopped || g_cancellable_is_cancelled (job->cancel))
             {
@@ -1619,8 +1689,13 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
                 g_clear_pointer (&job->image.rendered, cairo_surface_destroy);
                 g_clear_pointer (&job->image.gpu_image, rstto_gpu_image_unref);
                 job->reservation = 0;
-                if (prepare_render (job, entry))
+                if (prepare_render (job, entry) == RSTTO_RENDER_STARTED)
                     return;
+            }
+            if (job->preparation == RSTTO_RENDER_ABORTED)
+            {
+                finish_job (job);
+                return;
             }
             /* Identical pixels after a reversal satisfy the newest revision.
              * A pan preview retains its actual submission snapshot instead. */
@@ -1634,6 +1709,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
              * the proposed output's actual weight without yielding. The old
              * derivative stays in the entry until the viewer accepts delivery. */
             job->reservation = 0;
+            gboolean completed_output = job->image.rendered != NULL || job->image.gpu_image != NULL;
             RsttoImageData proposed = entry->image;
             guint64 bytes = 0;
             gboolean replace = FALSE;
@@ -1660,6 +1736,30 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
                     replace = TRUE;
                 }
             }
+            if (replace)
+            {
+                job->attempted_key = proposed.render_key;
+                render_result (job, RSTTO_RENDER_READY, RSTTO_RENDER_REASON_NONE);
+            }
+            else if (completed_output)
+            {
+                /* A live reduction can refuse an output after its work was
+                 * admitted. Offer direct drawing, never an incompatible hit. */
+                guint64 weight = job->image.rendered != NULL
+                                     ? (guint64) cairo_image_surface_get_stride (job->image.rendered)
+                                           * cairo_image_surface_get_height (job->image.rendered)
+                                     : 0;
+                guint64 source_weight = entry->bytes - render_weight (entry);
+                RsttoRenderReason reason = RSTTO_RENDER_REASON_BUDGET;
+                if (!enabled (self) || entry->link == NULL)
+                    reason = RSTTO_RENDER_REASON_UNCACHED;
+                else if (source_weight > self->limits.max_image_bytes
+                         || weight > self->limits.max_image_bytes - source_weight)
+                    reason = RSTTO_RENDER_REASON_IMAGE_LIMIT;
+                render_result (job, RSTTO_RENDER_DIRECT, reason);
+            }
+            else if (job->preparation == RSTTO_RENDER_STARTED)
+                render_result (job, RSTTO_RENDER_DIRECT, RSTTO_RENDER_REASON_FAILED);
             if (proposed.rendered != job->image.rendered)
                 g_clear_pointer (&job->image.rendered, cairo_surface_destroy);
             if (proposed.gpu_image != job->image.gpu_image)
@@ -1671,7 +1771,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
             if (is_current (self, job))
             {
                 self->speculation_allowed = entry->link != NULL;
-                accepted = publish (self, entry, &proposed);
+                accepted = publish_job (job, entry, &proposed);
             }
             if (replace && accepted)
             {
@@ -1705,12 +1805,12 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
                     rstto_profile_end (rstto_profile_now (), self, self->generation, "cache-hit", "job=%p", (void *) job);
                     self->speculation_allowed = TRUE;
                     entry->demanded = TRUE;
-                    if (prepare_render (job, entry))
+                    if (prepare_render (job, entry) == RSTTO_RENDER_STARTED)
                         return;
                     if (is_current (self, job))
-                        publish (self, entry, &entry->image);
+                        publish_job (job, entry, &entry->image);
                 }
-                if (!current && prepare_render (job, entry))
+                if (!current && prepare_render (job, entry) == RSTTO_RENDER_STARTED)
                     return;
                 finish_job (job);
                 return;
@@ -1871,7 +1971,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
         entry->link = self->lru.tail;
         entry->demanded = current;
     }
-    if (entry->link != NULL && prepare_render (job, entry))
+    if (prepare_render (job, entry) == RSTTO_RENDER_STARTED)
     {
         entry_unref (entry);
         return;
@@ -1881,7 +1981,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
         self->speculation_allowed = entry->link != NULL;
         if (!self->speculation_allowed)
             evict_all (self);
-        publish (self, entry, &entry->image);
+        publish_job (job, entry, &entry->image);
     }
     entry_unref (entry);
     finish_job (job);
@@ -1912,6 +2012,9 @@ stripe_worker (GTask *task, gpointer source, gpointer data, GCancellable *cancel
 #endif
 #ifdef RSTTO_VIEWER_TEST
     rstto_test_worker_checkpoint (RENDER, g_atomic_int_get (&job->demand), cancel, TRUE);
+#endif
+#ifdef RSTTO_CACHE_TEST
+    if (!job->test_fail_stripe)
 #endif
     stripe->ok = job_useful (job) && job->render_output.data != NULL && rstto_image_render_stripe (&job->render_source, &job->render_output, &job->render_key, stripe->row, stripe->rows) && job_useful (job);
 #ifdef RSTTO_VIEWER_TEST
@@ -1957,6 +2060,10 @@ task_done (GObject *source, GAsyncResult *result, gpointer data)
             cairo_surface_mark_dirty (job->image.rendered);
             cairo_surface_set_device_scale (job->image.rendered, job->render_key.pixel_scale, job->render_key.pixel_scale);
         }
+        if (self->stopped || g_cancellable_is_cancelled (job->cancel) || g_atomic_int_get (&job->interest) <= 0)
+            render_result (job, RSTTO_RENDER_ABORTED, RSTTO_RENDER_REASON_NONE);
+        else if (job->render_failed)
+            render_result (job, RSTTO_RENDER_DIRECT, RSTTO_RENDER_REASON_FAILED);
         if (!self->stopped && job_useful (job))
         {
             /* Revalidation is I/O too: keep it off the GTK thread and retain
@@ -2013,9 +2120,25 @@ launch (DecodeJob *job)
         job->render_start = rstto_profile_now ();
         job->render_next = job->render_tasks = job->render_peak = 0;
         job->render_failed = FALSE;
-        job->image.rendered = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, job->render_key.width, job->render_key.height);
-        rstto_image_render_pixels (job->render_entry->image.surface, &job->render_source);
-        rstto_image_render_pixels (job->image.rendered, &job->render_output);
+        cairo_format_t format = CAIRO_FORMAT_ARGB32;
+#ifdef RSTTO_CACHE_TEST
+        if (job->owner->test_render_failure == 1)
+            format = CAIRO_FORMAT_INVALID;
+        job->test_fail_stripe = job->owner->test_render_failure == 2;
+        job->owner->test_render_failure = 0;
+#endif
+        job->image.rendered = cairo_image_surface_create (format, job->render_key.width, job->render_key.height);
+        if (cairo_surface_status (job->image.rendered) != CAIRO_STATUS_SUCCESS)
+        {
+            g_clear_pointer (&job->image.rendered, cairo_surface_destroy);
+            render_result (job, RSTTO_RENDER_DIRECT, RSTTO_RENDER_REASON_ALLOCATION);
+            job->phase = RENDER_VERIFY;
+        }
+        else
+        {
+            rstto_image_render_pixels (job->render_entry->image.surface, &job->render_source);
+            rstto_image_render_pixels (job->image.rendered, &job->render_output);
+        }
     }
     pump (job->owner);
 }
@@ -2048,7 +2171,7 @@ gpu_done (GObject *source, GAsyncResult *result, gpointer data)
             job->render_entry->gpu_rejected_key = job->render_key;
             job->reservation = 0; /* GPU completion includes staging cleanup */
             rstto_profile_end (rstto_profile_now (), job, job->serial, "gpu-fallback", "reason=render-failed");
-            if (prepare_render (job, job->render_entry))
+            if (prepare_render (job, job->render_entry) == RSTTO_RENDER_STARTED)
             {
                 g_object_unref (self);
                 return;
@@ -2210,6 +2333,7 @@ new_job (RsttoImageCache *self, GFile *file, gboolean demand)
     job->interest = 1;
     job->foreground_slot = demand;
     job->phase = IDENTIFY;
+    job->preparation = RSTTO_RENDER_ABORTED;
     job->cancel = g_cancellable_new ();
     guint configured = g_strv_length (self->probe_raw_types);
     guint excluded = g_strv_length (self->excluded_mime_types);

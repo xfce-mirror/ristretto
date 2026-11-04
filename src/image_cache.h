@@ -42,13 +42,7 @@ typedef struct
     gboolean ephemeral;
 } RsttoDecodeOptions;
 
-/* Borrowed for the duration of the synchronous boolean "ready" signal. The
- * consumer returns TRUE only after replacing its old pixels; FALSE declines
- * delivery. Observer handlers return FALSE. The cache pins accepted storage
- * until an accepted replacement, clear(), or stop(), and keeps both old and
- * proposed storage accounted throughout delivery. Consumers must release their
- * wrappers before clearing/stopping the cache and reference objects as needed.
- * A proposed derivative is committed only after acceptance. */
+/* Pixel storage and its actual prepared-variant identity. */
 typedef struct
 {
     cairo_surface_t *surface;
@@ -62,6 +56,42 @@ typedef struct
     RsttoGpuImage *gpu_image;
     RsttoRenderKey render_key;
 } RsttoImageData;
+
+typedef enum
+{
+    RSTTO_RENDER_STARTED,
+    RSTTO_RENDER_READY,
+    RSTTO_RENDER_DIRECT,
+    RSTTO_RENDER_ABORTED
+} RsttoRenderOutcome;
+
+typedef enum
+{
+    RSTTO_RENDER_REASON_NONE,
+    RSTTO_RENDER_REASON_UNCACHED,
+    RSTTO_RENDER_REASON_NATIVE,
+    RSTTO_RENDER_REASON_IMAGE_LIMIT,
+    RSTTO_RENDER_REASON_BUDGET,
+    RSTTO_RENDER_REASON_ALLOCATION,
+    RSTTO_RENDER_REASON_FAILED
+} RsttoRenderReason;
+
+/* Borrowed for the duration of the synchronous boolean "ready" signal. The
+ * consumer returns TRUE only after replacing its old pixels; FALSE declines
+ * delivery. Observer handlers return FALSE. The cache pins accepted storage
+ * until an accepted replacement, clear(), or stop(), and keeps both old and
+ * proposed storage accounted throughout delivery. Consumers must release their
+ * wrappers before clearing/stopping the cache and reference objects as needed.
+ * A proposed derivative is committed only after acceptance. Delivery metadata
+ * is never stored as the identity of a cached pixel variant. */
+typedef struct
+{
+    RsttoImageData image;
+    RsttoRenderOutcome outcome;
+    RsttoRenderReason reason;
+    RsttoRenderKey attempted_key;
+    gboolean retry_view;
+} RsttoImageDelivery;
 
 typedef struct
 {
