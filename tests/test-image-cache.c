@@ -91,7 +91,7 @@ received (RsttoImageCache *cache, RsttoImageDelivery *delivery, Fixture *fixture
     fixture->peak_accounted = MAX (fixture->peak_accounted, cache->resident_bytes + reserved_bytes (cache));
     fixture->errors += image->error != NULL;
     if (image->surface != NULL)
-        fixture->pixel = *(guint32 *) cairo_image_surface_get_data (image->surface);
+        fixture->pixel = *(guint32 *) (void *) cairo_image_surface_get_data (image->surface);
     return !fixture->reject_ready;
 }
 
@@ -921,7 +921,7 @@ test_formats_and_pixels (Fixture *fixture, gconstpointer unused)
         gdk_cairo_set_source_pixbuf (cr, pixbuf, 0, 0);
         cairo_paint (cr);
         cairo_surface_flush (reference);
-        g_assert_cmphex (fixture->pixel, ==, *(guint32 *) cairo_image_surface_get_data (reference));
+        g_assert_cmphex (fixture->pixel, ==, *(guint32 *) (void *) cairo_image_surface_get_data (reference));
         cairo_destroy (cr);
         cairo_surface_destroy (reference);
         g_object_unref (pixbuf);
@@ -1121,7 +1121,7 @@ test_reentrant_delivery (Fixture *fixture, gconstpointer unused)
     g_assert_true (fixture->cache->displayed == replacement);
     evict_all (fixture->cache);
     g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
-    g_assert_cmphex (*(guint32 *) cairo_image_surface_get_data (replacement->image.surface), ==, 0xff112030);
+    g_assert_cmphex (*(guint32 *) (void *) cairo_image_surface_get_data (replacement->image.surface), ==, 0xff112030);
 }
 
 
@@ -1149,7 +1149,7 @@ test_rejected_refresh (Fixture *fixture, gconstpointer unused)
     evict_all (fixture->cache);
     g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
     g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
-    g_assert_cmphex (*(guint32 *) cairo_image_surface_get_data (displayed->image.surface), ==, 0xff102030);
+    g_assert_cmphex (*(guint32 *) (void *) cairo_image_surface_get_data (displayed->image.surface), ==, 0xff102030);
 
     /* The displayed exception stays accounted even when caching is disabled. */
     fixture->enforce_limits = FALSE;
@@ -2149,8 +2149,8 @@ benchmark (gboolean caching, guint workers, gboolean full_resolution)
         g_assert_cmpint (cairo_image_surface_get_height (surface), ==, height);
         for (gint y = 0; y < height; y++)
         {
-            const guint32 *row = (const guint32 *) (cairo_image_surface_get_data (surface)
-                                                    + (gsize) y * cairo_image_surface_get_stride (surface));
+            const guint32 *row = (const guint32 *) (const void *) (cairo_image_surface_get_data (surface)
+                                                                   + (gsize) y * cairo_image_surface_get_stride (surface));
             for (gint x = 0; x < width; x++)
                 render_hash = (render_hash ^ row[x]) * G_GUINT64_CONSTANT (1099511628211);
         }
@@ -2866,7 +2866,7 @@ test_gpu_rejected_delivery (Fixture *fixture, gconstpointer unused)
     g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
     cairo_surface_t *pixels = rstto_gpu_test_download (old);
     g_assert_nonnull (pixels);
-    g_assert_cmphex (*(guint32 *) cairo_image_surface_get_data (pixels), ==, 0xff102030);
+    g_assert_cmphex (*(guint32 *) (void *) cairo_image_surface_get_data (pixels), ==, 0xff102030);
     cairo_surface_destroy (pixels);
     fixture->reject_ready = FALSE;
     select_image (fixture, 0);
@@ -3011,7 +3011,7 @@ test_gpu_source_freshness (Fixture *fixture, gconstpointer mode)
     g_assert_cmpuint (stats.uploads, ==, mode != NULL ? 2 : 5);
     g_assert_nonnull (fixture->cache->displayed->image.gpu_image);
     cairo_surface_t *pixels = rstto_gpu_test_download (fixture->cache->displayed->image.gpu_image);
-    guint32 pixel = ((guint32 *) cairo_image_surface_get_data (pixels))[32 * 64 + 32];
+    guint32 pixel = ((guint32 *) (void *) cairo_image_surface_get_data (pixels))[32 * 64 + 32];
     g_assert_cmphex (pixel, ==, fixture->pixel);
     cairo_surface_destroy (pixels);
     gpu_teardown (fixture);

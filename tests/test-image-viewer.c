@@ -1837,8 +1837,8 @@ check_direct_pixels (gdouble scale)
     guint samples = 0;
     for (gint y = 3; y < key.height - 3; y += 7)
     {
-        guint32 *actual = (guint32 *) (cairo_image_surface_get_data (paint) + y * cairo_image_surface_get_stride (paint));
-        guint32 *expected = (guint32 *) (cairo_image_surface_get_data (reference) + y * cairo_image_surface_get_stride (reference));
+        guint32 *actual = (guint32 *) (void *) (cairo_image_surface_get_data (paint) + y * cairo_image_surface_get_stride (paint));
+        guint32 *expected = (guint32 *) (void *) (cairo_image_surface_get_data (reference) + y * cairo_image_surface_get_stride (reference));
         for (gint x = 3; x < key.width - 3; x += 7)
         {
             if ((expected[x] >> 24) != 255)

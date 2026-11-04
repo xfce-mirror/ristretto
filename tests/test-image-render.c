@@ -112,7 +112,7 @@ render_pixels (void)
         for (gint x = 0; x < 256; x++)
         {
             guint a = (x + y) % 256;
-            guint32 *row = (guint32 *) (cairo_image_surface_get_data (source) + y * cairo_image_surface_get_stride (source));
+            guint32 *row = (guint32 *) (void *) (cairo_image_surface_get_data (source) + y * cairo_image_surface_get_stride (source));
             row[x] = a << 24 | ((x * a / 255) << 16) | ((y * a / 255) << 8) | (a / 2);
         }
     cairo_surface_mark_dirty (source);
@@ -217,8 +217,8 @@ assert_converted_surface (cairo_surface_t *surface,
     for (gint y = 0; y < height; y++)
     {
         const guchar *src = pixels + y * stride;
-        const guint32 *dst = (const guint32 *) (cairo_image_surface_get_data (surface)
-                                                + y * cairo_image_surface_get_stride (surface));
+        const guint32 *dst = (const guint32 *) (const void *) (cairo_image_surface_get_data (surface)
+                                                               + y * cairo_image_surface_get_stride (surface));
         for (gint x = 0; x < width; x++, src += channels)
         {
             guint a = channels == 4 ? src[3] : 255;

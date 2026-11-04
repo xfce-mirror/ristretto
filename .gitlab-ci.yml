@@ -2,3 +2,10 @@ include:
   - project: 'xfce/xfce4-dev-tools'
     file: '/ci/build_project.yml'
 
+# The shared Meson jobs enable all features, but the CI image does not include
+# every optional dependency. Install them for both compiler and dist builds.
+.setup-meson:
+  script:
+    - apt-get update
+    - apt-get install -y --no-install-recommends libsimde-dev libglycin-2-dev libplacebo-dev libepoxy-dev
+    - $WRAPPER meson setup --auto-features=enabled $MESON_SETUP_FLAGS build

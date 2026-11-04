@@ -398,7 +398,9 @@ rstto_image_convert (GdkPixbuf *pixbuf, gboolean (*keep_going) (gpointer), gpoin
             return NULL;
         }
         const guchar *restrict src = pixels + (gsize) y * input_stride;
-        guint32 *restrict dst = (guint32 *) (output + (gsize) y * output_stride);
+        /* Cairo's native 32-bit surface data and row strides are aligned for
+         * guint32; cross through void because the API exposes byte storage. */
+        guint32 *restrict dst = (void *) (output + (gsize) y * output_stride);
         if (!alpha)
             convert_rgb_row (src, dst, width);
         else

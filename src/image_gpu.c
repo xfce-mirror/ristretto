@@ -395,7 +395,7 @@ rstto_gpu_request_new (RsttoGpuRenderer *self, const RsttoRenderPixels *pixels, 
         || key->backend != 2 || key->context_generation != self->generation
         || !rstto_gpu_dimensions_fit (self->limit, pixels->width, pixels->height, key)
         || (pixels->format != CAIRO_FORMAT_ARGB32 && pixels->format != CAIRO_FORMAT_RGB24)
-        || pixels->stride < (guint64) pixels->width * 4 || pixels->stride % 4 != 0
+        || pixels->stride <= 0 || (guint64) pixels->stride < (guint64) pixels->width * 4 || pixels->stride % 4 != 0
         || (guint64) pixels->stride > (G_MAXUINT64 - RSTTO_GPU_HOST_SCRATCH) / pixels->height)
         return NULL;
     guint64 source_bytes = (guint64) pixels->width * pixels->height * 4;
@@ -737,7 +737,7 @@ sample_ewa (GpuWorker *worker, pl_shader sh, const struct pl_sample_src *src, gu
     if (filter == NULL)
         return FALSE;
     float kernel[4] = { filter->radius, filter->radius_zero, ceilf (filter->radius), nearest ? -1.0f : 0.8f };
-    gboolean valid = isfinite (kernel[2]) && kernel[2] < G_MAXINT / 2;
+    gboolean valid = isfinite (kernel[2]) && (double) kernel[2] < G_MAXINT / 2;
     if (valid && worker->weights == NULL)
     {
         pl_fmt format = pl_find_fmt (gpu, PL_FMT_FLOAT, 1, 32, 32, PL_FMT_CAP_SAMPLEABLE | PL_FMT_CAP_LINEAR);
@@ -756,7 +756,8 @@ sample_ewa (GpuWorker *worker, pl_shader sh, const struct pl_sample_src *src, gu
             g_mutex_unlock (&self->lock);
         }
     }
-    valid = valid && worker->weights != NULL && pl_tex_upload (gpu, pl_tex_transfer_params (.tex = worker->weights, .ptr = filter->weights));
+    /* Upload only reads the LUT; the shared upload/download API uses void *. */
+    valid = valid && worker->weights != NULL && pl_tex_upload (gpu, pl_tex_transfer_params (.tex = worker->weights, .ptr = (void *) filter->weights));
     pl_filter_free (&filter); /* host LUT is covered by the active reservation */
     if (!valid)
         return FALSE;

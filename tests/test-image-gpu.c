@@ -136,7 +136,7 @@ static cairo_surface_t *
 fixture (gboolean alpha)
 {
     cairo_surface_t *surface = cairo_image_surface_create (alpha ? CAIRO_FORMAT_ARGB32 : CAIRO_FORMAT_RGB24, 47, 31);
-    guint32 *pixels = (guint32 *) cairo_image_surface_get_data (surface);
+    guint32 *pixels = (guint32 *) (void *) cairo_image_surface_get_data (surface);
     for (guint y = 0; y < 31; y++)
         for (guint x = 0; x < 47; x++)
         {
@@ -301,7 +301,7 @@ smooth (void)
                                                                                         : 2.25,
                                               TRUE, scale == 2 ? 2 : 1);
                 cairo_surface_t *actual = render (source, &key);
-                guint32 *pixels = (guint32 *) cairo_image_surface_get_data (actual);
+                guint32 *pixels = (guint32 *) (void *) cairo_image_surface_get_data (actual);
                 guint nonzero = 0;
                 for (gint n = 0; n < key.width * key.height; n++)
                 {
@@ -335,7 +335,7 @@ reference_filter (void)
      * rather than libplacebo's generated GLSL/LUT. Smooth ramps avoid the
      * antiringing clamp so discrepancies expose mapping/filter errors. */
     cairo_surface_t *source = fixture (FALSE);
-    guint32 *input = (guint32 *) cairo_image_surface_get_data (source);
+    guint32 *input = (guint32 *) (void *) cairo_image_surface_get_data (source);
     const double scales[] = { .5, 1.5 };
     for (guint n = 0; n < G_N_ELEMENTS (scales); n++)
     {
@@ -343,7 +343,7 @@ reference_filter (void)
         RsttoRenderKey key = { .width = n == 0 ? 23 : 70, .height = n == 0 ? 15 : 46, .source_scale = 1, .pixel_scale = 1, .x_scale = scale, .y_scale = scale, .render_width = 47 * scale, .render_height = 31 * scale, .orientation = 1, .smoothing = TRUE };
         rstto_gpu_render_key (gpu, 47, 31, &key);
         cairo_surface_t *actual = render (source, &key);
-        guint32 *output = (guint32 *) cairo_image_surface_get_data (actual);
+        guint32 *output = (guint32 *) (void *) cairo_image_surface_get_data (actual);
         struct pl_filter_config config = n == 0 ? pl_filter_ewa_lanczos : pl_filter_ewa_lanczossharp;
         pl_filter filter = pl_filter_generate (NULL, &(struct pl_filter_params) {
                                                          .config = config, .lut_entries = 256, .cutoff = 1e-3 });
@@ -430,7 +430,7 @@ installed_reference (void)
         cairo_surface_t *source = fixture (alpha != 0);
         if (alpha == 2)
         {
-            guint32 *pixels = (guint32 *) cairo_image_surface_get_data (source);
+            guint32 *pixels = (guint32 *) (void *) cairo_image_surface_get_data (source);
             for (guint y = 0; y < 31; y++)
                 for (guint x = 0; x < 47; x++)
                     pixels[y * 47 + x] = (x + y) % 3 == 0 ? 0 : (x + y) % 3 == 1 ? 0x80008040
