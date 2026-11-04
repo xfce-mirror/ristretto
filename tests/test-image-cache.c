@@ -1,0 +1,3424 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* Include the implementation to exercise private accounting and deterministic
+ * worker barriers without adding test hooks to the application API. */
+#define RSTTO_CACHE_TEST
+#include "probe-fixtures.h"
+
+#include "../src/image_cache.c"
+
+#include <fcntl.h>
+#include <gdk/gdk.h>
+#include <sys/resource.h>
+#include <unistd.h>
+
+typedef struct
+{
+    gchar *directory;
+    GFile *files[8];
+    RsttoImageCache *cache;
+    guint ready, errors, invalidations;
+    guint32 pixel;
+    guint64 peak_accounted;
+    gboolean enforce_limits;
+    gboolean reject_ready;
+    RsttoRenderOutcome outcome;
+    RsttoRenderReason reason;
+    RsttoRenderKey attempted_key;
+    gboolean prepared, retry_view;
+} Fixture;
+
+static RsttoDecodeOptions full_size = { FALSE, 0, 0 };
+static GMutex gate_mutex;
+static GCond gate_cond;
+static gint gate_entered;
+static gboolean gate_released;
+static JobPhase gate_phase;
+static gchar *gate_uri;
+
+
+/**
+ * check_limits:
+ *
+ * Assert retained and reserved byte, image, speculative and worker limits
+ * throughout a test transition.
+ */
+static void
+check_limits (Fixture *fixture)
+{
+    if (!fixture->enforce_limits)
+        return;
+    RsttoImageCache *cache = fixture->cache;
+#ifdef RSTTO_CACHE_GPU
+    RsttoGpuStats gpu;
+    rstto_image_cache_get_gpu_stats (cache, &gpu);
+    g_assert_cmpuint (gpu.retained + gpu.transient + gpu.source_bytes + gpu.reserved + gpu.shader_bytes, <=, RSTTO_GPU_MAX_BYTES);
+    g_assert_cmpuint (gpu.sources, <=, RSTTO_GPU_MAX_SOURCES);
+    g_assert_cmpuint (gpu.active, <=, 5);
+#endif
+    g_assert_cmpuint (cache->resident_bytes + reserved_bytes (cache), <=, cache->limits.max_bytes);
+    g_assert_cmpuint (cache->resident_slots + reserved_slots (cache), <=, cache->limits.max_images);
+    g_assert_cmpuint (speculative_slots (cache), <=, preload_capacity (cache->limits.max_images));
+    guint draining = 0;
+    for (GList *lp = cache->jobs.head; lp != NULL; lp = lp->next)
+    {
+        DecodeJob *job = lp->data;
+        /* Async Glycin metadata retains a job/slot/reservation, but no CPU
+         * worker task. Do not subtract it from the shared task counter. */
+        if (job->running && job->phase != PROBE_INFO && g_cancellable_is_cancelled (job->cancel))
+            draining += job->phase == RENDER ? job->render_tasks : 1;
+    }
+    g_assert_cmpuint (draining, <=, cache->active_tasks);
+    g_assert_cmpuint (cache->active_tasks - draining, <=, 1 + preload_worker_limit (cache));
+}
+
+
+/**
+ * received:
+ *
+ * Record a ready image and validate accounting at synchronous delivery time.
+ */
+static gboolean
+received (RsttoImageCache *cache, RsttoImageDelivery *delivery, Fixture *fixture)
+{
+    RsttoImageData *image = &delivery->image;
+    fixture->ready++;
+    fixture->outcome = delivery->outcome;
+    fixture->reason = delivery->reason;
+    fixture->attempted_key = delivery->attempted_key;
+    fixture->prepared = image->rendered != NULL || image->gpu_image != NULL;
+    fixture->retry_view = delivery->retry_view;
+    check_limits (fixture);
+    fixture->peak_accounted = MAX (fixture->peak_accounted, cache->resident_bytes + reserved_bytes (cache));
+    fixture->errors += image->error != NULL;
+    if (image->surface != NULL)
+        fixture->pixel = *(guint32 *) (void *) cairo_image_surface_get_data (image->surface);
+    return !fixture->reject_ready;
+}
+
+
+/**
+ * surface_destroyed:
+ *
+ * Observe pixel storage destruction without retaining the surface under test.
+ */
+static void
+surface_destroyed (gpointer data)
+{
+    (*(guint *) data)++;
+}
+
+
+/**
+ * watch_surface:
+ *
+ * Attach a non-owning lifetime counter so tests cannot hide a missing pin.
+ */
+static void
+watch_surface (cairo_surface_t *surface, guint *destroyed)
+{
+    static cairo_user_data_key_t key;
+    g_assert_cmpint (cairo_surface_set_user_data (surface, &key, destroyed, surface_destroyed), ==, CAIRO_STATUS_SUCCESS);
+}
+
+
+/**
+ * invalidated:
+ *
+ * Count identity-change notifications emitted by the cache under test.
+ */
+static void
+invalidated (RsttoImageCache *cache, GFile *file, Fixture *fixture)
+{
+    fixture->invalidations++;
+}
+
+
+/**
+ * iterate:
+ *
+ * Dispatch pending main-context callbacks without blocking the deterministic
+ * test driver.
+ */
+static void
+iterate (void)
+{
+    for (guint n = 0; n < 10 && g_main_context_pending (NULL); n++)
+        g_main_context_iteration (NULL, FALSE);
+    g_usleep (1000);
+}
+
+
+/**
+ * drain:
+ *
+ * Wait with a deadline for cache jobs to finish while continuously checking
+ * resource limits.
+ */
+static void
+drain (Fixture *fixture)
+{
+    gint64 until = g_get_monotonic_time () + 15 * G_USEC_PER_SEC;
+    do
+    {
+        iterate ();
+        fixture->peak_accounted = MAX (fixture->peak_accounted, fixture->cache->resident_bytes + reserved_bytes (fixture->cache));
+        check_limits (fixture);
+        g_assert_cmpuint (fixture->cache->jobs.length, <=, RSTTO_PRELOAD_WORKERS_MAX + 1);
+        g_assert_cmpuint (fixture->cache->jobs.length - speculative_jobs (fixture->cache), <=, 1);
+        g_assert_cmpint (g_get_monotonic_time (), <, until);
+    } while (fixture->cache->jobs.length != 0 || rstto_image_cache_is_busy (fixture->cache));
+}
+
+
+/**
+ * save_image:
+ *
+ * Write a real decoder fixture with the requested dimensions, format and solid
+ * pixel value.
+ */
+static void
+save_image (GFile *file, guint32 color, const gchar *format, gint width, gint height)
+{
+    GError *error = NULL;
+    gchar *path = g_file_get_path (file);
+    GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, !g_str_equal (format, "jpeg"), 8, width, height);
+    gdk_pixbuf_fill (pixbuf, color);
+    gboolean saved = gdk_pixbuf_save (pixbuf, path, format, &error, NULL);
+    g_assert_no_error (error);
+    g_assert_true (saved);
+    g_object_unref (pixbuf);
+    g_free (path);
+}
+
+
+/**
+ * setup:
+ *
+ * Create an isolated cache and eight on-disk image fixtures with explicit
+ * limits.
+ */
+static void
+setup (Fixture *fixture, gconstpointer unused)
+{
+    fixture->directory = g_dir_make_tmp ("ristretto-cache-test-XXXXXX", NULL);
+    g_assert_nonnull (fixture->directory);
+    for (guint n = 0; n < G_N_ELEMENTS (fixture->files); n++)
+    {
+        gchar *path = g_strdup_printf ("%s/%u.png", fixture->directory, n);
+        fixture->files[n] = g_file_new_for_path (path);
+        save_image (fixture->files[n], 0x102030ff + (n << 24), "png", 128, 96);
+        g_free (path);
+    }
+    fixture->cache = rstto_image_cache_new ();
+    g_assert_cmpuint (fixture->cache->preload_workers, ==, RSTTO_PRELOAD_WORKERS_DEFAULT);
+    /* Keep the original policy cases serial; parallel cases opt in below. */
+    rstto_image_cache_set_preload_workers (fixture->cache, 1);
+    g_signal_connect (fixture->cache, "ready", G_CALLBACK (received), fixture);
+    g_signal_connect (fixture->cache, "identity-changed", G_CALLBACK (invalidated), fixture);
+}
+
+
+/**
+ * teardown:
+ *
+ * Stop and drain asynchronous work before releasing the cache, fixtures and
+ * temporary directory.
+ */
+static void
+teardown (Fixture *fixture, gconstpointer unused)
+{
+    if (fixture->cache != NULL)
+    {
+        rstto_image_cache_stop (fixture->cache);
+        drain (fixture);
+        g_assert_cmpuint (fixture->cache->resident_bytes, ==, 0);
+        g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+        g_object_unref (fixture->cache);
+    }
+    for (guint n = 0; n < G_N_ELEMENTS (fixture->files); n++)
+    {
+        g_file_delete (fixture->files[n], NULL, NULL);
+        g_object_unref (fixture->files[n]);
+    }
+    g_rmdir (fixture->directory);
+    g_free (fixture->directory);
+}
+
+
+/**
+ * select_image:
+ *
+ * Request a fixture as foreground demand using the test's immutable decode
+ * options.
+ */
+static void
+select_image (Fixture *fixture, guint n)
+{
+    guint before = fixture->ready;
+    rstto_image_cache_request (fixture->cache, fixture->files[n], NULL, &full_size);
+    drain (fixture);
+    g_assert_cmpuint (fixture->ready, ==, before + 1);
+}
+
+
+/**
+ * candidates:
+ *
+ * Install an ordered slice of fixture files as speculative neighbours.
+ */
+static void
+candidates (Fixture *fixture, guint first, guint count)
+{
+    GPtrArray *files = g_ptr_array_new ();
+    for (guint n = first; n < first + count; n++)
+        g_ptr_array_add (files, fixture->files[n]);
+    rstto_image_cache_set_candidates (fixture->cache, files);
+    g_ptr_array_unref (files);
+}
+
+
+/**
+ * test_reuse:
+ *
+ * Verify that selecting a completed preload reuses its decoded pixels without
+ * another decode.
+ */
+static void
+test_reuse (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    candidates (fixture, 1, 3);
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 4);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 4);
+    for (guint n = 0; n < 4; n++)
+        select_image (fixture, n);
+    for (gint n = 3; n >= 0; n--)
+        select_image (fixture, n);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 4);
+    g_assert_cmpuint (fixture->cache->hits, ==, 8);
+    g_assert_cmpuint (fixture->errors, ==, 0);
+}
+
+
+/**
+ * history_candidates:
+ *
+ * Refresh directional targets around a selection under the six-slot history
+ * configuration.
+ */
+static void
+history_candidates (Fixture *fixture, guint selected)
+{
+    GArray *positions = rstto_image_cache_neighbor_positions (8, selected,
+                                                              selected == 1 ? 1 : -1, FALSE, 5,
+                                                              fixture->cache->limits.max_images, TRUE);
+    GPtrArray *files = g_ptr_array_new ();
+    for (guint n = 0; n < positions->len; n++)
+        g_ptr_array_add (files, fixture->files[g_array_index (positions, guint, n)]);
+    rstto_image_cache_set_candidates (fixture->cache, files);
+    g_ptr_array_unref (files);
+    g_array_unref (positions);
+}
+
+
+/**
+ * test_history_switch:
+ *
+ * Alternate between two warmed images while refreshing neighbours and require
+ * cache hits on every return.
+ */
+static void
+test_history_switch (Fixture *fixture, gconstpointer unused)
+{
+    RsttoCacheLimits limits = { TRUE, 6, 2048 * MIB, 256 * MIB };
+    fixture->enforce_limits = TRUE;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    rstto_image_cache_set_preload_workers (fixture->cache, 5);
+    select_image (fixture, 0);
+    select_image (fixture, 1);
+    history_candidates (fixture, 1);
+    drain (fixture);
+    for (guint n = 0; n < 8; n++)
+    {
+        guint64 hits = fixture->cache->hits, decodes = fixture->cache->decodes;
+        select_image (fixture, n % 2);
+        g_assert_cmpuint (fixture->cache->hits, ==, hits + 1);
+        g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+        history_candidates (fixture, n % 2);
+        drain (fixture);
+    }
+}
+
+
+/**
+ * test_lru:
+ *
+ * Verify that demand use updates recency and eviction chooses eligible older
+ * entries.
+ */
+static void
+test_lru (Fixture *fixture, gconstpointer unused)
+{
+    RsttoCacheLimits limits = { TRUE, 3, 16 * MIB, MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    select_image (fixture, 0);
+    select_image (fixture, 1);
+    select_image (fixture, 2);
+    select_image (fixture, 0); /* 1 is now the least recently demanded. */
+    select_image (fixture, 3);
+    guint64 decodes = fixture->cache->decodes;
+    select_image (fixture, 0);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    select_image (fixture, 1);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes + 1);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 3);
+}
+
+
+/**
+ * large_images:
+ *
+ * Replace the small fixtures with larger images for byte-pressure admission
+ * tests.
+ */
+static void
+large_images (Fixture *fixture)
+{
+    for (guint i = 0; i < G_N_ELEMENTS (fixture->files); i++)
+        save_image (fixture->files[i], 0x102030ff + (i << 24), "png", 1024, 1024);
+}
+
+
+/**
+ * test_weight:
+ *
+ * Exercise byte and per-image limits using real pixel storage and uncached
+ * foreground fallback.
+ */
+static void
+test_weight (Fixture *fixture, gconstpointer unused)
+{
+    large_images (fixture);
+    RsttoCacheLimits limits = { TRUE, 5, 26 * MIB, 8 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    select_image (fixture, 0);
+    candidates (fixture, 1, 4);
+    gint64 until = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+    do
+    {
+        iterate ();
+        g_assert_cmpuint (fixture->cache->resident_bytes + reserved_bytes (fixture->cache), <=, limits.max_bytes);
+        g_assert_cmpuint (fixture->cache->resident_slots + reserved_slots (fixture->cache), <=, limits.max_images);
+        g_assert_cmpint (g_get_monotonic_time (), <, until);
+    } while (fixture->cache->jobs.length != 0);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 3);
+    /* Admission is a skip, not an eviction/reload cycle. */
+    g_assert_cmpuint (fixture->cache->decodes, ==, 3);
+    limits.max_image_bytes = 1024;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    select_image (fixture, 1);
+    candidates (fixture, 2, 2);
+    drain (fixture);
+    g_assert_cmpuint (g_hash_table_size (fixture->cache->entries), ==, 0);
+    g_assert_false (fixture->cache->speculation_allowed);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 4);
+}
+
+
+/**
+ * test_freshness:
+ *
+ * Reject stale pixels after same-size edits, restored modification times,
+ * replacement and explicit invalidation.
+ */
+static void
+test_freshness (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    gchar *path = g_file_get_path (fixture->files[0]);
+    struct stat before;
+    g_assert_cmpint (g_stat (path, &before), ==, 0);
+    save_image (fixture->files[0], 0xaa2233ff, "png", 128, 96);
+    struct timespec times[2] = { before.st_atim, before.st_mtim };
+    g_assert_cmpint (utimensat (AT_FDCWD, path, times, 0), ==, 0);
+    select_image (fixture, 0);
+    g_assert_cmphex (fixture->pixel, ==, 0xffaa2233);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 2);
+    g_assert_cmpuint (fixture->invalidations, ==, 1);
+    gchar *replacement = g_strconcat (path, ".new", NULL);
+    GFile *new_file = g_file_new_for_path (replacement);
+    save_image (new_file, 0xbb4455ff, "png", 128, 96);
+    g_assert_cmpint (g_rename (replacement, path), ==, 0);
+    select_image (fixture, 0);
+    g_assert_cmphex (fixture->pixel, ==, 0xffbb4455);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 3);
+    rstto_image_cache_invalidate (fixture->cache, fixture->files[0]);
+    select_image (fixture, 0);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 4);
+    g_file_delete (fixture->files[0], NULL, NULL);
+    select_image (fixture, 0);
+    g_assert_cmpuint (fixture->errors, ==, 1);
+    save_image (fixture->files[0], 0xcc6677ff, "png", 128, 96);
+    select_image (fixture, 0);
+    g_assert_cmphex (fixture->pixel, ==, 0xffcc6677);
+    g_object_unref (new_file);
+    g_free (replacement);
+    g_free (path);
+}
+
+
+/**
+ * test_symlink:
+ *
+ * Reject cached pixels when a symlink is retargeted to another file identity.
+ */
+static void
+test_symlink (Fixture *fixture, gconstpointer unused)
+{
+    gchar *link = g_file_get_path (fixture->files[0]);
+    gchar *target1 = g_file_get_path (fixture->files[1]);
+    gchar *target2 = g_file_get_path (fixture->files[2]);
+    g_unlink (link);
+    g_assert_cmpint (symlink (target1, link), ==, 0);
+    select_image (fixture, 0);
+    guint32 first = fixture->pixel;
+    g_unlink (link);
+    g_assert_cmpint (symlink (target2, link), ==, 0);
+    select_image (fixture, 0);
+    g_assert_cmphex (fixture->pixel, !=, first);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 2);
+    g_free (target1);
+    g_free (target2);
+    g_free (link);
+}
+
+
+/**
+ * barrier:
+ *
+ * Hold a selected worker phase until the main test thread releases its
+ * deterministic barrier.
+ */
+static void
+barrier (DecodeJob *job)
+{
+    if (job->phase != gate_phase || (gate_uri != NULL && !g_str_equal (job->uri, gate_uri)))
+        return;
+    g_mutex_lock (&gate_mutex);
+    g_atomic_int_inc (&gate_entered);
+    while (!gate_released)
+        g_cond_wait (&gate_cond, &gate_mutex);
+    g_mutex_unlock (&gate_mutex);
+}
+
+
+/**
+ * start_barrier:
+ *
+ * Arm the worker checkpoint for one file and phase before starting
+ * asynchronous work.
+ */
+static void
+start_barrier (GFile *file, JobPhase phase)
+{
+    gate_uri = file != NULL ? g_file_get_uri (file) : NULL;
+    gate_phase = phase;
+    gate_released = FALSE;
+    g_atomic_int_set (&gate_entered, FALSE);
+    worker_hook = barrier;
+}
+
+
+/**
+ * await_barrier:
+ *
+ * Drive the main context until the selected worker reaches its barrier, with a
+ * bounded wait.
+ */
+static void
+await_barrier (void)
+{
+    gint64 until = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+    while (!g_atomic_int_get (&gate_entered))
+    {
+        iterate ();
+        g_assert_cmpint (g_get_monotonic_time (), <, until);
+    }
+}
+
+
+/**
+ * release_barrier:
+ *
+ * Release the held worker and drain remaining work while checking limits.
+ */
+static void
+release_barrier (Fixture *fixture)
+{
+    g_mutex_lock (&gate_mutex);
+    gate_released = TRUE;
+    g_cond_broadcast (&gate_cond);
+    g_mutex_unlock (&gate_mutex);
+    drain (fixture);
+    worker_hook = NULL;
+    g_clear_pointer (&gate_uri, g_free);
+}
+
+
+/**
+ * test_quiet_schedule:
+ *
+ * Exercise near-target admission, quiet deferral and view-change scheduling
+ * with a controlled clock.
+ */
+static void
+test_quiet_schedule (Fixture *fixture, gconstpointer mode)
+{
+    RsttoCacheLimits limits = { TRUE, 6, 32 * MIB, 8 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    rstto_image_cache_set_preload_workers (fixture->cache, 5);
+    select_image (fixture, 0);
+    start_barrier (NULL, DECODE);
+    candidates (fixture, 1, 4);
+    /* Freeze the quiet deadline; worker barriers make admission deterministic. */
+    g_clear_handle_id (&fixture->cache->quiet_source, g_source_remove);
+    fixture->cache->quiet_until = G_MAXINT64;
+    gint64 until = g_get_monotonic_time () + 5 * G_USEC_PER_SEC;
+    while (g_atomic_int_get (&gate_entered) < 2)
+    {
+        iterate ();
+        g_assert_cmpint (g_get_monotonic_time (), <, until);
+    }
+    for (guint n = 0; n < 10; n++)
+        iterate ();
+    g_assert_cmpuint (fixture->cache->decodes, ==, 3);
+    candidates (fixture, 1, 4);
+    g_assert_cmpint (fixture->cache->quiet_until, ==, G_MAXINT64);
+    if (mode != NULL)
+    {
+        GPtrArray *files = g_ptr_array_new ();
+        for (guint i = 1; i <= 3; i++)
+            g_ptr_array_add (files, fixture->files[i]);
+        rstto_image_cache_view_changed (fixture->cache, TRUE);
+        rstto_image_cache_set_schedule (fixture->cache, fixture->files[4], files);
+        g_ptr_array_unref (files);
+        while (g_atomic_int_get (&gate_entered) < 3)
+        {
+            iterate ();
+            g_assert_cmpint (g_get_monotonic_time (), <, until);
+        }
+        rstto_image_cache_request (fixture->cache, fixture->files[4], NULL, &full_size);
+        release_barrier (fixture);
+        g_assert_cmpuint (fixture->cache->decodes, ==, 4);
+        g_assert_cmpuint (g_atomic_int_get (&gate_entered), ==, 3);
+        g_assert_true (g_file_equal (fixture->cache->selected, fixture->files[4]));
+        limits.max_images = 2;
+        rstto_image_cache_set_limits (fixture->cache, &limits);
+        rstto_image_cache_view_changed (fixture->cache, FALSE);
+        drain (fixture);
+        check_limits (fixture);
+    }
+    else
+    {
+        release_barrier (fixture);
+        g_assert_cmpuint (fixture->cache->decodes, ==, 3);
+        fixture->cache->quiet_until = 0;
+        quiet_expired (fixture->cache);
+        drain (fixture);
+        g_assert_cmpuint (fixture->cache->decodes, ==, 5);
+    }
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+}
+
+
+/**
+ * test_burst_clock:
+ *
+ * Verify adjacent directional burst activation and resets for reversals, jumps
+ * and ordering changes.
+ *
+ * Clock and real-decoder barriers exercise policy independently of wall time.
+ */
+static void
+test_burst_clock (Fixture *fixture, gconstpointer unused)
+{
+    RsttoImageCache *c = fixture->cache;
+    RsttoCacheLimits limits = { TRUE, 6, 32 * MIB, 8 * MIB };
+    rstto_image_cache_set_limits (c, &limits);
+    select_image (fixture, 0);
+    c->test_now = G_USEC_PER_SEC;
+    rstto_image_cache_begin_update (c);
+    candidates (fixture, 1, 4);
+    gchar *far = g_file_get_uri (fixture->files[4]);
+    rstto_image_cache_navigation (c, RSTTO_NAV_STEP, 1);
+    g_assert_false (speculation_due (c, far));
+    c->test_now += 250000;
+    rstto_image_cache_navigation (c, RSTTO_NAV_STEP, 1);
+    g_assert_true (speculation_due (c, far));
+    gint64 deadline = c->quiet_until;
+    candidates (fixture, 1, 4); /* completion/unchanged refresh */
+    g_assert_cmpint (c->quiet_until, ==, deadline);
+    GPtrArray *files = g_ptr_array_new ();
+    g_ptr_array_add (files, fixture->files[4]);
+    g_ptr_array_add (files, fixture->files[3]);
+    rstto_image_cache_set_schedule (c, fixture->files[2], files); /* ranks/promotion */
+    g_assert_cmpuint (c->burst_steps, ==, 2);
+    g_assert_cmpint (c->quiet_until, ==, deadline);
+    g_ptr_array_unref (files);
+    candidates (fixture, 1, 4);
+    c->test_now += 250000;
+    rstto_image_cache_navigation (c, RSTTO_NAV_STEP, -1);
+    g_assert_false (speculation_due (c, far));
+    c->test_now += 300000; /* inclusive adjacent boundary, also explicit wrap */
+    rstto_image_cache_navigation (c, RSTTO_NAV_STEP, -1);
+    g_assert_true (speculation_due (c, far));
+    c->test_now += 300001;
+    rstto_image_cache_navigation (c, RSTTO_NAV_STEP, -1);
+    g_assert_false (speculation_due (c, far));
+    c->test_now += 300000;
+    g_assert_true (speculation_due (c, far)); /* quiet without input */
+    rstto_image_cache_navigation (c, RSTTO_NAV_JUMP, 1);
+    g_assert_cmpuint (c->burst_steps, ==, 0);
+    g_assert_false (speculation_due (c, far));
+    rstto_image_cache_navigation (c, RSTTO_NAV_ORDER, 1);
+    g_assert_cmpuint (c->burst_steps, ==, 0);
+    rstto_image_cache_view_changed (c, TRUE);
+    g_assert_false (speculation_due (c, far));
+    rstto_image_cache_view_changed (c, FALSE);
+    g_free (far);
+    candidates (fixture, 1, 0);
+    rstto_image_cache_end_update (c);
+}
+
+
+/**
+ * test_admitted_progress:
+ *
+ * Require already-admitted work to progress even when a new navigation event
+ * restarts the quiet interval.
+ */
+static void
+test_admitted_progress (Fixture *fixture, gconstpointer unused)
+{
+    RsttoCacheLimits limits = { TRUE, 6, 32 * MIB, 8 * MIB };
+    RsttoImageCache *c = fixture->cache;
+    rstto_image_cache_set_limits (c, &limits);
+    rstto_image_cache_set_preload_workers (c, 5);
+    select_image (fixture, 0);
+    c->test_now = G_USEC_PER_SEC;
+    start_barrier (fixture->files[1], PROBE_VERIFY);
+    candidates (fixture, 1, 1);
+    await_barrier ();
+    /* The admitted image becomes far-ranked while input closes the quiet gate. */
+    GPtrArray *files = g_ptr_array_new ();
+    g_ptr_array_add (files, fixture->files[2]);
+    g_ptr_array_add (files, fixture->files[3]);
+    g_ptr_array_add (files, fixture->files[1]);
+    rstto_image_cache_begin_update (c);
+    rstto_image_cache_navigation (c, RSTTO_NAV_JUMP, 1);
+    rstto_image_cache_set_schedule (c, NULL, files);
+    rstto_image_cache_view_changed (c, TRUE); /* existing decoders may progress */
+    rstto_image_cache_end_update (c);
+    g_ptr_array_unref (files);
+    release_barrier (fixture);
+    g_assert_cmpuint (c->decodes, ==, 2);
+    g_assert_cmpuint (c->resident_slots, ==, 2);
+    check_limits (fixture);
+    candidates (fixture, 1, 0);
+    rstto_image_cache_view_changed (c, FALSE);
+}
+
+
+/**
+ * test_priority_probe:
+ *
+ * Verify that a lower-priority preparing preload cannot block admission of a
+ * nearer target.
+ */
+static void
+test_priority_probe (Fixture *fixture, gconstpointer unused)
+{
+    RsttoCacheLimits limits = { TRUE, 6, 32 * MIB, 8 * MIB };
+    RsttoImageCache *c = fixture->cache;
+    rstto_image_cache_set_limits (c, &limits);
+    rstto_image_cache_set_preload_workers (c, 5);
+    select_image (fixture, 0);
+    start_barrier (fixture->files[4], PROBE_VERIFY);
+    candidates (fixture, 4, 1);
+    await_barrier ();
+    GPtrArray *files = g_ptr_array_new ();
+    g_ptr_array_add (files, fixture->files[2]);
+    g_ptr_array_add (files, fixture->files[3]);
+    g_ptr_array_add (files, fixture->files[4]);
+    rstto_image_cache_set_schedule (c, fixture->files[1], files);
+    g_ptr_array_unref (files);
+    gint64 deadline = g_get_monotonic_time () + 5 * G_USEC_PER_SEC;
+    while (c->decodes < 2)
+    {
+        iterate ();
+        check_limits (fixture);
+        g_assert_cmpint (g_get_monotonic_time (), <, deadline);
+    }
+    /* The pending selection reached decoding without waiting for the far probe. */
+    g_assert_cmpuint (g_atomic_int_get (&gate_entered), ==, 1);
+    rstto_image_cache_request (c, fixture->files[1], NULL, &full_size);
+    release_barrier (fixture);
+    guint64 decoded = c->decodes;
+    select_image (fixture, 1);
+    g_assert_cmpuint (c->decodes, ==, decoded);
+    check_limits (fixture);
+}
+
+
+/**
+ * test_promotion:
+ *
+ * Select an in-flight preload and require promotion without duplicate
+ * decoding.
+ */
+static void
+test_promotion (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], DECODE);
+    candidates (fixture, 1, 2);
+    await_barrier ();
+    guint ready = fixture->ready;
+    rstto_image_cache_request (fixture->cache, fixture->files[1], NULL, &full_size);
+    g_assert_cmpuint (fixture->cache->jobs.length, ==, 1);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->ready, ==, ready + 1);
+    /* Other still-useful neighbours may decode; the promoted file must not. */
+    g_assert_cmpuint (g_atomic_int_get (&gate_entered), ==, 1);
+    g_assert_cmpuint (fixture->errors, ==, 0);
+}
+
+
+/**
+ * test_cancellation:
+ *
+ * Keep a cancelled worker's slots and bytes reserved until its delayed cleanup
+ * completes.
+ */
+static void
+test_cancellation (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], DECODE);
+    candidates (fixture, 1, 2);
+    await_barrier ();
+    guint64 reservation = reserved_bytes (fixture->cache);
+    guint ready = fixture->ready;
+    for (guint n = 0; n < 100; n++)
+        rstto_image_cache_request (fixture->cache, fixture->files[2 + n % 4], NULL, &full_size);
+    g_assert_cmpuint (fixture->cache->jobs.length, <=, 2);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), >=, reservation);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->ready, ==, ready + 1);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+}
+
+
+/**
+ * test_changed_during_decode:
+ *
+ * Modify a file while decoding is held and require freshness verification to
+ * reject the old result.
+ */
+static void
+test_changed_during_decode (Fixture *fixture, gconstpointer unused)
+{
+    start_barrier (fixture->files[0], DECODE);
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+    await_barrier ();
+    save_image (fixture->files[0], 0xfe1234ff, "png", 128, 96);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->errors, ==, 1);
+    g_assert_cmpuint (g_hash_table_size (fixture->cache->entries), ==, 0);
+    select_image (fixture, 0);
+    g_assert_cmphex (fixture->pixel, ==, 0xfffe1234);
+}
+
+
+/**
+ * test_stop:
+ *
+ * Stop the cache with work in flight and verify that late completion cannot
+ * deliver an image.
+ */
+static void
+test_stop (Fixture *fixture, gconstpointer unused)
+{
+    start_barrier (fixture->files[0], DECODE);
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+    await_barrier ();
+    rstto_image_cache_stop (fixture->cache);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), >, 0);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->ready, ==, 0);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 0);
+}
+
+
+/**
+ * test_limits_and_pressure:
+ *
+ * Exercise live limit reductions and low-memory cancellation while preserving
+ * displayed ownership.
+ */
+static void
+test_limits_and_pressure (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], DECODE);
+    candidates (fixture, 1, 2);
+    await_barrier ();
+    guint64 reserved = reserved_bytes (fixture->cache);
+    RsttoCacheLimits limits = { TRUE, 2, 64 * 1024, 64 * 1024 };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reserved);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->cache->resident_bytes, <=, limits.max_bytes);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    limits = (RsttoCacheLimits) { TRUE, 5, 16 * MIB, MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    select_image (fixture, 1);
+    pressure (NULL, G_MEMORY_MONITOR_WARNING_LEVEL_LOW, fixture->cache);
+    candidates (fixture, 2, 2);
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    guint64 decodes = fixture->cache->decodes;
+    fixture->cache->pressure_until = 0;
+    candidates (fixture, 2, 2); /* cooldown alone must not restart speculation */
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    select_image (fixture, 2);
+    candidates (fixture, 3, 2);
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, >, decodes);
+}
+
+
+/**
+ * test_formats_and_pixels:
+ *
+ * Compare decoded cache pixels across available formats, transparency and
+ * quality settings.
+ */
+static void
+test_formats_and_pixels (Fixture *fixture, gconstpointer unused)
+{
+    const gchar *formats[] = { "png", "jpeg", "bmp" };
+    for (guint n = 0; n < G_N_ELEMENTS (formats); n++)
+    {
+        save_image (fixture->files[n], 0x66339980, formats[n], 128, 96);
+        select_image (fixture, n);
+        gchar *path = g_file_get_path (fixture->files[n]);
+        GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (path, NULL);
+        cairo_surface_t *reference = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 128, 96);
+        cairo_t *cr = cairo_create (reference);
+        gdk_cairo_set_source_pixbuf (cr, pixbuf, 0, 0);
+        cairo_paint (cr);
+        cairo_surface_flush (reference);
+        g_assert_cmphex (fixture->pixel, ==, *(guint32 *) (void *) cairo_image_surface_get_data (reference));
+        cairo_destroy (cr);
+        cairo_surface_destroy (reference);
+        g_object_unref (pixbuf);
+        g_free (path);
+    }
+    RsttoDecodeOptions small = { TRUE, 32, 24 };
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &small);
+    drain (fixture);
+    g_assert_cmpint (fixture->cache->displayed->image.decoded_width, ==, 32);
+    g_assert_cmpint (fixture->cache->displayed->image.decoded_height, ==, 24);
+    g_assert_cmpfloat (fixture->cache->displayed->image.quality_scale, ==, 0.25);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    guint64 decodes = fixture->cache->decodes;
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &small);
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+}
+
+
+/**
+ * test_animation:
+ *
+ * Keep animated images on the normal foreground path instead of retaining
+ * speculative animation pixels.
+ */
+static void
+test_animation (Fixture *fixture, gconstpointer unused)
+{
+    const gchar gif[] = "GIF89a\1\0\1\0\200\0\0\0\0\0\377\377\377"
+                        "!\371\4\0\12\0\0\0,\0\0\0\0\1\0\1\0\0\2\2\104\1\0"
+                        "!\371\4\0\12\0\0\0,\0\0\0\0\1\0\1\0\0\2\2\114\1\0;";
+    gchar *path = g_file_get_path (fixture->files[1]);
+    g_assert_true (g_file_set_contents (path, gif, sizeof gif - 1, NULL));
+    select_image (fixture, 0);
+    candidates (fixture, 1, 1);
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    select_image (fixture, 1);
+    g_assert_nonnull (fixture->cache->displayed->image.animation);
+    g_assert_false (fixture->cache->speculation_allowed);
+    g_assert_cmpuint (fixture->errors, ==, 0);
+    g_free (path);
+}
+
+
+/**
+ * assert_positions:
+ *
+ * Compare pure neighbour selection against an expected ordered position
+ * sequence.
+ */
+static void
+assert_positions (guint length, guint current, gint direction, gboolean initial, gboolean wrap, const guint *expected, guint count)
+{
+    GArray *positions = rstto_image_cache_neighbor_positions (length, current, direction, initial, 2, 5, wrap);
+    g_assert_cmpuint (positions->len, ==, count);
+    for (guint n = 0; n < count; n++)
+        g_assert_cmpuint (g_array_index (positions, guint, n), ==, expected[n]);
+    g_array_unref (positions);
+}
+
+
+/**
+ * test_neighbors:
+ *
+ * Cover initial population, direction, wraparound, short lists and cache
+ * capacities in neighbour selection.
+ */
+static void
+test_neighbors (void)
+{
+    assert_positions (10, 4, 1, TRUE, FALSE, (guint[]) { 5, 6, 3 }, 3);
+    assert_positions (10, 4, -1, TRUE, FALSE, (guint[]) { 3, 2, 5 }, 3);
+    assert_positions (10, 4, 1, FALSE, FALSE, (guint[]) { 5, 6 }, 2);
+    assert_positions (10, 4, -1, FALSE, FALSE, (guint[]) { 3, 2 }, 2);
+    assert_positions (10, 9, 1, FALSE, TRUE, (guint[]) { 0, 1 }, 2);
+    assert_positions (10, 0, -1, FALSE, TRUE, (guint[]) { 9, 8 }, 2);
+    assert_positions (10, 9, 1, FALSE, FALSE, NULL, 0);
+    assert_positions (2, 0, 1, TRUE, TRUE, (guint[]) { 1 }, 1);
+    assert_positions (1, 0, 1, TRUE, TRUE, NULL, 0);
+    GArray *none = rstto_image_cache_neighbor_positions (10, 4, 1, TRUE, 0, 5, TRUE);
+    g_assert_cmpuint (none->len, ==, 0);
+    g_array_unref (none);
+    GArray *large = rstto_image_cache_neighbor_positions (100, 4, 1, TRUE, 2, 50, TRUE);
+    g_assert_cmpuint (large->len, ==, 4);
+    g_array_unref (large);
+    guint64 bytes;
+    g_assert_false (rgba_bytes (0, 100, &bytes));
+    g_assert_false (rgba_bytes (-1, 100, &bytes));
+    g_assert_true (rgba_bytes (G_MAXINT, G_MAXINT, &bytes));
+    g_assert_cmpuint (bytes, >, 256 * MIB);
+}
+
+
+/**
+ * stop_on_ready:
+ *
+ * Stop the cache inside its synchronous ready callback to exercise reentrant
+ * lifetime handling.
+ */
+static gboolean
+stop_on_ready (RsttoImageCache *cache, RsttoImageDelivery *delivery, gpointer unused)
+{
+    RsttoImageData *image = &delivery->image;
+    rstto_image_cache_stop (cache);
+    /* The borrowed result must survive clearing its cache inside delivery. */
+    g_assert_cmpint (cairo_image_surface_get_width (image->surface), ==, 128);
+    return FALSE;
+}
+
+
+/**
+ * test_reentrant_stop:
+ *
+ * Verify that stopping during image delivery cannot free a still-borrowed
+ * result.
+ */
+static void
+test_reentrant_stop (Fixture *fixture, gconstpointer unused)
+{
+    g_signal_connect (fixture->cache, "ready", G_CALLBACK (stop_on_ready), NULL);
+    select_image (fixture, 0);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 0);
+    g_assert_cmpuint (fixture->cache->jobs.length, ==, 0);
+}
+
+
+/**
+ * clear_on_ready:
+ *
+ * Clear both display and lookup ownership during an accepted or rejected
+ * delivery; the borrowed proposal must survive until the signal returns.
+ */
+static gboolean
+clear_on_ready (RsttoImageCache *cache, RsttoImageDelivery *delivery, gpointer unused)
+{
+    RsttoImageData *image = &delivery->image;
+    rstto_image_cache_clear (cache);
+    g_assert_cmpint (cairo_image_surface_get_width (image->surface), ==, 128);
+    return FALSE;
+}
+
+
+/**
+ * test_reentrant_clear:
+ *
+ * Never restore a display pin after a callback clears the cache, regardless
+ * of whether an earlier handler accepted the proposal.
+ */
+static void
+test_reentrant_clear (Fixture *fixture, gconstpointer data)
+{
+    select_image (fixture, 0);
+    guint destroyed = 0;
+    watch_surface (fixture->cache->displayed->image.surface, &destroyed);
+    fixture->reject_ready = GPOINTER_TO_UINT (data);
+    g_signal_connect (fixture->cache, "ready", G_CALLBACK (clear_on_ready), NULL);
+    select_image (fixture, 1);
+    g_assert_null (fixture->cache->displayed);
+    g_assert_cmpuint (destroyed, ==, 1);
+    g_assert_cmpuint (fixture->cache->resident_bytes + reserved_bytes (fixture->cache), ==, 0);
+}
+
+
+/**
+ * replace_on_ready:
+ *
+ * Accept another cached entry from inside delivery to exercise transaction
+ * ordering without recursively invoking this observer.
+ */
+static gboolean
+replace_on_ready (RsttoImageCache *cache, RsttoImageDelivery *delivery, Entry *replacement)
+{
+    g_signal_handlers_block_by_func (cache, replace_on_ready, replacement);
+    RsttoImageDelivery nested = { .image = replacement->image, .outcome = RSTTO_RENDER_READY };
+    g_assert_true (publish (cache, replacement, &nested));
+    g_signal_handlers_unblock_by_func (cache, replace_on_ready, replacement);
+    return FALSE;
+}
+
+
+/**
+ * test_reentrant_delivery:
+ *
+ * A nested accepted display must win over the outer delivery and must not
+ * lose its pin when the outer transaction finishes.
+ */
+static void
+test_reentrant_delivery (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    select_image (fixture, 1);
+    Entry *replacement = fixture->cache->displayed;
+    g_signal_connect (fixture->cache, "ready", G_CALLBACK (replace_on_ready), replacement);
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+    drain (fixture);
+    g_assert_true (fixture->cache->displayed == replacement);
+    evict_all (fixture->cache);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    g_assert_cmphex (*(guint32 *) (void *) cairo_image_surface_get_data (replacement->image.surface), ==, 0xff112030);
+}
+
+
+/**
+ * test_rejected_refresh:
+ *
+ * Keep an invalidated display alive and charged when its replacement is
+ * declined, including forced limit reductions and an uncached next image.
+ */
+static void
+test_rejected_refresh (Fixture *fixture, gconstpointer unused)
+{
+    fixture->enforce_limits = TRUE;
+    select_image (fixture, 0);
+    Entry *displayed = fixture->cache->displayed;
+    guint destroyed = 0;
+    guint64 bytes = displayed->bytes;
+    watch_surface (displayed->image.surface, &destroyed);
+    rstto_image_cache_invalidate (fixture->cache, fixture->files[0]);
+    fixture->reject_ready = TRUE;
+    select_image (fixture, 0);
+    g_assert_cmpuint (destroyed, ==, 0);
+    g_assert_true (fixture->cache->displayed == displayed);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 2 * bytes);
+    evict_all (fixture->cache);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    g_assert_cmphex (*(guint32 *) (void *) cairo_image_surface_get_data (displayed->image.surface), ==, 0xff102030);
+
+    /* The displayed exception stays accounted even when caching is disabled. */
+    fixture->enforce_limits = FALSE;
+    RsttoCacheLimits limits = { TRUE, 1, 0, 0 };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    g_assert_cmpuint (destroyed, ==, 0);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
+    fixture->reject_ready = FALSE;
+    select_image (fixture, 1);
+    g_assert_cmpuint (destroyed, ==, 1);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+}
+
+
+/**
+ * test_rejected_uncached:
+ *
+ * Preserve an uncached display across a declined refresh, including builds
+ * without Glycin where all foreground images use this ownership path.
+ */
+static void
+test_rejected_uncached (Fixture *fixture, gconstpointer unused)
+{
+    RsttoCacheLimits limits = { FALSE, 6, 32 * MIB, 8 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    select_image (fixture, 0);
+    Entry *old = fixture->cache->displayed;
+    guint64 bytes = old->bytes;
+    guint destroyed = 0;
+    watch_surface (old->image.surface, &destroyed);
+    rstto_image_cache_invalidate (fixture->cache, fixture->files[0]);
+    fixture->reject_ready = TRUE;
+    select_image (fixture, 0);
+    g_assert_cmpuint (destroyed, ==, 0);
+    g_assert_true (fixture->cache->displayed == old);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    fixture->reject_ready = FALSE;
+    select_image (fixture, 1);
+    g_assert_cmpuint (destroyed, ==, 1);
+    g_assert_null (fixture->cache->displayed->key);
+}
+
+
+/**
+ * test_disabled_and_ephemeral:
+ *
+ * Exercise uncached foreground viewing when caching is disabled or the file is
+ * ephemeral.
+ */
+static void
+test_disabled_and_ephemeral (Fixture *fixture, gconstpointer unused)
+{
+    RsttoCacheLimits limits = { FALSE, 5, 256 * MIB, 128 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    select_image (fixture, 0);
+    select_image (fixture, 1);
+    select_image (fixture, 0);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 3);
+    g_assert_cmpuint (g_hash_table_size (fixture->cache->entries), ==, 0);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    limits.enabled = TRUE;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    RsttoDecodeOptions ephemeral = { FALSE, 0, 0, TRUE };
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &ephemeral);
+    drain (fixture);
+    candidates (fixture, 1, 2);
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 4);
+    g_assert_cmpuint (g_hash_table_size (fixture->cache->entries), ==, 0);
+    g_assert_false (fixture->cache->speculation_allowed);
+}
+
+
+/**
+ * test_foreground_limit_reduction:
+ *
+ * Reduce limits during a foreground load and preserve the displayed-image
+ * exception safely.
+ */
+static void
+test_foreground_limit_reduction (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], DECODE);
+    rstto_image_cache_request (fixture->cache, fixture->files[1], NULL, &full_size);
+    await_barrier ();
+    guint64 reservation = reserved_bytes (fixture->cache);
+    RsttoCacheLimits limits = { TRUE, 1, 1024, 1024 };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reservation);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->ready, ==, 2);
+    g_assert_cmpuint (g_hash_table_size (fixture->cache->entries), ==, 0);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+}
+
+
+/**
+ * test_clear_during_load:
+ *
+ * Clear history while a decoder is held and verify that its late result does
+ * not repopulate the cache.
+ */
+static void
+test_clear_during_load (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], DECODE);
+    candidates (fixture, 1, 2);
+    await_barrier ();
+    rstto_image_cache_clear (fixture->cache);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 0);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), >, 0);
+    rstto_image_cache_request (fixture->cache, fixture->files[7], NULL, &full_size);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->ready, ==, 2);
+    g_assert_cmphex (fixture->pixel, ==, 0xff172030);
+}
+
+
+/**
+ * test_probe_slot:
+ *
+ * Verify that an active dimension probe reserves an image slot before decoding
+ * starts.
+ */
+static void
+test_probe_slot (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], PROBE);
+    candidates (fixture, 1, 2);
+    await_barrier ();
+    g_assert_cmpuint (reserved_slots (fixture->cache), ==, 1);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, PROBE_RESERVATION);
+    rstto_image_cache_set_candidates (fixture->cache, &(GPtrArray) { 0 });
+    g_assert_cmpuint (reserved_slots (fixture->cache), ==, 1);
+    release_barrier (fixture);
+    g_assert_cmpuint (reserved_slots (fixture->cache), ==, 0);
+}
+
+
+/**
+ * test_admission_after_cancellation:
+ *
+ * Defer admission until cancelled work has actually released its reservation.
+ */
+static void
+test_admission_after_cancellation (Fixture *fixture, gconstpointer unused)
+{
+    large_images (fixture);
+    RsttoCacheLimits limits = { TRUE, 5, 26 * MIB, 8 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], DECODE);
+    candidates (fixture, 1, 1);
+    await_barrier ();
+    rstto_image_cache_request (fixture->cache, fixture->files[2], NULL, &full_size);
+    gint64 until = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+    while (((DecodeJob *) fixture->cache->jobs.tail->data)->phase != WAIT_PROBE)
+    {
+        iterate ();
+        g_assert_cmpint (g_get_monotonic_time (), <, until);
+    }
+    g_assert_cmpuint (fixture->ready, ==, 1);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->ready, ==, 2);
+    g_assert_true (fixture->cache->speculation_allowed);
+    g_assert_nonnull (fixture->cache->displayed->key);
+}
+
+
+/**
+ * test_useful_preload:
+ *
+ * Preserve an in-flight preload that remains useful after candidate changes.
+ */
+static void
+test_useful_preload (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    candidates (fixture, 1, 1);
+    drain (fixture);
+    start_barrier (fixture->files[2], DECODE);
+    candidates (fixture, 2, 1);
+    await_barrier ();
+    DecodeJob *preload = fixture->cache->jobs.head->data;
+    guint ready = fixture->ready;
+    rstto_image_cache_request (fixture->cache, fixture->files[1], NULL, &full_size);
+    candidates (fixture, 2, 2);
+    gint64 until = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+    while (fixture->ready == ready)
+    {
+        iterate ();
+        g_assert_cmpint (g_get_monotonic_time (), <, until);
+    }
+    g_assert_false (g_cancellable_is_cancelled (preload->cancel));
+    release_barrier (fixture);
+    guint64 decodes = fixture->cache->decodes;
+    select_image (fixture, 2);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+}
+
+
+/**
+ * test_replaced_format:
+ *
+ * Replace a file with another encoded format and reject stale MIME or pixel
+ * assumptions.
+ */
+static void
+test_replaced_format (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    save_image (fixture->files[0], 0x993311ff, "jpeg", 128, 96);
+    rstto_image_cache_request (fixture->cache, fixture->files[0], "image/png", &full_size);
+    drain (fixture);
+    g_assert_cmpuint (fixture->errors, ==, 0);
+    g_assert_cmpuint (fixture->invalidations, ==, 1);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 2);
+}
+
+
+/**
+ * test_foreground_slot:
+ *
+ * Keep foreground and speculative loading slots bounded when demand changes
+ * during active work.
+ */
+static void
+test_foreground_slot (Fixture *fixture, gconstpointer unused)
+{
+    start_barrier (fixture->files[0], DECODE);
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+    await_barrier ();
+    rstto_image_cache_request (fixture->cache, fixture->files[1], NULL, &full_size);
+    for (guint n = 0; n < 5; n++)
+        iterate ();
+    g_assert_cmpuint (fixture->cache->jobs.length, ==, 1);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->ready, ==, 1);
+    g_assert_cmphex (fixture->pixel, ==, 0xff112030);
+}
+
+
+/**
+ * test_unsuitable_probe:
+ *
+ * Skip unsuitable speculative files while allowing normal foreground loading
+ * behavior.
+ */
+static void
+test_unsuitable_probe (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    gchar *path = g_file_get_path (fixture->files[1]);
+    gchar *junk = g_malloc0 (PROBE_LIMIT + 4096);
+    g_assert_true (g_file_set_contents (path, junk, PROBE_LIMIT + 4096, NULL));
+    g_free (junk);
+    candidates (fixture, 1, 1);
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 1);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    g_remove (path);
+    g_assert_cmpint (mkfifo (path, 0600), ==, 0);
+    candidates (fixture, 1, 1);
+    drain (fixture); /* A speculative FIFO must never block in open(). */
+    g_assert_cmpuint (fixture->cache->decodes, ==, 1);
+    g_free (path);
+}
+
+
+/**
+ * await_workers:
+ *
+ * Wait until the expected number of workers is held, checking accounting
+ * throughout.
+ */
+static void
+await_workers (Fixture *fixture, guint count)
+{
+    gint64 until = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+    while ((guint) g_atomic_int_get (&gate_entered) < count)
+    {
+        iterate ();
+        check_limits (fixture);
+        g_assert_cmpint (g_get_monotonic_time (), <, until);
+    }
+    /* Every entered worker is still blocked: these are actual concurrent
+     * executions, not merely GTasks queued for later execution. */
+    g_assert_cmpuint (g_atomic_int_get (&gate_entered), ==, count);
+}
+
+
+/**
+ * find_job:
+ *
+ * Find the fixture's live decode job without taking ownership of it.
+ */
+static DecodeJob *
+find_job (Fixture *fixture, guint position)
+{
+    for (GList *lp = fixture->cache->jobs.head; lp != NULL; lp = lp->next)
+        if (g_file_equal (((DecodeJob *) lp->data)->file, fixture->files[position]))
+            return lp->data;
+    return NULL;
+}
+
+
+/**
+ * await_admission:
+ *
+ * Wait for a fixture's full decode reservation to become admitted.
+ */
+static void
+await_admission (Fixture *fixture, guint position)
+{
+    gint64 until = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+    while (find_job (fixture, position) == NULL || find_job (fixture, position)->phase != WAIT_DECODE)
+    {
+        iterate ();
+        check_limits (fixture);
+        g_assert_cmpint (g_get_monotonic_time (), <, until);
+    }
+}
+
+
+/**
+ * test_history_memory:
+ *
+ * Verify transactional speculative admission under byte pressure without
+ * partially evicting protected history.
+ */
+static void
+test_history_memory (Fixture *fixture, gconstpointer unused)
+{
+    large_images (fixture);
+    RsttoCacheLimits limits = { TRUE, 6, 32 * MIB, 8 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    fixture->enforce_limits = TRUE;
+    select_image (fixture, 0);
+    select_image (fixture, 1);
+    select_image (fixture, 2);
+    limits.max_bytes = 24 * MIB;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    guint64 decodes = fixture->cache->decodes;
+    /* Probe fits (12+8 MiB). Decode does not fit even after evicting image 0
+     * (8+17 MiB). That failed attempt must not evict image 0 or the pair. */
+    candidates (fixture, 3, 1);
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 12 * MIB);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 3);
+    g_assert_false (make_room (fixture->cache, G_MAXUINT64, 1, 1, 1));
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 3);
+    for (guint n = 0; n < 3; n++)
+    {
+        guint64 hits = fixture->cache->hits;
+        select_image (fixture, n);
+        g_assert_cmpuint (fixture->cache->hits, ==, hits + 1);
+    }
+    /* One decode can coexist with the pair after a budget increase. */
+    limits.max_bytes = 26 * MIB;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    candidates (fixture, 3, 1);
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes + 1);
+    guint64 hits = fixture->cache->hits;
+    select_image (fixture, 1);
+    select_image (fixture, 2);
+    g_assert_cmpuint (fixture->cache->hits, ==, hits + 2);
+}
+
+
+/**
+ * test_history_reversal:
+ *
+ * Reverse navigation with delayed worker cleanup and require warmed demand
+ * history to survive.
+ */
+static void
+test_history_reversal (Fixture *fixture, gconstpointer unused)
+{
+    RsttoCacheLimits limits = { TRUE, 6, 2048 * MIB, 256 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    rstto_image_cache_set_preload_workers (fixture->cache, 5);
+    fixture->enforce_limits = TRUE;
+    select_image (fixture, 0);
+    select_image (fixture, 1);
+    start_barrier (NULL, DECODE);
+    history_candidates (fixture, 1);
+    await_workers (fixture, 4);
+    guint64 reserved = reserved_bytes (fixture->cache);
+    guint64 decodes = fixture->cache->decodes;
+    guint64 hits = fixture->cache->hits;
+    guint ready = fixture->ready;
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+    history_candidates (fixture, 0);
+    gint64 until = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+    while (fixture->ready == ready)
+    {
+        iterate ();
+        check_limits (fixture);
+        g_assert_cmpint (g_get_monotonic_time (), <, until);
+    }
+    g_assert_cmpuint (fixture->cache->hits, ==, hits + 1);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    g_assert_cmpuint (speculative_slots (fixture->cache), ==, 4);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reserved);
+    g_assert_cmpint (g_atomic_int_get (&find_job (fixture, 2)->interest), ==, 0);
+    g_assert_cmpint (g_atomic_int_get (&find_job (fixture, 3)->interest), ==, 0);
+    release_barrier (fixture);
+    for (guint n = 1; n < 5; n++)
+    {
+        hits = fixture->cache->hits;
+        decodes = fixture->cache->decodes;
+        select_image (fixture, n % 2);
+        g_assert_cmpuint (fixture->cache->hits, ==, hits + 1);
+        g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+        history_candidates (fixture, n % 2);
+        drain (fixture);
+    }
+}
+
+
+/**
+ * test_history_capacity:
+ *
+ * Exercise capacities zero through six and reserve two viewing-history slots
+ * before allowing speculation.
+ */
+static void
+test_history_capacity (Fixture *fixture, gconstpointer unused)
+{
+    rstto_image_cache_set_preload_workers (fixture->cache, 5);
+    for (guint capacity = 0; capacity <= 6; capacity++)
+    {
+        rstto_image_cache_clear (fixture->cache);
+        RsttoCacheLimits limits = { TRUE, capacity, 256 * MIB, 128 * MIB };
+        rstto_image_cache_set_limits (fixture->cache, &limits);
+        select_image (fixture, 0);
+        if (capacity >= 2)
+            select_image (fixture, 1);
+        candidates (fixture, 2, 5); /* Also test callers bypassing the neighbor helper. */
+        drain (fixture);
+        guint allowed = capacity > 2 ? capacity - 2 : 0;
+        g_assert_cmpuint (g_hash_table_size (fixture->cache->targets), ==, allowed);
+        g_assert_cmpuint (preload_worker_limit (fixture->cache), ==, allowed);
+        g_assert_cmpuint (speculative_slots (fixture->cache), ==, allowed);
+        g_assert_cmpuint (fixture->cache->resident_slots, ==, MAX (1, capacity));
+        for (guint initial = 0; initial <= 1; initial++)
+        {
+            GArray *positions = rstto_image_cache_neighbor_positions (8, 7, 1, initial, 5, capacity, TRUE);
+            g_assert_cmpuint (positions->len, ==, MIN (allowed, initial ? 4 : 5));
+            for (guint i = 0; i < positions->len; i++)
+            {
+                guint value = g_array_index (positions, guint, i);
+                g_assert_cmpuint (value, <, 8);
+                g_assert_cmpuint (value, !=, 7);
+                for (guint j = 0; j < i; j++)
+                    g_assert_cmpuint (value, !=, g_array_index (positions, guint, j));
+            }
+            g_array_unref (positions);
+        }
+    }
+    RsttoCacheLimits reduced = { TRUE, 3, 256 * MIB, 128 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &reduced);
+    drain (fixture);
+    g_assert_cmpuint (speculative_slots (fixture->cache), <=, 1);
+    g_assert_cmpuint (g_hash_table_size (fixture->cache->targets), <=, 1);
+}
+
+
+/**
+ * test_parallel_workers:
+ *
+ * Verify that configured workers can run independent preloads concurrently
+ * within shared limits.
+ */
+static void
+test_parallel_workers (Fixture *fixture, gconstpointer unused)
+{
+    fixture->enforce_limits = TRUE;
+    rstto_image_cache_set_preload_workers (fixture->cache, 2);
+    select_image (fixture, 0);
+    start_barrier (NULL, DECODE);
+    candidates (fixture, 1, 3);
+    await_workers (fixture, 2);
+    g_assert_cmpuint (fixture->cache->jobs.length, ==, 2);
+    g_assert_cmpuint (reserved_slots (fixture->cache), ==, 2);
+    for (guint n = 0; n < 10; n++)
+        iterate ();
+    g_assert_cmpuint (g_atomic_int_get (&gate_entered), ==, 2);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 4);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 4);
+    for (guint n = 0; n < 4; n++)
+        select_image (fixture, n);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 4);
+}
+
+
+/**
+ * test_parallel_foreground:
+ *
+ * Promote or request foreground work while speculative workers are held
+ * without creating duplicate demand.
+ */
+static void
+test_parallel_foreground (Fixture *fixture, gconstpointer unused)
+{
+    fixture->enforce_limits = TRUE;
+    rstto_image_cache_set_preload_workers (fixture->cache, 2);
+    select_image (fixture, 0);
+    start_barrier (NULL, DECODE);
+    candidates (fixture, 1, 2);
+    await_workers (fixture, 2);
+    rstto_image_cache_request (fixture->cache, fixture->files[5], NULL, &full_size);
+    candidates (fixture, 1, 2);
+    await_workers (fixture, 3);
+    g_assert_cmpuint (fixture->cache->jobs.length, ==, 3);
+    g_assert_cmpuint (speculative_jobs (fixture->cache), ==, 2);
+    guint64 decodes = fixture->cache->decodes;
+    /* Promote a preload while the obsolete foreground worker still owns its
+     * slot and memory; it must not start a second decode of that image. */
+    g_assert_cmpuint (speculative_slots (fixture->cache), ==, 2);
+    rstto_image_cache_request (fixture->cache, fixture->files[2], NULL, &full_size);
+    g_assert_cmpuint (speculative_slots (fixture->cache), ==, 1);
+    candidates (fixture, 1, 1);
+    g_assert_cmpuint (fixture->cache->jobs.length, ==, 3);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    rstto_image_cache_set_preload_workers (fixture->cache, 1);
+    g_assert_false (g_cancellable_is_cancelled (find_job (fixture, 2)->cancel));
+    g_assert_true (g_cancellable_is_cancelled (find_job (fixture, 1)->cancel));
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->ready, ==, 2);
+    g_assert_cmphex (fixture->pixel, ==, 0xff122030);
+}
+
+
+/**
+ * test_parallel_memory:
+ *
+ * Limit parallel admission by bytes even when worker permits remain available.
+ */
+static void
+test_parallel_memory (Fixture *fixture, gconstpointer unused)
+{
+    fixture->enforce_limits = TRUE;
+    large_images (fixture);
+    RsttoCacheLimits limits = { TRUE, 6, 34 * MIB, 8 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    rstto_image_cache_set_preload_workers (fixture->cache, 4);
+    select_image (fixture, 0);
+    start_barrier (NULL, DECODE);
+    candidates (fixture, 1, 4);
+    await_workers (fixture, 1);
+    await_admission (fixture, 2);
+    g_assert_cmpuint (fixture->cache->jobs.length, ==, 2);
+    g_assert_cmpuint (g_atomic_int_get (&gate_entered), ==, 1);
+    g_assert_cmpuint (find_job (fixture, 2)->reservation, ==, 0);
+    release_barrier (fixture);
+    /* Retained images fit, concurrent reservations do not: wait and fill the
+     * cache serially instead of dropping candidates after transient pressure. */
+    g_assert_cmpuint (fixture->cache->decodes, ==, 5);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 5);
+}
+
+
+/**
+ * test_parallel_probe_budget:
+ *
+ * Charge every concurrent probe reservation before allowing metadata work to
+ * start.
+ */
+static void
+test_parallel_probe_budget (Fixture *fixture, gconstpointer unused)
+{
+    fixture->enforce_limits = TRUE;
+    large_images (fixture);
+    save_image (fixture->files[2], 0x102030ff, "png", 32, 32);
+    RsttoCacheLimits limits = { TRUE, 5, 21 * MIB, 8 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    rstto_image_cache_set_preload_workers (fixture->cache, 2);
+    select_image (fixture, 0);
+    start_barrier (NULL, DECODE);
+    candidates (fixture, 1, 2);
+    await_workers (fixture, 1);
+    gint64 until = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+    while (find_job (fixture, 2) == NULL || find_job (fixture, 2)->phase != WAIT_PROBE)
+    {
+        iterate ();
+        check_limits (fixture);
+        g_assert_cmpint (g_get_monotonic_time (), <, until);
+    }
+    g_assert_cmpuint (fixture->cache->resident_bytes + reserved_bytes (fixture->cache), ==, limits.max_bytes);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 3);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 3);
+}
+
+
+/**
+ * test_parallel_slots:
+ *
+ * Limit parallel preloads by image and speculative slots independently of
+ * configured workers.
+ */
+static void
+test_parallel_slots (Fixture *fixture, gconstpointer unused)
+{
+    fixture->enforce_limits = TRUE;
+    RsttoCacheLimits limits = { TRUE, 4, 256 * MIB, 128 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    rstto_image_cache_set_preload_workers (fixture->cache, 8);
+    select_image (fixture, 0);
+    start_barrier (NULL, DECODE);
+    candidates (fixture, 1, 4);
+    await_workers (fixture, 2);
+    g_assert_cmpuint (fixture->cache->resident_slots + reserved_slots (fixture->cache), ==, 3);
+    g_assert_cmpuint (preload_worker_limit (fixture->cache), ==, 2);
+    g_assert_cmpuint (speculative_slots (fixture->cache), ==, 2);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 3);
+}
+
+
+/**
+ * test_parallel_live_workers:
+ *
+ * Lower the worker count with jobs in flight and retain cancelled reservations
+ * through cleanup.
+ */
+static void
+test_parallel_live_workers (Fixture *fixture, gconstpointer unused)
+{
+    fixture->enforce_limits = TRUE;
+    select_image (fixture, 0);
+    start_barrier (NULL, DECODE);
+    candidates (fixture, 1, 4);
+    await_workers (fixture, 1);
+    rstto_image_cache_set_preload_workers (fixture->cache, 3);
+    await_workers (fixture, 3);
+    GPtrArray *reordered = g_ptr_array_new ();
+    for (guint n = 3; n > 0; n--)
+        g_ptr_array_add (reordered, fixture->files[n]);
+    g_ptr_array_add (reordered, fixture->files[4]);
+    rstto_image_cache_set_candidates (fixture->cache, reordered);
+    g_ptr_array_unref (reordered);
+    guint64 reserved = reserved_bytes (fixture->cache);
+    rstto_image_cache_set_preload_workers (fixture->cache, 1);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reserved);
+    g_assert_cmpuint (speculative_jobs (fixture->cache), ==, 3);
+    g_assert_false (g_cancellable_is_cancelled (find_job (fixture, 3)->cancel));
+    g_assert_true (g_cancellable_is_cancelled (find_job (fixture, 2)->cancel));
+    g_assert_true (g_cancellable_is_cancelled (find_job (fixture, 1)->cancel));
+    rstto_image_cache_set_preload_workers (fixture->cache, 2);
+    for (guint n = 0; n < 10; n++)
+        iterate ();
+    g_assert_cmpuint (g_atomic_int_get (&gate_entered), ==, 3);
+    g_assert_null (find_job (fixture, 4)); /* Cancelled workers still occupy slots. */
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->errors, ==, 0);
+}
+
+
+/**
+ * test_parallel_stop_waiting:
+ *
+ * Stop a cache containing held and waiting parallel work without leaking
+ * ownership or delivering late results.
+ */
+static void
+test_parallel_stop_waiting (Fixture *fixture, gconstpointer unused)
+{
+    fixture->enforce_limits = TRUE;
+    large_images (fixture);
+    RsttoCacheLimits limits = { TRUE, 5, 34 * MIB, 8 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    rstto_image_cache_set_preload_workers (fixture->cache, 2);
+    select_image (fixture, 0);
+    start_barrier (NULL, DECODE);
+    candidates (fixture, 1, 4);
+    await_workers (fixture, 1);
+    await_admission (fixture, 2);
+    rstto_image_cache_stop (fixture->cache);
+    g_assert_cmpuint (fixture->cache->jobs.length, ==, 1);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), >, 0);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->ready, ==, 1);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 0);
+}
+
+
+/**
+ * test_parallel_limit_reduction:
+ *
+ * Reduce byte or slot limits during parallel loading and verify safe
+ * cancellation and eventual trimming.
+ */
+static void
+test_parallel_limit_reduction (Fixture *fixture, gconstpointer unused)
+{
+    rstto_image_cache_set_preload_workers (fixture->cache, 3);
+    select_image (fixture, 0);
+    start_barrier (NULL, DECODE);
+    candidates (fixture, 1, 4);
+    await_workers (fixture, 3);
+    guint64 reserved = reserved_bytes (fixture->cache);
+    RsttoCacheLimits limits = { TRUE, 2, 64 * 1024, 64 * 1024 };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reserved);
+    g_assert_cmpuint (speculative_jobs (fixture->cache), ==, 3);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    g_assert_cmpuint (fixture->cache->resident_bytes, <=, limits.max_bytes);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+}
+
+
+/**
+ * write_header:
+ *
+ * Write a bounded synthetic header advertising dimensions without allocating
+ * their pixel footprint.
+ */
+static void
+write_header (GFile *file, guint32 width, guint32 height)
+{
+    GBytes *bytes = png_header (width, height);
+    gchar *path = g_file_get_path (file);
+    gsize size;
+    const gchar *contents = g_bytes_get_data (bytes, &size);
+    g_assert_true (g_file_set_contents (path, contents, size, NULL));
+    g_free (path);
+    g_bytes_unref (bytes);
+}
+
+
+/**
+ * test_probe_oversized:
+ *
+ * Reject oversized declared dimensions during probing without entering pixel
+ * decoding.
+ */
+static void
+test_probe_oversized (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    write_header (fixture->files[1], 50000, 50000);
+    write_header (fixture->files[2], G_MAXINT, G_MAXINT);
+    gint loaders = g_atomic_int_get (&pixbuf_loaders_created);
+    candidates (fixture, 1, 2);
+    drain (fixture);
+    g_assert_cmpint (g_atomic_int_get (&pixbuf_loaders_created), ==, loaders);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 1);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+}
+
+
+/**
+ * cancel_metadata:
+ *
+ * Cancel a job at the metadata checkpoint while checking that its probe
+ * reservation remains live.
+ */
+static void
+cancel_metadata (DecodeJob *job)
+{
+    g_assert_cmpint (job->phase, ==, PROBE_INFO);
+    g_assert_cmpuint (job->reservation, ==, PROBE_RESERVATION);
+    g_cancellable_cancel (job->cancel);
+    g_assert_true (job->running);
+    g_assert_cmpuint (reserved_slots (job->owner), ==, 1);
+    RsttoCacheLimits limits = { TRUE, 1, MIB, MIB };
+    rstto_image_cache_set_limits (job->owner, &limits);
+    g_assert_cmpuint (reserved_bytes (job->owner), ==, PROBE_RESERVATION);
+}
+
+
+/**
+ * test_probe_metadata_cancel:
+ *
+ * Verify asynchronous metadata cancellation keeps its slot and bytes until
+ * completion.
+ */
+static void
+test_probe_metadata_cancel (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    metadata_started_hook = cancel_metadata;
+    candidates (fixture, 1, 1);
+    drain (fixture);
+    metadata_started_hook = NULL;
+    g_assert_cmpuint (fixture->cache->decodes, ==, 1);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+}
+
+
+/**
+ * cache_finalized:
+ *
+ * Record weak-reference notification when the cache finally releases its
+ * asynchronous owners.
+ */
+static void
+cache_finalized (gpointer data, GObject *object)
+{
+    *(gboolean *) data = TRUE;
+}
+
+
+/**
+ * abandon_metadata:
+ *
+ * Drop the test's cache ownership during metadata work to exercise destruction
+ * with pending callbacks.
+ */
+static void
+abandon_metadata (DecodeJob *job)
+{
+    rstto_image_cache_stop (job->owner);
+    g_object_unref (job->owner); /* Drop the client's last reference in flight. */
+}
+
+
+/**
+ * test_probe_destroy:
+ *
+ * Verify that pending metadata work drains safely after the cache's external
+ * owner is destroyed.
+ */
+static void
+test_probe_destroy (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    gboolean finalized = FALSE;
+    g_object_weak_ref (G_OBJECT (fixture->cache), cache_finalized, &finalized);
+    metadata_started_hook = abandon_metadata;
+    candidates (fixture, 1, 1);
+    gint64 until = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+    while (!finalized)
+    {
+        iterate ();
+        g_assert_cmpint (g_get_monotonic_time (), <, until);
+    }
+    metadata_started_hook = NULL;
+    fixture->cache = NULL;
+    g_assert_cmpuint (fixture->ready, ==, 1);
+}
+
+
+/**
+ * test_probe_changed:
+ *
+ * Change file identity during metadata probing and reject the dimensions
+ * before decoding.
+ */
+static void
+test_probe_changed (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], PROBE_VERIFY);
+    candidates (fixture, 1, 1);
+    await_barrier ();
+    save_image (fixture->files[1], 0x882233ff, "png", 256, 192);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 1);
+    select_image (fixture, 1);
+    g_assert_cmphex (fixture->pixel, ==, 0xff882233);
+    g_assert_cmpuint (fixture->cache->displayed->image.width, ==, 256);
+}
+
+
+/**
+ * test_probe_raw_fallback:
+ *
+ * Exclude RAW-classified content from speculation while preserving foreground
+ * decoding fallback.
+ */
+static void
+test_probe_raw_fallback (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    gchar *old = g_file_get_path (fixture->files[1]);
+    gchar *raw = g_strconcat (old, ".RAF", NULL);
+    g_assert_cmpint (g_rename (old, raw), ==, 0);
+    g_object_unref (fixture->files[1]);
+    fixture->files[1] = g_file_new_for_path (raw);
+    candidates (fixture, 1, 1);
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 1);
+    select_image (fixture, 1); /* Existing generic foreground loading still works. */
+    g_assert_cmphex (fixture->pixel, ==, 0xff112030);
+    g_assert_false (fixture->cache->speculation_allowed);
+    g_assert_null (fixture->cache->displayed->key);
+    g_free (old);
+    g_free (raw);
+}
+
+
+/**
+ * test_probe_unavailable:
+ *
+ * Disable safe probing and verify normal foreground viewing without cache
+ * admission.
+ */
+static void
+test_probe_unavailable (Fixture *fixture, gconstpointer unused)
+{
+    select_image (fixture, 0);
+    candidates (fixture, 1, 4);
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 1);
+    g_assert_false (fixture->cache->speculation_allowed);
+    g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_DIRECT);
+    g_assert_cmpint (fixture->reason, ==, RSTTO_RENDER_REASON_UNCACHED);
+    g_assert_false (fixture->retry_view);
+    g_assert_null (fixture->cache->displayed->key);
+    g_assert_cmphex (fixture->pixel, ==, 0xff102030);
+}
+
+
+/**
+ * compare_int64:
+ *
+ * Order integer timing samples for deterministic percentile calculations.
+ */
+static gint
+compare_int64 (gconstpointer a, gconstpointer b)
+{
+    gint64 aa = *(const gint64 *) a, bb = *(const gint64 *) b;
+    return (aa > bb) - (aa < bb);
+}
+
+
+/**
+ * benchmark:
+ *
+ * Measure repeated navigation over real fixtures with selectable caching,
+ * worker count and full-resolution decoding.
+ */
+static gint
+benchmark (gboolean caching, guint workers, gboolean full_resolution)
+{
+    Fixture fixture = { 0 };
+    setup (&fixture, NULL);
+    rstto_image_cache_set_preload_workers (fixture.cache, workers);
+    gint width = full_resolution ? 7728 : 1920;
+    gint height = full_resolution ? 5152 : 1280;
+    /* Fixed synthetic photographs: gradients with deterministic fine noise. */
+    for (guint n = 0; n < G_N_ELEMENTS (fixture.files); n++)
+    {
+        GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, width, height);
+        guint32 random = 0x12345678 + n;
+        for (gint y = 0; y < height; y++)
+        {
+            guchar *row = gdk_pixbuf_get_pixels (pixbuf) + y * gdk_pixbuf_get_rowstride (pixbuf);
+            for (gint x = 0; x < width; x++)
+            {
+                random = random * 1664525 + 1013904223;
+                row[x * 3] = ((x / 8 + (random >> 28)) & 255);
+                row[x * 3 + 1] = ((y / 8 + (random >> 28)) & 255);
+                row[x * 3 + 2] = (((x + y) / 16 + n * 8) & 255);
+            }
+        }
+        gchar *path = g_file_get_path (fixture.files[n]);
+        GError *error = NULL;
+        gdk_pixbuf_save (pixbuf, path, "jpeg", &error, "quality", "90", NULL);
+        g_assert_no_error (error);
+        g_object_unref (pixbuf);
+        g_free (path);
+    }
+    RsttoCacheLimits limits = { caching, 5, (full_resolution ? 2048 : 256) * MIB,
+                                (full_resolution ? 256 : 128) * MIB };
+    rstto_image_cache_set_limits (fixture.cache, &limits);
+    const guint sequence[] = { 0, 1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1, 0 };
+    gint64 latencies[G_N_ELEMENTS (sequence)];
+    guint64 peak_accounted = 0;
+    gint64 preload_wait = 0, initial_preload = 0;
+    guint64 render_hash = G_GUINT64_CONSTANT (14695981039346656037);
+    for (guint n = 0; n < G_N_ELEMENTS (sequence); n++)
+    {
+        gint64 start = g_get_monotonic_time ();
+        select_image (&fixture, sequence[n]);
+        latencies[n] = g_get_monotonic_time () - start;
+        /* Full-pixel comparison across identical enabled/disabled benchmark
+         * runs, outside the timed navigation interval. No pixel copy. */
+        cairo_surface_t *surface = fixture.cache->displayed->image.surface;
+        g_assert_nonnull (surface);
+        cairo_surface_flush (surface);
+        g_assert_cmpint (cairo_image_surface_get_width (surface), ==, width);
+        g_assert_cmpint (cairo_image_surface_get_height (surface), ==, height);
+        for (gint y = 0; y < height; y++)
+        {
+            const guint32 *row = (const guint32 *) (const void *) (cairo_image_surface_get_data (surface)
+                                                                   + (gsize) y * cairo_image_surface_get_stride (surface));
+            for (gint x = 0; x < width; x++)
+                render_hash = (render_hash ^ row[x]) * G_GUINT64_CONSTANT (1099511628211);
+        }
+        peak_accounted = MAX (peak_accounted, fixture.peak_accounted);
+        gint direction = n == 0 || sequence[n] > sequence[n - 1] ? 1 : -1;
+        GArray *positions = rstto_image_cache_neighbor_positions (8, sequence[n], direction, n == 0, 2, 5, TRUE);
+        GPtrArray *files = g_ptr_array_new ();
+        for (guint j = 0; j < positions->len; j++)
+            g_ptr_array_add (files, fixture.files[g_array_index (positions, guint, j)]);
+        gint64 preload_start = g_get_monotonic_time ();
+        rstto_image_cache_set_candidates (fixture.cache, files);
+        g_ptr_array_unref (files);
+        g_array_unref (positions);
+        /* Model dwell time by waiting for speculative work outside the timed
+         * navigation interval. This is not a continuous-scroll throughput test. */
+        do
+        {
+            iterate ();
+            guint64 accounted = fixture.cache->resident_bytes + reserved_bytes (fixture.cache);
+            peak_accounted = MAX (peak_accounted, accounted);
+            if (caching)
+                g_assert_cmpuint (accounted, <=, limits.max_bytes);
+        } while (fixture.cache->jobs.length != 0);
+        gint64 elapsed = g_get_monotonic_time () - preload_start;
+        preload_wait += elapsed;
+        if (n == 0)
+            initial_preload = elapsed;
+    }
+    qsort (latencies, G_N_ELEMENTS (latencies), sizeof latencies[0], compare_int64);
+    struct rusage self, children;
+    getrusage (RUSAGE_SELF, &self);
+    getrusage (RUSAGE_CHILDREN, &children);
+    g_print ("cache=%s workers=%u navigations=%zu decodes=%" G_GUINT64_FORMAT " hits=%" G_GUINT64_FORMAT
+             " probe_mean_ms=%.3f median_ms=%.3f p95_ms=%.3f initial_preload_ms=%.3f total_preload_wait_ms=%.3f peak_accounted_mib=%.3f parent_peak_rss_mib=%.3f max_child_rss_mib=%.3f render_hash=%" G_GUINT64_FORMAT "\n",
+             caching ? "on" : "off", workers, G_N_ELEMENTS (sequence), fixture.cache->decodes, fixture.cache->hits,
+             fixture.cache->probes ? fixture.cache->probe_time_us / (1000.0 * fixture.cache->probes) : 0.0,
+             latencies[G_N_ELEMENTS (latencies) / 2] / 1000.0,
+             latencies[(G_N_ELEMENTS (latencies) * 95) / 100] / 1000.0,
+             initial_preload / 1000.0, preload_wait / 1000.0,
+             peak_accounted / (double) MIB, self.ru_maxrss / 1024.0, children.ru_maxrss / 1024.0, render_hash);
+    teardown (&fixture, NULL);
+    return 0;
+}
+
+
+/**
+ * render_spec:
+ *
+ * Provide the test view's immutable render key through the cache preparation
+ * signal.
+ */
+static void
+render_spec (RsttoImageCache *cache, GFile *file, RsttoImageData *image, RsttoRenderKey *key, RsttoRenderView *view)
+{
+    RsttoRenderGeometry geometry;
+    g_assert_true (rstto_image_render_geometry (view, image->width, image->height, &geometry));
+    g_assert_true (rstto_image_render_key (view, &geometry, image->width, image->decoded_width, key));
+}
+
+
+/**
+ * install_render_spec:
+ *
+ * Connect the render-snapshot callback and enable explicit test limits for
+ * prepared derivatives.
+ */
+static RsttoRenderView
+install_render_spec (Fixture *fixture, RsttoRenderView *view)
+{
+    *view = (RsttoRenderView) { .viewport_width = 64, .viewport_height = 48, .orientation = 1, .image_scale = 1, .pixel_scale = 1, .scale = 0, .smoothing = TRUE };
+    g_signal_connect (fixture->cache, "prepare-render", G_CALLBACK (render_spec), view);
+    fixture->enforce_limits = TRUE;
+    return *view;
+}
+
+
+/**
+ * test_rejected_derivative:
+ *
+ * Declining a same-entry render must retain its displayed derivative and
+ * weight until a later accepted render replaces it.
+ */
+static void
+test_rejected_derivative (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    select_image (fixture, 0);
+    Entry *entry = fixture->cache->displayed;
+    cairo_surface_t *old = entry->image.rendered;
+    guint destroyed = 0;
+    guint64 bytes = entry->bytes, decodes = fixture->cache->decodes;
+    RsttoRenderKey key = entry->image.render_key;
+    watch_surface (old, &destroyed);
+    view.viewport_width = 32;
+    view.viewport_height = 24;
+    fixture->reject_ready = TRUE;
+    select_image (fixture, 0);
+    g_assert_cmpuint (destroyed, ==, 0);
+    g_assert_true (entry->image.rendered == old);
+    g_assert_true (rstto_image_render_key_equal (&key, &entry->image.render_key));
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    fixture->reject_ready = FALSE;
+    select_image (fixture, 0);
+    g_assert_cmpuint (destroyed, ==, 1);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    g_assert_cmpint (cairo_image_surface_get_width (entry->image.rendered), ==, 32);
+    g_assert_cmpuint (entry->bytes, ==, 128 * 96 * 4 + 32 * 24 * 4);
+}
+
+
+/**
+ * test_render_direct:
+ *
+ * Refusal or failed CPU work must offer source-only drawing through the same
+ * acceptance transaction as successful preparation, then recover without decoding.
+ */
+static void
+test_render_direct (Fixture *fixture, gconstpointer data)
+{
+    guint mode = GPOINTER_TO_UINT (data);
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    select_image (fixture, 0);
+    Entry *entry = fixture->cache->displayed;
+    cairo_surface_t *old = entry->image.rendered;
+    guint destroyed = 0;
+    guint64 bytes = entry->bytes, decodes = fixture->cache->decodes;
+    watch_surface (old, &destroyed);
+    view.viewport_width = 256;
+    view.viewport_height = 192;
+    RsttoCacheLimits limits = fixture->cache->limits;
+    if (mode == 0)
+        limits.max_image_bytes = 64 * 1024;
+    if (mode == 1)
+        limits.max_bytes = bytes + 3 * 256 * 192 * 4 - 1;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    fixture->reject_ready = TRUE;
+    for (guint attempt = 0; attempt < 2; attempt++)
+    {
+        fixture->cache->test_render_failure = mode >= 2 ? mode - 1 : 0;
+        select_image (fixture, 0);
+        g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_DIRECT);
+        const RsttoRenderReason reasons[] = { RSTTO_RENDER_REASON_IMAGE_LIMIT,
+                                              RSTTO_RENDER_REASON_BUDGET, RSTTO_RENDER_REASON_ALLOCATION, RSTTO_RENDER_REASON_FAILED };
+        g_assert_cmpint (fixture->reason, ==, reasons[mode]);
+        g_assert_false (fixture->prepared);
+        g_assert_true (fixture->retry_view);
+        g_assert_cmpint (fixture->attempted_key.width, ==, 256);
+        g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+        g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+        if (attempt == 0)
+        {
+            g_assert_cmpuint (destroyed, ==, 0);
+            g_assert_true (entry->image.rendered == old);
+            g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
+            fixture->reject_ready = FALSE;
+        }
+    }
+    g_assert_cmpuint (destroyed, ==, 1);
+    g_assert_null (entry->image.rendered);
+    g_assert_null (entry->image.gpu_image);
+    g_assert_cmpint (entry->image.render_key.width, ==, 0);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 128 * 96 * 4);
+    limits.max_bytes = 32 * MIB;
+    limits.max_image_bytes = 8 * MIB;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    select_image (fixture, 0);
+    g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_READY);
+    g_assert_true (fixture->prepared);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+}
+
+
+/**
+ * test_direct_reduction:
+ *
+ * A lower per-image limit during verification refuses the completed output
+ * without releasing its reservation or the previous derivative prematurely.
+ */
+static void
+test_direct_reduction (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    select_image (fixture, 0);
+    Entry *entry = fixture->cache->displayed;
+    guint destroyed = 0;
+    watch_surface (entry->image.rendered, &destroyed);
+    view.viewport_width = 256;
+    view.viewport_height = 192;
+    start_barrier (fixture->files[0], RENDER_VERIFY);
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+    await_barrier ();
+    guint64 reservation = reserved_bytes (fixture->cache);
+    g_assert_cmpuint (reservation, >, 0);
+    RsttoCacheLimits limits = fixture->cache->limits;
+    limits.max_image_bytes = 64 * 1024;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    g_assert_cmpuint (destroyed, ==, 0);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reservation);
+    release_barrier (fixture);
+    g_assert_cmpuint (destroyed, ==, 1);
+    g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_DIRECT);
+    g_assert_cmpint (fixture->reason, ==, RSTTO_RENDER_REASON_IMAGE_LIMIT);
+    g_assert_false (fixture->prepared);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    g_assert_cmpuint (entry->bytes, ==, 128 * 96 * 4);
+}
+
+
+/**
+ * test_direct_draining:
+ *
+ * A cancelled decoder retains its reservation while foreground rendering
+ * refuses admission and offers the source; cleanup permits later recovery.
+ */
+static void
+test_direct_draining (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], DECODE);
+    candidates (fixture, 1, 1);
+    await_barrier ();
+    candidates (fixture, 0, 0);
+    guint64 reservation = reserved_bytes (fixture->cache);
+    g_assert_cmpuint (reservation, >, 0);
+    RsttoCacheLimits limits = fixture->cache->limits;
+    limits.max_bytes = fixture->cache->resident_bytes + reservation;
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    view.viewport_width = 256;
+    view.viewport_height = 192;
+    guint ready = fixture->ready;
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+    gint64 deadline = g_get_monotonic_time () + 5 * G_USEC_PER_SEC;
+    while (fixture->ready == ready)
+    {
+        iterate ();
+        check_limits (fixture);
+        g_assert_cmpint (g_get_monotonic_time (), <, deadline);
+    }
+    g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_DIRECT);
+    g_assert_cmpint (fixture->reason, ==, RSTTO_RENDER_REASON_BUDGET);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reservation);
+    g_assert_null (fixture->cache->displayed->image.rendered);
+    release_barrier (fixture);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    view.viewport_width = 32;
+    view.viewport_height = 24;
+    select_image (fixture, 0);
+    g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_READY);
+}
+
+
+/**
+ * test_render_reuse:
+ *
+ * Require warmed source and compatible CPU derivatives to reuse both decoding
+ * and scaling results.
+ */
+static void
+test_render_reuse (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    fixture->cache->limits.max_images = 6;
+    select_image (fixture, 0);
+    g_assert_nonnull (fixture->cache->displayed->image.rendered);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 128 * 96 * 4 + 64 * 48 * 4);
+    candidates (fixture, 1, 4);
+    drain (fixture);
+    guint64 decodes = fixture->cache->decodes, renders = fixture->cache->renders;
+    for (guint n = 0; n < 8; n++)
+        select_image (fixture, (n + 1) % 2);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    g_assert_cmpuint (fixture->cache->renders, ==, renders);
+    g_assert_cmpuint (fixture->cache->render_hits, >=, 8);
+    view.viewport_width = 32;
+    view.viewport_height = 24;
+    select_image (fixture, 0);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    g_assert_cmpuint (fixture->cache->renders, ==, renders + 1);
+    g_assert_cmpint (cairo_image_surface_get_width (fixture->cache->displayed->image.rendered), ==, 32);
+}
+
+
+/**
+ * test_render_transaction:
+ *
+ * Verify that failed derivative admission leaves retained source and rendered
+ * history intact.
+ */
+static void
+test_render_transaction (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    for (guint n = 0; n < 3; n++)
+        select_image (fixture, n);
+    guint64 before = fixture->cache->resident_bytes;
+    g_assert_false (make_room (fixture->cache, fixture->cache->limits.max_bytes, 1, 1, 1));
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, before);
+    for (GList *lp = fixture->cache->lru.head; lp != NULL; lp = lp->next)
+        g_assert_nonnull (((Entry *) lp->data)->image.rendered);
+    RsttoCacheLimits limits = { TRUE, 5, 110 * 1024, 64 * 1024 };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 2);
+    g_assert_cmpuint (fixture->cache->resident_bytes, <=, limits.max_bytes);
+    g_assert_nonnull (fixture->cache->displayed->image.rendered);
+    g_assert_null (previous_entry (fixture->cache)->image.rendered);
+    /* No extra probe or decode is needed to fall back from a render that
+     * cannot fit its three-surface reservation alongside the displayed image. */
+    guint64 decodes = fixture->cache->decodes;
+    select_image (fixture, 1);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    g_assert_null (fixture->cache->displayed->image.rendered);
+}
+
+
+/**
+ * test_render_slots:
+ *
+ * Count prepared derivatives with their image entry rather than allocating
+ * extra image slots.
+ */
+static void
+test_render_slots (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    fixture->cache->limits.max_images = 3;
+    for (guint n = 0; n < 3; n++)
+        select_image (fixture, n);
+    Entry *previous = previous_entry (fixture->cache);
+    g_assert_nonnull (previous->image.rendered);
+    g_assert_true (make_room (fixture->cache, 0, 1, 0, 1));
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 2);
+    g_assert_nonnull (previous->image.rendered);
+    guint64 renders = fixture->cache->renders;
+    select_image (fixture, 1);
+    g_assert_cmpuint (fixture->cache->renders, ==, renders);
+}
+
+
+/**
+ * test_render_promotion:
+ *
+ * Promote an image during admitted rendering without repeating decoding or
+ * preparation.
+ */
+static void
+test_render_promotion (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], RENDER);
+    candidates (fixture, 1, 1);
+    await_barrier ();
+    guint64 decodes = fixture->cache->decodes, renders = fixture->cache->renders;
+    rstto_image_cache_request (fixture->cache, fixture->files[1], NULL, &full_size);
+    candidates (fixture, 0, 0);
+    g_assert_cmpuint (fixture->cache->jobs.length, ==, 1);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    g_assert_cmpuint (fixture->cache->renders, ==, renders);
+    g_assert_cmphex (fixture->pixel, ==, 0xff112030);
+    g_assert_nonnull (fixture->cache->displayed->image.rendered);
+}
+
+
+/**
+ * test_render_cancel:
+ *
+ * Cancel rendering at a deterministic checkpoint and keep its shared output
+ * reserved until all tasks drain.
+ */
+static void
+test_render_cancel (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], RENDER);
+    candidates (fixture, 1, 1);
+    await_barrier ();
+    g_assert_cmpuint (reserved_slots (fixture->cache), ==, 0); /* derivative shares source slot */
+    g_assert_cmpuint (speculative_slots (fixture->cache), ==, 1);
+    guint64 reservation = reserved_bytes (fixture->cache);
+    g_assert_cmpuint (reservation, ==, 3 * 64 * 48 * 4);
+    candidates (fixture, 0, 0);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reservation);
+    g_assert_cmpuint (speculative_jobs (fixture->cache), ==, 1);
+    release_barrier (fixture);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    guint64 decodes = fixture->cache->decodes;
+    select_image (fixture, 1);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    g_assert_nonnull (fixture->cache->displayed->image.rendered);
+}
+
+
+/**
+ * test_render_changed:
+ *
+ * Invalidate a source during rendering and reject the stale derivative at
+ * verification.
+ */
+static void
+test_render_changed (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], RENDER);
+    rstto_image_cache_request (fixture->cache, fixture->files[1], NULL, &full_size);
+    await_barrier ();
+    save_image (fixture->files[1], 0x887766ff, "png", 128, 96);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->errors, ==, 1);
+    g_assert_null (fixture->cache->displayed->image.surface);
+    select_image (fixture, 1);
+    g_assert_cmphex (fixture->pixel, ==, 0xff887766);
+}
+
+
+/**
+ * test_render_reduction:
+ *
+ * Reduce live limits during CPU preparation and preserve bounded output
+ * ownership through cleanup.
+ */
+static void
+test_render_reduction (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], RENDER);
+    candidates (fixture, 1, 1);
+    await_barrier ();
+    guint64 reservation = reserved_bytes (fixture->cache);
+    fixture->enforce_limits = FALSE; /* forced limits wait for pinned/cancelled resources */
+    RsttoCacheLimits limits = { TRUE, 1, 60 * 1024, 60 * 1024 };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reservation);
+    g_assert_cmpuint (speculative_slots (fixture->cache), ==, 1);
+    release_barrier (fixture);
+    check_limits (fixture);
+    g_assert_cmpuint (fixture->cache->resident_slots, ==, 1);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 60 * 1024);
+    g_assert_cmpuint (speculative_slots (fixture->cache), ==, 0);
+}
+
+
+/**
+ * test_pending_selection:
+ *
+ * Keep a preload useful when it becomes pending selection before the active
+ * image can present.
+ */
+static void
+test_pending_selection (Fixture *fixture, gconstpointer phase)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    fixture->cache->limits.max_images = 6;
+    rstto_image_cache_set_preload_workers (fixture->cache, 5);
+    select_image (fixture, 0);
+    start_barrier (NULL, GPOINTER_TO_UINT (phase));
+    candidates (fixture, 1, 1);
+    await_workers (fixture, 1);
+    rstto_image_cache_request (fixture->cache, fixture->files[6], NULL, &full_size);
+    await_workers (fixture, 2);
+    DecodeJob *pending = find_job (fixture, 1);
+    guint64 decodes = fixture->cache->decodes;
+    guint64 reservation = reserved_bytes (fixture->cache);
+    GPtrArray *neighbors = g_ptr_array_new ();
+    /* A temporarily obsolete target is still reusable before it commits to stopping. */
+    rstto_image_cache_set_candidates (fixture->cache, neighbors);
+    g_assert_cmpint (g_atomic_int_get (&pending->interest), ==, 0);
+    rstto_image_cache_set_schedule (fixture->cache, fixture->files[1], neighbors);
+    g_assert_cmpint (g_atomic_int_get (&pending->interest), ==, 1);
+    g_assert_false (g_cancellable_is_cancelled (pending->cancel));
+    g_assert_true (find_job (fixture, 1) == pending);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reservation);
+    g_assert_cmpuint (g_hash_table_size (fixture->cache->targets), ==, 1);
+    release_barrier (fixture);
+    guint64 renders = fixture->cache->renders, hits = fixture->cache->hits;
+    select_image (fixture, 1);
+    g_assert_cmpuint (fixture->cache->hits, ==, hits + 1);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    g_assert_cmpuint (fixture->cache->renders, ==, renders);
+    g_assert_nonnull (fixture->cache->displayed->image.rendered);
+    g_ptr_array_unref (neighbors);
+}
+
+
+/**
+ * test_abandoned_promotion:
+ *
+ * Require an irreversibly abandoned preload to drain before a fresh foreground
+ * request can retry.
+ */
+static void
+test_abandoned_promotion (Fixture *fixture, gconstpointer unused)
+{
+    fixture->enforce_limits = TRUE;
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], DECODE);
+    candidates (fixture, 1, 1);
+    await_barrier ();
+    DecodeJob *job = find_job (fixture, 1);
+    guint64 reservation = reserved_bytes (fixture->cache);
+    candidates (fixture, 0, 0);
+    g_assert_false (job_useful (job)); /* deterministic stopping checkpoint */
+    g_assert_cmpint (g_atomic_int_get (&job->interest), ==, -1);
+    rstto_image_cache_request (fixture->cache, fixture->files[1], NULL, &full_size);
+    g_assert_false (g_atomic_int_get (&job->demand));
+    g_assert_true (fixture->cache->foreground_pending);
+    g_assert_cmpuint (fixture->cache->jobs.length, ==, 1);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reservation);
+    release_barrier (fixture);
+    g_assert_cmpuint (fixture->errors, ==, 0);
+    g_assert_cmphex (fixture->pixel, ==, 0xff112030);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 3);
+}
+
+
+/**
+ * test_render_history_bytes:
+ *
+ * Protect both decoded pixels and scaled copies of previous demand history
+ * against speculative byte pressure.
+ */
+static void
+test_render_history_bytes (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    fixture->cache->limits.max_images = 6;
+    rstto_image_cache_set_preload_workers (fixture->cache, 5);
+    select_image (fixture, 0);
+    select_image (fixture, 1);
+    Entry *previous = previous_entry (fixture->cache);
+    guint64 retained = fixture->cache->resident_bytes;
+    /* Admission could fit by stripping the previous derivative, which speculation must not do. */
+    fixture->cache->limits.max_bytes = retained + PROBE_RESERVATION - 1;
+    g_assert_false (make_room (fixture->cache, PROBE_RESERVATION, 1, 1, 1));
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, retained);
+    g_assert_nonnull (previous->image.rendered);
+    for (guint n = 0; n < 8; n++)
+    {
+        guint64 hits = fixture->cache->hits, decodes = fixture->cache->decodes, renders = fixture->cache->renders;
+        select_image (fixture, n % 2);
+        history_candidates (fixture, n % 2);
+        drain (fixture);
+        g_assert_cmpuint (fixture->cache->hits, ==, hits + 1);
+        g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+        g_assert_cmpuint (fixture->cache->renders, ==, renders);
+    }
+}
+
+
+/**
+ * test_render_stripe_lifetime:
+ *
+ * Hold CPU stripes across cancellation, destruction or limit changes and
+ * verify shared allocation lifetime and task accounting.
+ */
+static void
+test_render_stripe_lifetime (Fixture *fixture, gconstpointer mode)
+{
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    view.viewport_width = 263;
+    view.viewport_height = 901;
+    fixture->cache->limits.max_images = 6;
+    rstto_image_cache_set_preload_workers (fixture->cache, 5);
+    select_image (fixture, 0);
+    start_barrier (fixture->files[1], RENDER);
+    rstto_image_cache_request (fixture->cache, fixture->files[1], NULL, &full_size);
+    await_workers (fixture, 5);
+    guint64 reservation = reserved_bytes (fixture->cache);
+    g_assert_cmpuint (fixture->cache->active_tasks, ==, 5);
+    g_assert_cmpuint (reservation, ==, 3 * 263 * 901 * 4);
+    g_assert_cmpuint (fixture->cache->resident_slots + reserved_slots (fixture->cache), ==, 2);
+    if (GPOINTER_TO_UINT (mode) == 1)
+    {
+        rstto_image_cache_invalidate (fixture->cache, fixture->files[1]);
+        fixture->enforce_limits = FALSE; /* existing work drains above the lowered ceiling */
+        rstto_image_cache_set_preload_workers (fixture->cache, 1);
+    }
+    else if (GPOINTER_TO_UINT (mode) == 2)
+        rstto_image_cache_stop (fixture->cache);
+    else if (GPOINTER_TO_UINT (mode) == 3)
+    {
+        fixture->enforce_limits = FALSE;
+        RsttoCacheLimits limits = { TRUE, 2, 8 * MIB, 4 * MIB };
+        rstto_image_cache_set_limits (fixture->cache, &limits);
+    }
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, reservation);
+    release_barrier (fixture);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    g_assert_cmpuint (fixture->cache->active_tasks, ==, 0);
+    g_assert_cmpuint (fixture->cache->peak_tasks, ==, 5);
+    if (GPOINTER_TO_UINT (mode) != 2)
+    {
+        g_assert_nonnull (fixture->cache->displayed->image.rendered);
+        g_assert_cmphex (fixture->pixel, ==, 0xff112030);
+    }
+}
+
+
+#ifdef RSTTO_CACHE_GPU
+#include <gtk/gtk.h>
+static gboolean gpu_display;
+static GtkWidget *gpu_window;
+static RsttoGpuRenderer *test_gpu;
+
+
+/**
+ * gpu_setup:
+ *
+ * Create and attach an isolated GPU renderer and render view for cache
+ * integration tests.
+ */
+static gboolean
+gpu_setup (Fixture *fixture, RsttoRenderView *view)
+{
+    if (!gpu_display)
+    {
+        g_test_skip ("No GTK display");
+        return FALSE;
+    }
+    gpu_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_widget_realize (gpu_window);
+    GError *error = NULL;
+    test_gpu = rstto_gpu_renderer_new (gtk_widget_get_window (gpu_window), 2, &error);
+    if (test_gpu == NULL)
+    {
+        g_test_skip (error->message);
+        g_clear_error (&error);
+        gtk_widget_destroy (gpu_window);
+        return FALSE;
+    }
+    install_render_spec (fixture, view);
+    RsttoCacheLimits limits = { TRUE, 6, 32 * MIB, 8 * MIB };
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    rstto_image_cache_set_preload_workers (fixture->cache, 5);
+    rstto_image_cache_set_gpu (fixture->cache, test_gpu);
+    drain (fixture); /* Failure injection below targets image work, not warmup. */
+    return TRUE;
+}
+
+
+/**
+ * gpu_teardown:
+ *
+ * Detach GPU rendering and release the test window after asynchronous work
+ * drains.
+ */
+static void
+gpu_teardown (Fixture *fixture)
+{
+    rstto_image_cache_stop (fixture->cache);
+    drain (fixture);
+    rstto_image_cache_set_gpu (fixture->cache, NULL);
+    RsttoGpuStats stats;
+    gint64 deadline = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+    do
+    {
+        iterate ();
+        rstto_gpu_renderer_get_stats (test_gpu, &stats);
+        g_assert_cmpint (g_get_monotonic_time (), <, deadline);
+    } while (stats.textures || stats.active || stats.transient || stats.sources || stats.reserved);
+    while (g_main_context_iteration (NULL, FALSE))
+    {
+    }
+    g_object_unref (test_gpu);
+    gtk_widget_destroy (gpu_window);
+}
+
+
+/**
+ * test_gpu_rejected_delivery:
+ *
+ * Reject a whole-image GPU derivative without replacing the displayed texture
+ * or leaking the proposal; a later accepted request still reuses its source.
+ */
+static void
+test_gpu_rejected_delivery (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    if (!gpu_setup (fixture, &view))
+        return;
+    select_image (fixture, 0);
+    Entry *entry = fixture->cache->displayed;
+    RsttoGpuImage *old = entry->image.gpu_image;
+    g_assert_nonnull (old);
+    guint64 bytes = entry->bytes, decodes = fixture->cache->decodes;
+    RsttoRenderKey key = entry->image.render_key;
+    view.viewport_width = 32;
+    view.viewport_height = 24;
+    fixture->reject_ready = TRUE;
+    select_image (fixture, 0);
+    g_assert_true (entry->image.gpu_image == old);
+    g_assert_true (rstto_image_render_key_equal (&key, &entry->image.render_key));
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, bytes);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    cairo_surface_t *pixels = rstto_gpu_test_download (old);
+    g_assert_nonnull (pixels);
+    g_assert_cmphex (*(guint32 *) (void *) cairo_image_surface_get_data (pixels), ==, 0xff102030);
+    cairo_surface_destroy (pixels);
+    fixture->reject_ready = FALSE;
+    select_image (fixture, 0);
+    g_assert_cmpint (entry->image.render_key.width, ==, 32);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    gpu_teardown (fixture);
+}
+
+
+/**
+ * test_gpu_limits:
+ *
+ * Force texture-size rejection and verify CPU fallback with no GPU upload or
+ * render submission.
+ */
+static void
+test_gpu_limits (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    if (!gpu_setup (fixture, &view))
+        return;
+    rstto_gpu_test_limit (test_gpu, 127);
+    select_image (fixture, 0);
+    g_assert_null (fixture->cache->displayed->image.gpu_image);
+    g_assert_nonnull (fixture->cache->displayed->image.rendered);
+    RsttoGpuStats stats;
+    rstto_gpu_renderer_get_stats (test_gpu, &stats);
+    g_assert_cmpuint (stats.uploads, ==, 0);
+    g_assert_cmpuint (stats.submissions, ==, 0);
+    guint64 renders = fixture->cache->renders;
+    select_image (fixture, 0);
+    g_assert_cmpuint (fixture->cache->renders, ==, renders);
+    rstto_gpu_test_limit (test_gpu, 128);
+    select_image (fixture, 0);
+    g_assert_nonnull (fixture->cache->displayed->image.gpu_image);
+    g_assert_null (fixture->cache->displayed->image.rendered);
+    /* GPU result storage is deliberately not part of resident RAM. */
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 128 * 96 * 4);
+    rstto_gpu_renderer_get_stats (test_gpu, &stats);
+    guint64 uploads = stats.uploads;
+    view.viewport_width = 129;
+    select_image (fixture, 0);
+    g_assert_nonnull (fixture->cache->displayed->image.rendered);
+    g_assert_null (fixture->cache->displayed->image.gpu_image);
+    rstto_gpu_renderer_get_stats (test_gpu, &stats);
+    g_assert_cmpuint (stats.uploads, ==, uploads);
+    gpu_teardown (fixture);
+}
+
+
+/**
+ * test_gpu_source:
+ *
+ * Reuse the selected GPU source across view changes while preserving host and
+ * GPU accounting.
+ */
+static void
+test_gpu_source (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    if (!gpu_setup (fixture, &view))
+        return;
+    select_image (fixture, 0);
+    RsttoGpuStats before, after;
+    rstto_gpu_renderer_get_stats (test_gpu, &before);
+    g_assert_cmpuint (before.sources, ==, 1);
+    guint64 decodes = fixture->cache->decodes;
+    for (guint n = 0; n < 16; n++)
+    {
+        view.scale = .55 + n * .025;
+        view.h_adjust = n;
+        view.v_adjust = 2 * n;
+        view.orientation = n % 8 + 1;
+        select_image (fixture, 0);
+        g_assert_nonnull (fixture->cache->displayed->image.gpu_image);
+        check_limits (fixture);
+    }
+    rstto_gpu_renderer_get_stats (test_gpu, &after);
+    g_assert_cmpuint (after.uploads, ==, before.uploads);
+    g_assert_cmpuint (after.source_hits, >=, before.source_hits + 16);
+    g_assert_cmpuint (after.programs, ==, before.programs);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    /* GPU byte pressure falls back asynchronously, without poisoning later
+     * eligibility or evicting the current texture on a failed admission. */
+    guint64 used = after.source_bytes + after.shader_bytes;
+    rstto_gpu_test_budget (test_gpu, used, RSTTO_GPU_MAX_SOURCE_BYTES);
+    view.scale = .97;
+    select_image (fixture, 0);
+    g_assert_nonnull (fixture->cache->displayed->image.rendered);
+    g_assert_null (fixture->cache->displayed->image.gpu_image);
+    rstto_gpu_renderer_get_stats (test_gpu, &after);
+    g_assert_cmpuint (after.uploads, ==, before.uploads);
+    rstto_gpu_test_budget (test_gpu, RSTTO_GPU_MAX_BYTES, RSTTO_GPU_MAX_SOURCE_BYTES);
+    select_image (fixture, 0);
+    g_assert_nonnull (fixture->cache->displayed->image.gpu_image);
+    rstto_gpu_renderer_get_stats (test_gpu, &after);
+    g_assert_cmpuint (after.uploads, ==, before.uploads);
+    rstto_image_cache_invalidate (fixture->cache, fixture->files[0]);
+    select_image (fixture, 0);
+    rstto_gpu_renderer_get_stats (test_gpu, &after);
+    g_assert_cmpuint (after.uploads, ==, before.uploads + 1);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes + 1);
+    gpu_teardown (fixture);
+}
+
+
+/**
+ * test_gpu_source_freshness:
+ *
+ * Invalidate source reuse for edits, replacement or explicit refresh while GPU
+ * work is held.
+ */
+static void
+test_gpu_source_freshness (Fixture *fixture, gconstpointer mode)
+{
+    RsttoRenderView view;
+    if (!gpu_setup (fixture, &view))
+        return;
+    if (GPOINTER_TO_UINT (mode) == 2)
+    {
+        select_image (fixture, 0);
+        view.scale = .75;
+        start_barrier (fixture->files[0], RENDER_VERIFY);
+        rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+        await_barrier ();
+        RsttoGpuStats stats;
+        rstto_gpu_renderer_get_stats (test_gpu, &stats);
+        g_assert_cmpuint (stats.uploads, ==, 1);
+        g_assert_cmpuint (stats.source_hits, ==, 1);
+        save_image (fixture->files[0], 0xcc6677ff, "png", 128, 96);
+        release_barrier (fixture);
+        g_assert_cmpuint (fixture->errors, ==, 1);
+        g_assert_null (fixture->cache->displayed->image.gpu_image);
+        select_image (fixture, 0);
+    }
+    else if (mode != NULL)
+        test_symlink (fixture, NULL);
+    else
+        test_freshness (fixture, NULL);
+    RsttoGpuStats stats;
+    rstto_gpu_renderer_get_stats (test_gpu, &stats);
+    g_assert_cmpuint (stats.uploads, ==, mode != NULL ? 2 : 5);
+    g_assert_nonnull (fixture->cache->displayed->image.gpu_image);
+    cairo_surface_t *pixels = rstto_gpu_test_download (fixture->cache->displayed->image.gpu_image);
+    guint32 pixel = ((guint32 *) (void *) cairo_image_surface_get_data (pixels))[32 * 64 + 32];
+    g_assert_cmphex (pixel, ==, fixture->pixel);
+    cairo_surface_destroy (pixels);
+    gpu_teardown (fixture);
+}
+
+
+/**
+ * test_gpu_failure:
+ *
+ * Inject GPU preparation failure and require admitted CPU fallback after GPU
+ * resources are released.
+ */
+static void
+test_gpu_failure (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    if (!gpu_setup (fixture, &view))
+        return;
+    rstto_gpu_test_fail (test_gpu, unused != NULL ? GPOINTER_TO_UINT (unused) : 1);
+    select_image (fixture, 0);
+    g_assert_nonnull (fixture->cache->displayed->image.rendered);
+    g_assert_null (fixture->cache->displayed->image.gpu_image);
+    RsttoGpuStats stats;
+    rstto_gpu_renderer_get_stats (test_gpu, &stats);
+    g_assert_cmpuint (stats.discarded, ==, 1);
+    guint64 renders = fixture->cache->renders;
+    rstto_gpu_test_fail (test_gpu, FALSE);
+    select_image (fixture, 0);
+    g_assert_cmpuint (fixture->cache->renders, ==, renders);
+    view.viewport_width = 63;
+    select_image (fixture, 0);
+    g_assert_nonnull (fixture->cache->displayed->image.gpu_image);
+    g_assert_null (fixture->cache->displayed->image.rendered);
+    gpu_teardown (fixture);
+}
+
+
+/**
+ * test_gpu_direct:
+ *
+ * Oversized textures and GPU failure must reach direct drawing when CPU
+ * preparation also exceeds the per-image limit, without an uncharged output.
+ */
+static void
+test_gpu_direct (Fixture *fixture, gconstpointer oversized)
+{
+    RsttoRenderView view;
+    if (!gpu_setup (fixture, &view))
+        return;
+    if (oversized != NULL)
+        rstto_gpu_test_limit (test_gpu, 127);
+    else
+        rstto_gpu_test_fail (test_gpu, 1);
+    fixture->cache->limits.max_image_bytes = 128 * 96 * 4;
+    select_image (fixture, 0);
+    g_assert_cmpint (fixture->outcome, ==, RSTTO_RENDER_DIRECT);
+    g_assert_cmpint (fixture->reason, ==, RSTTO_RENDER_REASON_IMAGE_LIMIT);
+    g_assert_false (fixture->prepared);
+    g_assert_cmpuint (fixture->cache->resident_bytes, ==, 128 * 96 * 4);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    RsttoGpuStats stats;
+    rstto_gpu_renderer_get_stats (test_gpu, &stats);
+    if (oversized != NULL)
+    {
+        g_assert_cmpuint (stats.uploads, ==, 0);
+        g_assert_cmpuint (stats.submissions, ==, 0);
+    }
+    gpu_teardown (fixture);
+}
+
+
+/**
+ * test_gpu_warmup:
+ *
+ * Check startup warmup reservations, cancellation and failure without creating
+ * image cache entries.
+ */
+static void
+test_gpu_warmup (Fixture *fixture, gconstpointer mode_ptr)
+{
+    if (!gpu_display)
+    {
+        g_test_skip ("No GTK display");
+        return;
+    }
+    guint mode = GPOINTER_TO_UINT (mode_ptr);
+    gpu_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_widget_realize (gpu_window);
+    GError *error = NULL;
+    test_gpu = rstto_gpu_renderer_new (gtk_widget_get_window (gpu_window), 2, &error);
+    g_assert_no_error (error);
+    g_assert_nonnull (test_gpu);
+    RsttoRenderView view;
+    install_render_spec (fixture, &view);
+    RsttoCacheLimits limits = { TRUE, 6, 32 * MIB, 8 * MIB };
+    if (mode == 5)
+        limits.max_bytes = MIB; /* ordinary warmup without disk payloads */
+    rstto_image_cache_set_limits (fixture->cache, &limits);
+    rstto_image_cache_set_preload_workers (fixture->cache, 5);
+    rstto_gpu_test_hold (test_gpu, TRUE);
+    if (mode == 4)
+        rstto_gpu_test_fail (test_gpu, 3);
+    rstto_image_cache_set_gpu (fixture->cache, test_gpu);
+    g_assert_cmpuint (fixture->cache->warmups, ==, 1);
+    g_assert_cmpuint (fixture->cache->active_tasks, ==, 1);
+    g_assert_cmpuint (fixture->cache->jobs.length, ==, 0);
+    g_assert_cmpuint (reserved_slots (fixture->cache), ==, 0);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, RSTTO_GPU_WARMUP_BYTES + (mode == 5 ? 0 : RSTTO_SHADER_HOST_BYTES));
+    if (mode == 1)
+        rstto_image_cache_stop (fixture->cache);
+    if (mode == 2)
+        pressure (NULL, G_MEMORY_MONITOR_WARNING_LEVEL_LOW, fixture->cache);
+    if (mode == 3)
+    {
+        limits.max_bytes = 0;
+        fixture->enforce_limits = FALSE;
+        rstto_image_cache_set_limits (fixture->cache, &limits);
+    }
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, RSTTO_GPU_WARMUP_BYTES + (mode == 5 ? 0 : RSTTO_SHADER_HOST_BYTES));
+    rstto_gpu_test_hold (test_gpu, FALSE);
+    drain (fixture);
+    RsttoGpuStats stats;
+    rstto_gpu_renderer_get_stats (test_gpu, &stats);
+    g_assert_cmpuint (stats.active + stats.transient + stats.retained, ==, 0);
+    g_assert_cmpuint (stats.uploads + stats.submissions, ==, 0);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), ==, 0);
+    g_assert_cmpuint (stats.warmups, ==, (mode == 0 || mode == 5) ? 2 : 0);
+    if (mode == 0)
+    {
+        g_assert_cmpuint (stats.programs, ==, 6);
+        g_assert_cmpuint (stats.shader_bytes, ==, 2 * 256 * sizeof (float));
+    }
+    if (mode == 4)
+    {
+        select_image (fixture, 0);
+        g_assert_nonnull (fixture->cache->displayed->image.rendered);
+        g_assert_null (fixture->cache->displayed->image.gpu_image);
+    }
+    gpu_teardown (fixture);
+}
+
+
+/**
+ * test_gpu_history:
+ *
+ * Reuse warmed GPU derivatives for alternating images while protecting current
+ * and previous history.
+ */
+static void
+test_gpu_history (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    if (!gpu_setup (fixture, &view))
+        return;
+    select_image (fixture, 0);
+    select_image (fixture, 1);
+    history_candidates (fixture, 1);
+    drain (fixture);
+    for (guint n = 0; n < 16; n++)
+    {
+        guint64 renders = fixture->cache->renders, decodes = fixture->cache->decodes, hits = fixture->cache->hits;
+        select_image (fixture, n % 2);
+        g_assert_cmpuint (fixture->cache->renders, ==, renders);
+        g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+        g_assert_cmpuint (fixture->cache->hits, ==, hits + 1);
+        g_assert_nonnull (fixture->cache->displayed->image.gpu_image);
+        g_assert_nonnull (previous_entry (fixture->cache)->image.gpu_image);
+        history_candidates (fixture, n % 2);
+        drain (fixture);
+    }
+    gpu_teardown (fixture);
+}
+
+
+/**
+ * test_gpu_drain:
+ *
+ * Hold GPU completion across cleanup transitions and assert that slots,
+ * reservations and source ownership remain valid.
+ */
+static void
+test_gpu_drain (Fixture *fixture, gconstpointer mode_ptr)
+{
+    guint mode = GPOINTER_TO_UINT (mode_ptr);
+    RsttoRenderView view;
+    if (!gpu_setup (fixture, &view))
+        return;
+    select_image (fixture, 0);
+    rstto_gpu_test_hold (test_gpu, TRUE);
+    candidates (fixture, 1, 4);
+    RsttoGpuStats stats;
+    gint64 deadline = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+    do
+    {
+        iterate ();
+        check_limits (fixture);
+        rstto_gpu_renderer_get_stats (test_gpu, &stats);
+        g_assert_cmpint (g_get_monotonic_time (), <, deadline);
+    } while (stats.active < 2);
+    g_assert_cmpuint (fixture->cache->active_tasks, >=, 2);
+    guint64 reserved = reserved_bytes (fixture->cache);
+    g_assert_cmpuint (reserved, >=, 2 * (128 * 96 * 4 + 65536));
+    guint ready = fixture->ready;
+    if (mode == 0)
+    {
+        GPtrArray *neighbors = g_ptr_array_new ();
+        for (guint n = 2; n < 5; n++)
+            g_ptr_array_add (neighbors, fixture->files[n]);
+        rstto_image_cache_set_schedule (fixture->cache, fixture->files[1], neighbors);
+        g_ptr_array_unref (neighbors);
+        DecodeJob lookup = { .uri = g_file_get_uri (fixture->files[1]), .options = full_size };
+        DecodeJob *job = g_hash_table_lookup (fixture->cache->requests, &lookup);
+        g_assert_nonnull (job);
+        g_assert_false (g_cancellable_is_cancelled (job->cancel));
+        rstto_image_cache_request (fixture->cache, fixture->files[1], NULL, &full_size);
+        g_free (lookup.uri);
+    }
+    else if (mode == 1)
+        rstto_image_cache_invalidate (fixture->cache, fixture->files[1]);
+    else if (mode == 2)
+        rstto_image_cache_stop (fixture->cache);
+    else if (mode == 3)
+    {
+        fixture->enforce_limits = FALSE; /* cancelled running reservations drain */
+        RsttoCacheLimits limits = { TRUE, 2, 128 * 96 * 4, 128 * 96 * 4 };
+        rstto_image_cache_set_limits (fixture->cache, &limits);
+    }
+    else
+        pressure (NULL, G_MEMORY_MONITOR_WARNING_LEVEL_CRITICAL, fixture->cache);
+    rstto_gpu_renderer_get_stats (test_gpu, &stats);
+    g_assert_cmpuint (stats.active, ==, 2);
+    g_assert_cmpuint (reserved_bytes (fixture->cache), >=, 2 * (128 * 96 * 4 + 65536));
+    g_assert_cmpuint (fixture->ready, ==, ready);
+    rstto_gpu_test_hold (test_gpu, FALSE);
+    drain (fixture);
+    g_assert_cmpuint (fixture->ready, ==, ready + (mode == 0));
+    if (mode == 0)
+        g_assert_nonnull (fixture->cache->displayed->image.gpu_image);
+    if (mode == 3)
+    {
+        g_assert_cmpuint (fixture->cache->resident_bytes, <=, fixture->cache->limits.max_bytes);
+        fixture->enforce_limits = TRUE;
+    }
+    gpu_teardown (fixture);
+}
+#endif
+
+
+/**
+ * test_atomic_schedule:
+ *
+ * Apply pending selection and candidates atomically so promotion cannot cancel
+ * useful preload work.
+ */
+static void
+test_atomic_schedule (Fixture *fixture, gconstpointer unused)
+{
+    GPtrArray *targets = g_ptr_array_new ();
+    g_ptr_array_add (targets, fixture->files[1]);
+    rstto_image_cache_begin_update (fixture->cache);
+    rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+    rstto_image_cache_set_schedule (fixture->cache, fixture->files[2], targets);
+    g_assert_cmpuint (fixture->cache->jobs.length, ==, 0);
+    g_assert_cmpuint (fixture->cache->active_tasks, ==, 0);
+    rstto_image_cache_end_update (fixture->cache);
+    drain (fixture);
+    g_assert_cmpuint (fixture->cache->decodes, ==, 3);
+    g_ptr_array_unref (targets);
+}
+
+
+/**
+ * main:
+ *
+ * Register cache policy, freshness, rendering and concurrency regressions, or
+ * run the requested benchmark mode.
+ */
+int
+main (int argc, char **argv)
+{
+    if (argc == 2 && (g_str_has_prefix (argv[1], "--benchmark=") || g_str_has_prefix (argv[1], "--benchmark-x-t50=")))
+    {
+        gboolean full_resolution = g_str_has_prefix (argv[1], "--benchmark-x-t50=");
+        const gchar *value = strchr (argv[1], '=') + 1;
+        if (g_str_equal (value, "off"))
+            return benchmark (FALSE, RSTTO_PRELOAD_WORKERS_DEFAULT, full_resolution);
+        if (g_str_equal (value, "on"))
+            return benchmark (TRUE, RSTTO_PRELOAD_WORKERS_DEFAULT, full_resolution);
+        gchar *end;
+        guint64 workers = g_ascii_strtoull (value, &end, 10);
+        if (*end != '\0' || workers < 1 || workers > RSTTO_PRELOAD_WORKERS_MAX)
+            return 2;
+        return benchmark (TRUE, workers, full_resolution);
+    }
+    g_test_init (&argc, &argv, NULL);
+#ifdef RSTTO_CACHE_GPU
+    if (!rstto_image_probe_available ())
+        return 77;
+    gpu_display = gtk_init_check (NULL, NULL);
+    g_test_add ("/gpu-cache/rejected-delivery", Fixture, NULL, setup, test_gpu_rejected_delivery, teardown);
+    g_test_add ("/gpu-cache/source-freshness", Fixture, NULL, setup, test_gpu_source_freshness, teardown);
+    g_test_add ("/gpu-cache/source-changed-during-reuse", Fixture, GUINT_TO_POINTER (2), setup, test_gpu_source_freshness, teardown);
+    g_test_add ("/gpu-cache/source-symlink", Fixture, GUINT_TO_POINTER (1), setup, test_gpu_source_freshness, teardown);
+    g_test_add ("/gpu-cache/source-reuse", Fixture, NULL, setup, test_gpu_source, teardown);
+    g_test_add ("/gpu-cache/direct-oversized", Fixture, GUINT_TO_POINTER (1), setup, test_gpu_direct, teardown);
+    g_test_add ("/gpu-cache/direct-failure", Fixture, NULL, setup, test_gpu_direct, teardown);
+    g_test_add ("/gpu-cache/texture-limits", Fixture, NULL, setup, test_gpu_limits, teardown);
+    g_test_add ("/gpu-cache/failure-fallback", Fixture, NULL, setup, test_gpu_failure, teardown);
+    g_test_add ("/gpu-cache/failure-upload", Fixture, GUINT_TO_POINTER (2), setup, test_gpu_failure, teardown);
+    g_test_add ("/gpu-cache/failure-dispatch", Fixture, GUINT_TO_POINTER (3), setup, test_gpu_failure, teardown);
+    g_test_add ("/gpu-cache/history", Fixture, NULL, setup, test_gpu_history, teardown);
+    for (guint mode = 0; mode < 6; mode++)
+    {
+        gchar *name = g_strdup_printf ("/gpu-cache/warmup/%u", mode);
+        g_test_add (name, Fixture, GUINT_TO_POINTER (mode), setup, test_gpu_warmup, teardown);
+        g_free (name);
+    }
+    const gchar *names[] = { "promotion", "invalidation", "destruction", "limit-reduction", "low-memory" };
+    for (guint n = 0; n < G_N_ELEMENTS (names); n++)
+    {
+        gchar *name = g_strdup_printf ("/gpu-cache/drain/%s", names[n]);
+        g_test_add (name, Fixture, GUINT_TO_POINTER (n), setup, test_gpu_drain, teardown);
+        g_free (name);
+    }
+    return g_test_run ();
+#endif
+    g_test_add_func ("/cache/neighbors-and-overflow", test_neighbors);
+#define ADD(name, func) g_test_add (name, Fixture, NULL, setup, func, teardown)
+    ADD ("/cache/rejected-uncached", test_rejected_uncached);
+    if (!rstto_image_probe_available ())
+    {
+        ADD ("/cache/probe-unavailable", test_probe_unavailable);
+        return g_test_run ();
+    }
+    ADD ("/cache/reuse", test_reuse);
+    g_test_add ("/cache/pending-decode", Fixture, GUINT_TO_POINTER (DECODE), setup, test_pending_selection, teardown);
+    g_test_add ("/cache/pending-render", Fixture, GUINT_TO_POINTER (RENDER), setup, test_pending_selection, teardown);
+    g_test_add ("/cache/render/stripes", Fixture, NULL, setup, test_render_stripe_lifetime, teardown);
+    g_test_add ("/cache/render/stripes-invalidation", Fixture, GUINT_TO_POINTER (1), setup, test_render_stripe_lifetime, teardown);
+    g_test_add ("/cache/render/stripes-stop", Fixture, GUINT_TO_POINTER (2), setup, test_render_stripe_lifetime, teardown);
+    g_test_add ("/cache/render/stripes-reduction", Fixture, GUINT_TO_POINTER (3), setup, test_render_stripe_lifetime, teardown);
+    ADD ("/cache/abandoned-promotion", test_abandoned_promotion);
+    ADD ("/cache/render/history-bytes", test_render_history_bytes);
+    ADD ("/cache/render/reuse", test_render_reuse);
+    ADD ("/cache/render/rejected-delivery", test_rejected_derivative);
+    ADD ("/cache/rejected-refresh", test_rejected_refresh);
+    const gchar *direct_cases[] = { "image-limit", "budget", "allocation", "render-failure" };
+    for (guint n = 0; n < G_N_ELEMENTS (direct_cases); n++)
+    {
+        gchar *name = g_strdup_printf ("/cache/direct/%s", direct_cases[n]);
+        g_test_add (name, Fixture, GUINT_TO_POINTER (n), setup, test_render_direct, teardown);
+        g_free (name);
+    }
+    ADD ("/cache/direct/draining", test_direct_draining);
+    ADD ("/cache/direct/live-reduction", test_direct_reduction);
+    ADD ("/cache/render/transaction", test_render_transaction);
+    ADD ("/cache/render/slots", test_render_slots);
+    ADD ("/cache/render/promotion", test_render_promotion);
+    ADD ("/cache/render/cancellation", test_render_cancel);
+    ADD ("/cache/render/freshness", test_render_changed);
+    ADD ("/cache/render/live-reduction", test_render_reduction);
+    ADD ("/cache/history-switch", test_history_switch);
+    ADD ("/cache/history-memory", test_history_memory);
+    ADD ("/cache/history-reversal", test_history_reversal);
+    ADD ("/cache/history-capacity", test_history_capacity);
+    ADD ("/cache/lru", test_lru);
+    ADD ("/cache/weight", test_weight);
+    ADD ("/cache/freshness", test_freshness);
+    ADD ("/cache/symlink", test_symlink);
+    ADD ("/cache/promotion", test_promotion);
+    ADD ("/cache/atomic-schedule", test_atomic_schedule);
+    ADD ("/cache/burst-clock", test_burst_clock);
+    ADD ("/cache/admitted-progress", test_admitted_progress);
+    ADD ("/cache/priority-probe", test_priority_probe);
+    ADD ("/cache/quiet-admission", test_quiet_schedule);
+    g_test_add ("/cache/quiet-pending", Fixture, GUINT_TO_POINTER (1), setup, test_quiet_schedule, teardown);
+    ADD ("/cache/cancellation", test_cancellation);
+    ADD ("/cache/changed-during-decode", test_changed_during_decode);
+    ADD ("/cache/stop", test_stop);
+    ADD ("/cache/limits-and-pressure", test_limits_and_pressure);
+    ADD ("/cache/formats-and-pixels", test_formats_and_pixels);
+    ADD ("/cache/animation", test_animation);
+    ADD ("/cache/reentrant-stop", test_reentrant_stop);
+    ADD ("/cache/reentrant-delivery", test_reentrant_delivery);
+    g_test_add ("/cache/reentrant-clear-accepted", Fixture, NULL, setup, test_reentrant_clear, teardown);
+    g_test_add ("/cache/reentrant-clear-rejected", Fixture, GUINT_TO_POINTER (1), setup, test_reentrant_clear, teardown);
+    ADD ("/cache/disabled-and-ephemeral", test_disabled_and_ephemeral);
+    ADD ("/cache/foreground-limit-reduction", test_foreground_limit_reduction);
+    ADD ("/cache/clear-during-load", test_clear_during_load);
+    ADD ("/cache/probe-slot", test_probe_slot);
+    ADD ("/cache/foreground-slot", test_foreground_slot);
+    ADD ("/cache/replaced-format", test_replaced_format);
+    ADD ("/cache/useful-preload", test_useful_preload);
+    ADD ("/cache/parallel/workers", test_parallel_workers);
+    ADD ("/cache/parallel/foreground", test_parallel_foreground);
+    ADD ("/cache/parallel/memory", test_parallel_memory);
+    ADD ("/cache/parallel/probe-budget", test_parallel_probe_budget);
+    ADD ("/cache/parallel/slots", test_parallel_slots);
+    ADD ("/cache/parallel/live-workers", test_parallel_live_workers);
+    ADD ("/cache/parallel/stop-waiting", test_parallel_stop_waiting);
+    ADD ("/cache/parallel/limit-reduction", test_parallel_limit_reduction);
+    ADD ("/cache/admission-after-cancellation", test_admission_after_cancellation);
+    ADD ("/cache/unsuitable-probe", test_unsuitable_probe);
+    ADD ("/cache/probe/oversized-without-decoding", test_probe_oversized);
+    ADD ("/cache/probe/metadata-cancellation", test_probe_metadata_cancel);
+    ADD ("/cache/probe/destroy-during-metadata", test_probe_destroy);
+    ADD ("/cache/probe/changed-before-admission", test_probe_changed);
+    ADD ("/cache/probe/raw-foreground-fallback", test_probe_raw_fallback);
+    return g_test_run ();
+}

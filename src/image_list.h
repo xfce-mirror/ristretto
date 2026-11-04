@@ -108,6 +108,12 @@ rstto_image_list_get_iter (RsttoImageList *image_list);
 
 
 
+RsttoFile *
+rstto_image_list_get_file_at_position (RsttoImageList *image_list, guint position);
+
+void
+rstto_image_list_invalidate_metadata (RsttoImageList *image_list, GFile *file);
+
 /** Iter functions */
 RsttoFile *
 rstto_image_list_iter_get_file (RsttoImageListIter *iter);

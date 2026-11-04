@@ -19,6 +19,7 @@
 
 #include "util.h"
 #include "file_manager_integration.h"
+#include "image_probe.h"
 #include "preferences_dialog.h"
 
 #include <libxfce4ui/libxfce4ui.h>
@@ -151,6 +152,182 @@ struct _RsttoPreferencesDialogPrivate
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (RsttoPreferencesDialog, rstto_preferences_dialog, GTK_TYPE_DIALOG)
+
+
+
+/**
+ * cache_preferences_add_uint:
+ * @settings: The live settings shared with the viewer.
+ * @grid: The grid receiving the label and control.
+ * @row: The row to populate.
+ * @property: An unsigned settings property.
+ * @text: The translated label, including its mnemonic.
+ * @tooltip: A translated explanation of the setting.
+ *
+ * Bind an integer control in both directions, taking its limits from the
+ * settings property. Use double values to preserve the full unsigned range.
+ */
+static void
+cache_preferences_add_uint (RsttoSettings *settings,
+                            GtkGrid *grid,
+                            gint row,
+                            const gchar *property,
+                            const gchar *text,
+                            const gchar *tooltip)
+{
+    GParamSpecUInt *spec = G_PARAM_SPEC_UINT (g_object_class_find_property (G_OBJECT_GET_CLASS (settings), property));
+    GtkWidget *label = gtk_label_new_with_mnemonic (text);
+    GtkWidget *spin = gtk_spin_button_new_with_range (spec->minimum, spec->maximum, 1);
+
+    gtk_label_set_xalign (GTK_LABEL (label), XALIGN);
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label), spin);
+    gtk_widget_set_hexpand (label, TRUE);
+    gtk_spin_button_set_digits (GTK_SPIN_BUTTON (spin), 0);
+    gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (spin), TRUE);
+    gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (spin), GTK_UPDATE_IF_VALID);
+    gtk_widget_set_tooltip_text (spin, tooltip);
+    gtk_buildable_set_name (GTK_BUILDABLE (spin), property);
+    gtk_grid_attach (grid, label, 0, row, 1, 1);
+    gtk_grid_attach (grid, spin, 1, row, 1, 1);
+    g_object_bind_property (settings, property, spin, "value",
+                            G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+}
+
+
+
+/**
+ * cache_preferences_note:
+ * @text: The translated explanation to display.
+ *
+ * Returns: A wrapping label sized to fit the preferences dialog.
+ */
+static GtkWidget *
+cache_preferences_note (const gchar *text)
+{
+    GtkWidget *label = gtk_label_new (text);
+
+    gtk_label_set_xalign (GTK_LABEL (label), XALIGN);
+    gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+    gtk_label_set_max_width_chars (GTK_LABEL (label), 60);
+    return label;
+}
+
+
+
+/**
+ * renderer_preferences_frame:
+ * @settings: The live settings shared with the viewer.
+ *
+ * Offer a persistent renderer choice without replacing active GL contexts.
+ * Update both radio states so external changes select the other group member.
+ * Only the GPU button writes the shared boolean back to the settings.
+ *
+ * Returns: The rendering preferences frame.
+ */
+static GtkWidget *
+renderer_preferences_frame (RsttoSettings *settings)
+{
+    GtkWidget *box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+    GtkWidget *choices = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
+    GtkWidget *cpu = gtk_radio_button_new_with_mnemonic (NULL, _("_CPU"));
+    GtkWidget *gpu = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (cpu), _("_GPU (libplacebo)"));
+    GtkWidget *note = cache_preferences_note (_("Renderer changes take effect after restarting Ristretto. GPU rendering falls back to the CPU when necessary."));
+    const gchar *override = g_getenv ("RISTRETTO_RENDERER");
+
+    gtk_buildable_set_name (GTK_BUILDABLE (cpu), "renderer-cpu");
+    gtk_buildable_set_name (GTK_BUILDABLE (gpu), "renderer-gpu");
+    gtk_buildable_set_name (GTK_BUILDABLE (note), "renderer-restart");
+    gtk_box_pack_start (GTK_BOX (choices), cpu, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (choices), gpu, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (box), choices, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (box), note, FALSE, FALSE, 0);
+    g_object_bind_property (settings, "gpu-enabled", cpu, "active",
+                            G_BINDING_INVERT_BOOLEAN | G_BINDING_SYNC_CREATE);
+    g_object_bind_property (settings, "gpu-enabled", gpu, "active",
+                            G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+#if !defined(HAVE_PLACEBO) || !defined(HAVE_GLYCIN)
+    gtk_widget_set_sensitive (gpu, FALSE);
+    gtk_box_pack_start (GTK_BOX (box), cache_preferences_note ( _("GPU rendering is unavailable in this build. CPU rendering will be used.")), FALSE, FALSE, 0);
+#endif
+    if (g_strcmp0 (override, "cpu") == 0 || g_strcmp0 (override, "placebo") == 0)
+    {
+        note = cache_preferences_note (_("RISTRETTO_RENDERER overrides this choice for this process. Remove the environment override before restarting to use the saved choice."));
+        gtk_buildable_set_name (GTK_BUILDABLE (note), "renderer-override");
+        gtk_box_pack_start (GTK_BOX (box), note, FALSE, FALSE, 0);
+    }
+    return xfce_gtk_frame_box_new_with_content (_("Rendering"), box);
+}
+
+
+
+/**
+ * cache_preferences_page:
+ * @settings: The live settings shared with the viewer.
+ *
+ * Create the advanced cache controls without changing stored values. Bindings
+ * follow changes from Xfconf and are released when their widgets are finalized.
+ * Builds without safe probing retain the settings but disable these controls.
+ *
+ * Returns: The Advanced notebook page.
+ */
+static GtkWidget *
+cache_preferences_page (RsttoSettings *settings)
+{
+    GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+    GtkWidget *controls = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+    GtkWidget *cache_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+    GtkWidget *preload_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+    GtkWidget *enabled = gtk_check_button_new_with_mnemonic (_("_Enable image caching"));
+    GtkWidget *cache_grid = gtk_grid_new ();
+    GtkWidget *preload_grid = gtk_grid_new ();
+    GtkWidget *frame;
+
+    gtk_buildable_set_name (GTK_BUILDABLE (page), "advanced-page");
+    gtk_buildable_set_name (GTK_BUILDABLE (enabled), "cache-enabled");
+    gtk_box_pack_start (GTK_BOX (page), renderer_preferences_frame (settings), FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (page), controls, FALSE, FALSE, 0);
+    gtk_grid_set_row_spacing (GTK_GRID (cache_grid), 6);
+    gtk_grid_set_column_spacing (GTK_GRID (cache_grid), 12);
+    gtk_grid_set_row_spacing (GTK_GRID (preload_grid), 6);
+    gtk_grid_set_column_spacing (GTK_GRID (preload_grid), 12);
+
+    frame = xfce_gtk_frame_box_new_with_content (_("Image cache"), cache_box);
+    gtk_box_pack_start (GTK_BOX (controls), frame, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (cache_box), enabled, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (cache_box), cache_grid, FALSE, FALSE, 0);
+    cache_preferences_add_uint (settings, GTK_GRID (cache_grid), 0, "cache-max-images",
+                                _("Maximum _images:"),
+                                  _("Maximum cached images, including displayed images and loads in progress. Two slots are reserved for current and previous images."));
+    cache_preferences_add_uint (settings, GTK_GRID (cache_grid), 1, "cache-max-mib",
+                                _("_Total memory (MiB):"),
+                                  _("Memory budget for decoded pixels and working buffers in each viewer. 1024 MiB = 1 GiB. Zero disables caching."));
+    cache_preferences_add_uint (settings, GTK_GRID (cache_grid), 2, "cache-max-image-mib",
+                                _("Memory _per image (MiB):"),
+                                  _("Images exceeding this decoded-memory limit are viewed without caching. Zero disables caching."));
+    gtk_box_pack_start (GTK_BOX (cache_box), cache_preferences_note ( _("Limits apply to each viewer's decoded images and working buffers, not file sizes or total application memory. Set either memory limit to 0 to disable caching.")), FALSE, FALSE, 0);
+
+    frame = xfce_gtk_frame_box_new_with_content (_("Preloading"), preload_box);
+    gtk_box_pack_start (GTK_BOX (controls), frame, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (preload_box), preload_grid, FALSE, FALSE, 0);
+    cache_preferences_add_uint (settings, GTK_GRID (preload_grid), 0, "preload-count",
+                                _("Images to pre_load:"),
+                                  _("Nearby images to load ahead in the direction of navigation. Zero disables preloading while retaining caching."));
+    cache_preferences_add_uint (settings, GTK_GRID (preload_grid), 1, "preload-workers",
+                                _("Preload _workers:"),
+                                  _("Maximum concurrent preload jobs. Actual concurrency is limited by available image slots and memory."));
+    gtk_box_pack_start (GTK_BOX (preload_box), cache_preferences_note ( _("Set images to preload to 0 to keep caching without preloading. Preloading uses at most the image limit minus two slots, and must fit the memory budget.")), FALSE, FALSE, 0);
+
+    g_object_bind_property (settings, "cache-enabled", enabled, "active",
+                            G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+    g_object_bind_property (settings, "cache-enabled", cache_grid, "sensitive", G_BINDING_SYNC_CREATE);
+    g_object_bind_property (settings, "cache-enabled", frame, "sensitive", G_BINDING_SYNC_CREATE);
+    if (!rstto_image_probe_available ())
+    {
+        gtk_widget_set_sensitive (controls, FALSE);
+        gtk_box_pack_start (GTK_BOX (page), cache_preferences_note ( _("Image caching and preloading are unavailable in this build. Normal image viewing is still available.")), FALSE, FALSE, 0);
+    }
+    return page;
+}
 
 
 
@@ -539,6 +716,9 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
                         FALSE, FALSE, 0);
     g_signal_connect (dialog->priv->behaviour_tab.check_file_manager_sort_sync_once, "toggled",
                       G_CALLBACK (cb_check_file_manager_sort_sync_once_toggled), dialog);
+
+    gtk_notebook_append_page (GTK_NOTEBOOK (notebook), cache_preferences_page (dialog->priv->settings),
+                              gtk_label_new (_("Advanced")));
 
     /* Increase left and top margins for the tabs' contents */
     n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));

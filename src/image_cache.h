@@ -1,0 +1,165 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
+#ifndef RSTTO_IMAGE_CACHE_H
+#define RSTTO_IMAGE_CACHE_H
+
+#include "image_gpu.h"
+#include "image_render.h"
+
+#include <cairo.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gio/gio.h>
+
+G_BEGIN_DECLS
+
+#define RSTTO_PRELOAD_WORKERS_DEFAULT 2
+#define RSTTO_PRELOAD_WORKERS_MAX 32
+
+#define RSTTO_TYPE_IMAGE_CACHE (rstto_image_cache_get_type ())
+#define RSTTO_IMAGE_CACHE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), RSTTO_TYPE_IMAGE_CACHE, RsttoImageCache))
+#define RSTTO_IS_IMAGE_CACHE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), RSTTO_TYPE_IMAGE_CACHE))
+
+typedef struct RsttoImageCache RsttoImageCache;
+typedef struct
+{
+    GObjectClass parent_class;
+} RsttoImageCacheClass;
+
+/**
+ * rstto_image_cache_get_type:
+ *
+ * Return the registered type of the private image cache manager.
+ */
+GType
+rstto_image_cache_get_type (void);
+
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (RsttoImageCache, g_object_unref)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (RsttoImageCacheClass, g_type_class_unref)
+
+typedef struct
+{
+    gboolean limit_quality;
+    gint width, height;
+    gboolean ephemeral;
+} RsttoDecodeOptions;
+
+/* Pixel storage and its actual prepared-variant identity. */
+typedef struct
+{
+    cairo_surface_t *surface;
+    GdkPixbufAnimation *animation;
+    GError *error;
+    gint width, height;
+    gint decoded_width, decoded_height;
+    gdouble quality_scale;
+    gboolean has_alpha;
+    cairo_surface_t *rendered;
+    RsttoGpuImage *gpu_image;
+    RsttoRenderKey render_key;
+} RsttoImageData;
+
+typedef enum
+{
+    RSTTO_RENDER_STARTED,
+    RSTTO_RENDER_READY,
+    RSTTO_RENDER_DIRECT,
+    RSTTO_RENDER_ABORTED
+} RsttoRenderOutcome;
+
+typedef enum
+{
+    RSTTO_RENDER_REASON_NONE,
+    RSTTO_RENDER_REASON_UNCACHED,
+    RSTTO_RENDER_REASON_NATIVE,
+    RSTTO_RENDER_REASON_IMAGE_LIMIT,
+    RSTTO_RENDER_REASON_BUDGET,
+    RSTTO_RENDER_REASON_ALLOCATION,
+    RSTTO_RENDER_REASON_FAILED
+} RsttoRenderReason;
+
+/* Borrowed for the duration of the synchronous boolean "ready" signal. The
+ * consumer returns TRUE only after replacing its old pixels; FALSE declines
+ * delivery. Observer handlers return FALSE. The cache pins accepted storage
+ * until an accepted replacement, clear(), or stop(), and keeps both old and
+ * proposed storage accounted throughout delivery. Consumers must release their
+ * wrappers before clearing/stopping the cache and reference objects as needed.
+ * A proposed derivative is committed only after acceptance. Delivery metadata
+ * is never stored as the identity of a cached pixel variant. */
+typedef struct
+{
+    RsttoImageData image;
+    RsttoRenderOutcome outcome;
+    RsttoRenderReason reason;
+    RsttoRenderKey attempted_key;
+    gboolean retry_view;
+} RsttoImageDelivery;
+
+typedef struct
+{
+    gboolean enabled;
+    guint max_images;
+    guint64 max_bytes, max_image_bytes;
+} RsttoCacheLimits;
+
+typedef struct
+{
+    guint entries, jobs;
+    guint64 resident_bytes, reserved_bytes, decodes, hits;
+    guint64 renders, render_hits;
+    guint reserved_images, speculative_images;
+    guint active_tasks, peak_tasks;
+} RsttoCacheStats;
+
+RsttoImageCache *
+rstto_image_cache_new (void);
+void
+rstto_image_cache_set_gpu (RsttoImageCache *cache, RsttoGpuRenderer *gpu);
+void
+rstto_image_cache_get_gpu_stats (RsttoImageCache *cache, RsttoGpuStats *stats);
+void
+rstto_image_cache_set_limits (RsttoImageCache *cache, const RsttoCacheLimits *limits);
+void
+rstto_image_cache_set_preload_workers (RsttoImageCache *cache, guint workers);
+void
+rstto_image_cache_set_excluded_mime_types (RsttoImageCache *cache, const gchar *const *types);
+void
+rstto_image_cache_request (RsttoImageCache *cache, GFile *file, const gchar *mime_type, const RsttoDecodeOptions *options);
+/* Candidates are in priority order, borrowed during this call. MIME detection
+ * uses the same generic fallback as foreground loading. */
+typedef enum
+{
+    RSTTO_NAV_STEP,
+    RSTTO_NAV_JUMP,
+    RSTTO_NAV_ORDER
+} RsttoNavigationChange;
+void
+rstto_image_cache_navigation (RsttoImageCache *cache, RsttoNavigationChange change, gint direction);
+/* Internal main-thread transaction: selection and its ranked snapshot commit together. */
+void
+rstto_image_cache_begin_update (RsttoImageCache *cache);
+void
+rstto_image_cache_end_update (RsttoImageCache *cache);
+void
+rstto_image_cache_view_changed (RsttoImageCache *cache, gboolean pending);
+void
+rstto_image_cache_set_schedule (RsttoImageCache *cache, GFile *pending, GPtrArray *files);
+
+void
+rstto_image_cache_set_candidates (RsttoImageCache *cache, GPtrArray *files);
+void
+rstto_image_cache_invalidate (RsttoImageCache *cache, GFile *file);
+void
+rstto_image_cache_cancel_request (RsttoImageCache *cache);
+void
+rstto_image_cache_clear (RsttoImageCache *cache);
+void
+rstto_image_cache_stop (RsttoImageCache *cache);
+gboolean
+rstto_image_cache_is_busy (RsttoImageCache *cache);
+void
+rstto_image_cache_get_stats (RsttoImageCache *cache, RsttoCacheStats *stats);
+/* Pure navigation policy, also used by the headless tests. */
+GArray *
+rstto_image_cache_neighbor_positions (guint length, guint current, gint direction, gboolean initial, guint count, guint capacity, gboolean wrap);
+
+G_END_DECLS
+#endif
