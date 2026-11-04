@@ -427,7 +427,7 @@ msgstr "tipo de ficheiro"
 #. Icon-name
 #: src/main_window.c:681
 msgid "modification date"
-msgstr ""
+msgstr "data de modificação"
 
 #. Icon-name
 #: src/main_window.c:687
