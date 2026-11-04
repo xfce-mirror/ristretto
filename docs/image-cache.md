@@ -302,11 +302,21 @@ For downscaled still images, workers prepare a viewport-bounded Cairo image
 surface with the same transforms and GOOD/NEAREST smoothing as the normal path.
 Conversion reads immutable pixbuf storage without requesting a writable full-image
 copy on GdkPixbuf 2.32 and later; older headers retain the compatible accessor.
-Opaque RGB conversion packs pixels directly, with an SSE2 path on supported
-compiler targets and a separately tested portable scalar fallback. No native-CPU
-build flags or new runtime dependency are required. RGBA conversion preserves the
+Opaque RGB conversion packs pixels directly using the optional
+[SIMDe](https://github.com/simd-everywhere/simde) headers (version 0.8.2 or newer).
+The explicit `simde_*` SSE2 interface selects native instructions where available,
+including SSE2 on x86 and NEON on ARM64. The byte-packing implementation is enabled
+only on little-endian targets. Big-endian targets, builds without SIMDe, and
+explicitly disabled builds retain the scalar implementation. No native-CPU
+build flags or new runtime library are required. RGBA conversion preserves the
 original premultiplication rounding and directly packs fully opaque pixels. Conversion checks interest/cancellation every
 64 rows and allocates one destination surface.
+
+Meson defaults to `-Dsimde=auto`. Use `-Dsimde=enabled` to require the headers or
+`-Dsimde=disabled` to build and test the scalar fallback. On Debian/Ubuntu the
+development package is `libsimde-dev`; the installed package must meet the version
+requirement. SIMDe changes conversion instructions, not image allocations,
+reservations, cache limits or worker counts.
 
 Smoothed scaling uses 128-device-pixel row stripes with independent Cairo wrappers
 and contexts, disjoint writes, and one shared output allocation. Main-thread
@@ -388,6 +398,13 @@ Raster tests compare all eight EXIF orientations, transparency, cropping, qualit
 limits and device scaling against the original transform path (exact nearest-neighbor pixels;
 at most two channel levels of rounding tolerance for smoothed output). Installed decoder
 backends may also require the session bus or a functioning codec sandbox.
+
+Conversion tests compare native SIMDe, SIMDe with native intrinsics disabled,
+and the scalar fallback against the same exact integer reference. They cover
+RGB/RGBA, alpha boundaries, cancellation and immutable pixbufs. On systems with
+anonymous memory mappings, read-only input rows end immediately before an
+inaccessible page to detect writes or overreads across short rows, unaligned
+starts, vector tails and padded strides, including an unpadded final row.
 
 The Preferences suite also requires a graphical display. It uses isolated
 settings to check that opening the Advanced tab preserves values, edits and

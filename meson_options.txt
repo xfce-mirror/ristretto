@@ -28,3 +28,6 @@ option(
 
 option('placebo', type: 'feature', value: 'auto',
   description: 'Experimental libplacebo OpenGL image scaling (opt in with RISTRETTO_RENDERER=placebo)')
+
+option('simde', type: 'feature', value: 'auto',
+  description: 'Portable SIMD pixel conversion using SIMDe headers')

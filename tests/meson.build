@@ -1,7 +1,7 @@
 cache_test = executable(
   'test-image-cache',
   ['test-image-cache.c', '../src/image_probe.c', '../src/image_render.c', '../src/image_gpu.c', '../src/image_shader_cache.c'],
-  dependencies: [glib, gio, gio_unix, gtk, cairo, glycin, placebo, epoxy, libm],
+  dependencies: [glib, gio, gio_unix, gtk, cairo, glycin, placebo, epoxy, simde, libm],
 )
 test('image-cache', cache_test, timeout: 60)
 
@@ -15,11 +15,11 @@ test('image-probe', probe_test, timeout: 30)
 render_test = executable(
   'test-image-render',
   ['test-image-render.c', '../src/image_render.c'],
-  dependencies: [glib, gio, gtk, cairo, libm],
+  dependencies: [glib, gio, gtk, cairo, simde, libm],
 )
 test('image-render', render_test, timeout: 30)
 
-# Exercise the portable conversion path even on hosts with SSE2.
+# Exercise Ristretto's C fallback independently of SIMDe and native SIMD.
 render_scalar_test = executable(
   'test-image-render-scalar',
   ['test-image-render.c', '../src/image_render.c'],
@@ -28,20 +28,29 @@ render_scalar_test = executable(
 )
 test('image-render-scalar', render_scalar_test, timeout: 30)
 
+if simde.found()
+  # Exercise SIMDe's portable implementation without native intrinsics.
+  render_portable_test = executable('test-image-render-portable',
+    ['test-image-render.c', '../src/image_render.c'],
+    c_args: ['-DSIMDE_NO_NATIVE'],
+    dependencies: [glib, gio, gtk, cairo, simde, libm])
+  test('image-render-portable', render_portable_test, timeout: 30)
+endif
+
 executable('benchmark-thumbnailer', 'benchmark-thumbnailer.c', dependencies: [glib, gio])
 
 if placebo.found() and epoxy.found()
   gpu_test = executable('test-image-gpu',
     ['test-image-gpu.c', '../src/image_gpu.c', '../src/image_shader_cache.c', '../src/image_render.c'],
     c_args: ['-DRSTTO_GPU_TEST'],
-    dependencies: [glib, gio, gtk, cairo, placebo, epoxy, libm])
+    dependencies: [glib, gio, gtk, cairo, placebo, epoxy, simde, libm])
   test('image-gpu', gpu_test, timeout: 90)
   test('shader-process', find_program('python3'),
     args: [files('test-shader-process.py'), gpu_test], timeout: 60)
   gpu_cache_test = executable('test-image-cache-gpu',
     ['test-image-cache.c', '../src/image_probe.c', '../src/image_gpu.c', '../src/image_shader_cache.c', '../src/image_render.c'],
     c_args: ['-DRSTTO_GPU_TEST', '-DRSTTO_CACHE_GPU'],
-    dependencies: [glib, gio, gio_unix, gtk, cairo, glycin, placebo, epoxy, libm])
+    dependencies: [glib, gio, gio_unix, gtk, cairo, glycin, placebo, epoxy, simde, libm])
   test('image-cache-gpu', gpu_cache_test, timeout: 90)
 endif
 

@@ -88,6 +88,7 @@ ristretto_dependencies = [
   gio_unix,
   gtk,
   cairo,
+  simde,
   glycin,
   placebo,
   epoxy,

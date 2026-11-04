@@ -3,6 +3,10 @@
 
 #include <float.h>
 #include <math.h>
+#ifdef G_OS_UNIX
+#include <sys/mman.h>
+#include <unistd.h>
+#endif
 
 
 /**
@@ -193,6 +197,40 @@ convert_continue (gpointer data)
 
 
 /**
+ * assert_converted_surface:
+ *
+ * Check every native-endian Cairo pixel against independent integer division,
+ * including alpha premultiplication, without reading source row padding.
+ */
+static void
+assert_converted_surface (cairo_surface_t *surface,
+                          const guchar *pixels,
+                          gint width,
+                          gint height,
+                          gint stride,
+                          gint channels)
+{
+    g_assert_nonnull (surface);
+    g_assert_cmpint (cairo_surface_status (surface), ==, CAIRO_STATUS_SUCCESS);
+    g_assert_cmpint (cairo_image_surface_get_width (surface), ==, width);
+    g_assert_cmpint (cairo_image_surface_get_height (surface), ==, height);
+    for (gint y = 0; y < height; y++)
+    {
+        const guchar *src = pixels + y * stride;
+        const guint32 *dst = (const guint32 *) (cairo_image_surface_get_data (surface)
+                                                + y * cairo_image_surface_get_stride (surface));
+        for (gint x = 0; x < width; x++, src += channels)
+        {
+            guint a = channels == 4 ? src[3] : 255;
+            guint32 expected = (a << 24) | (((src[0] * a + 127) / 255) << 16)
+                               | (((src[1] * a + 127) / 255) << 8) | ((src[2] * a + 127) / 255);
+            g_assert_cmphex (dst[x], ==, expected);
+        }
+    }
+}
+
+
+/**
  * convert_pixels:
  *
  * Compare optimized RGB/RGBA conversion against exact scalar premultiplication
@@ -216,26 +254,58 @@ convert_pixels (void)
             GdkPixbuf *pixbuf = gdk_pixbuf_new_from_data (pixels, GDK_COLORSPACE_RGB, alpha, 8,
                                                           width, height, stride, NULL, NULL);
             cairo_surface_t *surface = rstto_image_convert (pixbuf, NULL, NULL);
-            g_assert_cmpint (cairo_surface_status (surface), ==, CAIRO_STATUS_SUCCESS);
-            for (gint y = 0; y < height; y++)
-            {
-                const guchar *src = pixels + y * stride;
-                const guint32 *dst = (const guint32 *) (cairo_image_surface_get_data (surface)
-                                                        + y * cairo_image_surface_get_stride (surface));
-                for (gint x = 0; x < width; x++, src += channels)
-                {
-                    guint a = alpha ? src[3] : 255;
-                    guint32 expected = (a << 24) | (((src[0] * a + 127) / 255) << 16)
-                                       | (((src[1] * a + 127) / 255) << 8) | ((src[2] * a + 127) / 255);
-                    g_assert_cmphex (dst[x], ==, expected);
-                }
-            }
+            assert_converted_surface (surface, pixels, width, height, stride, channels);
             guint remaining = 1;
             g_assert_null (rstto_image_convert (pixbuf, convert_continue, &remaining));
             cairo_surface_destroy (surface);
             g_object_unref (pixbuf);
             g_free (pixels);
         }
+}
+
+
+/**
+ * convert_row_bounds:
+ *
+ * End the last row exactly at an inaccessible page, with read-only input.
+ * Short rows, vector tails, unaligned starts and padded strides must produce
+ * exact pixels without a source overread or write, even without sanitizers.
+ */
+static void
+convert_row_bounds (void)
+{
+#if defined(G_OS_UNIX) && defined(MAP_ANONYMOUS)
+    glong page_size = sysconf (_SC_PAGESIZE);
+    const gint paddings[] = { 0, 1, 19 };
+    g_assert_cmpint (page_size, >, 0);
+    for (gint channels = 3; channels <= 4; channels++)
+        for (gint width = 1; width <= 259; width++)
+            for (gint height = 1; height <= 3; height += 2)
+                for (guint p = 0; p < G_N_ELEMENTS (paddings); p++)
+                {
+                    gint stride = width * channels + paddings[p];
+                    gsize size = (height - 1) * stride + width * channels;
+                    g_assert_cmpuint (size, <=, (gsize) page_size);
+                    guchar *mapping = mmap (NULL, 2 * page_size, PROT_READ | PROT_WRITE,
+                                            MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+                    g_assert_true (mapping != MAP_FAILED);
+                    g_assert_cmpint (mprotect (mapping + page_size, page_size, PROT_NONE), ==, 0);
+                    guchar *pixels = mapping + page_size - size;
+                    for (gsize n = 0; n < size; n++)
+                        pixels[n] = (n * 137 + n / 17) % 256;
+                    g_assert_cmpint (mprotect (mapping, page_size, PROT_READ), ==, 0);
+                    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_data (pixels, GDK_COLORSPACE_RGB, channels == 4, 8,
+                                                                  width, height, stride, NULL, NULL);
+                    g_assert_nonnull (pixbuf);
+                    cairo_surface_t *surface = rstto_image_convert (pixbuf, NULL, NULL);
+                    assert_converted_surface (surface, pixels, width, height, stride, channels);
+                    cairo_surface_destroy (surface);
+                    g_object_unref (pixbuf);
+                    g_assert_cmpint (munmap (mapping, 2 * page_size), ==, 0);
+                }
+#else
+    g_test_skip ("Guard pages require anonymous memory mappings");
+#endif
 }
 
 
@@ -321,6 +391,7 @@ main (int argc, char **argv)
     g_test_add_func ("/render/pixels-and-transforms", render_pixels);
     g_test_add_func ("/render/bounds-and-cancellation", render_bounds);
     g_test_add_func ("/render/pixel-conversion", convert_pixels);
+    g_test_add_func ("/render/conversion-row-bounds", convert_row_bounds);
     g_test_add_func ("/render/immutable-pixbuf", convert_immutable);
     g_test_add_func ("/render/completion-compatibility", render_compatibility);
     return g_test_run ();

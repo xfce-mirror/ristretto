@@ -3,8 +3,9 @@
 
 #include <float.h>
 #include <math.h>
-#if defined(__SSE2__) && !defined(RSTTO_RENDER_SCALAR)
-#include <emmintrin.h>
+#if defined(HAVE_SIMDE) && !defined(RSTTO_RENDER_SCALAR) && G_BYTE_ORDER == G_LITTLE_ENDIAN
+#include <simde/x86/sse2.h>
+#define RSTTO_CONVERT_SIMDE 1
 #endif
 
 
@@ -336,27 +337,28 @@ static void
 convert_rgb_row (const guchar *restrict src, guint32 *restrict dst, gint width)
 {
     gint x = 0;
-#if defined(__SSE2__) && !defined(RSTTO_RENDER_SCALAR)
-    /* SSE2 is baseline on x86-64. Other targets keep the scalar implementation.
+#ifdef RSTTO_CONVERT_SIMDE
+    /* SIMDe selects native SSE2, NEON or its portable implementation.
+     * The byte packing assumes little-endian lanes; other byte orders use C.
      * Expand four packed RGB pixels into four native-endian Cairo RGB24 words.
      * A load reads 16 bytes, so leave at least six input pixels, even on the
      * last row with no padding. The scalar tail never reads past the pixbuf. */
-    const __m128i m0 = _mm_set_epi32 (0, 0, 0, 0xffffff);
-    const __m128i m1 = _mm_set_epi32 (0, 0, 0xffffff, 0);
-    const __m128i m2 = _mm_set_epi32 (0, 0xffffff, 0, 0);
-    const __m128i m3 = _mm_set_epi32 (0xffffff, 0, 0, 0);
-    const __m128i blue = _mm_set1_epi32 (0xff), green = _mm_set1_epi32 (0xff00);
-    const __m128i opaque = _mm_set1_epi32 ((gint) 0xff000000u);
+    const simde__m128i m0 = simde_mm_set_epi32 (0, 0, 0, 0xffffff);
+    const simde__m128i m1 = simde_mm_set_epi32 (0, 0, 0xffffff, 0);
+    const simde__m128i m2 = simde_mm_set_epi32 (0, 0xffffff, 0, 0);
+    const simde__m128i m3 = simde_mm_set_epi32 (0xffffff, 0, 0, 0);
+    const simde__m128i blue = simde_mm_set1_epi32 (0xff), green = simde_mm_set1_epi32 (0xff00);
+    const simde__m128i opaque = simde_mm_set1_epi32 ((gint32) 0xff000000u);
     for (; x <= width - 6; x += 4)
     {
-        __m128i in = _mm_loadu_si128 ((const __m128i *) (src + (gsize) x * 3));
-        __m128i rgb = _mm_or_si128 (_mm_and_si128 (in, m0), _mm_and_si128 (_mm_slli_si128 (in, 1), m1));
-        rgb = _mm_or_si128 (rgb, _mm_and_si128 (_mm_slli_si128 (in, 2), m2));
-        rgb = _mm_or_si128 (rgb, _mm_and_si128 (_mm_slli_si128 (in, 3), m3));
-        __m128i out = _mm_or_si128 (opaque, _mm_and_si128 (rgb, green));
-        out = _mm_or_si128 (out, _mm_slli_epi32 (_mm_and_si128 (rgb, blue), 16));
-        out = _mm_or_si128 (out, _mm_and_si128 (_mm_srli_epi32 (rgb, 16), blue));
-        _mm_storeu_si128 ((__m128i *) (dst + x), out);
+        simde__m128i in = simde_mm_loadu_si128 (src + (gsize) x * 3);
+        simde__m128i rgb = simde_mm_or_si128 (simde_mm_and_si128 (in, m0), simde_mm_and_si128 (simde_mm_slli_si128 (in, 1), m1));
+        rgb = simde_mm_or_si128 (rgb, simde_mm_and_si128 (simde_mm_slli_si128 (in, 2), m2));
+        rgb = simde_mm_or_si128 (rgb, simde_mm_and_si128 (simde_mm_slli_si128 (in, 3), m3));
+        simde__m128i out = simde_mm_or_si128 (opaque, simde_mm_and_si128 (rgb, green));
+        out = simde_mm_or_si128 (out, simde_mm_slli_epi32 (simde_mm_and_si128 (rgb, blue), 16));
+        out = simde_mm_or_si128 (out, simde_mm_and_si128 (simde_mm_srli_epi32 (rgb, 16), blue));
+        simde_mm_storeu_si128 (dst + x, out);
     }
 #endif
     for (; x < width; x++)

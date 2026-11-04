@@ -43,6 +43,12 @@ libxfce4util = dependency('libxfce4util-1.0', version: dependency_versions['xfce
 xfconf = dependency('libxfconf-0', version: dependency_versions['xfce4'])
 
 feature_cflags = []
+simde = dependency('simde', version: '>= 0.8.2', required: get_option('simde'))
+if simde.found()
+  feature_cflags += '-DHAVE_SIMDE=1'
+endif
+summary('Portable SIMD conversion (SIMDe)', simde.found())
+
 glycin = dependency('glycin-2', version: '>= 2.0.0', required: get_option('glycin-probe'))
 if glycin.found()
   feature_cflags += '-DHAVE_GLYCIN=1'

@@ -50,6 +50,11 @@ From [Flathub](https://flathub.org/apps/details/org.xfce.ristretto):
 
     % flatpak install flathub org.xfce.ristretto
 
+Optional portable SIMD pixel conversion uses SIMDe headers (0.8.2 or newer;
+Debian/Ubuntu package `libsimde-dev`). Meson detects them automatically. Use
+`-Dsimde=enabled` to require them, or `-Dsimde=disabled` for scalar conversion.
+See [conversion and testing](docs/image-cache.md) for details.
+
 ### Image preloading
 
 Use **Edit → Preferences → Advanced** to tune image caching and preloading.
