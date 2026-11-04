@@ -2016,7 +2016,7 @@ stripe_worker (GTask *task, gpointer source, gpointer data, GCancellable *cancel
 #ifdef RSTTO_CACHE_TEST
     if (!job->test_fail_stripe)
 #endif
-    stripe->ok = job_useful (job) && job->render_output.data != NULL && rstto_image_render_stripe (&job->render_source, &job->render_output, &job->render_key, stripe->row, stripe->rows) && job_useful (job);
+        stripe->ok = job_useful (job) && job->render_output.data != NULL && rstto_image_render_stripe (&job->render_source, &job->render_output, &job->render_key, stripe->row, stripe->rows) && job_useful (job);
 #ifdef RSTTO_VIEWER_TEST
     rstto_test_worker_checkpoint (RENDER, g_atomic_int_get (&job->demand), cancel, FALSE);
 #endif

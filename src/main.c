@@ -18,9 +18,9 @@
  */
 
 #include "util.h"
-#include "profile.h"
 #include "main_window.h"
 #include "preferences_dialog.h"
+#include "profile.h"
 
 #include <libxfce4ui/libxfce4ui.h>
 #include <locale.h>

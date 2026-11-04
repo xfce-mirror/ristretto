@@ -17,7 +17,6 @@
  *  02110-1301, USA.
  */
 
-#include "profile.h"
 #include "util.h"
 #include "app_menu_item.h"
 #include "file_manager_integration.h"
@@ -29,6 +28,7 @@
 #include "preferences_dialog.h"
 #include "print.h"
 #include "privacy_dialog.h"
+#include "profile.h"
 #include "properties_dialog.h"
 #include "thumbnailer.h"
 #include "xfce_wallpaper_manager.h"
@@ -1671,12 +1671,11 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
         return;
     cur_file = rstto_image_list_iter_get_file (window->priv->iter);
     gint preload_position = rstto_image_list_iter_get_position (window->priv->iter);
-    gboolean selection_changed = cur_file != NULL && (window->priv->preload_file == NULL
-        || !g_file_equal (rstto_file_get_file (cur_file), window->priv->preload_file));
+    gboolean selection_changed = cur_file != NULL && (window->priv->preload_file == NULL || !g_file_equal (rstto_file_get_file (cur_file), window->priv->preload_file));
     gint distance = preload_position - window->priv->preload_position;
     gint length = rstto_image_list_get_n_images (window->priv->image_list);
     gboolean adjacent = window->priv->preload_position >= 0
-        && (ABS (distance) == 1 || (window->priv->preload_hint != 0 && ABS (distance) == length - 1));
+                        && (ABS (distance) == 1 || (window->priv->preload_hint != 0 && ABS (distance) == length - 1));
     if (cur_file != NULL)
     {
         GFile *file = rstto_file_get_file (cur_file);
@@ -1700,9 +1699,9 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
     if (selection_changed)
         rstto_image_cache_navigation (cache, adjacent ? RSTTO_NAV_STEP : RSTTO_NAV_JUMP, window->priv->preload_direction);
     rstto_image_viewer_set_file (RSTTO_IMAGE_VIEWER (window->priv->image_viewer), cur_file,
-        cur_file != NULL ? rstto_file_get_scale (cur_file) : RSTTO_SCALE_NONE,
-        cur_file != NULL ? rstto_file_get_auto_scale (cur_file) : RSTTO_SCALE_NONE,
-        cur_file != NULL ? rstto_file_get_orientation (cur_file) : RSTTO_IMAGE_ORIENT_NONE);
+                                 cur_file != NULL ? rstto_file_get_scale (cur_file) : RSTTO_SCALE_NONE,
+                                 cur_file != NULL ? rstto_file_get_auto_scale (cur_file) : RSTTO_SCALE_NONE,
+                                 cur_file != NULL ? rstto_file_get_orientation (cur_file) : RSTTO_IMAGE_ORIENT_NONE);
     preload_refresh (window);
     rstto_image_cache_end_update (cache);
     rstto_main_window_update_buttons (window);

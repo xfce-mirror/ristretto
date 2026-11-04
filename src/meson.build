@@ -124,7 +124,7 @@ viewer_test = executable(
   'test-image-viewer',
   ristretto_sources + ['../tests/test-image-viewer.c'],
   sources: xfce_revision_h,
-  c_args: [
+  c_args: test_c_args + [
     '-DRSTTO_VIEWER_TEST',
     '-DTUMBLER_SERVICE_NAME_PREFIX="@0@"'.format(tumbler_service_name_prefix),
     '-DTUMBLER_SERVICE_PATH_PREFIX="@0@"'.format(tumbler_service_path_prefix),

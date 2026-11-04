@@ -49,9 +49,12 @@ GtkWidget *
 rstto_image_viewer_new (void);
 
 /* Internal navigation/display split. The returned file is borrowed. */
-RsttoFile *rstto_image_viewer_get_file (RsttoImageViewer *viewer);
-void rstto_image_viewer_reconcile_files (RsttoImageViewer *viewer, RsttoImageList *list);
-void rstto_image_viewer_set_preload_files (RsttoImageViewer *viewer, GPtrArray *files);
+RsttoFile *
+rstto_image_viewer_get_file (RsttoImageViewer *viewer);
+void
+rstto_image_viewer_reconcile_files (RsttoImageViewer *viewer, RsttoImageList *list);
+void
+rstto_image_viewer_set_preload_files (RsttoImageViewer *viewer, GPtrArray *files);
 
 RsttoImageCache *
 rstto_image_viewer_get_cache (RsttoImageViewer *viewer);
@@ -106,9 +109,12 @@ rstto_image_viewer_reset_adjustments (RsttoImageViewer *viewer);
 #ifdef RSTTO_VIEWER_TEST
 gboolean
 rstto_image_viewer_test_painted_key (RsttoImageViewer *viewer, RsttoRenderKey *key);
-guint rstto_image_viewer_test_unprepared_paints (RsttoImageViewer *viewer);
-void rstto_image_viewer_test_fail_gpu (RsttoImageViewer *viewer);
-gboolean rstto_image_viewer_test_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key);
+guint
+rstto_image_viewer_test_unprepared_paints (RsttoImageViewer *viewer);
+void
+rstto_image_viewer_test_fail_gpu (RsttoImageViewer *viewer);
+gboolean
+rstto_image_viewer_test_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key);
 #endif
 
 G_END_DECLS

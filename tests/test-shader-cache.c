@@ -114,12 +114,18 @@ persistence (gconstpointer mode_ptr)
     else if (mode == 6)
     {
         gchar *ns = g_build_filename (root, fingerprint, NULL);
-        g_chmod (ns, 0500);
-        rstto_shader_cache_save (cache, 43, payload, sizeof payload);
-        guint64 hits, misses, writes;
-        rstto_shader_cache_stats (cache, &hits, &misses, &writes);
-        g_assert_cmpuint (writes, ==, 1);
-        g_chmod (ns, 0700);
+        g_assert_cmpint (g_chmod (ns, 0500), ==, 0);
+        /* Root and other privileged users can bypass directory permissions. */
+        if (g_access (ns, W_OK) == 0)
+            g_test_skip ("Current user can write to directories without write permissions");
+        else
+        {
+            rstto_shader_cache_save (cache, 43, payload, sizeof payload);
+            guint64 hits, misses, writes;
+            rstto_shader_cache_stats (cache, &hits, &misses, &writes);
+            g_assert_cmpuint (writes, ==, 1);
+        }
+        g_assert_cmpint (g_chmod (ns, 0700), ==, 0);
         g_free (ns);
     }
     else if (mode >= 8)

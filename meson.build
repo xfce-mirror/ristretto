@@ -183,6 +183,9 @@ add_project_arguments(cc.get_supported_arguments(extra_cflags_check), language: 
 add_project_arguments(extra_cflags, language: 'c')
 add_project_arguments(feature_cflags, language: 'c')
 
+# GLib tests must retain assertions even when meson dist uses a release build.
+test_c_args = ['-UG_DISABLE_ASSERT']
+
 xfce_revision_h = vcs_tag(
   command: ['git', 'rev-parse', '--short', 'HEAD'],
   fallback: 'UNKNOWN',

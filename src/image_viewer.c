@@ -17,11 +17,11 @@
  *  02110-1301, USA.
  */
 
-#include "profile.h"
 #include "util.h"
 #include "image_cache.h"
 #include "image_viewer.h"
 #include "main_window.h"
+#include "profile.h"
 
 #ifdef HAVE_LIBXFCE4WINDOWING
 #include <libxfce4windowing/libxfce4windowing.h>
@@ -64,7 +64,8 @@ typedef enum
 
 static void
 rstto_image_viewer_finalize (GObject *object);
-static void adjustment_changed (GtkAdjustment *adjustment, RsttoImageViewer *viewer);
+static void
+adjustment_changed (GtkAdjustment *adjustment, RsttoImageViewer *viewer);
 
 static void
 rstto_image_viewer_set_property (GObject *object,
@@ -180,15 +181,22 @@ static void
 cache_identity_changed (RsttoImageCache *cache, GFile *file, RsttoImageViewer *viewer);
 static void
 cache_viewer_destroy (GtkWidget *widget, gpointer unused);
-static void cache_prepare_render (RsttoImageCache *cache, GFile *file, RsttoImageData *image,
-                                  RsttoRenderKey *key, RsttoImageViewer *viewer);
-static gboolean current_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key);
-static void navigation_clear (RsttoImageViewer *viewer);
-static void presentation_arm (RsttoImageViewer *viewer);
-static void render_refresh (RsttoImageViewer *viewer);
-static void reload_options (RsttoImageViewer *viewer);
-static void viewer_unmapped (GtkWidget *widget, gpointer unused);
-static void viewer_unrealized (GtkWidget *widget, gpointer unused);
+static void
+cache_prepare_render (RsttoImageCache *cache, GFile *file, RsttoImageData *image, RsttoRenderKey *key, RsttoImageViewer *viewer);
+static gboolean
+current_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key);
+static void
+navigation_clear (RsttoImageViewer *viewer);
+static void
+presentation_arm (RsttoImageViewer *viewer);
+static void
+render_refresh (RsttoImageViewer *viewer);
+static void
+reload_options (RsttoImageViewer *viewer);
+static void
+viewer_unmapped (GtkWidget *widget, gpointer unused);
+static void
+viewer_unrealized (GtkWidget *widget, gpointer unused);
 static RsttoDecodeOptions
 decode_options (RsttoImageViewer *viewer);
 
@@ -1110,7 +1118,7 @@ paint_image (GtkWidget *widget,
          * the UI thread before the GPU request can even be submitted. */
         render_refresh (viewer);
         if (rstto_gpu_image_draw (viewer->priv->pixbuf.gpu_image, ctx, gtk_widget_get_window (widget),
-                                      gtk_widget_get_scale_factor (widget)))
+                                  gtk_widget_get_scale_factor (widget)))
             return;
         /* A failed context must go through admitted CPU preparation, too.
          * Reopen this geometry once; repeated draws must not retry in a loop. */
@@ -1148,7 +1156,8 @@ paint_image (GtkWidget *widget,
             render_refresh (viewer);
     }
 #ifdef RSTTO_VIEWER_TEST
-    if (!prepared) viewer->priv->unprepared_paints++;
+    if (!prepared)
+        viewer->priv->unprepared_paints++;
     viewer->priv->painted_key = prepared ? viewer->priv->pixbuf.render_key : key;
     viewer->priv->painted_direct = !prepared;
 #endif
