@@ -1,11 +1,18 @@
 /* SPDX-License-Identifier: GPL-2.0-or-later */
 #include "image_probe.h"
+
 #include <string.h>
 
 #ifdef HAVE_GLYCIN
 #include <glycin.h>
 #endif
 
+
+/**
+ * rstto_image_probe_available:
+ *
+ * Report whether the build provides safe Glycin metadata probing.
+ */
 gboolean
 rstto_image_probe_available (void)
 {
@@ -16,6 +23,13 @@ rstto_image_probe_available (void)
 #endif
 }
 
+
+/**
+ * collect_raw_types:
+ *
+ * Collect MIME mappings assigned to glycin-raw from one loader-configuration
+ * directory.
+ */
 static void
 collect_raw_types (const gchar *directory, GHashTable *types)
 {
@@ -52,6 +66,13 @@ collect_raw_types (const gchar *directory, GHashTable *types)
     g_free (path);
 }
 
+
+/**
+ * rstto_image_probe_raw_mime_types:
+ *
+ * Return an owned NULL-terminated union of unsafe RAW MIME mappings from the
+ * installed Glycin configuration.
+ */
 gchar **
 rstto_image_probe_raw_mime_types (void)
 {
@@ -79,6 +100,13 @@ rstto_image_probe_raw_mime_types (void)
     return (gchar **) g_ptr_array_free (result, FALSE);
 }
 
+
+/**
+ * raw_type:
+ *
+ * Recognize RAW content through the GIO MIME hierarchy and configured
+ * glycin-raw mappings.
+ */
 static gboolean
 raw_type (const gchar *type, const gchar *const *raw_types)
 {
@@ -92,6 +120,13 @@ raw_type (const gchar *type, const gchar *const *raw_types)
     return raw;
 }
 
+
+/**
+ * rstto_image_probe_is_raw:
+ *
+ * Check content and filename classifications independently so TIFF-based RAW
+ * files cannot enter metadata probing.
+ */
 gboolean
 rstto_image_probe_is_raw (GFile *file, GBytes *prefix, const gchar *const *raw_types)
 {
@@ -113,6 +148,13 @@ rstto_image_probe_is_raw (GFile *file, GBytes *prefix, const gchar *const *raw_t
     return raw;
 }
 
+
+/**
+ * rstto_image_probe_read:
+ *
+ * Read at most the fixed probe prefix in cancellable small chunks and return
+ * immutable owned bytes.
+ */
 GBytes *
 rstto_image_probe_read (GInputStream *stream, GCancellable *cancel)
 {
@@ -121,8 +163,8 @@ rstto_image_probe_read (GInputStream *stream, GCancellable *cancel)
     while (total < RSTTO_PROBE_LIMIT)
     {
         gssize count = g_input_stream_read (stream, bytes + total,
-                                           MIN (RSTTO_PROBE_BUFFER_SIZE, RSTTO_PROBE_LIMIT - total),
-                                           cancel, NULL);
+                                            MIN (RSTTO_PROBE_BUFFER_SIZE, RSTTO_PROBE_LIMIT - total),
+                                            cancel, NULL);
         if (count < 0 || g_cancellable_is_cancelled (cancel))
         {
             g_free (bytes);
@@ -141,6 +183,14 @@ typedef struct
 } Dimensions;
 
 #ifdef HAVE_GLYCIN
+
+
+/**
+ * metadata_ready:
+ *
+ * Extract validated dimensions from Glycin initialization without requesting a
+ * frame, then release local loader resources before completion.
+ */
 static void
 metadata_ready (GObject *source, GAsyncResult *result, gpointer data)
 {
@@ -165,9 +215,15 @@ metadata_ready (GObject *source, GAsyncResult *result, gpointer data)
 }
 #endif
 
+
+/**
+ * rstto_image_probe_async:
+ *
+ * Initialize Glycin using only the bounded immutable prefix, with orientation
+ * transforms disabled and no pixel-frame request.
+ */
 void
-rstto_image_probe_async (GBytes *prefix, GCancellable *cancel,
-                        GAsyncReadyCallback callback, gpointer data)
+rstto_image_probe_async (GBytes *prefix, GCancellable *cancel, GAsyncReadyCallback callback, gpointer data)
 {
     GTask *task = g_task_new (NULL, cancel, callback, data);
     g_task_set_return_on_cancel (task, FALSE);
@@ -182,6 +238,13 @@ rstto_image_probe_async (GBytes *prefix, GCancellable *cancel,
 #endif
 }
 
+
+/**
+ * rstto_image_probe_finish:
+ *
+ * Transfer validated probe dimensions to the caller, returning FALSE for
+ * unavailable, failed or cancelled probes.
+ */
 gboolean
 rstto_image_probe_finish (GAsyncResult *result, gint *width, gint *height)
 {

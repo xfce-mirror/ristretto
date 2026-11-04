@@ -52,8 +52,12 @@ From [Flathub](https://flathub.org/apps/details/org.xfce.ristretto):
 
 ### Image preloading
 
-See [image cache configuration and testing](docs/image-cache.md) for memory limits,
-Xfconf controls, freshness guarantees and accounting limitations.
+Use **Edit → Preferences → Advanced** to tune image caching and preloading.
+See [image cache configuration](docs/image-cache.md#configuration) for the Xfconf
+property reference, defaults, command examples, large-image settings and how to
+reset overrides. The same document covers memory accounting, freshness and tests.
+The [experimental OpenGL renderer](docs/opengl-rendering.md) documents its separate
+environment switches and GPU limits.
 
 ### Uninstallation
 

@@ -5,8 +5,16 @@
 #include <glib.h>
 #include <stdarg.h>
 
-/* Optional wall-clock spans, including time blocked in libraries. No file names
- * or pixel data are recorded. Normal builds optimize these calls away. */
+
+/**
+ * rstto_profile_now:
+ *
+ * Return the monotonic span start when profiling is enabled, or zero so normal
+ * builds can elide instrumentation.
+ *
+ * Optional wall-clock spans, including time blocked in libraries. No file
+ * names or pixel data are recorded. Normal builds optimize these calls away.
+ */
 static inline gint64
 rstto_profile_now (void)
 {
@@ -23,12 +31,18 @@ rstto_profile_now (void)
     return 0;
 }
 
-static inline void rstto_profile_end (gint64 start, gconstpointer object, guint64 id,
-                                     const gchar *event, const gchar *format, ...) G_GNUC_PRINTF (5, 6);
-
 static inline void
-rstto_profile_end (gint64 start, gconstpointer object, guint64 id,
-                  const gchar *event, const gchar *format, ...)
+rstto_profile_end (gint64 start, gconstpointer object, guint64 id, const gchar *event, const gchar *format, ...) G_GNUC_PRINTF (5, 6);
+
+
+/**
+ * rstto_profile_end:
+ *
+ * Emit one bounded diagnostic record for a completed span; a zero start
+ * disables logging.
+ */
+static inline void
+rstto_profile_end (gint64 start, gconstpointer object, guint64 id, const gchar *event, const gchar *format, ...)
 {
 #ifdef RSTTO_ENABLE_PROFILING
     if (start != 0)

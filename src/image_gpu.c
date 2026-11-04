@@ -2,8 +2,9 @@
 #include "image_gpu.h"
 #include "image_shader_cache.h"
 #include "profile.h"
-#include <math.h>
+
 #include <float.h>
+#include <math.h>
 #include <string.h>
 
 #ifdef HAVE_PLACEBO
@@ -11,15 +12,15 @@
 #ifdef RSTTO_GPU_TEST
 #include <epoxy/glx.h>
 #endif
-#include <libplacebo/opengl.h>
 #include <libplacebo/dispatch.h>
-#include <libplacebo/shaders/sampling.h>
+#include <libplacebo/opengl.h>
 #include <libplacebo/shaders/custom.h>
+#include <libplacebo/shaders/sampling.h>
 #endif
 
-typedef struct _GpuWorker GpuWorker;
-typedef struct _GpuSource GpuSource;
-struct _RsttoGpuRenderer
+typedef struct GpuWorker GpuWorker;
+typedef struct GpuSource GpuSource;
+struct RsttoGpuRenderer
 {
     GObject parent;
     GMainContext *main_context;
@@ -38,18 +39,26 @@ struct _RsttoGpuRenderer
 
 G_DEFINE_TYPE (RsttoGpuRenderer, rstto_gpu_renderer, G_TYPE_OBJECT)
 
+
+/**
+ * rstto_gpu_shader_cache_enabled:
+ *
+ * Read the diagnostic override controlling persistence of compiled shader
+ * binaries.
+ */
 gboolean
 rstto_gpu_shader_cache_enabled (void)
 {
     return g_strcmp0 (g_getenv ("RISTRETTO_SHADER_CACHE"), "0") != 0;
 }
 
-gboolean
-rstto_gpu_requested (void)
-{
-    return g_strcmp0 (g_getenv ("RISTRETTO_RENDERER"), "placebo") == 0;
-}
 
+/**
+ * rstto_gpu_worker_count:
+ *
+ * Read and validate the whole-image GPU worker count, falling back to the
+ * internal default.
+ */
 guint
 rstto_gpu_worker_count (void)
 {
@@ -59,6 +68,13 @@ rstto_gpu_worker_count (void)
     return value == NULL || (end != value && *end == '\0' && count >= 1 && count <= 5) ? count : 2;
 }
 
+
+/**
+ * rstto_gpu_dimensions_fit:
+ *
+ * Validate source, output and scaling arithmetic against the context's texture
+ * limit before GPU allocation.
+ */
 gboolean
 rstto_gpu_dimensions_fit (guint limit, gint width, gint height, const RsttoRenderKey *key)
 {
@@ -78,6 +94,13 @@ rstto_gpu_dimensions_fit (guint limit, gint width, gint height, const RsttoRende
            && key->width / sx <= FLT_MAX && key->height / sy <= FLT_MAX;
 }
 
+
+/**
+ * rstto_gpu_filter:
+ *
+ * Select nearest, pixel-aligned direct, enlargement or antialiased reduction
+ * sampling from the effective device-pixel scale.
+ */
 RsttoGpuFilter
 rstto_gpu_filter (const RsttoRenderKey *key)
 {
@@ -93,6 +116,13 @@ rstto_gpu_filter (const RsttoRenderKey *key)
     return MIN (x, y) < 1 - 1e-9 ? RSTTO_GPU_DOWN : RSTTO_GPU_UP;
 }
 
+
+/**
+ * rstto_gpu_render_key:
+ *
+ * Tag eligible variants with filter policy and context generation; leave
+ * incompatible dimensions on the CPU backend.
+ */
 void
 rstto_gpu_render_key (RsttoGpuRenderer *self, gint width, gint height, RsttoRenderKey *key)
 {
@@ -106,6 +136,13 @@ rstto_gpu_render_key (RsttoGpuRenderer *self, gint width, gint height, RsttoRend
     }
 }
 
+
+/**
+ * rstto_gpu_renderer_get_stats:
+ *
+ * Copy renderer counters under the accounting lock, or return zeros for an
+ * absent renderer.
+ */
 void
 rstto_gpu_renderer_get_stats (RsttoGpuRenderer *self, RsttoGpuStats *stats)
 {
@@ -120,44 +157,52 @@ rstto_gpu_renderer_get_stats (RsttoGpuRenderer *self, RsttoGpuStats *stats)
 
 #ifdef HAVE_PLACEBO
 static const gchar ewa_source[] =
-        "if (kernel.w < 0.0) { color = textureLod(source, sample_uv, 0.0); } else {\n"
-        "vec2 size = vec2(textureSize(source, 0));\n"
-        "vec2 position = sample_uv * size - vec2(0.5);\n"
-        "vec2 fraction = fract(position), base = floor(position) + vec2(0.5);\n"
-        "int bound = int(kernel.z);\n"
-        "vec4 sum = vec4(0.0), lo_sum = vec4(0.0), hi_sum = vec4(0.0);\n"
-        "vec4 lo_weight = vec4(0.0), hi_weight = vec4(0.0);\n"
-        "float total = 0.0;\n"
-        "for (int y = 1 - bound; y <= bound; ++y) {\n"
-        "  for (int x = 1 - bound; x <= bound; ++x) {\n"
-        "    vec2 offset = vec2(x, y);\n"
-        "    float distance = length(offset - fraction);\n"
-        "    if (distance >= kernel.x) continue;\n"
-        "    float weight = textureLod(weights, vec2((distance / kernel.x * 255.0 + 0.5) / 256.0, 0.5), 0.0).r;\n"
-        "    vec4 value = textureLod(source, (base + offset) / size, 0.0);\n"
-        "    sum += weight * value; total += weight;\n"
-        "    if (distance <= kernel.y) {\n"
-        "      vec4 low = vec4(1.0) - value;\n"
-        "      vec4 lw = low + vec4(0.10), hw = value + vec4(0.10);\n"
-        "      lw *= lw; hw *= hw; lw *= lw; hw *= hw; lw *= lw; hw *= hw;\n"
-        "      lw *= lw; hw *= hw; lw *= lw; hw *= hw;\n"
-        "      lw *= weight; hw *= weight;\n"
-        "      lo_sum += lw * low; hi_sum += hw * value;\n"
-        "      lo_weight += lw; hi_weight += hw;\n"
-        "    }\n"
-        "  }\n"
-        "}\n"
-        "color = sum / total;\n"
-        "vec4 low = vec4(1.0) - lo_sum / lo_weight, high = hi_sum / hi_weight;\n"
-        "vec4 limited = clamp(color, low, high);\n"
-        "limited = mix(limited, (low + high) * 0.5, greaterThan(low, high));\n"
-        "color = mix(color, limited, kernel.w);\n"
-        "}\n";
+    "if (kernel.w < 0.0) { color = textureLod(source, sample_uv, 0.0); } else {\n"
+    "vec2 size = vec2(textureSize(source, 0));\n"
+    "vec2 position = sample_uv * size - vec2(0.5);\n"
+    "vec2 fraction = fract(position), base = floor(position) + vec2(0.5);\n"
+    "int bound = int(kernel.z);\n"
+    "vec4 sum = vec4(0.0), lo_sum = vec4(0.0), hi_sum = vec4(0.0);\n"
+    "vec4 lo_weight = vec4(0.0), hi_weight = vec4(0.0);\n"
+    "float total = 0.0;\n"
+    "for (int y = 1 - bound; y <= bound; ++y) {\n"
+    "  for (int x = 1 - bound; x <= bound; ++x) {\n"
+    "    vec2 offset = vec2(x, y);\n"
+    "    float distance = length(offset - fraction);\n"
+    "    if (distance >= kernel.x) continue;\n"
+    "    float weight = textureLod(weights, vec2((distance / kernel.x * 255.0 + 0.5) / 256.0, 0.5), 0.0).r;\n"
+    "    vec4 value = textureLod(source, (base + offset) / size, 0.0);\n"
+    "    sum += weight * value; total += weight;\n"
+    "    if (distance <= kernel.y) {\n"
+    "      vec4 low = vec4(1.0) - value;\n"
+    "      vec4 lw = low + vec4(0.10), hw = value + vec4(0.10);\n"
+    "      lw *= lw; hw *= hw; lw *= lw; hw *= hw; lw *= lw; hw *= hw;\n"
+    "      lw *= lw; hw *= hw; lw *= lw; hw *= hw;\n"
+    "      lw *= weight; hw *= weight;\n"
+    "      lo_sum += lw * low; hi_sum += hw * value;\n"
+    "      lo_weight += lw; hi_weight += hw;\n"
+    "    }\n"
+    "  }\n"
+    "}\n"
+    "color = sum / total;\n"
+    "vec4 low = vec4(1.0) - lo_sum / lo_weight, high = hi_sum / hi_weight;\n"
+    "vec4 limited = clamp(color, low, high);\n"
+    "limited = mix(limited, (low + high) * 0.5, greaterThan(low, high));\n"
+    "color = mix(color, limited, kernel.w);\n"
+    "}\n";
 static const gchar alpha_source[] = "color.a = clamp(color.a, 0.0, 1.0); color.rgb = clamp(color.rgb, vec3(0.0), vec3(color.a));";
 static const gchar orientation_source[] = "color = textureLod(scaled, (source_uv - bounds.xy) / (bounds.zw - bounds.xy), 0.0);\n"
-                "if (any(lessThan(source_uv, vec2(0.0))) || any(greaterThanEqual(source_uv, vec2(1.0)))) color = vec4(0.0);";
+                                          "if (any(lessThan(source_uv, vec2(0.0))) || any(greaterThanEqual(source_uv, vec2(1.0)))) color = vec4(0.0);";
 
-typedef enum { GPU_RENDER, GPU_DELETE, GPU_READ, GPU_STOP, GPU_WARMUP, GPU_SOURCE_DELETE } WorkType;
+typedef enum
+{
+    GPU_RENDER,
+    GPU_DELETE,
+    GPU_READ,
+    GPU_STOP,
+    GPU_WARMUP,
+    GPU_SOURCE_DELETE
+} WorkType;
 typedef struct
 {
     WorkType type;
@@ -192,7 +237,7 @@ typedef struct
 #endif
 } GpuWork;
 
-struct _GpuWorker
+struct GpuWorker
 {
     RsttoGpuRenderer *owner;
     guint index;
@@ -210,7 +255,7 @@ struct _GpuWorker
     gchar *fingerprint;
 };
 
-struct _RsttoGpuImage
+struct RsttoGpuImage
 {
     gint refs;
     GpuWorker *worker;
@@ -224,7 +269,7 @@ struct _RsttoGpuImage
 /* The renderer owns one reference; immutable leases own any others. GL
  * destruction is queued to the owning context only after the last use drains.
  * Sources do not own the renderer (avoids a resident-source reference cycle). */
-struct _GpuSource
+struct GpuSource
 {
     gint refs;
     GpuWorker *worker;
@@ -234,7 +279,7 @@ struct _GpuSource
     pl_tex input;
 };
 
-struct _RsttoGpuRequest
+struct RsttoGpuRequest
 {
     RsttoGpuRenderer *owner;
     GpuSource *source;
@@ -244,13 +289,27 @@ struct _RsttoGpuRequest
     guint64 serial, reservation;
 };
 
+
+/**
+ * gpu_bytes:
+ *
+ * Sum explicit GPU allocations and reservations; the caller must hold the
+ * renderer lock.
+ */
 static guint64
 gpu_bytes (RsttoGpuRenderer *self)
 {
     return self->stats.retained + self->stats.transient + self->stats.source_bytes
-        + self->stats.reserved + self->stats.shader_bytes;
+           + self->stats.reserved + self->stats.shader_bytes;
 }
 
+
+/**
+ * reserve_gpu:
+ *
+ * Reserve bounded GPU bytes before allocation; the caller must hold the
+ * renderer lock.
+ */
 static gboolean
 reserve_gpu (RsttoGpuRenderer *self, guint64 bytes)
 {
@@ -262,20 +321,36 @@ reserve_gpu (RsttoGpuRenderer *self, guint64 bytes)
     return TRUE;
 }
 
+
+/**
+ * source_unref:
+ *
+ * Release a source lease and queue texture destruction on its owning GL worker
+ * when the last reference drains.
+ */
 static void
 source_unref (GpuSource *source)
 {
-    if (source == NULL || !g_atomic_int_dec_and_test (&source->refs)) return;
+    if (source == NULL || !g_atomic_int_dec_and_test (&source->refs))
+        return;
     GpuWork *work = g_new0 (GpuWork, 1);
     work->type = GPU_SOURCE_DELETE;
     work->delete_source = source;
     g_async_queue_push (source->worker->queue, work);
 }
 
+
+/**
+ * rstto_gpu_source_select:
+ *
+ * Update the selected decoded-entry serial and retire any resident source
+ * belonging to another image.
+ */
 void
 rstto_gpu_source_select (RsttoGpuRenderer *self, guint64 serial)
 {
-    if (self == NULL) return;
+    if (self == NULL)
+        return;
     g_mutex_lock (&self->lock);
     self->selected_source = serial;
     GpuSource *old = NULL;
@@ -285,21 +360,36 @@ rstto_gpu_source_select (RsttoGpuRenderer *self, guint64 serial)
     source_unref (old);
 }
 
+
+/**
+ * rstto_gpu_source_invalidate:
+ *
+ * Retire the resident source for an invalidated decoded-entry serial.
+ */
 void
 rstto_gpu_source_invalidate (RsttoGpuRenderer *self, guint64 serial)
 {
-    if (self == NULL) return;
+    if (self == NULL)
+        return;
     g_mutex_lock (&self->lock);
-    if (self->selected_source == serial) self->selected_source = 0;
+    if (self->selected_source == serial)
+        self->selected_source = 0;
     GpuSource *old = self->source != NULL && self->source->serial == serial
-        ? g_steal_pointer (&self->source) : NULL;
+                         ? g_steal_pointer (&self->source)
+                         : NULL;
     g_mutex_unlock (&self->lock);
     source_unref (old);
 }
 
+
+/**
+ * rstto_gpu_request_new:
+ *
+ * Validate GPU eligibility and reserve a complete image job, pinning a
+ * reusable source or reporting the host staging bytes needed for upload.
+ */
 RsttoGpuRequest *
-rstto_gpu_request_new (RsttoGpuRenderer *self, const RsttoRenderPixels *pixels,
-                       const RsttoRenderKey *key, guint64 serial, guint64 *host_bytes)
+rstto_gpu_request_new (RsttoGpuRenderer *self, const RsttoRenderPixels *pixels, const RsttoRenderKey *key, guint64 serial, guint64 *host_bytes)
 {
     if (self == NULL || g_atomic_int_get (&self->failed)
         || key->backend != 2 || key->context_generation != self->generation
@@ -315,15 +405,16 @@ rstto_gpu_request_new (RsttoGpuRenderer *self, const RsttoRenderPixels *pixels,
     g_mutex_lock (&self->lock);
     GpuSource *source = self->source;
     gboolean hit = source != NULL && serial != 0 && source->serial == serial
-        && source->pixels.width == pixels->width && source->pixels.height == pixels->height
-        && source->pixels.format == pixels->format;
+                   && source->pixels.width == pixels->width && source->pixels.height == pixels->height
+                   && source->pixels.format == pixels->format;
     guint64 reservation = output_bytes * 2 + (hit ? 0 : source_bytes);
     if (!reserve_gpu (self, reservation))
     {
         g_mutex_unlock (&self->lock);
         return NULL;
     }
-    if (hit) g_atomic_int_inc (&source->refs);
+    if (hit)
+        g_atomic_int_inc (&source->refs);
     g_mutex_unlock (&self->lock);
     RsttoGpuRequest *request = g_new0 (RsttoGpuRequest, 1);
     request->owner = g_object_ref (self);
@@ -336,10 +427,18 @@ rstto_gpu_request_new (RsttoGpuRenderer *self, const RsttoRenderPixels *pixels,
     return request;
 }
 
+
+/**
+ * rstto_gpu_request_free:
+ *
+ * Release an unsubmitted or completed request's source lease and remaining GPU
+ * reservation.
+ */
 void
 rstto_gpu_request_free (RsttoGpuRequest *request)
 {
-    if (request == NULL) return;
+    if (request == NULL)
+        return;
     g_mutex_lock (&request->owner->lock);
     request->owner->stats.reserved -= request->reservation;
     g_mutex_unlock (&request->owner->lock);
@@ -348,50 +447,123 @@ rstto_gpu_request_free (RsttoGpuRequest *request)
     g_free (request);
 }
 
+
+/**
+ * rstto_gpu_request_available:
+ *
+ * Check whether the request's source-affine worker or another eligible worker
+ * can accept the whole image.
+ */
 gboolean
 rstto_gpu_request_available (RsttoGpuRequest *request)
 {
     return request->source != NULL ? !request->source->worker->busy
-        : rstto_gpu_renderer_available (request->owner);
+                                   : rstto_gpu_renderer_available (request->owner);
 }
 
 #ifdef RSTTO_GPU_TEST
 static gint test_compiles, test_binary_loads, test_binary_accepts, test_reject_binary;
-static void GLAPIENTRY test_compile (GLuint shader) {
-    g_atomic_int_inc (&test_compiles); glCompileShader (shader);
+
+
+/**
+ * test_compile:
+ *
+ * Intercept shader compilation to count actual compiler calls in isolated GPU
+ * tests.
+ */
+static void GLAPIENTRY
+test_compile (GLuint shader)
+{
+    g_atomic_int_inc (&test_compiles);
+    glCompileShader (shader);
 }
-static void GLAPIENTRY test_binary (GLuint program, GLenum format, const void *binary, GLsizei length) {
+
+
+/**
+ * test_binary:
+ *
+ * Intercept program-binary loading and optionally force rejection for cache
+ * recovery tests.
+ */
+static void GLAPIENTRY
+test_binary (GLuint program, GLenum format, const void *binary, GLsizei length)
+{
     g_atomic_int_inc (&test_binary_loads);
-    if (g_atomic_int_compare_and_exchange (&test_reject_binary, 1, 0)) return;
+    if (g_atomic_int_compare_and_exchange (&test_reject_binary, 1, 0))
+        return;
     glProgramBinary (program, format, binary, length);
-    GLint linked = 0; glGetProgramiv (program, GL_LINK_STATUS, &linked);
-    if (linked) g_atomic_int_inc (&test_binary_accepts);
+    GLint linked = 0;
+    glGetProgramiv (program, GL_LINK_STATUS, &linked);
+    if (linked)
+        g_atomic_int_inc (&test_binary_accepts);
 }
-static pl_voidfunc_t test_get_proc (const char *name) {
-    if (g_str_equal (name, "glCompileShader")) return (pl_voidfunc_t) test_compile;
-    if (g_str_equal (name, "glProgramBinary")) return (pl_voidfunc_t) test_binary;
+
+
+/**
+ * test_get_proc:
+ *
+ * Resolve GL procedures while substituting the test compilation and
+ * binary-loading hooks.
+ */
+static pl_voidfunc_t
+test_get_proc (const char *name)
+{
+    if (g_str_equal (name, "glCompileShader"))
+        return (pl_voidfunc_t) test_compile;
+    if (g_str_equal (name, "glProgramBinary"))
+        return (pl_voidfunc_t) test_binary;
     return (pl_voidfunc_t) glXGetProcAddressARB ((const GLubyte *) name);
 }
-void rstto_gpu_test_programs (guint *compiles, guint *loads, guint *accepted) {
-    *compiles = g_atomic_int_get (&test_compiles); *loads = g_atomic_int_get (&test_binary_loads); *accepted = g_atomic_int_get (&test_binary_accepts);
+
+
+/**
+ * rstto_gpu_test_programs:
+ *
+ * Read compilation and binary-load counters from the test-only GL hooks.
+ */
+void
+rstto_gpu_test_programs (guint *compiles, guint *loads, guint *accepted)
+{
+    *compiles = g_atomic_int_get (&test_compiles);
+    *loads = g_atomic_int_get (&test_binary_loads);
+    *accepted = g_atomic_int_get (&test_binary_accepts);
 }
-void rstto_gpu_test_reject_binary (void) { g_atomic_int_set (&test_reject_binary, 1); }
+
+
+/**
+ * rstto_gpu_test_reject_binary:
+ *
+ * Request rejection of cached program binaries in the test GL wrapper.
+ */
+void
+rstto_gpu_test_reject_binary (void)
+{
+    g_atomic_int_set (&test_reject_binary, 1);
+}
 #endif
 
+
+/**
+ * shader_fingerprint:
+ *
+ * Build an owned shader-cache namespace digest from shader sources, filter
+ * policy, libplacebo and active GL capabilities.
+ */
 static gchar *
 shader_fingerprint (void)
 {
     GLint count = 0, profile = 0;
     glGetIntegerv (GL_NUM_PROGRAM_BINARY_FORMATS, &count);
-    if (count <= 0 || count > 64) return NULL;
+    if (count <= 0 || count > 64)
+        return NULL;
     GLint formats[64];
     glGetIntegerv (GL_PROGRAM_BINARY_FORMATS, formats);
     glGetIntegerv (GL_CONTEXT_PROFILE_MASK, &profile);
     GChecksum *sum = g_checksum_new (G_CHECKSUM_SHA256);
     const gchar *parts[] = { "ristretto-shader-envelope-1/filter-2/RGBA8/R32F/no-compute",
-        ewa_source, alpha_source, orientation_source, pl_version (),
-        (const gchar *) glGetString (GL_VENDOR), (const gchar *) glGetString (GL_RENDERER),
-        (const gchar *) glGetString (GL_VERSION), (const gchar *) glGetString (GL_SHADING_LANGUAGE_VERSION) };
+                             ewa_source, alpha_source, orientation_source, pl_version (),
+                             (const gchar *) glGetString (GL_VENDOR), (const gchar *) glGetString (GL_RENDERER),
+                             (const gchar *) glGetString (GL_VERSION), (const gchar *) glGetString (GL_SHADING_LANGUAGE_VERSION) };
     for (guint i = 0; i < G_N_ELEMENTS (parts); i++)
     {
         const gchar *value = parts[i] != NULL ? parts[i] : "";
@@ -409,6 +581,12 @@ shader_fingerprint (void)
     return result;
 }
 
+
+/**
+ * binary_load:
+ *
+ * Return an owned, validated disk-cache payload for a libplacebo object key.
+ */
 static pl_cache_obj
 binary_load (void *data, uint64_t key)
 {
@@ -417,12 +595,26 @@ binary_load (void *data, uint64_t key)
     return object;
 }
 
+
+/**
+ * binary_save:
+ *
+ * Persist one compiled libplacebo object through the bounded shader-cache
+ * writer.
+ */
 static void
 binary_save (void *data, pl_cache_obj object)
 {
     rstto_shader_cache_save (data, object.key, object.data, object.size);
 }
 
+
+/**
+ * gpu_log:
+ *
+ * Report recoverable libplacebo errors to standard error without turning them
+ * into fatal GTK warnings.
+ */
 static void
 gpu_log (void *priv, enum pl_log_level level, const char *message)
 {
@@ -435,9 +627,17 @@ static void
 unref_on_main (RsttoGpuRenderer *self, GObject *object);
 
 #ifdef RSTTO_VIEWER_TEST
-void rstto_test_worker_checkpoint (gint phase, gboolean demand, GCancellable *cancel, gboolean entering);
+void
+rstto_test_worker_checkpoint (gint phase, gboolean demand, GCancellable *cancel, gboolean entering);
 #endif
 
+
+/**
+ * program_used:
+ *
+ * Record dispatch program creation for shader-signature and compilation
+ * diagnostics.
+ */
 static void
 program_used (void *data, const struct pl_dispatch_info *info)
 {
@@ -450,11 +650,18 @@ program_used (void *data, const struct pl_dispatch_info *info)
         g_mutex_lock (&worker->owner->lock);
         worker->owner->stats.programs++;
         rstto_profile_end (rstto_profile_now (), worker->owner, worker->index, "gpu-program",
-            "signature=%" G_GUINT64_FORMAT " description=%s", (guint64) info->signature, info->shader->description);
+                           "signature=%" G_GUINT64_FORMAT " description=%s", (guint64) info->signature, info->shader->description);
         g_mutex_unlock (&worker->owner->lock);
     }
 }
 
+
+/**
+ * useful:
+ *
+ * Check a GPU job's cancellation and caller-provided interest before spending
+ * more work or publishing.
+ */
 static gboolean
 useful (GpuWork *work)
 {
@@ -462,11 +669,18 @@ useful (GpuWork *work)
            && (work->useful == NULL || work->useful (work->useful_data));
 }
 
-/* Same transform as the CPU path, including source device scale. Only these
- * tiny private Cairo objects are used off-thread; source pixels are immutable. */
+
+/**
+ * texture_coordinates:
+ *
+ * Map output corners through the inverse image transform to source texture
+ * coordinates.
+ *
+ * Same transform as the CPU path, including source device scale. Only these
+ * tiny private Cairo objects are used off-thread; source pixels are immutable.
+ */
 static void
-texture_coordinates (const RsttoRenderKey *key, const RsttoRenderPixels *pixels,
-                     float uv[4][2], float *sample_w, float *sample_h)
+texture_coordinates (const RsttoRenderKey *key, const RsttoRenderPixels *pixels, float uv[4][2], float *sample_w, float *sample_h)
 {
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
     cairo_t *cr = cairo_create (surface);
@@ -485,8 +699,10 @@ texture_coordinates (const RsttoRenderKey *key, const RsttoRenderPixels *pixels,
         /* GL row zero is at the bottom; source row zero is at the top. */
         gdouble y = i & 2 ? 0 : key->height;
         cairo_matrix_transform_point (&matrix, &x, &y);
-        min_x = MIN (min_x, x); max_x = MAX (max_x, x);
-        min_y = MIN (min_y, y); max_y = MAX (max_y, y);
+        min_x = MIN (min_x, x);
+        max_x = MAX (max_x, x);
+        min_y = MIN (min_y, y);
+        max_y = MAX (max_y, y);
         uv[i][0] = x / pixels->width;
         uv[i][1] = y / pixels->height;
     }
@@ -494,10 +710,18 @@ texture_coordinates (const RsttoRenderKey *key, const RsttoRenderPixels *pixels,
     *sample_h = max_y - min_y;
 }
 
-/* Fixed GLSL, with runtime loop bounds rather than one expanded program per
+
+/**
+ * sample_ewa:
+ *
+ * Build a reusable runtime EWA shader with libplacebo-generated weights and
+ * dynamic filter geometry.
+ *
+ * Fixed GLSL, with runtime loop bounds rather than one expanded program per
  * downscale radius. The 256-entry LUT and weighted antiring envelope follow
  * libplacebo 7.360's polar sampler (LGPL-2.1-or-later), including the first
- * zero crossing and power-32 envelope. Filter generation stays in libplacebo. */
+ * zero crossing and power-32 envelope. Filter generation stays in libplacebo.
+ */
 static gboolean
 sample_ewa (GpuWorker *worker, pl_shader sh, const struct pl_sample_src *src, guint policy)
 {
@@ -509,7 +733,7 @@ sample_ewa (GpuWorker *worker, pl_shader sh, const struct pl_sample_src *src, gu
     config.blur = (config.blur != 0 ? config.blur : 1.0f) * (nearest ? 1.0f : MAX (1.0f, 1.0f / MIN (rx, ry)));
     config.antiring = 0.8f;
     pl_filter filter = pl_filter_generate (worker->log, pl_filter_params (
-        .config = config, .lut_entries = 256, .cutoff = 1e-3f));
+                                                                .config = config, .lut_entries = 256, .cutoff = 1e-3f));
     if (filter == NULL)
         return FALSE;
     float kernel[4] = { filter->radius, filter->radius_zero, ceilf (filter->radius), nearest ? -1.0f : 0.8f };
@@ -524,15 +748,15 @@ sample_ewa (GpuWorker *worker, pl_shader sh, const struct pl_sample_src *src, gu
         if (admitted)
         {
             worker->weights = pl_tex_create (gpu, pl_tex_params (
-                .w = 256, .h = 1, .format = format, .sampleable = TRUE, .host_writable = TRUE));
+                                                          .w = 256, .h = 1, .format = format, .sampleable = TRUE, .host_writable = TRUE));
             g_mutex_lock (&self->lock);
             self->stats.reserved -= 256 * sizeof (float);
-            if (worker->weights != NULL) self->stats.shader_bytes += 256 * sizeof (float);
+            if (worker->weights != NULL)
+                self->stats.shader_bytes += 256 * sizeof (float);
             g_mutex_unlock (&self->lock);
         }
     }
-    valid = valid && worker->weights != NULL && pl_tex_upload (gpu, pl_tex_transfer_params (
-        .tex = worker->weights, .ptr = filter->weights));
+    valid = valid && worker->weights != NULL && pl_tex_upload (gpu, pl_tex_transfer_params (.tex = worker->weights, .ptr = filter->weights));
     pl_filter_free (&filter); /* host LUT is covered by the active reservation */
     if (!valid)
         return FALSE;
@@ -550,18 +774,22 @@ sample_ewa (GpuWorker *worker, pl_shader sh, const struct pl_sample_src *src, gu
     };
     struct pl_shader_var var = { .var = pl_var_vec4 ("kernel"), .data = kernel, .dynamic = TRUE };
     struct pl_shader_va attr = { .attr = { .name = "sample_uv", .fmt = pl_find_vertex_fmt (gpu, PL_FMT_FLOAT, 2) },
-                                .data = { uv[0], uv[1], uv[2], uv[3] } };
+                                 .data = { uv[0], uv[1], uv[2], uv[3] } };
     return pl_shader_custom (sh, &(struct pl_custom_shader) {
-        .description = "Ristretto runtime EWA", .input = PL_SHADER_SIG_NONE, .output = PL_SHADER_SIG_COLOR,
-        .descriptors = descriptors, .num_descriptors = G_N_ELEMENTS (descriptors),
-        .variables = &var, .num_variables = 1, .vertex_attribs = &attr, .num_vertex_attribs = 1,
-        .body = ewa_source
-    });
+                                     .description = "Ristretto runtime EWA", .input = PL_SHADER_SIG_NONE, .output = PL_SHADER_SIG_COLOR, .descriptors = descriptors, .num_descriptors = G_N_ELEMENTS (descriptors), .variables = &var, .num_variables = 1, .vertex_attribs = &attr, .num_vertex_attribs = 1, .body = ewa_source });
 }
 
-/* Scale once into an unrotated viewport, then orient/crop with nearest
- * texture sampling. Both textures are explicit and separately accounted. This
- * uses the ordinary texture-input API, without rewriting generated GLSL. */
+
+/**
+ * dispatch_image:
+ *
+ * Dispatch full-quality scaling and orientation/cropping passes using
+ * explicitly owned textures.
+ *
+ * Scale once into an unrotated viewport, then orient/crop with nearest texture
+ * sampling. Both textures are explicit and separately accounted. This uses the
+ * ordinary texture-input API, without rewriting generated GLSL.
+ */
 static gboolean
 dispatch_image (GpuWork *work)
 {
@@ -572,8 +800,10 @@ dispatch_image (GpuWork *work)
     float bounds[4] = { INFINITY, INFINITY, -INFINITY, -INFINITY };
     for (guint i = 0; i < 4; i++)
     {
-        bounds[0] = MIN (bounds[0], uv[i][0]); bounds[1] = MIN (bounds[1], uv[i][1]);
-        bounds[2] = MAX (bounds[2], uv[i][0]); bounds[3] = MAX (bounds[3], uv[i][1]);
+        bounds[0] = MIN (bounds[0], uv[i][0]);
+        bounds[1] = MIN (bounds[1], uv[i][1]);
+        bounds[2] = MAX (bounds[2], uv[i][0]);
+        bounds[3] = MAX (bounds[3], uv[i][1]);
     }
     gboolean rotated = work->key.orientation >= 5 && work->key.orientation <= 8;
     struct pl_sample_src src = {
@@ -581,11 +811,13 @@ dispatch_image (GpuWork *work)
         .rect = { bounds[0] * work->pixels.width, bounds[1] * work->pixels.height,
                   bounds[2] * work->pixels.width, bounds[3] * work->pixels.height },
         .new_w = rotated ? work->key.height : work->key.width,
-        .new_h = rotated ? work->key.width : work->key.height, .components = 4
+        .new_h = rotated ? work->key.width : work->key.height,
+        .components = 4
     };
     work->intermediate = pl_tex_create (gpu, pl_tex_params (
-        .w = src.new_w, .h = src.new_h, .format = worker->format, .sampleable = TRUE, .renderable = TRUE, .blit_dst = TRUE));
-    if (work->intermediate == NULL) return FALSE;
+                                                     .w = src.new_w, .h = src.new_h, .format = worker->format, .sampleable = TRUE, .renderable = TRUE, .blit_dst = TRUE));
+    if (work->intermediate == NULL)
+        return FALSE;
     /* Restrict expensive filtering to visible image pixels. Keep the same
      * full-viewport affine map, so clipping cannot change the sample phase. */
     if (!isfinite (bounds[0]) || !isfinite (bounds[1]) || !isfinite (bounds[2]) || !isfinite (bounds[3])
@@ -623,7 +855,9 @@ dispatch_image (GpuWork *work)
         {
             struct pl_sample_filter_params params = {
                 .filter = work->key.filter == RSTTO_GPU_UP ? pl_filter_ewa_lanczossharp : pl_filter_ewa_lanczos,
-                .antiring = 0.8f, .no_compute = TRUE, .lut = &worker->lut
+                .antiring = 0.8f,
+                .no_compute = TRUE,
+                .lut = &worker->lut
             };
             ok = pl_shader_sample_polar (sample, &src, &params);
         }
@@ -633,34 +867,46 @@ dispatch_image (GpuWork *work)
         ok = sample_ewa (worker, sample, &src, work->key.filter);
     if (ok)
         ok = pl_shader_custom (sample, &(struct pl_custom_shader) {
-            .input = PL_SHADER_SIG_COLOR, .output = PL_SHADER_SIG_COLOR,
-            .body = alpha_source
-        });
+                                           .input = PL_SHADER_SIG_COLOR, .output = PL_SHADER_SIG_COLOR, .body = alpha_source });
     if (ok)
         ok = pl_dispatch_finish (worker->dispatch, pl_dispatch_params (.shader = &sample, .target = work->intermediate, .rect = rect));
-    if (sample != NULL) pl_dispatch_abort (worker->dispatch, &sample);
-    if (!ok) return FALSE;
+    if (sample != NULL)
+        pl_dispatch_abort (worker->dispatch, &sample);
+    if (!ok)
+        return FALSE;
     struct pl_shader_desc descriptor = {
         .desc = { .name = "scaled", .type = PL_DESC_SAMPLED_TEX },
-        .binding = { .object = work->intermediate, .sample_mode = PL_TEX_SAMPLE_NEAREST,
-                     .address_mode = PL_TEX_ADDRESS_CLAMP }
+        .binding = { .object = work->intermediate, .sample_mode = PL_TEX_SAMPLE_NEAREST, .address_mode = PL_TEX_ADDRESS_CLAMP }
     };
     struct pl_shader_var var = { .var = pl_var_vec4 ("bounds"), .data = bounds, .dynamic = TRUE };
     struct pl_shader_va attr = { .attr = { .name = "source_uv", .fmt = pl_find_vertex_fmt (gpu, PL_FMT_FLOAT, 2) },
-                                .data = { uv[0], uv[1], uv[2], uv[3] } };
+                                 .data = { uv[0], uv[1], uv[2], uv[3] } };
     pl_shader sh = pl_dispatch_begin (worker->dispatch);
     ok = pl_shader_custom (sh, &(struct pl_custom_shader) {
-        .body = orientation_source,
-        .description = "Ristretto orientation and crop", .input = PL_SHADER_SIG_NONE, .output = PL_SHADER_SIG_COLOR,
-        .descriptors = &descriptor, .num_descriptors = 1, .variables = &var, .num_variables = 1,
-        .vertex_attribs = &attr, .num_vertex_attribs = 1
-    });
+                                   .body = orientation_source,
+                                   .description = "Ristretto orientation and crop",
+                                   .input = PL_SHADER_SIG_NONE,
+                                   .output = PL_SHADER_SIG_COLOR,
+                                   .descriptors = &descriptor,
+                                   .num_descriptors = 1,
+                                   .variables = &var,
+                                   .num_variables = 1,
+                                   .vertex_attribs = &attr,
+                                   .num_vertex_attribs = 1 });
     if (ok)
         ok = pl_dispatch_finish (worker->dispatch, pl_dispatch_params (.shader = &sh, .target = work->output));
-    if (sh != NULL) pl_dispatch_abort (worker->dispatch, &sh);
+    if (sh != NULL)
+        pl_dispatch_abort (worker->dispatch, &sh);
     return ok;
 }
 
+
+/**
+ * submit:
+ *
+ * Upload or reuse an admitted source and submit one whole-image render,
+ * retaining resources through its completion fence.
+ */
 static void
 submit (GpuWork *work)
 {
@@ -669,7 +915,7 @@ submit (GpuWork *work)
     pl_gpu gpu = worker->gl->gpu;
 #ifdef RSTTO_VIEWER_TEST
     rstto_test_worker_checkpoint (9, work->demand != NULL && g_atomic_int_get (work->demand),
-                                 g_task_get_cancellable (work->task), TRUE);
+                                  g_task_get_cancellable (work->task), TRUE);
 #endif
     if (g_atomic_int_get (&self->failed) || !useful (work))
         return;
@@ -678,20 +924,20 @@ submit (GpuWork *work)
         return;
 #endif
     if (!rstto_gpu_dimensions_fit (MIN (self->limit, gpu->limits.max_tex_2d_dim),
-                                    work->pixels.width, work->pixels.height, &work->key))
+                                   work->pixels.width, work->pixels.height, &work->key))
         return;
     if (work->type == GPU_WARMUP && work->warm_step == 0 && work->persistent && worker->fingerprint != NULL)
     {
         work->disk_cache = rstto_shader_cache_new (worker->fingerprint, NULL, g_task_get_cancellable (work->task));
         work->binary_cache = pl_cache_create (pl_cache_params (
-            .max_object_size = RSTTO_SHADER_OBJECT_BYTES, .max_total_size = RSTTO_SHADER_PAYLOAD_BYTES,
-            .get = binary_load, .set = binary_save, .priv = work->disk_cache));
+                .max_object_size = RSTTO_SHADER_OBJECT_BYTES, .max_total_size = RSTTO_SHADER_PAYLOAD_BYTES,
+                .get = binary_load, .set = binary_save, .priv = work->disk_cache));
         pl_gpu_set_cache (gpu, work->binary_cache);
     }
     work->start = work->upload_start = rstto_profile_now ();
     g_mutex_lock (&self->lock);
     work->bytes = work->request != NULL ? work->request->reservation
-        : (guint64) work->pixels.width * work->pixels.height * 4 + (guint64) work->key.width * work->key.height * 8;
+                                        : (guint64) work->pixels.width * work->pixels.height * 4 + (guint64) work->key.width * work->key.height * 8;
     if (work->request == NULL && !reserve_gpu (self, work->bytes))
     {
         work->bytes = 0;
@@ -700,7 +946,8 @@ submit (GpuWork *work)
     }
     self->stats.reserved -= work->bytes;
     self->stats.transient += work->bytes;
-    if (work->request != NULL) work->request->reservation = 0;
+    if (work->request != NULL)
+        work->request->reservation = 0;
     g_mutex_unlock (&self->lock);
     if (work->start != 0)
     {
@@ -713,7 +960,9 @@ submit (GpuWork *work)
         work->input = work->request->source->input;
     else
     {
-        for (guint n = 0; n < 16 && glGetError () != GL_NO_ERROR; n++) { }
+        for (guint n = 0; n < 16 && glGetError () != GL_NO_ERROR; n++)
+        {
+        }
         glGenTextures (1, &work->source);
         glBindTexture (GL_TEXTURE_2D, work->source);
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -732,8 +981,10 @@ submit (GpuWork *work)
         uploaded &= g_atomic_int_get (&self->fail) != 2;
 #endif
         g_mutex_lock (&self->lock);
-        if (work->type == GPU_WARMUP) self->stats.warmup_uploads++;
-        else self->stats.uploads++;
+        if (work->type == GPU_WARMUP)
+            self->stats.warmup_uploads++;
+        else
+            self->stats.uploads++;
         g_mutex_unlock (&self->lock);
         rstto_profile_end (work->upload_start, work, worker->index,
                            work->type == GPU_WARMUP ? "gpu-warmup-upload" : "gpu-upload", "width=%d height=%d success=%d",
@@ -746,7 +997,7 @@ submit (GpuWork *work)
         self->stats.source_misses += !reused;
         g_mutex_unlock (&self->lock);
         rstto_profile_end (rstto_profile_now (), work, worker->index, "gpu-source",
-            "serial=%" G_GUINT64_FORMAT " reused=%d", work->request->serial, reused);
+                           "serial=%" G_GUINT64_FORMAT " reused=%d", work->request->serial, reused);
     }
     if (work->queries[0])
         glQueryCounter (work->queries[1], GL_TIMESTAMP);
@@ -754,10 +1005,10 @@ submit (GpuWork *work)
     {
         if (!reused)
             work->input = pl_opengl_wrap (gpu, pl_opengl_wrap_params (
-                .texture = work->source, .width = work->pixels.width, .height = work->pixels.height, .iformat = GL_RGBA8));
+                                                       .texture = work->source, .width = work->pixels.width, .height = work->pixels.height, .iformat = GL_RGBA8));
         work->output = pl_tex_create (gpu, pl_tex_params (
-            .w = work->key.width, .h = work->key.height, .format = worker->format,
-            .sampleable = TRUE, .renderable = TRUE, .blit_dst = TRUE, .host_readable = TRUE));
+                                                   .w = work->key.width, .h = work->key.height, .format = worker->format,
+                                                   .sampleable = TRUE, .renderable = TRUE, .blit_dst = TRUE, .host_readable = TRUE));
         if (work->input != NULL && work->output != NULL)
         {
             work->scale_start = rstto_profile_now ();
@@ -768,11 +1019,13 @@ submit (GpuWork *work)
             work->ok &= g_atomic_int_get (&self->fail) != 3;
 #endif
             rstto_profile_end (work->scale_start, work, worker->index,
-                work->type == GPU_WARMUP ? "gpu-warmup-submit" : "gpu-submit",
-                "filter=%u success=%d new_programs=%u", work->key.filter, work->ok, work->new_programs);
+                               work->type == GPU_WARMUP ? "gpu-warmup-submit" : "gpu-submit",
+                               "filter=%u success=%d new_programs=%u", work->key.filter, work->ok, work->new_programs);
             g_mutex_lock (&self->lock);
-            if (work->type == GPU_WARMUP) self->stats.warmup_submissions++;
-            else self->stats.submissions++;
+            if (work->type == GPU_WARMUP)
+                self->stats.warmup_submissions++;
+            else
+                self->stats.submissions++;
             g_mutex_unlock (&self->lock);
         }
     }
@@ -790,6 +1043,12 @@ submit (GpuWork *work)
     }
 }
 
+
+/**
+ * fence_ready:
+ *
+ * Poll GPU completion without blocking the worker on an unfinished fence.
+ */
 static gboolean
 fence_ready (GpuWorker *worker, GLsync fence)
 {
@@ -805,6 +1064,13 @@ fence_ready (GpuWorker *worker, GLsync fence)
     return status == GL_ALREADY_SIGNALED || status == GL_CONDITION_SATISFIED;
 }
 
+
+/**
+ * complete:
+ *
+ * Finish a fenced image job, retain only an eligible selected source and
+ * release transient textures before returning its result.
+ */
 static gboolean
 complete (GpuWork *work)
 {
@@ -819,7 +1085,8 @@ complete (GpuWork *work)
         image->worker = worker;
         image->texture = g_steal_pointer (&work->output);
         image->id = pl_opengl_unwrap (worker->gl->gpu, image->texture, NULL, NULL, NULL);
-        image->width = work->key.width; image->height = work->key.height;
+        image->width = work->key.width;
+        image->height = work->key.height;
         image->bytes = (guint64) image->width * image->height * 4;
         g_object_ref (self); /* released on the main context after texture deletion */
     }
@@ -845,9 +1112,13 @@ complete (GpuWork *work)
         && (guint64) work->pixels.width * work->pixels.height * 4 <= self->max_source_bytes)
     {
         GpuSource *source = g_new0 (GpuSource, 1);
-        source->refs = 1; source->worker = worker; source->serial = work->request->serial;
-        source->pixels = work->pixels; source->pixels.data = NULL;
-        source->texture = work->source; work->source = 0;
+        source->refs = 1;
+        source->worker = worker;
+        source->serial = work->request->serial;
+        source->pixels = work->pixels;
+        source->pixels.data = NULL;
+        source->texture = work->source;
+        work->source = 0;
         source->input = g_steal_pointer (&work->input);
         source->bytes = (guint64) work->pixels.width * work->pixels.height * 4;
         self->source = source;
@@ -858,8 +1129,10 @@ complete (GpuWork *work)
         work->bytes -= source->bytes;
     }
     g_mutex_unlock (&self->lock);
-    if (!reused) pl_tex_destroy (worker->gl->gpu, &work->input);
-    else work->input = NULL; /* borrowed from the pinned lease */
+    if (!reused)
+        pl_tex_destroy (worker->gl->gpu, &work->input);
+    else
+        work->input = NULL; /* borrowed from the pinned lease */
     pl_tex_destroy (worker->gl->gpu, &work->intermediate);
     pl_tex_destroy (worker->gl->gpu, &work->output);
     if (work->source)
@@ -875,14 +1148,14 @@ complete (GpuWork *work)
     guint sources = self->stats.sources;
     g_mutex_unlock (&self->lock);
     rstto_profile_end (work->start, work, worker->index,
-        work->type == GPU_WARMUP ? "gpu-warmup-stage" : "gpu-render",
-        "upload_gpu_ms=%.3f scale_gpu_ms=%.3f width=%d height=%d filter=%u active=%u discarded=%d"
-        " gpu_bytes=%" G_GUINT64_FORMAT " source_bytes=%" G_GUINT64_FORMAT " sources=%u reserved=%" G_GUINT64_FORMAT,
-        upload_ms, scale_ms, work->key.width, work->key.height, work->key.filter, active, image == NULL,
-        accounted, source_bytes, sources, reserved);
+                       work->type == GPU_WARMUP ? "gpu-warmup-stage" : "gpu-render",
+                       "upload_gpu_ms=%.3f scale_gpu_ms=%.3f width=%d height=%d filter=%u active=%u discarded=%d"
+                       " gpu_bytes=%" G_GUINT64_FORMAT " source_bytes=%" G_GUINT64_FORMAT " sources=%u reserved=%" G_GUINT64_FORMAT,
+                       upload_ms, scale_ms, work->key.width, work->key.height, work->key.filter, active, image == NULL,
+                       accounted, source_bytes, sources, reserved);
 #ifdef RSTTO_VIEWER_TEST
     rstto_test_worker_checkpoint (9, work->demand != NULL && g_atomic_int_get (work->demand),
-                                 g_task_get_cancellable (work->task), FALSE);
+                                  g_task_get_cancellable (work->task), FALSE);
 #endif
     if (work->type == GPU_WARMUP)
     {
@@ -907,15 +1180,16 @@ complete (GpuWork *work)
             guint64 hits, misses, writes;
             rstto_shader_cache_stats (work->disk_cache, &hits, &misses, &writes);
             g_mutex_lock (&self->lock);
-            self->stats.binary_hits += hits; self->stats.binary_misses += misses; self->stats.binary_writes += writes;
+            self->stats.binary_hits += hits;
+            self->stats.binary_misses += misses;
+            self->stats.binary_writes += writes;
             g_mutex_unlock (&self->lock);
             rstto_shader_cache_free (work->disk_cache);
         }
         rstto_profile_end (work->warm_start, work, worker->index, "gpu-warmup", "success=%d", keep);
         g_task_return_boolean (work->task, keep);
     }
-    else
-    if (image != NULL)
+    else if (image != NULL)
         g_task_return_pointer (work->task, image, (GDestroyNotify) rstto_gpu_image_unref);
     else
         g_task_return_new_error (work->task, G_IO_ERROR, G_IO_ERROR_FAILED, "OpenGL scaling failed or was cancelled");
@@ -924,6 +1198,13 @@ complete (GpuWork *work)
     return FALSE;
 }
 
+
+/**
+ * release_owner:
+ *
+ * Release an object reference on the main context so renderer finalization
+ * cannot join the current worker.
+ */
 static gboolean
 release_owner (gpointer data)
 {
@@ -931,6 +1212,13 @@ release_owner (gpointer data)
     return G_SOURCE_REMOVE;
 }
 
+
+/**
+ * unref_on_main:
+ *
+ * Schedule release of a worker-held object reference on the renderer's main
+ * context.
+ */
 static void
 unref_on_main (RsttoGpuRenderer *self, GObject *object)
 {
@@ -940,6 +1228,13 @@ unref_on_main (RsttoGpuRenderer *self, GObject *object)
     g_source_unref (source);
 }
 
+
+/**
+ * delete_image:
+ *
+ * Delete a rendered texture on its owning GL worker after the caller has
+ * drained its presentation fence.
+ */
 static void
 delete_image (RsttoGpuImage *image)
 {
@@ -958,6 +1253,13 @@ delete_image (RsttoGpuImage *image)
     unref_on_main (self, G_OBJECT (self));
 }
 
+
+/**
+ * gpu_thread:
+ *
+ * Own a worker's GL context and process rendering, warmup and deferred
+ * deletion without sharing libplacebo state across threads.
+ */
 static gpointer
 gpu_thread (gpointer data)
 {
@@ -996,7 +1298,8 @@ gpu_thread (gpointer data)
             }
         }
         GpuWork *work = active != NULL || !g_queue_is_empty (&retiring)
-            ? g_async_queue_timeout_pop (worker->queue, 1000) : g_async_queue_pop (worker->queue);
+                            ? g_async_queue_timeout_pop (worker->queue, 1000)
+                            : g_async_queue_pop (worker->queue);
         if (work == NULL)
             continue;
         if (work->type == GPU_STOP)
@@ -1014,7 +1317,8 @@ gpu_thread (gpointer data)
             worker->owner->stats.source_bytes -= source->bytes;
             worker->owner->stats.sources--;
             g_mutex_unlock (&worker->owner->lock);
-            g_free (source); g_free (work);
+            g_free (source);
+            g_free (work);
         }
         else if (work->type == GPU_DELETE)
         {
@@ -1034,7 +1338,9 @@ gpu_thread (gpointer data)
             for (gint y = 0; y < image->height / 2; y++)
             {
                 guint8 *a = pixels + y * stride, *b = pixels + (image->height - y - 1) * stride;
-                memcpy (row, a, stride); memcpy (a, b, stride); memcpy (b, row, stride);
+                memcpy (row, a, stride);
+                memcpy (a, b, stride);
+                memcpy (b, row, stride);
             }
             g_free (row);
             cairo_surface_mark_dirty (surface);
@@ -1068,6 +1374,13 @@ gpu_thread (gpointer data)
     return NULL;
 }
 
+
+/**
+ * rstto_gpu_renderer_new:
+ *
+ * Realize shared GL contexts on the main thread and create the workers that
+ * exclusively own their rendering resources.
+ */
 RsttoGpuRenderer *
 rstto_gpu_renderer_new (GdkWindow *window, guint workers, GError **error)
 {
@@ -1095,9 +1408,9 @@ rstto_gpu_renderer_new (GdkWindow *window, guint workers, GError **error)
         worker->log = pl_log_create (PL_API_VER, pl_log_params (.log_cb = gpu_log, .log_level = PL_LOG_ERR));
         worker->gl = pl_opengl_create (worker->log, pl_opengl_params (.no_compute = TRUE,
 #ifdef RSTTO_GPU_TEST
-            .get_proc_addr = test_get_proc,
+                                                                      .get_proc_addr = test_get_proc,
 #endif
-        ));
+                                                                      ));
         if (worker->gl != NULL)
             worker->format = pl_find_fmt (worker->gl->gpu, PL_FMT_UNORM, 4, 8, 8,
                                           PL_FMT_CAP_SAMPLEABLE | PL_FMT_CAP_RENDERABLE);
@@ -1110,7 +1423,7 @@ rstto_gpu_renderer_new (GdkWindow *window, guint workers, GError **error)
             break;
         }
         self->limit = i == 0 ? worker->gl->gpu->limits.max_tex_2d_dim
-                            : MIN (self->limit, worker->gl->gpu->limits.max_tex_2d_dim);
+                             : MIN (self->limit, worker->gl->gpu->limits.max_tex_2d_dim);
         worker->dispatch = pl_dispatch_create (worker->log, worker->gl->gpu);
         if (worker->dispatch == NULL || pl_find_vertex_fmt (worker->gl->gpu, PL_FMT_FLOAT, 2) == NULL)
         {
@@ -1148,6 +1461,13 @@ rstto_gpu_renderer_new (GdkWindow *window, guint workers, GError **error)
     return self;
 }
 
+
+/**
+ * rstto_gpu_renderer_needs_warmup:
+ *
+ * Report whether an eligible worker still needs the finite startup shader
+ * family.
+ */
 gboolean
 rstto_gpu_renderer_needs_warmup (RsttoGpuRenderer *self)
 {
@@ -1158,24 +1478,34 @@ rstto_gpu_renderer_needs_warmup (RsttoGpuRenderer *self)
     return FALSE;
 }
 
+
+/**
+ * rstto_gpu_warmup_async:
+ *
+ * Submit bounded asynchronous shader warmup on an available worker using a
+ * caller-owned task permit and host reservation.
+ */
 void
 rstto_gpu_warmup_async (RsttoGpuRenderer *self, gboolean persistent, GCancellable *cancel, GAsyncReadyCallback callback, gpointer data)
 {
     g_return_if_fail (rstto_gpu_renderer_needs_warmup (self));
     GpuWorker *worker = NULL;
     for (guint i = 0; i < self->count; i++)
-        if (!self->workers[i].ready && !self->workers[i].busy) { worker = &self->workers[i]; break; }
+        if (!self->workers[i].ready && !self->workers[i].busy)
+        {
+            worker = &self->workers[i];
+            break;
+        }
     worker->busy = TRUE;
     GpuWork *work = g_new0 (GpuWork, 1);
     work->type = GPU_WARMUP;
     work->persistent = persistent && rstto_gpu_shader_cache_enabled ();
     work->worker = worker;
     work->warm_start = rstto_profile_now ();
-    for (guint i = 0; i < G_N_ELEMENTS (work->warm_pixels); i++) work->warm_pixels[i] = 0xff406080;
+    for (guint i = 0; i < G_N_ELEMENTS (work->warm_pixels); i++)
+        work->warm_pixels[i] = 0xff406080;
     work->pixels = (RsttoRenderPixels) { (guchar *) work->warm_pixels, 8, 8, 32, CAIRO_FORMAT_ARGB32 };
-    work->key = (RsttoRenderKey) { .width = 8, .height = 8, .render_width = 8, .render_height = 8,
-        .pixel_scale = 1, .source_scale = 1, .orientation = 1, .x_scale = 1, .y_scale = 1,
-        .filter = RSTTO_GPU_NEAREST };
+    work->key = (RsttoRenderKey) { .width = 8, .height = 8, .render_width = 8, .render_height = 8, .pixel_scale = 1, .source_scale = 1, .orientation = 1, .x_scale = 1, .y_scale = 1, .filter = RSTTO_GPU_NEAREST };
     work->task = g_task_new (self, cancel, callback, data);
     g_task_set_return_on_cancel (work->task, FALSE);
     g_task_set_check_cancellable (work->task, FALSE);
@@ -1187,6 +1517,13 @@ rstto_gpu_warmup_async (RsttoGpuRenderer *self, gboolean persistent, GCancellabl
     g_async_queue_push (worker->queue, work);
 }
 
+
+/**
+ * rstto_gpu_warmup_finish:
+ *
+ * Finish startup warmup and release the worker's busy state after its
+ * resources have drained.
+ */
 gboolean
 rstto_gpu_warmup_finish (RsttoGpuRenderer *self, GAsyncResult *result, GError **error)
 {
@@ -1200,6 +1537,13 @@ rstto_gpu_warmup_finish (RsttoGpuRenderer *self, GAsyncResult *result, GError **
     return worker->ready;
 }
 
+
+/**
+ * rstto_gpu_renderer_available:
+ *
+ * Check for an idle worker that has completed warmup or can drain a
+ * failed-backend request.
+ */
 gboolean
 rstto_gpu_renderer_available (RsttoGpuRenderer *self)
 {
@@ -1210,10 +1554,15 @@ rstto_gpu_renderer_available (RsttoGpuRenderer *self)
     return FALSE;
 }
 
+
+/**
+ * rstto_gpu_render_request_async:
+ *
+ * Take ownership of an admitted request and queue it on an eligible worker
+ * with its source lease and reservation intact.
+ */
 void
-rstto_gpu_render_request_async (RsttoGpuRequest *request, GCancellable *cancel,
-                                gboolean (*keep) (gpointer), gpointer useful_data, const gint *demand,
-                                GAsyncReadyCallback callback, gpointer data)
+rstto_gpu_render_request_async (RsttoGpuRequest *request, GCancellable *cancel, gboolean (*keep) (gpointer), gpointer useful_data, const gint *demand, GAsyncReadyCallback callback, gpointer data)
 {
     g_return_if_fail (rstto_gpu_request_available (request));
     RsttoGpuRenderer *self = request->owner;
@@ -1221,13 +1570,20 @@ rstto_gpu_render_request_async (RsttoGpuRequest *request, GCancellable *cancel,
     if (worker == NULL)
         for (guint i = 0; i < self->count; i++)
             if (!self->workers[i].busy && (self->workers[i].ready || g_atomic_int_get (&self->failed)))
-            { worker = &self->workers[i]; break; }
+            {
+                worker = &self->workers[i];
+                break;
+            }
     worker->busy = TRUE;
     request->worker = worker;
     GpuWork *work = g_new0 (GpuWork, 1);
-    work->worker = worker; work->pixels = request->pixels; work->key = request->key;
+    work->worker = worker;
+    work->pixels = request->pixels;
+    work->key = request->key;
     work->request = request;
-    work->useful = keep; work->useful_data = useful_data; work->demand = demand;
+    work->useful = keep;
+    work->useful_data = useful_data;
+    work->demand = demand;
     work->task = g_task_new (self, cancel, callback, data);
     g_task_set_return_on_cancel (work->task, FALSE);
     g_task_set_check_cancellable (work->task, FALSE);
@@ -1239,12 +1595,18 @@ rstto_gpu_render_request_async (RsttoGpuRequest *request, GCancellable *cancel,
     g_async_queue_push (worker->queue, work);
 }
 
-/* Test/standalone callers use anonymous, nonresident sources. The cache uses
- * explicit admission above so it can reserve RAM before any worker starts. */
+
+/**
+ * rstto_gpu_render_async:
+ *
+ * Create and submit a transient-source request; the caller must retain source
+ * pixels and account for host staging until completion.
+ *
+ * Test/standalone callers use anonymous, nonresident sources. The cache uses
+ * explicit admission above so it can reserve RAM before any worker starts.
+ */
 void
-rstto_gpu_render_async (RsttoGpuRenderer *self, const RsttoRenderPixels *source, const RsttoRenderKey *key,
-                       GCancellable *cancel, gboolean (*keep) (gpointer), gpointer useful_data, const gint *demand,
-                       GAsyncReadyCallback callback, gpointer data)
+rstto_gpu_render_async (RsttoGpuRenderer *self, const RsttoRenderPixels *source, const RsttoRenderKey *key, GCancellable *cancel, gboolean (*keep) (gpointer), gpointer useful_data, const gint *demand, GAsyncReadyCallback callback, gpointer data)
 {
     guint64 staging;
     RsttoGpuRequest *request = rstto_gpu_request_new (self, source, key, 0, &staging);
@@ -1258,6 +1620,13 @@ rstto_gpu_render_async (RsttoGpuRenderer *self, const RsttoRenderPixels *source,
     }
 }
 
+
+/**
+ * rstto_gpu_render_finish:
+ *
+ * Release the completed request's worker permit and transfer the rendered
+ * image or error to the caller.
+ */
 RsttoGpuImage *
 rstto_gpu_render_finish (RsttoGpuRenderer *self, GAsyncResult *result, GError **error)
 {
@@ -1272,6 +1641,13 @@ rstto_gpu_render_finish (RsttoGpuRenderer *self, GAsyncResult *result, GError **
     return g_task_propagate_pointer (G_TASK (result), error);
 }
 
+
+/**
+ * rstto_gpu_image_ref:
+ *
+ * Retain a rendered texture independently of the cache entry that first owned
+ * it.
+ */
 RsttoGpuImage *
 rstto_gpu_image_ref (RsttoGpuImage *image)
 {
@@ -1279,6 +1655,13 @@ rstto_gpu_image_ref (RsttoGpuImage *image)
     return image;
 }
 
+
+/**
+ * rstto_gpu_image_unref:
+ *
+ * Queue final texture retirement on the owning worker while retaining the
+ * renderer through cleanup.
+ */
 void
 rstto_gpu_image_unref (RsttoGpuImage *image)
 {
@@ -1294,10 +1677,18 @@ rstto_gpu_image_unref (RsttoGpuImage *image)
     g_async_queue_push (image->worker->queue, work);
 }
 
+
+/**
+ * rstto_gpu_image_draw:
+ *
+ * Present a texture directly through GDK and fence its consumer context before
+ * allowing later retirement.
+ */
 gboolean
 rstto_gpu_image_draw (RsttoGpuImage *image, cairo_t *cr, GdkWindow *window, gint scale)
 {
-    if (g_atomic_int_get (&image->worker->owner->failed)) return FALSE;
+    if (g_atomic_int_get (&image->worker->owner->failed))
+        return FALSE;
     gint64 start = rstto_profile_now ();
     cairo_save (cr);
     gdk_cairo_draw_from_gl (cr, window, image->id, GL_TEXTURE, scale, 0, 0, image->width, image->height);
@@ -1308,67 +1699,328 @@ rstto_gpu_image_draw (RsttoGpuImage *image, cairo_t *cr, GdkWindow *window, gint
         glDeleteSync (image->presented);
     image->presented = glFenceSync (GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
     glFlush ();
-    if (image->presented == NULL) g_atomic_int_set (&image->worker->owner->failed, TRUE);
+    if (image->presented == NULL)
+        g_atomic_int_set (&image->worker->owner->failed, TRUE);
     rstto_profile_end (start, image, 0, "gpu-paint", "width=%d height=%d", image->width, image->height);
     return image->presented != NULL;
 }
 
 #ifdef RSTTO_VIEWER_TEST
-void rstto_gpu_test_disable (RsttoGpuRenderer *self) { g_atomic_int_set (&self->failed, TRUE); }
+
+
+/**
+ * rstto_gpu_test_disable:
+ *
+ * Force the viewer's GPU backend into failure so asynchronous CPU fallback can
+ * be tested.
+ */
+void
+rstto_gpu_test_disable (RsttoGpuRenderer *self)
+{
+    g_atomic_int_set (&self->failed, TRUE);
+}
 #endif
 
 #ifdef RSTTO_GPU_TEST
-void rstto_gpu_test_budget (RsttoGpuRenderer *self, guint64 bytes, guint64 source_bytes) {
-    g_mutex_lock (&self->lock); self->max_bytes = bytes; self->max_source_bytes = source_bytes; g_mutex_unlock (&self->lock);
+
+
+/**
+ * rstto_gpu_test_budget:
+ *
+ * Inject smaller GPU byte limits under the accounting lock for deterministic
+ * admission tests.
+ */
+void
+rstto_gpu_test_budget (RsttoGpuRenderer *self, guint64 bytes, guint64 source_bytes)
+{
+    g_mutex_lock (&self->lock);
+    self->max_bytes = bytes;
+    self->max_source_bytes = source_bytes;
+    g_mutex_unlock (&self->lock);
 }
-void rstto_gpu_test_limit (RsttoGpuRenderer *self, guint limit) { self->limit = limit; }
-void rstto_gpu_test_hold (RsttoGpuRenderer *self, gboolean hold) { g_atomic_int_set (&self->hold, hold); }
-void rstto_gpu_test_reference (RsttoGpuRenderer *self, gboolean reference) { g_atomic_int_set (&self->reference, reference); }
-void rstto_gpu_test_fail (RsttoGpuRenderer *self, guint stage) { g_atomic_int_set (&self->fail, stage); }
+
+
+/**
+ * rstto_gpu_test_limit:
+ *
+ * Inject a texture dimension limit without allocating oversized textures.
+ */
+void
+rstto_gpu_test_limit (RsttoGpuRenderer *self, guint limit)
+{
+    self->limit = limit;
+}
+
+
+/**
+ * rstto_gpu_test_hold:
+ *
+ * Hold or release test GPU completion so resource ownership can be inspected
+ * while fences are pending.
+ */
+void
+rstto_gpu_test_hold (RsttoGpuRenderer *self, gboolean hold)
+{
+    g_atomic_int_set (&self->hold, hold);
+}
+
+
+/**
+ * rstto_gpu_test_reference:
+ *
+ * Select installed libplacebo filtering as the test reference instead of the
+ * runtime EWA shader.
+ */
+void
+rstto_gpu_test_reference (RsttoGpuRenderer *self, gboolean reference)
+{
+    g_atomic_int_set (&self->reference, reference);
+}
+
+
+/**
+ * rstto_gpu_test_fail:
+ *
+ * Inject a failure at a selected GPU preparation stage for cleanup and
+ * fallback tests.
+ */
+void
+rstto_gpu_test_fail (RsttoGpuRenderer *self, guint stage)
+{
+    g_atomic_int_set (&self->fail, stage);
+}
+
+
+/**
+ * rstto_gpu_test_download:
+ *
+ * Read a rendered texture back on its owning worker for pixel comparisons;
+ * this path exists only in tests.
+ */
 cairo_surface_t *
 rstto_gpu_test_download (RsttoGpuImage *image)
 {
     GpuWork *work = g_new0 (GpuWork, 1);
-    work->type = GPU_READ; work->image = image;
-    g_mutex_init (&work->mutex); g_cond_init (&work->cond);
+    work->type = GPU_READ;
+    work->image = image;
+    g_mutex_init (&work->mutex);
+    g_cond_init (&work->cond);
     g_mutex_lock (&work->mutex);
     g_async_queue_push (image->worker->queue, work);
     while (!work->done)
         g_cond_wait (&work->cond, &work->mutex);
     g_mutex_unlock (&work->mutex);
     cairo_surface_t *surface = work->download;
-    g_mutex_clear (&work->mutex); g_cond_clear (&work->cond); g_free (work);
+    g_mutex_clear (&work->mutex);
+    g_cond_clear (&work->cond);
+    g_free (work);
     return surface;
 }
 #endif
 #else
-void rstto_gpu_source_select (RsttoGpuRenderer *self, guint64 serial) { }
-void rstto_gpu_source_invalidate (RsttoGpuRenderer *self, guint64 serial) { }
-RsttoGpuRequest *rstto_gpu_request_new (RsttoGpuRenderer *self, const RsttoRenderPixels *pixels,
-    const RsttoRenderKey *key, guint64 serial, guint64 *host_bytes) { return NULL; }
-void rstto_gpu_request_free (RsttoGpuRequest *request) { }
-gboolean rstto_gpu_request_available (RsttoGpuRequest *request) { return FALSE; }
-void rstto_gpu_render_request_async (RsttoGpuRequest *request, GCancellable *cancel,
-    gboolean (*useful) (gpointer), gpointer useful_data, const gint *demand,
-    GAsyncReadyCallback callback, gpointer data) { g_assert_not_reached (); }
-RsttoGpuRenderer *rstto_gpu_renderer_new (GdkWindow *window, guint workers, GError **error)
+
+
+/**
+ * rstto_gpu_source_select:
+ *
+ * Ignore source selection in builds without the optional GPU backend.
+ */
+void
+rstto_gpu_source_select (RsttoGpuRenderer *self, guint64 serial)
+{
+}
+
+
+/**
+ * rstto_gpu_source_invalidate:
+ *
+ * Ignore GPU source invalidation when no GPU sources can exist.
+ */
+void
+rstto_gpu_source_invalidate (RsttoGpuRenderer *self, guint64 serial)
+{
+}
+
+
+/**
+ * rstto_gpu_request_new:
+ *
+ * Return no GPU admission lease in CPU-only builds so callers choose CPU
+ * preparation.
+ */
+RsttoGpuRequest *
+rstto_gpu_request_new (RsttoGpuRenderer *self, const RsttoRenderPixels *pixels, const RsttoRenderKey *key, guint64 serial, guint64 *host_bytes)
+{
+    return NULL;
+}
+
+
+/**
+ * rstto_gpu_request_free:
+ *
+ * Provide the CPU-only no-op counterpart of GPU request cleanup.
+ */
+void
+rstto_gpu_request_free (RsttoGpuRequest *request)
+{
+}
+
+
+/**
+ * rstto_gpu_request_available:
+ *
+ * Report that no GPU request can run in a CPU-only build.
+ */
+gboolean
+rstto_gpu_request_available (RsttoGpuRequest *request)
+{
+    return FALSE;
+}
+
+
+/**
+ * rstto_gpu_render_request_async:
+ *
+ * Reject unreachable GPU submission in a build where request admission is
+ * disabled.
+ */
+void
+rstto_gpu_render_request_async (RsttoGpuRequest *request, GCancellable *cancel, gboolean (*useful) (gpointer), gpointer useful_data, const gint *demand, GAsyncReadyCallback callback, gpointer data)
+{
+    g_assert_not_reached ();
+}
+
+
+/**
+ * rstto_gpu_renderer_new:
+ *
+ * Report unsupported GPU rendering and return NULL when libplacebo is
+ * disabled.
+ */
+RsttoGpuRenderer *
+rstto_gpu_renderer_new (GdkWindow *window, guint workers, GError **error)
 {
     g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, "Built without libplacebo OpenGL support");
     return NULL;
 }
-gboolean rstto_gpu_renderer_needs_warmup (RsttoGpuRenderer *self) { return FALSE; }
-void rstto_gpu_warmup_async (RsttoGpuRenderer *self, gboolean persistent, GCancellable *cancel, GAsyncReadyCallback callback, gpointer data) { g_assert_not_reached (); }
-gboolean rstto_gpu_warmup_finish (RsttoGpuRenderer *self, GAsyncResult *result, GError **error) { return FALSE; }
-gboolean rstto_gpu_renderer_available (RsttoGpuRenderer *self) { return FALSE; }
-void rstto_gpu_render_async (RsttoGpuRenderer *self, const RsttoRenderPixels *source, const RsttoRenderKey *key,
-                            GCancellable *cancel, gboolean (*keep) (gpointer), gpointer useful_data, const gint *demand,
-                            GAsyncReadyCallback callback, gpointer data) { g_assert_not_reached (); }
-RsttoGpuImage *rstto_gpu_render_finish (RsttoGpuRenderer *self, GAsyncResult *result, GError **error) { return NULL; }
-RsttoGpuImage *rstto_gpu_image_ref (RsttoGpuImage *image) { return image; }
-void rstto_gpu_image_unref (RsttoGpuImage *image) { }
-gboolean rstto_gpu_image_draw (RsttoGpuImage *image, cairo_t *cr, GdkWindow *window, gint scale) { return FALSE; }
+
+
+/**
+ * rstto_gpu_renderer_needs_warmup:
+ *
+ * Report that CPU-only builds have no GPU workers requiring warmup.
+ */
+gboolean
+rstto_gpu_renderer_needs_warmup (RsttoGpuRenderer *self)
+{
+    return FALSE;
+}
+
+
+/**
+ * rstto_gpu_warmup_async:
+ *
+ * Reject unreachable GPU warmup in a build with no GPU workers.
+ */
+void
+rstto_gpu_warmup_async (RsttoGpuRenderer *self, gboolean persistent, GCancellable *cancel, GAsyncReadyCallback callback, gpointer data)
+{
+    g_assert_not_reached ();
+}
+
+
+/**
+ * rstto_gpu_warmup_finish:
+ *
+ * Return unsuccessful warmup for the CPU-only backend stub.
+ */
+gboolean
+rstto_gpu_warmup_finish (RsttoGpuRenderer *self, GAsyncResult *result, GError **error)
+{
+    return FALSE;
+}
+
+
+/**
+ * rstto_gpu_renderer_available:
+ *
+ * Report that CPU preparation is required when libplacebo is disabled.
+ */
+gboolean
+rstto_gpu_renderer_available (RsttoGpuRenderer *self)
+{
+    return FALSE;
+}
+
+
+/**
+ * rstto_gpu_render_async:
+ *
+ * Reject unreachable GPU rendering in a build whose availability check always
+ * fails.
+ */
+void
+rstto_gpu_render_async (RsttoGpuRenderer *self, const RsttoRenderPixels *source, const RsttoRenderKey *key, GCancellable *cancel, gboolean (*keep) (gpointer), gpointer useful_data, const gint *demand, GAsyncReadyCallback callback, gpointer data)
+{
+    g_assert_not_reached ();
+}
+
+
+/**
+ * rstto_gpu_render_finish:
+ *
+ * Return no GPU image in the CPU-only backend stub.
+ */
+RsttoGpuImage *
+rstto_gpu_render_finish (RsttoGpuRenderer *self, GAsyncResult *result, GError **error)
+{
+    return NULL;
+}
+
+
+/**
+ * rstto_gpu_image_ref:
+ *
+ * Provide the inert image-reference counterpart for CPU-only builds.
+ */
+RsttoGpuImage *
+rstto_gpu_image_ref (RsttoGpuImage *image)
+{
+    return image;
+}
+
+
+/**
+ * rstto_gpu_image_unref:
+ *
+ * Provide the inert image-release counterpart for CPU-only builds.
+ */
+void
+rstto_gpu_image_unref (RsttoGpuImage *image)
+{
+}
+
+
+/**
+ * rstto_gpu_image_draw:
+ *
+ * Report unavailable GPU presentation so CPU-only callers retain their normal
+ * drawing path.
+ */
+gboolean
+rstto_gpu_image_draw (RsttoGpuImage *image, cairo_t *cr, GdkWindow *window, gint scale)
+{
+    return FALSE;
+}
 #endif
 
+
+/**
+ * rstto_gpu_renderer_finalize:
+ *
+ * Drain and join GL workers, release their contexts and destroy renderer
+ * accounting state.
+ */
 static void
 rstto_gpu_renderer_finalize (GObject *object)
 {
@@ -1394,12 +2046,27 @@ rstto_gpu_renderer_finalize (GObject *object)
     G_OBJECT_CLASS (rstto_gpu_renderer_parent_class)->finalize (object);
 }
 
-static void rstto_gpu_renderer_class_init (RsttoGpuRendererClass *klass)
+
+/**
+ * rstto_gpu_renderer_class_init:
+ *
+ * Install renderer finalization for worker and context ownership.
+ */
+static void
+rstto_gpu_renderer_class_init (RsttoGpuRendererClass *klass)
 {
     G_OBJECT_CLASS (klass)->finalize = rstto_gpu_renderer_finalize;
 }
 
-static void rstto_gpu_renderer_init (RsttoGpuRenderer *self)
+
+/**
+ * rstto_gpu_renderer_init:
+ *
+ * Initialize the renderer lock, main-context ownership, generation and bounded
+ * GPU defaults.
+ */
+static void
+rstto_gpu_renderer_init (RsttoGpuRenderer *self)
 {
     static guint64 generation;
     self->generation = ++generation; /* construction is on the GTK thread */

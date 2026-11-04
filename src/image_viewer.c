@@ -461,10 +461,13 @@ rstto_image_viewer_class_init (RsttoImageViewerClass *klass)
     g_object_class_override_property (object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
 }
 
+
+
 /**
- * rstto_image_viewer_realize:
- * @widget:
+ * viewer_unrealized:
  *
+ * Detach the GPU backend and release context-dependent images when the viewer
+ * window is unrealized.
  */
 static void
 viewer_unrealized (GtkWidget *widget, gpointer unused)
@@ -475,6 +478,11 @@ viewer_unrealized (GtkWidget *widget, gpointer unused)
     g_clear_object (&viewer->priv->gpu);
 }
 
+/**
+ * rstto_image_viewer_realize:
+ * @widget:
+ *
+ */
 static void
 rstto_image_viewer_realize (GtkWidget *widget)
 {
@@ -504,7 +512,7 @@ rstto_image_viewer_realize (GtkWidget *widget)
     gtk_widget_set_window (widget, window);
     gdk_window_set_user_data (window, widget);
     g_object_ref (window);
-    if (rstto_gpu_requested ())
+    if (rstto_settings_get_startup_gpu_enabled (viewer->priv->settings))
     {
         GError *error = NULL;
         viewer->priv->gpu = rstto_gpu_renderer_new (window, rstto_gpu_worker_count (), &error);
@@ -1305,12 +1313,26 @@ rstto_image_viewer_set_file (RsttoImageViewer *viewer, RsttoFile *file, gdouble 
         rstto_image_viewer_load_image (viewer, file, requested);
 }
 
+
+/**
+ * rstto_image_viewer_get_file:
+ *
+ * Return the borrowed file committed for display and file actions,
+ * independently of active or pending navigation.
+ */
 RsttoFile *
 rstto_image_viewer_get_file (RsttoImageViewer *viewer)
 {
     return viewer->priv->file;
 }
 
+
+/**
+ * rstto_image_viewer_set_preload_files:
+ *
+ * Retain the candidate files and update the cache's pending selection and
+ * ranked neighbours together.
+ */
 void
 rstto_image_viewer_set_preload_files (RsttoImageViewer *viewer, GPtrArray *files)
 {
@@ -1328,10 +1350,16 @@ rstto_image_viewer_set_preload_files (RsttoImageViewer *viewer, GPtrArray *files
         g_ptr_array_add (native, rstto_file_get_file (file));
     }
     rstto_image_cache_set_schedule (viewer->priv->cache,
-        pending != NULL && !rstto_file_is_ephemeral (pending) ? rstto_file_get_file (pending) : NULL, native);
+                                    pending != NULL && !rstto_file_is_ephemeral (pending) ? rstto_file_get_file (pending) : NULL, native);
     g_ptr_array_unref (native);
 }
 
+
+/**
+ * rstto_image_viewer_reconcile_files:
+ *
+ * Discard pending navigation to files no longer present in the image list.
+ */
 void
 rstto_image_viewer_reconcile_files (RsttoImageViewer *viewer, RsttoImageList *list)
 {
@@ -1351,6 +1379,13 @@ rstto_image_viewer_reconcile_files (RsttoImageViewer *viewer, RsttoImageList *li
     g_object_unref (iter);
 }
 
+
+/**
+ * presentation_disconnect:
+ *
+ * Disconnect the after-paint callback when no presentation notification is
+ * needed.
+ */
 static void
 presentation_disconnect (RsttoImageViewer *viewer)
 {
@@ -1360,6 +1395,12 @@ presentation_disconnect (RsttoImageViewer *viewer)
     g_clear_object (&viewer->priv->presentation_clock);
 }
 
+
+/**
+ * navigation_clear:
+ *
+ * Release the coalesced pending navigation and its idle source.
+ */
 static void
 navigation_clear (RsttoImageViewer *viewer)
 {
@@ -1371,6 +1412,13 @@ navigation_clear (RsttoImageViewer *viewer)
     viewer->priv->awaiting_frame = viewer->priv->frame_drawn = FALSE;
 }
 
+
+/**
+ * navigation_dispatch:
+ *
+ * Start the latest pending selection after the active image has completed
+ * presentation.
+ */
 static gboolean
 navigation_dispatch (gpointer data)
 {
@@ -1398,6 +1446,13 @@ navigation_dispatch (gpointer data)
     return G_SOURCE_REMOVE;
 }
 
+
+/**
+ * frame_presented:
+ *
+ * Record a completed frame and schedule pending navigation or the latest view
+ * refresh after painting.
+ */
 static void
 frame_presented (GdkFrameClock *clock, RsttoImageViewer *viewer)
 {
@@ -1410,6 +1465,12 @@ frame_presented (GdkFrameClock *clock, RsttoImageViewer *viewer)
         viewer->priv->navigation_idle = g_idle_add (navigation_dispatch, viewer);
 }
 
+
+/**
+ * presentation_arm:
+ *
+ * Request one after-paint notification for the viewer's next completed frame.
+ */
 static void
 presentation_arm (RsttoImageViewer *viewer)
 {
@@ -1419,12 +1480,19 @@ presentation_arm (RsttoImageViewer *viewer)
     {
         viewer->priv->presentation_clock = g_object_ref (gtk_widget_get_frame_clock (GTK_WIDGET (viewer)));
         viewer->priv->presentation_handler = g_signal_connect_object (viewer->priv->presentation_clock,
-            "after-paint", G_CALLBACK (frame_presented), viewer, 0);
+                                                                      "after-paint", G_CALLBACK (frame_presented), viewer, 0);
     }
     else
         frame_presented (NULL, viewer);
 }
 
+
+/**
+ * viewer_unmapped:
+ *
+ * Advance presentation sequencing when an unmapped widget cannot produce the
+ * awaited frame.
+ */
 static void
 viewer_unmapped (GtkWidget *widget, gpointer unused)
 {
@@ -1433,6 +1501,13 @@ viewer_unmapped (GtkWidget *widget, gpointer unused)
         frame_presented (NULL, viewer);
 }
 
+
+/**
+ * render_view:
+ *
+ * Snapshot the authoritative desired zoom, pan, orientation and viewport for
+ * asynchronous preparation.
+ */
 static RsttoRenderView
 render_view (RsttoImageViewer *viewer, RsttoFile *file)
 {
@@ -1445,17 +1520,25 @@ render_view (RsttoImageViewer *viewer, RsttoFile *file)
         .pixel_scale = gtk_widget_get_scale_factor (widget),
         .orientation = rstto_file_get_orientation (file),
         .scale = file == viewer->priv->active_file && file != viewer->priv->file ? viewer->priv->requested_scale
-                   : auto_scale != RSTTO_SCALE_NONE ? auto_scale : rstto_file_get_scale (file),
+                 : auto_scale != RSTTO_SCALE_NONE                                ? auto_scale
+                                                                                 : rstto_file_get_scale (file),
         .previous_scale = viewer->priv->scale,
         .default_zoom = rstto_settings_get_int_property (viewer->priv->settings, "default-zoom"),
-        .h_adjust = rstto_file_get_h_adjustment (file), .v_adjust = rstto_file_get_v_adjustment (file),
+        .h_adjust = rstto_file_get_h_adjustment (file),
+        .v_adjust = rstto_file_get_v_adjustment (file),
         .smoothing = viewer->priv->enable_smoothing
     };
 }
 
+
+/**
+ * cache_prepare_render:
+ *
+ * Provide a render snapshot for a decoded cache entry without changing the
+ * user's desired view.
+ */
 static void
-cache_prepare_render (RsttoImageCache *cache, GFile *file, RsttoImageData *image,
-                      RsttoRenderKey *key, RsttoImageViewer *viewer)
+cache_prepare_render (RsttoImageCache *cache, GFile *file, RsttoImageData *image, RsttoRenderKey *key, RsttoImageViewer *viewer)
 {
     RsttoFile *rfile = NULL;
     if (viewer->priv->destroyed)
@@ -1493,6 +1576,13 @@ cache_prepare_render (RsttoImageCache *cache, GFile *file, RsttoImageData *image
     }
 }
 
+
+/**
+ * current_render_key:
+ *
+ * Build the desired render key while preserving the delivered backend identity
+ * for admitted CPU fallback.
+ */
 static gboolean
 current_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key)
 {
@@ -1501,14 +1591,10 @@ current_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key)
     RsttoRenderView view = render_view (viewer, viewer->priv->file);
     view.orientation = viewer->priv->orientation;
     RsttoRenderGeometry geometry = {
-        .image_width = viewer->priv->image_width, .image_height = viewer->priv->image_height,
-        .width = viewer->priv->rendering.width, .height = viewer->priv->rendering.height,
-        .x = viewer->priv->rendering.x_offset, .y = viewer->priv->rendering.y_offset,
-        .h_adjust = gtk_adjustment_get_value (viewer->priv->hadjustment),
-        .v_adjust = gtk_adjustment_get_value (viewer->priv->vadjustment)
+        .image_width = viewer->priv->image_width, .image_height = viewer->priv->image_height, .width = viewer->priv->rendering.width, .height = viewer->priv->rendering.height, .x = viewer->priv->rendering.x_offset, .y = viewer->priv->rendering.y_offset, .h_adjust = gtk_adjustment_get_value (viewer->priv->hadjustment), .v_adjust = gtk_adjustment_get_value (viewer->priv->vadjustment)
     };
     gboolean valid = rstto_image_render_key (&view, &geometry, viewer->priv->original_image_width,
-                                              viewer->priv->pixbuf.width, key);
+                                             viewer->priv->pixbuf.width, key);
     /* Compare geometry against the delivered representation, including a CPU
      * fallback for a GPU-ineligible image. Backend choice belongs to the cache. */
     key->backend = viewer->priv->pixbuf.render_key.backend;
@@ -1518,6 +1604,13 @@ current_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key)
     return valid;
 }
 
+
+/**
+ * refresh_render_idle:
+ *
+ * Load the latest same-image view when foreground preparation, presentation
+ * and pending navigation no longer block it.
+ */
 static gboolean
 refresh_render_idle (gpointer data)
 {
@@ -1526,10 +1619,17 @@ refresh_render_idle (gpointer data)
     if (!viewer->priv->destroyed && viewer->priv->file != NULL && viewer->priv->active_file == NULL
         && !viewer->priv->awaiting_frame && viewer->priv->pending_file == NULL)
         rstto_image_viewer_load_image (viewer, viewer->priv->file,
-            viewer->priv->auto_scale != RSTTO_SCALE_NONE ? viewer->priv->auto_scale : viewer->priv->scale);
+                                       viewer->priv->auto_scale != RSTTO_SCALE_NONE ? viewer->priv->auto_scale : viewer->priv->scale);
     return G_SOURCE_REMOVE;
 }
 
+
+/**
+ * render_refresh:
+ *
+ * Coalesce view changes and request asynchronous preparation while keeping the
+ * last completed frame visible.
+ */
 static void
 render_refresh (RsttoImageViewer *viewer)
 {
@@ -1543,7 +1643,7 @@ render_refresh (RsttoImageViewer *viewer)
         viewer->priv->view_revision++;
         rstto_image_cache_view_changed (viewer->priv->cache, TRUE);
         rstto_profile_end (rstto_profile_now (), viewer, viewer->priv->view_revision, "view-request",
-            "scale=%.6f", viewer->priv->scale);
+                           "scale=%.6f", viewer->priv->scale);
     }
     viewer->priv->render_dirty = TRUE;
     if (viewer->priv->render_attempt_valid && rstto_image_render_key_equal (&key, &viewer->priv->render_attempt))
@@ -1558,6 +1658,12 @@ render_refresh (RsttoImageViewer *viewer)
     }
 }
 
+
+/**
+ * decode_options:
+ *
+ * Snapshot quality and monitor dimensions into immutable decode options.
+ */
 static RsttoDecodeOptions
 decode_options (RsttoImageViewer *viewer)
 {
@@ -1596,28 +1702,51 @@ rstto_image_viewer_load_image (RsttoImageViewer *viewer, RsttoFile *file, gdoubl
                                rstto_file_get_content_type (file), &viewer->priv->decode_options);
 }
 
+
+/**
+ * reload_options:
+ *
+ * Refresh cache decode settings and reload when quality or effective monitor
+ * size changes.
+ */
 static void
 reload_options (RsttoImageViewer *viewer)
 {
-    RsttoFile *file = viewer->priv->pending_file != NULL ? viewer->priv->pending_file
-                     : viewer->priv->active_file != NULL ? viewer->priv->active_file : viewer->priv->file;
+    RsttoFile *file = viewer->priv->pending_file != NULL  ? viewer->priv->pending_file
+                      : viewer->priv->active_file != NULL ? viewer->priv->active_file
+                                                          : viewer->priv->file;
     if (file == NULL || viewer->priv->destroyed)
         return;
     g_object_ref (file);
-    gdouble scale = viewer->priv->pending_file != NULL ? viewer->priv->pending_scale
-        : viewer->priv->active_file != NULL ? viewer->priv->requested_scale
-        : viewer->priv->auto_scale != RSTTO_SCALE_NONE ? viewer->priv->auto_scale : viewer->priv->scale;
+    gdouble scale = viewer->priv->pending_file != NULL             ? viewer->priv->pending_scale
+                    : viewer->priv->active_file != NULL            ? viewer->priv->requested_scale
+                    : viewer->priv->auto_scale != RSTTO_SCALE_NONE ? viewer->priv->auto_scale
+                                                                   : viewer->priv->scale;
     g_clear_object (&viewer->priv->pending_file);
     rstto_image_viewer_load_image (viewer, file, scale);
     g_object_unref (file);
 }
 
+
+/**
+ * rstto_image_viewer_get_cache:
+ *
+ * Return the viewer's borrowed cache manager for internal scheduling and
+ * diagnostics.
+ */
 RsttoImageCache *
 rstto_image_viewer_get_cache (RsttoImageViewer *viewer)
 {
     return viewer->priv->cache;
 }
 
+
+/**
+ * cache_viewer_destroy:
+ *
+ * Stop asynchronous cache delivery and clear viewer-owned navigation and image
+ * resources during destruction.
+ */
 static void
 cache_viewer_destroy (GtkWidget *widget, gpointer unused)
 {
@@ -1633,6 +1762,13 @@ cache_viewer_destroy (GtkWidget *widget, gpointer unused)
     rstto_image_cache_stop (viewer->priv->cache);
 }
 
+
+/**
+ * cache_settings_changed:
+ *
+ * Apply live cache and preload settings and refresh the viewer's demand when
+ * required.
+ */
 static void
 cache_settings_changed (GObject *settings, GParamSpec *pspec, RsttoImageViewer *viewer)
 {
@@ -1657,6 +1793,13 @@ cache_settings_changed (GObject *settings, GParamSpec *pspec, RsttoImageViewer *
         reload_options (viewer);
 }
 
+
+/**
+ * cache_identity_changed:
+ *
+ * Invalidate RsttoFile metadata when the cache detects a changed file
+ * identity.
+ */
 static void
 cache_identity_changed (RsttoImageCache *cache, GFile *file, RsttoImageViewer *viewer)
 {
@@ -1789,6 +1932,14 @@ rstto_image_viewer_set_menu (RsttoImageViewer *viewer,
 /************************/
 /** CALLBACK FUNCTIONS **/
 /************************/
+
+
+/**
+ * cache_ready:
+ *
+ * Accept fresh exact or compatible pan-only results without rolling back
+ * desired geometry, and sequence presentation before further navigation.
+ */
 static void
 cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *viewer)
 {
@@ -1799,8 +1950,7 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
         RsttoCacheStats stats;
         rstto_image_cache_get_stats (cache, &stats);
         rstto_profile_end (viewer->priv->profile_requested, viewer, viewer->priv->profile_request_id,
-                           "request-to-ready", "hits=%" G_GUINT64_FORMAT " decodes=%" G_GUINT64_FORMAT
-                           " entries=%u jobs=%u resident=%" G_GUINT64_FORMAT " reserved=%" G_GUINT64_FORMAT,
+                           "request-to-ready", "hits=%" G_GUINT64_FORMAT " decodes=%" G_GUINT64_FORMAT " entries=%u jobs=%u resident=%" G_GUINT64_FORMAT " reserved=%" G_GUINT64_FORMAT,
                            stats.hits, stats.decodes, stats.entries, stats.jobs, stats.resident_bytes, stats.reserved_bytes);
     }
     if (viewer->priv->active_file == NULL || viewer->priv->destroyed)
@@ -1828,7 +1978,7 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
     g_set_object (&viewer->priv->file, viewer->priv->active_file);
     g_signal_connect_object (viewer->priv->file, "changed", G_CALLBACK (cb_rstto_image_viewer_file_changed), viewer, 0);
     gboolean completed_view = (image->gpu_image != NULL && image->gpu_image != viewer->priv->pixbuf.gpu_image)
-        || (image->rendered != NULL && image->rendered != viewer->priv->pixbuf.rendered);
+                              || (image->rendered != NULL && image->rendered != viewer->priv->pixbuf.rendered);
     g_clear_pointer (&viewer->priv->pixbuf.gpu_image, rstto_gpu_image_unref);
     g_clear_pointer (&viewer->priv->pixbuf.rendered, cairo_surface_destroy);
     if (image->gpu_image != NULL)
@@ -1890,7 +2040,7 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
     RsttoRenderKey desired = { 0 };
     viewer->priv->render_attempt_valid = current_render_key (viewer, &desired);
     viewer->priv->render_dirty = viewer->priv->render_attempt_valid
-        && !rstto_image_render_key_equal (&desired, &viewer->priv->pixbuf.render_key);
+                                 && !rstto_image_render_key_equal (&desired, &viewer->priv->pixbuf.render_key);
     /* Completion must not claim newer, unrendered geometry was attempted.
      * Keep failure/uncached attempts deduplicated, but let a complete pan
      * snapshot schedule the coalesced latest view after presentation. */
@@ -1898,7 +2048,7 @@ cache_ready (RsttoImageCache *cache, RsttoImageData *image, RsttoImageViewer *vi
     if (!viewer->priv->render_dirty)
         rstto_image_cache_view_changed (viewer->priv->cache, FALSE);
     rstto_profile_end (rstto_profile_now (), viewer, viewer->priv->view_revision, "view-committed",
-        "scale=%.6f compatible=%d", viewer->priv->scale, !viewer->priv->render_dirty);
+                       "scale=%.6f compatible=%d", viewer->priv->scale, !viewer->priv->render_dirty);
     viewer->priv->awaiting_frame = TRUE;
     gtk_widget_queue_draw (widget);
     g_signal_emit_by_name (viewer, "image-committed");
@@ -2336,6 +2486,13 @@ rstto_image_viewer_get_error (RsttoImageViewer *viewer)
     return NULL;
 }
 
+
+/**
+ * adjustment_changed:
+ *
+ * Keep desired file pan in sync with scrollbar movement and queue a draw to
+ * reconsider the rendered view.
+ */
 static void
 adjustment_changed (GtkAdjustment *adjustment, RsttoImageViewer *viewer)
 {
@@ -2493,6 +2650,14 @@ cb_rstto_image_viewer_file_changed (RsttoFile *r_file,
 }
 
 #ifdef RSTTO_VIEWER_TEST
+
+
+/**
+ * rstto_image_viewer_test_render_key:
+ *
+ * Expose the delivered image's actual render snapshot for viewer regression
+ * assertions.
+ */
 gboolean
 rstto_image_viewer_test_render_key (RsttoImageViewer *viewer, RsttoRenderKey *key)
 {
@@ -2500,6 +2665,13 @@ rstto_image_viewer_test_render_key (RsttoImageViewer *viewer, RsttoRenderKey *ke
     return viewer->priv->pixbuf.gpu_image != NULL || viewer->priv->pixbuf.rendered != NULL;
 }
 
+
+/**
+ * rstto_image_viewer_test_fail_gpu:
+ *
+ * Force GPU failure through the test hook to exercise asynchronous CPU
+ * preparation.
+ */
 void
 rstto_image_viewer_test_fail_gpu (RsttoImageViewer *viewer)
 {
@@ -2508,6 +2680,13 @@ rstto_image_viewer_test_fail_gpu (RsttoImageViewer *viewer)
 #endif
 }
 
+
+/**
+ * rstto_image_viewer_test_unprepared_paints:
+ *
+ * Return the test count of draw callbacks that lacked a prepared image
+ * variant.
+ */
 guint
 rstto_image_viewer_test_unprepared_paints (RsttoImageViewer *viewer)
 {

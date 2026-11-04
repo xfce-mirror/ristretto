@@ -1577,12 +1577,25 @@ rstto_image_list_is_busy (RsttoImageList *list)
     return list->priv->is_busy;
 }
 
+
+/**
+ * rstto_image_list_get_file_at_position:
+ *
+ * Return the borrowed file at an ordered list position for candidate
+ * selection.
+ */
 RsttoFile *
 rstto_image_list_get_file_at_position (RsttoImageList *image_list, guint position)
 {
     return g_queue_peek_nth (image_list->priv->images, position);
 }
 
+
+/**
+ * rstto_image_list_invalidate_metadata:
+ *
+ * Discard cached metadata for list entries matching the changed file.
+ */
 void
 rstto_image_list_invalidate_metadata (RsttoImageList *image_list, GFile *file)
 {

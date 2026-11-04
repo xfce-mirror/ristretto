@@ -9,6 +9,7 @@ import statistics as stats
 
 
 def values(line):
+    """Parse profiling key/value fields, preserving nonnumeric values."""
     result = {}
     for key, value in re.findall(r"([\w-]+)=([^\s]+)", line):
         try:
@@ -19,12 +20,14 @@ def values(line):
 
 
 def distribution(items):
+    """Summarize all samples with median, p95 and maximum values."""
     items = sorted(items)
     return {"n": len(items), "median": stats.median(items),
             "p95": items[math.ceil(.95 * len(items)) - 1], "max": items[-1]} if items else {}
 
 
 def parse(run):
+    """Collect phase timings, resource counters and reuse evidence from one run."""
     phases = {}
     current = None
     conversions = {}
@@ -117,6 +120,7 @@ def parse(run):
 
 
 def main():
+    """Aggregate retained runs and write comparison data and a report."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", type=Path)
     args = parser.parse_args()
@@ -128,7 +132,9 @@ def main():
         groups.setdefault(run["name"], []).append(run)
     summary = {}
     for name, group in groups.items():
+
         def med(path):
+            """Compute the median available value at a nested path across this group."""
             items = []
             for run in group:
                 item = run
@@ -137,6 +143,7 @@ def main():
                 if isinstance(item, (int, float)):
                     items.append(item)
             return stats.median(items) if items else None
+
         row = {"runs": len(group)}
         for phase, sample in (("cold", "navigation"), ("warm", "navigation"), ("scroll", "selection"), ("zoom", "zoom")):
             for stat in ("median", "p95"):
@@ -176,8 +183,11 @@ def main():
     output = dict(percentile="nearest rank; table uses median of per-run statistics", runs=runs,
                   summary=summary, chosen_workers=chosen, best_scroll_p95_ms=best)
     (args.directory / "analysis.json").write_text(json.dumps(output, indent=2) + "\n")
+
     def number(value):
+        """Format a report value while preserving unavailable measurements."""
         return f"{value:.1f}" if value is not None else "—"
+
     lines = ["| Mode | Runs | Cold p95 ms | Warm p95 ms | Scroll p95 ms | Frames / 48 | Max gap ms | Zoom p95 ms |",
              "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"]
     for name in ("old", "zoomfixed", "new", "baseline", "cpu", "gpu1", "gpu2", "gpu3", "gpu4", "gpu5"):

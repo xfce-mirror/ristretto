@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-2.0-or-later */
-#include "profile.h"
 #include "image_cache.h"
 #include "image_probe.h"
+#include "profile.h"
 
 #include <gio/gfiledescriptorbased.h>
 #include <glib/gstdio.h>
@@ -32,7 +32,7 @@ typedef struct
     RsttoDecodeOptions options;
 } CacheKey;
 
-typedef struct _Entry
+typedef struct Entry
 {
     gint refs;
     RsttoImageCache *owner; /* owner outlives every entry */
@@ -96,7 +96,7 @@ typedef struct
     RsttoGpuRequest *gpu_request;
 } DecodeJob;
 
-struct _RsttoImageCache
+struct RsttoImageCache
 {
     GObject parent;
     GHashTable *entries; /* key owned by value; value destroy releases both */
@@ -143,16 +143,33 @@ enum
     N_SIGNALS
 };
 static guint signals[N_SIGNALS];
-static void pump (RsttoImageCache *self);
+static void
+pump (RsttoImageCache *self);
+
+
+/**
+ * schedule_now:
+ *
+ * Read the scheduler's monotonic clock, allowing deterministic time in cache
+ * tests.
+ */
 static gint64
 schedule_now (RsttoImageCache *self)
 {
 #ifdef RSTTO_CACHE_TEST
-    if (self->test_now != 0) return self->test_now;
+    if (self->test_now != 0)
+        return self->test_now;
 #endif
     return g_get_monotonic_time ();
 }
 
+
+/**
+ * quiet_expired:
+ *
+ * Resume admission when the navigation quiet timer expires and remove the
+ * timer source.
+ */
 static gboolean
 quiet_expired (gpointer data)
 {
@@ -162,6 +179,12 @@ quiet_expired (gpointer data)
     return G_SOURCE_REMOVE;
 }
 
+
+/**
+ * schedule_activity:
+ *
+ * Restart the quiet interval after a meaningful navigation or view change.
+ */
 static void
 schedule_activity (RsttoImageCache *self)
 {
@@ -169,10 +192,18 @@ schedule_activity (RsttoImageCache *self)
     g_clear_handle_id (&self->quiet_source, g_source_remove);
     if (!self->stopped)
         self->quiet_source = g_timeout_add_full (G_PRIORITY_DEFAULT, SPECULATION_QUIET_US / 1000,
-            quiet_expired, g_object_ref (self), g_object_unref);
+                                                 quiet_expired, g_object_ref (self), g_object_unref);
 }
 
-/* Deferral does not change usefulness or cancel a decoder already entered. */
+
+/**
+ * speculation_due:
+ *
+ * Check whether the pending selection or a ranked neighbour may start
+ * speculative work.
+ *
+ * Deferral does not change usefulness or cancel a decoder already entered.
+ */
 static gboolean
 speculation_due (RsttoImageCache *self, const gchar *uri)
 {
@@ -180,26 +211,35 @@ speculation_due (RsttoImageCache *self, const gchar *uri)
         return TRUE;
     guint rank = GPOINTER_TO_UINT (g_hash_table_lookup (self->targets, uri));
     return !self->view_pending && rank != 0
-        && (rank <= self->urgent_rank || self->burst_steps >= DIRECTIONAL_BURST_STEPS
-            || schedule_now (self) >= self->quiet_until);
+           && (rank <= self->urgent_rank || self->burst_steps >= DIRECTIONAL_BURST_STEPS
+               || schedule_now (self) >= self->quiet_until);
 }
 
+
+/**
+ * rstto_image_cache_navigation:
+ *
+ * Update directional burst tracking and the quiet deadline for a navigation
+ * event.
+ */
 void
 rstto_image_cache_navigation (RsttoImageCache *self, RsttoNavigationChange change, gint direction)
 {
     gint64 now = schedule_now (self);
     direction = direction < 0 ? -1 : 1;
     self->burst_steps = change == RSTTO_NAV_STEP
-        ? (self->navigation_direction == direction && self->last_navigation != 0
-           && now >= self->last_navigation && now - self->last_navigation <= SPECULATION_QUIET_US
-           ? MIN (DIRECTIONAL_BURST_STEPS, self->burst_steps + 1) : 1) : 0;
+                            ? (self->navigation_direction == direction && self->last_navigation != 0
+                                       && now >= self->last_navigation && now - self->last_navigation <= SPECULATION_QUIET_US
+                                   ? MIN (DIRECTIONAL_BURST_STEPS, self->burst_steps + 1)
+                                   : 1)
+                            : 0;
     self->navigation_direction = change == RSTTO_NAV_STEP ? direction : 0;
     self->last_navigation = now;
     self->navigation_revision++;
     schedule_activity (self);
     rstto_profile_end (rstto_profile_now (), self, self->navigation_revision, "schedule-input",
-        "kind=%d direction=%d burst=%u quiet_until=%" G_GINT64_FORMAT,
-        change, direction, self->burst_steps, self->quiet_until);
+                       "kind=%d direction=%d burst=%u quiet_until=%" G_GINT64_FORMAT,
+                       change, direction, self->burst_steps, self->quiet_until);
 }
 
 static void
@@ -209,6 +249,13 @@ evict_all (RsttoImageCache *self);
 static void
 dispatch_tasks (RsttoImageCache *self);
 
+
+/**
+ * image_clear:
+ *
+ * Release every owned image resource, including decoded pixels and rendered
+ * derivatives.
+ */
 static void
 image_clear (RsttoImageData *image)
 {
@@ -219,6 +266,13 @@ image_clear (RsttoImageData *image)
     g_clear_error (&image->error);
 }
 
+
+/**
+ * options_equal:
+ *
+ * Compare decode options that affect pixel content, dimensions or cache
+ * admission.
+ */
 static gboolean
 options_equal (const RsttoDecodeOptions *a, const RsttoDecodeOptions *b)
 {
@@ -226,6 +280,13 @@ options_equal (const RsttoDecodeOptions *a, const RsttoDecodeOptions *b)
            && a->width == b->width && a->height == b->height && a->ephemeral == b->ephemeral;
 }
 
+
+/**
+ * identity_equal:
+ *
+ * Compare the complete file identity, including nanosecond modification and
+ * change times.
+ */
 static gboolean
 identity_equal (const FileIdentity *a, const FileIdentity *b)
 {
@@ -234,6 +295,13 @@ identity_equal (const FileIdentity *a, const FileIdentity *b)
            && a->modified_nsec == b->modified_nsec && a->changed_nsec == b->changed_nsec;
 }
 
+
+/**
+ * identity_from_stat:
+ *
+ * Extract a trustworthy identity from regular-file metadata, rejecting
+ * unsuitable files.
+ */
 static gboolean
 identity_from_stat (const struct stat *st, FileIdentity *identity)
 {
@@ -257,6 +325,13 @@ identity_from_stat (const struct stat *st, FileIdentity *identity)
     return TRUE;
 }
 
+
+/**
+ * path_identity:
+ *
+ * Read the current native path identity for freshness checks; return FALSE
+ * when unavailable.
+ */
 static gboolean
 path_identity (GFile *file, FileIdentity *identity)
 {
@@ -268,6 +343,13 @@ path_identity (GFile *file, FileIdentity *identity)
     return valid;
 }
 
+
+/**
+ * stream_identity:
+ *
+ * Read the identity of the job's opened descriptor rather than trusting its
+ * pathname.
+ */
 static gboolean
 stream_identity (DecodeJob *job, FileIdentity *identity)
 {
@@ -277,6 +359,13 @@ stream_identity (DecodeJob *job, FileIdentity *identity)
            && identity_from_stat (&st, identity);
 }
 
+
+/**
+ * key_hash:
+ *
+ * Hash a completed entry's URI, selected identity fields and decode dimensions
+ * for image lookup.
+ */
 static guint
 key_hash (gconstpointer data)
 {
@@ -286,6 +375,13 @@ key_hash (gconstpointer data)
            ^ (guint) key->options.width ^ ((guint) key->options.height << 16);
 }
 
+
+/**
+ * key_equal:
+ *
+ * Require matching URI, file identity and decode options for completed-entry
+ * reuse.
+ */
 static gboolean
 key_equal (gconstpointer a, gconstpointer b)
 {
@@ -295,8 +391,14 @@ key_equal (gconstpointer a, gconstpointer b)
            && options_equal (&ka->options, &kb->options);
 }
 
-/* Identity is established by the worker, before cache lookup and again before
- * delivery. While that is in progress, coalesce by URI and immutable options. */
+
+/**
+ * request_hash:
+ *
+ * Hash a request's URI and decode dimensions before file identity is known.
+ * The worker establishes identity before lookup and again before delivery;
+ * coalescing compares all immutable options.
+ */
 static guint
 request_hash (gconstpointer data)
 {
@@ -305,6 +407,13 @@ request_hash (gconstpointer data)
            ^ ((guint) job->options.height << 16);
 }
 
+
+/**
+ * request_equal:
+ *
+ * Match the URI and immutable decode options of requests eligible to share one
+ * job.
+ */
 static gboolean
 request_equal (gconstpointer a, gconstpointer b)
 {
@@ -312,6 +421,12 @@ request_equal (gconstpointer a, gconstpointer b)
     return g_str_equal (ja->uri, jb->uri) && options_equal (&ja->options, &jb->options);
 }
 
+
+/**
+ * entry_ref:
+ *
+ * Retain an entry without changing its LRU position or accounting weight.
+ */
 static Entry *
 entry_ref (Entry *entry)
 {
@@ -319,6 +434,13 @@ entry_ref (Entry *entry)
     return entry;
 }
 
+
+/**
+ * entry_unref:
+ *
+ * Release an entry reference and its accounted storage when its last owner
+ * lets go.
+ */
 static void
 entry_unref (gpointer data)
 {
@@ -338,6 +460,13 @@ entry_unref (gpointer data)
     g_free (entry);
 }
 
+
+/**
+ * remove_entry:
+ *
+ * Unlink an entry from the nonowning LRU queue before releasing the lookup
+ * table's reference.
+ */
 static void
 remove_entry (RsttoImageCache *self, Entry *entry)
 {
@@ -347,6 +476,13 @@ remove_entry (RsttoImageCache *self, Entry *entry)
     g_hash_table_remove (self->entries, entry->key);
 }
 
+
+/**
+ * touch_entry:
+ *
+ * Record foreground use and move the existing queue link to the demand end of
+ * the LRU.
+ */
 static void
 touch_entry (RsttoImageCache *self, Entry *entry)
 {
@@ -358,6 +494,13 @@ touch_entry (RsttoImageCache *self, Entry *entry)
     }
 }
 
+
+/**
+ * reserved_bytes:
+ *
+ * Sum live job and shader-warmup reservations, including work still draining
+ * after cancellation.
+ */
 static guint64
 reserved_bytes (RsttoImageCache *self)
 {
@@ -367,6 +510,13 @@ reserved_bytes (RsttoImageCache *self)
     return bytes;
 }
 
+
+/**
+ * reserved_slots:
+ *
+ * Count image reservations until their jobs have actually released their
+ * resources.
+ */
 static guint
 reserved_slots (RsttoImageCache *self)
 {
@@ -376,6 +526,12 @@ reserved_slots (RsttoImageCache *self)
     return count;
 }
 
+
+/**
+ * enabled:
+ *
+ * Check whether probing support and nonzero configured limits permit caching.
+ */
 static gboolean
 enabled (RsttoImageCache *self)
 {
@@ -383,6 +539,13 @@ enabled (RsttoImageCache *self)
            && self->limits.max_bytes > 0 && self->limits.max_image_bytes > 0;
 }
 
+
+/**
+ * fits:
+ *
+ * Check retained storage plus current reservations against the byte and
+ * image-slot limits.
+ */
 static gboolean
 fits (RsttoImageCache *self, guint64 bytes, guint slots)
 {
@@ -392,13 +555,26 @@ fits (RsttoImageCache *self, guint64 bytes, guint slots)
            && (guint64) self->resident_slots + reserved_slots (self) + slots <= self->limits.max_images;
 }
 
-/* Two slots belong to viewing history, even before both have been populated. */
+
+/**
+ * preload_capacity:
+ *
+ * Leave two slots for viewing history, even before both are populated, and
+ * return the remaining speculative capacity.
+ */
 static guint
 preload_capacity (guint max_images)
 {
     return max_images > 2 ? max_images - 2 : 0;
 }
 
+
+/**
+ * target_priority:
+ *
+ * Return the pending selection's or neighbour's scheduling rank without
+ * refreshing recency.
+ */
 static guint
 target_priority (RsttoImageCache *self, const gchar *uri)
 {
@@ -407,6 +583,13 @@ target_priority (RsttoImageCache *self, const gchar *uri)
     return rank != 0 ? rank : G_MAXUINT;
 }
 
+
+/**
+ * speculative_slots:
+ *
+ * Count retained speculative entries and reserved speculative jobs against
+ * their shared capacity.
+ */
 static guint
 speculative_slots (RsttoImageCache *self)
 {
@@ -417,12 +600,18 @@ speculative_slots (RsttoImageCache *self)
     {
         DecodeJob *job = lp->data;
         count += !g_atomic_int_get (&job->demand)
-                 && (job->reserves_slot || (job->render_entry != NULL
-                     && job->render_entry->link == NULL && !job->render_entry->demanded));
+                 && (job->reserves_slot || (job->render_entry != NULL && job->render_entry->link == NULL && !job->render_entry->demanded));
     }
     return count;
 }
 
+
+/**
+ * previous_entry:
+ *
+ * Find the most recently demand-used entry other than the displayed image for
+ * history protection.
+ */
 static Entry *
 previous_entry (RsttoImageCache *self)
 {
@@ -437,6 +626,13 @@ previous_entry (RsttoImageCache *self)
     return NULL;
 }
 
+
+/**
+ * can_evict:
+ *
+ * Check speculative eviction eligibility while protecting displayed and
+ * previous demand history and higher-priority targets.
+ */
 static gboolean
 can_evict (RsttoImageCache *self, Entry *entry, Entry *previous, guint priority)
 {
@@ -448,20 +644,40 @@ can_evict (RsttoImageCache *self, Entry *entry, Entry *previous, guint priority)
     return entry != previous && (rank == 0 || rank > priority);
 }
 
+
+/**
+ * render_weight:
+ *
+ * Return the retained CPU bytes belonging to an entry's scaled derivative.
+ */
 static guint64
 render_weight (Entry *entry)
 {
     cairo_surface_t *surface = entry->image.rendered;
     return surface != NULL ? (guint64) cairo_image_surface_get_stride (surface)
-                                     * cairo_image_surface_get_height (surface) : 0;
+                                 * cairo_image_surface_get_height (surface)
+                           : 0;
 }
 
+
+/**
+ * can_drop_render:
+ *
+ * Check whether an entry's rendered derivative is unpinned and can be
+ * reclaimed.
+ */
 static gboolean
 can_drop_render (RsttoImageCache *self, Entry *entry)
 {
     return entry != self->displayed && entry->refs == 1 && entry->image.rendered != NULL;
 }
 
+
+/**
+ * drop_render:
+ *
+ * Release an entry's CPU derivative and subtract its accounted storage.
+ */
 static void
 drop_render (Entry *entry)
 {
@@ -476,6 +692,13 @@ typedef struct
     guint64 resident, reserved, slots, speculative;
 } Admission;
 
+
+/**
+ * admission_bytes_fit:
+ *
+ * Check a proposed byte reservation against simulated retained and reserved
+ * storage without overflow.
+ */
 static gboolean
 admission_bytes_fit (RsttoImageCache *self, const Admission *usage, guint64 bytes)
 {
@@ -484,9 +707,15 @@ admission_bytes_fit (RsttoImageCache *self, const Admission *usage, guint64 byte
            && bytes <= self->limits.max_bytes - usage->resident - usage->reserved;
 }
 
+
+/**
+ * admission_fits:
+ *
+ * Check byte, total-slot and speculative-slot limits for a simulated
+ * admission.
+ */
 static gboolean
-admission_fits (RsttoImageCache *self, const Admission *usage,
-                guint64 bytes, guint slots, guint speculative)
+admission_fits (RsttoImageCache *self, const Admission *usage, guint64 bytes, guint slots, guint speculative)
 {
     /* Subtraction checks avoid overflowing either the byte or slot sum. */
     return admission_bytes_fit (self, usage, bytes)
@@ -496,9 +725,15 @@ admission_fits (RsttoImageCache *self, const Admission *usage,
            && speculative <= preload_capacity (self->limits.max_images) - usage->speculative;
 }
 
+
+/**
+ * plan_admission:
+ *
+ * Simulate eligible evictions before optionally committing them, leaving
+ * retained images intact on failed admission.
+ */
 static gboolean
-plan_admission (RsttoImageCache *self, guint64 bytes, guint slots,
-                guint speculative, guint priority, DecodeJob *after_cleanup, gboolean apply)
+plan_admission (RsttoImageCache *self, guint64 bytes, guint slots, guint speculative, guint priority, DecodeJob *after_cleanup, gboolean apply)
 {
     Admission usage = { self->resident_bytes, self->warmup_bytes, self->resident_slots, speculative_slots (self) };
     Entry *previous = previous_entry (self);
@@ -571,12 +806,26 @@ plan_admission (RsttoImageCache *self, guint64 bytes, guint slots,
     return TRUE;
 }
 
+
+/**
+ * make_room:
+ *
+ * Commit transactional admission by evicting only entries that the complete
+ * plan allows.
+ */
 static gboolean
 make_room (RsttoImageCache *self, guint64 bytes, guint slots, guint speculative, guint priority)
 {
     return plan_admission (self, bytes, slots, speculative, priority, NULL, TRUE);
 }
 
+
+/**
+ * admit_after_cleanup:
+ *
+ * Check whether draining jobs can make a reservation admissible without
+ * evicting entries yet.
+ */
 static gboolean
 admit_after_cleanup (DecodeJob *job, guint64 bytes, guint slots, guint speculative, guint priority)
 {
@@ -592,6 +841,13 @@ admit_after_cleanup (DecodeJob *job, guint64 bytes, guint slots, guint speculati
     return active && plan_admission (self, bytes, slots, speculative, priority, job, FALSE);
 }
 
+
+/**
+ * trim_to_limits:
+ *
+ * Reclaim eligible CPU derivatives and lookup entries after live limits
+ * change, allowing pinned storage to drain later.
+ */
 static void
 trim_to_limits (RsttoImageCache *self)
 {
@@ -616,6 +872,13 @@ trim_to_limits (RsttoImageCache *self)
     }
 }
 
+
+/**
+ * evict_all:
+ *
+ * Remove all lookup entries while allowing external pins to retain their
+ * accounted storage.
+ */
 static void
 evict_all (RsttoImageCache *self)
 {
@@ -623,6 +886,12 @@ evict_all (RsttoImageCache *self)
         remove_entry (self, self->lru.tail->data);
 }
 
+
+/**
+ * rgba_bytes:
+ *
+ * Calculate a positive RGBA pixel footprint with checked arithmetic.
+ */
 static gboolean
 rgba_bytes (gint width, gint height, guint64 *bytes)
 {
@@ -632,6 +901,13 @@ rgba_bytes (gint width, gint height, guint64 *bytes)
     return TRUE;
 }
 
+
+/**
+ * target_size:
+ *
+ * Choose decoded dimensions from the job's immutable quality settings and the
+ * loader dimension limit.
+ */
 static void
 target_size (DecodeJob *job, gint width, gint height)
 {
@@ -659,6 +935,13 @@ target_size (DecodeJob *job, gint width, gint height)
     }
 }
 
+
+/**
+ * decode_size:
+ *
+ * Apply the admitted dimensions to GdkPixbuf and reject unexpected or
+ * oversized speculative output.
+ */
 static void
 decode_size (GdkPixbufLoader *loader, gint width, gint height, gpointer data)
 {
@@ -686,6 +969,13 @@ static gint pixbuf_loaders_created;
 static void (*metadata_started_hook) (DecodeJob *job);
 #endif
 
+
+/**
+ * new_loader:
+ *
+ * Create the MIME-selected GdkPixbuf loader, falling back to generic format
+ * detection.
+ */
 static GdkPixbufLoader *
 new_loader (DecodeJob *job)
 {
@@ -698,8 +988,16 @@ new_loader (DecodeJob *job)
     return loader != NULL ? loader : gdk_pixbuf_loader_new ();
 }
 
-/* A target can return until the worker commits to abandoning its result.
- * Hard cancellation remains irreversible and owns resources until cleanup. */
+
+/**
+ * job_useful:
+ *
+ * Check hard cancellation and atomically commit to stopping work that is no
+ * longer wanted.
+ *
+ * A target can return until the worker commits to abandoning its result. Hard
+ * cancellation remains irreversible and owns resources until cleanup.
+ */
 static gboolean
 job_useful (gpointer data)
 {
@@ -716,9 +1014,17 @@ static void (*worker_hook) (DecodeJob *job);
 #endif
 
 #ifdef RSTTO_VIEWER_TEST
-void rstto_test_worker_checkpoint (gint phase, gboolean demand, GCancellable *cancel, gboolean entering);
+void
+rstto_test_worker_checkpoint (gint phase, gboolean demand, GCancellable *cancel, gboolean entering);
 #endif
 
+
+/**
+ * worker:
+ *
+ * Run one identity, probe-read, decode or verification phase using job-owned
+ * resources; report completion only after local cleanup.
+ */
 static void
 worker (GTask *task, gpointer source, gpointer data, GCancellable *cancel)
 {
@@ -779,7 +1085,7 @@ worker (GTask *task, gpointer source, gpointer data, GCancellable *cancel)
         job->probe_prefix = rstto_image_probe_read (G_INPUT_STREAM (job->stream), cancel);
         if (job->probe_prefix != NULL
             && rstto_image_probe_is_raw (job->file, job->probe_prefix,
-                                        (const gchar *const *) job->probe_raw_types))
+                                         (const gchar *const *) job->probe_raw_types))
             g_clear_pointer (&job->probe_prefix, g_bytes_unref);
         if (!g_seekable_seek (G_SEEKABLE (job->stream), 0, G_SEEK_SET, cancel, NULL))
         {
@@ -895,6 +1201,13 @@ done:
     g_task_return_boolean (task, TRUE);
 }
 
+
+/**
+ * job_free:
+ *
+ * Release all resources held by a completed job, including source pins and GPU
+ * admission leases.
+ */
 static void
 job_free (DecodeJob *job)
 {
@@ -914,6 +1227,13 @@ job_free (DecodeJob *job)
     g_free (job);
 }
 
+
+/**
+ * is_current:
+ *
+ * Check that the cache is running and a noncancelled demand job belongs to its
+ * current foreground generation.
+ */
 static gboolean
 is_current (RsttoImageCache *self, DecodeJob *job)
 {
@@ -921,6 +1241,13 @@ is_current (RsttoImageCache *self, DecodeJob *job)
            && job->generation == self->generation && !g_cancellable_is_cancelled (job->cancel);
 }
 
+
+/**
+ * publish:
+ *
+ * Pin the new displayed entry and synchronously deliver its borrowed image
+ * data while retaining the previous display through the callback.
+ */
 static void
 publish (RsttoImageCache *self, Entry *entry)
 {
@@ -938,7 +1265,15 @@ publish (RsttoImageCache *self, Entry *entry)
     entry_unref (entry);
 }
 
-/* Called only on the main thread; the UI supplies a value snapshot. */
+
+/**
+ * render_key_for:
+ *
+ * Ask the viewer for an immutable render snapshot and account for a previously
+ * rejected GPU variant.
+ *
+ * Called only on the main thread; the UI supplies a value snapshot.
+ */
 static gboolean
 render_key_for (DecodeJob *job, Entry *entry, RsttoRenderKey *key)
 {
@@ -957,6 +1292,13 @@ render_key_for (DecodeJob *job, Entry *entry, RsttoRenderKey *key)
     return rstto_image_render_weight (key, &bytes);
 }
 
+
+/**
+ * prepare_render:
+ *
+ * Reuse a compatible derivative or admit asynchronous GPU/CPU preparation
+ * while preserving source and reservation ownership.
+ */
 static gboolean
 prepare_render (DecodeJob *job, Entry *entry)
 {
@@ -987,7 +1329,7 @@ prepare_render (DecodeJob *job, Entry *entry)
         rstto_image_render_pixels (entry->image.surface, &job->render_source);
         g_clear_pointer (&job->gpu_request, rstto_gpu_request_free);
         job->gpu_request = rstto_gpu_request_new (self->gpu, &job->render_source,
-            &key, entry->source_serial, &staging);
+                                                  &key, entry->source_serial, &staging);
         if (job->gpu_request != NULL && make_room (self, staging, 0, 0, priority))
         {
             job->render_key = key;
@@ -1004,7 +1346,8 @@ prepare_render (DecodeJob *job, Entry *entry)
         /* Capacity pressure applies only to this request. Verification must
          * compare the admitted CPU variant without poisoning future GPU hits. */
         job->gpu_capacity_fallback = TRUE;
-        key.backend = key.filter = 0; key.context_generation = 0;
+        key.backend = key.filter = 0;
+        key.context_generation = 0;
     }
     if (!rstto_image_render_weight (&key, &bytes) || bytes > G_MAXUINT64 / 3
         || entry->bytes - render_weight (entry) > self->limits.max_image_bytes
@@ -1024,6 +1367,14 @@ prepare_render (DecodeJob *job, Entry *entry)
     return TRUE;
 }
 
+
+/**
+ * entry_from_job:
+ *
+ * Transfer completed decoded pixels into a new accounted entry with one
+ * reference and a unique source serial; lookup insertion belongs to the
+ * caller.
+ */
 static Entry *
 entry_from_job (RsttoImageCache *self, DecodeJob *job)
 {
@@ -1042,6 +1393,13 @@ entry_from_job (RsttoImageCache *self, DecodeJob *job)
     return entry;
 }
 
+
+/**
+ * cancel_job:
+ *
+ * Mark a job irreversibly cancelled and keep running resources reserved until
+ * cleanup completes.
+ */
 static void
 cancel_job (DecodeJob *job, const gchar *reason)
 {
@@ -1053,6 +1411,13 @@ cancel_job (DecodeJob *job, const gchar *reason)
     }
 }
 
+
+/**
+ * cancel_other_jobs:
+ *
+ * Hard-cancel every job except the explicitly preserved one; running jobs keep
+ * their reservations until cleanup.
+ */
 static void
 cancel_other_jobs (RsttoImageCache *self, DecodeJob *except)
 {
@@ -1061,6 +1426,13 @@ cancel_other_jobs (RsttoImageCache *self, DecodeJob *except)
             cancel_job (lp->data, G_STRFUNC);
 }
 
+
+/**
+ * uncached:
+ *
+ * Start the normal foreground decode exception when the image cannot be safely
+ * cached.
+ */
 static void
 uncached (DecodeJob *job)
 {
@@ -1075,6 +1447,13 @@ uncached (DecodeJob *job)
     job->phase = WAIT_UNCACHED;
 }
 
+
+/**
+ * finish_job:
+ *
+ * Remove a fully drained job and release its image, render and reservation
+ * ownership.
+ */
 static void
 finish_job (DecodeJob *job)
 {
@@ -1093,6 +1472,13 @@ finish_job (DecodeJob *job)
     pump (self);
 }
 
+
+/**
+ * wait_or_uncached:
+ *
+ * Wait for reclaimable reservations to drain before choosing the uncached
+ * foreground fallback.
+ */
 static void
 wait_or_uncached (DecodeJob *job)
 {
@@ -1111,6 +1497,13 @@ wait_or_uncached (DecodeJob *job)
     pump (self);
 }
 
+
+/**
+ * probe_metadata_done:
+ *
+ * Finish the asynchronous metadata probe and advance to identity verification
+ * without releasing the job early.
+ */
 static void
 probe_metadata_done (GObject *source, GAsyncResult *result, gpointer data)
 {
@@ -1132,6 +1525,13 @@ probe_metadata_done (GObject *source, GAsyncResult *result, gpointer data)
     g_object_unref (self);
 }
 
+
+/**
+ * job_done:
+ *
+ * Process a completed worker phase on the main thread, rechecking freshness,
+ * demand and admission before advancing or publishing.
+ */
 static void
 job_done (GObject *source, GAsyncResult *result, gpointer data)
 {
@@ -1183,13 +1583,14 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
         {
             RsttoRenderKey latest = { 0 };
             RsttoRenderCompatibility compatibility = render_key_for (job, entry, &latest)
-                ? rstto_image_render_compatibility (&latest, &job->render_key) : RSTTO_RENDER_INCOMPATIBLE;
+                                                         ? rstto_image_render_compatibility (&latest, &job->render_key)
+                                                         : RSTTO_RENDER_INCOMPATIBLE;
             /* A verified full pan frame can advance the already displayed
              * image while input continues. The pinned entry is the same source
              * and identity; never relax background/cache-hit comparisons. */
             gboolean pan_frame = compatibility == RSTTO_RENDER_PAN_ONLY
-                && current && self->displayed == entry
-                && job->render_key.view_revision >= entry->image.render_key.view_revision;
+                                 && current && self->displayed == entry
+                                 && job->render_key.view_revision >= entry->image.render_key.view_revision;
             if (self->stopped || g_cancellable_is_cancelled (job->cancel))
             {
                 finish_job (job);
@@ -1198,8 +1599,8 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
             if (compatibility != RSTTO_RENDER_EXACT && !pan_frame)
             {
                 rstto_profile_end (rstto_profile_now (), job, job->serial, "render-obsolete",
-                    "revision=%" G_GUINT64_FORMAT " latest=%" G_GUINT64_FORMAT,
-                    job->render_key.view_revision, latest.view_revision);
+                                   "revision=%" G_GUINT64_FORMAT " latest=%" G_GUINT64_FORMAT,
+                                   job->render_key.view_revision, latest.view_revision);
                 g_clear_pointer (&job->image.rendered, cairo_surface_destroy);
                 g_clear_pointer (&job->image.gpu_image, rstto_gpu_image_unref);
                 job->reservation = 0;
@@ -1212,8 +1613,8 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
                 job->render_key.view_revision = latest.view_revision;
             if (pan_frame)
                 rstto_profile_end (rstto_profile_now (), job, job->serial, "render-pan-frame",
-                    "revision=%" G_GUINT64_FORMAT " latest=%" G_GUINT64_FORMAT,
-                    job->render_key.view_revision, latest.view_revision);
+                                   "revision=%" G_GUINT64_FORMAT " latest=%" G_GUINT64_FORMAT,
+                                   job->render_key.view_revision, latest.view_revision);
             job->reservation = 0; /* Replace the completed reservation below without yielding. */
             cairo_surface_t *old = NULL;
             RsttoGpuImage *old_gpu = NULL;
@@ -1223,7 +1624,8 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
             {
                 old = g_steal_pointer (&entry->image.rendered);
                 old_bytes = old != NULL ? (guint64) cairo_image_surface_get_stride (old)
-                                            * cairo_image_surface_get_height (old) : 0;
+                                              * cairo_image_surface_get_height (old)
+                                        : 0;
                 old_gpu = entry->image.gpu_image;
                 entry->image.gpu_image = g_steal_pointer (&job->image.gpu_image);
                 entry->image.render_key = job->render_key;
@@ -1231,7 +1633,7 @@ job_done (GObject *source, GAsyncResult *result, gpointer data)
             if (job->image.rendered != NULL)
             {
                 guint64 bytes = (guint64) cairo_image_surface_get_stride (job->image.rendered)
-                                         * cairo_image_surface_get_height (job->image.rendered);
+                                * cairo_image_surface_get_height (job->image.rendered);
                 if (enabled (self) && bytes <= self->limits.max_image_bytes
                     && entry->bytes - render_weight (entry) <= self->limits.max_image_bytes - bytes
                     && fits (self, bytes, 0))
@@ -1468,6 +1870,13 @@ typedef struct
     gboolean ok;
 } RenderStripe;
 
+
+/**
+ * stripe_worker:
+ *
+ * Render one admitted CPU row stripe using independent Cairo wrappers over
+ * shared pixel allocations.
+ */
 static void
 stripe_worker (GTask *task, gpointer source, gpointer data, GCancellable *cancel)
 {
@@ -1480,14 +1889,20 @@ stripe_worker (GTask *task, gpointer source, gpointer data, GCancellable *cancel
 #ifdef RSTTO_VIEWER_TEST
     rstto_test_worker_checkpoint (RENDER, g_atomic_int_get (&job->demand), cancel, TRUE);
 #endif
-    stripe->ok = job_useful (job) && job->render_output.data != NULL && rstto_image_render_stripe (&job->render_source, &job->render_output,
-        &job->render_key, stripe->row, stripe->rows) && job_useful (job);
+    stripe->ok = job_useful (job) && job->render_output.data != NULL && rstto_image_render_stripe (&job->render_source, &job->render_output, &job->render_key, stripe->row, stripe->rows) && job_useful (job);
 #ifdef RSTTO_VIEWER_TEST
     rstto_test_worker_checkpoint (RENDER, g_atomic_int_get (&job->demand), cancel, FALSE);
 #endif
     g_task_return_boolean (task, stripe->ok);
 }
 
+
+/**
+ * task_done:
+ *
+ * Release a CPU stripe permit and advance only after all stripes have finished
+ * and their temporary resources are gone.
+ */
 static void
 task_done (GObject *source, GAsyncResult *result, gpointer data)
 {
@@ -1501,8 +1916,7 @@ task_done (GObject *source, GAsyncResult *result, gpointer data)
         job->render_failed |= !stripe->ok;
         job->render_tasks--;
         job->running = job->render_tasks != 0;
-        if (job->render_tasks != 0 || (!job->render_failed && !g_cancellable_is_cancelled (job->cancel)
-            && g_atomic_int_get (&job->interest) > 0 && job->render_next < (guint) job->render_key.height))
+        if (job->render_tasks != 0 || (!job->render_failed && !g_cancellable_is_cancelled (job->cancel) && g_atomic_int_get (&job->interest) > 0 && job->render_next < (guint) job->render_key.height))
         {
             pump (self);
             return;
@@ -1510,9 +1924,8 @@ task_done (GObject *source, GAsyncResult *result, gpointer data)
         job->queued = FALSE;
         job->running = TRUE; /* protect through synchronous completion signals */
         rstto_profile_end (job->render_start, job, job->serial, "render-prepare",
-            "width=%d height=%d parallel=%u cancelled=%d demand=%d", job->render_key.width, job->render_key.height,
-            job->render_peak, job->render_failed || g_cancellable_is_cancelled (job->cancel)
-            || g_atomic_int_get (&job->interest) <= 0, g_atomic_int_get (&job->demand));
+                           "width=%d height=%d parallel=%u cancelled=%d demand=%d", job->render_key.width, job->render_key.height,
+                           job->render_peak, job->render_failed || g_cancellable_is_cancelled (job->cancel) || g_atomic_int_get (&job->interest) <= 0, g_atomic_int_get (&job->demand));
         if (job->render_failed || g_cancellable_is_cancelled (job->cancel) || g_atomic_int_get (&job->interest) <= 0)
             g_clear_pointer (&job->image.rendered, cairo_surface_destroy);
         else
@@ -1533,19 +1946,33 @@ task_done (GObject *source, GAsyncResult *result, gpointer data)
     pump (self);
 }
 
-/* Only state transitions are logged, never repeated scheduler polls. */
+
+/**
+ * job_schedule_state:
+ *
+ * Profile a job's scheduling transition once, suppressing repeated reports of
+ * an unchanged deferral.
+ */
 static void
 job_schedule_state (DecodeJob *job, guint reason)
 {
     static const gchar *names[] = { "admitted", "foreground", "quiet", "budget-cleanup", "gpu-worker", "view", "task" };
     guint priority = is_current (job->owner, job) ? 0 : target_priority (job->owner, job->uri);
     guint64 state = 1 + reason + ((guint64) job->phase << 8) + ((guint64) priority << 16);
-    if (state == job->deferral) return;
+    if (state == job->deferral)
+        return;
     job->deferral = state;
     rstto_profile_end (rstto_profile_now (), job, job->serial, "schedule-job",
-        "phase=%d priority=%u state=%s burst=%u", job->phase, priority, names[reason], job->owner->burst_steps);
+                       "phase=%d priority=%u state=%s burst=%u", job->phase, priority, names[reason], job->owner->burst_steps);
 }
 
+
+/**
+ * launch:
+ *
+ * Queue the next job phase and allocate the already-reserved shared output for
+ * CPU rendering.
+ */
 static void
 launch (DecodeJob *job)
 {
@@ -1569,6 +1996,13 @@ launch (DecodeJob *job)
     pump (job->owner);
 }
 
+
+/**
+ * gpu_done:
+ *
+ * Release a completed GPU task permit, verify successful results or schedule
+ * admitted CPU fallback after failure.
+ */
 static void
 gpu_done (GObject *source, GAsyncResult *result, gpointer data)
 {
@@ -1603,6 +2037,13 @@ gpu_done (GObject *source, GAsyncResult *result, gpointer data)
     g_object_unref (self);
 }
 
+
+/**
+ * warmup_done:
+ *
+ * Release warmup resources and reservations, then resume scheduling on the
+ * main thread.
+ */
 static void
 warmup_done (GObject *source, GAsyncResult *result, gpointer data)
 {
@@ -1621,6 +2062,13 @@ warmup_done (GObject *source, GAsyncResult *result, gpointer data)
     g_object_unref (self);
 }
 
+
+/**
+ * dispatch_tasks:
+ *
+ * Assign shared worker permits to foreground work, pending selection and
+ * ranked neighbours, with warmup using spare capacity.
+ */
 static void
 dispatch_tasks (RsttoImageCache *self)
 {
@@ -1635,13 +2083,18 @@ dispatch_tasks (RsttoImageCache *self)
             if (!job->queued || g_cancellable_is_cancelled (job->cancel) || g_atomic_int_get (&job->interest) <= 0)
                 continue;
             if (job->phase == GPU_RENDER && !rstto_gpu_request_available (job->gpu_request))
-            { job_schedule_state (job, 4); continue; }
+            {
+                job_schedule_state (job, 4);
+                continue;
+            }
             gboolean current = is_current (self, job);
             if (!current && job->phase == GPU_RENDER && self->view_pending
                 && g_strcmp0 (self->pending_target, job->uri) != 0)
-            { job_schedule_state (job, 5); continue; }
-            if (job->phase == RENDER && (job->render_next >= (guint) job->render_key.height
-                || job->render_failed || (!current && job->render_tasks != 0)))
+            {
+                job_schedule_state (job, 5);
+                continue;
+            }
+            if (job->phase == RENDER && (job->render_next >= (guint) job->render_key.height || job->render_failed || (!current && job->render_tasks != 0)))
                 continue;
             guint rank = current ? 0 : target_priority (self, job->uri);
             if (best == NULL || rank < best_rank)
@@ -1661,7 +2114,7 @@ dispatch_tasks (RsttoImageCache *self)
             self->peak_tasks = MAX (self->peak_tasks, self->active_tasks);
             g_object_ref (self); /* paired with gpu_done after all resource cleanup */
             rstto_gpu_render_request_async (g_steal_pointer (&best->gpu_request),
-                                   best->cancel, job_useful, best, &best->demand, gpu_done, best);
+                                            best->cancel, job_useful, best, &best->demand, gpu_done, best);
             continue;
         }
         GTask *task = g_task_new (self, best->cancel, task_done, best);
@@ -1678,8 +2131,8 @@ dispatch_tasks (RsttoImageCache *self)
             /* Pixman's nearest sampling rounds relative to clip extents. Keep
              * its fast whole-image path to preserve exact legacy pixels. */
             stripe->rows = best->render_key.smoothing
-                ? MIN (RSTTO_RENDER_STRIPE_ROWS, best->render_key.height - best->render_next)
-                : (guint) best->render_key.height;
+                               ? MIN (RSTTO_RENDER_STRIPE_ROWS, best->render_key.height - best->render_next)
+                               : (guint) best->render_key.height;
             best->render_next += stripe->rows;
             best->render_tasks++;
             best->render_peak = MAX (best->render_peak, best->render_tasks);
@@ -1703,7 +2156,7 @@ dispatch_tasks (RsttoImageCache *self)
         && (!rstto_gpu_renderer_available (self->gpu) || self->active_tasks + 1 < ceiling))
     {
         gboolean persistent = rstto_gpu_shader_cache_enabled ()
-            && fits (self, RSTTO_GPU_WARMUP_BYTES + RSTTO_SHADER_HOST_BYTES, 0);
+                              && fits (self, RSTTO_GPU_WARMUP_BYTES + RSTTO_SHADER_HOST_BYTES, 0);
         self->warmup_bytes = RSTTO_GPU_WARMUP_BYTES + (persistent ? RSTTO_SHADER_HOST_BYTES : 0);
         self->warmups++;
         self->active_tasks++;
@@ -1712,6 +2165,13 @@ dispatch_tasks (RsttoImageCache *self)
     }
 }
 
+
+/**
+ * new_job:
+ *
+ * Create a job with owned file, cancellation and immutable option state, then
+ * register it for request coalescing.
+ */
 static DecodeJob *
 new_job (RsttoImageCache *self, GFile *file, gboolean demand)
 {
@@ -1742,7 +2202,15 @@ new_job (RsttoImageCache *self, GFile *file, gboolean demand)
     return job;
 }
 
-/* A promoted preload retains its original worker slot until cleanup. */
+
+/**
+ * speculative_jobs:
+ *
+ * Count speculative jobs that still occupy loading capacity, including
+ * cancelled work awaiting cleanup.
+ *
+ * A promoted preload retains its original worker slot until cleanup.
+ */
 static guint
 speculative_jobs (RsttoImageCache *self)
 {
@@ -1752,6 +2220,13 @@ speculative_jobs (RsttoImageCache *self)
     return count;
 }
 
+
+/**
+ * foreground_job:
+ *
+ * Check whether a live job occupies foreground demand or matches the selected
+ * file, preventing a second foreground request.
+ */
 static gboolean
 foreground_job (RsttoImageCache *self)
 {
@@ -1766,6 +2241,13 @@ foreground_job (RsttoImageCache *self)
     return FALSE;
 }
 
+
+/**
+ * preparing_preload:
+ *
+ * Check for a useful speculative job of equal or higher priority still
+ * preparing its decode reservation.
+ */
 static gboolean
 preparing_preload (RsttoImageCache *self, guint priority)
 {
@@ -1775,13 +2257,19 @@ preparing_preload (RsttoImageCache *self, guint priority)
         if (!job->foreground_slot && !g_cancellable_is_cancelled (job->cancel)
             && g_atomic_int_get (&job->interest) > 0 && target_priority (self, job->uri) <= priority
             && (job->phase == IDENTIFY || job->phase == PROBE || job->phase == PROBE_INFO
-                || job->phase == PROBE_VERIFY || ((job->phase == WAIT_PROBE || job->phase == WAIT_DECODE)
-                    && speculation_due (self, job->uri))))
+                || job->phase == PROBE_VERIFY || ((job->phase == WAIT_PROBE || job->phase == WAIT_DECODE) && speculation_due (self, job->uri))))
             return TRUE;
     }
     return FALSE;
 }
 
+
+/**
+ * demand_admitted:
+ *
+ * Check whether foreground demand has reached an admitted phase before
+ * starting additional speculative work.
+ */
 static gboolean
 demand_admitted (RsttoImageCache *self)
 {
@@ -1798,12 +2286,26 @@ demand_admitted (RsttoImageCache *self)
     return !self->busy;
 }
 
+
+/**
+ * preload_worker_limit:
+ *
+ * Combine the configured preload workers with speculative image capacity to
+ * obtain the effective job limit.
+ */
 static guint
 preload_worker_limit (RsttoImageCache *self)
 {
     return MIN (self->preload_workers, preload_capacity (self->limits.max_images));
 }
 
+
+/**
+ * pump:
+ *
+ * Reconcile foreground and neighbour requests, enforce admission limits and
+ * dispatch eligible work without recursive scheduling.
+ */
 static void
 pump (RsttoImageCache *self)
 {
@@ -1825,7 +2327,11 @@ pump (RsttoImageCache *self)
         {
             guint priority = target_priority (self, job->uri);
             if (!demand_admitted (self) || !speculation_due (self, job->uri))
-            { job_schedule_state (job, !demand_admitted (self) ? 1 : self->view_pending ? 5 : 2); continue; }
+            {
+                job_schedule_state (job, !demand_admitted (self) ? 1 : self->view_pending ? 5
+                                                                                          : 2);
+                continue;
+            }
             if (make_room (self, PROBE_RESERVATION, 1, priority != 0, priority))
             {
                 job->reservation = PROBE_RESERVATION;
@@ -1835,7 +2341,8 @@ pump (RsttoImageCache *self)
             }
             else if (!admit_after_cleanup (job, PROBE_RESERVATION, 1, 1, priority))
                 finish_job (job);
-            else job_schedule_state (job, 3);
+            else
+                job_schedule_state (job, 3);
             continue;
         }
         if (!job->running && job->phase == WAIT_DECODE)
@@ -1843,7 +2350,10 @@ pump (RsttoImageCache *self)
             gboolean current = is_current (self, job);
             guint priority = current ? 0 : target_priority (self, job->uri);
             if (!current && !demand_admitted (self))
-            { job_schedule_state (job, 1); continue; }
+            {
+                job_schedule_state (job, 1);
+                continue;
+            }
             if (make_room (self, job->required_bytes, 0, 0, priority))
             {
                 job->cacheable = TRUE;
@@ -1856,7 +2366,10 @@ pump (RsttoImageCache *self)
             if (current)
                 wait_or_uncached (job);
             else if (admit_after_cleanup (job, job->required_bytes, 0, 0, priority))
-            { job_schedule_state (job, 3); continue; } /* Retry only after cleanup. */
+            {
+                job_schedule_state (job, 3);
+                continue;
+            } /* Retry only after cleanup. */
             else
             {
                 finish_job (job); /* Cannot coexist with the retained targets. */
@@ -1898,7 +2411,7 @@ pump (RsttoImageCache *self)
         {
             gchar *uri = g_file_get_uri (lp->data);
             gboolean due = speculation_due (self, uri)
-                && !preparing_preload (self, target_priority (self, uri));
+                           && !preparing_preload (self, target_priority (self, uri));
             g_free (uri);
             if (due)
             {
@@ -1917,6 +2430,13 @@ pump (RsttoImageCache *self)
     self->pumping = FALSE;
 }
 
+
+/**
+ * pressure:
+ *
+ * Cancel speculation and evict unpinned history on a low-memory warning,
+ * starting the recovery cooldown.
+ */
 static void
 pressure (GMemoryMonitor *monitor, GMemoryMonitorWarningLevel level, gpointer data)
 {
@@ -1932,6 +2452,13 @@ pressure (GMemoryMonitor *monitor, GMemoryMonitorWarningLevel level, gpointer da
     evict_all (self);
 }
 
+
+/**
+ * rstto_image_cache_finalize:
+ *
+ * Release cache containers, settings, monitors and remaining object references
+ * after asynchronous owners have drained.
+ */
 static void
 rstto_image_cache_finalize (GObject *object)
 {
@@ -1949,6 +2476,12 @@ rstto_image_cache_finalize (GObject *object)
     G_OBJECT_CLASS (rstto_image_cache_parent_class)->finalize (object);
 }
 
+
+/**
+ * rstto_image_cache_class_init:
+ *
+ * Register cache delivery and preparation signals and install object cleanup.
+ */
 static void
 rstto_image_cache_class_init (RsttoImageCacheClass *klass)
 {
@@ -1956,12 +2489,19 @@ rstto_image_cache_class_init (RsttoImageCacheClass *klass)
     signals[READY] = g_signal_new ("ready", G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST,
                                    0, NULL, NULL, NULL, G_TYPE_NONE, 1, G_TYPE_POINTER);
     signals[PREPARE_RENDER] = g_signal_new ("prepare-render", G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST,
-                                           0, NULL, NULL, NULL, G_TYPE_NONE, 3,
-                                           G_TYPE_FILE, G_TYPE_POINTER, G_TYPE_POINTER);
+                                            0, NULL, NULL, NULL, G_TYPE_NONE, 3,
+                                            G_TYPE_FILE, G_TYPE_POINTER, G_TYPE_POINTER);
     signals[IDENTITY_CHANGED] = g_signal_new ("identity-changed", G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST,
                                               0, NULL, NULL, NULL, G_TYPE_NONE, 1, G_TYPE_FILE);
 }
 
+
+/**
+ * rstto_image_cache_init:
+ *
+ * Initialize containers, explicit defaults, scheduling state and low-memory
+ * monitoring.
+ */
 static void
 rstto_image_cache_init (RsttoImageCache *self)
 {
@@ -1980,12 +2520,26 @@ rstto_image_cache_init (RsttoImageCache *self)
     g_signal_connect_object (self->memory_monitor, "low-memory-warning", G_CALLBACK (pressure), self, 0);
 }
 
+
+/**
+ * rstto_image_cache_new:
+ *
+ * Create a cache manager whose container mutations and signal delivery belong
+ * to the main thread.
+ */
 RsttoImageCache *
 rstto_image_cache_new (void)
 {
     return g_object_new (RSTTO_TYPE_IMAGE_CACHE, NULL);
 }
 
+
+/**
+ * rstto_image_cache_set_gpu:
+ *
+ * Replace the optional GPU renderer and invalidate derivatives tied to the
+ * previous context.
+ */
 void
 rstto_image_cache_set_gpu (RsttoImageCache *self, RsttoGpuRenderer *gpu)
 {
@@ -2004,12 +2558,26 @@ rstto_image_cache_set_gpu (RsttoImageCache *self, RsttoGpuRenderer *gpu)
     pump (self);
 }
 
+
+/**
+ * rstto_image_cache_get_gpu_stats:
+ *
+ * Copy GPU accounting counters, returning zero counters when no renderer is
+ * installed.
+ */
 void
 rstto_image_cache_get_gpu_stats (RsttoImageCache *self, RsttoGpuStats *stats)
 {
     rstto_gpu_renderer_get_stats (self->gpu, stats);
 }
 
+
+/**
+ * rstto_image_cache_set_excluded_mime_types:
+ *
+ * Replace the MIME exclusions used to keep unsuitable formats on the normal
+ * foreground path.
+ */
 void
 rstto_image_cache_set_excluded_mime_types (RsttoImageCache *self, const gchar *const *types)
 {
@@ -2017,6 +2585,13 @@ rstto_image_cache_set_excluded_mime_types (RsttoImageCache *self, const gchar *c
     self->excluded_mime_types = types != NULL ? g_strdupv ((gchar **) types) : g_new0 (gchar *, 1);
 }
 
+
+/**
+ * rstto_image_cache_set_preload_workers:
+ *
+ * Apply a live worker limit and cancel excess speculative jobs without
+ * releasing their reservations prematurely.
+ */
 void
 rstto_image_cache_set_preload_workers (RsttoImageCache *self, guint workers)
 {
@@ -2056,6 +2631,13 @@ rstto_image_cache_set_preload_workers (RsttoImageCache *self, guint workers)
     pump (self);
 }
 
+
+/**
+ * rstto_image_cache_set_limits:
+ *
+ * Apply new cache limits, reclaim eligible storage and preserve the
+ * displayed-image exception while work drains.
+ */
 void
 rstto_image_cache_set_limits (RsttoImageCache *self, const RsttoCacheLimits *limits)
 {
@@ -2129,6 +2711,13 @@ rstto_image_cache_set_limits (RsttoImageCache *self, const RsttoCacheLimits *lim
     pump (self);
 }
 
+
+/**
+ * rstto_image_cache_request:
+ *
+ * Make a file the foreground demand, coalescing or promoting existing work and
+ * refreshing demand recency on a hit.
+ */
 void
 rstto_image_cache_request (RsttoImageCache *self, GFile *file, const gchar *mime_type, const RsttoDecodeOptions *options)
 {
@@ -2178,8 +2767,7 @@ rstto_image_cache_request (RsttoImageCache *self, GFile *file, const gchar *mime
     {
         DecodeJob *job = lp->data;
         if (!g_cancellable_is_cancelled (job->cancel)
-            && job == matching && (g_atomic_int_get (&job->interest) == 1
-                || g_atomic_int_compare_and_exchange (&job->interest, 0, 1)))
+            && job == matching && (g_atomic_int_get (&job->interest) == 1 || g_atomic_int_compare_and_exchange (&job->interest, 0, 1)))
         {
             g_atomic_int_set (&job->demand, TRUE);
             if (job->render_entry != NULL)
@@ -2199,12 +2787,25 @@ rstto_image_cache_request (RsttoImageCache *self, GFile *file, const gchar *mime
     pump (self);
 }
 
+
+/**
+ * rstto_image_cache_begin_update:
+ *
+ * Defer scheduling while the caller atomically updates demand and its
+ * candidate snapshot.
+ */
 void
 rstto_image_cache_begin_update (RsttoImageCache *self)
 {
     self->update_depth++;
 }
 
+
+/**
+ * rstto_image_cache_end_update:
+ *
+ * Commit the outermost scheduling transaction and pump its complete snapshot.
+ */
 void
 rstto_image_cache_end_update (RsttoImageCache *self)
 {
@@ -2213,10 +2814,18 @@ rstto_image_cache_end_update (RsttoImageCache *self)
     pump (self);
 }
 
+
+/**
+ * rstto_image_cache_set_schedule:
+ *
+ * Replace pending selection and ranked neighbours together, retaining useful
+ * jobs without refreshing completed-entry recency.
+ */
 void
 rstto_image_cache_set_schedule (RsttoImageCache *self, GFile *pending, GPtrArray *files)
 {
-    if (self->stopped) return;
+    if (self->stopped)
+        return;
     GHashTable *old_targets = self->targets;
     self->targets = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
     gchar *pending_uri = pending != NULL ? g_file_get_uri (pending) : NULL;
@@ -2241,7 +2850,8 @@ rstto_image_cache_set_schedule (RsttoImageCache *self, GFile *pending, GPtrArray
         guint rank = g_hash_table_size (self->targets) + 1;
         changed |= GPOINTER_TO_UINT (g_hash_table_lookup (old_targets, uri)) != rank;
         g_hash_table_insert (self->targets, uri, GUINT_TO_POINTER (rank));
-        if (n < 2 + (pending != NULL)) self->urgent_rank = rank;
+        if (n < 2 + (pending != NULL))
+            self->urgent_rank = rank;
         DecodeJob lookup = { .uri = uri, .options = self->options };
         DecodeJob *running = g_hash_table_lookup (self->requests, &lookup);
         if (running == NULL || g_cancellable_is_cancelled (running->cancel))
@@ -2251,7 +2861,7 @@ rstto_image_cache_set_schedule (RsttoImageCache *self, GFile *pending, GPtrArray
     g_hash_table_unref (old_targets);
     if (changed)
         rstto_profile_end (rstto_profile_now (), self, self->navigation_revision, "schedule-targets",
-            "targets=%u urgent=%u burst=%u", g_hash_table_size (self->targets), self->urgent_rank, self->burst_steps);
+                           "targets=%u urgent=%u burst=%u", g_hash_table_size (self->targets), self->urgent_rank, self->burst_steps);
     for (GList *lp = self->jobs.head; lp != NULL; lp = lp->next)
     {
         DecodeJob *job = lp->data;
@@ -2264,10 +2874,18 @@ rstto_image_cache_set_schedule (RsttoImageCache *self, GFile *pending, GPtrArray
     pump (self);
 }
 
+
+/**
+ * rstto_image_cache_view_changed:
+ *
+ * Track meaningful view changes and defer new neighbour work while a
+ * same-image render is pending.
+ */
 void
 rstto_image_cache_view_changed (RsttoImageCache *self, gboolean pending)
 {
-    if (self->stopped) return;
+    if (self->stopped)
+        return;
     self->view_pending = pending;
     if (pending)
     {
@@ -2278,12 +2896,26 @@ rstto_image_cache_view_changed (RsttoImageCache *self, gboolean pending)
     pump (self);
 }
 
+
+/**
+ * rstto_image_cache_set_candidates:
+ *
+ * Update ranked neighbours using the schedule path without a separate pending
+ * selection.
+ */
 void
 rstto_image_cache_set_candidates (RsttoImageCache *self, GPtrArray *files)
 {
     rstto_image_cache_set_schedule (self, NULL, files);
 }
 
+
+/**
+ * rstto_image_cache_invalidate:
+ *
+ * Discard pixels and GPU source reuse for a changed file and hard-cancel
+ * matching work.
+ */
 void
 rstto_image_cache_invalidate (RsttoImageCache *self, GFile *file)
 {
@@ -2309,6 +2941,12 @@ rstto_image_cache_invalidate (RsttoImageCache *self, GFile *file)
     pump (self);
 }
 
+
+/**
+ * rstto_image_cache_cancel_request:
+ *
+ * Cancel foreground demand without destroying useful completed history.
+ */
 void
 rstto_image_cache_cancel_request (RsttoImageCache *self)
 {
@@ -2324,6 +2962,13 @@ rstto_image_cache_cancel_request (RsttoImageCache *self)
     pump (self);
 }
 
+
+/**
+ * rstto_image_cache_clear:
+ *
+ * Clear demand and lookup history while cancelling work and retaining
+ * resources until actual cleanup.
+ */
 void
 rstto_image_cache_clear (RsttoImageCache *self)
 {
@@ -2350,6 +2995,13 @@ rstto_image_cache_clear (RsttoImageCache *self)
     pump (self);
 }
 
+
+/**
+ * rstto_image_cache_stop:
+ *
+ * Permanently stop scheduling and delivery, cancelling asynchronous work
+ * before releasing cache ownership.
+ */
 void
 rstto_image_cache_stop (RsttoImageCache *self)
 {
@@ -2369,13 +3021,27 @@ rstto_image_cache_stop (RsttoImageCache *self)
     }
 }
 
+
+/**
+ * rstto_image_cache_is_busy:
+ *
+ * Report foreground, warmup or quiet-timer work that still needs main-context
+ * progress.
+ */
 gboolean
 rstto_image_cache_is_busy (RsttoImageCache *self)
 {
     return self->busy || self->warmups != 0
-        || (self->quiet_source != 0 && !self->view_pending && !g_queue_is_empty (&self->pending));
+           || (self->quiet_source != 0 && !self->view_pending && !g_queue_is_empty (&self->pending));
 }
 
+
+/**
+ * rstto_image_cache_get_stats:
+ *
+ * Snapshot retained bytes, reservations, slots and task counters for
+ * diagnostics and invariant checks.
+ */
 void
 rstto_image_cache_get_stats (RsttoImageCache *self, RsttoCacheStats *stats)
 {
@@ -2384,6 +3050,13 @@ rstto_image_cache_get_stats (RsttoImageCache *self, RsttoCacheStats *stats)
                                  self->renders, self->render_hits, reserved_slots (self), speculative_slots (self), self->active_tasks, self->peak_tasks };
 }
 
+
+/**
+ * rstto_image_cache_neighbor_positions:
+ *
+ * Build ordered, deduplicated neighbour positions using initial or directional
+ * lookahead, wrap policy and speculative capacity.
+ */
 GArray *
 rstto_image_cache_neighbor_positions (guint length, guint current, gint direction, gboolean initial, guint count, guint capacity, gboolean wrap)
 {

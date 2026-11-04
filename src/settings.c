@@ -42,6 +42,7 @@ enum
     PROP_CACHE_MAX_IMAGE_MIB,
     PROP_PRELOAD_COUNT,
     PROP_PRELOAD_WORKERS,
+    PROP_GPU_ENABLED,
 
     PROP_ENABLE_SMOOTHING,
     PROP_HIDE_THUMBNAILS_FULLSCREEN,
@@ -106,6 +107,8 @@ struct _RsttoSettingsPrivate
     guint cache_max_image_mib;
     guint preload_count;
     guint preload_workers;
+    gboolean gpu_enabled;
+    gboolean startup_gpu_enabled;
 
     gboolean enable_smoothing;
     gboolean hide_thumbnails_fullscreen;
@@ -150,6 +153,31 @@ G_DEFINE_TYPE_WITH_PRIVATE (RsttoSettings, rstto_settings, G_TYPE_OBJECT)
 
 
 
+/**
+ * rstto_settings_snapshot_renderer:
+ * @settings: The initialized settings, including saved Xfconf values.
+ *
+ * Fix the renderer choice for this process. Later preference changes affect
+ * the next launch, including when another viewer window is opened here.
+ */
+static void
+rstto_settings_snapshot_renderer (RsttoSettings *settings)
+{
+#if defined(HAVE_PLACEBO) && defined(HAVE_GLYCIN)
+    const gchar *renderer = g_getenv ("RISTRETTO_RENDERER");
+
+    settings->priv->startup_gpu_enabled = settings->priv->gpu_enabled;
+    if (g_strcmp0 (renderer, "cpu") == 0)
+        settings->priv->startup_gpu_enabled = FALSE;
+    else if (g_strcmp0 (renderer, "placebo") == 0)
+        settings->priv->startup_gpu_enabled = TRUE;
+#else
+    settings->priv->startup_gpu_enabled = FALSE;
+#endif
+}
+
+
+
 static void
 rstto_settings_init (RsttoSettings *settings)
 {
@@ -185,6 +213,7 @@ rstto_settings_init (RsttoSettings *settings)
     settings->priv->cache_max_image_mib = 128;
     settings->priv->preload_count = 2;
     settings->priv->preload_workers = RSTTO_PRELOAD_WORKERS_DEFAULT;
+    settings->priv->gpu_enabled = FALSE;
 
     settings->priv->bgcolor = g_new0 (GdkRGBA, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkRGBA, 1);
@@ -206,7 +235,10 @@ rstto_settings_init (RsttoSettings *settings)
     settings->priv->default_zoom = RSTTO_SCALE_NONE;
 
     if (xfconf_disabled)
+    {
+        rstto_settings_snapshot_renderer (settings);
         return;
+    }
 
     xfconf_g_property_bind (settings->priv->channel, "/window/width", G_TYPE_UINT, settings, "window-width");
     xfconf_g_property_bind (settings->priv->channel, "/window/height", G_TYPE_UINT, settings, "window-height");
@@ -236,6 +268,7 @@ rstto_settings_init (RsttoSettings *settings)
     xfconf_g_property_bind (settings->priv->channel, "/image/cache-max-image-mib", G_TYPE_UINT, settings, "cache-max-image-mib");
     xfconf_g_property_bind (settings->priv->channel, "/image/preload-count", G_TYPE_UINT, settings, "preload-count");
     xfconf_g_property_bind (settings->priv->channel, "/image/preload-workers", G_TYPE_UINT, settings, "preload-workers");
+    xfconf_g_property_bind (settings->priv->channel, "/image/gpu-enabled", G_TYPE_BOOLEAN, settings, "gpu-enabled");
 
     xfconf_g_property_bind (settings->priv->channel, "/image/enable-smoothing", G_TYPE_BOOLEAN, settings, "enable-smoothing");
     /* not Thunar-specific but let's keep the old name for backwards-compatibility */
@@ -246,6 +279,7 @@ rstto_settings_init (RsttoSettings *settings)
     xfconf_g_property_bind (settings->priv->channel, "/image/default-zoom", G_TYPE_INT, settings, "default-zoom");
     xfconf_g_property_bind (settings->priv->channel, "/window/file-manager-sort-sync", G_TYPE_BOOLEAN, settings, "file-manager-sort-sync");
     xfconf_g_property_bind (settings->priv->channel, "/window/file-manager-sort-sync-once", G_TYPE_BOOLEAN, settings, "file-manager-sort-sync-once");
+    rstto_settings_snapshot_renderer (settings);
 }
 
 
@@ -318,6 +352,10 @@ rstto_settings_class_init (RsttoSettingsClass *klass)
     pspec = g_param_spec_uint ("preload-workers", "", "", 1, RSTTO_PRELOAD_WORKERS_MAX, RSTTO_PRELOAD_WORKERS_DEFAULT,
                                G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_PRELOAD_WORKERS, pspec);
+
+    pspec = g_param_spec_boolean ("gpu-enabled", "", "", FALSE,
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (object_class, PROP_GPU_ENABLED, pspec);
 
     pspec = g_param_spec_boolean ("limit-quality",
                                   "", "",
@@ -547,6 +585,22 @@ rstto_settings_new (void)
 }
 
 
+/**
+ * rstto_settings_get_startup_gpu_enabled:
+ * @settings: The settings shared by this process's viewers.
+ *
+ * Returns: The renderer choice captured at startup, after applying the
+ * environment override and build capabilities. Changes to gpu-enabled do not
+ * change this snapshot or replace a live renderer.
+ */
+gboolean
+rstto_settings_get_startup_gpu_enabled (RsttoSettings *settings)
+{
+    g_return_val_if_fail (RSTTO_IS_SETTINGS (settings), FALSE);
+    return settings->priv->startup_gpu_enabled;
+}
+
+
 static void
 rstto_settings_set_property (GObject *object,
                              guint property_id,
@@ -573,6 +627,9 @@ rstto_settings_set_property (GObject *object,
             break;
         case PROP_CACHE_ENABLED:
             settings->priv->cache_enabled = g_value_get_boolean (value);
+            break;
+        case PROP_GPU_ENABLED:
+            settings->priv->gpu_enabled = g_value_get_boolean (value);
             break;
         case PROP_CACHE_MAX_IMAGES:
             settings->priv->cache_max_images = g_value_get_uint (value);
@@ -707,6 +764,9 @@ rstto_settings_get_property (GObject *object,
             break;
         case PROP_CACHE_ENABLED:
             g_value_set_boolean (value, settings->priv->cache_enabled);
+            break;
+        case PROP_GPU_ENABLED:
+            g_value_set_boolean (value, settings->priv->gpu_enabled);
             break;
         case PROP_CACHE_MAX_IMAGES:
             g_value_set_uint (value, settings->priv->cache_max_images);

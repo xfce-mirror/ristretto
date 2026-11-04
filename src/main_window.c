@@ -882,7 +882,12 @@ struct _RsttoMainWindowPrivate
 };
 
 
-
+/**
+ * preload_refresh:
+ *
+ * Build ranked neighbours from the current ordering and wrap policy, then
+ * atomically update the viewer's scheduling snapshot.
+ */
 static void
 preload_refresh (RsttoMainWindow *window)
 {
@@ -914,6 +919,13 @@ preload_refresh (RsttoMainWindow *window)
     g_ptr_array_unref (render_files);
 }
 
+
+/**
+ * preload_order_changed:
+ *
+ * Refresh candidate ordering after list edits without inferring a reversal
+ * from reordered positions.
+ */
 static void
 preload_order_changed (RsttoMainWindow *window)
 {
@@ -922,6 +934,13 @@ preload_order_changed (RsttoMainWindow *window)
     preload_refresh (window);
 }
 
+
+/**
+ * preload_sorted:
+ *
+ * Reset ordering-dependent lookahead after sorting while preserving navigation
+ * direction.
+ */
 static void
 preload_sorted (RsttoMainWindow *window)
 {
@@ -929,6 +948,13 @@ preload_sorted (RsttoMainWindow *window)
     preload_order_changed (window);
 }
 
+
+/**
+ * preload_reset:
+ *
+ * Clear selection and directory-specific preload history before a replacement
+ * list is populated.
+ */
 static void
 preload_reset (RsttoMainWindow *window)
 {
@@ -941,6 +967,12 @@ preload_reset (RsttoMainWindow *window)
     rstto_image_cache_clear (rstto_image_viewer_get_cache (RSTTO_IMAGE_VIEWER (window->priv->image_viewer)));
 }
 
+
+/**
+ * preload_invalidated:
+ *
+ * Invalidate cached pixels for a monitored file change.
+ */
 static void
 preload_invalidated (RsttoImageList *list, GFile *file, RsttoMainWindow *window)
 {
@@ -948,6 +980,12 @@ preload_invalidated (RsttoImageList *list, GFile *file, RsttoMainWindow *window)
         rstto_image_viewer_get_cache (RSTTO_IMAGE_VIEWER (window->priv->image_viewer)), file);
 }
 
+
+/**
+ * navigation_row_deleted:
+ *
+ * Reconcile pending navigation after a file is removed from the list.
+ */
 static void
 navigation_row_deleted (RsttoMainWindow *window)
 {
@@ -959,6 +997,12 @@ navigation_row_deleted (RsttoMainWindow *window)
     rstto_image_cache_end_update (cache);
 }
 
+
+/**
+ * preload_settings_changed:
+ *
+ * Refresh candidates when preload count or navigation settings change.
+ */
 static void
 preload_settings_changed (GObject *settings, GParamSpec *pspec, RsttoMainWindow *window)
 {
@@ -967,6 +1011,12 @@ preload_settings_changed (GObject *settings, GParamSpec *pspec, RsttoMainWindow 
         preload_refresh (window);
 }
 
+
+/**
+ * preload_metadata_changed:
+ *
+ * Propagate cache-detected file changes back to the image list metadata.
+ */
 static void
 preload_metadata_changed (RsttoImageCache *cache, GFile *file, RsttoMainWindow *window)
 {
@@ -1660,6 +1710,13 @@ rstto_main_window_image_list_iter_changed (RsttoMainWindow *window)
     rstto_profile_end (start, window, 0, "navigation-handler", "%s", "");
 }
 
+
+/**
+ * rstto_main_window_image_committed:
+ *
+ * Update window state after the viewer commits a selection, preserving
+ * foreground/pending presentation order.
+ */
 static void
 rstto_main_window_image_committed (RsttoMainWindow *window)
 {

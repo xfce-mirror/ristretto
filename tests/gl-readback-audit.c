@@ -11,6 +11,13 @@
 static guint64 draws, readbacks;
 static PFNGLREADPIXELSPROC real_read;
 
+
+/**
+ * audit_read:
+ *
+ * Count a GL pixel readback before forwarding it to the real driver entry
+ * point.
+ */
 static void GLAPIENTRY
 audit_read (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, void *pixels)
 {
@@ -18,9 +25,15 @@ audit_read (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLen
     real_read (x, y, width, height, format, type, pixels);
 }
 
+
+/**
+ * gdk_cairo_draw_from_gl:
+ *
+ * Interpose GDK texture presentation and temporarily instrument its libepoxy
+ * readback path.
+ */
 void
-gdk_cairo_draw_from_gl (cairo_t *cr, GdkWindow *window, int source, int type, int scale,
-                        int x, int y, int width, int height)
+gdk_cairo_draw_from_gl (cairo_t *cr, GdkWindow *window, int source, int type, int scale, int x, int y, int width, int height)
 {
     static void (*draw) (cairo_t *, GdkWindow *, int, int, int, int, int, int, int);
     if (draw == NULL)
@@ -34,7 +47,14 @@ gdk_cairo_draw_from_gl (cairo_t *cr, GdkWindow *window, int source, int type, in
     epoxy_glReadPixels = saved;
 }
 
-static void __attribute__((destructor))
+
+/**
+ * audit_report:
+ *
+ * Print the final presentation and readback counts when the audit library is
+ * unloaded.
+ */
+static void __attribute__ ((destructor))
 audit_report (void)
 {
     if (draws)

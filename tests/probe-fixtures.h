@@ -2,6 +2,13 @@
 #include <gio/gio.h>
 #include <string.h>
 
+
+/**
+ * put_be32:
+ *
+ * Encode a PNG header integer in big-endian order without relying on host
+ * alignment.
+ */
 static void
 put_be32 (guchar *p, guint32 value)
 {
@@ -9,13 +16,20 @@ put_be32 (guchar *p, guint32 value)
     memcpy (p, &value, sizeof value);
 }
 
+
+/**
+ * png_header:
+ *
+ * Create a minimal owned PNG header with arbitrary dimensions without
+ * allocating image pixels.
+ */
 static GBytes *
 png_header (guint32 width, guint32 height)
 {
     /* Valid IHDR and IDAT header, deliberately no compressed pixel data. A
      * frame request would fail; metadata-only loading must still succeed. */
     guchar png[41] = { 137, 'P', 'N', 'G', 13, 10, 26, 10,
-                      0, 0, 0, 13, 'I', 'H', 'D', 'R' };
+                       0, 0, 0, 13, 'I', 'H', 'D', 'R' };
     put_be32 (png + 16, width);
     put_be32 (png + 20, height);
     png[24] = 8;

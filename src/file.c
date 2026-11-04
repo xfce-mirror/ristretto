@@ -694,6 +694,13 @@ rstto_file_get_thumbnail (RsttoFile *r_file,
     return r_file->priv->pixbufs[size];
 }
 
+
+/**
+ * rstto_file_invalidate_metadata:
+ *
+ * Discard cached file metadata so the next access observes an edit or
+ * replacement.
+ */
 void
 rstto_file_invalidate_metadata (RsttoFile *r_file)
 {

@@ -20,6 +20,7 @@ import time
 
 
 def children(pid):
+    """Find process descendants through every task, tolerating process exit."""
     try:
         direct = set()
         for task in Path(f"/proc/{pid}/task").iterdir():
@@ -33,6 +34,7 @@ def children(pid):
 
 
 def process_info(pid):
+    """Read the process name and RSS in bytes without failing on exited tasks."""
     try:
         status = Path(f"/proc/{pid}/status").read_text()
         name = re.search(r"^Name:\s*(.*)$", status, re.M).group(1)
@@ -43,6 +45,7 @@ def process_info(pid):
 
 
 def drm_memory(pid):
+    """Sum DRM memory counters once per client across the process file handles."""
     clients = {}
     try:
         for fd in Path(f"/proc/{pid}/fdinfo").iterdir():
@@ -63,6 +66,7 @@ def drm_memory(pid):
 
 
 def run(args, name, binary, workers, repeat):
+    """Run one isolated workload and retain its log, outcome and memory peaks."""
     tag = f"r{repeat + 1}-{name}"
     path = args.output / f"{tag}.log"
     env = os.environ.copy()
@@ -129,6 +133,7 @@ def run(args, name, binary, workers, repeat):
 
 
 def main():
+    """Build and execute the interleaved comparison schedule from command options."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--baseline", type=Path, required=True)
     parser.add_argument("--zoom-baseline", type=Path, help="Saved zoom-fixed binary for three-way recovery comparison")

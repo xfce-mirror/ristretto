@@ -6,39 +6,77 @@ dependency. Each viewer has its own cache. The GLib 2.66 and GTK 3.24 minimum
 versions are unchanged.
 
 The optional [OpenGL renderer](opengl-rendering.md) retains this CPU accounting
-and adds separately tracked GPU results. It is disabled unless explicitly selected.
+and adds separately tracked GPU results. Select it in Advanced preferences or
+with the renderer environment override; CPU rendering remains the default.
 
 ## Configuration
 
-These properties are live-bound to the `ristretto` Xfconf channel. Defaults also
-apply when running with Xfconf disabled. No preferences-dialog controls are added.
+These settings control reuse of decoded images and loading neighboring images
+in advance. They are stored per user in the `ristretto` Xfconf channel and apply
+to running viewers when changed. The normal and profiling binaries, including
+the experimental OpenGL variants, use the same channel. Each viewer has its own
+cache budget; the budget is not shared across all open windows or processes.
 
-| Property | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| `/image/cache-enabled` | bool | true | Enable caching and speculation |
-| `/image/cache-max-images` | uint | 5 | Image slots, including displayed surfaces and reserved loads |
-| `/image/cache-max-mib` | uint | 256 | Total retained-storage and reservation budget in MiB |
-| `/image/cache-max-image-mib` | uint | 128 | Per-image full-source and output admission limit in MiB |
-| `/image/preload-count` | uint | 2 | Directional targets after the first selection |
-| `/image/preload-workers` | uint | 2 | Maximum concurrent preload jobs (1–32) |
+The table lists **compiled defaults**, not values saved in a particular user's
+configuration. Defaults also apply when running with Xfconf disabled.
 
-For example, retain caching but disable speculative loads:
+Open **Edit → Preferences → Advanced** to enable caching and adjust the image,
+memory and preload limits. Changes take effect immediately; closing the dialog
+does not undo them. Opening the dialog preserves existing values, and changes
+made through Xfconf also update an open dialog. The separate **Rendering** radio
+buttons save the CPU/GPU choice for the next launch and require a restart; see
+[renderer configuration](opengl-rendering.md). Disabling caching leaves the
+numeric values intact for later use. Without Glycin support, the tab explains
+that caching is unavailable and disables its controls.
+
+The command-line examples below offer another way to change the same settings.
+For other options, see Ristretto's
+[Preferences manual](https://docs.xfce.org/apps/ristretto/preferences).
+
+| Property | Type | Default | Valid values | Meaning |
+| --- | --- | --- | --- | --- |
+| `/image/cache-enabled` | bool | true | true or false | Enable decoded-image caching and preloading. False keeps normal foreground viewing available. |
+| `/image/cache-max-images` | uint | 5 | At least 1 | Maximum image slots, including displayed images and reserved loads. Two slots are reserved for current/previous viewing history; values of 1 or 2 disable preloading. |
+| `/image/cache-max-mib` | uint | 256 | 0 or greater | Total CPU image storage and loading/rendering reservations per viewer, in MiB. Zero disables caching and preloading. |
+| `/image/cache-max-image-mib` | uint | 128 | 0 or greater | Per-image CPU admission limit in MiB. Applies to full-source and decoded-output estimates, and to retained source plus CPU rendered copy. Zero disables caching and preloading. |
+| `/image/preload-count` | uint | 2 | 0 or greater | Number of directional neighbors targeted after navigation. Zero disables all preloading while retaining foreground caching. |
+| `/image/preload-workers` | uint | 2 | 1–32 | Maximum concurrent preload jobs before image-slot, task and byte limits are applied. One makes preload jobs serial. |
+
+`uint` means an unsigned integer. **1 MiB = 1,048,576 bytes; 2 GiB = 2048 MiB.**
+The limits concern decoded pixels and working reservations, not compressed file
+sizes or total process memory. GPU textures have separate bounds; see
+[OpenGL accounting](opengl-rendering.md#accounting).
+
+### Inspect and change settings
+
+List stored settings and their values, or query a single property:
+
+```sh
+xfconf-query -c ristretto --list --verbose
+xfconf-query -c ristretto -p /image/cache-max-mib
+```
+
+If a property has not been stored, the compiled default above applies. The
+`--create --type` options in the following examples allow a setting to be written
+whether or not it already exists. Set only the properties you want to override.
+
+Retain caching but disable loading neighboring images in advance:
 
 ```sh
 xfconf-query -c ristretto -p /image/preload-count --create --type uint --set 0
 ```
 
-Use up to four preload workers (one restores serial preloading):
+Disable both caching and preloading, while retaining normal foreground viewing:
+
+```sh
+xfconf-query -c ristretto -p /image/cache-enabled --create --type bool --set false
+```
+
+Use up to four preload workers:
 
 ```sh
 xfconf-query -c ristretto -p /image/preload-workers --create --type uint --set 4
 ```
-
-`preload-count` controls how many neighbors are targeted; `preload-workers`
-controls how many can be worked on concurrently. Worker changes apply without
-reloading the displayed image. Neither setting enlarges the memory or image-slot
-budgets. The worker limit is also capped at `max(0, cache-max-images - 2)`; fewer workers
-may run when the targets or available memory are insufficient.
 
 Set a smaller total budget:
 
@@ -46,10 +84,57 @@ Set a smaller total budget:
 xfconf-query -c ristretto -p /image/cache-max-mib --create --type uint --set 128
 ```
 
-A zero value for either memory limit disables caching. `cache-max-images` must
-be at least one. Lowering limits cancels excess work and evicts eligible entries;
-cancellation does not release a reservation until the worker has cleaned up.
-The displayed image remains available even if it exceeds a newly lowered limit.
+### Example for large images
+
+This example enables six image slots, a 2 GiB CPU budget, a 256 MiB per-image
+limit, and five configured preload targets and workers. These are overrides,
+not changes to the defaults:
+
+```sh
+xfconf-query -c ristretto -p /image/cache-max-mib --create --type uint --set 2048
+xfconf-query -c ristretto -p /image/cache-max-image-mib --create --type uint --set 256
+xfconf-query -c ristretto -p /image/cache-max-images --create --type uint --set 6
+xfconf-query -c ristretto -p /image/preload-count --create --type uint --set 5
+xfconf-query -c ristretto -p /image/preload-workers --create --type uint --set 5
+xfconf-query -c ristretto -p /image/cache-enabled --create --type bool --set true
+```
+
+A 7728×5152 image needs about 152 MiB for one four-byte-per-pixel decoded
+surface, before any rendered copy or loading temporaries. Raising the per-image
+limit allows that source to be considered for caching; it does not guarantee
+that every load can fit alongside the images already retained.
+
+`preload-count` controls how many neighbors are targeted; `preload-workers`
+controls how many preload jobs can run concurrently. Neither setting enlarges
+the memory or image-slot budgets. Six slots allow at most **four speculative
+images**, including completed preloads and reserved loads. The shared task
+ceiling is `1 + min(preload-workers, max(0, cache-max-images - 2))`: five in this
+example, including foreground work. Byte reservations can reduce concurrency
+further. Initial population and adaptive lookahead are described below.
+
+Worker changes apply without reloading the displayed image. Lowering limits
+cancels excess work and evicts eligible entries; cancelled work retains its
+reservation until cleanup. The displayed image remains available even if it
+exceeds a newly lowered limit. An image that cannot be cached can still be viewed
+through the normal foreground path. Builds without safe Glycin probing cannot
+enable caching or preloading through these settings.
+
+GPU worker selection is separate: `RISTRETTO_GL_WORKERS` is an experimental
+environment variable, not an Xfconf property, and does not increase the shared
+task ceiling. See the [OpenGL renderer configuration](opengl-rendering.md).
+
+### Restore defaults
+
+To remove one saved override, for example the total memory budget:
+
+```sh
+xfconf-query -c ristretto -p /image/cache-max-mib --reset
+```
+
+Repeat with each property you want to reset, then restart Ristretto to initialize
+the compiled defaults. Reset individual properties rather than the entire
+`/image` subtree, which also contains other image preferences. Alternatively,
+write the table's default values explicitly to apply them to running viewers.
 
 ## Navigation and lifetime
 
@@ -128,7 +213,8 @@ Normal foreground loading and its existing RAW fallbacks remain available.
 Meson option `-Dglycin-probe=auto` detects `glycin-2 >= 2.0.0`. Use `enabled` to
 require it or `disabled` to test the fallback build. Without Glycin probing,
 caching and speculation are disabled even when Xfconf enables them; normal
-foreground viewing remains available. No additional preferences UI is added.
+foreground viewing remains available. The Advanced preferences controls are
+disabled in that configuration.
 
 A decode reserves `source RGBA + 3 * output RGBA + 1 MiB`. This conservatively
 covers source/output pixels, conversion temporaries and the foreground input
@@ -248,7 +334,7 @@ source identity/options remain the cache lookup key. A completed image retains
 at most one derivative; preloads also prepare derivatives using main-thread
 snapshots of each candidate's saved view. Compatible returns reuse both pixels
 and rendering, while GTK only composites the prepared image and draws overlays.
-Native-size/enlarged images and animations use the existing drawing path.
+In CPU mode, native-size/enlarged images and animations use the existing drawing path.
 
 A derivative shares the source image's slot. Its actual stride times height is
 added to the entry's weight, and combined source/derivative retained storage must
@@ -269,8 +355,9 @@ the existing displayed-image exception and cancellation-drain accounting.
 No shared cached surface has mutable viewer device-scale state: workers and the
 viewer create independent wrappers over pinned, immutable source bytes. All GTK
 access, container changes and presentation decisions stay on the main thread.
-There is no GPU rendering path or new dependency. The byte budget still bounds
-accounted storage and reservations, not allocator, codec or total process memory.
+CPU preparation remains available without the optional OpenGL backend. The byte
+budget still bounds accounted storage and reservations, not allocator, codec or
+total process memory.
 
 ## Tests and benchmark
 
@@ -301,6 +388,14 @@ Raster tests compare all eight EXIF orientations, transparency, cropping, qualit
 limits and device scaling against the original transform path (exact nearest-neighbor pixels;
 at most two channel levels of rounding tolerance for smoothed output). Installed decoder
 backends may also require the session bus or a functioning codec sandbox.
+
+The Preferences suite also requires a graphical display. It uses isolated
+settings to check that opening the Advanced tab preserves values, edits and
+external property changes stay synchronized, unsigned ranges and zero values
+are retained, and closing dialogs releases their bindings. It covers disabled
+caching and builds without Glycin, without changing the user's Xfconf channel.
+Renderer tests check the radio group, environment overrides, unavailable builds
+and the immutable startup choice while the saved preference changes.
 
 The sanitizer suppression covers only allocations whose stacks originate in
 Fontconfig's process-global font caches. Application and decoder leak detection

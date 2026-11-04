@@ -48,3 +48,17 @@ endif
 shader_cache_test = executable('test-shader-cache',
   ['test-shader-cache.c', '../src/image_shader_cache.c'], dependencies: [glib, gio])
 test('shader-cache', shader_cache_test, timeout: 30)
+
+preferences_test = executable('test-preferences',
+  ['test-preferences.c', '../src/preferences_dialog.c', '../src/settings.c',
+   '../src/file_manager_integration.c', '../src/file_manager_integration_thunar.c',
+   '../src/image_probe.c'],
+  sources: xfce_revision_h,
+  include_directories: [include_directories('..', '../src')],
+  dependencies: [glib, gio, gtk, glycin, libxfce4ui, libxfce4util, xfconf])
+test('preferences', preferences_test, timeout: 30, env: ['RISTRETTO_RENDERER='])
+foreach renderer : ['cpu', 'placebo', 'invalid']
+  test('preferences-' + renderer + '-override', preferences_test,
+    args: ['-p', '/preferences/renderer'],
+    env: ['RISTRETTO_RENDERER=' + renderer], timeout: 30)
+endforeach

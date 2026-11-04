@@ -25,13 +25,16 @@ for repeat in range(5):
         env=dict(os.environ,XDG_CACHE_HOME=str(state/'cache'),MESA_SHADER_CACHE_DIR=str(state/'mesa'),
                  MESA_SHADER_CACHE_DISABLE='true' if driverwarm is None else 'false',
                  RISTRETTO_SHADER_CACHE='1' if persist else '0',RISTRETTO_PROFILE='1')
+
         def run(suffix):
+            """Measure one process with controlled shader caches and retain its full log."""
             start=time.monotonic()
             process=subprocess.run([str(a.binary),'--binary-cache=measure'],env=env,capture_output=True,text=True)
             (a.output/(tag+suffix+'.log')).write_text(process.stdout+process.stderr)
             if process.returncode: raise SystemExit(process.returncode)
             fields=dict(re.findall(r'(\w+)=([0-9.]+)',next(l for l in process.stdout.splitlines() if l.startswith('BINARY_CACHE'))))
             return {k:float(v) if '.' in v else int(v) for k,v in fields.items()}|{'process_ms':(time.monotonic()-start)*1000}
+
         if appwarm or driverwarm:
             run('-seed')
         if not appwarm and (state/'cache/ristretto').exists(): shutil.rmtree(state/'cache/ristretto')

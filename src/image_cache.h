@@ -1,9 +1,10 @@
 /* SPDX-License-Identifier: GPL-2.0-or-later */
-#ifndef __RISTRETTO_IMAGE_CACHE_H__
-#define __RISTRETTO_IMAGE_CACHE_H__
+#ifndef RSTTO_IMAGE_CACHE_H
+#define RSTTO_IMAGE_CACHE_H
 
-#include "image_render.h"
 #include "image_gpu.h"
+#include "image_render.h"
+
 #include <cairo.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gio.h>
@@ -14,7 +15,25 @@ G_BEGIN_DECLS
 #define RSTTO_PRELOAD_WORKERS_MAX 32
 
 #define RSTTO_TYPE_IMAGE_CACHE (rstto_image_cache_get_type ())
-G_DECLARE_FINAL_TYPE (RsttoImageCache, rstto_image_cache, RSTTO, IMAGE_CACHE, GObject)
+#define RSTTO_IMAGE_CACHE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), RSTTO_TYPE_IMAGE_CACHE, RsttoImageCache))
+#define RSTTO_IS_IMAGE_CACHE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), RSTTO_TYPE_IMAGE_CACHE))
+
+typedef struct RsttoImageCache RsttoImageCache;
+typedef struct
+{
+    GObjectClass parent_class;
+} RsttoImageCacheClass;
+
+/**
+ * rstto_image_cache_get_type:
+ *
+ * Return the registered type of the private image cache manager.
+ */
+GType
+rstto_image_cache_get_type (void);
+
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (RsttoImageCache, g_object_unref)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (RsttoImageCacheClass, g_type_class_unref)
 
 typedef struct
 {
@@ -59,8 +78,10 @@ typedef struct
 
 RsttoImageCache *
 rstto_image_cache_new (void);
-void rstto_image_cache_set_gpu (RsttoImageCache *cache, RsttoGpuRenderer *gpu);
-void rstto_image_cache_get_gpu_stats (RsttoImageCache *cache, RsttoGpuStats *stats);
+void
+rstto_image_cache_set_gpu (RsttoImageCache *cache, RsttoGpuRenderer *gpu);
+void
+rstto_image_cache_get_gpu_stats (RsttoImageCache *cache, RsttoGpuStats *stats);
 void
 rstto_image_cache_set_limits (RsttoImageCache *cache, const RsttoCacheLimits *limits);
 void
@@ -71,12 +92,21 @@ void
 rstto_image_cache_request (RsttoImageCache *cache, GFile *file, const gchar *mime_type, const RsttoDecodeOptions *options);
 /* Candidates are in priority order, borrowed during this call. MIME detection
  * uses the same generic fallback as foreground loading. */
-typedef enum { RSTTO_NAV_STEP, RSTTO_NAV_JUMP, RSTTO_NAV_ORDER } RsttoNavigationChange;
-void rstto_image_cache_navigation (RsttoImageCache *cache, RsttoNavigationChange change, gint direction);
+typedef enum
+{
+    RSTTO_NAV_STEP,
+    RSTTO_NAV_JUMP,
+    RSTTO_NAV_ORDER
+} RsttoNavigationChange;
+void
+rstto_image_cache_navigation (RsttoImageCache *cache, RsttoNavigationChange change, gint direction);
 /* Internal main-thread transaction: selection and its ranked snapshot commit together. */
-void rstto_image_cache_begin_update (RsttoImageCache *cache);
-void rstto_image_cache_end_update (RsttoImageCache *cache);
-void rstto_image_cache_view_changed (RsttoImageCache *cache, gboolean pending);
+void
+rstto_image_cache_begin_update (RsttoImageCache *cache);
+void
+rstto_image_cache_end_update (RsttoImageCache *cache);
+void
+rstto_image_cache_view_changed (RsttoImageCache *cache, gboolean pending);
 void
 rstto_image_cache_set_schedule (RsttoImageCache *cache, GFile *pending, GPtrArray *files);
 

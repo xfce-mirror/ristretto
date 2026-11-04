@@ -1,9 +1,11 @@
 /* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Including the private implementation permits configuration tests without
  * mutating process-wide environment variables after Glycin starts threads. */
-#include "../src/image_probe.c"
-#include <glib/gstdio.h>
 #include "probe-fixtures.h"
+
+#include "../src/image_probe.c"
+
+#include <glib/gstdio.h>
 
 typedef struct
 {
@@ -11,6 +13,12 @@ typedef struct
     gint width, height;
 } ProbeResult;
 
+
+/**
+ * finished:
+ *
+ * Collect dimensions from an asynchronous metadata-only probe.
+ */
 static void
 finished (GObject *source, GAsyncResult *result, gpointer data)
 {
@@ -19,6 +27,13 @@ finished (GObject *source, GAsyncResult *result, gpointer data)
     probe->done = TRUE;
 }
 
+
+/**
+ * probe_bytes:
+ *
+ * Run a probe over immutable fixture bytes with optional cancellation and a
+ * bounded completion wait.
+ */
 static ProbeResult
 probe_bytes (GBytes *bytes, gboolean cancel)
 {
@@ -38,6 +53,13 @@ probe_bytes (GBytes *bytes, gboolean cancel)
     return result;
 }
 
+
+/**
+ * test_dimensions:
+ *
+ * Read valid and oversized header dimensions without allocating the
+ * corresponding pixel buffers.
+ */
 static void
 test_dimensions (void)
 {
@@ -61,6 +83,12 @@ test_dimensions (void)
     g_bytes_unref (bytes);
 }
 
+
+/**
+ * test_failures:
+ *
+ * Treat malformed, truncated or cancelled metadata probes as unavailable.
+ */
 static void
 test_failures (void)
 {
@@ -82,6 +110,12 @@ test_failures (void)
     g_bytes_unref (bytes);
 }
 
+
+/**
+ * test_prefix_limit:
+ *
+ * Verify cancellable prefix reads stop at the fixed input cap.
+ */
 static void
 test_prefix_limit (void)
 {
@@ -99,6 +133,13 @@ test_prefix_limit (void)
     g_bytes_unref (bytes);
 }
 
+
+/**
+ * test_raw:
+ *
+ * Recognize RAW content from filename and MIME classification before invoking
+ * Glycin.
+ */
 static void
 test_raw (void)
 {
@@ -121,6 +162,13 @@ test_raw (void)
     g_object_unref (file);
 }
 
+
+/**
+ * test_raw_configuration:
+ *
+ * Include configured glycin-raw MIME mappings in the unsafe-probe exclusion
+ * set.
+ */
 static void
 test_raw_configuration (void)
 {
@@ -129,9 +177,10 @@ test_raw_configuration (void)
     g_assert_cmpint (g_mkdir_with_parents (confdir, 0700), ==, 0);
     gchar *config = g_build_filename (confdir, "custom.conf", NULL);
     g_assert_true (g_file_set_contents (config,
-        "[loader:image/x-custom-raw]\nExec=/custom/path/glycin-raw\n"
-        "[loader:image/png]\nExec=/usr/libexec/glycin-image-rs\n"
-        "[editor:image/jpeg]\nExec=/custom/path/glycin-raw\n", -1, NULL));
+                                        "[loader:image/x-custom-raw]\nExec=/custom/path/glycin-raw\n"
+                                        "[loader:image/png]\nExec=/usr/libexec/glycin-image-rs\n"
+                                        "[editor:image/jpeg]\nExec=/custom/path/glycin-raw\n",
+                                        -1, NULL));
     GHashTable *types = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
     collect_raw_types (directory, types);
     g_assert_cmpuint (g_hash_table_size (types), ==, 1);
@@ -151,6 +200,12 @@ test_raw_configuration (void)
     g_free (directory);
 }
 
+
+/**
+ * test_missing_loader:
+ *
+ * Report unavailable dimensions when no suitable Glycin loader is installed.
+ */
 static void
 test_missing_loader (void)
 {
@@ -169,6 +224,13 @@ test_missing_loader (void)
     g_test_trap_assert_passed ();
 }
 
+
+/**
+ * main:
+ *
+ * Register bounded metadata-probe regressions, including the no-Glycin build
+ * behavior.
+ */
 int
 main (int argc, char **argv)
 {

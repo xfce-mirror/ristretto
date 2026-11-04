@@ -1,15 +1,27 @@
 /* SPDX-License-Identifier: GPL-2.0-or-later */
 #include "../src/image_gpu.h"
+
 #include <gtk/gtk.h>
+#include <libplacebo/filters.h>
 #include <math.h>
 #include <string.h>
-#include <libplacebo/filters.h>
 
-typedef struct { RsttoGpuImage *image; GError *error; gboolean done; } Result;
+typedef struct
+{
+    RsttoGpuImage *image;
+    GError *error;
+    gboolean done;
+} Result;
 static gboolean display;
 static GtkWidget *window;
 static RsttoGpuRenderer *gpu;
 
+
+/**
+ * done:
+ *
+ * Collect an asynchronous GPU render result for the test driver.
+ */
 static void
 done (GObject *object, GAsyncResult *result, gpointer data)
 {
@@ -18,6 +30,13 @@ done (GObject *object, GAsyncResult *result, gpointer data)
     r->done = TRUE;
 }
 
+
+/**
+ * wait_result:
+ *
+ * Dispatch the main context until a GPU result arrives, failing on a bounded
+ * timeout.
+ */
 static void
 wait_result (Result *result)
 {
@@ -30,6 +49,12 @@ wait_result (Result *result)
     }
 }
 
+
+/**
+ * warm_done:
+ *
+ * Record asynchronous startup warmup completion and its error state.
+ */
 static void
 warm_done (GObject *object, GAsyncResult *result, gpointer data)
 {
@@ -38,10 +63,21 @@ warm_done (GObject *object, GAsyncResult *result, gpointer data)
     r->done = TRUE;
 }
 
+
+/**
+ * start:
+ *
+ * Create an isolated window and GPU renderer, then complete warmup for the
+ * requested worker count.
+ */
 static gboolean
 start (guint workers)
 {
-    if (!display) { g_test_skip ("No GTK display"); return FALSE; }
+    if (!display)
+    {
+        g_test_skip ("No GTK display");
+        return FALSE;
+    }
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     gtk_widget_realize (window);
     GError *error = NULL;
@@ -63,23 +99,39 @@ start (guint workers)
     return TRUE;
 }
 
+
+/**
+ * stop:
+ *
+ * Drain GPU ownership and destroy the renderer and test window.
+ */
 static void
 stop (void)
 {
     RsttoGpuStats stats;
     gint64 deadline = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
-    do {
+    do
+    {
         g_main_context_iteration (NULL, FALSE);
         rstto_gpu_renderer_get_stats (gpu, &stats);
         g_assert_cmpint (g_get_monotonic_time (), <, deadline);
         g_usleep (1000);
     } while (stats.textures || stats.active || stats.transient || stats.sources || stats.reserved);
     /* Run deferred owner releases before destroying the GdkWindow. */
-    while (g_main_context_iteration (NULL, FALSE)) { }
+    while (g_main_context_iteration (NULL, FALSE))
+    {
+    }
     g_object_unref (gpu);
     gtk_widget_destroy (window);
 }
 
+
+/**
+ * fixture:
+ *
+ * Create an owned patterned CPU surface with optional transparency for GPU
+ * pixel comparisons.
+ */
 static cairo_surface_t *
 fixture (gboolean alpha)
 {
@@ -96,12 +148,17 @@ fixture (gboolean alpha)
     return surface;
 }
 
+
+/**
+ * key_for:
+ *
+ * Build a render key with the requested orientation, zoom, smoothing and
+ * monitor scale.
+ */
 static RsttoRenderKey
 key_for (guint orientation, double zoom, gboolean smooth, double monitor)
 {
-    RsttoRenderView view = { .viewport_width = 59, .viewport_height = 53, .orientation = orientation,
-        .image_scale = 1, .pixel_scale = monitor, .scale = zoom, .previous_scale = 1,
-        .default_zoom = -1, .h_adjust = 3, .v_adjust = 5, .smoothing = smooth };
+    RsttoRenderView view = { .viewport_width = 59, .viewport_height = 53, .orientation = orientation, .image_scale = 1, .pixel_scale = monitor, .scale = zoom, .previous_scale = 1, .default_zoom = -1, .h_adjust = 3, .v_adjust = 5, .smoothing = smooth };
     RsttoRenderGeometry geometry;
     RsttoRenderKey key;
     g_assert_true (rstto_image_render_geometry (&view, 47, 31, &geometry));
@@ -110,6 +167,13 @@ key_for (guint orientation, double zoom, gboolean smooth, double monitor)
     return key;
 }
 
+
+/**
+ * render:
+ *
+ * Submit a transient-source render and download the completed image for
+ * test-only pixel comparison.
+ */
 static cairo_surface_t *
 render (cairo_surface_t *source, RsttoRenderKey *key)
 {
@@ -127,6 +191,13 @@ render (cairo_surface_t *source, RsttoRenderKey *key)
     return surface;
 }
 
+
+/**
+ * limits:
+ *
+ * Check source and output dimensions below, at and above injected texture
+ * limits, including invalid arithmetic.
+ */
 static void
 limits (void)
 {
@@ -135,16 +206,29 @@ limits (void)
     g_assert_true (rstto_gpu_dimensions_fit (64, 64, 64, &key));
     g_assert_false (rstto_gpu_dimensions_fit (64, 65, 64, &key));
     g_assert_false (rstto_gpu_dimensions_fit (64, 64, 65, &key));
-    key.width = 65; g_assert_false (rstto_gpu_dimensions_fit (64, 10, 10, &key));
-    key.width = 64; key.height = 65; g_assert_false (rstto_gpu_dimensions_fit (64, 10, 10, &key));
-    key.height = 64; g_assert_false (rstto_gpu_dimensions_fit (0, 10, 10, &key));
+    key.width = 65;
+    g_assert_false (rstto_gpu_dimensions_fit (64, 10, 10, &key));
+    key.width = 64;
+    key.height = 65;
+    g_assert_false (rstto_gpu_dimensions_fit (64, 10, 10, &key));
+    key.height = 64;
+    g_assert_false (rstto_gpu_dimensions_fit (0, 10, 10, &key));
     g_assert_false (rstto_gpu_dimensions_fit (64, -1, 10, &key));
-    key.width = G_MAXINT; key.height = G_MAXINT;
+    key.width = G_MAXINT;
+    key.height = G_MAXINT;
     g_assert_false (rstto_gpu_dimensions_fit (G_MAXUINT, G_MAXINT, G_MAXINT, &key));
-    key.width = key.height = 64; key.x_scale = INFINITY;
+    key.width = key.height = 64;
+    key.x_scale = INFINITY;
     g_assert_false (rstto_gpu_dimensions_fit (64, 10, 10, &key));
 }
 
+
+/**
+ * filters:
+ *
+ * Verify filter selection for nearest, aligned direct sampling, enlargement
+ * and reduction.
+ */
 static void
 filters (void)
 {
@@ -158,16 +242,25 @@ filters (void)
     g_assert_cmpint (rstto_gpu_filter (&key), ==, RSTTO_GPU_DIRECT);
     key.source_scale = .5;
     g_assert_cmpint (rstto_gpu_filter (&key), ==, RSTTO_GPU_UP);
-    key.x_scale = key.y_scale = 1.001; key.pixel_scale = key.source_scale = 1;
+    key.x_scale = key.y_scale = 1.001;
+    key.pixel_scale = key.source_scale = 1;
     g_assert_cmpint (rstto_gpu_filter (&key), ==, RSTTO_GPU_UP);
     key.x_scale = key.y_scale = .999;
     g_assert_cmpint (rstto_gpu_filter (&key), ==, RSTTO_GPU_DOWN);
 }
 
+
+/**
+ * nearest:
+ *
+ * Require exact nearest-neighbour pixels across orientations, cropping and
+ * monitor scales.
+ */
 static void
 nearest (void)
 {
-    if (!start (2)) return;
+    if (!start (2))
+        return;
     for (guint alpha = 0; alpha < 2; alpha++)
     {
         cairo_surface_t *source = fixture (alpha);
@@ -178,24 +271,35 @@ nearest (void)
             cairo_surface_t *expected = rstto_image_render (source, &key, NULL);
             g_assert_cmpmem (cairo_image_surface_get_data (actual), key.width * key.height * 4,
                              cairo_image_surface_get_data (expected), key.width * key.height * 4);
-            cairo_surface_destroy (actual); cairo_surface_destroy (expected);
+            cairo_surface_destroy (actual);
+            cairo_surface_destroy (expected);
         }
         cairo_surface_destroy (source);
     }
     stop ();
 }
 
+
+/**
+ * smooth:
+ *
+ * Compare smoothed output with the CPU reference within the established
+ * tolerance.
+ */
 static void
 smooth (void)
 {
-    if (!start (2)) return;
+    if (!start (2))
+        return;
     for (guint alpha = 0; alpha < 2; alpha++)
     {
         cairo_surface_t *source = fixture (alpha);
         for (guint orientation = 1; orientation <= 8; orientation++)
             for (guint scale = 0; scale < 3; scale++)
             {
-                RsttoRenderKey key = key_for (orientation, scale == 0 ? .5 : scale == 1 ? 1.5 : 2.25, TRUE, scale == 2 ? 2 : 1);
+                RsttoRenderKey key = key_for (orientation, scale == 0 ? .5 : scale == 1 ? 1.5
+                                                                                        : 2.25,
+                                              TRUE, scale == 2 ? 2 : 1);
                 cairo_surface_t *actual = render (source, &key);
                 guint32 *pixels = (guint32 *) cairo_image_surface_get_data (actual);
                 guint nonzero = 0;
@@ -215,10 +319,18 @@ smooth (void)
     stop ();
 }
 
+
+/**
+ * reference_filter:
+ *
+ * Compare runtime filtering against an independent weight-based reference,
+ * including transparent edges.
+ */
 static void
 reference_filter (void)
 {
-    if (!start (1)) return;
+    if (!start (1))
+        return;
     /* Independent double-precision convolution using the host filter function,
      * rather than libplacebo's generated GLSL/LUT. Smooth ramps avoid the
      * antiringing clamp so discrepancies expose mapping/filter errors. */
@@ -228,15 +340,13 @@ reference_filter (void)
     for (guint n = 0; n < G_N_ELEMENTS (scales); n++)
     {
         double scale = scales[n];
-        RsttoRenderKey key = { .width = n == 0 ? 23 : 70, .height = n == 0 ? 15 : 46,
-            .source_scale = 1, .pixel_scale = 1, .x_scale = scale, .y_scale = scale,
-            .render_width = 47 * scale, .render_height = 31 * scale, .orientation = 1, .smoothing = TRUE };
+        RsttoRenderKey key = { .width = n == 0 ? 23 : 70, .height = n == 0 ? 15 : 46, .source_scale = 1, .pixel_scale = 1, .x_scale = scale, .y_scale = scale, .render_width = 47 * scale, .render_height = 31 * scale, .orientation = 1, .smoothing = TRUE };
         rstto_gpu_render_key (gpu, 47, 31, &key);
         cairo_surface_t *actual = render (source, &key);
         guint32 *output = (guint32 *) cairo_image_surface_get_data (actual);
         struct pl_filter_config config = n == 0 ? pl_filter_ewa_lanczos : pl_filter_ewa_lanczossharp;
         pl_filter filter = pl_filter_generate (NULL, &(struct pl_filter_params) {
-            .config = config, .lut_entries = 256, .cutoff = 1e-3 });
+                                                         .config = config, .lut_entries = 256, .cutoff = 1e-3 });
         double widening = MAX (1, 1 / scale), radius = filter->radius * widening;
         for (gint y = 5; y < key.height - 5; y += 3)
             for (gint x = 5; x < key.width - 5; x += 3)
@@ -247,11 +357,13 @@ reference_filter (void)
                     for (gint ix = floor (sx - radius); ix <= ceil (sx + radius); ix++)
                     {
                         double distance = hypot (ix - sx, iy - sy) / widening;
-                        if (distance >= filter->radius) continue;
+                        if (distance >= filter->radius)
+                            continue;
                         double weight = pl_filter_sample (&config, distance);
                         guint32 pixel = input[CLAMP (iy, 0, 30) * 47 + CLAMP (ix, 0, 46)];
                         weights += weight;
-                        for (guint c = 0; c < 3; c++) sum[c] += weight * ((pixel >> (c * 8)) & 255);
+                        for (guint c = 0; c < 3; c++)
+                            sum[c] += weight * ((pixel >> (c * 8)) & 255);
                     }
                 for (guint c = 0; c < 3; c++)
                     g_assert_cmpfloat (fabs (((output[y * key.width + x] >> (c * 8)) & 255) - sum[c] / weights), <=, 2);
@@ -263,10 +375,18 @@ reference_filter (void)
     stop ();
 }
 
+
+/**
+ * runtime_variants:
+ *
+ * Sweep compatible zoom and viewport variants and require no shader signatures
+ * beyond startup warmup.
+ */
 static void
 runtime_variants (void)
 {
-    if (!start (1)) return;
+    if (!start (1))
+        return;
     RsttoGpuStats before, after;
     rstto_gpu_renderer_get_stats (gpu, &before);
     g_assert_cmpuint (before.warmups, ==, 1);
@@ -292,10 +412,18 @@ runtime_variants (void)
     stop ();
 }
 
+
+/**
+ * installed_reference:
+ *
+ * Compare runtime EWA output with the installed libplacebo sampling
+ * implementation.
+ */
 static void
 installed_reference (void)
 {
-    if (!start (1)) return;
+    if (!start (1))
+        return;
     const double zooms[] = { .15, .2176, .5, .83, 1.1, 1.5, .99, 2.0 };
     for (guint alpha = 0; alpha < 3; alpha++)
     {
@@ -305,7 +433,8 @@ installed_reference (void)
             guint32 *pixels = (guint32 *) cairo_image_surface_get_data (source);
             for (guint y = 0; y < 31; y++)
                 for (guint x = 0; x < 47; x++)
-                    pixels[y * 47 + x] = (x + y) % 3 == 0 ? 0 : (x + y) % 3 == 1 ? 0x80008040 : 0xfff00201;
+                    pixels[y * 47 + x] = (x + y) % 3 == 0 ? 0 : (x + y) % 3 == 1 ? 0x80008040
+                                                                                 : 0xfff00201;
             cairo_surface_mark_dirty (source);
         }
         for (guint i = 0; i < G_N_ELEMENTS (zooms); i++)
@@ -321,22 +450,30 @@ installed_reference (void)
                 maximum = MAX (maximum, (guint) ABS ((gint) a[n] - (gint) b[n]));
             g_test_message ("alpha=%u zoom=%.4f maximum channel difference=%u", alpha, zooms[i], maximum);
             g_assert_cmpuint (maximum, <=, 2);
-            cairo_surface_destroy (actual); cairo_surface_destroy (reference);
+            cairo_surface_destroy (actual);
+            cairo_surface_destroy (reference);
         }
         cairo_surface_destroy (source);
     }
     stop ();
 }
 
+
+/**
+ * quality_scale:
+ *
+ * Verify filtering and geometry when decoded pixels use a reduced quality
+ * scale.
+ */
 static void
 quality_scale (void)
 {
-    if (!start (1)) return;
+    if (!start (1))
+        return;
     cairo_surface_t *source = fixture (TRUE);
     for (guint orientation = 1; orientation <= 8; orientation++)
     {
-        RsttoRenderView view = { .viewport_width = 43, .viewport_height = 37, .orientation = orientation,
-            .image_scale = 2, .pixel_scale = 2, .scale = 1, .previous_scale = 1, .h_adjust = 3, .v_adjust = 2 };
+        RsttoRenderView view = { .viewport_width = 43, .viewport_height = 37, .orientation = orientation, .image_scale = 2, .pixel_scale = 2, .scale = 1, .previous_scale = 1, .h_adjust = 3, .v_adjust = 2 };
         RsttoRenderGeometry geometry;
         RsttoRenderKey key;
         g_assert_true (rstto_image_render_geometry (&view, 94, 62, &geometry));
@@ -346,18 +483,28 @@ quality_scale (void)
         cairo_surface_t *expected = rstto_image_render (source, &key, NULL);
         g_assert_cmpmem (cairo_image_surface_get_data (actual), key.width * key.height * 4,
                          cairo_image_surface_get_data (expected), key.width * key.height * 4);
-        cairo_surface_destroy (actual); cairo_surface_destroy (expected);
+        cairo_surface_destroy (actual);
+        cairo_surface_destroy (expected);
     }
     cairo_surface_destroy (source);
     stop ();
 }
 
+
+/**
+ * destroy_running:
+ *
+ * Destroy external renderer ownership while work is pending and require safe
+ * deferred cleanup.
+ */
 static void
 destroy_running (void)
 {
-    if (!start (1)) return;
+    if (!start (1))
+        return;
     cairo_surface_t *source = fixture (TRUE);
-    RsttoRenderPixels pixels; rstto_image_render_pixels (source, &pixels);
+    RsttoRenderPixels pixels;
+    rstto_image_render_pixels (source, &pixels);
     RsttoRenderKey key = key_for (1, .5, TRUE, 1);
     Result result = { 0 };
     GCancellable *cancel = g_cancellable_new ();
@@ -365,7 +512,8 @@ destroy_running (void)
     rstto_gpu_render_async (gpu, &pixels, &key, cancel, NULL, NULL, NULL, done, &result);
     RsttoGpuStats stats;
     gint64 deadline = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
-    do {
+    do
+    {
         g_main_context_iteration (NULL, FALSE);
         rstto_gpu_renderer_get_stats (gpu, &stats);
         g_assert_cmpint (g_get_monotonic_time (), <, deadline);
@@ -390,12 +538,21 @@ destroy_running (void)
     g_object_unref (cancel);
 }
 
+
+/**
+ * parallel_cleanup:
+ *
+ * Exercise concurrent whole-image jobs and verify cleanup after success,
+ * cancellation and injected failure.
+ */
 static void
 parallel_cleanup (void)
 {
-    if (!start (5)) return;
+    if (!start (5))
+        return;
     cairo_surface_t *source = fixture (TRUE);
-    RsttoRenderPixels pixels; rstto_image_render_pixels (source, &pixels);
+    RsttoRenderPixels pixels;
+    rstto_image_render_pixels (source, &pixels);
     Result results[5] = { 0 };
     GCancellable *cancel[5];
     rstto_gpu_test_hold (gpu, TRUE);
@@ -412,26 +569,41 @@ parallel_cleanup (void)
     rstto_gpu_renderer_get_stats (gpu, &stats);
     g_assert_cmpuint (stats.active, ==, 5);
     g_assert_cmpuint (stats.peak_active, ==, 5);
-    for (guint n = 0; n < 5; n++) g_assert_false (results[n].done);
+    for (guint n = 0; n < 5; n++)
+        g_assert_false (results[n].done);
     rstto_gpu_test_hold (gpu, FALSE);
     for (guint n = 0; n < 5; n++)
     {
         wait_result (&results[n]);
-        if (n == 1 || n == 3) g_assert_null (results[n].image);
-        else { g_assert_no_error (results[n].error); g_assert_nonnull (results[n].image); }
+        if (n == 1 || n == 3)
+            g_assert_null (results[n].image);
+        else
+        {
+            g_assert_no_error (results[n].error);
+            g_assert_nonnull (results[n].image);
+        }
         rstto_gpu_image_unref (results[n].image);
-        g_clear_error (&results[n].error); g_object_unref (cancel[n]);
+        g_clear_error (&results[n].error);
+        g_object_unref (cancel[n]);
     }
     cairo_surface_destroy (source);
     stop ();
 }
 
+
+/**
+ * retirement_backpressure:
+ *
+ * Keep displayed textures bounded while consumer fences delay retirement.
+ */
 static void
 retirement_backpressure (void)
 {
-    if (!start (1)) return;
+    if (!start (1))
+        return;
     cairo_surface_t *source = fixture (TRUE);
-    RsttoRenderPixels pixels; rstto_image_render_pixels (source, &pixels);
+    RsttoRenderPixels pixels;
+    rstto_image_render_pixels (source, &pixels);
     RsttoRenderKey key = key_for (1, .5, TRUE, 1);
     GCancellable *cancel = g_cancellable_new ();
     Result first = { 0 }, next = { 0 };
@@ -442,7 +614,8 @@ retirement_backpressure (void)
     rstto_gpu_image_unref (first.image);
     rstto_gpu_render_async (gpu, &pixels, &key, cancel, NULL, NULL, NULL, done, &next);
     gint64 until = g_get_monotonic_time () + 50 * 1000;
-    do {
+    do
+    {
         g_main_context_iteration (NULL, FALSE);
         g_usleep (1000);
     } while (g_get_monotonic_time () < until);
@@ -466,6 +639,13 @@ retirement_backpressure (void)
     stop ();
 }
 
+
+/**
+ * lease:
+ *
+ * Create an admitted source-reuse request and check its expected hit or
+ * upload-staging reservation.
+ */
 static RsttoGpuRequest *
 lease (cairo_surface_t *pixels, RsttoRenderKey *key, guint64 serial, gboolean hit)
 {
@@ -478,6 +658,13 @@ lease (cairo_surface_t *pixels, RsttoRenderKey *key, guint64 serial, gboolean hi
     return request;
 }
 
+
+/**
+ * render_lease:
+ *
+ * Submit an already-admitted request and return its completed image after
+ * draining the callback.
+ */
 static RsttoGpuImage *
 render_lease (RsttoGpuRequest *request)
 {
@@ -490,10 +677,18 @@ render_lease (RsttoGpuRequest *request)
     return result.image;
 }
 
+
+/**
+ * source_reuse:
+ *
+ * Require pan and zoom updates of the selected source to avoid repeated
+ * uploads while maintaining GPU bounds.
+ */
 static void
 source_reuse (void)
 {
-    if (!start (2)) return;
+    if (!start (2))
+        return;
     RsttoGpuStats stats, before;
     for (guint alpha = 0; alpha < 2; alpha++)
     {
@@ -506,13 +701,16 @@ source_reuse (void)
         rstto_gpu_renderer_get_stats (gpu, &before);
         for (guint n = 0; n < 24; n++)
         {
-            key = key_for (1 + n % 8, n < 8 ? 1 : n < 16 ? .5 : 1.5, n >= 8, n % 2 + 1);
+            key = key_for (1 + n % 8, n < 8 ? 1 : n < 16 ? .5
+                                                         : 1.5,
+                           n >= 8, n % 2 + 1);
             RsttoGpuImage *image = render_lease (lease (source, &key, serial, TRUE));
             cairo_surface_t *actual = rstto_gpu_test_download (image);
             cairo_surface_t *reference = render (source, &key); /* fresh upload, same filter */
             g_assert_cmpmem (cairo_image_surface_get_data (actual), key.width * key.height * 4,
                              cairo_image_surface_get_data (reference), key.width * key.height * 4);
-            cairo_surface_destroy (actual); cairo_surface_destroy (reference);
+            cairo_surface_destroy (actual);
+            cairo_surface_destroy (reference);
             rstto_gpu_image_unref (image);
         }
         rstto_gpu_renderer_get_stats (gpu, &stats);
@@ -528,10 +726,18 @@ source_reuse (void)
     stop ();
 }
 
+
+/**
+ * source_leases:
+ *
+ * Pin a source through queued work and selection changes until all admitted
+ * users have drained.
+ */
 static void
 source_leases (void)
 {
-    if (!start (2)) return;
+    if (!start (2))
+        return;
     cairo_surface_t *pixels = fixture (TRUE);
     RsttoRenderKey key = key_for (1, .5, TRUE, 1);
     rstto_gpu_source_select (gpu, 1);
@@ -563,7 +769,8 @@ source_leases (void)
     g_assert_cmpuint (stats.source_bytes, >=, 47 * 31 * 4);
     rstto_gpu_test_hold (gpu, FALSE);
     wait_result (&result);
-    g_assert_null (result.image); g_clear_error (&result.error);
+    g_assert_null (result.image);
+    g_clear_error (&result.error);
     rstto_gpu_renderer_get_stats (gpu, &stats);
     g_assert_cmpuint (stats.uploads, ==, uploads);
     g_object_unref (cancel);
@@ -572,10 +779,18 @@ source_leases (void)
     stop ();
 }
 
+
+/**
+ * source_affinity:
+ *
+ * Route source hits to their owning worker and verify bounded reuse with
+ * multiple GPU workers.
+ */
 static void
 source_affinity (void)
 {
-    if (!start (2)) return;
+    if (!start (2))
+        return;
     cairo_surface_t *pixels = fixture (FALSE);
     RsttoRenderKey key = key_for (1, .5, TRUE, 1);
     rstto_gpu_source_select (gpu, 1);
@@ -588,9 +803,11 @@ source_affinity (void)
     g_assert_false (rstto_gpu_request_available (next));
     g_assert_true (rstto_gpu_renderer_available (gpu)); /* another worker is idle */
     rstto_gpu_test_hold (gpu, FALSE);
-    wait_result (&result); g_assert_no_error (result.error);
+    wait_result (&result);
+    g_assert_no_error (result.error);
     rstto_gpu_image_unref (result.image);
-    image = render_lease (next); rstto_gpu_image_unref (image);
+    image = render_lease (next);
+    rstto_gpu_image_unref (image);
     RsttoGpuStats stats;
     rstto_gpu_renderer_get_stats (gpu, &stats);
     g_assert_cmpuint (stats.uploads, ==, 1);
@@ -599,8 +816,10 @@ source_affinity (void)
     /* A too-large source can be transient but cannot become resident. */
     rstto_gpu_test_budget (gpu, RSTTO_GPU_MAX_BYTES, 47 * 31 * 4 - 1);
     rstto_gpu_source_select (gpu, 2);
-    image = render_lease (lease (pixels, &key, 2, FALSE)); rstto_gpu_image_unref (image);
-    image = render_lease (lease (pixels, &key, 2, FALSE)); rstto_gpu_image_unref (image);
+    image = render_lease (lease (pixels, &key, 2, FALSE));
+    rstto_gpu_image_unref (image);
+    image = render_lease (lease (pixels, &key, 2, FALSE));
+    rstto_gpu_image_unref (image);
     rstto_gpu_renderer_get_stats (gpu, &stats);
     g_assert_cmpuint (stats.uploads, ==, 3);
     rstto_gpu_source_select (gpu, 0);
@@ -608,12 +827,21 @@ source_affinity (void)
     stop ();
 }
 
+
+/**
+ * source_admission:
+ *
+ * Exercise source-byte, total-GPU-byte and texture-size rejection before any
+ * unreserved allocation or upload.
+ */
 static void
 source_admission (void)
 {
-    if (!start (1)) return;
+    if (!start (1))
+        return;
     cairo_surface_t *surface = fixture (TRUE);
-    RsttoRenderPixels pixels; rstto_image_render_pixels (surface, &pixels);
+    RsttoRenderPixels pixels;
+    rstto_image_render_pixels (surface, &pixels);
     RsttoRenderKey key = key_for (1, .5, TRUE, 1);
     guint64 host;
     rstto_gpu_source_select (gpu, 1);
@@ -637,12 +865,15 @@ source_admission (void)
     rstto_gpu_test_limit (gpu, 58);
     g_assert_null (rstto_gpu_request_new (gpu, &pixels, &key, 1, &host));
     rstto_gpu_test_limit (gpu, 59);
-    request = lease (surface, &key, 1, TRUE); rstto_gpu_request_free (request);
-    RsttoRenderKey small = key; small.width = small.height = 16;
+    request = lease (surface, &key, 1, TRUE);
+    rstto_gpu_request_free (request);
+    RsttoRenderKey small = key;
+    small.width = small.height = 16;
     rstto_gpu_test_limit (gpu, 46);
     g_assert_null (rstto_gpu_request_new (gpu, &pixels, &small, 1, &host));
     rstto_gpu_test_limit (gpu, 47);
-    request = lease (surface, &small, 1, TRUE); rstto_gpu_request_free (request);
+    request = lease (surface, &small, 1, TRUE);
+    rstto_gpu_request_free (request);
     small.context_generation++;
     g_assert_null (rstto_gpu_request_new (gpu, &pixels, &small, 1, &host));
     rstto_gpu_renderer_get_stats (gpu, &after);
@@ -655,6 +886,13 @@ source_admission (void)
     stop ();
 }
 
+
+/**
+ * main:
+ *
+ * Register GPU geometry, filter, warmup, concurrency and bounded source-reuse
+ * regressions.
+ */
 int
 main (int argc, char **argv)
 {
@@ -664,17 +902,28 @@ main (int argc, char **argv)
         display = gtk_init_check (NULL, NULL);
         gboolean reject = g_str_equal (argv[1], "--binary-cache=reject");
         gboolean warm = reject || g_str_equal (argv[1], "--binary-cache=warm");
-        if (reject) rstto_gpu_test_reject_binary ();
-        if (!start (1)) return 77;
+        if (reject)
+            rstto_gpu_test_reject_binary ();
+        if (!start (1))
+            return 77;
         guint compiled, loaded, accepted;
         rstto_gpu_test_programs (&compiled, &loaded, &accepted);
         RsttoGpuStats stats;
         rstto_gpu_renderer_get_stats (gpu, &stats);
         g_print ("BINARY_CACHE compiles=%u loads=%u accepted=%u elapsed_ms=%.3f hits=%" G_GUINT64_FORMAT " misses=%" G_GUINT64_FORMAT " writes=%" G_GUINT64_FORMAT "\n",
-            compiled, loaded, accepted, (g_get_monotonic_time () - start_time) / 1000.0, stats.binary_hits, stats.binary_misses, stats.binary_writes);
-        if (g_str_equal (argv[1], "--binary-cache=measure")) { stop (); return 0; }
-        if (warm) { g_assert_cmpuint (loaded, ==, 3); g_assert_cmpuint (accepted, ==, reject ? 2 : 3); }
-        else g_assert_cmpuint (loaded, ==, 1); /* Up/down share the fixed EWA program. */
+                 compiled, loaded, accepted, (g_get_monotonic_time () - start_time) / 1000.0, stats.binary_hits, stats.binary_misses, stats.binary_writes);
+        if (g_str_equal (argv[1], "--binary-cache=measure"))
+        {
+            stop ();
+            return 0;
+        }
+        if (warm)
+        {
+            g_assert_cmpuint (loaded, ==, 3);
+            g_assert_cmpuint (accepted, ==, reject ? 2 : 3);
+        }
+        else
+            g_assert_cmpuint (loaded, ==, 1); /* Up/down share the fixed EWA program. */
         g_assert_cmpuint (compiled, ==, warm ? (reject ? 2 : 0) : 4);
         stop ();
         return 0;

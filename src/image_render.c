@@ -1,18 +1,32 @@
 /* SPDX-License-Identifier: GPL-2.0-or-later */
 #include "image_render.h"
+
 #include <float.h>
 #include <math.h>
 #if defined(__SSE2__) && !defined(RSTTO_RENDER_SCALAR)
 #include <emmintrin.h>
 #endif
 
-/* EXIF orientation values and the viewer's existing zoom modes. */
+
+/**
+ * swapped:
+ *
+ * Check whether the EXIF orientation exchanges the image's horizontal and
+ * vertical axes.
+ */
 static gboolean
 swapped (gint orientation)
 {
     return orientation >= 5 && orientation <= 8;
 }
 
+
+/**
+ * rstto_image_render_geometry:
+ *
+ * Compute image placement, scale and scrollbar ranges from the desired view
+ * and original dimensions.
+ */
 gboolean
 rstto_image_render_geometry (const RsttoRenderView *v, gint width, gint height, RsttoRenderGeometry *g)
 {
@@ -45,7 +59,7 @@ rstto_image_render_geometry (const RsttoRenderView *v, gint width, gint height, 
     }
     else
         scale = MIN (scale, MAX (1.0, 1.5 * MAX (v->viewport_width, v->viewport_height)
-                                              / MIN (g->image_width, g->image_height)));
+                                          / MIN (g->image_width, g->image_height)));
     if (!isfinite (scale) || scale <= 0 || scale * MAX (iw, ih) > G_MAXINT)
         return FALSE;
     g->scale = scale;
@@ -58,9 +72,15 @@ rstto_image_render_geometry (const RsttoRenderView *v, gint width, gint height, 
     return g->width > 0 && g->height > 0;
 }
 
+
+/**
+ * rstto_image_render_key:
+ *
+ * Build an immutable device-pixel rendering snapshot from viewer geometry and
+ * decoded source scale.
+ */
 gboolean
-rstto_image_render_key (const RsttoRenderView *v, const RsttoRenderGeometry *g,
-                        gint width, gint decoded_width, RsttoRenderKey *key)
+rstto_image_render_key (const RsttoRenderView *v, const RsttoRenderGeometry *g, gint width, gint decoded_width, RsttoRenderKey *key)
 {
     if (width <= 0 || decoded_width <= 0 || g->image_width <= 0 || g->image_height <= 0
         || !isfinite (v->image_scale) || v->image_scale <= 0
@@ -69,20 +89,34 @@ rstto_image_render_key (const RsttoRenderView *v, const RsttoRenderGeometry *g,
         || v->viewport_width * v->pixel_scale > G_MAXINT || v->viewport_height * v->pixel_scale > G_MAXINT)
         return FALSE;
     *key = (RsttoRenderKey) { .width = ceil (v->viewport_width * v->pixel_scale),
-                             .height = ceil (v->viewport_height * v->pixel_scale),
-                             .pixel_scale = v->pixel_scale, .source_scale = v->image_scale, .smoothing = v->smoothing };
+                              .height = ceil (v->viewport_height * v->pixel_scale),
+                              .pixel_scale = v->pixel_scale,
+                              .source_scale = v->image_scale,
+                              .smoothing = v->smoothing };
     key->orientation = v->orientation;
-    key->render_width = g->width; key->render_height = g->height;
-    key->x = g->x; key->y = g->y;
-    key->h_adjust = g->h_adjust; key->v_adjust = g->v_adjust;
+    key->render_width = g->width;
+    key->render_height = g->height;
+    key->x = g->x;
+    key->y = g->y;
+    key->h_adjust = g->h_adjust;
+    key->v_adjust = g->v_adjust;
     gdouble quality = (gdouble) decoded_width / width;
     key->x_scale = ((1 - DBL_EPSILON) * g->width
-                    / (swapped (v->orientation) ? g->image_height : g->image_width)) / quality;
+                    / (swapped (v->orientation) ? g->image_height : g->image_width))
+                   / quality;
     key->y_scale = ((1 - DBL_EPSILON) * g->height
-                    / (swapped (v->orientation) ? g->image_width : g->image_height)) / quality;
+                    / (swapped (v->orientation) ? g->image_width : g->image_height))
+                   / quality;
     return TRUE;
 }
 
+
+/**
+ * rstto_image_render_transform:
+ *
+ * Apply the viewer's scale, pan and EXIF orientation in the same order as
+ * direct Cairo rendering.
+ */
 void
 rstto_image_render_transform (cairo_t *cr, const RsttoRenderKey *key)
 {
@@ -95,28 +129,70 @@ rstto_image_render_transform (cairo_t *cr, const RsttoRenderKey *key)
     switch (key->orientation)
     {
         case 2:
-            cairo_translate (cr, -ha, -va); cairo_translate (cr, w, 0); cairo_translate (cr, x, y);
-            cairo_matrix_init_identity (&flip); flip.xx = -1; cairo_transform (cr, &flip); break;
+            cairo_translate (cr, -ha, -va);
+            cairo_translate (cr, w, 0);
+            cairo_translate (cr, x, y);
+            cairo_matrix_init_identity (&flip);
+            flip.xx = -1;
+            cairo_transform (cr, &flip);
+            break;
         case 4:
-            cairo_translate (cr, -ha, -va); cairo_translate (cr, 0, h); cairo_translate (cr, x, y);
-            cairo_matrix_init_identity (&flip); flip.yy = -1; cairo_transform (cr, &flip); break;
+            cairo_translate (cr, -ha, -va);
+            cairo_translate (cr, 0, h);
+            cairo_translate (cr, x, y);
+            cairo_matrix_init_identity (&flip);
+            flip.yy = -1;
+            cairo_transform (cr, &flip);
+            break;
         case 5:
-            cairo_rotate (cr, G_PI * 1.5); cairo_translate (cr, va, -ha); cairo_translate (cr, -y, x);
-            cairo_matrix_init_identity (&flip); flip.xx = -1; cairo_transform (cr, &flip); break;
+            cairo_rotate (cr, G_PI * 1.5);
+            cairo_translate (cr, va, -ha);
+            cairo_translate (cr, -y, x);
+            cairo_matrix_init_identity (&flip);
+            flip.xx = -1;
+            cairo_transform (cr, &flip);
+            break;
         case 7:
-            cairo_rotate (cr, G_PI * 0.5); cairo_translate (cr, -va, ha); cairo_translate (cr, h, -w);
-            cairo_translate (cr, y, -x); cairo_matrix_init_identity (&flip); flip.xx = -1; cairo_transform (cr, &flip); break;
+            cairo_rotate (cr, G_PI * 0.5);
+            cairo_translate (cr, -va, ha);
+            cairo_translate (cr, h, -w);
+            cairo_translate (cr, y, -x);
+            cairo_matrix_init_identity (&flip);
+            flip.xx = -1;
+            cairo_transform (cr, &flip);
+            break;
         case 6:
-            cairo_rotate (cr, G_PI * 0.5); cairo_translate (cr, -va, ha); cairo_translate (cr, 0, -w); cairo_translate (cr, y, -x); break;
+            cairo_rotate (cr, G_PI * 0.5);
+            cairo_translate (cr, -va, ha);
+            cairo_translate (cr, 0, -w);
+            cairo_translate (cr, y, -x);
+            break;
         case 8:
-            cairo_rotate (cr, G_PI * 1.5); cairo_translate (cr, va, -ha); cairo_translate (cr, -h, 0); cairo_translate (cr, -y, x); break;
+            cairo_rotate (cr, G_PI * 1.5);
+            cairo_translate (cr, va, -ha);
+            cairo_translate (cr, -h, 0);
+            cairo_translate (cr, -y, x);
+            break;
         case 3:
-            cairo_rotate (cr, G_PI); cairo_translate (cr, ha, va); cairo_translate (cr, -w, -h); cairo_translate (cr, -x, -y); break;
-        default: cairo_translate (cr, -ha, -va); cairo_translate (cr, x, y); break;
+            cairo_rotate (cr, G_PI);
+            cairo_translate (cr, ha, va);
+            cairo_translate (cr, -w, -h);
+            cairo_translate (cr, -x, -y);
+            break;
+        default:
+            cairo_translate (cr, -ha, -va);
+            cairo_translate (cr, x, y);
+            break;
     }
     cairo_scale (cr, key->x_scale, key->y_scale);
 }
 
+
+/**
+ * rstto_image_render_key_equal:
+ *
+ * Compare all fields required for exact rendered-variant reuse.
+ */
 gboolean
 rstto_image_render_key_equal (const RsttoRenderKey *a, const RsttoRenderKey *b)
 {
@@ -128,6 +204,13 @@ rstto_image_render_key_equal (const RsttoRenderKey *a, const RsttoRenderKey *b)
            && a->x_scale == b->x_scale && a->y_scale == b->y_scale;
 }
 
+
+/**
+ * rstto_image_render_compatibility:
+ *
+ * Distinguish an exact variant, a pan-only difference and incompatible
+ * rendering geometry without weakening ordinary cache hits.
+ */
 RsttoRenderCompatibility
 rstto_image_render_compatibility (const RsttoRenderKey *a, const RsttoRenderKey *b)
 {
@@ -139,6 +222,13 @@ rstto_image_render_compatibility (const RsttoRenderKey *a, const RsttoRenderKey 
     return rstto_image_render_key_equal (&pan, b) ? RSTTO_RENDER_PAN_ONLY : RSTTO_RENDER_INCOMPATIBLE;
 }
 
+
+/**
+ * rstto_image_render_weight:
+ *
+ * Compute the Cairo output footprint with checked dimensions and stride
+ * arithmetic.
+ */
 gboolean
 rstto_image_render_weight (const RsttoRenderKey *key, guint64 *weight)
 {
@@ -151,24 +241,37 @@ rstto_image_render_weight (const RsttoRenderKey *key, guint64 *weight)
     return TRUE;
 }
 
+
+/**
+ * rstto_image_render_pixels:
+ *
+ * Expose the borrowed pixel layout of a caller-owned Cairo image surface. The
+ * caller must synchronize surface access before workers use the layout.
+ */
 void
 rstto_image_render_pixels (cairo_surface_t *surface, RsttoRenderPixels *pixels)
 {
     *pixels = (RsttoRenderPixels) { cairo_image_surface_get_data (surface),
-        cairo_image_surface_get_width (surface), cairo_image_surface_get_height (surface),
-        cairo_image_surface_get_stride (surface), cairo_image_surface_get_format (surface) };
+                                    cairo_image_surface_get_width (surface), cairo_image_surface_get_height (surface),
+                                    cairo_image_surface_get_stride (surface), cairo_image_surface_get_format (surface) };
 }
 
+
+/**
+ * rstto_image_render_stripe:
+ *
+ * Render disjoint device-pixel rows with private Cairo wrappers, clipping
+ * before image transforms to preserve sampling across seams.
+ */
 gboolean
-rstto_image_render_stripe (const RsttoRenderPixels *source, const RsttoRenderPixels *output,
-                           const RsttoRenderKey *key, gint row, gint rows)
+rstto_image_render_stripe (const RsttoRenderPixels *source, const RsttoRenderPixels *output, const RsttoRenderKey *key, gint row, gint rows)
 {
     g_return_val_if_fail (row >= 0 && rows > 0 && row <= output->height - rows, FALSE);
     cairo_surface_t *input = cairo_image_surface_create_for_data (source->data, source->format,
-        source->width, source->height, source->stride);
+                                                                  source->width, source->height, source->stride);
     cairo_surface_set_device_scale (input, key->source_scale, key->source_scale);
     cairo_surface_t *target = cairo_image_surface_create_for_data (output->data, output->format,
-        output->width, output->height, output->stride);
+                                                                   output->width, output->height, output->stride);
     cairo_t *cr = cairo_create (target);
     /* Integral device-pixel clipping, in the original full-image coordinates.
      * Each wrapper has private Cairo/Pixman state and writes disjoint rows. */
@@ -190,6 +293,13 @@ rstto_image_render_stripe (const RsttoRenderPixels *source, const RsttoRenderPix
     return ok;
 }
 
+
+/**
+ * rstto_image_render:
+ *
+ * Allocate and render a complete CPU output surface using the same stripe
+ * implementation as asynchronous preparation.
+ */
 cairo_surface_t *
 rstto_image_render (cairo_surface_t *source, const RsttoRenderKey *key, GCancellable *cancel)
 {
@@ -215,6 +325,13 @@ rstto_image_render (cairo_surface_t *source, const RsttoRenderKey *key, GCancell
     return output;
 }
 
+
+/**
+ * convert_rgb_row:
+ *
+ * Pack opaque RGB pixels into Cairo's native format, using vector operations
+ * where available and a scalar tail.
+ */
 static void
 convert_rgb_row (const guchar *restrict src, guint32 *restrict dst, gint width)
 {
@@ -243,9 +360,16 @@ convert_rgb_row (const guchar *restrict src, guint32 *restrict dst, gint width)
     }
 #endif
     for (; x < width; x++)
-        dst[x] = 0xff000000u | (src[3*x] << 16) | (src[3*x+1] << 8) | src[3*x+2];
+        dst[x] = 0xff000000u | (src[3 * x] << 16) | (src[3 * x + 1] << 8) | src[3 * x + 2];
 }
 
+
+/**
+ * rstto_image_convert:
+ *
+ * Convert RGB or RGBA pixels into one Cairo surface with exact
+ * premultiplication and cancellation checks between row blocks.
+ */
 cairo_surface_t *
 rstto_image_convert (GdkPixbuf *pixbuf, gboolean (*keep_going) (gpointer), gpointer data)
 {
@@ -278,15 +402,15 @@ rstto_image_convert (GdkPixbuf *pixbuf, gboolean (*keep_going) (gpointer), gpoin
         else
             for (gint x = 0; x < width; x++)
             {
-                guint a = src[4*x+3];
+                guint a = src[4 * x + 3];
                 /* Some loaders expose opaque JPEGs as RGBA. Avoid three
                  * premultiplications for their opaque pixels as well. */
                 if (a == 255)
                 {
-                    dst[x] = 0xff000000u | (src[4*x] << 16) | (src[4*x+1] << 8) | src[4*x+2];
+                    dst[x] = 0xff000000u | (src[4 * x] << 16) | (src[4 * x + 1] << 8) | src[4 * x + 2];
                     continue;
                 }
-                guint r = src[4*x] * a + 128, g = src[4*x+1] * a + 128, b = src[4*x+2] * a + 128;
+                guint r = src[4 * x] * a + 128, g = src[4 * x + 1] * a + 128, b = src[4 * x + 2] * a + 128;
                 dst[x] = (a << 24) | (((r + (r >> 8)) >> 8) << 16)
                          | (((g + (g >> 8)) >> 8) << 8) | ((b + (b >> 8)) >> 8);
             }

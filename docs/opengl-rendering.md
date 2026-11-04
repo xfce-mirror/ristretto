@@ -1,7 +1,24 @@
 # Experimental libplacebo OpenGL renderer
 
 The optional backend requires system libplacebo >= 7.360.0 and libepoxy.
-CPU rendering remains the default. No Xfconf properties are added.
+CPU rendering remains the compiled default. Choose **CPU** or **GPU (libplacebo)**
+under **Edit → Preferences → Advanced → Rendering**. The choice is stored as
+the boolean `/image/gpu-enabled` in the `ristretto` Xfconf channel; its default is
+`false`. **Restart Ristretto for a renderer change to take effect.** Existing
+processes keep their startup choice, including newly opened viewer windows.
+
+The GPU choice is unavailable in builds without libplacebo or safe Glycin probing.
+Unsupported images and GPU failures still fall back to CPU preparation, and all
+existing memory, slot and task limits apply.
+
+To select GPU rendering from the command line for subsequent launches:
+
+```sh
+xfconf-query -c ristretto -p /image/gpu-enabled --create --type bool --set true
+```
+
+Use `false` to select CPU rendering. The `run-placebo` and `run-placebo-profile`
+local launchers respect this saved choice and retain their one-GPU-worker default.
 
 ```sh
 meson setup build-gpu --buildtype=debugoptimized -Dplacebo=enabled -Dglycin-probe=enabled -Dprofiling=true
@@ -9,7 +26,10 @@ meson compile -C build-gpu
 RISTRETTO_RENDERER=placebo RISTRETTO_GL_WORKERS=2 build-gpu/src/ristretto picture.jpg
 ```
 
-`RISTRETTO_RENDERER=cpu` selects the baseline CPU path. `RISTRETTO_GL_WORKERS`
+`RISTRETTO_RENDERER=cpu|placebo` overrides the saved choice for that process;
+Preferences displays a note when this override is present. An unset, empty or
+unrecognized value uses the saved choice. The override never changes that saved
+value. `RISTRETTO_GL_WORKERS`
 accepts 1 through 5, defaulting to 2. `-Dplacebo=disabled` builds without either
 GPU dependency. Missing Glycin still disables safe caching/preloading, as before.
 

@@ -73,6 +73,9 @@ rstto_settings_set_xfconf_disabled (gboolean disabled);
 RsttoSettings *
 rstto_settings_new (void);
 
+gboolean
+rstto_settings_get_startup_gpu_enabled (RsttoSettings *settings);
+
 void
 rstto_settings_set_navbar_position (RsttoSettings *settings,
                                     guint pos);
