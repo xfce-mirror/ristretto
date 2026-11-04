@@ -73,7 +73,7 @@ stop (void)
         rstto_gpu_renderer_get_stats (gpu, &stats);
         g_assert_cmpint (g_get_monotonic_time (), <, deadline);
         g_usleep (1000);
-    } while (stats.textures || stats.active || stats.transient);
+    } while (stats.textures || stats.active || stats.transient || stats.sources || stats.reserved);
     /* Run deferred owner releases before destroying the GdkWindow. */
     while (g_main_context_iteration (NULL, FALSE)) { }
     g_object_unref (gpu);
@@ -466,6 +466,195 @@ retirement_backpressure (void)
     stop ();
 }
 
+static RsttoGpuRequest *
+lease (cairo_surface_t *pixels, RsttoRenderKey *key, guint64 serial, gboolean hit)
+{
+    RsttoRenderPixels source;
+    rstto_image_render_pixels (pixels, &source);
+    guint64 host;
+    RsttoGpuRequest *request = rstto_gpu_request_new (gpu, &source, key, serial, &host);
+    g_assert_nonnull (request);
+    g_assert_cmpuint (host, ==, RSTTO_GPU_HOST_SCRATCH + (hit ? 0 : source.stride * source.height));
+    return request;
+}
+
+static RsttoGpuImage *
+render_lease (RsttoGpuRequest *request)
+{
+    Result result = { 0 };
+    g_assert_true (rstto_gpu_request_available (request));
+    rstto_gpu_render_request_async (request, NULL, NULL, NULL, NULL, done, &result);
+    wait_result (&result);
+    g_assert_no_error (result.error);
+    g_assert_nonnull (result.image);
+    return result.image;
+}
+
+static void
+source_reuse (void)
+{
+    if (!start (2)) return;
+    RsttoGpuStats stats, before;
+    for (guint alpha = 0; alpha < 2; alpha++)
+    {
+        cairo_surface_t *source = fixture (alpha);
+        guint64 serial = alpha + 1;
+        rstto_gpu_source_select (gpu, serial);
+        RsttoRenderKey key = key_for (1, 1, FALSE, 1);
+        RsttoGpuImage *first = render_lease (lease (source, &key, serial, FALSE));
+        rstto_gpu_image_unref (first);
+        rstto_gpu_renderer_get_stats (gpu, &before);
+        for (guint n = 0; n < 24; n++)
+        {
+            key = key_for (1 + n % 8, n < 8 ? 1 : n < 16 ? .5 : 1.5, n >= 8, n % 2 + 1);
+            RsttoGpuImage *image = render_lease (lease (source, &key, serial, TRUE));
+            cairo_surface_t *actual = rstto_gpu_test_download (image);
+            cairo_surface_t *reference = render (source, &key); /* fresh upload, same filter */
+            g_assert_cmpmem (cairo_image_surface_get_data (actual), key.width * key.height * 4,
+                             cairo_image_surface_get_data (reference), key.width * key.height * 4);
+            cairo_surface_destroy (actual); cairo_surface_destroy (reference);
+            rstto_gpu_image_unref (image);
+        }
+        rstto_gpu_renderer_get_stats (gpu, &stats);
+        g_assert_cmpuint (stats.source_hits - before.source_hits, ==, 24);
+        g_assert_cmpuint (stats.uploads - before.uploads, ==, 24); /* reference uploads only */
+        g_assert_cmpuint (stats.source_bytes, ==, 47 * 31 * 4);
+        g_assert_cmpuint (stats.peak_bytes, <=, RSTTO_GPU_MAX_BYTES);
+        g_assert_cmpuint (stats.peak_sources, <=, RSTTO_GPU_MAX_SOURCES);
+        g_assert_cmpuint (stats.programs, ==, before.programs);
+        cairo_surface_destroy (source);
+    }
+    rstto_gpu_source_select (gpu, 0);
+    stop ();
+}
+
+static void
+source_leases (void)
+{
+    if (!start (2)) return;
+    cairo_surface_t *pixels = fixture (TRUE);
+    RsttoRenderKey key = key_for (1, .5, TRUE, 1);
+    rstto_gpu_source_select (gpu, 1);
+    RsttoGpuImage *image = render_lease (lease (pixels, &key, 1, FALSE));
+    rstto_gpu_image_unref (image);
+    RsttoGpuRequest *old = lease (pixels, &key, 1, TRUE);
+    rstto_gpu_source_select (gpu, 2);
+    image = render_lease (lease (pixels, &key, 2, FALSE));
+    rstto_gpu_image_unref (image);
+    RsttoGpuRequest *second = lease (pixels, &key, 2, TRUE);
+    rstto_gpu_source_select (gpu, 3);
+    image = render_lease (lease (pixels, &key, 3, FALSE));
+    rstto_gpu_image_unref (image);
+    RsttoGpuStats stats;
+    rstto_gpu_renderer_get_stats (gpu, &stats);
+    g_assert_cmpuint (stats.sources, ==, 2); /* pinned old sources, no third resident */
+    g_assert_cmpuint (stats.peak_sources, ==, 2);
+    rstto_gpu_request_free (second);
+    /* Invalidation cannot convert the admitted hit into an upload. Cancellation
+     * keeps the lease and GPU reservation charged until worker completion. */
+    GCancellable *cancel = g_cancellable_new ();
+    rstto_gpu_test_hold (gpu, TRUE);
+    Result result = { 0 };
+    rstto_gpu_render_request_async (old, cancel, NULL, NULL, NULL, done, &result);
+    g_cancellable_cancel (cancel);
+    rstto_gpu_renderer_get_stats (gpu, &stats);
+    guint64 uploads = stats.uploads;
+    g_assert_cmpuint (stats.active, ==, 1);
+    g_assert_cmpuint (stats.source_bytes, >=, 47 * 31 * 4);
+    rstto_gpu_test_hold (gpu, FALSE);
+    wait_result (&result);
+    g_assert_null (result.image); g_clear_error (&result.error);
+    rstto_gpu_renderer_get_stats (gpu, &stats);
+    g_assert_cmpuint (stats.uploads, ==, uploads);
+    g_object_unref (cancel);
+    cairo_surface_destroy (pixels);
+    rstto_gpu_source_select (gpu, 0);
+    stop ();
+}
+
+static void
+source_affinity (void)
+{
+    if (!start (2)) return;
+    cairo_surface_t *pixels = fixture (FALSE);
+    RsttoRenderKey key = key_for (1, .5, TRUE, 1);
+    rstto_gpu_source_select (gpu, 1);
+    RsttoGpuImage *image = render_lease (lease (pixels, &key, 1, FALSE));
+    rstto_gpu_image_unref (image);
+    RsttoGpuRequest *first = lease (pixels, &key, 1, TRUE), *next = lease (pixels, &key, 1, TRUE);
+    rstto_gpu_test_hold (gpu, TRUE);
+    Result result = { 0 };
+    rstto_gpu_render_request_async (first, NULL, NULL, NULL, NULL, done, &result);
+    g_assert_false (rstto_gpu_request_available (next));
+    g_assert_true (rstto_gpu_renderer_available (gpu)); /* another worker is idle */
+    rstto_gpu_test_hold (gpu, FALSE);
+    wait_result (&result); g_assert_no_error (result.error);
+    rstto_gpu_image_unref (result.image);
+    image = render_lease (next); rstto_gpu_image_unref (image);
+    RsttoGpuStats stats;
+    rstto_gpu_renderer_get_stats (gpu, &stats);
+    g_assert_cmpuint (stats.uploads, ==, 1);
+    g_assert_cmpuint (stats.source_hits, ==, 2);
+    rstto_gpu_source_select (gpu, 0);
+    /* A too-large source can be transient but cannot become resident. */
+    rstto_gpu_test_budget (gpu, RSTTO_GPU_MAX_BYTES, 47 * 31 * 4 - 1);
+    rstto_gpu_source_select (gpu, 2);
+    image = render_lease (lease (pixels, &key, 2, FALSE)); rstto_gpu_image_unref (image);
+    image = render_lease (lease (pixels, &key, 2, FALSE)); rstto_gpu_image_unref (image);
+    rstto_gpu_renderer_get_stats (gpu, &stats);
+    g_assert_cmpuint (stats.uploads, ==, 3);
+    rstto_gpu_source_select (gpu, 0);
+    cairo_surface_destroy (pixels);
+    stop ();
+}
+
+static void
+source_admission (void)
+{
+    if (!start (1)) return;
+    cairo_surface_t *surface = fixture (TRUE);
+    RsttoRenderPixels pixels; rstto_image_render_pixels (surface, &pixels);
+    RsttoRenderKey key = key_for (1, .5, TRUE, 1);
+    guint64 host;
+    rstto_gpu_source_select (gpu, 1);
+    RsttoGpuImage *image = render_lease (lease (surface, &key, 1, FALSE));
+    RsttoGpuStats before, after;
+    rstto_gpu_renderer_get_stats (gpu, &before);
+    guint64 used = before.source_bytes + before.retained + before.transient + before.reserved + before.shader_bytes;
+    guint64 output = (guint64) key.width * key.height * 8;
+    rstto_gpu_test_budget (gpu, used + output - 1, RSTTO_GPU_MAX_SOURCE_BYTES);
+    g_assert_null (rstto_gpu_request_new (gpu, &pixels, &key, 1, &host));
+    rstto_gpu_test_budget (gpu, used + output, RSTTO_GPU_MAX_SOURCE_BYTES);
+    RsttoGpuRequest *request = lease (surface, &key, 1, TRUE); /* exact budget */
+    g_assert_null (rstto_gpu_request_new (gpu, &pixels, &key, 1, &host));
+    rstto_gpu_renderer_get_stats (gpu, &after);
+    g_assert_cmpuint (after.reserved, ==, output);
+    g_assert_cmpuint (after.uploads, ==, before.uploads);
+    rstto_gpu_request_free (request);
+    rstto_gpu_test_budget (gpu, RSTTO_GPU_MAX_BYTES, RSTTO_GPU_MAX_SOURCE_BYTES);
+    /* Eligibility is rechecked even for a resident hit. Output/intermediate
+     * textures exchange axes for rotations, so both dimensions must fit. */
+    rstto_gpu_test_limit (gpu, 58);
+    g_assert_null (rstto_gpu_request_new (gpu, &pixels, &key, 1, &host));
+    rstto_gpu_test_limit (gpu, 59);
+    request = lease (surface, &key, 1, TRUE); rstto_gpu_request_free (request);
+    RsttoRenderKey small = key; small.width = small.height = 16;
+    rstto_gpu_test_limit (gpu, 46);
+    g_assert_null (rstto_gpu_request_new (gpu, &pixels, &small, 1, &host));
+    rstto_gpu_test_limit (gpu, 47);
+    request = lease (surface, &small, 1, TRUE); rstto_gpu_request_free (request);
+    small.context_generation++;
+    g_assert_null (rstto_gpu_request_new (gpu, &pixels, &small, 1, &host));
+    rstto_gpu_renderer_get_stats (gpu, &after);
+    g_assert_cmpuint (after.uploads, ==, before.uploads);
+    g_assert_cmpuint (after.submissions, ==, before.submissions);
+    g_assert_cmpuint (after.reserved, ==, 0);
+    rstto_gpu_image_unref (image);
+    rstto_gpu_source_select (gpu, 0);
+    cairo_surface_destroy (surface);
+    stop ();
+}
+
 int
 main (int argc, char **argv)
 {
@@ -492,6 +681,10 @@ main (int argc, char **argv)
     }
     g_test_init (&argc, &argv, NULL);
     display = gtk_init_check (&argc, &argv);
+    g_test_add_func ("/gpu/source-reuse-reference", source_reuse);
+    g_test_add_func ("/gpu/source-leases-cancellation", source_leases);
+    g_test_add_func ("/gpu/source-admission", source_admission);
+    g_test_add_func ("/gpu/source-affinity-retention-limit", source_affinity);
     g_test_add_func ("/gpu/dimensions", limits);
     g_test_add_func ("/gpu/filters", filters);
     g_test_add_func ("/gpu/nearest-orientations-alpha", nearest);

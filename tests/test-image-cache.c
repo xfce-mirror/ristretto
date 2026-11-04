@@ -35,6 +35,13 @@ check_limits (Fixture *fixture)
     if (!fixture->enforce_limits)
         return;
     RsttoImageCache *cache = fixture->cache;
+#ifdef RSTTO_CACHE_GPU
+    RsttoGpuStats gpu;
+    rstto_image_cache_get_gpu_stats (cache, &gpu);
+    g_assert_cmpuint (gpu.retained + gpu.transient + gpu.source_bytes + gpu.reserved + gpu.shader_bytes, <=, RSTTO_GPU_MAX_BYTES);
+    g_assert_cmpuint (gpu.sources, <=, RSTTO_GPU_MAX_SOURCES);
+    g_assert_cmpuint (gpu.active, <=, 5);
+#endif
     g_assert_cmpuint (cache->resident_bytes + reserved_bytes (cache), <=, cache->limits.max_bytes);
     g_assert_cmpuint (cache->resident_slots + reserved_slots (cache), <=, cache->limits.max_images);
     g_assert_cmpuint (speculative_slots (cache), <=, preload_capacity (cache->limits.max_images));
@@ -1839,7 +1846,7 @@ gpu_teardown (Fixture *fixture)
         iterate ();
         rstto_gpu_renderer_get_stats (test_gpu, &stats);
         g_assert_cmpint (g_get_monotonic_time (), <, deadline);
-    } while (stats.textures || stats.active || stats.transient);
+    } while (stats.textures || stats.active || stats.transient || stats.sources || stats.reserved);
     while (g_main_context_iteration (NULL, FALSE)) { }
     g_object_unref (test_gpu);
     gtk_widget_destroy (gpu_window);
@@ -1875,6 +1882,88 @@ test_gpu_limits (Fixture *fixture, gconstpointer unused)
     g_assert_null (fixture->cache->displayed->image.gpu_image);
     rstto_gpu_renderer_get_stats (test_gpu, &stats);
     g_assert_cmpuint (stats.uploads, ==, uploads);
+    gpu_teardown (fixture);
+}
+
+static void
+test_gpu_source (Fixture *fixture, gconstpointer unused)
+{
+    RsttoRenderView view;
+    if (!gpu_setup (fixture, &view)) return;
+    select_image (fixture, 0);
+    RsttoGpuStats before, after;
+    rstto_gpu_renderer_get_stats (test_gpu, &before);
+    g_assert_cmpuint (before.sources, ==, 1);
+    guint64 decodes = fixture->cache->decodes;
+    for (guint n = 0; n < 16; n++)
+    {
+        view.scale = .55 + n * .025;
+        view.h_adjust = n; view.v_adjust = 2 * n;
+        view.orientation = n % 8 + 1;
+        select_image (fixture, 0);
+        g_assert_nonnull (fixture->cache->displayed->image.gpu_image);
+        check_limits (fixture);
+    }
+    rstto_gpu_renderer_get_stats (test_gpu, &after);
+    g_assert_cmpuint (after.uploads, ==, before.uploads);
+    g_assert_cmpuint (after.source_hits, >=, before.source_hits + 16);
+    g_assert_cmpuint (after.programs, ==, before.programs);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes);
+    /* GPU byte pressure falls back asynchronously, without poisoning later
+     * eligibility or evicting the current texture on a failed admission. */
+    guint64 used = after.source_bytes + after.shader_bytes;
+    rstto_gpu_test_budget (test_gpu, used, RSTTO_GPU_MAX_SOURCE_BYTES);
+    view.scale = .97;
+    select_image (fixture, 0);
+    g_assert_nonnull (fixture->cache->displayed->image.rendered);
+    g_assert_null (fixture->cache->displayed->image.gpu_image);
+    rstto_gpu_renderer_get_stats (test_gpu, &after);
+    g_assert_cmpuint (after.uploads, ==, before.uploads);
+    rstto_gpu_test_budget (test_gpu, RSTTO_GPU_MAX_BYTES, RSTTO_GPU_MAX_SOURCE_BYTES);
+    select_image (fixture, 0);
+    g_assert_nonnull (fixture->cache->displayed->image.gpu_image);
+    rstto_gpu_renderer_get_stats (test_gpu, &after);
+    g_assert_cmpuint (after.uploads, ==, before.uploads);
+    rstto_image_cache_invalidate (fixture->cache, fixture->files[0]);
+    select_image (fixture, 0);
+    rstto_gpu_renderer_get_stats (test_gpu, &after);
+    g_assert_cmpuint (after.uploads, ==, before.uploads + 1);
+    g_assert_cmpuint (fixture->cache->decodes, ==, decodes + 1);
+    gpu_teardown (fixture);
+}
+
+static void
+test_gpu_source_freshness (Fixture *fixture, gconstpointer mode)
+{
+    RsttoRenderView view;
+    if (!gpu_setup (fixture, &view)) return;
+    if (GPOINTER_TO_UINT (mode) == 2)
+    {
+        select_image (fixture, 0);
+        view.scale = .75;
+        start_barrier (fixture->files[0], RENDER_VERIFY);
+        rstto_image_cache_request (fixture->cache, fixture->files[0], NULL, &full_size);
+        await_barrier ();
+        RsttoGpuStats stats;
+        rstto_gpu_renderer_get_stats (test_gpu, &stats);
+        g_assert_cmpuint (stats.uploads, ==, 1);
+        g_assert_cmpuint (stats.source_hits, ==, 1);
+        save_image (fixture->files[0], 0xcc6677ff, "png", 128, 96);
+        release_barrier (fixture);
+        g_assert_cmpuint (fixture->errors, ==, 1);
+        g_assert_null (fixture->cache->displayed->image.gpu_image);
+        select_image (fixture, 0);
+    }
+    else if (mode != NULL) test_symlink (fixture, NULL);
+    else test_freshness (fixture, NULL);
+    RsttoGpuStats stats;
+    rstto_gpu_renderer_get_stats (test_gpu, &stats);
+    g_assert_cmpuint (stats.uploads, ==, mode != NULL ? 2 : 5);
+    g_assert_nonnull (fixture->cache->displayed->image.gpu_image);
+    cairo_surface_t *pixels = rstto_gpu_test_download (fixture->cache->displayed->image.gpu_image);
+    guint32 pixel = ((guint32 *) cairo_image_surface_get_data (pixels))[32 * 64 + 32];
+    g_assert_cmphex (pixel, ==, fixture->pixel);
+    cairo_surface_destroy (pixels);
     gpu_teardown (fixture);
 }
 
@@ -2082,6 +2171,10 @@ main (int argc, char **argv)
 #ifdef RSTTO_CACHE_GPU
     if (!rstto_image_probe_available ()) return 77;
     gpu_display = gtk_init_check (NULL, NULL);
+    g_test_add ("/gpu-cache/source-freshness", Fixture, NULL, setup, test_gpu_source_freshness, teardown);
+    g_test_add ("/gpu-cache/source-changed-during-reuse", Fixture, GUINT_TO_POINTER (2), setup, test_gpu_source_freshness, teardown);
+    g_test_add ("/gpu-cache/source-symlink", Fixture, GUINT_TO_POINTER (1), setup, test_gpu_source_freshness, teardown);
+    g_test_add ("/gpu-cache/source-reuse", Fixture, NULL, setup, test_gpu_source, teardown);
     g_test_add ("/gpu-cache/texture-limits", Fixture, NULL, setup, test_gpu_limits, teardown);
     g_test_add ("/gpu-cache/failure-fallback", Fixture, NULL, setup, test_gpu_failure, teardown);
     g_test_add ("/gpu-cache/failure-upload", Fixture, GUINT_TO_POINTER (2), setup, test_gpu_failure, teardown);

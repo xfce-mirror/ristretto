@@ -97,6 +97,8 @@ def parse(run):
             current["zoom"].append(v["elapsed_ms"])
         elif "scroll-summary" in line:
             current["scroll"] = v
+        elif "gpu-source-summary" in line:
+            current["gpu_source"] = v
         elif "gpu-summary" in line:
             current["gpu"] = v
     for phase, data in phases.items():
@@ -144,6 +146,12 @@ def main():
         for metric in ("frames", "moving_frames", "fps", "final_ms", "settled", "decodes"):
             row["drag_" + metric] = med(("phases", "drag", "drag_summary", metric))
         row["drag_gap_p95_ms"] = med(("phases", "drag", "drag_gaps", "p95"))
+        for phase in ("drag", "zoom", "zoomstream"):
+            row[phase + "_uploads"] = med(("phases", phase, "gpu", "uploads"))
+            row[phase + "_source_hits"] = med(("phases", phase, "gpu_source", "hits"))
+            row[phase + "_gpu_peak_bytes"] = med(("phases", phase, "gpu", "peak_bytes"))
+            for event in ("gpu-prepare", "gpu-upload", "upload_gpu_ms", "scale_gpu_ms", "ready-to-presentation"):
+                row[phase + "_" + event] = med(("phases", phase, "events", event, "median"))
         row["zoom_stream_p95_ms"] = med(("phases", "zoomstream", "zoom_stream_latest", "p95"))
         row["zoom_stream_frames"] = med(("phases", "zoomstream", "zoom_stream_summary", "frames"))
         row["zoom_stream_max_gap_ms"] = med(("phases", "zoomstream", "zoom_stream_summary", "max_gap_ms"))

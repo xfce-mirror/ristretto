@@ -571,6 +571,8 @@ drag_continuous (gconstpointer data)
     guint paints = rstto_image_viewer_test_unprepared_paints (viewer);
     RsttoCacheStats before, after;
     rstto_image_cache_get_stats (cache, &before);
+    RsttoGpuStats gpu_before, gpu_after;
+    rstto_image_cache_get_gpu_stats (cache, &gpu_before);
     for (guint n = 0; n < 8; n++)
     {
         /* All EXIF orientations, transparency, reversal and diagonal movement.
@@ -637,6 +639,15 @@ drag_continuous (gconstpointer data)
     g_assert_cmpuint (rstto_image_viewer_test_unprepared_paints (viewer), ==, paints);
     rstto_image_cache_get_stats (cache, &after);
     g_assert_cmpuint (after.decodes, ==, before.decodes);
+    rstto_image_cache_get_gpu_stats (cache, &gpu_after);
+    if (phase != 0)
+    {
+        g_assert_cmpuint (gpu_after.uploads, ==, gpu_before.uploads);
+        g_assert_cmpuint (gpu_after.source_hits, >, gpu_before.source_hits);
+        g_assert_cmpuint (gpu_after.programs, ==, gpu_before.programs);
+    }
+    g_assert_cmpuint (gpu_after.peak_bytes, <=, RSTTO_GPU_MAX_BYTES);
+    g_assert_cmpuint (gpu_after.peak_sources, <=, RSTTO_GPU_MAX_SOURCES);
     rstto_image_viewer_set_scale (viewer, 2.0);
     wait_frame (); wait_loaded (); wait_frame ();
     scrolling_hold (10);
@@ -1238,6 +1249,10 @@ benchmark_navigation (void)
              " uploads=%" G_GUINT64_FORMAT " submissions=%" G_GUINT64_FORMAT " discarded=%" G_GUINT64_FORMAT " peak_active=%u\n",
              gpu_stats.peak_bytes, gpu_stats.retained, gpu_stats.uploads, gpu_stats.submissions,
              gpu_stats.discarded, gpu_stats.peak_active);
+    g_print ("gpu-source-summary hits=%" G_GUINT64_FORMAT " misses=%" G_GUINT64_FORMAT
+             " bytes=%" G_GUINT64_FORMAT " sources=%u peak_sources=%u reserved=%" G_GUINT64_FORMAT "\n",
+             gpu_stats.source_hits, gpu_stats.source_misses, gpu_stats.source_bytes, gpu_stats.sources,
+             gpu_stats.peak_sources, gpu_stats.reserved);
 #endif
     gtk_widget_destroy (window);
     wait_loaded ();

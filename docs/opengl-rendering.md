@@ -84,20 +84,55 @@ prevents a stalled consumer from accumulating a stream of replacement textures.
 ## Accounting
 
 CPU sources, CPU fallback results and explicit host storage remain charged to
-the cache. A GPU job reserves source stride times height plus 64 KiB before upload,
-as a conservative host-staging allowance; no full-size application staging buffer
-is allocated. This reservation remains until completion/cleanup. The configured
-2 GiB total and 256 MiB per-source admission limits are unchanged.
+the cache. On an upload miss, a GPU request reserves source stride times height
+plus 64 KiB as conservative host staging. A pinned source hit reserves only
+64 KiB of host scratch. A hit cannot become an upload without readmission.
+The configured 2 GiB RAM total, 256 MiB per-image limit, six image slots,
+four speculative slots and shared five-task ceiling are unchanged.
 
-GPU-only storage is outside the RAM budget. Counters track the transient source
-and two viewport textures, retained viewport results and textures awaiting safe
-deletion. One 5003 by 2664 RGBA8 output is 50.84 MiB; six are 305.05 MiB. Slots,
-workers and presentation transitions bound their number. A retained 1 KiB GPU LUT per worker is counted separately as shader bytes. Host
-LUT creation is covered by the active 64 KiB scratch allowance and freed before
-completion. Shader programs, driver allocations and GTK backing surfaces are
-additional overhead.
-Accounting is not a total-process or total-device memory cap; codec and driver
-private memory remain estimates. See [image-cache.md](image-cache.md).
+Application-owned GPU allocations have a separate 1 GiB ceiling
+(`RSTTO_GPU_MAX_BYTES`). Admission reserves the full upload, intermediate and
+output texture footprint before submission, including queued work. Retained
+viewport results, resident sources, resources awaiting cleanup and the 1 KiB
+worker LUTs count toward this ceiling. Failed admission changes nothing and
+uses admitted asynchronous CPU preparation; it does not permanently reject a
+GPU-compatible variant. No protected history is evicted to fund GPU work.
+
+The currently selected source may remain resident, up to 256 MiB
+(`RSTTO_GPU_MAX_SOURCE_BYTES`). At most two resident source allocations exist:
+the current source and its retiring predecessor. Further uploads can run within
+the total budget, but cannot become a third resident source. A 7728 by 5152 RGBA8
+source occupies 151.88 MiB; a 5003 by 2664 output occupies 50.84 MiB. GPU-only
+bytes are outside the RAM budget. Driver allocations, shader programs and GTK
+backing surfaces remain additional overhead, not a hard total-device cap.
+
+Source identity is an immutable decoded-entry serial scoped to the renderer's
+context generation, not a CPU address or a pathname. Freshness verification
+still runs before cache delivery. Invalidation, replacement, quality changes,
+cache removal, low-memory cleanup and forced limit reductions retire affected
+sources. Leases pin textures until all submitted work and fences finish; bytes
+remain charged until their owning worker actually deletes them. Destruction
+does not introduce a renderer/source reference cycle.
+
+Pan, zoom, orientation, smoothing and viewport changes reuse the source on its
+owning worker. Other workers can prepare different images. The owner retains
+foreground priority, with no duplicate source upload onto an idle worker.
+Sources become resident only after successful rendering for the latest selected
+image; obsolete or cancelled uploads cannot populate residency. Selecting an
+already-prepared viewport does not proactively upload a full source.
+
+Before admission and again before submission, source, output and intermediate
+dimensions must fit the current context's maximum 2D texture size. Rotation
+only swaps the intermediate's checked axes. Format, stride, context generation
+and checked size arithmetic are also validated. Oversized sources or outputs
+use CPU preparation, with zero image uploads or GPU scaling submissions; there
+is no tiling or cropped-source-upload workaround. Existing compatible viewport
+hits continue to avoid decoding, uploading and scaling entirely.
+
+Profiling adds `gpu-source` transitions and hit/miss, source-byte, source-count
+and reserved-byte counters. GPU timestamp intervals on a source hit exclude
+full-image upload; small filter-LUT/uniform updates remain. Accounting is not a
+total-process cap; see [image-cache.md](image-cache.md).
 
 ## Tests and repeatable comparison
 
