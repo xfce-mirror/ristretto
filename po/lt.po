@@ -426,7 +426,7 @@ msgstr "failo tipas"
 #. Icon-name
 #: src/main_window.c:681
 msgid "modification date"
-msgstr ""
+msgstr "modifikavimo data"
 
 #. Icon-name
 #: src/main_window.c:687
@@ -441,7 +441,7 @@ msgstr "failo dydis"
 #. Icon-name
 #: src/main_window.c:699
 msgid "none"
-msgstr "nieko"
+msgstr "nėra"
 
 #. Icon-name
 #: src/main_window.c:708
