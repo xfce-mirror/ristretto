@@ -19,6 +19,7 @@
 
 #include "util.h"
 #include "file.h"
+#include "image_cache.h"
 #include "settings.h"
 
 #include <libxfce4util/libxfce4util.h>
@@ -35,6 +36,14 @@ enum
     PROP_SHOW_STATUSBAR,
     PROP_SHOW_CLOCK,
     PROP_LIMIT_QUALITY,
+    PROP_CACHE_ENABLED,
+    PROP_CACHE_MAX_IMAGES,
+    PROP_CACHE_MAX_MIB,
+    PROP_CACHE_MAX_IMAGE_MIB,
+    PROP_PRELOAD_COUNT,
+    PROP_PRELOAD_WORKERS,
+    PROP_GPU_ENABLED,
+
     PROP_ENABLE_SMOOTHING,
     PROP_HIDE_THUMBNAILS_FULLSCREEN,
     PROP_HIDE_MOUSE_CURSOR_FULLSCREEN_TIMEOUT,
@@ -92,6 +101,15 @@ struct _RsttoSettingsPrivate
     gboolean show_statusbar;
     gboolean show_clock;
     gboolean limit_quality;
+    gboolean cache_enabled;
+    guint cache_max_images;
+    guint cache_max_mib;
+    guint cache_max_image_mib;
+    guint preload_count;
+    guint preload_workers;
+    gboolean gpu_enabled;
+    gboolean startup_gpu_enabled;
+
     gboolean enable_smoothing;
     gboolean hide_thumbnails_fullscreen;
     guint hide_mouse_cursor_fullscreen_timeout;
@@ -135,6 +153,31 @@ G_DEFINE_TYPE_WITH_PRIVATE (RsttoSettings, rstto_settings, G_TYPE_OBJECT)
 
 
 
+/**
+ * rstto_settings_snapshot_renderer:
+ * @settings: The initialized settings, including saved Xfconf values.
+ *
+ * Fix the renderer choice for this process. Later preference changes affect
+ * the next launch, including when another viewer window is opened here.
+ */
+static void
+rstto_settings_snapshot_renderer (RsttoSettings *settings)
+{
+#if defined(HAVE_PLACEBO) && defined(HAVE_GLYCIN)
+    const gchar *renderer = g_getenv ("RISTRETTO_RENDERER");
+
+    settings->priv->startup_gpu_enabled = settings->priv->gpu_enabled;
+    if (g_strcmp0 (renderer, "cpu") == 0)
+        settings->priv->startup_gpu_enabled = FALSE;
+    else if (g_strcmp0 (renderer, "placebo") == 0)
+        settings->priv->startup_gpu_enabled = TRUE;
+#else
+    settings->priv->startup_gpu_enabled = FALSE;
+#endif
+}
+
+
+
 static void
 rstto_settings_init (RsttoSettings *settings)
 {
@@ -164,6 +207,14 @@ rstto_settings_init (RsttoSettings *settings)
     }
 
     settings->priv->slideshow_timeout = 5;
+    settings->priv->cache_enabled = TRUE;
+    settings->priv->cache_max_images = 5;
+    settings->priv->cache_max_mib = 256;
+    settings->priv->cache_max_image_mib = 128;
+    settings->priv->preload_count = 2;
+    settings->priv->preload_workers = RSTTO_PRELOAD_WORKERS_DEFAULT;
+    settings->priv->gpu_enabled = FALSE;
+
     settings->priv->bgcolor = g_new0 (GdkRGBA, 1);
     settings->priv->bgcolor_fullscreen = g_new0 (GdkRGBA, 1);
     gdk_rgba_parse (settings->priv->bgcolor_fullscreen, "black"); // black by default
@@ -184,7 +235,10 @@ rstto_settings_init (RsttoSettings *settings)
     settings->priv->default_zoom = RSTTO_SCALE_NONE;
 
     if (xfconf_disabled)
+    {
+        rstto_settings_snapshot_renderer (settings);
         return;
+    }
 
     xfconf_g_property_bind (settings->priv->channel, "/window/width", G_TYPE_UINT, settings, "window-width");
     xfconf_g_property_bind (settings->priv->channel, "/window/height", G_TYPE_UINT, settings, "window-height");
@@ -208,6 +262,14 @@ rstto_settings_init (RsttoSettings *settings)
     xfconf_g_property_bind (settings->priv->channel, "/window/show-clock", G_TYPE_BOOLEAN, settings, "show-clock");
     xfconf_g_property_bind (settings->priv->channel, "/image/wrap", G_TYPE_BOOLEAN, settings, "wrap-images");
     xfconf_g_property_bind (settings->priv->channel, "/image/limit-quality", G_TYPE_BOOLEAN, settings, "limit-quality");
+    xfconf_g_property_bind (settings->priv->channel, "/image/cache-enabled", G_TYPE_BOOLEAN, settings, "cache-enabled");
+    xfconf_g_property_bind (settings->priv->channel, "/image/cache-max-images", G_TYPE_UINT, settings, "cache-max-images");
+    xfconf_g_property_bind (settings->priv->channel, "/image/cache-max-mib", G_TYPE_UINT, settings, "cache-max-mib");
+    xfconf_g_property_bind (settings->priv->channel, "/image/cache-max-image-mib", G_TYPE_UINT, settings, "cache-max-image-mib");
+    xfconf_g_property_bind (settings->priv->channel, "/image/preload-count", G_TYPE_UINT, settings, "preload-count");
+    xfconf_g_property_bind (settings->priv->channel, "/image/preload-workers", G_TYPE_UINT, settings, "preload-workers");
+    xfconf_g_property_bind (settings->priv->channel, "/image/gpu-enabled", G_TYPE_BOOLEAN, settings, "gpu-enabled");
+
     xfconf_g_property_bind (settings->priv->channel, "/image/enable-smoothing", G_TYPE_BOOLEAN, settings, "enable-smoothing");
     /* not Thunar-specific but let's keep the old name for backwards-compatibility */
     xfconf_g_property_bind (settings->priv->channel, "/window/use-thunar-properties", G_TYPE_BOOLEAN, settings, "use-thunar-properties");
@@ -217,6 +279,7 @@ rstto_settings_init (RsttoSettings *settings)
     xfconf_g_property_bind (settings->priv->channel, "/image/default-zoom", G_TYPE_INT, settings, "default-zoom");
     xfconf_g_property_bind (settings->priv->channel, "/window/file-manager-sort-sync", G_TYPE_BOOLEAN, settings, "file-manager-sort-sync");
     xfconf_g_property_bind (settings->priv->channel, "/window/file-manager-sort-sync-once", G_TYPE_BOOLEAN, settings, "file-manager-sort-sync-once");
+    rstto_settings_snapshot_renderer (settings);
 }
 
 
@@ -265,6 +328,34 @@ rstto_settings_class_init (RsttoSettingsClass *klass)
                                   TRUE,
                                   G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_SHOW_CLOCK, pspec);
+
+    pspec = g_param_spec_boolean ("cache-enabled", "", "", TRUE,
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (object_class, PROP_CACHE_ENABLED, pspec);
+
+    pspec = g_param_spec_uint ("cache-max-images", "", "", 1, G_MAXUINT, 5,
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (object_class, PROP_CACHE_MAX_IMAGES, pspec);
+
+    pspec = g_param_spec_uint ("cache-max-mib", "", "", 0, G_MAXUINT, 256,
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (object_class, PROP_CACHE_MAX_MIB, pspec);
+
+    pspec = g_param_spec_uint ("cache-max-image-mib", "", "", 0, G_MAXUINT, 128,
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (object_class, PROP_CACHE_MAX_IMAGE_MIB, pspec);
+
+    pspec = g_param_spec_uint ("preload-count", "", "", 0, G_MAXUINT, 2,
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (object_class, PROP_PRELOAD_COUNT, pspec);
+
+    pspec = g_param_spec_uint ("preload-workers", "", "", 1, RSTTO_PRELOAD_WORKERS_MAX, RSTTO_PRELOAD_WORKERS_DEFAULT,
+                               G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (object_class, PROP_PRELOAD_WORKERS, pspec);
+
+    pspec = g_param_spec_boolean ("gpu-enabled", "", "", FALSE,
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (object_class, PROP_GPU_ENABLED, pspec);
 
     pspec = g_param_spec_boolean ("limit-quality",
                                   "", "",
@@ -494,6 +585,22 @@ rstto_settings_new (void)
 }
 
 
+/**
+ * rstto_settings_get_startup_gpu_enabled:
+ * @settings: The settings shared by this process's viewers.
+ *
+ * Returns: The renderer choice captured at startup, after applying the
+ * environment override and build capabilities. Changes to gpu-enabled do not
+ * change this snapshot or replace a live renderer.
+ */
+gboolean
+rstto_settings_get_startup_gpu_enabled (RsttoSettings *settings)
+{
+    g_return_val_if_fail (RSTTO_IS_SETTINGS (settings), FALSE);
+    return settings->priv->startup_gpu_enabled;
+}
+
+
 static void
 rstto_settings_set_property (GObject *object,
                              guint property_id,
@@ -517,6 +624,27 @@ rstto_settings_set_property (GObject *object,
             break;
         case PROP_SHOW_CLOCK:
             settings->priv->show_clock = g_value_get_boolean (value);
+            break;
+        case PROP_CACHE_ENABLED:
+            settings->priv->cache_enabled = g_value_get_boolean (value);
+            break;
+        case PROP_GPU_ENABLED:
+            settings->priv->gpu_enabled = g_value_get_boolean (value);
+            break;
+        case PROP_CACHE_MAX_IMAGES:
+            settings->priv->cache_max_images = g_value_get_uint (value);
+            break;
+        case PROP_CACHE_MAX_MIB:
+            settings->priv->cache_max_mib = g_value_get_uint (value);
+            break;
+        case PROP_CACHE_MAX_IMAGE_MIB:
+            settings->priv->cache_max_image_mib = g_value_get_uint (value);
+            break;
+        case PROP_PRELOAD_WORKERS:
+            settings->priv->preload_workers = g_value_get_uint (value);
+            break;
+        case PROP_PRELOAD_COUNT:
+            settings->priv->preload_count = g_value_get_uint (value);
             break;
         case PROP_LIMIT_QUALITY:
             settings->priv->limit_quality = g_value_get_boolean (value);
@@ -633,6 +761,27 @@ rstto_settings_get_property (GObject *object,
             break;
         case PROP_SHOW_CLOCK:
             g_value_set_boolean (value, settings->priv->show_clock);
+            break;
+        case PROP_CACHE_ENABLED:
+            g_value_set_boolean (value, settings->priv->cache_enabled);
+            break;
+        case PROP_GPU_ENABLED:
+            g_value_set_boolean (value, settings->priv->gpu_enabled);
+            break;
+        case PROP_CACHE_MAX_IMAGES:
+            g_value_set_uint (value, settings->priv->cache_max_images);
+            break;
+        case PROP_CACHE_MAX_MIB:
+            g_value_set_uint (value, settings->priv->cache_max_mib);
+            break;
+        case PROP_CACHE_MAX_IMAGE_MIB:
+            g_value_set_uint (value, settings->priv->cache_max_image_mib);
+            break;
+        case PROP_PRELOAD_WORKERS:
+            g_value_set_uint (value, settings->priv->preload_workers);
+            break;
+        case PROP_PRELOAD_COUNT:
+            g_value_set_uint (value, settings->priv->preload_count);
             break;
         case PROP_LIMIT_QUALITY:
             g_value_set_boolean (value, settings->priv->limit_quality);

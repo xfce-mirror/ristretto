@@ -11,3 +11,23 @@ option(
   value: '',
   description: 'Alternative prefix to org.freedesktop.thumbnails for Tumbler services',
 )
+
+option(
+  'glycin-probe',
+  type: 'feature',
+  value: 'auto',
+  description: 'Safe Glycin metadata probing (required for image caching and preloading)',
+)
+
+option(
+  'profiling',
+  type: 'boolean',
+  value: false,
+  description: 'Frame pointers and optional RISTRETTO_PROFILE=1 timing traces',
+)
+
+option('placebo', type: 'feature', value: 'auto',
+  description: 'Experimental libplacebo OpenGL image scaling (opt in with RISTRETTO_RENDERER=placebo)')
+
+option('simde', type: 'feature', value: 'auto',
+  description: 'Portable SIMD pixel conversion using SIMDe headers')

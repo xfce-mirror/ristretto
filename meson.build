@@ -43,6 +43,24 @@ libxfce4util = dependency('libxfce4util-1.0', version: dependency_versions['xfce
 xfconf = dependency('libxfconf-0', version: dependency_versions['xfce4'])
 
 feature_cflags = []
+simde = dependency('simde', version: '>= 0.8.2', required: get_option('simde'))
+if simde.found()
+  feature_cflags += '-DHAVE_SIMDE=1'
+endif
+summary('Portable SIMD conversion (SIMDe)', simde.found())
+
+glycin = dependency('glycin-2', version: '>= 2.0.0', required: get_option('glycin-probe'))
+if glycin.found()
+  feature_cflags += '-DHAVE_GLYCIN=1'
+endif
+summary('Safe image probing (Glycin)', glycin.found())
+
+placebo = dependency('libplacebo', version: '>= 7.360.0', required: get_option('placebo'))
+epoxy = dependency('epoxy', required: get_option('placebo'))
+if placebo.found() and epoxy.found()
+  feature_cflags += '-DHAVE_PLACEBO=1'
+endif
+summary('Experimental OpenGL scaling (libplacebo)', placebo.found() and epoxy.found())
 
 # TODO: make required when 'xfce4' reaches 4.20
 libxfce4windowing = dependency('libxfce4windowing-0', version: dependency_versions['libxfce4windowing'], required: false)
@@ -79,6 +97,11 @@ endif
 libm = cc.find_library('m', required: true)
 
 extra_cflags = []
+if get_option('profiling')
+  extra_cflags += ['-DRSTTO_ENABLE_PROFILING=1', '-g']
+  extra_cflags += cc.get_supported_arguments('-fno-omit-frame-pointer', '-fno-optimize-sibling-calls')
+endif
+summary('Profiling support', get_option('profiling'))
 extra_cflags_check = [
   '-Wmissing-declarations',
   '-Wmissing-noreturn',
@@ -160,6 +183,9 @@ add_project_arguments(cc.get_supported_arguments(extra_cflags_check), language: 
 add_project_arguments(extra_cflags, language: 'c')
 add_project_arguments(feature_cflags, language: 'c')
 
+# GLib tests must retain assertions even when meson dist uses a release build.
+test_c_args = ['-UG_DISABLE_ASSERT']
+
 xfce_revision_h = vcs_tag(
   command: ['git', 'rev-parse', '--short', 'HEAD'],
   fallback: 'UNKNOWN',
@@ -189,3 +215,5 @@ i18n.merge_file(
 subdir('icons')
 subdir('po')
 subdir('src')
+
+subdir('tests')

@@ -11,11 +11,19 @@ ristretto_sources = [
   'gnome_wallpaper_manager.h',
   'icon_bar.c',
   'icon_bar.h',
+  'image_cache.c',
+  'image_cache.h',
+  'image_render.c',
+  'image_render.h',
+  'image_gpu.c',
+  'image_shader_cache.c',
+  'image_gpu.h',
+  'image_probe.c',
+  'image_probe.h',
   'image_list.c',
   'image_list.h',
   'image_viewer.c',
   'image_viewer.h',
-  'main.c',
   'main_window.c',
   'main_window.h',
   'mime_db.c',
@@ -26,6 +34,7 @@ ristretto_sources = [
   'preferences_dialog.h',
   'print.c',
   'print.h',
+  'profile.h',
   'privacy_dialog.c',
   'privacy_dialog.h',
   'properties_dialog.c',
@@ -73,9 +82,30 @@ ristretto_sources += gnome.compile_resources(
   'ristretto.gresource.xml',
 )
 
+ristretto_dependencies = [
+  glib,
+  gio,
+  gio_unix,
+  gtk,
+  cairo,
+  simde,
+  glycin,
+  placebo,
+  epoxy,
+  libexif,
+  exo,
+  libxfce4ui,
+  libxfce4util,
+  xfconf,
+  libxfce4windowing,
+  libx11,
+  libmagic,
+  libm,
+]
+
 executable(
   'ristretto',
-  ristretto_sources,
+  ristretto_sources + ['main.c'],
   sources: xfce_revision_h,
   c_args: [
     '-DG_LOG_DOMAIN="@0@"'.format('ristretto'),
@@ -85,22 +115,21 @@ executable(
   include_directories: [
     include_directories('..'),
   ],
-  dependencies: [
-    glib,
-    gio,
-    gio_unix,
-    gtk,
-    cairo,
-    libexif,
-    exo,
-    libxfce4ui,
-    libxfce4util,
-    xfconf,
-    libxfce4windowing,
-    libx11,
-    libmagic,
-    libm,
-  ],
+  dependencies: ristretto_dependencies,
   install: true,
   install_dir: get_option('prefix') / get_option('bindir'),
 )
+
+viewer_test = executable(
+  'test-image-viewer',
+  ristretto_sources + ['../tests/test-image-viewer.c'],
+  sources: xfce_revision_h,
+  c_args: test_c_args + [
+    '-DRSTTO_VIEWER_TEST',
+    '-DTUMBLER_SERVICE_NAME_PREFIX="@0@"'.format(tumbler_service_name_prefix),
+    '-DTUMBLER_SERVICE_PATH_PREFIX="@0@"'.format(tumbler_service_path_prefix),
+  ],
+  include_directories: [include_directories('..')],
+  dependencies: ristretto_dependencies,
+)
+test('image-viewer', viewer_test, timeout: 90)
