@@ -210,8 +210,6 @@ static void
 rstto_image_viewer_set_image_pixbuf (RsttoImageViewer *viewer,
                                      GdkPixbuf *pixbuf);
 static void
-rstto_image_viewer_apply_device_scale (RsttoImageViewer *viewer);
-static void
 rstto_image_viewer_transaction_free (gpointer data);
 
 
@@ -746,7 +744,12 @@ set_scale_factor (RsttoImageViewer *viewer,
         /* do not scale the image with the rest of the window */
         viewer->priv->image_width = viewer->priv->original_image_width / viewer->priv->scale_factor;
         viewer->priv->image_height = viewer->priv->original_image_height / viewer->priv->scale_factor;
-        rstto_image_viewer_apply_device_scale (viewer);
+        if (viewer->priv->pixbuf.pattern != NULL)
+        {
+            cairo_surface_t *surface;
+            cairo_pattern_get_surface (viewer->priv->pixbuf.pattern, &surface);
+            cairo_surface_set_device_scale (surface, viewer->priv->scale_factor, viewer->priv->scale_factor);
+        }
 
         if (unused != NULL)
             gtk_widget_queue_resize (GTK_WIDGET (viewer));
@@ -1004,18 +1007,6 @@ rstto_image_viewer_clear_pixbuf (RsttoImageViewer *viewer)
     g_clear_object (&viewer->priv->pixbuf.pixels);
 }
 
-static void
-rstto_image_viewer_apply_device_scale (RsttoImageViewer *viewer)
-{
-    cairo_surface_t *surface;
-
-    if (viewer->priv->pixbuf.pattern == NULL)
-        return;
-
-    cairo_pattern_get_surface (viewer->priv->pixbuf.pattern, &surface);
-    cairo_surface_set_device_scale (surface, viewer->priv->scale_factor, viewer->priv->scale_factor);
-}
-
 /*
  * Images with a side longer than MAX_IMAGE_SIZE cannot live in one cairo surface.
  * Keep the original pixbuf and, when painting, scale only the pixels that fall
@@ -1036,7 +1027,6 @@ rstto_image_viewer_set_image_pixbuf (RsttoImageViewer *viewer,
     if (width <= MAX_IMAGE_SIZE && height <= MAX_IMAGE_SIZE)
     {
         viewer->priv->pixbuf.pattern = rstto_util_set_source_pixbuf (NULL, pixbuf, 0, 0);
-        rstto_image_viewer_apply_device_scale (viewer);
         return;
     }
 
