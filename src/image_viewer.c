@@ -1194,7 +1194,8 @@ paint_pixbuf_viewport (RsttoImageViewer *viewer,
                              (dest_h / factor) / uh);
     cairo_matrix_translate (&matrix, -ux1, -uy1);
     cairo_pattern_set_matrix (pattern, &matrix);
-    cairo_pattern_set_filter (pattern, CAIRO_FILTER_NEAREST);
+    cairo_pattern_set_filter (pattern, viewer->priv->enable_smoothing ? CAIRO_FILTER_GOOD
+                                                                      : CAIRO_FILTER_NEAREST);
     cairo_set_source (ctx, pattern);
     cairo_rectangle (ctx, ux1, uy1, uw, uh);
     cairo_fill (ctx);
