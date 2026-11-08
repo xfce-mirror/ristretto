@@ -1024,7 +1024,7 @@ rstto_image_viewer_set_image_pixbuf (RsttoImageViewer *viewer,
     viewer->priv->pixbuf.width = width;
     viewer->priv->pixbuf.height = height;
 
-    if (width <= MAX_IMAGE_SIZE && height <= MAX_IMAGE_SIZE)
+    if (width < MAX_IMAGE_SIZE && height < MAX_IMAGE_SIZE)
     {
         viewer->priv->pixbuf.pattern = rstto_util_set_source_pixbuf (NULL, pixbuf, 0, 0);
         return;
@@ -1046,12 +1046,10 @@ sample_positions (gint64 *positions,
 {
     const gdouble step = (end - start) / count;
     const gint64 max = (gint64) (limit - 1) << 16;
-    gint i;
 
-    for (i = 0; i < count; i++)
+    for (gint i = 0; i < count; i++)
     {
         gint64 pos = (gint64) floor ((start + (i + 0.5) * step - 0.5) * 65536.0 + 0.5);
-
         positions[i] = CLAMP (pos, 0, max);
     }
 }
@@ -1078,12 +1076,11 @@ sample_pixbuf_region (const GdkPixbuf *src,
     guchar *dest_pixels = gdk_pixbuf_get_pixels (dest);
     gint64 *xs = g_new (gint64, dest_w);
     gint64 *ys = g_new (gint64, dest_h);
-    gint x, y, c;
 
     sample_positions (xs, dest_w, px1, px2, gdk_pixbuf_get_width (src));
     sample_positions (ys, dest_h, py1, py2, gdk_pixbuf_get_height (src));
 
-    for (y = 0; y < dest_h; y++)
+    for (gint y = 0; y < dest_h; y++)
     {
         guchar *d = dest_pixels + y * dest_stride;
 
@@ -1091,11 +1088,11 @@ sample_pixbuf_region (const GdkPixbuf *src,
         {
             const guchar *row = src_pixels + ((ys[y] + 0x8000) >> 16) * src_stride;
 
-            for (x = 0; x < dest_w; x++, d += n)
+            for (gint x = 0; x < dest_w; x++, d += n)
             {
                 const guchar *s = row + ((xs[x] + 0x8000) >> 16) * n;
 
-                for (c = 0; c < n; c++)
+                for (gint c = 0; c < n; c++)
                     d[c] = s[c];
             }
         }
@@ -1107,7 +1104,7 @@ sample_pixbuf_region (const GdkPixbuf *src,
             const guchar *row0 = src_pixels + (ys[y] >> 16) * src_stride;
             const guchar *row1 = fy ? row0 + src_stride : row0;
 
-            for (x = 0; x < dest_w; x++, d += n)
+            for (gint x = 0; x < dest_w; x++, d += n)
             {
                 const gint64 fx = xs[x] & 0xffff;
                 const gint offset0 = (xs[x] >> 16) * n;
@@ -1117,7 +1114,7 @@ sample_pixbuf_region (const GdkPixbuf *src,
                 const gint64 w01 = (0x10000 - fx) * fy;
                 const gint64 w11 = fx * fy;
 
-                for (c = 0; c < n; c++)
+                for (gint c = 0; c < n; c++)
                     d[c] = (row0[offset0 + c] * w00 + row0[offset1 + c] * w10
                             + row1[offset0 + c] * w01 + row1[offset1 + c] * w11
                             + ((gint64) 1 << 31))
@@ -1890,14 +1887,12 @@ cb_rstto_image_loader_image_ready (GdkPixbufLoader *loader,
     {
         g_clear_handle_id (&viewer->priv->animation_id, g_source_remove);
         g_clear_object (&viewer->priv->iter);
-        rstto_image_viewer_clear_pixbuf (viewer);
 
         viewer->priv->iter = gdk_pixbuf_animation_get_iter (gdk_pixbuf_loader_get_animation (loader), NULL);
 
         /* set pixbuf data */
         pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
-        if (pixbuf != NULL)
-            rstto_image_viewer_set_image_pixbuf (viewer, pixbuf);
+        rstto_image_viewer_set_image_pixbuf (viewer, pixbuf);
 
         /* schedule next frame diplay if needed */
         timeout = gdk_pixbuf_animation_iter_get_delay_time (viewer->priv->iter);
@@ -2023,8 +2018,7 @@ cb_rstto_image_viewer_update_pixbuf (gpointer user_data)
         /* update pixbuf data (a copy of the pixbuf is kept as a pattern, so we can access
          * it safely regardless of the iter state) */
         pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->priv->iter);
-        if (pixbuf != NULL)
-            rstto_image_viewer_set_image_pixbuf (viewer, pixbuf);
+        rstto_image_viewer_set_image_pixbuf (viewer, pixbuf);
         set_scale_factor (viewer, NULL);
 
         /* redraw only the image */
