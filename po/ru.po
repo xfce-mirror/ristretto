@@ -6,7 +6,7 @@
 # AlexanderFilev, 2015,2019
 # AlexanderFilev, 2019
 # Alexander Filёv, 2015,2019
-# Andrei Stepanov, 2023-2025
+# Andrei Stepanov, 2023-2026
 # Denis Koryavov <dkoryavov@yandex.ru>, 2010
 # AlexanderFilev, 2015
 # Igor <f2404@yandex.ru>, 2016-2017,2019
@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2026-11-01 00:57+0100\n"
 "PO-Revision-Date: 2013-07-03 18:30+0000\n"
-"Last-Translator: Olesya Gerasimenko <gammaray@basealt.ru>, 2026\n"
+"Last-Translator: Andrei Stepanov, 2023-2026\n"
 "Language-Team: Russian (http://app.transifex.com/xfce/xfce-apps/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,13 +108,13 @@ msgstr "Сохранить копию изображения"
 #. Icon-name
 #: src/main_window.c:361
 msgid "_Move to trash"
-msgstr ""
+msgstr "Убрат_ь в корзину"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:363
 msgid "Move this image to the trash"
-msgstr ""
+msgstr "Убрать это изображение в корзину"
 
 #. Icon-name
 #: src/main_window.c:367
@@ -147,7 +147,7 @@ msgstr "_Открыть в…"
 #. Keyboard shortcut
 #: src/main_window.c:381
 msgid "Open this image with another application"
-msgstr ""
+msgstr "Открыть это изображение в другом приложении"
 
 #. Icon-name
 #: src/main_window.c:385 src/preferences_dialog.c:228
@@ -438,7 +438,7 @@ msgstr "типу файла"
 #. Icon-name
 #: src/main_window.c:681
 msgid "modification date"
-msgstr ""
+msgstr "дата модификации"
 
 #. Icon-name
 #: src/main_window.c:687
