@@ -57,6 +57,8 @@ enum
     PROP_DEFAULT_ZOOM,
     PROP_FILE_MANAGER_SORT_SYNC,
     PROP_FILE_MANAGER_SORT_SYNC_ONCE,
+    PROP_CONFIRM_BEFORE_DELETE,
+    PROP_DELETE_TO_TRASH,
 };
 
 static RsttoSettings *settings_object;
@@ -112,6 +114,8 @@ struct _RsttoSettingsPrivate
     RsttoScale default_zoom;
     gboolean file_manager_sort_sync;
     gboolean file_manager_sort_sync_once;
+    gboolean confirm_before_delete;
+    gboolean delete_to_trash;
 
     RsttoSortType sort_type;
     RsttoSortOrder sort_order;
@@ -182,6 +186,8 @@ rstto_settings_init (RsttoSettings *settings)
     settings->priv->errors.missing_thumbnailer = TRUE;
     settings->priv->thumbnail_size = RSTTO_THUMBNAIL_SIZE_NORMAL;
     settings->priv->default_zoom = RSTTO_SCALE_NONE;
+    settings->priv->confirm_before_delete = TRUE;
+    settings->priv->delete_to_trash = TRUE;
 
     if (xfconf_disabled)
         return;
@@ -217,6 +223,8 @@ rstto_settings_init (RsttoSettings *settings)
     xfconf_g_property_bind (settings->priv->channel, "/image/default-zoom", G_TYPE_INT, settings, "default-zoom");
     xfconf_g_property_bind (settings->priv->channel, "/window/file-manager-sort-sync", G_TYPE_BOOLEAN, settings, "file-manager-sort-sync");
     xfconf_g_property_bind (settings->priv->channel, "/window/file-manager-sort-sync-once", G_TYPE_BOOLEAN, settings, "file-manager-sort-sync-once");
+    xfconf_g_property_bind (settings->priv->channel, "/file/confirm-before-delete", G_TYPE_BOOLEAN, settings, "confirm-before-delete");
+    xfconf_g_property_bind (settings->priv->channel, "/file/delete-to-trash", G_TYPE_BOOLEAN, settings, "delete-to-trash");
 }
 
 
@@ -397,6 +405,18 @@ rstto_settings_class_init (RsttoSettingsClass *klass)
                                   FALSE,
                                   G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (object_class, PROP_FILE_MANAGER_SORT_SYNC_ONCE, pspec);
+
+    pspec = g_param_spec_boolean ("confirm-before-delete",
+                                  "", "",
+                                  TRUE,
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (object_class, PROP_CONFIRM_BEFORE_DELETE, pspec);
+
+    pspec = g_param_spec_boolean ("delete-to-trash",
+                                  "", "",
+                                  TRUE,
+                                  G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (object_class, PROP_DELETE_TO_TRASH, pspec);
 }
 
 /**
@@ -607,6 +627,12 @@ rstto_settings_set_property (GObject *object,
         case PROP_FILE_MANAGER_SORT_SYNC_ONCE:
             settings->priv->file_manager_sort_sync_once = g_value_get_boolean (value);
             break;
+        case PROP_CONFIRM_BEFORE_DELETE:
+            settings->priv->confirm_before_delete = g_value_get_boolean (value);
+            break;
+        case PROP_DELETE_TO_TRASH:
+            settings->priv->delete_to_trash = g_value_get_boolean (value);
+            break;
         default:
             break;
     }
@@ -705,6 +731,12 @@ rstto_settings_get_property (GObject *object,
             break;
         case PROP_FILE_MANAGER_SORT_SYNC_ONCE:
             g_value_set_boolean (value, settings->priv->file_manager_sort_sync_once);
+            break;
+        case PROP_CONFIRM_BEFORE_DELETE:
+            g_value_set_boolean (value, settings->priv->confirm_before_delete);
+            break;
+        case PROP_DELETE_TO_TRASH:
+            g_value_set_boolean (value, settings->priv->delete_to_trash);
             break;
         default:
             break;

@@ -628,7 +628,7 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "'%s' суретін дисктен өшіруді шынымен қалайсыз ба?"
 
 #: src/main_window.c:3924
-msgid "_Do not ask again for this session"
+msgid "_Do not ask again"
 msgstr "Бұл сессия үшін қайта сұра_мау"
 
 #: src/main_window.c:4417

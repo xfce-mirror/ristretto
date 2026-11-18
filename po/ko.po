@@ -630,7 +630,7 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "정말로 '%s' 그림을 디스크에서 삭제하시렵니까?"
 
 #: src/main_window.c:3924
-msgid "_Do not ask again for this session"
+msgid "_Do not ask again"
 msgstr "이 세션에서 다시 묻지 않음(_D)"
 
 #: src/main_window.c:4417

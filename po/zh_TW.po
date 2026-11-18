@@ -632,7 +632,7 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "確定要從磁碟刪除「%s」影像嗎？"
 
 #: src/main_window.c:3924
-msgid "_Do not ask again for this session"
+msgid "_Do not ask again"
 msgstr "在此工作階段不要再詢問(_D)"
 
 #: src/main_window.c:4417
