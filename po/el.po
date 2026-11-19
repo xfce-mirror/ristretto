@@ -102,13 +102,13 @@ msgstr "Αποθήκευση αντιγράφου της εικόνας"
 #. Icon-name
 #: src/main_window.c:361
 msgid "_Move to trash"
-msgstr ""
+msgstr "Μετακ_ίνηση στα απορρίμματα"
 
 #. Label-text
 #. Keyboard shortcut
 #: src/main_window.c:363
 msgid "Move this image to the trash"
-msgstr ""
+msgstr "Μετακίνηση της εικόνας στα απορρίμματα "
 
 #. Icon-name
 #: src/main_window.c:367
@@ -141,7 +141,7 @@ msgstr "Άνοι_γμα με..."
 #. Keyboard shortcut
 #: src/main_window.c:381
 msgid "Open this image with another application"
-msgstr ""
+msgstr "Άνοιγμα της εικόνας με άλλη εφαρμογή"
 
 #. Icon-name
 #: src/main_window.c:385 src/preferences_dialog.c:228
@@ -432,7 +432,7 @@ msgstr "τύπο αρχείου"
 #. Icon-name
 #: src/main_window.c:681
 msgid "modification date"
-msgstr ""
+msgstr "ημερομηνία τροποποίησης"
 
 #. Icon-name
 #: src/main_window.c:687
