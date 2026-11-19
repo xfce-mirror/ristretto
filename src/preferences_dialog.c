@@ -75,6 +75,12 @@ cb_check_file_manager_sort_sync_toggled (GtkToggleButton *button,
 static void
 cb_check_file_manager_sort_sync_once_toggled (GtkToggleButton *button,
                                               gpointer user_data);
+static void
+cb_confirm_before_delete_check_button_toggled (GtkToggleButton *button,
+                                               gpointer user_data);
+static void
+cb_delete_to_trash_check_button_toggled (GtkToggleButton *button,
+                                         gpointer user_data);
 
 static void
 cb_update_file_manager_buttons (RsttoPreferencesDialog *dialog);
@@ -145,6 +151,11 @@ struct _RsttoPreferencesDialogPrivate
         GtkWidget *startup_vbox;
         GtkWidget *maximize_window_on_startup_check_button;
         GtkWidget *wrap_images_check_button;
+
+        GtkWidget *delete_frame;
+        GtkWidget *delete_vbox;
+        GtkWidget *confirm_before_delete_check_button;
+        GtkWidget *delete_to_trash_check_button;
     } behaviour_tab;
 };
 
@@ -209,6 +220,8 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
     gboolean bool_enable_smoothing;
     gboolean bool_file_manager_sort_sync;
     gboolean bool_file_manager_sort_sync_once;
+    gboolean bool_confirm_before_delete;
+    gboolean bool_delete_to_trash;
     gchar *str_desktop_type = NULL;
 
     GdkRGBA *bgcolor;
@@ -252,6 +265,8 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
                   "enable-smoothing", &bool_enable_smoothing,
                   "file-manager-sort-sync", &bool_file_manager_sort_sync,
                   "file-manager-sort-sync-once", &bool_file_manager_sort_sync_once,
+                  "confirm-before-delete", &bool_confirm_before_delete,
+                  "delete-to-trash", &bool_delete_to_trash,
                   NULL);
 
     /*
@@ -539,6 +554,27 @@ rstto_preferences_dialog_init (RsttoPreferencesDialog *dialog)
                         FALSE, FALSE, 0);
     g_signal_connect (dialog->priv->behaviour_tab.check_file_manager_sort_sync_once, "toggled",
                       G_CALLBACK (cb_check_file_manager_sort_sync_once_toggled), dialog);
+
+    /* Delete frame */
+    dialog->priv->behaviour_tab.delete_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+    dialog->priv->behaviour_tab.delete_frame = xfce_gtk_frame_box_new_with_content (_("Delete"), dialog->priv->behaviour_tab.delete_vbox);
+    gtk_box_pack_start (GTK_BOX (behaviour_main_vbox), dialog->priv->behaviour_tab.delete_frame, FALSE, FALSE, 0);
+
+    dialog->priv->behaviour_tab.confirm_before_delete_check_button = gtk_check_button_new_with_label (_("Ask for confirmation before deleting images"));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.confirm_before_delete_check_button),
+                                  bool_confirm_before_delete);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.delete_vbox),
+                        dialog->priv->behaviour_tab.confirm_before_delete_check_button, FALSE, FALSE, 0);
+    g_signal_connect (dialog->priv->behaviour_tab.confirm_before_delete_check_button, "toggled",
+                      G_CALLBACK (cb_confirm_before_delete_check_button_toggled), dialog);
+
+    dialog->priv->behaviour_tab.delete_to_trash_check_button = gtk_check_button_new_with_label (_("Move deleted images to Trash"));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->behaviour_tab.delete_to_trash_check_button),
+                                  bool_delete_to_trash);
+    gtk_box_pack_start (GTK_BOX (dialog->priv->behaviour_tab.delete_vbox),
+                        dialog->priv->behaviour_tab.delete_to_trash_check_button, FALSE, FALSE, 0);
+    g_signal_connect (dialog->priv->behaviour_tab.delete_to_trash_check_button, "toggled",
+                      G_CALLBACK (cb_delete_to_trash_check_button_toggled), dialog);
 
     /* Increase left and top margins for the tabs' contents */
     n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
@@ -1122,4 +1158,26 @@ cb_update_file_manager_buttons (RsttoPreferencesDialog *dialog)
         gtk_widget_hide (dialog->priv->behaviour_tab.check_file_manager_sort_sync_once);
     }
     g_free (desktop_type);
+}
+
+static void
+cb_confirm_before_delete_check_button_toggled (GtkToggleButton *button,
+                                               gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = user_data;
+
+    rstto_settings_set_boolean_property (dialog->priv->settings,
+                                         "confirm-before-delete",
+                                         gtk_toggle_button_get_active (button));
+}
+
+static void
+cb_delete_to_trash_check_button_toggled (GtkToggleButton *button,
+                                         gpointer user_data)
+{
+    RsttoPreferencesDialog *dialog = user_data;
+
+    rstto_settings_set_boolean_property (dialog->priv->settings,
+                                         "delete-to-trash",
+                                         gtk_toggle_button_get_active (button));
 }

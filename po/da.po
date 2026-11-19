@@ -629,7 +629,7 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Er du sikker på, at du vil slette billedet '%s' fra disken?"
 
 #: src/main_window.c:3924
-msgid "_Do not ask again for this session"
+msgid "_Do not ask again"
 msgstr "_Spørg ikke igen i denne session"
 
 #: src/main_window.c:4417

@@ -3890,49 +3890,40 @@ cb_rstto_main_window_edit (GtkWidget *widget,
  * @to_trash: File is to be trashed (TRUE) or deleted (FALSE)
  *
  * Show dialog to confirm deletion/trashing.
- * Use can choose not be be asked again if the file is to be trashed.
+ * The user can choose not to be asked again.
  */
 static int
 rstto_confirm_deletion (RsttoMainWindow *window,
                         RsttoFile *file,
                         gboolean to_trash)
 {
-    static gboolean dont_ask_trash = FALSE;
     gchar *prompt = NULL;
     const gchar *file_basename = rstto_file_get_display_name (file);
     GtkWidget *dialog;
-    GtkWidget *dont_ask_checkbox = NULL;
+    GtkWidget *dont_ask_checkbox;
     gint response;
 
+    if (!rstto_settings_get_boolean_property (window->priv->settings_manager, "confirm-before-delete"))
+        return GTK_RESPONSE_OK;
+
     if (to_trash)
-    {
-        if (dont_ask_trash)
-        {
-            return GTK_RESPONSE_OK;
-        }
         prompt = g_strdup_printf (_("Are you sure you want to send image '%s' to trash?"), file_basename);
-    }
     else
-    {
         prompt = g_strdup_printf (_("Are you sure you want to delete image '%s' from disk?"), file_basename);
-    }
+
     dialog = gtk_message_dialog_new (GTK_WINDOW (window), GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                                      GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL, "%s", prompt);
 
-    if (to_trash)
-    {
-        dont_ask_checkbox = gtk_check_button_new_with_mnemonic (_("_Do not ask again for this session"));
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dont_ask_checkbox), FALSE);
-        gtk_box_pack_end (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), dont_ask_checkbox, TRUE, TRUE, 0);
-        gtk_widget_show (dont_ask_checkbox);
-        gtk_widget_grab_focus (gtk_dialog_get_widget_for_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL));
-    }
+    dont_ask_checkbox = gtk_check_button_new_with_mnemonic (_("_Do not ask again"));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dont_ask_checkbox), FALSE);
+    gtk_box_pack_end (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), dont_ask_checkbox, TRUE, TRUE, 0);
+    gtk_widget_show (dont_ask_checkbox);
+    gtk_widget_grab_focus (gtk_dialog_get_widget_for_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL));
 
     response = gtk_dialog_run (GTK_DIALOG (dialog));
-    if (to_trash && (response == GTK_RESPONSE_OK))
-    {
-        dont_ask_trash = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dont_ask_checkbox));
-    }
+    if (response == GTK_RESPONSE_OK && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dont_ask_checkbox)))
+        rstto_settings_set_boolean_property (window->priv->settings_manager, "confirm-before-delete", FALSE);
+
     gtk_widget_destroy (dialog);
 
     g_free (prompt);
@@ -3966,12 +3957,15 @@ cb_rstto_main_window_delete (GtkWidget *widget,
 
     g_return_if_fail (!rstto_image_list_is_empty (window->priv->image_list));
 
-    if (gtk_get_current_event_state (&state))
     {
-        if (state & GDK_SHIFT_MASK)
-        {
-            delete_file = TRUE;
-        }
+        gboolean delete_to_trash = rstto_settings_get_boolean_property (window->priv->settings_manager, "delete-to-trash");
+        gboolean shift_pressed = FALSE;
+
+        if (gtk_get_current_event_state (&state) && (state & GDK_SHIFT_MASK))
+            shift_pressed = TRUE;
+
+        /* Shift inverts the configured default delete action */
+        delete_file = shift_pressed ? delete_to_trash : !delete_to_trash;
     }
 
     response = rstto_confirm_deletion (window, file, !delete_file);

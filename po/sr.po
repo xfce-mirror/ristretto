@@ -629,7 +629,7 @@ msgid "Are you sure you want to delete image '%s' from disk?"
 msgstr "Да ли заиста да желите обрисати слику „%s“ са диска?"
 
 #: src/main_window.c:3924
-msgid "_Do not ask again for this session"
+msgid "_Do not ask again"
 msgstr "_Не питај поново у овом заседању"
 
 #: src/main_window.c:4417
