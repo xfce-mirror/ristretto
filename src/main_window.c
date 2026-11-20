@@ -222,6 +222,10 @@ cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action,
                                                          GtkRadioAction *current,
                                                          RsttoMainWindow *window);
 static void
+cb_rstto_main_window_toolbar_position_changed (GtkRadioAction *action,
+                                               GtkRadioAction *current,
+                                               RsttoMainWindow *window);
+static void
 cb_rstto_main_window_thumbnail_size_changed (GtkRadioAction *action,
                                              GtkRadioAction *current,
                                              RsttoMainWindow *window);
@@ -307,6 +311,9 @@ rstto_main_window_update_buttons (RsttoMainWindow *window);
 static void
 rstto_main_window_set_navigationbar_position (RsttoMainWindow *window,
                                               guint orientation);
+static void
+rstto_main_window_set_toolbar_position (RsttoMainWindow *window,
+                                        guint orientation);
 static void
 rstto_main_window_set_sorting_function (RsttoMainWindow *window,
                                         RsttoSortType type);
@@ -617,6 +624,13 @@ static GtkActionEntry action_entries[] = {
       NULL,
       NULL,
       NULL },
+    /* Position toolbar */
+    { "toolbar-position-menu",
+      NULL,
+      N_ ("Toobar _Position"),
+      NULL,
+      NULL,
+      NULL },
     /* Misc */
     { "leave-fullscreen",
       "view-restore", /* Icon-name */
@@ -743,6 +757,22 @@ static const GtkRadioActionEntry radio_action_pos_entries[] = {
       NULL,
       NULL,
       3 },
+};
+
+/** Toolbar positioning options*/
+static const GtkRadioActionEntry radio_action_pos_entries_toolbar[] = {
+    { "t-pos-top",
+      NULL,
+      N_ ("Top"),
+      NULL,
+      NULL,
+      0 },
+    { "t-pos-bottom",
+      NULL,
+      N_ ("Bottom"),
+      NULL,
+      NULL,
+      1 },
 };
 
 /** Thumbnail-size options*/
@@ -908,6 +938,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     GClosure *refresh_closure = g_cclosure_new (G_CALLBACK (cb_rstto_main_window_refresh), window, NULL);
 
     guint navigationbar_position = 3;
+    guint toolbar_position = 0;
     guint thumbnail_size = 3;
     RsttoScale default_zoom = RSTTO_SCALE_NONE;
     gchar *db_path = NULL;
@@ -983,6 +1014,7 @@ rstto_main_window_init (RsttoMainWindow *window)
 
 
     navigationbar_position = rstto_settings_get_navbar_position (window->priv->settings_manager);
+    toolbar_position = rstto_settings_get_toolbar_position (window->priv->settings_manager);
     thumbnail_size = rstto_settings_get_uint_property (window->priv->settings_manager, "thumbnail-size");
     default_zoom = rstto_settings_get_int_property (window->priv->settings_manager, "default-zoom");
 
@@ -1073,6 +1105,9 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_pos_entries,
                                         G_N_ELEMENTS (radio_action_pos_entries), navigationbar_position,
                                         G_CALLBACK (cb_rstto_main_window_navigationtoolbar_position_changed), window);
+    gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_pos_entries_toolbar,
+                                        G_N_ELEMENTS (radio_action_pos_entries_toolbar), toolbar_position,
+                                        G_CALLBACK (cb_rstto_main_window_toolbar_position_changed), window);
     gtk_action_group_add_radio_actions (window->priv->action_group, radio_action_size_entries,
                                         G_N_ELEMENTS (radio_action_size_entries), thumbnail_size,
                                         G_CALLBACK (cb_rstto_main_window_thumbnail_size_changed), window);
@@ -1174,6 +1209,7 @@ rstto_main_window_init (RsttoMainWindow *window)
     gtk_widget_set_margin_end (gtk_statusbar_get_message_area (GTK_STATUSBAR (window->priv->statusbar)), 0);
 
     rstto_main_window_set_navigationbar_position (window, navigationbar_position);
+    rstto_main_window_set_toolbar_position (window, toolbar_position);
 
     /**
      * Add missing pieces to the UI
@@ -2197,6 +2233,21 @@ rstto_main_window_apply_file_manager_integration_settings (RsttoMainWindow *wind
 }
 
 static void
+rstto_main_window_set_toolbar_position (RsttoMainWindow *window,
+                                        guint orientation)
+{
+    rstto_settings_set_toolbar_position (window->priv->settings_manager, orientation);
+
+    GtkWidget *main_vbox = gtk_widget_get_parent (window->priv->toolbar);
+    GtkWidget *toolbar = window->priv->toolbar;
+
+    if (orientation == 1) /* bottom */
+        gtk_box_reorder_child (GTK_BOX (main_vbox), toolbar, -1);
+    else /* top */
+        gtk_box_reorder_child (GTK_BOX (main_vbox), toolbar, 1);
+}
+
+static void
 rstto_main_window_set_navigationbar_position (RsttoMainWindow *window,
                                               guint orientation)
 {
@@ -2503,6 +2554,16 @@ cb_rstto_main_window_navigationtoolbar_position_changed (GtkRadioAction *action,
 {
     G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     rstto_main_window_set_navigationbar_position (window, gtk_radio_action_get_current_value (current));
+    G_GNUC_END_IGNORE_DEPRECATIONS
+}
+
+static void
+cb_rstto_main_window_toolbar_position_changed (GtkRadioAction *action,
+                                               GtkRadioAction *current,
+                                               RsttoMainWindow *window)
+{
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    rstto_main_window_set_toolbar_position (window, gtk_radio_action_get_current_value (current));
     G_GNUC_END_IGNORE_DEPRECATIONS
 }
 
