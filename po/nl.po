@@ -390,7 +390,7 @@ msgstr "Positie van miniaturenbalk"
 
 #: src/main_window.c:616
 msgid "Thumb_nail Size"
-msgstr "Grootte van miniatuur"
+msgstr "Grootte van miniaturen"
 
 #. Icon-name
 #: src/main_window.c:623
@@ -415,7 +415,7 @@ msgstr "Toon statusbalk"
 #. Icon-name
 #: src/main_window.c:669
 msgid "file name"
-msgstr "bestandnaam"
+msgstr "bestandsnaam"
 
 #. Icon-name
 #: src/main_window.c:675
@@ -517,7 +517,7 @@ msgstr "Speel een diapresentatie af"
 
 #: src/main_window.c:1015
 msgid "_Pause"
-msgstr "_Pauzeer"
+msgstr "_Pauzeren"
 
 #: src/main_window.c:1015
 msgid "Pause slideshow"
@@ -534,7 +534,7 @@ msgstr "Recent gebruikt"
 
 #: src/main_window.c:1146 src/main_window.c:1646
 msgid "Press open to select an image"
-msgstr "Druk op openen om een afbeelding te selecteren"
+msgstr "Druk op openen om een afbeelding te kiezen"
 
 #: src/main_window.c:1588 src/main_window.c:1593
 msgid "Open With Other _Application..."
@@ -556,7 +556,7 @@ msgstr "Kies de methode voor het instellen van een bureaubladachtergrond"
 #: src/main_window.c:4422 src/privacy_dialog.c:145
 #: src/xfce_wallpaper_manager.c:270 src/gnome_wallpaper_manager.c:178
 msgid "_Cancel"
-msgstr "_Annuleren"
+msgstr "_Afbreken"
 
 #: src/main_window.c:2553 src/main_window.c:4425
 #: src/xfce_wallpaper_manager.c:276 src/gnome_wallpaper_manager.c:184
@@ -588,7 +588,7 @@ msgstr "Ristretto is een afbeeldingkijker voor de Xfce-werkomgeving."
 
 #: src/main_window.c:3063
 msgid "translator-credits"
-msgstr "Timo Verbeek <timoverbeek10@hotmail.com>\nStephan Arts<stephan@xfce.org>\nPjotr pjotrvertaalt@gmail.com"
+msgstr "Timo Verbeek <timoverbeek10@hotmail.com>\nStephan Arts <stephan@xfce.org>\nPjotr <pjotrvertaalt@gmail.com>"
 
 #: src/main_window.c:3622
 msgid "Open image"
@@ -672,11 +672,11 @@ msgstr "Laatste uur"
 
 #: src/privacy_dialog.c:122
 msgid "Last Two Hours"
-msgstr "Laatste twee uur"
+msgstr "Laatste twee uren"
 
 #: src/privacy_dialog.c:123
 msgid "Last Four Hours"
-msgstr "Laatste vier uur"
+msgstr "Laatste vier uren"
 
 #: src/privacy_dialog.c:124
 msgid "Today"
@@ -764,13 +764,13 @@ msgstr "Toon schermvullende klok"
 
 #: src/preferences_dialog.c:369
 msgid "Mouse cursor"
-msgstr "Muispijl"
+msgstr "Muisaanwijzer"
 
 #: src/preferences_dialog.c:372
 msgid ""
 "The mouse cursor can be automatically hidden after a certain period of "
 "inactivity when the window is fullscreen."
-msgstr "De muispijl kan automatisch worden verborgen na een bepaalde periode van inactiviteit, wanneer het venster schermvullend is."
+msgstr "De muisaanwijzer kan automatisch worden verborgen na een bepaalde periode van inactiviteit, wanneer het venster schermvullend is."
 
 #: src/preferences_dialog.c:380
 msgid "Period of inactivity (seconds):"
@@ -782,7 +782,7 @@ msgstr "Diavertoning"
 
 #: src/preferences_dialog.c:404
 msgid "Timeout"
-msgstr "Pauze"
+msgstr "Afteltijd"
 
 #: src/preferences_dialog.c:407
 msgid ""
@@ -792,7 +792,7 @@ msgstr "De periode dat een enkele afbeelding wordt weergegeven gedurende een dia
 
 #: src/preferences_dialog.c:423
 msgid "Control"
-msgstr "Bediening"
+msgstr "Bedieningsknop"
 
 #: src/preferences_dialog.c:427
 msgid "Scroll wheel"
@@ -951,7 +951,7 @@ msgstr "Geschaald"
 
 #: src/xfce_wallpaper_manager.c:307
 msgid "Zoomed"
-msgstr "Vergrotingsfactor ingesteld"
+msgstr "Met vergrotingsfactor"
 
 #: org.xfce.ristretto.desktop.in:4
 msgid "Ristretto Image Viewer"
